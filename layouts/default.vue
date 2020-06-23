@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <Navbar />
+  <div class="main-container">
+    <Sidebar />
     <div class="content">
       <nuxt />
     </div>
@@ -8,10 +8,10 @@
 </template>
 
 <script>
-import Navbar from '../components/Navbar'
+import Sidebar from '../components/Sidebar'
 export default {
   components: {
-    Navbar,
+    Sidebar,
   },
   mounted() {
     window.addEventListener('message', (event) => {
@@ -23,7 +23,7 @@ export default {
 </script>
 
 <style>
-.container {
+.main-container {
   display: flex;
   flex-direction: row;
 }

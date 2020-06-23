@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="wrapper">
     <div>
       <h1 class="title">
         internal app
@@ -13,7 +13,7 @@ export default {}
 </script>
 
 <style>
-.container {
+.wrapper {
   margin: 0 auto;
   min-height: 100vh;
   display: flex;

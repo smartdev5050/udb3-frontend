@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <ExternalPage path="http://localhost:9999/" />
+    <ExternalPage path="http://localhost:9999/event" />
   </div>
 </template>
 
@@ -12,9 +12,9 @@ export default {
 </script>
 
 <style>
-.container {
+.wrapper {
   margin: 0 auto;
-  min-height: 100vh;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
