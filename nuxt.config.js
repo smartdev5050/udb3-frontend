@@ -41,6 +41,7 @@ export default {
    ** Nuxt.js modules
    */
   modules: [
+    'cookie-universal-nuxt',
     // Doc: https://bootstrap-vue.js.org
     'bootstrap-vue/nuxt',
   ],
