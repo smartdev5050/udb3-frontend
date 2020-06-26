@@ -9,7 +9,7 @@
         </nuxt-link>
       </li>
       <li>
-        <nuxt-link to="/entry">
+        <nuxt-link to="/event">
           <b-icon-plus-circle-fill></b-icon-plus-circle-fill>
           <span>Invoeren</span>
         </nuxt-link>
@@ -37,52 +37,52 @@
 </template>
 
 <script>
-import {
-  BIconHouseDoorFill,
-  BIconPlusCircleFill,
-  BIconSearch,
-  BIconFlag,
-} from 'bootstrap-vue'
-import Logo from './Logo'
-export default {
-  name: 'Navbar',
-  components: {
+  import {
     BIconHouseDoorFill,
     BIconPlusCircleFill,
     BIconSearch,
     BIconFlag,
-    Logo,
-  },
-}
+  } from 'bootstrap-vue'
+  import Logo from './Logo'
+  export default {
+    name: 'Navbar',
+    components: {
+      BIconHouseDoorFill,
+      BIconPlusCircleFill,
+      BIconSearch,
+      BIconFlag,
+      Logo,
+    },
+  }
 </script>
 
 <style scoped>
-.sidebar {
-  width: 230px;
-  padding: 5px;
-  background-color: #c0120c;
-  height: 100vh;
-  color: #fff;
-  text-align: left;
-}
-.logo {
-  margin-bottom: 10px;
-}
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-}
-.sidebar a {
-  color: #fff;
-  display: inline-block;
-  text-decoration: none;
-  padding: 5px;
-  width: 100%;
-}
-.sidebar a span {
-  margin-left: 10px;
-}
-.sidebar a:hover {
-  background-color: #900d09;
-}
+  .sidebar {
+    width: 230px;
+    padding: 5px;
+    background-color: #c0120c;
+    height: 100vh;
+    color: #fff;
+    text-align: left;
+  }
+  .logo {
+    margin-bottom: 10px;
+  }
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  .sidebar a {
+    color: #fff;
+    display: inline-block;
+    text-decoration: none;
+    padding: 5px;
+    width: 100%;
+  }
+  .sidebar a span {
+    margin-left: 10px;
+  }
+  .sidebar a:hover {
+    background-color: #900d09;
+  }
 </style>
