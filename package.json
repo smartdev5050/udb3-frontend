@@ -18,7 +18,8 @@
     "jwt-decode": "^2.2.0",
     "node-sass": "^4.14.1",
     "nuxt": "^2.13.0",
-    "sass-loader": "^8.0.2"
+    "sass-loader": "^8.0.2",
+    "vue-i18n": "^8.18.2"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^3.0.0",

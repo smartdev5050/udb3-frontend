@@ -17,13 +17,21 @@ export default async function (context) {
   const jwtInCookie = context.app.$cookies.get('token')
 
   if (!jwtInCookie) {
-    return context.redirect('/login')
+    // Prevent redirecting to login when you're already on login
+    if (context.route.path !== '/login') {
+      window.location.href = '/login'
+    }
+    return
   }
 
   const decodedJwt = jwtDecode(jwtInCookie)
 
+  console.log('decodedJwt', decodedJwt)
+
   // TODO: error handling
+  // TODO question why is the getMe necessary a lot of the info is already in the decoded JWT
   const user = await getMe(jwtInCookie)(decodedJwt.sub)
 
   context.app.$cookies.set('user', user, cookieOptions)
+  context.app.$cookies.set('userPicture', decodedJwt.picture)
 }

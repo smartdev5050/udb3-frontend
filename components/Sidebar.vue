@@ -33,6 +33,7 @@
         </li>
       </ul>
     </div>
+    <UserBlock />
   </div>
 </template>
 
@@ -44,6 +45,7 @@
     BIconFlag,
   } from 'bootstrap-vue'
   import Logo from './Logo'
+  import UserBlock from './UserBlock'
   export default {
     name: 'Navbar',
     components: {
@@ -52,11 +54,12 @@
       BIconSearch,
       BIconFlag,
       Logo,
+      UserBlock,
     },
   }
 </script>
 
-<style scoped>
+<style lang="scss">
   .sidebar {
     width: 230px;
     padding: 5px;

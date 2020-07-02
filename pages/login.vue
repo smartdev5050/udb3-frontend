@@ -5,7 +5,7 @@
         <HomeSplash />
         <h1 class="brand">UiTdatabank</h1>
         <p class="lead text-center">
-          <span> Organiseer je een activiteit?</span> <br />
+          <span> {{ $t('main.lead') }}</span> <br />
           <span class="muted">
             Voeg gratis je activiteiten toe en bereik een groter publiek
           </span>
@@ -16,7 +16,7 @@
     <div class="start">
       <div class="container-fluid">
         <p class="text-center">
-          <a class="btn btn-lg btn-primary" @click="login">Login</a>
+          <a class="btn btn-lg btn-primary" @click="login">Start hier</a>
         </p>
       </div>
     </div>
@@ -68,14 +68,16 @@
         </div>
       </div>
     </div>
+    <Footer />
   </div>
 </template>
 
 <script>
+  import Footer from '../components/login/Footer'
   import HomeSplash from '../components/HomeSplash'
   import UitidAuth from '../services/auth'
   export default {
-    components: { HomeSplash },
+    components: { Footer, HomeSplash },
     layout: 'login',
     methods: {
       login: () => {
@@ -94,6 +96,23 @@
     display: none;
   }
 
+  .lead {
+    margin-bottom: 24px;
+    font-size: 32px;
+    color: #fff;
+  }
+
+  .more {
+    padding: 60px 0;
+  }
+
+  .btn-primary {
+    background-color: #004f94;
+    border: 0;
+    border-radius: 0;
+    color: #fff;
+  }
+
   .quoted-number {
     margin: 0 0 30px 0;
     padding: 0;
@@ -102,16 +121,24 @@
 
     .accent {
       margin: 0;
-      font-size: 6rem;
+      font-size: 64px;
       font-weight: 300;
       color: #424448;
       line-height: 1;
     }
 
     h2 {
+      font-size: 18px;
       font-weight: 400;
       margin-top: 0;
       color: #424448;
     }
+  }
+  .lead {
+    font-size: 22.5px;
+  }
+  .mission {
+    margin-top: 30px;
+    color: #222;
   }
 </style>

@@ -29,7 +29,7 @@ export default {
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
    */
-  plugins: [],
+  plugins: ['~/plugins/i18n.js'],
   /*
    ** Nuxt.js dev-modules
    */
@@ -52,5 +52,8 @@ export default {
   build: {},
   env: {
     apiKey: process.env.API_KEY,
+  },
+  router: {
+    middleware: ['auth'],
   },
 }
