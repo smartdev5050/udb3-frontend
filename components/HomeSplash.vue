@@ -128,7 +128,7 @@
 <script>
   export default {
     name: 'HomeSplash',
-  }
+  };
 </script>
 
 <style scoped>

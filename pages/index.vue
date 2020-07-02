@@ -5,10 +5,10 @@
 </template>
 
 <script>
-  import ExternalPage from '../components/ExternalPage'
+  import ExternalPage from '../components/ExternalPage';
   export default {
     components: { ExternalPage },
-  }
+  };
 </script>
 
 <style>

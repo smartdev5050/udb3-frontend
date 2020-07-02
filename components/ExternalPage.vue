@@ -5,21 +5,21 @@
 <script>
   const Sources = {
     UDB: 'UDB',
-  }
+  };
 
   const MessageType = {
     URL_CHANGE: 'URL_CHANGE',
     QUERY_STRING_CHANGE: 'QUERY_STRING_CHANGE',
-  }
+  };
 
   const changeQueryString = (queryString) =>
     history.pushState(
       undefined,
       undefined,
-      `${window.location.pathname}?${queryString}`
-    )
+      `${window.location.pathname}?${queryString}`,
+    );
 
-  const changeUrl = (url) => history.pushState(undefined, undefined, url)
+  const changeUrl = (url) => history.pushState(undefined, undefined, url);
 
   export default {
     name: 'ExternalPage',
@@ -33,18 +33,18 @@
       window.addEventListener('message', (event) => {
         if (event.data.source === Sources.UDB) {
           if (event.data.type === MessageType.URL_CHANGE) {
-            changeUrl(event.data.path)
+            changeUrl(event.data.path);
           }
           if (
             event.data.type === MessageType.QUERY_STRING_CHANGE &&
             event.data.queryString
           ) {
-            changeQueryString(event.data.queryString)
+            changeQueryString(event.data.queryString);
           }
         }
-      })
+      });
     },
-  }
+  };
 </script>
 
 <style scoped>

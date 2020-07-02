@@ -5,20 +5,20 @@
 </template>
 
 <script>
-  import ExternalPage from '../components/ExternalPage'
+  import ExternalPage from '../components/ExternalPage';
   export default {
     components: {
       ExternalPage,
     },
     computed: {
       generatePath() {
-        const queryString = new URLSearchParams(this.$route.query)
+        const queryString = new URLSearchParams(this.$route.query);
         return `http://localhost:9999/${
           this.$route.params.path
-        }?${queryString.toString()}`
+        }?${queryString.toString()}`;
       },
     },
-  }
+  };
 </script>
 
 <style>
