@@ -18,3 +18,10 @@ $ yarn generate
 ```
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+
+## Environment Variables
+
+Copy the .env.example and rename it to .env.
+Fill in the correct values for the variables
+
+
