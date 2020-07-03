@@ -6,7 +6,6 @@ export default async function (context) {
   const jwtInURL = context?.query?.jwt ?? '';
 
   const cookieOptions = {
-    domain: 'localhost',
     maxAge: 60 * 60 * 24 * 7,
   };
 
