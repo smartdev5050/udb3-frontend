@@ -26,8 +26,6 @@ export default async function (context) {
 
   const decodedJwt = jwtDecode(jwtInCookie);
 
-  console.log('decodedJwt', decodedJwt);
-
   // TODO: error handling
   // TODO question why is the getMe necessary a lot of the info is already in the decoded JWT
   const user = await getMe(jwtInCookie)(decodedJwt.sub);
