@@ -1,7 +1,10 @@
+import Cookie from 'cookie-universal';
+const cookies = Cookie();
+
 export default class UitidAuth {
   removeCookies() {
-    // $cookies.remove('token');
-    // $cookies.remove('user');
+    cookies.remove('token');
+    cookies.remove('user');
   }
 
   buildBaseUrl() {
@@ -15,28 +18,26 @@ export default class UitidAuth {
    * Log the active user out.
    */
   logout() {
-    const destination = this.buildBaseUrl();
-    let logoutUrl = 'https://jwtprovider.uitdatabank.dev/' + 'logout';
-
     this.removeCookies();
 
-    // redirect to login page
-    logoutUrl += '?destination=' + encodeURIComponent(destination);
-    window.location.href = logoutUrl;
+    const queryString = new URLSearchParams({
+      destination: encodeURIComponent(this.buildBaseUrl()),
+    }).toString();
+
+    window.location.href = `${process.env.authUrl}/logout?${queryString}`;
   }
 
   /**
    * Login by redirecting to UiTiD
    */
   login() {
-    const currentLocation = window.location.href;
-    let loginUrl = 'https://jwtprovider.uitdatabank.dev/connect';
-
     this.removeCookies();
 
-    // redirect to login page
-    loginUrl +=
-      '?destination=' + encodeURIComponent(currentLocation) + '&lang=' + 'nl';
-    window.location.href = loginUrl;
+    const queryString = new URLSearchParams({
+      destination: encodeURIComponent(window.location.href),
+      lang: 'nl',
+    }).toString();
+
+    window.location.href = `${process.env.authUrl}/connect?${queryString}`;
   }
 }

@@ -54,6 +54,7 @@ export default {
     apiKey: process.env.API_KEY,
     apiUrl: process.env.API_URL,
     legacyAppUrl: process.env.LEGACY_APP_URL,
+    authUrl: process.env.AUTH_URL,
   },
   router: {
     middleware: ['auth'],
