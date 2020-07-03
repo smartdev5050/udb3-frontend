@@ -8,16 +8,8 @@
   };
 
   const MessageType = {
-    URL_CHANGE: 'URL_CHANGE',
-    QUERY_STRING_CHANGE: 'QUERY_STRING_CHANGE',
+    URL_CHANGED: 'URL_CHANGED',
   };
-
-  const changeQueryString = (queryString) =>
-    history.pushState(
-      undefined,
-      undefined,
-      `${window.location.pathname}?${queryString}`,
-    );
 
   const changeUrl = (url) => history.pushState(undefined, undefined, url);
 
@@ -32,14 +24,8 @@
     mounted() {
       window.addEventListener('message', (event) => {
         if (event.data.source === Sources.UDB) {
-          if (event.data.type === MessageType.URL_CHANGE) {
+          if (event.data.type === MessageType.URL_CHANGED) {
             changeUrl(event.data.path);
-          }
-          if (
-            event.data.type === MessageType.QUERY_STRING_CHANGE &&
-            event.data.queryString
-          ) {
-            changeQueryString(event.data.queryString);
           }
         }
       });
