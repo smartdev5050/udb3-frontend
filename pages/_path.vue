@@ -1,21 +1,23 @@
 <template>
   <div class="wrapper">
-    <ExternalPage :path="generatePath" />
+    <LegacyAppPage :path="generatePath" />
   </div>
 </template>
 
 <script>
-  import ExternalPage from '../components/ExternalPage';
+  import LegacyAppPage from '../components/LegacyAppPage';
   export default {
     components: {
-      ExternalPage,
+      LegacyAppPage,
     },
     computed: {
       generatePath() {
-        const queryString = new URLSearchParams(this.$route.query);
-        return `http://localhost:9999/${
-          this.$route.params.path
-        }?${queryString.toString()}`;
+        const queryString = new URLSearchParams(this.$route.query).toString();
+
+        const path = this.$route.params.path ? this.$route.params.path : '';
+        const parsedQueryString = queryString ? `?${queryString}` : '';
+
+        return `${path}${parsedQueryString}`;
       },
     },
   };
