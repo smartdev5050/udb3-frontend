@@ -12,7 +12,10 @@
     },
     computed: {
       generatePath() {
-        const queryString = new URLSearchParams(this.$route.query).toString();
+        const queryString = new URLSearchParams({
+          ...this.$route.query,
+          jwt: this.$cookies.get('token'),
+        }).toString();
 
         const path = this.$route.params.path ? this.$route.params.path : '';
         const parsedQueryString = queryString ? `?${queryString}` : '';
