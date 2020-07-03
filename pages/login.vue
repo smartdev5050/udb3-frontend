@@ -73,19 +73,19 @@
 </template>
 
 <script>
-  import Footer from '../components/login/Footer'
-  import HomeSplash from '../components/HomeSplash'
-  import UitidAuth from '../services/auth'
+  import Footer from '../components/login/Footer';
+  import HomeSplash from '../components/HomeSplash';
+  import UitidAuth from '../services/auth';
   export default {
     components: { Footer, HomeSplash },
     layout: 'login',
     methods: {
       login: () => {
-        const auth = new UitidAuth()
-        auth.login()
+        const auth = new UitidAuth();
+        auth.login();
       },
     },
-  }
+  };
 </script>
 
 <style scoped lang="scss">

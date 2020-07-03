@@ -5,6 +5,6 @@ export const getMe = (token) => async (id) => {
       Authorization: `Bearer ${token}`,
       'X-Api-Key': process.env.apiKey,
     },
-  })
-  return await res.json()
-}
+  });
+  return await res.json();
+};

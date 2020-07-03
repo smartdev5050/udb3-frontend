@@ -3,6 +3,24 @@
 </template>
 
 <script>
+  const Sources = {
+    UDB: 'UDB',
+  };
+
+  const MessageType = {
+    URL_CHANGE: 'URL_CHANGE',
+    QUERY_STRING_CHANGE: 'QUERY_STRING_CHANGE',
+  };
+
+  const changeQueryString = (queryString) =>
+    history.pushState(
+      undefined,
+      undefined,
+      `${window.location.pathname}?${queryString}`,
+    );
+
+  const changeUrl = (url) => history.pushState(undefined, undefined, url);
+
   export default {
     name: 'ExternalPage',
     props: {
@@ -12,15 +30,21 @@
       },
     },
     mounted() {
-      // const iframe = this.$refs.iframe.contentWindow
       window.addEventListener('message', (event) => {
-        if (event.data.type === 'UDB') {
-          const location = event.data.message
-          history.pushState('test', 'test', location)
+        if (event.data.source === Sources.UDB) {
+          if (event.data.type === MessageType.URL_CHANGE) {
+            changeUrl(event.data.path);
+          }
+          if (
+            event.data.type === MessageType.QUERY_STRING_CHANGE &&
+            event.data.queryString
+          ) {
+            changeQueryString(event.data.queryString);
+          }
         }
-      })
+      });
     },
-  }
+  };
 </script>
 
 <style scoped>

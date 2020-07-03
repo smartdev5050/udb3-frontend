@@ -36,7 +36,7 @@
 </template>
 
 <script>
-  import ButtonLogout from './ButtonLogout'
+  import ButtonLogout from './ButtonLogout';
   export default {
     components: {
       ButtonLogout,
@@ -45,9 +45,9 @@
       return {
         user: this.$cookies.get('user'),
         picture: this.$cookies.get('userPicture'),
-      }
+      };
     },
-  }
+  };
 </script>
 
 <style lang="scss">

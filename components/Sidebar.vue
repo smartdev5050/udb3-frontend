@@ -43,9 +43,9 @@
     BIconPlusCircleFill,
     BIconSearch,
     BIconFlag,
-  } from 'bootstrap-vue'
-  import Logo from './Logo'
-  import UserBlock from './UserBlock'
+  } from 'bootstrap-vue';
+  import Logo from './Logo';
+  import UserBlock from './UserBlock';
   export default {
     name: 'Navbar',
     components: {
@@ -56,7 +56,7 @@
       Logo,
       UserBlock,
     },
-  }
+  };
 </script>
 
 <style lang="scss">
