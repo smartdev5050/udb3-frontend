@@ -5,10 +5,9 @@
         <HomeSplash />
         <h1 class="brand">UiTdatabank</h1>
         <p class="lead text-center">
-          <span> {{ $t('main.lead') }}</span> <br />
-          <span class="muted">
-            Voeg gratis je activiteiten toe en bereik een groter publiek
-          </span>
+          <span>{{ $t('main.lead') }}</span>
+          <br />
+          <span class="muted">Voeg gratis je activiteiten toe en bereik een groter publiek</span>
         </p>
       </div>
     </div>
@@ -61,9 +60,9 @@
         </div>
         <div class="row">
           <div class="col-sm-12">
-            <p class="text-center lead mission">
-              Zo geef je meer mensen meer goesting in jouw activiteit.
-            </p>
+            <p
+              class="text-center lead mission"
+            >Zo geef je meer mensen meer goesting in jouw activiteit.</p>
           </div>
         </div>
       </div>
@@ -75,70 +74,68 @@
 <script>
   import Footer from '../components/login/Footer';
   import HomeSplash from '../components/HomeSplash';
-  import UitidAuth from '../services/auth';
+  import { login } from '../services/auth';
+
   export default {
     components: { Footer, HomeSplash },
     layout: 'login',
     methods: {
-      login: () => {
-        const auth = new UitidAuth();
-        auth.login();
-      },
+      login: () => login(),
     },
   };
 </script>
 
 <style scoped lang="scss">
-  .hero {
-    background-color: #f0160f;
-  }
-  .brand {
-    display: none;
+.hero {
+  background-color: #f0160f;
+}
+.brand {
+  display: none;
+}
+
+.lead {
+  margin-bottom: 24px;
+  font-size: 32px;
+  color: #fff;
+}
+
+.more {
+  padding: 60px 0;
+}
+
+.btn-primary {
+  background-color: #004f94;
+  border: 0;
+  border-radius: 0;
+  color: #fff;
+}
+
+.quoted-number {
+  margin: 0 0 30px 0;
+  padding: 0;
+  border-left: 0px;
+  text-align: center;
+
+  .accent {
+    margin: 0;
+    font-size: 64px;
+    font-weight: 300;
+    color: #424448;
+    line-height: 1;
   }
 
-  .lead {
-    margin-bottom: 24px;
-    font-size: 32px;
-    color: #fff;
+  h2 {
+    font-size: 18px;
+    font-weight: 400;
+    margin-top: 0;
+    color: #424448;
   }
-
-  .more {
-    padding: 60px 0;
-  }
-
-  .btn-primary {
-    background-color: #004f94;
-    border: 0;
-    border-radius: 0;
-    color: #fff;
-  }
-
-  .quoted-number {
-    margin: 0 0 30px 0;
-    padding: 0;
-    border-left: 0px;
-    text-align: center;
-
-    .accent {
-      margin: 0;
-      font-size: 64px;
-      font-weight: 300;
-      color: #424448;
-      line-height: 1;
-    }
-
-    h2 {
-      font-size: 18px;
-      font-weight: 400;
-      margin-top: 0;
-      color: #424448;
-    }
-  }
-  .lead {
-    font-size: 22.5px;
-  }
-  .mission {
-    margin-top: 30px;
-    color: #222;
-  }
+}
+.lead {
+  font-size: 22.5px;
+}
+.mission {
+  margin-top: 30px;
+  color: #222;
+}
 </style>

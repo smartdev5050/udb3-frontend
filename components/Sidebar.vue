@@ -61,12 +61,14 @@
 
 <style lang="scss">
   .sidebar {
+    position: relative;
     width: 230px;
     padding: 5px;
     background-color: #c0120c;
     height: 100vh;
     color: #fff;
     text-align: left;
+    z-index: 2000;
   }
   .logo {
     margin-bottom: 10px;

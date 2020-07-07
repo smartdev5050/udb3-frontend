@@ -44,6 +44,7 @@ export default {
     'cookie-universal-nuxt',
     // Doc: https://bootstrap-vue.js.org
     'bootstrap-vue/nuxt',
+    'nuxt-socket-io',
   ],
   /*
    ** Build configuration
@@ -55,8 +56,17 @@ export default {
     apiUrl: process.env.API_URL,
     legacyAppUrl: process.env.LEGACY_APP_URL,
     authUrl: process.env.AUTH_URL,
+    socketUrl: process.env.SOCKET_URL,
   },
   router: {
     middleware: ['auth'],
+  },
+  io: {
+    sockets: [
+      {
+        default: true,
+        url: 'https://sockets.uitdatabank.dev',
+      },
+    ],
   },
 };

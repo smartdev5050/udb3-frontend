@@ -1,43 +1,37 @@
 import Cookie from 'cookie-universal';
-const cookies = Cookie();
 
-export default class UitidAuth {
-  removeCookies() {
-    cookies.remove('token');
-    cookies.remove('user');
-  }
+const removeCookies = () => {
+  const cookies = Cookie();
 
-  buildBaseUrl() {
-    const baseUrl = window.location.protocol + '://' + window.location.host;
-    const port = window.location.port;
+  cookies.remove('token');
+  cookies.remove('user');
+};
 
-    return port === '80' ? baseUrl : baseUrl + ':' + port;
-  }
+const buildBaseUrl = () =>
+  `${window.location.protocol}//${window.location.host}`;
+/**
+ * Log the active user out.
+ */
+export const logout = () => {
+  removeCookies();
 
-  /**
-   * Log the active user out.
-   */
-  logout() {
-    this.removeCookies();
+  const queryString = new URLSearchParams({
+    destination: buildBaseUrl(),
+  }).toString();
 
-    const queryString = new URLSearchParams({
-      destination: encodeURIComponent(this.buildBaseUrl()),
-    }).toString();
+  window.location.href = `${process.env.authUrl}/logout?${queryString}`;
+};
 
-    window.location.href = `${process.env.authUrl}/logout?${queryString}`;
-  }
+/**
+ * Login by redirecting to UiTiD
+ */
+export const login = () => {
+  removeCookies();
 
-  /**
-   * Login by redirecting to UiTiD
-   */
-  login() {
-    this.removeCookies();
+  const queryString = new URLSearchParams({
+    destination: buildBaseUrl(),
+    lang: 'nl',
+  }).toString();
 
-    const queryString = new URLSearchParams({
-      destination: encodeURIComponent(window.location.href),
-      lang: 'nl',
-    }).toString();
-
-    window.location.href = `${process.env.authUrl}/connect?${queryString}`;
-  }
-}
+  window.location.href = `${process.env.authUrl}/connect?${queryString}`;
+};
