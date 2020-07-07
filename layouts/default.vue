@@ -1,6 +1,9 @@
 <template>
   <div class="main-container">
-    <Sidebar />
+    <div class="side-bar">
+      <Sidebar />
+      <JobLogger is-open />
+    </div>
     <div class="content">
       <nuxt />
     </div>
@@ -9,9 +12,12 @@
 
 <script>
   import Sidebar from '../components/Sidebar';
+  import JobLogger from '../components/JobLogger';
+
   export default {
     components: {
       Sidebar,
+      JobLogger,
     },
   };
 </script>
