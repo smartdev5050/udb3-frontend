@@ -1,5 +1,3 @@
-import jwtDecode from 'jwt-decode';
-
 import { getMe } from '../api/users';
 
 export default async function (context) {
@@ -23,12 +21,8 @@ export default async function (context) {
     return;
   }
 
-  const decodedJwt = jwtDecode(jwtInCookie);
-
   // TODO: error handling
-  // TODO question why is the getMe necessary a lot of the info is already in the decoded JWT
-  const user = await getMe(jwtInCookie)(decodedJwt.sub);
+  const user = await getMe(jwtInCookie);
 
   context.app.$cookies.set('user', user, cookieOptions);
-  context.app.$cookies.set('userPicture', decodedJwt.picture);
 }
