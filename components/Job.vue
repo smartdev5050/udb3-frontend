@@ -78,11 +78,9 @@
     mounted() {
       // Re-render every 30 secs to update the timeAgo
       this.timer = setInterval(function () {
-        console.log('interval reached');
-        console.log(this.now);
         // Trigger re-render by updating the state
         this.now = Date.now();
-      }, 30000);
+      }.bind(this), 30000);
     },
     beforeDestroy() {
       clearInterval(this.timer);
