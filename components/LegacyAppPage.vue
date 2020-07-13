@@ -3,13 +3,7 @@
 </template>
 
 <script>
-  const Sources = {
-    UDB: 'UDB',
-  };
-
-  const MessageType = {
-    URL_CHANGED: 'URL_CHANGED',
-  };
+  import { MessageSources, MessageTypes } from '../services/messages';
 
   export default {
     name: 'ExternalPage',
@@ -32,10 +26,12 @@
     },
     methods: {
       handleMessage(event) {
-        if (event.data.source === Sources.UDB) {
-          if (event.data.type === MessageType.URL_CHANGED) {
-            this.changeUrl(event.data.path);
-          }
+        if (event.data.source !== MessageSources.UDB) {
+          return;
+        }
+
+        if (event.data.type === MessageTypes.URL_CHANGED) {
+          this.changeUrl(event.data.path);
         }
       },
       changeUrl(url) {
