@@ -47,6 +47,12 @@ export default {
     'nuxt-socket-io',
     ['nuxt-fontawesome', {
       component: 'fa',
+      imports: [
+        {
+          set: '@fortawesome/free-solid-svg-icons',
+          icons: ['fas']
+        },
+      ]
     }],
   ],
   /*
