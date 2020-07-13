@@ -12,12 +12,16 @@
     "test": "jest"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.29",
+    "@fortawesome/vue-fontawesome": "^0.1.10",
     "bootstrap": "^4.5.0",
     "bootstrap-vue": "^2.15.0",
     "cookie-universal-nuxt": "^2.1.4",
+    "date-fns": "^2.14.0",
     "jwt-decode": "^2.2.0",
     "node-sass": "^4.14.1",
     "nuxt": "^2.13.0",
+    "nuxt-fontawesome": "^0.4.0",
     "nuxt-socket-io": "^1.1.4",
     "sass-loader": "^8.0.2",
     "vue-i18n": "^8.18.2"

@@ -45,6 +45,9 @@ export default {
     // Doc: https://bootstrap-vue.js.org
     'bootstrap-vue/nuxt',
     'nuxt-socket-io',
+    ['nuxt-fontawesome', {
+      component: 'fa',
+    }],
   ],
   /*
    ** Build configuration
