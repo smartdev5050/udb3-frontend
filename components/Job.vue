@@ -1,9 +1,11 @@
 <template>
   <li class="udb-job repeat-animation">
+    <p v-if="isDone">
+      <button type="button" class="close udb-hide-job-button" @click="handleHide" aria-label="Close">
+        <span aria-hidden="true">×</span>
+      </button>
+    </p>
     <p>
-      <a class="udb-hide-job-button" @click="handleHide" v-if="isDone">
-        <fa icon="trash-o" />
-      </a>
       <ins>
         <span>{{ timeAgo() }}</span>
         <fa v-if="isSuccess" icon="check-circle" class="udb-job-success" />
