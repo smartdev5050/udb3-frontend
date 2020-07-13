@@ -6,7 +6,8 @@
       </a>
       <ins>
         <span>{{ timeAgo() }}</span>
-        <fa icon="circle-o-notch" class="udb-job-busy" v-if="!isDone" />
+        <fa v-if="isSuccess" icon="check-circle" class="udb-job-success" />
+        <fa v-if="!isDone" icon="circle-notch" class="udb-job-busy fa-spin" />
       </ins>
       <span>{{ description }}</span>
       <a role="button" target="_blank" class="btn btn-default" :href="exportUrl" v-if="isDone">
