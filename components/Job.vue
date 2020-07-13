@@ -99,6 +99,9 @@
       }
     },
     computed: {
+      isSuccess() {
+        return [JobStates.FINISHED].includes(this.state);
+      },
       isDone() {
         return [JobStates.FAILED, JobStates.FINISHED].includes(this.state);
       },
