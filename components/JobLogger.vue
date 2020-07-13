@@ -152,6 +152,12 @@
         const job = this.findJob(id);
         if (!job) return;
 
+        if ([JobStates.FAILED, JobStates.FINISHED].includes(job.state)) {
+          // Don't update job's that already have a failed or finished state.
+          // Due to how socket messages are sent, we might otherwise set a failed state as finished.
+          return;
+        }
+
         job.state = state;
 
         if (
