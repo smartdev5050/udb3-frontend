@@ -264,7 +264,7 @@
     font-weight: bold;
     border-bottom: 1px solid #000;
   }
-  ins {
+  .udb-job-date {
     text-decoration: none;
     color: #777;
     font-size: 0.75em;

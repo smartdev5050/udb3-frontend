@@ -6,11 +6,11 @@
       </button>
     </p>
     <p>
-      <ins>
+      <span class="udb-job-date">
         <span>{{ timeAgo() }}</span>
         <fa v-if="isSuccess" icon="check-circle" class="udb-job-success" />
         <fa v-if="!isDone" icon="circle-notch" class="udb-job-busy fa-spin" />
-      </ins>
+      </span>
       <span>{{ description }}</span>
     </p>
     <p v-if="isSuccess && exportUrl">
