@@ -48,6 +48,7 @@
                 :finished-at="job.finishedAt"
                 :state="job.state"
                 :messages="job.messages"
+                @hide="hideJob"
               />
             </ul>
           </div>
