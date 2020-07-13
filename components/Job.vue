@@ -13,7 +13,7 @@
       </ins>
       <span>{{ description }}</span>
     </p>
-    <p v-if="isDone">
+    <p v-if="isSuccess && exportUrl">
       <a role="button" target="_blank" class="btn btn-outline-secondary" :href="exportUrl">
         Downloaden
       </a>
