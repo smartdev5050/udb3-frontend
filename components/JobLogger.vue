@@ -27,7 +27,9 @@
                 :created-at="job.createdAt"
                 :finished-at="job.finishedAt"
                 :state="job.state"
-                :variant="JobVariants.EXPORTED"
+                :messages="job.messages"
+                :export-url="job.exportUrl"
+                @hide="hideJob"
               />
             </ul>
           </div>
@@ -45,7 +47,7 @@
                 :created-at="job.createdAt"
                 :finished-at="job.finishedAt"
                 :state="job.state"
-                :variant="JobVariants.FAILED"
+                :messages="job.messages"
               />
             </ul>
           </div>
@@ -60,7 +62,7 @@
                 :created-at="job.createdAt"
                 :finished-at="job.finishedAt"
                 :state="job.state"
-                :variant="JobVariants.PENDING"
+                :messages="job.messages"
               />
             </ul>
           </div>
@@ -72,7 +74,8 @@
 </template>
 
 <script>
-  import Job, { JobStates } from './Job.vue';
+  import { MessageSources, MessageTypes } from '../services/messages';
+  import Job, { JobStates, JobTypes } from './Job.vue';
 
   export default {
     name: 'JobLogger',
@@ -102,7 +105,11 @@
         return this.filterJobsOnState(JobStates.STARTED);
       },
       finishedExportJobs() {
-        return this.filterJobsOnState(JobStates.πJo);
+        return this.filterJobsOnState(JobStates.FINISHED).filter(
+          (job) => {
+            return job.type === JobTypes.EXPORT;
+          }
+        );
       },
       failedJobs() {
         return this.filterJobsOnState(JobStates.FAILED);
@@ -115,12 +122,19 @@
       this.socket = this.$nuxtSocket({});
 
       this.socket.on('job_started', this.jobStartedHandler);
+      this.socket.on('job_info', this.jobInfoHandler);
       this.socket.on('job_finished', this.jobFinishedHandler);
       this.socket.on('job_failed', this.jobFailedHandler);
+
+      window.addEventListener('message', this.handleMessage);
+    },
+    beforeDestroy() {
+      this.socket.close();
+      window.removeEventListener('message', this.handleMessage);
     },
     methods: {
       addJob(data) {
-        this.jobs.unshift(data);
+        this.jobs.unshift({ state: JobStates.CREATED, exportUrl: '', ...data });
       },
       filterJobsOnState(state) {
         return this.jobs.filter(
@@ -150,10 +164,32 @@
       handleClickClose() {
         // dispatch event and pass down prop from layout
       },
+      handleMessage(event) {
+        if (event.data.source !== MessageSources.UDB) {
+          return;
+        }
+
+        if (event.data.type === MessageTypes.JOB_ADDED && event.data.job !== undefined) {
+          this.addJob(event.data.job);
+        }
+      },
       /* eslint-disable camelcase */
       jobStartedHandler({ job_id }) {
         console.log('job started: ', job_id);
         this.updateJobState(job_id, JobStates.STARTED);
+      },
+      jobInfoHandler({ job_id, location }) {
+        if (!location) {
+          return;
+        }
+
+        const job = this.findJob(job_id);
+        if (!job) {
+          return;
+        }
+
+        job.exportUrl = location;
+        console.log('job info: ', job_id);
       },
       jobFinishedHandler({ job_id }) {
         console.log('job finished: ', job_id);
@@ -175,7 +211,9 @@
   }
   .udb-job-log {
     width: 320px;
-    left: -90px;
+    // left: -90px;
+    left: auto;
+    right: 0;
     position: fixed;
     top: 0px;
     bottom: 0;
@@ -204,7 +242,7 @@
   */
 
   .udb-job-log.open {
-    left: 230px;
+    //left: 230px;
     z-index: 1029;
   }
   .udb-hide-job-button {
