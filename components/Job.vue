@@ -12,7 +12,9 @@
         <fa v-if="!isDone" icon="circle-notch" class="udb-job-busy fa-spin" />
       </ins>
       <span>{{ description }}</span>
-      <a role="button" target="_blank" class="btn btn-default" :href="exportUrl" v-if="isDone">
+    </p>
+    <p v-if="isDone">
+      <a role="button" target="_blank" class="btn btn-outline-secondary" :href="exportUrl">
         Downloaden
       </a>
     </p>
