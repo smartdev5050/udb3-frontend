@@ -106,11 +106,9 @@
         return this.filterJobsOnState(JobStates.STARTED);
       },
       finishedExportJobs() {
-        return this.filterJobsOnState(JobStates.FINISHED).filter(
-          (job) => {
-            return job.type === JobTypes.EXPORT;
-          }
-        );
+        return this.filterJobsOnState(JobStates.FINISHED).filter((job) => {
+          return job.type === JobTypes.EXPORT;
+        });
       },
       failedJobs() {
         return this.filterJobsOnState(JobStates.FAILED);
@@ -176,7 +174,10 @@
           return;
         }
 
-        if (event.data.type === MessageTypes.JOB_ADDED && event.data.job !== undefined) {
+        if (
+          event.data.type === MessageTypes.JOB_ADDED &&
+          event.data.job !== undefined
+        ) {
           this.addJob(event.data.job);
         }
       },
