@@ -78,6 +78,13 @@
   import { MessageSources, MessageTypes } from '../../services/messages';
   import Job, { JobStates, JobTypes } from './job';
 
+  export const JobLoggerStates = {
+    IDLE: 'idle',
+    WARNING: 'warning',
+    BUSY: 'busy',
+    COMPLETE: 'complete',
+  };
+
   export default {
     name: 'job-logger',
     components: {
@@ -95,9 +102,35 @@
         jobs: [],
       };
     },
+    watch: {
+      state(state) {
+        this.$emit('statechange', state);
+      },
+    },
     computed: {
+      state() {
+        if (this.hasFailedJobs) {
+          return JobLoggerStates.WARNING;
+        }
+
+        if (this.hasCompletedJobs) {
+          return JobLoggerStates.COMPLETE;
+        }
+
+        if (this.hasActiveJobs) {
+          return JobLoggerStates.BUSY;
+        }
+
+        return JobLoggerStates.IDLE;
+      },
       hasActiveJobs() {
         return this.queuedJobs.length > 0;
+      },
+      hasCompletedJobs() {
+        return this.filterJobsOnState(JobStates.FINISHED).length > 0;
+      },
+      hasFailedJobs() {
+        return this.failedJobs.length > 0;
       },
       newJobs() {
         return this.filterJobsOnState(JobStates.CREATED);
