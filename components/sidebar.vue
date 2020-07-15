@@ -5,33 +5,54 @@
       <ul>
         <li>
           <nuxt-link to="/">
-            <b-icon-house-door-fill></b-icon-house-door-fill>
+            <fa icon="home" />
             <span>Home</span>
           </nuxt-link>
         </li>
         <li>
           <nuxt-link to="/event">
-            <b-icon-plus-circle-fill></b-icon-plus-circle-fill>
+            <fa icon="plus-circle" />
             <span>Invoeren</span>
           </nuxt-link>
         </li>
         <li>
           <nuxt-link to="/search">
-            <b-icon-search></b-icon-search>
+            <fa icon="search" />
             <span>Zoeken</span>
           </nuxt-link>
         </li>
-        <li>
-          <nuxt-link to="/internal-app">internal vue</nuxt-link>
-        </li>
       </ul>
-      <div>
+      <div v-if="showExtraMenuItems">
         <p>Beheer</p>
         <ul class="admin">
-          <li>
+          <li v-if="isValidateVisible">
             <nuxt-link to="/search">
-              <b-icon-flag></b-icon-flag>
+              <fa icon="flag" />
               <span>Valideren</span>
+            </nuxt-link>
+          </li>
+          <li v-if="isUsersVisible">
+            <nuxt-link to="/manage/users/overview">
+              <fa icon="user" />
+              <span>Gebruikers</span>
+            </nuxt-link>
+          </li>
+          <li v-if="isRolesVisible">
+            <nuxt-link to="/manage/roles/overview">
+              <fa icon="users" />
+              <span>Rollen</span>
+            </nuxt-link>
+          </li>
+          <li v-if="isLabelsVisible">
+            <nuxt-link to="/manage/labels/overview">
+              <fa icon="tag" />
+              <span>Labels</span>
+            </nuxt-link>
+          </li>
+          <li v-if="isOrganisationsVisible">
+            <nuxt-link to="/manage/organizations">
+              <fa :icon="['fab', 'slideshare']" />
+              <span>Organisaties</span>
             </nuxt-link>
           </li>
         </ul>
@@ -97,24 +118,26 @@
 </template>
 
 <script>
-  import {
-    BIconHouseDoorFill,
-    BIconPlusCircleFill,
-    BIconSearch,
-    BIconFlag,
-  } from 'bootstrap-vue';
   import JobLogger, { JobLoggerStates } from '../components/job/job-logger';
   import ButtonLogout from './button-logout';
   import JobIndicator from './job/job-indicator';
   import Logo from './logo';
 
+  const Permissions = {
+    AANBOD_BEWERKEN: 'AANBOD_BEWERKEN',
+    AANBOD_MODEREREN: 'AANBOD_MODEREREN',
+    AANBOD_VERWIJDEREN: 'AANBOD_VERWIJDEREN',
+    ORGANISATIES_BEWERKEN: 'ORGANISATIES_BEWERKEN',
+    ORGANISATIES_BEHEREN: 'ORGANISATIES_BEHEREN',
+    GEBRUIKERS_BEHEREN: 'GEBRUIKERS_BEHEREN',
+    LABELS_BEHEREN: 'LABELS_BEHEREN',
+    VOORZIENINGEN_BEWERKEN: 'VOORZIENINGEN_BEWERKEN',
+    PRODUCTIES_AANMAKEN: 'PRODUCTIES_AANMAKEN',
+  };
+
   export default {
     name: 'Sidebar',
     components: {
-      BIconHouseDoorFill,
-      BIconPlusCircleFill,
-      BIconSearch,
-      BIconFlag,
       ButtonLogout,
       JobIndicator,
       Logo,
@@ -124,15 +147,52 @@
       return {
         isJobLoggerOpen: false,
         jobLoggerState: JobLoggerStates.IDLE,
+        permissions: [],
+        roles: [],
       };
     },
     computed: {
+      isValidateVisible() {
+        return this.roles.some((role) =>
+          role.permissions.includes(Permissions.AANBOD_MODEREREN),
+        );
+      },
+      isUsersVisible() {
+        return this.permissions.includes(Permissions.GEBRUIKERS_BEHEREN);
+      },
+      isRolesVisible() {
+        return this.permissions.includes(Permissions.GEBRUIKERS_BEHEREN);
+      },
+      isLabelsVisible() {
+        return this.permissions.includes(Permissions.LABELS_BEHEREN);
+      },
+      isOrganisationsVisible() {
+        return this.permissions.includes(Permissions.ORGANISATIES_BEHEREN);
+      },
+      showExtraMenuItems() {
+        return [
+          this.isValidateVisible,
+          this.isUsersVisible,
+          this.isRolesVisible,
+          this.isLabelsVisible,
+          this.isOrganisationsVisible,
+        ].includes(true);
+      },
+      token() {
+        return this.$cookies.get('token');
+      },
       user() {
         return this.$cookies.get('user');
       },
       picture() {
         return this.$cookies.get('userPicture');
       },
+    },
+    async mounted() {
+      const permissions = await this.$api.user.getPermissions();
+      const roles = await this.$api.user.getRoles();
+      this.permissions = permissions;
+      this.roles = roles;
     },
     methods: {
       toggleJobLogger() {
