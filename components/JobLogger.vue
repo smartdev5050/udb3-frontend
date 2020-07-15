@@ -169,7 +169,7 @@
         }
       },
       handleClickClose() {
-        // dispatch event and pass down prop from layout
+        this.$emit('close');
       },
       handleMessage(event) {
         if (event.data.source !== MessageSources.UDB) {
@@ -218,8 +218,7 @@
   }
   .udb-job-log {
     width: 320px;
-    // left: -90px;
-    left: auto;
+    left: -90px;
     right: 0;
     position: fixed;
     top: 0px;
@@ -230,7 +229,7 @@
     background: #ffffff;
     border-right: silver;
     padding: 10px;
-    z-index: -1;
+    z-index: 1029;
   }
 
   /*
@@ -249,8 +248,7 @@
   */
 
   .udb-job-log.open {
-    //left: 230px;
-    z-index: 1029;
+    left: 230px;
   }
   .udb-hide-job-button {
     position: absolute;

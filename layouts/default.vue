@@ -2,7 +2,7 @@
   <div class="main-container">
     <div class="side-bar">
       <Sidebar />
-      <JobLogger is-open />
+      <JobLogger :is-open="isJobLoggerOpen" @close="handleJobLoggerClose" />
     </div>
     <div class="content">
       <nuxt />
@@ -19,6 +19,16 @@
       Sidebar,
       JobLogger,
     },
+    data() {
+      return {
+        isJobLoggerOpen: true,
+      };
+    },
+    methods: {
+      handleJobLoggerClose() {
+        this.isJobLoggerOpen = false;
+      }
+    }
   };
 </script>
 
