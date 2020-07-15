@@ -70,7 +70,7 @@
         </div>
       </div>
     </div>
-    <div class="udb-job-log-overlay"></div>
+    <div v-show="isOpen" class="udb-job-log-overlay"></div>
   </div>
 </template>
 
@@ -316,7 +316,7 @@
     display: block;
   } */
 
-  /* .udb-job-log-overlay {
+  .udb-job-log-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -326,7 +326,7 @@
     opacity: 0.5;
     z-index: 2;
     display: block;
-  } */
+  }
 
   @media (max-width: 767px) {
     .udb-job-log {
