@@ -1,4 +1,4 @@
-import { getMe } from '../api/users';
+import apiWrapper from '../api/api';
 
 export default async function (context) {
   const jwtInURL = context?.query?.jwt ?? '';
@@ -21,8 +21,10 @@ export default async function (context) {
     return;
   }
 
+  const api = apiWrapper(jwtInCookie);
+
   // TODO: error handling
-  const user = await getMe(jwtInCookie);
+  const user = await api.user.getMe();
 
   context.app.$cookies.set('user', user, cookieOptions);
 }
