@@ -6,7 +6,7 @@
   import { MessageSources, MessageTypes } from '../services/messages';
 
   export default {
-    name: 'ExternalPage',
+    name: 'LegacyAppPage',
     props: {
       path: {
         type: String,

@@ -21,7 +21,9 @@
             <span>Zoeken</span>
           </nuxt-link>
         </li>
-        <li><nuxt-link to="/internal-app">internal vue</nuxt-link></li>
+        <li>
+          <nuxt-link to="/internal-app">internal vue</nuxt-link>
+        </li>
       </ul>
       <div>
         <p>Beheer</p>
@@ -44,7 +46,6 @@
               <span class="menu-text">Meldingen</span>
             </a>
           </li>
-
           <li class="hidden-xs">
             <div class="media">
               <div class="media-left">
@@ -108,7 +109,7 @@
   import Logo from './logo';
 
   export default {
-    name: 'sidebar',
+    name: 'Sidebar',
     components: {
       BIconHouseDoorFill,
       BIconPlusCircleFill,
@@ -125,20 +126,20 @@
         jobLoggerState: JobLoggerStates.IDLE,
       };
     },
-    methods: {
-      toggleJobLogger() {
-        this.isJobLoggerOpen = !this.isJobLoggerOpen;
-      },
-      handleStateChange(state) {
-        this.jobLoggerState = state;
-      },
-    },
     computed: {
       user() {
         return this.$cookies.get('user');
       },
       picture() {
         return this.$cookies.get('userPicture');
+      },
+    },
+    methods: {
+      toggleJobLogger() {
+        this.isJobLoggerOpen = !this.isJobLoggerOpen;
+      },
+      handleStateChange(state) {
+        this.jobLoggerState = state;
       },
     },
   };

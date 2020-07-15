@@ -7,20 +7,15 @@
 
 <script>
   import { BIconBoxArrowInRight } from 'bootstrap-vue';
+  import { logout } from '../services/auth';
+
   export default {
+    name: 'ButtonLogout',
     components: {
       BIconBoxArrowInRight,
     },
     methods: {
-      logout() {
-        this.$cookies.remove('user');
-        this.$cookies.remove('token');
-        this.$cookies.remove('userPicture');
-        // Redirect go login
-        this.$router.push({
-          path: '/login',
-        });
-      },
+      logout,
     },
   };
 </script>

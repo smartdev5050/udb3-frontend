@@ -1,7 +1,12 @@
 <template>
   <li class="udb-job repeat-animation">
     <p v-if="isDone">
-      <button type="button" class="close udb-hide-job-button" @click="handleHide" aria-label="Close">
+      <button
+        type="button"
+        class="close udb-hide-job-button"
+        aria-label="Close"
+        @click="handleHide"
+      >
         <span aria-hidden="true">×</span>
       </button>
     </p>
@@ -14,7 +19,12 @@
       <span>{{ description }}</span>
     </p>
     <p v-if="isSuccess && exportUrl">
-      <a role="button" target="_blank" class="btn btn-outline-secondary" :href="exportUrl">
+      <a
+        role="button"
+        target="_blank"
+        class="btn btn-outline-secondary"
+        :href="exportUrl"
+      >
         Downloaden
       </a>
     </p>
@@ -67,36 +77,18 @@
           [JobStates.STARTED]: '',
           [JobStates.FINISHED]: '',
           [JobStates.FAILED]: '',
-        })
+        }),
       },
       exportUrl: {
         type: String,
-        default: ''
-      }
+        default: '',
+      },
     },
     data() {
       return {
         timer: '',
-        now: Date.now()
+        now: Date.now(),
       };
-    },
-    mounted() {
-      // Re-render every 30 secs to update the timeAgo
-      this.timer = setInterval(function () {
-        // Trigger re-render by updating the state
-        this.now = Date.now();
-      }.bind(this), 30000);
-    },
-    beforeDestroy() {
-      clearInterval(this.timer);
-    },
-    methods: {
-      handleHide() {
-        this.$emit('hide', this.id);
-      },
-      timeAgo() {
-        return formatDistance(this.logDate, this.now) + ' ago';
-      }
     },
     computed: {
       isSuccess() {
@@ -111,7 +103,28 @@
       },
       description() {
         return this.messages[this.state];
-      }
+      },
+    },
+    mounted() {
+      // Re-render every 30 secs to update the timeAgo
+      this.timer = setInterval(
+        function () {
+          // Trigger re-render by updating the state
+          this.now = Date.now();
+        }.bind(this),
+        30000,
+      );
+    },
+    beforeDestroy() {
+      clearInterval(this.timer);
+    },
+    methods: {
+      handleHide() {
+        this.$emit('hide', this.id);
+      },
+      timeAgo() {
+        return formatDistance(this.logDate, this.now) + ' ago';
+      },
     },
   };
 </script>

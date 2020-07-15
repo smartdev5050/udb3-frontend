@@ -86,7 +86,7 @@
   };
 
   export default {
-    name: 'job-logger',
+    name: 'JobLogger',
     components: {
       Job,
     },
@@ -101,11 +101,6 @@
         hiddenJobIds: [],
         jobs: [],
       };
-    },
-    watch: {
-      state(state) {
-        this.$emit('statechange', state);
-      },
     },
     computed: {
       state() {
@@ -148,6 +143,11 @@
       },
       queuedJobs() {
         return this.startedExportJobs.concat(this.newJobs);
+      },
+    },
+    watch: {
+      state(state) {
+        this.$emit('statechange', state);
       },
     },
     mounted() {
@@ -216,7 +216,6 @@
       },
       /* eslint-disable camelcase */
       jobStartedHandler({ job_id }) {
-        console.log('job started: ', job_id);
         this.updateJobState(job_id, JobStates.STARTED);
       },
       jobInfoHandler({ job_id, location }) {
@@ -230,14 +229,11 @@
         }
 
         job.exportUrl = location;
-        console.log('job info: ', job_id);
       },
       jobFinishedHandler({ job_id }) {
-        console.log('job finished: ', job_id);
         this.updateJobState(job_id, JobStates.FINISHED);
       },
       jobFailedHandler({ job_id }) {
-        console.log('job failed: ', job_id);
         this.updateJobState(job_id, JobStates.FAILED);
       },
       /* eslint-enable camelcase */

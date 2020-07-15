@@ -1,38 +1,38 @@
 <template>
   <div id="indicator">
     <svg
+      v-show="isWarning"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
-      v-show="isWarning"
     >
       <g class="warning">
-        <circle cx="20" cy="40" r="10" id="warning-background"></circle>
+        <circle id="warning-background" cx="20" cy="40" r="10"></circle>
         <circle
+          id="warning-circle"
           fill="#ED1C24"
           cx="20"
           cy="40"
           r="8"
-          id="warning-circle"
         ></circle>
         <g transform="translate(-50,-1.666667)">
           <path
+            id="warning-remark"
             fill="#FFFFFF"
             d="M68.798,45.538c0-0.383,0.103-0.672,0.308-0.868s0.504-0.294,0.896-0.294c0.378,0,0.671,0.1,0.878,0.301 c0.208,0.201,0.312,0.488,0.312,0.861c0,0.36-0.104,0.644-0.314,0.851S70.375,46.7,70.001,46.7c-0.383,0-0.679-0.102-0.889-0.304 S68.798,45.907,68.798,45.538z M70.842,43.2h-1.668l-0.349-6.679h2.365L70.842,43.2z"
-            id="warning-remark"
           ></path>
         </g>
       </g>
     </svg>
 
     <svg
+      v-show="isBusy"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
-      v-show="isBusy"
     >
       <g class="busy" fill-rule="evenodd" fill="none">
-        <circle cx="20" cy="40" r="10" id="busy-background"></circle>
+        <circle id="busy-background" cx="20" cy="40" r="10"></circle>
         <g stroke-width="2" transform="translate(14 34)" class="busy-spinner">
           <path d="M12 6c0-6-6-6-6-6" transform="rotate(308.674 6 6)">
             <animateTransform
@@ -49,14 +49,14 @@
     </svg>
 
     <svg
+      v-show="isComplete"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
-      v-show="isComplete"
     >
       <g class="complete" fill-rule="evenodd" fill="none">
-        <circle cx="20" cy="40" r="10" id="complete-background"></circle>
-        <circle cx="20" cy="40" r="8" id="complete-circle"></circle>
+        <circle id="complete-background" cx="20" cy="40" r="10"></circle>
+        <circle id="complete-circle" cx="20" cy="40" r="8"></circle>
         <g stroke-width="2" transform="translate(-6 14)" class="complete-check">
           <path
             d="M31.162,24.359l-4.612,4.611l-0.864,0.867c-0.115,0.114-0.274,0.178-0.434,0.178s-0.318-0.063-0.433-0.178
@@ -75,7 +75,7 @@
   import { JobLoggerStates } from './job-logger';
 
   export default {
-    name: 'job-indicator',
+    name: 'JobIndicator',
     props: {
       state: {
         type: String,
