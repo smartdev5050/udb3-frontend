@@ -312,10 +312,6 @@
     color: #5bc0de;
   }
 
-  /* .udb-job-description {
-    display: block;
-  } */
-
   .udb-job-log-overlay {
     position: fixed;
     top: 0;
