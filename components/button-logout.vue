@@ -8,6 +8,7 @@
 <script>
   import { BIconBoxArrowInRight } from 'bootstrap-vue';
   export default {
+    name: 'ButtonLogout',
     components: {
       BIconBoxArrowInRight,
     },
