@@ -1,6 +1,6 @@
 <template>
   <div class="sidebar">
-    <Logo class="logo" />
+    <logo class="logo" />
     <ul>
       <li>
         <nuxt-link to="/">
@@ -33,7 +33,7 @@
         </li>
       </ul>
     </div>
-    <UserBlock />
+    <user-block />
   </div>
 </template>
 
@@ -44,8 +44,8 @@
     BIconSearch,
     BIconFlag,
   } from 'bootstrap-vue';
-  import Logo from './Logo';
-  import UserBlock from './UserBlock';
+  import Logo from './logo';
+  import UserBlock from './user-block';
   export default {
     name: 'Navbar',
     components: {

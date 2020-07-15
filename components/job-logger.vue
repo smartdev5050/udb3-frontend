@@ -20,7 +20,7 @@
           <div class="udb-job-block udb-job-block-ready">
             <p class="udb-job-title">geëxporteerde documenten</p>
             <ul class="list-unstyled udb-job-messages">
-              <Job
+              <job
                 v-for="job in finishedExportJobs"
                 :id="job.id"
                 :key="job.id"
@@ -40,7 +40,7 @@
               <span class="badge"></span>
             </p>
             <ul class="list-unstyled udb-job-messages">
-              <Job
+              <job
                 v-for="job in failedJobs"
                 :id="job.id"
                 :key="job.id"
@@ -56,7 +56,7 @@
           <div class="udb-job-block udb-job-block-pending">
             <p class="udb-job-title">bezig</p>
             <ul class="list-unstyled udb-job-messages">
-              <Job
+              <job
                 v-for="job in queuedJobs"
                 :id="job.id"
                 :key="job.id"
@@ -79,7 +79,7 @@
   import Job, { JobStates, JobTypes } from './Job.vue';
 
   export default {
-    name: 'JobLogger',
+    name: 'job-logger',
     components: {
       Job,
     },

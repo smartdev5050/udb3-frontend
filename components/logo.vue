@@ -14,6 +14,6 @@
 
 <script>
   export default {
-    name: 'Logo',
+    name: 'logo',
   };
 </script>

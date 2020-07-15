@@ -1,7 +1,6 @@
 <template>
   <div class="person-data">
     <ul>
-      <!-- TODO notifications -->
       <li class="hidden-xs">
         <div class="media">
           <div class="media-left">
@@ -9,10 +8,11 @@
             <img class="media-object" width="50" height="50" :src="picture" />
           </div>
           <div class="media-body">
-            <span class="nick">
-              {{ user.nick ? user.nick : user.username }} </span
-            ><br />
-            <ButtonLogout />
+            <span class="nick">{{
+              user.nick ? user.nick : user.username
+            }}</span>
+            <br />
+            <button-logout />
           </div>
         </div>
       </li>
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-  import ButtonLogout from './ButtonLogout';
+  import ButtonLogout from './button-logout';
   export default {
     components: {
       ButtonLogout,

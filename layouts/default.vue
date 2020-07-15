@@ -1,8 +1,8 @@
 <template>
   <div class="main-container">
     <div class="side-bar">
-      <Sidebar />
-      <JobLogger :is-open="isJobLoggerOpen" @close="handleJobLoggerClose" />
+      <sidebar />
+      <job-logger :is-open="isJobLoggerOpen" @close="handleJobLoggerClose" />
     </div>
     <div class="content">
       <nuxt />
@@ -11,8 +11,8 @@
 </template>
 
 <script>
-  import Sidebar from '../components/Sidebar';
-  import JobLogger from '../components/JobLogger';
+  import Sidebar from '../components/sidebar';
+  import JobLogger from '../components/job-logger';
 
   export default {
     components: {
@@ -27,8 +27,8 @@
     methods: {
       handleJobLoggerClose() {
         this.isJobLoggerOpen = false;
-      }
-    }
+      },
+    },
   };
 </script>
 

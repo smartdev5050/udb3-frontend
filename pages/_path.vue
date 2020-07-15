@@ -1,11 +1,11 @@
 <template>
   <div class="wrapper">
-    <LegacyAppPage :path="generatePath" />
+    <legacy-app-page :path="generatePath" />
   </div>
 </template>
 
 <script>
-  import LegacyAppPage from '../components/LegacyAppPage';
+  import LegacyAppPage from '../components/legacy-app-page';
   export default {
     components: {
       LegacyAppPage,
