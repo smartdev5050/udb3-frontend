@@ -47,21 +47,13 @@
             </a>
           </li>
 
-          <li class="hidden-xs">
             <div class="media">
               <div class="media-left">
                 <!-- TODO: Get the user image -->
-                <img
-                  class="media-object"
-                  width="50"
-                  height="50"
-                  :src="picture"
-                />
+                <img class="media-object" width="50" height="50" :src="picture" />
               </div>
               <div class="media-body">
-                <span class="nick">{{
-                  user.nick ? user.nick : user.username
-                }}</span>
+                <span class="nick">{{user.nick ? user.nick : user.username}}</span>
                 <br />
                 <button-logout />
               </div>
