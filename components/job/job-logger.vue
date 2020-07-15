@@ -102,11 +102,6 @@
         jobs: [],
       };
     },
-    watch: {
-      state(state) {
-        this.$emit('statechange', state);
-      },
-    },
     computed: {
       state() {
         if (this.hasFailedJobs) {
@@ -148,6 +143,11 @@
       },
       queuedJobs() {
         return this.startedExportJobs.concat(this.newJobs);
+      },
+    },
+    watch: {
+      state(state) {
+        this.$emit('statechange', state);
       },
     },
     mounted() {
