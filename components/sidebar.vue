@@ -110,7 +110,7 @@
   import Logo from './logo';
 
   export default {
-    name: 'sidebar',
+    name: 'Sidebar',
     components: {
       BIconHouseDoorFill,
       BIconPlusCircleFill,
