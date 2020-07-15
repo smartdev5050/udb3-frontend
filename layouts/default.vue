@@ -12,7 +12,7 @@
 
 <script>
   import Sidebar from '../components/sidebar';
-  import JobLogger from '../components/job-logger';
+  import JobLogger from '../components/job/job-logger';
 
   export default {
     components: {

@@ -75,8 +75,8 @@
 </template>
 
 <script>
-  import { MessageSources, MessageTypes } from '../services/messages';
-  import Job, { JobStates, JobTypes } from './Job.vue';
+  import { MessageSources, MessageTypes } from '../../services/messages';
+  import Job, { JobStates, JobTypes } from './job';
 
   export default {
     name: 'job-logger',
