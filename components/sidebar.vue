@@ -21,7 +21,9 @@
             <span>Zoeken</span>
           </nuxt-link>
         </li>
-        <li><nuxt-link to="/internal-app">internal vue</nuxt-link></li>
+        <li>
+          <nuxt-link to="/internal-app">internal vue</nuxt-link>
+        </li>
       </ul>
       <div>
         <p>Beheer</p>
@@ -125,20 +127,20 @@
         jobLoggerState: JobLoggerStates.IDLE,
       };
     },
-    methods: {
-      toggleJobLogger() {
-        this.isJobLoggerOpen = !this.isJobLoggerOpen;
-      },
-      handleStateChange(state) {
-        this.jobLoggerState = state;
-      },
-    },
     computed: {
       user() {
         return this.$cookies.get('user');
       },
       picture() {
         return this.$cookies.get('userPicture');
+      },
+    },
+    methods: {
+      toggleJobLogger() {
+        this.isJobLoggerOpen = !this.isJobLoggerOpen;
+      },
+      handleStateChange(state) {
+        this.jobLoggerState = state;
       },
     },
   };
