@@ -80,24 +80,6 @@
         now: Date.now()
       };
     },
-    mounted() {
-      // Re-render every 30 secs to update the timeAgo
-      this.timer = setInterval(function () {
-        // Trigger re-render by updating the state
-        this.now = Date.now();
-      }.bind(this), 30000);
-    },
-    beforeDestroy() {
-      clearInterval(this.timer);
-    },
-    methods: {
-      handleHide() {
-        this.$emit('hide', this.id);
-      },
-      timeAgo() {
-        return formatDistance(this.logDate, this.now) + ' ago';
-      }
-    },
     computed: {
       isSuccess() {
         return [JobStates.FINISHED].includes(this.state);
@@ -111,7 +93,28 @@
       },
       description() {
         return this.messages[this.state];
-      }
+      },
+    },
+    mounted() {
+      // Re-render every 30 secs to update the timeAgo
+      this.timer = setInterval(
+        function () {
+          // Trigger re-render by updating the state
+          this.now = Date.now();
+        }.bind(this),
+        30000,
+      );
+    },
+    beforeDestroy() {
+      clearInterval(this.timer);
+    },
+    methods: {
+      handleHide() {
+        this.$emit('hide', this.id);
+      },
+      timeAgo() {
+        return formatDistance(this.logDate, this.now) + ' ago';
+      },
     },
   };
 </script>
