@@ -11,6 +11,7 @@
   import Sidebar from '../components/sidebar';
 
   export default {
+    name: 'Default',
     components: {
       Sidebar,
     },
