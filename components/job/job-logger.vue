@@ -86,7 +86,7 @@
   };
 
   export default {
-    name: 'job-logger',
+    name: 'JobLogger',
     components: {
       Job,
     },
