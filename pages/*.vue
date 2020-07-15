@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <legacy-app-page :path="generatePath" />
+    <legacy-app-page :key="now()" :path="generatePath" />
   </div>
 </template>
 
@@ -17,7 +17,10 @@
           jwt: this.$cookies.get('token'),
         }).toString();
 
-        const path = this.$route.params.path ? this.$route.params.path : '';
+        const path = this.$router.currentRoute.path
+          ? this.$router.currentRoute.path
+          : '';
+
         const parsedQueryString = queryString ? `?${queryString}` : '';
 
         return `${path}${parsedQueryString}`;
