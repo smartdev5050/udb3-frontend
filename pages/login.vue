@@ -163,7 +163,7 @@
           <div class="col-sm-4">
             <blockquote class="quoted-number">
               <p class="accent">500</p>
-              <h2>{{ $t('main.channels') }}</h2>
+              <h2>{{ $i18n.t('main.channels') }}</h2>
             </blockquote>
             <p class="info">
               UiTdatabank levert informatie aan meer dan 500 agenda's, waaronder
@@ -259,7 +259,6 @@
 
 <script>
   import { login } from '../services/auth';
-  import { setLanguage } from '../services/i18n';
 
   export default {
     layout: 'login',
@@ -272,7 +271,7 @@
       login,
       setLanguage(language) {
         this.language = language;
-        setLanguage(this.language);
+        this.$i18n.changeLanguage(this.language);
       },
     },
   };

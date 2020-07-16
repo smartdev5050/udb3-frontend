@@ -1,4 +1,4 @@
-import get from 'lodash.get';
+import i18next from 'i18next';
 
 import nl from '../i18n/nl.json';
 import fr from '../i18n/fr.json';
@@ -6,25 +6,45 @@ import fr from '../i18n/fr.json';
 export default (context, inject) => {
   const defaultLanguage = 'nl';
 
-  const cookieOptions = {
-    maxAge: 60 * 60 * 24 * 7,
+  const cookieConfiguration = {
+    name: 'udb-language',
+    options: {
+      maxAge: 60 * 60 * 24 * 7,
+    },
   };
 
-  const languageInCookie = context.app.$cookies.get('udb-language');
+  let languageInCookie = context.app.$cookies.get(cookieConfiguration.name);
 
   if (!languageInCookie) {
-    context.app.$cookies.set('udb-language', defaultLanguage, cookieOptions);
+    context.app.$cookies.set(
+      cookieConfiguration.name,
+      defaultLanguage,
+      cookieConfiguration.options,
+    );
+    languageInCookie = context.app.$cookies.get(cookieConfiguration.name);
   }
 
-  const locales = {
-    nl,
-    fr,
+  const resources = {
+    nl: {
+      translation: nl,
+    },
+    fr: {
+      translation: fr,
+    },
   };
 
-  const translate = (path) => {
-    const languageInCookie = context.app.$cookies.get('udb-language');
-    return get(locales[languageInCookie], path);
-  };
+  i18next.init({
+    lng: languageInCookie,
+    resources,
+  });
 
-  inject('t', translate);
+  i18next.on('languageChanged', (language) => {
+    context.app.$cookies.set(
+      cookieConfiguration.name,
+      language,
+      cookieConfiguration.options,
+    );
+  });
+
+  inject('i18n', i18next);
 };
