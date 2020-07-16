@@ -264,7 +264,7 @@
     layout: 'login',
     data() {
       return {
-        language: this.$cookies.get('udb-language'),
+        language: this.$i18n.language,
       };
     },
     methods: {
