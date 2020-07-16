@@ -271,8 +271,8 @@
     methods: {
       login,
       setLanguage(language) {
-        setLanguage(language);
-        this.language = this.$cookies.get('udb-language');
+        this.language = language;
+        setLanguage(this.language);
       },
     },
   };
