@@ -8,13 +8,13 @@ export const getHeaders = (token) => ({
 export default (tokenCallback) => {
   const apiUrl = process.env.apiUrl;
 
-  const headers = getHeaders(tokenCallback());
+  const headersCallback = () => getHeaders(tokenCallback());
 
   return {
     user: {
-      getMe: getMe(apiUrl, headers),
-      getPermissions: getPermissions(apiUrl, headers),
-      getRoles: getRoles(apiUrl, headers),
+      getMe: getMe(apiUrl, headersCallback),
+      getPermissions: getPermissions(apiUrl, headersCallback),
+      getRoles: getRoles(apiUrl, headersCallback),
     },
   };
 };
