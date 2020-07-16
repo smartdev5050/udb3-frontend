@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <legacy-app-page :key="now()" :path="generatePath" />
+    <legacy-app-page :path="generatePath" />
   </div>
 </template>
 
