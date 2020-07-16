@@ -1,22 +1,14 @@
-import { getHeaders } from './api';
-
-export const getMe = (apiUrl, token) => async () => {
-  const res = await fetch(`${apiUrl}/user`, {
-    headers: getHeaders(token),
-  });
+export const getMe = (apiUrl, headers) => async () => {
+  const res = await fetch(`${apiUrl}/user`, { headers });
   return await res.json();
 };
 
-export const getPermissions = (apiUrl, token) => async () => {
-  const res = await fetch(`${apiUrl}/user/permissions/`, {
-    headers: getHeaders(token),
-  });
+export const getPermissions = (apiUrl, headers) => async () => {
+  const res = await fetch(`${apiUrl}/user/permissions/`, { headers });
   return await res.json();
 };
 
-export const getRoles = (apiUrl, token) => async () => {
-  const res = await fetch(`${apiUrl}/user/roles/`, {
-    headers: getHeaders(token),
-  });
+export const getRoles = (apiUrl, headers) => async () => {
+  const res = await fetch(`${apiUrl}/user/roles/`, { headers });
   return await res.json();
 };

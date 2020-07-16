@@ -21,7 +21,7 @@ export default async function (context) {
     return;
   }
 
-  const api = apiWrapper(jwtInCookie);
+  const api = apiWrapper(() => jwtInCookie);
 
   // TODO: error handling
   const user = await api.user.getMe();
