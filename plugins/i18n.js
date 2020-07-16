@@ -1,25 +1,30 @@
-import Vue from 'vue';
-import VueI18n from 'vue-i18n';
+import get from 'lodash.get';
 
-Vue.use(VueI18n);
+import nl from '../i18n/nl.json';
+import fr from '../i18n/fr.json';
 
-export default ({ app }) => {
-  // Set i18n instance on app
-  // This way we can use it in middleware and pages asyncData/fetch
-  app.i18n = new VueI18n({
-    locale: 'nl',
-    fallbackLocale: 'nl',
-    messages: {
-      fr: require('@/i18n/fr.json'),
-      nl: require('@/i18n/nl.json'),
-    },
-  });
+export default (context, inject) => {
+  const defaultLanguage = 'nl';
 
-  app.i18n.path = (link) => {
-    if (app.i18n.locale === app.i18n.fallbackLocale) {
-      return `/${link}`;
-    }
-
-    return `/${app.i18n.locale}/${link}`;
+  const cookieOptions = {
+    maxAge: 60 * 60 * 24 * 7,
   };
+
+  const languageInCookie = context.app.$cookies.get('udb-language');
+
+  if (!languageInCookie) {
+    context.app.$cookies.set('udb-language', defaultLanguage, cookieOptions);
+  }
+
+  const locales = {
+    nl,
+    fr,
+  };
+
+  const translate = (path) => {
+    const languageInCookie = context.app.$cookies.get('udb-language');
+    return get(locales[languageInCookie], path);
+  };
+
+  inject('t', translate);
 };

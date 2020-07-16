@@ -129,7 +129,7 @@
 
         <h1 class="brand">UiTdatabank</h1>
         <p class="lead text-center">
-          <span>{{ $t('main.lead') }}</span>
+          <span>Organiseer je een activiteit?</span>
           <br />
           <span class="muted">
             Voeg gratis je activiteiten toe en bereik een groter publiek
@@ -163,7 +163,7 @@
           <div class="col-sm-4">
             <blockquote class="quoted-number">
               <p class="accent">500</p>
-              <h2>verschillende kanalen</h2>
+              <h2>{{ $t('main.channels') }}</h2>
             </blockquote>
             <p class="info">
               UiTdatabank levert informatie aan meer dan 500 agenda's, waaronder
@@ -237,19 +237,18 @@
             </p>
 
             <img
-              v-show="$i18n.locale === 'nl'"
+              v-show="language === 'nl'"
               src="~/assets/vlaanderen-logo.png"
               class="logo-flanders-full"
             />
             <img
-              v-show="$i18n.locale === 'fr'"
+              v-show="language === 'fr'"
               src="~/assets/flanders-logo.png"
               class="logo-flanders-full"
             />
             <p class="language-switcher">
-              <!-- TODO language switcher -->
-              <a @click="setLocale('nl')">Nederlands</a>
-              <a @click="setLocale('fr')">Français</a>
+              <a @click="setLanguage('nl')">Nederlands</a>
+              <a @click="setLanguage('fr')">Français</a>
             </p>
           </div>
         </div>
@@ -260,13 +259,20 @@
 
 <script>
   import { login } from '../services/auth';
+  import { setLanguage } from '../services/i18n';
 
   export default {
     layout: 'login',
+    data() {
+      return {
+        language: this.$cookies.get('udb-language'),
+      };
+    },
     methods: {
       login,
-      setLocale(locale) {
-        this.$i18n.locale = locale;
+      setLanguage(language) {
+        setLanguage(language);
+        this.language = this.$cookies.get('udb-language');
       },
     },
   };
