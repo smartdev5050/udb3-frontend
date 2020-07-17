@@ -31,11 +31,11 @@
         }
 
         if (event.data.type === MessageTypes.URL_CHANGED) {
-          this.changeUrl(event.data.path);
+          this.changePath(event.data.path);
         }
       },
-      changeUrl(url) {
-        history.pushState(undefined, undefined, url);
+      changePath(path) {
+        this.$router.push(path);
       },
     },
   };
