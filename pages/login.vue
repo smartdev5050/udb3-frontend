@@ -236,16 +236,8 @@
               <a href="http://www.publiq.be" class="footer-link">publiq vzw</a>
             </p>
 
-            <img
-              v-show="language === 'nl'"
-              src="~/assets/vlaanderen-logo.png"
-              class="logo-flanders-full"
-            />
-            <img
-              v-show="language === 'fr'"
-              src="~/assets/flanders-logo.png"
-              class="logo-flanders-full"
-            />
+            <img v-show="isNL" src="~/assets/vlaanderen-logo.png" class="logo-flanders-full" />
+            <img v-show="isFR" src="~/assets/flanders-logo.png" class="logo-flanders-full" />
             <p class="language-switcher">
               <a @click="setLanguage('nl')">Nederlands</a>
               <a @click="setLanguage('fr')">Français</a>
@@ -262,16 +254,18 @@
 
   export default {
     layout: 'login',
-    data() {
-      return {
-        language: this.$i18n.language,
-      };
+    computed: {
+      isFR() {
+        return this.$store.state.language === 'fr'
+      },
+      isNL() {
+        return this.$store.state.language === 'nl'
+      }
     },
     methods: {
       login,
       setLanguage(language) {
-        this.language = language;
-        this.$i18n.changeLanguage(this.language);
+        this.$i18n.changeLanguage(language);
       },
     },
   };

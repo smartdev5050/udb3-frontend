@@ -24,6 +24,8 @@ export default (context, inject) => {
     languageInCookie = context.app.$cookies.get(cookieConfiguration.name);
   }
 
+  context.store.commit('SET_LANGUAGE', languageInCookie);
+
   const resources = {
     nl: {
       translation: nl,
@@ -44,6 +46,7 @@ export default (context, inject) => {
       language,
       cookieConfiguration.options,
     );
+    context.store.commit('SET_LANGUAGE', language);
   });
 
   inject('i18n', i18next);
