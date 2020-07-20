@@ -129,7 +129,7 @@
 
         <h1 class="brand">UiTdatabank</h1>
         <p class="lead text-center">
-          <span>Organiseer je een activiteit?</span>
+          <span>{{ $i18n.t('main.lead') }}</span>
           <br />
           <span class="muted">
             Voeg gratis je activiteiten toe en bereik een groter publiek
