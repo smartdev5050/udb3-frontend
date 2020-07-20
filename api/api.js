@@ -8,9 +8,23 @@ export const getHeaders = (token) => ({
 });
 
 const isTokenValid = (token) => {
-  const { exp } = jwtDecode(token);
+  let decodedToken;
+  try {
+    decodedToken = jwtDecode(token);
+  } catch {
+    return false;
+  }
+
   const now = Math.round(Date.now() / 1000);
-  return exp - now > 0;
+  return decodedToken.exp - now > 0;
+};
+
+export const fetchWithLogoutWhenFailed = async (...args) => {
+  const response = await fetch(...args);
+  if (!response.ok) {
+    logout();
+  }
+  return response;
 };
 
 export default (tokenCallback) => {
