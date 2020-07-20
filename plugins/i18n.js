@@ -1,25 +1,53 @@
-import Vue from 'vue';
-import VueI18n from 'vue-i18n';
+import i18next from 'i18next';
 
-Vue.use(VueI18n);
+import nl from '../i18n/nl.json';
+import fr from '../i18n/fr.json';
 
-export default ({ app }) => {
-  // Set i18n instance on app
-  // This way we can use it in middleware and pages asyncData/fetch
-  app.i18n = new VueI18n({
-    locale: 'nl',
-    fallbackLocale: 'nl',
-    messages: {
-      fr: require('@/i18n/fr.json'),
-      nl: require('@/i18n/nl.json'),
+export default (context, inject) => {
+  const defaultLanguage = 'nl';
+
+  const cookieConfiguration = {
+    name: 'udb-language',
+    options: {
+      maxAge: 60 * 60 * 24 * 7,
     },
+  };
+
+  let languageInCookie = context.app.$cookies.get(cookieConfiguration.name);
+
+  if (!languageInCookie) {
+    context.app.$cookies.set(
+      cookieConfiguration.name,
+      defaultLanguage,
+      cookieConfiguration.options,
+    );
+    languageInCookie = context.app.$cookies.get(cookieConfiguration.name);
+  }
+
+  context.store.commit('SET_LANGUAGE', languageInCookie);
+
+  const resources = {
+    nl: {
+      translation: nl,
+    },
+    fr: {
+      translation: fr,
+    },
+  };
+
+  i18next.init({
+    lng: languageInCookie,
+    resources,
   });
 
-  app.i18n.path = (link) => {
-    if (app.i18n.locale === app.i18n.fallbackLocale) {
-      return `/${link}`;
-    }
+  i18next.on('languageChanged', (language) => {
+    context.app.$cookies.set(
+      cookieConfiguration.name,
+      language,
+      cookieConfiguration.options,
+    );
+    context.store.commit('SET_LANGUAGE', language);
+  });
 
-    return `/${app.i18n.locale}/${link}`;
-  };
+  inject('i18n', i18next);
 };

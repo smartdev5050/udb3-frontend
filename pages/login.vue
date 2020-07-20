@@ -129,7 +129,7 @@
 
         <h1 class="brand">UiTdatabank</h1>
         <p class="lead text-center">
-          <span>{{ $t('main.lead') }}</span>
+          <span>{{ $i18n.t('main.lead') }}</span>
           <br />
           <span class="muted">
             Voeg gratis je activiteiten toe en bereik een groter publiek
@@ -163,7 +163,7 @@
           <div class="col-sm-4">
             <blockquote class="quoted-number">
               <p class="accent">500</p>
-              <h2>verschillende kanalen</h2>
+              <h2>{{ $i18n.t('main.channels') }}</h2>
             </blockquote>
             <p class="info">
               UiTdatabank levert informatie aan meer dan 500 agenda's, waaronder
@@ -236,20 +236,11 @@
               <a href="http://www.publiq.be" class="footer-link">publiq vzw</a>
             </p>
 
-            <img
-              v-show="$i18n.locale === 'nl'"
-              src="~/assets/vlaanderen-logo.png"
-              class="logo-flanders-full"
-            />
-            <img
-              v-show="$i18n.locale === 'fr'"
-              src="~/assets/flanders-logo.png"
-              class="logo-flanders-full"
-            />
+            <img v-show="isNL" src="~/assets/vlaanderen-logo.png" class="logo-flanders-full" />
+            <img v-show="isFR" src="~/assets/flanders-logo.png" class="logo-flanders-full" />
             <p class="language-switcher">
-              <!-- TODO language switcher -->
-              <a @click="setLocale('nl')">Nederlands</a>
-              <a @click="setLocale('fr')">Français</a>
+              <a @click="setLanguage('nl')">Nederlands</a>
+              <a @click="setLanguage('fr')">Français</a>
             </p>
           </div>
         </div>
@@ -263,10 +254,18 @@
 
   export default {
     layout: 'login',
+    computed: {
+      isFR() {
+        return this.$store.state.language === 'fr'
+      },
+      isNL() {
+        return this.$store.state.language === 'nl'
+      }
+    },
     methods: {
       login,
-      setLocale(locale) {
-        this.$i18n.locale = locale;
+      setLanguage(language) {
+        this.$i18n.changeLanguage(language);
       },
     },
   };
