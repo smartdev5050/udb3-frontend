@@ -30,12 +30,12 @@
     "add": "Remplir",
     "search": "Chercher",
     "management": "Gestion",
-    "Valideren": "Valider",
-    "Gebruikers": "Utilisateurs",
-    "Rollen": "Rôles",
-    "Labels": "Étiquettes",
-    "Organisaties": "Organisateurs",
+    "validate": "Valider",
+    "users": "Utilisateurs",
+    "roles": "Rôles",
+    "labels": "Étiquettes",
+    "organizations": "Organisateurs",
     "notifications": "Notifications",
-    "signOut": "Déconnecter"
+    "logout": "Déconnecter"
   }
 }
