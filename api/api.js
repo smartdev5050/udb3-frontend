@@ -21,7 +21,7 @@ const isTokenValid = (token) => {
 
 export const fetchWithLogoutWhenFailed = async (...args) => {
   const response = await fetch(...args);
-  if (!response.ok) {
+  if (response.status === 401 || response.status === 403) {
     logout();
   }
   return response;
