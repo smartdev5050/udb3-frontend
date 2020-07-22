@@ -127,13 +127,11 @@
           ></path>
         </svg>
 
-        <h1 class="brand">UiTdatabank</h1>
-        <p class="lead text-center">
-          <span>{{ $t('main.lead') }}</span>
+        <h1 class="brand">{{ $t("brand") }}</h1>
+        <p class="lead">
+          <span>{{ $t("main.lead") }}</span>
           <br />
-          <span class="muted">
-            Voeg gratis je activiteiten toe en bereik een groter publiek
-          </span>
+          <span class="muted">{{ $t("main.lead_sub") }}</span>
         </p>
       </div>
     </div>
@@ -141,7 +139,9 @@
     <div class="start">
       <div class="container-fluid">
         <p class="text-center">
-          <a class="btn btn-lg btn-primary" @click="login">Start hier</a>
+          <a class="btn btn-lg btn-primary" @click="login">
+            {{ $t("main.start") }}
+          </a>
         </p>
       </div>
     </div>
@@ -152,44 +152,28 @@
           <div class="col-sm-4">
             <blockquote class="quoted-number">
               <p class="accent">215.000</p>
-              <h2>activiteiten per jaar</h2>
+              <h2>{{ $t("main.activities") }}</h2>
             </blockquote>
-            <p class="info">
-              Een uitstap, sportactiviteit, kaartavond, kermis of cursus? Een
-              concert, tentoonstelling of film? UiTdatabank staat open voor de
-              meest uiteenlopende vrijetijdsactiviteiten.
-            </p>
+            <p class="info">{{ $t("main.activities_info") }}</p>
           </div>
           <div class="col-sm-4">
             <blockquote class="quoted-number">
               <p class="accent">500</p>
-              <h2>{{ $t('main.channels') }}</h2>
+              <h2>{{ $t("main.channels") }}</h2>
             </blockquote>
-            <p class="info">
-              UiTdatabank levert informatie aan meer dan 500 agenda's, waaronder
-              UiTinvlaanderen, websites van steden en gemeenten, thema-agenda's,
-              gedrukte bladen en mobiele apps. Ook jouw activiteit kan
-              verschijnen op vele agenda's.
-            </p>
+            <p class="info">{{ $t("main.channels_info") }}</p>
           </div>
           <div class="col-sm-4">
             <blockquote class="quoted-number">
               <p class="accent">28.000</p>
-              <h2>organisatoren</h2>
+              <h2>{{ $t("main.organizers") }}</h2>
             </blockquote>
-            <p class="info">
-              Jaarlijks promoten 28.000 organisatoren hun activiteiten via
-              UiTdatabank. In totaal bereiken ze daarmee jaarlijks meer dan 3
-              miljoen mensen. Voeg net als andere organisatoren je activiteit
-              snel en eenvoudig toe.
-            </p>
+            <p class="info">{{ $t("main.organizers_info") }}</p>
           </div>
         </div>
         <div class="row">
           <div class="col-sm-12">
-            <p class="text-center lead mission">
-              Zo geef je meer mensen meer goesting in jouw activiteit.
-            </p>
+            <p class="text-center lead mission">{{ $t("main.mission") }}</p>
           </div>
         </div>
       </div>
@@ -201,38 +185,52 @@
           <div class="col-sm-6">
             <ul class="footer-links">
               <li>
-                <a href="mailto:vragen@uitdatabank.be" class="footer-link"
-                  >Contacteer ons</a
-                >
+                <a href="mailto:vragen@uitdatabank.be" class="footer-link">
+                  {{ $t("footer.contact") }}
+                </a>
               </li>
               <li>
                 <a
                   href="http://www.publiq.be/nl/project/uitdatabank"
                   class="footer-link"
-                  >Over UiTdatabank</a
                 >
+                  {{ $t("footer.about") }}
+                </a>
               </li>
               <li>
-                <a href="http://documentatie.uitdatabank.be" class="footer-link"
-                  >Voor ontwikkelaars</a
+                <a
+                  href="http://documentatie.uitdatabank.be"
+                  class="footer-link"
                 >
+                  {{ $t("footer.dev") }}
+                </a>
               </li>
               <li>
-                <!-- TODO link to conditions in correct language -->
-                <a href="http://www.publiq.be/nl" class="footer-link"
-                  >Gebruiksvoorwaarden</a
+                <a
+                  :href="
+                    'http://www.publiq.be/' +
+                    $i18n.locale +
+                    '/' +
+                    $t('footer.legalPath')
+                  "
+                  class="footer-link"
                 >
+                  {{ $t("footer.legal") }}
+                </a>
                 |
-                <a href="http://www.publiq.be/nl/" class="footer-link"
-                  >Privacy</a
+                <a
+                  href="http://www.publiq.be/nl/privacy-uitdatabank"
+                  class="footer-link"
                 >
+                  {{ $t("footer.privacy") }}
+                </a>
               </li>
             </ul>
           </div>
 
           <div class="col-sm-6">
             <p class="footer-by">
-              <span>Een product van</span>
+              <span>{{ $t("footer.by") }}</span>
               <a href="http://www.publiq.be" class="footer-link">publiq vzw</a>
             </p>
 
