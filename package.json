@@ -42,5 +42,11 @@
     "jest": "^26.0.1",
     "prettier": "^2.0.5",
     "vue-jest": "^3.0.4"
+  },
+  "prettier": {
+    "htmlWhitespaceSensitivity": "ignore",
+    "singleQuote": true,
+    "trailingComma": "all",
+    "vueIndentScriptAndStyle": true
   }
 }

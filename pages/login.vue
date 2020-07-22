@@ -127,11 +127,11 @@
           ></path>
         </svg>
 
-        <h1 class="brand">{{ $t("brand") }}</h1>
+        <h1 class="brand">{{ $t('brand') }}</h1>
         <p class="lead">
-          <span>{{ $t("main.lead") }}</span>
+          <span>{{ $t('main.lead') }}</span>
           <br />
-          <span class="muted">{{ $t("main.lead_sub") }}</span>
+          <span class="muted">{{ $t('main.lead_sub') }}</span>
         </p>
       </div>
     </div>
@@ -140,7 +140,7 @@
       <div class="container-fluid">
         <p class="text-center">
           <a class="btn btn-lg btn-primary" @click="login">
-            {{ $t("main.start") }}
+            {{ $t('main.start') }}
           </a>
         </p>
       </div>
@@ -152,28 +152,28 @@
           <div class="col-sm-4">
             <blockquote class="quoted-number">
               <p class="accent">215.000</p>
-              <h2>{{ $t("main.activities") }}</h2>
+              <h2>{{ $t('main.activities') }}</h2>
             </blockquote>
-            <p class="info">{{ $t("main.activities_info") }}</p>
+            <p class="info">{{ $t('main.activities_info') }}</p>
           </div>
           <div class="col-sm-4">
             <blockquote class="quoted-number">
               <p class="accent">500</p>
-              <h2>{{ $t("main.channels") }}</h2>
+              <h2>{{ $t('main.channels') }}</h2>
             </blockquote>
-            <p class="info">{{ $t("main.channels_info") }}</p>
+            <p class="info">{{ $t('main.channels_info') }}</p>
           </div>
           <div class="col-sm-4">
             <blockquote class="quoted-number">
               <p class="accent">28.000</p>
-              <h2>{{ $t("main.organizers") }}</h2>
+              <h2>{{ $t('main.organizers') }}</h2>
             </blockquote>
-            <p class="info">{{ $t("main.organizers_info") }}</p>
+            <p class="info">{{ $t('main.organizers_info') }}</p>
           </div>
         </div>
         <div class="row">
           <div class="col-sm-12">
-            <p class="text-center lead mission">{{ $t("main.mission") }}</p>
+            <p class="text-center lead mission">{{ $t('main.mission') }}</p>
           </div>
         </div>
       </div>
@@ -186,7 +186,7 @@
             <ul class="footer-links">
               <li>
                 <a href="mailto:vragen@uitdatabank.be" class="footer-link">
-                  {{ $t("footer.contact") }}
+                  {{ $t('footer.contact') }}
                 </a>
               </li>
               <li>
@@ -194,7 +194,7 @@
                   href="http://www.publiq.be/nl/project/uitdatabank"
                   class="footer-link"
                 >
-                  {{ $t("footer.about") }}
+                  {{ $t('footer.about') }}
                 </a>
               </li>
               <li>
@@ -202,7 +202,7 @@
                   href="http://documentatie.uitdatabank.be"
                   class="footer-link"
                 >
-                  {{ $t("footer.dev") }}
+                  {{ $t('footer.dev') }}
                 </a>
               </li>
               <li>
@@ -215,14 +215,14 @@
                   "
                   class="footer-link"
                 >
-                  {{ $t("footer.legal") }}
+                  {{ $t('footer.legal') }}
                 </a>
                 |
                 <a
                   href="http://www.publiq.be/nl/privacy-uitdatabank"
                   class="footer-link"
                 >
-                  {{ $t("footer.privacy") }}
+                  {{ $t('footer.privacy') }}
                 </a>
               </li>
             </ul>
@@ -230,7 +230,7 @@
 
           <div class="col-sm-6">
             <p class="footer-by">
-              <span>{{ $t("footer.by") }}</span>
+              <span>{{ $t('footer.by') }}</span>
               <a href="http://www.publiq.be" class="footer-link">publiq vzw</a>
             </p>
 
