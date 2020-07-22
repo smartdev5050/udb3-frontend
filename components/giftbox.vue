@@ -220,6 +220,7 @@
 
     .features-detail {
       width: 70%;
+      height: 86vh;
       padding: 1rem;
       overflow-y: scroll;
 
