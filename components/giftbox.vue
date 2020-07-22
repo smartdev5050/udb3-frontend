@@ -37,10 +37,13 @@
         <div v-if="selectedFeature" class="features-detail">
           <div class="title-calltoaction-container">
             <h6>{{ selectedFeature.title }}</h6>
-            <a :href="selectedFeature.callToAction">
-              <div class="btn-call-to-action">
-                {{ selectedFeature.callToActionLabel }}
-              </div>
+            <a
+              :href="selectedFeature.callToAction"
+              :alt="selectedFeature.callToActionLabel"
+              target="_blank"
+              class="btn-call-to-action"
+            >
+              {{ selectedFeature.callToActionLabel }}
             </a>
           </div>
           <a
@@ -58,7 +61,7 @@
           <div class="feature-content" v-html="selectedFeature.body" />
         </div>
         <div v-else class="features-detail">
-          <p>Geen nieuwe features te melden. 👀</p>
+          <p>Geen nieuwe features te melden.</p>
         </div>
       </div>
     </b-modal>
@@ -241,7 +244,7 @@
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
-          width: auto;
+          width: fit-content;
           max-width: 100%;
           background: #c0120c;
           color: white;
@@ -268,13 +271,6 @@
         &:hover {
           opacity: 0.8;
         }
-      }
-
-      .feature-content {
-        max-height: 35%;
-        text-overflow: ellipsis;
-        white-space: normal;
-        overflow: hidden;
       }
     }
   }
