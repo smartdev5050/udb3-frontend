@@ -280,11 +280,6 @@
 
   .hero {
     background-color: #f0160f;
-
-    .lead {
-      color: #FFF;
-      font-size: 3rem;
-    }
   }
   
   .brand {
@@ -292,10 +287,17 @@
   }
 
   .lead {
-    margin-bottom: 24px;
-    font-size: 32px;
+    display: block;
+    font-size: 2rem;
+    line-height: 2rem;
     color: #fff;
-  }
+    margin-bottom: 2rem;
+
+    .muted {
+      font-size: 1.6rem;
+      line-height: 2rem;
+    }
+  }  
 
   .more {
     padding: 60px 0;
@@ -334,9 +336,6 @@
       margin-top: 0;
       color: #424448;
     }
-  }
-  .lead {
-    font-size: 22.5px;
   }
   .mission {
     margin-top: 30px;
