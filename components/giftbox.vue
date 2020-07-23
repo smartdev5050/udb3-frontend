@@ -118,7 +118,7 @@
 </script>
 
 <style lang="scss" scoped>
-  @import '../assets/styles/_variables';
+  @import '../assets/styles/_colors';
   .giftbox-wrapper {
     width: 3rem;
     height: 3rem;
@@ -157,9 +157,7 @@
 </style>
 
 <style lang="scss">
-  @import '../assets/styles/_variables';
-  $grey: #efefef;
-  $white: #ffffff;
+  @import '../assets/styles/_colors';
 
   .main-container {
     position: relative;
@@ -184,7 +182,7 @@
     margin: 0;
     padding: 0;
     display: flex;
-    border-top: $grey 2px solid;
+    border-top: $lightgrey 2px solid;
 
     .flex-right {
       display: flex;
@@ -195,11 +193,11 @@
     .features-list {
       width: 30%;
       max-height: 88vh;
-      border-right: $grey 2px solid;
+      border-right: $lightgrey 2px solid;
       overflow-y: scroll;
 
       .feature-title-block {
-        border-bottom: $grey 2px solid;
+        border-bottom: $lightgrey 2px solid;
         padding: 1rem;
         height: 4rem;
         line-height: 2rem;
