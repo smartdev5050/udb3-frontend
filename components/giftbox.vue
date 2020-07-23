@@ -93,9 +93,9 @@
         const response = await fetch(
           process.env.newFeaturesUrl
         );
-        const data = await response.json();
+        const { data } = await response.json();
         this.loading = false;
-        return data.data;
+        return data;
       },
       showModal() {
         if (!this.loading) {
@@ -252,6 +252,7 @@
         text-overflow: ellipsis;
         width: fit-content;
         max-width: 100%;
+        margin-bottom: 1rem;
         background-color: $udb-primary-color;
         border-color: $udb-primary-color;
         box-shadow: none !important;
