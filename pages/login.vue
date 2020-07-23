@@ -280,7 +280,13 @@
 
   .hero {
     background-color: #f0160f;
+
+    .lead {
+      color: #FFF;
+      font-size: 3rem;
+    }
   }
+  
   .brand {
     display: none;
   }
@@ -300,6 +306,12 @@
     border: 0;
     border-radius: 0;
     color: #fff;
+
+    &:hover {
+      color: #fff;
+      background-color: #003461;
+      border-color: #00213d;
+    }
   }
 
   .quoted-number {
