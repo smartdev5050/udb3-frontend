@@ -91,7 +91,7 @@
       async fetchFeatures() {
         this.loading = true;
         const response = await fetch(
-          'https://www.publiq.be/uitdatabank/articles.json',
+          process.env.newFeaturesUrl
         );
         const data = await response.json();
         this.loading = false;
