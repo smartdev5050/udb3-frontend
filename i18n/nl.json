@@ -37,5 +37,12 @@
     "organizations": "Organisaties",
     "notifications": "Meldingen",
     "logout": "Afmelden"
+  },
+  "jobs": {
+    "exported_documents": "Geëxporteerde documenten",
+    "notifications": "Meldingen",
+    "in_progress": "Bezig",
+    "time_ago": "{time} geleden",
+    "download": "Downloaden"
   }
 }

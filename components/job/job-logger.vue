@@ -18,7 +18,7 @@
       <div class="row">
         <div class="col-sm-12">
           <div class="udb-job-block udb-job-block-ready">
-            <p class="udb-job-title">geëxporteerde documenten</p>
+            <p class="udb-job-title">{{ $t('jobs.exported_documents') }}</p>
             <ul class="list-unstyled udb-job-messages">
               <job
                 v-for="job in finishedExportJobs"
@@ -35,10 +35,7 @@
           </div>
 
           <div class="udb-job-block udb-job-block-errors">
-            <p class="udb-job-title">
-              meldingen
-              <span class="badge"></span>
-            </p>
+            <p class="udb-job-title">{{ $t('jobs.notifications') }}</p>
             <ul class="list-unstyled udb-job-messages">
               <job
                 v-for="job in failedJobs"
@@ -54,7 +51,7 @@
           </div>
 
           <div class="udb-job-block udb-job-block-pending">
-            <p class="udb-job-title">bezig</p>
+            <p class="udb-job-title">{{ $t('jobs.in_progress') }}</p>
             <ul class="list-unstyled udb-job-messages">
               <job
                 v-for="job in queuedJobs"

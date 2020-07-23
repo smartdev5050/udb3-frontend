@@ -37,5 +37,12 @@
     "organizations": "Organisateurs",
     "notifications": "Notifications",
     "logout": "Déconnecter"
+  },
+  "jobs": {
+    "exported_documents": "Documents exportés",
+    "notifications": "Notifications",
+    "in_progress": "Occupé",
+    "time_ago": "Il y a {time}",
+    "download": "Télécharger"
   }
 }
