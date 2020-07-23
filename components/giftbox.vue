@@ -35,17 +35,7 @@
           </div>
         </div>
         <div v-if="selectedFeature" class="features-detail">
-          <div class="title-calltoaction-container">
-            <h6>{{ selectedFeature.title }}</h6>
-            <a
-              :href="selectedFeature.callToAction"
-              :alt="selectedFeature.callToActionLabel"
-              target="_blank"
-              class="btn-call-to-action"
-            >
-              {{ selectedFeature.callToActionLabel }}
-            </a>
-          </div>
+          <h6>{{ selectedFeature.title }}</h6>
           <a
             v-if="selectedFeature.image"
             :href="selectedFeature.image"
@@ -59,6 +49,11 @@
           </a>
           <!-- eslint-disable-next-line vue/no-v-html -->
           <div class="feature-content" v-html="selectedFeature.body" />
+          <div class="flex-right">
+            <b-button class="btn-call-to-action" variant="outline-primary">
+              {{ selectedFeature.callToActionLabel }}
+            </b-button>
+          </div>          
         </div>
         <div v-else class="features-detail">
           <p>{{ $t('giftbox.no_features') }}</p>
@@ -157,8 +152,8 @@
 
 <style lang="scss">
   @import '../assets/styles/_variables';
-  $white: #ffffff;
   $grey: #efefef;
+  $white: #ffffff;
 
   .main-container {
     position: relative;
@@ -185,6 +180,12 @@
     display: flex;
     border-top: $grey 2px solid;
 
+    .flex-right {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+    }
+
     .features-list {
       width: 30%;
       max-height: 88vh;
@@ -210,10 +211,10 @@
 
         &.selected {
           background-color: lighten($color: $udb-primary-color, $amount: 50%);
+        }
 
-          &:hover {
+        &.selected:hover {
             background-color: lighten($udb-primary-color, 40%);
-          }
         }
 
         &.seen:not(.selected) {
@@ -233,39 +234,18 @@
       padding: 1rem;
       overflow-y: scroll;
 
-      .title-calltoaction-container {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        height: auto;
-        margin-bottom: 1rem;
+      h6 {
+        font-weight: bold;
+        vertical-align: middle;
+      }
 
-        h6 {
-          font-weight: bold;
-          vertical-align: middle;
-        }
-
-        a:hover {
-          text-decoration: none;
-        }
-
-        .btn-call-to-action {
+      .btn-call-to-action {
           display: inline-block;
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
           width: fit-content;
           max-width: 100%;
-          background: $udb-primary-color;
-          color: $white;
-          height: 2rem;
-          line-height: 1rem;
-          padding: 0.5rem 0.5rem 0.5rem 0.5rem;
-
-          &:hover {
-            background: lighten($color: $udb-primary-color, $amount: 10%);
-          }
-        }
       }
 
       .feature-image {
