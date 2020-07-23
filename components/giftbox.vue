@@ -117,6 +117,7 @@
 </script>
 
 <style lang="scss" scoped>
+  @import '../assets/styles/_variables';
   .giftbox-wrapper {
     width: 3rem;
     height: 3rem;
@@ -131,7 +132,7 @@
       height: 100%;
       line-height: 100%;
       border-radius: 50%;
-      background-color: #c0120c;
+      background-color: $udb-primary-color;
       text-align: center;
       -webkit-box-shadow: 0px 0px 35px -8px rgba(0, 0, 0, 0.75);
       -moz-box-shadow: 0px 0px 35px -8px rgba(0, 0, 0, 0.75);
@@ -139,7 +140,7 @@
       transition: background-color 500ms, transform 500ms;
 
       &:active {
-        background-color: lighten($color: #c0120c, $amount: 40%);
+        background-color: lighten($color: $udb-primary-color, $amount: 40%);
         transform: scale(0.75, 0.75);
       }
     }
@@ -155,6 +156,8 @@
 </style>
 
 <style lang="scss">
+  @import '../assets/styles/_variables';
+  $white: #ffffff;
   $grey: #efefef;
 
   .main-container {
@@ -203,19 +206,19 @@
 
         &:hover {
           cursor: pointer;
-          background-color: darken(#ffffff, 10%);
+          background-color: darken($white, 10%);
         }
 
         &.selected {
-          background-color: $grey;
+          background-color: lighten($color: $udb-primary-color, $amount: 50%);
 
           &:hover {
-            background-color: darken($grey, 10%);
+            background-color: lighten($udb-primary-color, 40%);
           }
         }
 
-        &.seen {
-          color: lighten($color: #222, $amount: 40%);
+        &.seen:not(.selected) {
+          color: #888888;
         }
 
         .notification-icon-wrapper {
@@ -254,14 +257,14 @@
           text-overflow: ellipsis;
           width: fit-content;
           max-width: 100%;
-          background: #c0120c;
-          color: white;
+          background: $udb-primary-color;
+          color: $white;
           height: 2rem;
           line-height: 1rem;
           padding: 0.5rem 0.5rem 0.5rem 0.5rem;
 
           &:hover {
-            background: lighten($color: #c0120c, $amount: 10%);
+            background: lighten($color: $udb-primary-color, $amount: 10%);
           }
         }
       }
