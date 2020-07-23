@@ -4,7 +4,7 @@
       <logo class="logo" />
       <ul>
         <li>
-          <nuxt-link to="/">
+          <nuxt-link to="/dashboard">
             <fa icon="home" />
             <span>{{ $t('menu.home') }}</span>
           </nuxt-link>
