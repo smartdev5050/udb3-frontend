@@ -50,10 +50,16 @@
           <!-- eslint-disable-next-line vue/no-v-html -->
           <div class="feature-content" v-html="selectedFeature.body" />
           <div class="flex-right">
-            <b-button class="btn-call-to-action" variant="outline-primary">
-              {{ selectedFeature.callToActionLabel }}
-            </b-button>
-          </div>          
+            <a
+              v-if="selectedFeature.callToAction"
+              :href="selectedFeature.callToAction"
+              target="_blank"
+            >
+              <b-button class="btn-call-to-action" squared variant="primary">
+                {{ selectedFeature.callToActionLabel }}
+              </b-button>
+            </a>
+          </div>
         </div>
         <div v-else class="features-detail">
           <p>{{ $t('giftbox.no_features') }}</p>
@@ -73,13 +79,13 @@
       seenFeatures: new Set(),
     }),
     created() {
-      this.fetchFeatures().then(res => {
+      this.fetchFeatures().then((res) => {
         this.features = res;
         if (this.features.length > 0) {
           this.selectedFeature = this.features[0];
           this.seenFeatures.add(this.selectedFeature.uid);
         }
-      });  
+      });
     },
     methods: {
       async fetchFeatures() {
@@ -214,7 +220,7 @@
         }
 
         &.selected:hover {
-            background-color: lighten($udb-primary-color, 40%);
+          background-color: lighten($udb-primary-color, 40%);
         }
 
         &.seen:not(.selected) {
@@ -240,12 +246,20 @@
       }
 
       .btn-call-to-action {
-          display: inline-block;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          width: fit-content;
-          max-width: 100%;
+        display: inline-block;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        width: fit-content;
+        max-width: 100%;
+        background-color: $udb-primary-color;
+        border-color: $udb-primary-color;
+        box-shadow: none !important;
+
+        &:focus {
+          background-color: lighten($color: $udb-primary-color, $amount: 10%);
+          border-color: lighten($color: $udb-primary-color, $amount: 10%);
+        }
       }
 
       .feature-image {
