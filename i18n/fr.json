@@ -26,5 +26,8 @@
     "changeProfile": "Modifier mon profil",
     "withSupport": "avec le soutien de la",
     "flemishGovernment": "Communauté Flamande"
+  },
+  "giftbox": {
+    "no_features": "Aucune nouvelle fonctionnalité à signaler."
   }
 }

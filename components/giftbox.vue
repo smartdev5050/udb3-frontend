@@ -61,7 +61,7 @@
           <div class="feature-content" v-html="selectedFeature.body" />
         </div>
         <div v-else class="features-detail">
-          <p>Geen nieuwe features te melden.</p>
+          <p>{{ $t('giftbox.no_features') }}</p>
         </div>
       </div>
     </b-modal>
