@@ -9,7 +9,7 @@ export default {
    ** See https://nuxtjs.org/api/configuration-head
    */
   head: {
-    title: process.env.npm_package_name || '',
+    title: 'UiTDatabank',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -19,7 +19,7 @@ export default {
         content: process.env.npm_package_description || '',
       },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }],
   },
   /*
    ** Global CSS
@@ -29,7 +29,7 @@ export default {
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
    */
-  plugins: ['~/plugins/i18n.js', '~/plugins/api.js'],
+  plugins: ['~/plugins/api.js'],
   /*
    ** Nuxt.js dev-modules
    */
@@ -45,6 +45,7 @@ export default {
     // Doc: https://bootstrap-vue.js.org
     'bootstrap-vue/nuxt',
     'nuxt-socket-io',
+    'nuxt-i18n',
     [
       'nuxt-fontawesome',
       {
@@ -84,5 +85,21 @@ export default {
         url: 'https://sockets.uitdatabank.dev',
       },
     ],
+  },
+  i18n: {
+    locales: ['nl', 'fr'],
+    defaultLocale: 'nl',
+    strategy: 'no_prefix',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'udb-language',
+    },
+    vueI18n: {
+      fallbackLocale: 'nl',
+      messages: {
+        nl: require('./i18n/nl.json'),
+        fr: require('./i18n/fr.json'),
+      },
+    },
   },
 };

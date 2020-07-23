@@ -1,7 +1,7 @@
 <template>
   <a href="#" @click="logout">
     <b-icon-box-arrow-in-right></b-icon-box-arrow-in-right>
-    Afmelden
+    {{ $t('menu.logout') }}
   </a>
 </template>
 
