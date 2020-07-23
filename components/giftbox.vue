@@ -157,6 +157,11 @@
 <style lang="scss">
   $grey: #efefef;
 
+  .main-container {
+    position: relative;
+    z-index: 0;
+  }
+
   .modal-open .modal {
     overflow-y: hidden;
     height: 95vh;
