@@ -25,7 +25,7 @@
         class="btn btn-outline-secondary"
         :href="exportUrl"
       >
-        Downloaden
+        {{ $t('jobs.download') }}
       </a>
     </p>
   </li>
@@ -33,6 +33,7 @@
 
 <script>
   import { formatDistance } from 'date-fns';
+  import { nl, fr } from 'date-fns/locale';
 
   export const JobStates = {
     CREATED: 'created',
@@ -123,7 +124,12 @@
         this.$emit('hide', this.id);
       },
       timeAgo() {
-        return formatDistance(this.logDate, this.now) + ' ago';
+        const dateFnsLocales = { nl, fr };
+
+        const time = formatDistance(this.logDate, this.now, {
+          locale: dateFnsLocales[this.$i18n.locale],
+        });
+        return this.$t('jobs.time_ago', { time });
       },
     },
   };

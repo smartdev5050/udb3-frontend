@@ -24,9 +24,9 @@
     "node-sass": "^4.14.1",
     "nuxt": "^2.13.0",
     "nuxt-fontawesome": "^0.4.0",
+    "nuxt-i18n": "^6.13.1",
     "nuxt-socket-io": "^1.1.4",
-    "sass-loader": "^8.0.2",
-    "vue-i18n": "^8.18.2"
+    "sass-loader": "^8.0.2"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^3.0.0",
@@ -42,5 +42,11 @@
     "jest": "^26.0.1",
     "prettier": "^2.0.5",
     "vue-jest": "^3.0.4"
+  },
+  "prettier": {
+    "htmlWhitespaceSensitivity": "ignore",
+    "singleQuote": true,
+    "trailingComma": "all",
+    "vueIndentScriptAndStyle": true
   }
 }

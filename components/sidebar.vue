@@ -6,53 +6,53 @@
         <li>
           <nuxt-link to="/dashboard">
             <fa icon="home" />
-            <span>Home</span>
+            <span>{{ $t('menu.home') }}</span>
           </nuxt-link>
         </li>
         <li>
           <nuxt-link to="/event">
             <fa icon="plus-circle" />
-            <span>Invoeren</span>
+            <span>{{ $t('menu.add') }}</span>
           </nuxt-link>
         </li>
         <li>
           <nuxt-link to="/search">
             <fa icon="search" />
-            <span>Zoeken</span>
+            <span>{{ $t('menu.search') }}</span>
           </nuxt-link>
         </li>
       </ul>
       <div v-if="showExtraMenuItems">
-        <p>Beheer</p>
+        <p>{{ $t('menu.management') }}</p>
         <ul class="admin">
           <li v-if="isValidateVisible">
             <nuxt-link to="/search">
               <fa icon="flag" />
-              <span>Valideren</span>
+              <span>{{ $t('menu.validate') }}</span>
             </nuxt-link>
           </li>
           <li v-if="isUsersVisible">
             <nuxt-link to="/manage/users/overview">
               <fa icon="user" />
-              <span>Gebruikers</span>
+              <span>{{ $t('menu.users') }}</span>
             </nuxt-link>
           </li>
           <li v-if="isRolesVisible">
             <nuxt-link to="/manage/roles/overview">
               <fa icon="users" />
-              <span>Rollen</span>
+              <span>{{ $t('menu.roles') }}</span>
             </nuxt-link>
           </li>
           <li v-if="isLabelsVisible">
             <nuxt-link to="/manage/labels/overview">
               <fa icon="tag" />
-              <span>Labels</span>
+              <span>{{ $t('menu.labels') }}</span>
             </nuxt-link>
           </li>
           <li v-if="isOrganisationsVisible">
             <nuxt-link to="/manage/organizations">
               <fa :icon="['fab', 'slideshare']" />
-              <span>Organisaties</span>
+              <span>{{ $t('menu.organizations') }}</span>
             </nuxt-link>
           </li>
         </ul>
@@ -64,7 +64,7 @@
             <a @click="toggleJobLogger">
               <fa icon="bell" />
               <job-indicator :state="jobLoggerState" />
-              <span class="menu-text">Meldingen</span>
+              <span class="menu-text">{{ $t('menu.notifications') }}</span>
             </a>
           </li>
           <li class="hidden-xs">
@@ -79,9 +79,9 @@
                 />
               </div>
               <div class="media-body">
-                <span class="nick">{{
-                  user.nick ? user.nick : user.username
-                }}</span>
+                <span class="nick">
+                  {{ user.nick ? user.nick : user.username }}
+                </span>
                 <br />
                 <button-logout />
               </div>
