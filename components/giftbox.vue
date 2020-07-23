@@ -167,15 +167,14 @@
 
   .modal-open .modal {
     overflow-y: hidden;
-    height: 95vh;
+  }
+
+  .modal-content {
+    max-height: 95vh;
   }
 
   .modal-body {
     padding: 0;
-  }
-
-  .modal-content {
-    height: 100vh;
   }
 
   .features-wrapper {
@@ -188,7 +187,7 @@
 
     .features-list {
       width: 30%;
-      height: 87vh;
+      max-height: 88vh;
       border-right: $grey 2px solid;
       overflow-y: scroll;
 
@@ -230,7 +229,7 @@
 
     .features-detail {
       width: 70%;
-      height: 87vh;
+      max-height: 88vh;
       padding: 1rem;
       overflow-y: scroll;
 
