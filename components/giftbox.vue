@@ -180,7 +180,9 @@
 
     .features-list {
       width: 30%;
+      height: 87vh;
       border-right: $grey 2px solid;
+      overflow-y: scroll;
 
       .feature-title-block {
         border-bottom: $grey 2px solid;
@@ -220,7 +222,7 @@
 
     .features-detail {
       width: 70%;
-      height: 86vh;
+      height: 87vh;
       padding: 1rem;
       overflow-y: scroll;
 
