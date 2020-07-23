@@ -211,7 +211,7 @@
                     'http://www.publiq.be/' +
                     $i18n.locale +
                     '/' +
-                    $t('footer.legalPath')
+                    $t('footer.legal_path')
                   "
                   class="footer-link"
                 >
