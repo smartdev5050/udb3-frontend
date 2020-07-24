@@ -79,28 +79,37 @@
     data: () => ({
       loading: true,
       features: [],
+      seenFeatures: [],
       selectedFeature: undefined,
     }),
     computed: {
-      seenFeatures() {
-        return this.$cookies.get('seenFeatures') || [];
-      },
       cookieOptions() {
         return {
           maxAge: 60 * 60 * 24 * 30,
         };
       },
     },
+    watch: {
+      seenFeatures(newSeenFeatures) {
+        this.$cookies.set('seenFeatures', newSeenFeatures, this.cookieOptions);
+      },
+    },
     created() {
       this.fetchFeatures().then((res) => {
         this.features = res;
-        // sync the seenFeatures with the incoming features from the api call
-        this.syncSeenFeatures();
-        // if there are new features
-        if (this.features.length > 0) {
-          this.selectedFeature = this.features[0];
-          this.addToSeenFeatures(this.selectedFeature.uid);
+
+        if (this.features.length === 0) {
+          this.seenFeatures = [];
+          return;
         }
+
+        const seenFeaturesInCookie = this.$cookies.get('seenFeatures') || [];
+        this.seenFeatures = seenFeaturesInCookie.filter((seenFeature) => {
+          return this.features.find((feature) => feature.uid === seenFeature);
+        });
+
+        this.selectedFeature = this.features[0];
+        this.addToSeenFeatures(this.selectedFeature.uid);
       });
     },
     methods: {
@@ -112,31 +121,12 @@
         return data;
       },
       addToSeenFeatures(uid) {
-        const seenFeatures = this.seenFeatures;
-        if (!seenFeatures.includes(uid)) {
-          seenFeatures.push(uid);
-          this.$cookies.set('seenFeatures', seenFeatures, this.cookieOptions);
+        if (!this.seenFeatures.includes(uid)) {
+          this.seenFeatures.push(uid);
         }
       },
       isFeatureSeen(uid) {
         return this.seenFeatures.includes(uid);
-      },
-      syncSeenFeatures() {
-        const seenFeatures = this.seenFeatures;
-
-        if (!this.features.length > 0) {
-          this.resetSeenFeatures();
-        } else {
-          seenFeatures.filter((seenFeature) => {
-            return this.features.find((feature) => feature.uid === seenFeature);
-          });
-        }
-
-        // override cookie with local variable
-        this.$cookies.set('seenFeatures', seenFeatures, this.cookieOptions);
-      },
-      resetSeenFeatures() {
-        this.$cookies.set('seenFeatures', [], this.cookieOptions);
       },
       showModal() {
         if (!this.loading) {
