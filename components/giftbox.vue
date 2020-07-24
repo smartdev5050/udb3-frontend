@@ -163,7 +163,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import '../assets/styles/_colors';
   .giftbox-wrapper {
     width: 3rem;
     height: 3rem;
@@ -202,8 +201,6 @@
 </style>
 
 <style lang="scss">
-  @import '../assets/styles/_colors';
-
   .main-container {
     position: relative;
     z-index: 0;

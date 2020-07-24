@@ -24,7 +24,7 @@ export default {
   /*
    ** Global CSS
    */
-  css: [],
+  css: ['~assets/styles/colors.scss'],
   /*
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
@@ -61,6 +61,7 @@ export default {
         ],
       },
     ],
+    '@nuxtjs/style-resources',
   ],
   /*
    ** Build configuration
@@ -85,5 +86,8 @@ export default {
         url: 'https://sockets.uitdatabank.dev',
       },
     ],
+  },
+  styleResources: {
+    scss: ['./assets/styles/*.scss'],
   },
 };
