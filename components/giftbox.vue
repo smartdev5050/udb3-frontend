@@ -38,7 +38,7 @@
           <h6>{{ selectedFeature.title }}</h6>
           <a
             v-if="selectedFeature.image"
-            :href="selectedFeature.image"
+            :href="selectedFeature.callToAction"
             target="_blank"
           >
             <img
