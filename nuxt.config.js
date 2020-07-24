@@ -24,7 +24,11 @@ export default {
   /*
    ** Global CSS
    */
-  css: [],
+  css: [
+    '~assets/styles/_colors.scss',
+    '~assets/styles/_global.scss',
+    '~assets/styles/_custom-bootstrap.scss',
+  ],
   /*
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
@@ -62,6 +66,7 @@ export default {
         ],
       },
     ],
+    '@nuxtjs/style-resources',
   ],
   /*
    ** Build configuration
@@ -74,6 +79,7 @@ export default {
     legacyAppUrl: process.env.LEGACY_APP_URL,
     authUrl: process.env.AUTH_URL,
     socketUrl: process.env.SOCKET_URL,
+    newFeaturesUrl: process.env.NEW_FEATURES_URL,
   },
   router: {
     middleware: ['auth'],
@@ -85,6 +91,9 @@ export default {
         url: 'https://sockets.uitdatabank.dev',
       },
     ],
+  },
+  styleResources: {
+    scss: ['./assets/styles/_global.scss'],
   },
   i18n: {
     locales: ['nl', 'fr'],

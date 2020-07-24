@@ -19,7 +19,14 @@
     "legal": "Conditions d'utilisation",
     "legal_path": "accord-utilisation-uitdatabank",
     "privacy": "Confidentialité",
-    "by": "Un produit de"
+    "by": "Un produit de",
+    "questions": "Questions ou remarques?",
+    "changeProfile": "Modifier mon profil",
+    "withSupport": "avec le soutien de la",
+    "flemishGovernment": "Communauté Flamande"
+  },
+  "giftbox": {
+    "no_features": "Aucune nouvelle fonctionnalité à signaler."
   },
   "menu": {
     "home": "Home",
