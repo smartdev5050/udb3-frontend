@@ -19,13 +19,13 @@
             :class="[
               'feature-title-block',
               { selected: feature.uid === selectedFeature.uid },
-              { seen: seenFeatures.has(feature.uid) },
+              { seen: isFeatureSeen(feature.uid) },
             ]"
-            @click="switchFeature(feature.uid)"
+            @click="showFeature(feature.uid)"
           >
             <div class="notification-icon-wrapper">
               <fa
-                v-if="!seenFeatures.has(feature.uid)"
+                v-if="!isFeatureSeen(feature.uid)"
                 icon="eye"
                 class="eye-icon"
               />
@@ -76,26 +76,71 @@
       loading: true,
       features: [],
       selectedFeature: undefined,
-      seenFeatures: new Set(),
     }),
+    computed: {
+      seenFeatures() {
+        return this.$cookies.get('seenFeatures') || {};
+      },
+      cookieOptions() {
+        return {
+          maxAge: 60 * 60 * 24 * 30,
+        };
+      },
+    },
     created() {
       this.fetchFeatures().then((res) => {
         this.features = res;
+        // sync the seenFeatures with the incomming features from the api call
+        this.syncSeenFeatures();
+        // if there are new features
         if (this.features.length > 0) {
           this.selectedFeature = this.features[0];
-          this.seenFeatures.add(this.selectedFeature.uid);
+          this.addToSeenFeatures(this.selectedFeature.uid);
         }
       });
     },
     methods: {
       async fetchFeatures() {
         this.loading = true;
-        const response = await fetch(
-          process.env.newFeaturesUrl
-        );
+        const response = await fetch(process.env.newFeaturesUrl);
         const { data } = await response.json();
         this.loading = false;
         return data;
+      },
+      addToSeenFeatures(uid) {
+        const seenFeatures = this.seenFeatures;
+        seenFeatures[uid] = true;
+        this.$cookies.set('seenFeatures', seenFeatures, this.cookieOptions);
+      },
+      isFeatureSeen(uid) {
+        const seenFeatures = this.seenFeatures;
+        return !!seenFeatures[uid];
+      },
+      syncSeenFeatures() {
+        const seenFeatures = this.seenFeatures;
+
+        // if there are no features
+        if (!this.features.length > 0) {
+          this.resetSeenFeatures();
+        } else {
+          // loop over seenFeatures
+          Object.keys(seenFeatures).forEach((seenFeature) => {
+            const foundFeatureInCurrent = this.features.find(
+              (feature) => feature.uid === seenFeature,
+            );
+
+            // if the feature isn't found in the current features -> remove it from seenFeatures
+            if (!foundFeatureInCurrent) {
+              seenFeatures[seenFeature] = null;
+            }
+          });
+        }
+
+        // override cookie with local variable
+        this.$cookies.set('seenFeatures', seenFeatures, this.cookieOptions);
+      },
+      resetSeenFeatures() {
+        this.$cookies.set('seenFeatures', {}, this.cookieOptions);
       },
       showModal() {
         if (!this.loading) {
@@ -105,12 +150,12 @@
       hideModal() {
         this.$refs['giftbox-modal'].hide();
       },
-      switchFeature(uid) {
+      showFeature(uid) {
         if (uid) {
           this.selectedFeature = this.features.find(
             (feature) => feature.uid === uid,
           );
-          this.seenFeatures.add(this.selectedFeature.uid);
+          this.addToSeenFeatures(this.selectedFeature.uid);
         }
       },
     },
