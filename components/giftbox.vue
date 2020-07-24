@@ -79,7 +79,7 @@
     }),
     computed: {
       seenFeatures() {
-        return this.$cookies.get('seenFeatures') || {};
+        return this.$cookies.get('seenFeatures') || [];
       },
       cookieOptions() {
         return {
@@ -90,7 +90,7 @@
     created() {
       this.fetchFeatures().then((res) => {
         this.features = res;
-        // sync the seenFeatures with the incomming features from the api call
+        // sync the seenFeatures with the incoming features from the api call
         this.syncSeenFeatures();
         // if there are new features
         if (this.features.length > 0) {
@@ -109,30 +109,22 @@
       },
       addToSeenFeatures(uid) {
         const seenFeatures = this.seenFeatures;
-        seenFeatures[uid] = true;
-        this.$cookies.set('seenFeatures', seenFeatures, this.cookieOptions);
+        if (!seenFeatures.includes(uid)) {
+          seenFeatures.push(uid);
+          this.$cookies.set('seenFeatures', seenFeatures, this.cookieOptions);
+        }
       },
       isFeatureSeen(uid) {
-        const seenFeatures = this.seenFeatures;
-        return !!seenFeatures[uid];
+        return this.seenFeatures.includes(uid);
       },
       syncSeenFeatures() {
         const seenFeatures = this.seenFeatures;
 
-        // if there are no features
         if (!this.features.length > 0) {
           this.resetSeenFeatures();
         } else {
-          // loop over seenFeatures
-          Object.keys(seenFeatures).forEach((seenFeature) => {
-            const foundFeatureInCurrent = this.features.find(
-              (feature) => feature.uid === seenFeature,
-            );
-
-            // if the feature isn't found in the current features -> remove it from seenFeatures
-            if (!foundFeatureInCurrent) {
-              seenFeatures[seenFeature] = null;
-            }
+          seenFeatures.filter((seenFeature) => {
+            return this.features.find((feature) => feature.uid === seenFeature);
           });
         }
 
@@ -140,7 +132,7 @@
         this.$cookies.set('seenFeatures', seenFeatures, this.cookieOptions);
       },
       resetSeenFeatures() {
-        this.$cookies.set('seenFeatures', {}, this.cookieOptions);
+        this.$cookies.set('seenFeatures', [], this.cookieOptions);
       },
       showModal() {
         if (!this.loading) {
