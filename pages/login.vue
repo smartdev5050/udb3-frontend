@@ -138,11 +138,11 @@
 
     <div class="start">
       <div class="container-fluid">
-        <p class="text-center">
-          <a class="btn btn-lg btn-primary" @click="login">
+        <div class="center">
+          <b-button class="btn-start" variant="primary" @click="login">
             {{ $t('main.start') }}
-          </a>
-        </p>
+          </b-button>
+        </div>
       </div>
     </div>
 
@@ -279,128 +279,12 @@
 </script>
 
 <style scoped lang="scss">
-  .logo--uit,
-  .logo--databank {
-    fill: #fff;
-  }
-
-  .hero {
-    background-color: #f0160f;
-  }
-  
-  .brand {
-    display: none;
-  }
-
-  .lead {
-    display: block;
-    font-size: 2rem;
-    line-height: 2rem;
-    color: #fff;
-    margin-bottom: 2rem;
-
-    .muted {
-      font-size: 1.6rem;
-      line-height: 2rem;
-    }
-  }  
-
-  .more {
-    padding: 60px 0;
-  }
-
-  .btn-primary {
-    background-color: #004f94;
-    border: 0;
-    border-radius: 0;
-    color: #fff;
-
-    &:hover {
-      color: #fff;
-      background-color: #003461;
-      border-color: #00213d;
-    }
-  }
-
-  .quoted-number {
-    margin: 0 0 30px 0;
-    padding: 0;
-    border-left: 0px;
+  .center {
     text-align: center;
-
-    .accent {
-      margin: 0;
-      font-size: 64px;
-      font-weight: 300;
-      color: #424448;
-      line-height: 1;
-    }
-
-    h2 {
-      font-size: 18px;
-      font-weight: 400;
-      margin-top: 0;
-      color: #424448;
-    }
   }
-  .mission {
-    margin-top: 30px;
-    color: #222;
-  }
-
-  .footer {
-    padding: 30px 0;
-    background-color: #ccc;
-  }
-  .footer-links {
-    padding-left: 0;
-    list-style: none;
-    margin: 0;
-  }
-
-  .footer-link {
-    color: #555;
-    text-decoration: underline;
-  }
-
-  .footer-by {
-    text-align: right;
-  }
-
-  .logo-flanders-full {
-    float: right;
-    width: 150px;
-    margin-bottom: 15px;
-  }
-
-  .logo-flanders {
-    display: inline-block;
-    float: right;
-
-    &::after {
-      background-size: 15px 15px;
-      background: transparent url('/images/footer/vlaamse_overheid.png')
-        no-repeat;
-      content: '';
-      display: inline-block;
-      height: 20px;
-      margin-left: 6px;
-      margin-top: -10px;
-      width: 13px;
-      white-space: nowrap;
-      vertical-align: bottom;
-    }
-  }
-
-  .language-switcher {
-    text-align: right;
-    clear: both;
-    margin-top: 12px;
-
-    a {
-      color: #004f94;
-      cursor: pointer;
-      text-decoration: none;
-    }
+  .btn-start {
+    font-size: 1.4rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
   }
 </style>
