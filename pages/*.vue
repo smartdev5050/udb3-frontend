@@ -15,6 +15,7 @@
         const queryString = new URLSearchParams({
           ...this.$route.query,
           jwt: this.$cookies.get('token'),
+          lang: this.$i18n.locale,
         }).toString();
 
         const path = this.$router.currentRoute.path

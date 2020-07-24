@@ -29,7 +29,7 @@ export default {
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
    */
-  plugins: ['~/plugins/i18n.js', '~/plugins/api.js'],
+  plugins: ['~/plugins/api.js'],
   /*
    ** Nuxt.js dev-modules
    */
@@ -45,6 +45,7 @@ export default {
     // Doc: https://bootstrap-vue.js.org
     'bootstrap-vue/nuxt',
     'nuxt-socket-io',
+    'nuxt-i18n',
     [
       'nuxt-fontawesome',
       {
@@ -89,5 +90,21 @@ export default {
   },
   styleResources: {
     scss: ['./assets/styles/*.scss'],
+  },
+  i18n: {
+    locales: ['nl', 'fr'],
+    defaultLocale: 'nl',
+    strategy: 'no_prefix',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'udb-language',
+    },
+    vueI18n: {
+      fallbackLocale: 'nl',
+      messages: {
+        nl: require('./i18n/nl.json'),
+        fr: require('./i18n/fr.json'),
+      },
+    },
   },
 };

@@ -1,25 +1,23 @@
 {
+  "brand": "UiTdatabank",
   "main": {
     "lead": "Organiseer je een activiteit?",
     "lead_sub": "Voeg gratis je activiteiten toe en bereik een groter publiek",
     "start": "Start hier",
     "activities": "activiteiten per jaar",
-    "channels": "verschillende kanalen",
-    "organizers": "organisatoren",
     "activities_info": "Een uitstap, sportactiviteit, kaartavond, kermis of cursus? Een concert, tentoonstelling of film? UiTdatabank staat open voor de meest uiteenlopende vrijetijdsactiviteiten.",
-    "channels_info": "UiTdatabank levert informatie aan meer dan <a href='https://www.publiq.be/nl/publicatiekanalen'>500 agenda's</a>, waaronder UiTinvlaanderen, websites van steden en gemeenten, thema-agenda's, gedrukte bladen en mobiele apps. Ook jouw activiteit kan verschijnen op vele agenda's.",
+    "channels": "verschillende kanalen",
+    "channels_info": "UiTdatabank levert informatie aan meer dan <a href=\"https://www.publiq.be/nl/publicatiekanalen\">500 agenda's</a>, waaronder UiTinvlaanderen, websites van steden en gemeenten, thema-agenda's, gedrukte bladen en mobiele apps. Ook jouw activiteit kan verschijnen op vele agenda's.",
+    "organizers": "organisatoren",
     "organizers_info": "Jaarlijks promoten 28.000 organisatoren hun activiteiten via UiTdatabank. In totaal bereiken ze daarmee jaarlijks meer dan 3 miljoen mensen. Voeg net als andere organisatoren je activiteit snel en eenvoudig toe.",
-    "mission": "Zo geef je meer mensen meer goesting in jouw activiteit.",
-    "register_prefix": "Eerste keer? Maak een",
-    "account": "nieuw account",
-    "register_suffix": "aan"
+    "mission": "Zo geef je meer mensen meer goesting in jouw activiteit."
   },
   "footer": {
     "contact": "Contacteer ons",
     "about": "Over UiTdatabank",
     "dev": "Voor ontwikkelaars",
     "legal": "Gebruiksvoorwaarden",
-    "legalPath": "gebruikersovereenkomst-uitdatabank",
+    "legal_path": "gebruikersovereenkomst-uitdatabank",
     "privacy": "Privacy",
     "by": "Een product van",
     "questions": "Vragen of feedback?",
@@ -29,5 +27,25 @@
   },
   "giftbox": {
     "no_features": "Geen nieuwe features te melden."
+  },
+  "menu": {
+    "home": "Home",
+    "add": "Invoeren",
+    "search": "Zoeken",
+    "management": "Beheer",
+    "validate": "Valideren",
+    "users": "Gebruikers",
+    "roles": "Rollen",
+    "labels": "Labels",
+    "organizations": "Organisaties",
+    "notifications": "Meldingen",
+    "logout": "Afmelden"
+  },
+  "jobs": {
+    "exported_documents": "Geëxporteerde documenten",
+    "notifications": "Meldingen",
+    "in_progress": "Bezig",
+    "time_ago": "{time} geleden",
+    "download": "Downloaden"
   }
 }

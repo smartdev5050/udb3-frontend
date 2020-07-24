@@ -15,7 +15,7 @@
     },
     computed: {
       generatePath() {
-        return `${process.env.legacyAppUrl}${this.path ? `/${this.path}` : ''}`;
+        return `${process.env.legacyAppUrl}${this.path}`;
       },
     },
     mounted() {
