@@ -201,11 +201,6 @@
 </style>
 
 <style lang="scss">
-  .main-container {
-    position: relative;
-    z-index: 0;
-  }
-
   .modal-open .modal {
     overflow-y: hidden;
   }
