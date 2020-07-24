@@ -279,6 +279,70 @@
 </script>
 
 <style scoped lang="scss">
+  $hero-lighten--soft: lighten($udb-primary-color, 20%);
+  $hero-lighten--med: lighten($udb-primary-color, 30%);
+  $hero-lighten--hard: lighten($udb-primary-color, 40%);
+
+  .icon--theater,
+  .icon--art {
+    fill: $hero-lighten--hard;
+  }
+
+  .line--theater {
+    stroke: $hero-lighten--hard;
+  }
+
+  .line--art {
+    stroke: $hero-lighten--hard;
+  }
+
+  .icon--guitar,
+  .icon--tennis {
+    fill: $hero-lighten--med;
+  }
+
+  .line--guitar,
+  .line--tennis {
+    stroke: $hero-lighten--med;
+  }
+
+  .icon--movie {
+    fill: $hero-lighten--soft;
+  }
+
+  .line--movie {
+    stroke: $hero-lighten--soft;
+  }
+
+  .logo--uit,
+  .logo--databank {
+    fill: #fff;
+  }
+
+  .public--back {
+    fill: $hero-lighten--soft;
+  }
+
+  .line--public--back {
+    stroke: $hero-lighten--soft;
+  }
+
+  .public--mid {
+    fill: $hero-lighten--med;
+  }
+
+  .line--public--mid {
+    stroke: $hero-lighten--med;
+  }
+
+  .public--front {
+    fill: $hero-lighten--hard;
+  }
+
+  .line--public--front {
+    stroke: $hero-lighten--hard;
+  }
+
   .hero {
     background-color: #f0160f;
     text-align: center;
