@@ -1,0 +1,21 @@
+@import './_colors.scss';
+// Your variable overrides
+$primary: $udb-blue;
+$secondary: $udb-grey;
+$btn-border-radius: 0;
+$btn-padding-y: 0.275rem;
+$btn-padding-x: 0.5rem;
+
+.btn-outline-secondary {
+  color: #333 !important;
+
+  &:hover {
+    background-color: #e6e6e6 !important;
+    border-color: #adadad !important;
+  }
+}
+
+// Bootstrap and its default variables
+@import '../../node_modules/bootstrap/scss/bootstrap';
+// BootstrapVue and its default variables
+@import '../../node_modules/bootstrap-vue/src/index.scss';
