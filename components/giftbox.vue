@@ -55,7 +55,7 @@
               :href="selectedFeature.callToAction"
               target="_blank"
             >
-              <b-button class="btn-call-to-action" squared variant="primary">
+              <b-button class="btn-call-to-action" variant="primary">
                 {{ selectedFeature.callToActionLabel }}
               </b-button>
             </a>
@@ -219,7 +219,7 @@
     margin: 0;
     padding: 0;
     display: flex;
-    border-top: $lightgrey 2px solid;
+    border-top: $udb-grey 1px solid;
 
     .flex-right {
       display: flex;
@@ -230,11 +230,11 @@
     .features-list {
       width: 30%;
       max-height: 88vh;
-      border-right: $lightgrey 2px solid;
+      border-right: $udb-grey 1px solid;
       overflow-y: scroll;
 
       .feature-title-block {
-        border-bottom: $lightgrey 2px solid;
+        border-bottom: $udb-grey 1px solid;
         padding: 1rem;
         height: 4rem;
         line-height: 2rem;
@@ -288,14 +288,6 @@
         width: fit-content;
         max-width: 100%;
         margin-bottom: 1rem;
-        background-color: $udb-primary-color;
-        border-color: $udb-primary-color;
-        box-shadow: none !important;
-
-        &:focus {
-          background-color: lighten($color: $udb-primary-color, $amount: 10%);
-          border-color: lighten($color: $udb-primary-color, $amount: 10%);
-        }
       }
 
       .feature-image {
