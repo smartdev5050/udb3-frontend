@@ -34,7 +34,11 @@
             <p>{{ feature.title }}</p>
           </div>
         </div>
-        <div v-if="selectedFeature" class="features-detail">
+        <div
+          v-if="selectedFeature"
+          class="features-detail"
+          :key="selectedFeature.uid"
+        >
           <h6>{{ selectedFeature.title }}</h6>
           <a
             v-if="selectedFeature.image"
