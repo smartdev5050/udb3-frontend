@@ -25,6 +25,8 @@
   .main-container {
     display: flex;
     flex-direction: row;
+    position: relative;
+    z-index: 0;
   }
   .content {
     flex: 1;
