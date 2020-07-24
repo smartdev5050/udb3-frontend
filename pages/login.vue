@@ -279,6 +279,14 @@
 </script>
 
 <style scoped lang="scss">
+  .hero {
+    background-color: #f0160f;
+    text-align: center;
+
+    .brand {
+      display: none;
+    }
+  }
   .center {
     text-align: center;
   }
