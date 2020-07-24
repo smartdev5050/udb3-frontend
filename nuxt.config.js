@@ -93,7 +93,7 @@ export default {
     ],
   },
   styleResources: {
-    scss: ['./assets/styles/*.scss'],
+    scss: ['./assets/styles/_global.scss'],
   },
   i18n: {
     locales: ['nl', 'fr'],
