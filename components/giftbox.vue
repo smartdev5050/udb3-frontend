@@ -109,7 +109,6 @@
         });
 
         this.selectedFeature = this.features[0];
-        this.addToSeenFeatures(this.selectedFeature.uid);
       });
     },
     methods: {
@@ -129,9 +128,15 @@
         return this.seenFeatures.includes(uid);
       },
       showModal() {
-        if (!this.loading) {
-          this.$refs['giftbox-modal'].show();
+        if (this.loading) {
+          return;
         }
+
+        if (this.selectedFeature) {
+          this.addToSeenFeatures(this.selectedFeature.uid);
+        }
+
+        this.$refs['giftbox-modal'].show();
       },
       hideModal() {
         this.$refs['giftbox-modal'].hide();
