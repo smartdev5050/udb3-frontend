@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="login">
     <div class="hero">
       <div class="container">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 250">
@@ -128,11 +128,11 @@
         </svg>
 
         <h1 class="brand">{{ $t('brand') }}</h1>
-        <p class="lead">
+        <div class="lead">
           <span>{{ $t('main.lead') }}</span>
           <br />
           <span class="muted">{{ $t('main.lead_sub') }}</span>
-        </p>
+        </div>
       </div>
     </div>
 
@@ -343,6 +343,14 @@
     stroke: $hero-lighten--hard;
   }
 
+  .login {
+    background-color: #f0f0f0;
+  }
+
+  .center {
+    text-align: center;
+  }
+
   .hero {
     background-color: #f0160f;
     text-align: center;
@@ -350,13 +358,50 @@
     .brand {
       display: none;
     }
+
+    .lead {
+      color: $white;
+      font-size: 2rem;
+      line-height: 2rem;
+      padding-bottom: 1.5rem;
+    }
+
+    .lead .muted {
+      font-size: 1.6rem;
+    }
   }
-  .center {
-    text-align: center;
+
+  .start {
+    padding: 1.5rem 0 1.5rem 0;
+    background-color: $white;
+
+    .btn-start {
+      font-size: 1.4rem;
+      padding-right: 1rem;
+      padding-left: 1rem;
+    }
   }
-  .btn-start {
-    font-size: 1.4rem;
-    padding-right: 1rem;
-    padding-left: 1rem;
+
+  .more {
+    padding: 3.2rem 0 3.2rem 0;
+
+    .quoted-number {
+      margin: 0 0 30px 0;
+      padding: 0;
+      border-left: 0;
+      text-align: center;
+      color: #424448;
+
+      .accent {
+        margin: 0;
+        font-size: 4rem;
+        font-weight: 300;
+        line-height: 1;
+      }
+
+      h2 {
+        font-size: 1.2rem;
+      }
+    }
   }
 </style>
