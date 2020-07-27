@@ -24,8 +24,8 @@
           </nuxt-link>
         </li>
       </ul>
-      <div v-if="showExtraMenuItems">
-        <p>{{ $t('menu.management') }}</p>
+      <div v-if="showExtraMenuItems" class="management-block">
+        <p class="management-title">{{ $t('menu.management') }}</p>
         <ul class="admin">
           <li v-if="isValidateVisible">
             <nuxt-link to="/search">
@@ -230,6 +230,7 @@
   }
 
   .sidebar a:not(.logo-link) {
+    line-height: 1.6rem;
     color: #fff;
     display: inline-block;
     text-decoration: none;
@@ -250,6 +251,20 @@
     background-color: #900d09;
     color: $white;
     text-decoration: none;
+  }
+
+  .management-block {
+    margin-top: 0.8rem;
+    border-top: 1px solid #900d09;
+
+    .management-title {
+      font-size: small;
+      font-weight: normal;
+      text-transform: uppercase;
+      display: block;
+      margin: 5px 0;
+      opacity: 0.5;
+    }
   }
 
   .person-data {
