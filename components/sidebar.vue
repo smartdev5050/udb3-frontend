@@ -219,6 +219,7 @@
     z-index: 2000;
   }
   .logo {
+    width: 220px;
     margin-bottom: 10px;
   }
   .sidebar ul {
