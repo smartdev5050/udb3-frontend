@@ -384,7 +384,7 @@
   }
 
   .more {
-    padding: 3.2rem 0 3.2rem 0;
+    padding: 3.8rem 0 3.8rem 0;
 
     .quoted-number {
       margin: 0 0 30px 0;
@@ -404,5 +404,12 @@
         font-size: 1.2rem;
       }
     }
+
+    .mission {
+      margin-top: 1.9rem;
+      margin-bottom: 0;
+      font-size: 1.4rem;
+    }
+  }
   }
 </style>
