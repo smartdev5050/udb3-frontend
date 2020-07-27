@@ -474,7 +474,7 @@
   }
 
   .hero {
-    background-color: #f0160f;
+    background-color: #ef1810;
     text-align: center;
 
     .brand {
