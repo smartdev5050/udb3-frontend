@@ -373,7 +373,7 @@
   }
 
   .start {
-    padding: 1.5rem 0 1.5rem 0;
+    padding: 1.8rem 0 1.3rem 0;
     background-color: $white;
 
     .btn-start {
