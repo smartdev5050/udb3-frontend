@@ -229,7 +229,7 @@
             </ul>
           </div>
 
-          <div class="col-sm-6">
+          <div class="col-sm-6 footer-logo-and-language">
             <p class="footer-by">
               <span>{{ $t('footer.by') }}</span>
               <a href="http://www.publiq.be" class="footer-link">publiq vzw</a>
@@ -518,7 +518,7 @@
         margin: 0;
         font-size: 4rem;
         font-weight: 300;
-        line-height: 1;
+        line-height: 3.2rem;
       }
 
       h2 {
@@ -551,11 +551,9 @@
 
     .footer-by {
       margin-top: 0;
-      text-align: right;
     }
 
     .logo-flanders-full {
-      float: right;
       width: 150px;
       margin-bottom: 15px;
     }
@@ -577,7 +575,6 @@
     }
 
     .language-switcher {
-      text-align: right;
       clear: both;
       font-size: 0.8rem;
       margin-top: 12px;
@@ -585,6 +582,23 @@
         color: $udb-blue;
         cursor: pointer;
         text-decoration: none;
+      }
+    }
+
+    .footer-logo-and-language {
+      text-align: right;
+    }
+
+    @media only screen and (max-width: 770px) {
+    }
+
+    @media only screen and (max-width: 575px) {
+      .footer-logo-and-language {
+        text-align: left;
+      }
+
+      .footer-links {
+        margin-bottom: 1.9rem;
       }
     }
   }
