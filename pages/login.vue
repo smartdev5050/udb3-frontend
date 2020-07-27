@@ -344,6 +344,127 @@
     stroke: $hero-lighten--hard;
   }
 
+  .line--left {
+    animation-name: draw;
+    animation-duration: 2s;
+    animation-fill-mode: forwards; // Stay on the last frame
+    -webkit-animation-delay: 0.2s; /* Chrome, Safari, Opera */
+    animation-delay: 0.2s;
+    animation-timing-function: linear;
+  }
+
+  .line--art {
+    stroke-dasharray: 107;
+    stroke-dashoffset: -107;
+  }
+
+  .line--guitar {
+    stroke-dasharray: 121;
+    stroke-dashoffset: 121;
+  }
+
+  .line--theater {
+    stroke-dasharray: 136;
+    stroke-dashoffset: 136;
+  }
+
+  .line--tennis {
+    stroke-dasharray: 252;
+    stroke-dashoffset: 252;
+  }
+
+  .line--movie {
+    stroke-dasharray: 235;
+    stroke-dashoffset: 235;
+  }
+
+  .line--right {
+    animation-name: draw;
+    animation-duration: 2s;
+    animation-fill-mode: forwards; // Stay on the last frame
+    -webkit-animation-delay: 0.2s; /* Chrome, Safari, Opera */
+    animation-delay: 2.6s;
+    animation-timing-function: linear;
+  }
+
+  .line--public--front,
+  .line--public--back,
+  .line--public--mid {
+    stroke-dasharray: 120;
+    stroke-dashoffset: 120;
+  }
+
+  @keyframes draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  .logo--uit {
+    transform-origin: 50% 50%;
+    animation-name: logo-animate;
+    animation-duration: 0.6s;
+    animation-delay: 2.2s;
+    animation-fill-mode: both;
+  }
+
+  .logo--databank {
+    transform-origin: 50% 50%;
+    animation-name: logo-animate;
+    animation-duration: 0.6s;
+    animation-delay: 2.6s;
+    animation-fill-mode: both;
+  }
+
+  @keyframes logo-animate {
+    0% {
+      transform: scale(1);
+      animation-timing-function: cubic-bezier(0.3, 0.1, 0.9, 0.5);
+    }
+    10% {
+      transform: scale(0.8);
+      animation-timing-function: cubic-bezier(0.1, 0.4, 0.2, 1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .public--front,
+  .public--mid,
+  .public--back {
+    transform-origin: 50% 50%;
+    animation-name: public-animate;
+    animation-duration: 0.6s;
+    animation-fill-mode: both;
+  }
+
+  .public--front {
+    animation-delay: 3679ms;
+  }
+
+  .public--mid {
+    animation-delay: 4038ms;
+  }
+
+  .public--back {
+    animation-delay: 4512ms;
+  }
+
+  @keyframes public-animate {
+    0% {
+      transform: scale(1);
+      animation-timing-function: cubic-bezier(0.3, 0.1, 0.9, 0.5);
+    }
+    10% {
+      transform: scale(0.8);
+      animation-timing-function: cubic-bezier(0.1, 0.4, 0.2, 1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
   .login {
     background-color: #f0f0f0;
   }
