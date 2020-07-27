@@ -218,14 +218,17 @@
     text-align: left;
     z-index: 2000;
   }
+
   .logo {
     width: 220px;
     margin-bottom: 10px;
   }
+
   .sidebar ul {
     list-style: none;
     padding: 0;
   }
+
   .sidebar a:not(.logo-link) {
     color: #fff;
     display: inline-block;
@@ -233,14 +236,17 @@
     padding: 5px;
     width: 100%;
   }
+
   .sidebar a span {
     margin-left: 10px;
   }
+
   .sidebar a:hover:not(.logo-link) {
     background-color: #900d09;
     color: $white;
     text-decoration: none;
   }
+
   .person-data {
     position: absolute;
     left: 5px;
