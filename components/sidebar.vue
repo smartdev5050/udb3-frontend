@@ -252,6 +252,7 @@
     background-color: #900d09;
     color: $white;
     text-decoration: none;
+    cursor: pointer;
   }
 
   .management-block {
