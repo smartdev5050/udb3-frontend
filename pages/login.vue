@@ -161,7 +161,8 @@
               <p class="accent">500</p>
               <h2>{{ $t('main.channels') }}</h2>
             </blockquote>
-            <p class="info">{{ $t('main.channels_info') }}</p>
+            <!-- eslint-disable-next-line vue/no-v-html -->
+            <p class="info" v-html="$t('main.channels_info')"></p>
           </div>
           <div class="col-sm-4">
             <blockquote class="quoted-number">
