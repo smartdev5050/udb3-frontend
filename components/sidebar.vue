@@ -226,7 +226,7 @@
     list-style: none;
     padding: 0;
   }
-  .sidebar a {
+  .sidebar a:not(.logo-link) {
     color: #fff;
     display: inline-block;
     text-decoration: none;
