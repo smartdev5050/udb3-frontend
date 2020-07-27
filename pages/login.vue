@@ -280,8 +280,8 @@
 </script>
 
 <style scoped lang="scss">
-  $hero-lighten--soft: lighten($udb-primary-color, 20%);
-  $hero-lighten--med: lighten($udb-primary-color, 30%);
+  $hero-lighten--soft: lighten($udb-primary-color, 23%);
+  $hero-lighten--med: lighten($udb-primary-color, 31%);
   $hero-lighten--hard: lighten($udb-primary-color, 40%);
 
   .icon--theater,
@@ -575,6 +575,7 @@
         vertical-align: bottom;
       }
     }
+
     .language-switcher {
       text-align: right;
       clear: both;
