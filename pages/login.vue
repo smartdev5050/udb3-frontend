@@ -411,5 +411,59 @@
       font-size: 1.4rem;
     }
   }
+
+  .footer {
+    background-color: $udb-grey;
+    padding-top: 1.9rem;
+    padding-bottom: 1.9rem;
+
+    .footer-links {
+      padding-left: 0;
+      list-style: none;
+      margin: 0;
+    }
+
+    .footer-link {
+      color: #555;
+      text-decoration: underline;
+    }
+
+    .footer-by {
+      margin-top: 0;
+      text-align: right;
+    }
+
+    .logo-flanders-full {
+      float: right;
+      width: 150px;
+      margin-bottom: 15px;
+    }
+
+    .logo-flanders {
+      &::after {
+        background-size: 15px 15px;
+        background: transparent url('/images/footer/vlaamse_overheid.png')
+          no-repeat;
+        content: '';
+        display: inline-block;
+        height: 20px;
+        margin-left: 6px;
+        margin-top: -10px;
+        width: 13px;
+        white-space: nowrap;
+        vertical-align: bottom;
+      }
+    }
+    .language-switcher {
+      text-align: right;
+      clear: both;
+      font-size: 0.8rem;
+      margin-top: 12px;
+      a {
+        color: $udb-blue;
+        cursor: pointer;
+        text-decoration: none;
+      }
+    }
   }
 </style>
