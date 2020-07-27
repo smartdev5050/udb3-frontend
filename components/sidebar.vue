@@ -1,7 +1,9 @@
 <template>
   <div class="side-bar">
     <div class="sidebar">
-      <logo class="logo" />
+      <nuxt-link class="logo-link" to="/dashboard">
+        <logo class="logo" />
+      </nuxt-link>
       <ul>
         <li>
           <nuxt-link to="/dashboard">
@@ -233,8 +235,10 @@
   .sidebar a span {
     margin-left: 10px;
   }
-  .sidebar a:hover {
+  .sidebar a:hover:not(.logo-link) {
     background-color: #900d09;
+    color: $white;
+    text-decoration: none;
   }
   .person-data {
     position: absolute;
