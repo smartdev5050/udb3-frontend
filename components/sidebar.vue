@@ -237,6 +237,11 @@
     width: 100%;
   }
 
+  svg:not(:root).svg-inline--fa {
+    overflow: visible;
+    font-size: 0.9rem;
+  }
+
   .sidebar a span {
     margin-left: 10px;
   }
