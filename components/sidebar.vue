@@ -227,6 +227,7 @@
   .sidebar ul {
     list-style: none;
     padding: 0;
+    margin: 0;
   }
 
   .sidebar a:not(.logo-link) {
@@ -267,10 +268,21 @@
     }
   }
 
+  .sidebar .notifications {
+    border-bottom: 1px solid #900d09;
+    margin-bottom: 10px;
+  }
+
   .person-data {
     position: absolute;
-    left: 5px;
-    bottom: 5px;
     right: 5px;
+    bottom: 5px;
+    left: 5px;
+  }
+
+  .media {
+    .media-left {
+      padding-right: 10px;
+    }
   }
 </style>
