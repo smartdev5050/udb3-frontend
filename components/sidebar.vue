@@ -2,7 +2,6 @@
   <div class="side-bar">
     <div class="sidebar">
       <nuxt-link class="logo-link" to="/dashboard">
-        <logo class="logo" mobile />
         <logo class="logo" />
       </nuxt-link>
       <ul>
@@ -302,7 +301,6 @@
     }
   }
 
-  @include media-breakpoint-down(md) {
   @media (max-width: 767px) {
     .sidebar {
       width: $sidebar-mobile-width;
@@ -335,14 +333,6 @@
 
       svg:not(:root).svg-inline--fa {
         margin: 0 auto;
-      }
-
-      .udb-job-log {
-        left: -275px !important;
-      }
-
-      .udb-job-log.open {
-        left: $sidebar-mobile-width;
       }
 
       .media .media-body {
