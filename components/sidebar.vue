@@ -187,7 +187,9 @@
         return this.$cookies.get('user');
       },
       picture() {
-        return this.$cookies.get('userPicture');
+        return (
+          this.$cookies.get('userPicture') || require('../assets/avatar.svg')
+        );
       },
     },
     async mounted() {
