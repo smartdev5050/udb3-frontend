@@ -33,7 +33,10 @@
 
 <style lang="scss" scoped>
   .indicator {
-    margin-left: 10px;
+    .svg-inline--fa {
+      width: 1.2rem;
+      height: 1.2rem;
+    }
 
     .loading-icon {
       -webkit-animation: fa-spin 2s infinite linear;
