@@ -63,9 +63,12 @@
       <div class="person-data">
         <ul>
           <li class="notifications">
-            <a @click="toggleJobLogger">
+            <a class="notification-container" @click="toggleJobLogger">
               <fa icon="bell" />
-              <job-indicator :state="jobLoggerState" />
+              <job-indicator
+                v-if="!isJobLoggerStateIdle"
+                :state="jobLoggerState"
+              />
               <span class="menu-text">{{ $t('menu.notifications') }}</span>
             </a>
           </li>
@@ -170,6 +173,9 @@
       },
       isOrganisationsVisible() {
         return this.permissions.includes(Permissions.ORGANISATIES_BEHEREN);
+      },
+      isJobLoggerStateIdle() {
+        return this.jobLoggerState === JobLoggerStates.IDLE;
       },
       showExtraMenuItems() {
         return [
