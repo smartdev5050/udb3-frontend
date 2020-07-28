@@ -63,13 +63,13 @@
       <div class="person-data">
         <ul>
           <li class="notifications">
-            <a class="notification-container" @click="toggleJobLogger">
+            <a @click="toggleJobLogger">
               <fa icon="bell" />
               <job-indicator
                 v-if="!isJobLoggerStateIdle"
                 :state="jobLoggerState"
               />
-              <span class="menu-text">{{ $t('menu.notifications') }}</span>
+              <span>{{ $t('menu.notifications') }}</span>
             </a>
           </li>
           <li class="hidden-xs">
