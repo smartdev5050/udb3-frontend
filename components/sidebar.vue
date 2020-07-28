@@ -243,7 +243,8 @@
 
   svg:not(:root).svg-inline--fa {
     overflow: visible;
-    font-size: 0.9rem;
+    width: 1rem;
+    height: 1rem;
   }
 
   .sidebar a span {
