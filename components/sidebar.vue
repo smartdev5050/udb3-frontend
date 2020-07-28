@@ -303,6 +303,7 @@
   }
 
   @include media-breakpoint-down(md) {
+  @media (max-width: 767px) {
     .sidebar {
       width: $sidebar-mobile-width;
       padding: 0;
