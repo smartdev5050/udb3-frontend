@@ -216,9 +216,12 @@
 </script>
 
 <style lang="scss">
+  $sidebar-width: 230px;
+  $sidebar-mobile-width: 65px;
+
   .sidebar {
     position: relative;
-    width: 230px;
+    width: $sidebar-width;
     padding: 5px;
     background-color: #c0120c;
     height: 100vh;
@@ -293,6 +296,40 @@
   .media {
     .media-left {
       padding-right: 10px;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    .sidebar {
+      width: $sidebar-mobile-width;
+      padding: 0;
+    }
+
+    .sidebar a:not(.logo-link) {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      font-size: 0.6rem;
+      line-height: 1.2rem;
+      padding: 3px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .sidebar a span {
+      margin-left: 0;
+    }
+
+    svg:not(:root).svg-inline--fa {
+      margin: 0 auto;
+    }
+
+    .udb-job-log.open {
+      left: $sidebar-mobile-width;
+    }
+
+    .media .media-body {
+      display: none;
     }
   }
 </style>
