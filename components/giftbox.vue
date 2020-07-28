@@ -36,8 +36,8 @@
         </div>
         <div
           v-if="selectedFeature"
-          class="features-detail"
           :key="selectedFeature.uid"
+          class="features-detail"
         >
           <h6>{{ selectedFeature.title }}</h6>
           <a
