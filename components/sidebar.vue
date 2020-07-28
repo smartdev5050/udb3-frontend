@@ -63,12 +63,9 @@
       <div class="person-data">
         <ul>
           <li class="notifications">
-            <a @click="toggleJobLogger">
+            <a class="notification-container" @click="toggleJobLogger">
               <fa icon="bell" />
-              <job-indicator
-                v-if="!isJobLoggerStateIdle"
-                :state="jobLoggerState"
-              />
+              <job-indicator :state="jobLoggerState" />
               <span>{{ $t('menu.notifications') }}</span>
             </a>
           </li>
@@ -285,6 +282,11 @@
     .notifications {
       border-bottom: 1px solid #900d09;
       margin-bottom: 10px;
+
+      .notification-container {
+        display: inline-flex;
+        line-height: 100%;
+      }
     }
 
     .person-data {
