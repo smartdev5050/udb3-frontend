@@ -3,6 +3,7 @@
     <div class="sidebar">
       <nuxt-link class="logo-link" to="/dashboard">
         <logo class="logo" mobile />
+        <logo class="logo" />
       </nuxt-link>
       <ul>
         <li>
