@@ -341,6 +341,15 @@
 
       .media .media-body {
         display: none;
+      .media {
+        .media-body {
+          display: none;
+        }
+
+        .media-left {
+          padding-right: 0;
+          margin: 0 auto;
+        }
       }
     }
   }
