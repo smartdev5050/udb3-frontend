@@ -324,7 +324,13 @@
       }
 
       .logo {
-        width: $sidebar-mobile-width;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center center;
+        display: block;
+        width: 50px;
+        height: 50px;
+        margin: 0 auto 10px auto;
       }
 
       svg:not(:root).svg-inline--fa {
