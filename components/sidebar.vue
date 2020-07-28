@@ -2,7 +2,7 @@
   <div class="side-bar">
     <div class="sidebar">
       <nuxt-link class="logo-link" to="/dashboard">
-        <logo class="logo" />
+        <logo class="logo" mobile />
       </nuxt-link>
       <ul>
         <li>
@@ -218,84 +218,86 @@
 <style lang="scss">
   $sidebar-width: 230px;
   $sidebar-mobile-width: 65px;
+  $padding-normal: 5px;
+  $padding-small: 3px;
 
   .sidebar {
     position: relative;
     width: $sidebar-width;
-    padding: 5px;
+    padding: $padding-normal;
     background-color: #c0120c;
     height: 100vh;
     color: #fff;
     text-align: left;
     z-index: 2000;
-  }
 
-  .logo {
-    width: 220px;
-    margin-bottom: 10px;
-  }
-
-  .sidebar ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .sidebar a:not(.logo-link) {
-    line-height: 1.6rem;
-    color: #fff;
-    display: inline-block;
-    text-decoration: none;
-    padding: 5px;
-    width: 100%;
-  }
-
-  svg:not(:root).svg-inline--fa {
-    overflow: visible;
-    width: 1rem;
-    height: 1rem;
-  }
-
-  .sidebar a span {
-    margin-left: 10px;
-  }
-
-  .sidebar a:hover:not(.logo-link) {
-    background-color: #900d09;
-    color: $white;
-    text-decoration: none;
-    cursor: pointer;
-  }
-
-  .management-block {
-    margin-top: 0.8rem;
-    border-top: 1px solid #900d09;
-
-    .management-title {
-      font-size: small;
-      font-weight: normal;
-      text-transform: uppercase;
-      display: block;
-      margin: 5px 0;
-      opacity: 0.5;
+    .logo {
+      width: 220px;
+      margin-bottom: 10px;
     }
-  }
 
-  .sidebar .notifications {
-    border-bottom: 1px solid #900d09;
-    margin-bottom: 10px;
-  }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
 
-  .person-data {
-    position: absolute;
-    right: 5px;
-    bottom: 5px;
-    left: 5px;
-  }
+    a:not(.logo-link) {
+      line-height: 1.6rem;
+      color: #fff;
+      display: inline-block;
+      text-decoration: none;
+      padding: $padding-normal;
+      width: 100%;
+    }
 
-  .media {
-    .media-left {
-      padding-right: 10px;
+    svg:not(:root).svg-inline--fa {
+      overflow: visible;
+      width: 1rem;
+      height: 1rem;
+    }
+
+    a span {
+      margin-left: 10px;
+    }
+
+    a:hover:not(.logo-link) {
+      background-color: #900d09;
+      color: $white;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .management-block {
+      margin-top: 0.8rem;
+      border-top: 1px solid #900d09;
+
+      .management-title {
+        font-size: small;
+        font-weight: normal;
+        text-transform: uppercase;
+        display: block;
+        margin: 5px 0;
+        opacity: 0.5;
+      }
+    }
+
+    .notifications {
+      border-bottom: 1px solid #900d09;
+      margin-bottom: 10px;
+    }
+
+    .person-data {
+      position: absolute;
+      right: 5px;
+      bottom: 5px;
+      left: 5px;
+    }
+
+    .media {
+      .media-left {
+        padding-right: 10px;
+      }
     }
   }
 
@@ -303,33 +305,41 @@
     .sidebar {
       width: $sidebar-mobile-width;
       padding: 0;
-    }
 
-    .sidebar a:not(.logo-link) {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      font-size: 0.6rem;
-      line-height: 1.2rem;
-      padding: 3px;
-      width: 100%;
-      text-align: center;
-    }
+      a:not(.logo-link) {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        font-size: 0.6rem;
+        line-height: 1.2rem;
+        padding: $padding-small;
+        width: 100%;
+        text-align: center;
+      }
 
-    .sidebar a span {
-      margin-left: 0;
-    }
+      a span {
+        margin-left: 0;
+      }
 
-    svg:not(:root).svg-inline--fa {
-      margin: 0 auto;
-    }
+      .logo {
+        width: $sidebar-mobile-width;
+      }
 
-    .udb-job-log.open {
-      left: $sidebar-mobile-width;
-    }
+      svg:not(:root).svg-inline--fa {
+        margin: 0 auto;
+      }
 
-    .media .media-body {
-      display: none;
+      .udb-job-log {
+        left: -275px !important;
+      }
+
+      .udb-job-log.open {
+        left: $sidebar-mobile-width;
+      }
+
+      .media .media-body {
+        display: none;
+      }
     }
   }
 </style>
