@@ -335,12 +335,18 @@
         margin: 0 auto 10px auto;
       }
 
+      .management-title {
+        text-align: center;
+      }
+
+      .notification-container {
+        display: inline-block;
+      }
+
       svg:not(:root).svg-inline--fa {
         margin: 0 auto;
       }
 
-      .media .media-body {
-        display: none;
       .media {
         .media-body {
           display: none;
