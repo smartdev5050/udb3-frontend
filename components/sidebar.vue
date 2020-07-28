@@ -64,9 +64,11 @@
         <ul>
           <li class="notifications">
             <a class="notification-container" @click="toggleJobLogger">
-              <fa icon="bell" />
+              <div>
+                <fa icon="bell" />
+                <span>{{ $t('menu.notifications') }}</span>
+              </div>
               <job-indicator :state="jobLoggerState" />
-              <span>{{ $t('menu.notifications') }}</span>
             </a>
           </li>
           <li class="hidden-xs">
@@ -285,7 +287,7 @@
 
       .notification-container {
         display: inline-flex;
-        line-height: 100%;
+        justify-content: space-between;
       }
     }
 
