@@ -161,8 +161,14 @@
               <p class="accent">500</p>
               <h2>{{ $t('main.channels') }}</h2>
             </blockquote>
-            <!-- eslint-disable-next-line vue/no-v-html -->
-            <p class="info" v-html="$t('main.channels_info')"></p>
+            <!-- TODO: french translation doesn't contain this link -->
+            <p class="info">
+              {{ $t('main.channels_info_part1') }}
+              <a href="https://www.publiq.be/nl/publicatiekanalen">
+                {{ $t('main.channels_info_link') }}
+              </a>
+              {{ $t('main.channels_info_part2') }}
+            </p>
           </div>
           <div class="col-sm-4">
             <blockquote class="quoted-number">
