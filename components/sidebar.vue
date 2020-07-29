@@ -296,7 +296,6 @@
         right: 0;
         top: 0;
         width: 40px;
-        margin-top: -8px;
       }
     }
 
@@ -347,8 +346,14 @@
         text-align: center;
       }
 
-      .notification-container {
-        display: inline-block;
+      .notifications {
+        .notification-container {
+          display: inline-block;
+        }
+
+        .indicator {
+          margin-top: -8px;
+        }
       }
 
       svg:not(:root).svg-inline--fa {
