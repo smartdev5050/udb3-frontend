@@ -316,7 +316,6 @@
         flex-direction: column;
         justify-content: center;
         font-size: 0.6rem;
-        line-height: 1.2rem;
         padding: $padding-small;
         width: 100%;
         text-align: center;
