@@ -351,7 +351,7 @@
         display: block;
         width: 50px;
         height: 50px;
-        margin: 0 auto 10px auto;
+        margin: 0 auto 16px auto;
       }
 
       .management-title {
