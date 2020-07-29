@@ -258,7 +258,7 @@
     }
 
     a span {
-      margin-left: 10px;
+      margin-left: 6px;
     }
 
     a:hover:not(.logo-link) {
