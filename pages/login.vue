@@ -161,7 +161,11 @@
               <p class="accent">500</p>
               <h2>{{ $t('main.channels') }}</h2>
             </blockquote>
-            <p>{{ $t('main.channels_info', { link: link }) }}</p>
+            <i18n path="main.channels_info" tag="p">
+              <a :href="$t('main.channels_info_link_url')">{{
+                $t('main.channels_info_link_text')
+              }}</a>
+            </i18n>
           </div>
           <div class="col-sm-4">
             <blockquote class="quoted-number">
@@ -260,10 +264,6 @@
 
   export default {
     layout: 'login',
-    data: () => ({
-      link:
-        '<a href="https://www.publiq.be/nl/publicatiekanalen">500 agenda\'s</a>',
-    }),
     computed: {
       isFR() {
         return this.$i18n.locale === 'fr';
