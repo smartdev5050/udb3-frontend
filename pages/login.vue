@@ -149,14 +149,14 @@
     <div class="more">
       <div class="container">
         <div class="row">
-          <div class="col-sm-4">
+          <div class="col-md-4">
             <blockquote class="quoted-number">
               <p class="accent">215.000</p>
               <h2>{{ $t('main.activities') }}</h2>
             </blockquote>
             <p class="info">{{ $t('main.activities_info') }}</p>
           </div>
-          <div class="col-sm-4">
+          <div class="col-md-4">
             <blockquote class="quoted-number">
               <p class="accent">500</p>
               <h2>{{ $t('main.channels') }}</h2>
@@ -167,7 +167,7 @@
               }}</a>
             </i18n>
           </div>
-          <div class="col-sm-4">
+          <div class="col-md-4">
             <blockquote class="quoted-number">
               <p class="accent">28.000</p>
               <h2>{{ $t('main.organizers') }}</h2>
