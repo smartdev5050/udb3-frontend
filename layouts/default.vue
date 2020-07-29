@@ -22,6 +22,7 @@
 </script>
 
 <style>
+  @import url('//fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,300,400,700,600');
   .main-container {
     display: flex;
     flex-direction: row;
