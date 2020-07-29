@@ -161,8 +161,7 @@
               <p class="accent">500</p>
               <h2>{{ $t('main.channels') }}</h2>
             </blockquote>
-            <!-- eslint-disable-next-line vue/no-v-html -->
-            <p class="info" v-html="$t('main.channels_info')"></p>
+            <p>{{ $t('main.channels_info', { link: link }) }}</p>
           </div>
           <div class="col-sm-4">
             <blockquote class="quoted-number">
@@ -261,6 +260,10 @@
 
   export default {
     layout: 'login',
+    data: () => ({
+      link:
+        '<a href="https://www.publiq.be/nl/publicatiekanalen">500 agenda\'s</a>',
+    }),
     computed: {
       isFR() {
         return this.$i18n.locale === 'fr';
