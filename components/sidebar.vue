@@ -231,11 +231,10 @@
     .udb-logo {
       background-image: url(../assets/udb-logo.svg);
       background-repeat: no-repeat;
-      background-size: contain;
-      background-position: center center;
+      background-position: center;
       display: block;
       width: 220px;
-      height: auto;
+      height: 40px;
       margin-bottom: 10px;
     }
 
