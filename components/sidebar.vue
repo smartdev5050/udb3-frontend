@@ -290,6 +290,14 @@
         display: inline-flex;
         justify-content: space-between;
       }
+
+      .indicator {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 40px;
+        margin-top: -8px;
+      }
     }
 
     .person-data {
