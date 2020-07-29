@@ -1,8 +1,8 @@
 <template>
   <div class="side-bar">
     <div class="sidebar">
-      <nuxt-link class="logo-link" to="/dashboard">
-        <logo class="logo" />
+      <nuxt-link class="udb-logo-link" to="/dashboard">
+        <img src="" alt="logo Uitdatabank" class="udb-logo" />
       </nuxt-link>
       <ul>
         <li>
@@ -125,7 +125,6 @@
   import JobLogger, { JobLoggerStates } from '../components/job/job-logger';
   import ButtonLogout from './button-logout';
   import JobIndicator from './job/job-indicator';
-  import Logo from './logo';
 
   const Permissions = {
     AANBOD_BEWERKEN: 'AANBOD_BEWERKEN',
@@ -144,7 +143,6 @@
     components: {
       ButtonLogout,
       JobIndicator,
-      Logo,
       JobLogger,
     },
     data() {
@@ -230,9 +228,19 @@
     text-align: left;
     z-index: 2000;
 
-    .logo {
+    .udb-logo {
+      background-image: url(../assets/udb-logo.svg);
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center center;
+      display: block;
       width: 220px;
+      height: auto;
       margin-bottom: 10px;
+    }
+
+    .udb-logo-link {
+      color: transparent;
     }
 
     ul {
@@ -241,7 +249,7 @@
       margin: 0;
     }
 
-    a:not(.logo-link) {
+    a:not(.udb-logo-link) {
       line-height: 1.6rem;
       color: #fff;
       display: inline-block;
@@ -261,7 +269,7 @@
       margin-left: 6px;
     }
 
-    a:hover:not(.logo-link) {
+    a:hover:not(.udb-logo-link) {
       background-color: #900d09;
       color: $white;
       text-decoration: none;
@@ -318,7 +326,7 @@
       width: $sidebar-mobile-width;
       padding: 0;
 
-      a:not(.logo-link) {
+      a:not(.udb-logo-link) {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -332,7 +340,8 @@
         margin-left: 0;
       }
 
-      .logo {
+      .udb-logo {
+        background-image: url(../assets/udb-logo-mobile.svg);
         background-repeat: no-repeat;
         background-size: contain;
         background-position: center center;
