@@ -338,6 +338,10 @@
 
       a span {
         margin-left: 0;
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .udb-logo {
@@ -358,6 +362,10 @@
       .notifications {
         .notification-container {
           display: inline-block;
+        }
+
+        .notification-container span {
+          line-height: 0.8rem;
         }
 
         .indicator {
