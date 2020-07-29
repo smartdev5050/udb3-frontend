@@ -33,7 +33,6 @@
     flex: 1;
   }
   html {
-    word-spacing: 1px;
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
     -moz-osx-font-smoothing: grayscale;
