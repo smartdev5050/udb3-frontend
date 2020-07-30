@@ -580,13 +580,12 @@
 
     .footer-by {
       margin-top: 0;
+      margin-bottom: 0.75rem;
     }
 
     .logo-flanders-full {
+      display: inline-block;
       width: 150px;
-      margin-bottom: 15px;
-    }
-
     }
 
     .language-switcher {
