@@ -618,9 +618,6 @@
       text-align: right;
     }
 
-    @media only screen and (max-width: 770px) {
-    }
-
     @media only screen and (max-width: 575px) {
       .footer-logo-and-language {
         text-align: left;
