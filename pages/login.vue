@@ -587,20 +587,6 @@
       margin-bottom: 15px;
     }
 
-    .logo-flanders {
-      &::after {
-        background-size: 15px 15px;
-        background: transparent url('/images/footer/vlaamse_overheid.png')
-          no-repeat;
-        content: '';
-        display: inline-block;
-        height: 20px;
-        margin-left: 6px;
-        margin-top: -10px;
-        width: 13px;
-        white-space: nowrap;
-        vertical-align: bottom;
-      }
     }
 
     .language-switcher {
