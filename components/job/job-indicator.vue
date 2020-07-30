@@ -5,6 +5,7 @@
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
+      viewBox="10 30 20 20"
     >
       <g class="warning">
         <circle id="warning-background" cx="20" cy="40" r="10"></circle>
@@ -30,6 +31,7 @@
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
+      viewBox="10 30 20 20"
     >
       <g class="busy" fill-rule="evenodd" fill="none">
         <circle id="busy-background" cx="20" cy="40" r="10"></circle>
@@ -53,6 +55,7 @@
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
+      viewBox="10 30 20 20"
     >
       <g class="complete" fill-rule="evenodd" fill="none">
         <circle id="complete-background" cx="20" cy="40" r="10"></circle>
@@ -97,13 +100,11 @@
 
 <style lang="scss" scoped>
   #indicator {
-    height: 2rem;
-
     svg {
       display: block;
       margin: 0 auto;
-      width: 28px;
-      margin-top: -25px;
+      width: 20px;
+      height: 20px;
       overflow: visible;
     }
 
