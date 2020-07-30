@@ -367,8 +367,8 @@
           line-height: 0.8rem;
         }
 
-        .indicator {
-          margin-top: -8px;
+        #indicator svg {
+          margin-top: -76px;
         }
       }
 
