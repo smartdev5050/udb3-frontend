@@ -468,6 +468,24 @@
     }
   }
 
+  @media (min-width: 768px) {
+    .container {
+      width: 750px;
+    }
+  }
+
+  @media (min-width: 992px) {
+    .container {
+      width: 970px;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .container {
+      width: 1170px;
+    }
+  }
+
   .login {
     background-color: #f0f0f0;
   }
@@ -480,19 +498,24 @@
     background-color: #ef1810;
     text-align: center;
 
+    .container svg {
+      margin-bottom: 0.8rem;
+    }
+
     .brand {
       display: none;
     }
 
     .lead {
       color: $white;
-      font-size: 2rem;
+      font-size: 1.8rem;
       line-height: 2rem;
       padding-bottom: 1.5rem;
+      font-weight: 500;
     }
 
     .lead .muted {
-      font-size: 1.6rem;
+      font-size: 1.5rem;
     }
   }
 
@@ -501,9 +524,12 @@
     background-color: $white;
 
     .btn-start {
-      font-size: 1.4rem;
+      font-size: 1.2rem;
       padding-right: 1rem;
       padding-left: 1rem;
+      font-weight: 600;
+      padding-top: 0.4rem;
+      padding-bottom: 0.4rem;
     }
   }
 
@@ -521,7 +547,7 @@
         margin: 0;
         font-size: 4rem;
         font-weight: 300;
-        line-height: 3.2rem;
+        line-height: 3.8rem;
       }
 
       h2 {
