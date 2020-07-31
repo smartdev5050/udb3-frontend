@@ -1,6 +1,7 @@
 import jwtDecode from 'jwt-decode';
 import { logout } from '../services/auth';
 import { getMe, getPermissions, getRoles } from './user';
+import { findToModerate } from './events';
 
 export const getHeaders = (token) => ({
   Authorization: `Bearer ${token}`,
@@ -40,6 +41,9 @@ export default (tokenCallback) => {
   };
 
   return {
+    events: {
+      findToModerate: findToModerate(apiUrl, headersCallback),
+    },
     user: {
       getMe: getMe(apiUrl, headersCallback),
       getPermissions: getPermissions(apiUrl, headersCallback),
