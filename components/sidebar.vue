@@ -1,7 +1,14 @@
 <template>
-  <div class="side-bar">
+  <div>
     <div class="sidebar">
-      <logo class="logo" />
+      <nuxt-link class="udb-logo-link" to="/dashboard">
+        <img src="../assets/udb-logo.svg" alt="Uitdatabank" class="udb-logo" />
+        <img
+          src="../assets/udb-logo-mobile.svg"
+          alt="Uitdatabank"
+          class="udb-logo-mobile"
+        />
+      </nuxt-link>
       <ul>
         <li>
           <nuxt-link to="/dashboard">
@@ -22,8 +29,8 @@
           </nuxt-link>
         </li>
       </ul>
-      <div v-if="showExtraMenuItems">
-        <p>{{ $t('menu.management') }}</p>
+      <div v-if="showExtraMenuItems" class="management-block">
+        <p class="management-title">{{ $t('menu.management') }}</p>
         <ul class="admin">
           <li v-if="isValidateVisible">
             <nuxt-link to="/search">
@@ -61,10 +68,12 @@
       <div class="person-data">
         <ul>
           <li class="notifications">
-            <a @click="toggleJobLogger">
-              <fa icon="bell" />
+            <a class="notification-container" @click="toggleJobLogger">
+              <div>
+                <fa icon="bell" />
+                <span>{{ $t('menu.notifications') }}</span>
+              </div>
               <job-indicator :state="jobLoggerState" />
-              <span class="menu-text">{{ $t('menu.notifications') }}</span>
             </a>
           </li>
           <li class="hidden-xs">
@@ -121,7 +130,6 @@
   import JobLogger, { JobLoggerStates } from '../components/job/job-logger';
   import ButtonLogout from './button-logout';
   import JobIndicator from './job/job-indicator';
-  import Logo from './logo';
 
   const Permissions = {
     AANBOD_BEWERKEN: 'AANBOD_BEWERKEN',
@@ -140,7 +148,6 @@
     components: {
       ButtonLogout,
       JobIndicator,
-      Logo,
       JobLogger,
     },
     data() {
@@ -169,6 +176,9 @@
       isOrganisationsVisible() {
         return this.permissions.includes(Permissions.ORGANISATIES_BEHEREN);
       },
+      isJobLoggerStateIdle() {
+        return this.jobLoggerState === JobLoggerStates.IDLE;
+      },
       showExtraMenuItems() {
         return [
           this.isValidateVisible,
@@ -185,7 +195,9 @@
         return this.$cookies.get('user');
       },
       picture() {
-        return this.$cookies.get('userPicture');
+        return (
+          this.$cookies.get('userPicture') || require('../assets/avatar.svg')
+        );
       },
     },
     async mounted() {
@@ -206,40 +218,181 @@
 </script>
 
 <style lang="scss">
+  $sidebar-width: 230px;
+  $sidebar-mobile-width: 65px;
+  $padding-normal: 5px;
+  $padding-small: 3px;
+
   .sidebar {
     position: relative;
-    width: 230px;
-    padding: 5px;
+    width: $sidebar-width;
+    padding: $padding-normal;
     background-color: #c0120c;
     height: 100vh;
     color: #fff;
     text-align: left;
     z-index: 2000;
-  }
-  .logo {
-    margin-bottom: 10px;
-  }
-  .sidebar ul {
-    list-style: none;
-    padding: 0;
-  }
-  .sidebar a {
-    color: #fff;
-    display: inline-block;
-    text-decoration: none;
     padding: 5px;
-    width: 100%;
+
+    .udb-logo-link {
+      display: block;
+    }
+    .udb-logo {
+      display: block;
+      width: 220px;
+      height: 40px;
+      margin-bottom: 10px;
+    }
+    .udb-logo-mobile {
+      display: none;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    a:not(.udb-logo-link) {
+      line-height: 1.6rem;
+      color: #fff;
+      display: inline-block;
+      text-decoration: none;
+      padding: $padding-normal;
+      width: 100%;
+      font-weight: 600;
+    }
+
+    svg:not(:root).svg-inline--fa {
+      overflow: visible;
+      width: 1rem;
+      height: 1rem;
+    }
+
+    a span {
+      margin-left: 6px;
+    }
+
+    a:hover:not(.udb-logo-link) {
+      background-color: #900d09;
+      color: $white;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .management-block {
+      margin-top: 0.8rem;
+      border-top: 1px solid #900d09;
+
+      .management-title {
+        font-size: small;
+        font-weight: normal;
+        text-transform: uppercase;
+        display: block;
+        margin: 5px 0;
+        opacity: 0.5;
+      }
+    }
+
+    .notifications {
+      border-bottom: 1px solid #900d09;
+      margin-bottom: 10px;
+
+      .notification-container {
+        display: inline-flex;
+        justify-content: space-between;
+      }
+
+      .indicator {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 40px;
+      }
+    }
+
+    .person-data {
+      position: absolute;
+      right: 5px;
+      bottom: 5px;
+      left: 5px;
+    }
+
+    .media {
+      .media-left {
+        padding-right: 10px;
+      }
+    }
   }
-  .sidebar a span {
-    margin-left: 10px;
-  }
-  .sidebar a:hover {
-    background-color: #900d09;
-  }
-  .person-data {
-    position: absolute;
-    left: 5px;
-    bottom: 5px;
-    right: 5px;
+
+  @media (max-width: 767px) {
+    .sidebar {
+      width: $sidebar-mobile-width;
+      padding: 2px 0;
+
+      a:not(.udb-logo-link) {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        font-size: 0.6rem;
+        padding: $padding-small;
+        width: 100%;
+        text-align: center;
+        padding-top: $padding-small * 3;
+      }
+
+      a span {
+        margin-left: 0;
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .udb-logo-link {
+        margin-bottom: 10px;
+      }
+
+      .udb-logo {
+        display: none;
+      }
+
+      .udb-logo-mobile {
+        display: block;
+        width: 50px;
+        height: 50px;
+        margin: 0 auto;
+      }
+
+      .management-title {
+        text-align: center;
+      }
+
+      .notifications {
+        .notification-container span {
+          line-height: 0.8rem;
+        }
+
+        #indicator svg {
+          margin-top: -50px;
+          margin-right: 0;
+        }
+      }
+
+      svg:not(:root).svg-inline--fa {
+        margin: 0 auto;
+      }
+
+      .media {
+        .media-body {
+          display: none;
+        }
+
+        .media-left {
+          padding-right: 0;
+          margin: 0 auto;
+        }
+      }
+    }
   }
 </style>

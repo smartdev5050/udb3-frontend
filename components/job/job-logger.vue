@@ -322,6 +322,9 @@
       width: 275px;
       left: -275px;
     }
+    .udb-job-log.open {
+      left: 65px;
+    }
   }
 
   .close {

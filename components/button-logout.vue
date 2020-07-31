@@ -1,21 +1,23 @@
 <template>
   <a href="#" @click="logout">
-    <b-icon-box-arrow-in-right></b-icon-box-arrow-in-right>
+    <fa icon="sign-out-alt" />
     {{ $t('menu.logout') }}
   </a>
 </template>
 
 <script>
-  import { BIconBoxArrowInRight } from 'bootstrap-vue';
   import { logout } from '../services/auth';
 
   export default {
     name: 'ButtonLogout',
-    components: {
-      BIconBoxArrowInRight,
-    },
     methods: {
       logout,
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  a {
+    padding-left: 0 !important;
+  }
+</style>

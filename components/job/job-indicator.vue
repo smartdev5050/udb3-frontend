@@ -5,6 +5,7 @@
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
+      viewBox="10 30 20 20"
     >
       <g class="warning">
         <circle id="warning-background" cx="20" cy="40" r="10"></circle>
@@ -30,6 +31,7 @@
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
+      viewBox="10 30 20 20"
     >
       <g class="busy" fill-rule="evenodd" fill="none">
         <circle id="busy-background" cx="20" cy="40" r="10"></circle>
@@ -53,6 +55,7 @@
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
+      viewBox="10 30 20 20"
     >
       <g class="complete" fill-rule="evenodd" fill="none">
         <circle id="complete-background" cx="20" cy="40" r="10"></circle>
@@ -73,7 +76,6 @@
 
 <script>
   import { JobLoggerStates } from './job-logger';
-
   export default {
     name: 'JobIndicator',
     props: {
@@ -96,44 +98,59 @@
   };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   #indicator {
-    margin-top: -25px;
-  }
-  #indicator .warning {
-    display: block;
-    animation-duration: 1s;
-    animation-iteration-count: infinite;
-    animation-fill-mode: both;
-    animation-name: bounce;
-    -webkit-animation-name: bounce;
-    -webkit-animation-duration: 1s;
-    -webkit-animation-iteration-count: infinite;
-    transform-origin: center bottom 0;
-  }
-  .busy-spinner {
-    stroke: #3e88ab;
-  }
-  #indicator .complete {
-    display: block;
-    animation-duration: 0.75s;
-    animation-iteration-count: 1;
-    animation-fill-mode: both;
-    animation-name: bounceIn;
-    -webkit-animation-name: bounceIn;
-  }
-  #complete-background,
-  #warning-background,
-  #busy-background {
-    fill: #ffffff;
-  }
-  #complete-circle {
-    fill: #48874a;
-  }
-  #warning-circle {
-    fill: #d9534f;
-  }
-  .complete-check {
-    fill: #dcf2d7;
+    svg {
+      display: block;
+      margin: 0 auto;
+      width: 20px;
+      height: 20px;
+      overflow: visible;
+    }
+
+    @keyframes bounce {
+      0%,
+      20%,
+      50%,
+      80%,
+      100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-30px);
+      }
+      60% {
+        transform: translateY(-15px);
+      }
+    }
+
+    .warning {
+      animation: bounce 1s infinite linear;
+      -webkit-animation: bounce 1s infinite linear;
+    }
+
+    .busy-spinner {
+      stroke: #3e88ab;
+    }
+
+    .complete {
+      animation: bounceIn 0.75s 1 linear;
+      -webkit-animation: bounceIn 0.75s 1 linear;
+    }
+
+    #complete-background,
+    #warning-background,
+    #busy-background {
+      fill: #ffffff;
+    }
+    #complete-circle {
+      fill: #48874a; /* Succes text */
+    }
+    #warning-circle {
+      fill: #d9534f;
+    }
+    .complete-check {
+      fill: #dcf2d7; /* Succces background */
+    }
   }
 </style>
