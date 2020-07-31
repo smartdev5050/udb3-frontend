@@ -33,7 +33,7 @@
         <p class="management-title">{{ $t('menu.management') }}</p>
         <ul class="admin">
           <li v-if="isValidateVisible">
-            <nuxt-link to="/search">
+            <nuxt-link to="/manage/moderation/overview">
               <fa icon="flag" />
               <span>{{ $t('menu.validate') }}</span>
             </nuxt-link>
