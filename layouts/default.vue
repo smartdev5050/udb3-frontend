@@ -22,25 +22,33 @@
 </script>
 
 <style>
+  @import url('//fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,300,400,700,600');
+
   .main-container {
     display: flex;
     flex-direction: row;
     position: relative;
     z-index: 0;
   }
+
   .content {
     flex: 1;
   }
+
   html {
-    font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-      'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    font-size: 16px;
-    word-spacing: 1px;
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #222;
+    background-color: #f0f0f0;
   }
 
   *,
