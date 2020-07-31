@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div>
       <h1 class="title">
-       $t('menu.productions')
+        {{ $t('menu.productions') }}
       </h1>
     </div>
   </div>
