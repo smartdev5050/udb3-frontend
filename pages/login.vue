@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="login">
     <div class="hero">
       <div class="container">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 250">
@@ -128,42 +128,46 @@
         </svg>
 
         <h1 class="brand">{{ $t('brand') }}</h1>
-        <p class="lead">
+        <div class="lead">
           <span>{{ $t('main.lead') }}</span>
           <br />
           <span class="muted">{{ $t('main.lead_sub') }}</span>
-        </p>
+        </div>
       </div>
     </div>
 
     <div class="start">
       <div class="container-fluid">
-        <p class="text-center">
-          <a class="btn btn-lg btn-primary" @click="login">
+        <div class="center">
+          <b-button class="btn-start" variant="primary" @click="login">
             {{ $t('main.start') }}
-          </a>
-        </p>
+          </b-button>
+        </div>
       </div>
     </div>
 
     <div class="more">
       <div class="container">
         <div class="row">
-          <div class="col-sm-4">
+          <div class="col-md-4">
             <blockquote class="quoted-number">
               <p class="accent">215.000</p>
               <h2>{{ $t('main.activities') }}</h2>
             </blockquote>
             <p class="info">{{ $t('main.activities_info') }}</p>
           </div>
-          <div class="col-sm-4">
+          <div class="col-md-4">
             <blockquote class="quoted-number">
               <p class="accent">500</p>
               <h2>{{ $t('main.channels') }}</h2>
             </blockquote>
-            <p class="info">{{ $t('main.channels_info') }}</p>
+            <i18n path="main.channels_info" tag="p">
+              <a :href="$t('main.channels_info_link_url')">{{
+                $t('main.channels_info_link_text')
+              }}</a>
+            </i18n>
           </div>
-          <div class="col-sm-4">
+          <div class="col-md-4">
             <blockquote class="quoted-number">
               <p class="accent">28.000</p>
               <h2>{{ $t('main.organizers') }}</h2>
@@ -228,7 +232,7 @@
             </ul>
           </div>
 
-          <div class="col-sm-6">
+          <div class="col-sm-6 footer-logo-and-language">
             <p class="footer-by">
               <span>{{ $t('footer.by') }}</span>
               <a href="http://www.publiq.be" class="footer-link">publiq vzw</a>
@@ -279,117 +283,334 @@
 </script>
 
 <style scoped lang="scss">
+  $hero-lighten--soft: lighten($udb-primary-color, 23%);
+  $hero-lighten--med: lighten($udb-primary-color, 31%);
+  $hero-lighten--hard: lighten($udb-primary-color, 40%);
+
+  .icon--theater,
+  .icon--art {
+    fill: $hero-lighten--hard;
+  }
+
+  .line--theater {
+    stroke: $hero-lighten--hard;
+  }
+
+  .line--art {
+    stroke: $hero-lighten--hard;
+  }
+
+  .icon--guitar,
+  .icon--tennis {
+    fill: $hero-lighten--med;
+  }
+
+  .line--guitar,
+  .line--tennis {
+    stroke: $hero-lighten--med;
+  }
+
+  .icon--movie {
+    fill: $hero-lighten--soft;
+  }
+
+  .line--movie {
+    stroke: $hero-lighten--soft;
+  }
+
   .logo--uit,
   .logo--databank {
     fill: #fff;
   }
 
-  .hero {
-    background-color: #f0160f;
-  }
-  .brand {
-    display: none;
+  .public--back {
+    fill: $hero-lighten--soft;
   }
 
-  .lead {
-    margin-bottom: 24px;
-    font-size: 32px;
-    color: #fff;
+  .line--public--back {
+    stroke: $hero-lighten--soft;
+  }
+
+  .public--mid {
+    fill: $hero-lighten--med;
+  }
+
+  .line--public--mid {
+    stroke: $hero-lighten--med;
+  }
+
+  .public--front {
+    fill: $hero-lighten--hard;
+  }
+
+  .line--public--front {
+    stroke: $hero-lighten--hard;
+  }
+
+  .line--left {
+    animation-name: draw;
+    animation-duration: 2s;
+    animation-fill-mode: forwards; // Stay on the last frame
+    -webkit-animation-delay: 0.2s; /* Chrome, Safari, Opera */
+    animation-delay: 0.2s;
+    animation-timing-function: linear;
+  }
+
+  .line--art {
+    stroke-dasharray: 107;
+    stroke-dashoffset: -107;
+  }
+
+  .line--guitar {
+    stroke-dasharray: 121;
+    stroke-dashoffset: 121;
+  }
+
+  .line--theater {
+    stroke-dasharray: 136;
+    stroke-dashoffset: 136;
+  }
+
+  .line--tennis {
+    stroke-dasharray: 252;
+    stroke-dashoffset: 252;
+  }
+
+  .line--movie {
+    stroke-dasharray: 235;
+    stroke-dashoffset: 235;
+  }
+
+  .line--right {
+    animation-name: draw;
+    animation-duration: 2s;
+    animation-fill-mode: forwards; // Stay on the last frame
+    -webkit-animation-delay: 0.2s; /* Chrome, Safari, Opera */
+    animation-delay: 2.6s;
+    animation-timing-function: linear;
+  }
+
+  .line--public--front,
+  .line--public--back,
+  .line--public--mid {
+    stroke-dasharray: 120;
+    stroke-dashoffset: 120;
+  }
+
+  @keyframes draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  .logo--uit {
+    transform-origin: 50% 50%;
+    animation-name: logo-animate;
+    animation-duration: 0.6s;
+    animation-delay: 2.2s;
+    animation-fill-mode: both;
+  }
+
+  .logo--databank {
+    transform-origin: 50% 50%;
+    animation-name: logo-animate;
+    animation-duration: 0.6s;
+    animation-delay: 2.6s;
+    animation-fill-mode: both;
+  }
+
+  @keyframes logo-animate {
+    0% {
+      transform: scale(1);
+      animation-timing-function: cubic-bezier(0.3, 0.1, 0.9, 0.5);
+    }
+    10% {
+      transform: scale(0.8);
+      animation-timing-function: cubic-bezier(0.1, 0.4, 0.2, 1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .public--front,
+  .public--mid,
+  .public--back {
+    transform-origin: 50% 50%;
+    animation-name: public-animate;
+    animation-duration: 0.6s;
+    animation-fill-mode: both;
+  }
+
+  .public--front {
+    animation-delay: 3679ms;
+  }
+
+  .public--mid {
+    animation-delay: 4038ms;
+  }
+
+  .public--back {
+    animation-delay: 4512ms;
+  }
+
+  @keyframes public-animate {
+    0% {
+      transform: scale(1);
+      animation-timing-function: cubic-bezier(0.3, 0.1, 0.9, 0.5);
+    }
+    10% {
+      transform: scale(0.8);
+      animation-timing-function: cubic-bezier(0.1, 0.4, 0.2, 1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .container {
+      width: 750px;
+    }
+  }
+
+  @media (min-width: 992px) {
+    .container {
+      width: 970px;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .container {
+      width: 1170px;
+    }
+  }
+
+  .login {
+    background-color: #f0f0f0;
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  .hero {
+    background-color: #ef1810;
+    text-align: center;
+
+    .container svg {
+      margin-bottom: 0.8rem;
+    }
+
+    .brand {
+      display: none;
+    }
+
+    .lead {
+      color: $white;
+      font-size: 1.8rem;
+      line-height: 2rem;
+      padding-bottom: 1.5rem;
+      font-weight: 500;
+    }
+
+    .lead .muted {
+      font-size: 1.5rem;
+    }
+  }
+
+  .start {
+    padding: 1.8rem 0 1.3rem 0;
+    background-color: $white;
+
+    .btn-start {
+      font-size: 1.2rem;
+      padding-right: 1rem;
+      padding-left: 1rem;
+      font-weight: 600;
+      padding-top: 0.4rem;
+      padding-bottom: 0.4rem;
+    }
   }
 
   .more {
-    padding: 60px 0;
-  }
+    padding: 3.8rem 0 3.8rem 0;
 
-  .btn-primary {
-    background-color: #004f94;
-    border: 0;
-    border-radius: 0;
-    color: #fff;
-  }
-
-  .quoted-number {
-    margin: 0 0 30px 0;
-    padding: 0;
-    border-left: 0px;
-    text-align: center;
-
-    .accent {
-      margin: 0;
-      font-size: 64px;
-      font-weight: 300;
+    .quoted-number {
+      margin: 0 0 30px 0;
+      padding: 0;
+      border-left: 0;
+      text-align: center;
       color: #424448;
-      line-height: 1;
+
+      .accent {
+        margin: 0;
+        font-size: 4rem;
+        font-weight: 300;
+        line-height: 3.8rem;
+      }
+
+      h2 {
+        font-size: 1.2rem;
+      }
     }
 
-    h2 {
-      font-size: 18px;
-      font-weight: 400;
-      margin-top: 0;
-      color: #424448;
+    .mission {
+      margin-top: 1.9rem;
+      margin-bottom: 0;
+      font-size: 1.4rem;
     }
-  }
-  .lead {
-    font-size: 22.5px;
-  }
-  .mission {
-    margin-top: 30px;
-    color: #222;
   }
 
   .footer {
-    padding: 30px 0;
-    background-color: #ccc;
-  }
-  .footer-links {
-    padding-left: 0;
-    list-style: none;
-    margin: 0;
-  }
+    background-color: $udb-grey;
+    padding-top: 1.9rem;
+    padding-bottom: 1.9rem;
 
-  .footer-link {
-    color: #555;
-    text-decoration: underline;
-  }
-
-  .footer-by {
-    text-align: right;
-  }
-
-  .logo-flanders-full {
-    float: right;
-    width: 150px;
-    margin-bottom: 15px;
-  }
-
-  .logo-flanders {
-    display: inline-block;
-    float: right;
-
-    &::after {
-      background-size: 15px 15px;
-      background: transparent url('/images/footer/vlaamse_overheid.png')
-        no-repeat;
-      content: '';
-      display: inline-block;
-      height: 20px;
-      margin-left: 6px;
-      margin-top: -10px;
-      width: 13px;
-      white-space: nowrap;
-      vertical-align: bottom;
+    .footer-links {
+      padding-left: 0;
+      list-style: none;
+      margin: 0;
     }
-  }
 
-  .language-switcher {
-    text-align: right;
-    clear: both;
-    margin-top: 12px;
+    .footer-link {
+      color: #555;
+      text-decoration: underline;
+    }
 
-    a {
-      color: #004f94;
-      cursor: pointer;
-      text-decoration: none;
+    .footer-by {
+      margin-top: 0;
+      margin-bottom: 0.75rem;
+    }
+
+    .logo-flanders-full {
+      display: inline-block;
+      width: 150px;
+    }
+
+    .language-switcher {
+      clear: both;
+      font-size: 0.8rem;
+      margin-top: 12px;
+      a {
+        color: $udb-blue;
+        cursor: pointer;
+        text-decoration: none;
+      }
+    }
+
+    .footer-logo-and-language {
+      text-align: right;
+    }
+
+    @media only screen and (max-width: 575px) {
+      .footer-logo-and-language {
+        text-align: left;
+      }
+
+      .footer-links {
+        margin-bottom: 1.9rem;
+      }
     }
   }
 </style>
