@@ -1,8 +1,13 @@
 <template>
-  <div class="side-bar">
+  <div>
     <div class="sidebar">
       <nuxt-link class="udb-logo-link" to="/dashboard">
-        <img src="" alt="logo Uitdatabank" class="udb-logo" />
+        <img src="../assets/udb-logo.svg" alt="Uitdatabank" class="udb-logo" />
+        <img
+          src="../assets/udb-logo-mobile.svg"
+          alt="Uitdatabank"
+          class="udb-logo-mobile"
+        />
       </nuxt-link>
       <ul>
         <li>
@@ -227,19 +232,19 @@
     color: #fff;
     text-align: left;
     z-index: 2000;
+    padding: 5px;
 
+    .udb-logo-link {
+      display: block;
+    }
     .udb-logo {
-      background-image: url(../assets/udb-logo.svg);
-      background-repeat: no-repeat;
-      background-position: center;
       display: block;
       width: 220px;
       height: 40px;
       margin-bottom: 10px;
     }
-
-    .udb-logo-link {
-      color: transparent;
+    .udb-logo-mobile {
+      display: none;
     }
 
     ul {
@@ -323,7 +328,7 @@
   @media (max-width: 767px) {
     .sidebar {
       width: $sidebar-mobile-width;
-      padding: 0;
+      padding: 2px 0;
 
       a:not(.udb-logo-link) {
         display: flex;
@@ -333,6 +338,7 @@
         padding: $padding-small;
         width: 100%;
         text-align: center;
+        padding-top: $padding-small * 3;
       }
 
       a span {
@@ -343,15 +349,19 @@
         text-overflow: ellipsis;
       }
 
+      .udb-logo-link {
+        margin-bottom: 10px;
+      }
+
       .udb-logo {
-        background-image: url(../assets/udb-logo-mobile.svg);
-        background-repeat: no-repeat;
-        background-size: contain;
-        background-position: center center;
+        display: none;
+      }
+
+      .udb-logo-mobile {
         display: block;
         width: 50px;
         height: 50px;
-        margin: 0 auto 16px auto;
+        margin: 0 auto;
       }
 
       .management-title {
@@ -359,16 +369,13 @@
       }
 
       .notifications {
-        .notification-container {
-          display: inline-block;
-        }
-
         .notification-container span {
           line-height: 0.8rem;
         }
 
-        .indicator {
-          margin-top: -8px;
+        #indicator svg {
+          margin-top: -50px;
+          margin-right: 0;
         }
       }
 
