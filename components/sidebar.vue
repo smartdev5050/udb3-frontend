@@ -62,6 +62,12 @@
               <span>{{ $t('menu.organizations') }}</span>
             </nuxt-link>
           </li>
+          <li v-if="isProductionsVisible">
+            <nuxt-link to="/manage/productions">
+              <fa icon="layer-group" />
+              <span>{{ $t('menu.productions') }}</span>
+            </nuxt-link>
+          </li>
         </ul>
       </div>
 
@@ -176,8 +182,8 @@
       isOrganisationsVisible() {
         return this.permissions.includes(Permissions.ORGANISATIES_BEHEREN);
       },
-      isJobLoggerStateIdle() {
-        return this.jobLoggerState === JobLoggerStates.IDLE;
+      isProductionsVisible() {
+        return this.permissions.includes(Permissions.PRODUCTIES_AANMAKEN);
       },
       showExtraMenuItems() {
         return [
@@ -186,6 +192,7 @@
           this.isRolesVisible,
           this.isLabelsVisible,
           this.isOrganisationsVisible,
+          this.isProductionsVisible,
         ].includes(true);
       },
       token() {
