@@ -44,6 +44,9 @@
     "notifications": "Meldingen",
     "logout": "Afmelden"
   },
+  "actions": {
+    "add": "toevoegen"
+  },
   "jobs": {
     "exported_documents": "Geëxporteerde documenten",
     "notifications": "Meldingen",

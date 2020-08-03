@@ -42,6 +42,9 @@
     "productions": "Productions",
     "logout": "Déconnecter"
   },
+  "actions": {
+    "add": "ajouter"
+  },
   "jobs": {
     "exported_documents": "Documents exportés",
     "notifications": "Notifications",
