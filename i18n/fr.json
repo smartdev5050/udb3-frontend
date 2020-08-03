@@ -43,7 +43,9 @@
     "logout": "Déconnecter"
   },
   "actions": {
-    "add": "ajouter"
+    "add": "toevoegen",
+    "previous": "Dernier",
+    "next": "Prochain"
   },
   "jobs": {
     "exported_documents": "Documents exportés",

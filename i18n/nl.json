@@ -45,7 +45,9 @@
     "logout": "Afmelden"
   },
   "actions": {
-    "add": "toevoegen"
+    "add": "toevoegen",
+    "previous": "Vorige",
+    "next": "Volgende"
   },
   "jobs": {
     "exported_documents": "Geëxporteerde documenten",
