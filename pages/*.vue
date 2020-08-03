@@ -32,35 +32,26 @@
 
 <style>
   .wrapper {
-    width: 100%;
+    background-color: #f0f0f0;
     margin: 0 auto;
+    padding: 0;
+    width: 100%;
     min-height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+    justify-content: left;
+    align-items: flex-start;
+    text-align: left;
   }
 
   .title {
-    font-family: 'Quicksand', 'Source Sans Pro', -apple-system,
-      BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
-      sans-serif;
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
     display: block;
-    font-weight: 300;
-    font-size: 100px;
+    font-weight: 400;
+    font-size: 1.5rem;
     color: #35495e;
-    letter-spacing: 1px;
-  }
-
-  .subtitle {
-    font-weight: 300;
-    font-size: 42px;
-    color: #526488;
-    word-spacing: 5px;
-    padding-bottom: 15px;
-  }
-
-  .links {
-    padding-top: 15px;
+    line-height: 3.5rem;
+    color: #222;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 1.88rem;
   }
 </style>
