@@ -9,12 +9,19 @@
           </nuxt-link>
         </small>
       </h1>
+      <pagination />
     </div>
   </div>
 </template>
 
 <script>
-  export default {};
+  import Pagination from '../../../components/pagination';
+
+  export default {
+    components: {
+      Pagination,
+    },
+  };
 </script>
 
 <style lang="scss">
