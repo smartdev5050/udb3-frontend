@@ -4,7 +4,9 @@
       <h1 class="title">
         {{ $t('menu.productions') }}
         <small>
-          <a href="manage/productions/create">{{ $t('actions.add') }}</a>
+          <nuxt-link to="productions/create">
+            {{ $t('actions.add') }}
+          </nuxt-link>
         </small>
       </h1>
     </div>
