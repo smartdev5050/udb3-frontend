@@ -1,5 +1,3 @@
-import apiWrapper from '../api/api';
-
 export default async function (context) {
   const jwtInURL =
     context && context.query && context.query.jwt ? context.query.jwt : '';
@@ -22,14 +20,7 @@ export default async function (context) {
     return;
   }
 
-  const api = apiWrapper(
-    context.$config.authUrl,
-    context.$config.apiUrl,
-    context.$config.apiKey,
-    () => jwtInCookie,
-  );
-
-  const user = await api.user.getMe();
+  const user = await context.$api.user.getMe();
 
   context.app.$cookies.set('user', user, cookieOptions);
 }
