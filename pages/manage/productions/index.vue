@@ -25,11 +25,7 @@
 </script>
 
 <style lang="scss">
-  small {
-    font-size: 65%;
-
-    a {
-      color: #004f94;
-    }
+  small a {
+    color: #004f94;
   }
 </style>
