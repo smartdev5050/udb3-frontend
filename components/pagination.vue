@@ -1,15 +1,13 @@
 <template>
-  <div class="pagination-container">
-    <b-pagination
-      v-model="currentPage"
-      :total-rows="rows"
-      :per-page="perPage"
-      :prev-text="$t('actions.previous')"
-      :next-text="$t('actions.next')"
-      hide-goto-end-buttons
-      :class="{ 'hide-buttons': hideButtons }"
-    />
-  </div>
+  <b-pagination
+    v-model="currentPage"
+    :total-rows="rows"
+    :per-page="perPage"
+    :prev-text="$t('actions.previous')"
+    :next-text="$t('actions.next')"
+    hide-goto-end-buttons
+    :class="{ 'hide-buttons': hideButtons }"
+  />
 </template>
 
 <script>
