@@ -96,6 +96,7 @@ export default {
       {
         default: true,
         name: 'uitdatabank',
+        url: 'https://sockets.uitdatabank.dev',
       },
     ],
   },
