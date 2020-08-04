@@ -5,7 +5,7 @@
         {{ $t('menu.productions') }}
         <small>
           <nuxt-link to="productions/create">
-            {{ $t('actions.add') }}
+            {{ $t('actions.create') }}
           </nuxt-link>
         </small>
       </h1>

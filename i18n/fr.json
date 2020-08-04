@@ -43,7 +43,7 @@
     "logout": "Déconnecter"
   },
   "actions": {
-    "add": "toevoegen",
+    "create": "toevoegen",
     "previous": "Dernier",
     "next": "Prochain"
   },
