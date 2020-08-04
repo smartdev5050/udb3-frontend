@@ -73,13 +73,20 @@ export default {
    ** See https://nuxtjs.org/api/configuration-build/
    */
   build: {},
-  env: {
+  publicRuntimeConfig: {
     apiKey: process.env.API_KEY,
     apiUrl: process.env.API_URL,
     legacyAppUrl: process.env.LEGACY_APP_URL,
     authUrl: process.env.AUTH_URL,
-    socketUrl: process.env.SOCKET_URL,
     newFeaturesUrl: process.env.NEW_FEATURES_URL,
+    io: {
+      sockets: [
+        {
+          name: 'uitdatabank',
+          url: process.env.SOCKET_URL,
+        },
+      ],
+    }
   },
   router: {
     middleware: ['auth'],
@@ -88,7 +95,7 @@ export default {
     sockets: [
       {
         default: true,
-        url: 'https://sockets.uitdatabank.dev',
+        name: 'uitdatabank',
       },
     ],
   },

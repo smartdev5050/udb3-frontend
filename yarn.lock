@@ -8330,10 +8330,10 @@ nuxt-i18n@^6.13.1:
     js-cookie "^2.2.1"
     vue-i18n "^8.18.1"
 
-nuxt-socket-io@^1.1.4:
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/nuxt-socket-io/-/nuxt-socket-io-1.1.4.tgz#b660feb172996f01e646f3e89806a947714ef82d"
-  integrity sha512-ZSASMtreTgkCa+gGTZqWhAQJxPbtOWIn1MJ1vI14WDTt8D3RnMZuvKfzOOisj3PPEtxo8SLpOrOjDBX2LRfEWg==
+nuxt-socket-io@^1.1.6:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/nuxt-socket-io/-/nuxt-socket-io-1.1.6.tgz#7ec824e89732218f64836e3aa83c4d0c60087b34"
+  integrity sha512-fYpdW/cT5Op8/3wQJqO+0yBJ219PUVM538BVCPtJMKQnVTcrS20+oBhQNk6llMM04NvXh/q0l1L0WiRcyTKfZg==
   dependencies:
     glob "^7.1.6"
     socket.io "^2.3.0"
