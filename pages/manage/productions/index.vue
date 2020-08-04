@@ -9,6 +9,7 @@
           </nuxt-link>
         </small>
       </h1>
+      <b-table striped hover :items="items" :fields="fields"></b-table>
       <pagination />
     </div>
   </div>
@@ -20,6 +21,17 @@
   export default {
     components: {
       Pagination,
+    },
+    data() {
+      return {
+        fields: ['naam', 'opties'],
+        items: [
+          { naam: 'Dickerson', opties: 'Macdonald' },
+          { naam: 'Larsen', opties: 'Shaw' },
+          { naam: 'Geneva', opties: 'Wilson' },
+          { naam: 'Jami', opties: 'Carney' },
+        ],
+      };
     },
   };
 </script>
