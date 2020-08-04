@@ -30,7 +30,7 @@
   };
 </script>
 
-<style>
+<style lang="scss" scoped>
   .wrapper {
     background-color: #f0f0f0;
     margin: 0 auto;
@@ -41,17 +41,5 @@
     justify-content: left;
     align-items: flex-start;
     text-align: left;
-  }
-
-  .title {
-    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
-    display: block;
-    font-weight: 400;
-    font-size: 1.5rem;
-    color: #35495e;
-    line-height: 3.5rem;
-    color: #222;
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 1.88rem;
   }
 </style>

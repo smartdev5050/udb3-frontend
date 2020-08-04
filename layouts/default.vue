@@ -21,7 +21,7 @@
   };
 </script>
 
-<style>
+<style lang="scss">
   @import url('//fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,300,400,700,600');
 
   .main-container {
@@ -49,6 +49,18 @@
     line-height: 1.6;
     color: #222;
     background-color: #f0f0f0;
+  }
+
+  .title {
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+    display: block;
+    font-weight: 400;
+    font-size: 1.5rem;
+    color: #35495e;
+    line-height: 3.5rem;
+    color: #222;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 1.88rem;
   }
 
   *,
