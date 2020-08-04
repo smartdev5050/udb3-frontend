@@ -45,7 +45,9 @@
     "logout": "Afmelden"
   },
   "actions": {
-    "create": "toevoegen",
+    "create": "toevoegen"
+  },
+  "pagination": {
     "previous": "Vorige",
     "next": "Volgende"
   },

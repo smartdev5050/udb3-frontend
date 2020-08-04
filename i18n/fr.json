@@ -43,7 +43,9 @@
     "logout": "Déconnecter"
   },
   "actions": {
-    "create": "toevoegen",
+    "create": "toevoegen"
+  },
+  "pagination": {
     "previous": "Dernier",
     "next": "Prochain"
   },

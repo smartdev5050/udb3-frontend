@@ -3,8 +3,8 @@
     v-model="currentPage"
     :total-rows="rows"
     :per-page="perPage"
-    :prev-text="$t('actions.previous')"
-    :next-text="$t('actions.next')"
+    :prev-text="$t('pagination.previous')"
+    :next-text="$t('pagination.next')"
     hide-goto-end-buttons
     :class="{ 'hide-buttons': hideButtons }"
   />
