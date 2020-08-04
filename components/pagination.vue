@@ -29,7 +29,9 @@
 </script>
 
 <style lang="scss">
-  ul.pagination {
+  .pagination {
+    justify-content: center;
+
     .page-item:first-child .page-link {
       margin-right: 0.2rem;
     }
@@ -37,15 +39,15 @@
     .page-item:last-child .page-link {
       margin-left: 0.2rem;
     }
-  }
 
-  ul.pagination.hide-buttons {
-    li:first-child {
-      display: none;
-    }
+    &.hide-buttons {
+      li:first-child {
+        display: none;
+      }
 
-    li:last-child {
-      display: none;
+      li:last-child {
+        display: none;
+      }
     }
   }
 </style>
