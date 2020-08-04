@@ -88,9 +88,6 @@ export default {
       ],
     }
   },
-  router: {
-    middleware: ['auth'],
-  },
   io: {
     sockets: [
       {
@@ -99,6 +96,9 @@ export default {
         url: 'https://sockets.uitdatabank.dev',
       },
     ],
+  },
+  router: {
+    middleware: ['auth'],
   },
   styleResources: {
     scss: ['./assets/styles/_global.scss'],
