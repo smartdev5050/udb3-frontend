@@ -1,7 +1,12 @@
-@import './_colors.scss';
-// Your variable overrides
+@import 'colors.scss';
+// color overrides
 $primary: $udb-blue;
 $secondary: $udb-grey;
+
+//font-size overrides
+$small-font-size: 65%;
+
+// button overrides
 $btn-border-radius: 0;
 $btn-padding-y: 0.275rem;
 $btn-padding-x: 0.5rem;
@@ -14,6 +19,17 @@ $btn-padding-x: 0.5rem;
     border-color: #adadad !important;
   }
 }
+
+// pagination overrides
+$pagination-color: #222;
+$pagination-active-bg: #f3453f;
+$pagination-active-color: $white;
+$pagination-hover-bg: #f3453f;
+$pagination-hover-color: $white;
+$pagination-border-color: $udb-grey;
+$pagination-focus-box-shadow: none;
+$pagination-padding-y: 0.44rem;
+$pagination-padding-x: 0.84rem;
 
 // Bootstrap and its default variables
 @import '../../node_modules/bootstrap/scss/bootstrap';
