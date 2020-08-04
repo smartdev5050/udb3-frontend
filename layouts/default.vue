@@ -66,7 +66,7 @@
   .title {
     font-family: 'Open Sans', Helvetica, Arial, sans-serif;
     display: block;
-    font-weight: 400;
+    font-weight: 300;
     font-size: 1.5rem;
     color: #35495e;
     line-height: 3.5rem;
