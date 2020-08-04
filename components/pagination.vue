@@ -7,6 +7,7 @@
       :prev-text="$t('actions.previous')"
       :next-text="$t('actions.next')"
       hide-goto-end-buttons
+      :class="{ 'hide-buttons': hideButtons }"
     />
   </div>
 </template>
@@ -19,6 +20,11 @@
       rows: { type: Number, default: 1 },
       perPage: { type: Number, default: 1 },
     },
+    computed: {
+      hideButtons() {
+        return this.rows === 1;
+      },
+    },
   };
 </script>
 
@@ -30,6 +36,16 @@
 
     .page-item:last-child .page-link {
       margin-left: 0.2rem;
+    }
+  }
+
+  ul.pagination.hide-buttons {
+    li:first-child {
+      display: none;
+    }
+
+    li:last-child {
+      display: none;
     }
   }
 </style>
