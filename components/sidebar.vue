@@ -39,7 +39,7 @@
                 <span>{{ $t('menu.validate') }}</span>
               </span>
               <span>
-                <span class="badge" v-if="moderationCount > 0">{{
+                <span v-if="moderationCount > 0" class="badge">{{
                   moderationCount
                 }}</span>
               </span>
