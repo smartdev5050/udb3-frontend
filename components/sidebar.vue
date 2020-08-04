@@ -33,9 +33,16 @@
         <p class="management-title">{{ $t('menu.management') }}</p>
         <ul class="admin">
           <li v-if="isValidateVisible">
-            <nuxt-link to="/search">
-              <fa icon="flag" />
-              <span>{{ $t('menu.validate') }}</span>
+            <nuxt-link to="/manage/moderation/overview" class="moderation-link">
+              <span>
+                <fa icon="flag" />
+                <span>{{ $t('menu.validate') }}</span>
+              </span>
+              <span>
+                <span class="badge" v-if="moderationCount > 0">{{
+                  moderationCount
+                }}</span>
+              </span>
             </nuxt-link>
           </li>
           <li v-if="isUsersVisible">
@@ -162,6 +169,7 @@
         jobLoggerState: JobLoggerStates.IDLE,
         permissions: [],
         roles: [],
+        moderationCount: 0,
       };
     },
     computed: {
@@ -212,6 +220,21 @@
       const roles = await this.$api.user.getRoles();
       this.permissions = permissions;
       this.roles = roles;
+
+      const validationQuery = this.roles
+        .map((role) =>
+          role.constraints !== undefined && role.constraints.v3
+            ? role.constraints.v3
+            : null,
+        )
+        .filter((constraint) => constraint !== null)
+        .join(' OR ');
+
+      const eventsToModerate = await this.$api.events.findToModerate(
+        `(${validationQuery})`,
+      );
+
+      this.moderationCount = eventsToModerate.totalItems;
     },
     methods: {
       toggleJobLogger() {
@@ -276,8 +299,8 @@
       height: 1rem;
     }
 
-    a span {
-      margin-left: 6px;
+    a .svg-inline--fa {
+      margin-right: 6px;
     }
 
     a:hover:not(.udb-logo-link) {
@@ -285,6 +308,11 @@
       color: $white;
       text-decoration: none;
       cursor: pointer;
+    }
+
+    a.moderation-link {
+      display: inline-flex;
+      justify-content: space-between;
     }
 
     .management-block {
