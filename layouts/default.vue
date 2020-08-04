@@ -68,12 +68,11 @@
     font-family: 'Open Sans', Helvetica, Arial, sans-serif;
     display: block;
     font-weight: 300;
-    font-size: 1.5rem;
-    color: #35495e;
-    line-height: 3.5rem;
+    font-size: 1.6rem;
+    line-height: 3.74rem;
     color: #222;
     border-bottom: 1px solid #ccc;
-    margin-bottom: 1.88rem;
+    margin-bottom: 2rem;
   }
 
   *,
