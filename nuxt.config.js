@@ -82,20 +82,12 @@ export default {
     io: {
       sockets: [
         {
+          default: true,
           name: 'uitdatabank',
           url: process.env.SOCKET_URL,
         },
       ],
-    }
-  },
-  io: {
-    sockets: [
-      {
-        default: true,
-        name: 'uitdatabank',
-        url: 'https://sockets.uitdatabank.dev',
-      },
-    ],
+    },
   },
   router: {
     middleware: ['auth'],
