@@ -25,27 +25,11 @@
     data() {
       return {
         fieldsProductions: ['name', 'production_id'],
-        productions: [
-          {
-            name: 'Star Wars',
-            production_id: 'a8700c8f-4c57-41e7-ad06-b03802def25b',
-            events: [
-              '02d359c4-46fb-4812-9cb1-f6b85e9faa67',
-              '141be7d2-404b-49d8-a0cc-0e9250de6307',
-            ],
-          },
-        ],
+        productions: [],
       };
     },
-    created() {
-      // get productions
-      this.getAllProductions().then((res) => {
-        console.log(res);
-      });
-      // get events inside each production
-      this.getEventById('02d359c4-46fb-4812-9cb1-f6b85e9faa67').then((res) => {
-        console.log(res);
-      });
+    async created() {
+      await this.updateProductions();
     },
     methods: {
       async getAllProductions() {
@@ -53,6 +37,30 @@
       },
       async getEventById(id) {
         return await this.$api.events.findById(id);
+      },
+      async updateProductions() {
+        const responseProductions = await this.getAllProductions();
+        const productions = [];
+
+        responseProductions.member.forEach((production) => {
+          const eventIds = production.events;
+          const events = [];
+
+          eventIds.forEach(async (eventId) => {
+            const event = await this.getEventById(eventId);
+            if (event) {
+              events.push(event);
+            }
+          });
+
+          productions.push({
+            name: production.name,
+            production_id: production.production_id,
+            events,
+          });
+        });
+
+        this.productions = productions;
       },
     },
   };
