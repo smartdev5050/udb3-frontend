@@ -85,6 +85,7 @@
     computed: {
       cookieOptions() {
         return {
+          path: '/',
           maxAge: 60 * 60 * 24 * 30,
         };
       },
