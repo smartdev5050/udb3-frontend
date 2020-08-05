@@ -115,7 +115,7 @@
     methods: {
       async fetchFeatures() {
         this.loading = true;
-        const response = await fetch(process.env.newFeaturesUrl);
+        const response = await fetch(this.$config.newFeaturesUrl);
         const { data } = await response.json();
         this.loading = false;
         return data;

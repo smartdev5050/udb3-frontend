@@ -9,23 +9,24 @@ const removeCookies = () => {
 
 const buildBaseUrl = () =>
   `${window.location.protocol}//${window.location.host}`;
+
 /**
  * Log the active user out.
  */
-export const logout = () => {
+export const logout = (authUrl) => {
   removeCookies();
 
   const queryString = new URLSearchParams({
     destination: buildBaseUrl(),
   }).toString();
 
-  window.location.href = `${process.env.authUrl}/logout?${queryString}`;
+  window.location.href = `${authUrl}/logout?${queryString}`;
 };
 
 /**
  * Login by redirecting to UiTiD
  */
-export const login = () => {
+export const login = (authUrl) => {
   removeCookies();
 
   const queryString = new URLSearchParams({
@@ -33,5 +34,5 @@ export const login = () => {
     lang: 'nl',
   }).toString();
 
-  window.location.href = `${process.env.authUrl}/connect?${queryString}`;
+  window.location.href = `${authUrl}/connect?${queryString}`;
 };

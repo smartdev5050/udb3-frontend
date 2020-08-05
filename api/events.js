@@ -1,6 +1,4 @@
-import { fetchWithLogoutWhenFailed } from './api';
-
-export const findToModerate = (apiUrl, headers) => async (
+export const findToModerate = (apiUrl, headers, fetch) => async (
   searchQuery,
   start = 0,
   limit = 1,
@@ -16,7 +14,7 @@ export const findToModerate = (apiUrl, headers) => async (
     workflowStatus: 'READY_FOR_VALIDATION',
   }).toString();
 
-  const res = await fetchWithLogoutWhenFailed(url, {
+  const res = await fetch(url, {
     headers: headers(),
   });
   return await res.json();

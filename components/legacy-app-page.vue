@@ -15,7 +15,7 @@
     },
     computed: {
       generatePath() {
-        return `${process.env.legacyAppUrl}${this.path}`;
+        return `${this.$config.legacyAppUrl}${this.path}`;
       },
     },
     mounted() {
