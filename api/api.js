@@ -3,9 +3,9 @@ import { logout } from '../services/auth';
 import { getMe, getPermissions, getRoles } from './user';
 import { findToModerate } from './events';
 
-export const getHeaders = (token) => ({
+export const getHeaders = (token, apiKey) => ({
   Authorization: `Bearer ${token}`,
-  'X-Api-Key': process.env.apiKey,
+  'X-Api-Key': apiKey,
 });
 
 const isTokenValid = (token) => {
@@ -20,34 +20,34 @@ const isTokenValid = (token) => {
   return decodedToken.exp - now > 0;
 };
 
-export const fetchWithLogoutWhenFailed = async (...args) => {
+export const fetchWithLogoutWhenFailed = (authUrl) => async (...args) => {
   const response = await fetch(...args);
   if (response.status === 401 || response.status === 403) {
-    logout();
+    logout(authUrl);
   }
   return response;
 };
 
-export default (tokenCallback) => {
-  const apiUrl = process.env.apiUrl;
+export default (authUrl, apiUrl, apiKey, tokenCallback) => {
+  const fetch = fetchWithLogoutWhenFailed(authUrl);
 
   const headersCallback = () => {
     const token = tokenCallback();
     if (!isTokenValid(token)) {
-      logout();
+      logout(authUrl);
       return;
     }
-    return getHeaders(token);
+    return getHeaders(token, apiKey);
   };
 
   return {
     events: {
-      findToModerate: findToModerate(apiUrl, headersCallback),
+      findToModerate: findToModerate(apiUrl, headersCallback, fetch),
     },
     user: {
-      getMe: getMe(apiUrl, headersCallback),
-      getPermissions: getPermissions(apiUrl, headersCallback),
-      getRoles: getRoles(apiUrl, headersCallback),
+      getMe: getMe(apiUrl, headersCallback, fetch),
+      getPermissions: getPermissions(apiUrl, headersCallback, fetch),
+      getRoles: getRoles(apiUrl, headersCallback, fetch),
     },
   };
 };
