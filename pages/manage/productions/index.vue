@@ -9,7 +9,7 @@
           </nuxt-link>
         </small>
       </h1>
-      <b-table striped hover :items="items" :fields="fields"></b-table>
+      <b-table :items="productions" :fields="fieldsProductions"> </b-table>
       <pagination />
     </div>
   </div>
@@ -24,12 +24,16 @@
     },
     data() {
       return {
-        fields: ['naam', 'opties'],
-        items: [
-          { naam: 'Dickerson', opties: 'Macdonald' },
-          { naam: 'Larsen', opties: 'Shaw' },
-          { naam: 'Geneva', opties: 'Wilson' },
-          { naam: 'Jami', opties: 'Carney' },
+        fieldsProductions: ['name', 'production_id'],
+        productions: [
+          {
+            name: 'Star Wars',
+            production_id: 'a8700c8f-4c57-41e7-ad06-b03802def25b',
+            events: [
+              '02d359c4-46fb-4812-9cb1-f6b85e9faa67',
+              '141be7d2-404b-49d8-a0cc-0e9250de6307',
+            ],
+          },
         ],
       };
     },
