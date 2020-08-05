@@ -20,7 +20,7 @@ export const findToModerate = (apiUrl, headers, fetch) => async (
   return await res.json();
 };
 
-export const getEventById = (apiUrl, headers, fetch) => async (id) => {
+export const findById = (apiUrl, headers, fetch) => async (id) => {
   const url = `${apiUrl}/event/${id.toString()}`;
   const res = await fetch(url, {
     headers: headers(),
