@@ -44,11 +44,18 @@
       </div>
     </template>
   </b-table>
+    <pagination v-if="!loading" :rows="2" :per-page="1" />
+  </div>
 </template>
 
 <script>
+  import Pagination from './pagination';
+
   export default {
     name: 'ProductionsTable',
+    components: {
+      Pagination,
+    },
     data() {
       return {
         loading: true,

@@ -10,18 +10,15 @@
         </small>
       </h1>
       <productions-table />
-      <pagination />
     </div>
   </div>
 </template>
 
 <script>
-  import Pagination from '../../../components/pagination';
   import ProductionsTable from '../../../components/productions-table';
 
   export default {
     components: {
-      Pagination,
       ProductionsTable,
     },
   };
