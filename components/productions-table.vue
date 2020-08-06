@@ -1,5 +1,12 @@
 <template>
-  <b-table :items="productions" :fields="fieldsProductions">
+  <b-table
+    striped
+    bordered
+    :items="productions"
+    :fields="fieldsProductions"
+    :busy="loading"
+    hover
+  >
     <template v-slot:cell(show_events)="row">
       <div @click="row.toggleDetails">
         <fa v-if="row.detailsShowing" icon="chevron-down" />
@@ -8,18 +15,33 @@
     </template>
 
     <template v-slot:row-details="row">
-      <b-card>
-        <table class="table b-table">
+      <div v-if="row.item.events && row.item.events.length > 0">
+        <table class="table b-table table-bordered table-hover table-detail">
           <template v-for="event in row.item.events">
             <tr :key="event.id">
               <td>{{ event.name[udbLanguage] }}</td>
               <td>
-                <b-button variant="primary">Verwijderen</b-button>
+                <a href="#">verwijderen</a>
               </td>
             </tr>
           </template>
         </table>
-      </b-card>
+        <a href="#">toevoegen</a>
+      </div>
+      <div v-else>
+        <table class="table b-table table-bordered table-hover">
+          <tr>
+            <td>Geen eventementen onder deze productie</td>
+          </tr>
+        </table>
+      </div>
+    </template>
+
+    <template v-slot:table-busy>
+      <div class="text-center text-danger my-2">
+        <b-spinner class="align-middle"></b-spinner>
+        <strong>Loading...</strong>
+      </div>
     </template>
   </b-table>
 </template>
@@ -29,6 +51,7 @@
     name: 'ProductionsTable',
     data() {
       return {
+        loading: true,
         fieldsProductions: [
           {
             key: 'name',
@@ -70,6 +93,7 @@
         return await this.$api.events.findById(id);
       },
       async mergeEventsIntoProductions() {
+        this.loading = true;
         const responseProductions = await this.getAllProductions();
         const productions = [];
 
@@ -79,7 +103,8 @@
 
           eventIds.forEach(async (eventId) => {
             const event = await this.getEventById(eventId);
-            if (event) {
+            const eventExists = !event.status;
+            if (event && eventExists) {
               events.push(event);
             }
           });
@@ -93,9 +118,15 @@
         });
 
         this.productions = productions;
+        this.loading = false;
+        console.log({ productions: this.productions });
       },
     },
   };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+  .table-detail > tr {
+    background-color: #f5f5f5 !important;
+  }
+</style>
