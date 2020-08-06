@@ -1,49 +1,50 @@
 <template>
-  <b-table
-    striped
-    bordered
-    :items="productions"
-    :fields="fieldsProductions"
-    :busy="loading"
-    hover
-  >
-    <template v-slot:cell(show_events)="row">
-      <div @click="row.toggleDetails">
-        <fa v-if="row.detailsShowing" icon="chevron-down" />
-        <fa v-else icon="chevron-right" />
-      </div>
-    </template>
+  <div>
+    <b-table
+      striped
+      bordered
+      :items="productions"
+      :fields="fieldsProductions"
+      :busy="loading"
+      hover
+    >
+      <template v-slot:cell(show_events)="row">
+        <div @click="row.toggleDetails">
+          <fa v-if="row.detailsShowing" icon="chevron-down" />
+          <fa v-else icon="chevron-right" />
+        </div>
+      </template>
 
-    <template v-slot:row-details="row">
-      <div v-if="row.item.events && row.item.events.length > 0">
-        <table class="table b-table table-bordered table-hover table-detail">
-          <template v-for="event in row.item.events">
-            <tr :key="event.id">
-              <td>{{ event.name[udbLanguage] }}</td>
-              <td>
-                <a href="#">verwijderen</a>
-              </td>
+      <template v-slot:row-details="row">
+        <div v-if="row.item.events && row.item.events.length > 0">
+          <table class="table b-table table-bordered table-hover table-detail">
+            <template v-for="event in row.item.events">
+              <tr :key="event.id">
+                <td>{{ event.name[udbLanguage] }}</td>
+                <td>
+                  <a href="#">verwijderen</a>
+                </td>
+              </tr>
+            </template>
+          </table>
+          <a href="#">toevoegen</a>
+        </div>
+        <div v-else>
+          <table class="table b-table table-bordered table-hover">
+            <tr>
+              <td>Geen eventementen onder deze productie</td>
             </tr>
-          </template>
-        </table>
-        <a href="#">toevoegen</a>
-      </div>
-      <div v-else>
-        <table class="table b-table table-bordered table-hover">
-          <tr>
-            <td>Geen eventementen onder deze productie</td>
-          </tr>
-        </table>
-      </div>
-    </template>
+          </table>
+        </div>
+      </template>
 
-    <template v-slot:table-busy>
-      <div class="text-center text-danger my-2">
-        <b-spinner class="align-middle"></b-spinner>
-        <strong>Loading...</strong>
-      </div>
-    </template>
-  </b-table>
+      <template v-slot:table-busy>
+        <div class="text-center text-danger my-2">
+          <b-spinner class="align-middle"></b-spinner>
+          <strong>Loading...</strong>
+        </div>
+      </template>
+    </b-table>
     <pagination v-if="!loading" :rows="2" :per-page="1" />
   </div>
 </template>
