@@ -41,7 +41,7 @@
       async getEventById(id) {
         return await this.$api.events.findById(id);
       },
-      async updateProductions() {
+      async mergeEventsIntoProductions() {
         const responseProductions = await this.getAllProductions();
         const productions = [];
 
