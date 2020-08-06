@@ -1,13 +1,25 @@
 <template>
   <b-table :items="productions" :fields="fieldsProductions">
     <template v-slot:cell(show_events)="row">
-      <b-button size="sm" @click="row.toggleDetails">
-        {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
-      </b-button>
+      <div @click="row.toggleDetails">
+        <fa v-if="row.detailsShowing" icon="chevron-down" />
+        <fa v-else icon="chevron-right" />
+      </div>
     </template>
 
     <template v-slot:row-details="row">
-      <b-table :items="row.event"></b-table>
+      <b-card>
+        <table class="table b-table">
+          <template v-for="event in row.item.events">
+            <tr :key="event.id">
+              <td>{{ event.name[udbLanguage] }}</td>
+              <td>
+                <b-button variant="primary">Verwijderen</b-button>
+              </td>
+            </tr>
+          </template>
+        </table>
+      </b-card>
     </template>
   </b-table>
 </template>
@@ -29,10 +41,26 @@
           },
         ],
         productions: [],
+        fieldsEvents: [
+          {
+            key: 'name',
+            label: 'Naam',
+            sortable: true,
+          },
+          {
+            key: 'delete_event',
+            label: 'Opties',
+          },
+        ],
       };
     },
+    computed: {
+      udbLanguage() {
+        return this.$cookies.get('udb-language');
+      },
+    },
     async created() {
-      await this.updateProductions();
+      await this.mergeEventsIntoProductions();
     },
     methods: {
       async getAllProductions() {
