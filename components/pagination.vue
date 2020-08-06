@@ -7,6 +7,7 @@
     :next-text="$t('pagination.next')"
     hide-goto-end-buttons
     :class="{ 'hide-buttons': hideButtons }"
+    @input="changePage()"
   />
 </template>
 
@@ -14,13 +15,21 @@
   export default {
     name: 'Pagination',
     props: {
-      currentPage: { type: Number, default: 1 },
       rows: { type: Number, default: 1 },
       perPage: { type: Number, default: 1 },
     },
+    data: () => ({
+      currentPage: 1,
+    }),
     computed: {
       hideButtons() {
         return this.rows === 1;
+      },
+    },
+    methods: {
+      changePage() {
+        console.log('changed page');
+        // this.$store.state.currentPage = this.currentPage;
       },
     },
   };
