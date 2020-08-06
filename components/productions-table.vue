@@ -83,18 +83,19 @@
       },
     },
     async created() {
-      await this.mergeEventsIntoProductions();
+      // get the first page of productions
+      await this.mergeEventsIntoProductions(0, 1);
     },
     methods: {
-      async getAllProductions() {
-        return await this.$api.productions.find();
+      async getAllProductions(offset, limit) {
+        return await this.$api.productions.find('', offset, limit);
       },
       async getEventById(id) {
         return await this.$api.events.findById(id);
       },
-      async mergeEventsIntoProductions() {
+      async mergeEventsIntoProductions(offset, limit) {
         this.loading = true;
-        const responseProductions = await this.getAllProductions();
+        const responseProductions = await this.getAllProductions(offset, limit);
         const productions = [];
 
         responseProductions.member.forEach((production) => {
