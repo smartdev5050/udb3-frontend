@@ -273,7 +273,9 @@
       },
     },
     methods: {
-      login: () => login(this.$config.authUrl),
+      login() {
+        login(this.$config.authUrl);
+      },
       setLanguage(language) {
         this.$i18n.locale = language;
         this.$cookies.set('udb-language', language);

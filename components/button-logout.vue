@@ -11,7 +11,9 @@
   export default {
     name: 'ButtonLogout',
     methods: {
-      logout: () => logout(this.$config.authUrl),
+      logout() {
+        logout(this.$config.authUrl);
+      },
     },
   };
 </script>
