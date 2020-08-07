@@ -22,17 +22,17 @@
               <tr :key="event.id">
                 <td>{{ event.name[udbLanguage] }}</td>
                 <td>
-                  <a href="#">verwijderen</a>
+                  <a href="#">{{ $t('productions.delete') }}</a>
                 </td>
               </tr>
             </template>
           </table>
-          <a href="#">toevoegen</a>
+          <a href="#">{{ $t('productions.create') }}</a>
         </div>
         <div v-else>
-          <table class="table b-table table-bordered table-hover">
+          <table class="table b-table table-bordered table-hover table-detail">
             <tr>
-              <td>Geen eventementen onder deze productie</td>
+              <td>{{ $t('productions.no_events') }}</td>
             </tr>
           </table>
         </div>
@@ -41,7 +41,7 @@
       <template v-slot:table-busy>
         <div class="text-center text-danger my-2">
           <b-spinner class="align-middle"></b-spinner>
-          <strong>Loading...</strong>
+          <strong>{{ $t('productions.loading') + '...' }}</strong>
         </div>
       </template>
     </b-table>

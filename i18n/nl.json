@@ -44,12 +44,15 @@
     "notifications": "Meldingen",
     "logout": "Afmelden"
   },
-  "actions": {
-    "create": "toevoegen"
-  },
   "pagination": {
     "previous": "Vorige",
     "next": "Volgende"
+  },
+  "productions": {
+    "create": "toevoegen",
+    "delete": "verwijderen",
+    "no_events": "Geen eventementen onder deze productie.",
+    "loading": "Laden"
   },
   "jobs": {
     "exported_documents": "Geëxporteerde documenten",
