@@ -1,74 +1,51 @@
 <template>
   <div>
-    <b-table
-      striped
-      bordered
-      :items="productions"
-      :fields="fieldsProductions"
-      :busy="isLoadingProductions"
-      hover
-    >
-      <template v-slot:cell(showEvents)="row">
-        <div @click="handleToggleDetails(row)">
-          <fa v-if="row.detailsShowing" icon="chevron-down" />
-          <fa v-else icon="chevron-right" />
-        </div>
-      </template>
-
-      <template v-slot:row-details="row">
-        <!-- if the events are done loading and there are events -->
-        <div
-          v-if="
-            !isLoadingEventsForProduction[row.item.production_id] &&
-            events[row.item.production_id]
-          "
-        >
-          <table class="table b-table table-bordered table-hover table-detail">
-            <template v-for="event in events[row.item.production_id]">
-              <tr :key="event.id">
-                <td>{{ event.name[udbLanguage] }}</td>
-                <td>
-                  <a href="#">{{ $t('productions.delete') }}</a>
-                </td>
-              </tr>
-            </template>
-          </table>
-          <a href="#">{{ $t('productions.create') }}</a>
-        </div>
-        <!-- if the events are done loading and there are no events -->
-        <div
-          v-else-if="
-            !isLoadingEventsForProduction[row.item.production_id] &&
-            !events[row.item.production_id]
-          "
-        >
-          <table class="table b-table table-bordered table-hover table-detail">
-            <tr>
-              <td>{{ $t('productions.no_events') }}</td>
-            </tr>
-          </table>
-        </div>
-        <!-- if the events aren't done loading -->
-        <div v-else>
-          <div class="text-center text-danger my-2">
-            <b-spinner class="align-middle"></b-spinner>
-            <strong>{{ $t('productions.loading') + '...' }}</strong>
-          </div>
-        </div>
-      </template>
-
-      <template v-slot:table-busy>
-        <div class="text-center text-danger my-2">
-          <b-spinner class="align-middle"></b-spinner>
-          <strong>{{ $t('productions.loading') + '...' }}</strong>
-        </div>
-      </template>
-    </b-table>
+    <div class="productions-container">
+      <table class="table table-striped table-hover table-productions">
+        <thead>
+          <tr>
+            <th scope="col">Productions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="production in productions"
+            :key="production.production_id"
+            :class="{
+              selected:
+                selectedProduction &&
+                selectedProduction.production_id === production.production_id,
+            }"
+            @click="selectProduction(production)"
+          >
+            <td>{{ production.production_id }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <table
+        v-if="selectedProduction"
+        class="table table-striped table-hover table-events"
+      >
+        <thead>
+          <tr>
+            <th scope="col">Events</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="event in events[selectedProduction.production_id]"
+            :key="event.id"
+          >
+            <td>{{ event.name[udbLanguage] }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <pagination
       v-if="!isLoadingProductions"
       :rows="3"
       :per-page="1"
-      @changePage="changePage()"
+      @changePage="changePage"
     />
   </div>
 </template>
@@ -84,31 +61,10 @@
     data() {
       return {
         isLoadingProductions: true,
-        fieldsProductions: [
-          {
-            key: 'name',
-            label: 'Naam',
-            sortable: true,
-          },
-          {
-            key: 'showEvents',
-            label: 'Opties',
-          },
-        ],
         productions: [],
         isLoadingEventsForProduction: {},
-        fieldsEvents: [
-          {
-            key: 'name',
-            label: 'Naam',
-            sortable: true,
-          },
-          {
-            key: 'delete_event',
-            label: 'Opties',
-          },
-        ],
         events: {},
+        selectedProduction: undefined,
       };
     },
     computed: {
@@ -119,6 +75,7 @@
     async created() {
       // get the first page of productions
       await this.getProductions(0, 10);
+      this.selectedProduction = this.productions[0];
     },
     methods: {
       async getAllProductions(start, limit) {
@@ -129,19 +86,15 @@
       },
       async getProductions(start, limit) {
         this.isLoadingProductions = true;
-        const responseProductions = await this.getAllProductions(start, limit);
-        const productions = [];
+        const { member } = await this.getAllProductions(start, limit);
+        const productions = member;
 
-        responseProductions.member.forEach((production) => {
-          productions.push({
-            ...production,
-            showEvents: false,
-          });
-
+        productions.forEach((production) => {
           this.isLoadingEventsForProduction[production.production_id] = true;
         });
 
         this.productions = productions;
+        console.log(this.productions);
         this.isLoadingProductions = false;
       },
       async getEventsInProduction(productionId) {
@@ -166,12 +119,9 @@
         }
         this.isLoadingEventsForProduction[productionId] = false;
       },
-      async handleToggleDetails(row) {
-        console.log(row.item._showDetails);
-        if (row.item._showDetails !== true) {
-          await this.getEventsInProduction(row.item.production_id);
-        }
-        row.toggleDetails();
+      async selectProduction(selectedProduction) {
+        this.selectedProduction = selectedProduction;
+        await this.getEventsInProduction(this.selectedProduction.production_id);
       },
       async changePage(newPage) {
         const start = (newPage - 1) * 1;
@@ -182,7 +132,27 @@
 </script>
 
 <style lang="scss">
-  .table-detail > tr {
-    background-color: #f5f5f5 !important;
+  .productions-container {
+    display: flex;
+    width: 100%;
+
+    .table-productions {
+      width: 40% !important;
+    }
+
+    .table-events {
+      width: 60% !important;
+    }
+
+    .selected {
+      background-color: lighten(
+        $color: $udb-primary-color,
+        $amount: 50%
+      ) !important;
+
+      &:hover {
+        background-color: lighten($udb-primary-color, 40%) !important;
+      }
+    }
   }
 </style>
