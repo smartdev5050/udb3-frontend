@@ -28,7 +28,10 @@
       >
         <thead>
           <tr>
-            <th scope="col">{{ $t('productions.events') }}</th>
+            <th scope="col">
+              {{ $t('productions.events') }}
+              <a>{{ $t('productions.create') }}</a>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -36,7 +39,20 @@
             v-for="event in events[selectedProduction.production_id]"
             :key="event.id"
           >
-            <td>{{ event.name[udbLanguage] }}</td>
+            <td>
+              <div class="event-item">
+                <div>
+                  {{ event.name[udbLanguage] }}
+                  <a>
+                    {{ $t('productions.delete') }}
+                  </a>
+                </div>
+                <fa icon="chevron-right" />
+              </div>
+              <div class="event-details">
+                event details
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -136,12 +152,27 @@
     display: flex;
     width: 100%;
 
+    .table {
+      font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+      font-size: 15px;
+    }
+
     .table-productions {
       width: 40% !important;
     }
 
     .table-events {
       width: 60% !important;
+
+      .event-item {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .event-details {
+        padding: 0.75rem;
+        background-color: white;
+      }
     }
 
     .selected {
@@ -153,6 +184,11 @@
       &:hover {
         background-color: lighten($udb-primary-color, 40%) !important;
       }
+    }
+
+    a {
+      font-weight: 400;
+      color: #004f94 !important;
     }
   }
 </style>
