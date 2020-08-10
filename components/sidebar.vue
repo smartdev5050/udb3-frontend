@@ -80,6 +80,9 @@
 
       <div class="person-data">
         <ul>
+          <li>
+            <giftbox />
+          </li>
           <li class="notifications">
             <a class="notification-container" @click="toggleJobLogger">
               <div>
@@ -143,6 +146,7 @@
   import JobLogger, { JobLoggerStates } from '../components/job/job-logger';
   import ButtonLogout from './button-logout';
   import JobIndicator from './job/job-indicator';
+  import Giftbox from './giftbox';
 
   const Permissions = {
     AANBOD_BEWERKEN: 'AANBOD_BEWERKEN',
@@ -162,6 +166,7 @@
       ButtonLogout,
       JobIndicator,
       JobLogger,
+      Giftbox,
     },
     data() {
       return {
