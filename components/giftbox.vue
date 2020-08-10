@@ -164,24 +164,6 @@
     bottom: 1.5rem;
     text-align: center;
 
-    .giftbox-button {
-      width: 100%;
-      height: 100%;
-      line-height: 100%;
-      border-radius: 50%;
-      background-color: $udb-primary-color;
-      text-align: center;
-      -webkit-box-shadow: 0px 0px 35px -8px rgba(0, 0, 0, 0.75);
-      -moz-box-shadow: 0px 0px 35px -8px rgba(0, 0, 0, 0.75);
-      box-shadow: 0px 0px 35px -8px rgba(0, 0, 0, 0.75);
-      transition: background-color 500ms, transform 500ms;
-
-      &:active {
-        background-color: lighten($color: $udb-primary-color, $amount: 40%);
-        transform: scale(0.75, 0.75);
-      }
-    }
-
     .giftbox-icon {
       color: #fff;
       width: 65%;
