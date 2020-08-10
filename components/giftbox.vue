@@ -2,7 +2,7 @@
   <div>
     <a @click="showModal">
       <fa icon="gift" class="giftbox-icon" />
-      Nieuwigheden
+      {{ $t('giftbox.announcements') }}
     </a>
     <b-modal
       ref="giftbox-modal"
