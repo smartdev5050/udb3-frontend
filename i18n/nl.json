@@ -51,7 +51,9 @@
   "productions": {
     "create": "toevoegen",
     "delete": "verwijderen",
+    "events": "Evenementen",
     "no_events": "Geen eventementen onder deze productie.",
+    "productions": "Producties",
     "loading": "Laden"
   },
   "jobs": {

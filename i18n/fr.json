@@ -49,7 +49,9 @@
   "productions": {
     "create": "ajouter",
     "delete": "suprimer",
+    "events": "Événement",
     "no_events": "Aucun événement dans cette production.",
+    "productions": "Productions",
     "loading": "Changer"
   },
   "jobs": {

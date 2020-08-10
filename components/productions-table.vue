@@ -4,7 +4,7 @@
       <table class="table table-striped table-hover table-productions">
         <thead>
           <tr>
-            <th scope="col">Productions</th>
+            <th scope="col">{{ $t('productions.productions') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -18,7 +18,7 @@
             }"
             @click="selectProduction(production)"
           >
-            <td>{{ production.production_id }}</td>
+            <td>{{ production.name }}</td>
           </tr>
         </tbody>
       </table>
@@ -28,7 +28,7 @@
       >
         <thead>
           <tr>
-            <th scope="col">Events</th>
+            <th scope="col">{{ $t('productions.events') }}</th>
           </tr>
         </thead>
         <tbody>
