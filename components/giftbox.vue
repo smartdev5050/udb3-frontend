@@ -1,8 +1,9 @@
 <template>
-  <div class="giftbox-wrapper">
-    <div class="giftbox-button" @click="showModal">
+  <div>
+    <a @click="showModal">
       <fa icon="gift" class="giftbox-icon" />
-    </div>
+      Nieuwigheden
+    </a>
     <b-modal
       ref="giftbox-modal"
       class="giftbox-modal"
@@ -153,26 +154,6 @@
     },
   };
 </script>
-
-<style lang="scss" scoped>
-  .giftbox-wrapper {
-    width: 3rem;
-    height: 3rem;
-    line-height: 3rem;
-    position: absolute;
-    right: 1.5rem;
-    bottom: 1.5rem;
-    text-align: center;
-
-    .giftbox-icon {
-      color: #fff;
-      width: 65%;
-      height: 65%;
-      position: relative;
-      top: 17.5%;
-    }
-  }
-</style>
 
 <style lang="scss">
   .modal-open .modal {
