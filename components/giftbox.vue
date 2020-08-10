@@ -1,8 +1,13 @@
 <template>
   <div>
-    <a @click="showModal">
-      <fa icon="gift" class="giftbox-icon" />
-      {{ $t('giftbox.announcements') }}
+    <a class="giftbox-container" @click="showModal">
+      <div>
+        <fa icon="gift" class="giftbox-icon" />
+        {{ $t('giftbox.announcements') }}
+      </div>
+      <span v-if="numberOfUnseenFeatures" class="badge">{{
+        numberOfUnseenFeatures
+      }}</span>
     </a>
     <b-modal
       ref="giftbox-modal"
@@ -81,6 +86,7 @@
       loading: true,
       features: [],
       seenFeatures: [],
+      numberOfUnseenFeatures: 0,
       selectedFeature: undefined,
     }),
     computed: {
@@ -94,6 +100,8 @@
     watch: {
       seenFeatures(newSeenFeatures) {
         this.$cookies.set('seenFeatures', newSeenFeatures, this.cookieOptions);
+        this.numberOfUnseenFeatures =
+          this.features.length - this.seenFeatures.length;
       },
     },
     created() {

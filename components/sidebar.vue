@@ -292,6 +292,7 @@
       line-height: 1.6rem;
       color: #fff;
       display: inline-block;
+      align-items: center;
       text-decoration: none;
       padding: $padding-normal;
       width: 100%;
@@ -332,6 +333,11 @@
         margin: 5px 0;
         opacity: 0.5;
       }
+    }
+
+    a.giftbox-container {
+      display: inline-flex;
+      justify-content: space-between;
     }
 
     .notifications {
