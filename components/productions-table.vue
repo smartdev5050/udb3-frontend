@@ -5,20 +5,26 @@
       bordered
       :items="productions"
       :fields="fieldsProductions"
-      :busy="loading"
+      :busy="isLoadingProductions"
       hover
     >
-      <template v-slot:cell(show_events)="row">
-        <div @click="row.toggleDetails">
+      <template v-slot:cell(showEvents)="row">
+        <div @click="handleToggleDetails(row)">
           <fa v-if="row.detailsShowing" icon="chevron-down" />
           <fa v-else icon="chevron-right" />
         </div>
       </template>
 
       <template v-slot:row-details="row">
-        <div v-if="row.item.events && row.item.events.length > 0">
+        <!-- if the events are done loading and there are events -->
+        <div
+          v-if="
+            !isLoadingEventsForProduction[row.item.production_id] &&
+            events[row.item.production_id]
+          "
+        >
           <table class="table b-table table-bordered table-hover table-detail">
-            <template v-for="event in row.item.events">
+            <template v-for="event in events[row.item.production_id]">
               <tr :key="event.id">
                 <td>{{ event.name[udbLanguage] }}</td>
                 <td>
@@ -29,12 +35,25 @@
           </table>
           <a href="#">{{ $t('productions.create') }}</a>
         </div>
-        <div v-else>
+        <!-- if the events are done loading and there are no events -->
+        <div
+          v-else-if="
+            !isLoadingEventsForProduction[row.item.production_id] &&
+            !events[row.item.production_id]
+          "
+        >
           <table class="table b-table table-bordered table-hover table-detail">
             <tr>
               <td>{{ $t('productions.no_events') }}</td>
             </tr>
           </table>
+        </div>
+        <!-- if the events aren't done loading -->
+        <div v-else>
+          <div class="text-center text-danger my-2">
+            <b-spinner class="align-middle"></b-spinner>
+            <strong>{{ $t('productions.loading') + '...' }}</strong>
+          </div>
         </div>
       </template>
 
@@ -45,7 +64,12 @@
         </div>
       </template>
     </b-table>
-    <pagination v-if="!loading" :rows="2" :per-page="1" />
+    <pagination
+      v-if="!isLoadingProductions"
+      :rows="3"
+      :per-page="1"
+      @changePage="changePage()"
+    />
   </div>
 </template>
 
@@ -59,7 +83,7 @@
     },
     data() {
       return {
-        loading: true,
+        isLoadingProductions: true,
         fieldsProductions: [
           {
             key: 'name',
@@ -67,11 +91,12 @@
             sortable: true,
           },
           {
-            key: 'show_events',
+            key: 'showEvents',
             label: 'Opties',
           },
         ],
         productions: [],
+        isLoadingEventsForProduction: {},
         fieldsEvents: [
           {
             key: 'name',
@@ -83,6 +108,7 @@
             label: 'Opties',
           },
         ],
+        events: {},
       };
     },
     computed: {
@@ -92,43 +118,64 @@
     },
     async created() {
       // get the first page of productions
-      await this.mergeEventsIntoProductions(0, 1);
+      await this.getProductions(0, 10);
     },
     methods: {
-      async getAllProductions(offset, limit) {
-        return await this.$api.productions.find('', offset, limit);
+      async getAllProductions(start, limit) {
+        return await this.$api.productions.find('', start, limit);
       },
       async getEventById(id) {
         return await this.$api.events.findById(id);
       },
-      async mergeEventsIntoProductions(offset, limit) {
-        this.loading = true;
-        const responseProductions = await this.getAllProductions(offset, limit);
+      async getProductions(start, limit) {
+        this.isLoadingProductions = true;
+        const responseProductions = await this.getAllProductions(start, limit);
         const productions = [];
 
         responseProductions.member.forEach((production) => {
-          const eventIds = production.events;
-          const events = [];
-
-          eventIds.forEach(async (eventId) => {
-            const event = await this.getEventById(eventId);
-            const eventExists = !event.status;
-            if (event && eventExists) {
-              events.push(event);
-            }
-          });
-
           productions.push({
-            name: production.name,
-            production_id: production.production_id,
-            events,
-            show_events: false,
+            ...production,
+            showEvents: false,
           });
+
+          this.isLoadingEventsForProduction[production.production_id] = true;
         });
 
         this.productions = productions;
-        this.loading = false;
-        console.log({ productions: this.productions });
+        this.isLoadingProductions = false;
+      },
+      async getEventsInProduction(productionId) {
+        this.isLoadingEventsForProduction[productionId] = true;
+        const events = [];
+
+        const foundProduction = this.productions.find(
+          (production) => production.production_id === productionId,
+        );
+
+        if (foundProduction) {
+          await foundProduction.events.forEach(async (eventId) => {
+            const foundEvent = await this.$api.events.findById(eventId);
+
+            if (foundEvent && !foundEvent.status) {
+              events.push(foundEvent);
+            }
+          });
+
+          this.events[productionId] = events;
+          console.log(this.events);
+        }
+        this.isLoadingEventsForProduction[productionId] = false;
+      },
+      async handleToggleDetails(row) {
+        console.log(row.item._showDetails);
+        if (row.item._showDetails !== true) {
+          await this.getEventsInProduction(row.item.production_id);
+        }
+        row.toggleDetails();
+      },
+      async changePage(newPage) {
+        const start = (newPage - 1) * 1;
+        await this.getProductions(start, 1);
       },
     },
   };
