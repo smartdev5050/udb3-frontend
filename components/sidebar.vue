@@ -387,6 +387,10 @@
         padding-top: $padding-small * 3;
       }
 
+      a div {
+        max-width: 100%;
+      }
+
       a span {
         margin-left: 0;
         display: block;

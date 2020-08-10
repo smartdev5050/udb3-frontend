@@ -3,7 +3,7 @@
     <a class="giftbox-container" @click="showModal">
       <div>
         <fa icon="gift" class="giftbox-icon" />
-        {{ $t('giftbox.announcements') }}
+        <span>{{ $t('giftbox.announcements') }}</span>
       </div>
       <span v-if="numberOfUnseenFeatures" class="badge">{{
         numberOfUnseenFeatures
