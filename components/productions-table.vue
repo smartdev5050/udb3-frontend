@@ -194,6 +194,7 @@
   .productions-container {
     display: flex;
     width: 100%;
+    font-weight: 400;
 
     .table {
       font-family: 'Open Sans', Helvetica, Arial, sans-serif;
@@ -202,10 +203,34 @@
 
     .table-productions {
       width: 40% !important;
+
+      tr {
+        display: flex;
+      }
+
+      tbody {
+        max-height: 80vh;
+        display: block;
+        overflow-y: scroll;
+      }
     }
 
     .table-events {
       width: 60% !important;
+
+      tr {
+        display: flex;
+      }
+
+      tr > td {
+        width: 100%;
+      }
+
+      tbody {
+        max-height: 80vh;
+        display: block;
+        overflow-y: scroll;
+      }
 
       .event-item {
         display: flex;
@@ -217,6 +242,10 @@
         margin-top: 1rem;
         padding: 0.75rem;
         background-color: white;
+      }
+
+      .event-details .table {
+        margin-bottom: 0;
       }
     }
 
