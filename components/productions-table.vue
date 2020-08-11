@@ -50,7 +50,7 @@
             <td>
               <div class="event-item">
                 <div>
-                  {{ event.name[udbLanguage] }}
+                  {{ event.name[udbLanguage] || event.name['nl'] }}
                   <a>
                     {{ $t('productions.delete') }}
                   </a>
@@ -67,26 +67,51 @@
                 />
               </div>
               <div v-if="showEventDetail[event['@id']]" class="event-details">
-                event details
+                <table class="table">
+                  <tbody>
+                    <tr>
+                      <th>{{ $t('productions.title') }}</th>
+                      <td>{{ event.name[udbLanguage] || event.name['nl'] }}</td>
+                    </tr>
+                    <tr>
+                      <th>{{ $t('productions.when') }}</th>
+                      <td>
+                        {{
+                          `${parseDate(event.startDate)} - ${parseDate(
+                            event.endDate,
+                          )}`
+                        }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>{{ $t('productions.where') }}</th>
+                      <td>
+                        {{
+                          event.location.name[udbLanguage] ||
+                          event.location.name['nl']
+                        }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </td>
           </tr>
         </tbody>
         <tbody
           v-else-if="
-            !isLoadingEventsForProduction[selectedProduction.production_id] &&
-            events[selectedProduction.production_id].length === 0
+            isLoadingEventsForProduction[selectedProduction.production_id]
           "
         >
+          <tr>
+            <loading-spinner />
+          </tr>
+        </tbody>
+        <tbody v-else>
           <tr class="text-center d-flex justify-content-center">
             {{
               $t('productions.no_events')
             }}
-          </tr>
-        </tbody>
-        <tbody v-else>
-          <tr>
-            <loading-spinner />
           </tr>
         </tbody>
       </table>
@@ -112,11 +137,11 @@
     },
     data() {
       return {
-        isLoadingProductions: true,
         productions: [],
-        isLoadingEventsForProduction: {},
-        events: {},
         selectedProduction: undefined,
+        isLoadingProductions: true,
+        events: {},
+        isLoadingEventsForProduction: {},
         showEventDetail: {},
       };
     },
@@ -164,6 +189,7 @@
         if (foundProduction) {
           await foundProduction.events.forEach(async (eventId) => {
             const foundEvent = await this.$api.events.findById(eventId);
+            console.log(foundEvent);
 
             if (foundEvent && !foundEvent.status) {
               events.push(foundEvent);
@@ -185,6 +211,13 @@
       },
       toggleEventDetail(id) {
         this.$set(this.showEventDetail, id, !this.showEventDetail[id]);
+      },
+      parseDate(date) {
+        const newDate = new Date(date);
+        const day = newDate.getDay() + 1;
+        const month = newDate.getMonth() + 1;
+        const year = newDate.getFullYear();
+        return `${day}-${month}-${year}`;
       },
     },
   };
