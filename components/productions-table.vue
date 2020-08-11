@@ -56,7 +56,13 @@
                   </a>
                 </div>
                 <fa
+                  v-show="!showEventDetail[event['@id']]"
                   icon="chevron-right"
+                  @click="toggleEventDetail(event['@id'])"
+                />
+                <fa
+                  v-show="showEventDetail[event['@id']]"
+                  icon="chevron-down"
                   @click="toggleEventDetail(event['@id'])"
                 />
               </div>
@@ -158,7 +164,6 @@
         if (foundProduction) {
           await foundProduction.events.forEach(async (eventId) => {
             const foundEvent = await this.$api.events.findById(eventId);
-            console.log(foundEvent);
 
             if (foundEvent && !foundEvent.status) {
               events.push(foundEvent);
@@ -180,7 +185,6 @@
       },
       toggleEventDetail(id) {
         this.$set(this.showEventDetail, id, !this.showEventDetail[id]);
-        console.log(this.showEventDetail);
       },
     },
   };
