@@ -1,7 +1,6 @@
 <template>
   <div class="main-container">
     <sidebar />
-    <giftbox />
     <div class="content">
       <nuxt />
     </div>
@@ -10,13 +9,11 @@
 
 <script>
   import Sidebar from '../components/sidebar';
-  import Giftbox from '../components/giftbox';
 
   export default {
     name: 'Default',
     components: {
       Sidebar,
-      Giftbox,
     },
   };
 </script>

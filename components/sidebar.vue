@@ -80,6 +80,9 @@
 
       <div class="person-data">
         <ul>
+          <li>
+            <giftbox />
+          </li>
           <li class="notifications">
             <a class="notification-container" @click="toggleJobLogger">
               <div>
@@ -143,6 +146,7 @@
   import JobLogger, { JobLoggerStates } from '../components/job/job-logger';
   import ButtonLogout from './button-logout';
   import JobIndicator from './job/job-indicator';
+  import Giftbox from './giftbox';
 
   const Permissions = {
     AANBOD_BEWERKEN: 'AANBOD_BEWERKEN',
@@ -162,6 +166,7 @@
       ButtonLogout,
       JobIndicator,
       JobLogger,
+      Giftbox,
     },
     data() {
       return {
@@ -287,6 +292,7 @@
       line-height: 1.6rem;
       color: #fff;
       display: inline-block;
+      align-items: center;
       text-decoration: none;
       padding: $padding-normal;
       width: 100%;
@@ -327,6 +333,11 @@
         margin: 5px 0;
         opacity: 0.5;
       }
+    }
+
+    a.giftbox-container {
+      display: inline-flex;
+      justify-content: space-between;
     }
 
     .notifications {
@@ -374,6 +385,10 @@
         width: 100%;
         text-align: center;
         padding-top: $padding-small * 3;
+      }
+
+      a div {
+        max-width: 100%;
       }
 
       a span {
