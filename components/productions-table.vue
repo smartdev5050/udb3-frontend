@@ -45,7 +45,7 @@
         >
           <tr
             v-for="event in events[selectedProduction.production_id]"
-            :key="event.id"
+            :key="event['@id']"
           >
             <td>
               <div class="event-item">
@@ -55,9 +55,12 @@
                     {{ $t('productions.delete') }}
                   </a>
                 </div>
-                <fa icon="chevron-right" />
+                <fa
+                  icon="chevron-right"
+                  @click="toggleEventDetail(event['@id'])"
+                />
               </div>
-              <div class="event-details">
+              <div v-if="showEventDetail[event['@id']]" class="event-details">
                 event details
               </div>
             </td>
@@ -108,6 +111,7 @@
         isLoadingEventsForProduction: {},
         events: {},
         selectedProduction: undefined,
+        showEventDetail: {},
       };
     },
     computed: {
@@ -154,9 +158,11 @@
         if (foundProduction) {
           await foundProduction.events.forEach(async (eventId) => {
             const foundEvent = await this.$api.events.findById(eventId);
+            console.log(foundEvent);
 
             if (foundEvent && !foundEvent.status) {
               events.push(foundEvent);
+              this.$set(this.showEventDetail, foundEvent['@id'], false);
             }
           });
 
@@ -171,6 +177,10 @@
       async changePage(newPage) {
         const start = (newPage - 1) * 1;
         await this.getProductions(start, 1);
+      },
+      toggleEventDetail(id) {
+        this.$set(this.showEventDetail, id, !this.showEventDetail[id]);
+        console.log(this.showEventDetail);
       },
     },
   };
@@ -196,9 +206,11 @@
       .event-item {
         display: flex;
         justify-content: space-between;
+        align-items: center;
       }
 
       .event-details {
+        margin-top: 1rem;
         padding: 0.75rem;
         background-color: white;
       }
