@@ -21,6 +21,9 @@
             <td>{{ production.name }}</td>
           </tr>
         </tbody>
+        <tbody v-else>
+          <loading-spinner />
+        </tbody>
       </table>
       <table
         v-if="selectedProduction"
@@ -83,13 +86,13 @@
 
 <script>
   import Pagination from './pagination';
-  import Loading from './loading';
+  import LoadingSpinner from './loading-spinner';
 
   export default {
     name: 'ProductionsTable',
     components: {
       Pagination,
-      Loading,
+      LoadingSpinner,
     },
     data() {
       return {
