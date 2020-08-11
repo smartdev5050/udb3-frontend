@@ -7,5 +7,6 @@
 <style lang="scss">
   .spinner-container {
     margin: 1rem;
+    width: 100%;
   }
 </style>

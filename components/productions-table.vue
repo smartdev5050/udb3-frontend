@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="productions-container">
-      <table class="table table-striped table-hover table-productions">
+      <table class="table table-productions">
         <thead>
           <tr>
-            <th scope="col">{{ $t('productions.productions') }}</th>
+            <th scope="col">{{ $t('productions.name') }}</th>
           </tr>
         </thead>
         <tbody v-if="!isLoadingProductions">
@@ -25,14 +25,17 @@
           <loading-spinner />
         </tbody>
       </table>
-      <table
-        v-if="selectedProduction"
-        class="table table-striped table-hover table-events"
-      >
+      <table v-if="selectedProduction" class="table table-events">
         <thead>
           <tr>
             <th scope="col">
-              {{ $t('productions.events') }}
+              {{
+                selectedProduction
+                  ? `${$t('productions.events')} ${$t('productions.in')} '${
+                      selectedProduction.name
+                    }'`
+                  : $t('productions.events')
+              }}
               <a>{{ $t('productions.create') }}</a>
             </th>
           </tr>
@@ -108,20 +111,22 @@
           </tr>
         </tbody>
         <tbody v-else>
-          <tr class="text-center d-flex justify-content-center">
-            {{
-              $t('productions.no_events')
-            }}
+          <tr>
+            <td class="text-center">
+              {{ $t('productions.no_events') }}
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
-    <pagination
-      v-if="!isLoadingProductions"
-      :rows="3"
-      :per-page="1"
-      @changePage="changePage"
-    />
+    <div class="panel-footer">
+      <pagination
+        v-if="!isLoadingProductions"
+        :rows="3"
+        :per-page="1"
+        @changePage="changePage"
+      />
+    </div>
   </div>
 </template>
 
@@ -232,14 +237,34 @@
     .table {
       font-family: 'Open Sans', Helvetica, Arial, sans-serif;
       font-size: 15px;
+      background-color: none;
+
+      thead {
+        background-color: $white;
+      }
+
+      tbody {
+        margin-top: 0.5rem;
+        background-color: $white;
+      }
+
+      tr {
+        display: inline-flex;
+        width: 100%;
+      }
+
+      th {
+        width: 100%;
+      }
+
+      td {
+        width: 100%;
+      }
     }
 
     .table-productions {
-      width: 40% !important;
-
-      tr {
-        display: flex;
-      }
+      width: 39% !important;
+      margin-right: 1%;
 
       tbody {
         max-height: 80vh;
@@ -251,18 +276,11 @@
     .table-events {
       width: 60% !important;
 
-      tr {
-        display: flex;
-      }
-
-      tr > td {
-        width: 100%;
-      }
-
-      tbody {
+      > tbody {
         max-height: 80vh;
         display: block;
         overflow-y: scroll;
+        border: 5px solid #fcd1cf;
       }
 
       .event-item {
@@ -273,8 +291,6 @@
 
       .event-details {
         margin-top: 1rem;
-        padding: 0.75rem;
-        background-color: white;
       }
 
       .event-details .table {
@@ -297,5 +313,11 @@
       font-weight: 400;
       color: #004f94 !important;
     }
+  }
+
+  .panel-footer {
+    padding: 10px 15px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
   }
 </style>
