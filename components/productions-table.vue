@@ -34,7 +34,17 @@
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody
+          v-if="isLoadingEventsForProduction[selectedProduction.production_id]"
+        >
+          <loading />
+        </tbody>
+        <tbody
+          v-else-if="
+            !isLoadingEventsForProduction[selectedProduction.production_id] &&
+            events[selectedProduction.production_id]
+          "
+        >
           <tr
             v-for="event in events[selectedProduction.production_id]"
             :key="event.id"
@@ -55,6 +65,11 @@
             </td>
           </tr>
         </tbody>
+        <tbody v-else>
+          <tr>
+            Geen events
+          </tr>
+        </tbody>
       </table>
     </div>
     <pagination
@@ -68,11 +83,13 @@
 
 <script>
   import Pagination from './pagination';
+  import Loading from './loading';
 
   export default {
     name: 'ProductionsTable',
     components: {
       Pagination,
+      Loading,
     },
     data() {
       return {
