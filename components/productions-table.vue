@@ -39,7 +39,8 @@
         </thead>
         <tbody
           v-if="
-            !isLoadingEventsForProduction[this.selectedProduction.production_id]
+            !isLoadingEventsForProduction[selectedProduction.production_id] &&
+            events[selectedProduction.production_id].length > 0
           "
         >
           <tr
@@ -62,8 +63,22 @@
             </td>
           </tr>
         </tbody>
+        <tbody
+          v-else-if="
+            !isLoadingEventsForProduction[selectedProduction.production_id] &&
+            events[selectedProduction.production_id].length === 0
+          "
+        >
+          <tr class="text-center d-flex justify-content-center">
+            {{
+              $t('productions.no_events')
+            }}
+          </tr>
+        </tbody>
         <tbody v-else>
-          <loading-spinner />
+          <tr>
+            <loading-spinner />
+          </tr>
         </tbody>
       </table>
     </div>
