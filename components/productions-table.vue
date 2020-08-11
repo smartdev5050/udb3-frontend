@@ -7,7 +7,7 @@
             <th scope="col">{{ $t('productions.productions') }}</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody v-if="!isLoadingProductions">
           <tr
             v-for="production in productions"
             :key="production.production_id"
@@ -38,14 +38,8 @@
           </tr>
         </thead>
         <tbody
-          v-if="isLoadingEventsForProduction[selectedProduction.production_id]"
-        >
-          <loading />
-        </tbody>
-        <tbody
-          v-else-if="
-            !isLoadingEventsForProduction[selectedProduction.production_id] &&
-            events[selectedProduction.production_id]
+          v-if="
+            !isLoadingEventsForProduction[this.selectedProduction.production_id]
           "
         >
           <tr
@@ -69,9 +63,7 @@
           </tr>
         </tbody>
         <tbody v-else>
-          <tr>
-            Geen events
-          </tr>
+          <loading-spinner />
         </tbody>
       </table>
     </div>
@@ -126,15 +118,18 @@
         const productions = member;
 
         productions.forEach((production) => {
-          this.isLoadingEventsForProduction[production.production_id] = true;
+          this.$set(
+            this.isLoadingEventsForProduction,
+            production.production_id,
+            true,
+          );
         });
 
         this.productions = productions;
-        console.log(this.productions);
         this.isLoadingProductions = false;
       },
       async getEventsInProduction(productionId) {
-        this.isLoadingEventsForProduction[productionId] = true;
+        this.$set(this.isLoadingEventsForProduction, productionId, true);
         const events = [];
 
         const foundProduction = this.productions.find(
@@ -150,10 +145,9 @@
             }
           });
 
-          this.events[productionId] = events;
-          console.log(this.events);
+          this.$set(this.events, productionId, events);
         }
-        this.isLoadingEventsForProduction[productionId] = false;
+        this.$set(this.isLoadingEventsForProduction, productionId, false);
       },
       async selectProduction(selectedProduction) {
         this.selectedProduction = selectedProduction;
