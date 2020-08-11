@@ -122,8 +122,7 @@
     <div class="panel-footer">
       <pagination
         v-if="!isLoadingProductions"
-        :rows="3"
-        :per-page="1"
+        :rows="4"
         @changePage="changePage"
       />
     </div>
@@ -157,7 +156,7 @@
     },
     async created() {
       // get the first page of productions
-      await this.getProductions(0, 10);
+      await this.getProductions(0, 2);
       this.selectedProduction = this.productions[0];
     },
     methods: {
@@ -211,8 +210,9 @@
         await this.getEventsInProduction(this.selectedProduction.production_id);
       },
       async changePage(newPage) {
-        const start = (newPage - 1) * 1;
-        await this.getProductions(start, 1);
+        const start = (newPage - 1) * 2;
+        await this.getProductions(start, 2);
+        this.selectProduction(this.productions[0]);
       },
       toggleEventDetail(id) {
         this.$set(this.showEventDetail, id, !this.showEventDetail[id]);
@@ -270,6 +270,7 @@
         max-height: 80vh;
         display: block;
         overflow-y: scroll;
+        overflow-x: hidden;
       }
     }
 
@@ -280,7 +281,8 @@
         max-height: 80vh;
         display: block;
         overflow-y: scroll;
-        border: 5px solid #fcd1cf;
+        overflow-x: hidden;
+        border-left: 5px solid #fcd1cf;
       }
 
       .event-item {
@@ -295,6 +297,10 @@
 
       .event-details .table {
         margin-bottom: 0;
+      }
+
+      .event-details tbody {
+        background-color: #f0f0f0;
       }
     }
 
