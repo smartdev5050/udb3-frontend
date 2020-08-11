@@ -50,9 +50,12 @@
     "create": "ajouter",
     "delete": "suprimer",
     "events": "Événement",
+    "loading": "Changer",
     "no_events": "Aucun événement dans cette production.",
     "productions": "Productions",
-    "loading": "Changer"
+    "title": "Titre",
+    "when": "Quand",
+    "where": "Où"
   },
   "jobs": {
     "exported_documents": "Documents exportés",

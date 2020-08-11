@@ -52,9 +52,12 @@
     "create": "toevoegen",
     "delete": "verwijderen",
     "events": "Evenementen",
+    "loading": "Laden",
     "no_events": "Geen eventementen onder deze productie.",
     "productions": "Producties",
-    "loading": "Laden"
+    "title": "Titel",
+    "when": "Wanneer",
+    "where": "Waar"
   },
   "jobs": {
     "exported_documents": "Geëxporteerde documenten",
