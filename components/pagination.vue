@@ -2,7 +2,6 @@
   <b-pagination
     v-model="currentPage"
     :total-rows="rows"
-    :limit="limit"
     :per-page="perPage"
     :prev-text="$t('pagination.previous')"
     :next-text="$t('pagination.next')"
@@ -16,8 +15,8 @@
   export default {
     name: 'Pagination',
     props: {
-      rows: { type: Number, default: 10 },
-      perPage: { type: Number, default: 1 },
+      rows: { type: Number, default: 1 },
+      perPage: { type: Number, default: 10 },
       limit: { type: Number, default: 10 },
     },
     data: () => ({

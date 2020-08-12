@@ -122,7 +122,8 @@
     <div class="panel-footer">
       <pagination
         v-if="!isLoadingProductions"
-        :rows="4"
+        :rows="pagesProductions"
+        :per-page="productionsPerPage"
         @changePage="changePage"
       />
     </div>
@@ -142,6 +143,8 @@
     data() {
       return {
         productions: [],
+        pagesProductions: 1,
+        productionsPerPage: 2,
         selectedProduction: undefined,
         isLoadingProductions: true,
         events: {},
@@ -156,7 +159,7 @@
     },
     async created() {
       // get the first page of productions
-      await this.getProductions(0, 2);
+      await this.getProductions(0, this.productionsPerPage);
       this.selectedProduction = this.productions[0];
     },
     methods: {
@@ -168,8 +171,13 @@
       },
       async getProductions(start, limit) {
         this.isLoadingProductions = true;
-        const { member } = await this.getAllProductions(start, limit);
+        const { member, totalItems } = await this.getAllProductions(
+          start,
+          limit,
+        );
         const productions = member;
+
+        this.pagesProductions = Math.ceil(totalItems / this.productionsPerPage);
 
         productions.forEach((production) => {
           this.$set(
@@ -193,7 +201,6 @@
         if (foundProduction) {
           await foundProduction.events.forEach(async (eventId) => {
             const foundEvent = await this.$api.events.findById(eventId);
-            console.log(foundEvent);
 
             if (foundEvent && !foundEvent.status) {
               events.push(foundEvent);
@@ -210,8 +217,8 @@
         await this.getEventsInProduction(this.selectedProduction.production_id);
       },
       async changePage(newPage) {
-        const start = (newPage - 1) * 2;
-        await this.getProductions(start, 2);
+        const start = (newPage - 1) * this.productionsPerPage;
+        await this.getProductions(start, this.productionsPerPage);
         this.selectProduction(this.productions[0]);
       },
       toggleEventDetail(id) {
@@ -222,7 +229,7 @@
         const day = newDate.getDay() + 1;
         const month = newDate.getMonth() + 1;
         const year = newDate.getFullYear();
-        return `${day}-${month}-${year}`;
+        return `${day}/${month}/${year}`;
       },
     },
   };
@@ -300,7 +307,7 @@
       }
 
       .event-details tbody {
-        background-color: #f0f0f0;
+        background-color: $lightgrey;
       }
     }
 
