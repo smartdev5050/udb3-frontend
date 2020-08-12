@@ -160,7 +160,6 @@
     async created() {
       // get the first page of productions
       await this.getProductions(0, this.productionsPerPage);
-      this.selectedProduction = this.productions[0];
     },
     methods: {
       async getAllProductions(start, limit) {
@@ -188,6 +187,7 @@
         });
 
         this.productions = productions;
+        this.selectProduction(this.productions[0]);
         this.isLoadingProductions = false;
       },
       async getEventsInProduction(productionId) {
@@ -219,7 +219,6 @@
       async changePage(newPage) {
         const start = (newPage - 1) * this.productionsPerPage;
         await this.getProductions(start, this.productionsPerPage);
-        this.selectProduction(this.productions[0]);
       },
       toggleEventDetail(id) {
         this.$set(this.showEventDetail, id, !this.showEventDetail[id]);
