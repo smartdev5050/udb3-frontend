@@ -24,7 +24,7 @@
     }),
     computed: {
       hideButtons() {
-        return Math.round(this.rows / this.perPage) === 1;
+        return Math.ceil(this.rows / this.perPage) === 1;
       },
     },
     methods: {

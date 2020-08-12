@@ -16,7 +16,7 @@
                 selectedProduction &&
                 selectedProduction.production_id === production.production_id,
             }"
-            @click="selectProduction(production)"
+            @click="handleClickProduction(production)"
           >
             <td>{{ production.name }}</td>
           </tr>
@@ -121,8 +121,7 @@
     </div>
     <div class="panel-footer">
       <pagination
-        v-if="!isLoadingProductions"
-        :rows="pagesProductions"
+        :rows="totalItems"
         :per-page="productionsPerPage"
         @changePage="changePage"
       />
@@ -145,6 +144,7 @@
         productions: [],
         pagesProductions: 1,
         productionsPerPage: 2,
+        totalItems: 0,
         selectedProduction: undefined,
         isLoadingProductions: true,
         events: {},
@@ -154,7 +154,7 @@
     },
     computed: {
       udbLanguage() {
-        return this.$cookies.get('udb-language');
+        return this.$i18n.locale;
       },
     },
     async created() {
@@ -170,13 +170,13 @@
       },
       async getProductions(start, limit) {
         this.isLoadingProductions = true;
-        const { member, totalItems } = await this.getAllProductions(
-          start,
-          limit,
-        );
-        const productions = member;
+        const {
+          member: productions,
+          totalItems,
+        } = await this.getAllProductions(start, limit);
 
         this.pagesProductions = Math.ceil(totalItems / this.productionsPerPage);
+        this.totalItems = totalItems;
 
         productions.forEach((production) => {
           this.$set(
@@ -187,32 +187,24 @@
         });
 
         this.productions = productions;
-        this.selectProduction(this.productions[0]);
+        this.handleClickProduction(this.productions[0]);
         this.isLoadingProductions = false;
       },
       async getEventsInProduction(productionId) {
         this.$set(this.isLoadingEventsForProduction, productionId, true);
-        const events = [];
+        let events = [];
 
         const foundProduction = this.productions.find(
           (production) => production.production_id === productionId,
         );
 
         if (foundProduction) {
-          await foundProduction.events.forEach(async (eventId) => {
-            const foundEvent = await this.$api.events.findById(eventId);
-
-            if (foundEvent && !foundEvent.status) {
-              events.push(foundEvent);
-              this.$set(this.showEventDetail, foundEvent['@id'], false);
-            }
-          });
-
+          events = await this.$api.events.getFromIds(foundProduction.events);
           this.$set(this.events, productionId, events);
         }
         this.$set(this.isLoadingEventsForProduction, productionId, false);
       },
-      async selectProduction(selectedProduction) {
+      async handleClickProduction(selectedProduction) {
         this.selectedProduction = selectedProduction;
         await this.getEventsInProduction(this.selectedProduction.production_id);
       },
