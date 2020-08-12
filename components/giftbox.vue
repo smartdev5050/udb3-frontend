@@ -1,8 +1,14 @@
 <template>
-  <div class="giftbox-wrapper">
-    <div class="giftbox-button" @click="showModal">
-      <fa icon="gift" class="giftbox-icon" />
-    </div>
+  <div>
+    <a class="giftbox-container" @click="showModal">
+      <div>
+        <fa icon="gift" class="giftbox-icon" />
+        <span>{{ $t('giftbox.announcements') }}</span>
+      </div>
+      <span v-if="numberOfUnseenFeatures" class="badge">{{
+        numberOfUnseenFeatures
+      }}</span>
+    </a>
     <b-modal
       ref="giftbox-modal"
       class="giftbox-modal"
@@ -80,6 +86,7 @@
       loading: true,
       features: [],
       seenFeatures: [],
+      numberOfUnseenFeatures: 0,
       selectedFeature: undefined,
     }),
     computed: {
@@ -93,6 +100,8 @@
     watch: {
       seenFeatures(newSeenFeatures) {
         this.$cookies.set('seenFeatures', newSeenFeatures, this.cookieOptions);
+        this.numberOfUnseenFeatures =
+          this.features.length - this.seenFeatures.length;
       },
     },
     created() {
@@ -153,44 +162,6 @@
     },
   };
 </script>
-
-<style lang="scss" scoped>
-  .giftbox-wrapper {
-    width: 3rem;
-    height: 3rem;
-    line-height: 3rem;
-    position: absolute;
-    right: 1.5rem;
-    bottom: 1.5rem;
-    text-align: center;
-
-    .giftbox-button {
-      width: 100%;
-      height: 100%;
-      line-height: 100%;
-      border-radius: 50%;
-      background-color: $udb-primary-color;
-      text-align: center;
-      -webkit-box-shadow: 0px 0px 35px -8px rgba(0, 0, 0, 0.75);
-      -moz-box-shadow: 0px 0px 35px -8px rgba(0, 0, 0, 0.75);
-      box-shadow: 0px 0px 35px -8px rgba(0, 0, 0, 0.75);
-      transition: background-color 500ms, transform 500ms;
-
-      &:active {
-        background-color: lighten($color: $udb-primary-color, $amount: 40%);
-        transform: scale(0.75, 0.75);
-      }
-    }
-
-    .giftbox-icon {
-      color: #fff;
-      width: 65%;
-      height: 65%;
-      position: relative;
-      top: 17.5%;
-    }
-  }
-</style>
 
 <style lang="scss">
   .modal-open .modal {
