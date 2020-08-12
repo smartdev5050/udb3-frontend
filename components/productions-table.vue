@@ -42,7 +42,7 @@
         </thead>
         <tbody
           v-if="
-            !isLoadingEventsForProduction[selectedProduction.production_id] &&
+            !isLoadingEvents &&
             events[selectedProduction.production_id].length > 0
           "
         >
@@ -101,11 +101,7 @@
             </td>
           </tr>
         </tbody>
-        <tbody
-          v-else-if="
-            isLoadingEventsForProduction[selectedProduction.production_id]
-          "
-        >
+        <tbody v-else-if="isLoadingEvents">
           <tr>
             <loading-spinner />
           </tr>
@@ -148,7 +144,7 @@
         selectedProduction: undefined,
         isLoadingProductions: true,
         events: {},
-        isLoadingEventsForProduction: {},
+        isLoadingEvents: true,
         showEventDetail: {},
       };
     },
@@ -178,20 +174,12 @@
         this.pagesProductions = Math.ceil(totalItems / this.productionsPerPage);
         this.totalItems = totalItems;
 
-        productions.forEach((production) => {
-          this.$set(
-            this.isLoadingEventsForProduction,
-            production.production_id,
-            true,
-          );
-        });
-
         this.productions = productions;
         this.handleClickProduction(this.productions[0]);
         this.isLoadingProductions = false;
       },
       async getEventsInProduction(productionId) {
-        this.$set(this.isLoadingEventsForProduction, productionId, true);
+        this.isLoadingEvents = true;
         let events = [];
 
         const foundProduction = this.productions.find(
@@ -202,7 +190,7 @@
           events = await this.$api.events.getFromIds(foundProduction.events);
           this.$set(this.events, productionId, events);
         }
-        this.$set(this.isLoadingEventsForProduction, productionId, false);
+        this.isLoadingEvents = false;
       },
       async handleClickProduction(selectedProduction) {
         this.selectedProduction = selectedProduction;
