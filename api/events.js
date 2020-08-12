@@ -27,3 +27,12 @@ export const findById = (apiUrl, headers, fetch) => async (id) => {
   });
   return await res.json();
 };
+
+export const getFromIds = (apiUrl, headers, fetch) => async (eventIds) => {
+  const mappedEvents = eventIds.map((eventId) => {
+    return findById(apiUrl, headers, fetch)(eventId);
+  });
+
+  const events = await Promise.all(mappedEvents);
+  return events.filter((event) => !event.status);
+};
