@@ -18,12 +18,11 @@
             @changeSelectedProductionId="handleChangeSelectedProductionId"
           />
           <events
-            v-if="selectedProduction && !isLoadingEvents"
+            v-if="selectedProduction"
             :is-loading="isLoadingEvents"
             :events="events"
             :selected-production-name="selectedProduction.name"
           />
-          <loading-spinner v-else />
         </div>
         <div class="panel-footer">
           <pagination
@@ -39,14 +38,12 @@
 
 <script>
   import Pagination from '@/components/pagination';
-  import LoadingSpinner from '@/components/loading-spinner';
   import Productions from '@/components/productions/productions';
   import Events from '@/components/productions/events';
 
   export default {
     components: {
       Pagination,
-      LoadingSpinner,
       Productions,
       Events,
     },
