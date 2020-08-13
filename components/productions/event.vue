@@ -11,12 +11,12 @@
         <fa
           v-show="!isDetailVisible"
           icon="chevron-right"
-          @click="handleClickChevron"
+          @click="handleClickToggleShowDetail"
         />
         <fa
           v-show="isDetailVisible"
           icon="chevron-down"
-          @click="handleClickChevron"
+          @click="handleClickToggleShowDetail"
         />
       </div>
       <div v-if="isDetailVisible" class="event-details">
@@ -70,7 +70,7 @@
       },
     },
     methods: {
-      handleClickChevron() {
+      handleClickToggleShowDetail() {
         this.isDetailVisible = !this.isDetailVisible;
       },
       parseDate(date) {
