@@ -21,14 +21,19 @@
               class="form-control"
               placeholder="cdbid"
             />
-            <b-button variant="success" @click="handleClickAddEventToProduction"
-              ><fa icon="check"
-            /></b-button>
+            <b-button
+              variant="success"
+              @click="handleClickAddEventToProduction"
+            >
+              <fa v-if="!isAdding" icon="check" />
+              <loading-spinner v-else class="button-spinner" />
+            </b-button>
             <b-button
               variant="danger"
               @click="handleClickCancelAddEventToProduction"
-              ><fa icon="times"
-            /></b-button>
+            >
+              <fa icon="times" />
+            </b-button>
           </div>
         </th>
       </tr>
@@ -105,7 +110,9 @@
         this.isAddEventVisible = !this.isAddEventVisible;
       },
       handleClickAddEventToProduction() {
-        this.$emit('addEventToProduction', this.eventId);
+        if (this.eventId) {
+          this.$emit('addEventToProduction', this.eventId);
+        }
       },
       handleClickCancelAddEventToProduction() {
         this.eventId = '';
@@ -134,10 +141,10 @@
 
     .add-event-container {
       display: flex;
-      width: auto;
+      margin-top: 1rem;
 
       .form-control {
-        width: 21.5rem;
+        max-width: 21.5rem;
         margin-right: 0.5rem;
       }
     }
@@ -148,6 +155,25 @@
       &:hover {
         text-decoration: underline;
       }
+    }
+
+    button:not(:last-child) {
+      margin-right: 0.5rem;
+    }
+
+    .button-spinner.spinner-container {
+      margin: 0 !important;
+
+      .spinner-border {
+        color: white !important;
+        width: 1rem;
+        height: 1rem;
+      }
+    }
+
+    svg.svg-inline--fa {
+      width: 1rem;
+      height: 1rem;
     }
   }
 </style>
