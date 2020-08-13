@@ -65,13 +65,10 @@
     }
 
     .selected {
-      background-color: lighten(
-        $color: $udb-primary-color,
-        $amount: 50%
-      ) !important;
+      background-color: lighten($color: $udb-primary-color, $amount: 50%);
 
       &:hover {
-        background-color: lighten($udb-primary-color, 40%) !important;
+        background-color: lighten($udb-primary-color, 40%);
       }
     }
   }
