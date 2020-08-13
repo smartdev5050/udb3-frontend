@@ -156,7 +156,7 @@
 
     a {
       font-weight: 400;
-      color: #004f94 !important;
+      color: $udb-blue;
     }
   }
 
@@ -167,6 +167,6 @@
   }
 
   small a {
-    color: #004f94;
+    color: $udb-blue;
   }
 </style>

@@ -65,7 +65,7 @@
       display: block;
       overflow-y: scroll;
       overflow-x: hidden;
-      border-left: 5px solid #fcd1cf;
+      border-left: 5px solid lighten($color: $udb-primary-color, $amount: 50%);
     }
   }
 </style>
