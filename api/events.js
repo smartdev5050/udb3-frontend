@@ -19,3 +19,20 @@ export const findToModerate = (apiUrl, headers, fetch) => async (
   });
   return await res.json();
 };
+
+export const findById = (apiUrl, headers, fetch) => async (id) => {
+  const url = `${apiUrl}/event/${id.toString()}`;
+  const res = await fetch(url, {
+    headers: headers(),
+  });
+  return await res.json();
+};
+
+export const findByIds = (apiUrl, headers, fetch) => async (eventIds) => {
+  const mappedEvents = eventIds.map((eventId) => {
+    return findById(apiUrl, headers, fetch)(eventId);
+  });
+
+  const events = await Promise.all(mappedEvents);
+  return events.filter((event) => !event.status);
+};

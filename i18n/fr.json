@@ -43,12 +43,22 @@
     "productions": "Productions",
     "logout": "Déconnecter"
   },
-  "actions": {
-    "create": "toevoegen"
-  },
   "pagination": {
     "previous": "Dernier",
     "next": "Prochain"
+  },
+  "productions": {
+    "create": "ajouter",
+    "delete": "supprimer",
+    "events": "Événement",
+    "in": "dans",
+    "loading": "Changer",
+    "name": "Nom",
+    "no_events": "Aucun événement dans cette production.",
+    "productions": "Productions",
+    "title": "Titre",
+    "when": "Quand",
+    "where": "Où"
   },
   "jobs": {
     "exported_documents": "Documents exportés",

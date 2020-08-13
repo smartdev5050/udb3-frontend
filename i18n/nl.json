@@ -45,12 +45,22 @@
     "notifications": "Meldingen",
     "logout": "Afmelden"
   },
-  "actions": {
-    "create": "toevoegen"
-  },
   "pagination": {
     "previous": "Vorige",
     "next": "Volgende"
+  },
+  "productions": {
+    "create": "toevoegen",
+    "delete": "verwijderen",
+    "events": "Evenementen",
+    "in": "in",
+    "loading": "Laden",
+    "name": "Naam",
+    "no_events": "Geen eventementen onder deze productie.",
+    "productions": "Producties",
+    "title": "Titel",
+    "when": "Wanneer",
+    "where": "Waar"
   },
   "jobs": {
     "exported_documents": "Geëxporteerde documenten",
