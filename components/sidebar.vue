@@ -235,7 +235,7 @@
         .filter((constraint) => constraint !== null)
         .join(' OR ');
 
-      const eventsToModerate = await this.$api.events.findEventsToModerate(
+      const eventsToModerate = await this.$api.events.findToModerate(
         `(${validationQuery})`,
       );
 
