@@ -31,9 +31,7 @@
             <tr>
               <th>{{ $t('productions.when') }}</th>
               <td>
-                {{
-                  `${parseDate(event.startDate)} - ${parseDate(event.endDate)}`
-                }}
+                {{ period }}
               </td>
             </tr>
             <tr>
@@ -67,6 +65,11 @@
     computed: {
       locale() {
         return this.$i18n.locale;
+      },
+      period() {
+        return `${this.parseDate(this.event.startDate)} - ${this.parseDate(
+          this.event.endDate,
+        )}`;
       },
     },
     methods: {
