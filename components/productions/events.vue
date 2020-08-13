@@ -15,6 +15,7 @@
           }}</a>
           <div v-if="isAddEventVisible" class="add-event-container">
             <input
+              ref="eventIdInput"
               v-model="eventId"
               type="text"
               class="form-control"
@@ -22,6 +23,11 @@
             />
             <b-button variant="success" @click="handleClickAddEventToProduction"
               ><fa icon="check"
+            /></b-button>
+            <b-button
+              variant="danger"
+              @click="handleClickCancelAddEventToProduction"
+              ><fa icon="times"
             /></b-button>
           </div>
         </th>
@@ -88,6 +94,11 @@
           this.eventId = '';
         }
       },
+      isAddEventVisible(val) {
+        if (val) {
+          this.$nextTick(() => this.$refs.eventIdInput.focus());
+        }
+      },
     },
     methods: {
       handleClickAddEvent() {
@@ -95,6 +106,10 @@
       },
       handleClickAddEventToProduction() {
         this.$emit('addEventToProduction', this.eventId);
+      },
+      handleClickCancelAddEventToProduction() {
+        this.eventId = '';
+        this.isAddEventVisible = false;
       },
     },
   };
