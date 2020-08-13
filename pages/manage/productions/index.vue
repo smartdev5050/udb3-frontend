@@ -38,10 +38,10 @@
 </template>
 
 <script>
-  import Pagination from '../../../components/pagination';
-  import LoadingSpinner from '../../../components/loading-spinner';
-  import Productions from '../../../components/productions/productions';
-  import Events from '../../../components/productions/events';
+  import Pagination from '@/components/pagination';
+  import LoadingSpinner from '@/components/loading-spinner';
+  import Productions from '@/components/productions/productions';
+  import Events from '@/components/productions/events';
 
   export default {
     components: {
