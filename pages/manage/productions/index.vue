@@ -151,59 +151,6 @@
       }
     }
 
-    .table-productions {
-      width: 39% !important;
-      margin-right: 1%;
-
-      tbody {
-        max-height: 80vh;
-        display: block;
-        overflow-y: scroll;
-        overflow-x: hidden;
-      }
-    }
-
-    .table-events {
-      width: 60% !important;
-
-      > tbody {
-        max-height: 80vh;
-        display: block;
-        overflow-y: scroll;
-        overflow-x: hidden;
-        border-left: 5px solid #fcd1cf;
-      }
-
-      .event-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .event-details {
-        margin-top: 1rem;
-      }
-
-      .event-details .table {
-        margin-bottom: 0;
-      }
-
-      .event-details tbody {
-        background-color: $lightgrey;
-      }
-    }
-
-    .selected {
-      background-color: lighten(
-        $color: $udb-primary-color,
-        $amount: 50%
-      ) !important;
-
-      &:hover {
-        background-color: lighten($udb-primary-color, 40%) !important;
-      }
-    }
-
     a {
       font-weight: 400;
       color: #004f94 !important;
