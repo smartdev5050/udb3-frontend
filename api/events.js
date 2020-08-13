@@ -1,4 +1,4 @@
-export const findToModerate = (apiUrl, headers, fetch) => async (
+export const findEventsToModerate = (apiUrl, headers, fetch) => async (
   searchQuery,
   start = 0,
   limit = 1,

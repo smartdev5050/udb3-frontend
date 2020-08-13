@@ -1,7 +1,7 @@
 import jwtDecode from 'jwt-decode';
 import { logout } from '../services/auth';
 import { getMe, getPermissions, getRoles } from './user';
-import { findToModerate, findEventById, findEventsByIds } from './events';
+import { findEventsToModerate, findEventById, findEventsByIds } from './events';
 import { findProductions } from './productions';
 
 export const getHeaders = (token, apiKey) => ({
@@ -43,7 +43,11 @@ export default (authUrl, apiUrl, apiKey, tokenCallback) => {
 
   return {
     events: {
-      findToModerate: findToModerate(apiUrl, headersCallback, fetch),
+      findEventsToModerate: findEventsToModerate(
+        apiUrl,
+        headersCallback,
+        fetch,
+      ),
       findEventById: findEventById(apiUrl, headersCallback, fetch),
       findEventsByIds: findEventsByIds(apiUrl, headersCallback, fetch),
     },
