@@ -53,7 +53,7 @@
     data() {
       return {
         pagesProductions: 1,
-        productionsPerPage: 10,
+        productionsPerPage: 30,
         totalItems: 0,
 
         selectedProductionId: '',
