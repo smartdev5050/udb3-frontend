@@ -22,6 +22,8 @@
             :is-loading="isLoadingEvents"
             :events="events"
             :selected-production-name="selectedProduction.name"
+            :is-adding="isAddingEventToProduction"
+            @addEventToProduction="handleAddEventToProduction"
           />
         </div>
         <div class="panel-footer">
@@ -56,6 +58,8 @@
         selectedProductionId: '',
         isLoadingProductions: true,
         productions: [],
+
+        isAddingEventToProduction: false,
 
         isLoadingEvents: true,
         events: [],
@@ -108,6 +112,16 @@
         );
 
         this.isLoadingEvents = false;
+      },
+      async handleAddEventToProduction(eventId) {
+        this.isAddingEventToProduction = true;
+        const res = await this.$api.productions.addEventById(
+          this.selectedProductionId,
+          eventId,
+        );
+        const event = await this.$api.events.findById(eventId);
+        this.events.unshift(event);
+        this.isAddingEventToProduction = false;
       },
       async changePage(newPage) {
         const start = (newPage - 1) * this.productionsPerPage;

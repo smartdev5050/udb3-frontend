@@ -15,12 +15,14 @@
           }}</a>
           <div v-if="isAddEventVisible" class="add-event-container">
             <input
-              v-model="value"
+              v-model="eventId"
               type="text"
               class="form-control"
               placeholder="cdbid"
             />
-            <b-button variant="success"><fa icon="check" /></b-button>
+            <b-button variant="success" @click="handleClickAddEventToProduction"
+              ><fa icon="check"
+            /></b-button>
           </div>
         </th>
       </tr>
@@ -65,18 +67,34 @@
         type: String,
         default: '',
       },
+      isAdding: {
+        type: Boolean,
+        default: false,
+      },
     },
     data: () => ({
       isAddEventVisible: false,
+      eventId: '',
     }),
+
     computed: {
       isTableVisible() {
         return !this.isLoading && this.events.length > 0;
       },
     },
+    watch: {
+      isAdding(val) {
+        if (!val) {
+          this.eventId = '';
+        }
+      },
+    },
     methods: {
       handleClickAddEvent() {
         this.isAddEventVisible = !this.isAddEventVisible;
+      },
+      handleClickAddEventToProduction() {
+        this.$emit('addEventToProduction', this.eventId);
       },
     },
   };
