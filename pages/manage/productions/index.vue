@@ -119,6 +119,7 @@
           this.selectedProductionId,
           eventId,
         );
+        console.log(res);
         const event = await this.$api.events.findById(eventId);
         this.events.unshift(event);
         this.isAddingEventToProduction = false;
