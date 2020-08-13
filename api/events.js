@@ -20,7 +20,7 @@ export const findToModerate = (apiUrl, headers, fetch) => async (
   return await res.json();
 };
 
-export const findById = (apiUrl, headers, fetch) => async (id) => {
+export const findEventById = (apiUrl, headers, fetch) => async (id) => {
   const url = `${apiUrl}/event/${id.toString()}`;
   const res = await fetch(url, {
     headers: headers(),
@@ -30,7 +30,7 @@ export const findById = (apiUrl, headers, fetch) => async (id) => {
 
 export const getFromIds = (apiUrl, headers, fetch) => async (eventIds) => {
   const mappedEvents = eventIds.map((eventId) => {
-    return findById(apiUrl, headers, fetch)(eventId);
+    return findEventById(apiUrl, headers, fetch)(eventId);
   });
 
   const events = await Promise.all(mappedEvents);

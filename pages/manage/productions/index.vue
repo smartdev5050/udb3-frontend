@@ -85,7 +85,7 @@
         return await this.$api.productions.find('', start, limit);
       },
       async getEventById(id) {
-        return await this.$api.events.findById(id);
+        return await this.$api.events.findEventById(id);
       },
       async getProductions(start, limit) {
         this.isLoadingProductions = true;
