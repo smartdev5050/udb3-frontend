@@ -7,7 +7,7 @@
     :next-text="$t('pagination.next')"
     hide-goto-end-buttons
     :class="{ 'hide-buttons': hideButtons }"
-    @input="changePage()"
+    @input="changePage"
   />
 </template>
 

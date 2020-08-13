@@ -28,7 +28,7 @@ export const findEventById = (apiUrl, headers, fetch) => async (id) => {
   return await res.json();
 };
 
-export const getFromIds = (apiUrl, headers, fetch) => async (eventIds) => {
+export const findEventsByIds = (apiUrl, headers, fetch) => async (eventIds) => {
   const mappedEvents = eventIds.map((eventId) => {
     return findEventById(apiUrl, headers, fetch)(eventId);
   });

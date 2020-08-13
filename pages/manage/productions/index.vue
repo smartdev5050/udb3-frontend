@@ -106,7 +106,7 @@
       async getEventsInProduction() {
         this.isLoadingEvents = true;
 
-        this.events = await this.$api.events.getFromIds(
+        this.events = await this.$api.events.findEventsByIds(
           this.selectedProduction.events,
         );
 
