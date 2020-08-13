@@ -67,23 +67,5 @@
       overflow-x: hidden;
       border-left: 5px solid #fcd1cf;
     }
-
-    .event-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .event-details {
-      margin-top: 1rem;
-    }
-
-    .event-details .table {
-      margin-bottom: 0;
-    }
-
-    .event-details tbody {
-      background-color: $lightgrey;
-    }
   }
 </style>
