@@ -49,7 +49,7 @@
   },
   "productions": {
     "create": "ajouter",
-    "delete": "suprimer",
+    "delete": "supprimer",
     "events": "Événement",
     "in": "dans",
     "loading": "Changer",
