@@ -22,6 +22,10 @@
             :is-loading="isLoadingEvents"
             :events="events"
             :selected-production-name="selectedProduction.name"
+            :is-adding="isAddingEventToProduction"
+            :has-adding-error="hasAddingEventToProductionError"
+            @addEventToProduction="handleAddEventToProduction"
+            @inputEventId="handleInputEventId"
           />
         </div>
         <div class="panel-footer">
@@ -56,6 +60,9 @@
         selectedProductionId: '',
         isLoadingProductions: true,
         productions: [],
+
+        isAddingEventToProduction: false,
+        hasAddingEventToProductionError: false,
 
         isLoadingEvents: true,
         events: [],
@@ -109,9 +116,28 @@
 
         this.isLoadingEvents = false;
       },
+      async handleAddEventToProduction(eventId) {
+        this.isAddingEventToProduction = true;
+        this.hasAddingEventToProductionError = false;
+        const res = await this.$api.productions.addEventById(
+          this.selectedProductionId,
+          eventId,
+        );
+        if (res.status) {
+          this.hasAddingEventToProductionError = true;
+        } else {
+          const event = await this.$api.events.findById(eventId);
+          this.events.unshift(event);
+        }
+
+        this.isAddingEventToProduction = false;
+      },
       async changePage(newPage) {
         const start = (newPage - 1) * this.productionsPerPage;
         await this.getProductions(start, this.productionsPerPage);
+      },
+      handleInputEventId() {
+        this.hasAddingEventToProductionError = false;
       },
     },
   };

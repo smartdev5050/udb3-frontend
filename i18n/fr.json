@@ -48,6 +48,7 @@
     "next": "Prochain"
   },
   "productions": {
+    "cancel": "annuler",
     "create": "ajouter",
     "delete": "supprimer",
     "events": "Événement",

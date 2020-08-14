@@ -50,6 +50,7 @@
     "next": "Volgende"
   },
   "productions": {
+    "cancel": "annuleren",
     "create": "toevoegen",
     "delete": "verwijderen",
     "events": "Evenementen",

@@ -4,7 +4,7 @@
       <div class="event-item">
         <div>
           {{ event.name[locale] || event.name['nl'] }}
-          <a>
+          <a class="delete-event-link">
             {{ $t('productions.delete') }}
           </a>
         </div>
@@ -88,6 +88,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    a.delete-event-link {
+      color: $udb-blue;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
 
   .event-details {

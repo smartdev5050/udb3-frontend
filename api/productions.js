@@ -14,3 +14,21 @@ export const find = (apiUrl, headers, fetch) => async (
   });
   return await res.json();
 };
+
+export const addEventById = (apiUrl, headers, fetch) => async (
+  productionId,
+  eventId,
+) => {
+  const url = new URL(
+    `${apiUrl}/productions/${productionId}/events/${eventId}`,
+  );
+  const res = await fetch(url, {
+    method: 'PUT',
+    headers: headers(),
+  });
+  const body = await res.text();
+  if (body) {
+    return JSON.parse(body);
+  }
+  return {};
+};
