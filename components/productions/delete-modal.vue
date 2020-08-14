@@ -10,7 +10,7 @@
       {{
         $t('productions.delete_question', {
           eventName,
-          productionTitle,
+          productionName,
         })
       }}
     </div>
@@ -24,7 +24,7 @@
         type: String,
         default: '',
       },
-      productionTitle: {
+      productionName: {
         type: String,
         default: '',
       },

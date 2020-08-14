@@ -51,7 +51,7 @@
     "cancel": "annuler",
     "create": "ajouter",
     "delete": "supprimer",
-    "delete_question": "Voulez-vous vraiment supprimer '{eventName}' de la production '{productionTitle}'?",
+    "delete_question": "Voulez-vous vraiment supprimer '{eventName}' de la production '{productionName}'?",
     "events": "Événement",
     "in": "dans",
     "loading": "Changer",

@@ -32,7 +32,7 @@
             @clickDeleteEvent="handleClickDeleteEvent"
           />
           <delete-modal
-            :production-title="selectedProductionName"
+            :production-name="selectedProductionName"
             :event-name="toBeDeletedEventName"
             @confirmDelete="handleConfirmDeleteEvent"
           />
