@@ -10,7 +10,10 @@
         </small>
       </h1>
       <div>
-        <div class="productions-container">
+        <div
+          v-if="isLoadingProductions || productions.length > 0"
+          class="productions-container"
+        >
           <productions
             :selected-id="selectedProductionId"
             :is-loading="isLoadingProductions"
@@ -28,6 +31,10 @@
             @inputEventId="handleInputEventId"
             @clickDeleteEvent="handleClickDeleteEvent"
           />
+          <delete-modal />
+        </div>
+        <div v-else class="productions-container">
+          Geen producties gevonden
         </div>
         <div class="panel-footer">
           <pagination
@@ -45,12 +52,14 @@
   import Pagination from '@/components/pagination';
   import Productions from '@/components/productions/productions';
   import Events from '@/components/productions/events';
+  import DeleteModal from '@/components/productions/delete-modal';
 
   export default {
     components: {
       Pagination,
       Productions,
       Events,
+      DeleteModal,
     },
     data() {
       return {
@@ -103,9 +112,11 @@
         this.totalItems = totalItems;
 
         this.productions = productions;
-        this.handleChangeSelectedProductionId(
-          this.productions[0].production_id,
-        );
+        if (this.productions.length > 0) {
+          this.handleChangeSelectedProductionId(
+            this.productions[0].production_id,
+          );
+        }
         this.isLoadingProductions = false;
       },
       async getEventsInProduction() {
@@ -141,6 +152,7 @@
         this.hasAddingEventToProductionError = false;
       },
       async handleClickDeleteEvent(eventId) {
+        this.$bvModal.show('deleteModal');
         await this.$api.productions.deleteEventById(
           this.selectedProductionId,
           eventId,
@@ -153,12 +165,17 @@
         );
 
         // delete from productions
-        this.productions = this.productions.map((production) => {
-          production.events = production.events.filter(
-            (eventId) => eventId !== eventIdToDelete,
-          );
-          return production;
-        });
+        this.productions = this.productions
+          .map((production) => {
+            production.events = production.events.filter(
+              (eventId) => eventId !== eventIdToDelete,
+            );
+            if (production.events.length === 0) {
+              return undefined;
+            }
+            return production;
+          })
+          .filter((production) => production !== undefined);
       },
     },
   };
@@ -169,6 +186,7 @@
     display: flex;
     width: 100%;
     font-weight: 400;
+    margin-bottom: 1rem;
 
     .table {
       font-family: 'Open Sans', Helvetica, Arial, sans-serif;
