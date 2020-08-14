@@ -18,11 +18,16 @@
               ref="eventIdInput"
               v-model="eventId"
               type="text"
-              class="form-control"
+              :class="{
+                'is-invalid': hasAddingError && !(eventId === ''),
+                'form-control': true,
+              }"
               placeholder="cdbid"
+              @input="handleInputEventId"
             />
             <b-button
               variant="success"
+              :disabled="!eventId"
               @click="handleClickAddEventToProduction"
             >
               <fa v-if="!isAdding" icon="check" />
@@ -82,6 +87,10 @@
         type: Boolean,
         default: false,
       },
+      hasAddingError: {
+        type: Boolean,
+        default: false,
+      },
     },
     data: () => ({
       isAddEventVisible: false,
@@ -95,7 +104,7 @@
     },
     watch: {
       isAdding(val) {
-        if (!val) {
+        if (!val && !this.hasAddingError) {
           this.eventId = '';
         }
       },
@@ -117,6 +126,9 @@
       handleClickCancelAddEventToProduction() {
         this.eventId = '';
         this.isAddEventVisible = false;
+      },
+      handleInputEventId() {
+        this.$emit('inputEventId');
       },
     },
   };

@@ -28,7 +28,7 @@ export const addEventById = (apiUrl, headers, fetch) => async (
   });
   const body = await res.text();
   if (body) {
-    return await res.json();
+    return JSON.parse(body);
   }
   return {};
 };
