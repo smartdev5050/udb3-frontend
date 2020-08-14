@@ -39,7 +39,7 @@
 
 <style lang="scss">
   .modal-content button {
-    text-transform: capitalize !important;
+    text-transform: capitalize;
   }
 
   .content-container {
