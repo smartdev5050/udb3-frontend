@@ -135,8 +135,8 @@
       handleInputEventId() {
         this.$emit('inputEventId');
       },
-      handleClickDeleteEvent(eventId) {
-        this.$emit('clickDeleteEvent', eventId);
+      handleClickDeleteEvent(eventId, eventName) {
+        this.$emit('clickDeleteEvent', eventId, eventName);
       },
     },
   };

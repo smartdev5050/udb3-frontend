@@ -4,12 +4,13 @@
     :ok-title="$t('productions.delete')"
     :cancel-title="$t('productions.cancel')"
     hide-header
+    @ok.prevent="handleConfirmDelete"
   >
     <div class="content-container">
       {{
         $t('productions.delete_question', {
-          eventName: 'hello',
-          productionTitle: 'jello',
+          eventName,
+          productionTitle,
         })
       }}
     </div>
@@ -17,7 +18,23 @@
 </template>
 
 <script>
-  export default {};
+  export default {
+    props: {
+      eventName: {
+        type: String,
+        default: '',
+      },
+      productionTitle: {
+        type: String,
+        default: '',
+      },
+    },
+    methods: {
+      handleConfirmDelete() {
+        this.$emit('confirmDelete');
+      },
+    },
+  };
 </script>
 
 <style lang="scss">

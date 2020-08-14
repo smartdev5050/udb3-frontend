@@ -31,7 +31,11 @@
             @inputEventId="handleInputEventId"
             @clickDeleteEvent="handleClickDeleteEvent"
           />
-          <delete-modal />
+          <delete-modal
+            :production-title="selectedProductionName"
+            :event-name="toBeDeletedEventName"
+            @confirmDelete="handleConfirmDeleteEvent"
+          />
         </div>
         <div v-else class="productions-container">
           {{ $t('productions.no_productions') }}
@@ -76,6 +80,8 @@
 
         isLoadingEvents: true,
         events: [],
+        toBeDeletedEventId: '',
+        toBeDeletedEventName: '',
       };
     },
     computed: {
@@ -84,6 +90,9 @@
           (production) =>
             production.production_id === this.selectedProductionId,
         );
+      },
+      selectedProductionName() {
+        return this.selectedProduction ? this.selectedProduction.name : '';
       },
     },
     async created() {
@@ -151,13 +160,18 @@
       handleInputEventId() {
         this.hasAddingEventToProductionError = false;
       },
-      async handleClickDeleteEvent(eventId) {
+      handleClickDeleteEvent(eventId, eventName) {
+        this.toBeDeletedEventId = eventId;
+        this.toBeDeletedEventName = eventName;
         this.$bvModal.show('deleteModal');
+      },
+      async handleConfirmDeleteEvent() {
         await this.$api.productions.deleteEventById(
           this.selectedProductionId,
-          eventId,
+          this.toBeDeletedEventId,
         );
-        this.deleteEventFromProduction(eventId);
+        this.deleteEventFromProduction(this.toBeDeletedEventId);
+        this.$bvModal.hide('deleteModal');
       },
       deleteEventFromProduction(eventIdToDelete) {
         this.events = this.events.filter(
