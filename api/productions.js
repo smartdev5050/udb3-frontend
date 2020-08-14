@@ -32,3 +32,21 @@ export const addEventById = (apiUrl, headers, fetch) => async (
   }
   return {};
 };
+
+export const deleteEventById = (apiUrl, headers, fetch) => async (
+  productionId,
+  eventId,
+) => {
+  const url = new URL(
+    `${apiUrl}/productions/${productionId}/events/${eventId}`,
+  );
+  const res = await fetch(url, {
+    method: 'DELETE',
+    headers: headers(),
+  });
+  const body = await res.text();
+  if (body) {
+    return JSON.parse(body);
+  }
+  return {};
+};

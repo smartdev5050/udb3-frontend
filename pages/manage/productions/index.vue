@@ -26,6 +26,7 @@
             :has-adding-error="hasAddingEventToProductionError"
             @addEventToProduction="handleAddEventToProduction"
             @inputEventId="handleInputEventId"
+            @clickDeleteEvent="handleClickDeleteEvent"
           />
         </div>
         <div class="panel-footer">
@@ -79,6 +80,7 @@
     async created() {
       // get the first page of productions
       await this.getProductions(0, this.productionsPerPage);
+      console.log(this.productions);
     },
     methods: {
       async handleChangeSelectedProductionId(id) {
@@ -138,6 +140,26 @@
       },
       handleInputEventId() {
         this.hasAddingEventToProductionError = false;
+      },
+      async handleClickDeleteEvent(eventId) {
+        await this.$api.productions.deleteEventById(
+          this.selectedProductionId,
+          eventId,
+        );
+        this.deleteEventFromProduction(eventId);
+      },
+      deleteEventFromProduction(eventIdToDelete) {
+        this.events = this.events.filter(
+          (event) => event.id !== eventIdToDelete,
+        );
+
+        // delete from productions
+        this.productions = this.productions.map((production) => {
+          production.events = production.events.filter(
+            (eventId) => eventId !== eventIdToDelete,
+          );
+          return production;
+        });
       },
     },
   };
