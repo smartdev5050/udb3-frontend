@@ -34,9 +34,9 @@
           <delete-modal />
         </div>
         <div v-else class="productions-container">
-          Geen producties gevonden
+          {{ $t('productions.no_productions') }}
         </div>
-        <div class="panel-footer">
+        <div v-if="productions.length > 0" class="panel-footer">
           <pagination
             :rows="totalItems"
             :per-page="productionsPerPage"
