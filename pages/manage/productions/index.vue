@@ -80,7 +80,6 @@
     async created() {
       // get the first page of productions
       await this.getProductions(0, this.productionsPerPage);
-      console.log(this.productions);
     },
     methods: {
       async handleChangeSelectedProductionId(id) {
