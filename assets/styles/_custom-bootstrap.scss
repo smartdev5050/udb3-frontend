@@ -31,6 +31,11 @@ $pagination-focus-box-shadow: none;
 $pagination-padding-y: 0.44rem;
 $pagination-padding-x: 0.84rem;
 
+// form-input overrides
+$input-border-radius: 0;
+$input-border-radius-lg: 0;
+$input-border-radius-sm: 0;
+
 // Bootstrap and its default variables
 @import '../../node_modules/bootstrap/scss/bootstrap';
 // BootstrapVue and its default variables
