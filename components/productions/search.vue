@@ -10,7 +10,11 @@
     >
       <b-form-input id="search-input"></b-form-input>
     </b-form-group>
-    <b-alert show variant="info">Default Alert</b-alert>
+    <b-alert show variant="info"
+      >Schrijf een zoekopdracht van minstens 4 karakters in het veld hierboven
+      om producties te zoeken. Laat het veld leeg om alle producties op te
+      vragen in alfabetische volgorde.</b-alert
+    >
   </div>
 </template>
 
