@@ -10,7 +10,7 @@
         </small>
       </h1>
       <div>
-        <search />
+        <search @inputSearch="handleInputSearch" />
         <div class="productions-container">
           <productions
             :selected-id="selectedProductionId"
@@ -81,33 +81,30 @@
     },
     async created() {
       // get the first page of productions
-      await this.getProductions(0, this.productionsPerPage);
+      await this.getProductionsByName('', 0, this.productionsPerPage);
     },
     methods: {
       async handleChangeSelectedProductionId(id) {
         this.selectedProductionId = id;
         await this.getEventsInProduction(this.selected);
       },
-      async getAllProductions(start, limit) {
-        return await this.$api.productions.find('', start, limit);
+      async getAllProductions(name = '', start, limit) {
+        return await this.$api.productions.find(name, start, limit);
       },
       async getEventById(id) {
         return await this.$api.events.findById(id);
       },
-      async getProductions(start, limit) {
+      async getProductionsByName(name, start, limit) {
         this.isLoadingProductions = true;
         const {
           member: productions,
           totalItems,
-        } = await this.getAllProductions(start, limit);
+        } = await this.getAllProductions(name, start, limit);
 
         this.pagesProductions = Math.ceil(totalItems / this.productionsPerPage);
         this.totalItems = totalItems;
 
         this.productions = productions;
-        this.handleChangeSelectedProductionId(
-          this.productions[0].production_id,
-        );
         if (this.productions.length > 0) {
           this.handleChangeSelectedProductionId(
             this.productions[0].production_id,
@@ -142,10 +139,13 @@
       },
       async changePage(newPage) {
         const start = (newPage - 1) * this.productionsPerPage;
-        await this.getProductions(start, this.productionsPerPage);
+        await this.getProductionsByName('', start, this.productionsPerPage);
       },
       handleInputEventId() {
         this.hasAddingEventToProductionError = false;
+      },
+      handleInputSearch(searchInput) {
+        this.getProductionsByName(searchInput, 0, this.productionsPerPage);
       },
     },
   };
