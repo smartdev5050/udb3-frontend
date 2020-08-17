@@ -57,6 +57,10 @@
     "name": "Nom",
     "no_events": "Aucun événement dans cette production.",
     "productions": "Productions",
+    "search": {
+      "label": "Recherche par nom de production:",
+      "info": "Écrivez une recherche d'au moins 4 caractères dans le champ ci-dessus pour rechercher des productions. Laissez le champ vide pour demander toutes les productions par ordre alphabétique."
+    },
     "title": "Titre",
     "when": "Quand",
     "where": "Où"
