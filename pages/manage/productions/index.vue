@@ -10,6 +10,7 @@
         </small>
       </h1>
       <div>
+        <search />
         <div class="productions-container">
           <productions
             :selected-id="selectedProductionId"
@@ -44,12 +45,14 @@
   import Pagination from '@/components/pagination';
   import Productions from '@/components/productions/productions';
   import Events from '@/components/productions/events';
+  import Search from '@/components/productions/search';
 
   export default {
     components: {
       Pagination,
       Productions,
       Events,
+      Search,
     },
     data() {
       return {
