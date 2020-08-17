@@ -8,14 +8,29 @@
       :label="$t('productions.search.label')"
       label-for="search-input"
     >
-      <b-form-input id="search-input"></b-form-input>
+      <b-form-input
+        id="search-input"
+        v-model="searchInput"
+        @input="handleInputSearch"
+      ></b-form-input>
     </b-form-group>
     <b-alert show variant="info">{{ $t('productions.search.info') }}</b-alert>
   </div>
 </template>
 
 <script>
-  export default {};
+  import { debounce } from 'lodash';
+
+  export default {
+    data: () => ({
+      searchInput: '',
+    }),
+    methods: {
+      handleInputSearch: debounce(function () {
+        this.$emit('inputSearch', this.searchInput);
+      }, 1000),
+    },
+  };
 </script>
 
 <style lang="scss">
