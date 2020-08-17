@@ -17,3 +17,11 @@
 <script>
   export default {};
 </script>
+
+<style lang="scss">
+  .search-container {
+    .form-row {
+      align-items: center;
+    }
+  }
+</style>
