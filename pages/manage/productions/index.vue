@@ -108,6 +108,11 @@
         this.handleChangeSelectedProductionId(
           this.productions[0].production_id,
         );
+        if (this.productions.length > 0) {
+          this.handleChangeSelectedProductionId(
+            this.productions[0].production_id,
+          );
+        }
         this.isLoadingProductions = false;
       },
       async getEventsInProduction() {
