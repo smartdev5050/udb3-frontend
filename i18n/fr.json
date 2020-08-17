@@ -56,6 +56,7 @@
     "loading": "Changer",
     "name": "Nom",
     "no_events": "Aucun événement dans cette production.",
+    "no_productions": "Aucune production trouvée.",
     "productions": "Productions",
     "search": {
       "label": "Recherche par nom de production:",

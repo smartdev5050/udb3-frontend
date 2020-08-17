@@ -58,6 +58,7 @@
     "loading": "Laden",
     "name": "Naam",
     "no_events": "Geen eventementen onder deze productie.",
+    "no_productions": "Geen producties gevonden.",
     "productions": "Producties",
     "search": {
       "label": "Zoeken op productienaam:",

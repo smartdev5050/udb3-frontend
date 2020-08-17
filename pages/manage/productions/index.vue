@@ -29,7 +29,7 @@
             @inputEventId="handleInputEventId"
           />
         </div>
-        <div class="panel-footer">
+        <div v-if="productions.length > 0" class="panel-footer">
           <pagination
             :rows="totalItems"
             :per-page="productionsPerPage"
