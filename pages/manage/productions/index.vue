@@ -81,10 +81,12 @@
         isLoadingEvents: true,
         events: [],
         toBeDeletedEventId: '',
-        toBeDeletedEventName: '',
       };
     },
     computed: {
+      locale() {
+        return this.$i18n.locale;
+      },
       selectedProduction() {
         return this.productions.find(
           (production) =>
@@ -93,6 +95,12 @@
       },
       selectedProductionName() {
         return this.selectedProduction ? this.selectedProduction.name : '';
+      },
+      toBeDeletedEventName() {
+        const foundEvent = this.events.find(
+          (event) => event.id === this.toBeDeletedEventId,
+        );
+        return foundEvent ? foundEvent.name[this.locale] : '';
       },
     },
     async created() {
@@ -160,9 +168,8 @@
       handleInputEventId() {
         this.hasAddingEventToProductionError = false;
       },
-      handleClickDeleteEvent(eventId, eventName) {
+      handleClickDeleteEvent(eventId) {
         this.toBeDeletedEventId = eventId;
-        this.toBeDeletedEventName = eventName;
         this.$bvModal.show('deleteModal');
       },
       async handleConfirmDeleteEvent() {

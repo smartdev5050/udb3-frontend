@@ -4,10 +4,7 @@
       <div class="event-item">
         <div>
           {{ event.name[locale] || event.name['nl'] }}
-          <a
-            class="delete-event-link"
-            @click="handleClickDelete(event.id, event.name[locale])"
-          >
+          <a class="delete-event-link" @click="handleClickDelete(event.id)">
             {{ $t('productions.delete') }}
           </a>
         </div>
@@ -82,8 +79,8 @@
       parseDate(date) {
         return format(new Date(date), 'dd/MM/yyyy');
       },
-      handleClickDelete(eventId, eventName) {
-        this.$emit('clickDelete', eventId, eventName);
+      handleClickDelete(eventId) {
+        this.$emit('clickDelete', eventId);
       },
     },
   };
