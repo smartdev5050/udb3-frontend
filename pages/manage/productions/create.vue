@@ -12,18 +12,13 @@
 
       <section class="events-container">
         <event
-          type="Theatervoorstelling"
-          title="Kommil foo: Oogst"
+          v-for="event in suggestedEvents"
+          :key="event['@id']"
+          :type="event.terms[0].domain"
+          :title="event.name[locale]"
           :date="new Date()"
-          img-url="https://jira.uitdatabank.be/secure/attachment/26773/26773_similarity_basic+setup.png"
-          description="hjkfdshkfdshjkfsdhjkhjksfdhjkfdshjkdfshj"
-        />
-        <event
-          type="Theatervoorstelling"
-          title="Kommil foo: Oogst"
-          :date="new Date()"
-          img-url="https://jira.uitdatabank.be/secure/attachment/26773/26773_similarity_basic+setup.png"
-          description="hjkfdshkfdshjkfsdhjkhjksfdhjkfdshjkdfshj"
+          :img-url="event.image"
+          :description="event.description[locale]"
         />
       </section>
 
@@ -44,6 +39,7 @@
 
 <script>
   import Event from '@/components/productions/create/event';
+  import MockSuggestedEvents from '@/assets/suggested-events';
 
   export default {
     components: {
@@ -51,7 +47,21 @@
     },
     data: () => ({
       similarityScore: 0,
+      suggestedEvents: [],
     }),
+    computed: {
+      locale() {
+        return this.$i18n.locale;
+      },
+    },
+    created() {
+      this.suggestedEvents = this.getSuggestedEvents();
+    },
+    methods: {
+      getSuggestedEvents() {
+        return MockSuggestedEvents;
+      },
+    },
   };
 </script>
 
@@ -72,6 +82,7 @@
 
   .card {
     flex: 1;
+    margin-bottom: 1rem;
 
     &:not(:last-child) {
       margin-right: 1rem;

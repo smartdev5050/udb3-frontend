@@ -8,7 +8,7 @@
       </div>
       <img :src="imageUrl" :alt="title" class="image" />
     </section>
-    <p>{{ description }}</p>
+    <b-card-text>{{ description }}</b-card-text>
   </b-card>
 </template>
 
@@ -46,4 +46,13 @@
   };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+  .header {
+    display: flex;
+    justify-content: space-between;
+  }
+  img {
+    width: 100%;
+    padding: 1rem;
+  }
+</style>
