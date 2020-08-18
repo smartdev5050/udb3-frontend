@@ -1,5 +1,5 @@
 <template>
-  <table class="table table-productions">
+  <table v-if="productions.length > 0" class="table table-productions">
     <thead>
       <tr>
         <th scope="col">{{ $t('productions.name') }}</th>
@@ -21,6 +21,9 @@
       <loading-spinner />
     </tbody>
   </table>
+  <div v-else class="text-center">
+    {{ $t('productions.no_productions') }}
+  </div>
 </template>
 
 <script>

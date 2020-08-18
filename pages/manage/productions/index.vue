@@ -10,37 +10,40 @@
         </small>
       </h1>
       <div>
-        <div
-          v-if="isLoadingProductions || productions.length > 0"
-          class="productions-container"
-        >
-          <productions
-            :selected-id="selectedProductionId"
-            :is-loading="isLoadingProductions"
-            :productions="productions"
-            @changeSelectedProductionId="handleChangeSelectedProductionId"
-          />
-          <events
-            v-if="selectedProduction"
-            :is-loading="isLoadingEvents"
-            :events="events"
-            :selected-production-name="selectedProduction.name"
-            :is-adding="isAddingEventToProduction"
-            :has-adding-error="hasAddingEventToProductionError"
-            @addEventToProduction="handleAddEventToProduction"
-            @inputEventId="handleInputEventId"
-            @clickDeleteEvent="handleClickDeleteEvent"
-          />
-          <delete-modal
-            :production-name="selectedProductionName"
-            :event-name="toBeDeletedEventName"
-            @confirm="handleConfirmDeleteEvent"
-          />
+        <search @inputSearch="handleInputSearch" />
+        <div class="productions-container">
+          <div
+            v-if="isLoadingProductions || productions.length > 0"
+            class="productions-container"
+          >
+            <productions
+              :selected-id="selectedProductionId"
+              :is-loading="isLoadingProductions"
+              :productions="productions"
+              @changeSelectedProductionId="handleChangeSelectedProductionId"
+            />
+            <events
+              v-if="selectedProduction"
+              :is-loading="isLoadingEvents"
+              :events="events"
+              :selected-production-name="selectedProduction.name"
+              :is-adding="isAddingEventToProduction"
+              :has-adding-error="hasAddingEventToProductionError"
+              @addEventToProduction="handleAddEventToProduction"
+              @inputEventId="handleInputEventId"
+              @clickDeleteEvent="handleClickDeleteEvent"
+            />
+            <delete-modal
+              :production-name="selectedProductionName"
+              :event-name="toBeDeletedEventName"
+              @confirm="handleConfirmDeleteEvent"
+            />
+          </div>
+          <div v-else class="productions-container">
+            {{ $t('productions.no_productions') }}
+          </div>
         </div>
-        <div v-else class="productions-container">
-          {{ $t('productions.no_productions') }}
-        </div>
-        <div v-if="productions.length > 0" class="panel-footer">
+        <div v-if="productions.length > 1" class="panel-footer">
           <pagination
             :rows="totalItems"
             :per-page="productionsPerPage"
@@ -56,6 +59,7 @@
   import Pagination from '@/components/pagination';
   import Productions from '@/components/productions/productions';
   import Events from '@/components/productions/events';
+  import Search from '@/components/productions/search';
   import DeleteModal from '@/components/productions/delete-modal';
 
   export default {
@@ -63,6 +67,7 @@
       Pagination,
       Productions,
       Events,
+      Search,
       DeleteModal,
     },
     data() {
@@ -105,25 +110,22 @@
     },
     async created() {
       // get the first page of productions
-      await this.getProductions(0, this.productionsPerPage);
+      await this.getProductionsByName({ limit: this.productionsPerPage });
     },
     methods: {
       async handleChangeSelectedProductionId(id) {
         this.selectedProductionId = id;
         await this.getEventsInProduction(this.selected);
       },
-      async getAllProductions(start, limit) {
-        return await this.$api.productions.find('', start, limit);
-      },
       async getEventById(id) {
         return await this.$api.events.findById(id);
       },
-      async getProductions(start, limit) {
+      async getProductionsByName(options) {
         this.isLoadingProductions = true;
         const {
           member: productions,
           totalItems,
-        } = await this.getAllProductions(start, limit);
+        } = await this.$api.productions.find(options);
 
         this.pagesProductions = Math.ceil(totalItems / this.productionsPerPage);
         this.totalItems = totalItems;
@@ -163,10 +165,19 @@
       },
       async changePage(newPage) {
         const start = (newPage - 1) * this.productionsPerPage;
-        await this.getProductions(start, this.productionsPerPage);
+        await this.getProductionsByName({
+          start,
+          limit: this.productionsPerPage,
+        });
       },
       handleInputEventId() {
         this.hasAddingEventToProductionError = false;
+      },
+      handleInputSearch(searchInput) {
+        this.getProductionsByName({
+          name: searchInput,
+          limit: this.productionsPerPage,
+        });
       },
       handleClickDeleteEvent(eventId) {
         this.toBeDeletedEventId = eventId;
