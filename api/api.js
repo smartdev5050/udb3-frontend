@@ -50,6 +50,11 @@ export default (authUrl, apiUrl, apiKey, tokenCallback) => {
     productions: {
       find: productions.find(apiUrl, headersCallback, fetch),
       addEventById: productions.addEventById(apiUrl, headersCallback, fetch),
+      deleteEventById: productions.deleteEventById(
+        apiUrl,
+        headersCallback,
+        fetch,
+      ),
     },
     user: {
       getMe: user.getMe(apiUrl, headersCallback, fetch),

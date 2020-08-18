@@ -53,6 +53,7 @@
     "cancel": "annuleren",
     "create": "toevoegen",
     "delete": "verwijderen",
+    "delete_question": "Ben je zeker dat je '{eventName}' wilt verwijderen uit productie '{productionName}'?",
     "events": "Evenementen",
     "in": "in",
     "loading": "Laden",

@@ -25,7 +25,11 @@ export const findById = (apiUrl, headers, fetch) => async (id) => {
   const res = await fetch(url, {
     headers: headers(),
   });
-  return await res.json();
+  const body = await res.json();
+  return {
+    ...body,
+    id,
+  };
 };
 
 export const findByIds = (apiUrl, headers, fetch) => async (eventIds) => {

@@ -72,6 +72,10 @@
     margin-bottom: 2rem;
   }
 
+  a:hover {
+    cursor: pointer;
+  }
+
   *,
   *::before,
   *::after {

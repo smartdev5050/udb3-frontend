@@ -44,7 +44,12 @@
       </tr>
     </thead>
     <tbody v-if="isTableVisible">
-      <event v-for="event in events" :key="event['@id']" :event="event" />
+      <event
+        v-for="event in events"
+        :key="event['@id']"
+        :event="event"
+        @clickDelete="handleClickDeleteEvent"
+      />
     </tbody>
     <tbody v-else-if="isLoading">
       <tr>
@@ -129,6 +134,9 @@
       },
       handleInputEventId() {
         this.$emit('inputEventId');
+      },
+      handleClickDeleteEvent(eventId) {
+        this.$emit('clickDeleteEvent', eventId);
       },
     },
   };

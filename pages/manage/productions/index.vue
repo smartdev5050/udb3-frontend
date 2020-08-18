@@ -12,6 +12,10 @@
       <div>
         <search @inputSearch="handleInputSearch" />
         <div class="productions-container">
+        <div
+          v-if="isLoadingProductions || productions.length > 0"
+          class="productions-container"
+        >
           <productions
             :selected-id="selectedProductionId"
             :is-loading="isLoadingProductions"
@@ -27,7 +31,16 @@
             :has-adding-error="hasAddingEventToProductionError"
             @addEventToProduction="handleAddEventToProduction"
             @inputEventId="handleInputEventId"
+            @clickDeleteEvent="handleClickDeleteEvent"
           />
+          <delete-modal
+            :production-name="selectedProductionName"
+            :event-name="toBeDeletedEventName"
+            @confirm="handleConfirmDeleteEvent"
+          />
+        </div>
+        <div v-else class="productions-container">
+          {{ $t('productions.no_productions') }}
         </div>
         <div v-if="productions.length > 0" class="panel-footer">
           <pagination
@@ -46,6 +59,7 @@
   import Productions from '@/components/productions/productions';
   import Events from '@/components/productions/events';
   import Search from '@/components/productions/search';
+  import DeleteModal from '@/components/productions/delete-modal';
 
   export default {
     components: {
@@ -53,6 +67,7 @@
       Productions,
       Events,
       Search,
+      DeleteModal,
     },
     data() {
       return {
@@ -69,14 +84,27 @@
 
         isLoadingEvents: true,
         events: [],
+        toBeDeletedEventId: '',
       };
     },
     computed: {
+      locale() {
+        return this.$i18n.locale;
+      },
       selectedProduction() {
         return this.productions.find(
           (production) =>
             production.production_id === this.selectedProductionId,
         );
+      },
+      selectedProductionName() {
+        return this.selectedProduction ? this.selectedProduction.name : '';
+      },
+      toBeDeletedEventName() {
+        const foundEvent = this.events.find(
+          (event) => event.id === this.toBeDeletedEventId,
+        );
+        return foundEvent ? foundEvent.name[this.locale] : '';
       },
     },
     async created() {
@@ -147,6 +175,36 @@
       handleInputSearch(searchInput) {
         this.getProductionsByName(searchInput, 0, this.productionsPerPage);
       },
+      handleClickDeleteEvent(eventId) {
+        this.toBeDeletedEventId = eventId;
+        this.$bvModal.show('deleteModal');
+      },
+      async handleConfirmDeleteEvent() {
+        await this.$api.productions.deleteEventById(
+          this.selectedProductionId,
+          this.toBeDeletedEventId,
+        );
+        this.deleteEventFromProduction(this.toBeDeletedEventId);
+        this.$bvModal.hide('deleteModal');
+      },
+      deleteEventFromProduction(eventIdToDelete) {
+        this.events = this.events.filter(
+          (event) => event.id !== eventIdToDelete,
+        );
+
+        // delete from productions
+        this.productions = this.productions
+          .map((production) => {
+            production.events = production.events.filter(
+              (eventId) => eventId !== eventIdToDelete,
+            );
+            if (production.events.length === 0) {
+              return undefined;
+            }
+            return production;
+          })
+          .filter((production) => production !== undefined);
+      },
     },
   };
 </script>
@@ -156,6 +214,7 @@
     display: flex;
     width: 100%;
     font-weight: 400;
+    margin-bottom: 1rem;
 
     .table {
       font-family: 'Open Sans', Helvetica, Arial, sans-serif;
