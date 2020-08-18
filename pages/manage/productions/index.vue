@@ -240,10 +240,6 @@
     a {
       font-weight: 400;
       color: $udb-blue;
-
-      &:hover {
-        cursor: pointer;
-      }
     }
   }
 
