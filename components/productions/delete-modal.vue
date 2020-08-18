@@ -31,7 +31,7 @@
     },
     methods: {
       handleConfirmDelete() {
-        this.$emit('confirmDelete');
+        this.$emit('confirm');
       },
     },
   };

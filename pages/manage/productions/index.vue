@@ -34,7 +34,7 @@
           <delete-modal
             :production-name="selectedProductionName"
             :event-name="toBeDeletedEventName"
-            @confirmDelete="handleConfirmDeleteEvent"
+            @confirm="handleConfirmDeleteEvent"
           />
         </div>
         <div v-else class="productions-container">
