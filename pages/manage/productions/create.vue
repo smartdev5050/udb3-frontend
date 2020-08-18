@@ -2,8 +2,10 @@
   <div class="wrapper">
     <div class="container-fluid">
       <h1 class="title">
-        {{ 'create' }}
+        {{ $t('productions.create') }}
       </h1>
+
+      <label>{{ $t('productions.suggested_events') }}</label>
     </div>
   </div>
 </template>
@@ -12,4 +14,8 @@
   export default {};
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+  .title {
+    text-transform: capitalize;
+  }
+</style>
