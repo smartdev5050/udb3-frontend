@@ -10,7 +10,10 @@
         </small>
       </h1>
       <div>
-        <div class="productions-container">
+        <div
+          v-if="isLoadingProductions || productions.length > 0"
+          class="productions-container"
+        >
           <productions
             :selected-id="selectedProductionId"
             :is-loading="isLoadingProductions"
@@ -26,9 +29,18 @@
             :has-adding-error="hasAddingEventToProductionError"
             @addEventToProduction="handleAddEventToProduction"
             @inputEventId="handleInputEventId"
+            @clickDeleteEvent="handleClickDeleteEvent"
+          />
+          <delete-modal
+            :production-name="selectedProductionName"
+            :event-name="toBeDeletedEventName"
+            @confirm="handleConfirmDeleteEvent"
           />
         </div>
-        <div class="panel-footer">
+        <div v-else class="productions-container">
+          {{ $t('productions.no_productions') }}
+        </div>
+        <div v-if="productions.length > 0" class="panel-footer">
           <pagination
             :rows="totalItems"
             :per-page="productionsPerPage"
@@ -44,12 +56,14 @@
   import Pagination from '@/components/pagination';
   import Productions from '@/components/productions/productions';
   import Events from '@/components/productions/events';
+  import DeleteModal from '@/components/productions/delete-modal';
 
   export default {
     components: {
       Pagination,
       Productions,
       Events,
+      DeleteModal,
     },
     data() {
       return {
@@ -66,14 +80,27 @@
 
         isLoadingEvents: true,
         events: [],
+        toBeDeletedEventId: '',
       };
     },
     computed: {
+      locale() {
+        return this.$i18n.locale;
+      },
       selectedProduction() {
         return this.productions.find(
           (production) =>
             production.production_id === this.selectedProductionId,
         );
+      },
+      selectedProductionName() {
+        return this.selectedProduction ? this.selectedProduction.name : '';
+      },
+      toBeDeletedEventName() {
+        const foundEvent = this.events.find(
+          (event) => event.id === this.toBeDeletedEventId,
+        );
+        return foundEvent ? foundEvent.name[this.locale] : '';
       },
     },
     async created() {
@@ -102,9 +129,11 @@
         this.totalItems = totalItems;
 
         this.productions = productions;
-        this.handleChangeSelectedProductionId(
-          this.productions[0].production_id,
-        );
+        if (this.productions.length > 0) {
+          this.handleChangeSelectedProductionId(
+            this.productions[0].production_id,
+          );
+        }
         this.isLoadingProductions = false;
       },
       async getEventsInProduction() {
@@ -139,6 +168,36 @@
       handleInputEventId() {
         this.hasAddingEventToProductionError = false;
       },
+      handleClickDeleteEvent(eventId) {
+        this.toBeDeletedEventId = eventId;
+        this.$bvModal.show('deleteModal');
+      },
+      async handleConfirmDeleteEvent() {
+        await this.$api.productions.deleteEventById(
+          this.selectedProductionId,
+          this.toBeDeletedEventId,
+        );
+        this.deleteEventFromProduction(this.toBeDeletedEventId);
+        this.$bvModal.hide('deleteModal');
+      },
+      deleteEventFromProduction(eventIdToDelete) {
+        this.events = this.events.filter(
+          (event) => event.id !== eventIdToDelete,
+        );
+
+        // delete from productions
+        this.productions = this.productions
+          .map((production) => {
+            production.events = production.events.filter(
+              (eventId) => eventId !== eventIdToDelete,
+            );
+            if (production.events.length === 0) {
+              return undefined;
+            }
+            return production;
+          })
+          .filter((production) => production !== undefined);
+      },
     },
   };
 </script>
@@ -148,6 +207,7 @@
     display: flex;
     width: 100%;
     font-weight: 400;
+    margin-bottom: 1rem;
 
     .table {
       font-family: 'Open Sans', Helvetica, Arial, sans-serif;
