@@ -41,6 +41,36 @@
         </div>
         <div v-else class="productions-container">
           {{ $t('productions.no_productions') }}
+          <div
+            v-if="isLoadingProductions || productions.length > 0"
+            class="productions-container"
+          >
+            <productions
+              :selected-id="selectedProductionId"
+              :is-loading="isLoadingProductions"
+              :productions="productions"
+              @changeSelectedProductionId="handleChangeSelectedProductionId"
+            />
+            <events
+              v-if="selectedProduction"
+              :is-loading="isLoadingEvents"
+              :events="events"
+              :selected-production-name="selectedProduction.name"
+              :is-adding="isAddingEventToProduction"
+              :has-adding-error="hasAddingEventToProductionError"
+              @addEventToProduction="handleAddEventToProduction"
+              @inputEventId="handleInputEventId"
+              @clickDeleteEvent="handleClickDeleteEvent"
+            />
+            <delete-modal
+              :production-name="selectedProductionName"
+              :event-name="toBeDeletedEventName"
+              @confirm="handleConfirmDeleteEvent"
+            />
+          </div>
+          <div v-else class="productions-container">
+            {{ $t('productions.no_productions') }}
+          </div>
         </div>
         <div v-if="productions.length > 0" class="panel-footer">
           <pagination
