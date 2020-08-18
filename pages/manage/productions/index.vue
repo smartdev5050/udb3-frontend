@@ -110,25 +110,25 @@
     },
     async created() {
       // get the first page of productions
-      await this.getProductionsByName('', 0, this.productionsPerPage);
+      await this.getProductionsByName({ limit: this.productionsPerPage });
     },
     methods: {
       async handleChangeSelectedProductionId(id) {
         this.selectedProductionId = id;
         await this.getEventsInProduction(this.selected);
       },
-      async getAllProductions(name = '', start, limit) {
-        return await this.$api.productions.find(name, start, limit);
+      async getAllProductions(options) {
+        return await this.$api.productions.find(options);
       },
       async getEventById(id) {
         return await this.$api.events.findById(id);
       },
-      async getProductionsByName(name, start, limit) {
+      async getProductionsByName(options) {
         this.isLoadingProductions = true;
         const {
           member: productions,
           totalItems,
-        } = await this.getAllProductions(name, start, limit);
+        } = await this.getAllProductions(options);
 
         this.pagesProductions = Math.ceil(totalItems / this.productionsPerPage);
         this.totalItems = totalItems;
@@ -168,13 +168,19 @@
       },
       async changePage(newPage) {
         const start = (newPage - 1) * this.productionsPerPage;
-        await this.getProductionsByName('', start, this.productionsPerPage);
+        await this.getProductionsByName({
+          start,
+          limit: this.productionsPerPage,
+        });
       },
       handleInputEventId() {
         this.hasAddingEventToProductionError = false;
       },
       handleInputSearch(searchInput) {
-        this.getProductionsByName(searchInput, 0, this.productionsPerPage);
+        this.getProductionsByName({
+          name: searchInput,
+          limit: this.productionsPerPage,
+        });
       },
       handleClickDeleteEvent(eventId) {
         this.toBeDeletedEventId = eventId;
