@@ -117,9 +117,6 @@
         this.selectedProductionId = id;
         await this.getEventsInProduction(this.selected);
       },
-      async getAllProductions(options) {
-        return await this.$api.productions.find(options);
-      },
       async getEventById(id) {
         return await this.$api.events.findById(id);
       },
@@ -128,7 +125,7 @@
         const {
           member: productions,
           totalItems,
-        } = await this.getAllProductions(options);
+        } = await this.$api.productions.find(options);
 
         this.pagesProductions = Math.ceil(totalItems / this.productionsPerPage);
         this.totalItems = totalItems;
