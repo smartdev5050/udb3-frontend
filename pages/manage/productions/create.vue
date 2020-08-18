@@ -10,7 +10,22 @@
         {{ similarityScore }}%
       </p>
 
-      <section class="event-container"></section>
+      <section class="events-container">
+        <event
+          type="Theatervoorstelling"
+          title="Kommil foo: Oogst"
+          :date="new Date()"
+          img-url="https://jira.uitdatabank.be/secure/attachment/26773/26773_similarity_basic+setup.png"
+          description="hjkfdshkfdshjkfsdhjkhjksfdhjkfdshjkdfshj"
+        />
+        <event
+          type="Theatervoorstelling"
+          title="Kommil foo: Oogst"
+          :date="new Date()"
+          img-url="https://jira.uitdatabank.be/secure/attachment/26773/26773_similarity_basic+setup.png"
+          description="hjkfdshkfdshjkfsdhjkhjksfdhjkfdshjkdfshj"
+        />
+      </section>
 
       <section class="production-name-container">
         <label for="production-name">{{
@@ -28,7 +43,12 @@
 </template>
 
 <script>
+  import Event from '@/components/productions/create/event';
+
   export default {
+    components: {
+      Event,
+    },
     data: () => ({
       similarityScore: 0,
     }),
@@ -43,6 +63,19 @@
   label {
     font-size: 1rem;
     font-weight: 700;
+  }
+
+  .events-container {
+    display: flex;
+    max-width: 50rem;
+  }
+
+  .card {
+    flex: 1;
+
+    &:not(:last-child) {
+      margin-right: 1rem;
+    }
   }
 
   .production-name-container {
