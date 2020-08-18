@@ -67,7 +67,7 @@
 </template>
 
 <script>
-  import LoadingSpinner from '../loading-spinner';
+  import LoadingSpinner from '../../loading-spinner';
   import Event from './event';
 
   export default {

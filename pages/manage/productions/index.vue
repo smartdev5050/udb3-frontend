@@ -57,10 +57,10 @@
 
 <script>
   import Pagination from '@/components/pagination';
-  import Productions from '@/components/productions/productions';
-  import Events from '@/components/productions/events';
-  import Search from '@/components/productions/search';
-  import DeleteModal from '@/components/productions/delete-modal';
+  import Productions from '@/components/productions/index/productions';
+  import Events from '@/components/productions/index/events';
+  import Search from '@/components/productions/index/search';
+  import DeleteModal from '@/components/productions/index/delete-modal';
 
   export default {
     components: {
