@@ -1,19 +1,13 @@
 <template>
   <div class="search-container">
-    <b-form-group
-      id="fieldset-horizontal"
-      label-cols-sm="4"
-      label-cols-lg="2"
-      label-size="lg"
-      :label="$t('productions.search.label')"
-      label-for="search-input"
-    >
+    <div class="searchbox-container">
+      <label for="search-input">{{ $t('productions.search.label') }}</label>
       <b-form-input
         id="search-input"
         v-model="searchInput"
         @input="handleInputSearch"
       ></b-form-input>
-    </b-form-group>
+    </div>
     <b-alert show variant="info">{{ $t('productions.search.info') }}</b-alert>
   </div>
 </template>
@@ -35,8 +29,22 @@
 
 <style lang="scss">
   .search-container {
-    .form-row {
+    .searchbox-container {
+      display: flex;
       align-items: center;
+      margin-bottom: 1rem;
+      line-height: 1rem;
+    }
+
+    label {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-right: 1rem;
+      margin-bottom: 0;
+    }
+
+    input {
+      max-width: 43rem;
     }
   }
 </style>
