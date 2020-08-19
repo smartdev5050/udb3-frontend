@@ -67,12 +67,12 @@
         return this.$i18n.locale;
       },
       period() {
-        if (this.event.startDate === this.event.endDate) {
-          return this.parseDate(this.startDate);
+        const parsedStart = this.parseDate(this.event.startDate);
+        const parsedEnd = this.parseDate(this.event.endDate);
+        if (parsedStart === parsedEnd) {
+          return parsedStart;
         }
-        return `${this.parseDate(this.event.startDate)} - ${this.parseDate(
-          this.event.endDate,
-        )}`;
+        return `${parsedStart} - ${parsedEnd}`;
       },
     },
     methods: {

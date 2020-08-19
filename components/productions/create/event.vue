@@ -44,12 +44,12 @@
     },
     computed: {
       period() {
-        if (this.startDate === this.endDate) {
-          return this.parseDate(this.startDate);
+        const parsedStart = this.parseDate(this.startDate);
+        const parsedEnd = this.parseDate(this.endDate);
+        if (parsedStart === parsedEnd) {
+          return parsedStart;
         }
-        return `${this.parseDate(this.startDate)} - ${this.parseDate(
-          this.endDate,
-        )}`;
+        return `${parsedStart} - ${parsedEnd}`;
       },
     },
     methods: {
