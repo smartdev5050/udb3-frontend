@@ -41,8 +41,12 @@ export const findByIds = (apiUrl, headers, fetch) => async (eventIds) => {
   return events.filter((event) => !event.status);
 };
 
-export const getCalendarSummary = (apiUrl, headers, fetch) => async (id) => {
-  const url = `${apiUrl}/events/${id.toString()}/calsum?format={sm|md|lg}&langCode=nl_BE`;
+export const getCalendarSummary = (apiUrl, headers, fetch) => async ({
+  id,
+  locale,
+  format = 'lg',
+}) => {
+  const url = `${apiUrl}/events/${id.toString()}/calsum?format=${format}&langCode=${locale}_BE`;
   const res = await fetch(url, {
     headers: headers(),
   });

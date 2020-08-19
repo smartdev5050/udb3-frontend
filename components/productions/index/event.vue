@@ -31,7 +31,7 @@
             <tr>
               <th>{{ $t('productions.when') }}</th>
               <td>
-                {{ period }}
+                {{ getPeriod() }}
               </td>
             </tr>
             <tr>
@@ -48,8 +48,6 @@
 </template>
 
 <script>
-  import { format } from 'date-fns';
-
   export default {
     props: {
       event: {
@@ -66,24 +64,22 @@
       locale() {
         return this.$i18n.locale;
       },
-      period() {
-        const parsedStart = this.parseDate(this.event.startDate);
-        const parsedEnd = this.parseDate(this.event.endDate);
-        if (parsedStart === parsedEnd) {
-          return parsedStart;
-        }
-        return `${parsedStart} - ${parsedEnd}`;
+      eventId() {
+        return this.event['@id'].split('/').pop();
       },
     },
     methods: {
       handleClickToggleShowDetail() {
         this.isDetailVisible = !this.isDetailVisible;
       },
-      parseDate(date) {
-        return format(new Date(date), 'dd/MM/yyyy');
-      },
       handleClickDelete(eventId) {
         this.$emit('clickDelete', eventId);
+      },
+      async getPeriod() {
+        return await this.$api.events.getCalendarSummary({
+          id: this.eventId,
+          locale: this.locale,
+        });
       },
     },
   };
