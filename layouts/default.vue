@@ -61,13 +61,16 @@
     text-align: left;
   }
 
-  .title {
+  h1 {
     font-family: 'Open Sans', Helvetica, Arial, sans-serif;
     display: block;
-    font-weight: 300;
-    font-size: 1.6rem;
-    line-height: 3.74rem;
+    font-weight: 300 !important;
+    font-size: 1.6rem !important;
+    line-height: 3.74rem !important;
     color: #222;
+  }
+
+  .title {
     border-bottom: 1px solid #ccc;
     margin-bottom: 2rem;
   }
