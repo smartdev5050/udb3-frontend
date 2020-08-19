@@ -22,6 +22,10 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }],
   },
   /*
+   ** Global CSS
+   */
+  css: ['~assets/styles/_custom-bootstrap.scss'],
+  /*
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
    */
@@ -85,7 +89,7 @@ export default {
     middleware: ['auth'],
   },
   styleResources: {
-    scss: ['./assets/styles/_global.scss'],
+    scss: ['./assets/styles/_colors.scss'],
   },
   i18n: {
     locales: ['nl', 'fr'],

@@ -61,12 +61,12 @@
     text-align: left;
   }
 
-  h1.title {
+  h1 {
     font-family: 'Open Sans', Helvetica, Arial, sans-serif;
     display: block;
-    font-weight: 300 !important;
-    font-size: 1.6rem !important;
-    line-height: 3.74rem !important;
+    font-weight: 300;
+    font-size: 1.6rem;
+    line-height: 3.74rem;
     color: #222;
   }
 
