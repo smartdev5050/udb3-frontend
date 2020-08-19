@@ -6,7 +6,7 @@
         <h2>{{ title }}</h2>
         <p>{{ period }}</p>
       </div>
-      <div><img :src="imageUrl" :alt="title" class="image" /></div>
+      <img :src="imageUrl" :alt="title" class="image" />
     </section>
     <b-card-text>{{ description }}</b-card-text>
   </b-card>
