@@ -31,7 +31,7 @@
       },
       endDate: {
         type: String,
-        default: 'new Date()',
+        default: '',
       },
       description: {
         type: String,
