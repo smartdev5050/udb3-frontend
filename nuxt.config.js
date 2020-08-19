@@ -22,14 +22,6 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }],
   },
   /*
-   ** Global CSS
-   */
-  css: [
-    '~assets/styles/_colors.scss',
-    '~assets/styles/_global.scss',
-    '~assets/styles/_custom-bootstrap.scss',
-  ],
-  /*
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
    */
