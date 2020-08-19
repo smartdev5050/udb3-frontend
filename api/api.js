@@ -46,6 +46,11 @@ export default (authUrl, apiUrl, apiKey, tokenCallback) => {
       findToModerate: events.findToModerate(apiUrl, headersCallback, fetch),
       findById: events.findById(apiUrl, headersCallback, fetch),
       findByIds: events.findByIds(apiUrl, headersCallback, fetch),
+      getCalendarSummary: events.getCalendarSummary(
+        apiUrl,
+        headersCallback,
+        fetch,
+      ),
     },
     productions: {
       find: productions.find(apiUrl, headersCallback, fetch),
