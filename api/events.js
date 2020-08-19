@@ -50,5 +50,5 @@ export const getCalendarSummary = (apiUrl, headers, fetch) => async ({
   const res = await fetch(url, {
     headers: headers(),
   });
-  return await res.json();
+  return res.text();
 };

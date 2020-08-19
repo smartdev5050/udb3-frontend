@@ -31,7 +31,7 @@
             <tr>
               <th>{{ $t('productions.when') }}</th>
               <td>
-                {{ getPeriod() }}
+                {{ period }}
               </td>
             </tr>
             <tr>
@@ -48,6 +48,8 @@
 </template>
 
 <script>
+  import { parseId as parseEventId } from '@/functions/events';
+
   export default {
     props: {
       event: {
@@ -58,6 +60,7 @@
     data() {
       return {
         isDetailVisible: false,
+        period: '',
       };
     },
     computed: {
@@ -65,8 +68,11 @@
         return this.$i18n.locale;
       },
       eventId() {
-        return this.event['@id'].split('/').pop();
+        return parseEventId(this.event['@id']);
       },
+    },
+    async created() {
+      this.period = await this.getPeriod();
     },
     methods: {
       handleClickToggleShowDetail() {

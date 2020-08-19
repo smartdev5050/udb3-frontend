@@ -13,10 +13,14 @@
 </template>
 
 <script>
-  import { format } from 'date-fns';
+  import { parseId as parseEventId } from '@/functions/events';
 
   export default {
     props: {
+      id: {
+        type: String,
+        default: '',
+      },
       type: {
         type: String,
         default: '',
@@ -42,19 +46,28 @@
         default: '',
       },
     },
+    data() {
+      return {
+        period: '',
+      };
+    },
     computed: {
-      period() {
-        const parsedStart = this.parseDate(this.startDate);
-        const parsedEnd = this.parseDate(this.endDate);
-        if (parsedStart === parsedEnd) {
-          return parsedStart;
-        }
-        return `${parsedStart} - ${parsedEnd}`;
+      locale() {
+        return this.$i18n.locale;
+      },
+      eventId() {
+        return parseEventId(this.id);
       },
     },
+    async created() {
+      this.period = await this.getPeriod();
+    },
     methods: {
-      parseDate(date) {
-        return format(new Date(date), 'dd/MM/yyyy');
+      async getPeriod() {
+        return await this.$api.events.getCalendarSummary({
+          id: this.eventId,
+          locale: this.locale,
+        });
       },
     },
   };

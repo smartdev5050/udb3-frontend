@@ -13,6 +13,7 @@
       <section class="events-container">
         <event
           v-for="event in suggestedEvents"
+          :id="event['@id']"
           :key="event['@id']"
           :type="getEventType(event.terms)"
           :title="event.name[locale]"
