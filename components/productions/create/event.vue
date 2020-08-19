@@ -26,12 +26,12 @@
         default: '',
       },
       startDate: {
-        type: Date,
-        default: new Date(),
+        type: String,
+        default: '',
       },
       endDate: {
-        type: Date,
-        default: new Date(),
+        type: String,
+        default: 'new Date()',
       },
       description: {
         type: String,
