@@ -1,12 +1,12 @@
 <template>
-  <b-card>
+  <b-card class="card-event">
     <section class="header">
       <div>
         <p>{{ type }}</p>
         <h2>{{ title }}</h2>
-        <p>{{ formattedDate }}</p>
+        <p>{{ period }}</p>
       </div>
-      <img :src="imageUrl" :alt="title" class="image" />
+      <div><img :src="imageUrl" :alt="title" class="image" /></div>
     </section>
     <b-card-text>{{ description }}</b-card-text>
   </b-card>
@@ -25,7 +25,11 @@
         type: String,
         default: '',
       },
-      date: {
+      startDate: {
+        type: Date,
+        default: new Date(),
+      },
+      endDate: {
         type: Date,
         default: new Date(),
       },
@@ -39,20 +43,44 @@
       },
     },
     computed: {
-      formattedDate() {
-        return format(new Date(this.date), 'dd/MM/yyyy');
+      period() {
+        if (this.startDate === this.endDate) {
+          return this.parseDate(this.startDate);
+        }
+        return `${this.parseDate(this.startDate)} - ${this.parseDate(
+          this.endDate,
+        )}`;
+      },
+    },
+    methods: {
+      parseDate(date) {
+        return format(new Date(date), 'dd/MM/yyyy');
       },
     },
   };
 </script>
 
 <style lang="scss">
-  .header {
-    display: flex;
-    justify-content: space-between;
-  }
-  img {
-    width: 100%;
-    padding: 1rem;
+  .card-event {
+    flex: 1;
+
+    &:not(:last-child) {
+      margin-right: 1rem;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    img {
+      display: block;
+      width: 10rem;
+      height: 10rem;
+      margin: 1rem;
+      background-position: center center;
+      background-repeat: no-repeat;
+      object-fit: cover;
+    }
   }
 </style>

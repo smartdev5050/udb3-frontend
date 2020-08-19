@@ -67,6 +67,9 @@
         return this.$i18n.locale;
       },
       period() {
+        if (this.event.startDate === this.event.endDate) {
+          return this.parseDate(this.startDate);
+        }
         return `${this.parseDate(this.event.startDate)} - ${this.parseDate(
           this.event.endDate,
         )}`;

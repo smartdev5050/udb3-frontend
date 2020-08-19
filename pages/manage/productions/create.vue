@@ -16,8 +16,9 @@
           :key="event['@id']"
           :type="event.terms[0].domain"
           :title="event.name[locale]"
-          :date="new Date()"
-          :img-url="event.image"
+          :start-date="event.startDate"
+          :end-date="event.endDate"
+          :image-url="event.image"
           :description="event.description[locale]"
         />
       </section>
@@ -77,20 +78,16 @@
 
   .events-container {
     display: flex;
-    max-width: 50rem;
-  }
-
-  .card {
-    flex: 1;
+    max-width: 84rem;
     margin-bottom: 1rem;
-
-    &:not(:last-child) {
-      margin-right: 1rem;
-    }
   }
 
   .production-name-container {
     margin-bottom: 1rem;
+  }
+
+  #production-name {
+    max-width: 43rem;
   }
 
   .button-container {
