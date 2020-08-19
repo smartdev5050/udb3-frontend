@@ -14,7 +14,7 @@
         <event
           v-for="event in suggestedEvents"
           :key="event['@id']"
-          :type="event.terms[0].domain"
+          :type="getEventType(event.terms)"
           :title="event.name[locale]"
           :start-date="event.startDate"
           :end-date="event.endDate"
@@ -61,6 +61,11 @@
     methods: {
       getSuggestedEvents() {
         return MockSuggestedEvents;
+      },
+      getEventType(terms) {
+        const foundTerm =
+          terms.find((term) => term.domain === 'eventtype') || {};
+        return foundTerm.label ? foundTerm.label : '';
       },
     },
   };
