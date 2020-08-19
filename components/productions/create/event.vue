@@ -71,13 +71,14 @@
     .header {
       display: flex;
       justify-content: space-between;
+      margin-bottom: 1rem;
     }
 
     img {
       display: block;
       width: 10rem;
       height: 10rem;
-      margin: 1rem;
+      margin-left: 1rem;
       background-position: center center;
       background-repeat: no-repeat;
       object-fit: cover;
