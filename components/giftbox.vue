@@ -13,7 +13,7 @@
       ref="giftbox-modal"
       class="giftbox-modal"
       size="xl"
-      title="Nieuw in onze API en widgets"
+      :title="$t('giftbox.new_features')"
       :scrollable="false"
       hide-footer
     >
