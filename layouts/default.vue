@@ -61,7 +61,7 @@
     text-align: left;
   }
 
-  h1 {
+  h1.title {
     font-family: 'Open Sans', Helvetica, Arial, sans-serif;
     display: block;
     font-weight: 300 !important;
