@@ -37,7 +37,7 @@
               />
               <fa v-else icon="eye-slash" class="eye-icon" />
             </div>
-            <p>{{ feature.title }}</p>
+            <div class="feature-title">{{ feature.title }}</div>
           </div>
         </div>
         <div
@@ -207,10 +207,13 @@
         line-height: 2rem;
         vertical-align: middle;
         display: flex;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
         transition: background-color 500ms;
+
+        .feature-title {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
 
         &:hover {
           cursor: pointer;
