@@ -18,7 +18,7 @@
       hide-footer
     >
       <div class="features-wrapper">
-        <div class="features-list">
+        <section class="features-list">
           <div
             v-for="feature in features"
             :key="feature.uid"
@@ -39,8 +39,8 @@
             </div>
             <div class="feature-title">{{ feature.title }}</div>
           </div>
-        </div>
-        <div
+        </section>
+        <article
           v-if="selectedFeature"
           :key="selectedFeature.uid"
           class="features-detail"
@@ -70,7 +70,7 @@
               </b-button>
             </a>
           </div>
-        </div>
+        </article>
         <div v-else class="features-detail">
           <p>{{ $t('giftbox.no_features') }}</p>
         </div>
