@@ -27,7 +27,8 @@
   },
   "giftbox": {
     "announcements": "Annonces",
-    "no_features": "Aucune nouvelle fonctionnalité à signaler."
+    "new_features": "Nouveau dans UiTdatabank",
+    "no_features": "Il n'y a actuellement aucune annonce."
   },
   "menu": {
     "home": "Home",
