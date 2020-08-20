@@ -61,6 +61,7 @@
   import Events from '@/components/productions/index/events';
   import Search from '@/components/productions/index/search';
   import DeleteModal from '@/components/productions/index/delete-modal';
+  import { parseId as parseEventId } from '@/functions/events';
 
   export default {
     components: {
@@ -103,7 +104,7 @@
       },
       toBeDeletedEventName() {
         const foundEvent = this.events.find(
-          (event) => event.id === this.toBeDeletedEventId,
+          (event) => parseEventId(event['@id']) === this.toBeDeletedEventId,
         );
         return foundEvent ? foundEvent.name[this.locale] : '';
       },
@@ -193,7 +194,7 @@
       },
       deleteEventFromProduction(eventIdToDelete) {
         this.events = this.events.filter(
-          (event) => event.id !== eventIdToDelete,
+          (event) => parseEventId(event['@id']) !== eventIdToDelete,
         );
 
         // delete from productions
