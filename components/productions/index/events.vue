@@ -46,8 +46,10 @@
     <tbody v-if="isTableVisible">
       <event
         v-for="event in events"
+        :id="event.id"
         :key="event['@id']"
-        :event="event"
+        :name="event.name[locale]"
+        :location="event.location.name[locale]"
         @clickDelete="handleClickDeleteEvent"
       />
     </tbody>
@@ -105,6 +107,9 @@
     computed: {
       isTableVisible() {
         return !this.isLoading && this.events.length > 0;
+      },
+      locale() {
+        return this.$i18n.locale;
       },
     },
     watch: {

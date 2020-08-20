@@ -3,8 +3,8 @@
     <td>
       <div class="event-item">
         <div>
-          {{ event.name[locale] || event.name['nl'] }}
-          <a class="delete-event-link" @click="handleClickDelete(event.id)">
+          {{ name }}
+          <a class="delete-event-link" @click="handleClickDelete(id)">
             {{ $t('productions.delete') }}
           </a>
         </div>
@@ -25,7 +25,7 @@
             <tr>
               <th>{{ $t('productions.title') }}</th>
               <td>
-                {{ event.name[locale] || event.name['nl'] }}
+                {{ name }}
               </td>
             </tr>
             <tr>
@@ -37,7 +37,7 @@
             <tr>
               <th>{{ $t('productions.where') }}</th>
               <td>
-                {{ event.location.name[locale] || event.location.name['nl'] }}
+                {{ location }}
               </td>
             </tr>
           </tbody>
@@ -50,9 +50,17 @@
 <script>
   export default {
     props: {
-      event: {
-        type: Object,
-        default: undefined,
+      id: {
+        type: String,
+        default: '',
+      },
+      name: {
+        type: String,
+        default: '',
+      },
+      location: {
+        type: String,
+        default: '',
       },
     },
     data() {
@@ -78,7 +86,7 @@
       },
       async getPeriod() {
         return await this.$api.events.getCalendarSummary({
-          id: this.event.id,
+          id: this.id,
           locale: this.locale,
         });
       },
