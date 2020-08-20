@@ -17,10 +17,8 @@
           :key="event['@id']"
           :type="getEventType(event.terms)"
           :title="event.name[locale]"
-          :start-date="event.startDate"
-          :end-date="event.endDate"
           :image-url="event.image"
-          :description="event.description[locale]"
+          :description="event.description ? event.description[locale] : ''"
         />
       </section>
 

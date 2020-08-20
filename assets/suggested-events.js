@@ -1,285 +1,171 @@
 const suggestedEvents = [
   {
     '@id':
-      'http://culudb-silex.dev:8080/event/0823f57e-a6bd-450a-b4f5-8459b4b11043',
+      'https://io.uitdatabank.dev/event/06a52575-9e8f-41af-8a25-cbc40e1179a3',
+    '@context': '/contexts/event',
+    mainLanguage: 'nl',
     name: {
-      nl: 'Zomerse Vrijdagen Den Engel',
-      de: 'Deutch',
-      en: 'English',
-      fr: 'Français',
+      nl: 'The hobbit',
     },
-    description: {
-      nl:
-        'Gratis optredens & ambiance voor een instant vakantiegevoel Danzón is het officiële genre en dans van Cuba. Het is ook een actieve muzikale vorm in México. De danzón ontstaat uit de Cubaanse/Spaanse contradanza ( binnen en buiten Cuba bekend als de Habanera ). Beïnvloed door Europees en Afrikaanse ritmische dansstijlen werd het een echte mix van Europese en Afrikaanse ritmes.',
-      de: 'Deutch',
-      en: 'English',
-      fr: 'Français',
-    },
-    available: '2015-05-07T12:02:53+00:00',
-    image:
-      'http://media.uitdatabank.be/20150416/153cfa0f-0d22-451e-bfd1-490b7c4ef109.jpg',
-    labels: ['tagged'],
-    calendarSummary: 'Every first day of the month',
     location: {
-      description: {
-        nl: 'Nederlands',
-        de: 'Deutch',
-        en: 'English',
-        fr: 'Français',
-      },
+      '@type': 'Place',
+      '@id':
+        'https://io.uitdatabank.dev/place/78d48bf8-2d21-4181-9378-5982282951fc',
+      '@context': '/contexts/place',
+      mainLanguage: 'nl',
       name: {
-        nl: 'Nederlands',
-        de: 'Deutch',
-        en: 'English',
-        fr: 'Français',
+        nl: 'UGC',
       },
       address: {
-        addressCountry: 'BE',
-        addressLocality: 'Leuven',
-        postalCode: 3000,
-        streetAddress: 'Sluisstraat 79',
-      },
-      geo: {
-        latitude: '40.75',
-        longitude: '73.98',
-      },
-      bookingInfo: {
-        priceCurrency: 'EUR',
-        description: 'No need to pay anything',
-        name: 'Free',
-        price: 0,
-      },
-      priceInfo: [
-        {
-          category: 'base',
-          name: 'Senioren',
-          price: 10,
-          priceCurrency: 'EUR',
+        nl: {
+          addressCountry: 'BE',
+          addressLocality: 'Brussel',
+          postalCode: '1000',
+          streetAddress: 'De Brouckèreplein 38',
         },
-      ],
+      },
+      calendarType: 'permanent',
+      availableTo: '2100-01-01T00:00:00+00:00',
       terms: [
         {
-          label: 'Cycling',
-          domain: 'activities',
-          id: '10.0.0.1',
-        },
-        {
-          label: 'Theatervoorstelling',
+          id: 'BtVNd33sR0WntjALVbyp3w',
+          label: 'Bioscoop',
           domain: 'eventtype',
-          id: '10.0.0.2',
         },
       ],
+      created: '2020-08-14T12:28:16+00:00',
+      modified: '2020-08-14T12:28:18+00:00',
+      creator: 'google-oauth2|109329072899724999691',
       workflowStatus: 'DRAFT',
-    },
-    organizer: {
-      name: 'STUK',
-      address: {
-        addressCountry: 'BE',
-        addressLocality: 'Leuven',
-        postalCode: 3000,
-        streetAddress: 'Sluisstraat 79',
+      languages: ['nl'],
+      completedLanguages: ['nl'],
+      geo: {
+        latitude: 50.8518404,
+        longitude: 4.3525126,
       },
-      contactPoint: {
-        url: ['http://google.be'],
-        email: ['joske@2dotstwice.be'],
-        phone: ['0123456789'],
-      },
-      creator: 'evenementen@stad.diksmuide.be',
-      created: '2015-05-07T12:02:53+00:00',
-      modified: '2015-05-07T12:02:53+00:00',
-      url: 'http://www.stuk.be/',
-      labels: [
-        {
-          uuid: '80f63f49-5de2-42ea-9642-59fc0400f2c5',
-          name: 'Mijn label',
-        },
-      ],
     },
-    bookingInfo: {
-      priceCurrency: 'EUR',
-      description: 'No need to pay anything',
-      name: 'Free',
-      price: 0,
-    },
-    priceInfo: [
+    calendarType: 'single',
+    startDate: '2020-08-17T22:00:00+00:00',
+    endDate: '2020-08-18T21:59:59+00:00',
+    subEvent: [
       {
-        category: 'base',
-        name: 'Senioren',
-        price: 10,
-        priceCurrency: 'EUR',
+        '@type': 'Event',
+        startDate: '2020-08-17T22:00:00+00:00',
+        endDate: '2020-08-18T21:59:59+00:00',
       },
+    ],
+    availableTo: '2020-08-18T21:59:59+00:00',
+    sameAs: [
+      'http://www.uitinvlaanderen.be/agenda/e/the-hobbit/06a52575-9e8f-41af-8a25-cbc40e1179a3',
     ],
     terms: [
       {
-        label: 'Cycling',
-        domain: 'activities',
-        id: '10.0.0.1',
-      },
-      {
-        label: 'Theatervoorstelling',
+        id: '0.50.6.0.0',
+        label: 'Film',
         domain: 'eventtype',
-        id: '10.0.0.2',
       },
     ],
-    creator: 'evenementen@stad.diksmuide.be',
-    created: '2015-05-07T12:02:53+00:00',
-    modified: '2015-05-07T12:02:53+00:00',
-    publisher: 'Invoerders Algemeen ',
-    endDate: '2015-05-07T12:02:53+00:00',
-    startDate: '2015-05-07T12:02:53+00:00',
-    calendarType: 'permanent',
-    typicalAgeRange: '+18',
-    performer: [
-      {
-        name: 'Sindicato Sonico',
-      },
-    ],
-    sameAs: [
-      'http://www.uitinvlaanderen.be/agenda/e/zomerse-vrijdagen-den-engel/0823f57e-a6bd-450a-b4f5-8459b4b11043',
-    ],
-    seeAlso: ['www.leuven.be'],
-    workflowStatus: 'DRAFT',
+    created: '2020-08-18T13:28:22+00:00',
+    modified: '2020-08-18T13:28:25+00:00',
+    creator: 'google-oauth2|109329072899724999691',
+    workflowStatus: 'READY_FOR_VALIDATION',
+    audience: {
+      audienceType: 'everyone',
+    },
+    languages: ['nl'],
+    completedLanguages: ['nl'],
+    production: {
+      id: '2243131c-16d9-4ed1-a794-7326bd6a7844',
+      title: 'The Hobbit',
+      otherEvents: [
+        'https://io.uitdatabank.dev/event/a7162a2e-9744-4500-b69e-cc387a8775ed',
+      ],
+    },
+    availableFrom: '2020-08-18T15:28:25+02:00',
   },
   {
     '@id':
-      'http://culudb-silex.dev:8080/event/0823f57e-a6bd-450a-b4f5-8459b4b11043',
+      'https://io.uitdatabank.dev/event/a7162a2e-9744-4500-b69e-cc387a8775ed',
+    '@context': '/contexts/event',
+    mainLanguage: 'nl',
     name: {
-      nl: 'Zomerse Vrijdagen Den Engel',
-      de: 'Deutch',
-      en: 'English',
-      fr: 'Français',
+      nl: 'The hobbit 2',
     },
-    description: {
-      nl:
-        'Gratis optredens & ambiance voor een instant vakantiegevoel Danzón is het officiële genre en dans van Cuba. Het is ook een actieve muzikale vorm in México. De danzón ontstaat uit de Cubaanse/Spaanse contradanza ( binnen en buiten Cuba bekend als de Habanera ). Beïnvloed door Europees en Afrikaanse ritmische dansstijlen werd het een echte mix van Europese en Afrikaanse ritmes.',
-      de: 'Deutch',
-      en: 'English',
-      fr: 'Français',
-    },
-    available: '2015-05-07T12:02:53+00:00',
-    image:
-      'http://media.uitdatabank.be/20150416/153cfa0f-0d22-451e-bfd1-490b7c4ef109.jpg',
-    labels: ['tagged'],
-    calendarSummary: 'Every first day of the month',
     location: {
-      description: {
-        nl: 'Nederlands',
-        de: 'Deutch',
-        en: 'English',
-        fr: 'Français',
-      },
+      '@type': 'Place',
+      '@id':
+        'https://io.uitdatabank.dev/place/3bc8ffad-aa2b-4d7c-83c4-8b78c0f7a4be',
+      '@context': '/contexts/place',
+      mainLanguage: 'nl',
       name: {
-        nl: 'Nederlands',
-        de: 'Deutch',
-        en: 'English',
-        fr: 'Français',
+        nl: 'Kinepolis',
       },
       address: {
-        addressCountry: 'BE',
-        addressLocality: 'Leuven',
-        postalCode: 3000,
-        streetAddress: 'Sluisstraat 79',
-      },
-      geo: {
-        latitude: '40.75',
-        longitude: '73.98',
-      },
-      bookingInfo: {
-        priceCurrency: 'EUR',
-        description: 'No need to pay anything',
-        name: 'Free',
-        price: 0,
-      },
-      priceInfo: [
-        {
-          category: 'base',
-          name: 'Senioren',
-          price: 10,
-          priceCurrency: 'EUR',
+        nl: {
+          addressCountry: 'BE',
+          addressLocality: 'Laken (Brussel)',
+          postalCode: '1020',
+          streetAddress: 'Eeuwfeestlaan 20, 1020 Brussel',
         },
-      ],
+      },
+      calendarType: 'permanent',
+      availableTo: '2100-01-01T00:00:00+00:00',
       terms: [
         {
-          label: 'Cycling',
-          domain: 'activities',
-          id: '10.0.0.1',
-        },
-        {
-          label: 'Theatervoorstelling',
+          id: 'BtVNd33sR0WntjALVbyp3w',
+          label: 'Bioscoop',
           domain: 'eventtype',
-          id: '10.0.0.2',
         },
       ],
+      created: '2020-08-14T12:26:35+00:00',
+      modified: '2020-08-14T12:26:37+00:00',
+      creator: 'google-oauth2|109329072899724999691',
       workflowStatus: 'DRAFT',
-    },
-    organizer: {
-      name: 'STUK',
-      address: {
-        addressCountry: 'BE',
-        addressLocality: 'Leuven',
-        postalCode: 3000,
-        streetAddress: 'Sluisstraat 79',
+      languages: ['nl'],
+      completedLanguages: ['nl'],
+      geo: {
+        latitude: 50.8955839,
+        longitude: 4.3372645,
       },
-      contactPoint: {
-        url: ['http://google.be'],
-        email: ['joske@2dotstwice.be'],
-        phone: ['0123456789'],
-      },
-      creator: 'evenementen@stad.diksmuide.be',
-      created: '2015-05-07T12:02:53+00:00',
-      modified: '2015-05-07T12:02:53+00:00',
-      url: 'http://www.stuk.be/',
-      labels: [
-        {
-          uuid: '80f63f49-5de2-42ea-9642-59fc0400f2c5',
-          name: 'Mijn label',
-        },
-      ],
     },
-    bookingInfo: {
-      priceCurrency: 'EUR',
-      description: 'No need to pay anything',
-      name: 'Free',
-      price: 0,
-    },
-    priceInfo: [
+    calendarType: 'single',
+    startDate: '2020-08-17T22:00:00+00:00',
+    endDate: '2020-08-18T21:59:59+00:00',
+    subEvent: [
       {
-        category: 'base',
-        name: 'Senioren',
-        price: 10,
-        priceCurrency: 'EUR',
+        '@type': 'Event',
+        startDate: '2020-08-17T22:00:00+00:00',
+        endDate: '2020-08-18T21:59:59+00:00',
       },
+    ],
+    availableTo: '2020-08-18T21:59:59+00:00',
+    sameAs: [
+      'http://www.uitinvlaanderen.be/agenda/e/the-hobbit-2/a7162a2e-9744-4500-b69e-cc387a8775ed',
     ],
     terms: [
       {
-        label: 'Cycling',
-        domain: 'activities',
-        id: '10.0.0.1',
-      },
-      {
-        label: 'Theatervoorstelling',
+        id: '0.50.6.0.0',
+        label: 'Film',
         domain: 'eventtype',
-        id: '10.0.0.2',
       },
     ],
-    creator: 'evenementen@stad.diksmuide.be',
-    created: '2015-05-07T12:02:53+00:00',
-    modified: '2015-05-07T12:02:53+00:00',
-    publisher: 'Invoerders Algemeen ',
-    endDate: '2015-05-07T12:02:53+00:00',
-    startDate: '2015-05-07T12:02:53+00:00',
-    calendarType: 'permanent',
-    typicalAgeRange: '+18',
-    performer: [
-      {
-        name: 'Sindicato Sonico',
-      },
-    ],
-    sameAs: [
-      'http://www.uitinvlaanderen.be/agenda/e/zomerse-vrijdagen-den-engel/0823f57e-a6bd-450a-b4f5-8459b4b11043',
-    ],
-    seeAlso: ['www.leuven.be'],
-    workflowStatus: 'DRAFT',
+    created: '2020-08-18T13:29:16+00:00',
+    modified: '2020-08-18T13:29:18+00:00',
+    creator: 'google-oauth2|109329072899724999691',
+    workflowStatus: 'READY_FOR_VALIDATION',
+    audience: {
+      audienceType: 'everyone',
+    },
+    languages: ['nl'],
+    completedLanguages: ['nl'],
+    production: {
+      id: '2243131c-16d9-4ed1-a794-7326bd6a7844',
+      title: 'The Hobbit',
+      otherEvents: [
+        'https://io.uitdatabank.dev/event/06a52575-9e8f-41af-8a25-cbc40e1179a3',
+      ],
+    },
+    availableFrom: '2020-08-18T15:29:18+02:00',
   },
 ];
 

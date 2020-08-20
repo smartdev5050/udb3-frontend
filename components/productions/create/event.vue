@@ -6,7 +6,7 @@
         <h2>{{ title }}</h2>
         <p>{{ period }}</p>
       </div>
-      <img :src="imageUrl" :alt="title" class="image" />
+      <img v-if="imageUrl" :src="imageUrl" :alt="title" class="image" />
     </section>
     <b-card-text>{{ description }}</b-card-text>
   </b-card>
@@ -24,14 +24,6 @@
         default: '',
       },
       title: {
-        type: String,
-        default: '',
-      },
-      startDate: {
-        type: String,
-        default: '',
-      },
-      endDate: {
         type: String,
         default: '',
       },
@@ -55,15 +47,10 @@
       },
     },
     async created() {
-      this.period = await this.getPeriod();
-    },
-    methods: {
-      async getPeriod() {
-        return await this.$api.events.getCalendarSummary({
-          id: this.id,
-          locale: this.locale,
-        });
-      },
+      this.period = await this.$api.events.getCalendarSummary({
+        id: this.id,
+        locale: this.locale,
+      });
     },
   };
 </script>
