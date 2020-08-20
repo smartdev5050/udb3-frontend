@@ -26,11 +26,13 @@
         <label for="production-name">{{
           $t('productions.production_name')
         }}</label>
-        <b-input id="production-name" />
+        <b-input id="production-name" v-model="productionName" />
       </section>
 
       <section class="button-container">
-        <b-button variant="success">{{ $t('productions.link') }}</b-button>
+        <b-button variant="success" @click="handleClickLink">{{
+          $t('productions.link')
+        }}</b-button>
         <b-button variant="danger" @click="handleClickSkip">{{
           $t('productions.skip')
         }}</b-button>
@@ -50,19 +52,24 @@
     data: () => ({
       similarityScore: 0,
       suggestedEvents: [],
+      productionName: '',
     }),
     computed: {
       locale() {
         return this.$i18n.locale;
       },
+      suggestedEventIds() {
+        return this.suggestedEvents.map((suggestedEvent) =>
+          this.parseEventId(suggestedEvent['@id']),
+        );
+      },
     },
     created() {
-      this.suggestedEvents = this.getSuggestedEvents();
+      this.refreshSuggestedEvents();
     },
     methods: {
-      async getSuggestedEvents() {
-        const suggestedEvents = await this.$api.productions.getSuggestedEvents();
-        return suggestedEvents;
+      async refreshSuggestedEvents() {
+        this.suggestedEvents = await this.$api.productions.getSuggestedEvents();
       },
       getEventType(terms) {
         const foundTerm =
@@ -72,13 +79,16 @@
       parseEventId(id) {
         return parseId(id);
       },
+      async handleClickLink() {
+        await this.$api.productions.createWithEvents({
+          name: this.productionName,
+          eventIds: this.suggestedEventIds,
+        });
+        this.refreshSuggestedEvents();
+      },
       async handleClickSkip() {
-        await this.$api.productions.skipSuggestedEvents(
-          this.suggestedEvents.map((suggestedEvent) =>
-            this.parseEventId(suggestedEvent['@id']),
-          ),
-        );
-        this.suggestedEvents = this.getSuggestedEvents();
+        await this.$api.productions.skipSuggestedEvents(this.suggestedEventIds);
+        this.refreshSuggestedEvents();
       },
     },
   };
