@@ -41,7 +41,7 @@ export const getCalendarSummary = (apiUrl, headers, fetch) => async ({
   id,
   locale,
   format = 'lg',
-}) => {
+} = {}) => {
   const url = `${apiUrl}/events/${id.toString()}/calsum?format=${format}&langCode=${locale}_BE`;
   const res = await fetch(url, {
     headers: headers(),

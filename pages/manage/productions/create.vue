@@ -17,10 +17,8 @@
           :key="event['@id']"
           :type="getEventType(event.terms)"
           :title="event.name[locale]"
-          :start-date="event.startDate"
-          :end-date="event.endDate"
           :image-url="event.image"
-          :description="event.description[locale]"
+          :description="event.description ? event.description[locale] : ''"
         />
       </section>
 
@@ -33,7 +31,9 @@
 
       <section class="button-container">
         <b-button variant="success">{{ $t('productions.link') }}</b-button>
-        <b-button variant="danger">{{ $t('productions.skip') }}</b-button>
+        <b-button variant="danger" @click="handleClickSkip">{{
+          $t('productions.skip')
+        }}</b-button>
       </section>
     </section>
   </div>
@@ -41,7 +41,6 @@
 
 <script>
   import Event from '@/components/productions/create/event';
-  import MockSuggestedEvents from '@/assets/suggested-events';
   import { parseId } from '@/functions/events';
 
   export default {
@@ -61,8 +60,9 @@
       this.suggestedEvents = this.getSuggestedEvents();
     },
     methods: {
-      getSuggestedEvents() {
-        return MockSuggestedEvents;
+      async getSuggestedEvents() {
+        const suggestedEvents = await this.$api.productions.getSuggestedEvents();
+        return suggestedEvents;
       },
       getEventType(terms) {
         const foundTerm =
@@ -71,6 +71,14 @@
       },
       parseEventId(id) {
         return parseId(id);
+      },
+      async handleClickSkip() {
+        await this.$api.productions.skipSuggestedEvents(
+          this.suggestedEvents.map((suggestedEvent) =>
+            this.parseEventId(suggestedEvent['@id']),
+          ),
+        );
+        this.suggestedEvents = this.getSuggestedEvents();
       },
     },
   };

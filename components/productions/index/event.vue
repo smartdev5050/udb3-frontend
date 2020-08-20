@@ -75,7 +75,10 @@
       },
     },
     async created() {
-      this.period = await this.getPeriod();
+      this.period = await this.$api.events.getCalendarSummary({
+        id: this.id,
+        locale: this.locale,
+      });
     },
     methods: {
       handleClickToggleShowDetail() {
@@ -83,12 +86,6 @@
       },
       handleClickDelete(eventId) {
         this.$emit('clickDelete', eventId);
-      },
-      async getPeriod() {
-        return await this.$api.events.getCalendarSummary({
-          id: this.id,
-          locale: this.locale,
-        });
       },
     },
   };

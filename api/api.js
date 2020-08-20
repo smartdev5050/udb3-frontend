@@ -60,6 +60,16 @@ export default (authUrl, apiUrl, apiKey, tokenCallback) => {
         headersCallback,
         fetch,
       ),
+      getSuggestedEvents: productions.getSuggestedEvents(
+        apiUrl,
+        headersCallback,
+        fetch,
+      ),
+      skipSuggestedEvents: productions.skipSuggestedEvents(
+        apiUrl,
+        headersCallback,
+        fetch,
+      ),
     },
     user: {
       getMe: user.getMe(apiUrl, headersCallback, fetch),
