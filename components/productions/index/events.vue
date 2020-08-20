@@ -47,9 +47,9 @@
       <event
         v-for="event in events"
         :id="event.id"
-        :key="event['@id']"
-        :name="event.name[locale]"
-        :location="event.location.name[locale]"
+        :key="event.id"
+        :name="event.name[locale] || event.name['nl']"
+        :location="event.location.name[locale] || event.location.name['nl']"
         @clickDelete="handleClickDeleteEvent"
       />
     </tbody>
