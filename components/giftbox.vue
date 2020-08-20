@@ -13,12 +13,12 @@
       ref="giftbox-modal"
       class="giftbox-modal"
       size="xl"
-      title="Nieuw in onze API en widgets"
+      :title="$t('giftbox.new_features')"
       :scrollable="false"
       hide-footer
     >
       <div class="features-wrapper">
-        <div class="features-list">
+        <section class="features-list">
           <div
             v-for="feature in features"
             :key="feature.uid"
@@ -37,10 +37,10 @@
               />
               <fa v-else icon="eye-slash" class="eye-icon" />
             </div>
-            <p>{{ feature.title }}</p>
+            <div class="feature-title">{{ feature.title }}</div>
           </div>
-        </div>
-        <div
+        </section>
+        <article
           v-if="selectedFeature"
           :key="selectedFeature.uid"
           class="features-detail"
@@ -70,7 +70,7 @@
               </b-button>
             </a>
           </div>
-        </div>
+        </article>
         <div v-else class="features-detail">
           <p>{{ $t('giftbox.no_features') }}</p>
         </div>
@@ -170,6 +170,7 @@
 
   .modal-content {
     max-height: 95vh;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
   }
 
   .modal-body {
@@ -203,10 +204,13 @@
         line-height: 2rem;
         vertical-align: middle;
         display: flex;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
         transition: background-color 500ms;
+
+        .feature-title {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
 
         &:hover {
           cursor: pointer;

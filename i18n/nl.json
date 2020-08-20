@@ -29,7 +29,8 @@
   },
   "giftbox": {
     "announcements": "Aankondigingen",
-    "no_features": "Geen nieuwe features te melden."
+    "new_features": "Nieuw in UiTdatabank",
+    "no_features": "Er zijn momenteel geen aankondigingen."
   },
   "menu": {
     "home": "Home",
