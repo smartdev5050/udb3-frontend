@@ -50,3 +50,29 @@ export const deleteEventById = (apiUrl, headers, fetch) => async (
   }
   return {};
 };
+
+export const getSuggestedEvents = (apiUrl, headers, fetch) => async () => {
+  const url = `${apiUrl}/productions/suggestion/`;
+  const res = await fetch(url, {
+    headers: headers(),
+  });
+  return await res.json();
+};
+
+export const skipSuggestedEvents = (apiUrl, headers, fetch) => async (
+  eventIds = [],
+) => {
+  const url = `${apiUrl}/productions/skip`;
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: headers(),
+    body: JSON.stringify({
+      eventIds,
+    }),
+  });
+  const body = await res.text();
+  if (body) {
+    return JSON.parse(body);
+  }
+  return {};
+};

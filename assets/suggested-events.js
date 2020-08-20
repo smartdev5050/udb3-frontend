@@ -66,7 +66,7 @@ const suggestedEvents = [
       },
     ],
     created: '2020-08-18T13:28:22+00:00',
-    modified: '2020-08-18T13:28:25+00:00',
+    modified: '2020-08-20T11:33:04+00:00',
     creator: 'google-oauth2|109329072899724999691',
     workflowStatus: 'READY_FOR_VALIDATION',
     audience: {
@@ -82,6 +82,22 @@ const suggestedEvents = [
       ],
     },
     availableFrom: '2020-08-18T15:28:25+02:00',
+    mediaObject: [
+      {
+        '@id':
+          'https://io.uitdatabank.dev/images/0338a344-3ca6-472e-bd73-3626dc16df38',
+        '@type': 'schema:ImageObject',
+        contentUrl:
+          'https://io.uitdatabank.dev/images/0338a344-3ca6-472e-bd73-3626dc16df38.jpeg',
+        thumbnailUrl:
+          'https://io.uitdatabank.dev/images/0338a344-3ca6-472e-bd73-3626dc16df38.jpeg',
+        description: 'The hobbit',
+        copyrightHolder: 'google',
+        inLanguage: 'nl',
+      },
+    ],
+    image:
+      'https://io.uitdatabank.dev/images/0338a344-3ca6-472e-bd73-3626dc16df38.jpeg',
   },
   {
     '@id':
@@ -150,7 +166,7 @@ const suggestedEvents = [
       },
     ],
     created: '2020-08-18T13:29:16+00:00',
-    modified: '2020-08-18T13:29:18+00:00',
+    modified: '2020-08-20T11:34:07+00:00',
     creator: 'google-oauth2|109329072899724999691',
     workflowStatus: 'READY_FOR_VALIDATION',
     audience: {
@@ -166,6 +182,22 @@ const suggestedEvents = [
       ],
     },
     availableFrom: '2020-08-18T15:29:18+02:00',
+    mediaObject: [
+      {
+        '@id':
+          'https://io.uitdatabank.dev/images/f1eccf61-6d2d-4512-9def-c605bb84369e',
+        '@type': 'schema:ImageObject',
+        contentUrl:
+          'https://io.uitdatabank.dev/images/f1eccf61-6d2d-4512-9def-c605bb84369e.jpeg',
+        thumbnailUrl:
+          'https://io.uitdatabank.dev/images/f1eccf61-6d2d-4512-9def-c605bb84369e.jpeg',
+        description: 'the hobbit 2',
+        copyrightHolder: 'google',
+        inLanguage: 'nl',
+      },
+    ],
+    image:
+      'https://io.uitdatabank.dev/images/f1eccf61-6d2d-4512-9def-c605bb84369e.jpeg',
   },
 ];
 
