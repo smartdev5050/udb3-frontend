@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import MockSuggestedEvents from '../assets/suggested-events';
-const enviroment = process.env.NODE_ENV;
+const isDevelopmentEnviroment = process.env.NODE_ENV === 'development';
 
 export const find = (apiUrl, headers, fetch) => async ({
   name = '',
@@ -61,7 +61,7 @@ export const getSuggestedEvents = (apiUrl, headers, fetch) => async () => {
   const res = await fetch(url, {
     headers: headers(),
   });
-  if (enviroment === 'development') {
+  if (isDevelopmentEnviroment) {
     console.log({
       type: 'GET',
       url,
@@ -82,7 +82,7 @@ export const skipSuggestedEvents = (apiUrl, headers, fetch) => async (
       eventIds,
     }),
   });
-  if (enviroment === 'development') {
+  if (isDevelopmentEnviroment) {
     console.log({
       type: 'POST',
       url,
@@ -111,7 +111,7 @@ export const createWithEvents = (apiUrl, headers, fetch) => async ({
       eventIds,
     }),
   });
-  if (enviroment === 'development') {
+  if (isDevelopmentEnviroment) {
     console.log({
       type: 'POST',
       url,
