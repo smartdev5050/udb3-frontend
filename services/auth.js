@@ -26,12 +26,12 @@ export const logout = (authUrl) => {
 /**
  * Login by redirecting to UiTiD
  */
-export const login = (authUrl) => {
+export const login = (authUrl, lang) => {
   removeCookies();
 
   const queryString = new URLSearchParams({
     destination: buildBaseUrl(),
-    lang: 'nl',
+    lang,
   }).toString();
 
   window.location.href = `${authUrl}/connect?${queryString}`;
