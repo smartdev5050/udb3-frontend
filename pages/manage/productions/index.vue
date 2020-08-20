@@ -61,6 +61,7 @@
   import Events from '@/components/productions/index/events';
   import Search from '@/components/productions/index/search';
   import DeleteModal from '@/components/productions/index/delete-modal';
+  import { parseId } from '@/functions/events';
 
   export default {
     components: {
@@ -208,6 +209,9 @@
             return production;
           })
           .filter((production) => production !== undefined);
+      },
+      parseEventId(id) {
+        return parseId(id);
       },
     },
   };

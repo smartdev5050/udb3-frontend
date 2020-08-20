@@ -13,7 +13,7 @@
       <section class="events-container">
         <event
           v-for="event in suggestedEvents"
-          :id="event['@id']"
+          :id="parseEventId(event['@id'])"
           :key="event['@id']"
           :type="getEventType(event.terms)"
           :title="event.name[locale]"
@@ -42,6 +42,7 @@
 <script>
   import Event from '@/components/productions/create/event';
   import MockSuggestedEvents from '@/assets/suggested-events';
+  import { parseId } from '@/functions/events';
 
   export default {
     components: {
@@ -67,6 +68,9 @@
         const foundTerm =
           terms.find((term) => term.domain === 'eventtype') || {};
         return foundTerm.label ? foundTerm.label : '';
+      },
+      parseEventId(id) {
+        return parseId(id);
       },
     },
   };

@@ -48,8 +48,6 @@
 </template>
 
 <script>
-  import { parseId as parseEventId } from '@/functions/events';
-
   export default {
     props: {
       event: {
@@ -67,9 +65,6 @@
       locale() {
         return this.$i18n.locale;
       },
-      eventId() {
-        return parseEventId(this.event['@id']);
-      },
     },
     async created() {
       this.period = await this.getPeriod();
@@ -83,7 +78,7 @@
       },
       async getPeriod() {
         return await this.$api.events.getCalendarSummary({
-          id: this.eventId,
+          id: this.event.id,
           locale: this.locale,
         });
       },
