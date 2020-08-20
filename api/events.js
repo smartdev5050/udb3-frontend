@@ -25,11 +25,7 @@ export const findById = (apiUrl, headers, fetch) => async (id) => {
   const res = await fetch(url, {
     headers: headers(),
   });
-  const body = await res.json();
-  return {
-    ...body,
-    id,
-  };
+  return await res.json();
 };
 
 export const findByIds = (apiUrl, headers, fetch) => async (eventIds) => {
@@ -39,4 +35,16 @@ export const findByIds = (apiUrl, headers, fetch) => async (eventIds) => {
 
   const events = await Promise.all(mappedEvents);
   return events.filter((event) => !event.status);
+};
+
+export const getCalendarSummary = (apiUrl, headers, fetch) => async ({
+  id,
+  locale,
+  format = 'lg',
+}) => {
+  const url = `${apiUrl}/events/${id.toString()}/calsum?format=${format}&langCode=${locale}_BE`;
+  const res = await fetch(url, {
+    headers: headers(),
+  });
+  return res.text();
 };

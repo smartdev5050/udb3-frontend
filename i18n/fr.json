@@ -51,19 +51,23 @@
   "productions": {
     "cancel": "annuler",
     "create": "ajouter",
-    "delete": "supprimer",
     "delete_question": "Voulez-vous vraiment supprimer '{eventName}' de la production '{productionName}'?",
+    "delete": "supprimer",
     "events": "Événement",
     "in": "dans",
+    "link": "Lier",
     "loading": "Changer",
     "name": "Nom",
     "no_events": "Aucun événement dans cette production.",
     "no_productions": "Aucune production trouvée.",
+    "production_name": "Nom de production",
     "productions": "Productions",
     "search": {
       "label": "Recherche par nom de production:",
       "info": "Écrivez une recherche d'au moins 4 caractères dans le champ ci-dessus pour rechercher des productions. Laissez le champ vide pour demander toutes les productions par ordre alphabétique."
     },
+    "skip": "Sauter",
+    "suggested_events": "Conformément à événements proposés",
     "title": "Titre",
     "when": "Quand",
     "where": "Où"

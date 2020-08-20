@@ -3,8 +3,8 @@
     <td>
       <div class="event-item">
         <div>
-          {{ event.name[locale] || event.name['nl'] }}
-          <a class="delete-event-link" @click="handleClickDelete(event.id)">
+          {{ name }}
+          <a class="delete-event-link" @click="handleClickDelete(id)">
             {{ $t('productions.delete') }}
           </a>
         </div>
@@ -25,7 +25,7 @@
             <tr>
               <th>{{ $t('productions.title') }}</th>
               <td>
-                {{ event.name[locale] || event.name['nl'] }}
+                {{ name }}
               </td>
             </tr>
             <tr>
@@ -37,7 +37,7 @@
             <tr>
               <th>{{ $t('productions.where') }}</th>
               <td>
-                {{ event.location.name[locale] || event.location.name['nl'] }}
+                {{ location }}
               </td>
             </tr>
           </tbody>
@@ -48,39 +48,47 @@
 </template>
 
 <script>
-  import { format } from 'date-fns';
-
   export default {
     props: {
-      event: {
-        type: Object,
-        default: undefined,
+      id: {
+        type: String,
+        default: '',
+      },
+      name: {
+        type: String,
+        default: '',
+      },
+      location: {
+        type: String,
+        default: '',
       },
     },
     data() {
       return {
         isDetailVisible: false,
+        period: '',
       };
     },
     computed: {
       locale() {
         return this.$i18n.locale;
       },
-      period() {
-        return `${this.parseDate(this.event.startDate)} - ${this.parseDate(
-          this.event.endDate,
-        )}`;
-      },
+    },
+    async created() {
+      this.period = await this.getPeriod();
     },
     methods: {
       handleClickToggleShowDetail() {
         this.isDetailVisible = !this.isDetailVisible;
       },
-      parseDate(date) {
-        return format(new Date(date), 'dd/MM/yyyy');
-      },
       handleClickDelete(eventId) {
         this.$emit('clickDelete', eventId);
+      },
+      async getPeriod() {
+        return await this.$api.events.getCalendarSummary({
+          id: this.id,
+          locale: this.locale,
+        });
       },
     },
   };

@@ -1,15 +1,110 @@
 <template>
   <div class="wrapper">
-    <div class="container-fluid">
+    <section class="container-fluid">
       <h1 class="title">
-        {{ 'create' }}
+        {{ $t('productions.create') }}
       </h1>
-    </div>
+
+      <p>
+        <strong>{{ $t('productions.suggested_events') }}</strong>
+        {{ similarityScore }}%
+      </p>
+
+      <section class="events-container">
+        <event
+          v-for="event in suggestedEvents"
+          :id="parseEventId(event['@id'])"
+          :key="event['@id']"
+          :type="getEventType(event.terms)"
+          :title="event.name[locale]"
+          :start-date="event.startDate"
+          :end-date="event.endDate"
+          :image-url="event.image"
+          :description="event.description[locale]"
+        />
+      </section>
+
+      <section class="production-name-container">
+        <label for="production-name">{{
+          $t('productions.production_name')
+        }}</label>
+        <b-input id="production-name" />
+      </section>
+
+      <section class="button-container">
+        <b-button variant="success">{{ $t('productions.link') }}</b-button>
+        <b-button variant="danger">{{ $t('productions.skip') }}</b-button>
+      </section>
+    </section>
   </div>
 </template>
 
 <script>
-  export default {};
+  import Event from '@/components/productions/create/event';
+  import MockSuggestedEvents from '@/assets/suggested-events';
+  import { parseId } from '@/functions/events';
+
+  export default {
+    components: {
+      Event,
+    },
+    data: () => ({
+      similarityScore: 0,
+      suggestedEvents: [],
+    }),
+    computed: {
+      locale() {
+        return this.$i18n.locale;
+      },
+    },
+    created() {
+      this.suggestedEvents = this.getSuggestedEvents();
+    },
+    methods: {
+      getSuggestedEvents() {
+        return MockSuggestedEvents;
+      },
+      getEventType(terms) {
+        const foundTerm =
+          terms.find((term) => term.domain === 'eventtype') || {};
+        return foundTerm.label ? foundTerm.label : '';
+      },
+      parseEventId(id) {
+        return parseId(id);
+      },
+    },
+  };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+  .title {
+    text-transform: capitalize;
+  }
+
+  label {
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .events-container {
+    display: flex;
+    max-width: 84rem;
+    margin-bottom: 1rem;
+  }
+
+  .production-name-container {
+    margin-bottom: 1rem;
+  }
+
+  #production-name {
+    max-width: 43rem;
+  }
+
+  .button-container {
+    display: flex;
+
+    button {
+      margin-right: 0.5rem;
+    }
+  }
+</style>

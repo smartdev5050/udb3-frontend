@@ -46,8 +46,10 @@
     <tbody v-if="isTableVisible">
       <event
         v-for="event in events"
-        :key="event['@id']"
-        :event="event"
+        :id="parseEventId(event['@id'])"
+        :key="parseEventId(event['@id'])"
+        :name="event.name[locale] || event.name['nl']"
+        :location="event.location.name[locale] || event.location.name['nl']"
         @clickDelete="handleClickDeleteEvent"
       />
     </tbody>
@@ -67,8 +69,9 @@
 </template>
 
 <script>
-  import LoadingSpinner from '../loading-spinner';
+  import LoadingSpinner from '../../loading-spinner';
   import Event from './event';
+  import { parseId } from '@/functions/events';
 
   export default {
     components: {
@@ -106,6 +109,9 @@
       isTableVisible() {
         return !this.isLoading && this.events.length > 0;
       },
+      locale() {
+        return this.$i18n.locale;
+      },
     },
     watch: {
       isAdding(val) {
@@ -137,6 +143,9 @@
       },
       handleClickDeleteEvent(eventId) {
         this.$emit('clickDeleteEvent', eventId);
+      },
+      parseEventId(id) {
+        return parseId(id);
       },
     },
   };
