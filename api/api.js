@@ -11,6 +11,14 @@ export const environments = {
   prod: 'prod',
 };
 
+export const debugLogger = (environment) => (...args) => {
+  if (environment === environments.dev) {
+    /* eslint-disable no-console */
+    console.log(...args);
+    /* eslint-enable no-console */
+  }
+};
+
 export const getHeaders = (token, apiKey) => ({
   Authorization: `Bearer ${token}`,
   'X-Api-Key': apiKey,
@@ -48,7 +56,9 @@ export default (authUrl, apiUrl, apiKey, environment, tokenCallback) => {
     return getHeaders(token, apiKey);
   };
 
-  const args = [apiUrl, headersCallback, fetch, environment];
+  const debug = debugLogger(environment);
+
+  const args = [apiUrl, headersCallback, fetch, environment, debug];
 
   return {
     events: {

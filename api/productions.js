@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import MockSuggestedEvents from '../assets/suggested-events';
 import { environments } from './api';
 
@@ -44,15 +43,11 @@ export const deleteEventById = (apiUrl, headers, fetch) => async (
   const url = new URL(
     `${apiUrl}/productions/${productionId}/events/${eventId}`,
   );
-  const res = await fetch(url, {
+
+  return await fetch(url, {
     method: 'DELETE',
     headers: headers(),
   });
-  const body = await res.text();
-  if (body) {
-    return JSON.parse(body);
-  }
-  return {};
 };
 
 export const getSuggestedEvents = (
@@ -60,19 +55,21 @@ export const getSuggestedEvents = (
   headers,
   fetch,
   environment,
+  debug,
 ) => async () => {
-  // TODO: change suggestion to suggestion/
   const url = `${apiUrl}/productions/suggestion`;
-  const res = await fetch(url, {
-    headers: headers(),
-  });
+
   if (environment === environments.dev) {
-    console.log({
+    debug({
       type: 'GET',
       url,
     });
     return MockSuggestedEvents;
   }
+
+  const res = await fetch(url, {
+    headers: headers(),
+  });
   return await res.json();
 };
 
@@ -81,39 +78,36 @@ export const skipSuggestedEvents = (
   headers,
   fetch,
   environment,
+  debug,
 ) => async (eventIds = []) => {
   const url = `${apiUrl}/productions/skip`;
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: headers(),
-    body: JSON.stringify({
-      eventIds,
-    }),
-  });
+
   if (environment === environments.dev) {
-    console.log({
+    debug({
       type: 'POST',
       url,
       body: {
         eventIds,
       },
     });
+    return;
   }
-  const body = await res.text();
-  if (body) {
-    return JSON.parse(body);
-  }
-  return {};
+
+  await fetch(url, {
+    method: 'POST',
+    headers: headers(),
+    body: JSON.stringify({
+      eventIds,
+    }),
+  });
 };
 
-export const createWithEvents = (
-  apiUrl,
-  headers,
-  fetch,
-  environment,
-) => async ({ name = '', eventIds = [] } = {}) => {
+export const createWithEvents = (apiUrl, headers, fetch) => async ({
+  name = '',
+  eventIds = [],
+} = {}) => {
   const url = `${apiUrl}/productions/`;
-  const res = await fetch(url, {
+  await fetch(url, {
     method: 'POST',
     headers: headers(),
     body: JSON.stringify({
@@ -121,19 +115,4 @@ export const createWithEvents = (
       eventIds,
     }),
   });
-  if (environment === environments.dev) {
-    console.log({
-      type: 'POST',
-      url,
-      body: {
-        name,
-        eventIds,
-      },
-    });
-  }
-  const body = await res.text();
-  if (body) {
-    return JSON.parse(body);
-  }
-  return {};
 };
