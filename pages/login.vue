@@ -130,7 +130,6 @@
         <h1 class="brand">{{ $t('brand') }}</h1>
         <div class="lead">
           <span>{{ $t('main.lead') }}</span>
-          <br />
           <span class="muted">{{ $t('main.lead_sub') }}</span>
         </div>
       </div>
@@ -218,9 +217,8 @@
                     $t('footer.legal_path')
                   "
                   class="footer-link"
+                  >{{ $t('footer.legal') }}</a
                 >
-                  {{ $t('footer.legal') }}
-                </a>
                 |
                 <a
                   href="http://www.publiq.be/nl/privacy-uitdatabank"
@@ -470,24 +468,6 @@
     }
   }
 
-  @media (min-width: 768px) {
-    .container {
-      width: 750px;
-    }
-  }
-
-  @media (min-width: 992px) {
-    .container {
-      width: 970px;
-    }
-  }
-
-  @media (min-width: 1200px) {
-    .container {
-      width: 1170px;
-    }
-  }
-
   .login {
     background-color: #f0f0f0;
   }
@@ -500,43 +480,41 @@
     background-color: #ef1810;
     text-align: center;
 
-    .container svg {
-      margin-bottom: 0.8rem;
-    }
-
     .brand {
       display: none;
     }
 
     .lead {
       color: $white;
-      font-size: 1.8rem;
-      line-height: 2rem;
-      padding-bottom: 1.5rem;
-      font-weight: 500;
+      font-size: 2rem;
+      line-height: 1.4;
+      margin-top: 0.4rem;
+      padding-bottom: 1.6rem;
+      font-weight: 300;
+    }
+
+    .lead span {
+      display: block;
     }
 
     .lead .muted {
-      font-size: 1.5rem;
+      font-size: 0.8em;
     }
   }
 
   .start {
-    padding: 1.8rem 0 1.3rem 0;
+    padding: 2rem 0 1.5rem 0;
     background-color: $white;
 
     .btn-start {
-      font-size: 1.2rem;
-      padding-right: 1rem;
-      padding-left: 1rem;
-      font-weight: 600;
-      padding-top: 0.4rem;
-      padding-bottom: 0.4rem;
+      font-size: 1.267rem;
+      padding: 0.535rem 1.2rem;
+      line-height: 1.33;
     }
   }
 
   .more {
-    padding: 3.8rem 0 3.8rem 0;
+    padding: 4rem 0;
 
     .quoted-number {
       margin: 0 0 30px 0;
@@ -549,30 +527,32 @@
         margin: 0;
         font-size: 4rem;
         font-weight: 300;
-        line-height: 3.8rem;
+        line-height: 1;
       }
 
       h2 {
         font-size: 1.2rem;
+        line-height: 1.1;
       }
     }
 
     .mission {
-      margin-top: 1.9rem;
+      margin-top: 2rem;
       margin-bottom: 0;
-      font-size: 1.4rem;
+      font-size: 1.5rem;
+      line-height: 2rem;
     }
   }
 
   .footer {
     background-color: $udb-grey;
-    padding-top: 1.9rem;
-    padding-bottom: 1.9rem;
+    padding: 2rem 0;
 
     .footer-links {
       padding-left: 0;
       list-style: none;
       margin: 0;
+      color: #a2a2a2;
     }
 
     .footer-link {
@@ -583,6 +563,7 @@
     .footer-by {
       margin-top: 0;
       margin-bottom: 0.75rem;
+      color: #555;
     }
 
     .logo-flanders-full {
@@ -592,7 +573,7 @@
 
     .language-switcher {
       clear: both;
-      font-size: 0.8rem;
+      font-size: 0.867rem;
       margin-top: 12px;
       a {
         color: $udb-blue;
