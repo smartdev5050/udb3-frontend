@@ -274,7 +274,7 @@
     },
     methods: {
       login() {
-        login(this.$config.authUrl);
+        login(this.$config.authUrl, this.$i18n.locale);
       },
       setLanguage(language) {
         this.$i18n.locale = language;
