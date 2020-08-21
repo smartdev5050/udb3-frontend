@@ -4,6 +4,21 @@ import * as user from './user';
 import * as events from './events';
 import * as productions from './productions';
 
+export const environments = {
+  dev: 'dev',
+  acc: 'acc',
+  test: 'test',
+  prod: 'prod',
+};
+
+export const debugLogger = (environment) => (...args) => {
+  if (environment === environments.dev) {
+    /* eslint-disable no-console */
+    console.log(...args);
+    /* eslint-enable no-console */
+  }
+};
+
 export const getHeaders = (token, apiKey) => ({
   Authorization: `Bearer ${token}`,
   'X-Api-Key': apiKey,
@@ -29,7 +44,7 @@ export const fetchWithLogoutWhenFailed = (authUrl) => async (...args) => {
   return response;
 };
 
-export default (authUrl, apiUrl, apiKey, tokenCallback) => {
+export default (authUrl, apiUrl, apiKey, environment, tokenCallback) => {
   const fetch = fetchWithLogoutWhenFailed(authUrl);
 
   const headersCallback = () => {
@@ -41,40 +56,29 @@ export default (authUrl, apiUrl, apiKey, tokenCallback) => {
     return getHeaders(token, apiKey);
   };
 
+  const debug = debugLogger(environment);
+
+  const args = [apiUrl, headersCallback, fetch, environment, debug];
+
   return {
     events: {
-      findToModerate: events.findToModerate(apiUrl, headersCallback, fetch),
-      findById: events.findById(apiUrl, headersCallback, fetch),
-      findByIds: events.findByIds(apiUrl, headersCallback, fetch),
-      getCalendarSummary: events.getCalendarSummary(
-        apiUrl,
-        headersCallback,
-        fetch,
-      ),
+      findToModerate: events.findToModerate(...args),
+      findById: events.findById(...args),
+      findByIds: events.findByIds(...args),
+      getCalendarSummary: events.getCalendarSummary(...args),
     },
     productions: {
-      find: productions.find(apiUrl, headersCallback, fetch),
-      addEventById: productions.addEventById(apiUrl, headersCallback, fetch),
-      deleteEventById: productions.deleteEventById(
-        apiUrl,
-        headersCallback,
-        fetch,
-      ),
-      getSuggestedEvents: productions.getSuggestedEvents(
-        apiUrl,
-        headersCallback,
-        fetch,
-      ),
-      skipSuggestedEvents: productions.skipSuggestedEvents(
-        apiUrl,
-        headersCallback,
-        fetch,
-      ),
+      find: productions.find(...args),
+      addEventById: productions.addEventById(...args),
+      deleteEventById: productions.deleteEventById(...args),
+      getSuggestedEvents: productions.getSuggestedEvents(...args),
+      skipSuggestedEvents: productions.skipSuggestedEvents(...args),
+      createWithEvents: productions.createWithEvents(...args),
     },
     user: {
-      getMe: user.getMe(apiUrl, headersCallback, fetch),
-      getPermissions: user.getPermissions(apiUrl, headersCallback, fetch),
-      getRoles: user.getRoles(apiUrl, headersCallback, fetch),
+      getMe: user.getMe(...args),
+      getPermissions: user.getPermissions(...args),
+      getRoles: user.getRoles(...args),
     },
   };
 };

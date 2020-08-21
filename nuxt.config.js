@@ -84,6 +84,7 @@ export default {
         },
       ],
     },
+    environment: process.env.ENV_NAME,
   },
   router: {
     middleware: ['auth'],

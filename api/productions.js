@@ -1,3 +1,6 @@
+import MockSuggestedEvents from '../assets/suggested-events';
+import { environments } from './api';
+
 export const find = (apiUrl, headers, fetch) => async ({
   name = '',
   start = 0,
@@ -40,39 +43,76 @@ export const deleteEventById = (apiUrl, headers, fetch) => async (
   const url = new URL(
     `${apiUrl}/productions/${productionId}/events/${eventId}`,
   );
-  const res = await fetch(url, {
+
+  return await fetch(url, {
     method: 'DELETE',
     headers: headers(),
   });
-  const body = await res.text();
-  if (body) {
-    return JSON.parse(body);
-  }
-  return {};
 };
 
-export const getSuggestedEvents = (apiUrl, headers, fetch) => async () => {
-  const url = `${apiUrl}/productions/suggestion/`;
+export const getSuggestedEvents = (
+  apiUrl,
+  headers,
+  fetch,
+  environment,
+  debug,
+) => async () => {
+  const url = `${apiUrl}/productions/suggestion`;
+
+  if (environment === environments.dev) {
+    debug({
+      type: 'GET',
+      url,
+    });
+    return MockSuggestedEvents;
+  }
+
   const res = await fetch(url, {
     headers: headers(),
   });
   return await res.json();
 };
 
-export const skipSuggestedEvents = (apiUrl, headers, fetch) => async (
-  eventIds = [],
-) => {
+export const skipSuggestedEvents = (
+  apiUrl,
+  headers,
+  fetch,
+  environment,
+  debug,
+) => async (eventIds = []) => {
   const url = `${apiUrl}/productions/skip`;
-  const res = await fetch(url, {
+
+  if (environment === environments.dev) {
+    debug({
+      type: 'POST',
+      url,
+      body: {
+        eventIds,
+      },
+    });
+    return;
+  }
+
+  await fetch(url, {
     method: 'POST',
     headers: headers(),
     body: JSON.stringify({
       eventIds,
     }),
   });
-  const body = await res.text();
-  if (body) {
-    return JSON.parse(body);
-  }
-  return {};
+};
+
+export const createWithEvents = (apiUrl, headers, fetch) => async ({
+  name = '',
+  eventIds = [],
+} = {}) => {
+  const url = `${apiUrl}/productions/`;
+  await fetch(url, {
+    method: 'POST',
+    headers: headers(),
+    body: JSON.stringify({
+      name,
+      eventIds,
+    }),
+  });
 };
