@@ -5,6 +5,7 @@ export default (context, inject) => {
     context.$config.authUrl,
     context.$config.apiUrl,
     context.$config.apiKey,
+    context.$config.environment,
     () => context.app.$cookies.get('token'),
   );
   inject('api', api);

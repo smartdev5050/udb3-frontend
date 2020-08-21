@@ -4,6 +4,13 @@ import * as user from './user';
 import * as events from './events';
 import * as productions from './productions';
 
+export const environments = {
+  dev: 'dev',
+  acc: 'acc',
+  test: 'test',
+  prod: 'prod',
+};
+
 export const getHeaders = (token, apiKey) => ({
   Authorization: `Bearer ${token}`,
   'X-Api-Key': apiKey,
@@ -29,7 +36,7 @@ export const fetchWithLogoutWhenFailed = (authUrl) => async (...args) => {
   return response;
 };
 
-export default (authUrl, apiUrl, apiKey, tokenCallback) => {
+export default (authUrl, apiUrl, apiKey, environment, tokenCallback) => {
   const fetch = fetchWithLogoutWhenFailed(authUrl);
 
   const headersCallback = () => {
@@ -41,7 +48,7 @@ export default (authUrl, apiUrl, apiKey, tokenCallback) => {
     return getHeaders(token, apiKey);
   };
 
-  const args = [apiUrl, headersCallback, fetch];
+  const args = [apiUrl, headersCallback, fetch, environment];
 
   return {
     events: {

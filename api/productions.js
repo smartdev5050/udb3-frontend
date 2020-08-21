@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import MockSuggestedEvents from '../assets/suggested-events';
-const isDevelopmentEnviroment = process.env.NODE_ENV === 'development';
+import { environments } from './api';
 
 export const find = (apiUrl, headers, fetch) => async ({
   name = '',
@@ -55,13 +55,18 @@ export const deleteEventById = (apiUrl, headers, fetch) => async (
   return {};
 };
 
-export const getSuggestedEvents = (apiUrl, headers, fetch) => async () => {
+export const getSuggestedEvents = (
+  apiUrl,
+  headers,
+  fetch,
+  environment,
+) => async () => {
   // TODO: change suggestion to suggestion/
   const url = `${apiUrl}/productions/suggestion`;
   const res = await fetch(url, {
     headers: headers(),
   });
-  if (isDevelopmentEnviroment) {
+  if (environment === environments.dev) {
     console.log({
       type: 'GET',
       url,
@@ -71,9 +76,12 @@ export const getSuggestedEvents = (apiUrl, headers, fetch) => async () => {
   return await res.json();
 };
 
-export const skipSuggestedEvents = (apiUrl, headers, fetch) => async (
-  eventIds = [],
-) => {
+export const skipSuggestedEvents = (
+  apiUrl,
+  headers,
+  fetch,
+  environment,
+) => async (eventIds = []) => {
   const url = `${apiUrl}/productions/skip`;
   const res = await fetch(url, {
     method: 'POST',
@@ -82,7 +90,7 @@ export const skipSuggestedEvents = (apiUrl, headers, fetch) => async (
       eventIds,
     }),
   });
-  if (isDevelopmentEnviroment) {
+  if (environment === environments.dev) {
     console.log({
       type: 'POST',
       url,
@@ -98,10 +106,12 @@ export const skipSuggestedEvents = (apiUrl, headers, fetch) => async (
   return {};
 };
 
-export const createWithEvents = (apiUrl, headers, fetch) => async ({
-  name = '',
-  eventIds = [],
-} = {}) => {
+export const createWithEvents = (
+  apiUrl,
+  headers,
+  fetch,
+  environment,
+) => async ({ name = '', eventIds = [] } = {}) => {
   const url = `${apiUrl}/productions/`;
   const res = await fetch(url, {
     method: 'POST',
@@ -111,7 +121,7 @@ export const createWithEvents = (apiUrl, headers, fetch) => async ({
       eventIds,
     }),
   });
-  if (isDevelopmentEnviroment) {
+  if (environment === environments.dev) {
     console.log({
       type: 'POST',
       url,
