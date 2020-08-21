@@ -75,6 +75,14 @@
     margin-bottom: 2rem;
   }
 
+  h1.title {
+    text-transform: capitalize;
+
+    a {
+      text-transform: lowercase;
+    }
+  }
+
   a:hover {
     cursor: pointer;
   }

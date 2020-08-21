@@ -70,6 +70,7 @@ export default (authUrl, apiUrl, apiKey, environment, tokenCallback) => {
     productions: {
       find: productions.find(...args),
       addEventById: productions.addEventById(...args),
+      addEventsByIds: productions.addEventsByIds(...args),
       deleteEventById: productions.deleteEventById(...args),
       getSuggestedEvents: productions.getSuggestedEvents(...args),
       skipSuggestedEvents: productions.skipSuggestedEvents(...args),

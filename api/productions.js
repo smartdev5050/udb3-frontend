@@ -36,6 +36,16 @@ export const addEventById = (apiUrl, headers, fetch) => async (
   return {};
 };
 
+export const addEventsByIds = (apiUrl, headers, fetch) => async ({
+  productionId = '',
+  eventIds = [],
+} = {}) => {
+  const mappedEvents = eventIds.map((eventId) => {
+    return addEventById(apiUrl, headers, fetch)(productionId, eventId);
+  });
+  return await Promise.all(mappedEvents);
+};
+
 export const deleteEventById = (apiUrl, headers, fetch) => async (
   productionId,
   eventId,
