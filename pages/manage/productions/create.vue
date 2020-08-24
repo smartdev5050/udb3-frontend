@@ -154,10 +154,9 @@
             productionId: this.existingProductionId,
             eventIds: this.suggestedEventIds,
           });
-          if (reponses) {
-            this.errorMessages = reponses.map((response) => {
-              return response.title;
-            });
+          const errors = reponses.filter((response) => response.status);
+          if (errors.length > 0) {
+            this.errorMessages = errors.map((error) => error.title);
           }
         } else {
           await this.$api.productions.createWithEvents({
