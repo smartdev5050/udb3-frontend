@@ -8,14 +8,14 @@
 </template>
 
 <script>
-import Sidebar from '../components/sidebar';
+  import Sidebar from '../components/sidebar';
 
-export default {
-  name: 'Default',
-  components: {
-    Sidebar,
-  },
-};
+  export default {
+    name: 'Default',
+    components: {
+      Sidebar,
+    },
+  };
 </script>
 
 <style lang="scss"></style>
