@@ -1,5 +1,5 @@
 import MockSuggestedEvents from '../assets/suggested-events';
-import { environments } from './api';
+import { Environments } from './api';
 
 export const find = (apiUrl, headers, fetch) => async ({
   name = '',
@@ -69,7 +69,7 @@ export const getSuggestedEvents = (
 ) => async () => {
   const url = `${apiUrl}/productions/suggestion`;
 
-  if (environment === environments.dev) {
+  if (environment === Environments.DEVELOPMENT) {
     debug({
       type: 'GET',
       url,
@@ -92,7 +92,7 @@ export const skipSuggestedEvents = (
 ) => async (eventIds = []) => {
   const url = `${apiUrl}/productions/skip`;
 
-  if (environment === environments.dev) {
+  if (environment === Environments.DEVELOPMENT) {
     debug({
       type: 'POST',
       url,

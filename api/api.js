@@ -4,15 +4,15 @@ import * as user from './user';
 import * as events from './events';
 import * as productions from './productions';
 
-export const environments = {
-  dev: 'dev',
-  acc: 'acc',
-  test: 'test',
-  prod: 'prod',
+export const Environments = {
+  DEVELOPMENT: 'development',
+  ACCEPTANCE: 'acceptance',
+  TEST: 'test',
+  PRODUCTION: 'production',
 };
 
 export const debugLogger = (environment) => (...args) => {
-  if (environment === environments.dev) {
+  if (environment === Environments.DEVELOPMENT) {
     /* eslint-disable no-console */
     console.log(...args);
     /* eslint-enable no-console */
