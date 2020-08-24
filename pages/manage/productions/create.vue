@@ -159,23 +159,29 @@
       parseEventId(id) {
         return parseId(id);
       },
+      async linkEventsToExistingProduction() {
+        const reponses = await this.$api.productions.addEventsByIds({
+          productionId: this.selectedSuggestedProductionId,
+          eventIds: this.suggestedEventIds,
+        });
+        const errors = reponses.filter((response) => response.status);
+        if (errors.length > 0) {
+          this.errorMessages = errors.map((error) => error.title);
+        }
+      },
+      async linkEventsToNewProduction() {
+        await this.$api.productions.createWithEvents({
+          name: this.productionName,
+          eventIds: this.suggestedEventIds,
+        });
+      },
       async handleClickLink() {
         this.isLinkingEventsWithProduction = true;
 
         if (this.selectedSuggestedProductionId) {
-          const reponses = await this.$api.productions.addEventsByIds({
-            productionId: this.selectedSuggestedProductionId,
-            eventIds: this.suggestedEventIds,
-          });
-          const errors = reponses.filter((response) => response.status);
-          if (errors.length > 0) {
-            this.errorMessages = errors.map((error) => error.title);
-          }
+          await this.linkEventsToExistingProduction();
         } else {
-          await this.$api.productions.createWithEvents({
-            name: this.productionName,
-            eventIds: this.suggestedEventIds,
-          });
+          await this.linkEventsToNewProduction();
         }
 
         this.isLinkingEventsWithProduction = false;
