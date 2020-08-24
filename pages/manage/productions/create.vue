@@ -203,6 +203,7 @@
       },
       handleClickProductionName(id) {
         this.selectedSuggestedProductionId = id;
+        this.productionName = this.selectedSuggestedProductionName;
         this.showSuggestedProductions = false;
       },
       handleFocusProductionName() {
