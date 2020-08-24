@@ -8,89 +8,14 @@
 </template>
 
 <script>
-  import Sidebar from '../components/sidebar';
+import Sidebar from '../components/sidebar';
 
-  export default {
-    name: 'Default',
-    components: {
-      Sidebar,
-    },
-  };
+export default {
+  name: 'Default',
+  components: {
+    Sidebar,
+  },
+};
 </script>
 
-<style lang="scss">
-  @import url('//fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,300,400,700,600');
-
-  .main-container {
-    display: flex;
-    flex-direction: row;
-    position: relative;
-    z-index: 0;
-  }
-
-  .content {
-    flex: 1;
-  }
-
-  html {
-    -ms-text-size-adjust: 100%;
-    -webkit-text-size-adjust: 100%;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    box-sizing: border-box;
-    font-size: 15px;
-  }
-
-  body {
-    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
-    font-size: 15px;
-    line-height: 1.6;
-    color: #222;
-    background-color: #f0f0f0;
-  }
-
-  .wrapper {
-    background-color: #f0f0f0;
-    margin: 0 auto;
-    padding: 0;
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    justify-content: left;
-    align-items: flex-start;
-    text-align: left;
-  }
-
-  h1 {
-    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
-    display: block;
-    font-weight: 300;
-    font-size: 1.6rem;
-    line-height: 3.74rem;
-    color: #222;
-  }
-
-  .title {
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 2rem;
-  }
-
-  h1.title {
-    text-transform: capitalize;
-
-    a {
-      text-transform: lowercase;
-    }
-  }
-
-  a:hover {
-    cursor: pointer;
-  }
-
-  *,
-  *::before,
-  *::after {
-    box-sizing: border-box;
-    margin: 0;
-  }
-</style>
+<style lang="scss"></style>

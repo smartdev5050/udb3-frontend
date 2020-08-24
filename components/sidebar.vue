@@ -296,7 +296,7 @@
       text-decoration: none;
       padding: $padding-normal;
       width: 100%;
-      font-weight: 600;
+      font-weight: 400;
     }
 
     svg:not(:root).svg-inline--fa {
