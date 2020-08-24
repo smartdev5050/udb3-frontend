@@ -31,6 +31,7 @@
         <b-input
           id="production-name"
           v-model="productionName"
+          autocomplete="off"
           @input="handleInputProductionName"
           @focus="handleFocusProductionName"
           @blur="handleBlurProductionName"
