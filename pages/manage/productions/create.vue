@@ -251,6 +251,8 @@
     margin-bottom: 0;
     margin-top: 0.5rem;
     overflow-y: scroll;
+    position: absolute;
+    width: 100%;
 
     table {
       margin-bottom: 0;
