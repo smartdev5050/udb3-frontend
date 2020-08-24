@@ -195,9 +195,6 @@
           this.canShowAutoComplete = false;
         }
       },
-      handleDismissed(index) {
-        this.errorMessages = this.errorMessages.splice(index, 1);
-      },
       clearExistingProduction() {
         this.existingProductionId = '';
         this.existingProductionName = '';
