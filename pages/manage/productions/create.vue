@@ -1,9 +1,7 @@
 <template>
   <div class="wrapper">
     <section class="container-fluid">
-      <h1 class="title create-title">
-        {{ $t('productions.create') }}
-      </h1>
+      <h1 class="title create-title">{{ $t('productions.create') }}</h1>
 
       <p>
         <strong>{{ $t('productions.suggested_events') }}</strong>
@@ -28,17 +26,17 @@
       </section>
 
       <section
-        v-if="suggestedEventsWithProduction < 2"
+        v-if="suggestedEventsWithProduction.length < 2"
         class="production-name-container"
       >
-        <label for="production-name">{{
-          $t('productions.production_name')
-        }}</label>
+        <label for="production-name">
+          {{ $t('productions.production_name') }}
+        </label>
         <b-input
           id="production-name"
           v-model="productionName"
           autocomplete="off"
-          :disabled="suggestedEventsWithProduction > 0"
+          :disabled="suggestedEventsWithProduction.length > 0"
           @input="handleInputProductionName"
           @focus="handleFocusProductionName"
           @blur="handleBlurProductionName"
@@ -82,9 +80,9 @@
           <loading-spinner v-if="isLinkingEventsWithProduction" />
           <span v-else>{{ $t('productions.link') }}</span>
         </b-button>
-        <b-button variant="danger" @click="handleClickSkip">
-          {{ $t('productions.skip') }}
-        </b-button>
+        <b-button variant="danger" @click="handleClickSkip">{{
+          $t('productions.skip')
+        }}</b-button>
       </section>
       <b-alert
         v-for="(errorMessage, index) in errorMessages"
@@ -92,9 +90,8 @@
         variant="danger"
         :show="errorMessages.length > 0"
         dismissible
+        >{{ errorMessage }}</b-alert
       >
-        {{ errorMessage }}
-      </b-alert>
     </section>
   </div>
 </template>
@@ -130,10 +127,18 @@
       locale() {
         return this.$i18n.locale;
       },
-      suggestedEventIds() {
+      suggestedEventIdsWithoutProduction() {
         return this.suggestedEvents
           .filter((suggestedEvent) => !suggestedEvent.production)
           .map((suggestedEvent) => this.parseEventId(suggestedEvent['@id']));
+      },
+      suggestedEventsWithProduction() {
+        return this.suggestedEvents.filter((event) => event.production);
+      },
+      suggestedEventIds() {
+        return this.suggestedEvents.map((suggestedEvent) =>
+          this.parseEventId(suggestedEvent['@id']),
+        );
       },
       selectedSuggestedProductionName() {
         return this.suggestedProductions.find(
@@ -142,13 +147,10 @@
             this.selectedSuggestedProductionId,
         ).name;
       },
-      suggestedEventsWithProduction() {
-        return this.suggestedEvents.filter((event) => event.production).length;
-      },
     },
     watch: {
       productionName() {
-        if (this.suggestedEventsWithProduction === 0) {
+        if (this.suggestedEventsWithProduction.length === 0) {
           this.selectedSuggestedProductionId = '';
         }
       },
@@ -170,7 +172,7 @@
       },
       async getSuggestedEvents() {
         this.suggestedEvents = await this.$api.productions.getSuggestedEvents();
-        if (this.suggestedEventsWithProduction === 1) {
+        if (this.suggestedEventsWithProduction.length === 1) {
           const foundProduction = this.suggestedEvents.find(
             (events) => events.production,
           ).production;
@@ -189,7 +191,7 @@
       async linkEventsToExistingProduction() {
         const reponses = await this.$api.productions.addEventsByIds({
           productionId: this.selectedSuggestedProductionId,
-          eventIds: this.suggestedEventIds,
+          eventIds: this.suggestedEventIdsWithoutProduction,
         });
         const errors = reponses.filter((response) => response.status);
         if (errors.length > 0) {
@@ -199,7 +201,7 @@
       async linkEventsToNewProduction() {
         await this.$api.productions.createWithEvents({
           name: this.productionName,
-          eventIds: this.suggestedEventIds,
+          eventIds: this.suggestedEventIdsWithoutProduction,
         });
       },
       async handleClickLink() {
