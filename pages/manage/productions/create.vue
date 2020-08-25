@@ -130,8 +130,14 @@
       selectedSuggestedProductionName() {
         return this.suggestedProductions.find(
           (suggestedProduction) =>
-            suggestedProduction.id === this.selectedSuggestedProductionId,
-        );
+            suggestedProduction.production_id ===
+            this.selectedSuggestedProductionId,
+        ).name;
+      },
+    },
+    watch: {
+      productionName() {
+        this.selectedSuggestedProductionId = '';
       },
     },
     async created() {
