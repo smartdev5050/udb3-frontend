@@ -258,6 +258,7 @@
 
     table {
       margin-bottom: 0;
+      background-color: white;
     }
 
     tr {
