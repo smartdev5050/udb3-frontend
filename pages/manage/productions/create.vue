@@ -27,14 +27,18 @@
         />
       </section>
 
-      <section v-if="!hasProductionsLinked" class="production-name-container">
-        <label for="production-name">
-          {{ $t('productions.production_name') }}
-        </label>
+      <section
+        v-if="suggestedEventsWithProduction < 2"
+        class="production-name-container"
+      >
+        <label for="production-name">{{
+          $t('productions.production_name')
+        }}</label>
         <b-input
           id="production-name"
           v-model="productionName"
           autocomplete="off"
+          :disabled="suggestedEventsWithProduction > 0"
           @input="handleInputProductionName"
           @focus="handleFocusProductionName"
           @blur="handleBlurProductionName"
@@ -74,12 +78,13 @@
           class="button-spinner"
           variant="success"
           @click="handleClickLink"
-          ><loading-spinner v-if="isLinkingEventsWithProduction" />
+        >
+          <loading-spinner v-if="isLinkingEventsWithProduction" />
           <span v-else>{{ $t('productions.link') }}</span>
         </b-button>
-        <b-button variant="danger" @click="handleClickSkip">{{
-          $t('productions.skip')
-        }}</b-button>
+        <b-button variant="danger" @click="handleClickSkip">
+          {{ $t('productions.skip') }}
+        </b-button>
       </section>
       <b-alert
         v-for="(errorMessage, index) in errorMessages"
@@ -126,9 +131,9 @@
         return this.$i18n.locale;
       },
       suggestedEventIds() {
-        return this.suggestedEvents.map((suggestedEvent) =>
-          this.parseEventId(suggestedEvent['@id']),
-        );
+        return this.suggestedEvents
+          .filter((suggestedEvent) => !suggestedEvent.production)
+          .map((suggestedEvent) => this.parseEventId(suggestedEvent['@id']));
       },
       selectedSuggestedProductionName() {
         return this.suggestedProductions.find(
@@ -137,15 +142,15 @@
             this.selectedSuggestedProductionId,
         ).name;
       },
-      hasProductionsLinked() {
-        return (
-          this.suggestedEvents.filter((event) => event.production).length > 0
-        );
+      suggestedEventsWithProduction() {
+        return this.suggestedEvents.filter((event) => event.production).length;
       },
     },
     watch: {
       productionName() {
-        this.selectedSuggestedProductionId = '';
+        if (this.suggestedEventsWithProduction === 0) {
+          this.selectedSuggestedProductionId = '';
+        }
       },
     },
     async created() {
@@ -165,6 +170,13 @@
       },
       async getSuggestedEvents() {
         this.suggestedEvents = await this.$api.productions.getSuggestedEvents();
+        if (this.suggestedEventsWithProduction === 1) {
+          const foundProduction = this.suggestedEvents.find(
+            (events) => events.production,
+          ).production;
+          this.selectedSuggestedProductionId = foundProduction.id;
+          this.productionName = foundProduction.title;
+        }
       },
       getEventType(terms) {
         const foundTerm =
