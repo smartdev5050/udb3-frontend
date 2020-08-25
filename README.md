@@ -23,5 +23,3 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
 
 Copy the .env.example and rename it to .env.
 Fill in the correct values for the variables
-
-

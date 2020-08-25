@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
 
-    - name: Prettier dry run
-      uses: creyD/prettier_action@v2.2
-      with:
-        dry: true
+      - name: Prettier dry run
+        uses: creyD/prettier_action@v2.2
+        with:
+          dry: true
