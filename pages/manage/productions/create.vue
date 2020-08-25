@@ -18,16 +18,19 @@
           :type="getEventType(suggestedEvent.terms)"
           :title="suggestedEvent.name[locale]"
           :image-url="suggestedEvent.image"
+          :production-name="
+            suggestedEvent.production ? suggestedEvent.production.title : ''
+          "
           :description="
             suggestedEvent.description ? suggestedEvent.description[locale] : ''
           "
         />
       </section>
 
-      <section class="production-name-container">
-        <label for="production-name">{{
-          $t('productions.production_name')
-        }}</label>
+      <section v-if="!hasProductionsLinked" class="production-name-container">
+        <label for="production-name">
+          {{ $t('productions.production_name') }}
+        </label>
         <b-input
           id="production-name"
           v-model="productionName"
@@ -133,6 +136,11 @@
             suggestedProduction.production_id ===
             this.selectedSuggestedProductionId,
         ).name;
+      },
+      hasProductionsLinked() {
+        return (
+          this.suggestedEvents.filter((event) => event.production).length > 0
+        );
       },
     },
     watch: {
