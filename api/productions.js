@@ -126,3 +126,14 @@ export const createWithEvents = (apiUrl, headers, fetch) => async ({
     }),
   });
 };
+
+export const mergeProductions = (apiUrl, headers, fetch) => async ({
+  fromProductionId = '',
+  toProductionId = '',
+} = {}) => {
+  const url = `${apiUrl}/productions/${toProductionId}/merge/${fromProductionId}`;
+  await fetch(url, {
+    method: 'POST',
+    headers: headers(),
+  });
+};
