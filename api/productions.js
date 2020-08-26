@@ -1,4 +1,4 @@
-import MockSuggestedEvents from '../assets/suggested-events';
+import getMockedEventsSet from '../functions/getMockedEventsSet';
 import { Environments } from './api';
 
 export const find = (apiUrl, headers, fetch) => async ({
@@ -74,7 +74,7 @@ export const getSuggestedEvents = (
       type: 'GET',
       url,
     });
-    return MockSuggestedEvents;
+    return getMockedEventsSet();
   }
 
   const res = await fetch(url, {
