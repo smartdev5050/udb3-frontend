@@ -59,8 +59,9 @@
     "loading": "Changer",
     "name": "Nom",
     "no_events": "Aucun événement dans cette production.",
-    "part_of_production": "Partie de la production",
     "no_productions": "Aucune production trouvée.",
+    "no_suggested_events_found": "Aucun événement trouvé pour être lié à une production. Réessayez plus tard.",
+    "part_of_production": "Partie de la production",
     "production_name": "Nom de production",
     "productions": "Productions",
     "search": {

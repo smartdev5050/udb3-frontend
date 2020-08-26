@@ -62,6 +62,7 @@
     "name": "Naam",
     "no_events": "Geen eventementen onder deze productie.",
     "no_productions": "Geen producties gevonden.",
+    "no_suggested_events_found": "Geen evenementen gevonden om te linken aan een productie. Probeer het later opnieuw.",
     "part_of_production": "Onderdeel van de productie",
     "production_name": "Productienaam",
     "productions": "Producties",
