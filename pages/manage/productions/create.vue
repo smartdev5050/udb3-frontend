@@ -29,9 +29,9 @@
         v-if="availableProductions.length < 2"
         class="production-name-container"
       >
-        <label for="production-name">
-          {{ $t('productions.production_name') }}
-        </label>
+        <label for="production-name">{{
+          $t('productions.production_name')
+        }}</label>
         <b-input
           id="production-name"
           v-model="productionName"
@@ -92,9 +92,9 @@
           <loading-spinner v-if="isLinkingEventsWithProduction" />
           <span v-else>{{ $t('productions.link') }}</span>
         </b-button>
-        <b-button variant="danger" @click="handleClickSkip">{{
-          $t('productions.skip')
-        }}</b-button>
+        <b-button variant="danger" @click="handleClickSkip">
+          {{ $t('productions.skip') }}
+        </b-button>
       </section>
       <b-alert
         v-for="(errorMessage, index) in errorMessages"
@@ -225,19 +225,26 @@
         }
       },
       async linkEventsToNewProduction() {
-        await this.$api.productions.createWithEvents({
+        const response = await this.$api.productions.createWithEvents({
           name: this.productionName,
           eventIds: this.suggestedEventIdsWithoutProduction,
         });
+        if (response.status) {
+          this.errorMessages = [response.title];
+        }
       },
       async moveEventsFromOneProductionToAnother() {
-        await this.$api.productions.mergeProductions({
+        const response = await this.$api.productions.mergeProductions({
           fromProductionId: this.fromProductionId,
           toProductionId: this.selectedSuggestedProductionId,
         });
+        if (response.status) {
+          this.errorMessages = [response.title];
+        }
       },
       async handleClickLink() {
         this.isLinkingEventsWithProduction = true;
+        this.errorMessages = [];
 
         if (this.availableProductions.length === 2) {
           await this.moveEventsFromOneProductionToAnother();

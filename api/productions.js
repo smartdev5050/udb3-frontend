@@ -117,7 +117,7 @@ export const createWithEvents = (apiUrl, headers, fetch) => async ({
   eventIds = [],
 } = {}) => {
   const url = `${apiUrl}/productions/`;
-  await fetch(url, {
+  const response = await fetch(url, {
     method: 'POST',
     headers: headers(),
     body: JSON.stringify({
@@ -125,6 +125,12 @@ export const createWithEvents = (apiUrl, headers, fetch) => async ({
       eventIds,
     }),
   });
+
+  const body = await response.text();
+  if (body) {
+    return JSON.parse(body);
+  }
+  return {};
 };
 
 export const mergeProductions = (apiUrl, headers, fetch) => async ({
@@ -132,8 +138,14 @@ export const mergeProductions = (apiUrl, headers, fetch) => async ({
   toProductionId = '',
 } = {}) => {
   const url = `${apiUrl}/productions/${toProductionId}/merge/${fromProductionId}`;
-  await fetch(url, {
+  const response = await fetch(url, {
     method: 'POST',
     headers: headers(),
   });
+
+  const body = await response.text();
+  if (body) {
+    return JSON.parse(body);
+  }
+  return {};
 };
