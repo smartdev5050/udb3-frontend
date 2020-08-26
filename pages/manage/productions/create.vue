@@ -1,9 +1,7 @@
 <template>
   <div class="wrapper">
     <section class="container-fluid">
-      <h1 class="title create-title">
-        {{ $t('productions.create') }}
-      </h1>
+      <h1 class="title create-title">{{ $t('productions.create') }}</h1>
 
       <p>
         <strong>{{ $t('productions.suggested_events') }}</strong>
@@ -18,20 +16,27 @@
           :type="getEventType(suggestedEvent.terms)"
           :title="suggestedEvent.name[locale]"
           :image-url="suggestedEvent.image"
+          :production-name="
+            suggestedEvent.production ? suggestedEvent.production.title : ''
+          "
           :description="
             suggestedEvent.description ? suggestedEvent.description[locale] : ''
           "
         />
       </section>
 
-      <section class="production-name-container">
-        <label for="production-name">{{
-          $t('productions.production_name')
-        }}</label>
+      <section
+        v-if="suggestedEventsWithProduction.length < 2"
+        class="production-name-container"
+      >
+        <label for="production-name">
+          {{ $t('productions.production_name') }}
+        </label>
         <b-input
           id="production-name"
           v-model="productionName"
           autocomplete="off"
+          :disabled="suggestedEventsWithProduction.length > 0"
           @input="handleInputProductionName"
           @focus="handleFocusProductionName"
           @blur="handleBlurProductionName"
@@ -71,7 +76,8 @@
           class="button-spinner"
           variant="success"
           @click="handleClickLink"
-          ><loading-spinner v-if="isLinkingEventsWithProduction" />
+        >
+          <loading-spinner v-if="isLinkingEventsWithProduction" />
           <span v-else>{{ $t('productions.link') }}</span>
         </b-button>
         <b-button variant="danger" @click="handleClickSkip">{{
@@ -84,9 +90,8 @@
         variant="danger"
         :show="errorMessages.length > 0"
         dismissible
+        >{{ errorMessage }}</b-alert
       >
-        {{ errorMessage }}
-      </b-alert>
     </section>
   </div>
 </template>
@@ -122,6 +127,14 @@
       locale() {
         return this.$i18n.locale;
       },
+      suggestedEventIdsWithoutProduction() {
+        return this.suggestedEvents
+          .filter((suggestedEvent) => !suggestedEvent.production)
+          .map((suggestedEvent) => this.parseEventId(suggestedEvent['@id']));
+      },
+      suggestedEventsWithProduction() {
+        return this.suggestedEvents.filter((event) => event.production);
+      },
       suggestedEventIds() {
         return this.suggestedEvents.map((suggestedEvent) =>
           this.parseEventId(suggestedEvent['@id']),
@@ -137,7 +150,9 @@
     },
     watch: {
       productionName() {
-        this.selectedSuggestedProductionId = '';
+        if (this.suggestedEventsWithProduction.length === 0) {
+          this.selectedSuggestedProductionId = '';
+        }
       },
     },
     async created() {
@@ -157,6 +172,13 @@
       },
       async getSuggestedEvents() {
         this.suggestedEvents = await this.$api.productions.getSuggestedEvents();
+        if (this.suggestedEventsWithProduction.length === 1) {
+          const foundProduction = this.suggestedEvents.find(
+            (events) => events.production,
+          ).production;
+          this.selectedSuggestedProductionId = foundProduction.id;
+          this.productionName = foundProduction.title;
+        }
       },
       getEventType(terms) {
         const foundTerm =
@@ -169,7 +191,7 @@
       async linkEventsToExistingProduction() {
         const reponses = await this.$api.productions.addEventsByIds({
           productionId: this.selectedSuggestedProductionId,
-          eventIds: this.suggestedEventIds,
+          eventIds: this.suggestedEventIdsWithoutProduction,
         });
         const errors = reponses.filter((response) => response.status);
         if (errors.length > 0) {
@@ -179,7 +201,7 @@
       async linkEventsToNewProduction() {
         await this.$api.productions.createWithEvents({
           name: this.productionName,
-          eventIds: this.suggestedEventIds,
+          eventIds: this.suggestedEventIdsWithoutProduction,
         });
       },
       async handleClickLink() {

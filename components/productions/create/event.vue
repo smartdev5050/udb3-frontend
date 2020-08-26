@@ -8,7 +8,13 @@
       </div>
       <img v-if="imageUrl" :src="imageUrl" :alt="title" class="image" />
     </section>
-    <b-card-text>{{ description }}</b-card-text>
+    <b-card-text>
+      <p>{{ description }}</p>
+      <section v-if="productionName" class="bg-secondary event-production">
+        {{ $t('productions.part_of_production') }}
+        <strong>{{ productionName }}</strong>
+      </section>
+    </b-card-text>
   </b-card>
 </template>
 
@@ -32,6 +38,10 @@
         default: '',
       },
       imageUrl: {
+        type: String,
+        default: '',
+      },
+      productionName: {
         type: String,
         default: '',
       },
@@ -77,6 +87,10 @@
       background-position: center center;
       background-repeat: no-repeat;
       object-fit: cover;
+    }
+
+    .event-production {
+      padding: 1rem;
     }
   }
 </style>
