@@ -7,94 +7,101 @@
         <strong>{{ $t('productions.suggested_events') }}</strong>
         {{ eventSimilarityScore }}%
       </p>-->
-
-      <section class="events-container">
-        <event
-          v-for="suggestedEvent in suggestedEvents"
-          :id="parseEventId(suggestedEvent['@id'])"
-          :key="suggestedEvent['@id']"
-          :type="getEventType(suggestedEvent.terms)"
-          :title="suggestedEvent.name[locale]"
-          :image-url="suggestedEvent.image"
-          :production-name="
-            suggestedEvent.production ? suggestedEvent.production.title : ''
-          "
-          :description="
-            suggestedEvent.description ? suggestedEvent.description[locale] : ''
-          "
-        />
-      </section>
-
-      <section
-        v-if="availableProductions.length < 2"
-        class="production-name-container"
-      >
-        <label for="production-name">{{
-          $t('productions.production_name')
-        }}</label>
-        <b-input
-          id="production-name"
-          v-model="productionName"
-          autocomplete="off"
-          :disabled="availableProductions.length > 0"
-          @input="handleInputProductionName"
-          @focus="handleFocusProductionName"
-        />
-        <section
-          v-show="showSuggestedProductions"
-          class="container-table-production-name"
-        >
-          <table class="table table-hover">
-            <tbody v-if="!isLoadingSuggestedProductions">
-              <tr
-                v-for="suggestedProduction in suggestedProductions"
-                :key="suggestedProduction.production_id"
-              >
-                <td
-                  @click="
-                    handleClickProductionName(suggestedProduction.production_id)
-                  "
-                >
-                  {{ suggestedProduction.name }}
-                </td>
-              </tr>
-            </tbody>
-            <tbody v-else>
-              <tr>
-                <td>
-                  <loading-spinner />
-                </td>
-              </tr>
-            </tbody>
-          </table>
+      <div v-if="suggestedEvents.length > 0">
+        <section class="events-container">
+          <event
+            v-for="suggestedEvent in suggestedEvents"
+            :id="parseEventId(suggestedEvent['@id'])"
+            :key="suggestedEvent['@id']"
+            :type="getEventType(suggestedEvent.terms)"
+            :title="suggestedEvent.name[locale]"
+            :image-url="suggestedEvent.image"
+            :production-name="
+              suggestedEvent.production ? suggestedEvent.production.title : ''
+            "
+            :description="
+              suggestedEvent.description
+                ? suggestedEvent.description[locale]
+                : ''
+            "
+          />
         </section>
-      </section>
-      <section v-else>
-        <b-form-group :label="$t('productions.production_name')">
-          <b-form-radio
-            v-for="production in availableProductions"
-            :key="production.id"
-            v-model="selectedSuggestedProductionId"
-            :value="production.id"
-            name="production"
-            >{{ production.title }}</b-form-radio
-          >
-        </b-form-group>
-      </section>
-
-      <section class="button-container">
-        <b-button
-          class="button-spinner"
-          variant="success"
-          :disabled="!productionName"
-          @mousedown="handleClickLink"
+        <section
+          v-if="availableProductions.length < 2"
+          class="production-name-container"
         >
-          <loading-spinner v-if="isLinkingEventsWithProduction" />
-          <span v-else>{{ $t('productions.link') }}</span>
-        </b-button>
-        <b-button variant="danger" @click="handleClickSkip">
-          {{ $t('productions.skip') }}
-        </b-button>
+          <label for="production-name">{{
+            $t('productions.production_name')
+          }}</label>
+          <b-input
+            id="production-name"
+            v-model="productionName"
+            autocomplete="off"
+            :disabled="availableProductions.length > 0"
+            @input="handleInputProductionName"
+            @focus="handleFocusProductionName"
+          />
+          <section
+            v-show="showSuggestedProductions"
+            class="container-table-production-name"
+          >
+            <table class="table table-hover">
+              <tbody v-if="!isLoadingSuggestedProductions">
+                <tr
+                  v-for="suggestedProduction in suggestedProductions"
+                  :key="suggestedProduction.production_id"
+                >
+                  <td
+                    @click="
+                      handleClickProductionName(
+                        suggestedProduction.production_id,
+                      )
+                    "
+                  >
+                    {{ suggestedProduction.name }}
+                  </td>
+                </tr>
+              </tbody>
+              <tbody v-else>
+                <tr>
+                  <td>
+                    <loading-spinner />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </section>
+        <section v-else>
+          <b-form-group :label="$t('productions.production_name')">
+            <b-form-radio
+              v-for="production in availableProductions"
+              :key="production.id"
+              v-model="selectedSuggestedProductionId"
+              :value="production.id"
+              name="production"
+              >{{ production.title }}</b-form-radio
+            >
+          </b-form-group>
+        </section>
+
+        <section class="button-container">
+          <b-button
+            class="button-spinner"
+            variant="success"
+            :disabled="!productionName"
+            @mousedown="handleClickLink"
+          >
+            <loading-spinner v-if="isLinkingEventsWithProduction" />
+            <span v-else>{{ $t('productions.link') }}</span>
+          </b-button>
+          <b-button variant="danger" @click="handleClickSkip">
+            {{ $t('productions.skip') }}
+          </b-button>
+        </section>
+      </div>
+      <section v-else class="list-group-item list-group-item-warning">
+        {{ $t('productions.no_suggested_events_found') }}
       </section>
       <b-alert
         v-for="(errorMessage, index) in errorMessages"
