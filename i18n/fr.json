@@ -70,6 +70,7 @@
     "skip": "Sauter",
     "suggested_events": "Conformément à événements proposés",
     "title": "Titre",
+    "type": "Genre",
     "when": "Quand",
     "where": "Où"
   },
