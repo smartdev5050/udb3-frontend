@@ -255,6 +255,7 @@
         width: fit-content;
         max-width: 100%;
         margin-bottom: 1rem;
+        text-transform: inherit;
       }
 
       .feature-image {
