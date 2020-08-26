@@ -4,9 +4,9 @@
       <h1 class="title">
         {{ $t('menu.productions') }}
         <small>
-          <nuxt-link to="productions/create">
-            {{ $t('productions.create') }}
-          </nuxt-link>
+          <nuxt-link to="productions/create">{{
+            $t('productions.create')
+          }}</nuxt-link>
         </small>
       </h1>
       <div>
@@ -74,7 +74,7 @@
     data() {
       return {
         pagesProductions: 1,
-        productionsPerPage: 30,
+        productionsPerPage: 10,
         totalItems: 0,
 
         selectedProductionId: '',
