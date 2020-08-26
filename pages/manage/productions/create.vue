@@ -3,10 +3,10 @@
     <section class="container-fluid">
       <h1 class="title create-title">{{ $t('productions.create') }}</h1>
 
-      <p>
+      <!-- <p>
         <strong>{{ $t('productions.suggested_events') }}</strong>
         {{ eventSimilarityScore }}%
-      </p>
+      </p>-->
 
       <section class="events-container">
         <event
