@@ -4,9 +4,9 @@
       <div class="event-item">
         <div>
           {{ name }}
-          <a class="delete-event-link" @click="handleClickDelete(id)">
-            {{ $t('productions.delete') }}
-          </a>
+          <a class="delete-event-link" @click="handleClickDelete(id)">{{
+            $t('productions.delete')
+          }}</a>
         </div>
         <fa
           v-show="!isDetailVisible"
@@ -23,16 +23,16 @@
         <table class="table">
           <tbody>
             <tr>
+              <th>{{ $t('productions.type') }}</th>
+              <td>{{ type }}</td>
+            </tr>
+            <tr>
               <th>{{ $t('productions.when') }}</th>
-              <td>
-                {{ period }}
-              </td>
+              <td>{{ period }}</td>
             </tr>
             <tr>
               <th>{{ $t('productions.where') }}</th>
-              <td>
-                {{ location }}
-              </td>
+              <td>{{ location }}</td>
             </tr>
           </tbody>
         </table>
@@ -49,6 +49,10 @@
         default: '',
       },
       name: {
+        type: String,
+        default: '',
+      },
+      type: {
         type: String,
         default: '',
       },

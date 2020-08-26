@@ -10,9 +10,9 @@
               )} '${selectedProductionName}'`
             }}
           </span>
-          <a class="add-event-link" @click="handleClickAddEvent">{{
-            !isAddEventVisible ? $t('productions.create') : ''
-          }}</a>
+          <a class="add-event-link" @click="handleClickAddEvent">
+            {{ !isAddEventVisible ? $t('productions.create') : '' }}
+          </a>
           <div v-if="isAddEventVisible" class="add-event-container">
             <input
               ref="eventIdInput"
@@ -49,6 +49,7 @@
         :id="parseEventId(event['@id'])"
         :key="parseEventId(event['@id'])"
         :name="event.name[locale] || event.name['nl']"
+        :type="getEventType(event.terms)"
         :location="event.location.name[locale] || event.location.name['nl']"
         @clickDelete="handleClickDeleteEvent"
       />
@@ -60,9 +61,7 @@
     </tbody>
     <tbody v-else>
       <tr>
-        <td class="text-center">
-          {{ $t('productions.no_events') }}
-        </td>
+        <td class="text-center">{{ $t('productions.no_events') }}</td>
       </tr>
     </tbody>
   </table>
@@ -146,6 +145,11 @@
       },
       parseEventId(id) {
         return parseId(id);
+      },
+      getEventType(terms) {
+        const foundTerm =
+          terms.find((term) => term.domain === 'eventtype') || {};
+        return foundTerm.label ? foundTerm.label : '';
       },
     },
   };
