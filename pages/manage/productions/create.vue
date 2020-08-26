@@ -26,7 +26,7 @@
       </section>
 
       <section
-        v-if="suggestedEventsWithProduction.length < 2"
+        v-if="availableProductions.length < 2"
         class="production-name-container"
       >
         <label for="production-name">
@@ -36,7 +36,7 @@
           id="production-name"
           v-model="productionName"
           autocomplete="off"
-          :disabled="suggestedEventsWithProduction.length > 0"
+          :disabled="availableProductions.length > 0"
           @input="handleInputProductionName"
           @focus="handleFocusProductionName"
         />
@@ -144,22 +144,24 @@
           .filter((suggestedEvent) => !suggestedEvent.production)
           .map((suggestedEvent) => this.parseEventId(suggestedEvent['@id']));
       },
-      suggestedEventsWithProduction() {
-        return this.suggestedEvents.filter((event) => event.production);
-      },
       suggestedEventIds() {
         return this.suggestedEvents.map((suggestedEvent) =>
           this.parseEventId(suggestedEvent['@id']),
         );
       },
+      fromProductionId() {
+        return this.availableProductions.find(
+          (production) => production.id !== this.selectedSuggestedProductionId,
+        ).id;
+      },
       availableProductions() {
-        return this.suggestedEventsWithProduction.map(
-          (events) => events.production,
-        );
+        return this.suggestedEvents
+          .filter((event) => event.production)
+          .map((events) => events.production);
       },
       selectedSuggestedProductionName() {
         if (!this.selectedSuggestedProductionId) return '';
-        if (this.suggestedEventsWithProduction.length === 0) {
+        if (this.availableProductions.length === 0) {
           return this.suggestedProductions.find(
             (suggestedProduction) =>
               suggestedProduction.production_id ===
@@ -196,7 +198,7 @@
       },
       async getSuggestedEvents() {
         this.suggestedEvents = await this.$api.productions.getSuggestedEvents();
-        if (this.suggestedEventsWithProduction.length === 1) {
+        if (this.availableProductions.length === 1) {
           const foundProduction = this.suggestedEvents.find(
             (events) => events.production,
           ).production;
@@ -228,10 +230,18 @@
           eventIds: this.suggestedEventIdsWithoutProduction,
         });
       },
+      async moveEventsFromOneProductionToAnother() {
+        await this.$api.productions.mergeProductions({
+          fromProductionId: this.fromProductionId,
+          toProductionId: this.selectedSuggestedProductionId,
+        });
+      },
       async handleClickLink() {
         this.isLinkingEventsWithProduction = true;
 
-        if (this.selectedSuggestedProductionId) {
+        if (this.availableProductions.length === 2) {
+          await this.moveEventsFromOneProductionToAnother();
+        } else if (this.selectedSuggestedProductionId) {
           await this.linkEventsToExistingProduction();
         } else {
           await this.linkEventsToNewProduction();
