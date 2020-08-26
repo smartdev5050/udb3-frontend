@@ -23,12 +23,6 @@
         <table class="table">
           <tbody>
             <tr>
-              <th>{{ $t('productions.title') }}</th>
-              <td>
-                {{ name }}
-              </td>
-            </tr>
-            <tr>
               <th>{{ $t('productions.when') }}</th>
               <td>
                 {{ period }}
