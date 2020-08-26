@@ -39,7 +39,6 @@
           :disabled="suggestedEventsWithProduction.length > 0"
           @input="handleInputProductionName"
           @focus="handleFocusProductionName"
-          @blur="handleBlurProductionName"
         />
         <section
           v-show="showSuggestedProductions"
@@ -70,12 +69,25 @@
           </table>
         </section>
       </section>
+      <section v-else>
+        <b-form-group :label="$t('productions.production_name')">
+          <b-form-radio
+            v-for="production in availableProductions"
+            :key="production.id"
+            v-model="selectedSuggestedProductionId"
+            :value="production.id"
+            name="production"
+            >{{ production.title }}</b-form-radio
+          >
+        </b-form-group>
+      </section>
 
       <section class="button-container">
         <b-button
           class="button-spinner"
           variant="success"
-          @click="handleClickLink"
+          :disabled="!productionName"
+          @mousedown="handleClickLink"
         >
           <loading-spinner v-if="isLinkingEventsWithProduction" />
           <span v-else>{{ $t('productions.link') }}</span>
@@ -140,18 +152,30 @@
           this.parseEventId(suggestedEvent['@id']),
         );
       },
+      availableProductions() {
+        return this.suggestedEventsWithProduction.map(
+          (events) => events.production,
+        );
+      },
       selectedSuggestedProductionName() {
-        return this.suggestedProductions.find(
+        if (!this.selectedSuggestedProductionId) return '';
+        if (this.suggestedEventsWithProduction.length === 0) {
+          return this.suggestedProductions.find(
+            (suggestedProduction) =>
+              suggestedProduction.production_id ===
+              this.selectedSuggestedProductionId,
+          ).name;
+        }
+        return this.availableProductions.find(
           (suggestedProduction) =>
-            suggestedProduction.production_id ===
-            this.selectedSuggestedProductionId,
-        ).name;
+            suggestedProduction.id === this.selectedSuggestedProductionId,
+        ).title;
       },
     },
     watch: {
-      productionName() {
-        if (this.suggestedEventsWithProduction.length === 0) {
-          this.selectedSuggestedProductionId = '';
+      selectedSuggestedProductionId() {
+        if (this.selectedSuggestedProductionId) {
+          this.productionName = this.selectedSuggestedProductionName;
         }
       },
     },
@@ -215,7 +239,9 @@
 
         this.isLinkingEventsWithProduction = false;
 
-        this.clearAndRefreshSuggestedEvents();
+        if (this.errorMessages.length === 0) {
+          this.clearAndRefreshSuggestedEvents();
+        }
       },
       async handleClickSkip() {
         await this.$api.productions.skipSuggestedEvents(this.suggestedEventIds);
@@ -228,11 +254,11 @@
             name: this.productionName,
           },
         );
+        this.selectedSuggestedProductionId = '';
         await debounce(() => getSuggestedProductionsByName, 1000);
       },
       handleClickProductionName(id) {
         this.selectedSuggestedProductionId = id;
-        this.productionName = this.selectedSuggestedProductionName;
         this.showSuggestedProductions = false;
       },
       handleFocusProductionName() {
@@ -241,11 +267,10 @@
         }
       },
       handleBlurProductionName() {
-        if (!this.productionName) {
-          this.showSuggestedProductions = false;
-        }
+        this.showSuggestedProductions = false;
       },
       clearAndRefreshSuggestedEvents() {
+        this.errorMessages = [];
         this.selectedSuggestedProductionId = '';
         this.productionName = '';
         this.suggestedProductions = [];
