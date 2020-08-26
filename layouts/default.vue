@@ -18,4 +18,10 @@
   };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+  .content {
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+</style>
