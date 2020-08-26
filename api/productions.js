@@ -29,6 +29,7 @@ export const addEventById = (apiUrl, headers, fetch) => async (
     method: 'PUT',
     headers: headers(),
   });
+
   const body = await res.text();
   if (body) {
     return JSON.parse(body);
@@ -77,10 +78,15 @@ export const getSuggestedEvents = (
     return getMockedEventsSet();
   }
 
-  const res = await fetch(url, {
+  const response = await fetch(url, {
     headers: headers(),
   });
-  return await res.json();
+
+  if (response.status === 404) {
+    return [];
+  }
+
+  return await response.json();
 };
 
 export const skipSuggestedEvents = (
