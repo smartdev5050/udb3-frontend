@@ -22,6 +22,6 @@
   .content {
     height: 100vh;
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 </style>
