@@ -72,6 +72,7 @@
       this.period = await this.$api.events.getCalendarSummary({
         id: this.id,
         locale: this.locale,
+        format: 'sm',
       });
     },
     methods: {
