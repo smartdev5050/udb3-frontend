@@ -2,11 +2,6 @@
   <div class="wrapper">
     <section class="container-fluid">
       <h1 class="title create-title">{{ $t('productions.create') }}</h1>
-
-      <!-- <p>
-        <strong>{{ $t('productions.suggested_events') }}</strong>
-        {{ eventSimilarityScore }}%
-      </p>-->
       <div v-if="suggestedEvents.length > 0">
         <section class="events-container">
           <event
