@@ -61,9 +61,7 @@
     margin-right: 1%;
 
     tbody {
-      max-height: 80vh;
       display: block;
-      overflow-y: scroll;
       overflow-x: hidden;
     }
 
