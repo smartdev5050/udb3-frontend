@@ -19,6 +19,7 @@
       />
     </div>
     <div v-if="isDetailVisible" class="event-details">
+      <h3>{{ $t('productions.details') }}</h3>
       <table class="table">
         <tbody>
           <tr>

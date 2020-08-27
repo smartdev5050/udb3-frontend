@@ -1,6 +1,6 @@
 <template>
   <section class="list-productions" aria-label="List of productions">
-    <h2>{{ $t('productions.name') }}</h2>
+    <h2>{{ $t('productions.production') }}</h2>
     <template v-if="!isLoading && productions.length > 0">
       <ul class="list-group">
         <a
