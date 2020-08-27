@@ -6,8 +6,13 @@
       :title="name"
       @click="handleClickToggleShowDetail"
     >
-      <div>
-        {{ name }}
+      <div class="checkbox-and-name">
+        <b-form-checkbox
+          v-model="isSelected"
+          name="select-event"
+          @click="handleClickSelect"
+        />
+        <span>{{ name }}</span>
       </div>
       <fa v-show="!isDetailVisible" icon="chevron-right" />
       <fa v-show="isDetailVisible" icon="chevron-down" />
@@ -80,14 +85,22 @@
       handleClickToggleShowDetail() {
         this.isDetailVisible = !this.isDetailVisible;
       },
-      handleClickDelete(eventId) {
-        this.$emit('clickDelete', eventId);
+      handleClickSelect() {
+        this.$emit('clickSelect', this.id);
       },
     },
   };
 </script>
 
 <style lang="scss">
+  .checkbox-and-name {
+    display: inline-block;
+  }
+
+  .custom-checkbox {
+    display: inline-block;
+  }
+
   .event-item {
     display: flex;
     justify-content: space-between;
