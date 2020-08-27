@@ -4,7 +4,7 @@
       <div class="event-item">
         <div>
           {{ name }}
-          <a class="delete-event-link" @click="handleClickDelete(id)">{{
+          <a class="link" @click="handleClickDelete(id)">{{
             $t('productions.delete')
           }}</a>
         </div>

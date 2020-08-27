@@ -10,7 +10,7 @@
               )} '${selectedProductionName}'`
             }}
           </span>
-          <a class="add-event-link" @click="handleClickAddEvent">
+          <a class="link" @click="handleClickAddEvent">
             {{ !isAddEventVisible ? $t('productions.create') : '' }}
           </a>
           <div v-if="isAddEventVisible" class="add-event-container">

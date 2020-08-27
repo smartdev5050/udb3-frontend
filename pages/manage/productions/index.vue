@@ -4,7 +4,7 @@
       <h1 class="title">
         {{ $t('menu.productions') }}
         <small>
-          <nuxt-link to="productions/create">{{
+          <nuxt-link class="link" to="productions/create">{{
             $t('productions.create')
           }}</nuxt-link>
         </small>
