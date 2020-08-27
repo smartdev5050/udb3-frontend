@@ -1,5 +1,5 @@
 <template>
-  <section class="list-productions">
+  <section class="list-productions" aria-label="List of productions">
     <h2>{{ $t('productions.name') }}</h2>
     <template v-if="!isLoading && productions.length > 0">
       <ul class="list-group">
@@ -10,6 +10,8 @@
             'list-group-item': true,
             selected: selectedId === production.production_id,
           }"
+          :title="production.name"
+          tabindex="0"
           @click="handleClickProduction(production.production_id)"
         >
           {{ production.name }}
