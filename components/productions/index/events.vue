@@ -24,7 +24,7 @@
           :type="getEventType(event.terms)"
           :location="event.location.name[locale] || event.location.name['nl']"
           class="list-group-item"
-          @clickSelect="handleClickSelectEvent"
+          @select="handleSelectEvent"
         />
       </ul>
     </template>
@@ -69,6 +69,7 @@
     data: () => ({
       isAddEventVisible: false,
       eventId: '',
+      selectedEventIds: {},
     }),
 
     computed: {
@@ -107,8 +108,9 @@
       handleInputEventId() {
         this.$emit('inputEventId');
       },
-      handleClickSelectEvent(eventId) {
-        this.$emit('selectEvent', eventId);
+      handleSelectEvent(eventId, isSelected) {
+        this.$set(this.selectedEventIds, eventId, !isSelected);
+        console.log({ selectedEventIds: this.selectedEventIds });
       },
       parseEventId(id) {
         return parseId(id);

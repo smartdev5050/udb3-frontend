@@ -31,11 +31,9 @@
               :has-adding-error="hasAddingEventToProductionError"
               @addEventToProduction="handleAddEventToProduction"
               @inputEventId="handleInputEventId"
-              @clickDeleteEvent="handleClickDeleteEvent"
             />
             <delete-modal
               :production-name="selectedProductionName"
-              :event-name="toBeDeletedEventName"
               @confirm="handleConfirmDeleteEvent"
             />
           </div>
@@ -86,7 +84,7 @@
 
         isLoadingEvents: true,
         events: [],
-        toBeDeletedEventId: '',
+        toBeDeletedEventIds: [],
       };
     },
     computed: {
@@ -101,12 +99,6 @@
       },
       selectedProductionName() {
         return this.selectedProduction ? this.selectedProduction.name : '';
-      },
-      toBeDeletedEventName() {
-        const foundEvent = this.events.find(
-          (event) => parseEventId(event['@id']) === this.toBeDeletedEventId,
-        );
-        return foundEvent ? foundEvent.name[this.locale] : '';
       },
     },
     async created() {
