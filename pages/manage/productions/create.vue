@@ -2,87 +2,71 @@
   <div class="wrapper">
     <section class="container-fluid">
       <h1 class="title create-title">{{ $t('productions.create') }}</h1>
-
-      <p>
-        <strong>{{ $t('productions.suggested_events') }}</strong>
-        {{ eventSimilarityScore }}%
-      </p>
-
-      <section class="events-container">
-        <event
-          v-for="suggestedEvent in suggestedEvents"
-          :id="parseEventId(suggestedEvent['@id'])"
-          :key="suggestedEvent['@id']"
-          :type="getEventType(suggestedEvent.terms)"
-          :title="suggestedEvent.name[locale]"
-          :image-url="suggestedEvent.image"
-          :production-name="
-            suggestedEvent.production ? suggestedEvent.production.title : ''
-          "
-          :description="
-            suggestedEvent.description ? suggestedEvent.description[locale] : ''
-          "
-        />
-      </section>
-
-      <section
-        v-if="suggestedEventsWithProduction.length < 2"
-        class="production-name-container"
-      >
-        <label for="production-name">
-          {{ $t('productions.production_name') }}
-        </label>
-        <b-input
-          id="production-name"
-          v-model="productionName"
-          autocomplete="off"
-          :disabled="suggestedEventsWithProduction.length > 0"
-          @input="handleInputProductionName"
-          @focus="handleFocusProductionName"
-          @blur="handleBlurProductionName"
-        />
-        <section
-          v-show="showSuggestedProductions"
-          class="container-table-production-name"
-        >
-          <table class="table table-hover">
-            <tbody v-if="!isLoadingSuggestedProductions">
-              <tr
-                v-for="suggestedProduction in suggestedProductions"
-                :key="suggestedProduction.production_id"
-              >
-                <td
-                  @click="
-                    handleClickProductionName(suggestedProduction.production_id)
-                  "
-                >
-                  {{ suggestedProduction.name }}
-                </td>
-              </tr>
-            </tbody>
-            <tbody v-else>
-              <tr>
-                <td>
-                  <loading-spinner />
-                </td>
-              </tr>
-            </tbody>
-          </table>
+      <div v-if="suggestedEvents.length > 0">
+        <section class="events-container">
+          <event
+            v-for="suggestedEvent in suggestedEvents"
+            :id="parseEventId(suggestedEvent['@id'])"
+            :key="suggestedEvent['@id']"
+            :type="getEventType(suggestedEvent.terms)"
+            :title="suggestedEvent.name[locale]"
+            :image-url="suggestedEvent.image"
+            :production-name="
+              suggestedEvent.production ? suggestedEvent.production.title : ''
+            "
+            :description="
+              suggestedEvent.description
+                ? suggestedEvent.description[locale]
+                : ''
+            "
+          />
         </section>
-      </section>
-
-      <section class="button-container">
-        <b-button
-          class="button-spinner"
-          variant="success"
-          @click="handleClickLink"
+        <section
+          v-if="availableProductions.length < 2"
+          class="production-name-container"
         >
-          <loading-spinner v-if="isLinkingEventsWithProduction" />
-          <span v-else>{{ $t('productions.link') }}</span>
-        </b-button>
-        <b-button variant="danger" @click="handleClickSkip">{{
-          $t('productions.skip')
-        }}</b-button>
+          <label for="production-name">{{
+            $t('productions.production_name')
+          }}</label>
+          <vue-typeahead-bootstrap
+            v-model="productionName"
+            class="production-input"
+            :disabled="availableProductions.length > 0"
+            :data="suggestedProductionNames"
+            @keyup="handleProductionInputKeyup"
+            @hit="handleProductionInputHit"
+          />
+        </section>
+        <section v-else>
+          <b-form-group :label="$t('productions.production_name')">
+            <b-form-radio
+              v-for="production in availableProductions"
+              :key="production.id"
+              v-model="selectedSuggestedProductionId"
+              :value="production.id"
+              name="production"
+              >{{ production.title }}</b-form-radio
+            >
+          </b-form-group>
+        </section>
+
+        <section class="button-container">
+          <b-button
+            class="button-spinner"
+            variant="success"
+            :disabled="!(productionName || selectedSuggestedProductionId)"
+            @mousedown="handleClickLink"
+          >
+            <loading-spinner v-if="isLinkingEventsWithProduction" />
+            <span v-else>{{ $t('productions.link') }}</span>
+          </b-button>
+          <b-button variant="danger" @click="handleClickSkip">
+            {{ $t('productions.skip') }}
+          </b-button>
+        </section>
+      </div>
+      <section v-else class="list-group-item list-group-item-warning">
+        {{ $t('productions.no_suggested_events_found') }}
       </section>
       <b-alert
         v-for="(errorMessage, index) in errorMessages"
@@ -98,6 +82,7 @@
 
 <script>
   import { debounce } from 'lodash-es';
+  import VueTypeaheadBootstrap from 'vue-typeahead-bootstrap';
   import Event from '@/components/productions/create/event';
   import LoadingSpinner from '@/components/loading-spinner';
   import { parseId } from '@/functions/events';
@@ -106,14 +91,13 @@
     components: {
       Event,
       LoadingSpinner,
+      VueTypeaheadBootstrap,
     },
     data: () => ({
       eventSimilarityScore: 0,
 
       suggestedEvents: [],
 
-      isLoadingSuggestedProductions: false,
-      showSuggestedProductions: false,
       suggestedProductions: [],
       selectedSuggestedProductionId: '',
 
@@ -132,27 +116,37 @@
           .filter((suggestedEvent) => !suggestedEvent.production)
           .map((suggestedEvent) => this.parseEventId(suggestedEvent['@id']));
       },
-      suggestedEventsWithProduction() {
-        return this.suggestedEvents.filter((event) => event.production);
-      },
       suggestedEventIds() {
         return this.suggestedEvents.map((suggestedEvent) =>
           this.parseEventId(suggestedEvent['@id']),
         );
       },
-      selectedSuggestedProductionName() {
-        return this.suggestedProductions.find(
-          (suggestedProduction) =>
-            suggestedProduction.production_id ===
-            this.selectedSuggestedProductionId,
-        ).name;
+      fromProductionId() {
+        return this.availableProductions.find(
+          (production) => production.id !== this.selectedSuggestedProductionId,
+        ).id;
       },
-    },
-    watch: {
-      productionName() {
-        if (this.suggestedEventsWithProduction.length === 0) {
-          this.selectedSuggestedProductionId = '';
+      availableProductions() {
+        return this.suggestedEvents
+          .filter((event) => event.production)
+          .map((events) => events.production);
+      },
+      suggestedProductionNames() {
+        return this.suggestedProductions.map((production) => production.name);
+      },
+      selectedSuggestedProductionName() {
+        if (!this.selectedSuggestedProductionId) return '';
+        if (this.availableProductions.length === 0) {
+          return this.suggestedProductions.find(
+            (suggestedProduction) =>
+              suggestedProduction.production_id ===
+              this.selectedSuggestedProductionId,
+          ).name;
         }
+        return this.availableProductions.find(
+          (suggestedProduction) =>
+            suggestedProduction.id === this.selectedSuggestedProductionId,
+        ).title;
       },
     },
     async created() {
@@ -160,19 +154,15 @@
     },
     methods: {
       async getSuggestedProductionsByName(options) {
-        this.isLoadingSuggestedProductions = true;
-
         const {
           member: suggestedProductions,
         } = await this.$api.productions.find(options);
 
         this.suggestedProductions = suggestedProductions;
-
-        this.isLoadingSuggestedProductions = false;
       },
       async getSuggestedEvents() {
         this.suggestedEvents = await this.$api.productions.getSuggestedEvents();
-        if (this.suggestedEventsWithProduction.length === 1) {
+        if (this.availableProductions.length === 1) {
           const foundProduction = this.suggestedEvents.find(
             (events) => events.production,
           ).production;
@@ -199,15 +189,30 @@
         }
       },
       async linkEventsToNewProduction() {
-        await this.$api.productions.createWithEvents({
+        const response = await this.$api.productions.createWithEvents({
           name: this.productionName,
           eventIds: this.suggestedEventIdsWithoutProduction,
         });
+        if (response.status) {
+          this.errorMessages = [response.title];
+        }
+      },
+      async moveEventsFromOneProductionToAnother() {
+        const response = await this.$api.productions.mergeProductions({
+          fromProductionId: this.fromProductionId,
+          toProductionId: this.selectedSuggestedProductionId,
+        });
+        if (response.status) {
+          this.errorMessages = [response.title];
+        }
       },
       async handleClickLink() {
         this.isLinkingEventsWithProduction = true;
+        this.errorMessages = [];
 
-        if (this.selectedSuggestedProductionId) {
+        if (this.availableProductions.length === 2) {
+          await this.moveEventsFromOneProductionToAnother();
+        } else if (this.selectedSuggestedProductionId) {
           await this.linkEventsToExistingProduction();
         } else {
           await this.linkEventsToNewProduction();
@@ -215,37 +220,30 @@
 
         this.isLinkingEventsWithProduction = false;
 
-        this.clearAndRefreshSuggestedEvents();
+        if (this.errorMessages.length === 0) {
+          this.clearAndRefreshSuggestedEvents();
+        }
       },
       async handleClickSkip() {
         await this.$api.productions.skipSuggestedEvents(this.suggestedEventIds);
         this.clearAndRefreshSuggestedEvents();
       },
-      async handleInputProductionName() {
-        this.showSuggestedProductions = true;
+      async handleProductionInputKeyup() {
         const getSuggestedProductionsByName = this.getSuggestedProductionsByName(
           {
             name: this.productionName,
           },
         );
+        this.selectedSuggestedProductionId = '';
         await debounce(() => getSuggestedProductionsByName, 1000);
       },
-      handleClickProductionName(id) {
-        this.selectedSuggestedProductionId = id;
-        this.productionName = this.selectedSuggestedProductionName;
-        this.showSuggestedProductions = false;
-      },
-      handleFocusProductionName() {
-        if (this.productionName) {
-          this.showSuggestedProductions = true;
-        }
-      },
-      handleBlurProductionName() {
-        if (!this.productionName) {
-          this.showSuggestedProductions = false;
-        }
+      handleProductionInputHit(value) {
+        this.selectedSuggestedProductionId = this.suggestedProductions.find(
+          (production) => production.name === value,
+        ).production_id;
       },
       clearAndRefreshSuggestedEvents() {
+        this.errorMessages = [];
         this.selectedSuggestedProductionId = '';
         this.productionName = '';
         this.suggestedProductions = [];
@@ -271,7 +269,7 @@
     margin-bottom: 1rem;
   }
 
-  #production-name {
+  .production-input {
     max-width: 43rem;
   }
 

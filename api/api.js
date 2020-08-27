@@ -75,6 +75,7 @@ export default (authUrl, apiUrl, apiKey, environment, tokenCallback) => {
       getSuggestedEvents: productions.getSuggestedEvents(...args),
       skipSuggestedEvents: productions.skipSuggestedEvents(...args),
       createWithEvents: productions.createWithEvents(...args),
+      mergeProductions: productions.mergeProductions(...args),
     },
     user: {
       getMe: user.getMe(...args),

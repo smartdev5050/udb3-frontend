@@ -59,13 +59,14 @@
     "loading": "Changer",
     "name": "Nom",
     "no_events": "Aucun événement dans cette production.",
-    "part_of_production": "Partie de la production",
     "no_productions": "Aucune production trouvée.",
+    "no_suggested_events_found": "Aucun événement trouvé pour être lié à une production. Réessayez plus tard.",
+    "part_of_production": "Partie de la production",
     "production_name": "Nom de production",
     "productions": "Productions",
     "search": {
       "label": "Recherche par nom de production:",
-      "info": "Écrivez une recherche d'au moins 4 caractères dans le champ ci-dessus pour rechercher des productions. Laissez le champ vide pour demander toutes les productions par ordre alphabétique."
+      "info": "Écrivez une recherche d'au moins 4 caractères dans le champ ci-dessus pour rechercher des productions. Laissez le champ vide pour demander toutes les productions."
     },
     "skip": "Sauter",
     "suggested_events": "Conformément à événements proposés",

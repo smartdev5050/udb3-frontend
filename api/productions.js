@@ -1,4 +1,4 @@
-import MockSuggestedEvents from '../assets/suggested-events';
+import getMockedEventsSet from '../functions/getMockedEventsSet';
 import { Environments } from './api';
 
 export const find = (apiUrl, headers, fetch) => async ({
@@ -29,6 +29,7 @@ export const addEventById = (apiUrl, headers, fetch) => async (
     method: 'PUT',
     headers: headers(),
   });
+
   const body = await res.text();
   if (body) {
     return JSON.parse(body);
@@ -74,13 +75,18 @@ export const getSuggestedEvents = (
       type: 'GET',
       url,
     });
-    return MockSuggestedEvents;
+    return getMockedEventsSet();
   }
 
-  const res = await fetch(url, {
+  const response = await fetch(url, {
     headers: headers(),
   });
-  return await res.json();
+
+  if (response.status === 404) {
+    return [];
+  }
+
+  return await response.json();
 };
 
 export const skipSuggestedEvents = (
@@ -117,7 +123,7 @@ export const createWithEvents = (apiUrl, headers, fetch) => async ({
   eventIds = [],
 } = {}) => {
   const url = `${apiUrl}/productions/`;
-  await fetch(url, {
+  const response = await fetch(url, {
     method: 'POST',
     headers: headers(),
     body: JSON.stringify({
@@ -125,4 +131,27 @@ export const createWithEvents = (apiUrl, headers, fetch) => async ({
       eventIds,
     }),
   });
+
+  const body = await response.text();
+  if (body) {
+    return JSON.parse(body);
+  }
+  return {};
+};
+
+export const mergeProductions = (apiUrl, headers, fetch) => async ({
+  fromProductionId = '',
+  toProductionId = '',
+} = {}) => {
+  const url = `${apiUrl}/productions/${toProductionId}/merge/${fromProductionId}`;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: headers(),
+  });
+
+  const body = await response.text();
+  if (body) {
+    return JSON.parse(body);
+  }
+  return {};
 };
