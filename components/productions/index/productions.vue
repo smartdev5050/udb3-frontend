@@ -61,6 +61,8 @@
 
     li {
       list-style: none;
+    .list-group-item {
+      border-radius: 0;
     }
 
     .selected {
