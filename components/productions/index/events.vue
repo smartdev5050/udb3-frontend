@@ -183,18 +183,7 @@
 
 <style lang="scss">
   .list-events {
-    width: 60% !important;
-
-    > tbody {
-      display: block;
-      overflow-x: hidden;
-      border-left: 5px solid lighten($color: $udb-primary-color, $amount: 50%);
-    }
-
-    th.test {
-      display: inline-block;
-      align-items: center;
-    }
+    width: 60%;
 
     .add-event-container {
       display: flex;
