@@ -59,8 +59,11 @@
     width: 39% !important;
     margin-right: 1%;
 
-    li {
-      list-style: none;
+    h2 {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
     .list-group-item {
       border-radius: 0;
     }
