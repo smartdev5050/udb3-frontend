@@ -1,13 +1,20 @@
 <template>
   <section class="list-events" aria-label="List of events in production">
     <template v-if="!isLoading">
-      <h2>
-        {{
-          `${$t('productions.events')} ${$t(
-            'productions.in',
-          )} '${selectedProductionName}'`
-        }}
-      </h2>
+      <div class="heading-container">
+        <h2>
+          {{
+            `${$t('productions.events')} ${$t(
+              'productions.in',
+            )} '${selectedProductionName}'`
+          }}
+        </h2>
+        <b-button
+          variant="danger"
+          :disabled="Object.keys(selectedEventIds).length === 0"
+          >{{ $t('productions.delete') }}</b-button
+        >
+      </div>
       <ul class="list-group">
         <event
           v-for="event in events"
