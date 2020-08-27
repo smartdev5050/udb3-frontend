@@ -119,6 +119,18 @@
   .list-events {
     width: 60%;
 
+    .heading-container {
+      width: 100%;
+      display: inline-flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+
+      h2 {
+        margin-bottom: 0;
+      }
+    }
+
     .add-event-container {
       display: flex;
       margin-top: 1rem;

@@ -61,6 +61,11 @@
     width: 39% !important;
     margin-right: 1%;
 
+    h2 {
+      padding-top: 0.5rem;
+      margin-bottom: 1.1rem;
+    }
+
     .list-group-item {
       border-radius: 0;
     }
