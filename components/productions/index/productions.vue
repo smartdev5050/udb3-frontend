@@ -3,7 +3,7 @@
     <h2>{{ $t('productions.name') }}</h2>
     <template v-if="!isLoading && productions.length > 0">
       <ul class="list-group">
-        <li
+        <a
           v-for="production in productions"
           :key="production.production_id"
           :class="{
@@ -13,7 +13,7 @@
           @click="handleClickProduction(production.production_id)"
         >
           {{ production.name }}
-        </li>
+        </a>
       </ul>
     </template>
     <div v-else-if="isLoading">
