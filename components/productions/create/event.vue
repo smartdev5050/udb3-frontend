@@ -10,7 +10,10 @@
     </section>
     <b-card-text>
       <p>{{ description }}</p>
-      <section v-if="productionName" class="bg-secondary event-production">
+      <section
+        v-if="productionName"
+        class="list-group-item list-group-item-dark"
+      >
         {{ $t('productions.part_of_production') }}
         <strong>{{ productionName }}</strong>
       </section>
@@ -87,10 +90,6 @@
       background-position: center center;
       background-repeat: no-repeat;
       object-fit: cover;
-    }
-
-    .event-production {
-      padding: 1rem;
     }
   }
 </style>
