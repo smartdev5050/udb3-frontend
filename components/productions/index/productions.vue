@@ -1,7 +1,7 @@
 <template>
   <section class="list-productions">
     <h2>{{ $t('productions.name') }}</h2>
-    <fragment v-if="!isLoading && productions.length > 0">
+    <template v-if="!isLoading && productions.length > 0">
       <ul class="list-group">
         <li
           v-for="production in productions"
@@ -15,7 +15,7 @@
           {{ production.name }}
         </li>
       </ul>
-    </fragment>
+    </template>
     <div v-else-if="isLoading">
       <loading-spinner />
     </div>
