@@ -17,7 +17,7 @@
           :type="getEventType(event.terms)"
           :location="event.location.name[locale] || event.location.name['nl']"
           class="list-group-item"
-          @clickDelete="handleClickDeleteEvent"
+          @clickSelect="handleClickSelectEvent"
         />
       </ul>
     </template>
@@ -100,8 +100,8 @@
       handleInputEventId() {
         this.$emit('inputEventId');
       },
-      handleClickDeleteEvent(eventId) {
-        this.$emit('clickDeleteEvent', eventId);
+      handleClickSelectEvent(eventId) {
+        this.$emit('selectEvent', eventId);
       },
       parseEventId(id) {
         return parseId(id);
