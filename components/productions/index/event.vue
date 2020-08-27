@@ -1,44 +1,42 @@
 <template>
-  <tr>
-    <td>
-      <div class="event-item">
-        <div>
-          {{ name }}
-          <a class="link" @click="handleClickDelete(id)">{{
-            $t('productions.delete')
-          }}</a>
-        </div>
-        <fa
-          v-show="!isDetailVisible"
-          icon="chevron-right"
-          @click="handleClickToggleShowDetail"
-        />
-        <fa
-          v-show="isDetailVisible"
-          icon="chevron-down"
-          @click="handleClickToggleShowDetail"
-        />
+  <a>
+    <div class="event-item">
+      <div>
+        {{ name }}
+        <a class="link" @click="handleClickDelete(id)">{{
+          $t('productions.delete')
+        }}</a>
       </div>
-      <div v-if="isDetailVisible" class="event-details">
-        <table class="table">
-          <tbody>
-            <tr>
-              <th>{{ $t('productions.type') }}</th>
-              <td>{{ type }}</td>
-            </tr>
-            <tr>
-              <th>{{ $t('productions.when') }}</th>
-              <td>{{ period }}</td>
-            </tr>
-            <tr>
-              <th>{{ $t('productions.where') }}</th>
-              <td>{{ location }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </td>
-  </tr>
+      <fa
+        v-show="!isDetailVisible"
+        icon="chevron-right"
+        @click="handleClickToggleShowDetail"
+      />
+      <fa
+        v-show="isDetailVisible"
+        icon="chevron-down"
+        @click="handleClickToggleShowDetail"
+      />
+    </div>
+    <div v-if="isDetailVisible" class="event-details">
+      <table class="table">
+        <tbody>
+          <tr>
+            <th>{{ $t('productions.type') }}</th>
+            <td>{{ type }}</td>
+          </tr>
+          <tr>
+            <th>{{ $t('productions.when') }}</th>
+            <td>{{ period }}</td>
+          </tr>
+          <tr>
+            <th>{{ $t('productions.where') }}</th>
+            <td>{{ location }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </a>
 </template>
 
 <script>

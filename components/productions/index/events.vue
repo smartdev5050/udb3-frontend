@@ -1,5 +1,33 @@
 <template>
-  <table class="table table-events">
+  <section class="list-events">
+    <template v-if="!isLoading">
+      <h2>
+        {{
+          `${$t('productions.events')} ${$t(
+            'productions.in',
+          )} '${selectedProductionName}'`
+        }}
+      </h2>
+      <ul class="list-group">
+        <event
+          v-for="event in events"
+          :id="parseEventId(event['@id'])"
+          :key="parseEventId(event['@id'])"
+          :name="event.name[locale] || event.name['nl']"
+          :type="getEventType(event.terms)"
+          :location="event.location.name[locale] || event.location.name['nl']"
+          class="list-group-item"
+          :title="event.name[locale] || event.name['nl']"
+          tabindex="0"
+          @clickDelete="handleClickDeleteEvent"
+        />
+      </ul>
+    </template>
+    <div v-else>
+      <loading-spinner />
+    </div>
+  </section>
+  <!-- <table class="table list-events">
     <thead>
       <tr>
         <th scope="col" class="test">
@@ -64,7 +92,7 @@
         <td class="text-center">{{ $t('productions.no_events') }}</td>
       </tr>
     </tbody>
-  </table>
+  </table> -->
 </template>
 
 <script>
@@ -156,7 +184,7 @@
 </script>
 
 <style lang="scss">
-  .table-events {
+  .list-events {
     width: 60% !important;
 
     > tbody {
