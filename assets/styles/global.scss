@@ -51,8 +51,26 @@ h1 {
   margin-bottom: 2rem;
 }
 
+a {
+  color: inherit;
+
+  &:hover {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
 a:hover {
   cursor: pointer;
+}
+
+a.link {
+  font-weight: 400;
+  color: $udb-blue;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 *,
