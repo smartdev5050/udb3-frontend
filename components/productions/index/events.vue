@@ -1,5 +1,5 @@
 <template>
-  <section class="list-events">
+  <section class="list-events" aria-label="List of events in production">
     <template v-if="!isLoading">
       <h2>
         {{
@@ -17,8 +17,6 @@
           :type="getEventType(event.terms)"
           :location="event.location.name[locale] || event.location.name['nl']"
           class="list-group-item"
-          :title="event.name[locale] || event.name['nl']"
-          tabindex="0"
           @clickDelete="handleClickDeleteEvent"
         />
       </ul>
