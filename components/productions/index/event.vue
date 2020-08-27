@@ -1,5 +1,5 @@
 <template>
-  <a>
+  <a tabindex="0" :title="name">
     <div class="event-item">
       <div>
         {{ name }}
