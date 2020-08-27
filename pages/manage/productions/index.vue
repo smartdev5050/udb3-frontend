@@ -248,20 +248,11 @@
         width: 100%;
       }
     }
-
-    a {
-      font-weight: 400;
-      color: $udb-blue;
-    }
   }
 
   .panel-footer {
     padding: 10px 15px;
     background-color: #f5f5f5;
     border-top: 1px solid #ddd;
-  }
-
-  small a {
-    color: $udb-blue;
   }
 </style>

@@ -180,14 +180,6 @@
       }
     }
 
-    .add-event-link {
-      color: $udb-blue;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-
     button:not(:last-child) {
       margin-right: 0.5rem;
     }

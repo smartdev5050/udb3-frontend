@@ -95,14 +95,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    a.delete-event-link {
-      color: $udb-blue;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
   }
 
   .event-details {
