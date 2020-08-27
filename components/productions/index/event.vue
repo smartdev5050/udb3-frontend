@@ -1,24 +1,22 @@
 <template>
-  <a tabindex="0" :title="name">
-    <div class="event-item">
+  <section>
+    <a
+      class="event-item"
+      tabindex="0"
+      :title="name"
+      @click="handleClickToggleShowDetail"
+    >
       <div>
         {{ name }}
-        <a class="link" @click="handleClickDelete(id)">{{
-          $t('productions.delete')
-        }}</a>
       </div>
-      <fa
-        v-show="!isDetailVisible"
-        icon="chevron-right"
-        @click="handleClickToggleShowDetail"
-      />
-      <fa
-        v-show="isDetailVisible"
-        icon="chevron-down"
-        @click="handleClickToggleShowDetail"
-      />
-    </div>
-    <div v-if="isDetailVisible" class="event-details">
+      <fa v-show="!isDetailVisible" icon="chevron-right" />
+      <fa v-show="isDetailVisible" icon="chevron-down" />
+    </a>
+    <section
+      v-if="isDetailVisible"
+      class="event-details"
+      aria-label="Event details"
+    >
       <h3>{{ $t('productions.details') }}</h3>
       <table class="table">
         <tbody>
@@ -36,8 +34,8 @@
           </tr>
         </tbody>
       </table>
-    </div>
-  </a>
+    </section>
+  </section>
 </template>
 
 <script>
@@ -98,13 +96,10 @@
 
   .event-details {
     margin-top: 1rem;
-  }
+    background-color: $lightgrey;
 
-  .event-details .table {
-    margin-bottom: 0;
-  }
-
-  .event-details tbody {
-    background-color: $lightgrey !important;
+    h3 {
+      display: none;
+    }
   }
 </style>
