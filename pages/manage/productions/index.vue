@@ -221,32 +221,9 @@
     font-weight: 400;
     margin-bottom: 1rem;
 
-    .table {
-      font-family: 'Open Sans', Helvetica, Arial, sans-serif;
-      font-size: 15px;
-      background-color: none;
-
-      thead {
-        background-color: $white;
-      }
-
-      tbody {
-        margin-top: 0.5rem;
-        background-color: $white;
-      }
-
-      tr {
-        display: inline-flex;
-        width: 100%;
-      }
-
-      th {
-        width: 100%;
-      }
-
-      td {
-        width: 100%;
-      }
+    h2 {
+      font-size: 1rem;
+      font-weight: 700;
     }
   }
 
