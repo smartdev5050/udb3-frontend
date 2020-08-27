@@ -1,29 +1,28 @@
 <template>
-  <table v-if="productions.length > 0" class="table table-productions">
-    <thead>
-      <tr>
-        <th scope="col">{{ $t('productions.name') }}</th>
-      </tr>
-    </thead>
-    <tbody v-if="!isLoading">
-      <tr
-        v-for="production in productions"
-        :key="production.production_id"
-        :class="{
-          selected: selectedId === production.production_id,
-        }"
-        @click="handleClickProduction(production.production_id)"
-      >
-        <td>{{ production.name }}</td>
-      </tr>
-    </tbody>
-    <tbody v-else>
+  <section class="list-productions">
+    <h2>{{ $t('productions.name') }}</h2>
+    <fragment v-if="!isLoading && productions.length > 0">
+      <ul class="list-group">
+        <li
+          v-for="production in productions"
+          :key="production.production_id"
+          :class="{
+            'list-group-item': true,
+            selected: selectedId === production.production_id,
+          }"
+          @click="handleClickProduction(production.production_id)"
+        >
+          {{ production.name }}
+        </li>
+      </ul>
+    </fragment>
+    <div v-else-if="isLoading">
       <loading-spinner />
-    </tbody>
-  </table>
-  <div v-else class="text-center">
-    {{ $t('productions.no_productions') }}
-  </div>
+    </div>
+    <div v-else class="text-center">
+      {{ $t('productions.no_productions') }}
+    </div>
+  </section>
 </template>
 
 <script>
@@ -56,13 +55,12 @@
 </script>
 
 <style lang="scss">
-  .table-productions {
+  .list-productions {
     width: 39% !important;
     margin-right: 1%;
 
-    tbody {
-      display: block;
-      overflow-x: hidden;
+    li {
+      list-style: none;
     }
 
     .selected {
