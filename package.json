@@ -29,7 +29,8 @@
     "nuxt-fontawesome": "^0.4.0",
     "nuxt-i18n": "^6.13.1",
     "nuxt-socket-io": "^1.1.6",
-    "sass-loader": "^8.0.2"
+    "sass-loader": "^8.0.2",
+    "vue-typeahead-bootstrap": "^2.5.1"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^3.0.0",
