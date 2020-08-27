@@ -28,44 +28,14 @@
           <label for="production-name">{{
             $t('productions.production_name')
           }}</label>
-          <b-input
-            id="production-name"
+          <vue-typeahead-bootstrap
             v-model="productionName"
-            autocomplete="off"
+            class="production-input"
             :disabled="availableProductions.length > 0"
-            @input="handleInputProductionName"
-            @focus="handleFocusProductionName"
+            :data="suggestedProductionNames"
+            @keyup="handleProductionInputKeyup"
+            @hit="handleProductionInputHit"
           />
-          <section
-            v-show="showSuggestedProductions"
-            class="container-table-production-name"
-          >
-            <table class="table table-hover">
-              <tbody v-if="!isLoadingSuggestedProductions">
-                <tr
-                  v-for="suggestedProduction in suggestedProductions"
-                  :key="suggestedProduction.production_id"
-                >
-                  <td
-                    @click="
-                      handleClickProductionName(
-                        suggestedProduction.production_id,
-                      )
-                    "
-                  >
-                    {{ suggestedProduction.name }}
-                  </td>
-                </tr>
-              </tbody>
-              <tbody v-else>
-                <tr>
-                  <td>
-                    <loading-spinner />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </section>
         </section>
         <section v-else>
           <b-form-group :label="$t('productions.production_name')">
@@ -84,7 +54,7 @@
           <b-button
             class="button-spinner"
             variant="success"
-            :disabled="!productionName"
+            :disabled="!(productionName || selectedSuggestedProductionId)"
             @mousedown="handleClickLink"
           >
             <loading-spinner v-if="isLinkingEventsWithProduction" />
@@ -112,6 +82,7 @@
 
 <script>
   import { debounce } from 'lodash-es';
+  import VueTypeaheadBootstrap from 'vue-typeahead-bootstrap';
   import Event from '@/components/productions/create/event';
   import LoadingSpinner from '@/components/loading-spinner';
   import { parseId } from '@/functions/events';
@@ -120,14 +91,13 @@
     components: {
       Event,
       LoadingSpinner,
+      VueTypeaheadBootstrap,
     },
     data: () => ({
       eventSimilarityScore: 0,
 
       suggestedEvents: [],
 
-      isLoadingSuggestedProductions: false,
-      showSuggestedProductions: false,
       suggestedProductions: [],
       selectedSuggestedProductionId: '',
 
@@ -161,6 +131,9 @@
           .filter((event) => event.production)
           .map((events) => events.production);
       },
+      suggestedProductionNames() {
+        return this.suggestedProductions.map((production) => production.name);
+      },
       selectedSuggestedProductionName() {
         if (!this.selectedSuggestedProductionId) return '';
         if (this.availableProductions.length === 0) {
@@ -176,27 +149,16 @@
         ).title;
       },
     },
-    watch: {
-      selectedSuggestedProductionId() {
-        if (this.selectedSuggestedProductionId) {
-          this.productionName = this.selectedSuggestedProductionName;
-        }
-      },
-    },
     async created() {
       await this.getSuggestedEvents();
     },
     methods: {
       async getSuggestedProductionsByName(options) {
-        this.isLoadingSuggestedProductions = true;
-
         const {
           member: suggestedProductions,
         } = await this.$api.productions.find(options);
 
         this.suggestedProductions = suggestedProductions;
-
-        this.isLoadingSuggestedProductions = false;
       },
       async getSuggestedEvents() {
         this.suggestedEvents = await this.$api.productions.getSuggestedEvents();
@@ -266,8 +228,7 @@
         await this.$api.productions.skipSuggestedEvents(this.suggestedEventIds);
         this.clearAndRefreshSuggestedEvents();
       },
-      async handleInputProductionName() {
-        this.showSuggestedProductions = true;
+      async handleProductionInputKeyup() {
         const getSuggestedProductionsByName = this.getSuggestedProductionsByName(
           {
             name: this.productionName,
@@ -276,17 +237,10 @@
         this.selectedSuggestedProductionId = '';
         await debounce(() => getSuggestedProductionsByName, 1000);
       },
-      handleClickProductionName(id) {
-        this.selectedSuggestedProductionId = id;
-        this.showSuggestedProductions = false;
-      },
-      handleFocusProductionName() {
-        if (this.productionName) {
-          this.showSuggestedProductions = true;
-        }
-      },
-      handleBlurProductionName() {
-        this.showSuggestedProductions = false;
+      handleProductionInputHit(value) {
+        this.selectedSuggestedProductionId = this.suggestedProductions.find(
+          (production) => production.name === value,
+        ).production_id;
       },
       clearAndRefreshSuggestedEvents() {
         this.errorMessages = [];
@@ -315,7 +269,7 @@
     margin-bottom: 1rem;
   }
 
-  #production-name {
+  .production-input {
     max-width: 43rem;
   }
 
