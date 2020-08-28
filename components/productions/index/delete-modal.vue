@@ -8,10 +8,12 @@
   >
     <div class="content-container">
       {{
-        $t('productions.delete_question', {
-          eventCount,
-          productionName,
-        })
+        eventCount > 1
+          ? $t('productions.delete_question_events', {
+              eventCount,
+              productionName,
+            })
+          : $t('productions.delete_question_event', { productionName })
       }}
     </div>
   </b-modal>
