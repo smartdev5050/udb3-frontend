@@ -296,7 +296,7 @@
     display: block;
   }
   .badge {
-    background-color: #d9534f;
+    background-color: $danger;
   }
   .udb-job-success {
     color: #5cb85c;
