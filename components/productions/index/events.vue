@@ -13,8 +13,10 @@
           variant="danger"
           :disabled="!shouldShowDeleteButton"
           @click="handleClickDeleteEvents"
-          >{{ $t('productions.delete') }}</b-button
         >
+          <fa icon="trash" />
+          {{ $t('productions.delete') }}
+        </b-button>
       </div>
       <ul class="list-group">
         <event
