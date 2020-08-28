@@ -3,6 +3,7 @@
     id="deleteModal"
     :ok-title="$t('productions.delete')"
     :cancel-title="$t('productions.cancel')"
+    cancel-variant="outline-secondary"
     hide-header
     @ok.prevent="handleConfirmDelete"
   >
