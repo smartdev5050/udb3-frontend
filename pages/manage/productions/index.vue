@@ -9,8 +9,8 @@
           }}</nuxt-link>
         </small>
       </h1>
-      <div>
-        <search @inputSearch="handleInputSearch" />
+      <search @inputSearch="handleInputSearch" />
+      <div class="panel">
         <div class="productions-container">
           <div
             v-if="isLoadingProductions || productions.length > 0"
@@ -43,7 +43,7 @@
             {{ $t('productions.no_productions') }}
           </div>
         </div>
-        <div v-if="productions.length > 1" class="panel-footer">
+        <div class="panel-footer">
           <pagination
             :rows="totalItems"
             :per-page="productionsPerPage"

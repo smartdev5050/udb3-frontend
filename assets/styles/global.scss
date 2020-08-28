@@ -73,6 +73,12 @@ a.link {
   }
 }
 
+.panel {
+  border: 1px solid #ddd;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
 *,
 *::before,
 *::after {
