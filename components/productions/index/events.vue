@@ -177,6 +177,10 @@
   .list-events {
     width: 60%;
 
+    .list-group-item {
+      border-radius: 0;
+    }
+
     .btn {
       text-transform: capitalize;
     }
