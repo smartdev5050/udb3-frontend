@@ -11,7 +11,8 @@
         </h2>
         <b-button
           variant="danger"
-          :disabled="Object.keys(selectedEventIds).length === 0"
+          :disabled="!shouldShowDeleteButton"
+          @click="handleClickDeleteEvents"
           >{{ $t('productions.delete') }}</b-button
         >
       </div>
@@ -79,6 +80,13 @@
       locale() {
         return this.$i18n.locale;
       },
+      shouldShowDeleteButton() {
+        return (
+          Object.values(this.selectedEventIds).filter(
+            (isEventSelected) => isEventSelected === true,
+          ).length > 0
+        );
+      },
     },
     watch: {
       isAdding(val) {
@@ -109,8 +117,7 @@
         this.$emit('inputEventId');
       },
       handleSelectEvent(eventId, isSelected) {
-        this.$set(this.selectedEventIds, eventId, !isSelected);
-        console.log({ selectedEventIds: this.selectedEventIds });
+        this.$set(this.selectedEventIds, eventId, isSelected);
       },
       parseEventId(id) {
         return parseId(id);
@@ -119,6 +126,9 @@
         const foundTerm =
           terms.find((term) => term.domain === 'eventtype') || {};
         return foundTerm.label ? foundTerm.label : '';
+      },
+      handleClickDeleteEvents() {
+        this.$emit('clickDeleteEvents', Object.keys(this.selectedEventIds));
       },
     },
   };

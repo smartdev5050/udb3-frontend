@@ -53,7 +53,7 @@
   "productions": {
     "cancel": "annuleren",
     "create": "toevoegen",
-    "delete_question": "Ben je zeker dat je '{eventName}' wilt verwijderen uit productie '{productionName}'?",
+    "delete_question": "Ben je zeker dat je de geselecteerde {eventCount} events wilt verwijderen uit productie '{productionName}'?",
     "delete": "verwijderen",
     "details": "Details",
     "events": "Evenementen",

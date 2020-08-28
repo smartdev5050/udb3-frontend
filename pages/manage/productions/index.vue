@@ -31,9 +31,11 @@
               :has-adding-error="hasAddingEventToProductionError"
               @addEventToProduction="handleAddEventToProduction"
               @inputEventId="handleInputEventId"
+              @clickDeleteEvents="handleClickDeleteEvents"
             />
             <delete-modal
               :production-name="selectedProductionName"
+              :event-count="toBeDeletedEventIds.length"
               @confirm="handleConfirmDeleteEvent"
             />
           </div>
@@ -172,16 +174,18 @@
           limit: this.productionsPerPage,
         });
       },
-      handleClickDeleteEvent(eventId) {
-        this.toBeDeletedEventId = eventId;
+      handleClickDeleteEvents(eventIds) {
+        this.toBeDeletedEventIds = eventIds;
         this.$bvModal.show('deleteModal');
       },
       async handleConfirmDeleteEvent() {
-        await this.$api.productions.deleteEventById(
-          this.selectedProductionId,
-          this.toBeDeletedEventId,
-        );
-        this.deleteEventFromProduction(this.toBeDeletedEventId);
+        await this.$api.productions.deleteEventsByIds({
+          productionId: this.selectedProductionId,
+          eventIds: this.toBeDeletedEventIds,
+        });
+        this.toBeDeletedEventIds.forEach((eventId) => {
+          this.deleteEventFromProduction(eventId);
+        });
         this.$bvModal.hide('deleteModal');
       },
       deleteEventFromProduction(eventIdToDelete) {

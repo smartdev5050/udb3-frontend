@@ -9,7 +9,7 @@
     <div class="content-container">
       {{
         $t('productions.delete_question', {
-          eventName,
+          eventCount,
           productionName,
         })
       }}
@@ -20,9 +20,9 @@
 <script>
   export default {
     props: {
-      eventName: {
-        type: String,
-        default: '',
+      eventCount: {
+        type: Number,
+        default: 0,
       },
       productionName: {
         type: String,
