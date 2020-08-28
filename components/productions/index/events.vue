@@ -128,7 +128,7 @@
         return foundTerm.label ? foundTerm.label : '';
       },
       handleClickDeleteEvents() {
-        this.$emit('clickDeleteEvents', Object.keys(this.selectedEventIds));
+        this.$emit('deleteEvents', Object.keys(this.selectedEventIds));
       },
     },
   };
