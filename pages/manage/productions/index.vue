@@ -31,7 +31,7 @@
               :has-adding-error="hasAddingEventToProductionError"
               @addEventToProduction="handleAddEventToProduction"
               @inputEventId="handleInputEventId"
-              @clickDeleteEvents="handleClickDeleteEvents"
+              @deleteEvents="handleDeleteEvents"
             />
             <delete-modal
               :production-name="selectedProductionName"
@@ -174,7 +174,7 @@
           limit: this.productionsPerPage,
         });
       },
-      handleClickDeleteEvents(eventIds) {
+      handleDeleteEvents(eventIds) {
         this.toBeDeletedEventIds = eventIds;
         this.$bvModal.show('deleteModal');
       },
