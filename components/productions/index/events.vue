@@ -16,8 +16,8 @@
           </b-button>
           <b-button
             variant="danger"
-            :disabled="!shouldShowDeleteButton"
-            @click="handleClickDeleteEvents"
+            :disabled="!canEnableDeleteButton"
+            @click="handleClickDelete"
           >
             <fa icon="trash" />
             {{ $t('productions.delete') }}
@@ -105,11 +105,14 @@
         type: Boolean,
         default: false,
       },
+      canEnableDeleteButton: {
+        type: Boolean,
+        default: false,
+      },
     },
     data: () => ({
       isAddEventVisible: false,
       eventId: '',
-      selectedEventIds: {},
     }),
 
     computed: {
@@ -118,13 +121,6 @@
       },
       locale() {
         return this.$i18n.locale;
-      },
-      shouldShowDeleteButton() {
-        return (
-          Object.values(this.selectedEventIds).filter(
-            (isEventSelected) => isEventSelected === true,
-          ).length > 0
-        );
       },
     },
     watch: {
@@ -155,8 +151,11 @@
       handleInputEventId() {
         this.$emit('inputEventId');
       },
-      handleSelectEvent(eventId, isSelected) {
-        this.$set(this.selectedEventIds, eventId, isSelected);
+      handleSelectEvent(eventId) {
+        this.$emit('selectEvent', eventId);
+      },
+      handleClickDelete() {
+        this.$emit('deleteEvents');
       },
       parseEventId(id) {
         return parseId(id);
@@ -165,9 +164,6 @@
         const foundTerm =
           terms.find((term) => term.domain === 'eventtype') || {};
         return foundTerm.label ? foundTerm.label : '';
-      },
-      handleClickDeleteEvents() {
-        this.$emit('deleteEvents', Object.keys(this.selectedEventIds));
       },
     },
   };

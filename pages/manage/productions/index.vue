@@ -29,13 +29,15 @@
               :selected-production-name="selectedProduction.name"
               :is-adding="isAddingEventToProduction"
               :has-adding-error="hasAddingEventToProductionError"
+              :can-enable-delete-button="canEnableDeleteButton"
               @addEventToProduction="handleAddEventToProduction"
               @inputEventId="handleInputEventId"
+              @selectEvent="handleSelectEvent"
               @deleteEvents="handleDeleteEvents"
             />
             <delete-modal
               :production-name="selectedProductionName"
-              :event-count="toBeDeletedEventIds.length"
+              :event-count="selectedEventIds.length"
               @confirm="handleConfirmDeleteEvent"
             />
           </div>
@@ -86,7 +88,7 @@
 
         isLoadingEvents: true,
         events: [],
-        toBeDeletedEventIds: [],
+        selectedEventIds: [],
       };
     },
     computed: {
@@ -102,6 +104,9 @@
       selectedProductionName() {
         return this.selectedProduction ? this.selectedProduction.name : '';
       },
+      canEnableDeleteButton() {
+        return this.selectedEventIds.length > 0;
+      },
     },
     async created() {
       // get the first page of productions
@@ -109,6 +114,7 @@
     },
     methods: {
       async handleChangeSelectedProductionId(id) {
+        this.selectedEventIds = [];
         this.selectedProductionId = id;
         await this.getEventsInProduction(this.selected);
       },
@@ -174,16 +180,34 @@
           limit: this.productionsPerPage,
         });
       },
+      handleSelectEvent(eventId) {
+        console.log('before', this.selectedEventIds);
+        const foundEventIdIndex = this.selectedEventIds.findIndex(
+          (id) => id === eventId,
+        );
+        console.log('foundEventIdIndex', foundEventIdIndex);
+        // index wasn't found
+        if (foundEventIdIndex === -1) {
+          this.selectedEventIds.push(eventId);
+        } else if (this.selectedEventIds.length === 1) {
+          this.selectedEventIds = [];
+        } else {
+          this.selectedEventIds = this.selectedEventIds.slice(
+            foundEventIdIndex,
+            foundEventIdIndex + 1,
+          );
+        }
+        console.log('after', this.selectedEventIds);
+      },
       handleDeleteEvents(eventIds) {
-        this.toBeDeletedEventIds = eventIds;
         this.$bvModal.show('deleteModal');
       },
       async handleConfirmDeleteEvent() {
         await this.$api.productions.deleteEventsByIds({
           productionId: this.selectedProductionId,
-          eventIds: this.toBeDeletedEventIds,
+          eventIds: this.selectedEventIds,
         });
-        this.toBeDeletedEventIds.forEach((eventId) => {
+        this.selectedEventIds.forEach((eventId) => {
           this.deleteEventFromProduction(eventId);
         });
         this.$bvModal.hide('deleteModal');
