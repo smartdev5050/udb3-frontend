@@ -7,7 +7,11 @@
       @click="handleClickToggleShowDetail"
     >
       <div class="checkbox-and-name">
-        <b-form-checkbox v-model="isSelected" name="select-event" />
+        <b-form-checkbox
+          v-model="isSelected"
+          name="select-event"
+          @input="$emit('select', id, isSelected)"
+        />
         <span>{{ name }}</span>
       </div>
       <fa v-show="!isDetailVisible" icon="chevron-right" />
@@ -62,18 +66,13 @@
     data() {
       return {
         isDetailVisible: false,
-        isSelected: false,
         period: '',
+        isSelected: false,
       };
     },
     computed: {
       locale() {
         return this.$i18n.locale;
-      },
-    },
-    watch: {
-      isSelected() {
-        this.$emit('select', this.id, this.isSelected);
       },
     },
     async created() {
