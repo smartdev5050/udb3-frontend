@@ -9,13 +9,50 @@
             )} '${selectedProductionName}'`
           }}
         </h2>
+        <div v-if="!isAddEventVisible">
+          <b-button variant="primary" @click="handleClickAddEvent">
+            <fa icon="plus" />
+            {{ $t('productions.create') }}
+          </b-button>
+          <b-button
+            variant="danger"
+            :disabled="!shouldShowDeleteButton"
+            @click="handleClickDeleteEvents"
+          >
+            <fa icon="trash" />
+            {{ $t('productions.delete') }}
+          </b-button>
+        </div>
+      </div>
+      <div v-if="isAddEventVisible" class="add-event-container">
+        <input
+          ref="eventIdInput"
+          v-model="eventId"
+          type="text"
+          :class="{
+            'is-invalid': hasAddingError && !(eventId === ''),
+            'form-control': true,
+          }"
+          placeholder="cdbid"
+          @input="handleInputEventId"
+        />
+        <b-button
+          variant="success"
+          :disabled="!eventId"
+          @click="handleClickAddEventToProduction"
+        >
+          <span v-if="!isAdding">
+            <fa icon="check" />
+            {{ $t('productions.confirm') }}
+          </span>
+          <loading-spinner v-else class="button-spinner" />
+        </b-button>
         <b-button
           variant="danger"
-          :disabled="!shouldShowDeleteButton"
-          @click="handleClickDeleteEvents"
+          @click="handleClickCancelAddEventToProduction"
         >
-          <fa icon="trash" />
-          {{ $t('productions.delete') }}
+          <fa icon="times" />
+          {{ $t('productions.cancel') }}
         </b-button>
       </div>
       <ul class="list-group">
@@ -140,6 +177,10 @@
   .list-events {
     width: 60%;
 
+    .btn {
+      text-transform: capitalize;
+    }
+
     .heading-container {
       width: 100%;
       display: inline-flex;
@@ -154,7 +195,7 @@
 
     .add-event-container {
       display: flex;
-      margin-top: 1rem;
+      margin-bottom: 1rem;
 
       .form-control {
         max-width: 21.5rem;

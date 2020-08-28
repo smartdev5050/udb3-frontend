@@ -52,6 +52,7 @@
   },
   "productions": {
     "cancel": "annuleren",
+    "confirm": "bevestigen",
     "create": "toevoegen",
     "delete_question_event": "Ben je zeker dat je het geselecteerde event wilt verwijderen uit productie '{productionName}'?",
     "delete_question_events": "Ben je zeker dat je de geselecteerde {eventCount} events wilt verwijderen uit productie '{productionName}'?",

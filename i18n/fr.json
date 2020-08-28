@@ -50,6 +50,7 @@
   },
   "productions": {
     "cancel": "annuler",
+    "confirm": "confirmer",
     "create": "ajouter",
     "delete_question_event": "Voulez-vous vraiment supprimer l'événement sélectionné de la production '{productionName}'?",
     "delete_question_events": "Voulez-vous vraiment supprimer les {eventCount} événements sélectionnés de la production '{productionName}'?",
