@@ -254,6 +254,10 @@
 </script>
 
 <style lang="scss">
+  .create-title {
+    text-transform: capitalize;
+  }
+
   label {
     font-size: 1rem;
     font-weight: 700;
