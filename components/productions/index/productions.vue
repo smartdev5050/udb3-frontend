@@ -3,19 +3,20 @@
     <h2>{{ $t('productions.production') }}</h2>
     <template v-if="!isLoading && productions.length > 0">
       <ul class="list-group">
-        <a
+        <li
           v-for="production in productions"
           :key="production.production_id"
           :class="{
             'list-group-item': true,
             selected: selectedId === production.production_id,
           }"
-          :title="production.name"
           tabindex="0"
           @click="handleClickProduction(production.production_id)"
         >
-          {{ production.name }}
-        </a>
+          <a :title="production.name">
+            {{ production.name }}
+          </a>
+        </li>
       </ul>
     </template>
     <div v-else-if="isLoading">
@@ -70,12 +71,12 @@
       border-radius: 0;
     }
 
-    a.selected {
+    li.selected {
       background-color: $selected;
       color: $white;
     }
 
-    a:hover {
+    li:hover {
       background-color: $selected;
       color: $white;
     }

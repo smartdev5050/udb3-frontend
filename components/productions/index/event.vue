@@ -1,11 +1,6 @@
 <template>
-  <section>
-    <a
-      class="event-item"
-      tabindex="0"
-      :title="name"
-      @click="handleClickToggleShowDetail"
-    >
+  <li tabindex="0" @click="handleClickToggleShowDetail">
+    <a class="event-item" :title="name">
       <div class="checkbox-and-name">
         <b-form-checkbox
           name="select-event"
@@ -40,7 +35,7 @@
         </tbody>
       </table>
     </section>
-  </section>
+  </li>
 </template>
 
 <script>
