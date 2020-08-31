@@ -107,7 +107,7 @@
       async handleChangeSelectedProductionId(id) {
         this.selectedEventIds = [];
         this.selectedProductionId = id;
-        await this.getEventsInProduction(this.selected);
+        await this.getEventsInProduction();
       },
       async getEventById(id) {
         return await this.$api.events.findById(id);
