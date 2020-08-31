@@ -110,10 +110,6 @@
         type: Boolean,
         default: false,
       },
-      canEnableDeleteButton: {
-        type: Boolean,
-        default: false,
-      },
     },
     data: () => ({
       isAddEventVisible: false,
@@ -126,6 +122,9 @@
       },
       locale() {
         return this.$i18n.locale;
+      },
+      canEnableDeleteButton() {
+        return this.selectedEventIds.length > 0;
       },
     },
     watch: {

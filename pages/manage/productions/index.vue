@@ -30,7 +30,6 @@
               :selected-event-ids="selectedEventIds"
               :is-adding="isAddingEventToProduction"
               :has-adding-error="hasAddingEventToProductionError"
-              :can-enable-delete-button="canEnableDeleteButton"
               @addEventToProduction="handleAddEventToProduction"
               @inputEventId="handleInputEventId"
               @selectEvent="handleSelectEvent"
@@ -104,9 +103,6 @@
       },
       selectedProductionName() {
         return this.selectedProduction ? this.selectedProduction.name : '';
-      },
-      canEnableDeleteButton() {
-        return this.selectedEventIds.length > 0;
       },
     },
     async created() {
