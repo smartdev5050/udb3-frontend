@@ -37,7 +37,14 @@
           @input="handleInputEventId"
         />
         <b-button
-          variant="success"
+          variant="outline-secondary"
+          @click="handleClickCancelAddEventToProduction"
+        >
+          <fa icon="times" />
+          {{ $t('productions.cancel') }}
+        </b-button>
+        <b-button
+          variant="primary"
           :disabled="!eventId"
           @click="handleClickAddEventToProduction"
         >
@@ -46,13 +53,6 @@
             {{ $t('productions.confirm') }}
           </span>
           <loading-spinner v-else class="button-spinner" />
-        </b-button>
-        <b-button
-          variant="danger"
-          @click="handleClickCancelAddEventToProduction"
-        >
-          <fa icon="times" />
-          {{ $t('productions.cancel') }}
         </b-button>
       </div>
       <ul class="list-group">
