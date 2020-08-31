@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <div class="container-fluid">
+    <div class="container-fluid productions-index-page">
       <h1 class="title">
         {{ $t('menu.productions') }}
         <small>
@@ -13,7 +13,7 @@
       <div class="panel">
         <div
           v-if="isLoadingProductions || productions.length > 0"
-          class="productions-container"
+          class="productions-events-container"
         >
           <productions
             :selected-id="selectedProductionId"
@@ -40,7 +40,7 @@
             @confirm="handleConfirmDeleteEvent"
           />
         </div>
-        <div v-else class="productions-container">
+        <div v-else class="productions-events-container">
           {{ $t('productions.no_productions') }}
         </div>
         <div class="panel-footer">
@@ -224,21 +224,23 @@
 </script>
 
 <style lang="scss">
-  .productions-container {
-    display: flex;
-    width: 100%;
-    font-weight: 400;
-    margin-bottom: 1rem;
+  .productions-index-page {
+    .productions-events-container {
+      display: flex;
+      width: 100%;
+      font-weight: 400;
+      margin-bottom: 1rem;
 
-    h2 {
-      font-size: 1rem;
-      font-weight: 700;
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+      }
     }
-  }
 
-  .panel-footer {
-    padding: 10px 15px;
-    background-color: #f5f5f5;
-    border-top: 1px solid #ddd;
+    .panel-footer {
+      padding: 10px 15px;
+      background-color: #f5f5f5;
+      border-top: 1px solid #ddd;
+    }
   }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <section class="list-productions" aria-label="List of productions">
+  <section class="productions-container" aria-label="List of productions">
     <h2>{{ $t('productions.production') }}</h2>
     <template v-if="!isLoading && productions.length > 0">
       <ul class="list-group">
@@ -57,8 +57,8 @@
 </script>
 
 <style lang="scss">
-  .list-productions {
-    width: 39% !important;
+  .productions-container {
+    width: 39%;
     margin-right: 1%;
 
     h2 {

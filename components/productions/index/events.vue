@@ -1,5 +1,5 @@
 <template>
-  <section class="list-events" aria-label="List of events in production">
+  <section class="events-container" aria-label="List of events in production">
     <template v-if="!isLoading">
       <div class="heading-container">
         <h2>
@@ -177,7 +177,7 @@
 </script>
 
 <style lang="scss">
-  .list-events {
+  .events-container {
     width: 60%;
 
     .list-group-item {
