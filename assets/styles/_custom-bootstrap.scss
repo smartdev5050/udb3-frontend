@@ -31,6 +31,16 @@ $input-border-radius: 0;
 $input-border-radius-lg: 0;
 $input-border-radius-sm: 0;
 
+//checkbox overrides
+$custom-checkbox-indicator-border-radius: 20%;
+$custom-control-indicator-border-color: black;
+$custom-control-indicator-checked-color: #f0f0f0;
+$custom-control-indicator-checked-bg: black;
+$custom-control-indicator-active-bg: transparent;
+$custom-control-indicator-active-border-color: black;
+$custom-checkbox-indicator-indeterminate-color: black;
+$custom-checkbox-indicator-indeterminate-border-color: black;
+
 // Bootstrap and its default variables
 @import '../../node_modules/bootstrap/scss/bootstrap';
 // BootstrapVue and its default variables
