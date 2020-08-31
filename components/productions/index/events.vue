@@ -193,7 +193,6 @@
       width: 100%;
       display: inline-flex;
       justify-content: space-between;
-      align-items: center;
       margin-bottom: 0.5rem;
 
       h2 {
