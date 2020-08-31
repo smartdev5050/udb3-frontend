@@ -154,7 +154,7 @@
           this.hasAddingEventToProductionError = true;
         } else {
           const event = await this.$api.events.findById(eventId);
-          this.events.unshift(event);
+          this.events.push(event);
         }
 
         this.isAddingEventToProduction = false;
