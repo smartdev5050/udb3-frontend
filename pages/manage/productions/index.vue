@@ -42,13 +42,11 @@
       <div v-else class="productions-events-container">
         {{ $t('productions.no_productions') }}
       </div>
-      <div class="panel-footer">
-        <pagination
-          :rows="totalItems"
-          :per-page="productionsPerPage"
-          @changePage="changePage"
-        />
-      </div>
+      <pagination
+        :rows="totalItems"
+        :per-page="productionsPerPage"
+        @changePage="changePage"
+      />
     </div>
   </div>
 </template>
