@@ -27,6 +27,7 @@
               :is-loading="isLoadingEvents"
               :events="events"
               :selected-production-name="selectedProduction.name"
+              :selected-event-ids="selectedEventIds"
               :is-adding="isAddingEventToProduction"
               :has-adding-error="hasAddingEventToProductionError"
               :can-enable-delete-button="canEnableDeleteButton"
@@ -181,23 +182,17 @@
         });
       },
       handleSelectEvent(eventId) {
-        console.log('before', this.selectedEventIds);
-        const foundEventIdIndex = this.selectedEventIds.findIndex(
-          (id) => id === eventId,
+        const originalLength = this.selectedEventIds.length;
+
+        const filteredSelectedEventIds = this.selectedEventIds.filter(
+          (id) => id !== eventId,
         );
-        console.log('foundEventIdIndex', foundEventIdIndex);
-        // index wasn't found
-        if (foundEventIdIndex === -1) {
-          this.selectedEventIds.push(eventId);
-        } else if (this.selectedEventIds.length === 1) {
-          this.selectedEventIds = [];
+
+        if (filteredSelectedEventIds.length !== originalLength) {
+          this.selectedEventIds = filteredSelectedEventIds;
         } else {
-          this.selectedEventIds = this.selectedEventIds.slice(
-            foundEventIdIndex,
-            foundEventIdIndex + 1,
-          );
+          this.selectedEventIds.push(eventId);
         }
-        console.log('after', this.selectedEventIds);
       },
       handleDeleteEvents(eventIds) {
         this.$bvModal.show('deleteModal');

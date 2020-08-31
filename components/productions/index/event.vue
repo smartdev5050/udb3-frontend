@@ -7,7 +7,11 @@
       @click="handleClickToggleShowDetail"
     >
       <div class="checkbox-and-name">
-        <b-form-checkbox name="select-event" @input="handleInputSelectEvent" />
+        <b-form-checkbox
+          name="select-event"
+          checked="isSelected"
+          @input="handleInputSelectEvent"
+        />
         <span>{{ name }}</span>
       </div>
       <fa v-show="!isDetailVisible" icon="chevron-right" />

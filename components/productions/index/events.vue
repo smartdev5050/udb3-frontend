@@ -63,6 +63,7 @@
           :name="event.name[locale] || event.name['nl']"
           :type="getEventType(event.terms)"
           :location="event.location.name[locale] || event.location.name['nl']"
+          :is-selected="isEventSelected(parseEventId(event['@id']))"
           class="list-group-item"
           @select="handleSelectEvent"
         />
@@ -86,6 +87,10 @@
     },
     props: {
       events: {
+        type: Array,
+        default: () => [],
+      },
+      selectedEventIds: {
         type: Array,
         default: () => [],
       },
@@ -164,6 +169,9 @@
         const foundTerm =
           terms.find((term) => term.domain === 'eventtype') || {};
         return foundTerm.label ? foundTerm.label : '';
+      },
+      isEventSelected(eventId) {
+        return !!this.selectedEventIds.find((id) => id === eventId);
       },
     },
   };
