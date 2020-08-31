@@ -10,46 +10,44 @@
         </small>
       </h1>
       <search @inputSearch="handleInputSearch" />
-      <div class="panel">
-        <div
-          v-if="isLoadingProductions || productions.length > 0"
-          class="productions-events-container"
-        >
-          <productions
-            :selected-id="selectedProductionId"
-            :is-loading="isLoadingProductions"
-            :productions="productions"
-            @changeSelectedProductionId="handleChangeSelectedProductionId"
-          />
-          <events
-            v-if="selectedProduction"
-            :is-loading="isLoadingEvents"
-            :events="events"
-            :selected-production-name="selectedProduction.name"
-            :selected-event-ids="selectedEventIds"
-            :is-adding="isAddingEventToProduction"
-            :has-adding-error="hasAddingEventToProductionError"
-            @addEventToProduction="handleAddEventToProduction"
-            @inputEventId="handleInputEventId"
-            @selectEvent="handleSelectEvent"
-            @deleteEvents="handleDeleteEvents"
-          />
-          <delete-modal
-            :production-name="selectedProductionName"
-            :event-count="selectedEventIds.length"
-            @confirm="handleConfirmDeleteEvent"
-          />
-        </div>
-        <div v-else class="productions-events-container">
-          {{ $t('productions.no_productions') }}
-        </div>
-        <div class="panel-footer">
-          <pagination
-            :rows="totalItems"
-            :per-page="productionsPerPage"
-            @changePage="changePage"
-          />
-        </div>
+      <div
+        v-if="isLoadingProductions || productions.length > 0"
+        class="productions-events-container"
+      >
+        <productions
+          :selected-id="selectedProductionId"
+          :is-loading="isLoadingProductions"
+          :productions="productions"
+          @changeSelectedProductionId="handleChangeSelectedProductionId"
+        />
+        <events
+          v-if="selectedProduction"
+          :is-loading="isLoadingEvents"
+          :events="events"
+          :selected-production-name="selectedProduction.name"
+          :selected-event-ids="selectedEventIds"
+          :is-adding="isAddingEventToProduction"
+          :has-adding-error="hasAddingEventToProductionError"
+          @addEventToProduction="handleAddEventToProduction"
+          @inputEventId="handleInputEventId"
+          @selectEvent="handleSelectEvent"
+          @deleteEvents="handleDeleteEvents"
+        />
+        <delete-modal
+          :production-name="selectedProductionName"
+          :event-count="selectedEventIds.length"
+          @confirm="handleConfirmDeleteEvent"
+        />
+      </div>
+      <div v-else class="productions-events-container">
+        {{ $t('productions.no_productions') }}
+      </div>
+      <div class="panel-footer">
+        <pagination
+          :rows="totalItems"
+          :per-page="productionsPerPage"
+          @changePage="changePage"
+        />
       </div>
     </div>
   </div>
@@ -235,12 +233,6 @@
         font-size: 1rem;
         font-weight: 700;
       }
-    }
-
-    .panel-footer {
-      padding: 10px 15px;
-      background-color: #f5f5f5;
-      border-top: 1px solid #ddd;
     }
   }
 </style>
