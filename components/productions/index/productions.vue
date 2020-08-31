@@ -63,8 +63,8 @@
     margin-right: 1%;
 
     h2 {
-      padding-top: 0.5rem;
-      margin-bottom: 1.1rem;
+      padding: 0.5rem 0;
+      margin-bottom: 0.5rem;
     }
 
     .list-group-item {

@@ -194,8 +194,10 @@
       display: inline-flex;
       justify-content: space-between;
       margin-bottom: 0.5rem;
+      align-items: center;
 
       h2 {
+        padding: 0.5rem 0;
         margin-bottom: 0;
       }
     }
