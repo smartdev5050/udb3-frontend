@@ -5,6 +5,7 @@
         <b-form-checkbox
           name="select-event"
           checked="isSelected"
+          :disabled="isDisabled"
           @input="handleInputSelectEvent"
         />
         <span>{{ name }}</span>
@@ -58,6 +59,10 @@
         default: '',
       },
       isSelected: {
+        type: Boolean,
+        default: false,
+      },
+      isDisabled: {
         type: Boolean,
         default: false,
       },

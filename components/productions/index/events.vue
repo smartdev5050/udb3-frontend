@@ -64,6 +64,7 @@
           :type="getEventType(event.terms)"
           :location="event.location.name[locale] || event.location.name['nl']"
           :is-selected="isEventSelected(parseEventId(event['@id']))"
+          :is-disabled="isAddEventVisible"
           class="list-group-item"
           @select="handleSelectEvent"
         />
