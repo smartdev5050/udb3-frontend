@@ -17,9 +17,9 @@ $modal-content-border-radius: 0;
 
 // pagination overrides
 $pagination-color: #222;
-$pagination-active-bg: #f3453f;
+$pagination-active-bg: $selected;
 $pagination-active-color: $white;
-$pagination-hover-bg: #f3453f;
+$pagination-hover-bg: $selected;
 $pagination-hover-color: $white;
 $pagination-border-color: $udb-grey;
 $pagination-focus-box-shadow: none;

@@ -70,12 +70,14 @@
       border-radius: 0;
     }
 
-    .selected {
-      background-color: lighten($color: $udb-primary-color, $amount: 50%);
+    a.selected {
+      background-color: $selected;
+      color: $white;
+    }
 
-      &:hover {
-        background-color: lighten($udb-primary-color, 40%);
-      }
+    a:hover {
+      background-color: $selected;
+      color: $white;
     }
   }
 </style>
