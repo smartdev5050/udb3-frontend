@@ -7,8 +7,9 @@
           checked="isSelected"
           :disabled="isDisabled"
           @input="handleInputSelectEvent"
-        />
-        <span>{{ name }}</span>
+        >
+          {{ name }}
+        </b-form-checkbox>
       </div>
       <fa v-show="!isDetailVisible" icon="chevron-right" />
       <fa v-show="isDetailVisible" icon="chevron-down" />
