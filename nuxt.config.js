@@ -92,6 +92,9 @@ export default {
   styleResources: {
     scss: ['./assets/styles/_colors.scss'],
   },
+  storybook: {
+    stories: ['~/udb3-ui/**/*.stories.js'],
+  },
   i18n: {
     locales: ['nl', 'fr'],
     defaultLocale: 'nl',
