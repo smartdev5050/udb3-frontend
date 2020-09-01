@@ -21,7 +21,7 @@
           :productions-per-page="productionsPerPage"
           :total-items="totalItems"
           @changeSelectedProductionId="handleChangeSelectedProductionId"
-          @changePage="changePage"
+          @changePage="handleChangePage"
         />
         <events
           v-if="selectedProduction"
@@ -151,7 +151,7 @@
 
         this.isAddingEventToProduction = false;
       },
-      async changePage(newPage) {
+      async handleChangePage(newPage) {
         const start = (newPage - 1) * this.productionsPerPage;
         await this.getProductionsByName({
           start,
