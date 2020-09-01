@@ -163,11 +163,11 @@
 </script>
 
 <style lang="scss" scoped>
-  .modal-open .modal {
+  ::v-deep .modal {
     overflow-y: hidden;
   }
 
-  .modal-content {
+  ::v-deep .modal-content {
     max-height: 95vh;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
   }
