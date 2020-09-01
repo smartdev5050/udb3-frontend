@@ -11,7 +11,6 @@
     </a>
     <b-modal
       ref="giftbox-modal"
-      class="giftbox-modal"
       size="xl"
       :title="$t('giftbox.new_features')"
       :scrollable="false"
@@ -163,7 +162,7 @@
   };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .modal-open .modal {
     overflow-y: hidden;
   }
@@ -173,7 +172,7 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
   }
 
-  .modal-body {
+  ::v-deep .modal-body {
     padding: 0 !important;
   }
 
