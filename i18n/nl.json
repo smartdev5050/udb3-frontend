@@ -71,7 +71,7 @@
     "productions": "Producties",
     "search": {
       "label": "Zoeken op productienaam:",
-      "info": "Schrijf een zoekopdracht van minstens 4 karakters in het veld hierboven om producties te zoeken. Laat het veld leeg om alle producties op te vragen."
+      "placeholder": "Schrijf een zoekopdracht van minstens 4 karakters."
     },
     "skip": "Overslaan",
     "suggested_events": "Overeenkomstig voorgestelde evenementen:",
