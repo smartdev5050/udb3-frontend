@@ -40,6 +40,7 @@ $custom-control-indicator-active-bg: transparent;
 $custom-control-indicator-active-border-color: black;
 $custom-checkbox-indicator-indeterminate-color: black;
 $custom-checkbox-indicator-indeterminate-border-color: black;
+$custom-control-indicator-checked-disabled-bg: $udb-grey;
 
 // Bootstrap and its default variables
 @import '../../node_modules/bootstrap/scss/bootstrap';
