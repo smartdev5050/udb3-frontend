@@ -96,7 +96,8 @@ export const getSuggestedEvents = (
     return [];
   }
 
-  return await response.json();
+  const { events = [] } = await response.json();
+  return events;
 };
 
 export const skipSuggestedEvents = (
