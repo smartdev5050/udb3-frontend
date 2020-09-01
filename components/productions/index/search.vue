@@ -5,10 +5,10 @@
       <b-form-input
         id="search-input"
         v-model="searchInput"
+        :placeholder="$t('productions.search.placeholder')"
         @input="handleInputSearch"
       ></b-form-input>
     </div>
-    <b-alert show variant="info">{{ $t('productions.search.info') }}</b-alert>
   </div>
 </template>
 

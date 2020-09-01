@@ -61,6 +61,16 @@ export const deleteEventById = (apiUrl, headers, fetch) => async (
   });
 };
 
+export const deleteEventsByIds = (apiUrl, headers, fetch) => async ({
+  productionId = '',
+  eventIds = [],
+} = {}) => {
+  const mappedEvents = eventIds.map((eventId) => {
+    return deleteEventById(apiUrl, headers, fetch)(productionId, eventId);
+  });
+  return await Promise.all(mappedEvents);
+};
+
 export const getSuggestedEvents = (
   apiUrl,
   headers,

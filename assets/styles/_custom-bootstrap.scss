@@ -1,32 +1,25 @@
 // color overrides
 $primary: $udb-blue;
 $secondary: $udb-grey;
+$success: #5cb85c;
+$danger: #d9534f;
 
 //font-size overrides
 $small-font-size: 65%;
 
 // button overrides
 $btn-border-radius: 0;
-$btn-padding-y: 0.275rem;
-$btn-padding-x: 0.5rem;
-
-.btn-outline-secondary {
-  color: #333 !important;
-
-  &:hover {
-    background-color: #e6e6e6 !important;
-    border-color: #adadad !important;
-  }
-}
+$btn-padding-y: 0.267rem;
+$btn-padding-x: 0.8rem;
 
 // modal overrides
 $modal-content-border-radius: 0;
 
 // pagination overrides
 $pagination-color: #222;
-$pagination-active-bg: #f3453f;
+$pagination-active-bg: $selected;
 $pagination-active-color: $white;
-$pagination-hover-bg: #f3453f;
+$pagination-hover-bg: $selected;
 $pagination-hover-color: $white;
 $pagination-border-color: $udb-grey;
 $pagination-focus-box-shadow: none;
@@ -38,7 +31,36 @@ $input-border-radius: 0;
 $input-border-radius-lg: 0;
 $input-border-radius-sm: 0;
 
+//checkbox overrides
+$custom-checkbox-indicator-border-radius: 20%;
+$custom-control-indicator-border-color: black;
+$custom-control-indicator-checked-color: #f0f0f0;
+$custom-control-indicator-checked-bg: black;
+$custom-control-indicator-active-bg: transparent;
+$custom-control-indicator-active-border-color: black;
+$custom-checkbox-indicator-indeterminate-color: black;
+$custom-checkbox-indicator-indeterminate-border-color: black;
+$custom-control-indicator-checked-disabled-bg: $udb-grey;
+
 // Bootstrap and its default variables
 @import '../../node_modules/bootstrap/scss/bootstrap';
 // BootstrapVue and its default variables
 @import '../../node_modules/bootstrap-vue/src/index.scss';
+
+// button overrides
+.btn-outline-secondary {
+  color: #333;
+  background-color: $white;
+
+  &:hover {
+    background-color: #e6e6e6;
+    border-color: #adadad;
+  }
+}
+
+//alert overrides
+.alert-info {
+  background-color: #d9edf6;
+  border-color: #bce8ef;
+  color: #3e88ab;
+}

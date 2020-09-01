@@ -1,44 +1,43 @@
 <template>
-  <tr>
-    <td>
-      <div class="event-item">
-        <div>
+  <li tabindex="0" @click="handleClickToggleShowDetail">
+    <a class="event-item" :title="name">
+      <div class="checkbox-and-name">
+        <b-form-checkbox
+          name="select-event"
+          checked="isSelected"
+          :disabled="isDisabled"
+          @input="handleInputSelectEvent"
+        >
           {{ name }}
-          <a class="delete-event-link" @click="handleClickDelete(id)">{{
-            $t('productions.delete')
-          }}</a>
-        </div>
-        <fa
-          v-show="!isDetailVisible"
-          icon="chevron-right"
-          @click="handleClickToggleShowDetail"
-        />
-        <fa
-          v-show="isDetailVisible"
-          icon="chevron-down"
-          @click="handleClickToggleShowDetail"
-        />
+        </b-form-checkbox>
       </div>
-      <div v-if="isDetailVisible" class="event-details">
-        <table class="table">
-          <tbody>
-            <tr>
-              <th>{{ $t('productions.type') }}</th>
-              <td>{{ type }}</td>
-            </tr>
-            <tr>
-              <th>{{ $t('productions.when') }}</th>
-              <td>{{ period }}</td>
-            </tr>
-            <tr>
-              <th>{{ $t('productions.where') }}</th>
-              <td>{{ location }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </td>
-  </tr>
+      <fa v-show="!isDetailVisible" icon="chevron-right" />
+      <fa v-show="isDetailVisible" icon="chevron-down" />
+    </a>
+    <section
+      v-if="isDetailVisible"
+      class="event-details"
+      aria-label="Event details"
+    >
+      <h3>{{ $t('productions.details') }}</h3>
+      <table class="table">
+        <tbody>
+          <tr>
+            <th>{{ $t('productions.type') }}</th>
+            <td>{{ type }}</td>
+          </tr>
+          <tr>
+            <th>{{ $t('productions.when') }}</th>
+            <td>{{ period }}</td>
+          </tr>
+          <tr>
+            <th>{{ $t('productions.where') }}</th>
+            <td>{{ location }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </li>
 </template>
 
 <script>
@@ -59,6 +58,14 @@
       location: {
         type: String,
         default: '',
+      },
+      isSelected: {
+        type: Boolean,
+        default: false,
+      },
+      isDisabled: {
+        type: Boolean,
+        default: false,
       },
     },
     data() {
@@ -83,37 +90,34 @@
       handleClickToggleShowDetail() {
         this.isDetailVisible = !this.isDetailVisible;
       },
-      handleClickDelete(eventId) {
-        this.$emit('clickDelete', eventId);
+      handleInputSelectEvent() {
+        this.$emit('select', this.id);
       },
     },
   };
 </script>
 
 <style lang="scss">
+  .checkbox-and-name {
+    display: inline-block;
+  }
+
+  .custom-checkbox {
+    display: inline-block;
+  }
+
   .event-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    a.delete-event-link {
-      color: $udb-blue;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
   }
 
   .event-details {
     margin-top: 1rem;
-  }
+    background-color: $lightgrey;
 
-  .event-details .table {
-    margin-bottom: 0;
-  }
-
-  .event-details tbody {
-    background-color: $lightgrey !important;
+    h3 {
+      display: none;
+    }
   }
 </style>

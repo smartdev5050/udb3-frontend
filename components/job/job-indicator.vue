@@ -164,7 +164,7 @@
       fill: #48874a; /* Succes text */
     }
     #warning-circle {
-      fill: #d9534f;
+      fill: $danger;
     }
     .complete-check {
       fill: #dcf2d7; /* Succces background */

@@ -1,70 +1,79 @@
 <template>
-  <table class="table table-events">
-    <thead>
-      <tr>
-        <th scope="col" class="test">
-          <span class="events-in-production-label">
-            {{
-              `${$t('productions.events')} ${$t(
-                'productions.in',
-              )} '${selectedProductionName}'`
-            }}
+  <section class="events-container" aria-label="List of events in production">
+    <template v-if="!isLoading">
+      <div class="heading-container">
+        <h2>
+          {{
+            `${$t('productions.events')} ${$t(
+              'productions.in',
+            )} '${selectedProductionName}'`
+          }}
+        </h2>
+        <div v-if="!isAddEventVisible">
+          <b-button variant="primary" @click="handleClickAddEvent">
+            <fa icon="plus" />
+            {{ $t('productions.create') }}
+          </b-button>
+          <b-button
+            variant="danger"
+            :disabled="!canEnableDeleteButton"
+            @click="handleClickDelete"
+          >
+            <fa icon="trash" />
+            {{ $t('productions.delete') }}
+          </b-button>
+        </div>
+      </div>
+      <div v-if="isAddEventVisible" class="add-event-container">
+        <input
+          ref="eventIdInput"
+          v-model="eventId"
+          type="text"
+          :class="{
+            'is-invalid': hasAddingError && !(eventId === ''),
+            'form-control': true,
+          }"
+          placeholder="cdbid"
+          @input="handleInputEventId"
+        />
+        <b-button
+          variant="primary"
+          :disabled="!eventId"
+          @click="handleClickAddEventToProduction"
+        >
+          <span v-if="!isAdding">
+            <fa icon="check" />
+            {{ $t('productions.confirm') }}
           </span>
-          <a class="add-event-link" @click="handleClickAddEvent">
-            {{ !isAddEventVisible ? $t('productions.create') : '' }}
-          </a>
-          <div v-if="isAddEventVisible" class="add-event-container">
-            <input
-              ref="eventIdInput"
-              v-model="eventId"
-              type="text"
-              :class="{
-                'is-invalid': hasAddingError && !(eventId === ''),
-                'form-control': true,
-              }"
-              placeholder="cdbid"
-              @input="handleInputEventId"
-            />
-            <b-button
-              variant="success"
-              :disabled="!eventId"
-              @click="handleClickAddEventToProduction"
-            >
-              <fa v-if="!isAdding" icon="check" />
-              <loading-spinner v-else class="button-spinner" />
-            </b-button>
-            <b-button
-              variant="danger"
-              @click="handleClickCancelAddEventToProduction"
-            >
-              <fa icon="times" />
-            </b-button>
-          </div>
-        </th>
-      </tr>
-    </thead>
-    <tbody v-if="isTableVisible">
-      <event
-        v-for="event in events"
-        :id="parseEventId(event['@id'])"
-        :key="parseEventId(event['@id'])"
-        :name="event.name[locale] || event.name['nl']"
-        :type="getEventType(event.terms)"
-        :location="event.location.name[locale] || event.location.name['nl']"
-        @clickDelete="handleClickDeleteEvent"
-      />
-    </tbody>
-    <tbody v-else-if="isLoading">
-      <tr>
-        <loading-spinner />
-      </tr>
-    </tbody>
-    <tbody v-else>
-      <tr>
-        <td class="text-center">{{ $t('productions.no_events') }}</td>
-      </tr>
-    </tbody>
-  </table>
+          <loading-spinner v-else class="button-spinner" />
+        </b-button>
+        <b-button
+          variant="outline-secondary"
+          @click="handleClickCancelAddEventToProduction"
+        >
+          <fa icon="times" />
+          {{ $t('productions.cancel') }}
+        </b-button>
+      </div>
+      <ul class="list-group panel">
+        <event
+          v-for="event in events"
+          :id="parseEventId(event['@id'])"
+          :key="parseEventId(event['@id'])"
+          :name="event.name[locale] || event.name['nl']"
+          :type="getEventType(event.terms)"
+          :location="event.location.name[locale] || event.location.name['nl']"
+          :is-selected="isEventSelected(parseEventId(event['@id']))"
+          :is-disabled="isAddEventVisible"
+          class="list-group-item"
+          @select="handleSelectEvent"
+        />
+      </ul>
+    </template>
+    <div v-else>
+      <loading-spinner />
+    </div>
+  </section>
 </template>
 
 <script>
@@ -79,6 +88,10 @@
     },
     props: {
       events: {
+        type: Array,
+        default: () => [],
+      },
+      selectedEventIds: {
         type: Array,
         default: () => [],
       },
@@ -111,6 +124,9 @@
       locale() {
         return this.$i18n.locale;
       },
+      canEnableDeleteButton() {
+        return this.selectedEventIds.length > 0;
+      },
     },
     watch: {
       isAdding(val) {
@@ -140,8 +156,11 @@
       handleInputEventId() {
         this.$emit('inputEventId');
       },
-      handleClickDeleteEvent(eventId) {
-        this.$emit('clickDeleteEvent', eventId);
+      handleSelectEvent(eventId) {
+        this.$emit('selectEvent', eventId);
+      },
+      handleClickDelete() {
+        this.$emit('deleteEvents');
       },
       parseEventId(id) {
         return parseId(id);
@@ -151,40 +170,45 @@
           terms.find((term) => term.domain === 'eventtype') || {};
         return foundTerm.label ? foundTerm.label : '';
       },
+      isEventSelected(eventId) {
+        return !!this.selectedEventIds.find((id) => id === eventId);
+      },
     },
   };
 </script>
 
 <style lang="scss">
-  .table-events {
-    width: 60% !important;
+  .events-container {
+    width: 60%;
 
-    > tbody {
-      display: block;
-      overflow-x: hidden;
-      border-left: 5px solid lighten($color: $udb-primary-color, $amount: 50%);
+    .list-group-item {
+      border-radius: 0;
     }
 
-    th.test {
-      display: inline-block;
+    .btn {
+      text-transform: capitalize;
+    }
+
+    .heading-container {
+      width: 100%;
+      display: inline-flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
       align-items: center;
+
+      h2 {
+        padding: 0.5rem 0;
+        margin-bottom: 0;
+      }
     }
 
     .add-event-container {
       display: flex;
-      margin-top: 1rem;
+      margin-bottom: 1rem;
 
       .form-control {
         max-width: 21.5rem;
         margin-right: 0.5rem;
-      }
-    }
-
-    .add-event-link {
-      color: $udb-blue;
-
-      &:hover {
-        text-decoration: underline;
       }
     }
 

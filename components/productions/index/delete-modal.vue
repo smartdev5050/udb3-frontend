@@ -3,15 +3,18 @@
     id="deleteModal"
     :ok-title="$t('productions.delete')"
     :cancel-title="$t('productions.cancel')"
+    cancel-variant="outline-secondary"
     hide-header
     @ok.prevent="handleConfirmDelete"
   >
     <div class="content-container">
       {{
-        $t('productions.delete_question', {
-          eventName,
-          productionName,
-        })
+        eventCount > 1
+          ? $t('productions.delete_question_events', {
+              eventCount,
+              productionName,
+            })
+          : $t('productions.delete_question_event', { productionName })
       }}
     </div>
   </b-modal>
@@ -20,9 +23,9 @@
 <script>
   export default {
     props: {
-      eventName: {
-        type: String,
-        default: '',
+      eventCount: {
+        type: Number,
+        default: 0,
       },
       productionName: {
         type: String,

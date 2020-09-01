@@ -1,62 +1,55 @@
 <template>
   <div class="wrapper">
-    <div class="container-fluid">
+    <div class="container-fluid productions-index-page">
       <h1 class="title">
         {{ $t('menu.productions') }}
         <small>
-          <nuxt-link to="productions/create">{{
+          <nuxt-link class="link" to="productions/create">{{
             $t('productions.create')
           }}</nuxt-link>
         </small>
       </h1>
-      <div>
-        <search @inputSearch="handleInputSearch" />
-        <div class="productions-container">
-          <div
-            v-if="isLoadingProductions || productions.length > 0"
-            class="productions-container"
-          >
-            <productions
-              :selected-id="selectedProductionId"
-              :is-loading="isLoadingProductions"
-              :productions="productions"
-              @changeSelectedProductionId="handleChangeSelectedProductionId"
-            />
-            <events
-              v-if="selectedProduction"
-              :is-loading="isLoadingEvents"
-              :events="events"
-              :selected-production-name="selectedProduction.name"
-              :is-adding="isAddingEventToProduction"
-              :has-adding-error="hasAddingEventToProductionError"
-              @addEventToProduction="handleAddEventToProduction"
-              @inputEventId="handleInputEventId"
-              @clickDeleteEvent="handleClickDeleteEvent"
-            />
-            <delete-modal
-              :production-name="selectedProductionName"
-              :event-name="toBeDeletedEventName"
-              @confirm="handleConfirmDeleteEvent"
-            />
-          </div>
-          <div v-else class="productions-container">
-            {{ $t('productions.no_productions') }}
-          </div>
-        </div>
-        <div v-if="productions.length > 0" class="panel-footer">
-          <pagination
-            :rows="totalItems"
-            :per-page="productionsPerPage"
-            @changePage="changePage"
-          />
-        </div>
+      <search @inputSearch="handleInputSearch" />
+      <div
+        v-if="isLoadingProductions || productions.length > 0"
+        class="productions-events-container"
+      >
+        <productions
+          :selected-id="selectedProductionId"
+          :is-loading="isLoadingProductions"
+          :productions="productions"
+          :productions-per-page="productionsPerPage"
+          :total-items="totalItems"
+          @changeSelectedProductionId="handleChangeSelectedProductionId"
+          @changePage="handleChangePage"
+        />
+        <events
+          v-if="selectedProduction"
+          :is-loading="isLoadingEvents"
+          :events="events"
+          :selected-production-name="selectedProduction.name"
+          :selected-event-ids="selectedEventIds"
+          :is-adding="isAddingEventToProduction"
+          :has-adding-error="hasAddingEventToProductionError"
+          @addEventToProduction="handleAddEventToProduction"
+          @inputEventId="handleInputEventId"
+          @selectEvent="handleSelectEvent"
+          @deleteEvents="handleDeleteEvents"
+        />
+        <delete-modal
+          :production-name="selectedProductionName"
+          :event-count="selectedEventIds.length"
+          @confirm="handleConfirmDeleteEvent"
+        />
+      </div>
+      <div v-else class="productions-events-container">
+        {{ $t('productions.no_productions') }}
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import Pagination from '@/components/pagination';
   import Productions from '@/components/productions/index/productions';
   import Events from '@/components/productions/index/events';
   import Search from '@/components/productions/index/search';
@@ -65,7 +58,6 @@
 
   export default {
     components: {
-      Pagination,
       Productions,
       Events,
       Search,
@@ -86,7 +78,7 @@
 
         isLoadingEvents: true,
         events: [],
-        toBeDeletedEventId: '',
+        selectedEventIds: [],
       };
     },
     computed: {
@@ -102,12 +94,6 @@
       selectedProductionName() {
         return this.selectedProduction ? this.selectedProduction.name : '';
       },
-      toBeDeletedEventName() {
-        const foundEvent = this.events.find(
-          (event) => parseEventId(event['@id']) === this.toBeDeletedEventId,
-        );
-        return foundEvent ? foundEvent.name[this.locale] : '';
-      },
     },
     async created() {
       // get the first page of productions
@@ -115,8 +101,9 @@
     },
     methods: {
       async handleChangeSelectedProductionId(id) {
+        this.selectedEventIds = [];
         this.selectedProductionId = id;
-        await this.getEventsInProduction(this.selected);
+        await this.getEventsInProduction();
       },
       async getEventById(id) {
         return await this.$api.events.findById(id);
@@ -159,12 +146,12 @@
           this.hasAddingEventToProductionError = true;
         } else {
           const event = await this.$api.events.findById(eventId);
-          this.events.unshift(event);
+          this.events.push(event);
         }
 
         this.isAddingEventToProduction = false;
       },
-      async changePage(newPage) {
+      async handleChangePage(newPage) {
         const start = (newPage - 1) * this.productionsPerPage;
         await this.getProductionsByName({
           start,
@@ -180,16 +167,30 @@
           limit: this.productionsPerPage,
         });
       },
-      handleClickDeleteEvent(eventId) {
-        this.toBeDeletedEventId = eventId;
+      handleSelectEvent(eventId) {
+        const originalLength = this.selectedEventIds.length;
+
+        const filteredSelectedEventIds = this.selectedEventIds.filter(
+          (id) => id !== eventId,
+        );
+
+        if (filteredSelectedEventIds.length !== originalLength) {
+          this.selectedEventIds = filteredSelectedEventIds;
+        } else {
+          this.selectedEventIds.push(eventId);
+        }
+      },
+      handleDeleteEvents(eventIds) {
         this.$bvModal.show('deleteModal');
       },
       async handleConfirmDeleteEvent() {
-        await this.$api.productions.deleteEventById(
-          this.selectedProductionId,
-          this.toBeDeletedEventId,
-        );
-        this.deleteEventFromProduction(this.toBeDeletedEventId);
+        await this.$api.productions.deleteEventsByIds({
+          productionId: this.selectedProductionId,
+          eventIds: this.selectedEventIds,
+        });
+        this.selectedEventIds.forEach((eventId) => {
+          this.deleteEventFromProduction(eventId);
+        });
         this.$bvModal.hide('deleteModal');
       },
       deleteEventFromProduction(eventIdToDelete) {
@@ -215,53 +216,17 @@
 </script>
 
 <style lang="scss">
-  .productions-container {
-    display: flex;
-    width: 100%;
-    font-weight: 400;
-    margin-bottom: 1rem;
-
-    .table {
-      font-family: 'Open Sans', Helvetica, Arial, sans-serif;
-      font-size: 15px;
-      background-color: none;
-
-      thead {
-        background-color: $white;
-      }
-
-      tbody {
-        margin-top: 0.5rem;
-        background-color: $white;
-      }
-
-      tr {
-        display: inline-flex;
-        width: 100%;
-      }
-
-      th {
-        width: 100%;
-      }
-
-      td {
-        width: 100%;
-      }
-    }
-
-    a {
+  .productions-index-page {
+    .productions-events-container {
+      display: flex;
+      width: 100%;
       font-weight: 400;
-      color: $udb-blue;
+      margin-bottom: 1rem;
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+      }
     }
-  }
-
-  .panel-footer {
-    padding: 10px 15px;
-    background-color: #f5f5f5;
-    border-top: 1px solid #ddd;
-  }
-
-  small a {
-    color: $udb-blue;
   }
 </style>
