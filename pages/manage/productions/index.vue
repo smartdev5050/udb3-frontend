@@ -215,7 +215,7 @@
   };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .productions-index-page {
     .productions-events-container {
       display: flex;
@@ -223,7 +223,7 @@
       font-weight: 400;
       margin-bottom: 1rem;
 
-      h2 {
+      ::v-deep h2 {
         font-size: 1rem;
         font-weight: 700;
       }
