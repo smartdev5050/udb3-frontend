@@ -55,7 +55,7 @@
           {{ $t('productions.cancel') }}
         </b-button>
       </div>
-      <ul class="list-group">
+      <ul class="list-group panel">
         <event
           v-for="event in events"
           :id="parseEventId(event['@id'])"
