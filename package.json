@@ -25,7 +25,7 @@
     "jwt-decode": "^2.2.0",
     "lodash-es": "^4.17.15",
     "node-sass": "^4.14.1",
-    "nuxt": "^2.13.0",
+    "nuxt": "^2.14.4",
     "nuxt-fontawesome": "^0.4.0",
     "nuxt-i18n": "^6.13.1",
     "nuxt-socket-io": "^1.1.6",
