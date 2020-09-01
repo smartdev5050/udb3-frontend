@@ -1,7 +1,7 @@
 <template>
   <section class="productions-container" aria-label="List of productions">
     <h2>{{ $t('productions.production') }}</h2>
-    <template v-if="!isLoading && productions.length > 0">
+    <section v-if="!isLoading && productions.length > 0" class="panel">
       <ul class="list-group">
         <li
           v-for="production in productions"
@@ -18,7 +18,14 @@
           </a>
         </li>
       </ul>
-    </template>
+      <div class="panel-footer">
+        <pagination
+          :rows="totalItems"
+          :per-page="productionsPerPage"
+          @changePage="changePage"
+        />
+      </div>
+    </section>
     <div v-else-if="isLoading">
       <loading-spinner />
     </div>
@@ -30,10 +37,12 @@
 
 <script>
   import LoadingSpinner from '../../loading-spinner';
+  import Pagination from '@/components/pagination';
 
   export default {
     components: {
       LoadingSpinner,
+      Pagination,
     },
     props: {
       productions: {
@@ -48,10 +57,21 @@
         type: String,
         default: '',
       },
+      productionsPerPage: {
+        type: Number,
+        default: 15,
+      },
+      totalItems: {
+        type: Number,
+        default: 15,
+      },
     },
     methods: {
       handleClickProduction(id) {
         this.$emit('changeSelectedProductionId', id);
+      },
+      changePage(newPage) {
+        this.$emit('changePage', newPage);
       },
     },
   };

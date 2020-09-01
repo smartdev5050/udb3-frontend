@@ -18,7 +18,10 @@
           :selected-id="selectedProductionId"
           :is-loading="isLoadingProductions"
           :productions="productions"
+          :productions-per-page="productionsPerPage"
+          :total-items="totalItems"
           @changeSelectedProductionId="handleChangeSelectedProductionId"
+          @changePage="changePage"
         />
         <events
           v-if="selectedProduction"
@@ -42,17 +45,11 @@
       <div v-else class="productions-events-container">
         {{ $t('productions.no_productions') }}
       </div>
-      <pagination
-        :rows="totalItems"
-        :per-page="productionsPerPage"
-        @changePage="changePage"
-      />
     </div>
   </div>
 </template>
 
 <script>
-  import Pagination from '@/components/pagination';
   import Productions from '@/components/productions/index/productions';
   import Events from '@/components/productions/index/events';
   import Search from '@/components/productions/index/search';
@@ -61,7 +58,6 @@
 
   export default {
     components: {
-      Pagination,
       Productions,
       Events,
       Search,
