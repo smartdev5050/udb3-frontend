@@ -49,6 +49,7 @@ $custom-checkbox-indicator-indeterminate-border-color: black;
 // button overrides
 .btn-outline-secondary {
   color: #333;
+  background-color: $white;
 
   &:hover {
     background-color: #e6e6e6;
