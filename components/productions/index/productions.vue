@@ -22,7 +22,7 @@
         <pagination
           :rows="totalItems"
           :per-page="productionsPerPage"
-          @changePage="changePage"
+          @changePage="handleChangePage"
         />
       </div>
     </section>
@@ -70,7 +70,7 @@
       handleClickProduction(id) {
         this.$emit('changeSelectedProductionId', id);
       },
-      changePage(newPage) {
+      handleChangePage(newPage) {
         this.$emit('changePage', newPage);
       },
     },

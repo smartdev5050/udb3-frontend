@@ -7,7 +7,7 @@
     :next-text="$t('pagination.next')"
     hide-goto-end-buttons
     :class="{ 'hide-buttons': hideButtons }"
-    @input="changePage"
+    @input="handleInputChangePage"
   />
 </template>
 
@@ -28,7 +28,7 @@
       },
     },
     methods: {
-      changePage() {
+      handleInputChangePage() {
         this.$emit('changePage', this.currentPage);
       },
     },
