@@ -1,5 +1,7 @@
 <template>
-  <b-button v-bind="$attrs" :variant="variant"><slot /></b-button>
+  <b-button v-bind="$attrs" :disabled="disabled" :variant="variant"
+    ><slot
+  /></b-button>
 </template>
 
 <style lang="scss" scoped></style>
@@ -18,6 +20,10 @@
       variant: {
         type: String,
         default: ButtonVariant.PRIMARY,
+      },
+      disabled: {
+        type: Boolean,
+        default: false,
       },
     },
   };

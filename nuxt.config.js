@@ -94,7 +94,11 @@ export default {
   },
   storybook: {
     stories: ['~/publiq-ui/**/*.stories.mdx'],
-    addons: ['@storybook/addon-docs'],
+    addons: [
+      '@storybook/addon-docs',
+      '@storybook/addon-controls',
+      '@storybook/addon-a11y',
+    ],
   },
   i18n: {
     locales: ['nl', 'fr'],
