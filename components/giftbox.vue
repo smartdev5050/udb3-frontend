@@ -173,7 +173,7 @@
   }
 
   ::v-deep .modal-body {
-    padding: 0 !important;
+    padding: 0;
   }
 
   .features-wrapper {
