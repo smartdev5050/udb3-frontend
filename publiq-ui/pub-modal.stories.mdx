@@ -1,0 +1,23 @@
+import { Meta, Story, Canvas, Props } from '@storybook/addon-docs/blocks';
+import PubModal from './pub-modal.vue';
+
+<Meta title="pub-modal" component={PubModal} />
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { PubModal },
+  template:
+    '<pub-modal title="Title" :isVisible="true">Lorem ipsum</pub-modal>',
+});
+
+# Variants
+
+## Default
+
+<Canvas>
+  <Story name="Default">{Template.bind({})}</Story>
+</Canvas>
+
+# Props
+
+<Props component={PubModal} />
