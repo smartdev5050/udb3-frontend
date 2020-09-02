@@ -13,7 +13,7 @@
   };
 
   export default {
-    name: 'Udb3Button',
+    name: 'PubButton',
     props: {
       variant: {
         type: String,

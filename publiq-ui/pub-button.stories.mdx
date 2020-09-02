@@ -1,0 +1,68 @@
+import { Meta, Story, Canvas, Props } from '@storybook/addon-docs/blocks';
+import PubButton, { ButtonVariant } from './pub-button.vue';
+
+<Meta title="pub-button" component={PubButton} />
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { PubButton },
+  template: '<pub-button :variant="variant">click me</pub-button>',
+});
+
+# Variants
+
+## Primary
+
+<Canvas>
+  <Story
+    name="Primary"
+    args={{
+      variant: ButtonVariant.PRIMARY,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Secondary
+
+<Canvas>
+  <Story
+    name="Secondary"
+    args={{
+      variant: ButtonVariant.SECONDARY,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Success
+
+<Canvas>
+  <Story
+    name="Success"
+    args={{
+      variant: ButtonVariant.SUCCESS,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Danger
+
+<Canvas>
+  <Story
+    name="Danger"
+    args={{
+      variant: ButtonVariant.DANGER,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+# Props
+
+<Props component={PubButton} />
