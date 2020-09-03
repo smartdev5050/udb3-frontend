@@ -1,14 +1,14 @@
 <template>
   <div class="wrapper">
     <div class="container-fluid productions-index-page">
-      <h1 class="title">
+      <pub-h1 :variant="headingVariant.TITLE">
         {{ $t('menu.productions') }}
         <small>
           <nuxt-link class="link" to="productions/create">{{
             $t('productions.create')
           }}</nuxt-link>
         </small>
-      </h1>
+      </pub-h1>
       <search @inputSearch="handleInputSearch" />
       <div
         v-if="isLoadingProductions || productions.length > 0"
@@ -55,6 +55,7 @@
   import Search from '@/components/productions/index/search';
   import DeleteModal from '@/components/productions/index/delete-modal';
   import { parseId as parseEventId } from '@/functions/events';
+  import pubH1, { HeadingVariant } from '@/publiq-ui/pub-h1';
 
   export default {
     components: {
@@ -62,6 +63,7 @@
       Events,
       Search,
       DeleteModal,
+      pubH1,
     },
     data() {
       return {
@@ -93,6 +95,9 @@
       },
       selectedProductionName() {
         return this.selectedProduction ? this.selectedProduction.name : '';
+      },
+      headingVariant() {
+        return HeadingVariant;
       },
     },
     async created() {

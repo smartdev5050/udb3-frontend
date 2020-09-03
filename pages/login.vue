@@ -127,7 +127,7 @@
           ></path>
         </svg>
 
-        <h1 class="brand">{{ $t('brand') }}</h1>
+        <pub-h1 class="brand">{{ $t('brand') }}</pub-h1>
         <div class="lead">
           <span>{{ $t('main.lead') }}</span>
           <span class="muted">{{ $t('main.lead_sub') }}</span>
@@ -259,9 +259,13 @@
 
 <script>
   import { login } from '../services/auth';
+  import PubH1 from '@/publiq-ui/pub-h1';
 
   export default {
     layout: 'login',
+    components: {
+      PubH1,
+    },
     computed: {
       isFR() {
         return this.$i18n.locale === 'fr';
