@@ -39,6 +39,7 @@
         <delete-modal
           :production-name="selectedProductionName"
           :event-count="selectedEventIds.length"
+          :is-visible="isDeleteModalVisible"
           @confirm="handleConfirmDeleteEvent"
         />
       </div>
@@ -75,6 +76,7 @@
 
         isAddingEventToProduction: false,
         hasAddingEventToProductionError: false,
+        isDeleteModalVisible: false,
 
         isLoadingEvents: true,
         events: [],
@@ -181,7 +183,7 @@
         }
       },
       handleDeleteEvents(eventIds) {
-        this.$bvModal.show('deleteModal');
+        this.isDeleteModalVisible = true;
       },
       async handleConfirmDeleteEvent() {
         await this.$api.productions.deleteEventsByIds({
@@ -191,7 +193,7 @@
         this.selectedEventIds.forEach((eventId) => {
           this.deleteEventFromProduction(eventId);
         });
-        this.$bvModal.hide('deleteModal');
+        this.isDeleteModalVisible = false;
       },
       deleteEventFromProduction(eventIdToDelete) {
         this.events = this.events.filter(

@@ -1,11 +1,11 @@
 <template>
-  <b-modal
-    id="deleteModal"
-    :ok-title="$t('productions.delete')"
+  <pub-modal
+    :variant="modalVariant.WITH_BUTTONS"
+    :confirm-title="$t('productions.delete')"
     :cancel-title="$t('productions.cancel')"
-    cancel-variant="outline-secondary"
+    :is-visible="isVisible"
     hide-header
-    @ok.prevent="handleConfirmDelete"
+    @confirm="handleConfirmDelete"
   >
     <div class="content-container">
       {{
@@ -17,11 +17,16 @@
           : $t('productions.delete_question_event', { productionName })
       }}
     </div>
-  </b-modal>
+  </pub-modal>
 </template>
 
 <script>
+  import PubModal, { ModalVariant } from '@/publiq-ui/pub-modal.vue';
+
   export default {
+    components: {
+      PubModal,
+    },
     props: {
       eventCount: {
         type: Number,
@@ -30,6 +35,15 @@
       productionName: {
         type: String,
         default: '',
+      },
+      isVisible: {
+        type: Boolean,
+        default: false,
+      },
+    },
+    computed: {
+      modalVariant() {
+        return ModalVariant;
       },
     },
     methods: {
