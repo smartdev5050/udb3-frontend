@@ -7,8 +7,7 @@ export const Template = (args, { argTypes }) => {
   return {
     props: Object.keys(argTypes),
     components: { PubButton },
-    template:
-      '<pub-button :disabled="disabled" :variant="variant">Click me</pub-button>',
+    template: '<pub-button v-bind="$props">Click me</pub-button>',
   };
 };
 
