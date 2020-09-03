@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <pub-wrapper>
     <section class="container-fluid productions-create-page">
       <h1 class="title create-title">{{ $t('productions.create') }}</h1>
       <div v-if="suggestedEvents.length > 0">
@@ -86,12 +86,14 @@
   import Event from '@/components/productions/create/event';
   import LoadingSpinner from '@/components/loading-spinner';
   import { parseId } from '@/functions/events';
+  import PubWrapper from '@/publiq-ui/pub-wrapper';
 
   export default {
     components: {
       Event,
       LoadingSpinner,
       VueTypeaheadBootstrap,
+      PubWrapper,
     },
     data: () => ({
       eventSimilarityScore: 0,

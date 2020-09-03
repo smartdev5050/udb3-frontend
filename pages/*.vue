@@ -1,14 +1,17 @@
 <template>
-  <div class="wrapper">
+  <pub-wrapper>
     <legacy-app-page :path="generatePath" />
-  </div>
+  </pub-wrapper>
 </template>
 
 <script>
   import LegacyAppPage from '../components/legacy-app-page';
+  import PubWrapper from '@/publiq-ui/pub-wrapper';
+
   export default {
     components: {
       LegacyAppPage,
+      PubWrapper,
     },
     computed: {
       generatePath() {
