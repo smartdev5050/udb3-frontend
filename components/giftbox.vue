@@ -9,12 +9,10 @@
         numberOfUnseenFeatures
       }}</span>
     </a>
-    <b-modal
-      ref="giftbox-modal"
-      size="xl"
+    <pub-modal
       :title="$t('giftbox.new_features')"
-      :scrollable="false"
-      hide-footer
+      :is-visible="isModalVisible"
+      :variant="modalVariant.DEFAULT"
     >
       <div class="features-wrapper">
         <section class="features-list">
@@ -74,19 +72,25 @@
           <p>{{ $t('giftbox.no_features') }}</p>
         </div>
       </div>
-    </b-modal>
+    </pub-modal>
   </div>
 </template>
 
 <script>
+  import PubModal, { ModalVariant } from '@/publiq-ui/pub-modal';
+
   export default {
     name: 'Giftbox',
+    components: {
+      PubModal,
+    },
     data: () => ({
       loading: true,
       features: [],
       seenFeatures: [],
       numberOfUnseenFeatures: 0,
       selectedFeature: undefined,
+      isModalVisible: false,
     }),
     computed: {
       cookieOptions() {
@@ -94,6 +98,9 @@
           path: '/',
           maxAge: 60 * 60 * 24 * 30,
         };
+      },
+      modalVariant() {
+        return ModalVariant;
       },
     },
     watch: {
@@ -145,10 +152,10 @@
           this.addToSeenFeatures(this.selectedFeature.uid);
         }
 
-        this.$refs['giftbox-modal'].show();
+        this.isModalVisible = true;
       },
       hideModal() {
-        this.$refs['giftbox-modal'].hide();
+        this.isModalVisible = false;
       },
       showFeature(uid) {
         if (uid) {
