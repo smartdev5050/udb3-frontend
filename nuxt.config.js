@@ -93,7 +93,12 @@ export default {
     scss: ['./assets/styles/_colors.scss'],
   },
   storybook: {
-    stories: ['~/udb3-ui/**/*.stories.js'],
+    stories: ['~/publiq-ui/**/*.stories.mdx'],
+    addons: [
+      '@storybook/addon-docs',
+      '@storybook/addon-controls',
+      '@storybook/addon-a11y',
+    ],
   },
   i18n: {
     locales: ['nl', 'fr'],

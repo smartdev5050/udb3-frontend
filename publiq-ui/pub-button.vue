@@ -1,5 +1,12 @@
 <template>
-  <b-button v-bind="$attrs" :variant="variant"><slot /></b-button>
+  <b-button
+    v-bind="$attrs"
+    :disabled="disabled"
+    :variant="variant"
+    @click="handleClick"
+  >
+    <slot />
+  </b-button>
 </template>
 
 <style lang="scss" scoped></style>
@@ -13,11 +20,20 @@
   };
 
   export default {
-    name: 'Udb3Button',
+    name: 'PubButton',
     props: {
       variant: {
         type: String,
         default: ButtonVariant.PRIMARY,
+      },
+      disabled: {
+        type: Boolean,
+        default: false,
+      },
+    },
+    methods: {
+      handleClick() {
+        this.$emit('click');
       },
     },
   };

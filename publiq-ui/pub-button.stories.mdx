@@ -1,0 +1,103 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import PubButton, { ButtonVariant } from './pub-button.vue';
+
+<Meta title="pub-button" component={PubButton} />
+
+export const Template = (args, { argTypes }) => {
+  return {
+    props: Object.keys(argTypes),
+    components: { PubButton },
+    template: '<pub-button v-bind="$props">Click me</pub-button>',
+  };
+};
+
+export const commonArguments = {
+  disabled: false,
+};
+
+export const commonArgTypes = {
+  disabled: {
+    control: {
+      type: 'boolean',
+    },
+  },
+  variant: {
+    control: {
+      disable: true,
+    },
+  },
+};
+
+# Variants
+
+## Primary
+
+<Canvas>
+  <Story
+    name="Primary"
+    args={{ ...commonArguments, variant: ButtonVariant.PRIMARY }}
+    argTypes={commonArgTypes}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+```javascript
+<pub-button variant="ButtonVariant.PRIMARY">Click me</pub-button>
+```
+
+<ArgsTable story="Primary" />
+
+## Secondary
+
+<Canvas>
+  <Story
+    name="Secondary"
+    args={{ ...commonArguments, variant: ButtonVariant.SECONDARY }}
+    argTypes={commonArgTypes}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+```javascript
+<pub-button variant="ButtonVariant.SECONDARY">Click me</pub-button>
+```
+
+<ArgsTable story="Secondary" />
+
+## Success
+
+<Canvas>
+  <Story
+    name="Success"
+    args={{ ...commonArguments, variant: ButtonVariant.SUCCESS }}
+    argTypes={commonArgTypes}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+```javascript
+<pub-button variant="ButtonVariant.SUCCESS">Click me</pub-button>
+```
+
+<ArgsTable story="Success" />
+
+## Danger
+
+<Canvas>
+  <Story
+    name="Danger"
+    args={{ ...commonArguments, variant: ButtonVariant.DANGER }}
+    argTypes={commonArgTypes}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+```javascript
+<pub-button variant="ButtonVariant.DANGER">Click me</pub-button>
+```
+
+<ArgsTable story="Danger" />
