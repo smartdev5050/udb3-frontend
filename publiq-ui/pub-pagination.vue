@@ -41,24 +41,24 @@
   .pagination {
     justify-content: center;
 
-    ::v-deep .page-item.active .page-link {
+    /deep/ .page-item.active .page-link {
       z-index: 0;
     }
 
-    ::v-deep .prev-btn .page-link {
+    /deep/ .prev-btn .page-link {
       margin-right: 0.2rem;
     }
 
-    ::v-deep .next-btn .page-link {
+    /deep/ .next-btn .page-link {
       margin-left: 0.2rem;
     }
 
     &.hide-buttons {
-      ::v-deep .prev-btn {
+      /deep/ .prev-btn {
         display: none;
       }
 
-      ::v-deep .next-btn {
+      /deep/ .next-btn {
         display: none;
       }
     }
