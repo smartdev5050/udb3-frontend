@@ -1,0 +1,26 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import PubPagination from './pub-pagination.vue';
+
+<Meta title="pub-pagination" component={PubPagination} />
+
+export const Template = (args, { argTypes }) => {
+  return {
+    props: Object.keys(argTypes),
+    components: { PubPagination },
+    template: '<pub-pagination v-bind="$props" />',
+  };
+};
+
+# Variants
+
+## Default
+
+<Canvas>
+  <Story name="Default">{Template.bind({})}</Story>
+</Canvas>
+
+```javascript
+<pub-pagination />
+```
+
+<ArgsTable story="Default" />
