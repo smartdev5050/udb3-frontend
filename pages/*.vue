@@ -30,16 +30,4 @@
   };
 </script>
 
-<style lang="scss">
-  .wrapper {
-    background-color: #f0f0f0;
-    margin: 0 auto;
-    padding: 0;
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    justify-content: left;
-    align-items: flex-start;
-    text-align: left;
-  }
-</style>
+<style lang="scss"></style>
