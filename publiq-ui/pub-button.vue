@@ -1,7 +1,12 @@
 <template>
-  <b-button v-bind="$attrs" :disabled="disabled" :variant="variant"
-    ><slot
-  /></b-button>
+  <b-button
+    v-bind="$attrs"
+    :disabled="disabled"
+    :variant="variant"
+    @click="handleClick"
+  >
+    <slot />
+  </b-button>
 </template>
 
 <style lang="scss" scoped></style>
@@ -24,6 +29,11 @@
       disabled: {
         type: Boolean,
         default: false,
+      },
+    },
+    methods: {
+      handleClick() {
+        this.$emit('click');
       },
     },
   };
