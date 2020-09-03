@@ -3,7 +3,7 @@
 </template>
 
 <script>
-  export const HeadingVariant = {
+  export const Heading1Variant = {
     DEFAULT: 'default',
     TITLE: 'title',
   };
@@ -12,12 +12,12 @@
     props: {
       variant: {
         type: String,
-        default: HeadingVariant.DEFAULT,
+        default: Heading1Variant.DEFAULT,
       },
     },
     computed: {
       isTitle() {
-        return this.variant === HeadingVariant.TITLE;
+        return this.variant === Heading1Variant.TITLE;
       },
     },
   };

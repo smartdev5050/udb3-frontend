@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="container-fluid productions-index-page">
-      <pub-h1 :variant="headingVariant.TITLE">
+      <pub-h1 :variant="heading1Variant.TITLE">
         {{ $t('menu.productions') }}
         <small>
           <nuxt-link class="link" to="productions/create">{{
@@ -55,7 +55,7 @@
   import Search from '@/components/productions/index/search';
   import DeleteModal from '@/components/productions/index/delete-modal';
   import { parseId as parseEventId } from '@/functions/events';
-  import pubH1, { HeadingVariant } from '@/publiq-ui/pub-h1';
+  import pubH1, { Heading1Variant } from '@/publiq-ui/pub-h1';
 
   export default {
     components: {
@@ -96,8 +96,8 @@
       selectedProductionName() {
         return this.selectedProduction ? this.selectedProduction.name : '';
       },
-      headingVariant() {
-        return HeadingVariant;
+      heading1Variant() {
+        return Heading1Variant;
       },
     },
     async created() {

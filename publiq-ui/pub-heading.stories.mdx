@@ -1,0 +1,50 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import PubH1, { Heading1Variant } from './pub-h1.vue';
+
+<Meta title="pub-h1" component={PubH1} />
+
+export const Template = (args, { argTypes }) => {
+  return {
+    props: Object.keys(argTypes),
+    components: { PubH1 },
+    template: '<pub-h1 v-bind="$props">Heading 1</pub-h1>',
+  };
+};
+
+export const commonArgTypes = {
+  variant: {
+    control: {
+      disable: true,
+    },
+  },
+};
+
+# Variants
+
+## Default
+
+<Canvas>
+  <Story name="Default" argTypes={commonArgTypes}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Default" />
+
+## Title
+
+<Canvas>
+  <Story
+    name="Title"
+    args={{ variant: Heading1Variant.TITLE }}
+    argTypes={commonArgTypes}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+```javascript
+<pub-h1 variant="Heading1Variant.TITLE">Heading 1</pub-h1>
+```
+
+<ArgsTable story="Title" />

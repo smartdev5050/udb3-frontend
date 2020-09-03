@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <section class="container-fluid productions-create-page">
-      <pub-h1 :variant="headingVariant.TITLE" class="create-title">{{
+      <pub-h1 :variant="heading1Variant.TITLE" class="create-title">{{
         $t('productions.create')
       }}</pub-h1>
       <div v-if="suggestedEvents.length > 0">
@@ -88,7 +88,7 @@
   import Event from '@/components/productions/create/event';
   import LoadingSpinner from '@/components/loading-spinner';
   import { parseId } from '@/functions/events';
-  import PubH1, { HeadingVariant } from '@/publiq-ui/pub-h1';
+  import PubH1, { Heading1Variant } from '@/publiq-ui/pub-h1';
 
   export default {
     components: {
@@ -115,8 +115,8 @@
       locale() {
         return this.$i18n.locale;
       },
-      headingVariant() {
-        return HeadingVariant;
+      heading1Variant() {
+        return Heading1Variant;
       },
       suggestedEventIdsWithoutProduction() {
         return this.suggestedEvents
