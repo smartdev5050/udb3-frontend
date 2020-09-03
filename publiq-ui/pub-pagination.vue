@@ -7,6 +7,8 @@
     :next-text="$t('pagination.next')"
     hide-goto-end-buttons
     :class="{ 'hide-buttons': hideButtons }"
+    prev-class="prev-btn"
+    next-class="next-btn"
     @input="handleInput"
   />
 </template>
@@ -39,24 +41,24 @@
   .pagination {
     justify-content: center;
 
-    .page-item.active .page-link {
+    ::v-deep .page-item.active .page-link {
       z-index: 0;
     }
 
-    .page-item:first-child .page-link {
+    ::v-deep .prev-btn .page-link {
       margin-right: 0.2rem;
     }
 
-    .page-item:last-child .page-link {
+    ::v-deep .next-btn .page-link {
       margin-left: 0.2rem;
     }
 
     &.hide-buttons {
-      li:first-child {
+      ::v-deep .prev-btn {
         display: none;
       }
 
-      li:last-child {
+      ::v-deep .next-btn {
         display: none;
       }
     }
