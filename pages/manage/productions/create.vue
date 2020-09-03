@@ -77,7 +77,7 @@
         >{{ errorMessage }}</b-alert
       >
     </section>
-  </div>
+  </pub-wrapper>
 </template>
 
 <script>

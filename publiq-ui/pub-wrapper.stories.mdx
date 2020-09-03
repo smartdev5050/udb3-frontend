@@ -1,0 +1,26 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import PubWrapper, { ButtonVariant } from './pub-wrapper.vue';
+
+<Meta title="pub-wrapper" component={PubWrapper} />
+
+export const Template = (args, { argTypes }) => {
+  return {
+    props: Object.keys(argTypes),
+    components: { PubWrapper },
+    template: '<pub-wrapper v-bind="$props">Wrapped content</pub-wrapper>',
+  };
+};
+
+# Variants
+
+## Default
+
+<Canvas>
+  <Story name="Default">{Template.bind({})}</Story>
+</Canvas>
+
+```javascript
+<pub-wrapper>Wrapped content</pub-wrapper>
+```
+
+<ArgsTable story="Default" />
