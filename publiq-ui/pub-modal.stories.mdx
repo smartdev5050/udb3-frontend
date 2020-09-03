@@ -1,23 +1,66 @@
-import { Meta, Story, Canvas, Props } from '@storybook/addon-docs/blocks';
-import PubModal from './pub-modal.vue';
+import {
+  Meta,
+  Story,
+  Canvas,
+  Props,
+  ArgsTable,
+} from '@storybook/addon-docs/blocks';
+import PubModal, { ModalVariant } from './pub-modal.vue';
 
 <Meta title="pub-modal" component={PubModal} />
 
-export const Template = (args, { argTypes }) => ({
-  props: Object.keys(argTypes),
-  components: { PubModal },
-  template:
-    '<pub-modal title="Title" :isVisible="true">Lorem ipsum</pub-modal>',
-});
+export const Template = (args, { argTypes }) => {
+  console.log({ args }, { argTypes });
+  return {
+    props: Object.keys(argTypes),
+    components: { PubModal },
+    template: '<pub-modal v-bind="$props">Lorem ipsum</pub-modal>',
+  };
+};
 
 # Variants
 
 ## Default
 
 <Canvas>
-  <Story name="Default">{Template.bind({})}</Story>
+  <Story
+    name="Default"
+    args={{
+      title: 'Default modal',
+      isVisible: true,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
 </Canvas>
 
-# Props
+```javascript
+<pub-modal
+  title="Default modal"
+  is-visible="true"
+  :variant="ModalVariant.DEFAULT"
+>Lorem ipsum</pub-modal>
+```
 
-<Props component={PubModal} />
+<ArgsTable story="Default" />
+
+## With buttons
+
+<Canvas>
+  <Story
+    name="WithButtons"
+    args={{
+      title: 'Modal with buttons',
+      isVisible: true,
+      variant: ModalVariant.WITH_BUTTONS,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+```javascript
+<pub-modal title="Modal with buttons" is-visible="true" :variant="ModalVariant.WITH_BUTTONS" >Lorem ipsum</pub-modal>
+```
+
+<ArgsTable story="WithButtons" />
