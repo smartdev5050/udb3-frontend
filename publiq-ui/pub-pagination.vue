@@ -1,12 +1,14 @@
 <template>
   <b-pagination
     v-model="currentPage"
-    :total-rows="rows"
+    :total-rows="total"
     :per-page="perPage"
-    :prev-text="$t('pagination.previous')"
-    :next-text="$t('pagination.next')"
+    :prev-text="prevText"
+    :next-text="nextText"
     hide-goto-end-buttons
     :class="{ 'hide-buttons': hideButtons }"
+    prev-class="prev-btn"
+    next-class="next-btn"
     @input="handleInput"
   />
 </template>
@@ -15,16 +17,28 @@
   export default {
     name: 'Pagination',
     props: {
-      rows: { type: Number, default: 1 },
+      total: { type: Number, default: 1 },
       perPage: { type: Number, default: 10 },
       limit: { type: Number, default: 10 },
+      prevText: {
+        type: String,
+        default() {
+          return this.$t('pagination.previous');
+        },
+      },
+      nextText: {
+        type: String,
+        default() {
+          return this.$t('pagination.next');
+        },
+      },
     },
     data: () => ({
       currentPage: 1,
     }),
     computed: {
       hideButtons() {
-        return Math.ceil(this.rows / this.perPage) === 1;
+        return Math.ceil(this.total / this.perPage) === 1;
       },
     },
     methods: {
@@ -35,28 +49,28 @@
   };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .pagination {
     justify-content: center;
 
-    .page-item.active .page-link {
+    /deep/ .page-item.active .page-link {
       z-index: 0;
     }
 
-    .page-item:first-child .page-link {
+    /deep/ .prev-btn .page-link {
       margin-right: 0.2rem;
     }
 
-    .page-item:last-child .page-link {
+    /deep/ .next-btn .page-link {
       margin-left: 0.2rem;
     }
 
     &.hide-buttons {
-      li:first-child {
+      /deep/ .prev-btn {
         display: none;
       }
 
-      li:last-child {
+      /deep/ .next-btn {
         display: none;
       }
     }

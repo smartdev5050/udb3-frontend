@@ -19,8 +19,8 @@
         </li>
       </ul>
       <div class="panel-footer">
-        <pagination
-          :rows="totalItems"
+        <pub-pagination
+          :total="totalItems"
           :per-page="productionsPerPage"
           @changePage="handleChangePage"
         />
@@ -37,12 +37,12 @@
 
 <script>
   import LoadingSpinner from '../../loading-spinner';
-  import Pagination from '@/components/pagination';
+  import PubPagination from '@/publiq-ui/pub-pagination';
 
   export default {
     components: {
       LoadingSpinner,
-      Pagination,
+      PubPagination,
     },
     props: {
       productions: {
