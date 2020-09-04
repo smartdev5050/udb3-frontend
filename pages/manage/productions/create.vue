@@ -1,7 +1,7 @@
 <template>
-  <div class="wrapper">
+  <pub-wrapper>
     <section class="container-fluid productions-create-page">
-      <h1 class="title create-title">{{ $t('productions.create') }}</h1>
+      <pub-h1 class="create-title">{{ $t('productions.create') }}</pub-h1>
       <div v-if="suggestedEvents.length > 0">
         <section class="events-container">
           <event
@@ -77,7 +77,7 @@
         >{{ errorMessage }}</b-alert
       >
     </section>
-  </div>
+  </pub-wrapper>
 </template>
 
 <script>
@@ -86,12 +86,16 @@
   import Event from '@/components/productions/create/event';
   import LoadingSpinner from '@/components/loading-spinner';
   import { parseId } from '@/functions/events';
+  import PubH1 from '@/publiq-ui/pub-h1';
+  import PubWrapper from '@/publiq-ui/pub-wrapper';
 
   export default {
     components: {
       Event,
       LoadingSpinner,
       VueTypeaheadBootstrap,
+      PubWrapper,
+      PubH1,
     },
     data: () => ({
       eventSimilarityScore: 0,

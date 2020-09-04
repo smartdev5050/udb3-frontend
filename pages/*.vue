@@ -1,14 +1,17 @@
 <template>
-  <div class="wrapper">
+  <pub-wrapper>
     <legacy-app-page :path="generatePath" />
-  </div>
+  </pub-wrapper>
 </template>
 
 <script>
   import LegacyAppPage from '../components/legacy-app-page';
+  import PubWrapper from '@/publiq-ui/pub-wrapper';
+
   export default {
     components: {
       LegacyAppPage,
+      PubWrapper,
     },
     computed: {
       generatePath() {
@@ -30,16 +33,4 @@
   };
 </script>
 
-<style lang="scss">
-  .wrapper {
-    background-color: #f0f0f0;
-    margin: 0 auto;
-    padding: 0;
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    justify-content: left;
-    align-items: flex-start;
-    text-align: left;
-  }
-</style>
+<style lang="scss"></style>
