@@ -19,19 +19,19 @@
       class="event-details"
       aria-label="Event details"
     >
-      <h3>{{ $t('productions.details') }}</h3>
+      <h3>{{ $t('productions.overview.details') }}</h3>
       <table class="table">
         <tbody>
           <tr>
-            <th>{{ $t('productions.type') }}</th>
+            <th>{{ $t('productions.event.type') }}</th>
             <td>{{ type }}</td>
           </tr>
           <tr>
-            <th>{{ $t('productions.when') }}</th>
+            <th>{{ $t('productions.event.when') }}</th>
             <td>{{ period }}</td>
           </tr>
           <tr>
-            <th>{{ $t('productions.where') }}</th>
+            <th>{{ $t('productions.event.where') }}</th>
             <td>{{ location }}</td>
           </tr>
         </tbody>

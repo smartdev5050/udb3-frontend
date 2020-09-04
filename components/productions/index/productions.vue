@@ -2,6 +2,8 @@
   <section class="productions-container" aria-label="List of productions">
     <h2>{{ $t('productions.production') }}</h2>
     <pub-panel v-if="!isLoading && productions.length > 0">
+    <h2>{{ $t('productions.overview.production') }}</h2>
+    <section v-if="!isLoading && productions.length > 0" class="panel">
       <ul class="list-group">
         <li
           v-for="production in productions"
@@ -30,7 +32,7 @@
       <loading-spinner />
     </div>
     <div v-else class="text-center">
-      {{ $t('productions.no_productions') }}
+      {{ $t('productions.overview.no_productions') }}
     </div>
   </section>
 </template>

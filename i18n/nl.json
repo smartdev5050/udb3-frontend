@@ -51,34 +51,40 @@
     "next": "Volgende"
   },
   "productions": {
-    "cancel": "annuleren",
-    "confirm": "bevestigen",
-    "create": "toevoegen",
-    "delete_question_event": "Ben je zeker dat je het geselecteerde event wilt verwijderen uit productie '{productionName}'?",
-    "delete_question_events": "Ben je zeker dat je de geselecteerde {eventCount} events wilt verwijderen uit productie '{productionName}'?",
-    "delete": "verwijderen",
-    "details": "Details",
-    "events": "Evenementen",
-    "in": "in",
-    "link": "Linken",
-    "loading": "Laden",
-    "no_events": "Geen eventementen onder deze productie.",
-    "no_productions": "Geen producties gevonden.",
-    "no_suggested_events_found": "Geen evenementen gevonden om te linken aan een productie. Probeer het later opnieuw.",
-    "part_of_production": "Onderdeel van de productie",
-    "production": "Productie",
-    "production_name": "Productienaam",
-    "productions": "Producties",
-    "search": {
-      "label": "Zoeken op productienaam:",
-      "placeholder": "Schrijf een zoekopdracht van minstens 4 karakters."
+    "overview": {
+      "title": "Producties",
+      "production": "Productie",
+      "cancel": "annuleren",
+      "confirm": "bevestigen",
+      "create": "toevoegen",
+      "delete_question_event": "Ben je zeker dat je het geselecteerde event wilt verwijderen uit productie '{productionName}'?",
+      "delete_question_events": "Ben je zeker dat je de geselecteerde {eventCount} events wilt verwijderen uit productie '{productionName}'?",
+      "delete": "verwijderen",
+      "details": "Details",
+      "events_in_production": "Evenementen in {productionName}",
+      "link": "Linken",
+      "loading": "Laden",
+      "no_events": "Geen eventementen onder deze productie.",
+      "no_productions": "Geen producties gevonden.",
+      "search": {
+        "label": "Zoeken op productienaam:",
+        "placeholder": "Schrijf een zoekopdracht van minstens 4 karakters."
+      }
     },
-    "skip": "Overslaan",
-    "suggested_events": "Overeenkomstig voorgestelde evenementen:",
-    "title": "Titel",
-    "type": "Type",
-    "when": "Wanneer",
-    "where": "Waar"
+    "create": {
+      "title": "Producties toevoegen",
+      "no_suggested_events_found": "Geen evenementen gevonden om te linken aan een productie. Probeer het later opnieuw.",
+      "production_name": "Productienaam",
+      "skip": "Overslaan",
+      "suggested_events": "Overeenkomst voorgestelde evenementen:"
+    },
+    "event": {
+      "title": "Titel",
+      "type": "Type",
+      "when": "Wanneer",
+      "where": "Waar",
+      "part_of_production": "Onderdeel van de productie"
+    }
   },
   "jobs": {
     "exported_documents": "Geëxporteerde documenten",

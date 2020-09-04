@@ -4,15 +4,15 @@
       <div class="heading-container">
         <h2>
           {{
-            `${$t('productions.events')} ${$t(
-              'productions.in',
-            )} '${selectedProductionName}'`
+            `${$t('productions.overview.events_in_production', {
+              productionName: selectedProductionName,
+            })}`
           }}
         </h2>
         <div v-if="!isAddEventVisible">
           <b-button variant="primary" @click="handleClickAddEvent">
             <fa icon="plus" />
-            {{ $t('productions.create') }}
+            {{ $t('productions.overview.create') }}
           </b-button>
           <b-button
             variant="danger"
@@ -20,7 +20,7 @@
             @click="handleClickDelete"
           >
             <fa icon="trash" />
-            {{ $t('productions.delete') }}
+            {{ $t('productions.overview.delete') }}
           </b-button>
         </div>
       </div>
@@ -43,7 +43,7 @@
         >
           <span v-if="!isAdding">
             <fa icon="check" />
-            {{ $t('productions.confirm') }}
+            {{ $t('productions.overview.confirm') }}
           </span>
           <loading-spinner v-else class="button-spinner" />
         </b-button>
@@ -52,7 +52,7 @@
           @click="handleClickCancelAddEventToProduction"
         >
           <fa icon="times" />
-          {{ $t('productions.cancel') }}
+          {{ $t('productions.overview.cancel') }}
         </b-button>
       </div>
       <pub-panel>
