@@ -19,10 +19,14 @@ export const commonArgs = {
 
 export const commonArgTypes = {
   prevText: {
-    defaultValue: "this.$t('pagination.previous')",
+    table: {
+      defaultValue: { summary: '$t(pagination.previous)' },
+    },
   },
   nextText: {
-    defaultValue: "this.$t('pagination.next')",
+    table: {
+      defaultValue: { summary: '$t(pagination.next)' },
+    },
   },
 };
 
