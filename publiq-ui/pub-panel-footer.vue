@@ -1,7 +1,7 @@
 <template>
-  <div class="panel-footer">
+  <section class="panel-footer">
     <slot />
-  </div>
+  </section>
 </template>
 
 <script>
