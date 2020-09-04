@@ -14,7 +14,7 @@
         v-if="productionName"
         class="list-group-item list-group-item-dark"
       >
-        {{ $t('productions.part_of_production') }}
+        {{ $t('productions.event.part_of_production') }}
         <strong>{{ productionName }}</strong>
       </section>
     </b-card-text>
