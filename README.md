@@ -1,5 +1,10 @@
 # udb3-frontend
 
+## Environment Variables
+
+Copy the `.env.example` and rename it to `.env`.
+Fill in the correct values for the variables.
+
 ## Build Setup
 
 ```bash
@@ -12,14 +17,12 @@ $ yarn dev
 # build for production and launch server
 $ yarn build
 $ yarn start
-
-# generate static project
-$ yarn generate
 ```
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
 
-## Environment Variables
+## Storybook
 
-Copy the .env.example and rename it to .env.
-Fill in the correct values for the variables
+```bash
+$ yarn nuxt storybook
+```
