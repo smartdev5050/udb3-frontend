@@ -20,7 +20,7 @@
       </ul>
       <div class="panel-footer">
         <pub-pagination
-          :rows="totalItems"
+          :total="totalItems"
           :per-page="productionsPerPage"
           @changePage="handleChangePage"
         />

@@ -1,7 +1,7 @@
 <template>
   <b-pagination
     v-model="currentPage"
-    :total-rows="rows"
+    :total-total="total"
     :per-page="perPage"
     :prev-text="prevText"
     :next-text="nextText"
@@ -17,7 +17,7 @@
   export default {
     name: 'Pagination',
     props: {
-      rows: { type: Number, default: 1 },
+      total: { type: Number, default: 1 },
       perPage: { type: Number, default: 10 },
       limit: { type: Number, default: 10 },
       prevText: {
@@ -38,7 +38,7 @@
     }),
     computed: {
       hideButtons() {
-        return Math.ceil(this.rows / this.perPage) === 1;
+        return Math.ceil(this.total / this.perPage) === 1;
       },
     },
     methods: {
