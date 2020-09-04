@@ -4,9 +4,9 @@
       <div class="heading-container">
         <h2>
           {{
-            `${$t('productions.overview.events')} ${$t(
-              'productions.overview.in',
-            )} '${selectedProductionName}'`
+            `${$t('productions.overview.events_in_production', {
+              productionName: selectedProductionName,
+            })}`
           }}
         </h2>
         <div v-if="!isAddEventVisible">
