@@ -1,0 +1,25 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import PubPanelFooter from './pub-panel-footer.vue';
+
+<Meta title="pub-panel-footer" component={PubPanelFooter} />
+
+export const Template = (args, { argTypes }) => {
+  return {
+    props: Object.keys(argTypes),
+    components: { PubPanelFooter },
+    template:
+      '<pub-panel-footer v-bind="$props">Panel footer content</pub-panel-footer>',
+  };
+};
+
+## Default
+
+<Canvas>
+  <Story name="Default">{Template.bind({})}</Story>
+</Canvas>
+
+```javascript
+<pub-panel-footer>Panel footer content</pub-panel-footer>
+```
+
+<ArgsTable story="Default" />
