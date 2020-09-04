@@ -11,16 +11,31 @@ export const Template = (args, { argTypes }) => {
   };
 };
 
-# Variants
+export const commonArgs = {
+  rows: 50,
+  prevText: 'Previous one',
+  nextText: 'Next one',
+};
+
+export const commonArgTypes = {
+  prevText: {
+    defaultValue: "this.$t('pagination.previous')",
+  },
+  nextText: {
+    defaultValue: "this.$t('pagination.next')",
+  },
+};
 
 ## Default
 
 <Canvas>
-  <Story name="Default">{Template.bind({})}</Story>
+  <Story name="Default" args={commonArgs} argTypes={commonArgTypes}>
+    {Template.bind({})}
+  </Story>
 </Canvas>
 
 ```javascript
-<pub-pagination />
+<pub-pagination rows="50" prev-text="Previous one" next-text="Previous one" />
 ```
 
 <ArgsTable story="Default" />
