@@ -56,7 +56,7 @@
   import DeleteModal from '@/components/productions/index/delete-modal';
   import { parseId as parseEventId } from '@/functions/events';
   import PubWrapper from '@/publiq-ui/pub-wrapper';
-  import pubH1 from '@/publiq-ui/pub-h1';
+  import PubH1 from '@/publiq-ui/pub-h1';
 
   export default {
     components: {
@@ -64,7 +64,7 @@
       Events,
       Search,
       DeleteModal,
-      pubH1,
+      PubH1,
       PubWrapper,
     },
     data() {
