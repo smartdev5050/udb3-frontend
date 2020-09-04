@@ -1,11 +1,13 @@
 <template>
   <div class="search-container">
     <div class="searchbox-container">
-      <label for="search-input">{{ $t('productions.search.label') }}</label>
+      <label for="search-input">{{
+        $t('productions.overview.search.label')
+      }}</label>
       <b-form-input
         id="search-input"
         v-model="searchInput"
-        :placeholder="$t('productions.search.placeholder')"
+        :placeholder="$t('productions.overview.search.placeholder')"
         @input="handleInputSearch"
       ></b-form-input>
     </div>

@@ -49,34 +49,40 @@
     "next": "Prochain"
   },
   "productions": {
-    "cancel": "annuler",
-    "confirm": "confirmer",
-    "create": "ajouter",
-    "delete_question_event": "Voulez-vous vraiment supprimer l'événement sélectionné de la production '{productionName}'?",
-    "delete_question_events": "Voulez-vous vraiment supprimer les {eventCount} événements sélectionnés de la production '{productionName}'?",
-    "delete": "supprimer",
-    "details": "Details",
-    "events": "Événement",
-    "in": "dans",
-    "link": "Lier",
-    "loading": "Changer",
-    "no_events": "Aucun événement dans cette production.",
-    "no_productions": "Aucune production trouvée.",
-    "no_suggested_events_found": "Aucun événement trouvé pour être lié à une production. Réessayez plus tard.",
-    "part_of_production": "Partie de la production",
-    "production": "Production",
-    "production_name": "Nom de production",
-    "productions": "Productions",
-    "search": {
-      "label": "Recherche par nom de production:",
-      "placeholder": "Écrivez une recherche d'au moins 4 caractères."
+    "overview": {
+      "title": "Productions",
+      "production": "Production",
+      "cancel": "annuler",
+      "confirm": "confirmer",
+      "create": "ajouter",
+      "delete_question_event": "Voulez-vous vraiment supprimer l'événement sélectionné de la production '{productionName}'?",
+      "delete_question_events": "Voulez-vous vraiment supprimer les {eventCount} événements sélectionnés de la production '{productionName}'?",
+      "delete": "supprimer",
+      "details": "Details",
+      "events_in_production": "Événements dans {productionName}",
+      "link": "Lier",
+      "loading": "Changer",
+      "no_events": "Aucun événement dans cette production.",
+      "no_productions": "Aucune production trouvée.",
+      "search": {
+        "label": "Recherche par nom de production:",
+        "placeholder": "Écrivez une recherche d'au moins 4 caractères."
+      }
     },
-    "skip": "Sauter",
-    "suggested_events": "Conformément à événements proposés",
-    "title": "Titre",
-    "type": "Genre",
-    "when": "Quand",
-    "where": "Où"
+    "create": {
+      "title": "Ajouter des productions",
+      "no_suggested_events_found": "Aucun événement trouvé pour être lié à une production. Réessayez plus tard.",
+      "production_name": "Nom de production",
+      "skip": "Sauter",
+      "suggested_events": "Conformément à événements proposés"
+    },
+    "event": {
+      "title": "Titre",
+      "type": "Genre",
+      "when": "Quand",
+      "where": "Où",
+      "part_of_production": "Partie de la production"
+    }
   },
   "jobs": {
     "exported_documents": "Documents exportés",
