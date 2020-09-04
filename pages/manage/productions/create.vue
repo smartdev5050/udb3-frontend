@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <pub-wrapper>
     <section class="container-fluid productions-create-page">
       <pub-h1 :variant="heading1Variant.TITLE" class="create-title">{{
         $t('productions.create')
@@ -79,7 +79,7 @@
         >{{ errorMessage }}</b-alert
       >
     </section>
-  </div>
+  </pub-wrapper>
 </template>
 
 <script>
@@ -89,12 +89,14 @@
   import LoadingSpinner from '@/components/loading-spinner';
   import { parseId } from '@/functions/events';
   import PubH1, { Heading1Variant } from '@/publiq-ui/pub-h1';
+  import PubWrapper from '@/publiq-ui/pub-wrapper';
 
   export default {
     components: {
       Event,
       LoadingSpinner,
       VueTypeaheadBootstrap,
+      PubWrapper,
       PubH1,
     },
     data: () => ({
