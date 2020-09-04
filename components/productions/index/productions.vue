@@ -1,7 +1,7 @@
 <template>
   <section class="productions-container" aria-label="List of productions">
     <h2>{{ $t('productions.overview.production') }}</h2>
-    <section v-if="!isLoading && productions.length > 0" class="panel">
+    <pub-panel v-if="!isLoading && productions.length > 0">
       <ul class="list-group">
         <li
           v-for="production in productions"
@@ -18,14 +18,14 @@
           </a>
         </li>
       </ul>
-      <div class="panel-footer">
+      <pub-panel-footer>
         <pub-pagination
           :total="totalItems"
           :per-page="productionsPerPage"
           @changePage="handleChangePage"
         />
-      </div>
-    </section>
+      </pub-panel-footer>
+    </pub-panel>
     <div v-else-if="isLoading">
       <loading-spinner />
     </div>
@@ -37,11 +37,15 @@
 
 <script>
   import LoadingSpinner from '../../loading-spinner';
+  import PubPanel from '@/publiq-ui/pub-panel';
+  import PubPanelFooter from '@/publiq-ui/pub-panel-footer';
   import PubPagination from '@/publiq-ui/pub-pagination';
 
   export default {
     components: {
       LoadingSpinner,
+      PubPanel,
+      PubPanelFooter,
       PubPagination,
     },
     props: {

@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper"><slot /></div>
+  <section class="wrapper"><slot /></section>
 </template>
 
 <script>

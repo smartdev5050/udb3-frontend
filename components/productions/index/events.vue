@@ -55,20 +55,22 @@
           {{ $t('productions.overview.cancel') }}
         </b-button>
       </div>
-      <ul class="list-group panel">
-        <event
-          v-for="event in events"
-          :id="parseEventId(event['@id'])"
-          :key="parseEventId(event['@id'])"
-          :name="event.name[locale] || event.name['nl']"
-          :type="getEventType(event.terms)"
-          :location="event.location.name[locale] || event.location.name['nl']"
-          :is-selected="isEventSelected(parseEventId(event['@id']))"
-          :is-disabled="isAddEventVisible"
-          class="list-group-item"
-          @select="handleSelectEvent"
-        />
-      </ul>
+      <pub-panel>
+        <ul class="list-group">
+          <event
+            v-for="event in events"
+            :id="parseEventId(event['@id'])"
+            :key="parseEventId(event['@id'])"
+            :name="event.name[locale] || event.name['nl']"
+            :type="getEventType(event.terms)"
+            :location="event.location.name[locale] || event.location.name['nl']"
+            :is-selected="isEventSelected(parseEventId(event['@id']))"
+            :is-disabled="isAddEventVisible"
+            class="list-group-item"
+            @select="handleSelectEvent"
+          />
+        </ul>
+      </pub-panel>
     </template>
     <div v-else>
       <loading-spinner />
@@ -80,11 +82,13 @@
   import LoadingSpinner from '../../loading-spinner';
   import Event from './event';
   import { parseId } from '@/functions/events';
+  import PubPanel from '@/publiq-ui/pub-panel';
 
   export default {
     components: {
       LoadingSpinner,
       Event,
+      PubPanel,
     },
     props: {
       events: {
