@@ -1,9 +1,7 @@
 <template>
   <section class="productions-container" aria-label="List of productions">
-    <h2>{{ $t('productions.production') }}</h2>
-    <pub-panel v-if="!isLoading && productions.length > 0">
     <h2>{{ $t('productions.overview.production') }}</h2>
-    <section v-if="!isLoading && productions.length > 0" class="panel">
+    <pub-panel v-if="!isLoading && productions.length > 0">
       <ul class="list-group">
         <li
           v-for="production in productions"
