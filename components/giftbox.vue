@@ -170,19 +170,6 @@
 </script>
 
 <style lang="scss" scoped>
-  ::v-deep .modal {
-    overflow-y: hidden;
-  }
-
-  ::v-deep .modal-content {
-    max-height: 95vh;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-  }
-
-  ::v-deep .modal-body {
-    padding: 0;
-  }
-
   .features-wrapper {
     width: 100%;
     height: 100%;
