@@ -1,7 +1,7 @@
 <template>
   <b-pagination
     v-model="currentPage"
-    :total-total="total"
+    :total-rows="total"
     :per-page="perPage"
     :prev-text="prevText"
     :next-text="nextText"
