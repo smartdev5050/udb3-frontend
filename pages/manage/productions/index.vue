@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <pub-wrapper>
     <div class="container-fluid productions-index-page">
       <h1 class="title">
         {{ $t('menu.productions') }}
@@ -46,7 +46,7 @@
         {{ $t('productions.no_productions') }}
       </div>
     </div>
-  </div>
+  </pub-wrapper>
 </template>
 
 <script>
@@ -55,6 +55,7 @@
   import Search from '@/components/productions/index/search';
   import DeleteModal from '@/components/productions/index/delete-modal';
   import { parseId as parseEventId } from '@/functions/events';
+  import PubWrapper from '@/publiq-ui/pub-wrapper';
 
   export default {
     components: {
@@ -62,6 +63,7 @@
       Events,
       Search,
       DeleteModal,
+      PubWrapper,
     },
     data() {
       return {
