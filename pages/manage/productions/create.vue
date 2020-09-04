@@ -1,7 +1,7 @@
 <template>
   <pub-wrapper>
     <section class="container-fluid productions-create-page">
-      <h1 class="title create-title">{{ $t('productions.create.title') }}</h1>
+      <h1 class="title">{{ $t('productions.create.title') }}</h1>
       <div v-if="suggestedEvents.length > 0">
         <section class="events-container">
           <event
@@ -257,10 +257,6 @@
 
 <style lang="scss">
   .productions-create-page {
-    .create-title {
-      text-transform: capitalize;
-    }
-
     label {
       font-size: 1rem;
       font-weight: 700;
