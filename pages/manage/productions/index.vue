@@ -5,7 +5,7 @@
         {{ $t('menu.productions') }}
         <small>
           <nuxt-link class="link" to="productions/create">{{
-            $t('productions.create')
+            $t('productions.overview.create')
           }}</nuxt-link>
         </small>
       </pub-h1>
@@ -44,7 +44,7 @@
         />
       </div>
       <div v-else class="productions-events-container">
-        {{ $t('productions.no_productions') }}
+        {{ $t('productions.overview.no_productions') }}
       </div>
     </div>
   </pub-wrapper>

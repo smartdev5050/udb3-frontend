@@ -1,0 +1,46 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import PubPanel from './pub-panel.vue';
+import PubPanelFooter from './pub-panel-footer.vue';
+
+<Meta title="pub-panel" component={PubPanel} />
+
+export const TemplatePanel = (args, { argTypes }) => {
+  return {
+    props: Object.keys(argTypes),
+    components: { PubPanel },
+    template: '<pub-panel v-bind="$props">Panel content</pub-panel>',
+  };
+};
+
+export const TemplatePanelWithFooter = (args, { argTypes }) => {
+  return {
+    props: Object.keys(argTypes),
+    components: { PubPanel, PubPanelFooter },
+    template:
+      '<pub-panel v-bind="$props">Panel content <pub-panel-footer v-bind="$props">Panel footer content</pub-panel-footer></pub-panel>',
+  };
+};
+
+## Default
+
+<Canvas>
+  <Story name="Default">{TemplatePanel.bind({})}</Story>
+</Canvas>
+
+```javascript
+<pub-panel>Panel content</pub-panel>
+```
+
+## With panel footer
+
+<Canvas>
+  <Story name="WithFooter">{TemplatePanelWithFooter.bind({})}</Story>
+</Canvas>
+
+```javascript
+<pub-panel>
+  Panel content <pub-panel-footer>Panel footer content</pub-panel-footer>
+</pub-panel>
+```
+
+<ArgsTable story="Default" />

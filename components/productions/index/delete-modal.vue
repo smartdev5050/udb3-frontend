@@ -10,11 +10,11 @@
     <div class="content-container">
       {{
         eventCount > 1
-          ? $t('productions.delete_question_events', {
+          ? $t('productions.overview.delete_question_events', {
               eventCount,
               productionName,
             })
-          : $t('productions.delete_question_event', { productionName })
+          : $t('productions.overview.delete_question_event', { productionName })
       }}
     </div>
   </pub-modal>
