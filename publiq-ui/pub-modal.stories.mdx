@@ -7,7 +7,15 @@ import {
 } from '@storybook/addon-docs/blocks';
 import PubModal, { ModalVariant } from './pub-modal.vue';
 
-<Meta title="pub-modal" component={PubModal} />
+export const parameters = {
+  previewTabs: {
+    'storybook/docs/panel': {
+      hidden: true,
+    },
+  },
+};
+
+<Meta title="pub-modal" component={PubModal} parameters={parameters} />
 
 export const Template = (args, { argTypes }) => {
   console.log({ args }, { argTypes });
