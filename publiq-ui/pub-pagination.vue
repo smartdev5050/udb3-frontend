@@ -3,8 +3,8 @@
     v-model="currentPage"
     :total-rows="rows"
     :per-page="perPage"
-    :prev-text="$t('pagination.previous')"
-    :next-text="$t('pagination.next')"
+    :prev-text="prevText"
+    :next-text="nextText"
     hide-goto-end-buttons
     :class="{ 'hide-buttons': hideButtons }"
     prev-class="prev-btn"
@@ -20,6 +20,18 @@
       rows: { type: Number, default: 1 },
       perPage: { type: Number, default: 10 },
       limit: { type: Number, default: 10 },
+      prevText: {
+        type: String,
+        default() {
+          return this.$t('pagination.previous');
+        },
+      },
+      nextText: {
+        type: String,
+        default() {
+          return this.$t('pagination.next');
+        },
+      },
     },
     data: () => ({
       currentPage: 1,
