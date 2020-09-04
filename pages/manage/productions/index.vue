@@ -229,7 +229,7 @@
       font-weight: 400;
       margin-bottom: 1rem;
 
-      ::v-deep h2 {
+      /deep/ h2 {
         font-size: 1rem;
         font-weight: 700;
       }
