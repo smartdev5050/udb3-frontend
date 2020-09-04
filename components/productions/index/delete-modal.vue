@@ -1,8 +1,8 @@
 <template>
   <b-modal
     id="deleteModal"
-    :ok-title="$t('productions.delete')"
-    :cancel-title="$t('productions.cancel')"
+    :ok-title="$t('productions.overview.delete')"
+    :cancel-title="$t('productions.overview.cancel')"
     cancel-variant="outline-secondary"
     hide-header
     @ok.prevent="handleConfirmDelete"
@@ -10,11 +10,11 @@
     <div class="content-container">
       {{
         eventCount > 1
-          ? $t('productions.delete_question_events', {
+          ? $t('productions.overview.delete_question_events', {
               eventCount,
               productionName,
             })
-          : $t('productions.delete_question_event', { productionName })
+          : $t('productions.overview.delete_question_event', { productionName })
       }}
     </div>
   </b-modal>

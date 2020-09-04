@@ -1,7 +1,7 @@
 <template>
   <pub-wrapper>
     <section class="container-fluid productions-create-page">
-      <pub-h1 class="create-title">{{ $t('productions.create') }}</pub-h1>
+      <pub-h1>{{ $t('productions.create.title') }}</pub-h1>
       <div v-if="suggestedEvents.length > 0">
         <section class="events-container">
           <event
@@ -26,7 +26,7 @@
           class="production-name-container"
         >
           <label for="production-name">{{
-            $t('productions.production_name')
+            $t('productions.create.production_name')
           }}</label>
           <vue-typeahead-bootstrap
             v-model="productionName"
@@ -38,7 +38,7 @@
           />
         </section>
         <section v-else>
-          <b-form-group :label="$t('productions.production_name')">
+          <b-form-group :label="$t('productions.create.production_name')">
             <b-form-radio
               v-for="production in availableProductions"
               :key="production.id"
@@ -58,15 +58,15 @@
             @mousedown="handleClickLink"
           >
             <loading-spinner v-if="isLinkingEventsWithProduction" />
-            <span v-else>{{ $t('productions.link') }}</span>
+            <span v-else>{{ $t('productions.create.link') }}</span>
           </b-button>
           <b-button variant="danger" @click="handleClickSkip">
-            {{ $t('productions.skip') }}
+            {{ $t('productions.create.skip') }}
           </b-button>
         </section>
       </div>
       <section v-else class="list-group-item list-group-item-warning">
-        {{ $t('productions.no_suggested_events_found') }}
+        {{ $t('productions.create.no_suggested_events_found') }}
       </section>
       <b-alert
         v-for="(errorMessage, index) in errorMessages"
@@ -259,10 +259,6 @@
 
 <style lang="scss">
   .productions-create-page {
-    .create-title {
-      text-transform: capitalize;
-    }
-
     label {
       font-size: 1rem;
       font-weight: 700;
