@@ -10,9 +10,10 @@
       }}</span>
     </a>
     <pub-modal
+      :visible="isModalVisible"
       :title="$t('giftbox.new_features')"
-      :is-visible="isModalVisible"
-      :variant="modalVariant.DEFAULT"
+      :variant="modalVariant.CONTENT"
+      @hidden="handleHiddenModal"
     >
       <div class="features-wrapper">
         <section class="features-list">
@@ -154,9 +155,6 @@
 
         this.isModalVisible = true;
       },
-      hideModal() {
-        this.isModalVisible = false;
-      },
       showFeature(uid) {
         if (uid) {
           this.selectedFeature = this.features.find(
@@ -164,6 +162,9 @@
           );
           this.addToSeenFeatures(this.selectedFeature.uid);
         }
+      },
+      handleHiddenModal() {
+        this.isModalVisible = false;
       },
     },
   };

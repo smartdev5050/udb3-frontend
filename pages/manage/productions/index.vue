@@ -41,6 +41,7 @@
           :event-count="selectedEventIds.length"
           :is-visible="isDeleteModalVisible"
           @confirm="handleConfirmDeleteEvent"
+          @hide="handleHideDeleteModal"
         />
       </div>
       <div v-else class="productions-events-container">
@@ -216,6 +217,9 @@
             return production;
           })
           .filter((production) => production !== undefined);
+      },
+      handleHideDeleteModal() {
+        this.isDeleteModalVisible = false;
       },
     },
   };

@@ -1,11 +1,9 @@
 <template>
   <pub-modal
-    :variant="modalVariant.WITH_BUTTONS"
-    :confirm-title="$t('productions.delete')"
-    :cancel-title="$t('productions.cancel')"
-    :is-visible="isVisible"
-    hide-header
-    @confirm="handleConfirmDelete"
+    :visible="isVisible"
+    :confirm-title="$t('productions.overview.delete')"
+    :cancel-title="$t('productions.overview.cancel')"
+    @hide="handleHide"
   >
     <div class="content-container">
       {{
@@ -47,8 +45,8 @@
       },
     },
     methods: {
-      handleConfirmDelete() {
-        this.$emit('confirm');
+      handleHide() {
+        this.$emit('hide');
       },
     },
   };
