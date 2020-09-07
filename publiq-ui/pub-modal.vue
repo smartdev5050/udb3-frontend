@@ -1,26 +1,12 @@
 <template>
   <b-modal
-    v-if="variant === modalVariant.WITH_BUTTONS"
-    :title="title"
-    :ok-title="confirmTitle"
-    :cancel-title="cancelTitle"
+    v-bind="$attrs"
     cancel-variant="outline-secondary"
-    :visible="isVisible"
     :scrollable="false"
-    :hide-header="hideHeader"
-    @ok.prevent="handleConfirm"
-    @abort="handleCancel"
-  >
-    <slot />
-  </b-modal>
-  <b-modal
-    v-else
-    size="xl"
-    :title="title"
-    :scrollable="false"
-    :hide-header="hideHeader"
-    :hide-footer="hideFooter"
-    :visible="isVisible"
+    :hide-footer="isContentVariant"
+    :hide-header="isQuestionVariant"
+    :size="isContentVariant ? 'xl' : 'md'"
+    v-on="$listeners"
   >
     <slot />
   </b-modal>
@@ -28,52 +14,23 @@
 
 <script>
   export const ModalVariant = {
-    DEFAULT: 'default',
-    WITH_BUTTONS: 'with-buttons',
+    QUESTION: 'question',
+    CONTENT: 'content',
   };
 
   export default {
     props: {
-      title: {
-        type: String,
-        default: '',
-      },
-      isVisible: {
-        type: Boolean,
-        default: false,
-      },
       variant: {
         type: String,
-        default: 'default',
-      },
-      confirmTitle: {
-        type: String,
-        default: 'Confirm',
-      },
-      cancelTitle: {
-        type: String,
-        default: 'Cancel',
-      },
-      hideHeader: {
-        type: Boolean,
-        default: false,
-      },
-      hideFooter: {
-        type: Boolean,
-        default: true,
+        default: ModalVariant.QUESTION,
       },
     },
     computed: {
-      modalVariant() {
-        return ModalVariant;
+      isQuestionVariant() {
+        return this.variant === ModalVariant.QUESTION;
       },
-    },
-    methods: {
-      handleConfirm() {
-        this.$emit('confirm');
-      },
-      handleCancel() {
-        this.$emit('cancel');
+      isContentVariant() {
+        return this.variant === ModalVariant.CONTENT;
       },
     },
   };
