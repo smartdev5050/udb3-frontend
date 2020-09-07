@@ -1,0 +1,24 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import PubCheckbox from './pub-checkbox.vue';
+
+<Meta title="pub-checkbox" component={PubCheckbox} />
+
+export const Template = (args, { argTypes }) => {
+  return {
+    props: Object.keys(argTypes),
+    components: { PubCheckbox },
+    template: '<pub-checkbox v-bind="$props">Click me</pub-checkbox>',
+  };
+};
+
+## Default
+
+<Canvas>
+  <Story name="Default">{Template.bind({})}</Story>
+</Canvas>
+
+```javascript
+<pub-checkbox>Click me</pub-checkbox>
+```
+
+<ArgsTable story="Default" />
