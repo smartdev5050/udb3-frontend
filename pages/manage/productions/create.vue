@@ -57,7 +57,7 @@
             :disabled="!(productionName || selectedSuggestedProductionId)"
             @mousedown="handleClickLink"
           >
-            <loading-spinner v-if="isLinkingEventsWithProduction" />
+            <pub-loading-spinner v-if="isLinkingEventsWithProduction" />
             <span v-else>{{ $t('productions.create.link') }}</span>
           </b-button>
           <b-button variant="danger" @click="handleClickSkip">
@@ -84,7 +84,7 @@
   import { debounce } from 'lodash-es';
   import VueTypeaheadBootstrap from 'vue-typeahead-bootstrap';
   import Event from '@/components/productions/create/event';
-  import LoadingSpinner from '@/components/loading-spinner';
+  import PubLoadingSpinner from '@/publiq-ui/pub-loading-spinner';
   import { parseId } from '@/functions/events';
   import PubH1 from '@/publiq-ui/pub-h1';
   import PubWrapper from '@/publiq-ui/pub-wrapper';
@@ -92,7 +92,7 @@
   export default {
     components: {
       Event,
-      LoadingSpinner,
+      PubLoadingSpinner,
       VueTypeaheadBootstrap,
       PubWrapper,
       PubH1,

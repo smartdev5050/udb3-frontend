@@ -45,7 +45,7 @@
             <fa icon="check" />
             {{ $t('productions.overview.confirm') }}
           </span>
-          <loading-spinner v-else class="button-spinner" />
+          <pub-loading-spinner v-else class="button-spinner" />
         </b-button>
         <b-button
           variant="outline-secondary"
@@ -73,20 +73,20 @@
       </pub-panel>
     </template>
     <div v-else>
-      <loading-spinner />
+      <pub-loading-spinner />
     </div>
   </section>
 </template>
 
 <script>
-  import LoadingSpinner from '../../loading-spinner';
+  import PubLoadingSpinner from '@/publiq-ui/pub-loading-spinner';
   import Event from './event';
   import { parseId } from '@/functions/events';
   import PubPanel from '@/publiq-ui/pub-panel';
 
   export default {
     components: {
-      LoadingSpinner,
+      PubLoadingSpinner,
       Event,
       PubPanel,
     },

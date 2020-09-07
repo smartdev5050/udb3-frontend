@@ -4,7 +4,11 @@
   </div>
 </template>
 
-<style lang="scss">
+<script>
+  export default {};
+</script>
+
+<style lang="scss" scoped>
   .spinner-container {
     margin: 1rem;
     width: 100%;
