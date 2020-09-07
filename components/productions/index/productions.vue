@@ -27,7 +27,7 @@
       </pub-panel-footer>
     </pub-panel>
     <div v-else-if="isLoading">
-      <loading-spinner />
+      <pub-loading-spinner />
     </div>
     <div v-else class="text-center">
       {{ $t('productions.overview.no_productions') }}
@@ -36,14 +36,14 @@
 </template>
 
 <script>
-  import LoadingSpinner from '../../loading-spinner';
+  import PubLoadingSpinner from '@/publiq-ui/pub-loading-spinner';
   import PubPanel from '@/publiq-ui/pub-panel';
   import PubPanelFooter from '@/publiq-ui/pub-panel-footer';
   import PubPagination from '@/publiq-ui/pub-pagination';
 
   export default {
     components: {
-      LoadingSpinner,
+      PubLoadingSpinner,
       PubPanel,
       PubPanelFooter,
       PubPagination,
