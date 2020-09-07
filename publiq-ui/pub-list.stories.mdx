@@ -1,0 +1,35 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import PubList from './pub-list.vue';
+import PubListItem from './pub-list-item.vue';
+
+<Meta title="pub-list" component={PubList} />
+
+export const Template = (args, { argTypes }) => {
+  return {
+    props: Object.keys(argTypes),
+    components: { PubList, PubListItem },
+    data: () => ({
+      items: [
+        { id: 1, name: 'Item 1' },
+        { id: 2, name: 'Item 2' },
+        { id: 3, name: 'Item 3' },
+      ],
+    }),
+    template:
+      '<pub-list><pub-list-item v-for="item in items" :key="item.id">{{ item.name }}</pub-list-item></pub-list>',
+  };
+};
+
+## Default
+
+<Canvas>
+  <Story name="Default">{Template.bind({})}</Story>
+</Canvas>
+
+```javascript
+<pub-list>
+  <pub-list-item v-for="item in items" :key="item.id">{{ item.name }}</pub-list-item>
+</pub-list>
+```
+
+<ArgsTable story="Default" />

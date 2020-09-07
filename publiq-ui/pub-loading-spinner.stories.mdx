@@ -1,0 +1,24 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import PubLoadingSpinner from './pub-loading-spinner.vue';
+
+<Meta title="pub-loading-spinner" component={PubLoadingSpinner} />
+
+export const Template = (args, { argTypes }) => {
+  return {
+    props: Object.keys(argTypes),
+    components: { PubLoadingSpinner },
+    template: '<pub-loading-spinner v-bind="$props" />',
+  };
+};
+
+## Default
+
+<Canvas>
+  <Story name="Default">{Template.bind({})}</Story>
+</Canvas>
+
+```javascript
+<pub-loading-spinner>
+```
+
+<ArgsTable story="Default" />
