@@ -2,14 +2,13 @@
   <li tabindex="0" @click="handleClickToggleShowDetail">
     <a class="event-item" :title="name">
       <div class="checkbox-and-name">
-        <b-form-checkbox
-          name="select-event"
-          checked="isSelected"
-          :disabled="isDisabled"
+        <pub-checkbox
+          :is-checked="isSelected"
+          :is-disabled="isDisabled"
           @input="handleInputSelectEvent"
         >
           {{ name }}
-        </b-form-checkbox>
+        </pub-checkbox>
       </div>
       <fa v-show="!isDetailVisible" icon="chevron-right" />
       <fa v-show="isDetailVisible" icon="chevron-down" />
@@ -41,7 +40,12 @@
 </template>
 
 <script>
+  import PubCheckbox from '@/publiq-ui/pub-checkbox';
+
   export default {
+    components: {
+      PubCheckbox,
+    },
     props: {
       id: {
         type: String,
