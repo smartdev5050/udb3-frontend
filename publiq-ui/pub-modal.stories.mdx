@@ -7,35 +7,32 @@ import {
 } from '@storybook/addon-docs/blocks';
 import PubModal, { ModalVariant } from './pub-modal.vue';
 
-export const parameters = {
-  previewTabs: {
-    'storybook/docs/panel': {
-      hidden: true,
-    },
-  },
-};
-
-<Meta title="pub-modal" component={PubModal} parameters={parameters} />
+<Meta title="pub-modal" component={PubModal} />
 
 export const Template = (args, { argTypes }) => {
   console.log({ args }, { argTypes });
   return {
     props: Object.keys(argTypes),
     components: { PubModal },
-    template: '<pub-modal v-bind="$props">Lorem ipsum</pub-modal>',
+    template: '<pub-modal v-bind="$props">Modal content</pub-modal>',
   };
 };
 
+**
+This component is a wrapper around the [b-modal](https://bootstrap-vue.org/docs/components/modal) component from bootstrap-vue.
+You can use all of the defined methods and props from the bootstrap component.
+**
+
 # Variants
 
-## Default
+## Question
 
 <Canvas>
   <Story
-    name="Default"
+    name="Question"
     args={{
-      title: 'Default modal',
-      isVisible: true,
+      title: 'Question modal',
+      visible: true,
     }}
   >
     {Template.bind({})}
@@ -44,23 +41,24 @@ export const Template = (args, { argTypes }) => {
 
 ```javascript
 <pub-modal
-  title="Default modal"
-  is-visible="true"
-  :variant="ModalVariant.DEFAULT"
->Lorem ipsum</pub-modal>
+  title="Question modal"
+  :visible="true"
+>
+  Modal content
+</pub-modal>
 ```
 
-<ArgsTable story="Default" />
+<ArgsTable story="Question" />
 
-## With buttons
+## Content
 
 <Canvas>
   <Story
-    name="WithButtons"
+    name="Content"
     args={{
-      title: 'Modal with buttons',
-      isVisible: true,
-      variant: ModalVariant.WITH_BUTTONS,
+      title: 'Content modal',
+      visible: true,
+      variant: ModalVariant.CONTENT,
     }}
   >
     {Template.bind({})}
@@ -68,7 +66,13 @@ export const Template = (args, { argTypes }) => {
 </Canvas>
 
 ```javascript
-<pub-modal title="Modal with buttons" is-visible="true" :variant="ModalVariant.WITH_BUTTONS" >Lorem ipsum</pub-modal>
+<pub-modal
+  title="Content modal"
+  :visible="true"
+  :variant="ModalVariant.CONTENT"
+>
+  Modal content
+</pub-modal>
 ```
 
-<ArgsTable story="WithButtons" />
+<ArgsTable story="Content" />
