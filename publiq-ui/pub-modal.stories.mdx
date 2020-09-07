@@ -6,16 +6,38 @@ import {
   ArgsTable,
 } from '@storybook/addon-docs/blocks';
 import PubModal, { ModalVariant } from './pub-modal.vue';
+import PubButton from '@/publiq-ui/pub-button';
 
 <Meta title="pub-modal" component={PubModal} />
 
 export const Template = (args, { argTypes }) => {
-  console.log({ args }, { argTypes });
   return {
     props: Object.keys(argTypes),
-    components: { PubModal },
-    template: '<pub-modal v-bind="$props">Modal content</pub-modal>',
+    data() {
+      return {
+        isVisible: false,
+      };
+    },
+    components: { PubModal, PubButton },
+    methods: {
+      handleClick() {
+        this.isVisible = true;
+      },
+      handleHide() {
+        this.isVisible = false;
+      },
+    },
+    template:
+      '<div><pub-button @click="handleClick">Open modal</pub-button><pub-modal v-bind="$props" :visible="isVisible" @hide="handleHide">Modal content</pub-modal></div>',
   };
+};
+
+export const commonArgTypes = {
+  variant: {
+    control: {
+      type: false,
+    },
+  },
 };
 
 **
@@ -32,8 +54,8 @@ You can use all of the defined methods and props from the bootstrap component.
     name="Question"
     args={{
       title: 'Question modal',
-      visible: true,
     }}
+    argTypes={commonArgTypes}
   >
     {Template.bind({})}
   </Story>
@@ -57,9 +79,9 @@ You can use all of the defined methods and props from the bootstrap component.
     name="Content"
     args={{
       title: 'Content modal',
-      visible: true,
       variant: ModalVariant.CONTENT,
     }}
+    argTypes={commonArgTypes}
   >
     {Template.bind({})}
   </Story>
