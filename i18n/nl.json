@@ -62,7 +62,6 @@
       "delete": "verwijderen",
       "details": "Details",
       "events_in_production": "Evenementen in {productionName}",
-      "link": "Linken",
       "loading": "Laden",
       "no_events": "Geen eventementen onder deze productie.",
       "no_productions": "Geen producties gevonden.",
@@ -74,6 +73,7 @@
     "create": {
       "title": "Producties toevoegen",
       "no_suggested_events_found": "Geen evenementen gevonden om te linken aan een productie. Probeer het later opnieuw.",
+      "link": "Linken",
       "production_name": "Productienaam",
       "skip": "Overslaan",
       "suggested_events": "Overeenkomst voorgestelde evenementen:"
