@@ -4,7 +4,7 @@
       <pub-h1>{{ $t('productions.create.title') }}</pub-h1>
       <div v-if="suggestedEvents.length > 0">
         <p>
-          <strong>{{ $t('productions.suggested_events') }}</strong>
+          <strong>{{ $t('productions.create.suggested_events') }}</strong>
           {{ eventSimilarityScore }}%
         </p>
         <section class="events-container">
@@ -169,7 +169,14 @@
         this.suggestedProductions = suggestedProductions;
       },
       async getSuggestedEvents() {
-        this.suggestedEvents = await this.$api.productions.getSuggestedEvents();
+        const {
+          events = [],
+          similarity = 0,
+        } = await this.$api.productions.getSuggestedEvents();
+
+        this.suggestedEvents = events;
+        this.eventSimilarityScore = Math.round(similarity * 100);
+
         if (this.availableProductions.length === 1) {
           const foundProduction = this.suggestedEvents.find(
             (events) => events.production,
