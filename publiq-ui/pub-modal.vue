@@ -1,6 +1,7 @@
 <template>
   <b-modal
     cancel-variant="outline-secondary"
+    :title="title"
     title-class="title"
     modal-class="modal"
     content-class="content"
@@ -24,6 +25,10 @@
 
   export default {
     props: {
+      title: {
+        type: String,
+        default: '',
+      },
       visible: {
         type: Boolean,
         default: false,
@@ -46,7 +51,7 @@
 
 <style lang="scss" scoped>
   /deep/ .title {
-    font-size: 1.066rem;
+    font-size: 1.067rem;
     font-weight: 700;
   }
 
