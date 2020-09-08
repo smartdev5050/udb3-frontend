@@ -1,7 +1,8 @@
 <template>
   <b-modal
-    v-bind="$attrs"
     cancel-variant="outline-secondary"
+    title-class="title"
+    :visible="visible"
     :scrollable="false"
     :hide-footer="isContentVariant"
     :hide-header="isQuestionVariant"
@@ -20,6 +21,10 @@
 
   export default {
     props: {
+      visible: {
+        type: Boolean,
+        default: false,
+      },
       variant: {
         type: String,
         default: ModalVariant.QUESTION,
@@ -37,6 +42,11 @@
 </script>
 
 <style lang="scss" scoped>
+  /deep/ .title {
+    font-size: 1.066rem;
+    font-weight: 700;
+  }
+
   /deep/ .modal {
     overflow-y: hidden;
   }
