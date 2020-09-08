@@ -1,31 +1,31 @@
 {
   "brand": "UiTdatabank",
   "main": {
-    "lead": "Organiseer je een activiteit?",
-    "lead_sub": "Voeg gratis je activiteiten toe en bereik een groter publiek",
-    "start": "Start hier",
-    "activities": "activiteiten per jaar",
     "activities_info": "Een uitstap, sportactiviteit, kaartavond, kermis of cursus? Een concert, tentoonstelling of film? UiTdatabank staat open voor de meest uiteenlopende vrijetijdsactiviteiten.",
-    "channels": "verschillende kanalen",
-    "channels_info": "UiTdatabank levert informatie aan meer dan {0}, waaronder UiTinvlaanderen, websites van steden en gemeenten, thema-agenda's, gedrukte bladen en mobiele apps. Ook jouw activiteit kan verschijnen op vele agenda's.",
-    "channels_info_link_url": "https://www.publiq.be/nl/publicatiekanalen",
+    "activities": "activiteiten per jaar",
     "channels_info_link_text": "500 agenda's",
-    "organizers": "organisatoren",
+    "channels_info_link_url": "https://www.publiq.be/nl/publicatiekanalen",
+    "channels_info": "UiTdatabank levert informatie aan meer dan {0}, waaronder UiTinvlaanderen, websites van steden en gemeenten, thema-agenda's, gedrukte bladen en mobiele apps. Ook jouw activiteit kan verschijnen op vele agenda's.",
+    "channels": "verschillende kanalen",
+    "lead_sub": "Voeg gratis je activiteiten toe en bereik een groter publiek",
+    "lead": "Organiseer je een activiteit?",
+    "mission": "Zo geef je meer mensen meer goesting in jouw activiteit.",
     "organizers_info": "Jaarlijks promoten 28.000 organisatoren hun activiteiten via UiTdatabank. In totaal bereiken ze daarmee jaarlijks meer dan 3 miljoen mensen. Voeg net als andere organisatoren je activiteit snel en eenvoudig toe.",
-    "mission": "Zo geef je meer mensen meer goesting in jouw activiteit."
+    "organizers": "organisatoren",
+    "start": "Start hier"
   },
   "footer": {
-    "contact": "Contacteer ons",
     "about": "Over UiTdatabank",
-    "dev": "Voor ontwikkelaars",
-    "legal": "Gebruiksvoorwaarden",
-    "legal_path": "gebruikersovereenkomst-uitdatabank",
-    "privacy": "Privacy",
     "by": "Een product van",
-    "questions": "Vragen of feedback?",
     "changeProfile": "Mijn profiel wijzigen",
-    "withSupport": "met steun van de",
-    "flemishGovernment": "Vlaamse overheid"
+    "contact": "Contacteer ons",
+    "dev": "Voor ontwikkelaars",
+    "flemishGovernment": "Vlaamse overheid",
+    "legal_path": "gebruikersovereenkomst-uitdatabank",
+    "legal": "Gebruiksvoorwaarden",
+    "privacy": "Privacy",
+    "questions": "Vragen of feedback?",
+    "withSupport": "met steun van de"
   },
   "giftbox": {
     "announcements": "Aankondigingen",
@@ -33,27 +33,25 @@
     "no_features": "Er zijn momenteel geen aankondigingen."
   },
   "menu": {
-    "home": "Home",
     "add": "Invoeren",
-    "search": "Zoeken",
-    "management": "Beheer",
-    "validate": "Valideren",
-    "users": "Gebruikers",
-    "roles": "Rollen",
+    "home": "Home",
     "labels": "Labels",
+    "logout": "Afmelden",
+    "management": "Beheer",
+    "notifications": "Meldingen",
     "organizations": "Organisaties",
     "productions": "Producties",
-    "notifications": "Meldingen",
-    "logout": "Afmelden"
+    "roles": "Rollen",
+    "search": "Zoeken",
+    "users": "Gebruikers",
+    "validate": "Valideren"
   },
   "pagination": {
-    "previous": "Vorige",
-    "next": "Volgende"
+    "next": "Volgende",
+    "previous": "Vorige"
   },
   "productions": {
     "overview": {
-      "title": "Producties",
-      "production": "Productie",
       "cancel": "annuleren",
       "confirm": "bevestigen",
       "create": "toevoegen",
@@ -62,35 +60,37 @@
       "delete": "verwijderen",
       "details": "Details",
       "events_in_production": "Evenementen in {productionName}",
-      "link": "Linken",
       "loading": "Laden",
       "no_events": "Geen eventementen onder deze productie.",
       "no_productions": "Geen producties gevonden.",
+      "production": "Productie",
       "search": {
         "label": "Zoeken op productienaam:",
         "placeholder": "Schrijf een zoekopdracht van minstens 4 karakters."
-      }
+      },
+      "title": "Producties"
     },
     "create": {
-      "title": "Producties toevoegen",
+      "link": "Linken",
       "no_suggested_events_found": "Geen evenementen gevonden om te linken aan een productie. Probeer het later opnieuw.",
       "production_name": "Productienaam",
       "skip": "Overslaan",
-      "suggested_events": "Overeenkomst voorgestelde evenementen:"
+      "suggested_events": "Overeenkomst voorgestelde evenementen:",
+      "title": "Producties toevoegen"
     },
     "event": {
+      "part_of_production": "Onderdeel van de productie",
       "title": "Titel",
       "type": "Type",
       "when": "Wanneer",
-      "where": "Waar",
-      "part_of_production": "Onderdeel van de productie"
+      "where": "Waar"
     }
   },
   "jobs": {
+    "download": "Downloaden",
     "exported_documents": "Geëxporteerde documenten",
-    "notifications": "Meldingen",
     "in_progress": "Bezig",
-    "time_ago": "{time} geleden",
-    "download": "Downloaden"
+    "notifications": "Meldingen",
+    "time_ago": "{time} geleden"
   }
 }
