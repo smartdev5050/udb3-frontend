@@ -152,8 +152,6 @@
 
         if (foundEvent) {
           const errorMessage = `Event with id ${eventId} cannot be added to this production because the event already exists.`;
-          // eslint-disable-next-line no-console
-          console.error(errorMessage);
           this.errorMessagesEvents = [errorMessage];
           this.hasAddingEventToProductionError = true;
           this.isAddingEventToProduction = false;
