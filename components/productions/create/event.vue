@@ -60,10 +60,16 @@
       },
       truncatedDescription() {
         const maxLength = 750;
-        if (this.description.length <= maxLength) {
-          return this.description;
+
+        const dummyInput = document.createElement('textarea');
+        dummyInput.innerHTML = this.description;
+        const description = dummyInput.value;
+
+        if (description.length <= maxLength) {
+          return description;
         }
-        return `${this.description.substring(0, maxLength)}…`;
+
+        return `${description.substring(0, maxLength)}…`;
       },
     },
     async created() {
