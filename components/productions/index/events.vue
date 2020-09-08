@@ -55,6 +55,14 @@
           {{ $t('productions.overview.cancel') }}
         </b-button>
       </div>
+      <b-alert
+        v-for="(errorMessage, index) in errorMessages"
+        :key="index"
+        variant="danger"
+        :show="errorMessages.length > 0"
+        dismissible
+        >{{ errorMessage }}</b-alert
+      >
       <pub-panel>
         <pub-list>
           <event
@@ -116,6 +124,10 @@
       hasAddingError: {
         type: Boolean,
         default: false,
+      },
+      errorMessages: {
+        type: Array,
+        default: () => [],
       },
     },
     data: () => ({

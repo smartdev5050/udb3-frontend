@@ -31,6 +31,7 @@
           :selected-event-ids="selectedEventIds"
           :is-adding="isAddingEventToProduction"
           :has-adding-error="hasAddingEventToProductionError"
+          :error-messages="errorMessagesEvents"
           @addEventToProduction="handleAddEventToProduction"
           @inputEventId="handleInputEventId"
           @selectEvent="handleSelectEvent"
@@ -76,6 +77,8 @@
         selectedProductionId: '',
         isLoadingProductions: true,
         productions: [],
+
+        errorMessagesEvents: [],
 
         isAddingEventToProduction: false,
         hasAddingEventToProductionError: false,
@@ -142,11 +145,27 @@
       async handleAddEventToProduction(eventId) {
         this.isAddingEventToProduction = true;
         this.hasAddingEventToProductionError = false;
-        const res = await this.$api.productions.addEventById(
+
+        const foundEvent = this.events.find(
+          (event) => parseEventId(event['@id']) === eventId,
+        );
+
+        if (foundEvent) {
+          const errorMessage = `Event with id ${eventId} cannot be added to this production because the event already exists.`;
+          // eslint-disable-next-line no-console
+          console.error(errorMessage);
+          this.errorMessagesEvents = [errorMessage];
+          this.hasAddingEventToProductionError = true;
+          this.isAddingEventToProduction = false;
+          return;
+        }
+
+        const response = await this.$api.productions.addEventById(
           this.selectedProductionId,
           eventId,
         );
-        if (res.status) {
+        if (response.status) {
+          this.errorMessagesEvents = [response.title];
           this.hasAddingEventToProductionError = true;
         } else {
           const event = await this.$api.events.findById(eventId);
