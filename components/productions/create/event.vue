@@ -9,7 +9,7 @@
       <img v-if="imageUrl" :src="imageUrl" :alt="title" class="image" />
     </section>
     <b-card-text>
-      <p>{{ description }}</p>
+      <p>{{ truncatedDescription }}</p>
       <section
         v-if="productionName"
         class="list-group-item list-group-item-dark"
@@ -57,6 +57,13 @@
     computed: {
       locale() {
         return this.$i18n.locale;
+      },
+      truncatedDescription() {
+        const maxLength = 750;
+        if (this.description.length <= maxLength) {
+          return this.description;
+        }
+        return `${this.description.substring(0, maxLength)}…`;
       },
     },
     async created() {
