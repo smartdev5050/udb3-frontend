@@ -30,7 +30,7 @@
           v-model="eventId"
           type="text"
           :class="{
-            'is-invalid': hasAddingError && !(eventId === ''),
+            'is-invalid': hasErrorMessages && !(eventId === ''),
             'form-control': true,
           }"
           placeholder="cdbid"
@@ -121,10 +121,6 @@
         type: Boolean,
         default: false,
       },
-      hasAddingError: {
-        type: Boolean,
-        default: false,
-      },
       errorMessages: {
         type: Array,
         default: () => [],
@@ -145,10 +141,13 @@
       canEnableDeleteButton() {
         return this.selectedEventIds.length > 0;
       },
+      hasErrorMessages() {
+        return this.errorMessages.length > 0;
+      },
     },
     watch: {
       isAdding(val) {
-        if (!val && !this.hasAddingError) {
+        if (!val && !this.hasErrorMessages) {
           this.eventId = '';
         }
       },
@@ -168,6 +167,7 @@
         }
       },
       handleClickCancelAddEventToProduction() {
+        this.$emit('cancelAddEvent');
         this.eventId = '';
         this.isAddEventVisible = false;
       },

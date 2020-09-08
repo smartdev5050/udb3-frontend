@@ -30,9 +30,9 @@
           :selected-production-name="selectedProduction.name"
           :selected-event-ids="selectedEventIds"
           :is-adding="isAddingEventToProduction"
-          :has-adding-error="hasAddingEventToProductionError"
           :error-messages="errorMessagesEvents"
           @addEventToProduction="handleAddEventToProduction"
+          @cancelAddEvent="handleCancelAddEvent"
           @inputEventId="handleInputEventId"
           @selectEvent="handleSelectEvent"
           @deleteEvents="handleDeleteEvents"
@@ -81,7 +81,6 @@
         errorMessagesEvents: [],
 
         isAddingEventToProduction: false,
-        hasAddingEventToProductionError: false,
 
         isLoadingEvents: true,
         events: [],
@@ -144,16 +143,15 @@
       },
       async handleAddEventToProduction(eventId) {
         this.isAddingEventToProduction = true;
-        this.hasAddingEventToProductionError = false;
 
         const foundEvent = this.events.find(
           (event) => parseEventId(event['@id']) === eventId,
         );
 
         if (foundEvent) {
-          const errorMessage = `Event with id ${eventId} cannot be added to this production because the event already exists.`;
-          this.errorMessagesEvents = [errorMessage];
-          this.hasAddingEventToProductionError = true;
+          this.errorMessagesEvents = [
+            this.$t('productions.errors.event_already_exists', { eventId }),
+          ];
           this.isAddingEventToProduction = false;
           return;
         }
@@ -164,7 +162,6 @@
         );
         if (response.status) {
           this.errorMessagesEvents = [response.title];
-          this.hasAddingEventToProductionError = true;
         } else {
           const event = await this.$api.events.findById(eventId);
           this.events.push(event);
@@ -172,15 +169,18 @@
 
         this.isAddingEventToProduction = false;
       },
+      handleCancelAddEvent() {
+        this.errorMessagesEvents = [];
+      },
+      handleInputEventId() {
+        this.errorMessagesEvents = [];
+      },
       async handleChangePage(newPage) {
         const start = (newPage - 1) * this.productionsPerPage;
         await this.getProductionsByName({
           start,
           limit: this.productionsPerPage,
         });
-      },
-      handleInputEventId() {
-        this.hasAddingEventToProductionError = false;
       },
       handleInputSearch(searchInput) {
         this.getProductionsByName({
