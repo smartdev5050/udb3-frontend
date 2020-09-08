@@ -89,7 +89,7 @@
     }
 
     h2 {
-      font-size: 18px;
+      font-size: 1.2rem;
       font-weight: 700;
     }
 
