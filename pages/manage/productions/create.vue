@@ -265,8 +265,8 @@
     }
 
     .events-container {
+      width: 100%;
       display: flex;
-      max-width: 84rem;
       margin-bottom: 1rem;
     }
 
@@ -279,7 +279,6 @@
     }
 
     .container-table-production-name {
-      max-width: 43rem;
       max-height: 14rem;
       margin-bottom: 0;
       margin-top: 0.5rem;
