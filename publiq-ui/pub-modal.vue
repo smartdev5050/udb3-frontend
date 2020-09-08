@@ -2,6 +2,9 @@
   <b-modal
     cancel-variant="outline-secondary"
     title-class="title"
+    modal-class="modal"
+    content-class="content"
+    body-class="body"
     :visible="visible"
     :scrollable="false"
     :hide-footer="isContentVariant"
@@ -51,12 +54,12 @@
     overflow-y: hidden;
   }
 
-  /deep/ .modal-content {
+  /deep/ .content {
     max-height: 95vh;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
   }
 
-  /deep/ .modal-body {
+  /deep/ .body {
     padding: 0;
   }
 </style>
