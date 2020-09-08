@@ -76,6 +76,11 @@
       margin-right: 1rem;
     }
 
+    h2 {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
     .header {
       display: flex;
       justify-content: space-between;
