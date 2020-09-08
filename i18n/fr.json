@@ -82,6 +82,9 @@
       "type": "Genre",
       "when": "Quand",
       "where": "Où"
+    },
+    "errors": {
+      "event_already_exists": "L'événement avec l'id {eventId} ne peut pas être ajouté à cette production car l'événement existe déjà."
     }
   },
   "jobs": {

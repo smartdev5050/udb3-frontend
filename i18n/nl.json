@@ -84,6 +84,9 @@
       "type": "Type",
       "when": "Wanneer",
       "where": "Waar"
+    },
+    "errors": {
+      "event_already_exists": "Evenement met id {eventId} kan niet aan deze productie worden toegevoegd omdat deze al bestaat."
     }
   },
   "jobs": {
