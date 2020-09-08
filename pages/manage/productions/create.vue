@@ -3,6 +3,10 @@
     <section class="container-fluid productions-create-page">
       <pub-h1>{{ $t('productions.create.title') }}</pub-h1>
       <div v-if="suggestedEvents.length > 0">
+        <p>
+          <strong>{{ $t('productions.suggested_events') }}</strong>
+          {{ eventSimilarityScore }}%
+        </p>
         <section class="events-container">
           <event
             v-for="suggestedEvent in suggestedEvents"
