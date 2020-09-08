@@ -42,7 +42,6 @@ export const commonArgTypes = {
 
 **
 This component is a wrapper around the [b-modal](https://bootstrap-vue.org/docs/components/modal) component from bootstrap-vue.
-You can use all of the defined methods and props from the bootstrap component.
 **
 
 # Variants
@@ -54,6 +53,7 @@ You can use all of the defined methods and props from the bootstrap component.
     name="Question"
     args={{
       title: 'Question modal',
+      variant: ModalVariant.QUESTION,
     }}
     argTypes={commonArgTypes}
   >
