@@ -1,13 +1,6 @@
 @import 'custom-bootstrap';
 @import url('//fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,300,400,700');
 
-.main-container {
-  display: flex;
-  flex-direction: row;
-  position: relative;
-  z-index: 0;
-}
-
 .content {
   flex: 1;
 }
