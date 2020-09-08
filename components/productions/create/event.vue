@@ -22,6 +22,8 @@
 </template>
 
 <script>
+  import { truncate } from 'lodash-es';
+
   export default {
     props: {
       id: {
@@ -59,17 +61,11 @@
         return this.$i18n.locale;
       },
       truncatedDescription() {
-        const maxLength = 750;
-
         const dummyInput = document.createElement('textarea');
         dummyInput.innerHTML = this.description;
         const description = dummyInput.value;
 
-        if (description.length <= maxLength) {
-          return description;
-        }
-
-        return `${description.substring(0, maxLength)}…`;
+        return truncate(description, { length: 750 });
       },
     },
     async created() {
@@ -95,7 +91,7 @@
     }
 
     h2 {
-      font-size: 18px;
+      font-size: 1.2rem;
       font-weight: 700;
     }
 
