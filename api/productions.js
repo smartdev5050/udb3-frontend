@@ -93,11 +93,10 @@ export const getSuggestedEvents = (
   });
 
   if (response.status === 204 || response.status === 404) {
-    return [];
+    return { events: [], similarity: 0 };
   }
 
-  const { events = [] } = await response.json();
-  return events;
+  return await response.json();
 };
 
 export const skipSuggestedEvents = (
