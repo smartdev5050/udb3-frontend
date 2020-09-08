@@ -72,14 +72,14 @@
       <section v-else class="list-group-item list-group-item-warning">
         {{ $t('productions.create.no_suggested_events_found') }}
       </section>
-      <b-alert
+      <pub-alert
         v-for="(errorMessage, index) in errorMessages"
         :key="index"
-        variant="danger"
+        :variant="alertVariant.DANGER"
         :show="errorMessages.length > 0"
-        dismissible
-        >{{ errorMessage }}</b-alert
       >
+        {{ errorMessage }}
+      </pub-alert>
     </section>
   </pub-wrapper>
 </template>
@@ -92,6 +92,7 @@
   import { parseId } from '@/functions/events';
   import PubH1 from '@/publiq-ui/pub-h1';
   import PubWrapper from '@/publiq-ui/pub-wrapper';
+  import PubAlert, { AlertVariant } from '@/publiq-ui/pub-alert';
 
   export default {
     components: {
@@ -100,6 +101,7 @@
       VueTypeaheadBootstrap,
       PubWrapper,
       PubH1,
+      PubAlert,
     },
     data: () => ({
       eventSimilarityScore: 0,
@@ -155,6 +157,9 @@
           (suggestedProduction) =>
             suggestedProduction.id === this.selectedSuggestedProductionId,
         ).title;
+      },
+      alertVariant() {
+        return AlertVariant;
       },
     },
     async created() {

@@ -55,14 +55,13 @@
           {{ $t('productions.overview.cancel') }}
         </b-button>
       </div>
-      <b-alert
+      <pub-alert
         v-for="(errorMessage, index) in errorMessages"
         :key="index"
-        variant="danger"
+        :variant="alertVariant.DANGER"
         :show="errorMessages.length > 0"
-        dismissible
-        >{{ errorMessage }}</b-alert
-      >
+        >{{ errorMessage }}
+      </pub-alert>
       <pub-panel>
         <pub-list>
           <event
@@ -92,6 +91,7 @@
   import { parseId } from '@/functions/events';
   import PubPanel from '@/publiq-ui/pub-panel';
   import PubList from '@/publiq-ui/pub-list';
+  import PubAlert, { AlertVariant } from '@/publiq-ui/pub-alert';
 
   export default {
     components: {
@@ -99,6 +99,7 @@
       Event,
       PubPanel,
       PubList,
+      PubAlert,
     },
     props: {
       events: {
@@ -143,6 +144,9 @@
       },
       hasErrorMessages() {
         return this.errorMessages.length > 0;
+      },
+      alertVariant() {
+        return AlertVariant;
       },
     },
     watch: {
