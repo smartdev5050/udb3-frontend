@@ -23,6 +23,7 @@
 
 <script>
   import { truncate } from 'lodash-es';
+  import stripHTML from 'string-strip-html';
 
   export default {
     props: {
@@ -62,7 +63,7 @@
       },
       truncatedDescription() {
         const dummyInput = document.createElement('textarea');
-        dummyInput.innerHTML = this.description;
+        dummyInput.innerHTML = stripHTML(this.description).result;
         const description = dummyInput.value;
 
         return truncate(description, { length: 750 });
