@@ -69,6 +69,10 @@
 </script>
 
 <style lang="scss">
+  .card {
+    border: none;
+  }
+
   .card-event {
     flex: 1;
 
