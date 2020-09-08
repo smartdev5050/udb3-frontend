@@ -2,6 +2,8 @@
   <b-modal
     cancel-variant="outline-secondary"
     :title="title"
+    :ok-title="confirmTitle"
+    :cancel-title="cancelTitle"
     title-class="title"
     modal-class="modal"
     content-class="content"
@@ -36,6 +38,14 @@
       variant: {
         type: String,
         default: ModalVariant.QUESTION,
+      },
+      confirmTitle: {
+        type: String,
+        default: 'Ok',
+      },
+      cancelTitle: {
+        type: String,
+        default: 'Cancel',
       },
     },
     computed: {
