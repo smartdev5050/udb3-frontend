@@ -62,6 +62,8 @@
         return this.$i18n.locale;
       },
       truncatedDescription() {
+        // Convert HTML entities like &nbsp; in the description by putting it in a textarea and reading out its value.
+        // See https://stackoverflow.com/a/7394787 for more info.
         const dummyInput = document.createElement('textarea');
         dummyInput.innerHTML = stripHTML(this.description).result;
         const description = dummyInput.value;
