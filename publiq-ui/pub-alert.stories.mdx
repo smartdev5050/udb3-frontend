@@ -1,0 +1,76 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import PubAlert, { AlertVariant } from './pub-alert.vue';
+
+<Meta title="pub-alert" component={PubAlert} />
+
+export const Template = (args, { argTypes }) => {
+  return {
+    props: Object.keys(argTypes),
+    components: { PubAlert },
+    template: '<pub-alert v-bind="$props">Lorem ipsum</pub-alert>',
+  };
+};
+
+export const commonArgTypes = {
+  variant: {
+    control: {
+      type: false,
+    },
+  },
+};
+
+# Variants
+
+## Info
+
+<Canvas>
+  <Story
+    name="Info"
+    args={{ show: true, variant: AlertVariant.INFO }}
+    argTypes={commonArgTypes}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+```javascript
+<pub-alert variant="AlertVariant.INFO">Lorem Ipsum</pub-alert>
+```
+
+<ArgsTable story="Info" />
+
+## Success
+
+<Canvas>
+  <Story
+    name="Success"
+    args={{ show: true, variant: AlertVariant.SUCCESS }}
+    argTypes={commonArgTypes}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+```javascript
+<pub-alert variant="AlertVariant.SUCCESS">Lorem Ipsum</pub-alert>
+```
+
+<ArgsTable story="Success" />
+
+## Danger
+
+<Canvas>
+  <Story
+    name="Danger"
+    args={{ show: true, variant: AlertVariant.DANGER }}
+    argTypes={commonArgTypes}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+```javascript
+<pub-alert variant="AlertVariant.DANGER">Lorem Ipsum</pub-alert>
+```
+
+<ArgsTable story="Danger" />
