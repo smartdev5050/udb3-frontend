@@ -23,6 +23,7 @@
 
 <script>
   import { truncate } from 'lodash-es';
+  import stripHTML from 'string-strip-html';
 
   export default {
     props: {
@@ -61,7 +62,13 @@
         return this.$i18n.locale;
       },
       truncatedDescription() {
-        return truncate(this.description, { length: 750 });
+        // Convert HTML entities like &nbsp; in the description by putting it in a textarea and reading out its value.
+        // See https://stackoverflow.com/a/7394787 for more info.
+        const dummyInput = document.createElement('textarea');
+        dummyInput.innerHTML = stripHTML(this.description).result;
+        const description = dummyInput.value;
+
+        return truncate(description, { length: 750 });
       },
     },
     async created() {
