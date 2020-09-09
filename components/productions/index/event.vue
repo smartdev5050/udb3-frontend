@@ -3,8 +3,8 @@
     <a class="event-item" :title="name">
       <div class="checkbox-and-name">
         <pub-checkbox
-          :is-checked="isSelected"
-          :is-disabled="isDisabled"
+          :checked="isSelected"
+          :disabled="isDisabled"
           @toggle="handleToggleSelectEvent"
         >
           {{ name }}

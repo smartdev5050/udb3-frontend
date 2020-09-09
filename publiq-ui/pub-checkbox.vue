@@ -1,9 +1,5 @@
 <template>
-  <b-form-checkbox
-    :checked="isChecked"
-    :disabled="isDisabled"
-    @input="handleInput"
-  >
+  <b-form-checkbox :checked="checked" :disabled="disabled" @input="handleInput">
     <slot />
   </b-form-checkbox>
 </template>
@@ -11,11 +7,11 @@
 <script>
   export default {
     props: {
-      isChecked: {
+      checked: {
         type: Boolean,
         default: false,
       },
-      isDisabled: {
+      disabled: {
         type: Boolean,
         default: false,
       },
