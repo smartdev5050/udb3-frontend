@@ -9,7 +9,7 @@
       <img v-if="imageUrl" :src="imageUrl" :alt="title" class="image" />
     </section>
     <b-card-text>
-      <p>{{ description }}</p>
+      <p>{{ truncatedDescription }}</p>
       <section
         v-if="productionName"
         class="list-group-item list-group-item-dark"
@@ -22,6 +22,9 @@
 </template>
 
 <script>
+  import { truncate } from 'lodash-es';
+  import stripHTML from 'string-strip-html';
+
   export default {
     props: {
       id: {
@@ -58,22 +61,41 @@
       locale() {
         return this.$i18n.locale;
       },
+      truncatedDescription() {
+        // Convert HTML entities like &nbsp; in the description by putting it in a textarea and reading out its value.
+        // See https://stackoverflow.com/a/7394787 for more info.
+        const dummyInput = document.createElement('textarea');
+        dummyInput.innerHTML = stripHTML(this.description).result;
+        const description = dummyInput.value;
+
+        return truncate(description, { length: 750 });
+      },
     },
     async created() {
       this.period = await this.$api.events.getCalendarSummary({
         id: this.id,
         locale: this.locale,
+        format: 'sm',
       });
     },
   };
 </script>
 
 <style lang="scss">
+  .card {
+    border: none;
+  }
+
   .card-event {
     flex: 1;
 
     &:not(:last-child) {
       margin-right: 1rem;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
     }
 
     .header {
