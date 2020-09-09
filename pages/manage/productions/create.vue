@@ -3,6 +3,10 @@
     <section class="container-fluid productions-create-page">
       <pub-h1>{{ $t('productions.create.title') }}</pub-h1>
       <div v-if="suggestedEvents.length > 0">
+        <p>
+          <strong>{{ $t('productions.create.suggested_events') }}</strong>
+          {{ eventSimilarityScore }}%
+        </p>
         <section class="events-container">
           <event
             v-for="suggestedEvent in suggestedEvents"
@@ -57,7 +61,7 @@
             :disabled="!(productionName || selectedSuggestedProductionId)"
             @mousedown="handleClickLink"
           >
-            <loading-spinner v-if="isLinkingEventsWithProduction" />
+            <pub-loading-spinner v-if="isLinkingEventsWithProduction" />
             <span v-else>{{ $t('productions.create.link') }}</span>
           </b-button>
           <b-button variant="danger" @click="handleClickSkip">
@@ -84,7 +88,7 @@
   import { debounce } from 'lodash-es';
   import VueTypeaheadBootstrap from 'vue-typeahead-bootstrap';
   import Event from '@/components/productions/create/event';
-  import LoadingSpinner from '@/components/loading-spinner';
+  import PubLoadingSpinner from '@/publiq-ui/pub-loading-spinner';
   import { parseId } from '@/functions/events';
   import PubH1 from '@/publiq-ui/pub-h1';
   import PubWrapper from '@/publiq-ui/pub-wrapper';
@@ -92,7 +96,7 @@
   export default {
     components: {
       Event,
-      LoadingSpinner,
+      PubLoadingSpinner,
       VueTypeaheadBootstrap,
       PubWrapper,
       PubH1,
@@ -165,7 +169,14 @@
         this.suggestedProductions = suggestedProductions;
       },
       async getSuggestedEvents() {
-        this.suggestedEvents = await this.$api.productions.getSuggestedEvents();
+        const {
+          events = [],
+          similarity = 0,
+        } = await this.$api.productions.getSuggestedEvents();
+
+        this.suggestedEvents = events;
+        this.eventSimilarityScore = Math.round(similarity * 100);
+
         if (this.availableProductions.length === 1) {
           const foundProduction = this.suggestedEvents.find(
             (events) => events.production,
@@ -265,8 +276,8 @@
     }
 
     .events-container {
+      width: 100%;
       display: flex;
-      max-width: 84rem;
       margin-bottom: 1rem;
     }
 
@@ -279,7 +290,6 @@
     }
 
     .container-table-production-name {
-      max-width: 43rem;
       max-height: 14rem;
       margin-bottom: 0;
       margin-top: 0.5rem;

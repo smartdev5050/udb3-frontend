@@ -1,5 +1,5 @@
 <template>
-  <li tabindex="0" @click="handleClickToggleShowDetail">
+  <pub-list-item @click="handleClickToggleShowDetail">
     <a class="event-item" :title="name">
       <div class="checkbox-and-name">
         <pub-checkbox
@@ -36,15 +36,17 @@
         </tbody>
       </table>
     </section>
-  </li>
+  </pub-list-item>
 </template>
 
 <script>
   import PubCheckbox from '@/publiq-ui/pub-checkbox';
+  import PubListItem from '@/publiq-ui/pub-list-item';
 
   export default {
     components: {
       PubCheckbox,
+      PubListItem,
     },
     props: {
       id: {

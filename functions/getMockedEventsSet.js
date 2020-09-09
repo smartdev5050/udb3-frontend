@@ -407,7 +407,9 @@ const getMockedEventsSet = () => {
     suggestedEventsWithOneProduction,
   ];
   const index = Math.floor(Math.random() * events.length);
-  return events[index];
+  const similarity = Math.random();
+
+  return { events: events[index], similarity };
 };
 
 export default getMockedEventsSet;

@@ -45,7 +45,7 @@
             <fa icon="check" />
             {{ $t('productions.overview.confirm') }}
           </span>
-          <loading-spinner v-else class="button-spinner" />
+          <pub-loading-spinner v-else class="button-spinner" />
         </b-button>
         <b-button
           variant="outline-secondary"
@@ -56,7 +56,7 @@
         </b-button>
       </div>
       <pub-panel>
-        <ul class="list-group">
+        <pub-list>
           <event
             v-for="event in events"
             :id="parseEventId(event['@id'])"
@@ -69,26 +69,28 @@
             class="list-group-item"
             @select="handleSelectEvent"
           />
-        </ul>
+        </pub-list>
       </pub-panel>
     </template>
     <div v-else>
-      <loading-spinner />
+      <pub-loading-spinner />
     </div>
   </section>
 </template>
 
 <script>
-  import LoadingSpinner from '../../loading-spinner';
+  import PubLoadingSpinner from '@/publiq-ui/pub-loading-spinner';
   import Event from './event';
   import { parseId } from '@/functions/events';
   import PubPanel from '@/publiq-ui/pub-panel';
+  import PubList from '@/publiq-ui/pub-list';
 
   export default {
     components: {
-      LoadingSpinner,
+      PubLoadingSpinner,
       Event,
       PubPanel,
+      PubList,
     },
     props: {
       events: {

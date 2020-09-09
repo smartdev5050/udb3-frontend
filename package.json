@@ -31,6 +31,7 @@
     "nuxt-i18n": "^6.13.1",
     "nuxt-socket-io": "^1.1.6",
     "sass-loader": "^8.0.2",
+    "string-strip-html": "^5.0.2",
     "vue-typeahead-bootstrap": "^2.5.1"
   },
   "devDependencies": {
