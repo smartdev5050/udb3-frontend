@@ -127,7 +127,7 @@
           ></path>
         </svg>
 
-        <pub-h1 class="brand">{{ $t('brand') }}</pub-h1>
+        <pub-page-title class="brand">{{ $t('brand') }}</pub-page-title>
         <div class="lead">
           <span>{{ $t('main.lead') }}</span>
           <span class="muted">{{ $t('main.lead_sub') }}</span>
@@ -259,12 +259,12 @@
 
 <script>
   import { login } from '../services/auth';
-  import PubH1 from '@/publiq-ui/pub-h1';
+  import PubPageTitle from '@/publiq-ui/pub-page-title';
 
   export default {
     layout: 'login',
     components: {
-      PubH1,
+      PubPageTitle,
     },
     computed: {
       isFR() {

@@ -1,7 +1,7 @@
 <template>
-  <pub-wrapper>
+  <pub-page>
     <section class="container-fluid productions-create-page">
-      <pub-h1>{{ $t('productions.create.title') }}</pub-h1>
+      <pub-page-title>{{ $t('productions.create.title') }}</pub-page-title>
       <div v-if="suggestedEvents.length > 0">
         <p>
           <strong>{{ $t('productions.create.suggested_events') }}</strong>
@@ -81,7 +81,7 @@
         {{ errorMessage }}
       </pub-alert>
     </section>
-  </pub-wrapper>
+  </pub-page>
 </template>
 
 <script>
@@ -90,8 +90,8 @@
   import Event from '@/components/productions/create/event';
   import PubLoadingSpinner from '@/publiq-ui/pub-loading-spinner';
   import { parseId } from '@/functions/events';
-  import PubH1 from '@/publiq-ui/pub-h1';
-  import PubWrapper from '@/publiq-ui/pub-wrapper';
+  import PubPageTitle from '@/publiq-ui/pub-page-title';
+  import PubPage from '@/publiq-ui/pub-page';
   import PubAlert, { AlertVariant } from '@/publiq-ui/pub-alert';
 
   export default {
@@ -99,8 +99,8 @@
       Event,
       PubLoadingSpinner,
       VueTypeaheadBootstrap,
-      PubWrapper,
-      PubH1,
+      PubPage,
+      PubPageTitle,
       PubAlert,
     },
     data: () => ({

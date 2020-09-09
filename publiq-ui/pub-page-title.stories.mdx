@@ -1,13 +1,13 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
-import PubWrapper from './pub-wrapper.vue';
+import PubPageTitle from './pub-page-title';
 
-<Meta title="Components/pub-wrapper" component={PubWrapper} />
+<Meta title="Components/pub-page-title" component={PubPageTitle} />
 
 export const Template = (args, { argTypes }) => {
   return {
     props: Object.keys(argTypes),
-    components: { PubWrapper },
-    template: '<pub-wrapper v-bind="$props">Wrapped content</pub-wrapper>',
+    components: { PubPageTitle },
+    template: '<pub-page-title v-bind="$props">Heading 1</pub-page-title>',
   };
 };
 
@@ -18,7 +18,7 @@ export const Template = (args, { argTypes }) => {
 </Canvas>
 
 ```javascript
-<pub-wrapper>Wrapped content</pub-wrapper>
+<pub-page-title>Heading 1</pub-page-title>
 ```
 
 <ArgsTable story="Default" />
