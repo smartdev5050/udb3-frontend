@@ -93,7 +93,10 @@ export default {
     scss: ['./assets/styles/_colors.scss'],
   },
   storybook: {
-    stories: ['~/publiq-ui/**/*.stories.mdx'],
+    stories: [
+      '~/publiq-ui/docs/design-principles.stories.mdx',
+      '~/publiq-ui/**/*.stories.mdx',
+    ],
     addons: [
       '@storybook/addon-docs',
       '@storybook/addon-controls',
