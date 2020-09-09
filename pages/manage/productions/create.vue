@@ -75,7 +75,7 @@
       <pub-alert
         v-for="(errorMessage, index) in errorMessages"
         :key="index"
-        :variant="alertVariant.DANGER"
+        variant="alert"
         :visible="errorMessages.length > 0"
       >
         {{ errorMessage }}
@@ -92,7 +92,7 @@
   import { parseId } from '@/functions/events';
   import PubH1 from '@/publiq-ui/pub-h1';
   import PubWrapper from '@/publiq-ui/pub-wrapper';
-  import PubAlert, { AlertVariant } from '@/publiq-ui/pub-alert';
+  import PubAlert from '@/publiq-ui/pub-alert';
 
   export default {
     components: {
@@ -157,9 +157,6 @@
           (suggestedProduction) =>
             suggestedProduction.id === this.selectedSuggestedProductionId,
         ).title;
-      },
-      alertVariant() {
-        return AlertVariant;
       },
     },
     async created() {

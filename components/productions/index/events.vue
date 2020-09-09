@@ -58,7 +58,7 @@
       <pub-alert
         v-for="(errorMessage, index) in errorMessages"
         :key="index"
-        :variant="alertVariant.DANGER"
+        variant="alert"
         :visible="errorMessages.length > 0"
         >{{ errorMessage }}
       </pub-alert>
@@ -91,7 +91,7 @@
   import { parseId } from '@/functions/events';
   import PubPanel from '@/publiq-ui/pub-panel';
   import PubList from '@/publiq-ui/pub-list';
-  import PubAlert, { AlertVariant } from '@/publiq-ui/pub-alert';
+  import PubAlert from '@/publiq-ui/pub-alert';
 
   export default {
     components: {
@@ -144,9 +144,6 @@
       },
       hasErrorMessages() {
         return this.errorMessages.length > 0;
-      },
-      alertVariant() {
-        return AlertVariant;
       },
     },
     watch: {
