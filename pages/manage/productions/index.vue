@@ -83,6 +83,7 @@
         errorMessagesEvents: [],
 
         isAddingEventToProduction: false,
+        isDeleteModalVisible: false,
 
         isLoadingEvents: true,
         events: [],

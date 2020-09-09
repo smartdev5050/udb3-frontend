@@ -1,5 +1,5 @@
 <template>
-  <pub-modal
+  <pub-question-modal
     :visible="isVisible"
     :confirm-title="$t('productions.overview.delete')"
     :cancel-title="$t('productions.overview.cancel')"
@@ -15,15 +15,15 @@
           : $t('productions.overview.delete_question_event', { productionName })
       }}
     </div>
-  </pub-modal>
+  </pub-question-modal>
 </template>
 
 <script>
-  import PubModal, { ModalVariant } from '@/publiq-ui/pub-modal.vue';
+  import PubQuestionModal from '@/publiq-ui/pub-question-modal.vue';
 
   export default {
     components: {
-      PubModal,
+      PubQuestionModal,
     },
     props: {
       eventCount: {
@@ -37,11 +37,6 @@
       isVisible: {
         type: Boolean,
         default: false,
-      },
-    },
-    computed: {
-      modalVariant() {
-        return ModalVariant;
       },
     },
     methods: {
