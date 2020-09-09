@@ -1,10 +1,5 @@
 <template>
-  <b-button
-    v-bind="$attrs"
-    :disabled="disabled"
-    :variant="variant"
-    @click="handleClick"
-  >
+  <b-button :disabled="disabled" :variant="mappedVariant" @click="handleClick">
     <slot />
   </b-button>
 </template>
@@ -12,11 +7,11 @@
 <style lang="scss" scoped></style>
 
 <script>
-  export const ButtonVariant = {
-    PRIMARY: 'primary',
-    SECONDARY: 'outline-secondary',
-    SUCCESS: 'success',
-    DANGER: 'danger',
+  const ButtonVariant = {
+    primary: 'primary',
+    secondary: 'outline-secondary',
+    success: 'success',
+    danger: 'danger',
   };
 
   export default {
@@ -24,11 +19,16 @@
     props: {
       variant: {
         type: String,
-        default: ButtonVariant.PRIMARY,
+        default: 'primary',
       },
       disabled: {
         type: Boolean,
         default: false,
+      },
+    },
+    computed: {
+      mappedVariant() {
+        return ButtonVariant[this.variant] || ButtonVariant.primary;
       },
     },
     methods: {

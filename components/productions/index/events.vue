@@ -10,18 +10,18 @@
           }}
         </h2>
         <div v-if="!isAddEventVisible">
-          <b-button variant="primary" @click="handleClickAddEvent">
+          <pub-button variant="primary" @click="handleClickAddEvent">
             <fa icon="plus" />
             {{ $t('productions.overview.create') }}
-          </b-button>
-          <b-button
+          </pub-button>
+          <pub-button
             variant="danger"
             :disabled="!canEnableDeleteButton"
             @click="handleClickDelete"
           >
             <fa icon="trash" />
             {{ $t('productions.overview.delete') }}
-          </b-button>
+          </pub-button>
         </div>
       </div>
       <div v-if="isAddEventVisible" class="add-event-container">
@@ -36,7 +36,7 @@
           placeholder="cdbid"
           @input="handleInputEventId"
         />
-        <b-button
+        <pub-button
           variant="primary"
           :disabled="!eventId"
           @click="handleClickAddEventToProduction"
@@ -46,14 +46,14 @@
             {{ $t('productions.overview.confirm') }}
           </span>
           <pub-loading-spinner v-else class="button-spinner" />
-        </b-button>
-        <b-button
-          variant="outline-secondary"
+        </pub-button>
+        <pub-button
+          variant="secondary"
           @click="handleClickCancelAddEventToProduction"
         >
           <fa icon="times" />
           {{ $t('productions.overview.cancel') }}
-        </b-button>
+        </pub-button>
       </div>
       <pub-alert
         v-for="(errorMessage, index) in errorMessages"
@@ -92,6 +92,7 @@
   import PubPanel from '@/publiq-ui/pub-panel';
   import PubList from '@/publiq-ui/pub-list';
   import PubAlert from '@/publiq-ui/pub-alert';
+  import PubButton from '@/publiq-ui/pub-button';
 
   export default {
     components: {
@@ -100,6 +101,7 @@
       PubPanel,
       PubList,
       PubAlert,
+      PubButton,
     },
     props: {
       events: {

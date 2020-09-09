@@ -65,9 +65,9 @@
               :href="selectedFeature.callToAction"
               target="_blank"
             >
-              <b-button class="btn-call-to-action" variant="primary">
+              <pub-button class="btn-call-to-action" variant="primary">
                 {{ selectedFeature.callToActionLabel }}
-              </b-button>
+              </pub-button>
             </a>
           </div>
         </article>
@@ -80,8 +80,13 @@
 </template>
 
 <script>
+  import PubButton from '@/publiq-ui/pub-button';
+
   export default {
     name: 'Giftbox',
+    components: {
+      PubButton,
+    },
     data: () => ({
       loading: true,
       features: [],
