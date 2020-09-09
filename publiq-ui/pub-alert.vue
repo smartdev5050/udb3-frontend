@@ -1,5 +1,5 @@
 <template>
-  <b-alert :variant="variant" :show="show" dismissible>
+  <b-alert :variant="variant" :show="visible" dismissible>
     <slot />
   </b-alert>
 </template>
@@ -17,7 +17,7 @@
         type: String,
         default: AlertVariant.INFO,
       },
-      show: {
+      visible: {
         type: Boolean,
         default: false,
       },

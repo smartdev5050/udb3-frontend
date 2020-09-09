@@ -59,7 +59,7 @@
         v-for="(errorMessage, index) in errorMessages"
         :key="index"
         :variant="alertVariant.DANGER"
-        :show="errorMessages.length > 0"
+        :visible="errorMessages.length > 0"
         >{{ errorMessage }}
       </pub-alert>
       <pub-panel>
