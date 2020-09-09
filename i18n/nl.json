@@ -73,7 +73,6 @@
     "create": {
       "link": "Linken",
       "no_suggested_events_found": "Geen evenementen gevonden om te linken aan een productie. Probeer het later opnieuw.",
-      "link": "Linken",
       "production_name": "Productienaam",
       "skip": "Overslaan",
       "suggested_events": "Overeenkomst voorgestelde evenementen:",
@@ -85,9 +84,6 @@
       "type": "Type",
       "when": "Wanneer",
       "where": "Waar"
-    },
-    "errors": {
-      "event_already_exists": "Evenement met id {eventId} kan niet aan deze productie worden toegevoegd omdat deze al bestaat."
     }
   },
   "jobs": {

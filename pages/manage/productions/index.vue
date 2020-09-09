@@ -144,18 +144,6 @@
       async handleAddEventToProduction(eventId) {
         this.isAddingEventToProduction = true;
 
-        const foundEvent = this.events.find(
-          (event) => parseEventId(event['@id']) === eventId,
-        );
-
-        if (foundEvent) {
-          this.errorMessagesEvents = [
-            this.$t('productions.errors.event_already_exists', { eventId }),
-          ];
-          this.isAddingEventToProduction = false;
-          return;
-        }
-
         const response = await this.$api.productions.addEventById(
           this.selectedProductionId,
           eventId,
