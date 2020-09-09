@@ -30,8 +30,9 @@
           :selected-production-name="selectedProduction.name"
           :selected-event-ids="selectedEventIds"
           :is-adding="isAddingEventToProduction"
-          :has-adding-error="hasAddingEventToProductionError"
+          :error-messages="errorMessagesEvents"
           @addEventToProduction="handleAddEventToProduction"
+          @cancelAddEvent="handleCancelAddEvent"
           @inputEventId="handleInputEventId"
           @selectEvent="handleSelectEvent"
           @deleteEvents="handleDeleteEvents"
@@ -79,9 +80,9 @@
         isLoadingProductions: true,
         productions: [],
 
+        errorMessagesEvents: [],
+
         isAddingEventToProduction: false,
-        hasAddingEventToProductionError: false,
-        isDeleteModalVisible: false,
 
         isLoadingEvents: true,
         events: [],
@@ -144,13 +145,13 @@
       },
       async handleAddEventToProduction(eventId) {
         this.isAddingEventToProduction = true;
-        this.hasAddingEventToProductionError = false;
-        const res = await this.$api.productions.addEventById(
+
+        const response = await this.$api.productions.addEventById(
           this.selectedProductionId,
           eventId,
         );
-        if (res.status) {
-          this.hasAddingEventToProductionError = true;
+        if (response.status) {
+          this.errorMessagesEvents = [response.title];
         } else {
           const event = await this.$api.events.findById(eventId);
           this.events.push(event);
@@ -158,15 +159,18 @@
 
         this.isAddingEventToProduction = false;
       },
+      handleCancelAddEvent() {
+        this.errorMessagesEvents = [];
+      },
+      handleInputEventId() {
+        this.errorMessagesEvents = [];
+      },
       async handleChangePage(newPage) {
         const start = (newPage - 1) * this.productionsPerPage;
         await this.getProductionsByName({
           start,
           limit: this.productionsPerPage,
         });
-      },
-      handleInputEventId() {
-        this.hasAddingEventToProductionError = false;
       },
       handleInputSearch(searchInput) {
         this.getProductionsByName({

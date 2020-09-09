@@ -30,7 +30,7 @@
           v-model="eventId"
           type="text"
           :class="{
-            'is-invalid': hasAddingError && !(eventId === ''),
+            'is-invalid': hasErrorMessages && !(eventId === ''),
             'form-control': true,
           }"
           placeholder="cdbid"
@@ -55,6 +55,13 @@
           {{ $t('productions.overview.cancel') }}
         </b-button>
       </div>
+      <pub-alert
+        v-for="(errorMessage, index) in errorMessages"
+        :key="index"
+        :variant="alertVariant.DANGER"
+        :visible="errorMessages.length > 0"
+        >{{ errorMessage }}
+      </pub-alert>
       <pub-panel>
         <pub-list>
           <event
@@ -84,6 +91,7 @@
   import { parseId } from '@/functions/events';
   import PubPanel from '@/publiq-ui/pub-panel';
   import PubList from '@/publiq-ui/pub-list';
+  import PubAlert, { AlertVariant } from '@/publiq-ui/pub-alert';
 
   export default {
     components: {
@@ -91,6 +99,7 @@
       Event,
       PubPanel,
       PubList,
+      PubAlert,
     },
     props: {
       events: {
@@ -113,9 +122,9 @@
         type: Boolean,
         default: false,
       },
-      hasAddingError: {
-        type: Boolean,
-        default: false,
+      errorMessages: {
+        type: Array,
+        default: () => [],
       },
     },
     data: () => ({
@@ -133,10 +142,16 @@
       canEnableDeleteButton() {
         return this.selectedEventIds.length > 0;
       },
+      hasErrorMessages() {
+        return this.errorMessages.length > 0;
+      },
+      alertVariant() {
+        return AlertVariant;
+      },
     },
     watch: {
       isAdding(val) {
-        if (!val && !this.hasAddingError) {
+        if (!val && !this.hasErrorMessages) {
           this.eventId = '';
         }
       },
@@ -156,6 +171,7 @@
         }
       },
       handleClickCancelAddEventToProduction() {
+        this.$emit('cancelAddEvent');
         this.eventId = '';
         this.isAddEventVisible = false;
       },

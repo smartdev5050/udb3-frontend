@@ -1,29 +1,29 @@
 {
   "brand": "UiTdatabank",
   "main": {
-    "lead": "Organisez-vous une activité?",
-    "lead_sub": "Ajoutez vos activités gratuitement et élargissez votre public",
-    "start": "Commencez ici",
-    "activities": "activités par an",
     "activities_info": "Vous proposez un concert, une représentation, une exposition ou un film? Ou plutôt un événement sportif, une randonnée, une soirée cartes, une kermesse? Ou encore des cours, des ateliers ou des événements? Tout cela trouvera sa place dans l’UiTdatabank.",
-    "channels": "chaînes de publication",
+    "activities": "activités par an",
     "channels_info": "UiTdatabank alimente en outre plus de 500 agendas de loisirs imprimés et numériques qui proposent des informations à jour. Ce sont les agendas de chaînes audio-visuelles et de médias locaux ou nationaux, de villes et communes, de services touristiques ou de grandes organisations de coordination.",
-    "organizers": "organisateurs",
+    "channels": "chaînes de publication",
+    "lead_sub": "Ajoutez vos activités gratuitement et élargissez votre public",
+    "lead": "Organisez-vous une activité?",
+    "mission": "Plus d'audience pour votre activité.",
     "organizers_info": "Plus de 28.000 organisateurs proposent chaque année plus de 215.000 activités. Cela peut se faire gratuitement par chacun, en ligne.",
-    "mission": "Plus d'audience pour votre activité."
+    "organizers": "organisateurs",
+    "start": "Commencez ici"
   },
   "footer": {
-    "contact": "Contactez-nous",
     "about": "Sur UiTdatabank",
-    "dev": "Pour développeurs (NL)",
-    "legal": "Conditions d'utilisation",
-    "legal_path": "accord-utilisation-uitdatabank",
-    "privacy": "Confidentialité",
     "by": "Un produit de",
-    "questions": "Questions ou remarques?",
     "changeProfile": "Modifier mon profil",
-    "withSupport": "avec le soutien de la",
-    "flemishGovernment": "Communauté Flamande"
+    "contact": "Contactez-nous",
+    "dev": "Pour développeurs (NL)",
+    "flemishGovernment": "Communauté Flamande",
+    "legal_path": "accord-utilisation-uitdatabank",
+    "legal": "Conditions d'utilisation",
+    "privacy": "Confidentialité",
+    "questions": "Questions ou remarques?",
+    "withSupport": "avec le soutien de la"
   },
   "giftbox": {
     "announcements": "Annonces",
@@ -31,27 +31,25 @@
     "no_features": "Il n'y a actuellement aucune annonce."
   },
   "menu": {
-    "home": "Home",
     "add": "Remplir",
-    "search": "Chercher",
-    "management": "Gestion",
-    "validate": "Valider",
-    "users": "Utilisateurs",
-    "roles": "Rôles",
+    "home": "Home",
     "labels": "Étiquettes",
-    "organizations": "Organisateurs",
+    "logout": "Déconnecter",
+    "management": "Gestion",
     "notifications": "Notifications",
+    "organizations": "Organisateurs",
     "productions": "Productions",
-    "logout": "Déconnecter"
+    "roles": "Rôles",
+    "search": "Chercher",
+    "users": "Utilisateurs",
+    "validate": "Valider"
   },
   "pagination": {
-    "previous": "Dernier",
-    "next": "Prochain"
+    "next": "Prochain",
+    "previous": "Dernier"
   },
   "productions": {
     "overview": {
-      "title": "Productions",
-      "production": "Production",
       "cancel": "annuler",
       "confirm": "confirmer",
       "create": "ajouter",
@@ -60,35 +58,37 @@
       "delete": "supprimer",
       "details": "Details",
       "events_in_production": "Événements dans {productionName}",
-      "link": "Lier",
       "loading": "Changer",
       "no_events": "Aucun événement dans cette production.",
       "no_productions": "Aucune production trouvée.",
+      "production": "Production",
       "search": {
         "label": "Recherche par nom de production:",
         "placeholder": "Écrivez une recherche d'au moins 4 caractères."
-      }
+      },
+      "title": "Productions"
     },
     "create": {
-      "title": "Ajouter des productions",
+      "link": "Lier",
       "no_suggested_events_found": "Aucun événement trouvé pour être lié à une production. Réessayez plus tard.",
       "production_name": "Nom de production",
       "skip": "Sauter",
-      "suggested_events": "Conformément à événements proposés"
+      "suggested_events": "Conformément à événements proposés",
+      "title": "Ajouter des productions"
     },
     "event": {
+      "part_of_production": "Partie de la production",
       "title": "Titre",
       "type": "Genre",
       "when": "Quand",
-      "where": "Où",
-      "part_of_production": "Partie de la production"
+      "where": "Où"
     }
   },
   "jobs": {
+    "download": "Télécharger",
     "exported_documents": "Documents exportés",
-    "notifications": "Notifications",
     "in_progress": "Occupé",
-    "time_ago": "Il y a {time}",
-    "download": "Télécharger"
+    "notifications": "Notifications",
+    "time_ago": "Il y a {time}"
   }
 }

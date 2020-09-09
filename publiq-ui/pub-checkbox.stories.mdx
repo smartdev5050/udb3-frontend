@@ -1,13 +1,13 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
-import PubH1 from './pub-h1';
+import PubCheckbox from './pub-checkbox.vue';
 
-<Meta title="Components/pub-h1" component={PubH1} />
+<Meta title="Components/pub-checkbox" component={PubCheckbox} />
 
 export const Template = (args, { argTypes }) => {
   return {
     props: Object.keys(argTypes),
-    components: { PubH1 },
-    template: '<pub-h1 v-bind="$props">Heading 1</pub-h1>',
+    components: { PubCheckbox },
+    template: '<pub-checkbox v-bind="$props">Click me</pub-checkbox>',
   };
 };
 
@@ -18,7 +18,7 @@ export const Template = (args, { argTypes }) => {
 </Canvas>
 
 ```javascript
-<pub-h1>Heading 1</pub-h1>
+<pub-checkbox>Click me</pub-checkbox>
 ```
 
 <ArgsTable story="Default" />
