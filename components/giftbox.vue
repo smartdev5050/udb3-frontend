@@ -9,7 +9,7 @@
         numberOfUnseenFeatures
       }}</span>
     </a>
-    <pub-content-modal
+    <pub-modal-content
       :visible="isModalVisible"
       :title="$t('giftbox.new_features')"
       @hidden="handleHiddenModal"
@@ -72,17 +72,17 @@
           <p>{{ $t('giftbox.no_features') }}</p>
         </div>
       </div>
-    </pub-content-modal>
+    </pub-modal-content>
   </div>
 </template>
 
 <script>
-  import PubContentModal from '@/publiq-ui/pub-content-modal';
+  import PubModalContent from '@/publiq-ui/pub-modal-content';
 
   export default {
     name: 'Giftbox',
     components: {
-      PubContentModal,
+      PubModalContent,
     },
     data: () => ({
       loading: true,
