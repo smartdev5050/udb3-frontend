@@ -5,7 +5,7 @@
         <pub-checkbox
           :is-checked="isSelected"
           :is-disabled="isDisabled"
-          @input="handleInputSelectEvent"
+          @toggle="handleToggleSelectEvent"
         >
           {{ name }}
         </pub-checkbox>
@@ -96,7 +96,7 @@
       handleClickToggleShowDetail() {
         this.isDetailVisible = !this.isDetailVisible;
       },
-      handleInputSelectEvent() {
+      handleToggleSelectEvent() {
         this.$emit('select', this.id);
       },
     },

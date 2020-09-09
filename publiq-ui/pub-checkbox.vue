@@ -22,7 +22,7 @@
     },
     methods: {
       handleInput() {
-        this.$emit('input');
+        this.$emit('toggle');
       },
     },
   };
