@@ -12,7 +12,7 @@
     <pub-modal-content
       :visible="isModalVisible"
       :title="$t('giftbox.new_features')"
-      @hide="handleHiddenModal"
+      @hide="handleHideModal"
     >
       <div class="features-wrapper">
         <section class="features-list">
@@ -161,7 +161,7 @@
           this.addToSeenFeatures(this.selectedFeature.uid);
         }
       },
-      handleHiddenModal() {
+      handleHideModal() {
         this.isModalVisible = false;
       },
     },
