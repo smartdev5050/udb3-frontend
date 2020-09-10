@@ -4,9 +4,9 @@
       <pub-h1>
         {{ $t('menu.productions') }}
         <small>
-          <nuxt-link class="link" to="productions/create">{{
-            $t('productions.overview.create')
-          }}</nuxt-link>
+          <nuxt-link to="productions/create">
+            <pub-link>{{ $t('productions.overview.create') }}</pub-link>
+          </nuxt-link>
         </small>
       </pub-h1>
       <search @inputSearch="handleInputSearch" />
@@ -60,6 +60,7 @@
   import { parseId as parseEventId } from '@/functions/events';
   import PubWrapper from '@/publiq-ui/pub-wrapper';
   import PubH1 from '@/publiq-ui/pub-h1';
+  import PubLink from '@/publiq-ui/pub-Link';
 
   export default {
     components: {
@@ -69,6 +70,7 @@
       DeleteModal,
       PubH1,
       PubWrapper,
+      PubLink,
     },
     data() {
       return {
