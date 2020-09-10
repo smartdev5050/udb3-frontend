@@ -1,6 +1,6 @@
 <template>
   <div>
-    <label v-if="label" for="typeahead">{{ label }}</label>
+    <pub-label v-if="label" link="typeahead">{{ label }}</pub-label>
     <vue-typeahead-bootstrap
       v-model="searchTermModel"
       class="typeahead"
@@ -14,10 +14,12 @@
 
 <script>
   import VueTypeaheadBootstrap from 'vue-typeahead-bootstrap';
+  import PubLabel from '@/publiq-ui/pub-label';
 
   export default {
     components: {
       VueTypeaheadBootstrap,
+      PubLabel,
     },
     props: {
       searchTerm: {
