@@ -12,7 +12,7 @@
     <pub-modal-content
       :visible="isModalVisible"
       :title="$t('giftbox.new_features')"
-      @hidden="handleHiddenModal"
+      @hide="handleHideModal"
     >
       <div class="features-wrapper">
         <section class="features-list">
@@ -62,9 +62,9 @@
               :href="selectedFeature.callToAction"
               target="_blank"
             >
-              <b-button class="btn-call-to-action" variant="primary">
+              <pub-button class="btn-call-to-action" variant="primary">
                 {{ selectedFeature.callToActionLabel }}
-              </b-button>
+              </pub-button>
             </a>
           </div>
         </article>
@@ -77,11 +77,13 @@
 </template>
 
 <script>
+  import PubButton from '@/publiq-ui/pub-button';
   import PubModalContent from '@/publiq-ui/pub-modal-content';
 
   export default {
     name: 'Giftbox',
     components: {
+      PubButton,
       PubModalContent,
     },
     data: () => ({
@@ -159,7 +161,7 @@
           this.addToSeenFeatures(this.selectedFeature.uid);
         }
       },
-      handleHiddenModal() {
+      handleHideModal() {
         this.isModalVisible = false;
       },
     },
