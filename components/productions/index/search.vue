@@ -1,52 +1,37 @@
 <template>
-  <div class="search-container">
-    <div class="searchbox-container">
-      <label for="search-input">{{
-        $t('productions.overview.search.label')
-      }}</label>
-      <b-form-input
-        id="search-input"
-        v-model="searchInput"
-        :placeholder="$t('productions.overview.search.placeholder')"
-        @input="handleInputSearch"
-      ></b-form-input>
-    </div>
-  </div>
+  <pub-input
+    class="searchbox"
+    :label="$t('productions.overview.search.label')"
+    :placeholder="$t('productions.overview.search.placeholder')"
+    @input="handleInputSearch"
+  />
 </template>
 
 <script>
   import { debounce } from 'lodash-es';
+  import PubInput from '@/publiq-ui/pub-input';
 
   export default {
+    components: {
+      PubInput,
+    },
     data: () => ({
       searchInput: '',
     }),
     methods: {
-      handleInputSearch: debounce(function () {
-        this.$emit('inputSearch', this.searchInput);
+      handleInputSearch: debounce(function (value) {
+        this.$emit('inputSearch', value);
       }, 1000),
     },
   };
 </script>
 
-<style lang="scss">
-  .search-container {
-    .searchbox-container {
-      display: flex;
-      align-items: center;
-      margin-bottom: 1rem;
-      line-height: 1rem;
-    }
+<style lang="scss" scoped>
+  .searchbox {
+    margin-bottom: 1rem;
+  }
 
-    label {
-      font-size: 1rem;
-      font-weight: 700;
-      margin-right: 1rem;
-      margin-bottom: 0;
-    }
-
-    input {
-      max-width: 43rem;
-    }
+  label {
+    margin-right: 1rem;
   }
 </style>
