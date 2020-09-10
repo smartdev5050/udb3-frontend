@@ -12,7 +12,7 @@
     <pub-modal-content
       :visible="isModalVisible"
       :title="$t('giftbox.new_features')"
-      @hidden="handleHiddenModal"
+      @hide="handleHiddenModal"
     >
       <div class="features-wrapper">
         <section class="features-list">
