@@ -18,8 +18,16 @@
   };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+  .main-container {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    z-index: 0;
+  }
+
   .content {
+    flex: 1;
     height: 100vh;
     overflow-x: hidden;
     overflow-y: auto;

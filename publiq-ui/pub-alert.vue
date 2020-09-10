@@ -5,17 +5,11 @@
 </template>
 
 <script>
-  export const AlertVariant = {
-    DANGER: 'danger',
-    INFO: 'info',
-    SUCCESS: 'success',
-  };
-
   export default {
     props: {
       variant: {
         type: String,
-        default: AlertVariant.INFO,
+        default: 'info',
       },
       visible: {
         type: Boolean,
