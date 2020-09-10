@@ -272,11 +272,6 @@
 
 <style lang="scss">
   .productions-create-page {
-    label {
-      font-size: 1rem;
-      font-weight: 700;
-    }
-
     .events-container {
       width: 100%;
       display: flex;
