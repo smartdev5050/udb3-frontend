@@ -52,7 +52,7 @@
         </section>
 
         <section class="button-container">
-          <b-button
+          <pub-button
             class="button-spinner"
             variant="success"
             :disabled="!(productionName || selectedSuggestedProductionId)"
@@ -60,10 +60,10 @@
           >
             <pub-loading-spinner v-if="isLinkingEventsWithProduction" />
             <span v-else>{{ $t('productions.create.link') }}</span>
-          </b-button>
-          <b-button variant="danger" @click="handleClickSkip">
+          </pub-button>
+          <pub-button variant="danger" @click="handleClickSkip">
             {{ $t('productions.create.skip') }}
-          </b-button>
+          </pub-button>
         </section>
       </div>
       <section v-else class="list-group-item list-group-item-warning">
@@ -72,7 +72,7 @@
       <pub-alert
         v-for="(errorMessage, index) in errorMessages"
         :key="index"
-        :variant="alertVariant.DANGER"
+        variant="alert"
         :visible="errorMessages.length > 0"
       >
         {{ errorMessage }}
@@ -88,8 +88,9 @@
   import { parseId } from '@/functions/events';
   import PubH1 from '@/publiq-ui/pub-h1';
   import PubWrapper from '@/publiq-ui/pub-wrapper';
-  import PubAlert, { AlertVariant } from '@/publiq-ui/pub-alert';
   import PubTypeahead from '@/publiq-ui/pub-typeahead';
+  import PubAlert from '@/publiq-ui/pub-alert';
+  import PubButton from '@/publiq-ui/pub-button';
 
   export default {
     components: {
@@ -99,6 +100,7 @@
       PubWrapper,
       PubH1,
       PubAlert,
+      PubButton,
     },
     data: () => ({
       eventSimilarityScore: 0,
@@ -154,9 +156,6 @@
           (suggestedProduction) =>
             suggestedProduction.id === this.selectedSuggestedProductionId,
         ).title;
-      },
-      alertVariant() {
-        return AlertVariant;
       },
     },
     async created() {

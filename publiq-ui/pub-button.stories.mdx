@@ -1,5 +1,5 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
-import PubButton, { ButtonVariant } from './pub-button.vue';
+import PubButton from './pub-button.vue';
 
 <Meta title="Components/pub-button" component={PubButton} />
 
@@ -30,7 +30,7 @@ export const commonArgTypes = {
 <Canvas>
   <Story
     name="Primary"
-    args={{ ...commonArguments, variant: ButtonVariant.PRIMARY }}
+    args={{ ...commonArguments, variant: 'primary' }}
     argTypes={commonArgTypes}
   >
     {Template.bind({})}
@@ -38,7 +38,7 @@ export const commonArgTypes = {
 </Canvas>
 
 ```javascript
-<pub-button variant="ButtonVariant.PRIMARY">Click me</pub-button>
+<pub-button variant="primary">Click me</pub-button>
 ```
 
 <ArgsTable story="Primary" />
@@ -48,7 +48,7 @@ export const commonArgTypes = {
 <Canvas>
   <Story
     name="Secondary"
-    args={{ ...commonArguments, variant: ButtonVariant.SECONDARY }}
+    args={{ ...commonArguments, variant: 'secondary' }}
     argTypes={commonArgTypes}
   >
     {Template.bind({})}
@@ -56,7 +56,7 @@ export const commonArgTypes = {
 </Canvas>
 
 ```javascript
-<pub-button variant="ButtonVariant.SECONDARY">Click me</pub-button>
+<pub-button variant="secondary">Click me</pub-button>
 ```
 
 <ArgsTable story="Secondary" />
@@ -66,7 +66,7 @@ export const commonArgTypes = {
 <Canvas>
   <Story
     name="Success"
-    args={{ ...commonArguments, variant: ButtonVariant.SUCCESS }}
+    args={{ ...commonArguments, variant: 'success' }}
     argTypes={commonArgTypes}
   >
     {Template.bind({})}
@@ -74,7 +74,7 @@ export const commonArgTypes = {
 </Canvas>
 
 ```javascript
-<pub-button variant="ButtonVariant.SUCCESS">Click me</pub-button>
+<pub-button variant="success">Click me</pub-button>
 ```
 
 <ArgsTable story="Success" />
@@ -84,7 +84,7 @@ export const commonArgTypes = {
 <Canvas>
   <Story
     name="Danger"
-    args={{ ...commonArguments, variant: ButtonVariant.DANGER }}
+    args={{ ...commonArguments, variant: 'danger' }}
     argTypes={commonArgTypes}
   >
     {Template.bind({})}
@@ -92,7 +92,7 @@ export const commonArgTypes = {
 </Canvas>
 
 ```javascript
-<pub-button variant="ButtonVariant.DANGER">Click me</pub-button>
+<pub-button variant="danger">Click me</pub-button>
 ```
 
 <ArgsTable story="Danger" />

@@ -1,5 +1,5 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
-import PubAlert, { AlertVariant } from './pub-alert.vue';
+import PubAlert from './pub-alert.vue';
 
 <Meta title="Components/pub-alert" component={PubAlert} />
 
@@ -26,7 +26,7 @@ export const commonArgTypes = {
 <Canvas>
   <Story
     name="Info"
-    args={{ visible: true, variant: AlertVariant.INFO }}
+    args={{ visible: true, variant: 'info' }}
     argTypes={commonArgTypes}
   >
     {Template.bind({})}
@@ -34,7 +34,7 @@ export const commonArgTypes = {
 </Canvas>
 
 ```javascript
-<pub-alert variant="AlertVariant.INFO">Lorem Ipsum</pub-alert>
+<pub-alert variant="info">Lorem Ipsum</pub-alert>
 ```
 
 <ArgsTable story="Info" />
@@ -44,7 +44,7 @@ export const commonArgTypes = {
 <Canvas>
   <Story
     name="Success"
-    args={{ visible: true, variant: AlertVariant.SUCCESS }}
+    args={{ visible: true, variant: 'success' }}
     argTypes={commonArgTypes}
   >
     {Template.bind({})}
@@ -52,7 +52,7 @@ export const commonArgTypes = {
 </Canvas>
 
 ```javascript
-<pub-alert variant="AlertVariant.SUCCESS">Lorem Ipsum</pub-alert>
+<pub-alert variant="success">Lorem Ipsum</pub-alert>
 ```
 
 <ArgsTable story="Success" />
@@ -62,7 +62,7 @@ export const commonArgTypes = {
 <Canvas>
   <Story
     name="Danger"
-    args={{ visible: true, variant: AlertVariant.DANGER }}
+    args={{ visible: true, variant: 'danger' }}
     argTypes={commonArgTypes}
   >
     {Template.bind({})}
@@ -70,7 +70,7 @@ export const commonArgTypes = {
 </Canvas>
 
 ```javascript
-<pub-alert variant="AlertVariant.DANGER">Lorem Ipsum</pub-alert>
+<pub-alert variant="danger">Lorem Ipsum</pub-alert>
 ```
 
 <ArgsTable story="Danger" />

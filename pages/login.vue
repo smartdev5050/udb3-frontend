@@ -138,9 +138,9 @@
     <div class="start">
       <div class="container-fluid">
         <div class="center">
-          <b-button class="btn-start" variant="primary" @click="login">
+          <pub-button class="btn-start" variant="primary" @click="login">
             {{ $t('main.start') }}
-          </b-button>
+          </pub-button>
         </div>
       </div>
     </div>
@@ -260,11 +260,13 @@
 <script>
   import { login } from '../services/auth';
   import PubH1 from '@/publiq-ui/pub-h1';
+  import PubButton from '@/publiq-ui/pub-button';
 
   export default {
     layout: 'login',
     components: {
       PubH1,
+      PubButton,
     },
     computed: {
       isFR() {

@@ -40,7 +40,9 @@
         <delete-modal
           :production-name="selectedProductionName"
           :event-count="selectedEventIds.length"
+          :is-visible="isDeleteModalVisible"
           @confirm="handleConfirmDeleteEvent"
+          @hide="handleHideDeleteModal"
         />
       </div>
       <div v-else class="productions-events-container">
@@ -81,6 +83,7 @@
         errorMessagesEvents: [],
 
         isAddingEventToProduction: false,
+        isDeleteModalVisible: false,
 
         isLoadingEvents: true,
         events: [],
@@ -190,7 +193,7 @@
         }
       },
       handleDeleteEvents(eventIds) {
-        this.$bvModal.show('deleteModal');
+        this.isDeleteModalVisible = true;
       },
       async handleConfirmDeleteEvent() {
         await this.$api.productions.deleteEventsByIds({
@@ -200,7 +203,7 @@
         this.selectedEventIds.forEach((eventId) => {
           this.deleteEventFromProduction(eventId);
         });
-        this.$bvModal.hide('deleteModal');
+        this.isDeleteModalVisible = false;
       },
       deleteEventFromProduction(eventIdToDelete) {
         this.events = this.events.filter(
@@ -220,11 +223,14 @@
           })
           .filter((production) => production !== undefined);
       },
+      handleHideDeleteModal() {
+        this.isDeleteModalVisible = false;
+      },
     },
   };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .productions-index-page {
     .productions-events-container {
       display: flex;
@@ -232,7 +238,7 @@
       font-weight: 400;
       margin-bottom: 1rem;
 
-      h2 {
+      /deep/ h2 {
         font-size: 1rem;
         font-weight: 700;
       }
