@@ -1,0 +1,17 @@
+/deep/ .title {
+  font-size: 1.067rem;
+  font-weight: 700;
+}
+
+/deep/ .modal {
+  overflow-y: hidden;
+}
+
+/deep/ .content {
+  max-height: 95vh;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+/deep/ .body {
+  padding: 0;
+}

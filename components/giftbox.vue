@@ -9,13 +9,10 @@
         numberOfUnseenFeatures
       }}</span>
     </a>
-    <b-modal
-      ref="giftbox-modal"
-      class="giftbox-modal"
-      size="xl"
+    <pub-modal-content
+      :visible="isModalVisible"
       :title="$t('giftbox.new_features')"
-      :scrollable="false"
-      hide-footer
+      @hidden="handleHiddenModal"
     >
       <div class="features-wrapper">
         <section class="features-list">
@@ -75,17 +72,19 @@
           <p>{{ $t('giftbox.no_features') }}</p>
         </div>
       </div>
-    </b-modal>
+    </pub-modal-content>
   </div>
 </template>
 
 <script>
   import PubButton from '@/publiq-ui/pub-button';
+  import PubModalContent from '@/publiq-ui/pub-modal-content';
 
   export default {
     name: 'Giftbox',
     components: {
       PubButton,
+      PubModalContent,
     },
     data: () => ({
       loading: true,
@@ -93,6 +92,7 @@
       seenFeatures: [],
       numberOfUnseenFeatures: 0,
       selectedFeature: undefined,
+      isModalVisible: false,
     }),
     computed: {
       cookieOptions() {
@@ -151,10 +151,7 @@
           this.addToSeenFeatures(this.selectedFeature.uid);
         }
 
-        this.$refs['giftbox-modal'].show();
-      },
-      hideModal() {
-        this.$refs['giftbox-modal'].hide();
+        this.isModalVisible = true;
       },
       showFeature(uid) {
         if (uid) {
@@ -164,24 +161,14 @@
           this.addToSeenFeatures(this.selectedFeature.uid);
         }
       },
+      handleHiddenModal() {
+        this.isModalVisible = false;
+      },
     },
   };
 </script>
 
-<style lang="scss">
-  .modal-open .modal {
-    overflow-y: hidden;
-  }
-
-  .modal-content {
-    max-height: 95vh;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-  }
-
-  .modal-body {
-    padding: 0 !important;
-  }
-
+<style lang="scss" scoped>
   .features-wrapper {
     width: 100%;
     height: 100%;
