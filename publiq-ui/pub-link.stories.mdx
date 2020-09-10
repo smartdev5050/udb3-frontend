@@ -1,0 +1,24 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import PubLink from './pub-link.vue';
+
+<Meta title="Components/pub-link" component={PubLink} />
+
+export const Template = (args, { argTypes }) => {
+  return {
+    props: Object.keys(argTypes),
+    components: { PubLink },
+    template: '<pub-link href="#" v-bind="$props">Link</pub-link>',
+  };
+};
+
+## Default
+
+<Canvas>
+  <Story name="Default">{Template.bind({})}</Story>
+</Canvas>
+
+```javascript
+<pub-link href="#">Wrapped content</pub-link>
+```
+
+<ArgsTable story="Default" />
