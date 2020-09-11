@@ -1,6 +1,6 @@
 <template>
   <b-pagination
-    v-model="currentPage"
+    v-model="currentPageModel"
     :total-rows="total"
     :per-page="perPage"
     :prev-text="prevText"
@@ -9,7 +9,6 @@
     :class="{ 'hide-buttons': hideButtons }"
     prev-class="prev-btn"
     next-class="next-btn"
-    @input="handleInput"
   />
 </template>
 
@@ -17,6 +16,7 @@
   export default {
     name: 'Pagination',
     props: {
+      currentPage: { type: Number, default: 1 },
       total: { type: Number, default: 1 },
       perPage: { type: Number, default: 10 },
       limit: { type: Number, default: 10 },
@@ -33,13 +33,13 @@
       hideButtons() {
         return Math.ceil(this.total / this.perPage) === 1;
       },
-    },
-    created() {
-      this.currentPage = 1;
-    },
-    methods: {
-      handleInput() {
-        this.$emit('changePage', this.currentPage);
+      currentPageModel: {
+        get() {
+          return this.currentPage;
+        },
+        set(newValue) {
+          this.$emit('changePage', newValue);
+        },
       },
     },
   };

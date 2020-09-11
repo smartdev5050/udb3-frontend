@@ -18,6 +18,7 @@
       </pub-list>
       <pub-panel-footer>
         <pub-pagination
+          :current-page="currentPage"
           :total="totalItems"
           :per-page="productionsPerPage"
           :prev-text="$t('pagination.previous')"
@@ -74,12 +75,18 @@
         default: 15,
       },
     },
+    data() {
+      return {
+        currentPage: 1,
+      };
+    },
     methods: {
       handleClickProduction(id) {
         this.$emit('changeSelectedProductionId', id);
       },
       handleChangePage(newPage) {
-        this.$emit('changePage', newPage);
+        this.currentPage = newPage;
+        this.$emit('changePage', this.currentPage);
       },
     },
   };
