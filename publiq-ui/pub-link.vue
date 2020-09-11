@@ -5,12 +5,21 @@
 </template>
 
 <script>
+  import PubButton from './pub-button';
+
+  export const SupportedTypes = ['a', 'nuxt-link', 'pub-button'];
+
   export default {
+    components: {
+      PubButton,
+    },
     props: {
       as: {
         type: String,
         default: 'a',
-        required: true,
+        validator(value) {
+          return SupportedTypes.includes(value);
+        },
       },
     },
     methods: {
