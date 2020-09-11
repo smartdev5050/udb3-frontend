@@ -58,7 +58,7 @@
   import Search from '@/components/productions/index/search';
   import DeleteModal from '@/components/productions/index/delete-modal';
   import { parseId as parseEventId } from '@/functions/events';
-  import PubLink from '@/publiq-ui/pub-Link';
+  import PubLink from '@/publiq-ui/pub-link';
   import PubPage from '@/publiq-ui/pub-page';
   import PubPageTitle from '@/publiq-ui/pub-page-title';
 
