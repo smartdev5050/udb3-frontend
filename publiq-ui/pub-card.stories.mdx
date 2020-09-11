@@ -17,7 +17,7 @@ export const TemplateCardWithCardText = (args, { argTypes }) => {
     props: Object.keys(argTypes),
     components: { PubCard, PubCardText },
     template:
-      '<pub-card v-bind="$props">Card content <pub-card-text v-bind="$props">Card footer text</pub-card-text></pub-card>',
+      '<pub-card><pub-card-text>Paragraph 1</pub-card-text><pub-card-text>Paragraph 2</pub-card-text><pub-card-text>Paragraph 3 (will have its bottom margin removed)</pub-card-text></pub-card>',
   };
 };
 
@@ -39,8 +39,11 @@ export const TemplateCardWithCardText = (args, { argTypes }) => {
 
 ```javascript
 <pub-card>
-  Card content
-  <pub-card-text>Card footer text</pub-card-text>
+  <pub-card-text>Paragraph 1</pub-card-text>
+  <pub-card-text>Paragraph 2</pub-card-text>
+  <pub-card-text>
+    Paragraph 3 (will have its bottom margin removed)
+  </pub-card-text>
 </pub-card>
 ```
 
