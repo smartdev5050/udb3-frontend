@@ -17,29 +17,23 @@ export const commonArgs = {
   nextText: 'Next one',
 };
 
-export const commonArgTypes = {
-  prevText: {
-    table: {
-      defaultValue: { summary: '$t(pagination.previous)' },
-    },
-  },
-  nextText: {
-    table: {
-      defaultValue: { summary: '$t(pagination.next)' },
-    },
-  },
-};
-
 ## Default
 
 <Canvas>
-  <Story name="Default" args={commonArgs} argTypes={commonArgTypes}>
+  <Story name="Default" args={commonArgs}>
     {Template.bind({})}
   </Story>
 </Canvas>
 
 ```javascript
-<pub-pagination total="50" prev-text="Previous one" next-text="Previous one" />
+<pub-pagination
+    :current-page="currentPage"
+    :total="totalItems"
+    :per-page="perPage"
+    prev-text="Previous one"
+    next-text="Previous one"
+    @changePage="handleChangePage"
+/>
 ```
 
 <ArgsTable story="Default" />

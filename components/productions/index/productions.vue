@@ -2,7 +2,7 @@
   <section class="productions-container" aria-label="List of productions">
     <h2>{{ $t('productions.overview.production') }}</h2>
     <pub-panel v-if="!isLoading && productions.length > 0">
-      <pub-list>
+      <pub-list class="productions">
         <pub-list-item
           v-for="production in productions"
           :key="production.production_id"
@@ -18,8 +18,11 @@
       </pub-list>
       <pub-panel-footer>
         <pub-pagination
+          :current-page="currentPage"
           :total="totalItems"
           :per-page="productionsPerPage"
+          :prev-text="$t('pagination.previous')"
+          :next-text="$t('pagination.next')"
           @changePage="handleChangePage"
         />
       </pub-panel-footer>
@@ -72,18 +75,24 @@
         default: 15,
       },
     },
+    data() {
+      return {
+        currentPage: 1,
+      };
+    },
     methods: {
       handleClickProduction(id) {
         this.$emit('changeSelectedProductionId', id);
       },
       handleChangePage(newPage) {
-        this.$emit('changePage', newPage);
+        this.currentPage = newPage;
+        this.$emit('changePage', this.currentPage);
       },
     },
   };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .productions-container {
     width: 39%;
     margin-right: 1%;
@@ -93,18 +102,20 @@
       margin-bottom: 0.5rem;
     }
 
-    .list-group-item {
-      border-radius: 0;
-    }
+    .productions {
+      .list-group-item {
+        border-radius: 0;
+      }
 
-    li.selected {
-      background-color: $selected;
-      color: $white;
-    }
+      li.selected {
+        background-color: $selected;
+        color: $white;
+      }
 
-    li:hover {
-      background-color: $selected;
-      color: $white;
+      li:hover {
+        background-color: $selected;
+        color: $white;
+      }
     }
   }
 </style>
