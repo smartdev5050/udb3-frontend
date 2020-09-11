@@ -1,13 +1,16 @@
 <template>
-  <a :href="href" @click="handleClick"><slot /></a>
+  <component :is="as" v-bind="$attrs" v-on="$listeners" @click="handleClick">
+    <slot />
+  </component>
 </template>
 
 <script>
   export default {
     props: {
-      href: {
+      as: {
         type: String,
-        default: '',
+        default: 'a',
+        required: true,
       },
     },
     methods: {

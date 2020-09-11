@@ -4,9 +4,9 @@
       <pub-page-title>
         {{ $t('menu.productions') }}
         <small>
-          <nuxt-link to="productions/create">
-            <pub-link>{{ $t('productions.overview.create') }}</pub-link>
-          </nuxt-link>
+          <pub-link as="nuxt-link" to="productions/create">{{
+            $t('productions.overview.create')
+          }}</pub-link>
         </small>
       </pub-page-title>
       <search @inputSearch="handleInputSearch" />
