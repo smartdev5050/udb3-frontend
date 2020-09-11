@@ -1,14 +1,14 @@
 <template>
-  <pub-wrapper>
+  <pub-page>
     <div class="container-fluid productions-index-page">
-      <pub-h1>
+      <pub-page-title>
         {{ $t('menu.productions') }}
         <small>
           <nuxt-link class="link" to="productions/create">{{
             $t('productions.overview.create')
           }}</nuxt-link>
         </small>
-      </pub-h1>
+      </pub-page-title>
       <search @inputSearch="handleInputSearch" />
       <div
         v-if="isLoadingProductions || productions.length > 0"
@@ -49,7 +49,7 @@
         {{ $t('productions.overview.no_productions') }}
       </div>
     </div>
-  </pub-wrapper>
+  </pub-page>
 </template>
 
 <script>
@@ -58,8 +58,8 @@
   import Search from '@/components/productions/index/search';
   import DeleteModal from '@/components/productions/index/delete-modal';
   import { parseId as parseEventId } from '@/functions/events';
-  import PubWrapper from '@/publiq-ui/pub-wrapper';
-  import PubH1 from '@/publiq-ui/pub-h1';
+  import PubPage from '@/publiq-ui/pub-page';
+  import PubPageTitle from '@/publiq-ui/pub-page-title';
 
   export default {
     components: {
@@ -67,8 +67,8 @@
       Events,
       Search,
       DeleteModal,
-      PubH1,
-      PubWrapper,
+      PubPageTitle,
+      PubPage,
     },
     data() {
       return {
