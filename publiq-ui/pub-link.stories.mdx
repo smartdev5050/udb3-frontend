@@ -1,20 +1,32 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
-import PubLink from './pub-link.vue';
+import PubLink, { SupportedTypes } from './pub-link.vue';
+import PubButton from './pub-button.vue';
 
 <Meta title="Components/pub-link" component={PubLink} />
 
 export const Template = (args, { argTypes }) => {
   return {
     props: Object.keys(argTypes),
-    components: { PubLink },
-    template: '<pub-link v-bind="$props">Link</pub-link>',
+    components: { PubLink, PubButton },
+    template: '<pub-link v-bind="$attrs">Link</pub-link>',
   };
+};
+
+export const commonArgTypes = {
+  as: {
+    control: {
+      type: 'select',
+      options: SupportedTypes,
+    },
+  },
 };
 
 ## Default
 
 <Canvas>
-  <Story name="Default">{Template.bind({})}</Story>
+  <Story name="Default" argTypes={{ as: { control: { type: false } } }}>
+    {Template.bind({})}
+  </Story>
 </Canvas>
 
 ```javascript
@@ -22,3 +34,21 @@ export const Template = (args, { argTypes }) => {
 ```
 
 <ArgsTable story="Default" />
+
+## As other component
+
+<Canvas>
+  <Story
+    name="AsComponent"
+    args={{ as: 'pub-button' }}
+    argTypes={commonArgTypes}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+```javascript
+<pub-link as="pub-button">Link</pub-link>
+```
+
+<ArgsTable story="AsComponent" />
