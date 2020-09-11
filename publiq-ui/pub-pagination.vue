@@ -22,15 +22,11 @@
       limit: { type: Number, default: 10 },
       prevText: {
         type: String,
-        default() {
-          return this.$t('pagination.previous');
-        },
+        default: 'Previous',
       },
       nextText: {
         type: String,
-        default() {
-          return this.$t('pagination.next');
-        },
+        default: 'Next',
       },
     },
     data: () => ({

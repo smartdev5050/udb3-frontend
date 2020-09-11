@@ -20,6 +20,8 @@
         <pub-pagination
           :total="totalItems"
           :per-page="productionsPerPage"
+          :prev-text="$t('pagination.previous')"
+          :next-text="$t('pagination.next')"
           @changePage="handleChangePage"
         />
       </pub-panel-footer>
