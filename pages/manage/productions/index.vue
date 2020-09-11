@@ -4,9 +4,9 @@
       <pub-page-title>
         {{ $t('menu.productions') }}
         <small>
-          <nuxt-link class="link" to="productions/create">{{
+          <pub-link as="nuxt-link" to="productions/create">{{
             $t('productions.overview.create')
-          }}</nuxt-link>
+          }}</pub-link>
         </small>
       </pub-page-title>
       <search @inputSearch="handleInputSearch" />
@@ -58,6 +58,7 @@
   import Search from '@/components/productions/index/search';
   import DeleteModal from '@/components/productions/index/delete-modal';
   import { parseId as parseEventId } from '@/functions/events';
+  import PubLink from '@/publiq-ui/pub-link';
   import PubPage from '@/publiq-ui/pub-page';
   import PubPageTitle from '@/publiq-ui/pub-page-title';
 
@@ -67,6 +68,7 @@
       Events,
       Search,
       DeleteModal,
+      PubLink,
       PubPageTitle,
       PubPage,
     },
