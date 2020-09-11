@@ -29,13 +29,13 @@
         default: 'Next',
       },
     },
-    data: () => ({
-      currentPage: 1,
-    }),
     computed: {
       hideButtons() {
         return Math.ceil(this.total / this.perPage) === 1;
       },
+    },
+    created() {
+      this.currentPage = 1;
     },
     methods: {
       handleInput() {
