@@ -1,6 +1,6 @@
 <template>
   <div>
-    <pub-label v-if="label" link="typeahead">{{ label }}</pub-label>
+    <pub-label v-if="label" id="typeahead">{{ label }}</pub-label>
     <vue-typeahead-bootstrap
       v-model="searchTermModel"
       class="typeahead"
