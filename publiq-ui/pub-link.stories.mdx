@@ -7,7 +7,7 @@ export const Template = (args, { argTypes }) => {
   return {
     props: Object.keys(argTypes),
     components: { PubLink },
-    template: '<pub-link href="#" v-bind="$props">Link</pub-link>',
+    template: '<pub-link v-bind="$props">Link</pub-link>',
   };
 };
 
@@ -18,7 +18,7 @@ export const Template = (args, { argTypes }) => {
 </Canvas>
 
 ```javascript
-<pub-link href="#">Wrapped content</pub-link>
+<pub-link href="#">Link</pub-link>
 ```
 
 <ArgsTable story="Default" />
