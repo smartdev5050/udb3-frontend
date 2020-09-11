@@ -27,15 +27,6 @@ a:hover {
   cursor: pointer;
 }
 
-a.link {
-  font-weight: 400;
-  color: $udb-blue;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
 *,
 *::before,
 *::after {

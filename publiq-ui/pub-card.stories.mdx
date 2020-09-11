@@ -1,0 +1,50 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import PubCard from './pub-card.vue';
+import PubCardParagraph from './pub-card-paragraph.vue';
+
+<Meta title="Components/pub-card" component={PubCard} />
+
+export const TemplateCard = (args, { argTypes }) => {
+  return {
+    props: Object.keys(argTypes),
+    components: { PubCard },
+    template: '<pub-card v-bind="$props">Card content</pub-card>',
+  };
+};
+
+export const TemplateCardWithCardText = (args, { argTypes }) => {
+  return {
+    props: Object.keys(argTypes),
+    components: { PubCard, PubCardParagraph },
+    template:
+      '<pub-card><pub-card-paragraph>Paragraph 1</pub-card-paragraph><pub-card-paragraph>Paragraph 2</pub-card-paragraph><pub-card-paragraph>Paragraph 3 (will have its bottom margin removed)</pub-card-paragraph></pub-card>',
+  };
+};
+
+## Default
+
+<Canvas>
+  <Story name="Default">{TemplateCard.bind({})}</Story>
+</Canvas>
+
+```javascript
+<pub-card>Card content</pub-card>
+```
+
+## With card text
+
+<Canvas>
+  <Story name="WithText">{TemplateCardWithCardText.bind({})}</Story>
+</Canvas>
+
+```javascript
+<pub-card>
+  <pub-card-paragraph>Paragraph 1</pub-card-paragraph>
+  <pub-card-paragraph>Paragraph 2</pub-card-paragraph>
+  <pub-card-paragraph>
+    Paragraph 3 (will have its bottom margin removed)
+  </pub-card-paragraph>
+</pub-card>
+```
+
+<ArgsTable story="Default" />
