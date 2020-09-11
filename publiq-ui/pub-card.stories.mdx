@@ -1,0 +1,47 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import PubCard from './pub-card.vue';
+import PubCardText from './pub-card-text.vue';
+
+<Meta title="Components/pub-card" component={PubCard} />
+
+export const TemplateCard = (args, { argTypes }) => {
+  return {
+    props: Object.keys(argTypes),
+    components: { PubCard },
+    template: '<pub-card v-bind="$props">Card content</pub-card>',
+  };
+};
+
+export const TemplateCardWithCardText = (args, { argTypes }) => {
+  return {
+    props: Object.keys(argTypes),
+    components: { PubCard, PubCardText },
+    template:
+      '<pub-card v-bind="$props">Card content <pub-card-text v-bind="$props">Card footer text</pub-card-text></pub-card>',
+  };
+};
+
+## Default
+
+<Canvas>
+  <Story name="Default">{TemplateCard.bind({})}</Story>
+</Canvas>
+
+```javascript
+<pub-card>Card content</pub-card>
+```
+
+## With card text
+
+<Canvas>
+  <Story name="WithText">{TemplateCardWithCardText.bind({})}</Story>
+</Canvas>
+
+```javascript
+<pub-card>
+  Card content
+  <pub-card-text>Card footer text</pub-card-text>
+</pub-card>
+```
+
+<ArgsTable story="Default" />
