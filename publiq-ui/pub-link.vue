@@ -1,5 +1,5 @@
 <template>
-  <a :href="href"><slot /></a>
+  <a :href="href" @click="handleClick"><slot /></a>
 </template>
 
 <script>
@@ -8,6 +8,11 @@
       href: {
         type: String,
         default: '',
+      },
+    },
+    methods: {
+      handleClick() {
+        this.$emit('click');
       },
     },
   };
