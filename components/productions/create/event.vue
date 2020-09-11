@@ -8,7 +8,7 @@
       </div>
       <img v-if="imageUrl" :src="imageUrl" :alt="title" class="image" />
     </section>
-    <pub-card-text>
+    <pub-card-paragraph>
       <p>{{ truncatedDescription }}</p>
       <section
         v-if="productionName"
@@ -17,7 +17,7 @@
         {{ $t('productions.event.part_of_production') }}
         <strong>{{ productionName }}</strong>
       </section>
-    </pub-card-text>
+    </pub-card-paragraph>
   </pub-card>
 </template>
 
@@ -25,12 +25,12 @@
   import { truncate } from 'lodash-es';
   import stripHTML from 'string-strip-html';
   import PubCard from '@/publiq-ui/pub-card';
-  import PubCardText from '@/publiq-ui/pub-card-text';
+  import PubCardParagraph from '@/publiq-ui/pub-card-paragraph';
 
   export default {
     components: {
       PubCard,
-      PubCardText,
+      PubCardParagraph,
     },
     props: {
       id: {
