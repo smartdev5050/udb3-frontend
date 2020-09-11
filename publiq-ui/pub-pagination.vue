@@ -38,8 +38,13 @@
           return this.currentPage;
         },
         set(newValue) {
-          this.$emit('changePage', newValue);
+          this.handleInput(newValue);
         },
+      },
+    },
+    methods: {
+      handleInput(newValue) {
+        this.$emit('changePage', newValue);
       },
     },
   };
