@@ -1,5 +1,5 @@
 <template>
-  <b-card class="card-event">
+  <pub-card class="card-event">
     <section class="header">
       <div>
         <p>{{ type }}</p>
@@ -8,7 +8,7 @@
       </div>
       <img v-if="imageUrl" :src="imageUrl" :alt="title" class="image" />
     </section>
-    <b-card-text>
+    <pub-card-text>
       <p>{{ truncatedDescription }}</p>
       <section
         v-if="productionName"
@@ -17,15 +17,21 @@
         {{ $t('productions.event.part_of_production') }}
         <strong>{{ productionName }}</strong>
       </section>
-    </b-card-text>
-  </b-card>
+    </pub-card-text>
+  </pub-card>
 </template>
 
 <script>
   import { truncate } from 'lodash-es';
   import stripHTML from 'string-strip-html';
+  import PubCard from '@/publiq-ui/pub-card';
+  import PubCardText from '@/publiq-ui/pub-card-text';
 
   export default {
+    components: {
+      PubCard,
+      PubCardText,
+    },
     props: {
       id: {
         type: String,
@@ -81,11 +87,7 @@
   };
 </script>
 
-<style lang="scss">
-  .card {
-    border: none;
-  }
-
+<style lang="scss" scoped>
   .card-event {
     flex: 1;
 
