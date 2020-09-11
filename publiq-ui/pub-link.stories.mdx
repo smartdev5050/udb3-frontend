@@ -1,6 +1,9 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
 import PubLink from './pub-link.vue';
 import PubButton from './pub-button.vue';
+import ImportComponentImage from './images/pub-link/import-component.png';
+import CreateComputedImage from './images/pub-link/create-computed.png';
+import UseInTemplateImage from './images/pub-link/use-in-template.png';
 
 <Meta title="Components/pub-link" component={PubLink} />
 
@@ -54,3 +57,26 @@ export const argTypes = { as: { control: { type: false } } };
 ```
 
 <ArgsTable story="AsComponent" />
+
+### How to pass component as props
+
+1. Import the desired component at the top of your script-tag.
+
+<img
+  src={ImportComponentImage}
+  alt="Import the desired component at the top of your script-tag"
+/>
+
+2. Create a computed value that returns the imported component.
+
+<img
+  src={CreateComputedImage}
+  alt="Create a computed value that returns the imported component."
+/>
+
+3. Pass the computed value to the pub-link component via the 'as'-prop.
+
+<img
+  src={UseInTemplateImage}
+  alt="Pass the computed value to the pub-link component via the 'as'-prop."
+/>
