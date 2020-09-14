@@ -42,16 +42,6 @@
           />
         </section>
         <section v-else>
-          <!-- <b-form-group :label="$t('productions.create.production_name')">
-            <b-form-radio
-              v-for="production in availableProductions"
-              :key="production.id"
-              v-model="selectedSuggestedProductionId"
-              :value="production.id"
-              name="production"
-              >{{ production.title }}</b-form-radio
-            >
-          </b-form-group> -->
           <pub-radio-group
             v-model="selectedSuggestedProductionId"
             :group-label="$t('productions.create.production_name')"
