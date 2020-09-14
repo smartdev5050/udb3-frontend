@@ -60,6 +60,7 @@
         :key="index"
         variant="alert"
         :visible="errorMessages.length > 0"
+        dismissible
         >{{ errorMessage }}
       </pub-alert>
       <pub-panel>

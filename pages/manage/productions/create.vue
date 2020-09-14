@@ -69,14 +69,15 @@
           </pub-button>
         </section>
       </div>
-      <section v-else class="list-group-item list-group-item-warning">
+      <pub-alert v-else variant="warning" visible>
         {{ $t('productions.create.no_suggested_events_found') }}
-      </section>
+      </pub-alert>
       <pub-alert
         v-for="(errorMessage, index) in errorMessages"
         :key="index"
         variant="alert"
         :visible="errorMessages.length > 0"
+        dismissible
       >
         {{ errorMessage }}
       </pub-alert>
