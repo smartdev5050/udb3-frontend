@@ -1,6 +1,6 @@
 <template>
   <pub-page>
-    <section class="container-fluid productions-create-page">
+    <section class="container-fluid">
       <pub-page-title>{{ $t('productions.create.title') }}</pub-page-title>
       <div v-if="suggestedEvents.length > 0">
         <p>
@@ -279,68 +279,66 @@
 </script>
 
 <style scoped lang="scss">
-  .productions-create-page {
-    label {
-      font-size: 1rem;
-      font-weight: 700;
-    }
+  label {
+    font-size: 1rem;
+    font-weight: 700;
+  }
 
-    .choose-suggested-production {
-      margin-bottom: 1rem;
-    }
+  .choose-suggested-production {
+    margin-bottom: 1rem;
+  }
 
-    .events-container {
-      width: 100%;
-      display: flex;
-      margin-bottom: 1rem;
-    }
+  .events-container {
+    width: 100%;
+    display: flex;
+    margin-bottom: 1rem;
+  }
 
-    .production-name-container {
-      margin-bottom: 1rem;
-    }
+  .production-name-container {
+    margin-bottom: 1rem;
+  }
 
-    .production-input {
-      max-width: 43rem;
-    }
+  .production-input {
+    max-width: 43rem;
+  }
 
-    .container-table-production-name {
-      max-height: 14rem;
+  .container-table-production-name {
+    max-height: 14rem;
+    margin-bottom: 0;
+    margin-top: 0.5rem;
+    overflow-y: scroll;
+    position: absolute;
+    width: 100%;
+
+    table {
       margin-bottom: 0;
-      margin-top: 0.5rem;
-      overflow-y: scroll;
-      position: absolute;
-      width: 100%;
-
-      table {
-        margin-bottom: 0;
-        background-color: white;
-      }
-
-      tr {
-        background-color: $white;
-      }
-
-      .spinner-container {
-        margin: 0;
-      }
+      background-color: white;
     }
 
-    .button-container {
-      display: flex;
-      margin-bottom: 1rem;
+    tr {
+      background-color: $white;
+    }
 
-      button {
-        margin-right: 0.5rem;
-      }
+    .spinner-container {
+      margin: 0;
+    }
+  }
 
-      .spinner-container {
-        margin: 0;
+  .button-container {
+    display: flex;
+    margin-bottom: 1rem;
 
-        .spinner-border {
-          color: $white !important;
-          width: 1rem;
-          height: 1rem;
-        }
+    button {
+      margin-right: 0.5rem;
+    }
+
+    .spinner-container {
+      margin: 0;
+
+      .spinner-border {
+        color: $white !important;
+        width: 1rem;
+        height: 1rem;
       }
     }
   }
