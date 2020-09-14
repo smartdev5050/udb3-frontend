@@ -14,6 +14,10 @@
             :key="suggestedEvent['@id']"
             :type="getEventType(suggestedEvent.terms)"
             :title="suggestedEvent.name[locale]"
+            :location-name="suggestedEvent.location.name[locale]"
+            :location-city="
+              suggestedEvent.location.address[locale].addressLocality
+            "
             :image-url="suggestedEvent.image"
             :production-name="
               suggestedEvent.production ? suggestedEvent.production.title : ''
