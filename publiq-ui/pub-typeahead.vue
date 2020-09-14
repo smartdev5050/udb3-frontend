@@ -53,8 +53,8 @@
       handleKeyup() {
         this.$emit('keyup');
       },
-      handleHit() {
-        this.$emit('hit');
+      handleHit(value) {
+        this.$emit('hit', value);
       },
     },
   };
