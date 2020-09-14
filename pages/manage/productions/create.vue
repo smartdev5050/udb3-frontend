@@ -129,14 +129,6 @@
 
       isLinkingEventsWithProduction: false,
     }),
-    watch: {
-      selectedSuggestedProductionId() {
-        console.log(
-          'selectedSuggestedProductionId',
-          this.selectedSuggestedProductionId,
-        );
-      },
-    },
     computed: {
       locale() {
         return this.$i18n.locale;
