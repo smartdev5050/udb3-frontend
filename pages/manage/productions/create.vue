@@ -58,6 +58,7 @@
             :values="availableProductionIds"
             :labels="availableProductionTitles"
             name="production"
+            class="choose-suggested-production"
           />
         </section>
 
@@ -295,11 +296,15 @@
   };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
   .productions-create-page {
     label {
       font-size: 1rem;
       font-weight: 700;
+    }
+
+    .choose-suggested-production {
+      margin-bottom: 1rem;
     }
 
     .events-container {

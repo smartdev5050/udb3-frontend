@@ -1,13 +1,15 @@
 <template>
-  <b-form-group :label="groupLabel">
-    <b-form-radio
-      v-for="(value, index) in values"
-      :key="value"
-      v-model="selectedModel"
-      :value="value"
-      :name="name"
-      >{{ labels[index] }}</b-form-radio
-    >
+  <b-form-group :label="groupLabel" class="form-group">
+    <b-form-radio-group v-model="selectedModel" stacked>
+      <b-form-radio
+        v-for="(value, index) in values"
+        :key="value"
+        :value="value"
+        :name="name"
+        class="custom-radio"
+        >{{ labels[index] }}</b-form-radio
+      >
+    </b-form-radio-group>
   </b-form-group>
 </template>
 
@@ -45,10 +47,14 @@
         },
       },
     },
-    watch: {
-      selected() {
-        console.log({ selected: this.selected });
-      },
-    },
   };
 </script>
+
+<style lang="scss" scoped>
+  .form-group {
+    margin: 0;
+  }
+  .custom-radio {
+    font-weight: 700;
+  }
+</style>
