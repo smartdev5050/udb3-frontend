@@ -57,6 +57,24 @@ export const commonArgTypes = {
 
 <ArgsTable story="Success" />
 
+## Warning
+
+<Canvas>
+  <Story
+    name="Warning"
+    args={{ visible: true, variant: 'warning' }}
+    argTypes={commonArgTypes}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+```javascript
+<pub-alert variant="danger">Lorem Ipsum</pub-alert>
+```
+
+<ArgsTable story="Danger" />
+
 ## Danger
 
 <Canvas>
