@@ -42,7 +42,7 @@
           />
         </section>
         <section v-else>
-          <b-form-group :label="$t('productions.create.production_name')">
+          <!-- <b-form-group :label="$t('productions.create.production_name')">
             <b-form-radio
               v-for="production in availableProductions"
               :key="production.id"
@@ -51,7 +51,14 @@
               name="production"
               >{{ production.title }}</b-form-radio
             >
-          </b-form-group>
+          </b-form-group> -->
+          <pub-radio-group
+            v-model="selectedSuggestedProductionId"
+            :group-label="$t('productions.create.production_name')"
+            :values="availableProductionIds"
+            :labels="availableProductionTitles"
+            name="production"
+          />
         </section>
 
         <section class="button-container">
@@ -94,6 +101,7 @@
   import PubPage from '@/publiq-ui/pub-page';
   import PubAlert from '@/publiq-ui/pub-alert';
   import PubButton from '@/publiq-ui/pub-button';
+  import PubRadioGroup from '@/publiq-ui/pub-radio-group';
 
   export default {
     components: {
@@ -104,6 +112,7 @@
       PubPageTitle,
       PubAlert,
       PubButton,
+      PubRadioGroup,
     },
     data: () => ({
       eventSimilarityScore: 0,
@@ -119,6 +128,14 @@
 
       isLinkingEventsWithProduction: false,
     }),
+    watch: {
+      selectedSuggestedProductionId() {
+        console.log(
+          'selectedSuggestedProductionId',
+          this.selectedSuggestedProductionId,
+        );
+      },
+    },
     computed: {
       locale() {
         return this.$i18n.locale;
@@ -142,6 +159,12 @@
         return this.suggestedEvents
           .filter((event) => event.production)
           .map((events) => events.production);
+      },
+      availableProductionIds() {
+        return this.availableProductions.map((production) => production.id);
+      },
+      availableProductionTitles() {
+        return this.availableProductions.map((production) => production.title);
       },
       suggestedProductionNames() {
         return this.suggestedProductions.map((production) => production.name);
