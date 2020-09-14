@@ -2,7 +2,10 @@
   <pub-page>
     <section class="container-fluid productions-create-page">
       <pub-page-title>{{ $t('productions.create.title') }}</pub-page-title>
-      <div v-if="suggestedEvents.length > 0">
+      <div v-if="isLoadingProductions">
+        <pub-loading-spinner />
+      </div>
+      <div v-else-if="!isLoadingProductions && suggestedEvents.length > 0">
         <p>
           <strong>{{ $t('productions.create.suggested_events') }}</strong>
           {{ eventSimilarityScore }}%
@@ -107,6 +110,8 @@
       PubButton,
     },
     data: () => ({
+      isLoadingProductions: false,
+
       eventSimilarityScore: 0,
 
       suggestedEvents: [],
@@ -174,6 +179,7 @@
         this.suggestedProductions = suggestedProductions;
       },
       async getSuggestedEvents() {
+        this.isLoadingProductions = true;
         const {
           events = [],
           similarity = 0,
@@ -189,6 +195,7 @@
           this.selectedSuggestedProductionId = foundProduction.id;
           this.productionName = foundProduction.title;
         }
+        this.isLoadingProductions = false;
       },
       getEventType(terms) {
         const foundTerm =
