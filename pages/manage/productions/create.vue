@@ -5,7 +5,7 @@
       <div v-if="isLoadingEvents">
         <pub-loading-spinner />
       </div>
-      <div v-else-if="!isLoadingEvents && suggestedEvents.length > 0">
+      <div v-else-if="suggestedEvents.length > 0">
         <p>
           <strong>{{ $t('productions.create.suggested_events') }}</strong>
           {{ eventSimilarityScore }}%
