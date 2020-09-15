@@ -7,8 +7,9 @@
         :value="value"
         :name="name"
         class="custom-radio"
-        >{{ labels[index] }}</b-form-radio
       >
+        {{ labels[index] }}
+      </b-form-radio>
     </b-form-radio-group>
   </b-form-group>
 </template>
