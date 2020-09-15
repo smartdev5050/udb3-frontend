@@ -1,8 +1,8 @@
 <template>
   <div class="input-container">
-    <pub-label v-if="label" id="form-input">{{ label }}</pub-label>
+    <pub-label v-if="label" :id="id">{{ label }}</pub-label>
     <b-form-input
-      id="form-input"
+      :id="id"
       v-model="value"
       :placeholder="placeholder"
       @input="handleInput"
@@ -25,6 +25,11 @@
       placeholder: {
         type: String,
         default: '',
+      },
+    },
+    computed: {
+      id() {
+        return `pub-input-${this._uid}`;
       },
     },
     methods: {
