@@ -29,5 +29,6 @@
 <style lang="scss" scoped>
   .searchbox {
     margin-bottom: 1rem;
+    max-width: 43rem;
   }
 </style>

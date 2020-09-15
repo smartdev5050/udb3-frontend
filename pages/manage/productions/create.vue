@@ -34,6 +34,7 @@
         >
           <pub-typeahead
             v-model="productionName"
+            class="production-name-input"
             :label="$t('productions.create.production_name')"
             :disabled="availableProductions.length > 0"
             :data="suggestedProductionNames"
@@ -288,7 +289,7 @@
       margin-bottom: 1rem;
     }
 
-    .production-input {
+    .production-name-input {
       max-width: 43rem;
     }
 

@@ -51,8 +51,4 @@
   label {
     margin-right: 1rem;
   }
-
-  #form-input {
-    max-width: 43rem;
-  }
 </style>

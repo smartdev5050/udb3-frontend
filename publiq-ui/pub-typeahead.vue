@@ -60,8 +60,4 @@
   };
 </script>
 
-<style lang="scss" scoped>
-  .typeahead {
-    max-width: 43rem;
-  }
-</style>
+<style lang="scss" scoped></style>
