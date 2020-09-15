@@ -13,10 +13,16 @@
             :id="parseEventId(suggestedEvent['@id'])"
             :key="suggestedEvent['@id']"
             :type="getEventType(suggestedEvent.terms)"
-            :title="suggestedEvent.name[locale]"
-            :location-name="suggestedEvent.location.name[locale]"
+            :title="
+              suggestedEvent.name[locale] || fallbackTitle(suggestedEvent)
+            "
+            :location-name="
+              suggestedEvent.location.name[locale] ||
+              fallbackLocationName(suggestedEvent)
+            "
             :location-city="
-              suggestedEvent.location.address[locale].addressLocality
+              suggestedEvent.location.address[locale].addressLocality ||
+              fallbackLocationCity(suggestedEvent)
             "
             :image-url="suggestedEvent.image"
             :production-name="
@@ -169,6 +175,19 @@
       await this.getSuggestedEvents();
     },
     methods: {
+      fallbackTitle(suggestedEvent) {
+        return suggestedEvent.name[suggestedEvent.mainLanguage];
+      },
+      fallbackLocationName(suggestedEvent) {
+        return suggestedEvent.location.name[
+          suggestedEvent.location.mainLanguage
+        ];
+      },
+      fallbackLocationCity(suggestedEvent) {
+        return suggestedEvent.location.address[
+          suggestedEvent.location.mainLanguage
+        ].addressLocality;
+      },
       async getSuggestedProductionsByName(options) {
         const {
           member: suggestedProductions,
