@@ -2,7 +2,10 @@
   <pub-page>
     <section class="container-fluid">
       <pub-page-title>{{ $t('productions.create.title') }}</pub-page-title>
-      <div v-if="suggestedEvents.length > 0">
+      <div v-if="isLoadingEvents">
+        <pub-loading-spinner />
+      </div>
+      <div v-else-if="suggestedEvents.length > 0">
         <p>
           <strong>{{ $t('productions.create.suggested_events') }}</strong>
           {{ eventSimilarityScore }}%
@@ -13,7 +16,17 @@
             :id="parseEventId(suggestedEvent['@id'])"
             :key="suggestedEvent['@id']"
             :type="getEventType(suggestedEvent.terms)"
-            :title="suggestedEvent.name[locale]"
+            :title="
+              suggestedEvent.name[locale] || fallbackTitle(suggestedEvent)
+            "
+            :location-name="
+              suggestedEvent.location.name[locale] ||
+              fallbackLocationName(suggestedEvent)
+            "
+            :location-city="
+              suggestedEvent.location.address[locale].addressLocality ||
+              fallbackLocationCity(suggestedEvent)
+            "
             :image-url="suggestedEvent.image"
             :production-name="
               suggestedEvent.production ? suggestedEvent.production.title : ''
@@ -29,12 +42,10 @@
           v-if="availableProductions.length < 2"
           class="production-name-container"
         >
-          <label for="production-name">{{
-            $t('productions.create.production_name')
-          }}</label>
-          <vue-typeahead-bootstrap
+          <pub-typeahead
             v-model="productionName"
-            class="production-input"
+            class="production-name-input"
+            :label="$t('productions.create.production_name')"
             :disabled="availableProductions.length > 0"
             :data="suggestedProductionNames"
             @keyup="handleProductionInputKeyup"
@@ -67,14 +78,15 @@
           </pub-button>
         </section>
       </div>
-      <section v-else class="list-group-item list-group-item-warning">
+      <pub-alert v-else variant="warning" visible>
         {{ $t('productions.create.no_suggested_events_found') }}
-      </section>
+      </pub-alert>
       <pub-alert
         v-for="(errorMessage, index) in errorMessages"
         :key="index"
         variant="alert"
         :visible="errorMessages.length > 0"
+        dismissible
       >
         {{ errorMessage }}
       </pub-alert>
@@ -84,7 +96,6 @@
 
 <script>
   import { debounce } from 'lodash-es';
-  import VueTypeaheadBootstrap from 'vue-typeahead-bootstrap';
   import Event from '@/components/productions/create/event';
   import PubLoadingSpinner from '@/publiq-ui/pub-loading-spinner';
   import { parseId } from '@/functions/events';
@@ -92,13 +103,14 @@
   import PubPage from '@/publiq-ui/pub-page';
   import PubAlert from '@/publiq-ui/pub-alert';
   import PubButton from '@/publiq-ui/pub-button';
+  import PubTypeahead from '@/publiq-ui/pub-typeahead';
   import PubRadioGroup from '@/publiq-ui/pub-radio-group';
 
   export default {
     components: {
       Event,
       PubLoadingSpinner,
-      VueTypeaheadBootstrap,
+      PubTypeahead,
       PubPage,
       PubPageTitle,
       PubAlert,
@@ -108,6 +120,7 @@
     data: () => ({
       eventSimilarityScore: 0,
 
+      isLoadingEvents: false,
       suggestedEvents: [],
 
       suggestedProductions: [],
@@ -171,6 +184,19 @@
       await this.getSuggestedEvents();
     },
     methods: {
+      fallbackTitle(suggestedEvent) {
+        return suggestedEvent.name[suggestedEvent.mainLanguage];
+      },
+      fallbackLocationName(suggestedEvent) {
+        return suggestedEvent.location.name[
+          suggestedEvent.location.mainLanguage
+        ];
+      },
+      fallbackLocationCity(suggestedEvent) {
+        return suggestedEvent.location.address[
+          suggestedEvent.location.mainLanguage
+        ].addressLocality;
+      },
       async getSuggestedProductionsByName(options) {
         const {
           member: suggestedProductions,
@@ -179,6 +205,7 @@
         this.suggestedProductions = suggestedProductions;
       },
       async getSuggestedEvents() {
+        this.isLoadingEvents = true;
         const {
           events = [],
           similarity = 0,
@@ -194,6 +221,7 @@
           this.selectedSuggestedProductionId = foundProduction.id;
           this.productionName = foundProduction.title;
         }
+        this.isLoadingEvents = false;
       },
       getEventType(terms) {
         const foundTerm =
@@ -294,9 +322,9 @@
     margin-bottom: 1rem;
   }
 
-  .production-name-container {
-    margin-bottom: 1rem;
-  }
+    .production-name-input {
+      max-width: 43rem;
+    }
 
   .production-input {
     max-width: 43rem;

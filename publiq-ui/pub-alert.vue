@@ -1,5 +1,5 @@
 <template>
-  <b-alert :variant="variant" :show="visible" dismissible>
+  <b-alert :variant="variant" :show="visible" :dismissible="dismissible">
     <slot />
   </b-alert>
 </template>
@@ -12,6 +12,10 @@
         default: 'info',
       },
       visible: {
+        type: Boolean,
+        default: false,
+      },
+      dismissible: {
         type: Boolean,
         default: false,
       },

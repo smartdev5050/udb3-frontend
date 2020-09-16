@@ -5,6 +5,7 @@
         <p>{{ type }}</p>
         <h2>{{ title }}</h2>
         <p>{{ period }}</p>
+        <p>{{ `${locationName}, ${locationCity}` }}</p>
       </div>
       <img v-if="imageUrl" :src="imageUrl" :alt="title" class="image" />
     </section>
@@ -42,6 +43,14 @@
         default: '',
       },
       title: {
+        type: String,
+        default: '',
+      },
+      locationName: {
+        type: String,
+        default: '',
+      },
+      locationCity: {
         type: String,
         default: '',
       },
