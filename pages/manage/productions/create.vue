@@ -313,6 +313,7 @@
     }
 
     .production-name-input {
+      position: relative;
       max-width: 43rem;
     }
 
