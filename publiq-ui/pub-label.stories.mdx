@@ -1,0 +1,35 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import PubLabel from './pub-label';
+
+<Meta title="Components/pub-label" component={PubLabel} />
+
+export const Template = (args, { argTypes }) => {
+  return {
+    props: Object.keys(argTypes),
+    components: { PubLabel },
+    template:
+      '<div><pub-label v-bind="$props">Label</pub-label><br /><input type="text" id="custom-input"></div>',
+  };
+};
+
+## Default
+
+<Canvas>
+  <Story
+    name="Default"
+    args={{ id: 'custom-input' }}
+    argTypes={{ id: { control: { type: false } } }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+```javascript
+<div>
+  <pub-label id="custom-input">Label</pub-label>
+  <br />
+  <input type="text" id="custom-input">
+</div>
+```
+
+<ArgsTable story="Default" />

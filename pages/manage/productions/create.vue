@@ -42,12 +42,10 @@
           v-if="availableProductions.length < 2"
           class="production-name-container"
         >
-          <label for="production-name">{{
-            $t('productions.create.production_name')
-          }}</label>
-          <vue-typeahead-bootstrap
+          <pub-typeahead
             v-model="productionName"
-            class="production-input"
+            class="production-name-input"
+            :label="$t('productions.create.production_name')"
             :disabled="availableProductions.length > 0"
             :data="suggestedProductionNames"
             @keyup="handleProductionInputKeyup"
@@ -100,7 +98,6 @@
 
 <script>
   import { debounce } from 'lodash-es';
-  import VueTypeaheadBootstrap from 'vue-typeahead-bootstrap';
   import Event from '@/components/productions/create/event';
   import PubLoadingSpinner from '@/publiq-ui/pub-loading-spinner';
   import { parseId } from '@/functions/events';
@@ -108,12 +105,13 @@
   import PubPage from '@/publiq-ui/pub-page';
   import PubAlert from '@/publiq-ui/pub-alert';
   import PubButton from '@/publiq-ui/pub-button';
+  import PubTypeahead from '@/publiq-ui/pub-typeahead';
 
   export default {
     components: {
       Event,
       PubLoadingSpinner,
-      VueTypeaheadBootstrap,
+      PubTypeahead,
       PubPage,
       PubPageTitle,
       PubAlert,
@@ -304,11 +302,6 @@
 
 <style lang="scss">
   .productions-create-page {
-    label {
-      font-size: 1rem;
-      font-weight: 700;
-    }
-
     .events-container {
       width: 100%;
       display: flex;
@@ -319,7 +312,7 @@
       margin-bottom: 1rem;
     }
 
-    .production-input {
+    .production-name-input {
       max-width: 43rem;
     }
 

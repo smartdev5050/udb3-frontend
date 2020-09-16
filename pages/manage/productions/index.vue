@@ -1,6 +1,6 @@
 <template>
   <pub-page>
-    <div class="container-fluid productions-index-page">
+    <div class="container-fluid">
       <pub-page-title>
         {{ $t('menu.productions') }}
         <small>
@@ -233,17 +233,15 @@
 </script>
 
 <style lang="scss" scoped>
-  .productions-index-page {
-    .productions-events-container {
-      display: flex;
-      width: 100%;
-      font-weight: 400;
-      margin-bottom: 1rem;
+  .productions-events-container {
+    display: flex;
+    width: 100%;
+    font-weight: 400;
+    margin-bottom: 1rem;
 
-      /deep/ h2 {
-        font-size: 1rem;
-        font-weight: 700;
-      }
+    /deep/ h2 {
+      font-size: 1rem;
+      font-weight: 700;
     }
   }
 </style>
