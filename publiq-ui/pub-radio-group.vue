@@ -1,6 +1,6 @@
 <template>
   <b-form-group :label="groupLabel" class="form-group">
-    <b-form-radio-group v-model="selectedModel" stacked>
+    <b-form-radio-group stacked>
       <div
         v-for="(value, index) in values"
         :key="value"
