@@ -28,11 +28,6 @@
         type: String,
         default: '',
       },
-      label: {
-        type: String,
-        default: '',
-        required: true,
-      },
       checked: {
         type: Boolean,
         default: false,
