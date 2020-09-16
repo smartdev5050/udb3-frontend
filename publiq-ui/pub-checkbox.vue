@@ -3,6 +3,7 @@
     <input
       :id="id"
       type="checkbox"
+      :name="name"
       :checked="checked"
       :disabled="disabled"
       @input="handleInput"
