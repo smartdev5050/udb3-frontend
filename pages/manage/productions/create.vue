@@ -322,11 +322,7 @@
     margin-bottom: 1rem;
   }
 
-    .production-name-input {
-      max-width: 43rem;
-    }
-
-  .production-input {
+  .production-name-input {
     max-width: 43rem;
   }
 
