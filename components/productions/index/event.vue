@@ -127,7 +127,7 @@
     }
   }
 
-  .table {
+  table {
     th {
       width: 10rem;
     }
