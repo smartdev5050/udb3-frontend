@@ -1,6 +1,7 @@
 <template>
   <pub-input
     class="searchbox"
+    name="productions-overview-search"
     :label="$t('productions.overview.search.label')"
     :placeholder="$t('productions.overview.search.placeholder')"
     @input="handleInputSearch"

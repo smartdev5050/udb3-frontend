@@ -1,8 +1,8 @@
 <template>
   <div class="input-container">
-    <pub-label v-if="label" id="form-input">{{ label }}</pub-label>
+    <pub-label v-if="label" :id="name">{{ label }}</pub-label>
     <b-form-input
-      id="form-input"
+      :id="name"
       v-model="value"
       :placeholder="placeholder"
       @input="handleInput"
@@ -18,6 +18,11 @@
       PubLabel,
     },
     props: {
+      name: {
+        type: String,
+        default: '',
+        required: true,
+      },
       label: {
         type: String,
         default: '',

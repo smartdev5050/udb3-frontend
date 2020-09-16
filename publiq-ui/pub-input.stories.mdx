@@ -17,6 +17,7 @@ export const Template = (args, { argTypes }) => {
   <Story
     name="Default"
     args={{
+      name="unique-name"
       placeholder: 'Type something',
       label: 'Custom input',
     }}
@@ -24,6 +25,7 @@ export const Template = (args, { argTypes }) => {
     {Template.bind({})}
   </Story>
 </Canvas>
+
 
 ```javascript
 <pub-input placeholder="Type something" label="Custom input" />
