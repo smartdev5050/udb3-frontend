@@ -8,7 +8,7 @@ export const Template = (args, { argTypes }) => {
     props: Object.keys(argTypes),
     components: { PubLabel },
     template:
-      '<div><pub-label v-bind="$props">Label</pub-label><input type="text" id="custom-input"></div>',
+      '<div><pub-label v-bind="$props">Label</pub-label><br /><input type="text" id="custom-input"></div>',
   };
 };
 
@@ -27,6 +27,7 @@ export const Template = (args, { argTypes }) => {
 ```javascript
 <div>
   <pub-label id="custom-input">Label</pub-label>
+  <br />
   <input type="text" id="custom-input">
 </div>
 ```
