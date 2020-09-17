@@ -8,7 +8,7 @@
       :disabled="disabled"
       @input="handleInput"
     />
-    <pub-label :id="id"><slot /></pub-label>
+    <pub-label v-if="$slots.default" :id="id"><slot /></pub-label>
   </div>
 </template>
 
