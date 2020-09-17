@@ -325,6 +325,7 @@
   .production-name-input {
     position: relative;
     max-width: 43rem;
+    margin-bottom: 1rem;
   }
 
   .container-table-production-name {
