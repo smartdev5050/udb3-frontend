@@ -20,8 +20,11 @@ export const Template = (args, { argTypes }) => {
 export const commonArgs = {
   name: 'city',
   groupLabel: 'Select a city:',
-  labels: ['Rome', 'Paris', 'Prague'],
-  values: ['rome', 'paris', 'prague'],
+  items: [
+    { label: 'Rome', value: 'rome' },
+    { label: 'Paris', value: 'paris' },
+    { label: 'Prague', value: 'prague' },
+  ],
 };
 
 ## Default
@@ -37,8 +40,11 @@ export const commonArgs = {
   v-model="selected"
   name="city"
   groupLabel="Select a city:"
-  :labels="['Rome', 'Paris', 'Prague']",
-  :values="['rome', 'paris', 'prague']",
+  :items="[
+    { label: 'Rome', value: 'rome' },
+    { label: 'Paris', value: 'paris' },
+    { label: 'Prague', value: 'prague' },
+  ]"
 />
 <span>Selected city: {{selected}}</span>
 ```
