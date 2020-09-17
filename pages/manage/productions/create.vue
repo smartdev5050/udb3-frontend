@@ -56,8 +56,7 @@
           <pub-radio-group
             v-model="selectedSuggestedProductionId"
             :group-label="$t('productions.create.production_name')"
-            :values="availableProductionIds"
-            :labels="availableProductionTitles"
+            :items="mappedAvailableProductions"
             name="production"
             class="choose-suggested-production"
           />
@@ -156,11 +155,11 @@
           .filter((event) => event.production)
           .map((events) => events.production);
       },
-      availableProductionIds() {
-        return this.availableProductions.map((production) => production.id);
-      },
-      availableProductionTitles() {
-        return this.availableProductions.map((production) => production.title);
+      mappedAvailableProductions() {
+        return this.availableProductions.map((production) => ({
+          label: production.title,
+          value: production.id,
+        }));
       },
       suggestedProductionNames() {
         return this.suggestedProductions.map((production) => production.name);

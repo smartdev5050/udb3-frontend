@@ -1,22 +1,16 @@
 <template>
   <b-form-group :label="groupLabel" class="form-group">
     <b-form-radio-group stacked>
-      <div
-        v-for="(value, index) in values"
-        :key="value"
-        class="radio-container"
-      >
+      <div v-for="item in items" :key="item.value" class="radio-container">
         <input
-          :id="`radio-${values[index]}`"
+          :id="`radio-${item.value}`"
           v-model="selectedModel"
           type="radio"
-          :value="value"
+          :value="item.value"
           :name="name"
           class="custom-radio"
         />
-        <pub-label :id="`radio-${values[index]}`">{{
-          labels[index]
-        }}</pub-label>
+        <pub-label :id="`radio-${item.value}`">{{ item.label }}</pub-label>
       </div>
     </b-form-radio-group>
   </b-form-group>
@@ -38,11 +32,7 @@
         type: String,
         default: '',
       },
-      labels: {
-        type: Array,
-        default: () => [],
-      },
-      values: {
+      items: {
         type: Array,
         default: () => [],
       },
