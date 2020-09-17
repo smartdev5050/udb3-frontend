@@ -86,6 +86,10 @@
     cursor: pointer;
   }
 
+  label {
+    font-weight: normal;
+  }
+
   label:hover {
     cursor: pointer;
   }
