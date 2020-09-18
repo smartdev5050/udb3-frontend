@@ -1,6 +1,6 @@
 <template>
   <pub-page>
-    <section class="container-fluid productions-create-page">
+    <section class="container-fluid">
       <pub-page-title>{{ $t('productions.create.title') }}</pub-page-title>
       <div v-if="isLoadingEvents">
         <pub-loading-spinner />
@@ -53,16 +53,13 @@
           />
         </section>
         <section v-else>
-          <b-form-group :label="$t('productions.create.production_name')">
-            <b-form-radio
-              v-for="production in availableProductions"
-              :key="production.id"
-              v-model="selectedSuggestedProductionId"
-              :value="production.id"
-              name="production"
-              >{{ production.title }}</b-form-radio
-            >
-          </b-form-group>
+          <pub-radio-group
+            v-model="selectedSuggestedProductionId"
+            :group-label="$t('productions.create.production_name')"
+            :items="mappedAvailableProductions"
+            name="production"
+            class="choose-suggested-production"
+          />
         </section>
 
         <section class="button-container">
@@ -106,6 +103,7 @@
   import PubAlert from '@/publiq-ui/pub-alert';
   import PubButton from '@/publiq-ui/pub-button';
   import PubTypeahead from '@/publiq-ui/pub-typeahead';
+  import PubRadioGroup from '@/publiq-ui/pub-radio-group';
 
   export default {
     components: {
@@ -116,6 +114,7 @@
       PubPageTitle,
       PubAlert,
       PubButton,
+      PubRadioGroup,
     },
     data: () => ({
       eventSimilarityScore: 0,
@@ -155,6 +154,12 @@
         return this.suggestedEvents
           .filter((event) => event.production)
           .map((events) => events.production);
+      },
+      mappedAvailableProductions() {
+        return this.availableProductions.map((production) => ({
+          label: production.title,
+          value: production.id,
+        }));
       },
       suggestedProductionNames() {
         return this.suggestedProductions.map((production) => production.name);
@@ -300,61 +305,65 @@
   };
 </script>
 
-<style lang="scss">
-  .productions-create-page {
-    .events-container {
-      width: 100%;
-      display: flex;
-      margin-bottom: 1rem;
-    }
+<style scoped lang="scss">
+  label {
+    font-size: 1rem;
+    font-weight: 700;
+  }
 
-    .production-name-container {
-      margin-bottom: 1rem;
-    }
+  .choose-suggested-production {
+    margin-bottom: 1rem;
+  }
 
-    .production-name-input {
-      position: relative;
-      max-width: 43rem;
-    }
+  .events-container {
+    width: 100%;
+    display: flex;
+    margin-bottom: 1rem;
+  }
 
-    .container-table-production-name {
-      max-height: 14rem;
+  .production-name-input {
+    position: relative;
+    max-width: 43rem;
+    margin-bottom: 1rem;
+  }
+
+  .container-table-production-name {
+    max-height: 14rem;
+    margin-bottom: 0;
+    margin-top: 0.5rem;
+    overflow-y: scroll;
+    position: absolute;
+    width: 100%;
+
+    table {
       margin-bottom: 0;
-      margin-top: 0.5rem;
-      overflow-y: scroll;
-      position: absolute;
-      width: 100%;
-
-      table {
-        margin-bottom: 0;
-        background-color: white;
-      }
-
-      tr {
-        background-color: $white;
-      }
-
-      .spinner-container {
-        margin: 0;
-      }
+      background-color: white;
     }
 
-    .button-container {
-      display: flex;
-      margin-bottom: 1rem;
+    tr {
+      background-color: $white;
+    }
 
-      button {
-        margin-right: 0.5rem;
-      }
+    .spinner-container {
+      margin: 0;
+    }
+  }
 
-      .spinner-container {
-        margin: 0;
+  .button-container {
+    display: flex;
+    margin-bottom: 1rem;
 
-        .spinner-border {
-          color: $white !important;
-          width: 1rem;
-          height: 1rem;
-        }
+    button {
+      margin-right: 0.5rem;
+    }
+
+    .spinner-container {
+      margin: 0;
+
+      .spinner-border {
+        color: $white !important;
+        width: 1rem;
+        height: 1rem;
       }
     }
   }

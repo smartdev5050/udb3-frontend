@@ -1,12 +1,33 @@
 <template>
-  <b-form-checkbox :checked="checked" :disabled="disabled" @input="handleInput">
-    <slot />
-  </b-form-checkbox>
+  <div class="container-checkbox">
+    <input
+      :id="id"
+      type="checkbox"
+      :name="name"
+      :checked="checked"
+      :disabled="disabled"
+      @input="handleInput"
+    />
+    <pub-label v-if="$slots.default" :id="id"><slot /></pub-label>
+  </div>
 </template>
 
 <script>
+  import PubLabel from '@/publiq-ui/pub-label';
   export default {
+    components: {
+      PubLabel,
+    },
     props: {
+      id: {
+        type: String,
+        default: '',
+        required: true,
+      },
+      name: {
+        type: String,
+        default: '',
+      },
       checked: {
         type: Boolean,
         default: false,
@@ -23,3 +44,26 @@
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .container-checkbox {
+    display: flex;
+    align-items: center;
+  }
+
+  input {
+    margin-right: 0.5rem;
+  }
+
+  input:hover {
+    cursor: pointer;
+  }
+
+  label {
+    font-weight: normal;
+  }
+
+  label:hover {
+    cursor: pointer;
+  }
+</style>

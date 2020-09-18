@@ -14,7 +14,9 @@ export const Template = (args, { argTypes }) => {
 ## Default
 
 <Canvas>
-  <Story name="Default">{Template.bind({})}</Story>
+  <Story name="Default" args={{ id: 'unique-id', name: 'usefull name' }}>
+    {Template.bind({})}
+  </Story>
 </Canvas>
 
 ```javascript

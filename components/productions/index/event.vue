@@ -1,18 +1,20 @@
 <template>
-  <pub-list-item @click="handleClickToggleShowDetail">
-    <a class="event-item" :title="name">
-      <div class="checkbox-and-name">
-        <pub-checkbox
-          :checked="isSelected"
-          :disabled="isDisabled"
-          @toggle="handleToggleSelectEvent"
-        >
-          {{ name }}
-        </pub-checkbox>
-      </div>
-      <fa v-show="!isDetailVisible" icon="chevron-right" />
-      <fa v-show="isDetailVisible" icon="chevron-down" />
-    </a>
+  <pub-list-item>
+    <div class="event-item">
+      <pub-checkbox
+        :id="`checkbox-event-${id}`"
+        :name="name"
+        :checked="isSelected"
+        :disabled="isDisabled"
+        @toggle="handleToggleSelectEvent"
+      >
+        {{ name }}
+      </pub-checkbox>
+      <a :title="name" @click="handleClickToggleShowDetail">
+        <fa v-show="!isDetailVisible" icon="chevron-right" />
+        <fa v-show="isDetailVisible" icon="chevron-down" />
+      </a>
+    </div>
     <section
       v-if="isDetailVisible"
       class="event-details"
@@ -103,19 +105,17 @@
   };
 </script>
 
-<style lang="scss">
-  .checkbox-and-name {
-    display: inline-block;
-  }
-
-  .custom-checkbox {
-    display: inline-block;
-  }
-
+<style scoped lang="scss">
   .event-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+
+  a {
+    display: flex;
+    justify-content: flex-end;
+    flex-grow: 1;
   }
 
   .event-details {
