@@ -126,4 +126,10 @@
       display: none;
     }
   }
+
+  .table {
+    th {
+      width: 10rem;
+    }
+  }
 </style>
