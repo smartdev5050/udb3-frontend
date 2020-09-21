@@ -22,13 +22,13 @@
 </script>
 
 <style lang="scss" scoped>
-  h1 {
+  .h1 {
     font-weight: 300;
     font-size: 1.6rem;
     margin: 0;
   }
 
-  h2 {
+  .h2 {
     font-weight: 700;
     font-size: 1.2rem;
     margin: 0;
