@@ -168,11 +168,26 @@
 </script>
 
 <style lang="scss" scoped>
+  $padding-small: 3px;
+
   .button-container {
     width: 100%;
     display: inline-flex;
     justify-content: space-between;
     align-items: center;
+  }
+
+  @media (max-width: 767px) {
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      font-size: 0.6rem;
+      padding: $padding-small;
+      width: 100%;
+      text-align: center;
+      padding-top: $padding-small * 3;
+    }
   }
 
   .features-wrapper {
