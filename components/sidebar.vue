@@ -81,7 +81,19 @@
       <div class="person-data">
         <ul>
           <li>
-            <giftbox />
+            <a>
+              <giftbox>
+                <template v-slot:icon-and-text>
+                  <div>
+                    <fa icon="gift" class="giftbox-icon" />
+                    <span>{{ $t('giftbox.announcements') }}</span>
+                  </div>
+                </template>
+                <template v-slot:indicator="props">
+                  <span class="badge">{{ props.numberOfUnseenFeatures }}</span>
+                </template>
+              </giftbox>
+            </a>
           </li>
           <li class="notifications">
             <a class="notification-container" @click="toggleJobLogger">
@@ -252,7 +264,7 @@
   };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
   $sidebar-width: 230px;
   $sidebar-mobile-width: 65px;
   $padding-normal: 5px;
