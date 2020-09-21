@@ -9,7 +9,7 @@
         type: Number,
         default: 2,
         validator(val) {
-          return [1, 2, 3, 4].includes(val);
+          return [1, 2].includes(val);
         },
       },
     },
