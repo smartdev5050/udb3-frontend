@@ -1,5 +1,5 @@
 <template>
-  <section aria-label="List of productions">
+  <section>
     <h2>{{ $t('productions.overview.production') }}</h2>
     <pub-panel v-if="!isLoading && productions.length > 0">
       <pub-list class="productions">

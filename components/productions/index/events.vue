@@ -1,5 +1,5 @@
 <template>
-  <section aria-label="List of events in production">
+  <section>
     <template v-if="!isLoading">
       <div class="heading-container">
         <h2>
