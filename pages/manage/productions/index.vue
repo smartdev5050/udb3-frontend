@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <pub-page-title>
         {{ $t('menu.productions') }}
-        <small>
+        <small class="title-action">
           <pub-link as="nuxt-link" to="productions/create">{{
             $t('productions.overview.create')
           }}</pub-link>
@@ -235,6 +235,10 @@
 </script>
 
 <style lang="scss" scoped>
+  .title-action {
+    text-transform: lowercase;
+  }
+
   .productions-events-container {
     display: flex;
     width: 100%;
