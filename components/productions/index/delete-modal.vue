@@ -48,10 +48,6 @@
 </script>
 
 <style scoped lang="scss">
-  /deep/ .modal-content button {
-    text-transform: capitalize;
-  }
-
   .content-container {
     padding: 1rem;
   }

@@ -204,10 +204,6 @@
     border-radius: 0;
   }
 
-  .btn {
-    text-transform: capitalize;
-  }
-
   .heading-container {
     width: 100%;
     display: inline-flex;
