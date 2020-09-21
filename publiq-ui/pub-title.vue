@@ -1,5 +1,5 @@
 <template>
-  <component :is="heading"><slot /></component>
+  <component :is="heading" :class="heading"><slot /></component>
 </template>
 
 <script>
@@ -22,18 +22,15 @@
 </script>
 
 <style lang="scss" scoped>
-  * {
-    margin: 0;
-  }
-
-  // nearly the same as pub-page-title
   h1 {
     font-weight: 300;
     font-size: 1.6rem;
+    margin: 0;
   }
 
   h2 {
     font-weight: 700;
     font-size: 1.2rem;
+    margin: 0;
   }
 </style>
