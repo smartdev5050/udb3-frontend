@@ -1,15 +1,19 @@
 <template>
-  <h1><slot /></h1>
+  <pub-title size="1" class="page-title"><slot /></pub-title>
 </template>
 
 <script>
-  export default {};
+  import PubTitle from '@/publiq-ui/pub-title';
+
+  export default {
+    components: {
+      PubTitle,
+    },
+  };
 </script>
 
 <style scoped>
-  h1 {
-    font-weight: 300;
-    font-size: 1.6rem;
+  .page-title {
     line-height: 3.74rem;
     color: #222;
     border-bottom: 1px solid #ccc;

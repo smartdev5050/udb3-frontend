@@ -26,7 +26,6 @@
     margin: 0;
   }
 
-  // nearly the same as pub-page-title
   h1 {
     font-weight: 300;
     font-size: 1.6rem;
