@@ -9,5 +9,3 @@
     },
   };
 </script>
-
-<style></style>
