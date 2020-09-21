@@ -47,8 +47,8 @@
   };
 </script>
 
-<style lang="scss">
-  .modal-content button {
+<style scoped lang="scss">
+  /deep/ .modal-content button {
     text-transform: capitalize;
   }
 
