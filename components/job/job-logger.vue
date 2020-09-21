@@ -238,7 +238,7 @@
   };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .list-unstyled {
     padding-left: 0;
     list-style: none;
