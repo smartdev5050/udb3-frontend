@@ -83,7 +83,7 @@
       <pub-alert
         v-for="(errorMessage, index) in errorMessages"
         :key="index"
-        variant="alert"
+        variant="warning"
         :visible="errorMessages.length > 0"
         dismissible
       >
