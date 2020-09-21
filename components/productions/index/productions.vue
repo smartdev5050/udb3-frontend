@@ -1,5 +1,5 @@
 <template>
-  <section class="productions-container" aria-label="List of productions">
+  <section aria-label="List of productions">
     <h2>{{ $t('productions.overview.production') }}</h2>
     <pub-panel v-if="!isLoading && productions.length > 0">
       <pub-list class="productions">
@@ -93,29 +93,24 @@
 </script>
 
 <style lang="scss" scoped>
-  .productions-container {
-    width: 39%;
-    margin-right: 1%;
+  h2 {
+    padding: 0.5rem 0;
+    margin-bottom: 0.5rem;
+  }
 
-    h2 {
-      padding: 0.5rem 0;
-      margin-bottom: 0.5rem;
+  .productions {
+    .list-group-item {
+      border-radius: 0;
     }
 
-    .productions {
-      .list-group-item {
-        border-radius: 0;
-      }
+    li.selected {
+      background-color: $selected;
+      color: $white;
+    }
 
-      li.selected {
-        background-color: $selected;
-        color: $white;
-      }
-
-      li:hover {
-        background-color: $selected;
-        color: $white;
-      }
+    li:hover {
+      background-color: $selected;
+      color: $white;
     }
   }
 </style>

@@ -15,6 +15,7 @@
         class="productions-events-container"
       >
         <productions
+          class="productions-container"
           :selected-id="selectedProductionId"
           :is-loading="isLoadingProductions"
           :productions="productions"
@@ -25,6 +26,7 @@
         />
         <events
           v-if="selectedProduction"
+          class="events-container"
           :is-loading="isLoadingEvents"
           :events="events"
           :selected-production-name="selectedProduction.name"
@@ -238,6 +240,15 @@
     width: 100%;
     font-weight: 400;
     margin-bottom: 1rem;
+
+    .productions-container {
+      width: 39%;
+      margin-right: 1%;
+    }
+
+    .events-container {
+      width: 60%;
+    }
 
     /deep/ h2 {
       font-size: 1rem;

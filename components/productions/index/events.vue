@@ -1,5 +1,5 @@
 <template>
-  <section class="events-container" aria-label="List of events in production">
+  <section aria-label="List of events in production">
     <template v-if="!isLoading">
       <div class="heading-container">
         <h2>
@@ -199,58 +199,54 @@
   };
 </script>
 
-<style lang="scss">
-  .events-container {
-    width: 60%;
+<style scoped lang="scss">
+  .list-group-item {
+    border-radius: 0;
+  }
 
-    .list-group-item {
-      border-radius: 0;
+  .btn {
+    text-transform: capitalize;
+  }
+
+  .heading-container {
+    width: 100%;
+    display: inline-flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    align-items: center;
+
+    h2 {
+      padding: 0.5rem 0;
+      margin-bottom: 0;
     }
+  }
 
-    .btn {
-      text-transform: capitalize;
-    }
+  .add-event-container {
+    display: flex;
+    margin-bottom: 1rem;
 
-    .heading-container {
-      width: 100%;
-      display: inline-flex;
-      justify-content: space-between;
-      margin-bottom: 0.5rem;
-      align-items: center;
-
-      h2 {
-        padding: 0.5rem 0;
-        margin-bottom: 0;
-      }
-    }
-
-    .add-event-container {
-      display: flex;
-      margin-bottom: 1rem;
-
-      .form-control {
-        max-width: 21.5rem;
-        margin-right: 0.5rem;
-      }
-    }
-
-    button:not(:last-child) {
+    .form-control {
+      max-width: 21.5rem;
       margin-right: 0.5rem;
     }
+  }
 
-    .button-spinner.spinner-container {
-      margin: 0 !important;
+  button:not(:last-child) {
+    margin-right: 0.5rem;
+  }
 
-      .spinner-border {
-        color: white !important;
-        width: 1rem;
-        height: 1rem;
-      }
-    }
+  .button-spinner.spinner-container {
+    margin: 0 !important;
 
-    svg.svg-inline--fa {
+    .spinner-border {
+      color: white !important;
       width: 1rem;
       height: 1rem;
     }
+  }
+
+  svg.svg-inline--fa {
+    width: 1rem;
+    height: 1rem;
   }
 </style>
