@@ -8,9 +8,8 @@
       size: {
         type: Number,
         default: 2,
-        required: true,
         validator(val) {
-          [1, 2, 3, 4].includes(val);
+          return [1, 2, 3, 4].includes(val);
         },
       },
     },
