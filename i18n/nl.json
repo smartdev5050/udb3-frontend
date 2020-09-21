@@ -52,12 +52,12 @@
   },
   "productions": {
     "overview": {
-      "cancel": "annuleren",
-      "confirm": "bevestigen",
-      "create": "toevoegen",
+      "cancel": "Annuleren",
+      "confirm": "Bevestigen",
+      "create": "Toevoegen",
       "delete_question_event": "Ben je zeker dat je het geselecteerde event wilt verwijderen uit productie '{productionName}'?",
       "delete_question_events": "Ben je zeker dat je de geselecteerde {eventCount} events wilt verwijderen uit productie '{productionName}'?",
-      "delete": "verwijderen",
+      "delete": "Verwijderen",
       "details": "Details",
       "events_in_production": "Evenementen in {productionName}",
       "loading": "Laden",

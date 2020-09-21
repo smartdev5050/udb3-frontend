@@ -50,12 +50,12 @@
   },
   "productions": {
     "overview": {
-      "cancel": "annuler",
-      "confirm": "confirmer",
-      "create": "ajouter",
+      "cancel": "Annuler",
+      "confirm": "Confirmer",
+      "create": "Ajouter",
       "delete_question_event": "Voulez-vous vraiment supprimer l'événement sélectionné de la production '{productionName}'?",
       "delete_question_events": "Voulez-vous vraiment supprimer les {eventCount} événements sélectionnés de la production '{productionName}'?",
-      "delete": "supprimer",
+      "delete": "Supprimer",
       "details": "Details",
       "events_in_production": "Événements dans {productionName}",
       "loading": "Changer",
