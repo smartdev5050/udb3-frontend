@@ -1,5 +1,5 @@
 <template>
-  <component :is="as" v-bind="$attrs" v-on="$listeners" @click="handleClick" class="link">
+  <component :is="as" :class="className" v-bind="$attrs" v-on="$listeners" @click="handleClick">
     <slot />
   </component>
 </template>
@@ -12,6 +12,11 @@
         default: 'a',
       },
     },
+    computed: {
+      className() {
+          return this.as === 'a' ? 'link' : '';
+      }
+    },
     methods: {
       handleClick() {
         this.$emit('click');
@@ -21,7 +26,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .link {
+  a.link {
     font-weight: 400;
     color: $udb-blue;
 
