@@ -92,3 +92,4 @@ sw.*
 # Storybook
 .nuxt-storybook
 storybook-static
+build-storybook.log
