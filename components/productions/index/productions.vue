@@ -1,6 +1,8 @@
 <template>
   <section>
-    <h2>{{ $t('productions.overview.production') }}</h2>
+    <pub-title class="page-title">{{
+      $t('productions.overview.production')
+    }}</pub-title>
     <pub-panel v-if="!isLoading && productions.length > 0">
       <pub-list class="productions">
         <pub-list-item
@@ -43,6 +45,7 @@
   import PubPagination from '@/publiq-ui/pub-pagination';
   import PubList from '@/publiq-ui/pub-list';
   import PubListItem from '@/publiq-ui/pub-list-item';
+  import PubTitle from '@/publiq-ui/pub-title';
 
   export default {
     components: {
@@ -52,6 +55,7 @@
       PubPagination,
       PubList,
       PubListItem,
+      PubTitle,
     },
     props: {
       productions: {
@@ -93,7 +97,7 @@
 </script>
 
 <style lang="scss" scoped>
-  h2 {
+  .page-title {
     padding: 0.5rem 0;
     margin-bottom: 0.5rem;
   }

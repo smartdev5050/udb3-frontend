@@ -3,7 +3,7 @@
     <section class="header">
       <div>
         <p>{{ type }}</p>
-        <h2>{{ title }}</h2>
+        <pub-title>{{ title }}</pub-title>
         <p>{{ period }}</p>
         <p>{{ `${locationName}, ${locationCity}` }}</p>
       </div>
@@ -27,11 +27,13 @@
   import stripHTML from 'string-strip-html';
   import PubCard from '@/publiq-ui/pub-card';
   import PubCardParagraph from '@/publiq-ui/pub-card-paragraph';
+  import PubTitle from '@/publiq-ui/pub-title';
 
   export default {
     components: {
       PubCard,
       PubCardParagraph,
+      PubTitle,
     },
     props: {
       id: {
@@ -102,11 +104,6 @@
 
     &:not(:last-child) {
       margin-right: 1rem;
-    }
-
-    h2 {
-      font-size: 1.2rem;
-      font-weight: 700;
     }
 
     .header {

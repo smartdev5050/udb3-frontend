@@ -253,10 +253,5 @@
     .events-container {
       width: 60%;
     }
-
-    /deep/ h2 {
-      font-size: 1rem;
-      font-weight: 700;
-    }
   }
 </style>

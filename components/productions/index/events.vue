@@ -2,13 +2,13 @@
   <section>
     <template v-if="!isLoading">
       <div class="heading-container">
-        <h2>
+        <pub-title class="page-title">
           {{
             `${$t('productions.overview.events_in_production', {
               productionName: selectedProductionName,
             })}`
           }}
-        </h2>
+        </pub-title>
         <div v-if="!isAddEventVisible">
           <pub-button variant="primary" @click="handleClickAddEvent">
             <fa icon="plus" />
@@ -94,6 +94,7 @@
   import PubList from '@/publiq-ui/pub-list';
   import PubAlert from '@/publiq-ui/pub-alert';
   import PubButton from '@/publiq-ui/pub-button';
+  import PubTitle from '@/publiq-ui/pub-title';
 
   export default {
     components: {
@@ -103,6 +104,7 @@
       PubList,
       PubAlert,
       PubButton,
+      PubTitle,
     },
     props: {
       events: {
@@ -211,9 +213,8 @@
     margin-bottom: 0.5rem;
     align-items: center;
 
-    h2 {
+    .page-title {
       padding: 0.5rem 0;
-      margin-bottom: 0;
     }
   }
 
