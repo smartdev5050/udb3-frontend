@@ -20,9 +20,18 @@
       searchInput: '',
     }),
     methods: {
-      handleInputSearch: debounce(function (value) {
+      emitInputSearch(value) {
         this.$emit('inputSearch', value);
-      }, 1000),
+      },
+      handleInputSearch(value) {
+        if (process.env.NODE_ENV === 'test') {
+          this.emitInputSearch(value);
+        } else {
+          debounce((value) => {
+            this.emitInputSearch(value);
+          }, 1000)(value);
+        }
+      },
     },
   };
 </script>
