@@ -1,5 +1,5 @@
 <template>
-  <pub-title size="1" class="page-title"><slot /></pub-title>
+  <pub-title :size="1" class="page-title"><slot /></pub-title>
 </template>
 
 <script>
