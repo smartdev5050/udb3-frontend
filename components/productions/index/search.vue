@@ -9,7 +9,7 @@
 </template>
 
 <script>
-  import { debounce } from 'lodash-es';
+  import debounce from 'lodash.debounce';
   import PubInput from '@/publiq-ui/pub-input';
 
   export default {
