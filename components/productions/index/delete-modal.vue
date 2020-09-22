@@ -47,11 +47,7 @@
   };
 </script>
 
-<style lang="scss">
-  .modal-content button {
-    text-transform: capitalize;
-  }
-
+<style scoped lang="scss">
   .content-container {
     padding: 1rem;
   }

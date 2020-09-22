@@ -1,14 +1,13 @@
 <template>
   <div>
-    <a class="giftbox-container" @click="showModal">
-      <div>
-        <fa icon="gift" class="giftbox-icon" />
-        <span>{{ $t('giftbox.announcements') }}</span>
-      </div>
-      <span v-if="numberOfUnseenFeatures" class="badge">{{
-        numberOfUnseenFeatures
-      }}</span>
-    </a>
+    <div class="button-container" @click="showModal">
+      <slot name="icon-and-text" />
+      <slot
+        v-if="numberOfUnseenFeatures > 0"
+        name="indicator"
+        :numberOfUnseenFeatures="numberOfUnseenFeatures"
+      />
+    </div>
     <pub-modal-content
       :visible="isModalVisible"
       :title="$t('giftbox.new_features')"
@@ -169,6 +168,28 @@
 </script>
 
 <style lang="scss" scoped>
+  $padding-small: 3px;
+
+  .button-container {
+    width: 100%;
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  @media (max-width: 767px) {
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      font-size: 0.6rem;
+      padding: $padding-small;
+      width: 100%;
+      text-align: center;
+      padding-top: $padding-small * 3;
+    }
+  }
+
   .features-wrapper {
     width: 100%;
     height: 100%;

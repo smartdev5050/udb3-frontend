@@ -135,7 +135,7 @@
   };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .udb-job {
     margin: 0;
     padding: 0 30px 0 0;
