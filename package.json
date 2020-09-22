@@ -19,6 +19,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.13.1",
     "@fortawesome/vue-fontawesome": "^0.1.10",
     "@storybook/addon-controls": "^6.0.21",
+    "@testing-library/jest-dom": "^5.11.4",
     "bootstrap": "^4.5.0",
     "bootstrap-vue": "^2.15.0",
     "cookie-universal-nuxt": "^2.1.4",
@@ -44,7 +45,6 @@
     "@nuxtjs/style-resources": "^1.0.0",
     "@storybook/addon-a11y": "^6.0.21",
     "@storybook/addon-docs": "^6.0.21",
-    "@testing-library/vue": "^5.0.4",
     "@vue/test-utils": "^1.0.3",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
@@ -55,7 +55,6 @@
     "eslint-plugin-nuxt": "^1.0.0",
     "eslint-plugin-prettier": "^3.1.4",
     "jest": "^26.0.1",
-    "jest-dom": "^4.0.0",
     "prettier": "^2.0.5",
     "react-is": "^16.13.1",
     "vue-jest": "^3.0.4"
