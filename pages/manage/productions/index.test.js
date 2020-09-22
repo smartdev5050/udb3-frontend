@@ -11,6 +11,7 @@ test('returns full list when entering the page', async () => {
   const listItems = wrapper.findAll('.productions .list-group-item');
   expect(listItems).toHaveLength(2);
 });
+
 test('returns a found item when searching with an existing production name', async () => {
   const wrapper = mountWithEnvironment(Index);
 
@@ -22,6 +23,7 @@ test('returns a found item when searching with an existing production name', asy
   const listItems = wrapper.findAll('.productions .list-group-item');
   expect(listItems).toHaveLength(1);
 });
+
 test('returns no results when searching a wrong production name', async () => {
   const wrapper = mountWithEnvironment(Index);
 
