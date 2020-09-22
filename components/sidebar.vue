@@ -39,9 +39,9 @@
                 <span>{{ $t('menu.validate') }}</span>
               </span>
               <span>
-                <span v-if="moderationCount > 0" class="badge">{{
+                <pub-badge v-if="moderationCount > 0">{{
                   moderationCount
-                }}</span>
+                }}</pub-badge>
               </span>
             </nuxt-link>
           </li>
@@ -90,7 +90,7 @@
                   </div>
                 </template>
                 <template v-slot:indicator="props">
-                  <span class="badge">{{ props.numberOfUnseenFeatures }}</span>
+                  <pub-badge>{{ props.numberOfUnseenFeatures }}</pub-badge>
                 </template>
               </giftbox>
             </a>
@@ -140,6 +140,7 @@
   import ButtonLogout from './button-logout';
   import JobIndicator from './job/job-indicator';
   import Giftbox from './giftbox';
+  import PubBadge from '@/publiq-ui/pub-badge';
 
   const Permissions = {
     AANBOD_BEWERKEN: 'AANBOD_BEWERKEN',
@@ -160,6 +161,7 @@
       JobIndicator,
       JobLogger,
       Giftbox,
+      PubBadge,
     },
     data() {
       return {
