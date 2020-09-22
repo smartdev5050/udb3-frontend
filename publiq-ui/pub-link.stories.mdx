@@ -8,7 +8,7 @@ export const Template = (args, { argTypes }) => {
   return {
     props: Object.keys(argTypes),
     components: { PubLink },
-    template: '<pub-link v-bind="$attrs">Link</pub-link>',
+    template: '<pub-link href="#" v-bind="$attrs">Link</pub-link>',
   };
 };
 
