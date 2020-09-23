@@ -12,7 +12,7 @@
   };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .page-title {
     line-height: 3.74rem;
     color: #222;

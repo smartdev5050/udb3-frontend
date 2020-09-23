@@ -1,5 +1,11 @@
 <template>
-  <component :is="as" :class="pub-link" v-bind="$attrs" v-on="$listeners" @click="handleClick">
+  <component
+    :is="as"
+    class="pub-link"
+    v-bind="$attrs"
+    v-on="$listeners"
+    @click="handleClick"
+  >
     <slot />
   </component>
 </template>
