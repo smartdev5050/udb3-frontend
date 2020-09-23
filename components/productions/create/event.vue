@@ -23,7 +23,7 @@
 </template>
 
 <script>
-  import { truncate } from 'lodash-es';
+  import truncate from 'lodash.truncate';
   import stripHTML from 'string-strip-html';
   import PubCard from '@/publiq-ui/pub-card';
   import PubCardParagraph from '@/publiq-ui/pub-card-paragraph';

@@ -17,3 +17,13 @@ jobs:
         uses: creyD/prettier_action@v2.2
         with:
           dry: true
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run tests
+        run: yarn && yarn test
