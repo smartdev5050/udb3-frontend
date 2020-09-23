@@ -19,4 +19,4 @@ jobs:
           dry: true
 
       - name: Run tests
-        run: yarn test
+        run: yarn && yarn test
