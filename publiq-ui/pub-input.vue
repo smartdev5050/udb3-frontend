@@ -32,6 +32,11 @@
         default: '',
       },
     },
+    data() {
+      return {
+        value: '',
+      };
+    },
     methods: {
       handleInput() {
         this.$emit('input', this.value);
