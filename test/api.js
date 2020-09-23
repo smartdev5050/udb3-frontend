@@ -1,5 +1,5 @@
 import events from './data/events';
-import projects from './data/projects';
+import productions from './data/productions';
 
 const findById = (id) => events.find((event) => event['@id'].endsWith(id));
 
@@ -8,16 +8,18 @@ export default {
     find: ({ name = '' } = {}) => {
       if (!name) {
         return {
-          member: projects,
-          totalItems: projects.length,
+          member: productions,
+          totalItems: productions.length,
         };
       }
 
-      const foundProjects = projects.filter((project) => project.name === name);
+      const foundProductions = productions.filter(
+        (project) => project.name === name,
+      );
 
       return {
-        member: foundProjects,
-        totalItems: foundProjects.length,
+        member: foundProductions,
+        totalItems: foundProductions.length,
       };
     },
   },
