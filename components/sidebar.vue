@@ -39,9 +39,9 @@
                 <span>{{ $t('menu.validate') }}</span>
               </span>
               <span>
-                <span v-if="moderationCount > 0" class="badge">{{
+                <pub-badge v-if="moderationCount > 0">{{
                   moderationCount
-                }}</span>
+                }}</pub-badge>
               </span>
             </nuxt-link>
           </li>
@@ -81,7 +81,19 @@
       <div class="person-data">
         <ul>
           <li>
-            <giftbox />
+            <a>
+              <giftbox>
+                <template v-slot:icon-and-text>
+                  <div>
+                    <fa icon="gift" class="giftbox-icon" />
+                    <span>{{ $t('giftbox.announcements') }}</span>
+                  </div>
+                </template>
+                <template v-slot:indicator="props">
+                  <pub-badge>{{ props.numberOfUnseenFeatures }}</pub-badge>
+                </template>
+              </giftbox>
+            </a>
           </li>
           <li class="notifications">
             <a class="notification-container" @click="toggleJobLogger">
@@ -95,7 +107,6 @@
           <li class="hidden-xs">
             <div class="media">
               <div class="media-left">
-                <!-- TODO: Get the user image -->
                 <img
                   class="media-object"
                   width="50"
@@ -113,24 +124,6 @@
             </div>
           </li>
         </ul>
-
-        <!--
-        <div class="visible-xs profile-pic dropup">
-          <img
-            class="img-responsive dropdown-toggle"
-            id="logoutMenu"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="true"
-            width="50"
-            height="50"
-            src="images/avatar.svg"
-          />
-          <ul class="dropdown-menu pull-left" aria-labelledby="logoutnMenu">
-            <li><a href="#" ng-click="mbc.logout()" translate-once="menu."></a></li>
-          </ul>
-        </div>
-        -->
       </div>
     </div>
 
@@ -147,6 +140,7 @@
   import ButtonLogout from './button-logout';
   import JobIndicator from './job/job-indicator';
   import Giftbox from './giftbox';
+  import PubBadge from '@/publiq-ui/pub-badge';
 
   const Permissions = {
     AANBOD_BEWERKEN: 'AANBOD_BEWERKEN',
@@ -167,6 +161,7 @@
       JobIndicator,
       JobLogger,
       Giftbox,
+      PubBadge,
     },
     data() {
       return {
@@ -252,7 +247,7 @@
   };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
   $sidebar-width: 230px;
   $sidebar-mobile-width: 65px;
   $padding-normal: 5px;

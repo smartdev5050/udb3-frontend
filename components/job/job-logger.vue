@@ -238,7 +238,7 @@
   };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .list-unstyled {
     padding-left: 0;
     list-style: none;
@@ -294,9 +294,6 @@
     color: #777;
     font-size: 0.75em;
     display: block;
-  }
-  .badge {
-    background-color: $danger;
   }
   .udb-job-success {
     color: #5cb85c;

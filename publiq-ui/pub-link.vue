@@ -1,5 +1,5 @@
 <template>
-  <component :is="as" v-bind="$attrs" v-on="$listeners" @click="handleClick">
+  <component :is="as" :class="pub-link" v-bind="$attrs" v-on="$listeners" @click="handleClick">
     <slot />
   </component>
 </template>
@@ -21,7 +21,7 @@
 </script>
 
 <style lang="scss" scoped>
-  a {
+  a.pub-link {
     font-weight: 400;
     color: $udb-blue;
 

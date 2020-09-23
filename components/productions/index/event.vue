@@ -15,11 +15,7 @@
         <fa v-show="isDetailVisible" icon="chevron-down" />
       </a>
     </div>
-    <section
-      v-if="isDetailVisible"
-      class="event-details"
-      aria-label="Event details"
-    >
+    <section v-if="isDetailVisible" class="event-details">
       <h3>{{ $t('productions.overview.details') }}</h3>
       <table class="table">
         <tbody>
