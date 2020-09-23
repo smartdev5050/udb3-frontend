@@ -6,7 +6,6 @@
         <pub-list-item
           v-for="production in productions"
           :key="production.production_id"
-          aria-label="production"
           :class="{
             selected: selectedId === production.production_id,
           }"

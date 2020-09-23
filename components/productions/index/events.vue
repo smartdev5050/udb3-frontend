@@ -69,7 +69,6 @@
             v-for="event in events"
             :id="parseEventId(event['@id'])"
             :key="parseEventId(event['@id'])"
-            aria-label="event"
             :name="event.name[locale] || event.name['nl']"
             :type="getEventType(event.terms)"
             :location="event.location.name[locale] || event.location.name['nl']"
