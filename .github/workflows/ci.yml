@@ -17,3 +17,6 @@ jobs:
         uses: creyD/prettier_action@v2.2
         with:
           dry: true
+
+      - name: Run tests
+        run: yarn test
