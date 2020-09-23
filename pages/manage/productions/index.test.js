@@ -1,58 +1,62 @@
-import Index from './Index';
-import Vue from 'vue';
+import { screen } from '@testing-library/vue';
+import userEvent from '@testing-library/user-event';
 
-import { mountWithEnvironment } from '../../../test/mountWithEnvironment';
+import Index from './Index';
+
+import { renderWithEnvironment } from '../../../test/renderWithEnvironment';
+
+beforeEach(() => {
+  renderWithEnvironment(Index);
+});
 
 test('returns full list when entering the page', async () => {
-  const wrapper = mountWithEnvironment(Index);
+  const productions = await screen.findAllByRole('listitem', {
+    name: 'production',
+  });
 
-  await Vue.nextTick();
+  expect(productions).toHaveLength(2);
 
-  const listItems = wrapper.findAll('.productions .list-group-item');
-  expect(listItems).toHaveLength(2);
+  const anotherOne = await screen.findByText('Another one');
+  const testing = await screen.findByText('Testing');
+
+  expect(anotherOne).toBeInTheDocument();
+  expect(testing).toBeInTheDocument();
 });
 
 test('returns a found item when searching with an existing production name', async () => {
-  const wrapper = mountWithEnvironment(Index);
+  const input = screen.getByRole('textbox');
+  await userEvent.type(input, 'Testing');
 
-  const searchInput = wrapper.find('#productions-overview-search');
+  const productions = await screen.findAllByRole('listitem', {
+    name: 'production',
+  });
 
-  await searchInput.setValue('Testing');
-  await Vue.nextTick();
+  expect(productions).toHaveLength(1);
 
-  const listItems = wrapper.findAll('.productions .list-group-item');
-  expect(listItems).toHaveLength(1);
+  const testing = await screen.findByText('Testing');
+
+  expect(testing).toBeInTheDocument();
 });
 
 test('returns no results when searching a wrong production name', async () => {
-  const wrapper = mountWithEnvironment(Index);
+  const input = screen.getByRole('textbox');
+  await userEvent.type(input, 'random search');
 
-  const searchInput = wrapper.find('#productions-overview-search');
-
-  await searchInput.setValue('test');
-  await Vue.nextTick();
-
-  const productionsContainer = wrapper.find('.productions-events-container');
-
-  const listItems = wrapper.findAll('.productions .list-group-item');
-  expect(listItems).toHaveLength(0);
-
-  expect(productionsContainer.text()).toContain(
+  const noProductions = await screen.findByText(
     'productions.overview.no_productions',
   );
+
+  expect(noProductions).toBeInTheDocument();
 });
 
 test('Enable remove button when selecting event', async () => {
-  const wrapper = mountWithEnvironment(Index);
+  const checkbox = screen.getByRole('checkbox', { name: 'eee' });
 
-  await Vue.nextTick();
-  await Vue.nextTick();
+  const removeButton = await screen.findByText('productions.overview.delete');
 
-  const removeButton = wrapper.find('.events-container .btn-danger').element;
   expect(removeButton).toBeDisabled();
 
-  const checkbox = wrapper.find('.event-item .container-checkbox input');
-  await checkbox.trigger('click');
+  await userEvent.click(checkbox);
 
   expect(removeButton).toBeEnabled();
 });
