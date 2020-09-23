@@ -11,7 +11,7 @@ beforeEach(() => {
 
 test('returns full list when entering the page', async () => {
   const productions = await screen.findByRole('list', {
-    name: 'productions',
+    name: 'productions.overview.aria.productions',
   });
 
   expect(productions.childNodes).toHaveLength(2);
@@ -28,7 +28,7 @@ test('returns a found item when searching with an existing production name', asy
   await userEvent.type(input, 'Testing');
 
   const productions = await screen.findByRole('list', {
-    name: 'productions',
+    name: 'productions.overview.aria.productions',
   });
 
   expect(productions.childNodes).toHaveLength(1);
