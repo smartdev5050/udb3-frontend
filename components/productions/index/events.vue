@@ -64,7 +64,7 @@
         >{{ errorMessage }}
       </pub-alert>
       <pub-panel>
-        <pub-list aria-label="events">
+        <pub-list :aria-label="$t('productions.overview.aria.events')">
           <event
             v-for="event in events"
             :id="parseEventId(event['@id'])"
