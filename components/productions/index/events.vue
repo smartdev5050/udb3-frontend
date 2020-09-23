@@ -2,7 +2,7 @@
   <section>
     <template v-if="!isLoading">
       <div class="heading-container">
-        <pub-title class="page-title">
+        <pub-title class="events-title">
           {{
             `${$t('productions.overview.events_in_production', {
               productionName: selectedProductionName,
@@ -213,7 +213,7 @@
     margin-bottom: 0.5rem;
     align-items: center;
 
-    .page-title {
+    .events-title {
       padding: 0.5rem 0;
     }
   }

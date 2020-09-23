@@ -1,6 +1,6 @@
 <template>
   <section>
-    <pub-title class="page-title">{{
+    <pub-title class="productions-title">{{
       $t('productions.overview.production')
     }}</pub-title>
     <pub-panel v-if="!isLoading && productions.length > 0">
@@ -97,7 +97,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .page-title {
+  .productions-title {
     padding: 0.5rem 0;
     margin-bottom: 0.5rem;
   }
