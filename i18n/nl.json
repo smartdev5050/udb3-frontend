@@ -68,7 +68,11 @@
         "label": "Zoeken op productienaam:",
         "placeholder": "Schrijf een zoekopdracht van minstens 4 karakters."
       },
-      "title": "Producties"
+      "title": "Producties",
+      "aria": {
+        "productions": "Producties",
+        "events": "Evenementen"
+      }
     },
     "create": {
       "link": "Linken",

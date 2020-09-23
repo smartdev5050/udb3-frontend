@@ -2,7 +2,10 @@
   <section>
     <h2>{{ $t('productions.overview.production') }}</h2>
     <pub-panel v-if="!isLoading && productions.length > 0">
-      <pub-list class="productions">
+      <pub-list
+        class="productions"
+        :aria-label="$t('productions.overview.aria.productions')"
+      >
         <pub-list-item
           v-for="production in productions"
           :key="production.production_id"

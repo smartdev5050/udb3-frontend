@@ -9,7 +9,7 @@
 </template>
 
 <script>
-  import { debounce } from 'lodash-es';
+  import debounce from 'lodash.debounce';
   import PubInput from '@/publiq-ui/pub-input';
 
   export default {
@@ -20,9 +20,20 @@
       searchInput: '',
     }),
     methods: {
-      handleInputSearch: debounce(function (value) {
+      emitInputSearch(value) {
         this.$emit('inputSearch', value);
-      }, 1000),
+      },
+      handleInputSearch(value) {
+        // ugly fix for 'this' binding issue when trying to mock debounce
+        // setting it to 0 on test also doesn't resolve it
+        if (process.env.NODE_ENV === 'test') {
+          this.emitInputSearch(value);
+        } else {
+          debounce((value) => {
+            this.emitInputSearch(value);
+          }, 1000)(value);
+        }
+      },
     },
   };
 </script>

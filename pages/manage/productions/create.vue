@@ -94,7 +94,7 @@
 </template>
 
 <script>
-  import { debounce } from 'lodash-es';
+  import debounce from 'lodash.debounce';
   import Event from '@/components/productions/create/event';
   import PubLoadingSpinner from '@/publiq-ui/pub-loading-spinner';
   import { parseId } from '@/functions/events';
