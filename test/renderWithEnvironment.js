@@ -1,6 +1,7 @@
 import merge from 'lodash.merge';
 
-import { mount, createLocalVue } from '@vue/test-utils';
+import { render } from '@testing-library/vue';
+import { createLocalVue } from '@vue/test-utils';
 import BootstrapVue from 'bootstrap-vue';
 
 import $api from './api';
@@ -8,8 +9,8 @@ import $api from './api';
 const localVue = createLocalVue();
 localVue.use(BootstrapVue);
 
-export const mountWithEnvironment = (Component, options = {}) =>
-  mount(
+export const renderWithEnvironment = (Component, options = {}) =>
+  render(
     Component,
     merge(
       {
