@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
 
-import Index from './Index';
+import Index from './index';
 
 import { renderWithEnvironment } from '../../../test/renderWithEnvironment';
 
