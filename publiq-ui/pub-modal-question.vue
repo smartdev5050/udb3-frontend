@@ -12,7 +12,6 @@
     :scrollable="false"
     :hide-header="!title"
     @hide="handleHide"
-    @ok="handleOk"
   >
     <slot />
   </b-modal>
@@ -41,9 +40,6 @@
     methods: {
       handleHide() {
         this.$emit('hide');
-      },
-      handleOk() {
-        this.$emit('confirm');
       },
     },
   };

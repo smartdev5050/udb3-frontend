@@ -67,7 +67,7 @@
             class="button-spinner"
             variant="success"
             :disabled="!(productionName || selectedSuggestedProductionId)"
-            @click="handleClickLink"
+            @mousedown="handleClickLink"
           >
             <pub-loading-spinner v-if="isLinkingEventsWithProduction" />
             <span v-else>{{ $t('productions.create.link') }}</span>
