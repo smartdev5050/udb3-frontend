@@ -6,6 +6,7 @@
         :name="name"
         :checked="isSelected"
         :disabled="isDisabled"
+        :aria-label="name"
         @toggle="handleToggleSelectEvent"
       >
         {{ name }}

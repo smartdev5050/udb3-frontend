@@ -2,10 +2,11 @@
   <section class="productions-container" aria-label="List of productions">
     <h2>{{ $t('productions.overview.production') }}</h2>
     <pub-panel v-if="!isLoading && productions.length > 0">
-      <pub-list class="productions">
+      <pub-list class="productions" aria-label="productions">
         <pub-list-item
           v-for="production in productions"
           :key="production.production_id"
+          aria-label="production"
           :class="{
             selected: selectedId === production.production_id,
           }"
