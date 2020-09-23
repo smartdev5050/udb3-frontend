@@ -24,6 +24,8 @@
         this.$emit('inputSearch', value);
       },
       handleInputSearch(value) {
+        // ugly fix for 'this' binding issue when trying to mock debounce
+        // setting it to 0 on test also doesn't resolve it
         if (process.env.NODE_ENV === 'test') {
           this.emitInputSearch(value);
         } else {
