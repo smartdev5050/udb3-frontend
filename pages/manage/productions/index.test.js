@@ -10,11 +10,11 @@ beforeEach(() => {
 });
 
 test('returns full list when entering the page', async () => {
-  const productions = await screen.findAllByRole('listitem', {
-    name: 'production',
+  const productions = await screen.findByRole('list', {
+    name: 'productions',
   });
 
-  expect(productions).toHaveLength(2);
+  expect(productions.childNodes).toHaveLength(2);
 
   const anotherOne = await screen.findByText('Another one');
   const testing = await screen.findByText('Testing');
@@ -27,11 +27,11 @@ test('returns a found item when searching with an existing production name', asy
   const input = screen.getByRole('textbox');
   await userEvent.type(input, 'Testing');
 
-  const productions = await screen.findAllByRole('listitem', {
-    name: 'production',
+  const productions = await screen.findByRole('list', {
+    name: 'productions',
   });
 
-  expect(productions).toHaveLength(1);
+  expect(productions.childNodes).toHaveLength(1);
 
   const testing = await screen.findByText('Testing');
 
