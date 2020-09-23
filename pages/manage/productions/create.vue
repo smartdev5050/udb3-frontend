@@ -64,12 +64,14 @@
 
         <section class="button-container">
           <pub-button
-            class="button-spinner"
             variant="success"
             :disabled="!(productionName || selectedSuggestedProductionId)"
             @mousedown="handleClickLink"
           >
-            <pub-loading-spinner v-if="isLinkingEventsWithProduction" />
+            <pub-loading-spinner
+              v-if="isLinkingEventsWithProduction"
+              class="button-spinner"
+            />
             <span v-else>{{ $t('productions.create.link') }}</span>
           </pub-button>
           <pub-button variant="danger" @click="handleClickSkip">
@@ -357,11 +359,13 @@
       margin-right: 0.5rem;
     }
 
-    .spinner-container {
-      margin: 0;
+    .button-spinner {
+      /deep/ .spinner-container {
+        margin: 0;
+      }
 
-      .spinner-border {
-        color: $white !important;
+      /deep/ .spinner-border {
+        color: $white;
         width: 1rem;
         height: 1rem;
       }
