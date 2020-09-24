@@ -66,7 +66,7 @@
           <pub-button
             variant="success"
             :disabled="!(productionName || selectedSuggestedProductionId)"
-            @mousedown="handleClickLink"
+            @click="handleClickLink"
           >
             <pub-loading-spinner
               v-if="isLinkingEventsWithProduction"

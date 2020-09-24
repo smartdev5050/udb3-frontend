@@ -4,6 +4,7 @@
     :confirm-title="$t('productions.overview.delete')"
     :cancel-title="$t('productions.overview.cancel')"
     @hide="handleHide"
+    @confirm="handleConfirm"
   >
     <div class="content-container">
       {{
@@ -42,6 +43,9 @@
     methods: {
       handleHide() {
         this.$emit('hide');
+      },
+      handleConfirm() {
+        this.$emit('confirm');
       },
     },
   };
