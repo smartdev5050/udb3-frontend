@@ -3,7 +3,7 @@
     <section class="container-fluid">
       <pub-page-title>{{ $t('productions.create.title') }}</pub-page-title>
       <div v-if="isLoadingEvents">
-        <pub-loading-spinner />
+        <pub-spinner />
       </div>
       <div v-else-if="suggestedEvents.length > 0">
         <p>
@@ -68,7 +68,7 @@
             :disabled="!(productionName || selectedSuggestedProductionId)"
             @click="handleClickLink"
           >
-            <pub-loading-spinner
+            <pub-spinner
               v-if="isLinkingEventsWithProduction"
               variant="inButton"
               class="button-spinner"
@@ -99,7 +99,7 @@
 <script>
   import debounce from 'lodash.debounce';
   import Event from '@/components/productions/create/event';
-  import PubLoadingSpinner from '@/publiq-ui/pub-loading-spinner';
+  import PubSpinner from '@/publiq-ui/pub-spinner';
   import { parseId } from '@/functions/events';
   import PubPageTitle from '@/publiq-ui/pub-page-title';
   import PubPage from '@/publiq-ui/pub-page';
@@ -111,7 +111,7 @@
   export default {
     components: {
       Event,
-      PubLoadingSpinner,
+      PubSpinner,
       PubTypeahead,
       PubPage,
       PubPageTitle,

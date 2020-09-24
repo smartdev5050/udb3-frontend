@@ -1,14 +1,14 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
-import PubLoadingSpinner from './pub-loading-spinner';
+import PubSpinner from './pub-spinner';
 import PubButton from './pub-button';
 
-<Meta title="Components/pub-loading-spinner" component={PubLoadingSpinner} />
+<Meta title="Components/pub-spinner" component={PubSpinner} />
 
 export const Template = (args, { argTypes }) => {
   return {
     props: Object.keys(argTypes),
-    components: { PubLoadingSpinner },
-    template: '<pub-loading-spinner v-bind="$props" />',
+    components: { PubSpinner },
+    template: '<pub-spinner v-bind="$props" />',
   };
 };
 
@@ -21,15 +21,14 @@ export const Template = (args, { argTypes }) => {
 </Canvas>
 
 ```javascript
-<pub-loading-spinner variant="onPage" />
+<pub-spinner variant="onPage" />
 ```
 
 export const TemplateInButton = (args, { argTypes }) => {
   return {
     props: Object.keys(argTypes),
-    components: { PubLoadingSpinner, PubButton },
-    template:
-      '<pub-button><pub-loading-spinner v-bind="$props" /></pub-button>',
+    components: { PubSpinner, PubButton },
+    template: '<pub-button><pub-spinner v-bind="$props" /></pub-button>',
   };
 };
 
@@ -43,7 +42,7 @@ export const TemplateInButton = (args, { argTypes }) => {
 
 ```javascript
 <pub-button>
-  <pub-loading-spinner variant="inButton" />
+  <pub-spinner variant="inButton" />
 </pub-button>
 ```
 
