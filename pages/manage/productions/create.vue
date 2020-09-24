@@ -70,6 +70,7 @@
           >
             <pub-loading-spinner
               v-if="isLinkingEventsWithProduction"
+              variant="inButton"
               class="button-spinner"
             />
             <span v-else>{{ $t('productions.create.link') }}</span>
@@ -357,18 +358,6 @@
 
     button {
       margin-right: 0.5rem;
-    }
-
-    .button-spinner {
-      /deep/ .spinner-container {
-        margin: 0;
-      }
-
-      /deep/ .spinner-border {
-        color: $white;
-        width: 1rem;
-        height: 1rem;
-      }
     }
   }
 </style>
