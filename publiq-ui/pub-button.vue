@@ -5,11 +5,18 @@
       v-else
       :variant="variant === 'secondary' ? 'primary' : 'light'"
       size="small"
+      class="pub-button-spinner"
     />
   </b-button>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+  .pub-button-spinner {
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+  }
+</style>
 
 <script>
   import PubSpinner from '@/publiq-ui/pub-spinner';
