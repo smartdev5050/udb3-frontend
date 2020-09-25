@@ -260,6 +260,17 @@
         vertical-align: middle;
       }
 
+      .feature-content {
+        /deep/ a {
+          font-weight: 400;
+          color: $udb-blue;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+
       .btn-call-to-action {
         display: inline-block;
         overflow: hidden;
