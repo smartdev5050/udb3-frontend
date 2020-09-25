@@ -1,31 +1,25 @@
 <template>
   <div class="text-center d-flex justify-content-center spinner-container">
-    <b-spinner :small="isInButtonVariant" :variant="mappedVariant"></b-spinner>
+    <b-spinner :small="size === 'small'" :variant="variant"></b-spinner>
   </div>
 </template>
 
 <script>
-  const SpinnerVariant = {
-    onPage: 'primary',
-    inButton: 'light',
-  };
-
   export default {
     props: {
       variant: {
         type: String,
-        default: 'onPage',
+        default: 'primary',
         validator(val) {
-          return ['onPage', 'inButton'].includes(val);
+          return ['primary', 'light'].includes(val);
         },
       },
-    },
-    computed: {
-      mappedVariant() {
-        return SpinnerVariant[this.variant] || SpinnerVariant.onPage;
-      },
-      isInButtonVariant() {
-        return this.mappedVariant === SpinnerVariant.inButton;
+      size: {
+        type: String,
+        default: 'normal',
+        validator(val) {
+          return ['normal', 'small'].includes(val);
+        },
       },
     },
   };
