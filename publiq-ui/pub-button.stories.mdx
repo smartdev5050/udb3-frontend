@@ -96,3 +96,17 @@ export const commonArgTypes = {
 ```
 
 <ArgsTable story="Danger" />
+
+# Loading state
+
+<Canvas>
+  <Story name="Loading" args={{ loading: true }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+```javascript
+<pub-button :loading="true">Click me</pub-button>
+```
+
+<ArgsTable story="Loading" />
