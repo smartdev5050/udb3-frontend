@@ -1,6 +1,5 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
 import PubSpinner from './pub-spinner';
-import PubButton from './pub-button';
 
 <Meta title="Components/pub-spinner" component={PubSpinner} />
 
@@ -12,22 +11,44 @@ export const Template = (args, { argTypes }) => {
   };
 };
 
+export const commonArgTypesVariants = {
+  variant: {
+    control: {
+      type: false,
+    },
+  },
+  size: {
+    control: {
+      type: 'select',
+      options: ['normal', 'small'],
+    },
+  },
+};
+
 # Variants
 
 ## Primary
 
 <Canvas>
-  <Story name="Primary">{Template.bind({})}</Story>
+  <Story name="Primary" argTypes={commonArgTypesVariants}>
+    {Template.bind({})}
+  </Story>
 </Canvas>
 
 ```javascript
 <pub-spinner variant="primary" />
 ```
 
+<ArgsTable story="Primary" />
+
 ## Light
 
 <Canvas>
-  <Story name="Light" args={{ variant: 'light' }}>
+  <Story
+    name="Light"
+    args={{ variant: 'light' }}
+    argTypes={commonArgTypesVariants}
+  >
     {Template.bind({})}
   </Story>
 </Canvas>
@@ -36,26 +57,48 @@ export const Template = (args, { argTypes }) => {
 <pub-spinner variant="light" />
 ```
 
-<ArgsTable story="Primary" />
+<ArgsTable story="Light" />
 
-# Use the pub-spinner in pub-button
-
-export const TemplateInButton = (args, { argTypes }) => {
-  return {
-    props: Object.keys(argTypes),
-    components: { PubSpinner, PubButton },
-    template: '<pub-button v-bind="$props">Click me</pub-button>',
-  };
+export const commonArgTypesSizes = {
+  size: {
+    control: {
+      type: false,
+    },
+  },
+  variant: {
+    control: {
+      type: 'select',
+      options: ['primary', 'light'],
+    },
+  },
 };
 
+# Sizes
+
+## Normal
+
 <Canvas>
-  <Story name="InButton" args={{ loading: true }}>
-    {TemplateInButton.bind({})}
+  <Story name="Normal" args={{ size: 'normal' }} argTypes={commonArgTypesSizes}>
+    {Template.bind({})}
   </Story>
 </Canvas>
 
 ```javascript
-<pub-button :loading="true">Click me</pub-button>
+<pub-spinner size="normal" />
 ```
 
-<ArgsTable story="InButton" />
+<ArgsTable story="Normal" />
+
+## Small
+
+<Canvas>
+  <Story name="Small" args={{ size: 'small' }} argTypes={commonArgTypesSizes}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+```javascript
+<pub-spinner size="small" />
+```
+
+<ArgsTable story="Small" />
