@@ -14,36 +14,48 @@ export const Template = (args, { argTypes }) => {
 
 # Variants
 
-## On Page
+## Primary
 
 <Canvas>
-  <Story name="OnPage">{Template.bind({})}</Story>
+  <Story name="Primary">{Template.bind({})}</Story>
 </Canvas>
 
 ```javascript
-<pub-spinner variant="onPage" />
+<pub-spinner variant="primary" />
 ```
+
+## Light
+
+<Canvas>
+  <Story name="Light" args={{ variant: 'light' }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+```javascript
+<pub-spinner variant="light" />
+```
+
+<ArgsTable story="Primary" />
+
+# Use the pub-spinner in pub-button
 
 export const TemplateInButton = (args, { argTypes }) => {
   return {
     props: Object.keys(argTypes),
     components: { PubSpinner, PubButton },
-    template: '<pub-button><pub-spinner v-bind="$props" /></pub-button>',
+    template: '<pub-button v-bind="$props">Click me</pub-button>',
   };
 };
 
-## In Button
-
 <Canvas>
-  <Story name="InButton" args={{ variant: 'inButton' }}>
+  <Story name="InButton" args={{ loading: true }}>
     {TemplateInButton.bind({})}
   </Story>
 </Canvas>
 
 ```javascript
-<pub-button>
-  <pub-spinner variant="inButton" />
-</pub-button>
+<pub-button :loading="true">Click me</pub-button>
 ```
 
-<ArgsTable story="OnPage" />
+<ArgsTable story="InButton" />
