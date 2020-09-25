@@ -66,14 +66,10 @@
           <pub-button
             variant="success"
             :disabled="!(productionName || selectedSuggestedProductionId)"
+            :loading="isLinkingEventsWithProduction"
             @click="handleClickLink"
           >
-            <pub-spinner
-              v-if="isLinkingEventsWithProduction"
-              variant="inButton"
-              class="button-spinner"
-            />
-            <span v-else>{{ $t('productions.create.link') }}</span>
+            <span>{{ $t('productions.create.link') }}</span>
           </pub-button>
           <pub-button variant="danger" @click="handleClickSkip">
             {{ $t('productions.create.skip') }}

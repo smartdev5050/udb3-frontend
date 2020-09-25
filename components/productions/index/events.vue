@@ -39,13 +39,13 @@
         <pub-button
           variant="primary"
           :disabled="!eventId"
+          :loading="isAdding"
           @click="handleClickAddEventToProduction"
         >
-          <span v-if="!isAdding">
+          <span>
             <fa icon="check" />
             {{ $t('productions.overview.confirm') }}
           </span>
-          <pub-spinner v-else class="button-spinner" />
         </pub-button>
         <pub-button
           variant="secondary"
@@ -230,16 +230,6 @@
 
   button:not(:last-child) {
     margin-right: 0.5rem;
-  }
-
-  .button-spinner.spinner-container {
-    margin: 0 !important;
-
-    .spinner-border {
-      color: white !important;
-      width: 1rem;
-      height: 1rem;
-    }
   }
 
   svg.svg-inline--fa {
