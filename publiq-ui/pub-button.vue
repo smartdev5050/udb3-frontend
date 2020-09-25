@@ -5,7 +5,6 @@
       v-else
       :variant="variant === 'secondary' ? 'primary' : 'light'"
       size="small"
-      class="spinner"
     />
   </b-button>
 </template>
