@@ -3,7 +3,7 @@
     <section class="container-fluid">
       <pub-page-title>{{ $t('productions.create.title') }}</pub-page-title>
       <div v-if="isLoadingEvents">
-        <pub-loading-spinner />
+        <pub-spinner />
       </div>
       <div v-else-if="suggestedEvents.length > 0">
         <p>
@@ -64,13 +64,12 @@
 
         <section class="button-container">
           <pub-button
-            class="button-spinner"
             variant="success"
             :disabled="!(productionName || selectedSuggestedProductionId)"
+            :loading="isLinkingEventsWithProduction"
             @click="handleClickLink"
           >
-            <pub-loading-spinner v-if="isLinkingEventsWithProduction" />
-            <span v-else>{{ $t('productions.create.link') }}</span>
+            <span>{{ $t('productions.create.link') }}</span>
           </pub-button>
           <pub-button variant="danger" @click="handleClickSkip">
             {{ $t('productions.create.skip') }}
@@ -96,7 +95,7 @@
 <script>
   import debounce from 'lodash.debounce';
   import Event from '@/components/productions/create/event';
-  import PubLoadingSpinner from '@/publiq-ui/pub-loading-spinner';
+  import PubSpinner from '@/publiq-ui/pub-spinner';
   import { parseId } from '@/functions/events';
   import PubPageTitle from '@/publiq-ui/pub-page-title';
   import PubPage from '@/publiq-ui/pub-page';
@@ -108,7 +107,7 @@
   export default {
     components: {
       Event,
-      PubLoadingSpinner,
+      PubSpinner,
       PubTypeahead,
       PubPage,
       PubPageTitle,
@@ -355,16 +354,6 @@
 
     button {
       margin-right: 0.5rem;
-    }
-
-    .spinner-container {
-      margin: 0;
-
-      .spinner-border {
-        color: $white !important;
-        width: 1rem;
-        height: 1rem;
-      }
     }
   }
 </style>

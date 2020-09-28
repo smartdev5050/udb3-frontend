@@ -1,0 +1,104 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import PubSpinner from './pub-spinner';
+
+<Meta title="Components/pub-spinner" component={PubSpinner} />
+
+export const Template = (args, { argTypes }) => {
+  return {
+    props: Object.keys(argTypes),
+    components: { PubSpinner },
+    template: '<pub-spinner v-bind="$props" />',
+  };
+};
+
+export const commonArgTypesVariants = {
+  variant: {
+    control: {
+      type: false,
+    },
+  },
+  size: {
+    control: {
+      type: 'select',
+      options: ['normal', 'small'],
+    },
+  },
+};
+
+# Variants
+
+## Primary
+
+<Canvas>
+  <Story name="Primary" argTypes={commonArgTypesVariants}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+```javascript
+<pub-spinner variant="primary" />
+```
+
+<ArgsTable story="Primary" />
+
+## Light
+
+<Canvas>
+  <Story
+    name="Light"
+    args={{ variant: 'light' }}
+    argTypes={commonArgTypesVariants}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+```javascript
+<pub-spinner variant="light" />
+```
+
+<ArgsTable story="Light" />
+
+export const commonArgTypesSizes = {
+  size: {
+    control: {
+      type: false,
+    },
+  },
+  variant: {
+    control: {
+      type: 'select',
+      options: ['primary', 'light'],
+    },
+  },
+};
+
+# Sizes
+
+## Normal
+
+<Canvas>
+  <Story name="Normal" args={{ size: 'normal' }} argTypes={commonArgTypesSizes}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+```javascript
+<pub-spinner size="normal" />
+```
+
+<ArgsTable story="Normal" />
+
+## Small
+
+<Canvas>
+  <Story name="Small" args={{ size: 'small' }} argTypes={commonArgTypesSizes}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+```javascript
+<pub-spinner size="small" />
+```
+
+<ArgsTable story="Small" />
