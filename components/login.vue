@@ -263,7 +263,6 @@
   import PubButton from '@/publiq-ui/pub-button';
 
   export default {
-    layout: 'login',
     components: {
       PubPageTitle,
       PubButton,
@@ -281,8 +280,7 @@
         login(this.$config.authUrl, this.$i18n.locale);
       },
       setLanguage(language) {
-        this.$i18n.locale = language;
-        this.$cookies.set('udb-language', language);
+        this.$router.push('/login/' + language);
       },
     },
   };
