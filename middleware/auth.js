@@ -15,7 +15,7 @@ export default async function (context) {
 
   if (!jwtInCookie) {
     // Prevent redirecting to login when you're already on login
-    if (context.route.path !== '/login') {
+    if (!context.route.path.includes('/login')) {
       context.redirect('/login');
     }
     return;
