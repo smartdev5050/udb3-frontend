@@ -22,7 +22,7 @@
       PubLabel,
     },
     props: {
-      searchTerm: {
+      value: {
         type: String,
         default: '',
       },
@@ -42,7 +42,7 @@
     computed: {
       searchTermModel: {
         get() {
-          return this.searchTerm;
+          return this.value;
         },
         set(newSearchTerm) {
           this.$emit('input', newSearchTerm);
