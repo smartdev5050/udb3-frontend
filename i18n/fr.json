@@ -3,6 +3,8 @@
   "main": {
     "activities_info": "Vous proposez un concert, une représentation, une exposition ou un film? Ou plutôt un événement sportif, une randonnée, une soirée cartes, une kermesse? Ou encore des cours, des ateliers ou des événements? Tout cela trouvera sa place dans l’UiTdatabank.",
     "activities": "activités par an",
+    "channels_info_link_text": "",
+    "channels_info_link_url": "",
     "channels_info": "UiTdatabank alimente en outre plus de 500 agendas de loisirs imprimés et numériques qui proposent des informations à jour. Ce sont les agendas de chaînes audio-visuelles et de médias locaux ou nationaux, de villes et communes, de services touristiques ou de grandes organisations de coordination.",
     "channels": "chaînes de publication",
     "lead_sub": "Ajoutez vos activités gratuitement et élargissez votre public",
