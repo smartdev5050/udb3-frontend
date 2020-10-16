@@ -80,7 +80,7 @@
 
       <div class="person-data">
         <ul>
-          <li>
+          <li v-if="shouldShowNovelties">
             <a>
               <giftbox>
                 <template v-slot:icon-and-text>
@@ -213,6 +213,18 @@
         return (
           this.$cookies.get('userPicture') || require('../assets/avatar.svg')
         );
+      },
+      isNl() {
+        return this.$i18n.locale === 'nl';
+      },
+      shouldShowNovelties() {
+        if (this.isNl) {
+          return true;
+        }
+        if (this.$config.onlyShowNlNovelties.toString() === 'true') {
+          return false;
+        }
+        return true;
       },
     },
     async mounted() {
