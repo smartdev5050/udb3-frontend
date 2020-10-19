@@ -75,7 +75,6 @@ export default {
     legacyAppUrl: process.env.LEGACY_APP_URL,
     authUrl: process.env.AUTH_URL,
     newFeaturesUrl: process.env.NEW_FEATURES_URL,
-    onlyShowNlNovelties: process.env.ONLY_SHOW_NL_NOVELTIES,
     io: {
       sockets: [
         {
