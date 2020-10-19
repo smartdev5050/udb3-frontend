@@ -218,13 +218,7 @@
         return this.$i18n.locale === 'nl';
       },
       shouldShowNovelties() {
-        if (this.isNl) {
-          return true;
-        }
-        if (this.$config.onlyShowNlNovelties.toString() === 'true') {
-          return false;
-        }
-        return true;
+        return this.isNl;
       },
     },
     async mounted() {
