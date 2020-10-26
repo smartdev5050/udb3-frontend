@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "format": "prettier . --write --ignore-path ./.gitignore",
+    "format:check": "prettier . --check --ignore-path ./.gitignore"
   },
   "dependencies": {
     "next": "^9.5.5",
@@ -14,5 +16,7 @@
     "sass": "^1.27.0",
     "sass-loader": "^10.0.4"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "prettier": "^2.1.2"
+  }
 }
