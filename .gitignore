@@ -85,11 +85,3 @@ sw.*
 
 # macOS
 .DS_Store
-
-# Vim swap files
-*.swp
-
-# Storybook
-.nuxt-storybook
-storybook-static
-build-storybook.log
