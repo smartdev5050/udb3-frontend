@@ -8,8 +8,7 @@ const Home = () => {
 
   return (
     <div className={styles.container}>
-      {t('brand')}
-      <Alert visible />
+      <Alert visible>{t('brand')}</Alert>
     </div>
   );
 };

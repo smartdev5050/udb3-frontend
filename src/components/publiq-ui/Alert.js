@@ -8,9 +8,9 @@ const AlertVariants = {
   WARNING: 'warning',
 };
 
-const Alert = ({ variant, visible, dismissible }) => (
+const Alert = ({ variant, visible, dismissible, children }) => (
   <BootstrapAlert variant={variant} hidden={!visible} dismissible={dismissible}>
-    This is a {variant} alert—check it out!
+    {children}
   </BootstrapAlert>
 );
 
@@ -18,6 +18,7 @@ Alert.propTypes = {
   variant: PropTypes.string,
   visible: PropTypes.bool,
   dismissible: PropTypes.bool,
+  children: PropTypes.node,
 };
 
 Alert.defaultProps = {
