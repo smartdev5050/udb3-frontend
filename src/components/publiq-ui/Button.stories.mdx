@@ -1,0 +1,75 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import { Button, ButtonVariants } from './Button.js';
+
+<Meta title="Components/Button" />
+
+export const commonArgs = {
+  visible: true,
+  dismissible: true,
+};
+
+# Variants
+
+## Primary
+
+<Canvas>
+  <Story
+    name="Primary"
+    args={{
+      variant: ButtonVariants.PRIMARY,
+      ...commonArgs,
+    }}
+  >
+    {(args) => <Button {...args}>Primary</Button>}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Info" />
+
+## Secondary
+
+<Canvas>
+  <Story
+    name="Secondary"
+    args={{
+      variant: ButtonVariants.SECONDARY,
+      ...commonArgs,
+    }}
+  >
+    {(args) => <Button {...args}>Secondary</Button>}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Success" />
+
+## Success
+
+<Canvas>
+  <Story
+    name="Success"
+    args={{
+      variant: ButtonVariants.SUCCESS,
+      ...commonArgs,
+    }}
+  >
+    {(args) => <Button {...args}>Success</Button>}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Warning" />
+
+## Danger
+
+<Canvas>
+  <Story
+    name="Danger"
+    args={{
+      variant: ButtonVariants.DANGER,
+      ...commonArgs,
+    }}
+  >
+    {(args) => <Button {...args}>Danger</Button>}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Danger" />
