@@ -9,7 +9,9 @@
     "lint": "eslint . --fix",
     "lint:check": "eslint .",
     "format": "prettier . --write --ignore-path ./.gitignore",
-    "format:check": "prettier . --check --ignore-path ./.gitignore"
+    "format:check": "prettier . --check --ignore-path ./.gitignore",
+    "storybook": "start-storybook -p 6006 --no-dll",
+    "storybook:build": "build-storybook"
   },
   "husky": {
     "hooks": {
@@ -27,6 +29,12 @@
     "sass-loader": "^10.0.4"
   },
   "devDependencies": {
+    "@babel/plugin-transform-react-jsx": "^7.12.1",
+    "@storybook/addon-a11y": "^6.0.27",
+    "@storybook/addon-actions": "^6.0.27",
+    "@storybook/addon-essentials": "^6.0.27",
+    "@storybook/addon-links": "^6.0.27",
+    "@storybook/react": "^6.0.27",
     "eslint": "^7.12.0",
     "eslint-config-prettier": "^6.14.0",
     "eslint-config-standard": "^15.0.0",
