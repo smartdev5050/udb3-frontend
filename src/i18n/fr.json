@@ -1,0 +1,100 @@
+{
+  "brand": "UiTdatabank",
+  "main": {
+    "activities_info": "Vous proposez un concert, une représentation, une exposition ou un film? Ou plutôt un événement sportif, une randonnée, une soirée cartes, une kermesse? Ou encore des cours, des ateliers ou des événements? Tout cela trouvera sa place dans l’UiTdatabank.",
+    "activities": "activités par an",
+    "channels_info_link_text": "",
+    "channels_info_link_url": "",
+    "channels_info": "UiTdatabank alimente en outre plus de 500 agendas de loisirs imprimés et numériques qui proposent des informations à jour. Ce sont les agendas de chaînes audio-visuelles et de médias locaux ou nationaux, de villes et communes, de services touristiques ou de grandes organisations de coordination.",
+    "channels": "chaînes de publication",
+    "lead_sub": "Ajoutez vos activités gratuitement et élargissez votre public",
+    "lead": "Organisez-vous une activité?",
+    "mission": "Plus d'audience pour votre activité.",
+    "organizers_info": "Plus de 28.000 organisateurs proposent chaque année plus de 215.000 activités. Cela peut se faire gratuitement par chacun, en ligne.",
+    "organizers": "organisateurs",
+    "start": "Commencez ici"
+  },
+  "footer": {
+    "about": "Sur UiTdatabank",
+    "by": "Un produit de",
+    "changeProfile": "Modifier mon profil",
+    "contact": "Contactez-nous",
+    "dev": "Pour développeurs (NL)",
+    "flemishGovernment": "Communauté Flamande",
+    "legal_path": "accord-utilisation-uitdatabank",
+    "legal": "Conditions d'utilisation",
+    "privacy": "Confidentialité",
+    "questions": "Questions ou remarques?",
+    "withSupport": "avec le soutien de la"
+  },
+  "giftbox": {
+    "announcements": "Nouveautés",
+    "new_features": "Nouveau dans UiTdatabank",
+    "no_features": "Il n'y a actuellement aucune nouveauté."
+  },
+  "menu": {
+    "add": "Remplir",
+    "home": "Home",
+    "labels": "Étiquettes",
+    "logout": "Déconnecter",
+    "management": "Gestion",
+    "notifications": "Notifications",
+    "organizations": "Organisateurs",
+    "productions": "Productions",
+    "roles": "Rôles",
+    "search": "Chercher",
+    "users": "Utilisateurs",
+    "validate": "Valider"
+  },
+  "pagination": {
+    "next": "Prochain",
+    "previous": "Dernier"
+  },
+  "productions": {
+    "overview": {
+      "cancel": "Annuler",
+      "confirm": "Confirmer",
+      "create": "Ajouter",
+      "delete_question_event": "Voulez-vous vraiment supprimer l'événement sélectionné de la production '{productionName}'?",
+      "delete_question_events": "Voulez-vous vraiment supprimer les {eventCount} événements sélectionnés de la production '{productionName}'?",
+      "delete": "Supprimer",
+      "details": "Details",
+      "events_in_production": "Événements dans {productionName}",
+      "loading": "Changer",
+      "no_events": "Aucun événement dans cette production.",
+      "no_productions": "Aucune production trouvée.",
+      "production": "Production",
+      "search": {
+        "label": "Recherche par nom de production:",
+        "placeholder": "Écrivez une recherche d'au moins 4 caractères."
+      },
+      "title": "Productions",
+      "aria": {
+        "productions": "Productions",
+        "events": "Événements"
+      }
+    },
+    "create": {
+      "link": "Lier",
+      "no_suggested_events_found": "Aucun événement trouvé pour être lié à une production. Réessayez plus tard.",
+      "production_name": "Nom de production",
+      "skip": "Sauter",
+      "suggested_events": "Conformément à événements proposés",
+      "title": "Ajouter des productions"
+    },
+    "event": {
+      "part_of_production": "Partie de la production",
+      "title": "Titre",
+      "type": "Genre",
+      "when": "Quand",
+      "where": "Où"
+    }
+  },
+  "jobs": {
+    "download": "Télécharger",
+    "exported_documents": "Documents exportés",
+    "in_progress": "Occupé",
+    "notifications": "Notifications",
+    "time_ago": "Il y a {time}"
+  }
+}
