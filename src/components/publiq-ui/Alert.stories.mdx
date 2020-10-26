@@ -1,5 +1,5 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
-import Alert, { AlertVariants } from './Alert.js';
+import { Alert, AlertVariants } from './Alert.js';
 
 <Meta title="Components/Alert" />
 
@@ -20,7 +20,7 @@ export const commonArgs = {
       ...commonArgs,
     }}
   >
-    {(args) => <Alert {...args} />}
+    {(args) => <Alert {...args}>An Info Alert</Alert>}
   </Story>
 </Canvas>
 
@@ -36,7 +36,7 @@ export const commonArgs = {
       ...commonArgs,
     }}
   >
-    {(args) => <Alert {...args} />}
+    {(args) => <Alert {...args}>An Success Alert</Alert>}
   </Story>
 </Canvas>
 
@@ -52,7 +52,7 @@ export const commonArgs = {
       ...commonArgs,
     }}
   >
-    {(args) => <Alert {...args} />}
+    {(args) => <Alert {...args}>An Warning Alert</Alert>}
   </Story>
 </Canvas>
 
@@ -68,7 +68,7 @@ export const commonArgs = {
       ...commonArgs,
     }}
   >
-    {(args) => <Alert {...args} />}
+    {(args) => <Alert {...args}>An Danger Alert</Alert>}
   </Story>
 </Canvas>
 

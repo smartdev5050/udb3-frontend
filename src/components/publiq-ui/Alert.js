@@ -27,5 +27,4 @@ Alert.defaultProps = {
   dismissible: false,
 };
 
-export { AlertVariants };
-export default Alert;
+export { AlertVariants, Alert };
