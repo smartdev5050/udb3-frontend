@@ -32,8 +32,8 @@ $input-border-radius: 0;
 $input-border-radius-lg: 0;
 $input-border-radius-sm: 0;
 
-@import '../../node_modules/bootstrap/scss/bootstrap.scss';
-@import '../../node_modules/bootstrap/scss/variables.scss';
+@import '../../../node_modules/bootstrap/scss/bootstrap.scss';
+@import '../../../node_modules/bootstrap/scss/variables.scss';
 
 // button overrides
 .btn-outline-secondary {
