@@ -51,6 +51,7 @@ node_modules/
 
 # dotenv environment variables file
 .env
+.env.local
 
 # next.js build output
 .next
