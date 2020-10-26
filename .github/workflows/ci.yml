@@ -10,7 +10,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Run tests
+      - name: Run Prettier
         run: yarn && yarn format:check
 
   lint:
@@ -20,5 +20,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Run tests
+      - name: Run ESLint
         run: yarn && yarn lint:check
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run Jest
+        run: yarn && yarn test
