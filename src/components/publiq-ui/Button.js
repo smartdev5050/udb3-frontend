@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { Button as BootstrapButton } from 'react-bootstrap';
 import styled from 'styled-components';
+import { get } from 'lodash';
 
 const ButtonVariants = {
   PRIMARY: 'primary',
@@ -9,6 +10,9 @@ const ButtonVariants = {
   DANGER: 'danger',
 };
 
+const getValue = (path) => (props) => {
+  return get(props.theme.components.button, path);
+};
 const StyledBootstrapButton = styled(BootstrapButton)`
   &.btn-outline-secondary {
     color: #333;
