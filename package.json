@@ -11,7 +11,7 @@
     "format": "prettier . --write --ignore-path ./.gitignore",
     "format:check": "prettier . --check --ignore-path ./.gitignore",
     "storybook": "start-storybook -p 6006 --no-dll",
-    "storybook:build": "build-storybook",
+    "storybook:build": "build-storybook --no-dll",
     "test": "jest"
   },
   "husky": {
