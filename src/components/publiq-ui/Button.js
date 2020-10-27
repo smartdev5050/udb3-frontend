@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { Button as BootstrapButton } from 'react-bootstrap';
+import styled from 'styled-components';
 
 const ButtonVariants = {
   PRIMARY: 'primary',
@@ -8,12 +9,23 @@ const ButtonVariants = {
   DANGER: 'danger',
 };
 
+const StyledBootstrapButton = styled(BootstrapButton)`
+  &.btn-outline-secondary {
+    color: #333;
+    background-color: ${(props) => props.theme.colors.white};
+
+    &:hover {
+      background-color: #e6e6e6;
+      border-color: #adadad;
+    }
+  }
+`;
+
 const Button = ({ variant, disabled, loading, children }) => {
-  console.log(loading);
   return (
-    <BootstrapButton variant={variant} disabled={disabled}>
+    <StyledBootstrapButton variant={variant} disabled={disabled}>
       {children}
-    </BootstrapButton>
+    </StyledBootstrapButton>
   );
 };
 

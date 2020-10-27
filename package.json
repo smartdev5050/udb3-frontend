@@ -30,7 +30,8 @@
     "react-dom": "^17.0.1",
     "react-i18next": "^11.7.3",
     "sass": "^1.27.0",
-    "sass-loader": "^10.0.4"
+    "sass-loader": "^10.0.4",
+    "styled-components": "^5.2.0"
   },
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.12.1",

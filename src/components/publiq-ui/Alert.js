@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { Alert as BootstrapAlert } from 'react-bootstrap';
+import styled from 'styled-components';
 
 const AlertVariants = {
   INFO: 'info',
@@ -8,10 +9,22 @@ const AlertVariants = {
   WARNING: 'warning',
 };
 
+const StyledBootstrapAlert = styled(BootstrapAlert)`
+  &.alert-info {
+    background-color: #d9edf6;
+    border-color: #bce8ef;
+    color: #3e88ab;
+  }
+`;
+
 const Alert = ({ variant, visible, dismissible, children }) => (
-  <BootstrapAlert variant={variant} hidden={!visible} dismissible={dismissible}>
+  <StyledBootstrapAlert
+    variant={variant}
+    hidden={!visible}
+    dismissible={dismissible}
+  >
     {children}
-  </BootstrapAlert>
+  </StyledBootstrapAlert>
 );
 
 Alert.propTypes = {
