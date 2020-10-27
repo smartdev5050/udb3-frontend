@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Button as BootstrapButton } from 'react-bootstrap';
 import styled from 'styled-components';
-import { get } from 'lodash';
+import { getValueFromTheme } from '../../functions/getValueFromTheme';
 
 const ButtonVariants = {
   PRIMARY: 'primary',
@@ -10,9 +10,7 @@ const ButtonVariants = {
   DANGER: 'danger',
 };
 
-const getValue = (path) => (props) => {
-  return get(props.theme.components.button, path);
-};
+const getValue = (path) => getValueFromTheme(`components.button.${path}`);
 
 const StyledBootstrapButton = styled(BootstrapButton)`
   &.btn {

@@ -1,9 +1,9 @@
 import { Pagination as BootstrapPagination } from 'react-bootstrap';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { getValueFromTheme } from '../../functions/getValueFromTheme';
 
-const getValue = (property) => (props) =>
-  props.theme.components.pagination[property];
+const getValue = (path) => getValueFromTheme(`components.pagination.${path}`);
 
 const StyledPagination = styled(BootstrapPagination)`
   .page-link {
