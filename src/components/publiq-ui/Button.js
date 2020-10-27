@@ -32,6 +32,7 @@ const StyledBootstrapButton = styled(BootstrapButton)`
 `;
 
 const Button = ({ variant, disabled, loading, children }) => {
+  // TODO: Add loading spinner when loading is true
   return (
     <StyledBootstrapButton variant={variant} disabled={disabled}>
       {children}
