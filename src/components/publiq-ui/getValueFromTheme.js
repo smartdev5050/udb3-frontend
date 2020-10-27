@@ -1,5 +1,5 @@
 import { get } from 'lodash';
-import { theme } from '../components/publiq-ui/theme';
+import { theme } from './theme';
 
 const getValueFromTheme = (path) => {
   return get(theme, path);

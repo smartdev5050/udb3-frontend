@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Button as BootstrapButton } from 'react-bootstrap';
 import styled from 'styled-components';
-import { getValueFromTheme } from '../../functions/getValueFromTheme';
+import { getValueFromTheme } from './getValueFromTheme';
 
 const ButtonVariants = {
   PRIMARY: 'primary',
