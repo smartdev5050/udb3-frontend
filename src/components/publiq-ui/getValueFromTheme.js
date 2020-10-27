@@ -1,4 +1,4 @@
-import { get } from 'lodash';
+import get from 'lodash/get';
 import { theme } from './theme';
 
 const getValueFromTheme = (path) => {
