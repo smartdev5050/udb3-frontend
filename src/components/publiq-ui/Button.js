@@ -13,10 +13,16 @@ const ButtonVariants = {
 const getValue = (path) => (props) => {
   return get(props.theme.components.button, path);
 };
+
 const StyledBootstrapButton = styled(BootstrapButton)`
+  &.btn {
+    border-radius: ${getValue('borderRadius')};
+    padding: ${getValue('paddingY')} ${getValue('paddingX')};
+  }
+
   &.btn-outline-secondary {
-    color: #333;
-    background-color: ${(props) => props.theme.colors.white};
+    color: ${getValue('secondary.color')};
+    background-color: ${getValue('secondary.backgroundColor')};
 
     &:hover {
       background-color: #e6e6e6;

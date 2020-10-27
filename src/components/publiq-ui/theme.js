@@ -13,6 +13,15 @@ const colors = {
 const theme = {
   colors,
   components: {
+    button: {
+      borderRadius: 0,
+      paddingX: '0.8rem',
+      paddingY: '0.267rem',
+      secondary: {
+        color: '#333',
+        backgroundColor: colors.white,
+      },
+    },
     pagination: {
       color: colors.textColor,
       activeBackgroundColor: colors.selected,
