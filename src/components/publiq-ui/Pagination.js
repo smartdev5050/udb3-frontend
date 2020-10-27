@@ -9,7 +9,7 @@ const StyledPagination = styled(BootstrapPagination)`
   .page-link {
     color: ${getValue('color')};
     border-color: ${getValue('borderColor')};
-    padding: ${getValue('paddingX')} ${getValue('paddingY')};
+    padding: ${getValue('paddingY')} ${getValue('paddingX')};
     &:hover {
       background-color: ${getValue('hoverBackgroundColor')};
       color: ${getValue('hoverColor')};
