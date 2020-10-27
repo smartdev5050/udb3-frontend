@@ -17,9 +17,17 @@ const theme = {
       borderRadius: 0,
       paddingX: '0.8rem',
       paddingY: '0.267rem',
+      primary: {
+        backgroundColor: colors.udbBlue,
+        borderColor: colors.udbBlue,
+        activeBackgroundColor: '#003461',
+        activeBorderColor: '#002d54',
+      },
       secondary: {
         color: '#333',
         backgroundColor: colors.white,
+        hoverBackgroundColor: '#e6e6e6',
+        hoverBorderColor: '#adadad',
       },
     },
     pagination: {
