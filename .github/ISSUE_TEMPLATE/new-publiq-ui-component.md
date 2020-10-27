@@ -1,10 +1,9 @@
 ---
 name: New publiq-ui component
 about: Propose a new component in the publiq-ui component library
-title: "[RFC] [Component]"
+title: '[RFC] [Component]'
 labels: RFC, publiq-ui
 assignees: ''
-
 ---
 
 ## Use case
@@ -24,16 +23,16 @@ If there are multiple variants, don't forget to list and describe/illustrate the
 
 ## Proposed props
 
-|Name  	|Description  	|Type  	|
-|-	|-	|-	|
-|  	|  	|  	|
-|  	|  	|  	|
-|  	|  	|  	|
+| Name | Description | Type |
+| ---- | ----------- | ---- |
+|      |             |      |
+|      |             |      |
+|      |             |      |
 
 ## Proposed actions
 
-|Name  	|Description  	|Type  	|
-|-	|-	|-	|
-|  	|  	|  	|
-|  	|  	|  	|
-|  	|  	|  	|
+| Name | Description | Type |
+| ---- | ----------- | ---- |
+|      |             |      |
+|      |             |      |
+|      |             |      |

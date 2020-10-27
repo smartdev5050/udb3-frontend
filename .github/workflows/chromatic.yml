@@ -6,9 +6,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - run: |
-          yarn && yarn build
+      - run: yarn && yarn build
       - uses: chromaui/action@v1
         with:
+          buildScriptName: storybook:build
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           token: ${{ secrets.GITHUB_TOKEN }}
