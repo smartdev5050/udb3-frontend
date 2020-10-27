@@ -31,8 +31,8 @@ const theme = {
       hoverColor: colors.white,
       borderColor: colors.udbGrey,
       focusBoxShadow: 'none',
-      paddingX: '0.44rem',
-      paddingY: '0.84rem',
+      paddingX: '0.84rem',
+      paddingY: '0.44rem',
     },
   },
 };
