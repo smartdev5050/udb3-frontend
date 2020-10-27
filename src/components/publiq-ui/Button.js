@@ -9,7 +9,7 @@ const ButtonVariants = {
 };
 
 const Button = ({ variant, disabled, loading, children }) => {
-  console.log(loading);
+  // TODO: Add loading spinner when loading is true
   return (
     <BootstrapButton variant={variant} disabled={disabled}>
       {children}
