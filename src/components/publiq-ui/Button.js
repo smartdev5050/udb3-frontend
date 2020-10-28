@@ -44,6 +44,9 @@ const StyledBootstrapButton = styled(BootstrapButton)`
     &:hover {
       background-color: #e6e6e6;
       border-color: #adadad;
+      color: ${getValue('secondary.activeColor')};
+      background-color: ${getValue('secondary.activeBackgroundColor')};
+      border-color: ${getValue('secondary.activeBorderColor')};
     }
   }
 `;

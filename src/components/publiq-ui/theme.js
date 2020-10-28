@@ -30,6 +30,9 @@ const theme = {
         backgroundColor: colors.white,
         hoverBackgroundColor: '#e6e6e6',
         hoverBorderColor: '#adadad',
+        activeColor: '#333',
+        activeBackgroundColor: '#ccc',
+        activeBorderColor: '#ccc',
       },
     },
     pagination: {
