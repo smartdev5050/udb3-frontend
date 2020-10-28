@@ -29,18 +29,18 @@ const StyledBootstrapButton = styled(BootstrapButton)`
     }
 
     // active
-    &.btn-primary:not(:disabled):not(.disabled):active,
-    .btn-primary:not(:disabled):not(.disabled).active,
-    .show > .btn-primary.dropdown-toggle {
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active,
+    .show > &.dropdown-toggle {
       background-color: ${getValue('primary.activeBackgroundColor')};
       border-color: ${getValue('primary.activeBorderColor')};
       box-shadow: ${getValue('primary.activeBoxShadow')};
     }
 
     // focus
-    &.btn-primary:not(:disabled):not(.disabled):active:focus,
-    .btn-primary:not(:disabled):not(.disabled).active:focus,
-    .show > .btn-primary.dropdown-toggle:focus {
+    &:not(:disabled):not(.disabled):active:focus,
+    &:not(:disabled):not(.disabled).active:focus,
+    .show > &.dropdown-toggle:focus {
       box-shadow: ${getValue('primary.focusBoxShadow')};
     }
 
@@ -60,9 +60,9 @@ const StyledBootstrapButton = styled(BootstrapButton)`
     }
 
     // active
-    &.btn-outline-secondary:not(:disabled):not(.disabled):active,
-    .btn-outline-secondary:not(:disabled):not(.disabled).active,
-    .show > .btn-outline-secondary.dropdown-toggle {
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active,
+    .show > &.dropdown-toggle {
       color: ${getValue('secondary.activeColor')};
       background-color: ${getValue('secondary.activeBackgroundColor')};
       border-color: ${getValue('secondary.activeBorderColor')};
