@@ -88,7 +88,10 @@ const StyledBootstrapButton = styled(BootstrapButton)`
 
     &:focus,
     &.focus {
-      box-shadow: ${getValue('secondary.focusBoxShadow')};
+      box-shadow: ${getValue('success.focusBoxShadow')};
+    }
+  }
+
   &.btn-danger {
     color: ${getValue('danger.color')};
     border-color: ${getValue('danger.borderColor')};
