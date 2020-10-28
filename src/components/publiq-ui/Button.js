@@ -66,11 +66,12 @@ const StyledBootstrapButton = styled(BootstrapButton)`
       color: ${getValue('secondary.activeColor')};
       background-color: ${getValue('secondary.activeBackgroundColor')};
       border-color: ${getValue('secondary.activeBorderColor')};
-      box-shadow: none;
+      box-shadow: ${getValue('secondary.activeBoxShadow')};
     }
 
-    &:focus {
-      box-shadow: none;
+    &:focus,
+    &.focus {
+      box-shadow: ${getValue('secondary.focusBoxShadow')};
     }
   }
 `;

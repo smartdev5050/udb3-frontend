@@ -35,6 +35,8 @@ const theme = {
         activeColor: '#333',
         activeBackgroundColor: '#ccc',
         activeBorderColor: '#ccc',
+        activeBoxShadow: 'none',
+        focusBoxShadow: 'none',
       },
     },
     pagination: {
