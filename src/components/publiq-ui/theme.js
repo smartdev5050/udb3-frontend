@@ -38,6 +38,13 @@ const theme = {
         activeBoxShadow: 'none',
         focusBoxShadow: 'none',
       },
+      success: {
+        color: colors.white,
+        borderColor: colors.success,
+        backgroundColor: colors.success,
+        activeBoxShadow: 'none',
+        focusBoxShadow: 'none',
+      },
     },
     pagination: {
       color: colors.textColor,

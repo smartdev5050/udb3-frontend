@@ -74,6 +74,23 @@ const StyledBootstrapButton = styled(BootstrapButton)`
       box-shadow: ${getValue('secondary.focusBoxShadow')};
     }
   }
+
+  &.btn-success {
+    color: ${getValue('success.color')};
+    border-color: ${getValue('success.borderColor')};
+    background-color: ${getValue('success.backgroundColor')};
+
+    &:not(:disabled):not(.disabled):active:focus,
+    &:not(:disabled):not(.disabled).active:focus,
+    .show > &.dropdown-toggle:focus {
+      box-shadow: ${getValue('success.activeBoxShadow')};
+    }
+
+    &:focus,
+    &.focus {
+      box-shadow: ${getValue('secondary.focusBoxShadow')};
+    }
+  }
 `;
 
 const Button = ({ variant, disabled, loading, children }) => {
