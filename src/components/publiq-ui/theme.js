@@ -20,6 +20,8 @@ const theme = {
       primary: {
         backgroundColor: colors.udbBlue,
         borderColor: colors.udbBlue,
+        hoverBackgroundColor: '#003461',
+        hoverBorderColor: '#002d54',
         activeBackgroundColor: '#003461',
         activeBorderColor: '#002d54',
       },
