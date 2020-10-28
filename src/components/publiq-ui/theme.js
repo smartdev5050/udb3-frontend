@@ -24,6 +24,8 @@ const theme = {
         hoverBorderColor: '#002d54',
         activeBackgroundColor: '#003461',
         activeBorderColor: '#002d54',
+        activeBoxShadow: 'none',
+        focusBoxShadow: 'none',
       },
       secondary: {
         color: '#333',
