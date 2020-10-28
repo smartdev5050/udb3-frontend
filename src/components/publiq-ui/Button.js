@@ -28,20 +28,13 @@ const StyledBootstrapButton = styled(BootstrapButton)`
       border-color: ${getValue('primary.hoverBorderColor')};
     }
 
-    // active
-    &:not(:disabled):not(.disabled):active,
-    &:not(:disabled):not(.disabled).active,
-    .show > &.dropdown-toggle {
-      background-color: ${getValue('primary.activeBackgroundColor')};
-      border-color: ${getValue('primary.activeBorderColor')};
-      box-shadow: ${getValue('primary.activeBoxShadow')};
-    }
-
-    // focus
+    // active & focus
     &:not(:disabled):not(.disabled):active:focus,
     &:not(:disabled):not(.disabled).active:focus,
     .show > &.dropdown-toggle:focus {
-      box-shadow: ${getValue('primary.focusBoxShadow')};
+      background-color: ${getValue('primary.activeBackgroundColor')};
+      border-color: ${getValue('primary.activeBorderColor')};
+      box-shadow: ${getValue('primary.activeBoxShadow')};
     }
 
     &:focus,
@@ -59,10 +52,10 @@ const StyledBootstrapButton = styled(BootstrapButton)`
       border-color: ${getValue('secondary.hoverBorderColor')};
     }
 
-    // active
-    &:not(:disabled):not(.disabled):active,
-    &:not(:disabled):not(.disabled).active,
-    .show > &.dropdown-toggle {
+    // active & focus
+    &:not(:disabled):not(.disabled):active:focus,
+    &:not(:disabled):not(.disabled).active:focus,
+    .show > &.dropdown-toggle:focus {
       color: ${getValue('secondary.activeColor')};
       background-color: ${getValue('secondary.activeBackgroundColor')};
       border-color: ${getValue('secondary.activeBorderColor')};
@@ -80,6 +73,7 @@ const StyledBootstrapButton = styled(BootstrapButton)`
     border-color: ${getValue('success.borderColor')};
     background-color: ${getValue('success.backgroundColor')};
 
+    // active & focus
     &:not(:disabled):not(.disabled):active:focus,
     &:not(:disabled):not(.disabled).active:focus,
     .show > &.dropdown-toggle:focus {
