@@ -1,8 +1,7 @@
 import get from 'lodash/get';
-import { theme } from './theme';
 
-const getValueFromTheme = (path) => {
-  return get(theme, path);
+const getValueFromTheme = (props, path) => {
+  return get(props.theme, path);
 };
 
 export { getValueFromTheme };
