@@ -19,6 +19,24 @@ const StyledBootstrapButton = styled(BootstrapButton)`
     padding: ${getValue('paddingY')} ${getValue('paddingX')};
   }
 
+  &.btn-primary {
+    color: ${getValue('primary.color')};
+    background-color: ${getValue('primary.backgroundColor')};
+
+    &:hover {
+      background-color: ${getValue('primary.hoverBackgroundColor')};
+      border-color: ${getValue('primary.hoverBorderColor')};
+    }
+
+    // active
+    &.btn-primary:not(:disabled):not(.disabled):active,
+    .btn-primary:not(:disabled):not(.disabled).active,
+    .show > .btn-primary.dropdown-toggle {
+      background-color: ${getValue('primary.activeBackgroundColor')};
+      border-color: ${getValue('primary.activeBorderColor')};
+    }
+  }
+
   &.btn-outline-secondary {
     color: ${getValue('secondary.color')};
     background-color: ${getValue('secondary.backgroundColor')};
