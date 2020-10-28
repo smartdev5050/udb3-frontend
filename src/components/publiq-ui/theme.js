@@ -45,6 +45,13 @@ const theme = {
         activeBoxShadow: 'none',
         focusBoxShadow: 'none',
       },
+      danger: {
+        color: colors.white,
+        borderColor: colors.danger,
+        backgroundColor: colors.danger,
+        activeBoxShadow: 'none',
+        focusBoxShadow: 'none',
+      },
     },
     pagination: {
       color: colors.textColor,

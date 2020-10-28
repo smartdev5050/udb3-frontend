@@ -89,6 +89,21 @@ const StyledBootstrapButton = styled(BootstrapButton)`
     &:focus,
     &.focus {
       box-shadow: ${getValue('secondary.focusBoxShadow')};
+  &.btn-danger {
+    color: ${getValue('danger.color')};
+    border-color: ${getValue('danger.borderColor')};
+    background-color: ${getValue('danger.backgroundColor')};
+
+    // active & focus
+    &:not(:disabled):not(.disabled):active:focus,
+    &:not(:disabled):not(.disabled).active:focus,
+    .show > &.dropdown-toggle:focus {
+      box-shadow: ${getValue('danger.activeBoxShadow')};
+    }
+
+    &:focus,
+    &.focus {
+      box-shadow: ${getValue('danger.focusBoxShadow')};
     }
   }
 `;
