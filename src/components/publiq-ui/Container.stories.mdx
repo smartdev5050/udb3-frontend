@@ -1,0 +1,15 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import { Container } from './Container.js';
+
+<Meta title="Components/Container" />
+
+export const commonArgs = {
+  visible: true,
+  dismissible: true,
+};
+
+<Canvas>
+  <Story name="Default">{(args) => <Container {...args}></Container>}</Story>
+</Canvas>
+
+<ArgsTable story="Default" />
