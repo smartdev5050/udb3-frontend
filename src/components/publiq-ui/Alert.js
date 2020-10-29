@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { Alert as BootstrapAlert } from 'react-bootstrap';
 import styled from 'styled-components';
+import { getValueFromTheme } from './getValueFromTheme';
 
 const AlertVariants = {
   INFO: 'info',
@@ -9,11 +10,18 @@ const AlertVariants = {
   WARNING: 'warning',
 };
 
+const getValue = (path) => (props) =>
+  getValueFromTheme(props, `components.alert.${path}`);
+
 const StyledBootstrapAlert = styled(BootstrapAlert)`
+  &.alert {
+    border-radius: ${getValue('borderRadius')};
+  }
+
   &.alert-info {
-    background-color: #d9edf6;
-    border-color: #bce8ef;
-    color: #3e88ab;
+    color: ${getValue('info.color')};
+    background-color: ${getValue('info.backgroundColor')};
+    border-color: ${getValue('info.borderColor')};
   }
 `;
 

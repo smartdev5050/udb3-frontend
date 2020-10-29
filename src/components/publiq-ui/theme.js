@@ -13,6 +13,14 @@ const colors = {
 const theme = {
   colors,
   components: {
+    alert: {
+      borderRadius: 0,
+      info: {
+        color: '#3e88ab',
+        backgroundColor: '#d9edf6',
+        borderColor: '#bce8ef',
+      },
+    },
     button: {
       borderRadius: 0,
       paddingX: '0.8rem',
