@@ -8,6 +8,8 @@ export const commonArgs = {
   dismissible: true,
 };
 
+export const commonArgTypes = { onClick: { action: 'clicked' } };
+
 # Variants
 
 ## Primary
@@ -19,6 +21,7 @@ export const commonArgs = {
       variant: ButtonVariants.PRIMARY,
       ...commonArgs,
     }}
+    argTypes={commonArgTypes}
   >
     {(args) => <Button {...args}>Primary</Button>}
   </Story>
@@ -35,6 +38,7 @@ export const commonArgs = {
       variant: ButtonVariants.SECONDARY,
       ...commonArgs,
     }}
+    argTypes={commonArgTypes}
   >
     {(args) => <Button {...args}>Secondary</Button>}
   </Story>
@@ -51,6 +55,7 @@ export const commonArgs = {
       variant: ButtonVariants.SUCCESS,
       ...commonArgs,
     }}
+    argTypes={commonArgTypes}
   >
     {(args) => <Button {...args}>Success</Button>}
   </Story>
@@ -67,6 +72,7 @@ export const commonArgs = {
       variant: ButtonVariants.DANGER,
       ...commonArgs,
     }}
+    argTypes={commonArgTypes}
   >
     {(args) => <Button {...args}>Danger</Button>}
   </Story>

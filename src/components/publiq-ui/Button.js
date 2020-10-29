@@ -105,10 +105,14 @@ const StyledBootstrapButton = styled(BootstrapButton)`
   }
 `;
 
-const Button = ({ variant, disabled, loading, children }) => {
+const Button = ({ variant, disabled, loading, children, onClick }) => {
   // TODO: Add loading spinner when loading is true
   return (
-    <StyledBootstrapButton variant={variant} disabled={disabled}>
+    <StyledBootstrapButton
+      variant={variant}
+      disabled={disabled}
+      onClick={onClick}
+    >
       {children}
     </StyledBootstrapButton>
   );
@@ -119,12 +123,14 @@ Button.propTypes = {
   disabled: PropTypes.bool,
   loading: PropTypes.bool,
   children: PropTypes.node,
+  onClick: PropTypes.func,
 };
 
 Button.defaultProps = {
   variant: ButtonVariants.PRIMARY,
   disabled: false,
   loading: false,
+  onClick: () => {},
 };
 
 export { ButtonVariants, Button };
