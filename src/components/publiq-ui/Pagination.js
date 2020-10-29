@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Pagination as BootstrapPagination } from 'react-bootstrap';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -25,6 +26,14 @@ const StyledPagination = styled(BootstrapPagination)`
     color: ${getValue('activeColor')};
     border-color: ${getValue('activeBorderColor')};
   }
+
+  .prev-btn {
+    margin-right: 0.2rem;
+  }
+
+  .next-btn {
+    margin-left: 0.2rem;
+  }
 `;
 
 const Pagination = ({
@@ -35,14 +44,46 @@ const Pagination = ({
   nextText,
   onChangePage,
 }) => {
+  const pages = [];
+  for (let i = 0; i < Math.ceil(totalItems / perPage); i++) {
+    pages.push(i + 1);
+  }
+
   return (
     <StyledPagination>
-      <StyledPagination.Prev>{prevText}</StyledPagination.Prev>
-      <StyledPagination.Item>1</StyledPagination.Item>
-      <StyledPagination.Item active>2</StyledPagination.Item>
-      <StyledPagination.Item>3</StyledPagination.Item>
-      <StyledPagination.Item>4</StyledPagination.Item>
-      <StyledPagination.Next>{nextText}</StyledPagination.Next>
+      <StyledPagination.Prev
+        className="prev-btn"
+        disabled={currentPage === 1}
+        onClick={() => {
+          if (currentPage > 1) {
+            onChangePage(currentPage - 1);
+          }
+        }}
+      >
+        {prevText}
+      </StyledPagination.Prev>
+      {pages.map((page) => (
+        <StyledPagination.Item
+          key={page}
+          active={page === currentPage}
+          onClick={() => {
+            onChangePage(page);
+          }}
+        >
+          {page}
+        </StyledPagination.Item>
+      ))}
+      <StyledPagination.Next
+        className="next-btn"
+        disabled={currentPage === pages.length}
+        onClick={() => {
+          if (currentPage < pages.length) {
+            onChangePage(currentPage + 1);
+          }
+        }}
+      >
+        {nextText}
+      </StyledPagination.Next>
     </StyledPagination>
   );
 };
