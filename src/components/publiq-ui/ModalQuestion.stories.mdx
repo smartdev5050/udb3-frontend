@@ -1,0 +1,51 @@
+import { useState } from 'react';
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import { ModalQuestion } from './ModalQuestion.js';
+import { Button } from './Button.js';
+
+<Meta title="Components/Modal/ModalQuestion" />
+
+export const commonArgTypes = {
+  onConfirm: { action: 'confirmed' },
+  onClose: { action: 'closed' },
+};
+
+<Canvas>
+  <Story
+    name="Default"
+    args={{
+      title: 'Question modal',
+      confirmTitle: 'Ok',
+      cancelTitle: 'Cancel',
+      visible: false,
+    }}
+    argTypes={commonArgTypes}
+  >
+    {(args) => {
+      const [visible, setVisible] = useState(false);
+      return (
+        <div>
+          <Button
+            onClick={() => {
+              setVisible(true);
+            }}
+          >
+            Open modal
+          </Button>
+          <ModalQuestion
+            {...args}
+            visible={visible}
+            onClose={() => {
+              args.onClose();
+              setVisible(false);
+            }}
+          >
+            Modal content
+          </ModalQuestion>
+        </div>
+      );
+    }}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Default" />
