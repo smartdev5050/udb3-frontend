@@ -1,14 +1,39 @@
+import { useState } from 'react';
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
 import { Pagination } from './Pagination.js';
 
 <Meta title="Components/Pagination" />
 
-# Variants
+export const argTypes = { onChangePage: { action: 'changed page' } };
 
-## Primary
+## Default
 
 <Canvas>
-  <Story name="Pagination">{(args) => <Pagination {...args} />}</Story>
+  <Story
+    name="Default"
+    args={{
+      currentPage: 1,
+      totalItems: 50,
+      perPage: 10,
+      prevText: 'Previous',
+      nextText: 'Next',
+    }}
+    argTypes={argTypes}
+  >
+    {(args) => {
+      const [currentPage, setCurrentpage] = useState(1);
+      return (
+        <Pagination
+          {...args}
+          currentPage={currentPage}
+          onChangePage={(newPage) => {
+            args.onChangePage();
+            setCurrentpage(newPage);
+          }}
+        />
+      );
+    }}
+  </Story>
 </Canvas>
 
-<ArgsTable story="Primary" />
+<ArgsTable story="Default" />
