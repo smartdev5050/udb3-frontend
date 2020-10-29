@@ -1,0 +1,10 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import { Small } from './Small.js';
+
+<Meta title="Components/Small" />
+
+<Canvas>
+  <Story name="Default">{(args) => <Small {...args}>small text</Small>}</Story>
+</Canvas>
+
+<ArgsTable story="Default" />
