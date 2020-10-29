@@ -1,0 +1,33 @@
+import { useState } from 'react';
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import { Checkbox } from './Checkbox.js';
+
+<Meta title="Components/Checkbox" />
+
+export const commonArgTypes = { onToggle: { action: 'toggled' } };
+
+<Canvas>
+  <Story
+    name="Default"
+    args={{ id: '123', name: 'my-checkbox', checked: false, disabled: false }}
+    argTypes={commonArgTypes}
+  >
+    {(args) => {
+      const [checked, setChecked] = useState(false);
+      return (
+        <Checkbox
+          {...args}
+          checked={checked}
+          onToggle={() => {
+            args.onToggle();
+            setChecked(!checked);
+          }}
+        >
+          Click me
+        </Checkbox>
+      );
+    }}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Default" />
