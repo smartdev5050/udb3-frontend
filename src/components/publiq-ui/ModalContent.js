@@ -5,13 +5,11 @@ import styled from 'styled-components';
 
 const StyledBootstrapModal = styled(BootstrapModal)``;
 
-const handleClose = () => {};
-
-const ModalContent = ({ visible }) => {
+const ModalContent = ({ visible, onClose }) => {
   return (
     <StyledBootstrapModal
       show={visible}
-      onHide={handleClose}
+      onHide={onClose}
       backdrop="static"
       keyboard={false}
     >
@@ -23,7 +21,7 @@ const ModalContent = ({ visible }) => {
         key.
       </StyledBootstrapModal.Body>
       <StyledBootstrapModal.Footer>
-        <Button variant={ButtonVariants.SECONDARY} onClick={handleClose}>
+        <Button variant={ButtonVariants.SECONDARY} onClick={onClose}>
           Close
         </Button>
         <Button variant={ButtonVariants.PRIMARY}>Understood</Button>
@@ -34,10 +32,12 @@ const ModalContent = ({ visible }) => {
 
 ModalContent.propTypes = {
   visible: PropTypes.bool,
+  onClose: PropTypes.func,
 };
 
 ModalContent.defaultProps = {
   visible: false,
+  onClose: () => {},
 };
 
 export { ModalContent };
