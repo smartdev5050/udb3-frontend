@@ -28,7 +28,7 @@ const Alert = ({ variant, visible, dismissible, children }) => (
 );
 
 Alert.propTypes = {
-  variant: PropTypes.string,
+  variant: PropTypes.oneOf(Object.values(AlertVariants)),
   visible: PropTypes.bool,
   dismissible: PropTypes.bool,
   children: PropTypes.node,
