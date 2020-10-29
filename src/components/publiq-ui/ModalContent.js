@@ -33,7 +33,7 @@ const ModalContent = ({ visible, title, onClose, children }) => {
       size="xl"
     >
       <StyledBootstrapModal.Header closeButton>
-        <StyledBootstrapModal.Title as="h5" hidden={!title}>
+        <StyledBootstrapModal.Title hidden={!title}>
           {title}
         </StyledBootstrapModal.Title>
       </StyledBootstrapModal.Header>
