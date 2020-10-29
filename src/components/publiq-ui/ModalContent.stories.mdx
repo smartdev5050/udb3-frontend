@@ -1,12 +1,38 @@
+import { useState } from 'react';
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
 import { ModalContent } from './ModalContent.js';
 import { Button } from './Button.js';
 
-<Meta title="Components/ModalContent" />
+<Meta title="Components/Modal/ModalContent" />
+
+export const commonArgTypes = {
+  onClose: { action: 'closed' },
+};
 
 <Canvas>
-  <Story name="Default" args={{ visible: true }}>
-    {(args) => <ModalContent {...args} />}
+  <Story name="Default" args={{ visible: false }} argTypes={commonArgTypes}>
+    {(args) => {
+      const [visible, setVisible] = useState(false);
+      return (
+        <div>
+          <Button
+            onClick={() => {
+              setVisible(true);
+            }}
+          >
+            Open modal
+          </Button>
+          <ModalContent
+            {...args}
+            visible={visible}
+            onClose={() => {
+              args.onClose();
+              setVisible(false);
+            }}
+          />
+        </div>
+      );
+    }}
   </Story>
 </Canvas>
 
