@@ -17,12 +17,6 @@ const StyledBootstrapAlert = styled(BootstrapAlert)`
   &.alert {
     border-radius: ${getValue('borderRadius')};
   }
-
-  &.alert-info {
-    color: ${getValue('info.color')};
-    background-color: ${getValue('info.backgroundColor')};
-    border-color: ${getValue('info.borderColor')};
-  }
 `;
 
 const Alert = ({ variant, visible, dismissible, children }) => (
