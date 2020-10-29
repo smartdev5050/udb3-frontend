@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const StyledLabel = styled.label`
-  font-size: 1rem;
   font-weight: 700;
   margin-bottom: 0;
 `;
