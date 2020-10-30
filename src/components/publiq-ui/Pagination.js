@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Pagination as BootstrapPagination } from 'react-bootstrap';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
