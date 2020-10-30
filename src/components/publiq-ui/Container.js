@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const StyledContainer = styled.div`
+const StyledDiv = styled.div`
   @media (min-width: 768px) {
     width: 750px;
     max-width: 750px;
@@ -19,7 +19,7 @@ const StyledContainer = styled.div`
 `;
 
 const Container = ({ children }) => {
-  return <StyledContainer>{children}</StyledContainer>;
+  return <StyledDiv>{children}</StyledDiv>;
 };
 
 Container.propTypes = {
