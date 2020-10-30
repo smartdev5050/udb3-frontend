@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Label } from './Label';
 
-const StyledCheckbox = styled.div`
+const StyledDiv = styled.div`
   display: flex;
   align-items: center;
 
@@ -25,7 +25,7 @@ const StyledCheckbox = styled.div`
 
 const Checkbox = ({ id, name, checked, disabled, onToggle, children }) => {
   return (
-    <StyledCheckbox>
+    <StyledDiv>
       <input
         id={id}
         type="checkbox"
@@ -35,7 +35,7 @@ const Checkbox = ({ id, name, checked, disabled, onToggle, children }) => {
         onChange={onToggle}
       />
       <Label id={id}>{children}</Label>
-    </StyledCheckbox>
+    </StyledDiv>
   );
 };
 
