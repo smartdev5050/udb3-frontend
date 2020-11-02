@@ -1,3 +1,5 @@
+import get from 'lodash/get';
+
 const colors = {
   white: '#ffffff',
   lightgrey: '#efefef',
@@ -71,4 +73,7 @@ const theme = {
   },
 };
 
-export { theme };
+const getValueFromTheme = (component) => (path) => (props) =>
+  get(props.theme, `components.${component}.${path}`);
+
+export { theme, getValueFromTheme };

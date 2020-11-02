@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Alert as BootstrapAlert } from 'react-bootstrap';
 import styled from 'styled-components';
-import { getValueFromTheme } from './getValueFromTheme';
+import { getValueFromTheme } from './theme';
 
 const AlertVariants = {
   INFO: 'info',

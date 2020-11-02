@@ -1,7 +1,7 @@
 import { Pagination as BootstrapPagination } from 'react-bootstrap';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { getValueFromTheme } from './getValueFromTheme';
+import { getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme(`pagination`);
 
