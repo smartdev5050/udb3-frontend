@@ -4,7 +4,9 @@ import { Checkbox } from './Checkbox.js';
 
 <Meta title="Components/Checkbox" />
 
-export const commonArgTypes = { onToggle: { action: 'toggled' } };
+export const commonArgTypes = {
+  onToggle: { action: (event) => console.log(event) },
+};
 
 <Canvas>
   <Story
@@ -18,8 +20,8 @@ export const commonArgTypes = { onToggle: { action: 'toggled' } };
         <Checkbox
           {...args}
           checked={checked}
-          onToggle={() => {
-            args.onToggle();
+          onToggle={(event) => {
+            args.onToggle(event);
             setChecked(!checked);
           }}
         >
