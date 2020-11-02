@@ -18,6 +18,10 @@ const theme = {
     alert: {
       borderRadius: 0,
     },
+    badge: {
+      color: colors.white,
+      backgroundColor: colors.danger,
+    },
     button: {
       borderRadius: 0,
       paddingX: '0.8rem',
