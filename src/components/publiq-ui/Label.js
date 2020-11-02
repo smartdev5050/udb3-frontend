@@ -1,22 +1,18 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { Form } from 'react-bootstrap';
 
-const StyledLabel = styled.label`
+const StyledLabel = styled(Form.Label)`
   font-weight: 700;
-  margin-bottom: 0;
 `;
 
-const Label = ({ id, children }) => {
-  return <StyledLabel htmlFor={id}>{children}</StyledLabel>;
-};
+const Label = ({ children, className }) => (
+  <StyledLabel className={className}>{children}</StyledLabel>
+);
 
 Label.propTypes = {
-  id: PropTypes.string,
+  className: PropTypes.string,
   children: PropTypes.node,
-};
-
-Label.defaultTypes = {
-  id: '',
 };
 
 export { Label };

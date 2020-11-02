@@ -4,14 +4,8 @@ import { Label } from './Label.js';
 <Meta title="Components/Label" />
 
 <Canvas>
-  <Story name="Default" args={{ id: 'input-label', children: 'A label' }}>
-    {(args) => (
-      <div>
-        <Label {...args} />
-        <br />
-        <input type="text" id="input-label" />
-      </div>
-    )}
+  <Story name="Default" args={{ children: 'A form label' }}>
+    {(args) => <Label {...args} />}
   </Story>
 </Canvas>
 
