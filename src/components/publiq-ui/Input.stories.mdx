@@ -6,10 +6,30 @@ import { Input } from './Input.js';
 <Canvas>
   <Story
     name="Default"
-    args={{ id: 'testform', label: 'A label', placeholder: 'John Doe' }}
+    args={{
+      id: 'testform',
+      label: 'A label',
+      placeholder: 'John Doe',
+      type: 'text',
+    }}
   >
     {(args) => <Input {...args} />}
   </Story>
 </Canvas>
 
 <ArgsTable story="Default" />
+
+<Canvas>
+  <Story
+    name="Without Label"
+    args={{
+      id: 'testform',
+      placeholder: 'John Doe',
+      type: 'text',
+    }}
+  >
+    {(args) => <Input {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Without Label" />
