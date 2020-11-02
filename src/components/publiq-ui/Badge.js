@@ -1,29 +1,20 @@
-import { Badge as BootStrapBadge } from 'react-bootstrap';
-import styled from 'styled-components';
+import { Badge as BootstrapBadge } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { getValueFromTheme } from './theme';
 
-const getValue = getValueFromTheme(`badge`);
+export const BadgeVariants = {
+  DANGER: 'danger',
+};
 
-const StyledBootStrapBadge = styled(BootStrapBadge)`
-  &.badge {
-    color: ${getValue('color')};
-    background-color: ${getValue('backgroundColor')};
-  }
-`;
-
-const Badge = ({ children, className }) => (
-  <StyledBootStrapBadge className={className}>{children}</StyledBootStrapBadge>
+const Badge = ({ children, className, variant }) => (
+  <BootstrapBadge className={className} variant={variant}>
+    {children}
+  </BootstrapBadge>
 );
 
 Badge.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
-};
-
-Badge.defaultProps = {
-  className: false,
-  children: '',
+  variant: PropTypes.string,
 };
 
 export { Badge };

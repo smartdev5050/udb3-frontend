@@ -1,12 +1,12 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
-import { Badge } from './Badge.js';
+import { Badge, BadgeVariants } from './Badge.js';
 
 <Meta title="Components/Badge" />
 
 <Canvas>
-  <Story name="Default" args={{}}>
-    {(args) => <Badge {...args}>{Math.ceil(Math.random() * 200)}</Badge>}
+  <Story name="Danger" args={{ variant: BadgeVariants.DANGER, children: '99' }}>
+    {(args) => <Badge {...args} />}
   </Story>
 </Canvas>
 
-<ArgsTable story="Default" />
+<ArgsTable story="Danger" />
