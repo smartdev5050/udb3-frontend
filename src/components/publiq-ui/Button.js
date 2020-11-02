@@ -10,8 +10,7 @@ const ButtonVariants = {
   DANGER: 'danger',
 };
 
-const getValue = (path) => (props) =>
-  getValueFromTheme(props, `components.button.${path}`);
+const getValue = getValueFromTheme('button');
 
 const StyledBootstrapButton = styled(BootstrapButton)`
   &.btn {

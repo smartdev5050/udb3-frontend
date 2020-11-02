@@ -3,8 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { getValueFromTheme } from './getValueFromTheme';
 
-const getValue = (path) => (props) =>
-  getValueFromTheme(props, `components.pagination.${path}`);
+const getValue = getValueFromTheme(`pagination`);
 
 const StyledPagination = styled(BootstrapPagination)`
   .page-link {

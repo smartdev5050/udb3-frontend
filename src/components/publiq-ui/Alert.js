@@ -10,8 +10,7 @@ const AlertVariants = {
   WARNING: 'warning',
 };
 
-const getValue = (path) => (props) =>
-  getValueFromTheme(props, `components.alert.${path}`);
+const getValue = getValueFromTheme(`alert`);
 
 const StyledBootstrapAlert = styled(BootstrapAlert)`
   &.alert {
