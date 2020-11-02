@@ -4,10 +4,10 @@ import { Label } from './Label.js';
 <Meta title="Components/Label" />
 
 <Canvas>
-  <Story name="Default" args={{ id: 'input-label' }}>
+  <Story name="Default" args={{ id: 'input-label', children: 'A label' }}>
     {(args) => (
       <div>
-        <Label {...args}>Label</Label>
+        <Label {...args} />
         <br />
         <input type="text" id="input-label" />
       </div>

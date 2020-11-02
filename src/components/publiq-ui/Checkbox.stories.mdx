@@ -11,7 +11,13 @@ export const commonArgTypes = {
 <Canvas>
   <Story
     name="Default"
-    args={{ id: '123', name: 'my-checkbox', checked: false, disabled: false }}
+    args={{
+      id: '123',
+      name: 'my-checkbox',
+      checked: false,
+      disabled: false,
+      children: 'Click me',
+    }}
     argTypes={commonArgTypes}
   >
     {(args) => {
@@ -24,9 +30,7 @@ export const commonArgTypes = {
             args.onToggle(event);
             setChecked(!checked);
           }}
-        >
-          Click me
-        </Checkbox>
+        />
       );
     }}
   </Story>

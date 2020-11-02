@@ -17,10 +17,11 @@ export const commonArgs = {
     name="Info"
     args={{
       variant: AlertVariants.INFO,
+      children: 'An Info Alert',
       ...commonArgs,
     }}
   >
-    {(args) => <Alert {...args}>An Info Alert</Alert>}
+    {(args) => <Alert {...args} />}
   </Story>
 </Canvas>
 
@@ -33,10 +34,11 @@ export const commonArgs = {
     name="Success"
     args={{
       variant: AlertVariants.SUCCESS,
+      children: 'A Success Alert',
       ...commonArgs,
     }}
   >
-    {(args) => <Alert {...args}>A Success Alert</Alert>}
+    {(args) => <Alert {...args} />}
   </Story>
 </Canvas>
 
@@ -49,10 +51,11 @@ export const commonArgs = {
     name="Warning"
     args={{
       variant: AlertVariants.WARNING,
+      children: 'A Warning Alert',
       ...commonArgs,
     }}
   >
-    {(args) => <Alert {...args}>A Warning Alert</Alert>}
+    {(args) => <Alert {...args} />}
   </Story>
 </Canvas>
 
@@ -65,10 +68,11 @@ export const commonArgs = {
     name="Danger"
     args={{
       variant: AlertVariants.DANGER,
+      children: 'A Danger Alert',
       ...commonArgs,
     }}
   >
-    {(args) => <Alert {...args}>A Danger Alert</Alert>}
+    {(args) => <Alert {...args} />}
   </Story>
 </Canvas>
 
