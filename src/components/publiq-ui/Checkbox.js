@@ -23,23 +23,30 @@ const StyledDiv = styled.div`
   }
 `;
 
-const Checkbox = ({ id, name, checked, disabled, onToggle, children }) => {
-  return (
-    <StyledDiv>
-      <input
-        id={id}
-        type="checkbox"
-        name={name}
-        checked={checked}
-        disabled={disabled}
-        onChange={onToggle}
-      />
-      <Label id={id}>{children}</Label>
-    </StyledDiv>
-  );
-};
+const Checkbox = ({
+  id,
+  name,
+  checked,
+  disabled,
+  onToggle,
+  children,
+  className,
+}) => (
+  <StyledDiv className={className}>
+    <input
+      id={id}
+      type="checkbox"
+      name={name}
+      checked={checked}
+      disabled={disabled}
+      onChange={onToggle}
+    />
+    <Label id={id}>{children}</Label>
+  </StyledDiv>
+);
 
 Checkbox.propTypes = {
+  className: PropTypes.string,
   id: PropTypes.string.isRequired,
   name: PropTypes.string,
   checked: PropTypes.bool,

@@ -35,6 +35,7 @@ const StyledPagination = styled(BootstrapPagination)`
 `;
 
 const Pagination = ({
+  className,
   currentPage,
   totalItems,
   perPage,
@@ -48,7 +49,7 @@ const Pagination = ({
   }
 
   return (
-    <StyledPagination>
+    <StyledPagination className={className}>
       <StyledPagination.Prev
         className="prev-btn"
         disabled={currentPage === 1}
@@ -87,6 +88,7 @@ const Pagination = ({
 };
 
 Pagination.propTypes = {
+  className: PropTypes.string,
   currentPage: PropTypes.number,
   totalItems: PropTypes.number,
   perPage: PropTypes.number,

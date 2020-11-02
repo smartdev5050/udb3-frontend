@@ -25,6 +25,7 @@ const StyledBootstrapModal = styled(BootstrapModal)`
 `;
 
 const ModalQuestion = ({
+  className,
   visible,
   title,
   confirmTitle,
@@ -35,6 +36,7 @@ const ModalQuestion = ({
 }) => {
   return (
     <StyledBootstrapModal
+      className={className}
       show={visible}
       onHide={onClose}
       backdrop="static"
@@ -59,6 +61,7 @@ const ModalQuestion = ({
 };
 
 ModalQuestion.propTypes = {
+  className: PropTypes.string,
   visible: PropTypes.bool,
   title: PropTypes.string,
   confirmTitle: PropTypes.string,

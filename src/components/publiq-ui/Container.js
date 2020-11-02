@@ -18,11 +18,12 @@ const StyledDiv = styled.div`
   }
 `;
 
-const Container = ({ children }) => {
-  return <StyledDiv>{children}</StyledDiv>;
-};
+const Container = ({ children, className }) => (
+  <StyledDiv className={className}>{children}</StyledDiv>
+);
 
 Container.propTypes = {
+  className: PropTypes.node,
   children: PropTypes.node,
 };
 

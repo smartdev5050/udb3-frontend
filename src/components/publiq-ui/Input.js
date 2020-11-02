@@ -13,14 +13,15 @@ const StyledLabel = styled(Label)`
   margin-right: 1rem;
 `;
 
-const Input = ({ type, id, label, placeholder }) => (
-  <Group controlId={id}>
-    <StyledLabel>{label}</StyledLabel>
+const Input = ({ type, id, label, placeholder, className }) => (
+  <Group controlId={id} className={className}>
+    {label && <StyledLabel>{label}</StyledLabel>}
     <Form.Control type={type} placeholder={placeholder} />
   </Group>
 );
 
 Input.propTypes = {
+  className: PropTypes.string,
   type: PropTypes.string,
   id: PropTypes.string,
   label: PropTypes.string,

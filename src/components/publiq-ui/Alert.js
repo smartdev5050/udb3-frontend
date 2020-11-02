@@ -18,17 +18,19 @@ const StyledBootstrapAlert = styled(BootstrapAlert)`
   }
 `;
 
-const Alert = ({ variant, visible, dismissible, children }) => (
+const Alert = ({ variant, visible, dismissible, children, className }) => (
   <StyledBootstrapAlert
     variant={variant}
     hidden={!visible}
     dismissible={dismissible}
+    className={className}
   >
     {children}
   </StyledBootstrapAlert>
 );
 
 Alert.propTypes = {
+  className: PropTypes.string,
   variant: PropTypes.oneOf(Object.values(AlertVariants)),
   visible: PropTypes.bool,
   dismissible: PropTypes.bool,

@@ -23,26 +23,26 @@ const StyledBootstrapModal = styled(BootstrapModal)`
   }
 `;
 
-const ModalContent = ({ visible, title, onClose, children }) => {
-  return (
-    <StyledBootstrapModal
-      show={visible}
-      onHide={onClose}
-      backdrop="static"
-      keyboard={false}
-      size="xl"
-    >
-      <StyledBootstrapModal.Header closeButton>
-        <StyledBootstrapModal.Title hidden={!title}>
-          {title}
-        </StyledBootstrapModal.Title>
-      </StyledBootstrapModal.Header>
-      <StyledBootstrapModal.Body>{children}</StyledBootstrapModal.Body>
-    </StyledBootstrapModal>
-  );
-};
+const ModalContent = ({ visible, title, onClose, children, className }) => (
+  <StyledBootstrapModal
+    className={className}
+    show={visible}
+    onHide={onClose}
+    backdrop="static"
+    keyboard={false}
+    size="xl"
+  >
+    <StyledBootstrapModal.Header closeButton>
+      <StyledBootstrapModal.Title hidden={!title}>
+        {title}
+      </StyledBootstrapModal.Title>
+    </StyledBootstrapModal.Header>
+    <StyledBootstrapModal.Body>{children}</StyledBootstrapModal.Body>
+  </StyledBootstrapModal>
+);
 
 ModalContent.propTypes = {
+  className: PropTypes.string,
   visible: PropTypes.bool,
   title: PropTypes.string,
   onClose: PropTypes.func,

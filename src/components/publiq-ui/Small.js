@@ -5,11 +5,12 @@ const StyledSmall = styled.small`
   font-size: 65%;
 `;
 
-const Small = ({ children }) => {
-  return <StyledSmall>{children}</StyledSmall>;
-};
+const Small = ({ children, className }) => (
+  <StyledSmall className={className}>{children}</StyledSmall>
+);
 
 Small.propTypes = {
+  className: PropTypes.string,
   children: PropTypes.node,
 };
 
