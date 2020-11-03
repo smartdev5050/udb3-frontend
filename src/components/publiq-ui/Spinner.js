@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { Spinner as BootstrapSpinner } from 'react-bootstrap';
+import styled from 'styled-components';
 
 const SpinnerVariants = {
   PRIMARY: 'primary',
@@ -11,14 +12,16 @@ const SpinnerSizes = {
   SMALL: 'sm',
 };
 
+const StyledDiv = styled.div`
+  width: 100%;
+  align-items: center;
+`;
+
 const Spinner = ({ variant, size, className }) => {
   return (
-    <BootstrapSpinner
-      animation="border"
-      variant={variant}
-      size={size}
-      className={className}
-    />
+    <StyledDiv className={className}>
+      <BootstrapSpinner animation="border" variant={variant} size={size} />
+    </StyledDiv>
   );
 };
 
