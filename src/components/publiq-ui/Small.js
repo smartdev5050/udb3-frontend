@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const StyledSmall = styled.small`
-  font-size: 65%;
+  font-size: 0.65rem;
 `;
 
 const Small = ({ children, className }) => (
