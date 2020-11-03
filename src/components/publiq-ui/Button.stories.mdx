@@ -4,9 +4,10 @@ import { Button, ButtonVariants } from './Button.js';
 <Meta title="Components/Button" />
 
 export const commonArgs = {
-  visible: true,
-  dismissible: true,
+  disabled: false,
 };
+
+export const commonArgTypes = { onClick: { action: 'onClick' } };
 
 # Variants
 
@@ -17,10 +18,12 @@ export const commonArgs = {
     name="Primary"
     args={{
       variant: ButtonVariants.PRIMARY,
+      children: 'Primary',
       ...commonArgs,
     }}
+    argTypes={commonArgTypes}
   >
-    {(args) => <Button {...args}>Primary</Button>}
+    {(args) => <Button {...args} />}
   </Story>
 </Canvas>
 
@@ -33,10 +36,12 @@ export const commonArgs = {
     name="Secondary"
     args={{
       variant: ButtonVariants.SECONDARY,
+      children: 'Secondary',
       ...commonArgs,
     }}
+    argTypes={commonArgTypes}
   >
-    {(args) => <Button {...args}>Secondary</Button>}
+    {(args) => <Button {...args} />}
   </Story>
 </Canvas>
 
@@ -49,10 +54,12 @@ export const commonArgs = {
     name="Success"
     args={{
       variant: ButtonVariants.SUCCESS,
+      children: 'Success',
       ...commonArgs,
     }}
+    argTypes={commonArgTypes}
   >
-    {(args) => <Button {...args}>Success</Button>}
+    {(args) => <Button {...args} />}
   </Story>
 </Canvas>
 
@@ -65,10 +72,12 @@ export const commonArgs = {
     name="Danger"
     args={{
       variant: ButtonVariants.DANGER,
+      children: 'Danger',
       ...commonArgs,
     }}
+    argTypes={commonArgTypes}
   >
-    {(args) => <Button {...args}>Danger</Button>}
+    {(args) => <Button {...args} />}
   </Story>
 </Canvas>
 

@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 import { Alert as BootstrapAlert } from 'react-bootstrap';
+import styled from 'styled-components';
+import { getValueFromTheme } from './theme';
 
 const AlertVariants = {
   INFO: 'info',
@@ -8,14 +10,28 @@ const AlertVariants = {
   WARNING: 'warning',
 };
 
-const Alert = ({ variant, visible, dismissible, children }) => (
-  <BootstrapAlert variant={variant} hidden={!visible} dismissible={dismissible}>
+const getValue = getValueFromTheme(`alert`);
+
+const StyledBootstrapAlert = styled(BootstrapAlert)`
+  &.alert {
+    border-radius: ${getValue('borderRadius')};
+  }
+`;
+
+const Alert = ({ variant, visible, dismissible, children, className }) => (
+  <StyledBootstrapAlert
+    variant={variant}
+    hidden={!visible}
+    dismissible={dismissible}
+    className={className}
+  >
     {children}
-  </BootstrapAlert>
+  </StyledBootstrapAlert>
 );
 
 Alert.propTypes = {
-  variant: PropTypes.string,
+  className: PropTypes.string,
+  variant: PropTypes.oneOf(Object.values(AlertVariants)),
   visible: PropTypes.bool,
   dismissible: PropTypes.bool,
   children: PropTypes.node,
