@@ -9,7 +9,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 We use [React Bootstrap components](https://react-bootstrap.github.io/) underneath as implementation for our own custom components, so we can recreate the same look
 and feel in React as we had in AngularJS.
 
-Every Bootstrap component we use in React should be wrapped in a custom component inside Publiq UI.
+Every Bootstrap component we use in React should be wrapped in a custom component inside the publiq-ui folder.
 That way we have a more centralized place to define how it's styled and how it should behave.
 
 Props on the custom components should not be passed "automatically" to the Bootstrap component underneath.
@@ -27,9 +27,9 @@ To enable padding/margin, the goal is to add some kind of prop that uses an enum
 
 ## Typography
 
-Font sizes should be configured once globally and then not overridden in specific components.
+The root font size is defined once globally and should not be overridden in specific components. Use the `rem` unit as much as possible for other values like margins, paddings, etc.
 
 ## Scoped styles
 
-We use [Styled Components](https://styled-components.com/) for the styling of our components wich makes them scoped by default.
+We use [Styled Components](https://styled-components.com/) for the styling of our components which makes them scoped by default.
 If you want to override certain Bootstrap styles you should add these values to our `theme.js` and import them by using the `getValueFromTheme` function.
