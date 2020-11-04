@@ -59,7 +59,7 @@ Checkbox.defaultprops = {
   name: '',
   checked: false,
   disabled: false,
-  onInput: () => {},
+  onToggle: () => {},
 };
 
 export { Checkbox };
