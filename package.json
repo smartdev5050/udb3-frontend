@@ -28,6 +28,7 @@
     "next": "^10.0.0",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",
+    "react-bootstrap-typeahead": "^5.1.2",
     "react-dom": "^17.0.1",
     "react-i18next": "^11.7.3",
     "sass": "^1.27.0",
