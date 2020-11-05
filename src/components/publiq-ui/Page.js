@@ -1,8 +1,11 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { getValueFromTheme } from './theme';
+
+const getValue = getValueFromTheme('page');
 
 const StyledSection = styled.section`
-  background-color: #f0f0f0;
+  background-color: ${getValue('backgroundColor')};
   margin: 0 auto;
   padding: 0;
   width: 100%;
