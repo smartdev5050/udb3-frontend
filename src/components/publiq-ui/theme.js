@@ -74,6 +74,9 @@ const theme = {
       paddingX: '0.84rem',
       paddingY: '0.44rem',
     },
+    page: {
+      backgroundColor: colors.grey1,
+    },
   },
 };
 
