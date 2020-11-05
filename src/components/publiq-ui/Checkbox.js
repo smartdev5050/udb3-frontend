@@ -41,7 +41,7 @@ const Checkbox = ({
       disabled={disabled}
       onChange={onToggle}
     />
-    <Label id={id}>{children}</Label>
+    <Label htmlFor={id}>{children}</Label>
   </StyledDiv>
 );
 

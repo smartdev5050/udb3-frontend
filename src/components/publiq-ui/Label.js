@@ -6,14 +6,14 @@ const StyledLabel = styled(Form.Label)`
   font-weight: 700;
 `;
 
-const Label = ({ id, children, className }) => (
-  <StyledLabel htmlFor={id} className={className}>
+const Label = ({ htmlFor, children, className }) => (
+  <StyledLabel htmlFor={htmlFor} className={className}>
     {children}
   </StyledLabel>
 );
 
 Label.propTypes = {
-  id: PropTypes.string,
+  htmlFor: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.node,
 };
