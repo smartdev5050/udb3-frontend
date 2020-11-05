@@ -6,6 +6,8 @@ const colors = {
   white: '#ffffff',
   grey1: '#f0f0f0',
   grey2: '#ccc',
+  grey3: '#ddd',
+  grey4: '#f5f5f5',
   success: '#5cb85c',
   danger: '#d9534f',
   selected: '#f3453f',
@@ -76,6 +78,13 @@ const theme = {
     },
     page: {
       backgroundColor: colors.grey1,
+    },
+    panel: {
+      borderColor: colors.grey3,
+    },
+    panelFooter: {
+      borderColor: colors.grey3,
+      backgroundColor: colors.grey4,
     },
   },
 };
