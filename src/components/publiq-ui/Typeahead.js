@@ -26,7 +26,7 @@ const Typeahead = ({
 }) => {
   return (
     <>
-      {label && <Label id={id}>{label}</Label>}
+      {label && <Label htmlFor={id}>{label}</Label>}
       <StyledBootstrapTypeahead
         id={id}
         options={data}

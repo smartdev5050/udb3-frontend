@@ -41,8 +41,8 @@ const RadioGroup = ({
   onChange,
 }) => {
   return (
-    <div className={className}>
-      {groupLabel && <Label id={`radiogroup-${name}`}>{groupLabel}</Label>}
+    <fieldset className={className}>
+      {groupLabel && <Label htmlFor={`radiogroup-${name}`}>{groupLabel}</Label>}
       <StyledDiv id={`radiogroup-${name}`} role="radiogroup">
         {items.map((item) => (
           <div key={item.value} className="radio-container">
@@ -55,11 +55,11 @@ const RadioGroup = ({
               onChange={onChange}
               checked={selected === item.value}
             />
-            <Label id={`radio-${item.value}`}>{item.label}</Label>
+            <Label htmlFor={`radio-${item.value}`}>{item.label}</Label>
           </div>
         ))}
       </StyledDiv>
-    </div>
+    </fieldset>
   );
 };
 
