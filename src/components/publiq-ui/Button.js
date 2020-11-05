@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { Button as BootstrapButton } from 'react-bootstrap';
 import styled from 'styled-components';
 import { getValueFromTheme } from './theme';
+import { Spinner, SpinnerVariants, SpinnerSizes } from './Spinner';
 
 const ButtonVariants = {
   PRIMARY: 'primary',
@@ -102,6 +103,12 @@ const StyledBootstrapButton = styled(BootstrapButton)`
       box-shadow: ${getValue('danger.focusBoxShadow')};
     }
   }
+
+  .button-spinner {
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+  }
 `;
 
 const Button = ({
@@ -112,7 +119,6 @@ const Button = ({
   onClick,
   className,
 }) => {
-  // TODO: Add loading spinner when loading is true
   return (
     <StyledBootstrapButton
       variant={variant}
@@ -120,7 +126,15 @@ const Button = ({
       onClick={onClick}
       className={className}
     >
-      {children}
+      {loading ? (
+        <Spinner
+          className="button-spinner"
+          variant={SpinnerVariants.LIGHT}
+          size={SpinnerSizes.SMALL}
+        />
+      ) : (
+        children
+      )}
     </StyledBootstrapButton>
   );
 };

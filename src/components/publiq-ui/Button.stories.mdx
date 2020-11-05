@@ -82,3 +82,22 @@ export const commonArgTypes = { onClick: { action: 'onClick' } };
 </Canvas>
 
 <ArgsTable story="Danger" />
+
+# Loading state
+
+<Canvas>
+  <Story
+    name="Loading"
+    args={{
+      variant: ButtonVariants.PRIMARY,
+      children: 'Sould not appear when loading',
+      loading: true,
+      ...commonArgs,
+    }}
+    argTypes={commonArgTypes}
+  >
+    {(args) => <Button {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Loading" />

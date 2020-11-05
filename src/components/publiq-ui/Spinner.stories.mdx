@@ -1,0 +1,51 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import { Spinner, SpinnerVariants, SpinnerSizes } from './Spinner.js';
+
+<Meta title="Components/Spinner" />
+
+# Variants
+
+## Primary
+
+<Canvas>
+  <Story name="Primary" args={{ variant: SpinnerVariants.PRIMARY }}>
+    {(args) => <Spinner {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Primary" />
+
+## Light
+
+<Canvas>
+  <Story name="Light" args={{ variant: SpinnerVariants.LIGHT }}>
+    {(args) => <Spinner {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Light" />
+
+# Sizes
+
+## Normal
+
+<Canvas>
+  <Story name="Normal" args={{ variant: SpinnerVariants.PRIMARY }}>
+    {(args) => <Spinner {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Normal" />
+
+## Small
+
+<Canvas>
+  <Story
+    name="Small"
+    args={{ variant: SpinnerVariants.PRIMARY, size: SpinnerSizes.SMALL }}
+  >
+    {(args) => <Spinner {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Small" />
