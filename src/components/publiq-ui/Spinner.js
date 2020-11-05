@@ -8,7 +8,6 @@ const SpinnerVariants = {
 };
 
 const SpinnerSizes = {
-  NORMAL: undefined,
   SMALL: 'sm',
 };
 
@@ -33,7 +32,6 @@ Spinner.propTypes = {
 
 Spinner.defaultProps = {
   variant: SpinnerVariants.PRIMARY,
-  size: SpinnerSizes.NORMAL,
 };
 
 export { Spinner, SpinnerVariants, SpinnerSizes };
