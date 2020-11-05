@@ -4,7 +4,7 @@ const colors = {
   udbRed: '#c0120c',
   udbBlue: '#004f94',
   white: '#ffffff',
-  grey1: '#efefef',  
+  grey1: '#f0f0f0',
   grey2: '#ccc',
   success: '#5cb85c',
   danger: '#d9534f',
