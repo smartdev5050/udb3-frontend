@@ -1,0 +1,41 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import { RadioGroup } from './RadioGroup.js';
+import { useState } from 'react';
+
+<Meta title="Components/RadioGroup" />
+
+export const commonArgs = {
+  name: 'city',
+  groupLabel: 'Select a city:',
+  items: [
+    { label: 'Rome', value: 'rome' },
+    { label: 'Paris', value: 'paris' },
+    { label: 'Prague', value: 'prague' },
+  ],
+};
+
+export const commonArgTypes = { onChange: { action: 'onChange' } };
+
+<Canvas>
+  <Story name="Default" args={commonArgs} argTypes={commonArgTypes}>
+    {(args) => {
+      const [selectedCity, setSelectedCity] = useState('rome');
+      return (
+        <>
+          <RadioGroup
+            {...args}
+            selected={selectedCity}
+            onChange={(event) => {
+              args.onChange();
+              setSelectedCity(event.target.value);
+            }}
+          />
+          <br />
+          <p>Selected city: {selectedCity}</p>
+        </>
+      );
+    }}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Default" />

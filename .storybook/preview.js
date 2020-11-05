@@ -3,6 +3,11 @@ import '../src/styles/global.scss';
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
+  options: {
+    storySort: {
+      order: ['Introduction', 'Components'],
+    },
+  },
 };
 
 export const decorators = [

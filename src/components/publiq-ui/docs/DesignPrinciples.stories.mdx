@@ -1,0 +1,35 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Introduction/Design Principles" />
+
+# Design principles
+
+## Bootstrap
+
+We use [React Bootstrap components](https://react-bootstrap.github.io/) underneath as implementation for our own custom components, so we can recreate the same look
+and feel in React as we had in AngularJS.
+
+Every Bootstrap component we use in React should be wrapped in a custom component inside the publiq-ui folder.
+That way we have a more centralized place to define how it's styled and how it should behave.
+
+Props on the custom components should not be passed "automatically" to the Bootstrap component underneath.
+We define a specific list of props we use per component to prevent too much flexibility.
+If we _do_ need access to a prop that's not currently available, it can always be added.
+Restricting access to props down the line is harder.
+
+## Spacing
+
+Components should never have a margin by default. When you put two components next to each other they should "stick" by default. This way you can easily play with different spacing depending on the place where you use them.
+
+Components with children should also have no padding by default. For example a panel component should not have padding so that you can put a list inside that sticks to the top/bottom/sides.
+
+To enable padding/margin, the goal is to add some kind of prop that uses an enumeration of predefined units to configure the space around/inside the element, eg 1, 2, 3, ... without specifying the pixels/rem/...
+
+## Typography
+
+The root font size is defined once globally and should not be overridden in specific components. Use the `rem` unit as much as possible for other values like margins, paddings, etc.
+
+## Scoped styles
+
+We use [Styled Components](https://styled-components.com/) for the styling of our components which makes them scoped by default.
+If you want to override certain Bootstrap styles you should add these values to our `theme.js` and import them by using the `getValueFromTheme` function.
