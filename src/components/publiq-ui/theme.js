@@ -1,11 +1,11 @@
 import get from 'lodash/get';
 
 const colors = {
-  white: '#ffffff',
-  lightgrey: '#efefef',
-  udbPrimary: '#c0120c',
+  udbRed: '#c0120c',
   udbBlue: '#004f94',
-  udbGrey: '#ccc',
+  white: '#ffffff',
+  grey1: '#f0f0f0',
+  grey2: '#ccc',
   success: '#5cb85c',
   danger: '#d9534f',
   selected: '#f3453f',
@@ -65,14 +65,20 @@ const theme = {
     pagination: {
       color: colors.textColor,
       activeBackgroundColor: colors.selected,
-      activeBorderColor: colors.udbGrey,
+      activeBorderColor: colors.grey2,
       activeColor: colors.white,
       hoverBackgroundColor: colors.selected,
       hoverColor: colors.white,
-      borderColor: colors.udbGrey,
+      borderColor: colors.grey2,
       focusBoxShadow: 'none',
       paddingX: '0.84rem',
       paddingY: '0.44rem',
+    },
+    typeahead: {
+      activeBackgroundColor: colors.udbBlue,
+    },
+    page: {
+      backgroundColor: colors.grey1,
     },
   },
 };

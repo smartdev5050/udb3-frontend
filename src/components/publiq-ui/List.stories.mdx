@@ -1,0 +1,23 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import { List } from './List.js';
+import { ListItem } from './ListItem.js';
+
+<Meta title="Components/List" />
+
+export const items = [
+  { id: 1, name: 'Item 1' },
+  { id: 2, name: 'Item 2' },
+  { id: 3, name: 'Item 3' },
+];
+
+<Canvas>
+  <Story name="Default">
+    {(args) => (
+      <List {...args}>
+        {items.map((item) => (
+          <ListItem key={item.id}>{item.name}</ListItem>
+        ))}
+      </List>
+    )}
+  </Story>
+</Canvas>

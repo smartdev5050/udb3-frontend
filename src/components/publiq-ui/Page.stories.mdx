@@ -1,0 +1,24 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import { Page } from './Page.js';
+import { PageTitle } from './PageTitle.js';
+
+<Meta title="Components/Page" />
+
+## Default
+
+<Canvas>
+  <Story name="Default">{(args) => <Page {...args}>Page content</Page>}</Story>
+</Canvas>
+
+## With page title
+
+<Canvas>
+  <Story name="WithPageTitle">
+    {(args) => (
+      <Page {...args}>
+        <PageTitle>Page Title</PageTitle>
+        Page content
+      </Page>
+    )}
+  </Story>
+</Canvas>
