@@ -74,6 +74,9 @@ const theme = {
       paddingX: '0.84rem',
       paddingY: '0.44rem',
     },
+    typeahead: {
+      activeBackgroundColor: colors.udbBlue,
+    },
     page: {
       backgroundColor: colors.grey1,
     },
