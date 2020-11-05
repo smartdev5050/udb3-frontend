@@ -4,6 +4,7 @@ import { Title } from './Title';
 
 const StyledTitle = styled(Title)`
   &.h1 {
+    width: 100%;
     line-height: 3.74rem;
     color: #222;
     border-bottom: 1px solid #ccc;
