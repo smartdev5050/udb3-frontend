@@ -76,6 +76,7 @@ const theme = {
     },
     typeahead: {
       activeBackgroundColor: colors.udbBlue,
+    },
     page: {
       backgroundColor: colors.grey1,
     },
