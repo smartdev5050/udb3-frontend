@@ -1,7 +1,7 @@
 import { Badge as BootstrapBadge } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-export const BadgeVariants = {
+const BadgeVariants = {
   DANGER: 'danger',
 };
 
@@ -17,4 +17,8 @@ Badge.propTypes = {
   variant: PropTypes.string,
 };
 
-export { Badge };
+Badge.defaultProps = {
+  variant: BadgeVariants.DANGER,
+};
+
+export { Badge, BadgeVariants };
