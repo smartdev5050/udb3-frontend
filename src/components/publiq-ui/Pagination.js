@@ -89,9 +89,9 @@ const Pagination = ({
 
 Pagination.propTypes = {
   className: PropTypes.string,
-  currentPage: PropTypes.number,
-  totalItems: PropTypes.number,
-  perPage: PropTypes.number,
+  currentPage: PropTypes.number.isRequired,
+  totalItems: PropTypes.number.isRequired,
+  perPage: PropTypes.number.isRequired,
   prevText: PropTypes.string,
   nextText: PropTypes.string,
   onChangePage: PropTypes.func,
@@ -103,6 +103,7 @@ Pagination.defaultProps = {
   perPage: 10,
   prevText: 'Previous',
   nextText: 'Next',
+  onChangePage: () => {},
 };
 
 export { Pagination };

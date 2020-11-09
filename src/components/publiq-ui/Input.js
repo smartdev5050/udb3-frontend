@@ -23,7 +23,7 @@ const Input = ({ type, id, label, placeholder, className }) => (
 Input.propTypes = {
   className: PropTypes.string,
   type: PropTypes.string,
-  id: PropTypes.string,
+  id: PropTypes.string.isRequired,
   label: PropTypes.string,
   placeholder: PropTypes.string,
 };
