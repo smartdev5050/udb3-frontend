@@ -3,6 +3,8 @@ import { Button as BootstrapButton } from 'react-bootstrap';
 import styled from 'styled-components';
 import { getValueFromTheme } from './theme';
 import { Spinner, SpinnerVariants, SpinnerSizes } from './Spinner';
+import { spacingProps, spacingPropTypes } from './Box';
+import { pick } from 'lodash';
 
 const ButtonVariants = {
   PRIMARY: 'primary',
@@ -109,6 +111,8 @@ const StyledBootstrapButton = styled(BootstrapButton)`
     display: flex;
     align-items: center;
   }
+
+  ${spacingProps}
 `;
 
 const Button = ({
@@ -118,8 +122,11 @@ const Button = ({
   children,
   onClick,
   className,
+  ...props
 }) => {
   if (variant === ButtonVariants.SECONDARY) variant = 'outline-secondary';
+
+  const layoutProps = pick(props, Object.keys(spacingPropTypes));
 
   return (
     <StyledBootstrapButton
@@ -127,6 +134,7 @@ const Button = ({
       disabled={disabled}
       onClick={onClick}
       className={className}
+      {...layoutProps}
     >
       {loading ? (
         <Spinner
@@ -142,6 +150,7 @@ const Button = ({
 };
 
 Button.propTypes = {
+  ...spacingPropTypes,
   className: PropTypes.string,
   variant: PropTypes.string,
   disabled: PropTypes.bool,
