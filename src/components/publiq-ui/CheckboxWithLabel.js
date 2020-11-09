@@ -3,9 +3,13 @@ import styled from 'styled-components';
 import { Checkbox } from './Checkbox';
 import { Inline } from './Inline';
 import { Label } from './Label';
+import { spacingProps, spacingPropTypes } from './Box';
+import { pick } from 'lodash';
 
 const StyledLabel = styled(Label)`
   cursor: pointer;
+
+  ${spacingProps};
 `;
 
 const CheckboxWithLabel = ({
@@ -16,20 +20,30 @@ const CheckboxWithLabel = ({
   onToggle,
   children,
   className,
-}) => (
-  <Inline className={className} alignItems="center" spacing={3}>
-    <Checkbox
-      id={id}
-      onToggle={onToggle}
-      name={name}
-      checked={checked}
-      disabled={disabled}
-    />
-    <StyledLabel htmlFor={id}>{children}</StyledLabel>
-  </Inline>
-);
+  ...props
+}) => {
+  const layoutProps = pick(props, Object.keys(spacingPropTypes));
+  return (
+    <Inline
+      className={className}
+      alignItems="center"
+      spacing={3}
+      {...layoutProps}
+    >
+      <Checkbox
+        id={id}
+        onToggle={onToggle}
+        name={name}
+        checked={checked}
+        disabled={disabled}
+      />
+      <StyledLabel htmlFor={id}>{children}</StyledLabel>
+    </Inline>
+  );
+};
 
 CheckboxWithLabel.propTypes = {
+  ...spacingPropTypes,
   className: PropTypes.string,
   id: PropTypes.string.isRequired,
   name: PropTypes.string,
