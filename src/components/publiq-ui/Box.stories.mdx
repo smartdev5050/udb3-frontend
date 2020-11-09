@@ -1,0 +1,47 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import { Box } from './Box.js';
+import styled from 'styled-components';
+
+<Meta title="Components/Box" />
+
+export const CustomBox = styled(Box)`
+  background-color: #004f94;
+  width: 300px;
+  height: 100px;
+  color: #fff;
+`;
+
+export const commonArgs = {
+  margin: 3,
+  marginX: '',
+  marginY: '',
+  marginTop: '',
+  marginBottom: '',
+  marginLeft: '',
+  marginRight: '',
+  padding: 4,
+  paddingX: '',
+  paddingY: '',
+  paddingTop: '',
+  paddingBottom: '',
+  paddingLeft: '',
+  paddingRight: '',
+};
+
+<Canvas>
+  <Story
+    name="Default"
+    args={{
+      ...commonArgs,
+    }}
+  >
+    {(args) => (
+      <>
+        <CustomBox {...args}>A Box</CustomBox>
+        <CustomBox {...args}>Another Box</CustomBox>
+      </>
+    )}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Default" />
