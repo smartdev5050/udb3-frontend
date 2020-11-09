@@ -17,8 +17,6 @@ const StyledLink = styled.a`
 const Link = ({ href, children, as, className }) => {
   const isInternalLink = href.startsWith('/');
 
-  console.log(isInternalLink);
-
   if (isInternalLink) {
     return (
       <NextLink prefetch href={href} passHref>
