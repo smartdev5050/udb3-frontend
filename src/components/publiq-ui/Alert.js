@@ -1,7 +1,9 @@
+import { pick } from 'lodash';
 import PropTypes from 'prop-types';
 import { Alert as BootstrapAlert } from 'react-bootstrap';
 import styled from 'styled-components';
 import { getValueFromTheme } from './theme';
+import { spacingProps, spacingPropTypes } from './Box';
 
 const AlertVariants = {
   INFO: 'info',
@@ -13,23 +15,39 @@ const AlertVariants = {
 const getValue = getValueFromTheme(`alert`);
 
 const StyledBootstrapAlert = styled(BootstrapAlert)`
+  margin: 0;
+
   &.alert {
     border-radius: ${getValue('borderRadius')};
   }
+
+  ${spacingProps};
 `;
 
-const Alert = ({ variant, visible, dismissible, children, className }) => (
-  <StyledBootstrapAlert
-    variant={variant}
-    hidden={!visible}
-    dismissible={dismissible}
-    className={className}
-  >
-    {children}
-  </StyledBootstrapAlert>
-);
+const Alert = ({
+  variant,
+  visible,
+  dismissible,
+  children,
+  className,
+  ...props
+}) => {
+  const layoutProps = pick(props, Object.keys(spacingPropTypes));
+  return (
+    <StyledBootstrapAlert
+      variant={variant}
+      hidden={!visible}
+      dismissible={dismissible}
+      className={className}
+      {...layoutProps}
+    >
+      {children}
+    </StyledBootstrapAlert>
+  );
+};
 
 Alert.propTypes = {
+  ...spacingPropTypes,
   className: PropTypes.string,
   variant: PropTypes.oneOf(Object.values(AlertVariants)),
   visible: PropTypes.bool,
