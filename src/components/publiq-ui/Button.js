@@ -6,7 +6,7 @@ import { Spinner, SpinnerVariants, SpinnerSizes } from './Spinner';
 
 const ButtonVariants = {
   PRIMARY: 'primary',
-  SECONDARY: 'outline-secondary',
+  SECONDARY: 'secondary',
   SUCCESS: 'success',
   DANGER: 'danger',
 };
@@ -119,6 +119,8 @@ const Button = ({
   onClick,
   className,
 }) => {
+  if (variant === ButtonVariants.SECONDARY) variant = 'outline-secondary';
+
   return (
     <StyledBootstrapButton
       variant={variant}
