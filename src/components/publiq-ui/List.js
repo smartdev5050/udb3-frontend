@@ -1,11 +1,14 @@
 import PropTypes from 'prop-types';
-import { ListGroup } from 'react-bootstrap';
+import { Stack, stackProps } from './Stack';
 
-const List = ({ children, className }) => {
-  return <ListGroup className={className}>{children}</ListGroup>;
-};
+const List = ({ children, spacing, className }) => (
+  <Stack className={className} spacing={spacing} as="ul">
+    {children}
+  </Stack>
+);
 
 List.propTypes = {
+  ...stackProps,
   className: PropTypes.string,
   children: PropTypes.node,
 };
