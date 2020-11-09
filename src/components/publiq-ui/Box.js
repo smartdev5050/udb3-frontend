@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
-import { kebabCase } from 'lodash';
+import { kebabCase, pick } from 'lodash';
 
 const remInPixels = 15;
 
@@ -36,7 +36,7 @@ const createShorthandSpacingProperty = (shorthand, propsToChange = []) => (
   }, css``);
 };
 
-export const spacingProps = css`
+const spacingProps = css`
   ${createShorthandSpacingProperty('margin', [
     'marginTop',
     'marginBottom',
@@ -78,7 +78,7 @@ const StyledBox = styled.div`
   ${spacingProps}
 `;
 
-export const spacingPropTypes = {
+const spacingPropTypes = {
   margin: PropTypes.number,
   marginTop: PropTypes.number,
   marginBottom: PropTypes.number,
@@ -94,6 +94,8 @@ export const spacingPropTypes = {
   paddingX: PropTypes.number,
   paddingY: PropTypes.number,
 };
+
+const getLayoutProps = (props) => pick(props, Object.keys(spacingPropTypes));
 
 const Box = ({
   children,
@@ -140,4 +142,4 @@ Box.propTypes = {
   ...spacingPropTypes,
 };
 
-export { Box };
+export { Box, spacingProps, spacingPropTypes, getLayoutProps };

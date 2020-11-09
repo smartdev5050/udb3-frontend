@@ -1,9 +1,8 @@
-import { pick } from 'lodash';
 import PropTypes from 'prop-types';
 import { Alert as BootstrapAlert } from 'react-bootstrap';
 import styled from 'styled-components';
 import { getValueFromTheme } from './theme';
-import { spacingProps, spacingPropTypes } from './Box';
+import { getLayoutProps, spacingProps, spacingPropTypes } from './Box';
 
 const AlertVariants = {
   INFO: 'info',
@@ -32,7 +31,7 @@ const Alert = ({
   className,
   ...props
 }) => {
-  const layoutProps = pick(props, Object.keys(spacingPropTypes));
+  const layoutProps = getLayoutProps(props);
   return (
     <StyledBootstrapAlert
       variant={variant}

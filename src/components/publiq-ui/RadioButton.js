@@ -1,7 +1,6 @@
-import { pick } from 'lodash';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { spacingProps, spacingPropTypes } from './Box';
+import { getLayoutProps, spacingProps, spacingPropTypes } from './Box';
 
 const StyledRadioButton = styled.input.attrs(() => ({
   type: 'radio',
@@ -20,7 +19,7 @@ const RadioButton = ({
   value,
   ...props
 }) => {
-  const layoutProps = pick(props, Object.keys(spacingPropTypes));
+  const layoutProps = getLayoutProps(props);
   return (
     <StyledRadioButton
       id={id}

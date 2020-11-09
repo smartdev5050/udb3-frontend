@@ -3,8 +3,7 @@ import { Button as BootstrapButton } from 'react-bootstrap';
 import styled from 'styled-components';
 import { getValueFromTheme } from './theme';
 import { Spinner, SpinnerVariants, SpinnerSizes } from './Spinner';
-import { spacingProps, spacingPropTypes } from './Box';
-import { pick } from 'lodash';
+import { getLayoutProps, spacingProps, spacingPropTypes } from './Box';
 
 const ButtonVariants = {
   PRIMARY: 'primary',
@@ -126,7 +125,7 @@ const Button = ({
 }) => {
   if (variant === ButtonVariants.SECONDARY) variant = 'outline-secondary';
 
-  const layoutProps = pick(props, Object.keys(spacingPropTypes));
+  const layoutProps = getLayoutProps(props);
 
   return (
     <StyledBootstrapButton

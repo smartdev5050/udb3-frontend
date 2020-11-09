@@ -1,7 +1,6 @@
 import { Badge as BootstrapBadge } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { pick } from 'lodash';
-import { spacingProps, spacingPropTypes } from './Box';
+import { getLayoutProps, spacingProps, spacingPropTypes } from './Box';
 import styled from 'styled-components';
 
 const BadgeVariants = {
@@ -13,7 +12,7 @@ const StyledBootstrapBadge = styled(BootstrapBadge)`
 `;
 
 const Badge = ({ children, className, variant, ...props }) => {
-  const layoutProps = pick(props, Object.keys(spacingPropTypes));
+  const layoutProps = getLayoutProps(props);
   return (
     <StyledBootstrapBadge
       className={className}

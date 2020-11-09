@@ -1,7 +1,6 @@
-import { pick } from 'lodash';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { spacingProps, spacingPropTypes } from './Box';
+import { getLayoutProps, spacingProps, spacingPropTypes } from './Box';
 
 const StyledCheckbox = styled.input.attrs(() => ({
   type: 'checkbox',
@@ -19,7 +18,7 @@ const Checkbox = ({
   className,
   ...props
 }) => {
-  const layoutProps = pick(props, Object.keys(spacingPropTypes));
+  const layoutProps = getLayoutProps(props);
   return (
     <StyledCheckbox
       id={id}

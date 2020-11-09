@@ -1,7 +1,6 @@
 import { Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { spacingProps, spacingPropTypes } from './Box';
-import { pick } from 'lodash';
+import { getLayoutProps, spacingProps, spacingPropTypes } from './Box';
 import styled from 'styled-components';
 
 const StyledFormControl = styled(Form.Control)`
@@ -9,7 +8,7 @@ const StyledFormControl = styled(Form.Control)`
 `;
 
 const Input = ({ type, id, placeholder, className, ...props }) => {
-  const layoutProps = pick(props, Object.keys(spacingPropTypes));
+  const layoutProps = getLayoutProps(props);
   return (
     <StyledFormControl
       id={id}

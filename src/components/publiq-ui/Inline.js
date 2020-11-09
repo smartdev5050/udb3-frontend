@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
-import { Box, spacingProps, spacingPropTypes } from './Box';
+import { Box, getLayoutProps, spacingProps, spacingPropTypes } from './Box';
 import PropTypes from 'prop-types';
-import { kebabCase, pick } from 'lodash';
+import { kebabCase } from 'lodash';
 import { Children, cloneElement } from 'react';
 
 const parseProperty = (key) => (props) => {
@@ -34,7 +34,7 @@ const Inline = ({
   justifyContent,
   ...props
 }) => {
-  const layoutProps = pick(props, Object.keys(spacingPropTypes));
+  const layoutProps = getLayoutProps(props);
 
   console.log(layoutProps);
 
