@@ -8,7 +8,7 @@ const getValue = getValueFromTheme('link');
 const StyledLink = styled.a`
   font-weight: 400;
   color: ${getValue('color')};
-  flex &:hover {
+  &:hover {
     text-decoration: underline;
     color: ${getValue('color')};
   }
