@@ -1,0 +1,42 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import { Link } from './Link.js';
+import { Button } from './Button.js';
+
+<Meta title="Components/Link" />
+
+<Canvas>
+  <Story
+    name="Internal Link"
+    args={{ children: 'internal link', href: '/test' }}
+  >
+    {(args) => <Link {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Internal Link" />
+
+<Canvas>
+  <Story
+    name="External Link"
+    args={{ children: 'external link', href: 'http://www.google.com' }}
+  >
+    {(args) => <Link {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="External Link" />
+
+<Canvas>
+  <Story
+    name="As component"
+    args={{ children: 'external link', href: 'http://www.google.be' }}
+  >
+    {({ children, ...args }) => (
+      <Link {...args}>
+        <Button>{children}</Button>
+      </Link>
+    )}
+  </Story>
+</Canvas>
+
+<ArgsTable story="As component" />

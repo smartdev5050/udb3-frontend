@@ -20,6 +20,9 @@ const theme = {
     alert: {
       borderRadius: 0,
     },
+    link: {
+      color: colors.udbBlue,
+    },
     badge: {
       color: colors.white,
       backgroundColor: colors.danger,
