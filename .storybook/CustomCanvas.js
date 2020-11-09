@@ -2,7 +2,7 @@ import { Canvas } from '@storybook/addon-docs/blocks';
 import { styled } from '@storybook/theming';
 
 const SyledCanvas = styled(Canvas)`
-  .css-1ocpa5l .plain-text {
+  .plain-text {
     color: #ffffff;
   }
 `;
