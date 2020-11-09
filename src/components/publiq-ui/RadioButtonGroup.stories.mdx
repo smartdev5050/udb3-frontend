@@ -1,8 +1,8 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
-import { RadioGroup } from './RadioGroup.js';
+import { RadioButtonGroup } from './RadioButtonGroup.js';
 import { useState } from 'react';
 
-<Meta title="Components/RadioGroup" />
+<Meta title="Components/RadioButtonGroup" />
 
 export const commonArgs = {
   name: 'city',
@@ -22,7 +22,7 @@ export const commonArgTypes = { onChange: { action: 'onChange' } };
       const [selectedCity, setSelectedCity] = useState('rome');
       return (
         <>
-          <RadioGroup
+          <RadioButtonGroup
             {...args}
             selected={selectedCity}
             onChange={(event) => {

@@ -1,0 +1,38 @@
+import { useState } from 'react';
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import { RadioButton } from './RadioButton.js';
+
+<Meta title="Components/Radiobutton" />
+
+export const commonArgTypes = {
+  onToggle: { action: 'onToggle' },
+};
+
+<Canvas>
+  <Story
+    name="Default"
+    args={{
+      id: '123',
+      name: 'my-radiobutton',
+      checked: false,
+      disabled: false,
+    }}
+    argTypes={commonArgTypes}
+  >
+    {(args) => {
+      const [checked, setChecked] = useState(false);
+      return (
+        <RadioButton
+          {...args}
+          checked={checked}
+          onToggle={(event) => {
+            args.onToggle(event);
+            setChecked(!checked);
+          }}
+        />
+      );
+    }}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Default" />
