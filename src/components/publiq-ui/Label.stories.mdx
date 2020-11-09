@@ -1,12 +1,26 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
-import { Label } from './Label.js';
+import { Label, LabelVariants } from './Label.js';
 
 <Meta title="Components/Label" />
 
 <Canvas>
-  <Story name="Default" args={{ children: 'A form label' }}>
+  <Story
+    name="Normal"
+    args={{ children: 'A form label', variant: LabelVariants.NORMAL }}
+  >
     {(args) => <Label {...args} />}
   </Story>
 </Canvas>
 
-<ArgsTable story="Default" />
+<ArgsTable story="Normal" />
+
+<Canvas>
+  <Story
+    name="Bold"
+    args={{ children: 'A form label', variant: LabelVariants.BOLD }}
+  >
+    {(args) => <Label {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Bold" />
