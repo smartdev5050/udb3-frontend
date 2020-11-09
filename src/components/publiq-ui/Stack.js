@@ -1,12 +1,28 @@
-import styled from 'styled-components';
-import { Box, spacingPropTypes } from './Box';
+import styled, { css } from 'styled-components';
+import { Box, spacingProps, spacingPropTypes } from './Box';
 import PropTypes from 'prop-types';
-import { pick } from 'lodash';
+import { kebabCase, pick } from 'lodash';
 import { Children, cloneElement } from 'react';
+
+const parseProperty = (key) => (props) => {
+  const value = props[key];
+  if (key === undefined || key === null) return;
+
+  const cssProperty = kebabCase(key);
+
+  return css`
+    ${cssProperty}: ${value};
+  `;
+};
 
 const StyledStack = styled(Box)`
   display: flex;
   flex-direction: column;
+
+  ${parseProperty('alignItems')};
+  ${parseProperty('justifyContent')};
+
+  ${spacingProps}
 `;
 
 const Stack = ({ spacing, className, children, as, ...props }) => {
@@ -36,6 +52,8 @@ Stack.propTypes = {
   as: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.node,
+  alignItems: PropTypes.string,
+  justifyContent: PropTypes.string,
 };
 
 Stack.defaultProps = {

@@ -1,16 +1,42 @@
-import styled from 'styled-components';
-import { Box, spacingPropTypes } from './Box';
+import styled, { css } from 'styled-components';
+import { Box, spacingProps, spacingPropTypes } from './Box';
 import PropTypes from 'prop-types';
-import { pick } from 'lodash';
+import { kebabCase, pick } from 'lodash';
 import { Children, cloneElement } from 'react';
+
+const parseProperty = (key) => (props) => {
+  const value = props[key];
+  if (key === undefined || key === null) return;
+
+  const cssProperty = kebabCase(key);
+
+  return css`
+    ${cssProperty}: ${value};
+  `;
+};
 
 const StyledInline = styled(Box)`
   display: flex;
   flex-direction: row;
+
+  ${parseProperty('alignItems')};
+  ${parseProperty('justifyContent')};
+
+  ${spacingProps}
 `;
 
-const Inline = ({ spacing, className, children, as, ...props }) => {
+const Inline = ({
+  spacing,
+  className,
+  children,
+  as,
+  alignItems,
+  justifyContent,
+  ...props
+}) => {
   const layoutProps = pick(props, Object.keys(spacingPropTypes));
+
+  console.log(layoutProps);
 
   const clonedChildren = Children.map(children, (child, i) =>
     cloneElement(child, {
@@ -20,7 +46,13 @@ const Inline = ({ spacing, className, children, as, ...props }) => {
   );
 
   return (
-    <StyledInline className={className} {...layoutProps} as={as}>
+    <StyledInline
+      className={className}
+      {...layoutProps}
+      alignItems={alignItems}
+      justifyContent={justifyContent}
+      as={as}
+    >
       {clonedChildren}
     </StyledInline>
   );
@@ -32,6 +64,8 @@ Inline.propTypes = {
   spacing: PropTypes.number,
   className: PropTypes.string,
   children: PropTypes.node,
+  alignItems: PropTypes.string,
+  justifyContent: PropTypes.string,
 };
 
 Inline.defaultProps = {
