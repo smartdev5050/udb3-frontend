@@ -36,7 +36,7 @@ const createShorthandSpacingProperty = (shorthand, propsToChange = []) => (
   }, css``);
 };
 
-const StyledBox = styled.div`
+export const spacingProps = css`
   ${createShorthandSpacingProperty('margin', [
     'marginTop',
     'marginBottom',
@@ -73,6 +73,27 @@ const StyledBox = styled.div`
   ${parseSpacingProperty('paddingLeft')};
   ${parseSpacingProperty('paddingRight')};
 `;
+
+const StyledBox = styled.div`
+  ${spacingProps}
+`;
+
+export const spacingPropTypes = {
+  margin: PropTypes.number,
+  marginTop: PropTypes.number,
+  marginBottom: PropTypes.number,
+  marginRight: PropTypes.number,
+  marginLeft: PropTypes.number,
+  marginX: PropTypes.number,
+  marginY: PropTypes.number,
+  padding: PropTypes.number,
+  paddingTop: PropTypes.number,
+  paddingBottom: PropTypes.number,
+  paddingRight: PropTypes.number,
+  paddingLeft: PropTypes.number,
+  paddingX: PropTypes.number,
+  paddingY: PropTypes.number,
+};
 
 const Box = ({
   children,
@@ -116,20 +137,7 @@ const Box = ({
 Box.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
-  margin: PropTypes.number,
-  marginTop: PropTypes.number,
-  marginBottom: PropTypes.number,
-  marginRight: PropTypes.number,
-  marginLeft: PropTypes.number,
-  marginX: PropTypes.number,
-  marginY: PropTypes.number,
-  padding: PropTypes.number,
-  paddingTop: PropTypes.number,
-  paddingBottom: PropTypes.number,
-  paddingRight: PropTypes.number,
-  paddingLeft: PropTypes.number,
-  paddingX: PropTypes.number,
-  paddingY: PropTypes.number,
+  ...spacingPropTypes,
 };
 
 export { Box };
