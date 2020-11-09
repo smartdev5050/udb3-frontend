@@ -18,7 +18,13 @@ const CheckboxWithLabel = ({
   className,
 }) => (
   <Inline className={className} alignItems="center" spacing={3}>
-    <Checkbox id={id} onToggle={onToggle} />
+    <Checkbox
+      id={id}
+      onToggle={onToggle}
+      name={name}
+      checked={checked}
+      disabled={disabled}
+    />
     <StyledLabel htmlFor={id}>{children}</StyledLabel>
   </Inline>
 );
