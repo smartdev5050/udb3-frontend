@@ -85,6 +85,10 @@ const theme = {
     page: {
       backgroundColor: colors.grey1,
     },
+    pageTitle: {
+      color: colors.textColor,
+      borderColor: colors.grey2,
+    },
     panel: {
       borderColor: colors.grey3,
     },
