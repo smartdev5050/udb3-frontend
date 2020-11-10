@@ -2,49 +2,52 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { getBoxProps, boxProps, boxPropTypes } from './Box';
 
-const StyledCheckbox = styled.input.attrs(() => ({
-  type: 'checkbox',
+const StyledRadioButton = styled.input.attrs(() => ({
+  type: 'radio',
 }))`
   cursor: pointer;
   ${boxProps};
 `;
 
-const Checkbox = ({
+const RadioButton = ({
   id,
   name,
   checked,
   disabled,
-  onToggle,
+  onChange,
   className,
+  value,
   ...props
 }) => {
   return (
-    <StyledCheckbox
+    <StyledRadioButton
       id={id}
       name={name}
       checked={checked}
       disabled={disabled}
-      onChange={onToggle}
+      onChange={onChange}
+      value={value}
       {...getBoxProps(props)}
     />
   );
 };
 
-Checkbox.propTypes = {
+RadioButton.propTypes = {
   ...boxPropTypes,
   className: PropTypes.string,
   id: PropTypes.string.isRequired,
   name: PropTypes.string,
+  value: PropTypes.string,
   checked: PropTypes.bool,
   disabled: PropTypes.bool,
-  onToggle: PropTypes.func,
+  onChange: PropTypes.func,
 };
 
-Checkbox.defaultprops = {
+RadioButton.defaultprops = {
   name: '',
   checked: false,
   disabled: false,
-  onToggle: () => {},
+  onChange: () => {},
 };
 
-export { Checkbox };
+export { RadioButton };

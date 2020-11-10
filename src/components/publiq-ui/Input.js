@@ -1,30 +1,29 @@
-import styled from 'styled-components';
 import { Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { Label } from './Label';
+import { getBoxProps, boxProps, boxPropTypes } from './Box';
+import styled from 'styled-components';
 
-const Group = styled(Form.Group)`
-  width: 100%;
-  display: flex;
-  align-items: center;
+const StyledFormControl = styled(Form.Control)`
+  ${boxProps};
 `;
 
-const StyledLabel = styled(Label)`
-  margin-right: 1rem;
-`;
-
-const Input = ({ type, id, label, placeholder, className }) => (
-  <Group controlId={id} className={className}>
-    {label && <StyledLabel>{label}</StyledLabel>}
-    <Form.Control type={type} placeholder={placeholder} />
-  </Group>
-);
+const Input = ({ type, id, placeholder, className, ...props }) => {
+  return (
+    <StyledFormControl
+      id={id}
+      type={type}
+      placeholder={placeholder}
+      className={className}
+      {...getBoxProps(props)}
+    />
+  );
+};
 
 Input.propTypes = {
+  ...boxPropTypes,
   className: PropTypes.string,
   type: PropTypes.string,
   id: PropTypes.string.isRequired,
-  label: PropTypes.string,
   placeholder: PropTypes.string,
 };
 

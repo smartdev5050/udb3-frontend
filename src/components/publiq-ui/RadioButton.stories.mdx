@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
-import { Checkbox } from './Checkbox.js';
+import { RadioButton } from './RadioButton.js';
 
-<Meta title="Components/Checkbox" />
+<Meta title="Components/Radiobutton" />
 
 export const commonArgTypes = {
   onToggle: { action: 'onToggle' },
@@ -13,7 +13,7 @@ export const commonArgTypes = {
     name="Default"
     args={{
       id: '123',
-      name: 'my-checkbox',
+      name: 'my-radiobutton',
       checked: false,
       disabled: false,
     }}
@@ -22,7 +22,7 @@ export const commonArgTypes = {
     {(args) => {
       const [checked, setChecked] = useState(false);
       return (
-        <Checkbox
+        <RadioButton
           {...args}
           checked={checked}
           onToggle={(event) => {

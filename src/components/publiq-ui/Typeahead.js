@@ -1,8 +1,6 @@
-import uniqueId from 'lodash/uniqueId';
 import PropTypes from 'prop-types';
 import { Typeahead as BootstrapTypeahead } from 'react-bootstrap-typeahead';
 import styled from 'styled-components';
-import { Label } from './Label';
 import { getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme('typeahead');
@@ -14,10 +12,8 @@ const StyledBootstrapTypeahead = styled(BootstrapTypeahead)`
   }
 `;
 
-const id = uniqueId('typeahead-');
-
 const Typeahead = ({
-  label,
+  id,
   data,
   disabled,
   className,
@@ -25,23 +21,20 @@ const Typeahead = ({
   onSelection,
 }) => {
   return (
-    <>
-      {label && <Label htmlFor={id}>{label}</Label>}
-      <StyledBootstrapTypeahead
-        id={id}
-        options={data}
-        labelKey={(option) => option}
-        disabled={disabled}
-        className={className}
-        onInputChange={onInputChange}
-        onChange={onSelection}
-      />
-    </>
+    <StyledBootstrapTypeahead
+      id={id}
+      options={data}
+      labelKey={(option) => option}
+      disabled={disabled}
+      className={className}
+      onInputChange={onInputChange}
+      onChange={onSelection}
+    />
   );
 };
 
 Typeahead.propTypes = {
-  label: PropTypes.string,
+  id: PropTypes.string.isRequired,
   data: PropTypes.array,
   disabled: PropTypes.bool,
   className: PropTypes.string,
@@ -50,7 +43,6 @@ Typeahead.propTypes = {
 };
 
 Typeahead.defaultProps = {
-  label: '',
   data: [],
   disabled: false,
   onInputChange: () => {},

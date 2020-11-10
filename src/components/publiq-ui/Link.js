@@ -2,6 +2,7 @@ import NextLink from 'next/link';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { getValueFromTheme } from './theme';
+import { getBoxProps, boxProps, boxPropTypes } from './Box';
 
 const getValue = getValueFromTheme('link');
 
@@ -12,15 +13,17 @@ const StyledLink = styled.a`
     text-decoration: underline;
     color: ${getValue('color')};
   }
+
+  ${boxProps}
 `;
 
-const Link = ({ href, children, as, className }) => {
+const Link = ({ href, children, as, className, ...props }) => {
   const isInternalLink = href.startsWith('/');
 
   if (isInternalLink) {
     return (
       <NextLink prefetch href={href} passHref>
-        <StyledLink as={as} className={className}>
+        <StyledLink as={as} className={className} {...getBoxProps(props)}>
           {children}
         </StyledLink>
       </NextLink>
@@ -34,6 +37,7 @@ const Link = ({ href, children, as, className }) => {
       className={className}
       rel="noopener"
       target="_blank"
+      {...getBoxProps(props)}
     >
       {children}
     </StyledLink>
@@ -41,6 +45,7 @@ const Link = ({ href, children, as, className }) => {
 };
 
 Link.propTypes = {
+  ...boxPropTypes,
   href: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.node,
