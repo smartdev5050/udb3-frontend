@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Label, LabelVariants } from './Label';
 import { Inline } from './Inline';
 import { Input } from './Input';
-import { spacingPropTypes, getLayoutProps } from './Box';
+import { boxPropTypes, getBoxProps } from './Box';
 
 const InputWithLabel = ({
   type,
@@ -12,14 +12,13 @@ const InputWithLabel = ({
   className,
   ...props
 }) => {
-  const layoutProps = getLayoutProps(props);
   return (
     <Inline
       className={className}
       as="div"
       spacing={3}
       alignItems="center"
-      {...layoutProps}
+      {...getBoxProps(props)}
     >
       <Label htmlFor={id} variant={LabelVariants.BOLD}>
         {children}
@@ -30,7 +29,7 @@ const InputWithLabel = ({
 };
 
 InputWithLabel.propTypes = {
-  ...spacingPropTypes,
+  ...boxPropTypes,
   className: PropTypes.string,
   type: PropTypes.string,
   id: PropTypes.string.isRequired,

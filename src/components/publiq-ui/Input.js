@@ -1,27 +1,26 @@
 import { Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { getLayoutProps, spacingProps, spacingPropTypes } from './Box';
+import { getBoxProps, boxProps, boxPropTypes } from './Box';
 import styled from 'styled-components';
 
 const StyledFormControl = styled(Form.Control)`
-  ${spacingProps};
+  ${boxProps};
 `;
 
 const Input = ({ type, id, placeholder, className, ...props }) => {
-  const layoutProps = getLayoutProps(props);
   return (
     <StyledFormControl
       id={id}
       type={type}
       placeholder={placeholder}
       className={className}
-      {...layoutProps}
+      {...getBoxProps(props)}
     />
   );
 };
 
 Input.propTypes = {
-  ...spacingPropTypes,
+  ...boxPropTypes,
   className: PropTypes.string,
   type: PropTypes.string,
   id: PropTypes.string.isRequired,

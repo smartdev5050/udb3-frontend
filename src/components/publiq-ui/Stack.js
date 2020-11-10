@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { Box, getLayoutProps, spacingProps, spacingPropTypes } from './Box';
+import { Box, getBoxProps, boxProps, boxPropTypes } from './Box';
 import PropTypes from 'prop-types';
 import { kebabCase } from 'lodash';
 import { Children, cloneElement } from 'react';
@@ -22,12 +22,10 @@ const StyledStack = styled(Box)`
   ${parseProperty('alignItems')};
   ${parseProperty('justifyContent')};
 
-  ${spacingProps}
+  ${boxProps}
 `;
 
 const Stack = ({ spacing, className, children, as, ...props }) => {
-  const layoutProps = getLayoutProps(props);
-
   const clonedChildren = Children.map(children, (child, i) =>
     cloneElement(child, {
       ...child.props,
@@ -36,14 +34,14 @@ const Stack = ({ spacing, className, children, as, ...props }) => {
   );
 
   return (
-    <StyledStack className={className} {...layoutProps} as={as}>
+    <StyledStack className={className} {...getBoxProps(props)} as={as}>
       {clonedChildren}
     </StyledStack>
   );
 };
 
 export const stackProps = {
-  ...spacingPropTypes,
+  ...boxPropTypes,
   spacing: PropTypes.number,
 };
 

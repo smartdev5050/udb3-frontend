@@ -2,7 +2,7 @@ import NextLink from 'next/link';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { getValueFromTheme } from './theme';
-import { getLayoutProps, spacingProps, spacingPropTypes } from './Box';
+import { getBoxProps, boxProps, boxPropTypes } from './Box';
 
 const getValue = getValueFromTheme('link');
 
@@ -14,18 +14,16 @@ const StyledLink = styled.a`
     color: ${getValue('color')};
   }
 
-  ${spacingProps}
+  ${boxProps}
 `;
 
 const Link = ({ href, children, as, className, ...props }) => {
-  const layoutProps = getLayoutProps(props);
-
   const isInternalLink = href.startsWith('/');
 
   if (isInternalLink) {
     return (
       <NextLink prefetch href={href} passHref>
-        <StyledLink as={as} className={className} {...layoutProps}>
+        <StyledLink as={as} className={className} {...getBoxProps(props)}>
           {children}
         </StyledLink>
       </NextLink>
@@ -39,7 +37,7 @@ const Link = ({ href, children, as, className, ...props }) => {
       className={className}
       rel="noopener"
       target="_blank"
-      {...layoutProps}
+      {...getBoxProps(props)}
     >
       {children}
     </StyledLink>
@@ -47,7 +45,7 @@ const Link = ({ href, children, as, className, ...props }) => {
 };
 
 Link.propTypes = {
-  ...spacingPropTypes,
+  ...boxPropTypes,
   href: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.node,

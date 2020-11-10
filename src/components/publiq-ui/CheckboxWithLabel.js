@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Checkbox } from './Checkbox';
 import { Inline } from './Inline';
 import { Label } from './Label';
-import { getLayoutProps, spacingPropTypes } from './Box';
+import { getBoxProps, boxPropTypes } from './Box';
 
 const StyledLabel = styled(Label)`
   cursor: pointer;
@@ -19,13 +19,12 @@ const CheckboxWithLabel = ({
   className,
   ...props
 }) => {
-  const layoutProps = getLayoutProps(props);
   return (
     <Inline
       className={className}
       alignItems="center"
       spacing={3}
-      {...layoutProps}
+      {...getBoxProps(props)}
     >
       <Checkbox
         id={id}
@@ -40,7 +39,7 @@ const CheckboxWithLabel = ({
 };
 
 CheckboxWithLabel.propTypes = {
-  ...spacingPropTypes,
+  ...boxPropTypes,
   className: PropTypes.string,
   id: PropTypes.string.isRequired,
   name: PropTypes.string,

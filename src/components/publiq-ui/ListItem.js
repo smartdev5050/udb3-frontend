@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { ListGroup } from 'react-bootstrap';
-import { spacingPropTypes } from './Box';
+import { boxPropTypes } from './Box';
 
 const ListItem = ({ children, className, onClick, ...props }) => (
   <ListGroup.Item
@@ -15,7 +15,7 @@ const ListItem = ({ children, className, onClick, ...props }) => (
 );
 
 ListItem.propTypes = {
-  ...spacingPropTypes,
+  ...boxPropTypes,
   className: PropTypes.string,
   children: PropTypes.node,
   onClick: PropTypes.func,

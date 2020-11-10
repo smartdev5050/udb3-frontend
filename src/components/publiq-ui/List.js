@@ -1,11 +1,15 @@
 import PropTypes from 'prop-types';
-import { getLayoutProps } from './Box';
+import { getBoxProps } from './Box';
 import { Stack, stackProps } from './Stack';
 
 const List = ({ children, spacing, className, ...props }) => {
-  const layoutProps = getLayoutProps(props);
   return (
-    <Stack className={className} spacing={spacing} as="ul" {...layoutProps}>
+    <Stack
+      className={className}
+      spacing={spacing}
+      as="ul"
+      {...getBoxProps(props)}
+    >
       {children}
     </Stack>
   );

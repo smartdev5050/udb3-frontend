@@ -36,7 +36,7 @@ const createShorthandSpacingProperty = (shorthand, propsToChange = []) => (
   }, css``);
 };
 
-const spacingProps = css`
+const boxProps = css`
   ${createShorthandSpacingProperty('margin', [
     'marginTop',
     'marginBottom',
@@ -75,10 +75,10 @@ const spacingProps = css`
 `;
 
 const StyledBox = styled.div`
-  ${spacingProps}
+  ${boxProps}
 `;
 
-const spacingPropTypes = {
+const boxPropTypes = {
   margin: PropTypes.number,
   marginTop: PropTypes.number,
   marginBottom: PropTypes.number,
@@ -95,7 +95,7 @@ const spacingPropTypes = {
   paddingY: PropTypes.number,
 };
 
-const getLayoutProps = (props) => pick(props, Object.keys(spacingPropTypes));
+const getBoxProps = (props) => pick(props, Object.keys(boxPropTypes));
 
 const Box = ({
   children,
@@ -139,7 +139,7 @@ const Box = ({
 Box.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
-  ...spacingPropTypes,
+  ...boxPropTypes,
 };
 
-export { Box, spacingProps, spacingPropTypes, getLayoutProps };
+export { Box, boxProps, boxPropTypes, getBoxProps };

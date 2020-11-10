@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Form } from 'react-bootstrap';
-import { getLayoutProps, spacingProps, spacingPropTypes } from './Box';
+import { getBoxProps, boxProps, boxPropTypes } from './Box';
 
 export const LabelVariants = {
   BOLD: 'bold',
@@ -15,17 +15,16 @@ const getFontWeight = (props) => {
 
 const StyledLabel = styled(Form.Label)`
   font-weight: ${getFontWeight};
-  ${spacingProps};
+  ${boxProps};
 `;
 
 const Label = ({ htmlFor, children, className, variant, ...props }) => {
-  const layoutProps = getLayoutProps(props);
   return (
     <StyledLabel
       htmlFor={htmlFor}
       className={className}
       variant={variant}
-      {...layoutProps}
+      {...getBoxProps(props)}
     >
       {children}
     </StyledLabel>
@@ -33,7 +32,7 @@ const Label = ({ htmlFor, children, className, variant, ...props }) => {
 };
 
 Label.propTypes = {
-  ...spacingPropTypes,
+  ...boxPropTypes,
   variant: PropTypes.string,
   htmlFor: PropTypes.string,
   className: PropTypes.string,

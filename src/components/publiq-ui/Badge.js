@@ -1,6 +1,6 @@
 import { Badge as BootstrapBadge } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { getLayoutProps, spacingProps, spacingPropTypes } from './Box';
+import { getBoxProps, boxProps, boxPropTypes } from './Box';
 import styled from 'styled-components';
 
 const BadgeVariants = {
@@ -8,16 +8,15 @@ const BadgeVariants = {
 };
 
 const StyledBootstrapBadge = styled(BootstrapBadge)`
-  ${spacingProps};
+  ${boxProps};
 `;
 
 const Badge = ({ children, className, variant, ...props }) => {
-  const layoutProps = getLayoutProps(props);
   return (
     <StyledBootstrapBadge
       className={className}
       variant={variant}
-      {...layoutProps}
+      {...getBoxProps(props)}
     >
       {children}
     </StyledBootstrapBadge>
@@ -25,7 +24,7 @@ const Badge = ({ children, className, variant, ...props }) => {
 };
 
 Badge.propTypes = {
-  ...spacingPropTypes,
+  ...boxPropTypes,
   className: PropTypes.string,
   children: PropTypes.node,
   variant: PropTypes.string,

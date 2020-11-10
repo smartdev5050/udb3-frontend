@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { getLayoutProps, spacingProps, spacingPropTypes } from './Box';
+import { getBoxProps, boxProps, boxPropTypes } from './Box';
 
 const StyledCheckbox = styled.input.attrs(() => ({
   type: 'checkbox',
 }))`
   cursor: pointer;
-  ${spacingProps};
+  ${boxProps};
 `;
 
 const Checkbox = ({
@@ -18,7 +18,6 @@ const Checkbox = ({
   className,
   ...props
 }) => {
-  const layoutProps = getLayoutProps(props);
   return (
     <StyledCheckbox
       id={id}
@@ -26,13 +25,13 @@ const Checkbox = ({
       checked={checked}
       disabled={disabled}
       onChange={onToggle}
-      {...layoutProps}
+      {...getBoxProps(props)}
     />
   );
 };
 
 Checkbox.propTypes = {
-  ...spacingPropTypes,
+  ...boxPropTypes,
   className: PropTypes.string,
   id: PropTypes.string.isRequired,
   name: PropTypes.string,

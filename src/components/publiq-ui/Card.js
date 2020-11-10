@@ -1,27 +1,26 @@
 import { Card as BootstrapCard } from 'react-bootstrap';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { getLayoutProps, spacingProps, spacingPropTypes } from './Box';
+import { getBoxProps, boxProps, boxPropTypes } from './Box';
 
 const StyledBootstrapCard = styled(BootstrapCard)`
   &.card {
     border: none;
   }
 
-  ${spacingProps}
+  ${boxProps}
 `;
 
 const Card = ({ children, className, ...props }) => {
-  const layoutProps = getLayoutProps(props);
   return (
-    <StyledBootstrapCard className={className} {...layoutProps}>
+    <StyledBootstrapCard className={className} {...getBoxProps(props)}>
       <StyledBootstrapCard.Body>{children}</StyledBootstrapCard.Body>
     </StyledBootstrapCard>
   );
 };
 
 Card.propTypes = {
-  ...spacingPropTypes,
+  ...boxPropTypes,
   className: PropTypes.string,
   children: PropTypes.node,
 };

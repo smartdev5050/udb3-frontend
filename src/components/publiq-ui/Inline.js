@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { Box, getLayoutProps, spacingProps, spacingPropTypes } from './Box';
+import { Box, getBoxProps, boxProps, boxPropTypes } from './Box';
 import PropTypes from 'prop-types';
 import { kebabCase } from 'lodash';
 import { Children, cloneElement } from 'react';
@@ -22,7 +22,7 @@ const StyledInline = styled(Box)`
   ${parseProperty('alignItems')};
   ${parseProperty('justifyContent')};
 
-  ${spacingProps}
+  ${boxProps}
 `;
 
 const Inline = ({
@@ -34,8 +34,6 @@ const Inline = ({
   justifyContent,
   ...props
 }) => {
-  const layoutProps = getLayoutProps(props);
-
   console.log(layoutProps);
 
   const clonedChildren = Children.map(children, (child, i) =>
@@ -48,7 +46,7 @@ const Inline = ({
   return (
     <StyledInline
       className={className}
-      {...layoutProps}
+      {...getBoxProps(props)}
       alignItems={alignItems}
       justifyContent={justifyContent}
       as={as}
@@ -59,7 +57,7 @@ const Inline = ({
 };
 
 Inline.propTypes = {
-  ...spacingPropTypes,
+  ...boxPropTypes,
   as: PropTypes.string,
   spacing: PropTypes.number,
   className: PropTypes.string,

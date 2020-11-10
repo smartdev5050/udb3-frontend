@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { RadioButton } from './RadioButton';
 import { Inline } from './Inline';
 import { Label } from './Label';
-import { getLayoutProps, spacingPropTypes } from './Box';
+import { getBoxProps, boxPropTypes } from './Box';
 
 const StyledLabel = styled(Label)`
   cursor: pointer;
@@ -21,7 +21,6 @@ const RadioButtonWithLabel = ({
   selected,
   ...props
 }) => {
-  const layoutProps = getLayoutProps(props);
   console.log(layoutProps);
 
   return (
@@ -30,7 +29,7 @@ const RadioButtonWithLabel = ({
       alignItems="center"
       spacing={3}
       as="div"
-      {...layoutProps}
+      {...getBoxProps(props)}
     >
       <RadioButton
         id={id}
@@ -45,7 +44,7 @@ const RadioButtonWithLabel = ({
 };
 
 RadioButtonWithLabel.propTypes = {
-  ...spacingPropTypes,
+  ...boxPropTypes,
   className: PropTypes.string,
   id: PropTypes.string.isRequired,
   name: PropTypes.string,

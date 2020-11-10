@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Alert as BootstrapAlert } from 'react-bootstrap';
 import styled from 'styled-components';
 import { getValueFromTheme } from './theme';
-import { getLayoutProps, spacingProps, spacingPropTypes } from './Box';
+import { getBoxProps, boxProps, boxPropTypes } from './Box';
 
 const AlertVariants = {
   INFO: 'info',
@@ -20,7 +20,7 @@ const StyledBootstrapAlert = styled(BootstrapAlert)`
     border-radius: ${getValue('borderRadius')};
   }
 
-  ${spacingProps};
+  ${boxProps};
 `;
 
 const Alert = ({
@@ -31,14 +31,13 @@ const Alert = ({
   className,
   ...props
 }) => {
-  const layoutProps = getLayoutProps(props);
   return (
     <StyledBootstrapAlert
       variant={variant}
       hidden={!visible}
       dismissible={dismissible}
       className={className}
-      {...layoutProps}
+      {...getBoxProps(props)}
     >
       {children}
     </StyledBootstrapAlert>
@@ -46,7 +45,7 @@ const Alert = ({
 };
 
 Alert.propTypes = {
-  ...spacingPropTypes,
+  ...boxPropTypes,
   className: PropTypes.string,
   variant: PropTypes.oneOf(Object.values(AlertVariants)),
   visible: PropTypes.bool,
