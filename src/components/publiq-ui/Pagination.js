@@ -2,6 +2,7 @@ import { Pagination as BootstrapPagination } from 'react-bootstrap';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { getValueFromTheme } from './theme';
+import { boxProps, boxPropTypes, getBoxProps } from './Box';
 
 const getValue = getValueFromTheme(`pagination`);
 
@@ -32,6 +33,8 @@ const StyledPagination = styled(BootstrapPagination)`
   .next-btn {
     margin-left: 0.2rem;
   }
+
+  ${boxProps};
 `;
 
 const Pagination = ({
@@ -42,6 +45,7 @@ const Pagination = ({
   prevText,
   nextText,
   onChangePage,
+  ...props
 }) => {
   const pages = [];
   for (let i = 0; i < Math.ceil(totalItems / perPage); i++) {
@@ -49,7 +53,7 @@ const Pagination = ({
   }
 
   return (
-    <StyledPagination className={className}>
+    <StyledPagination className={className} {...getBoxProps(props)}>
       <StyledPagination.Prev
         className="prev-btn"
         disabled={currentPage === 1}
@@ -88,6 +92,7 @@ const Pagination = ({
 };
 
 Pagination.propTypes = {
+  ...boxPropTypes,
   className: PropTypes.string,
   currentPage: PropTypes.number.isRequired,
   totalItems: PropTypes.number.isRequired,
