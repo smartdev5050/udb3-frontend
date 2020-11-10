@@ -13,7 +13,7 @@ export const items = [
 <Canvas>
   <Story name="Default">
     {(args) => (
-      <List {...args} spacing={5}>
+      <List {...args}>
         {items.map((item) => (
           <ListItem key={item.id}>{item.name}</ListItem>
         ))}
