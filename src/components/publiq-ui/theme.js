@@ -92,6 +92,9 @@ const theme = {
       borderColor: colors.grey3,
       backgroundColor: colors.grey4,
     },
+    listItem: {
+      backgroundColor: colors.white,
+    },
   },
 };
 
