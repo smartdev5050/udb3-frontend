@@ -1,30 +1,29 @@
 import PropTypes from 'prop-types';
-import { Component } from 'react';
-import styled from 'styled-components';
-import { boxProps, boxPropTypes, getBoxProps } from './Box';
+import { Box, boxPropTypes, getBoxProps } from './Box';
 
-const StyledComponent = styled(Component)`
-  &.h1 {
-    font-weight: 300;
-    font-size: 1.6rem;
-  }
+const getFontWeight = (props) => {
+  if (props.size === 1) return 300;
+  return 700;
+};
 
-  &.h2 {
-    font-weight: 700;
-    font-size: 1.2rem;
-  }
-
-  ${boxProps};
-`;
+const getFontSize = (props) => {
+  if (props.size === 1) return 1.6;
+  return 1.2;
+};
 
 const Title = ({ size, children, className, ...props }) => (
-  <StyledComponent
-    className={`h${size} ${className || ''}`}
-    as={`h${size}`}
+  <Box
+    forwardedAs={`h${size}`}
     {...getBoxProps(props)}
+    size={size}
+    className={className}
+    css={`
+      font-weight: ${getFontWeight};
+      font-size: ${getFontSize}rem;
+    `}
   >
     {children}
-  </StyledComponent>
+  </Box>
 );
 
 Title.propTypes = {

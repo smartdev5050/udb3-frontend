@@ -1,31 +1,35 @@
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { getBoxProps } from './Box';
-import { Stack, stackProps } from './Stack';
+import { getStackProps, Stack, stackPropTypes } from './Stack';
 
-const StyledStack = styled(Stack)`
-  li:not(:last-child) {
-    border-bottom: none;
-  }
-`;
-
-const List = ({ children, spacing, className, ...props }) => {
-  return (
-    <StyledStack
-      className={className}
-      spacing={spacing}
-      as="ul"
-      {...getBoxProps(props)}
-    >
-      {children}
-    </StyledStack>
-  );
+const ListVariants = {
+  ORDERED: 'ordered',
+  UNORDERED: 'unordered',
 };
 
+const List = ({ children, className, variant, ...props }) => (
+  <Stack
+    forwardedAs={variant === ListVariants.ORDERED ? 'ol' : 'ul'}
+    className={className}
+    variant={variant}
+    {...getStackProps(props)}
+    css={`
+      li:not(:last-child) {
+        border-bottom: none;
+      }
+    `}
+  >
+    {children}
+  </Stack>
+);
+
 List.propTypes = {
-  ...stackProps,
+  ...stackPropTypes,
   className: PropTypes.string,
   children: PropTypes.node,
 };
 
-export { List };
+List.defaultProps = {
+  variant: ListVariants.UNORDERED,
+};
+
+export { List, ListVariants };

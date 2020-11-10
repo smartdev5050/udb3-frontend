@@ -1,7 +1,5 @@
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { Form } from 'react-bootstrap';
-import { getBoxProps, boxProps, boxPropTypes } from './Box';
+import { getBoxProps, boxPropTypes, Box } from './Box';
 
 export const LabelVariants = {
   BOLD: 'bold',
@@ -13,23 +11,20 @@ const getFontWeight = (props) => {
   return 'normal';
 };
 
-const StyledLabel = styled(Form.Label)`
-  font-weight: ${getFontWeight};
-  ${boxProps};
-`;
-
-const Label = ({ htmlFor, children, className, variant, ...props }) => {
-  return (
-    <StyledLabel
-      htmlFor={htmlFor}
-      className={className}
-      variant={variant}
-      {...getBoxProps(props)}
-    >
-      {children}
-    </StyledLabel>
-  );
-};
+const Label = ({ htmlFor, children, className, variant, ...props }) => (
+  <Box
+    forwardedAs="label"
+    htmlFor={htmlFor}
+    className={className}
+    variant={variant}
+    css={`
+      font-weight: ${getFontWeight};
+    `}
+    {...getBoxProps(props)}
+  >
+    {children}
+  </Box>
+);
 
 Label.propTypes = {
   ...boxPropTypes,

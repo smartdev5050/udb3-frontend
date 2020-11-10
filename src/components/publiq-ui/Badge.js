@@ -1,25 +1,21 @@
 import { Badge as BootstrapBadge } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { getBoxProps, boxProps, boxPropTypes } from './Box';
-import styled from 'styled-components';
+import { Box, getBoxProps, boxPropTypes } from './Box';
 
 const BadgeVariants = {
   DANGER: 'danger',
 };
 
-const StyledBootstrapBadge = styled(BootstrapBadge)`
-  ${boxProps};
-`;
-
 const Badge = ({ children, className, variant, ...props }) => {
   return (
-    <StyledBootstrapBadge
+    <BootstrapBadge
+      as={Box}
       className={className}
       variant={variant}
       {...getBoxProps(props)}
     >
       {children}
-    </StyledBootstrapBadge>
+    </BootstrapBadge>
   );
 };
 

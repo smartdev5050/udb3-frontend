@@ -1,21 +1,10 @@
 import styled, { css } from 'styled-components';
-import { Box, getBoxProps, boxProps, boxPropTypes } from './Box';
+import { Box, getBoxProps, boxProps, boxPropTypes, parseProperty } from './Box';
 import PropTypes from 'prop-types';
-import { kebabCase } from 'lodash';
 import { Children, cloneElement } from 'react';
+import { pick } from 'lodash';
 
-const parseProperty = (key) => (props) => {
-  const value = props[key];
-  if (key === undefined || key === null) return;
-
-  const cssProperty = kebabCase(key);
-
-  return css`
-    ${cssProperty}: ${value};
-  `;
-};
-
-const StyledStack = styled(Box)`
+const stackProps = css`
   display: flex;
   flex-direction: column;
 
@@ -25,28 +14,34 @@ const StyledStack = styled(Box)`
   ${boxProps}
 `;
 
+const StyledStack = styled(Box)`
+  ${stackProps}
+`;
+
 const Stack = ({ spacing, className, children, as, ...props }) => {
   const clonedChildren = Children.map(children, (child, i) =>
     cloneElement(child, {
       ...child.props,
-      marginBottom: i < children.length - 1 ? spacing : 0,
+      ...(i < children.length - 1 ? { marginBottom: spacing } : {}),
     }),
   );
 
   return (
-    <StyledStack className={className} {...getBoxProps(props)} as={as}>
+    <StyledStack className={className} as={as} {...getBoxProps(props)}>
       {clonedChildren}
     </StyledStack>
   );
 };
 
-export const stackProps = {
+const stackPropTypes = {
   ...boxPropTypes,
   spacing: PropTypes.number,
 };
 
+const getStackProps = (props) => pick(props, Object.keys(stackPropTypes));
+
 Stack.propTypes = {
-  ...stackProps,
+  ...stackPropTypes,
   as: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.node,
@@ -58,4 +53,4 @@ Stack.defaultProps = {
   as: 'section',
 };
 
-export { Stack };
+export { Stack, getStackProps, stackPropTypes, stackProps };
