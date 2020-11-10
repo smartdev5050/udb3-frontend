@@ -1,18 +1,32 @@
 import PropTypes from 'prop-types';
-import { ListGroup } from 'react-bootstrap';
-import { boxPropTypes } from './Box';
+import styled from 'styled-components';
+import { boxProps, boxPropTypes, getBoxProps } from './Box';
+import { getValueFromTheme } from './theme';
 
-const ListItem = ({ children, className, onClick, ...props }) => (
-  <ListGroup.Item
-    tabIndex={0}
-    className={className}
-    onClick={onClick}
-    as="li"
-    {...props}
-  >
-    {children}
-  </ListGroup.Item>
-);
+const getValue = getValueFromTheme('listItem');
+
+const StyledListItem = styled.li`
+  position: relative;
+  display: block;
+  padding: 0.75rem 1.25rem;
+  background-color: ${getValue('backgroundColor')};
+  border: 1px solid rgba(0, 0, 0, 0.125);
+
+  ${boxProps}
+`;
+
+const ListItem = ({ children, className, onClick, ...props }) => {
+  return (
+    <StyledListItem
+      tabIndex={0}
+      className={className}
+      onClick={onClick}
+      {...getBoxProps(props)}
+    >
+      {children}
+    </StyledListItem>
+  );
+};
 
 ListItem.propTypes = {
   ...boxPropTypes,
