@@ -5,7 +5,8 @@
       {
         "runtime": "automatic"
       }
-    ]
+    ],
+    "babel-plugin-styled-components"
   ],
   "env": {
     "test": {
