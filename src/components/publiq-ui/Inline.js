@@ -34,8 +34,6 @@ const Inline = ({
   justifyContent,
   ...props
 }) => {
-  console.log(layoutProps);
-
   const clonedChildren = Children.map(children, (child, i) =>
     cloneElement(child, {
       ...child.props,

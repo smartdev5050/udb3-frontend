@@ -21,8 +21,6 @@ const RadioButtonWithLabel = ({
   selected,
   ...props
 }) => {
-  console.log(layoutProps);
-
   return (
     <Inline
       className={className}
