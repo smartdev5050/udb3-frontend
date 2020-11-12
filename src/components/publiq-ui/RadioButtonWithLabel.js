@@ -26,7 +26,7 @@ const RadioButtonWithLabel = ({
       className={className}
       alignItems="center"
       spacing={3}
-      as="div"
+      as="li"
       {...getBoxProps(props)}
     >
       <RadioButton
