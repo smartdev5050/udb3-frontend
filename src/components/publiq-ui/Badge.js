@@ -8,14 +8,15 @@ const BadgeVariants = {
 
 const Badge = ({ children, className, variant, ...props }) => {
   return (
-    <BootstrapBadge
-      as={Box}
+    <Box
+      forwardedAs={BootstrapBadge}
       className={className}
       variant={variant}
+      css=""
       {...getBoxProps(props)}
     >
       {children}
-    </BootstrapBadge>
+    </Box>
   );
 };
 
