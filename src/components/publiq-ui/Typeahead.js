@@ -1,19 +1,9 @@
 import PropTypes from 'prop-types';
 import { Typeahead as BootstrapTypeahead } from 'react-bootstrap-typeahead';
-import styled from 'styled-components';
 import { getValueFromTheme } from './theme';
-import { boxProps, boxPropTypes, getBoxProps } from './Box';
+import { Box, boxPropTypes, getBoxProps } from './Box';
 
 const getValue = getValueFromTheme('typeahead');
-
-const StyledBootstrapTypeahead = styled(BootstrapTypeahead)`
-  .dropdown-item.active,
-  .dropdown-item:active {
-    background-color: ${getValue('activeBackgroundColor')};
-  }
-
-  ${boxProps};
-`;
 
 const Typeahead = ({
   id,
@@ -25,12 +15,19 @@ const Typeahead = ({
   ...props
 }) => {
   return (
-    <StyledBootstrapTypeahead
+    <Box
+      forwardedAs={BootstrapTypeahead}
       id={id}
       options={data}
       labelKey={(option) => option}
       disabled={disabled}
       className={className}
+      css={`
+        .dropdown-item.active,
+        .dropdown-item:active {
+          background-color: ${getValue('activeBackgroundColor')};
+        }
+      `}
       onInputChange={onInputChange}
       onChange={onSelection}
       {...getBoxProps(props)}
