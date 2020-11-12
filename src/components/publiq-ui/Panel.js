@@ -1,25 +1,25 @@
 import PropTypes from 'prop-types';
 import { getValueFromTheme } from './theme';
-import { Box, boxPropTypes, getBoxProps } from './Box';
+import { Stack, stackPropTypes, getStackProps } from './Stack';
 
 const getValue = getValueFromTheme('panel');
 
 const Panel = ({ children, className, ...props }) => (
-  <Box
+  <Stack
     css={`
       border: 1px solid ${getValue('borderColor')};
       box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
     `}
+    {...getStackProps(props)}
     className={className}
-    {...getBoxProps(props)}
     marginBottom={4}
   >
     {children}
-  </Box>
+  </Stack>
 );
 
 Panel.propTypes = {
-  ...boxPropTypes,
+  ...stackPropTypes,
   className: PropTypes.string,
   children: PropTypes.node,
 };
