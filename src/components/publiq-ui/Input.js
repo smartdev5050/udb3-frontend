@@ -6,7 +6,7 @@ const BaseInput = (props) => <Box {...props} as="input" />;
 
 const Input = ({ type, id, placeholder, className, ...props }) => (
   <Form.Control
-    forwardAs={BaseInput}
+    forwardedAs={BaseInput}
     id={id}
     type={type}
     placeholder={placeholder}
