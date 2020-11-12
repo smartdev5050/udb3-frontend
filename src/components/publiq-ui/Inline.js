@@ -1,9 +1,10 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Box, getBoxProps, boxProps, boxPropTypes, parseProperty } from './Box';
 import PropTypes from 'prop-types';
 import { Children, cloneElement } from 'react';
+import { pick } from 'lodash';
 
-const StyledInline = styled(Box)`
+const inlineProps = css`
   display: flex;
   flex-direction: row;
 
@@ -11,6 +12,10 @@ const StyledInline = styled(Box)`
   ${parseProperty('justifyContent')};
 
   ${boxProps}
+`;
+
+const StyledInline = styled(Box)`
+  ${inlineProps};
 `;
 
 const Inline = ({
@@ -42,10 +47,16 @@ const Inline = ({
   );
 };
 
-Inline.propTypes = {
+const inlineProptypes = {
   ...boxPropTypes,
-  as: PropTypes.string,
   spacing: PropTypes.number,
+};
+
+const getInlineProps = (props) => pick(props, Object.keys(inlineProptypes));
+
+Inline.propTypes = {
+  ...inlineProptypes,
+  as: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.node,
   alignItems: PropTypes.string,
@@ -56,4 +67,4 @@ Inline.defaultProps = {
   as: 'section',
 };
 
-export { Inline };
+export { Inline, getInlineProps, inlineProptypes, inlineProps };
