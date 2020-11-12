@@ -14,6 +14,8 @@ const ButtonVariants = {
 
 const getValue = getValueFromTheme('button');
 
+const BaseButton = (props) => <Box as="button" {...props} />;
+
 const customCSS = css`
   &.btn {
     border-radius: ${getValue('borderRadius')};
@@ -134,8 +136,8 @@ const Button = ({
   if (variant === ButtonVariants.SECONDARY) variant = 'outline-secondary';
 
   return (
-    <Box
-      forwardedAs={BootstrapButton}
+    <BootstrapButton
+      forwardedAs={BaseButton}
       variant={variant}
       disabled={disabled}
       onClick={onClick}
@@ -152,7 +154,7 @@ const Button = ({
       ) : (
         children
       )}
-    </Box>
+    </BootstrapButton>
   );
 };
 
