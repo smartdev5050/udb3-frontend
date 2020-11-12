@@ -22,22 +22,17 @@ const Spinner = ({ variant, size, className, ...props }) => {
         width: 100%;
         align-items: center;
         text-align: center;
+
+        .text-primary {
+          color: ${getValue('primary.color')} !important;
+        }
+        .text-light {
+          color: ${getValue('light.color')} !important;
+        }
       `}
       {...getBoxProps(props)}
     >
-      <BootstrapSpinner
-        animation="border"
-        variant={variant}
-        size={size}
-        css={`
-          &.text-primary {
-            color: ${getValue('primary.color')} !important;
-          }
-          &.text-light {
-            color: ${getValue('light.color')} !important;
-          }
-        `}
-      />
+      <BootstrapSpinner animation="border" variant={variant} size={size} />
     </Box>
   );
 };
