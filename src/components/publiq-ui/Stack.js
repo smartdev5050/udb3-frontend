@@ -18,7 +18,15 @@ const StyledStack = styled(Box)`
   ${stackProps}
 `;
 
-const Stack = ({ spacing, className, children, as, ...props }) => {
+const Stack = ({
+  spacing,
+  className,
+  children,
+  as,
+  alignItems,
+  justifyContent,
+  ...props
+}) => {
   const clonedChildren = Children.map(children, (child, i) =>
     cloneElement(child, {
       ...child.props,
