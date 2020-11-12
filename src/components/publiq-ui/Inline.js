@@ -27,12 +27,13 @@ const Inline = ({
   justifyContent,
   ...props
 }) => {
-  const clonedChildren = Children.map(children, (child, i) =>
-    cloneElement(child, {
+  const clonedChildren = Children.map(children, (child, i) => {
+    if (typeof child === 'string') return child;
+    return cloneElement(child, {
       ...child.props,
       ...(i < children.length - 1 ? { marginRight: spacing } : {}),
-    }),
-  );
+    });
+  });
 
   return (
     <StyledInline
