@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Spinner as BootstrapSpinner } from 'react-bootstrap';
-import styled from 'styled-components';
-import { boxProps, boxPropTypes, getBoxProps } from './Box';
+import { Box, boxPropTypes, getBoxProps } from './Box';
+import { getValueFromTheme } from './theme';
 
 const SpinnerVariants = {
   PRIMARY: 'primary',
@@ -12,18 +12,33 @@ const SpinnerSizes = {
   SMALL: 'sm',
 };
 
-const StyledDiv = styled.div`
-  width: 100%;
-  align-items: center;
-
-  ${boxProps};
-`;
+const getValue = getValueFromTheme('spinner');
 
 const Spinner = ({ variant, size, className, ...props }) => {
   return (
-    <StyledDiv className={className} {...getBoxProps(props)}>
-      <BootstrapSpinner animation="border" variant={variant} size={size} />
-    </StyledDiv>
+    <Box
+      className={className}
+      css={`
+        width: 100%;
+        align-items: center;
+        text-align: center;
+      `}
+      {...getBoxProps(props)}
+    >
+      <BootstrapSpinner
+        animation="border"
+        variant={variant}
+        size={size}
+        css={`
+          &.text-primary {
+            color: ${getValue('primary.color')} !important;
+          }
+          &.text-light {
+            color: ${getValue('light.color')} !important;
+          }
+        `}
+      />
+    </Box>
   );
 };
 

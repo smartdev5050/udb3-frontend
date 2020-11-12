@@ -99,6 +99,14 @@ const theme = {
     listItem: {
       backgroundColor: colors.white,
     },
+    spinner: {
+      primary: {
+        color: colors.udbBlue,
+      },
+      light: {
+        color: colors.white,
+      },
+    },
   },
 };
 
