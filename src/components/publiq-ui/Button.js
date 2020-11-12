@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import { Button as BootstrapButton } from 'react-bootstrap';
-import styled from 'styled-components';
+import { css } from 'styled-components';
 import { getValueFromTheme } from './theme';
 import { Spinner, SpinnerVariants, SpinnerSizes } from './Spinner';
-import { getBoxProps, boxProps, boxPropTypes } from './Box';
+import { getBoxProps, boxPropTypes, Box } from './Box';
 
 const ButtonVariants = {
   PRIMARY: 'primary',
@@ -14,7 +14,9 @@ const ButtonVariants = {
 
 const getValue = getValueFromTheme('button');
 
-const StyledBootstrapButton = styled(BootstrapButton)`
+const BaseButton = (props) => <Box as="button" {...props} />;
+
+const customCSS = css`
   &.btn {
     border-radius: ${getValue('borderRadius')};
     padding: ${getValue('paddingY')} ${getValue('paddingX')};
@@ -110,8 +112,6 @@ const StyledBootstrapButton = styled(BootstrapButton)`
     display: flex;
     align-items: center;
   }
-
-  ${boxProps}
 `;
 
 const Button = ({
@@ -126,12 +126,14 @@ const Button = ({
   if (variant === ButtonVariants.SECONDARY) variant = 'outline-secondary';
 
   return (
-    <StyledBootstrapButton
+    <BootstrapButton
+      forwardedAs={BaseButton}
       variant={variant}
       disabled={disabled}
       onClick={onClick}
       className={className}
       {...getBoxProps(props)}
+      css={customCSS}
     >
       {loading ? (
         <Spinner
@@ -142,7 +144,7 @@ const Button = ({
       ) : (
         children
       )}
-    </StyledBootstrapButton>
+    </BootstrapButton>
   );
 };
 

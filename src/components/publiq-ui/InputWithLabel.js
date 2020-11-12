@@ -11,22 +11,20 @@ const InputWithLabel = ({
   placeholder,
   className,
   ...props
-}) => {
-  return (
-    <Inline
-      className={className}
-      as="div"
-      spacing={3}
-      alignItems="center"
-      {...getBoxProps(props)}
-    >
-      <Label htmlFor={id} variant={LabelVariants.BOLD}>
-        {children}
-      </Label>
-      <Input type={type} id={id} placeholder={placeholder} />
-    </Inline>
-  );
-};
+}) => (
+  <Inline
+    className={className}
+    as="div"
+    spacing={3}
+    alignItems="center"
+    {...getBoxProps(props)}
+  >
+    <Label htmlFor={id} variant={LabelVariants.BOLD}>
+      {children}
+    </Label>
+    <Input type={type} id={id} placeholder={placeholder} />
+  </Inline>
+);
 
 InputWithLabel.propTypes = {
   ...boxPropTypes,

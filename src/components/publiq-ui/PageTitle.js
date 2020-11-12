@@ -1,26 +1,28 @@
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import { boxPropTypes, getBoxProps } from './Box';
 import { getValueFromTheme } from './theme';
 import { Title } from './Title';
 
 const getValue = getValueFromTheme('pageTitle');
 
-const StyledTitle = styled(Title)`
-  &.h1 {
-    width: 100%;
-    line-height: 3.74rem;
-    color: ${getValue('color')};
-    border-bottom: 1px solid ${getValue('borderColor')};
-  }
-`;
-
-const PageTitle = ({ children, className }) => (
-  <StyledTitle size={1} className={className} marginBottom={5}>
+const PageTitle = ({ children, className, ...props }) => (
+  <Title
+    size={1}
+    className={className}
+    {...getBoxProps(props)}
+    css={`
+      width: 100%;
+      line-height: 3.74rem;
+      color: ${getValue('color')};
+      border-bottom: 1px solid ${getValue('borderColor')};
+    `}
+  >
     {children}
-  </StyledTitle>
+  </Title>
 );
 
 PageTitle.propTypes = {
+  ...boxPropTypes,
   className: PropTypes.string,
   children: PropTypes.node,
 };

@@ -1,23 +1,21 @@
 import { Card as BootstrapCard } from 'react-bootstrap';
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { getBoxProps, boxProps, boxPropTypes } from './Box';
+import { getBoxProps, boxPropTypes, Box } from './Box';
 
-const StyledBootstrapCard = styled(BootstrapCard)`
-  &.card {
-    border: none;
-  }
-
-  ${boxProps}
-`;
-
-const Card = ({ children, className, ...props }) => {
-  return (
-    <StyledBootstrapCard className={className} {...getBoxProps(props)}>
-      <StyledBootstrapCard.Body>{children}</StyledBootstrapCard.Body>
-    </StyledBootstrapCard>
-  );
-};
+const Card = ({ children, className, ...props }) => (
+  <BootstrapCard
+    forwardedAs={Box}
+    className={className}
+    {...getBoxProps(props)}
+    css={`
+      &.card {
+        border: none;
+      }
+    `}
+  >
+    <BootstrapCard.Body>{children}</BootstrapCard.Body>
+  </BootstrapCard>
+);
 
 Card.propTypes = {
   ...boxPropTypes,

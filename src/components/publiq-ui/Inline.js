@@ -1,19 +1,7 @@
-import styled, { css } from 'styled-components';
-import { Box, getBoxProps, boxProps, boxPropTypes } from './Box';
+import styled from 'styled-components';
+import { Box, getBoxProps, boxProps, boxPropTypes, parseProperty } from './Box';
 import PropTypes from 'prop-types';
-import { kebabCase } from 'lodash';
 import { Children, cloneElement } from 'react';
-
-const parseProperty = (key) => (props) => {
-  const value = props[key];
-  if (key === undefined || key === null) return;
-
-  const cssProperty = kebabCase(key);
-
-  return css`
-    ${cssProperty}: ${value};
-  `;
-};
 
 const StyledInline = styled(Box)`
   display: flex;
@@ -37,7 +25,7 @@ const Inline = ({
   const clonedChildren = Children.map(children, (child, i) =>
     cloneElement(child, {
       ...child.props,
-      marginRight: i < children.length - 1 ? spacing : 0,
+      ...(i < children.length - 1 ? { marginRight: spacing } : {}),
     }),
   );
 

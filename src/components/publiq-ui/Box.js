@@ -4,6 +4,17 @@ import { kebabCase, pick } from 'lodash';
 
 const remInPixels = 15;
 
+const parseProperty = (key) => (props) => {
+  const value = props[key];
+  if (key === undefined || key === null) return;
+
+  const cssProperty = kebabCase(key);
+
+  return css`
+    ${cssProperty}: ${value};
+  `;
+};
+
 const parseSpacing = (value) => () => (1 / remInPixels) * 2 ** value;
 
 const parseSpacingProperty = (key, prop) => (props) => {
@@ -114,27 +125,31 @@ const Box = ({
   paddingRight,
   paddingX,
   paddingY,
-}) => (
-  <StyledBox
-    margin={margin}
-    marginTop={marginTop}
-    marginBottom={marginBottom}
-    marginLeft={marginLeft}
-    marginRight={marginRight}
-    marginX={marginX}
-    marginY={marginY}
-    padding={padding}
-    paddingTop={paddingTop}
-    paddingBottom={paddingBottom}
-    paddingLeft={paddingLeft}
-    paddingRight={paddingRight}
-    paddingX={paddingX}
-    paddingY={paddingY}
-    className={className}
-  >
-    {children}
-  </StyledBox>
-);
+  ...props
+}) => {
+  return (
+    <StyledBox
+      margin={margin}
+      marginTop={marginTop}
+      marginBottom={marginBottom}
+      marginLeft={marginLeft}
+      marginRight={marginRight}
+      marginX={marginX}
+      marginY={marginY}
+      padding={padding}
+      paddingTop={paddingTop}
+      paddingBottom={paddingBottom}
+      paddingLeft={paddingLeft}
+      paddingRight={paddingRight}
+      paddingX={paddingX}
+      paddingY={paddingY}
+      className={className}
+      {...props}
+    >
+      {children}
+    </StyledBox>
+  );
+};
 
 Box.propTypes = {
   children: PropTypes.node,
@@ -142,4 +157,8 @@ Box.propTypes = {
   ...boxPropTypes,
 };
 
-export { Box, boxProps, boxPropTypes, getBoxProps };
+Box.defaultProps = {
+  as: 'div',
+};
+
+export { Box, boxProps, boxPropTypes, getBoxProps, parseProperty };

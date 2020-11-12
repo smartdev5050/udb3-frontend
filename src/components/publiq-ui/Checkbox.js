@@ -1,13 +1,5 @@
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { getBoxProps, boxProps, boxPropTypes } from './Box';
-
-const StyledCheckbox = styled.input.attrs(() => ({
-  type: 'checkbox',
-}))`
-  cursor: pointer;
-  ${boxProps};
-`;
+import { getBoxProps, boxPropTypes, Box } from './Box';
 
 const Checkbox = ({
   id,
@@ -17,18 +9,20 @@ const Checkbox = ({
   onToggle,
   className,
   ...props
-}) => {
-  return (
-    <StyledCheckbox
-      id={id}
-      name={name}
-      checked={checked}
-      disabled={disabled}
-      onChange={onToggle}
-      {...getBoxProps(props)}
-    />
-  );
-};
+}) => (
+  <Box
+    forwardedAs="input"
+    type="checkbox"
+    id={id}
+    name={name}
+    checked={checked}
+    disabled={disabled}
+    onChange={onToggle}
+    className={className}
+    css="cursor: pointer;"
+    {...getBoxProps(props)}
+  />
+);
 
 Checkbox.propTypes = {
   ...boxPropTypes,
