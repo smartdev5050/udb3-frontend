@@ -2,15 +2,14 @@ import { Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { getBoxProps, boxPropTypes, Box } from './Box';
 
-const BaseInput = (props) => <Box {...props} as="input" />;
-
 const Input = ({ type, id, placeholder, className, ...props }) => (
-  <Form.Control
-    forwardedAs={BaseInput}
+  <Box
+    forwardedAs={Form.Control}
     id={id}
     type={type}
     placeholder={placeholder}
     className={className}
+    css=""
     {...getBoxProps(props)}
   />
 );
