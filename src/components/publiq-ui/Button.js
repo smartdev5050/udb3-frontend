@@ -74,6 +74,11 @@ const customCSS = css`
     border-color: ${getValue('success.borderColor')};
     background-color: ${getValue('success.backgroundColor')};
 
+    &:hover {
+      background-color: ${getValue('success.hoverBackgroundColor')};
+      border-color: ${getValue('success.hoverBorderColor')};
+    }
+
     // active & focus
     &:not(:disabled):not(.disabled):active:focus,
     &:not(:disabled):not(.disabled).active:focus,
@@ -91,6 +96,11 @@ const customCSS = css`
     color: ${getValue('danger.color')};
     border-color: ${getValue('danger.borderColor')};
     background-color: ${getValue('danger.backgroundColor')};
+
+    &:hover {
+      background-color: ${getValue('danger.hoverBackgroundColor')};
+      border-color: ${getValue('danger.hoverBorderColor')};
+    }
 
     // active & focus
     &:not(:disabled):not(.disabled):active:focus,
