@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Label, LabelVariants } from './Label';
 import { Typeahead } from './Typeahead';
 import { Stack } from './Stack';
+import { boxPropTypes, getBoxProps } from './Box';
 
 const id = uniqueId('typeahead-');
 
@@ -13,9 +14,10 @@ const TypeaheadWithLabel = ({
   className,
   onInputChange,
   onSelection,
+  ...props
 }) => {
   return (
-    <Stack>
+    <Stack {...getBoxProps(props)}>
       <Label htmlFor={id} variant={LabelVariants.BOLD}>
         {label}
       </Label>
@@ -32,6 +34,7 @@ const TypeaheadWithLabel = ({
 };
 
 TypeaheadWithLabel.propTypes = {
+  ...boxPropTypes,
   label: PropTypes.string,
   data: PropTypes.array,
   disabled: PropTypes.bool,

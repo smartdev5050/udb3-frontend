@@ -1,21 +1,10 @@
 import styled, { css } from 'styled-components';
-import { Box, getBoxProps, boxProps, boxPropTypes } from './Box';
+import { Box, getBoxProps, boxProps, boxPropTypes, parseProperty } from './Box';
 import PropTypes from 'prop-types';
-import { kebabCase } from 'lodash';
 import { Children, cloneElement } from 'react';
+import { pick } from 'lodash';
 
-const parseProperty = (key) => (props) => {
-  const value = props[key];
-  if (key === undefined || key === null) return;
-
-  const cssProperty = kebabCase(key);
-
-  return css`
-    ${cssProperty}: ${value};
-  `;
-};
-
-const StyledInline = styled(Box)`
+const inlineProps = css`
   display: flex;
   flex-direction: row;
 
@@ -23,6 +12,10 @@ const StyledInline = styled(Box)`
   ${parseProperty('justifyContent')};
 
   ${boxProps}
+`;
+
+const StyledInline = styled(Box)`
+  ${inlineProps};
 `;
 
 const Inline = ({
@@ -34,12 +27,13 @@ const Inline = ({
   justifyContent,
   ...props
 }) => {
-  const clonedChildren = Children.map(children, (child, i) =>
-    cloneElement(child, {
+  const clonedChildren = Children.map(children, (child, i) => {
+    if (typeof child === 'string') return child;
+    return cloneElement(child, {
       ...child.props,
-      marginRight: i < children.length - 1 ? spacing : 0,
-    }),
-  );
+      ...(i < children.length - 1 ? { marginRight: spacing } : {}),
+    });
+  });
 
   return (
     <StyledInline
@@ -54,10 +48,16 @@ const Inline = ({
   );
 };
 
-Inline.propTypes = {
+const inlineProptypes = {
   ...boxPropTypes,
-  as: PropTypes.string,
   spacing: PropTypes.number,
+};
+
+const getInlineProps = (props) => pick(props, Object.keys(inlineProptypes));
+
+Inline.propTypes = {
+  ...inlineProptypes,
+  as: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.node,
   alignItems: PropTypes.string,
@@ -68,4 +68,4 @@ Inline.defaultProps = {
   as: 'section',
 };
 
-export { Inline };
+export { Inline, getInlineProps, inlineProptypes, inlineProps };

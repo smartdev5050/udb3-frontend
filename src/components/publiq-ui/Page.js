@@ -1,25 +1,21 @@
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import { Stack } from './Stack';
 import { getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme('page');
 
-const StyledSection = styled.section`
-  background-color: ${getValue('backgroundColor')};
-  margin: 0 auto;
-  padding: 0;
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: left;
-  align-items: flex-start;
-  text-align: left;
-`;
-
-const Page = ({ children, className }) => {
-  return <StyledSection className={className}>{children}</StyledSection>;
-};
+const Page = ({ children, className }) => (
+  <Stack
+    className={className}
+    css={`
+      background-color: ${getValue('backgroundColor')};
+      width: 100%;
+      min-height: 100vh;
+    `}
+  >
+    {children}
+  </Stack>
+);
 
 Page.propTypes = {
   children: PropTypes.node,

@@ -14,7 +14,7 @@ const RadioButtonGroup = ({
   return (
     <Stack className={className} as="div" spacing={3}>
       {groupLabel && <Label variant={LabelVariants.BOLD}>{groupLabel}</Label>}
-      <Stack role="radiogroup" as="div" spacing={2}>
+      <Stack role="radiogroup" as="ul" spacing={2}>
         {items.map((item) => (
           <RadioButtonWithLabel
             key={item.value}
