@@ -1,18 +1,9 @@
-import { useTranslation } from 'react-i18next';
+import Default from '../layouts/default';
 
-import { Alert, AlertVariants } from '../components/publiq-ui/Alert';
-import styles from './index.module.scss';
-
-const Home = () => {
-  const { t } = useTranslation();
-
-  return (
-    <div className={styles.container}>
-      <Alert visible variant={AlertVariants.DANGER}>
-        {t('brand')}
-      </Alert>
-    </div>
-  );
+const Index = () => {
+  return <Default>Index page</Default>;
 };
 
-export default Home;
+Index.propTypes = {};
+
+export default Index;
