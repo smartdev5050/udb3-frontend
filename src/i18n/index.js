@@ -17,7 +17,7 @@ i18n
     lookupCookie: 'udb-language',
     fallbackLng: 'nl',
     supportedLng: ['nl', 'fr'],
-    debug: true,
+    debug: false,
     defaultNS: false,
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
