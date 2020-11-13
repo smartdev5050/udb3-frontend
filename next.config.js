@@ -5,6 +5,15 @@ module.exports = {
     '@storybook/addon-essentials',
     '@storybook/addon-a11y',
   ],
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/dashboard',
+        permanent: true,
+      },
+    ];
+  },
   env: {
     API_KEY: process.env.API_KEY,
     API_URL: process.env.API_URL,
