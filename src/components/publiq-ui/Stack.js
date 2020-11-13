@@ -14,7 +14,7 @@ const stackProps = css`
   ${boxProps}
 `;
 
-const StyledStack = styled(Box)`
+const StyledBox = styled(Box)`
   ${stackProps}
 `;
 
@@ -27,6 +27,7 @@ const Stack = ({
   justifyContent,
   ...props
 }) => {
+  console.log('props', props);
   const clonedChildren = Children.map(children, (child, i) => {
     // if child is normal text
     if (typeof child === 'string')
@@ -55,9 +56,9 @@ const Stack = ({
   });
 
   return (
-    <StyledStack className={className} as={as} {...getBoxProps(props)}>
+    <StyledBox className={className} as={as} {...getBoxProps(props)}>
       {clonedChildren}
-    </StyledStack>
+    </StyledBox>
   );
 };
 
