@@ -27,7 +27,6 @@ const Stack = ({
   justifyContent,
   ...props
 }) => {
-  console.log('props', props);
   const clonedChildren = Children.map(children, (child, i) => {
     // if child is normal text
     if (typeof child === 'string')
