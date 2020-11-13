@@ -22,7 +22,7 @@ const Link = ({ href, children, as, className, ...props }) => {
 
   if (isInternalLink) {
     return (
-      <NextLink prefetch href={href} passHref>
+      <NextLink href={href} passHref>
         <StyledLink as={as} className={className} {...getBoxProps(props)}>
           {children}
         </StyledLink>
