@@ -14,7 +14,7 @@ const stackProps = css`
   ${boxProps}
 `;
 
-const StyledStack = styled(Box)`
+const StyledBox = styled(Box)`
   ${stackProps}
 `;
 
@@ -55,9 +55,9 @@ const Stack = ({
   });
 
   return (
-    <StyledStack className={className} as={as} {...getBoxProps(props)}>
+    <StyledBox className={className} as={as} {...getBoxProps(props)}>
       {clonedChildren}
-    </StyledStack>
+    </StyledBox>
   );
 };
 
