@@ -28,7 +28,23 @@ const Inline = ({
   ...props
 }) => {
   const clonedChildren = Children.map(children, (child, i) => {
+    // if child is normal text
     if (typeof child === 'string') return child;
+
+    // if child is not a functional component
+    if (typeof child.type !== 'function') {
+      return cloneElement(child, {
+        ...(i < children.length - 1
+          ? {
+              style: {
+                marginRight: spacing,
+              },
+            }
+          : {}),
+      });
+    }
+
+    // if child is functional component
     return cloneElement(child, {
       ...child.props,
       ...(i < children.length - 1 ? { marginRight: spacing } : {}),
