@@ -1,7 +1,15 @@
-import { Title } from '../components/publiq-ui/Title';
+import Default from '../layouts/Default';
+import { Page } from '../components/publiq-ui/Page';
+import { PageTitle } from '../components/publiq-ui/PageTitle';
 
 const Dashboard = () => {
-  return <Title>Dashboard</Title>;
+  return (
+    <Default>
+      <Page>
+        <PageTitle>Dashboard</PageTitle>
+      </Page>
+    </Default>
+  );
 };
 
 export default Dashboard;
