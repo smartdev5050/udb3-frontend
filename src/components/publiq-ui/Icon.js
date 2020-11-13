@@ -39,7 +39,12 @@ const Icons = {
 
 const Icon = ({ variant, className, ...props }) => {
   return (
-    <Box as={FontAwesomeIcon} icon={Icons[variant]} {...getBoxProps(props)} />
+    <Box
+      as={FontAwesomeIcon}
+      className={className}
+      icon={Icons[variant]}
+      {...getBoxProps(props)}
+    />
   );
 };
 
