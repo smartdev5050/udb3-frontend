@@ -16,8 +16,34 @@ const StyledStack = styled(Stack)`
 const SideBar = () => {
   return (
     <StyledStack>
-      <Link href="/dashboard">Dashboard</Link>
-      <Link href="/productions">Productions</Link>
+      <Stack as="ul">
+        <li>
+          <Link href="/dashboard">Dashboard</Link>
+        </li>
+        <li>
+          <Link href="/event">Invoeren</Link>
+        </li>
+        <li>
+          <Link href="/search">Zoeken</Link>
+        </li>
+      </Stack>
+      <Stack as="ul">
+        <li>
+          <Link href="/dashboard">Gebruikers</Link>
+        </li>
+        <li>
+          <Link href="/event">Rollen</Link>
+        </li>
+        <li>
+          <Link href="/search">Labels</Link>
+        </li>
+        <li>
+          <Link href="/search">Organisaties</Link>
+        </li>
+        <li>
+          <Link href="/search">Producties</Link>
+        </li>
+      </Stack>
     </StyledStack>
   );
 };
