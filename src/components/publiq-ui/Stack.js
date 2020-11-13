@@ -29,19 +29,22 @@ const Stack = ({
 }) => {
   const clonedChildren = Children.map(children, (child, i) => {
     // if child is normal text
-    if (typeof child === 'string') return child;
+    if (typeof child === 'string')
+      return (
+        <Box as="p" marginBottom={spacing}>
+          {child}
+        </Box>
+      );
 
-    // if child is not a functional component
-    if (typeof child.type !== 'function') {
-      return cloneElement(child, {
-        ...(i < children.length - 1
-          ? {
-              style: {
-                marginBottom: spacing,
-              },
-            }
-          : {}),
-      });
+    // if child is html
+    if (child.props.originalType) {
+      return (
+        <Box
+          as={`${child.props.originalType}`}
+          {...child.props}
+          marginBottom={spacing}
+        />
+      );
     }
 
     // if child is functional component
