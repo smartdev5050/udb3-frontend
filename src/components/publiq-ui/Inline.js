@@ -31,7 +31,7 @@ const Inline = ({
     // if child is normal text
     if (typeof child === 'string')
       return (
-        <Box as="p" marginBottom={spacing}>
+        <Box as="p" marginRight={spacing}>
           {child}
         </Box>
       );
@@ -42,7 +42,7 @@ const Inline = ({
         <Box
           as={`${child.props.originalType}`}
           {...child.props}
-          marginBottom={spacing}
+          marginRight={spacing}
         />
       );
     }
@@ -50,7 +50,7 @@ const Inline = ({
     // if child is functional component
     return cloneElement(child, {
       ...child.props,
-      ...(i < children.length - 1 ? { marginBottom: spacing } : {}),
+      ...(i < children.length - 1 ? { marginRight: spacing } : {}),
     });
   });
 
