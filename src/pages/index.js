@@ -1,9 +1,7 @@
 import Default from '../layouts/Default';
 
 const Index = () => {
-  return <Default>Index page</Default>;
+  return <Default />;
 };
-
-Index.propTypes = {};
 
 export default Index;
