@@ -61,15 +61,15 @@ const Inline = ({
   );
 };
 
-const inlineProptypes = {
+const inlinePropTypes = {
   ...boxPropTypes,
   spacing: PropTypes.number,
 };
 
-const getInlineProps = (props) => pick(props, Object.keys(inlineProptypes));
+const getInlineProps = (props) => pick(props, Object.keys(inlinePropTypes));
 
 Inline.propTypes = {
-  ...inlineProptypes,
+  ...inlinePropTypes,
   as: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.node,
@@ -81,4 +81,4 @@ Inline.defaultProps = {
   as: 'section',
 };
 
-export { Inline, getInlineProps, inlineProptypes, inlineProps };
+export { Inline, getInlineProps, inlinePropTypes, inlineProps };
