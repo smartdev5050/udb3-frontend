@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 import { Children, cloneElement } from 'react';
 import { pick } from 'lodash';
 
-// TODO: Prop `marginRight` did not match. Server: "null" Client: "3, marginBottom doesn't work on stack in SideBar
-
 const stackProps = css`
   display: flex;
   flex-direction: column;
