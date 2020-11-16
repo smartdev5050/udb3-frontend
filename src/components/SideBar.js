@@ -236,11 +236,8 @@ const SideBar = () => {
         `}
       >
         <Menu items={userMenu} />
-        <Stack
-          css="flex: 1;"
-          justifyContent="space-between"
-          alignItems="center"
-        >
+        {/* TODO: this should work 'justifyContent="space-between"' */}
+        <Stack css="flex: 1; justify-content: space-between;">
           <Menu items={manageMenu} title={t('menu.management')} />
           <Menu items={notificationMenu} />
         </Stack>
