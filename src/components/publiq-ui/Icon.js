@@ -13,7 +13,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { faSlideshare } from '@fortawesome/free-brands-svg-icons';
 
-const IconVariants = {
+const Icons = {
   HOME: 'home',
   PLUS_CIRCLE: 'plusCircle',
   SEARCH: 'search',
@@ -25,7 +25,7 @@ const IconVariants = {
   LAYER_GROUP: 'layerGroup',
 };
 
-const Icons = {
+const IconsMap = {
   home: faHome,
   plusCircle: faPlusCircle,
   search: faSearch,
@@ -37,21 +37,18 @@ const Icons = {
   layerGroup: faLayerGroup,
 };
 
-const Icon = ({ variant, className, ...props }) => {
+const Icon = ({ name, className, ...props }) => {
   return (
-    <Box
-      as={FontAwesomeIcon}
-      className={className}
-      icon={Icons[variant]}
-      {...getBoxProps(props)}
-    />
+    <Box className={className} {...getBoxProps(props)}>
+      <FontAwesomeIcon className={className} icon={IconsMap[name]} />
+    </Box>
   );
 };
 
 Icon.propTypes = {
   ...boxPropTypes,
-  variant: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   className: PropTypes.string,
 };
 
-export { Icon, IconVariants };
+export { Icon, Icons };

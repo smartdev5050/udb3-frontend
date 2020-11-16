@@ -1,5 +1,5 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
-import { Icon, IconVariants } from './Icon.js';
+import { Icon, Icons } from './Icon.js';
 
 <Meta title="Components/Icon" />
 
@@ -7,17 +7,13 @@ export const argTypes = {
   variant: {
     control: {
       type: 'select',
-      options: [...Object.values(IconVariants)],
+      options: [...Object.values(Icons)],
     },
   },
 };
 
 <Canvas>
-  <Story
-    name="Default"
-    args={{ variant: IconVariants.USER }}
-    argTypes={argTypes}
-  >
+  <Story name="Default" args={{ variant: Icons.USER }} argTypes={argTypes}>
     {(args) => <Icon {...args} />}
   </Story>
 </Canvas>
