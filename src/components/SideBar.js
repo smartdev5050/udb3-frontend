@@ -8,35 +8,88 @@ import { getValueFromTheme } from './publiq-ui/theme';
 import { ListItem } from './publiq-ui/ListItem';
 import { Box } from './publiq-ui/Box';
 import { Title } from './publiq-ui/Title';
+import { Button } from './publiq-ui/Button';
 
 const getValueForMenuItemLink = getValueFromTheme('menuItemLink');
+const getValueForMenuItemButton = getValueFromTheme('menuItemButton');
 const getValueForSideBar = getValueFromTheme('sideBar');
 const getValueForMenu = getValueFromTheme('menu');
 
-const MenuItem = ({ href, iconName, children }) => {
+const MenuItem = ({ href, iconName, children, onClick }) => {
+  const Content = ({ iconName, children }) => (
+    <>
+      <Icon name={iconName} marginRight={3} />
+      <Box as="span">{children}</Box>
+    </>
+  );
+
+  Content.propTypes = {
+    iconName: PropTypes.string,
+    children: PropTypes.node,
+  };
+
   return (
     <ListItem>
-      <Link
-        href={href}
-        css={`
-          display: flex;
-          width: 100%;
-          text-decoration: none;
-          color: ${getValueForMenuItemLink('color')};
-          padding: 4px;
-
-          &:hover {
-            color: ${getValueForMenuItemLink('hover.color')};
-            background-color: ${getValueForMenuItemLink(
-              'hover.backgroundColor',
-            )};
+      {href ? (
+        <Link
+          href={href}
+          css={`
+            display: flex;
+            width: 100%;
             text-decoration: none;
-          }
-        `}
-      >
-        <Icon name={iconName} marginRight={3} />
-        <Box as="span">{children}</Box>
-      </Link>
+            color: ${getValueForMenuItemLink('color')};
+            padding: 4px;
+
+            &:hover {
+              color: ${getValueForMenuItemLink('hover.color')};
+              background-color: ${getValueForMenuItemLink(
+                'hover.backgroundColor',
+              )};
+              text-decoration: none;
+            }
+          `}
+        >
+          <Content iconName={iconName}>{children}</Content>
+        </Link>
+      ) : (
+        <Button
+          css={`
+            &.btn-primary {
+              display: flex;
+              width: 100%;
+              text-decoration: none;
+              padding: 4px;
+              background-color: inherit;
+              border-color: ${getValueForMenuItemButton('borderColor')};
+
+              &:hover {
+                background-color: ${getValueForMenuItemButton(
+                  'hover.backgroundColor',
+                )};
+                text-decoration: none;
+                border-color: ${getValueForMenuItemButton(
+                  'hover.backgroundColor',
+                )};
+              }
+
+              // active & focus
+              &:not(:disabled):not(.disabled):active:focus,
+              &:not(:disabled):not(.disabled).active:focus,
+              .show > &.dropdown-toggle:focus {
+                background-color: ${getValueForMenuItemButton(
+                  'hover.backgroundColor',
+                )};
+                border-color: ${getValueForMenuItemButton(
+                  'hover.backgroundColor',
+                )};
+              }
+            }
+          `}
+          onClick={onClick}
+        >
+          <Content iconName={iconName}>{children}</Content>
+        </Button>
+      )}
     </ListItem>
   );
 };
@@ -45,13 +98,14 @@ MenuItem.propTypes = {
   href: PropTypes.string,
   iconName: PropTypes.string,
   children: PropTypes.node,
+  onClick: PropTypes.func,
 };
 
 const Menu = ({ items = [], title, ...props }) => {
   const Content = (contentProps) => (
     <List {...contentProps}>
-      {items.map((menuItem) => (
-        <MenuItem key={menuItem.href} {...menuItem} />
+      {items.map((menuItem, index) => (
+        <MenuItem key={index} {...menuItem} />
       ))}
     </List>
   );
@@ -135,6 +189,19 @@ const SideBar = () => {
     },
   ];
 
+  const notificationMenu = [
+    {
+      iconName: Icons.HOME,
+      children: t('menu.announcements'),
+      onClick: () => {},
+    },
+    {
+      iconName: Icons.PLUS_CIRCLE,
+      children: t('menu.notifications'),
+      onClick: () => {},
+    },
+  ];
+
   return (
     <Stack
       css={`
@@ -162,13 +229,21 @@ const SideBar = () => {
       <Stack
         spacing={4}
         css={`
+          flex: 1;
           > :not(:first-child) {
             border-top: 1px solid ${getValueForMenu('borderColor')};
           }
         `}
       >
         <Menu items={userMenu} />
-        <Menu items={manageMenu} title={t('menu.management')} />
+        <Stack
+          css="flex: 1;"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Menu items={manageMenu} title={t('menu.management')} />
+          <Menu items={notificationMenu} />
+        </Stack>
       </Stack>
     </Stack>
   );
