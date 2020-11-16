@@ -44,7 +44,8 @@
     "roles": "Rollen",
     "search": "Zoeken",
     "users": "Gebruikers",
-    "validate": "Valideren"
+    "validate": "Valideren",
+    "announcements": "Nieuwigheden"
   },
   "pagination": {
     "next": "Volgende",
