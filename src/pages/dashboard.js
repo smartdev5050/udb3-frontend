@@ -1,4 +1,4 @@
-import Default from '../layouts/Default';
+import Default from '../layouts/default';
 import { Page } from '../components/publiq-ui/Page';
 import { PageTitle } from '../components/publiq-ui/PageTitle';
 

@@ -1,4 +1,4 @@
-import Default from '../../../layouts/Default';
+import Default from '../../../layouts/default';
 import { Title } from '../../../components/publiq-ui/Title';
 
 const Create = () => {

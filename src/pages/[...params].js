@@ -1,4 +1,4 @@
-import Default from '../layouts/Default';
+import Default from '../layouts/default';
 import { useRouter } from 'next/router';
 import { useCookies } from 'react-cookie';
 import i18next from 'i18next';

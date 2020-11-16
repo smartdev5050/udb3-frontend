@@ -1,4 +1,4 @@
-import Default from '../layouts/Default';
+import Default from '../layouts/default';
 
 const Index = () => {
   return <Default />;
