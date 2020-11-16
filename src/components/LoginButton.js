@@ -21,9 +21,6 @@ const LoginButton = ({ language, className }) => {
       lang: language,
     }).toString();
 
-    console.log(process.env.AUTH_URL, process.env.API_URL);
-    console.log(`${process.env.AUTH_URL}/connect?${queryString}`);
-
     window.location.href = `${process.env.AUTH_URL}/connect?${queryString}`;
   };
 
