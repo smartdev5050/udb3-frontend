@@ -118,7 +118,10 @@ const theme = {
       color: colors.white,
       backgroundColor: colors.udbRed,
     },
-    sideBarLink: {
+    menu: {
+      borderColor: colors.red4,
+    },
+    menuItemLink: {
       color: colors.white,
       hover: {
         color: colors.white,
