@@ -128,6 +128,15 @@ const theme = {
         backgroundColor: colors.red4,
       },
     },
+    menuItemButton: {
+      color: colors.white,
+      borderColor: colors.udbRed,
+      hover: {
+        color: colors.white,
+        backgroundColor: colors.red4,
+        borderColor: colors.red4,
+      },
+    },
   },
 };
 
