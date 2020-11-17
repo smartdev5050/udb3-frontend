@@ -6,9 +6,6 @@ import { forwardRef } from 'react';
 const remInPixels = 15;
 
 const parseProperty = (key) => (props) => {
-  if (key === 'justifyContent' && props[key]) {
-    console.log(key, props[key]);
-  }
   const value = props[key];
   if (key === undefined || key === null) return;
 
