@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
-import { Box, getBoxProps, boxProps, boxPropTypes, parseProperty } from './Box';
+import { Box, boxProps, boxPropTypes, parseProperty } from './Box';
 import PropTypes from 'prop-types';
-import { Children, cloneElement } from 'react';
+import { Children, cloneElement, forwardRef } from 'react';
 import { pick } from 'lodash';
 
 const stackProps = css`
@@ -18,48 +18,45 @@ const StyledBox = styled(Box)`
   ${stackProps}
 `;
 
-const Stack = ({
-  spacing,
-  className,
-  children,
-  as,
-  alignItems,
-  justifyContent,
-  ...props
-}) => {
-  const clonedChildren = Children.map(children, (child, i) => {
-    // if child is normal text
-    if (typeof child === 'string')
-      return (
-        <Box as="p" marginBottom={spacing}>
-          {child}
-        </Box>
-      );
+const Stack = forwardRef(
+  ({ spacing, className, children, as, ...props }, ref) => {
+    const clonedChildren = Children.map(children, (child, i) => {
+      const isLastItem = i === children.length - 1;
 
-    // if child is html
-    if (child.props.originalType) {
-      return (
-        <Box
-          as={`${child.props.originalType}`}
-          {...child.props}
-          marginBottom={spacing}
-        />
-      );
-    }
+      // if child is normal text
+      if (typeof child === 'string') {
+        return (
+          <Box as="p" {...(!isLastItem ? { marginBottom: spacing } : {})}>
+            {child}
+          </Box>
+        );
+      }
 
-    // if child is functional component
-    return cloneElement(child, {
-      ...child.props,
-      ...(i < children.length - 1 ? { marginBottom: spacing } : {}),
+      // if child is html
+      if (child.props.originalType) {
+        return (
+          <Box
+            as={`${child.props.originalType}`}
+            {...(!isLastItem ? { marginBottom: spacing } : {})}
+            {...child.props}
+          />
+        );
+      }
+
+      // if child is functional component
+      return cloneElement(child, {
+        ...child.props,
+        ...(!isLastItem ? { marginBottom: spacing } : {}),
+      });
     });
-  });
 
-  return (
-    <StyledBox className={className} as={as} {...getBoxProps(props)}>
-      {clonedChildren}
-    </StyledBox>
-  );
-};
+    return (
+      <StyledBox className={className} forwardedAs={as} ref={ref} {...props}>
+        {clonedChildren}
+      </StyledBox>
+    );
+  },
+);
 
 const stackPropTypes = {
   ...boxPropTypes,

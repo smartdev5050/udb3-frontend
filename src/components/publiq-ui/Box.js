@@ -1,10 +1,14 @@
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { kebabCase, pick } from 'lodash';
+import { forwardRef } from 'react';
 
 const remInPixels = 15;
 
 const parseProperty = (key) => (props) => {
+  if (key === 'justifyContent' && props[key]) {
+    console.log(key, props[key]);
+  }
   const value = props[key];
   if (key === undefined || key === null) return;
 
@@ -108,48 +112,54 @@ const boxPropTypes = {
 
 const getBoxProps = (props) => pick(props, Object.keys(boxPropTypes));
 
-const Box = ({
-  children,
-  className,
-  margin,
-  marginTop,
-  marginBottom,
-  marginLeft,
-  marginRight,
-  marginX,
-  marginY,
-  padding,
-  paddingTop,
-  paddingBottom,
-  paddingLeft,
-  paddingRight,
-  paddingX,
-  paddingY,
-  ...props
-}) => {
-  return (
-    <StyledBox
-      margin={margin}
-      marginTop={marginTop}
-      marginBottom={marginBottom}
-      marginLeft={marginLeft}
-      marginRight={marginRight}
-      marginX={marginX}
-      marginY={marginY}
-      padding={padding}
-      paddingTop={paddingTop}
-      paddingBottom={paddingBottom}
-      paddingLeft={paddingLeft}
-      paddingRight={paddingRight}
-      paddingX={paddingX}
-      paddingY={paddingY}
-      className={className}
-      {...props}
-    >
-      {children}
-    </StyledBox>
-  );
-};
+const Box = forwardRef(
+  (
+    {
+      children,
+      className,
+      margin,
+      marginTop,
+      marginBottom,
+      marginLeft,
+      marginRight,
+      marginX,
+      marginY,
+      padding,
+      paddingTop,
+      paddingBottom,
+      paddingLeft,
+      paddingRight,
+      paddingX,
+      paddingY,
+      ...props
+    },
+    ref,
+  ) => {
+    return (
+      <StyledBox
+        margin={margin}
+        marginTop={marginTop}
+        marginBottom={marginBottom}
+        marginLeft={marginLeft}
+        marginRight={marginRight}
+        marginX={marginX}
+        marginY={marginY}
+        padding={padding}
+        paddingTop={paddingTop}
+        paddingBottom={paddingBottom}
+        paddingLeft={paddingLeft}
+        paddingRight={paddingRight}
+        paddingX={paddingX}
+        paddingY={paddingY}
+        className={className}
+        ref={ref}
+        {...props}
+      >
+        {children}
+      </StyledBox>
+    );
+  },
+);
 
 Box.propTypes = {
   children: PropTypes.node,
