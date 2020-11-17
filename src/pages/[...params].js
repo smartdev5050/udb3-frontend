@@ -20,7 +20,6 @@ const Fallback = () => {
       lang: i18next.language,
     }).toString();
 
-
     const path = router.asPath ? router.asPath : '';
     const parsedQueryString = queryString ? `?${queryString}` : '';
     setLegacyPath(
