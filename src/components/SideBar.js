@@ -9,6 +9,7 @@ import { ListItem } from './publiq-ui/ListItem';
 import { Box } from './publiq-ui/Box';
 import { Title } from './publiq-ui/Title';
 import { Button } from './publiq-ui/Button';
+import { Logo, LogoVariants } from './publiq-ui/Logo';
 
 const getValueForMenuItemLink = getValueFromTheme('menuItemLink');
 const getValueForMenuItemButton = getValueFromTheme('menuItemButton');
@@ -214,17 +215,8 @@ const SideBar = () => {
       padding={2}
     >
       <Link href="/dashboard">
-        <img
-          src="/assets/udb-logo.svg"
-          alt="Uitdatabank"
-          className="udb-logo"
-        />
-        <img
-          src="/assets/udb-logo-mobile.svg"
-          alt="Uitdatabank"
-          className="udb-logo-mobile"
-          css="display: none;"
-        />
+        <Logo />
+        {/* <Logo variants={LogoVariants.MOBILE} /> */}
       </Link>
       <Stack
         spacing={4}

@@ -1,0 +1,28 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import { Logo, LogoVariants } from './Logo.js';
+
+export const commonArgs = {
+  color: 'black',
+};
+
+export const commonArgTypes = {
+  width: { type: { name: 'number' } },
+};
+
+<Meta title="Components/Logo" />
+
+<Canvas>
+  <Story name="Default" args={commonArgs} argTypes={commonArgTypes}>
+    {(args) => <Logo {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Default" />
+
+<Canvas>
+  <Story name="Mobile" args={commonArgs} argTypes={commonArgTypes}>
+    {(args) => <Logo variant={LogoVariants.MOBILE} {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Mobile" />
