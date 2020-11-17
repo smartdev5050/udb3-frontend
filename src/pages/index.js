@@ -1,7 +1,5 @@
-import Frame from '../layouts/Frame';
-
 const Index = () => {
-  return <Frame />;
+  return <div>hello</div>;
 };
 
 export default Index;

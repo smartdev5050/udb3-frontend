@@ -1,4 +1,3 @@
-import Frame from '../layouts/Frame';
 import { useRouter } from 'next/router';
 import { useCookies } from 'react-cookie';
 import i18next from 'i18next';
@@ -26,21 +25,19 @@ const Fallback = () => {
     iframe = `<iframe src="${generatedPath}" />`;
   }, []);
 
+  if (!iframe) return null;
+
   return (
-    <Frame>
-      {iframe && (
-        <div
-          css={`
-            iframe {
-              height: 100vh;
-              width: 100%;
-              border: 0;
-            }
-          `}
-          dangerouslySetInnerHTML={{ __html: iframe }}
-        />
-      )}
-    </Frame>
+    <div
+      css={`
+        iframe {
+          height: 100vh;
+          width: 100%;
+          border: 0;
+        }
+      `}
+      dangerouslySetInnerHTML={{ __html: iframe }}
+    />
   );
 };
 
