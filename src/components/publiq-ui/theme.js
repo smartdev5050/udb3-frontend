@@ -122,9 +122,7 @@ const theme = {
       borderColor: colors.red4,
     },
     menuItem: {
-      color: colors.white,
       hover: {
-        color: colors.white,
         backgroundColor: colors.red4,
       },
     },
