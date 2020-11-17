@@ -26,15 +26,15 @@ const Icons = {
 };
 
 const IconsMap = {
-  home: faHome,
-  plusCircle: faPlusCircle,
-  search: faSearch,
-  flag: faFlag,
-  user: faUser,
-  users: faUsers,
-  tag: faTag,
-  slideShare: faSlideshare,
-  layerGroup: faLayerGroup,
+  [Icons.HOME]: faHome,
+  [Icons.PLUS_CIRCLE]: faPlusCircle,
+  [Icons.SEARCH]: faSearch,
+  [Icons.FLAG]: faFlag,
+  [Icons.USER]: faUser,
+  [Icons.USERS]: faUsers,
+  [Icons.TAG]: faTag,
+  [Icons.SLIDE_SHARE]: faSlideshare,
+  [Icons.LAYER_GROUP]: faLayerGroup,
 };
 
 const Icon = ({ name, className, ...props }) => {
