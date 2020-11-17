@@ -121,20 +121,11 @@ const theme = {
     menu: {
       borderColor: colors.red4,
     },
-    menuItemLink: {
+    menuItem: {
       color: colors.white,
       hover: {
         color: colors.white,
         backgroundColor: colors.red4,
-      },
-    },
-    menuItemButton: {
-      color: colors.white,
-      borderColor: colors.udbRed,
-      hover: {
-        color: colors.white,
-        backgroundColor: colors.red4,
-        borderColor: colors.red4,
       },
     },
   },

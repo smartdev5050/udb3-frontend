@@ -55,7 +55,7 @@ const Inline = ({
   });
 
   return (
-    <StyledBox className={className} as={as} {...getBoxProps(props)}>
+    <StyledBox className={className} forwardedAs={as} {...getBoxProps(props)}>
       {clonedChildren}
     </StyledBox>
   );

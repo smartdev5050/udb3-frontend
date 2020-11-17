@@ -8,11 +8,10 @@ import { getValueFromTheme } from './publiq-ui/theme';
 import { ListItem } from './publiq-ui/ListItem';
 import { Box } from './publiq-ui/Box';
 import { Title } from './publiq-ui/Title';
-import { Button } from './publiq-ui/Button';
-import { Logo, LogoVariants } from './publiq-ui/Logo';
+import { Button, ButtonVariants } from './publiq-ui/Button';
+import { Logo } from './publiq-ui/Logo';
 
-const getValueForMenuItemLink = getValueFromTheme('menuItemLink');
-const getValueForMenuItemButton = getValueFromTheme('menuItemButton');
+const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSideBar = getValueFromTheme('sideBar');
 const getValueForMenu = getValueFromTheme('menu');
 
@@ -38,14 +37,13 @@ const MenuItem = ({ href, iconName, children, onClick }) => {
             display: flex;
             width: 100%;
             text-decoration: none;
-            color: ${getValueForMenuItemLink('color')};
+
+            color: ${getValueForMenuItem('color')};
             padding: 4px;
 
             &:hover {
-              color: ${getValueForMenuItemLink('hover.color')};
-              background-color: ${getValueForMenuItemLink(
-                'hover.backgroundColor',
-              )};
+              color: ${getValueForMenuItem('hover.color')};
+              background-color: ${getValueForMenuItem('hover.backgroundColor')};
               text-decoration: none;
             }
           `}
@@ -54,36 +52,15 @@ const MenuItem = ({ href, iconName, children, onClick }) => {
         </Link>
       ) : (
         <Button
+          variant={ButtonVariants.UNSTYLED}
+          padding={2}
           css={`
-            &.btn-primary {
-              display: flex;
-              width: 100%;
-              text-decoration: none;
-              padding: 4px;
-              background-color: inherit;
-              border-color: ${getValueForMenuItemButton('borderColor')};
+            width: 100%;
+            color: ${getValueForMenuItem('color')};
 
-              &:hover {
-                background-color: ${getValueForMenuItemButton(
-                  'hover.backgroundColor',
-                )};
-                text-decoration: none;
-                border-color: ${getValueForMenuItemButton(
-                  'hover.backgroundColor',
-                )};
-              }
-
-              // active & focus
-              &:not(:disabled):not(.disabled):active:focus,
-              &:not(:disabled):not(.disabled).active:focus,
-              .show > &.dropdown-toggle:focus {
-                background-color: ${getValueForMenuItemButton(
-                  'hover.backgroundColor',
-                )};
-                border-color: ${getValueForMenuItemButton(
-                  'hover.backgroundColor',
-                )};
-              }
+            &:hover {
+              background-color: ${getValueForMenuItem('hover.backgroundColor')};
+              border-color: ${getValueForMenuItem('hover.backgroundColor')};
             }
           `}
           onClick={onClick}
