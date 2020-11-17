@@ -21,7 +21,7 @@ const LoginButton = ({ language, className }) => {
       lang: language,
     }).toString();
 
-    window.location.href = `${process.env.AUTH_URL}/connect?${queryString}`;
+    window.location.href = `${process.env.NEXT_PUBLIC_AUTH_URL}/connect?${queryString}`;
   };
 
   return (

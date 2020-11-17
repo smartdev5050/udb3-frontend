@@ -22,7 +22,7 @@ const Fallback = () => {
 
     const path = router.asPath ? router.asPath : '';
     const parsedQueryString = queryString ? `?${queryString}` : '';
-    const generatedPath = `${process.env.LEGACY_APP_URL}${path}${parsedQueryString}`;
+    const generatedPath = `${process.env.NEXT_PUBLIC_LEGACY_APP_URL}${path}${parsedQueryString}`;
     iframe = `<iframe src="${generatedPath}" />`;
   }, []);
 
