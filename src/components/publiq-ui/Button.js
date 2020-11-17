@@ -4,7 +4,6 @@ import { css } from 'styled-components';
 import { getValueFromTheme } from './theme';
 import { Spinner, SpinnerVariants, SpinnerSizes } from './Spinner';
 import { getInlineProps, Inline, inlinePropTypes } from './Inline';
-import { Children } from 'react';
 
 const ButtonVariants = {
   PRIMARY: 'primary',
