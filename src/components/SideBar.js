@@ -147,12 +147,12 @@ const SideBar = () => {
 
   const notificationMenu = [
     {
-      iconName: Icons.HOME,
+      iconName: Icons.GIFT,
       children: t('menu.announcements'),
       onClick: () => {},
     },
     {
-      iconName: Icons.PLUS_CIRCLE,
+      iconName: Icons.BELL,
       children: t('menu.notifications'),
       onClick: () => {},
     },

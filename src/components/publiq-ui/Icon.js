@@ -2,7 +2,9 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Box, boxPropTypes, getBoxProps } from './Box';
 import {
+  faBell,
   faFlag,
+  faGift,
   faHome,
   faLayerGroup,
   faPlusCircle,
@@ -23,6 +25,8 @@ const Icons = {
   TAG: 'tag',
   SLIDE_SHARE: 'slideShare',
   LAYER_GROUP: 'layerGroup',
+  BELL: 'bell',
+  GIFT: 'gift',
 };
 
 const IconsMap = {
@@ -35,6 +39,8 @@ const IconsMap = {
   [Icons.TAG]: faTag,
   [Icons.SLIDE_SHARE]: faSlideshare,
   [Icons.LAYER_GROUP]: faLayerGroup,
+  [Icons.BELL]: faBell,
+  [Icons.GIFT]: faGift,
 };
 
 const Icon = ({ name, className, ...props }) => {
