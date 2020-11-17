@@ -1,55 +1,92 @@
 import NextLink from 'next/link';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { getValueFromTheme } from './theme';
-import { getBoxProps, boxProps, boxPropTypes } from './Box';
+import { getInlineProps, Inline, inlinePropTypes } from './Inline';
+import { forwardRef } from 'react';
 
 const getValue = getValueFromTheme('link');
 
-const StyledLink = styled.a`
-  font-weight: 400;
-  color: ${getValue('color')};
-  &:hover {
-    text-decoration: underline;
-    color: ${getValue('color')};
+const LinkVariants = {
+  UNSTYLED: 'unstyled',
+};
+
+const BaseLink = forwardRef(({ variant, ...props }, ref) => {
+  if (variant === LinkVariants.UNSTYLED) {
+    return (
+      <Inline
+        ref={ref}
+        forwardedAs="a"
+        css={`
+          color: inherit;
+          text-decoration: none;
+          &:hover {
+            color: inherit;
+            text-decoration: none;
+          }
+        `}
+        {...props}
+      />
+    );
   }
 
-  ${boxProps}
-`;
+  return (
+    <Inline
+      ref={ref}
+      forwardedAs="a"
+      css={`
+        font-weight: 400;
+        color: ${getValue('color')};
+        &:hover {
+          text-decoration: underline;
+          color: ${getValue('color')};
+        }
+      `}
+      {...props}
+    />
+  );
+});
 
-const Link = ({ href, children, as, className, ...props }) => {
+BaseLink.propTypes = {
+  variant: PropTypes.string,
+};
+
+const Link = ({ href, children, className, variant, ...props }) => {
   const isInternalLink = href.startsWith('/');
 
   if (isInternalLink) {
     return (
       <NextLink href={href} passHref>
-        <StyledLink as={as} className={className} {...getBoxProps(props)}>
+        <BaseLink
+          className={className}
+          variant={variant}
+          {...getInlineProps(props)}
+        >
           {children}
-        </StyledLink>
+        </BaseLink>
       </NextLink>
     );
   }
 
   return (
-    <StyledLink
+    <BaseLink
       href={href}
-      as={as}
       className={className}
+      variant={variant}
       rel="noopener"
       target="_blank"
-      {...getBoxProps(props)}
+      {...getInlineProps(props)}
     >
       {children}
-    </StyledLink>
+    </BaseLink>
   );
 };
 
 Link.propTypes = {
-  ...boxPropTypes,
+  ...inlinePropTypes,
   href: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.node,
   as: PropTypes.node,
 };
 
-export { Link };
+export { Link, LinkVariants };
