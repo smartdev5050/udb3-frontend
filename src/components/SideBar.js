@@ -8,66 +8,44 @@ import { getValueFromTheme } from './publiq-ui/theme';
 import { ListItem } from './publiq-ui/ListItem';
 import { Box } from './publiq-ui/Box';
 import { Title } from './publiq-ui/Title';
-import { Button, ButtonVariants } from './publiq-ui/Button';
+import { Button } from './publiq-ui/Button';
 import { Logo } from './publiq-ui/Logo';
+import styled, { css } from 'styled-components';
 
 const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSideBar = getValueFromTheme('sideBar');
 const getValueForMenu = getValueFromTheme('menu');
 
-const MenuItem = ({ href, iconName, children, onClick }) => {
-  const Content = ({ iconName, children }) => (
-    <>
-      <Icon name={iconName} marginRight={3} />
-      <Box as="span">{children}</Box>
-    </>
-  );
+const listItemCSS = css`
+  width: 100%;
+  &:hover {
+    background-color: ${getValueForMenuItem('hover.backgroundColor')};
+  }
+`;
 
-  Content.propTypes = {
-    iconName: PropTypes.string,
-    children: PropTypes.node,
-  };
+const StyledLink = styled(Link)`
+  ${listItemCSS}
+`;
+
+const StyledButton = styled(Button)`
+  ${listItemCSS}
+`;
+
+const MenuItem = ({ href, iconName, children, onClick }) => {
+  const Component = href ? StyledLink : StyledButton;
 
   return (
     <ListItem>
-      {href ? (
-        <Link
-          href={href}
-          css={`
-            display: flex;
-            width: 100%;
-            text-decoration: none;
-
-            color: ${getValueForMenuItem('color')};
-            padding: 4px;
-
-            &:hover {
-              color: ${getValueForMenuItem('hover.color')};
-              background-color: ${getValueForMenuItem('hover.backgroundColor')};
-              text-decoration: none;
-            }
-          `}
-        >
-          <Content iconName={iconName}>{children}</Content>
-        </Link>
-      ) : (
-        <Button
-          variant={ButtonVariants.UNSTYLED}
-          padding={2}
-          css={`
-            width: 100%;
-            color: ${getValueForMenuItem('color')};
-
-            &:hover {
-              background-color: ${getValueForMenuItem('hover.backgroundColor')};
-              border-color: ${getValueForMenuItem('hover.backgroundColor')};
-            }
-          `}
-          onClick={onClick}
-        >
-          <Content iconName={iconName}>{children}</Content>
-        </Button>
-      )}
+      <Component
+        variant="unstyled"
+        padding={2}
+        href={href}
+        onClick={onClick}
+        spacing={3}
+      >
+        <Icon name={iconName} />
+        <Box as="span">{children}</Box>
+      </Component>
     </ListItem>
   );
 };
@@ -205,8 +183,7 @@ const SideBar = () => {
         `}
       >
         <Menu items={userMenu} />
-        {/* TODO: this should work 'justifyContent="space-between"' */}
-        <Stack css="flex: 1; justify-content: space-between;">
+        <Stack justifyContent="space-between" css="flex: 1;">
           <Menu items={manageMenu} title={t('menu.management')} />
           <Menu items={notificationMenu} />
         </Stack>
