@@ -1,4 +1,4 @@
-import Default from '../layouts/default';
+import Frame from '../layouts/Frame';
 import { useRouter } from 'next/router';
 import { useCookies } from 'react-cookie';
 import i18next from 'i18next';
@@ -27,7 +27,7 @@ const Fallback = () => {
   }, []);
 
   return (
-    <Default>
+    <Frame>
       {iframe && (
         <div
           css={`
@@ -40,7 +40,7 @@ const Fallback = () => {
           dangerouslySetInnerHTML={{ __html: iframe }}
         />
       )}
-    </Default>
+    </Frame>
   );
 };
 

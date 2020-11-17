@@ -1,7 +1,7 @@
-import Default from '../layouts/default';
+import Frame from '../layouts/Frame';
 
 const Index = () => {
-  return <Default />;
+  return <Frame />;
 };
 
 export default Index;

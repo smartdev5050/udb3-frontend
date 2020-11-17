@@ -3,7 +3,7 @@ import { Box } from '../components/publiq-ui/Box';
 import { Inline } from '../components/publiq-ui/Inline';
 import { SideBar } from '../components/SideBar';
 
-const Default = ({ children }) => {
+const Frame = ({ children }) => {
   return (
     <Inline>
       <SideBar />
@@ -21,8 +21,8 @@ const Default = ({ children }) => {
   );
 };
 
-Default.propTypes = {
+Frame.propTypes = {
   children: PropTypes.node,
 };
 
-export default Default;
+export default Frame;

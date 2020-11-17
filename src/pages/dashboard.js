@@ -1,14 +1,14 @@
-import Default from '../layouts/default';
+import Frame from '../layouts/Frame';
 import { Page } from '../components/publiq-ui/Page';
 import { PageTitle } from '../components/publiq-ui/PageTitle';
 
 const Dashboard = () => {
   return (
-    <Default>
+    <Frame>
       <Page>
         <PageTitle>Dashboard</PageTitle>
       </Page>
-    </Default>
+    </Frame>
   );
 };
 

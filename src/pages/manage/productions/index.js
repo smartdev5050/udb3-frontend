@@ -1,11 +1,11 @@
-import Default from '../../../layouts/default';
+import Frame from '../../../layouts/Frame';
 import { Title } from '../../../components/publiq-ui/Title';
 
 const Index = () => {
   return (
-    <Default>
+    <Frame>
       <Title>Productions</Title>
-    </Default>
+    </Frame>
   );
 };
 

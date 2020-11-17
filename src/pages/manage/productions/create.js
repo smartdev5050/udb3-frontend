@@ -1,11 +1,11 @@
-import Default from '../../../layouts/default';
+import Frame from '../../../layouts/Frame';
 import { Title } from '../../../components/publiq-ui/Title';
 
 const Create = () => {
   return (
-    <Default>
+    <Frame>
       <Title>Productions - create</Title>
-    </Default>
+    </Frame>
   );
 };
 
