@@ -6,6 +6,7 @@ const getValue = getValueFromTheme('panelFooter');
 
 const PanelFooter = ({ children, className, ...props }) => (
   <Stack
+    as="footer"
     className={className}
     {...getStackProps(props)}
     css={`

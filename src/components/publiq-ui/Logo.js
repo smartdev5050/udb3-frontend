@@ -50,14 +50,15 @@ const Logo = ({ color, variant, width: propWidth, className, ...props }) => {
   const { Component, viewBox, width } = LogoMap[variant];
 
   return (
-    <Box className={className} {...getBoxProps(props)}>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width={propWidth || width}
-        viewBox={viewBox}
-      >
-        <Component color={color} />
-      </svg>
+    <Box
+      className={className}
+      as="svg"
+      xmlns="http://www.w3.org/2000/svg"
+      width={propWidth || width}
+      viewBox={viewBox}
+      {...getBoxProps(props)}
+    >
+      <Component color={color} />
     </Box>
   );
 };

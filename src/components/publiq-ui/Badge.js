@@ -6,17 +6,18 @@ const BadgeVariants = {
   DANGER: 'danger',
 };
 
+const BaseBadge = (props) => <Box as="span" {...props} />;
+
 const Badge = ({ children, className, variant, ...props }) => {
   return (
-    <Box
-      forwardedAs={BootstrapBadge}
+    <BootstrapBadge
+      forwardAs={BaseBadge}
       className={className}
       variant={variant}
-      css=""
       {...getBoxProps(props)}
     >
       {children}
-    </Box>
+    </BootstrapBadge>
   );
 };
 

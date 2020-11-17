@@ -40,7 +40,7 @@ const IconsMap = {
 const Icon = ({ name, className, ...props }) => {
   return (
     <Box className={className} {...getBoxProps(props)}>
-      <FontAwesomeIcon className={className} icon={IconsMap[name]} />
+      <FontAwesomeIcon icon={IconsMap[name]} />
     </Box>
   );
 };
