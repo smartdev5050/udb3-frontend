@@ -1,23 +1,18 @@
 import { Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { getBoxProps, boxProps, boxPropTypes } from './Box';
-import styled from 'styled-components';
+import { getBoxProps, boxPropTypes, Box } from './Box';
 
-const StyledFormControl = styled(Form.Control)`
-  ${boxProps};
-`;
-
-const Input = ({ type, id, placeholder, className, ...props }) => {
-  return (
-    <StyledFormControl
-      id={id}
-      type={type}
-      placeholder={placeholder}
-      className={className}
-      {...getBoxProps(props)}
-    />
-  );
-};
+const Input = ({ type, id, placeholder, className, ...props }) => (
+  <Box
+    forwardedAs={Form.Control}
+    id={id}
+    type={type}
+    placeholder={placeholder}
+    className={className}
+    css=""
+    {...getBoxProps(props)}
+  />
+);
 
 Input.propTypes = {
   ...boxPropTypes,

@@ -1,28 +1,6 @@
 import PropTypes from 'prop-types';
 import { Modal as BootstrapModal } from 'react-bootstrap';
 import { Button, ButtonVariants } from './Button';
-import styled from 'styled-components';
-
-const StyledBootstrapModal = styled(BootstrapModal)`
-  .modal-title {
-    font-size: 1.067rem;
-    font-weight: 700;
-  }
-
-  .modal {
-    overflow-y: hidden;
-  }
-
-  .modal-content {
-    border-radius: 0;
-    max-height: 95vh;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-  }
-
-  .modal-body {
-    padding: 0;
-  }
-`;
 
 const ModalQuestion = ({
   className,
@@ -33,32 +11,48 @@ const ModalQuestion = ({
   onClose,
   onConfirm,
   children,
-}) => {
-  return (
-    <StyledBootstrapModal
-      className={className}
-      show={visible}
-      onHide={onClose}
-      backdrop="static"
-      keyboard={false}
-    >
-      <StyledBootstrapModal.Header closeButton>
-        <StyledBootstrapModal.Title hidden={!title}>
-          {title}
-        </StyledBootstrapModal.Title>
-      </StyledBootstrapModal.Header>
-      <StyledBootstrapModal.Body>{children}</StyledBootstrapModal.Body>
-      <StyledBootstrapModal.Footer>
-        <Button variant={ButtonVariants.SECONDARY} onClick={onClose}>
-          {cancelTitle}
-        </Button>
-        <Button variant={ButtonVariants.PRIMARY} onClick={onConfirm}>
-          {confirmTitle}
-        </Button>
-      </StyledBootstrapModal.Footer>
-    </StyledBootstrapModal>
-  );
-};
+}) => (
+  <BootstrapModal
+    className={className}
+    show={visible}
+    onHide={onClose}
+    backdrop="static"
+    keyboard={false}
+    css={`
+      .modal-title {
+        font-size: 1.067rem;
+        font-weight: 700;
+      }
+
+      .modal {
+        overflow-y: hidden;
+      }
+
+      .modal-content {
+        border-radius: 0;
+        max-height: 95vh;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      }
+
+      .modal-body {
+        padding: 0;
+      }
+    `}
+  >
+    <BootstrapModal.Header closeButton>
+      <BootstrapModal.Title hidden={!title}>{title}</BootstrapModal.Title>
+    </BootstrapModal.Header>
+    <BootstrapModal.Body>{children}</BootstrapModal.Body>
+    <BootstrapModal.Footer>
+      <Button variant={ButtonVariants.SECONDARY} onClick={onClose}>
+        {cancelTitle}
+      </Button>
+      <Button variant={ButtonVariants.PRIMARY} onClick={onConfirm}>
+        {confirmTitle}
+      </Button>
+    </BootstrapModal.Footer>
+  </BootstrapModal>
+);
 
 ModalQuestion.propTypes = {
   className: PropTypes.string,

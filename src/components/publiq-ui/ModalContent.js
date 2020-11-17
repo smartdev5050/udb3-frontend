@@ -1,44 +1,40 @@
 import PropTypes from 'prop-types';
 import { Modal as BootstrapModal } from 'react-bootstrap';
-import styled from 'styled-components';
-
-const StyledBootstrapModal = styled(BootstrapModal)`
-  .modal-title {
-    font-size: 1.067rem;
-    font-weight: 700;
-  }
-
-  .modal {
-    overflow-y: hidden;
-  }
-
-  .modal-content {
-    border-radius: 0;
-    max-height: 95vh;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-  }
-
-  .modal-body {
-    padding: 0;
-  }
-`;
 
 const ModalContent = ({ visible, title, onClose, children, className }) => (
-  <StyledBootstrapModal
+  <BootstrapModal
     className={className}
     show={visible}
     onHide={onClose}
     backdrop="static"
     keyboard={false}
     size="xl"
+    css={`
+      .modal-title {
+        font-size: 1.067rem;
+        font-weight: 700;
+      }
+
+      .modal {
+        overflow-y: hidden;
+      }
+
+      .modal-content {
+        border-radius: 0;
+        max-height: 95vh;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      }
+
+      .modal-body {
+        padding: 0;
+      }
+    `}
   >
-    <StyledBootstrapModal.Header closeButton>
-      <StyledBootstrapModal.Title hidden={!title}>
-        {title}
-      </StyledBootstrapModal.Title>
-    </StyledBootstrapModal.Header>
-    <StyledBootstrapModal.Body>{children}</StyledBootstrapModal.Body>
-  </StyledBootstrapModal>
+    <BootstrapModal.Header closeButton>
+      <BootstrapModal.Title hidden={!title}>{title}</BootstrapModal.Title>
+    </BootstrapModal.Header>
+    <BootstrapModal.Body>{children}</BootstrapModal.Body>
+  </BootstrapModal>
 );
 
 ModalContent.propTypes = {

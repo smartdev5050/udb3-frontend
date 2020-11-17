@@ -7,7 +7,13 @@ import { PageTitle } from './PageTitle.js';
 ## Default
 
 <Canvas>
-  <Story name="Default">{(args) => <Page {...args}>Page content</Page>}</Story>
+  <Story name="Default">
+    {(args) => (
+      <Page {...args}>
+        <div>Page content</div>
+      </Page>
+    )}
+  </Story>
 </Canvas>
 
 ## With page title
@@ -17,7 +23,7 @@ import { PageTitle } from './PageTitle.js';
     {(args) => (
       <Page {...args}>
         <PageTitle>Page Title</PageTitle>
-        Page content
+        <div>Page content</div>
       </Page>
     )}
   </Story>

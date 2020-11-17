@@ -1,15 +1,21 @@
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import { Box, boxPropTypes, getBoxProps } from './Box';
 
-const StyledSmall = styled.small`
-  font-size: 0.65rem;
-`;
-
-const Small = ({ children, className }) => (
-  <StyledSmall className={className}>{children}</StyledSmall>
+const Small = ({ children, className, ...props }) => (
+  <Box
+    forwardedAs="small"
+    className={className}
+    css={`
+      font-size: 0.65rem;
+    `}
+    {...getBoxProps(props)}
+  >
+    {children}
+  </Box>
 );
 
 Small.propTypes = {
+  ...boxPropTypes,
   className: PropTypes.string,
   children: PropTypes.node,
 };

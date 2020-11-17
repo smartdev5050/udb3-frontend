@@ -1,13 +1,5 @@
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { getBoxProps, boxProps, boxPropTypes } from './Box';
-
-const StyledRadioButton = styled.input.attrs(() => ({
-  type: 'radio',
-}))`
-  cursor: pointer;
-  ${boxProps};
-`;
+import { getBoxProps, boxPropTypes, Box } from './Box';
 
 const RadioButton = ({
   id,
@@ -20,13 +12,17 @@ const RadioButton = ({
   ...props
 }) => {
   return (
-    <StyledRadioButton
+    <Box
+      forwardedAs="input"
+      type="radio"
       id={id}
       name={name}
       checked={checked}
       disabled={disabled}
       onChange={onChange}
       value={value}
+      className={className}
+      css="cursor: pointer;"
       {...getBoxProps(props)}
     />
   );

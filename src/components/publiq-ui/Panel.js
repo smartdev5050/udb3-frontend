@@ -1,20 +1,25 @@
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { getValueFromTheme } from './theme';
+import { Stack, stackPropTypes, getStackProps } from './Stack';
 
 const getValue = getValueFromTheme('panel');
 
-const StyledSection = styled.section`
-  border: 1px solid ${getValue('borderColor')};
-  margin-bottom: 1rem;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
-`;
-
-const Panel = ({ children, className }) => (
-  <StyledSection className={className}>{children}</StyledSection>
+const Panel = ({ children, className, ...props }) => (
+  <Stack
+    css={`
+      border: 1px solid ${getValue('borderColor')};
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+    `}
+    {...getStackProps(props)}
+    className={className}
+    marginBottom={4}
+  >
+    {children}
+  </Stack>
 );
 
 Panel.propTypes = {
+  ...stackPropTypes,
   className: PropTypes.string,
   children: PropTypes.node,
 };
