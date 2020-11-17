@@ -1,24 +1,37 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
-import { Link } from './Link.js';
-import { Button } from './Button.js';
+import { Link, LinkVariants } from './Link.js';
+import { Box } from './Box.js';
+import { Icon, Icons } from './Icon.js';
 
 <Meta title="Components/Link" />
 
 <Canvas>
+  <Story name="Internal" args={{ children: 'internal', href: '/test' }}>
+    {(args) => <Link {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Internal" />
+
+<Canvas>
   <Story
-    name="Internal Link"
-    args={{ children: 'internal link', href: '/test' }}
+    name="Unstyled Internal"
+    args={{
+      children: 'unstyled internal',
+      href: '/test',
+      variant: LinkVariants.UNSTYLED,
+    }}
   >
     {(args) => <Link {...args} />}
   </Story>
 </Canvas>
 
-<ArgsTable story="Internal Link" />
+<ArgsTable story="Unstyled Internal" />
 
 <Canvas>
   <Story
     name="External Link"
-    args={{ children: 'external link', href: 'http://www.google.com' }}
+    args={{ children: 'external', href: 'http://www.google.com' }}
   >
     {(args) => <Link {...args} />}
   </Story>
@@ -28,15 +41,15 @@ import { Button } from './Button.js';
 
 <Canvas>
   <Story
-    name="As component"
-    args={{ children: 'external link', href: 'http://www.google.be' }}
+    name="Unstyled External"
+    args={{
+      children: 'unstyled external',
+      href: 'http://www.google.com',
+      variant: LinkVariants.UNSTYLED,
+    }}
   >
-    {({ children, ...args }) => (
-      <Link {...args}>
-        <Button>{children}</Button>
-      </Link>
-    )}
+    {(args) => <Link {...args} />}
   </Story>
 </Canvas>
 
-<ArgsTable story="As component" />
+<ArgsTable story="Unstyled External" />

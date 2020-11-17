@@ -3,18 +3,21 @@ import { Button as BootstrapButton } from 'react-bootstrap';
 import { css } from 'styled-components';
 import { getValueFromTheme } from './theme';
 import { Spinner, SpinnerVariants, SpinnerSizes } from './Spinner';
-import { getBoxProps, boxPropTypes, Box } from './Box';
+import { getInlineProps, Inline, inlinePropTypes } from './Inline';
 
 const ButtonVariants = {
   PRIMARY: 'primary',
   SECONDARY: 'secondary',
   SUCCESS: 'success',
   DANGER: 'danger',
+  UNSTYLED: 'unstyled',
 };
 
 const getValue = getValueFromTheme('button');
 
-const BaseButton = (props) => <Box as="button" {...props} />;
+const BaseButton = (props) => {
+  return <Inline forwardedAs="button" {...props} />;
+};
 
 const customCSS = css`
   &.btn {
@@ -135,31 +138,51 @@ const Button = ({
 }) => {
   if (variant === ButtonVariants.SECONDARY) variant = 'outline-secondary';
 
+  const isBootstrapVariant = variant !== ButtonVariants.UNSTYLED;
+
+  const propsToApply = {
+    ...(isBootstrapVariant ? { forwardedAs: BaseButton, variant } : {}),
+    disabled,
+    onClick,
+    className,
+    ...getInlineProps(props),
+  };
+
+  const inner = loading ? (
+    <Spinner
+      className="button-spinner"
+      variant={SpinnerVariants.LIGHT}
+      size={SpinnerSizes.SMALL}
+    />
+  ) : (
+    children
+  );
+
+  if (isBootstrapVariant) {
+    return (
+      <BootstrapButton {...propsToApply} css={customCSS}>
+        {inner}
+      </BootstrapButton>
+    );
+  }
+
   return (
-    <BootstrapButton
-      forwardedAs={BaseButton}
-      variant={variant}
-      disabled={disabled}
-      onClick={onClick}
-      className={className}
-      {...getBoxProps(props)}
-      css={customCSS}
+    <BaseButton
+      {...propsToApply}
+      css={`
+        cursor: pointer;
+        background: none;
+        border: none;
+        color: inherit;
+      `}
     >
-      {loading ? (
-        <Spinner
-          className="button-spinner"
-          variant={SpinnerVariants.LIGHT}
-          size={SpinnerSizes.SMALL}
-        />
-      ) : (
-        children
-      )}
-    </BootstrapButton>
+      {inner}
+    </BaseButton>
   );
 };
 
 Button.propTypes = {
-  ...boxPropTypes,
+  ...inlinePropTypes,
   className: PropTypes.string,
   variant: PropTypes.string,
   disabled: PropTypes.bool,

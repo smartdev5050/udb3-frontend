@@ -1,0 +1,21 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import { Icon, Icons } from './Icon.js';
+
+<Meta title="Components/Icon" />
+
+export const argTypes = {
+  name: {
+    control: {
+      type: 'select',
+      options: [...Object.values(Icons)],
+    },
+  },
+};
+
+<Canvas>
+  <Story name="Default" args={{ name: Icons.USER }} argTypes={argTypes}>
+    {(args) => <Icon {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Default" />

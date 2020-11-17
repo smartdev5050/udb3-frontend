@@ -1,7 +1,7 @@
 import { Pagination as BootstrapPagination } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { getValueFromTheme } from './theme';
-import { getInlineProps, Inline, inlineProptypes } from './Inline';
+import { getInlineProps, Inline, inlinePropTypes } from './Inline';
 
 const getValue = getValueFromTheme(`pagination`);
 
@@ -94,7 +94,7 @@ const Pagination = ({
 };
 
 Pagination.propTypes = {
-  ...inlineProptypes,
+  ...inlinePropTypes,
   className: PropTypes.string,
   currentPage: PropTypes.number.isRequired,
   totalItems: PropTypes.number.isRequired,

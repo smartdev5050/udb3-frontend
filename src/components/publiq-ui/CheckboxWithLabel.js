@@ -21,6 +21,7 @@ const CheckboxWithLabel = ({
 }) => {
   return (
     <Inline
+      as="div"
       className={className}
       alignItems="center"
       spacing={3}

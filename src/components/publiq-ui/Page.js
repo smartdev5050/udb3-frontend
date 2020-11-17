@@ -6,6 +6,7 @@ const getValue = getValueFromTheme('page');
 
 const Page = ({ children, className }) => (
   <Stack
+    as="main"
     className={className}
     css={`
       background-color: ${getValue('backgroundColor')};

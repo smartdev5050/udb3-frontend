@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
-import { Box, getBoxProps, boxProps, boxPropTypes, parseProperty } from './Box';
+import { Box, boxProps, boxPropTypes, parseProperty } from './Box';
 import PropTypes from 'prop-types';
-import { Children, cloneElement } from 'react';
+import { Children, cloneElement, forwardRef } from 'react';
 import { pick } from 'lodash';
 
 const inlineProps = css`
@@ -18,58 +18,55 @@ const StyledBox = styled(Box)`
   ${inlineProps};
 `;
 
-const Inline = ({
-  spacing,
-  className,
-  children,
-  as,
-  alignItems,
-  justifyContent,
-  ...props
-}) => {
-  const clonedChildren = Children.map(children, (child, i) => {
-    // if child is normal text
-    if (typeof child === 'string')
-      return (
-        <Box as="p" marginRight={spacing}>
-          {child}
-        </Box>
-      );
+const Inline = forwardRef(
+  ({ spacing, className, children, as, ...props }, ref) => {
+    const clonedChildren = Children.map(children, (child, i) => {
+      const isLastItem = i === children.length - 1;
 
-    // if child is html
-    if (child.props.originalType) {
-      return (
-        <Box
-          as={`${child.props.originalType}`}
-          {...child.props}
-          marginRight={spacing}
-        />
-      );
-    }
+      // if child is normal text
+      if (typeof child === 'string') {
+        return (
+          <Box as="p" {...(!isLastItem ? { marginRight: spacing } : {})}>
+            {child}
+          </Box>
+        );
+      }
 
-    // if child is functional component
-    return cloneElement(child, {
-      ...child.props,
-      ...(i < children.length - 1 ? { marginRight: spacing } : {}),
+      // if child is html
+      if (child.props.originalType) {
+        return (
+          <Box
+            as={`${child.props.originalType}`}
+            {...(!isLastItem ? { marginRight: spacing } : {})}
+            {...child.props}
+          />
+        );
+      }
+
+      // if child is functional component
+      return cloneElement(child, {
+        ...child.props,
+        ...(!isLastItem ? { marginRight: spacing } : {}),
+      });
     });
-  });
 
-  return (
-    <StyledBox className={className} as={as} {...getBoxProps(props)}>
-      {clonedChildren}
-    </StyledBox>
-  );
-};
+    return (
+      <StyledBox className={className} forwardedAs={as} {...props} ref={ref}>
+        {clonedChildren}
+      </StyledBox>
+    );
+  },
+);
 
-const inlineProptypes = {
+const inlinePropTypes = {
   ...boxPropTypes,
   spacing: PropTypes.number,
 };
 
-const getInlineProps = (props) => pick(props, Object.keys(inlineProptypes));
+const getInlineProps = (props) => pick(props, Object.keys(inlinePropTypes));
 
 Inline.propTypes = {
-  ...inlineProptypes,
+  ...inlinePropTypes,
   as: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.node,
@@ -81,4 +78,4 @@ Inline.defaultProps = {
   as: 'section',
 };
 
-export { Inline, getInlineProps, inlineProptypes, inlineProps };
+export { Inline, getInlineProps, inlinePropTypes, inlineProps };

@@ -13,6 +13,7 @@ const colors = {
   red1: '#d9534f',
   red2: '#f3453f',
   red3: '#d23430',
+  red4: '#900d09',
   textColor: '#222',
 };
 
@@ -111,6 +112,18 @@ const theme = {
       },
       light: {
         color: colors.white,
+      },
+    },
+    sideBar: {
+      color: colors.white,
+      backgroundColor: colors.udbRed,
+    },
+    menu: {
+      borderColor: colors.red4,
+    },
+    menuItem: {
+      hover: {
+        backgroundColor: colors.red4,
       },
     },
   },
