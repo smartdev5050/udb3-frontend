@@ -4,6 +4,7 @@ import { css } from 'styled-components';
 import { getValueFromTheme } from './theme';
 import { Spinner, SpinnerVariants, SpinnerSizes } from './Spinner';
 import { getInlineProps, Inline, inlinePropTypes } from './Inline';
+import { Children } from 'react';
 
 const ButtonVariants = {
   PRIMARY: 'primary',
@@ -15,7 +16,9 @@ const ButtonVariants = {
 
 const getValue = getValueFromTheme('button');
 
-const BaseButton = (props) => <Inline as="button" {...props} />;
+const BaseButton = (props) => {
+  return <Inline forwardedAs="button" {...props} />;
+};
 
 const customCSS = css`
   &.btn {
@@ -146,21 +149,20 @@ const Button = ({
     ...getInlineProps(props),
   };
 
-  const Inner = () =>
-    loading ? (
-      <Spinner
-        className="button-spinner"
-        variant={SpinnerVariants.LIGHT}
-        size={SpinnerSizes.SMALL}
-      />
-    ) : (
-      children
-    );
+  const inner = loading ? (
+    <Spinner
+      className="button-spinner"
+      variant={SpinnerVariants.LIGHT}
+      size={SpinnerSizes.SMALL}
+    />
+  ) : (
+    children
+  );
 
   if (isBootstrapVariant) {
     return (
       <BootstrapButton {...propsToApply} css={customCSS}>
-        <Inner />
+        {inner}
       </BootstrapButton>
     );
   }
@@ -172,9 +174,10 @@ const Button = ({
         cursor: pointer;
         background: none;
         border: none;
+        color: inherit;
       `}
     >
-      <Inner />
+      {inner}
     </BaseButton>
   );
 };
