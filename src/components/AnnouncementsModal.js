@@ -220,6 +220,7 @@ const AnnouncementsModal = ({ visible, onClose }) => {
     <ModalContent
       visible={visible}
       title={t('giftbox.new_features')}
+      title={t('announcements.new_features')}
       onClose={onClose}
     >
       {announcements.length > 0 ? (
@@ -242,7 +243,7 @@ const AnnouncementsModal = ({ visible, onClose }) => {
         </Inline>
       ) : (
         <Box as="p" padding={4}>
-          {t('giftbox.no_features')}
+          {t('announcements.no_features')}
         </Box>
       )}
     </ModalContent>

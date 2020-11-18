@@ -27,8 +27,7 @@
     "questions": "Vragen of feedback?",
     "withSupport": "met steun van de"
   },
-  "giftbox": {
-    "announcements": "Nieuwigheden",
+  "announcements": {
     "new_features": "Nieuw in UiTdatabank",
     "no_features": "Er zijn momenteel geen nieuwigheden."
   },
