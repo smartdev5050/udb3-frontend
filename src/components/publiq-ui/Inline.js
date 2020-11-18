@@ -23,6 +23,8 @@ const Inline = forwardRef(
     const clonedChildren = Children.map(children, (child, i) => {
       const isLastItem = i === children.length - 1;
 
+      if (!child) return;
+
       // if child is normal text
       if (typeof child === 'string') {
         return (
