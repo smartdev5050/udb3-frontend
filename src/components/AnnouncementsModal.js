@@ -67,7 +67,7 @@ const AnnouncementsList = ({ announcements, selectedId, setSelectedId }) => (
     css={`
       width: 30%;
       border-right: ${getValue('borderColor')} 1px solid;
-      overflow-y: scroll;
+      overflow-y: auto;
     `}
   >
     {announcements.map((announcement) => {
@@ -113,9 +113,26 @@ const AnnouncementContent = ({
     >
       {title}
     </Title>
-    <Link href={callToAction}>
-      <Image src={imageSrc} alt={callToActionLabel} />
-    </Link>
+    {imageSrc && (
+      <Link href={callToAction}>
+        <Image
+          src={imageSrc}
+          alt={callToActionLabel}
+          css={`
+            width: 100%;
+            max-height: 30vh;
+            background-position: center center;
+            background-repeat: no-repeat;
+            object-fit: cover;
+
+            &:hover {
+              opacity: 0.85;
+            }
+          `}
+        />
+      </Link>
+    )}
+
     <div
       dangerouslySetInnerHTML={{ __html: body }}
       css={`
@@ -170,6 +187,7 @@ const AnnouncementsModal = ({ visible, onClose }) => {
   const { t } = useTranslation();
   const [announcements, setAnnouncements] = useState([]);
   const [selectedId, setSelectedId] = useState('');
+  const [selectedAnnouncement, setSelectedAnnouncement] = useState(undefined);
 
   const fetchAnnouncements = async () => {
     const res = await fetch(process.env.NEXT_PUBLIC_NEW_ANNOUNCEMENTS_URL);
@@ -177,20 +195,24 @@ const AnnouncementsModal = ({ visible, onClose }) => {
     return data;
   };
 
-  const getSelectedAnnouncement = () => {
-    const foundSelected = announcements.find(
-      (announcement) => announcement.uid === selectedId,
-    );
-    return foundSelected;
-  };
-
   useEffect(async () => {
     const newAnnouncements = await fetchAnnouncements();
+    console.log(newAnnouncements);
     setAnnouncements(newAnnouncements);
-    if (announcements.length > 0) {
+  }, []);
+
+  useEffect(() => {
+    if (visible && announcements.length > 0) {
       setSelectedId(announcements[0].uid);
     }
-  }, []);
+  }, [visible]);
+
+  useEffect(() => {
+    const selectedAnnouncement = announcements.find(
+      (announcement) => announcement.uid === selectedId,
+    );
+    setSelectedAnnouncement(selectedAnnouncement);
+  }, [selectedId]);
 
   return (
     <ModalContent
@@ -204,13 +226,13 @@ const AnnouncementsModal = ({ visible, onClose }) => {
           selectedId={selectedId}
           setSelectedId={setSelectedId}
         />
-        {selectedId && (
+        {selectedAnnouncement && (
           <AnnouncementContent
-            title={getSelectedAnnouncement().title}
-            image={getSelectedAnnouncement().image}
-            body={getSelectedAnnouncement().body}
-            callToAction={getSelectedAnnouncement().callToAction}
-            callToActionLabel={getSelectedAnnouncement().callToActionLabel}
+            title={selectedAnnouncement.title}
+            imageSrc={selectedAnnouncement.image}
+            body={selectedAnnouncement.body}
+            callToAction={selectedAnnouncement.callToAction}
+            callToActionLabel={selectedAnnouncement.callToActionLabel}
           />
         )}
       </Inline>
