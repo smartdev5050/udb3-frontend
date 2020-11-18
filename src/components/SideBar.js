@@ -11,7 +11,7 @@ import { Title } from './publiq-ui/Title';
 import { Button } from './publiq-ui/Button';
 import { Logo } from './publiq-ui/Logo';
 import styled, { css } from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AnnouncementsModal } from './AnnouncementsModal';
 
 const getValueForMenuItem = getValueFromTheme('menuItem');
@@ -93,9 +93,21 @@ Menu.propTypes = {
   title: PropTypes.string,
 };
 
+const fetchAnnouncements = async () => {
+  const res = await fetch(process.env.NEXT_PUBLIC_NEW_ANNOUNCEMENTS_URL);
+  const { data } = await res.json();
+  return data;
+};
+
 const SideBar = () => {
   const { t } = useTranslation();
   const [isModalVisible, setModalVisibility] = useState(false);
+  const [announcements, setAnnouncements] = useState([]);
+
+  useEffect(async () => {
+    const newAnnouncements = await fetchAnnouncements();
+    setAnnouncements(newAnnouncements);
+  }, []);
 
   const userMenu = [
     {
@@ -197,6 +209,8 @@ const SideBar = () => {
       </Stack>
       <AnnouncementsModal
         visible={isModalVisible}
+        announcements={announcements}
+        setAnnouncements={setAnnouncements}
         onClose={() => {
           setModalVisibility(false);
         }}

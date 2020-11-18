@@ -200,23 +200,21 @@ AnnouncementContent.propTypes = {
   callToActionLabel: PropTypes.string,
 };
 
-const AnnouncementsModal = ({ visible, onClose }) => {
+const AnnouncementsModal = ({
+  visible,
+  announcements,
+  setAnnouncements,
+  onClose,
+}) => {
   const { t } = useTranslation();
   const cookieOptions = {
     path: '/',
     maxAge: 60 * 60 * 24 * 30,
   };
   const [cookies, setCookie] = useCookies(['seenAnnouncements']);
-  const [announcements, setAnnouncements] = useState([]);
   const [seenAnnouncements, setSeenAnnouncements] = useState([]);
   const [selectedAnnouncementId, setSelectedAnnouncementId] = useState('');
   const [selectedAnnouncement, setSelectedAnnouncement] = useState(undefined);
-
-  const fetchAnnouncements = async () => {
-    const res = await fetch(process.env.NEXT_PUBLIC_NEW_ANNOUNCEMENTS_URL);
-    const { data } = await res.json();
-    return data;
-  };
 
   const addToSeenAnnouncements = (id) => {
     setSeenAnnouncements((prev) => (prev.length > 0 ? [...prev, id] : [id]));
@@ -229,10 +227,7 @@ const AnnouncementsModal = ({ visible, onClose }) => {
     );
   };
 
-  useEffect(async () => {
-    const newAnnouncements = await fetchAnnouncements();
-    setAnnouncements(newAnnouncements);
-
+  useEffect(() => {
     if (cookies.seenAnnouncements) {
       const updatedSeenAnnouncements = cookies.seenAnnouncements.filter(
         (announcement) => !announcements.includes(announcement.uid),
@@ -299,11 +294,14 @@ const AnnouncementsModal = ({ visible, onClose }) => {
 
 AnnouncementsModal.propTypes = {
   visible: PropTypes.bool,
+  announcements: PropTypes.array,
+  setAnnouncements: PropTypes.func,
   onClose: PropTypes.func,
 };
 
 AnnouncementsModal.defaultProps = {
   visible: false,
+  setAnnouncements: () => {},
   onClose: () => {},
 };
 
