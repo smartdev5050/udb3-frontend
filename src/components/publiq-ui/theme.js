@@ -128,13 +128,16 @@ const theme = {
         backgroundColor: colors.red4,
       },
     },
-    announcementsModal: {
+    announcementItem: {
       borderColor: colors.grey2,
       hoverBackgroundColor: colors.grey1,
       selected: {
         backgroundColor: colors.pink1,
         hoverBackgroundColor: colors.pink2,
       },
+    },
+    announcementList: {
+      borderColor: colors.grey2,
     },
     announcementContent: {
       linkColor: colors.udbBlue,

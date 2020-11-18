@@ -13,28 +13,34 @@ import { Stack } from './publiq-ui/Stack';
 import { getValueFromTheme } from './publiq-ui/theme';
 import { Title } from './publiq-ui/Title';
 
-const getValue = getValueFromTheme('announcementsModal');
+const getValueForAnnouncementItem = getValueFromTheme('announcementItem');
+const getValueForAnnouncementList = getValueFromTheme('announcementList');
 const getValueForAnnouncementContent = getValueFromTheme('announcementContent');
 
-const AnnouncementItem = ({ id, title, selected, setSelectedId }) => {
+const AnnouncementItem = ({
+  id,
+  title,
+  selected,
+  setSelectedAnnouncementId,
+}) => {
   return (
     <ListItem
       padding={4}
       css={`
         cursor: pointer;
-        border-bottom: ${getValue('borderColor')} 1px solid;
+        border-bottom: ${getValueForAnnouncementItem('borderColor')} 1px solid;
         background-color: ${selected
-          ? getValue('selected.backgroundColor')
+          ? getValueForAnnouncementItem('selected.backgroundColor')
           : 'inherit'};
 
         :hover {
           background-color: ${selected
-            ? getValue('selected.hoverBackgroundColor')
-            : getValue('hoverBackgroundColor')};
+            ? getValueForAnnouncementItem('selected.hoverBackgroundColor')
+            : getValueForAnnouncementItem('hoverBackgroundColor')};
         }
       `}
       onClick={() => {
-        setSelectedId(id);
+        setSelectedAnnouncementId(id);
       }}
     >
       <Box
@@ -55,18 +61,22 @@ AnnouncementItem.propTypes = {
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   selected: PropTypes.bool,
-  setSelectedId: PropTypes.func,
+  setSelectedAnnouncementId: PropTypes.func,
 };
 
 AnnouncementItem.defaultProps = {
   selected: false,
 };
 
-const AnnouncementsList = ({ announcements, selectedId, setSelectedId }) => (
+const AnnouncementsList = ({
+  announcements,
+  selectedAnnouncementId,
+  setSelectedAnnouncementId,
+}) => (
   <List
     css={`
       width: 30%;
-      border-right: ${getValue('borderColor')} 1px solid;
+      border-right: ${getValueForAnnouncementList('borderColor')} 1px solid;
       overflow-y: auto;
     `}
   >
@@ -76,8 +86,8 @@ const AnnouncementsList = ({ announcements, selectedId, setSelectedId }) => (
           key={announcement.uid}
           id={announcement.uid}
           title={announcement.title}
-          selected={announcement.uid === selectedId}
-          setSelectedId={setSelectedId}
+          selected={announcement.uid === selectedAnnouncementId}
+          setSelectedAnnouncementId={setSelectedAnnouncementId}
         />
       );
     })}
@@ -86,8 +96,8 @@ const AnnouncementsList = ({ announcements, selectedId, setSelectedId }) => (
 
 AnnouncementsList.propTypes = {
   announcements: PropTypes.array,
-  selectedId: PropTypes.string,
-  setSelectedId: PropTypes.func,
+  selectedAnnouncementId: PropTypes.string,
+  setSelectedAnnouncementId: PropTypes.func,
 };
 
 const AnnouncementContent = ({
@@ -105,14 +115,7 @@ const AnnouncementContent = ({
       width: 70%;
     `}
   >
-    <Title
-      css={`
-        font-weight: 700;
-        font-size: 1rem;
-      `}
-    >
-      {title}
-    </Title>
+    <Title>{title}</Title>
     {imageSrc && (
       <Link href={callToAction}>
         <Image
@@ -186,7 +189,7 @@ AnnouncementContent.propTypes = {
 const AnnouncementsModal = ({ visible, onClose }) => {
   const { t } = useTranslation();
   const [announcements, setAnnouncements] = useState([]);
-  const [selectedId, setSelectedId] = useState('');
+  const [selectedAnnouncementId, setSelectedAnnouncementId] = useState('');
   const [selectedAnnouncement, setSelectedAnnouncement] = useState(undefined);
 
   const fetchAnnouncements = async () => {
@@ -197,22 +200,21 @@ const AnnouncementsModal = ({ visible, onClose }) => {
 
   useEffect(async () => {
     const newAnnouncements = await fetchAnnouncements();
-    console.log(newAnnouncements);
     setAnnouncements(newAnnouncements);
   }, []);
 
   useEffect(() => {
     if (visible && announcements.length > 0) {
-      setSelectedId(announcements[0].uid);
+      setSelectedAnnouncementId(announcements[0].uid);
     }
   }, [visible]);
 
   useEffect(() => {
     const selectedAnnouncement = announcements.find(
-      (announcement) => announcement.uid === selectedId,
+      (announcement) => announcement.uid === selectedAnnouncementId,
     );
     setSelectedAnnouncement(selectedAnnouncement);
-  }, [selectedId]);
+  }, [selectedAnnouncementId]);
 
   return (
     <ModalContent
@@ -220,22 +222,29 @@ const AnnouncementsModal = ({ visible, onClose }) => {
       title={t('giftbox.new_features')}
       onClose={onClose}
     >
-      <Inline>
-        <AnnouncementsList
-          announcements={announcements}
-          selectedId={selectedId}
-          setSelectedId={setSelectedId}
-        />
-        {selectedAnnouncement && (
-          <AnnouncementContent
-            title={selectedAnnouncement.title}
-            imageSrc={selectedAnnouncement.image}
-            body={selectedAnnouncement.body}
-            callToAction={selectedAnnouncement.callToAction}
-            callToActionLabel={selectedAnnouncement.callToActionLabel}
+      {announcements.length > 0 ? (
+        <Inline>
+          <AnnouncementsList
+            announcements={announcements}
+            selectedAnnouncementId={selectedAnnouncementId}
+            setSelectedAnnouncementId={setSelectedAnnouncementId}
           />
-        )}
-      </Inline>
+          {selectedAnnouncement && (
+            <AnnouncementContent
+              key={selectedAnnouncementId}
+              title={selectedAnnouncement.title}
+              imageSrc={selectedAnnouncement.image}
+              body={selectedAnnouncement.body}
+              callToAction={selectedAnnouncement.callToAction}
+              callToActionLabel={selectedAnnouncement.callToActionLabel}
+            />
+          )}
+        </Inline>
+      ) : (
+        <Box as="p" padding={4}>
+          {t('giftbox.no_features')}
+        </Box>
+      )}
     </ModalContent>
   );
 };
