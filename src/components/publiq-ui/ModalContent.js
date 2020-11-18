@@ -6,7 +6,6 @@ const ModalContent = ({ visible, title, onClose, children, className }) => (
     className={className}
     show={visible}
     onHide={onClose}
-    backdrop="static"
     keyboard={false}
     size="xl"
     css={`

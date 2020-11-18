@@ -16,7 +16,6 @@ const ModalQuestion = ({
     className={className}
     show={visible}
     onHide={onClose}
-    backdrop="static"
     keyboard={false}
     css={`
       .modal-title {
