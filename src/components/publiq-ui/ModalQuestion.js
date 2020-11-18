@@ -18,6 +18,8 @@ const ModalQuestion = ({
     onHide={onClose}
     keyboard={false}
     css={`
+      z-index: 2000;
+
       .modal-title {
         font-size: 1.067rem;
         font-weight: 700;

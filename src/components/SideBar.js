@@ -171,7 +171,7 @@ const SideBar = () => {
           background-color: ${getValueForSideBar('backgroundColor')};
           height: 100vh;
           color: ${getValueForSideBar('color')};
-          z-index: 1999;
+          z-index: 1998;
         `}
         padding={2}
       >
