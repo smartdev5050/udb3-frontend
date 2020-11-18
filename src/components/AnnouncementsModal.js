@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
 import { useTranslation } from 'react-i18next';
 import { Box } from './publiq-ui/Box';
 import { Button } from './publiq-ui/Button';
+import { Icon, Icons } from './publiq-ui/Icon';
 import { Image } from './publiq-ui/Image';
 import { Inline } from './publiq-ui/Inline';
 import { Link } from './publiq-ui/Link';
@@ -21,11 +23,13 @@ const AnnouncementItem = ({
   id,
   title,
   selected,
+  seen,
   setSelectedAnnouncementId,
 }) => {
   return (
     <ListItem
       padding={4}
+      spacing={3}
       css={`
         cursor: pointer;
         border-bottom: ${getValueForAnnouncementItem('borderColor')} 1px solid;
@@ -43,6 +47,7 @@ const AnnouncementItem = ({
         setSelectedAnnouncementId(id);
       }}
     >
+      {seen ? <Icon name={Icons.EYE_SLASH} /> : <Icon name={Icons.EYE} />}
       <Box
         as="span"
         css={`
@@ -61,16 +66,19 @@ AnnouncementItem.propTypes = {
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   selected: PropTypes.bool,
+  seen: PropTypes.bool,
   setSelectedAnnouncementId: PropTypes.func,
 };
 
 AnnouncementItem.defaultProps = {
   selected: false,
+  seen: false,
 };
 
 const AnnouncementsList = ({
   announcements,
   selectedAnnouncementId,
+  seenAnnouncements,
   setSelectedAnnouncementId,
 }) => (
   <List
@@ -87,6 +95,7 @@ const AnnouncementsList = ({
           id={announcement.uid}
           title={announcement.title}
           selected={announcement.uid === selectedAnnouncementId}
+          seen={seenAnnouncements.includes(announcement.uid)}
           setSelectedAnnouncementId={setSelectedAnnouncementId}
         />
       );
@@ -97,7 +106,12 @@ const AnnouncementsList = ({
 AnnouncementsList.propTypes = {
   announcements: PropTypes.array,
   selectedAnnouncementId: PropTypes.string,
+  seenAnnouncements: PropTypes.array,
   setSelectedAnnouncementId: PropTypes.func,
+};
+
+AnnouncementsList.defaultProps = {
+  seenAnnouncements: [],
 };
 
 const AnnouncementContent = ({
@@ -188,7 +202,13 @@ AnnouncementContent.propTypes = {
 
 const AnnouncementsModal = ({ visible, onClose }) => {
   const { t } = useTranslation();
+  const cookieOptions = {
+    path: '/',
+    maxAge: 60 * 60 * 24 * 30,
+  };
+  const [cookies, setCookie] = useCookies(['seenAnnouncements']);
   const [announcements, setAnnouncements] = useState([]);
+  const [seenAnnouncements, setSeenAnnouncements] = useState([]);
   const [selectedAnnouncementId, setSelectedAnnouncementId] = useState('');
   const [selectedAnnouncement, setSelectedAnnouncement] = useState(undefined);
 
@@ -198,28 +218,54 @@ const AnnouncementsModal = ({ visible, onClose }) => {
     return data;
   };
 
+  const addToSeenAnnouncements = (id) => {
+    setSeenAnnouncements((prev) => (prev.length > 0 ? [...prev, id] : [id]));
+    setCookie(
+      'seenAnnouncements',
+      cookies.seenAnnouncements
+        ? [...cookies.seenAnnouncements, selectedAnnouncementId]
+        : [selectedAnnouncementId],
+      cookieOptions,
+    );
+  };
+
   useEffect(async () => {
     const newAnnouncements = await fetchAnnouncements();
     setAnnouncements(newAnnouncements);
+
+    if (cookies.seenAnnouncements) {
+      const updatedSeenAnnouncements = cookies.seenAnnouncements.filter(
+        (announcement) => !announcements.includes(announcement.uid),
+      );
+      setSeenAnnouncements(updatedSeenAnnouncements);
+    }
   }, []);
 
   useEffect(() => {
-    if (visible && announcements.length > 0) {
-      setSelectedAnnouncementId(announcements[0].uid);
-    }
+    if (!visible || announcements.length === 0) return;
+    setSelectedAnnouncementId(announcements[0].uid);
   }, [visible]);
 
   useEffect(() => {
+    if (!selectedAnnouncementId) return;
+
+    if (!seenAnnouncements.includes(selectedAnnouncementId)) {
+      addToSeenAnnouncements(selectedAnnouncementId);
+    }
+
     const selectedAnnouncement = announcements.find(
       (announcement) => announcement.uid === selectedAnnouncementId,
     );
     setSelectedAnnouncement(selectedAnnouncement);
+
+    if (!seenAnnouncements.includes(selectedAnnouncementId)) {
+      addToSeenAnnouncements(selectedAnnouncementId);
+    }
   }, [selectedAnnouncementId]);
 
   return (
     <ModalContent
       visible={visible}
-      title={t('giftbox.new_features')}
       title={t('announcements.new_features')}
       onClose={onClose}
     >
@@ -228,6 +274,7 @@ const AnnouncementsModal = ({ visible, onClose }) => {
           <AnnouncementsList
             announcements={announcements}
             selectedAnnouncementId={selectedAnnouncementId}
+            seenAnnouncements={seenAnnouncements}
             setSelectedAnnouncementId={setSelectedAnnouncementId}
           />
           {selectedAnnouncement && (
