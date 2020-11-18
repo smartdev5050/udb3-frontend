@@ -5,6 +5,9 @@
     "react/react-in-jsx-scope": "off",
     "unicorn/no-abusive-eslint-disable": "error"
   },
+  "globals": {
+    "fetch": false
+  },
   "env": {
     "jest": true
   }
