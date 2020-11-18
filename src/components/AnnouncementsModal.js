@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box } from './publiq-ui/Box';
 import { Button } from './publiq-ui/Button';
+import { Image } from './publiq-ui/Image';
 import { Inline } from './publiq-ui/Inline';
 import { Link } from './publiq-ui/Link';
 import { List } from './publiq-ui/List';
@@ -112,7 +113,9 @@ const AnnouncementContent = ({
     >
       {title}
     </Title>
-    <img src={imageSrc} alt="" />
+    <Link href={callToAction}>
+      <Image src={imageSrc} alt={callToActionLabel} />
+    </Link>
     <div
       dangerouslySetInnerHTML={{ __html: body }}
       css={`
