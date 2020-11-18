@@ -187,7 +187,7 @@ const AnnouncementsModal = ({ visible, onClose }) => {
     if (announcements.length > 0) {
       setSelectedId(announcements[0].uid);
     }
-  }, [announcements]);
+  }, []);
 
   return (
     <ModalContent
