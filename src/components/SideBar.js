@@ -180,6 +180,7 @@ const SideBar = () => {
           > :not(:first-child) {
             border-top: 1px solid ${getValueForMenu('borderColor')};
           }
+          z-index: 1999;
         `}
       >
         <Menu items={userMenu} />

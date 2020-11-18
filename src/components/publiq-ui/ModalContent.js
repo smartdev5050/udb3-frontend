@@ -10,6 +10,8 @@ const ModalContent = ({ visible, title, onClose, children, className }) => (
     keyboard={false}
     size="xl"
     css={`
+      z-index: 2000;
+
       .modal-title {
         font-size: 1.067rem;
         font-weight: 700;
