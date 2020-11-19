@@ -116,8 +116,6 @@ const SideBar = () => {
   }, []);
 
   useEffect(() => {
-    console.log('seenAnnouncements', seenAnnouncements);
-    console.log(announcements.length, seenAnnouncements.length);
     if (announcements.length === 0) return;
     setCountUnseenAnnouncements(
       announcements.length - seenAnnouncements.length,
