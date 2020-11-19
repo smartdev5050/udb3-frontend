@@ -204,6 +204,8 @@ const AnnouncementsModal = ({
   visible,
   announcements,
   setAnnouncements,
+  seenAnnouncements,
+  setSeenAnnouncements,
   onClose,
 }) => {
   const { t } = useTranslation();
@@ -212,7 +214,6 @@ const AnnouncementsModal = ({
     maxAge: 60 * 60 * 24 * 30,
   };
   const [cookies, setCookie] = useCookies(['seenAnnouncements']);
-  const [seenAnnouncements, setSeenAnnouncements] = useState([]);
   const [selectedAnnouncementId, setSelectedAnnouncementId] = useState('');
   const [selectedAnnouncement, setSelectedAnnouncement] = useState(undefined);
 
@@ -296,12 +297,15 @@ AnnouncementsModal.propTypes = {
   visible: PropTypes.bool,
   announcements: PropTypes.array,
   setAnnouncements: PropTypes.func,
+  seenAnnouncements: PropTypes.array,
+  setSeenAnnouncements: PropTypes.func,
   onClose: PropTypes.func,
 };
 
 AnnouncementsModal.defaultProps = {
   visible: false,
   setAnnouncements: () => {},
+  setSeenAnnouncements: () => {},
   onClose: () => {},
 };
 

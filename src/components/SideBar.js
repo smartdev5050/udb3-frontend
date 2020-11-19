@@ -103,6 +103,7 @@ const SideBar = () => {
   const { t } = useTranslation();
   const [isModalVisible, setModalVisibility] = useState(false);
   const [announcements, setAnnouncements] = useState([]);
+  const [seenAnnouncements, setSeenAnnouncements] = useState([]);
 
   useEffect(async () => {
     const newAnnouncements = await fetchAnnouncements();
@@ -211,6 +212,8 @@ const SideBar = () => {
         visible={isModalVisible}
         announcements={announcements}
         setAnnouncements={setAnnouncements}
+        seenAnnouncements={seenAnnouncements}
+        setSeenAnnouncements={setSeenAnnouncements}
         onClose={() => {
           setModalVisibility(false);
         }}
