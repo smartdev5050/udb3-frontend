@@ -11,6 +11,9 @@ import { Title } from './publiq-ui/Title';
 import { Button } from './publiq-ui/Button';
 import { Logo } from './publiq-ui/Logo';
 import styled, { css } from 'styled-components';
+import { useState } from 'react';
+import { Inline } from './publiq-ui/Inline';
+import { JobLogger } from './JobLogger';
 
 const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSideBar = getValueFromTheme('sideBar');
@@ -93,6 +96,7 @@ Menu.propTypes = {
 
 const SideBar = () => {
   const { t } = useTranslation();
+  const [isJobLoggerVisible, setJobLoggerVisibility] = useState(false);
 
   const userMenu = [
     {
@@ -154,41 +158,46 @@ const SideBar = () => {
     {
       iconName: Icons.BELL,
       children: t('menu.notifications'),
-      onClick: () => {},
+      onClick: () => {
+        setJobLoggerVisibility(!isJobLoggerVisible);
+      },
     },
   ];
 
   return (
-    <Stack
-      css={`
-        width: 230px;
-        background-color: ${getValueForSideBar('backgroundColor')};
-        height: 100vh;
-        color: ${getValueForSideBar('color')};
-        z-index: 2000;
-      `}
-      padding={2}
-    >
-      <Link href="/dashboard">
-        <Logo />
-        {/* <Logo variants={LogoVariants.MOBILE} /> */}
-      </Link>
+    <Inline>
       <Stack
-        spacing={4}
         css={`
-          flex: 1;
-          > :not(:first-child) {
-            border-top: 1px solid ${getValueForMenu('borderColor')};
-          }
+          width: 230px;
+          background-color: ${getValueForSideBar('backgroundColor')};
+          height: 100vh;
+          color: ${getValueForSideBar('color')};
+          z-index: 2000;
         `}
+        padding={2}
       >
-        <Menu items={userMenu} />
-        <Stack justifyContent="space-between" css="flex: 1;">
-          <Menu items={manageMenu} title={t('menu.management')} />
-          <Menu items={notificationMenu} />
+        <Link href="/dashboard">
+          <Logo />
+          {/* <Logo variants={LogoVariants.MOBILE} /> */}
+        </Link>
+        <Stack
+          spacing={4}
+          css={`
+            flex: 1;
+            > :not(:first-child) {
+              border-top: 1px solid ${getValueForMenu('borderColor')};
+            }
+          `}
+        >
+          <Menu items={userMenu} />
+          <Stack justifyContent="space-between" css="flex: 1;">
+            <Menu items={manageMenu} title={t('menu.management')} />
+            <Menu items={notificationMenu} />
+          </Stack>
         </Stack>
       </Stack>
-    </Stack>
+      {isJobLoggerVisible && <JobLogger />}
+    </Inline>
   );
 };
 
