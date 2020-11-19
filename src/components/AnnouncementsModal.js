@@ -19,13 +19,7 @@ const getValueForAnnouncementItem = getValueFromTheme('announcementItem');
 const getValueForAnnouncementList = getValueFromTheme('announcementList');
 const getValueForAnnouncementContent = getValueFromTheme('announcementContent');
 
-const AnnouncementItem = ({
-  id,
-  title,
-  selected,
-  seen,
-  setSelectedAnnouncementId,
-}) => {
+const AnnouncementItem = ({ id, title, selected, seen, onClick }) => {
   return (
     <ListItem
       padding={4}
@@ -44,7 +38,7 @@ const AnnouncementItem = ({
         }
       `}
       onClick={() => {
-        setSelectedAnnouncementId(id);
+        onClick(id);
       }}
     >
       {seen ? <Icon name={Icons.EYE_SLASH} /> : <Icon name={Icons.EYE} />}
@@ -67,7 +61,7 @@ AnnouncementItem.propTypes = {
   title: PropTypes.string.isRequired,
   selected: PropTypes.bool,
   seen: PropTypes.bool,
-  setSelectedAnnouncementId: PropTypes.func,
+  onClick: PropTypes.func,
 };
 
 AnnouncementItem.defaultProps = {
@@ -96,7 +90,7 @@ const AnnouncementsList = ({
           title={announcement.title}
           selected={announcement.uid === selectedAnnouncementId}
           seen={seenAnnouncements.includes(announcement.uid)}
-          setSelectedAnnouncementId={setSelectedAnnouncementId}
+          onClick={setSelectedAnnouncementId}
         />
       );
     })}
