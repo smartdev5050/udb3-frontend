@@ -10,9 +10,11 @@ import { Box } from './publiq-ui/Box';
 import { Title } from './publiq-ui/Title';
 import { Button } from './publiq-ui/Button';
 import { Logo } from './publiq-ui/Logo';
+import { Badge } from './publiq-ui/Badge';
 import styled, { css } from 'styled-components';
 import { useEffect, useState } from 'react';
 import { AnnouncementsModal } from './AnnouncementsModal';
+import { Inline } from './publiq-ui/Inline';
 
 const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSideBar = getValueFromTheme('sideBar');
@@ -46,7 +48,9 @@ const MenuItem = ({ href, iconName, children, onClick }) => {
         spacing={3}
       >
         <Icon name={iconName} />
-        <Box as="span">{children}</Box>
+        <Box as="div" css="text-align: left; width: 100%;">
+          {children}
+        </Box>
       </Component>
     </ListItem>
   );
@@ -104,11 +108,21 @@ const SideBar = () => {
   const [isModalVisible, setModalVisibility] = useState(false);
   const [announcements, setAnnouncements] = useState([]);
   const [seenAnnouncements, setSeenAnnouncements] = useState([]);
+  const [countUnseenAnnouncements, setCountUnseenAnnouncements] = useState(0);
 
   useEffect(async () => {
     const newAnnouncements = await fetchAnnouncements();
     setAnnouncements(newAnnouncements);
   }, []);
+
+  useEffect(() => {
+    console.log('seenAnnouncements', seenAnnouncements);
+    console.log(announcements.length, seenAnnouncements.length);
+    if (announcements.length === 0) return;
+    setCountUnseenAnnouncements(
+      announcements.length - seenAnnouncements.length,
+    );
+  }, [announcements, seenAnnouncements]);
 
   const userMenu = [
     {
@@ -164,7 +178,19 @@ const SideBar = () => {
   const notificationMenu = [
     {
       iconName: Icons.GIFT,
-      children: t('menu.announcements'),
+      children: (
+        <Inline
+          forwardedAs="div"
+          css="width: 100%;"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Box as="span">{t('menu.announcements')}</Box>
+          {countUnseenAnnouncements > 0 && (
+            <Badge>{countUnseenAnnouncements}</Badge>
+          )}
+        </Inline>
+      ),
       onClick: () => {
         setModalVisibility(true);
       },

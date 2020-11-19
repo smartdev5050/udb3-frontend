@@ -245,10 +245,6 @@ const AnnouncementsModal = ({
   useEffect(() => {
     if (!selectedAnnouncementId) return;
 
-    if (!seenAnnouncements.includes(selectedAnnouncementId)) {
-      addToSeenAnnouncements(selectedAnnouncementId);
-    }
-
     const selectedAnnouncement = announcements.find(
       (announcement) => announcement.uid === selectedAnnouncementId,
     );
