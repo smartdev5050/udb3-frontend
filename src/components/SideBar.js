@@ -235,7 +235,6 @@ const SideBar = () => {
       <AnnouncementsModal
         visible={isModalVisible}
         announcements={announcements}
-        setAnnouncements={setAnnouncements}
         seenAnnouncements={seenAnnouncements}
         setSeenAnnouncements={setSeenAnnouncements}
         onClose={() => {

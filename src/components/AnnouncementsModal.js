@@ -203,7 +203,6 @@ AnnouncementContent.propTypes = {
 const AnnouncementsModal = ({
   visible,
   announcements,
-  setAnnouncements,
   seenAnnouncements,
   setSeenAnnouncements,
   onClose,
@@ -292,7 +291,6 @@ const AnnouncementsModal = ({
 AnnouncementsModal.propTypes = {
   visible: PropTypes.bool,
   announcements: PropTypes.array,
-  setAnnouncements: PropTypes.func,
   seenAnnouncements: PropTypes.array,
   setSeenAnnouncements: PropTypes.func,
   onClose: PropTypes.func,
@@ -300,7 +298,6 @@ AnnouncementsModal.propTypes = {
 
 AnnouncementsModal.defaultProps = {
   visible: false,
-  setAnnouncements: () => {},
   setSeenAnnouncements: () => {},
   onClose: () => {},
 };
