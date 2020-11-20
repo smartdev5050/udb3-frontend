@@ -115,7 +115,9 @@ const SideBar = () => {
     sameSite: 'none',
     secure: true,
   };
-  const [cookies, setCookie] = useCookies(['seenAnnouncements']);
+  const [cookies, setCookie] = useCookies([
+    { name: 'seenAnnouncements', options: cookieOptions },
+  ]);
 
   const seenAnnouncementIds = useMemo(() => {
     return announcements
@@ -132,14 +134,14 @@ const SideBar = () => {
 
   const updateCookies = (fetchedAnnouncements) => {
     if (!cookies.seenAnnouncements) {
-      setCookie('seenAnnouncements', [], cookieOptions);
+      setCookie('seenAnnouncements', []);
       return;
     }
     // filter only relevant cookies
     const updatedCookies = cookies.seenAnnouncements.filter(
       (seenAnnouncementId) => fetchedAnnouncements.includes(seenAnnouncementId),
     );
-    setCookie('seenAnnouncements', updatedCookies, cookieOptions);
+    setCookie('seenAnnouncements', updatedCookies);
   };
 
   const getAnnouncementsWithStatus = (fetchedAnnouncements) => {
@@ -194,7 +196,7 @@ const SideBar = () => {
   }, []);
 
   useEffect(() => {
-    setCookie('seenAnnouncements', seenAnnouncementIds, cookieOptions);
+    setCookie('seenAnnouncements', seenAnnouncementIds);
   }, [announcements]);
 
   const userMenu = [
