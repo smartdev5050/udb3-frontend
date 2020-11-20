@@ -201,6 +201,7 @@ const AnnouncementsModal = ({
   announcements,
   seenAnnouncements,
   setSeenAnnouncements,
+  onShow,
   onClose,
 }) => {
   const { t } = useTranslation();
@@ -254,6 +255,7 @@ const AnnouncementsModal = ({
     <ModalContent
       visible={visible}
       title={t('announcements.new_features')}
+      onShow={onShow}
       onClose={onClose}
     >
       {announcements.length > 0 ? (
@@ -289,12 +291,14 @@ AnnouncementsModal.propTypes = {
   announcements: PropTypes.array,
   seenAnnouncements: PropTypes.array,
   setSeenAnnouncements: PropTypes.func,
+  onShow: PropTypes.func,
   onClose: PropTypes.func,
 };
 
 AnnouncementsModal.defaultProps = {
   visible: false,
   setSeenAnnouncements: () => {},
+  onShow: () => {},
   onClose: () => {},
 };
 
