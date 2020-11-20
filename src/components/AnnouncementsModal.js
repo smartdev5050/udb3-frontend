@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, parseSpacing } from './publiq-ui/Box';
 import { Button } from './publiq-ui/Button';
