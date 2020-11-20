@@ -19,6 +19,7 @@ import {
 } from './AnnouncementsModal';
 import { Inline } from './publiq-ui/Inline';
 import { useCookies } from 'react-cookie';
+import { useAnnouncements } from '../api';
 
 const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSideBar = getValueFromTheme('sideBar');
@@ -99,16 +100,12 @@ Menu.propTypes = {
   title: PropTypes.string,
 };
 
-const fetchAnnouncements = async () => {
-  const res = await fetch(process.env.NEXT_PUBLIC_NEW_ANNOUNCEMENTS_URL);
-  const { data } = await res.json();
-  return data;
-};
-
 const SideBar = () => {
   const { t } = useTranslation();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [announcements, setAnnouncements] = useState([]);
+  const announcementsQuery = useAnnouncements();
+  const { data, isSuccess } = announcementsQuery;
   const cookieOptions = {
     path: '/',
     maxAge: 60 * 60 * 24 * 30,
@@ -187,7 +184,7 @@ const SideBar = () => {
   };
 
   useEffect(async () => {
-    const fetchedAnnouncements = await fetchAnnouncements();
+    const fetchedAnnouncements = [];
     updateCookies(fetchedAnnouncements);
     const announcementsWithStatus = getAnnouncementsWithStatus(
       fetchedAnnouncements,
