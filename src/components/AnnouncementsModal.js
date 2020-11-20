@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useTranslation } from 'react-i18next';
 import { Box } from './publiq-ui/Box';
+import { Box, parseSpacing } from './publiq-ui/Box';
 import { Button } from './publiq-ui/Button';
 import { Icon, Icons } from './publiq-ui/Icon';
 import { Image } from './publiq-ui/Image';
@@ -150,29 +151,30 @@ const AnnouncementContent = ({
         strong {
           font-weight: bold;
         }
+
         a {
           color: ${getValueForAnnouncementContent('linkColor')};
         }
+
         p {
-          margin-bottom: 1rem;
+          margin-bottom: ${parseSpacing(4)}rem;
         }
+
         ol {
-          display: block;
           list-style-type: decimal;
-          margin-block-start: 1em;
-          margin-block-end: 1em;
-          margin-inline-start: 0px;
-          margin-inline-end: 0px;
-          padding-inline-start: 40px;
+          margin-bottom: ${parseSpacing(4)}rem;
+
+          li {
+            margin-left: ${parseSpacing(5)}rem;
+          }
         }
         ul {
-          display: block;
           list-style-type: disc;
-          margin-block-start: 1em;
-          margin-block-end: 1em;
-          margin-inline-start: 0px;
-          margin-inline-end: 0px;
-          padding-inline-start: 40px;
+          margin-bottom: ${parseSpacing(4)}rem;
+
+          li {
+            margin-left: ${parseSpacing(5)}rem;
+          }
         }
       `}
     />
