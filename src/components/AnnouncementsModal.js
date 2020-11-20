@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import { useCookies } from 'react-cookie';
 import { useTranslation } from 'react-i18next';
-import { Box } from './publiq-ui/Box';
 import { Box, parseSpacing } from './publiq-ui/Box';
 import { Button } from './publiq-ui/Button';
 import { Icon, Icons } from './publiq-ui/Icon';
@@ -20,7 +18,13 @@ const getValueForAnnouncementItem = getValueFromTheme('announcementItem');
 const getValueForAnnouncementList = getValueFromTheme('announcementList');
 const getValueForAnnouncementContent = getValueFromTheme('announcementContent');
 
-const AnnouncementItem = ({ id, title, selected, seen, onClick }) => {
+const AnnouncementItemStatus = {
+  ACTIVE: 'active',
+  SEEN: 'seen',
+  UNSEEN: 'unseen',
+};
+
+const AnnouncementItem = ({ id, title, status, onClick }) => {
   return (
     <ListItem
       padding={4}
@@ -28,12 +32,12 @@ const AnnouncementItem = ({ id, title, selected, seen, onClick }) => {
       css={`
         cursor: pointer;
         border-bottom: ${getValueForAnnouncementItem('borderColor')} 1px solid;
-        background-color: ${selected
+        background-color: ${status === AnnouncementItemStatus.ACTIVE
           ? getValueForAnnouncementItem('selected.backgroundColor')
           : 'inherit'};
 
         :hover {
-          background-color: ${selected
+          background-color: ${status === AnnouncementItemStatus.ACTIVE
             ? getValueForAnnouncementItem('selected.hoverBackgroundColor')
             : getValueForAnnouncementItem('hoverBackgroundColor')};
         }
@@ -42,7 +46,11 @@ const AnnouncementItem = ({ id, title, selected, seen, onClick }) => {
         onClick(id);
       }}
     >
-      {seen ? <Icon name={Icons.EYE_SLASH} /> : <Icon name={Icons.EYE} />}
+      {status === AnnouncementItemStatus.UNSEEN ? (
+        <Icon name={Icons.EYE} />
+      ) : (
+        <Icon name={Icons.EYE_SLASH} />
+      )}
       <Box
         as="span"
         css={`
@@ -60,53 +68,12 @@ const AnnouncementItem = ({ id, title, selected, seen, onClick }) => {
 AnnouncementItem.propTypes = {
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  selected: PropTypes.bool,
-  seen: PropTypes.bool,
+  status: PropTypes.oneOf(Object.values(AnnouncementItemStatus)),
   onClick: PropTypes.func,
 };
 
 AnnouncementItem.defaultProps = {
-  selected: false,
-  seen: false,
-};
-
-const AnnouncementsList = ({
-  announcements,
-  selectedAnnouncementId,
-  seenAnnouncements,
-  setSelectedAnnouncementId,
-}) => (
-  <List
-    css={`
-      width: 30%;
-      border-right: ${getValueForAnnouncementList('borderColor')} 1px solid;
-      overflow-y: auto;
-    `}
-  >
-    {announcements.map((announcement) => {
-      return (
-        <AnnouncementItem
-          key={announcement.uid}
-          id={announcement.uid}
-          title={announcement.title}
-          selected={announcement.uid === selectedAnnouncementId}
-          seen={seenAnnouncements.includes(announcement.uid)}
-          onClick={setSelectedAnnouncementId}
-        />
-      );
-    })}
-  </List>
-);
-
-AnnouncementsList.propTypes = {
-  announcements: PropTypes.array,
-  selectedAnnouncementId: PropTypes.string,
-  seenAnnouncements: PropTypes.array,
-  setSelectedAnnouncementId: PropTypes.func,
-};
-
-AnnouncementsList.defaultProps = {
-  seenAnnouncements: [],
+  status: AnnouncementItemStatus.UNSEEN,
 };
 
 const AnnouncementContent = ({
@@ -199,57 +166,17 @@ AnnouncementContent.propTypes = {
 const AnnouncementsModal = ({
   visible,
   announcements,
-  seenAnnouncements,
-  setSeenAnnouncements,
+  onClickAnnouncement,
   onShow,
   onClose,
 }) => {
   const { t } = useTranslation();
-  const cookieOptions = {
-    path: '/',
-    maxAge: 60 * 60 * 24 * 30,
-  };
-  const [cookies, setCookie] = useCookies(['seenAnnouncements']);
-  const [selectedAnnouncementId, setSelectedAnnouncementId] = useState('');
-  const [selectedAnnouncement, setSelectedAnnouncement] = useState(undefined);
 
-  const addToSeenAnnouncements = (id) => {
-    setSeenAnnouncements((prev) => (prev.length > 0 ? [...prev, id] : [id]));
-    setCookie(
-      'seenAnnouncements',
-      cookies.seenAnnouncements
-        ? [...cookies.seenAnnouncements, selectedAnnouncementId]
-        : [selectedAnnouncementId],
-      cookieOptions,
+  const activeAnnouncement = () => {
+    return announcements.find(
+      (announcement) => announcement.status === AnnouncementItemStatus.ACTIVE,
     );
   };
-
-  useEffect(() => {
-    if (cookies.seenAnnouncements) {
-      const updatedSeenAnnouncements = cookies.seenAnnouncements.filter(
-        (announcement) => !announcements.includes(announcement.uid),
-      );
-      setSeenAnnouncements(updatedSeenAnnouncements);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!visible || announcements.length === 0) return;
-    setSelectedAnnouncementId(announcements[0].uid);
-  }, [visible]);
-
-  useEffect(() => {
-    if (!selectedAnnouncementId) return;
-
-    const selectedAnnouncement = announcements.find(
-      (announcement) => announcement.uid === selectedAnnouncementId,
-    );
-    setSelectedAnnouncement(selectedAnnouncement);
-
-    if (!seenAnnouncements.includes(selectedAnnouncementId)) {
-      addToSeenAnnouncements(selectedAnnouncementId);
-    }
-  }, [selectedAnnouncementId]);
 
   return (
     <ModalContent
@@ -260,20 +187,36 @@ const AnnouncementsModal = ({
     >
       {announcements.length > 0 ? (
         <Inline>
-          <AnnouncementsList
-            announcements={announcements}
-            selectedAnnouncementId={selectedAnnouncementId}
-            seenAnnouncements={seenAnnouncements}
-            setSelectedAnnouncementId={setSelectedAnnouncementId}
-          />
-          {selectedAnnouncement && (
+          <List
+            css={`
+              width: 30%;
+              border-right: ${getValueForAnnouncementList('borderColor')} 1px
+                solid;
+              overflow-y: auto;
+            `}
+          >
+            {announcements.map((announcement) => {
+              return (
+                <AnnouncementItem
+                  key={announcement.uid}
+                  id={announcement.uid}
+                  title={announcement.title}
+                  status={announcement.status}
+                  onClick={() => {
+                    onClickAnnouncement(announcement);
+                  }}
+                />
+              );
+            })}
+          </List>
+          {activeAnnouncement && (
             <AnnouncementContent
-              key={selectedAnnouncementId}
-              title={selectedAnnouncement.title}
-              imageSrc={selectedAnnouncement.image}
-              body={selectedAnnouncement.body}
-              callToAction={selectedAnnouncement.callToAction}
-              callToActionLabel={selectedAnnouncement.callToActionLabel}
+              key={activeAnnouncement.uid}
+              title={activeAnnouncement.title}
+              imageSrc={activeAnnouncement.image}
+              body={activeAnnouncement.body}
+              callToAction={activeAnnouncement.callToAction}
+              callToActionLabel={activeAnnouncement.callToActionLabel}
             />
           )}
         </Inline>
@@ -289,17 +232,16 @@ const AnnouncementsModal = ({
 AnnouncementsModal.propTypes = {
   visible: PropTypes.bool,
   announcements: PropTypes.array,
-  seenAnnouncements: PropTypes.array,
-  setSeenAnnouncements: PropTypes.func,
+  onClickAnnouncement: PropTypes.func,
   onShow: PropTypes.func,
   onClose: PropTypes.func,
 };
 
 AnnouncementsModal.defaultProps = {
   visible: false,
-  setSeenAnnouncements: () => {},
+  setAnnouncements: () => {},
   onShow: () => {},
   onClose: () => {},
 };
 
-export { AnnouncementsModal };
+export { AnnouncementsModal, AnnouncementItemStatus };

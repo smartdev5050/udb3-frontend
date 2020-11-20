@@ -12,9 +12,13 @@ import { Button } from './publiq-ui/Button';
 import { Logo } from './publiq-ui/Logo';
 import { Badge } from './publiq-ui/Badge';
 import styled, { css } from 'styled-components';
-import { useEffect, useState } from 'react';
-import { AnnouncementsModal } from './AnnouncementsModal';
+import { useEffect, useMemo, useState } from 'react';
+import {
+  AnnouncementItemStatus,
+  AnnouncementsModal,
+} from './AnnouncementsModal';
 import { Inline } from './publiq-ui/Inline';
+import { useCookies } from 'react-cookie';
 
 const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSideBar = getValueFromTheme('sideBar');
@@ -48,9 +52,7 @@ const MenuItem = ({ href, iconName, children, onClick }) => {
         spacing={3}
       >
         <Icon name={iconName} />
-        <Box as="div" css="text-align: left; width: 100%;">
-          {children}
-        </Box>
+        <Box css="text-align: left; width: 100%;">{children}</Box>
       </Component>
     </ListItem>
   );
@@ -105,22 +107,95 @@ const fetchAnnouncements = async () => {
 
 const SideBar = () => {
   const { t } = useTranslation();
-  const [isModalVisible, setModalVisibility] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [announcements, setAnnouncements] = useState([]);
-  const [seenAnnouncements, setSeenAnnouncements] = useState([]);
-  const [countUnseenAnnouncements, setCountUnseenAnnouncements] = useState(0);
+  const cookieOptions = {
+    path: '/',
+    maxAge: 60 * 60 * 24 * 30,
+    sameSite: 'none',
+    secure: true,
+  };
+  const [cookies, setCookie] = useCookies(['seenAnnouncements']);
+
+  const seenAnnouncementIds = useMemo(() => {
+    return announcements
+      .map((announcement) => {
+        if (announcement.status !== AnnouncementItemStatus.UNSEEN) {
+          return announcement.uid;
+        }
+      })
+      .filter((announcementId) => announcementId !== undefined);
+  }, [announcements]);
+
+  const countUnseenAnnouncements =
+    announcements.length - seenAnnouncementIds.length;
+
+  const updateCookies = (fetchedAnnouncements) => {
+    if (!cookies.seenAnnouncements) {
+      setCookie('seenAnnouncements', [], cookieOptions);
+      return;
+    }
+    // filter only relevant cookies
+    const updatedCookies = cookies.seenAnnouncements.filter(
+      (seenAnnouncementId) => fetchedAnnouncements.includes(seenAnnouncementId),
+    );
+    setCookie('seenAnnouncements', updatedCookies, cookieOptions);
+  };
+
+  const getAnnouncementsWithStatus = (fetchedAnnouncements) => {
+    return fetchedAnnouncements.map((announcement) => {
+      const isInCookies = cookies.seenAnnouncements
+        ? cookies.seenAnnouncements.includes(announcement.uid)
+        : false;
+      announcement.status = isInCookies
+        ? AnnouncementItemStatus.SEEN
+        : AnnouncementItemStatus.UNSEEN;
+      return announcement;
+    });
+  };
+
+  const handleClickAnnouncement = (activeAnnouncement) => {
+    const mappedAnnouncements = announcements.map((announcement) => {
+      if (announcement.status === AnnouncementItemStatus.ACTIVE) {
+        announcement.status = AnnouncementItemStatus.SEEN;
+      }
+      if (announcement.uid === activeAnnouncement.uid) {
+        announcement.status = AnnouncementItemStatus.ACTIVE;
+      }
+      return announcement;
+    });
+    setAnnouncements(mappedAnnouncements);
+  };
+
+  const handleShowAnnouncementsModal = () => {
+    const mappedAnnouncements = announcements.map((announcement, index) => {
+      if (announcement.status === AnnouncementItemStatus.ACTIVE) {
+        announcement.status = AnnouncementItemStatus.SEEN;
+      }
+      if (index === 0) {
+        announcement.status = AnnouncementItemStatus.ACTIVE;
+      }
+      return announcement;
+    });
+    setAnnouncements(mappedAnnouncements);
+  };
+
+  const handleCloseAnnouncementModal = () => {
+    setIsModalVisible(false);
+  };
 
   useEffect(async () => {
-    const newAnnouncements = await fetchAnnouncements();
-    setAnnouncements(newAnnouncements);
+    const fetchedAnnouncements = await fetchAnnouncements();
+    updateCookies(fetchedAnnouncements);
+    const announcementsWithStatus = getAnnouncementsWithStatus(
+      fetchedAnnouncements,
+    );
+    setAnnouncements(announcementsWithStatus);
   }, []);
 
   useEffect(() => {
-    if (announcements.length === 0) return;
-    setCountUnseenAnnouncements(
-      announcements.length - seenAnnouncements.length,
-    );
-  }, [announcements, seenAnnouncements]);
+    setCookie('seenAnnouncements', seenAnnouncementIds, cookieOptions);
+  }, [announcements]);
 
   const userMenu = [
     {
@@ -190,7 +265,7 @@ const SideBar = () => {
         </Inline>
       ),
       onClick: () => {
-        setModalVisibility(true);
+        setIsModalVisible(true);
       },
     },
     {
@@ -235,11 +310,9 @@ const SideBar = () => {
       <AnnouncementsModal
         visible={isModalVisible}
         announcements={announcements}
-        seenAnnouncements={seenAnnouncements}
-        setSeenAnnouncements={setSeenAnnouncements}
-        onClose={() => {
-          setModalVisibility(false);
-        }}
+        onClickAnnouncement={handleClickAnnouncement}
+        onShow={handleShowAnnouncementsModal}
+        onClose={handleCloseAnnouncementModal}
       />
     </>
   );
