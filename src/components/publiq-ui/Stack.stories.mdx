@@ -59,22 +59,3 @@ export const boxProps = {
 </Canvas>
 
 <ArgsTable story="Nested" />
-
-<Canvas>
-  <Story
-    name="WithHTML"
-    args={{
-      ...commonArgs,
-    }}
-  >
-    {(args) => (
-      <Stack {...args}>
-        this is text
-        <div>content div</div>
-        <a href="#">link</a>
-      </Stack>
-    )}
-  </Story>
-</Canvas>
-
-<ArgsTable story="WithHTML" />

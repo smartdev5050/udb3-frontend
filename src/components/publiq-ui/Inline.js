@@ -25,26 +25,6 @@ const Inline = forwardRef(
 
       if (!child) return;
 
-      // if child is normal text
-      if (typeof child === 'string') {
-        return (
-          <Box as="p" {...(!isLastItem ? { marginRight: spacing } : {})}>
-            {child}
-          </Box>
-        );
-      }
-
-      // if child is html
-      if (child.props.originalType) {
-        return (
-          <Box
-            as={`${child.props.originalType}`}
-            {...(!isLastItem ? { marginRight: spacing } : {})}
-            {...child.props}
-          />
-        );
-      }
-
       // if child is functional component
       return cloneElement(child, {
         ...child.props,
