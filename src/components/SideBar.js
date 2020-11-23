@@ -196,7 +196,13 @@ const SideBar = () => {
           </Stack>
         </Stack>
       </Stack>
-      {isJobLoggerVisible && <JobLogger />}
+      {isJobLoggerVisible && (
+        <JobLogger
+          onClose={() => {
+            setJobLoggerVisibility(!isJobLoggerVisible);
+          }}
+        />
+      )}
     </Inline>
   );
 };

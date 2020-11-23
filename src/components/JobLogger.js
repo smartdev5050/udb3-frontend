@@ -4,6 +4,8 @@ import { Box } from './publiq-ui/Box';
 import { Inline } from './publiq-ui/Inline';
 import { Stack } from './publiq-ui/Stack';
 import { Title } from './publiq-ui/Title';
+import { Button, ButtonVariants } from './publiq-ui/Button';
+import { Icon, Icons } from './publiq-ui/Icon';
 
 const JobTitle = ({ children, className }) => (
   <Title
@@ -24,7 +26,7 @@ JobTitle.propTypes = {
   className: PropTypes.string,
 };
 
-const JobLogger = () => {
+const JobLogger = ({ onClose }) => {
   const { t } = useTranslation();
 
   const jobLoggerItems = [
@@ -53,26 +55,44 @@ const JobLogger = () => {
     >
       <Stack
         padding={3}
-        spacing={4}
         css={`
           width: 320px;
           height: 100vh;
         `}
       >
-        {jobLoggerItems.map((jobLoggerItem) => (
-          <JobTitle key={jobLoggerItem.title}>{jobLoggerItem.title}</JobTitle>
-        ))}
+        <Inline as="div" justifyContent="flex-end">
+          <Button variant={ButtonVariants.UNSTYLED} onClick={onClose}>
+            <Icon
+              name={Icons.TIMES}
+              css={`
+                opacity: 0.5;
+                &:hover {
+                  opacity: 1;
+                }
+              `}
+            />
+          </Button>
+        </Inline>
+        <Stack spacing={4}>
+          {jobLoggerMenus.map((jobLoggerMenu) => (
+            <JobTitle key={jobLoggerMenu.title}>{jobLoggerMenu.title}</JobTitle>
+          ))}
+        </Stack>
       </Stack>
       <Box
         css={`
           background-color: black;
           opacity: 0.5;
           height: 100vh;
-          width: calc(100% - 320px);
+          width: calc(100% - 230px - 320px);
         `}
       />
     </Inline>
   );
+};
+
+JobLogger.propTypes = {
+  onClose: PropTypes.func,
 };
 
 export { JobLogger };
