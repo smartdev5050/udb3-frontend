@@ -13,39 +13,39 @@ import { Stack } from './publiq-ui/Stack';
 import { getValueFromTheme } from './publiq-ui/theme';
 import { Title } from './publiq-ui/Title';
 
-const getValueForAnnouncementItem = getValueFromTheme('announcementItem');
-const getValueForAnnouncementList = getValueFromTheme('announcementList');
-const getValueForAnnouncementContent = getValueFromTheme('announcementContent');
-
-const AnnouncementItemStatus = {
+const AnnouncementStatus = {
   ACTIVE: 'active',
   SEEN: 'seen',
   UNSEEN: 'unseen',
 };
 
-const AnnouncementItem = ({ id, title, status, onClick }) => {
+const getValueForAnnouncement = getValueFromTheme('announcement');
+const getValueForAnnouncementList = getValueFromTheme('announcementList');
+const getValueForAnnouncementContent = getValueFromTheme('announcementContent');
+
+const Announcement = ({ id, title, status, onClick }) => {
   return (
     <ListItem
       padding={4}
       spacing={3}
       css={`
         cursor: pointer;
-        border-bottom: ${getValueForAnnouncementItem('borderColor')} 1px solid;
-        background-color: ${status === AnnouncementItemStatus.ACTIVE
-          ? getValueForAnnouncementItem('selected.backgroundColor')
+        border-bottom: ${getValueForAnnouncement('borderColor')} 1px solid;
+        background-color: ${status === AnnouncementStatus.ACTIVE
+          ? getValueForAnnouncement('selected.backgroundColor')
           : 'inherit'};
 
         :hover {
-          background-color: ${status === AnnouncementItemStatus.ACTIVE
-            ? getValueForAnnouncementItem('selected.hoverBackgroundColor')
-            : getValueForAnnouncementItem('hoverBackgroundColor')};
+          background-color: ${status === AnnouncementStatus.ACTIVE
+            ? getValueForAnnouncement('selected.hoverBackgroundColor')
+            : getValueForAnnouncement('hoverBackgroundColor')};
         }
       `}
       onClick={() => {
         onClick(id);
       }}
     >
-      {status === AnnouncementItemStatus.UNSEEN ? (
+      {status === AnnouncementStatus.UNSEEN ? (
         <Icon name={Icons.EYE} />
       ) : (
         <Icon name={Icons.EYE_SLASH} />
@@ -64,15 +64,15 @@ const AnnouncementItem = ({ id, title, status, onClick }) => {
   );
 };
 
-AnnouncementItem.propTypes = {
+Announcement.propTypes = {
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  status: PropTypes.oneOf(Object.values(AnnouncementItemStatus)),
+  status: PropTypes.oneOf(Object.values(AnnouncementStatus)),
   onClick: PropTypes.func,
 };
 
-AnnouncementItem.defaultProps = {
-  status: AnnouncementItemStatus.UNSEEN,
+Announcement.defaultProps = {
+  status: AnnouncementStatus.UNSEEN,
 };
 
 const AnnouncementContent = ({
@@ -162,7 +162,7 @@ AnnouncementContent.propTypes = {
   callToActionLabel: PropTypes.string,
 };
 
-const AnnouncementsModal = ({
+const Announcements = ({
   visible,
   announcements,
   onClickAnnouncement,
@@ -171,11 +171,9 @@ const AnnouncementsModal = ({
 }) => {
   const { t } = useTranslation();
 
-  const activeAnnouncement = () => {
-    return announcements.find(
-      (announcement) => announcement.status === AnnouncementItemStatus.ACTIVE,
-    );
-  };
+  const activeAnnouncement = announcements.find(
+    (announcement) => announcement.status === AnnouncementStatus.ACTIVE,
+  );
 
   return (
     <ModalContent
@@ -196,7 +194,7 @@ const AnnouncementsModal = ({
           >
             {announcements.map((announcement) => {
               return (
-                <AnnouncementItem
+                <Announcement
                   key={announcement.uid}
                   id={announcement.uid}
                   title={announcement.title}
@@ -228,7 +226,7 @@ const AnnouncementsModal = ({
   );
 };
 
-AnnouncementsModal.propTypes = {
+Announcements.propTypes = {
   visible: PropTypes.bool,
   announcements: PropTypes.array,
   onClickAnnouncement: PropTypes.func,
@@ -236,11 +234,11 @@ AnnouncementsModal.propTypes = {
   onClose: PropTypes.func,
 };
 
-AnnouncementsModal.defaultProps = {
+Announcements.defaultProps = {
   visible: false,
   setAnnouncements: () => {},
   onShow: () => {},
   onClose: () => {},
 };
 
-export { AnnouncementsModal, AnnouncementItemStatus };
+export { Announcements, AnnouncementStatus };

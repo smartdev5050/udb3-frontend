@@ -128,7 +128,7 @@ const theme = {
         backgroundColor: colors.red4,
       },
     },
-    announcementItem: {
+    announcement: {
       borderColor: colors.grey2,
       hoverBackgroundColor: colors.grey1,
       selected: {
