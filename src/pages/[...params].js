@@ -11,7 +11,7 @@ const Fallback = () => {
 
   useEffect(() => {
     if (!cookies.token) {
-      router.push('/login');
+      router.push('/login/');
     }
 
     const queryString = new URLSearchParams({
