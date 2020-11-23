@@ -1,4 +1,7 @@
 import PropTypes from 'prop-types';
+import { useEffect, useMemo, useState } from 'react';
+import { useCookies } from 'react-cookie';
+
 import { Stack } from './publiq-ui/Stack';
 import { Link } from './publiq-ui/Link';
 import { List } from './publiq-ui/List';
@@ -12,12 +15,11 @@ import { Button } from './publiq-ui/Button';
 import { Logo } from './publiq-ui/Logo';
 import { Badge } from './publiq-ui/Badge';
 import styled, { css } from 'styled-components';
-import { useEffect, useMemo, useState } from 'react';
-import { Announcements, AnnouncementStatus } from './Annoucements';
 import { Inline } from './publiq-ui/Inline';
-import { useAnnouncements } from '../api';
-import { useCookies } from 'react-cookie';
+
 import { JobLogger } from './JobLogger';
+import { Announcements, AnnouncementStatus } from './Annoucements';
+import { useAnnouncements } from '../api';
 
 const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSideBar = getValueFromTheme('sideBar');
@@ -100,6 +102,8 @@ Menu.propTypes = {
 
 const SideBar = () => {
   const { t } = useTranslation();
+
+  const [isJobLoggerVisible, setJobLoggerVisibility] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const {
@@ -157,7 +161,6 @@ const SideBar = () => {
     );
     setCookieWithOptions(cleanedUpSeenAnnouncements);
   }, [rawAnnouncements]);
-  const [isJobLoggerVisible, setJobLoggerVisibility] = useState(false);
 
   const userMenu = [
     {
@@ -261,54 +264,51 @@ const SideBar = () => {
   ];
 
   return (
-    <Inline>
-      <Stack
-        css={`
-          width: 230px;
-          background-color: ${getValueForSideBar('backgroundColor')};
-          height: 100vh;
-          color: ${getValueForSideBar('color')};
-          z-index: 2000;
-        `}
-        padding={2}
-        spacing={3}
-      >
-        <Inline as="div" justifyContent="center">
+    <>
+      <Inline>
+        <Stack
+          css={`
+            width: 230px;
+            background-color: ${getValueForSideBar('backgroundColor')};
+            height: 100vh;
+            color: ${getValueForSideBar('color')};
+            z-index: 1998;
+          `}
+          padding={2}
+        >
           <Link href="/dashboard">
             <Logo />
             {/* <Logo variants={LogoVariants.MOBILE} /> */}
           </Link>
-        </Inline>
-        <Stack
-          spacing={4}
-          css={`
-            flex: 1;
-            > :not(:first-child) {
-              border-top: 1px solid ${getValueForMenu('borderColor')};
-            }
-          `}
-        >
-          <Menu items={userMenu} />
-          <Stack justifyContent="space-between" css="flex: 1;">
-            <Menu items={manageMenu} title={t('menu.management')} />
-            <Menu items={notificationMenu} />
+          <Stack
+            spacing={4}
+            css={`
+              flex: 1;
+              > :not(:first-child) {
+                border-top: 1px solid ${getValueForMenu('borderColor')};
+              }
+            `}
+          >
+            <Menu items={userMenu} />
+            <Stack justifyContent="space-between" css="flex: 1;">
+              <Menu items={manageMenu} title={t('menu.management')} />
+              <Menu items={notificationMenu} />
+            </Stack>
           </Stack>
         </Stack>
-      </Stack>
+        {isJobLoggerVisible && (
+          <JobLogger
+            onClose={() => setJobLoggerVisibility(!isJobLoggerVisible)}
+          />
+        )}
+      </Inline>
       <Announcements
         visible={isModalVisible}
         announcements={announcements || []}
         onClickAnnouncement={handleClickAnnouncement}
         onClose={toggleIsModalVisibile}
       />
-      {isJobLoggerVisible && (
-        <JobLogger
-          onClose={() => {
-            setJobLoggerVisibility(!isJobLoggerVisible);
-          }}
-        />
-      )}
-    </Inline>
+    </>
   );
 };
 

@@ -30,9 +30,9 @@ const Icons = {
   LAYER_GROUP: 'layerGroup',
   BELL: 'bell',
   GIFT: 'gift',
+  TIMES: 'times',
   EYE: 'eye',
   EYE_SLASH: 'eyeSlash',
-  TIMES: 'times',
 };
 
 const IconsMap = {
@@ -47,9 +47,9 @@ const IconsMap = {
   [Icons.LAYER_GROUP]: faLayerGroup,
   [Icons.BELL]: faBell,
   [Icons.GIFT]: faGift,
+  [Icons.TIMES]: faTimes,
   [Icons.EYE]: faEye,
   [Icons.EYE_SLASH]: faEyeSlash,
-  [Icons.TIMES]: faTimes,
 };
 
 const Icon = ({ name, className, ...props }) => {
