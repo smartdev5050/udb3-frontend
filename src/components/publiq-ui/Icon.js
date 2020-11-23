@@ -10,6 +10,7 @@ import {
   faPlusCircle,
   faSearch,
   faTag,
+  faTimes,
   faUser,
   faUsers,
 } from '@fortawesome/free-solid-svg-icons';
@@ -27,6 +28,7 @@ const Icons = {
   LAYER_GROUP: 'layerGroup',
   BELL: 'bell',
   GIFT: 'gift',
+  TIMES: 'times',
 };
 
 const IconsMap = {
@@ -41,6 +43,7 @@ const IconsMap = {
   [Icons.LAYER_GROUP]: faLayerGroup,
   [Icons.BELL]: faBell,
   [Icons.GIFT]: faGift,
+  [Icons.TIMES]: faTimes,
 };
 
 const Icon = ({ name, className, ...props }) => {
