@@ -7,7 +7,7 @@ import { Title } from './publiq-ui/Title';
 import { Button, ButtonVariants } from './publiq-ui/Button';
 import { Icon, Icons } from './publiq-ui/Icon';
 
-const JobTitle = ({ children, className }) => (
+const JobTitle = ({ children, className, ...props }) => (
   <Title
     css={`
       width: 100%;
@@ -16,6 +16,7 @@ const JobTitle = ({ children, className }) => (
       border-bottom: black 1px solid;
     `}
     className={className}
+    {...props}
   >
     {children}
   </Title>
