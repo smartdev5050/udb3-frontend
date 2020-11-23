@@ -111,32 +111,32 @@ const SideBar = () => {
       maxAge: 60 * 60 * 24 * 30,
     });
 
-  const addIdToSeenAnnouncements = (id) => {
-    const seenAnnouncements = cookies?.seenAnnouncements ?? [];
-    if (!seenAnnouncements.includes(id)) {
-      setCookieWithOptions([...seenAnnouncements, id]);
-    }
-  };
-
-  const handleClickAnnouncement = (activeAnnouncement) => {
-    addIdToSeenAnnouncements(activeAnnouncement.uid);
+  const handleClickAnnouncement = (activeAnnouncement) =>
     setActiveAnnouncementId(activeAnnouncement.uid);
-  };
 
   const toggleIsModalVisibile = () =>
     setIsModalVisible((isModalVisible) => !isModalVisible);
 
   useEffect(() => {
     if (isModalVisible) {
-      addIdToSeenAnnouncements(announcements[0].uid);
       setActiveAnnouncementId(announcements[0].uid);
     }
   }, [isModalVisible]);
 
   useEffect(() => {
+    if (activeAnnouncementId) {
+      const seenAnnouncements = cookies?.seenAnnouncements ?? [];
+      if (!seenAnnouncements.includes(activeAnnouncementId)) {
+        setCookieWithOptions([...seenAnnouncements, activeAnnouncementId]);
+      }
+    }
+  }, [activeAnnouncementId]);
+
+  useEffect(() => {
     if (rawAnnouncements.length === 0) {
       return;
     }
+
     const seenAnnouncements = cookies?.seenAnnouncements ?? [];
     const cleanedUpAnnouncements = seenAnnouncements.filter(
       (seenAnnouncementId) =>
