@@ -12,11 +12,6 @@ const List = ({ children, className, variant, ...props }) => (
     className={className}
     variant={variant}
     {...getStackProps(props)}
-    css={`
-      li:not(:last-child) {
-        border-bottom: none;
-      }
-    `}
   >
     {children}
   </Stack>

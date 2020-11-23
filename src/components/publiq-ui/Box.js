@@ -168,4 +168,11 @@ Box.defaultProps = {
   as: 'div',
 };
 
-export { Box, boxProps, boxPropTypes, getBoxProps, parseProperty };
+export {
+  Box,
+  boxProps,
+  boxPropTypes,
+  getBoxProps,
+  parseProperty,
+  parseSpacing,
+};
