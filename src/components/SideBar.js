@@ -138,13 +138,13 @@ const SideBar = () => {
     }
 
     const seenAnnouncements = cookies?.seenAnnouncements ?? [];
-    const cleanedUpAnnouncements = seenAnnouncements.filter(
+    const cleanedUpSeenAnnouncements = seenAnnouncements.filter(
       (seenAnnouncementId) =>
         rawAnnouncements.find(
           (announcement) => announcement.uid === seenAnnouncementId,
         ),
     );
-    setCookieWithOptions(cleanedUpAnnouncements);
+    setCookieWithOptions(cleanedUpSeenAnnouncements);
   }, [rawAnnouncements]);
 
   const userMenu = [
