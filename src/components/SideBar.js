@@ -175,11 +175,14 @@ const SideBar = () => {
           z-index: 2000;
         `}
         padding={2}
+        spacing={3}
       >
-        <Link href="/dashboard">
-          <Logo />
-          {/* <Logo variants={LogoVariants.MOBILE} /> */}
-        </Link>
+        <Inline as="div" justifyContent="center">
+          <Link href="/dashboard">
+            <Logo />
+            {/* <Logo variants={LogoVariants.MOBILE} /> */}
+          </Link>
+        </Inline>
         <Stack
           spacing={4}
           css={`
