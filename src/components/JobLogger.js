@@ -47,6 +47,7 @@ const JobLogger = ({ onClose }) => {
   return (
     <Inline
       css={`
+        width: calc(100% - 230px);
         position: absolute;
         left: 230px;
         background-color: white;
@@ -83,7 +84,7 @@ const JobLogger = ({ onClose }) => {
           background-color: black;
           opacity: 0.5;
           height: 100vh;
-          width: calc(100% - 230px - 320px);
+          width: calc(100% - 320px);
         `}
       />
     </Inline>
