@@ -29,7 +29,7 @@ JobTitle.propTypes = {
 const JobLogger = ({ onClose }) => {
   const { t } = useTranslation();
 
-  const jobLoggerItems = [
+  const jobLoggerMenus = [
     {
       title: t('jobs.exported_documents'),
       items: [],
@@ -47,7 +47,6 @@ const JobLogger = ({ onClose }) => {
   return (
     <Inline
       css={`
-        width: 100%;
         position: absolute;
         left: 230px;
         background-color: white;
