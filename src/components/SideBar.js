@@ -15,7 +15,6 @@ import styled, { css } from 'styled-components';
 import { useEffect, useMemo, useState } from 'react';
 import { Announcements, AnnouncementStatus } from './Annoucements';
 import { Inline } from './publiq-ui/Inline';
-// import { useCookies } from 'react-cookie';
 import { useAnnouncements } from '../api';
 import { useCookies } from 'react-cookie';
 
