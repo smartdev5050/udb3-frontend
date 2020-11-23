@@ -1,20 +1,22 @@
-import { combineComponents } from './combineComponents';
+import PropTypes from 'prop-types';
 
-import { I18nextProvider } from 'react-i18next';
-import i18n from '../i18n';
-import { ThemeProvider } from '../components/publiq-ui/ThemeProvider';
-import { CookiesProvider } from 'react-cookie';
-import { QueryCache, ReactQueryCacheProvider } from 'react-query';
+const ContextProvider = ({ providers, children }) => {
+  return providers.reverse().reduce((AccumulatedProviders, current) => {
+    const [CurrentProvider, currentProps] = Array.isArray(current)
+      ? current
+      : [current, {}];
+    // eslint-disable-next-line react/prop-types
+    return (
+      <CurrentProvider {...currentProps}>
+        {AccumulatedProviders}
+      </CurrentProvider>
+    );
+  }, children);
+};
 
-const queryCache = new QueryCache();
-
-const providers = [
-  ({ children }) => I18nextProvider({ children, i18n }),
-  ThemeProvider,
-  CookiesProvider,
-  ({ children }) => ReactQueryCacheProvider({ children, queryCache }),
-];
-
-const ContextProvider = combineComponents(...providers);
+ContextProvider.propTypes = {
+  providers: PropTypes.array,
+  children: PropTypes.node,
+};
 
 export { ContextProvider };
