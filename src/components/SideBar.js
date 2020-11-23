@@ -109,6 +109,7 @@ const SideBar = () => {
   const setCookieWithOptions = (value) =>
     setCookie('seenAnnouncements', value, {
       maxAge: 60 * 60 * 24 * 30,
+      path: '/',
     });
 
   const handleClickAnnouncement = (activeAnnouncement) =>
