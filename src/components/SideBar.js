@@ -101,7 +101,11 @@ const SideBar = () => {
   const { t } = useTranslation();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const { data: rawAnnouncements = [] } = useAnnouncements();
+  const {
+    data: rawAnnouncements = [],
+    refetch: refetchAnnouncements,
+  } = useAnnouncements();
+
   const [activeAnnouncementId, setActiveAnnouncementId] = useState();
   const [cookies, setCookie] = useCookies(['seenAnnouncements']);
 
@@ -109,6 +113,7 @@ const SideBar = () => {
     setCookie('seenAnnouncements', value, {
       maxAge: 60 * 60 * 24 * 30,
       path: '/',
+      sameSite: 'none',
     });
 
   const handleClickAnnouncement = (activeAnnouncement) =>
@@ -131,6 +136,11 @@ const SideBar = () => {
       }
     }
   }, [activeAnnouncementId]);
+
+  useEffect(() => {
+    const interval = setInterval(() => refetchAnnouncements(), 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     if (rawAnnouncements.length === 0) {
