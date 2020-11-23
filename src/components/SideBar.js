@@ -10,9 +10,13 @@ import { Box } from './publiq-ui/Box';
 import { Title } from './publiq-ui/Title';
 import { Button } from './publiq-ui/Button';
 import { Logo } from './publiq-ui/Logo';
+import { Badge } from './publiq-ui/Badge';
 import styled, { css } from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { Announcements, AnnouncementStatus } from './Annoucements';
 import { Inline } from './publiq-ui/Inline';
+import { useAnnouncements } from '../api';
+import { useCookies } from 'react-cookie';
 import { JobLogger } from './JobLogger';
 
 const getValueForMenuItem = getValueFromTheme('menuItem');
@@ -47,7 +51,7 @@ const MenuItem = ({ href, iconName, children, onClick }) => {
         spacing={3}
       >
         <Icon name={iconName} />
-        <Box as="span">{children}</Box>
+        <Box css="text-align: left; width: 100%;">{children}</Box>
       </Component>
     </ListItem>
   );
@@ -96,6 +100,63 @@ Menu.propTypes = {
 
 const SideBar = () => {
   const { t } = useTranslation();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const {
+    data: rawAnnouncements = [],
+    refetch: refetchAnnouncements,
+  } = useAnnouncements();
+
+  const [activeAnnouncementId, setActiveAnnouncementId] = useState();
+  const [cookies, setCookie] = useCookies(['seenAnnouncements']);
+
+  const setCookieWithOptions = (value) =>
+    setCookie('seenAnnouncements', value, {
+      maxAge: 60 * 60 * 24 * 30,
+      path: '/',
+      sameSite: 'none',
+    });
+
+  const handleClickAnnouncement = (activeAnnouncement) =>
+    setActiveAnnouncementId(activeAnnouncement.uid);
+
+  const toggleIsModalVisibile = () =>
+    setIsModalVisible((isModalVisible) => !isModalVisible);
+
+  useEffect(() => {
+    if (isModalVisible) {
+      setActiveAnnouncementId(announcements[0].uid);
+    }
+  }, [isModalVisible]);
+
+  useEffect(() => {
+    if (activeAnnouncementId) {
+      const seenAnnouncements = cookies?.seenAnnouncements ?? [];
+      if (!seenAnnouncements.includes(activeAnnouncementId)) {
+        setCookieWithOptions([...seenAnnouncements, activeAnnouncementId]);
+      }
+    }
+  }, [activeAnnouncementId]);
+
+  useEffect(() => {
+    const interval = setInterval(() => refetchAnnouncements(), 60000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if (rawAnnouncements.length === 0) {
+      return;
+    }
+
+    const seenAnnouncements = cookies?.seenAnnouncements ?? [];
+    const cleanedUpSeenAnnouncements = seenAnnouncements.filter(
+      (seenAnnouncementId) =>
+        rawAnnouncements.find(
+          (announcement) => announcement.uid === seenAnnouncementId,
+        ),
+    );
+    setCookieWithOptions(cleanedUpSeenAnnouncements);
+  }, [rawAnnouncements]);
   const [isJobLoggerVisible, setJobLoggerVisibility] = useState(false);
 
   const userMenu = [
@@ -149,11 +210,46 @@ const SideBar = () => {
     },
   ];
 
+  const announcements = useMemo(
+    () =>
+      rawAnnouncements.map((announcement) => {
+        if (activeAnnouncementId === announcement.uid) {
+          return { ...announcement, status: AnnouncementStatus.ACTIVE };
+        }
+        const seenAnnouncements = cookies?.seenAnnouncements ?? [];
+        if (seenAnnouncements.includes(announcement.uid)) {
+          return { ...announcement, status: AnnouncementStatus.SEEN };
+        }
+        return { ...announcement, status: AnnouncementStatus.UNSEEN };
+      }),
+    [rawAnnouncements, cookies.seenAnnouncements, activeAnnouncementId],
+  );
+
+  const countUnseenAnnouncements = useMemo(
+    () =>
+      announcements.filter(
+        (announcement) => announcement.status === AnnouncementStatus.UNSEEN,
+      ).length,
+    [announcements],
+  );
+
   const notificationMenu = [
     {
       iconName: Icons.GIFT,
-      children: t('menu.announcements'),
-      onClick: () => {},
+      children: (
+        <Inline
+          forwardedAs="div"
+          css="width: 100%;"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Box as="span">{t('menu.announcements')}</Box>
+          {countUnseenAnnouncements > 0 && (
+            <Badge>{countUnseenAnnouncements}</Badge>
+          )}
+        </Inline>
+      ),
+      onClick: () => toggleIsModalVisibile(),
     },
     {
       iconName: Icons.BELL,
@@ -199,6 +295,12 @@ const SideBar = () => {
           </Stack>
         </Stack>
       </Stack>
+      <Announcements
+        visible={isModalVisible}
+        announcements={announcements || []}
+        onClickAnnouncement={handleClickAnnouncement}
+        onClose={toggleIsModalVisibile}
+      />
       {isJobLoggerVisible && (
         <JobLogger
           onClose={() => {

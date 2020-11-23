@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Box, boxPropTypes, getBoxProps } from './Box';
 import {
   faBell,
+  faEye,
+  faEyeSlash,
   faFlag,
   faGift,
   faHome,
@@ -28,6 +30,8 @@ const Icons = {
   LAYER_GROUP: 'layerGroup',
   BELL: 'bell',
   GIFT: 'gift',
+  EYE: 'eye',
+  EYE_SLASH: 'eyeSlash',
   TIMES: 'times',
 };
 
@@ -43,6 +47,8 @@ const IconsMap = {
   [Icons.LAYER_GROUP]: faLayerGroup,
   [Icons.BELL]: faBell,
   [Icons.GIFT]: faGift,
+  [Icons.EYE]: faEye,
+  [Icons.EYE_SLASH]: faEyeSlash,
   [Icons.TIMES]: faTimes,
 };
 

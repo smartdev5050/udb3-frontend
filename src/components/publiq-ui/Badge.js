@@ -11,7 +11,7 @@ const BaseBadge = (props) => <Box as="span" {...props} />;
 const Badge = ({ children, className, variant, ...props }) => {
   return (
     <BootstrapBadge
-      forwardAs={BaseBadge}
+      as={BaseBadge}
       className={className}
       variant={variant}
       {...getBoxProps(props)}

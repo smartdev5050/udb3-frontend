@@ -10,6 +10,8 @@ const colors = {
   grey4: '#f5f5f5',
   green1: '#5cb85c',
   green2: '#449d44',
+  pink1: '#fcd1cf',
+  pink2: '#f9a29f',
   red1: '#d9534f',
   red2: '#f3453f',
   red3: '#d23430',
@@ -125,6 +127,20 @@ const theme = {
       hover: {
         backgroundColor: colors.red4,
       },
+    },
+    announcement: {
+      borderColor: colors.grey2,
+      hoverBackgroundColor: colors.grey1,
+      selected: {
+        backgroundColor: colors.pink1,
+        hoverBackgroundColor: colors.pink2,
+      },
+    },
+    announcementList: {
+      borderColor: colors.grey2,
+    },
+    announcementContent: {
+      linkColor: colors.udbBlue,
     },
   },
 };

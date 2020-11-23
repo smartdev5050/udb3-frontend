@@ -8,6 +8,7 @@ const ModalQuestion = ({
   title,
   confirmTitle,
   cancelTitle,
+  onShow,
   onClose,
   onConfirm,
   children,
@@ -15,10 +16,12 @@ const ModalQuestion = ({
   <BootstrapModal
     className={className}
     show={visible}
+    onShow={onShow}
     onHide={onClose}
-    backdrop="static"
     keyboard={false}
     css={`
+      z-index: 2000;
+
       .modal-title {
         font-size: 1.067rem;
         font-weight: 700;
@@ -60,6 +63,7 @@ ModalQuestion.propTypes = {
   title: PropTypes.string,
   confirmTitle: PropTypes.string,
   cancelTitle: PropTypes.string,
+  onShow: PropTypes.func,
   onClose: PropTypes.func,
   onConfirm: PropTypes.func,
   children: PropTypes.node,
@@ -70,6 +74,7 @@ ModalQuestion.defaultProps = {
   title: '',
   confirmTitle: 'Ok',
   cancelTitle: 'Cancel',
+  onShow: () => {},
   onClose: () => {},
   onConfirm: () => {},
 };
