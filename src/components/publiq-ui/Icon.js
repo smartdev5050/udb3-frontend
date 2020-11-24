@@ -52,10 +52,18 @@ const IconsMap = {
   [Icons.EYE_SLASH]: faEyeSlash,
 };
 
-const Icon = ({ name, className, ...props }) => {
+const Icon = ({ name, width, height, className, ...props }) => {
   return (
-    <Box className={className} {...getBoxProps(props)} css="width: 16px">
-      <FontAwesomeIcon icon={IconsMap[name]} />
+    <Box className={className} {...getBoxProps(props)}>
+      <FontAwesomeIcon
+        css={`
+          &.svg-inline--fa {
+            width: ${width}px;
+            height: ${height}px;
+          }
+        `}
+        icon={IconsMap[name]}
+      />
     </Box>
   );
 };
@@ -63,7 +71,14 @@ const Icon = ({ name, className, ...props }) => {
 Icon.propTypes = {
   ...boxPropTypes,
   name: PropTypes.string.isRequired,
+  width: PropTypes.number,
+  height: PropTypes.number,
   className: PropTypes.string,
+};
+
+Icon.defaultProps = {
+  width: 15,
+  height: 15,
 };
 
 export { Icon, Icons };
