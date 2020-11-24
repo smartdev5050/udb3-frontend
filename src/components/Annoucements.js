@@ -148,7 +148,7 @@ const AnnouncementContent = ({
       {callToAction && (
         <Link href={callToAction}>
           <Button>
-            <Box as="span">{callToActionLabel}</Box>
+            {callToActionLabel}
           </Button>
         </Link>
       )}
