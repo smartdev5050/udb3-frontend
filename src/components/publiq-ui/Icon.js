@@ -11,7 +11,9 @@ import {
   faLayerGroup,
   faPlusCircle,
   faSearch,
+  faSignOutAlt,
   faTag,
+  faTimes,
   faUser,
   faUsers,
 } from '@fortawesome/free-solid-svg-icons';
@@ -29,8 +31,10 @@ const Icons = {
   LAYER_GROUP: 'layerGroup',
   BELL: 'bell',
   GIFT: 'gift',
+  TIMES: 'times',
   EYE: 'eye',
   EYE_SLASH: 'eyeSlash',
+  SIGN_OUT_ALT: 'signOutAlt',
 };
 
 const IconsMap = {
@@ -45,14 +49,24 @@ const IconsMap = {
   [Icons.LAYER_GROUP]: faLayerGroup,
   [Icons.BELL]: faBell,
   [Icons.GIFT]: faGift,
+  [Icons.TIMES]: faTimes,
   [Icons.EYE]: faEye,
   [Icons.EYE_SLASH]: faEyeSlash,
+  [Icons.SIGN_OUT_ALT]: faSignOutAlt,
 };
 
-const Icon = ({ name, className, ...props }) => {
+const Icon = ({ name, width, height, className, ...props }) => {
   return (
     <Box className={className} {...getBoxProps(props)}>
-      <FontAwesomeIcon icon={IconsMap[name]} />
+      <FontAwesomeIcon
+        css={`
+          &.svg-inline--fa {
+            width: ${width}px;
+            height: ${height}px;
+          }
+        `}
+        icon={IconsMap[name]}
+      />
     </Box>
   );
 };
@@ -60,7 +74,14 @@ const Icon = ({ name, className, ...props }) => {
 Icon.propTypes = {
   ...boxPropTypes,
   name: PropTypes.string.isRequired,
+  width: PropTypes.number,
+  height: PropTypes.number,
   className: PropTypes.string,
+};
+
+Icon.defaultProps = {
+  width: 15,
+  height: 15,
 };
 
 export { Icon, Icons };

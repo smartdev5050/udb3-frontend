@@ -25,26 +25,6 @@ const Stack = forwardRef(
 
       if (!child) return;
 
-      // if child is normal text
-      if (typeof child === 'string') {
-        return (
-          <Box as="p" {...(!isLastItem ? { marginBottom: spacing } : {})}>
-            {child}
-          </Box>
-        );
-      }
-
-      // if child is html
-      if (child.props.originalType) {
-        return (
-          <Box
-            as={`${child.props.originalType}`}
-            {...(!isLastItem ? { marginBottom: spacing } : {})}
-            {...child.props}
-          />
-        );
-      }
-
       // if child is functional component
       return cloneElement(child, {
         ...child.props,

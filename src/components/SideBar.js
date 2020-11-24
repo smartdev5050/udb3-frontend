@@ -1,22 +1,26 @@
 import PropTypes from 'prop-types';
+import { useEffect, useMemo, useState } from 'react';
+import { useCookies } from 'react-cookie';
+
 import { Stack } from './publiq-ui/Stack';
 import { Link } from './publiq-ui/Link';
 import { List } from './publiq-ui/List';
 import { useTranslation } from 'react-i18next';
-import { Icon, Icons } from './publiq-ui/Icon';
+import { Icons } from './publiq-ui/Icon';
 import { getValueFromTheme } from './publiq-ui/theme';
 import { ListItem } from './publiq-ui/ListItem';
-import { Box } from './publiq-ui/Box';
 import { Title } from './publiq-ui/Title';
 import { Button } from './publiq-ui/Button';
 import { Logo } from './publiq-ui/Logo';
 import { Badge } from './publiq-ui/Badge';
 import styled, { css } from 'styled-components';
-import { useEffect, useMemo, useState } from 'react';
-import { Announcements, AnnouncementStatus } from './Annoucements';
 import { Inline } from './publiq-ui/Inline';
+
+import { JobLogger } from './JobLogger';
+import { Announcements, AnnouncementStatus } from './Annoucements';
 import { useAnnouncements } from '../api';
-import { useCookies } from 'react-cookie';
+import { Image } from './publiq-ui/Image';
+import { Box } from './publiq-ui/Box';
 
 const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSideBar = getValueFromTheme('sideBar');
@@ -37,7 +41,7 @@ const StyledButton = styled(Button)`
   ${listItemCSS}
 `;
 
-const MenuItem = ({ href, iconName, children, onClick }) => {
+const MenuItem = ({ href, iconName, suffix, children, onClick }) => {
   const Component = href ? StyledLink : StyledButton;
 
   return (
@@ -46,11 +50,12 @@ const MenuItem = ({ href, iconName, children, onClick }) => {
         variant="unstyled"
         padding={2}
         href={href}
+        iconName={iconName}
+        suffix={suffix}
         onClick={onClick}
         spacing={3}
       >
-        <Icon name={iconName} />
-        <Box css="text-align: left; width: 100%;">{children}</Box>
+        {children}
       </Component>
     </ListItem>
   );
@@ -59,6 +64,7 @@ const MenuItem = ({ href, iconName, children, onClick }) => {
 MenuItem.propTypes = {
   href: PropTypes.string,
   iconName: PropTypes.string,
+  suffix: PropTypes.node,
   children: PropTypes.node,
   onClick: PropTypes.func,
 };
@@ -75,7 +81,7 @@ const Menu = ({ items = [], title, ...props }) => {
   if (!title) return <Content {...props} />;
 
   return (
-    <Stack {...props}>
+    <Stack spacing={3} {...props}>
       <Title
         size={2}
         css={`
@@ -97,8 +103,47 @@ Menu.propTypes = {
   title: PropTypes.string,
 };
 
+const ProfileMenu = ({ profileImage }) => {
+  const { t } = useTranslation();
+
+  const loginMenu = [
+    {
+      iconName: Icons.SIGN_OUT_ALT,
+      children: t('menu.logout'),
+      onClick: () => {},
+    },
+  ];
+
+  return (
+    <Inline
+      padding={1}
+      spacing={2}
+      alignItems="center"
+      css={`
+        border-top: 1px solid ${getValueForMenu('borderColor')};
+      `}
+    >
+      <Image src={profileImage} width={50} height={50} alt="Profile picture" />
+      <Stack forwardedAs="div" css="width: 100%;" padding={2} spacing={2}>
+        <Box as="span">username</Box>
+        <Menu items={loginMenu} />
+      </Stack>
+    </Inline>
+  );
+};
+
+ProfileMenu.propTypes = {
+  profileImage: PropTypes.string,
+};
+
+ProfileMenu.defaultProps = {
+  profileImage: '/assets/avatar.svg',
+};
+
 const SideBar = () => {
   const { t } = useTranslation();
+
+  const [isJobLoggerVisible, setJobLoggerVisibility] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const {
@@ -107,13 +152,12 @@ const SideBar = () => {
   } = useAnnouncements();
 
   const [activeAnnouncementId, setActiveAnnouncementId] = useState();
-  const [cookies, setCookie] = useCookies(['seenAnnouncements']);
+  const [cookies, setCookie] = useCookies(['seenAnnouncements', 'userPicture']);
 
   const setCookieWithOptions = (value) =>
     setCookie('seenAnnouncements', value, {
       maxAge: 60 * 60 * 24 * 30,
       path: '/',
-      sameSite: 'none',
     });
 
   const handleClickAnnouncement = (activeAnnouncement) =>
@@ -234,60 +278,67 @@ const SideBar = () => {
   const notificationMenu = [
     {
       iconName: Icons.GIFT,
-      children: (
-        <Inline
-          forwardedAs="div"
-          css="width: 100%;"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Box as="span">{t('menu.announcements')}</Box>
-          {countUnseenAnnouncements > 0 && (
-            <Badge>{countUnseenAnnouncements}</Badge>
-          )}
-        </Inline>
+      children: t('menu.announcements'),
+      suffix: countUnseenAnnouncements > 0 && (
+        <Badge>{countUnseenAnnouncements}</Badge>
       ),
       onClick: () => toggleIsModalVisibile(),
     },
     {
       iconName: Icons.BELL,
       children: t('menu.notifications'),
-      onClick: () => {},
+      onClick: () => {
+        setJobLoggerVisibility(!isJobLoggerVisible);
+      },
     },
   ];
 
   return (
     <>
-      <Stack
-        css={`
-          width: 230px;
-          background-color: ${getValueForSideBar('backgroundColor')};
-          height: 100vh;
-          color: ${getValueForSideBar('color')};
-          z-index: 1998;
-        `}
-        padding={2}
-      >
-        <Link href="/dashboard">
-          <Logo />
-          {/* <Logo variants={LogoVariants.MOBILE} /> */}
-        </Link>
+      <Inline>
         <Stack
-          spacing={4}
           css={`
-            flex: 1;
-            > :not(:first-child) {
-              border-top: 1px solid ${getValueForMenu('borderColor')};
-            }
+            width: 230px;
+            background-color: ${getValueForSideBar('backgroundColor')};
+            height: 100vh;
+            color: ${getValueForSideBar('color')};
+            z-index: 1998;
           `}
+          padding={2}
+          spacing={3}
         >
-          <Menu items={userMenu} />
-          <Stack justifyContent="space-between" css="flex: 1;">
-            <Menu items={manageMenu} title={t('menu.management')} />
-            <Menu items={notificationMenu} />
+          <Link href="/dashboard">
+            <Inline css="width: 100%;" justifyContent="center">
+              <Logo />
+              {/* <Logo variants={LogoVariants.MOBILE} /> */}
+            </Inline>
+          </Link>
+          <Stack
+            paddingTop={4}
+            spacing={4}
+            css={`
+              flex: 1;
+              > :not(:first-child) {
+                border-top: 1px solid ${getValueForMenu('borderColor')};
+              }
+            `}
+          >
+            <Menu items={userMenu} />
+            <Stack justifyContent="space-between" css="flex: 1;">
+              <Menu items={manageMenu} title={t('menu.management')} />
+              <Stack>
+                <Menu items={notificationMenu} />
+                <ProfileMenu />
+              </Stack>
+            </Stack>
           </Stack>
         </Stack>
-      </Stack>
+        {isJobLoggerVisible && (
+          <JobLogger
+            onClose={() => setJobLoggerVisibility(!isJobLoggerVisible)}
+          />
+        )}
+      </Inline>
       <Announcements
         visible={isModalVisible}
         announcements={announcements || []}

@@ -18,7 +18,8 @@ const queryCache = new QueryCache();
 
 const Layout = ({ children }) => {
   const { pathname } = useRouter();
-  if (pathname.startsWith('/login')) return children;
+
+  if (pathname.startsWith('/login')) return <>{children}</>;
 
   return (
     <Inline>

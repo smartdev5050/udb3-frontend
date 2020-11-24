@@ -12,11 +12,6 @@ module.exports = {
         destination: '/dashboard',
         permanent: true,
       },
-      {
-        source: '/login',
-        destination: '/login/nl',
-        permanent: true,
-      },
     ];
   },
 };
