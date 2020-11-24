@@ -11,6 +11,7 @@ import {
   faLayerGroup,
   faPlusCircle,
   faSearch,
+  faSignOutAlt,
   faTag,
   faTimes,
   faUser,
@@ -33,6 +34,7 @@ const Icons = {
   TIMES: 'times',
   EYE: 'eye',
   EYE_SLASH: 'eyeSlash',
+  SIGN_OUT_ALT: 'signOutAlt',
 };
 
 const IconsMap = {
@@ -50,6 +52,7 @@ const IconsMap = {
   [Icons.TIMES]: faTimes,
   [Icons.EYE]: faEye,
   [Icons.EYE_SLASH]: faEyeSlash,
+  [Icons.SIGN_OUT_ALT]: faSignOutAlt,
 };
 
 const Icon = ({ name, width, height, className, ...props }) => {
