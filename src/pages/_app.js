@@ -66,6 +66,8 @@ const App = ({ Component, pageProps }) => {
   useEffect(() => {
     if (user) {
       setCookie('user', user);
+      // TODO: Currently after logging in it returns to the login page again after loading dashboard, this forces to go back to dashboard
+      router.push('/dashboard');
     }
   }, [user]);
 
