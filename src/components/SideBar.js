@@ -10,7 +10,7 @@ import { Icons } from './publiq-ui/Icon';
 import { getValueFromTheme } from './publiq-ui/theme';
 import { ListItem } from './publiq-ui/ListItem';
 import { Title } from './publiq-ui/Title';
-import { Button, ButtonVariants } from './publiq-ui/Button';
+import { Button } from './publiq-ui/Button';
 import { Logo } from './publiq-ui/Logo';
 import { Badge } from './publiq-ui/Badge';
 import styled, { css } from 'styled-components';
