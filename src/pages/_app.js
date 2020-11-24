@@ -13,7 +13,9 @@ import { I18nextProvider } from 'react-i18next';
 import i18n from '../i18n';
 import { CookiesProvider } from 'react-cookie';
 import { QueryCache, ReactQueryCacheProvider } from 'react-query';
+import { useEffect } from 'react';
 import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
+import { useGetUser } from '../hooks/api/user';
 
 const queryCache = new QueryCache();
 
@@ -45,7 +47,28 @@ Layout.propTypes = {
 
 // eslint-disable-next-line react/prop-types
 const App = ({ Component, pageProps }) => {
+  const { pathname, query, ...router } = useRouter();
   const [cookies, setCookie] = useCookiesWithOptions(['user']);
+  const { data: user } = useGetUser();
+
+  useEffect(() => {
+    if (!pathname.startsWith('/login')) {
+      if (query?.jwt) {
+        setCookie('token', query.jwt);
+      }
+
+      if (!cookies?.token) {
+        router.push('/login');
+      }
+    }
+  }, [query, pathname]);
+
+  useEffect(() => {
+    if (user) {
+      setCookie('user', user);
+    }
+  }, [user]);
+
   return (
     <ContextProvider
       providers={[
