@@ -147,7 +147,9 @@ const AnnouncementContent = ({
     <Inline as="div" justifyContent="flex-end">
       {callToAction && (
         <Link href={callToAction}>
-          <Button>{callToActionLabel}</Button>
+          <Button>
+            <Box as="span">{callToActionLabel}</Box>
+          </Button>
         </Link>
       )}
     </Inline>
