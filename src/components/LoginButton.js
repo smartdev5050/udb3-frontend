@@ -30,7 +30,7 @@ const LoginButton = ({ className }) => {
 
   return (
     <Button className={className} onClick={handleClickLogin}>
-      <Box as="span">Login</Box>
+      Login
     </Button>
   );
 };
