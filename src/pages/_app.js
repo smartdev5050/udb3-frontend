@@ -13,6 +13,7 @@ import { I18nextProvider } from 'react-i18next';
 import i18n from '../i18n';
 import { CookiesProvider } from 'react-cookie';
 import { QueryCache, ReactQueryCacheProvider } from 'react-query';
+import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
 
 const queryCache = new QueryCache();
 
@@ -44,6 +45,7 @@ Layout.propTypes = {
 
 // eslint-disable-next-line react/prop-types
 const App = ({ Component, pageProps }) => {
+  const [cookies, setCookie] = useCookiesWithOptions(['user']);
   return (
     <ContextProvider
       providers={[

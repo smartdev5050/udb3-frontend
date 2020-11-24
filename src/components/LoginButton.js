@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types';
-import { useCookies } from 'react-cookie';
 import { useTranslation } from 'react-i18next';
-import { Box } from './publiq-ui/Box';
+import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
 import { Button } from './publiq-ui/Button';
 
 const LoginButton = ({ className }) => {
-  const [, , removeCookie] = useCookies(['token', 'user']);
+  const [, , removeCookie] = useCookiesWithOptions(['token', 'user']);
 
   const { i18n } = useTranslation();
 

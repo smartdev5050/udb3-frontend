@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import { useEffect, useMemo, useState } from 'react';
-import { useCookies } from 'react-cookie';
 
 import { Stack } from './publiq-ui/Stack';
 import { Link } from './publiq-ui/Link';
@@ -18,9 +17,10 @@ import { Inline } from './publiq-ui/Inline';
 
 import { JobLogger } from './JobLogger';
 import { Announcements, AnnouncementStatus } from './Annoucements';
-import { useAnnouncements } from '../api';
+import { useGetAnnouncements } from '../hooks/api/announcements';
 import { Image } from './publiq-ui/Image';
 import { Box } from './publiq-ui/Box';
+import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
 
 const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSideBar = getValueFromTheme('sideBar');
@@ -147,18 +147,15 @@ const SideBar = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const {
-    data: rawAnnouncements = [],
+    data: { data: rawAnnouncements = [] } = {},
     refetch: refetchAnnouncements,
-  } = useAnnouncements();
+  } = useGetAnnouncements();
 
   const [activeAnnouncementId, setActiveAnnouncementId] = useState();
-  const [cookies, setCookie] = useCookies(['seenAnnouncements', 'userPicture']);
-
-  const setCookieWithOptions = (value) =>
-    setCookie('seenAnnouncements', value, {
-      maxAge: 60 * 60 * 24 * 30,
-      path: '/',
-    });
+  const [cookies, setCookie] = useCookiesWithOptions([
+    'seenAnnouncements',
+    'userPicture',
+  ]);
 
   const handleClickAnnouncement = (activeAnnouncement) =>
     setActiveAnnouncementId(activeAnnouncement.uid);
@@ -176,7 +173,10 @@ const SideBar = () => {
     if (activeAnnouncementId) {
       const seenAnnouncements = cookies?.seenAnnouncements ?? [];
       if (!seenAnnouncements.includes(activeAnnouncementId)) {
-        setCookieWithOptions([...seenAnnouncements, activeAnnouncementId]);
+        setCookie('seenAnnouncements', [
+          ...seenAnnouncements,
+          activeAnnouncementId,
+        ]);
       }
     }
   }, [activeAnnouncementId]);
@@ -198,7 +198,7 @@ const SideBar = () => {
           (announcement) => announcement.uid === seenAnnouncementId,
         ),
     );
-    setCookieWithOptions(cleanedUpSeenAnnouncements);
+    setCookie('seenAnnouncements', cleanedUpSeenAnnouncements);
   }, [rawAnnouncements]);
 
   const userMenu = [
