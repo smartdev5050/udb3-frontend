@@ -2,7 +2,9 @@ import NextLink from 'next/link';
 import PropTypes from 'prop-types';
 import { getValueFromTheme } from './theme';
 import { getInlineProps, Inline, inlinePropTypes } from './Inline';
-import { forwardRef } from 'react';
+import { cloneElement, forwardRef } from 'react';
+import { Box } from './Box';
+import { Icon } from './Icon';
 
 const getValue = getValueFromTheme('link');
 
@@ -50,8 +52,31 @@ BaseLink.propTypes = {
   variant: PropTypes.string,
 };
 
-const Link = ({ href, children, className, variant, ...props }) => {
+const Link = ({
+  href,
+  iconName,
+  suffix,
+  children: label,
+  className,
+  variant,
+  ...props
+}) => {
   const isInternalLink = href.startsWith('/');
+
+  const clonedSuffix = suffix
+    ? cloneElement(suffix, {
+        ...suffix.props,
+        css: `align-self: flex-end`,
+      })
+    : undefined;
+
+  const children = [
+    iconName && <Icon name={iconName} />,
+    <Box as="span" css="flex: 1; text-align: left" key="text">
+      {label}
+    </Box>,
+    clonedSuffix,
+  ];
 
   if (isInternalLink) {
     return (
@@ -84,6 +109,8 @@ const Link = ({ href, children, className, variant, ...props }) => {
 Link.propTypes = {
   ...inlinePropTypes,
   href: PropTypes.string,
+  iconName: PropTypes.string,
+  suffix: PropTypes.node,
   className: PropTypes.string,
   children: PropTypes.node,
   as: PropTypes.node,

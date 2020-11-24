@@ -6,10 +6,9 @@ import { Stack } from './publiq-ui/Stack';
 import { Link } from './publiq-ui/Link';
 import { List } from './publiq-ui/List';
 import { useTranslation } from 'react-i18next';
-import { Icon, Icons } from './publiq-ui/Icon';
+import { Icons } from './publiq-ui/Icon';
 import { getValueFromTheme } from './publiq-ui/theme';
 import { ListItem } from './publiq-ui/ListItem';
-import { Box } from './publiq-ui/Box';
 import { Title } from './publiq-ui/Title';
 import { Button } from './publiq-ui/Button';
 import { Logo } from './publiq-ui/Logo';
@@ -40,7 +39,7 @@ const StyledButton = styled(Button)`
   ${listItemCSS}
 `;
 
-const MenuItem = ({ href, iconName, children, onClick }) => {
+const MenuItem = ({ href, iconName, suffix, children, onClick }) => {
   const Component = href ? StyledLink : StyledButton;
 
   return (
@@ -49,11 +48,12 @@ const MenuItem = ({ href, iconName, children, onClick }) => {
         variant="unstyled"
         padding={2}
         href={href}
+        iconName={iconName}
+        suffix={suffix}
         onClick={onClick}
         spacing={3}
       >
-        <Icon name={iconName} />
-        <Box css="text-align: left; width: 100%;">{children}</Box>
+        {children}
       </Component>
     </ListItem>
   );
@@ -62,6 +62,7 @@ const MenuItem = ({ href, iconName, children, onClick }) => {
 MenuItem.propTypes = {
   href: PropTypes.string,
   iconName: PropTypes.string,
+  suffix: PropTypes.node,
   children: PropTypes.node,
   onClick: PropTypes.func,
 };
@@ -78,7 +79,7 @@ const Menu = ({ items = [], title, ...props }) => {
   if (!title) return <Content {...props} />;
 
   return (
-    <Stack {...props}>
+    <Stack spacing={3} {...props}>
       <Title
         size={2}
         css={`
@@ -118,7 +119,6 @@ const SideBar = () => {
     setCookie('seenAnnouncements', value, {
       maxAge: 60 * 60 * 24 * 30,
       path: '/',
-      sameSite: 'none',
     });
 
   const handleClickAnnouncement = (activeAnnouncement) =>
@@ -239,18 +239,9 @@ const SideBar = () => {
   const notificationMenu = [
     {
       iconName: Icons.GIFT,
-      children: (
-        <Inline
-          forwardedAs="div"
-          css="width: 100%;"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Box as="span">{t('menu.announcements')}</Box>
-          {countUnseenAnnouncements > 0 && (
-            <Badge>{countUnseenAnnouncements}</Badge>
-          )}
-        </Inline>
+      children: t('menu.announcements'),
+      suffix: countUnseenAnnouncements > 0 && (
+        <Badge>{countUnseenAnnouncements}</Badge>
       ),
       onClick: () => toggleIsModalVisibile(),
     },
@@ -284,6 +275,7 @@ const SideBar = () => {
             </Inline>
           </Link>
           <Stack
+            paddingTop={4}
             spacing={4}
             css={`
               flex: 1;

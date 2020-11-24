@@ -54,7 +54,7 @@ const IconsMap = {
 
 const Icon = ({ name, className, ...props }) => {
   return (
-    <Box className={className} {...getBoxProps(props)}>
+    <Box className={className} {...getBoxProps(props)} css="width: 16px">
       <FontAwesomeIcon icon={IconsMap[name]} />
     </Box>
   );

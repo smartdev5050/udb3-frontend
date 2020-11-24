@@ -4,6 +4,9 @@ import { css } from 'styled-components';
 import { getValueFromTheme } from './theme';
 import { Spinner, SpinnerVariants, SpinnerSizes } from './Spinner';
 import { getInlineProps, Inline, inlinePropTypes } from './Inline';
+import { Icon } from './Icon';
+import { cloneElement } from 'react';
+import { Box } from './Box';
 
 const ButtonVariants = {
   PRIMARY: 'primary',
@@ -15,9 +18,7 @@ const ButtonVariants = {
 
 const getValue = getValueFromTheme('button');
 
-const BaseButton = (props) => {
-  return <Inline forwardedAs="button" {...props} />;
-};
+const BaseButton = (props) => <Inline forwardedAs="button" {...props} />;
 
 const customCSS = css`
   &.btn {
@@ -128,6 +129,8 @@ const customCSS = css`
 `;
 
 const Button = ({
+  iconName,
+  suffix,
   variant,
   disabled,
   loading,
@@ -148,6 +151,13 @@ const Button = ({
     ...getInlineProps(props),
   };
 
+  const clonedSuffix = suffix
+    ? cloneElement(suffix, {
+        ...suffix.props,
+        css: `align-self: flex-end`,
+      })
+    : undefined;
+
   const inner = loading ? (
     <Spinner
       className="button-spinner"
@@ -155,7 +165,13 @@ const Button = ({
       size={SpinnerSizes.SMALL}
     />
   ) : (
-    children
+    [
+      iconName && <Icon name={iconName} />,
+      <Box as="span" css="flex: 1; text-align: left" key="text">
+        {children}
+      </Box>,
+      clonedSuffix,
+    ]
   );
 
   if (isBootstrapVariant) {
@@ -175,6 +191,9 @@ const Button = ({
         border: none;
         color: inherit;
       `}
+      spacing={3}
+      alignItems="center"
+      justifyContent="flex-start"
     >
       {inner}
     </BaseButton>
@@ -183,6 +202,7 @@ const Button = ({
 
 Button.propTypes = {
   ...inlinePropTypes,
+  iconName: PropTypes.string,
   className: PropTypes.string,
   variant: PropTypes.string,
   disabled: PropTypes.bool,
