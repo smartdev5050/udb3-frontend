@@ -155,6 +155,7 @@ const Button = ({
     ? cloneElement(suffix, {
         ...suffix.props,
         css: `align-self: flex-end`,
+        key: 'suffix',
       })
     : undefined;
 
@@ -166,7 +167,7 @@ const Button = ({
     />
   ) : (
     [
-      iconName && <Icon name={iconName} />,
+      iconName && <Icon name={iconName} key="icon" />,
       <Box as="span" css="flex: 1; text-align: left" key="text">
         {children}
       </Box>,

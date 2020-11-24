@@ -66,12 +66,13 @@ const Link = ({
   const clonedSuffix = suffix
     ? cloneElement(suffix, {
         ...suffix.props,
+        key: 'suffix',
         css: `align-self: flex-end`,
       })
     : undefined;
 
   const children = [
-    iconName && <Icon name={iconName} />,
+    iconName && <Icon name={iconName} key="icon" />,
     <Box as="span" css="flex: 1; text-align: left" key="text">
       {label}
     </Box>,
