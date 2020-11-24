@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { useCookies } from 'react-cookie';
 import { useTranslation } from 'react-i18next';
-import { Box } from './publiq-ui/Box';
 import { Button } from './publiq-ui/Button';
 
 const LoginButton = ({ className }) => {
