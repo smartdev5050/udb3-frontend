@@ -5,7 +5,7 @@ import { Box } from '../components/publiq-ui/Box';
 import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
 
 const Fallback = () => {
-  const { query, ...router } = useRouter();
+  const { query, asPath, ...router } = useRouter();
   const [cookies] = useCookiesWithOptions(['token']);
   const [legacyPath, setLegacyPath] = useState('');
 
@@ -20,12 +20,12 @@ const Fallback = () => {
       lang: i18next.language,
     }).toString();
 
-    const path = router.asPath ? router.asPath : '';
+    const path = asPath || '';
     const parsedQueryString = queryString ? `?${queryString}` : '';
     setLegacyPath(
       `${process.env.NEXT_PUBLIC_LEGACY_APP_URL}${path}${parsedQueryString}`,
     );
-  }, []);
+  }, [asPath]);
 
   if (!legacyPath) return null;
 
