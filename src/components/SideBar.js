@@ -10,7 +10,7 @@ import { Icons } from './publiq-ui/Icon';
 import { getValueFromTheme } from './publiq-ui/theme';
 import { ListItem } from './publiq-ui/ListItem';
 import { Title } from './publiq-ui/Title';
-import { Button } from './publiq-ui/Button';
+import { Button, ButtonVariants } from './publiq-ui/Button';
 import { Logo } from './publiq-ui/Logo';
 import { Badge } from './publiq-ui/Badge';
 import styled, { css } from 'styled-components';
@@ -19,6 +19,8 @@ import { Inline } from './publiq-ui/Inline';
 import { JobLogger } from './JobLogger';
 import { Announcements, AnnouncementStatus } from './Annoucements';
 import { useAnnouncements } from '../api';
+import { Image } from './publiq-ui/Image';
+import { Box } from './publiq-ui/Box';
 
 const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSideBar = getValueFromTheme('sideBar');
@@ -113,7 +115,7 @@ const SideBar = () => {
   } = useAnnouncements();
 
   const [activeAnnouncementId, setActiveAnnouncementId] = useState();
-  const [cookies, setCookie] = useCookies(['seenAnnouncements']);
+  const [cookies, setCookie] = useCookies(['seenAnnouncements', 'userPicture']);
 
   const setCookieWithOptions = (value) =>
     setCookie('seenAnnouncements', value, {
@@ -254,6 +256,39 @@ const SideBar = () => {
     },
   ];
 
+  const ProfileMenu = () => (
+    <Inline
+      padding={1}
+      spacing={2}
+      alignItems="center"
+      css={`
+        border-top: 1px solid ${getValueForMenu('borderColor')};
+      `}
+    >
+      <Image
+        src={cookies.userPicture || '/assets/avatar.svg'}
+        width={50}
+        height={50}
+        alt="Profile picture"
+      />
+      <Stack forwardedAs="div" css="width: 100%;" padding={2} spacing={2}>
+        <Box as="span">username</Box>
+        <Button
+          variant={ButtonVariants.UNSTYLED}
+          css={`
+            ${listItemCSS}
+          `}
+          padding={2}
+          onClick={() => {}}
+          spacing={3}
+          iconName={Icons.SIGN_OUT_ALT}
+        >
+          {t('menu.logout')}
+        </Button>
+      </Stack>
+    </Inline>
+  );
+
   return (
     <>
       <Inline>
@@ -287,7 +322,10 @@ const SideBar = () => {
             <Menu items={userMenu} />
             <Stack justifyContent="space-between" css="flex: 1;">
               <Menu items={manageMenu} title={t('menu.management')} />
-              <Menu items={notificationMenu} />
+              <Stack>
+                <Menu items={notificationMenu} />
+                <ProfileMenu />
+              </Stack>
             </Stack>
           </Stack>
         </Stack>
