@@ -103,6 +103,43 @@ Menu.propTypes = {
   title: PropTypes.string,
 };
 
+const ProfileMenu = ({ profileImage }) => {
+  const { t } = useTranslation();
+
+  const loginMenu = [
+    {
+      iconName: Icons.SIGN_OUT_ALT,
+      children: t('menu.logout'),
+      onClick: () => {},
+    },
+  ];
+
+  return (
+    <Inline
+      padding={1}
+      spacing={2}
+      alignItems="center"
+      css={`
+        border-top: 1px solid ${getValueForMenu('borderColor')};
+      `}
+    >
+      <Image src={profileImage} width={50} height={50} alt="Profile picture" />
+      <Stack forwardedAs="div" css="width: 100%;" padding={2} spacing={2}>
+        <Box as="span">username</Box>
+        <Menu items={loginMenu} />
+      </Stack>
+    </Inline>
+  );
+};
+
+ProfileMenu.propTypes = {
+  profileImage: PropTypes.string,
+};
+
+ProfileMenu.defaultProps = {
+  profileImage: '/assets/avatar.svg',
+};
+
 const SideBar = () => {
   const { t } = useTranslation();
 
@@ -255,39 +292,6 @@ const SideBar = () => {
       },
     },
   ];
-
-  const ProfileMenu = () => (
-    <Inline
-      padding={1}
-      spacing={2}
-      alignItems="center"
-      css={`
-        border-top: 1px solid ${getValueForMenu('borderColor')};
-      `}
-    >
-      <Image
-        src={cookies.userPicture || '/assets/avatar.svg'}
-        width={50}
-        height={50}
-        alt="Profile picture"
-      />
-      <Stack forwardedAs="div" css="width: 100%;" padding={2} spacing={2}>
-        <Box as="span">username</Box>
-        <Button
-          variant={ButtonVariants.UNSTYLED}
-          css={`
-            ${listItemCSS}
-          `}
-          padding={2}
-          onClick={() => {}}
-          spacing={3}
-          iconName={Icons.SIGN_OUT_ALT}
-        >
-          {t('menu.logout')}
-        </Button>
-      </Stack>
-    </Inline>
-  );
 
   return (
     <>
