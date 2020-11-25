@@ -14,10 +14,11 @@ const Fallback = () => {
       router.push('/login/');
     }
 
-    delete query.params;
+    const queryParameters = { ...query };
+    delete queryParameters.params;
 
     const queryString = new URLSearchParams({
-      ...query,
+      ...queryParameters,
       jwt: cookies.token,
       lang: i18next.language,
     }).toString();
