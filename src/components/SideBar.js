@@ -22,6 +22,7 @@ import { Image } from './publiq-ui/Image';
 import { Box } from './publiq-ui/Box';
 import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
 import { useRouter } from 'next/router';
+import { useGetPermissions } from '../hooks/api/user';
 
 const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSideBar = getValueFromTheme('sideBar');
@@ -150,6 +151,77 @@ ProfileMenu.defaultProps = {
 const SideBar = () => {
   const { t } = useTranslation();
 
+  const userMenu = [
+    {
+      href: '/dashboard',
+      iconName: Icons.HOME,
+      children: t('menu.home'),
+    },
+    {
+      href: '/event',
+      iconName: Icons.PLUS_CIRCLE,
+      children: t('menu.add'),
+    },
+    {
+      href: '/search',
+      iconName: Icons.SEARCH,
+      children: t('menu.search'),
+    },
+  ];
+
+  const PermissionTypes = {
+    AANBOD_BEWERKEN: 'AANBOD_BEWERKEN',
+    AANBOD_MODEREREN: 'AANBOD_MODEREREN',
+    AANBOD_VERWIJDEREN: 'AANBOD_VERWIJDEREN',
+    ORGANISATIES_BEWERKEN: 'ORGANISATIES_BEWERKEN',
+    ORGANISATIES_BEHEREN: 'ORGANISATIES_BEHEREN',
+    GEBRUIKERS_BEHEREN: 'GEBRUIKERS_BEHEREN',
+    LABELS_BEHEREN: 'LABELS_BEHEREN',
+    VOORZIENINGEN_BEWERKEN: 'VOORZIENINGEN_BEWERKEN',
+    PRODUCTIES_AANMAKEN: 'PRODUCTIES_AANMAKEN',
+  };
+
+  const manageMenu = [
+    {
+      neededPermission: PermissionTypes.AANBOD_MODEREREN,
+      href: '/manage/moderation/overview',
+      iconName: Icons.FLAG,
+      children: t('menu.validate'),
+    },
+    {
+      neededPermission: PermissionTypes.GEBRUIKERS_BEHEREN,
+      href: '/manage/users/overview',
+      iconName: Icons.USER,
+      children: t('menu.users'),
+    },
+    {
+      neededPermission: PermissionTypes.GEBRUIKERS_BEHEREN,
+      href: '/manage/roles/overview',
+      iconName: Icons.USERS,
+      children: t('menu.roles'),
+    },
+    {
+      neededPermission: PermissionTypes.LABELS_BEHEREN,
+      href: '/manage/labels/overview',
+      iconName: Icons.TAG,
+      children: t('menu.labels'),
+    },
+    {
+      neededPermission: PermissionTypes.ORGANISATIES_BEHEREN,
+      href: '/manage/organizations',
+      iconName: Icons.SLIDE_SHARE,
+      children: t('menu.organizations'),
+    },
+    {
+      neededPermission: PermissionTypes.PRODUCTIES_AANMAKEN,
+      href: '/manage/productions',
+      iconName: Icons.LAYER_GROUP,
+      children: t('menu.productions'),
+    },
+  ];
+
+  const [filteredManageMenu, setFilteredManageMenu] = useState();
+
   const [isJobLoggerVisible, setJobLoggerVisibility] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -157,6 +229,8 @@ const SideBar = () => {
     data: { data: rawAnnouncements = [] } = {},
     refetch: refetchAnnouncements,
   } = useGetAnnouncements();
+
+  const { data: permissions = [] } = useGetPermissions();
 
   const [activeAnnouncementId, setActiveAnnouncementId] = useState();
   const [cookies, setCookie] = useCookiesWithOptions([
@@ -208,56 +282,17 @@ const SideBar = () => {
     setCookie('seenAnnouncements', cleanedUpSeenAnnouncements);
   }, [rawAnnouncements]);
 
-  const userMenu = [
-    {
-      href: '/dashboard',
-      iconName: Icons.HOME,
-      children: t('menu.home'),
-    },
-    {
-      href: '/event',
-      iconName: Icons.PLUS_CIRCLE,
-      children: t('menu.add'),
-    },
-    {
-      href: '/search',
-      iconName: Icons.SEARCH,
-      children: t('menu.search'),
-    },
-  ];
+  useEffect(() => {
+    if (permissions.length === 0) {
+      return;
+    }
 
-  const manageMenu = [
-    {
-      href: '/manage/moderation/overview',
-      iconName: Icons.FLAG,
-      children: t('menu.validate'),
-    },
-    {
-      href: '/manage/users/overview',
-      iconName: Icons.USER,
-      children: t('menu.users'),
-    },
-    {
-      href: '/manage/roles/overview',
-      iconName: Icons.USERS,
-      children: t('menu.roles'),
-    },
-    {
-      href: '/manage/labels/overview',
-      iconName: Icons.TAG,
-      children: t('menu.labels'),
-    },
-    {
-      href: '/manage/organizations',
-      iconName: Icons.SLIDE_SHARE,
-      children: t('menu.organizations'),
-    },
-    {
-      href: '/manage/productions',
-      iconName: Icons.LAYER_GROUP,
-      children: t('menu.productions'),
-    },
-  ];
+    setFilteredManageMenu(
+      manageMenu.filter((menuItem) =>
+        permissions.includes(menuItem.neededPermission),
+      ),
+    );
+  }, [permissions]);
 
   const announcements = useMemo(
     () =>
@@ -332,7 +367,7 @@ const SideBar = () => {
           >
             <Menu items={userMenu} />
             <Stack justifyContent="space-between" css="flex: 1;">
-              <Menu items={manageMenu} title={t('menu.management')} />
+              <Menu items={filteredManageMenu} title={t('menu.management')} />
               <Stack>
                 <Menu items={notificationMenu} />
                 <ProfileMenu />
