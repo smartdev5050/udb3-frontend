@@ -45,4 +45,20 @@ const useGetPermissions = (config = {}) => {
   );
 };
 
-export { useGetUser, useGetPermissions };
+const getRoles = async (headers) => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/roles/`, {
+    headers,
+  });
+  return await res.json();
+};
+
+const useGetRoles = (config = {}) => {
+  const [cookies] = useCookiesWithOptions(['token']);
+  const headers = useHeaders();
+  return useAuthenticatedQuery('getRoles', () => getRoles(headers), {
+    enabled: cookies.token,
+    ...config,
+  });
+};
+
+export { useGetUser, useGetPermissions, useGetRoles };
