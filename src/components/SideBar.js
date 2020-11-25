@@ -107,7 +107,6 @@ Menu.propTypes = {
 const ProfileMenu = ({ profileImage }) => {
   const { t } = useTranslation();
   const [, , removeCookie] = useCookiesWithOptions();
-  const router = useRouter();
 
   const loginMenu = [
     {
@@ -116,7 +115,11 @@ const ProfileMenu = ({ profileImage }) => {
       onClick: () => {
         removeCookie('token');
         removeCookie('user');
-        router.push('/login');
+
+        const queryString = new URLSearchParams({
+          destination: `${window.location.protocol}//${window.location.host}`,
+        }).toString();
+        window.location.href = `${process.env.NEXT_PUBLIC_AUTH_URL}/logout?${queryString}`;
       },
     },
   ];
