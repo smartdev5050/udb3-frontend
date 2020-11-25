@@ -51,6 +51,24 @@ const App = ({ Component, pageProps }) => {
   const [cookies, setCookie] = useCookiesWithOptions(['user']);
   const { data: user } = useGetUser();
 
+  const MESSAGE_SOURCE_UDB = 'UDB';
+  const MESSAGE_TYPE_URL_CHANGED = 'URL_CHANGED';
+
+  const handleMessage = (event) => {
+    if (event.data.source !== MESSAGE_SOURCE_UDB) {
+      return;
+    }
+
+    if (event.data.type === MESSAGE_TYPE_URL_CHANGED) {
+      router.push(event.data.path);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, []);
+
   useEffect(() => {
     if (!pathname.startsWith('/login')) {
       if (query?.jwt) {
