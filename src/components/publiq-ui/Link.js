@@ -18,6 +18,7 @@ const BaseLink = forwardRef(({ variant, ...props }, ref) => {
       <Inline
         ref={ref}
         forwardedAs="a"
+        alignItems="center"
         css={`
           color: inherit;
           text-decoration: none;
