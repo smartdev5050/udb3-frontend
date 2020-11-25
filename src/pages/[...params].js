@@ -14,6 +14,8 @@ const Fallback = () => {
       router.push('/login/');
     }
 
+    delete query.params;
+
     const queryString = new URLSearchParams({
       ...query,
       jwt: cookies.token,
