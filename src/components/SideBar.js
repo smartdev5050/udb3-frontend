@@ -181,7 +181,9 @@ const SideBar = () => {
   } = useGetAnnouncements();
   const { data: permissions = [] } = useGetPermissions();
   const { data: roles = [] } = useGetRoles();
-  const { data: eventsToModerate = [] } = useFindToModerate(searchQuery);
+  const {
+    data: { totalItems: countEventsToModerate = 0 } = {},
+  } = useFindToModerate(searchQuery);
 
   const handleClickAnnouncement = (activeAnnouncement) =>
     setActiveAnnouncementId(activeAnnouncement.uid);
@@ -303,8 +305,8 @@ const SideBar = () => {
       href: '/manage/moderation/overview',
       iconName: Icons.FLAG,
       children: t('menu.validate'),
-      suffix: eventsToModerate.length > 0 && (
-        <Badge>{eventsToModerate.length}</Badge>
+      suffix: countEventsToModerate > 0 && (
+        <Badge>{countEventsToModerate}</Badge>
       ),
     },
     {
