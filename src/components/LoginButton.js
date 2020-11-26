@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
@@ -5,11 +6,11 @@ import { Button } from './publiq-ui/Button';
 
 const LoginButton = ({ className }) => {
   const [, , removeCookie] = useCookiesWithOptions(['token', 'user']);
+  const router = useRouter();
 
   const { i18n } = useTranslation();
 
-  const buildBaseUrl = () =>
-    `${window.location.protocol}//${window.location.host}`;
+  const baseUrl = `${window.location.protocol}//${window.location.host}`;
 
   const removeCookies = () => {
     removeCookie('token');
@@ -20,11 +21,11 @@ const LoginButton = ({ className }) => {
     removeCookies();
 
     const queryString = new URLSearchParams({
-      destination: buildBaseUrl(),
+      destination: baseUrl,
       lang: i18n.language,
     }).toString();
 
-    window.location.href = `${process.env.NEXT_PUBLIC_AUTH_URL}/connect?${queryString}`;
+    router.push(`${process.env.NEXT_PUBLIC_AUTH_URL}/connect?${queryString}`);
   };
 
   return (
