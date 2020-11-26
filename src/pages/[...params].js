@@ -1,12 +1,12 @@
 import { useRouter } from 'next/router';
-import { useCookies } from 'react-cookie';
 import i18next from 'i18next';
 import { useEffect, useState } from 'react';
 import { Box } from '../components/publiq-ui/Box';
+import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
 
 const Fallback = () => {
-  const router = useRouter();
-  const [cookies] = useCookies(['token']);
+  const { query, asPath, ...router } = useRouter();
+  const [cookies] = useCookiesWithOptions(['token']);
   const [legacyPath, setLegacyPath] = useState('');
 
   useEffect(() => {
@@ -15,17 +15,17 @@ const Fallback = () => {
     }
 
     const queryString = new URLSearchParams({
-      ...router.query,
+      ...query,
       jwt: cookies.token,
       lang: i18next.language,
     }).toString();
 
-    const path = router.asPath ? router.asPath : '';
+    const path = asPath || '';
     const parsedQueryString = queryString ? `?${queryString}` : '';
     setLegacyPath(
       `${process.env.NEXT_PUBLIC_LEGACY_APP_URL}${path}${parsedQueryString}`,
     );
-  }, []);
+  }, [asPath]);
 
   if (!legacyPath) return null;
 
