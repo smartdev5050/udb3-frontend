@@ -117,10 +117,11 @@ const ProfileMenu = ({ profileImage }) => {
         removeCookie('token');
         removeCookie('user');
 
-        const baseUrl = `${window.location.protocol}//${window.location.host}`;
+        const getBaseUrl = () =>
+          `${window.location.protocol}//${window.location.host}`;
 
         const queryString = new URLSearchParams({
-          destination: baseUrl,
+          destination: getBaseUrl,
         }).toString();
 
         router.push(

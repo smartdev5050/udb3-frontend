@@ -10,7 +10,8 @@ const LoginButton = ({ className }) => {
 
   const { i18n } = useTranslation();
 
-  const baseUrl = `${window.location.protocol}//${window.location.host}`;
+  const getBaseUrl = () =>
+    `${window.location.protocol}//${window.location.host}`;
 
   const removeCookies = () => {
     removeCookie('token');
@@ -21,7 +22,7 @@ const LoginButton = ({ className }) => {
     removeCookies();
 
     const queryString = new URLSearchParams({
-      destination: baseUrl,
+      destination: getBaseUrl,
       lang: i18n.language,
     }).toString();
 
