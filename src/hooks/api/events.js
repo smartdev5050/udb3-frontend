@@ -25,12 +25,11 @@ const getEventsToModerate = async (
 };
 
 const useGetEventsToModerate = (searchQuery, config) => {
-  const [cookies] = useCookies(['token']);
   return useAuthenticatedQuery(
     ['getEventsToModerate', { searchQuery }],
     getEventsToModerate,
     {
-      enabled: !!(cookies?.token && searchQuery),
+      enabled: !!searchQuery,
       ...config,
     },
   );
