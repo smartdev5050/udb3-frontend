@@ -185,14 +185,14 @@ const SideBar = () => {
   const [activeAnnouncementId, setActiveAnnouncementId] = useState();
 
   const {
-    data: { data: rawAnnouncements = [] } = {},
+    data: dataWithAnnouncements = {},
     refetch: refetchAnnouncements,
   } = useGetAnnouncements();
+  const rawAnnouncements = dataWithAnnouncements?.data ?? [];
   const { data: permissions = [] } = useGetPermissions();
   const { data: roles = [] } = useGetRoles();
-  const {
-    data: { totalItems: countEventsToModerate = 0 } = {},
-  } = useFindToModerate(searchQuery);
+  const { data: eventsToModerate = {} } = useFindToModerate(searchQuery);
+  const countEventsToModerate = eventsToModerate?.totalItems ?? 0;
 
   const handleClickAnnouncement = (activeAnnouncement) =>
     setActiveAnnouncementId(activeAnnouncement.uid);
@@ -278,16 +278,6 @@ const SideBar = () => {
     [announcements],
   );
 
-  const filteredManageMenu = useMemo(() => {
-    if (permissions.length === 0) {
-      return manageMenu;
-    }
-
-    return manageMenu.filter((menuItem) =>
-      permissions.includes(menuItem.neededPermission),
-    );
-  }, [permissions]);
-
   const userMenu = [
     {
       href: '/dashboard',
@@ -347,6 +337,16 @@ const SideBar = () => {
       children: t('menu.productions'),
     },
   ];
+
+  const filteredManageMenu = useMemo(() => {
+    if (permissions.length === 0) {
+      return manageMenu;
+    }
+
+    return manageMenu.filter((menuItem) =>
+      permissions.includes(menuItem.neededPermission),
+    );
+  }, [permissions]);
 
   const notificationMenu = [
     {
