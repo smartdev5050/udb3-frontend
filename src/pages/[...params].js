@@ -14,6 +14,11 @@ const Fallback = () => {
       router.push('/login/');
     }
 
+    /* 
+    Remove the "params" query parameter added by Next 
+    (which holds the current path, based on `[...params]` in the filename)
+    because it causes infinite redirects as it keeps adding this query parameter to the iframe's URL 
+    */
     const queryParameters = { ...query };
     delete queryParameters.params;
 
