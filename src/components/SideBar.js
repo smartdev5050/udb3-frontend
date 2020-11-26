@@ -179,7 +179,6 @@ const SideBar = () => {
     'userPicture',
   ]);
 
-  const [filteredManageMenu, setFilteredManageMenu] = useState();
   const [isJobLoggerVisible, setJobLoggerVisibility] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -240,18 +239,6 @@ const SideBar = () => {
   }, [rawAnnouncements]);
 
   useEffect(() => {
-    if (permissions.length === 0) {
-      return;
-    }
-
-    setFilteredManageMenu(
-      manageMenu.filter((menuItem) =>
-        permissions.includes(menuItem.neededPermission),
-      ),
-    );
-  }, [permissions]);
-
-  useEffect(() => {
     if (roles.length === 0) {
       return;
     }
@@ -290,6 +277,16 @@ const SideBar = () => {
       ).length,
     [announcements],
   );
+
+  const filteredManageMenu = useMemo(() => {
+    if (permissions.length === 0) {
+      return manageMenu;
+    }
+
+    return manageMenu.filter((menuItem) =>
+      permissions.includes(menuItem.neededPermission),
+    );
+  }, [permissions]);
 
   const userMenu = [
     {
