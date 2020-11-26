@@ -23,7 +23,7 @@ import { Box } from './publiq-ui/Box';
 import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
 import { useRouter } from 'next/router';
 import { useGetPermissions, useGetRoles } from '../hooks/api/user';
-import { useFindToModerate } from '../hooks/api/events';
+import { useGetEventsToModerate } from '../hooks/api/events';
 
 const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSideBar = getValueFromTheme('sideBar');
@@ -191,7 +191,7 @@ const SideBar = () => {
   const rawAnnouncements = dataWithAnnouncements?.data ?? [];
   const { data: permissions = [] } = useGetPermissions();
   const { data: roles = [] } = useGetRoles();
-  const { data: eventsToModerate = {} } = useFindToModerate(searchQuery);
+  const { data: eventsToModerate = {} } = useGetEventsToModerate(searchQuery);
   const countEventsToModerate = eventsToModerate?.totalItems ?? 0;
 
   const handleClickAnnouncement = (activeAnnouncement) =>
