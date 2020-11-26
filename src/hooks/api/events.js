@@ -1,6 +1,5 @@
 import { fetchWithRedirect } from '../../utils/fetchWithRedirect';
 import { useAuthenticatedQuery } from './useAuthenticatedQuery';
-import { useCookies } from 'react-cookie';
 import { formatDate } from '../../utils/formatDate';
 
 const getEventsToModerate = async (

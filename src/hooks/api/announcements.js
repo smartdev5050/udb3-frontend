@@ -9,6 +9,6 @@ const getAnnouncements = async () => {
 };
 
 const useGetAnnouncements = () =>
-  useAuthenticatedQuery('announcements', getAnnouncements);
+  useAuthenticatedQuery('getAnnouncements', getAnnouncements);
 
 export { useGetAnnouncements };

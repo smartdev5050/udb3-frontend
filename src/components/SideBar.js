@@ -192,7 +192,7 @@ const SideBar = () => {
   const { data: permissions = [] } = useGetPermissions();
   const { data: roles = [] } = useGetRoles();
   const { data: eventsToModerate = {} } = useGetEventsToModerate(searchQuery);
-  const countEventsToModerate = eventsToModerate?.totalItems ?? 0;
+  const countEventsToModerate = eventsToModerate?.totalItems || 0;
 
   const handleClickAnnouncement = (activeAnnouncement) =>
     setActiveAnnouncementId(activeAnnouncement.uid);
