@@ -21,6 +21,7 @@ import { useGetAnnouncements } from '../hooks/api/announcements';
 import { Image } from './publiq-ui/Image';
 import { Box } from './publiq-ui/Box';
 import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
+import { useRouter } from 'next/router';
 
 const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSideBar = getValueFromTheme('sideBar');
@@ -106,6 +107,7 @@ Menu.propTypes = {
 const ProfileMenu = ({ profileImage }) => {
   const { t } = useTranslation();
   const [, , removeCookie] = useCookiesWithOptions();
+  const router = useRouter();
 
   const loginMenu = [
     {
@@ -115,10 +117,16 @@ const ProfileMenu = ({ profileImage }) => {
         removeCookie('token');
         removeCookie('user');
 
+        const getBaseUrl = () =>
+          `${window.location.protocol}//${window.location.host}`;
+
         const queryString = new URLSearchParams({
-          destination: `${window.location.protocol}//${window.location.host}`,
+          destination: getBaseUrl,
         }).toString();
-        window.location.href = `${process.env.NEXT_PUBLIC_AUTH_URL}/logout?${queryString}`;
+
+        router.push(
+          `${process.env.NEXT_PUBLIC_AUTH_URL}/logout?${queryString}`,
+        );
       },
     },
   ];
