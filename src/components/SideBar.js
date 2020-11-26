@@ -123,7 +123,7 @@ const ProfileMenu = ({ profileImage }) => {
           `${window.location.protocol}//${window.location.host}`;
 
         const queryString = new URLSearchParams({
-          destination: getBaseUrl,
+          destination: getBaseUrl(),
         }).toString();
 
         router.push(
