@@ -5,7 +5,11 @@ import { Box } from '../components/publiq-ui/Box';
 import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
 
 const Fallback = () => {
-  const { query, asPath, ...router } = useRouter();
+  const {
+    query: { params, ...queryWithoutParams },
+    asPath,
+    ...router
+  } = useRouter();
   const [cookies] = useCookiesWithOptions(['token']);
   const [legacyPath, setLegacyPath] = useState('');
 
@@ -15,7 +19,7 @@ const Fallback = () => {
     }
 
     const queryString = new URLSearchParams({
-      ...query,
+      ...queryWithoutParams,
       jwt: cookies.token,
       lang: i18next.language,
     }).toString();
