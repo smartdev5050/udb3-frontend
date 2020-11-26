@@ -298,7 +298,7 @@ const SideBar = () => {
 
   const manageMenu = [
     {
-      neededPermission: PermissionTypes.AANBOD_MODEREREN,
+      permission: PermissionTypes.AANBOD_MODEREREN,
       href: '/manage/moderation/overview',
       iconName: Icons.FLAG,
       children: t('menu.validate'),
@@ -307,31 +307,31 @@ const SideBar = () => {
       ),
     },
     {
-      neededPermission: PermissionTypes.GEBRUIKERS_BEHEREN,
+      permission: PermissionTypes.GEBRUIKERS_BEHEREN,
       href: '/manage/users/overview',
       iconName: Icons.USER,
       children: t('menu.users'),
     },
     {
-      neededPermission: PermissionTypes.GEBRUIKERS_BEHEREN,
+      permission: PermissionTypes.GEBRUIKERS_BEHEREN,
       href: '/manage/roles/overview',
       iconName: Icons.USERS,
       children: t('menu.roles'),
     },
     {
-      neededPermission: PermissionTypes.LABELS_BEHEREN,
+      permission: PermissionTypes.LABELS_BEHEREN,
       href: '/manage/labels/overview',
       iconName: Icons.TAG,
       children: t('menu.labels'),
     },
     {
-      neededPermission: PermissionTypes.ORGANISATIES_BEHEREN,
+      permission: PermissionTypes.ORGANISATIES_BEHEREN,
       href: '/manage/organizations',
       iconName: Icons.SLIDE_SHARE,
       children: t('menu.organizations'),
     },
     {
-      neededPermission: PermissionTypes.PRODUCTIES_AANMAKEN,
+      permission: PermissionTypes.PRODUCTIES_AANMAKEN,
       href: '/manage/productions',
       iconName: Icons.LAYER_GROUP,
       children: t('menu.productions'),
@@ -344,7 +344,7 @@ const SideBar = () => {
     }
 
     return manageMenu.filter((menuItem) =>
-      permissions.includes(menuItem.neededPermission),
+      permissions.includes(menuItem.permission),
     );
   }, [permissions]);
 
