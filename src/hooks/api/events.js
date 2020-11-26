@@ -4,10 +4,8 @@ import { useCookies } from 'react-cookie';
 import { formatDate } from '../../utils/formatDate';
 
 const getEventsToModerate = async (
-  headers,
-  searchQuery,
-  start = 0,
-  limit = 1,
+  key,
+  { headers, searchQuery, start = 0, limit = 1 },
 ) => {
   const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/events/`);
   url.search = new URLSearchParams({
@@ -29,10 +27,10 @@ const getEventsToModerate = async (
 const useGetEventsToModerate = (searchQuery, config) => {
   const [cookies] = useCookies(['token']);
   return useAuthenticatedQuery(
-    'getEventsToModerate',
-    (headers) => getEventsToModerate(headers, searchQuery),
+    ['getEventsToModerate', { searchQuery }],
+    getEventsToModerate,
     {
-      enabled: !!(cookies.token && searchQuery),
+      enabled: !!(cookies?.token && searchQuery),
       ...config,
     },
   );

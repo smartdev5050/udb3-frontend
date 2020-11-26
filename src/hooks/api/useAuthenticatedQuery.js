@@ -8,12 +8,20 @@ const useAuthenticatedQuery = (...args) => {
   const router = useRouter();
   const headers = useHeaders();
   const [cookies] = useCookiesWithOptions(['token']);
-  const [key, queryFunction, config] = args;
+  const [[key, queryArgs], queryFunction, config] = args;
+
   const alteredArgs = [
-    key,
-    () => queryFunction(headers),
+    [
+      key,
+      {
+        headers,
+        ...queryArgs,
+      },
+    ],
+    queryFunction,
     { enabled: cookies.token, ...config },
   ];
+
   const result = useReactQuery(...alteredArgs);
 
   if (
