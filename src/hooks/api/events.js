@@ -1,7 +1,5 @@
-const { fetchWithRedirect } = require('../../utils/fetchWithRedirect');
-const { useCookiesWithOptions } = require('../useCookiesWithOptions');
-const { useAuthenticatedQuery } = require('./useAuthenticatedQuery');
-const { useHeaders } = require('./useHeaders');
+import { fetchWithRedirect } from '../../utils/fetchWithRedirect';
+import { useAuthenticatedQuery } from './useAuthenticatedQuery';
 
 const findToModerate = async (headers, searchQuery, start = 0, limit = 1) => {
   const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/events/`);
@@ -22,15 +20,10 @@ const findToModerate = async (headers, searchQuery, start = 0, limit = 1) => {
 };
 
 const useFindToModerate = (searchQuery, config) => {
-  const [cookies] = useCookiesWithOptions(['token']);
-  const headers = useHeaders();
   return useAuthenticatedQuery(
     'findToModerate',
-    () => findToModerate(headers, searchQuery),
-    {
-      enabled: cookies.token && searchQuery,
-      ...config,
-    },
+    (headers) => findToModerate(headers, searchQuery),
+    config,
   );
 };
 

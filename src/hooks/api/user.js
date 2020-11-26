@@ -1,7 +1,5 @@
 import { fetchWithRedirect } from '../../utils/fetchWithRedirect';
-import { useCookiesWithOptions } from '../useCookiesWithOptions';
 import { useAuthenticatedQuery } from './useAuthenticatedQuery';
-import { useHeaders } from './useHeaders';
 
 const getMe = async (headers) => {
   const res = await fetchWithRedirect(
@@ -14,12 +12,7 @@ const getMe = async (headers) => {
 };
 
 const useGetUser = (config = {}) => {
-  const [cookies] = useCookiesWithOptions(['token']);
-  const headers = useHeaders();
-  return useAuthenticatedQuery('getUser', () => getMe(headers), {
-    enabled: cookies.token,
-    ...config,
-  });
+  return useAuthenticatedQuery('getUser', getMe, config);
 };
 
 const getPermissions = async (headers) => {
@@ -33,16 +26,7 @@ const getPermissions = async (headers) => {
 };
 
 const useGetPermissions = (config = {}) => {
-  const [cookies] = useCookiesWithOptions(['token']);
-  const headers = useHeaders();
-  return useAuthenticatedQuery(
-    'getPermissions',
-    () => getPermissions(headers),
-    {
-      enabled: cookies.token,
-      ...config,
-    },
-  );
+  return useAuthenticatedQuery('getPermissions', getPermissions, config);
 };
 
 const getRoles = async (headers) => {
@@ -53,12 +37,7 @@ const getRoles = async (headers) => {
 };
 
 const useGetRoles = (config = {}) => {
-  const [cookies] = useCookiesWithOptions(['token']);
-  const headers = useHeaders();
-  return useAuthenticatedQuery('getRoles', () => getRoles(headers), {
-    enabled: cookies.token,
-    ...config,
-  });
+  return useAuthenticatedQuery('getRoles', getRoles, config);
 };
 
 export { useGetUser, useGetPermissions, useGetRoles };
