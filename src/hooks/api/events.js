@@ -1,6 +1,7 @@
 import { fetchWithRedirect } from '../../utils/fetchWithRedirect';
 import { useAuthenticatedQuery } from './useAuthenticatedQuery';
 import { useCookies } from 'react-cookie';
+import { formatDate } from '../../utils/formatDate';
 
 const getEventsToModerate = async (
   headers,
@@ -12,7 +13,7 @@ const getEventsToModerate = async (
   url.search = new URLSearchParams({
     q: searchQuery,
     audienceType: 'everyone',
-    availableFrom: new Date().toISOString().split('.')[0] + 'Z',
+    availableFrom: formatDate(new Date()),
     availableTo: '*',
     limit,
     start,
