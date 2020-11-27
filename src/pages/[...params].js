@@ -8,14 +8,13 @@ const Fallback = () => {
   const {
     query: { params, ...queryWithoutParams },
     asPath,
-    ...router
   } = useRouter();
   const [cookies] = useCookiesWithOptions(['token']);
   const [legacyPath, setLegacyPath] = useState('');
 
   useEffect(() => {
-    if (!cookies.token) {
-      router.push('/login/');
+    if (!window) {
+      return;
     }
 
     const queryString = new URLSearchParams({
@@ -24,7 +23,10 @@ const Fallback = () => {
       lang: i18next.language,
     }).toString();
 
-    const path = asPath || '';
+    const path = asPath
+      ? new URL(`${window.location.protocol}//${window.location.host}${asPath}`)
+          .pathname
+      : '';
     const parsedQueryString = queryString ? `?${queryString}` : '';
     setLegacyPath(
       `${process.env.NEXT_PUBLIC_LEGACY_APP_URL}${path}${parsedQueryString}`,

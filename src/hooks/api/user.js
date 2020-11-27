@@ -1,26 +1,40 @@
 import { fetchWithRedirect } from '../../utils/fetchWithRedirect';
-import { useCookiesWithOptions } from '../useCookiesWithOptions';
 import { useAuthenticatedQuery } from './useAuthenticatedQuery';
 
-const getMe = async (token) => {
+const getMe = async (key, { headers }) => {
   const res = await fetchWithRedirect(
     `${process.env.NEXT_PUBLIC_API_URL}/user`,
     {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'X-Api-Key': process.env.NEXT_PUBLIC_API_KEY,
-      },
+      headers,
     },
   );
   return await res.json();
 };
 
-const useGetUser = (config = {}) => {
-  const [cookies] = useCookiesWithOptions(['token']);
-  return useAuthenticatedQuery('user', () => getMe(cookies.token), {
-    enabled: cookies.token,
-    ...config,
-  });
+const useGetUser = (config = {}) =>
+  useAuthenticatedQuery('user', getMe, config);
+
+const getPermissions = async (key, { headers }) => {
+  const res = await fetchWithRedirect(
+    `${process.env.NEXT_PUBLIC_API_URL}/user/permissions/`,
+    {
+      headers,
+    },
+  );
+  return await res.json();
 };
 
-export { useGetUser };
+const useGetPermissions = (config = {}) =>
+  useAuthenticatedQuery('permissions', getPermissions, config);
+
+const getRoles = async (key, { headers }) => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/roles/`, {
+    headers,
+  });
+  return await res.json();
+};
+
+const useGetRoles = (config = {}) =>
+  useAuthenticatedQuery('roles', getRoles, config);
+
+export { useGetUser, useGetPermissions, useGetRoles };

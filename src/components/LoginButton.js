@@ -22,7 +22,7 @@ const LoginButton = ({ className }) => {
     removeCookies();
 
     const queryString = new URLSearchParams({
-      destination: getBaseUrl,
+      destination: getBaseUrl(),
       lang: i18n.language,
     }).toString();
 
