@@ -6,6 +6,71 @@ import { Stack } from './publiq-ui/Stack';
 import { Title } from './publiq-ui/Title';
 import { Button, ButtonVariants } from './publiq-ui/Button';
 import { Icon, Icons } from './publiq-ui/Icon';
+import { useEffect, useMemo, useState } from 'react';
+import socketIOClient from 'socket.io-client';
+import { MessageTypes } from '../constants/MessageTypes';
+import { MessageSources } from '../constants/MessageSources';
+
+const JobStates = {
+  CREATED: 'created',
+  FINISHED: 'finished',
+  FAILED: 'failed',
+  STARTED: 'started',
+};
+
+const JobTypes = {
+  EXPORT: 'export',
+  LABEL_BATCH: 'label_batch',
+  LABEL_QUERY: 'label_query',
+};
+
+const initialJobs = [
+  {
+    id: 1,
+    createdAt: 'job.createdAt',
+    finishedAt: 'job.finishedAt',
+    state: JobStates.CREATED,
+    messages: 'job.messages',
+    exportUrl: 'job.exportUrl',
+    type: JobTypes.EXPORT,
+  },
+  {
+    id: 2,
+    createdAt: 'job.createdAt',
+    finishedAt: 'job.finishedAt',
+    state: JobStates.FAILED,
+    messages: 'job.messages',
+    exportUrl: 'job.exportUrl',
+    type: JobTypes.EXPORT,
+  },
+  {
+    id: 3,
+    createdAt: 'job.createdAt',
+    finishedAt: 'job.finishedAt',
+    state: JobStates.STARTED,
+    messages: 'job.messages',
+    exportUrl: 'job.exportUrl',
+    type: JobTypes.EXPORT,
+  },
+  {
+    id: 4,
+    createdAt: 'job.createdAt',
+    finishedAt: 'job.finishedAt',
+    state: JobStates.FINISHED,
+    messages: 'job.messages',
+    exportUrl: 'job.exportUrl',
+    type: JobTypes.LABEL_BATCH,
+  },
+  {
+    id: 5,
+    createdAt: 'job.createdAt',
+    finishedAt: 'job.finishedAt',
+    state: JobStates.FINISHED,
+    messages: 'job.messages',
+    exportUrl: 'job.exportUrl',
+    type: JobTypes.EXPORT,
+  },
+];
 
 const JobTitle = ({ children, className, ...props }) => (
   <Title
@@ -30,18 +95,91 @@ JobTitle.propTypes = {
 const JobLogger = ({ onClose }) => {
   const { t } = useTranslation();
 
+  const [jobs, setJobs] = useState(initialJobs);
+  const [hiddenJobIds, setHiddenJobIds] = useState([]);
+  const activeJobs = useMemo(
+    () => jobs.filter((job) => !hiddenJobIds.includes(job.id)),
+    [jobs, hiddenJobIds],
+  );
+  const finishedExportJobs = useMemo(
+    () =>
+      activeJobs.filter(
+        (job) =>
+          job.state === JobStates.FINISHED && job.type === JobTypes.EXPORT,
+      ),
+    [activeJobs],
+  );
+  const failedJobs = useMemo(
+    () => activeJobs.filter((job) => job.state === JobStates.FAILED),
+    [activeJobs],
+  );
+  const queuedJobs = useMemo(
+    () => [
+      ...activeJobs.filter((job) => job.state === JobStates.STARTED),
+      ...activeJobs.filter((job) => job.state === JobStates.CREATED),
+    ],
+    [activeJobs],
+  );
+
+  const updateJobState = ({ job_id: jobId }) => (state) => {
+    setJobs((prevJobs) =>
+      prevJobs.map((job) => {
+        if (job.id === jobId) {
+          return { ...job, state };
+        }
+        return job;
+      }),
+    );
+  };
+
+  const handleClickHideJob = (id) => {
+    setHiddenJobIds((prevHiddenJobIds) => {
+      if (prevHiddenJobIds.includes(id)) return;
+      return [...prevHiddenJobIds, id];
+    });
+  };
+
+  const handleMessage = (event) => {
+    if (event.data.source !== MessageSources.UDB) {
+      return;
+    }
+
+    if (
+      event.data.type === MessageTypes.JOB_ADDED &&
+      event.data.job !== undefined
+    ) {
+      setJobs((prevJobs) => [
+        { ...event.data.job, state: JobStates.CREATED, exportUrl: '' },
+        ...prevJobs,
+      ]);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('message', handleMessage);
+    const socket = socketIOClient(process.env.NEXT_PUBLIC_SOCKET_URL);
+    socket.on('job_started', updateJobState(JobStates.STARTED));
+    // socket.on('job_info', updateJobState(JobStates.STARTED));
+    socket.on('job_finished', updateJobState(JobStates.FINISHED));
+    socket.on('job_failed', updateJobState(JobStates.FAILED));
+    return () => {
+      socket.close();
+      window.removeEventListener('message', handleMessage);
+    };
+  }, []);
+
   const jobLoggerMenus = [
     {
       title: t('jobs.exported_documents'),
-      items: [],
+      items: finishedExportJobs,
     },
     {
       title: t('jobs.notifications'),
-      items: [],
+      items: failedJobs,
     },
     {
       title: t('jobs.in_progress'),
-      items: [],
+      items: queuedJobs,
     },
   ];
 
@@ -76,7 +214,18 @@ const JobLogger = ({ onClose }) => {
         </Inline>
         <Stack spacing={4}>
           {jobLoggerMenus.map((jobLoggerMenu) => (
-            <JobTitle key={jobLoggerMenu.title}>{jobLoggerMenu.title}</JobTitle>
+            <Stack key={jobLoggerMenu.title}>
+              <JobTitle>{jobLoggerMenu.title}</JobTitle>
+              {jobLoggerMenu.items.map((job) => (
+                <Box
+                  onClick={() => handleClickHideJob(job.id)}
+                  key={job.id}
+                  as="span"
+                >
+                  {job.id}
+                </Box>
+              ))}
+            </Stack>
           ))}
         </Stack>
       </Stack>
