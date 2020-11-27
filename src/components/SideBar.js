@@ -184,10 +184,9 @@ const SideBar = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeAnnouncementId, setActiveAnnouncementId] = useState();
 
-  const {
-    data: dataWithAnnouncements = {},
-    refetch: refetchAnnouncements,
-  } = useGetAnnouncements();
+  const { data: dataWithAnnouncements = {} } = useGetAnnouncements({
+    refetchInterval: 60000,
+  });
   const rawAnnouncements = dataWithAnnouncements?.data ?? [];
   const { data: permissions = [] } = useGetPermissions();
   const { data: roles = [] } = useGetRoles();
@@ -217,11 +216,6 @@ const SideBar = () => {
       }
     }
   }, [activeAnnouncementId]);
-
-  useEffect(() => {
-    const interval = setInterval(() => refetchAnnouncements(), 60000);
-    return () => clearInterval(interval);
-  }, []);
 
   useEffect(() => {
     if (rawAnnouncements.length === 0) {

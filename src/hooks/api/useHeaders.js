@@ -1,6 +1,6 @@
 import { useCookiesWithOptions } from '../useCookiesWithOptions';
 
-const useHeaders = (...headers) => {
+const useHeaders = (headers = {}) => {
   const [cookies] = useCookiesWithOptions(['token']);
   return {
     Authorization: `Bearer ${cookies.token}`,
