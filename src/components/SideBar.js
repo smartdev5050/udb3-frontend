@@ -58,6 +58,7 @@ const MenuItem = ({ href, iconName, suffix, children, onClick }) => {
         suffix={suffix}
         onClick={onClick}
         spacing={3}
+        textAlign="left"
       >
         {children}
       </Component>
