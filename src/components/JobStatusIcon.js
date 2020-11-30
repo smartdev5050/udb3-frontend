@@ -21,8 +21,7 @@ const JobStatusIcon = ({ status, width, height, className, ...props }) => {
         </g>
       </g>
     );
-  }
-  if (status === JobLoggerStates.BUSY) {
+  } else if (status === JobLoggerStates.BUSY) {
     Content = () => (
       <g className="busy" fillRule="evenodd" fill="none">
         <circle id="busy-background" cx="20" cy="40" r="10" />
@@ -44,8 +43,7 @@ const JobStatusIcon = ({ status, width, height, className, ...props }) => {
         </g>
       </g>
     );
-  }
-  if (status === JobLoggerStates.COMPLETE) {
+  } else if (status === JobLoggerStates.COMPLETE) {
     Content = () => (
       <g className="complete" fillRule="evenodd" fill="none">
         <circle id="complete-background" cx="20" cy="40" r="10" />
@@ -61,6 +59,8 @@ const JobStatusIcon = ({ status, width, height, className, ...props }) => {
         </g>
       </g>
     );
+  } else {
+    Content = () => null;
   }
 
   return (
