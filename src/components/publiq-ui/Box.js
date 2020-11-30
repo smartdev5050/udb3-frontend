@@ -215,4 +215,5 @@ export {
   getBoxProps,
   parseProperty,
   parseSpacing,
+  parseDimension,
 };
