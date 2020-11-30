@@ -29,12 +29,11 @@ const BaseLink = forwardRef(({ variant, ...props }, ref) => {
     <Inline
       ref={ref}
       forwardedAs="a"
-      color={getValue('color')}
+      color={{ default: getValue('color'), hover: getValue('color') }}
       css={`
         font-weight: 400;
         &:hover {
           text-decoration: underline;
-          color: ${getValue('color')};
         }
       `}
       {...props}

@@ -57,16 +57,17 @@ const IconsMap = {
 
 const Icon = ({ name, width, height, className, ...props }) => {
   return (
-    <Box className={className} {...getBoxProps(props)}>
-      <FontAwesomeIcon
-        css={`
-          &.svg-inline--fa {
-            width: ${parseDimension(width)};
-            height: ${parseDimension(height)};
-          }
-        `}
-        icon={IconsMap[name]}
-      />
+    <Box
+      className={className}
+      {...getBoxProps(props)}
+      css={`
+        .svg-inline--fa {
+          width: ${parseDimension(width)};
+          height: ${parseDimension(height)};
+        }
+      `}
+    >
+      <FontAwesomeIcon icon={IconsMap[name]} />
     </Box>
   );
 };

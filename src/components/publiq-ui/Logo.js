@@ -19,7 +19,7 @@ const MobileLogo = ({ color }) => (
 );
 
 MobileLogo.propTypes = {
-  color: PropTypes.string,
+  color: PropTypes.oneOf([PropTypes.string, PropTypes.func]),
 };
 
 const DefaultLogo = ({ color }) => (
@@ -70,7 +70,6 @@ Logo.defaultProps = {
 
 Logo.propTypes = {
   className: PropTypes.string,
-  color: PropTypes.string,
   variant: PropTypes.string,
   ...boxPropTypes,
 };

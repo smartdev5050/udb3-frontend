@@ -149,81 +149,172 @@ const StyledBox = styled.div`
 `;
 
 const boxPropTypes = {
-  margin: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
-  marginTop: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
-  marginBottom: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
-  marginRight: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
-  marginLeft: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
-  marginX: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
-  marginY: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
-  padding: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
-  paddingTop: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
-  paddingBottom: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
-  paddingRight: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
-  paddingLeft: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
-  paddingX: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
-  paddingY: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
+  margin: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  marginTop: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  marginBottom: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  marginRight: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  marginLeft: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  marginX: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  marginY: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  padding: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  paddingTop: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  paddingBottom: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  paddingRight: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  paddingLeft: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  paddingX: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  paddingY: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
   width: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
     PropTypes.func,
+    PropTypes.object,
   ]),
   minWidth: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
     PropTypes.func,
+    PropTypes.object,
   ]),
   maxWidth: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
     PropTypes.func,
+    PropTypes.object,
   ]),
   height: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
     PropTypes.func,
+    PropTypes.object,
   ]),
   maxHeight: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
     PropTypes.func,
+    PropTypes.object,
   ]),
   minHeight: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
     PropTypes.func,
+    PropTypes.object,
   ]),
   top: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
     PropTypes.func,
+    PropTypes.object,
   ]),
   bottom: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
     PropTypes.func,
+    PropTypes.object,
   ]),
   left: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
     PropTypes.func,
+    PropTypes.object,
   ]),
   right: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
     PropTypes.func,
+    PropTypes.object,
   ]),
-  backgroundColor: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-  color: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-  zIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
-  position: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-  opacity: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
+  backgroundColor: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  color: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  zIndex: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  position: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  opacity: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
   flex: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
     PropTypes.func,
+    PropTypes.object,
   ]),
-  cursor: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+  cursor: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
 };
 
 const getBoxProps = (props) => pick(props, Object.keys(boxPropTypes));
