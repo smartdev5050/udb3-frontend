@@ -24,6 +24,13 @@ const JobTypes = {
   LABEL_QUERY: 'label_query',
 };
 
+const JobLoggerStates = {
+  IDLE: 'idle',
+  WARNING: 'warning',
+  BUSY: 'busy',
+  COMPLETE: 'complete',
+};
+
 const initialJobs = [
   {
     id: 1,
@@ -92,7 +99,7 @@ JobTitle.propTypes = {
   className: PropTypes.string,
 };
 
-const JobLogger = ({ onClose }) => {
+const JobLogger = ({ onClose, onStatusChange }) => {
   const { t } = useTranslation();
 
   const [jobs, setJobs] = useState(initialJobs);
@@ -167,6 +174,22 @@ const JobLogger = ({ onClose }) => {
       window.removeEventListener('message', handleMessage);
     };
   }, []);
+
+  useEffect(() => {
+    if (failedJobs.length > 0) {
+      onStatusChange(JobLoggerStates.WARNING);
+      return;
+    }
+    if (finishedExportJobs.length > 0) {
+      onStatusChange(JobLoggerStates.COMPLETE);
+      return;
+    }
+    if (queuedJobs.length > 0) {
+      onStatusChange(JobLoggerStates.BUSY);
+      return;
+    }
+    onStatusChange(JobLoggerStates.IDLE);
+  }, [failedJobs, finishedExportJobs, queuedJobs]);
 
   const jobLoggerMenus = [
     {
@@ -243,6 +266,7 @@ const JobLogger = ({ onClose }) => {
 
 JobLogger.propTypes = {
   onClose: PropTypes.func,
+  onStatusChange: PropTypes.func,
 };
 
-export { JobLogger };
+export { JobLogger, JobLoggerStates };

@@ -15,7 +15,7 @@ import { Badge } from './publiq-ui/Badge';
 import styled, { css } from 'styled-components';
 import { Inline } from './publiq-ui/Inline';
 
-import { JobLogger } from './JobLogger';
+import { JobLogger, JobLoggerStates } from './JobLogger';
 import { Announcements, AnnouncementStatus } from './Annoucements';
 import { useGetAnnouncements } from '../hooks/api/announcements';
 import { Image } from './publiq-ui/Image';
@@ -24,6 +24,7 @@ import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
 import { useRouter } from 'next/router';
 import { useGetPermissions, useGetRoles } from '../hooks/api/user';
 import { useGetEventsToModerate } from '../hooks/api/events';
+import { JobStatusIcon } from './JobStatusIcon';
 
 const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSideBar = getValueFromTheme('sideBar');
@@ -179,7 +180,8 @@ const SideBar = () => {
     'userPicture',
   ]);
 
-  const [isJobLoggerVisible, setJobLoggerVisibility] = useState(false);
+  const [isJobLoggerVisible, setIsJobLoggerVisible] = useState(true);
+  const [jobLoggerStatus, setJobLoggerStatus] = useState(JobLoggerStates.IDLE);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeAnnouncementId, setActiveAnnouncementId] = useState();
@@ -354,8 +356,9 @@ const SideBar = () => {
     {
       iconName: Icons.BELL,
       children: t('menu.notifications'),
+      suffix: jobLoggerStatus && <JobStatusIcon status={jobLoggerStatus} />,
       onClick: () => {
-        setJobLoggerVisibility(!isJobLoggerVisible);
+        setIsJobLoggerVisible(!isJobLoggerVisible);
       },
     },
   ];
@@ -402,7 +405,8 @@ const SideBar = () => {
         </Stack>
         {isJobLoggerVisible && (
           <JobLogger
-            onClose={() => setJobLoggerVisibility(!isJobLoggerVisible)}
+            onClose={() => setIsJobLoggerVisible(!isJobLoggerVisible)}
+            onStatusChange={(status) => setJobLoggerStatus(status)}
           />
         )}
       </Inline>
