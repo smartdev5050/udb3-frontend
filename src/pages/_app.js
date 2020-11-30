@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 import { Inline } from '../components/publiq-ui/Inline';
 import { SideBar } from '../components/SideBar';
-import { Box } from '../components/publiq-ui/Box';
 import { ThemeProvider } from '../components/publiq-ui/ThemeProvider';
 
 import { useRouter } from 'next/router';
@@ -24,16 +23,7 @@ const Layout = ({ children }) => {
   return (
     <Inline>
       <SideBar />
-      <Box
-        css={`
-          flex: 1;
-          height: 100vh;
-          overflow-x: hidden;
-          overflow-y: auto;
-        `}
-      >
-        {children}
-      </Box>
+      {children}
     </Inline>
   );
 };
