@@ -72,7 +72,6 @@ Logo.propTypes = {
   className: PropTypes.string,
   color: PropTypes.string,
   variant: PropTypes.string,
-  width: PropTypes.number,
   ...boxPropTypes,
 };
 
