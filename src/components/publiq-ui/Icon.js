@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Box, boxPropTypes, getBoxProps } from './Box';
 import {
   faBell,
+  faCheckCircle,
+  faCircleNotch,
   faEye,
   faEyeSlash,
   faFlag,
@@ -35,6 +37,8 @@ const Icons = {
   EYE: 'eye',
   EYE_SLASH: 'eyeSlash',
   SIGN_OUT_ALT: 'signOutAlt',
+  CHECK_CIRCLE: 'checkCircle',
+  CHECK_NOTCH: 'circleNotch',
 };
 
 const IconsMap = {
@@ -53,6 +57,8 @@ const IconsMap = {
   [Icons.EYE]: faEye,
   [Icons.EYE_SLASH]: faEyeSlash,
   [Icons.SIGN_OUT_ALT]: faSignOutAlt,
+  [Icons.CHECK_CIRCLE]: faCheckCircle,
+  [Icons.CHECK_NOTCH]: faCircleNotch,
 };
 
 const Icon = ({ name, width, height, className, ...props }) => {
