@@ -18,14 +18,8 @@ const BaseLink = forwardRef(({ variant, ...props }, ref) => {
       <Inline
         ref={ref}
         forwardedAs="a"
-        css={`
-          color: inherit;
-          text-decoration: none;
-          &:hover {
-            color: inherit;
-            text-decoration: none;
-          }
-        `}
+        color={{ default: 'inherit', hover: 'inherit' }}
+        textDecoration={{ default: 'none', hover: 'none' }}
         {...props}
       />
     );
@@ -35,9 +29,9 @@ const BaseLink = forwardRef(({ variant, ...props }, ref) => {
     <Inline
       ref={ref}
       forwardedAs="a"
+      color={getValue('color')}
       css={`
         font-weight: 400;
-        color: ${getValue('color')};
         &:hover {
           text-decoration: underline;
           color: ${getValue('color')};
@@ -73,7 +67,7 @@ const Link = ({
 
   const children = [
     iconName && <Icon name={iconName} key="icon" />,
-    <Box as="span" css="flex: 1; text-align: left" key="text">
+    <Box as="span" flex={1} css="text-align: left" key="text">
       {label}
     </Box>,
     clonedSuffix,
