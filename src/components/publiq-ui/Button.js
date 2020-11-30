@@ -22,6 +22,7 @@ const BaseButton = (props) => <Inline forwardedAs="button" {...props} />;
 
 const customCSS = css`
   &.btn {
+    width: min-content;
     border-radius: ${getValue('borderRadius')};
     padding: ${getValue('paddingY')} ${getValue('paddingX')};
   }
@@ -137,6 +138,7 @@ const Button = ({
   children,
   onClick,
   className,
+  textAlign,
   ...props
 }) => {
   if (variant === ButtonVariants.SECONDARY) variant = 'outline-secondary';
@@ -168,7 +170,14 @@ const Button = ({
   ) : (
     [
       iconName && <Icon name={iconName} key="icon" />,
-      <Box as="span" css="flex: 1; text-align: left" key="text">
+      <Box
+        as="span"
+        css={`
+          flex: 1;
+          text-align: ${textAlign};
+        `}
+        key="text"
+      >
         {children}
       </Box>,
       clonedSuffix,
@@ -205,6 +214,7 @@ Button.propTypes = {
   ...inlinePropTypes,
   iconName: PropTypes.string,
   className: PropTypes.string,
+  textAlign: PropTypes.string,
   variant: PropTypes.string,
   disabled: PropTypes.bool,
   loading: PropTypes.bool,
@@ -216,6 +226,7 @@ Button.defaultProps = {
   variant: ButtonVariants.PRIMARY,
   disabled: false,
   loading: false,
+  textAlign: 'center',
   onClick: () => {},
 };
 
