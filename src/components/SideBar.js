@@ -15,7 +15,7 @@ import { Badge } from './publiq-ui/Badge';
 import styled, { css } from 'styled-components';
 import { Inline } from './publiq-ui/Inline';
 
-import { JobLogger, JobLoggerStates } from './JobLogger';
+import { JobLogger, JobLoggerStates } from './job/JobLogger';
 import { Announcements, AnnouncementStatus } from './Annoucements';
 import { useGetAnnouncements } from '../hooks/api/announcements';
 import { Image } from './publiq-ui/Image';
@@ -24,7 +24,7 @@ import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
 import { useRouter } from 'next/router';
 import { useGetPermissions, useGetRoles } from '../hooks/api/user';
 import { useGetEventsToModerate } from '../hooks/api/events';
-import { JobStatusIcon } from './JobStatusIcon';
+import { JobStatusIcon } from './job/JobStatusIcon';
 
 const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSideBar = getValueFromTheme('sideBar');
