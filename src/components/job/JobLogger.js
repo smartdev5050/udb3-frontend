@@ -35,7 +35,6 @@ const initialJobs = [
     messages: {
       [JobStates.FINISHED]: 'Document.xslt met 2 eventementen',
     },
-    exportUrl: 'job.exportUrl',
     type: JobTypes.EXPORT,
   },
   {
@@ -44,7 +43,6 @@ const initialJobs = [
     finishedAt: new Date(),
     state: JobStates.FAILED,
     messages: {},
-    exportUrl: 'job.exportUrl',
     type: JobTypes.EXPORT,
   },
   {
@@ -53,7 +51,6 @@ const initialJobs = [
     finishedAt: new Date(),
     state: JobStates.STARTED,
     messages: {},
-    exportUrl: 'job.exportUrl',
     type: JobTypes.EXPORT,
   },
   {
@@ -62,7 +59,6 @@ const initialJobs = [
     finishedAt: new Date(),
     state: JobStates.FINISHED,
     messages: {},
-    exportUrl: 'job.exportUrl',
     type: JobTypes.LABEL_BATCH,
   },
   {
@@ -71,7 +67,7 @@ const initialJobs = [
     finishedAt: new Date(),
     state: JobStates.FINISHED,
     messages: {},
-    exportUrl: 'job.exportUrl',
+    exportUrl: 'https://google.be',
     type: JobTypes.EXPORT,
   },
 ];
