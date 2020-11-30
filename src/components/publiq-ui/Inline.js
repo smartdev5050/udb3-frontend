@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { Box, boxProps, boxPropTypes, parseProperty } from './Box';
+import { Box, boxPropTypes, parseProperty } from './Box';
 import PropTypes from 'prop-types';
 import { Children, cloneElement, forwardRef } from 'react';
 import { pick } from 'lodash';
@@ -10,8 +10,6 @@ const inlineProps = css`
 
   ${parseProperty('alignItems')};
   ${parseProperty('justifyContent')};
-
-  ${boxProps}
 `;
 
 const StyledBox = styled(Box)`
