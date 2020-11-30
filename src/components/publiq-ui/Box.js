@@ -5,85 +5,143 @@ import { forwardRef } from 'react';
 
 const remInPixels = 15;
 
-const parseProperty = (key) => (props) => {
-  const value = props[key];
-  if (key === undefined || key === null) return;
+const wrapStatementWithBreakpoint = (breakpoint, statementToWrap) => () => css`
+  @media (max-width: ${breakpoint}px) {
+    ${statementToWrap}
+  }
+`;
 
-  const cssProperty = kebabCase(key);
+const createCSSStatement = (key, value, parser) => () => css`
+  ${kebabCase(key)}: ${parser ? parser(value) : value};
+`;
 
-  return css`
-    ${cssProperty}: ${value};
+const parseProperty = (key, parser, customValue) => (props) => {
+  if (key === undefined || key === null) return css``;
+  const value = customValue || props[key];
+
+  if (value === undefined) return css``;
+
+  const parsedValue =
+    typeof value === 'object' && value !== null ? value : { default: value };
+
+  const { default: defaultValue, hover, ...rest } = parsedValue;
+
+  const style = css`
+    ${defaultValue && createCSSStatement(key, defaultValue, parser)}
+    ${hover &&
+    css`
+      :hover {
+        ${createCSSStatement(key, hover, parser)}
+      }
+    `}
   `;
-};
 
-const parseSpacing = (value) => () => (1 / remInPixels) * 2 ** value;
-
-const parseSpacingProperty = (key, prop) => (props) => {
-  const value = props[prop || key];
-  if (value === '' || value === undefined || value === null) return;
-
-  const cssProperty = kebabCase(key);
-
-  if (Number(value) === 0) {
-    return css`
-      ${cssProperty}: 0;
-    `;
+  if (Object.keys(rest).length === 0) {
+    return style;
   }
 
-  return css`
-    ${cssProperty}: ${parseSpacing(value)}rem;
-  `;
-};
+  const parsedBreakpoints = Object.entries(rest)
+    .map(([breakpoint]) => [
+      props?.theme?.breakpoints?.[breakpoint],
+      parsedValue?.[breakpoint],
+    ])
+    .sort(([valueA], [valueB]) => valueA - valueB);
 
-const createShorthandSpacingProperty = (shorthand, propsToChange = []) => (
-  props,
-) => {
-  if (props[shorthand] === undefined) return;
-
-  return propsToChange.reduce((acc, val) => {
+  return parsedBreakpoints.reduce((acc, [breakpoint, val], index) => {
+    if (!breakpoint || val === undefined) return acc;
     return css`
-      ${parseSpacingProperty(val, shorthand)};
+      ${wrapStatementWithBreakpoint(
+        breakpoint,
+        createCSSStatement(key, val, parser),
+      )};
       ${acc};
     `;
-  }, css``);
+  }, style);
 };
 
+const parseSpacing = (value) => () => `${(1 / remInPixels) * 2 ** value}rem`;
+const parseDimension = (value) => () =>
+  typeof value === 'string' || value instanceof String ? value : `${value}px`;
+
+const parseShorthandProperty = (shorthand, propsToChange = [], parser) => (
+  props,
+) =>
+  propsToChange.reduce(
+    (acc, val) => css`
+      ${parseProperty(val, parser, props[shorthand])};
+      ${acc};
+    `,
+    css``,
+  );
+
 const boxProps = css`
-  ${createShorthandSpacingProperty('margin', [
-    'marginTop',
-    'marginBottom',
-    'marginLeft',
-    'marginRight',
-  ])};
+  ${parseProperty('position')};
 
-  ${createShorthandSpacingProperty('marginY', ['marginTop', 'marginBottom'])};
-  ${createShorthandSpacingProperty('marginX', ['marginLeft', 'marginRight'])};
+  ${parseShorthandProperty(
+    'margin',
+    ['marginTop', 'marginBottom', 'marginLeft', 'marginRight'],
+    parseSpacing,
+  )};
 
-  ${parseSpacingProperty('marginTop')};
-  ${parseSpacingProperty('marginBottom')};
-  ${parseSpacingProperty('marginLeft')};
-  ${parseSpacingProperty('marginRight')};
+  ${parseShorthandProperty(
+    'marginY',
+    ['marginTop', 'marginBottom'],
+    parseSpacing,
+  )};
 
-  ${createShorthandSpacingProperty('padding', [
-    'paddingTop',
-    'paddingBottom',
-    'paddingLeft',
-    'paddingRight',
-  ])};
+  ${parseShorthandProperty(
+    'marginX',
+    ['marginLeft', 'marginRight'],
+    parseSpacing,
+  )};
 
-  ${createShorthandSpacingProperty('paddingY', [
-    'paddingTop',
-    'paddingBottom',
-  ])};
-  ${createShorthandSpacingProperty('paddingX', [
-    'paddingLeft',
-    'paddingRight',
-  ])};
+  ${parseProperty('marginTop', parseSpacing)};
+  ${parseProperty('marginBottom', parseSpacing)};
+  ${parseProperty('marginLeft', parseSpacing)};
+  ${parseProperty('marginRight', parseSpacing)};
 
-  ${parseSpacingProperty('paddingTop')};
-  ${parseSpacingProperty('paddingBottom')};
-  ${parseSpacingProperty('paddingLeft')};
-  ${parseSpacingProperty('paddingRight')};
+  ${parseShorthandProperty(
+    'padding',
+    ['paddingTop', 'paddingBottom', 'paddingLeft', 'paddingRight'],
+    parseSpacing,
+  )};
+
+  ${parseShorthandProperty(
+    'paddingY',
+    ['paddingTop', 'paddingBottom'],
+    parseSpacing,
+  )};
+  ${parseShorthandProperty(
+    'paddingX',
+    ['paddingLeft', 'paddingRight'],
+    parseSpacing,
+  )};
+
+  ${parseProperty('paddingTop', parseSpacing)};
+  ${parseProperty('paddingBottom', parseSpacing)};
+  ${parseProperty('paddingLeft', parseSpacing)};
+  ${parseProperty('paddingRight', parseSpacing)};
+
+  ${parseProperty('width', parseDimension)};
+  ${parseProperty('maxWidth', parseDimension)};
+  ${parseProperty('minWidth', parseDimension)};
+
+  ${parseProperty('height', parseDimension)};
+  ${parseProperty('maxHeight', parseDimension)};
+  ${parseProperty('minHeight', parseDimension)};
+
+  ${parseProperty('top', parseDimension)};
+  ${parseProperty('bottom', parseDimension)};
+  ${parseProperty('left', parseDimension)};
+  ${parseProperty('right', parseDimension)};
+
+  ${parseProperty('backgroundColor')};
+  ${parseProperty('color')};
+  ${parseProperty('zIndex')};
+
+  ${parseProperty('opacity')};
+  ${parseProperty('flex')};
+  ${parseProperty('cursor')};
 `;
 
 const StyledBox = styled.div`
@@ -91,72 +149,54 @@ const StyledBox = styled.div`
 `;
 
 const boxPropTypes = {
-  margin: PropTypes.number,
-  marginTop: PropTypes.number,
-  marginBottom: PropTypes.number,
-  marginRight: PropTypes.number,
-  marginLeft: PropTypes.number,
-  marginX: PropTypes.number,
-  marginY: PropTypes.number,
-  padding: PropTypes.number,
-  paddingTop: PropTypes.number,
-  paddingBottom: PropTypes.number,
-  paddingRight: PropTypes.number,
-  paddingLeft: PropTypes.number,
-  paddingX: PropTypes.number,
-  paddingY: PropTypes.number,
+  margin: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
+  marginTop: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
+  marginBottom: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
+  marginRight: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
+  marginLeft: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
+  marginX: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
+  marginY: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
+  padding: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
+  paddingTop: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
+  paddingBottom: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
+  paddingRight: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
+  paddingLeft: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
+  paddingX: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
+  paddingY: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
+  width: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.func,
+  ]),
+  minWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  maxWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  maxHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  minHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  top: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  left: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  right: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  backgroundColor: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+  color: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+  zIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
+  position: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+  opacity: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
+  flex: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.func,
+  ]),
+  cursor: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 };
 
 const getBoxProps = (props) => pick(props, Object.keys(boxPropTypes));
 
-const Box = forwardRef(
-  (
-    {
-      children,
-      className,
-      margin,
-      marginTop,
-      marginBottom,
-      marginLeft,
-      marginRight,
-      marginX,
-      marginY,
-      padding,
-      paddingTop,
-      paddingBottom,
-      paddingLeft,
-      paddingRight,
-      paddingX,
-      paddingY,
-      ...props
-    },
-    ref,
-  ) => {
-    return (
-      <StyledBox
-        margin={margin}
-        marginTop={marginTop}
-        marginBottom={marginBottom}
-        marginLeft={marginLeft}
-        marginRight={marginRight}
-        marginX={marginX}
-        marginY={marginY}
-        padding={padding}
-        paddingTop={paddingTop}
-        paddingBottom={paddingBottom}
-        paddingLeft={paddingLeft}
-        paddingRight={paddingRight}
-        paddingX={paddingX}
-        paddingY={paddingY}
-        className={className}
-        ref={ref}
-        {...props}
-      >
-        {children}
-      </StyledBox>
-    );
-  },
-);
+const Box = forwardRef(({ children, ...props }, ref) => (
+  <StyledBox ref={ref} {...props}>
+    {children}
+  </StyledBox>
+));
 
 Box.propTypes = {
   children: PropTypes.node,
