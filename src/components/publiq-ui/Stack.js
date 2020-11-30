@@ -23,7 +23,6 @@ const Stack = forwardRef(
 
       if (!child) return;
 
-      // if child is functional component
       return cloneElement(child, {
         ...child.props,
         ...(!isLastItem ? { marginBottom: spacing } : {}),

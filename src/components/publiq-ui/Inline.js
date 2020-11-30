@@ -23,7 +23,6 @@ const Inline = forwardRef(
 
       if (!child) return;
 
-      // if child is functional component
       return cloneElement(child, {
         ...child.props,
         ...(!isLastItem ? { marginRight: spacing } : {}),
