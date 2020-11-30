@@ -76,7 +76,9 @@ const Job = ({
         </Inline>
         {exportUrl && (
           <Link href={exportUrl} variant={LinkVariants.UNSTYLED}>
-            <Button variant={ButtonVariants.SECONDARY}>Downloaden</Button>
+            <Button variant={ButtonVariants.SECONDARY}>
+              {t('jobs.download')}
+            </Button>
           </Link>
         )}
       </Stack>
