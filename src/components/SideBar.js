@@ -8,12 +8,10 @@ import { List } from './publiq-ui/List';
 import { useTranslation } from 'react-i18next';
 import { Icons } from './publiq-ui/Icon';
 import { getValueFromTheme } from './publiq-ui/theme';
-import { ListItem } from './publiq-ui/ListItem';
 import { Title } from './publiq-ui/Title';
 import { Button } from './publiq-ui/Button';
 import { Logo } from './publiq-ui/Logo';
 import { Badge } from './publiq-ui/Badge';
-import styled, { css } from 'styled-components';
 import { Inline } from './publiq-ui/Inline';
 
 import { JobLogger } from './JobLogger';
@@ -26,38 +24,28 @@ const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSideBar = getValueFromTheme('sideBar');
 const getValueForMenu = getValueFromTheme('menu');
 
-const listItemCSS = css`
-  width: 100%;
-  &:hover {
-    background-color: ${getValueForMenuItem('hover.backgroundColor')};
-  }
-`;
-
-const StyledLink = styled(Link)`
-  ${listItemCSS}
-`;
-
-const StyledButton = styled(Button)`
-  ${listItemCSS}
-`;
-
 const MenuItem = ({ href, iconName, suffix, children, onClick }) => {
-  const Component = href ? StyledLink : StyledButton;
+  const Component = href ? Link : Button;
 
   return (
-    <ListItem>
+    <List.Item>
       <Component
+        width="100%"
         variant="unstyled"
         padding={2}
         href={href}
         iconName={iconName}
         suffix={suffix}
         onClick={onClick}
+        backgroundColor={{
+          default: 'none',
+          hover: getValueForMenuItem('hover.backgroundColor'),
+        }}
         spacing={3}
       >
         {children}
       </Component>
-    </ListItem>
+    </List.Item>
   );
 };
 
@@ -84,11 +72,11 @@ const Menu = ({ items = [], title, ...props }) => {
     <Stack spacing={3} {...props}>
       <Title
         size={2}
+        opacity={0.5}
         css={`
           font-size: 13px;
           font-weight: 400;
           text-transform: uppercase;
-          opacity: 0.5;
         `}
       >
         {title}
@@ -124,7 +112,7 @@ const ProfileMenu = ({ profileImage }) => {
       `}
     >
       <Image src={profileImage} width={50} height={50} alt="Profile picture" />
-      <Stack forwardedAs="div" css="width: 100%;" padding={2} spacing={2}>
+      <Stack as="div" padding={2} spacing={2} flex={1}>
         <Box as="span">username</Box>
         <Menu items={loginMenu} />
       </Stack>
@@ -297,18 +285,15 @@ const SideBar = () => {
     <>
       <Inline>
         <Stack
-          css={`
-            width: 230px;
-            background-color: ${getValueForSideBar('backgroundColor')};
-            height: 100vh;
-            color: ${getValueForSideBar('color')};
-            z-index: 1998;
-          `}
+          height="100vh"
+          backgroundColor={getValueForSideBar('backgroundColor')}
+          color={getValueForSideBar('color')}
+          zIndex={1998}
           padding={2}
           spacing={3}
         >
           <Link href="/dashboard">
-            <Inline css="width: 100%;" justifyContent="center">
+            <Inline justifyContent="center">
               <Logo />
               {/* <Logo variants={LogoVariants.MOBILE} /> */}
             </Inline>
@@ -316,15 +301,15 @@ const SideBar = () => {
           <Stack
             paddingTop={4}
             spacing={4}
+            flex={1}
             css={`
-              flex: 1;
               > :not(:first-child) {
                 border-top: 1px solid ${getValueForMenu('borderColor')};
               }
             `}
           >
             <Menu items={userMenu} />
-            <Stack justifyContent="space-between" css="flex: 1;">
+            <Stack justifyContent="space-between" flex={1}>
               <Menu items={manageMenu} title={t('menu.management')} />
               <Stack>
                 <Menu items={notificationMenu} />
@@ -333,12 +318,12 @@ const SideBar = () => {
             </Stack>
           </Stack>
         </Stack>
-        {isJobLoggerVisible && (
-          <JobLogger
-            onClose={() => setJobLoggerVisibility(!isJobLoggerVisible)}
-          />
-        )}
       </Inline>
+      {isJobLoggerVisible && (
+        <JobLogger
+          onClose={() => setJobLoggerVisibility(!isJobLoggerVisible)}
+        />
+      )}
       <Announcements
         visible={isModalVisible}
         announcements={announcements || []}
