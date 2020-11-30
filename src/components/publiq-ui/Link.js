@@ -20,6 +20,7 @@ const BaseLink = forwardRef(({ variant, ...props }, ref) => {
         forwardedAs="a"
         alignItems="center"
         css={`
+          width: min-content;
           color: inherit;
           text-decoration: none;
           &:hover {
