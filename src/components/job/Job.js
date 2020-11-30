@@ -42,34 +42,50 @@ const Job = ({
     [createdAt, finishedAt],
   );
 
-  const description = useMemo(() => (messages && messages[state]) || '', [
-    state,
-  ]);
+  const description = useMemo(() => {
+    return messages[state] || '';
+  }, [state]);
+
+  const StatusIcon = ({ state }) => {
+    if (state === JobStates.FINISHED) {
+      return (
+        <Icon
+          name={Icons.CHECK_CIRCLE}
+          css={`
+            color: ${getValue('complete.circleFillColor')};
+          `}
+        />
+      );
+    } else if (!isDone) {
+      return (
+        <Icon
+          name={Icons.CHECK_NOTCH}
+          css={`
+            color: ${getValue('busy.spinnerStrokeColor')};
+          `}
+        />
+      );
+    }
+    return null;
+  };
+
+  StatusIcon.propTypes = {
+    state: PropTypes.oneOf(Object.values(JobStates)),
+  };
 
   return (
     <ListItem paddingTop={3}>
-      <Stack spacing={3} css="flex: 1;">
+      <Stack forwardedAs="div" spacing={3} css="flex: 1;">
         <Inline forwardedAs="div" css="flex: 1;" justifyContent="space-between">
-          <Inline as="p" spacing={2}>
-            <Box as="span">{t('jobs.time_ago', { time: timeAgo })}</Box>
-            {state === JobStates.FINISHED && (
-              <Icon
-                name={Icons.CHECK_CIRCLE}
-                css={`
-                  color: ${getValue('complete.circleFillColor')};
-                `}
-              />
-            )}
-            {!isDone && (
-              <Icon
-                name={Icons.CHECK_NOTCH}
-                css={`
-                  color: ${getValue('busy.spinnerStrokeColor')};
-                `}
-              />
-            )}
-            <Box>{description}</Box>
-          </Inline>
+          <Stack>
+            <Inline forwardedAs="p" spacing={2} css="word-break: break-word;">
+              <Box as="span">{t('jobs.time_ago', { time: timeAgo })}</Box>
+              <StatusIcon state={state} />
+            </Inline>
+            <Box forwardedAs="p" css="word-break: break-word;">
+              {description}
+            </Box>
+          </Stack>
           <Button onClick={onClick} variant={ButtonVariants.UNSTYLED}>
             <Icon name={Icons.TIMES} />
           </Button>

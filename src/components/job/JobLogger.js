@@ -33,7 +33,7 @@ const initialJobs = [
     finishedAt: new Date(),
     state: JobStates.CREATED,
     messages: {
-      [JobStates.FINISHED]: 'Document.xslt met 2 eventementen',
+      [JobStates.FINISHED]: 'Document .xlsx met 1 evenementen',
     },
     type: JobTypes.EXPORT,
   },
@@ -59,14 +59,17 @@ const initialJobs = [
     finishedAt: new Date(),
     state: JobStates.FINISHED,
     messages: {},
-    type: JobTypes.LABEL_BATCH,
+    exportUrl: 'https://google.be',
+    type: JobTypes.EXPORT,
   },
   {
     id: '5',
     createdAt: new Date(),
     finishedAt: new Date(),
     state: JobStates.FINISHED,
-    messages: {},
+    messages: {
+      [JobStates.FINISHED]: 'Document .xlsx met 1 evenementen',
+    },
     exportUrl: 'https://google.be',
     type: JobTypes.EXPORT,
   },

@@ -23,6 +23,7 @@ const BaseButton = (props) => <Inline forwardedAs="button" {...props} />;
 const customCSS = css`
   &.btn {
     width: min-content;
+    height: min-content;
     border-radius: ${getValue('borderRadius')};
     padding: ${getValue('paddingY')} ${getValue('paddingX')};
   }
