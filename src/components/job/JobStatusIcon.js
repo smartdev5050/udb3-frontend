@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { JobLoggerStates } from './JobLogger';
-import { Box, getBoxProps } from './publiq-ui/Box';
-import { getValueFromTheme } from './publiq-ui/theme';
+import { Box, getBoxProps } from '../publiq-ui/Box';
+import { getValueFromTheme } from '../publiq-ui/theme';
 
 const getValue = getValueFromTheme('jobStatusIcon');
 

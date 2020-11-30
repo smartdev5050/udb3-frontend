@@ -1,22 +1,17 @@
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Box } from './publiq-ui/Box';
-import { Inline } from './publiq-ui/Inline';
-import { Stack } from './publiq-ui/Stack';
-import { Title } from './publiq-ui/Title';
-import { Button, ButtonVariants } from './publiq-ui/Button';
-import { Icon, Icons } from './publiq-ui/Icon';
+import { Box } from '../publiq-ui/Box';
+import { Inline } from '../publiq-ui/Inline';
+import { Stack } from '../publiq-ui/Stack';
+import { Title } from '../publiq-ui/Title';
+import { Button, ButtonVariants } from '../publiq-ui/Button';
+import { Icon, Icons } from '../publiq-ui/Icon';
 import { useEffect, useMemo, useState } from 'react';
 import socketIOClient from 'socket.io-client';
-import { MessageTypes } from '../constants/MessageTypes';
-import { MessageSources } from '../constants/MessageSources';
-
-const JobStates = {
-  CREATED: 'created',
-  FINISHED: 'finished',
-  FAILED: 'failed',
-  STARTED: 'started',
-};
+import { MessageTypes } from '../../constants/MessageTypes';
+import { MessageSources } from '../../constants/MessageSources';
+import { List } from '../publiq-ui/List';
+import { Job, JobStates } from './Job';
 
 const JobTypes = {
   EXPORT: 'export',
@@ -33,47 +28,49 @@ const JobLoggerStates = {
 
 const initialJobs = [
   {
-    id: 1,
-    createdAt: 'job.createdAt',
-    finishedAt: 'job.finishedAt',
+    id: '1',
+    createdAt: new Date(),
+    finishedAt: new Date(),
     state: JobStates.CREATED,
-    messages: 'job.messages',
+    messages: {
+      [JobStates.FINISHED]: 'Document.xslt met 2 eventementen',
+    },
     exportUrl: 'job.exportUrl',
     type: JobTypes.EXPORT,
   },
   {
-    id: 2,
-    createdAt: 'job.createdAt',
-    finishedAt: 'job.finishedAt',
+    id: '2',
+    createdAt: new Date(),
+    finishedAt: new Date(),
     state: JobStates.FAILED,
-    messages: 'job.messages',
+    messages: {},
     exportUrl: 'job.exportUrl',
     type: JobTypes.EXPORT,
   },
   {
-    id: 3,
-    createdAt: 'job.createdAt',
-    finishedAt: 'job.finishedAt',
+    id: '3',
+    createdAt: new Date(),
+    finishedAt: new Date(),
     state: JobStates.STARTED,
-    messages: 'job.messages',
+    messages: {},
     exportUrl: 'job.exportUrl',
     type: JobTypes.EXPORT,
   },
   {
-    id: 4,
-    createdAt: 'job.createdAt',
-    finishedAt: 'job.finishedAt',
+    id: '4',
+    createdAt: new Date(),
+    finishedAt: new Date(),
     state: JobStates.FINISHED,
-    messages: 'job.messages',
+    messages: {},
     exportUrl: 'job.exportUrl',
     type: JobTypes.LABEL_BATCH,
   },
   {
-    id: 5,
-    createdAt: 'job.createdAt',
-    finishedAt: 'job.finishedAt',
+    id: '5',
+    createdAt: new Date(),
+    finishedAt: new Date(),
     state: JobStates.FINISHED,
-    messages: 'job.messages',
+    messages: {},
     exportUrl: 'job.exportUrl',
     type: JobTypes.EXPORT,
   },
@@ -239,15 +236,20 @@ const JobLogger = ({ onClose, onStatusChange }) => {
           {jobLoggerMenus.map((jobLoggerMenu) => (
             <Stack key={jobLoggerMenu.title}>
               <JobTitle>{jobLoggerMenu.title}</JobTitle>
-              {jobLoggerMenu.items.map((job) => (
-                <Box
-                  onClick={() => handleClickHideJob(job.id)}
-                  key={job.id}
-                  as="span"
-                >
-                  {job.id}
-                </Box>
-              ))}
+              <List>
+                {jobLoggerMenu.items.map((job) => (
+                  <Job
+                    key={job.id}
+                    id={job.id}
+                    createdAt={job.createdAt}
+                    finishedAt={job.finishedAt}
+                    state={job.state}
+                    messages={job.messages}
+                    exportUrl={job.exportUrl}
+                    onClick={() => handleClickHideJob(job.id)}
+                  />
+                ))}
+              </List>
             </Stack>
           ))}
         </Stack>
@@ -269,4 +271,4 @@ JobLogger.propTypes = {
   onStatusChange: PropTypes.func,
 };
 
-export { JobLogger, JobLoggerStates };
+export { JobLogger, JobStates, JobLoggerStates };
