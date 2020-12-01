@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { useCookies } from 'react-cookie';
+import { useCookiesWithOptions } from '../../hooks/useCookiesWithOptions';
 
 const Index = () => {
   const router = useRouter();
-  const [cookies] = useCookies(['udb-language']);
+  const [cookies] = useCookiesWithOptions(['udb-language']);
 
   useEffect(() => {
     const languageFromCookie = cookies['udb-language'];

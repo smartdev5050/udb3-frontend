@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import { useEffect, useMemo, useState } from 'react';
-import { useCookies } from 'react-cookie';
 
 import { Stack } from './publiq-ui/Stack';
 import { Link } from './publiq-ui/Link';
@@ -16,9 +15,13 @@ import { Inline } from './publiq-ui/Inline';
 
 import { JobLogger } from './JobLogger';
 import { Announcements, AnnouncementStatus } from './Annoucements';
-import { useAnnouncements } from '../api';
+import { useGetAnnouncements } from '../hooks/api/announcements';
 import { Image } from './publiq-ui/Image';
 import { Box } from './publiq-ui/Box';
+import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
+import { useRouter } from 'next/router';
+import { useGetPermissions, useGetRoles } from '../hooks/api/user';
+import { useGetEventsToModerate } from '../hooks/api/events';
 
 const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSideBar = getValueFromTheme('sideBar');
@@ -93,12 +96,28 @@ Menu.propTypes = {
 
 const ProfileMenu = ({ profileImage }) => {
   const { t } = useTranslation();
+  const [, , removeCookie] = useCookiesWithOptions();
+  const router = useRouter();
 
   const loginMenu = [
     {
       iconName: Icons.SIGN_OUT_ALT,
       children: t('menu.logout'),
-      onClick: () => {},
+      onClick: () => {
+        removeCookie('token');
+        removeCookie('user');
+
+        const getBaseUrl = () =>
+          `${window.location.protocol}//${window.location.host}`;
+
+        const queryString = new URLSearchParams({
+          destination: getBaseUrl(),
+        }).toString();
+
+        router.push(
+          `${process.env.NEXT_PUBLIC_AUTH_URL}/logout?${queryString}`,
+        );
+      },
     },
   ];
 
@@ -128,25 +147,39 @@ ProfileMenu.defaultProps = {
   profileImage: '/assets/avatar.svg',
 };
 
+const PermissionTypes = {
+  AANBOD_BEWERKEN: 'AANBOD_BEWERKEN',
+  AANBOD_MODEREREN: 'AANBOD_MODEREREN',
+  AANBOD_VERWIJDEREN: 'AANBOD_VERWIJDEREN',
+  ORGANISATIES_BEWERKEN: 'ORGANISATIES_BEWERKEN',
+  ORGANISATIES_BEHEREN: 'ORGANISATIES_BEHEREN',
+  GEBRUIKERS_BEHEREN: 'GEBRUIKERS_BEHEREN',
+  LABELS_BEHEREN: 'LABELS_BEHEREN',
+  VOORZIENINGEN_BEWERKEN: 'VOORZIENINGEN_BEWERKEN',
+  PRODUCTIES_AANMAKEN: 'PRODUCTIES_AANMAKEN',
+};
+
 const SideBar = () => {
   const { t } = useTranslation();
 
+  const [cookies, setCookie] = useCookiesWithOptions([
+    'seenAnnouncements',
+    'userPicture',
+  ]);
+
   const [isJobLoggerVisible, setJobLoggerVisibility] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const {
-    data: rawAnnouncements = [],
-    refetch: refetchAnnouncements,
-  } = useAnnouncements();
-
+  const [searchQuery, setSearchQuery] = useState('');
   const [activeAnnouncementId, setActiveAnnouncementId] = useState();
-  const [cookies, setCookie] = useCookies(['seenAnnouncements', 'userPicture']);
 
-  const setCookieWithOptions = (value) =>
-    setCookie('seenAnnouncements', value, {
-      maxAge: 60 * 60 * 24 * 30,
-      path: '/',
-    });
+  const { data: dataWithAnnouncements = {} } = useGetAnnouncements({
+    refetchInterval: 60000,
+  });
+  const rawAnnouncements = dataWithAnnouncements?.data ?? [];
+  const { data: permissions = [] } = useGetPermissions();
+  const { data: roles = [] } = useGetRoles();
+  const { data: eventsToModerate = {} } = useGetEventsToModerate(searchQuery);
+  const countEventsToModerate = eventsToModerate?.totalItems || 0;
 
   const handleClickAnnouncement = (activeAnnouncement) =>
     setActiveAnnouncementId(activeAnnouncement.uid);
@@ -164,15 +197,13 @@ const SideBar = () => {
     if (activeAnnouncementId) {
       const seenAnnouncements = cookies?.seenAnnouncements ?? [];
       if (!seenAnnouncements.includes(activeAnnouncementId)) {
-        setCookieWithOptions([...seenAnnouncements, activeAnnouncementId]);
+        setCookie('seenAnnouncements', [
+          ...seenAnnouncements,
+          activeAnnouncementId,
+        ]);
       }
     }
   }, [activeAnnouncementId]);
-
-  useEffect(() => {
-    const interval = setInterval(() => refetchAnnouncements(), 60000);
-    return () => clearInterval(interval);
-  }, []);
 
   useEffect(() => {
     if (rawAnnouncements.length === 0) {
@@ -186,59 +217,25 @@ const SideBar = () => {
           (announcement) => announcement.uid === seenAnnouncementId,
         ),
     );
-    setCookieWithOptions(cleanedUpSeenAnnouncements);
+    setCookie('seenAnnouncements', cleanedUpSeenAnnouncements);
   }, [rawAnnouncements]);
 
-  const userMenu = [
-    {
-      href: '/dashboard',
-      iconName: Icons.HOME,
-      children: t('menu.home'),
-    },
-    {
-      href: '/event',
-      iconName: Icons.PLUS_CIRCLE,
-      children: t('menu.add'),
-    },
-    {
-      href: '/search',
-      iconName: Icons.SEARCH,
-      children: t('menu.search'),
-    },
-  ];
+  useEffect(() => {
+    if (roles.length === 0) {
+      return;
+    }
 
-  const manageMenu = [
-    {
-      href: '/manage/moderation/overview',
-      iconName: Icons.FLAG,
-      children: t('menu.validate'),
-    },
-    {
-      href: '/manage/users/overview',
-      iconName: Icons.USER,
-      children: t('menu.users'),
-    },
-    {
-      href: '/manage/roles/overview',
-      iconName: Icons.USERS,
-      children: t('menu.roles'),
-    },
-    {
-      href: '/manage/labels/overview',
-      iconName: Icons.TAG,
-      children: t('menu.labels'),
-    },
-    {
-      href: '/manage/organizations',
-      iconName: Icons.SLIDE_SHARE,
-      children: t('menu.organizations'),
-    },
-    {
-      href: '/manage/productions',
-      iconName: Icons.LAYER_GROUP,
-      children: t('menu.productions'),
-    },
-  ];
+    const validationQuery = roles
+      .map((role) =>
+        role.constraints !== undefined && role.constraints.v3
+          ? role.constraints.v3
+          : null,
+      )
+      .filter((constraint) => constraint !== null)
+      .join(' OR ');
+
+    setSearchQuery(validationQuery);
+  }, [roles]);
 
   const announcements = useMemo(
     () =>
@@ -262,6 +259,76 @@ const SideBar = () => {
       ).length,
     [announcements],
   );
+
+  const userMenu = [
+    {
+      href: '/dashboard',
+      iconName: Icons.HOME,
+      children: t('menu.home'),
+    },
+    {
+      href: '/event',
+      iconName: Icons.PLUS_CIRCLE,
+      children: t('menu.add'),
+    },
+    {
+      href: '/search',
+      iconName: Icons.SEARCH,
+      children: t('menu.search'),
+    },
+  ];
+
+  const manageMenu = [
+    {
+      permission: PermissionTypes.AANBOD_MODEREREN,
+      href: '/manage/moderation/overview',
+      iconName: Icons.FLAG,
+      children: t('menu.validate'),
+      suffix: countEventsToModerate > 0 && (
+        <Badge>{countEventsToModerate}</Badge>
+      ),
+    },
+    {
+      permission: PermissionTypes.GEBRUIKERS_BEHEREN,
+      href: '/manage/users/overview',
+      iconName: Icons.USER,
+      children: t('menu.users'),
+    },
+    {
+      permission: PermissionTypes.GEBRUIKERS_BEHEREN,
+      href: '/manage/roles/overview',
+      iconName: Icons.USERS,
+      children: t('menu.roles'),
+    },
+    {
+      permission: PermissionTypes.LABELS_BEHEREN,
+      href: '/manage/labels/overview',
+      iconName: Icons.TAG,
+      children: t('menu.labels'),
+    },
+    {
+      permission: PermissionTypes.ORGANISATIES_BEHEREN,
+      href: '/manage/organizations',
+      iconName: Icons.SLIDE_SHARE,
+      children: t('menu.organizations'),
+    },
+    {
+      permission: PermissionTypes.PRODUCTIES_AANMAKEN,
+      href: '/manage/productions',
+      iconName: Icons.LAYER_GROUP,
+      children: t('menu.productions'),
+    },
+  ];
+
+  const filteredManageMenu = useMemo(() => {
+    if (permissions.length === 0) {
+      return manageMenu;
+    }
+
+    return manageMenu.filter((menuItem) =>
+      permissions.includes(menuItem.permission),
+    );
+  }, [permissions]);
 
   const notificationMenu = [
     {
@@ -310,7 +377,7 @@ const SideBar = () => {
           >
             <Menu items={userMenu} />
             <Stack justifyContent="space-between" flex={1}>
-              <Menu items={manageMenu} title={t('menu.management')} />
+              <Menu items={filteredManageMenu} title={t('menu.management')} />
               <Stack>
                 <Menu items={notificationMenu} />
                 <ProfileMenu />

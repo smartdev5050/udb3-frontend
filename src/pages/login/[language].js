@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { useCookies } from 'react-cookie';
 import { LoginButton } from '../../components/LoginButton';
 import { Box } from '../../components/publiq-ui/Box';
+import { useCookiesWithOptions } from '../../hooks/useCookiesWithOptions';
 
 const cookieOptions = {
   path: '/',
@@ -11,7 +11,7 @@ const cookieOptions = {
 
 const Index = () => {
   const router = useRouter();
-  const [, setCookie] = useCookies(['udb-language']);
+  const [, setCookie] = useCookiesWithOptions(['udb-language']);
 
   const { language } = router.query;
 

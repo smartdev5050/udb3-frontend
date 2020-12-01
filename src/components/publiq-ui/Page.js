@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Stack } from './Stack';
+import { getStackProps, Stack, stackPropTypes } from './Stack';
 import { getValueFromTheme } from './theme';
 
 import { boxPropTypes, getBoxProps } from './Box';
@@ -7,7 +7,7 @@ import { Title } from './Title';
 
 const getValueForPage = getValueFromTheme('page');
 
-const Page = ({ children, className }) => (
+const Page = ({ children, className, ...props }) => (
   <Stack
     forwardedAs="main"
     className={className}
@@ -19,6 +19,9 @@ const Page = ({ children, className }) => (
       overflow-x: hidden;
       overflow-y: auto;
     `}
+    paddingLeft={4}
+    paddingRight={4}
+    {...getStackProps(props)}
   >
     {children}
   </Stack>
@@ -50,6 +53,7 @@ PageTitle.propTypes = {
 Page.Title = PageTitle;
 
 Page.propTypes = {
+  ...stackPropTypes,
   children: PropTypes.node,
   className: PropTypes.string,
 };
