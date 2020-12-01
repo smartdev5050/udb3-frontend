@@ -13,7 +13,7 @@ const Fallback = () => {
   const [legacyPath, setLegacyPath] = useState('');
 
   useEffect(() => {
-    if (!window) {
+    if (!window || asPath === '/[...params]') {
       return;
     }
 
