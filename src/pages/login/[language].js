@@ -4,23 +4,16 @@ import { LoginButton } from '../../components/LoginButton';
 import { Box } from '../../components/publiq-ui/Box';
 import { useCookiesWithOptions } from '../../hooks/useCookiesWithOptions';
 
-const cookieOptions = {
-  path: '/',
-  maxAge: 60 * 60 * 24 * 30,
-};
-
 const Index = () => {
   const router = useRouter();
-  const [, setCookie] = useCookiesWithOptions(['udb-language']);
+  const [, setCookie] = useCookiesWithOptions();
 
   const { language } = router.query;
 
   useEffect(() => {
-    if (!language) {
-      return;
-    }
+    if (!language) return;
     if (['nl', 'fr'].includes(language)) {
-      setCookie('udb-language', language, cookieOptions);
+      setCookie('udb-language', language);
     } else {
       router.push('/login/nl');
     }
