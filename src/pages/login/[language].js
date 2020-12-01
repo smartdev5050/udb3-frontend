@@ -16,11 +16,9 @@ const Index = () => {
   const { language } = router.query;
 
   useEffect(() => {
-    if (!language) {
-      return;
-    }
+    if (!language) return;
     if (['nl', 'fr'].includes(language)) {
-      setCookie('udb-language', language, cookieOptions);
+      setCookie('udb-language', language);
     } else {
       router.push('/login/nl');
     }
