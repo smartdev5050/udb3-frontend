@@ -8,7 +8,7 @@ import { ThemeProvider } from '../components/publiq-ui/ThemeProvider';
 
 import { useRouter } from 'next/router';
 import { ContextProvider } from '../provider/ContextProvider';
-import { I18nextProvider } from 'react-i18next';
+import { I18nextProvider, useTranslation } from 'react-i18next';
 import i18n from '../i18n';
 import { CookiesProvider } from 'react-cookie';
 import { QueryCache, ReactQueryCacheProvider } from 'react-query';
@@ -18,46 +18,29 @@ import { useGetUser } from '../hooks/api/user';
 
 const queryCache = new QueryCache();
 
-const Layout = ({ children }) => {
-  const { pathname } = useRouter();
+const MESSAGE_SOURCE_UDB = 'UDB';
+const MESSAGE_TYPE_URL_CHANGED = 'URL_CHANGED';
 
-  if (pathname.startsWith('/login')) return <>{children}</>;
-
-  return (
-    <Inline>
-      <SideBar />
-      {children}
-    </Inline>
-  );
+const useChangeLanguage = () => {
+  const { i18n } = useTranslation();
+  const [cookies] = useCookiesWithOptions(['udb-language']);
+  useEffect(() => {
+    i18n.changeLanguage(cookies['udb-language']);
+  }, [cookies['udb-language']]);
 };
 
-Layout.propTypes = {
-  children: PropTypes.node,
+const useHandleWindowMessage = (handler) => {
+  useEffect(() => {
+    if (!window) return;
+    window.addEventListener('message', handler);
+    return () => window.removeEventListener('message', handler);
+  }, []);
 };
 
-// eslint-disable-next-line react/prop-types
-const App = ({ Component, pageProps }) => {
+const useHandleAuthentication = () => {
   const { asPath, query, ...router } = useRouter();
   const [cookies, setCookie] = useCookiesWithOptions(['user', 'token']);
   const { data: user } = useGetUser();
-
-  const MESSAGE_SOURCE_UDB = 'UDB';
-  const MESSAGE_TYPE_URL_CHANGED = 'URL_CHANGED';
-
-  const handleMessage = (event) => {
-    if (event.data.source !== MESSAGE_SOURCE_UDB) {
-      return;
-    }
-
-    if (event.data.type === MESSAGE_TYPE_URL_CHANGED) {
-      router.push(event.data.path);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
-  }, []);
 
   useEffect(() => {
     if (asPath.startsWith('/login') || asPath === '/[...params]') return;
@@ -75,21 +58,53 @@ const App = ({ Component, pageProps }) => {
     if (!user) return;
     setCookie('user', user);
   }, [user]);
+};
+
+const Layout = ({ children }) => {
+  const { asPath, ...router } = useRouter();
+
+  const handleMessage = (event) => {
+    if (event.data.source !== MESSAGE_SOURCE_UDB) {
+      return;
+    }
+
+    if (event.data.type === MESSAGE_TYPE_URL_CHANGED) {
+      router.push(event.data.path);
+    }
+  };
+
+  useChangeLanguage();
+  useHandleWindowMessage(handleMessage);
+  useHandleAuthentication();
+
+  if (asPath.startsWith('/login')) return <>{children}</>;
 
   return (
-    <ContextProvider
-      providers={[
-        [I18nextProvider, { i18n }],
-        ThemeProvider,
-        CookiesProvider,
-        [ReactQueryCacheProvider, { queryCache }],
-      ]}
-    >
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </ContextProvider>
+    <Inline>
+      <SideBar />
+      {children}
+    </Inline>
   );
 };
+
+Layout.propTypes = {
+  children: PropTypes.node,
+};
+
+// eslint-disable-next-line react/prop-types
+const App = ({ Component, pageProps }) => (
+  <ContextProvider
+    providers={[
+      [I18nextProvider, { i18n }],
+      ThemeProvider,
+      CookiesProvider,
+      [ReactQueryCacheProvider, { queryCache }],
+    ]}
+  >
+    <Layout>
+      <Component {...pageProps} />
+    </Layout>
+  </ContextProvider>
+);
 
 export default App;
