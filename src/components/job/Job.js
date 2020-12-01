@@ -80,7 +80,7 @@ const Job = ({
       <Stack forwardedAs="div" spacing={3} css="flex: 1;">
         <Inline forwardedAs="div" css="flex: 1;" justifyContent="space-between">
           <Stack>
-            <Inline forwardedAs="p" spacing={2} css="word-break: break-word;">
+            <Inline forwardedAs="div" spacing={2} css="word-break: break-word;">
               <Box as="span">{t('jobs.time_ago', { time: timeAgo })}</Box>
               <StatusIcon state={state} />
             </Inline>
