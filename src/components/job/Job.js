@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Box } from '../publiq-ui/Box';
 import { Icon, Icons } from '../publiq-ui/Icon';
-import { ListItem } from '../publiq-ui/ListItem';
+import { List } from '../publiq-ui/List';
 import { formatDistance } from 'date-fns';
 import { nlBE, fr } from 'date-fns/locale';
 import { useMemo } from 'react';
@@ -74,7 +74,7 @@ const Job = ({
   };
 
   return (
-    <ListItem paddingTop={3}>
+    <List.Item paddingTop={3}>
       <Stack forwardedAs="div" spacing={3} css="flex: 1;">
         <Inline forwardedAs="div" css="flex: 1;" justifyContent="space-between">
           <Stack>
@@ -98,7 +98,7 @@ const Job = ({
           </Link>
         )}
       </Stack>
-    </ListItem>
+    </List.Item>
   );
 };
 

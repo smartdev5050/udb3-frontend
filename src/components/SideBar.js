@@ -392,7 +392,8 @@ const SideBar = () => {
       </Inline>
       {isJobLoggerVisible && (
         <JobLogger
-          onClose={() => setJobLoggerVisibility(!isJobLoggerVisible)}
+          onClose={() => setIsJobLoggerVisible(!isJobLoggerVisible)}
+          onStatusChange={(status) => setJobLoggerStatus(status)}
         />
       )}
       <Announcements
