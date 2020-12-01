@@ -23,6 +23,35 @@ const JobStates = {
   STARTED: 'started',
 };
 
+const StatusIcon = ({ state }) => {
+  switch (state) {
+    case JobStates.FINISHED:
+      return (
+        <Icon
+          name={Icons.CHECK_CIRCLE}
+          css={`
+            color: ${getValue('complete.circleFillColor')};
+          `}
+        />
+      );
+    case JobStates.FAILED:
+      return null;
+    default:
+      return (
+        <Icon
+          name={Icons.CHECK_NOTCH}
+          css={`
+            color: ${getValue('busy.spinnerStrokeColor')};
+          `}
+        />
+      );
+  }
+};
+
+StatusIcon.propTypes = {
+  state: PropTypes.oneOf(Object.values(JobStates)),
+};
+
 const Job = ({
   id,
   createdAt,
@@ -45,35 +74,6 @@ const Job = ({
   const description = useMemo(() => {
     return messages[state] || '';
   }, [state]);
-
-  const StatusIcon = ({ state }) => {
-    switch (state) {
-      case JobStates.FINISHED:
-        return (
-          <Icon
-            name={Icons.CHECK_CIRCLE}
-            css={`
-              color: ${getValue('complete.circleFillColor')};
-            `}
-          />
-        );
-      case !isDone:
-        return (
-          <Icon
-            name={Icons.CHECK_NOTCH}
-            css={`
-              color: ${getValue('busy.spinnerStrokeColor')};
-            `}
-          />
-        );
-      default:
-        return null;
-    }
-  };
-
-  StatusIcon.propTypes = {
-    state: PropTypes.oneOf(Object.values(JobStates)),
-  };
 
   return (
     <List.Item paddingTop={3}>
