@@ -66,7 +66,7 @@ const Link = ({
 
   const children = [
     iconName && <Icon name={iconName} key="icon" />,
-    <Box as="span" flex={1} css="text-align: left" key="text">
+    <Box forwardAs="span" flex={1} css="text-align: left" key="text">
       {label}
     </Box>,
     clonedSuffix,
