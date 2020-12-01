@@ -168,7 +168,7 @@ const Button = ({
   ) : (
     [
       iconName && <Icon name={iconName} key="icon" />,
-      <Box as="span" flex={1} css="text-align: left" key="text">
+      <Box forwardAs="span" flex={1} css="text-align: left" key="text">
         {children}
       </Box>,
       clonedSuffix,
