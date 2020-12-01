@@ -95,7 +95,7 @@ JobTitle.propTypes = {
   className: PropTypes.string,
 };
 
-const JobLogger = ({ onClose, onStatusChange }) => {
+const JobLogger = ({ visible, onClose, onStatusChange }) => {
   const { t } = useTranslation();
 
   const [jobs, setJobs] = useState(initialJobs);
@@ -205,11 +205,13 @@ const JobLogger = ({ onClose, onStatusChange }) => {
   return (
     <Inline
       css={`
+        ${visible && 'display: none;'}
         width: calc(100% - 230px);
         position: absolute;
         left: 230px;
         background-color: white;
       `}
+      displ
     >
       <Stack
         padding={3}
@@ -266,6 +268,7 @@ const JobLogger = ({ onClose, onStatusChange }) => {
 };
 
 JobLogger.propTypes = {
+  visible: PropTypes.bool,
   onClose: PropTypes.func,
   onStatusChange: PropTypes.func,
 };

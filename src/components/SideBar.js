@@ -390,12 +390,11 @@ const SideBar = () => {
           </Stack>
         </Stack>
       </Inline>
-      {isJobLoggerVisible && (
-        <JobLogger
-          onClose={() => setIsJobLoggerVisible(!isJobLoggerVisible)}
-          onStatusChange={(status) => setJobLoggerStatus(status)}
-        />
-      )}
+      <JobLogger
+        visible={isJobLoggerVisible}
+        onClose={() => setIsJobLoggerVisible(!isJobLoggerVisible)}
+        onStatusChange={(status) => setJobLoggerStatus(status)}
+      />
       <Announcements
         visible={isModalVisible}
         announcements={announcements || []}
