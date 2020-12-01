@@ -1,17 +1,13 @@
 import PropTypes from 'prop-types';
 import { Modal as BootstrapModal } from 'react-bootstrap';
-import { Button, ButtonVariants } from './Button';
 
-const ModalQuestion = ({
-  className,
+const ContentModal = ({
   visible,
   title,
-  confirmTitle,
-  cancelTitle,
   onShow,
   onClose,
-  onConfirm,
   children,
+  className,
 }) => (
   <BootstrapModal
     className={className}
@@ -19,6 +15,7 @@ const ModalQuestion = ({
     onShow={onShow}
     onHide={onClose}
     keyboard={false}
+    size="xl"
     css={`
       z-index: 2000;
 
@@ -46,37 +43,23 @@ const ModalQuestion = ({
       <BootstrapModal.Title hidden={!title}>{title}</BootstrapModal.Title>
     </BootstrapModal.Header>
     <BootstrapModal.Body>{children}</BootstrapModal.Body>
-    <BootstrapModal.Footer>
-      <Button variant={ButtonVariants.SECONDARY} onClick={onClose}>
-        {cancelTitle}
-      </Button>
-      <Button variant={ButtonVariants.PRIMARY} onClick={onConfirm}>
-        {confirmTitle}
-      </Button>
-    </BootstrapModal.Footer>
   </BootstrapModal>
 );
 
-ModalQuestion.propTypes = {
+ContentModal.propTypes = {
   className: PropTypes.string,
   visible: PropTypes.bool,
   title: PropTypes.string,
-  confirmTitle: PropTypes.string,
-  cancelTitle: PropTypes.string,
   onShow: PropTypes.func,
   onClose: PropTypes.func,
-  onConfirm: PropTypes.func,
   children: PropTypes.node,
 };
 
-ModalQuestion.defaultProps = {
+ContentModal.defaultProps = {
   visible: false,
   title: '',
-  confirmTitle: 'Ok',
-  cancelTitle: 'Cancel',
   onShow: () => {},
   onClose: () => {},
-  onConfirm: () => {},
 };
 
-export { ModalQuestion };
+export { ContentModal };

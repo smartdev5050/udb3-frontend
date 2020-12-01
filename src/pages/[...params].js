@@ -13,7 +13,7 @@ const Fallback = () => {
   const [legacyPath, setLegacyPath] = useState('');
 
   useEffect(() => {
-    if (!window) {
+    if (!window || asPath === '/[...params]') {
       return;
     }
 
@@ -35,16 +35,7 @@ const Fallback = () => {
 
   if (!legacyPath) return null;
 
-  return (
-    <Box
-      as="iframe"
-      src={legacyPath}
-      css={`
-        height: 100vh;
-        width: 100%;
-      `}
-    />
-  );
+  return <Box as="iframe" src={legacyPath} width="100%" height="100vh" />;
 };
 
 export default Fallback;

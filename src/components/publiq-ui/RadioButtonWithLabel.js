@@ -1,13 +1,8 @@
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { RadioButton } from './RadioButton';
 import { Inline } from './Inline';
 import { Label } from './Label';
 import { getBoxProps, boxPropTypes } from './Box';
-
-const StyledLabel = styled(Label)`
-  cursor: pointer;
-`;
 
 const RadioButtonWithLabel = ({
   id,
@@ -36,7 +31,9 @@ const RadioButtonWithLabel = ({
         selected={selected}
         name={name}
       />
-      <StyledLabel htmlFor={id}>{label}</StyledLabel>
+      <Label cursor="pointer" htmlFor={id}>
+        {label}
+      </Label>
     </Inline>
   );
 };

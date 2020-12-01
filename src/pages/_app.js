@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 import { Inline } from '../components/publiq-ui/Inline';
 import { SideBar } from '../components/SideBar';
-import { Box } from '../components/publiq-ui/Box';
 import { ThemeProvider } from '../components/publiq-ui/ThemeProvider';
 
 import { useRouter } from 'next/router';
@@ -27,16 +26,7 @@ const Layout = ({ children }) => {
   return (
     <Inline>
       <SideBar />
-      <Box
-        css={`
-          flex: 1;
-          height: 100vh;
-          overflow-x: hidden;
-          overflow-y: auto;
-        `}
-      >
-        {children}
-      </Box>
+      {children}
     </Inline>
   );
 };
@@ -47,8 +37,8 @@ Layout.propTypes = {
 
 // eslint-disable-next-line react/prop-types
 const App = ({ Component, pageProps }) => {
-  const { pathname, query, ...router } = useRouter();
-  const [cookies, setCookie] = useCookiesWithOptions(['user']);
+  const { asPath, query, ...router } = useRouter();
+  const [cookies, setCookie] = useCookiesWithOptions(['user', 'token']);
   const { data: user } = useGetUser();
 
   const MESSAGE_SOURCE_UDB = 'UDB';
@@ -70,23 +60,20 @@ const App = ({ Component, pageProps }) => {
   }, []);
 
   useEffect(() => {
-    if (!pathname.startsWith('/login')) {
-      if (query?.jwt) {
-        setCookie('token', query.jwt);
-      }
+    if (asPath.startsWith('/login') || asPath === '/[...params]') return;
 
-      if (!cookies?.token) {
-        router.push('/login');
-      }
+    if (!cookies?.token && !query?.jwt) {
+      router.push('/login');
     }
-  }, [query, pathname]);
+
+    if (query?.jwt) {
+      setCookie('token', query.jwt);
+    }
+  }, [query, asPath, cookies.token]);
 
   useEffect(() => {
-    if (user) {
-      setCookie('user', user);
-      // TODO: Currently after logging in it returns to the login page again after loading dashboard, this forces to go back to dashboard
-      router.push('/dashboard');
-    }
+    if (!user) return;
+    setCookie('user', user);
   }, [user]);
 
   return (

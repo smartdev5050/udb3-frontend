@@ -1,6 +1,9 @@
 import PropTypes from 'prop-types';
 import { getStackProps, Stack, stackPropTypes } from './Stack';
 
+import { Children } from 'react';
+import { Inline, getInlineProps, inlinePropTypes } from './Inline';
+
 const ListVariants = {
   ORDERED: 'ordered',
   UNORDERED: 'unordered',
@@ -27,4 +30,34 @@ List.defaultProps = {
   variant: ListVariants.UNORDERED,
 };
 
-export { List, ListVariants };
+const ListItem = ({ children, className, onClick, ...props }) => {
+  const parsedChildren =
+    Children.count(children) === 1 ? <>{children}</> : children;
+
+  return (
+    <Inline
+      as="li"
+      tabIndex={0}
+      className={className}
+      onClick={onClick}
+      {...getInlineProps(props)}
+    >
+      {parsedChildren}
+    </Inline>
+  );
+};
+
+ListItem.propTypes = {
+  ...inlinePropTypes,
+  className: PropTypes.string,
+  children: PropTypes.node,
+  onClick: PropTypes.func,
+};
+
+ListItem.defaultTypes = {
+  onClick: () => {},
+};
+
+List.Item = ListItem;
+
+export { List };

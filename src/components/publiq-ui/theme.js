@@ -24,6 +24,12 @@ const colors = {
 
 const theme = {
   colors,
+  breakpoints: {
+    xs: 575,
+    s: 768,
+    m: 992,
+    l: 1200,
+  },
   components: {
     alert: {
       borderRadius: 0,

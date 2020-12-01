@@ -171,14 +171,7 @@ const Button = ({
   ) : (
     [
       iconName && <Icon name={iconName} key="icon" />,
-      <Box
-        as="span"
-        css={`
-          flex: 1;
-          text-align: ${textAlign};
-        `}
-        key="text"
-      >
+      <Box as="span" flex={1} css="text-align: left" key="text">
         {children}
       </Box>,
       clonedSuffix,
@@ -196,11 +189,11 @@ const Button = ({
   return (
     <BaseButton
       {...propsToApply}
+      color="inherit"
+      cursor="pointer"
       css={`
-        cursor: pointer;
         background: none;
         border: none;
-        color: inherit;
       `}
       spacing={3}
       alignItems="center"

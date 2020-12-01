@@ -13,7 +13,7 @@ const RadioButton = ({
 }) => {
   return (
     <Box
-      forwardedAs="input"
+      as="input"
       type="radio"
       id={id}
       name={name}
@@ -22,7 +22,7 @@ const RadioButton = ({
       onChange={onChange}
       value={value}
       className={className}
-      css="cursor: pointer;"
+      cursor="pointer"
       {...getBoxProps(props)}
     />
   );
