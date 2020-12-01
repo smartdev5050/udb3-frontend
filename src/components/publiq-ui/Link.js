@@ -19,7 +19,6 @@ const BaseLink = forwardRef(({ variant, ...props }, ref) => {
         ref={ref}
         forwardedAs="a"
         color={{ default: 'inherit', hover: 'inherit' }}
-        textDecoration={{ default: 'none', hover: 'none' }}
         {...props}
       />
     );
