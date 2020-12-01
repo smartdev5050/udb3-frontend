@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Spinner as BootstrapSpinner } from 'react-bootstrap';
-import { Box, boxPropTypes, getBoxProps } from './Box';
+import { getInlineProps, Inline, inlineProps } from './Inline';
 import { getValueFromTheme } from './theme';
 
 const SpinnerVariants = {
@@ -16,13 +16,12 @@ const getValue = getValueFromTheme('spinner');
 
 const Spinner = ({ variant, size, className, ...props }) => {
   return (
-    <Box
+    <Inline
       className={className}
+      width="100%"
+      alignItems="center"
+      textAlign="center"
       css={`
-        width: 100%;
-        align-items: center;
-        text-align: center;
-
         .text-primary {
           color: ${getValue('primary.color')} !important;
         }
@@ -30,15 +29,15 @@ const Spinner = ({ variant, size, className, ...props }) => {
           color: ${getValue('light.color')} !important;
         }
       `}
-      {...getBoxProps(props)}
+      {...getInlineProps(props)}
     >
       <BootstrapSpinner animation="border" variant={variant} size={size} />
-    </Box>
+    </Inline>
   );
 };
 
 Spinner.propTypes = {
-  ...boxPropTypes,
+  ...inlineProps,
   variant: PropTypes.oneOf(Object.values(SpinnerVariants)),
   size: PropTypes.oneOf(Object.values(SpinnerSizes)),
   className: PropTypes.string,

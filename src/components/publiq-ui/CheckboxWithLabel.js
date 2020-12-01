@@ -1,13 +1,8 @@
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { Checkbox } from './Checkbox';
 import { Inline } from './Inline';
 import { Label } from './Label';
 import { getBoxProps, boxPropTypes } from './Box';
-
-const StyledLabel = styled(Label)`
-  cursor: pointer;
-`;
 
 const CheckboxWithLabel = ({
   id,
@@ -34,7 +29,9 @@ const CheckboxWithLabel = ({
         checked={checked}
         disabled={disabled}
       />
-      <StyledLabel htmlFor={id}>{children}</StyledLabel>
+      <Label cursor="pointer" htmlFor={id}>
+        {children}
+      </Label>
     </Inline>
   );
 };

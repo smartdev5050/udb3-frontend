@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { Box, boxProps, boxPropTypes, parseProperty } from './Box';
+import { Box, boxPropTypes, boxProps, parseProperty } from './Box';
 import PropTypes from 'prop-types';
 import { Children, cloneElement, forwardRef } from 'react';
 import { pick } from 'lodash';
@@ -10,12 +10,11 @@ const inlineProps = css`
 
   ${parseProperty('alignItems')};
   ${parseProperty('justifyContent')};
-
-  ${boxProps}
 `;
 
 const StyledBox = styled(Box)`
   ${inlineProps};
+  ${boxProps};
 `;
 
 const Inline = forwardRef(
@@ -25,7 +24,6 @@ const Inline = forwardRef(
 
       if (!child) return;
 
-      // if child is functional component
       return cloneElement(child, {
         ...child.props,
         ...(!isLastItem ? { marginRight: spacing } : {}),

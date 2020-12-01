@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Box, boxPropTypes, getBoxProps } from './Box';
+import { Box, boxPropTypes, getBoxProps, parseDimension } from './Box';
 import {
   faBell,
   faEye,
@@ -57,16 +57,17 @@ const IconsMap = {
 
 const Icon = ({ name, width, height, className, ...props }) => {
   return (
-    <Box className={className} {...getBoxProps(props)}>
-      <FontAwesomeIcon
-        css={`
-          &.svg-inline--fa {
-            width: ${width}px;
-            height: ${height}px;
-          }
-        `}
-        icon={IconsMap[name]}
-      />
+    <Box
+      className={className}
+      {...getBoxProps(props)}
+      css={`
+        .svg-inline--fa {
+          width: ${parseDimension(width)};
+          height: ${parseDimension(height)};
+        }
+      `}
+    >
+      <FontAwesomeIcon icon={IconsMap[name]} />
     </Box>
   );
 };
@@ -74,8 +75,6 @@ const Icon = ({ name, width, height, className, ...props }) => {
 Icon.propTypes = {
   ...boxPropTypes,
   name: PropTypes.string.isRequired,
-  width: PropTypes.number,
-  height: PropTypes.number,
   className: PropTypes.string,
 };
 

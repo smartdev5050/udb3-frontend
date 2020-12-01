@@ -7,8 +7,7 @@ import { Image } from './publiq-ui/Image';
 import { Inline } from './publiq-ui/Inline';
 import { Link } from './publiq-ui/Link';
 import { List } from './publiq-ui/List';
-import { ListItem } from './publiq-ui/ListItem';
-import { ModalContent } from './publiq-ui/ModalContent';
+import { Modal } from './publiq-ui/Modal';
 import { Stack } from './publiq-ui/Stack';
 import { getValueFromTheme } from './publiq-ui/theme';
 import { Title } from './publiq-ui/Title';
@@ -25,21 +24,22 @@ const getValueForAnnouncementContent = getValueFromTheme('announcementContent');
 
 const Announcement = ({ id, title, status, onClick }) => {
   return (
-    <ListItem
+    <List.Item
       padding={4}
       spacing={3}
-      css={`
-        cursor: pointer;
-        border-bottom: ${getValueForAnnouncement('borderColor')} 1px solid;
-        background-color: ${status === AnnouncementStatus.ACTIVE
-          ? getValueForAnnouncement('selected.backgroundColor')
-          : 'inherit'};
-
-        :hover {
-          background-color: ${status === AnnouncementStatus.ACTIVE
+      backgroundColor={{
+        default:
+          status === AnnouncementStatus.ACTIVE
+            ? getValueForAnnouncement('selected.backgroundColor')
+            : 'inherit',
+        hover:
+          status === AnnouncementStatus.ACTIVE
             ? getValueForAnnouncement('selected.hoverBackgroundColor')
-            : getValueForAnnouncement('hoverBackgroundColor')};
-        }
+            : getValueForAnnouncement('hoverBackgroundColor'),
+      }}
+      cursor="pointer"
+      css={`
+        border-bottom: ${getValueForAnnouncement('borderColor')} 1px solid;
       `}
       onClick={() => {
         onClick(id);
@@ -60,7 +60,7 @@ const Announcement = ({ id, title, status, onClick }) => {
       >
         {title}
       </Box>
-    </ListItem>
+    </List.Item>
   );
 };
 
@@ -82,31 +82,16 @@ const AnnouncementContent = ({
   callToAction,
   callToActionLabel,
 }) => (
-  <Stack
-    forwardedAs="article"
-    padding={4}
-    spacing={3}
-    css={`
-      width: 70%;
-    `}
-  >
+  <Stack as="article" padding={4} spacing={3} width="70%">
     <Title>{title}</Title>
     {imageSrc && (
       <Link href={callToAction}>
         <Image
           src={imageSrc}
           alt={callToActionLabel}
-          css={`
-            width: 100%;
-            max-height: 30vh;
-            background-position: center center;
-            background-repeat: no-repeat;
-            object-fit: cover;
-
-            &:hover {
-              opacity: 0.85;
-            }
-          `}
+          width="100%"
+          maxHeight="30vh"
+          opacity={{ hover: 0.85 }}
         />
       </Link>
     )}
@@ -123,23 +108,23 @@ const AnnouncementContent = ({
         }
 
         p {
-          margin-bottom: ${parseSpacing(4)}rem;
+          margin-bottom: ${parseSpacing(4)};
         }
 
         ol {
           list-style-type: decimal;
-          margin-bottom: ${parseSpacing(4)}rem;
+          margin-bottom: ${parseSpacing(4)};
 
           li {
-            margin-left: ${parseSpacing(5)}rem;
+            margin-left: ${parseSpacing(5)};
           }
         }
         ul {
           list-style-type: disc;
-          margin-bottom: ${parseSpacing(4)}rem;
+          margin-bottom: ${parseSpacing(4)};
 
           li {
-            margin-left: ${parseSpacing(5)}rem;
+            margin-left: ${parseSpacing(5)};
           }
         }
       `}
@@ -176,7 +161,7 @@ const Announcements = ({
   );
 
   return (
-    <ModalContent
+    <Modal
       visible={visible}
       title={t('announcements.new_features')}
       onShow={onShow}
@@ -185,8 +170,8 @@ const Announcements = ({
       {announcements.length > 0 ? (
         <Inline>
           <List
+            width="30%"
             css={`
-              width: 30%;
               border-right: ${getValueForAnnouncementList('borderColor')} 1px
                 solid;
               overflow-y: auto;
@@ -222,7 +207,7 @@ const Announcements = ({
           {t('announcements.no_features')}
         </Box>
       )}
-    </ModalContent>
+    </Modal>
   );
 };
 

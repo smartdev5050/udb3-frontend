@@ -1,6 +1,5 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
 import { Panel } from './Panel.js';
-import { PanelFooter } from './PanelFooter.js';
 
 <Meta title="Components/Panel" />
 
@@ -20,7 +19,8 @@ import { PanelFooter } from './PanelFooter.js';
   <Story name="WithFooter">
     {(args) => (
       <Panel {...args}>
-        Panel content <PanelFooter>Panel footer content</PanelFooter>
+        <Box>Panel content</Box>
+        <Panel.Footer>Panel footer content</Panel.Footer>
       </Panel>
     )}
   </Story>

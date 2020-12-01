@@ -1,0 +1,97 @@
+import { useState } from 'react';
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import { Modal, ModalVariants } from './Modal';
+import { Button } from './Button.js';
+
+## Content
+
+<Meta title="Components/Modal" />
+
+export const commonArgTypes = {
+  onShow: { action: 'onShow' },
+  onClose: { action: 'onClose' },
+  onConfirm: { action: 'onConfirm' },
+};
+
+<Canvas>
+  <Story
+    name="Content"
+    args={{
+      title: 'Content modal',
+      visible: false,
+      variant: ModalVariants.CONTENT,
+    }}
+    argTypes={commonArgTypes}
+  >
+    {(args) => {
+      const [visible, setVisible] = useState(false);
+      return (
+        <div>
+          <Button
+            onClick={() => {
+              setVisible(true);
+            }}
+          >
+            Click to open a modal
+          </Button>
+          <Modal
+            {...args}
+            variant={ModalVariants.CONTENT}
+            visible={visible}
+            onClose={() => {
+              args.onClose();
+              setVisible(false);
+            }}
+          >
+            Modal content
+          </Modal>
+        </div>
+      );
+    }}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Content" />
+
+## Question
+
+<Canvas>
+  <Story
+    name="Question"
+    args={{
+      title: 'Question modal',
+      confirmTitle: 'Ok',
+      cancelTitle: 'Cancel',
+      visible: false,
+      variant: ModalVariants.QUESTION,
+    }}
+    argTypes={commonArgTypes}
+  >
+    {(args) => {
+      const [visible, setVisible] = useState(false);
+      return (
+        <div>
+          <Button
+            onClick={() => {
+              setVisible(true);
+            }}
+          >
+            Click to open a modal
+          </Button>
+          <Modal
+            {...args}
+            visible={visible}
+            onClose={() => {
+              args.onClose();
+              setVisible(false);
+            }}
+          >
+            Modal content
+          </Modal>
+        </div>
+      );
+    }}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Question" />

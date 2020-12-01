@@ -19,7 +19,7 @@ const Checkbox = ({
     disabled={disabled}
     onChange={onToggle}
     className={className}
-    css="cursor: pointer;"
+    cursor="pointer"
     {...getBoxProps(props)}
   />
 );

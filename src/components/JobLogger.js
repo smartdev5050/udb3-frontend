@@ -10,7 +10,6 @@ import { Icon, Icons } from './publiq-ui/Icon';
 const JobTitle = ({ children, className, ...props }) => (
   <Title
     css={`
-      width: 100%;
       font-size: 1rem;
       text-transform: uppercase;
       border-bottom: black 1px solid;
@@ -47,31 +46,15 @@ const JobLogger = ({ onClose }) => {
 
   return (
     <Inline
-      css={`
-        width: calc(100% - 230px);
-        position: absolute;
-        left: 230px;
-        background-color: white;
-      `}
+      width="calc(100% - 230px)"
+      left={230}
+      backgroundColor="white"
+      position="absolute"
     >
-      <Stack
-        padding={3}
-        css={`
-          width: 320px;
-          height: 100vh;
-        `}
-      >
+      <Stack padding={3} width={320} height="100vh">
         <Inline as="div" justifyContent="flex-end">
           <Button variant={ButtonVariants.UNSTYLED} onClick={onClose}>
-            <Icon
-              name={Icons.TIMES}
-              css={`
-                opacity: 0.5;
-                &:hover {
-                  opacity: 1;
-                }
-              `}
-            />
+            <Icon name={Icons.TIMES} opacity={{ default: 0.5, hover: 1 }} />
           </Button>
         </Inline>
         <Stack spacing={4}>
@@ -81,12 +64,10 @@ const JobLogger = ({ onClose }) => {
         </Stack>
       </Stack>
       <Box
-        css={`
-          background-color: black;
-          opacity: 0.5;
-          height: 100vh;
-          width: calc(100% - 320px);
-        `}
+        backgroundColor="black"
+        height="100vh"
+        width="calc(100% - 320px)"
+        opacity={0.5}
       />
     </Inline>
   );
