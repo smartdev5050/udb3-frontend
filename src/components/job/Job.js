@@ -106,8 +106,8 @@ const Job = ({
 
 Job.propTypes = {
   id: PropTypes.string,
-  createdAt: PropTypes.string,
-  finishedAt: PropTypes.string,
+  createdAt: PropTypes.instanceOf(Date),
+  finishedAt: PropTypes.instanceOf(Date),
   state: PropTypes.oneOf(Object.values(JobStates)),
   messages: PropTypes.object,
   exportUrl: PropTypes.string,
