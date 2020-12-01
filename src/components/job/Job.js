@@ -47,26 +47,28 @@ const Job = ({
   }, [state]);
 
   const StatusIcon = ({ state }) => {
-    if (state === JobStates.FINISHED) {
-      return (
-        <Icon
-          name={Icons.CHECK_CIRCLE}
-          css={`
-            color: ${getValue('complete.circleFillColor')};
-          `}
-        />
-      );
-    } else if (!isDone) {
-      return (
-        <Icon
-          name={Icons.CHECK_NOTCH}
-          css={`
-            color: ${getValue('busy.spinnerStrokeColor')};
-          `}
-        />
-      );
+    switch (state) {
+      case JobStates.FINISHED:
+        return (
+          <Icon
+            name={Icons.CHECK_CIRCLE}
+            css={`
+              color: ${getValue('complete.circleFillColor')};
+            `}
+          />
+        );
+      case !isDone:
+        return (
+          <Icon
+            name={Icons.CHECK_NOTCH}
+            css={`
+              color: ${getValue('busy.spinnerStrokeColor')};
+            `}
+          />
+        );
+      default:
+        return null;
     }
-    return null;
   };
 
   StatusIcon.propTypes = {
