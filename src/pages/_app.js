@@ -15,11 +15,10 @@ import { QueryCache, ReactQueryCacheProvider } from 'react-query';
 import { useEffect } from 'react';
 import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
 import { useGetUser } from '../hooks/api/user';
+import { MessageSources } from '../constants/MessageSources';
+import { MessageTypes } from '../constants/MessageTypes';
 
 const queryCache = new QueryCache();
-
-const MESSAGE_SOURCE_UDB = 'UDB';
-const MESSAGE_TYPE_URL_CHANGED = 'URL_CHANGED';
 
 const useChangeLanguage = () => {
   const { i18n } = useTranslation();
@@ -64,11 +63,11 @@ const Layout = ({ children }) => {
   const { asPath, ...router } = useRouter();
 
   const handleMessage = (event) => {
-    if (event.data.source !== MESSAGE_SOURCE_UDB) {
+    if (event.data.source !== MessageSources.UDB) {
       return;
     }
 
-    if (event.data.type === MESSAGE_TYPE_URL_CHANGED) {
+    if (event.data.type === MessageTypes.URL_CHANGED) {
       router.push(event.data.path);
     }
   };
