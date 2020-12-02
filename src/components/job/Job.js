@@ -65,7 +65,7 @@ const Job = ({
   const timeAgo = useMemo(
     () =>
       formatDistance(isDone ? finishedAt : createdAt, new Date(), {
-        locale: dateFnsLocales[i18n.language.split('-')[0]],
+        locale: dateFnsLocales[i18n.language],
       }),
     [createdAt, finishedAt],
   );

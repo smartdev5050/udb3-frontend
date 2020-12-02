@@ -23,7 +23,7 @@ const LoginButton = ({ className }) => {
 
     const queryString = new URLSearchParams({
       destination: getBaseUrl(),
-      lang: i18n.language.split('-')[0],
+      lang: i18n.language,
     }).toString();
 
     router.push(`${process.env.NEXT_PUBLIC_AUTH_URL}/connect?${queryString}`);
