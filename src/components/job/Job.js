@@ -53,7 +53,6 @@ StatusIcon.propTypes = {
 };
 
 const Job = ({
-  id,
   createdAt,
   finishedAt,
   state,
@@ -105,7 +104,6 @@ const Job = ({
 };
 
 Job.propTypes = {
-  id: PropTypes.string,
   createdAt: PropTypes.instanceOf(Date),
   finishedAt: PropTypes.instanceOf(Date),
   state: PropTypes.oneOf(Object.values(JobStates)),
