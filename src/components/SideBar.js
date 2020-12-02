@@ -22,7 +22,9 @@ import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
 import { useRouter } from 'next/router';
 import { useGetPermissions, useGetRoles } from '../hooks/api/user';
 import { useGetEventsToModerate } from '../hooks/api/events';
-import { JobStatusIcon } from './job/JobStatusIcon';
+import { WarningIcon } from './job/WarningIcon';
+import { BusyIcon } from './job/BusyIcon';
+import { CompleteIcon } from './job/CompleteIcon';
 
 const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSideBar = getValueFromTheme('sideBar');
@@ -345,7 +347,13 @@ const SideBar = () => {
     {
       iconName: Icons.BELL,
       children: t('menu.notifications'),
-      suffix: jobLoggerStatus && <JobStatusIcon status={jobLoggerStatus} />,
+      suffix: (
+        <>
+          {jobLoggerStatus === JobLoggerStates.WARNING && <WarningIcon />}
+          {jobLoggerStatus === JobLoggerStates.COMPLETE && <CompleteIcon />}
+          {jobLoggerStatus === JobLoggerStates.BUSY && <BusyIcon />}
+        </>
+      ),
       onClick: () => {
         setIsJobLoggerVisible(!isJobLoggerVisible);
       },

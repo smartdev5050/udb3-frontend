@@ -4,7 +4,7 @@ import { getValueFromTheme } from '../publiq-ui/theme';
 
 const getValue = getValueFromTheme('jobStatusIcon');
 
-const WarningIcon = ({ className, ...props }) => {
+const WarningIcon = ({ className }) => {
   return (
     <Box
       className={className}
@@ -13,7 +13,8 @@ const WarningIcon = ({ className, ...props }) => {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="10 30 20 20"
       css="overflow: visible;"
-      {...props}
+      width={20}
+      height={20}
     >
       <g
         className="warning"

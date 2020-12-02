@@ -4,7 +4,7 @@ import { getValueFromTheme } from '../publiq-ui/theme';
 
 const getValue = getValueFromTheme('jobStatusIcon');
 
-const CompleteIcon = ({ className, ...props }) => {
+const CompleteIcon = ({ className }) => {
   return (
     <Box
       className={className}
@@ -12,35 +12,32 @@ const CompleteIcon = ({ className, ...props }) => {
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="10 30 20 20"
-      css="overflow: visible;"
-      {...props}
-    >
-      <g
-        css={`
-          @keyframes bounceIn {
-            0% {
-              opacity: 0;
-              transform: scale(0.3);
-            }
-            50% {
-              opacity: 1;
-              transform: scale(1.05);
-            }
-            70% {
-              transform: scale(0.9);
-            }
-            100% {
-              transform: scale(1);
-            }
+      css={`
+        overflow: visible;
+        @keyframes bounceIn {
+          0% {
+            opacity: 0;
+            transform: scale(0.3);
           }
+          50% {
+            opacity: 1;
+            transform: scale(1.05);
+          }
+          70% {
+            transform: scale(0.9);
+          }
+          100% {
+            transform: scale(1);
+          }
+        }
 
-          animation: bounceIn 0.75s 1 linear;
-          -webkit-animation: bounceIn 0.75s 1 linear;
-        `}
-        className="complete"
-        fillRule="evenodd"
-        fill="none"
-      >
+        animation: bounceIn 0.75s 1 linear;
+        -webkit-animation: bounceIn 0.75s 1 linear;
+      `}
+      width={20}
+      height={20}
+    >
+      <g className="complete" fillRule="evenodd" fill="none">
         <circle
           css={`
             fill: ${getValue('backgroundColor')};
