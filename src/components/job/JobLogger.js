@@ -7,11 +7,11 @@ import { Title } from '../publiq-ui/Title';
 import { Button, ButtonVariants } from '../publiq-ui/Button';
 import { Icon, Icons } from '../publiq-ui/Icon';
 import { useEffect, useMemo, useState } from 'react';
-import socketIOClient from 'socket.io-client';
 import { MessageTypes } from '../../constants/MessageTypes';
 import { MessageSources } from '../../constants/MessageSources';
 import { List } from '../publiq-ui/List';
 import { Job, JobStates } from './Job';
+import socketIOClient from 'socket.io-client';
 
 const JobTypes = {
   EXPORT: 'export',
@@ -25,55 +25,6 @@ const JobLoggerStates = {
   BUSY: 'busy',
   COMPLETE: 'complete',
 };
-
-const initialJobs = [
-  {
-    id: '1',
-    createdAt: new Date(),
-    finishedAt: new Date(),
-    state: JobStates.CREATED,
-    messages: {
-      [JobStates.FINISHED]: 'Document .xlsx met 1 evenementen',
-    },
-    type: JobTypes.EXPORT,
-  },
-  {
-    id: '2',
-    createdAt: new Date(),
-    finishedAt: new Date(),
-    state: JobStates.FAILED,
-    messages: {},
-    type: JobTypes.EXPORT,
-  },
-  {
-    id: '3',
-    createdAt: new Date(),
-    finishedAt: new Date(),
-    state: JobStates.STARTED,
-    messages: {},
-    type: JobTypes.EXPORT,
-  },
-  {
-    id: '4',
-    createdAt: new Date(),
-    finishedAt: new Date(),
-    state: JobStates.FINISHED,
-    messages: {},
-    exportUrl: 'https://google.be',
-    type: JobTypes.EXPORT,
-  },
-  {
-    id: '5',
-    createdAt: new Date(),
-    finishedAt: new Date(),
-    state: JobStates.FINISHED,
-    messages: {
-      [JobStates.FINISHED]: 'Document .xlsx met 1 evenementen',
-    },
-    exportUrl: 'https://google.be',
-    type: JobTypes.EXPORT,
-  },
-];
 
 const JobTitle = ({ children, className, ...props }) => (
   <Title
@@ -98,7 +49,7 @@ JobTitle.propTypes = {
 const JobLogger = ({ visible, onClose, onStatusChange }) => {
   const { t } = useTranslation();
 
-  const [jobs, setJobs] = useState(initialJobs);
+  const [jobs, setJobs] = useState([]);
   const [hiddenJobIds, setHiddenJobIds] = useState([]);
   const activeJobs = useMemo(
     () => jobs.filter((job) => !hiddenJobIds.includes(job.id)),
@@ -124,13 +75,19 @@ const JobLogger = ({ visible, onClose, onStatusChange }) => {
     [activeJobs],
   );
 
-  const updateJobState = ({ job_id: jobId }) => (state) => {
+  const updateJobState = (state) => ({ job_id: jobId, location }) => {
     setJobs((prevJobs) =>
       prevJobs.map((job) => {
-        if (job.id === jobId) {
-          return { ...job, state };
+        if (job.id !== jobId) return job;
+        let finishedAt = job.finishedAt;
+        let exportUrl = job.exportUrl;
+        if ([JobStates.FINISHED, JobStates.FAILED].includes(state)) {
+          finishedAt = new Date();
         }
-        return job;
+        if (location) {
+          exportUrl = location;
+        }
+        return { ...job, state, finishedAt, exportUrl };
       }),
     );
   };
@@ -152,7 +109,12 @@ const JobLogger = ({ visible, onClose, onStatusChange }) => {
       event.data.job !== undefined
     ) {
       setJobs((prevJobs) => [
-        { ...event.data.job, state: JobStates.CREATED, exportUrl: '' },
+        {
+          ...event.data.job,
+          state: JobStates.CREATED,
+          exportUrl: '',
+          createdAt: new Date(),
+        },
         ...prevJobs,
       ]);
     }
@@ -162,12 +124,12 @@ const JobLogger = ({ visible, onClose, onStatusChange }) => {
     window.addEventListener('message', handleMessage);
     const socket = socketIOClient(process.env.NEXT_PUBLIC_SOCKET_URL);
     socket.on('job_started', updateJobState(JobStates.STARTED));
-    // socket.on('job_info', updateJobState(JobStates.STARTED));
+    socket.on('job_info', updateJobState(JobStates.STARTED));
     socket.on('job_finished', updateJobState(JobStates.FINISHED));
     socket.on('job_failed', updateJobState(JobStates.FAILED));
     return () => {
-      socket.close();
       window.removeEventListener('message', handleMessage);
+      socket.close();
     };
   }, []);
 
@@ -241,7 +203,6 @@ const JobLogger = ({ visible, onClose, onStatusChange }) => {
                 {jobLoggerMenu.items.map((job) => (
                   <Job
                     key={job.id}
-                    id={job.id}
                     createdAt={job.createdAt}
                     finishedAt={job.finishedAt}
                     state={job.state}
