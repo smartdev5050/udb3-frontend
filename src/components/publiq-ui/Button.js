@@ -169,7 +169,7 @@ const Button = ({
   ) : (
     [
       iconName && <Icon name={iconName} key="icon" />,
-      <Box forwardAs="span" flex={1} css="text-align: left" key="text">
+      <Box forwardedAs="span" flex={1} css="text-align: left" key="text">
         {children}
       </Box>,
       clonedSuffix,
@@ -193,7 +193,6 @@ const Button = ({
         background: none;
         border: none;
       `}
-      spacing={3}
       alignItems="center"
       justifyContent="flex-start"
     >

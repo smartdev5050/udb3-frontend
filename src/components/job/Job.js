@@ -76,8 +76,8 @@ const Job = ({
 
   return (
     <List.Item paddingTop={3}>
-      <Stack forwardedAs="div" spacing={3} css="flex: 1;">
-        <Inline forwardedAs="div" css="flex: 1;" justifyContent="space-between">
+      <Stack as="div" spacing={3} flex={1}>
+        <Inline as="div" flex={1} justifyContent="space-between">
           <Stack>
             <Inline forwardedAs="div" spacing={2} css="word-break: break-word;">
               <Box as="span">{t('jobs.time_ago', { time: timeAgo })}</Box>
@@ -88,7 +88,7 @@ const Job = ({
             </Box>
           </Stack>
           <Button onClick={onClick} variant={ButtonVariants.UNSTYLED}>
-            <Icon name={Icons.TIMES} />
+            <Icon name={Icons.TIMES} alignItems="center" />
           </Button>
         </Inline>
         {exportUrl && (
