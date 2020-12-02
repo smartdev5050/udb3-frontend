@@ -357,6 +357,7 @@ const SideBar = () => {
       <Inline>
         <Stack
           height="100vh"
+          width="230px"
           backgroundColor={getValueForSideBar('backgroundColor')}
           color={getValueForSideBar('color')}
           zIndex={1998}
