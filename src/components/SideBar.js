@@ -22,6 +22,7 @@ import { useRouter } from 'next/router';
 import { useGetPermissions, useGetRoles } from '../hooks/api/user';
 import { useGetEventsToModerate } from '../hooks/api/events';
 import { Text } from './publiq-ui/Text';
+import { useMediaQuery } from '@material-ui/core';
 
 const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSideBar = getValueFromTheme('sideBar');
@@ -195,6 +196,9 @@ const SideBar = () => {
   const { data: roles = [] } = useGetRoles();
   const { data: eventsToModerate = {} } = useGetEventsToModerate(searchQuery);
   const countEventsToModerate = eventsToModerate?.totalItems || 0;
+  const isSmallView = useMediaQuery(`(max-width:${Breakpoints.s}px)`);
+
+  console.log({ isSmallView });
 
   const handleClickAnnouncement = (activeAnnouncement) =>
     setActiveAnnouncementId(activeAnnouncement.uid);
@@ -376,8 +380,7 @@ const SideBar = () => {
           spacing={3}
         >
           <Link justifyContent="center" href="/dashboard">
-            <Logo variant={LogoVariants.MOBILE} />
-            {/* <Logo variants={LogoVariants.MOBILE} /> */}
+            <Logo variant={isSmallView ? LogoVariants.MOBILE : undefined} />
           </Link>
           <Stack
             paddingTop={4}
