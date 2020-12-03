@@ -185,7 +185,6 @@ const Button = ({
         background: none;
         border: none;
       `}
-      spacing={3}
       alignItems="center"
       justifyContent="flex-start"
     >
