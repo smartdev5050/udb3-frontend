@@ -49,8 +49,7 @@ const MenuItem = ({ href, iconName, suffix, children, onClick }) => {
         spacing={{ default: 3, s: 0 }}
         stackOn={Breakpoints.s}
       >
-        <Box
-          forwardedAs="span"
+        <Text
           flex={1}
           css={`
             width: 100%;
@@ -62,7 +61,7 @@ const MenuItem = ({ href, iconName, suffix, children, onClick }) => {
           key="text"
         >
           {children}
-        </Box>
+        </Text>
       </Component>
     </List.Item>
   );

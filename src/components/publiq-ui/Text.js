@@ -3,7 +3,7 @@ import { Box, boxPropTypes, getBoxProps } from './Box';
 
 const Text = ({ as, children, className, ...props }) => {
   return (
-    <Box as={as} className={className} {...getBoxProps}>
+    <Box as={as} className={className} {...getBoxProps(props)}>
       {children}
     </Box>
   );
