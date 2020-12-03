@@ -136,6 +136,7 @@ const Button = ({
   children,
   onClick,
   className,
+  title,
   ...props
 }) => {
   if (variant === ButtonVariants.SECONDARY) variant = 'outline-secondary';
@@ -147,6 +148,7 @@ const Button = ({
     disabled,
     onClick,
     className,
+    title,
     ...getInlineProps(props),
   };
 
@@ -196,6 +198,7 @@ const Button = ({
 Button.propTypes = {
   ...inlinePropTypes,
   iconName: PropTypes.string,
+  title: PropTypes.string,
   className: PropTypes.string,
   variant: PropTypes.string,
   disabled: PropTypes.bool,

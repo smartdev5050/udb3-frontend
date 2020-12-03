@@ -51,6 +51,7 @@ const Link = ({
   children: label,
   className,
   variant,
+  title,
   ...props
 }) => {
   const isInternalLink = href.startsWith('/');
@@ -75,6 +76,7 @@ const Link = ({
         <BaseLink
           className={className}
           variant={variant}
+          title={title}
           {...getInlineProps(props)}
         >
           {children}
@@ -90,6 +92,7 @@ const Link = ({
       variant={variant}
       rel="noopener"
       target="_blank"
+      title={title}
       {...getInlineProps(props)}
     >
       {children}
@@ -100,6 +103,7 @@ const Link = ({
 Link.propTypes = {
   ...inlinePropTypes,
   href: PropTypes.string,
+  title: PropTypes.string,
   iconName: PropTypes.string,
   suffix: PropTypes.node,
   className: PropTypes.string,

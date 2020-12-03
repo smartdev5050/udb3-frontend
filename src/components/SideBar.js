@@ -48,6 +48,7 @@ const MenuItem = ({ href, iconName, suffix, children, onClick }) => {
         fontSize={{ s: '9px' }}
         spacing={{ default: 3, s: 0 }}
         stackOn={Breakpoints.s}
+        title={children}
       >
         <Text
           flex={1}
