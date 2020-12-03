@@ -17,7 +17,6 @@ import { JobLogger } from './JobLogger';
 import { Announcements, AnnouncementStatus } from './Annoucements';
 import { useGetAnnouncements } from '../hooks/api/announcements';
 import { Image } from './publiq-ui/Image';
-import { Box } from './publiq-ui/Box';
 import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
 import { useRouter } from 'next/router';
 import { useGetPermissions, useGetRoles } from '../hooks/api/user';
@@ -49,8 +48,7 @@ const MenuItem = ({ href, iconName, suffix, children, onClick }) => {
         spacing={{ default: 3, s: 0 }}
         stackOn={Breakpoints.s}
       >
-        <Box
-          forwardedAs="span"
+        <Text
           flex={1}
           css={`
             width: 100%;
@@ -62,7 +60,7 @@ const MenuItem = ({ href, iconName, suffix, children, onClick }) => {
           key="text"
         >
           {children}
-        </Box>
+        </Text>
       </Component>
     </List.Item>
   );
