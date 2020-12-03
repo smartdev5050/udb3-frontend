@@ -16,6 +16,12 @@ const getValue = getValueFromTheme('jobStatusIcon');
 
 const dateFnsLocales = { nl: nlBE, fr };
 
+const JobTypes = {
+  EXPORT: 'export',
+  LABEL_BATCH: 'label_batch',
+  LABEL_QUERY: 'label_query',
+};
+
 const JobStates = {
   CREATED: 'created',
   FINISHED: 'finished',
@@ -61,7 +67,9 @@ const Job = ({
   onClick,
 }) => {
   const { t, i18n } = useTranslation();
+
   const isDone = [JobStates.FINISHED, JobStates.FAILED].includes(state);
+
   const timeAgo = useMemo(
     () =>
       formatDistance(isDone ? finishedAt : createdAt, new Date(), {
@@ -69,10 +77,6 @@ const Job = ({
       }),
     [createdAt, finishedAt],
   );
-
-  const description = useMemo(() => {
-    return messages[state] || '';
-  }, [state]);
 
   return (
     <List.Item paddingTop={3}>
@@ -84,7 +88,7 @@ const Job = ({
               <StatusIcon state={state} />
             </Inline>
             <Box forwardedAs="p" css="word-break: break-word;">
-              {description}
+              {messages?.[state] ?? ''}
             </Box>
           </Stack>
           <Button onClick={onClick} variant={ButtonVariants.UNSTYLED}>
@@ -112,4 +116,4 @@ Job.propTypes = {
   onClick: PropTypes.func,
 };
 
-export { Job, JobStates };
+export { Job, JobStates, JobTypes };

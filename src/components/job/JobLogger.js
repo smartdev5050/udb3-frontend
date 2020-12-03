@@ -7,17 +7,18 @@ import { Title } from '../publiq-ui/Title';
 import { Button, ButtonVariants } from '../publiq-ui/Button';
 import { Icon, Icons } from '../publiq-ui/Icon';
 import { useEffect, useMemo, useState } from 'react';
-import { MessageTypes } from '../../constants/MessageTypes';
-import { MessageSources } from '../../constants/MessageSources';
 import { List } from '../publiq-ui/List';
-import { Job, JobStates } from './Job';
-import socketIOClient from 'socket.io-client';
+import { Job, JobStates, JobTypes } from './Job';
 
-const JobTypes = {
-  EXPORT: 'export',
-  LABEL_BATCH: 'label_batch',
-  LABEL_QUERY: 'label_query',
-};
+import {
+  useHandleWindowMessage,
+  WindowMessageTypes,
+} from '../../hooks/useHandleWindowMessage';
+
+import {
+  useHandleSocketMessage,
+  SocketMessageTypes,
+} from '../../hooks/useHandleSocketMessage';
 
 const JobLoggerStates = {
   IDLE: 'idle',
@@ -51,10 +52,12 @@ const JobLogger = ({ visible, onClose, onStatusChange }) => {
 
   const [jobs, setJobs] = useState([]);
   const [hiddenJobIds, setHiddenJobIds] = useState([]);
+
   const activeJobs = useMemo(
     () => jobs.filter((job) => !hiddenJobIds.includes(job.id)),
     [jobs, hiddenJobIds],
   );
+
   const finishedExportJobs = useMemo(
     () =>
       activeJobs.filter(
@@ -75,63 +78,52 @@ const JobLogger = ({ visible, onClose, onStatusChange }) => {
     [activeJobs],
   );
 
-  const updateJobState = (state) => ({ job_id: jobId, location }) => {
-    setJobs((prevJobs) =>
-      prevJobs.map((job) => {
-        if (job.id !== jobId) return job;
-        let finishedAt = job.finishedAt;
-        let exportUrl = job.exportUrl;
-        if ([JobStates.FINISHED, JobStates.FAILED].includes(state)) {
-          finishedAt = new Date();
-        }
-        if (location) {
-          exportUrl = location;
-        }
-        return { ...job, state, finishedAt, exportUrl };
+  const updateJobState = (newJobState) => ({ job_id: jobId, location }) =>
+    setJobs((previousJobs) =>
+      previousJobs.map((job) => {
+        const { id, finishedAt, exportUrl } = job;
+        if (id !== jobId) return job;
+
+        return {
+          ...job,
+          state: newJobState,
+          finishedAt: [JobStates.FINISHED, JobStates.FAILED].includes(
+            newJobState,
+          )
+            ? new Date()
+            : finishedAt,
+          exportUrl: location || exportUrl,
+        };
       }),
     );
-  };
 
-  const handleClickHideJob = (id) => {
+  const addJob = ({ job }) =>
+    setJobs((previousJobs) => [
+      {
+        ...job,
+        state: JobStates.CREATED,
+        exportUrl: '',
+        createdAt: new Date(),
+      },
+      ...previousJobs,
+    ]);
+
+  const handleClickHideJob = (id) =>
     setHiddenJobIds((prevHiddenJobIds) => {
       if (prevHiddenJobIds.includes(id)) return;
       return [...prevHiddenJobIds, id];
     });
-  };
 
-  const handleMessage = (event) => {
-    if (event.data.source !== MessageSources.UDB) {
-      return;
-    }
+  useHandleSocketMessage({
+    [SocketMessageTypes.JOB_STARTED]: updateJobState(JobStates.STARTED),
+    [SocketMessageTypes.JOB_INFO]: updateJobState(JobStates.STARTED),
+    [SocketMessageTypes.JOB_FINISHED]: updateJobState(JobStates.FINISHED),
+    [SocketMessageTypes.JOB_FAILED]: updateJobState(JobStates.FAILED),
+  });
 
-    if (
-      event.data.type === MessageTypes.JOB_ADDED &&
-      event.data.job !== undefined
-    ) {
-      setJobs((prevJobs) => [
-        {
-          ...event.data.job,
-          state: JobStates.CREATED,
-          exportUrl: '',
-          createdAt: new Date(),
-        },
-        ...prevJobs,
-      ]);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('message', handleMessage);
-    const socket = socketIOClient(process.env.NEXT_PUBLIC_SOCKET_URL);
-    socket.on('job_started', updateJobState(JobStates.STARTED));
-    socket.on('job_info', updateJobState(JobStates.STARTED));
-    socket.on('job_finished', updateJobState(JobStates.FINISHED));
-    socket.on('job_failed', updateJobState(JobStates.FAILED));
-    return () => {
-      window.removeEventListener('message', handleMessage);
-      socket.close();
-    };
-  }, []);
+  useHandleWindowMessage({
+    [WindowMessageTypes.JOB_ADDED]: addJob,
+  });
 
   useEffect(() => {
     if (failedJobs.length > 0) {
