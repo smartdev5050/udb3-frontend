@@ -11,6 +11,7 @@ import { Modal } from './publiq-ui/Modal';
 import { Stack } from './publiq-ui/Stack';
 import { getValueFromTheme } from './publiq-ui/theme';
 import { Title } from './publiq-ui/Title';
+import { Text } from './publiq-ui/Text';
 
 const AnnouncementStatus = {
   ACTIVE: 'active',
@@ -132,7 +133,9 @@ const AnnouncementContent = ({
     <Inline as="div" justifyContent="flex-end">
       {callToAction && (
         <Link href={callToAction}>
-          <Button>{callToActionLabel}</Button>
+          <Button>
+            <Text>{callToActionLabel}</Text>
+          </Button>
         </Link>
       )}
     </Inline>
@@ -203,9 +206,9 @@ const Announcements = ({
           )}
         </Inline>
       ) : (
-        <Box as="p" padding={4}>
+        <Text as="p" padding={4}>
           {t('announcements.no_features')}
-        </Box>
+        </Text>
       )}
     </Modal>
   );

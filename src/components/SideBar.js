@@ -22,6 +22,7 @@ import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
 import { useRouter } from 'next/router';
 import { useGetPermissions, useGetRoles } from '../hooks/api/user';
 import { useGetEventsToModerate } from '../hooks/api/events';
+import { Text } from './publiq-ui/Text';
 
 const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSideBar = getValueFromTheme('sideBar');
@@ -131,8 +132,8 @@ const ProfileMenu = ({ profileImage }) => {
       `}
     >
       <Image src={profileImage} width={50} height={50} alt="Profile picture" />
-      <Stack as="div" padding={2} spacing={2} flex={1}>
-        <Box as="span">username</Box>
+      <Stack as="div" padding={2} spacing={2} flex={1} display={{ s: 'none' }}>
+        <Text>username</Text>
         <Menu items={loginMenu} />
       </Stack>
     </Inline>
