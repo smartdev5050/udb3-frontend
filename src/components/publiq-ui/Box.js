@@ -136,11 +136,15 @@ const boxProps = css`
   ${parseProperty('right', parseDimension)};
 
   ${parseProperty('backgroundColor')};
+  ${parseProperty('fontSize')};
+  ${parseProperty('textAlign')};
   ${parseProperty('color')};
   ${parseProperty('zIndex')};
 
+  ${parseProperty('display')};
   ${parseProperty('opacity')};
   ${parseProperty('flex')};
+  ${parseProperty('flexDirection')};
   ${parseProperty('cursor')};
 `;
 
@@ -284,6 +288,17 @@ const boxPropTypes = {
     PropTypes.func,
     PropTypes.object,
   ]),
+  fontSize: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  textAlign: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
   color: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -299,6 +314,11 @@ const boxPropTypes = {
     PropTypes.func,
     PropTypes.object,
   ]),
+  display: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
   opacity: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.func,
@@ -307,6 +327,11 @@ const boxPropTypes = {
   flex: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  flexDirection: PropTypes.oneOfType([
+    PropTypes.string,
     PropTypes.func,
     PropTypes.object,
   ]),
