@@ -36,16 +36,19 @@ const StyledBox = styled(Box)`
 
 const Inline = forwardRef(
   ({ spacing, className, children, as, stackOn, ...props }, ref) => {
-    const isMediaQuery = useMediaQuery(`(max-width:${Breakpoints.s}px)`);
+    const isMediaQuery =
+      typeof stackOn === 'string'
+        ? useMediaQuery(`(max-width:${Breakpoints[stackOn]}px)`)
+        : true;
+
+    const margin = !(stackOn && isMediaQuery)
+      ? { marginRight: spacing }
+      : { marginBottom: spacing };
 
     const clonedChildren = Children.map(children, (child, i) => {
       const isLastItem = i === children.length - 1;
 
       if (!child) return;
-
-      const margin = !(stackOn && isMediaQuery)
-        ? { marginRight: spacing }
-        : { marginBottom: spacing };
 
       return cloneElement(child, {
         ...child.props,
