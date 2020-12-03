@@ -166,13 +166,7 @@ const Button = ({
       size={SpinnerSizes.SMALL}
     />
   ) : (
-    [
-      iconName && <Icon name={iconName} key="icon" />,
-      <Box forwardAs="span" flex={1} css="text-align: left" key="text">
-        {children}
-      </Box>,
-      clonedSuffix,
-    ]
+    [iconName && <Icon name={iconName} key="icon" />, children, clonedSuffix]
   );
 
   if (isBootstrapVariant) {
