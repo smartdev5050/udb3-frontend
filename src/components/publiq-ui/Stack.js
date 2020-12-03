@@ -72,10 +72,7 @@ const Stack = forwardRef(
 const stackPropTypes = {
   ...boxPropTypes,
   spacing: PropTypes.number,
-  inlineOn: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.oneOf(Object.values(Breakpoints)),
-  ]),
+  inlineOn: PropTypes.oneOf([true, false, ...Object.values(Breakpoints)]),
 };
 
 const getStackProps = (props) => pick(props, Object.keys(stackPropTypes));

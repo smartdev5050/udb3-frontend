@@ -3,8 +3,8 @@ import { Box, boxPropTypes, boxProps, parseProperty } from './Box';
 import PropTypes from 'prop-types';
 import { Children, cloneElement, forwardRef } from 'react';
 import { pick } from 'lodash';
-import { Breakpoints } from '../publiq-ui/theme';
 import { useMediaQuery } from '@material-ui/core';
+import { Breakpoints } from '../publiq-ui/theme';
 
 const parseStackOnProperty = () => ({ stackOn }) => {
   if (typeof stackOn !== 'boolean') {
@@ -73,10 +73,7 @@ const Inline = forwardRef(
 const inlinePropTypes = {
   ...boxPropTypes,
   spacing: PropTypes.number,
-  stackOn: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.oneOf(Object.values(Breakpoints)),
-  ]),
+  stackOn: PropTypes.oneOf([true, false, ...Object.values(Breakpoints)]),
 };
 
 const getInlineProps = (props) => pick(props, Object.keys(inlinePropTypes));
