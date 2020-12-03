@@ -9,7 +9,7 @@ import { Icons } from './publiq-ui/Icon';
 import { getValueFromTheme } from './publiq-ui/theme';
 import { Title } from './publiq-ui/Title';
 import { Button } from './publiq-ui/Button';
-import { Logo } from './publiq-ui/Logo';
+import { Logo, LogoVariants } from './publiq-ui/Logo';
 import { Badge } from './publiq-ui/Badge';
 import { Inline } from './publiq-ui/Inline';
 
@@ -45,9 +45,24 @@ const MenuItem = ({ href, iconName, suffix, children, onClick }) => {
           default: 'none',
           hover: getValueForMenuItem('hover.backgroundColor'),
         }}
-        spacing={3}
+        flexDirection={{ s: 'column' }}
+        fontSize={{ s: '9px' }}
+        spacing={{ default: 3, s: 0 }}
       >
-        {children}
+        <Box
+          forwardedAs="span"
+          flex={1}
+          css={`
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          `}
+          textAlign={{ default: 'left', s: 'center' }}
+          key="text"
+        >
+          {children}
+        </Box>
       </Component>
     </List.Item>
   );
@@ -125,8 +140,9 @@ const ProfileMenu = ({ profileImage }) => {
   return (
     <Inline
       padding={1}
-      spacing={2}
+      // spacing={2}
       alignItems="center"
+      justifyContent="center"
       css={`
         border-top: 1px solid ${getValueForMenu('borderColor')};
       `}
@@ -354,17 +370,16 @@ const SideBar = () => {
       <Inline>
         <Stack
           height="100vh"
+          width={{ default: '230px', s: '65px' }}
           backgroundColor={getValueForSideBar('backgroundColor')}
           color={getValueForSideBar('color')}
           zIndex={1998}
-          padding={2}
+          padding={{ default: 2, s: 0 }}
           spacing={3}
         >
-          <Link href="/dashboard">
-            <Inline justifyContent="center">
-              <Logo />
-              {/* <Logo variants={LogoVariants.MOBILE} /> */}
-            </Inline>
+          <Link justifyContent="center" href="/dashboard">
+            <Logo variant={LogoVariants.MOBILE} />
+            {/* <Logo variants={LogoVariants.MOBILE} /> */}
           </Link>
           <Stack
             paddingTop={4}

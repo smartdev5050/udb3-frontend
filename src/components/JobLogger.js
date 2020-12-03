@@ -46,8 +46,8 @@ const JobLogger = ({ onClose }) => {
 
   return (
     <Inline
-      width="calc(100% - 230px)"
-      left={230}
+      width={{ default: 'calc(100% - 230px)', s: 'calc(100% - 65px)' }}
+      left={{ default: '230px', s: '65px' }}
       backgroundColor="white"
       position="absolute"
     >
