@@ -8,7 +8,7 @@ const SocketMessageTypes = {
   JOB_FAILED: 'job_failed',
 };
 
-const useHandleSocketMessages = (eventsMap = {}) => {
+const useHandleSocketMessage = (eventsMap = {}) => {
   useEffect(() => {
     const socket = socketIOClient(process.env.NEXT_PUBLIC_SOCKET_URL);
     Object.entries(([event, handler]) => socket.on(event, handler));
@@ -16,4 +16,4 @@ const useHandleSocketMessages = (eventsMap = {}) => {
   }, []);
 };
 
-export { useHandleSocketMessages, SocketMessageTypes };
+export { useHandleSocketMessage, SocketMessageTypes };
