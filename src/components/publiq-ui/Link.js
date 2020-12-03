@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { getValueFromTheme } from './theme';
 import { getInlineProps, Inline, inlinePropTypes } from './Inline';
 import { cloneElement, forwardRef } from 'react';
-import { Box } from './Box';
 import { Icon } from './Icon';
 
 const getValue = getValueFromTheme('link');

@@ -6,7 +6,6 @@ import { Spinner, SpinnerVariants, SpinnerSizes } from './Spinner';
 import { getInlineProps, Inline, inlinePropTypes } from './Inline';
 import { Icon } from './Icon';
 import { cloneElement } from 'react';
-import { Box } from './Box';
 
 const ButtonVariants = {
   PRIMARY: 'primary',
