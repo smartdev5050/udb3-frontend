@@ -98,12 +98,6 @@ const ProfileMenu = ({ profileImage }) => {
   const { t } = useTranslation();
   const [cookies, , removeCookie] = useCookiesWithOptions(['user']);
   const router = useRouter();
-  const [username, setUsername] = useState('');
-
-  useEffect(() => {
-    if (!cookies.user?.username) return;
-    setUsername(cookies.user.username);
-  }, [cookies.user]);
 
   const loginMenu = [
     {
@@ -138,7 +132,7 @@ const ProfileMenu = ({ profileImage }) => {
     >
       <Image src={profileImage} width={50} height={50} alt="Profile picture" />
       <Stack as="div" padding={2} spacing={2} flex={1}>
-        <Box as="span">{username}</Box>
+        <Box as="span">{cookies?.user?.username ?? ''}</Box>
         <Menu items={loginMenu} />
       </Stack>
     </Inline>
