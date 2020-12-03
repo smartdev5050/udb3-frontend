@@ -7,10 +7,9 @@ import { Breakpoints } from './theme';
 import { useMediaQuery } from '@material-ui/core';
 
 const parseInlineOnProperty = () => ({ inlineOn }) => {
-  if (typeof inlineOn === 'string') {
-    const breakpoint = Breakpoints[inlineOn];
+  if (typeof inlineOn !== 'boolean') {
     return css`
-      @media (min-width: ${breakpoint}px) {
+      @media (min-width: ${inlineOn}px) {
         flex-direction: row;
       }
     `;
@@ -37,8 +36,8 @@ const StyledBox = styled(Box)`
 const Stack = forwardRef(
   ({ spacing, className, children, as, inlineOn, ...props }, ref) => {
     const isMediaQuery =
-      typeof inlineOn === 'string'
-        ? useMediaQuery(`(min-width:${Breakpoints[inlineOn]}px)`)
+      typeof inlineOn !== 'boolean'
+        ? useMediaQuery(`(min-width:${inlineOn}px)`)
         : true;
 
     const margin = !(inlineOn && isMediaQuery)

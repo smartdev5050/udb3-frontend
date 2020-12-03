@@ -7,10 +7,9 @@ import { Breakpoints } from '../publiq-ui/theme';
 import { useMediaQuery } from '@material-ui/core';
 
 const parseStackOnProperty = () => ({ stackOn }) => {
-  if (typeof stackOn === 'string') {
-    const breakpoint = Breakpoints[stackOn];
+  if (typeof stackOn !== 'boolean') {
     return css`
-      @media (max-width: ${breakpoint}px) {
+      @media (max-width: ${stackOn}px) {
         flex-direction: column;
       }
     `;
@@ -36,9 +35,10 @@ const StyledBox = styled(Box)`
 
 const Inline = forwardRef(
   ({ spacing, className, children, as, stackOn, ...props }, ref) => {
+    console.log({ stackOn });
     const isMediaQuery =
-      typeof stackOn === 'string'
-        ? useMediaQuery(`(max-width:${Breakpoints[stackOn]}px)`)
+      typeof stackOn !== 'boolean'
+        ? useMediaQuery(`(max-width:${stackOn}px)`)
         : true;
 
     const margin = !(stackOn && isMediaQuery)

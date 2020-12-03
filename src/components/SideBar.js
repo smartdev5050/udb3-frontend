@@ -6,7 +6,7 @@ import { Link } from './publiq-ui/Link';
 import { List } from './publiq-ui/List';
 import { useTranslation } from 'react-i18next';
 import { Icons } from './publiq-ui/Icon';
-import { getValueFromTheme } from './publiq-ui/theme';
+import { Breakpoints, getValueFromTheme } from './publiq-ui/theme';
 import { Title } from './publiq-ui/Title';
 import { Button } from './publiq-ui/Button';
 import { Logo, LogoVariants } from './publiq-ui/Logo';
@@ -45,9 +45,9 @@ const MenuItem = ({ href, iconName, suffix, children, onClick }) => {
           default: 'none',
           hover: getValueForMenuItem('hover.backgroundColor'),
         }}
-        flexDirection={{ s: 'column' }}
         fontSize={{ s: '9px' }}
         spacing={{ default: 3, s: 0 }}
+        stackOn={Breakpoints.s}
       >
         <Box
           forwardedAs="span"
@@ -140,7 +140,7 @@ const ProfileMenu = ({ profileImage }) => {
   return (
     <Inline
       padding={1}
-      // spacing={2}
+      spacing={2}
       alignItems="center"
       justifyContent="center"
       css={`
