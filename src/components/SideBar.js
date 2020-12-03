@@ -13,7 +13,7 @@ import { Logo } from './publiq-ui/Logo';
 import { Badge } from './publiq-ui/Badge';
 import { Inline } from './publiq-ui/Inline';
 
-import { JobLogger, JobLoggerStates } from './job/JobLogger';
+import { JobLogger, JobLoggerStates } from './joblogger/JobLogger';
 import { Announcements, AnnouncementStatus } from './Annoucements';
 import { useGetAnnouncements } from '../hooks/api/announcements';
 import { Image } from './publiq-ui/Image';
@@ -22,9 +22,7 @@ import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
 import { useRouter } from 'next/router';
 import { useGetPermissions, useGetRoles } from '../hooks/api/user';
 import { useGetEventsToModerate } from '../hooks/api/events';
-import { WarningIcon } from './job/WarningIcon';
-import { BusyIcon } from './job/BusyIcon';
-import { CompleteIcon } from './job/CompleteIcon';
+import { JobLoggerStateIndicator } from './joblogger/JobLoggerStateIndicator';
 
 const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSideBar = getValueFromTheme('sideBar');
@@ -172,7 +170,7 @@ const SideBar = () => {
   ]);
 
   const [isJobLoggerVisible, setIsJobLoggerVisible] = useState(true);
-  const [jobLoggerStatus, setJobLoggerStatus] = useState(JobLoggerStates.IDLE);
+  const [jobLoggerState, setJobLoggerState] = useState(JobLoggerStates.IDLE);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeAnnouncementId, setActiveAnnouncementId] = useState();
@@ -347,16 +345,8 @@ const SideBar = () => {
     {
       iconName: Icons.BELL,
       children: t('menu.notifications'),
-      suffix: (
-        <>
-          {jobLoggerStatus === JobLoggerStates.WARNING && <WarningIcon />}
-          {jobLoggerStatus === JobLoggerStates.COMPLETE && <CompleteIcon />}
-          {jobLoggerStatus === JobLoggerStates.BUSY && <BusyIcon />}
-        </>
-      ),
-      onClick: () => {
-        setIsJobLoggerVisible(!isJobLoggerVisible);
-      },
+      suffix: <JobLoggerStateIndicator state={jobLoggerState} />,
+      onClick: () => setIsJobLoggerVisible((oldState) => !oldState),
     },
   ];
 
@@ -401,8 +391,8 @@ const SideBar = () => {
       </Inline>
       <JobLogger
         visible={isJobLoggerVisible}
-        onClose={() => setIsJobLoggerVisible(!isJobLoggerVisible)}
-        onStatusChange={(status) => setJobLoggerStatus(status)}
+        onClose={() => setIsJobLoggerVisible((oldState) => !oldState)}
+        onStatusChange={setJobLoggerState}
       />
       <Announcements
         visible={isModalVisible}
