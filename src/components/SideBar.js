@@ -96,7 +96,7 @@ Menu.propTypes = {
 
 const ProfileMenu = ({ profileImage }) => {
   const { t } = useTranslation();
-  const [cookies, , removeCookie] = useCookiesWithOptions();
+  const [cookies, , removeCookie] = useCookiesWithOptions(['user']);
   const router = useRouter();
   const [username, setUsername] = useState('');
 
