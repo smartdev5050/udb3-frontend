@@ -199,9 +199,9 @@ WarningIcon.propTypes = {
 };
 
 const ComponentMap = {
-  [JobLoggerStates.WARNING]: WarningIcon,
-  [JobLoggerStates.COMPLETE]: CompleteIcon,
-  [JobLoggerStates.BUSY]: BusyIcon,
+  [JobLoggerStates.WARNING]: <WarningIcon />,
+  [JobLoggerStates.COMPLETE]: <CompleteIcon />,
+  [JobLoggerStates.BUSY]: <BusyIcon />,
 };
 
 const JobLoggerStateIndicator = memo(
