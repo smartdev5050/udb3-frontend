@@ -73,6 +73,8 @@ const Inline = forwardRef(
 const inlinePropTypes = {
   ...boxPropTypes,
   spacing: PropTypes.number,
+  alignItems: PropTypes.string,
+  justifyContent: PropTypes.string,
   stackOn: PropTypes.oneOf([true, false, ...Object.values(Breakpoints)]),
 };
 
@@ -83,8 +85,6 @@ Inline.propTypes = {
   as: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.node,
-  alignItems: PropTypes.string,
-  justifyContent: PropTypes.string,
 };
 
 Inline.defaultProps = {

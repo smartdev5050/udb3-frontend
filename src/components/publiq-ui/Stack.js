@@ -72,6 +72,8 @@ const Stack = forwardRef(
 const stackPropTypes = {
   ...boxPropTypes,
   spacing: PropTypes.number,
+  alignItems: PropTypes.string,
+  justifyContent: PropTypes.string,
   inlineOn: PropTypes.oneOf([true, false, ...Object.values(Breakpoints)]),
 };
 
@@ -82,8 +84,6 @@ Stack.propTypes = {
   as: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.node,
-  alignItems: PropTypes.string,
-  justifyContent: PropTypes.string,
 };
 
 Stack.defaultProps = {
