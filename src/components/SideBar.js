@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useEffect, useMemo, useState } from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
 
 import { Stack } from './publiq-ui/Stack';
 import { Link } from './publiq-ui/Link';
@@ -28,7 +28,7 @@ const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSideBar = getValueFromTheme('sideBar');
 const getValueForMenu = getValueFromTheme('menu');
 
-const MenuItem = ({ href, iconName, suffix, children, onClick }) => {
+const MenuItem = memo(({ href, iconName, suffix, children, onClick }) => {
   const Component = href ? Link : Button;
 
   return (
@@ -66,7 +66,7 @@ const MenuItem = ({ href, iconName, suffix, children, onClick }) => {
       </Component>
     </List.Item>
   );
-};
+});
 
 MenuItem.propTypes = {
   href: PropTypes.string,
@@ -76,7 +76,7 @@ MenuItem.propTypes = {
   onClick: PropTypes.func,
 };
 
-const Menu = ({ items = [], title, ...props }) => {
+const Menu = memo(({ items = [], title, ...props }) => {
   const Content = (contentProps) => (
     <List {...contentProps}>
       {items.map((menuItem, index) => (
@@ -103,7 +103,7 @@ const Menu = ({ items = [], title, ...props }) => {
       <Content />
     </Stack>
   );
-};
+});
 
 Menu.propTypes = {
   items: PropTypes.array,
