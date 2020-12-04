@@ -144,7 +144,6 @@ const boxProps = css`
   ${parseProperty('display')};
   ${parseProperty('opacity')};
   ${parseProperty('flex')};
-  ${parseProperty('flexDirection')};
   ${parseProperty('cursor')};
 `;
 
@@ -327,11 +326,6 @@ const boxPropTypes = {
   flex: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
-    PropTypes.func,
-    PropTypes.object,
-  ]),
-  flexDirection: PropTypes.oneOfType([
-    PropTypes.string,
     PropTypes.func,
     PropTypes.object,
   ]),
