@@ -13,7 +13,9 @@ const useHandleWindowMessage = (eventsMap = {}) => {
   const internalHandler = (event) => {
     const { source, type, ...data } = event.data;
     if (source !== WindowMessageSources.UDB) return;
-    eventsMap?.[type]?.(data);
+    if (eventsMap[type]) {
+      eventsMap[type](data);
+    }
   };
   useEffect(() => {
     if (!window) return;
