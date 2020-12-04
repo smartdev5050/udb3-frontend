@@ -378,7 +378,11 @@ const SideBar = () => {
           padding={{ default: 2, s: 0 }}
           spacing={3}
         >
-          <Link justifyContent="center" href="/dashboard">
+          <Link
+            justifyContent="center"
+            href="/dashboard"
+            title={t('menu.home')}
+          >
             <Logo variant={isSmallView ? LogoVariants.MOBILE : undefined} />
           </Link>
           <Stack
