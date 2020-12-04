@@ -340,7 +340,7 @@ const SideBar = () => {
 
   const filteredManageMenu = useMemo(() => {
     if (permissions.length === 0) {
-      return manageMenu;
+      return [];
     }
 
     return manageMenu.filter((menuItem) =>
