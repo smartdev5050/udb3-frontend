@@ -392,8 +392,15 @@ const SideBar = () => {
             `}
           >
             <Menu items={userMenu} />
-            <Stack justifyContent="space-between" flex={1}>
-              <Menu items={filteredManageMenu} title={t('menu.management')} />
+            <Stack
+              justifyContent={
+                filteredManageMenu.length > 0 ? 'space-between' : 'flex-end'
+              }
+              flex={1}
+            >
+              {filteredManageMenu.length > 0 && (
+                <Menu items={filteredManageMenu} title={t('menu.management')} />
+              )}
               <Stack>
                 <Menu items={notificationMenu} />
                 <ProfileMenu />
