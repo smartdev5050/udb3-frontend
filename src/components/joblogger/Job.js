@@ -48,6 +48,19 @@ const StatusIcon = ({ state }) => {
           name={Icons.CHECK_NOTCH}
           css={`
             color: ${getValue('busy.spinnerStrokeColor')};
+
+            @keyframes rotation {
+              from {
+                transform: rotate(0deg);
+              }
+              to {
+                transform: rotate(359deg);
+              }
+            }
+
+            .svg-inline--fa {
+              animation: rotation 1s infinite linear;
+            }
           `}
         />
       );
