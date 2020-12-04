@@ -90,13 +90,13 @@ const Menu = ({ items = [], title, ...props }) => {
   return (
     <Stack spacing={3} {...props}>
       <Title
-        size={2}
         opacity={0.5}
         css={`
           font-size: 13px;
           font-weight: 400;
           text-transform: uppercase;
         `}
+        textAlign={{ s: 'center' }}
       >
         {title}
       </Title>
