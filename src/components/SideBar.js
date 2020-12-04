@@ -98,7 +98,7 @@ Menu.propTypes = {
 
 const ProfileMenu = ({ profileImage }) => {
   const { t } = useTranslation();
-  const [, , removeCookie] = useCookiesWithOptions();
+  const [cookies, , removeCookie] = useCookiesWithOptions(['user']);
   const router = useRouter();
 
   const loginMenu = [
@@ -134,7 +134,7 @@ const ProfileMenu = ({ profileImage }) => {
     >
       <Image src={profileImage} width={50} height={50} alt="Profile picture" />
       <Stack as="div" padding={2} spacing={2} flex={1}>
-        <Box as="span">username</Box>
+        <Box as="span">{cookies?.user?.username ?? ''}</Box>
         <Menu items={loginMenu} />
       </Stack>
     </Inline>
@@ -325,7 +325,7 @@ const SideBar = () => {
 
   const filteredManageMenu = useMemo(() => {
     if (permissions.length === 0) {
-      return manageMenu;
+      return [];
     }
 
     return manageMenu.filter((menuItem) =>
