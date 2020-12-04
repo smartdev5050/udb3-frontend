@@ -78,12 +78,11 @@ const JobLogger = ({ visible, onClose, onStatusChange }) => {
     [activeJobs],
   );
 
-  const updateJobState = (newJobState) => ({ job_id: jobId, location }) =>
+  const updateJobState = (newJobState) => ({ job_id: jobId, location }) => {
     setJobs((previousJobs) =>
       previousJobs.map((job) => {
         const { id, finishedAt, exportUrl } = job;
         if (id !== jobId) return job;
-
         return {
           ...job,
           state: newJobState,
@@ -96,6 +95,7 @@ const JobLogger = ({ visible, onClose, onStatusChange }) => {
         };
       }),
     );
+  };
 
   const addJob = ({ job }) =>
     setJobs((previousJobs) => [
@@ -115,10 +115,14 @@ const JobLogger = ({ visible, onClose, onStatusChange }) => {
     });
 
   useHandleSocketMessage({
-    [SocketMessageTypes.JOB_STARTED]: updateJobState(JobStates.STARTED),
-    [SocketMessageTypes.JOB_INFO]: updateJobState(JobStates.STARTED),
-    [SocketMessageTypes.JOB_FINISHED]: updateJobState(JobStates.FINISHED),
-    [SocketMessageTypes.JOB_FAILED]: updateJobState(JobStates.FAILED),
+    [SocketMessageTypes.JOB_STARTED]: (data) =>
+      updateJobState(JobStates.STARTED)(data),
+    [SocketMessageTypes.JOB_INFO]: (data) =>
+      updateJobState(JobStates.STARTED)(data),
+    [SocketMessageTypes.JOB_FINISHED]: (data) =>
+      updateJobState(JobStates.FINISHED)(data),
+    [SocketMessageTypes.JOB_FAILED]: (data) =>
+      updateJobState(JobStates.FAILED)(data),
   });
 
   useHandleWindowMessage({
