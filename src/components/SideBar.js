@@ -199,8 +199,6 @@ const SideBar = () => {
   const countEventsToModerate = eventsToModerate?.totalItems || 0;
   const isSmallView = useMediaQuery(`(max-width:${Breakpoints.s}px)`);
 
-  console.log({ isSmallView });
-
   const handleClickAnnouncement = (activeAnnouncement) =>
     setActiveAnnouncementId(activeAnnouncement.uid);
 

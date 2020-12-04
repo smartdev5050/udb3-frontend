@@ -35,7 +35,6 @@ const StyledBox = styled(Box)`
 
 const Inline = forwardRef(
   ({ spacing, className, children, as, stackOn, ...props }, ref) => {
-    console.log({ stackOn });
     const isMediaQuery =
       typeof stackOn !== 'boolean'
         ? useMediaQuery(`(max-width:${stackOn}px)`)
