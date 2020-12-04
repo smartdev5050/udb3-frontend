@@ -11,7 +11,9 @@ const SocketMessageTypes = {
 const useHandleSocketMessage = (eventsMap = {}) => {
   useEffect(() => {
     const socket = socketIOClient(process.env.NEXT_PUBLIC_SOCKET_URL);
-    Object.entries(([event, handler]) => socket.on(event, handler));
+    Object.entries(eventsMap).forEach(([event, handler]) => {
+      socket.on(event, handler);
+    });
     return () => socket.close();
   }, []);
 };
