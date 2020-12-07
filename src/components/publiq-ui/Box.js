@@ -63,6 +63,9 @@ const parseSpacing = (value) => () => `${(1 / remInPixels) * 2 ** value}rem`;
 const parseDimension = (value) => () =>
   typeof value === 'string' || value instanceof String ? value : `${value}px`;
 
+const parseAnimation = (value) => () =>
+  Array.isArray(value) ? value.join(', ') : value;
+
 const parseShorthandProperty = (shorthand, propsToChange = [], parser) => (
   props,
 ) =>
@@ -142,6 +145,8 @@ const boxProps = css`
   ${parseProperty('opacity')};
   ${parseProperty('flex')};
   ${parseProperty('cursor')};
+
+  ${parseProperty('animation', parseAnimation)}
 `;
 
 const StyledBox = styled.div`
@@ -311,6 +316,11 @@ const boxPropTypes = {
     PropTypes.object,
   ]),
   cursor: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  animation: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
     PropTypes.object,
