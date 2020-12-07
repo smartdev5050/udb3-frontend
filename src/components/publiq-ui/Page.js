@@ -2,11 +2,10 @@ import PropTypes from 'prop-types';
 import { getStackProps, Stack, stackPropTypes } from './Stack';
 import { getValueFromTheme } from './theme';
 
-import { boxPropTypes, getBoxProps } from './Box';
 import { Title } from './Title';
 import { Link } from './Link';
 import { Text } from './Text';
-import { getInlineProps, Inline } from './Inline';
+import { getInlineProps, Inline, inlinePropTypes } from './Inline';
 
 const getValueForPage = getValueFromTheme('page');
 
@@ -46,13 +45,13 @@ const PageTitle = ({
     `}
     marginBottom={5}
     spacing={3}
+    {...getInlineProps(props)}
   >
     <Title
       size={1}
       className={className}
       color={getValueForTitle('color')}
       lineHeight="220%"
-      {...getInlineProps(props)}
     >
       {children}
     </Title>
@@ -65,7 +64,7 @@ const PageTitle = ({
 );
 
 PageTitle.propTypes = {
-  ...boxPropTypes,
+  ...inlinePropTypes,
   actionTitle: PropTypes.string,
   actionHref: PropTypes.string,
   className: PropTypes.string,
