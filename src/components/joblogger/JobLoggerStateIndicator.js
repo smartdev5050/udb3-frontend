@@ -177,14 +177,16 @@ WarningIcon.propTypes = {
 };
 
 const ComponentMap = {
-  [JobLoggerStates.WARNING]: <WarningIcon />,
-  [JobLoggerStates.COMPLETE]: <CompleteIcon />,
-  [JobLoggerStates.BUSY]: <BusyIcon />,
+  [JobLoggerStates.WARNING]: WarningIcon,
+  [JobLoggerStates.COMPLETE]: CompleteIcon,
+  [JobLoggerStates.BUSY]: BusyIcon,
 };
 
-const JobLoggerStateIndicator = memo(
-  ({ state }) => ComponentMap[state] ?? null,
-);
+const JobLoggerStateIndicator = memo(({ state }) => {
+  const Icon = ComponentMap[state];
+  if (!Icon) return null;
+  return <Icon />;
+});
 
 JobLoggerStateIndicator.propTypes = {
   state: PropTypes.oneOf(Object.values(JobLoggerStates)),
