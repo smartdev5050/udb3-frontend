@@ -420,6 +420,7 @@ const SideBar = () => {
             justifyContent="center"
             href="/dashboard"
             title={t('menu.home')}
+            customChildren
           >
             <Logo variant={isSmallView ? LogoVariants.MOBILE : undefined} />
           </Link>
