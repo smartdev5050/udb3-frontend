@@ -199,6 +199,10 @@ const Button = ({
       css={`
         background: none;
         border: none;
+
+        :focus {
+          outline: none;
+        }
       `}
       alignItems="center"
       justifyContent="flex-start"
