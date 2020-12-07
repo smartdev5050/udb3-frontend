@@ -160,31 +160,16 @@ const JobLogger = ({ visible, onClose, onStatusChange }) => {
     <Inline
       css={`
         ${visible && 'display: none;'}
-        width: calc(100% - 230px);
-        position: absolute;
-        left: 230px;
-        background-color: white;
       `}
-      displ
+      position="absolute"
+      width="calc(100% - 230px)"
+      left={230}
+      backgroundColor="white"
     >
-      <Stack
-        padding={3}
-        css={`
-          width: 320px;
-          height: 100vh;
-        `}
-      >
+      <Stack padding={3} width={320} height="100vh">
         <Inline as="div" justifyContent="flex-end">
           <Button variant={ButtonVariants.UNSTYLED} onClick={onClose}>
-            <Icon
-              name={Icons.TIMES}
-              css={`
-                opacity: 0.5;
-                &:hover {
-                  opacity: 1;
-                }
-              `}
-            />
+            <Icon name={Icons.TIMES} opacity={{ default: 0.5, hover: 1 }} />
           </Button>
         </Inline>
         <Stack spacing={4}>
@@ -209,12 +194,10 @@ const JobLogger = ({ visible, onClose, onStatusChange }) => {
         </Stack>
       </Stack>
       <Box
-        css={`
-          background-color: black;
-          opacity: 0.5;
-          height: 100vh;
-          width: calc(100% - 320px);
-        `}
+        width="calc(100% - 320px)"
+        height="100vh"
+        opacity={0.5}
+        backgroundColor="black"
       />
     </Inline>
   );
