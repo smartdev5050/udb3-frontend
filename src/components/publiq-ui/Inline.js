@@ -3,13 +3,13 @@ import { Box, boxPropTypes, boxProps, parseProperty } from './Box';
 import PropTypes from 'prop-types';
 import { Children, cloneElement, forwardRef } from 'react';
 import { pick } from 'lodash';
-import { useMediaQuery } from '@material-ui/core';
 import { Breakpoints } from '../publiq-ui/theme';
+import { useMatchBreakpoint } from '../../hooks/useMatchBreakpoint';
 
 const parseStackOnProperty = () => ({ stackOn }) => {
   if (typeof stackOn !== 'boolean') {
     return css`
-      @media (max-width: ${stackOn}px) {
+      @media (max-width: ${(props) => props.theme.breakpoints[stackOn]}px) {
         flex-direction: column;
       }
     `;
@@ -36,9 +36,7 @@ const StyledBox = styled(Box)`
 const Inline = forwardRef(
   ({ spacing, className, children, as, stackOn, ...props }, ref) => {
     const isMediaQuery =
-      typeof stackOn !== 'boolean'
-        ? useMediaQuery(`(max-width:${stackOn}px)`)
-        : true;
+      typeof stackOn !== 'boolean' ? useMatchBreakpoint(stackOn) : true;
 
     const margin = !(stackOn && isMediaQuery)
       ? { marginRight: spacing }

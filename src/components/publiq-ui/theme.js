@@ -23,14 +23,20 @@ const colors = {
 };
 
 const Breakpoints = {
-  xs: 575,
-  s: 768,
-  m: 992,
-  l: 1200,
+  XS: 'xs',
+  S: 's',
+  M: 'm',
+  L: 'l',
 };
+
 const theme = {
   colors,
-  breakpoints: Breakpoints,
+  breakpoints: {
+    [Breakpoints.XS]: 575,
+    [Breakpoints.S]: 768,
+    [Breakpoints.M]: 992,
+    [Breakpoints.L]: 1200,
+  },
   components: {
     alert: {
       borderRadius: 0,

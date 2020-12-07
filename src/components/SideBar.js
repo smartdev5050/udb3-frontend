@@ -23,7 +23,7 @@ import { useGetPermissions, useGetRoles } from '../hooks/api/user';
 import { useGetEventsToModerate } from '../hooks/api/events';
 import { JobLoggerStateIndicator } from './joblogger/JobLoggerStateIndicator';
 import { Text } from './publiq-ui/Text';
-import { useMediaQuery } from '@material-ui/core';
+import { useMatchBreakpoint } from '../hooks/useMatchBreakpoint';
 
 const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSideBar = getValueFromTheme('sideBar');
@@ -47,20 +47,19 @@ const MenuItem = memo(
             default: 'none',
             hover: getValueForMenuItem('hover.backgroundColor'),
           }}
-          fontSize={{ s: '9px' }}
           spacing={{ default: 3, s: 0 }}
-          stackOn={Breakpoints.s}
+          stackOn={Breakpoints.S}
           customChildren
           title={label}
         >
           <Text
             flex={1}
             css={`
-              width: 100%;
               white-space: nowrap;
               overflow: hidden;
               text-overflow: ellipsis;
             `}
+            fontSize={{ s: '9px' }}
             textAlign={{ default: 'left', s: 'center' }}
           >
             {label}
@@ -244,7 +243,8 @@ const SideBar = () => {
   const { data: roles = [] } = useGetRoles();
   const { data: eventsToModerate = {} } = useGetEventsToModerate(searchQuery);
   const countEventsToModerate = eventsToModerate?.totalItems || 0;
-  const isSmallView = useMediaQuery(`(max-width:${Breakpoints.s}px)`);
+
+  const isSmallView = useMatchBreakpoint(Breakpoints.S);
 
   const handleClickAnnouncement = useCallback(
     (activeAnnouncement) => setActiveAnnouncementId(activeAnnouncement.uid),
@@ -422,7 +422,9 @@ const SideBar = () => {
             title={t('menu.home')}
             customChildren
           >
-            <Logo variant={isSmallView ? LogoVariants.MOBILE : undefined} />
+            <Logo
+              variant={isSmallView ? LogoVariants.MOBILE : LogoVariants.DEFAULT}
+            />
           </Link>
           <Stack
             paddingTop={4}
