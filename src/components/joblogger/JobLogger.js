@@ -162,8 +162,8 @@ const JobLogger = ({ visible, onClose, onStatusChange }) => {
         ${visible && 'display: none;'}
       `}
       position="absolute"
-      width="calc(100% - 230px)"
-      left={230}
+      width={{ default: 'calc(100% - 230px)', s: 'calc(100% - 65px)' }}
+      left={{ default: 230, s: 65 }}
       backgroundColor="white"
     >
       <Stack padding={3} width={320} height="100vh">
