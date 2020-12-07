@@ -4,6 +4,9 @@ import { getValueFromTheme } from './theme';
 
 import { boxPropTypes, getBoxProps } from './Box';
 import { Title } from './Title';
+import { Link } from './Link';
+import { Text } from './Text';
+import { getInlineProps, Inline } from './Inline';
 
 const getValueForPage = getValueFromTheme('page');
 
@@ -14,7 +17,6 @@ const Page = ({ children, className, ...props }) => (
     flex={1}
     backgroundColor={getValueForPage('backgroundColor')}
     minHeight="100vh"
-    padding={3}
     css={`
       overflow-x: hidden;
       overflow-y: auto;
@@ -29,23 +31,41 @@ const Page = ({ children, className, ...props }) => (
 
 const getValueForTitle = getValueFromTheme('pageTitle');
 
-const PageTitle = ({ children, className, ...props }) => (
-  <Title
-    size={1}
-    className={className}
-    color={getValueForTitle('color')}
+const PageTitle = ({
+  children,
+  actionTitle,
+  actionHref,
+  className,
+  ...props
+}) => (
+  <Inline
+    alignItems="baseline"
     css={`
-      line-height: 220%;
       border-bottom: 1px solid ${getValueForTitle('borderColor')};
     `}
-    {...getBoxProps(props)}
+    spacing={3}
   >
-    {children}
-  </Title>
+    <Title
+      size={1}
+      className={className}
+      color={getValueForTitle('color')}
+      lineHeight="220%"
+      {...getInlineProps(props)}
+    >
+      {children}
+    </Title>
+    {actionTitle && (
+      <Link href={actionHref}>
+        <Text>{actionTitle}</Text>
+      </Link>
+    )}
+  </Inline>
 );
 
 PageTitle.propTypes = {
   ...boxPropTypes,
+  actionTitle: PropTypes.string,
+  actionHref: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.node,
 };

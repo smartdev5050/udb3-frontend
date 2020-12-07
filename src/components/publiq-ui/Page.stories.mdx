@@ -21,7 +21,9 @@ import { Page } from './Page.js';
   <Story name="WithPageTitle">
     {(args) => (
       <Page {...args}>
-        <Page.Title>Page Title</Page.Title>
+        <Page.Title actionTitle="toevoegen" actionHref="#">
+          Page Title
+        </Page.Title>
         <div>Page content</div>
       </Page>
     )}
