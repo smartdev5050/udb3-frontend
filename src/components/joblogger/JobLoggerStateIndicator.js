@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { memo } from 'react';
+import { keyframes } from 'styled-components';
 import { Box } from '../publiq-ui/Box';
 import { getValueFromTheme } from '../publiq-ui/theme';
 import { JobLoggerStates } from './JobLogger';
@@ -59,28 +60,28 @@ BusyIcon.propTypes = {
   className: PropTypes.string,
 };
 
+const bounceIn = keyframes`
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+`;
+
 const CompleteIcon = ({ className }) => (
   <Svg
     css={`
       overflow: visible;
-      @keyframes bounceIn {
-        0% {
-          opacity: 0;
-          transform: scale(0.3);
-        }
-        50% {
-          opacity: 1;
-          transform: scale(1.05);
-        }
-        70% {
-          transform: scale(0.9);
-        }
-        100% {
-          transform: scale(1);
-        }
-      }
-      animation: bounceIn 0.75s 1 linear;
-      -webkit-animation: bounceIn 0.75s 1 linear;
+      animation: ${bounceIn} 0.75s 1 linear;
     `}
   >
     <g className="complete" fillRule="evenodd" fill="none">
@@ -126,29 +127,28 @@ CompleteIcon.propTypes = {
   className: PropTypes.string,
 };
 
+const bounce = keyframes`
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-30px);
+  }
+  60% {
+    transform: translateY(-15px);
+  }
+`;
+
 const WarningIcon = ({ className }) => (
   <Svg>
     <g
       className="warning"
       css={`
-        @keyframes bounce {
-          0%,
-          20%,
-          50%,
-          80%,
-          100% {
-            transform: translateY(0);
-          }
-          40% {
-            transform: translateY(-30px);
-          }
-          60% {
-            transform: translateY(-15px);
-          }
-        }
-
-        animation: bounce 1s infinite linear;
-        -webkit-animation: bounce 1s infinite linear;
+        animation: ${bounce} 1s infinite linear;
       `}
     >
       <circle
