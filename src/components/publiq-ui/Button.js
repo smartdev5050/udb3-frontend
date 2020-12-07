@@ -137,6 +137,7 @@ const Button = ({
   children,
   onClick,
   className,
+  textAlign,
   ...props
 }) => {
   if (variant === ButtonVariants.SECONDARY) variant = 'outline-secondary';
@@ -168,7 +169,7 @@ const Button = ({
   ) : (
     [
       iconName && <Icon name={iconName} key="icon" />,
-      <Box forwardAs="span" flex={1} css="text-align: left" key="text">
+      <Box forwardedAs="span" flex={1} css="text-align: left" key="text">
         {children}
       </Box>,
       clonedSuffix,
@@ -192,7 +193,6 @@ const Button = ({
         background: none;
         border: none;
       `}
-      spacing={3}
       alignItems="center"
       justifyContent="flex-start"
     >
@@ -205,6 +205,7 @@ Button.propTypes = {
   ...inlinePropTypes,
   iconName: PropTypes.string,
   className: PropTypes.string,
+  textAlign: PropTypes.string,
   variant: PropTypes.string,
   disabled: PropTypes.bool,
   loading: PropTypes.bool,
@@ -216,6 +217,7 @@ Button.defaultProps = {
   variant: ButtonVariants.PRIMARY,
   disabled: false,
   loading: false,
+  textAlign: 'center',
   onClick: () => {},
 };
 
