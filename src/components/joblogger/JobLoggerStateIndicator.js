@@ -6,7 +6,7 @@ import { JobLoggerStates } from './JobLogger';
 
 const getValue = getValueFromTheme('jobStatusIcon');
 
-const BusyIcon = ({ className }) => (
+const Svg = ({ className, ...props }) => {
   <Box
     className={className}
     forwardedAs="svg"
@@ -16,7 +16,12 @@ const BusyIcon = ({ className }) => (
     css="overflow: visible;"
     width={20}
     height={20}
-  >
+    {...props}
+  />;
+};
+
+const BusyIcon = ({ className }) => (
+  <Svg>
     <g className="busy" fillRule="evenodd" fill="none">
       <circle
         css={`
@@ -47,7 +52,7 @@ const BusyIcon = ({ className }) => (
         </path>
       </g>
     </g>
-  </Box>
+  </Svg>
 );
 
 BusyIcon.propTypes = {
@@ -55,12 +60,7 @@ BusyIcon.propTypes = {
 };
 
 const CompleteIcon = ({ className }) => (
-  <Box
-    className={className}
-    forwardedAs="svg"
-    version="1.1"
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="10 30 20 20"
+  <Svg
     css={`
       overflow: visible;
       @keyframes bounceIn {
@@ -79,12 +79,9 @@ const CompleteIcon = ({ className }) => (
           transform: scale(1);
         }
       }
-
       animation: bounceIn 0.75s 1 linear;
       -webkit-animation: bounceIn 0.75s 1 linear;
     `}
-    width={20}
-    height={20}
   >
     <g className="complete" fillRule="evenodd" fill="none">
       <circle
@@ -122,7 +119,7 @@ const CompleteIcon = ({ className }) => (
         />
       </g>
     </g>
-  </Box>
+  </Svg>
 );
 
 CompleteIcon.propTypes = {
@@ -130,16 +127,7 @@ CompleteIcon.propTypes = {
 };
 
 const WarningIcon = ({ className }) => (
-  <Box
-    className={className}
-    forwardedAs="svg"
-    version="1.1"
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="10 30 20 20"
-    css="overflow: visible;"
-    width={20}
-    height={20}
-  >
+  <Svg>
     <g
       className="warning"
       css={`
@@ -191,7 +179,7 @@ const WarningIcon = ({ className }) => (
         />
       </g>
     </g>
-  </Box>
+  </Svg>
 );
 
 WarningIcon.propTypes = {
