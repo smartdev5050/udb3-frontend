@@ -69,7 +69,13 @@ const Link = ({
 
   const inner = [
     iconName && <Icon name={iconName} key="icon" />,
-    customChildren ? children : <Text key="text">{children}</Text>,
+    customChildren ? (
+      children
+    ) : (
+      <Text flex={1} css="text-align: left" key="text">
+        {children}
+      </Text>
+    ),
     clonedSuffix,
   ];
 
