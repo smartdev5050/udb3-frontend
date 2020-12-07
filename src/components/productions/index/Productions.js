@@ -4,7 +4,12 @@ import { Title } from '../../publiq-ui/Title';
 import { List } from '../../publiq-ui/List';
 import { useTranslation } from 'react-i18next';
 
-const Productions = ({ productions, className, ...props }) => {
+const Productions = ({
+  productions,
+  onClickProduction,
+  className,
+  ...props
+}) => {
   const { t } = useTranslation();
   return (
     <Stack className={className} {...getStackProps(props)}>
@@ -20,6 +25,7 @@ const Productions = ({ productions, className, ...props }) => {
             backgroundColor={production.active ? 'red' : 'white'}
             cursor="pointer"
             key={production.production_id}
+            onClick={() => onClickProduction(production.production_id)}
           >
             {production.name}
           </List.Item>
@@ -32,6 +38,7 @@ const Productions = ({ productions, className, ...props }) => {
 Productions.propTypes = {
   ...stackPropTypes,
   productions: PropTypes.array,
+  onClickProduction: PropTypes.func,
   className: PropTypes.string,
 };
 

@@ -15,6 +15,7 @@ const Index = () => {
   const events = [];
 
   const [productions, setProductions] = useState([]);
+  const [activeProductionsid, setActiveProductionsId] = useState('');
 
   useEffect(() => {
     if (rawProductions.length === 0) {
@@ -30,6 +31,24 @@ const Index = () => {
       }),
     );
   }, [rawProductions]);
+
+  useEffect(() => {
+    setProductions((prevProductions) =>
+      prevProductions.map((production) => {
+        if (production.active) {
+          return { ...production, active: false };
+        }
+        if (production.production_id === activeProductionsid) {
+          return { ...production, active: true };
+        }
+        return production;
+      }),
+    );
+  }, [activeProductionsid]);
+
+  const handleClickProduction = (id) => {
+    setActiveProductionsId(id);
+  };
 
   return (
     <Page>
@@ -50,6 +69,7 @@ const Index = () => {
         <Productions
           width={`calc(40% - ${parseSpacing(4)()})`}
           productions={productions}
+          onClickProduction={handleClickProduction}
         />
         <Events width="60%" productions={events} />
       </Inline>
