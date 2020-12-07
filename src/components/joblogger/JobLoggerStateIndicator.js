@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { memo } from 'react';
-import { keyframes } from 'styled-components';
+import { css, keyframes } from 'styled-components';
 import { Box } from '../publiq-ui/Box';
 import { getValueFromTheme } from '../publiq-ui/theme';
 import { JobLoggerStates } from './JobLogger';
@@ -8,27 +8,32 @@ import { JobLoggerStates } from './JobLogger';
 const getValue = getValueFromTheme('jobStatusIcon');
 
 const Svg = ({ className, ...props }) => {
-  <Box
-    className={className}
-    forwardedAs="svg"
-    version="1.1"
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="10 30 20 20"
-    css="overflow: visible;"
-    width={20}
-    height={20}
-    {...props}
-  />;
+  return (
+    <Box
+      className={className}
+      forwardedAs="svg"
+      version="1.1"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="10 30 20 20"
+      css="overflow: visible;"
+      width={20}
+      height={20}
+      {...props}
+    />
+  );
+};
+
+Svg.propTypes = {
+  className: PropTypes.string,
 };
 
 const BusyIcon = ({ className }) => (
-  <Svg>
-    <g className="busy" fillRule="evenodd" fill="none">
+  <Svg className={className}>
+    <g fillRule="evenodd" fill="none">
       <circle
         css={`
           fill: ${getValue('backgroundColor')};
         `}
-        id="busy-background"
         cx="20"
         cy="40"
         r="10"
@@ -78,13 +83,17 @@ const bounceIn = keyframes`
 `;
 
 const CompleteIcon = ({ className }) => (
-  <Svg animation={`${bounceIn} 0.75s 1 linear`}>
-    <g className="complete" fillRule="evenodd" fill="none">
+  <Svg
+    animation={css`
+      ${bounceIn} 0.75s 1 linear
+    `}
+    className={className}
+  >
+    <g fillRule="evenodd" fill="none">
       <circle
         css={`
           fill: ${getValue('backgroundColor')};
         `}
-        id="complete-background"
         cx="20"
         cy="40"
         r="10"
@@ -93,7 +102,6 @@ const CompleteIcon = ({ className }) => (
         css={`
           fill: ${getValue('complete.circleFillColor')};
         `}
-        id="complete-circle"
         cx="20"
         cy="40"
         r="8"
@@ -104,7 +112,6 @@ const CompleteIcon = ({ className }) => (
         `}
         strokeWidth="2"
         transform="translate(-6 14)"
-        id="complete-check"
       >
         <path
           d="M31.162,24.359l-4.612,4.611l-0.864,0.867c-0.115,0.114-0.274,0.178-0.434,0.178s-0.318-0.063-0.433-0.178
@@ -139,13 +146,17 @@ const bounce = keyframes`
 `;
 
 const WarningIcon = ({ className }) => (
-  <Svg>
-    <g className="warning" animation={`${bounce} 1s infinite linear`}>
+  <Svg
+    className={className}
+    animation={css`
+      ${bounce} 1s infinite linear
+    `}
+  >
+    <g>
       <circle
         css={`
           fill: ${getValue('backgroundColor')};
         `}
-        id="warning-background"
         cx="20"
         cy="40"
         r="10"
@@ -154,7 +165,6 @@ const WarningIcon = ({ className }) => (
         css={`
           fill: ${getValue('warning.circleFillColor')};
         `}
-        id="warning-circle"
         cx="20"
         cy="40"
         r="8"
@@ -164,7 +174,6 @@ const WarningIcon = ({ className }) => (
           css={`
             fill: ${getValue('warning.remarkFillColor')};
           `}
-          id="warning-remark"
           d="M68.798,45.538c0-0.383,0.103-0.672,0.308-0.868s0.504-0.294,0.896-0.294c0.378,0,0.671,0.1,0.878,0.301 c0.208,0.201,0.312,0.488,0.312,0.861c0,0.36-0.104,0.644-0.314,0.851S70.375,46.7,70.001,46.7c-0.383,0-0.679-0.102-0.889-0.304 S68.798,45.907,68.798,45.538z M70.842,43.2h-1.668l-0.349-6.679h2.365L70.842,43.2z"
         />
       </g>

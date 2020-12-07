@@ -22,7 +22,9 @@ const parseProperty = (key, parser, customValue) => (props) => {
   if (value === undefined) return css``;
 
   const parsedValue =
-    typeof value === 'object' && value !== null ? value : { default: value };
+    typeof value === 'object' && value !== null && !Array.isArray(value)
+      ? value
+      : { default: value };
 
   const { default: defaultValue, hover, ...rest } = parsedValue;
 
@@ -62,9 +64,6 @@ const parseProperty = (key, parser, customValue) => (props) => {
 const parseSpacing = (value) => () => `${(1 / remInPixels) * 2 ** value}rem`;
 const parseDimension = (value) => () =>
   typeof value === 'string' || value instanceof String ? value : `${value}px`;
-
-const parseAnimation = (value) => () =>
-  Array.isArray(value) ? value.join(', ') : value;
 
 const parseShorthandProperty = (shorthand, propsToChange = [], parser) => (
   props,
@@ -146,7 +145,7 @@ const boxProps = css`
   ${parseProperty('flex')};
   ${parseProperty('cursor')};
 
-  ${parseProperty('animation', parseAnimation)}
+  ${parseProperty('animation')}
 `;
 
 const StyledBox = styled.div`

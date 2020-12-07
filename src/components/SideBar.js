@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useEffect, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { Stack } from './publiq-ui/Stack';
 import { Link } from './publiq-ui/Link';
@@ -28,7 +28,7 @@ const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSideBar = getValueFromTheme('sideBar');
 const getValueForMenu = getValueFromTheme('menu');
 
-const MenuItem = ({ href, iconName, suffix, children, onClick }) => {
+const MenuItem = memo(({ href, iconName, suffix, children, onClick }) => {
   const Component = href ? Link : Button;
 
   return (
@@ -52,7 +52,7 @@ const MenuItem = ({ href, iconName, suffix, children, onClick }) => {
       </Component>
     </List.Item>
   );
-};
+});
 
 MenuItem.propTypes = {
   href: PropTypes.string,
@@ -63,13 +63,13 @@ MenuItem.propTypes = {
 };
 
 const Menu = ({ items = [], title, ...props }) => {
-  const Content = (contentProps) => (
+  const Content = memo((contentProps) => (
     <List {...contentProps}>
       {items.map((menuItem, index) => (
         <MenuItem key={index} {...menuItem} />
       ))}
     </List>
-  );
+  ));
 
   if (!title) return <Content {...props} />;
 
@@ -161,6 +161,43 @@ const PermissionTypes = {
   PRODUCTIES_AANMAKEN: 'PRODUCTIES_AANMAKEN',
 };
 
+const NotificationMenu = memo(
+  ({
+    countUnseenAnnouncements,
+    onClickAnnouncementsButton,
+    onClickJobLoggerButton,
+    jobLoggerState,
+  }) => {
+    const { t } = useTranslation();
+
+    const notificationMenu = [
+      {
+        iconName: Icons.GIFT,
+        children: t('menu.announcements'),
+        suffix: countUnseenAnnouncements > 0 && (
+          <Badge>{countUnseenAnnouncements}</Badge>
+        ),
+        onClick: onClickAnnouncementsButton,
+      },
+      {
+        iconName: Icons.BELL,
+        children: t('menu.notifications'),
+        suffix: <JobLoggerStateIndicator state={jobLoggerState} />,
+        onClick: onClickJobLoggerButton,
+      },
+    ];
+
+    return <Menu items={notificationMenu} />;
+  },
+);
+
+NotificationMenu.propTypes = {
+  countUnseenAnnouncements: PropTypes.number,
+  onClickAnnouncementsButton: PropTypes.func,
+  onClickJobLoggerButton: PropTypes.func,
+  jobLoggerState: PropTypes.oneOf(Object.values(JobLoggerStates)),
+};
+
 const SideBar = () => {
   const { t } = useTranslation();
 
@@ -171,30 +208,45 @@ const SideBar = () => {
 
   const [isJobLoggerVisible, setIsJobLoggerVisible] = useState(true);
   const [jobLoggerState, setJobLoggerState] = useState(JobLoggerStates.IDLE);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+
+  const [
+    isAnnouncementsModalVisible,
+    setIsAnnouncementsModalVisible,
+  ] = useState(false);
   const [activeAnnouncementId, setActiveAnnouncementId] = useState();
+
+  const [searchQuery, setSearchQuery] = useState('');
 
   const { data: dataWithAnnouncements = {} } = useGetAnnouncements({
     refetchInterval: 60000,
   });
+
   const rawAnnouncements = dataWithAnnouncements?.data ?? [];
   const { data: permissions = [] } = useGetPermissions();
   const { data: roles = [] } = useGetRoles();
   const { data: eventsToModerate = {} } = useGetEventsToModerate(searchQuery);
   const countEventsToModerate = eventsToModerate?.totalItems || 0;
 
-  const handleClickAnnouncement = (activeAnnouncement) =>
-    setActiveAnnouncementId(activeAnnouncement.uid);
+  const handleClickAnnouncement = useCallback(
+    (activeAnnouncement) => setActiveAnnouncementId(activeAnnouncement.uid),
+    [],
+  );
 
-  const toggleIsModalVisibile = () =>
-    setIsModalVisible((isModalVisible) => !isModalVisible);
+  const toggleIsAnnouncementsModalVisible = useCallback(
+    () => setIsAnnouncementsModalVisible((prevValue) => !prevValue),
+    [],
+  );
+
+  const toggleIsJobLoggerVisible = useCallback(
+    () => setIsJobLoggerVisible((prevValue) => !prevValue),
+    [],
+  );
 
   useEffect(() => {
-    if (isModalVisible) {
+    if (isAnnouncementsModalVisible) {
       setActiveAnnouncementId(announcements[0].uid);
     }
-  }, [isModalVisible]);
+  }, [isAnnouncementsModalVisible]);
 
   useEffect(() => {
     if (activeAnnouncementId) {
@@ -333,23 +385,6 @@ const SideBar = () => {
     );
   }, [permissions]);
 
-  const notificationMenu = [
-    {
-      iconName: Icons.GIFT,
-      children: t('menu.announcements'),
-      suffix: countUnseenAnnouncements > 0 && (
-        <Badge>{countUnseenAnnouncements}</Badge>
-      ),
-      onClick: () => toggleIsModalVisibile(),
-    },
-    {
-      iconName: Icons.BELL,
-      children: t('menu.notifications'),
-      suffix: <JobLoggerStateIndicator state={jobLoggerState} />,
-      onClick: () => setIsJobLoggerVisible((oldState) => !oldState),
-    },
-  ];
-
   return (
     <>
       <Inline>
@@ -382,7 +417,12 @@ const SideBar = () => {
             <Stack justifyContent="space-between" flex={1}>
               <Menu items={filteredManageMenu} title={t('menu.management')} />
               <Stack>
-                <Menu items={notificationMenu} />
+                <NotificationMenu
+                  countUnseenAnnouncements={countUnseenAnnouncements}
+                  jobLoggerState={jobLoggerState}
+                  onClickAnnouncementsButton={toggleIsAnnouncementsModalVisible}
+                  onClickJobLoggerButton={toggleIsJobLoggerVisible}
+                />
                 <ProfileMenu />
               </Stack>
             </Stack>
@@ -395,10 +435,10 @@ const SideBar = () => {
         onStatusChange={setJobLoggerState}
       />
       <Announcements
-        visible={isModalVisible}
+        visible={isAnnouncementsModalVisible}
         announcements={announcements || []}
         onClickAnnouncement={handleClickAnnouncement}
-        onClose={toggleIsModalVisibile}
+        onClose={toggleIsAnnouncementsModalVisible}
       />
     </>
   );
