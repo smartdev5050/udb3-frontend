@@ -1,4 +1,4 @@
-import { useMediaQuery } from '@material-ui/core';
+import { useMediaQuery } from '@react-hook/media-query';
 import { theme } from '../components/publiq-ui/theme';
 
 const useMatchBreakpoint = (breakpoint) =>
