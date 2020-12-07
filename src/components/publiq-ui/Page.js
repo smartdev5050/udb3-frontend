@@ -39,10 +39,12 @@ const PageTitle = ({
   ...props
 }) => (
   <Inline
+    forwardedAs="div"
     alignItems="baseline"
     css={`
       border-bottom: 1px solid ${getValueForTitle('borderColor')};
     `}
+    marginBottom={5}
     spacing={3}
   >
     <Title
@@ -55,7 +57,7 @@ const PageTitle = ({
       {children}
     </Title>
     {actionTitle && (
-      <Link href={actionHref}>
+      <Link href={actionHref} css="text-transform: lowercase;">
         <Text>{actionTitle}</Text>
       </Link>
     )}
