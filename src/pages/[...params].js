@@ -9,31 +9,27 @@ const Fallback = () => {
     query: { params, ...queryWithoutParams },
     asPath,
   } = useRouter();
+
   const [cookies] = useCookiesWithOptions(['token']);
-  const [legacyPath, setLegacyPath] = useState('');
 
-  useEffect(() => {
-    if (!window || asPath === '/[...params]') {
-      return;
-    }
+  if (typeof window === 'undefined' || asPath === '/[...params]') {
+    return null;
+  }
 
-    const queryString = new URLSearchParams({
-      ...queryWithoutParams,
-      jwt: cookies.token,
-      lang: i18next.language,
-    }).toString();
+  const queryString = new URLSearchParams({
+    ...queryWithoutParams,
+    jwt: cookies.token,
+    lang: i18next.language,
+  }).toString();
 
-    const path = asPath
-      ? new URL(`${window.location.protocol}//${window.location.host}${asPath}`)
-          .pathname
-      : '';
-    const parsedQueryString = queryString ? `?${queryString}` : '';
-    setLegacyPath(
-      `${process.env.NEXT_PUBLIC_LEGACY_APP_URL}${path}${parsedQueryString}`,
-    );
-  }, [asPath]);
+  const path = asPath
+    ? new URL(`${window.location.protocol}//${window.location.host}${asPath}`)
+        .pathname
+    : '';
 
-  if (!legacyPath) return null;
+  const parsedQueryString = queryString ? `?${queryString}` : '';
+
+  const legacyPath = `${process.env.NEXT_PUBLIC_LEGACY_APP_URL}${path}${parsedQueryString}`;
 
   return <Box as="iframe" src={legacyPath} width="100%" height="100vh" />;
 };
