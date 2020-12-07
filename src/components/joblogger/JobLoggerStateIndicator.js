@@ -78,12 +78,7 @@ const bounceIn = keyframes`
 `;
 
 const CompleteIcon = ({ className }) => (
-  <Svg
-    css={`
-      overflow: visible;
-      animation: ${bounceIn} 0.75s 1 linear;
-    `}
-  >
+  <Svg animation={`${bounceIn} 0.75s 1 linear`}>
     <g className="complete" fillRule="evenodd" fill="none">
       <circle
         css={`
@@ -145,12 +140,7 @@ const bounce = keyframes`
 
 const WarningIcon = ({ className }) => (
   <Svg>
-    <g
-      className="warning"
-      css={`
-        animation: ${bounce} 1s infinite linear;
-      `}
-    >
+    <g className="warning" animation={`${bounce} 1s infinite linear`}>
       <circle
         css={`
           fill: ${getValue('backgroundColor')};
