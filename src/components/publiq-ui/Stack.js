@@ -41,6 +41,8 @@ const Stack = forwardRef(
 const stackPropTypes = {
   ...boxPropTypes,
   spacing: PropTypes.number,
+  alignItems: PropTypes.string,
+  justifyContent: PropTypes.string,
 };
 
 const getStackProps = (props) => pick(props, Object.keys(stackPropTypes));
@@ -50,8 +52,6 @@ Stack.propTypes = {
   as: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.node,
-  alignItems: PropTypes.string,
-  justifyContent: PropTypes.string,
 };
 
 Stack.defaultProps = {

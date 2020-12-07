@@ -6,10 +6,10 @@ import { Link } from './publiq-ui/Link';
 import { List } from './publiq-ui/List';
 import { useTranslation } from 'react-i18next';
 import { Icons } from './publiq-ui/Icon';
-import { getValueFromTheme } from './publiq-ui/theme';
+import { Breakpoints, getValueFromTheme } from './publiq-ui/theme';
 import { Title } from './publiq-ui/Title';
 import { Button } from './publiq-ui/Button';
-import { Logo } from './publiq-ui/Logo';
+import { Logo, LogoVariants } from './publiq-ui/Logo';
 import { Badge } from './publiq-ui/Badge';
 import { Inline } from './publiq-ui/Inline';
 
@@ -17,42 +17,58 @@ import { JobLogger, JobLoggerStates } from './joblogger/JobLogger';
 import { Announcements, AnnouncementStatus } from './Annoucements';
 import { useGetAnnouncements } from '../hooks/api/announcements';
 import { Image } from './publiq-ui/Image';
-import { Box } from './publiq-ui/Box';
 import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
 import { useRouter } from 'next/router';
 import { useGetPermissions, useGetRoles } from '../hooks/api/user';
 import { useGetEventsToModerate } from '../hooks/api/events';
 import { JobLoggerStateIndicator } from './joblogger/JobLoggerStateIndicator';
+import { Text } from './publiq-ui/Text';
+import { useMatchBreakpoint } from '../hooks/useMatchBreakpoint';
 
 const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSideBar = getValueFromTheme('sideBar');
 const getValueForMenu = getValueFromTheme('menu');
 
-const MenuItem = memo(({ href, iconName, suffix, children, onClick }) => {
-  const Component = href ? Link : Button;
+const MenuItem = memo(
+  ({ href, iconName, suffix, children: label, onClick }) => {
+    const Component = href ? Link : Button;
 
-  return (
-    <List.Item>
-      <Component
-        width="100%"
-        variant="unstyled"
-        padding={2}
-        href={href}
-        iconName={iconName}
-        suffix={suffix}
-        onClick={onClick}
-        backgroundColor={{
-          default: 'none',
-          hover: getValueForMenuItem('hover.backgroundColor'),
-        }}
-        spacing={3}
-        textAlign="left"
-      >
-        {children}
-      </Component>
-    </List.Item>
-  );
-});
+    return (
+      <List.Item>
+        <Component
+          width="100%"
+          variant="unstyled"
+          padding={2}
+          href={href}
+          iconName={iconName}
+          suffix={suffix}
+          onClick={onClick}
+          backgroundColor={{
+            default: 'none',
+            hover: getValueForMenuItem('hover.backgroundColor'),
+          }}
+          spacing={{ default: 3, s: 0 }}
+          stackOn={Breakpoints.S}
+          customChildren
+          title={label}
+        >
+          <Text
+            flex={1}
+            css={`
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            `}
+            fontSize={{ s: '9px' }}
+            textAlign={{ default: 'left', s: 'center' }}
+          >
+            {label}
+          </Text>
+        </Component>
+      </List.Item>
+    );
+  },
+);
 
 MenuItem.propTypes = {
   href: PropTypes.string,
@@ -62,34 +78,34 @@ MenuItem.propTypes = {
   onClick: PropTypes.func,
 };
 
-const Menu = ({ items = [], title, ...props }) => {
-  const Content = memo((contentProps) => (
+const Menu = memo(({ items = [], title, ...props }) => {
+  const Content = (contentProps) => (
     <List {...contentProps}>
       {items.map((menuItem, index) => (
         <MenuItem key={index} {...menuItem} />
       ))}
     </List>
-  ));
+  );
 
   if (!title) return <Content {...props} />;
 
   return (
     <Stack spacing={3} {...props}>
       <Title
-        size={2}
         opacity={0.5}
         css={`
           font-size: 13px;
           font-weight: 400;
           text-transform: uppercase;
         `}
+        textAlign={{ s: 'center' }}
       >
         {title}
       </Title>
       <Content />
     </Stack>
   );
-};
+});
 
 Menu.propTypes = {
   items: PropTypes.array,
@@ -128,13 +144,14 @@ const ProfileMenu = ({ profileImage }) => {
       padding={1}
       spacing={2}
       alignItems="center"
+      justifyContent="center"
       css={`
         border-top: 1px solid ${getValueForMenu('borderColor')};
       `}
     >
       <Image src={profileImage} width={50} height={50} alt="Profile picture" />
-      <Stack as="div" padding={2} spacing={2} flex={1}>
-        <Box as="span">{cookies?.user?.username ?? ''}</Box>
+      <Stack as="div" padding={2} spacing={2} flex={1} display={{ s: 'none' }}>
+        <Text>{cookies?.user?.username ?? ''}</Text>
         <Menu items={loginMenu} />
       </Stack>
     </Inline>
@@ -226,6 +243,8 @@ const SideBar = () => {
   const { data: roles = [] } = useGetRoles();
   const { data: eventsToModerate = {} } = useGetEventsToModerate(searchQuery);
   const countEventsToModerate = eventsToModerate?.totalItems || 0;
+
+  const isSmallView = useMatchBreakpoint(Breakpoints.S);
 
   const handleClickAnnouncement = useCallback(
     (activeAnnouncement) => setActiveAnnouncementId(activeAnnouncement.uid),
@@ -390,18 +409,22 @@ const SideBar = () => {
       <Inline>
         <Stack
           height="100vh"
-          width="230px"
+          width={{ default: '230px', s: '65px' }}
           backgroundColor={getValueForSideBar('backgroundColor')}
           color={getValueForSideBar('color')}
           zIndex={1998}
-          padding={2}
+          padding={{ default: 2, s: 0 }}
           spacing={3}
         >
-          <Link href="/dashboard">
-            <Inline justifyContent="center">
-              <Logo />
-              {/* <Logo variants={LogoVariants.MOBILE} /> */}
-            </Inline>
+          <Link
+            justifyContent="center"
+            href="/dashboard"
+            title={t('menu.home')}
+            customChildren
+          >
+            <Logo
+              variant={isSmallView ? LogoVariants.MOBILE : LogoVariants.DEFAULT}
+            />
           </Link>
           <Stack
             paddingTop={4}
@@ -414,8 +437,15 @@ const SideBar = () => {
             `}
           >
             <Menu items={userMenu} />
-            <Stack justifyContent="space-between" flex={1}>
-              <Menu items={filteredManageMenu} title={t('menu.management')} />
+            <Stack
+              justifyContent={
+                filteredManageMenu.length > 0 ? 'space-between' : 'flex-end'
+              }
+              flex={1}
+            >
+              {filteredManageMenu.length > 0 && (
+                <Menu items={filteredManageMenu} title={t('menu.management')} />
+              )}
               <Stack>
                 <NotificationMenu
                   countUnseenAnnouncements={countUnseenAnnouncements}

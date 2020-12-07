@@ -22,13 +22,20 @@ const colors = {
   textColor: '#222',
 };
 
+const Breakpoints = {
+  XS: 'xs',
+  S: 's',
+  M: 'm',
+  L: 'l',
+};
+
 const theme = {
   colors,
   breakpoints: {
-    xs: 575,
-    s: 768,
-    m: 992,
-    l: 1200,
+    [Breakpoints.XS]: 575,
+    [Breakpoints.S]: 768,
+    [Breakpoints.M]: 992,
+    [Breakpoints.L]: 1200,
   },
   components: {
     alert: {
@@ -172,4 +179,4 @@ const theme = {
 const getValueFromTheme = (component) => (path) => (props) =>
   get(props.theme, `components.${component}.${path}`);
 
-export { theme, getValueFromTheme };
+export { theme, getValueFromTheme, Breakpoints };

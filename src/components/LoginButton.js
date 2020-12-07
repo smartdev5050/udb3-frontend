@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
 import { Button } from './publiq-ui/Button';
+import { Text } from './publiq-ui/Text';
 
 const LoginButton = ({ className }) => {
   const [, , removeCookie] = useCookiesWithOptions(['token', 'user']);
   const router = useRouter();
 
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   const getBaseUrl = () =>
     `${window.location.protocol}//${window.location.host}`;
@@ -31,7 +32,7 @@ const LoginButton = ({ className }) => {
 
   return (
     <Button className={className} onClick={handleClickLogin}>
-      Login
+      <Text>{t('main.start')}</Text>
     </Button>
   );
 };

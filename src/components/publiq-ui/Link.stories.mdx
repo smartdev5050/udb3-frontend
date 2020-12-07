@@ -53,3 +53,21 @@ import { Icon, Icons } from './Icon.js';
 </Canvas>
 
 <ArgsTable story="Unstyled External" />
+
+## Custom Children
+
+<Canvas>
+  <Story
+    name="Custom Children"
+    args={{
+      customChildren: true,
+      children: <Icon name={Icons.TIMES} />,
+      href: 'http://www.google.com',
+      variant: LinkVariants.UNSTYLED,
+    }}
+  >
+    {(args) => <Link {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Custom Children" />

@@ -7,7 +7,7 @@ const Index = () => {
   const [cookies] = useCookiesWithOptions(['udb-language']);
 
   useEffect(() => {
-    const languageFromCookie = cookies['udb-language'];
+    const languageFromCookie = cookies?.['udb-language'] ?? '';
     if (['nl', 'fr'].includes(languageFromCookie)) {
       router.push(`login/${languageFromCookie}`);
     } else {

@@ -18,7 +18,8 @@ const prefixWhenNotEmpty = (value, prefix) =>
 
 const Fallback = () => {
   const {
-    query: { params, ...queryWithoutParams },
+    // eslint-disable-next-line no-unused-vars
+    query: { params = [], ...queryWithoutParams },
     asPath,
   } = useRouter();
 
