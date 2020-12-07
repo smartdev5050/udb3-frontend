@@ -1,5 +1,6 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
 import { Button, ButtonVariants } from './Button.js';
+import { Icon, Icons } from './Icon.js';
 
 <Meta title="Components/Button" />
 
@@ -119,3 +120,22 @@ export const commonArgTypes = { onClick: { action: 'onClick' } };
 </Canvas>
 
 <ArgsTable story="Loading" />
+
+# Custom children
+
+<Canvas>
+  <Story
+    name="CustomChildren"
+    args={{
+      ...commonArgs,
+      variant: ButtonVariants.UNSTYLED,
+      customChildren: true,
+      children: <Icon name={Icons.TIMES} />,
+    }}
+    argTypes={commonArgTypes}
+  >
+    {(args) => <Button {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="CustomChildren" />
