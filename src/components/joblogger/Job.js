@@ -4,7 +4,7 @@ import { Icon, Icons } from '../publiq-ui/Icon';
 import { List } from '../publiq-ui/List';
 import { formatDistance } from 'date-fns';
 import { nlBE, fr } from 'date-fns/locale';
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Inline } from '../publiq-ui/Inline';
 import { Stack } from '../publiq-ui/Stack';
@@ -29,43 +29,35 @@ const JobStates = {
   STARTED: 'started',
 };
 
-const StatusIcon = ({ state }) => {
-  switch (state) {
-    case JobStates.FINISHED:
-      return (
-        <Icon
-          name={Icons.CHECK_CIRCLE}
-          css={`
-            color: ${getValue('complete.circleFillColor')};
-          `}
-        />
-      );
-    case JobStates.FAILED:
-      return null;
-    default:
-      return (
-        <Icon
-          name={Icons.CHECK_NOTCH}
-          css={`
-            color: ${getValue('busy.spinnerStrokeColor')};
-
-            @keyframes rotation {
-              from {
-                transform: rotate(0deg);
-              }
-              to {
-                transform: rotate(359deg);
-              }
-            }
-
-            .svg-inline--fa {
-              animation: rotation 1s infinite linear;
-            }
-          `}
-        />
-      );
+const StatusIcon = memo(({ state }) => {
+  if (state === JobStates.FINISHED) {
+    return (
+      <Icon
+        name={Icons.CHECK_CIRCLE}
+        color={getValue('complete.circleFillColor')}
+      />
+    );
   }
-};
+  return (
+    <Icon
+      name={Icons.CHECK_NOTCH}
+      color={getValue('busy.spinnerStrokeColor')}
+      css={`
+        @keyframes rotation {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(359deg);
+          }
+        }
+        .svg-inline--fa {
+          animation: rotation 1s infinite linear;
+        }
+      `}
+    />
+  );
+});
 
 StatusIcon.propTypes = {
   state: PropTypes.oneOf(Object.values(JobStates)),
@@ -98,7 +90,7 @@ const Job = ({
           <Stack>
             <Inline forwardedAs="div" spacing={2} css="word-break: break-word;">
               <Box as="span">{t('jobs.time_ago', { time: timeAgo })}</Box>
-              <StatusIcon state={state} />
+              {state !== JobStates.FAILED && <StatusIcon state={state} />}
             </Inline>
             <Box forwardedAs="p" css="word-break: break-word;">
               {messages?.[state] ?? ''}
