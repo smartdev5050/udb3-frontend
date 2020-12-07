@@ -15,11 +15,12 @@ import { QueryCache, ReactQueryCacheProvider } from 'react-query';
 import { useEffect } from 'react';
 import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
 import { useGetUser } from '../hooks/api/user';
+import {
+  useHandleWindowMessage,
+  WindowMessageTypes,
+} from '../hooks/useHandleWindowMessage';
 
 const queryCache = new QueryCache();
-
-const MESSAGE_SOURCE_UDB = 'UDB';
-const MESSAGE_TYPE_URL_CHANGED = 'URL_CHANGED';
 
 const useChangeLanguage = () => {
   const { i18n } = useTranslation();
@@ -27,14 +28,6 @@ const useChangeLanguage = () => {
   useEffect(() => {
     i18n.changeLanguage(cookies['udb-language']);
   }, [cookies['udb-language']]);
-};
-
-const useHandleWindowMessage = (handler) => {
-  useEffect(() => {
-    if (!window) return;
-    window.addEventListener('message', handler);
-    return () => window.removeEventListener('message', handler);
-  }, []);
 };
 
 const useHandleAuthentication = () => {
@@ -63,18 +56,10 @@ const useHandleAuthentication = () => {
 const Layout = ({ children }) => {
   const { asPath, ...router } = useRouter();
 
-  const handleMessage = (event) => {
-    if (event.data.source !== MESSAGE_SOURCE_UDB) {
-      return;
-    }
-
-    if (event.data.type === MESSAGE_TYPE_URL_CHANGED) {
-      router.push(event.data.path);
-    }
-  };
-
   useChangeLanguage();
-  useHandleWindowMessage(handleMessage);
+  useHandleWindowMessage({
+    [WindowMessageTypes.URL_CHANGED]: ({ path }) => router.push(path),
+  });
   useHandleAuthentication();
 
   if (asPath.startsWith('/login')) return <>{children}</>;

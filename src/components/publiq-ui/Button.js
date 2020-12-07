@@ -136,7 +136,7 @@ const Button = ({
   children,
   onClick,
   className,
-  title,
+  textAlign,
   ...props
 }) => {
   if (variant === ButtonVariants.SECONDARY) variant = 'outline-secondary';
@@ -167,7 +167,13 @@ const Button = ({
       size={SpinnerSizes.SMALL}
     />
   ) : (
-    [iconName && <Icon name={iconName} key="icon" />, children, clonedSuffix]
+    [
+      iconName && <Icon name={iconName} key="icon" />,
+      <Box forwardedAs="span" flex={1} css="text-align: left" key="text">
+        {children}
+      </Box>,
+      clonedSuffix,
+    ]
   );
 
   if (isBootstrapVariant) {
@@ -200,6 +206,7 @@ Button.propTypes = {
   iconName: PropTypes.string,
   title: PropTypes.string,
   className: PropTypes.string,
+  textAlign: PropTypes.string,
   variant: PropTypes.string,
   disabled: PropTypes.bool,
   loading: PropTypes.bool,
@@ -211,6 +218,7 @@ Button.defaultProps = {
   variant: ButtonVariants.PRIMARY,
   disabled: false,
   loading: false,
+  textAlign: 'center',
   onClick: () => {},
 };
 

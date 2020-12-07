@@ -95,6 +95,6 @@
     "exported_documents": "Geëxporteerde documenten",
     "in_progress": "Bezig",
     "notifications": "Meldingen",
-    "time_ago": "{time} geleden"
+    "time_ago": "{{time}} geleden"
   }
 }
