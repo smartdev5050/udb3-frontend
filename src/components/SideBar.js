@@ -29,45 +29,47 @@ const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSideBar = getValueFromTheme('sideBar');
 const getValueForMenu = getValueFromTheme('menu');
 
-const MenuItem = memo(({ href, iconName, suffix, children, onClick }) => {
-  const Component = href ? Link : Button;
+const MenuItem = memo(
+  ({ href, iconName, suffix, children: label, onClick }) => {
+    const Component = href ? Link : Button;
 
-  return (
-    <List.Item>
-      <Component
-        width="100%"
-        variant="unstyled"
-        padding={2}
-        href={href}
-        iconName={iconName}
-        suffix={suffix}
-        onClick={onClick}
-        backgroundColor={{
-          default: 'none',
-          hover: getValueForMenuItem('hover.backgroundColor'),
-        }}
-        fontSize={{ s: '9px' }}
-        spacing={{ default: 3, s: 0 }}
-        stackOn={Breakpoints.s}
-        title={children}
-      >
-        <Text
-          flex={1}
-          css={`
-            width: 100%;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          `}
-          textAlign={{ default: 'left', s: 'center' }}
-          key="text"
+    return (
+      <List.Item>
+        <Component
+          width="100%"
+          variant="unstyled"
+          padding={2}
+          href={href}
+          iconName={iconName}
+          suffix={suffix}
+          onClick={onClick}
+          backgroundColor={{
+            default: 'none',
+            hover: getValueForMenuItem('hover.backgroundColor'),
+          }}
+          fontSize={{ s: '9px' }}
+          spacing={{ default: 3, s: 0 }}
+          stackOn={Breakpoints.s}
+          customChildren
+          title={label}
         >
-          {children}
-        </Text>
-      </Component>
-    </List.Item>
-  );
-});
+          <Text
+            flex={1}
+            css={`
+              width: 100%;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            `}
+            textAlign={{ default: 'left', s: 'center' }}
+          >
+            {label}
+          </Text>
+        </Component>
+      </List.Item>
+    );
+  },
+);
 
 MenuItem.propTypes = {
   href: PropTypes.string,
@@ -77,8 +79,6 @@ MenuItem.propTypes = {
   onClick: PropTypes.func,
 };
 
-const Menu = ({ items = [], title, ...props }) => {
-  const Content = memo((contentProps) => (
 const Menu = memo(({ items = [], title, ...props }) => {
   const Content = (contentProps) => (
     <List {...contentProps}>
@@ -86,7 +86,7 @@ const Menu = memo(({ items = [], title, ...props }) => {
         <MenuItem key={index} {...menuItem} />
       ))}
     </List>
-  ));
+  );
 
   if (!title) return <Content {...props} />;
 
