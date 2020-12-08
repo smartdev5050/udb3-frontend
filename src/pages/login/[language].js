@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, getBoxProps } from '../../components/publiq-ui/Box';
+import { Box } from '../../components/publiq-ui/Box';
 import { Button, ButtonVariants } from '../../components/publiq-ui/Button';
 import { Image } from '../../components/publiq-ui/Image';
 import { useCookiesWithOptions } from '../../hooks/useCookiesWithOptions';
@@ -13,15 +13,13 @@ import { Stack } from '../../components/publiq-ui/Stack';
 import { List } from '../../components/publiq-ui/List';
 import { Breakpoints } from '../../components/publiq-ui/theme';
 
-const Svg = ({ children, ...props }) => (
+const Svg = (props) => (
   <Box
     as="svg"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 900 250"
-    {...getBoxProps(props)}
-  >
-    {children}
-  </Box>
+    {...props}
+  />
 );
 
 const Group = (props) => <Box as="g" fill="white" {...props} />;
