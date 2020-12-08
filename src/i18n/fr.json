@@ -55,11 +55,11 @@
       "cancel": "Annuler",
       "confirm": "Confirmer",
       "create": "Ajouter",
-      "delete_question_event": "Voulez-vous vraiment supprimer l'événement sélectionné de la production '{productionName}'?",
-      "delete_question_events": "Voulez-vous vraiment supprimer les {eventCount} événements sélectionnés de la production '{productionName}'?",
+      "delete_question_event": "Voulez-vous vraiment supprimer l'événement sélectionné de la production '{{productionName}}'?",
+      "delete_question_events": "Voulez-vous vraiment supprimer les {{eventCount}} événements sélectionnés de la production '{{productionName}}'?",
       "delete": "Supprimer",
       "details": "Details",
-      "events_in_production": "Événements dans {productionName}",
+      "events_in_production": "Événements dans {{productionName}}",
       "loading": "Changer",
       "no_events": "Aucun événement dans cette production.",
       "no_productions": "Aucune production trouvée.",
@@ -95,6 +95,6 @@
     "exported_documents": "Documents exportés",
     "in_progress": "Occupé",
     "notifications": "Notifications",
-    "time_ago": "Il y a {time}"
+    "time_ago": "Il y a {{time}}"
   }
 }
