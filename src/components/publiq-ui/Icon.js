@@ -4,6 +4,8 @@ import { Box, boxPropTypes, getBoxProps, parseDimension } from './Box';
 import {
   faBell,
   faCheckCircle,
+  faChevronDown,
+  faChevronRight,
   faCircleNotch,
   faEye,
   faEyeSlash,
@@ -39,6 +41,8 @@ const Icons = {
   SIGN_OUT_ALT: 'signOutAlt',
   CHECK_CIRCLE: 'checkCircle',
   CHECK_NOTCH: 'circleNotch',
+  CHEVRON_DOWN: 'chevronDown',
+  CHEVRON_RIGHT: 'chevronRight',
 };
 
 const IconsMap = {
@@ -59,6 +63,8 @@ const IconsMap = {
   [Icons.SIGN_OUT_ALT]: faSignOutAlt,
   [Icons.CHECK_CIRCLE]: faCheckCircle,
   [Icons.CHECK_NOTCH]: faCircleNotch,
+  [Icons.CHEVRON_DOWN]: faChevronDown,
+  [Icons.CHEVRON_RIGHT]: faChevronRight,
 };
 
 const Icon = ({ name, width, height, className, ...props }) => {
