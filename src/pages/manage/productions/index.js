@@ -58,21 +58,36 @@ const Index = () => {
       >
         {t('menu.productions')}
       </Page.Title>
-      <InputWithLabel
-        id="productions-overview-search"
-        placeholder={t('productions.overview.search.placeholder')}
-        marginBottom={4}
-      >
-        {t('productions.overview.search.label')}
-      </InputWithLabel>
-      <Inline spacing={4}>
-        <Productions
-          width={`calc(40% - ${parseSpacing(4)()})`}
-          productions={productions}
-          onClickProduction={handleClickProduction}
-        />
-        <Events width="60%" productions={events} />
-      </Inline>
+      <Page.Actions>
+        <Link
+          href="/manage/productions/create"
+          css="text-transform: lowercase;"
+        >
+          {t('productions.overview.create')}
+        </Link>
+      </Page.Actions>
+      <Page.Content>
+        <InputWithLabel
+          id="productions-overview-search"
+          placeholder={t('productions.overview.search.placeholder')}
+          marginBottom={4}
+        >
+          {t('productions.overview.search.label')}
+        </InputWithLabel>
+        <Inline spacing={4}>
+          <Productions
+            width={`calc(40% - ${parseSpacing(4)()})`}
+            productions={productions}
+            onClickProduction={handleClickProduction}
+          />
+          {/* <Events
+          width="60%"
+          events={events}
+          loading={!activeProduction}
+          activeProductionName={activeProduction?.name ?? ''}
+        />  */}
+        </Inline>
+      </Page.Content>
     </Page>
   );
 };
