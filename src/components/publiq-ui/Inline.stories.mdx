@@ -2,6 +2,7 @@ import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
 import { Box } from './Box.js';
 import styled from 'styled-components';
 import { Inline } from './Inline.js';
+import { Breakpoints } from '../publiq-ui/theme';
 
 <Meta title="Primitives/Inline" />
 
@@ -59,3 +60,41 @@ export const boxProps = {
 </Canvas>
 
 <ArgsTable story="Nested" />
+
+<Canvas>
+  <Story
+    name="ToStackWithBoolean"
+    args={{
+      ...commonArgs,
+      stackOn: true,
+    }}
+  >
+    {(args) => (
+      <Inline {...args}>
+        <CustomBox {...boxProps}>A Box</CustomBox>
+        <CustomBox {...boxProps}>Another Box</CustomBox>
+      </Inline>
+    )}
+  </Story>
+</Canvas>
+
+<ArgsTable story="ToStackWithQuery" />
+
+<Canvas>
+  <Story
+    name="ToStackWithQuery"
+    args={{
+      ...commonArgs,
+      stackOn: Breakpoints.S,
+    }}
+  >
+    {(args) => (
+      <Inline {...args}>
+        <CustomBox {...boxProps}>A Box</CustomBox>
+        <CustomBox {...boxProps}>Another Box</CustomBox>
+      </Inline>
+    )}
+  </Story>
+</Canvas>
+
+<ArgsTable story="ToStackWithQuery" />

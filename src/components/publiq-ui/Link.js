@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { getValueFromTheme } from './theme';
 import { getInlineProps, Inline, inlinePropTypes } from './Inline';
 import { cloneElement, forwardRef } from 'react';
-import { Box } from './Box';
 import { Icon } from './Icon';
+import { Text } from './Text';
 
 const getValue = getValueFromTheme('link');
 
@@ -18,6 +18,7 @@ const BaseLink = forwardRef(({ variant, ...props }, ref) => {
       <Inline
         ref={ref}
         forwardedAs="a"
+        width="min-content"
         color={{ default: 'inherit', hover: 'inherit' }}
         alignItems="center"
         {...props}
@@ -49,9 +50,11 @@ const Link = ({
   href,
   iconName,
   suffix,
-  children: label,
+  children,
+  customChildren,
   className,
   variant,
+  title,
   ...props
 }) => {
   const isInternalLink = href.startsWith('/');
@@ -64,11 +67,15 @@ const Link = ({
       })
     : undefined;
 
-  const children = [
+  const inner = [
     iconName && <Icon name={iconName} key="icon" />,
-    <Box forwardAs="span" flex={1} css="text-align: left" key="text">
-      {label}
-    </Box>,
+    customChildren ? (
+      children
+    ) : (
+      <Text flex={1} css="text-align: left" key="text">
+        {children}
+      </Text>
+    ),
     clonedSuffix,
   ];
 
@@ -78,9 +85,10 @@ const Link = ({
         <BaseLink
           className={className}
           variant={variant}
+          title={title}
           {...getInlineProps(props)}
         >
-          {children}
+          {inner}
         </BaseLink>
       </NextLink>
     );
@@ -93,9 +101,10 @@ const Link = ({
       variant={variant}
       rel="noopener"
       target="_blank"
+      title={title}
       {...getInlineProps(props)}
     >
-      {children}
+      {inner}
     </BaseLink>
   );
 };
@@ -103,6 +112,7 @@ const Link = ({
 Link.propTypes = {
   ...inlinePropTypes,
   href: PropTypes.string,
+  title: PropTypes.string,
   iconName: PropTypes.string,
   suffix: PropTypes.node,
   className: PropTypes.string,

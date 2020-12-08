@@ -6,7 +6,7 @@ import { Spinner, SpinnerVariants, SpinnerSizes } from './Spinner';
 import { getInlineProps, Inline, inlinePropTypes } from './Inline';
 import { Icon } from './Icon';
 import { cloneElement } from 'react';
-import { Box } from './Box';
+import { Text } from './Text';
 
 const ButtonVariants = {
   PRIMARY: 'primary',
@@ -135,8 +135,11 @@ const Button = ({
   disabled,
   loading,
   children,
+  customChildren,
   onClick,
   className,
+  textAlign,
+  title,
   ...props
 }) => {
   if (variant === ButtonVariants.SECONDARY) variant = 'outline-secondary';
@@ -148,6 +151,7 @@ const Button = ({
     disabled,
     onClick,
     className,
+    title,
     ...getInlineProps(props),
   };
 
@@ -168,9 +172,13 @@ const Button = ({
   ) : (
     [
       iconName && <Icon name={iconName} key="icon" />,
-      <Box forwardAs="span" flex={1} css="text-align: left" key="text">
-        {children}
-      </Box>,
+      customChildren ? (
+        children
+      ) : (
+        <Text flex={1} css="text-align: left" key="text">
+          {children}
+        </Text>
+      ),
       clonedSuffix,
     ]
   );
@@ -191,8 +199,11 @@ const Button = ({
       css={`
         background: none;
         border: none;
+
+        :focus {
+          outline: none;
+        }
       `}
-      spacing={3}
       alignItems="center"
       justifyContent="flex-start"
     >
@@ -204,11 +215,14 @@ const Button = ({
 Button.propTypes = {
   ...inlinePropTypes,
   iconName: PropTypes.string,
+  title: PropTypes.string,
   className: PropTypes.string,
+  textAlign: PropTypes.string,
   variant: PropTypes.string,
   disabled: PropTypes.bool,
   loading: PropTypes.bool,
   children: PropTypes.node,
+  customChildren: PropTypes.bool,
   onClick: PropTypes.func,
 };
 
@@ -216,6 +230,8 @@ Button.defaultProps = {
   variant: ButtonVariants.PRIMARY,
   disabled: false,
   loading: false,
+  customChildren: false,
+  textAlign: 'center',
   onClick: () => {},
 };
 

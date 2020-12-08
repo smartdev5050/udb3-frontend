@@ -1,56 +1,74 @@
 import PropTypes from 'prop-types';
-import { useEffect, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { Stack } from './publiq-ui/Stack';
 import { Link } from './publiq-ui/Link';
 import { List } from './publiq-ui/List';
 import { useTranslation } from 'react-i18next';
 import { Icons } from './publiq-ui/Icon';
-import { getValueFromTheme } from './publiq-ui/theme';
+import { Breakpoints, getValueFromTheme } from './publiq-ui/theme';
 import { Title } from './publiq-ui/Title';
 import { Button } from './publiq-ui/Button';
-import { Logo } from './publiq-ui/Logo';
+import { Logo, LogoVariants } from './publiq-ui/Logo';
 import { Badge } from './publiq-ui/Badge';
 import { Inline } from './publiq-ui/Inline';
 
-import { JobLogger } from './JobLogger';
+import { JobLogger, JobLoggerStates } from './joblogger/JobLogger';
 import { Announcements, AnnouncementStatus } from './Annoucements';
 import { useGetAnnouncements } from '../hooks/api/announcements';
 import { Image } from './publiq-ui/Image';
-import { Box } from './publiq-ui/Box';
 import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
 import { useRouter } from 'next/router';
 import { useGetPermissions, useGetRoles } from '../hooks/api/user';
 import { useGetEventsToModerate } from '../hooks/api/events';
+import { JobLoggerStateIndicator } from './joblogger/JobLoggerStateIndicator';
+import { Text } from './publiq-ui/Text';
+import { useMatchBreakpoint } from '../hooks/useMatchBreakpoint';
 
 const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSideBar = getValueFromTheme('sideBar');
 const getValueForMenu = getValueFromTheme('menu');
 
-const MenuItem = ({ href, iconName, suffix, children, onClick }) => {
-  const Component = href ? Link : Button;
+const MenuItem = memo(
+  ({ href, iconName, suffix, children: label, onClick }) => {
+    const Component = href ? Link : Button;
 
-  return (
-    <List.Item>
-      <Component
-        width="100%"
-        variant="unstyled"
-        padding={2}
-        href={href}
-        iconName={iconName}
-        suffix={suffix}
-        onClick={onClick}
-        backgroundColor={{
-          default: 'none',
-          hover: getValueForMenuItem('hover.backgroundColor'),
-        }}
-        spacing={3}
-      >
-        {children}
-      </Component>
-    </List.Item>
-  );
-};
+    return (
+      <List.Item>
+        <Component
+          width="100%"
+          variant="unstyled"
+          padding={2}
+          href={href}
+          iconName={iconName}
+          suffix={suffix}
+          onClick={onClick}
+          backgroundColor={{
+            default: 'none',
+            hover: getValueForMenuItem('hover.backgroundColor'),
+          }}
+          spacing={{ default: 3, s: 0 }}
+          stackOn={Breakpoints.S}
+          customChildren
+          title={label}
+        >
+          <Text
+            flex={1}
+            css={`
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            `}
+            fontSize={{ s: '9px' }}
+            textAlign={{ default: 'left', s: 'center' }}
+          >
+            {label}
+          </Text>
+        </Component>
+      </List.Item>
+    );
+  },
+);
 
 MenuItem.propTypes = {
   href: PropTypes.string,
@@ -60,7 +78,7 @@ MenuItem.propTypes = {
   onClick: PropTypes.func,
 };
 
-const Menu = ({ items = [], title, ...props }) => {
+const Menu = memo(({ items = [], title, ...props }) => {
   const Content = (contentProps) => (
     <List {...contentProps}>
       {items.map((menuItem, index) => (
@@ -74,20 +92,20 @@ const Menu = ({ items = [], title, ...props }) => {
   return (
     <Stack spacing={3} {...props}>
       <Title
-        size={2}
         opacity={0.5}
         css={`
           font-size: 13px;
           font-weight: 400;
           text-transform: uppercase;
         `}
+        textAlign={{ s: 'center' }}
       >
         {title}
       </Title>
       <Content />
     </Stack>
   );
-};
+});
 
 Menu.propTypes = {
   items: PropTypes.array,
@@ -96,7 +114,7 @@ Menu.propTypes = {
 
 const ProfileMenu = ({ profileImage }) => {
   const { t } = useTranslation();
-  const [, , removeCookie] = useCookiesWithOptions();
+  const [cookies, , removeCookie] = useCookiesWithOptions(['user']);
   const router = useRouter();
 
   const loginMenu = [
@@ -126,13 +144,14 @@ const ProfileMenu = ({ profileImage }) => {
       padding={1}
       spacing={2}
       alignItems="center"
+      justifyContent="center"
       css={`
         border-top: 1px solid ${getValueForMenu('borderColor')};
       `}
     >
       <Image src={profileImage} width={50} height={50} alt="Profile picture" />
-      <Stack as="div" padding={2} spacing={2} flex={1}>
-        <Box as="span">username</Box>
+      <Stack as="div" padding={2} spacing={2} flex={1} display={{ s: 'none' }}>
+        <Text>{cookies?.user?.username ?? ''}</Text>
         <Menu items={loginMenu} />
       </Stack>
     </Inline>
@@ -159,6 +178,43 @@ const PermissionTypes = {
   PRODUCTIES_AANMAKEN: 'PRODUCTIES_AANMAKEN',
 };
 
+const NotificationMenu = memo(
+  ({
+    countUnseenAnnouncements,
+    onClickAnnouncementsButton,
+    onClickJobLoggerButton,
+    jobLoggerState,
+  }) => {
+    const { t } = useTranslation();
+
+    const notificationMenu = [
+      {
+        iconName: Icons.GIFT,
+        children: t('menu.announcements'),
+        suffix: countUnseenAnnouncements > 0 && (
+          <Badge>{countUnseenAnnouncements}</Badge>
+        ),
+        onClick: onClickAnnouncementsButton,
+      },
+      {
+        iconName: Icons.BELL,
+        children: t('menu.notifications'),
+        suffix: <JobLoggerStateIndicator state={jobLoggerState} />,
+        onClick: onClickJobLoggerButton,
+      },
+    ];
+
+    return <Menu items={notificationMenu} />;
+  },
+);
+
+NotificationMenu.propTypes = {
+  countUnseenAnnouncements: PropTypes.number,
+  onClickAnnouncementsButton: PropTypes.func,
+  onClickJobLoggerButton: PropTypes.func,
+  jobLoggerState: PropTypes.oneOf(Object.values(JobLoggerStates)),
+};
+
 const SideBar = () => {
   const { t } = useTranslation();
 
@@ -167,31 +223,49 @@ const SideBar = () => {
     'userPicture',
   ]);
 
-  const [isJobLoggerVisible, setJobLoggerVisibility] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [isJobLoggerVisible, setIsJobLoggerVisible] = useState(true);
+  const [jobLoggerState, setJobLoggerState] = useState(JobLoggerStates.IDLE);
+
+  const [
+    isAnnouncementsModalVisible,
+    setIsAnnouncementsModalVisible,
+  ] = useState(false);
   const [activeAnnouncementId, setActiveAnnouncementId] = useState();
+
+  const [searchQuery, setSearchQuery] = useState('');
 
   const { data: dataWithAnnouncements = {} } = useGetAnnouncements({
     refetchInterval: 60000,
   });
+
   const rawAnnouncements = dataWithAnnouncements?.data ?? [];
   const { data: permissions = [] } = useGetPermissions();
   const { data: roles = [] } = useGetRoles();
   const { data: eventsToModerate = {} } = useGetEventsToModerate(searchQuery);
   const countEventsToModerate = eventsToModerate?.totalItems || 0;
 
-  const handleClickAnnouncement = (activeAnnouncement) =>
-    setActiveAnnouncementId(activeAnnouncement.uid);
+  const isSmallView = useMatchBreakpoint(Breakpoints.S);
 
-  const toggleIsModalVisibile = () =>
-    setIsModalVisible((isModalVisible) => !isModalVisible);
+  const handleClickAnnouncement = useCallback(
+    (activeAnnouncement) => setActiveAnnouncementId(activeAnnouncement.uid),
+    [],
+  );
+
+  const toggleIsAnnouncementsModalVisible = useCallback(
+    () => setIsAnnouncementsModalVisible((prevValue) => !prevValue),
+    [],
+  );
+
+  const toggleIsJobLoggerVisible = useCallback(
+    () => setIsJobLoggerVisible((prevValue) => !prevValue),
+    [],
+  );
 
   useEffect(() => {
-    if (isModalVisible) {
+    if (isAnnouncementsModalVisible) {
       setActiveAnnouncementId(announcements[0].uid);
     }
-  }, [isModalVisible]);
+  }, [isAnnouncementsModalVisible]);
 
   useEffect(() => {
     if (activeAnnouncementId) {
@@ -322,7 +396,7 @@ const SideBar = () => {
 
   const filteredManageMenu = useMemo(() => {
     if (permissions.length === 0) {
-      return manageMenu;
+      return [];
     }
 
     return manageMenu.filter((menuItem) =>
@@ -330,40 +404,27 @@ const SideBar = () => {
     );
   }, [permissions]);
 
-  const notificationMenu = [
-    {
-      iconName: Icons.GIFT,
-      children: t('menu.announcements'),
-      suffix: countUnseenAnnouncements > 0 && (
-        <Badge>{countUnseenAnnouncements}</Badge>
-      ),
-      onClick: () => toggleIsModalVisibile(),
-    },
-    {
-      iconName: Icons.BELL,
-      children: t('menu.notifications'),
-      onClick: () => {
-        setJobLoggerVisibility(!isJobLoggerVisible);
-      },
-    },
-  ];
-
   return (
     <>
       <Inline>
         <Stack
           height="100vh"
+          width={{ default: '230px', s: '65px' }}
           backgroundColor={getValueForSideBar('backgroundColor')}
           color={getValueForSideBar('color')}
           zIndex={1998}
-          padding={2}
+          padding={{ default: 2, s: 0 }}
           spacing={3}
         >
-          <Link href="/dashboard">
-            <Inline justifyContent="center">
-              <Logo />
-              {/* <Logo variants={LogoVariants.MOBILE} /> */}
-            </Inline>
+          <Link
+            justifyContent="center"
+            href="/dashboard"
+            title={t('menu.home')}
+            customChildren
+          >
+            <Logo
+              variant={isSmallView ? LogoVariants.MOBILE : LogoVariants.DEFAULT}
+            />
           </Link>
           <Stack
             paddingTop={4}
@@ -376,26 +437,38 @@ const SideBar = () => {
             `}
           >
             <Menu items={userMenu} />
-            <Stack justifyContent="space-between" flex={1}>
-              <Menu items={filteredManageMenu} title={t('menu.management')} />
+            <Stack
+              justifyContent={
+                filteredManageMenu.length > 0 ? 'space-between' : 'flex-end'
+              }
+              flex={1}
+            >
+              {filteredManageMenu.length > 0 && (
+                <Menu items={filteredManageMenu} title={t('menu.management')} />
+              )}
               <Stack>
-                <Menu items={notificationMenu} />
+                <NotificationMenu
+                  countUnseenAnnouncements={countUnseenAnnouncements}
+                  jobLoggerState={jobLoggerState}
+                  onClickAnnouncementsButton={toggleIsAnnouncementsModalVisible}
+                  onClickJobLoggerButton={toggleIsJobLoggerVisible}
+                />
                 <ProfileMenu />
               </Stack>
             </Stack>
           </Stack>
         </Stack>
       </Inline>
-      {isJobLoggerVisible && (
-        <JobLogger
-          onClose={() => setJobLoggerVisibility(!isJobLoggerVisible)}
-        />
-      )}
+      <JobLogger
+        visible={isJobLoggerVisible}
+        onClose={() => setIsJobLoggerVisible((oldState) => !oldState)}
+        onStatusChange={setJobLoggerState}
+      />
       <Announcements
-        visible={isModalVisible}
+        visible={isAnnouncementsModalVisible}
         announcements={announcements || []}
         onClickAnnouncement={handleClickAnnouncement}
-        onClose={toggleIsModalVisibile}
+        onClose={toggleIsAnnouncementsModalVisible}
       />
     </>
   );
