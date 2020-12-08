@@ -11,7 +11,7 @@ const Checkbox = ({
   ...props
 }) => (
   <Box
-    forwardedAs="input"
+    as="input"
     type="checkbox"
     id={id}
     name={name}
