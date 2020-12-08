@@ -173,6 +173,15 @@ const theme = {
         checkFillColor: colors.green4,
       },
     },
+    productionItem: {
+      borderColor: colors.grey3,
+      activeColor: colors.white,
+      backgroundColor: colors.white,
+      activeBackgroundColor: colors.red2,
+    },
+    eventItem: {
+      borderColor: colors.grey3,
+    },
   },
 };
 

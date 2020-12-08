@@ -6,8 +6,9 @@ import { Productions } from '../../../components/productions/index/Productions';
 import { useGetProductions } from '../../../hooks/api/productions';
 import { Events } from '../../../components/productions/index/Events';
 import { parseSpacing } from '../../../components/publiq-ui/Box';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from '../../../components/publiq-ui/Link';
+import { useGetEventsbyIds } from '../../../hooks/api/events';
 
 const Index = () => {
   const { t } = useTranslation();
@@ -16,6 +17,12 @@ const Index = () => {
 
   const [productions, setProductions] = useState([]);
   const [activeProduction, setActiveProduction] = useState();
+
+  const eventIds = useMemo(() => activeProduction?.events ?? [], [
+    activeProduction,
+  ]);
+
+  const { data: events } = useGetEventsbyIds({ ids: eventIds });
 
   useEffect(() => {
     if (rawProductions.length === 0) {
@@ -32,11 +39,6 @@ const Index = () => {
       }),
     );
   }, [rawProductions]);
-
-  useEffect(() => {
-    if (!activeProduction) return;
-    // get events in active production
-  }, [activeProduction]);
 
   const handleClickProduction = (id) => {
     setProductions((prevProductions) =>
@@ -83,12 +85,12 @@ const Index = () => {
             productions={productions}
             onClickProduction={handleClickProduction}
           />
-          {/* <Events
-          width="60%"
-          events={events}
-          loading={!activeProduction}
-          activeProductionName={activeProduction?.name ?? ''}
-        />  */}
+          <Events
+            width="60%"
+            events={events}
+            loading={!activeProduction}
+            activeProductionName={activeProduction?.name ?? ''}
+          />
         </Inline>
       </Page.Content>
     </Page>
