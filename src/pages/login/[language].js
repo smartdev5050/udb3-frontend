@@ -158,7 +158,9 @@ const Column = ({ value, title, children, ...props }) => (
         {title}
       </Box>
     </Stack>
-    <Box as="p">{children}</Box>
+    <Box as="p" textAlign={{ m: 'center' }}>
+      {children}
+    </Box>
   </Stack>
 );
 
@@ -235,14 +237,16 @@ const Index = () => {
           <Box
             forwardAs="span"
             color="white"
-            css="font-size: 2rem; font-weight: 300; text-align: center;"
+            textAlign="center"
+            css="font-size: 2rem; font-weight: 300;"
           >
             {t('main.lead')}
           </Box>
           <Box
             forwardAs="span"
             color="white"
-            css="font-size: 1.6rem; font-weight: 300; text-align: center;"
+            textAlign="center"
+            css="font-size: 1.6rem; font-weight: 300;"
           >
             {t('main.lead_sub')}
           </Box>
