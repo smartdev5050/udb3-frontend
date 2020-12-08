@@ -7,15 +7,15 @@ import { useGetProductions } from '../../../hooks/api/productions';
 import { Events } from '../../../components/productions/index/Events';
 import { parseSpacing } from '../../../components/publiq-ui/Box';
 import { useEffect, useState } from 'react';
+import { Link } from '../../../components/publiq-ui/Link';
 
 const Index = () => {
   const { t } = useTranslation();
-  const { data: productionsData } = useGetProductions(15);
+  const { data: productionsData } = useGetProductions({ limit: 15 });
   const rawProductions = productionsData?.member ?? [];
-  const events = [];
 
   const [productions, setProductions] = useState([]);
-  const [activeProductionsid, setActiveProductionsId] = useState('');
+  const [activeProduction, setActiveProduction] = useState();
 
   useEffect(() => {
     if (rawProductions.length === 0) {
@@ -25,6 +25,7 @@ const Index = () => {
     setProductions(
       rawProductions.map((production, index) => {
         if (index === 0) {
+          setActiveProduction(production);
           return { ...production, active: true };
         }
         return { ...production, active: false };
@@ -33,21 +34,23 @@ const Index = () => {
   }, [rawProductions]);
 
   useEffect(() => {
+    if (!activeProduction) return;
+    // get events in active production
+  }, [activeProduction]);
+
+  const handleClickProduction = (id) => {
     setProductions((prevProductions) =>
       prevProductions.map((production) => {
+        if (production.production_id === id) {
+          setActiveProduction(production);
+          return { ...production, active: true };
+        }
         if (production.active) {
           return { ...production, active: false };
-        }
-        if (production.production_id === activeProductionsid) {
-          return { ...production, active: true };
         }
         return production;
       }),
     );
-  }, [activeProductionsid]);
-
-  const handleClickProduction = (id) => {
-    setActiveProductionsId(id);
   };
 
   return (

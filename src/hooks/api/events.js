@@ -34,4 +34,51 @@ const useGetEventsToModerate = (searchQuery, config) =>
     },
   );
 
-export { useGetEventsToModerate };
+const getEventById = async (key, { headers, id }) => {
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/event/${id.toString()}`;
+  const res = await fetch(url, {
+    headers,
+  });
+  return await res.json();
+};
+
+const useGetEventbyId = ({ id = '' }, config) =>
+  useAuthenticatedQuery(
+    [
+      'events',
+      {
+        id,
+      },
+    ],
+    getEventById,
+    {
+      enabled: !!id,
+      ...config,
+    },
+  );
+
+const getEventsByIds = async (key, { ids }) => {
+  const mappedEvents = ids.map((eventId) => {
+    return getEventById({ id: eventId });
+  });
+
+  const events = await Promise.all(mappedEvents);
+  return events.filter((event) => !event.status);
+};
+
+const useGetEventsbyIds = ({ ids = [] }, config) =>
+  useAuthenticatedQuery(
+    [
+      'events',
+      {
+        ids,
+      },
+    ],
+    getEventsByIds,
+    {
+      enabled: ids.length > 0,
+      ...config,
+    },
+  );
+
+export { useGetEventsToModerate, useGetEventbyId, useGetEventsbyIds };

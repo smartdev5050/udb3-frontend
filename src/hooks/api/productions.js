@@ -11,12 +11,14 @@ const getProductions = async (key, { headers, ...queryData }) => {
   return await res.json();
 };
 
-const useGetProductions = (perPage, config = {}) =>
+const useGetProductions = ({ name = '', start = 0, limit = 15 }, config = {}) =>
   useAuthenticatedQuery(
     [
       'productions',
       {
-        limit: perPage,
+        name,
+        start,
+        limit,
       },
     ],
     getProductions,
