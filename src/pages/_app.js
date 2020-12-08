@@ -24,7 +24,7 @@ const queryCache = new QueryCache();
 
 const useChangeLanguage = () => {
   const { i18n } = useTranslation();
-  const [cookies] = useCookiesWithOptions(['udb-language']);
+  const { cookies } = useCookiesWithOptions(['udb-language']);
   useEffect(() => {
     i18n.changeLanguage(cookies['udb-language']);
   }, [cookies['udb-language']]);
@@ -32,7 +32,7 @@ const useChangeLanguage = () => {
 
 const useHandleAuthentication = () => {
   const { asPath, query, ...router } = useRouter();
-  const [cookies, setCookie] = useCookiesWithOptions(['user', 'token']);
+  const { cookies, setCookie } = useCookiesWithOptions(['user', 'token']);
   const { data: user } = useGetUser();
 
   useEffect(() => {
@@ -62,7 +62,7 @@ const Layout = ({ children }) => {
   });
   useHandleAuthentication();
 
-  if (asPath.startsWith('/login')) return <>{children}</>;
+  if (asPath.startsWith('/login')) return children;
 
   return (
     <Inline>

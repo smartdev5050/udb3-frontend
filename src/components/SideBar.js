@@ -114,7 +114,10 @@ Menu.propTypes = {
 
 const ProfileMenu = ({ profileImage }) => {
   const { t } = useTranslation();
-  const [cookies, , removeCookie] = useCookiesWithOptions(['user']);
+  const { cookies, removeAuthenticationCookies } = useCookiesWithOptions([
+    'user',
+  ]);
+
   const router = useRouter();
 
   const loginMenu = [
@@ -122,8 +125,7 @@ const ProfileMenu = ({ profileImage }) => {
       iconName: Icons.SIGN_OUT_ALT,
       children: t('menu.logout'),
       onClick: () => {
-        removeCookie('token');
-        removeCookie('user');
+        removeAuthenticationCookies();
 
         const getBaseUrl = () =>
           `${window.location.protocol}//${window.location.host}`;
@@ -218,7 +220,7 @@ NotificationMenu.propTypes = {
 const SideBar = () => {
   const { t } = useTranslation();
 
-  const [cookies, setCookie] = useCookiesWithOptions([
+  const { cookies, setCookie } = useCookiesWithOptions([
     'seenAnnouncements',
     'userPicture',
   ]);

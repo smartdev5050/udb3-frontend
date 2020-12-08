@@ -7,7 +7,7 @@ import { useHeaders } from './useHeaders';
 const useAuthenticatedQuery = (...args) => {
   const router = useRouter();
   const headers = useHeaders();
-  const [cookies] = useCookiesWithOptions(['token']);
+  const { cookies } = useCookiesWithOptions(['token']);
   const [queryKey, queryFunction, { enabled = true, ...config } = {}] = args;
 
   const [key, queryArgs] = Array.isArray(queryKey) ? queryKey : [queryKey, {}];
