@@ -293,12 +293,13 @@ const Index = () => {
       <Inline width="100%" backgroundColor="#ccc" justifyContent="center">
         <ResponsiveContainer
           justifyContent={{ default: 'space-between', xs: 'flex-start' }}
+          alignItems={{ xs: 'center' }}
           stackOn={Breakpoints.XS}
           spacing={5}
           paddingY={5}
         >
           <Stack alignItems="flex-start">
-            <List>
+            <List alignItems={{ xs: 'center' }}>
               <List.Item>
                 <Link href="mailto:vragen@uitdatabank.be">
                   {t('footer.contact')}
@@ -332,7 +333,8 @@ const Index = () => {
 
           <Stack
             spacing={3}
-            alignItems={{ default: 'flex-end', s: 'flex-start' }}
+            alignItems={{ default: 'flex-end', xs: 'center' }}
+            justifyContent="flex-start"
           >
             <Inline as="p" spacing={2} className="footer-by">
               <Box as="span">{t('footer.by')}</Box>
