@@ -177,6 +177,7 @@ const useRedirectToLanguage = () => {
 
   useEffect(() => {
     if (!language) return;
+
     if (['nl', 'fr'].includes(language)) {
       setCookie('udb-language', language);
     } else {
@@ -287,8 +288,8 @@ const Index = () => {
 
       <Inline width="100%" backgroundColor="#ccc" justifyContent="center">
         <ResponsiveContainer
-          justifyContent={{ default: 'space-between', s: 'flex-start' }}
-          stackOn={Breakpoints.S}
+          justifyContent={{ default: 'space-between', xs: 'flex-start' }}
+          stackOn={Breakpoints.XS}
           spacing={5}
           paddingY={5}
         >
@@ -325,13 +326,11 @@ const Index = () => {
             </List>
           </Stack>
 
-          <Stack spacing={3}>
-            <Inline
-              as="p"
-              spacing={2}
-              className="footer-by"
-              alignItems="flex-end"
-            >
+          <Stack
+            spacing={3}
+            alignItems={{ default: 'flex-end', s: 'flex-start' }}
+          >
+            <Inline as="p" spacing={2} className="footer-by">
               <Box as="span">{t('footer.by')}</Box>
               <Link href="http://www.publiq.be">publiq vzw</Link>
             </Inline>
