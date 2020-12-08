@@ -4,6 +4,7 @@ import { getValueFromTheme } from './theme';
 import { getInlineProps, Inline, inlinePropTypes } from './Inline';
 import { cloneElement, forwardRef } from 'react';
 import { Icon } from './Icon';
+import { Text } from './Text';
 
 const getValue = getValueFromTheme('link');
 
@@ -17,6 +18,7 @@ const BaseLink = forwardRef(({ variant, ...props }, ref) => {
       <Inline
         ref={ref}
         forwardedAs="a"
+        width="min-content"
         color={{ default: 'inherit', hover: 'inherit' }}
         alignItems="center"
         {...props}
@@ -48,7 +50,8 @@ const Link = ({
   href,
   iconName,
   suffix,
-  children: label,
+  children,
+  customChildren,
   className,
   variant,
   title,
@@ -64,9 +67,15 @@ const Link = ({
       })
     : undefined;
 
-  const children = [
+  const inner = [
     iconName && <Icon name={iconName} key="icon" />,
-    label,
+    customChildren ? (
+      children
+    ) : (
+      <Text flex={1} css="text-align: left" key="text">
+        {children}
+      </Text>
+    ),
     clonedSuffix,
   ];
 
@@ -79,7 +88,7 @@ const Link = ({
           title={title}
           {...getInlineProps(props)}
         >
-          {children}
+          {inner}
         </BaseLink>
       </NextLink>
     );
@@ -95,7 +104,7 @@ const Link = ({
       title={title}
       {...getInlineProps(props)}
     >
-      {children}
+      {inner}
     </BaseLink>
   );
 };

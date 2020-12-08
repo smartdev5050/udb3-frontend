@@ -10,24 +10,33 @@ const colors = {
   grey4: '#f5f5f5',
   green1: '#5cb85c',
   green2: '#449d44',
+  green3: '#48874a',
+  green4: '#dcf2d7',
   pink1: '#fcd1cf',
   pink2: '#f9a29f',
   red1: '#d9534f',
   red2: '#f3453f',
   red3: '#d23430',
   red4: '#900d09',
+  blue1: '#3e88ab',
   textColor: '#222',
 };
 
 const Breakpoints = {
-  xs: 575,
-  s: 768,
-  m: 992,
-  l: 1200,
+  XS: 'xs',
+  S: 's',
+  M: 'm',
+  L: 'l',
 };
+
 const theme = {
   colors,
-  breakpoints: Breakpoints,
+  breakpoints: {
+    [Breakpoints.XS]: 575,
+    [Breakpoints.S]: 768,
+    [Breakpoints.M]: 992,
+    [Breakpoints.L]: 1200,
+  },
   components: {
     alert: {
       borderRadius: 0,
@@ -148,6 +157,21 @@ const theme = {
     },
     announcementContent: {
       linkColor: colors.udbBlue,
+    },
+    jobStatusIcon: {
+      backgroundColor: colors.white,
+      warning: {
+        circleFillColor: colors.udbRed,
+        remarkFillColor: colors.white,
+      },
+      busy: {
+        spinnerStrokeColor: colors.blue1,
+        backgroundColor: colors.white,
+      },
+      complete: {
+        circleFillColor: colors.green3,
+        checkFillColor: colors.green4,
+      },
     },
   },
 };

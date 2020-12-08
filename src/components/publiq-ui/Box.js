@@ -22,7 +22,9 @@ const parseProperty = (key, parser, customValue) => (props) => {
   if (value === undefined) return css``;
 
   const parsedValue =
-    typeof value === 'object' && value !== null ? value : { default: value };
+    typeof value === 'object' && value !== null && !Array.isArray(value)
+      ? value
+      : { default: value };
 
   const { default: defaultValue, hover, ...rest } = parsedValue;
 
@@ -146,6 +148,8 @@ const boxProps = css`
   ${parseProperty('opacity')};
   ${parseProperty('flex')};
   ${parseProperty('cursor')};
+
+  ${parseProperty('animation')}
 `;
 
 const StyledBox = styled.div`
@@ -337,6 +341,11 @@ const boxPropTypes = {
     PropTypes.object,
   ]),
   cursor: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  animation: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
     PropTypes.object,

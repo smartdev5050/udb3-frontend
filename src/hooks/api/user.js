@@ -28,9 +28,12 @@ const useGetPermissions = (config = {}) =>
   useAuthenticatedQuery('permissions', getPermissions, config);
 
 const getRoles = async (key, { headers }) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/roles/`, {
-    headers,
-  });
+  const res = await fetchWithRedirect(
+    `${process.env.NEXT_PUBLIC_API_URL}/user/roles/`,
+    {
+      headers,
+    },
+  );
   return await res.json();
 };
 
