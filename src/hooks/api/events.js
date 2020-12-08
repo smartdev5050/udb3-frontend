@@ -1,7 +1,6 @@
 import { fetchWithRedirect } from '../../utils/fetchWithRedirect';
 import { useAuthenticatedQuery } from './useAuthenticatedQuery';
 import { formatDate } from '../../utils/formatDate';
-import { useQuery } from 'react-query';
 
 const getEventsToModerate = async (key, { headers, ...queryData }) => {
   const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/events/`);
@@ -80,4 +79,36 @@ const useGetEventsbyIds = ({ ids = [] }, config) =>
     },
   );
 
-export { useGetEventsToModerate, useGetEventbyId, useGetEventsbyIds };
+const getCalendarSummary = async (key, { headers, id, format, locale }) => {
+  const url = `${
+    process.env.NEXT_PUBLIC_API_URL
+  }/events/${id.toString()}/calsum?format=${format}&langCode=${locale}_BE`;
+  const res = await fetchWithRedirect(url, {
+    headers,
+  });
+  return res.text();
+};
+
+const useGetCalendarSummary = ({ id, locale, format = 'lg' }, config) =>
+  useAuthenticatedQuery(
+    [
+      'events',
+      {
+        id,
+        locale,
+        format,
+      },
+    ],
+    getCalendarSummary,
+    {
+      enabled: id && locale,
+      ...config,
+    },
+  );
+
+export {
+  useGetEventsToModerate,
+  useGetEventbyId,
+  useGetEventsbyIds,
+  useGetCalendarSummary,
+};
