@@ -1,6 +1,7 @@
 import { fetchWithRedirect } from '../../utils/fetchWithRedirect';
 import { useAuthenticatedQuery } from './useAuthenticatedQuery';
 import { formatDate } from '../../utils/formatDate';
+import { useQuery } from 'react-query';
 
 const getEventsToModerate = async (key, { headers, ...queryData }) => {
   const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/events/`);
@@ -36,7 +37,7 @@ const useGetEventsToModerate = (searchQuery, config) =>
 
 const getEventById = async (key, { headers, id }) => {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/event/${id.toString()}`;
-  const res = await fetch(url, {
+  const res = await fetchWithRedirect(url, {
     headers,
   });
   return await res.json();
@@ -57,13 +58,11 @@ const useGetEventbyId = ({ id = '' }, config) =>
     },
   );
 
-const getEventsByIds = async (key, { ids }) => {
-  const mappedEvents = ids.map((eventId) => {
-    return getEventById({ id: eventId });
-  });
-
-  const events = await Promise.all(mappedEvents);
-  return events.filter((event) => !event.status);
+const getEventsByIds = async (key, { ids, headers }) => {
+  const mappedEvents = ids.map((eventId) =>
+    getEventById(key, { headers, id: eventId }),
+  );
+  return Promise.all(mappedEvents);
 };
 
 const useGetEventsbyIds = ({ ids = [] }, config) =>
