@@ -1,8 +1,18 @@
 import { useRouter } from 'next/router';
-import { useQuery as useReactQuery } from 'react-query';
+import {
+  useQuery as useReactQuery,
+  QueryStatus as ReactQueryStatus,
+} from 'react-query';
 import { Errors } from '../../utils/fetchWithRedirect';
 import { useCookiesWithOptions } from '../useCookiesWithOptions';
 import { useHeaders } from './useHeaders';
+
+const QueryStatus = {
+  IDLE: ReactQueryStatus.Idle,
+  LOADING: ReactQueryStatus.Loading,
+  SUCCESS: ReactQueryStatus.Success,
+  ERROR: ReactQueryStatus.Error,
+};
 
 const useAuthenticatedQuery = (...args) => {
   const router = useRouter();
@@ -37,4 +47,4 @@ const useAuthenticatedQuery = (...args) => {
   return result;
 };
 
-export { useAuthenticatedQuery };
+export { useAuthenticatedQuery, QueryStatus };
