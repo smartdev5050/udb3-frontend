@@ -9,26 +9,34 @@ import { parseSpacing } from '../../../components/publiq-ui/Box';
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from '../../../components/publiq-ui/Link';
 import { useGetEventsbyIds } from '../../../hooks/api/events';
+import { parseEventId } from '../../../utils/parseEventId';
+import { QueryStatus } from '../../../hooks/api/useAuthenticatedQuery';
 
 const Index = () => {
   const { t } = useTranslation();
-  const { data: productionsData } = useGetProductions({ limit: 15 });
-  const rawProductions = productionsData?.member ?? [];
 
   const [productions, setProductions] = useState([]);
+  const [events, setEvents] = useState([]);
   const [activeProduction, setActiveProduction] = useState();
+  const [searchInput, setSearchInput] = useState('');
 
   const eventIds = useMemo(() => activeProduction?.events ?? [], [
     activeProduction,
   ]);
 
-  const { data: events } = useGetEventsbyIds({ ids: eventIds });
+  const {
+    data: productionsData,
+    status: productionsStatus,
+  } = useGetProductions({
+    name: searchInput,
+    limit: 15,
+  });
+  const rawProductions = productionsData?.member ?? [];
+  const { data: rawEvents = [], status: eventsStatus } = useGetEventsbyIds({
+    ids: eventIds,
+  });
 
   useEffect(() => {
-    if (rawProductions.length === 0) {
-      return;
-    }
-
     setProductions(
       rawProductions.map((production, index) => {
         if (index === 0) {
@@ -39,6 +47,19 @@ const Index = () => {
       }),
     );
   }, [rawProductions]);
+
+  useEffect(() => {
+    setEvents(
+      rawEvents.map((event) => ({
+        ...event,
+        id: parseEventId(event['@id']),
+      })),
+    );
+  }, [rawEvents]);
+
+  useEffect(() => {
+    setEvents([]);
+  }, [productions]);
 
   const handleClickProduction = (id) => {
     setProductions((prevProductions) =>
@@ -76,19 +97,23 @@ const Index = () => {
           id="productions-overview-search"
           placeholder={t('productions.overview.search.placeholder')}
           marginBottom={4}
+          onInput={(event) => {
+            setSearchInput(event.target.value.toString().trim());
+          }}
         >
           {t('productions.overview.search.label')}
         </InputWithLabel>
         <Inline spacing={4}>
           <Productions
+            loading={productionsStatus === QueryStatus.LOADING}
             width={`calc(40% - ${parseSpacing(4)()})`}
             productions={productions}
             onClickProduction={handleClickProduction}
           />
           <Events
+            loading={eventsStatus === QueryStatus.LOADING}
             width="60%"
             events={events}
-            loading={!activeProduction}
             activeProductionName={activeProduction?.name ?? ''}
           />
         </Inline>
