@@ -182,6 +182,10 @@ const theme = {
     eventItem: {
       borderColor: colors.grey3,
     },
+    detailTable: {
+      backgroundColor: colors.grey1,
+      borderColor: colors.grey3,
+    },
   },
 };
 
