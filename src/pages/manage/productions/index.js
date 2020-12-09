@@ -19,6 +19,7 @@ const Index = () => {
   const [events, setEvents] = useState([]);
   const [activeProduction, setActiveProduction] = useState();
   const [searchInput, setSearchInput] = useState('');
+  const [selectedEventIds, setSelectedEventIds] = useState([]);
 
   const eventIds = useMemo(() => {
     return activeProduction?.events ?? [];
@@ -113,12 +114,19 @@ const Index = () => {
             onClickProduction={handleClickProduction}
           />
           <Events
-            loading={
-              eventsStatus === QueryStatus.LOADING && events.length === 0
-            }
+            loading={eventsStatus === QueryStatus.LOADING}
             width="60%"
             events={events}
             activeProductionName={activeProduction?.name ?? ''}
+            onToggleEvent={(id) => {
+              setSelectedEventIds((prevValue) => {
+                if (prevValue.includes(id)) {
+                  return prevValue.filter((eventId) => eventId !== id);
+                }
+                return [...prevValue, id];
+              });
+            }}
+            selectedIds={selectedEventIds}
           />
         </Inline>
       </Page.Content>

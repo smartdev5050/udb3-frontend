@@ -6,7 +6,7 @@ import { Title } from '../../publiq-ui/Title';
 import { CheckboxWithLabel } from '../../publiq-ui/CheckboxWithLabel';
 import { Button, ButtonVariants } from '../../publiq-ui/Button';
 import { Icon, Icons } from '../../publiq-ui/Icon';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { getValueFromTheme } from '../../publiq-ui/theme';
 import { Panel } from '../../publiq-ui/Panel';
 import { Inline } from '../../publiq-ui/Inline';
@@ -21,7 +21,16 @@ const getEventType = (terms) => {
   return foundTerm.label ? foundTerm.label : '';
 };
 
-const Event = ({ id, name, type, location, calendarType, className }) => {
+const Event = ({
+  id,
+  name,
+  type,
+  location,
+  calendarType,
+  onToggle,
+  selected,
+  className,
+}) => {
   const { i18n, t } = useTranslation();
   const { data: period } = useGetCalendarSummary({
     id,
@@ -47,7 +56,12 @@ const Event = ({ id, name, type, location, calendarType, className }) => {
     >
       <Stack as="div" flex={1} spacing={3}>
         <Inline as="div" justifyContent="space-between">
-          <CheckboxWithLabel id={id} name={name}>
+          <CheckboxWithLabel
+            id={id}
+            name={name}
+            onToggle={() => onToggle(id)}
+            checked={selected}
+          >
             {name}
           </CheckboxWithLabel>
           <Button
@@ -79,6 +93,8 @@ Event.propTypes = {
   type: PropTypes.string,
   location: PropTypes.string,
   calendarType: PropTypes.string,
+  onToggle: PropTypes.func,
+  selected: PropTypes.bool,
   className: PropTypes.string,
 };
 
@@ -86,10 +102,16 @@ const Events = ({
   events,
   activeProductionName,
   loading,
+  onToggleEvent,
+  selectedIds,
   className,
   ...props
 }) => {
   const { t, i18n } = useTranslation();
+
+  const shouldDisableDeleteButton = useMemo(() => selectedIds.length === 0, [
+    selectedIds,
+  ]);
 
   return (
     <Stack spacing={4} {...getStackProps(props)}>
@@ -112,6 +134,7 @@ const Events = ({
                 {t('productions.overview.create')}
               </Button>
               <Button
+                disabled={shouldDisableDeleteButton}
                 variant={ButtonVariants.DANGER}
                 iconName={Icons.TRASH}
                 spacing={3}
@@ -130,6 +153,8 @@ const Events = ({
                   type={getEventType(event.terms)}
                   location={event.location.name[i18n.language]}
                   calendarType={event.calendarType}
+                  onToggle={onToggleEvent}
+                  selected={selectedIds.includes(event.id)}
                   css={
                     index !== events.length - 1
                       ? (props) => {
@@ -153,8 +178,10 @@ Events.propTypes = {
   ...stackPropTypes,
   events: PropTypes.array,
   activeProductionName: PropTypes.string,
-  className: PropTypes.string,
   loading: PropTypes.bool,
+  onToggleEvent: PropTypes.func,
+  selectedIds: PropTypes.array,
+  className: PropTypes.string,
 };
 
 Events.defaultProps = {
