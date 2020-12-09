@@ -42,10 +42,12 @@ const Inline = forwardRef(
       ? { marginRight: spacing }
       : { marginBottom: spacing };
 
-    const clonedChildren = Children.map(children, (child, i) => {
-      const isLastItem = i === children.length - 1;
+    const notNullChildren = Children.toArray(children).filter(
+      (child) => child !== null,
+    );
 
-      if (!child) return;
+    const clonedChildren = Children.map(notNullChildren, (child, i) => {
+      const isLastItem = i === notNullChildren.length - 1;
 
       return cloneElement(child, {
         ...child.props,

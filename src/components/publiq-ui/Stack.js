@@ -19,10 +19,16 @@ const StyledBox = styled(Box)`
 
 const Stack = forwardRef(
   ({ spacing, className, children, as, ...props }, ref) => {
-    const clonedChildren = Children.map(children, (child, i) => {
-      const isLastItem = i === children.length - 1;
+    if (spacing === 6) {
+      console.log({ length: children.length });
+    }
 
-      if (!child) return;
+    const notNullChildren = Children.toArray(children).filter(
+      (child) => child !== null,
+    );
+
+    const clonedChildren = Children.map(notNullChildren, (child, i) => {
+      const isLastItem = i === notNullChildren.length - 1;
 
       return cloneElement(child, {
         ...child.props,
