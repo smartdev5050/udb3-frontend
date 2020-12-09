@@ -20,9 +20,9 @@ const Index = () => {
   const [activeProduction, setActiveProduction] = useState();
   const [searchInput, setSearchInput] = useState('');
 
-  const eventIds = useMemo(() => activeProduction?.events ?? [], [
-    activeProduction,
-  ]);
+  const eventIds = useMemo(() => {
+    return activeProduction?.events ?? [];
+  }, [activeProduction]);
 
   const {
     data: productionsData,
@@ -58,7 +58,9 @@ const Index = () => {
   }, [rawEvents]);
 
   useEffect(() => {
-    setEvents([]);
+    if (productions.length === 0) {
+      setEvents([]);
+    }
   }, [productions]);
 
   const handleClickProduction = (id) => {
@@ -111,7 +113,9 @@ const Index = () => {
             onClickProduction={handleClickProduction}
           />
           <Events
-            loading={eventsStatus === QueryStatus.LOADING}
+            loading={
+              eventsStatus === QueryStatus.LOADING && events.length === 0
+            }
             width="60%"
             events={events}
             activeProductionName={activeProduction?.name ?? ''}
