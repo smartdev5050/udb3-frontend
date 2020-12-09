@@ -22,9 +22,9 @@ const Productions = ({
       {loading ? (
         <Spinner />
       ) : (
-        <>
-          <Title>{t('productions.overview.production')}</Title>
-          <Panel>
+        [
+          <Title key="title">{t('productions.overview.production')}</Title>,
+          <Panel key="panel">
             <List>
               {productions.map((production, index) => (
                 <List.Item
@@ -55,8 +55,8 @@ const Productions = ({
                 </List.Item>
               ))}
             </List>
-          </Panel>
-        </>
+          </Panel>,
+        ]
       )}
     </Stack>
   );

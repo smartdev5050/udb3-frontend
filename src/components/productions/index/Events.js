@@ -10,9 +10,9 @@ import { useState } from 'react';
 import { getValueFromTheme } from '../../publiq-ui/theme';
 import { Panel } from '../../publiq-ui/Panel';
 import { Inline } from '../../publiq-ui/Inline';
-import { Text } from '../../publiq-ui/Text';
 import { useGetCalendarSummary } from '../../../hooks/api/events';
 import { Spinner } from '../../publiq-ui/Spinner';
+import { DetailTable } from '../../publiq-ui/DetailTable';
 
 const getValue = getValueFromTheme('eventItem');
 
@@ -22,7 +22,7 @@ const getEventType = (terms) => {
 };
 
 const Event = ({ id, name, type, location, calendarType, className }) => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const { data: period } = useGetCalendarSummary({
     id,
     locale: i18n?.language ?? '',
@@ -45,8 +45,8 @@ const Event = ({ id, name, type, location, calendarType, className }) => {
       backgroundColor="white"
       className={className}
     >
-      <Stack flex={1}>
-        <Inline justifyContent="space-between">
+      <Stack as="div" flex={1} spacing={3}>
+        <Inline as="div" justifyContent="space-between">
           <CheckboxWithLabel id={id} name={name}>
             {name}
           </CheckboxWithLabel>
@@ -60,11 +60,13 @@ const Event = ({ id, name, type, location, calendarType, className }) => {
           </Button>
         </Inline>
         {isExpanded && (
-          <Stack>
-            <Text>{`type: ${type}`}</Text>
-            <Text>{`period: ${period}`}</Text>
-            <Text>{`location: ${location}`}</Text>
-          </Stack>
+          <DetailTable
+            items={[
+              { header: t('productions.event.type'), value: type },
+              { header: t('productions.event.when'), value: period },
+              { header: t('productions.event.where'), value: location },
+            ]}
+          />
         )}
       </Stack>
     </List.Item>
@@ -94,13 +96,13 @@ const Events = ({
       {loading ? (
         <Spinner />
       ) : (
-        <>
-          <Title>
+        [
+          <Title key="title">
             {t('productions.overview.events_in_production', {
               productionName: activeProductionName,
             })}
-          </Title>
-          <Panel>
+          </Title>,
+          <Panel key="panel">
             <List>
               {events.map((event, index) => (
                 <Event
@@ -122,8 +124,8 @@ const Events = ({
                 />
               ))}
             </List>
-          </Panel>
-        </>
+          </Panel>,
+        ]
       )}
     </Stack>
   );
