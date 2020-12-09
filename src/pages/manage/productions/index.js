@@ -3,7 +3,10 @@ import { Page } from '../../../components/publiq-ui/Page';
 import { InputWithLabel } from '../../../components/publiq-ui/InputWithLabel';
 import { Inline } from '../../../components/publiq-ui/Inline';
 import { Productions } from '../../../components/productions/index/Productions';
-import { useGetProductions } from '../../../hooks/api/productions';
+import {
+  useDeleteEventsByIds,
+  useGetProductions,
+} from '../../../hooks/api/productions';
 import { Events } from '../../../components/productions/index/Events';
 import { parseSpacing } from '../../../components/publiq-ui/Box';
 import { useEffect, useMemo, useState } from 'react';
@@ -11,6 +14,7 @@ import { Link } from '../../../components/publiq-ui/Link';
 import { useGetEventsbyIds } from '../../../hooks/api/events';
 import { parseEventId } from '../../../utils/parseEventId';
 import { QueryStatus } from '../../../hooks/api/useAuthenticatedQuery';
+import { Text } from '../../../components/publiq-ui/Text';
 
 const Index = () => {
   const { t } = useTranslation();
@@ -28,6 +32,7 @@ const Index = () => {
   const {
     data: productionsData,
     status: productionsStatus,
+    refetch: refetchProductions,
   } = useGetProductions({
     name: searchInput,
     limit: 15,
@@ -35,6 +40,13 @@ const Index = () => {
   const rawProductions = productionsData?.member ?? [];
   const { data: rawEvents = [], status: eventsStatus } = useGetEventsbyIds({
     ids: eventIds,
+  });
+  const handleSuccessDeleteEvents = async () => {
+    await refetchProductions();
+    setSelectedEventIds([]);
+  };
+  const [deleteEventsByIds] = useDeleteEventsByIds({
+    onSuccess: handleSuccessDeleteEvents,
   });
 
   useEffect(() => {
@@ -65,6 +77,9 @@ const Index = () => {
   }, [productions]);
 
   const handleClickProduction = (id) => {
+    if (id !== activeProduction?.production_id) {
+      setSelectedEventIds([]);
+    }
     setProductions((prevProductions) =>
       prevProductions.map((production) => {
         if (production.production_id === id) {
@@ -107,27 +122,42 @@ const Index = () => {
           {t('productions.overview.search.label')}
         </InputWithLabel>
         <Inline spacing={4}>
-          <Productions
-            loading={productionsStatus === QueryStatus.LOADING}
-            width={`calc(40% - ${parseSpacing(4)()})`}
-            productions={productions}
-            onClickProduction={handleClickProduction}
-          />
-          <Events
-            loading={eventsStatus === QueryStatus.LOADING}
-            width="60%"
-            events={events}
-            activeProductionName={activeProduction?.name ?? ''}
-            onToggleEvent={(id) => {
-              setSelectedEventIds((prevValue) => {
-                if (prevValue.includes(id)) {
-                  return prevValue.filter((eventId) => eventId !== id);
-                }
-                return [...prevValue, id];
-              });
-            }}
-            selectedIds={selectedEventIds}
-          />
+          {productionsStatus !== QueryStatus.LOADING &&
+          productions.length === 0 ? (
+            <Text>{t('productions.overview.no_productions')}</Text>
+          ) : (
+            [
+              <Productions
+                key="productions"
+                loading={productionsStatus === QueryStatus.LOADING}
+                width={`calc(40% - ${parseSpacing(4)()})`}
+                productions={productions}
+                onClickProduction={handleClickProduction}
+              />,
+              <Events
+                key="events"
+                loading={eventsStatus === QueryStatus.LOADING}
+                width="60%"
+                events={events}
+                activeProductionName={activeProduction?.name ?? ''}
+                selectedIds={selectedEventIds}
+                onToggleEvent={(id) => {
+                  setSelectedEventIds((prevValue) => {
+                    if (prevValue.includes(id)) {
+                      return prevValue.filter((eventId) => eventId !== id);
+                    }
+                    return [...prevValue, id];
+                  });
+                }}
+                onDeleteEvents={(ids) => {
+                  deleteEventsByIds({
+                    productionId: activeProduction.production_id,
+                    eventIds: ids,
+                  });
+                }}
+              />,
+            ]
+          )}
         </Inline>
       </Page.Content>
     </Page>

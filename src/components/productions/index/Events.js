@@ -104,6 +104,7 @@ const Events = ({
   loading,
   onToggleEvent,
   selectedIds,
+  onDeleteEvents,
   className,
   ...props
 }) => {
@@ -138,6 +139,7 @@ const Events = ({
                 variant={ButtonVariants.DANGER}
                 iconName={Icons.TRASH}
                 spacing={3}
+                onClick={() => onDeleteEvents(selectedIds)}
               >
                 {t('productions.overview.delete')}
               </Button>
@@ -181,6 +183,7 @@ Events.propTypes = {
   loading: PropTypes.bool,
   onToggleEvent: PropTypes.func,
   selectedIds: PropTypes.array,
+  onDeleteEvents: PropTypes.func,
   className: PropTypes.string,
 };
 
