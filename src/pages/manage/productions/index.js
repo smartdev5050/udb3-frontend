@@ -15,6 +15,7 @@ import { useGetEventsbyIds } from '../../../hooks/api/events';
 import { parseEventId } from '../../../utils/parseEventId';
 import { QueryStatus } from '../../../hooks/api/useAuthenticatedQuery';
 import { Text } from '../../../components/publiq-ui/Text';
+import { DeleteModal } from '../../../components/productions/index/DeleteModal';
 
 const Index = () => {
   const { t } = useTranslation();
@@ -24,6 +25,7 @@ const Index = () => {
   const [activeProduction, setActiveProduction] = useState();
   const [searchInput, setSearchInput] = useState('');
   const [selectedEventIds, setSelectedEventIds] = useState([]);
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
 
   const eventIds = useMemo(() => {
     return activeProduction?.events ?? [];
@@ -150,15 +152,27 @@ const Index = () => {
                   });
                 }}
                 onDeleteEvents={(ids) => {
-                  deleteEventsByIds({
-                    productionId: activeProduction.production_id,
-                    eventIds: ids,
-                  });
+                  setIsDeleteModalVisible(true);
                 }}
               />,
             ]
           )}
         </Inline>
+        <DeleteModal
+          visible={isDeleteModalVisible}
+          eventCount={selectedEventIds.length}
+          productionName={activeProduction?.name ?? ''}
+          onConfirm={() => {
+            deleteEventsByIds({
+              productionId: activeProduction.production_id,
+              eventIds: selectedEventIds,
+            });
+            setIsDeleteModalVisible(false);
+          }}
+          onClose={() => {
+            setIsDeleteModalVisible(false);
+          }}
+        />
       </Page.Content>
     </Page>
   );
