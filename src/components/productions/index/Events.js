@@ -21,12 +21,12 @@ const getEventType = (terms) => {
   return foundTerm.label ? foundTerm.label : '';
 };
 
-const Event = ({ id, name, type, location, className }) => {
+const Event = ({ id, name, type, location, calendarType, className }) => {
   const { i18n } = useTranslation();
   const { data: period } = useGetCalendarSummary({
     id,
     locale: i18n?.language ?? '',
-    format: 'sm',
+    format: calendarType === 'single' ? 'lg' : 'sm',
   });
 
   const [isExpanded, setIsExpanded] = useState(false);
@@ -76,6 +76,7 @@ Event.propTypes = {
   name: PropTypes.string.isRequired,
   type: PropTypes.string,
   location: PropTypes.string,
+  calendarType: PropTypes.string,
   className: PropTypes.string,
 };
 
@@ -108,6 +109,7 @@ const Events = ({
                   name={event.name[i18n.language]}
                   type={getEventType(event.terms)}
                   location={event.location.name[i18n.language]}
+                  calendarType={event.calendarType}
                   css={
                     index !== events.length - 1
                       ? (props) => {
