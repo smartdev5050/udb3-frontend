@@ -29,11 +29,7 @@ const DetailTable = ({ items, className, ...props }) => {
               : undefined
           }
         >
-          <Box
-            forwardedAs="th"
-            minWidth={parseSpacing(7)()}
-            css="font-weight: bold;"
-          >
+          <Box as="th" minWidth={parseSpacing(7)()} fontWeight="bold">
             {header}
           </Box>
           <Box as="td">{value}</Box>
