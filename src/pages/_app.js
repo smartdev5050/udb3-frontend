@@ -92,4 +92,5 @@ const App = ({ Component, pageProps }) => (
   </ContextProvider>
 );
 
+export { queryCache };
 export default App;

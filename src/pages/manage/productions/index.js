@@ -16,6 +16,7 @@ import { parseEventId } from '../../../utils/parseEventId';
 import { QueryStatus } from '../../../hooks/api/useAuthenticatedQuery';
 import { Text } from '../../../components/publiq-ui/Text';
 import { DeleteModal } from '../../../components/productions/index/DeleteModal';
+import { queryCache } from '../../_app';
 
 const Index = () => {
   const { t } = useTranslation();
@@ -34,7 +35,6 @@ const Index = () => {
   const {
     data: productionsData,
     status: productionsStatus,
-    refetch: refetchProductions,
   } = useGetProductions({
     name: searchInput,
     limit: 15,
@@ -43,8 +43,8 @@ const Index = () => {
   const { data: rawEvents = [], status: eventsStatus } = useGetEventsbyIds({
     ids: eventIds,
   });
-  const handleSuccessDeleteEvents = async () => {
-    await refetchProductions();
+  const handleSuccessDeleteEvents = () => {
+    queryCache.refetchQueries('productions');
     setSelectedEventIds([]);
   };
   const [deleteEventsByIds] = useDeleteEventsByIds({
