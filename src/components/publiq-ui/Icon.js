@@ -13,11 +13,13 @@ import {
   faGift,
   faHome,
   faLayerGroup,
+  faPlus,
   faPlusCircle,
   faSearch,
   faSignOutAlt,
   faTag,
   faTimes,
+  faTrash,
   faUser,
   faUsers,
 } from '@fortawesome/free-solid-svg-icons';
@@ -43,6 +45,8 @@ const Icons = {
   CHECK_NOTCH: 'circleNotch',
   CHEVRON_DOWN: 'chevronDown',
   CHEVRON_RIGHT: 'chevronRight',
+  PLUS: 'plus',
+  TRASH: 'trash',
 };
 
 const IconsMap = {
@@ -65,6 +69,8 @@ const IconsMap = {
   [Icons.CHECK_NOTCH]: faCircleNotch,
   [Icons.CHEVRON_DOWN]: faChevronDown,
   [Icons.CHEVRON_RIGHT]: faChevronRight,
+  [Icons.PLUS]: faPlus,
+  [Icons.TRASH]: faTrash,
 };
 
 const Icon = ({ name, width, height, className, ...props }) => {
