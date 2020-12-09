@@ -13,6 +13,7 @@ import { Inline } from '../../publiq-ui/Inline';
 import { useGetCalendarSummary } from '../../../hooks/api/events';
 import { Spinner } from '../../publiq-ui/Spinner';
 import { DetailTable } from '../../publiq-ui/DetailTable';
+import { parseSpacing } from '../../publiq-ui/Box';
 
 const getValue = getValueFromTheme('eventItem');
 
@@ -124,6 +125,7 @@ const Events = ({
             as="div"
             key="title-and-buttons"
             justifyContent="space-between"
+            alignItems="center"
           >
             <Title>
               {t('productions.overview.events_in_production', {
@@ -131,7 +133,11 @@ const Events = ({
               })}
             </Title>
             <Inline as="div" spacing={3}>
-              <Button iconName={Icons.PLUS} spacing={3}>
+              <Button
+                iconName={Icons.PLUS}
+                spacing={3}
+                maxHeight={parseSpacing(5)()}
+              >
                 {t('productions.overview.create')}
               </Button>
               <Button
@@ -140,6 +146,7 @@ const Events = ({
                 iconName={Icons.TRASH}
                 spacing={3}
                 onClick={() => onDeleteEvents(selectedIds)}
+                maxHeight={parseSpacing(5)()}
               >
                 {t('productions.overview.delete')}
               </Button>
