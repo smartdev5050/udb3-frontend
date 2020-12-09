@@ -33,11 +33,10 @@ const StyledBox = styled(Box)`
 
 const Inline = forwardRef(
   ({ spacing, className, children, as, stackOn, ...props }, ref) => {
-    const marginProp = useMatchBreakpoint(stackOn)
-      ? 'marginBottom'
-      : 'marginRight';
+    const shouldCollapse = useMatchBreakpoint(stackOn, props.name);
 
-    console.log(marginProp);
+    const marginProp =
+      shouldCollapse && stackOn ? 'marginBottom' : 'marginRight';
 
     const clonedChildren = Children.map(children, (child, i) => {
       const isLastItem = i === children.length - 1;
@@ -69,7 +68,7 @@ const inlinePropTypes = {
   spacing: PropTypes.number,
   alignItems: PropTypes.string,
   justifyContent: PropTypes.string,
-  stackOn: PropTypes.oneOf(...Object.values(Breakpoints)),
+  stackOn: PropTypes.oneOf([...Object.values(Breakpoints)]),
 };
 
 const getInlineProps = (props) => pick(props, Object.keys(inlinePropTypes));
