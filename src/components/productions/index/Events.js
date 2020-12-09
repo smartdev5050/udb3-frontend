@@ -97,11 +97,29 @@ const Events = ({
         <Spinner />
       ) : (
         [
-          <Title key="title">
-            {t('productions.overview.events_in_production', {
-              productionName: activeProductionName,
-            })}
-          </Title>,
+          <Inline
+            as="div"
+            key="title-and-buttons"
+            justifyContent="space-between"
+          >
+            <Title>
+              {t('productions.overview.events_in_production', {
+                productionName: activeProductionName,
+              })}
+            </Title>
+            <Inline as="div" spacing={3}>
+              <Button iconName={Icons.PLUS} spacing={3}>
+                {t('productions.overview.create')}
+              </Button>
+              <Button
+                variant={ButtonVariants.DANGER}
+                iconName={Icons.TRASH}
+                spacing={3}
+              >
+                {t('productions.overview.delete')}
+              </Button>
+            </Inline>
+          </Inline>,
           <Panel key="panel">
             <List>
               {events.map((event, index) => (
