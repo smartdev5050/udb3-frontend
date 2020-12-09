@@ -19,10 +19,6 @@ const StyledBox = styled(Box)`
 
 const Stack = forwardRef(
   ({ spacing, className, children, as, ...props }, ref) => {
-    if (spacing === 6) {
-      console.log({ length: children.length });
-    }
-
     const notNullChildren = Children.toArray(children).filter(
       (child) => child !== null,
     );
