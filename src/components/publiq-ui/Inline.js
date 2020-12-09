@@ -7,15 +7,13 @@ import { Breakpoints } from '../publiq-ui/theme';
 import { useMatchBreakpoint } from '../../hooks/useMatchBreakpoint';
 
 const parseStackOnProperty = () => ({ stackOn }) => {
-  if (typeof stackOn !== 'boolean') {
-    return css`
-      @media (max-width: ${(props) => props.theme.breakpoints[stackOn]}px) {
-        flex-direction: column;
-      }
-    `;
+  if (!stackOn) {
+    return;
   }
   return css`
-    ${stackOn && 'flex-direction: column;'}
+    @media (max-width: ${(props) => props.theme.breakpoints[stackOn]}px) {
+      flex-direction: column;
+    }
   `;
 };
 
@@ -35,12 +33,11 @@ const StyledBox = styled(Box)`
 
 const Inline = forwardRef(
   ({ spacing, className, children, as, stackOn, ...props }, ref) => {
-    const isMediaQuery =
-      typeof stackOn !== 'boolean' ? useMatchBreakpoint(stackOn) : true;
+    const marginProp = useMatchBreakpoint(stackOn)
+      ? 'marginBottom'
+      : 'marginRight';
 
-    const margin = !(stackOn && isMediaQuery)
-      ? { marginRight: spacing }
-      : { marginBottom: spacing };
+    console.log(marginProp);
 
     const clonedChildren = Children.map(children, (child, i) => {
       const isLastItem = i === children.length - 1;
@@ -49,7 +46,7 @@ const Inline = forwardRef(
 
       return cloneElement(child, {
         ...child.props,
-        ...(!isLastItem ? margin : {}),
+        ...(!isLastItem ? { [marginProp]: spacing } : {}),
       });
     });
 
@@ -72,7 +69,7 @@ const inlinePropTypes = {
   spacing: PropTypes.number,
   alignItems: PropTypes.string,
   justifyContent: PropTypes.string,
-  stackOn: PropTypes.oneOf([true, false, ...Object.values(Breakpoints)]),
+  stackOn: PropTypes.oneOf(...Object.values(Breakpoints)),
 };
 
 const getInlineProps = (props) => pick(props, Object.keys(inlinePropTypes));
@@ -86,7 +83,6 @@ Inline.propTypes = {
 
 Inline.defaultProps = {
   as: 'section',
-  stackOn: false,
 };
 
 export { Inline, getInlineProps, inlinePropTypes, inlineProps };
