@@ -105,17 +105,13 @@ const Events = ({
   activeProductionName,
   loading,
   onToggleEvent,
-  selectedIds,
   onDeleteEvents,
+  shouldDisableDeleteButton,
   className,
   ...props
 }) => {
   const { t, i18n } = useTranslation();
   const [isAddEventMenuVisible, setIsAddEventMenuVisible] = useState(false);
-
-  const shouldDisableDeleteButton = useMemo(() => selectedIds.length === 0, [
-    selectedIds,
-  ]);
 
   return (
     <Stack spacing={4} {...getStackProps(props)}>
@@ -165,7 +161,7 @@ const Events = ({
                     variant={ButtonVariants.DANGER}
                     iconName={Icons.TRASH}
                     spacing={3}
-                    onClick={() => onDeleteEvents(selectedIds)}
+                    onClick={() => onDeleteEvents()}
                     maxHeight={parseSpacing(5)()}
                   >
                     {t('productions.overview.delete')}
@@ -185,7 +181,7 @@ const Events = ({
                   location={event.location.name[i18n.language]}
                   calendarType={event.calendarType}
                   onToggle={onToggleEvent}
-                  selected={selectedIds.includes(event.id)}
+                  selected={event.selected}
                   css={
                     index !== events.length - 1
                       ? (props) => {
@@ -213,6 +209,7 @@ Events.propTypes = {
   onToggleEvent: PropTypes.func,
   selectedIds: PropTypes.array,
   onDeleteEvents: PropTypes.func,
+  shouldDisableDeleteButton: PropTypes.bool,
   className: PropTypes.string,
 };
 

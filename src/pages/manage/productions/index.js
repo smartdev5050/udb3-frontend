@@ -25,18 +25,28 @@ const Index = () => {
   const [events, setEvents] = useState([]);
   const [activeProduction, setActiveProduction] = useState();
   const [searchInput, setSearchInput] = useState('');
-  const [selectedEventIds, setSelectedEventIds] = useState([]);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
 
   const eventIds = useMemo(() => {
     return activeProduction?.events ?? [];
   }, [activeProduction]);
 
+  const selectedEventIds = useMemo(() => {
+    return events.filter((event) => event.selected);
+  }, [events]);
+
+  const unselectAllEvents = () => {
+    setEvents((prevEvents) =>
+      prevEvents.map((event) => ({ ...event, selected: false })),
+    );
+  };
+
   const {
     data: productionsData,
     status: productionsStatus,
   } = useGetProductions({
     name: searchInput,
+    start: 0,
     limit: 15,
   });
   const rawProductions = productionsData?.member ?? [];
@@ -45,7 +55,7 @@ const Index = () => {
   });
   const handleSuccessDeleteEvents = () => {
     queryCache.refetchQueries('productions');
-    setSelectedEventIds([]);
+    unselectAllEvents();
   };
   const [deleteEventsByIds] = useDeleteEventsByIds({
     onSuccess: handleSuccessDeleteEvents,
@@ -68,6 +78,7 @@ const Index = () => {
       rawEvents.map((event) => ({
         ...event,
         id: parseEventId(event['@id']),
+        selected: false,
       })),
     );
   }, [rawEvents]);
@@ -80,7 +91,7 @@ const Index = () => {
 
   const handleClickProduction = (id) => {
     if (id !== activeProduction?.production_id) {
-      setSelectedEventIds([]);
+      unselectAllEvents();
     }
     setProductions((prevProductions) =>
       prevProductions.map((production) => {
@@ -142,16 +153,18 @@ const Index = () => {
                 width="60%"
                 events={events}
                 activeProductionName={activeProduction?.name ?? ''}
-                selectedIds={selectedEventIds}
+                shouldDisableDeleteButton={selectedEventIds.length === 0}
                 onToggleEvent={(id) => {
-                  setSelectedEventIds((prevValue) => {
-                    if (prevValue.includes(id)) {
-                      return prevValue.filter((eventId) => eventId !== id);
-                    }
-                    return [...prevValue, id];
-                  });
+                  setEvents((prevEvents) =>
+                    prevEvents.map((event) => {
+                      if (event.id === id) {
+                        return { ...event, selected: !event.selected };
+                      }
+                      return event;
+                    }),
+                  );
                 }}
-                onDeleteEvents={(ids) => {
+                onDeleteEvents={() => {
                   setIsDeleteModalVisible(true);
                 }}
               />,
