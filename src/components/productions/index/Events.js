@@ -12,6 +12,7 @@ import { Panel } from '../../publiq-ui/Panel';
 import { Inline } from '../../publiq-ui/Inline';
 import { useGetCalendarSummary } from '../../../hooks/api/events';
 import { Spinner } from '../../publiq-ui/Spinner';
+import { Input } from '../../publiq-ui/Input';
 import { DetailTable } from '../../publiq-ui/DetailTable';
 import { parseSpacing } from '../../publiq-ui/Box';
 
@@ -110,6 +111,7 @@ const Events = ({
   ...props
 }) => {
   const { t, i18n } = useTranslation();
+  const [isAddEventMenuVisible, setIsAddEventMenuVisible] = useState(false);
 
   const shouldDisableDeleteButton = useMemo(() => selectedIds.length === 0, [
     selectedIds,
@@ -121,37 +123,57 @@ const Events = ({
         <Spinner />
       ) : (
         [
-          <Inline
-            as="div"
-            key="title-and-buttons"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Title>
-              {t('productions.overview.events_in_production', {
-                productionName: activeProductionName,
-              })}
-            </Title>
-            <Inline as="div" spacing={3}>
-              <Button
-                iconName={Icons.PLUS}
-                spacing={3}
-                maxHeight={parseSpacing(5)()}
+          <Stack key="title-and-buttons" spacing={3}>
+            {isAddEventMenuVisible ? (
+              <Inline as="div" spacing={3} alignItems="center">
+                <Input placeholder="cdbid" maxWidth="22rem" />
+                <Button iconName={Icons.CHECK} spacing={3}>
+                  {t('productions.overview.confirm')}
+                </Button>
+                <Button
+                  variant={ButtonVariants.SECONDARY}
+                  iconName={Icons.TIMES}
+                  spacing={3}
+                >
+                  {t('productions.overview.cancel')}
+                </Button>
+              </Inline>
+            ) : (
+              <Inline
+                as="div"
+                justifyContent="space-between"
+                alignItems="center"
               >
-                {t('productions.overview.create')}
-              </Button>
-              <Button
-                disabled={shouldDisableDeleteButton}
-                variant={ButtonVariants.DANGER}
-                iconName={Icons.TRASH}
-                spacing={3}
-                onClick={() => onDeleteEvents(selectedIds)}
-                maxHeight={parseSpacing(5)()}
-              >
-                {t('productions.overview.delete')}
-              </Button>
-            </Inline>
-          </Inline>,
+                <Title>
+                  {t('productions.overview.events_in_production', {
+                    productionName: activeProductionName,
+                  })}
+                </Title>
+                <Inline as="div" spacing={3}>
+                  <Button
+                    iconName={Icons.PLUS}
+                    spacing={3}
+                    maxHeight={parseSpacing(5)()}
+                    onClick={() => {
+                      setIsAddEventMenuVisible(true);
+                    }}
+                  >
+                    {t('productions.overview.create')}
+                  </Button>
+                  <Button
+                    disabled={shouldDisableDeleteButton}
+                    variant={ButtonVariants.DANGER}
+                    iconName={Icons.TRASH}
+                    spacing={3}
+                    onClick={() => onDeleteEvents(selectedIds)}
+                    maxHeight={parseSpacing(5)()}
+                  >
+                    {t('productions.overview.delete')}
+                  </Button>
+                </Inline>
+              </Inline>
+            )}
+          </Stack>,
           <Panel key="panel">
             <List>
               {events.map((event, index) => (
