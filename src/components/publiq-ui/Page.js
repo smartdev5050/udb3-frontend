@@ -64,13 +64,7 @@ const Page = ({ children: rawChildren, className, ...props }) => {
 
 const getValueForTitle = getValueFromTheme('pageTitle');
 
-const PageTitle = ({
-  children,
-  actionTitle,
-  actionHref,
-  className,
-  ...props
-}) => (
+const PageTitle = ({ children, className, ...props }) => (
   <Title
     size={1}
     className={className}
@@ -84,8 +78,6 @@ const PageTitle = ({
 
 PageTitle.propTypes = {
   ...inlinePropTypes,
-  actionTitle: PropTypes.string,
-  actionHref: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.node,
 };

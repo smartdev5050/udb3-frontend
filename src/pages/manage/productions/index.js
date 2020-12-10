@@ -109,12 +109,7 @@ const Index = () => {
 
   return (
     <Page>
-      <Page.Title
-        actionTitle={t('productions.overview.create')}
-        actionHref="/manage/productions/create"
-      >
-        {t('menu.productions')}
-      </Page.Title>
+      <Page.Title>{t('menu.productions')}</Page.Title>
       <Page.Actions>
         <Link
           href="/manage/productions/create"
