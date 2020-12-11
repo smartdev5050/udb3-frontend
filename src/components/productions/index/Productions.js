@@ -6,12 +6,17 @@ import { useTranslation } from 'react-i18next';
 import { getValueFromTheme } from '../../publiq-ui/theme';
 import { Panel } from '../../publiq-ui/Panel';
 import { Spinner } from '../../publiq-ui/Spinner';
+import { Pagination } from '../../publiq-ui/Pagination';
 
 const getValue = getValueFromTheme('productionItem');
 
 const Productions = ({
   productions,
+  currentPage,
+  totalItems,
+  perPage,
   onClickProduction,
+  onChangePage,
   className,
   loading,
   ...props
@@ -24,7 +29,7 @@ const Productions = ({
       ) : (
         [
           <Title key="title">{t('productions.overview.production')}</Title>,
-          <Panel key="panel">
+          <Panel key="panel" spacing={4}>
             <List>
               {productions.map((production, index) => (
                 <List.Item
@@ -55,6 +60,15 @@ const Productions = ({
                 </List.Item>
               ))}
             </List>
+            <Pagination
+              currentPage={currentPage}
+              totalItems={totalItems}
+              perPage={perPage}
+              prevText={t('pagination.previous')}
+              nextText={t('pagination.next')}
+              marginBottom={4}
+              onChangePage={onChangePage}
+            />
           </Panel>,
         ]
       )}
@@ -65,7 +79,11 @@ const Productions = ({
 Productions.propTypes = {
   ...stackPropTypes,
   productions: PropTypes.array,
+  currentPage: PropTypes.number,
+  totalItems: PropTypes.number,
+  perPage: PropTypes.number,
   onClickProduction: PropTypes.func,
+  onChangePage: PropTypes.func,
   className: PropTypes.string,
   loading: PropTypes.bool,
 };

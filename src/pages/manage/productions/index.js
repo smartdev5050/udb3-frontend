@@ -27,6 +27,9 @@ const Index = () => {
   const [activeProduction, setActiveProduction] = useState();
   const [searchInput, setSearchInput] = useState('');
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+  const [currentPagePoductions, setCurrentPagePoductions] = useState(1);
+
+  const productionsPerPage = 15;
 
   const eventIds = useMemo(() => {
     return activeProduction?.events ?? [];
@@ -47,10 +50,11 @@ const Index = () => {
     status: productionsStatus,
   } = useGetProductions({
     name: searchInput,
-    start: 0,
-    limit: 15,
+    start: currentPagePoductions - 1,
+    limit: productionsPerPage,
   });
   const rawProductions = productionsData?.member ?? [];
+  const totalItemsProductions = productionsData?.totalItems ?? 0;
   const { data: rawEvents = [], status: eventsStatus } = useGetEventsbyIds({
     ids: eventIds,
   });
@@ -142,7 +146,13 @@ const Index = () => {
                 loading={productionsStatus === QueryStatus.LOADING}
                 width={`calc(40% - ${parseSpacing(4)()})`}
                 productions={productions}
+                currentPage={currentPagePoductions}
+                totalItems={totalItemsProductions}
+                perPage={productionsPerPage}
                 onClickProduction={handleClickProduction}
+                onChangePage={(newPage) => {
+                  setCurrentPagePoductions(newPage);
+                }}
               />,
               <Events
                 key="events"
