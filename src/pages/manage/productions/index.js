@@ -70,8 +70,13 @@ const Index = () => {
     setProductions(
       rawProductions.map((production, index) => {
         if (index === 0) {
-          setActiveProduction(production);
-          return { ...production, id: production.production_id, active: true };
+          const active = {
+            ...production,
+            id: production.production_id,
+            active: true,
+          };
+          setActiveProduction(active);
+          return active;
         }
         return { ...production, id: production.production_id, active: false };
       }),
