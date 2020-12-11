@@ -116,7 +116,7 @@ const Events = ({
   return (
     <Stack spacing={4} {...getStackProps(props)}>
       {loading ? (
-        <Spinner />
+        <Spinner marginTop={4} />
       ) : (
         [
           <Stack key="title-and-buttons" spacing={3}>

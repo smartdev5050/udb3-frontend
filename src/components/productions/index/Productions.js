@@ -26,7 +26,7 @@ const Productions = ({
   return (
     <Stack className={className} spacing={4} {...getStackProps(props)}>
       {loading ? (
-        <Spinner />
+        <Spinner marginTop={4} />
       ) : (
         [
           <Title key="title" minHeight={parseSpacing(5)()}>
