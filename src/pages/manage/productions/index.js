@@ -17,6 +17,7 @@ import { QueryStatus } from '../../../hooks/api/useAuthenticatedQuery';
 import { Text } from '../../../components/publiq-ui/Text';
 import { DeleteModal } from '../../../components/productions/index/DeleteModal';
 import { queryCache } from '../../_app';
+import { debounce } from 'lodash';
 
 const Index = () => {
   const { t } = useTranslation();
@@ -124,7 +125,8 @@ const Index = () => {
           placeholder={t('productions.overview.search.placeholder')}
           marginBottom={4}
           onInput={(event) => {
-            setSearchInput(event.target.value.toString().trim());
+            const searchTerm = event.target.value.toString().trim();
+            debounce(() => setSearchInput(searchTerm), 800)();
           }}
         >
           {t('productions.overview.search.label')}
