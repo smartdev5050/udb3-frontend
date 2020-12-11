@@ -43,6 +43,7 @@ const Page = ({ children: rawChildren, className, ...props }) => {
       `}
       paddingLeft={4}
       paddingRight={4}
+      spacing={5}
       {...getStackProps(props)}
     >
       <Inline
@@ -51,7 +52,6 @@ const Page = ({ children: rawChildren, className, ...props }) => {
         css={`
           border-bottom: 1px solid ${getValueForTitle('borderColor')};
         `}
-        marginBottom={5}
         spacing={3}
       >
         {title}
@@ -95,12 +95,7 @@ PageActions.propTypes = {
 };
 
 const PageContent = ({ children, className, ...props }) => (
-  <Stack
-    className={className}
-    spacing={3}
-    paddingY={3}
-    {...getStackProps(props)}
-  >
+  <Stack className={className} spacing={3} {...getStackProps(props)}>
     {children}
   </Stack>
 );
