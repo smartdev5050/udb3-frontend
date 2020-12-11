@@ -6,10 +6,7 @@ import { Icon, Icons } from './Icon.js';
 <Meta title="Components/Link" />
 
 <Canvas>
-  <Story
-    name="Internal"
-    args={{ children: <Text>internal</Text>, href: '/test' }}
-  >
+  <Story name="Internal" args={{ children: 'internal', href: '/test' }}>
     {(args) => <Link {...args} />}
   </Story>
 </Canvas>
@@ -20,7 +17,7 @@ import { Icon, Icons } from './Icon.js';
   <Story
     name="Unstyled Internal"
     args={{
-      children: <Text>unstyled internal</Text>,
+      children: 'unstyled internal',
       href: '/test',
       variant: LinkVariants.UNSTYLED,
     }}
@@ -34,7 +31,7 @@ import { Icon, Icons } from './Icon.js';
 <Canvas>
   <Story
     name="External Link"
-    args={{ children: <Text>external</Text>, href: 'http://www.google.com' }}
+    args={{ children: 'external', href: 'http://www.google.com' }}
   >
     {(args) => <Link {...args} />}
   </Story>
@@ -46,7 +43,7 @@ import { Icon, Icons } from './Icon.js';
   <Story
     name="Unstyled External"
     args={{
-      children: <Text>unstyled external</Text>,
+      children: 'unstyled external',
       href: 'http://www.google.com',
       variant: LinkVariants.UNSTYLED,
     }}
