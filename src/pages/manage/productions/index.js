@@ -71,9 +71,9 @@ const Index = () => {
       rawProductions.map((production, index) => {
         if (index === 0) {
           setActiveProduction(production);
-          return { ...production, active: true };
+          return { ...production, id: production.production_id, active: true };
         }
-        return { ...production, active: false };
+        return { ...production, id: production.production_id, active: false };
       }),
     );
   }, [rawProductions]);
@@ -95,12 +95,12 @@ const Index = () => {
   }, [productions]);
 
   const handleClickProduction = (id) => {
-    if (id !== activeProduction?.production_id) {
+    if (id !== activeProduction?.id) {
       unselectAllEvents();
     }
     setProductions((prevProductions) =>
       prevProductions.map((production) => {
-        if (production.production_id === id) {
+        if (production.id === id) {
           setActiveProduction(production);
           return { ...production, active: true };
         }
@@ -184,7 +184,7 @@ const Index = () => {
           productionName={activeProduction?.name ?? ''}
           onConfirm={() => {
             deleteEventsByIds({
-              productionId: activeProduction.production_id,
+              productionId: activeProduction.id,
               eventIds: selectedEventIds,
             });
             setIsDeleteModalVisible(false);

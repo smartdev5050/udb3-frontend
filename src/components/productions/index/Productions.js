@@ -56,8 +56,8 @@ const Productions = ({
                         }
                       : undefined
                   }
-                  key={production.production_id}
-                  onClick={() => onClickProduction(production.production_id)}
+                  key={production.id}
+                  onClick={() => onClickProduction(production.id)}
                 >
                   {production.name}
                 </List.Item>
