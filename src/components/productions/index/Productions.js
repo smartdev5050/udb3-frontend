@@ -7,6 +7,7 @@ import { getValueFromTheme } from '../../publiq-ui/theme';
 import { Panel } from '../../publiq-ui/Panel';
 import { Spinner } from '../../publiq-ui/Spinner';
 import { Pagination } from '../../publiq-ui/Pagination';
+import { parseSpacing } from '../../publiq-ui/Box';
 
 const getValue = getValueFromTheme('productionItem');
 
@@ -28,7 +29,9 @@ const Productions = ({
         <Spinner />
       ) : (
         [
-          <Title key="title">{t('productions.overview.production')}</Title>,
+          <Title key="title" minHeight={parseSpacing(5)()}>
+            {t('productions.overview.production')}
+          </Title>,
           <Panel key="panel" spacing={4}>
             <List>
               {productions.map((production, index) => (
