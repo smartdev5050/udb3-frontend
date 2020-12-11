@@ -36,7 +36,7 @@ const Index = () => {
   }, [activeProduction]);
 
   const selectedEventIds = useMemo(() => {
-    return events.map((event) => event.selected && event.id);
+    return events.filter((event) => event.selected).map((event) => event.id);
   }, [events]);
 
   const unselectAllEvents = () => {
