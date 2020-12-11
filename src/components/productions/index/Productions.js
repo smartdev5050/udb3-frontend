@@ -32,7 +32,7 @@ const Productions = ({
           <Title key="title" minHeight={parseSpacing(5)()}>
             {t('productions.overview.production')}
           </Title>,
-          <Panel key="panel" spacing={4}>
+          <Panel key="panel">
             <List>
               {productions.map((production, index) => (
                 <List.Item
@@ -63,15 +63,16 @@ const Productions = ({
                 </List.Item>
               ))}
             </List>
-            <Pagination
-              currentPage={currentPage}
-              totalItems={totalItems}
-              perPage={perPage}
-              prevText={t('pagination.previous')}
-              nextText={t('pagination.next')}
-              marginBottom={4}
-              onChangePage={onChangePage}
-            />
+            <Panel.Footer>
+              <Pagination
+                currentPage={currentPage}
+                totalItems={totalItems}
+                perPage={perPage}
+                prevText={t('pagination.previous')}
+                nextText={t('pagination.next')}
+                onChangePage={onChangePage}
+              />
+            </Panel.Footer>
           </Panel>,
         ]
       )}
