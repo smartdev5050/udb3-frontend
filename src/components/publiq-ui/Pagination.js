@@ -23,6 +23,7 @@ const Pagination = ({
   return (
     <Inline
       forwardedAs="ul"
+      justifyContent="center"
       css={`
         .page-link {
           color: ${getValue('color')};
@@ -56,17 +57,19 @@ const Pagination = ({
       {...getInlineProps(props)}
       className={className}
     >
-      <BootstrapPagination.Prev
-        className="prev-btn"
-        disabled={currentPage === 1}
-        onClick={() => {
-          if (currentPage > 1) {
-            onChangePage(currentPage - 1);
-          }
-        }}
-      >
-        {prevText}
-      </BootstrapPagination.Prev>
+      {pages.length > 1 && (
+        <BootstrapPagination.Prev
+          className="prev-btn"
+          disabled={currentPage === 1}
+          onClick={() => {
+            if (currentPage > 1) {
+              onChangePage(currentPage - 1);
+            }
+          }}
+        >
+          {prevText}
+        </BootstrapPagination.Prev>
+      )}
       {pages.map((page) => (
         <BootstrapPagination.Item
           key={page}
@@ -78,17 +81,19 @@ const Pagination = ({
           {page}
         </BootstrapPagination.Item>
       ))}
-      <BootstrapPagination.Next
-        className="next-btn"
-        disabled={currentPage === pages.length}
-        onClick={() => {
-          if (currentPage < pages.length) {
-            onChangePage(currentPage + 1);
-          }
-        }}
-      >
-        {nextText}
-      </BootstrapPagination.Next>
+      {pages.length > 1 && (
+        <BootstrapPagination.Next
+          className="next-btn"
+          disabled={currentPage === pages.length}
+          onClick={() => {
+            if (currentPage < pages.length) {
+              onChangePage(currentPage + 1);
+            }
+          }}
+        >
+          {nextText}
+        </BootstrapPagination.Next>
+      )}
     </Inline>
   );
 };
