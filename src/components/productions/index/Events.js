@@ -6,7 +6,7 @@ import { Title } from '../../publiq-ui/Title';
 import { CheckboxWithLabel } from '../../publiq-ui/CheckboxWithLabel';
 import { Button, ButtonVariants } from '../../publiq-ui/Button';
 import { Icon, Icons } from '../../publiq-ui/Icon';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { getValueFromTheme } from '../../publiq-ui/theme';
 import { Panel } from '../../publiq-ui/Panel';
 import { Inline } from '../../publiq-ui/Inline';
