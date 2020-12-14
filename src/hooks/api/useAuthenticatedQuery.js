@@ -19,7 +19,7 @@ const useAuthenticatedQuery = ({
     ...cleanedConfiguration
   } = configuration;
 
-  const alteredArgs = [
+  const result = useReactQuery(
     [
       ...queryKey,
       Object.keys(queryArguments).length > 0 ? queryArguments : undefined,
@@ -29,9 +29,7 @@ const useAuthenticatedQuery = ({
       enabled: cookies?.token && configurationEnabled,
       ...cleanedConfiguration,
     },
-  ];
-
-  const result = useReactQuery(...alteredArgs);
+  );
 
   if (
     result.status === 'error' &&
