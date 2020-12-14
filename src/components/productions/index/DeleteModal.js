@@ -35,7 +35,7 @@ const DeleteModal = ({
 
 DeleteModal.propTypes = {
   productionName: PropTypes.string,
-  eventCount: PropTypes.string,
+  eventCount: PropTypes.number,
   visible: PropTypes.bool,
   onConfirm: PropTypes.func,
   onClose: PropTypes.func,
