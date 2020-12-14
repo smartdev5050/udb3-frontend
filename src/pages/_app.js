@@ -3,6 +3,8 @@ import '../styles/global.scss';
 import PropTypes from 'prop-types';
 
 import { Inline } from '../components/publiq-ui/Inline';
+// import { ReactQueryDevtools } from 'react-query-devtools';
+
 import { SideBar } from '../components/SideBar';
 import { ThemeProvider } from '../components/publiq-ui/ThemeProvider';
 
@@ -11,7 +13,7 @@ import { ContextProvider } from '../provider/ContextProvider';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 import i18n from '../i18n';
 import { CookiesProvider } from 'react-cookie';
-import { QueryCache, ReactQueryCacheProvider } from 'react-query';
+import { QueryCache, QueryClient, QueryClientProvider } from 'react-query';
 import { useEffect } from 'react';
 import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
 import { useGetUser } from '../hooks/api/user';
@@ -19,8 +21,6 @@ import {
   useHandleWindowMessage,
   WindowMessageTypes,
 } from '../hooks/useHandleWindowMessage';
-
-const queryCache = new QueryCache();
 
 const useChangeLanguage = () => {
   const { i18n } = useTranslation();
@@ -76,6 +76,9 @@ Layout.propTypes = {
   children: PropTypes.node,
 };
 
+const queryCache = new QueryCache();
+const queryClient = new QueryClient({ queryCache });
+
 // eslint-disable-next-line react/prop-types
 const App = ({ Component, pageProps }) => (
   <ContextProvider
@@ -83,14 +86,14 @@ const App = ({ Component, pageProps }) => (
       [I18nextProvider, { i18n }],
       ThemeProvider,
       CookiesProvider,
-      [ReactQueryCacheProvider, { queryCache }],
+      [QueryClientProvider, { client: queryClient }],
     ]}
   >
+    {/* <ReactQueryDevtools initialIsOpen={false} position="bottom-right" /> */}
     <Layout>
       <Component {...pageProps} />
     </Layout>
   </ContextProvider>
 );
 
-export { queryCache };
 export default App;

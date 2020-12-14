@@ -2,7 +2,7 @@ import { fetchWithRedirect } from '../../utils/fetchWithRedirect';
 import { useAuthenticatedMutation } from './useAuthenicatedMutation';
 import { useAuthenticatedQuery } from './useAuthenticatedQuery';
 
-const getProductions = async (key, { headers, ...queryData }) => {
+const getProductions = async ({ headers, ...queryData }) => {
   const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/productions/`);
   url.search = new URLSearchParams({
     ...queryData,
@@ -13,19 +13,20 @@ const getProductions = async (key, { headers, ...queryData }) => {
   return await res.json();
 };
 
-const useGetProductions = ({ name = '', start = 0, limit = 15 }, config = {}) =>
-  useAuthenticatedQuery(
-    [
-      'productions',
-      {
-        name,
-        start,
-        limit,
-      },
-    ],
-    getProductions,
-    config,
-  );
+const useGetProductions = (
+  { name = '', start = 0, limit = 15 },
+  configuration = {},
+) =>
+  useAuthenticatedQuery({
+    queryKey: ['productions'],
+    queryFunction: getProductions,
+    queryArguments: {
+      name,
+      start,
+      limit,
+    },
+    configuration,
+  });
 
 const deleteEventById = async ({
   productionId = '',
@@ -42,8 +43,8 @@ const deleteEventById = async ({
   });
 };
 
-const useDeleteEventById = (config) =>
-  useAuthenticatedMutation(deleteEventById, config);
+const useDeleteEventById = (configuration) =>
+  useAuthenticatedMutation(deleteEventById, configuration);
 
 const deleteEventsByIds = async ({
   productionId = '',
@@ -56,7 +57,7 @@ const deleteEventsByIds = async ({
   return await Promise.all(mappedEvents);
 };
 
-const useDeleteEventsByIds = (config) =>
-  useAuthenticatedMutation(deleteEventsByIds, config);
+const useDeleteEventsByIds = (configuration) =>
+  useAuthenticatedMutation(deleteEventsByIds, configuration);
 
 export { useGetProductions, useDeleteEventById, useDeleteEventsByIds };

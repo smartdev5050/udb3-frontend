@@ -16,11 +16,12 @@ import { parseEventId } from '../../../utils/parseEventId';
 import { QueryStatus } from '../../../hooks/api/useAuthenticatedQuery';
 import { Text } from '../../../components/publiq-ui/Text';
 import { DeleteModal } from '../../../components/productions/index/DeleteModal';
-import { queryCache } from '../../_app';
 import { debounce } from 'lodash';
+import { useQueryClient } from 'react-query';
 
 const Index = () => {
   const { t } = useTranslation();
+  const queryClient = useQueryClient();
 
   const [productions, setProductions] = useState([]);
   const [events, setEvents] = useState([]);
@@ -58,11 +59,11 @@ const Index = () => {
   const { data: rawEvents = [], status: eventsStatus } = useGetEventsbyIds({
     ids: eventIds,
   });
-  const handleSuccessDeleteEvents = () => {
-    queryCache.refetchQueries('productions');
+  const handleSuccessDeleteEvents = async () => {
+    await queryClient.refetchQueries(['productions']);
     unselectAllEvents();
   };
-  const [deleteEventsByIds] = useDeleteEventsByIds({
+  const { mutate: deleteEventsByIds } = useDeleteEventsByIds({
     onSuccess: handleSuccessDeleteEvents,
   });
 
