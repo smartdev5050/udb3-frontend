@@ -24,6 +24,7 @@ import { useGetEventsToModerate } from '../hooks/api/events';
 import { JobLoggerStateIndicator } from './joblogger/JobLoggerStateIndicator';
 import { Text } from './publiq-ui/Text';
 import { useMatchBreakpoint } from '../hooks/useMatchBreakpoint';
+import { useQueryClient } from 'react-query';
 
 const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSideBar = getValueFromTheme('sideBar');
@@ -119,6 +120,7 @@ const ProfileMenu = ({ profileImage }) => {
   ]);
 
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const loginMenu = [
     {
@@ -126,6 +128,7 @@ const ProfileMenu = ({ profileImage }) => {
       children: t('menu.logout'),
       onClick: () => {
         removeAuthenticationCookies();
+        queryClient.invalidateQueries('user');
 
         const getBaseUrl = () =>
           `${window.location.protocol}//${window.location.host}`;
