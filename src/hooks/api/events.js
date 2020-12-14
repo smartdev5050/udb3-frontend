@@ -14,24 +14,22 @@ const getEventsToModerate = async (key, { headers, ...queryData }) => {
   return await res.json();
 };
 
-const useGetEventsToModerate = (searchQuery, config) =>
-  useAuthenticatedQuery(
-    [
-      'events',
-      {
-        q: searchQuery,
-        audienceType: 'everyone',
-        availableTo: '*',
-        limit: 1,
-        start: 0,
-        workflowStatus: 'READY_FOR_VALIDATION',
-      },
-    ],
-    getEventsToModerate,
-    {
-      enabled: !!searchQuery,
-      ...config,
+const useGetEventsToModerate = (searchQuery, configuration) =>
+  useAuthenticatedQuery({
+    queryKey: ['events'],
+    queryFunction: getEventsToModerate,
+    queryArguments: {
+      q: searchQuery,
+      audienceType: 'everyone',
+      availableTo: '*',
+      limit: 1,
+      start: 0,
+      workflowStatus: 'READY_FOR_VALIDATION',
     },
-  );
+    configuration: {
+      enabled: !!searchQuery,
+      ...configuration,
+    },
+  });
 
 export { useGetEventsToModerate };

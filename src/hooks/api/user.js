@@ -11,8 +11,12 @@ const getMe = async (key, { headers }) => {
   return await res.json();
 };
 
-const useGetUser = (config = {}) =>
-  useAuthenticatedQuery('user', getMe, config);
+const useGetUser = (configuration = {}) =>
+  useAuthenticatedQuery({
+    queryKey: ['user'],
+    queryFunction: getMe,
+    configuration,
+  });
 
 const getPermissions = async (key, { headers }) => {
   const res = await fetchWithRedirect(
@@ -24,8 +28,12 @@ const getPermissions = async (key, { headers }) => {
   return await res.json();
 };
 
-const useGetPermissions = (config = {}) =>
-  useAuthenticatedQuery('permissions', getPermissions, config);
+const useGetPermissions = (configuration = {}) =>
+  useAuthenticatedQuery({
+    queryKey: ['user', 'permissions'],
+    queryFunction: getPermissions,
+    configuration,
+  });
 
 const getRoles = async (key, { headers }) => {
   const res = await fetchWithRedirect(
@@ -37,7 +45,11 @@ const getRoles = async (key, { headers }) => {
   return await res.json();
 };
 
-const useGetRoles = (config = {}) =>
-  useAuthenticatedQuery('roles', getRoles, config);
+const useGetRoles = (configuration = {}) =>
+  useAuthenticatedQuery({
+    queryKey: ['user', 'roles'],
+    queryFunction: getRoles,
+    configuration,
+  });
 
 export { useGetUser, useGetPermissions, useGetRoles };

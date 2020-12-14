@@ -4,24 +4,31 @@ import { Errors } from '../../utils/fetchWithRedirect';
 import { useCookiesWithOptions } from '../useCookiesWithOptions';
 import { useHeaders } from './useHeaders';
 
-const useAuthenticatedQuery = (...args) => {
+const useAuthenticatedQuery = ({
+  queryKey = [],
+  queryFunction = () => {},
+  queryArguments = {},
+  configuration = {},
+} = {}) => {
   const { asPath, ...router } = useRouter();
   const headers = useHeaders();
   const [cookies] = useCookiesWithOptions(['token']);
-  const [queryKey, queryFunction, { enabled = true, ...config } = {}] = args;
 
-  const [key, queryArgs] = Array.isArray(queryKey) ? queryKey : [queryKey, {}];
+  const {
+    enabled: configurationEnabled = true,
+    ...cleanedConfiguration
+  } = configuration;
 
   const alteredArgs = [
     [
-      key,
-      {
-        headers,
-        ...queryArgs,
-      },
-    ],
-    queryFunction,
-    { enabled: cookies?.token && enabled, ...config },
+      ...queryKey,
+      Object.keys(queryArguments).length > 0 ? queryArguments : undefined,
+    ].filter((v) => v !== undefined),
+    () => queryFunction({ ...queryArguments, ...headers }),
+    {
+      enabled: cookies?.token && configurationEnabled,
+      ...cleanedConfiguration,
+    },
   ];
 
   const result = useReactQuery(...alteredArgs);
