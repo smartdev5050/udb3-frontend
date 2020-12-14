@@ -100,18 +100,103 @@ Event.propTypes = {
   className: PropTypes.string,
 };
 
+const DefaultMenu = ({
+  activeProductionName,
+  onAdd,
+  onDelete,
+  shouldDisableDeleteButton,
+}) => {
+  const { t } = useTranslation();
+
+  return (
+    <Inline as="div" justifyContent="space-between" alignItems="center">
+      <Title>
+        {t('productions.overview.events_in_production', {
+          productionName: activeProductionName,
+        })}
+      </Title>
+      <Inline as="div" spacing={3}>
+        <Button
+          iconName={Icons.PLUS}
+          spacing={3}
+          maxHeight={parseSpacing(5)()}
+          onClick={onAdd}
+        >
+          {t('productions.overview.create')}
+        </Button>
+        <Button
+          disabled={shouldDisableDeleteButton}
+          variant={ButtonVariants.DANGER}
+          iconName={Icons.TRASH}
+          spacing={3}
+          onClick={onDelete}
+          maxHeight={parseSpacing(5)()}
+        >
+          {t('productions.overview.delete')}
+        </Button>
+      </Inline>
+    </Inline>
+  );
+};
+
+DefaultMenu.propTypes = {
+  activeProductionName: PropTypes.string,
+  onAdd: PropTypes.func,
+  onDelete: PropTypes.func,
+  shouldDisableDeleteButton: PropTypes.bool,
+};
+
+const AddMenu = ({ onAdd, onCancel }) => {
+  const { t } = useTranslation();
+  const [toBeAddedId, setToBeAddedId] = useState('');
+
+  return (
+    <Inline as="div" spacing={3} alignItems="center">
+      <Input
+        id="cdbid"
+        placeholder="cdbid"
+        maxWidth="22rem"
+        onInput={(e) => {
+          setToBeAddedId(e.target.value.toString().trim());
+        }}
+      />
+      <Button
+        iconName={Icons.CHECK}
+        spacing={3}
+        onClick={() => onAdd(toBeAddedId)}
+      >
+        {t('productions.overview.confirm')}
+      </Button>
+      <Button
+        variant={ButtonVariants.SECONDARY}
+        iconName={Icons.TIMES}
+        spacing={3}
+        onClick={onCancel}
+      >
+        {t('productions.overview.cancel')}
+      </Button>
+    </Inline>
+  );
+};
+
+AddMenu.propTypes = {
+  onAdd: PropTypes.func,
+  onCancel: PropTypes.func,
+};
+
 const Events = ({
   events,
   activeProductionName,
   loading,
   onToggleEvent,
   onDeleteEvents,
+  onAddEvent,
   shouldDisableDeleteButton,
   className,
   ...props
 }) => {
-  const { t, i18n } = useTranslation();
-  const [isAddEventMenuVisible, setIsAddEventMenuVisible] = useState(false);
+  const { i18n } = useTranslation();
+  const [isAddMenuVisible, setIsAddMenuVisible] = useState(false);
 
   return (
     <Stack spacing={4} {...getStackProps(props)}>
@@ -120,54 +205,21 @@ const Events = ({
       ) : (
         [
           <Stack key="title-and-buttons" spacing={3}>
-            {isAddEventMenuVisible ? (
-              <Inline as="div" spacing={3} alignItems="center">
-                <Input placeholder="cdbid" maxWidth="22rem" />
-                <Button iconName={Icons.CHECK} spacing={3}>
-                  {t('productions.overview.confirm')}
-                </Button>
-                <Button
-                  variant={ButtonVariants.SECONDARY}
-                  iconName={Icons.TIMES}
-                  spacing={3}
-                >
-                  {t('productions.overview.cancel')}
-                </Button>
-              </Inline>
+            {isAddMenuVisible ? (
+              <AddMenu
+                onAdd={onAddEvent}
+                onCancel={() => {
+                  setIsAddMenuVisible(false);
+                }}
+              />
             ) : (
-              <Inline
-                as="div"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <Title>
-                  {t('productions.overview.events_in_production', {
-                    productionName: activeProductionName,
-                  })}
-                </Title>
-                <Inline as="div" spacing={3}>
-                  <Button
-                    iconName={Icons.PLUS}
-                    spacing={3}
-                    maxHeight={parseSpacing(5)()}
-                    onClick={() => {
-                      setIsAddEventMenuVisible(true);
-                    }}
-                  >
-                    {t('productions.overview.create')}
-                  </Button>
-                  <Button
-                    disabled={shouldDisableDeleteButton}
-                    variant={ButtonVariants.DANGER}
-                    iconName={Icons.TRASH}
-                    spacing={3}
-                    onClick={() => onDeleteEvents()}
-                    maxHeight={parseSpacing(5)()}
-                  >
-                    {t('productions.overview.delete')}
-                  </Button>
-                </Inline>
-              </Inline>
+              <DefaultMenu
+                onAdd={() => {
+                  setIsAddMenuVisible(true);
+                }}
+                onDelete={() => onDeleteEvents()}
+                shouldDisableDeleteButton={shouldDisableDeleteButton}
+              />
             )}
           </Stack>,
           <Panel key="panel">
@@ -209,6 +261,7 @@ Events.propTypes = {
   onToggleEvent: PropTypes.func,
   selectedIds: PropTypes.array,
   onDeleteEvents: PropTypes.func,
+  onAddEvent: PropTypes.func,
   shouldDisableDeleteButton: PropTypes.bool,
   className: PropTypes.string,
 };
