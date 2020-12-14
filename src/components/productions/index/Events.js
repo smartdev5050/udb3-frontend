@@ -163,6 +163,7 @@ const AddMenu = ({ onAdd, onCancel }) => {
       <Button
         iconName={Icons.CHECK}
         spacing={3}
+        disabled={!toBeAddedId}
         onClick={() => onAdd(toBeAddedId)}
       >
         {t('productions.overview.confirm')}
