@@ -30,8 +30,7 @@ const useAuthenticatedQuery = (...args) => {
     result.status === 'error' &&
     result.error.message === Errors.UNAUTHORIZED
   ) {
-    router.push('login/');
-    return;
+    router.push('/login');
   }
 
   return result;
