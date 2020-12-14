@@ -4,10 +4,12 @@ import { useTranslation } from 'react-i18next';
 import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
 import { Button } from './publiq-ui/Button';
 import { Text } from './publiq-ui/Text';
+import { useQueryClient } from 'react-query';
 
 const LoginButton = ({ className }) => {
   const [, , removeCookie] = useCookiesWithOptions(['token', 'user']);
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const { i18n, t } = useTranslation();
 
@@ -15,6 +17,7 @@ const LoginButton = ({ className }) => {
     `${window.location.protocol}//${window.location.host}`;
 
   const removeCookies = () => {
+    queryClient.invalidateQueries('user');
     removeCookie('token');
     removeCookie('user');
   };
