@@ -214,6 +214,7 @@ const Events = ({
               />
             ) : (
               <DefaultMenu
+                activeProductionName={activeProductionName}
                 onAdd={() => {
                   setIsAddMenuVisible(true);
                 }}
