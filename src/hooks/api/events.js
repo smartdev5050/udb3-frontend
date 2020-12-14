@@ -2,7 +2,7 @@ import { fetchWithRedirect } from '../../utils/fetchWithRedirect';
 import { useAuthenticatedQuery } from './useAuthenticatedQuery';
 import { formatDate } from '../../utils/formatDate';
 
-const getEventsToModerate = async (key, { headers, ...queryData }) => {
+const getEventsToModerate = async ({ headers, ...queryData }) => {
   const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/events/`);
   url.search = new URLSearchParams({
     ...queryData,

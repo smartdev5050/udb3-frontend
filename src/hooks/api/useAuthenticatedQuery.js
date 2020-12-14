@@ -24,7 +24,7 @@ const useAuthenticatedQuery = ({
       ...queryKey,
       Object.keys(queryArguments).length > 0 ? queryArguments : undefined,
     ].filter((v) => v !== undefined),
-    () => queryFunction({ ...queryArguments, ...headers }),
+    () => queryFunction({ ...queryArguments, headers }),
     {
       enabled: cookies?.token && configurationEnabled,
       ...cleanedConfiguration,

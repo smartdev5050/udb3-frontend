@@ -1,7 +1,7 @@
 import { fetchWithRedirect } from '../../utils/fetchWithRedirect';
 import { useAuthenticatedQuery } from './useAuthenticatedQuery';
 
-const getMe = async (key, { headers }) => {
+const getMe = async ({ headers }) => {
   const res = await fetchWithRedirect(
     `${process.env.NEXT_PUBLIC_API_URL}/user`,
     {
@@ -18,7 +18,7 @@ const useGetUser = (configuration = {}) =>
     configuration,
   });
 
-const getPermissions = async (key, { headers }) => {
+const getPermissions = async ({ headers }) => {
   const res = await fetchWithRedirect(
     `${process.env.NEXT_PUBLIC_API_URL}/user/permissions/`,
     {
@@ -35,7 +35,7 @@ const useGetPermissions = (configuration = {}) =>
     configuration,
   });
 
-const getRoles = async (key, { headers }) => {
+const getRoles = async ({ headers }) => {
   const res = await fetchWithRedirect(
     `${process.env.NEXT_PUBLIC_API_URL}/user/roles/`,
     {
