@@ -4,6 +4,7 @@ import { InputWithLabel } from '../../../components/publiq-ui/InputWithLabel';
 import { Inline } from '../../../components/publiq-ui/Inline';
 import { Productions } from '../../../components/productions/index/Productions';
 import {
+  useAddEventById,
   useDeleteEventsByIds,
   useGetProductions,
 } from '../../../hooks/api/productions';
@@ -65,6 +66,12 @@ const Index = () => {
   };
   const { mutate: deleteEventsByIds } = useDeleteEventsByIds({
     onSuccess: handleSuccessDeleteEvents,
+  });
+  const handleSuccessAddEvent = async () => {
+    await queryClient.refetchQueries(['productions']);
+  };
+  const { mutate: addEventById } = useAddEventById({
+    onSuccess: handleSuccessAddEvent,
   });
 
   useEffect(() => {
@@ -179,6 +186,12 @@ const Index = () => {
                 }}
                 onDeleteEvents={() => {
                   setIsDeleteModalVisible(true);
+                }}
+                onAddEvent={(id) => {
+                  addEventById({
+                    productionId: activeProduction.id,
+                    eventId: id,
+                  });
                 }}
               />,
             ]

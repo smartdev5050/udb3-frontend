@@ -60,4 +60,43 @@ const deleteEventsByIds = async ({
 const useDeleteEventsByIds = (configuration) =>
   useAuthenticatedMutation(deleteEventsByIds, configuration);
 
-export { useGetProductions, useDeleteEventById, useDeleteEventsByIds };
+const addEventById = async ({ productionId, eventId, headers }) => {
+  const url = new URL(
+    `${process.env.NEXT_PUBLIC_API_URL}/productions/${productionId}/events/${eventId}`,
+  );
+  const res = await fetch(url, {
+    method: 'PUT',
+    headers,
+  });
+
+  const body = await res.text();
+  if (body) {
+    return JSON.parse(body);
+  }
+  return {};
+};
+
+const useAddEventById = (configuration) =>
+  useAuthenticatedMutation(addEventById, configuration);
+
+const addEventsByIds = async ({
+  productionId = '',
+  eventIds = [],
+  headers,
+} = {}) => {
+  const mappedEvents = eventIds.map((eventId) => {
+    return addEventById({ headers, productionId, eventId });
+  });
+  return await Promise.all(mappedEvents);
+};
+
+const useAddEventsByIds = (configuration) =>
+  useAuthenticatedMutation(addEventsByIds, configuration);
+
+export {
+  useGetProductions,
+  useDeleteEventById,
+  useDeleteEventsByIds,
+  useAddEventById,
+  useAddEventsByIds,
+};
