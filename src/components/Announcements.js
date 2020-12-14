@@ -95,9 +95,10 @@ const AnnouncementContent = ({
           opacity={{ hover: 0.85 }}
         />
       </Link>
-    )}
+    )} */}
 
-    <div
+    <Box
+      forwardedAs="div"
       dangerouslySetInnerHTML={{ __html: body }}
       css={`
         strong {
