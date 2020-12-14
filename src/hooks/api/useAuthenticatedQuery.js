@@ -5,7 +5,7 @@ import { useCookiesWithOptions } from '../useCookiesWithOptions';
 import { useHeaders } from './useHeaders';
 
 const useAuthenticatedQuery = (...args) => {
-  const router = useRouter();
+  const { asPath, ...router } = useRouter();
   const headers = useHeaders();
   const [cookies] = useCookiesWithOptions(['token']);
   const [queryKey, queryFunction, { enabled = true, ...config } = {}] = args;
@@ -30,7 +30,9 @@ const useAuthenticatedQuery = (...args) => {
     result.status === 'error' &&
     result.error.message === Errors.UNAUTHORIZED
   ) {
-    router.push('/login');
+    if (!asPath.startsWith('/login') && asPath !== '/[...params]') {
+      router.push('/login');
+    }
   }
 
   return result;
