@@ -85,7 +85,7 @@ const AnnouncementContent = ({
 }) => (
   <Stack as="article" padding={4} spacing={3} width="70%">
     <Title>{title}</Title>
-    {imageSrc && (
+    {!!imageSrc && (
       <Link href={callToAction}>
         <Image
           src={imageSrc}
@@ -95,7 +95,7 @@ const AnnouncementContent = ({
           opacity={{ hover: 0.85 }}
         />
       </Link>
-    )} */}
+    )}
 
     <Box
       forwardedAs="div"
@@ -132,7 +132,7 @@ const AnnouncementContent = ({
       `}
     />
     <Inline as="div" justifyContent="flex-end">
-      {callToAction && (
+      {!!callToAction && (
         <Link href={callToAction}>
           <Button>
             <Text>{callToActionLabel}</Text>
