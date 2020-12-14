@@ -18,6 +18,8 @@ const DeleteModal = ({
       visible={visible}
       onConfirm={onConfirm}
       onClose={onClose}
+      confirmTitle={t('productions.overview.confirm')}
+      cancelTitle={t('productions.overview.cancel')}
     >
       <Box padding={4}>
         {eventCount > 1
