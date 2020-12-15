@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { theme } from '../components/publiq-ui/theme';
 import { useIsClient } from './useIsClient';
 
-const useMatchBreakpoint = (breakpoint, name) => {
+const useMatchBreakpoint = (breakpoint) => {
   const [matches, setMatches] = useState(false);
   const isClient = useIsClient();
 

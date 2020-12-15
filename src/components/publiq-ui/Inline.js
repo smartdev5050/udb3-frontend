@@ -33,7 +33,7 @@ const StyledBox = styled(Box)`
 
 const Inline = forwardRef(
   ({ spacing, className, children, as, stackOn, ...props }, ref) => {
-    const shouldCollapse = useMatchBreakpoint(stackOn, props.name);
+    const shouldCollapse = useMatchBreakpoint(stackOn);
 
     const marginProp =
       shouldCollapse && stackOn ? 'marginBottom' : 'marginRight';
