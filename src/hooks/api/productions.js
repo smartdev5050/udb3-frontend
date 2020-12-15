@@ -19,7 +19,7 @@ const useGetProductions = (
 ) =>
   useAuthenticatedQuery({
     queryKey: ['productions'],
-    queryFunction: getProductions,
+    queryFn: getProductions,
     queryArguments: {
       name,
       start,

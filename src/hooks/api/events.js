@@ -41,7 +41,7 @@ const getEventById = async ({ headers, id }) => {
 const useGetEventbyId = ({ id = '' }, configuration) =>
   useAuthenticatedQuery({
     queryKey: ['events'],
-    queryFunction: getEventById,
+    queryFn: getEventById,
     queryArguments: { id },
     configuration: {
       enabled: !!id,
@@ -59,7 +59,7 @@ const getEventsByIds = async ({ ids, headers }) => {
 const useGetEventsbyIds = ({ ids = [] }, configuration) =>
   useAuthenticatedQuery({
     queryKey: ['events'],
-    queryFunction: getEventsByIds,
+    queryFn: getEventsByIds,
     queryArguments: { ids },
     configuration: {
       enabled: ids.length > 0,
@@ -80,7 +80,7 @@ const getCalendarSummary = async ({ headers, id, format, locale }) => {
 const useGetCalendarSummary = ({ id, locale, format = 'lg' }, configuration) =>
   useAuthenticatedQuery({
     queryKey: ['events'],
-    queryFunction: getCalendarSummary,
+    queryFn: getCalendarSummary,
     queryArguments: {
       id,
       locale,
