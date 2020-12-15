@@ -2,7 +2,11 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box } from '../../components/publiq-ui/Box';
-import { Button, ButtonVariants } from '../../components/publiq-ui/Button';
+import {
+  Button,
+  ButtonSizes,
+  ButtonVariants,
+} from '../../components/publiq-ui/Button';
 import { Image } from '../../components/publiq-ui/Image';
 import { useCookiesWithOptions } from '../../hooks/useCookiesWithOptions';
 
@@ -221,49 +225,52 @@ const Index = () => {
     <Stack
       width="100%"
       alignItems="center"
-      spacing={5}
+      spacing={6}
       backgroundColor="#f0f0f0"
     >
-      <Stack
-        width="100%"
-        alignItems="center"
-        spacing={4}
-        padding={5}
-        backgroundColor="red"
-      >
-        <Animation height={320} />
-        {/* <h1 className="brand">{t('brand')}</h1> */}
-        <Stack alignItems="center" paddingX={4}>
-          <Box
-            forwardAs="span"
-            color="white"
-            textAlign="center"
-            css="font-size: 2rem; font-weight: 300;"
-          >
-            {t('main.lead')}
-          </Box>
-          <Box
-            forwardAs="span"
-            color="white"
-            textAlign="center"
-            css="font-size: 1.6rem; font-weight: 300;"
-          >
-            {t('main.lead_sub')}
-          </Box>
+      <Stack as="div" width="100%">
+        <Stack
+          alignItems="center"
+          spacing={4}
+          padding={5}
+          backgroundColor="red"
+        >
+          <Animation height={320} />
+          {/* <h1 className="brand">{t('brand')}</h1> */}
+          <Stack alignItems="center" paddingX={4}>
+            <Box
+              forwardAs="span"
+              color="white"
+              textAlign="center"
+              css="font-size: 2rem; font-weight: 300;"
+            >
+              {t('main.lead')}
+            </Box>
+            <Box
+              forwardAs="span"
+              color="white"
+              textAlign="center"
+              css="font-size: 1.6rem; font-weight: 300;"
+            >
+              {t('main.lead_sub')}
+            </Box>
+          </Stack>
         </Stack>
+
+        <Inline padding={5} backgroundColor="white" justifyContent="center">
+          <Button onClick={handleClickLogin} size={ButtonSizes.LARGE}>
+            {t('main.start')}
+          </Button>
+        </Inline>
       </Stack>
 
-      <Inline
-        padding={4}
-        backgroundColor="white"
-        width="100%"
-        justifyContent="center"
-      >
-        <Button onClick={handleClickLogin}>{t('main.start')}</Button>
-      </Inline>
-
       <Inline width="100%" justifyContent="center">
-        <ResponsiveContainer stackOn={Breakpoints.M} spacing={5} paddingY={5}>
+        <ResponsiveContainer
+          stackOn={Breakpoints.M}
+          spacing={5}
+          paddingY={5}
+          minHeight={336}
+        >
           <Column value="215.000" title={t('main.activities')}>
             {t('main.activities_info')}
           </Column>
