@@ -201,6 +201,33 @@ const ResponsiveContainer = (props) => (
   />
 );
 
+const FooterLink = (props) => (
+  <Link
+    {...props}
+    css={`
+      text-decoration: underline;
+      color: #555;
+      &:hover {
+        color: #222;
+      }
+    `}
+  />
+);
+
+const LanguageSwitcherButton = (props) => (
+  <Button
+    {...props}
+    variant={ButtonVariants.UNSTYLED}
+    css={`
+      text-decoration: underline;
+      color: #004f94;
+      &:hover {
+        color: #222;
+      }
+    `}
+  />
+);
+
 const Index = () => {
   const router = useRouter();
   const { t, i18n } = useTranslation();
@@ -308,31 +335,31 @@ const Index = () => {
           <Stack alignItems="flex-start">
             <List alignItems={{ xs: 'center' }}>
               <List.Item>
-                <Link href="mailto:vragen@uitdatabank.be">
+                <FooterLink href="mailto:vragen@uitdatabank.be">
                   {t('footer.contact')}
-                </Link>
+                </FooterLink>
               </List.Item>
               <List.Item>
-                <Link href="http://www.publiq.be/nl/project/uitdatabank">
+                <FooterLink href="http://www.publiq.be/nl/project/uitdatabank">
                   {t('footer.about')}
-                </Link>
+                </FooterLink>
               </List.Item>
               <List.Item>
-                <Link href="http://documentatie.uitdatabank.be">
+                <FooterLink href="http://documentatie.uitdatabank.be">
                   {t('footer.dev')}
-                </Link>
+                </FooterLink>
               </List.Item>
               <List.Item>
                 <Inline spacing={3}>
-                  <Link
+                  <FooterLink
                     className="footer-link"
                     href="http://www.publiq.be/nl/privacy-uitdatabank"
                   >
                     {t('footer.legal')}
-                  </Link>
-                  <Link href="http://www.publiq.be/nl/privacy-uitdatabank">
+                  </FooterLink>
+                  <FooterLink href="http://www.publiq.be/nl/privacy-uitdatabank">
                     {t('footer.privacy')}
-                  </Link>
+                  </FooterLink>
                 </Inline>
               </List.Item>
             </List>
@@ -345,22 +372,19 @@ const Index = () => {
           >
             <Inline as="p" spacing={2} className="footer-by">
               <Box as="span">{t('footer.by')}</Box>
-              <Link href="http://www.publiq.be">publiq vzw</Link>
+              <FooterLink href="http://www.publiq.be">publiq vzw</FooterLink>
             </Inline>
             <Image src={`/assets/${t('main.flanders_image')}`} width={150} />
             <Inline>
-              <Button
-                variant={ButtonVariants.UNSTYLED}
-                onClick={changeLanguage('nl')}
-              >
+              <LanguageSwitcherButton onClick={changeLanguage('nl')}>
                 Nederlands
-              </Button>
-              <Button
+              </LanguageSwitcherButton>
+              <LanguageSwitcherButton
                 variant={ButtonVariants.UNSTYLED}
                 onClick={changeLanguage('fr')}
               >
                 Français
-              </Button>
+              </LanguageSwitcherButton>
             </Inline>
           </Stack>
         </ResponsiveContainer>
