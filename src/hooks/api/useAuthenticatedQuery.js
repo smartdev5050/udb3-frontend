@@ -20,7 +20,7 @@ const useAuthenticatedQuery = ({
 } = {}) => {
   const { asPath, ...router } = useRouter();
   const headers = useHeaders();
-  const [cookies] = useCookiesWithOptions(['token']);
+  const { cookies } = useCookiesWithOptions(['token']);
 
   const queryKey = [
     ...rawQueryKey,

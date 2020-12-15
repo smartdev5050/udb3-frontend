@@ -73,7 +73,7 @@ const Link = ({
     customChildren
       ? children
       : !shouldHideText && (
-          <Text flex={1} css="text-align: left" key="text">
+          <Text flex={1} textAlign="left" key="text">
             {children}
           </Text>
         ),

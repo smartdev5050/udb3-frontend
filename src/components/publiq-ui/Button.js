@@ -16,6 +16,11 @@ const ButtonVariants = {
   UNSTYLED: 'unstyled',
 };
 
+const ButtonSizes = {
+  MEDIUM: 'md',
+  LARGE: 'lg',
+};
+
 const getValue = getValueFromTheme('button');
 
 const BaseButton = (props) => <Inline forwardedAs="button" {...props} />;
@@ -29,6 +34,7 @@ const customCSS = css`
   &.btn-primary {
     color: ${getValue('primary.color')};
     background-color: ${getValue('primary.backgroundColor')};
+    border-color: ${getValue('primary.borderColor')};
 
     &:hover {
       background-color: ${getValue('primary.hoverBackgroundColor')};
@@ -141,6 +147,7 @@ const Button = ({
   className,
   textAlign,
   title,
+  size,
   ...props
 }) => {
   if (variant === ButtonVariants.SECONDARY) variant = 'outline-secondary';
@@ -153,6 +160,7 @@ const Button = ({
     onClick,
     className,
     title,
+    size,
     ...getInlineProps(props),
   };
 
@@ -176,7 +184,7 @@ const Button = ({
       customChildren
         ? children
         : !shouldHideText && (
-            <Text flex={1} css="text-align: left" key="text">
+            <Text flex={1} textAlign="left" key="text">
               {children}
             </Text>
           ),
@@ -236,6 +244,7 @@ Button.defaultProps = {
   shouldHideText: false,
   textAlign: 'center',
   onClick: () => {},
+  size: ButtonSizes.MEDIUM,
 };
 
-export { ButtonVariants, Button };
+export { ButtonVariants, Button, ButtonSizes };

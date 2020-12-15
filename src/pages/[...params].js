@@ -23,7 +23,7 @@ const Fallback = () => {
     asPath,
   } = useRouter();
 
-  const [cookies] = useCookiesWithOptions(['token']);
+  const { cookies } = useCookiesWithOptions(['token']);
 
   const legacyPath = useMemo(() => {
     const path = new URL(`http://localhost/${asPath}`).pathname;
