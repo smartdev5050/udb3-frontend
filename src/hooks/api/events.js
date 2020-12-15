@@ -17,7 +17,7 @@ const getEventsToModerate = async ({ headers, ...queryData }) => {
 const useGetEventsToModerate = (searchQuery, configuration) =>
   useAuthenticatedQuery({
     queryKey: ['events'],
-    queryFunction: getEventsToModerate,
+    queryFn: getEventsToModerate,
     queryArguments: {
       q: searchQuery,
       audienceType: 'everyone',
