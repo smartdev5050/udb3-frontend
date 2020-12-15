@@ -52,6 +52,7 @@ const Link = ({
   suffix,
   children,
   customChildren,
+  shouldHideText,
   className,
   variant,
   title,
@@ -69,13 +70,13 @@ const Link = ({
 
   const inner = [
     iconName && <Icon name={iconName} key="icon" />,
-    customChildren ? (
-      children
-    ) : (
-      <Text flex={1} css="text-align: left" key="text">
-        {children}
-      </Text>
-    ),
+    customChildren
+      ? children
+      : !shouldHideText && (
+          <Text flex={1} css="text-align: left" key="text">
+            {children}
+          </Text>
+        ),
     clonedSuffix,
   ];
 
@@ -117,7 +118,14 @@ Link.propTypes = {
   suffix: PropTypes.node,
   className: PropTypes.string,
   children: PropTypes.node,
+  customChildren: PropTypes.bool,
+  shouldHideText: PropTypes.bool,
   as: PropTypes.node,
+};
+
+Link.defaultProps = {
+  customChildren: false,
+  shouldHideText: false,
 };
 
 export { Link, LinkVariants };

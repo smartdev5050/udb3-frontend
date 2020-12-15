@@ -7,7 +7,7 @@ import { CheckboxWithLabel } from '../../publiq-ui/CheckboxWithLabel';
 import { Button, ButtonVariants } from '../../publiq-ui/Button';
 import { Icon, Icons } from '../../publiq-ui/Icon';
 import { useState } from 'react';
-import { getValueFromTheme } from '../../publiq-ui/theme';
+import { Breakpoints, getValueFromTheme } from '../../publiq-ui/theme';
 import { Panel } from '../../publiq-ui/Panel';
 import {
   getInlineProps,
@@ -20,6 +20,7 @@ import { Alert, AlertVariants } from '../../publiq-ui/Alert';
 import { Input } from '../../publiq-ui/Input';
 import { DetailTable } from '../../publiq-ui/DetailTable';
 import { parseSpacing } from '../../publiq-ui/Box';
+import { useMatchBreakpoint } from '../../../hooks/useMatchBreakpoint';
 
 const getValue = getValueFromTheme('eventItem');
 
@@ -112,6 +113,7 @@ const DefaultMenu = ({
   shouldDisableDeleteButton,
 }) => {
   const { t } = useTranslation();
+  const shouldCollapse = useMatchBreakpoint(Breakpoints.S);
 
   return (
     <Inline as="div" justifyContent="space-between" alignItems="center">
@@ -126,6 +128,7 @@ const DefaultMenu = ({
           spacing={3}
           maxHeight={parseSpacing(5)()}
           onClick={onAdd}
+          shouldHideText={shouldCollapse}
         >
           {t('productions.overview.create')}
         </Button>
@@ -136,6 +139,7 @@ const DefaultMenu = ({
           spacing={3}
           onClick={onDelete}
           maxHeight={parseSpacing(5)()}
+          shouldHideText={shouldCollapse}
         >
           {t('productions.overview.delete')}
         </Button>
@@ -159,6 +163,7 @@ const AddMenu = ({
   ...props
 }) => {
   const { t } = useTranslation();
+  const shouldCollapse = useMatchBreakpoint(Breakpoints.S);
   const [toBeAddedId, setToBeAddedId] = useState('');
 
   return (
@@ -183,6 +188,7 @@ const AddMenu = ({
         spacing={3}
         disabled={!toBeAddedId}
         onClick={() => onAdd(toBeAddedId)}
+        shouldHideText={shouldCollapse}
       >
         {t('productions.overview.confirm')}
       </Button>
@@ -191,6 +197,7 @@ const AddMenu = ({
         iconName={Icons.TIMES}
         spacing={3}
         onClick={onCancel}
+        shouldHideText={shouldCollapse}
       >
         {t('productions.overview.cancel')}
       </Button>

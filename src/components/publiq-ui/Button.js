@@ -136,6 +136,7 @@ const Button = ({
   loading,
   children,
   customChildren,
+  shouldHideText,
   onClick,
   className,
   textAlign,
@@ -172,13 +173,13 @@ const Button = ({
   ) : (
     [
       iconName && <Icon name={iconName} key="icon" />,
-      customChildren ? (
-        children
-      ) : (
-        <Text flex={1} css="text-align: left" key="text">
-          {children}
-        </Text>
-      ),
+      customChildren
+        ? children
+        : !shouldHideText && (
+            <Text flex={1} css="text-align: left" key="text">
+              {children}
+            </Text>
+          ),
       clonedSuffix,
     ]
   );
@@ -223,6 +224,7 @@ Button.propTypes = {
   loading: PropTypes.bool,
   children: PropTypes.node,
   customChildren: PropTypes.bool,
+  shouldHideText: PropTypes.bool,
   onClick: PropTypes.func,
 };
 
@@ -231,6 +233,7 @@ Button.defaultProps = {
   disabled: false,
   loading: false,
   customChildren: false,
+  shouldHideText: false,
   textAlign: 'center',
   onClick: () => {},
 };
