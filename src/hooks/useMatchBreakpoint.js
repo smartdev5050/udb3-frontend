@@ -16,7 +16,11 @@ const useMatchBreakpoint = (breakpoint, name) => {
     );
 
     mediaQuery.addEventListener('change', handleChange);
-    handleChange(mediaQuery); // call once for initial render (when opening the page in mobile view)
+
+    // call once for initial render (when opening the page in mobile view)
+    handleChange(mediaQuery);
+
+    return () => mediaQuery.removeEventListener('change', handleChange);
   }, [breakpoint, isClient]);
 
   return matches;
