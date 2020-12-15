@@ -16,6 +16,11 @@ const ButtonVariants = {
   UNSTYLED: 'unstyled',
 };
 
+const ButtonSizes = {
+  MEDIUM: 'md',
+  LARGE: 'lg',
+};
+
 const getValue = getValueFromTheme('button');
 
 const BaseButton = (props) => <Inline forwardedAs="button" {...props} />;
@@ -140,6 +145,7 @@ const Button = ({
   className,
   textAlign,
   title,
+  size,
   ...props
 }) => {
   if (variant === ButtonVariants.SECONDARY) variant = 'outline-secondary';
@@ -152,6 +158,7 @@ const Button = ({
     onClick,
     className,
     title,
+    size,
     ...getInlineProps(props),
   };
 
@@ -233,6 +240,7 @@ Button.defaultProps = {
   customChildren: false,
   textAlign: 'center',
   onClick: () => {},
+  size: ButtonSizes.MEDIUM,
 };
 
-export { ButtonVariants, Button };
+export { ButtonVariants, Button, ButtonSizes };
