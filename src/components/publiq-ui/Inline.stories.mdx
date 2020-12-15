@@ -63,25 +63,6 @@ export const boxProps = {
 
 <Canvas>
   <Story
-    name="ToStackWithBoolean"
-    args={{
-      ...commonArgs,
-      stackOn: true,
-    }}
-  >
-    {(args) => (
-      <Inline {...args}>
-        <CustomBox {...boxProps}>A Box</CustomBox>
-        <CustomBox {...boxProps}>Another Box</CustomBox>
-      </Inline>
-    )}
-  </Story>
-</Canvas>
-
-<ArgsTable story="ToStackWithQuery" />
-
-<Canvas>
-  <Story
     name="ToStackWithQuery"
     args={{
       ...commonArgs,

@@ -5,14 +5,15 @@
     "activities": "activiteiten per jaar",
     "channels_info_link_text": "500 agenda's",
     "channels_info_link_url": "https://www.publiq.be/nl/publicatiekanalen",
-    "channels_info": "UiTdatabank levert informatie aan meer dan {0}, waaronder UiTinvlaanderen, websites van steden en gemeenten, thema-agenda's, gedrukte bladen en mobiele apps. Ook jouw activiteit kan verschijnen op vele agenda's.",
+    "channels_info": "UiTdatabank levert informatie aan meer dan <1>{{link}}</1>, waaronder UiTinvlaanderen, websites van steden en gemeenten, thema-agenda's, gedrukte bladen en mobiele apps. Ook jouw activiteit kan verschijnen op vele agenda's.",
     "channels": "verschillende kanalen",
     "lead_sub": "Voeg gratis je activiteiten toe en bereik een groter publiek",
     "lead": "Organiseer je een activiteit?",
     "mission": "Zo geef je meer mensen meer goesting in jouw activiteit.",
     "organizers_info": "Jaarlijks promoten 28.000 organisatoren hun activiteiten via UiTdatabank. In totaal bereiken ze daarmee jaarlijks meer dan 3 miljoen mensen. Voeg net als andere organisatoren je activiteit snel en eenvoudig toe.",
     "organizers": "organisatoren",
-    "start": "Start hier"
+    "start": "Start hier",
+    "flanders_image": "vlaanderen-logo.png"
   },
   "footer": {
     "about": "Over UiTdatabank",
