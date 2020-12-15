@@ -5,33 +5,27 @@ import { useCookiesWithOptions } from '../useCookiesWithOptions';
 import { useHeaders } from './useHeaders';
 
 const useAuthenticatedQuery = ({
-  queryKey = [],
-  queryFunction = () => {},
+  queryKey: rawQueryKey = [],
+  queryFn = () => {},
   queryArguments = {},
-  configuration = {},
+  enabled = true,
+  ...configuration
 } = {}) => {
   const { asPath, ...router } = useRouter();
   const headers = useHeaders();
   const [cookies] = useCookiesWithOptions(['token']);
 
-  const {
-    enabled: configurationEnabled = true,
-    ...cleanedConfiguration
-  } = configuration;
+  const queryKey = [
+    ...rawQueryKey,
+    Object.keys(queryArguments).length > 0 ? queryArguments : undefined,
+  ].filter((key) => key !== undefined);
 
-  const alteredArgs = [
-    [
-      ...queryKey,
-      Object.keys(queryArguments).length > 0 ? queryArguments : undefined,
-    ].filter((key) => key !== undefined),
-    () => queryFunction({ ...queryArguments, headers }),
-    {
-      enabled: cookies?.token && configurationEnabled,
-      ...cleanedConfiguration,
-    },
-  ];
-
-  const result = useReactQuery(...alteredArgs);
+  const result = useReactQuery({
+    queryKey,
+    queryFn: () => queryFn({ ...queryArguments, headers }),
+    enabled: !!cookies?.token && !!enabled,
+    ...configuration,
+  });
 
   if (
     result.status === 'error' &&
