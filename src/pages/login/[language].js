@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { Box } from '../../components/publiq-ui/Box';
 import {
   Button,
@@ -228,6 +228,15 @@ const LanguageSwitcherButton = (props) => (
   />
 );
 
+const MainChannelLink = () => {
+  const { t } = useTranslation();
+  return (
+    <FooterLink href={t('main.channels_info_link_url')} css="display: inline">
+      {t('main.channels_info_link_text')}
+    </FooterLink>
+  );
+};
+
 const Index = () => {
   const router = useRouter();
   const { t, i18n } = useTranslation();
@@ -302,12 +311,12 @@ const Index = () => {
             {t('main.activities_info')}
           </Column>
           <Column value="500" title={t('main.channels')}>
-            {t('main.channels_info')}
-            {/* <i18n path="main.channels_info" tag="p">
-              <a :href="$t('main.channels_info_link_url')">{{
-                $t('main.channels_info_link_text')
-              }}</a>
-            </i18n> */}
+            <Trans i18nKey="main.channels_info">
+              UiTdatabank levert informatie aan meer dan <MainChannelLink />,
+              waaronder UiTinvlaanderen, websites van steden en gemeenten,
+              thema-agenda's, gedrukte bladen en mobiele apps. Ook jouw
+              activiteit kan verschijnen op vele agenda's.
+            </Trans>
           </Column>
           <Column value="28.000" title={t('main.organizers')}>
             {t('main.organizers_info')}
@@ -352,8 +361,12 @@ const Index = () => {
               <List.Item>
                 <Inline spacing={3}>
                   <FooterLink
-                    className="footer-link"
-                    href="http://www.publiq.be/nl/privacy-uitdatabank"
+                    href={
+                      'http://www.publiq.be/' +
+                      i18n.language +
+                      '/' +
+                      t('footer.legal_path')
+                    }
                   >
                     {t('footer.legal')}
                   </FooterLink>

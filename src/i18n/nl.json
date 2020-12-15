@@ -5,7 +5,7 @@
     "activities": "activiteiten per jaar",
     "channels_info_link_text": "500 agenda's",
     "channels_info_link_url": "https://www.publiq.be/nl/publicatiekanalen",
-    "channels_info": "UiTdatabank levert informatie aan meer dan {0}, waaronder UiTinvlaanderen, websites van steden en gemeenten, thema-agenda's, gedrukte bladen en mobiele apps. Ook jouw activiteit kan verschijnen op vele agenda's.",
+    "channels_info": "UiTdatabank levert informatie aan meer dan <1>{{link}}</1>, waaronder UiTinvlaanderen, websites van steden en gemeenten, thema-agenda's, gedrukte bladen en mobiele apps. Ook jouw activiteit kan verschijnen op vele agenda's.",
     "channels": "verschillende kanalen",
     "lead_sub": "Voeg gratis je activiteiten toe en bereik een groter publiek",
     "lead": "Organiseer je een activiteit?",
