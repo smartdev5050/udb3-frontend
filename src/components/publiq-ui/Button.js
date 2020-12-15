@@ -34,6 +34,7 @@ const customCSS = css`
   &.btn-primary {
     color: ${getValue('primary.color')};
     background-color: ${getValue('primary.backgroundColor')};
+    border-color: ${getValue('primary.borderColor')};
 
     &:hover {
       background-color: ${getValue('primary.hoverBackgroundColor')};
