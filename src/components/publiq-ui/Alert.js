@@ -16,6 +16,7 @@ const Alert = ({
   variant,
   visible,
   dismissible,
+  onDismiss,
   children,
   className,
   ...props
@@ -34,6 +35,7 @@ const Alert = ({
           border-radius: ${getValue('borderRadius')};
         }
       `}
+      onClose={onDismiss}
     >
       {children}
     </BootstrapAlert>
@@ -46,6 +48,7 @@ Alert.propTypes = {
   variant: PropTypes.oneOf(Object.values(AlertVariants)),
   visible: PropTypes.bool,
   dismissible: PropTypes.bool,
+  onDismiss: PropTypes.func,
   children: PropTypes.node,
 };
 
