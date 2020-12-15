@@ -6,14 +6,16 @@ import { useHeaders } from './useHeaders';
 const useAuthenticatedMutation = (mutationFunction, configuration = {}) => {
   const router = useRouter();
   const headers = useHeaders();
-  const alteredMutationFunction = (variables) => {
-    const result = mutationFunction({ ...variables, headers });
+  const alteredMutationFunction = async (variables) => {
+    const result = await mutationFunction({ ...variables, headers });
 
     if (
       result.status === 'error' &&
       result.error.message === Errors.UNAUTHORIZED
     ) {
       router.push('/login');
+    } else if (result.status) {
+      throw new Error(result.title);
     }
 
     return result;

@@ -9,9 +9,14 @@ import { Icon, Icons } from '../../publiq-ui/Icon';
 import { useState } from 'react';
 import { getValueFromTheme } from '../../publiq-ui/theme';
 import { Panel } from '../../publiq-ui/Panel';
-import { Inline } from '../../publiq-ui/Inline';
+import {
+  getInlineProps,
+  Inline,
+  inlinePropTypes,
+} from '../../publiq-ui/Inline';
 import { useGetCalendarSummary } from '../../../hooks/api/events';
 import { Spinner } from '../../publiq-ui/Spinner';
+import { Alert, AlertVariants } from '../../publiq-ui/Alert';
 import { Input } from '../../publiq-ui/Input';
 import { DetailTable } from '../../publiq-ui/DetailTable';
 import { parseSpacing } from '../../publiq-ui/Box';
@@ -146,18 +151,31 @@ DefaultMenu.propTypes = {
   shouldDisableDeleteButton: PropTypes.bool,
 };
 
-const AddMenu = ({ onAdd, onCancel }) => {
+const AddMenu = ({
+  onAdd,
+  onCancel,
+  onInputSearchTerm,
+  className,
+  ...props
+}) => {
   const { t } = useTranslation();
   const [toBeAddedId, setToBeAddedId] = useState('');
 
   return (
-    <Inline as="div" spacing={3} alignItems="center">
+    <Inline
+      as="div"
+      className={className}
+      spacing={3}
+      alignItems="center"
+      {...getInlineProps(props)}
+    >
       <Input
         id="cdbid"
         placeholder="cdbid"
         maxWidth="22rem"
         onInput={(e) => {
           setToBeAddedId(e.target.value.toString().trim());
+          onInputSearchTerm();
         }}
       />
       <Button
@@ -181,17 +199,22 @@ const AddMenu = ({ onAdd, onCancel }) => {
 };
 
 AddMenu.propTypes = {
+  ...inlinePropTypes,
   onAdd: PropTypes.func,
   onCancel: PropTypes.func,
+  onInputSearchTerm: PropTypes.func,
 };
 
 const Events = ({
   events,
   activeProductionName,
   loading,
+  errorMessage,
   onToggleEvent,
   onDeleteEvents,
   onAddEvent,
+  onInputSearchTerm,
+  onDismissError,
   shouldDisableDeleteButton,
   className,
   ...props
@@ -207,12 +230,25 @@ const Events = ({
         [
           <Stack key="title-and-buttons" spacing={3}>
             {isAddMenuVisible ? (
-              <AddMenu
-                onAdd={onAddEvent}
-                onCancel={() => {
-                  setIsAddMenuVisible(false);
-                }}
-              />
+              <Stack as="div" spacing={3}>
+                <AddMenu
+                  onAdd={onAddEvent}
+                  onCancel={() => {
+                    setIsAddMenuVisible(false);
+                  }}
+                  onInputSearchTerm={onInputSearchTerm}
+                />
+                {!!errorMessage && (
+                  <Alert
+                    visible
+                    variant={AlertVariants.WARNING}
+                    dismissible
+                    onDismiss={onDismissError}
+                  >
+                    {errorMessage}
+                  </Alert>
+                )}
+              </Stack>
             ) : (
               <DefaultMenu
                 activeProductionName={activeProductionName}
@@ -260,10 +296,13 @@ Events.propTypes = {
   events: PropTypes.array,
   activeProductionName: PropTypes.string,
   loading: PropTypes.bool,
+  errorMessage: PropTypes.string,
   onToggleEvent: PropTypes.func,
   selectedIds: PropTypes.array,
   onDeleteEvents: PropTypes.func,
   onAddEvent: PropTypes.func,
+  onInputSearchTerm: PropTypes.func,
+  onDismissError: PropTypes.func,
   shouldDisableDeleteButton: PropTypes.bool,
   className: PropTypes.string,
 };

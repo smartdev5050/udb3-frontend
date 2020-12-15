@@ -30,6 +30,7 @@ const Index = () => {
   const [searchInput, setSearchInput] = useState('');
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [currentPagePoductions, setCurrentPagePoductions] = useState(1);
+  const [errorMessageEvents, setErrorMessageEvents] = useState('');
 
   const productionsPerPage = 15;
 
@@ -70,8 +71,12 @@ const Index = () => {
   const handleSuccessAddEvent = async () => {
     await queryClient.refetchQueries(['productions']);
   };
+  const handleErrorAddEvent = (error) => {
+    setErrorMessageEvents(error.message);
+  };
   const { mutate: addEventById } = useAddEventById({
     onSuccess: handleSuccessAddEvent,
+    onError: handleErrorAddEvent,
   });
 
   useEffect(() => {
@@ -174,6 +179,7 @@ const Index = () => {
                 events={events}
                 activeProductionName={activeProduction?.name ?? ''}
                 shouldDisableDeleteButton={selectedEventIds.length === 0}
+                errorMessage={errorMessageEvents}
                 onToggleEvent={(id) => {
                   setEvents((prevEvents) =>
                     prevEvents.map((event) => {
@@ -192,6 +198,12 @@ const Index = () => {
                     productionId: activeProduction.id,
                     eventId: id,
                   });
+                }}
+                onInputSearchTerm={() => {
+                  setErrorMessageEvents('');
+                }}
+                onDismissError={() => {
+                  setErrorMessageEvents('');
                 }}
               />,
             ]
