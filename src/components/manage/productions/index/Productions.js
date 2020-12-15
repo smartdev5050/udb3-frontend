@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
-import { getStackProps, Stack, stackPropTypes } from '../../publiq-ui/Stack';
-import { Title } from '../../publiq-ui/Title';
-import { List } from '../../publiq-ui/List';
+import { getStackProps, Stack, stackPropTypes } from '../../../publiq-ui/Stack';
+import { Title } from '../../../publiq-ui/Title';
+import { List } from '../../../publiq-ui/List';
 import { useTranslation } from 'react-i18next';
-import { getValueFromTheme } from '../../publiq-ui/theme';
-import { Panel } from '../../publiq-ui/Panel';
-import { Spinner } from '../../publiq-ui/Spinner';
-import { Pagination } from '../../publiq-ui/Pagination';
-import { parseSpacing } from '../../publiq-ui/Box';
+import { getValueFromTheme } from '../../../publiq-ui/theme';
+import { Panel } from '../../../publiq-ui/Panel';
+import { Spinner } from '../../../publiq-ui/Spinner';
+import { Pagination } from '../../../publiq-ui/Pagination';
+import { parseSpacing } from '../../../publiq-ui/Box';
 
 const getValue = getValueFromTheme('productionItem');
 
