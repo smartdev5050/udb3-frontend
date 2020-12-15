@@ -8,16 +8,12 @@ const useAuthenticatedQuery = ({
   queryKey: rawQueryKey = [],
   queryFn = () => {},
   queryArguments = {},
-  configuration = {},
+  enabled = true,
+  ...configuration
 } = {}) => {
   const { asPath, ...router } = useRouter();
   const headers = useHeaders();
   const [cookies] = useCookiesWithOptions(['token']);
-
-  const {
-    enabled: configurationEnabled = true,
-    ...cleanedConfiguration
-  } = configuration;
 
   const queryKey = [
     ...rawQueryKey,
@@ -27,8 +23,8 @@ const useAuthenticatedQuery = ({
   const result = useReactQuery({
     queryKey,
     queryFn: () => queryFn({ ...queryArguments, headers }),
-    enabled: !!cookies?.token && configurationEnabled,
-    ...cleanedConfiguration,
+    enabled: !!cookies?.token && !!enabled,
+    ...configuration,
   });
 
   if (

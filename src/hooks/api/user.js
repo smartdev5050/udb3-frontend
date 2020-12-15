@@ -15,7 +15,7 @@ const useGetUser = (configuration = {}) =>
   useAuthenticatedQuery({
     queryKey: ['user'],
     queryFn: getMe,
-    configuration,
+    ...configuration,
   });
 
 const getPermissions = async ({ headers }) => {
@@ -32,7 +32,7 @@ const useGetPermissions = (configuration = {}) =>
   useAuthenticatedQuery({
     queryKey: ['user', 'permissions'],
     queryFn: getPermissions,
-    configuration,
+    ...configuration,
   });
 
 const getRoles = async ({ headers }) => {
@@ -49,7 +49,7 @@ const useGetRoles = (configuration = {}) =>
   useAuthenticatedQuery({
     queryKey: ['user', 'roles'],
     queryFn: getRoles,
-    configuration,
+    ...configuration,
   });
 
 export { useGetUser, useGetPermissions, useGetRoles };

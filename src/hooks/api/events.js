@@ -14,7 +14,7 @@ const getEventsToModerate = async ({ headers, ...queryData }) => {
   return await res.json();
 };
 
-const useGetEventsToModerate = (searchQuery, configuration) =>
+const useGetEventsToModerate = (searchQuery, configuration = {}) =>
   useAuthenticatedQuery({
     queryKey: ['events'],
     queryFn: getEventsToModerate,
@@ -26,10 +26,8 @@ const useGetEventsToModerate = (searchQuery, configuration) =>
       start: 0,
       workflowStatus: 'READY_FOR_VALIDATION',
     },
-    configuration: {
-      enabled: !!searchQuery,
-      ...configuration,
-    },
+    enabled: !!searchQuery,
+    ...configuration,
   });
 
 export { useGetEventsToModerate };
