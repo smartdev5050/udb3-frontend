@@ -303,7 +303,7 @@ const Index = () => {
       <Inline width="100%" justifyContent="center">
         <ResponsiveContainer
           stackOn={Breakpoints.M}
-          spacing={5}
+          spacing={{ default: 5, m: 6 }}
           paddingY={5}
           minHeight={336}
         >
