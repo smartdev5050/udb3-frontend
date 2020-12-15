@@ -235,7 +235,7 @@ const Index = () => {
           padding={5}
           backgroundColor="red"
         >
-          <Animation height={320} />
+          <Animation height="auto" maxHeight={316} />
           {/* <h1 className="brand">{t('brand')}</h1> */}
           <Stack alignItems="center" paddingX={4}>
             <Box
