@@ -1,7 +1,7 @@
 import { fetchWithRedirect } from '../../utils/fetchWithRedirect';
-import { useAuthenticatedQuery } from './useAuthenticatedQuery';
+import { useAuthenticatedQuery } from './authenticated-query';
 
-const getMe = async ({ headers }) => {
+const getUser = async ({ headers }) => {
   const res = await fetchWithRedirect(
     `${process.env.NEXT_PUBLIC_API_URL}/user`,
     {
@@ -14,7 +14,7 @@ const getMe = async ({ headers }) => {
 const useGetUser = (configuration = {}) =>
   useAuthenticatedQuery({
     queryKey: ['user'],
-    queryFn: getMe,
+    queryFn: getUser,
     ...configuration,
   });
 

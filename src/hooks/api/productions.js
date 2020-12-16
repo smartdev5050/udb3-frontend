@@ -1,6 +1,8 @@
 import { fetchWithRedirect } from '../../utils/fetchWithRedirect';
-import { useAuthenticatedMutation } from './useAuthenicatedMutation';
-import { useAuthenticatedQuery } from './useAuthenticatedQuery';
+import {
+  useAuthenticatedQuery,
+  useAuthenticatedMutation,
+} from './authenticated-query';
 
 const getProductions = async ({ headers, ...queryData }) => {
   const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/productions/`);
@@ -43,8 +45,8 @@ const deleteEventById = async ({
   });
 };
 
-const useDeleteEventById = (configuration) =>
-  useAuthenticatedMutation(deleteEventById, configuration);
+const useDeleteEventById = (configuration = {}) =>
+  useAuthenticatedMutation({ mutationFn: deleteEventById, ...configuration });
 
 const deleteEventsByIds = async ({
   productionId = '',
@@ -57,8 +59,8 @@ const deleteEventsByIds = async ({
   return await Promise.all(mappedEvents);
 };
 
-const useDeleteEventsByIds = (configuration) =>
-  useAuthenticatedMutation(deleteEventsByIds, configuration);
+const useDeleteEventsByIds = (configuration = {}) =>
+  useAuthenticatedMutation({ mutationFn: deleteEventsByIds, ...configuration });
 
 const addEventById = async ({ productionId, eventId, headers }) => {
   const url = new URL(
@@ -77,7 +79,7 @@ const addEventById = async ({ productionId, eventId, headers }) => {
 };
 
 const useAddEventById = (configuration) =>
-  useAuthenticatedMutation(addEventById, configuration);
+  useAuthenticatedMutation({ mutationFn: addEventById, ...configuration });
 
 const addEventsByIds = async ({
   productionId = '',
@@ -91,7 +93,7 @@ const addEventsByIds = async ({
 };
 
 const useAddEventsByIds = (configuration) =>
-  useAuthenticatedMutation(addEventsByIds, configuration);
+  useAuthenticatedMutation({ mutationFn: addEventsByIds, ...configuration });
 
 export {
   useGetProductions,

@@ -1,5 +1,8 @@
 import { fetchWithRedirect } from '../../utils/fetchWithRedirect';
-import { useAuthenticatedQuery } from './useAuthenticatedQuery';
+import {
+  useAuthenticatedQueries,
+  useAuthenticatedQuery,
+} from './authenticated-query';
 import { formatDate } from '../../utils/formatDate';
 
 const getEventsToModerate = async ({ headers, ...queryData }) => {
@@ -38,34 +41,25 @@ const getEventById = async ({ headers, id }) => {
   return await res.json();
 };
 
-const useGetEventbyId = ({ id = '' }, configuration) =>
+const useGetEventbyId = ({ id }, configuration) =>
   useAuthenticatedQuery({
     queryKey: ['events'],
     queryFn: getEventById,
     queryArguments: { id },
-    configuration: {
-      enabled: !!id,
-      ...configuration,
-    },
+    enabled: !!id,
+    ...configuration,
   });
 
-const getEventsByIds = async ({ ids, headers }) => {
-  const mappedEvents = ids.map((eventId) =>
-    getEventById({ headers, id: eventId }),
-  );
-  return Promise.all(mappedEvents);
-};
-
-const useGetEventsbyIds = ({ ids = [] }, configuration) =>
-  useAuthenticatedQuery({
+const useGetEventsbyIds = ({ ids = [] }) => {
+  const options = ids.map((id) => ({
     queryKey: ['events'],
-    queryFn: getEventsByIds,
-    queryArguments: { ids },
-    configuration: {
-      enabled: ids.length > 0,
-      ...configuration,
-    },
-  });
+    queryFn: getEventById,
+    queryArguments: { id },
+    enabled: !!id,
+  }));
+
+  return useAuthenticatedQueries(options);
+};
 
 const getCalendarSummary = async ({ headers, id, format, locale }) => {
   const url = `${
