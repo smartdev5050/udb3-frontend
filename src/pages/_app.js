@@ -1,5 +1,6 @@
 import '../styles/global.scss';
 
+import NextApp from 'next/app';
 import PropTypes from 'prop-types';
 
 import { Inline } from '../components/publiq-ui/Inline';
@@ -95,5 +96,9 @@ const App = ({ Component, pageProps }) => (
     </Layout>
   </ContextProvider>
 );
+
+App.getInitialProps = async (context) => {
+  return await NextApp.getInitialProps(context);
+};
 
 export default App;
