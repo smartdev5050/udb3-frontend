@@ -1,26 +1,26 @@
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { List } from '../../publiq-ui/List';
-import { getStackProps, Stack, stackPropTypes } from '../../publiq-ui/Stack';
-import { Title } from '../../publiq-ui/Title';
-import { CheckboxWithLabel } from '../../publiq-ui/CheckboxWithLabel';
-import { Button, ButtonVariants } from '../../publiq-ui/Button';
-import { Icon, Icons } from '../../publiq-ui/Icon';
+import { List } from '../../../publiq-ui/List';
+import { getStackProps, Stack, stackPropTypes } from '../../../publiq-ui/Stack';
+import { Title } from '../../../publiq-ui/Title';
+import { CheckboxWithLabel } from '../../../publiq-ui/CheckboxWithLabel';
+import { Button, ButtonVariants } from '../../../publiq-ui/Button';
+import { Icon, Icons } from '../../../publiq-ui/Icon';
 import { useState } from 'react';
-import { Breakpoints, getValueFromTheme } from '../../publiq-ui/theme';
-import { Panel } from '../../publiq-ui/Panel';
+import { Breakpoints, getValueFromTheme } from '../../../publiq-ui/theme';
+import { Panel } from '../../../publiq-ui/Panel';
 import {
   getInlineProps,
   Inline,
   inlinePropTypes,
-} from '../../publiq-ui/Inline';
-import { useGetCalendarSummary } from '../../../hooks/api/events';
-import { Spinner } from '../../publiq-ui/Spinner';
-import { Alert, AlertVariants } from '../../publiq-ui/Alert';
-import { Input } from '../../publiq-ui/Input';
-import { DetailTable } from '../../publiq-ui/DetailTable';
-import { parseSpacing } from '../../publiq-ui/Box';
-import { useMatchBreakpoint } from '../../../hooks/useMatchBreakpoint';
+} from '../../../publiq-ui/Inline';
+import { Spinner } from '../../../publiq-ui/Spinner';
+import { Alert, AlertVariants } from '../../../publiq-ui/Alert';
+import { Input } from '../../../publiq-ui/Input';
+import { DetailTable } from '../../../publiq-ui/DetailTable';
+import { parseSpacing } from '../../../publiq-ui/Box';
+import { useGetCalendarSummary } from '../../../../hooks/api/events';
+import { useMatchBreakpoint } from '../../../../hooks/useMatchBreakpoint';
 
 const getValue = getValueFromTheme('eventItem');
 
@@ -106,10 +106,10 @@ Event.propTypes = {
   className: PropTypes.string,
 };
 
-const DefaultMenu = ({
+const Actions = ({
   activeProductionName,
-  onAdd,
-  onDelete,
+  onClickAdd,
+  onClickDelete,
   shouldDisableDeleteButton,
 }) => {
   const { t } = useTranslation();
@@ -127,7 +127,7 @@ const DefaultMenu = ({
           iconName={Icons.PLUS}
           spacing={3}
           maxHeight={parseSpacing(5)()}
-          onClick={onAdd}
+          onClick={onClickAdd}
           shouldHideText={shouldCollapse}
         >
           {t('productions.overview.create')}
@@ -137,7 +137,7 @@ const DefaultMenu = ({
           variant={ButtonVariants.DANGER}
           iconName={Icons.TRASH}
           spacing={3}
-          onClick={onDelete}
+          onClick={onClickDelete}
           maxHeight={parseSpacing(5)()}
           shouldHideText={shouldCollapse}
         >
@@ -148,23 +148,25 @@ const DefaultMenu = ({
   );
 };
 
-DefaultMenu.propTypes = {
+Actions.propTypes = {
   activeProductionName: PropTypes.string,
-  onAdd: PropTypes.func,
-  onDelete: PropTypes.func,
+  onClickAdd: PropTypes.func,
+  onClickDelete: PropTypes.func,
   shouldDisableDeleteButton: PropTypes.bool,
 };
 
-const AddMenu = ({
+const AddAction = ({
   onAdd,
   onCancel,
-  onInputSearchTerm,
   className,
+  toBeAddedEventId,
+  onToBeAddedEventIdInput,
   ...props
 }) => {
   const { t } = useTranslation();
   const shouldCollapse = useMatchBreakpoint(Breakpoints.S);
-  const [toBeAddedId, setToBeAddedId] = useState('');
+
+  console.log({ toBeAddedEventId });
 
   return (
     <Inline
@@ -178,16 +180,16 @@ const AddMenu = ({
         id="cdbid"
         placeholder="cdbid"
         maxWidth="22rem"
-        onInput={(e) => {
-          setToBeAddedId(e.target.value.toString().trim());
-          onInputSearchTerm();
-        }}
+        value={toBeAddedEventId}
+        onInput={(event) =>
+          onToBeAddedEventIdInput(event.currentTarget.value.trim())
+        }
       />
       <Button
         iconName={Icons.CHECK}
         spacing={3}
-        disabled={!toBeAddedId}
-        onClick={() => onAdd(toBeAddedId)}
+        disabled={!toBeAddedEventId}
+        onClick={() => onAdd(toBeAddedEventId)}
         shouldHideText={shouldCollapse}
       >
         {t('productions.overview.confirm')}
@@ -205,11 +207,12 @@ const AddMenu = ({
   );
 };
 
-AddMenu.propTypes = {
+AddAction.propTypes = {
   ...inlinePropTypes,
   onAdd: PropTypes.func,
   onCancel: PropTypes.func,
-  onInputSearchTerm: PropTypes.func,
+  onToBeAddedEventIdInput: PropTypes.func,
+  toBeAddedEventId: PropTypes.string,
 };
 
 const Events = ({
@@ -217,17 +220,23 @@ const Events = ({
   activeProductionName,
   loading,
   errorMessage,
-  onToggleEvent,
-  onDeleteEvents,
+  onToggleSelectEvent,
   onAddEvent,
-  onInputSearchTerm,
+  onCancelAddEvent,
   onDismissError,
-  shouldDisableDeleteButton,
   className,
+  onClickAdd,
+  onClickDelete,
+  isAddActionVisible,
+  toBeAddedEventId,
+  onToBeAddedEventIdInput,
   ...props
 }) => {
   const { i18n } = useTranslation();
-  const [isAddMenuVisible, setIsAddMenuVisible] = useState(false);
+
+  const shouldDisableDeleteButton = !(
+    events.filter((event) => event.selected).length > 0
+  );
 
   return (
     <Stack spacing={4} {...getStackProps(props)}>
@@ -236,14 +245,13 @@ const Events = ({
       ) : (
         [
           <Stack key="title-and-buttons" spacing={3}>
-            {isAddMenuVisible ? (
+            {isAddActionVisible ? (
               <Stack as="div" spacing={3}>
-                <AddMenu
+                <AddAction
                   onAdd={onAddEvent}
-                  onCancel={() => {
-                    setIsAddMenuVisible(false);
-                  }}
-                  onInputSearchTerm={onInputSearchTerm}
+                  onCancel={onCancelAddEvent}
+                  toBeAddedEventId={toBeAddedEventId}
+                  onToBeAddedEventIdInput={onToBeAddedEventIdInput}
                 />
                 {!!errorMessage && (
                   <Alert
@@ -257,12 +265,10 @@ const Events = ({
                 )}
               </Stack>
             ) : (
-              <DefaultMenu
+              <Actions
                 activeProductionName={activeProductionName}
-                onAdd={() => {
-                  setIsAddMenuVisible(true);
-                }}
-                onDelete={() => onDeleteEvents()}
+                onClickAdd={onClickAdd}
+                onClickDelete={onClickDelete}
                 shouldDisableDeleteButton={shouldDisableDeleteButton}
               />
             )}
@@ -277,7 +283,7 @@ const Events = ({
                   type={getEventType(event.terms)}
                   location={event.location.name[i18n.language]}
                   calendarType={event.calendarType}
-                  onToggle={onToggleEvent}
+                  onToggle={onToggleSelectEvent}
                   selected={event.selected}
                   css={
                     index !== events.length - 1
@@ -304,13 +310,16 @@ Events.propTypes = {
   activeProductionName: PropTypes.string,
   loading: PropTypes.bool,
   errorMessage: PropTypes.string,
-  onToggleEvent: PropTypes.func,
+  onToggleSelectEvent: PropTypes.func,
   selectedIds: PropTypes.array,
-  onDeleteEvents: PropTypes.func,
+  onClickDelete: PropTypes.func,
+  onClickAdd: PropTypes.func,
   onAddEvent: PropTypes.func,
   onInputSearchTerm: PropTypes.func,
   onDismissError: PropTypes.func,
-  shouldDisableDeleteButton: PropTypes.bool,
+  onToBeAddedEventIdInput: PropTypes.func,
+  toBeAddedEventId: PropTypes.string,
+  isAddActionVisible: PropTypes.bool,
   className: PropTypes.string,
 };
 

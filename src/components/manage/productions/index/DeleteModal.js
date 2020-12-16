@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Box } from '../../publiq-ui/Box';
-import { Modal, ModalVariants } from '../../publiq-ui/Modal';
+import { Box } from '../../../publiq-ui/Box';
+import { Modal, ModalVariants } from '../../../publiq-ui/Modal';
 
 const DeleteModal = ({
   productionName,

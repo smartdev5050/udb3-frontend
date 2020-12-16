@@ -4,7 +4,15 @@ import { getBoxProps, boxPropTypes, Box } from './Box';
 
 const BaseInput = (props) => <Box as="input" {...props} />;
 
-const Input = ({ type, id, placeholder, onInput, className, ...props }) => (
+const Input = ({
+  type,
+  id,
+  placeholder,
+  onInput,
+  className,
+  value,
+  ...props
+}) => (
   <Form.Control
     forwardedAs={BaseInput}
     id={id}
@@ -14,6 +22,7 @@ const Input = ({ type, id, placeholder, onInput, className, ...props }) => (
     maxWidth="43rem"
     css="border-radius: 0;"
     onInput={onInput}
+    value={value}
     {...getBoxProps(props)}
   />
 );
