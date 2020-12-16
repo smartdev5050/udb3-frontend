@@ -1,7 +1,6 @@
 import '../styles/global.scss';
 
 import NextApp from 'next/app';
-import cookie from 'cookie';
 import PropTypes from 'prop-types';
 
 import { Inline } from '../components/publiq-ui/Inline';
