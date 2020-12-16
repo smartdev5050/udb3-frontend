@@ -26,6 +26,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@fortawesome/react-fontawesome": "^0.1.12",
     "bootstrap": "^4.5.3",
+    "cookie": "^0.4.1",
     "date-fns": "^2.16.1",
     "i18next": "^19.8.3",
     "i18next-browser-languagedetector": "^6.0.1",
