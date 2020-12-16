@@ -164,9 +164,8 @@ const JobLogger = ({ visible, onClose, onStatusChange }) => {
       position="absolute"
       width={{ default: 'calc(100% - 230px)', s: 'calc(100% - 65px)' }}
       left={{ default: 230, s: 65 }}
-      backgroundColor="white"
     >
-      <Stack padding={3} width={320} height="100vh">
+      <Stack padding={3} width={320} height="100vh" backgroundColor="white">
         <Inline as="div" justifyContent="flex-end">
           <Button variant={ButtonVariants.UNSTYLED} onClick={onClose}>
             <Icon name={Icons.TIMES} opacity={{ default: 0.5, hover: 1 }} />
