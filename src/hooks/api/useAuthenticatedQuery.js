@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useQuery as useReactQuery } from 'react-query';
-import { Errors } from '../../utils/fetchWithRedirect';
+import { Errors } from '../../utils/fetchFromApi';
 import { useCookiesWithOptions } from '../useCookiesWithOptions';
 import { useHeaders } from './useHeaders';
 

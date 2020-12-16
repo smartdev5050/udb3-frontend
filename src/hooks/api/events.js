@@ -1,15 +1,17 @@
-import { fetchWithRedirect } from '../../utils/fetchWithRedirect';
+import { fetchFromApi } from '../../utils/fetchFromApi';
 import { useAuthenticatedQuery } from './useAuthenticatedQuery';
 import { formatDate } from '../../utils/formatDate';
 
 const getEventsToModerate = async ({ headers, ...queryData }) => {
-  const url = new URL('/events/');
-  url.search = new URLSearchParams({
-    ...queryData,
-    availableFrom: formatDate(new Date()),
-  }).toString();
-  const res = await fetchWithRedirect(url, {
-    headers,
+  const res = await fetchFromApi({
+    path: '/events/',
+    searchParams: {
+      ...queryData,
+      availableFrom: formatDate(new Date()),
+    },
+    options: {
+      headers,
+    },
   });
   return await res.json();
 };
