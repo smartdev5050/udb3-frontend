@@ -1,6 +1,7 @@
 import '../styles/global.scss';
 
 import NextApp from 'next/app';
+import cookie from 'cookie';
 import PropTypes from 'prop-types';
 
 import { Inline } from '../components/publiq-ui/Inline';
@@ -81,12 +82,12 @@ const queryCache = new QueryCache();
 const queryClient = new QueryClient({ queryCache });
 
 // eslint-disable-next-line react/prop-types
-const App = ({ Component, pageProps }) => (
+const App = ({ Component, pageProps, cookies }) => (
   <ContextProvider
     providers={[
       [I18nextProvider, { i18n }],
       ThemeProvider,
-      CookiesProvider,
+      [CookiesProvider, { cookies }],
       [QueryClientProvider, { client: queryClient }],
     ]}
   >
@@ -97,8 +98,12 @@ const App = ({ Component, pageProps }) => (
   </ContextProvider>
 );
 
-App.getInitialProps = async (context) => {
-  return await NextApp.getInitialProps(context);
+const getServerSideProps = async (context) => {
+  const { req } = context;
+  const appProps = await NextApp.getInitialProps(context);
+  const cookies = cookie.parse(req?.headers?.cookie ?? '');
+  return { ...appProps, cookies };
 };
 
+export { getServerSideProps };
 export default App;
