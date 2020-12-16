@@ -3,7 +3,7 @@ import { useAuthenticatedQuery } from './useAuthenticatedQuery';
 import { formatDate } from '../../utils/formatDate';
 
 const getEventsToModerate = async ({ headers, ...queryData }) => {
-  const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/events/`);
+  const url = new URL('/events/');
   url.search = new URLSearchParams({
     ...queryData,
     availableFrom: formatDate(new Date()),

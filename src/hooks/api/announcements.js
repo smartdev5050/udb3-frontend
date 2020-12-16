@@ -1,7 +1,9 @@
+import getConfig from 'next/config';
 import { useQuery } from 'react-query';
 
 const getAnnouncements = async () => {
-  const res = await fetch(process.env.NEXT_PUBLIC_NEW_ANNOUNCEMENTS_URL);
+  const { publicRuntimeConfig } = getConfig();
+  const res = await fetch(publicRuntimeConfig.newAnnouncementsUrl);
   return await res.json();
 };
 
