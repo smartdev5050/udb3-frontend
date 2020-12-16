@@ -16,6 +16,7 @@ import { Link } from '../../components/publiq-ui/Link';
 import { Stack } from '../../components/publiq-ui/Stack';
 import { List } from '../../components/publiq-ui/List';
 import { Breakpoints } from '../../components/publiq-ui/theme';
+import { keyframes } from 'styled-components';
 
 const Svg = (props) => (
   <Box
@@ -28,6 +29,40 @@ const Svg = (props) => (
 
 const Group = (props) => <Box as="g" fill="white" {...props} />;
 const Path = (props) => <Box as="path" {...props} />;
+
+const draw = keyframes`
+  to {
+    stroke-dashoffset: 0;
+  }
+`;
+
+const logoAnimate = keyframes`
+  0% {
+    transform: scale(1);
+    animation-timing-function: cubic-bezier(0.3, 0.1, 0.9, 0.5);
+  }
+  10% {
+    transform: scale(0.8);
+    animation-timing-function: cubic-bezier(0.1, 0.4, 0.2, 1);
+  }
+  100% {
+    transform: scale(1);
+  }
+`;
+
+const publicAnimate = keyframes`
+  0% {
+    transform: scale(1);
+    animation-timing-function: cubic-bezier(0.3, 0.1, 0.9, 0.5);
+  }
+  10% {
+    transform: scale(0.8);
+    animation-timing-function: cubic-bezier(0.1, 0.4, 0.2, 1);
+  }
+  100% {
+    transform: scale(1);
+  }
+`;
 
 const Animation = (props) => {
   return (
