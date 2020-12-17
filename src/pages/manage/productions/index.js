@@ -28,7 +28,7 @@ const Index = () => {
 
   const [searchInput, setSearchInput] = useState('');
 
-  const [activeProductionId, setActiveProductionId] = useState();
+  const [activeProductionId, setActiveProductionId] = useState('');
   const [selectedEventIds, setSelectedEventIds] = useState('');
   const [toBeAddedEventId, setToBeAddedEventId] = useState('');
 
@@ -45,22 +45,25 @@ const Index = () => {
     start: currentPageProductions - 1,
     limit: productionsPerPage,
   });
+  const rawProductions = productionsData?.member ?? [];
+
+  useEffect(() => {
+    if (rawProductions.length === 0) return;
+    // make the first production active when new data comes in from the apiCall
+    setActiveProductionId(rawProductions[0].production_id);
+  }, [rawProductions]);
 
   const productions = useMemo(() => {
-    const rawProductions = productionsData?.member ?? [];
     return rawProductions.map((production) => ({
       ...production,
       id: production.production_id,
       active: production.production_id === activeProductionId,
     }));
-  }, [productionsData, activeProductionId]);
-
-  useEffect(() => setActiveProductionId(productions?.[0]?.id), [productions]);
+  }, [activeProductionId]);
 
   const activeProduction = useMemo(
-    () =>
-      productions.find((production) => production.id === activeProductionId),
-    [productionsData, activeProductionId],
+    () => productions.find((production) => production.active),
+    [productions],
   );
 
   const totalItemsProductions = productionsData?.totalItems ?? 0;
