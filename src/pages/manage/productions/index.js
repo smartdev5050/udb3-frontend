@@ -48,9 +48,11 @@ const Index = () => {
   const rawProductions = productionsData?.member ?? [];
 
   useEffect(() => {
-    if (rawProductions.length === 0) return;
-    // make the first production active when new data comes in from the apiCall
-    setActiveProductionId(rawProductions[0].production_id);
+    if (rawProductions.length === 0) {
+      setActiveProductionId('');
+    } else {
+      setActiveProductionId(rawProductions[0].production_id);
+    }
   }, [rawProductions]);
 
   const productions = useMemo(() => {
