@@ -166,8 +166,6 @@ const AddAction = ({
   const { t } = useTranslation();
   const shouldCollapse = useMatchBreakpoint(Breakpoints.S);
 
-  console.log({ toBeAddedEventId });
-
   return (
     <Inline
       as="div"

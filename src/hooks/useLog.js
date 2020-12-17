@@ -21,6 +21,7 @@ const useLog = (
     const toLog = showOnlyDifference ? diff(ref.current, variables) : variables;
     ref.current = variables;
 
+    // eslint-disable-next-line no-console
     console.log(rawData ? toLog : JSON.stringify(toLog, undefined, 2));
   }, Object.values(variables));
 };
