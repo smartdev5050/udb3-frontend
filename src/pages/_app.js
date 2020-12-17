@@ -1,5 +1,6 @@
 import '../styles/global.scss';
 
+import NextApp from 'next/app';
 import PropTypes from 'prop-types';
 
 import { Inline } from '../components/publiq-ui/Inline';
@@ -12,7 +13,7 @@ import { useRouter } from 'next/router';
 import { ContextProvider } from '../provider/ContextProvider';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 import i18n from '../i18n';
-import { CookiesProvider } from 'react-cookie';
+import { CookiesProvider, Cookies } from 'react-cookie';
 import { QueryCache, QueryClient, QueryClientProvider } from 'react-query';
 import { useEffect } from 'react';
 import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
@@ -79,13 +80,15 @@ Layout.propTypes = {
 const queryCache = new QueryCache();
 const queryClient = new QueryClient({ queryCache });
 
+const isBrowser = () => typeof window !== 'undefined';
+
 // eslint-disable-next-line react/prop-types
-const App = ({ Component, pageProps }) => (
+const App = ({ Component, pageProps, cookies }) => (
   <ContextProvider
     providers={[
       [I18nextProvider, { i18n }],
       ThemeProvider,
-      CookiesProvider,
+      [CookiesProvider, { cookies: isBrowser() ? undefined : cookies }],
       [QueryClientProvider, { client: queryClient }],
     ]}
   >
@@ -95,5 +98,11 @@ const App = ({ Component, pageProps }) => (
     </Layout>
   </ContextProvider>
 );
+
+App.getInitialProps = async (appContext) => {
+  const appProps = await NextApp.getInitialProps(appContext);
+  const cookies = new Cookies(appContext?.ctx?.req?.headers?.cookie);
+  return { ...appProps, cookies };
+};
 
 export default App;

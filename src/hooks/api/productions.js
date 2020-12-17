@@ -1,16 +1,18 @@
-import { fetchWithRedirect } from '../../utils/fetchWithRedirect';
+import { fetchFromApi } from '../../utils/fetchFromApi';
 import {
   useAuthenticatedQuery,
   useAuthenticatedMutation,
 } from './authenticated-query';
 
 const getProductions = async ({ headers, ...queryData }) => {
-  const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/productions/`);
-  url.search = new URLSearchParams({
-    ...queryData,
-  }).toString();
-  const res = await fetch(url, {
-    headers,
+  const res = await fetchFromApi({
+    path: '/productions/',
+    searchParams: {
+      ...queryData,
+    },
+    options: {
+      headers,
+    },
   });
   return await res.json();
 };
@@ -35,13 +37,12 @@ const deleteEventById = async ({
   eventId = '',
   headers,
 }) => {
-  const url = new URL(
-    `${process.env.NEXT_PUBLIC_API_URL}/productions/${productionId}/events/${eventId}`,
-  );
-
-  return await fetchWithRedirect(url, {
-    method: 'DELETE',
-    headers,
+  return await fetchFromApi({
+    path: `/productions/${productionId}/events/${eventId}`,
+    options: {
+      method: 'DELETE',
+      headers,
+    },
   });
 };
 
@@ -63,14 +64,13 @@ const useDeleteEventsByIds = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: deleteEventsByIds, ...configuration });
 
 const addEventById = async ({ productionId, eventId, headers }) => {
-  const url = new URL(
-    `${process.env.NEXT_PUBLIC_API_URL}/productions/${productionId}/events/${eventId}`,
-  );
-  const res = await fetch(url, {
-    method: 'PUT',
-    headers,
+  const res = fetchFromApi({
+    path: `/productions/${productionId}/events/${eventId}`,
+    options: {
+      method: 'PUT',
+      headers,
+    },
   });
-
   const body = await res.text();
   if (body) {
     return JSON.parse(body);

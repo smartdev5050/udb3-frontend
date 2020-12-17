@@ -1,18 +1,20 @@
-import { fetchWithRedirect } from '../../utils/fetchWithRedirect';
+import { fetchFromApi } from '../../utils/fetchFromApi';
 import {
-  useAuthenticatedQueries,
   useAuthenticatedQuery,
+  useAuthenticatedQueries,
 } from './authenticated-query';
 import { formatDate } from '../../utils/formatDate';
 
 const getEventsToModerate = async ({ headers, ...queryData }) => {
-  const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/events/`);
-  url.search = new URLSearchParams({
-    ...queryData,
-    availableFrom: formatDate(new Date()),
-  }).toString();
-  const res = await fetchWithRedirect(url, {
-    headers,
+  const res = await fetchFromApi({
+    path: '/events/',
+    searchParams: {
+      ...queryData,
+      availableFrom: formatDate(new Date()),
+    },
+    options: {
+      headers,
+    },
   });
   return await res.json();
 };
@@ -34,9 +36,11 @@ const useGetEventsToModerate = (searchQuery, configuration = {}) =>
   });
 
 const getEventById = async ({ headers, id }) => {
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/event/${id.toString()}`;
-  const res = await fetchWithRedirect(url, {
-    headers,
+  const res = await fetchFromApi({
+    path: `/event/${id.toString()}`,
+    options: {
+      headers,
+    },
   });
   return await res.json();
 };
@@ -62,11 +66,11 @@ const useGetEventsbyIds = ({ ids = [] }) => {
 };
 
 const getCalendarSummary = async ({ headers, id, format, locale }) => {
-  const url = `${
-    process.env.NEXT_PUBLIC_API_URL
-  }/events/${id.toString()}/calsum?format=${format}&langCode=${locale}_BE`;
-  const res = await fetchWithRedirect(url, {
-    headers,
+  const res = await fetchFromApi({
+    path: `/events/${id.toString()}/calsum?format=${format}&langCode=${locale}_BE`,
+    options: {
+      headers,
+    },
   });
   return res.text();
 };

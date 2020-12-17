@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import { useQuery, useQueries, useMutation } from 'react-query';
-import { Errors } from '../../utils/fetchWithRedirect';
+import { Errors } from '../../utils/fetchFromApi';
 import { useCookiesWithOptions } from '../useCookiesWithOptions';
 import { useHeaders } from './useHeaders';
 
