@@ -1,3 +1,4 @@
+import getConfig from 'next/config';
 import PropTypes from 'prop-types';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -118,6 +119,7 @@ const ProfileMenu = ({ profileImage }) => {
   const { cookies, removeAuthenticationCookies } = useCookiesWithOptions([
     'user',
   ]);
+  const { publicRuntimeConfig } = getConfig();
 
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -137,9 +139,7 @@ const ProfileMenu = ({ profileImage }) => {
           destination: getBaseUrl(),
         }).toString();
 
-        router.push(
-          `${process.env.NEXT_PUBLIC_AUTH_URL}/logout?${queryString}`,
-        );
+        router.push(`${publicRuntimeConfig.authUrl}/logout?${queryString}`);
       },
     },
   ];

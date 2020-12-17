@@ -1,3 +1,4 @@
+import getConfig from 'next/config';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
@@ -241,6 +242,7 @@ const Index = () => {
   const router = useRouter();
   const { t, i18n } = useTranslation();
   const { removeAuthenticationCookies } = useCookiesWithOptions();
+  const { publicRuntimeConfig } = getConfig();
 
   const changeLanguage = (language) => () => router.push(`/login/${language}`);
 
@@ -252,7 +254,7 @@ const Index = () => {
       lang: i18n.language,
     });
 
-    router.push(`${process.env.NEXT_PUBLIC_AUTH_URL}/connect?${queryString}`);
+    router.push(`${publicRuntimeConfig.authUrl}/connect?${queryString}`);
   };
 
   useRedirectToLanguage();
