@@ -121,7 +121,7 @@ const Index = () => {
 
   const handleInputSearch = (event) => {
     const searchTerm = event.target.value.toString().trim();
-    debounce(() => setSearchInput(searchTerm), 800)();
+    debounce(() => setSearchInput(searchTerm), 275)();
   };
 
   return (
