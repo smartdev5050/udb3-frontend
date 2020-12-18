@@ -1,5 +1,4 @@
 import '../styles/global.scss';
-
 import NextApp from 'next/app';
 import PropTypes from 'prop-types';
 
@@ -24,6 +23,7 @@ import {
 } from '../hooks/useHandleWindowMessage';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
+import { GlobalStyle } from '../styles/GlobalStyle';
 
 config.autoAddCss = false;
 
@@ -68,7 +68,6 @@ const Layout = ({ children }) => {
   useHandleAuthentication();
 
   if (asPath.startsWith('/login')) return children;
-
   return (
     <Inline>
       <SideBar />
@@ -88,19 +87,22 @@ const isBrowser = () => typeof window !== 'undefined';
 
 // eslint-disable-next-line react/prop-types
 const App = ({ Component, pageProps, cookies }) => (
-  <ContextProvider
-    providers={[
-      [I18nextProvider, { i18n }],
-      ThemeProvider,
-      [CookiesProvider, { cookies: isBrowser() ? undefined : cookies }],
-      [QueryClientProvider, { client: queryClient }],
-    ]}
-  >
-    {/* <ReactQueryDevtools initialIsOpen={false} position="bottom-right" /> */}
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
-  </ContextProvider>
+  <>
+    <GlobalStyle />
+    <ContextProvider
+      providers={[
+        [I18nextProvider, { i18n }],
+        ThemeProvider,
+        [CookiesProvider, { cookies: isBrowser() ? undefined : cookies }],
+        [QueryClientProvider, { client: queryClient }],
+      ]}
+    >
+      {/* <ReactQueryDevtools initialIsOpen={false} position="bottom-right" /> */}
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </ContextProvider>
+  </>
 );
 
 App.getInitialProps = async (appContext) => {
