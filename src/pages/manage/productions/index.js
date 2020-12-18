@@ -7,7 +7,6 @@ import {
   useDeleteEventsByIds,
   useGetProductions,
 } from '../../../hooks/api/productions';
-import { parseSpacing } from '../../../components/publiq-ui/Box';
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from '../../../components/publiq-ui/Link';
 import { useGetEventsbyIds } from '../../../hooks/api/events';
@@ -153,7 +152,7 @@ const Index = () => {
               <Productions
                 key="productions"
                 loading={productionsStatus === QueryStatus.LOADING}
-                width={`calc(40% - ${parseSpacing(4)()})`}
+                width="40%"
                 productions={productions}
                 currentPage={currentPageProductions}
                 totalItems={totalItemsProductions}
@@ -167,7 +166,7 @@ const Index = () => {
                   productions.length === 0 ||
                   eventsStatus === QueryStatus.LOADING
                 }
-                width="60%"
+                flex={1}
                 events={events}
                 activeProductionName={activeProduction?.name ?? ''}
                 errorMessage={errorMessageEvents}
