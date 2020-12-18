@@ -32,21 +32,15 @@ const useChangeLanguage = () => {
 };
 
 const useHandleAuthentication = () => {
-  const { asPath, query, ...router } = useRouter();
-  const { cookies, setCookie } = useCookiesWithOptions(['user', 'token']);
+  const { query } = useRouter();
+  const { setCookie } = useCookiesWithOptions(['user', 'token']);
   const { data: user } = useGetUser();
 
   useEffect(() => {
-    if (asPath.startsWith('/login') || asPath === '/[...params]') return;
-
-    if (!cookies?.token && !query?.jwt) {
-      router.push('/login');
-    }
-
     if (query?.jwt) {
       setCookie('token', query.jwt);
     }
-  }, [query, asPath, cookies.token]);
+  }, [query]);
 
   useEffect(() => {
     if (!user) return;
@@ -83,25 +77,40 @@ const queryClient = new QueryClient({ queryCache });
 const isBrowser = () => typeof window !== 'undefined';
 
 // eslint-disable-next-line react/prop-types
-const App = ({ Component, pageProps, cookies }) => (
-  <ContextProvider
-    providers={[
-      [I18nextProvider, { i18n }],
-      ThemeProvider,
-      [CookiesProvider, { cookies: isBrowser() ? undefined : cookies }],
-      [QueryClientProvider, { client: queryClient }],
-    ]}
-  >
-    {/* <ReactQueryDevtools initialIsOpen={false} position="bottom-right" /> */}
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
-  </ContextProvider>
-);
+const App = ({ Component, pageProps, cookies }) => {
+  return (
+    <ContextProvider
+      providers={[
+        [I18nextProvider, { i18n }],
+        ThemeProvider,
+        [CookiesProvider, { cookies }],
+        [QueryClientProvider, { client: queryClient }],
+      ]}
+    >
+      {/* <ReactQueryDevtools initialIsOpen={false} position="bottom-right" /> */}
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </ContextProvider>
+  );
+};
 
 App.getInitialProps = async (appContext) => {
   const appProps = await NextApp.getInitialProps(appContext);
-  const cookies = new Cookies(appContext?.ctx?.req?.headers?.cookie);
+  let cookies;
+
+  if (!isBrowser()) {
+    const { query, asPath, res, req } = appContext.ctx;
+    cookies = new Cookies(req?.headers?.cookie);
+    const isOnLogin = asPath.startsWith('/login') || asPath === '/[...params]';
+    if (!isOnLogin && !cookies?.token && !query?.jwt) {
+      res.writeHead(302, {
+        Location: '/login',
+      });
+      res.end();
+    }
+  }
+
   return { ...appProps, cookies };
 };
 
