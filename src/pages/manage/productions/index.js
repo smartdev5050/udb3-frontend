@@ -151,7 +151,10 @@ const Index = () => {
             [
               <Productions
                 key="productions"
-                loading={productionsStatus === QueryStatus.LOADING}
+                loading={
+                  productionsStatus === QueryStatus.LOADING &&
+                  searchInput !== ''
+                }
                 width="40%"
                 productions={productions}
                 currentPage={currentPageProductions}
@@ -162,10 +165,7 @@ const Index = () => {
               />,
               <Events
                 key="events"
-                loading={
-                  productions.length === 0 ||
-                  eventsStatus === QueryStatus.LOADING
-                }
+                loading={eventsStatus === QueryStatus.LOADING}
                 flex={1}
                 events={events}
                 activeProductionName={activeProduction?.name ?? ''}
