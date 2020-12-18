@@ -64,7 +64,7 @@ const useDeleteEventsByIds = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: deleteEventsByIds, ...configuration });
 
 const addEventById = async ({ productionId, eventId, headers }) => {
-  const res = fetchFromApi({
+  const res = await fetchFromApi({
     path: `/productions/${productionId}/events/${eventId}`,
     options: {
       method: 'PUT',
