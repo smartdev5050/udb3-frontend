@@ -164,6 +164,7 @@ const JobLogger = ({ visible, onClose, onStatusChange }) => {
       position="absolute"
       width={{ default: 'calc(100% - 230px)', s: 'calc(100% - 65px)' }}
       left={{ default: 230, s: 65 }}
+      zIndex={1998}
     >
       <Stack padding={3} width={320} height="100vh" backgroundColor="white">
         <Inline as="div" justifyContent="flex-end">
