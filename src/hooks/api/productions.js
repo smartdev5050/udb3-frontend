@@ -2,9 +2,10 @@ import { fetchFromApi } from '../../utils/fetchFromApi';
 import {
   useAuthenticatedQuery,
   useAuthenticatedMutation,
+  prefetchAuthenticatedQuery,
 } from './authenticated-query';
 
-const getProductions = async ({ headers, ...queryData }) => {
+export const getProductions = async ({ headers, ...queryData }) => {
   const res = await fetchFromApi({
     path: '/productions/',
     searchParams: {
@@ -30,6 +31,25 @@ const useGetProductions = (
       limit,
     },
     configuration,
+  });
+
+const prefetchProductions = ({
+  req,
+  queryClient,
+  name = '',
+  start = 0,
+  limit = 15,
+}) =>
+  prefetchAuthenticatedQuery({
+    req,
+    queryClient,
+    queryKey: ['productions'],
+    queryFn: getProductions,
+    queryArguments: {
+      name,
+      start,
+      limit,
+    },
   });
 
 const deleteEventById = async ({
@@ -97,6 +117,7 @@ const useAddEventsByIds = (configuration) =>
 
 export {
   useGetProductions,
+  prefetchProductions,
   useDeleteEventById,
   useDeleteEventsByIds,
   useAddEventById,
