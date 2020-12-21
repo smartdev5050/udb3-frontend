@@ -45,22 +45,11 @@ const Animation = (props) => {
   `;
 
   const drawAnimationLineLeft = css`
-    animation-name: ${draw};
-    animation-duration: 2s;
-    animation-delay: 0.2s;
-    animation-fill-mode: forwards; // Stay on the last frame
-    animation-timing-function: linear;
+    ${draw} 2s 0.2s forwards linear;
   `;
 
   const drawAnimationLineRight = css`
-    stroke-dasharray: 120;
-    stroke-dashoffset: 120;
-
-    animation-name: ${draw};
-    animation-duration: 2s;
-    animation-delay: 2.6s;
-    animation-fill-mode: forwards; // Stay on the last frame
-    animation-timing-function: linear;
+    ${draw} 2s 2.6s forwards linear;
   `;
 
   const logoAnimate = keyframes`
@@ -89,13 +78,6 @@ const Animation = (props) => {
     100% {
       transform: scale(1);
     }
-  `;
-
-  const publicAnimation = css`
-    transform-origin: 50% 50%;
-    animation-name: ${publicAnimate};
-    animation-duration: 0.6s;
-    animation-fill-mode: both;
   `;
 
   return (
@@ -145,9 +127,10 @@ const Animation = (props) => {
       <Group
         css={`
           fill: ${getValueForLogo('colorHard')};
-
-          animation-delay: 3679ms;
-          ${publicAnimation}
+          transform-origin: 50% 50%;
+        `}
+        animation={css`
+          ${publicAnimate} 0.6s 3679ms
         `}
       >
         <Path d="M760.571 211.204h3v19.567h-3zM750.25 184.847c-5.212 0-9.452-4.24-9.452-9.451v-4.627c0-5.213 4.24-9.453 9.452-9.453 5.211 0 9.45 4.24 9.45 9.453v4.627c0 5.21-4.239 9.451-9.45 9.451zm0-20.532c-3.558 0-6.452 2.895-6.452 6.453v4.627c0 3.558 2.895 6.451 6.452 6.451s6.45-2.894 6.45-6.451v-4.627c0-3.558-2.893-6.453-6.45-6.453zM777.397 230.771h-3v-22.349c0-6.247-5.082-11.329-11.328-11.329h-22.527v-3h22.527c7.9 0 14.328 6.428 14.328 14.329v22.349zM805.077 211.204h3v19.567h-3zM794.755 184.847c-5.211 0-9.451-4.24-9.451-9.451v-4.627c0-5.213 4.24-9.453 9.451-9.453s9.451 4.24 9.451 9.453v4.627c0 5.21-4.24 9.451-9.451 9.451zm0-20.532c-3.558 0-6.451 2.895-6.451 6.453v4.627c0 3.558 2.894 6.451 6.451 6.451s6.451-2.894 6.451-6.451v-4.627c0-3.558-2.894-6.453-6.451-6.453zM821.903 230.771h-3v-22.349c0-6.247-5.082-11.329-11.328-11.329h-22.527v-3h22.527c7.9 0 14.328 6.428 14.328 14.329v22.349zM646.002 211.204h3v19.567h-3zM659.323 184.847c-5.211 0-9.451-4.24-9.451-9.451v-4.627c0-5.213 4.24-9.453 9.451-9.453 5.212 0 9.452 4.24 9.452 9.453v4.627c0 5.21-4.24 9.451-9.452 9.451zm0-20.532c-3.558 0-6.451 2.895-6.451 6.453v4.627c0 3.558 2.894 6.451 6.451 6.451s6.452-2.894 6.452-6.451v-4.627c0-3.558-2.894-6.453-6.452-6.453zM635.175 230.771h-3v-22.349c0-7.901 6.429-14.329 14.33-14.329h22.526v3h-22.526c-6.247 0-11.33 5.082-11.33 11.329v22.349zM690.764 211.204h3v19.567h-3zM714.407 211.204h3v19.567h-3zM704.086 184.847c-5.212 0-9.452-4.24-9.452-9.451v-4.627c0-5.213 4.24-9.453 9.452-9.453 5.211 0 9.45 4.24 9.45 9.453v4.627c0 5.21-4.239 9.451-9.45 9.451zm0-20.532c-3.558 0-6.452 2.895-6.452 6.453v4.627c0 3.558 2.895 6.451 6.452 6.451s6.45-2.894 6.45-6.451v-4.627c0-3.558-2.893-6.453-6.45-6.453zM716.905 194h-26.097c-7.901 0-14.809 6.521-14.809 14.423v22.577h3v-22.577c0-6.247 5.562-11.423 11.809-11.423h26.097c6.246 0 11.095 5.176 11.095 11.423v22.577h3v-22.577c0-7.902-6.194-14.423-14.095-14.423z" />
@@ -156,9 +139,10 @@ const Animation = (props) => {
       <Group
         css={`
           fill: ${getValueForLogo('colorMedium')};
-
-          animation-delay: 4038ms;
-          ${publicAnimation}
+          transform-origin: 50% 50%;
+        `}
+        animation={css`
+          ${publicAnimate} 0.6s 4038ms
         `}
       >
         <Path d="M796.234 135.804c-5.211 0-9.451-4.24-9.451-9.452v-4.625c0-5.212 4.24-9.453 9.451-9.453s9.451 4.241 9.451 9.453v4.625c.001 5.212-4.24 9.452-9.451 9.452zm0-20.53c-3.558 0-6.451 2.895-6.451 6.453v4.625c0 3.558 2.894 6.452 6.451 6.452s6.451-2.895 6.451-6.452v-4.625c.001-3.558-2.893-6.453-6.451-6.453zM823.383 181.729h-3v-22.35c0-6.246-5.082-11.328-11.329-11.328h-22.527v-3h22.527c7.901 0 14.329 6.427 14.329 14.328v22.35zM705.309 135.804c-5.211 0-9.451-4.24-9.451-9.452v-4.625c0-5.212 4.24-9.453 9.451-9.453s9.451 4.241 9.451 9.453v4.625c0 5.212-4.24 9.452-9.451 9.452zm0-20.53c-3.558 0-6.451 2.895-6.451 6.453v4.625c0 3.558 2.894 6.452 6.451 6.452s6.451-2.895 6.451-6.452v-4.625c0-3.558-2.894-6.453-6.451-6.453zM681.16 181.729h-3v-22.35c0-7.9 6.428-14.328 14.329-14.328h22.526v3h-22.526c-6.247 0-11.329 5.082-11.329 11.328v22.35zM750.07 135.804c-5.211 0-9.451-4.24-9.451-9.452v-4.625c0-5.212 4.24-9.453 9.451-9.453s9.451 4.241 9.451 9.453v4.625c0 5.212-4.24 9.452-9.451 9.452zm0-20.53c-3.558 0-6.451 2.895-6.451 6.453v4.625c0 3.558 2.894 6.452 6.451 6.452s6.451-2.895 6.451-6.452v-4.625c0-3.558-2.893-6.453-6.451-6.453zM762.89 145h-26.097c-7.9 0-14.793 6.479-14.793 14.379v22.621h3v-22.621c0-6.246 5.547-11.379 11.793-11.379h26.097c6.247 0 11.11 5.133 11.11 11.379v22.621h3v-22.621c0-7.9-6.209-14.379-14.11-14.379z" />
@@ -167,9 +151,10 @@ const Animation = (props) => {
       <Group
         css={`
           fill: ${getValueForLogo('colorSoft')};
-
-          animation-delay: 4512ms;
-          ${publicAnimation}
+          transform-origin: 50% 50%;
+        `}
+        animation={css`
+          ${publicAnimate} 0.6s 4512ms
         `}
       >
         <Path d="M770.878 119.871h3v15.099h-3zM817.092 109.124c-5.212 0-9.452-4.24-9.452-9.451v-4.627c0-5.212 4.24-9.453 9.452-9.453 5.211 0 9.451 4.241 9.451 9.453v4.627c0 5.211-4.24 9.451-9.451 9.451zm0-20.532c-3.558 0-6.452 2.895-6.452 6.453v4.627c0 3.557 2.895 6.451 6.452 6.451s6.451-2.894 6.451-6.451v-4.627c0-3.558-2.894-6.453-6.451-6.453zM844.24 155.049h-3v-22.349c0-6.247-5.083-11.329-11.33-11.329h-13.914v-3h13.914c7.901 0 14.33 6.428 14.33 14.329v22.349zM727.646 110.239c-5.211 0-9.451-4.24-9.451-9.452v-4.626c0-5.212 4.24-9.453 9.451-9.453s9.451 4.241 9.451 9.453v4.626c.001 5.212-4.24 9.452-9.451 9.452zm0-20.531c-3.558 0-6.451 2.895-6.451 6.453v4.626c0 3.558 2.894 6.452 6.451 6.452s6.451-2.895 6.451-6.452v-4.626c.001-3.558-2.893-6.453-6.451-6.453zM772.377 110.239c-5.211 0-9.451-4.24-9.451-9.452v-4.626c0-5.212 4.24-9.453 9.451-9.453 5.212 0 9.452 4.241 9.452 9.453v4.626c0 5.212-4.24 9.452-9.452 9.452zm0-20.531c-3.558 0-6.451 2.895-6.451 6.453v4.626c0 3.558 2.894 6.452 6.451 6.452s6.452-2.895 6.452-6.452v-4.626c0-3.558-2.894-6.453-6.452-6.453zM828.479 134.014h3v12.027h-3zM726.146 119.871h3v15.099h-3z" />
@@ -209,9 +194,8 @@ const Animation = (props) => {
         css={`
           stroke-dasharray: 136;
           stroke-dashoffset: 136;
-
-          ${drawAnimationLineLeft}
         `}
+        animation={drawAnimationLineLeft}
       />
 
       <Path
@@ -224,9 +208,8 @@ const Animation = (props) => {
         css={`
           stroke-dasharray: 107;
           stroke-dashoffset: -107;
-
-          ${drawAnimationLineLeft}
         `}
+        animation={drawAnimationLineLeft}
       />
 
       <Path
@@ -239,9 +222,8 @@ const Animation = (props) => {
         css={`
           stroke-dasharray: 121;
           stroke-dashoffset: 121;
-
-          ${drawAnimationLineLeft}
         `}
+        animation={drawAnimationLineLeft}
       />
 
       <Path
@@ -254,9 +236,8 @@ const Animation = (props) => {
         css={`
           stroke-dasharray: 252;
           stroke-dashoffset: 252;
-
-          ${drawAnimationLineLeft}
         `}
+        animation={drawAnimationLineLeft}
       />
 
       <Path
@@ -269,9 +250,8 @@ const Animation = (props) => {
         css={`
           stroke-dasharray: 235;
           stroke-dashoffset: 235;
-
-          ${drawAnimationLineLeft}
         `}
+        animation={drawAnimationLineLeft}
       />
 
       <Path
@@ -281,7 +261,11 @@ const Animation = (props) => {
         fill="none"
         stroke={getValueForLogo('colorHard')}
         d="M578 150.5h55.5v9.5"
-        css={drawAnimationLineRight}
+        css={`
+          stroke-dasharray: 120;
+          stroke-dashoffset: 120;
+        `}
+        animation={drawAnimationLineRight}
       />
 
       <Path
@@ -291,7 +275,11 @@ const Animation = (props) => {
         fill="none"
         stroke={getValueForLogo('colorMedium')}
         d="M579 140.5h89"
-        css={drawAnimationLineRight}
+        css={`
+          stroke-dasharray: 120;
+          stroke-dashoffset: 120;
+        `}
+        animation={drawAnimationLineRight}
       />
 
       <Path
@@ -301,7 +289,11 @@ const Animation = (props) => {
         fill="none"
         stroke={getValueForLogo('colorSoft')}
         d="M578 130.5h90.5v-18h11.5"
-        css={drawAnimationLineRight}
+        css={`
+          stroke-dasharray: 120;
+          stroke-dashoffset: 120;
+        `}
+        animation={drawAnimationLineRight}
       />
     </Svg>
   );
