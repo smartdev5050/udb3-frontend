@@ -1,5 +1,8 @@
 import { fetchFromApi } from '../../utils/fetchFromApi';
-import { useAuthenticatedQuery } from './useAuthenticatedQuery';
+import {
+  useAuthenticatedQuery,
+  useAuthenticatedQueries,
+} from './authenticated-query';
 import { formatDate } from '../../utils/formatDate';
 
 const getEventsToModerate = async ({ headers, ...queryData }) => {
@@ -32,4 +35,64 @@ const useGetEventsToModerate = (searchQuery, configuration = {}) =>
     ...configuration,
   });
 
-export { useGetEventsToModerate };
+const getEventById = async ({ headers, id }) => {
+  const res = await fetchFromApi({
+    path: `/event/${id.toString()}`,
+    options: {
+      headers,
+    },
+  });
+  return await res.json();
+};
+
+const useGetEventbyId = ({ id }, configuration) =>
+  useAuthenticatedQuery({
+    queryKey: ['events'],
+    queryFn: getEventById,
+    queryArguments: { id },
+    enabled: !!id,
+    ...configuration,
+  });
+
+const useGetEventsbyIds = ({ ids = [] }) => {
+  const options = ids.map((id) => ({
+    queryKey: ['events'],
+    queryFn: getEventById,
+    queryArguments: { id },
+    enabled: !!id,
+  }));
+
+  return useAuthenticatedQueries(options);
+};
+
+const getCalendarSummary = async ({ headers, id, format, locale }) => {
+  const res = await fetchFromApi({
+    path: `/events/${id.toString()}/calsum?format=${format}&langCode=${locale}_BE`,
+    options: {
+      headers,
+    },
+  });
+  return res.text();
+};
+
+const useGetCalendarSummary = ({ id, locale, format = 'lg' }, configuration) =>
+  useAuthenticatedQuery({
+    queryKey: ['events'],
+    queryFn: getCalendarSummary,
+    queryArguments: {
+      id,
+      locale,
+      format,
+    },
+    configuration: {
+      enabled: !!id && !!locale,
+      ...configuration,
+    },
+  });
+
+export {
+  useGetEventsToModerate,
+  useGetEventbyId,
+  useGetEventsbyIds,
+  useGetCalendarSummary,
+};

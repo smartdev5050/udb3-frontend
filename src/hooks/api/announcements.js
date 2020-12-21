@@ -7,7 +7,7 @@ const getAnnouncements = async () => {
   return await res.json();
 };
 
-const useGetAnnouncements = (config = {}) =>
-  useQuery('announcement', getAnnouncements, config);
+const useGetAnnouncements = (configuration = {}) =>
+  useQuery('announcement', getAnnouncements, configuration);
 
 export { useGetAnnouncements };

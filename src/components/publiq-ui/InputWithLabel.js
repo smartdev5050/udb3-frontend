@@ -10,6 +10,7 @@ const InputWithLabel = ({
   children,
   placeholder,
   className,
+  onInput,
   ...props
 }) => (
   <Inline
@@ -22,7 +23,7 @@ const InputWithLabel = ({
     <Label htmlFor={id} variant={LabelVariants.BOLD}>
       {children}
     </Label>
-    <Input type={type} id={id} placeholder={placeholder} />
+    <Input type={type} id={id} placeholder={placeholder} onInput={onInput} />
   </Inline>
 );
 
@@ -33,6 +34,7 @@ InputWithLabel.propTypes = {
   id: PropTypes.string.isRequired,
   children: PropTypes.string,
   placeholder: PropTypes.string,
+  onInput: PropTypes.func,
 };
 
 InputWithLabel.defaultProps = {

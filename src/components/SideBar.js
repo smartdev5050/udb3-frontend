@@ -15,7 +15,7 @@ import { Badge } from './publiq-ui/Badge';
 import { Inline } from './publiq-ui/Inline';
 
 import { JobLogger, JobLoggerStates } from './joblogger/JobLogger';
-import { Announcements, AnnouncementStatus } from './Annoucements';
+import { Announcements, AnnouncementStatus } from './Announcements';
 import { useGetAnnouncements } from '../hooks/api/announcements';
 import { Image } from './publiq-ui/Image';
 import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';

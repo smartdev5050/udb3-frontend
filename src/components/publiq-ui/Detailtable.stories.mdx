@@ -1,0 +1,21 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import { DetailTable } from './DetailTable.js';
+
+<Meta title="Components/DetailTable" />
+
+<Canvas>
+  <Story
+    args={{
+      items: [
+        { header: 'header1', value: 'value1' },
+        { header: 'header2', value: 'value2' },
+        { header: 'header3', value: 'value3' },
+      ],
+    }}
+    name="Default"
+  >
+    {(args) => <DetailTable {...args}>Text inside container</DetailTable>}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Default" />
