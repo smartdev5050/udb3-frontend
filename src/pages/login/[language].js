@@ -2,7 +2,7 @@ import getConfig from 'next/config';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
-import { Box } from '../../components/publiq-ui/Box';
+import { Box, boxPropTypes } from '../../components/publiq-ui/Box';
 import {
   Button,
   ButtonSizes,
@@ -35,7 +35,13 @@ const Svg = (props) => (
 );
 
 const Group = (props) => <Box as="g" fill="white" {...props} />;
+Group.propTypes = {
+  ...boxPropTypes,
+};
 const Path = (props) => <Box as="path" {...props} />;
+Path.propTypes = {
+  ...boxPropTypes,
+};
 
 const Animation = (props) => {
   const draw = keyframes`
@@ -417,7 +423,7 @@ const Index = () => {
           padding={5}
           backgroundColor={getValueForLogo('backgroundColor')}
         >
-          <Animation height="auto" maxHeight={316} />
+          <Animation height="100%" maxHeight={316} />
           <Box as="h1" display="none">
             {t('brand')}
           </Box>
