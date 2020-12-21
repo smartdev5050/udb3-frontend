@@ -1,4 +1,5 @@
 import get from 'lodash/get';
+import { lighten } from 'polished';
 
 const colors = {
   udbRed: '#c0120c',
@@ -185,6 +186,11 @@ const theme = {
     detailTable: {
       backgroundColor: colors.grey1,
       borderColor: colors.grey3,
+    },
+    loginLogo: {
+      colorSoft: lighten('0.23', colors.udbRed),
+      colorMedium: lighten('0.31', colors.udbRed),
+      colorHard: lighten('0.4', colors.udbRed),
     },
   },
 };
