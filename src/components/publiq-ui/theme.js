@@ -188,6 +188,9 @@ const theme = {
       backgroundColor: colors.grey1,
       borderColor: colors.grey3,
     },
+    loginPage: {
+      backgroundColor: colors.grey1,
+    },
     loginLogo: {
       backgroundColor: colors.red5,
       colorSoft: lighten('0.23', colors.udbRed),
