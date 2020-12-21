@@ -310,13 +310,10 @@ const Animation = (props) => {
 const Column = ({ value, title, children, ...props }) => (
   <Stack as="article" flex={1} spacing={4} {...props}>
     <Stack as="blockquote" alignItems="center">
-      <Box
-        forwardAs="p"
-        css="font-size: 4rem; font-weight: 300; line-height: 4rem;"
-      >
+      <Box as="p" fontSize="4rem" fontWeight={300} lineHeight="4rem">
         {value}
       </Box>
-      <Box as="h2" css="font-size: 1.2rem">
+      <Box as="h2" fontSize="1.2rem">
         {title}
       </Box>
     </Stack>
@@ -431,21 +428,25 @@ const Index = () => {
           backgroundColor={getValueForLogo('backgroundColor')}
         >
           <Animation height="auto" maxHeight={316} />
-          {/* <h1 className="brand">{t('brand')}</h1> */}
+          <Box as="h1" display="none">
+            {t('brand')}
+          </Box>
           <Stack alignItems="center" paddingX={4}>
             <Box
-              forwardAs="span"
+              as="span"
               color="white"
               textAlign="center"
-              css="font-size: 2rem; font-weight: 300;"
+              fontSize="2rem"
+              fontWeigth={300}
             >
               {t('main.lead')}
             </Box>
             <Box
-              forwardAs="span"
+              as="span"
               color="white"
               textAlign="center"
-              css="font-size: 1.6rem; font-weight: 300;"
+              fontSize="1.6rem"
+              fontWeigth={300}
             >
               {t('main.lead_sub')}
             </Box>
@@ -484,10 +485,11 @@ const Index = () => {
       </Inline>
 
       <ResponsiveContainer
-        css="font-size: 1.5rem; font-weight: 300"
+        fontSize="1.5rem"
+        fontWeight={300}
         justifyContent="center"
       >
-        <Box forwardedAs="p" css="text-align: center">
+        <Box as="p" textAlign="center">
           {t('main.mission')}
         </Box>
       </ResponsiveContainer>
