@@ -1,6 +1,5 @@
 import '../styles/global.scss';
 
-import NextApp from 'next/app';
 import PropTypes from 'prop-types';
 
 import { Inline } from '../components/publiq-ui/Inline';
@@ -50,6 +49,7 @@ const useHandleAuthentication = () => {
 
 const Layout = ({ children }) => {
   const { asPath, ...router } = useRouter();
+  const { cookies } = useCookiesWithOptions(['token']);
 
   useChangeLanguage();
   useHandleWindowMessage({
@@ -58,6 +58,7 @@ const Layout = ({ children }) => {
   useHandleAuthentication();
 
   if (asPath.startsWith('/login')) return children;
+  if (!cookies.token) return null;
 
   return (
     <Inline>
@@ -74,7 +75,7 @@ Layout.propTypes = {
 const queryCache = new QueryCache();
 const queryClient = new QueryClient({ queryCache });
 
-const isBrowser = () => typeof window !== 'undefined';
+const isServer = () => typeof window === 'undefined';
 
 // eslint-disable-next-line react/prop-types
 const App = ({ Component, pageProps, cookies }) => {
@@ -83,7 +84,7 @@ const App = ({ Component, pageProps, cookies }) => {
       providers={[
         [I18nextProvider, { i18n }],
         ThemeProvider,
-        [CookiesProvider, { cookies }],
+        [CookiesProvider, { cookies: isServer() ? cookies : undefined }],
         [QueryClientProvider, { client: queryClient }],
       ]}
     >
@@ -95,23 +96,21 @@ const App = ({ Component, pageProps, cookies }) => {
   );
 };
 
-App.getInitialProps = async (appContext) => {
-  const appProps = await NextApp.getInitialProps(appContext);
-  let cookies;
+App.getInitialProps = async (props) => {
+  const { asPath, req, query, res } = props.ctx;
+  const cookies = new Cookies(req?.headers?.cookie);
 
-  if (!isBrowser()) {
-    const { query, asPath, res, req } = appContext.ctx;
-    cookies = new Cookies(req?.headers?.cookie);
-    const isOnLogin = asPath.startsWith('/login') || asPath === '/[...params]';
-    if (!isOnLogin && !cookies?.token && !query?.jwt) {
-      res.writeHead(302, {
-        Location: '/login',
-      });
-      res.end();
-    }
+  const isUnAuthorized = !cookies.get('token') && !query?.jwt;
+  const isOnLogin = asPath.startsWith('/login') || asPath === '/[...params]';
+
+  if (!isOnLogin && isUnAuthorized && isServer()) {
+    res.writeHead(302, {
+      Location: '/login',
+    });
+    res.end();
   }
 
-  return { ...appProps, cookies };
+  return { cookies };
 };
 
 export default App;
