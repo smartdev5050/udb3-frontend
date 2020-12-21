@@ -460,39 +460,41 @@ const Index = () => {
         </Inline>
       </Stack>
 
-      <Inline width="100%" justifyContent="center">
-        <ResponsiveContainer
-          stackOn={Breakpoints.M}
-          spacing={{ default: 5, m: 6 }}
-          paddingY={5}
-          minHeight={336}
-        >
-          <Column value="215.000" title={t('main.activities')}>
-            {t('main.activities_info')}
-          </Column>
-          <Column value="500" title={t('main.channels')}>
-            <Trans i18nKey="main.channels_info">
-              UiTdatabank levert informatie aan meer dan <MainChannelLink />,
-              waaronder UiTinvlaanderen, websites van steden en gemeenten,
-              thema-agenda's, gedrukte bladen en mobiele apps. Ook jouw
-              activiteit kan verschijnen op vele agenda's.
-            </Trans>
-          </Column>
-          <Column value="28.000" title={t('main.organizers')}>
-            {t('main.organizers_info')}
-          </Column>
-        </ResponsiveContainer>
-      </Inline>
+      <Stack as="div">
+        <Inline width="100%" justifyContent="center">
+          <ResponsiveContainer
+            stackOn={Breakpoints.M}
+            spacing={{ default: 5, m: 6 }}
+            paddingY={5}
+            minHeight={336}
+          >
+            <Column value="215.000" title={t('main.activities')}>
+              {t('main.activities_info')}
+            </Column>
+            <Column value="500" title={t('main.channels')}>
+              <Trans i18nKey="main.channels_info">
+                UiTdatabank levert informatie aan meer dan <MainChannelLink />,
+                waaronder UiTinvlaanderen, websites van steden en gemeenten,
+                thema-agenda's, gedrukte bladen en mobiele apps. Ook jouw
+                activiteit kan verschijnen op vele agenda's.
+              </Trans>
+            </Column>
+            <Column value="28.000" title={t('main.organizers')}>
+              {t('main.organizers_info')}
+            </Column>
+          </ResponsiveContainer>
+        </Inline>
 
-      <ResponsiveContainer
-        fontSize="1.5rem"
-        fontWeight={300}
-        justifyContent="center"
-      >
-        <Box as="p" textAlign="center">
-          {t('main.mission')}
-        </Box>
-      </ResponsiveContainer>
+        <ResponsiveContainer
+          fontSize="1.5rem"
+          fontWeight={300}
+          justifyContent="center"
+        >
+          <Box as="p" textAlign="center">
+            {t('main.mission')}
+          </Box>
+        </ResponsiveContainer>
+      </Stack>
 
       <Inline width="100%" backgroundColor="#ccc" justifyContent="center">
         <ResponsiveContainer
