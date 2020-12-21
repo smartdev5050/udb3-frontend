@@ -143,6 +143,7 @@ const boxProps = css`
   ${parseProperty('textAlign')};
   ${parseProperty('lineHeight')};
   ${parseProperty('color')};
+  ${parseProperty('stroke')};
   ${parseProperty('zIndex')};
 
   ${parseProperty('display')};
@@ -317,6 +318,11 @@ const boxPropTypes = {
     PropTypes.object,
   ]),
   color: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  stroke: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
     PropTypes.object,

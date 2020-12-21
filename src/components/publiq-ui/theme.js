@@ -1,4 +1,5 @@
 import get from 'lodash/get';
+import { lighten } from 'polished';
 
 const colors = {
   udbRed: '#c0120c',
@@ -18,6 +19,7 @@ const colors = {
   red2: '#f3453f',
   red3: '#d23430',
   red4: '#900d09',
+  red5: '#ef1810',
   blue1: '#3e88ab',
   textColor: '#222',
 };
@@ -185,6 +187,15 @@ const theme = {
     detailTable: {
       backgroundColor: colors.grey1,
       borderColor: colors.grey3,
+    },
+    loginPage: {
+      backgroundColor: colors.grey1,
+    },
+    loginLogo: {
+      backgroundColor: colors.red5,
+      colorSoft: lighten('0.23', colors.udbRed),
+      colorMedium: lighten('0.31', colors.udbRed),
+      colorHard: lighten('0.40', colors.udbRed),
     },
   },
 };

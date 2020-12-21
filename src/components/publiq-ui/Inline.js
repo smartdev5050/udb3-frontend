@@ -67,9 +67,9 @@ const Inline = forwardRef(
 
 const inlinePropTypes = {
   ...boxPropTypes,
-  spacing: PropTypes.number,
-  alignItems: PropTypes.string,
-  justifyContent: PropTypes.string,
+  spacing: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
+  alignItems: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  justifyContent: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   stackOn: PropTypes.oneOf([...Object.values(Breakpoints)]),
 };
 
