@@ -1,6 +1,4 @@
 import '../styles/global.scss';
-
-import NextApp from 'next/app';
 import PropTypes from 'prop-types';
 
 import { Inline } from '../components/publiq-ui/Inline';
@@ -22,6 +20,11 @@ import {
   useHandleWindowMessage,
   WindowMessageTypes,
 } from '../hooks/useHandleWindowMessage';
+import { config } from '@fortawesome/fontawesome-svg-core';
+import '@fortawesome/fontawesome-svg-core/styles.css';
+import { GlobalStyle } from '../styles/GlobalStyle';
+
+config.autoAddCss = false;
 
 const useChangeLanguage = () => {
   const { i18n } = useTranslation();
@@ -32,30 +35,40 @@ const useChangeLanguage = () => {
 };
 
 const useHandleAuthentication = () => {
-  const { asPath, query, ...router } = useRouter();
-  const { cookies, setCookie } = useCookiesWithOptions(['user', 'token']);
+  const { query, asPath, ...router } = useRouter();
+  const { setCookie } = useCookiesWithOptions(['user', 'token']);
   const { data: user } = useGetUser();
 
   useEffect(() => {
-    if (asPath.startsWith('/login') || asPath === '/[...params]') return;
-
-    if (!cookies?.token && !query?.jwt) {
-      router.push('/login');
-    }
-
     if (query?.jwt) {
       setCookie('token', query.jwt);
     }
-  }, [query, asPath, cookies.token]);
+  }, [query]);
 
   useEffect(() => {
     if (!user) return;
     setCookie('user', user);
   }, [user]);
+
+  // redirect when there is no token or user cookie
+  // manipulation from outside the application
+  useEffect(() => {
+    let intervalId; // eslint-disable-line prefer-const
+    const cleanUp = () => (intervalId ? clearInterval(intervalId) : undefined);
+    if (asPath.startsWith('/login')) return cleanUp;
+    intervalId = setInterval(() => {
+      const cookies = new Cookies();
+      if (!cookies.get('token') || !cookies.get('user')) {
+        router.push('/login');
+      }
+    }, 5000); // checking every 5 seconds
+    return cleanUp;
+  }, [asPath]);
 };
 
 const Layout = ({ children }) => {
   const { asPath, ...router } = useRouter();
+  const { cookies } = useCookiesWithOptions(['token']);
 
   useChangeLanguage();
   useHandleWindowMessage({
@@ -64,6 +77,7 @@ const Layout = ({ children }) => {
   useHandleAuthentication();
 
   if (asPath.startsWith('/login')) return children;
+  if (!cookies.token) return null;
 
   return (
     <Inline>
@@ -80,29 +94,43 @@ Layout.propTypes = {
 const queryCache = new QueryCache();
 const queryClient = new QueryClient({ queryCache });
 
-const isBrowser = () => typeof window !== 'undefined';
+const isServer = () => typeof window === 'undefined';
 
 // eslint-disable-next-line react/prop-types
 const App = ({ Component, pageProps, cookies }) => (
-  <ContextProvider
-    providers={[
-      [I18nextProvider, { i18n }],
-      ThemeProvider,
-      [CookiesProvider, { cookies: isBrowser() ? undefined : cookies }],
-      [QueryClientProvider, { client: queryClient }],
-    ]}
-  >
-    {/* <ReactQueryDevtools initialIsOpen={false} position="bottom-right" /> */}
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
-  </ContextProvider>
+  <>
+    <GlobalStyle />
+    <ContextProvider
+      providers={[
+        [I18nextProvider, { i18n }],
+        ThemeProvider,
+        [CookiesProvider, { cookies: isServer() ? cookies : undefined }],
+        [QueryClientProvider, { client: queryClient }],
+      ]}
+    >
+      {/* <ReactQueryDevtools initialIsOpen={false} position="bottom-right" /> */}
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </ContextProvider>
+  </>
 );
 
-App.getInitialProps = async (appContext) => {
-  const appProps = await NextApp.getInitialProps(appContext);
-  const cookies = new Cookies(appContext?.ctx?.req?.headers?.cookie);
-  return { ...appProps, cookies };
+App.getInitialProps = async (props) => {
+  const { asPath, req, query, res } = props.ctx;
+  const cookies = new Cookies(req?.headers?.cookie);
+
+  const isUnAuthorized = !cookies.get('token') && !query?.jwt;
+  const isOnLogin = asPath.startsWith('/login') || asPath === '/[...params]';
+
+  if (!isOnLogin && isUnAuthorized && isServer()) {
+    res.writeHead(302, {
+      Location: '/login',
+    });
+    res.end();
+  }
+
+  return { cookies };
 };
 
 export default App;
