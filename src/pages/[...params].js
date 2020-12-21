@@ -5,6 +5,7 @@ import { Box } from '../components/publiq-ui/Box';
 import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
 import { memo, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { Cookies } from 'react-cookie';
 
 const IFrame = memo(({ url }) => (
   <Box as="iframe" src={url} width="100%" height="100vh" />
@@ -43,6 +44,22 @@ const Fallback = () => {
   }, [asPath, cookies.token, i18next.language]);
 
   return <IFrame url={legacyPath} />;
+};
+
+export const getServerSideProps = async ({ req, query }) => {
+  const { cookies } = new Cookies(req?.headers?.cookie);
+  const isUnAuthorized = !cookies.token && !query?.jwt;
+
+  if (isUnAuthorized) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+
+  return { props: { cookies } };
 };
 
 export default Fallback;
