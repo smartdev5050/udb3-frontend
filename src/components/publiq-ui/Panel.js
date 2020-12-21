@@ -15,7 +15,6 @@ const Panel = ({ children, className, ...props }) => {
         box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
       `}
       className={className}
-      marginBottom={4}
       {...getStackProps(props)}
     >
       {parsedChildren}
@@ -36,13 +35,15 @@ const PanelFooter = ({ children, className, ...props }) => {
     Children.count(children) === 1 ? <>{children}</> : children;
   return (
     <Stack
-      as="footer"
+      forwardedAs="footer"
       className={className}
       backgroundColor={getValueForPanelFooter('backgroundColor')}
       css={`
-        padding: 0.75rem 1rem; // TODO: use spacing system
         border-top: 1px solid ${getValueForPanelFooter('borderColor')};
+        background-color: ${getValueForPanelFooter('backgroundColor')};
       `}
+      padding={5}
+      paddingTop={4}
       {...getStackProps(props)}
     >
       {parsedChildren}

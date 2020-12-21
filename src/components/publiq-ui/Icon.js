@@ -3,7 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Box, boxPropTypes, getBoxProps, parseDimension } from './Box';
 import {
   faBell,
+  faCheck,
   faCheckCircle,
+  faChevronDown,
+  faChevronRight,
   faCircleNotch,
   faEye,
   faEyeSlash,
@@ -11,11 +14,13 @@ import {
   faGift,
   faHome,
   faLayerGroup,
+  faPlus,
   faPlusCircle,
   faSearch,
   faSignOutAlt,
   faTag,
   faTimes,
+  faTrash,
   faUser,
   faUsers,
 } from '@fortawesome/free-solid-svg-icons';
@@ -37,8 +42,13 @@ const Icons = {
   EYE: 'eye',
   EYE_SLASH: 'eyeSlash',
   SIGN_OUT_ALT: 'signOutAlt',
+  CHECK: 'check',
   CHECK_CIRCLE: 'checkCircle',
   CHECK_NOTCH: 'circleNotch',
+  CHEVRON_DOWN: 'chevronDown',
+  CHEVRON_RIGHT: 'chevronRight',
+  PLUS: 'plus',
+  TRASH: 'trash',
 };
 
 const IconsMap = {
@@ -57,8 +67,13 @@ const IconsMap = {
   [Icons.EYE]: faEye,
   [Icons.EYE_SLASH]: faEyeSlash,
   [Icons.SIGN_OUT_ALT]: faSignOutAlt,
+  [Icons.CHECK]: faCheck,
   [Icons.CHECK_CIRCLE]: faCheckCircle,
   [Icons.CHECK_NOTCH]: faCircleNotch,
+  [Icons.CHEVRON_DOWN]: faChevronDown,
+  [Icons.CHEVRON_RIGHT]: faChevronRight,
+  [Icons.PLUS]: faPlus,
+  [Icons.TRASH]: faTrash,
 };
 
 const Icon = ({ name, width, height, className, ...props }) => {

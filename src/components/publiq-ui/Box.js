@@ -139,7 +139,9 @@ const boxProps = css`
 
   ${parseProperty('backgroundColor')};
   ${parseProperty('fontSize')};
+  ${parseProperty('fontWeight')};
   ${parseProperty('textAlign')};
+  ${parseProperty('lineHeight')};
   ${parseProperty('color')};
   ${parseProperty('zIndex')};
 
@@ -297,8 +299,20 @@ const boxPropTypes = {
     PropTypes.func,
     PropTypes.object,
   ]),
+  fontWeight: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
   textAlign: PropTypes.oneOfType([
     PropTypes.string,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  lineHeight: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
     PropTypes.func,
     PropTypes.object,
   ]),

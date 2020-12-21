@@ -11,7 +11,7 @@ const fetchFromApi = async ({ path, searchParams = {}, options = {} }) => {
   const response = await fetch(url, options);
 
   if (response.status === 401 || response.status === 403) {
-    throw Error(Errors.UNAUTHORIZED);
+    throw new Error(Errors.UNAUTHORIZED);
   }
   return response;
 };

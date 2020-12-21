@@ -1,7 +1,7 @@
 import { fetchFromApi } from '../../utils/fetchFromApi';
-import { useAuthenticatedQuery } from './useAuthenticatedQuery';
+import { useAuthenticatedQuery } from './authenticated-query';
 
-const getMe = async ({ headers }) => {
+const getUser = async ({ headers }) => {
   const res = await fetchFromApi({
     path: '/user',
     options: {
@@ -14,7 +14,7 @@ const getMe = async ({ headers }) => {
 const useGetUser = (configuration = {}) =>
   useAuthenticatedQuery({
     queryKey: ['user'],
-    queryFn: getMe,
+    queryFn: getUser,
     ...configuration,
   });
 

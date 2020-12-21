@@ -2,6 +2,7 @@ import { Pagination as BootstrapPagination } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { getValueFromTheme } from './theme';
 import { getInlineProps, Inline, inlinePropTypes } from './Inline';
+import { useMemo } from 'react';
 
 const getValue = getValueFromTheme(`pagination`);
 
@@ -10,19 +11,43 @@ const Pagination = ({
   currentPage,
   totalItems,
   perPage,
+  limitPages,
   prevText,
   nextText,
   onChangePage,
   ...props
 }) => {
-  const pages = [];
-  for (let i = 0; i < Math.ceil(totalItems / perPage); i++) {
-    pages.push(i + 1);
-  }
+  const pages = useMemo(() => {
+    const pages = [];
+    for (let i = 0; i < Math.ceil(totalItems / perPage); i++) {
+      pages.push(i + 1);
+    }
+    return pages;
+  }, [totalItems, perPage]);
+
+  const currentRange = useMemo(() => {
+    const middle = Math.ceil(limitPages / 2);
+
+    const startLeftSide = currentPage < middle ? 0 : currentPage - middle;
+    const restFromLeft = currentPage < middle ? middle - currentPage : 0;
+    const startRightSide = currentPage + middle - 1;
+    const restFromRight =
+      startRightSide > pages.length ? startRightSide - pages.length : 0;
+
+    const left = pages.slice(
+      startLeftSide - restFromRight < 0 ? 0 : startLeftSide - restFromRight,
+      currentPage - 1,
+    );
+    const center = pages.slice(currentPage - 1, currentPage);
+    const right = pages.slice(currentPage, startRightSide + restFromLeft);
+
+    return [...left, ...center, ...right];
+  }, [pages, currentPage, limitPages]);
 
   return (
     <Inline
       forwardedAs="ul"
+      justifyContent="center"
       css={`
         .page-link {
           color: ${getValue('color')};
@@ -56,39 +81,54 @@ const Pagination = ({
       {...getInlineProps(props)}
       className={className}
     >
-      <BootstrapPagination.Prev
-        className="prev-btn"
-        disabled={currentPage === 1}
-        onClick={() => {
-          if (currentPage > 1) {
-            onChangePage(currentPage - 1);
-          }
-        }}
-      >
-        {prevText}
-      </BootstrapPagination.Prev>
-      {pages.map((page) => (
-        <BootstrapPagination.Item
-          key={page}
-          active={page === currentPage}
+      {pages.length > 1 && (
+        <BootstrapPagination.Prev
+          className="prev-btn"
+          disabled={currentPage === 1}
           onClick={() => {
-            onChangePage(page);
+            if (currentPage > 1) {
+              onChangePage(currentPage - 1);
+            }
           }}
         >
-          {page}
-        </BootstrapPagination.Item>
-      ))}
-      <BootstrapPagination.Next
-        className="next-btn"
-        disabled={currentPage === pages.length}
-        onClick={() => {
-          if (currentPage < pages.length) {
-            onChangePage(currentPage + 1);
-          }
-        }}
-      >
-        {nextText}
-      </BootstrapPagination.Next>
+          {prevText}
+        </BootstrapPagination.Prev>
+      )}
+      {currentRange.map((page, index) => {
+        // show ellipsis if there are more items to the left or right that are not visible
+        if (
+          (index === 0 && currentRange[0] !== pages[0]) ||
+          (index === currentRange.length - 1 &&
+            currentRange[index] !== pages[pages.length - 1])
+        ) {
+          return <BootstrapPagination.Ellipsis />;
+        }
+
+        return (
+          <BootstrapPagination.Item
+            key={page}
+            active={page === currentPage}
+            onClick={() => {
+              onChangePage(page);
+            }}
+          >
+            {page}
+          </BootstrapPagination.Item>
+        );
+      })}
+      {pages.length > 1 && (
+        <BootstrapPagination.Next
+          className="next-btn"
+          disabled={currentPage === pages.length}
+          onClick={() => {
+            if (currentPage < pages.length) {
+              onChangePage(currentPage + 1);
+            }
+          }}
+        >
+          {nextText}
+        </BootstrapPagination.Next>
+      )}
     </Inline>
   );
 };
@@ -99,6 +139,7 @@ Pagination.propTypes = {
   currentPage: PropTypes.number.isRequired,
   totalItems: PropTypes.number.isRequired,
   perPage: PropTypes.number.isRequired,
+  limitPages: PropTypes.number.isRequired,
   prevText: PropTypes.string,
   nextText: PropTypes.string,
   onChangePage: PropTypes.func,
@@ -108,6 +149,7 @@ Pagination.defaultProps = {
   currentPage: 1,
   totalItems: 1,
   perPage: 10,
+  limitPages: 5,
   prevText: 'Previous',
   nextText: 'Next',
   onChangePage: () => {},

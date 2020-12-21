@@ -3,7 +3,8 @@
   "plugins": ["unicorn"],
   "rules": {
     "react/react-in-jsx-scope": "off",
-    "unicorn/no-abusive-eslint-disable": "error"
+    "unicorn/no-abusive-eslint-disable": "error",
+    "no-console": "warn"
   },
   "globals": {
     "fetch": false

@@ -85,7 +85,7 @@ const AnnouncementContent = ({
 }) => (
   <Stack as="article" padding={4} spacing={3} width="70%">
     <Title>{title}</Title>
-    {imageSrc && (
+    {!!imageSrc && (
       <Link href={callToAction}>
         <Image
           src={imageSrc}
@@ -97,7 +97,8 @@ const AnnouncementContent = ({
       </Link>
     )}
 
-    <div
+    <Box
+      forwardedAs="div"
       dangerouslySetInnerHTML={{ __html: body }}
       css={`
         strong {
@@ -131,7 +132,7 @@ const AnnouncementContent = ({
       `}
     />
     <Inline as="div" justifyContent="flex-end">
-      {callToAction && (
+      {!!callToAction && (
         <Link href={callToAction}>
           <Button>
             <Text>{callToActionLabel}</Text>
