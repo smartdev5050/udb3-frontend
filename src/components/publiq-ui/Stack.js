@@ -42,9 +42,9 @@ const Stack = forwardRef(
 
 const stackPropTypes = {
   ...boxPropTypes,
-  spacing: PropTypes.number,
-  alignItems: PropTypes.string,
-  justifyContent: PropTypes.string,
+  spacing: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
+  alignItems: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  justifyContent: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 };
 
 const getStackProps = (props) => pick(props, Object.keys(stackPropTypes));
