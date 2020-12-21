@@ -1,5 +1,5 @@
 import { ThemeProvider } from '../src/components/publiq-ui/ThemeProvider';
-import '../src/styles/global.scss';
+import { GlobalStyle } from '../src/styles/GlobalStyle';
 import { CustomCanvas } from './CustomCanvas';
 
 export const parameters = {
@@ -19,8 +19,11 @@ export const parameters = {
 
 export const decorators = [
   (Story) => (
-    <ThemeProvider>
-      <Story />
-    </ThemeProvider>
+    <>
+      <GlobalStyle />
+      <ThemeProvider>
+        <Story />
+      </ThemeProvider>
+    </>
   ),
 ];

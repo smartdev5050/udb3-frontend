@@ -1,5 +1,4 @@
 import '../styles/global.scss';
-
 import PropTypes from 'prop-types';
 
 import { Inline } from '../components/publiq-ui/Inline';
@@ -23,6 +22,7 @@ import {
 } from '../hooks/useHandleWindowMessage';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
+import { GlobalStyle } from '../styles/GlobalStyle';
 
 config.autoAddCss = false;
 
@@ -82,8 +82,9 @@ const queryClient = new QueryClient({ queryCache });
 const isServer = () => typeof window === 'undefined';
 
 // eslint-disable-next-line react/prop-types
-const App = ({ Component, pageProps, cookies }) => {
-  return (
+const App = ({ Component, pageProps, cookies }) => (
+  <>
+    <GlobalStyle />
     <ContextProvider
       providers={[
         [I18nextProvider, { i18n }],
@@ -97,8 +98,8 @@ const App = ({ Component, pageProps, cookies }) => {
         <Component {...pageProps} />
       </Layout>
     </ContextProvider>
-  );
-};
+  </>
+);
 
 App.getInitialProps = async (props) => {
   const { asPath, req, query, res } = props.ctx;
