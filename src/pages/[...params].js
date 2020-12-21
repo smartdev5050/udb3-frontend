@@ -1,3 +1,4 @@
+import getConfig from 'next/config';
 import { useRouter } from 'next/router';
 import i18next from 'i18next';
 import { Box } from '../components/publiq-ui/Box';
@@ -22,6 +23,7 @@ const Fallback = () => {
     query: { params = [], ...queryWithoutParams },
     asPath,
   } = useRouter();
+  const { publicRuntimeConfig } = getConfig();
 
   const { cookies } = useCookiesWithOptions(['token']);
 
@@ -37,7 +39,7 @@ const Fallback = () => {
       '?',
     );
 
-    return `${process.env.NEXT_PUBLIC_LEGACY_APP_URL}${path}${queryString}`;
+    return `${publicRuntimeConfig.legacyAppUrl}${path}${queryString}`;
   }, [asPath, cookies.token, i18next.language]);
 
   return <IFrame url={legacyPath} />;

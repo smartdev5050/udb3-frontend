@@ -1,13 +1,13 @@
-import { fetchWithRedirect } from '../../utils/fetchWithRedirect';
+import { fetchFromApi } from '../../utils/fetchFromApi';
 import { useAuthenticatedQuery } from './useAuthenticatedQuery';
 
 const getMe = async ({ headers }) => {
-  const res = await fetchWithRedirect(
-    `${process.env.NEXT_PUBLIC_API_URL}/user`,
-    {
+  const res = await fetchFromApi({
+    path: '/user',
+    options: {
       headers,
     },
-  );
+  });
   return await res.json();
 };
 
@@ -19,12 +19,12 @@ const useGetUser = (configuration = {}) =>
   });
 
 const getPermissions = async ({ headers }) => {
-  const res = await fetchWithRedirect(
-    `${process.env.NEXT_PUBLIC_API_URL}/user/permissions/`,
-    {
+  const res = await fetchFromApi({
+    path: '/user/permissions/',
+    options: {
       headers,
     },
-  );
+  });
   return await res.json();
 };
 
@@ -36,12 +36,12 @@ const useGetPermissions = (configuration = {}) =>
   });
 
 const getRoles = async ({ headers }) => {
-  const res = await fetchWithRedirect(
-    `${process.env.NEXT_PUBLIC_API_URL}/user/roles/`,
-    {
+  const res = await fetchFromApi({
+    path: '/user/roles/',
+    options: {
       headers,
     },
-  );
+  });
   return await res.json();
 };
 

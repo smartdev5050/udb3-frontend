@@ -1,5 +1,5 @@
 import '../styles/global.scss';
-
+import NextApp from 'next/app';
 import PropTypes from 'prop-types';
 
 import { Inline } from '../components/publiq-ui/Inline';
@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 import { ContextProvider } from '../provider/ContextProvider';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 import i18n from '../i18n';
-import { CookiesProvider } from 'react-cookie';
+import { CookiesProvider, Cookies } from 'react-cookie';
 import { QueryCache, QueryClient, QueryClientProvider } from 'react-query';
 import { useEffect } from 'react';
 import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
@@ -21,6 +21,11 @@ import {
   useHandleWindowMessage,
   WindowMessageTypes,
 } from '../hooks/useHandleWindowMessage';
+import { config } from '@fortawesome/fontawesome-svg-core';
+import '@fortawesome/fontawesome-svg-core/styles.css';
+import { GlobalStyle } from '../styles/GlobalStyle';
+
+config.autoAddCss = false;
 
 const useChangeLanguage = () => {
   const { i18n } = useTranslation();
@@ -63,7 +68,6 @@ const Layout = ({ children }) => {
   useHandleAuthentication();
 
   if (asPath.startsWith('/login')) return children;
-
   return (
     <Inline>
       <SideBar />
@@ -79,21 +83,32 @@ Layout.propTypes = {
 const queryCache = new QueryCache();
 const queryClient = new QueryClient({ queryCache });
 
+const isBrowser = () => typeof window !== 'undefined';
+
 // eslint-disable-next-line react/prop-types
-const App = ({ Component, pageProps }) => (
-  <ContextProvider
-    providers={[
-      [I18nextProvider, { i18n }],
-      ThemeProvider,
-      CookiesProvider,
-      [QueryClientProvider, { client: queryClient }],
-    ]}
-  >
-    {/* <ReactQueryDevtools initialIsOpen={false} position="bottom-right" /> */}
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
-  </ContextProvider>
+const App = ({ Component, pageProps, cookies }) => (
+  <>
+    <GlobalStyle />
+    <ContextProvider
+      providers={[
+        [I18nextProvider, { i18n }],
+        ThemeProvider,
+        [CookiesProvider, { cookies: isBrowser() ? undefined : cookies }],
+        [QueryClientProvider, { client: queryClient }],
+      ]}
+    >
+      {/* <ReactQueryDevtools initialIsOpen={false} position="bottom-right" /> */}
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </ContextProvider>
+  </>
 );
+
+App.getInitialProps = async (appContext) => {
+  const appProps = await NextApp.getInitialProps(appContext);
+  const cookies = new Cookies(appContext?.ctx?.req?.headers?.cookie);
+  return { ...appProps, cookies };
+};
 
 export default App;

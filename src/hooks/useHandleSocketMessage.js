@@ -1,3 +1,4 @@
+import getConfig from 'next/config';
 import { useEffect } from 'react';
 import socketIOClient from 'socket.io-client';
 
@@ -9,8 +10,10 @@ const SocketMessageTypes = {
 };
 
 const useHandleSocketMessage = (eventsMap = {}) => {
+  const { publicRuntimeConfig } = getConfig();
+
   useEffect(() => {
-    const socket = socketIOClient(process.env.NEXT_PUBLIC_SOCKET_URL);
+    const socket = socketIOClient(publicRuntimeConfig.socketUrl);
     Object.entries(eventsMap).forEach(([event, handler]) => {
       socket.on(event, handler);
     });
