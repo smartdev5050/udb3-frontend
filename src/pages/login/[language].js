@@ -75,17 +75,19 @@ const Animation = (props) => {
   const drawAnimationLineLeft = css`
     animation-name: ${draw};
     animation-duration: 2s;
-    animation-fill-mode: forwards; // Stay on the last frame
-    -webkit-animation-delay: 0.2s; /* Chrome, Safari, Opera */
     animation-delay: 0.2s;
+    animation-fill-mode: forwards; // Stay on the last frame
     animation-timing-function: linear;
   `;
 
   const drawAnimationLineRight = css`
+    stroke-dasharray: 120;
+    stroke-dashoffset: 120;
+
     animation-name: ${draw};
     animation-duration: 2s;
     animation-delay: 2.6s;
-    // animation-fill-mode: forwards; // Stay on the last frame
+    animation-fill-mode: forwards; // Stay on the last frame
     animation-timing-function: linear;
   `;
 
