@@ -8,6 +8,7 @@ const WindowMessageSources = {
 const WindowMessageTypes = {
   URL_CHANGED: 'URL_CHANGED',
   JOB_ADDED: 'JOB_ADDED',
+  HTTP_STATUS_CODE: 'HTTP_STATUS_CODE',
 };
 
 const useHandleWindowMessage = (eventsMap = {}) => {
