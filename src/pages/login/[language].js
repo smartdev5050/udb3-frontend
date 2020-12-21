@@ -20,7 +20,7 @@ import {
   Breakpoints,
   getValueFromTheme,
 } from '../../components/publiq-ui/theme';
-import { keyframes } from 'styled-components';
+import { css, keyframes } from 'styled-components';
 
 const getValueForPage = getValueFromTheme('loginPage');
 const getValueForLogo = getValueFromTheme('loginLogo');
@@ -37,47 +37,58 @@ const Svg = (props) => (
 const Group = (props) => <Box as="g" fill="white" {...props} />;
 const Path = (props) => <Box as="path" {...props} />;
 
-/*
-  $hero-lighten--soft: lighten($udb-primary-color, 23%);
-  $hero-lighten--med: lighten($udb-primary-color, 31%);
-  $hero-lighten--hard: lighten($udb-primary-color, 40%);
-*/
+// const logoAnimate = keyframes`
+//   0% {
+//     transform: scale(1);
+//     animation-timing-function: cubic-bezier(0.3, 0.1, 0.9, 0.5);
+//   }
+//   10% {
+//     transform: scale(0.8);
+//     animation-timing-function: cubic-bezier(0.1, 0.4, 0.2, 1);
+//   }
+//   100% {
+//     transform: scale(1);
+//   }
+// `;
 
-const draw = keyframes`
-  to {
-    stroke-dashoffset: 0;
-  }
-`;
-
-const logoAnimate = keyframes`
-  0% {
-    transform: scale(1);
-    animation-timing-function: cubic-bezier(0.3, 0.1, 0.9, 0.5);
-  }
-  10% {
-    transform: scale(0.8);
-    animation-timing-function: cubic-bezier(0.1, 0.4, 0.2, 1);
-  }
-  100% {
-    transform: scale(1);
-  }
-`;
-
-const publicAnimate = keyframes`
-  0% {
-    transform: scale(1);
-    animation-timing-function: cubic-bezier(0.3, 0.1, 0.9, 0.5);
-  }
-  10% {
-    transform: scale(0.8);
-    animation-timing-function: cubic-bezier(0.1, 0.4, 0.2, 1);
-  }
-  100% {
-    transform: scale(1);
-  }
-`;
+// const publicAnimate = keyframes`
+//   0% {
+//     transform: scale(1);
+//     animation-timing-function: cubic-bezier(0.3, 0.1, 0.9, 0.5);
+//   }
+//   10% {
+//     transform: scale(0.8);
+//     animation-timing-function: cubic-bezier(0.1, 0.4, 0.2, 1);
+//   }
+//   100% {
+//     transform: scale(1);
+//   }
+// `;
 
 const Animation = (props) => {
+  const draw = keyframes`
+    to {
+      stroke-dashoffset: 0;
+    }
+  `;
+
+  const drawAnimationLineLeft = css`
+    animation-name: ${draw};
+    animation-duration: 2s;
+    animation-fill-mode: forwards; // Stay on the last frame
+    -webkit-animation-delay: 0.2s; /* Chrome, Safari, Opera */
+    animation-delay: 0.2s;
+    animation-timing-function: linear;
+  `;
+
+  const drawAnimationLineRight = css`
+    animation-name: ${draw};
+    animation-duration: 2s;
+    animation-delay: 2.6s;
+    // animation-fill-mode: forwards; // Stay on the last frame
+    animation-timing-function: linear;
+  `;
+
   return (
     <Svg {...props} width="100%">
       <Group
@@ -161,6 +172,12 @@ const Animation = (props) => {
         fill="none"
         stroke={getValueForLogo('colorHard')}
         d="M219.5 99v18.5h117.5"
+        css={`
+          stroke-dasharray: 136;
+          stroke-dashoffset: 136;
+
+          ${drawAnimationLineLeft}
+        `}
       />
 
       <Path
@@ -170,6 +187,12 @@ const Animation = (props) => {
         fill="none"
         stroke={getValueForLogo('colorHard')}
         d="M338 157.5h-99.5v7.5"
+        css={`
+          stroke-dasharray: 107;
+          stroke-dashoffset: -107;
+
+          ${drawAnimationLineLeft}
+        `}
       />
 
       <Path
@@ -179,6 +202,12 @@ const Animation = (props) => {
         fill="none"
         stroke={getValueForLogo('colorMedium')}
         d="M217 147.5h121"
+        css={`
+          stroke-dasharray: 121;
+          stroke-dashoffset: 121;
+
+          ${drawAnimationLineLeft}
+        `}
       />
 
       <Path
@@ -188,6 +217,12 @@ const Animation = (props) => {
         fill="none"
         stroke={getValueForLogo('colorMedium')}
         d="M103.5 109v18.5h233.5"
+        css={`
+          stroke-dasharray: 252;
+          stroke-dashoffset: 252;
+
+          ${drawAnimationLineLeft}
+        `}
       />
 
       <Path
@@ -197,6 +232,12 @@ const Animation = (props) => {
         fill="none"
         stroke={getValueForLogo('colorSoft')}
         d="M102 138.5h235"
+        css={`
+          stroke-dasharray: 235;
+          stroke-dashoffset: 235;
+
+          ${drawAnimationLineLeft}
+        `}
       />
 
       <Path
@@ -206,6 +247,7 @@ const Animation = (props) => {
         fill="none"
         stroke={getValueForLogo('colorHard')}
         d="M578 150.5h55.5v9.5"
+        css={drawAnimationLineRight}
       />
 
       <Path
@@ -215,6 +257,7 @@ const Animation = (props) => {
         fill="none"
         stroke={getValueForLogo('colorMedium')}
         d="M579 140.5h89"
+        css={drawAnimationLineRight}
       />
 
       <Path
@@ -224,6 +267,7 @@ const Animation = (props) => {
         fill="none"
         stroke={getValueForLogo('colorSoft')}
         d="M578 130.5h90.5v-18h11.5"
+        css={drawAnimationLineRight}
       />
     </Svg>
   );
