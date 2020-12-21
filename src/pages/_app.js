@@ -35,7 +35,7 @@ const useChangeLanguage = () => {
 };
 
 const useHandleAuthentication = () => {
-  const { query } = useRouter();
+  const { query, asPath, ...router } = useRouter();
   const { setCookie } = useCookiesWithOptions(['user', 'token']);
   const { data: user } = useGetUser();
 
@@ -49,6 +49,21 @@ const useHandleAuthentication = () => {
     if (!user) return;
     setCookie('user', user);
   }, [user]);
+
+  // redirect when there is no token or user cookie
+  // manipulation from outside the application
+  useEffect(() => {
+    let intervalId; // eslint-disable-line prefer-const
+    const cleanUp = () => (intervalId ? clearInterval(intervalId) : undefined);
+    if (asPath.startsWith('/login')) return cleanUp;
+    intervalId = setInterval(() => {
+      const cookies = new Cookies();
+      if (!cookies.get('token') || !cookies.get('user')) {
+        router.push('/login');
+      }
+    }, 5000); // checking every 5 seconds
+    return cleanUp;
+  }, [asPath]);
 };
 
 const Layout = ({ children }) => {
