@@ -2,7 +2,6 @@ import { fetchFromApi } from '../../utils/fetchFromApi';
 import {
   useAuthenticatedQuery,
   useAuthenticatedMutation,
-  prefetchAuthenticatedQuery,
 } from './authenticated-query';
 
 export const getProductions = async ({ headers, ...queryData }) => {
