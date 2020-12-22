@@ -992,8 +992,8 @@ const eventsWithTwoProductions = {
 
 const suggestedEvents = [
   eventsWithoutProduction,
-  // eventsWithOneProduction,
-  // eventsWithTwoProductions,
+  eventsWithOneProduction,
+  eventsWithTwoProductions,
 ];
 
 export { suggestedEvents };

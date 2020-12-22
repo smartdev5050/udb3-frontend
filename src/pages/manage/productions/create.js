@@ -7,9 +7,10 @@ import { Event } from '../../../components/manage/productions/create/Event';
 import { getApplicationServerSideProps } from '../../../utils/getApplicationServerSideProps';
 import { parseEventId } from '../../../utils/parseEventId';
 import { useGetSuggestedEvents } from '../../../hooks/api/events';
-import { memo, useMemo, useState } from 'react';
+import { memo, useState } from 'react';
 import { useGetProductions } from '../../../hooks/api/productions';
 import { debounce } from 'lodash';
+import PropTypes from 'prop-types';
 
 const ZeroOrOneProduction = ({
   productionName,
@@ -25,6 +26,12 @@ const ZeroOrOneProduction = ({
       maxWidth="43rem"
     />
   );
+};
+
+ZeroOrOneProduction.propTypes = {
+  productionName: PropTypes.string,
+  onSearch: PropTypes.func,
+  options: PropTypes.array,
 };
 
 const TwoProductions = () => {
