@@ -1,14 +1,8 @@
-import { useState, useLayoutEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 const useIsClient = () => {
   const [isClient, setIsClient] = useState(false);
-
-  useLayoutEffect(() => {
-    if (typeof window !== 'undefined') {
-      setTimeout(() => setIsClient(true), 0);
-    }
-  }, []);
-
+  useEffect(() => setIsClient(true), []);
   return isClient;
 };
 

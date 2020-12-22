@@ -12,12 +12,15 @@ import { Link } from '../../../components/publiq-ui/Link';
 import { useGetEventsbyIds } from '../../../hooks/api/events';
 import { parseEventId } from '../../../utils/parseEventId';
 import { QueryStatus } from '../../../hooks/api/authenticated-query';
+
 import { Text } from '../../../components/publiq-ui/Text';
 import { debounce } from 'lodash';
-import { useQueryClient } from 'react-query';
+import { QueryClient, useQueryClient } from 'react-query';
 import { DeleteModal } from '../../../components/manage/productions/index/DeleteModal';
 import { Events } from '../../../components/manage/productions/index/Events';
 import { Productions } from '../../../components/manage/productions/index/Productions';
+import { dehydrate } from 'react-query/hydration';
+import { Cookies } from 'react-cookie';
 
 const productionsPerPage = 15;
 
@@ -44,6 +47,7 @@ const Index = () => {
     start: currentPageProductions - 1,
     limit: productionsPerPage,
   });
+
   const rawProductions = productionsData?.member ?? [];
 
   useEffect(() => {
@@ -215,6 +219,45 @@ const Index = () => {
       </Page.Content>
     </Page>
   );
+};
+
+export const getServerSideProps = async ({ req, query }) => {
+  if (process.env.NOD_ENV !== 'production') {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+  }
+
+  const { cookies } = new Cookies(req?.headers?.cookie);
+  const isUnAuthorized = !cookies.token && !query?.jwt;
+
+  if (isUnAuthorized) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+
+  const queryClient = new QueryClient();
+
+  const productions = await useGetProductions({
+    queryClient,
+    req,
+    name: '',
+    start: 0,
+    limit: productionsPerPage,
+  });
+
+  const eventIds = productions?.member?.[0].events ?? [];
+
+  await useGetEventsbyIds({ req, queryClient, ids: eventIds });
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+      cookies,
+    },
+  };
 };
 
 export default Index;

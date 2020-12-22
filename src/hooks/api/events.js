@@ -54,7 +54,7 @@ const useGetEventbyId = ({ id }, configuration) =>
     ...configuration,
   });
 
-const useGetEventsbyIds = ({ ids = [] }) => {
+const useGetEventsbyIds = ({ req, queryClient, ids = [] }) => {
   const options = ids.map((id) => ({
     queryKey: ['events'],
     queryFn: getEventById,
@@ -62,7 +62,7 @@ const useGetEventsbyIds = ({ ids = [] }) => {
     enabled: !!id,
   }));
 
-  return useAuthenticatedQueries(options);
+  return useAuthenticatedQueries({ req, queryClient, options });
 };
 
 const getCalendarSummary = async ({ headers, id, format, locale }) => {

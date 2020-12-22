@@ -4,7 +4,7 @@ import {
   useAuthenticatedMutation,
 } from './authenticated-query';
 
-const getProductions = async ({ headers, ...queryData }) => {
+export const getProductions = async ({ headers, ...queryData }) => {
   const res = await fetchFromApi({
     path: '/productions/',
     searchParams: {
@@ -18,10 +18,12 @@ const getProductions = async ({ headers, ...queryData }) => {
 };
 
 const useGetProductions = (
-  { name = '', start = 0, limit = 15 },
+  { req, queryClient, name = '', start = 0, limit = 15 },
   configuration = {},
 ) =>
   useAuthenticatedQuery({
+    req,
+    queryClient,
     queryKey: ['productions'],
     queryFn: getProductions,
     queryArguments: {
@@ -29,7 +31,6 @@ const useGetProductions = (
       start,
       limit,
     },
-    configuration,
   });
 
 const deleteEventById = async ({
