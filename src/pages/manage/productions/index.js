@@ -3,17 +3,13 @@ import { Page } from '../../../components/publiq-ui/Page';
 import { InputWithLabel } from '../../../components/publiq-ui/InputWithLabel';
 import { Inline } from '../../../components/publiq-ui/Inline';
 import {
-  prefetchProductions,
   useAddEventById,
   useDeleteEventsByIds,
   useGetProductions,
 } from '../../../hooks/api/productions';
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from '../../../components/publiq-ui/Link';
-import {
-  prefetchEventsByIds,
-  useGetEventsbyIds,
-} from '../../../hooks/api/events';
+import { useGetEventsbyIds } from '../../../hooks/api/events';
 import { parseEventId } from '../../../utils/parseEventId';
 import { QueryStatus } from '../../../hooks/api/authenticated-query';
 
@@ -244,7 +240,7 @@ export const getServerSideProps = async ({ req, query }) => {
 
   const queryClient = new QueryClient();
 
-  const productions = await prefetchProductions({
+  const productions = await useGetProductions({
     queryClient,
     req,
     name: '',
@@ -254,7 +250,7 @@ export const getServerSideProps = async ({ req, query }) => {
 
   const eventIds = productions?.member?.[0].events ?? [];
 
-  await prefetchEventsByIds({ req, queryClient, ids: eventIds });
+  await useGetEventsbyIds({ req, queryClient, ids: eventIds });
 
   return {
     props: {

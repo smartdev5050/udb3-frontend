@@ -89,6 +89,10 @@ const useAuthenticatedMutation = ({
 };
 
 const useAuthenticatedQuery = (options) => {
+  if (!!options.req && !!options.queryClient && typeof window === 'undefined') {
+    return prefetchAuthenticatedQuery(options);
+  }
+
   const { asPath, ...router } = useRouter();
 
   const headers = useHeaders();
@@ -155,7 +159,19 @@ const prefetchAuthenticatedQuery = async ({ req, queryClient, ...options }) => {
   return await queryClient.getQueryData(queryKey);
 };
 
-const useAuthenticatedQueries = (rawOptions = []) => {
+const useAuthenticatedQueries = ({
+  req,
+  queryClient,
+  options: rawOptions = [],
+}) => {
+  if (!!req && !!queryClient && typeof window === 'undefined') {
+    return prefetchAuthenticatedQueries({
+      req,
+      queryClient,
+      options: rawOptions,
+    });
+  }
+
   const { asPath, ...router } = useRouter();
 
   const headers = useHeaders();
@@ -191,7 +207,4 @@ export {
   useAuthenticatedQueries,
   useAuthenticatedMutation,
   QueryStatus,
-  prepareKey,
-  prefetchAuthenticatedQuery,
-  prefetchAuthenticatedQueries,
 };

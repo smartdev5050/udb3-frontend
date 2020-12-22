@@ -19,28 +19,10 @@ export const getProductions = async ({ headers, ...queryData }) => {
 };
 
 const useGetProductions = (
-  { name = '', start = 0, limit = 15 },
+  { req, queryClient, name = '', start = 0, limit = 15 },
   configuration = {},
 ) =>
   useAuthenticatedQuery({
-    queryKey: ['productions'],
-    queryFn: getProductions,
-    queryArguments: {
-      name,
-      start,
-      limit,
-    },
-    configuration,
-  });
-
-const prefetchProductions = ({
-  req,
-  queryClient,
-  name = '',
-  start = 0,
-  limit = 15,
-}) =>
-  prefetchAuthenticatedQuery({
     req,
     queryClient,
     queryKey: ['productions'],
@@ -117,7 +99,6 @@ const useAddEventsByIds = (configuration) =>
 
 export {
   useGetProductions,
-  prefetchProductions,
   useDeleteEventById,
   useDeleteEventsByIds,
   useAddEventById,

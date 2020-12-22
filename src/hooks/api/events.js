@@ -2,7 +2,6 @@ import { fetchFromApi } from '../../utils/fetchFromApi';
 import {
   useAuthenticatedQuery,
   useAuthenticatedQueries,
-  prefetchAuthenticatedQueries,
 } from './authenticated-query';
 import { formatDate } from '../../utils/formatDate';
 
@@ -55,7 +54,7 @@ const useGetEventbyId = ({ id }, configuration) =>
     ...configuration,
   });
 
-const useGetEventsbyIds = ({ ids = [] }) => {
+const useGetEventsbyIds = ({ req, queryClient, ids = [] }) => {
   const options = ids.map((id) => ({
     queryKey: ['events'],
     queryFn: getEventById,
@@ -63,18 +62,7 @@ const useGetEventsbyIds = ({ ids = [] }) => {
     enabled: !!id,
   }));
 
-  return useAuthenticatedQueries(options);
-};
-
-const prefetchEventsByIds = ({ req, queryClient, ids = [] }) => {
-  const options = ids.map((id) => ({
-    queryKey: ['events'],
-    queryFn: getEventById,
-    queryArguments: { id },
-    enabled: !!id,
-  }));
-
-  return prefetchAuthenticatedQueries({ req, queryClient, options });
+  return useAuthenticatedQueries({ req, queryClient, options });
 };
 
 const getCalendarSummary = async ({ headers, id, format, locale }) => {
@@ -106,6 +94,5 @@ export {
   useGetEventsToModerate,
   useGetEventbyId,
   useGetEventsbyIds,
-  prefetchEventsByIds,
   useGetCalendarSummary,
 };
