@@ -66,6 +66,14 @@ const useHandleAuthentication = () => {
     }, 5000); // checking every 5 seconds
     return cleanUp;
   }, [asPath]);
+  // redirect when the old angular app throws an error because of a missing token
+  useHandleWindowMessage({
+    [WindowMessageTypes.HTTP_ERROR_CODE]: ({ code }) => {
+      if ([401, 403].includes(code)) {
+        router.push('/login');
+      }
+    },
+  });
 };
 
 const LoginLayout = ({ children }) => {
