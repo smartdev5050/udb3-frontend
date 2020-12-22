@@ -10,7 +10,10 @@ import {
 } from '../../../hooks/api/productions';
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from '../../../components/publiq-ui/Link';
-import { useGetEventsbyIds } from '../../../hooks/api/events';
+import {
+  prefetchEventsByIds,
+  useGetEventsbyIds,
+} from '../../../hooks/api/events';
 import { parseEventId } from '../../../utils/parseEventId';
 import { QueryStatus } from '../../../hooks/api/authenticated-query';
 
@@ -241,13 +244,17 @@ export const getServerSideProps = async ({ req, query }) => {
 
   const queryClient = new QueryClient();
 
-  await prefetchProductions({
+  const productions = await prefetchProductions({
     queryClient,
     req,
     name: '',
     start: 0,
     limit: productionsPerPage,
   });
+
+  const eventIds = productions?.member?.[0].events ?? [];
+
+  await prefetchEventsByIds({ req, queryClient, ids: eventIds });
 
   return {
     props: {
