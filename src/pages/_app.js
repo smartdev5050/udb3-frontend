@@ -110,6 +110,7 @@ const Layout = ({ children }) => {
   const { asPath } = useRouter();
 
   if (asPath.startsWith('/login')) return <LoginLayout>{children}</LoginLayout>;
+  if (asPath.startsWith('/404')) return children;
   return <ApplicationLayout>{children}</ApplicationLayout>;
 };
 
