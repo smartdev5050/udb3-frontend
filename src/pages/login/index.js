@@ -5,10 +5,7 @@ const Index = () => null;
 export const getServerSideProps = ({ req, params }) => {
   const cookies = new Cookies(req?.headers?.cookie);
 
-  let language = 'nl';
-  if (cookies.get('udb-language')) {
-    language = cookies.get('udb-language');
-  }
+  const language = cookies.get('udb-language') ?? 'nl';
 
   return {
     redirect: {
