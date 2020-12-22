@@ -61,6 +61,47 @@ const getStatusFromResults = (results) => {
   }
 };
 
+const prefetchAuthenticatedQueries = async ({
+  req,
+  queryClient,
+  options: rawOptions = [],
+}) => {
+  const cookies = new Cookies(req?.headers?.cookie);
+  const headers = createHeaders(cookies.get('token'));
+
+  const perparedArguments = rawOptions.map((options) =>
+    prepareArguments({
+      options,
+      isTokenPresent: !!cookies.get('token'),
+      headers,
+    }),
+  );
+
+  await Promise.all(
+    perparedArguments.map(({ queryKey, queryFn }) =>
+      queryClient.prefetchQuery(queryKey, queryFn),
+    ),
+  );
+
+  return await Promise.all(
+    perparedArguments.map(({ queryKey }) => queryClient.getQueryData(queryKey)),
+  );
+};
+
+const prefetchAuthenticatedQuery = async ({ req, queryClient, ...options }) => {
+  const cookies = new Cookies(req?.headers?.cookie);
+  const headers = createHeaders(cookies.get('token'));
+
+  const { queryKey, queryFn } = prepareArguments({
+    options,
+    isTokenPresent: cookies.get('token'),
+    headers,
+  });
+
+  await queryClient.prefetchQuery(queryKey, queryFn);
+  return await queryClient.getQueryData(queryKey);
+};
+
 /// /////////////////////////////////////////////////////////////////////////////////////////////
 
 const useAuthenticatedMutation = ({
@@ -116,47 +157,6 @@ const useAuthenticatedQuery = (options) => {
   }
 
   return result;
-};
-
-const prefetchAuthenticatedQueries = async ({
-  req,
-  queryClient,
-  options: rawOptions = [],
-}) => {
-  const cookies = new Cookies(req?.headers?.cookie);
-  const headers = createHeaders(cookies.get('token'));
-
-  const perparedArguments = rawOptions.map((options) =>
-    prepareArguments({
-      options,
-      isTokenPresent: !!cookies.get('token'),
-      headers,
-    }),
-  );
-
-  await Promise.all(
-    perparedArguments.map(({ queryKey, queryFn }) =>
-      queryClient.prefetchQuery(queryKey, queryFn),
-    ),
-  );
-
-  return await Promise.all(
-    perparedArguments.map(({ queryKey }) => queryClient.getQueryData(queryKey)),
-  );
-};
-
-const prefetchAuthenticatedQuery = async ({ req, queryClient, ...options }) => {
-  const cookies = new Cookies(req?.headers?.cookie);
-  const headers = createHeaders(cookies.get('token'));
-
-  const { queryKey, queryFn } = prepareArguments({
-    options,
-    isTokenPresent: cookies.get('token'),
-    headers,
-  });
-
-  await queryClient.prefetchQuery(queryKey, queryFn);
-  return await queryClient.getQueryData(queryKey);
 };
 
 const useAuthenticatedQueries = ({
