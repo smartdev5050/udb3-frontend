@@ -9,26 +9,12 @@ import { getBoxProps } from './Box';
 
 const getValueForPage = getValueFromTheme('page');
 
-const CompoundChildren = {
-  TITLE: 'PageTitle',
-  ACTIONS: 'PageActions',
-  CONTENT: 'PageContent',
-};
-
 const Page = ({ children: rawChildren, className, ...props }) => {
   const children = Children.toArray(rawChildren);
 
-  const title = children.find(
-    (child) => child.type.name === CompoundChildren.TITLE,
-  );
-
-  const actions = children.find(
-    (child) => child.type.name === CompoundChildren.ACTIONS,
-  );
-
-  const content = children.find(
-    (child) => child.type.name === CompoundChildren.CONTENT,
-  );
+  const title = children.find((child) => child.type === PageTitle);
+  const actions = children.find((child) => child.type === PageActions);
+  const content = children.find((child) => child.type === PageContent);
 
   return (
     <Stack
