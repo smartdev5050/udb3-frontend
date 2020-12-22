@@ -53,8 +53,8 @@ Alert.propTypes = {
 };
 
 Alert.defaultProps = {
+  visible: true,
   variant: AlertVariants.INFO,
-  visible: false,
   dismissible: false,
 };
 

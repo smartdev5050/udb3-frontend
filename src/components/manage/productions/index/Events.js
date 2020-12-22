@@ -251,16 +251,14 @@ const Events = ({
                   toBeAddedEventId={toBeAddedEventId}
                   onToBeAddedEventIdInput={onToBeAddedEventIdInput}
                 />
-                {!!errorMessage && (
-                  <Alert
-                    visible
-                    variant={AlertVariants.WARNING}
-                    dismissible
-                    onDismiss={onDismissError}
-                  >
-                    {errorMessage}
-                  </Alert>
-                )}
+                <Alert
+                  visible={!!errorMessage}
+                  variant={AlertVariants.WARNING}
+                  dismissible
+                  onDismiss={onDismissError}
+                >
+                  {errorMessage}
+                </Alert>
               </Stack>
             ) : (
               <Actions
