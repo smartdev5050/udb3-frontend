@@ -22,6 +22,9 @@ const getApplicationServerSideProps = (callbackFn) => async ({
   }
 
   const queryClient = new QueryClient();
+
+  // TODO: prefetch user, permission, roles
+
   if (!callbackFn) return { props: { cookies } };
   return await callbackFn({ req, query, queryClient, cookies });
 };
