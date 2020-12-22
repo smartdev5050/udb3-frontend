@@ -139,7 +139,7 @@ const App = ({ Component, pageProps }) => {
             },
           ],
           [QueryClientProvider, { client: queryClient }],
-          [Hydrate, { dehydratedState: pageProps.dehydratedState }],
+          [Hydrate, { state: pageProps.dehydratedState }],
         ]}
       >
         {/* <ReactQueryDevtools initialIsOpen={false} position="bottom-right" /> */}
