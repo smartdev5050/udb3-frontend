@@ -15,12 +15,12 @@ import { QueryStatus } from '../../../hooks/api/authenticated-query';
 
 import { Text } from '../../../components/publiq-ui/Text';
 import { debounce } from 'lodash';
-import { QueryClient, useQueryClient } from 'react-query';
+import { useQueryClient } from 'react-query';
 import { DeleteModal } from '../../../components/manage/productions/index/DeleteModal';
 import { Events } from '../../../components/manage/productions/index/Events';
 import { Productions } from '../../../components/manage/productions/index/Productions';
 import { dehydrate } from 'react-query/hydration';
-import { Cookies } from 'react-cookie';
+import { getApplicationServerSideProps } from '../../../utils/getApplicationServerSideProps';
 
 const productionsPerPage = 15;
 
@@ -221,43 +221,27 @@ const Index = () => {
   );
 };
 
-export const getServerSideProps = async ({ req, query }) => {
-  if (process.env.NOD_ENV !== 'production') {
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
-  }
+export const getServerSideProps = getApplicationServerSideProps(
+  async ({ req, query, cookies, queryClient }) => {
+    const productions = await useGetProductions({
+      req,
+      queryClient,
+      name: '',
+      start: 0,
+      limit: productionsPerPage,
+    });
 
-  const { cookies } = new Cookies(req?.headers?.cookie);
-  const isUnAuthorized = !cookies.token && !query?.jwt;
+    const eventIds = productions?.member?.[0].events ?? [];
 
-  if (isUnAuthorized) {
+    await useGetEventsbyIds({ req, queryClient, ids: eventIds });
+
     return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
+      props: {
+        dehydratedState: dehydrate(queryClient),
+        cookies,
       },
     };
-  }
-
-  const queryClient = new QueryClient();
-
-  const productions = await useGetProductions({
-    queryClient,
-    req,
-    name: '',
-    start: 0,
-    limit: productionsPerPage,
-  });
-
-  const eventIds = productions?.member?.[0].events ?? [];
-
-  await useGetEventsbyIds({ req, queryClient, ids: eventIds });
-
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-      cookies,
-    },
-  };
-};
+  },
+);
 
 export default Index;
