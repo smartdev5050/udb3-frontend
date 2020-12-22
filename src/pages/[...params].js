@@ -5,7 +5,6 @@ import { Box } from '../components/publiq-ui/Box';
 import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
 import { memo, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Cookies } from 'react-cookie';
 import { getApplicationServerSideProps } from '../utils/getApplicationServerSideProps';
 
 const IFrame = memo(({ url }) => (
