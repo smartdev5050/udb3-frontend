@@ -66,7 +66,7 @@ const useHandleAuthentication = () => {
   }, [asPath]);
   // redirect when the old anular app throws an error because of a missing token
   useHandleWindowMessage({
-    [WindowMessageTypes.HTTP_STATUS_CODE]: ({ code }) => {
+    [WindowMessageTypes.HTTP_ERROR_CODE]: ({ code }) => {
       if ([401, 403].includes(code)) {
         router.push('/login');
       }
