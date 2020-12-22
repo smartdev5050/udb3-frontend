@@ -1,5 +1,6 @@
+import { castArray } from 'lodash';
 import { useRouter } from 'next/router';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Cookies } from 'react-cookie';
 import { useQuery, useQueries, useMutation } from 'react-query';
 import { Errors } from '../../utils/fetchFromApi';
@@ -39,7 +40,8 @@ const prepareArguments = ({
 };
 
 const isUnAuthorized = (result) =>
-  result.status === 'error' && result.error.message === Errors.UNAUTHORIZED;
+  result.status === QueryStatus.ERROR &&
+  [Errors['401'], Errors['403']].includes(result.error.message);
 
 const getStatusFromResults = (results) => {
   if (results.some(({ status }) => status === QueryStatus.ERROR)) {
@@ -129,9 +131,41 @@ const useAuthenticatedMutation = ({
   return useMutation(innerMutationFn, configuration);
 };
 
-const useAuthenticatedQuery = (options) => {
+const useAuthenticatedQuery = ({ mockData, ...options } = {}) => {
   if (!!options.req && !!options.queryClient && typeof window === 'undefined') {
     return prefetchAuthenticatedQuery(options);
+  }
+
+  const [randomMockData, setRandomMockData] = useState();
+  const mockDataArray = castArray(mockData);
+
+  const getNewMockData = () => {
+    if (mockDataArray.length === 1) return mockDataArray[0];
+    return mockDataArray[Math.floor(Math.random() * mockDataArray.length)];
+  };
+
+  const refetch = () => setRandomMockData(getNewMockData());
+
+  useEffect(() => {
+    if (
+      mockData &&
+      process.env.NODE_ENV !== 'production' &&
+      typeof window !== 'undefined'
+    ) {
+      setRandomMockData(getNewMockData());
+    }
+  }, [mockData, process.env.NODE_ENV]);
+
+  if (
+    mockData &&
+    process.env.NODE_ENV !== 'production' &&
+    typeof window !== 'undefined'
+  ) {
+    return {
+      refetch,
+      status: QueryStatus.SUCCESS,
+      data: randomMockData,
+    };
   }
 
   const { asPath, ...router } = useRouter();
