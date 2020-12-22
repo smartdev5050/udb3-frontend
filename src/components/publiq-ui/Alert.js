@@ -8,6 +8,7 @@ const AlertVariants = {
   SUCCESS: 'success',
   DANGER: 'danger',
   WARNING: 'warning',
+  DARK: 'dark',
 };
 
 const getValue = getValueFromTheme(`alert`);
