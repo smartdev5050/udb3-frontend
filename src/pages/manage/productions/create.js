@@ -18,8 +18,9 @@ import { debounce } from 'lodash';
 
 const ZeroOrOneProduction = ({
   productionName,
-  onInput,
   suggestedProductions,
+  onInput,
+  onSelection,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -34,9 +35,7 @@ const ZeroOrOneProduction = ({
       label={t('productions.create.production_name')}
       emptyLabel={t('productions.create.no_productions')}
       onInput={onInput}
-      onSelection={(production) => {
-        setSelectedProductionId(production.id);
-      }}
+      onSelection={onSelection}
       {...getBoxProps(props)}
     />
   );
@@ -44,8 +43,9 @@ const ZeroOrOneProduction = ({
 
 ZeroOrOneProduction.propTypes = {
   productionName: PropTypes.string,
-  onSearch: PropTypes.func,
   suggestedProductions: PropTypes.array,
+  onInput: PropTypes.func,
+  onSelection: PropTypes.func,
   className: PropTypes.string,
 };
 
@@ -201,13 +201,16 @@ const Create = () => {
             />
           ) : (
             <ZeroOrOneProduction
-              onInput={handleInputSearch}
               suggestedProductions={suggestedProductions}
               productionName={
                 productions.find(
                   (production) => production.id === selectedProductionId,
                 )?.title
               }
+              onInput={handleInputSearch}
+              onSelection={(production) => {
+                setSelectedProductionId(production.id);
+              }}
             />
           )}
           <LinkAndSkipButtons
