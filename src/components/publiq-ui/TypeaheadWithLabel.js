@@ -11,12 +11,12 @@ import { useEffect, useState } from 'react';
 const TypeaheadWithLabel = ({
   label,
   options,
+  labelKey,
   disabled,
   placeholder,
   emptyLabel,
-  allowNew,
-  newSelectionPrefix,
   className,
+  onInput,
   onSearch,
   onSelection,
   ...props
@@ -26,6 +26,7 @@ const TypeaheadWithLabel = ({
   useEffect(() => {
     setId(uniqueId('typeahead-'));
   }, []);
+
   return (
     <Stack {...getStackProps(props)}>
       <Label htmlFor={id} variant={LabelVariants.BOLD}>
@@ -34,12 +35,12 @@ const TypeaheadWithLabel = ({
       <Typeahead
         id={id}
         options={options}
+        labelKey={labelKey}
         disabled={disabled}
         emptyLabel={emptyLabel}
-        allowNew={allowNew}
-        newSelectionPrefix={newSelectionPrefix}
         placeholder={placeholder}
         className={className}
+        onInput={onInput}
         onSearch={onSearch}
         onSelection={onSelection}
       />

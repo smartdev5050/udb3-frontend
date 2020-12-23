@@ -8,12 +8,12 @@ const getValue = getValueFromTheme('typeahead');
 const Typeahead = ({
   id,
   options,
+  labelKey,
   disabled,
   placeholder,
   emptyLabel,
-  allowNew,
-  newSelectionPrefix,
   className,
+  onInput,
   onSearch,
   onSelection,
   ...props
@@ -23,7 +23,8 @@ const Typeahead = ({
       forwardedAs={BootstrapTypeahead}
       id={id}
       options={options}
-      labelKey={(option) => option}
+      labelKey={labelKey}
+      isLoading={false}
       disabled={disabled}
       className={className}
       css={`
@@ -33,12 +34,11 @@ const Typeahead = ({
         }
       `}
       onSearch={onSearch}
+      onInputChange={onInput}
       onChange={onSelection}
       placeholder={placeholder}
       emptyLabel={emptyLabel}
       delay={275}
-      allowNew={allowNew}
-      newSelectionPrefix={newSelectionPrefix}
       {...getBoxProps(props)}
     />
   );
@@ -47,12 +47,12 @@ const Typeahead = ({
 const typeaheadPropTypes = {
   id: PropTypes.string.isRequired,
   options: PropTypes.array,
+  labelKey: PropTypes.func,
   disabled: PropTypes.bool,
   placeholder: PropTypes.string,
   emptyLabel: PropTypes.string,
-  allowNew: PropTypes.bool,
-  newSelectionPrefix: PropTypes.string,
   className: PropTypes.string,
+  onInput: PropTypes.func,
   onSearch: PropTypes.func,
   onSelection: PropTypes.func,
 };
@@ -64,8 +64,9 @@ Typeahead.propTypes = {
 
 const typeaheadDefaultProps = {
   options: [],
+  labelKey: (item) => item,
+  onSearch: async () => {},
   disabled: false,
-  newSelectionPrefix: '',
 };
 
 Typeahead.defaultProps = {
