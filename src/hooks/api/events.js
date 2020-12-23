@@ -1,36 +1,9 @@
-import { Errors, fetchFromApi } from '../../utils/fetchFromApi';
+import { fetchFromApi } from '../../utils/fetchFromApi';
 import {
   useAuthenticatedQuery,
   useAuthenticatedQueries,
 } from './authenticated-query';
 import { formatDate } from '../../utils/formatDate';
-import { suggestedEvents } from '../../mocked/suggestedEvents';
-
-const getSuggestedEvents = async ({ headers }) => {
-  let res;
-  try {
-    res = await fetchFromApi({
-      path: '/productions/suggestion',
-      options: {
-        headers,
-      },
-    });
-  } catch (error) {
-    if ([Errors['204'], Errors['404']].includes(error.message)) {
-      return { events: [], similarity: 0 };
-    }
-    throw new Error(error.message);
-  }
-  return await res.json();
-};
-
-const useGetSuggestedEvents = (configuration = {}) =>
-  useAuthenticatedQuery({
-    queryKey: ['productions', 'suggestion'],
-    queryFn: getSuggestedEvents,
-    mockData: suggestedEvents,
-    ...configuration,
-  });
 
 const getEventsToModerate = async ({ headers, ...queryData }) => {
   const res = await fetchFromApi({
@@ -118,7 +91,6 @@ const useGetCalendarSummary = ({ id, locale, format = 'lg' }, configuration) =>
   });
 
 export {
-  useGetSuggestedEvents,
   useGetEventsToModerate,
   useGetEventbyId,
   useGetEventsbyIds,

@@ -1,4 +1,5 @@
-import { fetchFromApi } from '../../utils/fetchFromApi';
+import { Errors, fetchFromApi } from '../../utils/fetchFromApi';
+import { suggestedEvents } from '../../mocked/suggestedEvents';
 import {
   useAuthenticatedQuery,
   useAuthenticatedMutation,
@@ -96,10 +97,62 @@ const addEventsByIds = async ({
 const useAddEventsByIds = (configuration) =>
   useAuthenticatedMutation({ mutationFn: addEventsByIds, ...configuration });
 
+const getSuggestedEvents = async ({ headers }) => {
+  let res;
+  try {
+    res = await fetchFromApi({
+      path: '/productions/suggestion',
+      options: {
+        headers,
+      },
+    });
+  } catch (error) {
+    if ([Errors['204'], Errors['404']].includes(error.message)) {
+      return { events: [], similarity: 0 };
+    }
+    throw new Error(error.message);
+  }
+  return await res.json();
+};
+
+const useGetSuggestedEvents = (configuration = {}) =>
+  useAuthenticatedQuery({
+    queryKey: ['productions', 'suggestion'],
+    queryFn: getSuggestedEvents,
+    mockData: suggestedEvents,
+    ...configuration,
+  });
+
+const skipSuggestedEvents = async ({ headers, eventIds }) => {
+  const res = await fetchFromApi({
+    path: '/productions/skip',
+    options: {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        eventIds,
+      }),
+    },
+  });
+  const body = await res.text();
+  if (body) {
+    return JSON.parse(body);
+  }
+  return {};
+};
+
+const useSkipSuggestedEvents = (configuration) =>
+  useAuthenticatedMutation({
+    mutationFn: skipSuggestedEvents,
+    ...configuration,
+  });
+
 export {
   useGetProductions,
   useDeleteEventById,
   useDeleteEventsByIds,
   useAddEventById,
   useAddEventsByIds,
+  useGetSuggestedEvents,
+  useSkipSuggestedEvents,
 };
