@@ -76,6 +76,8 @@
       }
     },
     "create": {
+      "no_productions": "Geen producties gevonden.",
+      "new_production": "Nieuwe productie: ",
       "link": "Linken",
       "no_suggested_events_found": "Geen evenementen gevonden om te linken aan een productie. Probeer het later opnieuw.",
       "production_name": "Productienaam",

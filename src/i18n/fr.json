@@ -74,6 +74,8 @@
       }
     },
     "create": {
+      "no_productions": "Aucune production trouvée.",
+      "new_production": "Nouvelle production: ",
       "link": "Lier",
       "no_suggested_events_found": "Aucun événement trouvé pour être lié à une production. Réessayez plus tard.",
       "production_name": "Nom de production",
