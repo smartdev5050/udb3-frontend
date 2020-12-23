@@ -22,6 +22,8 @@ import { RadioButtonGroup } from '../../../components/publiq-ui/RadioButtonGroup
 import { getBoxProps } from '../../../components/publiq-ui/Box';
 import { debounce } from 'lodash';
 import { useQueryClient } from 'react-query';
+import { QueryStatus } from '../../../hooks/api/authenticated-query';
+import { Spinner } from '../../../components/publiq-ui/Spinner';
 
 const ZeroOrOneProduction = ({
   productionName,
@@ -123,16 +125,21 @@ const Create = () => {
   const [searchInput, setSearchInput] = useState('');
   const [selectedProductionId, setSelectedProductionId] = useState('');
 
-  const { data: suggestedEvents } = useGetSuggestedEvents();
+  const {
+    data: suggestedEvents,
+    status: suggestedEventsStatus,
+    refetch: refetchSuggestedEvents,
+  } = useGetSuggestedEvents();
   const { data: suggestedProductionsData } = useGetProductions({
     name: searchInput,
     limit: 10,
   });
 
   const handleSuccess = async () => {
-    await queryClient.refetchQueries(['productions']);
     setSelectedProductionId('');
     setSearchInput('');
+    await refetchSuggestedEvents();
+    await queryClient.refetchQueries(['productions']);
   };
 
   const { mutate: skipSuggestedEvents } = useSkipSuggestedEvents({
@@ -214,81 +221,87 @@ const Create = () => {
   return (
     <Page>
       <Page.Title>{t('productions.create.title')}</Page.Title>
-      <Page.Content spacing={5}>
-        <Text>
-          <Text fontWeight="bold">
-            {t('productions.create.suggested_events')}
-          </Text>{' '}
-          {Math.round(similarity * 100)}%
-        </Text>
-        <Inline spacing={4}>
-          {events.map((event) => {
-            return (
-              <Event
-                id={parseEventId(event['@id'])}
-                key={parseEventId(event['@id'])}
-                title={event.name[i18n.language ?? event.mainLanguage]}
-                locationName={
-                  event.location.name[
-                    i18n.language ?? event.location.mainLanguage
-                  ]
-                }
-                locationCity={
-                  event.location.address[
-                    i18n.language ?? event.location.mainLanguage
-                  ].addressLocality
-                }
-                terms={event.terms}
-                flex={1}
-                imageUrl={event.image}
-                description={event.description[i18n.language]}
-                productionName={event?.production?.title}
-                calendarType={event.calendarType}
+      <Page.Content>
+        {suggestedEventsStatus === QueryStatus.LOADING ? (
+          <Spinner marginTop={4} />
+        ) : (
+          <Stack spacing={5}>
+            <Text>
+              <Text fontWeight="bold">
+                {t('productions.create.suggested_events')}
+              </Text>{' '}
+              {Math.round(similarity * 100)}%
+            </Text>
+            <Inline spacing={4}>
+              {events.map((event) => {
+                return (
+                  <Event
+                    id={parseEventId(event['@id'])}
+                    key={parseEventId(event['@id'])}
+                    title={event.name[i18n.language ?? event.mainLanguage]}
+                    locationName={
+                      event.location.name[
+                        i18n.language ?? event.location.mainLanguage
+                      ]
+                    }
+                    locationCity={
+                      event.location.address[
+                        i18n.language ?? event.location.mainLanguage
+                      ].addressLocality
+                    }
+                    terms={event.terms}
+                    flex={1}
+                    imageUrl={event.image}
+                    description={event.description[i18n.language]}
+                    productionName={event?.production?.title}
+                    calendarType={event.calendarType}
+                  />
+                );
+              })}
+            </Inline>
+            <Stack spacing={4}>
+              {productions.length === 2 ? (
+                <TwoProductions
+                  productionNames={events
+                    .map((event) =>
+                      event.production
+                        ? {
+                            label: event.production.title,
+                            value: event.production.id,
+                          }
+                        : undefined,
+                    )
+                    .filter((productionName) => productionName !== undefined)}
+                  onChange={(e) => {
+                    setSelectedProductionId(e.target.value.toString());
+                  }}
+                />
+              ) : (
+                <ZeroOrOneProduction
+                  suggestedProductions={suggestedProductions}
+                  productionName={
+                    productions.find(
+                      (production) => production.id === selectedProductionId,
+                    )?.title
+                  }
+                  onInput={handleInputSearch}
+                  onSelection={(production) => {
+                    setSelectedProductionId(production.id);
+                  }}
+                />
+              )}
+              <LinkAndSkipButtons
+                shouldDisableLinkButton={status === ProductionStatus.MISSING}
+                onClickLink={handleClickLink}
+                onClickSkip={() => {
+                  skipSuggestedEvents({
+                    eventIds: events.map((event) => parseEventId(event['@id'])),
+                  });
+                }}
               />
-            );
-          })}
-        </Inline>
-        <Stack spacing={4}>
-          {productions.length === 2 ? (
-            <TwoProductions
-              productionNames={events
-                .map((event) =>
-                  event.production
-                    ? {
-                        label: event.production.title,
-                        value: event.production.id,
-                      }
-                    : undefined,
-                )
-                .filter((productionName) => productionName !== undefined)}
-              onChange={(e) => {
-                setSelectedProductionId(e.target.value.toString());
-              }}
-            />
-          ) : (
-            <ZeroOrOneProduction
-              suggestedProductions={suggestedProductions}
-              productionName={
-                productions.find(
-                  (production) => production.id === selectedProductionId,
-                )?.title
-              }
-              onInput={handleInputSearch}
-              onSelection={(production) => {
-                setSelectedProductionId(production.id);
-              }}
-            />
-          )}
-          <LinkAndSkipButtons
-            shouldDisableLinkButton={status === ProductionStatus.MISSING}
-            onClickLink={handleClickLink}
-            onClickSkip={() => {
-              skipSuggestedEvents({
-                eventIds: events.map((event) => parseEventId(event['@id'])),
-              });
-            }}
-          />
-        </Stack>
+            </Stack>
+          </Stack>
+        )}
       </Page.Content>
     </Page>
   );
