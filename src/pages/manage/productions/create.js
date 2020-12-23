@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Text } from '../../../components/publiq-ui/Text';
 import { Page } from '../../../components/publiq-ui/Page';
@@ -8,53 +9,34 @@ import { Event } from '../../../components/manage/productions/create/Event';
 import { getApplicationServerSideProps } from '../../../utils/getApplicationServerSideProps';
 import { parseEventId } from '../../../utils/parseEventId';
 import { useGetSuggestedEvents } from '../../../hooks/api/events';
-import { memo, useState } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useGetProductions } from '../../../hooks/api/productions';
-import PropTypes from 'prop-types';
 import { getStackProps, Stack } from '../../../components/publiq-ui/Stack';
 import { RadioButtonGroup } from '../../../components/publiq-ui/RadioButtonGroup';
 import { getBoxProps } from '../../../components/publiq-ui/Box';
-
-const LinkAndSkipButtons = ({ shouldDisableLinkButton, ...props }) => {
-  const { t } = useTranslation();
-  return (
-    <Inline spacing={3} {...getInlineProps(props)}>
-      <Button
-        variant={ButtonVariants.SUCCESS}
-        disabled={shouldDisableLinkButton}
-      >
-        {t('productions.create.link')}
-      </Button>
-      <Button variant={ButtonVariants.DANGER}>
-        {t('productions.create.skip')}
-      </Button>
-    </Inline>
-  );
-};
-
-LinkAndSkipButtons.propTypes = {
-  shouldDisableLinkButton: PropTypes.bool,
-};
+import { debounce } from 'lodash';
 
 const ZeroOrOneProduction = ({
   productionName,
-  onSearch,
-  options,
+  onInput,
+  suggestedProductions,
   ...props
 }) => {
   const { t } = useTranslation();
   return (
     <TypeaheadWithLabel
       id="typeahead-productionname"
-      options={options}
+      options={suggestedProductions}
+      labelKey={(production) => production.name}
       disabled={!!productionName}
       placeholder={productionName}
-      allowNew
-      newSelectionPrefix={t('productions.create.new_production')}
       maxWidth="43rem"
       label={t('productions.create.production_name')}
       emptyLabel={t('productions.create.no_productions')}
-      onSearch={onSearch}
+      onInput={onInput}
+      onSelection={(production) => {
+        setSelectedProductionId(production.id);
+      }}
       {...getBoxProps(props)}
     />
   );
@@ -63,8 +45,12 @@ const ZeroOrOneProduction = ({
 ZeroOrOneProduction.propTypes = {
   productionName: PropTypes.string,
   onSearch: PropTypes.func,
-  options: PropTypes.array,
+  suggestedProductions: PropTypes.array,
   className: PropTypes.string,
+};
+
+ZeroOrOneProduction.defaultProps = {
+  suggestedProductions: [],
 };
 
 const TwoProductions = ({ productionNames, onChange, ...props }) => {
@@ -89,22 +75,75 @@ TwoProductions.defaultProps = {
   productionNames: [],
 };
 
-const Create = memo(() => {
+const LinkAndSkipButtons = ({ shouldDisableLinkButton, ...props }) => {
+  const { t } = useTranslation();
+  return (
+    <Inline spacing={3} {...getInlineProps(props)}>
+      <Button
+        variant={ButtonVariants.SUCCESS}
+        disabled={shouldDisableLinkButton}
+      >
+        {t('productions.create.link')}
+      </Button>
+      <Button variant={ButtonVariants.DANGER}>
+        {t('productions.create.skip')}
+      </Button>
+    </Inline>
+  );
+};
+
+LinkAndSkipButtons.propTypes = {
+  shouldDisableLinkButton: PropTypes.bool,
+};
+
+const ProductionStatus = {
+  MISSING: 'missing',
+  SELECTED: 'selected',
+  NEW: 'new',
+};
+
+const Create = () => {
   const { t, i18n } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
   const [selectedProductionId, setSelectedProductionId] = useState('');
 
   const { data: suggestedEvents } = useGetSuggestedEvents();
-  const { data: suggestedProductions } = useGetProductions({
+  const { data: suggestedProductionsData } = useGetProductions({
     name: searchInput,
     limit: 10,
   });
 
-  const suggestedProductionsData = suggestedProductions?.member ?? [];
+  const suggestedProductions = suggestedProductionsData?.member ?? [];
   const events = suggestedEvents?.events ?? [];
   const similarity = suggestedEvents?.similarity ?? 0;
 
-  const amountOfProductions = events.filter((event) => event.production).length;
+  const productions = useMemo(
+    () =>
+      events
+        .map((event) => event?.production)
+        .filter((production) => !!production),
+    [events],
+  );
+
+  useEffect(() => {
+    if (productions.length === 1) {
+      setSelectedProductionId(productions[0].id);
+    }
+  }, [productions]);
+
+  const status = useMemo(() => {
+    if (selectedProductionId) {
+      return ProductionStatus.SELECTED;
+    }
+    if (searchInput) {
+      return ProductionStatus.NEW;
+    }
+    return ProductionStatus.MISSING;
+  }, [selectedProductionId, searchInput]);
+
+  const handleInputSearch = (searchTerm) => {
+    debounce(() => setSearchInput(searchTerm.toString().trim()), 275)();
+  };
 
   return (
     <Page>
@@ -144,7 +183,7 @@ const Create = memo(() => {
           })}
         </Inline>
         <Stack spacing={4}>
-          {amountOfProductions === 2 ? (
+          {productions.length === 2 ? (
             <TwoProductions
               productionNames={events
                 .map((event) =>
@@ -162,21 +201,23 @@ const Create = memo(() => {
             />
           ) : (
             <ZeroOrOneProduction
-              onSearch={setSearchInput}
-              options={suggestedProductionsData.map(
-                (production) => production.name,
-              )}
+              onInput={handleInputSearch}
+              suggestedProductions={suggestedProductions}
               productionName={
-                events.find((event) => event?.production)?.production?.title
+                productions.find(
+                  (production) => production.id === selectedProductionId,
+                )?.title
               }
             />
           )}
-          <LinkAndSkipButtons shouldDisableLinkButton={!selectedProductionId} />
+          <LinkAndSkipButtons
+            shouldDisableLinkButton={status === ProductionStatus.MISSING}
+          />
         </Stack>
       </Page.Content>
     </Page>
   );
-});
+};
 
 export const getServerSideProps = getApplicationServerSideProps();
 
