@@ -20,7 +20,7 @@ const RadioButtonGroup = ({
           <RadioButtonWithLabel
             key={item.value}
             value={item.value}
-            checked={selected === item.value}
+            selected={selected === item.value}
             id={`radio-${item.value}`}
             name={name}
             onChange={onChange}
@@ -46,8 +46,6 @@ RadioButtonGroup.defaultProps = {
   name: '',
   groupLabel: '',
   items: [],
-  selected: '',
-  onChange: () => {},
 };
 
 export { RadioButtonGroup };

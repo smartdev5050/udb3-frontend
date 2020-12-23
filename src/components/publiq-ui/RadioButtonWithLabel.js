@@ -1,5 +1,9 @@
 import PropTypes from 'prop-types';
-import { RadioButton } from './RadioButton';
+import {
+  RadioButton,
+  radioButtonDefaultProps,
+  radioButtonPropTypes,
+} from './RadioButton';
 import { Inline } from './Inline';
 import { Label } from './Label';
 import { getBoxProps, boxPropTypes } from './Box';
@@ -7,13 +11,11 @@ import { getBoxProps, boxPropTypes } from './Box';
 const RadioButtonWithLabel = ({
   id,
   name,
-  checked,
   disabled,
   onChange,
   label,
-  className,
   value,
-  selected,
+  className,
   ...props
 }) => {
   return (
@@ -24,13 +26,7 @@ const RadioButtonWithLabel = ({
       as="li"
       {...getBoxProps(props)}
     >
-      <RadioButton
-        id={id}
-        onChange={onChange}
-        value={value}
-        selected={selected}
-        name={name}
-      />
+      <RadioButton id={id} onChange={onChange} value={value} name={name} />
       <Label cursor="pointer" htmlFor={id}>
         {label}
       </Label>
@@ -40,22 +36,12 @@ const RadioButtonWithLabel = ({
 
 RadioButtonWithLabel.propTypes = {
   ...boxPropTypes,
-  className: PropTypes.string,
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string,
-  selected: PropTypes.boolean,
-  value: PropTypes.string,
-  checked: PropTypes.bool,
-  disabled: PropTypes.bool,
-  onChange: PropTypes.func,
+  ...radioButtonPropTypes,
   label: PropTypes.node,
 };
 
 RadioButtonWithLabel.defaultprops = {
-  name: '',
-  checked: false,
-  disabled: false,
-  onChange: () => {},
+  ...radioButtonDefaultProps,
 };
 
 export { RadioButtonWithLabel };

@@ -5,7 +5,7 @@ import { RadioButton } from './RadioButton.js';
 <Meta title="Components/Radiobutton" />
 
 export const commonArgTypes = {
-  onToggle: { action: 'onToggle' },
+  onChange: { action: 'onChange' },
 };
 
 <Canvas>
@@ -14,23 +14,12 @@ export const commonArgTypes = {
     args={{
       id: '123',
       name: 'my-radiobutton',
-      checked: false,
       disabled: false,
     }}
     argTypes={commonArgTypes}
   >
     {(args) => {
-      const [checked, setChecked] = useState(false);
-      return (
-        <RadioButton
-          {...args}
-          checked={checked}
-          onToggle={(event) => {
-            args.onToggle(event);
-            setChecked(!checked);
-          }}
-        />
-      );
+      return <RadioButton {...args} />;
     }}
   </Story>
 </Canvas>
