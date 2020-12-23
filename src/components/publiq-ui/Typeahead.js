@@ -9,7 +9,10 @@ const Typeahead = ({
   id,
   options,
   disabled,
-  defaultInputValue,
+  placeholder,
+  emptyLabel,
+  allowNew,
+  newSelectionPrefix,
   className,
   onSearch,
   onSelection,
@@ -31,28 +34,42 @@ const Typeahead = ({
       `}
       onSearch={onSearch}
       onChange={onSelection}
-      defaultInputValue={defaultInputValue}
+      placeholder={placeholder}
+      emptyLabel={emptyLabel}
+      delay={275}
+      allowNew={allowNew}
+      newSelectionPrefix={newSelectionPrefix}
       {...getBoxProps(props)}
     />
   );
 };
 
-Typeahead.propTypes = {
-  ...boxPropTypes,
+const typeaheadPropTypes = {
   id: PropTypes.string.isRequired,
-  data: PropTypes.array,
+  options: PropTypes.array,
   disabled: PropTypes.bool,
-  defaultInputValue: PropTypes.string,
+  placeholder: PropTypes.string,
+  emptyLabel: PropTypes.string,
+  allowNew: PropTypes.bool,
+  newSelectionPrefix: PropTypes.string,
   className: PropTypes.string,
-  onInputChange: PropTypes.func,
+  onSearch: PropTypes.func,
   onSelection: PropTypes.func,
 };
 
-Typeahead.defaultProps = {
-  data: [],
-  disabled: false,
-  onInputChange: () => {},
-  onSelection: () => {},
+Typeahead.propTypes = {
+  ...boxPropTypes,
+  ...typeaheadPropTypes,
 };
 
-export { Typeahead };
+const typeaheadDefaultProps = {
+  options: [],
+  disabled: false,
+  newSelectionPrefix: '',
+};
+
+Typeahead.defaultProps = {
+  ...typeaheadDefaultProps,
+};
+
+export { Typeahead, typeaheadPropTypes, typeaheadDefaultProps };
