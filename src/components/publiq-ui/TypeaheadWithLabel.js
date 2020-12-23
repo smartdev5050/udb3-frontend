@@ -6,8 +6,7 @@ import {
   typeaheadPropTypes,
 } from './Typeahead';
 import { getStackProps, Stack, stackPropTypes } from './Stack';
-
-const id = uniqueId('typeahead-');
+import { useEffect, useState } from 'react';
 
 const TypeaheadWithLabel = ({
   label,
@@ -22,6 +21,11 @@ const TypeaheadWithLabel = ({
   onSelection,
   ...props
 }) => {
+  const [id, setId] = useState('');
+
+  useEffect(() => {
+    setId(uniqueId('typeahead-'));
+  }, []);
   return (
     <Stack {...getStackProps(props)}>
       <Label htmlFor={id} variant={LabelVariants.BOLD}>
