@@ -32,6 +32,7 @@ const useGetProductions = (
       start,
       limit,
     },
+    ...configuration,
   });
 
 const deleteEventById = async ({
@@ -80,7 +81,7 @@ const addEventById = async ({ productionId, eventId, headers }) => {
   return {};
 };
 
-const useAddEventById = (configuration) =>
+const useAddEventById = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: addEventById, ...configuration });
 
 const addEventsByIds = async ({
@@ -94,7 +95,7 @@ const addEventsByIds = async ({
   return await Promise.all(mappedEvents);
 };
 
-const useAddEventsByIds = (configuration) =>
+const useAddEventsByIds = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: addEventsByIds, ...configuration });
 
 const getSuggestedEvents = async ({ headers }) => {
@@ -123,7 +124,7 @@ const useGetSuggestedEvents = (configuration = {}) =>
     ...configuration,
   });
 
-const skipSuggestedEvents = async ({ headers, eventIds }) => {
+const skipSuggestedEvents = async ({ headers, eventIds = [] }) => {
   const res = await fetchFromApi({
     path: '/productions/skip',
     options: {
@@ -141,11 +142,52 @@ const skipSuggestedEvents = async ({ headers, eventIds }) => {
   return {};
 };
 
-const useSkipSuggestedEvents = (configuration) =>
+const useSkipSuggestedEvents = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: skipSuggestedEvents,
     ...configuration,
   });
+
+const createWithEvents = async ({ headers, productionName, eventIds = [] }) => {
+  const res = await fetchFromApi({
+    path: '/productions/',
+    options: {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        name: productionName,
+        eventIds,
+      }),
+    },
+  });
+  const body = await res.text();
+  if (body) {
+    return JSON.parse(body);
+  }
+  return {};
+};
+
+const useCreateWithEvents = (configuration = {}) =>
+  useAuthenticatedMutation({ mutationFn: createWithEvents, ...configuration });
+
+const mergeProductions = async ({
+  headers,
+  fromProductionId,
+  toProductionId,
+}) => {
+  const res = await fetchFromApi({
+    path: `/productions/${toProductionId}/merge/${fromProductionId}`,
+    options: { method: 'POST', headers },
+  });
+  const body = await res.text();
+  if (body) {
+    return JSON.parse(body);
+  }
+  return {};
+};
+
+const useMergeProductions = (configuration = {}) =>
+  useAuthenticatedMutation({ mutationFn: mergeProductions, ...configuration });
 
 export {
   useGetProductions,
@@ -155,4 +197,6 @@ export {
   useAddEventsByIds,
   useGetSuggestedEvents,
   useSkipSuggestedEvents,
+  useCreateWithEvents,
+  useMergeProductions,
 };
