@@ -8,10 +8,10 @@ import { Event } from '../../../components/manage/productions/create/Event';
 import { getApplicationServerSideProps } from '../../../utils/getApplicationServerSideProps';
 import { parseEventId } from '../../../utils/parseEventId';
 import { useGetSuggestedEvents } from '../../../hooks/api/events';
-import { memo, useState, useEffect } from 'react';
+import { memo, useState } from 'react';
 import { useGetProductions } from '../../../hooks/api/productions';
 import PropTypes from 'prop-types';
-import { Stack } from '../../../components/publiq-ui/Stack';
+import { getStackProps, Stack } from '../../../components/publiq-ui/Stack';
 import { RadioButtonGroup } from '../../../components/publiq-ui/RadioButtonGroup';
 import { getBoxProps } from '../../../components/publiq-ui/Box';
 
@@ -67,24 +67,32 @@ ZeroOrOneProduction.propTypes = {
   className: PropTypes.string,
 };
 
-const TwoProductions = ({ productionNames }) => {
+const TwoProductions = ({ productionNames, onChange, ...props }) => {
   const { t } = useTranslation();
   return (
     <RadioButtonGroup
       name="production-names"
       items={productionNames}
       groupLabel={t('productions.create.production_name')}
+      onChange={onChange}
+      {...getStackProps(props)}
     />
   );
 };
 
 TwoProductions.propTypes = {
   productionNames: PropTypes.array,
+  onChange: PropTypes.func,
+};
+
+TwoProductions.defaultProps = {
+  productionNames: [],
 };
 
 const Create = memo(() => {
   const { t, i18n } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
+  const [selectedProductionId, setSelectedProductionId] = useState('');
 
   const { data: suggestedEvents } = useGetSuggestedEvents();
   const { data: suggestedProductions } = useGetProductions({
@@ -139,8 +147,18 @@ const Create = memo(() => {
           {amountOfProductions === 2 ? (
             <TwoProductions
               productionNames={events
-                .map((event) => event.production?.title)
+                .map((event) =>
+                  event.production
+                    ? {
+                        label: event.production.title,
+                        value: event.production.id,
+                      }
+                    : undefined,
+                )
                 .filter((productionName) => productionName !== undefined)}
+              onChange={(e) => {
+                setSelectedProductionId(e.target.value.toString());
+              }}
             />
           ) : (
             <ZeroOrOneProduction
@@ -153,7 +171,7 @@ const Create = memo(() => {
               }
             />
           )}
-          <LinkAndSkipButtons shouldDisableLinkButton={!searchInput} />
+          <LinkAndSkipButtons shouldDisableLinkButton={!selectedProductionId} />
         </Stack>
       </Page.Content>
     </Page>
