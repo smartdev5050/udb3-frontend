@@ -150,7 +150,7 @@ const App = ({ Component, pageProps }) => {
 };
 
 App.propTypes = {
-  Component: PropTypes.node,
+  Component: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   pageProps: PropTypes.object,
 };
 
