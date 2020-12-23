@@ -214,7 +214,9 @@ const Create = () => {
     // add event to production when there is only 1 production
     addEventsByIds({
       productionId: selectedProductionId,
-      eventIds: events.filter((event) => !event.production),
+      eventIds: events
+        .filter((event) => !event.production)
+        .map((event) => parseEventId(event['@id'])),
     });
   };
 
