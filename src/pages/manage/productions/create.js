@@ -1,29 +1,61 @@
 import { useTranslation } from 'react-i18next';
 import { Text } from '../../../components/publiq-ui/Text';
 import { Page } from '../../../components/publiq-ui/Page';
-import { Typeahead } from '../../../components/publiq-ui/Typeahead';
-import { Inline } from '../../../components/publiq-ui/Inline';
+import { TypeaheadWithLabel } from '../../../components/publiq-ui/TypeaheadWithLabel';
+import { getInlineProps, Inline } from '../../../components/publiq-ui/Inline';
+import { Button, ButtonVariants } from '../../../components/publiq-ui/Button';
 import { Event } from '../../../components/manage/productions/create/Event';
 import { getApplicationServerSideProps } from '../../../utils/getApplicationServerSideProps';
 import { parseEventId } from '../../../utils/parseEventId';
 import { useGetSuggestedEvents } from '../../../hooks/api/events';
-import { memo, useState } from 'react';
+import { memo, useState, useEffect } from 'react';
 import { useGetProductions } from '../../../hooks/api/productions';
-import { debounce } from 'lodash';
 import PropTypes from 'prop-types';
+import { Stack } from '../../../components/publiq-ui/Stack';
+import { RadioButtonGroup } from '../../../components/publiq-ui/RadioButtonGroup';
+import { getBoxProps } from '../../../components/publiq-ui/Box';
+
+const LinkAndSkipButtons = ({ shouldDisableLinkButton, ...props }) => {
+  const { t } = useTranslation();
+  return (
+    <Inline spacing={3} {...getInlineProps(props)}>
+      <Button
+        variant={ButtonVariants.SUCCESS}
+        disabled={shouldDisableLinkButton}
+      >
+        {t('productions.create.link')}
+      </Button>
+      <Button variant={ButtonVariants.DANGER}>
+        {t('productions.create.skip')}
+      </Button>
+    </Inline>
+  );
+};
+
+LinkAndSkipButtons.propTypes = {
+  shouldDisableLinkButton: PropTypes.bool,
+};
 
 const ZeroOrOneProduction = ({
   productionName,
-  onSearch: handleSearch,
+  onSearch,
   options,
+  ...props
 }) => {
+  const { t } = useTranslation();
   return (
-    <Typeahead
+    <TypeaheadWithLabel
+      id="typeahead-productionname"
       options={options}
       disabled={!!productionName}
-      defaultInputValue={productionName}
-      onSearch={handleSearch}
+      placeholder={productionName}
+      allowNew
+      newSelectionPrefix={t('productions.create.new_production')}
       maxWidth="43rem"
+      label={t('productions.create.production_name')}
+      emptyLabel={t('productions.create.no_productions')}
+      onSearch={onSearch}
+      {...getBoxProps(props)}
     />
   );
 };
@@ -32,10 +64,22 @@ ZeroOrOneProduction.propTypes = {
   productionName: PropTypes.string,
   onSearch: PropTypes.func,
   options: PropTypes.array,
+  className: PropTypes.string,
 };
 
-const TwoProductions = () => {
-  return <div>two</div>;
+const TwoProductions = ({ productionNames }) => {
+  const { t } = useTranslation();
+  return (
+    <RadioButtonGroup
+      name="production-names"
+      items={productionNames}
+      groupLabel={t('productions.create.production_name')}
+    />
+  );
+};
+
+TwoProductions.propTypes = {
+  productionNames: PropTypes.array,
 };
 
 const Create = memo(() => {
@@ -53,10 +97,6 @@ const Create = memo(() => {
   const similarity = suggestedEvents?.similarity ?? 0;
 
   const amountOfProductions = events.filter((event) => event.production).length;
-
-  const handleInputSearch = (searchTerm) => {
-    debounce(() => setSearchInput(searchTerm), 275)();
-  };
 
   return (
     <Page>
@@ -95,19 +135,26 @@ const Create = memo(() => {
             );
           })}
         </Inline>
-        {amountOfProductions === 2 ? (
-          <TwoProductions />
-        ) : (
-          <ZeroOrOneProduction
-            onSearch={handleInputSearch}
-            options={suggestedProductionsData.map(
-              (production) => production.name,
-            )}
-            productionName={
-              events.find((event) => event?.production)?.production?.title
-            }
-          />
-        )}
+        <Stack spacing={4}>
+          {amountOfProductions === 2 ? (
+            <TwoProductions
+              productionNames={events
+                .map((event) => event.production?.title)
+                .filter((productionName) => productionName !== undefined)}
+            />
+          ) : (
+            <ZeroOrOneProduction
+              onSearch={setSearchInput}
+              options={suggestedProductionsData.map(
+                (production) => production.name,
+              )}
+              productionName={
+                events.find((event) => event?.production)?.production?.title
+              }
+            />
+          )}
+          <LinkAndSkipButtons shouldDisableLinkButton={!searchInput} />
+        </Stack>
       </Page.Content>
     </Page>
   );
