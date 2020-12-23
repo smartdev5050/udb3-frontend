@@ -8,13 +8,17 @@ import { Button, ButtonVariants } from '../../../components/publiq-ui/Button';
 import { Event } from '../../../components/manage/productions/create/Event';
 import { getApplicationServerSideProps } from '../../../utils/getApplicationServerSideProps';
 import { parseEventId } from '../../../utils/parseEventId';
-import { useGetSuggestedEvents } from '../../../hooks/api/events';
 import { useState, useMemo, useEffect } from 'react';
-import { useGetProductions } from '../../../hooks/api/productions';
+import {
+  useGetProductions,
+  useGetSuggestedEvents,
+  useSkipSuggestedEvents,
+} from '../../../hooks/api/productions';
 import { getStackProps, Stack } from '../../../components/publiq-ui/Stack';
 import { RadioButtonGroup } from '../../../components/publiq-ui/RadioButtonGroup';
 import { getBoxProps } from '../../../components/publiq-ui/Box';
 import { debounce } from 'lodash';
+import { useQueryClient } from 'react-query';
 
 const ZeroOrOneProduction = ({
   productionName,
@@ -75,7 +79,11 @@ TwoProductions.defaultProps = {
   productionNames: [],
 };
 
-const LinkAndSkipButtons = ({ shouldDisableLinkButton, ...props }) => {
+const LinkAndSkipButtons = ({
+  shouldDisableLinkButton,
+  onClickSkip,
+  ...props
+}) => {
   const { t } = useTranslation();
   return (
     <Inline spacing={3} {...getInlineProps(props)}>
@@ -85,7 +93,7 @@ const LinkAndSkipButtons = ({ shouldDisableLinkButton, ...props }) => {
       >
         {t('productions.create.link')}
       </Button>
-      <Button variant={ButtonVariants.DANGER}>
+      <Button variant={ButtonVariants.DANGER} onClick={onClickSkip}>
         {t('productions.create.skip')}
       </Button>
     </Inline>
@@ -94,6 +102,7 @@ const LinkAndSkipButtons = ({ shouldDisableLinkButton, ...props }) => {
 
 LinkAndSkipButtons.propTypes = {
   shouldDisableLinkButton: PropTypes.bool,
+  onClickSkip: PropTypes.func,
 };
 
 const ProductionStatus = {
@@ -104,6 +113,7 @@ const ProductionStatus = {
 
 const Create = () => {
   const { t, i18n } = useTranslation();
+  const queryClient = useQueryClient();
   const [searchInput, setSearchInput] = useState('');
   const [selectedProductionId, setSelectedProductionId] = useState('');
 
@@ -111,6 +121,14 @@ const Create = () => {
   const { data: suggestedProductionsData } = useGetProductions({
     name: searchInput,
     limit: 10,
+  });
+
+  const handleSuccessSkipSuggestedEvents = async () => {
+    await queryClient.refetchQueries(['productions', 'suggestion']);
+  };
+
+  const { mutate: skipSuggestedEvents } = useSkipSuggestedEvents({
+    onSuccess: handleSuccessSkipSuggestedEvents,
   });
 
   const suggestedProductions = suggestedProductionsData?.member ?? [];
@@ -215,6 +233,11 @@ const Create = () => {
           )}
           <LinkAndSkipButtons
             shouldDisableLinkButton={status === ProductionStatus.MISSING}
+            onClickSkip={() => {
+              skipSuggestedEvents({
+                eventIds: events.map((event) => parseEventId(event['@id'])),
+              });
+            }}
           />
         </Stack>
       </Page.Content>
