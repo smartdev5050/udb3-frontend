@@ -13,6 +13,9 @@ import {
   useGetProductions,
   useGetSuggestedEvents,
   useSkipSuggestedEvents,
+  useCreateWithEvents,
+  useMergeProductions,
+  useAddEventsByIds,
 } from '../../../hooks/api/productions';
 import { getStackProps, Stack } from '../../../components/publiq-ui/Stack';
 import { RadioButtonGroup } from '../../../components/publiq-ui/RadioButtonGroup';
@@ -81,6 +84,7 @@ TwoProductions.defaultProps = {
 
 const LinkAndSkipButtons = ({
   shouldDisableLinkButton,
+  onClickLink,
   onClickSkip,
   ...props
 }) => {
@@ -90,6 +94,7 @@ const LinkAndSkipButtons = ({
       <Button
         variant={ButtonVariants.SUCCESS}
         disabled={shouldDisableLinkButton}
+        onClick={onClickLink}
       >
         {t('productions.create.link')}
       </Button>
@@ -102,12 +107,13 @@ const LinkAndSkipButtons = ({
 
 LinkAndSkipButtons.propTypes = {
   shouldDisableLinkButton: PropTypes.bool,
+  onClickLink: PropTypes.func,
   onClickSkip: PropTypes.func,
 };
 
 const ProductionStatus = {
   MISSING: 'missing',
-  SELECTED: 'selected',
+  EXISTING_SELECTED: 'existingSelected',
   NEW: 'new',
 };
 
@@ -123,12 +129,26 @@ const Create = () => {
     limit: 10,
   });
 
-  const handleSuccessSkipSuggestedEvents = async () => {
-    await queryClient.refetchQueries(['productions', 'suggestion']);
+  const handleSuccess = async () => {
+    await queryClient.refetchQueries(['productions']);
+    setSelectedProductionId('');
+    setSearchInput('');
   };
 
   const { mutate: skipSuggestedEvents } = useSkipSuggestedEvents({
-    onSuccess: handleSuccessSkipSuggestedEvents,
+    onSuccess: handleSuccess,
+  });
+
+  const { mutate: createProductionWithEvents } = useCreateWithEvents({
+    onSuccess: handleSuccess,
+  });
+
+  const { mutate: mergeProductions } = useMergeProductions({
+    onSuccess: handleSuccess,
+  });
+
+  const { mutate: addEventsByIds } = useAddEventsByIds({
+    onSuccess: handleSuccess,
   });
 
   const suggestedProductions = suggestedProductionsData?.member ?? [];
@@ -151,7 +171,7 @@ const Create = () => {
 
   const status = useMemo(() => {
     if (selectedProductionId) {
-      return ProductionStatus.SELECTED;
+      return ProductionStatus.EXISTING_SELECTED;
     }
     if (searchInput) {
       return ProductionStatus.NEW;
@@ -161,6 +181,34 @@ const Create = () => {
 
   const handleInputSearch = (searchTerm) => {
     debounce(() => setSearchInput(searchTerm.toString().trim()), 275)();
+  };
+
+  const handleClickLink = () => {
+    if (status === ProductionStatus.MISSING) return;
+    if (status === ProductionStatus.NEW) {
+      // create a new production
+      createProductionWithEvents({
+        productionName: searchInput,
+        eventIds: events.map((event) => parseEventId(event['@id'])),
+      });
+      return;
+    }
+    // merge the unselected production into the selected production when there are 2 productions
+    if (productions.length === 2) {
+      const unselectedProductionId = productions.find(
+        (production) => production.id !== selectedProductionId,
+      )?.id;
+      mergeProductions({
+        fromProductionId: unselectedProductionId,
+        toProductionId: selectedProductionId,
+      });
+      return;
+    }
+    // add event to production when there is only 1 production
+    addEventsByIds({
+      productionId: selectedProductionId,
+      eventIds: events.filter((event) => !event.production),
+    });
   };
 
   return (
@@ -233,6 +281,7 @@ const Create = () => {
           )}
           <LinkAndSkipButtons
             shouldDisableLinkButton={status === ProductionStatus.MISSING}
+            onClickLink={handleClickLink}
             onClickSkip={() => {
               skipSuggestedEvents({
                 eventIds: events.map((event) => parseEventId(event['@id'])),
