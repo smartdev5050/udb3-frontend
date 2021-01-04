@@ -1,6 +1,5 @@
 import { Cookies } from 'react-cookie';
 import { QueryClient } from 'react-query';
-import { useGetPermissions, useGetRoles, useGetUser } from '../hooks/api/user';
 
 const getApplicationServerSideProps = (callbackFn) => async ({
   req,
@@ -24,11 +23,7 @@ const getApplicationServerSideProps = (callbackFn) => async ({
 
   const queryClient = new QueryClient();
 
-  Promise.all([
-    useGetUser({ req, queryClient }),
-    useGetPermissions({ req, queryClient }),
-    useGetRoles({ req, queryClient }),
-  ]);
+  // TODO: prefetch user, permission, roles
 
   if (!callbackFn) return { props: { cookies } };
   return await callbackFn({ req, query, queryClient, cookies });
