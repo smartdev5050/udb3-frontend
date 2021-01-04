@@ -99,21 +99,16 @@ const useAddEventsByIds = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: addEventsByIds, ...configuration });
 
 const getSuggestedEvents = async ({ headers }) => {
-  let res;
-  try {
-    res = await fetchFromApi({
-      path: '/productions/suggestion',
-      options: {
-        headers,
-      },
-    });
-  } catch (error) {
-    if ([Errors['204'], Errors['404']].includes(error.message)) {
-      return { events: [], similarity: 0 };
-    }
-    throw new Error(error.message);
+  const response = await fetchFromApi({
+    path: '/productions/suggestion',
+    options: {
+      headers,
+    },
+  });
+  if (response.status !== 200) {
+    return { events: [], similarity: 0 };
   }
-  return await res.json();
+  return await response.json();
 };
 
 const useGetSuggestedEvents = (configuration = {}) =>
