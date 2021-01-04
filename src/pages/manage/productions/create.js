@@ -39,10 +39,7 @@ const Create = () => {
     refetch: refetchSuggestedEvents,
   } = useGetSuggestedEvents({ retry: false });
 
-  const {
-    data: suggestedProductionsData,
-    refetch: refetchProductions,
-  } = useGetProductions({
+  const { data: suggestedProductionsData } = useGetProductions({
     name: searchInput,
     limit: 10,
   });
@@ -51,7 +48,6 @@ const Create = () => {
     setSelectedProductionId('');
     setSearchInput('');
     await refetchSuggestedEvents();
-    await refetchProductions();
   };
 
   const { mutate: skipSuggestedEvents } = useSkipSuggestedEvents({
@@ -70,7 +66,10 @@ const Create = () => {
     onSuccess: handleSuccess,
   });
 
-  const suggestedProductions = suggestedProductionsData?.member ?? [];
+  const suggestedProductions = searchInput
+    ? suggestedProductionsData?.member ?? []
+    : [];
+
   const events = suggestedEvents?.events ?? [];
   const similarity = suggestedEvents?.similarity ?? 0;
 
@@ -214,8 +213,8 @@ const Create = () => {
                   label={t('productions.create.production_name')}
                   emptyLabel={t('productions.create.no_productions')}
                   onInputChange={handleInputSearch}
-                  onSelection={(production) => {
-                    setSelectedProductionId(production.id);
+                  onChange={([production]) => {
+                    setSelectedProductionId(production.production_id);
                   }}
                 />
               )}
