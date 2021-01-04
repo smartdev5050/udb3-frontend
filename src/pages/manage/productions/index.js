@@ -79,14 +79,19 @@ const Index = () => {
 
   const events = useMemo(
     () =>
-      rawEvents.map((event) => {
-        const id = parseEventId(event['@id']);
-        return {
-          ...event,
-          id,
-          selected: selectedEventIds.includes(id),
-        };
-      }),
+      rawEvents
+        .map((event) => {
+          const eventId = event?.['@id'];
+          if (!eventId) return undefined;
+
+          const id = parseEventId(eventId);
+          return {
+            ...event,
+            id,
+            selected: selectedEventIds.includes(id),
+          };
+        })
+        .filter((event) => event),
     [rawEvents],
   );
 
