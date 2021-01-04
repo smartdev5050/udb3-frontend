@@ -148,7 +148,7 @@ const useAuthenticatedQuery = ({ mockData, ...options } = {}) => {
 
   useEffect(() => {
     if (
-      mockData &&
+      !!mockData &&
       process.env.NODE_ENV !== 'production' &&
       typeof window !== 'undefined'
     ) {
