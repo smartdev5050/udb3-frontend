@@ -1,32 +1,47 @@
 import uniqueId from 'lodash/uniqueId';
-import PropTypes from 'prop-types';
 import { Label, LabelVariants } from './Label';
-import { Typeahead } from './Typeahead';
-import { Stack } from './Stack';
-import { boxPropTypes, getBoxProps } from './Box';
-
-const id = uniqueId('typeahead-');
+import {
+  Typeahead,
+  typeaheadDefaultProps,
+  typeaheadPropTypes,
+} from './Typeahead';
+import { getStackProps, Stack, stackPropTypes } from './Stack';
+import { useEffect, useState } from 'react';
 
 const TypeaheadWithLabel = ({
   label,
-  data,
+  options,
+  labelKey,
   disabled,
+  placeholder,
+  emptyLabel,
   className,
   onInputChange,
+  onSearch,
   onSelection,
   ...props
 }) => {
+  const [id, setId] = useState('');
+
+  useEffect(() => {
+    setId(uniqueId('typeahead-'));
+  }, []);
+
   return (
-    <Stack {...getBoxProps(props)}>
+    <Stack {...getStackProps(props)}>
       <Label htmlFor={id} variant={LabelVariants.BOLD}>
         {label}
       </Label>
       <Typeahead
         id={id}
-        data={data}
+        options={options}
+        labelKey={labelKey}
         disabled={disabled}
+        emptyLabel={emptyLabel}
+        placeholder={placeholder}
         className={className}
         onInputChange={onInputChange}
+        onSearch={onSearch}
         onSelection={onSelection}
       />
     </Stack>
@@ -34,21 +49,13 @@ const TypeaheadWithLabel = ({
 };
 
 TypeaheadWithLabel.propTypes = {
-  ...boxPropTypes,
-  label: PropTypes.string,
-  data: PropTypes.array,
-  disabled: PropTypes.bool,
-  className: PropTypes.string,
-  onInputChange: PropTypes.func,
-  onSelection: PropTypes.func,
+  ...stackPropTypes,
+  ...typeaheadPropTypes,
 };
 
 TypeaheadWithLabel.defaultProps = {
+  ...typeaheadDefaultProps,
   label: '',
-  data: [],
-  disabled: false,
-  onInputChange: () => {},
-  onSelection: () => {},
 };
 
 export { TypeaheadWithLabel };

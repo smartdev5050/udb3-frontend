@@ -138,6 +138,11 @@ const boxProps = css`
   ${parseProperty('right', parseDimension)};
 
   ${parseProperty('backgroundColor')};
+  ${parseProperty('backgroundPosition')};
+  ${parseProperty('backgroundRepeat')};
+
+  ${parseProperty('objectFit')};
+
   ${parseProperty('fontSize')};
   ${parseProperty('fontWeight')};
   ${parseProperty('textAlign')};
@@ -290,6 +295,21 @@ const boxPropTypes = {
     PropTypes.object,
   ]),
   backgroundColor: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  backgroundPosition: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  backgroundRepeat: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  objectFit: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
     PropTypes.object,

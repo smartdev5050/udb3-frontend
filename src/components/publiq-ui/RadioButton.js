@@ -4,11 +4,10 @@ import { getBoxProps, boxPropTypes, Box } from './Box';
 const RadioButton = ({
   id,
   name,
-  checked,
   disabled,
   onChange,
-  className,
   value,
+  className,
   ...props
 }) => {
   return (
@@ -17,7 +16,6 @@ const RadioButton = ({
       type="radio"
       id={id}
       name={name}
-      checked={checked}
       disabled={disabled}
       onChange={onChange}
       value={value}
@@ -28,22 +26,26 @@ const RadioButton = ({
   );
 };
 
-RadioButton.propTypes = {
-  ...boxPropTypes,
-  className: PropTypes.string,
+const radioButtonPropTypes = {
   id: PropTypes.string.isRequired,
-  name: PropTypes.string,
+  name: PropTypes.string.isRequired,
   value: PropTypes.string,
-  checked: PropTypes.bool,
   disabled: PropTypes.bool,
   onChange: PropTypes.func,
+  className: PropTypes.string,
+};
+
+RadioButton.propTypes = {
+  ...boxPropTypes,
+  ...radioButtonPropTypes,
+};
+
+const radioButtonDefaultProps = {
+  disabled: false,
 };
 
 RadioButton.defaultprops = {
-  name: '',
-  checked: false,
-  disabled: false,
-  onChange: () => {},
+  ...radioButtonDefaultProps,
 };
 
-export { RadioButton };
+export { RadioButton, radioButtonPropTypes, radioButtonDefaultProps };

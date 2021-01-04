@@ -1,5 +1,11 @@
 {
-  "extends": ["standard", "standard-react", "prettier", "prettier/react"],
+  "extends": [
+    "standard",
+    "standard-jsx",
+    "standard-react",
+    "prettier",
+    "prettier/react"
+  ],
   "plugins": ["unicorn"],
   "rules": {
     "react/react-in-jsx-scope": "off",

@@ -1,24 +1,26 @@
 import { Card as BootstrapCard } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { getBoxProps, boxPropTypes, Box } from './Box';
+import { Stack, getStackProps, stackPropTypes } from './Stack';
 
-const Card = ({ children, className, ...props }) => (
-  <BootstrapCard
-    forwardedAs={Box}
-    className={className}
-    {...getBoxProps(props)}
-    css={`
-      &.card {
-        border: none;
-      }
-    `}
-  >
-    <BootstrapCard.Body>{children}</BootstrapCard.Body>
-  </BootstrapCard>
-);
+const Card = ({ children, className, ...props }) => {
+  return (
+    <BootstrapCard
+      forwardedAs={Stack}
+      className={className}
+      {...getStackProps(props)}
+      css={`
+        &.card {
+          border: none;
+        }
+      `}
+    >
+      {children}
+    </BootstrapCard>
+  );
+};
 
 Card.propTypes = {
-  ...boxPropTypes,
+  ...stackPropTypes,
   className: PropTypes.string,
   children: PropTypes.node,
 };

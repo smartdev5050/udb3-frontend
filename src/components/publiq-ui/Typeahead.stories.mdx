@@ -11,12 +11,13 @@ export const cities = [
 
 export const commonArgs = {
   id: 'test',
-  data: cities.map((city) => city.name),
+  options: cities.map((city) => city.name),
 };
 
 export const commonArgTypes = {
-  onInputChange: { action: 'onInputChange' },
+  onSearch: { action: 'onSearch' },
   onSelection: { action: 'onSelection' },
+  onInputChange: { action: 'onInputChange' },
 };
 
 <Canvas>
