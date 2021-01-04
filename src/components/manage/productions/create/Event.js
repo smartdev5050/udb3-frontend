@@ -92,8 +92,11 @@ Event.propTypes = {
 };
 
 Event.defaultProps = {
+  locationName: '',
+  locationCity: '',
   terms: [],
   description: '',
+  title: '',
 };
 
 export { Event };
