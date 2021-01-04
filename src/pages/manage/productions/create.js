@@ -38,6 +38,7 @@ const Create = () => {
     status: suggestedEventsStatus,
     refetch: refetchSuggestedEvents,
   } = useGetSuggestedEvents({ retry: false });
+
   const {
     data: suggestedProductionsData,
     refetch: refetchProductions,
@@ -145,6 +146,8 @@ const Create = () => {
       <Page.Content>
         {suggestedEventsStatus === QueryStatus.LOADING ? (
           <Spinner marginTop={4} />
+        ) : events.length === 0 ? (
+          <Text>{t('productions.create.no_suggested_events_found')}</Text>
         ) : (
           <Stack spacing={5}>
             <Text>
