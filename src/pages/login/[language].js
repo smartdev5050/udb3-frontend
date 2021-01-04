@@ -391,17 +391,27 @@ const MainChannelLink = () => {
 const Index = () => {
   const router = useRouter();
   const { t, i18n } = useTranslation();
-  const { removeAuthenticationCookies } = useCookiesWithOptions();
+  const { cookies, removeAuthenticationCookies } = useCookiesWithOptions();
   const { publicRuntimeConfig } = getConfig();
 
   const changeLanguage = (language) => () => router.push(`/login/${language}`);
 
   const handleClickLogin = () => {
+    console.log('LOGIN');
+    console.log(cookies.token, cookies.user);
+
     removeAuthenticationCookies();
+    console.log(cookies.token, cookies.user);
 
     const queryString = new URLSearchParams({
       destination: `${window.location.protocol}//${window.location.host}`,
       lang: i18n.language,
+    });
+
+    console.log({
+      publicRuntimeConfig,
+      authUrl: publicRuntimeConfig.authUrl,
+      queryString,
     });
 
     router.push(`${publicRuntimeConfig.authUrl}/connect?${queryString}`);
