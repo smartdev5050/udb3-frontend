@@ -1,4 +1,4 @@
-import { Errors, fetchFromApi } from '../../utils/fetchFromApi';
+import { fetchFromApi } from '../../utils/fetchFromApi';
 import { suggestedEvents } from '../../mocked/suggestedEvents';
 import {
   useAuthenticatedQuery,
