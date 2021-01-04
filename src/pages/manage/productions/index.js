@@ -231,7 +231,7 @@ export const getServerSideProps = getApplicationServerSideProps(
       limit: productionsPerPage,
     });
 
-    const eventIds = productions?.member?.[0].events ?? [];
+    const eventIds = productions?.member?.[0]?.events ?? [];
 
     await useGetEventsbyIds({ req, queryClient, ids: eventIds });
 
