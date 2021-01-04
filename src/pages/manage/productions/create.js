@@ -19,7 +19,6 @@ import {
 import { Stack } from '../../../components/publiq-ui/Stack';
 import { RadioButtonGroup } from '../../../components/publiq-ui/RadioButtonGroup';
 import { debounce } from 'lodash';
-import { useQueryClient } from 'react-query';
 import { QueryStatus } from '../../../hooks/api/authenticated-query';
 import { Spinner } from '../../../components/publiq-ui/Spinner';
 
@@ -31,7 +30,6 @@ const ProductionStatus = {
 
 const Create = () => {
   const { t, i18n } = useTranslation();
-  const queryClient = useQueryClient();
   const [searchInput, setSearchInput] = useState('');
   const [selectedProductionId, setSelectedProductionId] = useState('');
 
@@ -40,7 +38,10 @@ const Create = () => {
     status: suggestedEventsStatus,
     refetch: refetchSuggestedEvents,
   } = useGetSuggestedEvents();
-  const { data: suggestedProductionsData } = useGetProductions({
+  const {
+    data: suggestedProductionsData,
+    refetch: refetchProductions,
+  } = useGetProductions({
     name: searchInput,
     limit: 10,
   });
@@ -49,7 +50,7 @@ const Create = () => {
     setSelectedProductionId('');
     setSearchInput('');
     await refetchSuggestedEvents();
-    await queryClient.refetchQueries(['productions']);
+    await refetchProductions();
   };
 
   const { mutate: skipSuggestedEvents } = useSkipSuggestedEvents({
