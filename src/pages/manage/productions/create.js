@@ -37,7 +37,7 @@ const Create = () => {
     data: suggestedEvents,
     status: suggestedEventsStatus,
     refetch: refetchSuggestedEvents,
-  } = useGetSuggestedEvents();
+  } = useGetSuggestedEvents({ retry: false });
   const {
     data: suggestedProductionsData,
     refetch: refetchProductions,
