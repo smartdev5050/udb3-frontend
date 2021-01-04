@@ -99,6 +99,7 @@ Event.defaultProps = {
   terms: [],
   description: '',
   title: '',
+  calendarType: 'single',
 };
 
 export { Event };

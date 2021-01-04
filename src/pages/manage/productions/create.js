@@ -158,10 +158,11 @@ const Create = () => {
             </Text>
             <Inline spacing={4}>
               {events.map((event) => {
+                const id = event?.['@id'] && parseEventId(event['@id']);
                 return (
                   <Event
-                    id={parseEventId(event['@id'])}
-                    key={parseEventId(event['@id'])}
+                    id={id}
+                    key={id}
                     title={event?.name?.[i18n.language ?? event?.mainLanguage]}
                     locationName={
                       event?.location?.name?.[
@@ -178,7 +179,7 @@ const Create = () => {
                     imageUrl={event?.image}
                     description={event?.description?.[i18n.language]}
                     productionName={event?.production?.title}
-                    calendarType={event.calendarType}
+                    calendarType={event?.calendarType}
                   />
                 );
               })}
