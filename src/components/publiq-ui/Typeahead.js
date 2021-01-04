@@ -15,7 +15,7 @@ const Typeahead = ({
   className,
   onInputChange,
   onSearch,
-  onSelection,
+  onChange,
   ...props
 }) => {
   return (
@@ -35,7 +35,7 @@ const Typeahead = ({
       `}
       onSearch={onSearch}
       onInputChange={onInputChange}
-      onChange={onSelection}
+      onChange={onChange}
       placeholder={placeholder}
       emptyLabel={emptyLabel}
       delay={275}
@@ -54,7 +54,7 @@ const typeaheadPropTypes = {
   className: PropTypes.string,
   onInputChange: PropTypes.func,
   onSearch: PropTypes.func,
-  onSelection: PropTypes.func,
+  onChange: PropTypes.func,
 };
 
 Typeahead.propTypes = {
