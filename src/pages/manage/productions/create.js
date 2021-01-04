@@ -1,9 +1,8 @@
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Text } from '../../../components/publiq-ui/Text';
 import { Page } from '../../../components/publiq-ui/Page';
 import { TypeaheadWithLabel } from '../../../components/publiq-ui/TypeaheadWithLabel';
-import { getInlineProps, Inline } from '../../../components/publiq-ui/Inline';
+import { Inline } from '../../../components/publiq-ui/Inline';
 import { Button, ButtonVariants } from '../../../components/publiq-ui/Button';
 import { Event } from '../../../components/manage/productions/create/Event';
 import { getApplicationServerSideProps } from '../../../utils/getApplicationServerSideProps';
@@ -17,101 +16,12 @@ import {
   useMergeProductions,
   useAddEventsByIds,
 } from '../../../hooks/api/productions';
-import { getStackProps, Stack } from '../../../components/publiq-ui/Stack';
+import { Stack } from '../../../components/publiq-ui/Stack';
 import { RadioButtonGroup } from '../../../components/publiq-ui/RadioButtonGroup';
-import { getBoxProps } from '../../../components/publiq-ui/Box';
 import { debounce } from 'lodash';
 import { useQueryClient } from 'react-query';
 import { QueryStatus } from '../../../hooks/api/authenticated-query';
 import { Spinner } from '../../../components/publiq-ui/Spinner';
-
-const ZeroOrOneProduction = ({
-  productionName,
-  suggestedProductions,
-  onInput,
-  onSelection,
-  ...props
-}) => {
-  const { t } = useTranslation();
-  return (
-    <TypeaheadWithLabel
-      id="typeahead-productionname"
-      options={suggestedProductions}
-      labelKey={(production) => production.name}
-      disabled={!!productionName}
-      placeholder={productionName}
-      maxWidth="43rem"
-      label={t('productions.create.production_name')}
-      emptyLabel={t('productions.create.no_productions')}
-      onInput={onInput}
-      onSelection={onSelection}
-      {...getBoxProps(props)}
-    />
-  );
-};
-
-ZeroOrOneProduction.propTypes = {
-  productionName: PropTypes.string,
-  suggestedProductions: PropTypes.array,
-  onInput: PropTypes.func,
-  onSelection: PropTypes.func,
-  className: PropTypes.string,
-};
-
-ZeroOrOneProduction.defaultProps = {
-  suggestedProductions: [],
-};
-
-const TwoProductions = ({ productionNames, onChange, ...props }) => {
-  const { t } = useTranslation();
-  return (
-    <RadioButtonGroup
-      name="production-names"
-      items={productionNames}
-      groupLabel={t('productions.create.production_name')}
-      onChange={onChange}
-      {...getStackProps(props)}
-    />
-  );
-};
-
-TwoProductions.propTypes = {
-  productionNames: PropTypes.array,
-  onChange: PropTypes.func,
-};
-
-TwoProductions.defaultProps = {
-  productionNames: [],
-};
-
-const LinkAndSkipButtons = ({
-  shouldDisableLinkButton,
-  onClickLink,
-  onClickSkip,
-  ...props
-}) => {
-  const { t } = useTranslation();
-  return (
-    <Inline spacing={3} {...getInlineProps(props)}>
-      <Button
-        variant={ButtonVariants.SUCCESS}
-        disabled={shouldDisableLinkButton}
-        onClick={onClickLink}
-      >
-        {t('productions.create.link')}
-      </Button>
-      <Button variant={ButtonVariants.DANGER} onClick={onClickSkip}>
-        {t('productions.create.skip')}
-      </Button>
-    </Inline>
-  );
-};
-
-LinkAndSkipButtons.propTypes = {
-  shouldDisableLinkButton: PropTypes.bool,
-  onClickLink: PropTypes.func,
-  onClickSkip: PropTypes.func,
-};
 
 const ProductionStatus = {
   MISSING: 'missing',
@@ -168,6 +78,12 @@ const Create = () => {
         .map((event) => event?.production)
         .filter((production) => !!production),
     [events],
+  );
+
+  const selectedProduction = useMemo(
+    () =>
+      productions.find((production) => production.id === selectedProductionId),
+    [selectedProductionId],
   );
 
   useEffect(() => {
@@ -263,8 +179,9 @@ const Create = () => {
             </Inline>
             <Stack spacing={4}>
               {productions.length === 2 ? (
-                <TwoProductions
-                  productionNames={events
+                <RadioButtonGroup
+                  name="production-names"
+                  items={events
                     .map((event) =>
                       event.production
                         ? {
@@ -274,33 +191,48 @@ const Create = () => {
                         : undefined,
                     )
                     .filter((productionName) => productionName !== undefined)}
+                  groupLabel={t('productions.create.production_name')}
                   onChange={(e) => {
                     setSelectedProductionId(e.target.value.toString());
                   }}
                 />
               ) : (
-                <ZeroOrOneProduction
-                  suggestedProductions={suggestedProductions}
-                  productionName={
-                    productions.find(
-                      (production) => production.id === selectedProductionId,
-                    )?.title
-                  }
+                <TypeaheadWithLabel
+                  id="typeahead-productionname"
+                  options={suggestedProductions}
+                  labelKey={(production) => production.name}
+                  disabled={!!selectedProduction}
+                  placeholder={selectedProduction?.title}
+                  maxWidth="43rem"
+                  label={t('productions.create.production_name')}
+                  emptyLabel={t('productions.create.no_productions')}
                   onInput={handleInputSearch}
                   onSelection={(production) => {
                     setSelectedProductionId(production.id);
                   }}
                 />
               )}
-              <LinkAndSkipButtons
-                shouldDisableLinkButton={status === ProductionStatus.MISSING}
-                onClickLink={handleClickLink}
-                onClickSkip={() => {
-                  skipSuggestedEvents({
-                    eventIds: events.map((event) => parseEventId(event['@id'])),
-                  });
-                }}
-              />
+              <Inline spacing={3}>
+                <Button
+                  variant={ButtonVariants.SUCCESS}
+                  disabled={status === ProductionStatus.MISSING}
+                  onClick={handleClickLink}
+                >
+                  {t('productions.create.link')}
+                </Button>
+                <Button
+                  variant={ButtonVariants.DANGER}
+                  onClick={() => {
+                    skipSuggestedEvents({
+                      eventIds: events.map((event) =>
+                        parseEventId(event['@id']),
+                      ),
+                    });
+                  }}
+                >
+                  {t('productions.create.skip')}
+                </Button>
+              </Inline>
             </Stack>
           </Stack>
         )}
