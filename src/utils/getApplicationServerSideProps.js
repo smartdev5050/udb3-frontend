@@ -1,13 +1,12 @@
 import { Cookies } from 'react-cookie';
 import { QueryClient } from 'react-query';
-import { dehydrate } from 'react-query/hydration';
 import { useGetPermissions, useGetRoles, useGetUser } from '../hooks/api/user';
 
 const getApplicationServerSideProps = (callbackFn) => async ({
   req,
   query,
 }) => {
-  if (process.env.NODE_ENV !== 'production') {
+  if (process.env.NOD_ENV !== 'production') {
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
   }
 
@@ -25,14 +24,13 @@ const getApplicationServerSideProps = (callbackFn) => async ({
 
   const queryClient = new QueryClient();
 
-  await Promise.all([
+  Promise.all([
     useGetUser({ req, queryClient }),
     useGetPermissions({ req, queryClient }),
     useGetRoles({ req, queryClient }),
   ]);
 
-  if (!callbackFn)
-    return { props: { cookies, dehydratedState: dehydrate(queryClient) } };
+  if (!callbackFn) return { props: { cookies } };
   return await callbackFn({ req, query, queryClient, cookies });
 };
 
