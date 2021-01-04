@@ -13,7 +13,7 @@ const Typeahead = ({
   placeholder,
   emptyLabel,
   className,
-  onInput,
+  onInputChange,
   onSearch,
   onSelection,
   ...props
@@ -34,7 +34,7 @@ const Typeahead = ({
         }
       `}
       onSearch={onSearch}
-      onInputChange={onInput}
+      onInputChange={onInputChange}
       onChange={onSelection}
       placeholder={placeholder}
       emptyLabel={emptyLabel}
@@ -52,7 +52,7 @@ const typeaheadPropTypes = {
   placeholder: PropTypes.string,
   emptyLabel: PropTypes.string,
   className: PropTypes.string,
-  onInput: PropTypes.func,
+  onInputChange: PropTypes.func,
   onSearch: PropTypes.func,
   onSelection: PropTypes.func,
 };

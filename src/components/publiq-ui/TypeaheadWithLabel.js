@@ -16,7 +16,7 @@ const TypeaheadWithLabel = ({
   placeholder,
   emptyLabel,
   className,
-  onInput,
+  onInputChange,
   onSearch,
   onSelection,
   ...props
@@ -40,7 +40,7 @@ const TypeaheadWithLabel = ({
         emptyLabel={emptyLabel}
         placeholder={placeholder}
         className={className}
-        onInput={onInput}
+        onInputChange={onInputChange}
         onSearch={onSearch}
         onSelection={onSelection}
       />

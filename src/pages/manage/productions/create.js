@@ -206,7 +206,7 @@ const Create = () => {
                   maxWidth="43rem"
                   label={t('productions.create.production_name')}
                   emptyLabel={t('productions.create.no_productions')}
-                  onInput={handleInputSearch}
+                  onInputChange={handleInputSearch}
                   onSelection={(production) => {
                     setSelectedProductionId(production.id);
                   }}
