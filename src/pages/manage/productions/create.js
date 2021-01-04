@@ -73,7 +73,7 @@ const Create = () => {
   const events = suggestedEvents?.events ?? [];
   const similarity = suggestedEvents?.similarity ?? 0;
 
-  const productions = useMemo(
+  const availableProductions = useMemo(
     () =>
       events
         .map((event) => event?.production)
@@ -83,15 +83,17 @@ const Create = () => {
 
   const selectedProduction = useMemo(
     () =>
-      productions.find((production) => production.id === selectedProductionId),
+      availableProductions.find(
+        (production) => production.id === selectedProductionId,
+      ),
     [selectedProductionId],
   );
 
   useEffect(() => {
-    if (productions.length === 1) {
-      setSelectedProductionId(productions[0].id);
+    if (availableProductions.length === 1) {
+      setSelectedProductionId(availableProductions[0].id);
     }
-  }, [productions]);
+  }, [availableProductions]);
 
   const status = useMemo(() => {
     if (selectedProductionId) {
@@ -117,9 +119,9 @@ const Create = () => {
       });
       return;
     }
-    // merge the unselected production into the selected production when there are 2 productions
-    if (productions.length === 2) {
-      const unselectedProductionId = productions.find(
+    // merge the unselected production into the selected production when there are 2 availableProductions
+    if (availableProductions.length === 2) {
+      const unselectedProductionId = availableProductions.find(
         (production) => production.id !== selectedProductionId,
       )?.id;
       mergeProductions({
@@ -179,7 +181,7 @@ const Create = () => {
               })}
             </Inline>
             <Stack spacing={4}>
-              {productions.length === 2 ? (
+              {availableProductions.length === 2 ? (
                 <RadioButtonGroup
                   name="production-names"
                   items={events
