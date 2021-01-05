@@ -29,7 +29,6 @@ const Alert = ({
       hidden={!visible}
       dismissible={dismissible}
       className={className}
-      {...getBoxProps(props)}
       css={`
         margin: 0;
         &.alert {
@@ -37,6 +36,7 @@ const Alert = ({
         }
       `}
       onClose={onDismiss}
+      {...getBoxProps(props)}
     >
       {children}
     </BootstrapAlert>
