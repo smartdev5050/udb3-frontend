@@ -7,7 +7,7 @@ import {
   useDeleteEventsByIds,
   useGetProductions,
 } from '../../../hooks/api/productions';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from '../../../components/publiq-ui/Link';
 import { useGetEventsbyIds } from '../../../hooks/api/events';
 import { parseEventId } from '../../../utils/parseEventId';
@@ -64,7 +64,7 @@ const Index = () => {
       id: production.production_id,
       active: production.production_id === activeProductionId,
     }));
-  }, [activeProductionId]);
+  }, [activeProductionId, rawProductions]);
 
   const activeProduction = useMemo(
     () => productions.find((production) => production.active),
@@ -128,10 +128,10 @@ const Index = () => {
     onError: handleErrorAddEvent,
   });
 
-  const handleInputSearch = (event) => {
+  const handleInputSearch = useCallback((event) => {
     const searchTerm = event.target.value.toString().trim();
-    debounce(() => setSearchInput(searchTerm), 275)();
-  };
+    setSearchInput(searchTerm);
+  }, []);
 
   return (
     <Page>
@@ -148,7 +148,7 @@ const Index = () => {
         <InputWithLabel
           id="productions-overview-search"
           placeholder={t('productions.overview.search.placeholder')}
-          onInput={handleInputSearch}
+          onInput={debounce(handleInputSearch, 275)}
         >
           {t('productions.overview.search.label')}
         </InputWithLabel>
