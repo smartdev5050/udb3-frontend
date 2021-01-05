@@ -129,8 +129,10 @@ const Index = () => {
   });
 
   const handleInputSearch = (event) => {
-    const searchTerm = event.target.value.toString().trim();
-    debounce(() => setSearchInput(searchTerm), 275)();
+    debounce(() => {
+      const searchTerm = event.target.value.toString().trim();
+      setSearchInput(searchTerm);
+    }, 275)();
   };
 
   return (
