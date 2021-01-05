@@ -5,6 +5,7 @@ import { Box } from '../components/publiq-ui/Box';
 import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
 import { memo, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { getApplicationServerSideProps } from '../utils/getApplicationServerSideProps';
 
 const IFrame = memo(({ url }) => (
   <Box as="iframe" src={url} width="100%" height="100vh" />
@@ -44,5 +45,7 @@ const Fallback = () => {
 
   return <IFrame url={legacyPath} />;
 };
+
+export const getServerSideProps = getApplicationServerSideProps();
 
 export default Fallback;

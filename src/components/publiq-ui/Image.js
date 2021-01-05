@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Box, boxPropTypes, getBoxProps } from './Box';
 
-const Image = ({ src, height, alt, className, ...props }) => (
+const Image = ({ src, alt, className, ...props }) => (
   <Box
     as="img"
     src={src}

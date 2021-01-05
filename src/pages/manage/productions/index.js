@@ -7,17 +7,20 @@ import {
   useDeleteEventsByIds,
   useGetProductions,
 } from '../../../hooks/api/productions';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from '../../../components/publiq-ui/Link';
 import { useGetEventsbyIds } from '../../../hooks/api/events';
 import { parseEventId } from '../../../utils/parseEventId';
 import { QueryStatus } from '../../../hooks/api/authenticated-query';
+
 import { Text } from '../../../components/publiq-ui/Text';
-import { debounce } from 'lodash';
+import { throttle } from 'lodash';
 import { useQueryClient } from 'react-query';
 import { DeleteModal } from '../../../components/manage/productions/index/DeleteModal';
 import { Events } from '../../../components/manage/productions/index/Events';
 import { Productions } from '../../../components/manage/productions/index/Productions';
+import { dehydrate } from 'react-query/hydration';
+import { getApplicationServerSideProps } from '../../../utils/getApplicationServerSideProps';
 
 const productionsPerPage = 15;
 
@@ -44,6 +47,7 @@ const Index = () => {
     start: currentPageProductions - 1,
     limit: productionsPerPage,
   });
+
   const rawProductions = productionsData?.member ?? [];
 
   useEffect(() => {
@@ -60,7 +64,7 @@ const Index = () => {
       id: production.production_id,
       active: production.production_id === activeProductionId,
     }));
-  }, [activeProductionId]);
+  }, [activeProductionId, rawProductions]);
 
   const activeProduction = useMemo(
     () => productions.find((production) => production.active),
@@ -75,14 +79,19 @@ const Index = () => {
 
   const events = useMemo(
     () =>
-      rawEvents.map((event) => {
-        const id = parseEventId(event['@id']);
-        return {
-          ...event,
-          id,
-          selected: selectedEventIds.includes(id),
-        };
-      }),
+      rawEvents
+        .map((event) => {
+          const eventId = event?.['@id'];
+          if (!eventId) return undefined;
+
+          const id = parseEventId(eventId);
+          return {
+            ...event,
+            id,
+            selected: selectedEventIds.includes(id),
+          };
+        })
+        .filter((event) => event),
     [rawEvents],
   );
 
@@ -119,10 +128,11 @@ const Index = () => {
     onError: handleErrorAddEvent,
   });
 
-  const handleInputSearch = (event) => {
+  const handleInputSearch = useCallback((event) => {
     const searchTerm = event.target.value.toString().trim();
-    debounce(() => setSearchInput(searchTerm), 275)();
-  };
+    setCurrentPageProductions(1);
+    setSearchInput(searchTerm);
+  }, []);
 
   return (
     <Page>
@@ -139,7 +149,7 @@ const Index = () => {
         <InputWithLabel
           id="productions-overview-search"
           placeholder={t('productions.overview.search.placeholder')}
-          onInput={handleInputSearch}
+          onInput={throttle(handleInputSearch, 275)}
         >
           {t('productions.overview.search.label')}
         </InputWithLabel>
@@ -216,5 +226,28 @@ const Index = () => {
     </Page>
   );
 };
+
+export const getServerSideProps = getApplicationServerSideProps(
+  async ({ req, query, cookies, queryClient }) => {
+    const productions = await useGetProductions({
+      req,
+      queryClient,
+      name: '',
+      start: 0,
+      limit: productionsPerPage,
+    });
+
+    const eventIds = productions?.member?.[0]?.events ?? [];
+
+    await useGetEventsbyIds({ req, queryClient, ids: eventIds });
+
+    return {
+      props: {
+        dehydratedState: dehydrate(queryClient),
+        cookies,
+      },
+    };
+  },
+);
 
 export default Index;

@@ -1,21 +1,18 @@
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { useCookiesWithOptions } from '../../hooks/useCookiesWithOptions';
+import { Cookies } from 'react-cookie';
 
-const Index = () => {
-  const router = useRouter();
-  const { cookies } = useCookiesWithOptions(['udb-language']);
+const Index = () => null;
 
-  useEffect(() => {
-    const languageFromCookie = cookies?.['udb-language'] ?? '';
-    if (['nl', 'fr'].includes(languageFromCookie)) {
-      router.push(`/login/${languageFromCookie}`);
-    } else {
-      router.push('/login/nl');
-    }
-  }, []);
+export const getServerSideProps = ({ req, params }) => {
+  const cookies = new Cookies(req?.headers?.cookie);
 
-  return null;
+  const language = cookies.get('udb-language') ?? 'nl';
+
+  return {
+    redirect: {
+      destination: `/login/${language}`,
+      permanent: true,
+    },
+  };
 };
 
 export default Index;

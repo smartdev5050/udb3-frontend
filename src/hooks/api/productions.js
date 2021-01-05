@@ -1,10 +1,11 @@
 import { fetchFromApi } from '../../utils/fetchFromApi';
+import { suggestedEvents } from '../../mocked/suggestedEvents';
 import {
   useAuthenticatedQuery,
   useAuthenticatedMutation,
 } from './authenticated-query';
 
-const getProductions = async ({ headers, ...queryData }) => {
+export const getProductions = async ({ headers, ...queryData }) => {
   const res = await fetchFromApi({
     path: '/productions/',
     searchParams: {
@@ -18,10 +19,12 @@ const getProductions = async ({ headers, ...queryData }) => {
 };
 
 const useGetProductions = (
-  { name = '', start = 0, limit = 15 },
+  { req, queryClient, name = '', start = 0, limit = 15 },
   configuration = {},
 ) =>
   useAuthenticatedQuery({
+    req,
+    queryClient,
     queryKey: ['productions'],
     queryFn: getProductions,
     queryArguments: {
@@ -29,7 +32,7 @@ const useGetProductions = (
       start,
       limit,
     },
-    configuration,
+    ...configuration,
   });
 
 const deleteEventById = async ({
@@ -78,7 +81,7 @@ const addEventById = async ({ productionId, eventId, headers }) => {
   return {};
 };
 
-const useAddEventById = (configuration) =>
+const useAddEventById = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: addEventById, ...configuration });
 
 const addEventsByIds = async ({
@@ -92,8 +95,94 @@ const addEventsByIds = async ({
   return await Promise.all(mappedEvents);
 };
 
-const useAddEventsByIds = (configuration) =>
+const useAddEventsByIds = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: addEventsByIds, ...configuration });
+
+const getSuggestedEvents = async ({ headers }) => {
+  const response = await fetchFromApi({
+    path: '/productions/suggestion',
+    options: {
+      headers,
+    },
+  });
+  if (response.status !== 200) {
+    return { events: [], similarity: 0 };
+  }
+  return await response.json();
+};
+
+const useGetSuggestedEvents = (configuration = {}) =>
+  useAuthenticatedQuery({
+    queryKey: ['productions', 'suggestion'],
+    queryFn: getSuggestedEvents,
+    mockData: suggestedEvents,
+    ...configuration,
+  });
+
+const skipSuggestedEvents = async ({ headers, eventIds = [] }) => {
+  const res = await fetchFromApi({
+    path: '/productions/skip',
+    options: {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        eventIds,
+      }),
+    },
+  });
+  const body = await res.text();
+  if (body) {
+    return JSON.parse(body);
+  }
+  return {};
+};
+
+const useSkipSuggestedEvents = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: skipSuggestedEvents,
+    ...configuration,
+  });
+
+const createWithEvents = async ({ headers, productionName, eventIds = [] }) => {
+  const res = await fetchFromApi({
+    path: '/productions/',
+    options: {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        name: productionName,
+        eventIds,
+      }),
+    },
+  });
+  const body = await res.text();
+  if (body) {
+    return JSON.parse(body);
+  }
+  return {};
+};
+
+const useCreateWithEvents = (configuration = {}) =>
+  useAuthenticatedMutation({ mutationFn: createWithEvents, ...configuration });
+
+const mergeProductions = async ({
+  headers,
+  fromProductionId,
+  toProductionId,
+}) => {
+  const res = await fetchFromApi({
+    path: `/productions/${toProductionId}/merge/${fromProductionId}`,
+    options: { method: 'POST', headers },
+  });
+  const body = await res.text();
+  if (body) {
+    return JSON.parse(body);
+  }
+  return {};
+};
+
+const useMergeProductions = (configuration = {}) =>
+  useAuthenticatedMutation({ mutationFn: mergeProductions, ...configuration });
 
 export {
   useGetProductions,
@@ -101,4 +190,8 @@ export {
   useDeleteEventsByIds,
   useAddEventById,
   useAddEventsByIds,
+  useGetSuggestedEvents,
+  useSkipSuggestedEvents,
+  useCreateWithEvents,
+  useMergeProductions,
 };

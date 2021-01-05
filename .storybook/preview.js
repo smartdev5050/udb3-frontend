@@ -1,4 +1,5 @@
 import { ThemeProvider } from '../src/components/publiq-ui/ThemeProvider';
+import '../src/styles/global.scss';
 import { GlobalStyle } from '../src/styles/GlobalStyle';
 import { CustomCanvas } from './CustomCanvas';
 

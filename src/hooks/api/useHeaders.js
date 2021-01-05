@@ -1,15 +1,19 @@
 import getConfig from 'next/config';
 import { useCookiesWithOptions } from '../useCookiesWithOptions';
 
-const useHeaders = (headers = {}) => {
-  const { cookies } = useCookiesWithOptions(['token']);
+const createHeaders = (token, extraHeaders) => {
   const { publicRuntimeConfig } = getConfig();
 
   return {
-    Authorization: `Bearer ${cookies.token}`,
+    Authorization: `Bearer ${token}`,
     'X-Api-Key': publicRuntimeConfig.apiKey,
-    ...headers,
+    ...extraHeaders,
   };
 };
 
-export { useHeaders };
+const useHeaders = (extraHeaders = {}) => {
+  const { cookies } = useCookiesWithOptions(['token']);
+  return createHeaders(cookies.token, extraHeaders);
+};
+
+export { useHeaders, createHeaders };

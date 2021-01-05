@@ -8,6 +8,7 @@ const AlertVariants = {
   SUCCESS: 'success',
   DANGER: 'danger',
   WARNING: 'warning',
+  DARK: 'dark',
 };
 
 const getValue = getValueFromTheme(`alert`);
@@ -53,8 +54,8 @@ Alert.propTypes = {
 };
 
 Alert.defaultProps = {
+  visible: true,
   variant: AlertVariants.INFO,
-  visible: false,
   dismissible: false,
 };
 
