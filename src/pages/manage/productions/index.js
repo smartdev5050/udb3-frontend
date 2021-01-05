@@ -130,6 +130,7 @@ const Index = () => {
 
   const handleInputSearch = useCallback((event) => {
     const searchTerm = event.target.value.toString().trim();
+    setCurrentPageProductions(1);
     setSearchInput(searchTerm);
   }, []);
 
