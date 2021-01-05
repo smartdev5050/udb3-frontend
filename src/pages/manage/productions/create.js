@@ -106,7 +106,10 @@ const Create = () => {
   }, [selectedProductionId, searchInput]);
 
   const handleInputSearch = (searchTerm) => {
-    debounce(() => setSearchInput(searchTerm.toString().trim()), 275)();
+    debounce(() => {
+      setSelectedProductionId(undefined);
+      setSearchInput(searchTerm.toString().trim());
+    }, 275)();
   };
 
   const handleClickLink = () => {
@@ -213,8 +216,12 @@ const Create = () => {
                   label={t('productions.create.production_name')}
                   emptyLabel={t('productions.create.no_productions')}
                   onInputChange={handleInputSearch}
-                  onChange={([production]) => {
-                    setSelectedProductionId(production.production_id);
+                  onChange={(selected) => {
+                    if (!selected || selected.length !== 1) {
+                      setSelectedProductionId(undefined);
+                      return;
+                    }
+                    setSelectedProductionId(selected[0].production_id);
                   }}
                 />
               )}
