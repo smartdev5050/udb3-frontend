@@ -14,7 +14,7 @@ import { parseEventId } from '../../../utils/parseEventId';
 import { QueryStatus } from '../../../hooks/api/authenticated-query';
 
 import { Text } from '../../../components/publiq-ui/Text';
-import { debounce } from 'lodash';
+import { throttle } from 'lodash';
 import { useQueryClient } from 'react-query';
 import { DeleteModal } from '../../../components/manage/productions/index/DeleteModal';
 import { Events } from '../../../components/manage/productions/index/Events';
@@ -148,7 +148,7 @@ const Index = () => {
         <InputWithLabel
           id="productions-overview-search"
           placeholder={t('productions.overview.search.placeholder')}
-          onInput={debounce(handleInputSearch, 275)}
+          onInput={throttle(handleInputSearch, 275)}
         >
           {t('productions.overview.search.label')}
         </InputWithLabel>

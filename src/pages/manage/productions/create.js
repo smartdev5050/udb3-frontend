@@ -18,7 +18,7 @@ import {
 } from '../../../hooks/api/productions';
 import { Stack } from '../../../components/publiq-ui/Stack';
 import { RadioButtonGroup } from '../../../components/publiq-ui/RadioButtonGroup';
-import { debounce } from 'lodash';
+import { throttle } from 'lodash';
 import { QueryStatus } from '../../../hooks/api/authenticated-query';
 import { Spinner } from '../../../components/publiq-ui/Spinner';
 
@@ -213,7 +213,7 @@ const Create = () => {
                   maxWidth="43rem"
                   label={t('productions.create.production_name')}
                   emptyLabel={t('productions.create.no_productions')}
-                  onInputChange={debounce(handleInputSearch, 275)}
+                  onInputChange={throttle(handleInputSearch, 275)}
                   onChange={(selected) => {
                     if (!selected || selected.length !== 1) {
                       setSelectedProductionId(undefined);
