@@ -7,6 +7,7 @@ const WindowMessageSources = {
 
 const WindowMessageTypes = {
   URL_CHANGED: 'URL_CHANGED',
+  URL_UNKNOWN: 'URL_UNKNOWN',
   JOB_ADDED: 'JOB_ADDED',
   HTTP_ERROR_CODE: 'HTTP_ERROR_CODE',
 };
