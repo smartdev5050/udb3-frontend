@@ -565,6 +565,6 @@ const Index = () => {
   );
 };
 
-export const getServerSideProps = () => ({});
+export const getServerSideProps = () => ({ props: {} });
 
 export default Index;
