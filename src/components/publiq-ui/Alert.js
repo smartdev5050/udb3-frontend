@@ -22,6 +22,7 @@ const Alert = ({
   className,
   ...props
 }) => {
+  // TODO: box props (positioning) doesn't seem to work
   return (
     <BootstrapAlert
       forwardedAs={Box}
