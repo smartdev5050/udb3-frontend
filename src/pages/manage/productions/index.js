@@ -64,7 +64,7 @@ const Index = () => {
       id: production.production_id,
       active: production.production_id === activeProductionId,
     }));
-  }, [activeProductionId]);
+  }, [activeProductionId, rawProductions]);
 
   const activeProduction = useMemo(
     () => productions.find((production) => production.active),
