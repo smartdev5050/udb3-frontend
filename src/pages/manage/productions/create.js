@@ -37,11 +37,9 @@ const Create = () => {
     data: suggestedEvents,
     status: suggestedEventsStatus,
     refetch: refetchSuggestedEvents,
-  } = useGetSuggestedEvents();
-  const {
-    data: suggestedProductionsData,
-    refetch: refetchProductions,
-  } = useGetProductions({
+  } = useGetSuggestedEvents({ retry: false });
+
+  const { data: suggestedProductionsData } = useGetProductions({
     name: searchInput,
     limit: 10,
   });
@@ -50,7 +48,6 @@ const Create = () => {
     setSelectedProductionId('');
     setSearchInput('');
     await refetchSuggestedEvents();
-    await refetchProductions();
   };
 
   const { mutate: skipSuggestedEvents } = useSkipSuggestedEvents({
@@ -69,7 +66,10 @@ const Create = () => {
     onSuccess: handleSuccess,
   });
 
-  const suggestedProductions = suggestedProductionsData?.member ?? [];
+  const suggestedProductions = searchInput
+    ? suggestedProductionsData?.member ?? []
+    : [];
+
   const events = suggestedEvents?.events ?? [];
   const similarity = suggestedEvents?.similarity ?? 0;
 
@@ -145,6 +145,8 @@ const Create = () => {
       <Page.Content>
         {suggestedEventsStatus === QueryStatus.LOADING ? (
           <Spinner marginTop={4} />
+        ) : events.length === 0 ? (
+          <Text>{t('productions.create.no_suggested_events_found')}</Text>
         ) : (
           <Stack spacing={5}>
             <Text>
@@ -155,27 +157,28 @@ const Create = () => {
             </Text>
             <Inline spacing={4}>
               {events.map((event) => {
+                const id = event?.['@id'] && parseEventId(event['@id']);
                 return (
                   <Event
-                    id={parseEventId(event['@id'])}
-                    key={parseEventId(event['@id'])}
-                    title={event.name[i18n.language ?? event.mainLanguage]}
+                    id={id}
+                    key={id}
+                    title={event?.name?.[i18n.language ?? event?.mainLanguage]}
                     locationName={
-                      event.location.name[
-                        i18n.language ?? event.location.mainLanguage
+                      event?.location?.name?.[
+                        i18n.language ?? event?.location?.mainLanguage
                       ]
                     }
                     locationCity={
-                      event.location.address[
-                        i18n.language ?? event.location.mainLanguage
-                      ].addressLocality
+                      event?.location?.address?.[
+                        i18n.language ?? event?.location?.mainLanguage
+                      ]?.addressLocality
                     }
-                    terms={event.terms}
+                    terms={event?.terms}
                     flex={1}
-                    imageUrl={event.image}
-                    description={event.description[i18n.language]}
+                    imageUrl={event?.image}
+                    description={event?.description?.[i18n.language]}
                     productionName={event?.production?.title}
-                    calendarType={event.calendarType}
+                    calendarType={event?.calendarType}
                   />
                 );
               })}
@@ -210,8 +213,8 @@ const Create = () => {
                   label={t('productions.create.production_name')}
                   emptyLabel={t('productions.create.no_productions')}
                   onInputChange={handleInputSearch}
-                  onSelection={(production) => {
-                    setSelectedProductionId(production.id);
+                  onChange={([production]) => {
+                    setSelectedProductionId(production.production_id);
                   }}
                 />
               )}

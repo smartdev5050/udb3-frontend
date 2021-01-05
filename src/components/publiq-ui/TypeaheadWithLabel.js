@@ -18,7 +18,7 @@ const TypeaheadWithLabel = ({
   className,
   onInputChange,
   onSearch,
-  onSelection,
+  onChange,
   ...props
 }) => {
   const [id, setId] = useState('');
@@ -42,7 +42,7 @@ const TypeaheadWithLabel = ({
         className={className}
         onInputChange={onInputChange}
         onSearch={onSearch}
-        onSelection={onSelection}
+        onChange={onChange}
       />
     </Stack>
   );

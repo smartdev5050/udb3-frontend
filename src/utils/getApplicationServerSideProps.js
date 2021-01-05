@@ -5,7 +5,7 @@ const getApplicationServerSideProps = (callbackFn) => async ({
   req,
   query,
 }) => {
-  if (process.env.NOD_ENV !== 'production') {
+  if (process.env.NODE_ENV !== 'production') {
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
   }
 
@@ -22,8 +22,6 @@ const getApplicationServerSideProps = (callbackFn) => async ({
   }
 
   const queryClient = new QueryClient();
-
-  // TODO: prefetch user, permission, roles
 
   if (!callbackFn) return { props: { cookies } };
   return await callbackFn({ req, query, queryClient, cookies });

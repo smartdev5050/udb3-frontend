@@ -59,14 +59,16 @@ const Event = ({
             {locationName} {locationCity}
           </Text>
         </Stack>
-        <Image
-          width="10rem"
-          height="10rem"
-          src={imageUrl}
-          backgroundRepeat="no-repeat"
-          backgroundPosition="center center"
-          objectFit="cover"
-        />
+        {imageUrl && (
+          <Image
+            width="10rem"
+            height="10rem"
+            src={imageUrl}
+            backgroundRepeat="no-repeat"
+            backgroundPosition="center center"
+            objectFit="cover"
+          />
+        )}
       </Inline>
 
       <Text>{description}</Text>
@@ -92,8 +94,12 @@ Event.propTypes = {
 };
 
 Event.defaultProps = {
+  locationName: '',
+  locationCity: '',
   terms: [],
   description: '',
+  title: '',
+  calendarType: 'single',
 };
 
 export { Event };
