@@ -7,7 +7,7 @@ import { Button, ButtonVariants } from '../../../components/publiq-ui/Button';
 import { Event } from '../../../components/manage/productions/create/Event';
 import { getApplicationServerSideProps } from '../../../utils/getApplicationServerSideProps';
 import { parseEventId } from '../../../utils/parseEventId';
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import {
   useGetProductions,
   useGetSuggestedEvents,
@@ -105,12 +105,10 @@ const Create = () => {
     return ProductionStatus.MISSING;
   }, [selectedProductionId, searchInput]);
 
-  const handleInputSearch = (searchTerm) => {
-    debounce(() => {
-      setSelectedProductionId(undefined);
-      setSearchInput(searchTerm.toString().trim());
-    }, 275)();
-  };
+  const handleInputSearch = useCallback((searchTerm) => {
+    setSelectedProductionId(undefined);
+    setSearchInput(searchTerm.toString().trim());
+  }, []);
 
   const handleClickLink = () => {
     if (status === ProductionStatus.MISSING) return;
@@ -215,7 +213,7 @@ const Create = () => {
                   maxWidth="43rem"
                   label={t('productions.create.production_name')}
                   emptyLabel={t('productions.create.no_productions')}
-                  onInputChange={handleInputSearch}
+                  onInputChange={debounce(handleInputSearch, 275)}
                   onChange={(selected) => {
                     if (!selected || selected.length !== 1) {
                       setSelectedProductionId(undefined);
