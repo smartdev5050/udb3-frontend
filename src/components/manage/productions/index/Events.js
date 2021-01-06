@@ -6,7 +6,7 @@ import { Title } from '../../../publiq-ui/Title';
 import { CheckboxWithLabel } from '../../../publiq-ui/CheckboxWithLabel';
 import { Button, ButtonVariants } from '../../../publiq-ui/Button';
 import { Icon, Icons } from '../../../publiq-ui/Icon';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Breakpoints, getValueFromTheme } from '../../../publiq-ui/theme';
 import { Panel } from '../../../publiq-ui/Panel';
 import {
@@ -32,7 +32,7 @@ const getEventType = (terms) => {
 const Event = ({
   id,
   name,
-  type,
+  terms,
   location,
   calendarType,
   onToggle,
@@ -51,6 +51,11 @@ const Event = ({
   const handleClickToggleExpand = () => {
     setIsExpanded((prevValue) => !prevValue);
   };
+
+  const type = useMemo(() => {
+    const type = terms.find((term) => term.domain === 'eventtype')?.label ?? '';
+    return t(`offerTypes.${type}`, type);
+  }, [terms]);
 
   return (
     <List.Item
@@ -98,7 +103,7 @@ const Event = ({
 Event.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  type: PropTypes.string,
+  terms: PropTypes.array,
   location: PropTypes.string,
   calendarType: PropTypes.string,
   onToggle: PropTypes.func,
@@ -271,27 +276,35 @@ const Events = ({
           </Stack>,
           <Panel key="panel">
             <List>
-              {events.map((event, index) => (
-                <Event
-                  key={event.id}
-                  id={event.id}
-                  name={event.name[i18n.language]}
-                  type={getEventType(event.terms)}
-                  location={event.location.name[i18n.language]}
-                  calendarType={event.calendarType}
-                  onToggle={onToggleSelectEvent}
-                  selected={event.selected}
-                  css={
-                    index !== events.length - 1
-                      ? (props) => {
-                          return `border-bottom: 1px solid ${getValue(
-                            'borderColor',
-                          )(props)};`;
-                        }
-                      : undefined
-                  }
-                />
-              ))}
+              {events.map((event, index) => {
+                return (
+                  <Event
+                    key={event.id}
+                    id={event.id}
+                    name={
+                      event.name?.[i18n.language] ??
+                      event.name?.[event.mainLanguage]
+                    }
+                    terms={event.terms}
+                    location={
+                      event.location?.name?.[i18n.language] ??
+                      event.location?.name?.[event.location?.mainLanguage]
+                    }
+                    calendarType={event.calendarType}
+                    onToggle={onToggleSelectEvent}
+                    selected={event.selected}
+                    css={
+                      index !== events.length - 1
+                        ? (props) => {
+                            return `border-bottom: 1px solid ${getValue(
+                              'borderColor',
+                            )(props)};`;
+                          }
+                        : undefined
+                    }
+                  />
+                );
+              })}
             </List>
           </Panel>,
         ]

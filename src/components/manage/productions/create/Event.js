@@ -27,10 +27,10 @@ const Event = ({
 }) => {
   const { t, i18n } = useTranslation();
 
-  const type = useMemo(
-    () => terms.find((term) => term.domain === 'eventtype')?.label ?? '',
-    [terms],
-  );
+  const type = useMemo(() => {
+    const type = terms.find((term) => term.domain === 'eventtype')?.label ?? '';
+    return t(`offerTypes.${type}`, type);
+  }, [terms]);
 
   const { data: period } = useGetCalendarSummary({
     id,
