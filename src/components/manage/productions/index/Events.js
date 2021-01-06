@@ -271,35 +271,33 @@ const Events = ({
           </Stack>,
           <Panel key="panel">
             <List>
-              {events.map((event, index) => {
-                return (
-                  <Event
-                    key={event.id}
-                    id={event.id}
-                    name={
-                      event.name?.[i18n.language] ??
-                      event.name?.[event.mainLanguage]
-                    }
-                    terms={event.terms}
-                    location={
-                      event.location?.name?.[i18n.language] ??
-                      event.location?.name?.[event.location?.mainLanguage]
-                    }
-                    calendarType={event.calendarType}
-                    onToggle={onToggleSelectEvent}
-                    selected={event.selected}
-                    css={
-                      index !== events.length - 1
-                        ? (props) => {
-                            return `border-bottom: 1px solid ${getValue(
-                              'borderColor',
-                            )(props)};`;
-                          }
-                        : undefined
-                    }
-                  />
-                );
-              })}
+              {events.map((event, index) => (
+                <Event
+                  key={event.id}
+                  id={event.id}
+                  name={
+                    event.name?.[i18n.language] ??
+                    event.name?.[event.mainLanguage]
+                  }
+                  terms={event.terms}
+                  location={
+                    event.location?.name?.[i18n.language] ??
+                    event.location?.name?.[event.location?.mainLanguage]
+                  }
+                  calendarType={event.calendarType}
+                  onToggle={onToggleSelectEvent}
+                  selected={event.selected}
+                  css={
+                    index !== events.length - 1
+                      ? (props) => {
+                          return `border-bottom: 1px solid ${getValue(
+                            'borderColor',
+                          )(props)};`;
+                        }
+                      : undefined
+                  }
+                />
+              ))}
             </List>
           </Panel>,
         ]
