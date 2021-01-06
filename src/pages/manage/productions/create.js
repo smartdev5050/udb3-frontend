@@ -163,21 +163,27 @@ const Create = () => {
                   <Event
                     id={id}
                     key={id}
-                    title={event?.name?.[i18n.language ?? event?.mainLanguage]}
+                    title={
+                      event?.name?.[i18n.language] ??
+                      event?.name?.[event.mainLanguage]
+                    }
                     locationName={
-                      event?.location?.name?.[
-                        i18n.language ?? event?.location?.mainLanguage
-                      ]
+                      event?.location?.name?.[i18n.language] ??
+                      event?.location?.name?.[event.location.mainLanguage]
                     }
                     locationCity={
-                      event?.location?.address?.[
-                        i18n.language ?? event?.location?.mainLanguage
-                      ]?.addressLocality
+                      event?.location?.address?.[i18n.language]
+                        ?.addressLocality ??
+                      event?.location?.address?.[event.location.mainLanguage]
+                        ?.addressLocality
                     }
                     terms={event?.terms}
                     flex={1}
                     imageUrl={event?.image}
-                    description={event?.description?.[i18n.language]}
+                    description={
+                      event?.description?.[i18n.language] ??
+                      event?.description?.[event.mainLanguage]
+                    }
                     productionName={event?.production?.title}
                     calendarType={event?.calendarType}
                   />
