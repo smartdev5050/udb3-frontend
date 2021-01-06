@@ -22,6 +22,7 @@ const Alert = ({
   className,
   ...props
 }) => {
+  // TODO: box props (positioning) doesn't seem to work
   return (
     <BootstrapAlert
       forwardedAs={Box}
@@ -29,7 +30,6 @@ const Alert = ({
       hidden={!visible}
       dismissible={dismissible}
       className={className}
-      {...getBoxProps(props)}
       css={`
         margin: 0;
         &.alert {
@@ -37,6 +37,7 @@ const Alert = ({
         }
       `}
       onClose={onDismiss}
+      {...getBoxProps(props)}
     >
       {children}
     </BootstrapAlert>

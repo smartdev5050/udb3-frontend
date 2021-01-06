@@ -197,6 +197,9 @@ const theme = {
       colorMedium: lighten('0.31', colors.udbRed),
       colorHard: lighten('0.40', colors.udbRed),
     },
+    pageNotFound: {
+      iconColor: colors.grey2,
+    },
   },
 };
 
