@@ -67,7 +67,11 @@ const useGetEventsbyIds = ({ req, queryClient, ids = [] }) => {
 
 const getCalendarSummary = async ({ headers, id, format, locale }) => {
   const res = await fetchFromApi({
-    path: `/events/${id.toString()}/calsum?format=${format}&langCode=${locale}_BE`,
+    path: `/events/${id.toString()}/calsum`,
+    searchParams: {
+      format,
+      langCode: `${locale}_BE`,
+    },
     options: {
       headers,
     },
