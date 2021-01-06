@@ -14,13 +14,13 @@ const getFontSize = (props) => {
 const Title = ({ size, children, className, ...props }) => (
   <Box
     forwardedAs={`h${size}`}
-    {...getBoxProps(props)}
     size={size}
     className={className}
     css={`
       font-weight: ${getFontWeight};
       font-size: ${getFontSize}rem;
     `}
+    {...getBoxProps(props)}
   >
     {children}
   </Box>

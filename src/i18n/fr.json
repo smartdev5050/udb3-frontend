@@ -97,5 +97,10 @@
     "in_progress": "Occupé",
     "notifications": "Notifications",
     "time_ago": "Il y a {{time}}"
+  },
+  "404": {
+    "title": "404 Pas trouvée",
+    "sub_title": "Désolé, la page que vous recherchez n'existe pas.",
+    "redirect": "Retourner à Home"
   }
 }

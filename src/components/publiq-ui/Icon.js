@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Box, boxPropTypes, getBoxProps, parseDimension } from './Box';
 import {
   faBell,
+  faBinoculars,
   faCheck,
   faCheckCircle,
   faChevronDown,
@@ -49,6 +50,7 @@ const Icons = {
   CHEVRON_RIGHT: 'chevronRight',
   PLUS: 'plus',
   TRASH: 'trash',
+  BINOCULARS: 'binoculars',
 };
 
 const IconsMap = {
@@ -74,6 +76,7 @@ const IconsMap = {
   [Icons.CHEVRON_RIGHT]: faChevronRight,
   [Icons.PLUS]: faPlus,
   [Icons.TRASH]: faTrash,
+  [Icons.BINOCULARS]: faBinoculars,
 };
 
 const Icon = ({ name, width, height, className, ...props }) => {
