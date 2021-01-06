@@ -24,11 +24,6 @@ import { useMatchBreakpoint } from '../../../../hooks/useMatchBreakpoint';
 
 const getValue = getValueFromTheme('eventItem');
 
-const getEventType = (terms) => {
-  const foundTerm = terms.find((term) => term.domain === 'eventtype') || {};
-  return foundTerm.label ? foundTerm.label : '';
-};
-
 const Event = ({
   id,
   name,
