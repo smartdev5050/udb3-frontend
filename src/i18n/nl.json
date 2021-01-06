@@ -103,6 +103,6 @@
   "404": {
     "title": "404 Niet Gevonden",
     "sub_title": "Sorry, de pagina die u zocht bestaat niet.",
-    "redirect": "Ga terug naar dashboard"
+    "redirect": "Ga terug naar Home"
   }
 }
