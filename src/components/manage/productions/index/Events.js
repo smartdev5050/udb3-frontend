@@ -48,8 +48,8 @@ const Event = ({
   };
 
   const type = useMemo(() => {
-    const type = terms.find((term) => term.domain === 'eventtype')?.label ?? '';
-    return t(`offerTypes.${type}`, type);
+    const typeId = terms.find((term) => term.domain === 'eventtype')?.id ?? '';
+    return t(`offerTypes*${typeId}`, { keySeparator: '*' });
   }, [terms]);
 
   return (
