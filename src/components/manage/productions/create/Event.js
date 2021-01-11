@@ -27,10 +27,11 @@ const Event = ({
 }) => {
   const { t, i18n } = useTranslation();
 
-  const type = useMemo(
-    () => terms.find((term) => term.domain === 'eventtype')?.label ?? '',
-    [terms],
-  );
+  const type = useMemo(() => {
+    const typeId = terms.find((term) => term.domain === 'eventtype')?.id ?? '';
+    // The custom keySeparator was necessary because the ids contain '.' which i18n uses as default keySeparator
+    return t(`offerTypes*${typeId}`, { keySeparator: '*' });
+  }, [terms]);
 
   const { data: period } = useGetCalendarSummary({
     id,

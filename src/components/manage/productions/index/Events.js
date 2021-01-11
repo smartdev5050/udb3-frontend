@@ -6,7 +6,7 @@ import { Title } from '../../../publiq-ui/Title';
 import { CheckboxWithLabel } from '../../../publiq-ui/CheckboxWithLabel';
 import { Button, ButtonVariants } from '../../../publiq-ui/Button';
 import { Icon, Icons } from '../../../publiq-ui/Icon';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Breakpoints, getValueFromTheme } from '../../../publiq-ui/theme';
 import { Panel } from '../../../publiq-ui/Panel';
 import {
@@ -24,15 +24,10 @@ import { useMatchBreakpoint } from '../../../../hooks/useMatchBreakpoint';
 
 const getValue = getValueFromTheme('eventItem');
 
-const getEventType = (terms) => {
-  const foundTerm = terms.find((term) => term.domain === 'eventtype') || {};
-  return foundTerm.label ? foundTerm.label : '';
-};
-
 const Event = ({
   id,
   name,
-  type,
+  terms,
   location,
   calendarType,
   onToggle,
@@ -51,6 +46,12 @@ const Event = ({
   const handleClickToggleExpand = () => {
     setIsExpanded((prevValue) => !prevValue);
   };
+
+  const type = useMemo(() => {
+    const typeId = terms.find((term) => term.domain === 'eventtype')?.id ?? '';
+    // The custom keySeparator was necessary because the ids contain '.' which i18n uses as default keySeparator
+    return t(`offerTypes*${typeId}`, { keySeparator: '*' });
+  }, [terms]);
 
   return (
     <List.Item
@@ -98,7 +99,7 @@ const Event = ({
 Event.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  type: PropTypes.string,
+  terms: PropTypes.array,
   location: PropTypes.string,
   calendarType: PropTypes.string,
   onToggle: PropTypes.func,
@@ -275,9 +276,15 @@ const Events = ({
                 <Event
                   key={event.id}
                   id={event.id}
-                  name={event.name[i18n.language]}
-                  type={getEventType(event.terms)}
-                  location={event.location.name[i18n.language]}
+                  name={
+                    event.name?.[i18n.language] ??
+                    event.name?.[event.mainLanguage]
+                  }
+                  terms={event.terms}
+                  location={
+                    event.location?.name?.[i18n.language] ??
+                    event.location?.name?.[event.location?.mainLanguage]
+                  }
                   calendarType={event.calendarType}
                   onToggle={onToggleSelectEvent}
                   selected={event.selected}
