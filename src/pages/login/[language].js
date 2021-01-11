@@ -329,6 +329,7 @@ Column.propTypes = {
 const useRedirectToLanguage = () => {
   const router = useRouter();
   const { language } = router.query;
+  const { i18n } = useTranslation();
 
   const { setCookie } = useCookiesWithOptions();
 
@@ -336,6 +337,7 @@ const useRedirectToLanguage = () => {
     if (!language) return;
 
     if (['nl', 'fr'].includes(language)) {
+      i18n.changeLanguage(language);
       setCookie('udb-language', language);
     } else {
       router.push('/login/nl');

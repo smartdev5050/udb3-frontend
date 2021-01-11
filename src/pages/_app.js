@@ -69,7 +69,6 @@ const useHandleAuthentication = () => {
 };
 
 const LoginLayout = ({ children }) => {
-  useChangeLanguage();
   return children;
 };
 

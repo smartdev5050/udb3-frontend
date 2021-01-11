@@ -29,7 +29,7 @@ const Fallback = () => {
   const { cookies } = useCookiesWithOptions(['token']);
 
   const legacyPath = useMemo(() => {
-    const path = new URL(`http://localhost/${asPath}`).pathname;
+    const path = new URL(`http://localhost${asPath}`).pathname;
 
     const queryString = prefixWhenNotEmpty(
       new URLSearchParams({
