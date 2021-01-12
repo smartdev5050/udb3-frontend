@@ -411,7 +411,12 @@ const SideBar = () => {
 
   return (
     <>
-      <Inline>
+      <Inline
+        maxHeight="100vh"
+        css={`
+          overflow: hidden;
+        `}
+      >
         <Stack
           height="100vh"
           width={{ default: '230px', s: '65px' }}
