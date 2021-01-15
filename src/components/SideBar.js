@@ -411,64 +411,61 @@ const SideBar = () => {
 
   return (
     <>
-      <Inline
+      <Stack
+        height="100vh"
         maxHeight="100vh"
         css={`
           overflow: hidden;
         `}
+        width={{ default: '230px', s: '65px' }}
+        backgroundColor={getValueForSideBar('backgroundColor')}
+        color={getValueForSideBar('color')}
+        zIndex={1998}
+        padding={{ default: 2, s: 0 }}
+        spacing={3}
       >
-        <Stack
-          height="100vh"
-          width={{ default: '230px', s: '65px' }}
-          backgroundColor={getValueForSideBar('backgroundColor')}
-          color={getValueForSideBar('color')}
-          zIndex={1998}
-          padding={{ default: 2, s: 0 }}
-          spacing={3}
+        <Link
+          justifyContent="center"
+          href="/dashboard"
+          title={t('menu.home')}
+          customChildren
         >
-          <Link
-            justifyContent="center"
-            href="/dashboard"
-            title={t('menu.home')}
-            customChildren
-          >
-            <Logo
-              variant={isSmallView ? LogoVariants.MOBILE : LogoVariants.DEFAULT}
-            />
-          </Link>
+          <Logo
+            variant={isSmallView ? LogoVariants.MOBILE : LogoVariants.DEFAULT}
+          />
+        </Link>
+        <Stack
+          paddingTop={4}
+          spacing={4}
+          flex={1}
+          css={`
+            > :not(:first-child) {
+              border-top: 1px solid ${getValueForMenu('borderColor')};
+            }
+          `}
+        >
+          <Menu items={userMenu} />
           <Stack
-            paddingTop={4}
-            spacing={4}
+            justifyContent={
+              filteredManageMenu.length > 0 ? 'space-between' : 'flex-end'
+            }
             flex={1}
-            css={`
-              > :not(:first-child) {
-                border-top: 1px solid ${getValueForMenu('borderColor')};
-              }
-            `}
           >
-            <Menu items={userMenu} />
-            <Stack
-              justifyContent={
-                filteredManageMenu.length > 0 ? 'space-between' : 'flex-end'
-              }
-              flex={1}
-            >
-              {filteredManageMenu.length > 0 && (
-                <Menu items={filteredManageMenu} title={t('menu.management')} />
-              )}
-              <Stack>
-                <NotificationMenu
-                  countUnseenAnnouncements={countUnseenAnnouncements}
-                  jobLoggerState={jobLoggerState}
-                  onClickAnnouncementsButton={toggleIsAnnouncementsModalVisible}
-                  onClickJobLoggerButton={toggleIsJobLoggerVisible}
-                />
-                <ProfileMenu />
-              </Stack>
+            {filteredManageMenu.length > 0 && (
+              <Menu items={filteredManageMenu} title={t('menu.management')} />
+            )}
+            <Stack>
+              <NotificationMenu
+                countUnseenAnnouncements={countUnseenAnnouncements}
+                jobLoggerState={jobLoggerState}
+                onClickAnnouncementsButton={toggleIsAnnouncementsModalVisible}
+                onClickJobLoggerButton={toggleIsJobLoggerVisible}
+              />
+              <ProfileMenu />
             </Stack>
           </Stack>
         </Stack>
-      </Inline>
+      </Stack>
       <JobLogger
         visible={isJobLoggerVisible}
         onClose={() => setIsJobLoggerVisible((oldState) => !oldState)}
