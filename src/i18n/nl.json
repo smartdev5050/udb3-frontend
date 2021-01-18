@@ -52,6 +52,9 @@
     "previous": "Vorige"
   },
   "productions": {
+    "delete": {
+      "title": "Evenement(en) verwijderen van productie"
+    },
     "overview": {
       "cancel": "Annuleren",
       "confirm": "Bevestigen",

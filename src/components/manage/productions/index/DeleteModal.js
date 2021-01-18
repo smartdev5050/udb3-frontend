@@ -18,6 +18,7 @@ const DeleteModal = ({
       visible={visible}
       onConfirm={onConfirm}
       onClose={onClose}
+      title={t('productions.delete.title')}
       confirmTitle={t('productions.overview.confirm')}
       cancelTitle={t('productions.overview.cancel')}
     >

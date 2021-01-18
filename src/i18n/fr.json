@@ -50,6 +50,9 @@
     "previous": "Dernier"
   },
   "productions": {
+    "delete": {
+      "title": "Supprimer des événements de la production"
+    },
     "overview": {
       "cancel": "Annuler",
       "confirm": "Confirmer",
