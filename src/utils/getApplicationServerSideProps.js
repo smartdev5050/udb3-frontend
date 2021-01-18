@@ -1,5 +1,6 @@
 import { Cookies } from 'react-cookie';
 import { QueryClient } from 'react-query';
+import jwtDecode from 'jwt-decode';
 
 const getApplicationServerSideProps = (callbackFn) => async ({
   req,
@@ -13,6 +14,17 @@ const getApplicationServerSideProps = (callbackFn) => async ({
   const isUnAuthorized = !cookies.token && !query?.jwt;
 
   if (isUnAuthorized) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+
+  const { exp } = jwtDecode(query?.jwt ?? cookies.token);
+
+  if (!exp || Date.now() >= exp * 1000) {
     return {
       redirect: {
         destination: '/login',
