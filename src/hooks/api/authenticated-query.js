@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Cookies } from 'react-cookie';
 import { useQuery, useQueries, useMutation } from 'react-query';
 import { Errors } from '../../utils/fetchFromApi';
+import { isTokenValid } from '../../utils/isTokenValid';
 import { useCookiesWithOptions } from '../useCookiesWithOptions';
 import { createHeaders, useHeaders } from './useHeaders';
 
@@ -74,7 +75,7 @@ const prefetchAuthenticatedQueries = async ({
   const perparedArguments = rawOptions.map((options) =>
     prepareArguments({
       options,
-      isTokenPresent: !!cookies.get('token'),
+      isTokenPresent: isTokenValid(cookies.get('token')),
       headers,
     }),
   );
@@ -96,7 +97,7 @@ const prefetchAuthenticatedQuery = async ({ req, queryClient, ...options }) => {
 
   const { queryKey, queryFn } = prepareArguments({
     options,
-    isTokenPresent: cookies.get('token'),
+    isTokenPresent: isTokenValid(cookies.get('token')),
     headers,
   });
 
@@ -177,7 +178,7 @@ const useAuthenticatedQuery = ({ mockData, ...options } = {}) => {
 
   const preparedArguments = prepareArguments({
     options,
-    isTokenPresent: !!cookies.token,
+    isTokenPresent: isTokenValid(cookies.token),
     headers,
   });
 
@@ -216,7 +217,7 @@ const useAuthenticatedQueries = ({
   const options = rawOptions.map((options) =>
     prepareArguments({
       options,
-      isTokenPresent: !!cookies.token,
+      isTokenPresent: isTokenValid(cookies.token),
       headers,
     }),
   );
