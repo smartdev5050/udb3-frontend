@@ -25,6 +25,7 @@ import {
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { GlobalStyle } from '../styles/GlobalStyle';
+import { isTokenValid } from '../utils/isTokenValid';
 
 config.autoAddCss = false;
 
@@ -38,7 +39,10 @@ const useChangeLanguage = () => {
 
 const useHandleAuthentication = () => {
   const { query, asPath, ...router } = useRouter();
-  const { setCookie } = useCookiesWithOptions(['user', 'token']);
+  const { setCookie, removeAuthenticationCookies } = useCookiesWithOptions([
+    'user',
+    'token',
+  ]);
   const { data: user } = useGetUser();
 
   useEffect(() => {
@@ -60,7 +64,9 @@ const useHandleAuthentication = () => {
     if (asPath.startsWith('/login')) return cleanUp;
     intervalId = setInterval(() => {
       const cookies = new Cookies();
-      if (!cookies.get('token') || !cookies.get('user')) {
+      if (!isTokenValid(cookies.get('token')) || !cookies.get('user')) {
+        cookies.remove('user');
+        cookies.remove('token');
         router.push('/login');
       }
     }, 5000); // checking every 5 seconds
@@ -78,7 +84,9 @@ LoginLayout.propTypes = {
 
 const ApplicationLayout = ({ children }) => {
   const { asPath, ...router } = useRouter();
-  const { cookies } = useCookiesWithOptions(['token']);
+  const { cookies, removeAuthenticationCookies } = useCookiesWithOptions([
+    'token',
+  ]);
 
   useChangeLanguage();
   useHandleWindowMessage({
@@ -86,6 +94,7 @@ const ApplicationLayout = ({ children }) => {
     [WindowMessageTypes.URL_UNKNOWN]: () => router.push('/404'),
     [WindowMessageTypes.HTTP_ERROR_CODE]: ({ code }) => {
       if ([401, 403].includes(code)) {
+        removeAuthenticationCookies();
         router.push('/login');
       }
     },
