@@ -103,7 +103,7 @@ const ApplicationLayout = ({ children }) => {
   if (!cookies.token) return null;
 
   return (
-    <Inline maxHeight="100vh" width="100%">
+    <Inline height="100vh" width="100vw">
       <SideBar />
       {children}
     </Inline>
