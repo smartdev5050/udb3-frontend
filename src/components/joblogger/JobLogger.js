@@ -110,7 +110,7 @@ const JobLogger = ({ visible, onClose, onStatusChange }) => {
 
   const handleClickHideJob = (id) =>
     setHiddenJobIds((prevHiddenJobIds) => {
-      if (prevHiddenJobIds.includes(id)) return;
+      if (prevHiddenJobIds.includes(id)) return prevHiddenJobIds;
       return [...prevHiddenJobIds, id];
     });
 

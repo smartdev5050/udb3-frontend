@@ -100,7 +100,7 @@ const Job = ({
             <Icon name={Icons.TIMES} alignItems="center" />
           </Button>
         </Inline>
-        {exportUrl && (
+        {!!exportUrl && (
           <Link href={exportUrl} variant={LinkVariants.UNSTYLED}>
             <Button variant={ButtonVariants.SECONDARY}>
               {t('jobs.download')}
