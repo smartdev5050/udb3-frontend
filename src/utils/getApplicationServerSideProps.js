@@ -1,6 +1,6 @@
-import { Cookies } from 'react-cookie';
+import Cookies from 'universal-cookie';
 import { QueryClient } from 'react-query';
-import jwtDecode from 'jwt-decode';
+import { isTokenValid } from './isTokenValid';
 
 const getApplicationServerSideProps = (callbackFn) => async ({
   req,
@@ -10,21 +10,14 @@ const getApplicationServerSideProps = (callbackFn) => async ({
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
   }
 
-  const { cookies } = new Cookies(req?.headers?.cookie);
-  const isUnAuthorized = !cookies.token && !query?.jwt;
+  const rawCookies = req?.headers?.cookie;
 
-  if (isUnAuthorized) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-    };
-  }
+  const cookies = new Cookies(rawCookies);
 
-  const { exp } = jwtDecode(query?.jwt ?? cookies.token);
+  if (!isTokenValid(query?.jwt ?? cookies.get('token'))) {
+    cookies.remove('user');
+    cookies.remove('token');
 
-  if (!exp || Date.now() >= exp * 1000) {
     return {
       redirect: {
         destination: '/login',
@@ -35,8 +28,13 @@ const getApplicationServerSideProps = (callbackFn) => async ({
 
   const queryClient = new QueryClient();
 
-  if (!callbackFn) return { props: { cookies } };
-  return await callbackFn({ req, query, queryClient, cookies });
+  if (!callbackFn) return { props: { cookies: rawCookies } };
+  return await callbackFn({
+    req,
+    query,
+    queryClient,
+    cookies: rawCookies,
+  });
 };
 
 export { getApplicationServerSideProps };
