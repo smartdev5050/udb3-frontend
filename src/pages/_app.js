@@ -82,7 +82,15 @@ const ApplicationLayout = ({ children }) => {
 
   useChangeLanguage();
   useHandleWindowMessage({
-    [WindowMessageTypes.URL_CHANGED]: ({ path }) => router.push(path),
+    [WindowMessageTypes.URL_CHANGED]: ({ path }) => {
+      const url = new URL(
+        `${window.location.protocol}//${window.location.host}${path}`,
+      );
+      const hasPage = url.searchParams.has('page');
+      router.push({ pathname: url.pathname, query: {} }, path, {
+        shallow: hasPage,
+      });
+    },
     [WindowMessageTypes.URL_UNKNOWN]: () => router.push('/404'),
     [WindowMessageTypes.HTTP_ERROR_CODE]: ({ code }) => {
       if ([401, 403].includes(code)) {
