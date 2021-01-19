@@ -39,10 +39,7 @@ const useChangeLanguage = () => {
 
 const useHandleAuthentication = () => {
   const { query, asPath, ...router } = useRouter();
-  const { setCookie, removeAuthenticationCookies } = useCookiesWithOptions([
-    'user',
-    'token',
-  ]);
+  const { setCookie } = useCookiesWithOptions(['user', 'token']);
   const { data: user } = useGetUser();
 
   useEffect(() => {
