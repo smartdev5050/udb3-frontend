@@ -413,8 +413,7 @@ const SideBar = () => {
     <Stack
       key="sidebar"
       forwardedAs="nav"
-      height="100vh"
-      maxHeight="100vh"
+      height="100%"
       css={`
         overflow: hidden;
       `}
