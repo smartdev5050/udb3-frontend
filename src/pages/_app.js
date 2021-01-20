@@ -87,7 +87,15 @@ const ApplicationLayout = ({ children }) => {
 
   useChangeLanguage();
   useHandleWindowMessage({
-    [WindowMessageTypes.URL_CHANGED]: ({ path }) => router.push(path),
+    [WindowMessageTypes.URL_CHANGED]: ({ path }) => {
+      const url = new URL(
+        `${window.location.protocol}//${window.location.host}${path}`,
+      );
+      const hasPage = url.searchParams.has('page');
+      router.push({ pathname: url.pathname, query: {} }, path, {
+        shallow: hasPage,
+      });
+    },
     [WindowMessageTypes.URL_UNKNOWN]: () => router.push('/404'),
     [WindowMessageTypes.HTTP_ERROR_CODE]: ({ code }) => {
       if ([401, 403].includes(code)) {
@@ -101,7 +109,7 @@ const ApplicationLayout = ({ children }) => {
   if (!cookies.token) return null;
 
   return (
-    <Inline maxHeight="100vh">
+    <Inline height="100vh" width="100vw">
       <SideBar />
       {children}
     </Inline>

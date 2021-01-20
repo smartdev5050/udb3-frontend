@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import { getApplicationServerSideProps } from '../utils/getApplicationServerSideProps';
 
 const IFrame = memo(({ url }) => (
-  <Box as="iframe" src={url} width="100%" height="100vh" />
+  <Box as="iframe" src={url} width="100%" height="100vh" flex={1} />
 ));
 
 IFrame.propTypes = {

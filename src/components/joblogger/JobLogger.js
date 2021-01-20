@@ -110,7 +110,7 @@ const JobLogger = ({ visible, onClose, onStatusChange }) => {
 
   const handleClickHideJob = (id) =>
     setHiddenJobIds((prevHiddenJobIds) => {
-      if (prevHiddenJobIds.includes(id)) return;
+      if (prevHiddenJobIds.includes(id)) return prevHiddenJobIds;
       return [...prevHiddenJobIds, id];
     });
 
@@ -162,11 +162,12 @@ const JobLogger = ({ visible, onClose, onStatusChange }) => {
         ${visible && 'display: none;'}
       `}
       position="absolute"
+      height="100%"
       width={{ default: 'calc(100% - 230px)', s: 'calc(100% - 65px)' }}
       left={{ default: 230, s: 65 }}
       zIndex={1998}
     >
-      <Stack padding={3} width={320} height="100vh" backgroundColor="white">
+      <Stack padding={3} width={320} backgroundColor="white">
         <Inline as="div" justifyContent="flex-end">
           <Button variant={ButtonVariants.UNSTYLED} onClick={onClose}>
             <Icon name={Icons.TIMES} opacity={{ default: 0.5, hover: 1 }} />
@@ -193,12 +194,7 @@ const JobLogger = ({ visible, onClose, onStatusChange }) => {
           ))}
         </Stack>
       </Stack>
-      <Box
-        width="calc(100% - 320px)"
-        height="100vh"
-        opacity={0.5}
-        backgroundColor="black"
-      />
+      <Box flex={1} opacity={0.5} backgroundColor="black" />
     </Inline>
   );
 };
