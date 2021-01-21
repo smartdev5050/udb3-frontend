@@ -194,7 +194,7 @@ const JobLogger = ({ visible, onClose, onStatusChange }) => {
           ))}
         </Stack>
       </Stack>
-      <Box flex={1} opacity={0.5} backgroundColor="black" />
+      <Box flex={1} opacity={0.5} backgroundColor="black" onClick={onClose} />
     </Inline>
   );
 };

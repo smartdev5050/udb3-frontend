@@ -164,6 +164,7 @@ const StyledBox = styled.div`
 `;
 
 const boxPropTypes = {
+  onClick: PropTypes.func,
   margin: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.func,
