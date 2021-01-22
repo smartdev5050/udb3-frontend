@@ -77,8 +77,6 @@ const ApplicationLayout = ({ children }) => {
     'token',
   ]);
 
-  useEffect(() => console.log('MOUNT'), []);
-
   useChangeLanguage();
   useHandleWindowMessage({
     [WindowMessageTypes.URL_CHANGED]: ({ path }) => {
