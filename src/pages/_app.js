@@ -115,7 +115,11 @@ ApplicationLayout.propTypes = {
 const Layout = ({ children }) => {
   const { asPath } = useRouter();
 
-  if (asPath.startsWith('/login') || asPath.startsWith('/404'))
+  if (
+    asPath.startsWith('/login') ||
+    asPath.startsWith('/404') ||
+    asPath.startsWith('/error')
+  )
     return <>{children}</>;
   return (
     <ErrorBoundary>
