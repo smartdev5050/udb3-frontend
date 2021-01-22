@@ -200,6 +200,9 @@ const theme = {
     pageNotFound: {
       iconColor: colors.grey2,
     },
+    pageError: {
+      iconColor: colors.red5,
+    },
   },
 };
 
