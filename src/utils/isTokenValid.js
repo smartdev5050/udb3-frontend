@@ -1,5 +1,7 @@
-// eslint-disable-next-line no-undef
-const decode = (token) => atob(token.replace(/-/g, '+').replace(/_/g, '/'));
+import base64 from 'base-64';
+
+const decode = (value) =>
+  base64.decode(value.replace(/-/g, '+').replace(/_/g, '/'));
 
 const isTokenValid = (token) => {
   if (!token) return false;
