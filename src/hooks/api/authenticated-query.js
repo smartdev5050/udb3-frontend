@@ -101,7 +101,9 @@ const prefetchAuthenticatedQuery = async ({ req, queryClient, ...options }) => {
     headers,
   });
 
-  await queryClient.prefetchQuery(queryKey, queryFn);
+  try {
+    await queryClient.prefetchQuery(queryKey, queryFn);
+  } catch {}
   return await queryClient.getQueryData(queryKey);
 };
 
@@ -189,6 +191,10 @@ const useAuthenticatedQuery = ({ mockData, ...options } = {}) => {
       removeAuthenticationCookies();
       router.push('/login');
     }
+  }
+
+  if (result.status === QueryStatus.ERROR) {
+    throw new Error('something something');
   }
 
   return result;
