@@ -55,20 +55,20 @@ const useHandleAuthentication = () => {
 
   // redirect when there is no token or user cookie
   // manipulation from outside the application
-  // useEffect(() => {
-  //   let intervalId; // eslint-disable-line prefer-const
-  //   const cleanUp = () => (intervalId ? clearInterval(intervalId) : undefined);
-  //   if (asPath.startsWith('/login')) return cleanUp;
-  //   intervalId = setInterval(() => {
-  //     const cookies = new Cookies();
-  //     if (!isTokenValid(cookies.get('token')) || !cookies.get('user')) {
-  //       cookies.remove('user');
-  //       cookies.remove('token');
-  //       router.push('/login');
-  //     }
-  //   }, 5000); // checking every 5 seconds
-  //   return cleanUp;
-  // }, [asPath]);
+  useEffect(() => {
+    let intervalId; // eslint-disable-line prefer-const
+    const cleanUp = () => (intervalId ? clearInterval(intervalId) : undefined);
+    if (asPath.startsWith('/login')) return cleanUp;
+    intervalId = setInterval(() => {
+      const cookies = new Cookies();
+      if (!isTokenValid(cookies.get('token')) || !cookies.get('user')) {
+        cookies.remove('user');
+        cookies.remove('token');
+        router.push('/login');
+      }
+    }, 5000); // checking every 5 seconds
+    return cleanUp;
+  }, [asPath]);
 };
 
 const ApplicationLayout = ({ children }) => {
