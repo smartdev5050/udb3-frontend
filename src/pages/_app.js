@@ -2,7 +2,6 @@ import '../styles/global.scss';
 import PropTypes from 'prop-types';
 
 import { Inline } from '../components/publiq-ui/Inline';
-// import { ReactQueryDevtools } from 'react-query-devtools';
 
 import { SideBar } from '../components/SideBar';
 import { ThemeProvider } from '../components/publiq-ui/ThemeProvider';
@@ -26,6 +25,7 @@ import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { GlobalStyle } from '../styles/GlobalStyle';
 import { isTokenValid } from '../utils/isTokenValid';
+import { ErrorBoundary } from '../components/ErrorBoundary';
 
 config.autoAddCss = false;
 
@@ -55,28 +55,20 @@ const useHandleAuthentication = () => {
 
   // redirect when there is no token or user cookie
   // manipulation from outside the application
-  useEffect(() => {
-    let intervalId; // eslint-disable-line prefer-const
-    const cleanUp = () => (intervalId ? clearInterval(intervalId) : undefined);
-    if (asPath.startsWith('/login')) return cleanUp;
-    intervalId = setInterval(() => {
-      const cookies = new Cookies();
-      if (!isTokenValid(cookies.get('token')) || !cookies.get('user')) {
-        cookies.remove('user');
-        cookies.remove('token');
-        router.push('/login');
-      }
-    }, 5000); // checking every 5 seconds
-    return cleanUp;
-  }, [asPath]);
-};
-
-const LoginLayout = ({ children }) => {
-  return children;
-};
-
-LoginLayout.propTypes = {
-  children: PropTypes.node,
+  // useEffect(() => {
+  //   let intervalId; // eslint-disable-line prefer-const
+  //   const cleanUp = () => (intervalId ? clearInterval(intervalId) : undefined);
+  //   if (asPath.startsWith('/login')) return cleanUp;
+  //   intervalId = setInterval(() => {
+  //     const cookies = new Cookies();
+  //     if (!isTokenValid(cookies.get('token')) || !cookies.get('user')) {
+  //       cookies.remove('user');
+  //       cookies.remove('token');
+  //       router.push('/login');
+  //     }
+  //   }, 5000); // checking every 5 seconds
+  //   return cleanUp;
+  // }, [asPath]);
 };
 
 const ApplicationLayout = ({ children }) => {
@@ -84,6 +76,8 @@ const ApplicationLayout = ({ children }) => {
   const { cookies, removeAuthenticationCookies } = useCookiesWithOptions([
     'token',
   ]);
+
+  useEffect(() => console.log('MOUNT'), []);
 
   useChangeLanguage();
   useHandleWindowMessage({
@@ -109,7 +103,7 @@ const ApplicationLayout = ({ children }) => {
   if (!cookies.token) return null;
 
   return (
-    <Inline height="100vh" width="100vw">
+    <Inline height="100vh">
       <SideBar />
       {children}
     </Inline>
@@ -123,9 +117,13 @@ ApplicationLayout.propTypes = {
 const Layout = ({ children }) => {
   const { asPath } = useRouter();
 
-  if (asPath.startsWith('/login')) return <LoginLayout>{children}</LoginLayout>;
-  if (asPath.startsWith('/404')) return children;
-  return <ApplicationLayout>{children}</ApplicationLayout>;
+  if (asPath.startsWith('/login') || asPath.startsWith('/404'))
+    return <>{children}</>;
+  return (
+    <ErrorBoundary>
+      <ApplicationLayout>{children}</ApplicationLayout>
+    </ErrorBoundary>
+  );
 };
 
 Layout.propTypes = {
@@ -154,7 +152,6 @@ const App = ({ Component, pageProps }) => {
           [Hydrate, { state: pageProps.dehydratedState }],
         ]}
       >
-        {/* <ReactQueryDevtools initialIsOpen={false} position="bottom-right" /> */}
         <Layout>
           <Component {...pageProps} />
         </Layout>
