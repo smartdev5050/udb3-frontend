@@ -1,4 +1,5 @@
-import base64 from 'base-64';
+// eslint-disable-next-line no-undef
+const decode = (token) => atob(token.replace(/-/g, '+').replace(/_/g, '/'));
 
 const isTokenValid = (token) => {
   if (!token) return false;
@@ -12,7 +13,7 @@ const isTokenValid = (token) => {
   try {
     decodedToken = parts.reduce((token, part, index) => {
       if (!part) throw new Error('');
-      const data = index < 2 ? JSON.parse(base64.decode(part)) : part;
+      const data = index < 2 ? JSON.parse(decode(part)) : part;
       return { ...token, [keys[index]]: data };
     }, {});
   } catch {
