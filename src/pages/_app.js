@@ -2,7 +2,6 @@ import '../styles/global.scss';
 import PropTypes from 'prop-types';
 
 import { Inline } from '../components/publiq-ui/Inline';
-// import { ReactQueryDevtools } from 'react-query-devtools';
 
 import { SideBar } from '../components/SideBar';
 import { ThemeProvider } from '../components/publiq-ui/ThemeProvider';
@@ -26,6 +25,7 @@ import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { GlobalStyle } from '../styles/GlobalStyle';
 import { isTokenValid } from '../utils/isTokenValid';
+import { ErrorBoundary } from '../components/ErrorBoundary';
 
 config.autoAddCss = false;
 
@@ -71,14 +71,6 @@ const useHandleAuthentication = () => {
   }, [asPath]);
 };
 
-const LoginLayout = ({ children }) => {
-  return children;
-};
-
-LoginLayout.propTypes = {
-  children: PropTypes.node,
-};
-
 const ApplicationLayout = ({ children }) => {
   const { asPath, ...router } = useRouter();
   const { cookies, removeAuthenticationCookies } = useCookiesWithOptions([
@@ -109,7 +101,7 @@ const ApplicationLayout = ({ children }) => {
   if (!cookies.token) return null;
 
   return (
-    <Inline height="100vh" width="100vw">
+    <Inline height="100vh">
       <SideBar />
       {children}
     </Inline>
@@ -123,9 +115,17 @@ ApplicationLayout.propTypes = {
 const Layout = ({ children }) => {
   const { asPath } = useRouter();
 
-  if (asPath.startsWith('/login')) return <LoginLayout>{children}</LoginLayout>;
-  if (asPath.startsWith('/404')) return children;
-  return <ApplicationLayout>{children}</ApplicationLayout>;
+  if (
+    asPath.startsWith('/login') ||
+    asPath.startsWith('/404') ||
+    asPath.startsWith('/error')
+  )
+    return <>{children}</>;
+  return (
+    <ErrorBoundary>
+      <ApplicationLayout>{children}</ApplicationLayout>
+    </ErrorBoundary>
+  );
 };
 
 Layout.propTypes = {
@@ -154,7 +154,6 @@ const App = ({ Component, pageProps }) => {
           [Hydrate, { state: pageProps.dehydratedState }],
         ]}
       >
-        {/* <ReactQueryDevtools initialIsOpen={false} position="bottom-right" /> */}
         <Layout>
           <Component {...pageProps} />
         </Layout>

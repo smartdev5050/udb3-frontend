@@ -148,5 +148,9 @@
     "title": "404 Pas trouvée",
     "sub_title": "Désolé, la page que vous recherchez n'existe pas.",
     "redirect": "Retourner à Home"
+  },
+  "error": {
+    "title": "Il y a eu un problème",
+    "description": "Un problème est survenu. Rechargez la page pour réessayer. Vous pouvez contacter vragen@uitdatabank.be si ce problème persiste"
   }
 }
