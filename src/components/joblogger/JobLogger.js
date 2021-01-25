@@ -58,12 +58,8 @@ const JobLogger = ({ visible, onClose, onStatusChange }) => {
     [jobs, hiddenJobIds],
   );
 
-  const finishedExportJobs = useMemo(
-    () =>
-      activeJobs.filter(
-        (job) =>
-          job.state === JobStates.FINISHED && job.type === JobTypes.EXPORT,
-      ),
+  const finishedJobs = useMemo(
+    () => activeJobs.filter((job) => job.state === JobStates.FINISHED),
     [activeJobs],
   );
   const failedJobs = useMemo(
@@ -130,7 +126,7 @@ const JobLogger = ({ visible, onClose, onStatusChange }) => {
       onStatusChange(JobLoggerStates.WARNING);
       return;
     }
-    if (finishedExportJobs.length > 0) {
+    if (finishedJobs.length > 0) {
       onStatusChange(JobLoggerStates.COMPLETE);
       return;
     }
@@ -139,12 +135,12 @@ const JobLogger = ({ visible, onClose, onStatusChange }) => {
       return;
     }
     onStatusChange(JobLoggerStates.IDLE);
-  }, [failedJobs, finishedExportJobs, queuedJobs]);
+  }, [failedJobs, finishedJobs, queuedJobs]);
 
   const jobLoggerMenus = [
     {
       title: t('jobs.exported_documents'),
-      items: finishedExportJobs,
+      items: finishedJobs,
     },
     {
       title: t('jobs.notifications'),
