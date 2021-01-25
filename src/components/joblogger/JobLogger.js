@@ -8,7 +8,7 @@ import { Button, ButtonVariants } from '../publiq-ui/Button';
 import { Icon, Icons } from '../publiq-ui/Icon';
 import { useEffect, useMemo, useState } from 'react';
 import { List } from '../publiq-ui/List';
-import { Job, JobStates, JobTypes } from './Job';
+import { Job, JobStates } from './Job';
 
 import {
   useHandleWindowMessage,
