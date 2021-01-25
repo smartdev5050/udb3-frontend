@@ -98,7 +98,7 @@
   },
   "jobs": {
     "download": "Downloaden",
-    "exported_documents": "Geëxporteerde documenten",
+    "finished": "Voltooid",
     "in_progress": "Bezig",
     "notifications": "Meldingen",
     "time_ago": "{{time}} geleden"
