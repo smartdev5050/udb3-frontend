@@ -5,7 +5,6 @@ import { withTranslation } from 'react-i18next';
 import { Icon, Icons } from '../components/publiq-ui/Icon';
 import { Stack } from '../components/publiq-ui/Stack';
 import { Title } from '../components/publiq-ui/Title';
-import { Link } from '../components/publiq-ui/Link';
 import { getValueFromTheme } from './publiq-ui/theme';
 import { Text } from './publiq-ui/Text';
 
@@ -24,7 +23,6 @@ class ErrorBoundaryComponent extends Component {
   render() {
     const { t } = this.props;
     const { error } = this.state;
-    console.log(error);
     if (error) {
       return (
         <Stack
@@ -45,7 +43,7 @@ class ErrorBoundaryComponent extends Component {
           <Title size={2}>
             {error.name}: {error.message}
           </Title>
-          <Text>{t('error.description')}</Text>
+          <Text maxWidth={500}>{t('error.description')}</Text>
         </Stack>
       );
     }

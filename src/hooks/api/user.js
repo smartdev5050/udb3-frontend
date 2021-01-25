@@ -20,7 +20,7 @@ const useGetUser = (configuration = {}) =>
 
 const getPermissions = async ({ headers }) => {
   const res = await fetchFromApi({
-    path: '/user/permissions/',
+    path: '/user/permissis/',
     options: {
       headers,
     },
