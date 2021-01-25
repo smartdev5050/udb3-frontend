@@ -151,6 +151,6 @@
   },
   "error": {
     "title": "Il y a eu un problème",
-    "redirect": "Retourner à Home"
+    "description": "Actualisez la page et réessayez. Contactez-nous si le problème n'est pas résolu."
   }
 }

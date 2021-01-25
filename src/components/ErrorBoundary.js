@@ -1,8 +1,17 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import Router from 'next/router';
+import { withTranslation } from 'react-i18next';
 
-class ErrorBoundary extends Component {
+import { Icon, Icons } from '../components/publiq-ui/Icon';
+import { Stack } from '../components/publiq-ui/Stack';
+import { Title } from '../components/publiq-ui/Title';
+import { Link } from '../components/publiq-ui/Link';
+import { getValueFromTheme } from './publiq-ui/theme';
+import { Text } from './publiq-ui/Text';
+
+const getValue = getValueFromTheme('pageError');
+
+class ErrorBoundaryComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -13,19 +22,43 @@ class ErrorBoundary extends Component {
   }
 
   render() {
-    if (this.state.error) {
-      Router.push({
-        pathname: '/error',
-        query: { errorMessage: this.state.error.message },
-      });
+    const { t } = this.props;
+    const { error } = this.state;
+    console.log(error);
+    if (error) {
+      return (
+        <Stack
+          textAlign="center"
+          alignItems="center"
+          marginY={6}
+          spacing={3}
+          flex={1}
+          height="100vh"
+        >
+          <Icon
+            name={Icons.EXCLAMATION_TRIANGLE}
+            width="10rem"
+            height="auto"
+            color={getValue('iconColor')}
+          />
+          <Title size={1}>{t('error.title')}</Title>
+          <Title size={2}>
+            {error.name}: {error.message}
+          </Title>
+          <Text>{t('error.description')}</Text>
+        </Stack>
+      );
     }
 
     return this.props.children;
   }
 }
 
-ErrorBoundary.propTypes = {
+ErrorBoundaryComponent.propTypes = {
   children: PropTypes.node,
+  t: PropTypes.func,
 };
+
+const ErrorBoundary = withTranslation()(ErrorBoundaryComponent);
 
 export { ErrorBoundary };

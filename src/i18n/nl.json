@@ -152,6 +152,6 @@
   },
   "error": {
     "title": "Er is iets misgelopen",
-    "redirect": "Ga terug naar Home"
+    "description": "Refresh de pagina en probeer opnieuw. Contacteer ons indien het probleem niet verholpen is."
   }
 }

@@ -194,7 +194,7 @@ const useAuthenticatedQuery = ({ mockData, ...options } = {}) => {
   }
 
   if (result.status === QueryStatus.ERROR) {
-    throw new Error(result.error.message);
+    throw result.error;
   }
 
   return result;
