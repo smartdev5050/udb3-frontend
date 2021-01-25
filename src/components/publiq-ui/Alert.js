@@ -22,25 +22,24 @@ const Alert = ({
   className,
   ...props
 }) => {
-  // TODO: box props (positioning) doesn't seem to work
   return (
-    <BootstrapAlert
-      forwardedAs={Box}
-      variant={variant}
-      hidden={!visible}
-      dismissible={dismissible}
-      className={className}
-      css={`
-        margin: 0;
-        &.alert {
-          border-radius: ${getValue('borderRadius')};
-        }
-      `}
-      onClose={onDismiss}
-      {...getBoxProps(props)}
-    >
-      {children}
-    </BootstrapAlert>
+    <Box {...getBoxProps(props)}>
+      <BootstrapAlert
+        variant={variant}
+        hidden={!visible}
+        dismissible={dismissible}
+        className={className}
+        css={`
+          margin: 0;
+          &.alert {
+            border-radius: ${getValue('borderRadius')};
+          }
+        `}
+        onClose={onDismiss}
+      >
+        {children}
+      </BootstrapAlert>
+    </Box>
   );
 };
 
