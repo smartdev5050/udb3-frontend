@@ -139,7 +139,7 @@ const JobLogger = ({ visible, onClose, onStatusChange }) => {
 
   const jobLoggerMenus = [
     {
-      title: t('jobs.exported_documents'),
+      title: t('jobs.finished'),
       items: finishedJobs,
     },
     {

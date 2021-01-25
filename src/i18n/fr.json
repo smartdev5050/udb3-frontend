@@ -96,7 +96,7 @@
   },
   "jobs": {
     "download": "Télécharger",
-    "exported_documents": "Documents exportés",
+    "finished": "Terminé",
     "in_progress": "Occupé",
     "notifications": "Notifications",
     "time_ago": "Il y a {{time}}"
