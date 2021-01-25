@@ -43,7 +43,7 @@ class ErrorBoundaryComponent extends Component {
           <Title size={2}>
             {error.name}: {error.message}
           </Title>
-          <Text maxWidth={500}>{t('error.description')}</Text>
+          <Text maxWidth={550}>{t('error.description')}</Text>
         </Stack>
       );
     }
