@@ -21,6 +21,7 @@ import {
   useHandleWindowMessage,
   WindowMessageTypes,
 } from '../hooks/useHandleWindowMessage';
+import { EventTypes, useHandleEvent } from '../hooks/useHandleEvent';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { GlobalStyle } from '../styles/GlobalStyle';
@@ -78,6 +79,15 @@ const ApplicationLayout = ({ children }) => {
   ]);
 
   useChangeLanguage();
+  useHandleEvent({
+    [EventTypes.NAVIGATE_PREVIOUS_PAGE]: (e) => {
+      e.preventDefault();
+      const { pathname, search } = e.target.location;
+      const searchParams = new URLSearchParams(search);
+      const query = Object.fromEntries(searchParams.entries());
+      router.push({ pathname, query });
+    },
+  });
   useHandleWindowMessage({
     [WindowMessageTypes.URL_CHANGED]: ({ path }) => {
       window.history.pushState(
