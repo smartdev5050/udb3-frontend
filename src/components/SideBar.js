@@ -190,7 +190,7 @@ const NotificationMenu = memo(
     onClickJobLoggerButton,
     jobLoggerState,
   }) => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     const notificationMenu = [
       {
@@ -200,14 +200,16 @@ const NotificationMenu = memo(
           <Badge>{countUnseenAnnouncements}</Badge>
         ),
         onClick: onClickAnnouncementsButton,
+        visible: i18n.language === 'nl',
       },
       {
         iconName: Icons.BELL,
         children: t('menu.notifications'),
         suffix: <JobLoggerStateIndicator state={jobLoggerState} />,
         onClick: onClickJobLoggerButton,
+        visible: true,
       },
-    ];
+    ].filter((menuItem) => menuItem.visible);
 
     return <Menu items={notificationMenu} />;
   },
