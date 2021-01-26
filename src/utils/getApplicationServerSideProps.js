@@ -10,7 +10,7 @@ const getApplicationServerSideProps = (callbackFn) => async ({
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
   }
 
-  const rawCookies = req?.headers?.cookie;
+  const rawCookies = req?.headers?.cookie ?? '';
 
   const cookies = new Cookies(rawCookies);
 
