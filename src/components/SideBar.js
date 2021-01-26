@@ -423,6 +423,7 @@ const SideBar = () => {
       zIndex={1998}
       padding={{ default: 2, s: 0 }}
       spacing={3}
+      onMouseOver={() => setTimeout(window.focus, 200)}
     >
       <Link
         justifyContent="center"
