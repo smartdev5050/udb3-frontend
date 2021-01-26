@@ -32,7 +32,11 @@ const getValueForSideBar = getValueFromTheme('sideBar');
 const getValueForMenu = getValueFromTheme('menu');
 
 const MenuItem = memo(
-  ({ href, iconName, suffix, children: label, onClick }) => {
+  ({ href, iconName, suffix, children: label, onClick, visible = true }) => {
+    if (!visible) {
+      return null;
+    }
+
     const Component = href ? Link : Button;
 
     return (
@@ -78,6 +82,7 @@ MenuItem.propTypes = {
   suffix: PropTypes.node,
   children: PropTypes.node,
   onClick: PropTypes.func,
+  visible: PropTypes.bool,
 };
 
 const Menu = memo(({ items = [], title, ...props }) => {
@@ -190,7 +195,7 @@ const NotificationMenu = memo(
     onClickJobLoggerButton,
     jobLoggerState,
   }) => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     const notificationMenu = [
       {
@@ -200,6 +205,7 @@ const NotificationMenu = memo(
           <Badge>{countUnseenAnnouncements}</Badge>
         ),
         onClick: onClickAnnouncementsButton,
+        visible: i18n.language === 'nl',
       },
       {
         iconName: Icons.BELL,
