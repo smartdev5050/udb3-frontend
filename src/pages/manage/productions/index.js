@@ -153,7 +153,7 @@ const Index = () => {
         >
           {t('productions.overview.search.label')}
         </InputWithLabel>
-        <Inline spacing={4}>
+        <Inline spacing={5}>
           {productionsStatus !== QueryStatus.LOADING &&
           productions.length === 0 ? (
             <Text>{t('productions.overview.no_productions')}</Text>

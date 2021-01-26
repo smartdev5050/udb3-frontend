@@ -65,7 +65,7 @@
       "details": "Details",
       "events_in_production": "Evenementen in {{productionName}}",
       "loading": "Laden",
-      "no_events": "Geen eventementen onder deze productie.",
+      "no_events": "Geen evenementen onder deze productie.",
       "no_productions": "Geen producties gevonden.",
       "production": "Productie",
       "search": {

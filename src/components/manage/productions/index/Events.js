@@ -21,6 +21,7 @@ import { DetailTable } from '../../../publiq-ui/DetailTable';
 import { parseSpacing } from '../../../publiq-ui/Box';
 import { useGetCalendarSummary } from '../../../../hooks/api/events';
 import { useMatchBreakpoint } from '../../../../hooks/useMatchBreakpoint';
+import { Text } from '../../../publiq-ui/Text';
 
 const getValue = getValueFromTheme('eventItem');
 
@@ -112,6 +113,7 @@ const Actions = ({
   onClickAdd,
   onClickDelete,
   shouldDisableDeleteButton,
+  loading,
 }) => {
   const { t } = useTranslation();
   const shouldCollapse = useMatchBreakpoint(Breakpoints.S);
@@ -130,11 +132,12 @@ const Actions = ({
           maxHeight={parseSpacing(5)()}
           onClick={onClickAdd}
           shouldHideText={shouldCollapse}
+          disabled={loading}
         >
           {t('productions.overview.create')}
         </Button>
         <Button
-          disabled={shouldDisableDeleteButton}
+          disabled={shouldDisableDeleteButton || loading}
           variant={ButtonVariants.DANGER}
           iconName={Icons.TRASH}
           spacing={3}
@@ -150,6 +153,7 @@ const Actions = ({
 };
 
 Actions.propTypes = {
+  loading: PropTypes.bool,
   activeProductionName: PropTypes.string,
   onClickAdd: PropTypes.func,
   onClickDelete: PropTypes.func,
@@ -231,7 +235,7 @@ const Events = ({
   onToBeAddedEventIdInput,
   ...props
 }) => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   const shouldDisableDeleteButton = !(
     events.filter((event) => event.selected).length > 0
@@ -239,69 +243,70 @@ const Events = ({
 
   return (
     <Stack spacing={4} {...getStackProps(props)}>
+      <Stack key="title-and-buttons" spacing={3}>
+        {isAddActionVisible ? (
+          <Stack as="div" spacing={3}>
+            <AddAction
+              onAdd={onAddEvent}
+              onCancel={onCancelAddEvent}
+              toBeAddedEventId={toBeAddedEventId}
+              onToBeAddedEventIdInput={onToBeAddedEventIdInput}
+            />
+            <Alert
+              visible={!!errorMessage}
+              variant={AlertVariants.WARNING}
+              dismissible
+              onDismiss={onDismissError}
+            >
+              {errorMessage}
+            </Alert>
+          </Stack>
+        ) : (
+          <Actions
+            loading={loading}
+            activeProductionName={activeProductionName}
+            onClickAdd={onClickAdd}
+            onClickDelete={onClickDelete}
+            shouldDisableDeleteButton={shouldDisableDeleteButton}
+          />
+        )}
+      </Stack>
       {loading ? (
         <Spinner marginTop={4} />
+      ) : events.length === 0 ? (
+        <Text> {t('productions.overview.no_events')}</Text>
       ) : (
-        [
-          <Stack key="title-and-buttons" spacing={3}>
-            {isAddActionVisible ? (
-              <Stack as="div" spacing={3}>
-                <AddAction
-                  onAdd={onAddEvent}
-                  onCancel={onCancelAddEvent}
-                  toBeAddedEventId={toBeAddedEventId}
-                  onToBeAddedEventIdInput={onToBeAddedEventIdInput}
-                />
-                <Alert
-                  visible={!!errorMessage}
-                  variant={AlertVariants.WARNING}
-                  dismissible
-                  onDismiss={onDismissError}
-                >
-                  {errorMessage}
-                </Alert>
-              </Stack>
-            ) : (
-              <Actions
-                activeProductionName={activeProductionName}
-                onClickAdd={onClickAdd}
-                onClickDelete={onClickDelete}
-                shouldDisableDeleteButton={shouldDisableDeleteButton}
+        <Panel key="panel">
+          <List>
+            {events.map((event, index) => (
+              <Event
+                key={event.id}
+                id={event.id}
+                name={
+                  event.name?.[i18n.language] ??
+                  event.name?.[event.mainLanguage]
+                }
+                terms={event.terms}
+                location={
+                  event.location?.name?.[i18n.language] ??
+                  event.location?.name?.[event.location?.mainLanguage]
+                }
+                calendarType={event.calendarType}
+                onToggle={onToggleSelectEvent}
+                selected={event.selected}
+                css={
+                  index !== events.length - 1
+                    ? (props) => {
+                        return `border-bottom: 1px solid ${getValue(
+                          'borderColor',
+                        )(props)};`;
+                      }
+                    : undefined
+                }
               />
-            )}
-          </Stack>,
-          <Panel key="panel">
-            <List>
-              {events.map((event, index) => (
-                <Event
-                  key={event.id}
-                  id={event.id}
-                  name={
-                    event.name?.[i18n.language] ??
-                    event.name?.[event.mainLanguage]
-                  }
-                  terms={event.terms}
-                  location={
-                    event.location?.name?.[i18n.language] ??
-                    event.location?.name?.[event.location?.mainLanguage]
-                  }
-                  calendarType={event.calendarType}
-                  onToggle={onToggleSelectEvent}
-                  selected={event.selected}
-                  css={
-                    index !== events.length - 1
-                      ? (props) => {
-                          return `border-bottom: 1px solid ${getValue(
-                            'borderColor',
-                          )(props)};`;
-                        }
-                      : undefined
-                  }
-                />
-              ))}
-            </List>
-          </Panel>,
-        ]
+            ))}
+          </List>
+        </Panel>
       )}
     </Stack>
   );
