@@ -86,7 +86,6 @@ const ApplicationLayout = ({ children }) => {
         `${window.location.protocol}//${window.location.host}${path}`,
       );
     },
-    },
     [WindowMessageTypes.URL_UNKNOWN]: () => router.push('/404'),
     [WindowMessageTypes.HTTP_ERROR_CODE]: ({ code }) => {
       if ([401, 403].includes(code)) {
