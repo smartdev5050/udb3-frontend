@@ -85,7 +85,7 @@ const ApplicationLayout = ({ children }) => {
       const { pathname, search } = e.target.location;
       const searchParams = new URLSearchParams(search);
       const query = Object.fromEntries(searchParams.entries());
-      router.push({ pathname, query });
+      router.push({ pathname, query }, undefined, { shallow: true });
     },
   });
   useHandleWindowMessage({
