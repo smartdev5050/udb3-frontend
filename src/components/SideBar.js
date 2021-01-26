@@ -32,7 +32,11 @@ const getValueForSideBar = getValueFromTheme('sideBar');
 const getValueForMenu = getValueFromTheme('menu');
 
 const MenuItem = memo(
-  ({ href, iconName, suffix, children: label, onClick }) => {
+  ({ href, iconName, suffix, children: label, onClick, visible = true }) => {
+    if (!visible) {
+      return null;
+    }
+
     const Component = href ? Link : Button;
 
     return (
@@ -78,6 +82,7 @@ MenuItem.propTypes = {
   suffix: PropTypes.node,
   children: PropTypes.node,
   onClick: PropTypes.func,
+  visible: PropTypes.bool,
 };
 
 const Menu = memo(({ items = [], title, ...props }) => {
@@ -207,9 +212,8 @@ const NotificationMenu = memo(
         children: t('menu.notifications'),
         suffix: <JobLoggerStateIndicator state={jobLoggerState} />,
         onClick: onClickJobLoggerButton,
-        visible: true,
       },
-    ].filter((menuItem) => menuItem.visible);
+    ];
 
     return <Menu items={notificationMenu} />;
   },
