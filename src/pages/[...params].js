@@ -1,11 +1,13 @@
+import PropTypes from 'prop-types';
 import getConfig from 'next/config';
 import { useRouter } from 'next/router';
-import i18next from 'i18next';
 import { Box } from '../components/publiq-ui/Box';
 import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
-import { memo, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import { getApplicationServerSideProps } from '../utils/getApplicationServerSideProps';
+import { memo, useMemo } from 'react';
+
+const prefixWhenNotEmpty = (value, prefix) =>
+  value ? `${prefix}${value}` : value;
 
 const IFrame = memo(({ url }) => (
   <Box as="iframe" src={url} width="100%" height="100vh" flex={1} />
@@ -15,9 +17,6 @@ IFrame.propTypes = {
   url: PropTypes.string,
 };
 
-const prefixWhenNotEmpty = (value, prefix) =>
-  value ? `${prefix}${value}` : value;
-
 const Fallback = () => {
   const {
     // eslint-disable-next-line no-unused-vars
@@ -26,7 +25,7 @@ const Fallback = () => {
   } = useRouter();
   const { publicRuntimeConfig } = getConfig();
 
-  const { cookies } = useCookiesWithOptions(['token']);
+  const { cookies } = useCookiesWithOptions(['token', 'udb-language']);
 
   const legacyPath = useMemo(() => {
     const path = new URL(`http://localhost${asPath}`).pathname;
@@ -35,13 +34,13 @@ const Fallback = () => {
       new URLSearchParams({
         ...queryWithoutParams,
         jwt: cookies.token,
-        lang: i18next.language,
+        lang: cookies['udb-language'],
       }),
       '?',
     );
 
     return `${publicRuntimeConfig.legacyAppUrl}${path}${queryString}`;
-  }, [asPath, cookies.token, i18next.language]);
+  }, [asPath, cookies.token, cookies['udb-language']]);
 
   return <IFrame url={legacyPath} />;
 };
