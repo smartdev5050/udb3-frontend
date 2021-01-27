@@ -25,7 +25,7 @@ const Fallback = () => {
   } = useRouter();
   const { publicRuntimeConfig } = getConfig();
 
-  const { cookies } = useCookiesWithOptions(['token']);
+  const { cookies } = useCookiesWithOptions(['token', 'udb-language']);
 
   const legacyPath = useMemo(() => {
     const path = new URL(`http://localhost${asPath}`).pathname;
