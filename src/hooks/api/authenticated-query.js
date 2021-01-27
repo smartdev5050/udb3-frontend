@@ -1,6 +1,5 @@
-import { castArray } from 'lodash';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import { Cookies } from 'react-cookie';
 import { useQuery, useQueries, useMutation } from 'react-query';
 import { Errors } from '../../utils/fetchFromApi';
@@ -134,41 +133,9 @@ const useAuthenticatedMutation = ({
   return useMutation(innerMutationFn, configuration);
 };
 
-const useAuthenticatedQuery = ({ mockData, ...options } = {}) => {
+const useAuthenticatedQuery = ({ ...options } = {}) => {
   if (!!options.req && !!options.queryClient && typeof window === 'undefined') {
     return prefetchAuthenticatedQuery(options);
-  }
-
-  const [randomMockData, setRandomMockData] = useState();
-  const mockDataArray = castArray(mockData);
-
-  const getNewMockData = () => {
-    if (mockDataArray.length === 1) return mockDataArray[0];
-    return mockDataArray[Math.floor(Math.random() * mockDataArray.length)];
-  };
-
-  const refetch = () => setRandomMockData(getNewMockData());
-
-  useEffect(() => {
-    if (
-      !!mockData &&
-      process.env.NODE_ENV !== 'production' &&
-      typeof window !== 'undefined'
-    ) {
-      setRandomMockData(getNewMockData());
-    }
-  }, [mockData, process.env.NODE_ENV]);
-
-  if (
-    mockData &&
-    process.env.NODE_ENV !== 'production' &&
-    typeof window !== 'undefined'
-  ) {
-    return {
-      refetch,
-      status: QueryStatus.SUCCESS,
-      data: randomMockData,
-    };
   }
 
   const { asPath, ...router } = useRouter();

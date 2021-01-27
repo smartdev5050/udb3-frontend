@@ -177,6 +177,10 @@ const Create = () => {
                       event?.location?.address?.[event.location.mainLanguage]
                         ?.addressLocality
                     }
+                    organizerName={
+                      event?.organizer?.name?.[i18n.language] ??
+                      event?.organizer?.name?.[event.location.mainLanguage]
+                    }
                     terms={event?.terms}
                     flex={1}
                     imageUrl={event?.image}

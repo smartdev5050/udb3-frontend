@@ -19,6 +19,7 @@ const Event = ({
   id,
   locationName,
   locationCity,
+  organizerName,
   imageUrl,
   description: rawDescription,
   productionName,
@@ -59,6 +60,7 @@ const Event = ({
           <Text>
             {locationName} {locationCity}
           </Text>
+          {!!organizerName && <Text>{organizerName}</Text>}
         </Stack>
         {imageUrl && (
           <Image
@@ -88,6 +90,7 @@ Event.propTypes = {
   id: PropTypes.string,
   locationName: PropTypes.string,
   locationCity: PropTypes.string,
+  organizerName: PropTypes.string,
   imageUrl: PropTypes.string,
   description: PropTypes.string,
   productionName: PropTypes.string,
@@ -97,6 +100,7 @@ Event.propTypes = {
 Event.defaultProps = {
   locationName: '',
   locationCity: '',
+  organizerName: '',
   terms: [],
   description: '',
   title: '',
