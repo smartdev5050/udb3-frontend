@@ -418,6 +418,7 @@ const SideBar = () => {
   return [
     <Stack
       key="sidebar"
+      tabIndex={0}
       forwardedAs="nav"
       height="100%"
       css={`
