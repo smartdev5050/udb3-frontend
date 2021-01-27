@@ -60,7 +60,7 @@ const Event = ({
           <Text>
             {locationName} {locationCity}
           </Text>
-          {organizerName.length > 0 && <Text>{organizerName}</Text>}
+          {!!organizerName && <Text>{organizerName}</Text>}
         </Stack>
         {imageUrl && (
           <Image
