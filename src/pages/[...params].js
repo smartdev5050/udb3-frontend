@@ -26,13 +26,13 @@ const Fallback = () => {
       new URLSearchParams({
         ...queryWithoutParams,
         jwt: cookies.token,
-        lang: i18next.language,
+        lang: cookies['udb-language'],
       }),
       '?',
     );
 
     return `${publicRuntimeConfig.legacyAppUrl}${path}${queryString}`;
-  }, [asPath, cookies.token, i18next.language]);
+  }, [asPath, cookies.token, cookies['udb-language']]);
 
   return (
     <Box as="iframe" src={legacyPath} width="100%" height="100vh" flex={1} />
