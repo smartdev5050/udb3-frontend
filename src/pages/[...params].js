@@ -3,8 +3,8 @@ import { useRouter } from 'next/router';
 import i18next from 'i18next';
 import { Box } from '../components/publiq-ui/Box';
 import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
-import { useMemo } from 'react';
 import { getApplicationServerSideProps } from '../utils/getApplicationServerSideProps';
+import { useMemo } from 'react';
 
 const prefixWhenNotEmpty = (value, prefix) =>
   value ? `${prefix}${value}` : value;
