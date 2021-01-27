@@ -1,13 +1,21 @@
+import PropTypes from 'prop-types';
 import getConfig from 'next/config';
 import { useRouter } from 'next/router';
-import i18next from 'i18next';
 import { Box } from '../components/publiq-ui/Box';
 import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
 import { getApplicationServerSideProps } from '../utils/getApplicationServerSideProps';
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 
 const prefixWhenNotEmpty = (value, prefix) =>
   value ? `${prefix}${value}` : value;
+
+const IFrame = memo(({ url }) => (
+  <Box as="iframe" src={url} width="100%" height="100vh" flex={1} />
+));
+
+IFrame.propTypes = {
+  url: PropTypes.string,
+};
 
 const Fallback = () => {
   const {
@@ -34,9 +42,7 @@ const Fallback = () => {
     return `${publicRuntimeConfig.legacyAppUrl}${path}${queryString}`;
   }, [asPath, cookies.token, cookies['udb-language']]);
 
-  return (
-    <Box as="iframe" src={legacyPath} width="100%" height="100vh" flex={1} />
-  );
+  return <IFrame url={legacyPath} />;
 };
 
 export const getServerSideProps = getApplicationServerSideProps();
