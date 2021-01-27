@@ -21,7 +21,6 @@ import {
   useHandleWindowMessage,
   WindowMessageTypes,
 } from '../hooks/useHandleWindowMessage';
-import { EventTypes, useHandleEvent } from '../hooks/useHandleEvent';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { GlobalStyle } from '../styles/GlobalStyle';
@@ -79,22 +78,22 @@ const ApplicationLayout = ({ children }) => {
   ]);
 
   useChangeLanguage();
-  useHandleEvent({
-    [EventTypes.NAVIGATE_PREVIOUS_PAGE]: (e) => {
-      e.preventDefault();
-      const { pathname, search } = e.target.location;
-      const searchParams = new URLSearchParams(search);
-      const query = Object.fromEntries(searchParams.entries());
-      router.push({ pathname, query }, undefined, { shallow: true });
-    },
-  });
   useHandleWindowMessage({
     [WindowMessageTypes.URL_CHANGED]: ({ path }) => {
-      window.history.pushState(
-        undefined,
-        '',
+      const url = new URL(
         `${window.location.protocol}//${window.location.host}${path}`,
       );
+      const query = Object.fromEntries(url.searchParams.entries());
+      const hasPage = url.searchParams.has('page');
+      if (hasPage) {
+        window.history.pushState(
+          undefined,
+          '',
+          `${window.location.protocol}//${window.location.host}${path}`,
+        );
+      } else {
+        router.push({ pathname: url.pathname, query });
+      }
     },
     [WindowMessageTypes.URL_UNKNOWN]: () => router.push('/404'),
     [WindowMessageTypes.HTTP_ERROR_CODE]: ({ code }) => {
