@@ -1,5 +1,4 @@
 import { fetchFromApi } from '../../utils/fetchFromApi';
-import { suggestedEvents } from '../../mocked/suggestedEvents';
 import {
   useAuthenticatedQuery,
   useAuthenticatedMutation,
@@ -115,7 +114,6 @@ const useGetSuggestedEvents = (configuration = {}) =>
   useAuthenticatedQuery({
     queryKey: ['productions', 'suggestion'],
     queryFn: getSuggestedEvents,
-    mockData: suggestedEvents,
     ...configuration,
   });
 
