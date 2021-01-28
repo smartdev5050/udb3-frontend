@@ -1,6 +1,6 @@
 import getConfig from 'next/config';
 import PropTypes from 'prop-types';
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { Stack } from './publiq-ui/Stack';
 import { Link } from './publiq-ui/Link';
@@ -236,6 +236,7 @@ const SideBar = () => {
 
   const [isJobLoggerVisible, setIsJobLoggerVisible] = useState(true);
   const [jobLoggerState, setJobLoggerState] = useState(JobLoggerStates.IDLE);
+  const sideBarComponent = useRef();
 
   const [
     isAnnouncementsModalVisible,
@@ -418,6 +419,7 @@ const SideBar = () => {
   return [
     <Stack
       key="sidebar"
+      tabIndex={0}
       forwardedAs="nav"
       height="100%"
       css={`
@@ -429,7 +431,13 @@ const SideBar = () => {
       zIndex={1998}
       padding={{ default: 2, s: 0 }}
       spacing={3}
-      onMouseOver={() => setTimeout(window.focus, 200)}
+      ref={sideBarComponent}
+      onMouseOver={() => {
+        setTimeout(() => {
+          if (!sideBarComponent?.current) return;
+          sideBarComponent.current.focus();
+        }, 100);
+      }}
     >
       <Link
         justifyContent="center"
