@@ -7,6 +7,7 @@ import { SideBar } from '../components/SideBar';
 import { ThemeProvider } from '../components/publiq-ui/ThemeProvider';
 
 import { useRouter } from 'next/router';
+import NextHead from 'next/head';
 import { ContextProvider } from '../provider/ContextProvider';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 import i18n from '../i18n';
@@ -135,6 +136,28 @@ Layout.propTypes = {
   children: PropTypes.node,
 };
 
+const Head = () => {
+  const { t } = useTranslation();
+  return (
+    <NextHead>
+      <meta
+        key="viewport"
+        name="viewport"
+        content="initial-scale=1.0, width=device-width"
+      />
+      <link
+        key="icon"
+        rel="icon"
+        type="image/png"
+        sizes="32x32"
+        href="/favicon.png"
+      />
+      <title key="title">UitDatabank</title>
+      <meta name="description" content={t('description')} />
+    </NextHead>
+  );
+};
+
 const queryClient = new QueryClient();
 
 const isServer = () => typeof window === 'undefined';
@@ -143,6 +166,7 @@ const App = ({ Component, pageProps }) => {
   return (
     <>
       <GlobalStyle />
+      <Head />
       <ContextProvider
         providers={[
           [I18nextProvider, { i18n }],

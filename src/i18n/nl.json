@@ -1,5 +1,6 @@
 {
   "brand": "UiTdatabank",
+  "description": "UiTdatabank levert informatie aan meer dan 500 agenda's, waaronder UiTinvlaanderen, websites van steden en gemeenten, thema-agenda's, gedrukte bladen en mobiele apps. Ook jouw activiteit kan verschijnen op vele agenda's.",
   "main": {
     "activities_info": "Een uitstap, sportactiviteit, kaartavond, kermis of cursus? Een concert, tentoonstelling of film? UiTdatabank staat open voor de meest uiteenlopende vrijetijdsactiviteiten.",
     "activities": "activiteiten per jaar",
