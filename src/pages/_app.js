@@ -136,12 +136,27 @@ Layout.propTypes = {
   children: PropTypes.node,
 };
 
-const Head = () => (
-  <NextHead>
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
-    <title key="title">UitDatabank</title>
-  </NextHead>
-);
+const Head = () => {
+  const { t } = useTranslation();
+  return (
+    <NextHead>
+      <meta
+        key="viewport"
+        name="viewport"
+        content="initial-scale=1.0, width=device-width"
+      />
+      <link
+        key="icon"
+        rel="icon"
+        type="image/png"
+        sizes="32x32"
+        href="/favicon.png"
+      />
+      <title key="title">UitDatabank</title>
+      <meta name="description" content={t('description')} />
+    </NextHead>
+  );
+};
 
 const queryClient = new QueryClient();
 
