@@ -41,10 +41,10 @@ const customCSS = css`
       border-color: ${getValue('primary.hoverBorderColor')};
     }
 
-    // active & focus
-    &:not(:disabled):not(.disabled):active:focus,
-    &:not(:disabled):not(.disabled).active:focus,
-    .show > &.dropdown-toggle:focus {
+    // active
+    &.btn-primary:not(:disabled):not(.disabled):active,
+    .btn-primary:not(:disabled):not(.disabled).active,
+    .show > .btn-primary.dropdown-toggle {
       background-color: ${getValue('primary.activeBackgroundColor')};
       border-color: ${getValue('primary.activeBorderColor')};
       box-shadow: ${getValue('primary.activeBoxShadow')};
@@ -59,16 +59,17 @@ const customCSS = css`
   &.btn-outline-secondary {
     color: ${getValue('secondary.color')};
     background-color: ${getValue('secondary.backgroundColor')};
+    border-color: ${getValue('secondary.borderColor')};
 
     &:hover {
       background-color: ${getValue('secondary.hoverBackgroundColor')};
       border-color: ${getValue('secondary.hoverBorderColor')};
     }
 
-    // active & focus
-    &:not(:disabled):not(.disabled):active:focus,
-    &:not(:disabled):not(.disabled).active:focus,
-    .show > &.dropdown-toggle:focus {
+    // active
+    &.btn-outline-secondary:not(:disabled):not(.disabled):active,
+    .btn-outline-secondary:not(:disabled):not(.disabled).active,
+    .show > .btn-outline-secondary.dropdown-toggle {
       color: ${getValue('secondary.activeColor')};
       background-color: ${getValue('secondary.activeBackgroundColor')};
       border-color: ${getValue('secondary.activeBorderColor')};
