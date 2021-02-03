@@ -95,7 +95,7 @@
       "where": "Où"
     }
   },
-  "eventStatus": {
+  "offerStatus": {
     "title": "Statut pour {{name}}",
     "info": "Sélectionnez les périodes pour lesquels vous souhaitez modifier le statut",
     "period": "Période",

@@ -97,7 +97,7 @@
       "where": "Waar"
     }
   },
-  "eventStatus": {
+  "offerStatus": {
     "title": "Status voor {{name}}",
     "info": "Selecteer de tijdstippen waarvoor je de status wilt aanpassen",
     "period": "Tijdstip",
