@@ -97,6 +97,19 @@
       "where": "Waar"
     }
   },
+  "eventStatus": {
+    "title": "Status voor {{name}}",
+    "info": "Selecteer de tijdstippen waarvoor je de status wilt aanpassen",
+    "period": "Tijdstip",
+    "statusLabel": "Status",
+    "status": {
+      "scheduled": "Gaat door",
+      "cancelled": "Geannuleerd",
+      "postponed": "Uitgesteld"
+    },
+    "dateToBeDefined": "Nieuwe datum nog te bepalen",
+    "modificationReady": "Klaar met status wijzigen"
+  },
   "jobs": {
     "download": "Downloaden",
     "finished": "Voltooid",

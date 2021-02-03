@@ -95,6 +95,19 @@
       "where": "Où"
     }
   },
+  "eventStatus": {
+    "title": "Statut pour {{name}}",
+    "info": "Sélectionnez les périodes pour lesquels vous souhaitez modifier le statut",
+    "period": "Période",
+    "statusLabel": "Status",
+    "status": {
+      "scheduled": "A lieu",
+      "cancelled": "Annulé",
+      "postponed": "Reporté"
+    },
+    "dateToBeDefined": "Nouvelle date encore à définir",
+    "modificationReady": "Modification du status terminé"
+  },
   "jobs": {
     "download": "Télécharger",
     "finished": "Terminé",
