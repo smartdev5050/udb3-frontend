@@ -54,7 +54,7 @@ const useGetEventById = ({ id }, configuration) =>
     ...configuration,
   });
 
-const useGetEventsbyIds = ({ req, queryClient, ids = [] }) => {
+const useGetEventsByIds = ({ req, queryClient, ids = [] }) => {
   const options = ids.map((id) => ({
     queryKey: ['events'],
     queryFn: getEventById,
@@ -97,6 +97,6 @@ const useGetCalendarSummary = ({ id, locale, format = 'lg' }, configuration) =>
 export {
   useGetEventsToModerate,
   useGetEventById,
-  useGetEventsbyIds,
+  useGetEventsByIds,
   useGetCalendarSummary,
 };
