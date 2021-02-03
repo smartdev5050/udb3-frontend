@@ -45,7 +45,7 @@ const getEventById = async ({ headers, id }) => {
   return await res.json();
 };
 
-const useGetEventById = ({ id }, configuration) =>
+const useGetEventById = ({ id }, configuration = {}) =>
   useAuthenticatedQuery({
     queryKey: ['events'],
     queryFn: getEventById,
@@ -79,7 +79,10 @@ const getCalendarSummary = async ({ headers, id, format, locale }) => {
   return res.text();
 };
 
-const useGetCalendarSummary = ({ id, locale, format = 'lg' }, configuration) =>
+const useGetCalendarSummary = (
+  { id, locale, format = 'lg' },
+  configuration = {},
+) =>
   useAuthenticatedQuery({
     queryKey: ['events'],
     queryFn: getCalendarSummary,

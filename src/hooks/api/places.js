@@ -11,7 +11,7 @@ const getPlaceById = async ({ headers, id }) => {
   return await res.json();
 };
 
-const useGetPlaceById = ({ id }, configuration) =>
+const useGetPlaceById = ({ id }, configuration = {}) =>
   useAuthenticatedQuery({
     queryKey: ['places'],
     queryFn: getPlaceById,
