@@ -1,4 +1,4 @@
-import { EventStatus } from '../../../components/EventStatus';
+import { OfferStatus } from '../../../components/OfferStatus';
 import { useRouter } from 'next/router';
 import { useGetPlaceById } from '../../../hooks/api/places';
 import { QueryStatus } from '../../../hooks/api/authenticated-query';
@@ -17,7 +17,7 @@ const Status = () => {
     { onError: handleError },
   );
   return (
-    <EventStatus
+    <OfferStatus
       offer={place}
       loading={status === QueryStatus.LOADING}
       errorMessage={errorMessage}

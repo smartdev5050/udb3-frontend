@@ -5,7 +5,7 @@ import { Button, ButtonVariants } from './publiq-ui/Button';
 import { Page } from './publiq-ui/Page';
 import { Spinner } from './publiq-ui/Spinner';
 
-const EventStatus = ({ offer, loading, errorMessage }) => {
+const OfferStatus = ({ offer, loading, errorMessage }) => {
   const { t, i18n } = useTranslation();
   const name = offer.name?.[i18n.language] ?? offer.name?.[offer.mainLanguage];
   return (
@@ -33,10 +33,10 @@ const EventStatus = ({ offer, loading, errorMessage }) => {
   );
 };
 
-EventStatus.propTypes = {
+OfferStatus.propTypes = {
   offer: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
   errorMessage: PropTypes.string,
 };
 
-export { EventStatus };
+export { OfferStatus };

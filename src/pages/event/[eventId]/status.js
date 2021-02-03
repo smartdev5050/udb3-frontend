@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useGetEventById } from '../../../hooks/api/events';
-import { EventStatus } from '../../../components/EventStatus';
+import { OfferStatus } from '../../../components/OfferStatus';
 import { QueryStatus } from '../../../hooks/api/authenticated-query';
 import { useState } from 'react';
 import { getApplicationServerSideProps } from '../../../utils/getApplicationServerSideProps';
@@ -18,7 +18,7 @@ const Status = () => {
   );
 
   return (
-    <EventStatus
+    <OfferStatus
       offer={event}
       loading={status === QueryStatus.LOADING}
       errorMessage={errorMessage}
