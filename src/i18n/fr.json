@@ -99,14 +99,14 @@
     "title": "Statut pour {{name}}",
     "info": "Sélectionnez les périodes pour lesquels vous souhaitez modifier le statut",
     "period": "Période",
-    "statusLabel": "Status",
+    "statusLabel": "Statut",
     "status": {
       "scheduled": "A lieu",
       "cancelled": "Annulé",
       "postponed": "Reporté"
     },
     "dateToBeDefined": "Nouvelle date encore à définir",
-    "modificationReady": "Modification du status terminé"
+    "modificationReady": "Modification du statut terminé"
   },
   "jobs": {
     "download": "Télécharger",
