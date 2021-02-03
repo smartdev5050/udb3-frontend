@@ -3,6 +3,7 @@ import { useGetEventById } from '../../../hooks/api/events';
 import { EventStatus } from '../../../components/EventStatus';
 import { QueryStatus } from '../../../hooks/api/authenticated-query';
 import { useState } from 'react';
+import { getApplicationServerSideProps } from '../../../utils/getApplicationServerSideProps';
 
 const Status = () => {
   const router = useRouter();
@@ -24,5 +25,7 @@ const Status = () => {
     />
   );
 };
+
+export const getServerSideProps = getApplicationServerSideProps();
 
 export default Status;
