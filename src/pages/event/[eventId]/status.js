@@ -1,4 +1,3 @@
-import { Text } from '../../../components/publiq-ui/Text';
 import { useRouter } from 'next/router';
 import { useGetEventById } from '../../../hooks/api/events';
 import { EventStatus } from '../../../components/EventStatus';
