@@ -4,10 +4,17 @@ import { Table as BootstrapTable } from 'react-bootstrap';
 import { useTable, useRowSelect } from 'react-table';
 import { Checkbox } from './Checkbox';
 import { Box } from './Box';
+import { uniqueId } from 'lodash';
 
 const Header = ({ getToggleAllRowsSelectedProps }) => {
   const { checked, onChange } = getToggleAllRowsSelectedProps();
-  return <Checkbox checked={checked} onToggle={onChange} />;
+  return (
+    <Checkbox
+      id={uniqueId('checkbox-')}
+      checked={checked}
+      onToggle={onChange}
+    />
+  );
 };
 
 Header.propTypes = {
@@ -16,7 +23,14 @@ Header.propTypes = {
 
 const Cell = ({ row }) => {
   const { checked, onChange } = row.getToggleRowSelectedProps();
-  return <Checkbox checked={checked} onToggle={onChange} />;
+
+  return (
+    <Checkbox
+      id={uniqueId('checkbox-')}
+      checked={checked}
+      onToggle={onChange}
+    />
+  );
 };
 
 Cell.propTypes = {
