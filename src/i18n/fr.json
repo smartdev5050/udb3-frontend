@@ -103,7 +103,10 @@
     "status": {
       "scheduled": "A lieu",
       "cancelled": "Annulé",
-      "postponed": "Reporté"
+      "postponed": "Reporté",
+      "open": "Ouvert",
+      "temporarilyClosed": "Fermé temporairement",
+      "permanentlyClosed": "Fermé définitivement"
     },
     "dateToBeDefined": "Nouvelle date encore à définir",
     "modificationReady": "Modification du statut terminé"

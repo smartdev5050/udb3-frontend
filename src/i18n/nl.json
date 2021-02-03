@@ -105,7 +105,10 @@
     "status": {
       "scheduled": "Gaat door",
       "cancelled": "Geannuleerd",
-      "postponed": "Uitgesteld"
+      "postponed": "Uitgesteld",
+      "open": "Open",
+      "temporarilyClosed": "Tijdelijk gesloten",
+      "permanentlyClosed": "Permanent gesloten"
     },
     "dateToBeDefined": "Nieuwe datum nog te bepalen",
     "modificationReady": "Klaar met status wijzigen"
