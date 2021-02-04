@@ -46,9 +46,7 @@ const Fallback = () => {
       '?',
     );
 
-    return `${
-      'http://localhost:9999' || publicRuntimeConfig.legacyAppUrl
-    }${path}${queryString}`;
+    return `${publicRuntimeConfig.legacyAppUrl}${path}${queryString}`;
   }, [asPath, cookies.token, cookies['udb-language']]);
 
   return <IFrame url={legacyPath} />;
