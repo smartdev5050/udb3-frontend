@@ -1,0 +1,44 @@
+import { useMemo } from 'react';
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import { SelectionTable } from './SelectionTable.js';
+
+<Meta title="Components/SelectionTable" />
+
+export const columns = [
+  {
+    Header: 'Header 1',
+    accessor: 'header1',
+  },
+  {
+    Header: 'Header 2',
+    accessor: 'header2',
+  },
+];
+
+export const data = [
+  {
+    header1: 'data 1 header 1',
+    header2: 'data 1 header 2',
+  },
+  {
+    header1: 'data 2 header 1',
+    header2: 'data 2 header 2',
+  },
+];
+
+<Canvas>
+  <Story
+    args={{
+      columns,
+      data,
+    }}
+    argTypes={{
+      onSelectionChanged: { action: 'onSelectionChanged' },
+    }}
+    name="Default"
+  >
+    {(args) => <SelectionTable {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Default" />
