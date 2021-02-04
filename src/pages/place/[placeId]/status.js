@@ -10,10 +10,12 @@ import { useTranslation } from 'react-i18next';
 import { useGetPlaceById } from '../../../hooks/api/places';
 
 const Status = () => {
+  const { t, i18n } = useTranslation();
   const router = useRouter();
   const { placeId } = router.query;
+
   const [errorMessage, setErrorMessage] = useState();
-  const { t, i18n } = useTranslation();
+
   const handleError = (error) => {
     setErrorMessage(error.message);
   };
