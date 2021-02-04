@@ -17,11 +17,11 @@ const Header = ({ getToggleAllRowsSelectedProps }) => {
   );
 };
 
-Header.propTypes = {
+CheckBoxHeader.propTypes = {
   getToggleAllRowsSelectedProps: PropTypes.func,
 };
 
-const Cell = ({ row }) => {
+const CheckBoxCell = ({ row }) => {
   const { checked, onChange } = row.getToggleRowSelectedProps();
 
   return (
@@ -33,7 +33,7 @@ const Cell = ({ row }) => {
   );
 };
 
-Cell.propTypes = {
+CheckBoxCell.propTypes = {
   row: PropTypes.object,
 };
 
@@ -47,10 +47,11 @@ const SelectionTable = ({ columns, data, onSelectionChanged }) => {
     selectedFlatRows,
   } = useTable({ columns, data }, useRowSelect, (hooks) => {
     hooks.visibleColumns.push((columns) => [
+      // Add a selection column containing Checkbox components to the left of the table
       {
         id: 'selection',
-        Header,
-        Cell,
+        Header: CheckBoxHeader,
+        Cell: CheckBoxCell,
       },
       ...columns,
     ]);
