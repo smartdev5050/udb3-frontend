@@ -207,6 +207,7 @@ const theme = {
     },
     selectionTable: {
       color: colors.grey5,
+      borderColor: colors.grey3,
     },
   },
 };

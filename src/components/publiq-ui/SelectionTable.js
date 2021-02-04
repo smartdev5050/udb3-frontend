@@ -3,7 +3,7 @@ import { useLayoutEffect } from 'react';
 import { Table as BootstrapTable } from 'react-bootstrap';
 import { useTable, useRowSelect } from 'react-table';
 import { Checkbox } from './Checkbox';
-import { Box } from './Box';
+import { Box, getBoxProps } from './Box';
 import { uniqueId } from 'lodash';
 import { getValueFromTheme } from '../publiq-ui/theme';
 
@@ -41,7 +41,7 @@ CheckBoxCell.propTypes = {
   row: PropTypes.object,
 };
 
-const SelectionTable = ({ columns, data, onSelectionChanged }) => {
+const SelectionTable = ({ columns, data, onSelectionChanged, ...props }) => {
   const {
     getTableProps,
     getTableBodyProps,
@@ -67,7 +67,23 @@ const SelectionTable = ({ columns, data, onSelectionChanged }) => {
   }, [onSelectionChanged, selectedFlatRows]);
 
   return (
-    <Box as={BootstrapTable} {...getTableProps()}>
+    <Box
+      forwardedAs={BootstrapTable}
+      css={`
+        &.table th,
+        &.table td {
+          padding: 0.75rem;
+          vertical-align: top;
+          border-top: 1px solid ${getValue('borderColor')};
+        }
+
+        &.table thead th {
+          border-bottom: 1px solid ${getValue('borderColor')};
+        }
+      `}
+      {...getTableProps()}
+      {...getBoxProps(props)}
+    >
       <thead>
         {headerGroups.map((headerGroup, indexHeaderGroup) => (
           <tr key={indexHeaderGroup} {...headerGroup.getHeaderGroupProps()}>
