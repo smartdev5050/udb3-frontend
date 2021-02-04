@@ -9,7 +9,7 @@ import {
 } from '../../../hooks/api/productions';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from '../../../components/publiq-ui/Link';
-import { useGetEventsbyIds } from '../../../hooks/api/events';
+import { useGetEventsByIds } from '../../../hooks/api/events';
 import { parseEventId } from '../../../utils/parseEventId';
 import { QueryStatus } from '../../../hooks/api/authenticated-query';
 
@@ -73,7 +73,7 @@ const Index = () => {
 
   const totalItemsProductions = productionsData?.totalItems ?? 0;
 
-  const { data: rawEvents = [], status: eventsStatus } = useGetEventsbyIds({
+  const { data: rawEvents = [], status: eventsStatus } = useGetEventsByIds({
     ids: activeProduction?.events ?? [],
   });
 
@@ -239,7 +239,7 @@ export const getServerSideProps = getApplicationServerSideProps(
 
     const eventIds = productions?.member?.[0]?.events ?? [];
 
-    await useGetEventsbyIds({ req, queryClient, ids: eventIds });
+    await useGetEventsByIds({ req, queryClient, ids: eventIds });
 
     return {
       props: {

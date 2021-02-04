@@ -130,7 +130,7 @@ const useAuthenticatedMutation = ({
     return result;
   });
 
-  return useMutation(innerMutationFn, configuration);
+  return useMutation(innerMutationFn, (configuration = {}));
 };
 
 const useAuthenticatedQuery = ({ ...options } = {}) => {
@@ -158,10 +158,6 @@ const useAuthenticatedQuery = ({ ...options } = {}) => {
       removeAuthenticationCookies();
       router.push('/login');
     }
-  }
-
-  if (result.status === QueryStatus.ERROR) {
-    throw result.error;
   }
 
   return result;
