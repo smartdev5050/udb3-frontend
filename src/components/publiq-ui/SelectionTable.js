@@ -5,9 +5,13 @@ import { useTable, useRowSelect } from 'react-table';
 import { Checkbox } from './Checkbox';
 import { Box } from './Box';
 import { uniqueId } from 'lodash';
+import { getValueFromTheme } from '../publiq-ui/theme';
 
-const Header = ({ getToggleAllRowsSelectedProps }) => {
+const getValue = getValueFromTheme('selectionTable');
+
+const CheckBoxHeader = ({ getToggleAllRowsSelectedProps }) => {
   const { checked, onChange } = getToggleAllRowsSelectedProps();
+
   return (
     <Checkbox
       id={uniqueId('checkbox-')}
@@ -63,7 +67,7 @@ const SelectionTable = ({ columns, data, onSelectionChanged }) => {
   }, [onSelectionChanged, selectedFlatRows]);
 
   return (
-    <Box as={BootstrapTable} {...getTableProps()} striped bordered hover>
+    <Box as={BootstrapTable} {...getTableProps()}>
       <thead>
         {headerGroups.map((headerGroup, indexHeaderGroup) => (
           <tr key={indexHeaderGroup} {...headerGroup.getHeaderGroupProps()}>
@@ -72,7 +76,7 @@ const SelectionTable = ({ columns, data, onSelectionChanged }) => {
                 as="th"
                 key={indexHeader}
                 {...column.getHeaderProps()}
-                fontWeight={700}
+                color={getValue('color')}
               >
                 {column.render('Header')}
               </Box>
