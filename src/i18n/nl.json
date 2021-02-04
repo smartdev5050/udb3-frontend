@@ -97,6 +97,22 @@
       "where": "Waar"
     }
   },
+  "offerStatus": {
+    "title": "Status voor {{name}}",
+    "info": "Selecteer de tijdstippen waarvoor je de status wilt aanpassen",
+    "period": "Tijdstip",
+    "statusLabel": "Status",
+    "status": {
+      "scheduled": "Gaat door",
+      "cancelled": "Geannuleerd",
+      "postponed": "Uitgesteld",
+      "open": "Open",
+      "temporarilyClosed": "Tijdelijk gesloten",
+      "permanentlyClosed": "Permanent gesloten"
+    },
+    "dateToBeDefined": "Nieuwe datum nog te bepalen",
+    "modificationReady": "Klaar met status wijzigen"
+  },
   "jobs": {
     "download": "Downloaden",
     "finished": "Voltooid",

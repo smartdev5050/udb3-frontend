@@ -45,7 +45,7 @@ const getEventById = async ({ headers, id }) => {
   return await res.json();
 };
 
-const useGetEventbyId = ({ id }, configuration) =>
+const useGetEventById = ({ id }, configuration = {}) =>
   useAuthenticatedQuery({
     queryKey: ['events'],
     queryFn: getEventById,
@@ -54,7 +54,7 @@ const useGetEventbyId = ({ id }, configuration) =>
     ...configuration,
   });
 
-const useGetEventsbyIds = ({ req, queryClient, ids = [] }) => {
+const useGetEventsByIds = ({ req, queryClient, ids = [] }) => {
   const options = ids.map((id) => ({
     queryKey: ['events'],
     queryFn: getEventById,
@@ -79,7 +79,10 @@ const getCalendarSummary = async ({ headers, id, format, locale }) => {
   return res.text();
 };
 
-const useGetCalendarSummary = ({ id, locale, format = 'lg' }, configuration) =>
+const useGetCalendarSummary = (
+  { id, locale, format = 'lg' },
+  configuration = {},
+) =>
   useAuthenticatedQuery({
     queryKey: ['events'],
     queryFn: getCalendarSummary,
@@ -96,7 +99,7 @@ const useGetCalendarSummary = ({ id, locale, format = 'lg' }, configuration) =>
 
 export {
   useGetEventsToModerate,
-  useGetEventbyId,
-  useGetEventsbyIds,
+  useGetEventById,
+  useGetEventsByIds,
   useGetCalendarSummary,
 };

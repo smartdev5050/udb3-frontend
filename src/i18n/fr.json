@@ -95,6 +95,22 @@
       "where": "Où"
     }
   },
+  "offerStatus": {
+    "title": "Statut pour {{name}}",
+    "info": "Sélectionnez les périodes pour lesquels vous souhaitez modifier le statut",
+    "period": "Période",
+    "statusLabel": "Statut",
+    "status": {
+      "scheduled": "A lieu",
+      "cancelled": "Annulé",
+      "postponed": "Reporté",
+      "open": "Ouvert",
+      "temporarilyClosed": "Fermé temporairement",
+      "permanentlyClosed": "Fermé définitivement"
+    },
+    "dateToBeDefined": "Nouvelle date encore à définir",
+    "modificationReady": "Modification du statut terminé"
+  },
   "jobs": {
     "download": "Télécharger",
     "finished": "Terminé",

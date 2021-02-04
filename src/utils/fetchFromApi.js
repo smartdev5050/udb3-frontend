@@ -19,8 +19,8 @@ const fetchFromApi = async ({ path, searchParams = {}, options = {} }) => {
     throw new Error(e.message);
   }
 
-  if (Object.keys(Errors).includes(response.status)) {
-    throw new Error(Errors[response.status]);
+  if (Object.keys(Errors).includes(response.status.toString())) {
+    throw new Error(response.statusText);
   }
 
   return response;
