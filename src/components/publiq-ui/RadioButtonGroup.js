@@ -25,6 +25,7 @@ const RadioButtonGroup = ({
             name={name}
             onChange={onChange}
             label={item.label}
+            info={item.info}
           />
         ))}
       </Stack>
