@@ -103,6 +103,7 @@
     "period": "Tijdstip",
     "statusLabel": "Status",
     "newStatus": "Nieuw status",
+    "reason": "Reden",
     "status": {
       "scheduled": "Gaat door",
       "cancelled": "Geannuleerd",

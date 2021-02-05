@@ -101,6 +101,7 @@
     "period": "Période",
     "statusLabel": "Statut",
     "newStatus": "Nouveau statut",
+    "reason": "Raison",
     "status": {
       "scheduled": "A lieu",
       "cancelled": "Annulé",
