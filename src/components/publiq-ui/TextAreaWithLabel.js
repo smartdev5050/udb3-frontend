@@ -3,13 +3,22 @@ import { Label, LabelVariants } from './Label';
 import { getStackProps, Stack, stackPropTypes } from './Stack';
 import { TextArea } from './TextArea';
 
-const TextAreaWithLabel = ({ id, label, children, className, ...props }) => {
+const TextAreaWithLabel = ({
+  id,
+  label,
+  children,
+  className,
+  onInput,
+  ...props
+}) => {
   return (
     <Stack as="div" spacing={3} className={className} {...getStackProps(props)}>
       <Label htmlFor={id} variant={LabelVariants.BOLD}>
         {label}
       </Label>
-      <TextArea id={id}>{children}</TextArea>
+      <TextArea id={id} onInput={onInput}>
+        {children}
+      </TextArea>
     </Stack>
   );
 };
@@ -20,6 +29,7 @@ TextAreaWithLabel.propTypes = {
   label: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
+  onInput: PropTypes.func,
 };
 
 export { TextAreaWithLabel };

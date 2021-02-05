@@ -11,6 +11,9 @@ import { TextAreaWithLabel } from './TextAreaWithLabel.js';
       label: 'This is a label',
       children: 'This is a TextAreaWithLabel',
     }}
+    argTypes={{
+      onInput: { action: 'onInput' },
+    }}
   >
     {(args) => <TextAreaWithLabel {...args} />}
   </Story>

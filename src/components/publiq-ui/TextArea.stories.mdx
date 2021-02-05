@@ -4,7 +4,13 @@ import { TextArea } from './TextArea.js';
 <Meta title="Components/TextArea" />
 
 <Canvas>
-  <Story name="Default" args={{ children: 'This is a TextArea' }}>
+  <Story
+    name="Default"
+    args={{ children: 'This is a TextArea' }}
+    argTypes={{
+      onInput: { action: 'onInput' },
+    }}
+  >
     {(args) => <TextArea {...args} />}
   </Story>
 </Canvas>
