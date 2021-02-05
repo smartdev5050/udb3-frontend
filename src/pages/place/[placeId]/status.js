@@ -7,6 +7,7 @@ import { Button, ButtonVariants } from '../../../components/publiq-ui/Button';
 import { Spinner } from '../../../components/publiq-ui/Spinner';
 import { RadioButtonGroup } from '../../../components/publiq-ui/RadioButtonGroup';
 import { Page } from '../../../components/publiq-ui/Page';
+import { TextAreaWithLabel } from '../../../components/publiq-ui/TextAreaWithLabel';
 import { useTranslation } from 'react-i18next';
 import { useGetPlaceById } from '../../../hooks/api/places';
 
@@ -22,6 +23,7 @@ const Status = () => {
   const { placeId } = router.query;
 
   const [errorMessage, setErrorMessage] = useState();
+  const [, setReason] = useState('');
 
   const handleError = (error) => {
     setErrorMessage(error.message);
@@ -62,6 +64,12 @@ const Status = () => {
                   info: t('offerStatus.status.permanentlyClosedInfo'),
                 },
               ]}
+            />,
+            <TextAreaWithLabel
+              key="textarea"
+              id="reason"
+              label={t('offerStatus.reason')}
+              onInput={(e) => setReason(e.target.value)}
             />,
             <Button
               key="button"
