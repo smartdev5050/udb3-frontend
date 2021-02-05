@@ -9,7 +9,7 @@ const colors = {
   grey2: '#ccc',
   grey3: '#ddd',
   grey4: '#f5f5f5',
-  grey5: '#555555',
+  grey5: '#777777',
   green1: '#5cb85c',
   green2: '#449d44',
   green3: '#48874a',
@@ -112,7 +112,7 @@ const theme = {
       activeBackgroundColor: colors.udbBlue,
     },
     radioButtonWithLabel: {
-      infoTextColor: colors.grey2,
+      infoTextColor: colors.grey5,
     },
     page: {
       backgroundColor: colors.grey1,
