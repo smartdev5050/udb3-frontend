@@ -5,9 +5,16 @@ import { getApplicationServerSideProps } from '../../../utils/getApplicationServ
 import { Alert, AlertVariants } from '../../../components/publiq-ui/Alert';
 import { Button, ButtonVariants } from '../../../components/publiq-ui/Button';
 import { Spinner } from '../../../components/publiq-ui/Spinner';
+import { RadioButtonGroup } from '../../../components/publiq-ui/RadioButtonGroup';
 import { Page } from '../../../components/publiq-ui/Page';
 import { useTranslation } from 'react-i18next';
 import { useGetPlaceById } from '../../../hooks/api/places';
+
+const OfferStatus = {
+  AVAILABLE: 'Available',
+  TEMPORARILY_UNAVAILABLE: 'TemporarilyUnavailable',
+  UNAVAILABLE: 'Unavailable',
+};
 
 const Status = () => {
   const { t, i18n } = useTranslation();
@@ -35,7 +42,27 @@ const Status = () => {
           <Alert variant={AlertVariants.WARNING}>{errorMessage}</Alert>
         ) : (
           [
-            <Alert key="alert">{t('offerStatus.info')}</Alert>,
+            <RadioButtonGroup
+              key="radiobuttongroup"
+              groupLabel={t('offerStatus.newStatus')}
+              name="placeStatus"
+              items={[
+                {
+                  label: t('offerStatus.status.open'),
+                  value: OfferStatus.AVAILABLE,
+                },
+                {
+                  label: t('offerStatus.status.temporarilyClosed'),
+                  value: OfferStatus.TEMPORARILY_UNAVAILABLE,
+                  info: t('offerStatus.status.temporarilyClosedInfo'),
+                },
+                {
+                  label: t('offerStatus.status.permanentlyClosed'),
+                  value: OfferStatus.UNAVAILABLE,
+                  info: t('offerStatus.status.permanentlyClosedInfo'),
+                },
+              ]}
+            />,
             <Button
               key="button"
               variant={ButtonVariants.SUCCESS}
