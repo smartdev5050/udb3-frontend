@@ -100,13 +100,18 @@
     "info": "Sélectionnez les périodes pour lesquels vous souhaitez modifier le statut",
     "period": "Période",
     "statusLabel": "Statut",
+    "newStatus": "Nouveau statut",
     "status": {
       "scheduled": "A lieu",
       "cancelled": "Annulé",
+      "cancelledInfo": "Votre événement n'aura pas lieu à l'heure prévue ou à une date ultérieure.",
       "postponed": "Reporté",
+      "postponedInfo": "Votre événement a été reporté à une date ultérieure qui reste à déterminer.",
       "open": "Ouvert",
       "temporarilyClosed": "Fermé temporairement",
-      "permanentlyClosed": "Fermé définitivement"
+      "temporarilyClosedInfo": "Votre lieu ne sera temporairement plus publiée sur UiT.be et les autres calendriers de UiT. Lorsque votre lieu rouvre, vous pouvez en modifier le statut pour qu'il redevienne 'ouvert'.",
+      "permanentlyClosed": "Fermé définitivement",
+      "permanentlyClosedInfo": "Votre lieu ne sera plus publiée sur UiT.be et les autres calendriers de UiT."
     },
     "dateToBeDefined": "Nouvelle date encore à définir",
     "modificationReady": "Modification du statut terminé"
