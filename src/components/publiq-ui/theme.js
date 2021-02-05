@@ -111,6 +111,9 @@ const theme = {
     typeahead: {
       activeBackgroundColor: colors.udbBlue,
     },
+    radioButtonWithLabel: {
+      infoTextColor: colors.grey2,
+    },
     page: {
       backgroundColor: colors.grey1,
     },

@@ -7,6 +7,11 @@ import {
 import { Inline } from './Inline';
 import { Label } from './Label';
 import { getBoxProps, boxPropTypes } from './Box';
+import { Stack } from './Stack';
+import { Text } from './Text';
+import { getValueFromTheme } from '../../components/publiq-ui/theme';
+
+const getValue = getValueFromTheme('radioButtonWithLabel');
 
 const RadioButtonWithLabel = ({
   id,
@@ -14,6 +19,7 @@ const RadioButtonWithLabel = ({
   disabled,
   onChange,
   label,
+  info,
   value,
   className,
   ...props
@@ -21,15 +27,26 @@ const RadioButtonWithLabel = ({
   return (
     <Inline
       className={className}
-      alignItems="center"
+      alignItems="flex-start"
       spacing={3}
       as="li"
       {...getBoxProps(props)}
     >
-      <RadioButton id={id} onChange={onChange} value={value} name={name} />
-      <Label cursor="pointer" htmlFor={id}>
-        {label}
-      </Label>
+      <RadioButton
+        id={id}
+        onChange={onChange}
+        value={value}
+        name={name}
+        css={`
+          margin-top: 0.36rem;
+        `}
+      />
+      <Stack>
+        <Label cursor="pointer" htmlFor={id}>
+          {label}
+        </Label>
+        {!!info && <Text color={getValue('infoTextColor')}>{info}</Text>}
+      </Stack>
     </Inline>
   );
 };
@@ -38,6 +55,7 @@ RadioButtonWithLabel.propTypes = {
   ...boxPropTypes,
   ...radioButtonPropTypes,
   label: PropTypes.node,
+  info: PropTypes.string,
 };
 
 RadioButtonWithLabel.defaultprops = {
