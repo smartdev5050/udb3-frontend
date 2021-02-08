@@ -130,7 +130,7 @@ const useAuthenticatedMutation = ({
     return result;
   });
 
-  return useMutation(innerMutationFn, (configuration = {}));
+  return useMutation(innerMutationFn, configuration);
 };
 
 const useAuthenticatedQuery = ({ ...options } = {}) => {
