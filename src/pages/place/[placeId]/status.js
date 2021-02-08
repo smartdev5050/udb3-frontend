@@ -43,7 +43,7 @@ const Status = () => {
   );
   const handleSuccessChangeStatus = () => {
     if (isClient) {
-      router.push(`/event/${placeId}/preview`);
+      router.push(`/place/${placeId}/preview`);
     }
   };
   const { mutate: changeStatus } = useChangeStatus({
@@ -120,7 +120,10 @@ const Status = () => {
               </Text>
             </Stack>,
             <Inline key="actions" spacing={3}>
-              <Button variant={ButtonVariants.SECONDARY}>
+              <Button
+                variant={ButtonVariants.SECONDARY}
+                onClick={() => router.push(`/place/${placeId}/preview`)}
+              >
                 {t('offerStatus.actions.cancel')}
               </Button>
               <Button
