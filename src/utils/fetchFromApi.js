@@ -3,7 +3,6 @@ import getConfig from 'next/config';
 const Errors = {
   401: 'unauthorised',
   403: 'forbidden',
-  204: 'no_content',
   404: 'bad_request',
 };
 
