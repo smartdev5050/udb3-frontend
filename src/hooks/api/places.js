@@ -32,7 +32,11 @@ const changeStatus = async ({ headers, id, type, reason }) => {
       body: JSON.stringify({ type, reason }),
     },
   });
-  return await res.json();
+  const body = await res.text();
+  if (body) {
+    return JSON.parse(body);
+  }
+  return {};
 };
 
 const useChangeStatus = (configuration = {}) =>
