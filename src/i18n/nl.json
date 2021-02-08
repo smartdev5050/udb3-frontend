@@ -122,7 +122,8 @@
     "actions": {
       "cancel": "Annuleren",
       "save": "Bewaren"
-    }
+    },
+    "maxLengthReason": "De reden voor je statuswijziging kan niet meer dan {{amount}} karakters bevatten."
   },
   "jobs": {
     "download": "Downloaden",

@@ -23,6 +23,8 @@ const OfferStatus = {
   UNAVAILABLE: 'Unavailable',
 };
 
+const maxLengthReason = 200;
+
 const Status = () => {
   const { t, i18n } = useTranslation();
   const router = useRouter();
@@ -30,12 +32,12 @@ const Status = () => {
 
   const [errorMessage, setErrorMessage] = useState();
   const [status, setStatus] = useState('');
-  const [, setReason] = useState('');
+  const [reason, setReason] = useState('');
 
   const handleError = (error) => {
     setErrorMessage(error.message);
   };
-  const { data: place = {}, status: getPlaceStatus } = useGetPlaceById(
+  const { data: place = {}, status: queryStatus } = useGetPlaceById(
     { id: placeId },
     { onError: handleError },
   );
@@ -51,7 +53,7 @@ const Status = () => {
     <Page>
       <Page.Title>{t('offerStatus.title', { name })}</Page.Title>
       <Page.Content spacing={5}>
-        {getPlaceStatus === QueryStatus.LOADING ? (
+        {queryStatus === QueryStatus.LOADING ? (
           <Spinner marginTop={4} />
         ) : errorMessage ? (
           <Alert variant={AlertVariants.WARNING}>{errorMessage}</Alert>
@@ -81,11 +83,20 @@ const Status = () => {
               onChange={(e) => setStatus(e.target.value)}
             />,
             <Stack key="reason" spacing={2}>
-              <TextAreaWithLabel
-                id="reason"
-                label={t('offerStatus.reason')}
-                onInput={(e) => setReason(e.target.value)}
-              />
+              <Stack spacing={3}>
+                <TextAreaWithLabel
+                  id="reason"
+                  label={t('offerStatus.reason')}
+                  onInput={(e) => setReason(e.target.value)}
+                />
+                {reason.length > maxLengthReason && (
+                  <Alert variant={AlertVariants.WARNING}>
+                    {t('offerStatus.maxLengthReason', {
+                      amount: maxLengthReason,
+                    })}
+                  </Alert>
+                )}
+              </Stack>
               <Text color={getValue('infoTextColor')}>
                 {t('offerStatus.reasonTip')}
               </Text>
@@ -94,7 +105,10 @@ const Status = () => {
               <Button variant={ButtonVariants.SECONDARY}>
                 {t('offerStatus.actions.cancel')}
               </Button>
-              <Button variant={ButtonVariants.PRIMARY}>
+              <Button
+                variant={ButtonVariants.PRIMARY}
+                disabled={reason.length > maxLengthReason}
+              >
                 {t('offerStatus.actions.save')}
               </Button>
             </Inline>,

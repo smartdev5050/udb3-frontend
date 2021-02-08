@@ -120,7 +120,8 @@
     "actions": {
       "cancel": "Annuler",
       "save": " Sauver"
-    }
+    },
+    "maxLengthReason": "La raison ne peut pas dépasser {{amount}} caractères."
   },
   "jobs": {
     "download": "Télécharger",
