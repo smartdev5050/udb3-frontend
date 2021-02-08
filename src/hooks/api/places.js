@@ -23,8 +23,8 @@ const useGetPlaceById = ({ id }, configuration = {}) =>
     ...configuration,
   });
 
-const changeStatus = async ({ headers, id, type, reason }) => {
-  const res = await fetchFromApi({
+const changeStatus = async ({ headers, id, type, reason }) =>
+  fetchFromApi({
     path: `/places/${id.toString()}/status`,
     options: {
       method: 'PUT',
@@ -32,14 +32,6 @@ const changeStatus = async ({ headers, id, type, reason }) => {
       body: JSON.stringify({ type, reason }),
     },
   });
-  const body = await res.text();
-  if (body) {
-    return JSON.parse(body);
-  }
-  return {
-    ok: true,
-  };
-};
 
 const useChangeStatus = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: changeStatus, ...configuration });

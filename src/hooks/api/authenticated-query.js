@@ -118,17 +118,49 @@ const useAuthenticatedMutation = ({
   const { removeAuthenticationCookies } = useCookiesWithOptions();
 
   const innerMutationFn = useCallback(async (variables) => {
-    const result = await mutationFn({ ...variables, headers });
+    const response = await mutationFn({ ...variables, headers });
 
-    if (isUnAuthorized(result)) {
+    if (isUnAuthorized(response)) {
       removeAuthenticationCookies();
       router.push('/login');
-    } else if (!result.ok) {
-      throw new Error(result.title);
+    } else if (!response.ok) {
+      const body = await response.text();
+      throw new Error(body.title);
     }
 
-    return result;
-  });
+    return '';
+  }, []);
+
+  return useMutation(innerMutationFn, configuration);
+};
+
+const useAuthenticatedMutations = ({
+  mutationFns = [],
+  ...configuration
+} = {}) => {
+  const router = useRouter();
+  const headers = useHeaders();
+
+  const { removeAuthenticationCookies } = useCookiesWithOptions();
+
+  const innerMutationFn = useCallback(async (variables) => {
+    const responses = await mutationFns({ ...variables, headers });
+
+    if (responses.some((response) => isUnAuthorized(responses))) {
+      removeAuthenticationCookies();
+      router.push('/login');
+    } else if (responses.some((response) => !response.ok)) {
+      const failedResponses = responses.filter((response) => !response.ok);
+      const failedResponseBodies = await Promise.all(
+        failedResponses.map((response) => response.text()),
+      );
+      throw new Error(
+        failedResponseBodies.map((response) => response.title).join(''),
+      );
+    }
+
+    return '';
+  }, []);
 
   return useMutation(innerMutationFn, configuration);
 };
@@ -210,5 +242,6 @@ export {
   useAuthenticatedQuery,
   useAuthenticatedQueries,
   useAuthenticatedMutation,
+  useAuthenticatedMutations,
   QueryStatus,
 };

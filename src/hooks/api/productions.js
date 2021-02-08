@@ -2,6 +2,7 @@ import { fetchFromApi } from '../../utils/fetchFromApi';
 import {
   useAuthenticatedQuery,
   useAuthenticatedMutation,
+  useAuthenticatedMutations,
 } from './authenticated-query';
 
 export const getProductions = async ({ headers, ...queryData }) => {
@@ -34,19 +35,14 @@ const useGetProductions = (
     ...configuration,
   });
 
-const deleteEventById = async ({
-  productionId = '',
-  eventId = '',
-  headers,
-}) => {
-  return await fetchFromApi({
+const deleteEventById = async ({ productionId = '', eventId = '', headers }) =>
+  fetchFromApi({
     path: `/productions/${productionId}/events/${eventId}`,
     options: {
       method: 'DELETE',
       headers,
     },
   });
-};
 
 const useDeleteEventById = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: deleteEventById, ...configuration });
@@ -55,32 +51,27 @@ const deleteEventsByIds = async ({
   productionId = '',
   eventIds = [],
   headers,
-}) => {
-  const mappedEvents = eventIds.map((eventId) => {
-    return deleteEventById({ productionId, eventId, headers });
-  });
-  return await Promise.all(mappedEvents);
-};
+}) =>
+  Promise.all(
+    eventIds.map((eventId) =>
+      deleteEventById({ productionId, eventId, headers }),
+    ),
+  );
 
 const useDeleteEventsByIds = (configuration = {}) =>
-  useAuthenticatedMutation({ mutationFn: deleteEventsByIds, ...configuration });
+  useAuthenticatedMutations({
+    mutationFns: deleteEventsByIds,
+    ...configuration,
+  });
 
-const addEventById = async ({ productionId, eventId, headers }) => {
-  const res = await fetchFromApi({
+const addEventById = async ({ productionId, eventId, headers }) =>
+  fetchFromApi({
     path: `/productions/${productionId}/events/${eventId}`,
     options: {
       method: 'PUT',
       headers,
     },
   });
-  const body = await res.text();
-  if (body) {
-    return JSON.parse(body);
-  }
-  return {
-    ok: true,
-  };
-};
 
 const useAddEventById = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: addEventById, ...configuration });
@@ -89,15 +80,13 @@ const addEventsByIds = async ({
   productionId = '',
   eventIds = [],
   headers,
-} = {}) => {
-  const mappedEvents = eventIds.map((eventId) => {
-    return addEventById({ headers, productionId, eventId });
-  });
-  return await Promise.all(mappedEvents);
-};
+} = {}) =>
+  Promise.all(
+    eventIds.map((eventId) => addEventById({ headers, productionId, eventId })),
+  );
 
 const useAddEventsByIds = (configuration = {}) =>
-  useAuthenticatedMutation({ mutationFn: addEventsByIds, ...configuration });
+  useAuthenticatedMutations({ mutationFns: addEventsByIds, ...configuration });
 
 const getSuggestedEvents = async ({ headers }) => {
   const response = await fetchFromApi({
@@ -119,8 +108,8 @@ const useGetSuggestedEvents = (configuration = {}) =>
     ...configuration,
   });
 
-const skipSuggestedEvents = async ({ headers, eventIds = [] }) => {
-  const res = await fetchFromApi({
+const skipSuggestedEvents = async ({ headers, eventIds = [] }) =>
+  fetchFromApi({
     path: '/productions/skip',
     options: {
       method: 'POST',
@@ -130,14 +119,6 @@ const skipSuggestedEvents = async ({ headers, eventIds = [] }) => {
       }),
     },
   });
-  const body = await res.text();
-  if (body) {
-    return JSON.parse(body);
-  }
-  return {
-    ok: true,
-  };
-};
 
 const useSkipSuggestedEvents = (configuration = {}) =>
   useAuthenticatedMutation({
@@ -145,8 +126,8 @@ const useSkipSuggestedEvents = (configuration = {}) =>
     ...configuration,
   });
 
-const createWithEvents = async ({ headers, productionName, eventIds = [] }) => {
-  const res = await fetchFromApi({
+const createWithEvents = async ({ headers, productionName, eventIds = [] }) =>
+  fetchFromApi({
     path: '/productions/',
     options: {
       method: 'POST',
@@ -157,14 +138,6 @@ const createWithEvents = async ({ headers, productionName, eventIds = [] }) => {
       }),
     },
   });
-  const body = await res.text();
-  if (body) {
-    return JSON.parse(body);
-  }
-  return {
-    ok: true,
-  };
-};
 
 const useCreateWithEvents = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: createWithEvents, ...configuration });
@@ -173,19 +146,11 @@ const mergeProductions = async ({
   headers,
   fromProductionId,
   toProductionId,
-}) => {
-  const res = await fetchFromApi({
+}) =>
+  fetchFromApi({
     path: `/productions/${toProductionId}/merge/${fromProductionId}`,
     options: { method: 'POST', headers },
   });
-  const body = await res.text();
-  if (body) {
-    return JSON.parse(body);
-  }
-  return {
-    ok: true,
-  };
-};
 
 const useMergeProductions = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: mergeProductions, ...configuration });
