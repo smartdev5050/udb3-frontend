@@ -23,29 +23,36 @@ const Status = () => {
   const { placeId } = router.query;
 
   const [errorMessage, setErrorMessage] = useState();
+  const [status, setStatus] = useState('');
   const [, setReason] = useState('');
 
   const handleError = (error) => {
     setErrorMessage(error.message);
   };
-  const { data: place = {}, status } = useGetPlaceById(
+  const { data: place = {}, status: getPlaceStatus } = useGetPlaceById(
     { id: placeId },
     { onError: handleError },
   );
   const name = place.name?.[i18n.language] ?? place.name?.[place.mainLanguage];
+  const rawStatus = place?.status?.type;
+
+  useEffect(() => {
+    if (!rawStatus) return;
+    setStatus(rawStatus);
+  }, [rawStatus]);
 
   return (
     <Page>
       <Page.Title>{t('offerStatus.title', { name })}</Page.Title>
       <Page.Content spacing={5}>
-        {status === QueryStatus.LOADING ? (
+        {getPlaceStatus === QueryStatus.LOADING ? (
           <Spinner marginTop={4} />
         ) : errorMessage ? (
           <Alert variant={AlertVariants.WARNING}>{errorMessage}</Alert>
         ) : (
           [
             <RadioButtonGroup
-              key="radiobuttongroup"
+              key="placeStatus"
               groupLabel={t('offerStatus.newStatus')}
               name="placeStatus"
               items={[
@@ -64,6 +71,8 @@ const Status = () => {
                   info: t('offerStatus.status.permanentlyClosedInfo'),
                 },
               ]}
+              selected={status}
+              onChange={(e) => setStatus(e.target.value)}
             />,
             <TextAreaWithLabel
               key="textarea"
