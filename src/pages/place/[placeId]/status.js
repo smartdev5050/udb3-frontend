@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { QueryStatus } from '../../../hooks/api/authenticated-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getApplicationServerSideProps } from '../../../utils/getApplicationServerSideProps';
 import { Alert, AlertVariants } from '../../../components/publiq-ui/Alert';
 import { Button, ButtonVariants } from '../../../components/publiq-ui/Button';
@@ -10,6 +10,12 @@ import { Page } from '../../../components/publiq-ui/Page';
 import { TextAreaWithLabel } from '../../../components/publiq-ui/TextAreaWithLabel';
 import { useTranslation } from 'react-i18next';
 import { useGetPlaceById } from '../../../hooks/api/places';
+import { Text } from '../../../components/publiq-ui/Text';
+import { getValueFromTheme } from '../../../components/publiq-ui/theme';
+import { Stack } from '../../../components/publiq-ui/Stack';
+import { Inline } from '../../../components/publiq-ui/Inline';
+
+const getValue = getValueFromTheme('statusPage');
 
 const OfferStatus = {
   AVAILABLE: 'Available',
@@ -74,19 +80,24 @@ const Status = () => {
               selected={status}
               onChange={(e) => setStatus(e.target.value)}
             />,
-            <TextAreaWithLabel
-              key="textarea"
-              id="reason"
-              label={t('offerStatus.reason')}
-              onInput={(e) => setReason(e.target.value)}
-            />,
-            <Button
-              key="button"
-              variant={ButtonVariants.SUCCESS}
-              width="max-content"
-            >
-              {t('offerStatus.modificationReady')}
-            </Button>,
+            <Stack key="reason" spacing={2}>
+              <TextAreaWithLabel
+                id="reason"
+                label={t('offerStatus.reason')}
+                onInput={(e) => setReason(e.target.value)}
+              />
+              <Text color={getValue('infoTextColor')}>
+                {t('offerStatus.reasonTip')}
+              </Text>
+            </Stack>,
+            <Inline key="actions" spacing={3}>
+              <Button variant={ButtonVariants.SECONDARY}>
+                {t('offerStatus.actions.cancel')}
+              </Button>
+              <Button variant={ButtonVariants.PRIMARY}>
+                {t('offerStatus.actions.save')}
+              </Button>
+            </Inline>,
           ]
         )}
       </Page.Content>
