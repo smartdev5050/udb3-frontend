@@ -6,9 +6,9 @@ import { TextArea } from './TextArea';
 const TextAreaWithLabel = ({
   id,
   label,
-  children,
   className,
   onInput,
+  value,
   ...props
 }) => {
   return (
@@ -16,9 +16,7 @@ const TextAreaWithLabel = ({
       <Label htmlFor={id} variant={LabelVariants.BOLD}>
         {label}
       </Label>
-      <TextArea id={id} onInput={onInput}>
-        {children}
-      </TextArea>
+      <TextArea id={id} onInput={onInput} value={value} />
     </Stack>
   );
 };
@@ -27,8 +25,8 @@ TextAreaWithLabel.propTypes = {
   ...stackPropTypes,
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
   className: PropTypes.string,
+  value: PropTypes.string,
   onInput: PropTypes.func,
 };
 

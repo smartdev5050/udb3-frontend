@@ -4,7 +4,7 @@ import { getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme('textArea');
 
-const TextArea = ({ id, children, className, onInput, ...props }) => {
+const TextArea = ({ id, children, className, onInput, value, ...props }) => {
   return (
     <Box
       forwardedAs="textarea"
@@ -13,13 +13,12 @@ const TextArea = ({ id, children, className, onInput, ...props }) => {
       width="100%"
       minHeight="4rem"
       onInput={onInput}
+      value={value}
       css={`
         border: 1px solid ${getValue('borderColor')};
       `}
       {...getBoxProps(props)}
-    >
-      {children}
-    </Box>
+    />
   );
 };
 
@@ -28,6 +27,7 @@ TextArea.propTypes = {
   id: PropTypes.string,
   children: PropTypes.node,
   className: PropTypes.string,
+  value: PropTypes.string,
   onInput: PropTypes.func,
 };
 
