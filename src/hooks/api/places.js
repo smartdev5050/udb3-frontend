@@ -36,7 +36,9 @@ const changeStatus = async ({ headers, id, type, reason }) => {
   if (body) {
     return JSON.parse(body);
   }
-  return {};
+  return {
+    ok: true,
+  };
 };
 
 const useChangeStatus = (configuration = {}) =>

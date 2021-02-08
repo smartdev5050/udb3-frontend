@@ -77,7 +77,9 @@ const addEventById = async ({ productionId, eventId, headers }) => {
   if (body) {
     return JSON.parse(body);
   }
-  return {};
+  return {
+    ok: true,
+  };
 };
 
 const useAddEventById = (configuration = {}) =>
@@ -132,7 +134,9 @@ const skipSuggestedEvents = async ({ headers, eventIds = [] }) => {
   if (body) {
     return JSON.parse(body);
   }
-  return {};
+  return {
+    ok: true,
+  };
 };
 
 const useSkipSuggestedEvents = (configuration = {}) =>
@@ -157,7 +161,9 @@ const createWithEvents = async ({ headers, productionName, eventIds = [] }) => {
   if (body) {
     return JSON.parse(body);
   }
-  return {};
+  return {
+    ok: true,
+  };
 };
 
 const useCreateWithEvents = (configuration = {}) =>
@@ -176,7 +182,9 @@ const mergeProductions = async ({
   if (body) {
     return JSON.parse(body);
   }
-  return {};
+  return {
+    ok: true,
+  };
 };
 
 const useMergeProductions = (configuration = {}) =>

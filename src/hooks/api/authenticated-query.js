@@ -123,7 +123,7 @@ const useAuthenticatedMutation = ({
     if (isUnAuthorized(result)) {
       removeAuthenticationCookies();
       router.push('/login');
-    } else if (result.status) {
+    } else if (!result.ok) {
       throw new Error(result.title);
     }
 
