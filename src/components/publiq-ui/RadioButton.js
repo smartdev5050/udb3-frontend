@@ -7,6 +7,7 @@ const RadioButton = ({
   disabled,
   onChange,
   value,
+  checked,
   className,
   ...props
 }) => {
@@ -17,6 +18,7 @@ const RadioButton = ({
       id={id}
       name={name}
       disabled={disabled}
+      checked={checked}
       onChange={onChange}
       value={value}
       className={className}
@@ -30,6 +32,7 @@ const radioButtonPropTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   value: PropTypes.string,
+  checked: PropTypes.bool,
   disabled: PropTypes.bool,
   onChange: PropTypes.func,
   className: PropTypes.string,

@@ -21,6 +21,7 @@ const RadioButtonWithLabel = ({
   label,
   info,
   value,
+  checked,
   className,
   ...props
 }) => {
@@ -37,6 +38,7 @@ const RadioButtonWithLabel = ({
         onChange={onChange}
         value={value}
         name={name}
+        checked={checked}
         css={`
           margin-top: 0.36rem;
         `}
