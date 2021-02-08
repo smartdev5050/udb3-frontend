@@ -104,6 +104,7 @@
     "statusLabel": "Status",
     "newStatus": "Nieuw status",
     "reason": "Reden",
+    "reasonTip": "Je kan optioneel een reden voor de statuswijziging opgeven. De reden wordt samen met de nieuwe status gepubliceerd op UiT.be en andere UiT-kanalen.",
     "status": {
       "scheduled": "Gaat door",
       "cancelled": "Geannuleerd",
@@ -117,7 +118,11 @@
       "permanentlyClosedInfo": "Je locatie zal niet meer gepubliceerd worden op UiT.be en andere UiT-kanalen."
     },
     "dateToBeDefined": "Nieuwe datum nog te bepalen",
-    "modificationReady": "Klaar met status wijzigen"
+    "modificationReady": "Klaar met status wijzigen",
+    "actions": {
+      "cancel": "Annuleren",
+      "save": "Bewaren"
+    }
   },
   "jobs": {
     "download": "Downloaden",

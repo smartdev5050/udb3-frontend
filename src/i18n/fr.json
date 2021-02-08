@@ -102,6 +102,7 @@
     "statusLabel": "Statut",
     "newStatus": "Nouveau statut",
     "reason": "Raison",
+    "reasonTip": "Vous pouvez éventuellement indiquer un motif de changement de statut. Le motif sera publié en même temps que le nouveau statut sur UiT.be et les autres calendriers de UiT.",
     "status": {
       "scheduled": "A lieu",
       "cancelled": "Annulé",
@@ -115,7 +116,11 @@
       "permanentlyClosedInfo": "Votre lieu ne sera plus publiée sur UiT.be et les autres calendriers de UiT."
     },
     "dateToBeDefined": "Nouvelle date encore à définir",
-    "modificationReady": "Modification du statut terminé"
+    "modificationReady": "Modification du statut terminé",
+    "actions": {
+      "cancel": "Annuler",
+      "save": " Sauver"
+    }
   },
   "jobs": {
     "download": "Télécharger",
