@@ -36,17 +36,19 @@ const Status = () => {
   const [type, setType] = useState('');
   const [reason, setReason] = useState('');
 
+  const handleError = (error) => setErrorMessage(error.message);
   const { data: place = {}, status: queryStatus } = useGetPlaceById(
     { id: placeId },
-    { onError: (error) => setErrorMessage(error.message) },
+    { onError: handleError },
   );
+  const handleSuccessChangeStatus = () => {
+    if (isClient) {
+      router.push(`/event/${placeId}/preview`);
+    }
+  };
   const { mutate: changeStatus } = useChangeStatus({
-    onSuccess: () => {
-      if (isClient) {
-        router.push('/');
-      }
-    },
-    onError: (error) => setErrorMessage(error.message),
+    onSuccess: handleSuccessChangeStatus,
+    onError: handleError,
   });
 
   const name = place.name?.[i18n.language] ?? place.name?.[place.mainLanguage];
