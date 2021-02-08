@@ -9,11 +9,12 @@ import { RadioButtonGroup } from '../../../components/publiq-ui/RadioButtonGroup
 import { Page } from '../../../components/publiq-ui/Page';
 import { TextAreaWithLabel } from '../../../components/publiq-ui/TextAreaWithLabel';
 import { useTranslation } from 'react-i18next';
-import { useGetPlaceById } from '../../../hooks/api/places';
+import { useChangeStatus, useGetPlaceById } from '../../../hooks/api/places';
 import { Text } from '../../../components/publiq-ui/Text';
 import { getValueFromTheme } from '../../../components/publiq-ui/theme';
 import { Stack } from '../../../components/publiq-ui/Stack';
 import { Inline } from '../../../components/publiq-ui/Inline';
+import { useIsClient } from '../../../hooks/useIsClient';
 
 const getValue = getValueFromTheme('statusPage');
 
@@ -28,26 +29,40 @@ const maxLengthReason = 200;
 const Status = () => {
   const { t, i18n } = useTranslation();
   const router = useRouter();
+  const isClient = useIsClient();
   const { placeId } = router.query;
 
   const [errorMessage, setErrorMessage] = useState();
-  const [status, setStatus] = useState('');
+  const [type, setType] = useState('');
   const [reason, setReason] = useState('');
 
-  const handleError = (error) => {
-    setErrorMessage(error.message);
-  };
   const { data: place = {}, status: queryStatus } = useGetPlaceById(
     { id: placeId },
-    { onError: handleError },
+    { onError: (error) => setErrorMessage(error.message) },
   );
+  const { mutate: changeStatus } = useChangeStatus({
+    onSuccess: () => {
+      if (isClient) {
+        router.push('/');
+      }
+    },
+    onError: (error) => setErrorMessage(error.message),
+  });
+
   const name = place.name?.[i18n.language] ?? place.name?.[place.mainLanguage];
-  const rawStatus = place?.status?.type;
+  const rawStatusType = place?.status?.type;
+  const rawStatusReason = place?.status?.reason;
 
   useEffect(() => {
-    if (!rawStatus) return;
-    setStatus(rawStatus);
-  }, [rawStatus]);
+    if (!rawStatusType) return;
+    setType(rawStatusType);
+  }, [rawStatusType]);
+
+  useEffect(() => {
+    const newReason = place.status?.reason?.[i18n.language];
+    if (!rawStatusReason || !newReason) return;
+    setReason(newReason);
+  }, [rawStatusReason]);
 
   return (
     <Page>
@@ -79,14 +94,15 @@ const Status = () => {
                   info: t('offerStatus.status.permanentlyClosedInfo'),
                 },
               ]}
-              selected={status}
-              onChange={(e) => setStatus(e.target.value)}
+              selected={type}
+              onChange={(e) => setType(e.target.value)}
             />,
             <Stack key="reason" spacing={2}>
               <Stack spacing={3}>
                 <TextAreaWithLabel
                   id="reason"
                   label={t('offerStatus.reason')}
+                  value={reason}
                   onInput={(e) => setReason(e.target.value)}
                 />
                 {reason.length > maxLengthReason && (
@@ -108,6 +124,16 @@ const Status = () => {
               <Button
                 variant={ButtonVariants.PRIMARY}
                 disabled={reason.length > maxLengthReason}
+                onClick={() => {
+                  changeStatus({
+                    id: placeId,
+                    type,
+                    reason: {
+                      ...place.status.reason,
+                      [i18n.language]: reason,
+                    },
+                  });
+                }}
               >
                 {t('offerStatus.actions.save')}
               </Button>
