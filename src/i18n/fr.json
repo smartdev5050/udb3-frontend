@@ -101,6 +101,7 @@
     "period": "Période",
     "statusLabel": "Statut",
     "newStatus": "Nouveau statut",
+    "changeStatus": "Modifier le statut",
     "reason": "Raison",
     "reasonTip": "Vous pouvez éventuellement indiquer un motif de changement de statut. Le motif sera publié en même temps que le nouveau statut sur UiT.be et les autres calendriers de UiT.",
     "status": {

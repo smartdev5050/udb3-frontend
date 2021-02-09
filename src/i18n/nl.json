@@ -103,6 +103,7 @@
     "period": "Tijdstip",
     "statusLabel": "Status",
     "newStatus": "Nieuwe status",
+    "changeStatus": "Status wijzigen",
     "reason": "Reden",
     "reasonTip": "Je kan optioneel een reden voor de statuswijziging opgeven. De reden wordt samen met de nieuwe status gepubliceerd op UiT.be en andere UiT-kanalen.",
     "status": {
