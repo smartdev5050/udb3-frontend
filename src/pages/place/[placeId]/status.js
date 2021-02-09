@@ -29,26 +29,26 @@ const maxLengthReason = 200;
 const Status = () => {
   const { t, i18n } = useTranslation();
   const router = useRouter();
-  const isClient = useIsClient();
   const { placeId } = router.query;
 
-  const [errorMessage, setErrorMessage] = useState();
   const [type, setType] = useState('');
   const [reason, setReason] = useState('');
 
-  const handleError = (error) => setErrorMessage(error.message);
-  const { data: place = {}, status: queryStatus } = useGetPlaceById(
-    { id: placeId },
-    { onError: handleError },
-  );
-  const handleSuccessChangeStatus = () => {
-    if (isClient) {
-      router.push(`/place/${placeId}/preview`);
-    }
-  };
-  const { mutate: changeStatus } = useChangeStatus({
+  const handleSuccessChangeStatus = () =>
+    router.push(`/place/${placeId}/preview`);
+
+  const {
+    data: place = {},
+    status: getPlaceByIdStatus,
+    error: getPlaceByIdError,
+  } = useGetPlaceById({ id: placeId });
+
+  const {
+    mutate: changeStatus,
+    status: changeStatusStatus,
+    error: changeStatusError,
+  } = useChangeStatus({
     onSuccess: handleSuccessChangeStatus,
-    onError: handleError,
   });
 
   const name = place.name?.[i18n.language] ?? place.name?.[place.mainLanguage];
@@ -66,14 +66,20 @@ const Status = () => {
     setReason(newReason);
   }, [rawStatusReason]);
 
+  const hasError =
+    getPlaceByIdStatus === QueryStatus.ERROR ||
+    changeStatusStatus === QueryStatus.ERROR;
+
   return (
     <Page>
       <Page.Title>{t('offerStatus.title', { name })}</Page.Title>
       <Page.Content spacing={5}>
-        {queryStatus === QueryStatus.LOADING ? (
+        {getPlaceByIdStatus === QueryStatus.LOADING ? (
           <Spinner marginTop={4} />
-        ) : errorMessage ? (
-          <Alert variant={AlertVariants.WARNING}>{errorMessage}</Alert>
+        ) : hasError ? (
+          <Alert variant={AlertVariants.WARNING}>
+            {getPlaceByIdError?.message || changeStatusError?.message}
+          </Alert>
         ) : (
           [
             <RadioButtonGroup
