@@ -21,7 +21,7 @@ describe('fetchFromApi', () => {
     expect(result).toStrictEqual(data);
   });
 
-  it('triggers a call with the correct params', async () => {
+  it('triggers a call with the correct searchParams', async () => {
     const data = { data: '12345' };
     fetch.mockResponseOnce(JSON.stringify(data));
 
@@ -40,7 +40,7 @@ describe('fetchFromApi', () => {
     expect(result).toStrictEqual(data);
   });
 
-  it('passes down options', async () => {
+  it('triggers a call with the correct options', async () => {
     const data = { data: '12345' };
     const method = 'PUT';
     const headers = {
