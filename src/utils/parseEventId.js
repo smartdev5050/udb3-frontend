@@ -1,3 +1,3 @@
-const parseEventId = (id) => id.split('/').pop();
+const parseOfferId = (id) => id.split('/').pop();
 
-export { parseEventId };
+export { parseOfferId };
