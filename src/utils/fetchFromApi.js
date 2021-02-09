@@ -23,27 +23,28 @@ const fetchFromApi = async ({
   try {
     response = await fetch(url, options);
   } catch (e) {
-    if (silentError) {
-      return {
-        type: 'ERROR',
-        message: e.message ?? 'Unknown error',
-      };
-    } else {
+    if (!silentError) {
       throw new Error(e.message);
     }
+
+    return {
+      type: 'ERROR',
+      message: e.message ?? 'Unknown error',
+    };
   }
 
   if (!response.ok) {
     const result = await response.json();
-    if (silentError) {
-      return {
-        type: 'ERROR',
-        status: response?.status,
-        message: result?.title ?? 'Unknown error',
-      };
-    } else {
+
+    if (!silentError) {
       throw new FetchError(response?.status, result?.title ?? 'Unknown error');
     }
+
+    return {
+      type: 'ERROR',
+      status: response?.status,
+      message: result?.title ?? 'Unknown error',
+    };
   }
 
   return response;
