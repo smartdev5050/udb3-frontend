@@ -45,8 +45,10 @@ const getEventById = async ({ headers, id }) => {
   return await res.json();
 };
 
-const useGetEventById = ({ id }, configuration = {}) =>
+const useGetEventById = ({ req, queryClient, id }, configuration = {}) =>
   useAuthenticatedQuery({
+    req,
+    queryClient,
     queryKey: ['events'],
     queryFn: getEventById,
     queryArguments: { id },

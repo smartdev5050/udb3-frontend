@@ -8,6 +8,7 @@ import { Spinner } from '../../../components/publiq-ui/Spinner';
 import { Page } from '../../../components/publiq-ui/Page';
 import { useTranslation } from 'react-i18next';
 import { useGetEventById } from '../../../hooks/api/events';
+import { dehydrate } from 'react-query/hydration';
 
 const Status = () => {
   const { t, i18n } = useTranslation();
@@ -51,6 +52,18 @@ const Status = () => {
   );
 };
 
-export const getServerSideProps = getApplicationServerSideProps();
+export const getServerSideProps = getApplicationServerSideProps(
+  async ({ req, query, cookies, queryClient }) => {
+    const { eventId } = query;
+    await useGetEventById({ req, queryClient, id: eventId });
+
+    return {
+      props: {
+        dehydratedState: dehydrate(queryClient),
+        cookies,
+      },
+    };
+  },
+);
 
 export default Status;
