@@ -14,6 +14,7 @@ import { Text } from '../../../components/publiq-ui/Text';
 import { getValueFromTheme } from '../../../components/publiq-ui/theme';
 import { Stack } from '../../../components/publiq-ui/Stack';
 import { Inline } from '../../../components/publiq-ui/Inline';
+import { dehydrate } from 'react-query/hydration';
 
 const getValue = getValueFromTheme('statusPage');
 
@@ -146,6 +147,18 @@ const Status = () => {
   );
 };
 
-export const getServerSideProps = getApplicationServerSideProps();
+export const getServerSideProps = getApplicationServerSideProps(
+  async ({ req, query, cookies, queryClient }) => {
+    const { placeId } = query;
+    await useGetPlaceById({ req, queryClient, id: placeId });
+
+    return {
+      props: {
+        dehydratedState: dehydrate(queryClient),
+        cookies,
+      },
+    };
+  },
+);
 
 export default Status;
