@@ -14,7 +14,6 @@ import { Text } from '../../../components/publiq-ui/Text';
 import { getValueFromTheme } from '../../../components/publiq-ui/theme';
 import { Stack } from '../../../components/publiq-ui/Stack';
 import { Inline } from '../../../components/publiq-ui/Inline';
-import { useIsClient } from '../../../hooks/useIsClient';
 
 const getValue = getValueFromTheme('statusPage');
 
