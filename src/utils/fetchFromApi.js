@@ -15,13 +15,24 @@ const fetchFromApi = async ({
 } = {}) => {
   const { publicRuntimeConfig } = getConfig();
 
-  const url = new URL(`${publicRuntimeConfig.apiUrl}${path}`);
-  url.search = new URLSearchParams(searchParams);
-
   let response;
+  let url;
 
   try {
-    response = await fetch(url, options);
+    url = new URL(`${publicRuntimeConfig.apiUrl}${path}`);
+    url.search = new URLSearchParams(searchParams);
+  } catch (e) {
+    if (!silentError) {
+      throw new Error(e.message);
+    }
+    return {
+      type: 'ERROR',
+      message: e.message ?? 'Unknown error',
+    };
+  }
+
+  try {
+    response = await fetch(url.toString(), options);
   } catch (e) {
     if (!silentError) {
       throw new Error(e.message);
