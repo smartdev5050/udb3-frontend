@@ -171,7 +171,7 @@ const useAuthenticatedMutations = ({
   return useMutation(innerMutationFn, configuration);
 };
 
-const useAuthenticatedQuery = ({ ...options } = {}) => {
+const useAuthenticatedQuery = (options = {}) => {
   if (!!options.req && !!options.queryClient && typeof window === 'undefined') {
     return prefetchAuthenticatedQuery(options);
   }
