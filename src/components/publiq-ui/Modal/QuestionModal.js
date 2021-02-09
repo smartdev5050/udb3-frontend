@@ -12,6 +12,7 @@ const QuestionModal = ({
   onClose,
   onConfirm,
   children,
+  size,
 }) => (
   <BootstrapModal
     className={className}
@@ -19,6 +20,7 @@ const QuestionModal = ({
     onShow={onShow}
     onHide={onClose}
     keyboard={false}
+    size={size}
     css={`
       z-index: 2000;
 
@@ -67,6 +69,7 @@ QuestionModal.propTypes = {
   onClose: PropTypes.func,
   onConfirm: PropTypes.func,
   children: PropTypes.node,
+  size: PropTypes.string,
 };
 
 QuestionModal.defaultProps = {
@@ -74,9 +77,7 @@ QuestionModal.defaultProps = {
   title: '',
   confirmTitle: 'Ok',
   cancelTitle: 'Cancel',
-  onShow: () => {},
-  onClose: () => {},
-  onConfirm: () => {},
+  size: 'sm',
 };
 
 export { QuestionModal };

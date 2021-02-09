@@ -1,10 +1,16 @@
+import PropTypes from 'prop-types';
 import { QuestionModal } from './Modal/QuestionModal';
 import { ContentModal } from './Modal/ContentModal';
-import PropTypes from 'prop-types';
 
 const ModalVariants = {
   QUESTION: 'question',
   CONTENT: 'content',
+};
+
+const ModalSizes = {
+  SM: 'sm',
+  LG: 'lg',
+  XL: 'xl',
 };
 
 const Components = {
@@ -19,7 +25,8 @@ const Modal = ({ variant, ...props }) => {
 };
 
 Modal.propTypes = {
-  variant: PropTypes.string,
+  variant: PropTypes.oneOf(Object.values(ModalVariants)),
+  size: PropTypes.oneOf(Object.values(ModalSizes)),
   className: PropTypes.string,
   visible: PropTypes.bool,
   title: PropTypes.string,
@@ -35,4 +42,4 @@ Modal.defaultProps = {
   variant: ModalVariants.CONTENT,
 };
 
-export { Modal, ModalVariants };
+export { Modal, ModalVariants, ModalSizes };

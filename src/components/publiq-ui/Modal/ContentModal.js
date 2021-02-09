@@ -7,6 +7,7 @@ const ContentModal = ({
   onShow,
   onClose,
   children,
+  size,
   className,
 }) => (
   <BootstrapModal
@@ -15,7 +16,7 @@ const ContentModal = ({
     onShow={onShow}
     onHide={onClose}
     keyboard={false}
-    size="xl"
+    size={size}
     css={`
       z-index: 2000;
 
@@ -53,11 +54,13 @@ ContentModal.propTypes = {
   onShow: PropTypes.func,
   onClose: PropTypes.func,
   children: PropTypes.node,
+  size: PropTypes.string,
 };
 
 ContentModal.defaultProps = {
   visible: false,
   title: '',
+  size: 'xl',
   onShow: () => {},
   onClose: () => {},
 };
