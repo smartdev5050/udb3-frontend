@@ -8,6 +8,6 @@ const getAnnouncements = async () => {
 };
 
 const useGetAnnouncements = (configuration = {}) =>
-  useQuery('announcement', getAnnouncements, (configuration = {}));
+  useQuery('announcement', getAnnouncements, configuration);
 
 export { useGetAnnouncements };
