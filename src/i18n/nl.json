@@ -102,7 +102,7 @@
     "info": "Selecteer de tijdstippen waarvoor je de status wilt aanpassen",
     "period": "Tijdstip",
     "statusLabel": "Status",
-    "newStatus": "Nieuw status",
+    "newStatus": "Nieuwe status",
     "reason": "Reden",
     "reasonTip": "Je kan optioneel een reden voor de statuswijziging opgeven. De reden wordt samen met de nieuwe status gepubliceerd op UiT.be en andere UiT-kanalen.",
     "status": {
