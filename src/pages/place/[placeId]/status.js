@@ -14,7 +14,6 @@ import { Text } from '../../../components/publiq-ui/Text';
 import { getValueFromTheme } from '../../../components/publiq-ui/theme';
 import { Stack } from '../../../components/publiq-ui/Stack';
 import { Inline } from '../../../components/publiq-ui/Inline';
-import { useIsClient } from '../../../hooks/useIsClient';
 
 const getValue = getValueFromTheme('statusPage');
 
@@ -29,7 +28,6 @@ const maxLengthReason = 200;
 const Status = () => {
   const { t, i18n } = useTranslation();
   const router = useRouter();
-  const isClient = useIsClient();
   const { placeId } = router.query;
 
   const [errorMessage, setErrorMessage] = useState();
@@ -42,9 +40,7 @@ const Status = () => {
     { onError: handleError },
   );
   const handleSuccessChangeStatus = () => {
-    if (isClient) {
-      router.push(`/place/${placeId}/preview`);
-    }
+    router.push(`/place/${placeId}/preview`);
   };
   const { mutate: changeStatus } = useChangeStatus({
     onSuccess: handleSuccessChangeStatus,
