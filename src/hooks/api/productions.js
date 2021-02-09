@@ -35,13 +35,19 @@ const useGetProductions = (
     ...configuration,
   });
 
-const deleteEventById = async ({ productionId = '', eventId = '', headers }) =>
+const deleteEventById = async ({
+  productionId = '',
+  eventId = '',
+  headers,
+  silentError = false,
+} = {}) =>
   fetchFromApi({
     path: `/productions/${productionId}/events/${eventId}`,
     options: {
       method: 'DELETE',
       headers,
     },
+    silentError,
   });
 
 const useDeleteEventById = (configuration = {}) =>
@@ -54,7 +60,7 @@ const deleteEventsByIds = async ({
 }) =>
   Promise.all(
     eventIds.map((eventId) =>
-      deleteEventById({ productionId, eventId, headers }),
+      deleteEventById({ productionId, eventId, headers, silentError: true }),
     ),
   );
 
@@ -64,13 +70,19 @@ const useDeleteEventsByIds = (configuration = {}) =>
     ...configuration,
   });
 
-const addEventById = async ({ productionId, eventId, headers }) =>
+const addEventById = async ({
+  productionId,
+  eventId,
+  headers,
+  silentError = false,
+}) =>
   fetchFromApi({
     path: `/productions/${productionId}/events/${eventId}`,
     options: {
       method: 'PUT',
       headers,
     },
+    silentError,
   });
 
 const useAddEventById = (configuration = {}) =>
@@ -82,7 +94,9 @@ const addEventsByIds = async ({
   headers,
 } = {}) =>
   Promise.all(
-    eventIds.map((eventId) => addEventById({ headers, productionId, eventId })),
+    eventIds.map((eventId) =>
+      addEventById({ headers, productionId, eventId, silentError: true }),
+    ),
   );
 
 const useAddEventsByIds = (configuration = {}) =>
