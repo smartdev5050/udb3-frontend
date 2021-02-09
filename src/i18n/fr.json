@@ -119,6 +119,7 @@
     "modificationReady": "Modification du statut terminé",
     "actions": {
       "cancel": "Annuler",
+      "close": "Fermer",
       "save": " Sauver"
     },
     "maxLengthReason": "La raison ne peut pas dépasser {{amount}} caractères."

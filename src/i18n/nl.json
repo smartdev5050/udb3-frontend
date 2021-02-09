@@ -121,6 +121,7 @@
     "modificationReady": "Klaar met status wijzigen",
     "actions": {
       "cancel": "Annuleren",
+      "close": "Sluiten",
       "save": "Bewaren"
     },
     "maxLengthReason": "De reden voor je statuswijziging kan niet meer dan {{amount}} karakters bevatten."
