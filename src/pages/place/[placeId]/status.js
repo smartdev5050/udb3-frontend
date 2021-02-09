@@ -15,16 +15,12 @@ import { getValueFromTheme } from '../../../components/publiq-ui/theme';
 import { Stack } from '../../../components/publiq-ui/Stack';
 import { Inline } from '../../../components/publiq-ui/Inline';
 import { dehydrate } from 'react-query/hydration';
+import {
+  maxLengthReason,
+  OfferStatus,
+} from '../../../components/event/eventId/status/EventStatusModal';
 
 const getValue = getValueFromTheme('statusPage');
-
-const OfferStatus = {
-  AVAILABLE: 'Available',
-  TEMPORARILY_UNAVAILABLE: 'TemporarilyUnavailable',
-  UNAVAILABLE: 'Unavailable',
-};
-
-const maxLengthReason = 200;
 
 const Status = () => {
   const { t, i18n } = useTranslation();
