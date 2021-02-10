@@ -13,6 +13,7 @@ const QuestionModal = ({
   onConfirm,
   children,
   size,
+  confirmButtonDisabled,
 }) => (
   <BootstrapModal
     className={className}
@@ -52,7 +53,11 @@ const QuestionModal = ({
       <Button variant={ButtonVariants.SECONDARY} onClick={onClose}>
         {cancelTitle}
       </Button>
-      <Button variant={ButtonVariants.PRIMARY} onClick={onConfirm}>
+      <Button
+        variant={ButtonVariants.PRIMARY}
+        onClick={onConfirm}
+        disabled={confirmButtonDisabled}
+      >
         {confirmTitle}
       </Button>
     </BootstrapModal.Footer>
@@ -70,10 +75,12 @@ QuestionModal.propTypes = {
   onConfirm: PropTypes.func,
   children: PropTypes.node,
   size: PropTypes.string,
+  confirmButtonDisabled: PropTypes.bool,
 };
 
 QuestionModal.defaultProps = {
   visible: false,
+  confirmButtonDisabled: false,
   title: '',
   confirmTitle: 'Ok',
   cancelTitle: 'Cancel',
