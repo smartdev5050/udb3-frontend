@@ -42,6 +42,7 @@ const EventStatusModal = ({
       cancelTitle={t('offerStatus.actions.close')}
       onConfirm={() => changeStatuses()}
       onClose={onClose}
+      confirmButtonDisabled={reason.length > maxLengthReason}
     >
       <Stack padding={4} spacing={5}>
         <RadioButtonGroup
@@ -73,6 +74,7 @@ const EventStatusModal = ({
               label={t('offerStatus.reason')}
               value={reason}
               onInput={(e) => setReason(e.target.value)}
+              disabled={type === OfferStatus.AVAILABLE}
             />
             {reason.length > maxLengthReason && (
               <Alert variant={AlertVariants.WARNING}>
