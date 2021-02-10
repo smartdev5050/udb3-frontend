@@ -112,6 +112,7 @@ const Status = () => {
                   label={t('offerStatus.reason')}
                   value={reason}
                   onInput={(e) => setReason(e.target.value)}
+                  disabled={type === OfferStatus.AVAILABLE}
                 />
                 {reason.length > maxLengthReason && (
                   <Alert variant={AlertVariants.WARNING}>
