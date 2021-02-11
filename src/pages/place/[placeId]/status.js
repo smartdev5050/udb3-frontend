@@ -139,10 +139,13 @@ const Status = () => {
                   changeStatus({
                     id: placeId,
                     type,
-                    reason: {
-                      ...place.status.reason,
-                      [i18n.language]: reason,
-                    },
+                    reason:
+                      type === OfferStatus.AVAILABLE
+                        ? undefined
+                        : {
+                            ...place.status.reason,
+                            [i18n.language]: reason,
+                          },
                   });
                 }}
               >
