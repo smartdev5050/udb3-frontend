@@ -6,7 +6,6 @@ const getValue = getValueFromTheme('textArea');
 
 const TextArea = ({
   id,
-  children,
   className,
   onInput,
   value,
@@ -34,7 +33,6 @@ const TextArea = ({
 TextArea.propTypes = {
   ...boxPropTypes,
   id: PropTypes.string,
-  children: PropTypes.node,
   className: PropTypes.string,
   value: PropTypes.string,
   onInput: PropTypes.func,
