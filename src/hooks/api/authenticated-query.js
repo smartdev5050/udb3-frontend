@@ -68,7 +68,7 @@ const prefetchAuthenticatedQueries = async ({
   const cookies = new Cookies(req?.headers?.cookie);
   const headers = createHeaders(cookies.get('token'));
 
-  const perparedArguments = rawOptions.map((options) =>
+  const preparedArguments = rawOptions.map((options) =>
     prepareArguments({
       options,
       isTokenPresent: isTokenValid(cookies.get('token')),
@@ -77,13 +77,13 @@ const prefetchAuthenticatedQueries = async ({
   );
 
   await Promise.all(
-    perparedArguments.map(({ queryKey, queryFn }) =>
+    preparedArguments.map(({ queryKey, queryFn }) =>
       queryClient.prefetchQuery(queryKey, queryFn),
     ),
   );
 
   return await Promise.all(
-    perparedArguments.map(({ queryKey }) => queryClient.getQueryData(queryKey)),
+    preparedArguments.map(({ queryKey }) => queryClient.getQueryData(queryKey)),
   );
 };
 
