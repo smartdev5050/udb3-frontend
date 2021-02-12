@@ -4,15 +4,7 @@ import { getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme('textArea');
 
-const TextArea = ({ id, className, onInput, value, ...props }) => {
-const TextArea = ({
-  id,
-  className,
-  onInput,
-  value,
-  disabled,
-  ...props
-}) => {
+const TextArea = ({ id, className, onInput, value, disabled, ...props }) => {
   return (
     <Box
       forwardedAs="textarea"
