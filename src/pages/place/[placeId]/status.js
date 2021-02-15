@@ -130,13 +130,12 @@ const Status = () => {
             <Inline key="actions" spacing={3}>
               <Button
                 variant={ButtonVariants.SECONDARY}
-                onClick={() => router.push(`/place/${placeId}/preview`)}
+                onClick={() => router.push(`/place/${placeId}/edit`)}
               >
                 {t('offerStatus.actions.cancel')}
               </Button>
               <Button
                 variant={ButtonVariants.PRIMARY}
-                disabled={reason.length > maxLengthReason}
                 disabled={
                   !place ||
                   reason.length === 0 ||
