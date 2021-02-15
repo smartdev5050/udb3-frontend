@@ -2,7 +2,6 @@ import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import { Cookies } from 'react-cookie';
 import { useQuery, useQueries, useMutation } from 'react-query';
-import { Errors } from '../../utils/fetchFromApi';
 import { isTokenValid } from '../../utils/isTokenValid';
 import { useCookiesWithOptions } from '../useCookiesWithOptions';
 import { createHeaders, useHeaders } from './useHeaders';
@@ -39,9 +38,7 @@ const prepareArguments = ({
   };
 };
 
-const isUnAuthorized = (result) =>
-  result.status === QueryStatus.ERROR &&
-  [Errors['401'], Errors['403']].includes(result.error.message);
+const isUnAuthorized = (status) => [401, 403].includes(status);
 
 const getStatusFromResults = (results) => {
   if (results.some(({ status }) => status === QueryStatus.ERROR)) {
@@ -71,7 +68,7 @@ const prefetchAuthenticatedQueries = async ({
   const cookies = new Cookies(req?.headers?.cookie);
   const headers = createHeaders(cookies.get('token'));
 
-  const perparedArguments = rawOptions.map((options) =>
+  const preparedArguments = rawOptions.map((options) =>
     prepareArguments({
       options,
       isTokenPresent: isTokenValid(cookies.get('token')),
@@ -80,13 +77,13 @@ const prefetchAuthenticatedQueries = async ({
   );
 
   await Promise.all(
-    perparedArguments.map(({ queryKey, queryFn }) =>
+    preparedArguments.map(({ queryKey, queryFn }) =>
       queryClient.prefetchQuery(queryKey, queryFn),
     ),
   );
 
   return await Promise.all(
-    perparedArguments.map(({ queryKey }) => queryClient.getQueryData(queryKey)),
+    preparedArguments.map(({ queryKey }) => queryClient.getQueryData(queryKey)),
   );
 };
 
@@ -118,19 +115,61 @@ const useAuthenticatedMutation = ({
   const { removeAuthenticationCookies } = useCookiesWithOptions();
 
   const innerMutationFn = useCallback(async (variables) => {
-    const result = await mutationFn({ ...variables, headers });
+    const response = await mutationFn({ ...variables, headers });
 
-    if (isUnAuthorized(result)) {
+    if (isUnAuthorized(response?.status)) {
       removeAuthenticationCookies();
       router.push('/login');
-    } else if (result.status) {
-      throw new Error(result.title);
     }
 
-    return result;
-  });
+    const result = await response.text();
 
-  return useMutation(innerMutationFn, (configuration = {}));
+    if (!result) {
+      return '';
+    }
+    return JSON.parse(result);
+  }, []);
+
+  return useMutation(innerMutationFn, configuration);
+};
+
+const useAuthenticatedMutations = ({
+  mutationFns = [],
+  ...configuration
+} = {}) => {
+  const router = useRouter();
+  const headers = useHeaders();
+
+  const { removeAuthenticationCookies } = useCookiesWithOptions();
+
+  const innerMutationFn = useCallback(async (variables) => {
+    const responses = await mutationFns({ ...variables, headers });
+
+    if (responses.some((response) => isUnAuthorized(response.status))) {
+      removeAuthenticationCookies();
+      router.push('/login');
+    } else if (responses.some((response) => response.type === 'ERROR')) {
+      const errorMessages = responses
+        .filter((response) => response.type === 'ERROR')
+        .map((response) => response.title)
+        .join(', ');
+      throw new Error(errorMessages);
+    }
+
+    return Promise.all(
+      responses.map(async (response) => {
+        const result = await response.text();
+
+        if (!result) {
+          return '';
+        }
+
+        return JSON.parse(result);
+      }),
+    );
+  }, []);
+
+  return useMutation(innerMutationFn, configuration);
 };
 
 const useAuthenticatedQuery = ({ ...options } = {}) => {
@@ -153,7 +192,7 @@ const useAuthenticatedQuery = ({ ...options } = {}) => {
 
   const result = useQuery(preparedArguments);
 
-  if (isUnAuthorized(result)) {
+  if (isUnAuthorized(result?.error?.status)) {
     if (!asPath.startsWith('/login') && asPath !== '/[...params]') {
       removeAuthenticationCookies();
       router.push('/login');
@@ -193,7 +232,7 @@ const useAuthenticatedQueries = ({
 
   const results = useQueries(options);
 
-  if (results.some(isUnAuthorized)) {
+  if (results.some((result) => isUnAuthorized(result?.error?.status))) {
     if (!asPath.startsWith('/login') && asPath !== '/[...params]') {
       removeAuthenticationCookies();
       router.push('/login');
@@ -210,5 +249,6 @@ export {
   useAuthenticatedQuery,
   useAuthenticatedQueries,
   useAuthenticatedMutation,
+  useAuthenticatedMutations,
   QueryStatus,
 };

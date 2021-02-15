@@ -102,16 +102,28 @@
     "info": "Selecteer de tijdstippen waarvoor je de status wilt aanpassen",
     "period": "Tijdstip",
     "statusLabel": "Status",
+    "newStatus": "Nieuwe status",
+    "reason": "Reden",
+    "reasonTip": "Je kan optioneel een reden voor de statuswijziging opgeven. De reden wordt samen met de nieuwe status gepubliceerd op UiT.be en andere UiT-kanalen.",
     "status": {
       "scheduled": "Gaat door",
       "cancelled": "Geannuleerd",
+      "cancelledInfo": "Je evenement gaat niet meer door op het voorziene tijdstip en ook niet op een later tijdstip.",
       "postponed": "Uitgesteld",
+      "postponedInfo": "Je evenement is uitgesteld naar een later, nog te bepalen tijdstip.",
       "open": "Open",
       "temporarilyClosed": "Tijdelijk gesloten",
-      "permanentlyClosed": "Permanent gesloten"
+      "temporarilyClosedInfo": "Je locatie zal tijdelijk niet meer gepubliceerd worden op UiT.be en andere UiT-kanalen. Wanneer je locatie terug open gaat, kan je de status opnieuw wijzigen naar 'open'.",
+      "permanentlyClosed": "Permanent gesloten",
+      "permanentlyClosedInfo": "Je locatie zal niet meer gepubliceerd worden op UiT.be en andere UiT-kanalen."
     },
     "dateToBeDefined": "Nieuwe datum nog te bepalen",
-    "modificationReady": "Klaar met status wijzigen"
+    "modificationReady": "Klaar met status wijzigen",
+    "actions": {
+      "cancel": "Annuleren",
+      "save": "Bewaren"
+    },
+    "maxLengthReason": "De reden voor je statuswijziging kan niet meer dan {{amount}} karakters bevatten."
   },
   "jobs": {
     "download": "Downloaden",

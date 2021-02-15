@@ -1,5 +1,8 @@
 import { fetchFromApi } from '../../utils/fetchFromApi';
-import { useAuthenticatedQuery } from './authenticated-query';
+import {
+  useAuthenticatedMutation,
+  useAuthenticatedQuery,
+} from './authenticated-query';
 
 const getPlaceById = async ({ headers, id }) => {
   const res = await fetchFromApi({
@@ -11,8 +14,10 @@ const getPlaceById = async ({ headers, id }) => {
   return await res.json();
 };
 
-const useGetPlaceById = ({ id }, configuration = {}) =>
+const useGetPlaceById = ({ req, queryClient, id }, configuration = {}) =>
   useAuthenticatedQuery({
+    req,
+    queryClient,
     queryKey: ['places'],
     queryFn: getPlaceById,
     queryArguments: { id },
@@ -20,4 +25,17 @@ const useGetPlaceById = ({ id }, configuration = {}) =>
     ...configuration,
   });
 
-export { useGetPlaceById };
+const changeStatus = async ({ headers, id, type, reason }) =>
+  fetchFromApi({
+    path: `/places/${id.toString()}/status`,
+    options: {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({ type, reason }),
+    },
+  });
+
+const useChangeStatus = (configuration = {}) =>
+  useAuthenticatedMutation({ mutationFn: changeStatus, ...configuration });
+
+export { useGetPlaceById, useChangeStatus };
