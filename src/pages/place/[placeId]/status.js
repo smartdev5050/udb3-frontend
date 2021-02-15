@@ -38,7 +38,7 @@ const Status = () => {
     router.push(`/place/${placeId}/preview`);
 
   const {
-    data: place = {},
+    data: place,
     status: getPlaceByIdStatus,
     error: getPlaceByIdError,
   } = useGetPlaceById({ id: placeId });
@@ -51,7 +51,8 @@ const Status = () => {
     onSuccess: handleSuccessChangeStatus,
   });
 
-  const name = place.name?.[i18n.language] ?? place.name?.[place.mainLanguage];
+  const name =
+    place?.name?.[i18n.language] ?? place?.name?.[place.mainLanguage];
   const rawStatusType = place?.status?.type;
   const rawStatusReason = place?.status?.reason;
 
@@ -61,7 +62,7 @@ const Status = () => {
   }, [rawStatusType]);
 
   useEffect(() => {
-    const newReason = place.status?.reason?.[i18n.language];
+    const newReason = place?.status?.reason?.[i18n.language];
     if (!rawStatusReason || !newReason) return;
     setReason(newReason);
   }, [rawStatusReason]);
@@ -136,6 +137,11 @@ const Status = () => {
               <Button
                 variant={ButtonVariants.PRIMARY}
                 disabled={reason.length > maxLengthReason}
+                disabled={
+                  !place ||
+                  reason.length === 0 ||
+                  reason.length > maxLengthReason
+                }
                 onClick={() => {
                   changeStatus({
                     id: placeId,
