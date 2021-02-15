@@ -43,7 +43,7 @@ describe('getStatusFromResults', () => {
     });
   });
 
-  it('returns idle when one results is loading', async () => {
+  it('returns loading when one results is loading', async () => {
     const result = getStatusFromResults([
       { status: QueryStatus.IDLE },
       { status: QueryStatus.LOADING },
