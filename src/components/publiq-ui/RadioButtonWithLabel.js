@@ -9,7 +9,7 @@ import { Label } from './Label';
 import { getBoxProps, boxPropTypes } from './Box';
 import { Stack } from './Stack';
 import { Text } from './Text';
-import { getValueFromTheme } from '../../components/publiq-ui/theme';
+import { getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme('radioButtonWithLabel');
 

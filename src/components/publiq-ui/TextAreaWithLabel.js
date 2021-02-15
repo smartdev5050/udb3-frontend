@@ -9,6 +9,7 @@ const TextAreaWithLabel = ({
   className,
   onInput,
   value,
+  disabled,
   ...props
 }) => {
   return (
@@ -16,7 +17,7 @@ const TextAreaWithLabel = ({
       <Label htmlFor={id} variant={LabelVariants.BOLD}>
         {label}
       </Label>
-      <TextArea id={id} onInput={onInput} value={value} />
+      <TextArea id={id} onInput={onInput} value={value} disabled={disabled} />
     </Stack>
   );
 };
@@ -28,6 +29,7 @@ TextAreaWithLabel.propTypes = {
   className: PropTypes.string,
   value: PropTypes.string,
   onInput: PropTypes.func,
+  disabled: PropTypes.bool,
 };
 
 export { TextAreaWithLabel };
