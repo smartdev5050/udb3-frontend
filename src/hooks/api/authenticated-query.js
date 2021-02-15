@@ -13,9 +13,9 @@ const QueryStatus = {
   SUCCESS: 'success',
 };
 
-const prepareKey = ({ queryKey, queryArguments }) =>
+const prepareKey = ({ queryKey = [], queryArguments = {} } = {}) =>
   [
-    ...queryKey,
+    ...[queryKey].flat(),
     Object.keys(queryArguments).length > 0 ? queryArguments : undefined,
   ].filter((key) => key !== undefined);
 
@@ -29,14 +29,12 @@ const prepareArguments = ({
   } = {},
   isTokenPresent = false,
   headers,
-} = {}) => {
-  return {
-    queryKey: prepareKey({ queryArguments, queryKey }),
-    queryFn: () => queryFn({ ...queryArguments, headers }),
-    enabled: isTokenPresent && !!enabled,
-    ...configuration,
-  };
-};
+} = {}) => ({
+  queryKey: prepareKey({ queryArguments, queryKey }),
+  queryFn: () => queryFn({ ...queryArguments, headers }),
+  enabled: isTokenPresent && !!enabled,
+  ...configuration,
+});
 
 const isUnAuthorized = (status) => [401, 403].includes(status);
 
@@ -49,14 +47,15 @@ const getStatusFromResults = (results) => {
         .filter((error) => error !== undefined),
     };
   }
-  if (results.every(({ status }) => status === QueryStatus.IDLE)) {
-    return { status: QueryStatus.IDLE };
-  }
+
   if (results.every(({ status }) => status === QueryStatus.SUCCESS)) {
     return { status: QueryStatus.SUCCESS };
   }
   if (results.some(({ status }) => status === QueryStatus.LOADING)) {
     return { status: QueryStatus.LOADING };
+  }
+  if (results.some(({ status }) => status === QueryStatus.IDLE)) {
+    return { status: QueryStatus.IDLE };
   }
 };
 
@@ -172,7 +171,7 @@ const useAuthenticatedMutations = ({
   return useMutation(innerMutationFn, configuration);
 };
 
-const useAuthenticatedQuery = ({ ...options } = {}) => {
+const useAuthenticatedQuery = (options = {}) => {
   if (!!options.req && !!options.queryClient && typeof window === 'undefined') {
     return prefetchAuthenticatedQuery(options);
   }
@@ -250,5 +249,6 @@ export {
   useAuthenticatedQueries,
   useAuthenticatedMutation,
   useAuthenticatedMutations,
+  getStatusFromResults,
   QueryStatus,
 };

@@ -1,4 +1,5 @@
 import '../styles/global.scss';
+
 import PropTypes from 'prop-types';
 
 import { Inline } from '../components/publiq-ui/Inline';
@@ -15,7 +16,7 @@ import { CookiesProvider, Cookies } from 'react-cookie';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Hydrate } from 'react-query/hydration';
 
-import { useEffect } from 'react';
+import { cloneElement, useEffect } from 'react';
 import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
 import { useGetUser } from '../hooks/api/user';
 import {
@@ -72,7 +73,7 @@ const useHandleAuthentication = () => {
   }, [asPath]);
 };
 
-const ApplicationLayout = ({ children }) => {
+const ApplicationLayout = ({ children, showSidebar }) => {
   const { asPath, ...router } = useRouter();
   const { cookies, removeAuthenticationCookies } = useCookiesWithOptions([
     'token',
@@ -110,29 +111,33 @@ const ApplicationLayout = ({ children }) => {
 
   return (
     <Inline height="100vh">
-      <SideBar />
+      {showSidebar && <SideBar />}
       {children}
     </Inline>
   );
 };
 
 ApplicationLayout.propTypes = {
+  showSidebar: PropTypes.bool,
   children: PropTypes.node,
 };
 
-const Layout = ({ children }) => {
+const Layout = ({ children, showSidebar }) => {
   const { asPath } = useRouter();
 
   if (asPath.startsWith('/login') || asPath.startsWith('/404'))
     return <>{children}</>;
   return (
     <ErrorBoundary>
-      <ApplicationLayout>{children}</ApplicationLayout>
+      <ApplicationLayout showSidebar={showSidebar}>
+        {children}
+      </ApplicationLayout>
     </ErrorBoundary>
   );
 };
 
 Layout.propTypes = {
+  showSidebar: PropTypes.bool,
   children: PropTypes.node,
 };
 
@@ -162,7 +167,7 @@ const queryClient = new QueryClient();
 
 const isServer = () => typeof window === 'undefined';
 
-const App = ({ Component, pageProps }) => {
+const App = ({ Component, pageProps, children, showSidebar }) => {
   return (
     <>
       <GlobalStyle />
@@ -174,15 +179,21 @@ const App = ({ Component, pageProps }) => {
           [
             CookiesProvider,
             {
-              cookies: isServer() ? new Cookies(pageProps.cookies) : undefined,
+              cookies: isServer()
+                ? new Cookies(pageProps.cookies ?? '')
+                : undefined,
             },
           ],
           [QueryClientProvider, { client: queryClient }],
-          [Hydrate, { state: pageProps.dehydratedState }],
+          [Hydrate, { state: pageProps?.dehydratedState ?? {} }],
         ]}
       >
-        <Layout>
-          <Component {...pageProps} />
+        <Layout showSidebar={showSidebar}>
+          {children ? (
+            cloneElement(children, { ...children.props, ...pageProps })
+          ) : (
+            <Component {...pageProps} />
+          )}
         </Layout>
       </ContextProvider>
     </>
@@ -192,6 +203,12 @@ const App = ({ Component, pageProps }) => {
 App.propTypes = {
   Component: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   pageProps: PropTypes.object,
+  children: PropTypes.node,
+  showSidebar: PropTypes.bool,
+};
+
+App.defaultProps = {
+  showSidebar: true,
 };
 
 export default App;
