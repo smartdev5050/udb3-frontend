@@ -167,7 +167,7 @@ const queryClient = new QueryClient();
 
 const isServer = () => typeof window === 'undefined';
 
-const App = ({ Component, pageProps, children, showSidebar = true }) => {
+const App = ({ Component, pageProps, children, showSidebar }) => {
   return (
     <>
       <GlobalStyle />
@@ -205,6 +205,10 @@ App.propTypes = {
   pageProps: PropTypes.object,
   children: PropTypes.node,
   showSidebar: PropTypes.bool,
+};
+
+App.defaultProps = {
+  showSidebar: true,
 };
 
 export default App;
