@@ -29,6 +29,7 @@ Modal.propTypes = {
   confirmTitle: PropTypes.string,
   cancelTitle: PropTypes.string,
   onConfirm: PropTypes.func,
+  confirmButtonDisabled: PropTypes.bool,
 };
 
 Modal.defaultProps = {
