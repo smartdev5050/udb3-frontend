@@ -76,7 +76,7 @@ describe('useAuthenticatedQuery', () => {
 
     expect(result.current.data).toStrictEqual(data);
   });
-  it('fails on not response ok', async () => {
+  it('fails on response not ok', async () => {
     const message = 'This is an error';
     fetch.mockResponseOnce(JSON.stringify({ title: message }), {
       status: 400,
