@@ -9,3 +9,10 @@ fetchMock.enableMocks();
 setConfig({
   publicRuntimeConfig: { apiUrl: 'http://localhost:3000' },
 });
+
+beforeEach(() => {
+  jest.spyOn(console, 'error');
+  // @ts-ignore jest.spyOn adds this functionallity
+  // eslint-disable-next-line no-console
+  console.error.mockImplementation(() => null);
+});
