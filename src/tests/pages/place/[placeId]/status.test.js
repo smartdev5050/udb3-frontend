@@ -18,7 +18,7 @@ describe('Status page place', () => {
       },
     });
 
-    fetch.mockResponse((req) => {
+    fetch.mockIf(/http:\/\/localhost:3000.*/, (req) => {
       const { url } = req;
       if (url.endsWith('/user')) {
         return JSON.stringify(user);
