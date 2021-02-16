@@ -1,17 +1,10 @@
-import {
-  cleanup,
-  fireEvent,
-  prettyDOM,
-  render,
-  screen,
-} from '@testing-library/react';
+import { place as mockedPlace, place } from '../../../data/place';
+import { parseOfferId } from '../../../../utils/parseOfferId';
 import { setupPage } from '../../../utils/setupPage';
 import { TestApp } from '../../../utils/TestApp';
-import StatusPage from '../../../../pages/place/[placeId]/status';
-import nl from '../../../../i18n/nl.json';
-import { place as mockedPlace } from '../../../data/place';
-import { user as mockedUser } from '../../../data/user';
-import { parseOfferId } from '../../../../utils/parseOfferId';
+import { user } from '../../../data/user';
+import { prettyDOM, render } from '@testing-library/react';
+import Status from '../../../../pages/place/[placeId]/status';
 
 const placeId = parseOfferId(mockedPlace['@id']);
 
@@ -19,25 +12,26 @@ describe('Status page place', () => {
   beforeAll(async () => {
     setupPage({
       router: {
-        pathname: `/place/${placeId}/status`,
-        query: { placeId },
+        query: {
+          placeId,
+        },
       },
     });
 
-    // mock place
-    fetch.mockResponseOnce(JSON.stringify(mockedPlace));
-    // mock user
-    fetch.mockResponseOnce(JSON.stringify(mockedUser));
+    fetch.mockResponse((req) => {
+      const { url } = req;
+      if (url.endsWith('/user')) {
+        return JSON.stringify(user);
+      }
+      if (url.endsWith(`/place/${placeId}`)) {
+        return JSON.stringify(place);
+      }
+    });
 
-    render(
-      <TestApp>
-        <StatusPage />
-      </TestApp>,
-    );
-
-    await screen.findByText(`Status voor ${mockedPlace.name.nl}`);
-
-    console.log(prettyDOM(screen.container));
+    const { container, findByText } = render(<Status />, { wrapper: TestApp });
+    await findByText(`Status voor ${place.name.nl}`);
+    // eslint-disable-next-line no-console
+    console.log(prettyDOM(container));
   });
 
   // afterAll(() => cleanup());
