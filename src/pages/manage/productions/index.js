@@ -10,7 +10,7 @@ import {
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from '../../../components/publiq-ui/Link';
 import { useGetEventsByIds } from '../../../hooks/api/events';
-import { parseEventId } from '../../../utils/parseEventId';
+import { parseOfferId } from '../../../utils/parseOfferId';
 import { QueryStatus } from '../../../hooks/api/authenticated-query';
 
 import { Text } from '../../../components/publiq-ui/Text';
@@ -84,7 +84,7 @@ const Index = () => {
           const eventId = event?.['@id'];
           if (!eventId) return undefined;
 
-          const id = parseEventId(eventId);
+          const id = parseOfferId(eventId);
           return {
             ...event,
             id,
