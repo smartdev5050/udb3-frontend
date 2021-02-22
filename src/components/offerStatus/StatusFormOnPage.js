@@ -6,20 +6,14 @@ import { Alert, AlertVariants } from '../publiq-ui/Alert';
 import { Button, ButtonVariants } from '../publiq-ui/Button';
 import { Inline } from '../publiq-ui/Inline';
 import { Page } from '../publiq-ui/Page';
-import { RadioButtonGroup } from '../publiq-ui/RadioButtonGroup';
 import { Spinner } from '../publiq-ui/Spinner';
-import { Stack } from '../publiq-ui/Stack';
-import { Text } from '../publiq-ui/Text';
-import { TextAreaWithLabel } from '../publiq-ui/TextAreaWithLabel';
-import { getValueFromTheme } from '../publiq-ui/theme';
 import { MaxLengthReason, OfferStatus, OfferType } from './constants';
 import { parseOfferId } from '../../utils/parseOfferId';
 import { parseOfferType } from '../../utils/parseOfferType';
 import { useChangeStatus as useChangeStatusPlace } from '../../hooks/api/places';
 import { useChangeStatus as useChangeStatusEvent } from '../../hooks/api/events';
 import { useTranslation } from 'react-i18next';
-
-const getValue = getValueFromTheme('statusPage');
+import { ReasonAndTypeForm } from './ReasonAndTypeForm';
 
 const StatusFormOnPage = ({ offer, error }) => {
   const { t, i18n } = useTranslation();
@@ -53,41 +47,6 @@ const StatusFormOnPage = ({ offer, error }) => {
     return useChangeStatusEvent;
   }, [offerType]);
 
-  const radioButtonItems = useMemo(
-    () => [
-      {
-        label:
-          offerType === OfferType.PLACE
-            ? t('offerStatus.status.open')
-            : t('offerStatus.status.scheduled'),
-        value: OfferStatus.AVAILABLE,
-      },
-      {
-        label:
-          offerType === OfferType.PLACE
-            ? t('offerStatus.status.temporarilyClosed')
-            : t('offerStatus.status.postponed'),
-        value: OfferStatus.TEMPORARILY_UNAVAILABLE,
-        info:
-          offerType === OfferType.PLACE
-            ? t('offerStatus.status.temporarilyClosedInfo')
-            : t('offerStatus.status.postponedInfo'),
-      },
-      {
-        label:
-          offerType === OfferType.PLACE
-            ? t('offerStatus.status.permanentlyClosed')
-            : t('offerStatus.status.cancelled'),
-        value: OfferStatus.UNAVAILABLE,
-        info:
-          offerType === OfferType.PLACE
-            ? t('offerStatus.status.permanentlyClosedInfo')
-            : t('offerStatus.status.cancelledInfo'),
-      },
-    ],
-    [offerType],
-  );
-
   const handleSuccessChangeStatus = () =>
     router.push(`/${offerType}/${offerId}/preview`);
 
@@ -107,35 +66,14 @@ const StatusFormOnPage = ({ offer, error }) => {
           </Alert>
         ) : (
           [
-            <RadioButtonGroup
-              key="offerStatus"
-              groupLabel={t('offerStatus.newStatus')}
-              name="offerStatus"
-              items={radioButtonItems}
-              selected={type}
-              onChange={(e) => setType(e.target.value)}
+            <ReasonAndTypeForm
+              key="reason-and-type"
+              offerType={offerType}
+              statusType={type}
+              statusReason={reason}
+              onChangeStatusType={(e) => setType(e.target.value)}
+              onInputStatusReason={(e) => setReason(e.target.value)}
             />,
-            <Stack key="reason" spacing={2}>
-              <Stack spacing={3}>
-                <TextAreaWithLabel
-                  id="reason"
-                  label={t('offerStatus.reason')}
-                  value={reason}
-                  onInput={(e) => setReason(e.target.value)}
-                  disabled={type === OfferStatus.AVAILABLE}
-                />
-                {reason.length > MaxLengthReason && (
-                  <Alert variant={AlertVariants.WARNING}>
-                    {t('offerStatus.maxLengthReason', {
-                      amount: MaxLengthReason,
-                    })}
-                  </Alert>
-                )}
-              </Stack>
-              <Text color={getValue('infoTextColor')}>
-                {t('offerStatus.reasonTip')}
-              </Text>
-            </Stack>,
             <Inline key="actions" spacing={3}>
               <Button
                 variant={ButtonVariants.SECONDARY}
