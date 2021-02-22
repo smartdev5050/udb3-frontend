@@ -1,0 +1,182 @@
+import { useRouter } from 'next/router';
+import PropTypes from 'prop-types';
+import { useEffect, useMemo, useState } from 'react';
+import { QueryStatus } from '../../hooks/api/authenticated-query';
+import { Alert, AlertVariants } from '../publiq-ui/Alert';
+import { Button, ButtonVariants } from '../publiq-ui/Button';
+import { Inline } from '../publiq-ui/Inline';
+import { Page } from '../publiq-ui/Page';
+import { RadioButtonGroup } from '../publiq-ui/RadioButtonGroup';
+import { Spinner } from '../publiq-ui/Spinner';
+import { Stack } from '../publiq-ui/Stack';
+import { Text } from '../publiq-ui/Text';
+import { TextAreaWithLabel } from '../publiq-ui/TextAreaWithLabel';
+import { getValueFromTheme } from '../publiq-ui/theme';
+import { MaxLengthReason, OfferStatus, OfferType } from './constants';
+import { parseOfferId } from '../../utils/parseOfferId';
+import { parseOfferType } from '../../utils/parseOfferType';
+import { useChangeStatus as useChangeStatusPlace } from '../../hooks/api/places';
+import { useChangeStatus as useChangeStatusEvent } from '../../hooks/api/events';
+import { useTranslation } from 'react-i18next';
+
+const getValue = getValueFromTheme('statusPage');
+
+const StatusFormOnPage = ({ offer, error }) => {
+  const { t, i18n } = useTranslation();
+  const router = useRouter();
+
+  const offerId = parseOfferId(offer['@id']);
+  const offerType = parseOfferType(offer['@context']);
+  const name =
+    offer?.name?.[i18n.language] ?? offer?.name?.[offer.mainLanguage];
+  const rawStatusType = offer?.status?.type;
+  const rawStatusReason = offer?.status?.reason;
+
+  const [type, setType] = useState('');
+  const [reason, setReason] = useState('');
+
+  useEffect(() => {
+    if (!rawStatusType) return;
+    setType(rawStatusType);
+  }, [rawStatusType]);
+
+  useEffect(() => {
+    const newReason = offer?.status?.reason?.[i18n.language];
+    if (!rawStatusReason || !newReason) return;
+    setReason(newReason);
+  }, [rawStatusReason]);
+
+  const useChangeStatus = useMemo(() => {
+    if (offerType === OfferType.PLACE) {
+      return useChangeStatusPlace;
+    }
+    return useChangeStatusEvent;
+  }, [offerType]);
+
+  const radioButtonItems = useMemo(
+    () => [
+      {
+        label:
+          offerType === OfferType.PLACE
+            ? t('offerStatus.status.open')
+            : t('offerStatus.status.scheduled'),
+        value: OfferStatus.AVAILABLE,
+      },
+      {
+        label:
+          offerType === OfferType.PLACE
+            ? t('offerStatus.status.temporarilyClosed')
+            : t('offerStatus.status.postponed'),
+        value: OfferStatus.TEMPORARILY_UNAVAILABLE,
+        info:
+          offerType === OfferType.PLACE
+            ? t('offerStatus.status.temporarilyClosedInfo')
+            : t('offerStatus.status.postponedInfo'),
+      },
+      {
+        label:
+          offerType === OfferType.PLACE
+            ? t('offerStatus.status.permanentlyClosed')
+            : t('offerStatus.status.cancelled'),
+        value: OfferStatus.UNAVAILABLE,
+        info:
+          offerType === OfferType.PLACE
+            ? t('offerStatus.status.permanentlyClosedInfo')
+            : t('offerStatus.status.cancelledInfo'),
+      },
+    ],
+    [offerType],
+  );
+
+  const handleSuccessChangeStatus = () =>
+    router.push(`/${offerType}/${offerId}/preview`);
+
+  const { mutate: changeStatus, ...changeStatusMutation } = useChangeStatus({
+    onSuccess: handleSuccessChangeStatus,
+  });
+
+  return (
+    <Page>
+      <Page.Title>{t('offerStatus.title', { name })}</Page.Title>
+      <Page.Content spacing={5}>
+        {changeStatusMutation.status === QueryStatus.LOADING ? (
+          <Spinner marginTop={4} />
+        ) : error || changeStatusMutation.error ? (
+          <Alert variant={AlertVariants.WARNING}>
+            {error.message || changeStatusMutation.error?.message}
+          </Alert>
+        ) : (
+          [
+            <RadioButtonGroup
+              key="offerStatus"
+              groupLabel={t('offerStatus.newStatus')}
+              name="offerStatus"
+              items={radioButtonItems}
+              selected={type}
+              onChange={(e) => setType(e.target.value)}
+            />,
+            <Stack key="reason" spacing={2}>
+              <Stack spacing={3}>
+                <TextAreaWithLabel
+                  id="reason"
+                  label={t('offerStatus.reason')}
+                  value={reason}
+                  onInput={(e) => setReason(e.target.value)}
+                  disabled={type === OfferStatus.AVAILABLE}
+                />
+                {reason.length > MaxLengthReason && (
+                  <Alert variant={AlertVariants.WARNING}>
+                    {t('offerStatus.maxLengthReason', {
+                      amount: MaxLengthReason,
+                    })}
+                  </Alert>
+                )}
+              </Stack>
+              <Text color={getValue('infoTextColor')}>
+                {t('offerStatus.reasonTip')}
+              </Text>
+            </Stack>,
+            <Inline key="actions" spacing={3}>
+              <Button
+                variant={ButtonVariants.SECONDARY}
+                onClick={() => router.push(`/offer/${offerId}/edit`)}
+              >
+                {t('offerStatus.actions.cancel')}
+              </Button>
+              <Button
+                variant={ButtonVariants.PRIMARY}
+                disabled={
+                  !offer ||
+                  reason.length === 0 ||
+                  reason.length > MaxLengthReason
+                }
+                onClick={() => {
+                  changeStatus({
+                    id: offerId,
+                    type,
+                    reason:
+                      type === OfferStatus.AVAILABLE
+                        ? undefined
+                        : {
+                            ...offer.status.reason,
+                            [i18n.language]: reason,
+                          },
+                  });
+                }}
+              >
+                {t('offerStatus.actions.save')}
+              </Button>
+            </Inline>,
+          ]
+        )}
+      </Page.Content>
+    </Page>
+  );
+};
+
+StatusFormOnPage.propTypes = {
+  offer: PropTypes.object.isRequired,
+  error: PropTypes.object,
+};
+
+export { StatusFormOnPage };
