@@ -28,8 +28,6 @@ import { GlobalStyle } from '../styles/GlobalStyle';
 import { isTokenValid } from '../utils/isTokenValid';
 import { ErrorBoundary } from '../components/ErrorBoundary';
 
-console.log(SideBar);
-
 config.autoAddCss = false;
 
 const useChangeLanguage = () => {
