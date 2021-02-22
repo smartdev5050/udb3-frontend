@@ -43,13 +43,14 @@ const EventStatusModal = ({
       onConfirm={() => changeStatuses()}
       onClose={onClose}
       confirmButtonDisabled={
-        reason.length === 0 || reason.length > maxLengthReason
+        type !== OfferStatus.AVAILABLE &&
+        (reason.length === 0 || reason.length > maxLengthReason)
       }
     >
       <Stack padding={4} spacing={5}>
         <RadioButtonGroup
           groupLabel={t('offerStatus.newStatus')}
-          name="offerStatus"
+          name="eventStatus"
           items={[
             {
               label: t('offerStatus.status.scheduled'),
