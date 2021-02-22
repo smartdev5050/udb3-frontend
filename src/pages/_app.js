@@ -41,11 +41,11 @@ const useChangeLanguage = () => {
 
 const useHandleAuthentication = () => {
   const { query, asPath, ...router } = useRouter();
-  const { setCookie } = useCookiesWithOptions(['user', 'token']);
+  const { setCookie, cookies } = useCookiesWithOptions(['user', 'token']);
   const { data: user } = useGetUser();
 
   useEffect(() => {
-    if (query?.jwt) {
+    if (query?.jwt && cookies.token !== query?.jwt) {
       setCookie('token', query.jwt);
     }
   }, [query]);
