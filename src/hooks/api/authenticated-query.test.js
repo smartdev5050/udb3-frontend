@@ -8,6 +8,7 @@ import { renderHook } from '@testing-library/react-hooks';
 import { TestApp } from '../../tests/utils/TestApp';
 import { queryFn } from '../../tests/utils/queryFn';
 import { setupPage } from '../../tests/utils/setupPage';
+import { match } from 'path-to-regexp';
 
 describe('getStatusFromResults', () => {
   it('returns error when one result is errror', async () => {
@@ -61,7 +62,16 @@ describe('useAuthenticatedQuery', () => {
 
   it('returns data', async () => {
     const data = { data: '12345' };
-    fetch.mockResponseOnce(JSON.stringify(data));
+
+    fetch.mockResponse((req) => {
+      const url = req.url.split('http://localhost:3000')[1];
+
+      if (match('/random')(url)) {
+        return Promise.resolve({ body: JSON.stringify(data) });
+      } else {
+        return undefined;
+      }
+    });
 
     const { result, waitFor } = renderHook(
       () =>
@@ -78,8 +88,18 @@ describe('useAuthenticatedQuery', () => {
   });
   it('fails on response not ok', async () => {
     const message = 'This is an error';
-    fetch.mockResponseOnce(JSON.stringify({ title: message }), {
-      status: 400,
+
+    fetch.mockResponse((req) => {
+      const url = req.url.split('http://localhost:3000')[1];
+
+      if (match('/random')(url)) {
+        return Promise.resolve({
+          body: JSON.stringify({ title: message }),
+          status: 400,
+        });
+      } else {
+        return undefined;
+      }
     });
 
     const { result, waitFor } = renderHook(
