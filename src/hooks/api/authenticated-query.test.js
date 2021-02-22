@@ -10,12 +10,6 @@ import { queryFn } from '../../tests/utils/queryFn';
 import { setupPage } from '../../tests/utils/setupPage';
 import { match } from 'path-to-regexp';
 
-import { mockRouterWithParams } from '../../tests/mocks/mockRouterWithParams';
-
-jest.mock('next/router', () => ({
-  useRouter: jest.fn(),
-}));
-
 describe('getStatusFromResults', () => {
   it('returns error when one result is errror', async () => {
     const result = getStatusFromResults([
