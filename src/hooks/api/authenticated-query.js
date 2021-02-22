@@ -179,9 +179,7 @@ const useAuthenticatedQuery = (options = {}) => {
   const { asPath, ...router } = useRouter();
 
   const headers = useHeaders();
-  const { cookies, removeAuthenticationCookies } = useCookiesWithOptions([
-    'token',
-  ]);
+  const { cookies } = useCookiesWithOptions(['token']);
 
   const preparedArguments = prepareArguments({
     options,

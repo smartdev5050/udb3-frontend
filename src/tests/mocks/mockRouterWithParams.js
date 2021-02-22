@@ -2,16 +2,22 @@ import { createToken } from '../utils/createToken';
 
 const mockRouterWithParams = ({ query, ...rest } = {}) => {
   const useRouter = jest.spyOn(require('next/router'), 'useRouter');
-  useRouter.mockImplementation(() => ({
+
+  const push = jest.fn();
+
+  const mockRouter = {
     pathname: '/',
     query: {
       jwt: createToken(),
       ...(query ?? {}),
     },
     asPath: '/',
-    push: jest.fn(),
+    push,
     ...rest,
-  }));
+  };
+
+  useRouter.mockImplementation(() => mockRouter);
+  return mockRouter;
 };
 
 export { mockRouterWithParams };

@@ -10,6 +10,12 @@ import { queryFn } from '../../tests/utils/queryFn';
 import { setupPage } from '../../tests/utils/setupPage';
 import { match } from 'path-to-regexp';
 
+import { mockRouterWithParams } from '../../tests/mocks/mockRouterWithParams';
+
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
+}));
+
 describe('getStatusFromResults', () => {
   it('returns error when one result is errror', async () => {
     const result = getStatusFromResults([
@@ -57,6 +63,7 @@ describe('getStatusFromResults', () => {
 
 describe('useAuthenticatedQuery', () => {
   beforeEach(() => {
+    fetch.resetMocks();
     setupPage();
   });
 
@@ -73,7 +80,7 @@ describe('useAuthenticatedQuery', () => {
       }
     });
 
-    const { result, waitFor } = renderHook(
+    const { result, waitForNextUpdate } = renderHook(
       () =>
         useAuthenticatedQuery({
           queryKey: ['random'],
@@ -82,7 +89,7 @@ describe('useAuthenticatedQuery', () => {
       { wrapper: TestApp },
     );
 
-    await waitFor(() => result.current.isSuccess);
+    await waitForNextUpdate();
 
     expect(result.current.data).toStrictEqual(data);
   });
@@ -102,7 +109,7 @@ describe('useAuthenticatedQuery', () => {
       }
     });
 
-    const { result, waitFor } = renderHook(
+    const { result, waitForNextUpdate } = renderHook(
       () =>
         useAuthenticatedQuery({
           retry: false, // disable retry, otherwise the waitFor times out
@@ -112,8 +119,49 @@ describe('useAuthenticatedQuery', () => {
       { wrapper: TestApp },
     );
 
-    await waitFor(() => result.current.isError);
+    await waitForNextUpdate();
 
     expect(result.current.error.message).toStrictEqual(message);
+  });
+  it('redirects on 401', async () => {
+    const { push } = mockRouterWithParams();
+
+    fetch.mockResponseOnce(JSON.stringify({ title: 'redirect' }), {
+      status: 401,
+    });
+
+    const { waitForNextUpdate } = renderHook(
+      () =>
+        useAuthenticatedQuery({
+          retry: false, // disable retry, otherwise the waitFor times out
+          queryKey: ['random'],
+          queryFn,
+        }),
+      { wrapper: TestApp },
+    );
+
+    await waitForNextUpdate();
+    expect(push).toBeCalledWith('/login');
+  });
+
+  it('redirects on 403', async () => {
+    const { push } = mockRouterWithParams();
+
+    fetch.mockResponseOnce(JSON.stringify({ title: 'redirect' }), {
+      status: 403,
+    });
+
+    const { waitForNextUpdate } = renderHook(
+      () =>
+        useAuthenticatedQuery({
+          retry: false, // disable retry, otherwise the waitFor times out
+          queryKey: ['random'],
+          queryFn,
+        }),
+      { wrapper: TestApp },
+    );
+
+    await waitForNextUpdate();
+    expect(push).toBeCalledWith('/login');
   });
 });

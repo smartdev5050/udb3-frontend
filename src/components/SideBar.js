@@ -227,6 +227,7 @@ NotificationMenu.propTypes = {
 };
 
 const SideBar = () => {
+  console.log('RENDERED');
   const { t } = useTranslation();
 
   const { cookies, setCookie } = useCookiesWithOptions([
