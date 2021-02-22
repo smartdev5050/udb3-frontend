@@ -9,6 +9,7 @@ import { TestApp } from '../../tests/utils/TestApp';
 import { queryFn } from '../../tests/utils/queryFn';
 import { setupPage } from '../../tests/utils/setupPage';
 import { match } from 'path-to-regexp';
+import { mockRouterWithParams } from '../../tests/mocks/mockRouterWithParams';
 
 describe('getStatusFromResults', () => {
   it('returns error when one result is errror', async () => {
@@ -117,57 +118,64 @@ describe('useAuthenticatedQuery', () => {
 
     expect(result.current.error.message).toStrictEqual(message);
   });
-  // it('redirects on 401', async () => {
-  //   const { push } = mockRouterWithParams();
 
-  //   fetch.mockResponse((req) => {
-  //     const url = req.url.split('http://localhost:3000')[1];
+  it('redirects on 401', async () => {
+    const { push } = mockRouterWithParams();
 
-  //     if (match('/random')(url)) {
-  //       return Promise.resolve({ title: 'redirect', status: 401 });
-  //     } else {
-  //       return undefined;
-  //     }
-  //   });
+    fetch.mockResponse((req) => {
+      const url = req.url.split('http://localhost:3000')[1];
 
-  //   const { waitForNextUpdate } = renderHook(
-  //     () =>
-  //       useAuthenticatedQuery({
-  //         retry: false, // disable retry, otherwise the waitFor times out
-  //         queryKey: ['random'],
-  //         queryFn,
-  //       }),
-  //     { wrapper: TestApp },
-  //   );
+      if (match('/random')(url)) {
+        return Promise.resolve({
+          body: JSON.stringify({ title: 'redirect' }),
+          status: 401,
+        });
+      } else {
+        return undefined;
+      }
+    });
 
-  //   await waitForNextUpdate();
-  //   expect(push).toBeCalledWith('/login');
-  // });
+    const { waitForNextUpdate } = renderHook(
+      () =>
+        useAuthenticatedQuery({
+          retry: false, // disable retry, otherwise the waitFor times out
+          queryKey: ['random'],
+          queryFn,
+        }),
+      { wrapper: TestApp },
+    );
 
-  // it('redirects on 403', async () => {
-  //   const { push } = mockRouterWithParams();
+    await waitForNextUpdate();
+    expect(push).toBeCalledWith('/login');
+  });
 
-  //   fetch.mockResponse((req) => {
-  //     const url = req.url.split('http://localhost:3000')[1];
+  it('redirects on 403', async () => {
+    const { push } = mockRouterWithParams();
 
-  //     if (match('/random')(url)) {
-  //       return Promise.resolve({ title: 'redirect', status: 403 });
-  //     } else {
-  //       return undefined;
-  //     }
-  //   });
+    fetch.mockResponse((req) => {
+      const url = req.url.split('http://localhost:3000')[1];
 
-  //   const { waitForNextUpdate } = renderHook(
-  //     () =>
-  //       useAuthenticatedQuery({
-  //         retry: false, // disable retry, otherwise the waitFor times out
-  //         queryKey: ['random'],
-  //         queryFn,
-  //       }),
-  //     { wrapper: TestApp },
-  //   );
+      if (match('/random')(url)) {
+        return Promise.resolve({
+          body: JSON.stringify({ title: 'redirect' }),
+          status: 403,
+        });
+      } else {
+        return undefined;
+      }
+    });
 
-  //   await waitForNextUpdate();
-  //   expect(push).toBeCalledWith('/login');
-  // });
+    const { waitForNextUpdate } = renderHook(
+      () =>
+        useAuthenticatedQuery({
+          retry: false, // disable retry, otherwise the waitFor times out
+          queryKey: ['random'],
+          queryFn,
+        }),
+      { wrapper: TestApp },
+    );
+
+    await waitForNextUpdate();
+    expect(push).toBeCalledWith('/login');
+  });
 });
