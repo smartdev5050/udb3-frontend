@@ -2,6 +2,7 @@ import { fetchFromApi } from '../../utils/fetchFromApi';
 import {
   useAuthenticatedQuery,
   useAuthenticatedQueries,
+  useAuthenticatedMutation,
 } from './authenticated-query';
 import { formatDate } from '../../utils/formatDate';
 
@@ -99,9 +100,23 @@ const useGetCalendarSummary = (
     },
   });
 
+const changeStatus = async ({ headers, id, type, reason }) =>
+  fetchFromApi({
+    path: `/events/${id.toString()}/status`,
+    options: {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({ type, reason }),
+    },
+  });
+
+const useChangeStatus = (configuration = {}) =>
+  useAuthenticatedMutation({ mutationFn: changeStatus, ...configuration });
+
 export {
   useGetEventsToModerate,
   useGetEventById,
   useGetEventsByIds,
   useGetCalendarSummary,
+  useChangeStatus,
 };
