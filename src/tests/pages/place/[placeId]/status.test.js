@@ -3,11 +3,10 @@ import { parseOfferId } from '../../../../utils/parseOfferId';
 import { setupPage } from '../../../utils/setupPage';
 import { TestApp } from '../../../utils/TestApp';
 import { user } from '../../../data/user';
-import { render, waitFor, screen, fireEvent } from '@testing-library/react';
+import { render, waitFor, screen } from '@testing-library/react';
 import Status from '../../../../pages/place/[placeId]/status';
 import { match } from 'path-to-regexp';
 import nl from '../../../../i18n/nl.json';
-import { mockRouterWithParams } from '../../../mocks/mockRouterWithParams';
 
 const placeId = parseOfferId(mockedPlace['@id']);
 
