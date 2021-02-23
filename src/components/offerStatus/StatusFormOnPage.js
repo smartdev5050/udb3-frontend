@@ -100,7 +100,7 @@ const StatusFormOnPage = ({ offer, error }) => {
               </Button>
               <Button
                 variant={ButtonVariants.SECONDARY}
-                onClick={() => router.push(`/offer/${offerId}/edit`)}
+                onClick={() => router.push(`/${offerType}/${offerId}/edit`)}
               >
                 {t('offerStatus.actions.cancel')}
               </Button>
