@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { getApplicationServerSideProps } from '../../../utils/getApplicationServerSideProps';
-import { useGetPlaceById } from '../../../hooks/api/places';
+import { useChangeStatus, useGetPlaceById } from '../../../hooks/api/places';
 import { dehydrate } from 'react-query/hydration';
 import { StatusFormOnPage } from '../../../components/offerStatus/StatusFormOnPage';
 import { QueryStatus } from '../../../hooks/api/authenticated-query';
@@ -19,6 +19,7 @@ const Status = () => {
     <StatusFormOnPage
       offer={getPlaceByIdQuery.data}
       error={getPlaceByIdQuery.error}
+      useChangeStatus={useChangeStatus}
     />
   );
 };

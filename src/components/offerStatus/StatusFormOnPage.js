@@ -7,15 +7,13 @@ import { Button, ButtonVariants } from '../publiq-ui/Button';
 import { Inline } from '../publiq-ui/Inline';
 import { Page } from '../publiq-ui/Page';
 import { Spinner } from '../publiq-ui/Spinner';
-import { MaxLengthReason, OfferType } from './constants';
+import { MaxLengthReason, OfferStatus, OfferType } from './constants';
 import { parseOfferId } from '../../utils/parseOfferId';
 import { parseOfferType } from '../../utils/parseOfferType';
-import { useChangeStatus as useChangeStatusPlace } from '../../hooks/api/places';
-import { useChangeStatus as useChangeStatusEvent } from '../../hooks/api/events';
 import { useTranslation } from 'react-i18next';
 import { ReasonAndTypeForm } from './ReasonAndTypeForm';
 
-const StatusFormOnPage = ({ offer, error }) => {
+const StatusFormOnPage = ({ offer, error, useChangeStatus }) => {
   const { t, i18n } = useTranslation();
   const router = useRouter();
 
@@ -39,13 +37,6 @@ const StatusFormOnPage = ({ offer, error }) => {
     if (!rawStatusReason || !newReason) return;
     setReason(newReason);
   }, [rawStatusReason]);
-
-  const useChangeStatus = useMemo(() => {
-    if (offerType === OfferType.PLACE) {
-      return useChangeStatusPlace;
-    }
-    return useChangeStatusEvent;
-  }, [offerType]);
 
   const handleSuccessChangeStatus = () =>
     router.push(`/${offerType}/${offerId}/preview`);
