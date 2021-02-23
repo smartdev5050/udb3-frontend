@@ -76,12 +76,6 @@ const StatusFormOnPage = ({ offer, error }) => {
             />,
             <Inline key="actions" spacing={3}>
               <Button
-                variant={ButtonVariants.SECONDARY}
-                onClick={() => router.push(`/offer/${offerId}/edit`)}
-              >
-                {t('offerStatus.actions.cancel')}
-              </Button>
-              <Button
                 variant={ButtonVariants.PRIMARY}
                 disabled={
                   !offer ||
@@ -103,6 +97,12 @@ const StatusFormOnPage = ({ offer, error }) => {
                 }}
               >
                 {t('offerStatus.actions.save')}
+              </Button>
+              <Button
+                variant={ButtonVariants.SECONDARY}
+                onClick={() => router.push(`/offer/${offerId}/edit`)}
+              >
+                {t('offerStatus.actions.cancel')}
               </Button>
             </Inline>,
           ]
