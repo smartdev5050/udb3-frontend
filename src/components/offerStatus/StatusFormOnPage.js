@@ -79,21 +79,21 @@ const StatusFormOnPage = ({ offer, error }) => {
                 variant={ButtonVariants.PRIMARY}
                 disabled={!offer || reason.length > MaxLengthReason}
                 onClick={() => {
-                  if (reason.length === 0) {
+                  if (type === OfferStatus.AVAILABLE) {
                     changeStatus({
                       id: offerId,
                       type,
                     });
-                    return;
+                  } else {
+                    changeStatus({
+                      id: offerId,
+                      type,
+                      reason: {
+                        ...(offer.status.type === type && offer.status.reason),
+                        [i18n.language]: reason,
+                      },
+                    });
                   }
-                  changeStatus({
-                    id: offerId,
-                    type,
-                    reason: {
-                      ...offer.status.reason,
-                      [i18n.language]: reason,
-                    },
-                  });
                 }}
               >
                 {t('offerStatus.actions.save')}
