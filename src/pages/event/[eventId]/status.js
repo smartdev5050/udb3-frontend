@@ -18,7 +18,7 @@ const Status = () => {
     return <Spinner marginTop={4} />;
   }
 
-  // TODO: replace by multipel view with SelectionTable
+  // TODO: replace by multiple view with SelectionTable
   if (event.calendarType === 'multiple') return <span>multiple</span>;
 
   return (
