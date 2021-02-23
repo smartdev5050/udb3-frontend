@@ -7,7 +7,7 @@ import { Button, ButtonVariants } from '../publiq-ui/Button';
 import { Inline } from '../publiq-ui/Inline';
 import { Page } from '../publiq-ui/Page';
 import { Spinner } from '../publiq-ui/Spinner';
-import { MaxLengthReason, OfferStatus, OfferType } from './constants';
+import { MaxLengthReason, OfferType } from './constants';
 import { parseOfferId } from '../../utils/parseOfferId';
 import { parseOfferType } from '../../utils/parseOfferType';
 import { useChangeStatus as useChangeStatusPlace } from '../../hooks/api/places';
