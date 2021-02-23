@@ -9,12 +9,14 @@ import { Page } from '../../../components/publiq-ui/Page';
 import { useTranslation } from 'react-i18next';
 import { useGetEventById } from '../../../hooks/api/events';
 import { dehydrate } from 'react-query/hydration';
+import { StatusModal } from '../../../components/offerStatus/StatusModal';
 
 const Status = () => {
   const { t, i18n } = useTranslation();
   const router = useRouter();
   const { eventId } = router.query;
 
+  const [isModalVisible, setIsModalVisible] = useState(true);
   const [errorMessage, setErrorMessage] = useState();
 
   const handleError = (error) => {
@@ -38,6 +40,11 @@ const Status = () => {
         ) : (
           [
             <Alert key="alert">{t('offerStatus.info')}</Alert>,
+            <StatusModal
+              key="fds"
+              visible={isModalVisible}
+              onClose={() => setIsModalVisible(false)}
+            />,
             <Button
               key="button"
               variant={ButtonVariants.SUCCESS}
