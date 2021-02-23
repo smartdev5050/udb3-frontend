@@ -5,6 +5,7 @@ import { dehydrate } from 'react-query/hydration';
 import { Spinner } from '../../../components/publiq-ui/Spinner';
 import { QueryStatus } from '../../../hooks/api/authenticated-query';
 import { StatusFormOnPage } from '../../../components/offerStatus/StatusFormOnPage';
+import { CalendarType } from '../../../constants/CalendarType';
 
 const Status = () => {
   const router = useRouter();
@@ -19,7 +20,8 @@ const Status = () => {
   }
 
   // TODO: replace by multiple view with SelectionTable
-  if (event.calendarType === 'multiple') return <span>multiple</span>;
+  if (event.calendarType === CalendarType.MULTIPLE)
+    return <span>multiple</span>;
 
   return (
     <StatusFormOnPage

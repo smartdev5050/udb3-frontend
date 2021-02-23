@@ -22,6 +22,7 @@ import { parseSpacing } from '../../../publiq-ui/Box';
 import { useGetCalendarSummary } from '../../../../hooks/api/events';
 import { useMatchBreakpoint } from '../../../../hooks/useMatchBreakpoint';
 import { Text } from '../../../publiq-ui/Text';
+import { CalendarType } from '../../../../constants/CalendarType';
 
 const getValue = getValueFromTheme('eventItem');
 
@@ -39,7 +40,7 @@ const Event = ({
   const { data: period } = useGetCalendarSummary({
     id,
     locale: i18n?.language ?? '',
-    format: calendarType === 'single' ? 'lg' : 'sm',
+    format: calendarType === CalendarType.SINGLE ? 'lg' : 'sm',
   });
 
   const [isExpanded, setIsExpanded] = useState(false);

@@ -12,6 +12,7 @@ import { useGetCalendarSummary } from '../../../../hooks/api/events';
 
 import { truncate } from 'lodash';
 import stripHTML from 'string-strip-html';
+import { CalendarType } from '../../../../constants/CalendarType';
 
 const Event = ({
   terms,
@@ -37,7 +38,7 @@ const Event = ({
   const { data: period } = useGetCalendarSummary({
     id,
     locale: i18n.language,
-    format: calendarType === 'single' ? 'lg' : 'sm',
+    format: calendarType === CalendarType.SINGLE ? 'lg' : 'sm',
   });
 
   const description = useMemo(() => {
@@ -104,7 +105,7 @@ Event.defaultProps = {
   terms: [],
   description: '',
   title: '',
-  calendarType: 'single',
+  calendarType: CalendarType.SINGLE,
 };
 
 export { Event };
