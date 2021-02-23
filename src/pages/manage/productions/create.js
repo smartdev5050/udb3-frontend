@@ -6,7 +6,7 @@ import { Inline } from '../../../components/publiq-ui/Inline';
 import { Button, ButtonVariants } from '../../../components/publiq-ui/Button';
 import { Event } from '../../../components/manage/productions/create/Event';
 import { getApplicationServerSideProps } from '../../../utils/getApplicationServerSideProps';
-import { parseEventId } from '../../../utils/parseEventId';
+import { parseOfferId } from '../../../utils/parseOfferId';
 import { useState, useMemo, useEffect, useCallback } from 'react';
 import {
   useGetProductions,
@@ -116,7 +116,7 @@ const Create = () => {
       // create a new production
       createProductionWithEvents({
         productionName: searchInput,
-        eventIds: events.map((event) => parseEventId(event['@id'])),
+        eventIds: events.map((event) => parseOfferId(event['@id'])),
       });
       return;
     }
@@ -136,7 +136,7 @@ const Create = () => {
       productionId: selectedProductionId,
       eventIds: events
         .filter((event) => !event.production)
-        .map((event) => parseEventId(event['@id'])),
+        .map((event) => parseOfferId(event['@id'])),
     });
   };
 
@@ -158,7 +158,7 @@ const Create = () => {
             </Text>
             <Inline spacing={4}>
               {events.map((event) => {
-                const id = event?.['@id'] && parseEventId(event['@id']);
+                const id = event?.['@id'] && parseOfferId(event['@id']);
                 return (
                   <Event
                     id={id}
@@ -246,7 +246,7 @@ const Create = () => {
                   onClick={() => {
                     skipSuggestedEvents({
                       eventIds: events.map((event) =>
-                        parseEventId(event['@id']),
+                        parseOfferId(event['@id']),
                       ),
                     });
                   }}
