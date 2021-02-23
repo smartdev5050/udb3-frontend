@@ -81,12 +81,7 @@ PageActions.propTypes = {
 };
 
 const PageContent = ({ children, className, ...props }) => (
-  <Stack
-    className={className}
-    spacing={3}
-    maxWidth="36rem"
-    {...getStackProps(props)}
-  >
+  <Stack className={className} spacing={3} {...getStackProps(props)}>
     {children}
   </Stack>
 );

@@ -48,7 +48,7 @@ const StatusFormOnPage = ({ offer, error, useChangeStatus }) => {
   return (
     <Page>
       <Page.Title>{t('offerStatus.title', { name })}</Page.Title>
-      <Page.Content spacing={5}>
+      <Page.Content spacing={5} maxWidth="36rem">
         {changeStatusMutation.status === QueryStatus.LOADING ? (
           <Spinner marginTop={4} />
         ) : error || changeStatusMutation.error ? (
