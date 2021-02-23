@@ -7,7 +7,7 @@ import { getStackProps, Stack } from '../publiq-ui/Stack';
 import { Text } from '../publiq-ui/Text';
 import { TextAreaWithLabel } from '../publiq-ui/TextAreaWithLabel';
 import { getValueFromTheme } from '../publiq-ui/theme';
-import { MaxLengthReason, OfferStatus, OfferType } from './constants';
+import { MaxLengthReason, OfferStatus } from './constants';
 
 const getValue = getValueFromTheme('statusPage');
 
@@ -24,33 +24,18 @@ const ReasonAndTypeForm = ({
   const radioButtonItems = useMemo(
     () => [
       {
-        label:
-          offerType === OfferType.PLACE
-            ? t('offerStatus.status.open')
-            : t('offerStatus.status.scheduled'),
+        label: t(`offerStatus.status.${offerType}.available`),
         value: OfferStatus.AVAILABLE,
       },
       {
-        label:
-          offerType === OfferType.PLACE
-            ? t('offerStatus.status.temporarilyClosed')
-            : t('offerStatus.status.postponed'),
+        label: t(`offerStatus.status.${offerType}.temporarilyUnavailable`),
         value: OfferStatus.TEMPORARILY_UNAVAILABLE,
-        info:
-          offerType === OfferType.PLACE
-            ? t('offerStatus.status.temporarilyClosedInfo')
-            : t('offerStatus.status.postponedInfo'),
+        info: t(`offerStatus.status.${offerType}.temporarilyUnavailableInfo`),
       },
       {
-        label:
-          offerType === OfferType.PLACE
-            ? t('offerStatus.status.permanentlyClosed')
-            : t('offerStatus.status.cancelled'),
+        label: t(`offerStatus.status.${offerType}.unavailable`),
         value: OfferStatus.UNAVAILABLE,
-        info:
-          offerType === OfferType.PLACE
-            ? t('offerStatus.status.permanentlyClosedInfo')
-            : t('offerStatus.status.cancelledInfo'),
+        info: t(`offerStatus.status.${offerType}.unavailableInfo`),
       },
     ],
     [offerType],
