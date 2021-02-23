@@ -1,13 +1,13 @@
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { QueryStatus } from '../../hooks/api/authenticated-query';
 import { Alert, AlertVariants } from '../publiq-ui/Alert';
 import { Button, ButtonVariants } from '../publiq-ui/Button';
 import { Inline } from '../publiq-ui/Inline';
 import { Page } from '../publiq-ui/Page';
 import { Spinner } from '../publiq-ui/Spinner';
-import { MaxLengthReason, OfferStatus, OfferType } from './constants';
+import { MaxLengthReason, OfferStatus } from './constants';
 import { parseOfferId } from '../../utils/parseOfferId';
 import { parseOfferType } from '../../utils/parseOfferType';
 import { useTranslation } from 'react-i18next';
@@ -106,6 +106,7 @@ const StatusFormOnPage = ({ offer, error, useChangeStatus }) => {
 StatusFormOnPage.propTypes = {
   offer: PropTypes.object.isRequired,
   error: PropTypes.object,
+  useChangeStatus: PropTypes.func.isRequired,
 };
 
 export { StatusFormOnPage };
