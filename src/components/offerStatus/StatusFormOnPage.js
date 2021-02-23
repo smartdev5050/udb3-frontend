@@ -77,22 +77,22 @@ const StatusFormOnPage = ({ offer, error }) => {
             <Inline key="actions" spacing={3}>
               <Button
                 variant={ButtonVariants.PRIMARY}
-                disabled={
-                  !offer ||
-                  reason.length === 0 ||
-                  reason.length > MaxLengthReason
-                }
+                disabled={!offer || reason.length > MaxLengthReason}
                 onClick={() => {
+                  if (reason.length === 0) {
+                    changeStatus({
+                      id: offerId,
+                      type,
+                    });
+                    return;
+                  }
                   changeStatus({
                     id: offerId,
                     type,
-                    reason:
-                      type === OfferStatus.AVAILABLE
-                        ? undefined
-                        : {
-                            ...offer.status.reason,
-                            [i18n.language]: reason,
-                          },
+                    reason: {
+                      ...offer.status.reason,
+                      [i18n.language]: reason,
+                    },
                   });
                 }}
               >
