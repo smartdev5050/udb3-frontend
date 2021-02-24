@@ -81,7 +81,7 @@ const StatusFormOnPage = ({ offer, error, useChangeStatus }) => {
                       type,
                       reason: {
                         ...(offer.status.type === type && offer.status.reason),
-                        [i18n.language]: reason,
+                        ...(reason.length > 0 && { [i18n.language]: reason }),
                       },
                     });
                   }
