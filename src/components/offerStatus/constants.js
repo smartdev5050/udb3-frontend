@@ -1,8 +1,3 @@
-const OfferType = {
-  EVENT: 'event',
-  PLACE: 'place',
-};
-
 const OfferStatus = {
   AVAILABLE: 'Available',
   TEMPORARILY_UNAVAILABLE: 'TemporarilyUnavailable',
@@ -11,4 +6,4 @@ const OfferStatus = {
 
 const MaxLengthReason = 200;
 
-export { OfferType, OfferStatus, MaxLengthReason };
+export { OfferStatus, MaxLengthReason };

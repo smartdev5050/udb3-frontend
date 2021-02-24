@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { MaxLengthReason, OfferType } from './constants';
+import { MaxLengthReason } from './constants';
 import { Modal, ModalVariants } from '../publiq-ui/Modal';
 import { Stack } from '../publiq-ui/Stack';
 import { ReasonAndTypeForm } from './ReasonAndTypeForm';
+import { OfferType } from '../../constants/OfferType';
 
 const StatusModal = ({ visible, className, onClose }) => {
   const { t } = useTranslation();
