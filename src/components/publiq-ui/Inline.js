@@ -70,7 +70,7 @@ const inlinePropTypes = {
   spacing: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
   alignItems: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   justifyContent: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  stackOn: PropTypes.oneOf([...Object.values(Breakpoints)]),
+  stackOn: PropTypes.oneOf(Object.values(Breakpoints)),
 };
 
 const getInlineProps = (props) => pick(props, Object.keys(inlinePropTypes));

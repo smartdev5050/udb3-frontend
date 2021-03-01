@@ -21,6 +21,7 @@ const QuestionModal = ({
     onShow={onShow}
     onHide={onClose}
     keyboard={false}
+    size={size}
     css={`
       z-index: 2000;
 
@@ -83,9 +84,7 @@ QuestionModal.defaultProps = {
   title: '',
   confirmTitle: 'Ok',
   cancelTitle: 'Cancel',
-  onShow: () => {},
-  onClose: () => {},
-  onConfirm: () => {},
+  size: 'sm',
 };
 
 export { QuestionModal };

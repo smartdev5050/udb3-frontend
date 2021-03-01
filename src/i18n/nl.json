@@ -103,24 +103,30 @@
     "period": "Tijdstip",
     "statusLabel": "Status",
     "newStatus": "Nieuwe status",
+    "changeStatus": "Status wijzigen",
     "reason": "Reden",
     "reasonTip": "Je kan optioneel een reden voor de statuswijziging opgeven. De reden wordt samen met de nieuwe status gepubliceerd op UiT.be en andere UiT-kanalen.",
     "status": {
-      "scheduled": "Gaat door",
-      "cancelled": "Geannuleerd",
-      "cancelledInfo": "Je evenement gaat niet meer door op het voorziene tijdstip en ook niet op een later tijdstip.",
-      "postponed": "Uitgesteld",
-      "postponedInfo": "Je evenement is uitgesteld naar een later, nog te bepalen tijdstip.",
-      "open": "Open",
-      "temporarilyClosed": "Tijdelijk gesloten",
-      "temporarilyClosedInfo": "Je locatie zal tijdelijk niet meer gepubliceerd worden op UiT.be en andere UiT-kanalen. Wanneer je locatie terug open gaat, kan je de status opnieuw wijzigen naar 'open'.",
-      "permanentlyClosed": "Permanent gesloten",
-      "permanentlyClosedInfo": "Je locatie zal niet meer gepubliceerd worden op UiT.be en andere UiT-kanalen."
+      "event": {
+        "available": "Gaat door",
+        "temporarilyUnavailable": "Uitgesteld",
+        "temporarilyUnavailableInfo": "Je evenement is uitgesteld naar een later, nog te bepalen tijdstip.",
+        "unavailable": "Geannuleerd",
+        "unavailableInfo": "Je evenement gaat niet meer door op het voorziene tijdstip en ook niet op een later tijdstip."
+      },
+      "place": {
+        "available": "Open",
+        "temporarilyUnavailable": "Tijdelijk gesloten",
+        "temporarilyUnavailableInfo": "Je locatie zal tijdelijk niet meer gepubliceerd worden op UiT.be en andere UiT-kanalen. Wanneer je locatie terug open gaat, kan je de status opnieuw wijzigen naar 'open'.",
+        "unavailable": "Permanent gesloten",
+        "unavailableInfo": "Je locatie zal niet meer gepubliceerd worden op UiT.be en andere UiT-kanalen."
+      }
     },
     "dateToBeDefined": "Nieuwe datum nog te bepalen",
     "modificationReady": "Klaar met status wijzigen",
     "actions": {
       "cancel": "Annuleren",
+      "close": "Sluiten",
       "save": "Bewaren"
     },
     "maxLengthReason": "De reden voor je statuswijziging kan niet meer dan {{amount}} karakters bevatten."

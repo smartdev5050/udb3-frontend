@@ -82,7 +82,7 @@ const Link = ({
 
   if (isInternalLink) {
     return (
-      <NextLink href={href} passHref>
+      <NextLink href={href} passHref prefetch={!process.env.STORYBOOK}>
         <BaseLink
           className={className}
           variant={variant}

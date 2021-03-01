@@ -101,24 +101,30 @@
     "period": "Période",
     "statusLabel": "Statut",
     "newStatus": "Nouveau statut",
+    "changeStatus": "Modifier le statut",
     "reason": "Raison",
     "reasonTip": "Vous pouvez éventuellement indiquer un motif de changement de statut. Le motif sera publié en même temps que le nouveau statut sur UiT.be et les autres calendriers de UiT.",
     "status": {
-      "scheduled": "A lieu",
-      "cancelled": "Annulé",
-      "cancelledInfo": "Votre événement n'aura pas lieu à l'heure prévue ou à une date ultérieure.",
-      "postponed": "Reporté",
-      "postponedInfo": "Votre événement a été reporté à une date ultérieure qui reste à déterminer.",
-      "open": "Ouvert",
-      "temporarilyClosed": "Fermé temporairement",
-      "temporarilyClosedInfo": "Votre lieu ne sera temporairement plus publiée sur UiT.be et les autres calendriers de UiT. Lorsque votre lieu rouvre, vous pouvez en modifier le statut pour qu'il redevienne 'ouvert'.",
-      "permanentlyClosed": "Fermé définitivement",
-      "permanentlyClosedInfo": "Votre lieu ne sera plus publiée sur UiT.be et les autres calendriers de UiT."
+      "event": {
+        "available": "A lieu",
+        "temporarilyUnavailable": "Reporté",
+        "temporarilyUnavailableInfo": "Votre événement a été reporté à une date ultérieure qui reste à déterminer.",
+        "unavailable": "Annulé",
+        "unavailableInfo": "Votre événement n'aura pas lieu à l'heure prévue ou à une date ultérieure."
+      },
+      "place": {
+        "available": "Ouvert",
+        "temporarilyUnavailable": "Fermé temporairement",
+        "temporarilyUnavailableInfo": "Votre lieu ne sera temporairement plus publiée sur UiT.be et les autres calendriers de UiT. Lorsque votre lieu rouvre, vous pouvez en modifier le statut pour qu'il redevienne 'ouvert'.",
+        "unavailable": "Fermé définitivement",
+        "unavailableInfo": "Votre lieu ne sera plus publiée sur UiT.be et les autres calendriers de UiT."
+      }
     },
     "dateToBeDefined": "Nouvelle date encore à définir",
     "modificationReady": "Modification du statut terminé",
     "actions": {
       "cancel": "Annuler",
+      "close": "Fermer",
       "save": " Sauver"
     },
     "maxLengthReason": "La raison ne peut pas dépasser {{amount}} caractères."

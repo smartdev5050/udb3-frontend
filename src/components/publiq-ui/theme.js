@@ -218,6 +218,9 @@ const theme = {
     statusPage: {
       infoTextColor: colors.grey5,
     },
+    statusModal: {
+      infoTextColor: colors.grey5,
+    },
   },
 };
 
