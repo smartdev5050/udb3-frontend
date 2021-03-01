@@ -1,12 +1,20 @@
-const mockRouterWithParams = (params = {}) => {
+const mockRouterWithParams = ({ query, ...rest } = {}) => {
   const useRouter = jest.spyOn(require('next/router'), 'useRouter');
-  useRouter.mockImplementation(() => ({
+
+  const push = jest.fn();
+
+  const mockRouter = {
     pathname: '/',
-    query: {},
+    query: {
+      ...(query ?? {}),
+    },
     asPath: '/',
-    push: jest.fn(),
-    ...params,
-  }));
+    push,
+    ...rest,
+  };
+
+  useRouter.mockImplementation(() => mockRouter);
+  return mockRouter;
 };
 
 export { mockRouterWithParams };

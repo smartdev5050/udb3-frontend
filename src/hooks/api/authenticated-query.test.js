@@ -4,10 +4,20 @@ import {
   useAuthenticatedQuery,
 } from './authenticated-query';
 
-import { renderHook } from '@testing-library/react-hooks';
-import { TestApp } from '../../tests/utils/TestApp';
-import { queryFn } from '../../tests/utils/queryFn';
-import { setupPage } from '../../tests/utils/setupPage';
+import { mockResponses, setupPage } from '../../tests/utils/setupPage';
+import { renderHookWithWrapper } from '../../tests/utils/renderHookWithWrapper';
+import { fetchFromApi } from '../../utils/fetchFromApi';
+
+const queryFn = async ({ headers, ...queryData }) => {
+  const res = await fetchFromApi({
+    path: '/random',
+    options: {
+      headers,
+    },
+  });
+
+  return await res.json();
+};
 
 describe('getStatusFromResults', () => {
   it('returns error when one result is errror', async () => {
@@ -55,45 +65,82 @@ describe('getStatusFromResults', () => {
 });
 
 describe('useAuthenticatedQuery', () => {
+  let page;
+
   beforeEach(() => {
-    setupPage();
+    fetch.resetMocks();
+    page = setupPage();
   });
 
   it('returns data', async () => {
-    const data = { data: '12345' };
-    fetch.mockResponseOnce(JSON.stringify(data));
+    const body = { data: '12345' };
 
-    const { result, waitFor } = renderHook(
-      () =>
-        useAuthenticatedQuery({
-          queryKey: ['random'],
-          queryFn,
-        }),
-      { wrapper: TestApp },
-    );
-
-    await waitFor(() => result.current.isSuccess);
-
-    expect(result.current.data).toStrictEqual(data);
-  });
-  it('fails on response not ok', async () => {
-    const message = 'This is an error';
-    fetch.mockResponseOnce(JSON.stringify({ title: message }), {
-      status: 400,
+    mockResponses({
+      '/random': { body },
     });
 
-    const { result, waitFor } = renderHook(
-      () =>
-        useAuthenticatedQuery({
-          retry: false, // disable retry, otherwise the waitFor times out
-          queryKey: ['random'],
-          queryFn,
-        }),
-      { wrapper: TestApp },
+    const { result, waitForNextUpdate } = renderHookWithWrapper(() =>
+      useAuthenticatedQuery({
+        queryKey: ['random'],
+        queryFn,
+      }),
     );
 
-    await waitFor(() => result.current.isError);
+    await waitForNextUpdate();
 
-    expect(result.current.error.message).toStrictEqual(message);
+    expect(result.current.data).toStrictEqual(body);
+  });
+  it('fails on response not ok', async () => {
+    const title = 'This is an error';
+
+    mockResponses({
+      '/random': { body: { title }, status: 400 },
+    });
+
+    const { result, waitForNextUpdate } = renderHookWithWrapper(() =>
+      useAuthenticatedQuery({
+        retry: false, // disable retry, otherwise the waitFor times out
+        queryKey: ['random'],
+        queryFn,
+      }),
+    );
+
+    await waitForNextUpdate();
+
+    expect(result.current.error.message).toStrictEqual(title);
+  });
+
+  it('redirects on 401', async () => {
+    mockResponses({
+      '/random': { status: 401 },
+    });
+
+    const { waitForNextUpdate } = renderHookWithWrapper(() =>
+      useAuthenticatedQuery({
+        retry: false, // disable retry, otherwise the waitFor times out
+        queryKey: ['random'],
+        queryFn,
+      }),
+    );
+
+    await waitForNextUpdate();
+    expect(page.router.push).toBeCalledWith('/login');
+  });
+
+  it('redirects on 403', async () => {
+    mockResponses({
+      '/random': { status: 403 },
+    });
+
+    const { waitForNextUpdate } = renderHookWithWrapper(() =>
+      useAuthenticatedQuery({
+        retry: false, // disable retry, otherwise the waitFor times out
+        queryKey: ['random'],
+        queryFn,
+      }),
+    );
+
+    await waitForNextUpdate();
+    expect(page.router.push).toBeCalledWith('/login');
   });
 });

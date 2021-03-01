@@ -142,7 +142,7 @@ const theme = {
         color: colors.white,
       },
     },
-    sideBar: {
+    sidebar: {
       color: colors.white,
       backgroundColor: colors.udbRed,
     },
