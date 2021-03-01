@@ -9,6 +9,7 @@ import Status from '../../../../pages/place/[placeId]/status';
 import nl from '../../../../i18n/nl.json';
 
 import { renderPageWithWrapper } from '../../../utils/renderPageWithWrapper';
+import { waitForFetchToFinish } from '../../../utils/waitForFetchToFinish';
 
 describe('Status page place', () => {
   describe('When the status "Available" is loaded from place object', () => {
@@ -65,11 +66,8 @@ describe('Status page place', () => {
         }),
       );
 
-      await waitFor(() =>
-        expect(fetch).toBeCalledWith(
-          `http://localhost:3000/places/${router.query.placeId}/status`,
-          expect.anything(),
-        ),
+      await waitForFetchToFinish(
+        `http://localhost:3000/places/${router.query.placeId}/status`,
       );
 
       expect(router.push).toBeCalledWith(
