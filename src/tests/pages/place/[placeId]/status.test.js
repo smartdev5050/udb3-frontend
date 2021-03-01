@@ -14,6 +14,7 @@ import { waitForFetch } from '../../../utils/waitForFetch';
 describe('Status page place', () => {
   describe('When the status "Available" is loaded from place object', () => {
     let router;
+    let render;
 
     beforeEach(async () => {
       const page = setupPage({
@@ -30,12 +31,15 @@ describe('Status page place', () => {
 
       router = page.router;
 
-      renderPageWithWrapper(<Status />);
+      render = renderPageWithWrapper(<Status />);
       await waitFor(() => screen.getByText(`Status voor ${place.name.nl}`));
     });
 
     it('checks the value "Available"', () => {
-      expect(screen.getByLabelText(nl.offerStatus.status.open)).toBeChecked();
+      // render.debug();
+      expect(
+        screen.getByLabelText(nl.offerStatus.status.place.available),
+      ).toBeChecked();
     });
 
     it('disables the textarea for reason', () => {
@@ -54,7 +58,9 @@ describe('Status page place', () => {
 
     it('redirects to preview page when button save is pressed', async () => {
       userEvent.click(
-        screen.getByLabelText(nl.offerStatus.status.temporarilyClosed),
+        screen.getByLabelText(
+          nl.offerStatus.status.place.temporarilyUnavailable,
+        ),
       );
 
       userEvent.type(
