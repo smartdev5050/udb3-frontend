@@ -28,7 +28,7 @@ import { useMatchBreakpoint } from '../hooks/useMatchBreakpoint';
 import { useQueryClient } from 'react-query';
 
 const getValueForMenuItem = getValueFromTheme('menuItem');
-const getValueForSideBar = getValueFromTheme('sideBar');
+const getValueForSidebar = getValueFromTheme('sidebar');
 const getValueForMenu = getValueFromTheme('menu');
 
 const MenuItem = memo(
@@ -226,7 +226,7 @@ NotificationMenu.propTypes = {
   jobLoggerState: PropTypes.oneOf(Object.values(JobLoggerStates)),
 };
 
-const SideBar = () => {
+const Sidebar = () => {
   const { t } = useTranslation();
 
   const { cookies, setCookie } = useCookiesWithOptions([
@@ -236,7 +236,7 @@ const SideBar = () => {
 
   const [isJobLoggerVisible, setIsJobLoggerVisible] = useState(true);
   const [jobLoggerState, setJobLoggerState] = useState(JobLoggerStates.IDLE);
-  const sideBarComponent = useRef();
+  const sidebarComponent = useRef();
 
   const [
     isAnnouncementsModalVisible,
@@ -426,16 +426,16 @@ const SideBar = () => {
         overflow: hidden;
       `}
       width={{ default: '230px', s: '65px' }}
-      backgroundColor={getValueForSideBar('backgroundColor')}
-      color={getValueForSideBar('color')}
+      backgroundColor={getValueForSidebar('backgroundColor')}
+      color={getValueForSidebar('color')}
       zIndex={1998}
       padding={{ default: 2, s: 0 }}
       spacing={3}
-      ref={sideBarComponent}
+      ref={sidebarComponent}
       onMouseOver={() => {
         setTimeout(() => {
-          if (!sideBarComponent?.current) return;
-          sideBarComponent.current.focus();
+          if (!sidebarComponent?.current) return;
+          sidebarComponent.current.focus();
         }, 100);
       }}
     >
@@ -497,4 +497,4 @@ const SideBar = () => {
   ];
 };
 
-export { SideBar };
+export { Sidebar };

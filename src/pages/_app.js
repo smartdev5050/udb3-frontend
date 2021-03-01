@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { Inline } from '../components/publiq-ui/Inline';
 
-import { SideBar } from '../components/SideBar';
+import { Sidebar } from '../components/Sidebar';
 import { ThemeProvider } from '../components/publiq-ui/ThemeProvider';
 import { useRouter } from 'next/router';
 import NextHead from 'next/head';
@@ -72,7 +72,7 @@ const useHandleAuthentication = () => {
   }, [asPath]);
 };
 
-const ApplicationLayout = ({ children, showSidebar }) => {
+const ApplicationLayout = ({ children }) => {
   const { asPath, ...router } = useRouter();
   const { cookies, removeAuthenticationCookies } = useCookiesWithOptions([
     'token',
@@ -110,33 +110,29 @@ const ApplicationLayout = ({ children, showSidebar }) => {
 
   return (
     <Inline height="100vh">
-      {showSidebar && <SideBar />}
+      <Sidebar />
       {children}
     </Inline>
   );
 };
 
 ApplicationLayout.propTypes = {
-  showSidebar: PropTypes.bool,
   children: PropTypes.node,
 };
 
-const Layout = ({ children, showSidebar }) => {
+const Layout = ({ children }) => {
   const { asPath } = useRouter();
 
   if (asPath.startsWith('/login') || asPath.startsWith('/404'))
     return <>{children}</>;
   return (
     <ErrorBoundary>
-      <ApplicationLayout showSidebar={showSidebar}>
-        {children}
-      </ApplicationLayout>
+      <ApplicationLayout>{children}</ApplicationLayout>
     </ErrorBoundary>
   );
 };
 
 Layout.propTypes = {
-  showSidebar: PropTypes.bool,
   children: PropTypes.node,
 };
 
@@ -166,7 +162,7 @@ const queryClient = new QueryClient();
 
 const isServer = () => typeof window === 'undefined';
 
-const App = ({ Component, pageProps, children, showSidebar }) => {
+const App = ({ Component, pageProps, children }) => {
   return (
     <>
       <GlobalStyle />
@@ -187,7 +183,7 @@ const App = ({ Component, pageProps, children, showSidebar }) => {
           [Hydrate, { state: pageProps?.dehydratedState ?? {} }],
         ]}
       >
-        <Layout showSidebar={showSidebar}>
+        <Layout>
           {children ? (
             cloneElement(children, { ...children.props, ...pageProps })
           ) : (
@@ -203,11 +199,6 @@ App.propTypes = {
   Component: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   pageProps: PropTypes.object,
   children: PropTypes.node,
-  showSidebar: PropTypes.bool,
-};
-
-App.defaultProps = {
-  showSidebar: true,
 };
 
 export default App;

@@ -5,6 +5,13 @@ import { setConfig } from 'next/config';
 fetchMock.enableMocks();
 console.error = jest.fn();
 
+jest.mock('./src/components/Sidebar.js', () => ({
+  __esModule: true,
+  Sidebar: () => {
+    return null;
+  },
+}));
+
 setConfig({
   publicRuntimeConfig: { apiUrl: 'http://localhost' },
 });
