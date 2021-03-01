@@ -69,7 +69,8 @@ describe('useAuthenticatedQuery', () => {
 
   beforeEach(() => {
     fetch.resetMocks();
-    router = setupPage();
+    const page = setupPage();
+    router = page.router;
   });
 
   it('returns data', async () => {

@@ -16,7 +16,7 @@ describe('Status page place', () => {
     let router;
 
     beforeEach(async () => {
-      router = setupPage({
+      const page = setupPage({
         router: {
           query: {
             placeId: parseOfferId(place['@id']),
@@ -27,6 +27,8 @@ describe('Status page place', () => {
           '/places/:id/status': {},
         },
       });
+
+      router = page.router;
 
       renderPageWithWrapper(<Status />);
       await waitFor(() => screen.getByText(`Status voor ${place.name.nl}`));

@@ -21,7 +21,7 @@ const mockResponses = (responses) => {
 const setupPage = ({ router, responses = {} } = {}) => {
   fetch.resetMocks();
   mockResponses({ '/user': { body: user }, ...responses });
-  return mockRouterWithParams(router);
+  return { router: mockRouterWithParams(router) };
 };
 
 export { setupPage, mockResponses };
