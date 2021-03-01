@@ -2,7 +2,7 @@ import { mockRouterWithParams } from '../mocks/mockRouterWithParams';
 
 const setupPage = ({ router } = {}) => {
   fetch.resetMocks();
-  mockRouterWithParams(router);
+  return mockRouterWithParams(router);
 };
 
 export { setupPage };

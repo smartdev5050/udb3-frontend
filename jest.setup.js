@@ -6,5 +6,5 @@ fetchMock.enableMocks();
 console.error = jest.fn();
 
 setConfig({
-  publicRuntimeConfig: { apiUrl: 'http://localhost:3000' },
+  publicRuntimeConfig: { apiUrl: 'http://localhost' },
 });
