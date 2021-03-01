@@ -3,6 +3,8 @@ import fetchMock from 'jest-fetch-mock';
 import { setConfig } from 'next/config';
 
 fetchMock.enableMocks();
+
+// eslint-disable-next-line no-console
 console.error = jest.fn();
 
 jest.mock('./src/components/Sidebar.js', () => ({
