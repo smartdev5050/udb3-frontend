@@ -4,9 +4,20 @@ import {
   useAuthenticatedQuery,
 } from './authenticated-query';
 
-import { queryFn } from '../../tests/utils/queryFn';
 import { mockResponses, setupPage } from '../../tests/utils/setupPage';
 import { renderHookWithWrapper } from '../../tests/utils/renderHookWithWrapper';
+import { fetchFromApi } from '../../utils/fetchFromApi';
+
+const queryFn = async ({ headers, ...queryData }) => {
+  const res = await fetchFromApi({
+    path: '/random',
+    options: {
+      headers,
+    },
+  });
+
+  return await res.json();
+};
 
 describe('getStatusFromResults', () => {
   it('returns error when one result is errror', async () => {
