@@ -7,7 +7,7 @@ import {
 import { renderHook } from '@testing-library/react-hooks';
 import { TestApp } from '../../tests/utils/TestApp';
 import { queryFn } from '../../tests/utils/queryFn';
-import { setupPage } from '../../tests/utils/setupPage';
+import { mockResponses, setupPage } from '../../tests/utils/setupPage';
 import { match } from 'path-to-regexp';
 import { mockRouterWithParams } from '../../tests/mocks/mockRouterWithParams';
 
@@ -63,16 +63,10 @@ describe('useAuthenticatedQuery', () => {
   });
 
   it('returns data', async () => {
-    const data = { data: '12345' };
+    const body = { data: '12345' };
 
-    fetch.mockResponse((req) => {
-      const url = req.url.split('http://localhost:3000')[1];
-
-      if (match('/random')(url)) {
-        return Promise.resolve({ body: JSON.stringify(data) });
-      } else {
-        return undefined;
-      }
+    mockResponses({
+      '/random': { body },
     });
 
     const { result, waitForNextUpdate } = renderHook(
@@ -86,22 +80,13 @@ describe('useAuthenticatedQuery', () => {
 
     await waitForNextUpdate();
 
-    expect(result.current.data).toStrictEqual(data);
+    expect(result.current.data).toStrictEqual(body);
   });
   it('fails on response not ok', async () => {
-    const message = 'This is an error';
+    const title = 'This is an error';
 
-    fetch.mockResponse((req) => {
-      const url = req.url.split('http://localhost:3000')[1];
-
-      if (match('/random')(url)) {
-        return Promise.resolve({
-          body: JSON.stringify({ title: message }),
-          status: 400,
-        });
-      } else {
-        return undefined;
-      }
+    mockResponses({
+      '/random': { body: { title }, status: 400 },
     });
 
     const { result, waitForNextUpdate } = renderHook(
@@ -116,23 +101,14 @@ describe('useAuthenticatedQuery', () => {
 
     await waitForNextUpdate();
 
-    expect(result.current.error.message).toStrictEqual(message);
+    expect(result.current.error.message).toStrictEqual(title);
   });
 
   it('redirects on 401', async () => {
     const { push } = mockRouterWithParams();
 
-    fetch.mockResponse((req) => {
-      const url = req.url.split('http://localhost:3000')[1];
-
-      if (match('/random')(url)) {
-        return Promise.resolve({
-          body: JSON.stringify({ title: 'redirect' }),
-          status: 401,
-        });
-      } else {
-        return undefined;
-      }
+    mockResponses({
+      '/random': { status: 401 },
     });
 
     const { waitForNextUpdate } = renderHook(
@@ -152,17 +128,8 @@ describe('useAuthenticatedQuery', () => {
   it('redirects on 403', async () => {
     const { push } = mockRouterWithParams();
 
-    fetch.mockResponse((req) => {
-      const url = req.url.split('http://localhost:3000')[1];
-
-      if (match('/random')(url)) {
-        return Promise.resolve({
-          body: JSON.stringify({ title: 'redirect' }),
-          status: 403,
-        });
-      } else {
-        return undefined;
-      }
+    mockResponses({
+      '/random': { status: 403 },
     });
 
     const { waitForNextUpdate } = renderHook(

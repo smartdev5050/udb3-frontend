@@ -8,7 +8,6 @@ import { render, waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import Status from '../../../../pages/place/[placeId]/status';
-import { match } from 'path-to-regexp';
 import nl from '../../../../i18n/nl.json';
 
 describe('Status page place', () => {
@@ -22,26 +21,10 @@ describe('Status page place', () => {
             placeId: parseOfferId(mockedPlace['@id']),
           },
         },
-      });
-
-      const mockResponses = [
-        { path: '/user', body: user },
-        { path: '/place/:id', body: place },
-        {
-          path: '/places/:id/status',
+        responses: {
+          '/place/:id': { body: place },
+          '/places/:id/status': {},
         },
-      ];
-
-      fetch.mockResponse((req) => {
-        const url = req.url.split('http://localhost')[1];
-
-        const data = mockResponses.find(({ path, body }) => match(path)(url));
-        if (!data) return undefined;
-
-        return Promise.resolve({
-          body: JSON.stringify(data.body ?? {}),
-          status: data.status ?? 200,
-        });
       });
 
       render(<Status />, { wrapper: TestApp });
@@ -84,7 +67,7 @@ describe('Status page place', () => {
 
       await waitFor(() =>
         expect(fetch).toBeCalledWith(
-          `http://localhost/places/${router.query.placeId}/status`,
+          `http://localhost:3000/places/${router.query.placeId}/status`,
           expect.anything(),
         ),
       );

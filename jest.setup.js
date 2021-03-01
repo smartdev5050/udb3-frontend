@@ -13,5 +13,5 @@ jest.mock('./src/components/Sidebar.js', () => ({
 }));
 
 setConfig({
-  publicRuntimeConfig: { apiUrl: 'http://localhost' },
+  publicRuntimeConfig: { apiUrl: 'http://localhost:3000' },
 });
