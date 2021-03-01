@@ -1,4 +1,4 @@
-import { place as mockedPlace, place } from '../../../data/place';
+import { place } from '../../../data/place';
 import { parseOfferId } from '../../../../utils/parseOfferId';
 import { setupPage } from '../../../utils/setupPage';
 
@@ -19,7 +19,7 @@ describe('Status page place', () => {
       router = setupPage({
         router: {
           query: {
-            placeId: parseOfferId(mockedPlace['@id']),
+            placeId: parseOfferId(place['@id']),
           },
         },
         responses: {
