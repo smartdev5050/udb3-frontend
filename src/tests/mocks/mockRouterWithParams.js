@@ -1,5 +1,3 @@
-import { createToken } from '../utils/createToken';
-
 const mockRouterWithParams = ({ query, ...rest } = {}) => {
   const useRouter = jest.spyOn(require('next/router'), 'useRouter');
 
@@ -8,7 +6,6 @@ const mockRouterWithParams = ({ query, ...rest } = {}) => {
   const mockRouter = {
     pathname: '/',
     query: {
-      jwt: createToken(),
       ...(query ?? {}),
     },
     asPath: '/',
