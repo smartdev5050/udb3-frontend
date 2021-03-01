@@ -65,12 +65,11 @@ describe('getStatusFromResults', () => {
 });
 
 describe('useAuthenticatedQuery', () => {
-  let router;
+  let page;
 
   beforeEach(() => {
     fetch.resetMocks();
-    const page = setupPage();
-    router = page.router;
+    page = setupPage();
   });
 
   it('returns data', async () => {
@@ -125,7 +124,7 @@ describe('useAuthenticatedQuery', () => {
     );
 
     await waitForNextUpdate();
-    expect(router.push).toBeCalledWith('/login');
+    expect(page.router.push).toBeCalledWith('/login');
   });
 
   it('redirects on 403', async () => {
@@ -142,6 +141,6 @@ describe('useAuthenticatedQuery', () => {
     );
 
     await waitForNextUpdate();
-    expect(router.push).toBeCalledWith('/login');
+    expect(page.router.push).toBeCalledWith('/login');
   });
 });

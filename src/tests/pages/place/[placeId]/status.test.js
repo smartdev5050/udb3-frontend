@@ -13,11 +13,10 @@ import { waitForFetch } from '../../../utils/waitForFetch';
 
 describe('Status page place', () => {
   describe('When the status "Available" is loaded from place object', () => {
-    let router;
-    let render;
+    let page;
 
     beforeEach(async () => {
-      const page = setupPage({
+      page = setupPage({
         router: {
           query: {
             placeId: parseOfferId(place['@id']),
@@ -29,9 +28,7 @@ describe('Status page place', () => {
         },
       });
 
-      router = page.router;
-
-      render = renderPageWithWrapper(<Status />);
+      renderPageWithWrapper(<Status />);
       await waitFor(() => screen.getByText(`Status voor ${place.name.nl}`));
     });
 
@@ -53,7 +50,9 @@ describe('Status page place', () => {
         }),
       );
 
-      expect(router.push).toBeCalledWith(`/place/${router.query.placeId}/edit`);
+      expect(page.router.push).toBeCalledWith(
+        `/place/${page.router.query.placeId}/edit`,
+      );
     });
 
     it('redirects to preview page when button save is pressed', async () => {
@@ -74,10 +73,10 @@ describe('Status page place', () => {
         }),
       );
 
-      await waitForFetch(`/places/${router.query.placeId}/status`);
+      await waitForFetch(`/places/${page.router.query.placeId}/status`);
 
-      expect(router.push).toBeCalledWith(
-        `/place/${router.query.placeId}/preview`,
+      expect(page.router.push).toBeCalledWith(
+        `/place/${page.router.query.placeId}/preview`,
       );
     });
   });
