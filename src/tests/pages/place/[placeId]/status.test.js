@@ -1,14 +1,14 @@
 import { place as mockedPlace, place } from '../../../data/place';
 import { parseOfferId } from '../../../../utils/parseOfferId';
 import { setupPage } from '../../../utils/setupPage';
-import { TestApp } from '../../../utils/TestApp';
-import { user } from '../../../data/user';
 
-import { render, waitFor, screen } from '@testing-library/react';
+import { waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import Status from '../../../../pages/place/[placeId]/status';
 import nl from '../../../../i18n/nl.json';
+
+import { renderPageWithWrapper } from '../../../utils/renderPageWithWrapper';
 
 describe('Status page place', () => {
   describe('When the status "Available" is loaded from place object', () => {
@@ -27,7 +27,7 @@ describe('Status page place', () => {
         },
       });
 
-      render(<Status />, { wrapper: TestApp });
+      renderPageWithWrapper(<Status />);
       await waitFor(() => screen.getByText(`Status voor ${place.name.nl}`));
     });
 
