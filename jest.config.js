@@ -1,3 +1,6 @@
+const JsConfigPathsMapper = require('jsconfig-paths-jest-mapper');
+const jsconfigpaths = new JsConfigPathsMapper();
+
 module.exports = {
   moduleFileExtensions: ['js', 'json'],
   transform: {
@@ -8,5 +11,6 @@ module.exports = {
   collectCoverageFrom: ['<rootDir>/src/**/*.js'],
   moduleNameMapper: {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+    ...jsconfigpaths,
   },
 };

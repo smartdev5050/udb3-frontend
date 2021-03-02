@@ -8,7 +8,7 @@ fetchMock.enableMocks();
 // eslint-disable-next-line no-console
 console.error = jest.fn();
 
-jest.mock('./src/components/Sidebar.js', () => ({
+jest.mock('@/layouts/Sidebar.js', () => ({
   __esModule: true,
   Sidebar: () => {
     return null;
@@ -24,7 +24,7 @@ const createToken = () => {
   return [header, payload, 'SIGNATURE'].join('.');
 };
 
-jest.mock('./src/hooks/useCookiesWithOptions.js', () => ({
+jest.mock('@/hooks/useCookiesWithOptions.js', () => ({
   __esModule: true,
   useCookiesWithOptions: () => ({
     cookies: {

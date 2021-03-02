@@ -1,5 +1,5 @@
 module.exports = {
-  stories: ['../src/components/publiq-ui/**/*.stories.mdx'],
+  stories: ['../src/ui/**/*.stories.mdx'],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',

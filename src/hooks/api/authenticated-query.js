@@ -2,8 +2,8 @@ import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import { Cookies } from 'react-cookie';
 import { useQuery, useQueries, useMutation } from 'react-query';
-import { isTokenValid } from '../../utils/isTokenValid';
-import { useCookiesWithOptions } from '../useCookiesWithOptions';
+import { isTokenValid } from '@/utils/isTokenValid';
+import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import { createHeaders, useHeaders } from './useHeaders';
 
 const QueryStatus = {
