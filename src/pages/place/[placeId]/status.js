@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 import { getApplicationServerSideProps } from '../../../utils/getApplicationServerSideProps';
-import { useChangeStatus, useGetPlaceById } from '../../../hooks/api/places';
+import { useChangeStatus, useGetPlaceById } from '@/hooks/api/places';
 import { dehydrate } from 'react-query/hydration';
 import { StatusFormOnPage } from '../../../components/offerStatus/StatusFormOnPage';
-import { QueryStatus } from '../../../hooks/api/authenticated-query';
+import { QueryStatus } from '@/hooks/api/authenticated-query';
 import { Spinner } from '@/ui/Spinner';
 
 const Status = () => {

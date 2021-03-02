@@ -3,6 +3,7 @@
     "baseUrl": "./src",
     "paths": {
       "@/ui/*": ["components/publiq-ui/*"],
+      "@/hooks/*": ["hooks/*"],
       "@/pages/*": ["pages/*"]
     }
   }

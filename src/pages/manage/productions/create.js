@@ -15,11 +15,11 @@ import {
   useCreateWithEvents,
   useMergeProductions,
   useAddEventsByIds,
-} from '../../../hooks/api/productions';
+} from '@/hooks/api/productions';
 import { Stack } from '@/ui/Stack';
 import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
 import { throttle } from 'lodash';
-import { QueryStatus } from '../../../hooks/api/authenticated-query';
+import { QueryStatus } from '@/hooks/api/authenticated-query';
 import { Spinner } from '@/ui/Spinner';
 
 const ProductionStatus = {

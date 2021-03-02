@@ -6,12 +6,12 @@ import {
   useAddEventById,
   useDeleteEventsByIds,
   useGetProductions,
-} from '../../../hooks/api/productions';
+} from '@/hooks/api/productions';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from '@/ui/Link';
-import { useGetEventsByIds } from '../../../hooks/api/events';
+import { useGetEventsByIds } from '@/hooks/api/events';
 import { parseOfferId } from '../../../utils/parseOfferId';
-import { QueryStatus } from '../../../hooks/api/authenticated-query';
+import { QueryStatus } from '@/hooks/api/authenticated-query';
 
 import { Text } from '@/ui/Text';
 import { throttle } from 'lodash';

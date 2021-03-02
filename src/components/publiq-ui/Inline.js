@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Children, cloneElement, forwardRef } from 'react';
 import { pick } from 'lodash';
 import { Breakpoints } from '@/ui/theme';
-import { useMatchBreakpoint } from '../../hooks/useMatchBreakpoint';
+import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
 
 const parseStackOnProperty = () => ({ stackOn }) => {
   if (!stackOn) {

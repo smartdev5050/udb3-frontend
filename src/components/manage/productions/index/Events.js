@@ -19,8 +19,8 @@ import { DetailTable } from '@/ui/DetailTable';
 import { parseSpacing } from '@/ui/Box';
 import { Text } from '@/ui/Text';
 
-import { useGetCalendarSummary } from '../../../../hooks/api/events';
-import { useMatchBreakpoint } from '../../../../hooks/useMatchBreakpoint';
+import { useGetCalendarSummary } from '@/hooks/api/events';
+import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
 import { CalendarType } from '../../../../constants/CalendarType';
 
 const getValue = getValueFromTheme('eventItem');

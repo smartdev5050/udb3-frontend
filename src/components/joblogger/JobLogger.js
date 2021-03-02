@@ -15,12 +15,12 @@ import { Job, JobStates } from './Job';
 import {
   useHandleWindowMessage,
   WindowMessageTypes,
-} from '../../hooks/useHandleWindowMessage';
+} from '@/hooks/useHandleWindowMessage';
 
 import {
   useHandleSocketMessage,
   SocketMessageTypes,
-} from '../../hooks/useHandleSocketMessage';
+} from '@/hooks/useHandleSocketMessage';
 
 const JobLoggerStates = {
   IDLE: 'idle',

@@ -16,12 +16,12 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { Hydrate } from 'react-query/hydration';
 
 import { cloneElement, useEffect } from 'react';
-import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
-import { useGetUser } from '../hooks/api/user';
+import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
+import { useGetUser } from '@/hooks/api/user';
 import {
   useHandleWindowMessage,
   WindowMessageTypes,
-} from '../hooks/useHandleWindowMessage';
+} from '@/hooks/useHandleWindowMessage';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { GlobalStyle } from '../styles/GlobalStyle';

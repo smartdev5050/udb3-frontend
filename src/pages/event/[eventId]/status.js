@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 import { getApplicationServerSideProps } from '../../../utils/getApplicationServerSideProps';
-import { useChangeStatus, useGetEventById } from '../../../hooks/api/events';
+import { useChangeStatus, useGetEventById } from '@/hooks/api/events';
 import { dehydrate } from 'react-query/hydration';
 import { Spinner } from '@/ui/Spinner';
-import { QueryStatus } from '../../../hooks/api/authenticated-query';
+import { QueryStatus } from '@/hooks/api/authenticated-query';
 import { StatusFormOnPage } from '../../../components/offerStatus/StatusFormOnPage';
 import { CalendarType } from '../../../constants/CalendarType';
 

@@ -5,7 +5,7 @@ import { useTranslation, Trans } from 'react-i18next';
 import { Box, boxPropTypes } from '@/ui/Box';
 import { Button, ButtonSizes, ButtonVariants } from '@/ui/Button';
 import { Image } from '@/ui/Image';
-import { useCookiesWithOptions } from '../../hooks/useCookiesWithOptions';
+import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 
 import PropTypes from 'prop-types';
 import { Inline } from '@/ui/Inline';

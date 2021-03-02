@@ -19,13 +19,13 @@ import { Image } from '@/ui/Image';
 
 import { JobLogger, JobLoggerStates } from './joblogger/JobLogger';
 import { Announcements, AnnouncementStatus } from './Announcements';
-import { useGetAnnouncements } from '../hooks/api/announcements';
-import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
+import { useGetAnnouncements } from '@/hooks/api/announcements';
+import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import { useRouter } from 'next/router';
-import { useGetPermissions, useGetRoles } from '../hooks/api/user';
-import { useGetEventsToModerate } from '../hooks/api/events';
+import { useGetPermissions, useGetRoles } from '@/hooks/api/user';
+import { useGetEventsToModerate } from '@/hooks/api/events';
 import { JobLoggerStateIndicator } from './joblogger/JobLoggerStateIndicator';
-import { useMatchBreakpoint } from '../hooks/useMatchBreakpoint';
+import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
 
 const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSidebar = getValueFromTheme('sidebar');

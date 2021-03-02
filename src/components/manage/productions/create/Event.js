@@ -12,7 +12,7 @@ import { Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { Title } from '@/ui/Title';
 
-import { useGetCalendarSummary } from '../../../../hooks/api/events';
+import { useGetCalendarSummary } from '@/hooks/api/events';
 import { CalendarType } from '../../../../constants/CalendarType';
 
 const Event = ({
