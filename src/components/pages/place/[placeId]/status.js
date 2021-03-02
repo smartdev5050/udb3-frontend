@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 import { useChangeStatus, useGetPlaceById } from '@/hooks/api/places';
 import { dehydrate } from 'react-query/hydration';
-import { StatusFormOnPage } from '@/pages/StatusFormOnPage';
+import { StatusFormOnPage } from '@/components/StatusFormOnPage';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
 import { Spinner } from '@/ui/Spinner';
 

@@ -10,7 +10,7 @@ import { Spinner } from '@/ui/Spinner';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { parseOfferType } from '@/utils/parseOfferType';
 import { useTranslation } from 'react-i18next';
-import { ReasonAndTypeForm } from './ReasonAndTypeForm';
+import { ReasonAndTypeForm } from '@/components/ReasonAndTypeForm';
 
 import { OfferStatus } from '@/constants/OfferStatus';
 

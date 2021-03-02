@@ -5,7 +5,7 @@ import { setupPage } from '@/test/utils/setupPage';
 import { waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import Status from './index';
+import Status from './status';
 import nl from '@/i18n/nl.json';
 
 import { renderPageWithWrapper } from '@/test/utils/renderPageWithWrapper';

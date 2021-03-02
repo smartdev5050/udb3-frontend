@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Modal, ModalVariants } from '@/ui/Modal';
 import { Stack } from '@/ui/Stack';
-import { ReasonAndTypeForm } from '@/pages/ReasonAndTypeForm';
+import { ReasonAndTypeForm } from '@/components/ReasonAndTypeForm';
 import { OfferType } from '@/constants/OfferType';
 
 const StatusModal = ({ visible, className, onClose }) => {

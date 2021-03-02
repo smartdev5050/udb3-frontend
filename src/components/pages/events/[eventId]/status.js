@@ -4,7 +4,7 @@ import { useChangeStatus, useGetEventById } from '@/hooks/api/events';
 import { dehydrate } from 'react-query/hydration';
 import { Spinner } from '@/ui/Spinner';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
-import { StatusFormOnPage } from '@/pages/StatusFormOnPage';
+import { StatusFormOnPage } from '@/components/StatusFormOnPage';
 import { CalendarType } from '@/constants/CalendarType';
 
 const Status = () => {
