@@ -4,6 +4,4 @@ const OfferStatus = {
   UNAVAILABLE: 'Unavailable',
 };
 
-const MaxLengthReason = 200;
-
-export { OfferStatus, MaxLengthReason };
+export { OfferStatus };

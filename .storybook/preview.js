@@ -1,6 +1,6 @@
-import { ThemeProvider } from '../src/components/publiq-ui/ThemeProvider';
-import '../src/styles/global.scss';
-import { GlobalStyle } from '../src/styles/GlobalStyle';
+import { ThemeProvider } from '@/ui/ThemeProvider';
+import '@/styles/global.scss';
+import { GlobalStyle } from '@/styles/GlobalStyle';
 import { CustomCanvas } from './CustomCanvas';
 
 export const parameters = {

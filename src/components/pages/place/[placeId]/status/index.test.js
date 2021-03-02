@@ -1,15 +1,15 @@
-import { place } from '../../../data/place';
-import { parseOfferId } from '../../../../utils/parseOfferId';
-import { setupPage } from '../../../utils/setupPage';
+import { place } from '@/test/data/place';
+import { parseOfferId } from '@/utils/parseOfferId';
+import { setupPage } from '@/test/utils/setupPage';
 
 import { waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import Status from '@/pages/place/[placeId]/status';
-import nl from '../../../../i18n/nl.json';
+import Status from './index';
+import nl from '@/i18n/nl.json';
 
-import { renderPageWithWrapper } from '../../../utils/renderPageWithWrapper';
-import { waitForFetch } from '../../../utils/waitForFetch';
+import { renderPageWithWrapper } from '@/test/utils/renderPageWithWrapper';
+import { waitForFetch } from '@/test/utils/waitForFetch';
 
 describe('Status page place', () => {
   describe('When the status "Available" is loaded from place object', () => {

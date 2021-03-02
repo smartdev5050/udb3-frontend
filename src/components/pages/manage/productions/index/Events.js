@@ -21,7 +21,7 @@ import { Text } from '@/ui/Text';
 
 import { useGetCalendarSummary } from '@/hooks/api/events';
 import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
-import { CalendarType } from '../../../../constants/CalendarType';
+import { CalendarType } from '@/constants/CalendarType';
 
 const getValue = getValueFromTheme('eventItem');
 

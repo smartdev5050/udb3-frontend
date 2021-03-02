@@ -4,8 +4,13 @@
     "paths": {
       "@/ui/*": ["ui/*"],
       "@/hooks/*": ["hooks/*"],
-      "@/pages/*": ["_pages/*"],
-      "@/utils/*": ["utils/*"]
+      "@/pages/*": ["components/pages/*"],
+      "@/utils/*": ["utils/*"],
+      "@/constants/*": ["constants/*"],
+      "@/test/*": ["test/*"],
+      "@/i18n/*": ["i18n/*"],
+      "@/layouts/*": ["components/layouts/*"],
+      "@/styles/*": ["styles/*"]
     }
   }
 }

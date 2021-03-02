@@ -1,6 +1,24 @@
 import { match } from 'path-to-regexp';
 import { user } from '../data/user';
-import { mockRouterWithParams } from '../mocks/mockRouterWithParams';
+
+const mockRouterWithParams = ({ query, ...rest } = {}) => {
+  const useRouter = jest.spyOn(require('next/router'), 'useRouter');
+
+  const push = jest.fn();
+
+  const mockRouter = {
+    pathname: '/',
+    query: {
+      ...(query ?? {}),
+    },
+    asPath: '/',
+    push,
+    ...rest,
+  };
+
+  useRouter.mockImplementation(() => mockRouter);
+  return mockRouter;
+};
 
 const mockResponses = (responses) => {
   fetch.mockResponse((req) => {

@@ -9,7 +9,7 @@ import { Text } from '@/ui/Text';
 import { TextAreaWithLabel } from '@/ui/TextAreaWithLabel';
 import { getValueFromTheme } from '@/ui/theme';
 
-import { MaxLengthReason, OfferStatus } from './constants';
+import { OfferStatus } from '@/constants/OfferStatus';
 
 const getValue = getValueFromTheme('statusPage');
 
@@ -62,10 +62,10 @@ const ReasonAndTypeForm = ({
             onInput={onInputStatusReason}
             disabled={statusType === OfferStatus.AVAILABLE}
           />
-          {statusReason.length > MaxLengthReason && (
+          {statusReason.length > 200 && (
             <Alert variant={AlertVariants.WARNING}>
               {t('offerStatus.maxLengthReason', {
-                amount: MaxLengthReason,
+                amount: 200,
               })}
             </Alert>
           )}

@@ -7,11 +7,12 @@ import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Page } from '@/ui/Page';
 import { Spinner } from '@/ui/Spinner';
-import { MaxLengthReason, OfferStatus } from './constants';
-import { parseOfferId } from '../../utils/parseOfferId';
-import { parseOfferType } from '../../utils/parseOfferType';
+import { parseOfferId } from '@/utils/parseOfferId';
+import { parseOfferType } from '@/utils/parseOfferType';
 import { useTranslation } from 'react-i18next';
 import { ReasonAndTypeForm } from './ReasonAndTypeForm';
+
+import { OfferStatus } from '@/constants/OfferStatus';
 
 const StatusFormOnPage = ({ offer, error, useChangeStatus }) => {
   const { t, i18n } = useTranslation();
@@ -68,7 +69,7 @@ const StatusFormOnPage = ({ offer, error, useChangeStatus }) => {
             <Inline key="actions" spacing={3}>
               <Button
                 variant={ButtonVariants.PRIMARY}
-                disabled={!offer || reason.length > MaxLengthReason}
+                disabled={!offer || reason.length > 200}
                 onClick={() => {
                   if (type === OfferStatus.AVAILABLE) {
                     changeStatus({

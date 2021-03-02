@@ -8,7 +8,7 @@ fetchMock.enableMocks();
 // eslint-disable-next-line no-console
 console.error = jest.fn();
 
-jest.mock('./src/components/Sidebar.js', () => ({
+jest.mock('@/layouts/Sidebar.js', () => ({
   __esModule: true,
   Sidebar: () => {
     return null;
