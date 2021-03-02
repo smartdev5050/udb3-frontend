@@ -80,6 +80,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^26.6.1",
     "jest-fetch-mock": "^3.0.3",
+    "jsconfig-paths-jest-mapper": "^1.0.0",
     "prettier": "^2.1.2",
     "pretty-quick": "^3.1.0",
     "react-test-renderer": "^17.0.1"
