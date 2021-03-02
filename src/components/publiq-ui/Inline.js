@@ -3,7 +3,7 @@ import { Box, boxPropTypes, boxProps, parseProperty } from './Box';
 import PropTypes from 'prop-types';
 import { Children, cloneElement, forwardRef } from 'react';
 import { pick } from 'lodash';
-import { Breakpoints } from '@/ui/theme';
+import { Breakpoints } from './theme';
 import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
 
 const parseStackOnProperty = () => ({ stackOn }) => {
