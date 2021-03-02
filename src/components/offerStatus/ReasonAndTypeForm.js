@@ -1,12 +1,14 @@
 import PropTypes from 'prop-types';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, AlertVariants } from '../publiq-ui/Alert';
-import { RadioButtonGroup } from '../publiq-ui/RadioButtonGroup';
-import { getStackProps, Stack } from '../publiq-ui/Stack';
-import { Text } from '../publiq-ui/Text';
-import { TextAreaWithLabel } from '../publiq-ui/TextAreaWithLabel';
-import { getValueFromTheme } from '../publiq-ui/theme';
+
+import { Alert, AlertVariants } from '@/ui/Alert';
+import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
+import { getStackProps, Stack } from '@/ui/Stack';
+import { Text } from '@/ui/Text';
+import { TextAreaWithLabel } from '@/ui/TextAreaWithLabel';
+import { getValueFromTheme } from '@/ui/theme';
+
 import { MaxLengthReason, OfferStatus } from './constants';
 
 const getValue = getValueFromTheme('statusPage');

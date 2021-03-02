@@ -2,10 +2,10 @@ import '../styles/global.scss';
 
 import PropTypes from 'prop-types';
 
-import { Inline } from '../components/publiq-ui/Inline';
+import { Inline } from '@/ui/Inline';
 
 import { Sidebar } from '../components/Sidebar';
-import { ThemeProvider } from '../components/publiq-ui/ThemeProvider';
+import { ThemeProvider } from '@/ui/ThemeProvider';
 import { useRouter } from 'next/router';
 import NextHead from 'next/head';
 import { ContextProvider } from '../provider/ContextProvider';

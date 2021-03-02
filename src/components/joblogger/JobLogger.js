@@ -1,13 +1,15 @@
+import { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Box } from '../publiq-ui/Box';
-import { Inline } from '../publiq-ui/Inline';
-import { Stack } from '../publiq-ui/Stack';
-import { Title } from '../publiq-ui/Title';
-import { Button, ButtonVariants } from '../publiq-ui/Button';
-import { Icon, Icons } from '../publiq-ui/Icon';
-import { useEffect, useMemo, useState } from 'react';
-import { List } from '../publiq-ui/List';
+
+import { Box } from '@/ui/Box';
+import { Inline } from '@/ui/Inline';
+import { Stack } from '@/ui/Stack';
+import { Title } from '@/ui/Title';
+import { Button, ButtonVariants } from '@/ui/Button';
+import { Icon, Icons } from '@/ui/Icon';
+import { List } from '@/ui/List';
+
 import { Job, JobStates } from './Job';
 
 import {

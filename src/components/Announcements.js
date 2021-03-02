@@ -1,17 +1,17 @@
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Box, parseSpacing } from './publiq-ui/Box';
-import { Button } from './publiq-ui/Button';
-import { Icon, Icons } from './publiq-ui/Icon';
-import { Image } from './publiq-ui/Image';
-import { Inline } from './publiq-ui/Inline';
-import { Link } from './publiq-ui/Link';
-import { List } from './publiq-ui/List';
-import { Modal } from './publiq-ui/Modal';
-import { Stack } from './publiq-ui/Stack';
-import { getValueFromTheme } from './publiq-ui/theme';
-import { Title } from './publiq-ui/Title';
-import { Text } from './publiq-ui/Text';
+import { Box, parseSpacing } from '@/ui/Box';
+import { Button } from '@/ui/Button';
+import { Icon, Icons } from '@/ui/Icon';
+import { Image } from '@/ui/Image';
+import { Inline } from '@/ui/Inline';
+import { Link } from '@/ui/Link';
+import { List } from '@/ui/List';
+import { Modal } from '@/ui/Modal';
+import { Stack } from '@/ui/Stack';
+import { getValueFromTheme } from '@/ui/theme';
+import { Title } from '@/ui/Title';
+import { Text } from '@/ui/Text';
 
 const AnnouncementStatus = {
   ACTIVE: 'active',

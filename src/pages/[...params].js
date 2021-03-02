@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import getConfig from 'next/config';
 import { useRouter } from 'next/router';
-import { Box } from '../components/publiq-ui/Box';
+import { Box } from '@/ui/Box';
 import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
 import { getApplicationServerSideProps } from '../utils/getApplicationServerSideProps';
 import { memo, useMemo } from 'react';

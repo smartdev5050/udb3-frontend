@@ -1,27 +1,26 @@
+import { useMemo, useState } from 'react';
+
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { List } from '../../../publiq-ui/List';
-import { getStackProps, Stack, stackPropTypes } from '../../../publiq-ui/Stack';
-import { Title } from '../../../publiq-ui/Title';
-import { CheckboxWithLabel } from '../../../publiq-ui/CheckboxWithLabel';
-import { Button, ButtonVariants } from '../../../publiq-ui/Button';
-import { Icon, Icons } from '../../../publiq-ui/Icon';
-import { useMemo, useState } from 'react';
-import { Breakpoints, getValueFromTheme } from '../../../publiq-ui/theme';
-import { Panel } from '../../../publiq-ui/Panel';
-import {
-  getInlineProps,
-  Inline,
-  inlinePropTypes,
-} from '../../../publiq-ui/Inline';
-import { Spinner } from '../../../publiq-ui/Spinner';
-import { Alert, AlertVariants } from '../../../publiq-ui/Alert';
-import { Input } from '../../../publiq-ui/Input';
-import { DetailTable } from '../../../publiq-ui/DetailTable';
-import { parseSpacing } from '../../../publiq-ui/Box';
+
+import { List } from '@/ui/List';
+import { getStackProps, Stack, stackPropTypes } from '@/ui/Stack';
+import { Title } from '@/ui/Title';
+import { CheckboxWithLabel } from '@/ui/CheckboxWithLabel';
+import { Button, ButtonVariants } from '@/ui/Button';
+import { Icon, Icons } from '@/ui/Icon';
+import { Breakpoints, getValueFromTheme } from '@/ui/theme';
+import { Panel } from '@/ui/Panel';
+import { getInlineProps, Inline, inlinePropTypes } from '@/ui/Inline';
+import { Spinner } from '@/ui/Spinner';
+import { Alert, AlertVariants } from '@/ui/Alert';
+import { Input } from '@/ui/Input';
+import { DetailTable } from '@/ui/DetailTable';
+import { parseSpacing } from '@/ui/Box';
+import { Text } from '@/ui/Text';
+
 import { useGetCalendarSummary } from '../../../../hooks/api/events';
 import { useMatchBreakpoint } from '../../../../hooks/useMatchBreakpoint';
-import { Text } from '../../../publiq-ui/Text';
 import { CalendarType } from '../../../../constants/CalendarType';
 
 const getValue = getValueFromTheme('eventItem');

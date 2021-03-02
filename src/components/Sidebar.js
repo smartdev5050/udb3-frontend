@@ -1,31 +1,31 @@
 import getConfig from 'next/config';
 import PropTypes from 'prop-types';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-
-import { Stack } from './publiq-ui/Stack';
-import { Link } from './publiq-ui/Link';
-import { List } from './publiq-ui/List';
 import { useTranslation } from 'react-i18next';
-import { Icons } from './publiq-ui/Icon';
-import { Breakpoints, getValueFromTheme } from './publiq-ui/theme';
-import { Title } from './publiq-ui/Title';
-import { Button } from './publiq-ui/Button';
-import { Logo, LogoVariants } from './publiq-ui/Logo';
-import { Badge } from './publiq-ui/Badge';
-import { Inline } from './publiq-ui/Inline';
+import { useQueryClient } from 'react-query';
+
+import { Stack } from '@/ui/Stack';
+import { Link } from '@/ui/Link';
+import { List } from '@/ui/List';
+import { Icons } from '@/ui/Icon';
+import { Breakpoints, getValueFromTheme } from '@/ui/theme';
+import { Title } from '@/ui/Title';
+import { Button } from '@/ui/Button';
+import { Logo, LogoVariants } from '@/ui/Logo';
+import { Badge } from '@/ui/Badge';
+import { Inline } from '@/ui/Inline';
+import { Text } from '@/ui/Text';
+import { Image } from '@/ui/Image';
 
 import { JobLogger, JobLoggerStates } from './joblogger/JobLogger';
 import { Announcements, AnnouncementStatus } from './Announcements';
 import { useGetAnnouncements } from '../hooks/api/announcements';
-import { Image } from './publiq-ui/Image';
 import { useCookiesWithOptions } from '../hooks/useCookiesWithOptions';
 import { useRouter } from 'next/router';
 import { useGetPermissions, useGetRoles } from '../hooks/api/user';
 import { useGetEventsToModerate } from '../hooks/api/events';
 import { JobLoggerStateIndicator } from './joblogger/JobLoggerStateIndicator';
-import { Text } from './publiq-ui/Text';
 import { useMatchBreakpoint } from '../hooks/useMatchBreakpoint';
-import { useQueryClient } from 'react-query';
 
 const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSidebar = getValueFromTheme('sidebar');

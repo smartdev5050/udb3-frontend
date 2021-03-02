@@ -1,8 +1,8 @@
-import { Stack } from '../components/publiq-ui/Stack';
-import { Title } from '../components/publiq-ui/Title';
-import { Link } from '../components/publiq-ui/Link';
-import { Icon, Icons } from '../components/publiq-ui/Icon';
-import { getValueFromTheme } from '../components/publiq-ui/theme';
+import { Stack } from '@/ui/Stack';
+import { Title } from '@/ui/Title';
+import { Link } from '@/ui/Link';
+import { Icon, Icons } from '@/ui/Icon';
+import { getValueFromTheme } from '@/ui/theme';
 import { useTranslation } from 'react-i18next';
 
 const getValue = getValueFromTheme('pageNotFound');

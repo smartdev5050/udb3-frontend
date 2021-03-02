@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next';
-import { Text } from '../../../components/publiq-ui/Text';
-import { Page } from '../../../components/publiq-ui/Page';
-import { TypeaheadWithLabel } from '../../../components/publiq-ui/TypeaheadWithLabel';
-import { Inline } from '../../../components/publiq-ui/Inline';
-import { Button, ButtonVariants } from '../../../components/publiq-ui/Button';
+import { Text } from '@/ui/Text';
+import { Page } from '@/ui/Page';
+import { TypeaheadWithLabel } from '@/ui/TypeaheadWithLabel';
+import { Inline } from '@/ui/Inline';
+import { Button, ButtonVariants } from '@/ui/Button';
 import { Event } from '../../../components/manage/productions/create/Event';
 import { getApplicationServerSideProps } from '../../../utils/getApplicationServerSideProps';
 import { parseOfferId } from '../../../utils/parseOfferId';
@@ -16,11 +16,11 @@ import {
   useMergeProductions,
   useAddEventsByIds,
 } from '../../../hooks/api/productions';
-import { Stack } from '../../../components/publiq-ui/Stack';
-import { RadioButtonGroup } from '../../../components/publiq-ui/RadioButtonGroup';
+import { Stack } from '@/ui/Stack';
+import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
 import { throttle } from 'lodash';
 import { QueryStatus } from '../../../hooks/api/authenticated-query';
-import { Spinner } from '../../../components/publiq-ui/Spinner';
+import { Spinner } from '@/ui/Spinner';
 
 const ProductionStatus = {
   MISSING: 'missing',

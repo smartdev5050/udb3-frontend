@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import { memo } from 'react';
 import { css, keyframes } from 'styled-components';
-import { Box } from '../publiq-ui/Box';
-import { getValueFromTheme } from '../publiq-ui/theme';
+
+import { Box } from '@/ui/Box';
+import { getValueFromTheme } from '@/ui/theme';
+
 import { JobLoggerStates } from './JobLogger';
 
 const getValue = getValueFromTheme('jobStatusIcon');

@@ -2,11 +2,11 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
-import { Icon, Icons } from '../components/publiq-ui/Icon';
-import { Stack } from '../components/publiq-ui/Stack';
-import { Title } from '../components/publiq-ui/Title';
-import { getValueFromTheme } from './publiq-ui/theme';
-import { Text } from './publiq-ui/Text';
+import { Icon, Icons } from '@/ui/Icon';
+import { Stack } from '@/ui/Stack';
+import { Title } from '@/ui/Title';
+import { getValueFromTheme } from '@/ui/theme';
+import { Text } from '@/ui/Text';
 
 const getValue = getValueFromTheme('pageError');
 

@@ -1,19 +1,19 @@
 import { useTranslation } from 'react-i18next';
-import { Page } from '../../../components/publiq-ui/Page';
-import { InputWithLabel } from '../../../components/publiq-ui/InputWithLabel';
-import { Inline } from '../../../components/publiq-ui/Inline';
+import { Page } from '@/ui/Page';
+import { InputWithLabel } from '@/ui/InputWithLabel';
+import { Inline } from '@/ui/Inline';
 import {
   useAddEventById,
   useDeleteEventsByIds,
   useGetProductions,
 } from '../../../hooks/api/productions';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Link } from '../../../components/publiq-ui/Link';
+import { Link } from '@/ui/Link';
 import { useGetEventsByIds } from '../../../hooks/api/events';
 import { parseOfferId } from '../../../utils/parseOfferId';
 import { QueryStatus } from '../../../hooks/api/authenticated-query';
 
-import { Text } from '../../../components/publiq-ui/Text';
+import { Text } from '@/ui/Text';
 import { throttle } from 'lodash';
 import { useQueryClient } from 'react-query';
 import { DeleteModal } from '../../../components/manage/productions/index/DeleteModal';

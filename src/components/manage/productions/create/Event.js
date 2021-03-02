@@ -1,17 +1,18 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PropTypes } from 'prop-types';
-import { Alert, AlertVariants } from '../../../publiq-ui/Alert';
-import { Card } from '../../../publiq-ui/Card';
-import { Image } from '../../../publiq-ui/Image';
-import { Inline } from '../../../publiq-ui/Inline';
-import { Stack } from '../../../publiq-ui/Stack';
-import { Text } from '../../../publiq-ui/Text';
-import { Title } from '../../../publiq-ui/Title';
-import { useGetCalendarSummary } from '../../../../hooks/api/events';
-
 import { truncate } from 'lodash';
 import stripHTML from 'string-strip-html';
+
+import { Alert, AlertVariants } from '@/ui/Alert';
+import { Card } from '@/ui/Card';
+import { Image } from '@/ui/Image';
+import { Inline } from '@/ui/Inline';
+import { Stack } from '@/ui/Stack';
+import { Text } from '@/ui/Text';
+import { Title } from '@/ui/Title';
+
+import { useGetCalendarSummary } from '../../../../hooks/api/events';
 import { CalendarType } from '../../../../constants/CalendarType';
 
 const Event = ({

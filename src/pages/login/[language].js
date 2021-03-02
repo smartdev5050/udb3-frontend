@@ -2,24 +2,17 @@ import getConfig from 'next/config';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
-import { Box, boxPropTypes } from '../../components/publiq-ui/Box';
-import {
-  Button,
-  ButtonSizes,
-  ButtonVariants,
-} from '../../components/publiq-ui/Button';
-import { Image } from '../../components/publiq-ui/Image';
+import { Box, boxPropTypes } from '@/ui/Box';
+import { Button, ButtonSizes, ButtonVariants } from '@/ui/Button';
+import { Image } from '@/ui/Image';
 import { useCookiesWithOptions } from '../../hooks/useCookiesWithOptions';
 
 import PropTypes from 'prop-types';
-import { Inline } from '../../components/publiq-ui/Inline';
-import { Link } from '../../components/publiq-ui/Link';
-import { Stack } from '../../components/publiq-ui/Stack';
-import { List } from '../../components/publiq-ui/List';
-import {
-  Breakpoints,
-  getValueFromTheme,
-} from '../../components/publiq-ui/theme';
+import { Inline } from '@/ui/Inline';
+import { Link } from '@/ui/Link';
+import { Stack } from '@/ui/Stack';
+import { List } from '@/ui/List';
+import { Breakpoints, getValueFromTheme } from '@/ui/theme';
 import { css, keyframes } from 'styled-components';
 
 const getValueForPage = getValueFromTheme('loginPage');

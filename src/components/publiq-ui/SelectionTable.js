@@ -5,7 +5,7 @@ import { useTable, useRowSelect } from 'react-table';
 import { Checkbox } from './Checkbox';
 import { Box, getBoxProps } from './Box';
 import { uniqueId } from 'lodash';
-import { getValueFromTheme } from '../publiq-ui/theme';
+import { getValueFromTheme } from '@/ui/theme';
 
 const getValue = getValueFromTheme('selectionTable');
 

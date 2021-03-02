@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MaxLengthReason } from './constants';
-import { Modal, ModalVariants } from '../publiq-ui/Modal';
-import { Stack } from '../publiq-ui/Stack';
+import { Modal, ModalVariants } from '@/ui/Modal';
+import { Stack } from '@/ui/Stack';
 import { ReasonAndTypeForm } from './ReasonAndTypeForm';
 import { OfferType } from '../../constants/OfferType';
 

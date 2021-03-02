@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types';
-import { Box } from '../publiq-ui/Box';
-import { Icon, Icons } from '../publiq-ui/Icon';
-import { List } from '../publiq-ui/List';
+import { Box } from '@/ui/Box';
+import { Icon, Icons } from '@/ui/Icon';
+import { List } from '@/ui/List';
 import { formatDistance } from 'date-fns';
 import { nlBE, fr } from 'date-fns/locale';
 import { memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Inline } from '../publiq-ui/Inline';
-import { Stack } from '../publiq-ui/Stack';
-import { Button, ButtonVariants } from '../publiq-ui/Button';
-import { getValueFromTheme } from '../publiq-ui/theme';
-import { Link, LinkVariants } from '../publiq-ui/Link';
+import { Inline } from '@/ui/Inline';
+import { Stack } from '@/ui/Stack';
+import { Button, ButtonVariants } from '@/ui/Button';
+import { getValueFromTheme } from '@/ui/theme';
+import { Link, LinkVariants } from '@/ui/Link';
 
 const getValue = getValueFromTheme('jobStatusIcon');
 
