@@ -1,8 +1,20 @@
 const nextConfig = require('../next.config.js');
+const jsonConfig = require('../jsconfig.json');
+const path = require('path');
+
+const paths = Object.entries(jsonConfig.compilerOptions.paths).reduce(
+  (acc, [key, val]) => {
+    const parsedPath = val[0].split('/*')[0];
+
+    return {
+      ...acc,
+      [key.split('/*')[0]]: path.resolve(__dirname, `../src/${parsedPath}`),
+    };
+  },
+  {},
+);
 
 // .storybook/main.js
-
-const path = require('path');
 
 // Export a function. Accept the base config as the only param.
 module.exports = {
@@ -18,6 +30,11 @@ module.exports = {
       use: ['style-loader', 'css-loader', 'sass-loader'],
       include: path.resolve(__dirname, '../'),
     });
+
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      ...paths,
+    };
 
     // Return the altered config
     return config;
