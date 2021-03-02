@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "paths": {
-      "@/ui/*": ["components/publiq-ui/*"],
+      "@/ui/*": ["ui/*"],
       "@/hooks/*": ["hooks/*"],
       "@/pages/*": ["pages/*"]
     }
