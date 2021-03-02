@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { getApplicationServerSideProps } from '../../../utils/getApplicationServerSideProps';
+import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 import { useChangeStatus, useGetEventById } from '@/hooks/api/events';
 import { dehydrate } from 'react-query/hydration';
 import { Spinner } from '@/ui/Spinner';

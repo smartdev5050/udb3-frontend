@@ -6,7 +6,7 @@ import {
 
 import { mockResponses, setupPage } from '../../tests/utils/setupPage';
 import { renderHookWithWrapper } from '../../tests/utils/renderHookWithWrapper';
-import { fetchFromApi } from '../../utils/fetchFromApi';
+import { fetchFromApi } from '@/utils/fetchFromApi';
 
 const queryFn = async ({ headers, ...queryData }) => {
   const res = await fetchFromApi({

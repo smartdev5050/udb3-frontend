@@ -25,7 +25,7 @@ import {
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { GlobalStyle } from '../styles/GlobalStyle';
-import { isTokenValid } from '../utils/isTokenValid';
+import { isTokenValid } from '@/utils/isTokenValid';
 import { ErrorBoundary } from '../components/ErrorBoundary';
 
 config.autoAddCss = false;

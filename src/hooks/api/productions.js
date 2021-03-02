@@ -1,4 +1,4 @@
-import { fetchFromApi } from '../../utils/fetchFromApi';
+import { fetchFromApi } from '@/utils/fetchFromApi';
 import {
   useAuthenticatedQuery,
   useAuthenticatedMutation,

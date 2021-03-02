@@ -1,10 +1,10 @@
-import { fetchFromApi } from '../../utils/fetchFromApi';
+import { fetchFromApi } from '@/utils/fetchFromApi';
 import {
   useAuthenticatedQuery,
   useAuthenticatedQueries,
   useAuthenticatedMutation,
 } from './authenticated-query';
-import { formatDate } from '../../utils/formatDate';
+import { formatDate } from '@/utils/formatDate';
 
 const getEventsToModerate = async ({ headers, ...queryData }) => {
   const res = await fetchFromApi({
