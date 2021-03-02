@@ -1,5 +1,5 @@
 import { match } from 'path-to-regexp';
-import { user } from '../data/user';
+import { user } from '@/test/data/user';
 
 const mockRouterWithParams = ({ query, ...rest } = {}) => {
   const useRouter = jest.spyOn(require('next/router'), 'useRouter');
