@@ -8,7 +8,7 @@ import { Sidebar } from '../components/Sidebar';
 import { ThemeProvider } from '@/ui/ThemeProvider';
 import { useRouter } from 'next/router';
 import NextHead from 'next/head';
-import { ContextProvider } from '../provider/ContextProvider';
+import { ContextProvider } from '../components/ContextProvider';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 import i18n from '../i18n';
 import { CookiesProvider, Cookies } from 'react-cookie';
