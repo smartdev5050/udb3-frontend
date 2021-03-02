@@ -4,7 +4,8 @@
     "paths": {
       "@/ui/*": ["ui/*"],
       "@/hooks/*": ["hooks/*"],
-      "@/pages/*": ["pages/*"]
+      "@/pages/*": ["_pages/*"],
+      "@/utils/*": ["utils/*"]
     }
   }
 }
