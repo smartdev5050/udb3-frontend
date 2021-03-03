@@ -26,11 +26,23 @@ export const data = [
   },
 ];
 
+export const actions = [
+  [
+    {
+      iconName: Icons.PENCIL_ALT,
+      title: 'Action 1',
+      onClick: () => {},
+      disabled: false,
+    },
+  ],
+];
+
 <Canvas>
   <Story
     args={{
       columns,
       data,
+      actions,
     }}
     argTypes={{
       onSelectionChanged: { action: 'onSelectionChanged' },
