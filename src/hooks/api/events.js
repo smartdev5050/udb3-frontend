@@ -113,10 +113,46 @@ const changeStatus = async ({ headers, id, type, reason }) =>
 const useChangeStatus = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: changeStatus, ...configuration });
 
+const changeStatusSubEvents = async ({
+  headers,
+  eventId,
+  subEventIds = [],
+  subEvents = [],
+  type,
+  reason,
+}) =>
+  fetchFromApi({
+    path: `/events/${eventId.toString()}/subEvents`,
+    options: {
+      method: 'PATCH',
+      headers,
+      body: JSON.stringify(
+        subEventIds.map((id) => ({
+          id,
+          status: {
+            type,
+            reason: {
+              ...(subEvents[id].status.type === type &&
+                subEvents[id].status.reason),
+              ...reason,
+            },
+          },
+        })),
+      ),
+    },
+  });
+
+const useChangeStatusSubEvents = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: changeStatusSubEvents,
+    ...configuration,
+  });
+
 export {
   useGetEventsToModerate,
   useGetEventById,
   useGetEventsByIds,
   useGetCalendarSummary,
   useChangeStatus,
+  useChangeStatusSubEvents,
 };
