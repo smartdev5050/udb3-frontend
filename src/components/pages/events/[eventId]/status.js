@@ -4,7 +4,7 @@ import { useChangeStatus, useGetEventById } from '@/hooks/api/events';
 import { dehydrate } from 'react-query/hydration';
 import { Spinner } from '@/ui/Spinner';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
-import { StatusFormOnPage } from '@/components/StatusFormOnPage';
+import { StatusPageNotMultiple } from '@/components/StatusPageNotMultiple';
 import { CalendarType } from '@/constants/CalendarType';
 
 const Status = () => {
@@ -24,7 +24,7 @@ const Status = () => {
     return <span>multiple</span>;
 
   return (
-    <StatusFormOnPage
+    <StatusPageNotMultiple
       offer={event}
       error={getEventByIdQuery.error}
       useChangeStatus={useChangeStatus}
