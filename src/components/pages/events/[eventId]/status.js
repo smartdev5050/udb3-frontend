@@ -6,6 +6,7 @@ import { Spinner } from '@/ui/Spinner';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
 import { StatusPageNotMultiple } from '@/components/StatusPageNotMultiple';
 import { CalendarType } from '@/constants/CalendarType';
+import { StatusPageMultiple } from '@/components/StatusPageMultiple';
 
 const Status = () => {
   const router = useRouter();
@@ -19,9 +20,13 @@ const Status = () => {
     return <Spinner marginTop={4} />;
   }
 
-  // TODO: replace by multiple view with SelectionTable
   if (event.calendarType === CalendarType.MULTIPLE)
-    return <span>multiple</span>;
+    return (
+      <StatusPageMultiple
+        event={event}
+        refetchEvent={getEventByIdQuery.refetch}
+      />
+    );
 
   return (
     <StatusPageNotMultiple
