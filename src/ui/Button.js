@@ -29,6 +29,7 @@ const customCSS = css`
   &.btn {
     border-radius: ${getValue('borderRadius')};
     padding: ${getValue('paddingY')} ${getValue('paddingX')};
+    flex-shrink: 0;
   }
 
   &.btn-primary {
