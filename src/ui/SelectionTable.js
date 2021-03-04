@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useLayoutEffect } from 'react';
+import { useLayoutEffect, useMemo } from 'react';
 import { Table as BootstrapTable } from 'react-bootstrap';
 import { useTable, useRowSelect } from 'react-table';
 import { Checkbox } from './Checkbox';
@@ -9,7 +9,6 @@ import { getValueFromTheme } from './theme';
 import { Inline } from './Inline';
 import { Button, ButtonVariants } from './Button';
 import { Text } from './Text';
-import { useTranslation } from 'react-i18next';
 import { Stack } from './Stack';
 
 const getValue = getValueFromTheme('selectionTable');
@@ -51,6 +50,7 @@ const SelectionTable = ({
   data,
   onSelectionChanged,
   actions,
+  translateSelectedRowCount,
   ...props
 }) => {
   const {
@@ -72,8 +72,6 @@ const SelectionTable = ({
     ]);
   });
 
-  const { t } = useTranslation();
-
   useLayoutEffect(() => {
     if (!onSelectionChanged || !selectedFlatRows) return;
     onSelectionChanged(
@@ -83,6 +81,11 @@ const SelectionTable = ({
       })),
     );
   }, [onSelectionChanged, selectedFlatRows]);
+
+  const selectedRowsText = useMemo(
+    () => translateSelectedRowCount(selectedFlatRows.length),
+    [selectedFlatRows.length],
+  );
 
   return (
     <Stack spacing={3}>
@@ -102,9 +105,7 @@ const SelectionTable = ({
             flex-shrink: 0;
           `}
         >
-          {t('selectionTable.rowsSelectedCount', {
-            count: selectedFlatRows.length,
-          })}
+          {selectedRowsText}
         </Text>
         <Inline>
           {actions.map(({ iconName, title, onClick, disabled }) => (
@@ -182,6 +183,7 @@ SelectionTable.propTypes = {
   data: PropTypes.array.isRequired,
   actions: PropTypes.node,
   onSelectionChanged: PropTypes.function,
+  translateSelectedRowCount: PropTypes.function,
 };
 
 SelectionTable.defaultProps = {

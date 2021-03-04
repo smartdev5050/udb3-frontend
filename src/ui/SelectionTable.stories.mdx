@@ -43,6 +43,7 @@ export const actions = [
       columns,
       data,
       actions,
+      translateSelectedRowCount: (count) => `${count} selected rows`,
     }}
     argTypes={{
       onSelectionChanged: { action: 'onSelectionChanged' },

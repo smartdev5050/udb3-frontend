@@ -131,6 +131,11 @@ const StatusPageMultiple = ({ event, refetchEvent }) => {
               disabled: selectedRows.length === 0,
             },
           ]}
+          translateSelectedRowCount={(count) =>
+            t('selectionTable.rowsSelectedCount', {
+              count,
+            })
+          }
         />
         <Link
           href={`/event/${eventId}/preview`}
