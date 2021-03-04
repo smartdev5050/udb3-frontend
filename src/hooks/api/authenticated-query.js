@@ -1,3 +1,4 @@
+import flatten from 'lodash/flatten';
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import { Cookies } from 'react-cookie';
@@ -15,7 +16,7 @@ const QueryStatus = {
 
 const prepareKey = ({ queryKey = [], queryArguments = {} } = {}) =>
   [
-    ...[queryKey].flat(),
+    flatten(...[queryKey]),
     Object.keys(queryArguments).length > 0 ? queryArguments : undefined,
   ].filter((key) => key !== undefined);
 
