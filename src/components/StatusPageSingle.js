@@ -14,7 +14,7 @@ import { ReasonAndTypeForm } from '@/components/ReasonAndTypeForm';
 
 import { OfferStatus } from '@/constants/OfferStatus';
 
-const StatusFormOnPage = ({ offer, error, useChangeStatus }) => {
+const StatusPageSingle = ({ offer, error, useChangeStatus }) => {
   const { t, i18n } = useTranslation();
   const router = useRouter();
 
@@ -104,10 +104,10 @@ const StatusFormOnPage = ({ offer, error, useChangeStatus }) => {
   );
 };
 
-StatusFormOnPage.propTypes = {
+StatusPageSingle.propTypes = {
   offer: PropTypes.object.isRequired,
   error: PropTypes.object,
   useChangeStatus: PropTypes.func.isRequired,
 };
 
-export { StatusFormOnPage };
+export { StatusPageSingle };

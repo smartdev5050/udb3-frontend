@@ -25,6 +25,7 @@ import {
   faUser,
   faUsers,
   faExclamationTriangle,
+  faPencilAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { faSlideshare } from '@fortawesome/free-brands-svg-icons';
 
@@ -43,7 +44,7 @@ const Icons = {
   TIMES: 'times',
   EYE: 'eye',
   EYE_SLASH: 'eyeSlash',
-  SIGN_OUT_ALT: 'signOutAlt',
+  SIGN_OUT: 'signOutAlt',
   CHECK: 'check',
   CHECK_CIRCLE: 'checkCircle',
   CHECK_NOTCH: 'circleNotch',
@@ -53,6 +54,7 @@ const Icons = {
   TRASH: 'trash',
   BINOCULARS: 'binoculars',
   EXCLAMATION_TRIANGLE: 'exclamationTriangle',
+  PENCIL: 'pencilAlt',
 };
 
 const IconsMap = {
@@ -70,7 +72,7 @@ const IconsMap = {
   [Icons.TIMES]: faTimes,
   [Icons.EYE]: faEye,
   [Icons.EYE_SLASH]: faEyeSlash,
-  [Icons.SIGN_OUT_ALT]: faSignOutAlt,
+  [Icons.SIGN_OUT]: faSignOutAlt,
   [Icons.CHECK]: faCheck,
   [Icons.CHECK_CIRCLE]: faCheckCircle,
   [Icons.CHECK_NOTCH]: faCircleNotch,
@@ -80,6 +82,7 @@ const IconsMap = {
   [Icons.TRASH]: faTrash,
   [Icons.BINOCULARS]: faBinoculars,
   [Icons.EXCLAMATION_TRIANGLE]: faExclamationTriangle,
+  [Icons.PENCIL]: faPencilAlt,
 };
 
 const Icon = ({ name, width, height, className, ...props }) => {

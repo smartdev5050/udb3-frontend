@@ -26,11 +26,24 @@ export const data = [
   },
 ];
 
+export const actions = [
+  [
+    {
+      iconName: Icons.PENCIL,
+      title: 'Action 1',
+      onClick: () => {},
+      disabled: false,
+    },
+  ],
+];
+
 <Canvas>
   <Story
     args={{
       columns,
       data,
+      actions,
+      translateSelectedRowCount: (count) => `${count} selected rows`,
     }}
     argTypes={{
       onSelectionChanged: { action: 'onSelectionChanged' },

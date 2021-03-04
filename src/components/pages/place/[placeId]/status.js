@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 import { useChangeStatus, useGetPlaceById } from '@/hooks/api/places';
 import { dehydrate } from 'react-query/hydration';
-import { StatusFormOnPage } from '@/components/StatusFormOnPage';
+import { StatusPageSingle } from '@/components/StatusPageSingle';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
 import { Spinner } from '@/ui/Spinner';
 
@@ -16,7 +16,7 @@ const Status = () => {
     return <Spinner marginTop={4} />;
   }
   return (
-    <StatusFormOnPage
+    <StatusPageSingle
       offer={getPlaceByIdQuery.data}
       error={getPlaceByIdQuery.error}
       useChangeStatus={useChangeStatus}
