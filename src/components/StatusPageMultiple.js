@@ -125,7 +125,7 @@ const StatusPageMultiple = ({ event, refetchEvent }) => {
           onSelectionChanged={setSelectedRows}
           actions={[
             {
-              iconName: Icons.PENCIL_ALT,
+              iconName: Icons.PENCIL,
               title: t('offerStatus.changeStatus'),
               onClick: () => setIsModalVisible(true),
               disabled: selectedRows.length === 0,

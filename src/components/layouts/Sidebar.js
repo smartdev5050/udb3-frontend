@@ -131,7 +131,7 @@ const ProfileMenu = ({ profileImage }) => {
 
   const loginMenu = [
     {
-      iconName: Icons.SIGN_OUT_ALT,
+      iconName: Icons.SIGN_OUT,
       children: t('menu.logout'),
       onClick: () => {
         removeAuthenticationCookies();
