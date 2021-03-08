@@ -13,7 +13,6 @@ import { useTranslation } from 'react-i18next';
 import { ReasonAndTypeForm } from '@/components/ReasonAndTypeForm';
 
 import { OfferStatus } from '@/constants/OfferStatus';
-import { OfferType } from '@/constants/OfferType';
 
 const StatusPageSingle = ({ offer, error, useChangeStatus }) => {
   const { t, i18n } = useTranslation();
