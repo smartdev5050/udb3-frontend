@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { ReasonAndTypeForm } from '@/components/ReasonAndTypeForm';
 
 import { OfferStatus } from '@/constants/OfferStatus';
+import { OfferType } from '@/constants/OfferType';
 
 const StatusPageSingle = ({ offer, error, useChangeStatus }) => {
   const { t, i18n } = useTranslation();
@@ -32,6 +33,12 @@ const StatusPageSingle = ({ offer, error, useChangeStatus }) => {
     if (!rawStatusType) return;
     setType(rawStatusType);
   }, [rawStatusType]);
+
+  useEffect(() => {
+    if (type === OfferStatus.AVAILABLE) {
+      setReason('');
+    }
+  }, [type]);
 
   useEffect(() => {
     const newReason = offer?.status?.reason?.[i18n.language];
