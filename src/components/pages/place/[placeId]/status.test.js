@@ -11,144 +11,116 @@ import nl from '@/i18n/nl.json';
 import { renderPageWithWrapper } from '@/test/utils/renderPageWithWrapper';
 import { waitForFetch } from '@/test/utils/waitForFetch';
 
-describe('Status page place', () => {
-  describe('When the current status of the place is "available"', () => {
-    let page;
-
-    beforeEach(async () => {
-      page = setupPage({
-        router: {
-          query: {
-            placeId: parseOfferId(place['@id']),
-          },
-        },
-        responses: {
-          '/place/:id': { body: place },
-          '/places/:id/status': {},
-        },
-      });
-
-      renderPageWithWrapper(<Status />);
-      await waitFor(() => screen.getByText(`Status voor ${place.name.nl}`));
-    });
-
-    it('checks the value "available" by default', () => {
-      expect(
-        screen.getByLabelText(nl.offerStatus.status.place.available),
-      ).toBeChecked();
-    });
-
-    it('disables the textarea for reason when the place is "available"', () => {
-      expect(screen.getByLabelText(nl.offerStatus.reason)).toBeDisabled();
-    });
-
-    it('redirects to the preview page when the save button is pressed', async () => {
-      userEvent.click(
-        screen.getByRole('button', {
-          name: nl.offerStatus.actions.save,
-        }),
-      );
-
-      await waitForFetch(`/places/${page.router.query.placeId}/status`);
-
-      expect(page.router.push).toBeCalledWith(
-        `/place/${page.router.query.placeId}/preview`,
-      );
-    });
-
-    it('redirects to edit page when the cancel button is pressed', () => {
-      userEvent.click(
-        screen.getByRole('button', {
-          name: nl.offerStatus.actions.cancel,
-        }),
-      );
-
-      expect(page.router.push).toBeCalledWith(
-        `/place/${page.router.query.placeId}/edit`,
-      );
-    });
+const setup = async () => {
+  const page = setupPage({
+    router: {
+      query: {
+        placeId: parseOfferId(place['@id']),
+      },
+    },
+    responses: {
+      '/place/:id': { body: place },
+      '/places/:id/status': {},
+    },
   });
-  describe('When changing the status to temporarily unavailable', () => {
-    let page;
 
-    beforeEach(async () => {
-      page = setupPage({
-        router: {
-          query: {
-            placeId: parseOfferId(place['@id']),
-          },
-        },
-        responses: {
-          '/place/:id': { body: place },
-          '/places/:id/status': {},
-        },
-      });
+  renderPageWithWrapper(<Status />);
+  await waitFor(() => screen.getByText(`Status voor ${place.name.nl}`));
 
-      renderPageWithWrapper(<Status />);
-      await waitFor(() => screen.getByText(`Status voor ${place.name.nl}`));
+  return page;
+};
 
-      userEvent.click(
-        screen.getByLabelText(
-          nl.offerStatus.status.place.temporarilyUnavailable,
-        ),
-      );
-    });
+test('I can save a status', async () => {
+  const page = await setup();
 
-    it('enabled the textarea for reason', () => {
-      expect(screen.getByLabelText(nl.offerStatus.reason)).toBeEnabled();
-    });
+  expect(
+    screen.getByLabelText(nl.offerStatus.status.place.available),
+  ).toBeChecked();
 
-    it('redirects to edit page when the cancel button is pressed', () => {
-      userEvent.click(
-        screen.getByRole('button', {
-          name: nl.offerStatus.actions.cancel,
-        }),
-      );
+  expect(screen.getByLabelText(nl.offerStatus.reason)).toBeDisabled();
 
-      expect(page.router.push).toBeCalledWith(
-        `/place/${page.router.query.placeId}/edit`,
-      );
-    });
+  userEvent.click(
+    screen.getByRole('button', {
+      name: nl.offerStatus.actions.save,
+    }),
+  );
 
-    it('disables the save button and show error when the reason is too long', () => {
-      userEvent.type(
-        screen.getByLabelText(nl.offerStatus.reason),
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce et ullamcorper dui. Mauris arcu mauris, dapibus ac fringilla ut, elementum eget urna. Mauris est velit, commodo rutrum est fermentum non. test',
-      );
+  await waitForFetch(`/places/${page.router.query.placeId}/status`);
 
-      expect(
-        screen.getByRole('button', {
-          name: nl.offerStatus.actions.save,
-        }),
-      ).toBeDisabled();
-    });
+  expect(page.router.push).toBeCalledWith(
+    `/place/${page.router.query.placeId}/preview`,
+  );
+});
 
-    it('empties and disables the textarea when selecting "Available"', () => {
-      userEvent.type(
-        screen.getByLabelText(nl.offerStatus.reason),
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce et ullamcorper dui. Mauris arcu mauris, dapibus ac fringilla ut, elementum eget urna. Mauris est velit, commodo rutrum est fermentum.',
-      );
+test('I can save a status with a reason', async () => {
+  const page = await setup();
 
-      userEvent.click(
-        screen.getByLabelText(nl.offerStatus.status.place.available),
-      );
+  userEvent.click(
+    screen.getByLabelText(nl.offerStatus.status.place.temporarilyUnavailable),
+  );
 
-      expect(screen.getByLabelText(nl.offerStatus.reason).value).toBe('');
-      expect(screen.getByLabelText(nl.offerStatus.reason)).toBeDisabled();
-    });
+  expect(
+    screen.getByLabelText(nl.offerStatus.status.place.available),
+  ).not.toBeChecked();
 
-    it('redirects to the preview page when the save button is pressed', async () => {
-      userEvent.click(
-        screen.getByRole('button', {
-          name: nl.offerStatus.actions.save,
-        }),
-      );
+  expect(
+    screen.getByLabelText(nl.offerStatus.status.place.temporarilyUnavailable),
+  ).toBeChecked();
 
-      await waitForFetch(`/places/${page.router.query.placeId}/status`);
+  expect(screen.getByLabelText(nl.offerStatus.reason)).toBeEnabled();
 
-      expect(page.router.push).toBeCalledWith(
-        `/place/${page.router.query.placeId}/preview`,
-      );
-    });
-  });
+  userEvent.type(screen.getByLabelText(nl.offerStatus.reason), 'Lorem ipsum');
+
+  userEvent.click(
+    screen.getByRole('button', {
+      name: nl.offerStatus.actions.save,
+    }),
+  );
+
+  await waitForFetch(`/places/${page.router.query.placeId}/status`);
+
+  expect(page.router.push).toBeCalledWith(
+    `/place/${page.router.query.placeId}/preview`,
+  );
+});
+
+test('The reason and error are cleared when switching back to "available"', async () => {
+  await setup();
+
+  userEvent.click(
+    screen.getByLabelText(nl.offerStatus.status.place.temporarilyUnavailable),
+  );
+
+  userEvent.type(
+    screen.getByLabelText(nl.offerStatus.reason),
+    'Nam quis nulla. Integer malesuada. In in enim a arcu imperdiet malesuada. Sed vel lectus. Donec odio urna, tempus molestie, porttitor ut, iaculis quis, sem. Phasellus rhoncus. Aenean id metus id velit ullamcorper pulvina',
+  );
+
+  expect(screen.getByRole('alert')).toBeInTheDocument();
+
+  expect(
+    screen.getByRole('button', {
+      name: nl.offerStatus.actions.save,
+    }),
+  ).toBeDisabled();
+
+  userEvent.click(screen.getByLabelText(nl.offerStatus.status.place.available));
+
+  expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+
+  expect(screen.getByLabelText(nl.offerStatus.reason).value).toBe('');
+});
+
+test('I can cancel', async () => {
+  const page = await setup();
+
+  userEvent.click(
+    screen.getByRole('button', {
+      name: nl.offerStatus.actions.cancel,
+    }),
+  );
+
+  expect(page.router.push).toBeCalledWith(
+    `/place/${page.router.query.placeId}/edit`,
+  );
 });
