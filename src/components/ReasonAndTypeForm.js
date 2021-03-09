@@ -63,7 +63,7 @@ const ReasonAndTypeForm = ({
             disabled={statusType === OfferStatus.AVAILABLE}
           />
           {statusReason.length > 200 && (
-            <Alert variant={AlertVariants.WARNING}>
+            <Alert variant={AlertVariants.DANGER}>
               {t('offerStatus.maxLengthReason', {
                 amount: 200,
               })}
