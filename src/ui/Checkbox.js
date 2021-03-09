@@ -20,6 +20,7 @@ const Checkbox = ({
     onChange={onToggle}
     className={className}
     cursor="pointer"
+    data-testid={props['data-testid']}
     {...getBoxProps(props)}
   />
 );
