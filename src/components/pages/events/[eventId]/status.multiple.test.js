@@ -37,7 +37,7 @@ const setup = async () => {
 test('I can save a status', async () => {
   const page = await setup();
 
-  userEvent.click(screen.getByTestId('checkbox-1'));
+  userEvent.click(screen.getByTestId('checkbox-0'));
   userEvent.click(screen.getByTestId('checkbox-2'));
 
   userEvent.click(
@@ -73,8 +73,14 @@ test('I can save a status', async () => {
   // 3rd API call, [url, payload] tuple
   expect(fetch.mock.calls[2][1].body).toEqual(
     JSON.stringify([
-      { id: 1, status: { type: OfferStatus.AVAILABLE, reason: {} } },
-      { id: 2, status: { type: OfferStatus.AVAILABLE, reason: {} } },
+      {
+        id: 0,
+        status: { type: OfferStatus.AVAILABLE, reason: {} },
+      },
+      {
+        id: 2,
+        status: { type: OfferStatus.AVAILABLE, reason: {} },
+      },
     ]),
   );
 });
@@ -97,6 +103,8 @@ test('I can save a status with a reason', async () => {
 
   expect(screen.getByLabelText(nl.offerStatus.reason)).toBeEnabled();
 
+  userEvent.type(screen.getByLabelText(nl.offerStatus.reason), 'Lorem Ipsum');
+
   expect(
     screen.getByRole('button', {
       name: nl.offerStatus.actions.save,
@@ -114,8 +122,20 @@ test('I can save a status with a reason', async () => {
   // 3rd API call, [url, payload] tuple
   expect(fetch.mock.calls[2][1].body).toEqual(
     JSON.stringify([
-      { id: 1, status: { type: OfferStatus.UNAVAILABLE, reason: {} } },
-      { id: 2, status: { type: OfferStatus.UNAVAILABLE, reason: {} } },
+      {
+        id: 1,
+        status: {
+          type: OfferStatus.UNAVAILABLE,
+          reason: { nl: 'Lorem Ipsum' },
+        },
+      },
+      {
+        id: 2,
+        status: {
+          type: OfferStatus.UNAVAILABLE,
+          reason: { nl: 'Lorem Ipsum' },
+        },
+      },
     ]),
   );
 });
