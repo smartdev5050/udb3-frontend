@@ -10,6 +10,7 @@ import nl from '@/i18n/nl.json';
 
 import { renderPageWithWrapper } from '@/test/utils/renderPageWithWrapper';
 import { waitForFetch } from '@/test/utils/waitForFetch';
+import { OfferStatus } from '@/constants/OfferStatus';
 
 const setup = async () => {
   const page = setupPage({
@@ -47,6 +48,12 @@ test('I can save a status', async () => {
 
   await waitForFetch(`/places/${page.router.query.placeId}/status`);
 
+  expect(fetch.mock.calls[2][1].body).toEqual(
+    JSON.stringify({
+      type: OfferStatus.AVAILABLE,
+    }),
+  );
+
   expect(page.router.push).toBeCalledWith(
     `/place/${page.router.query.placeId}/preview`,
   );
@@ -69,7 +76,9 @@ test('I can save a status with a reason', async () => {
 
   expect(screen.getByLabelText(nl.offerStatus.reason)).toBeEnabled();
 
-  userEvent.type(screen.getByLabelText(nl.offerStatus.reason), 'Lorem ipsum');
+  const reason = 'Lorem ipsum';
+
+  userEvent.type(screen.getByLabelText(nl.offerStatus.reason), reason);
 
   userEvent.click(
     screen.getByRole('button', {
@@ -78,6 +87,13 @@ test('I can save a status with a reason', async () => {
   );
 
   await waitForFetch(`/places/${page.router.query.placeId}/status`);
+
+  expect(fetch.mock.calls[2][1].body).toEqual(
+    JSON.stringify({
+      type: OfferStatus.TEMPORARILY_UNAVAILABLE,
+      reason: { nl: reason },
+    }),
+  );
 
   expect(page.router.push).toBeCalledWith(
     `/place/${page.router.query.placeId}/preview`,
