@@ -13,6 +13,7 @@ const mockRouterWithParams = ({ query, ...rest } = {}) => {
     },
     asPath: '/',
     push,
+    prefetch: jest.fn().mockResolvedValue(undefined),
     ...rest,
   };
 
