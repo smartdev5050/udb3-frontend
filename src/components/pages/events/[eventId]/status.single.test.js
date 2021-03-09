@@ -1,4 +1,4 @@
-import { singleDayEvent } from '@/test/data/event';
+import { event } from '@/test/data/event';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { setupPage } from '@/test/utils/setupPage';
 
@@ -12,29 +12,27 @@ import { renderPageWithWrapper } from '@/test/utils/renderPageWithWrapper';
 import { waitForFetch } from '@/test/utils/waitForFetch';
 import { OfferStatus } from '@/constants/OfferStatus';
 
-const setupSingleDayEvent = async () => {
+const setup = async () => {
   const page = setupPage({
     router: {
       query: {
-        eventId: parseOfferId(singleDayEvent['@id']),
+        eventId: parseOfferId(event['@id']),
       },
     },
     responses: {
-      '/event/:id': { body: singleDayEvent },
+      '/event/:id': { body: event },
       '/events/:id/status': {},
     },
   });
 
   renderPageWithWrapper(<Status />);
-  await waitFor(() =>
-    screen.getByText(`Status voor ${singleDayEvent.name.nl}`),
-  );
+  await waitFor(() => screen.getByText(`Status voor ${event.name.nl}`));
 
   return page;
 };
 
 test('I can save a status', async () => {
-  const page = await setupSingleDayEvent();
+  const page = await setup();
 
   expect(
     screen.getByLabelText(nl.offerStatus.status.event.available),
@@ -63,7 +61,7 @@ test('I can save a status', async () => {
 });
 
 test('I can save a status with a reason', async () => {
-  const page = await setupSingleDayEvent();
+  const page = await setup();
 
   userEvent.click(
     screen.getByLabelText(nl.offerStatus.status.event.temporarilyUnavailable),
@@ -105,7 +103,7 @@ test('I can save a status with a reason', async () => {
 });
 
 test('The reason and error are cleared when switching back to "available"', async () => {
-  await setupSingleDayEvent();
+  await setup();
 
   userEvent.click(
     screen.getByLabelText(nl.offerStatus.status.event.temporarilyUnavailable),
@@ -132,7 +130,7 @@ test('The reason and error are cleared when switching back to "available"', asyn
 });
 
 test('I can cancel', async () => {
-  const page = await setupSingleDayEvent();
+  const page = await setup();
 
   userEvent.click(
     screen.getByRole('button', {
