@@ -64,8 +64,8 @@ const StatusPageMultiple = ({ event, refetchEvent }) => {
     onSuccess: handleSuccess,
   });
 
-  const handleConfirmChangeStatus = async (type, reason) => {
-    await changeStatusSubEvents({
+  const handleConfirmChangeStatus = async (type, reason) =>
+    changeStatusSubEvents({
       eventId,
       subEventIds: selectedSubEventIds,
       subEvents,
@@ -77,7 +77,6 @@ const StatusPageMultiple = ({ event, refetchEvent }) => {
             }
           : undefined,
     });
-  };
 
   const columns = useMemo(
     () => [
