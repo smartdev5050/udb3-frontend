@@ -264,7 +264,7 @@ const Create = () => {
                   variant={ButtonVariants.SUCCESS}
                   disabled={
                     status === ProductionStatus.MISSING ||
-                    skipSuggestedEventsMutation.stats === QueryStatus.LOADING
+                    skipSuggestedEventsMutation.status === QueryStatus.LOADING
                   }
                   onClick={handleClickLink}
                   loading={isEditingProduction}
