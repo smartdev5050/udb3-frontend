@@ -50,19 +50,31 @@ const Create = () => {
     await refetchSuggestedEvents();
   };
 
-  const { mutate: skipSuggestedEvents } = useSkipSuggestedEvents({
+  const {
+    mutate: skipSuggestedEvents,
+    ...skipSuggestedEventsMutation
+  } = useSkipSuggestedEvents({
     onSuccess: handleSuccess,
   });
 
-  const { mutate: createProductionWithEvents } = useCreateWithEvents({
+  const {
+    mutate: createProductionWithEvents,
+    ...createProductionWithEventsMutation
+  } = useCreateWithEvents({
     onSuccess: handleSuccess,
   });
 
-  const { mutate: mergeProductions } = useMergeProductions({
+  const {
+    mutate: mergeProductions,
+    ...mergeProductionsMutation
+  } = useMergeProductions({
     onSuccess: handleSuccess,
   });
 
-  const { mutate: addEventsByIds } = useAddEventsByIds({
+  const {
+    mutate: addEventsByIds,
+    ...addEventsByIdsMutation
+  } = useAddEventsByIds({
     onSuccess: handleSuccess,
   });
 
@@ -87,6 +99,20 @@ const Create = () => {
         (production) => production.id === selectedProductionId,
       ),
     [selectedProductionId],
+  );
+
+  const isEditingProduction = useMemo(
+    () =>
+      [
+        createProductionWithEventsMutation.status,
+        mergeProductionsMutation.status,
+        addEventsByIdsMutation.status,
+      ].some((status) => status === QueryStatus.LOADING),
+    [
+      createProductionWithEventsMutation.status,
+      mergeProductionsMutation.status,
+      addEventsByIdsMutation.status,
+    ],
   );
 
   useEffect(() => {
@@ -236,8 +262,12 @@ const Create = () => {
               <Inline spacing={3}>
                 <Button
                   variant={ButtonVariants.SUCCESS}
-                  disabled={status === ProductionStatus.MISSING}
+                  disabled={
+                    status === ProductionStatus.MISSING ||
+                    skipSuggestedEventsMutation.stats === QueryStatus.LOADING
+                  }
                   onClick={handleClickLink}
+                  loading={isEditingProduction}
                 >
                   {t('productions.create.link')}
                 </Button>
@@ -250,6 +280,7 @@ const Create = () => {
                       ),
                     });
                   }}
+                  disabled={isEditingProduction}
                 >
                   {t('productions.create.skip')}
                 </Button>
