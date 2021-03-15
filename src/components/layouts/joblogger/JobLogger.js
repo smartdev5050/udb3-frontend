@@ -82,6 +82,11 @@ const JobLogger = ({ visible, onClose, onStatusChange }) => {
         const { id, finishedAt, exportUrl } = job;
         if (id !== jobId) return job;
 
+        if (job.state === JobStates.FAILED) {
+          // Jobs can't transition from a failed status to another status.
+          return job;
+        }
+
         return {
           ...job,
           state: newJobState,
