@@ -79,10 +79,10 @@ const JobLogger = ({ visible, onClose, onStatusChange }) => {
   const updateJobState = (newJobState) => ({ job_id: jobId, location }) =>
     setJobs((previousJobs) =>
       previousJobs.map((job) => {
-        const { id, finishedAt, exportUrl } = job;
+        const { id, finishedAt, exportUrl, state } = job;
         if (id !== jobId) return job;
 
-        if (job.state === JobStates.FAILED) {
+        if (state === JobStates.FAILED) {
           // Jobs can't transition from a failed status to another status.
           return job;
         }
