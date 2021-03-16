@@ -109,7 +109,8 @@ const theme = {
       paddingY: '0.44rem',
     },
     typeahead: {
-      activeBackgroundColor: colors.udbBlue,
+      color: colors.white,
+      activeBackgroundColor: colors.red2,
     },
     radioButtonWithLabel: {
       infoTextColor: colors.grey5,
