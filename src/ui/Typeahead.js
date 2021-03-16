@@ -47,6 +47,7 @@ const Typeahead = ({
       placeholder={placeholder}
       emptyLabel={emptyLabel}
       delay={275}
+      highlightOnlyResult
       {...getBoxProps(props)}
     />
   );
