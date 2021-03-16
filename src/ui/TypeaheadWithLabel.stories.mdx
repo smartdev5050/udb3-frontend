@@ -11,8 +11,7 @@ export const cities = [
 
 export const commonArgs = {
   label: 'Search for a city:',
-  options: cities,
-  labelKey: (city) => city.name,
+  options: cities.map((city) => city.name),
 };
 
 export const commonArgTypes = {
