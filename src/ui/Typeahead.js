@@ -33,6 +33,11 @@ const Typeahead = ({
           color: ${getValue('active.color')};
           background-color: ${getValue('active.backgroundColor')};
         }
+        .rbt-highlight-text {
+          color: ${getValue('highlight.color')};
+          font-weight: ${getValue('highlight.fontWeight')};
+          background-color: ${getValue('highlight.backgroundColor')};
+        }
       `}
       onSearch={onSearch}
       onInputChange={onInputChange}
