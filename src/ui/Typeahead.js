@@ -30,6 +30,7 @@ const Typeahead = ({
       css={`
         .dropdown-item.active,
         .dropdown-item:active {
+          color: ${getValue('color')};
           background-color: ${getValue('activeBackgroundColor')};
         }
       `}
