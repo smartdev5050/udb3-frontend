@@ -30,8 +30,8 @@ const Typeahead = ({
       css={`
         .dropdown-item.active,
         .dropdown-item:active {
-          color: ${getValue('color')};
-          background-color: ${getValue('activeBackgroundColor')};
+          color: ${getValue('active.color')};
+          background-color: ${getValue('active.backgroundColor')};
         }
       `}
       onSearch={onSearch}
