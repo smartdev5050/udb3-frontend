@@ -73,6 +73,7 @@ Typeahead.propTypes = {
 
 const typeaheadDefaultProps = {
   options: [],
+  labelKey: (item) => item,
   onSearch: async () => {},
   disabled: false,
 };
