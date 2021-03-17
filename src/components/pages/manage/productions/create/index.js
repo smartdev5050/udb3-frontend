@@ -50,31 +50,19 @@ const Create = () => {
     await refetchSuggestedEvents();
   };
 
-  const {
-    mutate: skipSuggestedEvents,
-    ...skipSuggestedEventsMutation
-  } = useSkipSuggestedEvents({
+  const skipSuggestedEventsMutation = useSkipSuggestedEvents({
     onSuccess: handleSuccess,
   });
 
-  const {
-    mutate: createProductionWithEvents,
-    ...createProductionWithEventsMutation
-  } = useCreateWithEvents({
+  const createProductionWithEventsMutation = useCreateWithEvents({
     onSuccess: handleSuccess,
   });
 
-  const {
-    mutate: mergeProductions,
-    ...mergeProductionsMutation
-  } = useMergeProductions({
+  const mergeProductionsMutation = useMergeProductions({
     onSuccess: handleSuccess,
   });
 
-  const {
-    mutate: addEventsByIds,
-    ...addEventsByIdsMutation
-  } = useAddEventsByIds({
+  const addEventsByIdsMutation = useAddEventsByIds({
     onSuccess: handleSuccess,
   });
 
@@ -140,7 +128,7 @@ const Create = () => {
     if (status === ProductionStatus.MISSING) return;
     if (status === ProductionStatus.NEW) {
       // create a new production
-      createProductionWithEvents({
+      createProductionWithEventsMutation.mutate({
         productionName: searchInput,
         eventIds: events.map((event) => parseOfferId(event['@id'])),
       });
@@ -151,14 +139,14 @@ const Create = () => {
       const unselectedProductionId = availableProductions.find(
         (production) => production.id !== selectedProductionId,
       )?.id;
-      mergeProductions({
+      mergeProductionsMutation.mutate({
         fromProductionId: unselectedProductionId,
         toProductionId: selectedProductionId,
       });
       return;
     }
     // add event to production when there is only 1 production
-    addEventsByIds({
+    addEventsByIdsMutation.mutate({
       productionId: selectedProductionId,
       eventIds: events
         .filter((event) => !event.production)
@@ -274,7 +262,7 @@ const Create = () => {
                 <Button
                   variant={ButtonVariants.DANGER}
                   onClick={() => {
-                    skipSuggestedEvents({
+                    skipSuggestedEventsMutation.mutate({
                       eventIds: events.map((event) =>
                         parseOfferId(event['@id']),
                       ),
