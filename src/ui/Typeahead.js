@@ -30,7 +30,15 @@ const Typeahead = ({
       css={`
         .dropdown-item.active,
         .dropdown-item:active {
-          background-color: ${getValue('activeBackgroundColor')};
+          color: ${getValue('active.color')};
+          background-color: ${getValue('active.backgroundColor')};
+          .rbt-highlight-text {
+            color: ${getValue('active.color')};
+          }
+        }
+        .rbt-highlight-text {
+          font-weight: ${getValue('highlight.fontWeight')};
+          background-color: ${getValue('highlight.backgroundColor')};
         }
       `}
       onSearch={onSearch}
@@ -39,6 +47,7 @@ const Typeahead = ({
       placeholder={placeholder}
       emptyLabel={emptyLabel}
       delay={275}
+      highlightOnlyResult
       {...getBoxProps(props)}
     />
   );

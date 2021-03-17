@@ -5,13 +5,15 @@ import { Typeahead } from './Typeahead.js';
 
 export const cities = [
   { id: 1, name: 'Rome' },
-  { id: 2, name: 'Paris' },
-  { id: 3, name: 'Prague' },
+  { id: 2, name: 'Romania' },
+  { id: 3, name: 'Paris' },
+  { id: 4, name: 'Prague' },
 ];
 
 export const commonArgs = {
   id: 'test',
-  options: cities.map((city) => city.name),
+  options: cities,
+  labelKey: (city) => city.name,
 };
 
 export const commonArgTypes = {
