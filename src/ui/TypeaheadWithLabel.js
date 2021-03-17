@@ -1,4 +1,3 @@
-import uniqueId from 'lodash/uniqueId';
 import { Label, LabelVariants } from './Label';
 import {
   Typeahead,
@@ -6,9 +5,9 @@ import {
   typeaheadPropTypes,
 } from './Typeahead';
 import { getStackProps, Stack, stackPropTypes } from './Stack';
-import { useEffect, useState } from 'react';
 
 const TypeaheadWithLabel = ({
+  id,
   label,
   options,
   labelKey,
@@ -21,12 +20,6 @@ const TypeaheadWithLabel = ({
   onChange,
   ...props
 }) => {
-  const [id, setId] = useState('');
-
-  useEffect(() => {
-    setId(uniqueId('typeahead-'));
-  }, []);
-
   return (
     <Stack {...getStackProps(props)}>
       <Label htmlFor={id} variant={LabelVariants.BOLD}>
