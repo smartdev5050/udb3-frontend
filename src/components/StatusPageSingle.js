@@ -34,6 +34,12 @@ const StatusPageSingle = ({ offer, error, useChangeStatus }) => {
   }, [rawStatusType]);
 
   useEffect(() => {
+    if (type === OfferStatus.AVAILABLE) {
+      setReason('');
+    }
+  }, [type]);
+
+  useEffect(() => {
     const newReason = offer?.status?.reason?.[i18n.language];
     if (!rawStatusReason || !newReason) return;
     setReason(newReason);

@@ -1,4 +1,4 @@
-import { place } from '@/test/data/place';
+import { event } from '@/test/data/event';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { setupPage } from '@/test/utils/setupPage';
 
@@ -16,17 +16,17 @@ const setup = async () => {
   const page = setupPage({
     router: {
       query: {
-        placeId: parseOfferId(place['@id']),
+        eventId: parseOfferId(event['@id']),
       },
     },
     responses: {
-      '/place/:id': { body: place },
-      '/places/:id/status': {},
+      '/event/:id': { body: event },
+      '/events/:id/status': {},
     },
   });
 
   renderPageWithWrapper(<Status />);
-  await waitFor(() => screen.getByText(`Status voor ${place.name.nl}`));
+  await waitFor(() => screen.getByText(`Status voor ${event.name.nl}`));
 
   return page;
 };
@@ -35,7 +35,7 @@ test('I can save a status', async () => {
   const page = await setup();
 
   expect(
-    screen.getByLabelText(nl.offerStatus.status.place.available),
+    screen.getByLabelText(nl.offerStatus.status.event.available),
   ).toBeChecked();
 
   expect(screen.getByLabelText(nl.offerStatus.reason)).toBeDisabled();
@@ -46,7 +46,7 @@ test('I can save a status', async () => {
     }),
   );
 
-  await waitForFetch(`/places/${page.router.query.placeId}/status`);
+  await waitForFetch(`/events/${page.router.query.eventId}/status`);
 
   // 3rd API call, [url, payload] tuple
   expect(fetch.mock.calls[2][1].body).toEqual(
@@ -56,7 +56,7 @@ test('I can save a status', async () => {
   );
 
   expect(page.router.push).toBeCalledWith(
-    `/place/${page.router.query.placeId}/preview`,
+    `/event/${page.router.query.eventId}/preview`,
   );
 });
 
@@ -64,15 +64,15 @@ test('I can save a status with a reason', async () => {
   const page = await setup();
 
   userEvent.click(
-    screen.getByLabelText(nl.offerStatus.status.place.temporarilyUnavailable),
+    screen.getByLabelText(nl.offerStatus.status.event.temporarilyUnavailable),
   );
 
   expect(
-    screen.getByLabelText(nl.offerStatus.status.place.available),
+    screen.getByLabelText(nl.offerStatus.status.event.available),
   ).not.toBeChecked();
 
   expect(
-    screen.getByLabelText(nl.offerStatus.status.place.temporarilyUnavailable),
+    screen.getByLabelText(nl.offerStatus.status.event.temporarilyUnavailable),
   ).toBeChecked();
 
   expect(screen.getByLabelText(nl.offerStatus.reason)).toBeEnabled();
@@ -87,7 +87,7 @@ test('I can save a status with a reason', async () => {
     }),
   );
 
-  await waitForFetch(`/places/${page.router.query.placeId}/status`);
+  await waitForFetch(`/events/${page.router.query.eventId}/status`);
 
   // 3rd API call, [url, payload] tuple
   expect(fetch.mock.calls[2][1].body).toEqual(
@@ -98,7 +98,7 @@ test('I can save a status with a reason', async () => {
   );
 
   expect(page.router.push).toBeCalledWith(
-    `/place/${page.router.query.placeId}/preview`,
+    `/event/${page.router.query.eventId}/preview`,
   );
 });
 
@@ -106,7 +106,7 @@ test('The reason and error are cleared when switching back to "available"', asyn
   await setup();
 
   userEvent.click(
-    screen.getByLabelText(nl.offerStatus.status.place.temporarilyUnavailable),
+    screen.getByLabelText(nl.offerStatus.status.event.temporarilyUnavailable),
   );
 
   userEvent.type(
@@ -122,7 +122,7 @@ test('The reason and error are cleared when switching back to "available"', asyn
     }),
   ).toBeDisabled();
 
-  userEvent.click(screen.getByLabelText(nl.offerStatus.status.place.available));
+  userEvent.click(screen.getByLabelText(nl.offerStatus.status.event.available));
 
   expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 
@@ -139,6 +139,6 @@ test('I can cancel', async () => {
   );
 
   expect(page.router.push).toBeCalledWith(
-    `/place/${page.router.query.placeId}/edit`,
+    `/event/${page.router.query.eventId}/edit`,
   );
 });

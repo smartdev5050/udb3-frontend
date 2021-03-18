@@ -32,9 +32,12 @@ CheckBoxHeader.propTypes = {
 const CheckBoxCell = ({ row }) => {
   const { checked, onChange } = row.getToggleRowSelectedProps();
 
+  const identifier = `checkbox-${row.id}`;
+
   return (
     <Checkbox
-      id={uniqueId('checkbox-')}
+      id={identifier}
+      data-testid={identifier}
       checked={checked}
       onToggle={onChange}
     />

@@ -6,6 +6,7 @@ import { Stack } from '@/ui/Stack';
 import { ReasonAndTypeForm } from '@/components/ReasonAndTypeForm';
 import { OfferType } from '@/constants/OfferType';
 import { Spinner } from '@/ui/Spinner';
+import { OfferStatus } from '@/constants/OfferStatus';
 
 const StatusModal = ({ visible, loading, className, onClose, onConfirm }) => {
   const { t } = useTranslation();
@@ -19,6 +20,12 @@ const StatusModal = ({ visible, loading, className, onClose, onConfirm }) => {
       setReason('');
     }
   }, [visible]);
+
+  useEffect(() => {
+    if (type === OfferStatus.AVAILABLE) {
+      setReason('');
+    }
+  }, [type]);
 
   return (
     <Modal
