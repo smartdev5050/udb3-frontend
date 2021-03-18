@@ -50,19 +50,19 @@ const Create = () => {
     await refetchSuggestedEvents();
   };
 
-  const { mutate: skipSuggestedEvents } = useSkipSuggestedEvents({
+  const skipSuggestedEventsMutation = useSkipSuggestedEvents({
     onSuccess: handleSuccess,
   });
 
-  const { mutate: createProductionWithEvents } = useCreateWithEvents({
+  const createProductionWithEventsMutation = useCreateWithEvents({
     onSuccess: handleSuccess,
   });
 
-  const { mutate: mergeProductions } = useMergeProductions({
+  const mergeProductionsMutation = useMergeProductions({
     onSuccess: handleSuccess,
   });
 
-  const { mutate: addEventsByIds } = useAddEventsByIds({
+  const addEventsByIdsMutation = useAddEventsByIds({
     onSuccess: handleSuccess,
   });
 
@@ -87,6 +87,20 @@ const Create = () => {
         (production) => production.id === selectedProductionId,
       ),
     [selectedProductionId],
+  );
+
+  const isEditingProduction = useMemo(
+    () =>
+      [
+        createProductionWithEventsMutation.status,
+        mergeProductionsMutation.status,
+        addEventsByIdsMutation.status,
+      ].some((status) => status === QueryStatus.LOADING),
+    [
+      createProductionWithEventsMutation.status,
+      mergeProductionsMutation.status,
+      addEventsByIdsMutation.status,
+    ],
   );
 
   useEffect(() => {
@@ -114,7 +128,7 @@ const Create = () => {
     if (status === ProductionStatus.MISSING) return;
     if (status === ProductionStatus.NEW) {
       // create a new production
-      createProductionWithEvents({
+      createProductionWithEventsMutation.mutate({
         productionName: searchInput,
         eventIds: events.map((event) => parseOfferId(event['@id'])),
       });
@@ -125,14 +139,14 @@ const Create = () => {
       const unselectedProductionId = availableProductions.find(
         (production) => production.id !== selectedProductionId,
       )?.id;
-      mergeProductions({
+      mergeProductionsMutation.mutate({
         fromProductionId: unselectedProductionId,
         toProductionId: selectedProductionId,
       });
       return;
     }
     // add event to production when there is only 1 production
-    addEventsByIds({
+    addEventsByIdsMutation.mutate({
       productionId: selectedProductionId,
       eventIds: events
         .filter((event) => !event.production)
@@ -236,20 +250,25 @@ const Create = () => {
               <Inline spacing={3}>
                 <Button
                   variant={ButtonVariants.SUCCESS}
-                  disabled={status === ProductionStatus.MISSING}
+                  disabled={
+                    status === ProductionStatus.MISSING ||
+                    skipSuggestedEventsMutation.status === QueryStatus.LOADING
+                  }
                   onClick={handleClickLink}
+                  loading={isEditingProduction}
                 >
                   {t('productions.create.link')}
                 </Button>
                 <Button
                   variant={ButtonVariants.DANGER}
                   onClick={() => {
-                    skipSuggestedEvents({
+                    skipSuggestedEventsMutation.mutate({
                       eventIds: events.map((event) =>
                         parseOfferId(event['@id']),
                       ),
                     });
                   }}
+                  disabled={isEditingProduction}
                 >
                   {t('productions.create.skip')}
                 </Button>
