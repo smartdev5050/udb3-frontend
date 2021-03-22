@@ -5,41 +5,48 @@ import {
   typeaheadPropTypes,
 } from './Typeahead';
 import { getStackProps, Stack, stackPropTypes } from './Stack';
+import { forwardRef } from 'react';
 
-const TypeaheadWithLabel = ({
-  id,
-  label,
-  options,
-  labelKey,
-  disabled,
-  placeholder,
-  emptyLabel,
-  className,
-  onInputChange,
-  onSearch,
-  onChange,
-  ...props
-}) => {
-  return (
-    <Stack {...getStackProps(props)}>
-      <Label htmlFor={id} variant={LabelVariants.BOLD}>
-        {label}
-      </Label>
-      <Typeahead
-        id={id}
-        options={options}
-        labelKey={labelKey}
-        disabled={disabled}
-        emptyLabel={emptyLabel}
-        placeholder={placeholder}
-        className={className}
-        onInputChange={onInputChange}
-        onSearch={onSearch}
-        onChange={onChange}
-      />
-    </Stack>
-  );
-};
+const TypeaheadWithLabel = forwardRef(
+  (
+    {
+      id,
+      label,
+      options,
+      labelKey,
+      disabled,
+      placeholder,
+      emptyLabel,
+      className,
+      onInputChange,
+      onSearch,
+      onChange,
+      ...props
+    },
+    ref,
+  ) => {
+    return (
+      <Stack {...getStackProps(props)}>
+        <Label htmlFor={id} variant={LabelVariants.BOLD}>
+          {label}
+        </Label>
+        <Typeahead
+          id={id}
+          options={options}
+          labelKey={labelKey}
+          disabled={disabled}
+          emptyLabel={emptyLabel}
+          placeholder={placeholder}
+          className={className}
+          onInputChange={onInputChange}
+          onSearch={onSearch}
+          onChange={onChange}
+          ref={ref}
+        />
+      </Stack>
+    );
+  },
+);
 
 TypeaheadWithLabel.propTypes = {
   ...stackPropTypes,

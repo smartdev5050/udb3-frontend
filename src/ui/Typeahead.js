@@ -2,56 +2,63 @@ import PropTypes from 'prop-types';
 import { AsyncTypeahead as BootstrapTypeahead } from 'react-bootstrap-typeahead';
 import { getValueFromTheme } from './theme';
 import { Box, boxPropTypes, getBoxProps } from './Box';
+import { forwardRef } from 'react';
 
 const getValue = getValueFromTheme('typeahead');
 
-const Typeahead = ({
-  id,
-  options,
-  labelKey,
-  disabled,
-  placeholder,
-  emptyLabel,
-  className,
-  onInputChange,
-  onSearch,
-  onChange,
-  ...props
-}) => {
-  return (
-    <Box
-      forwardedAs={BootstrapTypeahead}
-      id={id}
-      options={options}
-      labelKey={labelKey}
-      isLoading={false}
-      disabled={disabled}
-      className={className}
-      css={`
-        .dropdown-item.active,
-        .dropdown-item:active {
-          color: ${getValue('active.color')};
-          background-color: ${getValue('active.backgroundColor')};
-          .rbt-highlight-text {
+const Typeahead = forwardRef(
+  (
+    {
+      id,
+      options,
+      labelKey,
+      disabled,
+      placeholder,
+      emptyLabel,
+      className,
+      onInputChange,
+      onSearch,
+      onChange,
+      ...props
+    },
+    ref,
+  ) => {
+    return (
+      <Box
+        forwardedAs={BootstrapTypeahead}
+        id={id}
+        options={options}
+        labelKey={labelKey}
+        isLoading={false}
+        disabled={disabled}
+        className={className}
+        css={`
+          .dropdown-item.active,
+          .dropdown-item:active {
             color: ${getValue('active.color')};
+            background-color: ${getValue('active.backgroundColor')};
+            .rbt-highlight-text {
+              color: ${getValue('active.color')};
+            }
           }
-        }
-        .rbt-highlight-text {
-          font-weight: ${getValue('highlight.fontWeight')};
-          background-color: ${getValue('highlight.backgroundColor')};
-        }
-      `}
-      onSearch={onSearch}
-      onInputChange={onInputChange}
-      onChange={onChange}
-      placeholder={placeholder}
-      emptyLabel={emptyLabel}
-      delay={275}
-      highlightOnlyResult
-      {...getBoxProps(props)}
-    />
-  );
-};
+          .rbt-highlight-text {
+            font-weight: ${getValue('highlight.fontWeight')};
+            background-color: ${getValue('highlight.backgroundColor')};
+          }
+        `}
+        onSearch={onSearch}
+        onInputChange={onInputChange}
+        onChange={onChange}
+        placeholder={placeholder}
+        emptyLabel={emptyLabel}
+        delay={275}
+        highlightOnlyResult
+        ref={ref}
+        {...getBoxProps(props)}
+      />
+    );
+  },
+);
 
 const typeaheadPropTypes = {
   id: PropTypes.string.isRequired,
