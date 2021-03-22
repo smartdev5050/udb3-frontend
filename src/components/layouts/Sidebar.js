@@ -246,15 +246,15 @@ const Sidebar = () => {
 
   const [searchQuery, setSearchQuery] = useState('');
 
-  const { data: dataWithAnnouncements = {} } = useGetAnnouncements({
+  const getAnnouncementsQuery = useGetAnnouncements({
     refetchInterval: 60000,
   });
 
-  const rawAnnouncements = dataWithAnnouncements?.data ?? [];
-  const { data: permissions = [] } = useGetPermissions();
-  const { data: roles = [] } = useGetRoles();
-  const { data: eventsToModerate = {} } = useGetEventsToModerate(searchQuery);
-  const countEventsToModerate = eventsToModerate?.totalItems || 0;
+  const rawAnnouncements = getAnnouncementsQuery.data?.data ?? [];
+  const getPermissionsQuery = useGetPermissions();
+  const getRolesQuery = useGetRoles();
+  const getEventsToModerateQuery = useGetEventsToModerate(searchQuery);
+  const countEventsToModerate = getEventsToModerateQuery.data?.totalItems || 0;
 
   const isSmallView = useMatchBreakpoint(Breakpoints.S);
 
@@ -307,11 +307,11 @@ const Sidebar = () => {
   }, [rawAnnouncements]);
 
   useEffect(() => {
-    if (roles.length === 0) {
+    if (!getRolesQuery.data) {
       return;
     }
 
-    const validationQuery = roles
+    const validationQuery = getRolesQuery.data
       .map((role) =>
         role.constraints !== undefined && role.constraints.v3
           ? role.constraints.v3
@@ -321,7 +321,7 @@ const Sidebar = () => {
       .join(' OR ');
 
     setSearchQuery(validationQuery);
-  }, [roles]);
+  }, [getRolesQuery.data]);
 
   const announcements = useMemo(
     () =>
@@ -407,14 +407,14 @@ const Sidebar = () => {
   ];
 
   const filteredManageMenu = useMemo(() => {
-    if (permissions.length === 0) {
+    if (!getPermissionsQuery.data) {
       return [];
     }
 
     return manageMenu.filter((menuItem) =>
-      permissions.includes(menuItem.permission),
+      getPermissionsQuery.data.includes(menuItem.permission),
     );
-  }, [permissions]);
+  }, [getPermissionsQuery.data]);
 
   return [
     <Stack
