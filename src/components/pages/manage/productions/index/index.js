@@ -39,16 +39,13 @@ const Index = () => {
   const [currentPageProductions, setCurrentPageProductions] = useState(1);
   const [errorMessageEvents, setErrorMessageEvents] = useState('');
 
-  const {
-    data: productionsData,
-    status: productionsStatus,
-  } = useGetProductions({
+  const getProductionsQuery = useGetProductions({
     name: searchInput,
     start: currentPageProductions - 1,
     limit: productionsPerPage,
   });
 
-  const rawProductions = productionsData?.member ?? [];
+  const rawProductions = getProductionsQuery.data?.member ?? [];
 
   useEffect(() => {
     if (rawProductions.length === 0) {
@@ -71,29 +68,28 @@ const Index = () => {
     [productions],
   );
 
-  const totalItemsProductions = productionsData?.totalItems ?? 0;
+  const totalItemsProductions = getProductionsQuery.data?.totalItems ?? 0;
 
-  const { data: rawEvents = [], status: eventsStatus } = useGetEventsByIds({
+  const getEventsByIdsQuery = useGetEventsByIds({
     ids: activeProduction?.events ?? [],
   });
 
-  const events = useMemo(
-    () =>
-      rawEvents
-        .map((event) => {
-          const eventId = event?.['@id'];
-          if (!eventId) return undefined;
+  const events = useMemo(() => {
+    if (!getEventsByIdsQuery.data) return [];
+    return getEventsByIdsQuery.data
+      .map((event) => {
+        const eventId = event?.['@id'];
+        if (!eventId) return undefined;
 
-          const id = parseOfferId(eventId);
-          return {
-            ...event,
-            id,
-            selected: selectedEventIds.includes(id),
-          };
-        })
-        .filter((event) => event),
-    [rawEvents],
-  );
+        const id = parseOfferId(eventId);
+        return {
+          ...event,
+          id,
+          selected: selectedEventIds.includes(id),
+        };
+      })
+      .filter((event) => event);
+  }, [getEventsByIdsQuery.data]);
 
   const handleSuccessDeleteEvents = async () => {
     await queryClient.refetchQueries(['productions']);
@@ -154,7 +150,7 @@ const Index = () => {
           {t('productions.overview.search.label')}
         </InputWithLabel>
         <Inline spacing={5}>
-          {productionsStatus !== QueryStatus.LOADING &&
+          {getProductionsQuery.status !== QueryStatus.LOADING &&
           productions.length === 0 ? (
             <Text>{t('productions.overview.no_productions')}</Text>
           ) : (
@@ -162,7 +158,7 @@ const Index = () => {
               <Productions
                 key="productions"
                 loading={
-                  productionsStatus === QueryStatus.LOADING &&
+                  getProductionsQuery.status === QueryStatus.LOADING &&
                   searchInput !== ''
                 }
                 width="40%"
@@ -175,7 +171,7 @@ const Index = () => {
               />,
               <Events
                 key="events"
-                loading={eventsStatus === QueryStatus.LOADING}
+                loading={getEventsByIdsQuery.status === QueryStatus.LOADING}
                 flex={1}
                 events={events}
                 activeProductionName={activeProduction?.name ?? ''}
