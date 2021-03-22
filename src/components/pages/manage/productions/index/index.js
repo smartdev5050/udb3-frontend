@@ -96,7 +96,7 @@ const Index = () => {
     setSelectedEventIds([]);
   };
 
-  const { mutate: deleteEventsByIds } = useDeleteEventsByIds({
+  const deleteEventsByIdsMutation = useDeleteEventsByIds({
     onSuccess: handleSuccessDeleteEvents,
   });
 
@@ -119,7 +119,7 @@ const Index = () => {
     });
   };
 
-  const { mutate: addEventById } = useAddEventById({
+  const addEventByIdMutation = useAddEventById({
     onSuccess: handleSuccessAddEvent,
     onError: handleErrorAddEvent,
   });
@@ -187,7 +187,7 @@ const Index = () => {
                 }}
                 onAddEvent={() => {
                   setErrorMessageEvents('');
-                  addEventById({
+                  addEventByIdMutation.mutate({
                     productionId: activeProduction.id,
                     eventId: toBeAddedEventId,
                   });
@@ -210,7 +210,7 @@ const Index = () => {
           eventCount={selectedEventIds.length}
           productionName={activeProduction?.name ?? ''}
           onConfirm={() => {
-            deleteEventsByIds({
+            deleteEventsByIdsMutation.mutate({
               productionId: activeProduction.id,
               eventIds: selectedEventIds,
             });
