@@ -48,7 +48,7 @@ const StatusPageSingle = ({ offer, error, useChangeStatus }) => {
   const handleSuccessChangeStatus = () =>
     router.push(`/${offerType}/${offerId}/preview`);
 
-  const { mutate: changeStatus, ...changeStatusMutation } = useChangeStatus({
+  const changeStatusMutation = useChangeStatus({
     onSuccess: handleSuccessChangeStatus,
   });
 
@@ -78,12 +78,12 @@ const StatusPageSingle = ({ offer, error, useChangeStatus }) => {
                 disabled={!offer || reason.length > 200}
                 onClick={() => {
                   if (type === OfferStatus.AVAILABLE) {
-                    changeStatus({
+                    changeStatusMutation.mutate({
                       id: offerId,
                       type,
                     });
                   } else {
-                    changeStatus({
+                    changeStatusMutation.mutate({
                       id: offerId,
                       type,
                       reason: {
