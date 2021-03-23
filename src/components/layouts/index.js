@@ -26,7 +26,7 @@ const useChangeLanguage = () => {
 const useHandleAuthentication = () => {
   const { query, asPath, ...router } = useRouter();
   const { setCookie, cookies } = useCookiesWithOptions(['user', 'token']);
-  const { data: user } = useGetUser();
+  const getUserQuery = useGetUser();
 
   useEffect(() => {
     if (query?.jwt && cookies.token !== query?.jwt) {
@@ -35,9 +35,9 @@ const useHandleAuthentication = () => {
   }, [query]);
 
   useEffect(() => {
-    if (!user) return;
-    setCookie('user', user);
-  }, [user]);
+    if (!getUserQuery.data) return;
+    setCookie('user', getUserQuery.data);
+  }, [getUserQuery.data]);
 
   // redirect when there is no token or user cookie
   // manipulation from outside the application
