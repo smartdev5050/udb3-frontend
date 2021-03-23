@@ -57,15 +57,12 @@ const StatusPageMultiple = ({ event, refetchEvent }) => {
     setIsModalVisible(false);
   };
 
-  const {
-    mutate: changeStatusSubEvents,
-    ...changeSubEventsMutation
-  } = useChangeStatusSubEvents({
+  const changeSubEventsMutation = useChangeStatusSubEvents({
     onSuccess: handleSuccess,
   });
 
   const handleConfirmChangeStatus = async (type, reason) =>
-    changeStatusSubEvents({
+    changeSubEventsMutation.mutate({
       eventId,
       subEventIds: selectedSubEventIds,
       subEvents,

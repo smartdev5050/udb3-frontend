@@ -36,7 +36,7 @@ const Event = ({
   className,
 }) => {
   const { i18n, t } = useTranslation();
-  const { data: period } = useGetCalendarSummary({
+  const getCalendarSummaryQuery = useGetCalendarSummary({
     id,
     locale: i18n?.language ?? '',
     format: calendarType === CalendarType.SINGLE ? 'lg' : 'sm',
@@ -87,7 +87,10 @@ const Event = ({
           <DetailTable
             items={[
               { header: t('productions.event.type'), value: type },
-              { header: t('productions.event.when'), value: period },
+              {
+                header: t('productions.event.when'),
+                value: getCalendarSummaryQuery.data,
+              },
               { header: t('productions.event.where'), value: location },
             ]}
           />

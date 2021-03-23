@@ -34,13 +34,9 @@ const Create = () => {
   const [selectedProductionId, setSelectedProductionId] = useState('');
   const typeaheadComponent = useRef();
 
-  const {
-    data: suggestedEvents,
-    status: suggestedEventsStatus,
-    refetch: refetchSuggestedEvents,
-  } = useGetSuggestedEvents({ retry: false });
+  const getSuggestedEventsQuery = useGetSuggestedEvents({ retry: false });
 
-  const { data: suggestedProductionsData } = useGetProductions({
+  const getProductionsQuery = useGetProductions({
     name: searchInput,
     limit: 10,
   });
@@ -48,7 +44,7 @@ const Create = () => {
   const handleSuccess = async () => {
     setSelectedProductionId('');
     setSearchInput('');
-    await refetchSuggestedEvents();
+    await getSuggestedEventsQuery.refetch();
     typeaheadComponent?.current?.clear();
   };
 
@@ -69,11 +65,11 @@ const Create = () => {
   });
 
   const suggestedProductions = searchInput
-    ? suggestedProductionsData?.member ?? []
+    ? getProductionsQuery.data?.member ?? []
     : [];
 
-  const events = suggestedEvents?.events ?? [];
-  const similarity = suggestedEvents?.similarity ?? 0;
+  const events = getSuggestedEventsQuery.data?.events ?? [];
+  const similarity = getSuggestedEventsQuery.data?.similarity ?? 0;
 
   const availableProductions = useMemo(
     () =>
@@ -160,7 +156,7 @@ const Create = () => {
     <Page>
       <Page.Title>{t('productions.create.title')}</Page.Title>
       <Page.Content>
-        {suggestedEventsStatus === QueryStatus.LOADING ? (
+        {getSuggestedEventsQuery.status === QueryStatus.LOADING ? (
           <Spinner marginTop={4} />
         ) : events.length === 0 ? (
           <Text>{t('productions.create.no_suggested_events_found')}</Text>

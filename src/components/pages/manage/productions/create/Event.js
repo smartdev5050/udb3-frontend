@@ -36,7 +36,7 @@ const Event = ({
     return t(`offerTypes*${typeId}`, { keySeparator: '*' });
   }, [terms]);
 
-  const { data: period } = useGetCalendarSummary({
+  const getCalendarSummaryQuery = useGetCalendarSummary({
     id,
     locale: i18n.language,
     format: calendarType === CalendarType.SINGLE ? 'lg' : 'sm',
@@ -57,7 +57,7 @@ const Event = ({
           <Text>{type}</Text>
           <Stack>
             <Title>{title}</Title>
-            <Text>{period}</Text>
+            <Text>{getCalendarSummaryQuery.data}</Text>
           </Stack>
           <Text>
             {locationName} {locationCity}
