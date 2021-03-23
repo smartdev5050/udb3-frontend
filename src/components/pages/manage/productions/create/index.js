@@ -7,7 +7,7 @@ import { Button, ButtonVariants } from '@/ui/Button';
 import { Event } from './Event';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 import { parseOfferId } from '@/utils/parseOfferId';
-import { useState, useMemo, useEffect, useCallback } from 'react';
+import { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 import {
   useGetProductions,
   useGetSuggestedEvents,
@@ -32,6 +32,7 @@ const Create = () => {
   const { t, i18n } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
   const [selectedProductionId, setSelectedProductionId] = useState('');
+  const typeaheadComponent = useRef();
 
   const getSuggestedEventsQuery = useGetSuggestedEvents({ retry: false });
 
@@ -44,6 +45,7 @@ const Create = () => {
     setSelectedProductionId('');
     setSearchInput('');
     await getSuggestedEventsQuery.refetch();
+    typeaheadComponent?.current?.clear();
   };
 
   const skipSuggestedEventsMutation = useSkipSuggestedEvents({
@@ -241,6 +243,7 @@ const Create = () => {
                     }
                     setSelectedProductionId(selected[0].production_id);
                   }}
+                  ref={typeaheadComponent}
                 />
               )}
               <Inline spacing={3}>
