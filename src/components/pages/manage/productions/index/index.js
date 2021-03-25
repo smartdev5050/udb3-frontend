@@ -91,8 +91,8 @@ const Index = () => {
       .filter((event) => event);
   }, [getEventsByIdsQuery.data]);
 
-  const handleSuccessDeleteEvents = async () => {
-    await queryClient.refetchQueries(['productions']);
+  const handleSuccessDeleteEvents = () => {
+    queryClient.invalidateQueries('productions');
     setSelectedEventIds([]);
   };
 
@@ -101,7 +101,7 @@ const Index = () => {
   });
 
   const handleSuccessAddEvent = () => {
-    queryClient.refetchQueries(['productions']);
+    queryClient.invalidateQueries('productions');
     setToBeAddedEventId('');
   };
 
