@@ -15,6 +15,7 @@ module.exports = {
     ];
   },
   publicRuntimeConfig: {
+    environment: process.env.NEXT_PUBLIC_ENVIRONMENT,
     apiKey: process.env.NEXT_PUBLIC_API_KEY,
     apiUrl: process.env.NEXT_PUBLIC_API_URL,
     legacyAppUrl: process.env.NEXT_PUBLIC_LEGACY_APP_URL,
