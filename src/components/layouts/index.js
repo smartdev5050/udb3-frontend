@@ -8,12 +8,14 @@ import {
 } from '@/hooks/useHandleWindowMessage';
 import { Inline } from '@/ui/Inline';
 import { isTokenValid } from '@/utils/isTokenValid';
+import { setSentryUser } from '@/utils/sentry';
 import { Sidebar } from './Sidebar';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { Cookies } from 'react-cookie';
 import { useTranslation } from 'react-i18next';
-import { ErrorBoundary } from './ErrorBoundary';
+import { ErrorFallback } from './ErrorFallback';
+import * as Sentry from '@sentry/react';
 
 const useChangeLanguage = () => {
   const { i18n } = useTranslation();
@@ -36,7 +38,9 @@ const useHandleAuthentication = () => {
 
   useEffect(() => {
     if (!getUserQuery.data) return;
+    const { id, email, username } = getUserQuery.data;
     setCookie('user', getUserQuery.data);
+    setSentryUser({ id, email, username });
   }, [getUserQuery.data]);
 
   // redirect when there is no token or user cookie
@@ -113,9 +117,12 @@ const LayoutWrapper = ({ children }) => {
   }
 
   return (
-    <ErrorBoundary>
+    // eslint-disable-next-line node/handle-callback-err
+    <Sentry.ErrorBoundary
+      fallback={({ error }) => <ErrorFallback error={error} />}
+    >
       <Layout>{children}</Layout>
-    </ErrorBoundary>
+    </Sentry.ErrorBoundary>
   );
 };
 

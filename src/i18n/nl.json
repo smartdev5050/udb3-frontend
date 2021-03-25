@@ -196,6 +196,7 @@
   },
   "error": {
     "title": "Er is iets misgelopen",
-    "description": "Er ging iets mis. Herlaad de pagina om opnieuw te proberen. Neem contact op met vragen@uitdatabank.be als dit probleem zich blijft voordoen"
+    "description": "Er ging iets mis. Herlaad de pagina om opnieuw te proberen. Neem contact op met <1>{{email}}</1> als dit probleem zich blijft voordoen",
+    "email": "vragen@uitdatabank.be"
   }
 }
