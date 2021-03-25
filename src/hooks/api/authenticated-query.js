@@ -14,11 +14,12 @@ const QueryStatus = {
   SUCCESS: 'success',
 };
 
-const prepareKey = ({ queryKey = [], queryArguments = {} } = {}) =>
-  [
-    flatten(...[queryKey]),
+const prepareKey = ({ queryKey = [], queryArguments = {} } = {}) => {
+  return [
+    ...flatten(queryKey),
     Object.keys(queryArguments).length > 0 ? queryArguments : undefined,
   ].filter((key) => key !== undefined);
+};
 
 const prepareArguments = ({
   options: {
