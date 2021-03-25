@@ -6,6 +6,7 @@ import { I18nextProvider, useTranslation } from 'react-i18next';
 import i18n from '@/i18n/index';
 import { CookiesProvider, Cookies } from 'react-cookie';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { Hydrate } from 'react-query/hydration';
 
 import { cloneElement } from 'react';
@@ -84,6 +85,7 @@ const App = ({ Component, pageProps, children }) => {
           [Hydrate, { state: pageProps?.dehydratedState ?? {} }],
         ]}
       >
+        <ReactQueryDevtools initialIsOpen={false} />
         <Layout>
           {children ? (
             cloneElement(children, { ...children.props, ...pageProps })
