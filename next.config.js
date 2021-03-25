@@ -22,5 +22,6 @@ module.exports = {
     authUrl: process.env.NEXT_PUBLIC_AUTH_URL,
     socketUrl: process.env.NEXT_PUBLIC_SOCKET_URL,
     newAnnouncementsUrl: process.env.NEXT_PUBLIC_NEW_ANNOUNCEMENTS_URL,
+    sentryDsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
   },
 };
