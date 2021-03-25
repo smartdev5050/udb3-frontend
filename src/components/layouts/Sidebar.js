@@ -133,9 +133,9 @@ const ProfileMenu = ({ profileImage }) => {
     {
       iconName: Icons.SIGN_OUT,
       children: t('menu.logout'),
-      onClick: () => {
+      onClick: async () => {
         removeAuthenticationCookies();
-        queryClient.invalidateQueries('user');
+        await queryClient.invalidateQueries('user');
 
         const getBaseUrl = () =>
           `${window.location.protocol}//${window.location.host}`;
