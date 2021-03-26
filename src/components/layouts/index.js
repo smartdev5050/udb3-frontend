@@ -38,9 +38,8 @@ const useHandleAuthentication = () => {
 
   useEffect(() => {
     if (!getUserQuery.data) return;
-    const { id, email, username } = getUserQuery.data;
     setCookie('user', getUserQuery.data);
-    setSentryUser({ id, email, username });
+    setSentryUser({ id: getUserQuery.data.id });
   }, [getUserQuery.data]);
 
   // redirect when there is no token or user cookie
