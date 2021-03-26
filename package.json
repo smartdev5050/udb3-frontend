@@ -25,6 +25,8 @@
     "@fortawesome/free-brands-svg-icons": "^5.15.1",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@fortawesome/react-fontawesome": "^0.1.12",
+    "@sentry/react": "^6.2.3",
+    "@sentry/tracing": "^6.2.3",
     "base-64": "^1.0.0",
     "bootstrap": "^4.5.3",
     "date-fns": "^2.16.1",

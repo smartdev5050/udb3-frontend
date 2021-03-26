@@ -1,20 +1,18 @@
-import PropTypes from 'prop-types';
-
-import { ThemeProvider } from '@/ui/ThemeProvider';
-import NextHead from 'next/head';
-import { I18nextProvider, useTranslation } from 'react-i18next';
 import i18n from '@/i18n/index';
-import { CookiesProvider, Cookies } from 'react-cookie';
+import Layout from '@/layouts/index';
+import { GlobalStyle } from '@/styles/GlobalStyle';
+import { ThemeProvider } from '@/ui/ThemeProvider';
+import { initializeSentry } from '@/utils/sentry';
+import { config } from '@fortawesome/fontawesome-svg-core';
+import '@fortawesome/fontawesome-svg-core/styles.css';
+import NextHead from 'next/head';
+import PropTypes from 'prop-types';
+import { cloneElement } from 'react';
+import { Cookies, CookiesProvider } from 'react-cookie';
+import { I18nextProvider, useTranslation } from 'react-i18next';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { Hydrate } from 'react-query/hydration';
-
-import { cloneElement } from 'react';
-import { config } from '@fortawesome/fontawesome-svg-core';
-import '@fortawesome/fontawesome-svg-core/styles.css';
-import { GlobalStyle } from '@/styles/GlobalStyle';
-
-import Layout from '@/layouts/index';
 
 const ContextProvider = ({ providers, children }) => {
   return providers.reverse().reduce((AccumulatedProviders, current) => {
@@ -61,6 +59,7 @@ const Head = () => {
 };
 
 const queryClient = new QueryClient();
+initializeSentry();
 
 const isServer = () => typeof window === 'undefined';
 

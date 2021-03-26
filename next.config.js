@@ -15,11 +15,13 @@ module.exports = {
     ];
   },
   publicRuntimeConfig: {
+    environment: process.env.NEXT_PUBLIC_ENVIRONMENT,
     apiKey: process.env.NEXT_PUBLIC_API_KEY,
     apiUrl: process.env.NEXT_PUBLIC_API_URL,
     legacyAppUrl: process.env.NEXT_PUBLIC_LEGACY_APP_URL,
     authUrl: process.env.NEXT_PUBLIC_AUTH_URL,
     socketUrl: process.env.NEXT_PUBLIC_SOCKET_URL,
     newAnnouncementsUrl: process.env.NEXT_PUBLIC_NEW_ANNOUNCEMENTS_URL,
+    sentryDsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
   },
 };
