@@ -14,7 +14,7 @@ import { parseOfferId } from '@/utils/parseOfferId';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
 
 import { Text } from '@/ui/Text';
-import { throttle } from 'lodash';
+import throttle from 'lodash/throttle';
 import { useQueryClient } from 'react-query';
 import { DeleteModal } from './DeleteModal';
 import { Events } from './Events';

@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
-import { kebabCase, pick } from 'lodash';
+import kebabCase from 'lodash/kebabCase';
+import pick from 'lodash/pick';
 import { forwardRef } from 'react';
 
 const remInPixels = 15;
