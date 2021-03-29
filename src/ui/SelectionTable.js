@@ -4,7 +4,7 @@ import { Table as BootstrapTable } from 'react-bootstrap';
 import { useTable, useRowSelect } from 'react-table';
 import { Checkbox } from './Checkbox';
 import { Box, getBoxProps } from './Box';
-import { uniqueId } from 'lodash';
+import uniqueId from 'lodash/uniqueId';
 import { getValueFromTheme } from './theme';
 import { Inline } from './Inline';
 import { Button, ButtonVariants } from './Button';

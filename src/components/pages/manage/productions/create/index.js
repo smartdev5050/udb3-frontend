@@ -18,7 +18,7 @@ import {
 } from '@/hooks/api/productions';
 import { Stack } from '@/ui/Stack';
 import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
-import { throttle } from 'lodash';
+import throttle from 'lodash/throttle';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
 import { Spinner } from '@/ui/Spinner';
 
