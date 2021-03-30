@@ -15,6 +15,7 @@ const Typeahead = forwardRef(
       disabled,
       placeholder,
       emptyLabel,
+      minLength,
       className,
       onInputChange,
       onSearch,
@@ -51,6 +52,7 @@ const Typeahead = forwardRef(
         onChange={onChange}
         placeholder={placeholder}
         emptyLabel={emptyLabel}
+        minLength={minLength}
         delay={275}
         highlightOnlyResult
         ref={ref}
@@ -67,6 +69,7 @@ const typeaheadPropTypes = {
   disabled: PropTypes.bool,
   placeholder: PropTypes.string,
   emptyLabel: PropTypes.string,
+  minLength: PropTypes.number,
   className: PropTypes.string,
   onInputChange: PropTypes.func,
   onSearch: PropTypes.func,
