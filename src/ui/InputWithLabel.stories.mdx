@@ -1,20 +1,10 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
 import { InputWithLabel } from './InputWithLabel.js';
 
-<Meta title="Components/InputWithLabel" />
+<Meta title="Components/InputWithLabel" component={InputWithLabel} />
 
 <Canvas>
-  <Story
-    name="Default"
-    args={{
-      id: 'testform',
-      children: 'A label',
-      placeholder: 'John Doe',
-      type: 'text',
-    }}
-  >
-    {(args) => <InputWithLabel {...args} />}
-  </Story>
+  <Story name="Default">{(args) => <InputWithLabel {...args} />}</Story>
 </Canvas>
 
 <ArgsTable story="Default" />

@@ -2,7 +2,7 @@ import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
 import { RadioButtonGroup } from './RadioButtonGroup.js';
 import { useState } from 'react';
 
-<Meta title="Components/RadioButtonGroup" />
+<Meta title="Components/RadioButtonGroup" component={RadioButtonGroup} />
 
 export const commonArgs = {
   name: 'city',
@@ -14,10 +14,8 @@ export const commonArgs = {
   ],
 };
 
-export const commonArgTypes = { onChange: { action: 'onChange' } };
-
 <Canvas>
-  <Story name="Default" args={commonArgs} argTypes={commonArgTypes}>
+  <Story name="Default" args={commonArgs}>
     {(args) => {
       const [selectedCity, setSelectedCity] = useState('rome');
       return (

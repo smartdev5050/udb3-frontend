@@ -54,10 +54,6 @@ ListItem.propTypes = {
   onClick: PropTypes.func,
 };
 
-ListItem.defaultTypes = {
-  onClick: () => {},
-};
-
 List.Item = ListItem;
 
 export { List };

@@ -1,16 +1,10 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
 import { TextArea } from './TextArea.js';
 
-<Meta title="Components/TextArea" />
+<Meta title="Components/TextArea" component={TextArea} />
 
 <Canvas>
-  <Story
-    name="Default"
-    args={{ value: 'This is a TextArea' }}
-    argTypes={{
-      onInput: { action: 'onInput' },
-    }}
-  >
+  <Story name="Default" args={{ value: 'This is a TextArea' }}>
     {(args) => <TextArea {...args} />}
   </Story>
 </Canvas>

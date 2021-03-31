@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import { Label, LabelVariants } from './Label';
 import { Inline } from './Inline';
-import { Input } from './Input';
-import { boxPropTypes, getBoxProps } from './Box';
+import { Input, inputPropTypes } from './Input';
+import { getBoxProps } from './Box';
 
 const InputWithLabel = ({
   type,
@@ -28,13 +28,8 @@ const InputWithLabel = ({
 );
 
 InputWithLabel.propTypes = {
-  ...boxPropTypes,
-  className: PropTypes.string,
-  type: PropTypes.string,
-  id: PropTypes.string.isRequired,
+  ...inputPropTypes,
   children: PropTypes.string,
-  placeholder: PropTypes.string,
-  onInput: PropTypes.func,
 };
 
 InputWithLabel.defaultProps = {

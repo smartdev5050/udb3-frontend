@@ -2,40 +2,19 @@ import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
 import { Box } from './Box.js';
 import styled from 'styled-components';
 
-<Meta title="Primitives/Box" />
-
-export const CustomBox = styled(Box)`
-  background-color: #004f94;
-  width: 300px;
-  height: 100px;
-  color: #fff;
-`;
-
-export const commonArgTypes = {
-  margin: { type: { name: 'number' } },
-  marginX: { type: { name: 'number' } },
-  marginY: { type: { name: 'number' } },
-  marginTop: { type: { name: 'number' } },
-  marginBottom: { type: { name: 'number' } },
-  marginLeft: { type: { name: 'number' } },
-  marginRight: { type: { name: 'number' } },
-  padding: { type: { name: 'number' } },
-  paddingX: { type: { name: 'number' } },
-  paddingY: { type: { name: 'number' } },
-  paddingTop: { type: { name: 'number' } },
-  paddingBottom: { type: { name: 'number' } },
-  paddingLeft: { type: { name: 'number' } },
-  paddingRight: { type: { name: 'number' } },
-};
+<Meta title="Primitives/Box" component={Box} />
 
 <Canvas>
-  <Story name="Default" argTypes={commonArgTypes}>
-    {(args) => (
-      <>
-        <CustomBox {...args}>A Box</CustomBox>
-        <CustomBox {...args}>Another Box</CustomBox>
-      </>
-    )}
+  <Story
+    name="Default"
+    args={{
+      css: `background-color: #004f94;
+  width: 300px;
+  height: 100px;
+  color: #fff;`,
+    }}
+  >
+    {(args) => <Box {...args}>A Box</Box>}
   </Story>
 </Canvas>
 

@@ -1,7 +1,7 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
 import { Typeahead } from './Typeahead.js';
 
-<Meta title="Components/Typeahead" />
+<Meta title="Components/Typeahead" component={Typeahead} />
 
 export const cities = [
   { id: 1, name: 'Rome' },
@@ -17,14 +17,8 @@ export const commonArgs = {
   minLength: 3,
 };
 
-export const commonArgTypes = {
-  onSearch: { action: 'onSearch' },
-  onChange: { action: 'onChange' },
-  onInputChange: { action: 'onInputChange' },
-};
-
 <Canvas>
-  <Story name="Default" args={commonArgs} argTypes={commonArgTypes}>
+  <Story name="Default" args={commonArgs}>
     {(args) => <Typeahead {...args} />}
   </Story>
 </Canvas>

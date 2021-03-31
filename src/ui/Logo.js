@@ -69,9 +69,9 @@ Logo.defaultProps = {
 };
 
 Logo.propTypes = {
+  ...boxPropTypes,
   className: PropTypes.string,
   variant: PropTypes.string,
-  ...boxPropTypes,
 };
 
 export { Logo, LogoVariants };

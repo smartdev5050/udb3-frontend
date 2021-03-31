@@ -2,11 +2,7 @@ import { useState } from 'react';
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
 import { CheckboxWithLabel } from './CheckboxWithLabel.js';
 
-<Meta title="Components/CheckboxWithLabel" />
-
-export const commonArgTypes = {
-  onToggle: { action: 'onToggle' },
-};
+<Meta title="Components/CheckboxWithLabel" component={CheckboxWithLabel} />
 
 <Canvas>
   <Story
@@ -18,7 +14,6 @@ export const commonArgTypes = {
       disabled: false,
       children: 'Click me',
     }}
-    argTypes={commonArgTypes}
   >
     {(args) => {
       const [checked, setChecked] = useState(false);

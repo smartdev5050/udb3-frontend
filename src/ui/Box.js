@@ -397,8 +397,6 @@ const Box = forwardRef(({ children, ...props }, ref) => (
 
 Box.propTypes = {
   children: PropTypes.node,
-  className: PropTypes.string,
-  ...boxPropTypes,
 };
 
 Box.defaultProps = {

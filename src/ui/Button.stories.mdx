@@ -2,13 +2,11 @@ import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
 import { Button, ButtonVariants } from './Button.js';
 import { Icon, Icons } from './Icon.js';
 
-<Meta title="Components/Button" />
+<Meta title="Components/Button" component={Button} />
 
 export const commonArgs = {
   disabled: false,
 };
-
-export const commonArgTypes = { onClick: { action: 'onClick' } };
 
 # Variants
 
@@ -22,7 +20,6 @@ export const commonArgTypes = { onClick: { action: 'onClick' } };
       children: 'Primary',
       ...commonArgs,
     }}
-    argTypes={commonArgTypes}
   >
     {(args) => <Button {...args} />}
   </Story>
@@ -40,7 +37,6 @@ export const commonArgTypes = { onClick: { action: 'onClick' } };
       children: 'Secondary',
       ...commonArgs,
     }}
-    argTypes={commonArgTypes}
   >
     {(args) => <Button {...args} />}
   </Story>
@@ -58,7 +54,6 @@ export const commonArgTypes = { onClick: { action: 'onClick' } };
       children: 'Success',
       ...commonArgs,
     }}
-    argTypes={commonArgTypes}
   >
     {(args) => <Button {...args} />}
   </Story>
@@ -76,7 +71,6 @@ export const commonArgTypes = { onClick: { action: 'onClick' } };
       children: 'Danger',
       ...commonArgs,
     }}
-    argTypes={commonArgTypes}
   >
     {(args) => <Button {...args} />}
   </Story>
@@ -94,7 +88,6 @@ export const commonArgTypes = { onClick: { action: 'onClick' } };
       children: 'Unstyled',
       ...commonArgs,
     }}
-    argTypes={commonArgTypes}
   >
     {(args) => <Button {...args} />}
   </Story>
@@ -113,7 +106,6 @@ export const commonArgTypes = { onClick: { action: 'onClick' } };
       loading: true,
       ...commonArgs,
     }}
-    argTypes={commonArgTypes}
   >
     {(args) => <Button {...args} />}
   </Story>
@@ -132,7 +124,6 @@ export const commonArgTypes = { onClick: { action: 'onClick' } };
       customChildren: true,
       children: <Icon name={Icons.TIMES} />,
     }}
-    argTypes={commonArgTypes}
   >
     {(args) => <Button {...args} />}
   </Story>

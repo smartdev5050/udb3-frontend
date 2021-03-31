@@ -27,7 +27,7 @@ const Input = ({
   />
 );
 
-Input.propTypes = {
+const inputPropTypes = {
   ...boxPropTypes,
   className: PropTypes.string,
   type: PropTypes.string,
@@ -36,8 +36,12 @@ Input.propTypes = {
   onInput: PropTypes.func,
 };
 
+Input.propTypes = {
+  ...inputPropTypes,
+};
+
 Input.defaultProps = {
   type: 'text',
 };
 
-export { Input };
+export { Input, inputPropTypes };
