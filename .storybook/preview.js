@@ -15,6 +15,7 @@ export const parameters = {
     },
   },
   actions: { argTypesRegex: '^on.*' },
+  controls: { sort: 'alpha' },
   docs: {
     components: {
       Canvas: CustomCanvas,
