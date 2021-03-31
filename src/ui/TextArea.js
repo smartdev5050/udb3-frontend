@@ -17,7 +17,6 @@ const TextArea = ({ id, className, onInput, value, disabled, ...props }) => {
       disabled={disabled}
       css={`
         border: 1px solid ${getValue('borderColor')};
-        padding: ${getValue('paddingY')} ${getValue('paddingX')};
       `}
       {...getBoxProps(props)}
     />
