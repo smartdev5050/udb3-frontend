@@ -9,7 +9,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 We use [React Bootstrap components](https://react-bootstrap.github.io/) underneath as implementation for our own custom components, so we can recreate the same look
 and feel in React as we had in AngularJS.
 
-Every Bootstrap component we use in React should be wrapped in a custom component inside the publiq-ui folder.
+Every Bootstrap component we use in React should be wrapped in a custom component inside the ui folder.
 That way we have a more centralized place to define how it's styled and how it should behave.
 
 Props on the custom components should not be passed "automatically" to the Bootstrap component underneath.
@@ -21,13 +21,38 @@ Restricting access to props down the line is harder.
 
 Components should never have a margin by default. When you put two components next to each other they should "stick" by default. This way you can easily play with different spacing depending on the place where you use them.
 
-Components with children should also have no padding by default. For example a panel component should not have padding so that you can put a list inside that sticks to the top/bottom/sides.
+When you want to add margin or padding to a component, you can use the following properties that are exposed by the `Box` component:
 
-To enable padding/margin, the goal is to add some kind of prop that uses an enumeration of predefined units to configure the space around/inside the element, eg 1, 2, 3, ... without specifying the pixels/rem/...
+### Margin
+
+- `marginLeft`
+- `marginRight`
+- `marginTop`
+- `marginBottom`
+- `marginX` (uses `marginLeft` and `marginRight`)
+- `marginY` (uses `marginTop` and `marginBottom`)
+
+### Padding
+
+- `paddingLeft`
+- `paddingRight`
+- `paddingTop`
+- `paddingBottom`
+- `paddingX` (uses `paddingLeft` and `paddingRight`)
+- `paddingY` (uses `paddingTop` and `paddingBottom`)
+
+The value you pass down to these properties is a number ranging from `0` to `a very big number`. Behind the scenes this number is parsed to a `rem` value following a specified function, so we get consistent spacing over all components.
+
+## Box rules all
+
+The Box component is **THE** primitive component what all components should be based on.
+
+Box contains all the logic for our design and spacing system. Box contains all the margin- and padding-properties [as seen above](/?path=/story/introduction-design-principles--page#spacing), but it also contains tons of css properties like `height`, `fontSize`, `backgroundColor`, `animation`, ...
+See the full list of properties [here](/?path=/story/primitives-box--default-story)
 
 ## Typography
 
-The root font size is defined once globally and should not be overridden in specific components. Use the `rem` unit as much as possible for other values like margins, paddings, etc.
+The root font size is defined once globally and should not be overridden in specific components.
 
 ## Scoped styles
 
