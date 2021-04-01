@@ -5,19 +5,17 @@ import { useState } from 'react';
 <Meta title="Components/TextArea" component={TextArea} />
 
 <Canvas>
-  <Story
-    name="Default"
-    argTypes={{
-      onInput: { action: 'onInput' },
-    }}
-  >
+  <Story name="Default">
     {(args) => {
       const [value, setValue] = useState('This is a Textarea');
       return (
         <TextArea
           {...args}
           value={value}
-          onInput={(e) => setValue(e.target.value)}
+          onInput={(e) => {
+            args.onInput(e);
+            setValue(e.target.value);
+          }}
         />
       );
     }}
