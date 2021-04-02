@@ -17,6 +17,7 @@ const TypeaheadWithLabel = forwardRef(
       disabled,
       placeholder,
       emptyLabel,
+      minLength,
       className,
       onInputChange,
       onSearch,
@@ -36,6 +37,7 @@ const TypeaheadWithLabel = forwardRef(
           labelKey={labelKey}
           disabled={disabled}
           emptyLabel={emptyLabel}
+          minLength={minLength}
           placeholder={placeholder}
           className={className}
           onInputChange={onInputChange}
