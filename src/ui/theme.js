@@ -121,9 +121,6 @@ const theme = {
     radioButtonWithLabel: {
       infoTextColor: colors.grey5,
     },
-    textArea: {
-      borderColor: colors.grey3,
-    },
     page: {
       backgroundColor: colors.grey1,
     },
