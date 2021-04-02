@@ -86,6 +86,7 @@ const typeaheadDefaultProps = {
   labelKey: (item) => item,
   onSearch: async () => {},
   disabled: false,
+  minLength: 3,
 };
 
 Typeahead.defaultProps = {
