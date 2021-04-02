@@ -396,6 +396,7 @@ const Box = forwardRef(({ children, ...props }, ref) => (
 ));
 
 Box.propTypes = {
+  ...boxPropTypes,
   children: PropTypes.node,
 };
 
