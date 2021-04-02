@@ -4,17 +4,16 @@ import styled from 'styled-components';
 
 <Meta title="Primitives/Box" component={Box} />
 
-<Canvas>
-  <Story
-    name="Default"
-    args={{
-      css: `background-color: #004f94;
+export const StyledBox = styled(Box)`
+  background-color: #004f94;
   width: 300px;
   height: 100px;
-  color: #fff;`,
-    }}
-  >
-    {(args) => <Box {...args}>A Box</Box>}
+  color: #fff;
+`;
+
+<Canvas>
+  <Story name="Default">
+    {(args) => <StyledBox {...args}>A Box</StyledBox>}
   </Story>
 </Canvas>
 
