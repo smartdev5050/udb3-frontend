@@ -235,7 +235,6 @@ const Create = () => {
                   maxWidth="43rem"
                   label={t('productions.create.production_name')}
                   emptyLabel={t('productions.create.no_productions')}
-                  minLength={3}
                   onInputChange={throttle(handleInputSearch, 275)}
                   onChange={(selected) => {
                     if (!selected || selected.length !== 1) {

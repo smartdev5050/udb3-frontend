@@ -69,7 +69,7 @@
       "production": "Production",
       "search": {
         "label": "Recherche par nom de production:",
-        "placeholder": "Écrivez une recherche d'au moins 4 caractères."
+        "placeholder": "Écrivez une recherche d'au moins 3 caractères."
       },
       "title": "Productions",
       "aria": {
