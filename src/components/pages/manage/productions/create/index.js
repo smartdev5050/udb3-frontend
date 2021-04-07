@@ -29,6 +29,7 @@ const ProductionStatus = {
 };
 
 const Create = () => {
+  const minSearchLength = 3;
   const { t, i18n } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
   const [selectedProductionId, setSelectedProductionId] = useState('');
@@ -118,8 +119,14 @@ const Create = () => {
   }, [selectedProductionId, searchInput]);
 
   const handleInputSearch = useCallback((searchTerm) => {
+    const trimmedSearchTerm = searchTerm.toString().trim();
+
+    if (trimmedSearchTerm.length < minSearchLength) {
+      return;
+    }
+
     setSelectedProductionId(undefined);
-    setSearchInput(searchTerm.toString().trim());
+    setSearchInput(trimmedSearchTerm);
   }, []);
 
   const handleClickLink = () => {
@@ -235,6 +242,7 @@ const Create = () => {
                   maxWidth="43rem"
                   label={t('productions.create.production_name')}
                   emptyLabel={t('productions.create.no_productions')}
+                  minLength={minSearchLength}
                   onInputChange={throttle(handleInputSearch, 275)}
                   onChange={(selected) => {
                     if (!selected || selected.length !== 1) {
