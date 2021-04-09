@@ -37,7 +37,6 @@ const ListItem = ({ children, className, onClick, ...props }) => {
   return (
     <Inline
       as="li"
-      tabIndex={0}
       className={className}
       onClick={onClick}
       {...getInlineProps(props)}
