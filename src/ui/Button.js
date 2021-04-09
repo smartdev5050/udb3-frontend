@@ -30,6 +30,11 @@ const customCSS = css`
     border-radius: ${getValue('borderRadius')};
     padding: ${getValue('paddingY')} ${getValue('paddingX')};
     flex-shrink: 0;
+
+    &:focus,
+    &.focus {
+      outline: auto;
+    }
   }
 
   &.btn-primary {
