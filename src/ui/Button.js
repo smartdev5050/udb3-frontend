@@ -35,6 +35,11 @@ const customCSS = css`
     &.focus {
       outline: auto;
     }
+
+    &:focus:not(:focus-visible),
+    &.focus:not(:focus-visible) {
+      outline: none;
+    }
   }
 
   &.btn-primary {
