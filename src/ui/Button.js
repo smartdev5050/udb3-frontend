@@ -211,7 +211,7 @@ const Button = ({
         background: none;
         border: none;
 
-        :focus {
+        :focus:not(:focus-visible) {
           outline: none;
         }
       `}
