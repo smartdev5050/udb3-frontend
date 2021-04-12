@@ -3,9 +3,7 @@ module.exports = {
     webpack5: true,
   },
   resolve: {
-    fallback: {
-      crypto: false,
-    },
+    fallback: { crypto: require.resolve('crypto-browserify') },
   },
   stories: ['../src/ui/**/*.stories.mdx'],
   addons: [
