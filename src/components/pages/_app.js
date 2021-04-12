@@ -20,25 +20,28 @@ const cookies = new Cookies();
 
 if (typeof window !== 'undefined') {
   window.FeatureFlags = FeatureFlags;
+
   window.setFeatureFlag = (featureFlagName, value) => {
     cookies.set(createCookieName(featureFlagName), value, defaultCookieOptions);
     window.getCurrentFeatureFlagConfiguration();
   };
+
   window.getCurrentFeatureFlagConfiguration = () => {
-    const data = Object.entries(FeatureFlags).reduce(
-      (acc, [constant, featureFlagName]) => ({
-        ...acc,
-        [`FeatureFlags.${constant}`]: {
-          enabled:
-            cookies.get(createCookieName(featureFlagName)) === 'true'
-              ? '✅'
-              : '🚫',
-        },
-      }),
-      {},
-    );
     // eslint-disable-next-line no-console
-    console.table(data);
+    console.table(
+      Object.entries(FeatureFlags).reduce(
+        (acc, [constant, featureFlagName]) => ({
+          ...acc,
+          [`FeatureFlags.${constant}`]: {
+            enabled:
+              cookies.get(createCookieName(featureFlagName)) === 'true'
+                ? '✅'
+                : '🚫',
+          },
+        }),
+        {},
+      ),
+    );
   };
 }
 
