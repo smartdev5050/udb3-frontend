@@ -29,8 +29,9 @@ When you want to add margin or padding to a component, you can use the following
 - `marginRight`
 - `marginTop`
 - `marginBottom`
-- `marginX` (uses `marginLeft` and `marginRight`)
-- `marginY` (uses `marginTop` and `marginBottom`)
+- `marginX`
+- `marginY`
+- `margin`
 
 ### Padding
 
@@ -38,17 +39,53 @@ When you want to add margin or padding to a component, you can use the following
 - `paddingRight`
 - `paddingTop`
 - `paddingBottom`
-- `paddingX` (uses `paddingLeft` and `paddingRight`)
-- `paddingY` (uses `paddingTop` and `paddingBottom`)
+- `paddingX`
+- `paddingY`
+- `padding`
 
-The value you pass down to these properties is a number ranging from `0` to `a very big number`. Behind the scenes this number is parsed to a `rem` value following a specified function, so we get consistent spacing over all components.
+The value you pass down to these properties is a number. Behind the scenes this number is parsed to a `rem` value following a specified function, so we get consistent spacing over all components.
 
 ## Box rules all
 
 The Box component is **THE** primitive component what all components should be based on.
 
-Box contains all the logic for our design and spacing system. Box contains all the margin- and padding-properties [as seen above](/?path=/story/introduction-design-principles--page#spacing), but it also contains tons of css properties like `height`, `fontSize`, `backgroundColor`, `animation`, ...
+Box contains all the logic for our design and spacing system. Box contains all the margin- and padding-properties [as seen above](/?path=/story/introduction-design-principles--page#spacing), but it also contains a ton of css properties like `height`, `fontSize`, `backgroundColor`, `animation`, ...
 See the full list of properties [here](/?path=/story/primitives-box--default-story)
+
+## Creating a new component
+
+When creating a new component for our UI-library we always start from one of the primitive components. Those are `Box`, `Stack` and `Inline`. 
+`Stack` and `Inline` wrap the `Box` component and contain styling to represent a column and row respectively.
+
+You should first think of using `Stack` or `Inline` before turning to `Box`.
+
+These primitives contain helper funtions to get the necessary properties from your component (e.g. margin, padding, color, ...):
+* `getBoxProps` for `Box`
+* `getInlineProps` for `Inline`
+* `getStackProps` for `Stack`
+
+A new component will look something like this:
+
+```javascript
+const MyComponent = ({ specificProp1, specificProp2, children, className, ...props }) => (
+  <Stack 
+    className={className}
+    specificProp1={specificProp1}
+    specificProp2={specificProp2}
+    {...getStackProps(props)}
+  >
+    {children}
+  </Stack>
+);
+```
+
+Passing `className` from parent to child is important for styling to be applied correctly.
+
+Now we can use **all** the properties from `Box` and `Stack` on `MyComponent` like this:
+
+```javascript
+<MyComponent backgroundColor="#000000" marginY={4} />
+```
 
 ## Typography
 
