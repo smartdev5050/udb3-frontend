@@ -2,6 +2,11 @@ module.exports = {
   future: {
     webpack5: true,
   },
+  resolve: {
+    fallback: {
+      crypto: false,
+    },
+  },
   stories: ['../src/ui/**/*.stories.mdx'],
   addons: [
     '@storybook/addon-links',
