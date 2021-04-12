@@ -1,6 +1,6 @@
 import { useCookiesWithOptions } from './useCookiesWithOptions';
 
-export const useFeatureFlag = (identifier) => {
+const useFeatureFlag = (identifier) => {
   if (!identifier) return [false, () => {}];
 
   const fullIdentifier = `ff_${identifier}`;
@@ -12,3 +12,5 @@ export const useFeatureFlag = (identifier) => {
 
   return [value, set];
 };
+
+export { useFeatureFlag };
