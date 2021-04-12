@@ -184,13 +184,14 @@ const SelectionTable = ({
 SelectionTable.propTypes = {
   columns: PropTypes.array.isRequired,
   data: PropTypes.array.isRequired,
-  actions: PropTypes.node,
-  onSelectionChanged: PropTypes.function,
-  translateSelectedRowCount: PropTypes.function,
+  actions: PropTypes.array,
+  onSelectionChanged: PropTypes.func,
+  translateSelectedRowCount: PropTypes.func,
 };
 
 SelectionTable.defaultProps = {
   actions: [],
+  onSelectionChanged: () => {},
 };
 
 export { SelectionTable };
