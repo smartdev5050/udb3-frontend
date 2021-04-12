@@ -1,4 +1,4 @@
-import { Meta,  } from '@storybook/addon-docs/blocks';
+import { Meta } from '@storybook/addon-docs/blocks';
 
 <Meta title="Introduction/Design Principles" />
 
@@ -36,7 +36,6 @@ When you use a `Stack` or `Inline` you can also use the `spacing` property to de
 
 The value you pass down to these properties is a `number`. Behind the scenes this number is parsed to a `rem` value following a specified function, so we get consistent spacing over all components.
 
-
 ## Box rules them all
 
 The Box component is **THE** primitive component what all components should be based on. (see [Creating a new component](#creating-a-new-component))
@@ -46,21 +45,28 @@ See the full list of properties [here](/story/primitives-box--default-story)
 
 ## Creating a new component
 
-When creating a new component for our UI-library **we always start from one of the primitive components**. Those are `Box`, `Stack` and `Inline`. 
+When creating a new component for our UI-library **we always start from one of the primitive components**. Those are `Box`, `Stack` and `Inline`.
 `Stack` and `Inline` wrap the `Box` component and contain additional styling to represent a column and a row respectively.
 
 **You should first think of using `Stack` or `Inline` before turning to `Box`.**
 
 These primitives contain helper funtions to get the necessary properties from your component specific to the primitive (e.g. margin, padding, color, ...):
-* `getBoxProps` from `Box`
-* `getInlineProps` from `Inline`
-* `getStackProps` from `Stack`
+
+- `getBoxProps` from `Box`
+- `getInlineProps` from `Inline`
+- `getStackProps` from `Stack`
 
 A new component will look something like this:
 
 ```javascript
-const MyComponent = ({ specificProp1, specificProp2, children, className, ...props }) => (
-  <Stack 
+const MyComponent = ({
+  specificProp1,
+  specificProp2,
+  children,
+  className,
+  ...props
+}) => (
+  <Stack
     className={className}
     specificProp1={specificProp1}
     specificProp2={specificProp2}
@@ -81,12 +87,12 @@ Now we can use **all** the properties from `Box` and `Stack` on `MyComponent` li
 
 ## Styled Components
 
-We use [Styled Components](https://styled-components.com/) for the styling of our components. 
+We use [Styled Components](https://styled-components.com/) for the styling of our components.
 We make use of a [`css` property from Styled Components](https://styled-components.com/docs/api#css-prop) on the component itself which makes the style **scoped** by default.
-The use of this css property is integrated deeply into the logic of the `Box` component. 
+The use of this css property is integrated deeply into the logic of the `Box` component.
 Css properties (e.g. font-size, background-color, ...) are available on `Box` as camelcased properties (e.g. fontSize, backgroundColor, ...).
 
-When you want to add styling to a component your first reflex should be to use the existing properties exposed by `Box`. 
+When you want to add styling to a component your first reflex should be to use the existing properties exposed by `Box`.
 When `Box` doesn't contain the property you're looking for, you can look into adding it as a property.
 As a final resort you can add the necessary styling via the css property on the component itself.
 

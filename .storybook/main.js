@@ -20,7 +20,7 @@ const paths = Object.entries(jsonConfig.compilerOptions.paths).reduce(
 module.exports = {
   ...nextConfig,
   core: {
-    builder: "webpack5",
+    builder: 'webpack5',
   },
   webpackFinal: async (config, { configType }) => {
     // `configType` has a value of 'DEVELOPMENT' or 'PRODUCTION'

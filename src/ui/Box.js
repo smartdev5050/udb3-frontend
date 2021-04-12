@@ -398,8 +398,8 @@ const Box = forwardRef(({ children, ...props }, ref) => (
 
 Box.propTypes = {
   children: PropTypes.node,
-  ...boxPropTypes
-}
+  ...boxPropTypes,
+};
 
 Box.defaultProps = {
   as: 'div',
