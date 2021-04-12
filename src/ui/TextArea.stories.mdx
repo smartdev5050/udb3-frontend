@@ -1,11 +1,24 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
 import { TextArea } from './TextArea.js';
+import { useState } from 'react';
 
 <Meta title="Components/TextArea" component={TextArea} />
 
 <Canvas>
   <Story name="Default" args={{ value: 'This is a TextArea' }}>
-    {(args) => <TextArea {...args} />}
+    {(args) => {
+      const [value, setValue] = useState('This is a Textarea');
+      return (
+        <TextArea
+          {...args}
+          value={value}
+          onInput={(e) => {
+            args.onInput(e);
+            setValue(e.target.value);
+          }}
+        />
+      );
+    }}
   </Story>
 </Canvas>
 

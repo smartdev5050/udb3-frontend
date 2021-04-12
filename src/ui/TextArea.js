@@ -1,13 +1,21 @@
+import { Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { Box, boxPropTypes, getBoxProps } from './Box';
-import { getValueFromTheme } from './theme';
 
-const getValue = getValueFromTheme('textArea');
+const BaseInput = (props) => <Box as="textarea" {...props} />;
 
-const TextArea = ({ id, className, onInput, value, disabled, ...props }) => {
+const TextArea = ({
+  id,
+  className,
+  onInput,
+  value,
+  disabled,
+  rows,
+  ...props
+}) => {
   return (
-    <Box
-      forwardedAs="textarea"
+    <Form.Control
+      forwardedAs={BaseInput}
       id={id}
       className={className}
       width="100%"
@@ -15,9 +23,8 @@ const TextArea = ({ id, className, onInput, value, disabled, ...props }) => {
       onInput={onInput}
       value={value}
       disabled={disabled}
-      css={`
-        border: 1px solid ${getValue('borderColor')};
-      `}
+      css="border-radius: 0;"
+      rows={rows}
       {...getBoxProps(props)}
     />
   );
@@ -30,10 +37,12 @@ TextArea.propTypes = {
   value: PropTypes.string,
   onInput: PropTypes.func,
   disabled: PropTypes.bool,
+  rows: PropTypes.number,
 };
 
 TextArea.defaultProps = {
   disabled: false,
+  rows: 3,
 };
 
 export { TextArea };

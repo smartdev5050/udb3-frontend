@@ -71,7 +71,7 @@
       "production": "Productie",
       "search": {
         "label": "Zoeken op productienaam:",
-        "placeholder": "Schrijf een zoekopdracht van minstens 4 karakters."
+        "placeholder": "Schrijf een zoekopdracht van minstens 3 karakters."
       },
       "title": "Producties",
       "aria": {
