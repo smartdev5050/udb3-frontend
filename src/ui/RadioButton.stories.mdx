@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
 import { RadioButton } from './RadioButton.js';
 
-<Meta title="Components/Radiobutton" component={Radiobutton} />
+<Meta title="Components/RadioButton" component={RadioButton} />
 
 <Canvas>
   <Story
@@ -13,9 +13,7 @@ import { RadioButton } from './RadioButton.js';
       disabled: false,
     }}
   >
-    {(args) => {
-      return <RadioButton {...args} />;
-    }}
+    {(args) => <RadioButton {...args} />}
   </Story>
 </Canvas>
 
