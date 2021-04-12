@@ -4,36 +4,21 @@ import styled from 'styled-components';
 
 <Meta title="Primitives/Box" component={Box} />
 
-export const StyledBox = styled(Box)`
-  background-color: #004f94;
-  width: 300px;
-  height: 100px;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const argTypes = {
-  margin: { type: { name: 'number' } },
-  marginX: { type: { name: 'number' } },
-  marginY: { type: { name: 'number' } },
-  marginTop: { type: { name: 'number' } },
-  marginBottom: { type: { name: 'number' } },
-  marginLeft: { type: { name: 'number' } },
-  marginRight: { type: { name: 'number' } },
-  padding: { type: { name: 'number' } },
-  paddingX: { type: { name: 'number' } },
-  paddingY: { type: { name: 'number' } },
-  paddingTop: { type: { name: 'number' } },
-  paddingBottom: { type: { name: 'number' } },
-  paddingLeft: { type: { name: 'number' } },
-  paddingRight: { type: { name: 'number' } },
+export const args = {
+  children: 'A Box',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: '#004f94',
+  width: 300,
+  height: 100,
+  color: 'white',
+  padding: 4,
 };
 
 <Canvas>
-  <Story name="Default" args={{ children: 'A Box' }} argTypes={argTypes}>
-    {(args) => <StyledBox {...args} />}
+  <Story name="Default" args={args}>
+    {(args) => <Box {...args} />}
   </Story>
 </Canvas>
 
