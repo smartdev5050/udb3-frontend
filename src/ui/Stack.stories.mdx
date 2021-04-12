@@ -23,12 +23,7 @@ export const boxProps = {
 };
 
 <Canvas>
-  <Story
-    name="Default"
-    args={{
-      ...commonArgs,
-    }}
-  >
+  <Story name="Default" args={commonArgs}>
     {(args) => (
       <Stack {...args}>
         <Box {...boxProps}>A Box</Box>
@@ -42,12 +37,7 @@ export const boxProps = {
 <ArgsTable story="Default" />
 
 <Canvas>
-  <Story
-    name="Nested"
-    args={{
-      ...commonArgs,
-    }}
-  >
+  <Story name="Nested" args={commonArgs}>
     {(args) => (
       <Stack {...args}>
         <Box {...boxProps}>A Box</Box>
