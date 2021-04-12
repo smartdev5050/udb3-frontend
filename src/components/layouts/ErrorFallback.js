@@ -37,9 +37,11 @@ const ErrorFallback = ({ error }) => {
         color={getValue('iconColor')}
       />
       <Title size={1}>{t('error.title')}</Title>
-      <Title size={2}>
-        {error.name}: {error.message}
-      </Title>
+      {error && (
+        <Title size={2}>
+          {error.name}: {error.message}
+        </Title>
+      )}
       <Text maxWidth={550}>
         <Trans i18nKey="error.description">
           Er ging iets mis. Herlaad de pagina om opnieuw te proberen. Neem

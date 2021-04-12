@@ -111,7 +111,11 @@ Layout.propTypes = {
 const LayoutWrapper = ({ children }) => {
   const { asPath } = useRouter();
 
-  if (asPath.startsWith('/login') || asPath.startsWith('/404')) {
+  if (
+    asPath.startsWith('/login') ||
+    asPath.startsWith('/404') ||
+    asPath.startsWith('/500')
+  ) {
     return <>{children}</>;
   }
 

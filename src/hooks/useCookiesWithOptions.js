@@ -1,11 +1,13 @@
 import { useCookies as useReactCookies } from 'react-cookie';
 
+const defaultCookieOptions = {
+  maxAge: 60 * 60 * 24 * 30,
+  path: '/',
+};
+
 const useCookiesWithOptions = (
   dependencies = [],
-  options = {
-    maxAge: 60 * 60 * 24 * 30,
-    path: '/',
-  },
+  options = defaultCookieOptions,
 ) => {
   const [cookies, setCookie, removeCookie] = useReactCookies(dependencies);
 
@@ -21,4 +23,4 @@ const useCookiesWithOptions = (
   };
 };
 
-export { useCookiesWithOptions };
+export { useCookiesWithOptions, defaultCookieOptions };
