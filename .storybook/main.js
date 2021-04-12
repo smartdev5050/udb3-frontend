@@ -23,9 +23,7 @@ module.exports = {
     builder: 'webpack5',
   },
   resolve: {
-    fallback: {
-      crypto: false,
-    },
+    fallback: { crypto: require.resolve('crypto-browserify') },
   },
   webpackFinal: async (config, { configType }) => {
     // `configType` has a value of 'DEVELOPMENT' or 'PRODUCTION'
