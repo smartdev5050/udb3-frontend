@@ -1,4 +1,7 @@
 module.exports = {
+  future: {
+    webpack5: true,
+  },
   stories: ['../src/ui/**/*.stories.mdx'],
   addons: [
     '@storybook/addon-links',
