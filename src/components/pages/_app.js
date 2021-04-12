@@ -23,6 +23,21 @@ if (typeof window !== 'undefined') {
   window.setFeatureFlag = (featureFlagName, value) => {
     cookies.set(createCookieName(featureFlagName), value, defaultCookieOptions);
   };
+  window.getCurrentFeatureFlagConfiguration = () => {
+    const data = Object.entries(FeatureFlags).reduce(
+      (acc, [constant, featureFlagName]) => ({
+        ...acc,
+        [`FeatureFlags.${constant}`]: {
+          enabled:
+            cookies.get(createCookieName(featureFlagName)) === 'true'
+              ? '✅'
+              : '🚫',
+        },
+      }),
+      {},
+    );
+    console.table(data);
+  };
 }
 
 const ContextProvider = ({ providers, children }) => {
