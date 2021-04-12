@@ -1,5 +1,10 @@
 import { useCookiesWithOptions } from './useCookiesWithOptions';
 
+const FeatureFlags = {
+  REACT_DASHBOARD: 'react_dashboard',
+  REACT_CREATE: 'react_create',
+};
+
 const createCookieName = (identifier) => `ff_${identifier}`;
 
 const useFeatureFlag = (featureFlagName) => {
@@ -15,4 +20,4 @@ const useFeatureFlag = (featureFlagName) => {
   return [value, set];
 };
 
-export { useFeatureFlag, createCookieName };
+export { useFeatureFlag, createCookieName, FeatureFlags };

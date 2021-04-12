@@ -1,6 +1,5 @@
-import { FeatureFlags } from '@/constants/FeatureFlags';
 import { defaultCookieOptions } from '@/hooks/useCookiesWithOptions';
-import { createCookieName } from '@/hooks/useFeatureFlag';
+import { createCookieName, FeatureFlags } from '@/hooks/useFeatureFlag';
 import i18n from '@/i18n/index';
 import Layout from '@/layouts/index';
 import { GlobalStyle } from '@/styles/GlobalStyle';
