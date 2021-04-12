@@ -7,7 +7,7 @@ import { getBoxProps } from './Box';
 const InputWithLabel = ({
   type,
   id,
-  children,
+  label,
   placeholder,
   className,
   onInput,
@@ -21,7 +21,7 @@ const InputWithLabel = ({
     {...getBoxProps(props)}
   >
     <Label htmlFor={id} variant={LabelVariants.BOLD}>
-      {children}
+      {label}
     </Label>
     <Input type={type} id={id} placeholder={placeholder} onInput={onInput} />
   </Inline>
@@ -29,7 +29,7 @@ const InputWithLabel = ({
 
 InputWithLabel.propTypes = {
   ...inputPropTypes,
-  children: PropTypes.string,
+  label: PropTypes.string,
 };
 
 InputWithLabel.defaultProps = {

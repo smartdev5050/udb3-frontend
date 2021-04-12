@@ -4,7 +4,16 @@ import { InputWithLabel } from './InputWithLabel.js';
 <Meta title="Components/InputWithLabel" component={InputWithLabel} />
 
 <Canvas>
-  <Story name="Default">{(args) => <InputWithLabel {...args} />}</Story>
+  <Story
+    name="Default"
+    args={{
+      id: 'your-name',
+      placeholder: 'Enter your name',
+      label: 'Your name:',
+    }}
+  >
+    {(args) => <InputWithLabel {...args} />}
+  </Story>
 </Canvas>
 
 <ArgsTable story="Default" />
