@@ -14,8 +14,25 @@ export const StyledBox = styled(Box)`
   align-items: center;
 `;
 
+export const argTypes = {
+  margin: { type: { name: 'number' } },
+  marginX: { type: { name: 'number' } },
+  marginY: { type: { name: 'number' } },
+  marginTop: { type: { name: 'number' } },
+  marginBottom: { type: { name: 'number' } },
+  marginLeft: { type: { name: 'number' } },
+  marginRight: { type: { name: 'number' } },
+  padding: { type: { name: 'number' } },
+  paddingX: { type: { name: 'number' } },
+  paddingY: { type: { name: 'number' } },
+  paddingTop: { type: { name: 'number' } },
+  paddingBottom: { type: { name: 'number' } },
+  paddingLeft: { type: { name: 'number' } },
+  paddingRight: { type: { name: 'number' } },
+};
+
 <Canvas>
-  <Story name="Default" args={{children: 'A Box'}}>
+  <Story name="Default" args={{ children: 'A Box' }} argTypes={argTypes}>
     {(args) => <StyledBox {...args} />}
   </Story>
 </Canvas>
