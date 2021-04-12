@@ -1,29 +1,18 @@
-import { FeatureFlags } from '@/constants/FeatureFlags';
-import Cookies from 'universal-cookie';
 import { useCookiesWithOptions } from './useCookiesWithOptions';
 
-const cookies = new Cookies();
+const createCookieName = (identifier) => `ff_${identifier}`;
 
-const createFullIdentifier = (identifier) => `ff_${identifier}`;
-
-const useFeatureFlag = (identifier) => {
-  if (!identifier) return [false, () => {}];
+const useFeatureFlag = (featureFlagName) => {
+  if (!featureFlagName) return [false, () => {}];
 
   const { cookies, setCookie } = useCookiesWithOptions();
 
-  const fullIdentifier = createFullIdentifier(identifier);
+  const cookieName = createCookieName(featureFlagName);
 
-  const set = (value) => setCookie(fullIdentifier, value);
-  const value = cookies?.[fullIdentifier] ?? false;
+  const set = (value) => setCookie(cookieName, value);
+  const value = cookies?.[cookieName] ?? false;
 
   return [value, set];
 };
 
-if (typeof window !== 'undefined') {
-  window.FeatureFlags = FeatureFlags;
-  window.setFeatureFlag = (identifier, value) => {
-    cookies.set(createFullIdentifier(identifier), value);
-  };
-}
-
-export { useFeatureFlag };
+export { useFeatureFlag, createCookieName };

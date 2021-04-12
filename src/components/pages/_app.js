@@ -1,3 +1,6 @@
+import { FeatureFlags } from '@/constants/FeatureFlags';
+import { defaultCookieOptions } from '@/hooks/useCookiesWithOptions';
+import { createCookieName } from '@/hooks/useFeatureFlag';
 import i18n from '@/i18n/index';
 import Layout from '@/layouts/index';
 import { GlobalStyle } from '@/styles/GlobalStyle';
@@ -13,6 +16,15 @@ import { I18nextProvider, useTranslation } from 'react-i18next';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { Hydrate } from 'react-query/hydration';
+
+const cookies = new Cookies();
+
+if (typeof window !== 'undefined') {
+  window.FeatureFlags = FeatureFlags;
+  window.setFeatureFlag = (featureFlagName, value) => {
+    cookies.set(createCookieName(featureFlagName), value, defaultCookieOptions);
+  };
+}
 
 const ContextProvider = ({ providers, children }) => {
   return providers.reverse().reduce((AccumulatedProviders, current) => {
