@@ -36,6 +36,7 @@ if (typeof window !== 'undefined') {
       }),
       {},
     );
+    // eslint-disable-next-line no-console
     console.table(data);
   };
 }
