@@ -19,6 +19,9 @@ const paths = Object.entries(jsonConfig.compilerOptions.paths).reduce(
 // Export a function. Accept the base config as the only param.
 module.exports = {
   ...nextConfig,
+  core: {
+    builder: "webpack5",
+  },
   webpackFinal: async (config, { configType }) => {
     // `configType` has a value of 'DEVELOPMENT' or 'PRODUCTION'
     // You can change the configuration based on that.
