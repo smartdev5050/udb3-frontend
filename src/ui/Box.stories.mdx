@@ -15,8 +15,8 @@ export const StyledBox = styled(Box)`
 `;
 
 <Canvas>
-  <Story name="Default">
-    {(args) => <StyledBox {...args}>A Box</StyledBox>}
+  <Story name="Default" args={{children: 'A Box'}}>
+    {(args) => <StyledBox {...args} />}
   </Story>
 </Canvas>
 

@@ -165,6 +165,7 @@ const StyledBox = styled.div`
 `;
 
 const boxPropTypes = {
+  as: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   onClick: PropTypes.func,
   margin: PropTypes.oneOfType([
     PropTypes.number,
@@ -396,9 +397,9 @@ const Box = forwardRef(({ children, ...props }, ref) => (
 ));
 
 Box.propTypes = {
-  ...boxPropTypes,
   children: PropTypes.node,
-};
+  ...boxPropTypes
+}
 
 Box.defaultProps = {
   as: 'div',
