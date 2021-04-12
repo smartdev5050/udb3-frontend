@@ -22,6 +22,11 @@ module.exports = {
   core: {
     builder: 'webpack5',
   },
+  resolve: {
+    fallback: {
+      crypto: false,
+    },
+  },
   webpackFinal: async (config, { configType }) => {
     // `configType` has a value of 'DEVELOPMENT' or 'PRODUCTION'
     // You can change the configuration based on that.
