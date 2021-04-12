@@ -22,6 +22,7 @@ if (typeof window !== 'undefined') {
   window.FeatureFlags = FeatureFlags;
   window.setFeatureFlag = (featureFlagName, value) => {
     cookies.set(createCookieName(featureFlagName), value, defaultCookieOptions);
+    window.getCurrentFeatureFlagConfiguration();
   };
   window.getCurrentFeatureFlagConfiguration = () => {
     const data = Object.entries(FeatureFlags).reduce(
