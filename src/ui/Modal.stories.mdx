@@ -5,13 +5,7 @@ import { Button } from './Button.js';
 
 ## Content
 
-<Meta title="Components/Modal" />
-
-export const commonArgTypes = {
-  onShow: { action: 'onShow' },
-  onClose: { action: 'onClose' },
-  onConfirm: { action: 'onConfirm' },
-};
+<Meta title="Components/Modal" component={Modal} />
 
 <Canvas>
   <Story
@@ -21,7 +15,6 @@ export const commonArgTypes = {
       visible: false,
       variant: ModalVariants.CONTENT,
     }}
-    argTypes={commonArgTypes}
   >
     {(args) => {
       const [visible, setVisible] = useState(false);
@@ -65,7 +58,6 @@ export const commonArgTypes = {
       visible: false,
       variant: ModalVariants.QUESTION,
     }}
-    argTypes={commonArgTypes}
   >
     {(args) => {
       const [visible, setVisible] = useState(false);

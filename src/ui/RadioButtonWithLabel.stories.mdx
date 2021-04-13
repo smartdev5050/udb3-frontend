@@ -2,11 +2,10 @@ import { useState } from 'react';
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
 import { RadioButtonWithLabel } from './RadioButtonWithLabel.js';
 
-<Meta title="Components/RadioButtonWithLabel" />
-
-export const commonArgTypes = {
-  onChange: { action: 'onChange' },
-};
+<Meta
+  title="Components/RadioButtonWithLabel"
+  component={RadioButtonWithLabel}
+/>
 
 <Canvas>
   <Story
@@ -17,7 +16,6 @@ export const commonArgTypes = {
       disabled: false,
       label: 'Click me',
     }}
-    argTypes={commonArgTypes}
   >
     {(args) => {
       return <RadioButtonWithLabel {...args} />;

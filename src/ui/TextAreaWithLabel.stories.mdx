@@ -1,7 +1,7 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
 import { TextAreaWithLabel } from './TextAreaWithLabel.js';
 
-<Meta title="Components/TextAreaWithLabel" />
+<Meta title="Components/TextAreaWithLabel" component={TextAreaWithLabel} />
 
 <Canvas>
   <Story
@@ -10,9 +10,6 @@ import { TextAreaWithLabel } from './TextAreaWithLabel.js';
       id: '123',
       label: 'This is a label',
       value: 'This is a TextAreaWithLabel',
-    }}
-    argTypes={{
-      onInput: { action: 'onInput' },
     }}
   >
     {(args) => <TextAreaWithLabel {...args} />}

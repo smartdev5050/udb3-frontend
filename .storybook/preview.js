@@ -8,13 +8,14 @@ import { GlobalStyle } from '@/styles/GlobalStyle';
 import { CustomCanvas } from './CustomCanvas';
 
 export const parameters = {
-  actions: { argTypesRegex: '^on[A-Z].*' },
   options: {
     storySort: {
       method: 'alphabetical',
       order: ['Introduction', 'Primitives', 'Components'],
     },
   },
+  actions: { argTypesRegex: '^on.*' },
+  controls: { sort: 'alpha' },
   docs: {
     components: {
       Canvas: CustomCanvas,

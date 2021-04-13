@@ -2,11 +2,7 @@ import { useState } from 'react';
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
 import { RadioButton } from './RadioButton.js';
 
-<Meta title="Components/Radiobutton" />
-
-export const commonArgTypes = {
-  onChange: { action: 'onChange' },
-};
+<Meta title="Components/RadioButton" component={RadioButton} />
 
 <Canvas>
   <Story
@@ -16,11 +12,8 @@ export const commonArgTypes = {
       name: 'my-radiobutton',
       disabled: false,
     }}
-    argTypes={commonArgTypes}
   >
-    {(args) => {
-      return <RadioButton {...args} />;
-    }}
+    {(args) => <RadioButton {...args} />}
   </Story>
 </Canvas>
 

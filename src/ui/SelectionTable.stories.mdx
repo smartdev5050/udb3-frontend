@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
 import { SelectionTable } from './SelectionTable.js';
+import { Icons } from './Icon.js';
 
-<Meta title="Components/SelectionTable" />
+<Meta title="Components/SelectionTable" component={SelectionTable} />
 
 export const columns = [
   {
@@ -27,14 +28,12 @@ export const data = [
 ];
 
 export const actions = [
-  [
-    {
-      iconName: Icons.PENCIL,
-      title: 'Action 1',
-      onClick: () => {},
-      disabled: false,
-    },
-  ],
+  {
+    iconName: Icons.PENCIL,
+    title: 'Action 1',
+    onClick: () => {},
+    disabled: false,
+  },
 ];
 
 <Canvas>
@@ -44,9 +43,6 @@ export const actions = [
       data,
       actions,
       translateSelectedRowCount: (count) => `${count} selected rows`,
-    }}
-    argTypes={{
-      onSelectionChanged: { action: 'onSelectionChanged' },
     }}
     name="Default"
   >

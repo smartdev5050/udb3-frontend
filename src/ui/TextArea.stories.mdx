@@ -5,7 +5,7 @@ import { useState } from 'react';
 <Meta title="Components/TextArea" component={TextArea} />
 
 <Canvas>
-  <Story name="Default">
+  <Story name="Default" args={{ value: 'This is a TextArea' }}>
     {(args) => {
       const [value, setValue] = useState('This is a Textarea');
       return (
