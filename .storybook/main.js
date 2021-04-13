@@ -39,6 +39,12 @@ module.exports = {
       ...paths,
     };
 
+    config.resolve.fallback = {
+      ...config.resolve.alias,
+      crypto: require.resolve('crypto-browserify'),
+      stream: require.resolve('stream-browserify'),
+    };
+
     // Return the altered config
     return config;
   },
