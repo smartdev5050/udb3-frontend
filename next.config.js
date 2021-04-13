@@ -2,6 +2,7 @@ module.exports = {
   future: {
     webpack5: true,
   },
+  'resolve.fallback': { crypto: require.resolve('crypto-browserify') },
   stories: ['../src/ui/**/*.stories.mdx'],
   addons: [
     '@storybook/addon-links',
