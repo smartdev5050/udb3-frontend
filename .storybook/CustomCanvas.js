@@ -2,8 +2,11 @@ import { Canvas } from '@storybook/addon-docs/blocks';
 import { styled } from '@storybook/theming';
 
 const SyledCanvas = styled(Canvas)`
-  .plain-text {
-    color: #ffffff;
+  pre {
+    span,
+    .plain-text {
+      color: #ffffff;
+    }
   }
 `;
 

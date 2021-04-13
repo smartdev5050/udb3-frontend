@@ -147,6 +147,8 @@ const boxProps = css`
   ${parseProperty('fontSize')};
   ${parseProperty('fontWeight')};
   ${parseProperty('textAlign')};
+  ${parseProperty('justifyContent')};
+  ${parseProperty('alignItems')};
   ${parseProperty('lineHeight')};
   ${parseProperty('color')};
   ${parseProperty('stroke')};
@@ -165,6 +167,12 @@ const StyledBox = styled.div`
 `;
 
 const boxPropTypes = {
+  alignItems: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  as: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   onClick: PropTypes.func,
   margin: PropTypes.oneOfType([
     PropTypes.number,
@@ -257,6 +265,11 @@ const boxPropTypes = {
   height: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  justifyContent: PropTypes.oneOfType([
+    PropTypes.string,
     PropTypes.func,
     PropTypes.object,
   ]),
@@ -397,7 +410,6 @@ const Box = forwardRef(({ children, ...props }, ref) => (
 
 Box.propTypes = {
   children: PropTypes.node,
-  className: PropTypes.string,
   ...boxPropTypes,
 };
 

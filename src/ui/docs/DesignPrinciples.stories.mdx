@@ -4,32 +4,135 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Design principles
 
+## Spacing
+
+Components should never have a margin by default. When you put two components next to each other they should "stick" by default. This way you can easily play with different spacing depending on the place where you use them.
+
+When you want to add margin or padding to a component, you can use the following properties that are exposed by the `Box` component:
+
+### Margin
+
+- `marginLeft`
+- `marginRight`
+- `marginTop`
+- `marginBottom`
+- `marginX`
+- `marginY`
+- `margin`
+
+### Padding
+
+- `paddingLeft`
+- `paddingRight`
+- `paddingTop`
+- `paddingBottom`
+- `paddingX`
+- `paddingY`
+- `padding`
+
+### Spacing between child components
+
+When you use a `Stack` or `Inline` you can also use the `spacing` property to define the spacing between child components
+
+The value you pass down to these properties is a `number`. Behind the scenes this number is parsed to a `rem` value following a specified function, so we get consistent spacing over all components.
+
+## Box rules them all
+
+The Box component is **THE** primitive component what all components should be based on. (see [Creating a new component](#creating-a-new-component))
+
+Box contains all the logic for our design and spacing system. Box contains all the margin- and padding-properties [as seen above](#spacing), but it also contains a ton of css properties like `height`, `fontSize`, `backgroundColor`, `animation`, ...
+See the full list of properties [here](/story/primitives-box--default-story)
+
+## Creating a new component
+
+When creating a new component for our UI-library **we always start from one of the primitive components**. Those are `Box`, `Stack` and `Inline`.
+`Stack` and `Inline` wrap the `Box` component and contain additional styling to represent a column and a row respectively.
+
+**You should first think of using `Stack` or `Inline` before turning to `Box`.**
+
+These primitives contain helper funtions to get the necessary properties from your component specific to the primitive (e.g. margin, padding, color, ...):
+
+- `getBoxProps` from `Box`
+- `getInlineProps` from `Inline`
+- `getStackProps` from `Stack`
+
+A new component will look something like this:
+
+```javascript
+const MyComponent = ({
+  specificProp1,
+  specificProp2,
+  children,
+  className,
+  ...props
+}) => (
+  <Stack
+    className={className}
+    specificProp1={specificProp1}
+    specificProp2={specificProp2}
+    {...getStackProps(props)}
+  >
+    {children}
+  </Stack>
+);
+```
+
+Passing `className` from parent to child is important for styling to be applied correctly.
+
+Now we can use **all** the properties from `Box` and `Stack` on `MyComponent` like this:
+
+```javascript
+<MyComponent spacing={3} backgroundColor="#000000" marginY={4} />
+```
+
+## Adding styles
+
+We use [Styled Components](https://styled-components.com/) for the styling of our components.
+We make use of a [`css` property from Styled Components](https://styled-components.com/docs/api#css-prop) on the component itself which makes the style **scoped** by default.
+The use of this css property is integrated deeply into the logic of the `Box` component.
+Css properties (e.g. font-size, background-color, ...) are available on `Box` as camelcased properties (e.g. fontSize, backgroundColor, ...).
+
+When you want to add styling to a component your first reflex should be to use the existing properties exposed by `Box`.
+When `Box` doesn't contain the property you're looking for, you can look into adding it as a property.
+
+```javascript
+<MyComponent backgroundColor="red" />
+```
+
+As a final resort you can add the necessary styling via the css property on the component itself.
+
+```javascript
+<MyComponent
+  css={`
+    text-transform: uppercase;
+    border-bottom: black 1px solid;
+  `}
+/>
+```
+
+It is a good practice to store the css values you use in `theme.js` and import them by using the `getValueFromTheme` function.
+
+```javascript
+import { getValueFromTheme } from '@/ui/theme';
+
+const getValue = getValueFromTheme('myComponent');
+
+<MyComponent backgroundColor={getValue('backgroundColor')} />;
+```
+
 ## Bootstrap
 
 We use [React Bootstrap components](https://react-bootstrap.github.io/) underneath as implementation for our own custom components, so we can recreate the same look
 and feel in React as we had in AngularJS.
 
-Every Bootstrap component we use in React should be wrapped in a custom component inside the publiq-ui folder.
+Every Bootstrap component we use in React should be wrapped in a custom component inside the ui folder.
 That way we have a more centralized place to define how it's styled and how it should behave.
 
 Props on the custom components should not be passed "automatically" to the Bootstrap component underneath.
 We define a specific list of props we use per component to prevent too much flexibility.
-If we _do_ need access to a prop that's not currently available, it can always be added.
+If we **do** need access to a prop that's not currently available, it can always be added.
 Restricting access to props down the line is harder.
-
-## Spacing
-
-Components should never have a margin by default. When you put two components next to each other they should "stick" by default. This way you can easily play with different spacing depending on the place where you use them.
-
-Components with children should also have no padding by default. For example a panel component should not have padding so that you can put a list inside that sticks to the top/bottom/sides.
-
-To enable padding/margin, the goal is to add some kind of prop that uses an enumeration of predefined units to configure the space around/inside the element, eg 1, 2, 3, ... without specifying the pixels/rem/...
 
 ## Typography
 
-The root font size is defined once globally and should not be overridden in specific components. Use the `rem` unit as much as possible for other values like margins, paddings, etc.
-
-## Scoped styles
-
-We use [Styled Components](https://styled-components.com/) for the styling of our components which makes them scoped by default.
-If you want to override certain Bootstrap styles you should add these values to our `theme.js` and import them by using the `getValueFromTheme` function.
+The root font size is defined once globally and should not be overridden in specific components.

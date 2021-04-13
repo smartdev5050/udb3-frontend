@@ -2,16 +2,9 @@ import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
 import { Box } from './Box.js';
 import styled from 'styled-components';
 
-<Meta title="Primitives/Box" />
+<Meta title="Primitives/Box" component={Box} />
 
-export const CustomBox = styled(Box)`
-  background-color: #004f94;
-  width: 300px;
-  height: 100px;
-  color: #fff;
-`;
-
-export const commonArgTypes = {
+export const argTypes = {
   margin: { type: { name: 'number' } },
   marginX: { type: { name: 'number' } },
   marginY: { type: { name: 'number' } },
@@ -28,14 +21,21 @@ export const commonArgTypes = {
   paddingRight: { type: { name: 'number' } },
 };
 
+export const args = {
+  children: 'A Box',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: '#004f94',
+  width: 300,
+  height: 100,
+  color: 'white',
+  padding: 4,
+};
+
 <Canvas>
-  <Story name="Default" argTypes={commonArgTypes}>
-    {(args) => (
-      <>
-        <CustomBox {...args}>A Box</CustomBox>
-        <CustomBox {...args}>Another Box</CustomBox>
-      </>
-    )}
+  <Story name="Default" args={args} argTypes={argTypes}>
+    {(args) => <Box {...args} />}
   </Story>
 </Canvas>
 

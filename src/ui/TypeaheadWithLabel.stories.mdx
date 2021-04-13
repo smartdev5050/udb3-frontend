@@ -1,7 +1,7 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
 import { TypeaheadWithLabel } from './TypeaheadWithLabel.js';
 
-<Meta title="Components/TypeaheadWithLabel" />
+<Meta title="Components/TypeaheadWithLabel" component={TypeaheadWithLabel} />
 
 export const cities = [
   { id: 1, name: 'Rome' },
@@ -16,14 +16,8 @@ export const commonArgs = {
   labelKey: (city) => city.name,
 };
 
-export const commonArgTypes = {
-  onInputChange: { action: 'onInputChange' },
-  onChange: { action: 'onChange' },
-  onSearch: { action: 'onSearch' },
-};
-
 <Canvas>
-  <Story name="Default" args={commonArgs} argTypes={commonArgTypes}>
+  <Story name="Default" args={commonArgs}>
     {(args) => <TypeaheadWithLabel {...args} />}
   </Story>
 </Canvas>

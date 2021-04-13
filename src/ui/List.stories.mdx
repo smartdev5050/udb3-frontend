@@ -2,7 +2,7 @@ import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
 import { List } from './List.js';
 import { Box } from './Box.js';
 
-<Meta title="Components/List" />
+<Meta title="Components/List" component={List} />
 
 export const items = [
   { id: 1, name: 'Item 1' },
@@ -12,8 +12,8 @@ export const items = [
 
 <Canvas>
   <Story name="Default">
-    {() => (
-      <List>
+    {(args) => (
+      <List {...args}>
         {items.map((item) => (
           <List.Item key={item.id}>{item.name}</List.Item>
         ))}
@@ -21,3 +21,5 @@ export const items = [
     )}
   </Story>
 </Canvas>
+
+<ArgsTable story="Default" />

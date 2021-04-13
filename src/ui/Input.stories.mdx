@@ -1,18 +1,18 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
 import { Input } from './Input.js';
 
-<Meta title="Components/Input" />
+<Meta title="Components/Input" component={Input} />
 
 <Canvas>
   <Story
     name="Default"
     args={{
-      id: 'testform',
-      label: 'A label',
-      placeholder: 'John Doe',
-      type: 'text',
+      id: 'your-name',
+      placeholder: 'Enter your name',
     }}
   >
     {(args) => <Input {...args} />}
   </Story>
 </Canvas>
+
+<ArgsTable story="Default" />

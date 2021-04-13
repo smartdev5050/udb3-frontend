@@ -4,35 +4,31 @@ import styled from 'styled-components';
 import { Stack } from './Stack.js';
 import { Breakpoints } from '@/ui/theme';
 
-<Meta title="Primitives/Stack" />
-
-export const CustomBox = styled(Box)`
-  background-color: #004f94;
-  width: 300px;
-  height: 100px;
-  color: #fff;
-`;
+<Meta title="Primitives/Stack" component={Stack} />
 
 export const commonArgs = {
   spacing: 2,
 };
 
 export const boxProps = {
-  padding: 3,
+  children: 'A Box',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: '#004f94',
+  width: 300,
+  height: 100,
+  color: 'white',
+  padding: 4,
 };
 
 <Canvas>
-  <Story
-    name="Default"
-    args={{
-      ...commonArgs,
-    }}
-  >
+  <Story name="Default" args={commonArgs}>
     {(args) => (
       <Stack {...args}>
-        <CustomBox {...boxProps}>A Box</CustomBox>
-        <CustomBox {...boxProps}>Another Box</CustomBox>
-        <CustomBox {...boxProps}>And yet another Box</CustomBox>
+        <Box {...boxProps}>A Box</Box>
+        <Box {...boxProps}>Another Box</Box>
+        <Box {...boxProps}>And yet another Box</Box>
       </Stack>
     )}
   </Story>
@@ -41,18 +37,13 @@ export const boxProps = {
 <ArgsTable story="Default" />
 
 <Canvas>
-  <Story
-    name="Nested"
-    args={{
-      ...commonArgs,
-    }}
-  >
+  <Story name="Nested" args={commonArgs}>
     {(args) => (
       <Stack {...args}>
-        <CustomBox {...boxProps}>A Box</CustomBox>
+        <Box {...boxProps}>A Box</Box>
         <Stack spacing={5}>
-          <CustomBox {...boxProps}>Another Box</CustomBox>
-          <CustomBox {...boxProps}>And yet another Box</CustomBox>
+          <Box {...boxProps}>Another Box</Box>
+          <Box {...boxProps}>And yet another Box</Box>
         </Stack>
       </Stack>
     )}
