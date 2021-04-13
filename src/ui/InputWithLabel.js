@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import { Label, LabelVariants } from './Label';
-import { Inline } from './Inline';
+import { getInlineProps, Inline, inlinePropTypes } from './Inline';
 import { Input, inputPropTypes } from './Input';
-import { getBoxProps } from './Box';
 
 const InputWithLabel = ({
   type,
@@ -18,7 +17,7 @@ const InputWithLabel = ({
     as="div"
     spacing={3}
     alignItems="center"
-    {...getBoxProps(props)}
+    {...getInlineProps(props)}
   >
     <Label htmlFor={id} variant={LabelVariants.BOLD}>
       {label}
@@ -28,8 +27,9 @@ const InputWithLabel = ({
 );
 
 InputWithLabel.propTypes = {
-  ...inputPropTypes,
   label: PropTypes.string,
+  ...inlinePropTypes,
+  ...inputPropTypes,
 };
 
 InputWithLabel.defaultProps = {

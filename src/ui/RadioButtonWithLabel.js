@@ -4,9 +4,8 @@ import {
   radioButtonDefaultProps,
   radioButtonPropTypes,
 } from './RadioButton';
-import { Inline } from './Inline';
+import { getInlineProps, Inline, inlinePropTypes } from './Inline';
 import { Label } from './Label';
-import { getBoxProps, boxPropTypes } from './Box';
 import { Stack } from './Stack';
 import { Text } from './Text';
 import { getValueFromTheme } from './theme';
@@ -31,7 +30,7 @@ const RadioButtonWithLabel = ({
       alignItems="flex-start"
       spacing={3}
       as="li"
-      {...getBoxProps(props)}
+      {...getInlineProps(props)}
     >
       <RadioButton
         id={id}
@@ -54,7 +53,7 @@ const RadioButtonWithLabel = ({
 };
 
 RadioButtonWithLabel.propTypes = {
-  ...boxPropTypes,
+  ...inlinePropTypes,
   ...radioButtonPropTypes,
   label: PropTypes.node,
   info: PropTypes.string,

@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import { Checkbox } from './Checkbox';
-import { Inline } from './Inline';
+import { getInlineProps, Inline, inlinePropTypes } from './Inline';
 import { Label } from './Label';
-import { getBoxProps, boxPropTypes } from './Box';
 
 const CheckboxWithLabel = ({
   id,
@@ -20,7 +19,7 @@ const CheckboxWithLabel = ({
       className={className}
       alignItems="center"
       spacing={3}
-      {...getBoxProps(props)}
+      {...getInlineProps(props)}
     >
       <Checkbox
         id={id}
@@ -37,7 +36,7 @@ const CheckboxWithLabel = ({
 };
 
 CheckboxWithLabel.propTypes = {
-  ...boxPropTypes,
+  ...inlinePropTypes,
   className: PropTypes.string,
   id: PropTypes.string.isRequired,
   name: PropTypes.string,
