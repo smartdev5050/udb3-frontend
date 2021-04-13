@@ -94,9 +94,31 @@ Css properties (e.g. font-size, background-color, ...) are available on `Box` as
 
 When you want to add styling to a component your first reflex should be to use the existing properties exposed by `Box`.
 When `Box` doesn't contain the property you're looking for, you can look into adding it as a property.
+
+```javascript
+<MyComponent backgroundColor="red" />
+```
+
 As a final resort you can add the necessary styling via the css property on the component itself.
 
-If you want to override certain Bootstrap styles you should add these values to our `theme.js` and import them by using the `getValueFromTheme` function.
+```javascript
+<MyComponent
+  css={`
+    text-transform: uppercase;
+    border-bottom: black 1px solid;
+  `}
+/>
+```
+
+It is a good practice to store the css values you use in `theme.js` and import them by using the `getValueFromTheme` function.
+
+```javascript
+import { getValueFromTheme } from '@/ui/theme';
+
+const getValue = getValueFromTheme('myComponent');
+
+<MyComponent backgroundColor={getValue('backgroundColor')} />;
+```
 
 ## Bootstrap
 
@@ -108,7 +130,7 @@ That way we have a more centralized place to define how it's styled and how it s
 
 Props on the custom components should not be passed "automatically" to the Bootstrap component underneath.
 We define a specific list of props we use per component to prevent too much flexibility.
-If we _do_ need access to a prop that's not currently available, it can always be added.
+If we **do** need access to a prop that's not currently available, it can always be added.
 Restricting access to props down the line is harder.
 
 ## Typography
