@@ -1,7 +1,17 @@
 import { Tab as BootstrapTab, Tabs as BootstrapTabs } from 'react-bootstrap';
 import * as PropTypes from 'prop-types';
+import { Children } from 'react';
 
-const Tabs = ({ activeKey, onSelect, children }) => {
+const Tabs = ({ activeKey, onSelect, children: rawChildren }) => {
+  const children = Children.toArray(rawChildren).filter((child) => {
+    if (child.type !== Tab) {
+      console.log('Child of type', child.type.name, 'is not supported');
+      return false;
+    }
+
+    return true;
+  });
+
   return (
     <BootstrapTabs activeKey={activeKey} onSelect={onSelect}>
       {children}
