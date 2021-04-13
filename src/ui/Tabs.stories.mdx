@@ -1,0 +1,28 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import { Tabs } from '@/ui/Tabs';
+import { useState } from 'react';
+
+<Meta title="Components/Tabs" component={Tabs} />
+
+<Canvas>
+  <Story name="Default" args={{ activeKey: 'places' }}>
+    {(args) => {
+      const [active, setActive] = useState(args.activeKey);
+      return (
+        <Tabs activeKey={active} onSelect={setActive}>
+          <Tabs.Tab eventKey="events" title="Events">
+            <p>EVENTS</p>
+          </Tabs.Tab>
+          <Tabs.Tab eventKey="places" title="Places">
+            <p>PLACES</p>
+          </Tabs.Tab>
+          <Tabs.Tab eventKey="organizers" title="Organizers">
+            <p>ORGANIZERS</p>
+          </Tabs.Tab>
+        </Tabs>
+      );
+    }}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Default" />
