@@ -28,7 +28,6 @@ const Input = ({
 );
 
 const inputPropTypes = {
-  ...boxPropTypes,
   className: PropTypes.string,
   type: PropTypes.string,
   id: PropTypes.string.isRequired,
@@ -37,6 +36,7 @@ const inputPropTypes = {
 };
 
 Input.propTypes = {
+  ...boxPropTypes,
   ...inputPropTypes,
 };
 
