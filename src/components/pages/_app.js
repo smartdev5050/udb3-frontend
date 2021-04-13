@@ -83,7 +83,7 @@ const Head = () => {
         sizes="32x32"
         href="/favicon.png"
       />
-      <title key="title">UiTDatabank</title>
+      <title key="title">UiTdatabank</title>
       <meta name="description" content={t('description')} />
     </NextHead>
   );
