@@ -17,7 +17,7 @@ const useFeatureFlag = (featureFlagName) => {
   const set = (value) => setCookie(cookieName, value);
   const value = cookies?.[cookieName] ?? false;
 
-  return [value === 'true', set];
+  return [value, set];
 };
 
 export { useFeatureFlag, createCookieName, FeatureFlags };
