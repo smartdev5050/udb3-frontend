@@ -20,6 +20,11 @@ module.exports = {
         destination: '/events/:eventId/status',
         permanent: true,
       },
+      {
+        source: '/place/:placeId/status',
+        destination: '/places/:placeId/status',
+        permanent: true,
+      },
     ];
   },
   publicRuntimeConfig: {
