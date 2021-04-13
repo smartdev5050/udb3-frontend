@@ -4,6 +4,23 @@ import styled from 'styled-components';
 
 <Meta title="Primitives/Box" component={Box} />
 
+export const argTypes = {
+  margin: { type: { name: 'number' } },
+  marginX: { type: { name: 'number' } },
+  marginY: { type: { name: 'number' } },
+  marginTop: { type: { name: 'number' } },
+  marginBottom: { type: { name: 'number' } },
+  marginLeft: { type: { name: 'number' } },
+  marginRight: { type: { name: 'number' } },
+  padding: { type: { name: 'number' } },
+  paddingX: { type: { name: 'number' } },
+  paddingY: { type: { name: 'number' } },
+  paddingTop: { type: { name: 'number' } },
+  paddingBottom: { type: { name: 'number' } },
+  paddingLeft: { type: { name: 'number' } },
+  paddingRight: { type: { name: 'number' } },
+};
+
 export const args = {
   children: 'A Box',
   display: 'flex',
@@ -17,7 +34,7 @@ export const args = {
 };
 
 <Canvas>
-  <Story name="Default" args={args}>
+  <Story name="Default" args={args} argTypes={argTypes}>
     {(args) => <Box {...args} />}
   </Story>
 </Canvas>
