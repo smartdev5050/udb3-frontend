@@ -25,7 +25,7 @@ const Tab = ({ eventKey, title, children }) => {
 
 Tab.propTypes = {
   eventKey: PropTypes.string.isRequired,
-  title: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
   children: PropTypes.node,
 };
 
