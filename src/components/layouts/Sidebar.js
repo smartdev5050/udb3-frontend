@@ -26,7 +26,6 @@ import { useGetPermissions, useGetRoles } from '@/hooks/api/user';
 import { useGetEventsToModerate } from '@/hooks/api/events';
 import { JobLoggerStateIndicator } from './joblogger/JobLoggerStateIndicator';
 import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
-import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
 
 const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSidebar = getValueFromTheme('sidebar');
@@ -229,9 +228,6 @@ NotificationMenu.propTypes = {
 
 const Sidebar = () => {
   const { t } = useTranslation();
-  const [isReactCreateFeatureFlagEnabled] = useFeatureFlag(
-    FeatureFlags.REACT_CREATE,
-  );
 
   const { cookies, setCookie } = useCookiesWithOptions([
     'seenAnnouncements',
@@ -357,7 +353,7 @@ const Sidebar = () => {
       children: t('menu.home'),
     },
     {
-      href: isReactCreateFeatureFlagEnabled ? '/create' : '/event',
+      href: '/event',
       iconName: Icons.PLUS_CIRCLE,
       children: t('menu.add'),
     },
