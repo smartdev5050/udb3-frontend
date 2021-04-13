@@ -27,9 +27,9 @@ const InputWithLabel = ({
 );
 
 InputWithLabel.propTypes = {
-  label: PropTypes.string,
   ...inlinePropTypes,
   ...inputPropTypes,
+  label: PropTypes.string,
 };
 
 InputWithLabel.defaultProps = {
