@@ -15,6 +15,11 @@ module.exports = {
         destination: '/dashboard',
         permanent: false,
       },
+      {
+        source: '/event/:eventId/status',
+        destination: '/events/:eventId/status',
+        permanent: true,
+      },
     ];
   },
   publicRuntimeConfig: {
