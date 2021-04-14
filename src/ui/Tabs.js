@@ -1,6 +1,10 @@
 import { Tab as BootstrapTab, Tabs as BootstrapTabs } from 'react-bootstrap';
+import { getValueFromTheme } from './theme';
 import * as PropTypes from 'prop-types';
 import { Children } from 'react';
+import { Box } from '@/ui/Box';
+
+const getValue = getValueFromTheme(`tabs`);
 
 const Tabs = ({ activeKey, onSelect, children: rawChildren }) => {
   const children = Children.toArray(rawChildren).filter((child) => {
@@ -17,7 +21,33 @@ const Tabs = ({ activeKey, onSelect, children: rawChildren }) => {
   });
 
   return (
-    <BootstrapTabs activeKey={activeKey} onSelect={onSelect}>
+    <BootstrapTabs
+      activeKey={activeKey}
+      onSelect={onSelect}
+      css={`
+        border-bottom-color: ${getValue('borderColor')};
+
+        .nav-item {
+          color: ${getValue('color')};
+          border-radius: ${getValue('borderRadius')};
+
+          &:hover {
+            color: ${getValue('hoverColor')};
+            border-color: transparent;
+            background-color: ${getValue('hoverTabBackgroundColor')};
+          }
+
+          &.active,
+          &.active:hover {
+            color: ${getValue('activeTabColor')};
+            background-color: ${getValue('activeTabBackgroundColor')};
+            border-color: ${getValue('borderColor')};
+            border-bottom-color: ${getValue('activeTabBackgroundColor')};
+            cursor: default;
+          }
+        }
+      `}
+    >
       {children}
     </BootstrapTabs>
   );
