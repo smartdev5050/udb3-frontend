@@ -5,7 +5,12 @@ import { Children } from 'react';
 
 const getValue = getValueFromTheme(`tabs`);
 
-const Tabs = ({ activeKey, onSelect, children: rawChildren }) => {
+const Tabs = ({
+  activeKey,
+  onSelect,
+  activeBackgroundColor,
+  children: rawChildren,
+}) => {
   const children = Children.toArray(rawChildren).filter((child) => {
     if (child.type !== Tab) {
       console.error(
@@ -41,9 +46,11 @@ const Tabs = ({ activeKey, onSelect, children: rawChildren }) => {
           &.active,
           &.active:hover {
             color: ${getValue('activeTabColor')};
-            background-color: ${getValue('activeTabBackgroundColor')};
+            background-color: ${activeBackgroundColor ??
+            getValue('activeTabBackgroundColor')};
             border-color: ${getValue('borderColor')};
-            border-bottom-color: ${getValue('activeTabBackgroundColor')};
+            border-bottom-color: ${activeBackgroundColor ??
+            getValue('activeTabBackgroundColor')};
             cursor: default;
           }
         }
@@ -57,6 +64,7 @@ const Tabs = ({ activeKey, onSelect, children: rawChildren }) => {
 Tabs.propTypes = {
   activeKey: PropTypes.string.isRequired,
   onSelect: PropTypes.func.isRequired,
+  activeBackgroundColor: PropTypes.string,
   children: PropTypes.node,
 };
 

@@ -6,11 +6,14 @@ import { useState } from 'react';
 <Meta title="Components/Tabs" component={Tabs} />
 
 <Canvas>
-  <Story name="Default" args={{ activeKey: 'places' }}>
+  <Story
+    name="Default"
+    args={{ activeKey: 'places', activeBackgroundColor: '#fff' }}
+  >
     {(args) => {
       const [active, setActive] = useState(args.activeKey);
       return (
-        <Tabs activeKey={active} onSelect={setActive}>
+        <Tabs {...args} activeKey={active} onSelect={setActive}>
           <Tabs.Tab eventKey="events" title="Events">
             <Text>EVENTS FOO</Text>
           </Tabs.Tab>
