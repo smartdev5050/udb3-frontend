@@ -2,7 +2,6 @@ import { Tab as BootstrapTab, Tabs as BootstrapTabs } from 'react-bootstrap';
 import { getValueFromTheme } from './theme';
 import * as PropTypes from 'prop-types';
 import { Children } from 'react';
-import { Box } from '@/ui/Box';
 
 const getValue = getValueFromTheme(`tabs`);
 
