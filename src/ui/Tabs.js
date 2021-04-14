@@ -29,18 +29,13 @@ Tabs.propTypes = {
   children: PropTypes.node,
 };
 
-const Tab = ({ eventKey, title, children }) => {
-  return (
-    <BootstrapTab eventKey={eventKey} title={title}>
-      {children}
-    </BootstrapTab>
-  );
+const Tab = ({ eventKey, title }) => {
+  return <BootstrapTab eventKey={eventKey} title={title} />;
 };
 
 Tab.propTypes = {
   eventKey: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  children: PropTypes.node,
 };
 
 Tabs.Tab = Tab;
