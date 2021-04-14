@@ -30,6 +30,8 @@ const Tabs = ({ activeKey, onSelect, children: rawChildren }) => {
         .nav-item {
           color: ${getValue('color')};
           border-radius: ${getValue('borderRadius')};
+          padding: 10px 15px;
+          margin-right: 2px;
 
           &:hover {
             color: ${getValue('hoverColor')};
