@@ -13,7 +13,14 @@ import { useState } from 'react';
     {(args) => {
       const [active, setActive] = useState(args.activeKey);
       return (
-        <Tabs {...args} activeKey={active} onSelect={setActive}>
+        <Tabs
+          {...args}
+          activeKey={active}
+          onSelect={(key) => {
+            args.onSelect(key);
+            setActive(key);
+          }}
+        >
           <Tabs.Tab eventKey="events" title="Events">
             <Text>EVENTS FOO</Text>
           </Tabs.Tab>
