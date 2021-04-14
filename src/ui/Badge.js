@@ -5,6 +5,7 @@ import { Text } from './Text';
 
 const BadgeVariants = {
   DANGER: 'danger',
+  SECONDARY: 'secondary',
 };
 
 const BaseBadge = (props) => <Text {...props} />;
