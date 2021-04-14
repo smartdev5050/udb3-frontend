@@ -1,5 +1,6 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
 import { Tabs } from '@/ui/Tabs';
+import { Text } from '@/ui/Text';
 import { useState } from 'react';
 
 <Meta title="Components/Tabs" component={Tabs} />
@@ -11,13 +12,13 @@ import { useState } from 'react';
       return (
         <Tabs activeKey={active} onSelect={setActive}>
           <Tabs.Tab eventKey="events" title="Events">
-            <p>EVENTS</p>
+            <Text>EVENTS FOO</Text>
           </Tabs.Tab>
           <Tabs.Tab eventKey="places" title="Places">
-            <p>PLACES</p>
+            <Text>PLACES</Text>
           </Tabs.Tab>
           <Tabs.Tab eventKey="organizers" title="Organizers">
-            <p>ORGANIZERS</p>
+            <Text>ORGANIZERS</Text>
           </Tabs.Tab>
         </Tabs>
       );
