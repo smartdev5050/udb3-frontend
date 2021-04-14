@@ -5,7 +5,7 @@ import { Children } from 'react';
 const Tabs = ({ activeKey, onSelect, children: rawChildren }) => {
   const children = Children.toArray(rawChildren).filter((child) => {
     if (child.type !== Tab) {
-      console.log('Child of type', child.type.name, 'is not supported');
+      console.warn('Child of type', child.type.name, 'is not supported');
       return false;
     }
 
