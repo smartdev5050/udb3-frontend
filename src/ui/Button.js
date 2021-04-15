@@ -160,14 +160,21 @@ const Button = ({
   textAlign,
   title,
   size,
+  forwardedAs,
   ...props
 }) => {
   if (variant === ButtonVariants.SECONDARY) variant = 'outline-secondary';
 
   const isBootstrapVariant = variant !== ButtonVariants.UNSTYLED;
 
+  const BaseButtonWithForwardedAs = (props) => (
+    <BaseButton {...props} forwardedAs={forwardedAs} />
+  );
+
   const propsToApply = {
-    ...(isBootstrapVariant ? { forwardedAs: BaseButton, variant } : {}),
+    ...(isBootstrapVariant
+      ? { forwardedAs: BaseButtonWithForwardedAs, variant }
+      : {}),
     disabled,
     onClick,
     className,
