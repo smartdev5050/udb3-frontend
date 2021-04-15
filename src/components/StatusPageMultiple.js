@@ -135,12 +135,9 @@ const StatusPageMultiple = ({ event, refetchEvent }) => {
         />
         <Link
           href={`/event/${eventId}/preview`}
-          variant={LinkVariants.UNSTYLED}
-          customChildren
+          variant={LinkVariants.BUTTON_SUCCESS}
         >
-          <Button forwardedAs="span" variant={ButtonVariants.SUCCESS}>
-            {t('offerStatus.modificationReady')}
-          </Button>
+          {t('offerStatus.modificationReady')}
         </Link>
       </Page.Content>
     </Page>,
