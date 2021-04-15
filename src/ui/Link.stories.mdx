@@ -3,6 +3,7 @@ import { Link, LinkVariants } from './Link.js';
 import { Box } from './Box.js';
 import { Icon, Icons } from './Icon.js';
 import { Text } from '@/ui/Text';
+import { Inline } from '@/ui/Inline';
 
 <Meta title="Components/Link" component={Link} />
 
@@ -76,3 +77,31 @@ import { Text } from '@/ui/Text';
 </Canvas>
 
 <ArgsTable story="Custom Children" />
+
+<Canvas>
+  <Story
+    name="As button"
+    args={{
+      href: '/?path=/story/introduction-design-principles--page',
+    }}
+  >
+    {(args) => (
+      <Inline spacing={3}>
+        <Link {...args} variant={LinkVariants.BUTTON_PRIMARY}>
+          Primary
+        </Link>
+        <Link {...args} variant={LinkVariants.BUTTON_SECONDARY}>
+          Secondary
+        </Link>
+        <Link {...args} variant={LinkVariants.BUTTON_SUCCESS}>
+          Success
+        </Link>
+        <Link {...args} variant={LinkVariants.BUTTON_DANGER}>
+          Danger
+        </Link>
+      </Inline>
+    )}
+  </Story>
+</Canvas>
+
+<ArgsTable story="As button" />
