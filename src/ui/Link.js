@@ -18,7 +18,7 @@ const BaseLink = forwardRef(({ variant, ...props }, ref) => {
       <Inline
         ref={ref}
         forwardedAs="a"
-        width="min-content"
+        display="inline-flex"
         color={{ default: 'inherit', hover: 'inherit' }}
         alignItems="center"
         {...props}
@@ -31,6 +31,7 @@ const BaseLink = forwardRef(({ variant, ...props }, ref) => {
       ref={ref}
       forwardedAs="a"
       color={{ default: getValue('color'), hover: getValue('color') }}
+      display="inline-flex"
       css={`
         font-weight: 400;
         &:hover {

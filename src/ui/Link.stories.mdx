@@ -2,12 +2,17 @@ import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
 import { Link, LinkVariants } from './Link.js';
 import { Box } from './Box.js';
 import { Icon, Icons } from './Icon.js';
+import { Text } from '@/ui/Text';
 
 <Meta title="Components/Link" component={Link} />
 
 <Canvas>
   <Story name="Internal" args={{ children: 'internal', href: '/test' }}>
-    {(args) => <Link {...args} />}
+    {(args) => (
+      <Text>
+        This is an <Link {...args} /> link
+      </Text>
+    )}
   </Story>
 </Canvas>
 
