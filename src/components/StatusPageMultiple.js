@@ -14,7 +14,6 @@ import { StatusModal } from './StatusModal';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
 import camelCase from 'lodash/camelCase';
 import { Icons } from '@/ui/Icon';
-import { Button, ButtonVariants } from '@/ui/Button';
 import { Link, LinkVariants } from '@/ui/Link';
 import { OfferStatus } from '@/constants/OfferStatus';
 
