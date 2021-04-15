@@ -43,7 +43,6 @@ const BaseLink = forwardRef(({ variant, children, ...props }, ref) => {
         ref={ref}
         forwardedAs="a"
         display="inline-flex"
-        color={{ default: 'inherit', hover: 'inherit' }}
         alignItems="center"
         {...props}
       >
