@@ -171,13 +171,13 @@ const Button = ({
     <BaseButton {...props} forwardedAs={forwardedAs} />
   );
 
+  const forwardedButton = forwardedAs ? BaseButtonWithForwardedAs : BaseButton;
+  const bootstrapProps = isBootstrapVariant
+    ? { forwardedAs: forwardedButton, variant }
+    : {};
+
   const propsToApply = {
-    ...(isBootstrapVariant
-      ? {
-          forwardedAs: forwardedAs ? BaseButtonWithForwardedAs : BaseButton,
-          variant,
-        }
-      : {}),
+    ...bootstrapProps,
     disabled,
     onClick,
     className,
