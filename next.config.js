@@ -9,11 +9,25 @@ module.exports = {
     '@storybook/addon-a11y',
   ],
   async redirects() {
+    // Only make the permanent redirects really permanent in environments other
+    // than development, so we don't get permanent redirects on localhost which
+    // may conflict with other projects.
+    const env = process.env.NEXT_PUBLIC_ENVIRONMENT;
     return [
       {
         source: '/',
         destination: '/dashboard',
-        permanent: false,
+        permanent: env !== 'development',
+      },
+      {
+        source: '/event/:eventId/status',
+        destination: '/events/:eventId/status',
+        permanent: env !== 'development',
+      },
+      {
+        source: '/place/:placeId/status',
+        destination: '/places/:placeId/status',
+        permanent: env !== 'development',
       },
     ];
   },

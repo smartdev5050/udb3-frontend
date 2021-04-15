@@ -10,3 +10,14 @@ import { Badge, BadgeVariants } from './Badge.js';
 </Canvas>
 
 <ArgsTable story="Danger" />
+
+<Canvas>
+  <Story
+    name="Secundary"
+    args={{ variant: BadgeVariants.SECONDARY, children: 'Published' }}
+  >
+    {(args) => <Badge {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Secundary" />
