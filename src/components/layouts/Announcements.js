@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Box, parseSpacing } from '@/ui/Box';
-import { Button } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
 import { Image } from '@/ui/Image';
 import { Inline } from '@/ui/Inline';
-import { Link } from '@/ui/Link';
+import { Link, LinkVariants } from '@/ui/Link';
 import { List } from '@/ui/List';
 import { Modal } from '@/ui/Modal';
 import { Stack } from '@/ui/Stack';
@@ -133,10 +132,8 @@ const AnnouncementContent = ({
     />
     <Inline as="div" justifyContent="flex-end">
       {!!callToAction && (
-        <Link href={callToAction}>
-          <Button>
-            <Text>{callToActionLabel}</Text>
-          </Button>
+        <Link href={callToAction} variant={LinkVariants.BUTTON_PRIMARY}>
+          <Text>{callToActionLabel}</Text>
         </Link>
       )}
     </Inline>
