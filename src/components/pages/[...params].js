@@ -63,15 +63,6 @@ const Fallback = () => {
 
   const { publicRuntimeConfig } = getConfig();
 
-  const redirect = getRedirect(asPath, publicRuntimeConfig.environment);
-  if (redirect) {
-    // Use replace() instead of push() so the back button behaviour still
-    // works as expected: The back button will go back to the url BEFORE the
-    // one that redirected. Otherwise you get stuck in an infinite loop of
-    // back -> redirect -> back -> redirect ...
-    router.replace(redirect.destination);
-  }
-
   // Keep track of which paths were not found. Do not store as a single boolean
   // for the current path, because it's possible to navigate from a 404 path to
   // another page that's handled by this same Fallback component and then the
