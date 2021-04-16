@@ -13,6 +13,7 @@ import {
 } from '@/hooks/useHandleWindowMessage';
 import PageNotFound from '@/pages/404';
 import { useIsClient } from '@/hooks/useIsClient';
+import { isFeatureFlagEnabledInCookies } from '@/hooks/useFeatureFlag';
 import { Cookies } from 'react-cookie';
 
 const prefixWhenNotEmpty = (value, prefix) =>
@@ -20,7 +21,16 @@ const prefixWhenNotEmpty = (value, prefix) =>
 
 const getRedirect = (originalPath, environment, cookies) => {
   const matches = getRedirects(environment)
-    .map(({ source, destination, permanent }) => {
+    .map(({ source, destination, permanent, featureFlag }) => {
+      // Don't follow redirects that are behind a feature flag
+      if (featureFlag) {
+        const enabled = isFeatureFlagEnabledInCookies(featureFlag, cookies);
+        if (!enabled) {
+          return false;
+        }
+      }
+
+      // Check if the redirect source matches the current path
       const match = matchPath(originalPath, { path: source, exact: true });
       if (match) {
         return {
