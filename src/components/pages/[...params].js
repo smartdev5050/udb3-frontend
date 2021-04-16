@@ -35,7 +35,7 @@ const getRedirect = (originalPath, environment, cookies) => {
       if (match) {
         return {
           destination: generatePath(destination, match.params),
-          permanent,
+          permanent: featureFlag === undefined && permanent,
         };
       }
       return false;
