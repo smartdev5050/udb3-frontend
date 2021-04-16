@@ -13,11 +13,12 @@ import {
 } from '@/hooks/useHandleWindowMessage';
 import PageNotFound from '@/pages/404';
 import { useIsClient } from '@/hooks/useIsClient';
+import { Cookies } from 'react-cookie';
 
 const prefixWhenNotEmpty = (value, prefix) =>
   value ? `${prefix}${value}` : value;
 
-const getRedirect = (originalPath, environment) => {
+const getRedirect = (originalPath, environment, cookies) => {
   const matches = getRedirects(environment)
     .map(({ source, destination, permanent }) => {
       const match = matchPath(originalPath, { path: source, exact: true });
@@ -109,15 +110,20 @@ const Fallback = () => {
 };
 
 export const getServerSideProps = getApplicationServerSideProps(
-  ({ req, query, cookies, queryClient }) => {
+  ({ req, query, cookies: rawCookies, queryClient }) => {
+    const cookies = new Cookies(rawCookies);
     const { publicRuntimeConfig } = getConfig();
     const path = '/' + query.params.join('/');
-    const redirect = getRedirect(path, publicRuntimeConfig.environment);
+    const redirect = getRedirect(
+      path,
+      publicRuntimeConfig.environment,
+      cookies.cookies,
+    );
     if (redirect) {
       return { redirect };
     }
 
-    return { props: { cookies } };
+    return { props: { cookies: rawCookies } };
   },
 );
 
