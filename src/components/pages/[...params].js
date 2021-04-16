@@ -52,11 +52,14 @@ const Fallback = () => {
     }
   });
 
-  const [notFound, setNotFound] = useState(false);
+  // Keep track of which paths were not found. Do not store as a single boolean
+  // for the current path, because it's possible to navigate from a 404 path to
+  // another page that's handled by this same Fallback component and then the
+  // boolean notFound state would not update.
+  const [notFoundPaths, setNotFoundPaths] = useState([]);
   useHandleWindowMessage({
-    [WindowMessageTypes.URL_UNKNOWN]: () => {
-      setNotFound(true);
-    },
+    [WindowMessageTypes.URL_UNKNOWN]: () =>
+      setNotFoundPaths([asPath, ...notFoundPaths]),
   });
 
   const isClientSide = useIsClient();
@@ -78,7 +81,7 @@ const Fallback = () => {
     return `${publicRuntimeConfig.legacyAppUrl}${path}${queryString}`;
   }, [asPath, cookies.token, cookies['udb-language']]);
 
-  if (notFound) {
+  if (notFoundPaths.includes(asPath)) {
     return <PageNotFound />;
   }
 
