@@ -3,11 +3,6 @@ exports.getRedirects = (environment) => [
   // than development, so we don't get permanent redirects on localhost which
   // may conflict with other projects.
   {
-    source: '/',
-    destination: '/dashboard',
-    permanent: environment !== 'development',
-  },
-  {
     source: '/event/:eventId/status',
     destination: '/events/:eventId/status',
     permanent: environment !== 'development',

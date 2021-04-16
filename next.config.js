@@ -8,6 +8,17 @@ module.exports = {
     '@storybook/addon-essentials',
     '@storybook/addon-a11y',
   ],
+  async redirects() {
+    // Redirects to fix non-existing paths should go in `src/redirects.js`!!!
+    const env = process.env.NEXT_PUBLIC_ENVIRONMENT;
+    return [
+      {
+        source: '/',
+        destination: '/dashboard',
+        permanent: env !== 'development',
+      },
+    ];
+  },
   publicRuntimeConfig: {
     environment: process.env.NEXT_PUBLIC_ENVIRONMENT,
     apiKey: process.env.NEXT_PUBLIC_API_KEY,
