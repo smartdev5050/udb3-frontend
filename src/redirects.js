@@ -1,4 +1,4 @@
-exports.getRedirects = (environment) => [
+const getRedirects = (environment) => [
   // Only make the permanent redirects really permanent in environments other
   // than development, so we don't get permanent redirects on localhost which
   // may conflict with other projects.
@@ -13,3 +13,5 @@ exports.getRedirects = (environment) => [
     permanent: environment !== 'development',
   },
 ];
+
+export { getRedirects };
