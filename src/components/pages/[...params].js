@@ -7,6 +7,10 @@ import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideP
 import { memo, useMemo } from 'react';
 import { generatePath, matchPath } from 'react-router';
 import { getRedirects } from '../../redirects';
+import {
+  useHandleWindowMessage,
+  WindowMessageTypes,
+} from '@/hooks/useHandleWindowMessage';
 
 const prefixWhenNotEmpty = (value, prefix) =>
   value ? `${prefix}${value}` : value;
@@ -44,6 +48,10 @@ const Fallback = () => {
       const destinationPath = generatePath(destination, match.params);
       router.replace(destinationPath);
     }
+  });
+
+  useHandleWindowMessage({
+    [WindowMessageTypes.URL_UNKNOWN]: () => router.push('/404'),
   });
 
   const { cookies } = useCookiesWithOptions(['token', 'udb-language']);
