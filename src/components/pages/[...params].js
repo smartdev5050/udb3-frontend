@@ -12,6 +12,7 @@ import {
   WindowMessageTypes,
 } from '@/hooks/useHandleWindowMessage';
 import PageNotFound from '@/pages/404';
+import { useIsClient } from '@/hooks/useIsClient';
 
 const prefixWhenNotEmpty = (value, prefix) =>
   value ? `${prefix}${value}` : value;
@@ -58,6 +59,8 @@ const Fallback = () => {
     },
   });
 
+  const isClientSide = useIsClient();
+
   const { cookies } = useCookiesWithOptions(['token', 'udb-language']);
 
   const legacyPath = useMemo(() => {
@@ -79,7 +82,16 @@ const Fallback = () => {
     return <PageNotFound />;
   }
 
-  return <IFrame url={legacyPath} />;
+  // Only render the iframe on the client-side.
+  // Otherwise the iframe is already in the DOM before the
+  // window.addEventListener() from useHandleWindowMessage gets registered,
+  // and then the 404 logic does not get triggered because the listener is too
+  // late to get the message from the AngularJS app.
+  if (isClientSide) {
+    return <IFrame url={legacyPath} />;
+  }
+
+  return null;
 };
 
 export const getServerSideProps = getApplicationServerSideProps();
