@@ -17,6 +17,26 @@ import { useIsClient } from '@/hooks/useIsClient';
 const prefixWhenNotEmpty = (value, prefix) =>
   value ? `${prefix}${value}` : value;
 
+const getRedirect = (originalPath, environment) => {
+  const matches = getRedirects(environment)
+    .map(({ source, destination, permanent }) => {
+      const match = matchPath(originalPath, { path: source, exact: true });
+      if (match) {
+        return {
+          destination: generatePath(destination, match.params),
+          permanent,
+        };
+      }
+      return false;
+    })
+    .filter((match) => !!match);
+
+  if (matches.length > 0) {
+    return matches[0];
+  }
+  return false;
+};
+
 const IFrame = memo(({ url }) => (
   <Box
     tabIndex={0}
@@ -43,18 +63,14 @@ const Fallback = () => {
 
   const { publicRuntimeConfig } = getConfig();
 
-  const redirects = getRedirects(publicRuntimeConfig.environment);
-  redirects.forEach(({ source, destination }) => {
-    const match = matchPath(asPath, { path: source, exact: true });
-    if (match) {
-      const destinationPath = generatePath(destination, match.params);
-      // Use replace() instead of push() so the back button behaviour still
-      // works as expected: The back button will go back to the url BEFORE the
-      // one that redirected. Otherwise you get stuck in an infinite loop of
-      // back -> redirect -> back -> redirect ...
-      router.replace(destinationPath);
-    }
-  });
+  const redirect = getRedirect(asPath, publicRuntimeConfig.environment);
+  if (redirect) {
+    // Use replace() instead of push() so the back button behaviour still
+    // works as expected: The back button will go back to the url BEFORE the
+    // one that redirected. Otherwise you get stuck in an infinite loop of
+    // back -> redirect -> back -> redirect ...
+    router.replace(redirect.destination);
+  }
 
   // Keep track of which paths were not found. Do not store as a single boolean
   // for the current path, because it's possible to navigate from a 404 path to
@@ -101,6 +117,17 @@ const Fallback = () => {
   return null;
 };
 
-export const getServerSideProps = getApplicationServerSideProps();
+export const getServerSideProps = getApplicationServerSideProps(
+  ({ req, query, cookies, queryClient }) => {
+    const { publicRuntimeConfig } = getConfig();
+    const path = '/' + query.params.join('/');
+    const redirect = getRedirect(path, publicRuntimeConfig.environment);
+    if (redirect) {
+      return { redirect };
+    }
+
+    return { props: { cookies } };
+  },
+);
 
 export default Fallback;
