@@ -4,13 +4,14 @@ import { useRouter } from 'next/router';
 import { Box } from '@/ui/Box';
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
-import { memo, useMemo } from 'react';
+import { memo, useMemo, useState } from 'react';
 import { generatePath, matchPath } from 'react-router';
 import { getRedirects } from '../../redirects';
 import {
   useHandleWindowMessage,
   WindowMessageTypes,
 } from '@/hooks/useHandleWindowMessage';
+import PageNotFound from '@/pages/404';
 
 const prefixWhenNotEmpty = (value, prefix) =>
   value ? `${prefix}${value}` : value;
@@ -50,8 +51,11 @@ const Fallback = () => {
     }
   });
 
+  const [notFound, setNotFound] = useState(false);
   useHandleWindowMessage({
-    [WindowMessageTypes.URL_UNKNOWN]: () => router.push('/404'),
+    [WindowMessageTypes.URL_UNKNOWN]: () => {
+      setNotFound(true);
+    },
   });
 
   const { cookies } = useCookiesWithOptions(['token', 'udb-language']);
@@ -70,6 +74,10 @@ const Fallback = () => {
 
     return `${publicRuntimeConfig.legacyAppUrl}${path}${queryString}`;
   }, [asPath, cookies.token, cookies['udb-language']]);
+
+  if (notFound) {
+    return <PageNotFound />;
+  }
 
   return <IFrame url={legacyPath} />;
 };
