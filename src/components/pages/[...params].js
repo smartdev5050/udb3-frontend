@@ -5,6 +5,8 @@ import { Box } from '@/ui/Box';
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 import { memo, useMemo } from 'react';
+import { generatePath, matchPath } from 'react-router';
+import { getRedirects } from '../../redirects';
 
 const prefixWhenNotEmpty = (value, prefix) =>
   value ? `${prefix}${value}` : value;
@@ -25,12 +27,24 @@ IFrame.propTypes = {
 };
 
 const Fallback = () => {
+  const router = useRouter();
+
   const {
     // eslint-disable-next-line no-unused-vars
     query: { params = [], ...queryWithoutParams },
     asPath,
-  } = useRouter();
+  } = router;
+
   const { publicRuntimeConfig } = getConfig();
+
+  const redirects = getRedirects(publicRuntimeConfig.environment);
+  redirects.forEach(({ source, destination }) => {
+    const match = matchPath(asPath, { path: source, exact: true });
+    if (match) {
+      const destinationPath = generatePath(destination, match.params);
+      router.replace(destinationPath);
+    }
+  });
 
   const { cookies } = useCookiesWithOptions(['token', 'udb-language']);
 
