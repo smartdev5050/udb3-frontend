@@ -48,6 +48,10 @@ const Fallback = () => {
     const match = matchPath(asPath, { path: source, exact: true });
     if (match) {
       const destinationPath = generatePath(destination, match.params);
+      // Use replace() instead of push() so the back button behaviour still
+      // works as expected: The back button will go back to the url BEFORE the
+      // one that redirected. Otherwise you get stuck in an infinite loop of
+      // back -> redirect -> back -> redirect ...
       router.replace(destinationPath);
     }
   });
