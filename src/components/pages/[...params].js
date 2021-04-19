@@ -129,8 +129,23 @@ export const getServerSideProps = getApplicationServerSideProps(
       publicRuntimeConfig.environment,
       cookies.cookies,
     );
+
     if (redirect) {
-      return { redirect };
+      // Don't include the `params` in the redirect URL's query.
+      delete query.params;
+      const queryParameters = new URLSearchParams(query);
+
+      // Return the redirect as-is if there are no additional query parameters
+      // to append.
+      if (queryParameters.toString().length === 0) {
+        return { redirect };
+      }
+
+      // Append query parameters to the redirect destination.
+      const glue = redirect.destination.indexOf('?') !== -1 ? '&' : '?';
+      const redirectUrl =
+        redirect.destination + glue + queryParameters.toString();
+      return { redirect: { ...redirect, destination: redirectUrl } };
     }
 
     return { props: { cookies: rawCookies } };
