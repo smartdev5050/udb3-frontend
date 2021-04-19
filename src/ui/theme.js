@@ -225,6 +225,15 @@ const theme = {
     statusModal: {
       infoTextColor: colors.grey5,
     },
+    tabs: {
+      color: colors.udbBlue,
+      hoverColor: colors.textColor,
+      borderColor: colors.grey3,
+      activeTabColor: colors.grey5,
+      activeTabBackgroundColor: colors.grey1,
+      hoverTabBackgroundColor: colors.grey3,
+      borderRadius: 0,
+    },
   },
 };
 
