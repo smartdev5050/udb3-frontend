@@ -1,6 +1,6 @@
 import { Tab as BootstrapTab, Tabs as BootstrapTabs } from 'react-bootstrap';
 import { getValueFromTheme } from './theme';
-import * as PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { Children } from 'react';
 import { parseSpacing } from '@/ui/Box';
 
