@@ -5,24 +5,51 @@ import { getInlineProps, Inline, inlinePropTypes } from './Inline';
 import { cloneElement, forwardRef } from 'react';
 import { Icon } from './Icon';
 import { Text } from './Text';
+import { Button, ButtonVariants } from '@/ui/Button';
 
 const getValue = getValueFromTheme('link');
 
-const LinkVariants = {
-  UNSTYLED: 'unstyled',
+const LinkButtonVariants = {
+  BUTTON_PRIMARY: ButtonVariants.PRIMARY,
+  BUTTON_SECONDARY: ButtonVariants.SECONDARY,
+  BUTTON_DANGER: ButtonVariants.DANGER,
+  BUTTON_SUCCESS: ButtonVariants.SUCCESS,
 };
 
-const BaseLink = forwardRef(({ variant, ...props }, ref) => {
+const LinkVariants = {
+  UNSTYLED: 'unstyled',
+  ...LinkButtonVariants,
+};
+
+const BaseLink = forwardRef(({ variant, children, ...props }, ref) => {
   if (variant === LinkVariants.UNSTYLED) {
     return (
       <Inline
         ref={ref}
         forwardedAs="a"
-        width="min-content"
+        display="inline-flex"
         color={{ default: 'inherit', hover: 'inherit' }}
         alignItems="center"
         {...props}
-      />
+      >
+        {children}
+      </Inline>
+    );
+  }
+
+  if (Object.values(LinkButtonVariants).includes(variant)) {
+    return (
+      <Inline
+        ref={ref}
+        forwardedAs="a"
+        display="inline-flex"
+        alignItems="center"
+        {...props}
+      >
+        <Button forwardedAs="span" variant={variant}>
+          {children}
+        </Button>
+      </Inline>
     );
   }
 
@@ -31,6 +58,7 @@ const BaseLink = forwardRef(({ variant, ...props }, ref) => {
       ref={ref}
       forwardedAs="a"
       color={{ default: getValue('color'), hover: getValue('color') }}
+      display="inline-flex"
       css={`
         font-weight: 400;
         &:hover {
@@ -38,12 +66,15 @@ const BaseLink = forwardRef(({ variant, ...props }, ref) => {
         }
       `}
       {...props}
-    />
+    >
+      {children}
+    </Inline>
   );
 });
 
 BaseLink.propTypes = {
   variant: PropTypes.string,
+  children: PropTypes.node,
 };
 
 const Link = ({

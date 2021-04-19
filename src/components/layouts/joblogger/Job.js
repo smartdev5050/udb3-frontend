@@ -101,10 +101,8 @@ const Job = ({
           </Button>
         </Inline>
         {!!exportUrl && (
-          <Link href={exportUrl} variant={LinkVariants.UNSTYLED}>
-            <Button variant={ButtonVariants.SECONDARY}>
-              {t('jobs.download')}
-            </Button>
+          <Link href={exportUrl} variant={LinkVariants.BUTTON_SECONDARY}>
+            {t('jobs.download')}
           </Link>
         )}
       </Stack>

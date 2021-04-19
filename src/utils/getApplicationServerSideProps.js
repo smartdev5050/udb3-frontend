@@ -1,12 +1,14 @@
 import Cookies from 'universal-cookie';
 import { QueryClient } from 'react-query';
 import { isTokenValid } from './isTokenValid';
+import getConfig from 'next/config';
 
 const getApplicationServerSideProps = (callbackFn) => async ({
   req,
   query,
 }) => {
-  if (process.env.NODE_ENV !== 'production') {
+  const { publicRuntimeConfig } = getConfig();
+  if (publicRuntimeConfig.environment === 'development') {
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
   }
 
