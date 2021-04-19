@@ -438,7 +438,8 @@ const Sidebar = () => {
       onMouseOver={() => {
         setTimeout(() => {
           if (!sidebarComponent?.current) return;
-          sidebarComponent.current.focus();
+          if (document.activeElement.tagName !== 'iframe') return;
+          document.activeElement.blur();
         }, 100);
       }}
     >
