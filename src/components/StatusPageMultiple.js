@@ -14,7 +14,6 @@ import { StatusModal } from './StatusModal';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
 import camelCase from 'lodash/camelCase';
 import { Icons } from '@/ui/Icon';
-import { Button, ButtonVariants } from '@/ui/Button';
 import { Link, LinkVariants } from '@/ui/Link';
 import { OfferStatus } from '@/constants/OfferStatus';
 
@@ -135,12 +134,9 @@ const StatusPageMultiple = ({ event, refetchEvent }) => {
         />
         <Link
           href={`/event/${eventId}/preview`}
-          variant={LinkVariants.UNSTYLED}
-          customChildren
+          variant={LinkVariants.BUTTON_SUCCESS}
         >
-          <Button variant={ButtonVariants.SUCCESS}>
-            {t('offerStatus.modificationReady')}
-          </Button>
+          {t('offerStatus.modificationReady')}
         </Link>
       </Page.Content>
     </Page>,
