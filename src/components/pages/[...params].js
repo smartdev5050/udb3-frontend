@@ -20,7 +20,7 @@ const prefixWhenNotEmpty = (value, prefix) =>
   value ? `${prefix}${value}` : value;
 
 const getRedirect = (originalPath, environment, cookies) => {
-  const matches = getRedirects(environment)
+  return getRedirects(environment)
     .map(({ source, destination, permanent, featureFlag }) => {
       // Don't follow redirects that are behind a feature flag
       if (featureFlag) {
@@ -40,12 +40,7 @@ const getRedirect = (originalPath, environment, cookies) => {
       }
       return false;
     })
-    .filter((match) => !!match);
-
-  if (matches.length > 0) {
-    return matches[0];
-  }
-  return false;
+    .find((match) => !!match);
 };
 
 const IFrame = memo(({ url }) => (
