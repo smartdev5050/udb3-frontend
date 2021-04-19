@@ -2,6 +2,7 @@ import { Tab as BootstrapTab, Tabs as BootstrapTabs } from 'react-bootstrap';
 import { getValueFromTheme } from './theme';
 import * as PropTypes from 'prop-types';
 import { Children } from 'react';
+import { parseSpacing } from '@/ui/Box';
 
 const getValue = getValueFromTheme(`tabs`);
 
@@ -34,8 +35,8 @@ const Tabs = ({
         .nav-item {
           color: ${getValue('color')};
           border-radius: ${getValue('borderRadius')};
-          padding: 10px 15px;
-          margin-right: 2px;
+          padding: ${parseSpacing(3)} ${parseSpacing(4)};
+          margin-right: ${parseSpacing(1)};
 
           &:hover {
             color: ${getValue('hoverColor')};
