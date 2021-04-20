@@ -23,11 +23,8 @@ const getRedirect = (originalPath, environment, cookies) => {
   return getRedirects(environment)
     .map(({ source, destination, permanent, featureFlag }) => {
       // Don't follow redirects that are behind a feature flag
-      if (featureFlag) {
-        const enabled = isFeatureFlagEnabledInCookies(featureFlag, cookies);
-        if (!enabled) {
-          return false;
-        }
+      if (featureFlag && !isFeatureFlagEnabledInCookies(featureFlag, cookies)) {
+        return false;
       }
 
       // Check if the redirect source matches the current path
