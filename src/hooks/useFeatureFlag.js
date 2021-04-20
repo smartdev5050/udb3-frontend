@@ -15,9 +15,9 @@ const useFeatureFlag = (featureFlagName) => {
   const cookieName = createCookieName(featureFlagName);
 
   const set = (value) => setCookie(cookieName, value);
-  const enabled = isFeatureFlagEnabledInCookies(featureFlagName, cookies);
+  const isEnabled = isFeatureFlagEnabledInCookies(featureFlagName, cookies);
 
-  return [enabled, set];
+  return [isEnabled, set];
 };
 
 const isFeatureFlagEnabledInCookies = (featureFlagName, cookies) => {
