@@ -44,14 +44,7 @@ const getRedirect = (originalPath, environment, cookies) => {
 };
 
 const IFrame = memo(({ url }) => (
-  <Box
-    tabIndex={0}
-    as="iframe"
-    src={url}
-    width="100%"
-    height="100vh"
-    flex={1}
-  />
+  <Box as="iframe" src={url} width="100%" height="100vh" flex={1} />
 ));
 
 IFrame.propTypes = {
