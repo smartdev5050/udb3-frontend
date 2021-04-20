@@ -19,6 +19,8 @@ BootstrapDropdownAsButtonGroup.propTypes = {
 };
 
 const Dropdown = ({ variant, children }) => {
+  if (variant === DropDownVariants.SECONDARY) variant = 'outline-secondary';
+
   const isMenuChild = (child) =>
     child.type === Dropdown.Item || child.type === Dropdown.Divider;
   const menuChildren = Children.toArray(children).filter(isMenuChild);
