@@ -1,23 +1,30 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
 import { Dropdown, DropDownVariants } from './Dropdown.js';
 import { action } from '@storybook/addon-actions';
+import { Button, ButtonVariants } from '@/ui/Button';
+import { Link, LinkVariants } from '@/ui/Link';
 
 <Meta title="Components/Dropdown" component={Dropdown} />
 
 # Variants
 
-## Primary
+## With button
 
 <Canvas>
   <Story
-    name="Primary"
+    name="With button"
     args={{
       variant: DropDownVariants.PRIMARY,
-      children: 'Primary',
     }}
   >
     {(args) => (
       <Dropdown {...args}>
+        <Button
+          onClick={action('onClick')('Example onClick primary action')}
+          variant={args.variant}
+        >
+          Primary action
+        </Button>
         <Dropdown.Item href="#example-href-1">Example href 1</Dropdown.Item>
         <Dropdown.Item onClick={() => action('onClick')('Example onClick 1')}>
           Example onClick 1
@@ -32,4 +39,34 @@ import { action } from '@storybook/addon-actions';
   </Story>
 </Canvas>
 
-<ArgsTable story="Primary" />
+<ArgsTable story="With button" />
+
+## With link
+
+<Canvas>
+  <Story
+    name="With link"
+    args={{
+      variant: DropDownVariants.PRIMARY,
+    }}
+  >
+    {(args) => (
+      <Dropdown {...args}>
+        <Link href="#example" variant={args.variant}>
+          Primary action
+        </Link>
+        <Dropdown.Item href="#example-href-1">Example href 1</Dropdown.Item>
+        <Dropdown.Item onClick={() => action('onClick')('Example onClick 1')}>
+          Example onClick 1
+        </Dropdown.Item>
+        <Dropdown.Divider />
+        <Dropdown.Item href="#example-href-2">Example href 2</Dropdown.Item>
+        <Dropdown.Item onClick={() => action('onClick')('Example onClick 2')}>
+          Example onClick 2
+        </Dropdown.Item>
+      </Dropdown>
+    )}
+  </Story>
+</Canvas>
+
+<ArgsTable story="With link" />

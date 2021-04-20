@@ -3,7 +3,8 @@ import {
   ButtonGroup as BootstrapButtonGroup,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { buttonCSS, ButtonVariants } from '@/ui/Button';
+import { Button, buttonCSS, ButtonVariants } from '@/ui/Button';
+import { Link } from '@/ui/Link';
 import { Children } from 'react';
 import { Box } from '@/ui/Box';
 
@@ -22,8 +23,15 @@ const Dropdown = ({ variant, children }) => {
     child.type === Dropdown.Item || child.type === Dropdown.Divider;
   const menuChildren = Children.toArray(children).filter(isMenuChild);
 
+  const isPrimaryActionChild = (child) =>
+    child.type === Button || child.type === Link;
+  const primaryActionChildren = Children.toArray(children).filter(
+    isPrimaryActionChild,
+  );
+
   return (
     <Box as={BootstrapDropdownAsButtonGroup}>
+      {primaryActionChildren}
       <BootstrapDropdown.Toggle split variant={variant} css={buttonCSS} />
       <BootstrapDropdown.Menu>{menuChildren}</BootstrapDropdown.Menu>
     </Box>
