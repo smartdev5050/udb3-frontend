@@ -3,7 +3,7 @@ import {
   ButtonGroup as BootstrapButtonGroup,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { ButtonVariants } from '@/ui/Button';
+import { buttonCSS, ButtonVariants } from '@/ui/Button';
 import { Children } from 'react';
 import { Box } from '@/ui/Box';
 
@@ -24,7 +24,7 @@ const Dropdown = ({ variant, children }) => {
 
   return (
     <Box as={BootstrapDropdownAsButtonGroup}>
-      <BootstrapDropdown.Toggle split variant={variant} />
+      <BootstrapDropdown.Toggle split variant={variant} css={buttonCSS} />
       <BootstrapDropdown.Menu>{menuChildren}</BootstrapDropdown.Menu>
     </Box>
   );

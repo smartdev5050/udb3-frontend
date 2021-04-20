@@ -272,4 +272,4 @@ Button.defaultProps = {
   size: ButtonSizes.MEDIUM,
 };
 
-export { ButtonVariants, Button, ButtonSizes };
+export { ButtonVariants, Button, ButtonSizes, customCSS as buttonCSS };
