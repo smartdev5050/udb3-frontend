@@ -127,7 +127,7 @@ export const getServerSideProps = getApplicationServerSideProps(
       }
 
       // Append query parameters to the redirect destination.
-      const glue = redirect.destination.indexOf('?') !== -1 ? '&' : '?';
+      const glue = redirect.destination.includes('?') ? '&' : '?';
       const redirectUrl =
         redirect.destination + glue + queryParameters.toString();
       return { redirect: { ...redirect, destination: redirectUrl } };
