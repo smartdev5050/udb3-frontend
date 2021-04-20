@@ -84,7 +84,6 @@ const Layout = ({ children }) => {
         router.push({ pathname: url.pathname, query });
       }
     },
-    [WindowMessageTypes.URL_UNKNOWN]: () => router.push('/404'),
     [WindowMessageTypes.HTTP_ERROR_CODE]: ({ code }) => {
       if ([401, 403].includes(code)) {
         removeAuthenticationCookies();
