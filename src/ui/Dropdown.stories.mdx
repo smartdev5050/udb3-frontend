@@ -1,0 +1,35 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import { Dropdown, DropDownVariants } from './Dropdown.js';
+import { action } from '@storybook/addon-actions';
+
+<Meta title="Components/Dropdown" component={Dropdown} />
+
+# Variants
+
+## Primary
+
+<Canvas>
+  <Story
+    name="Primary"
+    args={{
+      variant: DropDownVariants.PRIMARY,
+      children: 'Primary',
+    }}
+  >
+    {(args) => (
+      <Dropdown {...args}>
+        <Dropdown.Item href="#example-href-1">Example href 1</Dropdown.Item>
+        <Dropdown.Item onClick={() => action('onClick')('Example onClick 1')}>
+          Example onClick 1
+        </Dropdown.Item>
+        <Dropdown.Divider />
+        <Dropdown.Item href="#example-href-2">Example href 2</Dropdown.Item>
+        <Dropdown.Item onClick={() => action('onClick')('Example onClick 2')}>
+          Example onClick 2
+        </Dropdown.Item>
+      </Dropdown>
+    )}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Primary" />
