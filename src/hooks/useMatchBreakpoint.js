@@ -15,12 +15,22 @@ const useMatchBreakpoint = (breakpoint) => {
       `(max-width: ${theme.breakpoints[breakpoint]}px)`,
     );
 
-    mediaQuery.addEventListener('change', handleChange);
+    if (!mediaQuery.addEventListener) {
+      mediaQuery.addListener(handleChange);
+    } else {
+      mediaQuery.addEventListener('change', handleChange);
+    }
 
     // call once for initial render (when opening the page in mobile view)
     handleChange(mediaQuery);
 
-    return () => mediaQuery.removeEventListener('change', handleChange);
+    return () => {
+      if (!mediaQuery.removeEventListener) {
+        mediaQuery.removeListener(handleChange);
+      } else {
+        mediaQuery.removeEventListener('change', handleChange);
+      }
+    };
   }, [breakpoint, isClient]);
 
   return matches;
