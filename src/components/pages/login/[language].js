@@ -462,7 +462,7 @@ const Index = () => {
             <Column value="215.000" title={t('main.activities')}>
               {t('main.activities_info')}
             </Column>
-            <Column value="500" title={t('main.channels')}>
+            <Column value="1.000" title={t('main.channels')}>
               <Trans i18nKey="main.channels_info">
                 UiTdatabank levert informatie aan meer dan <MainChannelLink />,
                 waaronder UiTinvlaanderen, websites van steden en gemeenten,
