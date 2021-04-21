@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { theme } from '@/ui/theme';
 import { useIsClient } from './useIsClient';
+import { useEventListenerOnMediaQuery } from './useEventListenerOnMediaQuery';
 
 const useMatchBreakpoint = (breakpoint) => {
   const [matches, setMatches] = useState(false);
@@ -15,7 +16,7 @@ const useMatchBreakpoint = (breakpoint) => {
       `(max-width: ${theme.breakpoints[breakpoint]}px)`,
     );
 
-    mediaQuery.addEventListener('change', handleChange);
+    useEventListenerOnMediaQuery(mediaQuery, 'change', handleChange);
 
     // call once for initial render (when opening the page in mobile view)
     handleChange(mediaQuery);
