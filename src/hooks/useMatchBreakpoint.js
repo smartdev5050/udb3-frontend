@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { theme } from '@/ui/theme';
 import { useIsClient } from './useIsClient';
-import { useEventListenerOnMediaQuery } from './useEventListenerOnMediaQuery';
 
 const useMatchBreakpoint = (breakpoint) => {
   const [matches, setMatches] = useState(false);
@@ -16,12 +15,22 @@ const useMatchBreakpoint = (breakpoint) => {
       `(max-width: ${theme.breakpoints[breakpoint]}px)`,
     );
 
-    useEventListenerOnMediaQuery(mediaQuery, 'change', handleChange);
+    if (!mediaQuery.addEventListener) {
+      mediaQuery.addListener(handleChange);
+    } else {
+      mediaQuery.addEventListener('change', handleChange);
+    }
 
     // call once for initial render (when opening the page in mobile view)
     handleChange(mediaQuery);
 
-    return () => mediaQuery.removeEventListener('change', handleChange);
+    return () => {
+      if (!mediaQuery.removeEventListener) {
+        mediaQuery.removeListener(handleChange);
+      } else {
+        mediaQuery.removeEventListener('change', handleChange);
+      }
+    };
   }, [breakpoint, isClient]);
 
   return matches;
