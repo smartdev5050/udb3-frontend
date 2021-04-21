@@ -9,7 +9,7 @@ const useMatchBreakpoint = (breakpoint) => {
   const handleChange = ({ matches }) => setMatches(matches);
 
   useEffect(() => {
-    if (!breakpoint || !isClient) return;
+    if (typeof window === 'undefined' || !breakpoint || !isClient) return;
 
     const mediaQuery = window.matchMedia(
       `(max-width: ${theme.breakpoints[breakpoint]}px)`,
