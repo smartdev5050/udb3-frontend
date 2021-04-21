@@ -1,10 +1,10 @@
 {
   "brand": "UiTdatabank",
-  "description": "UiTdatabank levert informatie aan meer dan 500 agenda's, waaronder UiTinvlaanderen, websites van steden en gemeenten, thema-agenda's, gedrukte bladen en mobiele apps. Ook jouw activiteit kan verschijnen op vele agenda's.",
+  "description": "UiTdatabank levert informatie aan meer dan 1.000 agenda's, waaronder UiTinvlaanderen, websites van steden en gemeenten, thema-agenda's, gedrukte bladen en mobiele apps. Ook jouw activiteit kan verschijnen op vele agenda's.",
   "main": {
     "activities_info": "Een uitstap, sportactiviteit, kaartavond, kermis of cursus? Een concert, tentoonstelling of film? UiTdatabank staat open voor de meest uiteenlopende vrijetijdsactiviteiten.",
     "activities": "activiteiten per jaar",
-    "channels_info_link_text": "500 agenda's",
+    "channels_info_link_text": "1.000 agenda's",
     "channels_info_link_url": "https://www.publiq.be/nl/publicatiekanalen",
     "channels_info": "UiTdatabank levert informatie aan meer dan <1>{{link}}</1>, waaronder UiTinvlaanderen, websites van steden en gemeenten, thema-agenda's, gedrukte bladen en mobiele apps. Ook jouw activiteit kan verschijnen op vele agenda's.",
     "channels": "verschillende kanalen",
