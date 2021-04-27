@@ -68,6 +68,39 @@ const useGetEventsByIds = ({ req, queryClient, ids = [] }) => {
   return useAuthenticatedQueries({ req, queryClient, options });
 };
 
+const getEventsByCreator = async ({ headers, ...queryData }) => {
+  const res = await fetchFromApi({
+    path: '/events/',
+    searchParams: {
+      ...queryData,
+    },
+    options: {
+      headers,
+    },
+  });
+  return await res.json();
+};
+
+const useGetEventsByCreator = (
+  { req, queryClient, creatorId },
+  configuration = {},
+) =>
+  useAuthenticatedQuery({
+    req,
+    queryClient,
+    queryKey: ['events'],
+    queryFn: getEventsByCreator,
+    queryArguments: {
+      creator: creatorId,
+      disableDefaultFilters: true,
+      embed: true,
+      limit: 50,
+      start: 0,
+      workflowStatus: 'DRAFT,READY_FOR_VALIDATION,APPROVED,REJECTED',
+    },
+    ...configuration,
+  });
+
 const getCalendarSummary = async ({ headers, id, format, locale }) => {
   const res = await fetchFromApi({
     path: `/events/${id.toString()}/calsum`,
@@ -152,6 +185,7 @@ export {
   useGetEventsToModerate,
   useGetEventById,
   useGetEventsByIds,
+  useGetEventsByCreator,
   useGetCalendarSummary,
   useChangeStatus,
   useChangeStatusSubEvents,
