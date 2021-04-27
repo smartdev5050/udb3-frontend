@@ -39,6 +39,7 @@ const customCSS = css`
     &:focus:not(:focus-visible),
     &.focus:not(:focus-visible) {
       outline: none;
+      box-shadow: none;
     }
   }
 
@@ -236,6 +237,7 @@ const Button = ({
         }
         :focus:not(:focus-visible) {
           outline: none;
+          box-shadow: none;
         }
       `}
       alignItems="center"
