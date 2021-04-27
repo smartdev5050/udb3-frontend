@@ -19,10 +19,7 @@ import { Link } from '@/ui/Link';
   >
     {(args) => (
       <Dropdown {...args}>
-        <Button
-          onClick={action('onClick')('Example onClick primary action')}
-          variant={args.variant}
-        >
+        <Button onClick={action('onClick')} variant={args.variant}>
           Primary action
         </Button>
         <Dropdown.Item href="#example-href-1">Example href 1</Dropdown.Item>
