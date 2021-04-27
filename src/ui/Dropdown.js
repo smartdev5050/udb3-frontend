@@ -36,7 +36,7 @@ const Dropdown = ({ variant, children }) => {
         .show > .dropdown-toggle,
         .show > .dropdown-toggle:focus:not(:focus-visible),
         .show > .dropdown-toggle.focus:not(:focus-visible) {
-          box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+          box-shadow: ${getValue('activeToggleBoxShadow')};
         }
       `}
     >

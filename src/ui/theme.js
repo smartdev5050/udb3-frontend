@@ -235,6 +235,7 @@ const theme = {
       borderRadius: 0,
     },
     dropdown: {
+      activeToggleBoxShadow: 'inset 0 3px 5px rgba(0, 0, 0, 0.125)',
       menuBorderRadius: 0,
     },
   },
