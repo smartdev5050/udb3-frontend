@@ -79,18 +79,18 @@ const theme = {
       },
       success: {
         color: colors.white,
-        borderColor: colors.green1,
+        borderColor: colors.green2,
         hoverBackgroundColor: colors.green2,
-        hoverBorderColor: colors.green2,
+        hoverBorderColor: colors.green3,
         backgroundColor: colors.green1,
         activeBoxShadow: 'none',
         focusBoxShadow: 'none',
       },
       danger: {
         color: colors.white,
-        borderColor: colors.red1,
+        borderColor: colors.red3,
         hoverBackgroundColor: colors.red3,
-        hoverBorderColor: colors.red3,
+        hoverBorderColor: colors.red4,
         backgroundColor: colors.red1,
         activeBoxShadow: 'none',
         focusBoxShadow: 'none',
@@ -233,6 +233,10 @@ const theme = {
       activeTabBackgroundColor: colors.grey1,
       hoverTabBackgroundColor: colors.grey3,
       borderRadius: 0,
+    },
+    dropdown: {
+      activeToggleBoxShadow: 'inset 0 3px 5px rgba(0, 0, 0, 0.125)',
+      menuBorderRadius: 0,
     },
   },
 };
