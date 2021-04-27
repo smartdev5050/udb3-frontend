@@ -7,16 +7,11 @@ import { Button, buttonCSS, ButtonVariants } from '@/ui/Button';
 import { Link } from '@/ui/Link';
 import { Children } from 'react';
 import { Box } from '@/ui/Box';
+import { getValueFromTheme } from '@/ui/theme';
+
+const getValue = getValueFromTheme(`dropdown`);
 
 const DropDownVariants = ButtonVariants;
-
-const BootstrapDropdownAsButtonGroup = ({ children }) => (
-  <BootstrapDropdown as={BootstrapButtonGroup}>{children}</BootstrapDropdown>
-);
-
-BootstrapDropdownAsButtonGroup.propTypes = {
-  children: PropTypes.node,
-};
 
 const Dropdown = ({ variant, children }) => {
   if (variant === DropDownVariants.SECONDARY) variant = 'outline-secondary';
@@ -32,10 +27,18 @@ const Dropdown = ({ variant, children }) => {
   );
 
   return (
-    <Box as={BootstrapDropdownAsButtonGroup}>
-      {primaryActionChildren}
-      <BootstrapDropdown.Toggle split variant={variant} css={buttonCSS} />
-      <BootstrapDropdown.Menu>{menuChildren}</BootstrapDropdown.Menu>
+    <Box
+      css={`
+        .dropdown-menu {
+          border-radius: ${getValue('menuBorderRadius')};
+        }
+      `}
+    >
+      <BootstrapDropdown as={BootstrapButtonGroup}>
+        {primaryActionChildren}
+        <BootstrapDropdown.Toggle split variant={variant} css={buttonCSS} />
+        <BootstrapDropdown.Menu>{menuChildren}</BootstrapDropdown.Menu>
+      </BootstrapDropdown>
     </Box>
   );
 };

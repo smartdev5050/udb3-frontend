@@ -234,6 +234,9 @@ const theme = {
       hoverTabBackgroundColor: colors.grey3,
       borderRadius: 0,
     },
+    dropdown: {
+      menuBorderRadius: 0,
+    },
   },
 };
 
