@@ -43,7 +43,8 @@ const customCSS = css`
     }
   }
 
-  &.btn-primary {
+  &.btn-primary,
+  &.btn-primary.dropdown-toggle {
     color: ${getValue('primary.color')};
     background-color: ${getValue('primary.backgroundColor')};
     border-color: ${getValue('primary.borderColor')};
@@ -55,8 +56,7 @@ const customCSS = css`
 
     // active
     &.btn-primary:not(:disabled):not(.disabled):active,
-    .btn-primary:not(:disabled):not(.disabled).active,
-    .show > .btn-primary.dropdown-toggle {
+    .btn-primary:not(:disabled):not(.disabled).active {
       background-color: ${getValue('primary.activeBackgroundColor')};
       border-color: ${getValue('primary.activeBorderColor')};
       box-shadow: ${getValue('primary.activeBoxShadow')};
@@ -68,7 +68,8 @@ const customCSS = css`
     }
   }
 
-  &.btn-outline-secondary {
+  &.btn-outline-secondary,
+  &.btn-outline-secondary.dropdown-toggle {
     color: ${getValue('secondary.color')};
     background-color: ${getValue('secondary.backgroundColor')};
     border-color: ${getValue('secondary.borderColor')};
@@ -80,8 +81,7 @@ const customCSS = css`
 
     // active
     &.btn-outline-secondary:not(:disabled):not(.disabled):active,
-    .btn-outline-secondary:not(:disabled):not(.disabled).active,
-    .show > .btn-outline-secondary.dropdown-toggle {
+    .btn-outline-secondary:not(:disabled):not(.disabled).active {
       color: ${getValue('secondary.activeColor')};
       background-color: ${getValue('secondary.activeBackgroundColor')};
       border-color: ${getValue('secondary.activeBorderColor')};
@@ -94,7 +94,8 @@ const customCSS = css`
     }
   }
 
-  &.btn-success {
+  &.btn-success,
+  &.btn-success.dropdown-toggle {
     color: ${getValue('success.color')};
     border-color: ${getValue('success.borderColor')};
     background-color: ${getValue('success.backgroundColor')};
@@ -106,8 +107,7 @@ const customCSS = css`
 
     // active & focus
     &:not(:disabled):not(.disabled):active:focus,
-    &:not(:disabled):not(.disabled).active:focus,
-    .show > &.dropdown-toggle:focus {
+    &:not(:disabled):not(.disabled).active:focus {
       box-shadow: ${getValue('success.activeBoxShadow')};
     }
 
@@ -117,7 +117,8 @@ const customCSS = css`
     }
   }
 
-  &.btn-danger {
+  &.btn-danger,
+  &.btn-danger.dropdown-toggle {
     color: ${getValue('danger.color')};
     border-color: ${getValue('danger.borderColor')};
     background-color: ${getValue('danger.backgroundColor')};
@@ -129,8 +130,7 @@ const customCSS = css`
 
     // active & focus
     &:not(:disabled):not(.disabled):active:focus,
-    &:not(:disabled):not(.disabled).active:focus,
-    .show > &.dropdown-toggle:focus {
+    &:not(:disabled):not(.disabled).active:focus {
       box-shadow: ${getValue('danger.activeBoxShadow')};
     }
 
