@@ -10,6 +10,7 @@
     "lint:check": "eslint . --ignore-path .gitignore",
     "format": "prettier . --write --ignore-path ./.gitignore",
     "format:check": "prettier . --check --ignore-path ./.gitignore",
+    "types:check": "tsc",
     "storybook": "start-storybook -p 6006",
     "storybook:build": "build-storybook",
     "test": "jest"
