@@ -6,11 +6,11 @@ const jsconfigpaths = new JsConfigPathsMapper({
 module.exports = {
   moduleFileExtensions: ['js', 'json'],
   transform: {
-    '^.+\\.js$': 'babel-jest',
+    '^.+\\.(js|ts|tsx)$': 'babel-jest',
   },
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   collectCoverage: true,
-  collectCoverageFrom: ['<rootDir>/src/**/*.js'],
+  collectCoverageFrom: ['<rootDir>/src/**/*.(js|ts|tsx)'],
   moduleNameMapper: {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
     ...jsconfigpaths,
