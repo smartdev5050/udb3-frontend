@@ -1,5 +1,7 @@
 const JsConfigPathsMapper = require('jsconfig-paths-jest-mapper');
-const jsconfigpaths = new JsConfigPathsMapper();
+const jsconfigpaths = new JsConfigPathsMapper({
+  configFileName: 'tsconfig.json',
+});
 
 module.exports = {
   moduleFileExtensions: ['js', 'json'],
