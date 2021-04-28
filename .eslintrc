@@ -1,21 +1,28 @@
 {
   "extends": [
+    "standard-with-typescript",
     "standard",
     "standard-jsx",
     "standard-react",
     "prettier",
-    "prettier/react"
+    "prettier/react",
+    "prettier/@typescript-eslint"
   ],
   "plugins": ["unicorn"],
   "rules": {
     "react/react-in-jsx-scope": "off",
     "unicorn/no-abusive-eslint-disable": "error",
-    "no-console": "warn"
+    "no-console": "warn",
+    "@typescript-eslint/strict-boolean-expressions": "off",
+    "@typescript-eslint/explicit-function-return-type": "off"
   },
   "globals": {
     "fetch": false
   },
   "env": {
     "jest": true
+  },
+  "parserOptions": {
+    "project": "./tsconfig.json"
   }
 }
