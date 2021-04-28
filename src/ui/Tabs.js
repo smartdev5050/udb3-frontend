@@ -14,6 +14,7 @@ const Tabs = ({
 }) => {
   const children = Children.toArray(rawChildren).filter((child) => {
     if (child.type !== Tab) {
+      // eslint-disable-next-line no-console
       console.error(
         'Child of type',
         child.type.name,
