@@ -1,14 +1,10 @@
-import styled, {
-  css,
-  FlattenInterpolation,
-  ThemeProps,
-} from 'styled-components';
+import styled, { css, FlattenInterpolation } from 'styled-components';
 import kebabCase from 'lodash/kebabCase';
 import pick from 'lodash/pick';
 import { ComponentType, forwardRef, ReactNode } from 'react';
 import type { BreakpointValues, Theme } from './theme';
 
-type UnknownProps = { [key: string]: unknown } & ThemeProps<Theme>;
+type UnknownProps = { [key: string]: unknown } & { theme?: Theme };
 type Parser = (value: unknown) => (props?: UnknownProps) => string | number;
 
 type UIPropObject<T> = {
@@ -21,6 +17,7 @@ type UIPropObject<T> = {
 type UIProp<T> = T | (() => T) | UIPropObject<T>;
 
 type GeneralProps = {
+  theme?: Theme;
   children?: ReactNode;
   className?: string;
   as?: string | ComponentType<any>;
@@ -76,13 +73,13 @@ type BoxProps = GeneralProps &
     flex?: UIProp<string | number>;
     cursor?: UIProp<string>;
     animation?: UIProp<string>;
-  } & ThemeProps<Theme>;
+  };
 
 const remInPixels = 15;
 
 const wrapStatementWithBreakpoint = (
   breakpoint: string,
-  statementToWrap: string | (() => FlattenInterpolation<ThemeProps<Theme>>),
+  statementToWrap: string | (() => FlattenInterpolation<{ theme: Theme }>),
 ) => () => css`
   @media (max-width: ${breakpoint}px) {
     ${statementToWrap}
