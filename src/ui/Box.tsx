@@ -1,13 +1,24 @@
-import styled, { css, ThemeProps } from 'styled-components';
+import styled, {
+  css,
+  FlattenInterpolation,
+  ThemeProps,
+} from 'styled-components';
 import kebabCase from 'lodash/kebabCase';
 import pick from 'lodash/pick';
 import { ComponentType, forwardRef, ReactNode } from 'react';
+import type { BreakpointValues, Theme } from './theme';
 
-type UIProp<T> = T | (() => T) | { [key: string]: T };
+type UnknownProps = { [key: string]: unknown } & ThemeProps<Theme>;
+type Parser = (value: unknown) => (props?: UnknownProps) => string | number;
 
-type Theme = {
-  breakpoints: unknown;
+type UIPropObject<T> = {
+  default?: T | ((props: UnknownProps) => T);
+  hover?: T | ((props: UnknownProps) => T);
+} & {
+  [value in BreakpointValues]?: T | ((props: UnknownProps) => T);
 };
+
+type UIProp<T> = T | (() => T) | UIPropObject<T>;
 
 type GeneralProps = {
   children: ReactNode;
@@ -61,15 +72,11 @@ type BoxProps = GeneralProps & {
   animation?: UIProp<string>;
 } & ThemeProps<Theme>;
 
-type AvailableProps = keyof BoxProps;
-
-type Parser = (value: unknown) => (props?: unknown) => string | number;
-
 const remInPixels = 15;
 
 const wrapStatementWithBreakpoint = (
   breakpoint: string,
-  statementToWrap: string | (() => string),
+  statementToWrap: string | (() => FlattenInterpolation<ThemeProps<Theme>>),
 ) => () => css`
   @media (max-width: ${breakpoint}px) {
     ${statementToWrap}
@@ -77,30 +84,23 @@ const wrapStatementWithBreakpoint = (
 `;
 
 const createCSSStatement = (
-  key: AvailableProps,
+  key: string,
   value: unknown,
   parser: Parser,
 ) => () => css`
   ${kebabCase(key)}: ${parser ? parser(value) : String(value)};
 `;
 
-type UIPropObject = {
-  default?: unknown;
-  hover?: unknown;
-};
-
-const isUIPropObject = (value: unknown): value is UIPropObject => {
+const isUIPropObject = (value: unknown): value is UIPropObject<unknown> => {
   if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
     return true;
   }
   return false;
 };
 
-const parseProperty = (
-  key: AvailableProps,
-  parser?: Parser,
-  customValue?: unknown,
-) => (props: unknown) => {
+const parseProperty = (key: string, parser?: Parser, customValue?: unknown) => (
+  props: UnknownProps,
+) => {
   const value = customValue ?? props[key];
   if (value === undefined) return css``;
 
@@ -157,10 +157,10 @@ const parseDimension = (value: unknown) => () => {
 };
 
 const parseShorthandProperty = (
-  shorthand: AvailableProps,
-  propsToChange: AvailableProps[],
+  shorthand: string,
+  propsToChange: string[],
   parser: Parser,
-) => (props: unknown) =>
+) => (props: UnknownProps) =>
   propsToChange.reduce(
     (acc, val) => css`
       ${parseProperty(val, parser, props[shorthand])};
@@ -306,7 +306,7 @@ const boxPropTypes = [
   'animation',
 ] as const;
 
-const getBoxProps = (props: unknown) => pick(props, boxPropTypes);
+const getBoxProps = (props: UnknownProps) => pick(props, boxPropTypes);
 
 const Box = forwardRef<HTMLDivElement, BoxProps>(
   ({ children, ...props }, ref) => (
