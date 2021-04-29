@@ -1,7 +1,7 @@
 import styled, { css, ThemeProps } from 'styled-components';
 import kebabCase from 'lodash/kebabCase';
 import pick from 'lodash/pick';
-import { ComponentType, forwardRef } from 'react';
+import { ComponentType, forwardRef, ReactNode } from 'react';
 
 type UIProp<T> = T | (() => T) | { [key: string]: T };
 
@@ -9,56 +9,61 @@ type Theme = {
   breakpoints: unknown;
 };
 
-type BoxProps = {
-  alignItems: UIProp<string>;
-  as: string | ComponentType<any>;
-  margin: UIProp<number>;
-  marginTop: UIProp<number>;
-  marginBottom: UIProp<number>;
-  marginRight: UIProp<number>;
-  marginLeft: UIProp<number>;
-  marginX: UIProp<number>;
-  marginY: UIProp<number>;
-  padding: UIProp<number>;
-  paddingTop: UIProp<number>;
-  paddingBottom: UIProp<number>;
-  paddingRight: UIProp<number>;
-  paddingLeft: UIProp<number>;
-  paddingX: UIProp<number>;
-  paddingY: UIProp<number>;
-  width: UIProp<string | number>;
-  minWidth: UIProp<string | number>;
-  maxWidth: UIProp<string | number>;
-  height: UIProp<string | number>;
-  justifyContent: UIProp<string>;
-  maxHeight: UIProp<string | number>;
-  minHeight: UIProp<string | number>;
-  top: UIProp<string | number>;
-  bottom: UIProp<string | number>;
-  left: UIProp<string | number>;
-  right: UIProp<string | number>;
-  backgroundColor: UIProp<string>;
-  backgroundPosition: UIProp<string>;
-  backgroundRepeat: UIProp<string>;
-  objectFit: UIProp<string>;
-  fontSize: UIProp<string | number>;
-  fontWeight: UIProp<string | number>;
-  textAlign: UIProp<string>;
-  lineHeight: UIProp<string | number>;
-  color: UIProp<string>;
-  stroke: UIProp<string>;
-  zIndex: UIProp<number>;
-  position: UIProp<string>;
-  display: UIProp<string>;
-  opacity: UIProp<number>;
-  flex: UIProp<string | number>;
-  cursor: UIProp<string>;
-  animation: UIProp<string>;
+type GeneralProps = {
+  children: ReactNode;
+  className?: string;
+  as?: string | ComponentType<any>;
+};
+
+type BoxProps = GeneralProps & {
+  alignItems?: UIProp<string>;
+  margin?: UIProp<number>;
+  marginTop?: UIProp<number>;
+  marginBottom?: UIProp<number>;
+  marginRight?: UIProp<number>;
+  marginLeft?: UIProp<number>;
+  marginX?: UIProp<number>;
+  marginY?: UIProp<number>;
+  padding?: UIProp<number>;
+  paddingTop?: UIProp<number>;
+  paddingBottom?: UIProp<number>;
+  paddingRight?: UIProp<number>;
+  paddingLeft?: UIProp<number>;
+  paddingX?: UIProp<number>;
+  paddingY?: UIProp<number>;
+  width?: UIProp<string | number>;
+  minWidth?: UIProp<string | number>;
+  maxWidth?: UIProp<string | number>;
+  height?: UIProp<string | number>;
+  justifyContent?: UIProp<string>;
+  maxHeight?: UIProp<string | number>;
+  minHeight?: UIProp<string | number>;
+  top?: UIProp<string | number>;
+  bottom?: UIProp<string | number>;
+  left?: UIProp<string | number>;
+  right?: UIProp<string | number>;
+  backgroundColor?: UIProp<string>;
+  backgroundPosition?: UIProp<string>;
+  backgroundRepeat?: UIProp<string>;
+  objectFit?: UIProp<string>;
+  fontSize?: UIProp<string | number>;
+  fontWeight?: UIProp<string | number>;
+  textAlign?: UIProp<string>;
+  lineHeight?: UIProp<string | number>;
+  color?: UIProp<string>;
+  stroke?: UIProp<string>;
+  zIndex?: UIProp<number>;
+  position?: UIProp<string>;
+  display?: UIProp<string>;
+  opacity?: UIProp<number>;
+  flex?: UIProp<string | number>;
+  cursor?: UIProp<string>;
+  animation?: UIProp<string>;
 } & ThemeProps<Theme>;
 
 type AvailableProps = keyof BoxProps;
 
-type Parser = (value: unknown) => (props?: BoxProps) => string | number;
+type Parser = (value: unknown) => (props?: unknown) => string | number;
 
 const remInPixels = 15;
 
@@ -95,7 +100,7 @@ const parseProperty = (
   key: AvailableProps,
   parser?: Parser,
   customValue?: unknown,
-) => (props: BoxProps) => {
+) => (props: unknown) => {
   const value = customValue ?? props[key];
   if (value === undefined) return css``;
 
@@ -155,7 +160,7 @@ const parseShorthandProperty = (
   shorthand: AvailableProps,
   propsToChange: AvailableProps[],
   parser: Parser,
-) => (props: BoxProps) =>
+) => (props: unknown) =>
   propsToChange.reduce(
     (acc, val) => css`
       ${parseProperty(val, parser, props[shorthand])};
@@ -324,3 +329,5 @@ export {
   parseSpacing,
   parseDimension,
 };
+
+export type { BoxProps, UIProp };
