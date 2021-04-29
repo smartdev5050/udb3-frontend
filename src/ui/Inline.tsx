@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { Box, boxPropTypes, boxProps, parseProperty } from './Box';
 import type { BoxProps, UIProp, UnknownProps } from './Box';
-import { Children, cloneElement, ReactElement, forwardRef } from 'react';
+import { Children, cloneElement, forwardRef } from 'react';
 import pick from 'lodash/pick';
 import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
 import { BreakpointValues } from './theme';
@@ -54,9 +54,9 @@ const Inline = forwardRef<HTMLDivElement, Props>(
     const clonedChildren = Children.map(notNullChildren, (child, i) => {
       const isLastItem = i === notNullChildren.length - 1;
 
-      // @ts-ignore
+      // @ts-expect-error
       return cloneElement(child, {
-        // @ts-ignore
+        // @ts-expect-error
         ...child.props,
         ...(!isLastItem ? { [marginProp]: spacing } : {}),
       });
