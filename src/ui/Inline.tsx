@@ -1,12 +1,21 @@
 import styled, { css } from 'styled-components';
 import { Box, boxPropTypes, boxProps, parseProperty } from './Box';
-import type { BoxProps, UIProp } from './Box';
-import { Children, cloneElement, forwardRef } from 'react';
+import type { BoxProps, UIProp, UnknownProps } from './Box';
+import { Children, cloneElement, ReactElement, forwardRef } from 'react';
 import pick from 'lodash/pick';
-// import { Breakpoints } from './theme';
 import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
+import { BreakpointValues } from './theme';
 
-const parseStackOnProperty = () => ({ stackOn }) => {
+type InlineProps = {
+  spacing?: UIProp<number>;
+  alignItems?: UIProp<string>;
+  justifyContent?: UIProp<string>;
+  stackOn?: BreakpointValues;
+};
+
+type Props = BoxProps & InlineProps;
+
+const parseStackOnProperty = () => ({ stackOn }: Props) => {
   if (!stackOn) {
     return;
   }
@@ -31,15 +40,6 @@ const StyledBox = styled(Box)`
   ${boxProps};
 `;
 
-type InlineProps = {
-  spacing: UIProp<number>;
-  alignItems: UIProp<string>;
-  justifyContent: UIProp<string>;
-  stackOn: string;
-};
-
-type Props = InlineProps & BoxProps;
-
 const Inline = forwardRef<HTMLDivElement, Props>(
   ({ spacing, className, children, as, stackOn, ...props }, ref) => {
     const shouldCollapse = useMatchBreakpoint(stackOn);
@@ -54,7 +54,9 @@ const Inline = forwardRef<HTMLDivElement, Props>(
     const clonedChildren = Children.map(notNullChildren, (child, i) => {
       const isLastItem = i === notNullChildren.length - 1;
 
+      // @ts-ignore
       return cloneElement(child, {
+        // @ts-ignore
         ...child.props,
         ...(!isLastItem ? { [marginProp]: spacing } : {}),
       });
@@ -76,7 +78,7 @@ const Inline = forwardRef<HTMLDivElement, Props>(
 
 const inlinePropTypes = ['spacing', 'alignItems', 'justifyContent', 'stackOn'];
 
-const getInlineProps = (props) =>
+const getInlineProps = (props: UnknownProps) =>
   pick(props, [...boxPropTypes, ...inlinePropTypes]);
 
 Inline.defaultProps = {
