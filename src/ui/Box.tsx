@@ -28,7 +28,7 @@ type GeneralProps = {
 };
 
 type InlineProps = {
-  stackOn?: string;
+  stackOn?: BreakpointValues;
 };
 
 type BoxProps = GeneralProps &
@@ -336,4 +336,4 @@ export {
   parseDimension,
 };
 
-export type { BoxProps, UIProp };
+export type { BoxProps, UIProp, UnknownProps };
