@@ -75,7 +75,7 @@ const createCSSStatement = (
   key: AvailableProps,
   value: unknown,
   parser: Parser,
-) => () => `
+) => () => css`
   ${kebabCase(key)}: ${parser ? parser(value) : String(value)};
 `;
 
@@ -145,10 +145,10 @@ const isString = (value: unknown): value is string => {
 };
 
 const parseDimension = (value: unknown) => () => {
-  if (isString(value)) {
-    return `${value}px`;
+  if (!isString(value)) {
+    return `${Number(value)}px`;
   }
-  return Number(value);
+  return value;
 };
 
 const parseShorthandProperty = (
