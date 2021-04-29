@@ -1,27 +1,4 @@
 {
-  "plugins": [
-    [
-      "@babel/plugin-transform-react-jsx",
-      {
-        "runtime": "automatic"
-      }
-    ],
-    "babel-plugin-styled-components",
-    "@babel/plugin-proposal-optional-chaining",
-    "@babel/plugin-proposal-nullish-coalescing-operator"
-  ],
-  "env": {
-    "test": {
-      "presets": [
-        [
-          "@babel/preset-env",
-          {
-            "targets": {
-              "node": "current"
-            }
-          }
-        ]
-      ]
-    }
-  }
+  "presets": ["next/babel"],
+  "plugins": ["babel-plugin-styled-components"]
 }
