@@ -23,14 +23,17 @@ const colors = {
   red5: '#ef1810',
   blue1: '#3e88ab',
   textColor: '#222',
-};
+} as const;
 
 const Breakpoints = {
   XS: 'xs',
   S: 's',
   M: 'm',
   L: 'l',
-};
+} as const;
+
+type Values<T> = T[keyof T];
+type BreakpointValues = Values<typeof Breakpoints>;
 
 const theme = {
   colors,
@@ -239,9 +242,13 @@ const theme = {
       menuBorderRadius: 0,
     },
   },
-};
+} as const;
 
-const getValueFromTheme = (component) => (path) => (props) =>
-  get(props.theme, `components.${component}.${path}`);
+type Theme = typeof theme;
+
+const getValueFromTheme = (component: string) => (path: string) => (props: {
+  theme: Theme;
+}) => get(props.theme, `components.${component}.${path}`);
 
 export { theme, getValueFromTheme, Breakpoints };
+export type { Theme, BreakpointValues };
