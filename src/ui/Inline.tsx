@@ -4,7 +4,7 @@ import type { BoxProps, UIProp, UnknownProps } from './Box';
 import { Children, cloneElement, forwardRef } from 'react';
 import pick from 'lodash/pick';
 import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
-import { BreakpointValues } from './theme';
+import type { BreakpointValues } from './theme';
 
 type InlineProps = {
   spacing?: UIProp<number>;
