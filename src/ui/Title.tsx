@@ -16,13 +16,13 @@ type TitleProps = BoxProps;
 const Title = ({ size, children, className, ...props }: TitleProps) => {
   return (
     <Box
-      as={`h${size}`}
+      forwardedAs={`h${size}`}
       size={size}
       className={className}
-      // css={`
-      //   font-weight: ${getFontWeight};
-      //   font-size: ${getFontSize}rem;
-      // `}
+      css={`
+        font-weight: ${getFontWeight};
+        font-size: ${getFontSize}rem;
+      `}
       {...getBoxProps(props)}
     >
       {children}
