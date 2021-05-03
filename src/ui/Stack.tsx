@@ -68,4 +68,4 @@ Stack.defaultProps = {
 };
 
 export { Stack, getStackProps, stackPropTypes, stackProps };
-export type { StackProps };
+export type { Props as StackProps };

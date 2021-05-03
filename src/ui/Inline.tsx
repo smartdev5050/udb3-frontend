@@ -86,4 +86,4 @@ Inline.defaultProps = {
 };
 
 export { Inline, getInlineProps, inlineProps, inlinePropTypes };
-export type { InlineProps };
+export type { Props as InlineProps };
