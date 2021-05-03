@@ -8,13 +8,14 @@ import { getInlineProps, Inline, inlinePropTypes } from './Inline';
 import { Children, ReactNode } from 'react';
 
 import { getBoxProps } from './Box';
+import type { UnknownProps } from './Box';
 
 const getValueForPage = getValueFromTheme('page');
 
 type Props = {
   children: ReactNode;
   className?: string;
-};
+} & UnknownProps;
 
 const Page = ({ children: rawChildren, className, ...props }: Props) => {
   const children = Children.toArray(rawChildren);
