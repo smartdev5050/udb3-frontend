@@ -15,7 +15,7 @@ const getValueForPage = getValueFromTheme('page');
 type Props = {
   children: ReactNode;
   className?: string;
-} & UnknownProps;
+};
 
 const Page = ({ children: rawChildren, className, ...props }: Props) => {
   const children = Children.toArray(rawChildren);

@@ -10,7 +10,7 @@ import type { BreakpointValues, Theme } from './theme';
 
 type ValidUIPropTypes = string | number;
 
-type UnknownProps = { [key: string]: unknown } & { theme?: Theme };
+type UnknownProps = { [key: string]: any } & { theme?: Theme };
 
 type UIPropValue<T> = T | ((props: ThemeProps<Theme>) => T);
 
