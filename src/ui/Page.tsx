@@ -3,6 +3,7 @@ import { getStackProps, Stack, stackPropTypes } from './Stack';
 import { getValueFromTheme } from './theme';
 
 import { Title } from './Title';
+import type { TitleProps } from './Title';
 import { getInlineProps, Inline, inlinePropTypes } from './Inline';
 import { Children, ReactNode } from 'react';
 
@@ -59,12 +60,7 @@ const Page = ({ children: rawChildren, className, ...props }: Props) => {
 
 const getValueForTitle = getValueFromTheme('pageTitle');
 
-type PageTitleProps = {
-  children: ReactNode;
-  className?: string;
-};
-
-const PageTitle = ({ children, className, ...props }: PageTitleProps) => (
+const PageTitle = ({ children, className, ...props }: TitleProps) => (
   <Title
     size={1}
     className={className}
