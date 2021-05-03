@@ -39,8 +39,13 @@ type InlineProps = {
   stackOn?: BreakpointValues;
 };
 
+type TitleProps = {
+  size?: 1 | 2;
+};
+
 type BoxProps = GeneralProps &
-  InlineProps & {
+  InlineProps &
+  TitleProps & {
     alignItems?: UIProp<string>;
     margin?: UIProp<number>;
     marginTop?: UIProp<number>;
