@@ -18,8 +18,11 @@ type Props = {
 const Page = ({ children: rawChildren, className, ...props }: Props) => {
   const children = Children.toArray(rawChildren);
 
+  // @ts-expect-error
   const title = children.find((child) => child.type === PageTitle);
+  // @ts-expect-error
   const actions = children.find((child) => child.type === PageActions);
+  // @ts-expect-error
   const content = children.find((child) => child.type === PageContent);
 
   return (
