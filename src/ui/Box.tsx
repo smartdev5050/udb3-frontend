@@ -1,20 +1,31 @@
-import styled, { css, FlattenInterpolation } from 'styled-components';
+import styled, {
+  css,
+  FlattenInterpolation,
+  ThemeProps,
+} from 'styled-components';
 import kebabCase from 'lodash/kebabCase';
 import pick from 'lodash/pick';
 import { ComponentType, forwardRef, ReactNode } from 'react';
 import type { BreakpointValues, Theme } from './theme';
 
+type ValidUIPropTypes = string | number;
+
 type UnknownProps = { [key: string]: unknown } & { theme?: Theme };
-type Parser = (value: unknown) => (props?: UnknownProps) => string | number;
+
+type UIPropValue<T> = T | ((props: ThemeProps<Theme>) => T);
+
+type Parser = (
+  value: UIPropValue<ValidUIPropTypes>,
+) => (props?: ThemeProps<Theme>) => string;
 
 type UIPropObject<T> = {
-  default?: T | ((props: UnknownProps) => T);
-  hover?: T | ((props: UnknownProps) => T);
+  default?: UIPropValue<T>;
+  hover?: UIPropValue<T>;
 } & {
-  [value in BreakpointValues]?: T | ((props: UnknownProps) => T);
+  [value in BreakpointValues]?: UIPropValue<T>;
 };
 
-type UIProp<T> = T | (() => T) | UIPropObject<T>;
+type UIProp<T> = UIPropValue<T> | UIPropObject<T>;
 
 type GeneralProps = {
   theme?: Theme;
@@ -88,32 +99,66 @@ const wrapStatementWithBreakpoint = (
 
 const createCSSStatement = (
   key: string,
-  value: unknown,
-  parser: Parser,
-) => () => css`
-  ${kebabCase(key)}: ${parser ? parser(value) : String(value)};
-`;
+  value: UIPropValue<ValidUIPropTypes>,
+  parser?: Parser,
+) => () => {
+  return css`
+    ${kebabCase(key)}: ${parser ? parser(value) : value};
+  `;
+};
 
-const isUIPropObject = (value: unknown): value is UIPropObject<unknown> => {
+const isString = (value: unknown): value is string => {
+  if (typeof value === 'string' || value instanceof String) return true;
+  return false;
+};
+
+const isNumber = (value: unknown): value is number => {
+  if (isString(value)) return false;
+  return !Number.isNaN(value);
+};
+
+const isUIProp = (value: unknown): value is UIProp<ValidUIPropTypes> => {
+  return [isString, isNumber, isUIPropObject].some((validator) =>
+    validator(value),
+  );
+};
+
+const isUIPropObject = (
+  value: unknown,
+): value is UIPropObject<ValidUIPropTypes> => {
   if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
     return true;
   }
   return false;
 };
 
+const createUIPropObject = (
+  value: UIPropValue<ValidUIPropTypes>,
+): UIPropObject<ValidUIPropTypes> => {
+  return {
+    default: value,
+  };
+};
+
+const isDefined = <T,>(value: T | undefined | null): value is T => {
+  return value !== undefined && value !== null;
+};
+
 const parseProperty = (key: string, parser?: Parser, customValue?: unknown) => (
   props: UnknownProps,
 ) => {
   const value = customValue ?? props[key];
-  if (value === undefined) return css``;
 
-  const parsedValue = isUIPropObject(value) ? value : { default: value };
+  if (!isUIProp(value)) return css``;
+
+  const parsedValue = isUIPropObject(value) ? value : createUIPropObject(value);
 
   const { default: defaultValue, hover, ...rest } = parsedValue;
 
   const style = css`
-    ${defaultValue && createCSSStatement(key, defaultValue, parser)}
-    ${hover &&
+    ${isDefined<UIPropValue<ValidUIPropTypes>>(defaultValue) &&
+    createCSSStatement(key, defaultValue, parser)}
+    ${isDefined<UIPropValue<ValidUIPropTypes>>(hover) &&
     css`
       :hover {
         ${createCSSStatement(key, hover, parser)}
@@ -144,19 +189,25 @@ const parseProperty = (key: string, parser?: Parser, customValue?: unknown) => (
   }, style);
 };
 
-const parseSpacing = (value: number) => () =>
-  `${(1 / remInPixels) * 2 ** value}rem`;
+const parseSpacing = (value: UIPropValue<number>) => (
+  props: ThemeProps<Theme>,
+) => {
+  const parsedValue = typeof value === 'function' ? value(props) : value;
 
-const isString = (value: unknown): value is string => {
-  if (typeof value === 'string' || value instanceof String) return true;
-  return false;
+  return `
+    ${(1 / remInPixels) * 2 ** parsedValue}rem
+  `;
 };
 
-const parseDimension = (value: unknown) => () => {
-  if (!isString(value)) {
-    return `${Number(value)}px`;
+const parseDimension = (value: UIPropValue<string | number>) => (
+  props: ThemeProps<Theme>,
+) => {
+  const parsedValue = typeof value === 'function' ? value(props) : value;
+
+  if (!isString(parsedValue)) {
+    return `${Number(parsedValue)}px`;
   }
-  return value;
+  return parsedValue;
 };
 
 const parseShorthandProperty = (
