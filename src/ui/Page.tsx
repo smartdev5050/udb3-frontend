@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { getStackProps, Stack, stackPropTypes } from './Stack';
+import type { StackProps } from './Stack';
 import { getValueFromTheme } from './theme';
 
 import { Title } from './Title';
@@ -11,7 +12,7 @@ import { getBoxProps } from './Box';
 
 const getValueForPage = getValueFromTheme('page');
 
-type Props = {
+type Props = StackProps & {
   children: ReactNode;
   className?: string;
 };
