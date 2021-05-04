@@ -1,9 +1,5 @@
-import type {
-  FlattenInterpolation,
-  ThemeProps} from 'styled-components';
-import styled, {
-  css
-} from 'styled-components';
+import type { FlattenInterpolation, ThemeProps } from 'styled-components';
+import styled, { css } from 'styled-components';
 import kebabCase from 'lodash/kebabCase';
 import pick from 'lodash/pick';
 import type { ComponentType, ReactNode } from 'react';
