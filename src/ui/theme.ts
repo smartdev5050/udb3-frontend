@@ -241,6 +241,11 @@ const theme = {
       activeToggleBoxShadow: 'inset 0 3px 5px rgba(0, 0, 0, 0.125)',
       menuBorderRadius: 0,
     },
+    text: {
+      muted: {
+        color: colors.grey5,
+      },
+    },
   },
 } as const;
 

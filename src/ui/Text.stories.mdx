@@ -10,3 +10,15 @@ import { Text } from './Text';
 </Canvas>
 
 <ArgsTable story="Default" />
+
+<Canvas>
+  <Story name="Muted" args={{ as: 'span' }}>
+    {(args) => (
+      <Text {...args} variant={TextVariants.MUTED}>
+        muted text
+      </Text>
+    )}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Muted" />
