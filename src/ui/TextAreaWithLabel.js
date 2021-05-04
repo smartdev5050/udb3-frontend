@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+
 import { Label, LabelVariants } from './Label';
 import { getStackProps, Stack, stackPropTypes } from './Stack';
 import { TextArea } from './TextArea';

@@ -1,26 +1,28 @@
+import throttle from 'lodash/throttle';
+import { useCallback, useEffect, useMemo, useRef,useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text } from '@/ui/Text';
-import { Page } from '@/ui/Page';
-import { TypeaheadWithLabel } from '@/ui/TypeaheadWithLabel';
-import { Inline } from '@/ui/Inline';
-import { Button, ButtonVariants } from '@/ui/Button';
-import { Event } from './Event';
-import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
-import { parseOfferId } from '@/utils/parseOfferId';
-import { useState, useMemo, useEffect, useCallback, useRef } from 'react';
+
+import { QueryStatus } from '@/hooks/api/authenticated-query';
 import {
+  useAddEventsByIds,
+  useCreateWithEvents,
   useGetProductions,
   useGetSuggestedEvents,
-  useSkipSuggestedEvents,
-  useCreateWithEvents,
   useMergeProductions,
-  useAddEventsByIds,
+  useSkipSuggestedEvents,
 } from '@/hooks/api/productions';
-import { Stack } from '@/ui/Stack';
+import { Button, ButtonVariants } from '@/ui/Button';
+import { Inline } from '@/ui/Inline';
+import { Page } from '@/ui/Page';
 import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
-import throttle from 'lodash/throttle';
-import { QueryStatus } from '@/hooks/api/authenticated-query';
 import { Spinner } from '@/ui/Spinner';
+import { Stack } from '@/ui/Stack';
+import { Text } from '@/ui/Text';
+import { TypeaheadWithLabel } from '@/ui/TypeaheadWithLabel';
+import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
+import { parseOfferId } from '@/utils/parseOfferId';
+
+import { Event } from './Event';
 
 const ProductionStatus = {
   MISSING: 'missing',

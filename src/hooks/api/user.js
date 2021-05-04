@@ -1,4 +1,5 @@
 import { fetchFromApi } from '@/utils/fetchFromApi';
+
 import { useAuthenticatedQuery } from './authenticated-query';
 
 const getUser = async ({ headers }) => {
@@ -52,4 +53,4 @@ const useGetRoles = (configuration = {}) =>
     ...configuration,
   });
 
-export { useGetUser, useGetPermissions, useGetRoles };
+export { useGetPermissions, useGetRoles,useGetUser };

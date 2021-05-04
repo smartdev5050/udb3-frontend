@@ -1,5 +1,5 @@
-import { Box, getBoxProps } from './Box';
 import type { BoxProps } from './Box';
+import { Box, getBoxProps } from './Box';
 
 const getFontWeight = (props) => {
   if (props.size === 1) return 300;

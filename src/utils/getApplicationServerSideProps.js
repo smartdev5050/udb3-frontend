@@ -1,7 +1,8 @@
-import Cookies from 'universal-cookie';
-import { QueryClient } from 'react-query';
-import { isTokenValid } from './isTokenValid';
 import getConfig from 'next/config';
+import { QueryClient } from 'react-query';
+import Cookies from 'universal-cookie';
+
+import { isTokenValid } from './isTokenValid';
 
 const getApplicationServerSideProps = (callbackFn) => async ({
   req,

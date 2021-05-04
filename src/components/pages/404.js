@@ -1,9 +1,10 @@
-import { Stack } from '@/ui/Stack';
-import { Title } from '@/ui/Title';
-import { Link } from '@/ui/Link';
-import { Icon, Icons } from '@/ui/Icon';
-import { getValueFromTheme } from '@/ui/theme';
 import { useTranslation } from 'react-i18next';
+
+import { Icon, Icons } from '@/ui/Icon';
+import { Link } from '@/ui/Link';
+import { Stack } from '@/ui/Stack';
+import { getValueFromTheme } from '@/ui/theme';
+import { Title } from '@/ui/Title';
 
 const getValue = getValueFromTheme('pageNotFound');
 

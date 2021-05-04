@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
+import { cloneElement } from 'react';
 import { Button as BootstrapButton } from 'react-bootstrap';
 import { css } from 'styled-components';
-import { getValueFromTheme } from './theme';
-import { Spinner, SpinnerVariants, SpinnerSizes } from './Spinner';
-import { getInlineProps, Inline, inlinePropTypes } from './Inline';
+
 import { Icon } from './Icon';
-import { cloneElement } from 'react';
+import { getInlineProps, Inline, inlinePropTypes } from './Inline';
+import { Spinner, SpinnerSizes,SpinnerVariants } from './Spinner';
 import { Text } from './Text';
+import { getValueFromTheme } from './theme';
 
 const ButtonVariants = {
   PRIMARY: 'primary',
@@ -274,4 +275,4 @@ Button.defaultProps = {
   size: ButtonSizes.MEDIUM,
 };
 
-export { ButtonVariants, Button, ButtonSizes, customCSS as buttonCSS };
+export { Button, customCSS as buttonCSS,ButtonSizes, ButtonVariants };

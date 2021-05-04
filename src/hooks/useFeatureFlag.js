@@ -26,8 +26,8 @@ const isFeatureFlagEnabledInCookies = (featureFlagName, cookies) => {
 };
 
 export {
-  useFeatureFlag,
   createCookieName,
-  isFeatureFlagEnabledInCookies,
   FeatureFlags,
+  isFeatureFlagEnabledInCookies,
+  useFeatureFlag,
 };

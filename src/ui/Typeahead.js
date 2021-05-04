@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
-import { AsyncTypeahead as BootstrapTypeahead } from 'react-bootstrap-typeahead';
-import { getValueFromTheme } from './theme';
-import { Box, boxPropTypes, getBoxProps } from './Box';
 import { forwardRef } from 'react';
+import { AsyncTypeahead as BootstrapTypeahead } from 'react-bootstrap-typeahead';
+
+import { Box, boxPropTypes, getBoxProps } from './Box';
+import { getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme('typeahead');
 
@@ -93,4 +94,4 @@ Typeahead.defaultProps = {
   ...typeaheadDefaultProps,
 };
 
-export { Typeahead, typeaheadPropTypes, typeaheadDefaultProps };
+export { Typeahead, typeaheadDefaultProps,typeaheadPropTypes };

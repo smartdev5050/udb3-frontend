@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
-import { getStackProps, Stack, stackPropTypes } from './Stack';
-import { Inline } from './Inline';
+
 import { Box, parseSpacing } from './Box';
+import { Inline } from './Inline';
+import { getStackProps, Stack, stackPropTypes } from './Stack';
 import { getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme('detailTable');

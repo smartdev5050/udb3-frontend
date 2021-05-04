@@ -1,6 +1,4 @@
-import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Box, boxPropTypes, getBoxProps, parseDimension } from './Box';
+import { faSlideshare } from '@fortawesome/free-brands-svg-icons';
 import {
   faBell,
   faBinoculars,
@@ -9,12 +7,14 @@ import {
   faChevronDown,
   faChevronRight,
   faCircleNotch,
+  faExclamationTriangle,
   faEye,
   faEyeSlash,
   faFlag,
   faGift,
   faHome,
   faLayerGroup,
+  faPencilAlt,
   faPlus,
   faPlusCircle,
   faSearch,
@@ -24,10 +24,11 @@ import {
   faTrash,
   faUser,
   faUsers,
-  faExclamationTriangle,
-  faPencilAlt,
 } from '@fortawesome/free-solid-svg-icons';
-import { faSlideshare } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import PropTypes from 'prop-types';
+
+import { Box, boxPropTypes, getBoxProps, parseDimension } from './Box';
 
 const Icons = {
   HOME: 'home',

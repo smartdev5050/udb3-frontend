@@ -255,5 +255,5 @@ const getValueFromTheme = (component: string) => (path: string) => (props: {
   theme: Theme;
 }) => get(props.theme, `components.${component}.${path}`);
 
-export { theme, getValueFromTheme, Breakpoints };
-export type { Theme, BreakpointValues };
+export { Breakpoints,getValueFromTheme, theme };
+export type { BreakpointValues,Theme };

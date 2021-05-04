@@ -1,11 +1,13 @@
 import NextLink from 'next/link';
 import PropTypes from 'prop-types';
-import { getValueFromTheme } from './theme';
-import { getInlineProps, Inline, inlinePropTypes } from './Inline';
 import { cloneElement, forwardRef } from 'react';
-import { Icon } from './Icon';
-import { Text } from './Text';
+
 import { Button, ButtonVariants } from '@/ui/Button';
+
+import { Icon } from './Icon';
+import { getInlineProps, Inline, inlinePropTypes } from './Inline';
+import { Text } from './Text';
+import { getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme('link');
 

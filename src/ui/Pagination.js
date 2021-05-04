@@ -1,8 +1,9 @@
-import { Pagination as BootstrapPagination } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { getValueFromTheme } from './theme';
-import { getInlineProps, Inline, inlinePropTypes } from './Inline';
 import { useMemo } from 'react';
+import { Pagination as BootstrapPagination } from 'react-bootstrap';
+
+import { getInlineProps, Inline, inlinePropTypes } from './Inline';
+import { getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme(`pagination`);
 

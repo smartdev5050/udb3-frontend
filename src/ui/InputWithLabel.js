@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
-import { Label, LabelVariants } from './Label';
+
 import { getInlineProps, Inline, inlinePropTypes } from './Inline';
 import { Input, inputPropTypes } from './Input';
+import { Label, LabelVariants } from './Label';
 
 const InputWithLabel = ({
   type,

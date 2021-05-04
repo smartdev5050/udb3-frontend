@@ -1,10 +1,11 @@
 import { useRouter } from 'next/router';
-import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
-import { useChangeStatus, useGetPlaceById } from '@/hooks/api/places';
 import { dehydrate } from 'react-query/hydration';
+
 import { StatusPageSingle } from '@/components/StatusPageSingle';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
+import { useChangeStatus, useGetPlaceById } from '@/hooks/api/places';
 import { Spinner } from '@/ui/Spinner';
+import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
 const Status = () => {
   const router = useRouter();

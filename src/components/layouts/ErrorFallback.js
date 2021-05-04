@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
-import { Icon, Icons } from '@/ui/Icon';
-import { Stack } from '@/ui/Stack';
-import { Title } from '@/ui/Title';
-import { getValueFromTheme } from '@/ui/theme';
-import { Text } from '@/ui/Text';
 import { Trans, useTranslation } from 'react-i18next';
+
+import { Icon, Icons } from '@/ui/Icon';
 import { Link } from '@/ui/Link';
+import { Stack } from '@/ui/Stack';
+import { Text } from '@/ui/Text';
+import { getValueFromTheme } from '@/ui/theme';
+import { Title } from '@/ui/Title';
 
 const getValue = getValueFromTheme('pageError');
 

@@ -1,4 +1,5 @@
 import { match } from 'path-to-regexp';
+
 import { user } from '@/test/data/user';
 
 const mockRouterWithParams = ({ query, ...rest } = {}) => {
@@ -43,4 +44,4 @@ const setupPage = ({ router, responses = {} } = {}) => {
   return { router: mockRouterWithParams(router) };
 };
 
-export { setupPage, mockResponses };
+export { mockResponses,setupPage };

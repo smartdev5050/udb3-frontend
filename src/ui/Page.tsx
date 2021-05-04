@@ -1,13 +1,14 @@
-import { getStackProps, Stack } from './Stack';
-import { getValueFromTheme } from './theme';
-import { Title } from './Title';
-import { getInlineProps, Inline } from './Inline';
 import type { ReactNode } from 'react';
 import { Children } from 'react';
+
 import { getBoxProps } from './Box';
-import type { TitleProps } from './Title';
 import type { InlineProps } from './Inline';
+import { getInlineProps, Inline } from './Inline';
 import type { StackProps } from './Stack';
+import { getStackProps, Stack } from './Stack';
+import { getValueFromTheme } from './theme';
+import type { TitleProps } from './Title';
+import { Title } from './Title';
 
 const getValueForPage = getValueFromTheme('page');
 

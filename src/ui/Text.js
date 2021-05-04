@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+
 import { Box, boxPropTypes, getBoxProps } from './Box';
 import { getValueFromTheme } from './theme';
 

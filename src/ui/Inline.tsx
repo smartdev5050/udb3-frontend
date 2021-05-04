@@ -1,9 +1,11 @@
-import styled, { css } from 'styled-components';
-import { Box, boxPropTypes, boxProps, parseProperty } from './Box';
-import type { BoxProps, UIProp, UnknownProps } from './Box';
-import { Children, cloneElement, forwardRef } from 'react';
 import pick from 'lodash/pick';
+import { Children, cloneElement, forwardRef } from 'react';
+import styled, { css } from 'styled-components';
+
 import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
+
+import type { BoxProps, UIProp, UnknownProps } from './Box';
+import { Box, boxProps, boxPropTypes, parseProperty } from './Box';
 import type { BreakpointValues } from './theme';
 
 type InlineProps = {
@@ -85,5 +87,5 @@ Inline.defaultProps = {
   as: 'section',
 };
 
-export { Inline, getInlineProps, inlineProps, inlinePropTypes };
+export { getInlineProps, Inline, inlineProps, inlinePropTypes };
 export type { Props as InlineProps };

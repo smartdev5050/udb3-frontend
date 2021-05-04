@@ -1,32 +1,32 @@
 import getConfig from 'next/config';
+import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
-import { Stack } from '@/ui/Stack';
+import { useGetAnnouncements } from '@/hooks/api/announcements';
+import { useGetEventsToModerate } from '@/hooks/api/events';
+import { useGetPermissions, useGetRoles } from '@/hooks/api/user';
+import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
+import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
+import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
+import { Badge } from '@/ui/Badge';
+import { Button } from '@/ui/Button';
+import { Icons } from '@/ui/Icon';
+import { Image } from '@/ui/Image';
+import { Inline } from '@/ui/Inline';
 import { Link } from '@/ui/Link';
 import { List } from '@/ui/List';
-import { Icons } from '@/ui/Icon';
+import { Logo, LogoVariants } from '@/ui/Logo';
+import { Stack } from '@/ui/Stack';
+import { Text } from '@/ui/Text';
 import { Breakpoints, getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
-import { Button } from '@/ui/Button';
-import { Logo, LogoVariants } from '@/ui/Logo';
-import { Badge } from '@/ui/Badge';
-import { Inline } from '@/ui/Inline';
-import { Text } from '@/ui/Text';
-import { Image } from '@/ui/Image';
 
-import { JobLogger, JobLoggerStates } from './joblogger/JobLogger';
 import { Announcements, AnnouncementStatus } from './Announcements';
-import { useGetAnnouncements } from '@/hooks/api/announcements';
-import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
-import { useRouter } from 'next/router';
-import { useGetPermissions, useGetRoles } from '@/hooks/api/user';
-import { useGetEventsToModerate } from '@/hooks/api/events';
+import { JobLogger, JobLoggerStates } from './joblogger/JobLogger';
 import { JobLoggerStateIndicator } from './joblogger/JobLoggerStateIndicator';
-import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
-import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
 
 const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSidebar = getValueFromTheme('sidebar');

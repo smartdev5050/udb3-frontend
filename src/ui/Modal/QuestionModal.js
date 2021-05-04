@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { Modal as BootstrapModal } from 'react-bootstrap';
+
 import { Button, ButtonVariants } from '../Button';
 
 const QuestionModal = ({

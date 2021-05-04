@@ -1,12 +1,13 @@
-import {
-  Dropdown as BootstrapDropdown,
-  ButtonGroup as BootstrapButtonGroup,
-} from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { Children } from 'react';
+import {
+  ButtonGroup as BootstrapButtonGroup,
+  Dropdown as BootstrapDropdown,
+} from 'react-bootstrap';
+
+import { Box } from '@/ui/Box';
 import { Button, buttonCSS, ButtonVariants } from '@/ui/Button';
 import { Link } from '@/ui/Link';
-import { Children } from 'react';
-import { Box } from '@/ui/Box';
 import { getValueFromTheme } from '@/ui/theme';
 
 const getValue = getValueFromTheme(`dropdown`);

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import { getBoxProps, boxPropTypes, Box } from './Box';
+
+import { Box,boxPropTypes, getBoxProps } from './Box';
 
 const Checkbox = ({
   id,

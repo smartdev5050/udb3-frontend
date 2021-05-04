@@ -21,4 +21,4 @@ const useHandleSocketMessage = (eventsMap = {}) => {
   }, []);
 };
 
-export { useHandleSocketMessage, SocketMessageTypes };
+export { SocketMessageTypes,useHandleSocketMessage };

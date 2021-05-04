@@ -1,5 +1,6 @@
-import { Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { Form } from 'react-bootstrap';
+
 import { Box, boxPropTypes, getBoxProps } from './Box';
 
 const BaseInput = (props) => <Box as="textarea" {...props} />;

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
+
 import { theme } from '@/ui/theme';
+
 import { useIsClient } from './useIsClient';
 
 const useMatchBreakpoint = (breakpoint) => {

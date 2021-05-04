@@ -1,9 +1,10 @@
-import type { FlattenInterpolation, ThemeProps } from 'styled-components';
-import styled, { css } from 'styled-components';
 import kebabCase from 'lodash/kebabCase';
 import pick from 'lodash/pick';
 import type { ComponentType, ReactNode } from 'react';
 import { forwardRef } from 'react';
+import type { FlattenInterpolation, ThemeProps } from 'styled-components';
+import styled, { css } from 'styled-components';
+
 import type { BreakpointValues, Theme } from './theme';
 
 type ValidUIPropTypes = string | number;
@@ -382,9 +383,9 @@ export {
   boxProps,
   boxPropTypes,
   getBoxProps,
+  parseDimension,
   parseProperty,
   parseSpacing,
-  parseDimension,
 };
 
 export type { BoxProps, UIProp, UnknownProps };

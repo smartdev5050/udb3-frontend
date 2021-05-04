@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+
 import { useIsClient } from './useIsClient';
 
 const EventTypes = {
@@ -20,4 +21,4 @@ const useHandleEvent = (eventsMap = {}) => {
   }, [isClient]);
 };
 
-export { useHandleEvent, EventTypes };
+export { EventTypes,useHandleEvent };
