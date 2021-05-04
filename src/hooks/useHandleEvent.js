@@ -21,4 +21,4 @@ const useHandleEvent = (eventsMap = {}) => {
   }, [isClient]);
 };
 
-export { EventTypes,useHandleEvent };
+export { EventTypes, useHandleEvent };

@@ -5,7 +5,7 @@ import { css } from 'styled-components';
 
 import { Icon } from './Icon';
 import { getInlineProps, Inline, inlinePropTypes } from './Inline';
-import { Spinner, SpinnerSizes,SpinnerVariants } from './Spinner';
+import { Spinner, SpinnerSizes, SpinnerVariants } from './Spinner';
 import { Text } from './Text';
 import { getValueFromTheme } from './theme';
 
@@ -275,4 +275,4 @@ Button.defaultProps = {
   size: ButtonSizes.MEDIUM,
 };
 
-export { Button, customCSS as buttonCSS,ButtonSizes, ButtonVariants };
+export { Button, customCSS as buttonCSS, ButtonSizes, ButtonVariants };

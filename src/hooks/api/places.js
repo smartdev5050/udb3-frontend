@@ -39,4 +39,4 @@ const changeStatus = async ({ headers, id, type, reason }) =>
 const useChangeStatus = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: changeStatus, ...configuration });
 
-export { useChangeStatus,useGetPlaceById };
+export { useChangeStatus, useGetPlaceById };

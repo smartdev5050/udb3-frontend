@@ -2,7 +2,7 @@ import flatten from 'lodash/flatten';
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import { Cookies } from 'react-cookie';
-import { useMutation,useQueries, useQuery } from 'react-query';
+import { useMutation, useQueries, useQuery } from 'react-query';
 
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import { isTokenValid } from '@/utils/isTokenValid';

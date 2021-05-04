@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Badge as BootstrapBadge } from 'react-bootstrap';
 
-import { boxPropTypes,getBoxProps } from './Box';
+import { boxPropTypes, getBoxProps } from './Box';
 import { Text } from './Text';
 
 const BadgeVariants = {

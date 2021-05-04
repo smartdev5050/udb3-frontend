@@ -17,4 +17,4 @@ const useHeaders = (extraHeaders = {}) => {
   return createHeaders(cookies.token, extraHeaders);
 };
 
-export { createHeaders,useHeaders };
+export { createHeaders, useHeaders };

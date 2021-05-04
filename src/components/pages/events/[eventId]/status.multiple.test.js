@@ -1,4 +1,4 @@
-import { screen,waitFor } from '@testing-library/react/pure';
+import { screen, waitFor } from '@testing-library/react/pure';
 import userEvent from '@testing-library/user-event';
 
 import { OfferStatus } from '@/constants/OfferStatus';

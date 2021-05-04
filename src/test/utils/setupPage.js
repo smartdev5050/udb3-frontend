@@ -44,4 +44,4 @@ const setupPage = ({ router, responses = {} } = {}) => {
   return { router: mockRouterWithParams(router) };
 };
 
-export { mockResponses,setupPage };
+export { mockResponses, setupPage };

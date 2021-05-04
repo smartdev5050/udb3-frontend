@@ -2,7 +2,7 @@ import getConfig from 'next/config';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
-import { Trans,useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { css, keyframes } from 'styled-components';
 
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';

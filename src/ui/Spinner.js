@@ -53,4 +53,4 @@ Spinner.defaultProps = {
   variant: SpinnerVariants.PRIMARY,
 };
 
-export { Spinner, SpinnerSizes,SpinnerVariants };
+export { Spinner, SpinnerSizes, SpinnerVariants };

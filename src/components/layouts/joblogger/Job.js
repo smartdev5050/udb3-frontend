@@ -1,5 +1,5 @@
 import { formatDistance } from 'date-fns';
-import { fr,nlBE } from 'date-fns/locale';
+import { fr, nlBE } from 'date-fns/locale';
 import PropTypes from 'prop-types';
 import { memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';

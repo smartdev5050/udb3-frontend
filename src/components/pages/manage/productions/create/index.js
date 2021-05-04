@@ -1,5 +1,5 @@
 import throttle from 'lodash/throttle';
-import { useCallback, useEffect, useMemo, useRef,useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { QueryStatus } from '@/hooks/api/authenticated-query';

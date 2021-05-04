@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import { Box,boxPropTypes, getBoxProps } from './Box';
+import { Box, boxPropTypes, getBoxProps } from './Box';
 
 export const LabelVariants = {
   BOLD: 'bold',

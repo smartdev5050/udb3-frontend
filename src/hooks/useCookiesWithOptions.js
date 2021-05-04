@@ -23,4 +23,4 @@ const useCookiesWithOptions = (
   };
 };
 
-export { defaultCookieOptions,useCookiesWithOptions };
+export { defaultCookieOptions, useCookiesWithOptions };

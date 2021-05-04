@@ -44,4 +44,4 @@ Modal.defaultProps = {
   variant: ModalVariants.CONTENT,
 };
 
-export { Modal, ModalSizes,ModalVariants };
+export { Modal, ModalSizes, ModalVariants };

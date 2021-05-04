@@ -206,4 +206,4 @@ JobLogger.propTypes = {
   onStatusChange: PropTypes.func,
 };
 
-export { JobLogger, JobLoggerStates,JobStates };
+export { JobLogger, JobLoggerStates, JobStates };

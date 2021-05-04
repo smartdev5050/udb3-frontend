@@ -94,4 +94,4 @@ Typeahead.defaultProps = {
   ...typeaheadDefaultProps,
 };
 
-export { Typeahead, typeaheadDefaultProps,typeaheadPropTypes };
+export { Typeahead, typeaheadDefaultProps, typeaheadPropTypes };

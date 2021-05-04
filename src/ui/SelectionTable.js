@@ -2,7 +2,7 @@ import uniqueId from 'lodash/uniqueId';
 import PropTypes from 'prop-types';
 import { useLayoutEffect, useMemo } from 'react';
 import { Table as BootstrapTable } from 'react-bootstrap';
-import { useRowSelect,useTable } from 'react-table';
+import { useRowSelect, useTable } from 'react-table';
 
 import { Box, getBoxProps } from './Box';
 import { Button, ButtonVariants } from './Button';

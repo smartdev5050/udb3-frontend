@@ -53,4 +53,4 @@ const useGetRoles = (configuration = {}) =>
     ...configuration,
   });
 
-export { useGetPermissions, useGetRoles,useGetUser };
+export { useGetPermissions, useGetRoles, useGetUser };
