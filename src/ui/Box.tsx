@@ -1,11 +1,13 @@
-import styled, {
-  css,
+import type {
   FlattenInterpolation,
-  ThemeProps,
+  ThemeProps} from 'styled-components';
+import styled, {
+  css
 } from 'styled-components';
 import kebabCase from 'lodash/kebabCase';
 import pick from 'lodash/pick';
-import { ComponentType, forwardRef, ReactNode } from 'react';
+import type { ComponentType, ReactNode } from 'react';
+import { forwardRef } from 'react';
 import type { BreakpointValues, Theme } from './theme';
 
 type ValidUIPropTypes = string | number;

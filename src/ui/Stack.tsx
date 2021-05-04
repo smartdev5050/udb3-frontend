@@ -3,10 +3,10 @@ import {
   Box,
   boxPropTypes,
   boxProps,
-  parseProperty,
-  UnknownProps,
+  parseProperty
 } from './Box';
-import type { UIProp, BoxProps } from './Box';
+import type { UIProp, BoxProps ,
+  UnknownProps} from './Box';
 import { Children, cloneElement, forwardRef } from 'react';
 import pick from 'lodash/pick';
 import type { BreakpointValues } from './theme';
