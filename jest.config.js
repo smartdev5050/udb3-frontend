@@ -4,7 +4,7 @@ const jsconfigpaths = new JsConfigPathsMapper({
 });
 
 module.exports = {
-  moduleFileExtensions: ['js', 'json'],
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
   transform: {
     '^.+\\.(js|ts|tsx)$': 'babel-jest',
   },
