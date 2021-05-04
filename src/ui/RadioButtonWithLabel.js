@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
+
+import { getInlineProps, Inline, inlinePropTypes } from './Inline';
+import { Label } from './Label';
 import {
   RadioButton,
   radioButtonDefaultProps,
   radioButtonPropTypes,
 } from './RadioButton';
-import { getInlineProps, Inline, inlinePropTypes } from './Inline';
-import { Label } from './Label';
 import { Stack } from './Stack';
 import { Text } from './Text';
 import { getValueFromTheme } from './theme';

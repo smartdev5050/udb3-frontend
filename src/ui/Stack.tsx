@@ -1,8 +1,9 @@
-import styled, { css } from 'styled-components';
-import { Box, boxPropTypes, boxProps, parseProperty } from './Box';
-import type { UIProp, BoxProps, UnknownProps } from './Box';
-import { Children, cloneElement, forwardRef } from 'react';
 import pick from 'lodash/pick';
+import { Children, cloneElement, forwardRef } from 'react';
+import styled, { css } from 'styled-components';
+
+import type { BoxProps, UIProp, UnknownProps } from './Box';
+import { Box, boxProps, boxPropTypes, parseProperty } from './Box';
 import type { BreakpointValues } from './theme';
 
 type StackProps = {
@@ -61,5 +62,5 @@ Stack.defaultProps = {
   as: 'section',
 };
 
-export { Stack, getStackProps, stackPropTypes, stackProps };
+export { getStackProps, Stack, stackProps, stackPropTypes };
 export type { Props as StackProps };

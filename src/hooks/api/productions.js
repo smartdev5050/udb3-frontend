@@ -1,8 +1,9 @@
 import { fetchFromApi } from '@/utils/fetchFromApi';
+
 import {
-  useAuthenticatedQuery,
   useAuthenticatedMutation,
   useAuthenticatedMutations,
+  useAuthenticatedQuery,
 } from './authenticated-query';
 
 export const getProductions = async ({ headers, ...queryData }) => {
@@ -170,13 +171,13 @@ const useMergeProductions = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: mergeProductions, ...configuration });
 
 export {
-  useGetProductions,
-  useDeleteEventById,
-  useDeleteEventsByIds,
   useAddEventById,
   useAddEventsByIds,
-  useGetSuggestedEvents,
-  useSkipSuggestedEvents,
   useCreateWithEvents,
+  useDeleteEventById,
+  useDeleteEventsByIds,
+  useGetProductions,
+  useGetSuggestedEvents,
   useMergeProductions,
+  useSkipSuggestedEvents,
 };

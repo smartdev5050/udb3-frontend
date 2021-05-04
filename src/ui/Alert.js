@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import { Alert as BootstrapAlert } from 'react-bootstrap';
+
+import { Box, boxPropTypes, getBoxProps } from './Box';
 import { getValueFromTheme } from './theme';
-import { getBoxProps, boxPropTypes, Box } from './Box';
 
 const AlertVariants = {
   INFO: 'info',
@@ -59,4 +60,4 @@ Alert.defaultProps = {
   dismissible: false,
 };
 
-export { AlertVariants, Alert };
+export { Alert, AlertVariants };

@@ -2,14 +2,13 @@ import PropTypes from 'prop-types';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { OfferStatus } from '@/constants/OfferStatus';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { TextAreaWithLabel } from '@/ui/TextAreaWithLabel';
 import { getValueFromTheme } from '@/ui/theme';
-
-import { OfferStatus } from '@/constants/OfferStatus';
 
 const getValue = getValueFromTheme('statusPage');
 

@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
+
 import { Label, LabelVariants } from './Label';
-import { getStackProps, Stack, stackPropTypes } from './Stack';
 import { RadioButtonWithLabel } from './RadioButtonWithLabel';
+import { getStackProps, Stack, stackPropTypes } from './Stack';
 
 const RadioButtonGroup = ({
   name,

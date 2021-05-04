@@ -1,19 +1,19 @@
 import getConfig from 'next/config';
 import { useRouter } from 'next/router';
+import PropTypes from 'prop-types';
 import { useEffect } from 'react';
-import { useTranslation, Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
+import { css, keyframes } from 'styled-components';
+
+import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import { Box, boxPropTypes } from '@/ui/Box';
 import { Button, ButtonSizes, ButtonVariants } from '@/ui/Button';
 import { Image } from '@/ui/Image';
-import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
-
-import PropTypes from 'prop-types';
 import { Inline } from '@/ui/Inline';
 import { Link } from '@/ui/Link';
-import { Stack } from '@/ui/Stack';
 import { List } from '@/ui/List';
+import { Stack } from '@/ui/Stack';
 import { Breakpoints, getValueFromTheme } from '@/ui/theme';
-import { css, keyframes } from 'styled-components';
 
 const getValueForPage = getValueFromTheme('loginPage');
 const getValueForLogo = getValueFromTheme('loginLogo');

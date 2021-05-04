@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
-import { getStackProps, Stack, stackPropTypes } from './Stack';
-
 import { Children } from 'react';
-import { Inline, getInlineProps, inlinePropTypes } from './Inline';
+
+import { getInlineProps, Inline, inlinePropTypes } from './Inline';
+import { getStackProps, Stack, stackPropTypes } from './Stack';
 
 const ListVariants = {
   ORDERED: 'ordered',

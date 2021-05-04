@@ -1,6 +1,6 @@
 import { differenceInDays, format } from 'date-fns';
-import nl from 'date-fns/locale/nl-BE';
 import fr from 'date-fns/locale/fr';
+import nl from 'date-fns/locale/nl-BE';
 import capitalize from 'lodash/capitalize';
 
 const locales = {

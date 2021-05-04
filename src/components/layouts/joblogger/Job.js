@@ -1,16 +1,17 @@
-import PropTypes from 'prop-types';
-import { Box } from '@/ui/Box';
-import { Icon, Icons } from '@/ui/Icon';
-import { List } from '@/ui/List';
 import { formatDistance } from 'date-fns';
-import { nlBE, fr } from 'date-fns/locale';
+import { fr, nlBE } from 'date-fns/locale';
+import PropTypes from 'prop-types';
 import { memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Inline } from '@/ui/Inline';
-import { Stack } from '@/ui/Stack';
+
+import { Box } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
-import { getValueFromTheme } from '@/ui/theme';
+import { Icon, Icons } from '@/ui/Icon';
+import { Inline } from '@/ui/Inline';
 import { Link, LinkVariants } from '@/ui/Link';
+import { List } from '@/ui/List';
+import { Stack } from '@/ui/Stack';
+import { getValueFromTheme } from '@/ui/theme';
 
 const getValue = getValueFromTheme('jobStatusIcon');
 

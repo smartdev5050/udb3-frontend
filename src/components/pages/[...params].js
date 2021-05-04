@@ -1,20 +1,22 @@
-import PropTypes from 'prop-types';
 import getConfig from 'next/config';
 import { useRouter } from 'next/router';
-import { Box } from '@/ui/Box';
-import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
-import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
+import PropTypes from 'prop-types';
 import { memo, useMemo, useState } from 'react';
+import { Cookies } from 'react-cookie';
 import { generatePath, matchPath } from 'react-router';
-import { getRedirects } from '../../redirects';
+
+import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
+import { isFeatureFlagEnabledInCookies } from '@/hooks/useFeatureFlag';
 import {
   useHandleWindowMessage,
   WindowMessageTypes,
 } from '@/hooks/useHandleWindowMessage';
-import PageNotFound from '@/pages/404';
 import { useIsClient } from '@/hooks/useIsClient';
-import { isFeatureFlagEnabledInCookies } from '@/hooks/useFeatureFlag';
-import { Cookies } from 'react-cookie';
+import PageNotFound from '@/pages/404';
+import { Box } from '@/ui/Box';
+import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
+
+import { getRedirects } from '../../redirects';
 
 const prefixWhenNotEmpty = (value, prefix) =>
   value ? `${prefix}${value}` : value;

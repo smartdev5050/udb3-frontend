@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { Spinner as BootstrapSpinner } from 'react-bootstrap';
+
 import { Box, boxPropTypes, getBoxProps } from './Box';
 import { getValueFromTheme } from './theme';
 
@@ -52,4 +53,4 @@ Spinner.defaultProps = {
   variant: SpinnerVariants.PRIMARY,
 };
 
-export { Spinner, SpinnerVariants, SpinnerSizes };
+export { Spinner, SpinnerSizes, SpinnerVariants };

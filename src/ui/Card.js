@@ -1,6 +1,7 @@
-import { Card as BootstrapCard } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { Stack, getStackProps, stackPropTypes } from './Stack';
+import { Card as BootstrapCard } from 'react-bootstrap';
+
+import { getStackProps, Stack, stackPropTypes } from './Stack';
 
 const Card = ({ children, className, ...props }) => {
   return (

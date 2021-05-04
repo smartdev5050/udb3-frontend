@@ -1,10 +1,11 @@
 import { fetchFromApi } from '@/utils/fetchFromApi';
-import {
-  useAuthenticatedQuery,
-  useAuthenticatedQueries,
-  useAuthenticatedMutation,
-} from './authenticated-query';
 import { formatDate } from '@/utils/formatDate';
+
+import {
+  useAuthenticatedMutation,
+  useAuthenticatedQueries,
+  useAuthenticatedQuery,
+} from './authenticated-query';
 
 const getEventsToModerate = async ({ headers, ...queryData }) => {
   const res = await fetchFromApi({
@@ -149,10 +150,10 @@ const useChangeStatusSubEvents = (configuration = {}) =>
   });
 
 export {
-  useGetEventsToModerate,
-  useGetEventById,
-  useGetEventsByIds,
-  useGetCalendarSummary,
   useChangeStatus,
   useChangeStatusSubEvents,
+  useGetCalendarSummary,
+  useGetEventById,
+  useGetEventsByIds,
+  useGetEventsToModerate,
 };

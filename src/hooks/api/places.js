@@ -1,4 +1,5 @@
 import { fetchFromApi } from '@/utils/fetchFromApi';
+
 import {
   useAuthenticatedMutation,
   useAuthenticatedQuery,
@@ -38,4 +39,4 @@ const changeStatus = async ({ headers, id, type, reason }) =>
 const useChangeStatus = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: changeStatus, ...configuration });
 
-export { useGetPlaceById, useChangeStatus };
+export { useChangeStatus, useGetPlaceById };

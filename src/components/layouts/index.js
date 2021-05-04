@@ -1,4 +1,9 @@
+import * as Sentry from '@sentry/react';
+import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
+import { useEffect } from 'react';
+import { Cookies } from 'react-cookie';
+import { useTranslation } from 'react-i18next';
 
 import { useGetUser } from '@/hooks/api/user';
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
@@ -9,13 +14,9 @@ import {
 import { Inline } from '@/ui/Inline';
 import { isTokenValid } from '@/utils/isTokenValid';
 import { setSentryUser } from '@/utils/sentry';
-import { Sidebar } from './Sidebar';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { Cookies } from 'react-cookie';
-import { useTranslation } from 'react-i18next';
+
 import { ErrorFallback } from './ErrorFallback';
-import * as Sentry from '@sentry/react';
+import { Sidebar } from './Sidebar';
 
 const useChangeLanguage = () => {
   const { i18n } = useTranslation();
