@@ -79,7 +79,7 @@ const PageActions = ({ children, className, ...props }: PageActionsProps) => (
   </Inline>
 );
 
-type PageContentProps = InlineProps;
+type PageContentProps = StackProps;
 
 const PageContent = ({ children, className, ...props }: PageContentProps) => (
   <Stack className={className} spacing={3} {...getStackProps(props)}>
