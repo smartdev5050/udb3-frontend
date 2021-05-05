@@ -36,19 +36,23 @@ const getOrganizersByCreatorId = async ({ headers, ...queryData }) => {
 };
 
 const useGetOrganizersByCreatorId = (
-  { req, queryClient, creatorId },
+  {
+    creatorId,
+    limit = 50,
+    start = 0,
+    sort = { field: 'modified', order: 'desc' },
+  },
   configuration = {},
 ) =>
   useAuthenticatedQuery({
-    req,
-    queryClient,
     queryKey: ['organizers'],
     queryFn: getOrganizersByCreatorId,
     queryArguments: {
       creator: creatorId,
-      limit: 50,
-      start: 0,
+      limit,
+      start,
       embed: true,
+      [`sort[${sort.field}}]`]: `${sort.order}`,
     },
     ...configuration,
   });
