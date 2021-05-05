@@ -159,7 +159,7 @@ const useGetEventsByCreator = (
     queryKey: ['events'],
     queryFn: getEventsByCreator,
     queryArguments: {
-      q: `creator:(${creator.id}+OR+${creator.email})`,
+      q: `creator:(${creator.id} OR ${creator.email})`,
       disableDefaultFilters: true,
       embed: true,
       limit,

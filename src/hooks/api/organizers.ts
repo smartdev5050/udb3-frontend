@@ -87,7 +87,7 @@ const useGetOrganizersByCreator = (
     queryKey: ['organizers'],
     queryFn: getOrganizersByCreator,
     queryArguments: {
-      q: `creator:(${creator.id}+OR+${creator.email})`,
+      q: `creator:(${creator.id} OR ${creator.email})`,
       limit,
       start,
       embed: true,
