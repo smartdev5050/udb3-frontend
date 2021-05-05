@@ -1,5 +1,6 @@
 import type { UseQueryOptions } from 'react-query';
 
+import type { OfferStatus } from '@/constants/OfferStatus';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 import { formatDate } from '@/utils/formatDate';
 
@@ -11,6 +12,8 @@ import {
 import type { Headers } from './types/Headers';
 import type { ServerSideArguments } from './types/ServerSideArguments';
 import type { SortOptions } from './types/SortOptions';
+
+type Values<T> = T[keyof T];
 
 type HeadersAndQueryData = {
   headers: Headers;
@@ -227,8 +230,8 @@ const useGetCalendarSummary = (
 type ChangeStatusArguments = {
   headers: Headers;
   id: string;
-  type: string;
-  reason: { [key: string]: string };
+  type: Values<typeof OfferStatus>;
+  reason: { [language: string]: string };
 };
 
 const changeStatus = async ({
@@ -254,8 +257,8 @@ type ChangeStatusSubEventsArguments = {
   eventId: string;
   subEventIds: string[];
   subEvents: unknown[];
-  type: string;
-  reason: { [key: string]: string };
+  type: Values<typeof OfferStatus>;
+  reason: { [language: string]: string };
 };
 
 const changeStatusSubEvents = async ({
