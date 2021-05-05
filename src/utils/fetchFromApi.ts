@@ -9,10 +9,24 @@ class FetchError extends Error {
   }
 }
 
+type ErrorObject = {
+  type: 'ERROR';
+  status?: number;
+  message: string;
+};
+
+const isErrorObject = (value: any): value is ErrorObject => {
+  return (
+    value.type === 'ERROR' &&
+    typeof value.message === 'string' &&
+    (!value.status || typeof value.status === 'number')
+  );
+};
+
 type FetchFromApiArguments = {
   path: string;
   searchParams?: Record<string, string>;
-  options?: Record<string, unknown>;
+  options?: { headers?: Record<string, string>; [key: string]: unknown };
   silentError?: boolean;
 };
 
@@ -21,7 +35,7 @@ const fetchFromApi = async ({
   searchParams = {},
   options = {},
   silentError = false,
-}: FetchFromApiArguments) => {
+}: FetchFromApiArguments): Promise<Response | ErrorObject> => {
   const { publicRuntimeConfig } = getConfig();
 
   let response: Response;
@@ -70,4 +84,5 @@ const fetchFromApi = async ({
   return response;
 };
 
-export { fetchFromApi };
+export { fetchFromApi, isErrorObject };
+export type { ErrorObject };
