@@ -83,23 +83,30 @@ const getEventsByCreator = async ({ headers, ...queryData }) => {
 };
 
 const useGetEventsByCreator = (
-  { req, queryClient, creatorId },
+  {
+    creatorId,
+    start = 0,
+    limit = 50,
+    sort = { field: 'modified', order: 'desc' },
+  },
   configuration = {},
 ) =>
   useAuthenticatedQuery({
-    req,
-    queryClient,
     queryKey: ['events'],
     queryFn: getEventsByCreator,
     queryArguments: {
       creator: creatorId,
       disableDefaultFilters: true,
       embed: true,
-      limit: 50,
-      start: 0,
+      limit,
+      start,
       workflowStatus: 'DRAFT,READY_FOR_VALIDATION,APPROVED,REJECTED',
+      [`sort[${sort.field}}]`]: `${sort.order}`,
     },
-    ...configuration,
+    configuration: {
+      enabled: !!creatorId,
+      ...configuration,
+    },
   });
 
 const getCalendarSummary = async ({ headers, id, format, locale }) => {
