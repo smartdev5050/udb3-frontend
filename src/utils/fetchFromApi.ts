@@ -1,26 +1,35 @@
 import getConfig from 'next/config';
 
 class FetchError extends Error {
-  constructor(status, message) {
+  status: number;
+
+  constructor(status: number, message: string) {
     super(message);
     this.status = status;
   }
 }
+
+type FetchFromApiArguments = {
+  path: string;
+  searchParams?: Record<string, string>;
+  options?: Record<string, unknown>;
+  silentError?: boolean;
+};
 
 const fetchFromApi = async ({
   path,
   searchParams = {},
   options = {},
   silentError = false,
-} = {}) => {
+}: FetchFromApiArguments) => {
   const { publicRuntimeConfig } = getConfig();
 
-  let response;
-  let url;
+  let response: Response;
+  let url: URL;
 
   try {
     url = new URL(`${publicRuntimeConfig.apiUrl}${path}`);
-    url.search = new URLSearchParams(searchParams);
+    url.search = new URLSearchParams(searchParams).toString();
   } catch (e) {
     if (!silentError) {
       throw new Error(e.message);
