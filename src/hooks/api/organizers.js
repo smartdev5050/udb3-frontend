@@ -22,7 +22,7 @@ const useGetOrganizerById = ({ req, queryClient, id }, configuration = {}) =>
     ...configuration,
   });
 
-const getOrganizersByCreatorId = async ({ headers, ...queryData }) => {
+const getOrganizersByCreator = async ({ headers, ...queryData }) => {
   const res = await fetchFromApi({
     path: '/organizers/',
     searchParams: {
@@ -35,7 +35,7 @@ const getOrganizersByCreatorId = async ({ headers, ...queryData }) => {
   return await res.json();
 };
 
-const useGetOrganizersByCreatorId = (
+const useGetOrganizersByCreator = (
   {
     creatorId,
     limit = 50,
@@ -46,7 +46,7 @@ const useGetOrganizersByCreatorId = (
 ) =>
   useAuthenticatedQuery({
     queryKey: ['organizers'],
-    queryFn: getOrganizersByCreatorId,
+    queryFn: getOrganizersByCreator,
     queryArguments: {
       creator: creatorId,
       limit,
@@ -57,4 +57,4 @@ const useGetOrganizersByCreatorId = (
     ...configuration,
   });
 
-export { useGetOrganizerById, useGetOrganizersByCreatorId };
+export { useGetOrganizerById, useGetOrganizersByCreator };
