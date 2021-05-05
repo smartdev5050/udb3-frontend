@@ -108,10 +108,7 @@ const prefetchAuthenticatedQuery = async ({ req, queryClient, ...options }) => {
 
 /// /////////////////////////////////////////////////////////////////////////////////////////////
 
-const useAuthenticatedMutation = ({
-  mutationFn = () => {},
-  ...configuration
-} = {}) => {
+const useAuthenticatedMutation = ({ mutationFn, ...configuration }) => {
   const router = useRouter();
   const headers = useHeaders();
 
