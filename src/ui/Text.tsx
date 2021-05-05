@@ -1,6 +1,5 @@
-import PropTypes from 'prop-types';
-
-import { Box, boxPropTypes, getBoxProps } from './Box';
+import type { BoxProps } from './Box';
+import { Box, getBoxProps } from './Box';
 import { getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme('text');
@@ -10,7 +9,9 @@ const TextVariants = {
   MUTED: 'muted',
 };
 
-const Text = ({ as, children, className, variant, ...props }) => {
+type Props = BoxProps;
+
+const Text = ({ as, children, className, variant, ...props }: Props) => {
   return (
     <Box
       as={as}
@@ -21,14 +22,6 @@ const Text = ({ as, children, className, variant, ...props }) => {
       {children}
     </Box>
   );
-};
-
-Text.propTypes = {
-  ...boxPropTypes,
-  as: PropTypes.string,
-  children: PropTypes.node,
-  className: PropTypes.string,
-  variant: PropTypes.string,
 };
 
 Text.defaultProps = {

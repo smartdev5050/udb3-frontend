@@ -45,9 +45,14 @@ type TitleProps = {
 type ListProps = {
   variant?: string;
 };
+
+type ListItemProps = {
+  onClick?: (...args: unknown[]) => unknown;
+};
+
 type BoxProps = GeneralProps &
   InlineProps &
-  TitleProps & {
+  TitleProps &
   ListProps &
   ListItemProps & {
     alignItems?: UIProp<string>;
