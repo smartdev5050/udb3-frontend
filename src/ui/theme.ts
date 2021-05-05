@@ -1,6 +1,8 @@
 import get from 'lodash/get';
 import { lighten } from 'polished';
 
+import type { Values } from '@/types/Values';
+
 const colors = {
   udbRed: '#c0120c',
   udbBlue: '#004f94',
@@ -32,7 +34,6 @@ const Breakpoints = {
   L: 'l',
 } as const;
 
-type Values<T> = T[keyof T];
 type BreakpointValues = Values<typeof Breakpoints>;
 
 const theme = {

@@ -1,6 +1,7 @@
 import type { UseQueryOptions } from 'react-query';
 
 import type { OfferStatus } from '@/constants/OfferStatus';
+import type { Values } from '@/types/Values';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 
 import {
@@ -10,8 +11,6 @@ import {
 import type { Headers } from './types/Headers';
 import type { ServerSideArguments } from './types/ServerSideArguments';
 import type { SortOptions } from './types/SortOptions';
-
-type Values<T> = T[keyof T];
 
 type HeadersAndQueryData = {
   headers: Headers;
