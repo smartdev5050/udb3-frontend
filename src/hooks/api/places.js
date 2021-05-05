@@ -26,6 +26,46 @@ const useGetPlaceById = ({ req, queryClient, id }, configuration = {}) =>
     ...configuration,
   });
 
+const getPlacesByCreator = async ({ headers, ...queryData }) => {
+  const res = await fetchFromApi({
+    path: '/places/',
+    searchParams: {
+      ...queryData,
+    },
+    options: {
+      headers,
+    },
+  });
+  return await res.json();
+};
+
+const useGetPlacesByCreator = (
+  {
+    creatorId,
+    start = 0,
+    limit = 50,
+    sort = { field: 'modified', order: 'desc' },
+  },
+  configuration = {},
+) =>
+  useAuthenticatedQuery({
+    queryKey: ['places'],
+    queryFn: getPlacesByCreator,
+    queryArguments: {
+      creator: creatorId,
+      disableDefaultFilters: true,
+      embed: true,
+      limit,
+      start,
+      workflowStatus: 'DRAFT,READY_FOR_VALIDATION,APPROVED,REJECTED',
+      [`sort[${sort.field}}]`]: `${sort.order}`,
+    },
+    configuration: {
+      enabled: !!creatorId,
+      ...configuration,
+    },
+  });
+
 const changeStatus = async ({ headers, id, type, reason }) =>
   fetchFromApi({
     path: `/places/${id.toString()}/status`,
@@ -39,4 +79,4 @@ const changeStatus = async ({ headers, id, type, reason }) =>
 const useChangeStatus = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: changeStatus, ...configuration });
 
-export { useChangeStatus, useGetPlaceById };
+export { useChangeStatus, useGetPlaceById, useGetPlacesByCreator };
