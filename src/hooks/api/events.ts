@@ -1,4 +1,7 @@
-import { fetchFromApi } from '@/utils/fetchFromApi';
+import type { NextApiRequest } from 'next';
+import type { QueryClient, UseQueryOptions } from 'react-query';
+
+import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 import { formatDate } from '@/utils/formatDate';
 
 import {
@@ -7,7 +10,28 @@ import {
   useAuthenticatedQuery,
 } from './authenticated-query';
 
-const getEventsToModerate = async ({ headers, ...queryData }) => {
+type ServerSideArguments = {
+  req?: NextApiRequest;
+  queryClient?: QueryClient;
+};
+
+type Headers = Record<string, string>;
+
+type SortOptions = {
+  field: string;
+  order: string;
+};
+
+type HeadersAndQueryData = {
+  headers: Headers;
+} & { [x: string]: string };
+
+type GetEventsToModerateArguments = HeadersAndQueryData;
+
+const getEventsToModerate = async ({
+  headers,
+  ...queryData
+}: GetEventsToModerateArguments) => {
   const res = await fetchFromApi({
     path: '/events/',
     searchParams: {
@@ -18,10 +42,17 @@ const getEventsToModerate = async ({ headers, ...queryData }) => {
       headers,
     },
   });
+  if (isErrorObject(res)) {
+    // eslint-disable-next-line no-console
+    return console.error(res);
+  }
   return await res.json();
 };
 
-const useGetEventsToModerate = (searchQuery, configuration = {}) =>
+const useGetEventsToModerate = (
+  searchQuery: string,
+  configuration: UseQueryOptions = {},
+) =>
   useAuthenticatedQuery({
     queryKey: ['events'],
     queryFn: getEventsToModerate,
@@ -37,17 +68,33 @@ const useGetEventsToModerate = (searchQuery, configuration = {}) =>
     ...configuration,
   });
 
-const getEventById = async ({ headers, id }) => {
+type GetEventByIdArguments = {
+  headers: Headers;
+  id: string;
+};
+
+const getEventById = async ({ headers, id }: GetEventByIdArguments) => {
   const res = await fetchFromApi({
     path: `/event/${id.toString()}`,
     options: {
       headers,
     },
   });
+  if (isErrorObject(res)) {
+    // eslint-disable-next-line no-console
+    return console.error(res);
+  }
   return await res.json();
 };
 
-const useGetEventById = ({ req, queryClient, id }, configuration = {}) =>
+type UseGetEventsByIdArguments = ServerSideArguments & {
+  id: string;
+};
+
+const useGetEventById = (
+  { req, queryClient, id }: UseGetEventsByIdArguments,
+  configuration: UseQueryOptions = {},
+) =>
   useAuthenticatedQuery({
     req,
     queryClient,
@@ -58,7 +105,15 @@ const useGetEventById = ({ req, queryClient, id }, configuration = {}) =>
     ...configuration,
   });
 
-const useGetEventsByIds = ({ req, queryClient, ids = [] }) => {
+type UseGetEventsByIdsArguments = ServerSideArguments & {
+  ids: string[];
+};
+
+const useGetEventsByIds = ({
+  req,
+  queryClient,
+  ids = [],
+}: UseGetEventsByIdsArguments) => {
   const options = ids.map((id) => ({
     queryKey: ['events'],
     queryFn: getEventById,
@@ -69,7 +124,12 @@ const useGetEventsByIds = ({ req, queryClient, ids = [] }) => {
   return useAuthenticatedQueries({ req, queryClient, options });
 };
 
-const getEventsByCreator = async ({ headers, ...queryData }) => {
+type GetEventsByCreatorArguments = HeadersAndQueryData;
+
+const getEventsByCreator = async ({
+  headers,
+  ...queryData
+}: GetEventsByCreatorArguments) => {
   const res = await fetchFromApi({
     path: '/events/',
     searchParams: {
@@ -79,7 +139,18 @@ const getEventsByCreator = async ({ headers, ...queryData }) => {
       headers,
     },
   });
+  if (isErrorObject(res)) {
+    // eslint-disable-next-line no-console
+    return console.error(res);
+  }
   return await res.json();
+};
+
+type UseGetEventsByCreatorArguments = {
+  creatorId: string;
+  start: number;
+  limit: number;
+  sortOptions: SortOptions;
 };
 
 const useGetEventsByCreator = (
@@ -87,9 +158,9 @@ const useGetEventsByCreator = (
     creatorId,
     start = 0,
     limit = 50,
-    sort = { field: 'modified', order: 'desc' },
-  },
-  configuration = {},
+    sortOptions = { field: 'modified', order: 'desc' },
+  }: UseGetEventsByCreatorArguments,
+  configuration: UseQueryOptions = {},
 ) =>
   useAuthenticatedQuery({
     queryKey: ['events'],
@@ -101,7 +172,7 @@ const useGetEventsByCreator = (
       limit,
       start,
       workflowStatus: 'DRAFT,READY_FOR_VALIDATION,APPROVED,REJECTED',
-      [`sort[${sort.field}}]`]: `${sort.order}`,
+      [`sort[${sortOptions.field}}]`]: `${sortOptions.order}`,
     },
     configuration: {
       enabled: !!creatorId,
@@ -109,7 +180,19 @@ const useGetEventsByCreator = (
     },
   });
 
-const getCalendarSummary = async ({ headers, id, format, locale }) => {
+type GetCalendarSummaryArguments = {
+  headers: Headers;
+  id: string;
+  format: string;
+  locale: string;
+};
+
+const getCalendarSummary = async ({
+  headers,
+  id,
+  format,
+  locale,
+}: GetCalendarSummaryArguments) => {
   const res = await fetchFromApi({
     path: `/events/${id.toString()}/calsum`,
     searchParams: {
@@ -120,12 +203,22 @@ const getCalendarSummary = async ({ headers, id, format, locale }) => {
       headers,
     },
   });
+  if (isErrorObject(res)) {
+    // eslint-disable-next-line no-console
+    return console.error(res);
+  }
   return res.text();
 };
 
+type UseGetCalendarSummaryArguments = {
+  id: string;
+  format: string;
+  locale: string;
+};
+
 const useGetCalendarSummary = (
-  { id, locale, format = 'lg' },
-  configuration = {},
+  { id, locale, format = 'lg' }: UseGetCalendarSummaryArguments,
+  configuration: UseQueryOptions = {},
 ) =>
   useAuthenticatedQuery({
     queryKey: ['events'],
@@ -141,7 +234,19 @@ const useGetCalendarSummary = (
     },
   });
 
-const changeStatus = async ({ headers, id, type, reason }) =>
+type ChangeStatusArguments = {
+  headers: Headers;
+  id: string;
+  type: string;
+  reason: { [key: string]: string };
+};
+
+const changeStatus = async ({
+  headers,
+  id,
+  type,
+  reason,
+}: ChangeStatusArguments) =>
   fetchFromApi({
     path: `/events/${id.toString()}/status`,
     options: {
@@ -151,8 +256,17 @@ const changeStatus = async ({ headers, id, type, reason }) =>
     },
   });
 
-const useChangeStatus = (configuration = {}) =>
+const useChangeStatus = (configuration: UseQueryOptions = {}) =>
   useAuthenticatedMutation({ mutationFn: changeStatus, ...configuration });
+
+type ChangeStatusSubEventsArguments = {
+  headers: Headers;
+  eventId: string;
+  subEventIds: string[];
+  subEvents: unknown[];
+  type: string;
+  reason: { [key: string]: string };
+};
 
 const changeStatusSubEvents = async ({
   headers,
@@ -161,7 +275,7 @@ const changeStatusSubEvents = async ({
   subEvents = [],
   type,
   reason,
-}) =>
+}: ChangeStatusSubEventsArguments) =>
   fetchFromApi({
     path: `/events/${eventId.toString()}/subEvents`,
     options: {
@@ -183,7 +297,7 @@ const changeStatusSubEvents = async ({
     },
   });
 
-const useChangeStatusSubEvents = (configuration = {}) =>
+const useChangeStatusSubEvents = (configuration: UseQueryOptions = {}) =>
   useAuthenticatedMutation({
     mutationFn: changeStatusSubEvents,
     ...configuration,
