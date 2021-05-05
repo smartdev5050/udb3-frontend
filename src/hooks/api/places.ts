@@ -1,5 +1,4 @@
-import type { NextApiRequest } from 'next';
-import type { QueryClient, UseQueryOptions } from 'react-query';
+import type { UseQueryOptions } from 'react-query';
 
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 
@@ -7,18 +6,9 @@ import {
   useAuthenticatedMutation,
   useAuthenticatedQuery,
 } from './authenticated-query';
-
-type ServerSideArguments = {
-  req?: NextApiRequest;
-  queryClient?: QueryClient;
-};
-
-type SortOptions = {
-  field: string;
-  order: string;
-};
-
-type Headers = Record<string, string>;
+import type { Headers } from './types/Headers';
+import type { ServerSideArguments } from './types/ServerSideArguments';
+import type { SortOptions } from './types/SortOptions';
 
 type HeadersAndQueryData = {
   headers: Headers;

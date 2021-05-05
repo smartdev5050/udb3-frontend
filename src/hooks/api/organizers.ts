@@ -1,15 +1,11 @@
-import type { NextApiRequest } from 'next';
-import type { QueryClient, UseQueryOptions } from 'react-query';
+import type { UseQueryOptions } from 'react-query';
 
 import { useAuthenticatedQuery } from '@/hooks/api/authenticated-query';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 
-type ServerSideArguments = {
-  req?: NextApiRequest;
-  queryClient?: QueryClient;
-};
-
-type Headers = Record<string, string>;
+import type { Headers } from './types/Headers';
+import type { ServerSideArguments } from './types/ServerSideArguments';
+import type { SortOptions } from './types/SortOptions';
 
 type HeadersAndQueryData = {
   headers: Headers;
@@ -19,12 +15,6 @@ type GetOrganizerByIdArguments = {
   headers: Headers;
   id: string;
 };
-
-type SortOptions = {
-  field: string;
-  order: string;
-};
-
 const getOrganizerById = async ({ headers, id }: GetOrganizerByIdArguments) => {
   const res = await fetchFromApi({
     path: `/organizers/${id.toString()}`,
