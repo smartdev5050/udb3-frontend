@@ -91,7 +91,7 @@ const useGetOrganizersByCreator = (
       limit,
       start,
       embed: true,
-      [`sort[${sortOptions.field}}]`]: `${sortOptions.order}`,
+      [`sort[${sortOptions.field}]`]: `${sortOptions.order}`,
     },
     configuration: {
       enabled: !!(creator.id && creator.email),
