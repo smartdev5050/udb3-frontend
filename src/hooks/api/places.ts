@@ -75,9 +75,9 @@ const getPlacesByCreator = async ({
 
 type UseGetPlacesByCreatorArguments = {
   creator: { id: string; email: string };
-  start: number;
-  limit: number;
-  sortOptions: SortOptions;
+  start?: number;
+  limit?: number;
+  sortOptions?: SortOptions;
 };
 
 const useGetPlacesByCreator = (

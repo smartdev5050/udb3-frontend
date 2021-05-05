@@ -140,9 +140,9 @@ const getEventsByCreator = async ({
 
 type UseGetEventsByCreatorArguments = {
   creator: { id: string; email: string };
-  start: number;
-  limit: number;
-  sortOptions: SortOptions;
+  start?: number;
+  limit?: number;
+  sortOptions?: SortOptions;
 };
 
 const useGetEventsByCreator = (

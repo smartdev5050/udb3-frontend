@@ -69,9 +69,9 @@ const getOrganizersByCreator = async ({
 
 type UseGetOrganizersByCreator = {
   creator: { id: string; email: string };
-  start: number;
-  limit: number;
-  sortOptions: SortOptions;
+  start?: number;
+  limit?: number;
+  sortOptions?: SortOptions;
 };
 
 const useGetOrganizersByCreator = (
