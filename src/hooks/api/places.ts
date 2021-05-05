@@ -75,7 +75,7 @@ const getPlacesByCreator = async ({
 };
 
 type UseGetPlacesByCreatorArguments = {
-  creatorId: string;
+  creator: { id: string; email: string };
   start: number;
   limit: number;
   sortOptions: SortOptions;
@@ -83,7 +83,7 @@ type UseGetPlacesByCreatorArguments = {
 
 const useGetPlacesByCreator = (
   {
-    creatorId,
+    creator,
     start = 0,
     limit = 50,
     sortOptions = { field: 'modified', order: 'desc' },
@@ -94,7 +94,7 @@ const useGetPlacesByCreator = (
     queryKey: ['places'],
     queryFn: getPlacesByCreator,
     queryArguments: {
-      creator: creatorId,
+      q: `creator:(${creator.id}OR${creator.email})`,
       disableDefaultFilters: true,
       embed: true,
       limit,
@@ -103,7 +103,7 @@ const useGetPlacesByCreator = (
       [`sort[${sortOptions.field}}]`]: `${sortOptions.order}`,
     },
     configuration: {
-      enabled: !!creatorId,
+      enabled: !!(creator.id && creator.email),
       ...configuration,
     },
   });

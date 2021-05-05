@@ -140,7 +140,7 @@ const getEventsByCreator = async ({
 };
 
 type UseGetEventsByCreatorArguments = {
-  creatorId: string;
+  creator: { id: string; email: string };
   start: number;
   limit: number;
   sortOptions: SortOptions;
@@ -148,7 +148,7 @@ type UseGetEventsByCreatorArguments = {
 
 const useGetEventsByCreator = (
   {
-    creatorId,
+    creator,
     start = 0,
     limit = 50,
     sortOptions = { field: 'modified', order: 'desc' },
@@ -159,7 +159,7 @@ const useGetEventsByCreator = (
     queryKey: ['events'],
     queryFn: getEventsByCreator,
     queryArguments: {
-      creator: creatorId,
+      q: `creator:(${creator.id}OR${creator.email})`,
       disableDefaultFilters: true,
       embed: true,
       limit,
@@ -168,7 +168,7 @@ const useGetEventsByCreator = (
       [`sort[${sortOptions.field}}]`]: `${sortOptions.order}`,
     },
     configuration: {
-      enabled: !!creatorId,
+      enabled: !!(creator.id && creator.email),
       ...configuration,
     },
   });

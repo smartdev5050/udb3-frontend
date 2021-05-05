@@ -68,7 +68,7 @@ const getOrganizersByCreator = async ({
 };
 
 type UseGetOrganizersByCreator = {
-  creatorId: string;
+  creator: { id: string; email: string };
   start: number;
   limit: number;
   sortOptions: SortOptions;
@@ -76,7 +76,7 @@ type UseGetOrganizersByCreator = {
 
 const useGetOrganizersByCreator = (
   {
-    creatorId,
+    creator,
     limit = 50,
     start = 0,
     sortOptions = { field: 'modified', order: 'desc' },
@@ -87,13 +87,16 @@ const useGetOrganizersByCreator = (
     queryKey: ['organizers'],
     queryFn: getOrganizersByCreator,
     queryArguments: {
-      creator: creatorId,
+      q: `creator:(${creator.id}OR${creator.email})`,
       limit,
       start,
       embed: true,
       [`sort[${sortOptions.field}}]`]: `${sortOptions.order}`,
     },
-    ...configuration,
+    configuration: {
+      enabled: !!(creator.id && creator.email),
+      ...configuration,
+    },
   });
 
 export { useGetOrganizerById, useGetOrganizersByCreator };
