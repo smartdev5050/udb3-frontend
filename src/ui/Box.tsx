@@ -42,9 +42,14 @@ type TitleProps = {
   size?: 1 | 2;
 };
 
+type ListProps = {
+  variant?: string;
+};
 type BoxProps = GeneralProps &
   InlineProps &
   TitleProps & {
+  ListProps &
+  ListItemProps & {
     alignItems?: UIProp<string>;
     margin?: UIProp<number>;
     marginTop?: UIProp<number>;

@@ -1,15 +1,22 @@
-import PropTypes from 'prop-types';
 import { Children } from 'react';
 
-import { getInlineProps, Inline, inlinePropTypes } from './Inline';
-import { getStackProps, Stack, stackPropTypes } from './Stack';
+import type { Values } from '@/types/Values';
+
+import type { InlineProps } from './Inline';
+import { getInlineProps, Inline } from './Inline';
+import type { StackProps } from './Stack';
+import { getStackProps, Stack } from './Stack';
 
 const ListVariants = {
   ORDERED: 'ordered',
   UNORDERED: 'unordered',
+} as const;
+
+type ListProps = StackProps & {
+  variant: Values<typeof ListVariants>;
 };
 
-const List = ({ children, className, variant, ...props }) => (
+const List = ({ children, className, variant, ...props }: ListProps) => (
   <Stack
     forwardedAs={variant === ListVariants.ORDERED ? 'ol' : 'ul'}
     className={className}
@@ -20,17 +27,20 @@ const List = ({ children, className, variant, ...props }) => (
   </Stack>
 );
 
-List.propTypes = {
-  ...stackPropTypes,
-  className: PropTypes.string,
-  children: PropTypes.node,
-};
-
 List.defaultProps = {
   variant: ListVariants.UNORDERED,
 };
 
-const ListItem = ({ children, className, onClick, ...props }) => {
+type ListItemProps = InlineProps & {
+  onClick?: (...args: unknown[]) => unknown;
+};
+
+const ListItem = ({
+  children,
+  className,
+  onClick,
+  ...props
+}: ListItemProps) => {
   const parsedChildren =
     Children.count(children) === 1 ? <>{children}</> : children;
 
@@ -44,13 +54,6 @@ const ListItem = ({ children, className, onClick, ...props }) => {
       {parsedChildren}
     </Inline>
   );
-};
-
-ListItem.propTypes = {
-  ...inlinePropTypes,
-  className: PropTypes.string,
-  children: PropTypes.node,
-  onClick: PropTypes.func,
 };
 
 List.Item = ListItem;
