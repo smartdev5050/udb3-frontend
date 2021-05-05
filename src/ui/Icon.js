@@ -28,7 +28,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 
-import { Box, boxPropTypes, getBoxProps, parseDimension } from './Box';
+import { Box, getBoxProps, parseDimension } from './Box';
 
 const Icons = {
   HOME: 'home',
@@ -104,7 +104,6 @@ const Icon = ({ name, width, height, className, ...props }) => {
 };
 
 Icon.propTypes = {
-  ...boxPropTypes,
   name: PropTypes.string.isRequired,
   className: PropTypes.string,
 };

@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import { Children } from 'react';
 
-import { getInlineProps, Inline, inlinePropTypes } from './Inline';
-import { getStackProps, Stack, stackPropTypes } from './Stack';
+import { getInlineProps, Inline } from './Inline';
+import { getStackProps, Stack } from './Stack';
 
 const ListVariants = {
   ORDERED: 'ordered',
@@ -21,7 +21,6 @@ const List = ({ children, className, variant, ...props }) => (
 );
 
 List.propTypes = {
-  ...stackPropTypes,
   className: PropTypes.string,
   children: PropTypes.node,
 };
@@ -47,7 +46,6 @@ const ListItem = ({ children, className, onClick, ...props }) => {
 };
 
 ListItem.propTypes = {
-  ...inlinePropTypes,
   className: PropTypes.string,
   children: PropTypes.node,
   onClick: PropTypes.func,

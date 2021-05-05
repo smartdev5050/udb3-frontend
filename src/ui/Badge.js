@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Badge as BootstrapBadge } from 'react-bootstrap';
 
-import { boxPropTypes, getBoxProps } from './Box';
+import { getBoxProps } from './Box';
 import { Text } from './Text';
 
 const BadgeVariants = {
@@ -25,7 +25,6 @@ const Badge = ({ children, className, variant, ...props }) => {
 };
 
 Badge.propTypes = {
-  ...boxPropTypes,
   className: PropTypes.string,
   children: PropTypes.node,
   variant: PropTypes.string,

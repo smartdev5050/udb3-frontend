@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import { Box, boxPropTypes, getBoxProps } from './Box';
+import { Box, getBoxProps } from './Box';
 import { getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme('text');
@@ -24,7 +24,6 @@ const Text = ({ as, children, className, variant, ...props }) => {
 };
 
 Text.propTypes = {
-  ...boxPropTypes,
   as: PropTypes.string,
   children: PropTypes.node,
   className: PropTypes.string,

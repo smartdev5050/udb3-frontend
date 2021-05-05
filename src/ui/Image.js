@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import { Box, boxPropTypes, getBoxProps } from './Box';
+import { Box, getBoxProps } from './Box';
 
 const Image = ({ src, alt, className, ...props }) => (
   <Box
@@ -13,7 +13,6 @@ const Image = ({ src, alt, className, ...props }) => (
 );
 
 Image.propTypes = {
-  ...boxPropTypes,
   src: PropTypes.string,
   alt: PropTypes.string,
   className: PropTypes.string,

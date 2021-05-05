@@ -6,7 +6,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { css, keyframes } from 'styled-components';
 
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
-import { Box, boxPropTypes } from '@/ui/Box';
+import { Box } from '@/ui/Box';
 import { Button, ButtonSizes, ButtonVariants } from '@/ui/Button';
 import { Image } from '@/ui/Image';
 import { Inline } from '@/ui/Inline';
@@ -28,13 +28,9 @@ const Svg = (props) => (
 );
 
 const Group = (props) => <Box as="g" fill="white" {...props} />;
-Group.propTypes = {
-  ...boxPropTypes,
-};
+Group.propTypes = {};
 const Path = (props) => <Box as="path" {...props} />;
-Path.propTypes = {
-  ...boxPropTypes,
-};
+Path.propTypes = {};
 
 const Animation = (props) => {
   const draw = keyframes`

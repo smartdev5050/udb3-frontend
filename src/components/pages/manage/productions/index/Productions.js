@@ -6,7 +6,7 @@ import { List } from '@/ui/List';
 import { Pagination } from '@/ui/Pagination';
 import { Panel } from '@/ui/Panel';
 import { Spinner } from '@/ui/Spinner';
-import { getStackProps, Stack, stackPropTypes } from '@/ui/Stack';
+import { getStackProps, Stack } from '@/ui/Stack';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
@@ -82,7 +82,6 @@ const Productions = ({
 };
 
 Productions.propTypes = {
-  ...stackPropTypes,
   productions: PropTypes.array,
   currentPage: PropTypes.number,
   totalItems: PropTypes.number,

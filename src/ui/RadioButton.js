@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import { Box, boxPropTypes, getBoxProps } from './Box';
+import { Box, getBoxProps } from './Box';
 
 const RadioButton = ({
   id,
@@ -40,7 +40,6 @@ const radioButtonPropTypes = {
 };
 
 RadioButton.propTypes = {
-  ...boxPropTypes,
   ...radioButtonPropTypes,
 };
 

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import { Box, boxPropTypes, getBoxProps } from './Box';
+import { Box, getBoxProps } from './Box';
 
 const Checkbox = ({
   id,
@@ -27,7 +27,6 @@ const Checkbox = ({
 );
 
 Checkbox.propTypes = {
-  ...boxPropTypes,
   className: PropTypes.string,
   id: PropTypes.string.isRequired,
   name: PropTypes.string,

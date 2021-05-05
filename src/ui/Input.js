@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Form } from 'react-bootstrap';
 
-import { Box, boxPropTypes, getBoxProps } from './Box';
+import { Box, getBoxProps } from './Box';
 
 const BaseInput = (props) => <Box as="input" {...props} />;
 
@@ -37,7 +37,6 @@ const inputPropTypes = {
 };
 
 Input.propTypes = {
-  ...boxPropTypes,
   ...inputPropTypes,
 };
 
