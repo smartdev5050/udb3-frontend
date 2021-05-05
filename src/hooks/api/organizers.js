@@ -1,5 +1,5 @@
-import { fetchFromApi } from '@/utils/fetchFromApi';
 import { useAuthenticatedQuery } from '@/hooks/api/authenticated-query';
+import { fetchFromApi } from '@/utils/fetchFromApi';
 
 const getOrganizerById = async ({ headers, id }) => {
   const res = await fetchFromApi({

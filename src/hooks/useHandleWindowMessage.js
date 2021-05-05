@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+
 import { useIsClient } from './useIsClient';
 
 const WindowMessageSources = {

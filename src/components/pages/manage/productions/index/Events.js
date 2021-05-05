@@ -1,27 +1,25 @@
-import { useMemo, useState } from 'react';
-
 import PropTypes from 'prop-types';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { List } from '@/ui/List';
-import { getStackProps, Stack, stackPropTypes } from '@/ui/Stack';
-import { Title } from '@/ui/Title';
-import { CheckboxWithLabel } from '@/ui/CheckboxWithLabel';
-import { Button, ButtonVariants } from '@/ui/Button';
-import { Icon, Icons } from '@/ui/Icon';
-import { Breakpoints, getValueFromTheme } from '@/ui/theme';
-import { Panel } from '@/ui/Panel';
-import { getInlineProps, Inline, inlinePropTypes } from '@/ui/Inline';
-import { Spinner } from '@/ui/Spinner';
-import { Alert, AlertVariants } from '@/ui/Alert';
-import { Input } from '@/ui/Input';
-import { DetailTable } from '@/ui/DetailTable';
-import { parseSpacing } from '@/ui/Box';
-import { Text } from '@/ui/Text';
-
+import { CalendarType } from '@/constants/CalendarType';
 import { useGetCalendarSummary } from '@/hooks/api/events';
 import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
-import { CalendarType } from '@/constants/CalendarType';
+import { Alert, AlertVariants } from '@/ui/Alert';
+import { parseSpacing } from '@/ui/Box';
+import { Button, ButtonVariants } from '@/ui/Button';
+import { CheckboxWithLabel } from '@/ui/CheckboxWithLabel';
+import { DetailTable } from '@/ui/DetailTable';
+import { Icon, Icons } from '@/ui/Icon';
+import { getInlineProps, Inline, inlinePropTypes } from '@/ui/Inline';
+import { Input } from '@/ui/Input';
+import { List } from '@/ui/List';
+import { Panel } from '@/ui/Panel';
+import { Spinner } from '@/ui/Spinner';
+import { getStackProps, Stack, stackPropTypes } from '@/ui/Stack';
+import { Text } from '@/ui/Text';
+import { Breakpoints, getValueFromTheme } from '@/ui/theme';
+import { Title } from '@/ui/Title';
 
 const getValue = getValueFromTheme('eventItem');
 

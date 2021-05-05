@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+
 import { Box, parseSpacing } from '@/ui/Box';
 import { Icon, Icons } from '@/ui/Icon';
 import { Image } from '@/ui/Image';
@@ -8,9 +9,9 @@ import { Link, LinkVariants } from '@/ui/Link';
 import { List } from '@/ui/List';
 import { Modal } from '@/ui/Modal';
 import { Stack } from '@/ui/Stack';
+import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
-import { Text } from '@/ui/Text';
 
 const AnnouncementStatus = {
   ACTIVE: 'active',

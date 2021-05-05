@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
-import { getValueFromTheme } from './theme';
-import { Stack, stackPropTypes, getStackProps } from './Stack';
 import { Children } from 'react';
+
+import { getStackProps, Stack, stackPropTypes } from './Stack';
+import { getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme('panel');
 

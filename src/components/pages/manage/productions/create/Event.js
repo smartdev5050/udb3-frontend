@@ -1,9 +1,11 @@
+import truncate from 'lodash/truncate';
+import { PropTypes } from 'prop-types';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PropTypes } from 'prop-types';
-import truncate from 'lodash/truncate';
 import stripHTML from 'string-strip-html';
 
+import { CalendarType } from '@/constants/CalendarType';
+import { useGetCalendarSummary } from '@/hooks/api/events';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Card } from '@/ui/Card';
 import { Image } from '@/ui/Image';
@@ -11,9 +13,6 @@ import { Inline } from '@/ui/Inline';
 import { Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { Title } from '@/ui/Title';
-
-import { useGetCalendarSummary } from '@/hooks/api/events';
-import { CalendarType } from '@/constants/CalendarType';
 
 const Event = ({
   terms,

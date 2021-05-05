@@ -1,8 +1,10 @@
-import { Tab as BootstrapTab, Tabs as BootstrapTabs } from 'react-bootstrap';
-import { getValueFromTheme } from './theme';
 import PropTypes from 'prop-types';
 import { Children } from 'react';
+import { Tab as BootstrapTab, Tabs as BootstrapTabs } from 'react-bootstrap';
+
 import { parseSpacing } from '@/ui/Box';
+
+import { getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme(`tabs`);
 
@@ -14,6 +16,7 @@ const Tabs = ({
 }) => {
   const children = Children.toArray(rawChildren).filter((child) => {
     if (child.type !== Tab) {
+      // eslint-disable-next-line no-console
       console.error(
         'Child of type',
         child.type.name,

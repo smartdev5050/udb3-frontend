@@ -1,11 +1,12 @@
+import { forwardRef } from 'react';
+
 import { Label, LabelVariants } from './Label';
+import { getStackProps, Stack, stackPropTypes } from './Stack';
 import {
   Typeahead,
   typeaheadDefaultProps,
   typeaheadPropTypes,
 } from './Typeahead';
-import { getStackProps, Stack, stackPropTypes } from './Stack';
-import { forwardRef } from 'react';
 
 const TypeaheadWithLabel = forwardRef(
   (

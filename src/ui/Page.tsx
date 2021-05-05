@@ -1,19 +1,30 @@
-import PropTypes from 'prop-types';
-import { getStackProps, Stack, stackPropTypes } from './Stack';
-import { getValueFromTheme } from './theme';
-
-import { Title } from './Title';
-import { getInlineProps, Inline, inlinePropTypes } from './Inline';
+import type { ReactNode } from 'react';
 import { Children } from 'react';
+
 import { getBoxProps } from './Box';
+import type { InlineProps } from './Inline';
+import { getInlineProps, Inline } from './Inline';
+import type { StackProps } from './Stack';
+import { getStackProps, Stack } from './Stack';
+import { getValueFromTheme } from './theme';
+import type { TitleProps } from './Title';
+import { Title } from './Title';
 
 const getValueForPage = getValueFromTheme('page');
 
-const Page = ({ children: rawChildren, className, ...props }) => {
+type Props = StackProps & {
+  children: ReactNode;
+  className?: string;
+};
+
+const Page = ({ children: rawChildren, className, ...props }: Props) => {
   const children = Children.toArray(rawChildren);
 
+  // @ts-expect-error
   const title = children.find((child) => child.type === PageTitle);
+  // @ts-expect-error
   const actions = children.find((child) => child.type === PageActions);
+  // @ts-expect-error
   const content = children.find((child) => child.type === PageContent);
 
   return (
@@ -50,7 +61,7 @@ const Page = ({ children: rawChildren, className, ...props }) => {
 
 const getValueForTitle = getValueFromTheme('pageTitle');
 
-const PageTitle = ({ children, className, ...props }) => (
+const PageTitle = ({ children, className, ...props }: TitleProps) => (
   <Title
     size={1}
     className={className}
@@ -62,44 +73,24 @@ const PageTitle = ({ children, className, ...props }) => (
   </Title>
 );
 
-PageTitle.propTypes = {
-  ...inlinePropTypes,
-  className: PropTypes.string,
-  children: PropTypes.node,
-};
+type PageActionsProps = InlineProps;
 
-const PageActions = ({ children, className, ...props }) => (
+const PageActions = ({ children, className, ...props }: PageActionsProps) => (
   <Inline className={className} spacing={3} {...getInlineProps(props)}>
     {children}
   </Inline>
 );
 
-PageActions.propTypes = {
-  ...inlinePropTypes,
-  className: PropTypes.string,
-  children: PropTypes.node,
-};
+type PageContentProps = StackProps;
 
-const PageContent = ({ children, className, ...props }) => (
+const PageContent = ({ children, className, ...props }: PageContentProps) => (
   <Stack className={className} spacing={3} {...getStackProps(props)}>
     {children}
   </Stack>
 );
 
-PageContent.propTypes = {
-  ...inlinePropTypes,
-  className: PropTypes.string,
-  children: PropTypes.node,
-};
-
 Page.Title = PageTitle;
 Page.Actions = PageActions;
 Page.Content = PageContent;
-
-Page.propTypes = {
-  ...stackPropTypes,
-  children: PropTypes.node,
-  className: PropTypes.string,
-};
 
 export { Page };

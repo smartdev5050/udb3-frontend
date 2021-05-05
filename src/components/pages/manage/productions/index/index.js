@@ -1,26 +1,27 @@
+import throttle from 'lodash/throttle';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Page } from '@/ui/Page';
-import { InputWithLabel } from '@/ui/InputWithLabel';
-import { Inline } from '@/ui/Inline';
+import { useQueryClient } from 'react-query';
+import { dehydrate } from 'react-query/hydration';
+
+import { QueryStatus } from '@/hooks/api/authenticated-query';
+import { useGetEventsByIds } from '@/hooks/api/events';
 import {
   useAddEventById,
   useDeleteEventsByIds,
   useGetProductions,
 } from '@/hooks/api/productions';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Inline } from '@/ui/Inline';
+import { InputWithLabel } from '@/ui/InputWithLabel';
 import { Link } from '@/ui/Link';
-import { useGetEventsByIds } from '@/hooks/api/events';
-import { parseOfferId } from '@/utils/parseOfferId';
-import { QueryStatus } from '@/hooks/api/authenticated-query';
-
+import { Page } from '@/ui/Page';
 import { Text } from '@/ui/Text';
-import throttle from 'lodash/throttle';
-import { useQueryClient } from 'react-query';
+import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
+import { parseOfferId } from '@/utils/parseOfferId';
+
 import { DeleteModal } from './DeleteModal';
 import { Events } from './Events';
 import { Productions } from './Productions';
-import { dehydrate } from 'react-query/hydration';
-import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
 const productionsPerPage = 15;
 

@@ -1,5 +1,5 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
-import { Text } from './Text.js';
+import { Text } from './Text';
 
 <Meta title="Components/Text" component={Text} />
 
@@ -10,3 +10,15 @@ import { Text } from './Text.js';
 </Canvas>
 
 <ArgsTable story="Default" />
+
+<Canvas>
+  <Story name="Muted" args={{ as: 'span' }}>
+    {(args) => (
+      <Text {...args} variant={TextVariants.MUTED}>
+        muted text
+      </Text>
+    )}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Muted" />

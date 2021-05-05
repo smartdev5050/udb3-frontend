@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
-import { QuestionModal } from './Modal/QuestionModal';
+
 import { ContentModal } from './Modal/ContentModal';
+import { QuestionModal } from './Modal/QuestionModal';
 
 const ModalVariants = {
   QUESTION: 'question',
@@ -43,4 +44,4 @@ Modal.defaultProps = {
   variant: ModalVariants.CONTENT,
 };
 
-export { Modal, ModalVariants, ModalSizes };
+export { Modal, ModalSizes, ModalVariants };

@@ -1,6 +1,10 @@
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
+import { ReasonAndTypeForm } from '@/components/ReasonAndTypeForm';
+import { OfferStatus } from '@/constants/OfferStatus';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Button, ButtonVariants } from '@/ui/Button';
@@ -9,10 +13,6 @@ import { Page } from '@/ui/Page';
 import { Spinner } from '@/ui/Spinner';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { parseOfferType } from '@/utils/parseOfferType';
-import { useTranslation } from 'react-i18next';
-import { ReasonAndTypeForm } from '@/components/ReasonAndTypeForm';
-
-import { OfferStatus } from '@/constants/OfferStatus';
 
 const StatusPageSingle = ({ offer, error, useChangeStatus }) => {
   const { t, i18n } = useTranslation();

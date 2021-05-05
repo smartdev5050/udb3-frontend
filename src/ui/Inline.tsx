@@ -1,12 +1,23 @@
-import styled, { css } from 'styled-components';
-import { Box, boxPropTypes, boxProps, parseProperty } from './Box';
-import PropTypes from 'prop-types';
-import { Children, cloneElement, forwardRef } from 'react';
 import pick from 'lodash/pick';
-import { Breakpoints } from './theme';
+import { Children, cloneElement, forwardRef } from 'react';
+import styled, { css } from 'styled-components';
+
 import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
 
-const parseStackOnProperty = () => ({ stackOn }) => {
+import type { BoxProps, UIProp, UnknownProps } from './Box';
+import { Box, boxProps, boxPropTypes, parseProperty } from './Box';
+import type { BreakpointValues } from './theme';
+
+type InlineProps = {
+  spacing?: UIProp<number>;
+  alignItems?: UIProp<string>;
+  justifyContent?: UIProp<string>;
+  stackOn?: BreakpointValues;
+};
+
+type Props = BoxProps & InlineProps;
+
+const parseStackOnProperty = () => ({ stackOn }: Props) => {
   if (!stackOn) {
     return;
   }
@@ -31,7 +42,7 @@ const StyledBox = styled(Box)`
   ${boxProps};
 `;
 
-const Inline = forwardRef(
+const Inline = forwardRef<HTMLDivElement, Props>(
   ({ spacing, className, children, as, stackOn, ...props }, ref) => {
     const shouldCollapse = useMatchBreakpoint(stackOn);
 
@@ -45,7 +56,9 @@ const Inline = forwardRef(
     const clonedChildren = Children.map(notNullChildren, (child, i) => {
       const isLastItem = i === notNullChildren.length - 1;
 
+      // @ts-expect-error
       return cloneElement(child, {
+        // @ts-expect-error
         ...child.props,
         ...(!isLastItem ? { [marginProp]: spacing } : {}),
       });
@@ -65,25 +78,14 @@ const Inline = forwardRef(
   },
 );
 
-const inlinePropTypes = {
-  ...boxPropTypes,
-  spacing: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
-  alignItems: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  justifyContent: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  stackOn: PropTypes.oneOf(Object.values(Breakpoints)),
-};
+const inlinePropTypes = ['spacing', 'alignItems', 'justifyContent', 'stackOn'];
 
-const getInlineProps = (props) => pick(props, Object.keys(inlinePropTypes));
-
-Inline.propTypes = {
-  ...inlinePropTypes,
-  as: PropTypes.string,
-  className: PropTypes.string,
-  children: PropTypes.node,
-};
+const getInlineProps = (props: UnknownProps) =>
+  pick(props, [...boxPropTypes, ...inlinePropTypes]);
 
 Inline.defaultProps = {
   as: 'section',
 };
 
-export { Inline, getInlineProps, inlinePropTypes, inlineProps };
+export { getInlineProps, Inline, inlineProps, inlinePropTypes };
+export type { Props as InlineProps };

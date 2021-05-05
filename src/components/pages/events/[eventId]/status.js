@@ -1,12 +1,13 @@
 import { useRouter } from 'next/router';
-import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
-import { useChangeStatus, useGetEventById } from '@/hooks/api/events';
 import { dehydrate } from 'react-query/hydration';
-import { Spinner } from '@/ui/Spinner';
-import { QueryStatus } from '@/hooks/api/authenticated-query';
+
+import { StatusPageMultiple } from '@/components/StatusPageMultiple';
 import { StatusPageSingle } from '@/components/StatusPageSingle';
 import { CalendarType } from '@/constants/CalendarType';
-import { StatusPageMultiple } from '@/components/StatusPageMultiple';
+import { QueryStatus } from '@/hooks/api/authenticated-query';
+import { useChangeStatus, useGetEventById } from '@/hooks/api/events';
+import { Spinner } from '@/ui/Spinner';
+import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
 const Status = () => {
   const router = useRouter();

@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+
 import { Checkbox } from './Checkbox';
 import { getInlineProps, Inline, inlinePropTypes } from './Inline';
 import { Label } from './Label';

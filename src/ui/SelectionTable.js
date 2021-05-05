@@ -1,15 +1,16 @@
+import uniqueId from 'lodash/uniqueId';
 import PropTypes from 'prop-types';
 import { useLayoutEffect, useMemo } from 'react';
 import { Table as BootstrapTable } from 'react-bootstrap';
-import { useTable, useRowSelect } from 'react-table';
-import { Checkbox } from './Checkbox';
+import { useRowSelect, useTable } from 'react-table';
+
 import { Box, getBoxProps } from './Box';
-import uniqueId from 'lodash/uniqueId';
-import { getValueFromTheme } from './theme';
-import { Inline } from './Inline';
 import { Button, ButtonVariants } from './Button';
-import { Text } from './Text';
+import { Checkbox } from './Checkbox';
+import { Inline } from './Inline';
 import { Stack } from './Stack';
+import { Text } from './Text';
+import { getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme('selectionTable');
 

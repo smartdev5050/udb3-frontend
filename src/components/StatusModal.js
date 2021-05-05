@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Modal, ModalVariants } from '@/ui/Modal';
-import { Stack } from '@/ui/Stack';
+
 import { ReasonAndTypeForm } from '@/components/ReasonAndTypeForm';
-import { OfferType } from '@/constants/OfferType';
-import { Spinner } from '@/ui/Spinner';
 import { OfferStatus } from '@/constants/OfferStatus';
+import { OfferType } from '@/constants/OfferType';
+import { Modal, ModalVariants } from '@/ui/Modal';
+import { Spinner } from '@/ui/Spinner';
+import { Stack } from '@/ui/Stack';
 
 const StatusModal = ({ visible, loading, className, onClose, onConfirm }) => {
   const { t } = useTranslation();

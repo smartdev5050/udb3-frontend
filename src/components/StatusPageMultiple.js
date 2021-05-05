@@ -1,21 +1,23 @@
+import camelCase from 'lodash/camelCase';
 import PropTypes from 'prop-types';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { OfferStatus } from '@/constants/OfferStatus';
+import { QueryStatus } from '@/hooks/api/authenticated-query';
 import { useChangeStatusSubEvents } from '@/hooks/api/events';
-import { formatPeriod } from '@/utils/formatPeriod';
-import { parseOfferId } from '@/utils/parseOfferId';
 import { Alert } from '@/ui/Alert';
+import { Icons } from '@/ui/Icon';
+import { Link, LinkVariants } from '@/ui/Link';
 import { Page } from '@/ui/Page';
 import { SelectionTable } from '@/ui/SelectionTable';
 import { Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
+import { formatPeriod } from '@/utils/formatPeriod';
+import { parseOfferId } from '@/utils/parseOfferId';
+
 import { StatusModal } from './StatusModal';
-import { QueryStatus } from '@/hooks/api/authenticated-query';
-import camelCase from 'lodash/camelCase';
-import { Icons } from '@/ui/Icon';
-import { Link, LinkVariants } from '@/ui/Link';
-import { OfferStatus } from '@/constants/OfferStatus';
 
 const getValue = getValueFromTheme('statusPage');
 

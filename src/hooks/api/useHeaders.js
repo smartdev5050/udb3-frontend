@@ -1,4 +1,5 @@
 import getConfig from 'next/config';
+
 import { useCookiesWithOptions } from '../useCookiesWithOptions';
 
 const createHeaders = (token, extraHeaders) => {
@@ -16,4 +17,4 @@ const useHeaders = (extraHeaders = {}) => {
   return createHeaders(cookies.token, extraHeaders);
 };
 
-export { useHeaders, createHeaders };
+export { createHeaders, useHeaders };

@@ -1,8 +1,8 @@
 const nextConfig = require('../next.config.js');
-const jsonConfig = require('../jsconfig.json');
+const tsConfig = require('../tsconfig.json');
 const path = require('path');
 
-const paths = Object.entries(jsonConfig.compilerOptions.paths).reduce(
+const paths = Object.entries(tsConfig.compilerOptions.paths).reduce(
   (acc, [key, val]) => {
     const parsedPath = val[0].split('/*')[0];
 

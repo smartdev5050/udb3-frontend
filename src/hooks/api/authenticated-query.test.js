@@ -1,12 +1,12 @@
+import { renderHookWithWrapper } from '@/test/utils/renderHookWithWrapper';
+import { mockResponses, setupPage } from '@/test/utils/setupPage';
+import { fetchFromApi } from '@/utils/fetchFromApi';
+
 import {
   getStatusFromResults,
   QueryStatus,
   useAuthenticatedQuery,
 } from './authenticated-query';
-
-import { mockResponses, setupPage } from '@/test/utils/setupPage';
-import { renderHookWithWrapper } from '@/test/utils/renderHookWithWrapper';
-import { fetchFromApi } from '@/utils/fetchFromApi';
 
 const queryFn = async ({ headers, ...queryData }) => {
   const res = await fetchFromApi({

@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react';
 import { detailedDiff } from 'deep-object-diff';
 import pick from 'lodash/pick';
+import { useEffect, useRef } from 'react';
 
 const diff = (oldValue, newValue) => {
   const { added = {}, deleted = {}, updated = {} } = detailedDiff(

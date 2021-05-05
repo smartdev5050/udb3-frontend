@@ -23,14 +23,17 @@ const colors = {
   red5: '#ef1810',
   blue1: '#3e88ab',
   textColor: '#222',
-};
+} as const;
 
 const Breakpoints = {
   XS: 'xs',
   S: 's',
   M: 'm',
   L: 'l',
-};
+} as const;
+
+type Values<T> = T[keyof T];
+type BreakpointValues = Values<typeof Breakpoints>;
 
 const theme = {
   colors,
@@ -79,18 +82,18 @@ const theme = {
       },
       success: {
         color: colors.white,
-        borderColor: colors.green1,
+        borderColor: colors.green2,
         hoverBackgroundColor: colors.green2,
-        hoverBorderColor: colors.green2,
+        hoverBorderColor: colors.green3,
         backgroundColor: colors.green1,
         activeBoxShadow: 'none',
         focusBoxShadow: 'none',
       },
       danger: {
         color: colors.white,
-        borderColor: colors.red1,
+        borderColor: colors.red3,
         hoverBackgroundColor: colors.red3,
-        hoverBorderColor: colors.red3,
+        hoverBorderColor: colors.red4,
         backgroundColor: colors.red1,
         activeBoxShadow: 'none',
         focusBoxShadow: 'none',
@@ -234,10 +237,23 @@ const theme = {
       hoverTabBackgroundColor: colors.grey3,
       borderRadius: 0,
     },
+    dropdown: {
+      activeToggleBoxShadow: 'inset 0 3px 5px rgba(0, 0, 0, 0.125)',
+      menuBorderRadius: 0,
+    },
+    text: {
+      muted: {
+        color: colors.grey5,
+      },
+    },
   },
-};
+} as const;
 
-const getValueFromTheme = (component) => (path) => (props) =>
-  get(props.theme, `components.${component}.${path}`);
+type Theme = typeof theme;
 
-export { theme, getValueFromTheme, Breakpoints };
+const getValueFromTheme = (component: string) => (path: string) => (props: {
+  theme: Theme;
+}) => get(props.theme, `components.${component}.${path}`);
+
+export { Breakpoints, getValueFromTheme, theme };
+export type { BreakpointValues, Theme };

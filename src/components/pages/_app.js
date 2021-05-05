@@ -1,12 +1,6 @@
-import { defaultCookieOptions } from '@/hooks/useCookiesWithOptions';
-import { createCookieName, FeatureFlags } from '@/hooks/useFeatureFlag';
-import i18n from '@/i18n/index';
-import Layout from '@/layouts/index';
-import { GlobalStyle } from '@/styles/GlobalStyle';
-import { ThemeProvider } from '@/ui/ThemeProvider';
-import { initializeSentry } from '@/utils/sentry';
-import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
+
+import { config } from '@fortawesome/fontawesome-svg-core';
 import NextHead from 'next/head';
 import PropTypes from 'prop-types';
 import { cloneElement } from 'react';
@@ -15,6 +9,14 @@ import { I18nextProvider, useTranslation } from 'react-i18next';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { Hydrate } from 'react-query/hydration';
+
+import { defaultCookieOptions } from '@/hooks/useCookiesWithOptions';
+import { createCookieName, FeatureFlags } from '@/hooks/useFeatureFlag';
+import i18n from '@/i18n/index';
+import Layout from '@/layouts/index';
+import { GlobalStyle } from '@/styles/GlobalStyle';
+import { ThemeProvider } from '@/ui/ThemeProvider';
+import { initializeSentry } from '@/utils/sentry';
 
 const cookies = new Cookies();
 

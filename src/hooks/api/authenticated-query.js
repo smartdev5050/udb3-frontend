@@ -2,9 +2,11 @@ import flatten from 'lodash/flatten';
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import { Cookies } from 'react-cookie';
-import { useQuery, useQueries, useMutation } from 'react-query';
-import { isTokenValid } from '@/utils/isTokenValid';
+import { useMutation, useQueries, useQuery } from 'react-query';
+
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
+import { isTokenValid } from '@/utils/isTokenValid';
+
 import { createHeaders, useHeaders } from './useHeaders';
 
 const QueryStatus = {
@@ -247,10 +249,10 @@ const useAuthenticatedQueries = ({
 };
 
 export {
-  useAuthenticatedQuery,
-  useAuthenticatedQueries,
-  useAuthenticatedMutation,
-  useAuthenticatedMutations,
   getStatusFromResults,
   QueryStatus,
+  useAuthenticatedMutation,
+  useAuthenticatedMutations,
+  useAuthenticatedQueries,
+  useAuthenticatedQuery,
 };

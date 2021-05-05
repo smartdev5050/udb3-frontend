@@ -1,16 +1,15 @@
-import { eventWithSubEvents } from '@/test/data/event';
-import { parseOfferId } from '@/utils/parseOfferId';
-import { setupPage } from '@/test/utils/setupPage';
+import { screen, waitFor } from '@testing-library/react/pure';
+import userEvent from '@testing-library/user-event';
 
-import { waitFor, screen } from '@testing-library/react/pure';
+import { OfferStatus } from '@/constants/OfferStatus';
+import nl from '@/i18n/nl.json';
+import { eventWithSubEvents } from '@/test/data/event';
+import { renderPageWithWrapper } from '@/test/utils/renderPageWithWrapper';
+import { setupPage } from '@/test/utils/setupPage';
+import { waitForFetch } from '@/test/utils/waitForFetch';
+import { parseOfferId } from '@/utils/parseOfferId';
 
 import Status from './status';
-import nl from '@/i18n/nl.json';
-
-import { renderPageWithWrapper } from '@/test/utils/renderPageWithWrapper';
-import userEvent from '@testing-library/user-event';
-import { waitForFetch } from '@/test/utils/waitForFetch';
-import { OfferStatus } from '@/constants/OfferStatus';
 
 const setup = async () => {
   const page = setupPage({

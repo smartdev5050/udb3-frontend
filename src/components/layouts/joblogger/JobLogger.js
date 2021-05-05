@@ -1,26 +1,24 @@
-import { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Box } from '@/ui/Box';
-import { Inline } from '@/ui/Inline';
-import { Stack } from '@/ui/Stack';
-import { Title } from '@/ui/Title';
-import { Button, ButtonVariants } from '@/ui/Button';
-import { Icon, Icons } from '@/ui/Icon';
-import { List } from '@/ui/List';
-
-import { Job, JobStates } from './Job';
-
+import {
+  SocketMessageTypes,
+  useHandleSocketMessage,
+} from '@/hooks/useHandleSocketMessage';
 import {
   useHandleWindowMessage,
   WindowMessageTypes,
 } from '@/hooks/useHandleWindowMessage';
+import { Box } from '@/ui/Box';
+import { Button, ButtonVariants } from '@/ui/Button';
+import { Icon, Icons } from '@/ui/Icon';
+import { Inline } from '@/ui/Inline';
+import { List } from '@/ui/List';
+import { Stack } from '@/ui/Stack';
+import { Title } from '@/ui/Title';
 
-import {
-  useHandleSocketMessage,
-  SocketMessageTypes,
-} from '@/hooks/useHandleSocketMessage';
+import { Job, JobStates } from './Job';
 
 const JobLoggerStates = {
   IDLE: 'idle',
@@ -208,4 +206,4 @@ JobLogger.propTypes = {
   onStatusChange: PropTypes.func,
 };
 
-export { JobLogger, JobStates, JobLoggerStates };
+export { JobLogger, JobLoggerStates, JobStates };
