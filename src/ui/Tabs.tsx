@@ -1,24 +1,34 @@
 import PropTypes from 'prop-types';
+import type { SyntheticEvent } from 'react';
 import { Children } from 'react';
 import { Tab as BootstrapTab, Tabs as BootstrapTabs } from 'react-bootstrap';
 
+import type { BoxProps } from '@/ui/Box';
 import { parseSpacing } from '@/ui/Box';
 
 import { getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme(`tabs`);
 
+type Props = BoxProps & {
+  activeKey: unknown;
+  onSelect: (eventKey: string | null, e: SyntheticEvent<unknown>) => void;
+  activeBackgroundColor: string;
+};
+
 const Tabs = ({
   activeKey,
   onSelect,
   activeBackgroundColor,
   children: rawChildren,
-}) => {
+}: Props) => {
   const children = Children.toArray(rawChildren).filter((child) => {
+    // @ts-expect-error
     if (child.type !== Tab) {
       // eslint-disable-next-line no-console
       console.error(
         'Child of type',
+        // @ts-expect-error
         child.type.name,
         'is not supported in Tabs component',
       );
