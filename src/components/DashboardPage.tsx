@@ -119,15 +119,17 @@ const DashboardPage = ({ activeTab: initialActiveTab }: Props) => {
 
   return (
     <Page>
-      <Page.Title>Welkom {user?.username}</Page.Title>
+      <Page.Title>
+        {t('dashboard.welcome')}, {user?.username}
+      </Page.Title>
       <Page.Actions>
         <Link href="/create" css="text-transform: lowercase;">
-          {t('productions.overview.create')}
+          {t('dashboard.create')}
         </Link>
       </Page.Actions>
       <Page.Content spacing={5}>
         <Stack spacing={3}>
-          <Text>Mijn activiteiten, locaties en organisaties</Text>
+          <Text>{t('dashboard.my_items')}</Text>
           <Tabs activeKey={activeTab} onSelect={handleSelectTab}>
             <Tabs.Tab eventKey="events" title="Events">
               {isEvents(items) && (
