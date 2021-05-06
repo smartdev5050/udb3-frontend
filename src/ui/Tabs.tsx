@@ -20,6 +20,7 @@ const Tabs = ({
   onSelect,
   activeBackgroundColor,
   children: rawChildren,
+  className,
   ...props
 }: Props) => {
   const children = Children.toArray(rawChildren).filter((child) => {
@@ -39,7 +40,7 @@ const Tabs = ({
   });
 
   return (
-    <Box {...getBoxProps(props)}>
+    <Box className={className} {...getBoxProps(props)}>
       <BootstrapTabs
         activeKey={activeKey}
         onSelect={onSelect}
