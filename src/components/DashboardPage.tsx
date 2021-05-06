@@ -28,7 +28,7 @@ type Props = { activeTab: TabOptions };
 
 const getValue = getValueFromTheme('productionItem');
 
-const GetEventsByCreatorMap = {
+const GetItemsByCreatorMap = {
   events: useGetEventsByCreator,
   places: useGetPlacesByCreator,
   organizers: useGetOrganizersByCreator,
@@ -94,7 +94,7 @@ const DashboardPage = ({ activeTab: initialActiveTab }: Props) => {
   const { cookies } = useCookiesWithOptions(['user']);
   const [activeTab, setActiveTab] = useState(initialActiveTab);
 
-  const useGetItemsByCreator = useMemo(() => GetEventsByCreatorMap[activeTab], [
+  const useGetItemsByCreator = useMemo(() => GetItemsByCreatorMap[activeTab], [
     activeTab,
   ]);
 
