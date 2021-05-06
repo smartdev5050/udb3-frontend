@@ -26,9 +26,11 @@ import {
   faUsers,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import PropTypes from 'prop-types';
 
-import { Box, boxPropTypes, getBoxProps, parseDimension } from './Box';
+import type { Values } from '@/types/Values';
+
+import type { BoxProps } from './Box';
+import { Box, getBoxProps, parseDimension } from './Box';
 
 const Icons = {
   HOME: 'home',
@@ -56,7 +58,7 @@ const Icons = {
   BINOCULARS: 'binoculars',
   EXCLAMATION_TRIANGLE: 'exclamationTriangle',
   PENCIL: 'pencilAlt',
-};
+} as const;
 
 const IconsMap = {
   [Icons.HOME]: faHome,
@@ -86,27 +88,27 @@ const IconsMap = {
   [Icons.PENCIL]: faPencilAlt,
 };
 
-const Icon = ({ name, width, height, className, ...props }) => {
+type Props = Omit<BoxProps, 'width' | 'height'> & {
+  name: Values<typeof Icons>;
+  width?: number;
+  height?: number;
+};
+
+const Icon = ({ name, width, height, className, ...props }: Props) => {
   return (
     <Box
       className={className}
-      {...getBoxProps(props)}
       css={`
         .svg-inline--fa {
           width: ${parseDimension(width)};
           height: ${parseDimension(height)};
         }
       `}
+      {...getBoxProps(props)}
     >
       <FontAwesomeIcon icon={IconsMap[name]} />
     </Box>
   );
-};
-
-Icon.propTypes = {
-  ...boxPropTypes,
-  name: PropTypes.string.isRequired,
-  className: PropTypes.string,
 };
 
 Icon.defaultProps = {
