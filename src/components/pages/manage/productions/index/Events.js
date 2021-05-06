@@ -20,6 +20,7 @@ import { getStackProps, Stack, stackPropTypes } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { Breakpoints, getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
+import { css } from 'styled-components';
 
 const getValue = getValueFromTheme('eventItem');
 
@@ -296,13 +297,10 @@ const Events = ({
                 onToggle={onToggleSelectEvent}
                 selected={event.selected}
                 css={
-                  index !== events.length - 1
-                    ? (props) => {
-                        return `border-bottom: 1px solid ${getValue(
-                          'borderColor',
-                        )(props)};`;
-                      }
-                    : undefined
+                  index !== events.length - 1 &&
+                  css`
+                    border-bottom: 1px solid ${getValue('borderColor')};
+                  `
                 }
               />
             ))}

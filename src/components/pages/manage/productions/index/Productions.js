@@ -9,6 +9,7 @@ import { Spinner } from '@/ui/Spinner';
 import { getStackProps, Stack, stackPropTypes } from '@/ui/Stack';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
+import { css } from 'styled-components';
 
 const getValue = getValueFromTheme('productionItem');
 
@@ -49,13 +50,10 @@ const Productions = ({
                   }
                   cursor="pointer"
                   css={
-                    index !== productions.length - 1
-                      ? (props) => {
-                          return `border-bottom: 1px solid ${getValue(
-                            'borderColor',
-                          )(props)};`;
-                        }
-                      : undefined
+                    index !== productions.length - 1 &&
+                    css`
+                      border-bottom: 1px solid ${getValue('borderColor')};
+                    `
                   }
                   key={production.id}
                   onClick={() => onClickProduction(production.id)}
