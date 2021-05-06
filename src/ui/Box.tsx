@@ -204,7 +204,7 @@ const parseProperty = (key: string, parser?: Parser, customValue?: unknown) => (
 };
 
 const parseSpacing = (value: UIPropValue<number>) => (
-  props: ThemeProps<Theme>,
+  props?: ThemeProps<Theme>,
 ) => {
   const parsedValue = typeof value === 'function' ? value(props) : value;
 
