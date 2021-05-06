@@ -1,19 +1,18 @@
-import PropTypes from 'prop-types';
-import type { SyntheticEvent } from 'react';
+import type { ReactNode, SyntheticEvent } from 'react';
 import { Children } from 'react';
 import { Tab as BootstrapTab, Tabs as BootstrapTabs } from 'react-bootstrap';
 
 import type { BoxProps } from '@/ui/Box';
-import { parseSpacing } from '@/ui/Box';
+import { Box, getBoxProps, parseSpacing } from '@/ui/Box';
 
 import { getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme(`tabs`);
 
 type Props = BoxProps & {
-  activeKey: unknown;
+  activeKey: string;
   onSelect: (eventKey: string | null, e: SyntheticEvent<unknown>) => void;
-  activeBackgroundColor: string;
+  activeBackgroundColor?: string;
 };
 
 const Tabs = ({
@@ -21,6 +20,7 @@ const Tabs = ({
   onSelect,
   activeBackgroundColor,
   children: rawChildren,
+  ...props
 }: Props) => {
   const children = Children.toArray(rawChildren).filter((child) => {
     // @ts-expect-error
@@ -39,56 +39,56 @@ const Tabs = ({
   });
 
   return (
-    <BootstrapTabs
-      activeKey={activeKey}
-      onSelect={onSelect}
-      css={`
-        border-bottom-color: ${getValue('borderColor')};
+    <Box {...getBoxProps(props)}>
+      <BootstrapTabs
+        activeKey={activeKey}
+        onSelect={onSelect}
+        css={`
+          border-bottom-color: ${getValue('borderColor')};
 
-        .nav-item {
-          color: ${getValue('color')};
-          border-radius: ${getValue('borderRadius')};
-          padding: ${parseSpacing(3)} ${parseSpacing(4)};
-          margin-right: ${parseSpacing(1)};
+          .nav-item {
+            color: ${getValue('color')};
+            border-radius: ${getValue('borderRadius')};
+            padding: ${parseSpacing(3)} ${parseSpacing(4)};
+            margin-right: ${parseSpacing(1)};
 
-          &:hover {
-            color: ${getValue('hoverColor')};
-            border-color: transparent;
-            background-color: ${getValue('hoverTabBackgroundColor')};
+            &:hover {
+              color: ${getValue('hoverColor')};
+              border-color: transparent;
+              background-color: ${getValue('hoverTabBackgroundColor')};
+            }
+
+            &.active,
+            &.active:hover {
+              color: ${getValue('activeTabColor')};
+              background-color: ${activeBackgroundColor ??
+              getValue('activeTabBackgroundColor')};
+              border-color: ${getValue('borderColor')};
+              border-bottom-color: ${activeBackgroundColor ??
+              getValue('activeTabBackgroundColor')};
+              cursor: default;
+            }
           }
-
-          &.active,
-          &.active:hover {
-            color: ${getValue('activeTabColor')};
-            background-color: ${activeBackgroundColor ??
-            getValue('activeTabBackgroundColor')};
-            border-color: ${getValue('borderColor')};
-            border-bottom-color: ${activeBackgroundColor ??
-            getValue('activeTabBackgroundColor')};
-            cursor: default;
-          }
-        }
-      `}
-    >
-      {children}
-    </BootstrapTabs>
+        `}
+      >
+        {children}
+      </BootstrapTabs>
+    </Box>
   );
 };
 
-Tabs.propTypes = {
-  activeKey: PropTypes.string.isRequired,
-  onSelect: PropTypes.func.isRequired,
-  activeBackgroundColor: PropTypes.string,
-  children: PropTypes.node,
+type TabProps = {
+  eventKey: string;
+  title: string;
+  children: ReactNode;
 };
 
-const Tab = ({ eventKey, title }) => {
-  return <BootstrapTab eventKey={eventKey} title={title} />;
-};
-
-Tab.propTypes = {
-  eventKey: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
+const Tab = ({ eventKey, title, children }: TabProps) => {
+  return (
+    <BootstrapTab eventKey={eventKey} title={title}>
+      {children}
+    </BootstrapTab>
+  );
 };
 
 Tabs.Tab = Tab;
