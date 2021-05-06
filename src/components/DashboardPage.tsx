@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { UseQueryResult } from 'react-query';
-import { css, ThemeProps } from 'styled-components';
+import { css } from 'styled-components';
 
 import { QueryStatus } from '@/hooks/api/authenticated-query';
 import { useGetEventsByCreator } from '@/hooks/api/events';
@@ -10,13 +11,18 @@ import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import type { Event } from '@/types/Event';
 import { isEvents } from '@/types/Event';
 import type { User } from '@/types/User';
+import { parseSpacing } from '@/ui/Box';
+import { Icons } from '@/ui/Icon';
+import type { InlineProps } from '@/ui/Inline';
+import { getInlineProps, Inline } from '@/ui/Inline';
+import { Link, LinkVariants } from '@/ui/Link';
 import { List } from '@/ui/List';
 import { Page } from '@/ui/Page';
 import { Spinner } from '@/ui/Spinner';
 import { Stack } from '@/ui/Stack';
 import { Tabs } from '@/ui/Tabs';
 import { Text } from '@/ui/Text';
-import { getValueFromTheme, Theme } from '@/ui/theme';
+import { getValueFromTheme } from '@/ui/theme';
 
 type TabOptions = 'events' | 'places' | 'organizers';
 
@@ -30,12 +36,27 @@ const GetEventsByCreatorMap = {
   organizers: useGetOrganizersByCreator,
 };
 
-type EventProps = {
+type EventMenuProps = InlineProps & { event: Event };
+
+const EventMenu = ({ event, ...props }: EventMenuProps) => {
+  return (
+    <Inline {...getInlineProps(props)}>
+      <Stack>
+        <Text fontWeight="bold" color="blue">
+          {event.name.nl}
+        </Text>
+        <Text>test</Text>
+      </Stack>
+    </Inline>
+  );
+};
+
+type EventsProps = {
   events: Event[];
   loading: boolean;
 };
 
-const Events = ({ events, loading }: EventProps) => {
+const Events = ({ events, loading }: EventsProps) => {
   if (loading) {
     return <Spinner marginTop={4} />;
   }
@@ -58,7 +79,7 @@ const Events = ({ events, loading }: EventProps) => {
             `
           }
         >
-          {event.name.nl}
+          <EventMenu event={event} />
         </List.Item>
       ))}
     </List>
@@ -70,6 +91,8 @@ Events.defaultProps = {
 };
 
 const DashboardPage = ({ activeTab: initialActiveTab }: Props) => {
+  const { t } = useTranslation();
+
   const { cookies } = useCookiesWithOptions(['user']);
   const [activeTab, setActiveTab] = useState(initialActiveTab);
 
@@ -91,6 +114,7 @@ const DashboardPage = ({ activeTab: initialActiveTab }: Props) => {
 
   const UseGetItemsByCreatorQuery = useGetItemsByCreator({
     creator: { id: user.id, email: user.email },
+    limit: 20,
   }) as UseQueryResult<{ member: unknown[] }, unknown>; // TODO: remove cast
 
   const items = UseGetItemsByCreatorQuery.data?.member ?? [];
@@ -98,6 +122,11 @@ const DashboardPage = ({ activeTab: initialActiveTab }: Props) => {
   return (
     <Page>
       <Page.Title>Welkom {user?.username}</Page.Title>
+      <Page.Actions>
+        <Link href="/create" css="text-transform: lowercase;">
+          {t('productions.overview.create')}
+        </Link>
+      </Page.Actions>
       <Page.Content spacing={5}>
         <Stack spacing={3}>
           <Text>Mijn activiteiten, locaties en organisaties</Text>
