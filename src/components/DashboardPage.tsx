@@ -1,11 +1,14 @@
 import { useMemo, useState } from 'react';
 import type { UseQueryResult } from 'react-query';
+import { css, ThemeProps } from 'styled-components';
 
 import { QueryStatus } from '@/hooks/api/authenticated-query';
 import { useGetEventsByCreator } from '@/hooks/api/events';
 import { useGetOrganizersByCreator } from '@/hooks/api/organizers';
 import { useGetPlacesByCreator } from '@/hooks/api/places';
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
+import type { Event } from '@/types/Event';
+import { isEvents } from '@/types/Event';
 import type { User } from '@/types/User';
 import { List } from '@/ui/List';
 import { Page } from '@/ui/Page';
@@ -13,10 +16,13 @@ import { Spinner } from '@/ui/Spinner';
 import { Stack } from '@/ui/Stack';
 import { Tabs } from '@/ui/Tabs';
 import { Text } from '@/ui/Text';
+import { getValueFromTheme, Theme } from '@/ui/theme';
 
 type TabOptions = 'events' | 'places' | 'organizers';
 
 type Props = { activeTab: TabOptions };
+
+const getValue = getValueFromTheme('productionItem');
 
 const GetEventsByCreatorMap = {
   events: useGetEventsByCreator,
@@ -25,7 +31,7 @@ const GetEventsByCreatorMap = {
 };
 
 type EventProps = {
-  events: unknown[];
+  events: Event[];
   loading: boolean;
 };
 
@@ -67,10 +73,9 @@ const DashboardPage = ({ activeTab: initialActiveTab }: Props) => {
   const { cookies } = useCookiesWithOptions(['user']);
   const [activeTab, setActiveTab] = useState(initialActiveTab);
 
-  const useGetEventsByCreator = useMemo(
-    () => GetEventsByCreatorMap[activeTab],
-    [activeTab],
-  );
+  const useGetItemsByCreator = useMemo(() => GetEventsByCreatorMap[activeTab], [
+    activeTab,
+  ]);
 
   const handleSelectTab = (eventKey: TabOptions) => {
     setActiveTab(eventKey);
@@ -84,11 +89,11 @@ const DashboardPage = ({ activeTab: initialActiveTab }: Props) => {
 
   const user: User = cookies.user;
 
-  const UseGetEventsByCreatorQuery = useGetEventsByCreator({
+  const UseGetItemsByCreatorQuery = useGetItemsByCreator({
     creator: { id: user.id, email: user.email },
   }) as UseQueryResult<{ member: unknown[] }, unknown>; // TODO: remove cast
 
-  const events = UseGetEventsByCreatorQuery.data?.member ?? [];
+  const items = UseGetItemsByCreatorQuery.data?.member ?? [];
 
   return (
     <Page>
@@ -98,29 +103,17 @@ const DashboardPage = ({ activeTab: initialActiveTab }: Props) => {
           <Text>Mijn activiteiten, locaties en organisaties</Text>
           <Tabs activeKey={activeTab} onSelect={handleSelectTab}>
             <Tabs.Tab eventKey="events" title="Events">
-              <Events
-                events={events}
-                loading={
-                  UseGetEventsByCreatorQuery.status === QueryStatus.LOADING
-                }
-              />
+              {isEvents(items) && (
+                <Events
+                  events={items}
+                  loading={
+                    UseGetItemsByCreatorQuery.status === QueryStatus.LOADING
+                  }
+                />
+              )}
             </Tabs.Tab>
-            <Tabs.Tab eventKey="places" title="Places">
-              <Events
-                events={events}
-                loading={
-                  UseGetEventsByCreatorQuery.status === QueryStatus.LOADING
-                }
-              />
-            </Tabs.Tab>
-            <Tabs.Tab eventKey="organizers" title="Organizers">
-              <Events
-                events={events}
-                loading={
-                  UseGetEventsByCreatorQuery.status === QueryStatus.LOADING
-                }
-              />
-            </Tabs.Tab>
+            <Tabs.Tab eventKey="places" title="Places" />
+            <Tabs.Tab eventKey="organizers" title="Organizers" />
           </Tabs>
         </Stack>
       </Page.Content>
