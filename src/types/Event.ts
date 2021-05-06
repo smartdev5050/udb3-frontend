@@ -15,5 +15,9 @@ const isEvent = (value: unknown): value is Event => {
   return value['@context'] === '/contexts/event';
 };
 
-export { isEvent };
+const isEvents = (value: unknown[]): value is Event[] => {
+  return value?.[0]?.['@context'] === '/contexts/event';
+};
+
+export { isEvent, isEvents };
 export type { Event };
