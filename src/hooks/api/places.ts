@@ -73,7 +73,7 @@ const getPlacesByCreator = async ({
   return await res.json();
 };
 
-type UseGetPlacesByCreatorArguments = {
+type UseGetPlacesByCreatorArguments = ServerSideArguments & {
   creator: { id: string; email: string };
   start?: number;
   limit?: number;
@@ -82,6 +82,8 @@ type UseGetPlacesByCreatorArguments = {
 
 const useGetPlacesByCreator = (
   {
+    req,
+    queryClient,
     creator,
     start = 0,
     limit = 50,
@@ -90,6 +92,8 @@ const useGetPlacesByCreator = (
   configuration: UseQueryOptions = {},
 ) =>
   useAuthenticatedQuery({
+    req,
+    queryClient,
     queryKey: ['places'],
     queryFn: getPlacesByCreator,
     queryArguments: {

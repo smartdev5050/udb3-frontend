@@ -67,7 +67,7 @@ const getOrganizersByCreator = async ({
   return await res.json();
 };
 
-type UseGetOrganizersByCreator = {
+type UseGetOrganizersByCreator = ServerSideArguments & {
   creator: { id: string; email: string };
   start?: number;
   limit?: number;
@@ -76,6 +76,8 @@ type UseGetOrganizersByCreator = {
 
 const useGetOrganizersByCreator = (
   {
+    req,
+    queryClient,
     creator,
     limit = 50,
     start = 0,
@@ -84,6 +86,8 @@ const useGetOrganizersByCreator = (
   configuration: UseQueryOptions = {},
 ) =>
   useAuthenticatedQuery({
+    req,
+    queryClient,
     queryKey: ['organizers'],
     queryFn: getOrganizersByCreator,
     queryArguments: {

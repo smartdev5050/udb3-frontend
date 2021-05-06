@@ -138,7 +138,7 @@ const getEventsByCreator = async ({
   return await res.json();
 };
 
-type UseGetEventsByCreatorArguments = {
+type UseGetEventsByCreatorArguments = ServerSideArguments & {
   creator: { id: string; email: string };
   start?: number;
   limit?: number;
@@ -147,6 +147,8 @@ type UseGetEventsByCreatorArguments = {
 
 const useGetEventsByCreator = (
   {
+    req,
+    queryClient,
     creator,
     start = 0,
     limit = 50,
@@ -155,6 +157,8 @@ const useGetEventsByCreator = (
   configuration: UseQueryOptions = {},
 ) =>
   useAuthenticatedQuery({
+    req,
+    queryClient,
     queryKey: ['events'],
     queryFn: getEventsByCreator,
     queryArguments: {
