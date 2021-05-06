@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { css } from 'styled-components';
 
 import { CalendarType } from '@/constants/CalendarType';
 import { useGetCalendarSummary } from '@/hooks/api/events';
@@ -20,7 +21,6 @@ import { getStackProps, Stack, stackPropTypes } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { Breakpoints, getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
-import { css } from 'styled-components';
 
 const getValue = getValueFromTheme('eventItem');
 

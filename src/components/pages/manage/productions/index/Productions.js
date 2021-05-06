@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { css } from 'styled-components';
 
 import { parseSpacing } from '@/ui/Box';
 import { List } from '@/ui/List';
@@ -9,7 +10,6 @@ import { Spinner } from '@/ui/Spinner';
 import { getStackProps, Stack, stackPropTypes } from '@/ui/Stack';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
-import { css } from 'styled-components';
 
 const getValue = getValueFromTheme('productionItem');
 
