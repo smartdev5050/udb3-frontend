@@ -131,6 +131,11 @@
     },
     "maxLengthReason": "De reden voor je statuswijziging kan niet meer dan {{amount}} karakters bevatten."
   },
+  "dashboard": {
+    "welcome": "Welkom",
+    "create": "Toevoegen",
+    "my_items": "Mijn activiteiten, locaties en organisaties"
+  },
   "jobs": {
     "download": "Downloaden",
     "finished": "Voltooid",

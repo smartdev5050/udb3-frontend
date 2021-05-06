@@ -129,6 +129,11 @@
     },
     "maxLengthReason": "La raison ne peut pas dépasser {{amount}} caractères."
   },
+  "dashboard": {
+    "welcome": "Bienvenue",
+    "create": "Ajouter",
+    "my_items": "Mes activitées, lieux et organizations"
+  },
   "jobs": {
     "download": "Télécharger",
     "finished": "Terminé",
