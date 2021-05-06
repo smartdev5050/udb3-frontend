@@ -81,7 +81,7 @@ const Tabs = ({
 type TabProps = {
   eventKey: string;
   title: string;
-  children: ReactNode;
+  children?: ReactNode;
 };
 
 const Tab = ({ eventKey, title, children }: TabProps) => {
