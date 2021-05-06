@@ -35,9 +35,25 @@ const Events = ({ events, loading }: EventProps) => {
   }
 
   return (
-    <List>
-      {events.map((event) => (
-        <List.Item key={event['@id']}>{event['@id']}</List.Item>
+    <List marginTop={4}>
+      {events.map((event, index) => (
+        <List.Item
+          key={event['@id']}
+          paddingLeft={4}
+          paddingRight={4}
+          paddingBottom={3}
+          paddingTop={3}
+          backgroundColor={getValue('backgroundColor')}
+          cursor="pointer"
+          css={
+            index !== events.length - 1 &&
+            css`
+              border-bottom: 1px solid ${getValue('borderColor')};
+            `
+          }
+        >
+          {event.name.nl}
+        </List.Item>
       ))}
     </List>
   );
