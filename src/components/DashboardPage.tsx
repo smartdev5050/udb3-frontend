@@ -52,8 +52,9 @@ const EventMenu = ({ event, ...props }: EventMenuProps) => {
   const isPublished = event.workflowStatus === 'DRAFT';
   const editUrl = `/event/${parseOfferId(event['@id'])}/edit`;
   const previewUrl = `/event/${parseOfferId(event['@id'])}/preview`;
-  const eventType = event.terms.find((term) => term.domain === 'eventtype')
-    ?.label; // TODO: use id with translations
+  const typeId = event.terms.find((term) => term.domain === 'eventtype')?.id;
+  // The custom keySeparator was necessary because the ids contain '.' which i18n uses as default keySeparator
+  const eventType = t(`offerTypes*${typeId}`, { keySeparator: '*' });
 
   const period =
     event.startDate && event.endDate
