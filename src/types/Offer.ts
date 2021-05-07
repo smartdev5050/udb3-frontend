@@ -5,7 +5,7 @@ import type { Address } from './Address';
 import type { ContactPoint } from './ContactPoint';
 import type { Organizer } from './Organizer';
 import type { Values } from './Values';
-import type { WorkFlowStatus } from './WorkflowStatus';
+import type { WorkFlowStatus } from './WorkFlowStatus';
 
 type StatusType = Values<typeof OfferStatus>;
 

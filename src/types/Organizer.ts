@@ -1,6 +1,6 @@
 import type { Address } from './Address';
 import type { ContactPoint } from './ContactPoint';
-import type { WorkFlowStatus } from './WorkflowStatus';
+import type { WorkFlowStatus } from './WorkFlowStatus';
 
 type Organizer = {
   '@id': string;
