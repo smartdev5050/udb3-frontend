@@ -4,14 +4,12 @@ import type { User } from 'types/User';
 
 import { DashboardPage } from '@/components/DashboardPage';
 import { useGetEventsByCreator } from '@/hooks/api/events';
-import { useGetOrganizersByCreator } from '@/hooks/api/organizers';
-import { useGetPlacesByCreator } from '@/hooks/api/places';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
-const Index = () => <DashboardPage activeTab="events" />;
+const Index = ({ page }) => <DashboardPage activeTab="events" page={page} />;
 
 export const getServerSideProps = getApplicationServerSideProps(
-  async ({ req, cookies: rawCookies, queryClient }) => {
+  async ({ req, query, cookies: rawCookies, queryClient }) => {
     const cookies = new Cookies(rawCookies);
     const user: User = cookies.get('user');
 
@@ -19,24 +17,15 @@ export const getServerSideProps = getApplicationServerSideProps(
       req,
       queryClient,
       creator: { id: user?.id, email: user?.email },
-    });
-
-    await useGetPlacesByCreator({
-      req,
-      queryClient,
-      creator: { id: user?.id, email: user?.email },
-    });
-
-    await useGetOrganizersByCreator({
-      req,
-      queryClient,
-      creator: { id: user?.id, email: user?.email },
+      limit: 14,
+      start: query.page ? parseInt(query.page) - 1 : 1,
     });
 
     return {
       props: {
         dehydratedState: dehydrate(queryClient),
         cookies: rawCookies,
+        page: parseInt(query.page),
       },
     };
   },

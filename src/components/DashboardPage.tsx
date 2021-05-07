@@ -1,5 +1,6 @@
 import { isAfter } from 'date-fns';
-import { useMemo, useState } from 'react';
+import { useRouter } from 'next/router';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { UseQueryResult } from 'react-query';
 import { css } from 'styled-components';
@@ -30,8 +31,6 @@ import { formatPeriod } from '@/utils/formatPeriod';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 type TabOptions = 'events' | 'places' | 'organizers';
-
-type Props = { activeTab: TabOptions };
 
 const getValue = getValueFromTheme('dashboardPage');
 
@@ -160,25 +159,37 @@ Events.defaultProps = {
   loading: false,
 };
 
-const DashboardPage = ({ activeTab: initialActiveTab }: Props) => {
+type Props = { activeTab: TabOptions; page?: number };
+
+const DashboardPage = ({ activeTab: initialActiveTab, page }: Props) => {
   const { t } = useTranslation();
+  const { asPath } = useRouter();
+
+  const getCurrentUrl = () =>
+    new URL(`${window.location.protocol}//${window.location.host}${asPath}`);
 
   const { cookies } = useCookiesWithOptions(['user']);
   const [activeTab, setActiveTab] = useState(initialActiveTab);
-  const [currentPageItems, setCurrentPageItems] = useState(1);
+  const [currentPageItems, setCurrentPageItems] = useState(page ?? 1);
 
   const useGetItemsByCreator = useMemo(() => GetItemsByCreatorMap[activeTab], [
     activeTab,
   ]);
 
+  useEffect(() => {
+    if (currentPageItems === 1) return;
+    const url = getCurrentUrl();
+    url.searchParams.set('page', currentPageItems.toString());
+    window.history.pushState(undefined, '', url.toString());
+  }, [currentPageItems]);
+
   const handleSelectTab = (eventKey: TabOptions) => {
     setActiveTab(eventKey);
-    // change the url to match the tab, but don't trigger a refresh
-    window.history.pushState(
-      undefined,
-      '',
-      `${window.location.protocol}//${window.location.host}/${eventKey}`,
-    );
+    setCurrentPageItems(1);
+    const url = getCurrentUrl();
+    url.pathname = eventKey;
+    url.searchParams.set('page', currentPageItems.toString());
+    window.history.pushState(undefined, '', url.toString());
   };
 
   const user: User = cookies.user;
