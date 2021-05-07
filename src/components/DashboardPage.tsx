@@ -31,7 +31,7 @@ type Props = { activeTab: TabOptions };
 
 const getValue = getValueFromTheme('dashboardPage');
 
-const itemsPerPage = 10;
+const itemsPerPage = 15;
 
 const GetItemsByCreatorMap = {
   events: useGetEventsByCreator,
