@@ -1,3 +1,5 @@
+import { isAfter } from 'date-fns';
+import i18next from 'i18next';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { UseQueryResult } from 'react-query';
@@ -11,7 +13,6 @@ import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import type { Event } from '@/types/Event';
 import { isEvents } from '@/types/Event';
 import type { User } from '@/types/User';
-import { Button, ButtonVariants } from '@/ui/Button';
 import { Dropdown, DropDownVariants } from '@/ui/Dropdown';
 import type { InlineProps } from '@/ui/Inline';
 import { getInlineProps, Inline } from '@/ui/Inline';
@@ -25,9 +26,8 @@ import { Stack } from '@/ui/Stack';
 import { Tabs } from '@/ui/Tabs';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
+import { formatPeriod } from '@/utils/formatPeriod';
 import { parseOfferId } from '@/utils/parseOfferId';
-import { formatDate } from '@/utils/formatDate';
-import { isAfter } from 'date-fns';
 
 type TabOptions = 'events' | 'places' | 'organizers';
 
@@ -51,6 +51,13 @@ const EventMenu = ({ event, ...props }: EventMenuProps) => {
   const isFinished = isAfter(new Date(), new Date(event.availableTo));
   const editUrl = `/event/${parseOfferId(event['@id'])}/edit`;
   const previewUrl = `/event/${parseOfferId(event['@id'])}/preview`;
+  const eventType = event.terms.find((term) => term.domain === 'eventtype')
+    ?.label; // TODO: use id with translations
+
+  const period =
+    event.startDate && event.endDate
+      ? formatPeriod(event.startDate, event.endDate, i18next.language, t)
+      : '';
 
   return (
     <Inline flex={1} justifyContent="space-between" {...getInlineProps(props)}>
@@ -62,7 +69,10 @@ const EventMenu = ({ event, ...props }: EventMenuProps) => {
         >
           {event.name.nl}
         </Link>
-        <Text>test</Text>
+        <Text>
+          {eventType}
+          {period && ` - ${period}`}
+        </Text>
       </Stack>
       {isFinished ? (
         <Text color={getValue('listItem.passedEvent.color')}>
