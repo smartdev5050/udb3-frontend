@@ -1,10 +1,12 @@
-import PropTypes from 'prop-types';
+import type { ReactNode } from 'react';
 import { Children } from 'react';
 import {
   ButtonGroup as BootstrapButtonGroup,
   Dropdown as BootstrapDropdown,
 } from 'react-bootstrap';
 
+import type { Values } from '@/types/Values';
+import type { BoxProps } from '@/ui/Box';
 import { Box, getBoxProps } from '@/ui/Box';
 import { Button, buttonCSS, ButtonVariants } from '@/ui/Button';
 import { Link } from '@/ui/Link';
@@ -12,11 +14,16 @@ import { getValueFromTheme } from '@/ui/theme';
 
 const getValue = getValueFromTheme(`dropdown`);
 
-const DropDownVariants = ButtonVariants;
+const DropDownVariants = {
+  ...ButtonVariants,
+  SECONDARY: 'outline-secondary',
+} as const;
 
-const Dropdown = ({ variant, children, ...props }) => {
-  if (variant === DropDownVariants.SECONDARY) variant = 'outline-secondary';
+type DropdownProps = BoxProps & {
+  variant: Values<typeof DropDownVariants>;
+};
 
+const Dropdown = ({ variant, children, ...props }: DropdownProps) => {
   const isMenuChild = (child) =>
     child.type === Dropdown.Item || child.type === Dropdown.Divider;
   const menuChildren = Children.toArray(children).filter(isMenuChild);
@@ -51,24 +58,19 @@ const Dropdown = ({ variant, children, ...props }) => {
   );
 };
 
-Dropdown.propTypes = {
-  variant: PropTypes.string,
-  children: PropTypes.node,
+type ItemProps = {
+  href?: string;
+  onClick?: (...args: unknown[]) => void;
+  children: ReactNode;
 };
 
-const Item = ({ href, onClick, children }) => (
+const Item = ({ href, onClick, children }: ItemProps) => (
   <BootstrapDropdown.Item href={href} onClick={onClick}>
     {children}
   </BootstrapDropdown.Item>
 );
 
-Item.propTypes = {
-  href: PropTypes.string,
-  onClick: PropTypes.func,
-  children: PropTypes.node,
-};
-
-const Divider = () => <BootstrapDropdown.Divider />;
+const Divider = BootstrapDropdown.Divider;
 
 Dropdown.Item = Item;
 Dropdown.Divider = Divider;
