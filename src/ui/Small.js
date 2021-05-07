@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import { Box, boxPropTypes, getBoxProps } from './Box';
+import { Box, getBoxProps } from './Box';
 
 const Small = ({ children, className, ...props }) => (
   <Box
@@ -16,7 +16,6 @@ const Small = ({ children, className, ...props }) => (
 );
 
 Small.propTypes = {
-  ...boxPropTypes,
   className: PropTypes.string,
   children: PropTypes.node,
 };

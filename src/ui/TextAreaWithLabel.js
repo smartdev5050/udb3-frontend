@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 import { Label, LabelVariants } from './Label';
-import { getStackProps, Stack, stackPropTypes } from './Stack';
+import { getStackProps, Stack } from './Stack';
 import { TextArea } from './TextArea';
 
 const TextAreaWithLabel = ({
@@ -24,7 +24,6 @@ const TextAreaWithLabel = ({
 };
 
 TextAreaWithLabel.propTypes = {
-  ...stackPropTypes,
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   className: PropTypes.string,

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Children } from 'react';
 
-import { getStackProps, Stack, stackPropTypes } from './Stack';
+import { getStackProps, Stack } from './Stack';
 import { getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme('panel');
@@ -24,7 +24,6 @@ const Panel = ({ children, className, ...props }) => {
 };
 
 Panel.propTypes = {
-  ...stackPropTypes,
   className: PropTypes.string,
   children: PropTypes.node,
 };
@@ -53,7 +52,6 @@ const PanelFooter = ({ children, className, ...props }) => {
 };
 
 PanelFooter.propTypes = {
-  ...stackPropTypes,
   className: PropTypes.string,
   children: PropTypes.node,
 };

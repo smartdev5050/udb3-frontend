@@ -5,7 +5,7 @@ import { cloneElement, forwardRef } from 'react';
 import { Button, ButtonVariants } from '@/ui/Button';
 
 import { Icon } from './Icon';
-import { getInlineProps, Inline, inlinePropTypes } from './Inline';
+import { getInlineProps, Inline } from './Inline';
 import { Text } from './Text';
 import { getValueFromTheme } from './theme';
 
@@ -148,7 +148,6 @@ const Link = ({
 };
 
 Link.propTypes = {
-  ...inlinePropTypes,
   href: PropTypes.string,
   title: PropTypes.string,
   iconName: PropTypes.string,

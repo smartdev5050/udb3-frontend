@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
 import { AsyncTypeahead as BootstrapTypeahead } from 'react-bootstrap-typeahead';
 
-import { Box, boxPropTypes, getBoxProps } from './Box';
+import { Box, getBoxProps } from './Box';
 import { getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme('typeahead');
@@ -78,7 +78,6 @@ const typeaheadPropTypes = {
 };
 
 Typeahead.propTypes = {
-  ...boxPropTypes,
   ...typeaheadPropTypes,
 };
 

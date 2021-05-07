@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import { Box, boxPropTypes, getBoxProps } from './Box';
+import { Box, getBoxProps } from './Box';
 
 const LogoVariants = {
   DEFAULT: 'default',
@@ -70,7 +70,6 @@ Logo.defaultProps = {
 };
 
 Logo.propTypes = {
-  ...boxPropTypes,
   className: PropTypes.string,
   variant: PropTypes.string,
 };

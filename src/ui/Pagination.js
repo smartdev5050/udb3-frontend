@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useMemo } from 'react';
 import { Pagination as BootstrapPagination } from 'react-bootstrap';
 
-import { getInlineProps, Inline, inlinePropTypes } from './Inline';
+import { getInlineProps, Inline } from './Inline';
 import { getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme(`pagination`);
@@ -135,7 +135,6 @@ const Pagination = ({
 };
 
 Pagination.propTypes = {
-  ...inlinePropTypes,
   className: PropTypes.string,
   currentPage: PropTypes.number.isRequired,
   totalItems: PropTypes.number.isRequired,

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Alert as BootstrapAlert } from 'react-bootstrap';
 
-import { Box, boxPropTypes, getBoxProps } from './Box';
+import { Box, getBoxProps } from './Box';
 import { getValueFromTheme } from './theme';
 
 const AlertVariants = {
@@ -45,7 +45,6 @@ const Alert = ({
 };
 
 Alert.propTypes = {
-  ...boxPropTypes,
   className: PropTypes.string,
   variant: PropTypes.oneOf(Object.values(AlertVariants)),
   visible: PropTypes.bool,

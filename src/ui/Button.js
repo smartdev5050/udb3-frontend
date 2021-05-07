@@ -4,7 +4,7 @@ import { Button as BootstrapButton } from 'react-bootstrap';
 import { css } from 'styled-components';
 
 import { Icon } from './Icon';
-import { getInlineProps, Inline, inlinePropTypes } from './Inline';
+import { getInlineProps, Inline } from './Inline';
 import { Spinner, SpinnerSizes, SpinnerVariants } from './Spinner';
 import { Text } from './Text';
 import { getValueFromTheme } from './theme';
@@ -250,7 +250,6 @@ const Button = ({
 };
 
 Button.propTypes = {
-  ...inlinePropTypes,
   iconName: PropTypes.string,
   title: PropTypes.string,
   className: PropTypes.string,

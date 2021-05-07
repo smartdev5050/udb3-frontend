@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import { getInlineProps, Inline, inlinePropTypes } from './Inline';
+import { getInlineProps, Inline } from './Inline';
 import { Label } from './Label';
 import {
   RadioButton,
@@ -54,7 +54,6 @@ const RadioButtonWithLabel = ({
 };
 
 RadioButtonWithLabel.propTypes = {
-  ...inlinePropTypes,
   ...radioButtonPropTypes,
   label: PropTypes.node,
   info: PropTypes.string,
