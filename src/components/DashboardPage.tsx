@@ -16,6 +16,8 @@ import { getInlineProps, Inline } from '@/ui/Inline';
 import { Link } from '@/ui/Link';
 import { List } from '@/ui/List';
 import { Page } from '@/ui/Page';
+import { Pagination } from '@/ui/Pagination';
+import { Panel } from '@/ui/Panel';
 import { Spinner } from '@/ui/Spinner';
 import { Stack } from '@/ui/Stack';
 import { Tabs } from '@/ui/Tabs';
@@ -60,31 +62,45 @@ type EventsProps = {
 };
 
 const Events = ({ events, loading }: EventsProps) => {
+  const { t } = useTranslation();
+
   if (loading) {
     return <Spinner marginTop={4} />;
   }
 
   return (
-    <List marginTop={4}>
-      {events.map((event, index) => (
-        <List.Item
-          key={event['@id']}
-          paddingLeft={4}
-          paddingRight={4}
-          paddingBottom={3}
-          paddingTop={3}
-          backgroundColor={getValue('listItem.backgroundColor')}
-          css={
-            index !== events.length - 1 &&
-            css`
-              border-bottom: 1px solid ${getValue('listItem.borderColor')};
-            `
-          }
-        >
-          <EventMenu event={event} />
-        </List.Item>
-      ))}
-    </List>
+    <Panel>
+      <List marginTop={4}>
+        {events.map((event, index) => (
+          <List.Item
+            key={event['@id']}
+            paddingLeft={4}
+            paddingRight={4}
+            paddingBottom={3}
+            paddingTop={3}
+            backgroundColor={getValue('listItem.backgroundColor')}
+            css={
+              index !== events.length - 1 &&
+              css`
+                border-bottom: 1px solid ${getValue('listItem.borderColor')};
+              `
+            }
+          >
+            <EventMenu event={event} />
+          </List.Item>
+        ))}
+      </List>
+      <Panel.Footer>
+        <Pagination
+          currentPage={1}
+          totalItems={10}
+          perPage={5}
+          prevText={t('pagination.previous')}
+          nextText={t('pagination.next')}
+          onChangePage={() => {}}
+        />
+      </Panel.Footer>
+    </Panel>
   );
 };
 
@@ -134,6 +150,7 @@ const DashboardPage = ({ activeTab: initialActiveTab }: Props) => {
       <Page.Content spacing={5}>
         <Stack spacing={3}>
           <Text>{t('dashboard.my_items')}</Text>
+
           <Tabs activeKey={activeTab} onSelect={handleSelectTab}>
             <Tabs.Tab eventKey="events" title="Events">
               {isEvents(items) && (
