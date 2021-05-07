@@ -28,7 +28,7 @@ const formatPeriod = (startDate, endDate, locale, t) => {
   if (differenceInDays(start, end) === 0) {
     return capitalize(
       `${formattedDateStart} ${t(
-        'calendarSummary.at',
+        'calendarSummary.from',
       )} ${formattedTimeStart} ${t(
         'calendarSummary.till',
       )} ${formattedTimeEnd}`,
