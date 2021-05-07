@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 import { Label, LabelVariants } from './Label';
 import { RadioButtonWithLabel } from './RadioButtonWithLabel';
-import { getStackProps, Stack, stackPropTypes } from './Stack';
+import { getStackProps, Stack } from './Stack';
 
 const RadioButtonGroup = ({
   name,
@@ -35,7 +35,6 @@ const RadioButtonGroup = ({
 };
 
 RadioButtonGroup.propTypes = {
-  ...stackPropTypes,
   name: PropTypes.string.isRequired,
   groupLabel: PropTypes.string,
   items: PropTypes.array,

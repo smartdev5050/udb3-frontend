@@ -12,12 +12,12 @@ import { Button, ButtonVariants } from '@/ui/Button';
 import { CheckboxWithLabel } from '@/ui/CheckboxWithLabel';
 import { DetailTable } from '@/ui/DetailTable';
 import { Icon, Icons } from '@/ui/Icon';
-import { getInlineProps, Inline, inlinePropTypes } from '@/ui/Inline';
+import { getInlineProps, Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
 import { List } from '@/ui/List';
 import { Panel } from '@/ui/Panel';
 import { Spinner } from '@/ui/Spinner';
-import { getStackProps, Stack, stackPropTypes } from '@/ui/Stack';
+import { getStackProps, Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { Breakpoints, getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
@@ -213,7 +213,6 @@ const AddAction = ({
 };
 
 AddAction.propTypes = {
-  ...inlinePropTypes,
   onAdd: PropTypes.func,
   onCancel: PropTypes.func,
   onToBeAddedEventIdInput: PropTypes.func,
@@ -312,7 +311,6 @@ const Events = ({
 };
 
 Events.propTypes = {
-  ...stackPropTypes,
   events: PropTypes.array,
   activeProductionName: PropTypes.string,
   loading: PropTypes.bool,

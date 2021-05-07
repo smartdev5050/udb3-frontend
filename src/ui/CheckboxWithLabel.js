@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 import { Checkbox } from './Checkbox';
-import { getInlineProps, Inline, inlinePropTypes } from './Inline';
+import { getInlineProps, Inline } from './Inline';
 import { Label } from './Label';
 
 const CheckboxWithLabel = ({
@@ -37,7 +37,6 @@ const CheckboxWithLabel = ({
 };
 
 CheckboxWithLabel.propTypes = {
-  ...inlinePropTypes,
   className: PropTypes.string,
   id: PropTypes.string.isRequired,
   name: PropTypes.string,

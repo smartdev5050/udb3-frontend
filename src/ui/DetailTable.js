@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 import { Box, parseSpacing } from './Box';
 import { Inline } from './Inline';
-import { getStackProps, Stack, stackPropTypes } from './Stack';
+import { getStackProps, Stack } from './Stack';
 import { getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme('detailTable');
@@ -43,7 +43,6 @@ const DetailTable = ({ items, className, ...props }) => {
 };
 
 DetailTable.propTypes = {
-  ...stackPropTypes,
   items: PropTypes.arrayOf(
     PropTypes.shape({ header: PropTypes.string, value: PropTypes.string }),
   ),

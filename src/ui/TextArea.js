@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Form } from 'react-bootstrap';
 
-import { Box, boxPropTypes, getBoxProps } from './Box';
+import { Box, getBoxProps } from './Box';
 
 const BaseInput = (props) => <Box as="textarea" {...props} />;
 
@@ -32,7 +32,6 @@ const TextArea = ({
 };
 
 TextArea.propTypes = {
-  ...boxPropTypes,
   id: PropTypes.string,
   className: PropTypes.string,
   value: PropTypes.string,

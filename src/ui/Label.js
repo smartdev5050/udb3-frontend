@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import { Box, boxPropTypes, getBoxProps } from './Box';
+import { Box, getBoxProps } from './Box';
 
 export const LabelVariants = {
   BOLD: 'bold',
@@ -28,7 +28,6 @@ const Label = ({ htmlFor, children, className, variant, ...props }) => (
 );
 
 Label.propTypes = {
-  ...boxPropTypes,
   variant: PropTypes.string,
   htmlFor: PropTypes.string,
   className: PropTypes.string,
