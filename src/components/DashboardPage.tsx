@@ -121,7 +121,7 @@ const Events = ({
 
   return (
     <Panel>
-      <List marginTop={4}>
+      <List>
         {events.map((event, index) => (
           <List.Item
             key={event['@id']}
