@@ -5,7 +5,7 @@ import {
   Dropdown as BootstrapDropdown,
 } from 'react-bootstrap';
 
-import { Box } from '@/ui/Box';
+import { Box, getBoxProps } from '@/ui/Box';
 import { Button, buttonCSS, ButtonVariants } from '@/ui/Button';
 import { Link } from '@/ui/Link';
 import { getValueFromTheme } from '@/ui/theme';
@@ -14,7 +14,7 @@ const getValue = getValueFromTheme(`dropdown`);
 
 const DropDownVariants = ButtonVariants;
 
-const Dropdown = ({ variant, children }) => {
+const Dropdown = ({ variant, children, ...props }) => {
   if (variant === DropDownVariants.SECONDARY) variant = 'outline-secondary';
 
   const isMenuChild = (child) =>
@@ -40,6 +40,7 @@ const Dropdown = ({ variant, children }) => {
           box-shadow: ${getValue('activeToggleBoxShadow')};
         }
       `}
+      {...getBoxProps(props)}
     >
       <BootstrapDropdown as={BootstrapButtonGroup}>
         {primaryActionChildren}
