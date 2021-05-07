@@ -71,16 +71,18 @@ const EventMenu = ({ event, ...props }: EventMenuProps) => {
       ) : (
         <Dropdown variant={DropDownVariants.SECONDARY}>
           <Link href={editUrl} variant={LinkVariants.BUTTON_SECONDARY}>
-            Bewerken
+            {t('dashboard.actions.edit')}
           </Link>
-          <Dropdown.Item href={previewUrl}>Voorbeeld</Dropdown.Item>
+          <Dropdown.Item href={previewUrl}>
+            {t('dashboard.actions.preview')}
+          </Dropdown.Item>
           <Dropdown.Divider />
           <Dropdown.Item
             onClick={() => {
               console.log('Are you sure?');
             }}
           >
-            Verwijderen
+            {t('dashboard.actions.delete')}
           </Dropdown.Item>
         </Dropdown>
       )}

@@ -133,7 +133,12 @@
     "welcome": "Bienvenue",
     "create": "Ajouter",
     "my_items": "Mes activitées, lieux et organizations",
-    "passed_event": "Événement terminé"
+    "passed_event": "Événement terminé",
+    "actions": {
+      "edit": "Modifier",
+      "preview": "Exemple",
+      "delete": "Supprimer"
+    }
   },
   "jobs": {
     "download": "Télécharger",
