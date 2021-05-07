@@ -1,5 +1,4 @@
 import { isAfter } from 'date-fns';
-import i18next from 'i18next';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { UseQueryResult } from 'react-query';
@@ -46,7 +45,7 @@ const GetItemsByCreatorMap = {
 type EventMenuProps = InlineProps & { event: Event };
 
 const EventMenu = ({ event, ...props }: EventMenuProps) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const isFinished = isAfter(new Date(), new Date(event.availableTo));
   const editUrl = `/event/${parseOfferId(event['@id'])}/edit`;
@@ -56,7 +55,7 @@ const EventMenu = ({ event, ...props }: EventMenuProps) => {
 
   const period =
     event.startDate && event.endDate
-      ? formatPeriod(event.startDate, event.endDate, i18next.language, t)
+      ? formatPeriod(event.startDate, event.endDate, i18n.language, t)
       : '';
 
   return (
@@ -67,7 +66,7 @@ const EventMenu = ({ event, ...props }: EventMenuProps) => {
           color={getValue('listItem.color')}
           fontWeight="bold"
         >
-          {event.name.nl}
+          {event.name[i18n.language] ?? event.name[event.mainLanguage]}
         </Link>
         <Text>
           {eventType}
