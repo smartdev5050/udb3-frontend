@@ -127,7 +127,11 @@ const Events = ({
   const { t } = useTranslation();
 
   return (
-    <Panel>
+    <Panel
+      css={`
+        border-top: none;
+      `}
+    >
       <List>
         {events.map((event, index) => (
           <List.Item
@@ -230,10 +234,19 @@ const DashboardPage = ({ activeTab: initialActiveTab, page }: Props) => {
         <Stack spacing={3}>
           <Text>{t('dashboard.my_items')}</Text>
 
-          <Tabs activeKey={activeTab} onSelect={handleSelectTab}>
+          <Tabs
+            activeKey={activeTab}
+            onSelect={handleSelectTab}
+            activeBackgroundColor="white"
+          >
             <Tabs.Tab eventKey="events" title="Events">
               {UseGetItemsByCreatorQuery.status === QueryStatus.LOADING ? (
-                <Panel>
+                <Panel
+                  backgroundColor="white"
+                  css={`
+                    border-top: none;
+                  `}
+                >
                   <Spinner marginY={4} />
                 </Panel>
               ) : (
