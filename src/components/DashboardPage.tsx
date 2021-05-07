@@ -14,6 +14,7 @@ import type { Event } from '@/types/Event';
 import { isEvents } from '@/types/Event';
 import type { User } from '@/types/User';
 import { Badge, BadgeVariants } from '@/ui/Badge';
+import { Box } from '@/ui/Box';
 import { Dropdown, DropDownVariants } from '@/ui/Dropdown';
 import type { InlineProps } from '@/ui/Inline';
 import { getInlineProps, Inline } from '@/ui/Inline';
@@ -30,7 +31,6 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { formatPeriod } from '@/utils/formatPeriod';
 import { parseOfferId } from '@/utils/parseOfferId';
-import { Box } from '@/ui/Box';
 
 type TabOptions = 'events' | 'places' | 'organizers';
 
@@ -233,7 +233,9 @@ const DashboardPage = ({ activeTab: initialActiveTab, page }: Props) => {
           <Tabs activeKey={activeTab} onSelect={handleSelectTab}>
             <Tabs.Tab eventKey="events" title="Events">
               {UseGetItemsByCreatorQuery.status === QueryStatus.LOADING ? (
-                <Spinner marginTop={4} />
+                <Panel>
+                  <Spinner marginY={4} />
+                </Panel>
               ) : (
                 isEvents(items) && (
                   <Events
