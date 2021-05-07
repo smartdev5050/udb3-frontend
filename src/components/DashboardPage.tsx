@@ -1,4 +1,4 @@
-import { isAfter } from 'date-fns';
+import { format, isAfter, isFuture } from 'date-fns';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -53,7 +53,11 @@ const EventMenu = ({ event, onDelete, ...props }: EventMenuProps) => {
   const { t, i18n } = useTranslation();
 
   const isFinished = isAfter(new Date(), new Date(event.availableTo));
-  const isPublished = event.workflowStatus === 'DRAFT';
+  const isPublished = ['APPROVED', 'READY_FOR_VALIDATION'].includes(
+    event.workflowStatus,
+  );
+  const isPlanned = isPublished && isFuture(new Date(event.availableFrom));
+
   const editUrl = `/event/${parseOfferId(event['@id'])}/edit`;
   const previewUrl = `/event/${parseOfferId(event['@id'])}/preview`;
   const typeId = event.terms.find((term) => term.domain === 'eventtype')?.id;
@@ -76,10 +80,18 @@ const EventMenu = ({ event, onDelete, ...props }: EventMenuProps) => {
           >
             {event.name[i18n.language] ?? event.name[event.mainLanguage]}
           </Link>
-          {!isPublished && (
+          {isPlanned ? (
             <Badge variant={BadgeVariants.SECONDARY}>
-              {t('dashboard.not_published')}
+              {t('dashboard.online_from', {
+                date: format(new Date(event.availableFrom), 'dd/MM/yyyy'),
+              })}
             </Badge>
+          ) : (
+            !isPublished && (
+              <Badge variant={BadgeVariants.SECONDARY}>
+                {t('dashboard.not_published')}
+              </Badge>
+            )
           )}
         </Inline>
         <Text>

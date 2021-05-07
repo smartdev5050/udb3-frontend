@@ -135,6 +135,7 @@
     "my_items": "Mes activitées, lieux et organizations",
     "passed_event": "Événement terminé",
     "not_published": "Pas publié",
+    "online_from": "Publié le {{date}}",
     "actions": {
       "edit": "Modifier",
       "preview": "Exemple",

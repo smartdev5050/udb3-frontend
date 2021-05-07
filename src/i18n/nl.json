@@ -137,6 +137,7 @@
     "my_items": "Mijn activiteiten, locaties en organisaties",
     "passed_event": "Afgelopen evenement",
     "not_published": "Niet gepubliceerd",
+    "online_from": "Online vanaf {{date}}",
     "actions": {
       "edit": "Bewerken",
       "preview": "Voorbeeld",
