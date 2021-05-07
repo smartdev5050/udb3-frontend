@@ -63,7 +63,6 @@ type EventsProps = {
   totalItems: number;
   currentPage: number;
   setCurrentPage: (page: number) => void;
-  loading: boolean;
 };
 
 const Events = ({
@@ -71,13 +70,8 @@ const Events = ({
   totalItems,
   currentPage,
   setCurrentPage,
-  loading,
 }: EventsProps) => {
   const { t } = useTranslation();
-
-  if (loading) {
-    return <Spinner marginTop={4} />;
-  }
 
   return (
     <Panel>
@@ -146,7 +140,7 @@ const DashboardPage = ({ activeTab: initialActiveTab }: Props) => {
     creator: { id: user.id, email: user.email },
     start: currentPageItems - 1,
     limit: itemsPerPage,
-  }) as UseQueryResult<{ totalItems: number; member: unknown[] }, unknown>; // TODO: remove cast
+  }) as UseQueryResult<{ totalItems: number; member: unknown[] }, Error>; // TODO: remove cast
 
   const items = UseGetItemsByCreatorQuery.data?.member ?? [];
   const totalItems = UseGetItemsByCreatorQuery.data?.totalItems ?? 0;
@@ -167,16 +161,17 @@ const DashboardPage = ({ activeTab: initialActiveTab }: Props) => {
 
           <Tabs activeKey={activeTab} onSelect={handleSelectTab}>
             <Tabs.Tab eventKey="events" title="Events">
-              {isEvents(items) && (
-                <Events
-                  events={items}
-                  totalItems={totalItems}
-                  currentPage={currentPageItems}
-                  setCurrentPage={setCurrentPageItems}
-                  loading={
-                    UseGetItemsByCreatorQuery.status === QueryStatus.LOADING
-                  }
-                />
+              {UseGetItemsByCreatorQuery.status === QueryStatus.LOADING ? (
+                <Spinner marginTop={4} />
+              ) : (
+                isEvents(items) && (
+                  <Events
+                    events={items}
+                    totalItems={totalItems}
+                    currentPage={currentPageItems}
+                    setCurrentPage={setCurrentPageItems}
+                  />
+                )
               )}
             </Tabs.Tab>
             <Tabs.Tab eventKey="places" title="Places" />
