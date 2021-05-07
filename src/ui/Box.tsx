@@ -50,11 +50,19 @@ type ListItemProps = {
   onClick?: (...args: unknown[]) => unknown;
 };
 
+type LinkProps = {
+  title?: string;
+  href?: string;
+  rel?: string;
+  target?: string;
+};
+
 type BoxProps = GeneralProps &
   InlineProps &
   TitleProps &
   ListProps &
-  ListItemProps & {
+  ListItemProps &
+  LinkProps & {
     alignItems?: UIProp<string>;
     margin?: UIProp<number>;
     marginTop?: UIProp<number>;
