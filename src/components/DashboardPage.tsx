@@ -177,7 +177,6 @@ const DashboardPage = ({ activeTab: initialActiveTab, page }: Props) => {
   ]);
 
   useEffect(() => {
-    if (currentPageItems === 1) return;
     const url = getCurrentUrl();
     url.searchParams.set('page', currentPageItems.toString());
     window.history.pushState(undefined, '', url.toString());
