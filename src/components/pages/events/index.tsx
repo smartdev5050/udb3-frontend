@@ -6,7 +6,13 @@ import { DashboardPage } from '@/components/DashboardPage';
 import { useGetEventsByCreator } from '@/hooks/api/events';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
-const Index = ({ page }) => <DashboardPage activeTab="events" page={page} />;
+type Props = {
+  page?: number;
+};
+
+const Index = ({ page }: Props) => (
+  <DashboardPage activeTab="events" page={page} />
+);
 
 export const getServerSideProps = getApplicationServerSideProps(
   async ({ req, query, cookies: rawCookies, queryClient }) => {
