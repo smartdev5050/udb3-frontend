@@ -31,6 +31,8 @@ type Props = { activeTab: TabOptions };
 
 const getValue = getValueFromTheme('dashboardPage');
 
+const itemsPerPage = 10;
+
 const GetItemsByCreatorMap = {
   events: useGetEventsByCreator,
   places: useGetPlacesByCreator,
@@ -58,10 +60,19 @@ const EventMenu = ({ event, ...props }: EventMenuProps) => {
 
 type EventsProps = {
   events: Event[];
+  totalItems: number;
+  currentPage: number;
+  setCurrentPage: (page: number) => void;
   loading: boolean;
 };
 
-const Events = ({ events, loading }: EventsProps) => {
+const Events = ({
+  events,
+  totalItems,
+  currentPage,
+  setCurrentPage,
+  loading,
+}: EventsProps) => {
   const { t } = useTranslation();
 
   if (loading) {
@@ -92,12 +103,12 @@ const Events = ({ events, loading }: EventsProps) => {
       </List>
       <Panel.Footer>
         <Pagination
-          currentPage={1}
-          totalItems={10}
+          currentPage={currentPage}
+          totalItems={totalItems}
           perPage={5}
           prevText={t('pagination.previous')}
           nextText={t('pagination.next')}
-          onChangePage={() => {}}
+          onChangePage={setCurrentPage}
         />
       </Panel.Footer>
     </Panel>
@@ -113,6 +124,7 @@ const DashboardPage = ({ activeTab: initialActiveTab }: Props) => {
 
   const { cookies } = useCookiesWithOptions(['user']);
   const [activeTab, setActiveTab] = useState(initialActiveTab);
+  const [currentPageItems, setCurrentPageItems] = useState(1);
 
   const useGetItemsByCreator = useMemo(() => GetItemsByCreatorMap[activeTab], [
     activeTab,
@@ -132,10 +144,12 @@ const DashboardPage = ({ activeTab: initialActiveTab }: Props) => {
 
   const UseGetItemsByCreatorQuery = useGetItemsByCreator({
     creator: { id: user.id, email: user.email },
-    limit: 10,
-  }) as UseQueryResult<{ member: unknown[] }, unknown>; // TODO: remove cast
+    start: currentPageItems - 1,
+    limit: itemsPerPage,
+  }) as UseQueryResult<{ totalItems: number; member: unknown[] }, unknown>; // TODO: remove cast
 
   const items = UseGetItemsByCreatorQuery.data?.member ?? [];
+  const totalItems = UseGetItemsByCreatorQuery.data?.totalItems ?? 0;
 
   return (
     <Page>
@@ -156,6 +170,9 @@ const DashboardPage = ({ activeTab: initialActiveTab }: Props) => {
               {isEvents(items) && (
                 <Events
                   events={items}
+                  totalItems={totalItems}
+                  currentPage={currentPageItems}
+                  setCurrentPage={setCurrentPageItems}
                   loading={
                     UseGetItemsByCreatorQuery.status === QueryStatus.LOADING
                   }
