@@ -132,7 +132,8 @@
   "dashboard": {
     "welcome": "Bienvenue",
     "create": "Ajouter",
-    "my_items": "Mes activitées, lieux et organizations"
+    "my_items": "Mes activitées, lieux et organizations",
+    "passed_event": "Événement terminé"
   },
   "jobs": {
     "download": "Télécharger",

@@ -134,7 +134,8 @@
   "dashboard": {
     "welcome": "Welkom",
     "create": "Toevoegen",
-    "my_items": "Mijn activiteiten, locaties en organisaties"
+    "my_items": "Mijn activiteiten, locaties en organisaties",
+    "passed_event": "Afgelopen evenement"
   },
   "jobs": {
     "download": "Downloaden",
