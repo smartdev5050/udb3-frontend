@@ -12,6 +12,7 @@ import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import type { Event } from '@/types/Event';
 import { isEvents } from '@/types/Event';
 import type { User } from '@/types/User';
+import { Badge, BadgeVariants } from '@/ui/Badge';
 import { Dropdown, DropDownVariants } from '@/ui/Dropdown';
 import type { InlineProps } from '@/ui/Inline';
 import { getInlineProps, Inline } from '@/ui/Inline';
@@ -48,6 +49,7 @@ const EventMenu = ({ event, ...props }: EventMenuProps) => {
   const { t, i18n } = useTranslation();
 
   const isFinished = isAfter(new Date(), new Date(event.availableTo));
+  const isPublished = event.workflowStatus === 'DRAFT';
   const editUrl = `/event/${parseOfferId(event['@id'])}/edit`;
   const previewUrl = `/event/${parseOfferId(event['@id'])}/preview`;
   const eventType = event.terms.find((term) => term.domain === 'eventtype')
@@ -60,14 +62,21 @@ const EventMenu = ({ event, ...props }: EventMenuProps) => {
 
   return (
     <Inline flex={1} justifyContent="space-between" {...getInlineProps(props)}>
-      <Stack>
-        <Link
-          href={previewUrl}
-          color={getValue('listItem.color')}
-          fontWeight="bold"
-        >
-          {event.name[i18n.language] ?? event.name[event.mainLanguage]}
-        </Link>
+      <Stack spacing={2}>
+        <Inline spacing={3}>
+          <Link
+            href={previewUrl}
+            color={getValue('listItem.color')}
+            fontWeight="bold"
+          >
+            {event.name[i18n.language] ?? event.name[event.mainLanguage]}
+          </Link>
+          {!isPublished && (
+            <Badge variant={BadgeVariants.SECONDARY}>
+              {t('dashboard.not_published')}
+            </Badge>
+          )}
+        </Inline>
         <Text>
           {eventType}
           {period && ` - ${period}`}
