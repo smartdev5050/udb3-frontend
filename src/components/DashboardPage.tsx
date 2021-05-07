@@ -95,11 +95,7 @@ const EventMenu = ({ event, ...props }: EventMenuProps) => {
             {t('dashboard.actions.preview')}
           </Dropdown.Item>
           <Dropdown.Divider />
-          <Dropdown.Item
-            onClick={() => {
-              console.log('Are you sure?');
-            }}
-          >
+          <Dropdown.Item onClick={() => {}}>
             {t('dashboard.actions.delete')}
           </Dropdown.Item>
         </Dropdown>
