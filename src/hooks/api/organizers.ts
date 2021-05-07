@@ -6,6 +6,7 @@ import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 import type { Headers } from './types/Headers';
 import type { ServerSideArguments } from './types/ServerSideArguments';
 import type { SortOptions } from './types/SortOptions';
+import { PaginationOptions } from './types/PaginationOptions';
 
 type HeadersAndQueryData = {
   headers: Headers;
@@ -69,8 +70,7 @@ const getOrganizersByCreator = async ({
 
 type UseGetOrganizersByCreator = ServerSideArguments & {
   creator: { id: string; email: string };
-  start?: number;
-  limit?: number;
+  paginationOptions?: PaginationOptions;
   sortOptions?: SortOptions;
 };
 
@@ -79,8 +79,7 @@ const useGetOrganizersByCreator = (
     req,
     queryClient,
     creator,
-    limit = 50,
-    start = 0,
+    paginationOptions = { start: 0, limit: 50 },
     sortOptions = { field: 'modified', order: 'desc' },
   }: UseGetOrganizersByCreator,
   configuration: UseQueryOptions = {},
@@ -92,8 +91,8 @@ const useGetOrganizersByCreator = (
     queryFn: getOrganizersByCreator,
     queryArguments: {
       q: `creator:(${creator.id} OR ${creator.email})`,
-      limit,
-      start,
+      limit: paginationOptions.limit,
+      start: paginationOptions.start,
       embed: true,
       [`sort[${sortOptions.field}]`]: `${sortOptions.order}`,
     },

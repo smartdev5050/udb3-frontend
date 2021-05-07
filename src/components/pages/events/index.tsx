@@ -23,8 +23,10 @@ export const getServerSideProps = getApplicationServerSideProps(
       req,
       queryClient,
       creator: { id: user?.id, email: user?.email },
-      limit: 14,
-      start: query.page ? parseInt(query.page) - 1 : 1,
+      paginationOptions: {
+        limit: 14,
+        start: query.page ? parseInt(query.page) - 1 : 1,
+      },
     });
 
     return {

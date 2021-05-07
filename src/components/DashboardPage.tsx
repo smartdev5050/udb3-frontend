@@ -223,8 +223,7 @@ const DashboardPage = ({ activeTab: initialActiveTab, page }: Props) => {
 
   const UseGetItemsByCreatorQuery = useGetItemsByCreator({
     creator: { id: user.id, email: user.email },
-    start: currentPage - 1,
-    limit: itemsPerPage,
+    paginationOptions: { start: currentPage - 1, limit: itemsPerPage },
   }) as UseQueryResult<{ totalItems: number; member: unknown[] }, Error>; // TODO: remove cast
 
   const items = UseGetItemsByCreatorQuery.data?.member ?? [];

@@ -11,6 +11,7 @@ import {
 import type { Headers } from './types/Headers';
 import type { ServerSideArguments } from './types/ServerSideArguments';
 import type { SortOptions } from './types/SortOptions';
+import { PaginationOptions } from './types/PaginationOptions';
 
 type HeadersAndQueryData = {
   headers: Headers;
@@ -75,8 +76,7 @@ const getPlacesByCreator = async ({
 
 type UseGetPlacesByCreatorArguments = ServerSideArguments & {
   creator: { id: string; email: string };
-  start?: number;
-  limit?: number;
+  paginationOptions?: PaginationOptions;
   sortOptions?: SortOptions;
 };
 
@@ -85,8 +85,7 @@ const useGetPlacesByCreator = (
     req,
     queryClient,
     creator,
-    start = 0,
-    limit = 50,
+    paginationOptions = { start: 0, limit: 50 },
     sortOptions = { field: 'modified', order: 'desc' },
   }: UseGetPlacesByCreatorArguments,
   configuration: UseQueryOptions = {},
@@ -100,8 +99,8 @@ const useGetPlacesByCreator = (
       q: `creator:(${creator.id} OR ${creator.email})`,
       disableDefaultFilters: true,
       embed: true,
-      limit,
-      start,
+      limit: paginationOptions.limit,
+      start: paginationOptions.start,
       workflowStatus: 'DRAFT,READY_FOR_VALIDATION,APPROVED,REJECTED',
       [`sort[${sortOptions.field}]`]: `${sortOptions.order}`,
     },

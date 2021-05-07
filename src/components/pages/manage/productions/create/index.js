@@ -41,7 +41,7 @@ const Create = () => {
 
   const getProductionsQuery = useGetProductions({
     name: searchInput,
-    limit: 10,
+    paginationOptions: { limit: 10 },
   });
 
   const handleSuccess = async () => {
