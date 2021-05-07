@@ -140,7 +140,17 @@
     "actions": {
       "edit": "Bewerken",
       "preview": "Voorbeeld",
-      "delete": "Verwijderen"
+      "delete": "Verwijderen",
+      "cancel": "Annuleren"
+    },
+    "modal": {
+      "title": "{{type}} verwijderen",
+      "question": "Ben je zeker dat je '{{name}}' wil verwijderen?",
+      "types": {
+        "events": "Evenementen",
+        "places": "Plaatsen",
+        "organizers": "Organisatoren"
+      }
     }
   },
   "jobs": {

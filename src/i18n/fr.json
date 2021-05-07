@@ -138,7 +138,17 @@
     "actions": {
       "edit": "Modifier",
       "preview": "Exemple",
-      "delete": "Supprimer"
+      "delete": "Supprimer",
+      "cancel": "Annuler"
+    },
+    "modal": {
+      "title": "Supprimer des {{type}}",
+      "question": "Voulez-vous vraiment supprimer '{{name}}'?",
+      "types": {
+        "events": "événements",
+        "places": "éndroits",
+        "organizers": "organisateurs"
+      }
     }
   },
   "jobs": {

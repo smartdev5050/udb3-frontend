@@ -19,6 +19,7 @@ import type { InlineProps } from '@/ui/Inline';
 import { getInlineProps, Inline } from '@/ui/Inline';
 import { Link, LinkVariants } from '@/ui/Link';
 import { List } from '@/ui/List';
+import { Modal, ModalVariants } from '@/ui/Modal';
 import { Page } from '@/ui/Page';
 import { Pagination } from '@/ui/Pagination';
 import { Panel } from '@/ui/Panel';
@@ -29,6 +30,7 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { formatPeriod } from '@/utils/formatPeriod';
 import { parseOfferId } from '@/utils/parseOfferId';
+import { Box } from '@/ui/Box';
 
 type TabOptions = 'events' | 'places' | 'organizers';
 
@@ -42,9 +44,12 @@ const GetItemsByCreatorMap = {
   organizers: useGetOrganizersByCreator,
 };
 
-type EventMenuProps = InlineProps & { event: Event };
+type EventMenuProps = InlineProps & {
+  event: Event;
+  onDelete: (id: Event) => void;
+};
 
-const EventMenu = ({ event, ...props }: EventMenuProps) => {
+const EventMenu = ({ event, onDelete, ...props }: EventMenuProps) => {
   const { t, i18n } = useTranslation();
 
   const isFinished = isAfter(new Date(), new Date(event.availableTo));
@@ -95,7 +100,7 @@ const EventMenu = ({ event, ...props }: EventMenuProps) => {
             {t('dashboard.actions.preview')}
           </Dropdown.Item>
           <Dropdown.Divider />
-          <Dropdown.Item onClick={() => {}}>
+          <Dropdown.Item onClick={() => onDelete(event)}>
             {t('dashboard.actions.delete')}
           </Dropdown.Item>
         </Dropdown>
@@ -108,6 +113,7 @@ type EventsProps = {
   events: Event[];
   totalItems: number;
   currentPage: number;
+  onDelete: (id: Event) => void;
   setCurrentPage: (page: number) => void;
 };
 
@@ -116,6 +122,7 @@ const Events = ({
   totalItems,
   currentPage,
   setCurrentPage,
+  onDelete,
 }: EventsProps) => {
   const { t } = useTranslation();
 
@@ -137,7 +144,7 @@ const Events = ({
               `
             }
           >
-            <EventMenu event={event} />
+            <EventMenu event={event} onDelete={onDelete} />
           </List.Item>
         ))}
       </List>
@@ -162,15 +169,18 @@ Events.defaultProps = {
 type Props = { activeTab: TabOptions; page?: number };
 
 const DashboardPage = ({ activeTab: initialActiveTab, page }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { asPath } = useRouter();
 
   const getCurrentUrl = () =>
     new URL(`${window.location.protocol}//${window.location.host}${asPath}`);
 
   const { cookies } = useCookiesWithOptions(['user']);
+
   const [activeTab, setActiveTab] = useState(initialActiveTab);
   const [currentPage, setCurrentPage] = useState(page ?? 1);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [toBeDeletedItem, setToBeDeletedItem] = useState<Event>();
 
   const useGetItemsByCreator = useMemo(() => GetItemsByCreatorMap[activeTab], [
     activeTab,
@@ -204,8 +214,10 @@ const DashboardPage = ({ activeTab: initialActiveTab, page }: Props) => {
   const items = UseGetItemsByCreatorQuery.data?.member ?? [];
   const totalItems = UseGetItemsByCreatorQuery.data?.totalItems ?? 0;
 
-  return (
-    <Page>
+  const itemType = isEvents(items) ? 'events' : undefined;
+
+  return [
+    <Page key="page">
       <Page.Title>
         {t('dashboard.welcome')}, {user?.username}
       </Page.Title>
@@ -229,6 +241,10 @@ const DashboardPage = ({ activeTab: initialActiveTab, page }: Props) => {
                     totalItems={totalItems}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
+                    onDelete={(event) => {
+                      setToBeDeletedItem(event);
+                      setIsModalVisible(true);
+                    }}
                   />
                 )
               )}
@@ -238,8 +254,33 @@ const DashboardPage = ({ activeTab: initialActiveTab, page }: Props) => {
           </Tabs>
         </Stack>
       </Page.Content>
-    </Page>
-  );
+    </Page>,
+    <Modal
+      key="modal"
+      variant={ModalVariants.QUESTION}
+      visible={isModalVisible}
+      onConfirm={() => {
+        console.log('delete item');
+        // TODO: Add api call to delete this item
+      }}
+      onClose={() => setIsModalVisible(false)}
+      title={t('dashboard.modal.title', {
+        type: t(`dashboard.modal.types.${itemType}`),
+      })}
+      confirmTitle={t('dashboard.actions.delete')}
+      cancelTitle={t('dashboard.actions.cancel')}
+    >
+      {toBeDeletedItem && (
+        <Box padding={4}>
+          {t('dashboard.modal.question', {
+            name:
+              toBeDeletedItem.name[i18n.language] ??
+              toBeDeletedItem.name[toBeDeletedItem.mainLanguage],
+          })}
+        </Box>
+      )}
+    </Modal>,
+  ];
 };
 
 export { DashboardPage };
