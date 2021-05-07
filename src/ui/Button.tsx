@@ -274,8 +274,6 @@ Button.defaultProps = {
   customChildren: false,
   shouldHideText: false,
   textAlign: 'center',
-  onClick: () => {},
-  size: ButtonSizes.LARGE,
 };
 
 export { Button, customCSS as buttonCSS, ButtonSizes, ButtonVariants };
