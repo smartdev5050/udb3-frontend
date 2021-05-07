@@ -234,6 +234,9 @@ const theme = {
         backgroundColor: colors.white,
         borderColor: colors.grey3,
         color: colors.udbBlue,
+        passedEvent: {
+          color: colors.grey5,
+        },
       },
     },
     tabs: {

@@ -11,9 +11,11 @@ import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import type { Event } from '@/types/Event';
 import { isEvents } from '@/types/Event';
 import type { User } from '@/types/User';
+import { Button, ButtonVariants } from '@/ui/Button';
+import { Dropdown, DropDownVariants } from '@/ui/Dropdown';
 import type { InlineProps } from '@/ui/Inline';
 import { getInlineProps, Inline } from '@/ui/Inline';
-import { Link } from '@/ui/Link';
+import { Link, LinkVariants } from '@/ui/Link';
 import { List } from '@/ui/List';
 import { Page } from '@/ui/Page';
 import { Pagination } from '@/ui/Pagination';
@@ -24,6 +26,8 @@ import { Tabs } from '@/ui/Tabs';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { parseOfferId } from '@/utils/parseOfferId';
+import { formatDate } from '@/utils/formatDate';
+import { isAfter } from 'date-fns';
 
 type TabOptions = 'events' | 'places' | 'organizers';
 
@@ -42,11 +46,17 @@ const GetItemsByCreatorMap = {
 type EventMenuProps = InlineProps & { event: Event };
 
 const EventMenu = ({ event, ...props }: EventMenuProps) => {
+  const { t } = useTranslation();
+
+  const isFinished = isAfter(new Date(), new Date(event.availableTo));
+  const editUrl = `/event/${parseOfferId(event['@id'])}/edit`;
+  const previewUrl = `/event/${parseOfferId(event['@id'])}/preview`;
+
   return (
-    <Inline {...getInlineProps(props)}>
+    <Inline flex={1} justifyContent="space-between" {...getInlineProps(props)}>
       <Stack>
         <Link
-          href={`/event/${parseOfferId(event['@id'])}/preview`}
+          href={previewUrl}
           color={getValue('listItem.color')}
           fontWeight="bold"
         >
@@ -54,6 +64,26 @@ const EventMenu = ({ event, ...props }: EventMenuProps) => {
         </Link>
         <Text>test</Text>
       </Stack>
+      {isFinished ? (
+        <Text color={getValue('listItem.passedEvent.color')}>
+          {t('dashboard.passed_event')}
+        </Text>
+      ) : (
+        <Dropdown variant={DropDownVariants.SECONDARY}>
+          <Link href={editUrl} variant={LinkVariants.BUTTON_SECONDARY}>
+            Bewerken
+          </Link>
+          <Dropdown.Item href={previewUrl}>Voorbeeld</Dropdown.Item>
+          <Dropdown.Divider />
+          <Dropdown.Item
+            onClick={() => {
+              console.log('Are you sure?');
+            }}
+          >
+            Verwijderen
+          </Dropdown.Item>
+        </Dropdown>
+      )}
     </Inline>
   );
 };
