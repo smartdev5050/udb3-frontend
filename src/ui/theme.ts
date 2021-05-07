@@ -229,6 +229,13 @@ const theme = {
     statusModal: {
       infoTextColor: colors.grey5,
     },
+    dashboardPage: {
+      listItem: {
+        backgroundColor: colors.white,
+        borderColor: colors.grey3,
+        color: colors.udbBlue,
+      },
+    },
     tabs: {
       color: colors.udbBlue,
       hoverColor: colors.textColor,

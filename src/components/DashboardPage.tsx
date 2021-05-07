@@ -21,12 +21,13 @@ import { Stack } from '@/ui/Stack';
 import { Tabs } from '@/ui/Tabs';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
+import { parseOfferId } from '@/utils/parseOfferId';
 
 type TabOptions = 'events' | 'places' | 'organizers';
 
 type Props = { activeTab: TabOptions };
 
-const getValue = getValueFromTheme('productionItem');
+const getValue = getValueFromTheme('dashboardPage');
 
 const GetItemsByCreatorMap = {
   events: useGetEventsByCreator,
@@ -40,9 +41,13 @@ const EventMenu = ({ event, ...props }: EventMenuProps) => {
   return (
     <Inline {...getInlineProps(props)}>
       <Stack>
-        <Text fontWeight="bold" color="blue">
+        <Link
+          href={`/event/${parseOfferId(event['@id'])}/preview`}
+          color={getValue('listItem.color')}
+          fontWeight="bold"
+        >
           {event.name.nl}
-        </Text>
+        </Link>
         <Text>test</Text>
       </Stack>
     </Inline>
@@ -68,12 +73,11 @@ const Events = ({ events, loading }: EventsProps) => {
           paddingRight={4}
           paddingBottom={3}
           paddingTop={3}
-          backgroundColor={getValue('backgroundColor')}
-          cursor="pointer"
+          backgroundColor={getValue('listItem.backgroundColor')}
           css={
             index !== events.length - 1 &&
             css`
-              border-bottom: 1px solid ${getValue('borderColor')};
+              border-bottom: 1px solid ${getValue('listItem.borderColor')};
             `
           }
         >
@@ -112,7 +116,7 @@ const DashboardPage = ({ activeTab: initialActiveTab }: Props) => {
 
   const UseGetItemsByCreatorQuery = useGetItemsByCreator({
     creator: { id: user.id, email: user.email },
-    limit: 20,
+    limit: 10,
   }) as UseQueryResult<{ member: unknown[] }, unknown>; // TODO: remove cast
 
   const items = UseGetItemsByCreatorQuery.data?.member ?? [];
