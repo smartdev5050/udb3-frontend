@@ -170,7 +170,7 @@ const DashboardPage = ({ activeTab: initialActiveTab, page }: Props) => {
 
   const { cookies } = useCookiesWithOptions(['user']);
   const [activeTab, setActiveTab] = useState(initialActiveTab);
-  const [currentPageItems, setCurrentPageItems] = useState(page ?? 1);
+  const [currentPage, setCurrentPage] = useState(page ?? 1);
 
   const useGetItemsByCreator = useMemo(() => GetItemsByCreatorMap[activeTab], [
     activeTab,
@@ -178,16 +178,18 @@ const DashboardPage = ({ activeTab: initialActiveTab, page }: Props) => {
 
   useEffect(() => {
     const url = getCurrentUrl();
-    url.searchParams.set('page', currentPageItems.toString());
+    url.searchParams.set('page', `${currentPage}`);
+
     window.history.pushState(undefined, '', url.toString());
-  }, [currentPageItems]);
+  }, [currentPage]);
 
   const handleSelectTab = (eventKey: TabOptions) => {
     setActiveTab(eventKey);
-    setCurrentPageItems(1);
+
     const url = getCurrentUrl();
     url.pathname = eventKey;
-    url.searchParams.set('page', currentPageItems.toString());
+    url.searchParams.set('page', '1');
+
     window.history.pushState(undefined, '', url.toString());
   };
 
@@ -195,7 +197,7 @@ const DashboardPage = ({ activeTab: initialActiveTab, page }: Props) => {
 
   const UseGetItemsByCreatorQuery = useGetItemsByCreator({
     creator: { id: user.id, email: user.email },
-    start: currentPageItems - 1,
+    start: currentPage - 1,
     limit: itemsPerPage,
   }) as UseQueryResult<{ totalItems: number; member: unknown[] }, Error>; // TODO: remove cast
 
@@ -225,8 +227,8 @@ const DashboardPage = ({ activeTab: initialActiveTab, page }: Props) => {
                   <Events
                     events={items}
                     totalItems={totalItems}
-                    currentPage={currentPageItems}
-                    setCurrentPage={setCurrentPageItems}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
                   />
                 )
               )}
