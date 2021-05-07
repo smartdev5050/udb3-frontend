@@ -18,19 +18,19 @@ export const getServerSideProps = getApplicationServerSideProps(
     await useGetEventsByCreator({
       req,
       queryClient,
-      creator: { id: user?.id, email: user.email },
+      creator: { id: user?.id, email: user?.email },
     });
 
     await useGetPlacesByCreator({
       req,
       queryClient,
-      creator: { id: user?.id, email: user.email },
+      creator: { id: user?.id, email: user?.email },
     });
 
     await useGetOrganizersByCreator({
       req,
       queryClient,
-      creator: { id: user?.id, email: user.email },
+      creator: { id: user?.id, email: user?.email },
     });
 
     return {
