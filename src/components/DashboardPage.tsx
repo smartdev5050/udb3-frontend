@@ -220,6 +220,8 @@ const DashboardPage = ({ activeTab: initialActiveTab, page }: Props) => {
     url.searchParams.set('page', '1');
 
     window.history.pushState(undefined, '', url.toString());
+
+    setCurrentPage(1);
   };
 
   const user: User = cookies.user;
