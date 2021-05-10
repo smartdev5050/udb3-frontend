@@ -4,9 +4,9 @@ import { useAuthenticatedQuery } from '@/hooks/api/authenticated-query';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 
 import type { Headers } from './types/Headers';
+import type { PaginationOptions } from './types/PaginationOptions';
 import type { ServerSideArguments } from './types/ServerSideArguments';
 import type { SortOptions } from './types/SortOptions';
-import { PaginationOptions } from './types/PaginationOptions';
 
 type HeadersAndQueryData = {
   headers: Headers;
