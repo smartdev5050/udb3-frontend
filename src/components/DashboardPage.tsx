@@ -3,10 +3,11 @@ import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { UseQueryResult } from 'react-query';
+import { useQueryClient } from 'react-query';
 import { css } from 'styled-components';
 
 import { QueryStatus } from '@/hooks/api/authenticated-query';
-import { useGetEventsByCreator } from '@/hooks/api/events';
+import { useDeleteEventById, useGetEventsByCreator } from '@/hooks/api/events';
 import { useGetOrganizersByCreator } from '@/hooks/api/organizers';
 import { useGetPlacesByCreator } from '@/hooks/api/places';
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
@@ -193,6 +194,8 @@ const DashboardPage = ({ activeTab: initialActiveTab, page }: Props) => {
 
   const { cookies } = useCookiesWithOptions(['user']);
 
+  const queryClient = useQueryClient();
+
   const [activeTab, setActiveTab] = useState(initialActiveTab);
   const [currentPage, setCurrentPage] = useState(page ?? 1);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -225,6 +228,12 @@ const DashboardPage = ({ activeTab: initialActiveTab, page }: Props) => {
     creator: { id: user.id, email: user.email },
     paginationOptions: { start: currentPage - 1, limit: itemsPerPage },
   }) as UseQueryResult<{ totalItems: number; member: unknown[] }, Error>; // TODO: remove cast
+
+  const UseDeleteEventByIdMutation = useDeleteEventById({
+    onSuccess: async () => {
+      await queryClient.invalidateQueries('events');
+    },
+  });
 
   const items = UseGetItemsByCreatorQuery.data?.member ?? [];
   const totalItems = UseGetItemsByCreatorQuery.data?.totalItems ?? 0;
@@ -285,9 +294,11 @@ const DashboardPage = ({ activeTab: initialActiveTab, page }: Props) => {
       key="modal"
       variant={ModalVariants.QUESTION}
       visible={isModalVisible}
-      onConfirm={() => {
-        console.log('delete item');
-        // TODO: Add api call to delete this item
+      onConfirm={async () => {
+        UseDeleteEventByIdMutation.mutate({
+          id: parseOfferId(toBeDeletedItem['@id']),
+        });
+        setIsModalVisible(false);
       }}
       onClose={() => setIsModalVisible(false)}
       title={t('dashboard.modal.title', {
