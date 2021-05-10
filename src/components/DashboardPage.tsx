@@ -185,7 +185,9 @@ Events.defaultProps = {
 
 type Props = { activeTab: TabOptions; page?: number };
 
-const DashboardPage = ({ activeTab: initialActiveTab, page }: Props) => {
+// Error: Its return type 'Element[]' is not a valid JSX element.
+// return type any following this solution https://github.com/DefinitelyTyped/DefinitelyTyped/issues/20356#issuecomment-492831432
+const DashboardPage = ({ activeTab: initialActiveTab, page }: Props): any => {
   const { t, i18n } = useTranslation();
   const { asPath } = useRouter();
 
