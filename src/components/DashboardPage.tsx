@@ -64,7 +64,7 @@ const EventMenu = ({ event, onDelete, ...props }: EventMenuProps) => {
   // The custom keySeparator was necessary because the ids contain '.' which i18n uses as default keySeparator
   const eventType = t(`offerTypes*${typeId}`, { keySeparator: '*' });
 
-  const period = event.calendarSummary[i18n.language]?.text?.sm;
+  const period = event.calendarSummary[i18n.language]?.text?.md;
 
   return (
     <Inline flex={1} justifyContent="space-between" {...getInlineProps(props)}>

@@ -185,7 +185,7 @@ const useGetEventsByCreator = (
       start: paginationOptions.start,
       workflowStatus: 'DRAFT,READY_FOR_VALIDATION,APPROVED,REJECTED',
       [`sort[${sortOptions.field}]`]: `${sortOptions.order}`,
-      embedCalendarSummaries: 'sm-text',
+      embedCalendarSummaries: 'md-text',
     },
     configuration: {
       enabled: !!(creator.id && creator.email),
