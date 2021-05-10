@@ -261,7 +261,7 @@ const DashboardPage = ({ activeTab: initialActiveTab, page }: Props) => {
             onSelect={handleSelectTab}
             activeBackgroundColor="white"
           >
-            <Tabs.Tab eventKey="events" title="Events">
+            <Tabs.Tab eventKey="events" title={t('dashboard.tabs.events')}>
               {UseGetItemsByCreatorQuery.status === QueryStatus.LOADING ? (
                 <Panel
                   backgroundColor="white"
@@ -286,8 +286,11 @@ const DashboardPage = ({ activeTab: initialActiveTab, page }: Props) => {
                 )
               )}
             </Tabs.Tab>
-            <Tabs.Tab eventKey="places" title="Places" />
-            <Tabs.Tab eventKey="organizers" title="Organizers" />
+            <Tabs.Tab eventKey="places" title={t('dashboard.tabs.places')} />
+            <Tabs.Tab
+              eventKey="organizers"
+              title={t('dashboard.tabs.organizers')}
+            />
           </Tabs>
         </Stack>
       </Page.Content>
