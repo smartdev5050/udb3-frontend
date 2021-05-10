@@ -1,4 +1,4 @@
-import type { UseQueryOptions } from 'react-query';
+import type { UseMutationOptions, UseQueryOptions } from 'react-query';
 
 import type { OfferStatus } from '@/constants/OfferStatus';
 import type { Values } from '@/types/Values';
@@ -9,9 +9,9 @@ import {
   useAuthenticatedQuery,
 } from './authenticated-query';
 import type { Headers } from './types/Headers';
+import type { PaginationOptions } from './types/PaginationOptions';
 import type { ServerSideArguments } from './types/ServerSideArguments';
 import type { SortOptions } from './types/SortOptions';
-import { PaginationOptions } from './types/PaginationOptions';
 
 type HeadersAndQueryData = {
   headers: Headers;
@@ -132,7 +132,7 @@ const changeStatus = async ({
     },
   });
 
-const useChangeStatus = (configuration: UseQueryOptions = {}) =>
+const useChangeStatus = (configuration: UseMutationOptions = {}) =>
   useAuthenticatedMutation({ mutationFn: changeStatus, ...configuration });
 
 export { useChangeStatus, useGetPlaceById, useGetPlacesByCreator };

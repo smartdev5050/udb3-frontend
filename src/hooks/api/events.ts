@@ -1,4 +1,4 @@
-import type { UseQueryOptions } from 'react-query';
+import type { UseMutationOptions, UseQueryOptions } from 'react-query';
 
 import type { OfferStatus } from '@/constants/OfferStatus';
 import type { Values } from '@/types/Values';
@@ -268,7 +268,7 @@ const changeStatus = async ({
     },
   });
 
-const useChangeStatus = (configuration: UseQueryOptions = {}) =>
+const useChangeStatus = (configuration: UseMutationOptions = {}) =>
   useAuthenticatedMutation({ mutationFn: changeStatus, ...configuration });
 
 type ChangeStatusSubEventsArguments = {
@@ -309,7 +309,7 @@ const changeStatusSubEvents = async ({
     },
   });
 
-const useChangeStatusSubEvents = (configuration: UseQueryOptions = {}) =>
+const useChangeStatusSubEvents = (configuration: UseMutationOptions = {}) =>
   useAuthenticatedMutation({
     mutationFn: changeStatusSubEvents,
     ...configuration,
@@ -318,6 +318,7 @@ const useChangeStatusSubEvents = (configuration: UseQueryOptions = {}) =>
 export {
   useChangeStatus,
   useChangeStatusSubEvents,
+  useDeleteEventById,
   useGetCalendarSummary,
   useGetEventById,
   useGetEventsByCreator,
