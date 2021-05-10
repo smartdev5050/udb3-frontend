@@ -83,6 +83,13 @@ type Location = {
   terms: Term[];
 };
 
+type CalendarSummary = {
+  [language: string]: {
+    text?: { [format: string]: string };
+    html?: { [format: string]: string };
+  };
+};
+
 type Offer = {
   '@id': string;
   name: { [language: string]: string };
@@ -92,7 +99,7 @@ type Offer = {
   availableTo: string;
   labels?: string[];
   hiddenLabels?: string[];
-  calendarSummary: string;
+  calendarSummary?: CalendarSummary;
   location: Location;
   organizer: Organizer;
   contactPoint?: ContactPoint;
