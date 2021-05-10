@@ -136,6 +136,11 @@
     "passed_event": "Événement terminé",
     "not_published": "Pas publié",
     "online_from": "Publié le {{date}}",
+    "tabs": {
+      "events": "Événements",
+      "places": "Endroits",
+      "organizers": "Organisateurs"
+    },
     "actions": {
       "edit": "Modifier",
       "preview": "Exemple",

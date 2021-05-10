@@ -138,6 +138,11 @@
     "passed_event": "Afgelopen evenement",
     "not_published": "Niet gepubliceerd",
     "online_from": "Online vanaf {{date}}",
+    "tabs": {
+      "events": "Evenementen",
+      "places": "Plaatsen",
+      "organizers": "Organisatoren"
+    },
     "actions": {
       "edit": "Bewerken",
       "preview": "Voorbeeld",
