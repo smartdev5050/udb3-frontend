@@ -30,7 +30,6 @@ import { Stack } from '@/ui/Stack';
 import { Tabs } from '@/ui/Tabs';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
-import { formatPeriod } from '@/utils/formatPeriod';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 type TabOptions = 'events' | 'places' | 'organizers';
@@ -65,10 +64,7 @@ const EventMenu = ({ event, onDelete, ...props }: EventMenuProps) => {
   // The custom keySeparator was necessary because the ids contain '.' which i18n uses as default keySeparator
   const eventType = t(`offerTypes*${typeId}`, { keySeparator: '*' });
 
-  const period =
-    event.startDate && event.endDate
-      ? formatPeriod(event.startDate, event.endDate, i18n.language, t)
-      : '';
+  const period = event.calendarSummary[i18n.language]?.text?.sm;
 
   return (
     <Inline flex={1} justifyContent="space-between" {...getInlineProps(props)}>
