@@ -142,7 +142,7 @@ const Events = ({
   return (
     <Panel
       css={`
-        border-top: none;
+        border-top: none !important;
       `}
     >
       <List>
@@ -266,7 +266,7 @@ const DashboardPage = ({ activeTab: initialActiveTab, page }: Props) => {
                 <Panel
                   backgroundColor="white"
                   css={`
-                    border-top: none;
+                    border-top: none !important;
                   `}
                 >
                   <Spinner marginY={4} />
