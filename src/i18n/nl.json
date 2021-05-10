@@ -134,7 +134,7 @@
   "dashboard": {
     "welcome": "Welkom",
     "create": "Toevoegen",
-    "my_items": "Mijn activiteiten, locaties en organisaties",
+    "my_items": "Mijn evenementen, plaatsen en organisatoren",
     "passed_event": "Afgelopen evenement",
     "not_published": "Niet gepubliceerd",
     "online_from": "Online vanaf {{date}}",

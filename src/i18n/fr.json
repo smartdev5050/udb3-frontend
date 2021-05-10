@@ -132,7 +132,7 @@
   "dashboard": {
     "welcome": "Bienvenue",
     "create": "Ajouter",
-    "my_items": "Mes activitées, lieux et organizations",
+    "my_items": "Mes évenements, endroits et organisateurs",
     "passed_event": "Événement terminé",
     "not_published": "Pas publié",
     "online_from": "Publié le {{date}}",
