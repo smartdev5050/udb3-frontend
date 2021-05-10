@@ -117,6 +117,23 @@ const useGetEventsByIds = ({
   return useAuthenticatedQueries({ req, queryClient, options });
 };
 
+type DeleteEventByIdArguments = {
+  headers: Headers;
+  id: string;
+};
+
+const deleteEventById = async ({ headers, id }: DeleteEventByIdArguments) =>
+  fetchFromApi({
+    path: `/events/${id}`,
+    options: { headers, method: 'DELETE' },
+  });
+
+const useDeleteEventById = (configuration: UseMutationOptions = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: deleteEventById,
+    ...configuration,
+  });
+
 type GetEventsByCreatorArguments = HeadersAndQueryData;
 
 const getEventsByCreator = async ({
