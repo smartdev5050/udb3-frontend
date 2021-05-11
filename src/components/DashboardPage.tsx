@@ -165,7 +165,7 @@ const Events = ({
         <Pagination
           currentPage={currentPage}
           totalItems={totalItems}
-          perPage={5}
+          perPage={itemsPerPage}
           prevText={t('pagination.previous')}
           nextText={t('pagination.next')}
           onChangePage={setCurrentPage}
