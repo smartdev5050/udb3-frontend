@@ -18,6 +18,7 @@ export const getServerSideProps = getApplicationServerSideProps(
   async ({ req, query, cookies: rawCookies, queryClient }) => {
     const cookies = new Cookies(rawCookies);
     const user: User = cookies.get('user');
+    const page = query.page ? parseInt(query.page) : 1;
 
     await useGetEventsByCreator({
       req,
@@ -25,7 +26,7 @@ export const getServerSideProps = getApplicationServerSideProps(
       creator: user,
       paginationOptions: {
         limit: itemsPerPage,
-        start: query.page ? parseInt(query.page) - 1 : 1,
+        start: page - 1,
       },
     });
 
@@ -33,7 +34,7 @@ export const getServerSideProps = getApplicationServerSideProps(
       props: {
         dehydratedState: dehydrate(queryClient),
         cookies: rawCookies,
-        page: parseInt(query.page),
+        page: page,
       },
     };
   },
