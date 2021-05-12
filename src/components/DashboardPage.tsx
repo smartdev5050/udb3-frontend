@@ -13,7 +13,6 @@ import { useGetPlacesByCreator } from '@/hooks/api/places';
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import type { Event } from '@/types/Event';
 import { isEvents } from '@/types/Event';
-import type { User } from '@/types/User';
 import { Badge, BadgeVariants } from '@/ui/Badge';
 import { Box } from '@/ui/Box';
 import { Dropdown, DropDownVariants } from '@/ui/Dropdown';
@@ -222,7 +221,7 @@ const DashboardPage = ({ activeTab: initialActiveTab, page }: Props): any => {
     setCurrentPage(1);
   };
 
-  const user: User = cookies.user;
+  const user = cookies.user;
 
   const UseGetItemsByCreatorQuery = useGetItemsByCreator({
     creator: { id: user.id, email: user.email },
