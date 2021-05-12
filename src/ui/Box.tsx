@@ -1,6 +1,6 @@
 import kebabCase from 'lodash/kebabCase';
 import pick from 'lodash/pick';
-import type { ComponentType, ReactNode } from 'react';
+import type { ComponentType, MouseEvent, ReactNode } from 'react';
 import { forwardRef } from 'react';
 import type { FlattenInterpolation, ThemeProps } from 'styled-components';
 import styled, { css } from 'styled-components';
@@ -46,10 +46,6 @@ type ListProps = {
   variant?: string;
 };
 
-type ListItemProps = {
-  onClick?: (...args: unknown[]) => unknown;
-};
-
 type LinkProps = {
   title?: string;
   href?: string;
@@ -61,7 +57,6 @@ type BoxProps = GeneralProps &
   InlineProps &
   TitleProps &
   ListProps &
-  ListItemProps &
   LinkProps & {
     alignItems?: UIProp<string>;
     margin?: UIProp<number>;
@@ -106,6 +101,7 @@ type BoxProps = GeneralProps &
     flex?: UIProp<string | number>;
     cursor?: UIProp<string>;
     animation?: UIProp<string>;
+    onClick?: (event: MouseEvent<HTMLElement>) => void;
   };
 
 const remInPixels = 15;

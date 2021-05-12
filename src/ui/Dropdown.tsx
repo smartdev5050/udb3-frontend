@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { MouseEvent, ReactNode } from 'react';
 import { Children } from 'react';
 import {
   ButtonGroup as BootstrapButtonGroup,
@@ -60,7 +60,7 @@ const Dropdown = ({ variant, children, ...props }: DropdownProps) => {
 
 type ItemProps = {
   href?: string;
-  onClick?: (...args: unknown[]) => void;
+  onClick?: (event: MouseEvent<HTMLElement>) => void;
   children: ReactNode;
 };
 

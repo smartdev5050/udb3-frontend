@@ -31,9 +31,7 @@ List.defaultProps = {
   variant: ListVariants.UNORDERED,
 };
 
-type ListItemProps = InlineProps & {
-  onClick?: (...args: unknown[]) => unknown;
-};
+type ListItemProps = InlineProps;
 
 const ListItem = ({
   children,
