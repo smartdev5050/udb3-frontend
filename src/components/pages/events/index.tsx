@@ -22,7 +22,7 @@ export const getServerSideProps = getApplicationServerSideProps(
     await useGetEventsByCreator({
       req,
       queryClient,
-      creator: { id: user?.id, email: user?.email },
+      creator: user,
       paginationOptions: {
         limit: 14,
         start: query.page ? parseInt(query.page) - 1 : 1,
