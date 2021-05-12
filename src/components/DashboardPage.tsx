@@ -193,7 +193,7 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
 
   const queryClient = useQueryClient();
 
-  const currentPage = page ?? 1;
+  const [currentPage, setCurrentPage] = useState(page);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [toBeDeletedItem, setToBeDeletedItem] = useState<Event>();
 
@@ -209,11 +209,13 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
     await router.push(url);
   };
 
-  const setCurrentPage = async (page: number) => {
+  const changeCurrentPage = async (page: number) => {
     const url = getCurrentUrl();
     url.searchParams.set('page', `${page}`);
 
-    await router.push(url);
+    await router.push(url, undefined, { shallow: true });
+
+    setCurrentPage(page);
   };
 
   const user = cookies.user;
@@ -269,7 +271,7 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
                     events={items}
                     totalItems={totalItems}
                     currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
+                    setCurrentPage={changeCurrentPage}
                     onDelete={(event) => {
                       setToBeDeletedItem(event);
                       setIsModalVisible(true);
