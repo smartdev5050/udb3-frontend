@@ -6,7 +6,7 @@ import type { Address } from './Address';
 import type { ContactPoint } from './ContactPoint';
 import type { Organizer } from './Organizer';
 import type { Values } from './Values';
-import type { WorkFlowStatus } from './WorkFlowStatus';
+import type { WorkflowStatus } from './WorkflowStatus';
 
 type StatusType = Values<typeof OfferStatus>;
 
@@ -117,7 +117,7 @@ type Offer = {
   performer: [{ performer: string }];
   sameAs: string[];
   seeAlso: string[];
-  workflowStatus: WorkFlowStatus;
+  workflowStatus: WorkflowStatus;
   audience: { audienceType: string };
   mainLanguage: string;
   languages: string[];

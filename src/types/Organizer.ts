@@ -1,6 +1,6 @@
 import type { Address } from './Address';
 import type { ContactPoint } from './ContactPoint';
-import type { WorkFlowStatus } from './WorkFlowStatus';
+import type { WorkflowStatus } from './WorkflowStatus';
 
 type Organizer = {
   '@id': string;
@@ -10,7 +10,7 @@ type Organizer = {
   address: Address;
   labels: string[];
   contactPoint: ContactPoint;
-  workflowStatus: WorkFlowStatus;
+  workflowStatus: WorkflowStatus;
   languages: string[];
   completedLanguages: string[];
   modified: string;

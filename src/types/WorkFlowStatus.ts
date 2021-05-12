@@ -1,8 +1,8 @@
-type WorkFlowStatus =
+type WorkflowStatus =
   | 'DRAFT'
   | 'APPROVED'
   | 'READY_FOR_VALIDATION'
   | 'REJECTED'
   | 'DELETED';
 
-export type { WorkFlowStatus };
+export type { WorkflowStatus };
