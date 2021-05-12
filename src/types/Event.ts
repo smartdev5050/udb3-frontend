@@ -1,9 +1,11 @@
 import type { Offer } from './Offer';
 
+type EventId = string;
+
 type ProductionOnEvent = {
   id: string;
   title: string;
-  otherEvents: string[];
+  otherEvents: EventId[];
 };
 
 type Event = Offer & {
