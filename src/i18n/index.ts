@@ -8,7 +8,6 @@ import nl from './nl.json';
 const supportedLanguages = ['nl', 'fr'] as const;
 type SupportedLanguage = typeof supportedLanguages[number];
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
 i18n.use(LanguageDetector);
 i18n.use(initReactI18next);
 i18n
