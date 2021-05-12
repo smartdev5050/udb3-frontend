@@ -322,4 +322,4 @@ const DashboardPage = ({ defaultActiveTab, page }: Props): any => {
   ];
 };
 
-export { DashboardPage };
+export { DashboardPage, itemsPerPage };

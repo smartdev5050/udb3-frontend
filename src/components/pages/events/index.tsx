@@ -2,7 +2,7 @@ import { Cookies } from 'react-cookie';
 import { dehydrate } from 'react-query/hydration';
 import type { User } from 'types/User';
 
-import { DashboardPage } from '@/components/DashboardPage';
+import { DashboardPage, itemsPerPage } from '@/components/DashboardPage';
 import { useGetEventsByCreator } from '@/hooks/api/events';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
@@ -24,7 +24,7 @@ export const getServerSideProps = getApplicationServerSideProps(
       queryClient,
       creator: user,
       paginationOptions: {
-        limit: 14,
+        limit: itemsPerPage,
         start: query.page ? parseInt(query.page) - 1 : 1,
       },
     });
