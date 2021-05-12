@@ -122,14 +122,14 @@ type EventsProps = {
   totalItems: number;
   currentPage: number;
   onDelete: (id: Event) => void;
-  setCurrentPage: (page: number) => void;
+  changeCurrentPage: (page: number) => void;
 };
 
 const Events = ({
   events,
   totalItems,
   currentPage,
-  setCurrentPage,
+  changeCurrentPage,
   onDelete,
 }: EventsProps) => {
   const { t } = useTranslation();
@@ -167,7 +167,7 @@ const Events = ({
           perPage={itemsPerPage}
           prevText={t('pagination.previous')}
           nextText={t('pagination.next')}
-          onChangePage={setCurrentPage}
+          onChangePage={changeCurrentPage}
         />
       </Panel.Footer>
     </Panel>
@@ -271,7 +271,7 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
                     events={items}
                     totalItems={totalItems}
                     currentPage={currentPage}
-                    setCurrentPage={changeCurrentPage}
+                    changeCurrentPage={changeCurrentPage}
                     onDelete={(event) => {
                       setToBeDeletedItem(event);
                       setIsModalVisible(true);
