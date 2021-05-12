@@ -178,11 +178,11 @@ Events.defaultProps = {
   loading: false,
 };
 
-type Props = { activeTab: TabOptions; page?: number };
+type Props = { defaultActiveTab: TabOptions; page?: number };
 
 // Error: Its return type 'Element[]' is not a valid JSX element.
 // return type any following this solution https://github.com/DefinitelyTyped/DefinitelyTyped/issues/20356#issuecomment-492831432
-const DashboardPage = ({ activeTab: initialActiveTab, page }: Props): any => {
+const DashboardPage = ({ defaultActiveTab, page }: Props): any => {
   const { t, i18n } = useTranslation();
   const { asPath } = useRouter();
 
@@ -193,7 +193,7 @@ const DashboardPage = ({ activeTab: initialActiveTab, page }: Props): any => {
 
   const queryClient = useQueryClient();
 
-  const [activeTab, setActiveTab] = useState(initialActiveTab);
+  const [activeTab, setActiveTab] = useState(defaultActiveTab);
   const [currentPage, setCurrentPage] = useState(page ?? 1);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [toBeDeletedItem, setToBeDeletedItem] = useState<Event>();

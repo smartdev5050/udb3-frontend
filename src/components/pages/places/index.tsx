@@ -8,7 +8,7 @@ import { useGetOrganizersByCreator } from '@/hooks/api/organizers';
 import { useGetPlacesByCreator } from '@/hooks/api/places';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
-const Index = () => <DashboardPage activeTab="places" />;
+const Index = () => <DashboardPage defaultActiveTab="places" />;
 
 export const getServerSideProps = getApplicationServerSideProps(
   async ({ req, cookies: rawCookies, queryClient }) => {
