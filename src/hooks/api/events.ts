@@ -2,6 +2,7 @@ import type { UseMutationOptions, UseQueryOptions } from 'react-query';
 
 import type { OfferStatus } from '@/constants/OfferStatus';
 import type { Values } from '@/types/Values';
+import { createSortingArgument } from '@/utils/createSortingArgument';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 import { formatDate } from '@/utils/formatDate';
 
@@ -184,7 +185,7 @@ const useGetEventsByCreator = (
       limit: paginationOptions.limit,
       start: paginationOptions.start,
       workflowStatus: 'DRAFT,READY_FOR_VALIDATION,APPROVED,REJECTED',
-      [`sort[${sortOptions.field}]`]: `${sortOptions.order}`,
+      ...createSortingArgument(sortOptions),
       embedCalendarSummaries: 'md-text',
     },
     configuration: {

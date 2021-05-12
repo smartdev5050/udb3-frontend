@@ -1,6 +1,7 @@
 import type { UseQueryOptions } from 'react-query';
 
 import { useAuthenticatedQuery } from '@/hooks/api/authenticated-query';
+import { createSortingArgument } from '@/utils/createSortingArgument';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 
 import type { Headers } from './types/Headers';
@@ -94,7 +95,7 @@ const useGetOrganizersByCreator = (
       limit: paginationOptions.limit,
       start: paginationOptions.start,
       embed: true,
-      [`sort[${sortOptions.field}]`]: `${sortOptions.order}`,
+      ...createSortingArgument(sortOptions),
     },
     configuration: {
       enabled: !!(creator.id && creator.email),
