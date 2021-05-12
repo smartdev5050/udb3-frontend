@@ -12,7 +12,7 @@ import { useGetOrganizersByCreator } from '@/hooks/api/organizers';
 import { useGetPlacesByCreator } from '@/hooks/api/places';
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import type { Event } from '@/types/Event';
-import { isEvents } from '@/types/Event';
+import { areEvents } from '@/types/Event';
 import { Badge, BadgeVariants } from '@/ui/Badge';
 import { Box } from '@/ui/Box';
 import { Dropdown, DropDownVariants } from '@/ui/Dropdown';
@@ -238,7 +238,7 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
   const items = UseGetItemsByCreatorQuery.data?.member ?? [];
   const totalItems = UseGetItemsByCreatorQuery.data?.totalItems ?? 0;
 
-  const itemType = isEvents(items) ? 'events' : undefined;
+  const itemType = areEvents(items) ? 'events' : undefined;
 
   return [
     <Page key="page">
@@ -270,7 +270,7 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
                   <Spinner marginY={4} />
                 </Panel>
               ) : (
-                isEvents(items) && (
+                areEvents(items) && (
                   <Events
                     events={items}
                     totalItems={totalItems}
