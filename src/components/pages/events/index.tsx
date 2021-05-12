@@ -25,8 +25,8 @@ export const getServerSideProps = getApplicationServerSideProps(
       queryClient,
       creator: user,
       paginationOptions: {
+        start: (page - 1) * itemsPerPage,
         limit: itemsPerPage,
-        start: page - 1,
       },
     });
 

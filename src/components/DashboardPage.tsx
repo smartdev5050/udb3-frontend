@@ -222,7 +222,10 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
 
   const UseGetItemsByCreatorQuery = useGetItemsByCreator({
     creator: user,
-    paginationOptions: { start: currentPage - 1, limit: itemsPerPage },
+    paginationOptions: {
+      start: (currentPage - 1) * itemsPerPage,
+      limit: itemsPerPage,
+    },
   }) as UseQueryResult<{ totalItems: number; member: unknown[] }, Error>; // TODO: remove cast
 
   const UseDeleteEventByIdMutation = useDeleteEventById({
