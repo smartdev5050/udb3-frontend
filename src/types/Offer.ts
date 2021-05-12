@@ -1,6 +1,7 @@
 import type { CalendarType } from '@/constants/CalendarType';
 import type { OfferStatus } from '@/constants/OfferStatus';
 
+import type { SupportedLanguage } from '../i18n';
 import type { Address } from './Address';
 import type { ContactPoint } from './ContactPoint';
 import type { Organizer } from './Organizer';
@@ -84,7 +85,7 @@ type Location = {
 };
 
 type CalendarSummary = {
-  [language: string]: {
+  [key in SupportedLanguage]: {
     text?: { [format: string]: string };
     html?: { [format: string]: string };
   };
@@ -92,8 +93,8 @@ type CalendarSummary = {
 
 type Offer = {
   '@id': string;
-  name: { [language: string]: string };
-  description: { [language: string]: string };
+  name: { [key in SupportedLanguage]: string };
+  description: { [key in SupportedLanguage]: string };
   status?: Status;
   availableFrom: string;
   availableTo: string;

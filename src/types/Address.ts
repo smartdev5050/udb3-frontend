@@ -1,3 +1,5 @@
+import type { SupportedLanguage } from '../i18n';
+
 type AddressInternal = {
   addressCountry: string;
   addressLocality: string;
@@ -6,7 +8,6 @@ type AddressInternal = {
 };
 type Address =
   | AddressInternal
-  | { nl: AddressInternal }
-  | { fr: AddressInternal };
+  | { [key in SupportedLanguage]: AddressInternal };
 
 export type { Address };
