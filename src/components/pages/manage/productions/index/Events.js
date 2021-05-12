@@ -296,10 +296,11 @@ const Events = ({
                 onToggle={onToggleSelectEvent}
                 selected={event.selected}
                 css={
-                  index !== events.length - 1 &&
-                  css`
-                    border-bottom: 1px solid ${getValue('borderColor')};
-                  `
+                  index !== events.length - 1
+                    ? css`
+                        border-bottom: 1px solid ${getValue('borderColor')};
+                      `
+                    : undefined
                 }
               />
             ))}

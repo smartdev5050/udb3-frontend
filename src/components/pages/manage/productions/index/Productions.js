@@ -50,10 +50,11 @@ const Productions = ({
                   }
                   cursor="pointer"
                   css={
-                    index !== productions.length - 1 &&
-                    css`
-                      border-bottom: 1px solid ${getValue('borderColor')};
-                    `
+                    index !== productions.length - 1
+                      ? css`
+                          border-bottom: 1px solid ${getValue('borderColor')};
+                        `
+                      : undefined
                   }
                   key={production.id}
                   onClick={() => onClickProduction(production.id)}

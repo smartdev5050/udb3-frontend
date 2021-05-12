@@ -150,10 +150,11 @@ const Events = ({
             paddingTop={3}
             backgroundColor={getValue('listItem.backgroundColor')}
             css={
-              index !== events.length - 1 &&
-              css`
-                border-bottom: 1px solid ${getValue('listItem.borderColor')};
-              `
+              index !== events.length - 1
+                ? css`
+                    border-bottom: 1px solid ${getValue('listItem.borderColor')};
+                  `
+                : undefined
             }
           >
             <EventMenu event={event} onDelete={onDelete} />

@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { css } from 'styled-components';
 
 import { Box, parseSpacing } from './Box';
 import { Inline } from './Inline';
@@ -23,11 +24,9 @@ const DetailTable = ({ items, className, ...props }) => {
             padding={3}
             css={
               index !== items.length - 1
-                ? (props) => {
-                    return `border-bottom: 1px solid ${getValue('borderColor')(
-                      props,
-                    )};`;
-                  }
+                ? css`
+                    border-bottom: 1px solid ${getValue('borderColor')};
+                  `
                 : undefined
             }
           >
