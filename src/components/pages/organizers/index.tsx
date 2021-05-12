@@ -6,7 +6,7 @@ import { DashboardPage } from '@/components/DashboardPage';
 import { useGetOrganizersByCreator } from '@/hooks/api/organizers';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
-const Index = () => <DashboardPage defaultActiveTab="organizers" />;
+const Index = () => <DashboardPage activeTab="organizers" />;
 
 export const getServerSideProps = getApplicationServerSideProps(
   async ({ req, cookies: rawCookies, queryClient }) => {

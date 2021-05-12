@@ -11,7 +11,7 @@ type Props = {
 };
 
 const Index = ({ page }: Props) => (
-  <DashboardPage defaultActiveTab="events" page={page} />
+  <DashboardPage activeTab="events" page={page} />
 );
 
 export const getServerSideProps = getApplicationServerSideProps(

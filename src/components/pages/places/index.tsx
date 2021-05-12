@@ -6,7 +6,7 @@ import { DashboardPage } from '@/components/DashboardPage';
 import { useGetPlacesByCreator } from '@/hooks/api/places';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
-const Index = () => <DashboardPage defaultActiveTab="places" />;
+const Index = () => <DashboardPage activeTab="places" />;
 
 export const getServerSideProps = getApplicationServerSideProps(
   async ({ req, cookies: rawCookies, queryClient }) => {

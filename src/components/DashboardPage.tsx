@@ -1,6 +1,6 @@
 import { format, isAfter, isFuture } from 'date-fns';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { UseQueryResult } from 'react-query';
 import { useQueryClient } from 'react-query';
@@ -178,13 +178,13 @@ Events.defaultProps = {
   loading: false,
 };
 
-type Props = { defaultActiveTab: TabOptions; page?: number };
+type Props = { activeTab: TabOptions; page?: number };
 
 // Error: Its return type 'Element[]' is not a valid JSX element.
 // return type any following this solution https://github.com/DefinitelyTyped/DefinitelyTyped/issues/20356#issuecomment-492831432
-const DashboardPage = ({ defaultActiveTab, page }: Props): any => {
+const DashboardPage = ({ activeTab, page }: Props): any => {
   const { t, i18n } = useTranslation();
-  const { asPath } = useRouter();
+  const { asPath, ...router } = useRouter();
 
   const getCurrentUrl = () =>
     new URL(`${window.location.protocol}//${window.location.host}${asPath}`);
@@ -193,8 +193,7 @@ const DashboardPage = ({ defaultActiveTab, page }: Props): any => {
 
   const queryClient = useQueryClient();
 
-  const [activeTab, setActiveTab] = useState(defaultActiveTab);
-  const [currentPage, setCurrentPage] = useState(page ?? 1);
+  const currentPage = page ?? 1;
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [toBeDeletedItem, setToBeDeletedItem] = useState<Event>();
 
@@ -202,23 +201,19 @@ const DashboardPage = ({ defaultActiveTab, page }: Props): any => {
     activeTab,
   ]);
 
-  useEffect(() => {
-    const url = getCurrentUrl();
-    url.searchParams.set('page', `${currentPage}`);
-
-    window.history.pushState(undefined, '', url.toString());
-  }, [currentPage]);
-
-  const handleSelectTab = (eventKey: TabOptions) => {
-    setActiveTab(eventKey);
-
+  const handleSelectTab = async (eventKey: TabOptions) => {
     const url = getCurrentUrl();
     url.pathname = eventKey;
     url.searchParams.set('page', '1');
 
-    window.history.pushState(undefined, '', url.toString());
+    await router.push(url);
+  };
 
-    setCurrentPage(1);
+  const setCurrentPage = async (page: number) => {
+    const url = getCurrentUrl();
+    url.searchParams.set('page', `${page}`);
+
+    await router.push(url);
   };
 
   const user = cookies.user;
