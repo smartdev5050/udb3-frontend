@@ -5,8 +5,8 @@ import type { SupportedLanguage } from '../i18n';
 import type { Address } from './Address';
 import type { ContactPoint } from './ContactPoint';
 import type { Organizer } from './Organizer';
+import type { WorkflowStatus } from './Test';
 import type { Values } from './Values';
-import type { WorkflowStatus } from './WorkflowStatus';
 
 type StatusType = Values<typeof OfferStatus>;
 
