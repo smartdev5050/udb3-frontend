@@ -9,20 +9,20 @@ import { getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme(`tabs`);
 
-type Props = BoxProps & {
-  activeKey: string;
+type Props<T> = BoxProps & {
+  activeKey: T;
   onSelect: (eventKey: string | null, e: SyntheticEvent<unknown>) => void;
   activeBackgroundColor?: string;
 };
 
-const Tabs = ({
+const Tabs = <T,>({
   activeKey,
   onSelect,
   activeBackgroundColor,
   children: rawChildren,
   className,
   ...props
-}: Props) => {
+}: Props<T>) => {
   const children = Children.toArray(rawChildren).filter((child) => {
     // @ts-expect-error
     if (child.type !== Tab) {

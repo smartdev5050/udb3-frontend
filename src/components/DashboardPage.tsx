@@ -254,7 +254,7 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
         <Stack spacing={3}>
           <Text>{t('dashboard.my_items')}</Text>
 
-          <Tabs
+          <Tabs<TabOptions>
             activeKey={activeTab}
             onSelect={handleSelectTab}
             activeBackgroundColor="white"
