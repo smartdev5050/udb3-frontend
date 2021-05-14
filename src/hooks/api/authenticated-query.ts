@@ -2,12 +2,26 @@ import flatten from 'lodash/flatten';
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import { Cookies } from 'react-cookie';
+import type { QueryKey, UseQueryOptions } from 'react-query';
 import { useMutation, useQueries, useQuery } from 'react-query';
 
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import { isTokenValid } from '@/utils/isTokenValid';
 
+import type { Headers } from './types/Headers';
+import type { ServerSideArguments } from './types/ServerSideArguments';
 import { createHeaders, useHeaders } from './useHeaders';
+
+type QueryFunction<TData, TArguments> = (
+  context: { headers: Headers } & TArguments,
+) => Promise<TData>;
+
+type UseAuthenticatedQueryOptions<TData, TArguments> = ServerSideArguments &
+  Omit<UseQueryOptions, 'queryKey' | 'queryFn'> & {
+    queryKey: QueryKey;
+    queryFn: QueryFunction<TData, TArguments>;
+    queryArguments: TArguments;
+  };
 
 const QueryStatus = {
   IDLE: 'idle',
@@ -16,26 +30,42 @@ const QueryStatus = {
   SUCCESS: 'success',
 };
 
-const prepareKey = ({ queryKey = [], queryArguments = {} } = {}) => {
+const prepareKey = <TArguments>({
+  queryKey,
+  queryArguments,
+}: {
+  queryKey: QueryKey;
+  queryArguments: TArguments;
+}) => {
+  const key = Array.isArray(queryKey) ? queryKey : [queryKey];
   return [
-    ...flatten(queryKey),
+    ...flatten(key),
     Object.keys(queryArguments).length > 0 ? queryArguments : undefined,
   ].filter((key) => key !== undefined);
 };
 
-const prepareArguments = ({
+type PrepareArgumentsArguments<TData, TArguments> = {
+  options: UseAuthenticatedQueryOptions<TData, TArguments>;
+  isTokenPresent: boolean;
+  headers: Headers;
+};
+
+const prepareArguments = <TData, TArguments>({
   options: {
     queryKey,
-    queryFn = () => {},
-    queryArguments = {},
+    queryFn,
+    queryArguments,
     enabled = true,
     ...configuration
-  } = {},
+  },
   isTokenPresent = false,
   headers,
-} = {}) => ({
-  queryKey: prepareKey({ queryArguments, queryKey }),
-  queryFn: () => queryFn({ ...queryArguments, headers }),
+}: PrepareArgumentsArguments<TData, TArguments>): UseQueryOptions<
+  TData,
+  Response
+> => ({
+  queryKey: prepareKey<TArguments>({ queryArguments, queryKey }),
+  queryFn: async () => await queryFn({ ...queryArguments, headers }),
   enabled: isTokenPresent && !!enabled,
   ...configuration,
 });
@@ -90,7 +120,16 @@ const prefetchAuthenticatedQueries = async ({
   );
 };
 
-const prefetchAuthenticatedQuery = async ({ req, queryClient, ...options }) => {
+type PrefetchAuthenticatedQueryArguments<
+  TData,
+  TArguments
+> = ServerSideArguments & UseAuthenticatedQueryOptions<TData, TArguments>;
+
+const prefetchAuthenticatedQuery = async <TData, TArguments>({
+  req,
+  queryClient,
+  ...options
+}: PrefetchAuthenticatedQueryArguments<TData, TArguments>) => {
   const cookies = new Cookies(req?.headers?.cookie);
   const headers = createHeaders(cookies.get('token'));
 
@@ -103,7 +142,6 @@ const prefetchAuthenticatedQuery = async ({ req, queryClient, ...options }) => {
   try {
     await queryClient.prefetchQuery(queryKey, queryFn);
   } catch {}
-  return await queryClient.getQueryData(queryKey);
 };
 
 /// /////////////////////////////////////////////////////////////////////////////////////////////
@@ -172,9 +210,13 @@ const useAuthenticatedMutations = ({
   return useMutation(innerMutationFn, configuration);
 };
 
-const useAuthenticatedQuery = (options = {}) => {
+const useAuthenticatedQuery = <TData, TArguments>(
+  options: UseAuthenticatedQueryOptions<TData, TArguments>,
+) => {
   if (!!options.req && !!options.queryClient && typeof window === 'undefined') {
-    return prefetchAuthenticatedQuery(options);
+    prefetchAuthenticatedQuery<TData, TArguments>(options)
+      .then(() => {})
+      .catch(() => {});
   }
 
   const { asPath, ...router } = useRouter();
@@ -184,18 +226,21 @@ const useAuthenticatedQuery = (options = {}) => {
     'token',
   ]);
 
-  const preparedArguments = prepareArguments({
+  const preparedArguments = prepareArguments<TData, TArguments>({
     options,
     isTokenPresent: isTokenValid(cookies.token),
     headers,
   });
 
-  const result = useQuery(preparedArguments);
+  const result = useQuery<TData, Response>(preparedArguments);
 
   if (isUnAuthorized(result?.error?.status)) {
     if (!asPath.startsWith('/login') && asPath !== '/[...params]') {
       removeAuthenticationCookies();
-      router.push('/login');
+      router
+        .push('/login')
+        .then(() => {})
+        .catch(() => {});
     }
   }
 
