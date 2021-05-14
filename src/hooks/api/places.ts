@@ -106,10 +106,8 @@ const useGetPlacesByCreator = (
       workflowStatus: 'DRAFT,READY_FOR_VALIDATION,APPROVED,REJECTED',
       ...createSortingArgument(sortOptions),
     },
-    configuration: {
-      enabled: !!(creator.id && creator.email),
-      ...configuration,
-    },
+    enabled: !!(creator.id && creator.email),
+    ...configuration,
   });
 
 type ChangeStatusArguments = {

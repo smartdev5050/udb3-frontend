@@ -97,10 +97,8 @@ const useGetOrganizersByCreator = (
       embed: true,
       ...createSortingArgument(sortOptions),
     },
-    configuration: {
-      enabled: !!(creator.id && creator.email),
-      ...configuration,
-    },
+    enabled: !!(creator.id && creator.email),
+    ...configuration,
   });
 
 export { useGetOrganizerById, useGetOrganizersByCreator };

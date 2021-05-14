@@ -189,10 +189,8 @@ const useGetEventsByCreator = (
       ...createSortingArgument(sortOptions),
       embedCalendarSummaries: 'md-text',
     },
-    configuration: {
-      enabled: !!(creator.id && creator.email),
-      ...configuration,
-    },
+    enabled: !!(creator.id && creator.email),
+    ...configuration,
   });
 
 type GetCalendarSummaryArguments = {
@@ -243,10 +241,8 @@ const useGetCalendarSummary = (
       locale,
       format,
     },
-    configuration: {
-      enabled: !!id && !!locale,
-      ...configuration,
-    },
+    enabled: !!id && !!locale,
+    ...configuration,
   });
 
 type ChangeStatusArguments = {
