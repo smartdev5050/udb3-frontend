@@ -2,7 +2,7 @@ import { createGlobalStyle } from 'styled-components';
 
 import { getValueFromTheme } from '../ui/theme';
 
-const getValueFromModal = getValueFromTheme('modal');
+const getValueForModal = getValueFromTheme('modal');
 
 const GlobalStyle = createGlobalStyle`
   html,
@@ -145,7 +145,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   .modal-backdrop {
-    z-index: ${getValueFromModal('zIndexBackdrop')};
+    z-index: ${getValueForModal('zIndexBackdrop')};
   }
 `;
 

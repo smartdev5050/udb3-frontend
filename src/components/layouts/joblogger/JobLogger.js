@@ -21,7 +21,7 @@ import { Title } from '@/ui/Title';
 import { getValueFromTheme } from '../../../ui/theme';
 import { Job, JobStates } from './Job';
 
-const getValueFromJobLogger = getValueFromTheme('jobLogger');
+const getValueForJobLogger = getValueFromTheme('jobLogger');
 
 const JobLoggerStates = {
   IDLE: 'idle',
@@ -169,7 +169,7 @@ const JobLogger = ({ visible, onClose, onStatusChange }) => {
       height="100%"
       width={{ default: 'calc(100% - 230px)', s: 'calc(100% - 65px)' }}
       left={{ default: 230, s: 65 }}
-      zIndex={getValueFromJobLogger('zIndex')}
+      zIndex={getValueForJobLogger('zIndex')}
     >
       <Stack padding={3} width={320} backgroundColor="white">
         <Inline as="div" justifyContent="flex-end">

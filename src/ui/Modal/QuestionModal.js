@@ -4,7 +4,7 @@ import { Modal as BootstrapModal } from 'react-bootstrap';
 import { Button, ButtonVariants } from '../Button';
 import { getValueFromTheme } from '../theme';
 
-const getValueFromModal = getValueFromTheme('modal');
+const getValueForModal = getValueFromTheme('modal');
 
 const QuestionModal = ({
   className,
@@ -27,7 +27,7 @@ const QuestionModal = ({
     keyboard={false}
     size={size}
     css={`
-      z-index: ${getValueFromModal('zIndex')};
+      z-index: ${getValueForModal('zIndex')};
 
       .modal-title {
         font-size: 1.067rem;
