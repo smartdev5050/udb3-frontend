@@ -431,7 +431,7 @@ const Sidebar = () => {
       width={{ default: '230px', s: '65px' }}
       backgroundColor={getValueForSidebar('backgroundColor')}
       color={getValueForSidebar('color')}
-      zIndex={1998}
+      zIndex={getValueForSidebar('zIndex')}
       padding={{ default: 2, s: 0 }}
       spacing={3}
       ref={sidebarComponent}
