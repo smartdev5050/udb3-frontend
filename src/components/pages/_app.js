@@ -99,7 +99,6 @@ const isServer = () => typeof window === 'undefined';
 const App = ({ Component, pageProps, children }) => {
   return (
     <>
-      <GlobalStyle />
       <Head />
       <ContextProvider
         providers={[
@@ -117,6 +116,7 @@ const App = ({ Component, pageProps, children }) => {
           [Hydrate, { state: pageProps?.dehydratedState ?? {} }],
         ]}
       >
+        <GlobalStyle />
         <ReactQueryDevtools initialIsOpen={false} />
         <Layout>
           {children ? (
