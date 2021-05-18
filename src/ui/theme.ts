@@ -32,6 +32,17 @@ const Breakpoints = {
   L: 'l',
 } as const;
 
+// z-index utils
+const base = 0;
+const above = 1;
+
+const zIndexSidebar = above + base;
+const zIndexJobLogger = zIndexSidebar;
+
+const zIndexModalBackdrop = above + zIndexSidebar;
+const zIndexModal = above + zIndexModalBackdrop;
+//
+
 type Values<T> = T[keyof T];
 type BreakpointValues = Values<typeof Breakpoints>;
 
@@ -46,6 +57,10 @@ const theme = {
   components: {
     alert: {
       borderRadius: 0,
+    },
+    modal: {
+      zIndex: zIndexModal,
+      zIndexBackdrop: zIndexModalBackdrop,
     },
     link: {
       color: colors.udbBlue,
@@ -150,8 +165,12 @@ const theme = {
       },
     },
     sidebar: {
+      zIndex: zIndexSidebar,
       color: colors.white,
       backgroundColor: colors.udbRed,
+    },
+    jobLogger: {
+      zIndex: zIndexJobLogger,
     },
     menu: {
       borderColor: colors.red4,
