@@ -34,7 +34,7 @@ export const getServerSideProps = getApplicationServerSideProps(
       props: {
         dehydratedState: dehydrate(queryClient),
         cookies: rawCookies,
-        page: page,
+        page,
       },
     };
   },
