@@ -46,7 +46,7 @@ const fetchFromApi = async ({
     url.search = new URLSearchParams(searchParams).toString();
   } catch (e) {
     if (!silentError) {
-      throw new Error(e.message);
+      throw new FetchError(400, e?.message ?? 'Unknown error');
     }
     return {
       type: 'ERROR',
@@ -58,7 +58,7 @@ const fetchFromApi = async ({
     response = await fetch(url.toString(), options);
   } catch (e) {
     if (!silentError) {
-      throw new Error(e.message);
+      throw new FetchError(response?.status, e?.message ?? 'Unknown error');
     }
 
     return {
@@ -84,5 +84,5 @@ const fetchFromApi = async ({
   return response;
 };
 
-export { fetchFromApi, isErrorObject };
+export { FetchError, fetchFromApi, isErrorObject };
 export type { ErrorObject };
