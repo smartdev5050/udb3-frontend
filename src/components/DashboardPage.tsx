@@ -122,14 +122,14 @@ type EventsProps = {
   totalItems: number;
   currentPage: number;
   onDelete: (id: Event) => void;
-  changeCurrentPage: (page: number) => void;
+  onChangePage: (page: number) => void;
 };
 
 const Events = ({
   events,
   totalItems,
   currentPage,
-  changeCurrentPage,
+  onChangePage,
   onDelete,
 }: EventsProps) => {
   const { t } = useTranslation();
@@ -168,7 +168,7 @@ const Events = ({
           perPage={itemsPerPage}
           prevText={t('pagination.previous')}
           nextText={t('pagination.next')}
-          onChangePage={changeCurrentPage}
+          onChangePage={onChangePage}
         />
       </Panel.Footer>
     </Panel>
@@ -210,7 +210,7 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
     await router.push(url);
   };
 
-  const changeCurrentPage = async (page: number) => {
+  const handleChangePage = async (page: number) => {
     const url = getCurrentUrl();
     url.searchParams.set('page', `${page}`);
 
@@ -275,7 +275,7 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
                     events={items}
                     totalItems={totalItems}
                     currentPage={currentPage}
-                    changeCurrentPage={changeCurrentPage}
+                    onChangePage={handleChangePage}
                     onDelete={(event) => {
                       setToBeDeletedItem(event);
                       setIsModalVisible(true);
