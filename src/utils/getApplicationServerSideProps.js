@@ -21,9 +21,12 @@ const getApplicationServerSideProps = (callbackFn) => async ({
     cookies.remove('user');
     cookies.remove('token');
 
+    req.headers.referer =
+      req.headers.referer ?? `http://${req.headers.host}${req.url}`;
+
     return {
       redirect: {
-        destination: '/login',
+        destination: `/login?referer=${req.headers.referer}`,
         permanent: false,
       },
     };

@@ -390,8 +390,14 @@ const Index = () => {
   const handleClickLogin = () => {
     removeAuthenticationCookies();
 
+    const destination = new URL(
+      router.query?.referer ??
+        `${window.location.protocol}//${window.location.host}`,
+    );
+    destination.searchParams.delete('jwt');
+
     const queryString = new URLSearchParams({
-      destination: `${window.location.protocol}//${window.location.host}`,
+      destination: destination.toString(),
       lang: i18n.language,
     });
 
