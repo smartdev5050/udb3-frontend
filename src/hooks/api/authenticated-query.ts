@@ -6,6 +6,7 @@ import type { QueryKey, UseQueryOptions } from 'react-query';
 import { useMutation, useQueries, useQuery } from 'react-query';
 
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
+import type { FetchError } from '@/utils/fetchFromApi';
 import { isTokenValid } from '@/utils/isTokenValid';
 
 import type { Headers } from './types/Headers';
@@ -232,7 +233,7 @@ const useAuthenticatedQuery = <TData, TArguments>(
     headers,
   });
 
-  const result = useQuery<TData, Response>(preparedArguments);
+  const result = useQuery<TData, FetchError>(preparedArguments);
 
   if (isUnAuthorized(result?.error?.status)) {
     if (!asPath.startsWith('/login') && asPath !== '/[...params]') {
