@@ -54,7 +54,7 @@ const Productions = ({
                       ? css`
                           border-bottom: 1px solid ${getValue('borderColor')};
                         `
-                      : undefined
+                      : css``
                   }
                   key={production.id}
                   onClick={() => onClickProduction(production.id)}

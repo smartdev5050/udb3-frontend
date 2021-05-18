@@ -300,7 +300,7 @@ const Events = ({
                     ? css`
                         border-bottom: 1px solid ${getValue('borderColor')};
                       `
-                    : undefined
+                    : css``
                 }
               />
             ))}

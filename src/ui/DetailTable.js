@@ -27,7 +27,7 @@ const DetailTable = ({ items, className, ...props }) => {
                 ? css`
                     border-bottom: 1px solid ${getValue('borderColor')};
                   `
-                : undefined
+                : css``
             }
           >
             <Box as="th" minWidth={parseSpacing(7)()} fontWeight="bold">

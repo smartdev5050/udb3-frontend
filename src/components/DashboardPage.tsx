@@ -154,7 +154,7 @@ const Events = ({
                 ? css`
                     border-bottom: 1px solid ${getValue('listItem.borderColor')};
                   `
-                : undefined
+                : css``
             }
           >
             <EventMenu event={event} onDelete={onDelete} />
