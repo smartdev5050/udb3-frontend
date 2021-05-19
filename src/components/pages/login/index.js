@@ -13,7 +13,7 @@ export const getServerSideProps = ({ req }) => {
   referer.searchParams.delete('jwt');
 
   req.headers.referer =
-    referer.toString() ?? req.headers.referer ?? url.toString();
+    referer.toString() || req.headers.referer || url.toString();
 
   return {
     redirect: {

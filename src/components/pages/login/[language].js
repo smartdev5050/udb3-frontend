@@ -391,7 +391,7 @@ const Index = () => {
     removeAuthenticationCookies();
 
     const destination = new URL(
-      router.query?.referer ??
+      router.query?.referer ||
         `${window.location.protocol}//${window.location.host}`,
     );
     destination.searchParams.delete('jwt');
