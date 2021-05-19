@@ -7,15 +7,13 @@ export const getServerSideProps = ({ req }) => {
 
   const language = cookies.get('udb-language') ?? 'nl';
 
-  const url = new URL('http://' + req.headers.host + req.url);
+  const url = new URL(`http://${req.headers.host}${req.url}`);
 
   const referer = new URL(url.searchParams.get('referer') ?? '');
   referer.searchParams.delete('jwt');
 
   req.headers.referer =
-    referer.toString() ??
-    req.headers.referer ??
-    `http://${req.headers.host}${req.url}`;
+    referer.toString() ?? req.headers.referer ?? url.toString();
 
   return {
     redirect: {
