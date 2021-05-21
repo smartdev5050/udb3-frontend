@@ -2,15 +2,30 @@ import { Cookies } from 'react-cookie';
 
 const Index = () => null;
 
-export const getServerSideProps = ({ req, params }) => {
+export const getServerSideProps = ({ req }) => {
   const cookies = new Cookies(req?.headers?.cookie);
 
   const language = cookies.get('udb-language') ?? 'nl';
 
+  const url = new URL(
+    `${req.headers['X-Forwarded-Proto'] ?? 'http'}://${req.headers.host}${
+      req.url
+    }`,
+  );
+
+  const referer = url.searchParams.get('referer')
+    ? new URL(url.searchParams.get('referer'))
+    : undefined;
+
+  referer?.searchParams?.delete('jwt');
+
+  req.headers.referer =
+    referer?.toString() ?? (req.headers.referer || url.toString());
+
   return {
     redirect: {
-      destination: `/login/${language}`,
-      permanent: true,
+      destination: `/login/${language}?referer=${req.headers.referer}`,
+      permanent: false,
     },
   };
 };
