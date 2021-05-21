@@ -9,11 +9,14 @@ export const getServerSideProps = ({ req }) => {
 
   const url = new URL(`http://${req.headers.host}${req.url}`);
 
-  const referer = new URL(url.searchParams.get('referer') ?? '');
-  referer.searchParams.delete('jwt');
+  const referer = url.searchParams.get('referer')
+    ? new URL(url.searchParams.get('referer'))
+    : undefined;
+
+  referer?.searchParams?.delete('jwt');
 
   req.headers.referer =
-    referer.toString() || req.headers.referer || url.toString();
+    referer?.toString() ?? (req.headers.referer || url.toString());
 
   return {
     redirect: {
