@@ -1,17 +1,16 @@
+import absoluteUrl from 'next-absolute-url';
 import { Cookies } from 'react-cookie';
 
 const Index = () => null;
 
-export const getServerSideProps = ({ req }) => {
+export const getServerSideProps = ({ req, resolvedUrl }) => {
   const cookies = new Cookies(req?.headers?.cookie);
 
   const language = cookies.get('udb-language') ?? 'nl';
 
-  const url = new URL(
-    `${req.headers['X-Forwarded-Proto'] ?? 'http'}://${req.headers.host}${
-      req.url
-    }`,
-  );
+  const { origin } = absoluteUrl(req);
+
+  const url = new URL(`${origin}${resolvedUrl}`);
 
   const referer = url.searchParams.get('referer')
     ? new URL(url.searchParams.get('referer'))
