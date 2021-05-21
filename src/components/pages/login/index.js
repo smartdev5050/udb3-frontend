@@ -7,7 +7,11 @@ export const getServerSideProps = ({ req }) => {
 
   const language = cookies.get('udb-language') ?? 'nl';
 
-  const url = new URL(`http://${req.headers.host}${req.url}`);
+  const url = new URL(
+    `${req.headers['X-Forwarded-Proto'] ?? 'http'}://${req.headers.host}${
+      req.url
+    }`,
+  );
 
   const referer = url.searchParams.get('referer')
     ? new URL(url.searchParams.get('referer'))

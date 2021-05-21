@@ -22,7 +22,10 @@ const getApplicationServerSideProps = (callbackFn) => async ({
     cookies.remove('token');
 
     req.headers.referer =
-      req.headers.referer ?? `http://${req.headers.host}${req.url}`;
+      req.headers.referer ??
+      `${req.headers['X-Forwarded-Proto'] ?? 'http'}://${req.headers.host}${
+        req.url
+      }`;
 
     return {
       redirect: {
