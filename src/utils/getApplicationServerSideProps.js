@@ -25,11 +25,11 @@ const getApplicationServerSideProps = (callbackFn) => async ({
 
     const { origin } = absoluteUrl(req);
 
-    req.headers.referer = req.headers.referer ?? `${origin}${resolvedUrl}`;
+    const referer = `${origin}${resolvedUrl}`;
 
     return {
       redirect: {
-        destination: `/login?referer=${req.headers.referer}`,
+        destination: `/login?referer=${referer}`,
         permanent: false,
       },
     };
