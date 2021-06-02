@@ -35,8 +35,6 @@ const fetchFromApi = async ({
   let response: Response;
   let url: URL;
 
-  console.log(searchParams);
-
   try {
     url = new URL(`${publicRuntimeConfig.apiUrl}${path}`);
     url.search = new URLSearchParams(omit(searchParams, 'queryKey')).toString();

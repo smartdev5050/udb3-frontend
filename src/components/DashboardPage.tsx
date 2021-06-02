@@ -2,7 +2,6 @@ import { format, isAfter, isFuture } from 'date-fns';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { UseQueryResult } from 'react-query';
 import { useQueryClient } from 'react-query';
 import { css } from 'styled-components';
 
