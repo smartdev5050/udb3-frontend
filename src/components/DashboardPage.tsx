@@ -234,7 +234,9 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
     },
   });
 
+  // @ts-expect-error
   const items = UseGetItemsByCreatorQuery.data?.member ?? [];
+  // @ts-expect-error
   const totalItems = UseGetItemsByCreatorQuery.data?.totalItems ?? 0;
 
   const itemType = areEvents(items) ? 'events' : undefined;
@@ -258,6 +260,7 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
           activeBackgroundColor="white"
         >
           <Tabs.Tab eventKey="events" title={t('dashboard.tabs.events')}>
+            {/*  @ts-expect-error */}
             {UseGetItemsByCreatorQuery.status === QueryStatus.LOADING ? (
               <Panel
                 backgroundColor="white"
