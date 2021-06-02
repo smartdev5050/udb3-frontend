@@ -1,3 +1,4 @@
+import omit from 'lodash/omit';
 import getConfig from 'next/config';
 
 class FetchError extends Error {
@@ -23,27 +24,22 @@ const isErrorObject = (value: any): value is ErrorObject => {
   );
 };
 
-type FetchFromApiArguments = {
-  path: string;
-  searchParams?: Record<string, string>;
-  options?: { headers?: Record<string, string>; [key: string]: unknown };
-  silentError?: boolean;
-};
-
 const fetchFromApi = async ({
   path,
   searchParams = {},
   options = {},
   silentError = false,
-}: FetchFromApiArguments): Promise<Response | ErrorObject> => {
+}): Promise<ErrorObject | Response> => {
   const { publicRuntimeConfig } = getConfig();
 
   let response: Response;
   let url: URL;
 
+  console.log(searchParams);
+
   try {
     url = new URL(`${publicRuntimeConfig.apiUrl}${path}`);
-    url.search = new URLSearchParams(searchParams).toString();
+    url.search = new URLSearchParams(omit(searchParams, 'queryKey')).toString();
   } catch (e) {
     if (!silentError) {
       throw new FetchError(400, e?.message ?? 'Unknown error');

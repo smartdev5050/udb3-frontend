@@ -227,7 +227,7 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
       start: (currentPage - 1) * itemsPerPage,
       limit: itemsPerPage,
     },
-  }) as UseQueryResult<{ totalItems: number; member: unknown[] }, Error>; // TODO: remove cast
+  });
 
   const UseDeleteEventByIdMutation = useDeleteEventById({
     onSuccess: async () => {
@@ -251,46 +251,44 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
         </Link>
       </Page.Actions>
       <Page.Content spacing={5}>
-        <Stack spacing={3}>
-          <Text>{t('dashboard.my_items')}</Text>
+        <Text>{t('dashboard.my_items')}</Text>
 
-          <Tabs<TabOptions>
-            activeKey={activeTab}
-            onSelect={handleSelectTab}
-            activeBackgroundColor="white"
-          >
-            <Tabs.Tab eventKey="events" title={t('dashboard.tabs.events')}>
-              {UseGetItemsByCreatorQuery.status === QueryStatus.LOADING ? (
-                <Panel
-                  backgroundColor="white"
-                  css={`
-                    border-top: none !important;
-                  `}
-                >
-                  <Spinner marginY={4} />
-                </Panel>
-              ) : (
-                areEvents(items) && (
-                  <Events
-                    events={items}
-                    totalItems={totalItems}
-                    currentPage={currentPage}
-                    onChangePage={handleChangePage}
-                    onDelete={(event) => {
-                      setToBeDeletedItem(event);
-                      setIsModalVisible(true);
-                    }}
-                  />
-                )
-              )}
-            </Tabs.Tab>
-            <Tabs.Tab eventKey="places" title={t('dashboard.tabs.places')} />
-            <Tabs.Tab
-              eventKey="organizers"
-              title={t('dashboard.tabs.organizers')}
-            />
-          </Tabs>
-        </Stack>
+        <Tabs<TabOptions>
+          activeKey={activeTab}
+          onSelect={handleSelectTab}
+          activeBackgroundColor="white"
+        >
+          <Tabs.Tab eventKey="events" title={t('dashboard.tabs.events')}>
+            {UseGetItemsByCreatorQuery.status === QueryStatus.LOADING ? (
+              <Panel
+                backgroundColor="white"
+                css={`
+                  border-top: none !important;
+                `}
+              >
+                <Spinner marginY={4} />
+              </Panel>
+            ) : (
+              areEvents(items) && (
+                <Events
+                  events={items}
+                  totalItems={totalItems}
+                  currentPage={currentPage}
+                  onChangePage={handleChangePage}
+                  onDelete={(event) => {
+                    setToBeDeletedItem(event);
+                    setIsModalVisible(true);
+                  }}
+                />
+              )
+            )}
+          </Tabs.Tab>
+          <Tabs.Tab eventKey="places" title={t('dashboard.tabs.places')} />
+          <Tabs.Tab
+            eventKey="organizers"
+            title={t('dashboard.tabs.organizers')}
+          />
+        </Tabs>
       </Page.Content>
     </Page>,
     <Modal

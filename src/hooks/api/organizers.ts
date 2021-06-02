@@ -1,12 +1,12 @@
 import type { UseQueryOptions } from 'react-query';
 
+import type { ServerSideQueryOptions } from '@/hooks/api/authenticated-query';
 import { useAuthenticatedQuery } from '@/hooks/api/authenticated-query';
 import { createSortingArgument } from '@/utils/createSortingArgument';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 
 import type { Headers } from './types/Headers';
 import type { PaginationOptions } from './types/PaginationOptions';
-import type { ServerSideArguments } from './types/ServerSideArguments';
 import type { SortOptions } from './types/SortOptions';
 
 type HeadersAndQueryData = {
@@ -31,7 +31,7 @@ const getOrganizerById = async ({ headers, id }: GetOrganizerByIdArguments) => {
   return await res.json();
 };
 
-type UseGetOrganizerByIdArguments = ServerSideArguments & { id: string };
+type UseGetOrganizerByIdArguments = ServerSideQueryOptions & { id: string };
 
 const useGetOrganizerById = (
   { req, queryClient, id }: UseGetOrganizerByIdArguments,
@@ -69,7 +69,7 @@ const getOrganizersByCreator = async ({
   return await res.json();
 };
 
-type UseGetOrganizersByCreator = ServerSideArguments & {
+type UseGetOrganizersByCreator = ServerSideQueryOptions & {
   creator: { id: string; email: string };
   paginationOptions?: PaginationOptions;
   sortOptions?: SortOptions;

@@ -1,28 +1,20 @@
 import flatten from 'lodash/flatten';
+import type { NextApiRequest } from 'next';
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import { Cookies } from 'react-cookie';
-import type { QueryKey, UseQueryOptions } from 'react-query';
+import type { QueryClient } from 'react-query';
 import { useMutation, useQueries, useQuery } from 'react-query';
 
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
-import type { FetchError } from '@/utils/fetchFromApi';
 import { isTokenValid } from '@/utils/isTokenValid';
 
-import type { Headers } from './types/Headers';
-import type { ServerSideArguments } from './types/ServerSideArguments';
 import { createHeaders, useHeaders } from './useHeaders';
 
-type QueryFunction<TData, TArguments> = (
-  context: { headers: Headers } & TArguments,
-) => Promise<TData>;
-
-type UseAuthenticatedQueryOptions<TData, TArguments> = ServerSideArguments &
-  Omit<UseQueryOptions, 'queryKey' | 'queryFn'> & {
-    queryKey: QueryKey;
-    queryFn: QueryFunction<TData, TArguments>;
-    queryArguments: TArguments;
-  };
+type ServerSideQueryOptions = {
+  req?: NextApiRequest;
+  queryClient?: QueryClient;
+};
 
 const QueryStatus = {
   IDLE: 'idle',
@@ -31,47 +23,39 @@ const QueryStatus = {
   SUCCESS: 'success',
 };
 
-const prepareKey = <TArguments>({
-  queryKey,
-  queryArguments,
-}: {
-  queryKey: QueryKey;
-  queryArguments: TArguments;
-}) => {
+const prepareKey = ({ queryKey, queryArguments }) => {
   const key = Array.isArray(queryKey) ? queryKey : [queryKey];
   return [
     ...flatten(key),
-    Object.keys(queryArguments).length > 0 ? queryArguments : undefined,
+    Object.keys(queryArguments ?? {}).length > 0 ? queryArguments : undefined,
   ].filter((key) => key !== undefined);
 };
 
-type PrepareArgumentsArguments<TData, TArguments> = {
-  options: UseAuthenticatedQueryOptions<TData, TArguments>;
-  isTokenPresent: boolean;
-  headers: Headers;
-};
-
-const prepareArguments = <TData, TArguments>({
+const prepareArguments = ({
   options: {
     queryKey,
     queryFn,
     queryArguments,
     enabled = true,
+    req,
+    queryClient,
     ...configuration
   },
   isTokenPresent = false,
   headers,
-}: PrepareArgumentsArguments<TData, TArguments>): UseQueryOptions<
-  TData,
-  Response
-> => ({
-  queryKey: prepareKey<TArguments>({ queryArguments, queryKey }),
-  queryFn: async () => await queryFn({ ...queryArguments, headers }),
-  enabled: isTokenPresent && !!enabled,
-  ...configuration,
-});
+}) => {
+  const parsedQueryKey = prepareKey({ queryArguments, queryKey });
 
-const isUnAuthorized = (status) => [401, 403].includes(status);
+  return {
+    queryKey: parsedQueryKey,
+    queryFn: async () =>
+      await queryFn({ ...queryArguments, headers, queryKey: parsedQueryKey }),
+    enabled: isTokenPresent && !!enabled,
+    ...configuration,
+  };
+};
+
+const isUnAuthorized = (status: number) => [401, 403].includes(status);
 
 const getStatusFromResults = (results) => {
   if (results.some(({ status }) => status === QueryStatus.ERROR)) {
@@ -121,20 +105,12 @@ const prefetchAuthenticatedQueries = async ({
   );
 };
 
-type PrefetchAuthenticatedQueryArguments<
-  TData,
-  TArguments
-> = ServerSideArguments & UseAuthenticatedQueryOptions<TData, TArguments>;
-
-const prefetchAuthenticatedQuery = async <TData, TArguments>({
-  req,
-  queryClient,
-  ...options
-}: PrefetchAuthenticatedQueryArguments<TData, TArguments>) => {
+const prefetchAuthenticatedQuery = async ({ req, queryClient, ...options }) => {
   const cookies = new Cookies(req?.headers?.cookie);
   const headers = createHeaders(cookies.get('token'));
 
   const { queryKey, queryFn } = prepareArguments({
+    // @ts-expect-error
     options,
     isTokenPresent: isTokenValid(cookies.get('token')),
     headers,
@@ -143,6 +119,8 @@ const prefetchAuthenticatedQuery = async <TData, TArguments>({
   try {
     await queryClient.prefetchQuery(queryKey, queryFn);
   } catch {}
+
+  return await queryClient.getQueryData(queryKey);
 };
 
 /// /////////////////////////////////////////////////////////////////////////////////////////////
@@ -158,7 +136,10 @@ const useAuthenticatedMutation = ({ mutationFn, ...configuration }) => {
 
     if (isUnAuthorized(response?.status)) {
       removeAuthenticationCookies();
-      router.push('/login');
+      router
+        .push('/login')
+        .then(() => {})
+        .catch(() => {});
     }
 
     const result = await response.text();
@@ -182,11 +163,15 @@ const useAuthenticatedMutations = ({
   const { removeAuthenticationCookies } = useCookiesWithOptions();
 
   const innerMutationFn = useCallback(async (variables) => {
+    // @ts-expect-error
     const responses = await mutationFns({ ...variables, headers });
 
     if (responses.some((response) => isUnAuthorized(response.status))) {
       removeAuthenticationCookies();
-      router.push('/login');
+      router
+        .push('/login')
+        .then(() => {})
+        .catch(() => {});
     } else if (responses.some((response) => response.type === 'ERROR')) {
       const errorMessages = responses
         .filter((response) => response.type === 'ERROR')
@@ -211,13 +196,9 @@ const useAuthenticatedMutations = ({
   return useMutation(innerMutationFn, configuration);
 };
 
-const useAuthenticatedQuery = <TData, TArguments>(
-  options: UseAuthenticatedQueryOptions<TData, TArguments>,
-) => {
+const useAuthenticatedQuery = (options) => {
   if (!!options.req && !!options.queryClient && typeof window === 'undefined') {
-    prefetchAuthenticatedQuery<TData, TArguments>(options)
-      .then(() => {})
-      .catch(() => {});
+    return prefetchAuthenticatedQuery(options);
   }
 
   const { asPath, ...router } = useRouter();
@@ -227,14 +208,15 @@ const useAuthenticatedQuery = <TData, TArguments>(
     'token',
   ]);
 
-  const preparedArguments = prepareArguments<TData, TArguments>({
+  const preparedArguments = prepareArguments({
     options,
     isTokenPresent: isTokenValid(cookies.token),
     headers,
   });
 
-  const result = useQuery<TData, FetchError>(preparedArguments);
+  const result = useQuery(preparedArguments);
 
+  // @ts-expect-error
   if (isUnAuthorized(result?.error?.status)) {
     if (!asPath.startsWith('/login') && asPath !== '/[...params]') {
       removeAuthenticationCookies();
@@ -278,10 +260,14 @@ const useAuthenticatedQueries = ({
 
   const results = useQueries(options);
 
+  // @ts-expect-error
   if (results.some((result) => isUnAuthorized(result?.error?.status))) {
     if (!asPath.startsWith('/login') && asPath !== '/[...params]') {
       removeAuthenticationCookies();
-      router.push('/login');
+      router
+        .push('/login')
+        .then(() => {})
+        .catch(() => {});
     }
   }
 
@@ -299,3 +285,5 @@ export {
   useAuthenticatedQueries,
   useAuthenticatedQuery,
 };
+
+export type { ServerSideQueryOptions };

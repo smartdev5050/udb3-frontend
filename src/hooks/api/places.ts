@@ -1,6 +1,7 @@
 import type { UseMutationOptions, UseQueryOptions } from 'react-query';
 
 import type { OfferStatus } from '@/constants/OfferStatus';
+import type { ServerSideQueryOptions } from '@/hooks/api/authenticated-query';
 import type { SupportedLanguage } from '@/i18n/index';
 import type { Values } from '@/types/Values';
 import { createSortingArgument } from '@/utils/createSortingArgument';
@@ -12,7 +13,6 @@ import {
 } from './authenticated-query';
 import type { Headers } from './types/Headers';
 import type { PaginationOptions } from './types/PaginationOptions';
-import type { ServerSideArguments } from './types/ServerSideArguments';
 import type { SortOptions } from './types/SortOptions';
 
 type HeadersAndQueryData = {
@@ -38,7 +38,7 @@ const getPlaceById = async ({ headers, id }: GetPlaceByIdArguments) => {
   return await res.json();
 };
 
-type UseGetPlaceByIdArguments = ServerSideArguments & { id: string };
+type UseGetPlaceByIdArguments = ServerSideQueryOptions & { id: string };
 
 const useGetPlaceById = (
   { req, queryClient, id }: UseGetPlaceByIdArguments,
@@ -76,7 +76,7 @@ const getPlacesByCreator = async ({
   return await res.json();
 };
 
-type UseGetPlacesByCreatorArguments = ServerSideArguments & {
+type UseGetPlacesByCreatorArguments = ServerSideQueryOptions & {
   creator: { id: string; email: string };
   paginationOptions?: PaginationOptions;
   sortOptions?: SortOptions;

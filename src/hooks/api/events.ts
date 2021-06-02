@@ -1,8 +1,5 @@
-import type { UseMutationOptions, UseQueryOptions } from 'react-query';
+import type { UseQueryOptions } from 'react-query';
 
-import type { OfferStatus } from '@/constants/OfferStatus';
-import type { SupportedLanguage } from '@/i18n/index';
-import type { Values } from '@/types/Values';
 import { createSortingArgument } from '@/utils/createSortingArgument';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 import { formatDate } from '@/utils/formatDate';
@@ -12,21 +9,8 @@ import {
   useAuthenticatedQueries,
   useAuthenticatedQuery,
 } from './authenticated-query';
-import type { Headers } from './types/Headers';
-import type { PaginationOptions } from './types/PaginationOptions';
-import type { ServerSideArguments } from './types/ServerSideArguments';
-import type { SortOptions } from './types/SortOptions';
 
-type HeadersAndQueryData = {
-  headers: Headers;
-} & { [x: string]: string };
-
-type GetEventsToModerateArguments = HeadersAndQueryData;
-
-const getEventsToModerate = async ({
-  headers,
-  ...queryData
-}: GetEventsToModerateArguments) => {
+const getEventsToModerate = async ({ headers, queryKey, ...queryData }) => {
   const res = await fetchFromApi({
     path: '/events/',
     searchParams: {
@@ -44,10 +28,7 @@ const getEventsToModerate = async ({
   return await res.json();
 };
 
-const useGetEventsToModerate = (
-  searchQuery: string,
-  configuration: UseQueryOptions = {},
-) =>
+const useGetEventsToModerate = (searchQuery, configuration) =>
   useAuthenticatedQuery({
     queryKey: ['events'],
     queryFn: getEventsToModerate,
@@ -63,12 +44,7 @@ const useGetEventsToModerate = (
     ...configuration,
   });
 
-type GetEventByIdArguments = {
-  headers: Headers;
-  id: string;
-};
-
-const getEventById = async ({ headers, id }: GetEventByIdArguments) => {
+const getEventById = async ({ headers, id }) => {
   const res = await fetchFromApi({
     path: `/event/${id.toString()}`,
     options: {
@@ -82,14 +58,7 @@ const getEventById = async ({ headers, id }: GetEventByIdArguments) => {
   return await res.json();
 };
 
-type UseGetEventsByIdArguments = ServerSideArguments & {
-  id: string;
-};
-
-const useGetEventById = (
-  { req, queryClient, id }: UseGetEventsByIdArguments,
-  configuration: UseQueryOptions = {},
-) =>
+const useGetEventById = ({ req, queryClient, id }, configuration = {}) =>
   useAuthenticatedQuery({
     req,
     queryClient,
@@ -100,15 +69,7 @@ const useGetEventById = (
     ...configuration,
   });
 
-type UseGetEventsByIdsArguments = ServerSideArguments & {
-  ids: string[];
-};
-
-const useGetEventsByIds = ({
-  req,
-  queryClient,
-  ids = [],
-}: UseGetEventsByIdsArguments) => {
+const useGetEventsByIds = ({ req, queryClient, ids = [] }) => {
   const options = ids.map((id) => ({
     queryKey: ['events'],
     queryFn: getEventById,
@@ -119,29 +80,19 @@ const useGetEventsByIds = ({
   return useAuthenticatedQueries({ req, queryClient, options });
 };
 
-type DeleteEventByIdArguments = {
-  headers: Headers;
-  id: string;
-};
-
-const deleteEventById = async ({ headers, id }: DeleteEventByIdArguments) =>
+const deleteEventById = async ({ headers, id }) =>
   fetchFromApi({
     path: `/events/${id}`,
     options: { headers, method: 'DELETE' },
   });
 
-const useDeleteEventById = (configuration: UseMutationOptions = {}) =>
+const useDeleteEventById = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: deleteEventById,
     ...configuration,
   });
 
-type GetEventsByCreatorArguments = HeadersAndQueryData;
-
-const getEventsByCreator = async ({
-  headers,
-  ...queryData
-}: GetEventsByCreatorArguments) => {
+const getEventsByCreator = async ({ headers, ...queryData }) => {
   const res = await fetchFromApi({
     path: '/events/',
     searchParams: {
@@ -158,12 +109,6 @@ const getEventsByCreator = async ({
   return await res.json();
 };
 
-type UseGetEventsByCreatorArguments = ServerSideArguments & {
-  creator: { id: string; email: string };
-  paginationOptions?: PaginationOptions;
-  sortOptions?: SortOptions;
-};
-
 const useGetEventsByCreator = (
   {
     req,
@@ -171,8 +116,8 @@ const useGetEventsByCreator = (
     creator,
     paginationOptions = { start: 0, limit: 50 },
     sortOptions = { field: 'modified', order: 'desc' },
-  }: UseGetEventsByCreatorArguments,
-  configuration: UseQueryOptions = {},
+  },
+  configuration = {},
 ) =>
   useAuthenticatedQuery({
     req,
@@ -193,19 +138,7 @@ const useGetEventsByCreator = (
     ...configuration,
   });
 
-type GetCalendarSummaryArguments = {
-  headers: Headers;
-  id: string;
-  format: string;
-  locale: string;
-};
-
-const getCalendarSummary = async ({
-  headers,
-  id,
-  format,
-  locale,
-}: GetCalendarSummaryArguments) => {
+const getCalendarSummary = async ({ headers, id, format, locale }) => {
   const res = await fetchFromApi({
     path: `/events/${id.toString()}/calsum`,
     searchParams: {
@@ -220,17 +153,12 @@ const getCalendarSummary = async ({
     // eslint-disable-next-line no-console
     return console.error(res);
   }
+
   return res.text();
 };
 
-type UseGetCalendarSummaryArguments = {
-  id: string;
-  format: string;
-  locale: string;
-};
-
 const useGetCalendarSummary = (
-  { id, locale, format = 'lg' }: UseGetCalendarSummaryArguments,
+  { id, locale, format = 'lg' },
   configuration: UseQueryOptions = {},
 ) =>
   useAuthenticatedQuery({
@@ -245,19 +173,7 @@ const useGetCalendarSummary = (
     ...configuration,
   });
 
-type ChangeStatusArguments = {
-  headers: Headers;
-  id: string;
-  type: Values<typeof OfferStatus>;
-  reason: { [key in SupportedLanguage]: string };
-};
-
-const changeStatus = async ({
-  headers,
-  id,
-  type,
-  reason,
-}: ChangeStatusArguments) =>
+const changeStatus = async ({ headers, id, type, reason }) =>
   fetchFromApi({
     path: `/events/${id.toString()}/status`,
     options: {
@@ -267,17 +183,8 @@ const changeStatus = async ({
     },
   });
 
-const useChangeStatus = (configuration: UseMutationOptions = {}) =>
+const useChangeStatus = (configuration) =>
   useAuthenticatedMutation({ mutationFn: changeStatus, ...configuration });
-
-type ChangeStatusSubEventsArguments = {
-  headers: Headers;
-  eventId: string;
-  subEventIds: string[];
-  subEvents: unknown[];
-  type: Values<typeof OfferStatus>;
-  reason: { [key in SupportedLanguage]: string };
-};
 
 const changeStatusSubEvents = async ({
   headers,
@@ -286,7 +193,7 @@ const changeStatusSubEvents = async ({
   subEvents = [],
   type,
   reason,
-}: ChangeStatusSubEventsArguments) =>
+}) =>
   fetchFromApi({
     path: `/events/${eventId.toString()}/subEvents`,
     options: {
@@ -308,7 +215,7 @@ const changeStatusSubEvents = async ({
     },
   });
 
-const useChangeStatusSubEvents = (configuration: UseMutationOptions = {}) =>
+const useChangeStatusSubEvents = (configuration) =>
   useAuthenticatedMutation({
     mutationFn: changeStatusSubEvents,
     ...configuration,
