@@ -1,8 +1,4 @@
-import type { SortOptions } from '@/hooks/api/types/SortOptions';
-
-const createSortingArgument = (
-  sortOptions: SortOptions,
-): { [field: string]: string } => {
+const createSortingArgument = (sortOptions): { [field: string]: string } => {
   return { [`sort[${sortOptions.field}]`]: `${sortOptions.order}` };
 };
 

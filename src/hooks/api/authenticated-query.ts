@@ -16,6 +16,22 @@ type ServerSideQueryOptions = {
   queryClient?: QueryClient;
 };
 
+type AuthenticatedQueryOptions<T> = ServerSideQueryOptions & T;
+
+type PaginationOptions = {
+  paginationOptions?: {
+    start: number;
+    limit: number;
+  };
+};
+
+type SortOptions = {
+  sortOptions?: {
+    field: string;
+    order: string;
+  };
+};
+
 const QueryStatus = {
   IDLE: 'idle',
   LOADING: 'loading',
@@ -286,4 +302,9 @@ export {
   useAuthenticatedQuery,
 };
 
-export type { ServerSideQueryOptions };
+export type {
+  AuthenticatedQueryOptions,
+  PaginationOptions,
+  ServerSideQueryOptions,
+  SortOptions,
+};

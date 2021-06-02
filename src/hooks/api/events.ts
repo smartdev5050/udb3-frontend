@@ -4,6 +4,11 @@ import { createSortingArgument } from '@/utils/createSortingArgument';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 import { formatDate } from '@/utils/formatDate';
 
+import type {
+  AuthenticatedQueryOptions,
+  PaginationOptions,
+  SortOptions,
+} from './authenticated-query';
 import {
   useAuthenticatedMutation,
   useAuthenticatedQueries,
@@ -116,8 +121,16 @@ const useGetEventsByCreator = (
     creator,
     paginationOptions = { start: 0, limit: 50 },
     sortOptions = { field: 'modified', order: 'desc' },
-  },
-  configuration = {},
+  }: AuthenticatedQueryOptions<
+    PaginationOptions &
+      SortOptions & {
+        creator: {
+          id: string;
+          email: string;
+        };
+      }
+  >,
+  configuration: UseQueryOptions = {},
 ) =>
   useAuthenticatedQuery({
     req,

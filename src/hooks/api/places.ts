@@ -1,30 +1,23 @@
 import type { UseMutationOptions, UseQueryOptions } from 'react-query';
 
 import type { OfferStatus } from '@/constants/OfferStatus';
-import type { ServerSideQueryOptions } from '@/hooks/api/authenticated-query';
 import type { SupportedLanguage } from '@/i18n/index';
 import type { Values } from '@/types/Values';
 import { createSortingArgument } from '@/utils/createSortingArgument';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 
+import type {
+  AuthenticatedQueryOptions,
+  PaginationOptions,
+  SortOptions,
+} from './authenticated-query';
 import {
   useAuthenticatedMutation,
   useAuthenticatedQuery,
 } from './authenticated-query';
 import type { Headers } from './types/Headers';
-import type { PaginationOptions } from './types/PaginationOptions';
-import type { SortOptions } from './types/SortOptions';
 
-type HeadersAndQueryData = {
-  headers: Headers;
-} & { [x: string]: string };
-
-type GetPlaceByIdArguments = {
-  headers: Headers;
-  id: string;
-};
-
-const getPlaceById = async ({ headers, id }: GetPlaceByIdArguments) => {
+const getPlaceById = async ({ headers, id }) => {
   const res = await fetchFromApi({
     path: `/place/${id.toString()}`,
     options: {
@@ -38,10 +31,8 @@ const getPlaceById = async ({ headers, id }: GetPlaceByIdArguments) => {
   return await res.json();
 };
 
-type UseGetPlaceByIdArguments = ServerSideQueryOptions & { id: string };
-
 const useGetPlaceById = (
-  { req, queryClient, id }: UseGetPlaceByIdArguments,
+  { req, queryClient, id },
   configuration: UseQueryOptions = {},
 ) =>
   useAuthenticatedQuery({
@@ -54,12 +45,7 @@ const useGetPlaceById = (
     ...configuration,
   });
 
-type GetPlacesByCreatorArguments = HeadersAndQueryData;
-
-const getPlacesByCreator = async ({
-  headers,
-  ...queryData
-}: GetPlacesByCreatorArguments) => {
+const getPlacesByCreator = async ({ headers, ...queryData }) => {
   const res = await fetchFromApi({
     path: '/places/',
     searchParams: {
@@ -76,12 +62,6 @@ const getPlacesByCreator = async ({
   return await res.json();
 };
 
-type UseGetPlacesByCreatorArguments = ServerSideQueryOptions & {
-  creator: { id: string; email: string };
-  paginationOptions?: PaginationOptions;
-  sortOptions?: SortOptions;
-};
-
 const useGetPlacesByCreator = (
   {
     req,
@@ -89,7 +69,15 @@ const useGetPlacesByCreator = (
     creator,
     paginationOptions = { start: 0, limit: 50 },
     sortOptions = { field: 'modified', order: 'desc' },
-  }: UseGetPlacesByCreatorArguments,
+  }: AuthenticatedQueryOptions<
+    PaginationOptions &
+      SortOptions & {
+        creator: {
+          id: string;
+          email: string;
+        };
+      }
+  >,
   configuration: UseQueryOptions = {},
 ) =>
   useAuthenticatedQuery({
