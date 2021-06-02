@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/nextjs';
 import getConfig from 'next/config';
 import absoluteUrl from 'next-absolute-url';
 import { QueryClient } from 'react-query';
@@ -21,6 +22,7 @@ const getApplicationServerSideProps = (callbackFn) => async ({
 
   if (!isTokenValid(query?.jwt ?? cookies.get('token'))) {
     cookies.remove('user');
+    Sentry.setUser(null);
     cookies.remove('token');
 
     const { origin } = absoluteUrl(req);

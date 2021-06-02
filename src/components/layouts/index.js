@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/nextjs';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
@@ -13,7 +14,7 @@ import {
 import { Inline } from '@/ui/Inline';
 import { isTokenValid } from '@/utils/isTokenValid';
 
-import { ErrorFallback } from './ErrorFallback';
+import { ErrorBoundary } from './ErrorBoundary';
 import { Sidebar } from './Sidebar';
 
 const useChangeLanguage = () => {
@@ -38,6 +39,7 @@ const useHandleAuthentication = () => {
   useEffect(() => {
     if (!getUserQuery.data) return;
     setCookie('user', getUserQuery.data);
+    Sentry.setUser({ id: getUserQuery.data.id });
   }, [getUserQuery.data]);
 
   // redirect when there is no token or user cookie
@@ -50,6 +52,7 @@ const useHandleAuthentication = () => {
       const cookies = new Cookies();
       if (!isTokenValid(cookies.get('token')) || !cookies.get('user')) {
         cookies.remove('user');
+        Sentry.setUser(null);
         cookies.remove('token');
         router.push('/login');
       }
@@ -117,9 +120,9 @@ const LayoutWrapper = ({ children }) => {
   }
 
   return (
-    <ErrorFallback>
+    <ErrorBoundary>
       <Layout>{children}</Layout>
-    </ErrorFallback>
+    </ErrorBoundary>
   );
 };
 
