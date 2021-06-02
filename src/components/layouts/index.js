@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/react';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
@@ -13,7 +12,6 @@ import {
 } from '@/hooks/useHandleWindowMessage';
 import { Inline } from '@/ui/Inline';
 import { isTokenValid } from '@/utils/isTokenValid';
-import { setSentryUser } from '@/utils/sentry';
 
 import { ErrorFallback } from './ErrorFallback';
 import { Sidebar } from './Sidebar';
@@ -40,7 +38,6 @@ const useHandleAuthentication = () => {
   useEffect(() => {
     if (!getUserQuery.data) return;
     setCookie('user', getUserQuery.data);
-    setSentryUser({ id: getUserQuery.data.id });
   }, [getUserQuery.data]);
 
   // redirect when there is no token or user cookie
@@ -120,12 +117,9 @@ const LayoutWrapper = ({ children }) => {
   }
 
   return (
-    // eslint-disable-next-line node/handle-callback-err
-    <Sentry.ErrorBoundary
-      fallback={({ error }) => <ErrorFallback error={error} />}
-    >
+    <ErrorFallback>
       <Layout>{children}</Layout>
-    </Sentry.ErrorBoundary>
+    </ErrorFallback>
   );
 };
 
