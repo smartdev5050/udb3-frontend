@@ -3,10 +3,11 @@ import type { NextApiRequest } from 'next';
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import { Cookies } from 'react-cookie';
-import type { QueryClient } from 'react-query';
+import type { QueryClient, UseQueryResult } from 'react-query';
 import { useMutation, useQueries, useQuery } from 'react-query';
 
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
+import type { FetchError } from '@/utils/fetchFromApi';
 import { isTokenValid } from '@/utils/isTokenValid';
 
 import { createHeaders, useHeaders } from './useHeaders';
@@ -212,7 +213,9 @@ const useAuthenticatedMutations = ({
   return useMutation(innerMutationFn, configuration);
 };
 
-const useAuthenticatedQuery = (options) => {
+const useAuthenticatedQuery = <TData>(
+  options,
+): Promise<any> | UseQueryResult<TData, FetchError> => {
   if (!!options.req && !!options.queryClient && typeof window === 'undefined') {
     return prefetchAuthenticatedQuery(options);
   }
@@ -230,9 +233,8 @@ const useAuthenticatedQuery = (options) => {
     headers,
   });
 
-  const result = useQuery(preparedArguments);
+  const result = useQuery<TData, FetchError>(preparedArguments);
 
-  // @ts-expect-error
   if (isUnAuthorized(result?.error?.status)) {
     if (!asPath.startsWith('/login') && asPath !== '/[...params]') {
       removeAuthenticationCookies();
