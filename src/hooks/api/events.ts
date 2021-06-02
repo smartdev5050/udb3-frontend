@@ -1,5 +1,7 @@
 import type { UseQueryOptions } from 'react-query';
 
+import type { Event } from '@/types/Event';
+import type { User } from '@/types/User';
 import { createSortingArgument } from '@/utils/createSortingArgument';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 import { formatDate } from '@/utils/formatDate';
@@ -124,15 +126,12 @@ const useGetEventsByCreator = (
   }: AuthenticatedQueryOptions<
     PaginationOptions &
       SortOptions & {
-        creator: {
-          id: string;
-          email: string;
-        };
+        creator: User;
       }
   >,
   configuration: UseQueryOptions = {},
 ) =>
-  useAuthenticatedQuery({
+  useAuthenticatedQuery<Event[]>({
     req,
     queryClient,
     queryKey: ['events'],

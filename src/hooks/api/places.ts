@@ -2,6 +2,7 @@ import type { UseMutationOptions, UseQueryOptions } from 'react-query';
 
 import type { OfferStatus } from '@/constants/OfferStatus';
 import type { SupportedLanguage } from '@/i18n/index';
+import type { User } from '@/types/User';
 import type { Values } from '@/types/Values';
 import { createSortingArgument } from '@/utils/createSortingArgument';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
@@ -72,10 +73,7 @@ const useGetPlacesByCreator = (
   }: AuthenticatedQueryOptions<
     PaginationOptions &
       SortOptions & {
-        creator: {
-          id: string;
-          email: string;
-        };
+        creator: User;
       }
   >,
   configuration: UseQueryOptions = {},

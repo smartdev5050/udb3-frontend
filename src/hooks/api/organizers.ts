@@ -6,6 +6,7 @@ import type {
   SortOptions,
 } from '@/hooks/api/authenticated-query';
 import { useAuthenticatedQuery } from '@/hooks/api/authenticated-query';
+import type { User } from '@/types/User';
 import { createSortingArgument } from '@/utils/createSortingArgument';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 
@@ -79,10 +80,7 @@ const useGetOrganizersByCreator = (
   }: AuthenticatedQueryOptions<
     PaginationOptions &
       SortOptions & {
-        creator: {
-          id: string;
-          email: string;
-        };
+        creator: User;
       }
   >,
   configuration: UseQueryOptions = {},
