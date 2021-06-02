@@ -122,7 +122,11 @@ const prefetchAuthenticatedQueries = async ({
   );
 };
 
-const prefetchAuthenticatedQuery = async ({ req, queryClient, ...options }) => {
+const prefetchAuthenticatedQuery = async <TData>({
+  req,
+  queryClient,
+  ...options
+}): Promise<TData> => {
   const cookies = new Cookies(req?.headers?.cookie);
   const headers = createHeaders(cookies.get('token'));
 
@@ -215,9 +219,9 @@ const useAuthenticatedMutations = ({
 
 const useAuthenticatedQuery = <TData>(
   options,
-): Promise<any> | UseQueryResult<TData, FetchError> => {
+): Promise<TData> | UseQueryResult<TData, FetchError> => {
   if (!!options.req && !!options.queryClient && typeof window === 'undefined') {
-    return prefetchAuthenticatedQuery(options);
+    return prefetchAuthenticatedQuery<TData>(options);
   }
 
   const { asPath, ...router } = useRouter();
