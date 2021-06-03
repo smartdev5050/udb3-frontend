@@ -6,6 +6,7 @@ import type {
   SortOptions,
 } from '@/hooks/api/authenticated-query';
 import { useAuthenticatedQuery } from '@/hooks/api/authenticated-query';
+import type { Organizer } from '@/types/Organizer';
 import type { User } from '@/types/User';
 import { createSortingArgument } from '@/utils/createSortingArgument';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
@@ -85,7 +86,7 @@ const useGetOrganizersByCreator = (
   >,
   configuration: UseQueryOptions = {},
 ) =>
-  useAuthenticatedQuery({
+  useAuthenticatedQuery<Organizer[]>({
     req,
     queryClient,
     queryKey: ['organizers'],
