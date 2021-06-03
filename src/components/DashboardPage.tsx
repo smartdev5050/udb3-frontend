@@ -251,8 +251,6 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
 
   // @ts-expect-error
   const items = UseGetItemsByCreatorQuery.data?.member ?? [];
-  // @ts-expect-error
-  const totalItems = UseGetItemsByCreatorQuery.data?.totalItems ?? 0;
 
   const itemType = areEvents(items) ? 'events' : undefined;
 
@@ -260,14 +258,13 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
     // @ts-expect-error
     status: UseGetItemsByCreatorQuery.status,
     items,
-    totalItems,
+    // @ts-expect-error
+    totalItems: UseGetItemsByCreatorQuery.data?.totalItems ?? 0,
     currentPage,
     onChangePage: async (page: number) => {
       const url = getCurrentUrl();
       url.searchParams.set('page', `${page}`);
-
       await router.push(url, undefined, { shallow: true });
-
       setCurrentPage(page);
     },
     onDelete: () => {}, // TODO: Delete the correct entity
