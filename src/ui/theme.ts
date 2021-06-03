@@ -45,7 +45,6 @@ const zIndexModalBackdrop = above + zIndexSidebar;
 const zIndexModal = above + zIndexModalBackdrop;
 //
 
-type Values<T> = T[keyof T];
 type BreakpointValues = Values<typeof Breakpoints>;
 
 const theme = {
