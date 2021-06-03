@@ -67,15 +67,10 @@ const Row = ({
         <Inline spacing={3}>
           <Link href={url} color={getValue('listItem.color')} fontWeight="bold">
             {title}
-            {/* event.name[i18n.language] ?? event.name[event.mainLanguage] */}
           </Link>
           {badge && <Badge variant={BadgeVariants.SECONDARY}>{badge}</Badge>}
         </Inline>
-        <Text>
-          {description}
-          {/* {eventType}
-      {period && ` - ${period}`} */}
-        </Text>
+        <Text>{description}</Text>
       </Stack>
       {status ? (
         <Text color={getValue('listItem.passedEvent.color')}>{status}</Text>
@@ -87,11 +82,11 @@ const Row = ({
 };
 
 type EventRowProps = InlineProps & {
-  event: Event;
+  item: Event;
   onDelete: (id: Event) => void;
 };
 
-const EventRow = ({ event, onDelete, ...props }: EventRowProps) => {
+const EventRow = ({ item: event, onDelete, ...props }: EventRowProps) => {
   const { t, i18n } = useTranslation();
 
   const isFinished = isAfter(new Date(), new Date(event.availableTo));
@@ -139,69 +134,58 @@ const EventRow = ({ event, onDelete, ...props }: EventRowProps) => {
   );
 };
 
-type ListWithPaginationProps = {
-  events: Event[];
-  totalItems: number;
-  currentPage: number;
-  onDelete: (id: Event) => void;
-  onChangePage: (page: number) => void;
-};
+// TODO: PlaceRow and OrganizerRow
 
-// const ListWithPagination = ({
-//   events,
-//   totalItems,
-//   currentPage,
-//   onChangePage,
-//   onDelete,
-// }: EventsProps) => {
-//   const { t } = useTranslation();
+const TabContent = ({
+  items,
+  status,
+  Row,
+  currentPage,
+  totalItems,
+  onDelete,
+  onChangePage,
+}) => {
+  const { t } = useTranslation();
 
-//   return (
+  if (status === QueryStatus.LOADING) {
+    return (
+      <Panel
+        backgroundColor="white"
+        css={`
+          border-top: none !important;
+        `}
+      >
+        <Spinner marginY={4} />
+      </Panel>
+    );
+  }
 
-//   );
-// };
-
-Events.defaultProps = {
-  loading: false,
-};
-
-const TabContent = ({ items, status }) => {
-  return UseGetItemsByCreatorQuery.status === QueryStatus.LOADING ? (
-    <Panel
-      backgroundColor="white"
-      css={`
-        border-top: none !important;
-      `}
-    >
-      <Spinner marginY={4} />
-    </Panel>
-  ) : (
+  return (
     <Panel
       css={`
         border-top: none !important;
       `}
     >
       <List>
-        {children}
-        {/* {events.map((event, index) => (
+        {items.map((item, index) => (
           <List.Item
-            key={event['@id']}
+            key={item['@id']}
             paddingLeft={4}
             paddingRight={4}
             paddingBottom={3}
             paddingTop={3}
             backgroundColor={getValue('listItem.backgroundColor')}
             css={
-              index !== events.length - 1
+              index !== items.length - 1
                 ? css`
                     border-bottom: 1px solid ${getValue('listItem.borderColor')};
                   `
                 : css``
             }
           >
-            <EventRow event={event} onDelete={onDelete} />
+            <Row item={item} onDelete={onDelete} />
           </List.Item>
-        ))} */}
+        ))}
       </List>
       <Panel.Footer>
         <Pagination
@@ -248,15 +232,6 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
     await router.push(url);
   };
 
-  const handleChangePage = async (page: number) => {
-    const url = getCurrentUrl();
-    url.searchParams.set('page', `${page}`);
-
-    await router.push(url, undefined, { shallow: true });
-
-    setCurrentPage(page);
-  };
-
   const user = cookies.user;
 
   const UseGetItemsByCreatorQuery = useGetItemsByCreator({
@@ -267,6 +242,7 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
     },
   });
 
+  // TODO: handle through map (same way as GET)
   const UseDeleteEventByIdMutation = useDeleteEventById({
     onSuccess: async () => {
       await queryClient.invalidateQueries('events');
@@ -279,6 +255,23 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
   const totalItems = UseGetItemsByCreatorQuery.data?.totalItems ?? 0;
 
   const itemType = areEvents(items) ? 'events' : undefined;
+
+  const sharedTableContentProps = {
+    // @ts-expect-error
+    status: UseGetItemsByCreatorQuery.status,
+    items,
+    totalItems,
+    currentPage,
+    onChangePage: async (page: number) => {
+      const url = getCurrentUrl();
+      url.searchParams.set('page', `${page}`);
+
+      await router.push(url, undefined, { shallow: true });
+
+      setCurrentPage(page);
+    },
+    onDelete: () => {}, // TODO: Delete the correct entity
+  };
 
   return [
     <Page key="page">
@@ -299,13 +292,17 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
           activeBackgroundColor="white"
         >
           <Tabs.Tab eventKey="events" title={t('dashboard.tabs.events')}>
-            <TabContent />
+            <TabContent {...sharedTableContentProps} Row={EventRow} />
           </Tabs.Tab>
-          <Tabs.Tab eventKey="places" title={t('dashboard.tabs.places')} />
+          <Tabs.Tab eventKey="places" title={t('dashboard.tabs.places')}>
+            {/* <TabContent {...sharedTableContentProps} Row={PlaceRow} /> */}
+          </Tabs.Tab>
           <Tabs.Tab
             eventKey="organizers"
             title={t('dashboard.tabs.organizers')}
-          />
+          >
+            {/* <TabContent {...sharedTableContentProps} Row={OrganizerRow} /> */}
+          </Tabs.Tab>
         </Tabs>
       </Page.Content>
     </Page>,
