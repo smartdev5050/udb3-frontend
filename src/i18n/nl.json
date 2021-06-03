@@ -131,6 +131,34 @@
     },
     "maxLengthReason": "De reden voor je statuswijziging kan niet meer dan {{amount}} karakters bevatten."
   },
+  "dashboard": {
+    "welcome": "Welkom",
+    "create": "Toevoegen",
+    "my_items": "Mijn evenementen, plaatsen en organisatoren",
+    "passed_event": "Afgelopen evenement",
+    "not_published": "Niet gepubliceerd",
+    "online_from": "Online vanaf {{date}}",
+    "tabs": {
+      "events": "Evenementen",
+      "places": "Plaatsen",
+      "organizers": "Organisatoren"
+    },
+    "actions": {
+      "edit": "Bewerken",
+      "preview": "Voorbeeld",
+      "delete": "Verwijderen",
+      "cancel": "Annuleren"
+    },
+    "modal": {
+      "title": "{{type}} verwijderen",
+      "question": "Ben je zeker dat je '{{name}}' wil verwijderen?",
+      "types": {
+        "events": "Evenementen",
+        "places": "Plaatsen",
+        "organizers": "Organisatoren"
+      }
+    }
+  },
   "jobs": {
     "download": "Downloaden",
     "finished": "Voltooid",

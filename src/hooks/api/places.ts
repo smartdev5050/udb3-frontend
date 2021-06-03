@@ -1,28 +1,24 @@
-import type { UseQueryOptions } from 'react-query';
+import type { UseMutationOptions, UseQueryOptions } from 'react-query';
 
 import type { OfferStatus } from '@/constants/OfferStatus';
+import type { SupportedLanguage } from '@/i18n/index';
+import type { User } from '@/types/User';
+import type { Values } from '@/types/Values';
+import { createSortingArgument } from '@/utils/createSortingArgument';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 
+import type {
+  AuthenticatedQueryOptions,
+  PaginationOptions,
+  SortOptions,
+} from './authenticated-query';
 import {
   useAuthenticatedMutation,
   useAuthenticatedQuery,
 } from './authenticated-query';
 import type { Headers } from './types/Headers';
-import type { ServerSideArguments } from './types/ServerSideArguments';
-import type { SortOptions } from './types/SortOptions';
 
-type Values<T> = T[keyof T];
-
-type HeadersAndQueryData = {
-  headers: Headers;
-} & { [x: string]: string };
-
-type GetPlaceByIdArguments = {
-  headers: Headers;
-  id: string;
-};
-
-const getPlaceById = async ({ headers, id }: GetPlaceByIdArguments) => {
+const getPlaceById = async ({ headers, id }) => {
   const res = await fetchFromApi({
     path: `/place/${id.toString()}`,
     options: {
@@ -36,10 +32,8 @@ const getPlaceById = async ({ headers, id }: GetPlaceByIdArguments) => {
   return await res.json();
 };
 
-type UseGetPlaceByIdArguments = ServerSideArguments & { id: string };
-
 const useGetPlaceById = (
-  { req, queryClient, id }: UseGetPlaceByIdArguments,
+  { req, queryClient, id },
   configuration: UseQueryOptions = {},
 ) =>
   useAuthenticatedQuery({
@@ -52,12 +46,7 @@ const useGetPlaceById = (
     ...configuration,
   });
 
-type GetPlacesByCreatorArguments = HeadersAndQueryData;
-
-const getPlacesByCreator = async ({
-  headers,
-  ...queryData
-}: GetPlacesByCreatorArguments) => {
+const getPlacesByCreator = async ({ headers, ...queryData }) => {
   const res = await fetchFromApi({
     path: '/places/',
     searchParams: {
@@ -74,45 +63,44 @@ const getPlacesByCreator = async ({
   return await res.json();
 };
 
-type UseGetPlacesByCreatorArguments = {
-  creator: { id: string; email: string };
-  start: number;
-  limit: number;
-  sortOptions: SortOptions;
-};
-
 const useGetPlacesByCreator = (
   {
+    req,
+    queryClient,
     creator,
-    start = 0,
-    limit = 50,
+    paginationOptions = { start: 0, limit: 50 },
     sortOptions = { field: 'modified', order: 'desc' },
-  }: UseGetPlacesByCreatorArguments,
+  }: AuthenticatedQueryOptions<
+    PaginationOptions &
+      SortOptions & {
+        creator: User;
+      }
+  >,
   configuration: UseQueryOptions = {},
 ) =>
-  useAuthenticatedQuery({
+  useAuthenticatedQuery<Object[]>({
+    req,
+    queryClient,
     queryKey: ['places'],
     queryFn: getPlacesByCreator,
     queryArguments: {
       q: `creator:(${creator.id} OR ${creator.email})`,
       disableDefaultFilters: true,
       embed: true,
-      limit,
-      start,
+      limit: paginationOptions.limit,
+      start: paginationOptions.start,
       workflowStatus: 'DRAFT,READY_FOR_VALIDATION,APPROVED,REJECTED',
-      [`sort[${sortOptions.field}}]`]: `${sortOptions.order}`,
+      ...createSortingArgument(sortOptions),
     },
-    configuration: {
-      enabled: !!(creator.id && creator.email),
-      ...configuration,
-    },
+    enabled: !!(creator.id && creator.email),
+    ...configuration,
   });
 
 type ChangeStatusArguments = {
   headers: Headers;
   id: string;
   type: Values<typeof OfferStatus>;
-  reason: { [language: string]: string };
+  reason: { [key in SupportedLanguage]: string };
 };
 
 const changeStatus = async ({
@@ -130,7 +118,7 @@ const changeStatus = async ({
     },
   });
 
-const useChangeStatus = (configuration: UseQueryOptions = {}) =>
+const useChangeStatus = (configuration: UseMutationOptions = {}) =>
   useAuthenticatedMutation({ mutationFn: changeStatus, ...configuration });
 
 export { useChangeStatus, useGetPlaceById, useGetPlacesByCreator };

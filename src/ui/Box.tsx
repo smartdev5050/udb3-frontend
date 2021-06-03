@@ -1,6 +1,6 @@
 import kebabCase from 'lodash/kebabCase';
 import pick from 'lodash/pick';
-import type { ComponentType, ReactNode } from 'react';
+import type { ComponentType, MouseEvent, ReactNode } from 'react';
 import { forwardRef } from 'react';
 import type { FlattenInterpolation, ThemeProps } from 'styled-components';
 import styled, { css } from 'styled-components';
@@ -27,68 +27,84 @@ type UIPropObject<T> = {
 type UIProp<T> = UIPropValue<T> | UIPropObject<T>;
 
 type GeneralProps = {
-  theme?: Theme;
-  children?: ReactNode;
-  className?: string;
-  as?: string | ComponentType<any>;
-  forwardedAs?: string | ComponentType<any>;
+  theme: Theme;
+  children: ReactNode;
+  className: string;
+  as: string | ComponentType<any>;
+  forwardedAs: string | ComponentType<any>;
 };
 
 type InlineProps = {
-  stackOn?: BreakpointValues;
+  stackOn: BreakpointValues;
 };
 
 type TitleProps = {
-  size?: 1 | 2;
+  size: 1 | 2;
 };
 
-type BoxProps = GeneralProps &
-  InlineProps &
-  TitleProps & {
-    alignItems?: UIProp<string>;
-    margin?: UIProp<number>;
-    marginTop?: UIProp<number>;
-    marginBottom?: UIProp<number>;
-    marginRight?: UIProp<number>;
-    marginLeft?: UIProp<number>;
-    marginX?: UIProp<number>;
-    marginY?: UIProp<number>;
-    padding?: UIProp<number>;
-    paddingTop?: UIProp<number>;
-    paddingBottom?: UIProp<number>;
-    paddingRight?: UIProp<number>;
-    paddingLeft?: UIProp<number>;
-    paddingX?: UIProp<number>;
-    paddingY?: UIProp<number>;
-    width?: UIProp<string | number>;
-    minWidth?: UIProp<string | number>;
-    maxWidth?: UIProp<string | number>;
-    height?: UIProp<string | number>;
-    justifyContent?: UIProp<string>;
-    maxHeight?: UIProp<string | number>;
-    minHeight?: UIProp<string | number>;
-    top?: UIProp<string | number>;
-    bottom?: UIProp<string | number>;
-    left?: UIProp<string | number>;
-    right?: UIProp<string | number>;
-    backgroundColor?: UIProp<string>;
-    backgroundPosition?: UIProp<string>;
-    backgroundRepeat?: UIProp<string>;
-    objectFit?: UIProp<string>;
-    fontSize?: UIProp<string | number>;
-    fontWeight?: UIProp<string | number>;
-    textAlign?: UIProp<string>;
-    lineHeight?: UIProp<string | number>;
-    color?: UIProp<string>;
-    stroke?: UIProp<string>;
-    zIndex?: UIProp<number>;
-    position?: UIProp<string>;
-    display?: UIProp<string>;
-    opacity?: UIProp<number>;
-    flex?: UIProp<string | number>;
-    cursor?: UIProp<string>;
-    animation?: UIProp<string>;
-  };
+type ListProps = {
+  variant: string;
+};
+
+type LinkProps = {
+  title: string;
+  href: string;
+  rel: string;
+  target: string;
+};
+
+type BoxProps = Partial<
+  GeneralProps &
+    InlineProps &
+    TitleProps &
+    ListProps &
+    LinkProps & {
+      alignItems: UIProp<string>;
+      margin: UIProp<number>;
+      marginTop: UIProp<number>;
+      marginBottom: UIProp<number>;
+      marginRight: UIProp<number>;
+      marginLeft: UIProp<number>;
+      marginX: UIProp<number>;
+      marginY: UIProp<number>;
+      padding: UIProp<number>;
+      paddingTop: UIProp<number>;
+      paddingBottom: UIProp<number>;
+      paddingRight: UIProp<number>;
+      paddingLeft: UIProp<number>;
+      paddingX: UIProp<number>;
+      paddingY: UIProp<number>;
+      width: UIProp<string | number>;
+      minWidth: UIProp<string | number>;
+      maxWidth: UIProp<string | number>;
+      height: UIProp<string | number>;
+      justifyContent: UIProp<string>;
+      maxHeight: UIProp<string | number>;
+      minHeight: UIProp<string | number>;
+      top: UIProp<string | number>;
+      bottom: UIProp<string | number>;
+      left: UIProp<string | number>;
+      right: UIProp<string | number>;
+      backgroundColor: UIProp<string>;
+      backgroundPosition: UIProp<string>;
+      backgroundRepeat: UIProp<string>;
+      objectFit: UIProp<string>;
+      fontSize: UIProp<string | number>;
+      fontWeight: UIProp<string | number>;
+      textAlign: UIProp<string>;
+      lineHeight: UIProp<string | number>;
+      color: UIProp<string>;
+      stroke: UIProp<string>;
+      zIndex: UIProp<number>;
+      position: UIProp<string>;
+      display: UIProp<string>;
+      opacity: UIProp<number>;
+      flex: UIProp<string | number>;
+      cursor: UIProp<string>;
+      animation: UIProp<string>;
+      onClick: (event: MouseEvent<HTMLElement>) => void;
+    }
+>;
 
 const remInPixels = 15;
 
@@ -194,7 +210,7 @@ const parseProperty = (key: string, parser?: Parser, customValue?: unknown) => (
 };
 
 const parseSpacing = (value: UIPropValue<number>) => (
-  props: ThemeProps<Theme>,
+  props?: ThemeProps<Theme>,
 ) => {
   const parsedValue = typeof value === 'function' ? value(props) : value;
 

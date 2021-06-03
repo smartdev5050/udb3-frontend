@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { css } from 'styled-components';
 
 import { CalendarType } from '@/constants/CalendarType';
 import { useGetCalendarSummary } from '@/hooks/api/events';
@@ -296,12 +297,10 @@ const Events = ({
                 selected={event.selected}
                 css={
                   index !== events.length - 1
-                    ? (props) => {
-                        return `border-bottom: 1px solid ${getValue(
-                          'borderColor',
-                        )(props)};`;
-                      }
-                    : undefined
+                    ? css`
+                        border-bottom: 1px solid ${getValue('borderColor')};
+                      `
+                    : css``
                 }
               />
             ))}

@@ -13,7 +13,8 @@
       "@/test/*": ["test/*"],
       "@/i18n/*": ["i18n/*"],
       "@/layouts/*": ["components/layouts/*"],
-      "@/styles/*": ["styles/*"]
+      "@/styles/*": ["styles/*"],
+      "@/types/*": ["types/*"]
     },
     "allowJs": true,
     "skipLibCheck": true,

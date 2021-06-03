@@ -1,11 +1,17 @@
 import type { UseQueryOptions } from 'react-query';
 
+import type {
+  AuthenticatedQueryOptions,
+  PaginationOptions,
+  SortOptions,
+} from '@/hooks/api/authenticated-query';
 import { useAuthenticatedQuery } from '@/hooks/api/authenticated-query';
+import type { Organizer } from '@/types/Organizer';
+import type { User } from '@/types/User';
+import { createSortingArgument } from '@/utils/createSortingArgument';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 
 import type { Headers } from './types/Headers';
-import type { ServerSideArguments } from './types/ServerSideArguments';
-import type { SortOptions } from './types/SortOptions';
 
 type HeadersAndQueryData = {
   headers: Headers;
@@ -29,10 +35,8 @@ const getOrganizerById = async ({ headers, id }: GetOrganizerByIdArguments) => {
   return await res.json();
 };
 
-type UseGetOrganizerByIdArguments = ServerSideArguments & { id: string };
-
 const useGetOrganizerById = (
-  { req, queryClient, id }: UseGetOrganizerByIdArguments,
+  { req, queryClient, id },
   configuration: UseQueryOptions = {},
 ) =>
   useAuthenticatedQuery({
@@ -67,36 +71,35 @@ const getOrganizersByCreator = async ({
   return await res.json();
 };
 
-type UseGetOrganizersByCreator = {
-  creator: { id: string; email: string };
-  start: number;
-  limit: number;
-  sortOptions: SortOptions;
-};
-
 const useGetOrganizersByCreator = (
   {
+    req,
+    queryClient,
     creator,
-    limit = 50,
-    start = 0,
+    paginationOptions = { start: 0, limit: 50 },
     sortOptions = { field: 'modified', order: 'desc' },
-  }: UseGetOrganizersByCreator,
+  }: AuthenticatedQueryOptions<
+    PaginationOptions &
+      SortOptions & {
+        creator: User;
+      }
+  >,
   configuration: UseQueryOptions = {},
 ) =>
-  useAuthenticatedQuery({
+  useAuthenticatedQuery<Organizer[]>({
+    req,
+    queryClient,
     queryKey: ['organizers'],
     queryFn: getOrganizersByCreator,
     queryArguments: {
       q: `creator:(${creator.id} OR ${creator.email})`,
-      limit,
-      start,
+      limit: paginationOptions.limit,
+      start: paginationOptions.start,
       embed: true,
-      [`sort[${sortOptions.field}}]`]: `${sortOptions.order}`,
+      ...createSortingArgument(sortOptions),
     },
-    configuration: {
-      enabled: !!(creator.id && creator.email),
-      ...configuration,
-    },
+    enabled: !!(creator.id && creator.email),
+    ...configuration,
   });
 
 export { useGetOrganizerById, useGetOrganizersByCreator };

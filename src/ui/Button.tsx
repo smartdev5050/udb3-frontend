@@ -1,9 +1,13 @@
-import PropTypes from 'prop-types';
+import type { ReactNode } from 'react';
 import { cloneElement } from 'react';
 import { Button as BootstrapButton } from 'react-bootstrap';
 import { css } from 'styled-components';
 
+import type { Values } from '@/types/Values';
+
+import type { Icons } from './Icon';
 import { Icon } from './Icon';
+import type { InlineProps } from './Inline';
 import { getInlineProps, Inline } from './Inline';
 import { Spinner, SpinnerSizes, SpinnerVariants } from './Spinner';
 import { Text } from './Text';
@@ -15,16 +19,18 @@ const ButtonVariants = {
   SUCCESS: 'success',
   DANGER: 'danger',
   UNSTYLED: 'unstyled',
-};
+} as const;
 
 const ButtonSizes = {
-  MEDIUM: 'md',
+  SMALL: 'sm',
   LARGE: 'lg',
-};
+} as const;
 
 const getValue = getValueFromTheme('button');
 
-const BaseButton = (props) => <Inline forwardedAs="button" {...props} />;
+const BaseButton = (props: Omit<InlineProps, 'size'>) => (
+  <Inline forwardedAs="button" {...props} />
+);
 
 const customCSS = css`
   &.btn {
@@ -148,6 +154,16 @@ const customCSS = css`
   }
 `;
 
+type ButtonProps = Omit<InlineProps, 'size'> & {
+  iconName?: Values<typeof Icons>;
+  suffix?: ReactNode;
+  loading?: boolean;
+  disabled?: boolean;
+  customChildren?: boolean;
+  shouldHideText?: boolean;
+  size?: Values<typeof ButtonSizes>;
+};
+
 const Button = ({
   iconName,
   suffix,
@@ -164,7 +180,7 @@ const Button = ({
   size,
   forwardedAs,
   ...props
-}) => {
+}: ButtonProps) => {
   if (variant === ButtonVariants.SECONDARY) variant = 'outline-secondary';
 
   const isBootstrapVariant = variant !== ButtonVariants.UNSTYLED;
@@ -189,7 +205,9 @@ const Button = ({
   };
 
   const clonedSuffix = suffix
-    ? cloneElement(suffix, {
+    ? // @ts-expect-error
+      cloneElement(suffix, {
+        // @ts-expect-error
         ...suffix.props,
         css: `align-self: flex-end`,
         key: 'suffix',
@@ -249,20 +267,6 @@ const Button = ({
   );
 };
 
-Button.propTypes = {
-  iconName: PropTypes.string,
-  title: PropTypes.string,
-  className: PropTypes.string,
-  textAlign: PropTypes.string,
-  variant: PropTypes.string,
-  disabled: PropTypes.bool,
-  loading: PropTypes.bool,
-  children: PropTypes.node,
-  customChildren: PropTypes.bool,
-  shouldHideText: PropTypes.bool,
-  onClick: PropTypes.func,
-};
-
 Button.defaultProps = {
   variant: ButtonVariants.PRIMARY,
   disabled: false,
@@ -270,8 +274,6 @@ Button.defaultProps = {
   customChildren: false,
   shouldHideText: false,
   textAlign: 'center',
-  onClick: () => {},
-  size: ButtonSizes.MEDIUM,
 };
 
 export { Button, customCSS as buttonCSS, ButtonSizes, ButtonVariants };

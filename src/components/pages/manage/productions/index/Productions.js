@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { css } from 'styled-components';
 
 import { parseSpacing } from '@/ui/Box';
 import { List } from '@/ui/List';
@@ -50,12 +51,10 @@ const Productions = ({
                   cursor="pointer"
                   css={
                     index !== productions.length - 1
-                      ? (props) => {
-                          return `border-bottom: 1px solid ${getValue(
-                            'borderColor',
-                          )(props)};`;
-                        }
-                      : undefined
+                      ? css`
+                          border-bottom: 1px solid ${getValue('borderColor')};
+                        `
+                      : css``
                   }
                   key={production.id}
                   onClick={() => onClickProduction(production.id)}

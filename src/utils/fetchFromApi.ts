@@ -1,3 +1,4 @@
+import omit from 'lodash/omit';
 import getConfig from 'next/config';
 
 class FetchError extends Error {
@@ -23,19 +24,12 @@ const isErrorObject = (value: any): value is ErrorObject => {
   );
 };
 
-type FetchFromApiArguments = {
-  path: string;
-  searchParams?: Record<string, string>;
-  options?: { headers?: Record<string, string>; [key: string]: unknown };
-  silentError?: boolean;
-};
-
 const fetchFromApi = async ({
   path,
   searchParams = {},
   options = {},
   silentError = false,
-}: FetchFromApiArguments): Promise<Response | ErrorObject> => {
+}): Promise<ErrorObject | Response> => {
   const { publicRuntimeConfig } = getConfig();
 
   let response: Response;
@@ -43,10 +37,10 @@ const fetchFromApi = async ({
 
   try {
     url = new URL(`${publicRuntimeConfig.apiUrl}${path}`);
-    url.search = new URLSearchParams(searchParams).toString();
+    url.search = new URLSearchParams(omit(searchParams, 'queryKey')).toString();
   } catch (e) {
     if (!silentError) {
-      throw new Error(e.message);
+      throw new FetchError(400, e?.message ?? 'Unknown error');
     }
     return {
       type: 'ERROR',
@@ -58,7 +52,7 @@ const fetchFromApi = async ({
     response = await fetch(url.toString(), options);
   } catch (e) {
     if (!silentError) {
-      throw new Error(e.message);
+      throw new FetchError(response?.status, e?.message ?? 'Unknown error');
     }
 
     return {
@@ -84,5 +78,5 @@ const fetchFromApi = async ({
   return response;
 };
 
-export { fetchFromApi, isErrorObject };
+export { FetchError, fetchFromApi, isErrorObject };
 export type { ErrorObject };

@@ -129,6 +129,34 @@
     },
     "maxLengthReason": "La raison ne peut pas dépasser {{amount}} caractères."
   },
+  "dashboard": {
+    "welcome": "Bienvenue",
+    "create": "Ajouter",
+    "my_items": "Mes évenements, endroits et organisateurs",
+    "passed_event": "Événement terminé",
+    "not_published": "Pas publié",
+    "online_from": "Publié le {{date}}",
+    "tabs": {
+      "events": "Événements",
+      "places": "Endroits",
+      "organizers": "Organisateurs"
+    },
+    "actions": {
+      "edit": "Modifier",
+      "preview": "Exemple",
+      "delete": "Supprimer",
+      "cancel": "Annuler"
+    },
+    "modal": {
+      "title": "Supprimer des {{type}}",
+      "question": "Voulez-vous vraiment supprimer '{{name}}'?",
+      "types": {
+        "events": "événements",
+        "places": "éndroits",
+        "organizers": "organisateurs"
+      }
+    }
+  },
   "jobs": {
     "download": "Télécharger",
     "finished": "Terminé",

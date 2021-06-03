@@ -25,7 +25,7 @@ const createToken = () => {
   return [header, payload, 'SIGNATURE'].join('.');
 };
 
-jest.mock('@/hooks/useCookiesWithOptions.js', () => ({
+jest.mock('@/hooks/useCookiesWithOptions.ts', () => ({
   __esModule: true,
   useCookiesWithOptions: () => ({
     cookies: {

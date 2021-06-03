@@ -42,8 +42,10 @@ const Index = () => {
 
   const getProductionsQuery = useGetProductions({
     name: searchInput,
-    start: currentPageProductions - 1,
-    limit: productionsPerPage,
+    paginationOptions: {
+      start: currentPageProductions - 1,
+      limit: productionsPerPage,
+    },
   });
 
   const rawProductions = getProductionsQuery.data?.member ?? [];
@@ -229,9 +231,7 @@ export const getServerSideProps = getApplicationServerSideProps(
     const productions = await useGetProductions({
       req,
       queryClient,
-      name: '',
-      start: 0,
-      limit: productionsPerPage,
+      paginationOptions: { limit: productionsPerPage, start: 0 },
     });
 
     const eventIds = productions?.member?.[0]?.events ?? [];
