@@ -1,5 +1,6 @@
 import { format, isAfter, isFuture } from 'date-fns';
 import { useRouter } from 'next/router';
+import type { ReactNode } from 'react';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
@@ -42,12 +43,55 @@ const GetItemsByCreatorMap = {
   organizers: useGetOrganizersByCreator,
 } as const;
 
-type EventMenuProps = InlineProps & {
+type RowProps = {
+  title: string;
+  description: string;
+  actions: ReactNode;
+  url: string;
+  status?: string;
+  badge?: string;
+};
+
+const Row = ({
+  title,
+  description,
+  actions,
+  url,
+  status,
+  badge,
+  ...props
+}: RowProps) => {
+  return (
+    <Inline flex={1} justifyContent="space-between" {...getInlineProps(props)}>
+      <Stack spacing={2}>
+        <Inline spacing={3}>
+          <Link href={url} color={getValue('listItem.color')} fontWeight="bold">
+            {title}
+            {/* event.name[i18n.language] ?? event.name[event.mainLanguage] */}
+          </Link>
+          {badge && <Badge variant={BadgeVariants.SECONDARY}>{badge}</Badge>}
+        </Inline>
+        <Text>
+          {description}
+          {/* {eventType}
+      {period && ` - ${period}`} */}
+        </Text>
+      </Stack>
+      {status ? (
+        <Text color={getValue('listItem.passedEvent.color')}>{status}</Text>
+      ) : (
+        <Dropdown variant={DropDownVariants.SECONDARY}>{actions}</Dropdown>
+      )}
+    </Inline>
+  );
+};
+
+type EventRowProps = InlineProps & {
   event: Event;
   onDelete: (id: Event) => void;
 };
 
-const EventMenu = ({ event, onDelete, ...props }: EventMenuProps) => {
+const EventRow = ({ event, onDelete, ...props }: EventRowProps) => {
   const { t, i18n } = useTranslation();
 
   const isFinished = isAfter(new Date(), new Date(event.availableTo));
@@ -65,41 +109,12 @@ const EventMenu = ({ event, onDelete, ...props }: EventMenuProps) => {
   const period = event.calendarSummary[i18n.language]?.text?.md;
 
   return (
-    <Inline flex={1} justifyContent="space-between" {...getInlineProps(props)}>
-      <Stack spacing={2}>
-        <Inline spacing={3}>
-          <Link
-            href={previewUrl}
-            color={getValue('listItem.color')}
-            fontWeight="bold"
-          >
-            {event.name[i18n.language] ?? event.name[event.mainLanguage]}
-          </Link>
-          {isPlanned ? (
-            <Badge variant={BadgeVariants.SECONDARY}>
-              {t('dashboard.online_from', {
-                date: format(new Date(event.availableFrom), 'dd/MM/yyyy'),
-              })}
-            </Badge>
-          ) : (
-            !isPublished && (
-              <Badge variant={BadgeVariants.SECONDARY}>
-                {t('dashboard.not_published')}
-              </Badge>
-            )
-          )}
-        </Inline>
-        <Text>
-          {eventType}
-          {period && ` - ${period}`}
-        </Text>
-      </Stack>
-      {isFinished ? (
-        <Text color={getValue('listItem.passedEvent.color')}>
-          {t('dashboard.passed_event')}
-        </Text>
-      ) : (
-        <Dropdown variant={DropDownVariants.SECONDARY}>
+    <Row
+      title={event.name[i18n.language] ?? event.name[event.mainLanguage]}
+      description={`${eventType}${period && ` - ${period}`}`}
+      url={previewUrl}
+      actions={
+        <>
           <Link href={editUrl} variant={LinkVariants.BUTTON_SECONDARY}>
             {t('dashboard.actions.edit')}
           </Link>
@@ -110,13 +125,21 @@ const EventMenu = ({ event, onDelete, ...props }: EventMenuProps) => {
           <Dropdown.Item onClick={() => onDelete(event)}>
             {t('dashboard.actions.delete')}
           </Dropdown.Item>
-        </Dropdown>
-      )}
-    </Inline>
+        </>
+      }
+      status={isFinished && t('dashboard.passed_event')}
+      badge={
+        isPlanned
+          ? t('dashboard.online_from', {
+              date: format(new Date(event.availableFrom), 'dd/MM/yyyy'),
+            })
+          : !isPublished && t('dashboard.not_published')
+      }
+    />
   );
 };
 
-type EventsProps = {
+type ListWithPaginationProps = {
   events: Event[];
   totalItems: number;
   currentPage: number;
@@ -124,23 +147,43 @@ type EventsProps = {
   onChangePage: (page: number) => void;
 };
 
-const Events = ({
-  events,
-  totalItems,
-  currentPage,
-  onChangePage,
-  onDelete,
-}: EventsProps) => {
-  const { t } = useTranslation();
+// const ListWithPagination = ({
+//   events,
+//   totalItems,
+//   currentPage,
+//   onChangePage,
+//   onDelete,
+// }: EventsProps) => {
+//   const { t } = useTranslation();
 
-  return (
+//   return (
+
+//   );
+// };
+
+Events.defaultProps = {
+  loading: false,
+};
+
+const TabContent = ({ items, status }) => {
+  return UseGetItemsByCreatorQuery.status === QueryStatus.LOADING ? (
+    <Panel
+      backgroundColor="white"
+      css={`
+        border-top: none !important;
+      `}
+    >
+      <Spinner marginY={4} />
+    </Panel>
+  ) : (
     <Panel
       css={`
         border-top: none !important;
       `}
     >
       <List>
-        {events.map((event, index) => (
+        {children}
+        {/* {events.map((event, index) => (
           <List.Item
             key={event['@id']}
             paddingLeft={4}
@@ -156,9 +199,9 @@ const Events = ({
                 : css``
             }
           >
-            <EventMenu event={event} onDelete={onDelete} />
+            <EventRow event={event} onDelete={onDelete} />
           </List.Item>
-        ))}
+        ))} */}
       </List>
       <Panel.Footer>
         <Pagination
@@ -172,10 +215,6 @@ const Events = ({
       </Panel.Footer>
     </Panel>
   );
-};
-
-Events.defaultProps = {
-  loading: false,
 };
 
 type Props = { activeTab: TabOptions; page?: number };
@@ -260,30 +299,7 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
           activeBackgroundColor="white"
         >
           <Tabs.Tab eventKey="events" title={t('dashboard.tabs.events')}>
-            {/*  @ts-expect-error */}
-            {UseGetItemsByCreatorQuery.status === QueryStatus.LOADING ? (
-              <Panel
-                backgroundColor="white"
-                css={`
-                  border-top: none !important;
-                `}
-              >
-                <Spinner marginY={4} />
-              </Panel>
-            ) : (
-              areEvents(items) && (
-                <Events
-                  events={items}
-                  totalItems={totalItems}
-                  currentPage={currentPage}
-                  onChangePage={handleChangePage}
-                  onDelete={(event) => {
-                    setToBeDeletedItem(event);
-                    setIsModalVisible(true);
-                  }}
-                />
-              )
-            )}
+            <TabContent />
           </Tabs.Tab>
           <Tabs.Tab eventKey="places" title={t('dashboard.tabs.places')} />
           <Tabs.Tab
