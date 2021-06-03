@@ -40,7 +40,7 @@ const GetItemsByCreatorMap = {
   events: useGetEventsByCreator,
   places: useGetPlacesByCreator,
   organizers: useGetOrganizersByCreator,
-};
+} as const;
 
 type EventMenuProps = InlineProps & {
   event: Event;
