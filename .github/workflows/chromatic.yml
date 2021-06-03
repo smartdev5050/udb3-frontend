@@ -4,13 +4,13 @@ on: push
 jobs:
   publish:
     runs-on: ubuntu-latest
+    env:
+      SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
     if: github.actor != 'dependabot-preview[bot]'
     steps:
       - uses: actions/checkout@v1
       - run: yarn && yarn build
       - uses: chromaui/action@v1
-        env:
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
         with:
           buildScriptName: storybook:build
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
