@@ -157,10 +157,7 @@ const useAuthenticatedMutation = ({ mutationFn, ...configuration }) => {
 
     if (isUnAuthorized(response?.status)) {
       removeAuthenticationCookies();
-      router
-        .push('/login')
-        .then(() => {})
-        .catch(() => {});
+      router.push('/login');
     }
 
     const result = await response.text();
@@ -189,10 +186,7 @@ const useAuthenticatedMutations = ({
 
     if (responses.some((response) => isUnAuthorized(response.status))) {
       removeAuthenticationCookies();
-      router
-        .push('/login')
-        .then(() => {})
-        .catch(() => {});
+      router.push('/login');
     } else if (responses.some((response) => response.type === 'ERROR')) {
       const errorMessages = responses
         .filter((response) => response.type === 'ERROR')
@@ -246,10 +240,8 @@ const useAuthenticatedQuery = <TData>(
   if (isUnAuthorized(result?.error?.status)) {
     if (!asPath.startsWith('/login') && asPath !== '/[...params]') {
       removeAuthenticationCookies();
-      router
-        .push('/login')
-        .then(() => {})
-        .catch(() => {});
+
+      router.push('/login');
     }
   }
 
@@ -290,10 +282,7 @@ const useAuthenticatedQueries = ({
   if (results.some((result) => isUnAuthorized(result?.error?.status))) {
     if (!asPath.startsWith('/login') && asPath !== '/[...params]') {
       removeAuthenticationCookies();
-      router
-        .push('/login')
-        .then(() => {})
-        .catch(() => {});
+      router.push('/login');
     }
   }
 
