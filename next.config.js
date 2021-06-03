@@ -6,6 +6,7 @@
 const { withSentryConfig } = require('@sentry/nextjs');
 
 const moduleExports = {
+  productionBrowserSourceMaps: true,
   future: {
     webpack5: true,
   },
