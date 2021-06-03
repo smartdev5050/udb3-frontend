@@ -78,7 +78,7 @@ const useGetPlacesByCreator = (
   >,
   configuration: UseQueryOptions = {},
 ) =>
-  useAuthenticatedQuery({
+  useAuthenticatedQuery<Object[]>({
     req,
     queryClient,
     queryKey: ['places'],
