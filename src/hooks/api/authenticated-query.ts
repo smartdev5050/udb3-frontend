@@ -217,9 +217,13 @@ const useAuthenticatedMutations = ({
   return useMutation(innerMutationFn, configuration);
 };
 
+type UseAuthenticatedQueryResult<TData> =
+  | Promise<TData>
+  | UseQueryResult<TData, FetchError>;
+
 const useAuthenticatedQuery = <TData>(
   options,
-): Promise<TData> | UseQueryResult<TData, FetchError> => {
+): UseAuthenticatedQueryResult<TData> => {
   if (!!options.req && !!options.queryClient && typeof window === 'undefined') {
     return prefetchAuthenticatedQuery<TData>(options);
   }
