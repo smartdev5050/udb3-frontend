@@ -1,5 +1,9 @@
 import { createGlobalStyle } from 'styled-components';
 
+import { getValueFromTheme } from '../ui/theme';
+
+const getValueForModal = getValueFromTheme('modal');
+
 const GlobalStyle = createGlobalStyle`
   html,
   body,
@@ -141,7 +145,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   .modal-backdrop {
-    z-index: 1999;
+    z-index: ${getValueForModal('zIndexBackdrop')};
   }
 `;
 

@@ -1,4 +1,5 @@
 import getConfig from 'next/config';
+import absoluteUrl from 'next-absolute-url';
 import { QueryClient } from 'react-query';
 import Cookies from 'universal-cookie';
 
@@ -7,6 +8,7 @@ import { isTokenValid } from './isTokenValid';
 const getApplicationServerSideProps = (callbackFn) => async ({
   req,
   query,
+  resolvedUrl,
 }) => {
   const { publicRuntimeConfig } = getConfig();
   if (publicRuntimeConfig.environment === 'development') {
@@ -21,9 +23,13 @@ const getApplicationServerSideProps = (callbackFn) => async ({
     cookies.remove('user');
     cookies.remove('token');
 
+    const { origin } = absoluteUrl(req);
+
+    const referer = `${origin}${resolvedUrl}`;
+
     return {
       redirect: {
-        destination: '/login',
+        destination: `/login?referer=${referer}`,
         permanent: false,
       },
     };
