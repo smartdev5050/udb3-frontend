@@ -218,7 +218,7 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
 
   const [currentPage, setCurrentPage] = useState(page);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [toBeDeletedItem, setToBeDeletedItem] = useState<Event>();
+  const [toBeDeletedItem] = useState<Event>();
 
   const useGetItemsByCreator = useMemo(() => GetItemsByCreatorMap[activeTab], [
     activeTab,
