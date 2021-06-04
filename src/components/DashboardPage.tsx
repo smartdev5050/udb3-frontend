@@ -1,7 +1,7 @@
 import { format, isAfter, isFuture } from 'date-fns';
 import { useRouter } from 'next/router';
 import type { ReactNode } from 'react';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import { css } from 'styled-components';
@@ -201,8 +201,6 @@ const TabContent = ({
 
 type Props = { activeTab: TabOptions; page?: number };
 
-// Error: Its return type 'Element[]' is not a valid JSX element.
-// return type any following this solution https://github.com/DefinitelyTyped/DefinitelyTyped/issues/20356#issuecomment-492831432
 const DashboardPage = ({ activeTab, page }: Props): any => {
   const { t, i18n } = useTranslation();
   const { asPath, ...router } = useRouter();
@@ -216,7 +214,7 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
 
   const [currentPage, setCurrentPage] = useState(page);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [toBeDeletedItem] = useState<Event>();
+  const [toBeDeletedItem, setToBeDeletedItem] = useState<unknown>();
 
   const useGetItemsByCreator = useMemo(() => GetItemsByCreatorMap[activeTab], [
     activeTab,
@@ -265,7 +263,10 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
       await router.push(url, undefined, { shallow: true });
       setCurrentPage(page);
     },
-    onDelete: () => {}, // TODO: Delete the correct entity
+    onDelete: (item) => {
+      setToBeDeletedItem(item);
+      setIsModalVisible(true);
+    },
   };
 
   return [
