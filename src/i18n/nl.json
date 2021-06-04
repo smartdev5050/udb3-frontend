@@ -135,7 +135,10 @@
     "welcome": "Welkom",
     "create": "Toevoegen",
     "my_items": "Mijn evenementen, plaatsen en organisatoren",
-    "passed_event": "Afgelopen evenement",
+    "passed": "Afgelopen {{type}}",
+    "event": "evenement",
+    "place": "plaats",
+    "organizer": "organisator",
     "not_published": "Niet gepubliceerd",
     "online_from": "Online vanaf {{date}}",
     "tabs": {
