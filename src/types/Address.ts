@@ -8,6 +8,6 @@ type AddressInternal = {
 };
 type Address =
   | AddressInternal
-  | { [key in SupportedLanguage]: AddressInternal };
+  | { [key in SupportedLanguage]?: AddressInternal };
 
 export type { Address };
