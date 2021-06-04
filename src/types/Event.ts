@@ -1,4 +1,5 @@
 import type { Offer } from './Offer';
+import type { Place } from './Place';
 
 type EventId = string;
 
@@ -10,6 +11,7 @@ type ProductionOnEvent = {
 
 type Event = Offer & {
   '@context': '/contexts/event';
+  location: Place;
   production?: ProductionOnEvent;
 };
 
