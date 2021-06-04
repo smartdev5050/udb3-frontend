@@ -288,7 +288,9 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
           activeBackgroundColor="white"
         >
           <Tabs.Tab eventKey="events" title={t('dashboard.tabs.events')}>
-            <TabContent {...sharedTableContentProps} Row={EventRow} />
+            {activeTab === 'events' && (
+              <TabContent {...sharedTableContentProps} Row={EventRow} />
+            )}
           </Tabs.Tab>
           <Tabs.Tab eventKey="places" title={t('dashboard.tabs.places')}>
             {/* <TabContent {...sharedTableContentProps} Row={PlaceRow} /> */}
