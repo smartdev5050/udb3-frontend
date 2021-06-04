@@ -46,7 +46,7 @@ const GetItemsByCreatorMap = {
 type RowProps = {
   title: string;
   description: string;
-  actions: ReactNode;
+  actions: ReactNode[];
   url: string;
   status?: string;
   badge?: string;
@@ -108,20 +108,18 @@ const EventRow = ({ item: event, onDelete, ...props }: EventRowProps) => {
       title={event.name[i18n.language] ?? event.name[event.mainLanguage]}
       description={`${eventType}${period && ` - ${period}`}`}
       url={previewUrl}
-      actions={
-        <>
-          <Link href={editUrl} variant={LinkVariants.BUTTON_SECONDARY}>
-            {t('dashboard.actions.edit')}
-          </Link>
-          <Dropdown.Item href={previewUrl}>
-            {t('dashboard.actions.preview')}
-          </Dropdown.Item>
-          <Dropdown.Divider />
-          <Dropdown.Item onClick={() => onDelete(event)}>
-            {t('dashboard.actions.delete')}
-          </Dropdown.Item>
-        </>
-      }
+      actions={[
+        <Link href={editUrl} variant={LinkVariants.BUTTON_SECONDARY} key="edit">
+          {t('dashboard.actions.edit')}
+        </Link>,
+        <Dropdown.Item href={previewUrl} key="preview">
+          {t('dashboard.actions.preview')}
+        </Dropdown.Item>,
+        <Dropdown.Divider key="divider" />,
+        <Dropdown.Item onClick={() => onDelete(event)} key="delete">
+          {t('dashboard.actions.delete')}
+        </Dropdown.Item>,
+      ]}
       status={isFinished && t('dashboard.passed_event')}
       badge={
         isPlanned
