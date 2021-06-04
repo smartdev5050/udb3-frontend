@@ -9,10 +9,10 @@ import { css } from 'styled-components';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
 import { useDeleteEventById, useGetEventsByCreator } from '@/hooks/api/events';
 import { useGetOrganizersByCreator } from '@/hooks/api/organizers';
-import { useGetPlacesByCreator } from '@/hooks/api/places';
+import { useDeletePlaceById, useGetPlacesByCreator } from '@/hooks/api/places';
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import type { Event } from '@/types/Event';
-import { areEvents } from '@/types/Event';
+import type { Place } from '@/types/Place';
 import { Badge, BadgeVariants } from '@/ui/Badge';
 import { Box } from '@/ui/Box';
 import { Dropdown, DropDownVariants } from '@/ui/Dropdown';
@@ -41,6 +41,12 @@ const GetItemsByCreatorMap = {
   events: useGetEventsByCreator,
   places: useGetPlacesByCreator,
   organizers: useGetOrganizersByCreator,
+} as const;
+
+const DeleteEventByIdMap = {
+  events: useDeleteEventById,
+  places: useDeletePlaceById,
+  // TODO: add organizer api call
 } as const;
 
 type RowProps = {
@@ -120,7 +126,9 @@ const EventRow = ({ item: event, onDelete, ...props }: EventRowProps) => {
           {t('dashboard.actions.delete')}
         </Dropdown.Item>,
       ]}
-      status={isFinished && t('dashboard.passed_event')}
+      status={
+        isFinished && t('dashboard.passed', { type: t('dashboard.event') })
+      }
       badge={
         isPlanned
           ? t('dashboard.online_from', {
@@ -128,11 +136,66 @@ const EventRow = ({ item: event, onDelete, ...props }: EventRowProps) => {
             })
           : !isPublished && t('dashboard.not_published')
       }
+      {...getInlineProps(props)}
     />
   );
 };
 
-// TODO: PlaceRow and OrganizerRow
+type PlaceRowProps = InlineProps & {
+  item: Place;
+  onDelete: (id: Place) => void;
+};
+
+const PlaceRow = ({ item: place, onDelete, ...props }: PlaceRowProps) => {
+  const { t, i18n } = useTranslation();
+
+  const isFinished = isAfter(new Date(), new Date(place.availableTo));
+  const isPublished = ['APPROVED', 'READY_FOR_VALIDATION'].includes(
+    place.workflowStatus,
+  );
+  const isPlanned = isPublished && isFuture(new Date(place.availableFrom));
+
+  const editUrl = `/place/${parseOfferId(place['@id'])}/edit`;
+  const previewUrl = `/place/${parseOfferId(place['@id'])}/preview`;
+  const typeId = place.terms.find((term) => term.domain === 'eventtype')?.id;
+  // The custom keySeparator was necessary because the ids contain '.' which i18n uses as default keySeparator
+  const placeType = t(`offerTypes*${typeId}`, { keySeparator: '*' });
+
+  const period = place.calendarSummary[i18n.language]?.text?.md;
+
+  return (
+    <Row
+      title={place.name[i18n.language] ?? place.name[place.mainLanguage]}
+      description={`${placeType}${period && ` - ${period}`}`}
+      url={previewUrl}
+      actions={[
+        <Link href={editUrl} variant={LinkVariants.BUTTON_SECONDARY} key="edit">
+          {t('dashboard.actions.edit')}
+        </Link>,
+        <Dropdown.Item href={previewUrl} key="preview">
+          {t('dashboard.actions.preview')}
+        </Dropdown.Item>,
+        <Dropdown.Divider key="divider" />,
+        <Dropdown.Item onClick={() => onDelete(place)} key="delete">
+          {t('dashboard.actions.delete')}
+        </Dropdown.Item>,
+      ]}
+      status={
+        isFinished && t('dashboard.passed', { type: t('dashboard.place') })
+      }
+      badge={
+        isPlanned
+          ? t('dashboard.online_from', {
+              date: format(new Date(place.availableFrom), 'dd/MM/yyyy'),
+            })
+          : !isPublished && t('dashboard.not_published')
+      }
+      {...getInlineProps(props)}
+    />
+  );
+};
+
+// TODO: OrganizerRow
 
 const TabContent = ({
   items,
@@ -220,6 +283,10 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
     activeTab,
   ]);
 
+  const useDeleteItemById = useMemo(() => DeleteEventByIdMap[activeTab], [
+    activeTab,
+  ]);
+
   const handleSelectTab = async (eventKey: TabOptions) => {
     const url = getCurrentUrl();
     url.pathname = eventKey;
@@ -238,17 +305,14 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
     },
   });
 
-  // TODO: handle through map (same way as GET)
-  const UseDeleteEventByIdMutation = useDeleteEventById({
+  const UseDeleteItemByIdMutation = useDeleteItemById({
     onSuccess: async () => {
-      await queryClient.invalidateQueries('events');
+      await queryClient.invalidateQueries(activeTab);
     },
   });
 
   // @ts-expect-error
   const items = UseGetItemsByCreatorQuery.data?.member ?? [];
-
-  const itemType = areEvents(items) ? 'events' : undefined;
 
   const sharedTableContentProps = {
     // @ts-expect-error
@@ -293,7 +357,9 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
             )}
           </Tabs.Tab>
           <Tabs.Tab eventKey="places" title={t('dashboard.tabs.places')}>
-            {/* <TabContent {...sharedTableContentProps} Row={PlaceRow} /> */}
+            {activeTab === 'places' && (
+              <TabContent {...sharedTableContentProps} Row={PlaceRow} />
+            )}
           </Tabs.Tab>
           <Tabs.Tab
             eventKey="organizers"
@@ -309,14 +375,14 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
       variant={ModalVariants.QUESTION}
       visible={isModalVisible}
       onConfirm={async () => {
-        UseDeleteEventByIdMutation.mutate({
+        UseDeleteItemByIdMutation.mutate({
           id: parseOfferId(toBeDeletedItem['@id']),
         });
         setIsModalVisible(false);
       }}
       onClose={() => setIsModalVisible(false)}
       title={t('dashboard.modal.title', {
-        type: t(`dashboard.modal.types.${itemType}`),
+        type: t(`dashboard.modal.types.${activeTab}`),
       })}
       confirmTitle={t('dashboard.actions.delete')}
       cancelTitle={t('dashboard.actions.cancel')}
