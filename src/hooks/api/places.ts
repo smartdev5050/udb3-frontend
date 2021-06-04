@@ -91,8 +91,21 @@ const useGetPlacesByCreator = (
       start: paginationOptions.start,
       workflowStatus: 'DRAFT,READY_FOR_VALIDATION,APPROVED,REJECTED',
       ...createSortingArgument(sortOptions),
+      embedCalendarSummaries: 'md-text',
     },
     enabled: !!(creator.id && creator.email),
+    ...configuration,
+  });
+
+const deletePlaceById = async ({ headers, id }) =>
+  fetchFromApi({
+    path: `/places/${id}`,
+    options: { headers, method: 'DELETE' },
+  });
+
+const useDeletePlaceById = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: deletePlaceById,
     ...configuration,
   });
 
@@ -121,4 +134,9 @@ const changeStatus = async ({
 const useChangeStatus = (configuration: UseMutationOptions = {}) =>
   useAuthenticatedMutation({ mutationFn: changeStatus, ...configuration });
 
-export { useChangeStatus, useGetPlaceById, useGetPlacesByCreator };
+export {
+  useChangeStatus,
+  useDeletePlaceById,
+  useGetPlaceById,
+  useGetPlacesByCreator,
+};
