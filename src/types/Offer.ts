@@ -2,7 +2,6 @@ import type { CalendarType } from '@/constants/CalendarType';
 import type { OfferStatus } from '@/constants/OfferStatus';
 
 import type { SupportedLanguage } from '../i18n';
-import type { Address } from './Address';
 import type { ContactPoint } from './ContactPoint';
 import type { Organizer } from './Organizer';
 import type { Values } from './Values';
