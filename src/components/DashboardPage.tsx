@@ -1,7 +1,7 @@
 import { format, isAfter, isFuture } from 'date-fns';
 import { useRouter } from 'next/router';
 import type { ReactNode } from 'react';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import { css } from 'styled-components';
