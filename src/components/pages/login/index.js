@@ -13,7 +13,7 @@ export const getServerSideProps = ({ req, resolvedUrl }) => {
   const url = new URL(`${origin}${resolvedUrl}`);
 
   const referer = url.searchParams.get('referer')
-    ? new URL(url.searchParams.get('referer'))
+    ? encodeURI(url.searchParams.get('referer').replace(/\+/g, '%2B'))
     : undefined;
 
   referer?.searchParams?.delete('jwt');
