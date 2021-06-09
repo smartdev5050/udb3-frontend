@@ -25,7 +25,7 @@ const getApplicationServerSideProps = (callbackFn) => async ({
 
     const { origin } = absoluteUrl(req);
 
-    const referer = `${origin}${resolvedUrl}`;
+    const referer = encodeURIComponent(`${origin}${resolvedUrl}`);
 
     return {
       redirect: {
