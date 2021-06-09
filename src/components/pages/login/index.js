@@ -23,7 +23,7 @@ export const getServerSideProps = ({ req, resolvedUrl }) => {
 
   return {
     redirect: {
-      destination: `/login/${language}?referer=${referer}`,
+      destination: `/login/${language}?referer=${encodeURIComponent(referer)}`,
       permanent: false,
     },
   };
