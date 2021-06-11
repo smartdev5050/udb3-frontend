@@ -1,4 +1,4 @@
-import { FeatureFlags } from '@/hooks/useFeatureFlag';
+import { FeatureFlags } from './hooks/useFeatureFlag';
 
 const getRedirects = (environment) => [
   // Only make the permanent redirects really permanent in environments other
@@ -15,8 +15,20 @@ const getRedirects = (environment) => [
     permanent: environment !== 'development',
   },
   {
-    source: '/dashboard',
-    destination: '/events',
+    source: '/events',
+    destination: '/dashboard?tabs=events',
+    permanent: environment !== 'development',
+    featureFlag: FeatureFlags.REACT_DASHBOARD,
+  },
+  {
+    source: '/organizers',
+    destination: '/dashboard?tabs=organizers',
+    permanent: environment !== 'development',
+    featureFlag: FeatureFlags.REACT_DASHBOARD,
+  },
+  {
+    source: '/places',
+    destination: '/dashboard?tabs=places',
     permanent: environment !== 'development',
     featureFlag: FeatureFlags.REACT_DASHBOARD,
   },

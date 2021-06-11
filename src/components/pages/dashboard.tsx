@@ -2,17 +2,23 @@ import { format, isAfter, isFuture } from 'date-fns';
 import { useRouter } from 'next/router';
 import type { ReactNode } from 'react';
 import { useMemo, useState } from 'react';
+import { Cookies } from 'react-cookie';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
+import { dehydrate } from 'react-query/hydration';
 import { css } from 'styled-components';
 
 import { QueryStatus } from '@/hooks/api/authenticated-query';
 import { useDeleteEventById, useGetEventsByCreator } from '@/hooks/api/events';
-import { useGetOrganizersByCreator } from '@/hooks/api/organizers';
+import {
+  useDeleteOrganizerById,
+  useGetOrganizersByCreator,
+} from '@/hooks/api/organizers';
 import { useDeletePlaceById, useGetPlacesByCreator } from '@/hooks/api/places';
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import type { Event } from '@/types/Event';
 import type { Place } from '@/types/Place';
+import type { User } from '@/types/User';
 import { Badge, BadgeVariants } from '@/ui/Badge';
 import { Box } from '@/ui/Box';
 import { Dropdown, DropDownVariants } from '@/ui/Dropdown';
@@ -29,6 +35,7 @@ import { Stack } from '@/ui/Stack';
 import { Tabs } from '@/ui/Tabs';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
+import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 type TabOptions = 'events' | 'places' | 'organizers';
@@ -37,16 +44,16 @@ const getValue = getValueFromTheme('dashboardPage');
 
 const itemsPerPage = 14;
 
-const GetItemsByCreatorMap = {
+const UseGetItemsByCreatorMap = {
   events: useGetEventsByCreator,
   places: useGetPlacesByCreator,
   organizers: useGetOrganizersByCreator,
 } as const;
 
-const DeleteEventByIdMap = {
+const UseDeleteEventByIdMap = {
   events: useDeleteEventById,
   places: useDeletePlaceById,
-  // TODO: add organizer api call
+  organizers: useDeleteOrganizerById,
 } as const;
 
 type RowProps = {
@@ -195,13 +202,29 @@ const PlaceRow = ({ item: place, onDelete, ...props }: PlaceRowProps) => {
   );
 };
 
-// TODO: OrganizerRow
+const OrganizerRow = ({
+  item: organizer,
+  onDelete,
+  ...props
+}: PlaceRowProps) => {
+  console.log(organizer);
+
+  return (
+    <Row
+      title="test"
+      url="test"
+      description="test"
+      actions={[]}
+      {...getInlineProps(props)}
+    />
+  );
+};
 
 const TabContent = ({
   items,
   status,
   Row,
-  currentPage,
+  page,
   totalItems,
   onDelete,
   onChangePage,
@@ -250,7 +273,7 @@ const TabContent = ({
       </List>
       <Panel.Footer>
         <Pagination
-          currentPage={currentPage}
+          currentPage={page}
           totalItems={totalItems}
           perPage={itemsPerPage}
           prevText={t('pagination.previous')}
@@ -262,70 +285,58 @@ const TabContent = ({
   );
 };
 
-type Props = { activeTab: TabOptions; page?: number };
-
-const DashboardPage = ({ activeTab, page }: Props): any => {
+const Dashboard = (): any => {
   const { t, i18n } = useTranslation();
   const { asPath, ...router } = useRouter();
-
-  const getCurrentUrl = () =>
-    new URL(`${window.location.protocol}//${window.location.host}${asPath}`);
 
   const { cookies } = useCookiesWithOptions(['user']);
 
   const queryClient = useQueryClient();
 
-  const [currentPage, setCurrentPage] = useState(page);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [toBeDeletedItem, setToBeDeletedItem] = useState<Event>();
 
-  const useGetItemsByCreator = useMemo(() => GetItemsByCreatorMap[activeTab], [
-    activeTab,
-  ]);
+  const tab = (router?.query?.tab as TabOptions) ?? 'events';
+  const page = parseInt((router?.query?.page as string) ?? '1');
 
-  const useDeleteItemById = useMemo(() => DeleteEventByIdMap[activeTab], [
-    activeTab,
-  ]);
+  const useGetItemsByCreator = useMemo(
+    () => UseGetItemsByCreatorMap[tab ?? 'events'],
+    [tab],
+  );
 
-  const handleSelectTab = async (eventKey: TabOptions) => {
-    const url = getCurrentUrl();
-    url.pathname = eventKey;
-    url.searchParams.set('page', '1');
+  const useDeleteItemById = useMemo(
+    () => UseDeleteEventByIdMap[tab ?? 'events'],
+    [tab],
+  );
 
-    await router.push(url);
-  };
+  const handleSelectTab = async (tabKey: TabOptions) =>
+    router.push(`/dashboard?tab=${tabKey}`, undefined, { shallow: true });
 
   const user = cookies.user;
 
   const UseGetItemsByCreatorQuery = useGetItemsByCreator({
     creator: user,
     paginationOptions: {
-      start: (currentPage - 1) * itemsPerPage,
+      start: (page - 1) * itemsPerPage,
       limit: itemsPerPage,
     },
   });
 
   const UseDeleteItemByIdMutation = useDeleteItemById({
     onSuccess: async () => {
-      await queryClient.invalidateQueries(activeTab);
+      await queryClient.invalidateQueries(tab);
     },
   });
 
-  // @ts-expect-error
   const items = UseGetItemsByCreatorQuery.data?.member ?? [];
 
   const sharedTableContentProps = {
-    // @ts-expect-error
     status: UseGetItemsByCreatorQuery.status,
     items,
-    // @ts-expect-error
     totalItems: UseGetItemsByCreatorQuery.data?.totalItems ?? 0,
-    currentPage,
+    page,
     onChangePage: async (page: number) => {
-      const url = getCurrentUrl();
-      url.searchParams.set('page', `${page}`);
-      await router.push(url, undefined, { shallow: true });
-      setCurrentPage(page);
+      // await router.push(url, undefined, { shallow: true });
     },
     onDelete: (item) => {
       setToBeDeletedItem(item);
@@ -347,25 +358,21 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
         <Text>{t('dashboard.my_items')}</Text>
 
         <Tabs<TabOptions>
-          activeKey={activeTab}
+          activeKey={tab}
           onSelect={handleSelectTab}
           activeBackgroundColor="white"
         >
           <Tabs.Tab eventKey="events" title={t('dashboard.tabs.events')}>
-            {activeTab === 'events' && (
-              <TabContent {...sharedTableContentProps} Row={EventRow} />
-            )}
+            <TabContent {...sharedTableContentProps} Row={EventRow} />
           </Tabs.Tab>
           <Tabs.Tab eventKey="places" title={t('dashboard.tabs.places')}>
-            {activeTab === 'places' && (
-              <TabContent {...sharedTableContentProps} Row={PlaceRow} />
-            )}
+            <TabContent {...sharedTableContentProps} Row={PlaceRow} />
           </Tabs.Tab>
           <Tabs.Tab
             eventKey="organizers"
             title={t('dashboard.tabs.organizers')}
           >
-            {/* <TabContent {...sharedTableContentProps} Row={OrganizerRow} /> */}
+            <TabContent {...sharedTableContentProps} Row={OrganizerRow} />
           </Tabs.Tab>
         </Tabs>
       </Page.Content>
@@ -382,7 +389,7 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
       }}
       onClose={() => setIsModalVisible(false)}
       title={t('dashboard.modal.title', {
-        type: t(`dashboard.modal.types.${activeTab}`),
+        type: t(`dashboard.modal.types.${tab}`),
       })}
       confirmTitle={t('dashboard.actions.delete')}
       cancelTitle={t('dashboard.actions.cancel')}
@@ -400,4 +407,35 @@ const DashboardPage = ({ activeTab, page }: Props): any => {
   ];
 };
 
-export { DashboardPage, itemsPerPage };
+const getServerSideProps = getApplicationServerSideProps(
+  async ({ req, query, cookies: rawCookies, queryClient }) => {
+    const cookies = new Cookies(rawCookies);
+    const user: User = cookies.get('user');
+
+    const page = query.page ? parseInt(query.page) : 1;
+
+    await Promise.allSettled(
+      Object.values(UseGetItemsByCreatorMap).map((hook) =>
+        hook({
+          req,
+          queryClient,
+          creator: user,
+          paginationOptions: {
+            start: (page - 1) * itemsPerPage,
+            limit: itemsPerPage,
+          },
+        }),
+      ),
+    );
+
+    return {
+      props: {
+        dehydratedState: dehydrate(queryClient),
+        cookies: rawCookies,
+      },
+    };
+  },
+);
+
+export { getServerSideProps, itemsPerPage };
+export default Dashboard;

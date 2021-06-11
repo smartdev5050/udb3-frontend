@@ -5,7 +5,10 @@ import type {
   PaginationOptions,
   SortOptions,
 } from '@/hooks/api/authenticated-query';
-import { useAuthenticatedQuery } from '@/hooks/api/authenticated-query';
+import {
+  useAuthenticatedMutation,
+  useAuthenticatedQuery,
+} from '@/hooks/api/authenticated-query';
 import type { Organizer } from '@/types/Organizer';
 import type { User } from '@/types/User';
 import { createSortingArgument } from '@/utils/createSortingArgument';
@@ -71,6 +74,18 @@ const getOrganizersByCreator = async ({
   return await res.json();
 };
 
+const deleteOrganizerById = async ({ headers, id }) =>
+  fetchFromApi({
+    path: `/organizers/${id}`,
+    options: { headers, method: 'DELETE' },
+  });
+
+const useDeleteOrganizerById = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: deleteOrganizerById,
+    ...configuration,
+  });
+
 const useGetOrganizersByCreator = (
   {
     req,
@@ -102,4 +117,8 @@ const useGetOrganizersByCreator = (
     ...configuration,
   });
 
-export { useGetOrganizerById, useGetOrganizersByCreator };
+export {
+  useDeleteOrganizerById,
+  useGetOrganizerById,
+  useGetOrganizersByCreator,
+};

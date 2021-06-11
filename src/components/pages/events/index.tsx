@@ -2,8 +2,8 @@ import { Cookies } from 'react-cookie';
 import { dehydrate } from 'react-query/hydration';
 import type { User } from 'types/User';
 
-import { DashboardPage, itemsPerPage } from '@/components/DashboardPage';
 import { useGetEventsByCreator } from '@/hooks/api/events';
+import { DashboardPage, itemsPerPage } from '@/pages/dashboard';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
 type Props = {
