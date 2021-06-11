@@ -207,8 +207,6 @@ const OrganizerRow = ({
   onDelete,
   ...props
 }: PlaceRowProps) => {
-  console.log(organizer);
-
   return (
     <Row
       title="test"
