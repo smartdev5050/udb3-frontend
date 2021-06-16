@@ -60,8 +60,6 @@ const getApplicationServerSideProps = (callbackFn) => async ({
     };
   }
 
-  const queryClient = new QueryClient();
-
   const isDynamicUrl = !!query.params;
   const path = isDynamicUrl ? ['/', ...query.params].join('/') : req.url;
 
@@ -90,6 +88,9 @@ const getApplicationServerSideProps = (callbackFn) => async ({
   }
 
   if (!callbackFn) return { props: { cookies: rawCookies } };
+
+  const queryClient = new QueryClient();
+
   return await callbackFn({
     req,
     query,
