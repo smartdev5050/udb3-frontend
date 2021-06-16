@@ -3,15 +3,32 @@ import { tabOptions } from '@/pages/dashboard';
 import { FeatureFlags } from './hooks/useFeatureFlag';
 
 const createDashboardRedirects = (environment) => {
-  return [
+  console.log('in createDashboardRedirects', [
     {
       source: '/dashboard',
-      destination: '/dashboard?tabs=events&page=1',
+      destination: '/dashboard?tab=events&page=1',
       permanent: environment !== 'development',
       featureFlag: FeatureFlags.REACT_DASHBOARD,
     },
     ...tabOptions.map((tabName) => {
-      const source = `/dashboard?tabs=${tabName}`;
+      const source = `/dashboard?tab=${tabName}`;
+      return {
+        source,
+        destination: `${source}&page=1`,
+        permanent: environment !== 'development',
+        featureFlag: FeatureFlags.REACT_DASHBOARD,
+      };
+    }),
+  ]);
+  return [
+    {
+      source: '/dashboard',
+      destination: '/dashboard?tab=events&page=1',
+      permanent: environment !== 'development',
+      featureFlag: FeatureFlags.REACT_DASHBOARD,
+    },
+    ...tabOptions.map((tabName) => {
+      const source = `/dashboard?tab=${tabName}`;
       return {
         source,
         destination: `${source}&page=1`,
@@ -40,19 +57,19 @@ const getRedirects = (environment) => [
   ...createDashboardRedirects(environment),
   {
     source: '/events',
-    destination: '/dashboard?tabs=events&page=1',
+    destination: '/dashboard?tab=events&page=1',
     permanent: environment !== 'development',
     featureFlag: FeatureFlags.REACT_DASHBOARD,
   },
   {
     source: '/organizers',
-    destination: '/dashboard?tabs=organizers&page=1',
+    destination: '/dashboard?tab=organizers&page=1',
     permanent: environment !== 'development',
     featureFlag: FeatureFlags.REACT_DASHBOARD,
   },
   {
     source: '/places',
-    destination: '/dashboard?tabs=places&page=1',
+    destination: '/dashboard?tab=places&page=1',
     permanent: environment !== 'development',
     featureFlag: FeatureFlags.REACT_DASHBOARD,
   },
