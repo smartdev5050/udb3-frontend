@@ -3,23 +3,6 @@ import { tabOptions } from '@/pages/dashboard';
 import { FeatureFlags } from './hooks/useFeatureFlag';
 
 const createDashboardRedirects = (environment) => {
-  console.log('in createDashboardRedirects', [
-    {
-      source: '/dashboard',
-      destination: '/dashboard?tab=events&page=1',
-      permanent: environment !== 'development',
-      featureFlag: FeatureFlags.REACT_DASHBOARD,
-    },
-    ...tabOptions.map((tabName) => {
-      const source = `/dashboard?tab=${tabName}`;
-      return {
-        source,
-        destination: `${source}&page=1`,
-        permanent: environment !== 'development',
-        featureFlag: FeatureFlags.REACT_DASHBOARD,
-      };
-    }),
-  ]);
   return [
     {
       source: '/dashboard',
