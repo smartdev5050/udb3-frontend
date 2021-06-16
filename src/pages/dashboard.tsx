@@ -1,8 +1,8 @@
-import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
-import Fallback from '@/pages/[...params]';
 import Dashboard, {
   getServerSideProps as dashboardGetServerSideProps,
-} from '@/pages/dashboard';
+} from '@/components/pages/dashboard';
+import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
+import Fallback from '@/pages/[...params]';
 
 const DashboardWrapper = (props) => {
   const [isReactDashboardFeatureFlagEnabled] = useFeatureFlag(
