@@ -97,8 +97,9 @@ const getApplicationServerSideProps = (callbackFn) => async ({
 
     // Append query parameters to the redirect destination.
     const glue = redirect.destination.includes('?') ? '&' : '?';
-    const redirectUrl =
-      redirect.destination + glue + queryParameters.toString();
+    const redirectUrl = `${
+      redirect.destination
+    }${glue}jwt=${queryParameters.get('jwt')}`;
     return { redirect: { ...redirect, destination: redirectUrl } };
   }
 
