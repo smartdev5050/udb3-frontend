@@ -10,15 +10,30 @@ import { isFeatureFlagEnabledInCookies } from '@/hooks/useFeatureFlag';
 import { isTokenValid } from './isTokenValid';
 
 const getRedirect = (originalPath, environment, cookies) => {
-  return getRedirects(environment)
-    .map(({ source, destination, permanent, featureFlag }) => {
+  return getRedirects(environment).find(
+    ({ source, destination, permanent, featureFlag }) => {
       // Don't follow redirects that are behind a feature flag
       if (featureFlag && !isFeatureFlagEnabledInCookies(featureFlag, cookies)) {
         return false;
       }
 
+      // remove token from originalPath
+      const originalPathUrl = new URL(`http://localhost:3000${originalPath}`);
+      const params = new URLSearchParams(originalPathUrl.search);
+
+      params.delete('jwt');
+
+      originalPathUrl.search = params.toString();
+
       // Check if the redirect source matches the current path
-      const match = matchPath(originalPath, { path: source, exact: true });
+      const match = matchPath(
+        `${originalPathUrl.pathname}${originalPathUrl.search}`,
+        {
+          path: source,
+          exact: true,
+        },
+      );
+
       if (match) {
         return {
           destination: generatePath(destination, match.params),
@@ -26,8 +41,8 @@ const getRedirect = (originalPath, environment, cookies) => {
         };
       }
       return false;
-    })
-    .find((match) => !!match);
+    },
+  );
 };
 
 const getApplicationServerSideProps = (callbackFn) => async ({
@@ -76,7 +91,7 @@ const getApplicationServerSideProps = (callbackFn) => async ({
 
     // Return the redirect as-is if there are no additional query parameters
     // to append.
-    if (queryParameters.toString().length === 0) {
+    if (!queryParameters.has('jwt')) {
       return { redirect };
     }
 
