@@ -2,11 +2,8 @@ import getConfig from 'next/config';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { memo, useMemo, useState } from 'react';
-import { Cookies } from 'react-cookie';
-import { generatePath, matchPath } from 'react-router';
 
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
-import { isFeatureFlagEnabledInCookies } from '@/hooks/useFeatureFlag';
 import {
   useHandleWindowMessage,
   WindowMessageTypes,
@@ -16,31 +13,8 @@ import PageNotFound from '@/pages/404';
 import { Box } from '@/ui/Box';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
-import { getRedirects } from '../../redirects';
-
 const prefixWhenNotEmpty = (value, prefix) =>
   value ? `${prefix}${value}` : value;
-
-const getRedirect = (originalPath, environment, cookies) => {
-  return getRedirects(environment)
-    .map(({ source, destination, permanent, featureFlag }) => {
-      // Don't follow redirects that are behind a feature flag
-      if (featureFlag && !isFeatureFlagEnabledInCookies(featureFlag, cookies)) {
-        return false;
-      }
-
-      // Check if the redirect source matches the current path
-      const match = matchPath(originalPath, { path: source, exact: true });
-      if (match) {
-        return {
-          destination: generatePath(destination, match.params),
-          permanent: featureFlag === undefined && permanent,
-        };
-      }
-      return false;
-    })
-    .find((match) => !!match);
-};
 
 const IFrame = memo(({ url }) => (
   <Box as="iframe" src={url} width="100%" height="100vh" flex={1} />
