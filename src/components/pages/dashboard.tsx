@@ -95,10 +95,16 @@ const Row = ({
       {status ? (
         <Text color={getValue('listItem.passedEvent.color')}>{status}</Text>
       ) : (
-        <Dropdown variant={DropDownVariants.SECONDARY}>{actions}</Dropdown>
+        actions.length > 0 && (
+          <Dropdown variant={DropDownVariants.SECONDARY}>{actions}</Dropdown>
+        )
       )}
     </Inline>
   );
+};
+
+Row.defaultProps = {
+  actions: [],
 };
 
 type EventRowProps = InlineProps & {
