@@ -311,7 +311,11 @@ const Dashboard = (): any => {
   );
 
   const handleSelectTab = async (tabKey: TabOptions) =>
-    router.push(`/dashboard?tab=${tabKey}`, undefined, { shallow: true });
+    router.push(
+      { pathname: `/dashboard`, query: { tab: tabKey, page: 1 } },
+      undefined,
+      { shallow: true },
+    );
 
   const user = cookies.user;
 
