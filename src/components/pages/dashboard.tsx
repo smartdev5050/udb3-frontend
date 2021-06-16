@@ -10,7 +10,10 @@ import { css } from 'styled-components';
 
 import { QueryStatus } from '@/hooks/api/authenticated-query';
 import { useDeleteEventById, useGetEventsByCreator } from '@/hooks/api/events';
-import { useDeleteOrganizerById } from '@/hooks/api/organizers';
+import {
+  useDeleteOrganizerById,
+  useGetOrganizersByCreator,
+} from '@/hooks/api/organizers';
 import { useDeletePlaceById, useGetPlacesByCreator } from '@/hooks/api/places';
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import {
@@ -18,6 +21,7 @@ import {
   isFeatureFlagEnabledInCookies,
 } from '@/hooks/useFeatureFlag';
 import type { Event } from '@/types/Event';
+import type { Organizer } from '@/types/Organizer';
 import type { Place } from '@/types/Place';
 import type { User } from '@/types/User';
 import { Badge, BadgeVariants } from '@/ui/Badge';
@@ -50,7 +54,7 @@ const itemsPerPage = 14;
 const UseGetItemsByCreatorMap = {
   events: useGetEventsByCreator,
   places: useGetPlacesByCreator,
-  // organizers: useGetOrganizersByCreator,
+  organizers: useGetOrganizersByCreator,
 } as const;
 
 const UseDeleteEventByIdMap = {
@@ -205,17 +209,37 @@ const PlaceRow = ({ item: place, onDelete, ...props }: PlaceRowProps) => {
   );
 };
 
+type OrganizerRowProps = InlineProps & {
+  item: Organizer;
+  onDelete: (item: Organizer) => void;
+};
+
 const OrganizerRow = ({
   item: organizer,
   onDelete,
   ...props
-}: PlaceRowProps) => {
+}: OrganizerRowProps) => {
+  const { t, i18n } = useTranslation();
+
+  const address = (
+    organizer?.address?.[i18n.language] ??
+    organizer?.address?.[organizer.mainLanguage]
+  )?.streetAddress;
+  const formattedAddress = address ? formatAddressInternal(address) : '';
+  const editUrl = `/organizer/${parseOfferId(organizer['@id'])}/edit`;
+
   return (
     <Row
-      title="test"
-      url="test"
-      description="test"
-      actions={[]}
+      title={
+        organizer.name[i18n.language] ?? organizer.name[organizer.mainLanguage]
+      }
+      url={organizer.url}
+      description={formattedAddress}
+      actions={[
+        <Link href={editUrl} variant={LinkVariants.BUTTON_SECONDARY} key="edit">
+          {t('dashboard.actions.edit')}
+        </Link>,
+      ]}
       {...getInlineProps(props)}
     />
   );
@@ -345,7 +369,7 @@ const Dashboard = (): any => {
         shallow: true,
       });
     },
-    onDelete: (item: Event | Place) => {
+    onDelete: (item: Event | Place | Organizer) => {
       setToBeDeletedItem(item);
       setIsModalVisible(true);
     },
@@ -370,16 +394,22 @@ const Dashboard = (): any => {
           activeBackgroundColor="white"
         >
           <Tabs.Tab eventKey="events" title={t('dashboard.tabs.events')}>
-            <TabContent {...sharedTableContentProps} Row={EventRow} />
+            {tab === 'events' && (
+              <TabContent {...sharedTableContentProps} Row={EventRow} />
+            )}
           </Tabs.Tab>
           <Tabs.Tab eventKey="places" title={t('dashboard.tabs.places')}>
-            <TabContent {...sharedTableContentProps} Row={PlaceRow} />
+            {tab === 'places' && (
+              <TabContent {...sharedTableContentProps} Row={PlaceRow} />
+            )}
           </Tabs.Tab>
           <Tabs.Tab
             eventKey="organizers"
             title={t('dashboard.tabs.organizers')}
           >
-            <TabContent {...sharedTableContentProps} Row={OrganizerRow} />
+            {tab === 'organizers' && (
+              <TabContent {...sharedTableContentProps} Row={OrganizerRow} />
+            )}
           </Tabs.Tab>
         </Tabs>
       </Page.Content>
