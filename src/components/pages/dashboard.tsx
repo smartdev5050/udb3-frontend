@@ -10,10 +10,7 @@ import { css } from 'styled-components';
 
 import { QueryStatus } from '@/hooks/api/authenticated-query';
 import { useDeleteEventById, useGetEventsByCreator } from '@/hooks/api/events';
-import {
-  useDeleteOrganizerById,
-  useGetOrganizersByCreator,
-} from '@/hooks/api/organizers';
+import { useDeleteOrganizerById } from '@/hooks/api/organizers';
 import { useDeletePlaceById, useGetPlacesByCreator } from '@/hooks/api/places';
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import {
@@ -53,7 +50,7 @@ const itemsPerPage = 14;
 const UseGetItemsByCreatorMap = {
   events: useGetEventsByCreator,
   places: useGetPlacesByCreator,
-  organizers: useGetOrganizersByCreator,
+  // organizers: useGetOrganizersByCreator,
 } as const;
 
 const UseDeleteEventByIdMap = {
