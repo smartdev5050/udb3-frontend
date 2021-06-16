@@ -339,7 +339,7 @@ const Dashboard = (): any => {
     onChangePage: async (page: number) => {
       // await router.push(url, undefined, { shallow: true });
     },
-    onDelete: (item) => {
+    onDelete: (item: Event | Place) => {
       setToBeDeletedItem(item);
       setIsModalVisible(true);
     },
