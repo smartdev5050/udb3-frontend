@@ -288,7 +288,7 @@ const TabContent = ({
 
 const Dashboard = (): any => {
   const { t, i18n } = useTranslation();
-  const { asPath, ...router } = useRouter();
+  const { pathname, query, asPath, ...router } = useRouter();
 
   const { cookies } = useCookiesWithOptions(['user']);
 
@@ -297,8 +297,8 @@ const Dashboard = (): any => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [toBeDeletedItem, setToBeDeletedItem] = useState<Event | Place>();
 
-  const tab = (router?.query?.tab as TabOptions) ?? 'events';
-  const page = parseInt((router?.query?.page as string) ?? '1');
+  const tab = (query?.tab as TabOptions) ?? 'events';
+  const page = parseInt((query?.page as string) ?? '1');
 
   const useGetItemsByCreator = useMemo(
     () => UseGetItemsByCreatorMap[tab ?? 'events'],
@@ -337,7 +337,9 @@ const Dashboard = (): any => {
     totalItems: UseGetItemsByCreatorQuery.data?.totalItems ?? 0,
     page,
     onChangePage: async (page: number) => {
-      // await router.push(url, undefined, { shallow: true });
+      await router.push({ pathname, query: { ...query, page } }, undefined, {
+        shallow: true,
+      });
     },
     onDelete: (item: Event | Place) => {
       setToBeDeletedItem(item);
