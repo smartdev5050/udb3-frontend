@@ -10,7 +10,7 @@ const createDashboardRedirects = (environment) => {
       permanent: environment !== 'development',
       featureFlag: FeatureFlags.REACT_DASHBOARD,
     },
-    tabOptions.map((tabName) => {
+    ...tabOptions.map((tabName) => {
       const source = `/dashboard?tabs=${tabName}`;
       return {
         source,
