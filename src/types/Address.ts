@@ -10,4 +10,4 @@ type Address =
   | AddressInternal
   | { [key in SupportedLanguage]?: AddressInternal };
 
-export type { Address };
+export type { Address, AddressInternal };
