@@ -103,7 +103,7 @@ const Row = ({
 
 type EventRowProps = InlineProps & {
   item: Event;
-  onDelete: (id: Event) => void;
+  onDelete: (item: Event) => void;
 };
 
 const EventRow = ({ item: event, onDelete, ...props }: EventRowProps) => {
@@ -157,7 +157,7 @@ const EventRow = ({ item: event, onDelete, ...props }: EventRowProps) => {
 
 type PlaceRowProps = InlineProps & {
   item: Place;
-  onDelete: (id: Place) => void;
+  onDelete: (item: Place) => void;
 };
 
 const PlaceRow = ({ item: place, onDelete, ...props }: PlaceRowProps) => {
