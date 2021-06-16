@@ -42,7 +42,9 @@ import { getValueFromTheme } from '@/ui/theme';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 import { parseOfferId } from '@/utils/parseOfferId';
 
-type TabOptions = 'events' | 'places' | 'organizers';
+const tabOptions = ['events', 'places', 'organizers'] as const;
+
+type TabOptions = typeof tabOptions[number];
 
 const getValue = getValueFromTheme('dashboardPage');
 
@@ -427,11 +429,12 @@ const getServerSideProps = getApplicationServerSideProps(
       };
     }
 
-    const page = query.page ? parseInt(query.page) : 1;
-
     await Promise.allSettled(
-      Object.values(UseGetItemsByCreatorMap).map((hook) =>
-        hook({
+      Object.entries(UseGetItemsByCreatorMap).map(([key, hook]) => {
+        const page =
+          query.tab === key ? (query.page ? parseInt(query.page) : 1) : 1;
+
+        return hook({
           req,
           queryClient,
           creator: user,
@@ -439,8 +442,8 @@ const getServerSideProps = getApplicationServerSideProps(
             start: (page - 1) * itemsPerPage,
             limit: itemsPerPage,
           },
-        }),
-      ),
+        });
+      }),
     );
 
     return {
@@ -452,5 +455,5 @@ const getServerSideProps = getApplicationServerSideProps(
   },
 );
 
-export { getServerSideProps, itemsPerPage };
+export { getServerSideProps, itemsPerPage, tabOptions };
 export default Dashboard;
