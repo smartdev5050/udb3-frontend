@@ -106,37 +106,6 @@ const Fallback = () => {
   return null;
 };
 
-export const getServerSideProps = getApplicationServerSideProps(
-  ({ req, query, cookies: rawCookies, queryClient }) => {
-    const cookies = new Cookies(rawCookies);
-    const { publicRuntimeConfig } = getConfig();
-    const path = '/' + query.params.join('/');
-    const redirect = getRedirect(
-      path,
-      publicRuntimeConfig.environment,
-      cookies.cookies,
-    );
-
-    if (redirect) {
-      // Don't include the `params` in the redirect URL's query.
-      delete query.params;
-      const queryParameters = new URLSearchParams(query);
-
-      // Return the redirect as-is if there are no additional query parameters
-      // to append.
-      if (queryParameters.toString().length === 0) {
-        return { redirect };
-      }
-
-      // Append query parameters to the redirect destination.
-      const glue = redirect.destination.includes('?') ? '&' : '?';
-      const redirectUrl =
-        redirect.destination + glue + queryParameters.toString();
-      return { redirect: { ...redirect, destination: redirectUrl } };
-    }
-
-    return { props: { cookies: rawCookies } };
-  },
-);
+export const getServerSideProps = getApplicationServerSideProps();
 
 export default Fallback;
