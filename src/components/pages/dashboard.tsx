@@ -16,6 +16,10 @@ import {
 } from '@/hooks/api/organizers';
 import { useDeletePlaceById, useGetPlacesByCreator } from '@/hooks/api/places';
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
+import {
+  FeatureFlags,
+  isFeatureFlagEnabledInCookies,
+} from '@/hooks/useFeatureFlag';
 import type { Event } from '@/types/Event';
 import type { Place } from '@/types/Place';
 import type { User } from '@/types/User';
@@ -409,6 +413,19 @@ const getServerSideProps = getApplicationServerSideProps(
   async ({ req, query, cookies: rawCookies, queryClient }) => {
     const cookies = new Cookies(rawCookies);
     const user: User = cookies.get('user');
+
+    const isDashboardEnabled = isFeatureFlagEnabledInCookies(
+      FeatureFlags.REACT_DASHBOARD,
+      cookies.getAll(),
+    );
+
+    if (!isDashboardEnabled) {
+      return {
+        props: {
+          cookies: rawCookies,
+        },
+      };
+    }
 
     const page = query.page ? parseInt(query.page) : 1;
 
