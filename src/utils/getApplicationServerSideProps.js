@@ -63,7 +63,7 @@ const getApplicationServerSideProps = (callbackFn) => async ({
   const queryClient = new QueryClient();
 
   const isDynamicUrl = !!query.params;
-  const path = isDynamicUrl ? '/' + query.params.join('/') : req.url;
+  const path = isDynamicUrl ? ['/', ...query.params].join('/') : req.url;
 
   const redirect = getRedirect(
     path,
