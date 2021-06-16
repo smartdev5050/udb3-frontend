@@ -295,7 +295,7 @@ const Dashboard = (): any => {
   const queryClient = useQueryClient();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [toBeDeletedItem, setToBeDeletedItem] = useState<Event>();
+  const [toBeDeletedItem, setToBeDeletedItem] = useState<Event | Place>();
 
   const tab = (router?.query?.tab as TabOptions) ?? 'events';
   const page = parseInt((router?.query?.page as string) ?? '1');
