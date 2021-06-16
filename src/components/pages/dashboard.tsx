@@ -228,10 +228,9 @@ const OrganizerRow = ({
 }: OrganizerRowProps) => {
   const { t, i18n } = useTranslation();
 
-  const address = (
+  const address =
     organizer?.address?.[i18n.language] ??
-    organizer?.address?.[organizer.mainLanguage]
-  )?.streetAddress;
+    organizer?.address?.[organizer.mainLanguage];
   const formattedAddress = address ? formatAddressInternal(address) : '';
   const editUrl = `/organizer/${parseOfferId(organizer['@id'])}/edit`;
 
