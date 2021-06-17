@@ -58,7 +58,7 @@ const UseGetItemsByCreatorMap = {
   organizers: useGetOrganizersByCreator,
 } as const;
 
-const UseDeleteEventByIdMap = {
+const UseDeleteItemByIdMap = {
   events: useDeleteEventById,
   places: useDeletePlaceById,
   organizers: useDeleteOrganizerById,
@@ -336,7 +336,7 @@ const Dashboard = (): any => {
   );
 
   const useDeleteItemById = useMemo(
-    () => UseDeleteEventByIdMap[tab ?? 'events'],
+    () => UseDeleteItemByIdMap[tab ?? 'events'],
     [tab],
   );
 
