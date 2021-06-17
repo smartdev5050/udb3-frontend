@@ -44,9 +44,7 @@ import { formatAddressInternal } from '@/utils/formatAddress';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 import { parseOfferId } from '@/utils/parseOfferId';
 
-const tabOptions = ['events', 'places', 'organizers'] as const;
-
-type TabOptions = typeof tabOptions[number];
+type TabOptions = 'events' | 'places' | 'organizers';
 
 type Item = Event | Place | Organizer;
 
@@ -499,5 +497,5 @@ const getServerSideProps = getApplicationServerSideProps(
   },
 );
 
-export { getServerSideProps, itemsPerPage, tabOptions };
+export { getServerSideProps, itemsPerPage };
 export default Dashboard;
