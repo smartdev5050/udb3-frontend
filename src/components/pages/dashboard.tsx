@@ -48,6 +48,8 @@ const tabOptions = ['events', 'places', 'organizers'] as const;
 
 type TabOptions = typeof tabOptions[number];
 
+type Item = Event | Place | Organizer;
+
 const getValue = getValueFromTheme('dashboardPage');
 
 const itemsPerPage = 14;
@@ -325,7 +327,7 @@ const Dashboard = (): any => {
   const queryClient = useQueryClient();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [toBeDeletedItem, setToBeDeletedItem] = useState<Event | Place>();
+  const [toBeDeletedItem, setToBeDeletedItem] = useState<Item>();
 
   const tab = (query?.tab as TabOptions) ?? 'events';
   const page = parseInt((query?.page as string) ?? '1');
@@ -363,11 +365,14 @@ const Dashboard = (): any => {
     },
   });
 
+  // @ts-expect-error
   const items = UseGetItemsByCreatorQuery.data?.member ?? [];
 
   const sharedTableContentProps = {
+    // @ts-expect-error
     status: UseGetItemsByCreatorQuery.status,
     items,
+    // @ts-expect-error
     totalItems: UseGetItemsByCreatorQuery.data?.totalItems ?? 0,
     page,
     onChangePage: async (page: number) => {
@@ -375,7 +380,7 @@ const Dashboard = (): any => {
         shallow: true,
       });
     },
-    onDelete: (item: Event | Place | Organizer) => {
+    onDelete: (item: Item) => {
       setToBeDeletedItem(item);
       setIsModalVisible(true);
     },
@@ -400,22 +405,16 @@ const Dashboard = (): any => {
           activeBackgroundColor="white"
         >
           <Tabs.Tab eventKey="events" title={t('dashboard.tabs.events')}>
-            {tab === 'events' && (
-              <TabContent {...sharedTableContentProps} Row={EventRow} />
-            )}
+            <TabContent {...sharedTableContentProps} Row={EventRow} />
           </Tabs.Tab>
           <Tabs.Tab eventKey="places" title={t('dashboard.tabs.places')}>
-            {tab === 'places' && (
-              <TabContent {...sharedTableContentProps} Row={PlaceRow} />
-            )}
+            <TabContent {...sharedTableContentProps} Row={PlaceRow} />
           </Tabs.Tab>
           <Tabs.Tab
             eventKey="organizers"
             title={t('dashboard.tabs.organizers')}
           >
-            {tab === 'organizers' && (
-              <TabContent {...sharedTableContentProps} Row={OrganizerRow} />
-            )}
+            <TabContent {...sharedTableContentProps} Row={OrganizerRow} />
           </Tabs.Tab>
         </Tabs>
       </Page.Content>
