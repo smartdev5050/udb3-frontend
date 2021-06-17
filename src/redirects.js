@@ -38,24 +38,6 @@ const getRedirects = (environment) => [
     permanent: environment !== 'development',
   },
   ...createDashboardRedirects(environment),
-  {
-    source: '/events',
-    destination: '/dashboard?tab=events&page=1',
-    permanent: environment !== 'development',
-    featureFlag: FeatureFlags.REACT_DASHBOARD,
-  },
-  {
-    source: '/organizers',
-    destination: '/dashboard?tab=organizers&page=1',
-    permanent: environment !== 'development',
-    featureFlag: FeatureFlags.REACT_DASHBOARD,
-  },
-  {
-    source: '/places',
-    destination: '/dashboard?tab=places&page=1',
-    permanent: environment !== 'development',
-    featureFlag: FeatureFlags.REACT_DASHBOARD,
-  },
 ];
 
 export { getRedirects };
