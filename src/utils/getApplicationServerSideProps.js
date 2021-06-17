@@ -2,11 +2,11 @@ import getConfig from 'next/config';
 import absoluteUrl from 'next-absolute-url';
 import { QueryClient } from 'react-query';
 import { generatePath, matchPath } from 'react-router';
-import { getRedirects } from 'redirects';
 import Cookies from 'universal-cookie';
 
 import { isFeatureFlagEnabledInCookies } from '@/hooks/useFeatureFlag';
 
+import { getRedirects } from '../redirects';
 import { isTokenValid } from './isTokenValid';
 
 const getRedirect = (originalPath, environment, cookies) => {
