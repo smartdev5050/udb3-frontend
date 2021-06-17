@@ -405,16 +405,22 @@ const Dashboard = (): any => {
           activeBackgroundColor="white"
         >
           <Tabs.Tab eventKey="events" title={t('dashboard.tabs.events')}>
-            <TabContent {...sharedTableContentProps} Row={EventRow} />
+            {tab === 'events' && (
+              <TabContent {...sharedTableContentProps} Row={EventRow} />
+            )}
           </Tabs.Tab>
           <Tabs.Tab eventKey="places" title={t('dashboard.tabs.places')}>
-            <TabContent {...sharedTableContentProps} Row={PlaceRow} />
+            {tab === 'places' && (
+              <TabContent {...sharedTableContentProps} Row={PlaceRow} />
+            )}
           </Tabs.Tab>
           <Tabs.Tab
             eventKey="organizers"
             title={t('dashboard.tabs.organizers')}
           >
-            <TabContent {...sharedTableContentProps} Row={OrganizerRow} />
+            {tab === 'organizers' && (
+              <TabContent {...sharedTableContentProps} Row={OrganizerRow} />
+            )}
           </Tabs.Tab>
         </Tabs>
       </Page.Content>
