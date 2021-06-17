@@ -2,7 +2,6 @@ import type { CalendarType } from '@/constants/CalendarType';
 import type { OfferStatus } from '@/constants/OfferStatus';
 
 import type { SupportedLanguage } from '../i18n';
-import type { Address } from './Address';
 import type { ContactPoint } from './ContactPoint';
 import type { Organizer } from './Organizer';
 import type { Values } from './Values';
@@ -63,27 +62,6 @@ type OpeningHours = {
   dayOfWeek: string[];
 };
 
-type Location = {
-  '@id': string;
-  '@type': string;
-  '@context': '/contexts/place';
-  mainLanguage: string;
-  name: { nl: string; fr: string };
-  image?: string;
-  modified?: string;
-  status?: Values<typeof OfferStatus>;
-  address: Address;
-  contactPoint?: ContactPoint;
-  labels: string[];
-  geo?: {
-    latitude: number;
-    longitude: number;
-  };
-  organizer?: Organizer;
-  mediaObject: MediaObject[];
-  terms: Term[];
-};
-
 type CalendarSummary = {
   [key in SupportedLanguage]: {
     text?: { [format: string]: string };
@@ -93,7 +71,7 @@ type CalendarSummary = {
 
 type Offer = {
   '@id': string;
-  name: { [key in SupportedLanguage]: string };
+  name: { [key in SupportedLanguage]?: string };
   description: { [key in SupportedLanguage]: string };
   status?: Status;
   availableFrom: string;
@@ -101,7 +79,6 @@ type Offer = {
   labels?: string[];
   hiddenLabels?: string[];
   calendarSummary?: CalendarSummary;
-  location: Location;
   organizer: Organizer;
   contactPoint?: ContactPoint;
   terms: Term[];
@@ -119,9 +96,9 @@ type Offer = {
   seeAlso: string[];
   workflowStatus: WorkflowStatus;
   audience: { audienceType: string };
-  mainLanguage: string;
-  languages: string[];
-  completedLanguages: string[];
+  mainLanguage: SupportedLanguage;
+  languages: SupportedLanguage[];
+  completedLanguages: SupportedLanguage[];
   mediaObject?: MediaObject[];
   image?: string;
   typicalAgeRange: string;
@@ -130,4 +107,4 @@ type Offer = {
   regions: string[];
 };
 
-export type { Offer, Status, StatusReason, StatusType };
+export type { MediaObject, Offer, Status, StatusReason, StatusType, Term };

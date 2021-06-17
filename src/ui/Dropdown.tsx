@@ -51,8 +51,12 @@ const Dropdown = ({ variant, children, ...props }: DropdownProps) => {
     >
       <BootstrapDropdown as={BootstrapButtonGroup}>
         {primaryActionChildren}
-        <BootstrapDropdown.Toggle split variant={variant} css={buttonCSS} />
-        <BootstrapDropdown.Menu>{menuChildren}</BootstrapDropdown.Menu>
+        {menuChildren.length > 0 && (
+          <>
+            <BootstrapDropdown.Toggle split variant={variant} css={buttonCSS} />
+            <BootstrapDropdown.Menu>{menuChildren}</BootstrapDropdown.Menu>
+          </>
+        )}
       </BootstrapDropdown>
     </Box>
   );

@@ -133,7 +133,10 @@
     "welcome": "Bienvenue",
     "create": "Ajouter",
     "my_items": "Mes évenements, endroits et organisateurs",
-    "passed_event": "Événement terminé",
+    "passed": "{{type}} terminé",
+    "event": "Événement",
+    "place": "Endroit",
+    "organizer": "Organisateur",
     "not_published": "Pas publié",
     "online_from": "Publié le {{date}}",
     "tabs": {

@@ -27,14 +27,27 @@ const useChangeLanguage = () => {
 };
 
 const useHandleAuthentication = () => {
-  const { query, asPath, ...router } = useRouter();
+  const { pathname, query, asPath, ...router } = useRouter();
   const { setCookie, cookies } = useCookiesWithOptions(['user', 'token']);
   const getUserQuery = useGetUser();
 
   useEffect(() => {
-    if (query?.jwt && cookies.token !== query?.jwt) {
+    if (!query?.jwt) return;
+
+    if (cookies.token !== query?.jwt) {
       setCookie('token', query.jwt);
     }
+
+    const { jwt, ...restQuery } = query;
+
+    router.push(
+      {
+        pathname,
+        query: restQuery,
+      },
+      undefined,
+      { shallow: true },
+    );
   }, [query]);
 
   useEffect(() => {
