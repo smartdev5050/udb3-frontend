@@ -1,6 +1,6 @@
-import { tabOptions } from '@/pages/dashboard';
-
 import { FeatureFlags } from './hooks/useFeatureFlag';
+
+const tabOptions = ['events', 'organizers', 'places'];
 
 const createDashboardRedirects = (environment) => {
   return [
