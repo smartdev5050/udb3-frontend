@@ -12,18 +12,18 @@ export const getServerSideProps = ({ req, resolvedUrl }) => {
 
   const url = new URL(`${origin}${resolvedUrl}`);
 
-  const referer = url.searchParams.get('referer')
+  const refererParam = url.searchParams.get('referer')
     ? new URL(url.searchParams.get('referer'))
     : undefined;
 
-  referer?.searchParams?.delete('jwt');
+  refererParam?.searchParams?.delete('jwt');
 
-  req.headers.referer =
-    referer?.toString() ?? (req.headers.referer || url.toString());
+  const referer =
+    refererParam?.toString() ?? (req.headers.referer || url.toString());
 
   return {
     redirect: {
-      destination: `/login/${language}?referer=${req.headers.referer}`,
+      destination: `/login/${language}?referer=${encodeURIComponent(referer)}`,
       permanent: false,
     },
   };
