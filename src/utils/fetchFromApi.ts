@@ -32,9 +32,6 @@ const fetchFromApi = async ({
 }): Promise<ErrorObject | Response> => {
   const { publicRuntimeConfig } = getConfig();
 
-  // eslint-disable-next-line no-console
-  console.log({ publicRuntimeConfig });
-
   let response: Response;
   let url: URL;
 
