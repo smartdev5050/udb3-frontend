@@ -471,7 +471,8 @@ const getServerSideProps = getApplicationServerSideProps(
       };
     }
 
-    await Promise.allSettled(
+    await Promise.all(
+      // @ts-expect-error
       Object.entries(UseGetItemsByCreatorMap).map(([key, hook]) => {
         const page =
           query.tab === key ? (query.page ? parseInt(query.page) : 1) : 1;
