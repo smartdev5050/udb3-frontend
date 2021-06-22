@@ -52,6 +52,12 @@ const getValue = getValueFromTheme('dashboardPage');
 
 const itemsPerPage = 14;
 
+const PluralToSingularTab = {
+  events: 'event',
+  places: 'place',
+  organizers: 'organizer',
+};
+
 const UseGetItemsByCreatorMap = {
   events: useGetEventsByCreator,
   places: useGetPlacesByCreator,
@@ -255,6 +261,7 @@ const OrganizerRow = ({
 };
 
 const TabContent = ({
+  tab,
   items,
   status,
   Row,
@@ -274,6 +281,23 @@ const TabContent = ({
         `}
       >
         <Spinner marginY={4} />
+      </Panel>
+    );
+  }
+
+  if (items.length === 0) {
+    return (
+      <Panel
+        css={`
+          border-top: none !important;
+        `}
+        backgroundColor="white"
+      >
+        <Text margin={3} maxWidth="36rem">
+          {t('dashboard.no_items', {
+            type: t(`dashboard.${PluralToSingularTab[tab]}`),
+          })}
+        </Text>
       </Panel>
     );
   }
@@ -370,6 +394,7 @@ const Dashboard = (): any => {
   const items = UseGetItemsByCreatorQuery.data?.member ?? [];
 
   const sharedTableContentProps = {
+    tab,
     // @ts-expect-error
     status: UseGetItemsByCreatorQuery.status,
     items,
