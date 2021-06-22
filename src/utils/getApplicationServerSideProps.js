@@ -2,12 +2,25 @@ import getConfig from 'next/config';
 import absoluteUrl from 'next-absolute-url';
 import { QueryClient } from 'react-query';
 import { generatePath, matchPath } from 'react-router';
-import Cookies from 'universal-cookie';
+import UniversalCookies from 'universal-cookie';
 
+import { useGetUser } from '@/hooks/api/user';
 import { isFeatureFlagEnabledInCookies } from '@/hooks/useFeatureFlag';
 
 import { getRedirects } from '../redirects';
 import { isTokenValid } from './isTokenValid';
+
+class Cookies extends UniversalCookies {
+  toString() {
+    const cookieEntries = Object.entries(this.getAll({ doNotParse: true }));
+
+    return cookieEntries.reduce((previous, [key, value], currentIndex) => {
+      const end = currentIndex !== cookieEntries.length - 1 ? '; ' : '';
+      const pair = `${key}=${encodeURIComponent(value)}${end}`;
+      return `${previous}${pair}`;
+    }, '');
+  }
+}
 
 const getRedirect = (originalPath, environment, cookies) => {
   return getRedirects(environment).find(
@@ -103,15 +116,21 @@ const getApplicationServerSideProps = (callbackFn) => async ({
     return { redirect: { ...redirect, destination: redirectUrl } };
   }
 
-  if (!callbackFn) return { props: { cookies: rawCookies } };
-
   const queryClient = new QueryClient();
+
+  const user = await useGetUser({ req, queryClient });
+
+  if (user) {
+    cookies.set('user', user);
+  }
+
+  if (!callbackFn) return { props: { cookies: cookies.toString() } };
 
   return await callbackFn({
     req,
     query,
     queryClient,
-    cookies: rawCookies,
+    cookies: cookies.toString(),
   });
 };
 
