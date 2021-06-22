@@ -245,6 +245,9 @@ const OrganizerRow = ({
         <Link href={editUrl} variant={LinkVariants.BUTTON_SECONDARY} key="edit">
           {t('dashboard.actions.edit')}
         </Link>,
+        <Dropdown.Item onClick={() => onDelete(organizer)} key="delete">
+          {t('dashboard.actions.delete')}
+        </Dropdown.Item>,
       ]}
       {...getInlineProps(props)}
     />
