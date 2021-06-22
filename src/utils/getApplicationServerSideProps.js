@@ -88,6 +88,10 @@ const getApplicationServerSideProps = (callbackFn) => async ({
     };
   }
 
+  // set token in req.headers.cookie so that the token is known when prefetching a request
+  cookies.set('token', query.jwt);
+  req.headers.cookie = cookies.toString();
+
   const isDynamicUrl = !!query.params;
   const path = isDynamicUrl ? ['/', ...query.params].join('/') : req.url;
 
