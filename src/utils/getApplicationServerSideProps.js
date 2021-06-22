@@ -4,6 +4,7 @@ import { QueryClient } from 'react-query';
 import { generatePath, matchPath } from 'react-router';
 import UniversalCookies from 'universal-cookie';
 
+import { useGetUser } from '@/hooks/api/user';
 import { isFeatureFlagEnabledInCookies } from '@/hooks/useFeatureFlag';
 
 import { getRedirects } from '../redirects';
@@ -115,15 +116,21 @@ const getApplicationServerSideProps = (callbackFn) => async ({
     return { redirect: { ...redirect, destination: redirectUrl } };
   }
 
-  if (!callbackFn) return { props: { cookies: rawCookies } };
-
   const queryClient = new QueryClient();
+
+  const user = await useGetUser({ req, queryClient });
+
+  if (user) {
+    cookies.set('user', user);
+  }
+
+  if (!callbackFn) return { props: { cookies: cookies.toString() } };
 
   return await callbackFn({
     req,
     query,
     queryClient,
-    cookies: rawCookies,
+    cookies: cookies.toString(),
   });
 };
 
