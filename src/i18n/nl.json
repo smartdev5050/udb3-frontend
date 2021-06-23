@@ -153,6 +153,14 @@
       "delete": "Verwijderen",
       "cancel": "Annuleren"
     },
+    "newsletter": {
+      "questions_or_feedback": "Vragen of feedback?",
+      "contact": "Contacteer ons",
+      "title": "Praktische invoertips in je mailbox",
+      "content": "Schrijf je in op onze nieuwsbrief en ontvang praktische tips voor het invoeren van jouw activiteiten in de UiTdatabank!",
+      "subscribe": "Inschrijven",
+      "invalid": "Geef een geldig email adres in."
+    },
     "modal": {
       "title": "{{type}} verwijderen",
       "question": "Ben je zeker dat je '{{name}}' wil verwijderen?",
