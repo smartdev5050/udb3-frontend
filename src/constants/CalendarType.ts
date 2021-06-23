@@ -3,6 +3,6 @@ const CalendarType = {
   PERMANENT: 'permanent',
   PERIODIC: 'periodic',
   MULTIPLE: 'multiple',
-};
+} as const;
 
 export { CalendarType };

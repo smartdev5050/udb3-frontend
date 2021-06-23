@@ -20,7 +20,7 @@ export const getProductions = async ({ headers, ...queryData }) => {
 };
 
 const useGetProductions = (
-  { req, queryClient, name = '', start = 0, limit = 15 },
+  { req, queryClient, name = '', paginationOptions = { start: 0, limit: 15 } },
   configuration = {},
 ) =>
   useAuthenticatedQuery({
@@ -30,8 +30,8 @@ const useGetProductions = (
     queryFn: getProductions,
     queryArguments: {
       name,
-      start,
-      limit,
+      start: paginationOptions.start,
+      limit: paginationOptions.limit,
     },
     ...configuration,
   });

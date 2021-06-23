@@ -1,12 +1,14 @@
-import PropTypes from 'prop-types';
 import { Children } from 'react';
 
+import type { StackProps } from './Stack';
 import { getStackProps, Stack } from './Stack';
 import { getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme('panel');
 
-const Panel = ({ children, className, ...props }) => {
+type PanelProps = StackProps;
+
+const Panel = ({ children, className, ...props }: PanelProps) => {
   const parsedChildren =
     Children.count(children) === 1 ? <>{children}</> : children;
   return (
@@ -23,14 +25,11 @@ const Panel = ({ children, className, ...props }) => {
   );
 };
 
-Panel.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-};
-
 const getValueForPanelFooter = getValueFromTheme('panelFooter');
 
-const PanelFooter = ({ children, className, ...props }) => {
+type PanelFooterProps = StackProps;
+
+const PanelFooter = ({ children, className, ...props }: PanelFooterProps) => {
   const parsedChildren =
     Children.count(children) === 1 ? <>{children}</> : children;
   return (
@@ -49,11 +48,6 @@ const PanelFooter = ({ children, className, ...props }) => {
       {parsedChildren}
     </Stack>
   );
-};
-
-PanelFooter.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
 };
 
 Panel.Footer = PanelFooter;

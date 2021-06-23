@@ -160,7 +160,12 @@ const ProfileMenu = ({ profileImage }) => {
         border-top: 1px solid ${getValueForMenu('borderColor')};
       `}
     >
-      <Image src={profileImage} width={50} height={50} alt="Profile picture" />
+      <Image
+        src={cookies.userPicture ?? profileImage}
+        width={50}
+        height={50}
+        alt="Profile picture"
+      />
       <Stack as="div" padding={2} spacing={2} flex={1} display={{ s: 'none' }}>
         <Text>{cookies?.user?.username ?? ''}</Text>
         <Menu items={loginMenu} />
@@ -229,8 +234,12 @@ NotificationMenu.propTypes = {
 
 const Sidebar = () => {
   const { t } = useTranslation();
+
   const [isReactCreateFeatureFlagEnabled] = useFeatureFlag(
     FeatureFlags.REACT_CREATE,
+  );
+  const [isReactDashboardFeatureFlagEnabled] = useFeatureFlag(
+    FeatureFlags.REACT_DASHBOARD,
   );
 
   const { cookies, setCookie } = useCookiesWithOptions([
@@ -352,7 +361,9 @@ const Sidebar = () => {
 
   const userMenu = [
     {
-      href: '/dashboard',
+      href: isReactDashboardFeatureFlagEnabled
+        ? '/dashboard?tab=events&page=1'
+        : '/dashboard',
       iconName: Icons.HOME,
       children: t('menu.home'),
     },

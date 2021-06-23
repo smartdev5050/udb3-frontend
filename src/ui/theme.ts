@@ -1,6 +1,8 @@
 import get from 'lodash/get';
 import { lighten } from 'polished';
 
+import type { Values } from '@/types/Values';
+
 const colors = {
   udbRed: '#c0120c',
   udbBlue: '#004f94',
@@ -43,7 +45,6 @@ const zIndexModalBackdrop = above + zIndexSidebar;
 const zIndexModal = above + zIndexModalBackdrop;
 //
 
-type Values<T> = T[keyof T];
 type BreakpointValues = Values<typeof Breakpoints>;
 
 const theme = {
@@ -246,6 +247,16 @@ const theme = {
     },
     statusModal: {
       infoTextColor: colors.grey5,
+    },
+    dashboardPage: {
+      listItem: {
+        backgroundColor: colors.white,
+        borderColor: colors.grey3,
+        color: colors.udbBlue,
+        passedEvent: {
+          color: colors.grey5,
+        },
+      },
     },
     tabs: {
       color: colors.udbBlue,

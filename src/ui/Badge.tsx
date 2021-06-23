@@ -1,33 +1,34 @@
-import PropTypes from 'prop-types';
 import { Badge as BootstrapBadge } from 'react-bootstrap';
 
+import type { Values } from '@/types/Values';
+
+import type { BoxProps } from './Box';
 import { getBoxProps } from './Box';
 import { Text } from './Text';
 
 const BadgeVariants = {
   DANGER: 'danger',
   SECONDARY: 'secondary',
+} as const;
+
+const BaseBadge = (props: BoxProps) => <Text {...props} />;
+
+type Props = BoxProps & {
+  variant: Values<typeof BadgeVariants>;
 };
 
-const BaseBadge = (props) => <Text {...props} />;
-
-const Badge = ({ children, className, variant, ...props }) => {
+const Badge = ({ children, className, variant, ...props }: Props) => {
   return (
     <BootstrapBadge
       as={BaseBadge}
       className={className}
       variant={variant}
+      lineHeight="inherit"
       {...getBoxProps(props)}
     >
       {children}
     </BootstrapBadge>
   );
-};
-
-Badge.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-  variant: PropTypes.string,
 };
 
 Badge.defaultProps = {
