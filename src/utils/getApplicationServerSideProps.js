@@ -97,7 +97,7 @@ const getApplicationServerSideProps = (callbackFn) => async ({
 
   const isDynamicUrl = !!query.params;
   const path = isDynamicUrl ? `/${query.params.join('/')}` : resolvedUrl;
-  
+
   const redirect = getRedirect(
     path,
     publicRuntimeConfig.environment,
