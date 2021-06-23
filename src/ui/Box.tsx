@@ -53,12 +53,17 @@ type LinkProps = {
   target: string;
 };
 
+type LabelProps = {
+  htmlFor: string;
+};
+
 type BoxProps = Partial<
   GeneralProps &
     InlineProps &
     TitleProps &
     ListProps &
-    LinkProps & {
+    LinkProps &
+    LabelProps & {
       alignItems: UIProp<string>;
       margin: UIProp<number>;
       marginTop: UIProp<number>;
