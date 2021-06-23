@@ -1,6 +1,12 @@
 import kebabCase from 'lodash/kebabCase';
 import pick from 'lodash/pick';
-import type { ComponentType, MouseEvent, ReactNode } from 'react';
+import type {
+  ChangeEvent,
+  ComponentType,
+  FormEvent,
+  MouseEvent,
+  ReactNode,
+} from 'react';
 import { forwardRef } from 'react';
 import type { FlattenInterpolation, ThemeProps } from 'styled-components';
 import styled, { css } from 'styled-components';
@@ -53,12 +59,23 @@ type LinkProps = {
   target: string;
 };
 
+type LabelProps = {
+  htmlFor: string;
+};
+
+type ImageProps = {
+  src: string;
+  alt: string;
+};
+
 type BoxProps = Partial<
   GeneralProps &
     InlineProps &
     TitleProps &
     ListProps &
-    LinkProps & {
+    LinkProps &
+    LabelProps &
+    ImageProps & {
       alignItems: UIProp<string>;
       margin: UIProp<number>;
       marginTop: UIProp<number>;
@@ -103,6 +120,8 @@ type BoxProps = Partial<
       cursor: UIProp<string>;
       animation: UIProp<string>;
       onClick: (event: MouseEvent<HTMLElement>) => void;
+      onInput: (event: ChangeEvent<HTMLInputElement>) => void;
+      onSubmit: (event: FormEvent<HTMLFormElement>) => void;
     }
 >;
 
@@ -382,13 +401,11 @@ const boxPropTypes = [
 
 const getBoxProps = (props: UnknownProps) => pick(props, boxPropTypes);
 
-const Box = forwardRef<HTMLDivElement, BoxProps>(
-  ({ children, ...props }, ref) => (
-    <StyledBox ref={ref} {...props}>
-      {children}
-    </StyledBox>
-  ),
-);
+const Box = forwardRef<HTMLElement, BoxProps>(({ children, ...props }, ref) => (
+  <StyledBox ref={ref} {...props}>
+    {children}
+  </StyledBox>
+));
 
 Box.defaultProps = {
   as: 'div',
