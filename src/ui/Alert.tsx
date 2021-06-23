@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { Alert as BootstrapAlert } from 'react-bootstrap';
 
 import type { Values } from '@/types/Values';
