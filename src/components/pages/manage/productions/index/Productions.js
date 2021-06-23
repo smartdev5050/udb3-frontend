@@ -25,6 +25,9 @@ const Productions = ({
   ...props
 }) => {
   const { t } = useTranslation();
+
+  const hasMoreThanOnePage = Math.ceil(totalItems / perPage) > 1;
+
   return (
     <Stack className={className} spacing={4} {...getStackProps(props)}>
       {loading ? (
@@ -63,16 +66,18 @@ const Productions = ({
                 </List.Item>
               ))}
             </List>
-            <Panel.Footer>
-              <Pagination
-                currentPage={currentPage}
-                totalItems={totalItems}
-                perPage={perPage}
-                prevText={t('pagination.previous')}
-                nextText={t('pagination.next')}
-                onChangePage={onChangePage}
-              />
-            </Panel.Footer>
+            {hasMoreThanOnePage && (
+              <Panel.Footer>
+                <Pagination
+                  currentPage={currentPage}
+                  totalItems={totalItems}
+                  perPage={perPage}
+                  prevText={t('pagination.previous')}
+                  nextText={t('pagination.next')}
+                  onChangePage={onChangePage}
+                />
+              </Panel.Footer>
+            )}
           </Panel>,
         ]
       )}

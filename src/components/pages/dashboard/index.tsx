@@ -274,6 +274,8 @@ const TabContent = ({
 }) => {
   const { t } = useTranslation();
 
+  const hasMoreThanOnePage = Math.ceil(totalItems / itemsPerPage) > 1;
+
   if (status === QueryStatus.LOADING) {
     return (
       <Panel
@@ -331,16 +333,18 @@ const TabContent = ({
           </List.Item>
         ))}
       </List>
-      <Panel.Footer>
-        <Pagination
-          currentPage={page}
-          totalItems={totalItems}
-          perPage={itemsPerPage}
-          prevText={t('pagination.previous')}
-          nextText={t('pagination.next')}
-          onChangePage={onChangePage}
-        />
-      </Panel.Footer>
+      {hasMoreThanOnePage && (
+        <Panel.Footer>
+          <Pagination
+            currentPage={page}
+            totalItems={totalItems}
+            perPage={itemsPerPage}
+            prevText={t('pagination.previous')}
+            nextText={t('pagination.next')}
+            onChangePage={onChangePage}
+          />
+        </Panel.Footer>
+      )}
     </Panel>
   );
 };
