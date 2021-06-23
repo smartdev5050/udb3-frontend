@@ -44,6 +44,8 @@ import { formatAddressInternal } from '@/utils/formatAddress';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 import { parseOfferId } from '@/utils/parseOfferId';
 
+import { NewsletterSignupForm } from './NewsletterSingupForm';
+
 type TabOptions = 'events' | 'places' | 'organizers';
 
 type Item = Event | Place | Organizer;
@@ -449,6 +451,7 @@ const Dashboard = (): any => {
             )}
           </Tabs.Tab>
         </Tabs>
+        <NewsletterSignupForm />
       </Page.Content>
     </Page>,
     <Modal
