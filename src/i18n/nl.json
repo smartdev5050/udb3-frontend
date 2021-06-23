@@ -159,7 +159,8 @@
       "title": "Praktische invoertips in je mailbox",
       "content": "Schrijf je in op onze nieuwsbrief en ontvang praktische tips voor het invoeren van jouw activiteiten in de UiTdatabank!",
       "subscribe": "Inschrijven",
-      "invalid": "Geef een geldig email adres in."
+      "invalid": "Geef een geldig email adres in.",
+      "logo": "newsletter-logo.png"
     },
     "modal": {
       "title": "{{type}} verwijderen",
