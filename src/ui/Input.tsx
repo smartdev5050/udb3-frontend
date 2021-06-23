@@ -29,12 +29,14 @@ type InputType =
   | 'url'
   | 'week';
 
-type Props = BoxProps & {
+type InputProps = {
   type: InputType;
   id: string;
   placeholder?: string;
-  value: string;
+  value?: string;
 };
+
+type Props = BoxProps & InputProps;
 
 const Input = ({
   type,
@@ -64,4 +66,4 @@ Input.defaultProps = {
 };
 
 export { Input };
-export type { Props as InputProps };
+export type { InputProps };

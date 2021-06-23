@@ -1,8 +1,13 @@
-import PropTypes from 'prop-types';
-
+import type { InlineProps } from './Inline';
 import { getInlineProps, Inline } from './Inline';
-import { Input, inputPropTypes } from './Input';
+import type { InputProps } from './Input';
+import { Input } from './Input';
 import { Label, LabelVariants } from './Label';
+
+type Props = InlineProps &
+  InputProps & {
+    label: string;
+  };
 
 const InputWithLabel = ({
   type,
@@ -12,7 +17,7 @@ const InputWithLabel = ({
   className,
   onInput,
   ...props
-}) => (
+}: Props) => (
   <Inline
     className={className}
     as="div"
@@ -26,11 +31,6 @@ const InputWithLabel = ({
     <Input type={type} id={id} placeholder={placeholder} onInput={onInput} />
   </Inline>
 );
-
-InputWithLabel.propTypes = {
-  ...inputPropTypes,
-  label: PropTypes.string,
-};
 
 InputWithLabel.defaultProps = {
   type: 'text',
