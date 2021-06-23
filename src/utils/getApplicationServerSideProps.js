@@ -96,8 +96,8 @@ const getApplicationServerSideProps = (callbackFn) => async ({
   req.headers.cookie = cookies.toString();
 
   const isDynamicUrl = !!query.params;
-  const path = isDynamicUrl ? ['/', ...query.params].join('/') : req.url;
-
+  const path = isDynamicUrl ? `/${query.params.join('/')}` : resolvedUrl;
+  
   const redirect = getRedirect(
     path,
     publicRuntimeConfig.environment,
