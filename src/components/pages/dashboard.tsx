@@ -418,8 +418,7 @@ const Dashboard = (): any => {
         {t('dashboard.welcome')}, {user?.username}
       </Page.Title>
       <Page.Actions>
-        {/* TODO: Should become /create */}
-        <Link href="/event" css="text-transform: lowercase;">
+        <Link href="/create" css="text-transform: lowercase;">
           {t('dashboard.create')}
         </Link>
       </Page.Actions>
