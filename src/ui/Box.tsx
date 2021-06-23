@@ -395,13 +395,11 @@ const boxPropTypes = [
 
 const getBoxProps = (props: UnknownProps) => pick(props, boxPropTypes);
 
-const Box = forwardRef<HTMLDivElement, BoxProps>(
-  ({ children, ...props }, ref) => (
-    <StyledBox ref={ref} {...props}>
-      {children}
-    </StyledBox>
-  ),
-);
+const Box = forwardRef<HTMLElement, BoxProps>(({ children, ...props }, ref) => (
+  <StyledBox ref={ref} {...props}>
+    {children}
+  </StyledBox>
+));
 
 Box.defaultProps = {
   as: 'div',
