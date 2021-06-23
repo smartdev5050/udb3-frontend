@@ -43,7 +43,6 @@ const NewsletterSignupForm = () => {
         <Panel backgroundColor="white" padding={4} spacing={4}>
           <Title>{t('dashboard.newsletter.title')}</Title>
           <Text>{t('dashboard.newsletter.content')}</Text>
-
           <Inline
             as="form"
             ref={formRef}
