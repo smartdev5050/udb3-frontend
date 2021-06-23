@@ -1,6 +1,6 @@
+import * as Sentry from '@sentry/nextjs';
 import PropTypes from 'prop-types';
 import { Component } from 'react';
-import * as Sentry from '@sentry/nextjs';
 
 import { ErrorFallback } from './ErrorFallback';
 
