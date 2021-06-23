@@ -131,6 +131,8 @@ const getApplicationServerSideProps = (callbackFn) => async ({
     cookies.set('user', user);
   }
 
+  req.headers.cookie = cookies.toString();
+
   if (!callbackFn) return { props: { cookies: cookies.toString() } };
 
   return await callbackFn({
