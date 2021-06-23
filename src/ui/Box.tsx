@@ -63,13 +63,19 @@ type LabelProps = {
   htmlFor: string;
 };
 
+type ImageProps = {
+  src: string;
+  alt: string;
+};
+
 type BoxProps = Partial<
   GeneralProps &
     InlineProps &
     TitleProps &
     ListProps &
     LinkProps &
-    LabelProps & {
+    LabelProps &
+    ImageProps & {
       alignItems: UIProp<string>;
       margin: UIProp<number>;
       marginTop: UIProp<number>;
