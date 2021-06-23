@@ -133,6 +133,7 @@
     "welcome": "Bienvenue",
     "create": "Ajouter",
     "my_items": "Mes évenements, endroits et organisateurs",
+    "no_items": "Aucun(e) {{type}} trouvée.",
     "passed": "{{type}} terminé",
     "event": "Événement",
     "place": "Endroit",
