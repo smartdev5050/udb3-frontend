@@ -30,3 +30,4 @@ Text.defaultProps = {
 };
 
 export { Text, TextVariants };
+export type { Props as TextProps };

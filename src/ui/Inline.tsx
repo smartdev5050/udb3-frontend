@@ -42,7 +42,7 @@ const StyledBox = styled(Box)`
   ${boxProps};
 `;
 
-const Inline = forwardRef<HTMLDivElement, Props>(
+const Inline = forwardRef<HTMLElement, Props>(
   ({ spacing, className, children, as, stackOn, ...props }, ref) => {
     const shouldCollapse = useMatchBreakpoint(stackOn);
 

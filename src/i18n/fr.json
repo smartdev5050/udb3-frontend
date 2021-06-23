@@ -151,6 +151,10 @@
       "delete": "Supprimer",
       "cancel": "Annuler"
     },
+    "newsletter": {
+      "questions_or_feedback": "Questions ou remarques?",
+      "contact": "Contactez-nous"
+    },
     "modal": {
       "title": "Supprimer des {{type}}",
       "question": "Voulez-vous vraiment supprimer '{{name}}'?",
