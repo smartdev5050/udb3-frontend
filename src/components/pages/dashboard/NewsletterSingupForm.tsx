@@ -50,7 +50,7 @@ const NewsletterSignupForm = () => {
       {i18n.language === 'nl' && (
         <Panel backgroundColor="white" padding={4} spacing={4}>
           <Inline as="div" justifyContent="space-between">
-            {addNewsletterSubscriberMutation.status === 'success' ? (
+            {addNewsletterSubscriberMutation.status === QueryStatus.SUCCESS ? (
               <Stack spacing={4}>
                 <Title>{t('dashboard.newsletter.success.title')}</Title>
                 <Paragraph>
