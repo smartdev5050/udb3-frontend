@@ -55,6 +55,3 @@ node_modules/
 
 # next.js build output
 .next
-
-# sentry
-sentry.properties
