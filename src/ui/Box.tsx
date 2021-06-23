@@ -1,6 +1,6 @@
 import kebabCase from 'lodash/kebabCase';
 import pick from 'lodash/pick';
-import type { ComponentType, MouseEvent, ReactNode } from 'react';
+import type { ComponentType, FormEvent, MouseEvent, ReactNode } from 'react';
 import { forwardRef } from 'react';
 import type { FlattenInterpolation, ThemeProps } from 'styled-components';
 import styled, { css } from 'styled-components';
@@ -108,6 +108,7 @@ type BoxProps = Partial<
       cursor: UIProp<string>;
       animation: UIProp<string>;
       onClick: (event: MouseEvent<HTMLElement>) => void;
+      onInput: (event: FormEvent<HTMLElement>) => void;
     }
 >;
 

@@ -1,9 +1,40 @@
-import PropTypes from 'prop-types';
 import { Form } from 'react-bootstrap';
 
+import type { BoxProps } from './Box';
 import { Box, getBoxProps } from './Box';
 
 const BaseInput = (props) => <Box as="input" {...props} />;
+
+type InputType =
+  | 'button'
+  | 'checkbox'
+  | 'color'
+  | 'date'
+  | 'datetime-local'
+  | 'email'
+  | 'file'
+  | 'hidden'
+  | 'image'
+  | 'month'
+  | 'number'
+  | 'password'
+  | 'radio'
+  | 'range'
+  | 'reset'
+  | 'search'
+  | 'submit'
+  | 'tel'
+  | 'text'
+  | 'time'
+  | 'url'
+  | 'week';
+
+type Props = BoxProps & {
+  type: InputType;
+  id: string;
+  placeholder?: string;
+  value: string;
+};
 
 const Input = ({
   type,
@@ -13,7 +44,7 @@ const Input = ({
   className,
   value,
   ...props
-}) => (
+}: Props) => (
   <Form.Control
     forwardedAs={BaseInput}
     id={id}
@@ -28,20 +59,9 @@ const Input = ({
   />
 );
 
-const inputPropTypes = {
-  className: PropTypes.string,
-  type: PropTypes.string,
-  id: PropTypes.string.isRequired,
-  placeholder: PropTypes.string,
-  onInput: PropTypes.func,
-};
-
-Input.propTypes = {
-  ...inputPropTypes,
-};
-
 Input.defaultProps = {
   type: 'text',
 };
 
-export { Input, inputPropTypes };
+export { Input };
+export type { Props as InputProps };
