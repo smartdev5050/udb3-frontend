@@ -15,7 +15,7 @@ const getFontWeight = (props) => {
 
 type Props = BoxProps & {
   htmlFor: string;
-  variant: Values<typeof LabelVariants>;
+  variant?: Values<typeof LabelVariants>;
 };
 
 const Label = ({ htmlFor, children, className, variant, ...props }: Props) => (
