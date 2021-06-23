@@ -425,32 +425,33 @@ const Dashboard = (): any => {
         </Link>
       </Page.Actions>
       <Page.Content spacing={5}>
-        <Text>{t('dashboard.my_items')}</Text>
-
-        <Tabs<TabOptions>
-          activeKey={tab}
-          onSelect={handleSelectTab}
-          activeBackgroundColor="white"
-        >
-          <Tabs.Tab eventKey="events" title={t('dashboard.tabs.events')}>
-            {tab === 'events' && (
-              <TabContent {...sharedTableContentProps} Row={EventRow} />
-            )}
-          </Tabs.Tab>
-          <Tabs.Tab eventKey="places" title={t('dashboard.tabs.places')}>
-            {tab === 'places' && (
-              <TabContent {...sharedTableContentProps} Row={PlaceRow} />
-            )}
-          </Tabs.Tab>
-          <Tabs.Tab
-            eventKey="organizers"
-            title={t('dashboard.tabs.organizers')}
+        <Stack spacing={4}>
+          <Text>{t('dashboard.my_items')}</Text>
+          <Tabs<TabOptions>
+            activeKey={tab}
+            onSelect={handleSelectTab}
+            activeBackgroundColor="white"
           >
-            {tab === 'organizers' && (
-              <TabContent {...sharedTableContentProps} Row={OrganizerRow} />
-            )}
-          </Tabs.Tab>
-        </Tabs>
+            <Tabs.Tab eventKey="events" title={t('dashboard.tabs.events')}>
+              {tab === 'events' && (
+                <TabContent {...sharedTableContentProps} Row={EventRow} />
+              )}
+            </Tabs.Tab>
+            <Tabs.Tab eventKey="places" title={t('dashboard.tabs.places')}>
+              {tab === 'places' && (
+                <TabContent {...sharedTableContentProps} Row={PlaceRow} />
+              )}
+            </Tabs.Tab>
+            <Tabs.Tab
+              eventKey="organizers"
+              title={t('dashboard.tabs.organizers')}
+            >
+              {tab === 'organizers' && (
+                <TabContent {...sharedTableContentProps} Row={OrganizerRow} />
+              )}
+            </Tabs.Tab>
+          </Tabs>
+        </Stack>
         <NewsletterSignupForm />
       </Page.Content>
     </Page>,
