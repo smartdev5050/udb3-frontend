@@ -39,20 +39,19 @@ const FooterLink = (props) => (
 type Props = {
   wrapper?: ElementType;
   onChangeLanguage?: (language: string) => () => Promise<boolean>;
-  isLogoVisible?: boolean;
   isLanguageSwitcherVisible?: boolean;
 };
 
 const Footer = ({
   wrapper: Wrapper,
   onChangeLanguage,
-  isLogoVisible,
   isLanguageSwitcherVisible,
+  ...props
 }: Props) => {
   const { t, i18n } = useTranslation();
 
   return (
-    <Wrapper>
+    <Wrapper {...props}>
       <Stack alignItems="flex-start">
         <List alignItems={{ xs: 'center' }}>
           <List.Item>
@@ -96,14 +95,12 @@ const Footer = ({
           <Box as="span">{t('footer.by')}</Box>
           <FooterLink href="http://www.publiq.be">publiq vzw</FooterLink>
         </Inline>
-        {isLogoVisible && (
-          <Image
-            alt="logo vlaanderen"
-            src={`/assets/${t('main.flanders_image')}`}
-            width={150}
-          />
-        )}
-        {isLanguageSwitcherVisible && (
+        <Image
+          alt="logo vlaanderen"
+          src={`/assets/${t('main.flanders_image')}`}
+          width={150}
+        />
+        {isLanguageSwitcherVisible && onChangeLanguage && (
           <Inline>
             <LanguageSwitcherButton onClick={onChangeLanguage('nl')}>
               Nederlands

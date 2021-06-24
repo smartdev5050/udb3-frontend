@@ -8,6 +8,7 @@ import { useQueryClient } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { css } from 'styled-components';
 
+import { Footer } from '@/components/Footer';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
 import { useDeleteEventById, useGetEventsByCreator } from '@/hooks/api/events';
 import {
@@ -457,6 +458,7 @@ const Dashboard = (): any => {
           </Tabs>
         </Stack>
         <NewsletterSignupForm />
+        <Footer isLanguageSwitcherVisible={false} />
       </Page.Content>
     </Page>,
     <Modal

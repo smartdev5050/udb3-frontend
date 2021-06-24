@@ -20,7 +20,7 @@ import { Title } from '@/ui/Title';
 const isEmail = (value: string) =>
   yup.string().required().email().isValidSync(value);
 
-const NewsletterSignupForm = () => {
+const NewsletterSignupForm = (props) => {
   const formRef = useRef<HTMLFormElement>();
   const [email, setEmail] = useState('');
   const [isValid, setIsValid] = useState(true);
@@ -42,7 +42,7 @@ const NewsletterSignupForm = () => {
   };
 
   return (
-    <Stack spacing={4}>
+    <Stack spacing={4} {...props}>
       <Text>
         {t('dashboard.newsletter.questions_or_feedback')}{' '}
         <Link href="#">{t('dashboard.newsletter.contact')}</Link>
