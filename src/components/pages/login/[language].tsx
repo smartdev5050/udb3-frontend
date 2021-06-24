@@ -7,13 +7,13 @@ import { css, keyframes } from 'styled-components';
 
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import { Box } from '@/ui/Box';
-import { Button, ButtonSizes, ButtonVariants } from '@/ui/Button';
-import { Image } from '@/ui/Image';
+import { Button, ButtonSizes } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Link } from '@/ui/Link';
-import { List } from '@/ui/List';
 import { Stack } from '@/ui/Stack';
 import { Breakpoints, getValueFromTheme } from '@/ui/theme';
+
+import { Footer } from './Footer';
 
 const getValueForPage = getValueFromTheme('loginPage');
 const getValueForLogo = getValueFromTheme('loginLogo');
@@ -28,9 +28,7 @@ const Svg = (props) => (
 );
 
 const Group = (props) => <Box as="g" fill="white" {...props} />;
-Group.propTypes = {};
 const Path = (props) => <Box as="path" {...props} />;
-Path.propTypes = {};
 
 const Animation = (props) => {
   const draw = keyframes`
@@ -325,8 +323,8 @@ const useRedirectToLanguage = () => {
   useEffect(() => {
     if (!language) return;
 
-    if (['nl', 'fr'].includes(language)) {
-      i18n.changeLanguage(language);
+    if (['nl', 'fr'].includes(language as string)) {
+      i18n.changeLanguage(language as string);
       setCookie('udb-language', language);
     } else {
       router.push('/login/nl');
@@ -343,39 +341,22 @@ const ResponsiveContainer = (props) => (
   />
 );
 
-const FooterLink = (props) => (
-  <Link
-    {...props}
-    css={`
+const MainChannelLink = () => {
+  const { t } = useTranslation();
+  return (
+    <Link
+      css={`
+      display: inline
       text-decoration: underline;
       color: #555;
       &:hover {
         color: #222;
       }
     `}
-  />
-);
-
-const LanguageSwitcherButton = (props) => (
-  <Button
-    {...props}
-    variant={ButtonVariants.UNSTYLED}
-    css={`
-      text-decoration: underline;
-      color: #004f94;
-      &:hover {
-        color: #222;
-      }
-    `}
-  />
-);
-
-const MainChannelLink = () => {
-  const { t } = useTranslation();
-  return (
-    <FooterLink href={t('main.channels_info_link_url')} css="display: inline">
+      href={t('main.channels_info_link_url')}
+    >
       {t('main.channels_info_link_text')}
-    </FooterLink>
+    </Link>
   );
 };
 
@@ -385,13 +366,14 @@ const Index = () => {
   const { removeAuthenticationCookies } = useCookiesWithOptions();
   const { publicRuntimeConfig } = getConfig();
 
-  const changeLanguage = (language) => () => router.push(`/login/${language}`);
+  const handleChangeLanguage = (language: string) => async () =>
+    router.push(`/login/${language}`, undefined, { shallow: true });
 
   const handleClickLogin = () => {
     removeAuthenticationCookies();
 
     const destination = new URL(
-      router.query?.referer ||
+      (router.query?.referer as string) ||
         `${window.location.protocol}//${window.location.host}`,
     );
     destination.searchParams.delete('jwt');
@@ -490,73 +472,21 @@ const Index = () => {
       </Stack>
 
       <Inline width="100%" backgroundColor="#ccc" justifyContent="center">
-        <ResponsiveContainer
-          justifyContent={{ default: 'space-between', xs: 'flex-start' }}
-          alignItems={{ xs: 'center' }}
-          stackOn={Breakpoints.XS}
-          spacing={5}
-          paddingY={5}
-        >
-          <Stack alignItems="flex-start">
-            <List alignItems={{ xs: 'center' }}>
-              <List.Item>
-                <FooterLink href="mailto:vragen@uitdatabank.be">
-                  {t('footer.contact')}
-                </FooterLink>
-              </List.Item>
-              <List.Item>
-                <FooterLink href="http://www.publiq.be/nl/project/uitdatabank">
-                  {t('footer.about')}
-                </FooterLink>
-              </List.Item>
-              <List.Item>
-                <FooterLink href="http://documentatie.uitdatabank.be">
-                  {t('footer.dev')}
-                </FooterLink>
-              </List.Item>
-              <List.Item>
-                <Inline spacing={3}>
-                  <FooterLink
-                    href={
-                      'http://www.publiq.be/' +
-                      i18n.language +
-                      '/' +
-                      t('footer.legal_path')
-                    }
-                  >
-                    {t('footer.legal')}
-                  </FooterLink>
-                  <FooterLink href="http://www.publiq.be/nl/privacy-uitdatabank">
-                    {t('footer.privacy')}
-                  </FooterLink>
-                </Inline>
-              </List.Item>
-            </List>
-          </Stack>
-
-          <Stack
-            spacing={3}
-            alignItems={{ default: 'flex-end', xs: 'center' }}
-            justifyContent="flex-start"
-          >
-            <Inline as="p" spacing={2} className="footer-by">
-              <Box as="span">{t('footer.by')}</Box>
-              <FooterLink href="http://www.publiq.be">publiq vzw</FooterLink>
-            </Inline>
-            <Image src={`/assets/${t('main.flanders_image')}`} width={150} />
-            <Inline>
-              <LanguageSwitcherButton onClick={changeLanguage('nl')}>
-                Nederlands
-              </LanguageSwitcherButton>
-              <LanguageSwitcherButton
-                variant={ButtonVariants.UNSTYLED}
-                onClick={changeLanguage('fr')}
-              >
-                Français
-              </LanguageSwitcherButton>
-            </Inline>
-          </Stack>
-        </ResponsiveContainer>
+        <Footer
+          isLogoVisible={false}
+          isLanguageSwitcherVisible={false}
+          onChangeLanguage={handleChangeLanguage}
+          wrapper={(props) => (
+            <ResponsiveContainer
+              justifyContent={{ default: 'space-between', xs: 'flex-start' }}
+              alignItems={{ xs: 'center' }}
+              stackOn={Breakpoints.XS}
+              spacing={5}
+              paddingY={5}
+              {...props}
+            />
+          )}
+        />
       </Inline>
     </Stack>
   );
