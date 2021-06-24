@@ -1,4 +1,6 @@
+import * as Sentry from '@sentry/nextjs';
 import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 
 import { Icon, Icons } from '@/ui/Icon';
@@ -7,8 +9,6 @@ import { Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
-import * as Sentry from '@sentry/nextjs';
-import { useEffect } from 'react';
 
 const getValue = getValueFromTheme('pageError');
 
