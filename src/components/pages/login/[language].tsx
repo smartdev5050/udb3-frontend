@@ -473,8 +473,6 @@ const Index = () => {
 
       <Inline width="100%" backgroundColor="#ccc" justifyContent="center">
         <Footer
-          isLogoVisible={false}
-          isLanguageSwitcherVisible={false}
           onChangeLanguage={handleChangeLanguage}
           wrapper={(props) => (
             <ResponsiveContainer
