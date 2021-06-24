@@ -7,6 +7,8 @@ import { Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
+import * as Sentry from '@sentry/nextjs';
+import { useEffect } from 'react';
 
 const getValue = getValueFromTheme('pageError');
 
@@ -21,6 +23,11 @@ const MailToSupportLink = () => {
 
 const ErrorFallback = ({ error }) => {
   const { t } = useTranslation();
+  useEffect(() => {
+    if (error) {
+      Sentry.captureException(error);
+    }
+  }, [error]);
 
   return (
     <Stack
