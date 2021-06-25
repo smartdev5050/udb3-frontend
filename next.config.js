@@ -1,4 +1,7 @@
-module.exports = {
+const { withSentryConfig } = require('@sentry/nextjs');
+
+const moduleExports = {
+  productionBrowserSourceMaps: true,
   future: {
     webpack5: true,
   },
@@ -32,3 +35,9 @@ module.exports = {
     newsletterEmailListId: process.env.NEXT_PUBLIC_NEWSLETTER_EMAIL_LIST_ID,
   },
 };
+
+const SentryWebpackPluginOptions = {
+  dryRun: true,
+};
+
+module.exports = withSentryConfig(moduleExports, SentryWebpackPluginOptions);
