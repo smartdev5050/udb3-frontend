@@ -28,6 +28,7 @@ import type { User } from '@/types/User';
 import { Badge, BadgeVariants } from '@/ui/Badge';
 import { Box } from '@/ui/Box';
 import { Dropdown, DropDownVariants } from '@/ui/Dropdown';
+import { Icons } from '@/ui/Icon';
 import type { InlineProps } from '@/ui/Inline';
 import { getInlineProps, Inline } from '@/ui/Inline';
 import { Link, LinkVariants } from '@/ui/Link';
@@ -72,6 +73,12 @@ const UseDeleteItemByIdMap = {
   places: useDeletePlaceById,
   organizers: useDeleteOrganizerById,
 } as const;
+
+const CreateMap = {
+  events: '/create',
+  places: '/create',
+  organizers: '/organizer',
+};
 
 type RowProps = {
   title: string;
@@ -300,7 +307,7 @@ const TabContent = ({
       >
         <Text margin={3} maxWidth="36rem">
           {t('dashboard.no_items', {
-            type: t(`dashboard.${PluralToSingularTab[tab]}`),
+            type: t(`dashboard.${PluralToSingularTab[tab]}`).toLowerCase(),
           })}
         </Text>
       </Panel>
@@ -425,8 +432,16 @@ const Dashboard = (): any => {
         {t('dashboard.welcome')}, {user?.username}
       </Page.Title>
       <Page.Content spacing={5}>
-        <Stack spacing={4}>
-          <Text>{t('dashboard.my_items')}</Text>
+        <Stack spacing={4} position="relative">
+          <Link
+            href={CreateMap[tab]}
+            variant={LinkVariants.BUTTON_PRIMARY}
+            position="absolute"
+            right={0}
+            top={0}
+          >
+            {t(`dashboard.create.${tab}`)}
+          </Link>
           <Tabs<TabOptions>
             activeKey={tab}
             onSelect={handleSelectTab}

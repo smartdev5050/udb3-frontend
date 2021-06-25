@@ -147,9 +147,9 @@
     "not_published": "Niet gepubliceerd",
     "online_from": "Online vanaf {{date}}",
     "tabs": {
-      "events": "Evenementen",
-      "places": "Plaatsen",
-      "organizers": "Organisatoren"
+      "events": "Mijn evenementen",
+      "places": "Mijn plaatsen",
+      "organizers": "Mijn organisatoren"
     },
     "actions": {
       "edit": "Bewerken",
