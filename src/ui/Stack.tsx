@@ -28,7 +28,7 @@ const StyledBox = styled(Box)`
   ${boxProps};
 `;
 
-const Stack = forwardRef<HTMLDivElement, Props>(
+const Stack = forwardRef<HTMLElement, Props>(
   ({ spacing, className, children, as, ...props }, ref) => {
     const notNullChildren = Children.toArray(children).filter(
       (child) => child !== null,

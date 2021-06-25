@@ -8,6 +8,7 @@ import { Inline } from '@/ui/Inline';
 import { Link, LinkVariants } from '@/ui/Link';
 import { List } from '@/ui/List';
 import { Modal } from '@/ui/Modal';
+import { Paragraph } from '@/ui/Paragraph';
 import { Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
@@ -205,9 +206,7 @@ const Announcements = ({
           )}
         </Inline>
       ) : (
-        <Text as="p" padding={4}>
-          {t('announcements.no_features')}
-        </Text>
+        <Paragraph padding={4}>{t('announcements.no_features')}</Paragraph>
       )}
     </Modal>
   );

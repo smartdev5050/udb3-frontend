@@ -1,4 +1,7 @@
-module.exports = {
+const { withSentryConfig } = require('@sentry/nextjs');
+
+const moduleExports = {
+  productionBrowserSourceMaps: true,
   future: {
     webpack5: true,
   },
@@ -28,5 +31,13 @@ module.exports = {
     socketUrl: process.env.NEXT_PUBLIC_SOCKET_URL,
     newAnnouncementsUrl: process.env.NEXT_PUBLIC_NEW_ANNOUNCEMENTS_URL,
     sentryDsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+    newsletterApiUrl: process.env.NEXT_PUBLIC_NEWSLETTER_API_URL,
+    newsletterEmailListId: process.env.NEXT_PUBLIC_NEWSLETTER_EMAIL_LIST_ID,
   },
 };
+
+const SentryWebpackPluginOptions = {
+  dryRun: true,
+};
+
+module.exports = withSentryConfig(moduleExports, SentryWebpackPluginOptions);

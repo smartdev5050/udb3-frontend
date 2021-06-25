@@ -234,8 +234,12 @@ NotificationMenu.propTypes = {
 
 const Sidebar = () => {
   const { t } = useTranslation();
+
   const [isReactCreateFeatureFlagEnabled] = useFeatureFlag(
     FeatureFlags.REACT_CREATE,
+  );
+  const [isReactDashboardFeatureFlagEnabled] = useFeatureFlag(
+    FeatureFlags.REACT_DASHBOARD,
   );
 
   const { cookies, setCookie } = useCookiesWithOptions([
@@ -357,7 +361,9 @@ const Sidebar = () => {
 
   const userMenu = [
     {
-      href: '/dashboard',
+      href: isReactDashboardFeatureFlagEnabled
+        ? '/dashboard?tab=events&page=1'
+        : '/dashboard',
       iconName: Icons.HOME,
       children: t('menu.home'),
     },

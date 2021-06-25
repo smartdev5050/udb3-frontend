@@ -12,8 +12,10 @@ const getUser = async ({ headers }) => {
   return await res.json();
 };
 
-const useGetUser = (configuration = {}) =>
+const useGetUser = ({ req, queryClient } = {}, configuration = {}) =>
   useAuthenticatedQuery({
+    req,
+    queryClient,
     queryKey: ['user'],
     queryFn: getUser,
     ...configuration,

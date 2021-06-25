@@ -30,7 +30,7 @@ type BaseLinkProps = InlineProps & {
   variant?: Values<typeof LinkVariants>;
 };
 
-const BaseLink = forwardRef<HTMLDivElement, BaseLinkProps>(
+const BaseLink = forwardRef<HTMLElement, BaseLinkProps>(
   ({ href, variant, title, children, className, ...props }, ref) => {
     if (variant === LinkVariants.UNSTYLED) {
       return (

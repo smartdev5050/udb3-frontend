@@ -16,7 +16,6 @@ import i18n from '@/i18n/index';
 import Layout from '@/layouts/index';
 import { GlobalStyle } from '@/styles/GlobalStyle';
 import { ThemeProvider } from '@/ui/ThemeProvider';
-import { initializeSentry } from '@/utils/sentry';
 
 const cookies = new Cookies();
 
@@ -92,7 +91,6 @@ const Head = () => {
 };
 
 const queryClient = new QueryClient();
-initializeSentry();
 
 const isServer = () => typeof window === 'undefined';
 

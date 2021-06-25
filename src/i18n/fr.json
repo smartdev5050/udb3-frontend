@@ -131,21 +131,33 @@
   },
   "dashboard": {
     "welcome": "Bienvenue",
-    "create": "Ajouter",
-    "my_items": "Mes évenements, endroits et organisateurs",
-    "passed_event": "Événement terminé",
+    "create": {
+      "events": "Ajouter événement",
+      "places": "Ajouter endroit",
+      "organizers": "Ajouter organisateur"
+    },
+    "my_items": "Mes événements, endroits et organisateurs",
+    "no_items": "Aucun(e) {{type}} trouvée.",
+    "passed": "{{type}} terminé",
+    "event": "Événement",
+    "place": "Endroit",
+    "organizer": "Organisateur",
     "not_published": "Pas publié",
     "online_from": "Publié le {{date}}",
     "tabs": {
-      "events": "Événements",
-      "places": "Endroits",
-      "organizers": "Organisateurs"
+      "events": "Mes événements",
+      "places": "Mes endroits",
+      "organizers": "Mes organisateurs"
     },
     "actions": {
       "edit": "Modifier",
       "preview": "Exemple",
       "delete": "Supprimer",
       "cancel": "Annuler"
+    },
+    "newsletter": {
+      "questions_or_feedback": "Questions ou remarques?",
+      "contact": "Contactez-nous"
     },
     "modal": {
       "title": "Supprimer des {{type}}",

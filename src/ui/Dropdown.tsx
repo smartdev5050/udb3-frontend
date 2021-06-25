@@ -9,7 +9,7 @@ import type { Values } from '@/types/Values';
 import type { BoxProps } from '@/ui/Box';
 import { Box, getBoxProps } from '@/ui/Box';
 import { Button, buttonCSS, ButtonVariants } from '@/ui/Button';
-import { Link } from '@/ui/Link';
+import { Link, LinkVariants } from '@/ui/Link';
 import { getValueFromTheme } from '@/ui/theme';
 
 const getValue = getValueFromTheme(`dropdown`);
@@ -51,8 +51,12 @@ const Dropdown = ({ variant, children, ...props }: DropdownProps) => {
     >
       <BootstrapDropdown as={BootstrapButtonGroup}>
         {primaryActionChildren}
-        <BootstrapDropdown.Toggle split variant={variant} css={buttonCSS} />
-        <BootstrapDropdown.Menu>{menuChildren}</BootstrapDropdown.Menu>
+        {menuChildren.length > 0 && (
+          <>
+            <BootstrapDropdown.Toggle split variant={variant} css={buttonCSS} />
+            <BootstrapDropdown.Menu>{menuChildren}</BootstrapDropdown.Menu>
+          </>
+        )}
       </BootstrapDropdown>
     </Box>
   );
@@ -64,11 +68,40 @@ type ItemProps = {
   children: ReactNode;
 };
 
-const Item = ({ href, onClick, children }: ItemProps) => (
-  <BootstrapDropdown.Item href={href} onClick={onClick}>
-    {children}
-  </BootstrapDropdown.Item>
-);
+const Item = ({ href, onClick, children }: ItemProps) => {
+  if (onClick) {
+    return (
+      <BootstrapDropdown.Item
+        as={Button}
+        variant={ButtonVariants.SECONDARY}
+        onClick={onClick}
+      >
+        {children}
+      </BootstrapDropdown.Item>
+    );
+  }
+
+  if (href) {
+    return (
+      <BootstrapDropdown.Item
+        forwardedAs={Link}
+        variant={LinkVariants.BUTTON_SECONDARY}
+        href={href}
+        padding={0}
+        css={`
+          .btn {
+            flex: 1;
+            border: none;
+          }
+        `}
+      >
+        {children}
+      </BootstrapDropdown.Item>
+    );
+  }
+
+  return null;
+};
 
 const Divider = BootstrapDropdown.Divider;
 

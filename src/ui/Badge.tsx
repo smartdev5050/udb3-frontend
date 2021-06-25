@@ -14,7 +14,7 @@ const BadgeVariants = {
 const BaseBadge = (props: BoxProps) => <Text {...props} />;
 
 type Props = BoxProps & {
-  variant: Values<typeof BadgeVariants>;
+  variant?: Values<typeof BadgeVariants>;
 };
 
 const Badge = ({ children, className, variant, ...props }: Props) => {
