@@ -24,8 +24,8 @@ class Cookies extends UniversalCookies {
 }
 
 const getRedirect = (originalPath, environment, cookies) => {
-  return getRedirects(environment).find(
-    ({ source, destination, permanent, featureFlag }) => {
+  return getRedirects(environment)
+    .map(({ source, destination, permanent, featureFlag }) => {
       // Don't follow redirects that are behind a feature flag
       if (featureFlag && !isFeatureFlagEnabledInCookies(featureFlag, cookies)) {
         return false;
@@ -55,8 +55,8 @@ const getRedirect = (originalPath, environment, cookies) => {
         };
       }
       return false;
-    },
-  );
+    })
+    .find((match) => !!match);
 };
 
 const getApplicationServerSideProps = (callbackFn) => async ({
