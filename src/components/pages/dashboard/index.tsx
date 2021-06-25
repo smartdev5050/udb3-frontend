@@ -458,7 +458,7 @@ const Dashboard = (): any => {
           </Tabs>
         </Stack>
         <NewsletterSignupForm />
-        <Footer isLanguageSwitcherVisible={false} />
+        <Footer />
       </Page.Content>
     </Page>,
     <Modal
