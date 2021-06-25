@@ -100,13 +100,17 @@ const getApplicationServerSideProps = (callbackFn) => async ({
   const isDynamicUrl = !!query.params;
   const path = isDynamicUrl ? `/${query.params.join('/')}` : resolvedUrl;
 
+  console.log('START');
   const redirect = getRedirect(
     path,
     publicRuntimeConfig.environment,
     cookies.getAll(),
   );
+  console.log('STOP', { redirect });
 
   if (redirect) {
+    console.log('STOP2', { redirect });
+
     // Don't include the `params` in the redirect URL's query.
     delete query.params;
     const queryParameters = new URLSearchParams(query);
@@ -114,6 +118,7 @@ const getApplicationServerSideProps = (callbackFn) => async ({
     // Return the redirect as-is if there are no additional query parameters
     // to append.
     if (!queryParameters.has('jwt')) {
+      console.log(2, { redirect });
       return { redirect };
     }
 
