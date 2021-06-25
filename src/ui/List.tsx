@@ -13,7 +13,7 @@ const ListVariants = {
 } as const;
 
 type ListProps = StackProps & {
-  variant: Values<typeof ListVariants>;
+  variant?: Values<typeof ListVariants>;
 };
 
 const List = ({ children, className, variant, ...props }: ListProps) => (

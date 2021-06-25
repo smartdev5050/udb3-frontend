@@ -8,6 +8,7 @@ import { useQueryClient } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { css } from 'styled-components';
 
+import { Footer } from '@/components/Footer';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
 import { useDeleteEventById, useGetEventsByCreator } from '@/hooks/api/events';
 import {
@@ -43,6 +44,8 @@ import { getValueFromTheme } from '@/ui/theme';
 import { formatAddressInternal } from '@/utils/formatAddress';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 import { parseOfferId } from '@/utils/parseOfferId';
+
+import { NewsletterSignupForm } from './NewsletterSingupForm';
 
 type TabOptions = 'events' | 'places' | 'organizers';
 
@@ -272,6 +275,8 @@ const TabContent = ({
 }) => {
   const { t } = useTranslation();
 
+  const hasMoreThanOnePage = Math.ceil(totalItems / itemsPerPage) > 1;
+
   if (status === QueryStatus.LOADING) {
     return (
       <Panel
@@ -329,16 +334,18 @@ const TabContent = ({
           </List.Item>
         ))}
       </List>
-      <Panel.Footer>
-        <Pagination
-          currentPage={page}
-          totalItems={totalItems}
-          perPage={itemsPerPage}
-          prevText={t('pagination.previous')}
-          nextText={t('pagination.next')}
-          onChangePage={onChangePage}
-        />
-      </Panel.Footer>
+      {hasMoreThanOnePage && (
+        <Panel.Footer>
+          <Pagination
+            currentPage={page}
+            totalItems={totalItems}
+            perPage={itemsPerPage}
+            prevText={t('pagination.previous')}
+            nextText={t('pagination.next')}
+            onChangePage={onChangePage}
+          />
+        </Panel.Footer>
+      )}
     </Panel>
   );
 };
@@ -423,32 +430,35 @@ const Dashboard = (): any => {
         </Link>
       </Page.Actions>
       <Page.Content spacing={5}>
-        <Text>{t('dashboard.my_items')}</Text>
-
-        <Tabs<TabOptions>
-          activeKey={tab}
-          onSelect={handleSelectTab}
-          activeBackgroundColor="white"
-        >
-          <Tabs.Tab eventKey="events" title={t('dashboard.tabs.events')}>
-            {tab === 'events' && (
-              <TabContent {...sharedTableContentProps} Row={EventRow} />
-            )}
-          </Tabs.Tab>
-          <Tabs.Tab eventKey="places" title={t('dashboard.tabs.places')}>
-            {tab === 'places' && (
-              <TabContent {...sharedTableContentProps} Row={PlaceRow} />
-            )}
-          </Tabs.Tab>
-          <Tabs.Tab
-            eventKey="organizers"
-            title={t('dashboard.tabs.organizers')}
+        <Stack spacing={4}>
+          <Text>{t('dashboard.my_items')}</Text>
+          <Tabs<TabOptions>
+            activeKey={tab}
+            onSelect={handleSelectTab}
+            activeBackgroundColor="white"
           >
-            {tab === 'organizers' && (
-              <TabContent {...sharedTableContentProps} Row={OrganizerRow} />
-            )}
-          </Tabs.Tab>
-        </Tabs>
+            <Tabs.Tab eventKey="events" title={t('dashboard.tabs.events')}>
+              {tab === 'events' && (
+                <TabContent {...sharedTableContentProps} Row={EventRow} />
+              )}
+            </Tabs.Tab>
+            <Tabs.Tab eventKey="places" title={t('dashboard.tabs.places')}>
+              {tab === 'places' && (
+                <TabContent {...sharedTableContentProps} Row={PlaceRow} />
+              )}
+            </Tabs.Tab>
+            <Tabs.Tab
+              eventKey="organizers"
+              title={t('dashboard.tabs.organizers')}
+            >
+              {tab === 'organizers' && (
+                <TabContent {...sharedTableContentProps} Row={OrganizerRow} />
+              )}
+            </Tabs.Tab>
+          </Tabs>
+        </Stack>
+        <NewsletterSignupForm />
+        <Footer isLanguageSwitcherVisible={false} />
       </Page.Content>
     </Page>,
     <Modal
