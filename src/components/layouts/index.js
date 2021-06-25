@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/react';
+import * as Sentry from '@sentry/nextjs';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
@@ -13,9 +13,8 @@ import {
 } from '@/hooks/useHandleWindowMessage';
 import { Inline } from '@/ui/Inline';
 import { isTokenValid } from '@/utils/isTokenValid';
-import { setSentryUser } from '@/utils/sentry';
 
-import { ErrorFallback } from './ErrorFallback';
+import { ErrorBoundary } from './ErrorBoundary';
 import { Sidebar } from './Sidebar';
 
 const useChangeLanguage = () => {
@@ -53,7 +52,7 @@ const useHandleAuthentication = () => {
   useEffect(() => {
     if (!getUserQuery.data) return;
     setCookie('user', getUserQuery.data);
-    setSentryUser({ id: getUserQuery.data.id });
+    Sentry.setUser({ id: getUserQuery.data.id });
   }, [getUserQuery.data]);
 
   // redirect when there is no token or user cookie
@@ -66,6 +65,7 @@ const useHandleAuthentication = () => {
       const cookies = new Cookies();
       if (!isTokenValid(cookies.get('token')) || !cookies.get('user')) {
         cookies.remove('user');
+        Sentry.setUser(null);
         cookies.remove('token');
         router.push('/login');
       }
@@ -133,12 +133,9 @@ const LayoutWrapper = ({ children }) => {
   }
 
   return (
-    // eslint-disable-next-line node/handle-callback-err
-    <Sentry.ErrorBoundary
-      fallback={({ error }) => <ErrorFallback error={error} />}
-    >
+    <ErrorBoundary>
       <Layout>{children}</Layout>
-    </Sentry.ErrorBoundary>
+    </ErrorBoundary>
   );
 };
 

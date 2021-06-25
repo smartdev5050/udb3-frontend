@@ -1,4 +1,6 @@
+import * as Sentry from '@sentry/nextjs';
 import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 
 import { Icon, Icons } from '@/ui/Icon';
@@ -21,6 +23,11 @@ const MailToSupportLink = () => {
 
 const ErrorFallback = ({ error }) => {
   const { t } = useTranslation();
+  useEffect(() => {
+    if (error) {
+      Sentry.captureException(error);
+    }
+  }, [error]);
 
   return (
     <Stack
