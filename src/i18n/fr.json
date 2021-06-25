@@ -134,7 +134,7 @@
     "create": {
       "events": "Ajouter événement",
       "places": "Ajouter endroit",
-      "organizers": "Ajouter organisateurs"
+      "organizers": "Ajouter organisateur"
     },
     "my_items": "Mes événements, endroits et organisateurs",
     "no_items": "Aucun(e) {{type}} trouvée.",
