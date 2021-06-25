@@ -73,6 +73,12 @@ const UseDeleteItemByIdMap = {
   organizers: useDeleteOrganizerById,
 } as const;
 
+const CreateMap = {
+  events: '/create',
+  places: '/create',
+  organizers: '/organizer',
+};
+
 type RowProps = {
   title: string;
   description: string;
@@ -300,7 +306,7 @@ const TabContent = ({
       >
         <Text margin={3} maxWidth="36rem">
           {t('dashboard.no_items', {
-            type: t(`dashboard.${PluralToSingularTab[tab]}`),
+            type: t(`dashboard.${PluralToSingularTab[tab]}`).toLowerCase(),
           })}
         </Text>
       </Panel>
@@ -424,14 +430,17 @@ const Dashboard = (): any => {
       <Page.Title>
         {t('dashboard.welcome')}, {user?.username}
       </Page.Title>
-      <Page.Actions>
-        <Link href="/create" css="text-transform: lowercase;">
-          {t('dashboard.create')}
-        </Link>
-      </Page.Actions>
       <Page.Content spacing={5}>
-        <Stack spacing={4}>
-          <Text>{t('dashboard.my_items')}</Text>
+        <Stack spacing={4} position="relative">
+          <Link
+            href={CreateMap[tab]}
+            variant={LinkVariants.BUTTON_PRIMARY}
+            position="absolute"
+            right={0}
+            top={0}
+          >
+            {t(`dashboard.create.${tab}`)}
+          </Link>
           <Tabs<TabOptions>
             activeKey={tab}
             onSelect={handleSelectTab}
