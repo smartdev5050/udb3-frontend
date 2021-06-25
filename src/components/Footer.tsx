@@ -1,6 +1,7 @@
 import type { ElementType } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import { Box } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Image } from '@/ui/Image';
@@ -39,16 +40,17 @@ const FooterLink = (props) => (
 type Props = {
   wrapper?: ElementType;
   onChangeLanguage?: (language: string) => () => Promise<boolean>;
-  isLanguageSwitcherVisible?: boolean;
 };
 
-const Footer = ({
-  wrapper: Wrapper,
-  onChangeLanguage,
-  isLanguageSwitcherVisible,
-  ...props
-}: Props) => {
+const Footer = ({ wrapper: Wrapper, onChangeLanguage, ...props }: Props) => {
   const { t, i18n } = useTranslation();
+  const { setCookie } = useCookiesWithOptions(['udb-language']);
+
+  const defaultHandleChangeLanguage = (language) => () => {
+    setCookie('udb-language', language);
+  };
+
+  const handleChangeLanguage = onChangeLanguage ?? defaultHandleChangeLanguage;
 
   return (
     <Wrapper {...props}>
@@ -100,27 +102,23 @@ const Footer = ({
           src={`/assets/${t('main.flanders_image')}`}
           width={150}
         />
-        {isLanguageSwitcherVisible && onChangeLanguage && (
-          <Inline>
-            <LanguageSwitcherButton onClick={onChangeLanguage('nl')}>
-              Nederlands
-            </LanguageSwitcherButton>
-            <LanguageSwitcherButton
-              variant={ButtonVariants.UNSTYLED}
-              onClick={onChangeLanguage('fr')}
-            >
-              Français
-            </LanguageSwitcherButton>
-          </Inline>
-        )}
+        <Inline>
+          <LanguageSwitcherButton onClick={handleChangeLanguage('nl')}>
+            Nederlands
+          </LanguageSwitcherButton>
+          <LanguageSwitcherButton
+            variant={ButtonVariants.UNSTYLED}
+            onClick={handleChangeLanguage('fr')}
+          >
+            Français
+          </LanguageSwitcherButton>
+        </Inline>
       </Stack>
     </Wrapper>
   );
 };
 
 Footer.defaultProps = {
-  isLogoVisible: true,
-  isLanguageSwitcherVisible: true,
   wrapper: (props) => (
     <Inline width="100%" justifyContent="space-between" {...props} />
   ),
