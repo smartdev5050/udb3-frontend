@@ -131,7 +131,11 @@
   },
   "dashboard": {
     "welcome": "Bienvenue",
-    "create": "Ajouter",
+    "create": {
+      "events": "Ajouter évenement",
+      "places": "Ajouter endroit",
+      "organizers": "Ajouter organisateurs"
+    },
     "my_items": "Mes évenements, endroits et organisateurs",
     "no_items": "Aucun(e) {{type}} trouvée.",
     "passed": "{{type}} terminé",
