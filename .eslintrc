@@ -4,6 +4,7 @@
     "standard",
     "standard-jsx",
     "standard-react",
+    "next",
     "prettier",
     "prettier/react",
     "prettier/@typescript-eslint"
