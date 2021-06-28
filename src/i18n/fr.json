@@ -133,8 +133,8 @@
     "welcome": "Bienvenue",
     "create": {
       "events": "Ajouter événement",
-      "places": "Ajouter endroit",
-      "organizers": "Ajouter organisateur"
+      "places": "Ajouter lieu",
+      "organizers": "Ajouter organisation"
     },
     "my_items": "Mes événements, endroits et organisateurs",
     "no_items": "Aucun(e) {{type}} trouvée.",
@@ -146,8 +146,8 @@
     "online_from": "Publié le {{date}}",
     "tabs": {
       "events": "Mes événements",
-      "places": "Mes endroits",
-      "organizers": "Mes organisateurs"
+      "places": "Mes lieux",
+      "organizers": "Mes organisations"
     },
     "actions": {
       "edit": "Modifier",

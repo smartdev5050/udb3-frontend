@@ -463,7 +463,7 @@ const Dashboard = (): any => {
             </Tabs.Tab>
           </Tabs>
         </Stack>
-        <NewsletterSignupForm />
+        {i18n.language === 'nl' && <NewsletterSignupForm />}
         <Footer />
       </Page.Content>
     </Page>,
