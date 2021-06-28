@@ -135,10 +135,9 @@
     "welcome": "Welkom",
     "create": {
       "events": "Evenement toevoegen",
-      "places": "Plaats toevoegen",
-      "organizers": "Organisator toevoegen"
+      "places": "Locatie toevoegen",
+      "organizers": "Organisatie toevoegen"
     },
-    "my_items": "Mijn evenementen, plaatsen en organisatoren",
     "no_items": "Geen {{type}} gevonden.",
     "passed": "Afgelopen {{type}}",
     "event": "evenement",
@@ -148,8 +147,8 @@
     "online_from": "Online vanaf {{date}}",
     "tabs": {
       "events": "Mijn evenementen",
-      "places": "Mijn plaatsen",
-      "organizers": "Mijn organisatoren"
+      "places": "Mijn locaties",
+      "organizers": "Mijn organisaties"
     },
     "actions": {
       "edit": "Bewerken",
