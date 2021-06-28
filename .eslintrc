@@ -17,6 +17,7 @@
     "no-console": "warn",
     "react/display-name": "warn",
     "react-hooks/rules-of-hooks": "warn",
+    "@typescript-eslint/triple-slash-reference": "off",
     "@typescript-eslint/strict-boolean-expressions": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/consistent-type-definitions": "off",
