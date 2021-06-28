@@ -4,6 +4,7 @@
     "standard",
     "standard-jsx",
     "standard-react",
+    "next",
     "prettier",
     "prettier/react",
     "prettier/@typescript-eslint"
@@ -14,6 +15,9 @@
     "react/prop-types": "off",
     "unicorn/no-abusive-eslint-disable": "error",
     "no-console": "warn",
+    "react/display-name": "warn",
+    "react-hooks/rules-of-hooks": "warn",
+    "@typescript-eslint/triple-slash-reference": "off",
     "@typescript-eslint/strict-boolean-expressions": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/consistent-type-definitions": "off",
