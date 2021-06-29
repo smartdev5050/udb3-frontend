@@ -104,7 +104,7 @@
     "newStatus": "Nouveau statut",
     "changeStatus": "Modifier le statut",
     "reason": "Raison",
-    "reasonTip": "Vous pouvez éventuellement indiquer un motif de changement de statut. Le motif sera publié en même temps que le nouveau statut sur UiT.be et les autres calendriers de UiT.",
+    "reasonTip": "Vous pouvez éventuellement indiquer un motif de changement de statut. Le motif sera publié en même temps que le nouveau statut sur UiTinVlaanderen et les autres calendriers de UiT.",
     "status": {
       "event": {
         "available": "A lieu",
@@ -116,9 +116,9 @@
       "place": {
         "available": "Ouvert",
         "temporarilyUnavailable": "Fermé temporairement",
-        "temporarilyUnavailableInfo": "Votre lieu ne sera temporairement plus publiée sur UiT.be et les autres calendriers de UiT. Lorsque votre lieu rouvre, vous pouvez en modifier le statut pour qu'il redevienne 'ouvert'.",
+        "temporarilyUnavailableInfo": "Votre lieu ne sera temporairement plus publiée sur UiTinVlaanderen et les autres calendriers de UiT. Lorsque votre lieu rouvre, vous pouvez en modifier le statut pour qu'il redevienne 'ouvert'.",
         "unavailable": "Fermé définitivement",
-        "unavailableInfo": "Votre lieu ne sera plus publiée sur UiT.be et les autres calendriers de UiT."
+        "unavailableInfo": "Votre lieu ne sera plus publiée sur UiTinVlaanderen et les autres calendriers de UiT."
       }
     },
     "dateToBeDefined": "Nouvelle date encore à définir",

@@ -106,7 +106,7 @@
     "newStatus": "Nieuwe status",
     "changeStatus": "Status wijzigen",
     "reason": "Reden",
-    "reasonTip": "Je kan optioneel een reden voor de statuswijziging opgeven. De reden wordt samen met de nieuwe status gepubliceerd op UiT.be en andere UiT-kanalen.",
+    "reasonTip": "Je kan optioneel een reden voor de statuswijziging opgeven. De reden wordt samen met de nieuwe status gepubliceerd op UiTinVlaanderen en andere UiT-kanalen.",
     "status": {
       "event": {
         "available": "Gaat door",
@@ -118,9 +118,9 @@
       "place": {
         "available": "Open",
         "temporarilyUnavailable": "Tijdelijk gesloten",
-        "temporarilyUnavailableInfo": "Je locatie zal tijdelijk niet meer gepubliceerd worden op UiT.be en andere UiT-kanalen. Wanneer je locatie terug open gaat, kan je de status opnieuw wijzigen naar 'open'.",
+        "temporarilyUnavailableInfo": "Je locatie zal tijdelijk niet meer gepubliceerd worden op UiTinVlaanderen en andere UiT-kanalen. Wanneer je locatie terug open gaat, kan je de status opnieuw wijzigen naar 'open'.",
         "unavailable": "Permanent gesloten",
-        "unavailableInfo": "Je locatie zal niet meer gepubliceerd worden op UiT.be en andere UiT-kanalen."
+        "unavailableInfo": "Je locatie zal niet meer gepubliceerd worden op UiTinVlaanderen en andere UiT-kanalen."
       }
     },
     "dateToBeDefined": "Nieuwe datum nog te bepalen",
