@@ -38,7 +38,9 @@ const Breakpoints = {
 const base = 0;
 const above = 1;
 
-const zIndexSidebar = above + base;
+const zIndexPaginationPageLink = above + base;
+
+const zIndexSidebar = above + zIndexPaginationPageLink;
 const zIndexJobLogger = zIndexSidebar;
 
 const zIndexModalBackdrop = above + zIndexSidebar;
@@ -126,6 +128,9 @@ const theme = {
       focusBoxShadow: 'none',
       paddingX: '0.84rem',
       paddingY: '0.44rem',
+      pageLink: {
+        zIndex: zIndexPaginationPageLink,
+      },
     },
     typeahead: {
       active: {

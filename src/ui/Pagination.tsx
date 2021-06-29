@@ -79,6 +79,7 @@ const Pagination = ({
           background-color: ${getValue('activeBackgroundColor')};
           color: ${getValue('activeColor')};
           border-color: ${getValue('activeBorderColor')};
+          z-index: ${getValue('zIndex')};
         }
 
         .prev-btn {
