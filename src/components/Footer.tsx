@@ -38,11 +38,17 @@ const FooterLink = (props) => (
 );
 
 type Props = {
+  isProfileLinkVisible: boolean;
   wrapper?: ElementType;
   onChangeLanguage?: (language: string) => () => Promise<boolean>;
 };
 
-const Footer = ({ wrapper: Wrapper, onChangeLanguage, ...props }: Props) => {
+const Footer = ({
+  wrapper: Wrapper,
+  onChangeLanguage,
+  isProfileLinkVisible,
+  ...props
+}: Props) => {
   const { t, i18n } = useTranslation();
   const { setCookie } = useCookiesWithOptions(['udb-language']);
 
@@ -85,6 +91,15 @@ const Footer = ({ wrapper: Wrapper, onChangeLanguage, ...props }: Props) => {
               </FooterLink>
             </Inline>
           </List.Item>
+          {isProfileLinkVisible && (
+            <List.Item>
+              <FooterLink
+                href={`https://profile.uitid.be/${i18n.language}/profile`}
+              >
+                {t('footer.profile')}
+              </FooterLink>
+            </List.Item>
+          )}
         </List>
       </Stack>
 
@@ -119,6 +134,7 @@ const Footer = ({ wrapper: Wrapper, onChangeLanguage, ...props }: Props) => {
 };
 
 Footer.defaultProps = {
+  isProfileLinkVisible: true,
   wrapper: (props) => (
     <Inline width="100%" justifyContent="space-between" {...props} />
   ),
