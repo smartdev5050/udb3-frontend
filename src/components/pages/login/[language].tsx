@@ -472,6 +472,7 @@ const Index = () => {
 
       <Inline width="100%" backgroundColor="#ccc" justifyContent="center">
         <Footer
+          isProfileLinkVisible={false}
           onChangeLanguage={handleChangeLanguage}
           wrapper={(props) => (
             <ResponsiveContainer
