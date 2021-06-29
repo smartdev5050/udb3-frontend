@@ -93,7 +93,7 @@ const Footer = ({ wrapper: Wrapper, onChangeLanguage, ...props }: Props) => {
         alignItems={{ default: 'flex-end', xs: 'center' }}
         justifyContent="flex-start"
       >
-        <Inline as="p" spacing={2} className="footer-by">
+        <Inline as="p" spacing={2} color="#555">
           <Box as="span">{t('footer.by')}</Box>
           <FooterLink href="http://www.publiq.be">publiq vzw</FooterLink>
         </Inline>
