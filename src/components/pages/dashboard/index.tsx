@@ -200,7 +200,10 @@ const PlaceRow = ({ item: place, onDelete, ...props }: PlaceRowProps) => {
   // The custom keySeparator was necessary because the ids contain '.' which i18n uses as default keySeparator
   const placeType = t(`offerTypes*${typeId}`, { keySeparator: '*' });
 
-  const period = place.calendarSummary[i18n.language]?.text?.md;
+  const period =
+    place.calendarSummary[i18n.language]?.text?.[
+      place.calendarType === 'single' ? 'lg' : 'md'
+    ];
 
   return (
     <Row
