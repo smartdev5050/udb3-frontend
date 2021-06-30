@@ -7,6 +7,7 @@ import type { QueryClient, UseQueryResult } from 'react-query';
 import { useMutation, useQueries, useQuery } from 'react-query';
 
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
+import type { CalendarSummaryFormat } from '@/utils/createEmbededCalendarSummaries';
 import type { FetchError } from '@/utils/fetchFromApi';
 import { isTokenValid } from '@/utils/isTokenValid';
 
@@ -31,6 +32,10 @@ type SortOptions = {
     field: string;
     order: string;
   };
+};
+
+type CalendarSummaryFormats = {
+  calendarSummaryFormats?: CalendarSummaryFormat[];
 };
 
 const QueryStatus = {
@@ -303,6 +308,7 @@ export {
 
 export type {
   AuthenticatedQueryOptions,
+  CalendarSummaryFormats,
   PaginationOptions,
   ServerSideQueryOptions,
   SortOptions,
