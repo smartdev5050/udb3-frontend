@@ -1,5 +1,5 @@
 type TextFormat = 'xs-text' | 'sm-text' | 'md-text' | 'lg-text';
-type HtmlFormat = 'xs-hmtl' | 'sm-html' | 'md-html' | 'lg-html';
+type HtmlFormat = 'xs-html' | 'sm-html' | 'md-html' | 'lg-html';
 type Format = TextFormat | HtmlFormat;
 
 type CalendarSummaries = {
