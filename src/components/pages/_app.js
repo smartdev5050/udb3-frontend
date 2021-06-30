@@ -77,13 +77,6 @@ const Head = () => {
         name="viewport"
         content="initial-scale=1.0, width=device-width"
       />
-      <link
-        key="icon"
-        rel="icon"
-        type="image/png"
-        sizes="32x32"
-        href="/favicon.png"
-      />
       <title key="title">UiTdatabank</title>
       <meta name="description" content={t('description')} />
     </NextHead>
