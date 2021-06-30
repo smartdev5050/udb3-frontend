@@ -8,9 +8,9 @@ type CalendarSummaries = {
 
 const createEmbededCalendarSummaries = (formats: Format[]): CalendarSummaries =>
   formats.reduce(
-    (accumulator, currentValue, currentIndex) => ({
+    (accumulator, currentFormat, currentIndex) => ({
       ...accumulator,
-      [`embedCalendarSummaries[${currentIndex}]`]: currentValue,
+      [`embedCalendarSummaries[${currentIndex}]`]: currentFormat,
     }),
     {},
   );
