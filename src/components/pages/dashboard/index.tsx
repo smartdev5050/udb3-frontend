@@ -143,7 +143,10 @@ const EventRow = ({ item: event, onDelete, ...props }: EventRowProps) => {
   // The custom keySeparator was necessary because the ids contain '.' which i18n uses as default keySeparator
   const eventType = t(`offerTypes*${typeId}`, { keySeparator: '*' });
 
-  const period = event.calendarSummary[i18n.language]?.text?.md;
+  const period =
+    event.calendarSummary[i18n.language]?.text?.[
+      event.calendarType === 'single' ? 'lg' : 'md'
+    ];
 
   return (
     <Row
