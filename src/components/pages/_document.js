@@ -42,7 +42,7 @@ class Document extends NextDocument {
           {/* eslint-disable-next-line @next/next/no-page-custom-font */}
           <link
             key="fonts"
-            href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,300,400,700&display=optional"
+            href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=optional"
             rel="stylesheet"
           />
           <link
