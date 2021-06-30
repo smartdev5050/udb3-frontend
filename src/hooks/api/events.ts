@@ -2,12 +2,14 @@ import type { UseQueryOptions } from 'react-query';
 
 import type { Event } from '@/types/Event';
 import type { User } from '@/types/User';
+import { createEmbededCalendarSummaries } from '@/utils/createEmbededCalendarSummaries';
 import { createSortingArgument } from '@/utils/createSortingArgument';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 import { formatDate } from '@/utils/formatDate';
 
 import type {
   AuthenticatedQueryOptions,
+  CalendarSummaryFormats,
   PaginationOptions,
   SortOptions,
 } from './authenticated-query';
@@ -123,9 +125,11 @@ const useGetEventsByCreator = (
     creator,
     paginationOptions = { start: 0, limit: 50 },
     sortOptions = { field: 'modified', order: 'desc' },
+    calendarSummaryFormats = ['lg-text', 'md-text'],
   }: AuthenticatedQueryOptions<
     PaginationOptions &
-      SortOptions & {
+      SortOptions &
+      CalendarSummaryFormats & {
         creator: User;
       }
   >,
@@ -144,7 +148,7 @@ const useGetEventsByCreator = (
       start: paginationOptions.start,
       workflowStatus: 'DRAFT,READY_FOR_VALIDATION,APPROVED,REJECTED',
       ...createSortingArgument(sortOptions),
-      embedCalendarSummaries: 'md-text',
+      ...createEmbededCalendarSummaries(calendarSummaryFormats),
     },
     enabled: !!(creator.id && creator.email),
     ...configuration,

@@ -5,11 +5,13 @@ import type { SupportedLanguage } from '@/i18n/index';
 import type { Place } from '@/types/Place';
 import type { User } from '@/types/User';
 import type { Values } from '@/types/Values';
+import { createEmbededCalendarSummaries } from '@/utils/createEmbededCalendarSummaries';
 import { createSortingArgument } from '@/utils/createSortingArgument';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 
 import type {
   AuthenticatedQueryOptions,
+  CalendarSummaryFormats,
   PaginationOptions,
   SortOptions,
 } from './authenticated-query';
@@ -71,9 +73,11 @@ const useGetPlacesByCreator = (
     creator,
     paginationOptions = { start: 0, limit: 50 },
     sortOptions = { field: 'modified', order: 'desc' },
+    calendarSummaryFormats = ['lg-text', 'md-text'],
   }: AuthenticatedQueryOptions<
     PaginationOptions &
-      SortOptions & {
+      SortOptions &
+      CalendarSummaryFormats & {
         creator: User;
       }
   >,
@@ -92,7 +96,7 @@ const useGetPlacesByCreator = (
       start: paginationOptions.start,
       workflowStatus: 'DRAFT,READY_FOR_VALIDATION,APPROVED,REJECTED',
       ...createSortingArgument(sortOptions),
-      embedCalendarSummaries: 'md-text',
+      ...createEmbededCalendarSummaries(calendarSummaryFormats),
     },
     enabled: !!(creator.id && creator.email),
     ...configuration,
