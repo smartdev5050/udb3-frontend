@@ -125,7 +125,7 @@ const useGetEventsByCreator = (
     creator,
     paginationOptions = { start: 0, limit: 50 },
     sortOptions = { field: 'modified', order: 'desc' },
-    calendarSummaryFormats = ['lg-text', 'md-text'],
+    calendarSummaryFormats = ['lg-text', 'sm-text'],
   }: AuthenticatedQueryOptions<
     PaginationOptions &
       SortOptions &
