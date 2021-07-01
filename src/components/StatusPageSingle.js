@@ -88,7 +88,7 @@ const StatusPageSingle = ({ offer, error, useChangeStatus }) => {
                       type,
                       reason: {
                         ...(offer.status.type === type && offer.status.reason),
-                        ...(reason.length > 0 && { [i18n.language]: reason }),
+                        [i18n.language]: reason || undefined,
                       },
                     });
                   }
