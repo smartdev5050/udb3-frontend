@@ -9,6 +9,7 @@ import { dehydrate } from 'react-query/hydration';
 import { css } from 'styled-components';
 
 import { Footer } from '@/components/Footer';
+import { CalendarType } from '@/constants/CalendarType';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
 import { useDeleteEventById, useGetEventsByCreator } from '@/hooks/api/events';
 import {
@@ -145,7 +146,7 @@ const EventRow = ({ item: event, onDelete, ...props }: EventRowProps) => {
 
   const period =
     event.calendarSummary[i18n.language]?.text?.[
-      event.calendarType === 'single' ? 'lg' : 'md'
+      event.calendarType === CalendarType.SINGLE ? 'lg' : 'sm'
     ];
 
   return (
@@ -202,7 +203,7 @@ const PlaceRow = ({ item: place, onDelete, ...props }: PlaceRowProps) => {
 
   const period =
     place.calendarSummary[i18n.language]?.text?.[
-      place.calendarType === 'single' ? 'lg' : 'md'
+      place.calendarType === CalendarType.SINGLE ? 'lg' : 'sm'
     ];
 
   return (
