@@ -230,6 +230,7 @@ const Create = () => {
                     )
                     .filter((productionName) => productionName !== undefined)}
                   groupLabel={t('productions.create.production_name')}
+                  selected={selectedProductionId}
                   onChange={(e) => {
                     setSelectedProductionId(e.target.value.toString());
                   }}
