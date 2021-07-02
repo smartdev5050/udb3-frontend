@@ -5,6 +5,7 @@ import { Link } from '@/ui/Link';
 import { Stack } from '@/ui/Stack';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
+import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
 const getValue = getValueFromTheme('pageNotFound');
 
@@ -34,5 +35,7 @@ const PageNotFound = () => {
     </Stack>
   );
 };
+
+export const getServerSideProps = getApplicationServerSideProps();
 
 export default PageNotFound;
