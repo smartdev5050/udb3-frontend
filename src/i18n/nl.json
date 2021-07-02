@@ -139,11 +139,15 @@
       "places": "Locatie toevoegen",
       "organizers": "Organisatie toevoegen"
     },
-    "no_items": "Geen {{type}} gevonden.",
+    "no_items": {
+      "events": "Geen evenementen gevonden",
+      "places": "Geen locaties gevonden",
+      "organizers": "Geen organisaties gevonden"
+    },
     "passed": "Afgelopen {{type}}",
     "event": "evenement",
-    "place": "plaats",
-    "organizer": "organisator",
+    "place": "locatie",
+    "organizer": "organisatie",
     "not_published": "Niet gepubliceerd",
     "online_from": "Online vanaf {{date}}",
     "tabs": {

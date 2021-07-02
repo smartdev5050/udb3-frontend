@@ -138,10 +138,14 @@
       "organizers": "Ajouter organisation"
     },
     "my_items": "Mes événements, endroits et organisateurs",
-    "no_items": "Aucun(e) {{type}} trouvée.",
+    "no_items": {
+      "events": "Aucun événement trouvée.",
+      "places": "Aucun lieu trouvé.",
+      "organizers": "Aucune organisation trouvée."
+    },
     "passed": "{{type}} terminé",
     "event": "Événement",
-    "place": "Endroit",
+    "place": "Lieu",
     "organizer": "Organisateur",
     "not_published": "Pas publié",
     "online_from": "Publié le {{date}}",
