@@ -56,12 +56,6 @@ const getValue = getValueFromTheme('dashboardPage');
 
 const itemsPerPage = 14;
 
-const PluralToSingularTab = {
-  events: 'event',
-  places: 'place',
-  organizers: 'organizer',
-};
-
 const UseGetItemsByCreatorMap = {
   events: useGetEventsByCreator,
   places: useGetPlacesByCreator,
