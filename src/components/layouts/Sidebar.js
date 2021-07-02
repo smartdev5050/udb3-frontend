@@ -238,9 +238,6 @@ const Sidebar = () => {
   const [isReactCreateFeatureFlagEnabled] = useFeatureFlag(
     FeatureFlags.REACT_CREATE,
   );
-  const [isReactDashboardFeatureFlagEnabled] = useFeatureFlag(
-    FeatureFlags.REACT_DASHBOARD,
-  );
 
   const { cookies, setCookie } = useCookiesWithOptions([
     'seenAnnouncements',
@@ -361,9 +358,7 @@ const Sidebar = () => {
 
   const userMenu = [
     {
-      href: isReactDashboardFeatureFlagEnabled
-        ? '/dashboard?tab=events&page=1'
-        : '/dashboard',
+      href: '/dashboard?tab=events&page=1',
       iconName: Icons.HOME,
       children: t('menu.home'),
     },

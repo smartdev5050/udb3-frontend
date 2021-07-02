@@ -3,7 +3,6 @@ import type { Values } from '@/types/Values';
 import { useCookiesWithOptions } from './useCookiesWithOptions';
 
 const FeatureFlags = {
-  REACT_DASHBOARD: 'react_dashboard',
   REACT_CREATE: 'react_create',
 } as const;
 
