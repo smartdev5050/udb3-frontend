@@ -63,6 +63,8 @@ const Typeahead = forwardRef(
   },
 );
 
+Typeahead.displayName = 'Typeahead';
+
 const typeaheadPropTypes = {
   id: PropTypes.string.isRequired,
   options: PropTypes.array,

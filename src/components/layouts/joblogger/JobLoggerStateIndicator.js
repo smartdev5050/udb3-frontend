@@ -199,6 +199,8 @@ const JobLoggerStateIndicator = memo(({ state }) => {
   return <Icon />;
 });
 
+JobLoggerStateIndicator.displayName = 'JobLoggerStateIndicator';
+
 JobLoggerStateIndicator.propTypes = {
   state: PropTypes.oneOf(Object.values(JobLoggerStates)),
 };

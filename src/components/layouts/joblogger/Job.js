@@ -60,6 +60,8 @@ const StatusIcon = memo(({ state }) => {
   );
 });
 
+StatusIcon.displayName = 'StatusIcon';
+
 StatusIcon.propTypes = {
   state: PropTypes.oneOf(Object.values(JobStates)),
 };

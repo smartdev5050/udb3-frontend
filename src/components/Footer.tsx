@@ -133,11 +133,13 @@ const Footer = ({
   );
 };
 
+const Wrapper = (props) => (
+  <Inline width="100%" justifyContent="space-between" {...props} />
+);
+
 Footer.defaultProps = {
   isProfileLinkVisible: true,
-  wrapper: (props) => (
-    <Inline width="100%" justifyContent="space-between" {...props} />
-  ),
+  wrapper: Wrapper,
 };
 
 export { Footer };

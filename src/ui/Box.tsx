@@ -407,6 +407,8 @@ const Box = forwardRef<HTMLElement, BoxProps>(({ children, ...props }, ref) => (
   </StyledBox>
 ));
 
+Box.displayName = 'Box';
+
 Box.defaultProps = {
   as: 'div',
 };

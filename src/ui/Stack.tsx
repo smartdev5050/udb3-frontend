@@ -53,6 +53,8 @@ const Stack = forwardRef<HTMLElement, Props>(
   },
 );
 
+Stack.displayName = 'Stack';
+
 const stackPropTypes = ['spacing', 'alignItems', 'justifyContent'];
 
 const getStackProps = (props: UnknownProps) =>

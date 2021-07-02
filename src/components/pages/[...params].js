@@ -20,6 +20,8 @@ const IFrame = memo(({ url }) => (
   <Box as="iframe" src={url} width="100%" height="100vh" flex={1} />
 ));
 
+IFrame.displayName = 'IFrame';
+
 IFrame.propTypes = {
   url: PropTypes.string,
 };

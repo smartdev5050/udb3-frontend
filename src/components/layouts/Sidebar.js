@@ -77,6 +77,8 @@ const MenuItem = memo(
   },
 );
 
+MenuItem.displayName = 'MenuItem';
+
 MenuItem.propTypes = {
   href: PropTypes.string,
   iconName: PropTypes.string,
@@ -94,6 +96,8 @@ const Menu = memo(({ items = [], title, ...props }) => {
       ))}
     </List>
   );
+
+  Menu.displayName = 'Menu';
 
   if (!title) return <Content {...props} />;
 
