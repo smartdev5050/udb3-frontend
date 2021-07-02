@@ -56,12 +56,6 @@ const getValue = getValueFromTheme('dashboardPage');
 
 const itemsPerPage = 14;
 
-const PluralToSingularTab = {
-  events: 'event',
-  places: 'place',
-  organizers: 'organizer',
-};
-
 const UseGetItemsByCreatorMap = {
   events: useGetEventsByCreator,
   places: useGetPlacesByCreator,
@@ -309,9 +303,7 @@ const TabContent = ({
         backgroundColor="white"
       >
         <Text margin={3} maxWidth="36rem">
-          {t('dashboard.no_items', {
-            type: t(`dashboard.${PluralToSingularTab[tab]}`).toLowerCase(),
-          })}
+          {t(`dashboard.no_items.${tab}`)}
         </Text>
       </Panel>
     );
