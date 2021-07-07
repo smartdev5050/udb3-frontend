@@ -96,6 +96,11 @@
       "where": "Où"
     }
   },
+  "movies": {
+    "create": {
+      "title": "Ajouter des films"
+    }
+  },
   "offerStatus": {
     "title": "Statut pour {{name}}",
     "info": "Sélectionnez les périodes pour lesquels vous souhaitez modifier le statut",

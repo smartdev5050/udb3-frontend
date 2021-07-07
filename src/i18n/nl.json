@@ -98,6 +98,11 @@
       "where": "Waar"
     }
   },
+  "movies": {
+    "create": {
+      "title": "Films toevoegen"
+    }
+  },
   "offerStatus": {
     "title": "Status voor {{name}}",
     "info": "Selecteer de tijdstippen waarvoor je de status wilt aanpassen",
