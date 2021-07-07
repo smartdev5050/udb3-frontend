@@ -24,6 +24,7 @@ import {
   faTrash,
   faUser,
   faUsers,
+  faVideo,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -58,6 +59,7 @@ const Icons = {
   BINOCULARS: 'binoculars',
   EXCLAMATION_TRIANGLE: 'exclamationTriangle',
   PENCIL: 'pencilAlt',
+  VIDEO: 'video',
 } as const;
 
 const IconsMap = {
@@ -86,6 +88,7 @@ const IconsMap = {
   [Icons.BINOCULARS]: faBinoculars,
   [Icons.EXCLAMATION_TRIANGLE]: faExclamationTriangle,
   [Icons.PENCIL]: faPencilAlt,
+  [Icons.VIDEO]: faVideo,
 };
 
 type Props = Omit<BoxProps, 'width' | 'height'> & {
