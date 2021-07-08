@@ -24,6 +24,7 @@ const Badge = ({ children, className, variant, ...props }: Props) => {
       className={className}
       variant={variant}
       lineHeight="inherit"
+      height="min-content"
       {...getBoxProps(props)}
     >
       {children}
