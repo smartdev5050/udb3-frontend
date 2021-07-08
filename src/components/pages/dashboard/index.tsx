@@ -245,13 +245,14 @@ const OrganizerRow = ({
     organizer?.address?.[organizer.mainLanguage];
   const formattedAddress = address ? formatAddressInternal(address) : '';
   const editUrl = `/organizer/${parseOfferId(organizer['@id'])}/edit`;
+  const previewUrl = `/organizer/${parseOfferId(organizer['@id'])}/preview`;
 
   return (
     <Row
       title={
         organizer.name[i18n.language] ?? organizer.name[organizer.mainLanguage]
       }
-      url={organizer.url}
+      url={previewUrl}
       description={formattedAddress}
       actions={[
         <Link href={editUrl} variant={LinkVariants.BUTTON_SECONDARY} key="edit">
