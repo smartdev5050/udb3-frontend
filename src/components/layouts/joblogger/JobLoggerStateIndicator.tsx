@@ -1,7 +1,8 @@
-import PropTypes from 'prop-types';
 import { memo } from 'react';
 import { css, keyframes } from 'styled-components';
 
+import type { Values } from '@/types/Values';
+import type { BoxProps } from '@/ui/Box';
 import { Box } from '@/ui/Box';
 import { getValueFromTheme } from '@/ui/theme';
 
@@ -9,7 +10,9 @@ import { JobLoggerStates } from './JobLogger';
 
 const getValue = getValueFromTheme('jobStatusIcon');
 
-const Svg = ({ className, ...props }) => {
+type SvgProps = BoxProps;
+
+const Svg = ({ className, ...props }: SvgProps) => {
   return (
     <Box
       className={className}
@@ -25,11 +28,7 @@ const Svg = ({ className, ...props }) => {
   );
 };
 
-Svg.propTypes = {
-  className: PropTypes.string,
-};
-
-const BusyIcon = ({ className }) => (
+const BusyIcon = ({ className }: { className?: string }) => (
   <Svg className={className}>
     <g fillRule="evenodd" fill="none">
       <circle
@@ -63,10 +62,6 @@ const BusyIcon = ({ className }) => (
   </Svg>
 );
 
-BusyIcon.propTypes = {
-  className: PropTypes.string,
-};
-
 const bounceIn = keyframes`
   0% {
     opacity: 0;
@@ -84,7 +79,7 @@ const bounceIn = keyframes`
   }
 `;
 
-const CompleteIcon = ({ className }) => (
+const CompleteIcon = ({ className }: { className?: string }) => (
   <Svg
     animation={css`
       ${bounceIn} 0.75s 1 linear
@@ -127,10 +122,6 @@ const CompleteIcon = ({ className }) => (
   </Svg>
 );
 
-CompleteIcon.propTypes = {
-  className: PropTypes.string,
-};
-
 const bounce = keyframes`
   0%,
   20%,
@@ -147,7 +138,7 @@ const bounce = keyframes`
   }
 `;
 
-const WarningIcon = ({ className }) => (
+const WarningIcon = ({ className }: { className?: string }) => (
   <Svg
     className={className}
     animation={css`
@@ -183,26 +174,20 @@ const WarningIcon = ({ className }) => (
   </Svg>
 );
 
-WarningIcon.propTypes = {
-  className: PropTypes.string,
-};
-
 const ComponentMap = {
   [JobLoggerStates.WARNING]: WarningIcon,
   [JobLoggerStates.COMPLETE]: CompleteIcon,
   [JobLoggerStates.BUSY]: BusyIcon,
 };
 
-const JobLoggerStateIndicator = memo(({ state }) => {
-  const Icon = ComponentMap[state];
-  if (!Icon) return null;
-  return <Icon />;
-});
+const JobLoggerStateIndicator = memo(
+  ({ state }: { state: Values<typeof JobLoggerStates> }) => {
+    const Icon = ComponentMap[state];
+    if (!Icon) return null;
+    return <Icon />;
+  },
+);
 
 JobLoggerStateIndicator.displayName = 'JobLoggerStateIndicator';
-
-JobLoggerStateIndicator.propTypes = {
-  state: PropTypes.oneOf(Object.values(JobLoggerStates)),
-};
 
 export { JobLoggerStateIndicator };
