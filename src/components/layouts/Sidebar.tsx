@@ -250,7 +250,7 @@ const NotificationMenu = memo(
 );
 
 const Sidebar = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const [isReactCreateFeatureFlagEnabled] = useFeatureFlag(
     FeatureFlags.REACT_CREATE,
@@ -436,6 +436,7 @@ const Sidebar = () => {
       href: '/manage/movies/create',
       iconName: Icons.VIDEO,
       children: t('menu.movies'),
+      visible: i18n.language === 'nl',
     },
   ];
 
