@@ -431,6 +431,12 @@ const Sidebar = () => {
       iconName: Icons.LAYER_GROUP,
       children: t('menu.productions'),
     },
+    {
+      permission: PermissionTypes.FILMS_AANMAKEN,
+      href: '/manage/movies/create',
+      iconName: Icons.VIDEO,
+      children: t('menu.movies'),
+    },
   ];
 
   const filteredManageMenu = useMemo(() => {
