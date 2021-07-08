@@ -41,7 +41,6 @@
     "notifications": "Notifications",
     "organizations": "Organisateurs",
     "productions": "Productions",
-    "movies": "Ajouter des films",
     "roles": "Rôles",
     "search": "Chercher",
     "users": "Utilisateurs",
@@ -95,11 +94,6 @@
       "type": "Genre",
       "when": "Quand",
       "where": "Où"
-    }
-  },
-  "movies": {
-    "create": {
-      "title": "Ajouter des films"
     }
   },
   "offerStatus": {
