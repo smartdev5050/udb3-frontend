@@ -1,6 +1,6 @@
 import getConfig from 'next/config';
 import { useRouter } from 'next/router';
-import PropTypes from 'prop-types';
+import type { ReactNode } from 'react';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
@@ -11,12 +11,14 @@ import { useGetPermissions, useGetRoles } from '@/hooks/api/user';
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
 import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
+import type { Values } from '@/types/Values';
 import { Badge } from '@/ui/Badge';
 import { Button } from '@/ui/Button';
 import { Icons } from '@/ui/Icon';
 import { Image } from '@/ui/Image';
 import { Inline } from '@/ui/Inline';
 import { Link } from '@/ui/Link';
+import type { ListProps } from '@/ui/List';
 import { List } from '@/ui/List';
 import { Logo, LogoVariants } from '@/ui/Logo';
 import { Stack } from '@/ui/Stack';
@@ -32,8 +34,39 @@ const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSidebar = getValueFromTheme('sidebar');
 const getValueForMenu = getValueFromTheme('menu');
 
+const PermissionTypes = {
+  AANBOD_BEWERKEN: 'AANBOD_BEWERKEN',
+  AANBOD_MODEREREN: 'AANBOD_MODEREREN',
+  AANBOD_VERWIJDEREN: 'AANBOD_VERWIJDEREN',
+  ORGANISATIES_BEWERKEN: 'ORGANISATIES_BEWERKEN',
+  ORGANISATIES_BEHEREN: 'ORGANISATIES_BEHEREN',
+  GEBRUIKERS_BEHEREN: 'GEBRUIKERS_BEHEREN',
+  LABELS_BEHEREN: 'LABELS_BEHEREN',
+  VOORZIENINGEN_BEWERKEN: 'VOORZIENINGEN_BEWERKEN',
+  PRODUCTIES_AANMAKEN: 'PRODUCTIES_AANMAKEN',
+} as const;
+
+type MenuItemType = {
+  href?: string;
+  iconName: Values<typeof Icons>;
+  suffix?: ReactNode;
+  children: string;
+  onClick?: () => void;
+  visible?: boolean;
+  permission?: Values<typeof PermissionTypes>;
+};
+
+type MenuItemProps = Omit<MenuItemType, 'permission'>;
+
 const MenuItem = memo(
-  ({ href, iconName, suffix, children: label, onClick, visible = true }) => {
+  ({
+    href,
+    iconName,
+    suffix,
+    children: label,
+    onClick,
+    visible = true,
+  }: MenuItemProps) => {
     if (!visible) {
       return null;
     }
@@ -79,16 +112,12 @@ const MenuItem = memo(
 
 MenuItem.displayName = 'MenuItem';
 
-MenuItem.propTypes = {
-  href: PropTypes.string,
-  iconName: PropTypes.string,
-  suffix: PropTypes.node,
-  children: PropTypes.node,
-  onClick: PropTypes.func,
-  visible: PropTypes.bool,
+type MenuProps = ListProps & {
+  items: MenuItemType[];
+  title?: string;
 };
 
-const Menu = memo(({ items = [], title, ...props }) => {
+const Menu = memo(({ items = [], title, ...props }: MenuProps) => {
   const Content = (contentProps) => (
     <List {...contentProps}>
       {items.map((menuItem, index) => (
@@ -119,12 +148,11 @@ const Menu = memo(({ items = [], title, ...props }) => {
   );
 });
 
-Menu.propTypes = {
-  items: PropTypes.array,
-  title: PropTypes.string,
+type ProfileMenuProps = {
+  profileImage?: string;
 };
 
-const ProfileMenu = ({ profileImage }) => {
+const ProfileMenu = ({ profileImage }: ProfileMenuProps) => {
   const { t } = useTranslation();
   const { cookies, removeAuthenticationCookies } = useCookiesWithOptions([
     'user',
@@ -178,24 +206,15 @@ const ProfileMenu = ({ profileImage }) => {
   );
 };
 
-ProfileMenu.propTypes = {
-  profileImage: PropTypes.string,
-};
-
 ProfileMenu.defaultProps = {
   profileImage: '/assets/avatar.svg',
 };
 
-const PermissionTypes = {
-  AANBOD_BEWERKEN: 'AANBOD_BEWERKEN',
-  AANBOD_MODEREREN: 'AANBOD_MODEREREN',
-  AANBOD_VERWIJDEREN: 'AANBOD_VERWIJDEREN',
-  ORGANISATIES_BEWERKEN: 'ORGANISATIES_BEWERKEN',
-  ORGANISATIES_BEHEREN: 'ORGANISATIES_BEHEREN',
-  GEBRUIKERS_BEHEREN: 'GEBRUIKERS_BEHEREN',
-  LABELS_BEHEREN: 'LABELS_BEHEREN',
-  VOORZIENINGEN_BEWERKEN: 'VOORZIENINGEN_BEWERKEN',
-  PRODUCTIES_AANMAKEN: 'PRODUCTIES_AANMAKEN',
+type NotificationMenuProps = {
+  countUnseenAnnouncements: number;
+  onClickAnnouncementsButton: () => void;
+  onClickJobLoggerButton: () => void;
+  jobLoggerState: Values<typeof JobLoggerStates>;
 };
 
 const NotificationMenu = memo(
@@ -204,7 +223,7 @@ const NotificationMenu = memo(
     onClickAnnouncementsButton,
     onClickJobLoggerButton,
     jobLoggerState,
-  }) => {
+  }: NotificationMenuProps) => {
     const { t, i18n } = useTranslation();
 
     const notificationMenu = [
@@ -228,13 +247,6 @@ const NotificationMenu = memo(
     return <Menu items={notificationMenu} />;
   },
 );
-
-NotificationMenu.propTypes = {
-  countUnseenAnnouncements: PropTypes.number,
-  onClickAnnouncementsButton: PropTypes.func,
-  onClickJobLoggerButton: PropTypes.func,
-  jobLoggerState: PropTypes.oneOf(Object.values(JobLoggerStates)),
-};
 
 const Sidebar = () => {
   const { t } = useTranslation();
@@ -268,6 +280,7 @@ const Sidebar = () => {
   const getPermissionsQuery = useGetPermissions();
   const getRolesQuery = useGetRoles();
   const getEventsToModerateQuery = useGetEventsToModerate(searchQuery);
+  // @ts-expect-error
   const countEventsToModerate = getEventsToModerateQuery.data?.totalItems || 0;
 
   const isSmallView = useMatchBreakpoint(Breakpoints.S);
@@ -321,20 +334,19 @@ const Sidebar = () => {
   }, [rawAnnouncements]);
 
   useEffect(() => {
+    // @ts-expect-error
     if (!getRolesQuery.data) {
       return;
     }
 
+    // @ts-expect-error
     const validationQuery = getRolesQuery.data
-      .map((role) =>
-        role.constraints !== undefined && role.constraints.v3
-          ? role.constraints.v3
-          : null,
-      )
+      .map((role) => (role.constraints?.v3 ? role.constraints.v3 : null))
       .filter((constraint) => constraint !== null)
       .join(' OR ');
 
     setSearchQuery(validationQuery);
+    // @ts-expect-error
   }, [getRolesQuery.data]);
 
   const announcements = useMemo(
@@ -378,7 +390,7 @@ const Sidebar = () => {
     },
   ];
 
-  const manageMenu = [
+  const manageMenu: MenuItemType[] = [
     {
       permission: PermissionTypes.AANBOD_MODEREREN,
       href: '/manage/moderation/overview',
@@ -421,13 +433,16 @@ const Sidebar = () => {
   ];
 
   const filteredManageMenu = useMemo(() => {
+    // @ts-expect-error
     if (!getPermissionsQuery.data) {
       return [];
     }
 
-    return manageMenu.filter((menuItem) =>
-      getPermissionsQuery.data.includes(menuItem.permission),
-    );
+    return manageMenu.filter((menuItem) => {
+      // @ts-expect-error
+      return getPermissionsQuery.data.includes(menuItem.permission);
+    });
+    // @ts-expect-error
   }, [getPermissionsQuery.data]);
 
   return [
@@ -449,6 +464,7 @@ const Sidebar = () => {
         setTimeout(() => {
           if (!sidebarComponent?.current) return;
           if (document.activeElement.tagName !== 'iframe') return;
+          // @ts-expect-error
           document.activeElement.blur();
         }, 100);
       }}
