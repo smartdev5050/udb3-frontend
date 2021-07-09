@@ -43,6 +43,7 @@
     "notifications": "Meldingen",
     "organizations": "Organisaties",
     "productions": "Producties",
+    "movies": "Films",
     "roles": "Rollen",
     "search": "Zoeken",
     "users": "Gebruikers",
@@ -96,6 +97,11 @@
       "type": "Type",
       "when": "Wanneer",
       "where": "Waar"
+    }
+  },
+  "movies": {
+    "create": {
+      "title": "Films toevoegen"
     }
   },
   "offerStatus": {

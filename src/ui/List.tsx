@@ -56,4 +56,5 @@ const ListItem = ({
 
 List.Item = ListItem;
 
+export type { ListItemProps, ListProps };
 export { List };
