@@ -21,7 +21,7 @@ const Page = ({ children: rawChildren, className, ...props }: Props) => {
   const children = Children.toArray(rawChildren);
 
   // @ts-expect-error
-  const title = children.find((child) => child.type === Page.Title);
+  const titles = children.filter((child) => child.type === Page.Title);
   // @ts-expect-error
   const actions = children.find((child) => child.type === Page.Actions);
   // @ts-expect-error
@@ -43,17 +43,21 @@ const Page = ({ children: rawChildren, className, ...props }: Props) => {
       spacing={5}
       {...getStackProps(props)}
     >
-      <Inline
-        forwardedAs="div"
-        alignItems="baseline"
-        css={`
-          border-bottom: 1px solid ${getValueForTitle('borderColor')};
-        `}
-        spacing={3}
-      >
-        {title}
-        {actions}
-      </Inline>
+      {titles.map((title, index) => (
+        <Inline
+          key={index}
+          forwardedAs="div"
+          alignItems="baseline"
+          css={`
+            border-bottom: 1px solid ${getValueForTitle('borderColor')};
+          `}
+          spacing={3}
+        >
+          {title}
+          {actions}
+        </Inline>
+      ))}
+
       {content}
     </Stack>
   );
