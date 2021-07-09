@@ -12,8 +12,6 @@ type Cookies = {
   'udb-language'?: string;
   user?: User;
   token?: string;
-  seenAnnouncements?: string[];
-  userPicture?: string;
 };
 
 type SetCookie = (name: string, value: any, options?: CookieSetOptions) => void;

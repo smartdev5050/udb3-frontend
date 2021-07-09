@@ -29,7 +29,8 @@
     "simple-import-sort/exports": "error"
   },
   "globals": {
-    "fetch": false
+    "fetch": false,
+    "localStorage": "readonly"
   },
   "env": {
     "jest": true
