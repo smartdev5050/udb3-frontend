@@ -193,12 +193,7 @@ const ProfileMenu = ({ profileImage }: ProfileMenuProps) => {
         border-top: 1px solid ${getValueForMenu('borderColor')};
       `}
     >
-      <Image
-        src={cookies.userPicture ?? profileImage}
-        width={50}
-        height={50}
-        alt="Profile picture"
-      />
+      <Image src={profileImage} width={50} height={50} alt="Profile picture" />
       <Stack as="div" padding={2} spacing={2} flex={1} display={{ s: 'none' }}>
         <Text>{cookies?.user?.username ?? ''}</Text>
         <Menu items={loginMenu} />
