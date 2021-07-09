@@ -101,7 +101,8 @@
   },
   "movies": {
     "create": {
-      "title": "Films toevoegen"
+      "title": "Films toevoegen",
+      "step1_title": "Wat voor film wil je invoeren?"
     }
   },
   "offerStatus": {
