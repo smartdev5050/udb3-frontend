@@ -1,5 +1,5 @@
-import type { BoxProps } from './Box';
-import { Box, getBoxProps } from './Box';
+import type { InlineProps } from './Inline';
+import { getInlineProps, Inline } from './Inline';
 
 const getFontWeight = (props) => {
   if (props.size === 1) return 300;
@@ -11,22 +11,22 @@ const getFontSize = (props) => {
   return 1.2;
 };
 
-type TitleProps = BoxProps;
+type TitleProps = InlineProps;
 
 const Title = ({ size, children, className, ...props }: TitleProps) => {
   return (
-    <Box
-      forwardedAs={`h${size}`}
+    <Inline
+      as={`h${size}`}
       size={size}
       className={className}
       css={`
         font-weight: ${getFontWeight};
         font-size: ${getFontSize}rem;
       `}
-      {...getBoxProps(props)}
+      {...getInlineProps(props)}
     >
       {children}
-    </Box>
+    </Inline>
   );
 };
 
