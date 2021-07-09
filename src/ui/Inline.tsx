@@ -78,6 +78,8 @@ const Inline = forwardRef<HTMLElement, Props>(
   },
 );
 
+Inline.displayName = 'Inline';
+
 const inlinePropTypes = ['spacing', 'alignItems', 'justifyContent', 'stackOn'];
 
 const getInlineProps = (props: UnknownProps) =>

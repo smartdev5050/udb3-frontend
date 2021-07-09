@@ -8,7 +8,11 @@ import type {
   ReactNode,
 } from 'react';
 import { forwardRef } from 'react';
-import type { FlattenInterpolation, ThemeProps } from 'styled-components';
+import type {
+  FlattenInterpolation,
+  FlattenSimpleInterpolation,
+  ThemeProps,
+} from 'styled-components';
 import styled, { css } from 'styled-components';
 
 import type { BreakpointValues, Theme } from './theme';
@@ -68,6 +72,12 @@ type ImageProps = {
   alt: string;
 };
 
+type SvgProps = {
+  version: string;
+  xmlns: string;
+  viewBox: string;
+};
+
 type BoxProps = Partial<
   GeneralProps &
     InlineProps &
@@ -75,7 +85,8 @@ type BoxProps = Partial<
     ListProps &
     LinkProps &
     LabelProps &
-    ImageProps & {
+    ImageProps &
+    SvgProps & {
       alignItems: UIProp<string>;
       margin: UIProp<number>;
       marginTop: UIProp<number>;
@@ -118,10 +129,11 @@ type BoxProps = Partial<
       opacity: UIProp<number>;
       flex: UIProp<string | number>;
       cursor: UIProp<string>;
-      animation: UIProp<string>;
+      animation: UIProp<FlattenSimpleInterpolation>;
       onClick: (event: MouseEvent<HTMLElement>) => void;
       onInput: (event: ChangeEvent<HTMLInputElement>) => void;
       onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+      onMouseOver: (event: MouseEvent<HTMLFormElement>) => void;
     }
 >;
 
@@ -406,6 +418,8 @@ const Box = forwardRef<HTMLElement, BoxProps>(({ children, ...props }, ref) => (
     {children}
   </StyledBox>
 ));
+
+Box.displayName = 'Box';
 
 Box.defaultProps = {
   as: 'div',

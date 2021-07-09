@@ -51,6 +51,8 @@ const TypeaheadWithLabel = forwardRef(
   },
 );
 
+TypeaheadWithLabel.displayName = 'TypeaheadWithLabel';
+
 TypeaheadWithLabel.propTypes = {
   ...typeaheadPropTypes,
 };

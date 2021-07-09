@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import type { Dispatch, SetStateAction } from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -10,15 +10,18 @@ import {
   useHandleWindowMessage,
   WindowMessageTypes,
 } from '@/hooks/useHandleWindowMessage';
+import type { Values } from '@/types/Values';
 import { Box } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { List } from '@/ui/List';
 import { Stack } from '@/ui/Stack';
+import type { TitleProps } from '@/ui/Title';
 import { Title } from '@/ui/Title';
 
 import { getValueFromTheme } from '../../../ui/theme';
+import type { JobType } from './Job';
 import { Job, JobStates } from './Job';
 
 const getValueForJobLogger = getValueFromTheme('jobLogger');
@@ -28,9 +31,9 @@ const JobLoggerStates = {
   WARNING: 'warning',
   BUSY: 'busy',
   COMPLETE: 'complete',
-};
+} as const;
 
-const JobTitle = ({ children, className, ...props }) => (
+const JobTitle = ({ children, className, ...props }: TitleProps) => (
   <Title
     css={`
       width: 100%;
@@ -45,15 +48,16 @@ const JobTitle = ({ children, className, ...props }) => (
   </Title>
 );
 
-JobTitle.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
+type JobLoggerProps = {
+  visible: boolean;
+  onClose: () => void;
+  onStatusChange: Dispatch<SetStateAction<Values<typeof JobLoggerStates>>>;
 };
 
-const JobLogger = ({ visible, onClose, onStatusChange }) => {
+const JobLogger = ({ visible, onClose, onStatusChange }: JobLoggerProps) => {
   const { t } = useTranslation();
 
-  const [jobs, setJobs] = useState([]);
+  const [jobs, setJobs] = useState<JobType[]>([]);
   const [hiddenJobIds, setHiddenJobIds] = useState([]);
 
   const activeJobs = useMemo(
@@ -77,7 +81,14 @@ const JobLogger = ({ visible, onClose, onStatusChange }) => {
     [activeJobs],
   );
 
-  const updateJobState = (newJobState) => ({ job_id: jobId, location }) =>
+  const updateJobState = (newJobState: Values<typeof JobStates>) => ({
+    job_id: jobId,
+    location,
+  }: {
+    // eslint-disable-next-line camelcase
+    job_id: string;
+    location: string;
+  }) =>
     setJobs((previousJobs) =>
       previousJobs.map((job) => {
         const { id, finishedAt, exportUrl, state } = job;
@@ -91,9 +102,9 @@ const JobLogger = ({ visible, onClose, onStatusChange }) => {
         return {
           ...job,
           state: newJobState,
-          finishedAt: [JobStates.FINISHED, JobStates.FAILED].includes(
-            newJobState,
-          )
+          finishedAt: ([JobStates.FINISHED, JobStates.FAILED] as Array<
+            Values<typeof JobStates>
+          >).includes(newJobState)
             ? new Date()
             : finishedAt,
           exportUrl: location || exportUrl,
@@ -101,7 +112,7 @@ const JobLogger = ({ visible, onClose, onStatusChange }) => {
       }),
     );
 
-  const addJob = ({ job }) =>
+  const addJob = ({ job }: { job: JobType }) =>
     setJobs((previousJobs) => [
       {
         ...job,
@@ -201,12 +212,6 @@ const JobLogger = ({ visible, onClose, onStatusChange }) => {
       <Box flex={1} opacity={0.5} backgroundColor="black" onClick={onClose} />
     </Inline>
   );
-};
-
-JobLogger.propTypes = {
-  visible: PropTypes.bool,
-  onClose: PropTypes.func,
-  onStatusChange: PropTypes.func,
 };
 
 export { JobLogger, JobLoggerStates, JobStates };

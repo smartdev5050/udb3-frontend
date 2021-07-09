@@ -37,8 +37,8 @@ const getEventsToModerate = async ({ headers, queryKey, ...queryData }) => {
   return await res.json();
 };
 
-const useGetEventsToModerate = (searchQuery, configuration) =>
-  useAuthenticatedQuery({
+const useGetEventsToModerate = (searchQuery, configuration = {}) =>
+  useAuthenticatedQuery<Event[]>({
     queryKey: ['events'],
     queryFn: getEventsToModerate,
     queryArguments: {

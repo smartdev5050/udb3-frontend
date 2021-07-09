@@ -1,14 +1,15 @@
 import { formatDistance } from 'date-fns';
 import { fr, nlBE } from 'date-fns/locale';
-import PropTypes from 'prop-types';
 import { memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import type { Values } from '@/types/Values';
 import { Box } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { Link, LinkVariants } from '@/ui/Link';
+import type { ListItemProps } from '@/ui/List';
 import { List } from '@/ui/List';
 import { Stack } from '@/ui/Stack';
 import { getValueFromTheme } from '@/ui/theme';
@@ -21,16 +22,16 @@ const JobTypes = {
   EXPORT: 'export',
   LABEL_BATCH: 'label_batch',
   LABEL_QUERY: 'label_query',
-};
+} as const;
 
 const JobStates = {
   CREATED: 'created',
   FINISHED: 'finished',
   FAILED: 'failed',
   STARTED: 'started',
-};
+} as const;
 
-const StatusIcon = memo(({ state }) => {
+const StatusIcon = memo(({ state }: { state: Values<typeof JobStates> }) => {
   if (state === JobStates.FINISHED) {
     return (
       <Icon
@@ -60,9 +61,23 @@ const StatusIcon = memo(({ state }) => {
   );
 });
 
-StatusIcon.propTypes = {
-  state: PropTypes.oneOf(Object.values(JobStates)),
+StatusIcon.displayName = 'StatusIcon';
+
+type Message = {
+  [key in Values<typeof JobStates>]?: string;
 };
+
+type JobType = {
+  id: string;
+  location: string;
+  state: Values<typeof JobStates>;
+  createdAt: Date;
+  finishedAt: Date;
+  exportUrl?: string;
+  messages: Message[];
+};
+
+type JobProps = ListItemProps & Omit<JobType, 'id' | 'location'>;
 
 const Job = ({
   createdAt,
@@ -71,10 +86,12 @@ const Job = ({
   messages,
   exportUrl,
   onClick,
-}) => {
+}: JobProps) => {
   const { t, i18n } = useTranslation();
 
-  const isDone = [JobStates.FINISHED, JobStates.FAILED].includes(state);
+  const isDone = ([JobStates.FINISHED, JobStates.FAILED] as Array<
+    Values<typeof JobStates>
+  >).includes(state);
 
   const timeAgo = useMemo(
     () =>
@@ -111,13 +128,5 @@ const Job = ({
   );
 };
 
-Job.propTypes = {
-  createdAt: PropTypes.instanceOf(Date),
-  finishedAt: PropTypes.instanceOf(Date),
-  state: PropTypes.oneOf(Object.values(JobStates)),
-  messages: PropTypes.object,
-  exportUrl: PropTypes.string,
-  onClick: PropTypes.func,
-};
-
+export type { JobType };
 export { Job, JobStates, JobTypes };

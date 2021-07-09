@@ -1,6 +1,10 @@
+import type { SupportedLanguage } from './i18n';
+
 const tabOptions = ['events', 'organizers', 'places'];
 
-const createDashboardRedirects = (environment) => {
+type Environment = 'development' | 'acceptance' | 'testing' | 'production';
+
+const createDashboardRedirects = (environment: Environment) => {
   return [
     {
       source: '/dashboard',
@@ -33,7 +37,10 @@ const createDashboardRedirects = (environment) => {
   ];
 };
 
-const getRedirects = (environment) => [
+const getRedirects = (
+  environment: Environment,
+  language: SupportedLanguage = 'nl',
+) => [
   // Only make the permanent redirects really permanent in environments other
   // than development, so we don't get permanent redirects on localhost which
   // may conflict with other projects.
@@ -52,6 +59,15 @@ const getRedirects = (environment) => [
     destination: '/places/:placeId/status',
     permanent: environment !== 'development',
   },
+  ...(language !== 'nl'
+    ? [
+        {
+          source: '/manage/movies/create',
+          destination: '/dashboard',
+          permanent: false,
+        },
+      ]
+    : []),
   ...createDashboardRedirects(environment),
 ];
 
