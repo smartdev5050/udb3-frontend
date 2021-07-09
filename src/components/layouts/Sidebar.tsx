@@ -10,6 +10,7 @@ import { useGetEventsToModerate } from '@/hooks/api/events';
 import { useGetPermissions, useGetRoles } from '@/hooks/api/user';
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
 import type { Values } from '@/types/Values';
 import { Badge } from '@/ui/Badge';
@@ -251,10 +252,7 @@ const Sidebar = () => {
     FeatureFlags.REACT_CREATE,
   );
 
-  const { cookies, setCookie } = useCookiesWithOptions([
-    'seenAnnouncements',
-    'userPicture',
-  ]);
+  const storage = useLocalStorage();
 
   const [isJobLoggerVisible, setIsJobLoggerVisible] = useState(true);
   const [jobLoggerState, setJobLoggerState] = useState(JobLoggerStates.IDLE);
@@ -304,9 +302,9 @@ const Sidebar = () => {
 
   useEffect(() => {
     if (activeAnnouncementId) {
-      const seenAnnouncements = cookies?.seenAnnouncements ?? [];
+      const seenAnnouncements = storage.getItem('seenAnnouncements') ?? [];
       if (!seenAnnouncements.includes(activeAnnouncementId)) {
-        setCookie('seenAnnouncements', [
+        storage.setItem('seenAnnouncements', [
           ...seenAnnouncements,
           activeAnnouncementId,
         ]);
@@ -319,14 +317,14 @@ const Sidebar = () => {
       return;
     }
 
-    const seenAnnouncements = cookies?.seenAnnouncements ?? [];
+    const seenAnnouncements = storage.getItem('seenAnnouncements') ?? [];
     const cleanedUpSeenAnnouncements = seenAnnouncements.filter(
       (seenAnnouncementId) =>
         rawAnnouncements.find(
           (announcement) => announcement.uid === seenAnnouncementId,
         ),
     );
-    setCookie('seenAnnouncements', cleanedUpSeenAnnouncements);
+    storage.setItem('seenAnnouncements', cleanedUpSeenAnnouncements);
   }, [rawAnnouncements]);
 
   useEffect(() => {
@@ -351,13 +349,13 @@ const Sidebar = () => {
         if (activeAnnouncementId === announcement.uid) {
           return { ...announcement, status: AnnouncementStatus.ACTIVE };
         }
-        const seenAnnouncements = cookies?.seenAnnouncements ?? [];
+        const seenAnnouncements = storage.getItem('seenAnnouncements') ?? [];
         if (seenAnnouncements.includes(announcement.uid)) {
           return { ...announcement, status: AnnouncementStatus.SEEN };
         }
         return { ...announcement, status: AnnouncementStatus.UNSEEN };
       }),
-    [rawAnnouncements, cookies.seenAnnouncements, activeAnnouncementId],
+    [rawAnnouncements, activeAnnouncementId],
   );
 
   const countUnseenAnnouncements = useMemo(
