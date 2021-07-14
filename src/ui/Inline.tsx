@@ -64,9 +64,11 @@ const Inline = forwardRef<HTMLElement, Props>(
       });
     });
 
+    console.log({ as });
+
     return (
       <StyledBox
-        forwardedAs={as}
+        as={as}
         className={className}
         stackOn={stackOn}
         {...props}

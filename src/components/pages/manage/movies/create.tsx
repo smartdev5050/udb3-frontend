@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
 import { Page } from '@/ui/Page';
+import { Text } from '@/ui/Text';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
 const Create = () => {
@@ -8,7 +9,10 @@ const Create = () => {
 
   return (
     <Page>
-      <Page.Title>{t('movies.create.title')}</Page.Title>
+      <Page.Title spacing={6}>
+        <Text>{t('movies.create.title')}</Text>
+        <Text>{t('movies.create.title')}</Text>
+      </Page.Title>
       <Page.Content />
     </Page>
   );
