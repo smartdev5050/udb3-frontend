@@ -16,7 +16,7 @@ type TitleProps = InlineProps;
 const Title = ({ size, children, className, ...props }: TitleProps) => {
   return (
     <Inline
-      as={`h${size}`}
+      forwardedAs={`h${size}`}
       size={size}
       className={className}
       css={`
