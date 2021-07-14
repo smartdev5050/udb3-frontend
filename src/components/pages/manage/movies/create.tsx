@@ -39,7 +39,10 @@ const Step1Content = () => {
         ))
       ) : (
         <Inline alignItems="center" spacing={3}>
-          <Icon name={Icons.CHECK_CIRCLE} color="green" />
+          <Icon
+            name={Icons.CHECK_CIRCLE}
+            color={getValue('check.circleFillColor')}
+          />
           <Text>
             {t(`themes*${current.context.theme}`, { keySeparator: '*' })}
           </Text>
