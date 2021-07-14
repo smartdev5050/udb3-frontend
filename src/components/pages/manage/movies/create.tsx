@@ -34,7 +34,7 @@ const Step1Content = () => {
             variant={ButtonVariants.SECONDARY}
             onClick={() => handleSelectTheme(value)}
           >
-            {key}
+            {t(`themes*${value}`, { keySeparator: '*' })}
           </Button>
         ))
       ) : (
@@ -45,6 +45,7 @@ const Step1Content = () => {
           </Text>
           <Button variant={ButtonVariants.PRIMARY} onClick={handleClearTheme}>
             Wijzig thema
+            {t('movies.create.actions.change_theme')}
           </Button>
         </Inline>
       )}
