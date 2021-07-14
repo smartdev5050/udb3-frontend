@@ -421,7 +421,7 @@ const Dashboard = (): any => {
   return [
     <Page key="page">
       <Page.Title>
-        {t('dashboard.welcome')}, {user?.username}
+        {`${t('dashboard.welcome')}, ${user?.username}`}
       </Page.Title>
       <Page.Content spacing={5}>
         <Stack spacing={4} position="relative">
