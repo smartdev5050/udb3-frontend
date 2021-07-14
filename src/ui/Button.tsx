@@ -9,6 +9,7 @@ import type { Icons } from './Icon';
 import { Icon } from './Icon';
 import type { InlineProps } from './Inline';
 import { getInlineProps, Inline } from './Inline';
+import { Link } from './Link';
 import { Spinner, SpinnerSizes, SpinnerVariants } from './Spinner';
 import { Text } from './Text';
 import { getValueFromTheme } from './theme';
@@ -19,6 +20,7 @@ const ButtonVariants = {
   SUCCESS: 'success',
   DANGER: 'danger',
   UNSTYLED: 'unstyled',
+  LINK: 'link',
 } as const;
 
 const ButtonSizes = {
@@ -184,6 +186,7 @@ const Button = ({
   if (variant === ButtonVariants.SECONDARY) variant = 'outline-secondary';
 
   const isBootstrapVariant = variant !== ButtonVariants.UNSTYLED;
+  const isLinkVariant = variant !== ButtonVariants.LINK;
 
   const BaseButtonWithForwardedAs = (props) => (
     <BaseButton {...props} forwardedAs={forwardedAs} />
@@ -239,6 +242,34 @@ const Button = ({
       <BootstrapButton {...propsToApply} css={customCSS}>
         {inner}
       </BootstrapButton>
+    );
+  }
+
+  if (isLinkVariant) {
+    return (
+      <BaseButton
+        {...propsToApply}
+        color="inherit"
+        cursor="pointer"
+        css={`
+          background: none;
+          border: none;
+
+          :focus {
+            outline: auto;
+          }
+          :focus:not(:focus-visible) {
+            outline: none;
+            box-shadow: none;
+          }
+        `}
+        alignItems="center"
+        justifyContent="flex-start"
+      >
+        <Link as="span" href="">
+          {children}
+        </Link>
+      </BaseButton>
     );
   }
 
