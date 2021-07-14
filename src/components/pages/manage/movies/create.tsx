@@ -23,7 +23,7 @@ const Step1Content = () => {
   const handleClearTheme = () => send(MovieEventTypes.CLEAR_THEME);
 
   return (
-    <Inline spacing={3} display="flex" flexWrap="wrap">
+    <Inline spacing={3} display="flex" flexWrap="wrap" maxWidth="70rem">
       {current.context.theme === null ? (
         Object.entries(MovieThemes).map(([key, value]) => (
           <Button
