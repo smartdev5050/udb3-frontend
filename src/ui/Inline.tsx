@@ -64,8 +64,6 @@ const Inline = forwardRef<HTMLElement, Props>(
       });
     });
 
-    console.log({ as });
-
     return (
       <StyledBox
         as={as}
