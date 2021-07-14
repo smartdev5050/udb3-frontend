@@ -7,7 +7,7 @@ import type { Values } from '@/types/Values';
 
 const MovieEventTypes = {
   CHOOSE_THEME: 'CHOOSE_THEME',
-  CHANGE_THEME: 'CHANGE_THEME',
+  CLEAR_THEME: 'CLEAR_THEME',
 } as const;
 
 type Theme = Values<typeof MovieThemes>;
@@ -23,7 +23,7 @@ type MovieStateSchema = {
 
 type MovieEvent =
   | { type: typeof MovieEventTypes.CHOOSE_THEME; value: Theme }
-  | { type: typeof MovieEventTypes.CHANGE_THEME };
+  | { type: typeof MovieEventTypes.CLEAR_THEME };
 
 type MovieContext = {
   offerType: typeof OfferType.EVENT;
@@ -54,7 +54,7 @@ const movieMachine = createMachine<MovieContext, MovieEvent, MovieStateSchema>({
     },
     themeChosen: {
       on: {
-        [MovieEventTypes.CHANGE_THEME]: {
+        [MovieEventTypes.CLEAR_THEME]: {
           actions: [
             assign({
               theme: () => null,
@@ -67,4 +67,4 @@ const movieMachine = createMachine<MovieContext, MovieEvent, MovieStateSchema>({
   },
 });
 
-export { movieMachine };
+export { MovieEventTypes, movieMachine };
