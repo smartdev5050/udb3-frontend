@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react';
 import { Children } from 'react';
 
-import { getBoxProps } from './Box';
 import type { InlineProps } from './Inline';
 import { getInlineProps, Inline } from './Inline';
 import type { StackProps } from './Stack';
@@ -71,7 +70,7 @@ const PageTitle = ({ children, className, ...props }: TitleProps) => (
     className={className}
     color={getValueForTitle('color')}
     lineHeight="220%"
-    {...getBoxProps(props)}
+    {...getInlineProps(props)}
   >
     {children}
   </Title>
