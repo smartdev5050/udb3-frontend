@@ -23,7 +23,7 @@ const Step1Content = () => {
   const handleClearTheme = () => send(MovieEventTypes.CLEAR_THEME);
 
   return (
-    <Inline spacing={3} display="flex" flexWrap="wrap" maxWidth="70rem">
+    <Inline spacing={3} flexWrap="wrap" maxWidth="70rem">
       {current.context.theme === null ? (
         Object.entries(MovieThemes).map(([key, value]) => (
           <Button
@@ -38,7 +38,7 @@ const Step1Content = () => {
           </Button>
         ))
       ) : (
-        <Inline spacing={3}>
+        <Inline alignItems="center" spacing={3}>
           <Icon name={Icons.CHECK_CIRCLE} color="green" />
           <Text>
             {t(`themes*${current.context.theme}`, { keySeparator: '*' })}
