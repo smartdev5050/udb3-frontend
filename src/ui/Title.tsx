@@ -1,5 +1,6 @@
 import type { InlineProps } from './Inline';
 import { getInlineProps, Inline } from './Inline';
+import { Text } from './Text';
 
 const getFontWeight = (props) => {
   if (props.size === 1) return 300;
@@ -25,7 +26,7 @@ const Title = ({ size, children, className, ...props }: TitleProps) => {
       `}
       {...getInlineProps(props)}
     >
-      {children}
+      {typeof children === 'string' ? <Text>{children}</Text> : children}
     </Inline>
   );
 };
