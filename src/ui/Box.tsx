@@ -247,9 +247,11 @@ const parseSpacing = (value: UIPropValue<number>) => (
 ) => {
   const parsedValue = typeof value === 'function' ? value(props) : value;
 
+  if (value === 0) return '0rem';
+
   return `
-    ${(1 / remInPixels) * 2 ** parsedValue}rem
-  `;
+  ${(1 / remInPixels) * 2 ** parsedValue}rem
+`;
 };
 
 const parseDimension = (value: UIPropValue<string | number>) => (
