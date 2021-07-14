@@ -10,21 +10,25 @@ import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { Page } from '@/ui/Page';
 import { Text } from '@/ui/Text';
+import { getValueFromTheme } from '@/ui/theme';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
+const getValue = getValueFromTheme('moviesCreatePage');
+
 const Step1Content = () => {
-  const [current, send] = useMachine(movieMachine);
+  const [movieState, sendMovieEvent] = useMachine(movieMachine);
 
   const { t } = useTranslation();
 
   const handleSelectTheme = (value: Values<typeof MovieThemes>) => {
-    send(MovieEventTypes.CHOOSE_THEME, { value });
+    sendMovieEvent(MovieEventTypes.CHOOSE_THEME, { value });
   };
-  const handleClearTheme = () => send(MovieEventTypes.CLEAR_THEME);
+
+  const handleClearTheme = () => sendMovieEvent(MovieEventTypes.CLEAR_THEME);
 
   return (
     <Inline spacing={3} flexWrap="wrap" maxWidth="70rem">
-      {current.context.theme === null ? (
+      {movieState.context.theme === null ? (
         Object.entries(MovieThemes).map(([key, value]) => (
           <Button
             width="auto"
@@ -44,10 +48,9 @@ const Step1Content = () => {
             color={getValue('check.circleFillColor')}
           />
           <Text>
-            {t(`themes*${current.context.theme}`, { keySeparator: '*' })}
+            {t(`themes*${movieState.context.theme}`, { keySeparator: '*' })}
           </Text>
-          <Button variant={ButtonVariants.PRIMARY} onClick={handleClearTheme}>
-            Wijzig thema
+          <Button variant={ButtonVariants.LINK} onClick={handleClearTheme}>
             {t('movies.create.actions.change_theme')}
           </Button>
         </Inline>
