@@ -129,6 +129,7 @@ type BoxProps = Partial<
       display: UIProp<string>;
       opacity: UIProp<number>;
       flex: UIProp<string | number>;
+      flexWrap: UIProp<string>;
       cursor: UIProp<string>;
       animation: UIProp<FlattenSimpleInterpolation>;
       onClick: (event: MouseEvent<HTMLElement>) => void;
@@ -356,6 +357,7 @@ const boxProps = css`
   ${parseProperty('display')};
   ${parseProperty('opacity')};
   ${parseProperty('flex')};
+  ${parseProperty('flexWrap')};
   ${parseProperty('cursor')};
 
   ${parseProperty('animation')}
@@ -378,6 +380,7 @@ const boxPropTypes = [
   'cursor',
   'display',
   'flex',
+  'flexWrap',
   'fontSize',
   'fontWeight',
   'height',

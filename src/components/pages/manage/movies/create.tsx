@@ -1,20 +1,46 @@
 import { useTranslation } from 'react-i18next';
 
+import { MovieThemes } from '@/constants/MovieThemes';
+import type { Values } from '@/types/Values';
 import { Badge, BadgeVariants } from '@/ui/Badge';
+import { Button, ButtonVariants } from '@/ui/Button';
+import { Inline } from '@/ui/Inline';
 import { Page } from '@/ui/Page';
 import { Text } from '@/ui/Text';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
+const Step1Content = () => {
+  const handleSelectMovieTheme = (value: Values<typeof MovieThemes>) => {
+    console.log('selected Movie theme', value);
+  };
+  return (
+    <Inline spacing={3} display="flex" flexWrap="wrap">
+      {Object.entries(MovieThemes).map(([key, value]) => (
+        <Button
+          width="auto"
+          marginBottom={3}
+          display="inline-flex"
+          key={key}
+          variant={ButtonVariants.SECONDARY}
+          onClick={() => handleSelectMovieTheme(value)}
+        >
+          {key}
+        </Button>
+      ))}
+    </Inline>
+  );
+};
+
 const Create = () => {
   const { t } = useTranslation();
 
-  const steps = new Array(4).fill(null);
+  const steps = [{ step: 1, Content: <Step1Content /> }];
 
   return (
     <Page>
-      {steps.map((_step, index) => {
-        return (
-          <Page.Title key={index} spacing={4} alignItems="center">
+      {steps.map(({ Content, step }) => {
+        return [
+          <Page.Title key="title" spacing={4} alignItems="center">
             <Badge
               variant={BadgeVariants.SECONDARY}
               borderRadius="50%"
@@ -23,13 +49,13 @@ const Create = () => {
               lineHeight="2rem"
               padding={0}
             >
-              {index + 1}
+              {step}
             </Badge>
-            <Text>{t(`movies.create.step${index + 1}_title`)}</Text>
-          </Page.Title>
-        );
+            <Text>{t(`movies.create.step${step}_title`)}</Text>
+          </Page.Title>,
+          <Page.Content key="content">{Content}</Page.Content>,
+        ];
       })}
-      <Page.Content />
     </Page>
   );
 };

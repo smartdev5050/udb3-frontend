@@ -29,7 +29,7 @@ const ButtonSizes = {
 const getValue = getValueFromTheme('button');
 
 const BaseButton = (props: Omit<InlineProps, 'size'>) => (
-  <Inline forwardedAs="button" {...props} />
+  <Inline as="button" {...props} />
 );
 
 const customCSS = css`
