@@ -72,10 +72,12 @@ const Create = () => {
             <Badge
               variant={BadgeVariants.SECONDARY}
               borderRadius="50%"
-              width="2rem"
-              height="2rem"
-              lineHeight="2rem"
+              width="1.8rem"
+              height="1.8rem"
+              lineHeight="1.8rem"
               padding={0}
+              fontSize="1.2rem"
+              fontWeight="normal"
             >
               {step}
             </Badge>
