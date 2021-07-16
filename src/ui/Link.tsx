@@ -113,7 +113,6 @@ const Link = ({
   as,
   ...props
 }: LinkProps) => {
-  console.log({ as });
   const isInternalLink = [
     (val: string) => val.startsWith('/'),
     (val: string) => val.startsWith('#'),
