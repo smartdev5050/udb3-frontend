@@ -68,6 +68,9 @@ const theme = {
     link: {
       color: colors.udbBlue,
     },
+    datePicker: {
+      borderColor: colors.grey2,
+    },
     badge: {
       color: colors.white,
       backgroundColor: colors.red1,

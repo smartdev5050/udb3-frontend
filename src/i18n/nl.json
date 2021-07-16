@@ -54,6 +54,10 @@
     "next": "Volgende",
     "previous": "Vorige"
   },
+  "time_table": {
+    "start": "Start",
+    "end": "Einde"
+  },
   "productions": {
     "delete": {
       "title": "Evenement(en) verwijderen van productie"
