@@ -68,7 +68,7 @@ const Create = () => {
     <Page>
       {steps.map(({ Content, step }) => {
         return [
-          <Page.Title key="title" spacing={4} alignItems="center">
+          <Page.Title key="title" spacing={3} alignItems="center">
             <Badge
               variant={BadgeVariants.SECONDARY}
               borderRadius="50%"
