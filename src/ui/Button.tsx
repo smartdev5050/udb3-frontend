@@ -14,11 +14,15 @@ import { Spinner, SpinnerSizes, SpinnerVariants } from './Spinner';
 import { Text } from './Text';
 import { getValueFromTheme } from './theme';
 
-const ButtonVariants = {
+const BootStrapVariants = {
   PRIMARY: 'primary',
   SECONDARY: 'secondary',
   SUCCESS: 'success',
   DANGER: 'danger',
+} as const;
+
+const ButtonVariants = {
+  ...BootStrapVariants,
   UNSTYLED: 'unstyled',
   LINK: 'link',
 } as const;
@@ -164,6 +168,7 @@ type ButtonProps = Omit<InlineProps, 'size'> & {
   customChildren?: boolean;
   shouldHideText?: boolean;
   size?: Values<typeof ButtonSizes>;
+  variant?: Values<typeof ButtonVariants>;
 };
 
 const Button = ({
@@ -183,10 +188,13 @@ const Button = ({
   forwardedAs,
   ...props
 }: ButtonProps) => {
-  if (variant === ButtonVariants.SECONDARY) variant = 'outline-secondary';
+  const isBootstrapVariant = (Object.values(
+    BootStrapVariants,
+  ) as string[]).includes(variant);
+  const isLinkVariant = variant === ButtonVariants.LINK;
 
-  const isBootstrapVariant = variant !== ButtonVariants.UNSTYLED;
-  const isLinkVariant = variant !== ButtonVariants.LINK;
+  // @ts-expect-error
+  if (variant === ButtonVariants.SECONDARY) variant = 'outline-secondary';
 
   const BaseButtonWithForwardedAs = (props) => (
     <BaseButton {...props} forwardedAs={forwardedAs} />
