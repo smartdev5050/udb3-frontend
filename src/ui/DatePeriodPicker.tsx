@@ -35,7 +35,12 @@ const DatePeriodPicker = ({
         <DatePicker
           id={`${idPrefix}-start`}
           selected={dateStart}
-          onChange={setDateStart}
+          onChange={(date) => {
+            setDateStart(date);
+            if (dateEnd.getTime() < date.getTime()) {
+              setDateEnd(date);
+            }
+          }}
         />
       </Stack>
       <Stack>
@@ -45,7 +50,13 @@ const DatePeriodPicker = ({
         <DatePicker
           id={`${idPrefix}-end`}
           selected={dateEnd}
-          onChange={setDateEnd}
+          onChange={(date) => {
+            setDateEnd(date);
+            if (dateStart.getTime() > date.getTime()) {
+              setDateStart(date);
+            }
+          }}
+          minDate={dateStart}
         />
       </Stack>
     </Inline>

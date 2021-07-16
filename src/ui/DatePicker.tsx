@@ -18,12 +18,22 @@ registerLocale('fr', fr);
 type Props = BoxProps & {
   id: string;
   selected?: Date;
+  minDate?: Date;
+  maxDate?: Date;
   onChange?: (value: Date) => void;
 };
 
 const getValue = getValueFromTheme('datePicker');
 
-const DatePicker = ({ id, selected, onChange, className, ...props }: Props) => {
+const DatePicker = ({
+  id,
+  selected,
+  onChange,
+  className,
+  minDate,
+  maxDate,
+  ...props
+}: Props) => {
   return (
     <Box className={className} {...getBoxProps(props)}>
       <ReactDatePicker
@@ -31,6 +41,8 @@ const DatePicker = ({ id, selected, onChange, className, ...props }: Props) => {
         selected={selected}
         onChange={onChange}
         dateFormat="dd/MM/yyyy"
+        minDate={minDate}
+        maxDate={maxDate}
         css={`
           border: 1px solid ${getValue('borderColor')};
           padding: 0.2rem 0.4rem;
