@@ -133,6 +133,7 @@ type BoxProps = Partial<
       onClick: (event: MouseEvent<HTMLElement>) => void;
       onInput: (event: ChangeEvent<HTMLInputElement>) => void;
       onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+      onBlur: (event: FormEvent<HTMLFormElement>) => void;
       onMouseOver: (event: MouseEvent<HTMLFormElement>) => void;
     }
 >;

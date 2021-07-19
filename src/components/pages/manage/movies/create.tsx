@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
 import { Page } from '@/ui/Page';
+import { TimeTable } from '@/ui/TimeTable';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
 const Create = () => {
@@ -9,7 +10,9 @@ const Create = () => {
   return (
     <Page>
       <Page.Title>{t('movies.create.title')}</Page.Title>
-      <Page.Content />
+      <Page.Content>
+        <TimeTable />
+      </Page.Content>
     </Page>
   );
 };

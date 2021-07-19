@@ -43,6 +43,7 @@ const Input = ({
   id,
   placeholder,
   onInput,
+  onBlur,
   className,
   value,
   ...props
@@ -56,6 +57,7 @@ const Input = ({
     maxWidth="43rem"
     css="border-radius: 0;"
     onInput={onInput}
+    onBlur={onBlur}
     value={value}
     {...getBoxProps(props)}
   />

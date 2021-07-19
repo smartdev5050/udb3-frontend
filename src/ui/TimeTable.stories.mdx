@@ -1,0 +1,12 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import { TimeTable } from './TimeTable';
+
+<Meta title="Components/TimeTable" component={TimeTable} />
+
+<Canvas>
+  <Story name="Default" args={{}}>
+    {(args) => <TimeTable {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Default" />
