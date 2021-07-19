@@ -31,8 +31,10 @@ const formatTimeValue = (value: string) => {
     tranformedValue = value.padEnd(4, '0');
   }
 
-  const firstDigits = parseInt(tranformedValue.substring(0, 2));
-  const lastDigits = parseInt(tranformedValue.substring(2, 4));
+  const firstChars = tranformedValue.substring(0, 2);
+  const lastChars = tranformedValue.substring(2, 4);
+  const firstDigits = parseInt(firstChars);
+  const lastDigits = parseInt(lastChars);
 
   // check if first 2 numbers are above 0 and below or equal to 24
   if (firstDigits < 0 || firstDigits > 24) return null;
@@ -41,7 +43,7 @@ const formatTimeValue = (value: string) => {
   if (lastDigits < 0 || lastDigits > 59) return null;
 
   // transform into "h m" format
-  return `${firstDigits}h${lastDigits}m`;
+  return `${firstChars}h${lastChars}m`;
 };
 
 const TimeTable = ({ id, ...props }: Props) => {
