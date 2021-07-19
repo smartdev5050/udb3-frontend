@@ -53,7 +53,8 @@ const TimeTable = ({ id, ...props }: Props) => {
   const [timeTable, setTimeTable] = useState<TimeTableType>([]);
 
   useEffect(() => {
-    const rowLength = Math.abs(differenceInDays(dateStart, dateEnd)) + 1;
+    const rowLength =
+      Math.ceil(Math.abs(differenceInHours(dateStart, dateEnd)) / 24) + 1;
     setTimeTable(
       new Array(rowLength).fill(new Array(headers.length).fill(null)),
     );
