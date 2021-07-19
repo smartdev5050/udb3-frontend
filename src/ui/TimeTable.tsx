@@ -1,17 +1,14 @@
-import { differenceInDays } from 'date-fns';
+import { differenceInHours } from 'date-fns';
 import { useEffect, useState } from 'react';
 
 import { Button, ButtonVariants } from './Button';
 import { DatePeriodPicker } from './DatePeriodPicker';
 import { Icon, Icons } from './Icon';
-import { Inline } from './Inline';
+import type { InlineProps } from './Inline';
+import { getInlineProps, Inline } from './Inline';
 import { Input } from './Input';
 import { Label } from './Label';
 import { getStackProps, Stack } from './Stack';
-
-type Props = {
-  id: string;
-};
 
 const headers = ['wo', 'do', 'vr', 'za', 'zo', 'ma', 'di'];
 
@@ -46,23 +43,122 @@ const formatTimeValue = (value: string) => {
   return `${firstChars}h${lastChars}m`;
 };
 
+type HeaderProps = InlineProps & {
+  header: string;
+  index: number;
+  onCopy: (index: number) => void;
+};
+
+const Header = ({ header, index, onCopy, ...props }: HeaderProps) => {
+  return (
+    <Inline
+      justifyContent="space-between"
+      paddingLeft={1}
+      paddingRight={1}
+      spacing={3}
+      {...getInlineProps(props)}
+    >
+      <Label htmlFor={header}>{header}</Label>
+      <Button
+        variant={ButtonVariants.UNSTYLED}
+        onClick={() => onCopy(index)}
+        customChildren
+      >
+        <Icon name={Icons.COPY} />
+      </Button>
+    </Inline>
+  );
+};
+
+type RowProps = InlineProps & {
+  row: string[];
+  index: number;
+  onCopyRow: (index: number) => void;
+  onCopyColumn: (index: number) => void;
+  editValueInTimeTable: (
+    rowIndex: number,
+    colIndex: number,
+    value: string,
+  ) => void;
+};
+
+const Row = ({
+  row,
+  index,
+  onCopyRow,
+  onCopyColumn,
+  editValueInTimeTable,
+  ...props
+}: RowProps) => (
+  <Inline spacing={3} alignItems="flex-end" {...getInlineProps(props)}>
+    {row.map((col, colIndex) => {
+      const input = (
+        <Input
+          key={`${index}${colIndex}`}
+          id={headers[colIndex]}
+          minWidth="8rem"
+          value={row[colIndex] ?? ''}
+          onInput={(e) => {
+            editValueInTimeTable(index, colIndex, e.target.value);
+          }}
+          onBlur={() =>
+            editValueInTimeTable(
+              index,
+              colIndex,
+              formatTimeValue(row[colIndex]),
+            )
+          }
+        />
+      );
+      return (
+        <Stack key={colIndex}>
+          {index === 0
+            ? [
+                <Header
+                  key={headers[colIndex]}
+                  header={headers[colIndex]}
+                  index={colIndex}
+                  onCopy={onCopyColumn}
+                />,
+                input,
+              ]
+            : input}
+        </Stack>
+      );
+    })}
+    <Button
+      variant={ButtonVariants.UNSTYLED}
+      onClick={() => onCopyRow(index)}
+      customChildren
+      css={`
+        align-self: ;
+      `}
+    >
+      <Icon name={Icons.COPY} />
+    </Button>
+  </Inline>
+);
+
+type Props = {
+  id: string;
+};
+
 const TimeTable = ({ id, ...props }: Props) => {
   const [dateStart, setDateStart] = useState(new Date());
   const [dateEnd, setDateEnd] = useState(new Date());
 
   const [timeTable, setTimeTable] = useState<TimeTableType>([]);
+  // eslint-disable-next-line no-unused-vars
+  const [copy, setCopy] = useState<string[]>();
 
   useEffect(() => {
     const rowLength =
       Math.ceil(Math.abs(differenceInHours(dateStart, dateEnd)) / 24) + 1;
+
     setTimeTable(
       new Array(rowLength).fill(new Array(headers.length).fill(null)),
     );
   }, [dateStart, dateEnd]);
-
-  useEffect(() => {
-    console.table(timeTable);
-  }, [timeTable]);
 
   const editValueInTimeTable = (
     rowIndex: number,
@@ -84,6 +180,19 @@ const TimeTable = ({ id, ...props }: Props) => {
     ]);
   };
 
+  const handleCopyColumn = (colIndex: number) => {
+    setCopy(
+      timeTable.reduce((acc, currentRow) => {
+        const value = currentRow[colIndex];
+        return [...acc, value];
+      }, []),
+    );
+  };
+
+  const handleCopyRow = (rowIndex: number) => {
+    setCopy(timeTable[rowIndex]);
+  };
+
   return (
     <Stack spacing={3} {...getStackProps(props)}>
       <DatePeriodPicker
@@ -93,46 +202,18 @@ const TimeTable = ({ id, ...props }: Props) => {
         setDateStart={setDateStart}
         setDateEnd={setDateEnd}
       />
-      <Inline spacing={3}>
-        {(timeTable?.[0] ?? []).map((col, colIndex) => {
-          return (
-            <Stack key={colIndex} spacing={3}>
-              <Inline
-                justifyContent="space-between"
-                paddingLeft={1}
-                paddingRight={1}
-              >
-                <Label htmlFor={headers[colIndex]}>{headers[colIndex]}</Label>
-                <Button
-                  variant={ButtonVariants.UNSTYLED}
-                  onClick={() => {}}
-                  customChildren
-                >
-                  <Icon name={Icons.COPY} />
-                </Button>
-              </Inline>
-              {timeTable.map((row, rowIndex) => (
-                <Input
-                  id={headers[colIndex]}
-                  key={`${colIndex}:${rowIndex}`}
-                  minWidth="8rem"
-                  value={row[colIndex] ?? ''}
-                  onInput={(e) => {
-                    editValueInTimeTable(rowIndex, colIndex, e.target.value);
-                  }}
-                  onBlur={() =>
-                    editValueInTimeTable(
-                      rowIndex,
-                      colIndex,
-                      formatTimeValue(row[colIndex]),
-                    )
-                  }
-                />
-              ))}
-            </Stack>
-          );
-        })}
-      </Inline>
+      <Stack spacing={3}>
+        {timeTable.map((row, rowIndex) => (
+          <Row
+            key={rowIndex}
+            row={row}
+            index={rowIndex}
+            onCopyRow={handleCopyRow}
+            onCopyColumn={handleCopyColumn}
+            editValueInTimeTable={editValueInTimeTable}
+          />
+        ))}
+      </Stack>
     </Stack>
   );
 };
