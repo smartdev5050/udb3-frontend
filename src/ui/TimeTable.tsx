@@ -246,7 +246,7 @@ const TimeTable = ({ id, className, ...props }: Props) => {
   };
 
   return (
-    <Stack spacing={3} className={className} {...getStackProps(props)}>
+    <Stack spacing={4} className={className} {...getStackProps(props)}>
       <DatePeriodPicker
         id={id}
         dateStart={dateStart}

@@ -10,7 +10,7 @@ const Create = () => {
   return (
     <Page>
       <Page.Title>{t('movies.create.title')}</Page.Title>
-      <Page.Content>
+      <Page.Content paddingBottom={6}>
         <TimeTable id="timetable-movies" />
       </Page.Content>
     </Page>
