@@ -78,6 +78,15 @@ type SvgProps = {
   viewBox: string;
 };
 
+type DatePickerProps = {
+  selected: Date;
+  onChange: (value: Date) => void;
+  dateFormat: string;
+  minDate: Date;
+  maxDate: Date;
+  customInput: ReactNode;
+};
+
 type BoxProps = Partial<
   GeneralProps &
     InlineProps &
@@ -86,56 +95,58 @@ type BoxProps = Partial<
     LinkProps &
     LabelProps &
     ImageProps &
-    SvgProps & {
+    SvgProps &
+    DatePickerProps & {
       alignItems: UIProp<string>;
-      margin: UIProp<number>;
-      marginTop: UIProp<number>;
-      marginBottom: UIProp<number>;
-      marginRight: UIProp<number>;
-      marginLeft: UIProp<number>;
-      marginX: UIProp<number>;
-      marginY: UIProp<number>;
-      padding: UIProp<number>;
-      paddingTop: UIProp<number>;
-      paddingBottom: UIProp<number>;
-      paddingRight: UIProp<number>;
-      paddingLeft: UIProp<number>;
-      paddingX: UIProp<number>;
-      paddingY: UIProp<number>;
-      width: UIProp<string | number>;
-      minWidth: UIProp<string | number>;
-      maxWidth: UIProp<string | number>;
-      height: UIProp<string | number>;
-      justifyContent: UIProp<string>;
-      maxHeight: UIProp<string | number>;
-      minHeight: UIProp<string | number>;
-      top: UIProp<string | number>;
-      bottom: UIProp<string | number>;
-      left: UIProp<string | number>;
-      right: UIProp<string | number>;
+      animation: UIProp<FlattenSimpleInterpolation>;
       backgroundColor: UIProp<string>;
       backgroundPosition: UIProp<string>;
       backgroundRepeat: UIProp<string>;
-      objectFit: UIProp<string>;
+      bottom: UIProp<string | number>;
+      color: UIProp<string>;
+      cursor: UIProp<string>;
+      display: UIProp<string>;
+      flex: UIProp<string | number>;
       fontSize: UIProp<string | number>;
       fontWeight: UIProp<string | number>;
-      textAlign: UIProp<string>;
+      height: UIProp<string | number>;
+      id: UIProp<string>;
+      justifyContent: UIProp<string>;
+      left: UIProp<string | number>;
       lineHeight: UIProp<string | number>;
-      color: UIProp<string>;
-      stroke: UIProp<string>;
-      zIndex: UIProp<number>;
-      position: UIProp<string>;
-      display: UIProp<string>;
-      opacity: UIProp<number>;
-      flex: UIProp<string | number>;
-      cursor: UIProp<string>;
-      animation: UIProp<FlattenSimpleInterpolation>;
-      onClick: (event: MouseEvent<HTMLElement>) => void;
-      onInput: (event: ChangeEvent<HTMLInputElement>) => void;
-      onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+      margin: UIProp<number>;
+      marginBottom: UIProp<number>;
+      marginLeft: UIProp<number>;
+      marginRight: UIProp<number>;
+      marginTop: UIProp<number>;
+      marginX: UIProp<number>;
+      marginY: UIProp<number>;
+      maxHeight: UIProp<string | number>;
+      maxWidth: UIProp<string | number>;
+      minHeight: UIProp<string | number>;
+      minWidth: UIProp<string | number>;
+      objectFit: UIProp<string>;
       onBlur: (event: FormEvent<HTMLInputElement>) => void;
-      onPaste: (event: FormEvent<HTMLFormElement>) => void;
+      onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+      onClick: (event: MouseEvent<HTMLElement>) => void;
       onMouseOver: (event: MouseEvent<HTMLFormElement>) => void;
+      onPaste: (event: FormEvent<HTMLFormElement>) => void;
+      onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+      opacity: UIProp<number>;
+      padding: UIProp<number>;
+      paddingBottom: UIProp<number>;
+      paddingLeft: UIProp<number>;
+      paddingRight: UIProp<number>;
+      paddingTop: UIProp<number>;
+      paddingX: UIProp<number>;
+      paddingY: UIProp<number>;
+      position: UIProp<string>;
+      right: UIProp<string | number>;
+      stroke: UIProp<string>;
+      textAlign: UIProp<string>;
+      top: UIProp<string | number>;
+      width: UIProp<string | number>;
+      zIndex: UIProp<number>;
     }
 >;
 
@@ -367,50 +378,51 @@ const StyledBox = styled.div`
 
 const boxPropTypes = [
   'alignItems',
+  'animation',
   'as',
-  'onClick',
-  'margin',
-  'marginTop',
-  'marginBottom',
-  'marginRight',
-  'marginLeft',
-  'marginX',
-  'marginY',
-  'padding',
-  'paddingTop',
-  'paddingBottom',
-  'paddingRight',
-  'paddingLeft',
-  'paddingX',
-  'paddingY',
-  'width',
-  'minWidth',
-  'maxWidth',
-  'height',
-  'justifyContent',
-  'maxHeight',
-  'minHeight',
-  'top',
-  'bottom',
-  'left',
-  'right',
   'backgroundColor',
   'backgroundPosition',
   'backgroundRepeat',
-  'objectFit',
+  'bottom',
+  'color',
+  'cursor',
+  'display',
+  'flex',
   'fontSize',
   'fontWeight',
-  'textAlign',
+  'height',
+  'id',
+  'justifyContent',
+  'left',
   'lineHeight',
-  'color',
-  'stroke',
-  'zIndex',
-  'position',
-  'display',
+  'margin',
+  'marginBottom',
+  'marginLeft',
+  'marginRight',
+  'marginTop',
+  'marginX',
+  'marginY',
+  'maxHeight',
+  'maxWidth',
+  'minHeight',
+  'minWidth',
+  'objectFit',
+  'onClick',
   'opacity',
-  'flex',
-  'cursor',
-  'animation',
+  'padding',
+  'paddingBottom',
+  'paddingLeft',
+  'paddingRight',
+  'paddingTop',
+  'paddingX',
+  'paddingY',
+  'position',
+  'right',
+  'stroke',
+  'textAlign',
+  'top',
+  'width',
+  'zIndex',
 ] as const;
 
 const getBoxProps = (props: UnknownProps) => pick(props, boxPropTypes);

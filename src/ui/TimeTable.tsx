@@ -128,7 +128,7 @@ const Row = ({
         key={`${index}${colIndex}`}
         id={colHeaders[colIndex]}
         value={row[colIndex] ?? ''}
-        onInput={(e) => editValueInTimeTable(index, colIndex, e.target.value)}
+        onChange={(e) => editValueInTimeTable(index, colIndex, e.target.value)}
         onBlur={(e) => {
           editValueInTimeTable(index, colIndex, formatTimeValue(row[colIndex]));
         }}

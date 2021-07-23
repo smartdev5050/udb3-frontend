@@ -9,7 +9,7 @@ import ReactDatePicker, {
 
 import type { BoxProps } from './Box';
 import { Box, getBoxProps } from './Box';
-import { getValueFromTheme } from './theme';
+import { Input } from './Input';
 
 setDefaultLocale('nl');
 registerLocale('nl', nl);
@@ -23,8 +23,6 @@ type Props = BoxProps & {
   onChange?: (value: Date) => void;
 };
 
-const getValue = getValueFromTheme('datePicker');
-
 const DatePicker = ({
   id,
   selected,
@@ -35,20 +33,18 @@ const DatePicker = ({
   ...props
 }: Props) => {
   return (
-    <Box className={className} {...getBoxProps(props)}>
-      <ReactDatePicker
-        id={id}
-        selected={selected}
-        onChange={onChange}
-        dateFormat="dd/MM/yyyy"
-        minDate={minDate}
-        maxDate={maxDate}
-        css={`
-          border: 1px solid ${getValue('borderColor')};
-          padding: 0.2rem 0.4rem;
-        `}
-      />
-    </Box>
+    <Box
+      as={ReactDatePicker}
+      className={className}
+      id={id}
+      selected={selected}
+      onChange={onChange}
+      dateFormat="dd/MM/yyyy"
+      minDate={minDate}
+      maxDate={maxDate}
+      customInput={<Input id={id} />}
+      {...getBoxProps(props)}
+    />
   );
 };
 

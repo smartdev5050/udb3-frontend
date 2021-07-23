@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { Form } from 'react-bootstrap';
 
 import type { BoxProps } from './Box';
@@ -30,7 +31,7 @@ type InputType =
   | 'week';
 
 type InputProps = {
-  type: InputType;
+  type?: InputType;
   id: string;
   placeholder?: string;
   value?: string;
@@ -38,32 +39,40 @@ type InputProps = {
 
 type Props = BoxProps & InputProps;
 
-const Input = ({
-  type,
-  id,
-  placeholder,
-  onInput,
-  onBlur,
-  onPaste,
-  className,
-  value,
-  ...props
-}: Props) => (
-  <Form.Control
-    forwardedAs={BaseInput}
-    id={id}
-    type={type}
-    placeholder={placeholder}
-    className={className}
-    maxWidth="43rem"
-    css="border-radius: 0;"
-    onInput={onInput}
-    onBlur={onBlur}
-    onPaste={onPaste}
-    value={value}
-    {...getBoxProps(props)}
-  />
+const Input = forwardRef(
+  (
+    {
+      type,
+      id,
+      placeholder,
+      onChange,
+      onBlur,
+      onPaste,
+      className,
+      value,
+      ...props
+    }: Props,
+    ref,
+  ) => (
+    <Form.Control
+      ref={ref}
+      forwardedAs={BaseInput}
+      id={id}
+      type={type}
+      placeholder={placeholder}
+      className={className}
+      maxWidth="43rem"
+      css="border-radius: 0;"
+      onInput={onChange}
+      onBlur={onBlur}
+      onPaste={onPaste}
+      value={value}
+      {...getBoxProps(props)}
+    />
+  ),
 );
+
+Input.displayName = 'Input';
 
 Input.defaultProps = {
   type: 'text',
