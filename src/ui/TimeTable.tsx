@@ -24,7 +24,7 @@ const formatTimeValue = (value: string) => {
   }
 
   // is already in correct format
-  if (value.includes('h') && value.includes('m')) {
+  if (/[0-2][0-4]h[0-5][0-9]m/.test(value)) {
     return value;
   }
 
