@@ -1,6 +1,7 @@
 import { addDays, differenceInHours, format as formatDate } from 'date-fns';
 import { useEffect, useState } from 'react';
 
+import { parseSpacing } from './Box';
 import { Button, ButtonVariants } from './Button';
 import { DatePeriodPicker } from './DatePeriodPicker';
 import { Icon, Icons } from './Icon';
@@ -110,57 +111,35 @@ const Row = ({
   editValueInTimeTable,
   ...props
 }: RowProps) => {
-  return (
-    <Inline spacing={3} alignItems="flex-end" {...getInlineProps(props)}>
-      <Text>{formatDate(date, 'dd/MM/yy')}</Text>
-      {row.map((col, colIndex) => {
-        const input = (
-          <Input
-            key={`${index}${colIndex}`}
-            id={colHeaders[colIndex]}
-            minWidth="8rem"
-            value={row[colIndex] ?? ''}
-            onInput={(e) =>
-              editValueInTimeTable(index, colIndex, e.target.value)
-            }
-            onBlur={(e) => {
-              editValueInTimeTable(
-                index,
-                colIndex,
-                formatTimeValue(row[colIndex]),
-              );
-            }}
-            onPaste={(e) => {
-              e.preventDefault();
-              onPaste(index, colIndex);
-            }}
-          />
-        );
-        return (
-          <Stack key={colIndex}>
-            {index === 0
-              ? [
-                  <Header
-                    key={colHeaders[colIndex]}
-                    header={colHeaders[colIndex]}
-                    index={colIndex}
-                    onCopy={onCopyColumn}
-                  />,
-                  input,
-                ]
-              : input}
-          </Stack>
-        );
-      })}
-      <Button
-        variant={ButtonVariants.UNSTYLED}
-        onClick={() => onCopyRow(index)}
-        customChildren
-      >
-        <Icon name={Icons.COPY} />
-      </Button>
-    </Inline>
+  const dateLabel = <Text>{formatDate(date, 'dd/MM/yy')}</Text>;
+  const copyButton = (
+    <Button
+      variant={ButtonVariants.UNSTYLED}
+      onClick={() => onCopyRow(index)}
+      customChildren
+    >
+      <Icon name={Icons.COPY} />
+    </Button>
   );
+  return [
+    dateLabel,
+    ...row.map((col, colIndex) => (
+      <Input
+        key={`${index}${colIndex}`}
+        id={colHeaders[colIndex]}
+        value={row[colIndex] ?? ''}
+        onInput={(e) => editValueInTimeTable(index, colIndex, e.target.value)}
+        onBlur={(e) => {
+          editValueInTimeTable(index, colIndex, formatTimeValue(row[colIndex]));
+        }}
+        onPaste={(e) => {
+          e.preventDefault();
+          onPaste(index, colIndex);
+        }}
+      />
+    )),
+    copyButton,
+  ];
 };
 
 type Props = StackProps & {
@@ -254,7 +233,30 @@ const TimeTable = ({ id, className, ...props }: Props) => {
         setDateStart={setDateStart}
         setDateEnd={setDateEnd}
       />
-      <Stack spacing={3}>
+      <Stack
+        css={`
+          display: grid;
+          grid-template-rows: repeat(${(timeTable?.length ?? 0) + 1}, 1fr);
+          grid-template-columns:
+            min-content repeat(${timeTable?.[0]?.length ?? 0}, 1fr)
+            min-content;
+          column-gap: ${parseSpacing(3)};
+          row-gap: ${parseSpacing(3)};
+          align-items: center;
+        `}
+      >
+        {[
+          <Text key="pre" />,
+          ...colHeaders.map((header, headerIndex) => (
+            <Header
+              key={header}
+              header={header}
+              index={headerIndex}
+              onCopy={handleCopyColumn}
+            />
+          )),
+          <Text key="post" />,
+        ]}
         {timeTable.map((row, rowIndex) => (
           <Row
             key={rowIndex}
