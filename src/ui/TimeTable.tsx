@@ -17,7 +17,7 @@ const colHeaders = ['wo', 'do', 'vr', 'za', 'zo', 'ma', 'di'];
 
 type Time = string;
 
-type CopyOrientation = 'row' | 'col';
+type CopyMethod = 'row' | 'col' | 'all';
 
 const formatTimeValue = (value: string) => {
   if (!value) {
@@ -153,7 +153,7 @@ const TimeTable = ({ id, className, ...props }: Props) => {
   const [timeTable, setTimeTable] = useState<Time[][]>([]);
 
   const [copyValue, setCopyValue] = useState<string[]>();
-  const [copyOrientation, setCopyOrientation] = useState<CopyOrientation>();
+  const [copyMethod, setCopyMethod] = useState<CopyMethod>();
 
   useEffect(() => {
     const rowLength =
@@ -185,7 +185,7 @@ const TimeTable = ({ id, className, ...props }: Props) => {
   };
 
   const handleCopyColumn = (colIndex: number) => {
-    setCopyOrientation('col');
+    setCopyMethod('col');
     setCopyValue(
       timeTable.reduce((acc, currentRow) => {
         const value = currentRow[colIndex];
@@ -195,12 +195,12 @@ const TimeTable = ({ id, className, ...props }: Props) => {
   };
 
   const handleCopyRow = (rowIndex: number) => {
-    setCopyOrientation('row');
+    setCopyMethod('row');
     setCopyValue(timeTable[rowIndex]);
   };
 
   const handlePaste = (rowIndex: number, colIndex: number) => {
-    if (copyOrientation === 'row') {
+    if (copyMethod === 'row') {
       setTimeTable((prevTimeTable) =>
         prevTimeTable.map((innerRow, innerRowIndex) => {
           if (rowIndex === innerRowIndex) {
@@ -210,7 +210,7 @@ const TimeTable = ({ id, className, ...props }: Props) => {
         }),
       );
     }
-    if (copyOrientation === 'col') {
+    if (copyMethod === 'col') {
       setTimeTable((prevTimeTable) =>
         prevTimeTable.map((innerRow, innerRowIndex) => {
           return innerRow.map((time, timeIndex) => {
@@ -258,6 +258,7 @@ const TimeTable = ({ id, className, ...props }: Props) => {
           <Text key="post" />,
         ]}
         {timeTable.map((row, rowIndex) => (
+          // @ts-expect-error
           <Row
             key={rowIndex}
             row={row}
