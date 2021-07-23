@@ -8,6 +8,7 @@ import type { InlineProps } from './Inline';
 import { getInlineProps, Inline } from './Inline';
 import { Input } from './Input';
 import { Label } from './Label';
+import type { StackProps } from './Stack';
 import { getStackProps, Stack } from './Stack';
 
 const colHeaders = ['wo', 'do', 'vr', 'za', 'zo', 'ma', 'di'];
@@ -153,11 +154,11 @@ const Row = ({
   );
 };
 
-type Props = {
+type Props = StackProps & {
   id: string;
 };
 
-const TimeTable = ({ id, ...props }: Props) => {
+const TimeTable = ({ id, className, ...props }: Props) => {
   const [dateStart, setDateStart] = useState(new Date());
   const [dateEnd, setDateEnd] = useState(new Date());
 
@@ -236,7 +237,7 @@ const TimeTable = ({ id, ...props }: Props) => {
   };
 
   return (
-    <Stack spacing={3} {...getStackProps(props)}>
+    <Stack spacing={3} className={className} {...getStackProps(props)}>
       <DatePeriodPicker
         id={id}
         dateStart={dateStart}
