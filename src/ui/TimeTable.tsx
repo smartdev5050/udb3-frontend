@@ -1,4 +1,4 @@
-import { differenceInHours } from 'date-fns';
+import { addDays, differenceInHours, format as formatDate } from 'date-fns';
 import { useEffect, useState } from 'react';
 
 import { Button, ButtonVariants } from './Button';
@@ -10,6 +10,7 @@ import { Input } from './Input';
 import { Label } from './Label';
 import type { StackProps } from './Stack';
 import { getStackProps, Stack } from './Stack';
+import { Text } from './Text';
 
 const colHeaders = ['wo', 'do', 'vr', 'za', 'zo', 'ma', 'di'];
 
@@ -88,6 +89,7 @@ const Header = ({ header, index, onCopy, ...props }: HeaderProps) => {
 type RowProps = Omit<InlineProps, 'onPaste'> & {
   row: string[];
   index: number;
+  date: Date;
   onCopyRow: (index: number) => void;
   onCopyColumn: (index: number) => void;
   onPaste: (rowIndex: number, colIndex: number) => void;
@@ -101,6 +103,7 @@ type RowProps = Omit<InlineProps, 'onPaste'> & {
 const Row = ({
   row,
   index,
+  date,
   onCopyRow,
   onCopyColumn,
   onPaste,
@@ -109,6 +112,7 @@ const Row = ({
 }: RowProps) => {
   return (
     <Inline spacing={3} alignItems="flex-end" {...getInlineProps(props)}>
+      <Text>{formatDate(date, 'dd/MM/yy')}</Text>
       {row.map((col, colIndex) => {
         const input = (
           <Input
@@ -256,6 +260,7 @@ const TimeTable = ({ id, className, ...props }: Props) => {
             key={rowIndex}
             row={row}
             index={rowIndex}
+            date={addDays(dateStart, rowIndex)}
             onCopyRow={handleCopyRow}
             onCopyColumn={handleCopyColumn}
             onPaste={handlePaste}
