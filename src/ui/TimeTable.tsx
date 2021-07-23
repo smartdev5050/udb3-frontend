@@ -16,8 +16,19 @@ type Time = string;
 
 type TimeTableType = Time[][];
 
+type CopyOrientation = 'row' | 'col';
+
 const formatTimeValue = (value: string) => {
-  if (value === null || isNaN(value as any)) {
+  if (!value) {
+    return null;
+  }
+
+  // is already in correct format
+  if (value.includes('h') && value.includes('m')) {
+    return value;
+  }
+
+  if (isNaN(value as any)) {
     return null;
   }
 
@@ -70,11 +81,12 @@ const Header = ({ header, index, onCopy, ...props }: HeaderProps) => {
   );
 };
 
-type RowProps = InlineProps & {
+type RowProps = Omit<InlineProps, 'onPaste'> & {
   row: string[];
   index: number;
   onCopyRow: (index: number) => void;
   onCopyColumn: (index: number) => void;
+  onPaste: (rowIndex: number, colIndex: number) => void;
   editValueInTimeTable: (
     rowIndex: number,
     colIndex: number,
@@ -87,57 +99,61 @@ const Row = ({
   index,
   onCopyRow,
   onCopyColumn,
+  onPaste,
   editValueInTimeTable,
   ...props
-}: RowProps) => (
-  <Inline spacing={3} alignItems="flex-end" {...getInlineProps(props)}>
-    {row.map((col, colIndex) => {
-      const input = (
-        <Input
-          key={`${index}${colIndex}`}
-          id={headers[colIndex]}
-          minWidth="8rem"
-          value={row[colIndex] ?? ''}
-          onInput={(e) => {
-            editValueInTimeTable(index, colIndex, e.target.value);
-          }}
-          onBlur={() =>
-            editValueInTimeTable(
-              index,
-              colIndex,
-              formatTimeValue(row[colIndex]),
-            )
-          }
-        />
-      );
-      return (
-        <Stack key={colIndex}>
-          {index === 0
-            ? [
-                <Header
-                  key={headers[colIndex]}
-                  header={headers[colIndex]}
-                  index={colIndex}
-                  onCopy={onCopyColumn}
-                />,
-                input,
-              ]
-            : input}
-        </Stack>
-      );
-    })}
-    <Button
-      variant={ButtonVariants.UNSTYLED}
-      onClick={() => onCopyRow(index)}
-      customChildren
-      css={`
-        align-self: ;
-      `}
-    >
-      <Icon name={Icons.COPY} />
-    </Button>
-  </Inline>
-);
+}: RowProps) => {
+  return (
+    <Inline spacing={3} alignItems="flex-end" {...getInlineProps(props)}>
+      {row.map((col, colIndex) => {
+        const input = (
+          <Input
+            key={`${index}${colIndex}`}
+            id={headers[colIndex]}
+            minWidth="8rem"
+            value={row[colIndex] ?? ''}
+            onInput={(e) =>
+              editValueInTimeTable(index, colIndex, e.target.value)
+            }
+            onBlur={(e) => {
+              editValueInTimeTable(
+                index,
+                colIndex,
+                formatTimeValue(row[colIndex]),
+              );
+            }}
+            onPaste={(e) => {
+              e.preventDefault();
+              onPaste(index, colIndex);
+            }}
+          />
+        );
+        return (
+          <Stack key={colIndex}>
+            {index === 0
+              ? [
+                  <Header
+                    key={headers[colIndex]}
+                    header={headers[colIndex]}
+                    index={colIndex}
+                    onCopy={onCopyColumn}
+                  />,
+                  input,
+                ]
+              : input}
+          </Stack>
+        );
+      })}
+      <Button
+        variant={ButtonVariants.UNSTYLED}
+        onClick={() => onCopyRow(index)}
+        customChildren
+      >
+        <Icon name={Icons.COPY} />
+      </Button>
+    </Inline>
+  );
+};
 
 type Props = {
   id: string;
@@ -148,8 +164,9 @@ const TimeTable = ({ id, ...props }: Props) => {
   const [dateEnd, setDateEnd] = useState(new Date());
 
   const [timeTable, setTimeTable] = useState<TimeTableType>([]);
-  // eslint-disable-next-line no-unused-vars
-  const [copy, setCopy] = useState<string[]>();
+
+  const [copyValue, setCopyValue] = useState<string[]>();
+  const [copyOrientation, setCopyOrientation] = useState<CopyOrientation>();
 
   useEffect(() => {
     const rowLength =
@@ -160,13 +177,15 @@ const TimeTable = ({ id, ...props }: Props) => {
     );
   }, [dateStart, dateEnd]);
 
+  useEffect(() => console.table(timeTable), [timeTable]);
+
   const editValueInTimeTable = (
     rowIndex: number,
     colIndex: number,
     value: string,
   ) => {
-    setTimeTable((prevTimeTable) => [
-      ...prevTimeTable.map((innerRow, innerRowIndex) => {
+    setTimeTable((prevTimeTable) =>
+      prevTimeTable.map((innerRow, innerRowIndex) => {
         if (rowIndex === innerRowIndex) {
           return innerRow.map((time, timeIndex) => {
             if (colIndex === timeIndex) {
@@ -177,11 +196,12 @@ const TimeTable = ({ id, ...props }: Props) => {
         }
         return innerRow;
       }),
-    ]);
+    );
   };
 
   const handleCopyColumn = (colIndex: number) => {
-    setCopy(
+    setCopyOrientation('col');
+    setCopyValue(
       timeTable.reduce((acc, currentRow) => {
         const value = currentRow[colIndex];
         return [...acc, value];
@@ -190,7 +210,33 @@ const TimeTable = ({ id, ...props }: Props) => {
   };
 
   const handleCopyRow = (rowIndex: number) => {
-    setCopy(timeTable[rowIndex]);
+    setCopyOrientation('row');
+    setCopyValue(timeTable[rowIndex]);
+  };
+
+  const handlePaste = (rowIndex: number, colIndex: number) => {
+    if (copyOrientation === 'row') {
+      setTimeTable((prevTimeTable) =>
+        prevTimeTable.map((innerRow, innerRowIndex) => {
+          if (rowIndex === innerRowIndex) {
+            return copyValue;
+          }
+          return innerRow;
+        }),
+      );
+    }
+    if (copyOrientation === 'col') {
+      setTimeTable((prevTimeTable) =>
+        prevTimeTable.map((innerRow, innerRowIndex) => {
+          return innerRow.map((time, timeIndex) => {
+            if (timeIndex === colIndex) {
+              return copyValue[innerRowIndex];
+            }
+            return time;
+          });
+        }),
+      );
+    }
   };
 
   return (
@@ -210,6 +256,7 @@ const TimeTable = ({ id, ...props }: Props) => {
             index={rowIndex}
             onCopyRow={handleCopyRow}
             onCopyColumn={handleCopyColumn}
+            onPaste={handlePaste}
             editValueInTimeTable={editValueInTimeTable}
           />
         ))}

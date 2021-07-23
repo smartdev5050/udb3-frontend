@@ -44,6 +44,7 @@ const Input = ({
   placeholder,
   onInput,
   onBlur,
+  onPaste,
   className,
   value,
   ...props
@@ -58,6 +59,7 @@ const Input = ({
     css="border-radius: 0;"
     onInput={onInput}
     onBlur={onBlur}
+    onPaste={onPaste}
     value={value}
     {...getBoxProps(props)}
   />
