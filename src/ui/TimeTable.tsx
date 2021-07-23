@@ -10,11 +10,9 @@ import { Input } from './Input';
 import { Label } from './Label';
 import { getStackProps, Stack } from './Stack';
 
-const headers = ['wo', 'do', 'vr', 'za', 'zo', 'ma', 'di'];
+const colHeaders = ['wo', 'do', 'vr', 'za', 'zo', 'ma', 'di'];
 
 type Time = string;
-
-type TimeTableType = Time[][];
 
 type CopyOrientation = 'row' | 'col';
 
@@ -109,7 +107,7 @@ const Row = ({
         const input = (
           <Input
             key={`${index}${colIndex}`}
-            id={headers[colIndex]}
+            id={colHeaders[colIndex]}
             minWidth="8rem"
             value={row[colIndex] ?? ''}
             onInput={(e) =>
@@ -133,8 +131,8 @@ const Row = ({
             {index === 0
               ? [
                   <Header
-                    key={headers[colIndex]}
-                    header={headers[colIndex]}
+                    key={colHeaders[colIndex]}
+                    header={colHeaders[colIndex]}
                     index={colIndex}
                     onCopy={onCopyColumn}
                   />,
@@ -163,7 +161,7 @@ const TimeTable = ({ id, ...props }: Props) => {
   const [dateStart, setDateStart] = useState(new Date());
   const [dateEnd, setDateEnd] = useState(new Date());
 
-  const [timeTable, setTimeTable] = useState<TimeTableType>([]);
+  const [timeTable, setTimeTable] = useState<Time[][]>([]);
 
   const [copyValue, setCopyValue] = useState<string[]>();
   const [copyOrientation, setCopyOrientation] = useState<CopyOrientation>();
@@ -173,16 +171,14 @@ const TimeTable = ({ id, ...props }: Props) => {
       Math.ceil(Math.abs(differenceInHours(dateStart, dateEnd)) / 24) + 1;
 
     setTimeTable(
-      new Array(rowLength).fill(new Array(headers.length).fill(null)),
+      new Array(rowLength).fill(new Array(colHeaders.length).fill(null)),
     );
   }, [dateStart, dateEnd]);
-
-  useEffect(() => console.table(timeTable), [timeTable]);
 
   const editValueInTimeTable = (
     rowIndex: number,
     colIndex: number,
-    value: string,
+    value: Time,
   ) => {
     setTimeTable((prevTimeTable) =>
       prevTimeTable.map((innerRow, innerRowIndex) => {
