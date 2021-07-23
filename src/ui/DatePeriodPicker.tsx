@@ -27,8 +27,8 @@ const DatePeriodPicker = ({
   const idPrefix = `${id}date-period-picker`;
 
   return (
-    <Inline spacing={5} {...getInlineProps(props)}>
-      <Stack>
+    <Inline as="div" spacing={5} {...getInlineProps(props)}>
+      <Stack as="div">
         <Label variant={LabelVariants.BOLD} htmlFor={`${idPrefix}-start`}>
           {t('time_table.start')}
         </Label>
@@ -43,7 +43,7 @@ const DatePeriodPicker = ({
           }}
         />
       </Stack>
-      <Stack>
+      <Stack as="div">
         <Label variant={LabelVariants.BOLD} htmlFor={`${idPrefix}-end`}>
           {t('time_table.end')}
         </Label>

@@ -69,6 +69,7 @@ type HeaderProps = InlineProps & {
 const Header = ({ header, index, onCopy, ...props }: HeaderProps) => {
   return (
     <Inline
+      as="div"
       justifyContent="space-between"
       paddingLeft={1}
       paddingRight={1}
@@ -225,7 +226,7 @@ const TimeTable = ({ id, className, ...props }: Props) => {
   };
 
   return (
-    <Stack spacing={4} className={className} {...getStackProps(props)}>
+    <Stack as="div" spacing={4} className={className} {...getStackProps(props)}>
       <DatePeriodPicker
         id={id}
         dateStart={dateStart}
@@ -234,6 +235,7 @@ const TimeTable = ({ id, className, ...props }: Props) => {
         setDateEnd={setDateEnd}
       />
       <Stack
+        forwardedAs="div"
         css={`
           display: grid;
           grid-template-rows: repeat(${(timeTable?.length ?? 0) + 1}, 1fr);
