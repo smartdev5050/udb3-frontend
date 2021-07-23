@@ -33,9 +33,14 @@ const formatTimeValue = (value: string) => {
 
   let tranformedValue = value;
 
-  // pad with zeros if too short
-  if (value.length < 4) {
-    tranformedValue = value.padEnd(4, '0');
+  // pad start with zero if 1 digit
+  if (tranformedValue.length === 1) {
+    tranformedValue = tranformedValue.padStart(2, '0');
+  }
+
+  // pad end with zeros if too short
+  if (tranformedValue.length < 4) {
+    tranformedValue = tranformedValue.padEnd(4, '0');
   }
 
   const firstChars = tranformedValue.substring(0, 2);
