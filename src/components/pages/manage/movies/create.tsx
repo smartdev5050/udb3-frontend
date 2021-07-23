@@ -11,7 +11,7 @@ const Create = () => {
     <Page>
       <Page.Title>{t('movies.create.title')}</Page.Title>
       <Page.Content>
-        <TimeTable />
+        <TimeTable id="timetable-movies" />
       </Page.Content>
     </Page>
   );
