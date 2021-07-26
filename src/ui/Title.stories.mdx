@@ -1,5 +1,6 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
 import { Title } from './Title';
+import { Text } from './Text';
 
 <Meta title="Components/Title" component={Title} />
 
@@ -8,8 +9,13 @@ import { Title } from './Title';
 ## Size1
 
 <Canvas>
-  <Story name="Size1" args={{ children: 'Size 1', size: 1 }}>
-    {(args) => <Title {...args} />}
+  <Story name="Size1" args={{ size: 1, spacing: 6 }}>
+    {(args) => (
+      <Title {...args}>
+        <Text>Size 1</Text>
+        <Text>Size 2</Text>
+      </Title>
+    )}
   </Story>
 </Canvas>
 
@@ -18,8 +24,13 @@ import { Title } from './Title';
 ## Size2
 
 <Canvas>
-  <Story name="Size2" args={{ children: 'Size 2', size: 2 }}>
-    {(args) => <Title {...args} />}
+  <Story name="Size2" args={{ size: 2 }}>
+    {(args) => (
+      <Title {...args}>
+        <Text>Size 1</Text>
+        <Text>Size 2</Text>
+      </Title>
+    )}
   </Story>
 </Canvas>
 

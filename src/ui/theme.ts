@@ -263,6 +263,11 @@ const theme = {
         },
       },
     },
+    moviesCreatePage: {
+      check: {
+        circleFillColor: colors.green3,
+      },
+    },
     tabs: {
       color: colors.udbBlue,
       hoverColor: colors.textColor,

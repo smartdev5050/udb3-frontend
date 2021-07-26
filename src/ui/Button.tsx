@@ -9,16 +9,22 @@ import type { Icons } from './Icon';
 import { Icon } from './Icon';
 import type { InlineProps } from './Inline';
 import { getInlineProps, Inline } from './Inline';
+import { Link } from './Link';
 import { Spinner, SpinnerSizes, SpinnerVariants } from './Spinner';
 import { Text } from './Text';
 import { getValueFromTheme } from './theme';
 
-const ButtonVariants = {
+const BootStrapVariants = {
   PRIMARY: 'primary',
   SECONDARY: 'secondary',
   SUCCESS: 'success',
   DANGER: 'danger',
+} as const;
+
+const ButtonVariants = {
+  ...BootStrapVariants,
   UNSTYLED: 'unstyled',
+  LINK: 'link',
 } as const;
 
 const ButtonSizes = {
@@ -29,7 +35,7 @@ const ButtonSizes = {
 const getValue = getValueFromTheme('button');
 
 const BaseButton = (props: Omit<InlineProps, 'size'>) => (
-  <Inline forwardedAs="button" {...props} />
+  <Inline as="button" {...props} />
 );
 
 const customCSS = css`
@@ -162,6 +168,7 @@ type ButtonProps = Omit<InlineProps, 'size'> & {
   customChildren?: boolean;
   shouldHideText?: boolean;
   size?: Values<typeof ButtonSizes>;
+  variant?: Values<typeof ButtonVariants>;
 };
 
 const Button = ({
@@ -181,9 +188,13 @@ const Button = ({
   forwardedAs,
   ...props
 }: ButtonProps) => {
-  if (variant === ButtonVariants.SECONDARY) variant = 'outline-secondary';
+  const isBootstrapVariant = (Object.values(
+    BootStrapVariants,
+  ) as string[]).includes(variant);
+  const isLinkVariant = variant === ButtonVariants.LINK;
 
-  const isBootstrapVariant = variant !== ButtonVariants.UNSTYLED;
+  // @ts-expect-error
+  if (variant === ButtonVariants.SECONDARY) variant = 'outline-secondary';
 
   const BaseButtonWithForwardedAs = (props) => (
     <BaseButton {...props} forwardedAs={forwardedAs} />
@@ -239,6 +250,34 @@ const Button = ({
       <BootstrapButton {...propsToApply} css={customCSS}>
         {inner}
       </BootstrapButton>
+    );
+  }
+
+  if (isLinkVariant) {
+    return (
+      <BaseButton
+        {...propsToApply}
+        color="inherit"
+        cursor="pointer"
+        css={`
+          background: none;
+          border: none;
+
+          :focus {
+            outline: auto;
+          }
+          :focus:not(:focus-visible) {
+            outline: none;
+            box-shadow: none;
+          }
+        `}
+        alignItems="center"
+        justifyContent="flex-start"
+      >
+        <Link as="span" href="">
+          {children}
+        </Link>
+      </BaseButton>
     );
   }
 
