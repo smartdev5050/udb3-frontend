@@ -74,7 +74,7 @@ const NewsletterSignupForm = (props) => {
                 flex={1}
                 maxWidth="30rem"
               />
-              <Button onClick={handleSubmit} maxHeight={parseSpacing(5)()}>
+              <Button maxHeight={parseSpacing(5)()}>
                 {t('dashboard.newsletter.subscribe')}
               </Button>
             </Inline>
