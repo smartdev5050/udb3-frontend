@@ -52,4 +52,5 @@ const PanelFooter = ({ children, className, ...props }: PanelFooterProps) => {
 
 Panel.Footer = PanelFooter;
 
+export type { PanelProps };
 export { Panel };

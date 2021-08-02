@@ -10,6 +10,7 @@ import { Button } from '@/ui/Button';
 import { Image } from '@/ui/Image';
 import { Inline } from '@/ui/Inline';
 import { InputWithLabel } from '@/ui/InputWithLabel';
+import type { PanelProps } from '@/ui/Panel';
 import { Panel } from '@/ui/Panel';
 import { Paragraph } from '@/ui/Paragraph';
 import { Stack } from '@/ui/Stack';
@@ -20,6 +21,9 @@ const isEmail = (value: string) =>
 
 const NewsletterSignupForm = (props) => {
   const formRef = useRef<HTMLFormElement>();
+type Props = PanelProps;
+
+const NewsletterSignupForm = (props: Props) => {
   const [email, setEmail] = useState('');
   const [isValid, setIsValid] = useState(true);
 
