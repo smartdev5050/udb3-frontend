@@ -29,12 +29,8 @@ const NewsletterSignupForm = (props: Props) => {
 
   const addNewsletterSubscriberMutation = useAddNewsletterSubscriber();
 
-  const validate = () => {
-    setIsValid(isEmail(email));
-  };
-
   const handleSubmit = () => {
-    validate();
+    setIsValid(isEmail(email));
 
     if (isValid) {
       addNewsletterSubscriberMutation.mutate({ email });
@@ -68,7 +64,6 @@ const NewsletterSignupForm = (props: Props) => {
                 label="Email"
                 placeholder="email@domain.be"
                 onInput={(e) => {
-                  setIsValid(true);
                   setEmail(e.target.value);
                 }}
                 value={email}
