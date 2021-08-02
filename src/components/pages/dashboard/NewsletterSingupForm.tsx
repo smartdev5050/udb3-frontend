@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
@@ -19,8 +19,6 @@ import { Title } from '@/ui/Title';
 const isEmail = (value: string) =>
   yup.string().required().email().isValidSync(value);
 
-const NewsletterSignupForm = (props) => {
-  const formRef = useRef<HTMLFormElement>();
 type Props = PanelProps;
 
 const NewsletterSignupForm = (props: Props) => {
@@ -57,7 +55,6 @@ const NewsletterSignupForm = (props: Props) => {
             <Paragraph>{t('dashboard.newsletter.content')}</Paragraph>
             <Inline
               as="form"
-              ref={formRef}
               onSubmit={(e) => {
                 e.preventDefault();
                 handleSubmit();
