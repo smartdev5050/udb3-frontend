@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
@@ -10,6 +10,7 @@ import { Button } from '@/ui/Button';
 import { Image } from '@/ui/Image';
 import { Inline } from '@/ui/Inline';
 import { InputWithLabel } from '@/ui/InputWithLabel';
+import type { PanelProps } from '@/ui/Panel';
 import { Panel } from '@/ui/Panel';
 import { Paragraph } from '@/ui/Paragraph';
 import { Stack } from '@/ui/Stack';
@@ -18,8 +19,9 @@ import { Title } from '@/ui/Title';
 const isEmail = (value: string) =>
   yup.string().required().email().isValidSync(value);
 
-const NewsletterSignupForm = (props) => {
-  const formRef = useRef<HTMLFormElement>();
+type Props = PanelProps;
+
+const NewsletterSignupForm = (props: Props) => {
   const [email, setEmail] = useState('');
   const [isValid, setIsValid] = useState(true);
 
@@ -27,12 +29,8 @@ const NewsletterSignupForm = (props) => {
 
   const addNewsletterSubscriberMutation = useAddNewsletterSubscriber();
 
-  const validate = () => {
-    setIsValid(isEmail(email));
-  };
-
   const handleSubmit = () => {
-    validate();
+    setIsValid(isEmail(email));
 
     if (isValid) {
       addNewsletterSubscriberMutation.mutate({ email });
@@ -53,7 +51,6 @@ const NewsletterSignupForm = (props) => {
             <Paragraph>{t('dashboard.newsletter.content')}</Paragraph>
             <Inline
               as="form"
-              ref={formRef}
               onSubmit={(e) => {
                 e.preventDefault();
                 handleSubmit();
@@ -67,14 +64,13 @@ const NewsletterSignupForm = (props) => {
                 label="Email"
                 placeholder="email@domain.be"
                 onInput={(e) => {
-                  setIsValid(true);
                   setEmail(e.target.value);
                 }}
                 value={email}
                 flex={1}
                 maxWidth="30rem"
               />
-              <Button onClick={handleSubmit} maxHeight={parseSpacing(5)()}>
+              <Button maxHeight={parseSpacing(5)()}>
                 {t('dashboard.newsletter.subscribe')}
               </Button>
             </Inline>
