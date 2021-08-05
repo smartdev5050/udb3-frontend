@@ -14,7 +14,7 @@ import type { StackProps } from './Stack';
 import { getStackProps, Stack } from './Stack';
 import { Text } from './Text';
 
-const colHeaders = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+const colHeaders = ['t1', 't2', 't3', 't4', 't5', 't6', 't7'];
 
 type Time = string;
 
