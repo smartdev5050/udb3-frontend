@@ -12,6 +12,16 @@ const MovieEventTypes = {
 
 type Theme = Values<typeof MovieThemes>;
 
+type MovieContext = {
+  offerType: typeof OfferType.EVENT;
+  type: typeof OfferCategories.Film;
+  theme: Theme;
+};
+
+type MovieEvent =
+  | { type: typeof MovieEventTypes.CHOOSE_THEME; value: Theme }
+  | { type: typeof MovieEventTypes.CLEAR_THEME };
+
 type MovieStateSchema = {
   value: any;
   context: any;
@@ -19,16 +29,6 @@ type MovieStateSchema = {
     idle: {};
     themeChosen: {};
   };
-};
-
-type MovieEvent =
-  | { type: typeof MovieEventTypes.CHOOSE_THEME; value: Theme }
-  | { type: typeof MovieEventTypes.CLEAR_THEME };
-
-type MovieContext = {
-  offerType: typeof OfferType.EVENT;
-  type: typeof OfferCategories.Film;
-  theme: Theme;
 };
 
 const movieMachine = createMachine<MovieContext, MovieEvent, MovieStateSchema>({

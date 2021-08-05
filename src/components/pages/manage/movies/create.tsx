@@ -56,22 +56,25 @@ const Step = ({ step, children, ...props }: StepProps) => {
   );
 };
 
-const Step1 = (props: StackProps) => {
-  const [movieState, sendMovieEvent] = useMachine(movieMachine);
+type Step1Props = Omit<StackProps, 'theme'> & {
+  theme: Values<typeof MovieThemes>;
+  onSelectTheme: (value: Values<typeof MovieThemes>) => void;
+  onClearTheme: () => void;
+};
 
+const Step1 = ({
+  theme,
+  onSelectTheme,
+  onClearTheme,
+  ...props
+}: Step1Props) => {
   const { t } = useTranslation();
-
-  const handleSelectTheme = (value: Values<typeof MovieThemes>) => {
-    sendMovieEvent(MovieEventTypes.CHOOSE_THEME, { value });
-  };
-
-  const handleClearTheme = () => sendMovieEvent(MovieEventTypes.CLEAR_THEME);
 
   return (
     <Step step={1} {...getStackProps(props)}>
       <Stack spacing={5}>
         <Inline spacing={3} flexWrap="wrap" maxWidth="70rem">
-          {movieState.context.theme === null ? (
+          {theme === null ? (
             Object.entries(MovieThemes).map(([key, value]) => (
               <Button
                 width="auto"
@@ -79,7 +82,7 @@ const Step1 = (props: StackProps) => {
                 display="inline-flex"
                 key={key}
                 variant={ButtonVariants.SECONDARY}
-                onClick={() => handleSelectTheme(value)}
+                onClick={() => onSelectTheme(value)}
               >
                 {t(`themes*${value}`, { keySeparator: '*' })}
               </Button>
@@ -90,10 +93,8 @@ const Step1 = (props: StackProps) => {
                 name={Icons.CHECK_CIRCLE}
                 color={getValue('check.circleFillColor')}
               />
-              <Text>
-                {t(`themes*${movieState.context.theme}`, { keySeparator: '*' })}
-              </Text>
-              <Button variant={ButtonVariants.LINK} onClick={handleClearTheme}>
+              <Text>{t(`themes*${theme}`, { keySeparator: '*' })}</Text>
+              <Button variant={ButtonVariants.LINK} onClick={onClearTheme}>
                 {t('movies.create.actions.change_theme')}
               </Button>
             </Inline>
@@ -113,7 +114,17 @@ const Step2 = (props: StackProps) => {
 };
 
 const Create = () => {
+  const [movieState, sendMovieEvent] = useMachine(movieMachine);
+
   const { t } = useTranslation();
+
+  const handleSelectTheme = (value: Values<typeof MovieThemes>) => {
+    sendMovieEvent(MovieEventTypes.CHOOSE_THEME, { value });
+  };
+
+  const handleClearTheme = () => {
+    sendMovieEvent(MovieEventTypes.CLEAR_THEME);
+  };
 
   return (
     <Page>
@@ -121,7 +132,11 @@ const Create = () => {
         {t(`movies.create.title`)}
       </Page.Title>
       <Page.Content spacing={4}>
-        <Step1 />
+        <Step1
+          theme={movieState.context.theme}
+          onSelectTheme={handleSelectTheme}
+          onClearTheme={handleClearTheme}
+        />
         <Step2 />
       </Page.Content>
     </Page>
