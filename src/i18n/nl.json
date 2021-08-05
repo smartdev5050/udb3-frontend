@@ -107,6 +107,7 @@
     "create": {
       "title": "Films toevoegen",
       "step1_title": "Wat voor film wil je invoeren?",
+      "step2_title": "Wanneer vindt de film plaats?",
       "actions": {
         "change_theme": "Wijzig thema"
       }
