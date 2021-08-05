@@ -30,9 +30,10 @@ const NewsletterSignupForm = (props: Props) => {
   const addNewsletterSubscriberMutation = useAddNewsletterSubscriber();
 
   const handleSubmit = () => {
-    setIsValid(isEmail(email));
+    const isEmailValid = isEmail(email);
+    setIsValid(isEmailValid);
 
-    if (isValid) {
+    if (isEmailValid) {
       addNewsletterSubscriberMutation.mutate({ email });
     }
   };
