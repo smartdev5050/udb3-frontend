@@ -1,3 +1,4 @@
+import copyToClipboard from 'clipboard-copy';
 import { addDays, differenceInHours, format as formatDate } from 'date-fns';
 import { useEffect, useState } from 'react';
 
@@ -13,11 +14,16 @@ import type { StackProps } from './Stack';
 import { getStackProps, Stack } from './Stack';
 import { Text } from './Text';
 
-const colHeaders = ['wo', 'do', 'vr', 'za', 'zo', 'ma', 'di'];
+const colHeaders = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
 
 type Time = string;
 
-type CopyMethod = 'row' | 'col' | 'all';
+type CopyPayload =
+  | {
+      method: 'row' | 'col';
+      data: Time[];
+    }
+  | { method: 'all'; data: Time[][] };
 
 const formatTimeValue = (value: string) => {
   if (!value) {
@@ -94,7 +100,11 @@ type RowProps = Omit<InlineProps, 'onPaste'> & {
   date: Date;
   onCopyRow: (index: number) => void;
   onCopyColumn: (index: number) => void;
-  onPaste: (rowIndex: number, colIndex: number) => void;
+  onPaste: (
+    rowIndex: number,
+    colIndex: number,
+    clipboardValue: CopyPayload,
+  ) => void;
   editValueInTimeTable: (
     rowIndex: number,
     colIndex: number,
@@ -135,7 +145,13 @@ const Row = ({
         }}
         onPaste={(e) => {
           e.preventDefault();
-          onPaste(index, colIndex);
+
+          const clipboardValue = JSON.parse(
+            // @ts-expect-error
+            (e.clipboardData || window.clipboardData).getData('text'),
+          );
+
+          onPaste(index, colIndex, clipboardValue);
         }}
       />
     )),
@@ -152,9 +168,6 @@ const TimeTable = ({ id, className, ...props }: Props) => {
   const [dateEnd, setDateEnd] = useState(new Date());
 
   const [timeTable, setTimeTable] = useState<Time[][]>([]);
-
-  const [copyValue, setCopyValue] = useState<string[]>();
-  const [copyMethod, setCopyMethod] = useState<CopyMethod>();
 
   useEffect(() => {
     const rowLength =
@@ -186,47 +199,75 @@ const TimeTable = ({ id, className, ...props }: Props) => {
   };
 
   const handleCopyColumn = (colIndex: number) => {
-    setCopyMethod('col');
-    setCopyValue(
-      timeTable.reduce((acc, currentRow) => {
+    const copyAction: CopyPayload = {
+      method: 'col',
+      data: timeTable.reduce((acc, currentRow) => {
         const value = currentRow[colIndex];
         return [...acc, value];
       }, []),
-    );
+    };
+
+    copyToClipboard(JSON.stringify(copyAction));
   };
 
   const handleCopyRow = (rowIndex: number) => {
-    setCopyMethod('row');
-    setCopyValue(timeTable[rowIndex]);
+    const copyAction: CopyPayload = {
+      method: 'row',
+      data: timeTable[rowIndex],
+    };
+
+    copyToClipboard(JSON.stringify(copyAction));
   };
 
-  const handlePaste = (rowIndex: number, colIndex: number) => {
-    if (copyMethod === 'row') {
+  const handleCopyAll = () => {
+    const copyAction: CopyPayload = {
+      method: 'all',
+      data: timeTable,
+    };
+
+    copyToClipboard(JSON.stringify(copyAction));
+  };
+
+  const handlePaste = (
+    rowIndex: number,
+    colIndex: number,
+    copyAction: CopyPayload,
+  ) => {
+    if (copyAction.method === 'row') {
       setTimeTable((prevTimeTable) =>
         prevTimeTable.map((innerRow, innerRowIndex) => {
           if (rowIndex === innerRowIndex) {
-            return copyValue;
+            return copyAction.data;
           }
           return innerRow;
         }),
       );
     }
-    if (copyMethod === 'col') {
+    if (copyAction.method === 'col') {
       setTimeTable((prevTimeTable) =>
         prevTimeTable.map((innerRow, innerRowIndex) => {
           return innerRow.map((time, timeIndex) => {
             if (timeIndex === colIndex) {
-              return copyValue[innerRowIndex];
+              return copyAction.data[innerRowIndex];
             }
             return time;
           });
         }),
       );
     }
+    if (copyAction.method === 'all') {
+      setTimeTable(copyAction.data);
+    }
   };
 
   return (
-    <Stack as="div" spacing={4} className={className} {...getStackProps(props)}>
+    <Stack
+      as="div"
+      spacing={4}
+      className={className}
+      alignItems="flex-start"
+      {...getStackProps(props)}
+    >
       <DatePeriodPicker
         id={id}
         dateStart={dateStart}
@@ -273,6 +314,14 @@ const TimeTable = ({ id, className, ...props }: Props) => {
           />
         ))}
       </Stack>
+      <Button
+        spacing={3}
+        flex="none"
+        iconName={Icons.COPY}
+        onClick={() => handleCopyAll()}
+      >
+        Copy table
+      </Button>
     </Stack>
   );
 };
