@@ -256,7 +256,13 @@ const TimeTable = ({ id, className, ...props }: Props) => {
       );
     }
     if (copyAction.method === 'all') {
-      setTimeTable(copyAction.data);
+      setTimeTable((prevTimeTable) =>
+        prevTimeTable.map((innerRow, innerRowIndex) => {
+          return innerRow.map((_, innerColIndex) => {
+            return copyAction.data?.[innerRowIndex]?.[innerColIndex] ?? null;
+          });
+        }),
+      );
     }
   };
 
