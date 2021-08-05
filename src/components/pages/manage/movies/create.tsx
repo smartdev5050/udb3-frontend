@@ -10,8 +10,10 @@ import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { Page } from '@/ui/Page';
+import { Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
+import { TimeTable } from '@/ui/TimeTable';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
 const getValue = getValueFromTheme('moviesCreatePage');
@@ -28,35 +30,38 @@ const Step1Content = () => {
   const handleClearTheme = () => sendMovieEvent(MovieEventTypes.CLEAR_THEME);
 
   return (
-    <Inline spacing={3} flexWrap="wrap" maxWidth="70rem">
-      {movieState.context.theme === null ? (
-        Object.entries(MovieThemes).map(([key, value]) => (
-          <Button
-            width="auto"
-            marginBottom={3}
-            display="inline-flex"
-            key={key}
-            variant={ButtonVariants.SECONDARY}
-            onClick={() => handleSelectTheme(value)}
-          >
-            {t(`themes*${value}`, { keySeparator: '*' })}
-          </Button>
-        ))
-      ) : (
-        <Inline alignItems="center" spacing={3}>
-          <Icon
-            name={Icons.CHECK_CIRCLE}
-            color={getValue('check.circleFillColor')}
-          />
-          <Text>
-            {t(`themes*${movieState.context.theme}`, { keySeparator: '*' })}
-          </Text>
-          <Button variant={ButtonVariants.LINK} onClick={handleClearTheme}>
-            {t('movies.create.actions.change_theme')}
-          </Button>
-        </Inline>
-      )}
-    </Inline>
+    <Stack>
+      <Inline spacing={3} flexWrap="wrap" maxWidth="70rem">
+        {movieState.context.theme === null ? (
+          Object.entries(MovieThemes).map(([key, value]) => (
+            <Button
+              width="auto"
+              marginBottom={3}
+              display="inline-flex"
+              key={key}
+              variant={ButtonVariants.SECONDARY}
+              onClick={() => handleSelectTheme(value)}
+            >
+              {t(`themes*${value}`, { keySeparator: '*' })}
+            </Button>
+          ))
+        ) : (
+          <Inline alignItems="center" spacing={3}>
+            <Icon
+              name={Icons.CHECK_CIRCLE}
+              color={getValue('check.circleFillColor')}
+            />
+            <Text>
+              {t(`themes*${movieState.context.theme}`, { keySeparator: '*' })}
+            </Text>
+            <Button variant={ButtonVariants.LINK} onClick={handleClearTheme}>
+              {t('movies.create.actions.change_theme')}
+            </Button>
+          </Inline>
+        )}
+      </Inline>
+      <TimeTable id="timetable-movies" />
+    </Stack>
   );
 };
 
