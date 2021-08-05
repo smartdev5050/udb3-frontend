@@ -31,14 +31,14 @@ type BaseLinkProps = InlineProps & {
 };
 
 const BaseLink = forwardRef<HTMLElement, BaseLinkProps>(
-  ({ href, variant, title, children, className, ...props }, ref) => {
+  ({ href, variant, title, children, className, as, ...props }, ref) => {
     if (variant === LinkVariants.UNSTYLED) {
       return (
         <Inline
           className={className}
           href={href}
           ref={ref}
-          as="a"
+          as={as}
           title={title}
           display="inline-flex"
           color={{ default: 'inherit', hover: 'inherit' }}
@@ -56,7 +56,7 @@ const BaseLink = forwardRef<HTMLElement, BaseLinkProps>(
           className={className}
           href={href}
           ref={ref}
-          as="a"
+          as={as}
           display="inline-flex"
           alignItems="center"
           {...getInlineProps(props)}
@@ -73,7 +73,7 @@ const BaseLink = forwardRef<HTMLElement, BaseLinkProps>(
         className={className}
         href={href}
         ref={ref}
-        forwardedAs="a"
+        forwardedAs={as}
         color={{ default: getValue('color'), hover: getValue('color') }}
         display="inline-flex"
         fontWeight={400}
@@ -110,9 +110,13 @@ const Link = ({
   className,
   variant,
   title,
+  as,
   ...props
 }: LinkProps) => {
-  const isInternalLink = href.startsWith('/');
+  const isInternalLink = [
+    (val: string) => val.startsWith('/'),
+    (val: string) => val.startsWith('#'),
+  ].some((predicate) => predicate(href));
 
   const clonedSuffix = suffix
     ? // @ts-expect-error
@@ -136,14 +140,29 @@ const Link = ({
     clonedSuffix,
   ];
 
+  if (href === '') {
+    return (
+      <BaseLink
+        as={as}
+        className={className}
+        variant={variant}
+        title={title}
+        {...getInlineProps(props)}
+      >
+        {inner}
+      </BaseLink>
+    );
+  }
+
   if (isInternalLink) {
     return (
       <NextLink
         href={href}
-        passHref
+        passHref={!!href}
         {...(process.env.STORYBOOK ? { prefetch: false } : {})}
       >
         <BaseLink
+          as={as}
           className={className}
           variant={variant}
           title={title}
@@ -157,6 +176,7 @@ const Link = ({
 
   return (
     <BaseLink
+      as={as}
       href={href}
       className={className}
       variant={variant}

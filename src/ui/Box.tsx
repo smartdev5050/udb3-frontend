@@ -102,11 +102,13 @@ type BoxProps = Partial<
       backgroundColor: UIProp<string>;
       backgroundPosition: UIProp<string>;
       backgroundRepeat: UIProp<string>;
+      borderRadius: UIProp<string>;
       bottom: UIProp<string | number>;
       color: UIProp<string>;
       cursor: UIProp<string>;
       display: UIProp<string>;
       flex: UIProp<string | number>;
+      flexWrap: UIProp<string>;
       fontSize: UIProp<string | number>;
       fontWeight: UIProp<string | number>;
       height: UIProp<string | number>;
@@ -129,6 +131,7 @@ type BoxProps = Partial<
       onBlur: (event: FormEvent<HTMLInputElement>) => void;
       onChange: (event: ChangeEvent<HTMLInputElement>) => void;
       onClick: (event: MouseEvent<HTMLElement>) => void;
+      onInput: (event: ChangeEvent<HTMLInputElement>) => void;
       onMouseOver: (event: MouseEvent<HTMLFormElement>) => void;
       onPaste: (event: FormEvent<HTMLFormElement>) => void;
       onSubmit: (event: FormEvent<HTMLFormElement>) => void;
@@ -258,9 +261,11 @@ const parseSpacing = (value: UIPropValue<number>) => (
 ) => {
   const parsedValue = typeof value === 'function' ? value(props) : value;
 
+  if (value === 0) return '0rem';
+
   return `
-    ${(1 / remInPixels) * 2 ** parsedValue}rem
-  `;
+  ${(1 / remInPixels) * 2 ** parsedValue}rem
+`;
 };
 
 const parseDimension = (value: UIPropValue<string | number>) => (
@@ -356,6 +361,7 @@ const boxProps = css`
 
   ${parseProperty('fontSize')};
   ${parseProperty('fontWeight')};
+  ${parseProperty('borderRadius')};
   ${parseProperty('textAlign')};
   ${parseProperty('justifyContent')};
   ${parseProperty('alignItems')};
@@ -367,6 +373,7 @@ const boxProps = css`
   ${parseProperty('display')};
   ${parseProperty('opacity')};
   ${parseProperty('flex')};
+  ${parseProperty('flexWrap')};
   ${parseProperty('cursor')};
 
   ${parseProperty('animation')}
@@ -383,6 +390,7 @@ const boxPropTypes = [
   'backgroundColor',
   'backgroundPosition',
   'backgroundRepeat',
+  'borderRadius',
   'bottom',
   'color',
   'cursor',

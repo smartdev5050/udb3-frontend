@@ -46,7 +46,7 @@ const Stack = forwardRef<HTMLElement, Props>(
     });
 
     return (
-      <StyledBox className={className} forwardedAs={as} ref={ref} {...props}>
+      <StyledBox className={className} as={as} ref={ref} {...props}>
         {clonedChildren}
       </StyledBox>
     );
