@@ -165,6 +165,8 @@ type Props = StackProps & {
   onTimeTableChange: (value: Time[][]) => void;
 };
 
+// TODO: make derrived version of timeTable where we format to datestring
+
 const TimeTable = ({ id, className, onTimeTableChange, ...props }: Props) => {
   const [dateStart, setDateStart] = useState(new Date());
   const [dateEnd, setDateEnd] = useState(new Date());
