@@ -161,9 +161,10 @@ const Row = ({
 
 type Props = StackProps & {
   id: string;
+  onTimeTableChange: (value: Time[][]) => void;
 };
 
-const TimeTable = ({ id, className, ...props }: Props) => {
+const TimeTable = ({ id, className, onTimeTableChange, ...props }: Props) => {
   const [dateStart, setDateStart] = useState(new Date());
   const [dateEnd, setDateEnd] = useState(new Date());
 
@@ -177,6 +178,10 @@ const TimeTable = ({ id, className, ...props }: Props) => {
       new Array(rowLength).fill(new Array(colHeaders.length).fill(null)),
     );
   }, [dateStart, dateEnd]);
+
+  useEffect(() => {
+    onTimeTableChange(timeTable);
+  }, [timeTable]);
 
   const editValueInTimeTable = (
     rowIndex: number,
@@ -278,8 +283,8 @@ const TimeTable = ({ id, className, ...props }: Props) => {
         id={id}
         dateStart={dateStart}
         dateEnd={dateEnd}
-        setDateStart={setDateStart}
-        setDateEnd={setDateEnd}
+        onDateStartChange={setDateStart}
+        onDateEndChange={setDateEnd}
       />
       <Stack
         forwardedAs="div"

@@ -3,7 +3,6 @@ import { MovieEventTypes, movieMachine } from 'machines/movie';
 import { useTranslation } from 'react-i18next';
 
 import { MovieThemes } from '@/constants/MovieThemes';
-import type { Values } from '@/types/Values';
 import { Box } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
@@ -20,6 +19,8 @@ import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideP
 const getValue = getValueFromTheme('moviesCreatePage');
 
 type StepProps = StackProps & { step: number };
+
+type MachineProps = any;
 
 const Step = ({ step, children, ...props }: StepProps) => {
   const { t } = useTranslation();
@@ -56,60 +57,70 @@ const Step = ({ step, children, ...props }: StepProps) => {
   );
 };
 
-type Step1Props = Omit<StackProps, 'theme'> & {
-  theme: Values<typeof MovieThemes>;
-  onSelectTheme: (value: Values<typeof MovieThemes>) => void;
-  onClearTheme: () => void;
-};
+type Step1ContentProps = StackProps & MachineProps;
 
-const Step1 = ({
-  theme,
-  onSelectTheme,
-  onClearTheme,
+const Step1Content = ({
+  movieState,
+  sendMovieEvent,
   ...props
-}: Step1Props) => {
+}: Step1ContentProps) => {
   const { t } = useTranslation();
 
   return (
-    <Step step={1} {...getStackProps(props)}>
-      <Stack spacing={5}>
-        <Inline spacing={3} flexWrap="wrap" maxWidth="70rem">
-          {theme === null ? (
-            Object.entries(MovieThemes).map(([key, value]) => (
-              <Button
-                width="auto"
-                marginBottom={3}
-                display="inline-flex"
-                key={key}
-                variant={ButtonVariants.SECONDARY}
-                onClick={() => onSelectTheme(value)}
-              >
-                {t(`themes*${value}`, { keySeparator: '*' })}
-              </Button>
-            ))
-          ) : (
-            <Inline alignItems="center" spacing={3}>
-              <Icon
-                name={Icons.CHECK_CIRCLE}
-                color={getValue('check.circleFillColor')}
-              />
-              <Text>{t(`themes*${theme}`, { keySeparator: '*' })}</Text>
-              <Button variant={ButtonVariants.LINK} onClick={onClearTheme}>
-                {t('movies.create.actions.change_theme')}
-              </Button>
-            </Inline>
-          )}
-        </Inline>
-      </Stack>
-    </Step>
+    <Stack spacing={5} {...getStackProps(props)}>
+      <Inline spacing={3} flexWrap="wrap" maxWidth="70rem">
+        {movieState.context.theme === null ? (
+          Object.entries(MovieThemes).map(([key, value]) => (
+            <Button
+              width="auto"
+              marginBottom={3}
+              display="inline-flex"
+              key={key}
+              variant={ButtonVariants.SECONDARY}
+              onClick={() =>
+                sendMovieEvent(MovieEventTypes.CHOOSE_THEME, { value })
+              }
+            >
+              {t(`themes*${value}`, { keySeparator: '*' })}
+            </Button>
+          ))
+        ) : (
+          <Inline alignItems="center" spacing={3}>
+            <Icon
+              name={Icons.CHECK_CIRCLE}
+              color={getValue('check.circleFillColor')}
+            />
+            <Text>
+              {t(`themes*${movieState.context.theme}`, { keySeparator: '*' })}
+            </Text>
+            <Button
+              variant={ButtonVariants.LINK}
+              onClick={() => sendMovieEvent(MovieEventTypes.CLEAR_THEME)}
+            >
+              {t('movies.create.actions.change_theme')}
+            </Button>
+          </Inline>
+        )}
+      </Inline>
+    </Stack>
   );
 };
 
-const Step2 = (props: StackProps) => {
+type Step2ContentProps = StackProps & MachineProps;
+
+const Step2Content = ({
+  movieState,
+  sendMovieEvent,
+  ...props
+}: Step2ContentProps) => {
   return (
-    <Step step={2} {...getStackProps(props)}>
-      <TimeTable id="timetable-movies" />
-    </Step>
+    <TimeTable
+      id="timetable-movies"
+      onTimeTableChange={(value) =>
+        sendMovieEvent(MovieEventTypes.CHANGE_TIME_TABLE, { value })
+      }
+      {...getStackProps(props)}
+    />
   );
 };
 
@@ -118,12 +129,9 @@ const Create = () => {
 
   const { t } = useTranslation();
 
-  const handleSelectTheme = (value: Values<typeof MovieThemes>) => {
-    sendMovieEvent(MovieEventTypes.CHOOSE_THEME, { value });
-  };
-
-  const handleClearTheme = () => {
-    sendMovieEvent(MovieEventTypes.CLEAR_THEME);
+  const commonProps = {
+    movieState,
+    sendMovieEvent,
   };
 
   return (
@@ -132,12 +140,11 @@ const Create = () => {
         {t(`movies.create.title`)}
       </Page.Title>
       <Page.Content spacing={4}>
-        <Step1
-          theme={movieState.context.theme}
-          onSelectTheme={handleSelectTheme}
-          onClearTheme={handleClearTheme}
-        />
-        <Step2 />
+        {[Step1Content, Step2Content].map((StepContent, index) => (
+          <Step key={index} step={index + 1}>
+            <StepContent {...commonProps} />
+          </Step>
+        ))}
       </Page.Content>
     </Page>
   );

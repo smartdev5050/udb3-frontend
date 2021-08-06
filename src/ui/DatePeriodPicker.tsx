@@ -10,16 +10,16 @@ type Props = InlineProps & {
   id: string;
   dateStart: Date;
   dateEnd: Date;
-  setDateStart: (date: Date) => void;
-  setDateEnd: (date: Date) => void;
+  onDateStartChange: (date: Date) => void;
+  onDateEndChange: (date: Date) => void;
 };
 
 const DatePeriodPicker = ({
   id,
   dateStart,
   dateEnd,
-  setDateStart,
-  setDateEnd,
+  onDateStartChange,
+  onDateEndChange,
   ...props
 }: Props) => {
   const { t } = useTranslation();
@@ -36,9 +36,9 @@ const DatePeriodPicker = ({
           id={`${idPrefix}-start`}
           selected={dateStart}
           onChange={(newDateStart) => {
-            setDateStart(newDateStart);
+            onDateStartChange(newDateStart);
             if (dateEnd.getTime() < newDateStart.getTime()) {
-              setDateEnd(newDateStart);
+              onDateEndChange(newDateStart);
             }
           }}
         />
@@ -51,9 +51,9 @@ const DatePeriodPicker = ({
           id={`${idPrefix}-end`}
           selected={dateEnd}
           onChange={(newDateEnd) => {
-            setDateEnd(newDateEnd);
+            onDateEndChange(newDateEnd);
             if (dateStart.getTime() > newDateEnd.getTime()) {
-              setDateStart(newDateEnd);
+              onDateStartChange(newDateEnd);
             }
           }}
           minDate={dateStart}
