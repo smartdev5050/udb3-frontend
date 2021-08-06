@@ -129,20 +129,18 @@ const Create = () => {
 
   const { t } = useTranslation();
 
-  const commonProps = {
-    movieState,
-    sendMovieEvent,
-  };
-
   return (
     <Page>
-      <Page.Title key="title" spacing={3} alignItems="center">
+      <Page.Title spacing={3} alignItems="center">
         {t(`movies.create.title`)}
       </Page.Title>
       <Page.Content spacing={4}>
         {[Step1Content, Step2Content].map((StepContent, index) => (
           <Step key={index} step={index + 1}>
-            <StepContent {...commonProps} />
+            <StepContent
+              movieState={movieState}
+              sendMovieEvent={sendMovieEvent}
+            />
           </Step>
         ))}
       </Page.Content>
