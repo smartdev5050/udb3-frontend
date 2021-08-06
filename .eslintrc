@@ -9,7 +9,7 @@
     "prettier/react",
     "prettier/@typescript-eslint"
   ],
-  "plugins": ["simple-import-sort", "unicorn"],
+  "plugins": ["unused-imports", "simple-import-sort", "unicorn"],
   "rules": {
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
@@ -26,7 +26,8 @@
     "@typescript-eslint/return-await": "off",
     "@typescript-eslint/consistent-type-imports": "error",
     "simple-import-sort/imports": "error",
-    "simple-import-sort/exports": "error"
+    "simple-import-sort/exports": "error",
+    "unused-imports/no-unused-imports": "error"
   },
   "globals": {
     "fetch": false,
