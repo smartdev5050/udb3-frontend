@@ -132,6 +132,7 @@ const Row = ({
       <Icon name={Icons.COPY} />
     </Button>
   );
+
   return [
     dateLabel,
     ...row.map((col, colIndex) => (
