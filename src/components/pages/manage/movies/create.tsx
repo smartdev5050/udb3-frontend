@@ -1,6 +1,8 @@
 import { useMachine } from '@xstate/react';
+import type { MovieContext, MovieEvent } from 'machines/movie';
 import { MovieEventTypes, movieMachine } from 'machines/movie';
 import { useTranslation } from 'react-i18next';
+import type { State } from 'xstate';
 
 import { MovieThemes } from '@/constants/MovieThemes';
 import { Box } from '@/ui/Box';
@@ -20,7 +22,10 @@ const getValue = getValueFromTheme('moviesCreatePage');
 
 type StepProps = StackProps & { step: number };
 
-type MachineProps = any;
+type MachineProps = {
+  movieState: State<MovieContext, MovieEvent>;
+  sendMovieEvent: (event: MovieEvent) => State<MovieContext, MovieEvent>;
+};
 
 const Step = ({ step, children, ...props }: StepProps) => {
   const { t } = useTranslation();
@@ -78,7 +83,7 @@ const Step1Content = ({
               key={key}
               variant={ButtonVariants.SECONDARY}
               onClick={() =>
-                sendMovieEvent(MovieEventTypes.CHOOSE_THEME, { value })
+                sendMovieEvent({ type: MovieEventTypes.CHOOSE_THEME, value })
               }
             >
               {t(`themes*${value}`, { keySeparator: '*' })}
@@ -95,7 +100,9 @@ const Step1Content = ({
             </Text>
             <Button
               variant={ButtonVariants.LINK}
-              onClick={() => sendMovieEvent(MovieEventTypes.CLEAR_THEME)}
+              onClick={() =>
+                sendMovieEvent({ type: MovieEventTypes.CLEAR_THEME })
+              }
             >
               {t('movies.create.actions.change_theme')}
             </Button>
@@ -117,7 +124,7 @@ const Step2Content = ({
     <TimeTable
       id="timetable-movies"
       onTimeTableChange={(value) =>
-        sendMovieEvent(MovieEventTypes.CHANGE_TIME_TABLE, { value })
+        sendMovieEvent({ type: MovieEventTypes.CHANGE_TIME_TABLE, value })
       }
       {...getStackProps(props)}
     />

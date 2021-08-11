@@ -26,15 +26,7 @@ type MovieEvent =
   | { type: typeof MovieEventTypes.CLEAR_THEME }
   | { type: typeof MovieEventTypes.CHANGE_TIME_TABLE; value: Time[][] };
 
-type MovieStateSchema = {
-  value: any;
-  context: any;
-  states: {
-    idle: {};
-  };
-};
-
-const movieMachine = createMachine<MovieContext, MovieEvent, MovieStateSchema>({
+const movieMachine = createMachine<MovieContext, MovieEvent>({
   id: 'movie',
   initial: 'idle',
   context: {
@@ -52,7 +44,6 @@ const movieMachine = createMachine<MovieContext, MovieEvent, MovieStateSchema>({
               theme: (ctx, event) => event.value,
             }),
           ],
-          // target: 'themeChosen',
         },
         [MovieEventTypes.CLEAR_THEME]: {
           actions: [
@@ -60,7 +51,6 @@ const movieMachine = createMachine<MovieContext, MovieEvent, MovieStateSchema>({
               theme: () => null,
             }),
           ],
-          target: 'idle',
         },
         [MovieEventTypes.CHANGE_TIME_TABLE]: {
           actions: [
@@ -74,5 +64,5 @@ const movieMachine = createMachine<MovieContext, MovieEvent, MovieStateSchema>({
   },
 });
 
-export type { MovieContext, MovieEvent, MovieStateSchema };
+export type { MovieContext, MovieEvent };
 export { MovieEventTypes, movieMachine };
