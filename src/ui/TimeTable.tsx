@@ -5,7 +5,7 @@ import {
   format as formatDate,
   set as setTime,
 } from 'date-fns';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { formatDateToISO } from '@/utils/formatDateToISO';
 
@@ -172,8 +172,6 @@ type Props = StackProps & {
   onTimeTableChange: (value: Time[][]) => void;
 };
 
-// TODO: make derrived version of timeTable where we format to datestring
-
 const TimeTable = ({ id, className, onTimeTableChange, ...props }: Props) => {
   const [dateStart, setDateStart] = useState(new Date());
   const [dateEnd, setDateEnd] = useState(new Date());
@@ -190,11 +188,7 @@ const TimeTable = ({ id, className, onTimeTableChange, ...props }: Props) => {
   }, [dateStart, dateEnd]);
 
   useEffect(() => {
-    onTimeTableChange(timeTable);
-  }, [timeTable]);
-
-  const timeTableAsDateStrings = useMemo(() => {
-    return timeTable.map((row, rowIndex) =>
+    const timeTableAsDateStrings = timeTable.map((row, rowIndex) =>
       row.map((time) => {
         if (!time || !/[0-2][0-4]h[0-5][0-9]m/.test(time)) return null;
         const hours = parseInt(time.substring(0, 2));
@@ -204,6 +198,7 @@ const TimeTable = ({ id, className, onTimeTableChange, ...props }: Props) => {
         return formatDateToISO(dateWithTime);
       }),
     );
+    onTimeTableChange(timeTableAsDateStrings);
   }, [timeTable, dateStart]);
 
   const editValueInTimeTable = (
