@@ -3,7 +3,7 @@ import {
   addDays,
   differenceInHours,
   format as formatDate,
-  set,
+  set as setTime,
 } from 'date-fns';
 import { useEffect, useMemo, useState } from 'react';
 
@@ -200,7 +200,7 @@ const TimeTable = ({ id, className, onTimeTableChange, ...props }: Props) => {
         const hours = parseInt(time.substring(0, 2));
         const minutes = parseInt(time.substring(3, 5));
         const rowDate = addDays(dateStart, rowIndex);
-        const dateWithTime = set(rowDate, { hours, minutes, seconds: 0 });
+        const dateWithTime = setTime(rowDate, { hours, minutes, seconds: 0 });
         return formatDateToISO(dateWithTime);
       }),
     );
