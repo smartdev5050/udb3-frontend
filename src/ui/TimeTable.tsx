@@ -6,6 +6,7 @@ import {
   set as setTime,
 } from 'date-fns';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { formatDateToISO } from '@/utils/formatDateToISO';
 
@@ -178,6 +179,8 @@ const TimeTable = ({ id, className, onTimeTableChange, ...props }: Props) => {
 
   const [timeTable, setTimeTable] = useState<Time[][]>([]);
 
+  const { t } = useTranslation();
+
   useEffect(() => {
     const rowLength =
       Math.ceil(Math.abs(differenceInHours(dateStart, dateEnd)) / 24) + 1;
@@ -349,7 +352,7 @@ const TimeTable = ({ id, className, onTimeTableChange, ...props }: Props) => {
         iconName={Icons.COPY}
         onClick={() => handleCopyAll()}
       >
-        Copy table
+        {t('movies.create.actions.copy_table')}
       </Button>
     </Stack>
   );
