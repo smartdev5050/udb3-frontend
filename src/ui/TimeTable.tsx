@@ -1,6 +1,11 @@
 import copyToClipboard from 'clipboard-copy';
-import { addDays, differenceInHours, format as formatDate } from 'date-fns';
-import { useEffect, useState } from 'react';
+import {
+  addDays,
+  differenceInHours,
+  format as formatDate,
+  set,
+} from 'date-fns';
+import { useEffect, useMemo, useState } from 'react';
 
 import { formatDateToISO } from '@/utils/formatDateToISO';
 
@@ -187,6 +192,19 @@ const TimeTable = ({ id, className, onTimeTableChange, ...props }: Props) => {
   useEffect(() => {
     onTimeTableChange(timeTable);
   }, [timeTable]);
+
+  const timeTableAsDateStrings = useMemo(() => {
+    return timeTable.map((row, rowIndex) =>
+      row.map((time) => {
+        if (!time || !/[0-2][0-4]h[0-5][0-9]m/.test(time)) return null;
+        const hours = parseInt(time.substring(0, 2));
+        const minutes = parseInt(time.substring(3, 5));
+        const rowDate = addDays(dateStart, rowIndex);
+        const dateWithTime = set(rowDate, { hours, minutes, seconds: 0 });
+        return formatDateToISO(dateWithTime);
+      }),
+    );
+  }, [timeTable, dateStart]);
 
   const editValueInTimeTable = (
     rowIndex: number,
