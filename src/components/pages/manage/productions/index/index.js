@@ -148,7 +148,7 @@ const Index = () => {
         <InputWithLabel
           id="productions-overview-search"
           placeholder={t('productions.overview.search.placeholder')}
-          onInput={throttle(handleInputSearch, 275)}
+          onChange={throttle(handleInputSearch, 275)}
         >
           {t('productions.overview.search.label')}
         </InputWithLabel>

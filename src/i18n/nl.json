@@ -54,6 +54,10 @@
     "next": "Volgende",
     "previous": "Vorige"
   },
+  "time_table": {
+    "start": "Start",
+    "end": "Einde"
+  },
   "productions": {
     "delete": {
       "title": "Evenement(en) verwijderen van productie"
@@ -103,8 +107,10 @@
     "create": {
       "title": "Films toevoegen",
       "step1_title": "Wat voor film wil je invoeren?",
+      "step2_title": "Wanneer vindt de film plaats?",
       "actions": {
-        "change_theme": "Wijzig thema"
+        "change_theme": "Wijzig thema",
+        "copy_table": "Kopieer tabel"
       }
     }
   },

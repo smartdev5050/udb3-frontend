@@ -15,7 +15,7 @@ const InputWithLabel = ({
   label,
   placeholder,
   className,
-  onInput,
+  onChange,
   ...props
 }: Props) => (
   <Inline
@@ -28,7 +28,7 @@ const InputWithLabel = ({
     <Label htmlFor={id} variant={LabelVariants.BOLD}>
       {label}
     </Label>
-    <Input type={type} id={id} placeholder={placeholder} onInput={onInput} />
+    <Input type={type} id={id} placeholder={placeholder} onChange={onChange} />
   </Inline>
 );
 

@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { Children } from 'react';
 
+import { getBoxProps } from './Box';
 import type { InlineProps } from './Inline';
 import { getInlineProps, Inline } from './Inline';
 import type { StackProps } from './Stack';
@@ -20,11 +21,11 @@ const Page = ({ children: rawChildren, className, ...props }: Props) => {
   const children = Children.toArray(rawChildren);
 
   // @ts-expect-error
-  const titles = children.filter((child) => child.type === Page.Title);
+  const title = children.find((child) => child.type === PageTitle);
   // @ts-expect-error
-  const actions = children.find((child) => child.type === Page.Actions);
+  const actions = children.find((child) => child.type === PageActions);
   // @ts-expect-error
-  const content = children.find((child) => child.type === Page.Content);
+  const content = children.find((child) => child.type === PageContent);
 
   return (
     <Stack
@@ -42,21 +43,17 @@ const Page = ({ children: rawChildren, className, ...props }: Props) => {
       spacing={5}
       {...getStackProps(props)}
     >
-      {titles.map((title, index) => (
-        <Inline
-          key={index}
-          forwardedAs="div"
-          alignItems="baseline"
-          css={`
-            border-bottom: 1px solid ${getValueForTitle('borderColor')};
-          `}
-          spacing={3}
-        >
-          {title}
-          {actions}
-        </Inline>
-      ))}
-
+      <Inline
+        forwardedAs="div"
+        alignItems="baseline"
+        css={`
+          border-bottom: 1px solid ${getValueForTitle('borderColor')};
+        `}
+        spacing={3}
+      >
+        {title}
+        {actions}
+      </Inline>
       {content}
     </Stack>
   );
@@ -70,7 +67,7 @@ const PageTitle = ({ children, className, ...props }: TitleProps) => (
     className={className}
     color={getValueForTitle('color')}
     lineHeight="220%"
-    {...getInlineProps(props)}
+    {...getBoxProps(props)}
   >
     {children}
   </Title>
