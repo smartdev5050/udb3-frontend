@@ -88,6 +88,7 @@ type BoxProps = Partial<
     ImageProps &
     SvgProps & {
       alignItems: UIProp<string>;
+      borderRadius: UIProp<string | number>;
       margin: UIProp<number>;
       marginTop: UIProp<number>;
       marginBottom: UIProp<number>;
@@ -128,6 +129,7 @@ type BoxProps = Partial<
       display: UIProp<string>;
       opacity: UIProp<number>;
       flex: UIProp<string | number>;
+      flexWrap: UIProp<string>;
       cursor: UIProp<string>;
       animation: UIProp<FlattenSimpleInterpolation>;
       onClick: (event: MouseEvent<HTMLElement>) => void;
@@ -245,9 +247,11 @@ const parseSpacing = (value: UIPropValue<number>) => (
 ) => {
   const parsedValue = typeof value === 'function' ? value(props) : value;
 
+  if (value === 0) return '0rem';
+
   return `
-    ${(1 / remInPixels) * 2 ** parsedValue}rem
-  `;
+  ${(1 / remInPixels) * 2 ** parsedValue}rem
+`;
 };
 
 const parseDimension = (value: UIPropValue<string | number>) => (
@@ -343,6 +347,7 @@ const boxProps = css`
 
   ${parseProperty('fontSize')};
   ${parseProperty('fontWeight')};
+  ${parseProperty('borderRadius')};
   ${parseProperty('textAlign')};
   ${parseProperty('justifyContent')};
   ${parseProperty('alignItems')};
@@ -354,6 +359,7 @@ const boxProps = css`
   ${parseProperty('display')};
   ${parseProperty('opacity')};
   ${parseProperty('flex')};
+  ${parseProperty('flexWrap')};
   ${parseProperty('cursor')};
 
   ${parseProperty('animation')}
@@ -365,50 +371,52 @@ const StyledBox = styled.div`
 
 const boxPropTypes = [
   'alignItems',
+  'animation',
   'as',
-  'onClick',
-  'margin',
-  'marginTop',
-  'marginBottom',
-  'marginRight',
-  'marginLeft',
-  'marginX',
-  'marginY',
-  'padding',
-  'paddingTop',
-  'paddingBottom',
-  'paddingRight',
-  'paddingLeft',
-  'paddingX',
-  'paddingY',
-  'width',
-  'minWidth',
-  'maxWidth',
-  'height',
-  'justifyContent',
-  'maxHeight',
-  'minHeight',
-  'top',
-  'bottom',
-  'left',
-  'right',
   'backgroundColor',
   'backgroundPosition',
   'backgroundRepeat',
-  'objectFit',
+  'borderRadius',
+  'bottom',
+  'color',
+  'cursor',
+  'display',
+  'flex',
+  'flexWrap',
   'fontSize',
   'fontWeight',
-  'textAlign',
+  'height',
+  'justifyContent',
+  'left',
   'lineHeight',
-  'color',
-  'stroke',
-  'zIndex',
-  'position',
-  'display',
+  'margin',
+  'marginBottom',
+  'marginLeft',
+  'marginRight',
+  'marginTop',
+  'marginX',
+  'marginY',
+  'maxHeight',
+  'maxWidth',
+  'minHeight',
+  'minWidth',
+  'objectFit',
+  'onClick',
   'opacity',
-  'flex',
-  'cursor',
-  'animation',
+  'padding',
+  'paddingBottom',
+  'paddingLeft',
+  'paddingRight',
+  'paddingTop',
+  'paddingX',
+  'paddingY',
+  'position',
+  'right',
+  'stroke',
+  'textAlign',
+  'top',
+  'width',
+  'zIndex',
 ] as const;
 
 const getBoxProps = (props: UnknownProps) => pick(props, boxPropTypes);
