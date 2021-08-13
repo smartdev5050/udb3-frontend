@@ -24,12 +24,19 @@ const isErrorObject = (value: any): value is ErrorObject => {
   );
 };
 
+type FetchFromApiArguments = {
+  path: string;
+  searchParams?: { [key: string]: string };
+  options?: RequestInit;
+  silentError?: boolean;
+};
+
 const fetchFromApi = async ({
   path,
   searchParams = {},
   options = {},
   silentError = false,
-}): Promise<ErrorObject | Response> => {
+}: FetchFromApiArguments): Promise<ErrorObject | Response> => {
   const { publicRuntimeConfig } = getConfig();
 
   let response: Response;
