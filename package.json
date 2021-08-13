@@ -33,7 +33,6 @@
     "clipboard-copy": "^4.0.1",
     "crypto-browserify": "^3.12.0",
     "date-fns": "^2.16.1",
-    "deep-object-diff": "^1.1.0",
     "i18next": "^19.8.3",
     "i18next-browser-languagedetector": "^6.0.1",
     "lodash": "^4.17.20",
