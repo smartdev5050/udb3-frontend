@@ -1,14 +1,35 @@
-import PropTypes from 'prop-types';
+import type { ForwardedRef, ReactElement } from 'react';
 import { forwardRef } from 'react';
 import { AsyncTypeahead as BootstrapTypeahead } from 'react-bootstrap-typeahead';
 
+import type { BoxProps } from './Box';
 import { Box, getBoxProps } from './Box';
 import { getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme('typeahead');
 
-const Typeahead = forwardRef(
-  (
+type TypeaheadProps<T> = {
+  options: T[];
+  labelKey: (option: T) => string;
+  disabled?: boolean;
+  placeholder?: string;
+  emptyLabel?: string;
+  minLength?: number;
+  onInputChange?: (value: string) => void;
+  onSearch?: (value: string) => void;
+};
+
+type Props<T> = Omit<BoxProps, 'options' | 'labelKey'> & TypeaheadProps<T>;
+
+type TypeaheadFunc = (<T>(
+  props: Props<T> & { ref: ForwardedRef<HTMLInputElement> },
+) => ReactElement) & {
+  displayName?: string;
+  defaultProps?: { [key: string]: unknown };
+};
+
+const Typeahead: TypeaheadFunc = forwardRef(
+  <T,>(
     {
       id,
       options,
@@ -22,8 +43,8 @@ const Typeahead = forwardRef(
       onSearch,
       onChange,
       ...props
-    },
-    ref,
+    }: Props<T>,
+    ref: ForwardedRef<HTMLInputElement>,
   ) => {
     return (
       <Box
@@ -65,26 +86,7 @@ const Typeahead = forwardRef(
 
 Typeahead.displayName = 'Typeahead';
 
-const typeaheadPropTypes = {
-  id: PropTypes.string.isRequired,
-  options: PropTypes.array,
-  labelKey: PropTypes.func,
-  disabled: PropTypes.bool,
-  placeholder: PropTypes.string,
-  emptyLabel: PropTypes.string,
-  minLength: PropTypes.number,
-  className: PropTypes.string,
-  onInputChange: PropTypes.func,
-  onSearch: PropTypes.func,
-  onChange: PropTypes.func,
-};
-
-Typeahead.propTypes = {
-  ...typeaheadPropTypes,
-};
-
 const typeaheadDefaultProps = {
-  options: [],
   labelKey: (item) => item,
   onSearch: async () => {},
   disabled: false,
@@ -95,4 +97,5 @@ Typeahead.defaultProps = {
   ...typeaheadDefaultProps,
 };
 
-export { Typeahead, typeaheadDefaultProps, typeaheadPropTypes };
+export type { TypeaheadProps };
+export { Typeahead, typeaheadDefaultProps };

@@ -87,6 +87,21 @@ type DatePickerProps = {
   customInput: ReactNode;
 };
 
+type TypeaheadProps = {
+  options: unknown[];
+  labelKey: (option: unknown) => string;
+  isLoading: boolean;
+  disabled: boolean;
+  onSearch: (search: string) => void;
+  onInputChange: (value: string) => void;
+  onChange: (value: string) => void;
+  placeholder: string;
+  emptyLabel: string;
+  minLength: number;
+  delay: number;
+  highlightOnlyResult: boolean;
+};
+
 type BoxProps = Partial<
   GeneralProps &
     InlineProps &
@@ -96,7 +111,8 @@ type BoxProps = Partial<
     LabelProps &
     ImageProps &
     SvgProps &
-    DatePickerProps & {
+    DatePickerProps &
+    TypeaheadProps & {
       alignItems: UIProp<string>;
       animation: UIProp<FlattenSimpleInterpolation>;
       backgroundColor: UIProp<string>;
