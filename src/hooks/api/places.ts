@@ -1,5 +1,6 @@
 import type { UseMutationOptions, UseQueryOptions } from 'react-query';
 
+import type { OfferCategories } from '@/constants/OfferCategories';
 import type { OfferStatus } from '@/constants/OfferStatus';
 import type { SupportedLanguage } from '@/i18n/index';
 import type { Place } from '@/types/Place';
@@ -102,6 +103,59 @@ const useGetPlacesByCreator = (
     ...configuration,
   });
 
+type GetPlacesByQueryArguments = {
+  name: string;
+  terms: Array<Values<typeof OfferCategories>>;
+};
+
+const getPlacesByQuery = async ({
+  headers,
+  name,
+  terms,
+}: Headers & GetPlacesByQueryArguments) => {
+  const nameString = name ? `name.\\*:${name}` : '';
+  const termsString = terms.reduce(
+    (acc, currentTerm) => `${acc}terms.id:${currentTerm}`,
+    '',
+  );
+  const queryArguments = [nameString, termsString].filter(
+    (argument) => !!argument,
+  );
+
+  const res = await fetchFromApi({
+    path: '/places/',
+    searchParams: {
+      // eslint-disable-next-line no-useless-escape
+      q: queryArguments.join(' AND '),
+      embed: 'true',
+    },
+    options: {
+      headers: (headers as unknown) as Record<string, string>,
+    },
+  });
+
+  if (isErrorObject(res)) {
+    // eslint-disable-next-line no-console
+    return console.error(res);
+  }
+  return await res.json();
+};
+
+const useGetPlacesByQuery = (
+  { name, terms }: GetPlacesByQueryArguments,
+  configuration = {},
+) =>
+  useAuthenticatedQuery<Place[]>({
+    queryKey: ['places'],
+    queryFn: getPlacesByQuery,
+    queryArguments: {
+      name,
+      terms,
+    },
+    enabled: !!name || terms.length,
+    ...configuration,
+  });
+
 const deletePlaceById = async ({ headers, id }) =>
   fetchFromApi({
     path: `/places/${id}`,
@@ -144,4 +198,5 @@ export {
   useDeletePlaceById,
   useGetPlaceById,
   useGetPlacesByCreator,
+  useGetPlacesByQuery,
 };
