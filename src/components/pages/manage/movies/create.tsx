@@ -1,10 +1,15 @@
 import { useMachine } from '@xstate/react';
+import { throttle } from 'lodash';
 import type { MovieContext, MovieEvent } from 'machines/movie';
 import { MovieEventTypes, movieMachine } from 'machines/movie';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { State } from 'xstate';
 
 import { MovieThemes } from '@/constants/MovieThemes';
+import { OfferCategories } from '@/constants/OfferCategories';
+import { useGetPlacesByQuery } from '@/hooks/api/places';
+import type { Place } from '@/types/Place';
 import { Box } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
@@ -16,6 +21,7 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { TimeTable } from '@/ui/TimeTable';
 import { Title } from '@/ui/Title';
+import { TypeaheadWithLabel } from '@/ui/TypeaheadWithLabel';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
 const getValue = getValueFromTheme('moviesCreatePage');
@@ -131,6 +137,73 @@ const Step2Content = ({
   );
 };
 
+type Step3ContentProps = StackProps & MachineProps;
+
+const Step3Content = ({
+  movieState,
+  sendMovieEvent,
+  ...props
+}: Step3ContentProps) => {
+  const { t, i18n } = useTranslation();
+  const [searchInput, setSearchInput] = useState('');
+
+  const useGetCinemasQuery = useGetPlacesByQuery(
+    {
+      name: searchInput,
+      terms: [OfferCategories.Bioscoop],
+    },
+    { enabled: !!searchInput },
+  );
+
+  // @ts-expect-error
+  const cinemas = useMemo(() => useGetCinemasQuery.data?.member ?? [], [
+    // @ts-expect-error
+    useGetCinemasQuery.data?.member,
+  ]);
+
+  return (
+    <Stack {...getStackProps(props)}>
+      {movieState.context.cinema === null ? (
+        <TypeaheadWithLabel<Place>
+          id="step3-cinema-typeahead"
+          label={t('movies.create.actions.choose_cinema')}
+          options={cinemas}
+          onInputChange={throttle(setSearchInput, 275)}
+          labelKey={(cinema) =>
+            cinema.name[i18n.language] ?? cinema.name[cinema.mainLanguage]
+          }
+          maxWidth="43rem"
+          onChange={(value) => {
+            sendMovieEvent({ type: 'CHOOSE_CINEMA', value: value[0] });
+          }}
+          minLength={3}
+        />
+      ) : (
+        <Inline alignItems="center" spacing={3}>
+          <Icon
+            name={Icons.CHECK_CIRCLE}
+            color={getValue('check.circleFillColor')}
+          />
+          <Text>
+            {movieState.context.cinema.name[i18n.language] ??
+              movieState.context.cinema.name[
+                movieState.context.cinema.mainLanguage
+              ]}
+          </Text>
+          <Button
+            variant={ButtonVariants.LINK}
+            onClick={() =>
+              sendMovieEvent({ type: MovieEventTypes.CLEAR_CINEMA })
+            }
+          >
+            {t('movies.create.actions.change_cinema')}
+          </Button>
+        </Inline>
+      )}
+    </Stack>
+  );
+};
+
 const Create = () => {
   const [movieState, sendMovieEvent] = useMachine(movieMachine);
 
@@ -141,15 +214,17 @@ const Create = () => {
       <Page.Title spacing={3} alignItems="center">
         {t(`movies.create.title`)}
       </Page.Title>
-      <Page.Content spacing={4}>
-        {[Step1Content, Step2Content].map((StepContent, index) => (
-          <Step key={index} step={index + 1}>
-            <StepContent
-              movieState={movieState}
-              sendMovieEvent={sendMovieEvent}
-            />
-          </Step>
-        ))}
+      <Page.Content spacing={5}>
+        {[Step1Content, Step2Content, Step3Content].map(
+          (StepContent, index) => (
+            <Step key={index} step={index + 1}>
+              <StepContent
+                movieState={movieState}
+                sendMovieEvent={sendMovieEvent}
+              />
+            </Step>
+          ),
+        )}
       </Page.Content>
     </Page>
   );
