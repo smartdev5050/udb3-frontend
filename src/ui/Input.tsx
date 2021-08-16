@@ -1,3 +1,4 @@
+import type { ChangeEvent } from 'react';
 import { forwardRef } from 'react';
 import { Form } from 'react-bootstrap';
 
@@ -35,9 +36,10 @@ type InputProps = {
   id: string;
   placeholder?: string;
   value?: string;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
-type Props = BoxProps & InputProps;
+type Props = Omit<BoxProps, 'onChange'> & InputProps;
 
 const Input = forwardRef(
   (
