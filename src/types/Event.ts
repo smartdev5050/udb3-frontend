@@ -24,4 +24,4 @@ const areEvents = (value: unknown[]): value is Event[] => {
 };
 
 export { areEvents, isEvent };
-export type { Event };
+export type { Event, EventId };

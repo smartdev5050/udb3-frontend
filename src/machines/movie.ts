@@ -4,6 +4,7 @@ import type { MovieThemes } from '@/constants/MovieThemes';
 import { OfferCategories } from '@/constants/OfferCategories';
 import { OfferType } from '@/constants/OfferType';
 import type { Place } from '@/types/Place';
+import type { Production } from '@/types/Production';
 import type { Values } from '@/types/Values';
 
 const MovieEventTypes = {
@@ -12,6 +13,8 @@ const MovieEventTypes = {
   CHANGE_TIME_TABLE: 'CHANGE_TIME_TABLE',
   CHOOSE_CINEMA: 'CHOOSE_CINEMA',
   CLEAR_CINEMA: 'CLEAR_CINEMA',
+  CHOOSE_PRODUCTION: 'CHOOSE_PRODUCTION',
+  CLEAR_PRODUCTION: 'CLEAR_PRODUCTION',
 } as const;
 
 type Theme = Values<typeof MovieThemes>;
@@ -23,6 +26,7 @@ type MovieContext = {
   theme: Theme;
   timeTable: Time[][];
   cinema: Place;
+  production: Production;
 };
 
 type MovieEvent =
@@ -30,7 +34,9 @@ type MovieEvent =
   | { type: typeof MovieEventTypes.CLEAR_THEME }
   | { type: typeof MovieEventTypes.CHANGE_TIME_TABLE; value: Time[][] }
   | { type: typeof MovieEventTypes.CHOOSE_CINEMA; value: Place }
-  | { type: typeof MovieEventTypes.CLEAR_CINEMA };
+  | { type: typeof MovieEventTypes.CLEAR_CINEMA }
+  | { type: typeof MovieEventTypes.CHOOSE_PRODUCTION; value: Production }
+  | { type: typeof MovieEventTypes.CLEAR_PRODUCTION };
 
 const movieMachine = createMachine<MovieContext, MovieEvent>({
   id: 'movie',
@@ -41,6 +47,7 @@ const movieMachine = createMachine<MovieContext, MovieEvent>({
     theme: null,
     timeTable: null,
     cinema: null,
+    production: null,
   },
   states: {
     idle: {
@@ -77,6 +84,20 @@ const movieMachine = createMachine<MovieContext, MovieEvent>({
           actions: [
             assign({
               cinema: () => null,
+            }),
+          ],
+        },
+        [MovieEventTypes.CHOOSE_PRODUCTION]: {
+          actions: [
+            assign({
+              production: (ctx, event) => event.value,
+            }),
+          ],
+        },
+        [MovieEventTypes.CLEAR_PRODUCTION]: {
+          actions: [
+            assign({
+              production: () => null,
             }),
           ],
         },

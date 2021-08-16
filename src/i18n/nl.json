@@ -109,11 +109,13 @@
       "step1_title": "Wat voor film wil je invoeren?",
       "step2_title": "Wanneer vindt de film plaats?",
       "step3_title": "Waar vindt de film plaats?",
+      "step4_title": "Hoe noemt de film?",
       "actions": {
         "change_theme": "Wijzig thema",
         "copy_table": "Kopieer tabel",
         "change_cinema": "Wijzig bioscoop",
-        "choose_cinema": "Kies een bioscoop"
+        "choose_cinema": "Kies een bioscoop",
+        "choose_name": "Kies een naam"
       }
     }
   },

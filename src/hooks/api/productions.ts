@@ -1,4 +1,4 @@
-import { fetchFromApi } from '@/utils/fetchFromApi';
+import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 
 import {
   useAuthenticatedMutation,
@@ -16,6 +16,10 @@ export const getProductions = async ({ headers, ...queryData }) => {
       headers,
     },
   });
+  if (isErrorObject(res)) {
+    // eslint-disable-next-line no-console
+    return console.error(res);
+  }
   return await res.json();
 };
 
@@ -60,7 +64,7 @@ const deleteEventsByIds = async ({
   headers,
 }) =>
   Promise.all(
-    eventIds.map((eventId) =>
+    eventIds.map(async (eventId) =>
       deleteEventById({ productionId, eventId, headers, silentError: true }),
     ),
   );
@@ -95,7 +99,7 @@ const addEventsByIds = async ({
   headers,
 } = {}) =>
   Promise.all(
-    eventIds.map((eventId) =>
+    eventIds.map(async (eventId) =>
       addEventById({ headers, productionId, eventId, silentError: true }),
     ),
   );
@@ -110,7 +114,9 @@ const getSuggestedEvents = async ({ headers }) => {
       headers,
     },
   });
-  if (response.status !== 200) {
+  if (response.status !== 200 || isErrorObject(response)) {
+    // eslint-disable-next-line no-console
+    console.error(response);
     return { events: [], similarity: 0 };
   }
   return await response.json();

@@ -4,6 +4,7 @@ import { movieMachine } from 'machines/movie';
 import { useTranslation } from 'react-i18next';
 import type { State } from 'xstate';
 
+import { useLog } from '@/hooks/useLog';
 import { Box } from '@/ui/Box';
 import { Page } from '@/ui/Page';
 import type { StackProps } from '@/ui/Stack';
@@ -16,6 +17,7 @@ import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideP
 import { Step1Content } from './Step1Content';
 import { Step2Content } from './Step2Content';
 import { Step3Content } from './Step3Content';
+import { Step4Content } from './Step4Content';
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
@@ -66,13 +68,15 @@ const Create = () => {
 
   const { t } = useTranslation();
 
+  useLog({ production: movieState.context.production });
+
   return (
     <Page>
       <Page.Title spacing={3} alignItems="center">
         {t(`movies.create.title`)}
       </Page.Title>
       <Page.Content spacing={5}>
-        {[Step1Content, Step2Content, Step3Content].map(
+        {[Step1Content, Step2Content, Step3Content, Step4Content].map(
           (StepContent, index) => (
             <Step key={index} step={index + 1}>
               <StepContent
