@@ -80,7 +80,6 @@ type SvgProps = {
 
 type DatePickerProps = {
   selected: Date;
-  onChange: (value: Date) => void;
   dateFormat: string;
   minDate: Date;
   maxDate: Date;

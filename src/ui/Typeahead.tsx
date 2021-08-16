@@ -15,11 +15,10 @@ type TypeaheadProps<T> = {
   placeholder?: string;
   emptyLabel?: string;
   minLength?: number;
-  onInputChange?: (value: string) => void;
-  onSearch?: (value: string) => void;
+  onChange?: (value: T) => void;
 };
 
-type Props<T> = Omit<BoxProps, 'options' | 'labelKey'> & TypeaheadProps<T>;
+type Props<T> = Omit<BoxProps, 'onChange'> & TypeaheadProps<T>;
 
 type TypeaheadFunc = (<T>(
   props: Props<T> & { ref: ForwardedRef<HTMLInputElement> },

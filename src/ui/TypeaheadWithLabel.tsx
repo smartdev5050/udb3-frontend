@@ -7,7 +7,7 @@ import { getStackProps, Stack } from './Stack';
 import type { TypeaheadProps } from './Typeahead';
 import { Typeahead, typeaheadDefaultProps } from './Typeahead';
 
-type Props<T> = Omit<StackProps, 'options' | 'labelKey'> &
+type Props<T> = Omit<StackProps, 'options' | 'labelKey' | 'onChange'> &
   TypeaheadProps<T> & { label?: string; id: string };
 
 type TypeaheadFunc = (<T>(
