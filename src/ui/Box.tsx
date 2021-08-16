@@ -2,6 +2,7 @@ import kebabCase from 'lodash/kebabCase';
 import pick from 'lodash/pick';
 import type {
   ChangeEvent,
+  ClipboardEvent,
   ComponentType,
   FormEvent,
   MouseEvent,
@@ -93,7 +94,6 @@ type TypeaheadProps = {
   disabled: boolean;
   onSearch: (search: string) => void;
   onInputChange: (value: string) => void;
-  onChange: (value: string) => void;
   placeholder: string;
   emptyLabel: string;
   minLength: number;
@@ -148,7 +148,7 @@ type BoxProps = Partial<
       onClick: (event: MouseEvent<HTMLElement>) => void;
       onInput: (event: ChangeEvent<HTMLInputElement>) => void;
       onMouseOver: (event: MouseEvent<HTMLFormElement>) => void;
-      onPaste: (event: FormEvent<HTMLFormElement>) => void;
+      onPaste: (event: ClipboardEvent<HTMLFormElement>) => void;
       onSubmit: (event: FormEvent<HTMLFormElement>) => void;
       opacity: UIProp<number>;
       padding: UIProp<number>;

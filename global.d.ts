@@ -7,3 +7,9 @@ declare module 'react' {
     css?: CSSProp<Theme>;
   }
 }
+
+declare global {
+  interface Window {
+    clipboardData: DataTransfer;
+  }
+}
