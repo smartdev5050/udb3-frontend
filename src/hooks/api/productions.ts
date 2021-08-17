@@ -45,7 +45,7 @@ const deleteEventById = async ({
   eventId = '',
   headers,
   silentError = false,
-} = {}) =>
+}) =>
   fetchFromApi({
     path: `/productions/${productionId}/events/${eventId}`,
     options: {
@@ -93,11 +93,7 @@ const addEventById = async ({
 const useAddEventById = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: addEventById, ...configuration });
 
-const addEventsByIds = async ({
-  productionId = '',
-  eventIds = [],
-  headers,
-} = {}) =>
+const addEventsByIds = async ({ productionId = '', eventIds = [], headers }) =>
   Promise.all(
     eventIds.map(async (eventId) =>
       addEventById({ headers, productionId, eventId, silentError: true }),
