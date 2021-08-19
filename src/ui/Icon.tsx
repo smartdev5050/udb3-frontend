@@ -7,6 +7,7 @@ import {
   faChevronDown,
   faChevronRight,
   faCircleNotch,
+  faCopy,
   faExclamationTriangle,
   faEye,
   faEyeSlash,
@@ -60,6 +61,7 @@ const Icons = {
   EXCLAMATION_TRIANGLE: 'exclamationTriangle',
   PENCIL: 'pencilAlt',
   VIDEO: 'video',
+  COPY: 'copy',
 } as const;
 
 const IconsMap = {
@@ -89,6 +91,7 @@ const IconsMap = {
   [Icons.EXCLAMATION_TRIANGLE]: faExclamationTriangle,
   [Icons.PENCIL]: faPencilAlt,
   [Icons.VIDEO]: faVideo,
+  [Icons.COPY]: faCopy,
 };
 
 type Props = Omit<BoxProps, 'width' | 'height'> & {

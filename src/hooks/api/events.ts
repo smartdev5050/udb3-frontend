@@ -5,7 +5,7 @@ import type { User } from '@/types/User';
 import { createEmbededCalendarSummaries } from '@/utils/createEmbededCalendarSummaries';
 import { createSortingArgument } from '@/utils/createSortingArgument';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
-import { formatDate } from '@/utils/formatDate';
+import { formatDateToISO } from '@/utils/formatDateToISO';
 
 import type {
   AuthenticatedQueryOptions,
@@ -24,7 +24,7 @@ const getEventsToModerate = async ({ headers, queryKey, ...queryData }) => {
     path: '/events/',
     searchParams: {
       ...queryData,
-      availableFrom: formatDate(new Date()),
+      availableFrom: formatDateToISO(new Date()),
     },
     options: {
       headers,

@@ -1,0 +1,23 @@
+import { useState } from 'react';
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import { DatePeriodPicker } from './DatePeriodPicker';
+
+<Meta title="Components/DatePeriodPicker" component={DatePeriodPicker} />
+
+<Canvas>
+  <Story name="Default" args={{ id: 'test' }}>
+    {(args) => {
+      const [dateStart, setDateStart] = useState(new Date());
+      const [dateEnd, setDateEnd] = useState(new Date());
+      return (
+        <DatePeriodPicker
+          {...args}
+          dateStart={dateStart}
+          dateEnd={dateEnd}
+          setDateStart={setDateStart}
+          setDateEnd={setDateEnd}
+        />
+      );
+    }}
+  </Story>
+</Canvas>

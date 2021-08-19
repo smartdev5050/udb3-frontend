@@ -51,6 +51,10 @@
     "next": "Prochain",
     "previous": "Dernier"
   },
+  "time_table": {
+    "start": "Début",
+    "end": "Fin"
+  },
   "productions": {
     "delete": {
       "title": "Supprimer des événements de la production"

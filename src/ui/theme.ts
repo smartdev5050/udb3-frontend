@@ -263,6 +263,18 @@ const theme = {
         },
       },
     },
+    moviesCreatePage: {
+      title: {
+        color: colors.textColor,
+        borderColor: colors.grey2,
+      },
+      stepNumber: {
+        backgroundColor: colors.grey5,
+      },
+      check: {
+        circleFillColor: colors.green3,
+      },
+    },
     tabs: {
       color: colors.udbBlue,
       hoverColor: colors.textColor,
