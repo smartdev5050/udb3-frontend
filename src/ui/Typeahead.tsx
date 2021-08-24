@@ -15,7 +15,7 @@ type TypeaheadProps<T> = {
   placeholder?: string;
   emptyLabel?: string;
   minLength?: number;
-  onChange?: (value: T) => void;
+  onChange?: (value: T[]) => void;
 };
 
 type Props<T> = Omit<BoxProps, 'onChange'> & TypeaheadProps<T>;

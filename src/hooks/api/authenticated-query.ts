@@ -8,7 +8,8 @@ import { useMutation, useQueries, useQuery } from 'react-query';
 
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import type { CalendarSummaryFormat } from '@/utils/createEmbededCalendarSummaries';
-import type { FetchError } from '@/utils/fetchFromApi';
+import type { ErrorObject, FetchError } from '@/utils/fetchFromApi';
+import { isErrorObject } from '@/utils/fetchFromApi';
 import { isTokenValid } from '@/utils/isTokenValid';
 
 import { createHeaders, useHeaders } from './useHeaders';
@@ -177,31 +178,35 @@ const useAuthenticatedMutation = ({ mutationFn, ...configuration }) => {
 };
 
 const useAuthenticatedMutations = ({
-  mutationFns = [],
+  mutationFns,
   ...configuration
-} = {}) => {
+}: {
+  mutationFns: (variables: unknown) => Promise<Array<Response | ErrorObject>>;
+}) => {
   const router = useRouter();
   const headers = useHeaders();
 
   const { removeAuthenticationCookies } = useCookiesWithOptions();
 
   const innerMutationFn = useCallback(async (variables) => {
-    // @ts-expect-error
     const responses = await mutationFns({ ...variables, headers });
 
     if (responses.some((response) => isUnAuthorized(response.status))) {
       removeAuthenticationCookies();
       router.push('/login');
-    } else if (responses.some((response) => response.type === 'ERROR')) {
+      return;
+    }
+
+    if (responses.some(isErrorObject)) {
       const errorMessages = responses
-        .filter((response) => response.type === 'ERROR')
-        .map((response) => response.title)
+        .filter(isErrorObject)
+        .map((response) => response.message)
         .join(', ');
       throw new Error(errorMessages);
     }
 
     return Promise.all(
-      responses.map(async (response) => {
+      (responses as Response[]).map(async (response) => {
         const result = await response.text();
 
         if (!result) {
