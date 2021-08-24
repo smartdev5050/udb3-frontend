@@ -2,6 +2,7 @@ import kebabCase from 'lodash/kebabCase';
 import pick from 'lodash/pick';
 import type {
   ChangeEvent,
+  ClipboardEvent,
   ComponentType,
   FormEvent,
   MouseEvent,
@@ -80,77 +81,100 @@ type SvgProps = {
 
 type DatePickerProps = {
   selected: Date;
-  onChange: (value: Date) => void;
   dateFormat: string;
   minDate: Date;
   maxDate: Date;
   customInput: ReactNode;
 };
 
+type TypeaheadProps = {
+  options: unknown[];
+  labelKey: (option: unknown) => string;
+  isLoading: boolean;
+  disabled: boolean;
+  placeholder: string;
+  emptyLabel: string;
+  minLength: number;
+  delay: number;
+  highlightOnlyResult: boolean;
+};
+
+type SpecificComponentProps = InlineProps &
+  TitleProps &
+  ListProps &
+  LinkProps &
+  LabelProps &
+  ImageProps &
+  SvgProps &
+  DatePickerProps &
+  TypeaheadProps;
+
+type EventHandlerProps = {
+  onBlur: (event: FormEvent<HTMLInputElement>) => void;
+  onChange:
+    | ((event: ChangeEvent<HTMLInputElement>) => void)
+    | ((value: Date) => void)
+    | ((value: unknown) => void);
+  onClick: (event: MouseEvent<HTMLElement>) => void;
+  onInput: (event: ChangeEvent<HTMLInputElement>) => void;
+  onInputChange: (value: string) => void;
+  onMouseOver: (event: MouseEvent<HTMLFormElement>) => void;
+  onPaste: (event: ClipboardEvent<HTMLFormElement>) => void;
+  onSearch: (search: string) => void;
+  onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+};
+
+type UIProps = {
+  alignItems: UIProp<string>;
+  animation: UIProp<FlattenSimpleInterpolation>;
+  backgroundColor: UIProp<string>;
+  backgroundPosition: UIProp<string>;
+  backgroundRepeat: UIProp<string>;
+  borderRadius: UIProp<string>;
+  bottom: UIProp<string | number>;
+  color: UIProp<string>;
+  cursor: UIProp<string>;
+  display: UIProp<string>;
+  flex: UIProp<string | number>;
+  flexWrap: UIProp<string>;
+  fontSize: UIProp<string | number>;
+  fontWeight: UIProp<string | number>;
+  height: UIProp<string | number>;
+  id: UIProp<string>;
+  justifyContent: UIProp<string>;
+  left: UIProp<string | number>;
+  lineHeight: UIProp<string | number>;
+  margin: UIProp<number>;
+  marginBottom: UIProp<number>;
+  marginLeft: UIProp<number>;
+  marginRight: UIProp<number>;
+  marginTop: UIProp<number>;
+  marginX: UIProp<number>;
+  marginY: UIProp<number>;
+  maxHeight: UIProp<string | number>;
+  maxWidth: UIProp<string | number>;
+  minHeight: UIProp<string | number>;
+  minWidth: UIProp<string | number>;
+  objectFit: UIProp<string>;
+  opacity: UIProp<number>;
+  padding: UIProp<number>;
+  paddingBottom: UIProp<number>;
+  paddingLeft: UIProp<number>;
+  paddingRight: UIProp<number>;
+  paddingTop: UIProp<number>;
+  paddingX: UIProp<number>;
+  paddingY: UIProp<number>;
+  position: UIProp<string>;
+  right: UIProp<string | number>;
+  stroke: UIProp<string>;
+  textAlign: UIProp<string>;
+  top: UIProp<string | number>;
+  width: UIProp<string | number>;
+  zIndex: UIProp<number>;
+};
+
 type BoxProps = Partial<
-  GeneralProps &
-    InlineProps &
-    TitleProps &
-    ListProps &
-    LinkProps &
-    LabelProps &
-    ImageProps &
-    SvgProps &
-    DatePickerProps & {
-      alignItems: UIProp<string>;
-      animation: UIProp<FlattenSimpleInterpolation>;
-      backgroundColor: UIProp<string>;
-      backgroundPosition: UIProp<string>;
-      backgroundRepeat: UIProp<string>;
-      borderRadius: UIProp<string>;
-      bottom: UIProp<string | number>;
-      color: UIProp<string>;
-      cursor: UIProp<string>;
-      display: UIProp<string>;
-      flex: UIProp<string | number>;
-      flexWrap: UIProp<string>;
-      fontSize: UIProp<string | number>;
-      fontWeight: UIProp<string | number>;
-      height: UIProp<string | number>;
-      id: UIProp<string>;
-      justifyContent: UIProp<string>;
-      left: UIProp<string | number>;
-      lineHeight: UIProp<string | number>;
-      margin: UIProp<number>;
-      marginBottom: UIProp<number>;
-      marginLeft: UIProp<number>;
-      marginRight: UIProp<number>;
-      marginTop: UIProp<number>;
-      marginX: UIProp<number>;
-      marginY: UIProp<number>;
-      maxHeight: UIProp<string | number>;
-      maxWidth: UIProp<string | number>;
-      minHeight: UIProp<string | number>;
-      minWidth: UIProp<string | number>;
-      objectFit: UIProp<string>;
-      onBlur: (event: FormEvent<HTMLInputElement>) => void;
-      onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-      onClick: (event: MouseEvent<HTMLElement>) => void;
-      onInput: (event: ChangeEvent<HTMLInputElement>) => void;
-      onMouseOver: (event: MouseEvent<HTMLFormElement>) => void;
-      onPaste: (event: FormEvent<HTMLFormElement>) => void;
-      onSubmit: (event: FormEvent<HTMLFormElement>) => void;
-      opacity: UIProp<number>;
-      padding: UIProp<number>;
-      paddingBottom: UIProp<number>;
-      paddingLeft: UIProp<number>;
-      paddingRight: UIProp<number>;
-      paddingTop: UIProp<number>;
-      paddingX: UIProp<number>;
-      paddingY: UIProp<number>;
-      position: UIProp<string>;
-      right: UIProp<string | number>;
-      stroke: UIProp<string>;
-      textAlign: UIProp<string>;
-      top: UIProp<string | number>;
-      width: UIProp<string | number>;
-      zIndex: UIProp<number>;
-    }
+  UIProps & GeneralProps & SpecificComponentProps & EventHandlerProps
 >;
 
 const remInPixels = 15;

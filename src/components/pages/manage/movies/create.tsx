@@ -1,22 +1,21 @@
 import { useMachine } from '@xstate/react';
 import type { MovieContext, MovieEvent } from 'machines/movie';
-import { MovieEventTypes, movieMachine } from 'machines/movie';
+import { movieMachine } from 'machines/movie';
 import { useTranslation } from 'react-i18next';
 import type { State } from 'xstate';
 
-import { MovieThemes } from '@/constants/MovieThemes';
 import { Box } from '@/ui/Box';
-import { Button, ButtonVariants } from '@/ui/Button';
-import { Icon, Icons } from '@/ui/Icon';
-import { Inline } from '@/ui/Inline';
 import { Page } from '@/ui/Page';
 import type { StackProps } from '@/ui/Stack';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
-import { TimeTable } from '@/ui/TimeTable';
 import { Title } from '@/ui/Title';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
+
+import { Step1Content } from './Step1Content';
+import { Step2Content } from './Step2Content';
+import { Step3Content } from './Step3Content';
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
@@ -62,75 +61,6 @@ const Step = ({ step, children, ...props }: StepProps) => {
   );
 };
 
-type Step1ContentProps = StackProps & MachineProps;
-
-const Step1Content = ({
-  movieState,
-  sendMovieEvent,
-  ...props
-}: Step1ContentProps) => {
-  const { t } = useTranslation();
-
-  return (
-    <Stack spacing={5} {...getStackProps(props)}>
-      <Inline spacing={3} flexWrap="wrap" maxWidth="70rem">
-        {movieState.context.theme === null ? (
-          Object.entries(MovieThemes).map(([key, value]) => (
-            <Button
-              width="auto"
-              marginBottom={3}
-              display="inline-flex"
-              key={key}
-              variant={ButtonVariants.SECONDARY}
-              onClick={() =>
-                sendMovieEvent({ type: MovieEventTypes.CHOOSE_THEME, value })
-              }
-            >
-              {t(`themes*${value}`, { keySeparator: '*' })}
-            </Button>
-          ))
-        ) : (
-          <Inline alignItems="center" spacing={3}>
-            <Icon
-              name={Icons.CHECK_CIRCLE}
-              color={getValue('check.circleFillColor')}
-            />
-            <Text>
-              {t(`themes*${movieState.context.theme}`, { keySeparator: '*' })}
-            </Text>
-            <Button
-              variant={ButtonVariants.LINK}
-              onClick={() =>
-                sendMovieEvent({ type: MovieEventTypes.CLEAR_THEME })
-              }
-            >
-              {t('movies.create.actions.change_theme')}
-            </Button>
-          </Inline>
-        )}
-      </Inline>
-    </Stack>
-  );
-};
-
-type Step2ContentProps = StackProps & MachineProps;
-
-const Step2Content = ({
-  movieState,
-  sendMovieEvent,
-  ...props
-}: Step2ContentProps) => {
-  return (
-    <TimeTable
-      id="timetable-movies"
-      onTimeTableChange={(value) =>
-        sendMovieEvent({ type: MovieEventTypes.CHANGE_TIME_TABLE, value })
-      }
-      {...getStackProps(props)}
-    />
-  );
-};
-
 const Create = () => {
   const [movieState, sendMovieEvent] = useMachine(movieMachine);
 
@@ -141,15 +71,17 @@ const Create = () => {
       <Page.Title spacing={3} alignItems="center">
         {t(`movies.create.title`)}
       </Page.Title>
-      <Page.Content spacing={4}>
-        {[Step1Content, Step2Content].map((StepContent, index) => (
-          <Step key={index} step={index + 1}>
-            <StepContent
-              movieState={movieState}
-              sendMovieEvent={sendMovieEvent}
-            />
-          </Step>
-        ))}
+      <Page.Content spacing={5}>
+        {[Step1Content, Step2Content, Step3Content].map(
+          (StepContent, index) => (
+            <Step key={index} step={index + 1}>
+              <StepContent
+                movieState={movieState}
+                sendMovieEvent={sendMovieEvent}
+              />
+            </Step>
+          ),
+        )}
       </Page.Content>
     </Page>
   );
@@ -157,4 +89,5 @@ const Create = () => {
 
 export const getServerSideProps = getApplicationServerSideProps();
 
+export type { MachineProps };
 export default Create;

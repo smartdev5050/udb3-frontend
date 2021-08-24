@@ -1,15 +1,24 @@
+import type { ForwardedRef, ReactElement } from 'react';
 import { forwardRef } from 'react';
 
 import { Label, LabelVariants } from './Label';
+import type { StackProps } from './Stack';
 import { getStackProps, Stack } from './Stack';
-import {
-  Typeahead,
-  typeaheadDefaultProps,
-  typeaheadPropTypes,
-} from './Typeahead';
+import type { TypeaheadProps } from './Typeahead';
+import { Typeahead, typeaheadDefaultProps } from './Typeahead';
 
-const TypeaheadWithLabel = forwardRef(
-  (
+type Props<T> = Omit<StackProps, 'options' | 'labelKey' | 'onChange'> &
+  TypeaheadProps<T> & { label?: string; id: string };
+
+type TypeaheadFunc = (<T>(
+  props: Props<T> & { ref?: ForwardedRef<HTMLInputElement> },
+) => ReactElement) & {
+  displayName?: string;
+  defaultProps?: { [key: string]: unknown };
+};
+
+const TypeaheadWithLabel: TypeaheadFunc = forwardRef(
+  <T,>(
     {
       id,
       label,
@@ -24,15 +33,15 @@ const TypeaheadWithLabel = forwardRef(
       onSearch,
       onChange,
       ...props
-    },
-    ref,
+    }: Props<T>,
+    ref: ForwardedRef<HTMLInputElement>,
   ) => {
     return (
       <Stack {...getStackProps(props)}>
         <Label htmlFor={id} variant={LabelVariants.BOLD}>
           {label}
         </Label>
-        <Typeahead
+        <Typeahead<T>
           id={id}
           options={options}
           labelKey={labelKey}
@@ -52,10 +61,6 @@ const TypeaheadWithLabel = forwardRef(
 );
 
 TypeaheadWithLabel.displayName = 'TypeaheadWithLabel';
-
-TypeaheadWithLabel.propTypes = {
-  ...typeaheadPropTypes,
-};
 
 TypeaheadWithLabel.defaultProps = {
   ...typeaheadDefaultProps,

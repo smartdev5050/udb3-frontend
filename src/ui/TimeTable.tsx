@@ -136,6 +136,7 @@ const Row = ({
       variant={ButtonVariants.UNSTYLED}
       onClick={() => onCopyRow(index)}
       customChildren
+      {...getInlineProps(props)}
     >
       <Icon name={Icons.COPY} />
     </Button>
@@ -156,7 +157,6 @@ const Row = ({
           e.preventDefault();
 
           const clipboardValue = JSON.parse(
-            // @ts-expect-error
             (e.clipboardData || window.clipboardData).getData('text'),
           );
 

@@ -15,7 +15,7 @@ setDefaultLocale('nl');
 registerLocale('nl', nl);
 registerLocale('fr', fr);
 
-type Props = BoxProps & {
+type Props = Omit<BoxProps, 'onChange'> & {
   id: string;
   selected?: Date;
   minDate?: Date;

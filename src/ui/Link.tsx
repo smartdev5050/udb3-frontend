@@ -92,6 +92,10 @@ const BaseLink = forwardRef<HTMLElement, BaseLinkProps>(
 
 BaseLink.displayName = 'BaseLink';
 
+BaseLink.defaultProps = {
+  as: 'a',
+};
+
 type LinkProps = BaseLinkProps & {
   href: string;
   iconName?: Values<typeof Icons>;

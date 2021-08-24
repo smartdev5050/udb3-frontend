@@ -6,7 +6,11 @@ const diff = (oldValue, newValue) => {
   const { added = {}, deleted = {}, updated = {} } = detailedDiff(
     oldValue,
     newValue,
-  );
+  ) as {
+    added: Record<string, unknown>;
+    deleted: Record<string, unknown>;
+    updated: Record<string, unknown>;
+  };
   return pick(newValue, Object.keys({ ...deleted, ...added, ...updated }));
 };
 
