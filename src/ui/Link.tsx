@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import { cloneElement, forwardRef } from 'react';
 
 import type { Values } from '@/types/Values';
-import { Button, ButtonVariants } from '@/ui/Button';
+import { Button } from '@/ui/Button';
 
 import type { Icons } from './Icon';
 import { Icon } from './Icon';
@@ -15,10 +15,10 @@ import { getValueFromTheme } from './theme';
 const getValue = getValueFromTheme('link');
 
 const LinkButtonVariants = {
-  BUTTON_PRIMARY: ButtonVariants.PRIMARY,
-  BUTTON_SECONDARY: ButtonVariants.SECONDARY,
-  BUTTON_DANGER: ButtonVariants.DANGER,
-  BUTTON_SUCCESS: ButtonVariants.SUCCESS,
+  BUTTON_PRIMARY: 'primary',
+  BUTTON_SECONDARY: 'secondary',
+  BUTTON_DANGER: 'danger',
+  BUTTON_SUCCESS: 'success',
 } as const;
 
 const LinkVariants = {
