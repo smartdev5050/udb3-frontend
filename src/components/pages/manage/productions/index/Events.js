@@ -186,7 +186,7 @@ const AddAction = ({
         placeholder="cdbid"
         maxWidth="22rem"
         value={toBeAddedEventId}
-        onInput={(event) =>
+        onChange={(event) =>
           onToBeAddedEventIdInput(event.currentTarget.value.trim())
         }
       />
