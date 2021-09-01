@@ -64,7 +64,7 @@ const NewsletterSignupForm = (props: Props) => {
                 id="newletter-email"
                 label="Email"
                 placeholder="email@domain.be"
-                onInput={(e) => {
+                onChange={(e) => {
                   setEmail(e.target.value);
                 }}
                 value={email}
