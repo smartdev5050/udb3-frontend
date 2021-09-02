@@ -116,7 +116,8 @@
         "copy_table": "Kopieer tabel",
         "change_cinema": "Wijzig bioscoop",
         "choose_cinema": "Kies een bioscoop",
-        "choose_name": "Kies een naam"
+        "choose_name": "Kies een naam",
+        "description": "Beschrijving"
       }
     }
   },
