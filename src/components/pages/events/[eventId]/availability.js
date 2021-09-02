@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 import { dehydrate } from 'react-query/hydration';
 
+import { AvailabilityPageMultiple } from '@/components/AvailabilityPageMultiple';
 import { AvailabilityPageSingle } from '@/components/AvailabilityPageSingle';
-import { StatusPageMultiple } from '@/components/StatusPageMultiple';
 import { CalendarType } from '@/constants/CalendarType';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
 import { useChangeStatus, useGetEventById } from '@/hooks/api/events';
@@ -23,7 +23,7 @@ const Availability = () => {
 
   if (event.calendarType === CalendarType.MULTIPLE)
     return (
-      <StatusPageMultiple
+      <AvailabilityPageMultiple
         event={event}
         refetchEvent={getEventByIdQuery.refetch}
       />

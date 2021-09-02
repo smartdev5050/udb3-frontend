@@ -38,7 +38,7 @@ Status.propTypes = {
   reason: PropTypes.object,
 };
 
-const StatusPageMultiple = ({ event, refetchEvent }) => {
+const AvailabilityPageMultiple = ({ event, refetchEvent }) => {
   const { t, i18n } = useTranslation();
 
   const eventId = parseOfferId(event['@id']);
@@ -152,8 +152,8 @@ const StatusPageMultiple = ({ event, refetchEvent }) => {
   ];
 };
 
-StatusPageMultiple.propTypes = {
+AvailabilityPageMultiple.propTypes = {
   event: PropTypes.object.isRequired,
 };
 
-export { StatusPageMultiple };
+export { AvailabilityPageMultiple };
