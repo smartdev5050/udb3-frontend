@@ -51,12 +51,22 @@ const getRedirects = (
   },
   {
     source: '/event/:eventId/status',
-    destination: '/events/:eventId/status',
+    destination: '/events/:eventId/availability',
     permanent: environment !== 'development',
   },
   {
     source: '/place/:placeId/status',
-    destination: '/places/:placeId/status',
+    destination: '/places/:placeId/availability',
+    permanent: environment !== 'development',
+  },
+  {
+    source: '/events/:eventId/status',
+    destination: '/events/:eventId/availability',
+    permanent: environment !== 'development',
+  },
+  {
+    source: '/places/:placeId/status',
+    destination: '/places/:placeId/availability',
     permanent: environment !== 'development',
   },
   ...(language !== 'nl'
