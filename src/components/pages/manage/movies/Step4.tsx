@@ -4,19 +4,21 @@ import { useTranslation } from 'react-i18next';
 
 import { useGetProductions } from '@/hooks/api/productions';
 import type { Production } from '@/types/Production';
-import type { StackProps } from '@/ui/Stack';
 import { getStackProps } from '@/ui/Stack';
 import { TypeaheadWithLabel } from '@/ui/TypeaheadWithLabel';
 
 import type { MachineProps } from './create';
+import type { StepProps } from './Step';
+import { Step } from './Step';
 
-type Step4ContentProps = StackProps & MachineProps;
+type Step4Props = StepProps & MachineProps;
 
-const Step4Content = ({
+const Step4 = ({
   movieState,
   sendMovieEvent,
+  stepNumber,
   ...props
-}: Step4ContentProps) => {
+}: Step4Props) => {
   const { t } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
 
@@ -35,24 +37,26 @@ const Step4Content = ({
   ]);
 
   return (
-    <TypeaheadWithLabel<Production>
-      id="step4-name-typeahead"
-      label={t('movies.create.actions.choose_name')}
-      options={productions}
-      onInputChange={throttle(setSearchInput, 275)}
-      labelKey={(production) => production.name}
-      maxWidth="43rem"
-      onChange={(value) => {
-        if (value.length === 0) {
-          sendMovieEvent({ type: 'CLEAR_PRODUCTION' });
-          return;
-        }
-        sendMovieEvent({ type: 'CHOOSE_PRODUCTION', value: value[0] });
-      }}
-      minLength={3}
-      {...getStackProps(props)}
-    />
+    <Step stepNumber={stepNumber}>
+      <TypeaheadWithLabel<Production>
+        id="step4-name-typeahead"
+        label={t('movies.create.actions.choose_name')}
+        options={productions}
+        onInputChange={throttle(setSearchInput, 275)}
+        labelKey={(production) => production.name}
+        maxWidth="43rem"
+        onChange={(value) => {
+          if (value.length === 0) {
+            sendMovieEvent({ type: 'CLEAR_PRODUCTION' });
+            return;
+          }
+          sendMovieEvent({ type: 'CHOOSE_PRODUCTION', value: value[0] });
+        }}
+        minLength={3}
+        {...getStackProps(props)}
+      />
+    </Step>
   );
 };
 
-export { Step4Content };
+export { Step4 };
