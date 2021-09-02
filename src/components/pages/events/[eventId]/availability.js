@@ -1,15 +1,15 @@
 import { useRouter } from 'next/router';
 import { dehydrate } from 'react-query/hydration';
 
-import { StatusPageMultiple } from '@/components/StatusPageMultiple';
-import { StatusPageSingle } from '@/components/StatusPageSingle';
+import { AvailabilityPageMultiple } from '@/components/AvailabilityPageMultiple';
+import { AvailabilityPageSingle } from '@/components/AvailabilityPageSingle';
 import { CalendarType } from '@/constants/CalendarType';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
 import { useChangeStatus, useGetEventById } from '@/hooks/api/events';
 import { Spinner } from '@/ui/Spinner';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
-const Status = () => {
+const Availability = () => {
   const router = useRouter();
   const { eventId } = router.query;
 
@@ -23,14 +23,14 @@ const Status = () => {
 
   if (event.calendarType === CalendarType.MULTIPLE)
     return (
-      <StatusPageMultiple
+      <AvailabilityPageMultiple
         event={event}
         refetchEvent={getEventByIdQuery.refetch}
       />
     );
 
   return (
-    <StatusPageSingle
+    <AvailabilityPageSingle
       offer={event}
       error={getEventByIdQuery.error}
       useChangeStatus={useChangeStatus}
@@ -52,4 +52,4 @@ export const getServerSideProps = getApplicationServerSideProps(
   },
 );
 
-export default Status;
+export default Availability;
