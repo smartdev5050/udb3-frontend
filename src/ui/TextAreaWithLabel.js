@@ -14,7 +14,13 @@ const TextAreaWithLabel = ({
   ...props
 }) => {
   return (
-    <Stack as="div" spacing={3} className={className} {...getStackProps(props)}>
+    <Stack
+      as="div"
+      spacing={3}
+      className={className}
+      {...getStackProps(props)}
+      width="100%"
+    >
       <Label htmlFor={id} variant={LabelVariants.BOLD}>
         {label}
       </Label>
