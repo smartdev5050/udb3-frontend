@@ -9,7 +9,7 @@ import { setupPage } from '@/test/utils/setupPage';
 import { waitForFetch } from '@/test/utils/waitForFetch';
 import { parseOfferId } from '@/utils/parseOfferId';
 
-import Status from './status';
+import Availability from './availability';
 
 const setup = async () => {
   const page = setupPage({
@@ -24,7 +24,7 @@ const setup = async () => {
     },
   });
 
-  renderPageWithWrapper(<Status />);
+  renderPageWithWrapper(<Availability />);
   await waitFor(() => screen.getByText(`Status voor ${place.name.nl}`));
 
   return page;

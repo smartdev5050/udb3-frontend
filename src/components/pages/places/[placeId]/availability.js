@@ -7,7 +7,7 @@ import { useChangeStatus, useGetPlaceById } from '@/hooks/api/places';
 import { Spinner } from '@/ui/Spinner';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
-const Status = () => {
+const Availability = () => {
   const router = useRouter();
   const { placeId } = router.query;
 
@@ -39,4 +39,4 @@ export const getServerSideProps = getApplicationServerSideProps(
   },
 );
 
-export default Status;
+export default Availability;
