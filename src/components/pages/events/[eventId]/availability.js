@@ -9,7 +9,7 @@ import { useChangeStatus, useGetEventById } from '@/hooks/api/events';
 import { Spinner } from '@/ui/Spinner';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
-const Status = () => {
+const Availability = () => {
   const router = useRouter();
   const { eventId } = router.query;
 
@@ -52,4 +52,4 @@ export const getServerSideProps = getApplicationServerSideProps(
   },
 );
 
-export default Status;
+export default Availability;

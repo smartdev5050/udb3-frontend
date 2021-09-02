@@ -1,1 +1,4 @@
-export { default, getServerSideProps } from '@/pages/events/[eventId]/status';
+export {
+  default,
+  getServerSideProps,
+} from '@/pages/events/[eventId]/availability';
