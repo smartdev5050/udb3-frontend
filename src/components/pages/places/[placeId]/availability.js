@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { dehydrate } from 'react-query/hydration';
 
-import { StatusPageSingle } from '@/components/StatusPageSingle';
+import { AvailabilityPageSingle } from '@/components/AvailabilityPageSingle';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
 import { useChangeStatus, useGetPlaceById } from '@/hooks/api/places';
 import { Spinner } from '@/ui/Spinner';
@@ -17,7 +17,7 @@ const Availability = () => {
     return <Spinner marginTop={4} />;
   }
   return (
-    <StatusPageSingle
+    <AvailabilityPageSingle
       offer={getPlaceByIdQuery.data}
       error={getPlaceByIdQuery.error}
       useChangeStatus={useChangeStatus}
