@@ -47,6 +47,8 @@ const AvailabilityPageMultiple = ({ event, refetchEvent }) => {
   const subEvents = event?.subEvent;
 
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isBookingModalVisible, setIsBookingModalVisible] = useState(false);
+
   const [selectedRows, setSelectedRows] = useState([]);
 
   const selectedSubEventIds = useMemo(() => selectedRows.map((row) => row.id), [
@@ -138,6 +140,12 @@ const AvailabilityPageMultiple = ({ event, refetchEvent }) => {
               iconName: Icons.PENCIL,
               title: t('offerStatus.changeStatus'),
               onClick: () => setIsModalVisible(true),
+              disabled: selectedRows.length === 0,
+            },
+            {
+              iconName: Icons.PENCIL,
+              title: t('bookingAvailability.change'),
+              onClick: () => setIsBookingModalVisible(true),
               disabled: selectedRows.length === 0,
             },
           ]}
