@@ -86,6 +86,10 @@ const AvailabilityPageMultiple = ({ event, refetchEvent }) => {
         Header: t('offerStatus.statusLabel'),
         accessor: 'status',
       },
+      {
+        Header: t('bookingAvailability.label'),
+        accessor: 'bookingAvailability',
+      },
     ],
     [],
   );
@@ -106,6 +110,15 @@ const AvailabilityPageMultiple = ({ event, refetchEvent }) => {
             )}
             reason={subEvent.status.reason}
           />
+        ),
+        bookingAvailability: (
+          <Text>
+            {t(
+              `bookingAvailability.${camelCase(
+                subEvent.bookingAvailability.type,
+              )}`,
+            )}
+          </Text>
         ),
       })),
     [subEvents],
