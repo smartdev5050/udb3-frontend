@@ -17,6 +17,7 @@ import { getValueFromTheme } from '@/ui/theme';
 import { formatPeriod } from '@/utils/formatPeriod';
 import { parseOfferId } from '@/utils/parseOfferId';
 
+import { BookingAvailabilityModal } from './BookingAvailabilityModal';
 import { StatusModal } from './StatusModal';
 
 const getValue = getValueFromTheme('statusPage');
@@ -58,6 +59,7 @@ const AvailabilityPageMultiple = ({ event, refetchEvent }) => {
   const handleSuccess = async () => {
     await refetchEvent();
     setIsModalVisible(false);
+    setIsBookingModalVisible(false);
   };
 
   const changeSubEventsMutation = useChangeStatusSubEvents({
@@ -76,6 +78,14 @@ const AvailabilityPageMultiple = ({ event, refetchEvent }) => {
               [i18n.language]: reason,
             }
           : undefined,
+    });
+
+  const handleConfirmChangeBookingAvailability = async (bookingAvailability) =>
+    changeSubEventsMutation.mutate({
+      eventId,
+      subEventIds: selectedSubEventIds,
+      subEvents,
+      bookingAvailability,
     });
 
   const columns = useMemo(
@@ -169,6 +179,13 @@ const AvailabilityPageMultiple = ({ event, refetchEvent }) => {
       loading={changeSubEventsMutation.status === QueryStatus.LOADING}
       onConfirm={handleConfirmChangeStatus}
       onClose={() => setIsModalVisible(false)}
+    />,
+    <BookingAvailabilityModal
+      key="bookingModal"
+      visible={isBookingModalVisible}
+      loading={changeSubEventsMutation.status === QueryStatus.LOADING}
+      onConfirm={handleConfirmChangeBookingAvailability}
+      onClose={() => setIsBookingModalVisible(false)}
     />,
   ];
 };
