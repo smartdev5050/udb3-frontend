@@ -42,6 +42,7 @@ const event = {
   subEvent: [
     {
       status: { type: 'Available' },
+      bookingAvailability: { type: 'Available' },
       '@type': 'Event',
       startDate: '2020-07-14T22:00:00+00:00',
       endDate: '2020-07-15T21:59:59+00:00',
@@ -62,6 +63,7 @@ const event = {
   availableFrom: '2020-07-15T15:53:08+02:00',
   production: null,
   status: { type: 'Available' },
+  bookingAvailability: { type: 'Available' },
 };
 
 const eventWithSubEvents = {
@@ -121,6 +123,7 @@ const eventWithSubEvents = {
     status: { type: 'Available' },
   },
   status: { type: 'Available' },
+  bookingAvailability: { type: 'Available' },
   availableTo: '2021-06-20T21:59:59+00:00',
   sameAs: [
     'http://www.uitinvlaanderen.be/agenda/e/multiple-calendar-type/b678d697-3634-4489-9fcd-c5c29b1f9ca6',
@@ -142,18 +145,21 @@ const eventWithSubEvents = {
   subEvent: [
     {
       status: { type: 'Available' },
+      bookingAvailability: { type: 'Available' },
       startDate: '2021-03-04T23:00:00+00:00',
       endDate: '2021-03-05T22:59:59+00:00',
       '@type': 'Event',
     },
     {
       status: { type: 'Available' },
+      bookingAvailability: { type: 'Available' },
       startDate: '2021-03-19T23:00:00+00:00',
       endDate: '2021-03-28T21:59:59+00:00',
       '@type': 'Event',
     },
     {
       status: { type: 'Available' },
+      bookingAvailability: { type: 'Available' },
       startDate: '2021-05-19T22:00:00+00:00',
       endDate: '2021-06-20T21:59:59+00:00',
       '@type': 'Event',
