@@ -134,6 +134,18 @@
     },
     "maxLengthReason": "La raison ne peut pas dépasser {{amount}} caractères."
   },
+  "bookingAvailability": {
+    "title": "Disponibilité des billets et des places",
+    "change": "Modifier billets & places",
+    "label": "Billets & places",
+    "available": "Disponible",
+    "unavailable": "Complet",
+    "actions": {
+      "cancel": "Annuler",
+      "close": "Fermer",
+      "save": " Sauver"
+    }
+  },
   "dashboard": {
     "welcome": "Bienvenue",
     "create": {
