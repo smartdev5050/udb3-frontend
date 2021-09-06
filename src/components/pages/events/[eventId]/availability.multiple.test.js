@@ -138,3 +138,40 @@ test('I can save a status with a reason', async () => {
     ]),
   );
 });
+
+test('I can save a booking availability', async () => {
+  const page = await setup();
+
+  userEvent.click(screen.getByTestId('checkbox-1'));
+  userEvent.click(screen.getByTestId('checkbox-2'));
+
+  userEvent.click(
+    screen.getByRole('button', {
+      name: nl.bookingAvailability.change,
+    }),
+  );
+
+  userEvent.click(screen.getByLabelText(nl.bookingAvailability.available));
+
+  userEvent.click(
+    screen.getByRole('button', {
+      name: nl.bookingAvailability.actions.save,
+    }),
+  );
+
+  await waitForFetch(`/events/${page.router.query.eventId}/subEvents`);
+
+  // 3rd API call, [url, payload] tuple
+  expect(fetch.mock.calls[2][1].body).toEqual(
+    JSON.stringify([
+      {
+        id: 1,
+        bookingAvailability: { type: OfferStatus.AVAILABLE },
+      },
+      {
+        id: 2,
+        bookingAvailability: { type: OfferStatus.AVAILABLE },
+      },
+    ]),
+  );
+});
