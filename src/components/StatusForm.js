@@ -12,7 +12,7 @@ import { getValueFromTheme } from '@/ui/theme';
 
 const getValue = getValueFromTheme('statusPage');
 
-const ReasonAndTypeForm = ({
+const StatusForm = ({
   offerType,
   statusType,
   statusReason,
@@ -77,7 +77,7 @@ const ReasonAndTypeForm = ({
   );
 };
 
-ReasonAndTypeForm.propTypes = {
+StatusForm.propTypes = {
   offerType: PropTypes.string,
   statusType: PropTypes.string,
   statusReason: PropTypes.string,
@@ -85,4 +85,4 @@ ReasonAndTypeForm.propTypes = {
   onInputStatusReason: PropTypes.func,
 };
 
-export { ReasonAndTypeForm };
+export { StatusForm };
