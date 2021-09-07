@@ -274,6 +274,9 @@ const theme = {
       check: {
         circleFillColor: colors.green3,
       },
+      pictureUploadBox: {
+        backgroundColor: colors.white,
+      },
     },
     tabs: {
       color: colors.udbBlue,
