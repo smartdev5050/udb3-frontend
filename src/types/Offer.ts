@@ -1,3 +1,4 @@
+import type { BookingAvailabilityType } from '@/constants/BookingAvailabilityType';
 import type { CalendarType } from '@/constants/CalendarType';
 import type { OfferStatus } from '@/constants/OfferStatus';
 
@@ -14,6 +15,10 @@ type StatusReason = { [languages: string]: string };
 type Status = {
   type: StatusType;
   reason?: StatusReason;
+};
+
+type BookingAvailability = {
+  type: Values<typeof BookingAvailabilityType>;
 };
 
 type Term = {
@@ -107,4 +112,12 @@ type Offer = {
   regions: string[];
 };
 
-export type { MediaObject, Offer, Status, StatusReason, StatusType, Term };
+export type {
+  BookingAvailability,
+  MediaObject,
+  Offer,
+  Status,
+  StatusReason,
+  StatusType,
+  Term,
+};

@@ -13,6 +13,7 @@ const place = {
     },
   },
   status: { type: 'Available' },
+  bookingAvailability: { type: 'Available' },
   availableTo: '2100-01-01T00:00:00+00:00',
   terms: [
     {

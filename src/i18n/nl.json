@@ -153,6 +153,18 @@
     },
     "maxLengthReason": "De reden voor je statuswijziging kan niet meer dan {{amount}} karakters bevatten."
   },
+  "bookingAvailability": {
+    "title": "Beschikbaarheid tickets & plaatsen",
+    "change": "Tickets & plaatsen wijzigen",
+    "label": "Tickets & plaatsen",
+    "available": "Beschikbaar",
+    "unavailable": "Volzet of uitverkocht",
+    "actions": {
+      "cancel": "Annuleren",
+      "close": "Sluiten",
+      "save": "Bewaren"
+    }
+  },
   "dashboard": {
     "welcome": "Welkom",
     "create": {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { ReasonAndTypeForm } from '@/components/ReasonAndTypeForm';
+import { StatusForm } from '@/components/StatusForm';
 import { OfferStatus } from '@/constants/OfferStatus';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
 import { Alert, AlertVariants } from '@/ui/Alert';
@@ -64,7 +64,7 @@ const AvailabilityPageSingle = ({ offer, error, useChangeStatus }) => {
           </Alert>
         ) : (
           [
-            <ReasonAndTypeForm
+            <StatusForm
               key="reason-and-type"
               offerType={offerType}
               statusType={type}
