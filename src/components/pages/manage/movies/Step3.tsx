@@ -8,6 +8,7 @@ import type { Place } from '@/types/Place';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
+import type { StackProps } from '@/ui/Stack';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
@@ -15,12 +16,11 @@ import { TypeaheadWithLabel } from '@/ui/TypeaheadWithLabel';
 
 import type { MachineProps } from './create';
 import { MovieEventTypes } from './create';
-import type { StepProps } from './Step';
 import { Step } from './Step';
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
-type Step3Props = StepProps & MachineProps;
+type Step3Props = StackProps & MachineProps;
 
 const Step3 = ({ movieState, sendMovieEvent, ...props }: Step3Props) => {
   const { t, i18n } = useTranslation();
