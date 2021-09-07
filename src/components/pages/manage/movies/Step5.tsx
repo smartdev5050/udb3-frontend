@@ -24,6 +24,9 @@ const PictureUploadBox = (props) => {
       backgroundColor={getValue('pictureUploadBox.backgroundColor')}
       justifyContent="center"
       alignItems="center"
+      css={`
+        border: 1px solid ${getValue('pictureUploadBox.borderColor')};
+      `}
       {...props}
     >
       <Text variant={TextVariants.MUTED}>

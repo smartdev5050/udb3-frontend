@@ -276,6 +276,7 @@ const theme = {
       },
       pictureUploadBox: {
         backgroundColor: colors.white,
+        borderColor: colors.grey2,
       },
     },
     tabs: {
