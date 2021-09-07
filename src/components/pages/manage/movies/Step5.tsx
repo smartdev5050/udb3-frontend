@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Button, ButtonVariants } from '@/ui/Button';
@@ -16,38 +17,28 @@ const getValue = getValueFromTheme('moviesCreatePage');
 
 type Step5Props = StackProps & MachineProps;
 
-const PictureUploadModal = () => {
-  return <Modal visible variant={ModalVariants.CONTENT} size="lg" />;
-};
-
-const PictureUploadBox = (props) => {
+const PictureUploadModal = ({ visible, onClose }) => {
   return (
-    <Stack
-      flex={1}
-      spacing={3}
-      height={300}
-      backgroundColor={getValue('pictureUploadBox.backgroundColor')}
-      justifyContent="center"
-      alignItems="center"
-      css={`
-        border: 1px solid ${getValue('pictureUploadBox.borderColor')};
-      `}
-      {...props}
-    >
-      <Text variant={TextVariants.MUTED}>
-        Voeg een afbeelding toe zodat bezoekers je activiteit beter herkennen
-      </Text>
-      <Button variant={ButtonVariants.SECONDARY}>Afbeelding toevoegen</Button>
-    </Stack>
+    <Modal
+      title="afbeelding toevoegen"
+      visible={visible}
+      variant={ModalVariants.CONTENT}
+      size="lg"
+      onClose={onClose}
+    />
   );
 };
 
 const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
   const { t } = useTranslation();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleClickAddImage = () => setIsModalVisible(true);
+  const handleCloseModal = () => setIsModalVisible(false);
 
   return (
     <Step stepNumber={5}>
-      <PictureUploadModal />
+      <PictureUploadModal visible={isModalVisible} onClose={handleCloseModal} />
       <Inline spacing={6}>
         <Stack spacing={3} flex={1}>
           <TextAreaWithLabel
@@ -58,7 +49,29 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
           />
           <Button variant={ButtonVariants.LINK}>leegmaken</Button>
         </Stack>
-        <PictureUploadBox />
+        <Stack
+          flex={1}
+          spacing={3}
+          height={300}
+          backgroundColor={getValue('pictureUploadBox.backgroundColor')}
+          justifyContent="center"
+          alignItems="center"
+          css={`
+            border: 1px solid ${getValue('pictureUploadBox.borderColor')};
+          `}
+          {...props}
+        >
+          <Text variant={TextVariants.MUTED}>
+            Voeg een afbeelding toe zodat bezoekers je activiteit beter
+            herkennen
+          </Text>
+          <Button
+            variant={ButtonVariants.SECONDARY}
+            onClick={handleClickAddImage}
+          >
+            Afbeelding toevoegen
+          </Button>
+        </Stack>
       </Inline>
     </Step>
   );
