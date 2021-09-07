@@ -11,6 +11,7 @@ const TextAreaWithLabel = ({
   onInput,
   value,
   disabled,
+  rows,
   ...props
 }) => {
   return (
@@ -19,12 +20,18 @@ const TextAreaWithLabel = ({
       spacing={3}
       className={className}
       {...getStackProps(props)}
-      width="100%"
+      flex={1}
     >
       <Label htmlFor={id} variant={LabelVariants.BOLD}>
         {label}
       </Label>
-      <TextArea id={id} onInput={onInput} value={value} disabled={disabled} />
+      <TextArea
+        id={id}
+        rows={rows}
+        onInput={onInput}
+        value={value}
+        disabled={disabled}
+      />
     </Stack>
   );
 };
@@ -35,6 +42,7 @@ TextAreaWithLabel.propTypes = {
   className: PropTypes.string,
   value: PropTypes.string,
   onInput: PropTypes.func,
+  rows: PropTypes.number,
   disabled: PropTypes.bool,
 };
 
