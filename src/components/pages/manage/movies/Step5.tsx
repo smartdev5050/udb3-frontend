@@ -2,18 +2,18 @@ import { useTranslation } from 'react-i18next';
 
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
+import type { StackProps, StackProps } from '@/ui/Stack';
 import { Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { TextAreaWithLabel } from '@/ui/TextAreaWithLabel';
 import { getValueFromTheme } from '@/ui/theme';
 
 import type { MachineProps } from './create';
-import type { StepProps } from './Step';
 import { Step } from './Step';
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
-type Step5Props = StepProps & MachineProps;
+type Step5Props = StackProps & MachineProps;
 
 const PictureUploadBox = (props) => {
   return (
@@ -34,16 +34,11 @@ const PictureUploadBox = (props) => {
   );
 };
 
-const Step5 = ({
-  movieState,
-  sendMovieEvent,
-  stepNumber,
-  ...props
-}: Step5Props) => {
+const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
   const { t } = useTranslation();
 
   return (
-    <Step stepNumber={stepNumber}>
+    <Step stepNumber={5}>
       <Inline spacing={6}>
         <Stack spacing={3} flex={1}>
           <TextAreaWithLabel
