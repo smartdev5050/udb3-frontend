@@ -142,7 +142,6 @@ const Create = () => {
           <Step
             movieState={movieState}
             sendMovieEvent={sendMovieEvent}
-            stepNumber={index + 1}
             key={index}
           />
         ))}
