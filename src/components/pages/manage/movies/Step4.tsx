@@ -13,12 +13,7 @@ import { Step } from './Step';
 
 type Step4Props = StepProps & MachineProps;
 
-const Step4 = ({
-  movieState,
-  sendMovieEvent,
-  stepNumber,
-  ...props
-}: Step4Props) => {
+const Step4 = ({ movieState, sendMovieEvent, ...props }: Step4Props) => {
   const { t } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
 
@@ -37,7 +32,7 @@ const Step4 = ({
   ]);
 
   return (
-    <Step stepNumber={stepNumber}>
+    <Step stepNumber={4}>
       <TypeaheadWithLabel<Production>
         id="step4-name-typeahead"
         label={t('movies.create.actions.choose_name')}

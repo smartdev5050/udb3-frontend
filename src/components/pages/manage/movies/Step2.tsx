@@ -8,14 +8,9 @@ import { Step } from './Step';
 
 type Step2Props = StepProps & MachineProps;
 
-const Step2 = ({
-  movieState,
-  sendMovieEvent,
-  stepNumber,
-  ...props
-}: Step2Props) => {
+const Step2 = ({ movieState, sendMovieEvent, ...props }: Step2Props) => {
   return (
-    <Step stepNumber={stepNumber}>
+    <Step stepNumber={2}>
       <TimeTable
         id="timetable-movies"
         onTimeTableChange={(value) =>

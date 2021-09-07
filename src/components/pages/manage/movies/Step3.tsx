@@ -22,12 +22,7 @@ const getValue = getValueFromTheme('moviesCreatePage');
 
 type Step3Props = StepProps & MachineProps;
 
-const Step3 = ({
-  movieState,
-  sendMovieEvent,
-  stepNumber,
-  ...props
-}: Step3Props) => {
+const Step3 = ({ movieState, sendMovieEvent, ...props }: Step3Props) => {
   const { t, i18n } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
 
@@ -46,7 +41,7 @@ const Step3 = ({
   ]);
 
   return (
-    <Step stepNumber={stepNumber}>
+    <Step stepNumber={3}>
       <Stack {...getStackProps(props)}>
         {movieState.context.cinema === null ? (
           <TypeaheadWithLabel<Place>
