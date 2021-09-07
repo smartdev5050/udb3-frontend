@@ -111,7 +111,7 @@ const SelectionTable = ({
         >
           {selectedRowsText}
         </Text>
-        <Inline>
+        <Inline spacing={3}>
           {actions.map(({ iconName, title, onClick, disabled }) => (
             <Button
               key={title}

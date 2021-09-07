@@ -17,16 +17,11 @@ const getValue = getValueFromTheme('moviesCreatePage');
 
 type Step1Props = StepProps & MachineProps;
 
-const Step1 = ({
-  stepNumber,
-  movieState,
-  sendMovieEvent,
-  ...props
-}: Step1Props) => {
+const Step1 = ({ movieState, sendMovieEvent, ...props }: Step1Props) => {
   const { t } = useTranslation();
 
   return (
-    <Step stepNumber={stepNumber}>
+    <Step stepNumber={1}>
       <Stack spacing={5} {...getStackProps(props)}>
         <Inline spacing={3} flexWrap="wrap" maxWidth="70rem">
           {movieState.context.theme === null ? (

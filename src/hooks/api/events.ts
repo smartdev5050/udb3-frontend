@@ -1,6 +1,7 @@
 import type { UseQueryOptions } from 'react-query';
 
 import type { Event } from '@/types/Event';
+import type { BookingAvailability, Status } from '@/types/Offer';
 import type { User } from '@/types/User';
 import { createEmbededCalendarSummaries } from '@/utils/createEmbededCalendarSummaries';
 import { createSortingArgument } from '@/utils/createSortingArgument';
@@ -209,6 +210,7 @@ const changeStatusSubEvents = async ({
   subEvents = [],
   type,
   reason,
+  bookingAvailability,
 }) =>
   fetchFromApi({
     path: `/events/${eventId.toString()}/subEvents`,
@@ -216,20 +218,46 @@ const changeStatusSubEvents = async ({
       method: 'PATCH',
       headers,
       body: JSON.stringify(
-        subEventIds.map((id) => ({
-          id,
-          status: {
-            type,
-            reason: {
-              ...(subEvents[id].status.type === type &&
-                subEvents[id].status.reason),
-              ...reason,
-            },
-          },
-        })),
+        subEventIds.map((id) =>
+          createSubEventPatch(id, subEvents, type, reason, bookingAvailability),
+        ),
       ),
     },
   });
+
+type SubEventPatch = {
+  id: number;
+  status?: Status;
+  bookingAvailability?: BookingAvailability;
+};
+
+const createSubEventPatch = (
+  id,
+  subEvents,
+  type,
+  reason,
+  bookingAvailability,
+) => {
+  const subEventPatch: SubEventPatch = { id };
+
+  if (type) {
+    subEventPatch.status = {
+      type,
+      reason: {
+        ...(subEvents[id].status.type === type && subEvents[id].status.reason),
+        ...reason,
+      },
+    };
+  }
+
+  if (bookingAvailability) {
+    subEventPatch.bookingAvailability = {
+      type: bookingAvailability,
+    };
+  }
+
+  return subEventPatch;
+};
 
 const useChangeStatusSubEvents = (configuration) =>
   useAuthenticatedMutation({
