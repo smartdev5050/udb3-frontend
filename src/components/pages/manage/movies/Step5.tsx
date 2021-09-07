@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
-import type { StackProps, StackProps } from '@/ui/Stack';
+import type { StackProps } from '@/ui/Stack';
 import { Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { TextAreaWithLabel } from '@/ui/TextAreaWithLabel';
