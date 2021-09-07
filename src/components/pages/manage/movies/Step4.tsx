@@ -9,14 +9,11 @@ import { getStackProps } from '@/ui/Stack';
 import { TypeaheadWithLabel } from '@/ui/TypeaheadWithLabel';
 
 import type { MachineProps } from './create';
+import { Step } from './Step';
 
-type Step4ContentProps = StackProps & MachineProps;
+type Step4Props = StackProps & MachineProps;
 
-const Step4Content = ({
-  movieState,
-  sendMovieEvent,
-  ...props
-}: Step4ContentProps) => {
+const Step4 = ({ movieState, sendMovieEvent, ...props }: Step4Props) => {
   const { t } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
 
@@ -35,24 +32,26 @@ const Step4Content = ({
   ]);
 
   return (
-    <TypeaheadWithLabel<Production>
-      id="step4-name-typeahead"
-      label={t('movies.create.actions.choose_name')}
-      options={productions}
-      onInputChange={throttle(setSearchInput, 275)}
-      labelKey={(production) => production.name}
-      maxWidth="43rem"
-      onChange={(value) => {
-        if (value.length === 0) {
-          sendMovieEvent({ type: 'CLEAR_PRODUCTION' });
-          return;
-        }
-        sendMovieEvent({ type: 'CHOOSE_PRODUCTION', value: value[0] });
-      }}
-      minLength={3}
-      {...getStackProps(props)}
-    />
+    <Step stepNumber={4}>
+      <TypeaheadWithLabel<Production>
+        id="step4-name-typeahead"
+        label={t('movies.create.actions.choose_name')}
+        options={productions}
+        onInputChange={throttle(setSearchInput, 275)}
+        labelKey={(production) => production.name}
+        maxWidth="43rem"
+        onChange={(value) => {
+          if (value.length === 0) {
+            sendMovieEvent({ type: 'CLEAR_PRODUCTION' });
+            return;
+          }
+          sendMovieEvent({ type: 'CHOOSE_PRODUCTION', value: value[0] });
+        }}
+        minLength={3}
+        {...getStackProps(props)}
+      />
+    </Step>
   );
 };
 
-export { Step4Content };
+export { Step4 };
