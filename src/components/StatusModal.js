@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { ReasonAndTypeForm } from '@/components/ReasonAndTypeForm';
+import { StatusForm } from '@/components/StatusForm';
 import { OfferStatus } from '@/constants/OfferStatus';
 import { OfferType } from '@/constants/OfferType';
 import { Modal, ModalVariants } from '@/ui/Modal';
@@ -45,7 +45,7 @@ const StatusModal = ({ visible, loading, className, onClose, onConfirm }) => {
         <Spinner marginY={4} />
       ) : (
         <Stack padding={4}>
-          <ReasonAndTypeForm
+          <StatusForm
             offerType={OfferType.EVENT}
             statusType={type}
             statusReason={reason}

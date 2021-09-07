@@ -17,6 +17,7 @@ import { getValueFromTheme } from '@/ui/theme';
 import { formatPeriod } from '@/utils/formatPeriod';
 import { parseOfferId } from '@/utils/parseOfferId';
 
+import { BookingAvailabilityModal } from './BookingAvailabilityModal';
 import { StatusModal } from './StatusModal';
 
 const getValue = getValueFromTheme('statusPage');
@@ -47,6 +48,8 @@ const AvailabilityPageMultiple = ({ event, refetchEvent }) => {
   const subEvents = event?.subEvent;
 
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isBookingModalVisible, setIsBookingModalVisible] = useState(false);
+
   const [selectedRows, setSelectedRows] = useState([]);
 
   const selectedSubEventIds = useMemo(() => selectedRows.map((row) => row.id), [
@@ -56,6 +59,7 @@ const AvailabilityPageMultiple = ({ event, refetchEvent }) => {
   const handleSuccess = async () => {
     await refetchEvent();
     setIsModalVisible(false);
+    setIsBookingModalVisible(false);
   };
 
   const changeSubEventsMutation = useChangeStatusSubEvents({
@@ -76,6 +80,14 @@ const AvailabilityPageMultiple = ({ event, refetchEvent }) => {
           : undefined,
     });
 
+  const handleConfirmChangeBookingAvailability = async (bookingAvailability) =>
+    changeSubEventsMutation.mutate({
+      eventId,
+      subEventIds: selectedSubEventIds,
+      subEvents,
+      bookingAvailability,
+    });
+
   const columns = useMemo(
     () => [
       {
@@ -85,6 +97,10 @@ const AvailabilityPageMultiple = ({ event, refetchEvent }) => {
       {
         Header: t('offerStatus.statusLabel'),
         accessor: 'status',
+      },
+      {
+        Header: t('bookingAvailability.label'),
+        accessor: 'bookingAvailability',
       },
     ],
     [],
@@ -107,6 +123,15 @@ const AvailabilityPageMultiple = ({ event, refetchEvent }) => {
             reason={subEvent.status.reason}
           />
         ),
+        bookingAvailability: (
+          <Text>
+            {t(
+              `bookingAvailability.${camelCase(
+                subEvent.bookingAvailability.type,
+              )}`,
+            )}
+          </Text>
+        ),
       })),
     [subEvents],
   );
@@ -125,6 +150,12 @@ const AvailabilityPageMultiple = ({ event, refetchEvent }) => {
               iconName: Icons.PENCIL,
               title: t('offerStatus.changeStatus'),
               onClick: () => setIsModalVisible(true),
+              disabled: selectedRows.length === 0,
+            },
+            {
+              iconName: Icons.PENCIL,
+              title: t('bookingAvailability.change'),
+              onClick: () => setIsBookingModalVisible(true),
               disabled: selectedRows.length === 0,
             },
           ]}
@@ -148,6 +179,13 @@ const AvailabilityPageMultiple = ({ event, refetchEvent }) => {
       loading={changeSubEventsMutation.status === QueryStatus.LOADING}
       onConfirm={handleConfirmChangeStatus}
       onClose={() => setIsModalVisible(false)}
+    />,
+    <BookingAvailabilityModal
+      key="bookingModal"
+      visible={isBookingModalVisible}
+      loading={changeSubEventsMutation.status === QueryStatus.LOADING}
+      onConfirm={handleConfirmChangeBookingAvailability}
+      onClose={() => setIsBookingModalVisible(false)}
     />,
   ];
 };
