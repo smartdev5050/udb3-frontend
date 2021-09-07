@@ -4,14 +4,14 @@ import { useTranslation } from 'react-i18next';
 
 import { useGetProductions } from '@/hooks/api/productions';
 import type { Production } from '@/types/Production';
+import type { StackProps } from '@/ui/Stack';
 import { getStackProps } from '@/ui/Stack';
 import { TypeaheadWithLabel } from '@/ui/TypeaheadWithLabel';
 
 import type { MachineProps } from './create';
-import type { StepProps } from './Step';
 import { Step } from './Step';
 
-type Step4Props = StepProps & MachineProps;
+type Step4Props = StackProps & MachineProps;
 
 const Step4 = ({ movieState, sendMovieEvent, ...props }: Step4Props) => {
   const { t } = useTranslation();

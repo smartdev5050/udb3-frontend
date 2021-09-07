@@ -1,12 +1,12 @@
+import type { StackProps } from '@/ui/Stack';
 import { getStackProps } from '@/ui/Stack';
 import { TimeTable } from '@/ui/TimeTable';
 
 import type { MachineProps } from './create';
 import { MovieEventTypes } from './create';
-import type { StepProps } from './Step';
 import { Step } from './Step';
 
-type Step2Props = StepProps & MachineProps;
+type Step2Props = StackProps & MachineProps;
 
 const Step2 = ({ movieState, sendMovieEvent, ...props }: Step2Props) => {
   return (
