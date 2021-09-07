@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
+import { Modal, ModalVariants } from '@/ui/Modal';
 import type { StackProps } from '@/ui/Stack';
 import { Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
@@ -14,6 +15,10 @@ import { Step } from './Step';
 const getValue = getValueFromTheme('moviesCreatePage');
 
 type Step5Props = StackProps & MachineProps;
+
+const PictureUploadModal = () => {
+  return <Modal visible variant={ModalVariants.CONTENT} size="lg" />;
+};
 
 const PictureUploadBox = (props) => {
   return (
@@ -42,6 +47,7 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
 
   return (
     <Step stepNumber={5}>
+      <PictureUploadModal />
       <Inline spacing={6}>
         <Stack spacing={3} flex={1}>
           <TextAreaWithLabel
