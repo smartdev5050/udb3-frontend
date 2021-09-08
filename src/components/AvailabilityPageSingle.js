@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { BookingAvailabilityForm } from '@/components/BookingAvailabilityForm';
 import { StatusForm } from '@/components/StatusForm';
+import { CalendarType } from '@/constants/CalendarType';
 import { OfferStatus } from '@/constants/OfferStatus';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
 import { Alert, AlertVariants } from '@/ui/Alert';
@@ -29,14 +31,21 @@ const AvailabilityPageSingle = ({
     offer?.name?.[i18n.language] ?? offer?.name?.[offer.mainLanguage];
   const rawStatusType = offer?.status?.type;
   const rawStatusReason = offer?.status?.reason;
+  const rawBookingAvailabilityType = offer?.bookingAvailability?.type;
 
   const [type, setType] = useState('');
   const [reason, setReason] = useState('');
+  const [bookingAvailabilityType, setBookingAvailabilityType] = useState('');
 
   useEffect(() => {
     if (!rawStatusType) return;
     setType(rawStatusType);
   }, [rawStatusType]);
+
+  useEffect(() => {
+    if (!rawBookingAvailabilityType) return;
+    setBookingAvailabilityType(rawBookingAvailabilityType);
+  }, [rawBookingAvailabilityType]);
 
   useEffect(() => {
     if (type === OfferStatus.AVAILABLE) {
@@ -69,6 +78,15 @@ const AvailabilityPageSingle = ({
           </Alert>
         ) : (
           [
+            offer.calendarType === CalendarType.SINGLE && (
+              <BookingAvailabilityForm
+                key="booking-availability"
+                bookingAvailabilityType={bookingAvailabilityType}
+                onChangeBookingAvailability={(e) =>
+                  setBookingAvailabilityType(e.target.value)
+                }
+              />
+            ),
             <StatusForm
               key="reason-and-type"
               offerType={offerType}
