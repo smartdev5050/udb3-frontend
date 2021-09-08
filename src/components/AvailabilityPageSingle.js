@@ -14,7 +14,12 @@ import { Spinner } from '@/ui/Spinner';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { parseOfferType } from '@/utils/parseOfferType';
 
-const AvailabilityPageSingle = ({ offer, error, useChangeStatus }) => {
+const AvailabilityPageSingle = ({
+  offer,
+  error,
+  useChangeStatus,
+  useChangeStatusSubEvents,
+}) => {
   const { t, i18n } = useTranslation();
   const router = useRouter();
 
@@ -114,6 +119,7 @@ AvailabilityPageSingle.propTypes = {
   offer: PropTypes.object.isRequired,
   error: PropTypes.object,
   useChangeStatus: PropTypes.func.isRequired,
+  useChangeStatusSubEvents: PropTypes.func.isRequired,
 };
 
 export { AvailabilityPageSingle };
