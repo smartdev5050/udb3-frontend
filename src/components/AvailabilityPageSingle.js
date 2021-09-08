@@ -59,22 +59,69 @@ const AvailabilityPageSingle = ({
     setReason(newReason);
   }, [rawStatusReason]);
 
-  const handleSuccessChangeStatus = () =>
-    router.push(`/${offerType}/${offerId}/preview`);
+  const handleSuccess = () => router.push(`/${offerType}/${offerId}/preview`);
 
   const changeStatusMutation = useChangeStatus({
-    onSuccess: handleSuccessChangeStatus,
+    onSuccess: handleSuccess,
   });
+
+  const changeStatusSubEventsMutation = useChangeStatusSubEvents({
+    onSuccess: handleSuccess,
+  });
+
+  const activeMutation = () => {
+    if (offer.calendarType === CalendarType.SINGLE) {
+      return changeStatusSubEventsMutation;
+    }
+
+    return changeStatusMutation;
+  };
+
+  const mutate = () => {
+    if (offer.calendarType === CalendarType.SINGLE) {
+      changeStatusSubEventsMutation.mutate({
+        eventId: offerId,
+        subEventIds: [0],
+        subEvents: offer?.subEvent,
+        type,
+        reason: {
+          ...(offer.status.type === type && offer.status.reason),
+          [i18n.language]: reason || undefined,
+        },
+        bookingAvailability: bookingAvailabilityType,
+      });
+
+      return;
+    }
+
+    if (type === OfferStatus.AVAILABLE) {
+      changeStatusMutation.mutate({
+        id: offerId,
+        type,
+      });
+
+      return;
+    }
+
+    changeStatusMutation.mutate({
+      id: offerId,
+      type,
+      reason: {
+        ...(offer.status.type === type && offer.status.reason),
+        [i18n.language]: reason || undefined,
+      },
+    });
+  };
 
   return (
     <Page>
       <Page.Title>{t('offerStatus.title', { name })}</Page.Title>
       <Page.Content spacing={5} maxWidth="36rem">
-        {changeStatusMutation.status === QueryStatus.LOADING ? (
+        {activeMutation.status === QueryStatus.LOADING ? (
           <Spinner marginTop={4} />
-        ) : error || changeStatusMutation.error ? (
+        ) : error || activeMutation.error ? (
           <Alert variant={AlertVariants.WARNING}>
-            {error.message || changeStatusMutation.error?.message}
+            {error.message || activeMutation.error?.message}
           </Alert>
         ) : (
           [
@@ -100,21 +147,7 @@ const AvailabilityPageSingle = ({
                 variant={ButtonVariants.PRIMARY}
                 disabled={!offer || reason.length > 200}
                 onClick={() => {
-                  if (type === OfferStatus.AVAILABLE) {
-                    changeStatusMutation.mutate({
-                      id: offerId,
-                      type,
-                    });
-                  } else {
-                    changeStatusMutation.mutate({
-                      id: offerId,
-                      type,
-                      reason: {
-                        ...(offer.status.type === type && offer.status.reason),
-                        [i18n.language]: reason || undefined,
-                      },
-                    });
-                  }
+                  mutate();
                 }}
               >
                 {t('offerStatus.actions.save')}
