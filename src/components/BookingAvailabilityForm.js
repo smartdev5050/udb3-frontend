@@ -7,6 +7,7 @@ import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
 const BookingAvailabilityForm = ({
   bookingAvailabilityType,
   onChangeBookingAvailability,
+  ...props
 }) => {
   const { t } = useTranslation();
 
@@ -29,6 +30,7 @@ const BookingAvailabilityForm = ({
       items={radioButtonItems}
       selected={bookingAvailabilityType}
       onChange={onChangeBookingAvailability}
+      {...props}
     />
   );
 };
