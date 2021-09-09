@@ -27,7 +27,9 @@ const setup = async () => {
   renderPageWithWrapper(<Availability />);
 
   await waitFor(() =>
-    screen.getByText(`Status voor ${eventWithSubEvents.name.nl}`),
+    screen.getByText(
+      `Status & beschikbaarheid voor ${eventWithSubEvents.name.nl}`,
+    ),
   );
 
   return page;
