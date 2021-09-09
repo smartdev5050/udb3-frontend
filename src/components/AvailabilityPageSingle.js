@@ -16,12 +16,7 @@ import { Spinner } from '@/ui/Spinner';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { parseOfferType } from '@/utils/parseOfferType';
 
-const AvailabilityPageSingle = ({
-  offer,
-  error,
-  useChangeStatus,
-  useChangeStatusSubEvents,
-}) => {
+const AvailabilityPageSingle = ({ offer, error, useChangeStatus }) => {
   const { t, i18n } = useTranslation();
   const router = useRouter();
 
@@ -34,7 +29,7 @@ const AvailabilityPageSingle = ({
   const rawBookingAvailabilityType = offer?.bookingAvailability?.type;
 
   const [type, setType] = useState('');
-  const [reason, setReason] = useState('');
+  const [reasonMainLanguage, setReasonMainLanguage] = useState('');
   const [bookingAvailabilityType, setBookingAvailabilityType] = useState('');
 
   useEffect(() => {
@@ -49,15 +44,15 @@ const AvailabilityPageSingle = ({
 
   useEffect(() => {
     if (type === OfferStatus.AVAILABLE) {
-      setReason('');
+      setReasonMainLanguage('');
     }
   }, [type]);
 
   useEffect(() => {
-    const newReason = offer?.status?.reason?.[i18n.language];
-    if (!rawStatusReason || !newReason) return;
-    setReason(newReason);
-  }, [rawStatusReason]);
+    const newReasonMainLanguage = rawStatusReason?.[i18n.language];
+    if (!newReasonMainLanguage) return;
+    setReasonMainLanguage(newReasonMainLanguage);
+  }, [rawStatusReason, i18n.language]);
 
   const handleSuccess = () => router.push(`/${offerType}/${offerId}/preview`);
 
@@ -65,63 +60,46 @@ const AvailabilityPageSingle = ({
     onSuccess: handleSuccess,
   });
 
-  const changeStatusSubEventsMutation = useChangeStatusSubEvents({
-    onSuccess: handleSuccess,
-  });
-
-  const activeMutation = () => {
+  const createMutationPayload = () => {
     if (offer.calendarType === CalendarType.SINGLE) {
-      return changeStatusSubEventsMutation;
-    }
-
-    return changeStatusMutation;
-  };
-
-  const mutate = () => {
-    if (offer.calendarType === CalendarType.SINGLE) {
-      changeStatusSubEventsMutation.mutate({
+      return {
         eventId: offerId,
         subEventIds: [0],
         subEvents: offer?.subEvent,
         type,
         reason: {
           ...(offer.status.type === type && offer.status.reason),
-          [i18n.language]: reason || undefined,
+          [i18n.language]: reasonMainLanguage || undefined,
         },
         bookingAvailability: bookingAvailabilityType,
-      });
-
-      return;
+      };
     }
 
     if (type === OfferStatus.AVAILABLE) {
-      changeStatusMutation.mutate({
+      return {
         id: offerId,
         type,
-      });
-
-      return;
+      };
     }
-
-    changeStatusMutation.mutate({
+    return {
       id: offerId,
       type,
       reason: {
         ...(offer.status.type === type && offer.status.reason),
-        [i18n.language]: reason || undefined,
+        [i18n.language]: reasonMainLanguage || undefined,
       },
-    });
+    };
   };
 
   return (
     <Page>
       <Page.Title>{t('offerStatus.title', { name })}</Page.Title>
       <Page.Content spacing={5} maxWidth="36rem">
-        {activeMutation.status === QueryStatus.LOADING ? (
+        {changeStatusMutation.status === QueryStatus.LOADING ? (
           <Spinner marginTop={4} />
-        ) : error || activeMutation.error ? (
+        ) : error || changeStatusMutation.error ? (
           <Alert variant={AlertVariants.WARNING}>
-            {error.message || activeMutation.error?.message}
+            {error.message || changeStatusMutation.error?.message}
           </Alert>
         ) : (
           [
@@ -138,16 +116,16 @@ const AvailabilityPageSingle = ({
               key="reason-and-type"
               offerType={offerType}
               statusType={type}
-              statusReason={reason}
+              statusReason={reasonMainLanguage}
               onChangeStatusType={(e) => setType(e.target.value)}
-              onInputStatusReason={(e) => setReason(e.target.value)}
+              onInputStatusReason={(e) => setReasonMainLanguage(e.target.value)}
             />,
             <Inline key="actions" spacing={3}>
               <Button
                 variant={ButtonVariants.PRIMARY}
-                disabled={!offer || reason.length > 200}
+                disabled={!offer || reasonMainLanguage.length > 200}
                 onClick={() => {
-                  mutate();
+                  changeStatusMutation.mutate(createMutationPayload());
                 }}
               >
                 {t('offerStatus.actions.save')}
@@ -170,7 +148,6 @@ AvailabilityPageSingle.propTypes = {
   offer: PropTypes.object.isRequired,
   error: PropTypes.object,
   useChangeStatus: PropTypes.func.isRequired,
-  useChangeStatusSubEvents: PropTypes.func.isRequired,
 };
 
 export { AvailabilityPageSingle };

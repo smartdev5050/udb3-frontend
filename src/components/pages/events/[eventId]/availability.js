@@ -37,8 +37,11 @@ const Availability = () => {
     <AvailabilityPageSingle
       offer={event}
       error={getEventByIdQuery.error}
-      useChangeStatus={useChangeStatus}
-      useChangeStatusSubEvents={useChangeStatusSubEvents}
+      useChangeStatus={
+        event.calendarType === CalendarType.SINGLE
+          ? useChangeStatusSubEvents
+          : useChangeStatus
+      }
     />
   );
 };

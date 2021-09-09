@@ -3,7 +3,6 @@ import { dehydrate } from 'react-query/hydration';
 
 import { AvailabilityPageSingle } from '@/components/AvailabilityPageSingle';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
-import { useChangeStatusSubEvents } from '@/hooks/api/events';
 import { useChangeStatus, useGetPlaceById } from '@/hooks/api/places';
 import { Spinner } from '@/ui/Spinner';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
@@ -22,7 +21,6 @@ const Availability = () => {
       offer={getPlaceByIdQuery.data}
       error={getPlaceByIdQuery.error}
       useChangeStatus={useChangeStatus}
-      useChangeStatusSubEvents={useChangeStatusSubEvents}
     />
   );
 };
