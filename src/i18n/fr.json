@@ -101,8 +101,8 @@
     }
   },
   "offerStatus": {
-    "title": "Statut pour {{name}}",
-    "info": "Sélectionnez les périodes pour lesquels vous souhaitez modifier le statut",
+    "title": "Statut et disponibilité pour {{name}}",
+    "info": "Sélectionnez les périodes pour lesquels vous souhaitez modifier le statut ou la disponibilité des billets ou des places",
     "period": "Période",
     "statusLabel": "Statut",
     "newStatus": "Nouveau statut",
