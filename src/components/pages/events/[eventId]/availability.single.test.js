@@ -21,7 +21,7 @@ const setup = async () => {
     },
     responses: {
       '/event/:id': { body: event },
-      '/events/:id/status': {},
+      '/events/:id/subEvents': {},
     },
   });
 
@@ -35,6 +35,8 @@ const setup = async () => {
 
 test('I can save a status', async () => {
   const page = await setup();
+
+  expect(screen.getByLabelText(nl.bookingAvailability.available)).toBeChecked();
 
   expect(
     screen.getByLabelText(nl.offerStatus.status.event.available),
