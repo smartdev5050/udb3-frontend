@@ -120,7 +120,7 @@
     }
   },
   "offerStatus": {
-    "title": "Status & beschikbaarheid voor {{name}}",
+    "title": "Beschikbaarheid voor {{name}}",
     "info": "Selecteer de tijdstippen waarvoor je de status of beschikbaarheid van tickets of plaatsen wilt aanpassen",
     "period": "Tijdstip",
     "statusLabel": "Status",

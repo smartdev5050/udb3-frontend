@@ -26,7 +26,7 @@ const setup = async () => {
 
   renderPageWithWrapper(<Availability />);
   await waitFor(() =>
-    screen.getByText(`Status & beschikbaarheid voor ${place.name.nl}`),
+    screen.getByText(`Beschikbaarheid voor ${place.name.nl}`),
   );
 
   return page;
