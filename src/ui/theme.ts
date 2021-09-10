@@ -249,6 +249,10 @@ const theme = {
     },
     statusPage: {
       infoTextColor: colors.grey5,
+      title: {
+        color: colors.textColor,
+        borderColor: colors.grey2,
+      },
     },
     statusModal: {
       infoTextColor: colors.grey5,
