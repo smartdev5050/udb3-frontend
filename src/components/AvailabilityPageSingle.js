@@ -16,8 +16,9 @@ import { Spinner } from '@/ui/Spinner';
 import { getValueFromTheme } from '@/ui/theme';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { parseOfferType } from '@/utils/parseOfferType';
-import { Title } from '../ui/Title';
+
 import { Text } from '../ui/Text';
+import { Title } from '../ui/Title';
 
 const getValue = getValueFromTheme('statusPage');
 
