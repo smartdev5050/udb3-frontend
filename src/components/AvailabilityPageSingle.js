@@ -13,8 +13,13 @@ import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Page } from '@/ui/Page';
 import { Spinner } from '@/ui/Spinner';
+import { getValueFromTheme } from '@/ui/theme';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { parseOfferType } from '@/utils/parseOfferType';
+import { Title } from '../ui/Title';
+import { Text } from '../ui/Text';
+
+const getValue = getValueFromTheme('statusPage');
 
 const AvailabilityPageSingle = ({ offer, error, useChangeStatus }) => {
   const { t, i18n } = useTranslation();
@@ -103,15 +108,39 @@ const AvailabilityPageSingle = ({ offer, error, useChangeStatus }) => {
           </Alert>
         ) : (
           [
-            offer.calendarType === CalendarType.SINGLE && (
+            offer.calendarType === CalendarType.SINGLE && [
+              <Title
+                key="status-form-title"
+                color={getValue('title.color')}
+                lineHeight="220%"
+                alignItems="center"
+                spacing={0}
+                css={`
+                  border-bottom: 1px solid ${getValue('title.borderColor')};
+                `}
+              >
+                <Text>{t('bookingAvailability.title')}</Text>
+              </Title>,
               <BookingAvailabilityForm
                 key="booking-availability"
                 bookingAvailabilityType={bookingAvailabilityType}
                 onChangeBookingAvailability={(e) =>
                   setBookingAvailabilityType(e.target.value)
                 }
-              />
-            ),
+              />,
+            ],
+            <Title
+              key="status-form-title"
+              color={getValue('title.color')}
+              lineHeight="220%"
+              alignItems="center"
+              spacing={3}
+              css={`
+                border-bottom: 1px solid ${getValue('title.borderColor')};
+              `}
+            >
+              <Text>{t('offerStatus.newStatus')}</Text>
+            </Title>,
             <StatusForm
               key="reason-and-type"
               offerType={offerType}
