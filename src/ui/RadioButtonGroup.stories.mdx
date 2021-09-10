@@ -6,7 +6,6 @@ import { useState } from 'react';
 
 export const commonArgs = {
   name: 'city',
-  groupLabel: 'Select a city:',
   items: [
     { label: 'Rome', value: 'rome', info: 'Info about Rome' },
     { label: 'Paris', value: 'paris', info: 'Info about Paris' },
@@ -22,6 +21,7 @@ export const commonArgs = {
         <>
           <RadioButtonGroup
             {...args}
+            groupLabel={`Select a city:`}
             selected={selectedCity}
             onChange={(event) => {
               args.onChange();
@@ -37,3 +37,28 @@ export const commonArgs = {
 </Canvas>
 
 <ArgsTable story="Default" />
+
+<Canvas>
+  <Story name="EmptyGroupLabel" args={commonArgs}>
+    {(args) => {
+      const [selectedCity, setSelectedCity] = useState('rome');
+      return (
+        <>
+          <RadioButtonGroup
+            {...args}
+            groupLabel={``}
+            selected={selectedCity}
+            onChange={(event) => {
+              args.onChange();
+              setSelectedCity(event.target.value);
+            }}
+          />
+          <br />
+          <p>Selected city: {selectedCity}</p>
+        </>
+      );
+    }}
+  </Story>
+</Canvas>
+
+<ArgsTable story="EmptyGroupLabel" />
