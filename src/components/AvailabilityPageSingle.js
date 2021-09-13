@@ -13,12 +13,11 @@ import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Page } from '@/ui/Page';
 import { Spinner } from '@/ui/Spinner';
+import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
+import { Title } from '@/ui/Title';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { parseOfferType } from '@/utils/parseOfferType';
-
-import { Text } from '../ui/Text';
-import { Title } from '../ui/Title';
 
 const getValue = getValueFromTheme('statusPage');
 
