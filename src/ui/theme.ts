@@ -152,6 +152,10 @@ const theme = {
       color: colors.textColor,
       borderColor: colors.grey2,
     },
+    title: {
+      color: colors.textColor,
+      borderColor: colors.grey2,
+    },
     panel: {
       borderColor: colors.grey3,
     },
@@ -249,10 +253,6 @@ const theme = {
     },
     statusPage: {
       infoTextColor: colors.grey5,
-      title: {
-        color: colors.textColor,
-        borderColor: colors.grey2,
-      },
     },
     statusModal: {
       infoTextColor: colors.grey5,
