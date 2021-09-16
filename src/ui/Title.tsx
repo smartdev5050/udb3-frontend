@@ -1,8 +1,10 @@
+import { css } from 'styled-components';
+
+import { getValueFromTheme } from '@/ui/theme';
+
 import type { InlineProps } from './Inline';
 import { getInlineProps, Inline } from './Inline';
 import { Text } from './Text';
-import { css } from 'styled-components';
-import { getValueFromTheme } from '@/ui/theme';
 
 const getValue = getValueFromTheme('title');
 
