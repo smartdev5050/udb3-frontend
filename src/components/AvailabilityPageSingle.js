@@ -34,7 +34,7 @@ const AvailabilityPageSingle = ({ offer, error, useChangeStatus }) => {
   const rawBookingAvailabilityType = offer?.bookingAvailability?.type;
 
   const [type, setType] = useState('');
-  const [reasonMainLanguage, setReasonMainLanguage] = useState('');
+  const [reasonInCurrentLanguage, setReasonInCurrentLanguage] = useState('');
   const [bookingAvailabilityType, setBookingAvailabilityType] = useState('');
 
   useEffect(() => {
@@ -49,14 +49,14 @@ const AvailabilityPageSingle = ({ offer, error, useChangeStatus }) => {
 
   useEffect(() => {
     if (type === OfferStatus.AVAILABLE) {
-      setReasonMainLanguage('');
+      setReasonInCurrentLanguage('');
     }
   }, [type]);
 
   useEffect(() => {
-    const newReasonMainLanguage = rawStatusReason?.[i18n.language];
-    if (!newReasonMainLanguage) return;
-    setReasonMainLanguage(newReasonMainLanguage);
+    const newReasonInCurrentLanguage = rawStatusReason?.[i18n.language];
+    if (!newReasonInCurrentLanguage) return;
+    setReasonInCurrentLanguage(newReasonInCurrentLanguage);
   }, [rawStatusReason, i18n.language]);
 
   const handleSuccess = () => router.push(`/${offerType}/${offerId}/preview`);
@@ -74,7 +74,7 @@ const AvailabilityPageSingle = ({ offer, error, useChangeStatus }) => {
         type,
         reason: {
           ...(offer.status.type === type && offer.status.reason),
-          [i18n.language]: reasonMainLanguage || undefined,
+          [i18n.language]: reasonInCurrentLanguage || undefined,
         },
         bookingAvailability: bookingAvailabilityType,
       };
@@ -91,7 +91,7 @@ const AvailabilityPageSingle = ({ offer, error, useChangeStatus }) => {
       type,
       reason: {
         ...(offer.status.type === type && offer.status.reason),
-        [i18n.language]: reasonMainLanguage || undefined,
+        [i18n.language]: reasonInCurrentLanguage || undefined,
       },
     };
   };
@@ -145,14 +145,16 @@ const AvailabilityPageSingle = ({ offer, error, useChangeStatus }) => {
               key="reason-and-type"
               offerType={offerType}
               statusType={type}
-              statusReason={reasonMainLanguage}
+              statusReason={reasonInCurrentLanguage}
               onChangeStatusType={(e) => setType(e.target.value)}
-              onInputStatusReason={(e) => setReasonMainLanguage(e.target.value)}
+              onInputStatusReason={(e) =>
+                setReasonInCurrentLanguage(e.target.value)
+              }
             />,
             <Inline key="actions" spacing={3}>
               <Button
                 variant={ButtonVariants.PRIMARY}
-                disabled={!offer || reasonMainLanguage.length > 200}
+                disabled={!offer || reasonInCurrentLanguage.length > 200}
                 onClick={() => {
                   changeStatusMutation.mutate(createMutationPayload());
                 }}
