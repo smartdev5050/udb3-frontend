@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { BookingAvailabilityForm } from '@/components/BookingAvailabilityForm';
 import { StatusForm } from '@/components/StatusForm';
+import { CalendarType } from '@/constants/CalendarType';
 import { OfferStatus } from '@/constants/OfferStatus';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
 import { Alert, AlertVariants } from '@/ui/Alert';
@@ -24,9 +26,11 @@ const AvailabilityPageSingle = ({ offer, error, useChangeStatus }) => {
     offer?.name?.[i18n.language] ?? offer?.name?.[offer.mainLanguage];
   const rawStatusType = offer?.status?.type;
   const rawStatusReason = offer?.status?.reason;
+  const rawBookingAvailabilityType = offer?.bookingAvailability?.type;
 
   const [type, setType] = useState('');
-  const [reason, setReason] = useState('');
+  const [reasonInCurrentLanguage, setReasonInCurrentLanguage] = useState('');
+  const [bookingAvailabilityType, setBookingAvailabilityType] = useState('');
 
   useEffect(() => {
     if (!rawStatusType) return;
@@ -34,23 +38,58 @@ const AvailabilityPageSingle = ({ offer, error, useChangeStatus }) => {
   }, [rawStatusType]);
 
   useEffect(() => {
+    if (!rawBookingAvailabilityType) return;
+    setBookingAvailabilityType(rawBookingAvailabilityType);
+  }, [rawBookingAvailabilityType]);
+
+  useEffect(() => {
     if (type === OfferStatus.AVAILABLE) {
-      setReason('');
+      setReasonInCurrentLanguage('');
     }
   }, [type]);
 
   useEffect(() => {
-    const newReason = offer?.status?.reason?.[i18n.language];
-    if (!rawStatusReason || !newReason) return;
-    setReason(newReason);
-  }, [rawStatusReason]);
+    const newReasonInCurrentLanguage = rawStatusReason?.[i18n.language];
+    if (!newReasonInCurrentLanguage) return;
+    setReasonInCurrentLanguage(newReasonInCurrentLanguage);
+  }, [rawStatusReason, i18n.language]);
 
-  const handleSuccessChangeStatus = () =>
-    router.push(`/${offerType}/${offerId}/preview`);
+  const handleSuccess = () => router.push(`/${offerType}/${offerId}/preview`);
 
   const changeStatusMutation = useChangeStatus({
-    onSuccess: handleSuccessChangeStatus,
+    onSuccess: handleSuccess,
   });
+
+  const createMutationPayload = () => {
+    if (offer.calendarType === CalendarType.SINGLE) {
+      return {
+        eventId: offerId,
+        subEventIds: [0],
+        subEvents: offer?.subEvent,
+        type,
+        reason: {
+          ...(offer.status.type === type && offer.status.reason),
+          [i18n.language]: reasonInCurrentLanguage || undefined,
+        },
+        bookingAvailability: bookingAvailabilityType,
+      };
+    }
+
+    if (type === OfferStatus.AVAILABLE) {
+      return {
+        id: offerId,
+        type,
+      };
+    }
+    return {
+      id: offerId,
+      type,
+      reason: {
+        ...(offer.status.type === type && offer.status.reason),
+        [i18n.language]: reasonInCurrentLanguage || undefined,
+      },
+    };
+  };
 
   return (
     <Page>
@@ -64,34 +103,31 @@ const AvailabilityPageSingle = ({ offer, error, useChangeStatus }) => {
           </Alert>
         ) : (
           [
+            offer.calendarType === CalendarType.SINGLE && (
+              <BookingAvailabilityForm
+                key="booking-availability"
+                bookingAvailabilityType={bookingAvailabilityType}
+                onChangeBookingAvailability={(e) =>
+                  setBookingAvailabilityType(e.target.value)
+                }
+              />
+            ),
             <StatusForm
               key="reason-and-type"
               offerType={offerType}
               statusType={type}
-              statusReason={reason}
+              statusReason={reasonInCurrentLanguage}
               onChangeStatusType={(e) => setType(e.target.value)}
-              onInputStatusReason={(e) => setReason(e.target.value)}
+              onInputStatusReason={(e) =>
+                setReasonInCurrentLanguage(e.target.value)
+              }
             />,
             <Inline key="actions" spacing={3}>
               <Button
                 variant={ButtonVariants.PRIMARY}
-                disabled={!offer || reason.length > 200}
+                disabled={!offer || reasonInCurrentLanguage.length > 200}
                 onClick={() => {
-                  if (type === OfferStatus.AVAILABLE) {
-                    changeStatusMutation.mutate({
-                      id: offerId,
-                      type,
-                    });
-                  } else {
-                    changeStatusMutation.mutate({
-                      id: offerId,
-                      type,
-                      reason: {
-                        ...(offer.status.type === type && offer.status.reason),
-                        [i18n.language]: reason || undefined,
-                      },
-                    });
-                  }
+                  changeStatusMutation.mutate(createMutationPayload());
                 }}
               >
                 {t('offerStatus.actions.save')}

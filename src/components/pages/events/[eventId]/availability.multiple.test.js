@@ -1,6 +1,7 @@
 import { screen, waitFor } from '@testing-library/react/pure';
 import userEvent from '@testing-library/user-event';
 
+import { BookingAvailabilityType } from '@/constants/BookingAvailabilityType';
 import { OfferStatus } from '@/constants/OfferStatus';
 import nl from '@/i18n/nl.json';
 import { eventWithSubEvents } from '@/test/data/event';
@@ -27,9 +28,7 @@ const setup = async () => {
   renderPageWithWrapper(<Availability />);
 
   await waitFor(() =>
-    screen.getByText(
-      `Status & beschikbaarheid voor ${eventWithSubEvents.name.nl}`,
-    ),
+    screen.getByText(`Beschikbaarheid voor ${eventWithSubEvents.name.nl}`),
   );
 
   return page;
@@ -168,11 +167,11 @@ test('I can save a booking availability', async () => {
     JSON.stringify([
       {
         id: 1,
-        bookingAvailability: { type: OfferStatus.AVAILABLE },
+        bookingAvailability: { type: BookingAvailabilityType.AVAILABLE },
       },
       {
         id: 2,
-        bookingAvailability: { type: OfferStatus.AVAILABLE },
+        bookingAvailability: { type: BookingAvailabilityType.AVAILABLE },
       },
     ]),
   );

@@ -1,6 +1,7 @@
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { BookingAvailabilityType } from '@/constants/BookingAvailabilityType';
 import { OfferStatus } from '@/constants/OfferStatus';
 import nl from '@/i18n/nl.json';
 import { event } from '@/test/data/event';
@@ -20,13 +21,13 @@ const setup = async () => {
     },
     responses: {
       '/event/:id': { body: event },
-      '/events/:id/status': {},
+      '/events/:id/subEvents': {},
     },
   });
 
   renderPageWithWrapper(<Availability />);
   await waitFor(() =>
-    screen.getByText(`Status & beschikbaarheid voor ${event.name.nl}`),
+    screen.getByText(`Beschikbaarheid voor ${event.name.nl}`),
   );
 
   return page;
@@ -34,6 +35,8 @@ const setup = async () => {
 
 test('I can save a status', async () => {
   const page = await setup();
+
+  expect(screen.getByLabelText(nl.bookingAvailability.available)).toBeChecked();
 
   expect(
     screen.getByLabelText(nl.offerStatus.status.event.available),
@@ -47,13 +50,17 @@ test('I can save a status', async () => {
     }),
   );
 
-  await waitForFetch(`/events/${page.router.query.eventId}/status`);
+  await waitForFetch(`/events/${page.router.query.eventId}/subEvents`);
 
   // 3rd API call, [url, payload] tuple
   expect(fetch.mock.calls[2][1].body).toEqual(
-    JSON.stringify({
-      type: OfferStatus.AVAILABLE,
-    }),
+    JSON.stringify([
+      {
+        id: 0,
+        status: { type: OfferStatus.AVAILABLE, reason: {} },
+        bookingAvailability: { type: BookingAvailabilityType.AVAILABLE },
+      },
+    ]),
   );
 
   expect(page.router.push).toBeCalledWith(
@@ -88,14 +95,20 @@ test('I can save a status with a reason', async () => {
     }),
   );
 
-  await waitForFetch(`/events/${page.router.query.eventId}/status`);
+  await waitForFetch(`/events/${page.router.query.eventId}/subEvents`);
 
   // 3rd API call, [url, payload] tuple
   expect(fetch.mock.calls[2][1].body).toEqual(
-    JSON.stringify({
-      type: OfferStatus.TEMPORARILY_UNAVAILABLE,
-      reason: { nl: reason },
-    }),
+    JSON.stringify([
+      {
+        id: 0,
+        status: {
+          type: OfferStatus.TEMPORARILY_UNAVAILABLE,
+          reason: { nl: reason },
+        },
+        bookingAvailability: { type: BookingAvailabilityType.AVAILABLE },
+      },
+    ]),
   );
 
   expect(page.router.push).toBeCalledWith(
