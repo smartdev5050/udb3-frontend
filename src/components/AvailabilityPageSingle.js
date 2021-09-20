@@ -13,9 +13,8 @@ import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Page } from '@/ui/Page';
 import { Spinner } from '@/ui/Spinner';
-import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
-import { Title } from '@/ui/Title';
+import { Title, TitleVariants } from '@/ui/Title';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { parseOfferType } from '@/utils/parseOfferType';
 
@@ -111,15 +110,12 @@ const AvailabilityPageSingle = ({ offer, error, useChangeStatus }) => {
             offer.calendarType === CalendarType.SINGLE && [
               <Title
                 key="status-form-title"
+                variant={TitleVariants.UNDERLINED}
                 color={getValue('title.color')}
                 lineHeight="220%"
                 alignItems="center"
-                spacing={0}
-                css={`
-                  border-bottom: 1px solid ${getValue('title.borderColor')};
-                `}
               >
-                <Text>{t('bookingAvailability.title')}</Text>
+                {t('bookingAvailability.title')}
               </Title>,
               <BookingAvailabilityForm
                 key="booking-availability"
@@ -131,15 +127,12 @@ const AvailabilityPageSingle = ({ offer, error, useChangeStatus }) => {
             ],
             <Title
               key="status-form-title"
+              variant={TitleVariants.UNDERLINED}
               color={getValue('title.color')}
               lineHeight="220%"
               alignItems="center"
-              spacing={3}
-              css={`
-                border-bottom: 1px solid ${getValue('title.borderColor')};
-              `}
             >
-              <Text>{t('offerStatus.newStatus')}</Text>
+              {t('offerStatus.newStatus')}
             </Title>,
             <StatusForm
               key="reason-and-type"
