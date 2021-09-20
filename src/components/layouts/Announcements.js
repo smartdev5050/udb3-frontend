@@ -83,64 +83,69 @@ const AnnouncementContent = ({
   body,
   callToAction,
   callToActionLabel,
-}) => (
-  <Stack as="article" padding={4} spacing={3} width="70%">
-    <Title>{title}</Title>
-    {!!imageSrc && (
-      <Link href={callToAction}>
-        <Image
-          src={imageSrc}
-          alt={callToActionLabel}
-          width="100%"
-          maxHeight="30vh"
-          opacity={{ hover: 0.85 }}
-        />
-      </Link>
-    )}
-
-    <Box
-      forwardedAs="div"
-      dangerouslySetInnerHTML={{ __html: body }}
-      css={`
-        strong {
-          font-weight: bold;
-        }
-
-        a {
-          color: ${getValueForAnnouncementContent('linkColor')};
-        }
-
-        p {
-          margin-bottom: ${parseSpacing(4)};
-        }
-
-        ol {
-          list-style-type: decimal;
-          margin-bottom: ${parseSpacing(4)};
-
-          li {
-            margin-left: ${parseSpacing(5)};
-          }
-        }
-        ul {
-          list-style-type: disc;
-          margin-bottom: ${parseSpacing(4)};
-
-          li {
-            margin-left: ${parseSpacing(5)};
-          }
-        }
-      `}
+}) => {
+  const image = (
+    <Image
+      src={imageSrc}
+      alt={callToActionLabel ?? ''}
+      width="100%"
+      maxHeight="30vh"
+      opacity={{ hover: 0.85 }}
     />
-    <Inline as="div" justifyContent="flex-end">
-      {!!callToAction && (
-        <Link href={callToAction} variant={LinkVariants.BUTTON_PRIMARY}>
-          <Text>{callToActionLabel}</Text>
-        </Link>
+  );
+  return (
+    <Stack as="article" padding={4} spacing={3} width="70%">
+      <Title>{title}</Title>
+      {!!imageSrc && callToAction ? (
+        <Link href={callToAction}>{image}</Link>
+      ) : (
+        image
       )}
-    </Inline>
-  </Stack>
-);
+
+      <Box
+        forwardedAs="div"
+        dangerouslySetInnerHTML={{ __html: body }}
+        css={`
+          strong {
+            font-weight: bold;
+          }
+
+          a {
+            color: ${getValueForAnnouncementContent('linkColor')};
+          }
+
+          p {
+            margin-bottom: ${parseSpacing(4)};
+          }
+
+          ol {
+            list-style-type: decimal;
+            margin-bottom: ${parseSpacing(4)};
+
+            li {
+              margin-left: ${parseSpacing(5)};
+            }
+          }
+          ul {
+            list-style-type: disc;
+            margin-bottom: ${parseSpacing(4)};
+
+            li {
+              margin-left: ${parseSpacing(5)};
+            }
+          }
+        `}
+      />
+      <Inline as="div" justifyContent="flex-end">
+        {!!callToAction && (
+          <Link href={callToAction} variant={LinkVariants.BUTTON_PRIMARY}>
+            <Text>{callToActionLabel}</Text>
+          </Link>
+        )}
+      </Inline>
+    </Stack>
+  );
+};
 
 AnnouncementContent.propTypes = {
   title: PropTypes.string,
