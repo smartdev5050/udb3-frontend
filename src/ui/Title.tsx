@@ -1,5 +1,6 @@
 import { css } from 'styled-components';
 
+import type { Values } from '@/types/Values';
 import { getValueFromTheme } from '@/ui/theme';
 
 import type { InlineProps } from './Inline';
@@ -33,7 +34,9 @@ const getBorderBottom = (props) => {
   return css``;
 };
 
-type TitleProps = InlineProps;
+type TitleProps = InlineProps & {
+  variant?: Values<typeof TitleVariants>;
+};
 
 const Title = ({
   size,
