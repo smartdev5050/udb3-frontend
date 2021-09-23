@@ -268,6 +268,7 @@ const theme = {
       pictureUploadBox: {
         backgroundColor: colors.white,
         borderColor: colors.grey2,
+        imageIconColor: colors.grey5,
       },
     },
     tabs: {
