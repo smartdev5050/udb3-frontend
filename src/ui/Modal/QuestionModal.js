@@ -16,6 +16,7 @@ const QuestionModal = ({
   onClose,
   onConfirm,
   children,
+  scrollable,
   size,
   confirmButtonDisabled,
 }) => (
@@ -24,6 +25,7 @@ const QuestionModal = ({
     show={visible}
     onShow={onShow}
     onHide={onClose}
+    scrollable={scrollable}
     keyboard={false}
     size={size}
     css={`
@@ -75,6 +77,7 @@ QuestionModal.propTypes = {
   confirmTitle: PropTypes.string,
   cancelTitle: PropTypes.string,
   onShow: PropTypes.func,
+  scrollable: PropTypes.bool,
   onClose: PropTypes.func,
   onConfirm: PropTypes.func,
   children: PropTypes.node,
@@ -89,6 +92,7 @@ QuestionModal.defaultProps = {
   confirmTitle: 'Ok',
   cancelTitle: 'Cancel',
   size: 'sm',
+  scrollable: true,
 };
 
 export { QuestionModal };

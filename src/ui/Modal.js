@@ -33,6 +33,7 @@ Modal.propTypes = {
   visible: PropTypes.bool,
   title: PropTypes.string,
   onShow: PropTypes.func,
+  scrollable: PropTypes.bool,
   onClose: PropTypes.func,
   children: PropTypes.node,
   confirmTitle: PropTypes.string,

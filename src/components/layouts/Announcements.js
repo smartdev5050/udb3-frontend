@@ -173,6 +173,7 @@ const Announcements = ({
       visible={visible}
       title={t('announcements.new_features')}
       onShow={onShow}
+      scrollable={false}
       onClose={onClose}
     >
       {announcements.length > 0 ? (
