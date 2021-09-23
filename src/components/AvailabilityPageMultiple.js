@@ -12,15 +12,12 @@ import { Link, LinkVariants } from '@/ui/Link';
 import { Page } from '@/ui/Page';
 import { SelectionTable } from '@/ui/SelectionTable';
 import { Stack } from '@/ui/Stack';
-import { Text } from '@/ui/Text';
-import { getValueFromTheme } from '@/ui/theme';
+import { Text, TextVariants } from '@/ui/Text';
 import { formatPeriod } from '@/utils/formatPeriod';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 import { BookingAvailabilityModal } from './BookingAvailabilityModal';
 import { StatusModal } from './StatusModal';
-
-const getValue = getValueFromTheme('statusPage');
 
 const Status = ({ type, reason }) => {
   const { i18n } = useTranslation();
@@ -28,7 +25,7 @@ const Status = ({ type, reason }) => {
     <Stack>
       <Text>{type}</Text>
       {!!reason?.[i18n.language] && (
-        <Text color={getValue('infoTextColor')}>{reason[i18n.language]}</Text>
+        <Text variant={TextVariants.MUTED}>{reason[i18n.language]}</Text>
       )}
     </Stack>
   );

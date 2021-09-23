@@ -142,9 +142,6 @@ const theme = {
         backgroundColor: 'transparent',
       },
     },
-    radioButtonWithLabel: {
-      infoTextColor: colors.grey5,
-    },
     page: {
       backgroundColor: colors.grey1,
     },
@@ -246,12 +243,6 @@ const theme = {
     selectionTable: {
       color: colors.grey5,
       borderColor: colors.grey3,
-    },
-    statusPage: {
-      infoTextColor: colors.grey5,
-    },
-    statusModal: {
-      infoTextColor: colors.grey5,
     },
     dashboardPage: {
       listItem: {
