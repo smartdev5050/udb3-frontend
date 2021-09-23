@@ -31,11 +31,11 @@ const InputWithLabel = ({
   const Wrapper = labelPosition === LabelPositions.LEFT ? Inline : Stack;
   const wrapperProps =
     labelPosition === LabelPositions.LEFT
-      ? { ...getInlineProps(props), alignItems: 'center' }
-      : getStackProps(props);
+      ? { ...getInlineProps(props), alignItems: 'center', spacing: 3 }
+      : { ...getStackProps(props), spacing: 2 };
 
   return (
-    <Wrapper className={className} as="div" spacing={3} {...wrapperProps}>
+    <Wrapper className={className} as="div" {...wrapperProps}>
       <Label htmlFor={id} variant={LabelVariants.BOLD}>
         {label}
       </Label>

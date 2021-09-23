@@ -17,7 +17,7 @@ const TextAreaWithLabel = ({
   return (
     <Stack
       as="div"
-      spacing={3}
+      spacing={2}
       className={className}
       {...getStackProps(props)}
       flex={1}
