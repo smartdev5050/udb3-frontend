@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { BookingAvailabilityForm } from '@/components/BookingAvailabilityForm';
-import { Modal, ModalVariants } from '@/ui/Modal';
+import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
 import { Spinner } from '@/ui/Spinner';
 import { Stack } from '@/ui/Stack';
 
@@ -25,7 +25,7 @@ const BookingAvailabilityModal = ({
       visible={visible}
       title={t('bookingAvailability.change')}
       variant={ModalVariants.QUESTION}
-      size="lg"
+      size={ModalSizes.LG}
       className={className}
       confirmTitle={t('bookingAvailability.actions.save')}
       cancelTitle={t('bookingAvailability.actions.close')}
