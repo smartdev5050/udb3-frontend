@@ -12,7 +12,7 @@ import {
   useGetProductions,
 } from '@/hooks/api/productions';
 import { Inline } from '@/ui/Inline';
-import { InputWithLabel, LabelPositions } from '@/ui/InputWithLabel';
+import { InputWithLabel } from '@/ui/InputWithLabel';
 import { Link } from '@/ui/Link';
 import { Page } from '@/ui/Page';
 import { Text } from '@/ui/Text';
@@ -149,10 +149,8 @@ const Index = () => {
           id="productions-overview-search"
           placeholder={t('productions.overview.search.placeholder')}
           onChange={throttle(handleInputSearch, 275)}
-          labelPosition={LabelPositions.LEFT}
-        >
-          {t('productions.overview.search.label')}
-        </InputWithLabel>
+          label={t('productions.overview.search.label')}
+        />
         <Inline spacing={5}>
           {getProductionsQuery.status !== QueryStatus.LOADING &&
           productions.length === 0 ? (
