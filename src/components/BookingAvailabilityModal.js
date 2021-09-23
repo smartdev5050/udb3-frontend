@@ -16,7 +16,9 @@ const BookingAvailabilityModal = ({
 }) => {
   const { t } = useTranslation();
 
-  const [bookingAvailability, setBookingAvailability] = useState('Available');
+  const [bookingAvailabilityType, setBookingAvailabilityType] = useState(
+    'Available',
+  );
 
   return (
     <Modal
@@ -27,7 +29,7 @@ const BookingAvailabilityModal = ({
       className={className}
       confirmTitle={t('bookingAvailability.actions.save')}
       cancelTitle={t('bookingAvailability.actions.close')}
-      onConfirm={() => onConfirm(bookingAvailability)}
+      onConfirm={() => onConfirm(bookingAvailabilityType)}
       onClose={onClose}
       confirmButtonDisabled={loading}
     >
@@ -36,9 +38,9 @@ const BookingAvailabilityModal = ({
       ) : (
         <Stack padding={4}>
           <BookingAvailabilityForm
-            bookingAvailability={bookingAvailability}
+            bookingAvailabilityType={bookingAvailabilityType}
             onChangeBookingAvailability={(e) =>
-              setBookingAvailability(e.target.value)
+              setBookingAvailabilityType(e.target.value)
             }
           />
         </Stack>

@@ -22,7 +22,7 @@ const RadioButtonGroup = ({
             key={item.value}
             value={item.value}
             checked={selected === item.value}
-            id={`radio-${item.value}`}
+            id={`${name}-radio-${item.value}`}
             name={name}
             onChange={onChange}
             label={item.label}

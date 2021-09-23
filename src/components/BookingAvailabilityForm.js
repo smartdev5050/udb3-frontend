@@ -5,8 +5,9 @@ import { BookingAvailabilityType } from '@/constants/BookingAvailabilityType';
 import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
 
 const BookingAvailabilityForm = ({
-  bookingAvailability,
+  bookingAvailabilityType,
   onChangeBookingAvailability,
+  ...props
 }) => {
   const { t } = useTranslation();
 
@@ -27,14 +28,15 @@ const BookingAvailabilityForm = ({
       groupLabel={t('bookingAvailability.title')}
       name="offerBookingAvailability"
       items={radioButtonItems}
-      selected={bookingAvailability}
+      selected={bookingAvailabilityType}
       onChange={onChangeBookingAvailability}
+      {...props}
     />
   );
 };
 
 BookingAvailabilityForm.propTypes = {
-  bookingAvailability: PropTypes.string,
+  bookingAvailabilityType: PropTypes.string,
   onChangeBookingAvailability: PropTypes.func,
 };
 
