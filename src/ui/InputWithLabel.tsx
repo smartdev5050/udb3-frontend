@@ -6,6 +6,7 @@ import type { InputProps } from './Input';
 import { Input } from './Input';
 import { Label, LabelVariants } from './Label';
 import { getStackProps, Stack } from './Stack';
+import { Text, TextVariants } from './Text';
 
 const LabelPositions = {
   LEFT: 'left',
@@ -16,6 +17,8 @@ type Props = InlineProps &
   InputProps & {
     label: string;
     labelPosition: Values<typeof LabelPositions>;
+    info?: string;
+    required?: boolean;
   };
 
 const InputWithLabel = ({
@@ -26,25 +29,37 @@ const InputWithLabel = ({
   className,
   onChange,
   labelPosition,
+  info,
+  required,
   ...props
 }: Props) => {
   const Wrapper = labelPosition === LabelPositions.LEFT ? Inline : Stack;
   const wrapperProps =
     labelPosition === LabelPositions.LEFT
-      ? { ...getInlineProps(props), alignItems: 'center', spacing: 3 }
+      ? { ...getInlineProps(props), spacing: 3 }
       : { ...getStackProps(props), spacing: 2 };
 
   return (
     <Wrapper className={className} as="div" {...wrapperProps}>
-      <Label htmlFor={id} variant={LabelVariants.BOLD}>
-        {label}
+      <Label
+        htmlFor={id}
+        variant={LabelVariants.BOLD}
+        {...(labelPosition === LabelPositions.LEFT
+          ? { height: '36px', alignItems: 'center' }
+          : {})}
+        required={required}
+      >
+        <Text>{label}</Text>
       </Label>
-      <Input
-        type={type}
-        id={id}
-        placeholder={placeholder}
-        onChange={onChange}
-      />
+      <Stack>
+        <Input
+          type={type}
+          id={id}
+          placeholder={placeholder}
+          onChange={onChange}
+        />
+        {info && <Text variant={TextVariants.MUTED}>{info}</Text>}
+      </Stack>
     </Wrapper>
   );
 };
@@ -52,6 +67,7 @@ const InputWithLabel = ({
 InputWithLabel.defaultProps = {
   type: 'text',
   labelPosition: LabelPositions.TOP,
+  required: false,
 };
 
 export { InputWithLabel, LabelPositions };

@@ -2,6 +2,8 @@ import type { Values } from '@/types/Values';
 
 import type { BoxProps } from './Box';
 import { Box, getBoxProps } from './Box';
+import { Inline } from './Inline';
+import { Text } from './Text';
 
 const LabelVariants = {
   BOLD: 'bold',
@@ -16,25 +18,37 @@ const getFontWeight = (props) => {
 type Props = BoxProps & {
   htmlFor: string;
   variant?: Values<typeof LabelVariants>;
+  required?: boolean;
 };
 
-const Label = ({ htmlFor, children, className, variant, ...props }: Props) => (
-  <Box
-    forwardedAs="label"
-    htmlFor={htmlFor}
-    className={className}
-    variant={variant}
-    css={`
-      font-weight: ${getFontWeight};
-    `}
-    {...getBoxProps(props)}
-  >
-    {children}
-  </Box>
+const Label = ({
+  htmlFor,
+  children,
+  className,
+  variant,
+  required,
+  ...props
+}: Props) => (
+  <Inline spacing={2} alignItems="center">
+    <Box
+      forwardedAs="label"
+      htmlFor={htmlFor}
+      className={className}
+      variant={variant}
+      css={`
+        font-weight: ${getFontWeight};
+      `}
+      {...getBoxProps(props)}
+    >
+      {children}
+    </Box>
+    {required && <Text color="orange">*</Text>}
+  </Inline>
 );
 
 Label.defaultProps = {
   variant: LabelVariants.NORMAL,
+  required: false,
 };
 
 export { Label, LabelVariants };
