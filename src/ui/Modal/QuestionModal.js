@@ -1,12 +1,10 @@
+import PropTypes from 'prop-types';
 import { Modal as BootstrapModal } from 'react-bootstrap';
 
 import { Button, ButtonVariants } from '../Button';
-import type { ModalProps } from '../Modal';
 import { getValueFromTheme } from '../theme';
 
 const getValueForModal = getValueFromTheme('modal');
-
-type Props = ModalProps;
 
 const QuestionModal = ({
   className,
@@ -20,14 +18,14 @@ const QuestionModal = ({
   children,
   size,
   confirmButtonDisabled,
-}: Props) => (
+}) => (
   <BootstrapModal
     className={className}
     show={visible}
     onShow={onShow}
     onHide={onClose}
     keyboard={false}
-    size={size !== 'md' ? size : undefined}
+    size={size}
     css={`
       z-index: ${getValueForModal('zIndex')};
 
@@ -69,6 +67,20 @@ const QuestionModal = ({
     </BootstrapModal.Footer>
   </BootstrapModal>
 );
+
+QuestionModal.propTypes = {
+  className: PropTypes.string,
+  visible: PropTypes.bool,
+  title: PropTypes.string,
+  confirmTitle: PropTypes.string,
+  cancelTitle: PropTypes.string,
+  onShow: PropTypes.func,
+  onClose: PropTypes.func,
+  onConfirm: PropTypes.func,
+  children: PropTypes.node,
+  size: PropTypes.string,
+  confirmButtonDisabled: PropTypes.bool,
+};
 
 QuestionModal.defaultProps = {
   visible: false,

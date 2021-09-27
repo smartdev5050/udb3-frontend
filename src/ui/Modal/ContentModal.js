@@ -1,6 +1,6 @@
+import PropTypes from 'prop-types';
 import { Modal as BootstrapModal } from 'react-bootstrap';
 
-import type { ModalProps } from '../Modal';
 import { getValueFromTheme } from '../theme';
 
 const getValueForModal = getValueFromTheme('modal');
@@ -13,14 +13,14 @@ const ContentModal = ({
   children,
   size,
   className,
-}: ModalProps) => (
+}) => (
   <BootstrapModal
     className={className}
     show={visible}
     onShow={onShow}
     onHide={onClose}
     keyboard={false}
-    size={size !== 'md' ? size : undefined}
+    size={size}
     css={`
       z-index: ${getValueForModal('zIndex')};
 
@@ -50,6 +50,16 @@ const ContentModal = ({
     <BootstrapModal.Body>{children}</BootstrapModal.Body>
   </BootstrapModal>
 );
+
+ContentModal.propTypes = {
+  className: PropTypes.string,
+  visible: PropTypes.bool,
+  title: PropTypes.string,
+  onShow: PropTypes.func,
+  onClose: PropTypes.func,
+  children: PropTypes.node,
+  size: PropTypes.string,
+};
 
 ContentModal.defaultProps = {
   visible: false,
