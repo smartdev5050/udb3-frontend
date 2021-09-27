@@ -1,11 +1,13 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
+import { useGetEventById } from '@/hooks/api/events';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
+import { Image } from '@/ui/Image';
 import { Inline } from '@/ui/Inline';
 import { InputWithLabel } from '@/ui/InputWithLabel';
 import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
@@ -28,7 +30,9 @@ type FormData = {
   copyright: string;
 };
 
-const PictureUploadModal = ({ visible, onClose }) => {
+const eventId = '1633a062-349e-482e-9d88-cde754c45f71';
+
+const PictureUploadModal = ({ visible, onClose, imageId }) => {
   const { t } = useTranslation();
   const formComponent = useRef<HTMLFormElement>();
 
@@ -157,6 +161,24 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
   const handleClickAddImage = () => setIsModalVisible(true);
   const handleCloseModal = () => setIsModalVisible(false);
 
+  const handleEditImage = () => {};
+  const handleDeleteImage = () => {};
+
+  // @ts-expect-error
+  const getEventByIdQuery = useGetEventById({ id: eventId });
+
+  useEffect(() => {
+    // @ts-expect-error
+    console.log(getEventByIdQuery.data);
+    // @ts-expect-error
+  }, [getEventByIdQuery.data]);
+
+  // @ts-expect-error
+  const images = useMemo(() => getEventByIdQuery.data.mediaObject, [
+    // @ts-expect-error
+    getEventByIdQuery.data,
+  ]);
+
   return (
     <Step stepNumber={5}>
       <PictureUploadModal visible={isModalVisible} onClose={handleCloseModal} />
@@ -176,22 +198,50 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
           height={300}
           backgroundColor={getValue('pictureUploadBox.backgroundColor')}
           justifyContent="center"
-          alignItems="center"
           css={`
             border: 1px solid ${getValue('pictureUploadBox.borderColor')};
           `}
           {...props}
         >
-          <Text variant={TextVariants.MUTED}>
-            Voeg een afbeelding toe zodat bezoekers je activiteit beter
-            herkennen
-          </Text>
-          <Button
-            variant={ButtonVariants.SECONDARY}
-            onClick={handleClickAddImage}
-          >
-            Afbeelding toevoegen
-          </Button>
+          {images.map((image) => (
+            <Inline key={image.description} alignItems="center" spacing={3}>
+              <Image
+                src={image.thumbnailUrl}
+                alt={image.description}
+                width={200}
+              />
+              <Stack spacing={3}>
+                <Button
+                  variant={ButtonVariants.PRIMARY}
+                  iconName={Icons.PENCIL}
+                  spacing={3}
+                  onClick={handleEditImage}
+                >
+                  Wijzigen
+                </Button>
+                <Button
+                  variant={ButtonVariants.DANGER}
+                  iconName={Icons.TRASH}
+                  spacing={3}
+                  onClick={handleDeleteImage}
+                >
+                  Verwijderen
+                </Button>
+              </Stack>
+            </Inline>
+          ))}
+          <Stack alignItems="center">
+            <Text variant={TextVariants.MUTED}>
+              Voeg een afbeelding toe zodat bezoekers je activiteit beter
+              herkennen
+            </Text>
+            <Button
+              variant={ButtonVariants.SECONDARY}
+              onClick={handleClickAddImage}
+            >
+              Afbeelding toevoegen
+            </Button>
+          </Stack>
         </Stack>
       </Inline>
     </Step>
