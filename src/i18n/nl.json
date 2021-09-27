@@ -126,7 +126,7 @@
             "required": "Beschrijving is verplicht.",
             "max": "Beschrijving mag maximaal 250 karakters bevatten."
           },
-          "copyright": {
+          "copyrightHolder": {
             "required": "Copyright is verplicht."
           }
         }

@@ -29,7 +29,7 @@ type Step5Props = StackProps & MachineProps;
 
 type FormData = {
   description: string;
-  copyright: string;
+  copyrightHolder: string;
 };
 
 // const eventId = '1633a062-349e-482e-9d88-cde754c45f71';
@@ -58,7 +58,7 @@ const PictureUploadModal = ({
     .object()
     .shape({
       description: yup.string().required().max(250),
-      copyright: yup.string().required(),
+      copyrightHolder: yup.string().required(),
     })
     .required();
 
@@ -74,7 +74,7 @@ const PictureUploadModal = ({
   useEffect(() => {
     // @ts-expect-error
     const { description, copyrightHolder } = getImageByIdQuery.data ?? {};
-    reset({ description, copyright: copyrightHolder });
+    reset({ description, copyrightHolder });
     // @ts-expect-error
   }, [getImageByIdQuery.data, reset, visible]);
 
@@ -150,7 +150,7 @@ const PictureUploadModal = ({
         />
 
         <InputWithLabel
-          id="copyright"
+          id="copyrightHolder"
           label="Copyright"
           required
           info={
@@ -171,12 +171,12 @@ const PictureUploadModal = ({
             </Stack>
           }
           error={
-            errors.copyright &&
+            errors.copyrightHolder &&
             t(
-              `movies.create.modal.validation_messages.copyright.${errors.copyright.type}`,
+              `movies.create.modal.validation_messages.copyrightHolder.${errors.copyrightHolder.type}`,
             )
           }
-          {...register('copyright')}
+          {...register('copyrightHolder')}
         />
         <Text>
           <Text color="red">*</Text> verplicht veld
