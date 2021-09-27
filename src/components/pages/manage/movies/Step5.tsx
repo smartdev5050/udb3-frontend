@@ -54,14 +54,6 @@ const PictureUploadModal = ({
     id: imageId,
   });
 
-  // @ts-expect-error
-  useEffect(() => console.log('TESTTT', getImageByIdQuery.data), [
-    // @ts-expect-error
-    getImageByIdQuery.data,
-  ]);
-
-  const image = getImageByIdQuery.data;
-
   const schema = yup
     .object()
     .shape({
@@ -71,12 +63,19 @@ const PictureUploadModal = ({
     .required();
 
   const {
+    reset,
     register,
     formState: { errors },
     handleSubmit,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
+
+  useEffect(() => {
+    // @ts-expect-error
+    const { description, copyrightHolder } = getImageByIdQuery.data ?? {};
+    reset({ description, copyright: copyrightHolder });
+  }, [getImageByIdQuery.data, reset]);
 
   return (
     <Modal
