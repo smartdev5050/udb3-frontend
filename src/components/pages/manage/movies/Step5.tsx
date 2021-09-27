@@ -10,6 +10,7 @@ import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
 import { Image } from '@/ui/Image';
 import { Inline } from '@/ui/Inline';
+import { Input } from '@/ui/Input';
 import { InputWithLabel } from '@/ui/InputWithLabel';
 import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
 import { Paragraph } from '@/ui/Paragraph';
@@ -48,6 +49,7 @@ const PictureUploadModal = ({
 }: PictureUploadModalProps) => {
   const { t, i18n } = useTranslation();
   const formComponent = useRef<HTMLFormElement>();
+  const inputComponent = useRef<HTMLInputElement>();
 
   // fetch data for imageId
   const getImageByIdQuery = useGetImageById({
@@ -84,6 +86,10 @@ const PictureUploadModal = ({
     addImageMutation.mutate({ ...data, language: i18n.language });
   };
 
+  const handleClickUpload = () => {
+    inputComponent.current.dispatchEvent(new Event('click'));
+  };
+
   return (
     <Modal
       title={t('movies.create.modal.title')}
@@ -94,9 +100,7 @@ const PictureUploadModal = ({
       cancelTitle="Annuleren"
       size={ModalSizes.MD}
       onConfirm={() => {
-        formComponent.current.dispatchEvent(
-          new Event('submit', { cancelable: true, bubbles: true }),
-        );
+        formComponent.current.dispatchEvent(new Event('submit'));
       }}
       confirmButtonDisabled={Object.keys(errors).length > 0}
     >
@@ -129,7 +133,15 @@ const PictureUploadModal = ({
             />
             <Stack spacing={2} alignItems="center">
               <Text>Sleep een bestand hierheen of</Text>
-              <Button>Kies bestand</Button>
+              <Input
+                id="upload"
+                name="upload"
+                type="file"
+                display="none"
+                css="display: none;"
+                ref={inputComponent}
+              />
+              <Button onClick={handleClickUpload}>Kies bestand</Button>
             </Stack>
             <Text variant={TextVariants.MUTED} textAlign="center">
               De maximale grootte van je afbeelding is 5MB en heeft als type
