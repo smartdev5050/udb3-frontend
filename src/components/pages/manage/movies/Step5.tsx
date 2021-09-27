@@ -87,7 +87,7 @@ const PictureUploadModal = ({
   };
 
   const handleClickUpload = () => {
-    inputComponent.current.dispatchEvent(new Event('click'));
+    inputComponent.current.click();
   };
 
   return (
