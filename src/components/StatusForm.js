@@ -10,8 +10,6 @@ import { Text, TextVariants } from '@/ui/Text';
 import { TextAreaWithLabel } from '@/ui/TextAreaWithLabel';
 import { getValueFromTheme } from '@/ui/theme';
 
-const getValue = getValueFromTheme('statusPage');
-
 const StatusForm = ({
   offerType,
   statusType,
