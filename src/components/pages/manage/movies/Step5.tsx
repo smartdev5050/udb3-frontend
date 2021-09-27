@@ -78,6 +78,10 @@ const PictureUploadModal = ({
     // @ts-expect-error
   }, [getImageByIdQuery.data, reset, visible]);
 
+  const handleOnSubmitValid = (data) => {
+    console.log(data);
+  };
+
   return (
     <Modal
       title={t('movies.create.modal.title')}
@@ -99,7 +103,7 @@ const PictureUploadModal = ({
         ref={formComponent}
         spacing={4}
         padding={4}
-        onSubmit={handleSubmit(() => {})}
+        onSubmit={handleSubmit(handleOnSubmitValid)}
       >
         {!imageId && (
           <Stack
