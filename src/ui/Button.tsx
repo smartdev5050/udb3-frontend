@@ -168,6 +168,7 @@ type ButtonProps = Omit<InlineProps, 'size'> & {
   customChildren?: boolean;
   shouldHideText?: boolean;
   size?: Values<typeof ButtonSizes>;
+  type?: string;
   variant?: Values<typeof ButtonVariants>;
 };
 
@@ -178,6 +179,7 @@ const Button = ({
   disabled,
   loading,
   children,
+  type,
   customChildren,
   shouldHideText,
   onClick,
@@ -212,6 +214,7 @@ const Button = ({
     className,
     title,
     size,
+    type,
     ...getInlineProps(props),
   };
 
@@ -313,6 +316,7 @@ Button.defaultProps = {
   customChildren: false,
   shouldHideText: false,
   textAlign: 'center',
+  type: 'button',
 };
 
 export { Button, customCSS as buttonCSS, ButtonSizes, ButtonVariants };
