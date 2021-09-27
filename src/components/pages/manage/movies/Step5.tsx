@@ -75,7 +75,8 @@ const PictureUploadModal = ({
     // @ts-expect-error
     const { description, copyrightHolder } = getImageByIdQuery.data ?? {};
     reset({ description, copyright: copyrightHolder });
-  }, [getImageByIdQuery.data, reset]);
+    // @ts-expect-error
+  }, [getImageByIdQuery.data, reset, visible]);
 
   return (
     <Modal
