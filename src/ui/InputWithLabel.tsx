@@ -1,4 +1,8 @@
+import type { ReactNode, Ref } from 'react';
+import { forwardRef } from 'react';
+
 import type { Values } from '@/types/Values';
+import { Alert, AlertVariants } from '@/ui/Alert';
 
 import type { InlineProps } from './Inline';
 import { getInlineProps, Inline } from './Inline';
@@ -16,53 +20,70 @@ const LabelPositions = {
 type Props = InlineProps &
   InputProps & {
     label: string;
-    labelPosition: Values<typeof LabelPositions>;
-    info?: string;
+    labelPosition?: Values<typeof LabelPositions>;
+    info?: ReactNode;
     required?: boolean;
+    ref?: Ref<HTMLInputElement>;
+    error?: string;
+    name: string;
   };
 
-const InputWithLabel = ({
-  type,
-  id,
-  label,
-  placeholder,
-  className,
-  onChange,
-  labelPosition,
-  info,
-  required,
-  ...props
-}: Props) => {
-  const Wrapper = labelPosition === LabelPositions.LEFT ? Inline : Stack;
-  const wrapperProps =
-    labelPosition === LabelPositions.LEFT
-      ? { ...getInlineProps(props), spacing: 3 }
-      : { ...getStackProps(props), spacing: 2 };
+const InputWithLabel = forwardRef(
+  (
+    {
+      name,
+      type,
+      id,
+      label,
+      placeholder,
+      className,
+      onChange,
+      onBlur,
+      labelPosition,
+      info,
+      required,
+      error,
+      ...props
+    }: Props,
+    ref,
+  ) => {
+    const Wrapper = labelPosition === LabelPositions.LEFT ? Inline : Stack;
+    const wrapperProps =
+      labelPosition === LabelPositions.LEFT
+        ? { ...getInlineProps(props), spacing: 3 }
+        : { ...getStackProps(props), spacing: 2 };
 
-  return (
-    <Wrapper className={className} as="div" {...wrapperProps}>
-      <Label
-        htmlFor={id}
-        variant={LabelVariants.BOLD}
-        {...(labelPosition === LabelPositions.LEFT
-          ? { height: '36px', alignItems: 'center' }
-          : {})}
-        required={required}
-      >
-        <Text>{label}</Text>
-      </Label>
-      <Stack>
-        <Input
-          type={type}
-          id={id}
-          placeholder={placeholder}
-          onChange={onChange}
-        />
-        {info && <Text variant={TextVariants.MUTED}>{info}</Text>}
-      </Stack>
-    </Wrapper>
-  );
-};
+    return (
+      <Wrapper className={className} as="div" {...wrapperProps}>
+        <Label
+          htmlFor={id}
+          variant={LabelVariants.BOLD}
+          {...(labelPosition === LabelPositions.LEFT
+            ? { height: '36px', alignItems: 'center' }
+            : {})}
+          required={required}
+        >
+          <Text>{label}</Text>
+        </Label>
+        <Stack spacing={2}>
+          <Stack spacing={3}>
+            <Input
+              name={name}
+              type={type}
+              id={id}
+              placeholder={placeholder}
+              ref={ref}
+              onChange={onChange}
+              onBlur={onBlur}
+            />
+            {error && <Alert variant={AlertVariants.DANGER}>{error}</Alert>}
+          </Stack>
+          {info && <Text variant={TextVariants.MUTED}>{info}</Text>}
+        </Stack>
+      </Wrapper>
+    );
+  },
+);
 
 InputWithLabel.defaultProps = {
   type: 'text',
