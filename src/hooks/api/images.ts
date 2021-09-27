@@ -30,12 +30,19 @@ const useGetImageById = ({ id }, configuration = {}) =>
     ...configuration,
   });
 
-const addImage = async ({ headers }) =>
+const addImage = async ({
+  headers,
+  language,
+  copyrightHolder,
+  description,
+  file,
+}) =>
   fetchFromApi({
     path: `/images`,
     options: {
       method: 'POST',
       headers,
+      body: JSON.stringify({ language, copyrightHolder, description, file }),
     },
   });
 

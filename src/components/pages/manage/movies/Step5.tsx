@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { useGetEventById } from '@/hooks/api/events';
-import { useGetImageById } from '@/hooks/api/images';
+import { useAddImage, useGetImageById } from '@/hooks/api/images';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
 import { Image } from '@/ui/Image';
@@ -46,13 +46,15 @@ const PictureUploadModal = ({
   onClose,
   imageId,
 }: PictureUploadModalProps) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const formComponent = useRef<HTMLFormElement>();
 
   // fetch data for imageId
   const getImageByIdQuery = useGetImageById({
     id: imageId,
   });
+
+  const addImageMutation = useAddImage();
 
   const schema = yup
     .object()
@@ -79,7 +81,7 @@ const PictureUploadModal = ({
   }, [getImageByIdQuery.data, reset, visible]);
 
   const handleOnSubmitValid = (data) => {
-    console.log(data);
+    addImageMutation.mutate({ ...data, language: i18n.language });
   };
 
   return (
