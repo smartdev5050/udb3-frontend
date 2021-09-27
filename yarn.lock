@@ -1303,6 +1303,11 @@
   resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-9.1.1.tgz#9daf5745156fd84b8e9889a2dc721f0c58e894aa"
   integrity sha512-CAEbWH7OIur6jEOzaai83jq3FmKmv4PmX1JYfs9IrYcGEVI/lyL1EXJGCj7eFVJ0bg5QR8LMxBlEtA+xKiLpFw==
 
+"@hookform/resolvers@^2.8.1":
+  version "2.8.1"
+  resolved "https://registry.yarnpkg.com/@hookform/resolvers/-/resolvers-2.8.1.tgz#0d4fdd25bdeb4b98bf4e177c63fc4efa173454dd"
+  integrity sha512-U5lgaCkvD+0e5X8iQmCHiF+jOqjTX6OHUA7zPdeIHI6xdAOoi3rH9MKNuwMwv5Hly2LL6XtDgDkS/k+YG9hOew==
+
 "@hypnosphi/create-react-context@^0.3.1":
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/@hypnosphi/create-react-context/-/create-react-context-0.3.1.tgz#f8bfebdc7665f5d426cba3753e0e9c7d3154d7c6"
@@ -6264,18 +6269,6 @@ eslint-plugin-unicorn@^24.0.0:
     reserved-words "^0.1.2"
     safe-regex "^2.1.1"
     semver "^7.3.4"
-
-eslint-plugin-unused-imports@^1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-unused-imports/-/eslint-plugin-unused-imports-1.1.2.tgz#de94bbf744183c0deb4a20aa5a358cd85ce28832"
-  integrity sha512-dfiCZiv/lSkOp6/JIjP+ASIs1vxLgiN1NISM+oxcO799+FEZQXy0Se1CaAHQt4BCInBOJ9LK0ILCe1lMMI+YGA==
-  dependencies:
-    eslint-rule-composer "^0.3.0"
-
-eslint-rule-composer@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/eslint-rule-composer/-/eslint-rule-composer-0.3.0.tgz#79320c927b0c5c0d3d3d2b76c8b4a488f25bbaf9"
-  integrity sha512-bt+Sh8CtDmn2OajxvNO+BX7Wn4CIWMpTRm3MaiKPCQcnnlm0CS2mhui6QaoeQugs+3Kj2ESKEEGJUdVafwhiCg==
 
 eslint-scope@^4.0.3:
   version "4.0.3"

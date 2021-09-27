@@ -5,7 +5,11 @@ import { Form } from 'react-bootstrap';
 import type { BoxProps } from './Box';
 import { Box, getBoxProps } from './Box';
 
-const BaseInput = (props) => <Box as="input" {...props} />;
+const BaseInput = forwardRef<HTMLInputElement, any>((props, ref) => (
+  <Box as="input" {...props} ref={ref} />
+));
+
+BaseInput.displayName = 'BaseInput';
 
 type InputType =
   | 'button'
@@ -37,6 +41,8 @@ type InputProps = {
   placeholder?: string;
   value?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  name: string;
+  isInvalid?: boolean;
 };
 
 type Props = Omit<BoxProps, 'onChange'> & InputProps;
@@ -52,6 +58,8 @@ const Input = forwardRef(
       onPaste,
       className,
       value,
+      name,
+      isInvalid,
       ...props
     }: Props,
     ref,
@@ -69,6 +77,8 @@ const Input = forwardRef(
       onBlur={onBlur}
       onPaste={onPaste}
       value={value}
+      name={name}
+      isInvalid={isInvalid}
       {...getBoxProps(props)}
     />
   ),
@@ -78,6 +88,7 @@ Input.displayName = 'Input';
 
 Input.defaultProps = {
   type: 'text',
+  isInvalid: false,
 };
 
 export { Input };

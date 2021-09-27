@@ -42,7 +42,7 @@ const Label = ({
     >
       {children}
     </Box>
-    {required && <Text color="orange">*</Text>}
+    {required && <Text color="red">*</Text>}
   </Inline>
 );
 

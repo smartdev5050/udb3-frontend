@@ -118,6 +118,18 @@
         "choose_cinema": "Kies een bioscoop",
         "choose_name": "Kies een naam",
         "description": "Beschrijving"
+      },
+      "modal": {
+        "title": "Afbeelding toevoegen",
+        "validation_messages": {
+          "description": {
+            "required": "Beschrijving is verplicht.",
+            "max": "Beschrijving mag maximaal 250 karakters bevatten."
+          },
+          "copyright": {
+            "required": "Copyright is verplicht."
+          }
+        }
       }
     }
   },
