@@ -1,6 +1,9 @@
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 
-import { useAuthenticatedQuery } from './authenticated-query';
+import {
+  useAuthenticatedMutation,
+  useAuthenticatedQuery,
+} from './authenticated-query';
 
 const getImageById = async ({ headers, id }) => {
   const res = await fetchFromApi({
@@ -27,4 +30,16 @@ const useGetImageById = ({ id }, configuration = {}) =>
     ...configuration,
   });
 
-export { useGetImageById };
+const addImage = async ({ headers }) =>
+  fetchFromApi({
+    path: `/images`,
+    options: {
+      method: 'POST',
+      headers,
+    },
+  });
+
+const useAddImage = (configuration = {}) =>
+  useAuthenticatedMutation({ mutationFn: addImage, ...configuration });
+
+export { useAddImage, useGetImageById };
