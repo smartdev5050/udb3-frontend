@@ -123,7 +123,8 @@
         "title": "Afbeelding toevoegen",
         "validation_messages": {
           "description is a required field": "Beschrijving is verplicht.",
-          "description must be at most 250 characters": "Beschrijving mag maximaal 250 karakters bevatten."
+          "description must be at most 250 characters": "Beschrijving mag maximaal 250 karakters bevatten.",
+          "copyright is a required field": "Copyright is verplicht."
         }
       }
     }
