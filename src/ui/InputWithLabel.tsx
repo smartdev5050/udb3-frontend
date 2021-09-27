@@ -35,7 +35,6 @@ const InputWithLabel = forwardRef(
       id,
       label,
       placeholder,
-      defaultValue,
       className,
       onChange,
       onBlur,
@@ -76,7 +75,6 @@ const InputWithLabel = forwardRef(
               onChange={onChange}
               onBlur={onBlur}
               isInvalid={!!error}
-              defaultValue={defaultValue}
             />
             {error && <Text color="red">{error}</Text>}
           </Stack>

@@ -43,7 +43,6 @@ type InputProps = {
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   name: string;
   isInvalid?: boolean;
-  defaultValue?: string;
 };
 
 type Props = Omit<BoxProps, 'onChange'> & InputProps;
@@ -58,7 +57,6 @@ const Input = forwardRef(
       onBlur,
       onPaste,
       className,
-      defaultValue,
       value,
       name,
       isInvalid,
@@ -73,7 +71,6 @@ const Input = forwardRef(
       type={type}
       placeholder={placeholder}
       className={className}
-      defaultValue={defaultValue}
       maxWidth="43rem"
       css="border-radius: 0;"
       onInput={onChange}
