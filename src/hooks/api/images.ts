@@ -36,15 +36,25 @@ const addImage = async ({
   copyrightHolder,
   description,
   file,
-}) =>
-  fetchFromApi({
+}) => {
+  const formData = new FormData();
+
+  Object.entries({
+    language,
+    copyrightHolder,
+    description,
+    file,
+  }).forEach(([key, value]) => formData.append(key, value));
+
+  return fetchFromApi({
     path: `/images`,
     options: {
       method: 'POST',
-      headers,
-      body: JSON.stringify({ language, copyrightHolder, description, file }),
+      headers: { ...headers, 'Content-Type': 'multipart/form-data' },
+      body: formData,
     },
   });
+};
 
 const useAddImage = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: addImage, ...configuration });
