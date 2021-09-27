@@ -8,7 +8,6 @@ import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { TextAreaWithLabel } from '@/ui/TextAreaWithLabel';
-import { getValueFromTheme } from '@/ui/theme';
 
 const StatusForm = ({
   offerType,
