@@ -65,7 +65,7 @@ const InputWithLabel = forwardRef(
         >
           <Text>{label}</Text>
         </Label>
-        <Stack spacing={2}>
+        <Stack spacing={3}>
           <Stack>
             <Input
               name={name}
