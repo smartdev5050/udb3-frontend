@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { useGetEventById } from '@/hooks/api/events';
+import { useGetImageById } from '@/hooks/api/images';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
 import { Image } from '@/ui/Image';
@@ -17,6 +18,7 @@ import { Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { TextAreaWithLabel } from '@/ui/TextAreaWithLabel';
 import { getValueFromTheme } from '@/ui/theme';
+import { parseOfferId } from '@/utils/parseOfferId';
 
 import type { MachineProps } from './create';
 import { Step } from './Step';
@@ -32,9 +34,32 @@ type FormData = {
 
 const eventId = '1633a062-349e-482e-9d88-cde754c45f71';
 
-const PictureUploadModal = ({ visible, onClose, imageId }) => {
+type PictureUploadModalProps = {
+  visible: boolean;
+  onClose: () => void;
+  imageId?: string;
+};
+
+const PictureUploadModal = ({
+  visible,
+  onClose,
+  imageId,
+}: PictureUploadModalProps) => {
   const { t } = useTranslation();
   const formComponent = useRef<HTMLFormElement>();
+
+  // fetch data for imageId
+  const getImageByIdQuery = useGetImageById({
+    id: imageId,
+  });
+
+  // @ts-expect-error
+  useEffect(() => console.log('TESTTT', getImageByIdQuery.data), [
+    // @ts-expect-error
+    getImageByIdQuery.data,
+  ]);
+
+  const image = getImageByIdQuery.data;
 
   const schema = yup
     .object()
@@ -73,36 +98,38 @@ const PictureUploadModal = ({ visible, onClose, imageId }) => {
         ref={formComponent}
         spacing={4}
         padding={4}
-        onSubmit={handleSubmit()}
+        onSubmit={handleSubmit(() => {})}
       >
-        <Stack
-          flex={1}
-          spacing={4}
-          height={300}
-          backgroundColor={getValue('pictureUploadBox.backgroundColor')}
-          justifyContent="center"
-          alignItems="center"
-          css={`
-            border: 1px solid ${getValue('pictureUploadBox.borderColor')};
-          `}
-          padding={4}
-        >
-          <Text fontWeight={700}>Selecteer je foto</Text>
-          <Icon
-            name={Icons.IMAGE}
-            width="4rem"
-            height="4rem"
-            color={getValue('pictureUploadBox.imageIconColor')}
-          />
-          <Stack spacing={2} alignItems="center">
-            <Text>Sleep een bestand hierheen of</Text>
-            <Button>Kies bestand</Button>
+        {!imageId && (
+          <Stack
+            flex={1}
+            spacing={4}
+            height={300}
+            backgroundColor={getValue('pictureUploadBox.backgroundColor')}
+            justifyContent="center"
+            alignItems="center"
+            css={`
+              border: 1px solid ${getValue('pictureUploadBox.borderColor')};
+            `}
+            padding={4}
+          >
+            <Text fontWeight={700}>Selecteer je foto</Text>
+            <Icon
+              name={Icons.IMAGE}
+              width="4rem"
+              height="4rem"
+              color={getValue('pictureUploadBox.imageIconColor')}
+            />
+            <Stack spacing={2} alignItems="center">
+              <Text>Sleep een bestand hierheen of</Text>
+              <Button>Kies bestand</Button>
+            </Stack>
+            <Text variant={TextVariants.MUTED} textAlign="center">
+              De maximale grootte van je afbeelding is 5MB en heeft als type
+              .jpeg, .gif of .png
+            </Text>
           </Stack>
-          <Text variant={TextVariants.MUTED} textAlign="center">
-            De maximale grootte van je afbeelding is 5MB en heeft als type
-            .jpeg, .gif of .png
-          </Text>
-        </Stack>
+        )}
         <InputWithLabel
           id="description"
           label="Beschrijving"
@@ -157,11 +184,17 @@ const PictureUploadModal = ({ visible, onClose, imageId }) => {
 const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
   const { t } = useTranslation();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [imageToEditId, setImageToEditId] = useState('');
 
   const handleClickAddImage = () => setIsModalVisible(true);
   const handleCloseModal = () => setIsModalVisible(false);
 
-  const handleEditImage = () => {};
+  const handleClickEditImage = (id: string) => {
+    console.log({ id });
+
+    setImageToEditId(id);
+    setIsModalVisible(true);
+  };
   const handleDeleteImage = () => {};
 
   // @ts-expect-error
@@ -174,14 +207,18 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
   }, [getEventByIdQuery.data]);
 
   // @ts-expect-error
-  const images = useMemo(() => getEventByIdQuery.data.mediaObject, [
+  const images = useMemo(() => getEventByIdQuery.data?.mediaObject ?? [], [
     // @ts-expect-error
     getEventByIdQuery.data,
   ]);
 
   return (
     <Step stepNumber={5}>
-      <PictureUploadModal visible={isModalVisible} onClose={handleCloseModal} />
+      <PictureUploadModal
+        visible={isModalVisible}
+        onClose={handleCloseModal}
+        imageId={imageToEditId}
+      />
       <Inline spacing={6}>
         <Stack spacing={3} flex={1}>
           <TextAreaWithLabel
@@ -215,7 +252,9 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
                   variant={ButtonVariants.PRIMARY}
                   iconName={Icons.PENCIL}
                   spacing={3}
-                  onClick={handleEditImage}
+                  onClick={() =>
+                    handleClickEditImage(parseOfferId(image['@id']))
+                  }
                 >
                   Wijzigen
                 </Button>
