@@ -2,7 +2,6 @@ import type { ReactNode, Ref } from 'react';
 import { forwardRef } from 'react';
 
 import type { Values } from '@/types/Values';
-import { Alert, AlertVariants } from '@/ui/Alert';
 
 import type { InlineProps } from './Inline';
 import { getInlineProps, Inline } from './Inline';
