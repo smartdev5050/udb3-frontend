@@ -42,6 +42,7 @@ type InputProps = {
   value?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   name: string;
+  isInvalid?: boolean;
 };
 
 type Props = Omit<BoxProps, 'onChange'> & InputProps;
@@ -58,6 +59,7 @@ const Input = forwardRef(
       className,
       value,
       name,
+      isInvalid,
       ...props
     }: Props,
     ref,
@@ -76,6 +78,7 @@ const Input = forwardRef(
       onPaste={onPaste}
       value={value}
       name={name}
+      isInvalid={isInvalid}
       {...getBoxProps(props)}
     />
   ),
@@ -85,6 +88,7 @@ Input.displayName = 'Input';
 
 Input.defaultProps = {
   type: 'text',
+  isInvalid: false,
 };
 
 export { Input };

@@ -66,7 +66,7 @@ const InputWithLabel = forwardRef(
           <Text>{label}</Text>
         </Label>
         <Stack spacing={2}>
-          <Stack spacing={3}>
+          <Stack>
             <Input
               name={name}
               type={type}
@@ -75,8 +75,9 @@ const InputWithLabel = forwardRef(
               ref={ref}
               onChange={onChange}
               onBlur={onBlur}
+              isInvalid={!!error}
             />
-            {error && <Alert variant={AlertVariants.DANGER}>{error}</Alert>}
+            {error && <Text color="red">{error}</Text>}
           </Stack>
           {info && <Text variant={TextVariants.MUTED}>{info}</Text>}
         </Stack>
