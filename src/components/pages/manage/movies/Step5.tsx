@@ -80,7 +80,7 @@ const PictureUploadModal = ({
     // @ts-expect-error
   }, [getImageByIdQuery.data, reset, visible]);
 
-  const handleOnSubmitValid = (data) => {
+  const handleOnSubmitValid = (data: FormData) => {
     addImageMutation.mutate({ ...data, language: i18n.language });
   };
 
