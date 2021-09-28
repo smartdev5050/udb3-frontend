@@ -96,7 +96,7 @@ const PictureUploadModal = ({
       visible={visible}
       variant={ModalVariants.QUESTION}
       onClose={onClose}
-      confirmTitle="Opladen"
+      confirmTitle={imageId ? 'Aanpassen' : 'Uploaden'}
       cancelTitle="Annuleren"
       size={ModalSizes.MD}
       onConfirm={() => {
