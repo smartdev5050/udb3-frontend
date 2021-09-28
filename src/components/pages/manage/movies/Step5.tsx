@@ -140,6 +140,7 @@ const PictureUploadModal = ({
                 display="none"
                 css="display: none;"
                 ref={inputComponent}
+                accept=".jpg,.jpeg,.gif,.png"
               />
               <Button onClick={handleClickUpload}>Kies bestand</Button>
             </Stack>
