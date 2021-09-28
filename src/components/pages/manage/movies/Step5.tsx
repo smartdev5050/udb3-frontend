@@ -31,6 +31,7 @@ type Step5Props = StackProps & MachineProps;
 type FormData = {
   description: string;
   copyrightHolder: string;
+  file: any;
 };
 
 // const eventId = '1633a062-349e-482e-9d88-cde754c45f71';
@@ -49,7 +50,6 @@ const PictureUploadModal = ({
 }: PictureUploadModalProps) => {
   const { t, i18n } = useTranslation();
   const formComponent = useRef<HTMLFormElement>();
-  const inputComponent = useRef<HTMLInputElement>();
 
   // fetch data for imageId
   const getImageByIdQuery = useGetImageById({
@@ -63,6 +63,7 @@ const PictureUploadModal = ({
     .shape({
       description: yup.string().required().max(250),
       copyrightHolder: yup.string().required(),
+      file: yup.mixed().required(),
     })
     .required();
 
@@ -83,11 +84,16 @@ const PictureUploadModal = ({
   }, [getImageByIdQuery.data, reset, visible]);
 
   const handleOnSubmitValid = (data: FormData) => {
-    addImageMutation.mutate({ ...data, language: i18n.language });
+    console.log(data);
+    addImageMutation.mutate({
+      ...data,
+      file: data.file.item(0),
+      language: i18n.language,
+    });
   };
 
   const handleClickUpload = () => {
-    inputComponent.current.click();
+    document.getElementById('file').click();
   };
 
   return (
@@ -100,7 +106,9 @@ const PictureUploadModal = ({
       cancelTitle="Annuleren"
       size={ModalSizes.MD}
       onConfirm={() => {
-        formComponent.current.dispatchEvent(new Event('submit'));
+        formComponent.current.dispatchEvent(
+          new Event('submit', { cancelable: true, bubbles: true }),
+        );
       }}
       confirmButtonDisabled={Object.keys(errors).length > 0}
     >
@@ -109,7 +117,9 @@ const PictureUploadModal = ({
         ref={formComponent}
         spacing={4}
         padding={4}
-        onSubmit={handleSubmit(handleOnSubmitValid)}
+        onSubmit={handleSubmit(handleOnSubmitValid, (data) =>
+          console.log(data),
+        )}
       >
         {!imageId && (
           <Stack
@@ -134,15 +144,14 @@ const PictureUploadModal = ({
             <Stack spacing={2} alignItems="center">
               <Text>Sleep een bestand hierheen of</Text>
               <Input
-                id="upload"
-                name="upload"
+                id="file"
                 type="file"
                 display="none"
-                css="display: none;"
-                ref={inputComponent}
                 accept=".jpg,.jpeg,.gif,.png"
+                {...register('file')}
               />
               <Button onClick={handleClickUpload}>Kies bestand</Button>
+              <Text>{errors.file ? errors.file : ''}</Text>
             </Stack>
             <Text variant={TextVariants.MUTED} textAlign="center">
               De maximale grootte van je afbeelding is 5MB en heeft als type
@@ -210,8 +219,6 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
   const handleCloseModal = () => setIsModalVisible(false);
 
   const handleClickEditImage = (id: string) => {
-    console.log({ id });
-
     setImageToEditId(id);
     setIsModalVisible(true);
   };
@@ -219,12 +226,6 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
 
   // @ts-expect-error
   const getEventByIdQuery = useGetEventById({ id: eventId });
-
-  useEffect(() => {
-    // @ts-expect-error
-    console.log(getEventByIdQuery.data);
-    // @ts-expect-error
-  }, [getEventByIdQuery.data]);
 
   // @ts-expect-error
   const images = useMemo(() => getEventByIdQuery.data?.mediaObject ?? [], [
