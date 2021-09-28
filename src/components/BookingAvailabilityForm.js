@@ -25,7 +25,6 @@ const BookingAvailabilityForm = ({
   return (
     <RadioButtonGroup
       key="offerBookingAvailability"
-      groupLabel={t('bookingAvailability.title')}
       name="offerBookingAvailability"
       items={radioButtonItems}
       selected={bookingAvailabilityType}

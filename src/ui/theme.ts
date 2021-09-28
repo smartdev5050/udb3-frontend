@@ -152,6 +152,10 @@ const theme = {
       color: colors.textColor,
       borderColor: colors.grey2,
     },
+    title: {
+      color: colors.textColor,
+      borderColor: colors.grey2,
+    },
     panel: {
       borderColor: colors.grey3,
     },

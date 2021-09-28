@@ -13,8 +13,12 @@ import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Page } from '@/ui/Page';
 import { Spinner } from '@/ui/Spinner';
+import { getValueFromTheme } from '@/ui/theme';
+import { Title, TitleVariants } from '@/ui/Title';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { parseOfferType } from '@/utils/parseOfferType';
+
+const getValue = getValueFromTheme('statusPage');
 
 const AvailabilityPageSingle = ({ offer, error, useChangeStatus }) => {
   const { t, i18n } = useTranslation();
@@ -103,15 +107,33 @@ const AvailabilityPageSingle = ({ offer, error, useChangeStatus }) => {
           </Alert>
         ) : (
           [
-            offer.calendarType === CalendarType.SINGLE && (
+            offer.calendarType === CalendarType.SINGLE && [
+              <Title
+                key="status-form-title"
+                variant={TitleVariants.UNDERLINED}
+                color={getValue('title.color')}
+                lineHeight="220%"
+                alignItems="center"
+              >
+                {t('bookingAvailability.title')}
+              </Title>,
               <BookingAvailabilityForm
                 key="booking-availability"
                 bookingAvailabilityType={bookingAvailabilityType}
                 onChangeBookingAvailability={(e) =>
                   setBookingAvailabilityType(e.target.value)
                 }
-              />
-            ),
+              />,
+            ],
+            <Title
+              key="status-form-title"
+              variant={TitleVariants.UNDERLINED}
+              color={getValue('title.color')}
+              lineHeight="220%"
+              alignItems="center"
+            >
+              {t('offerStatus.newStatus')}
+            </Title>,
             <StatusForm
               key="reason-and-type"
               offerType={offerType}
