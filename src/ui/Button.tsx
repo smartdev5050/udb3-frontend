@@ -9,36 +9,14 @@ import type { Icons } from './Icon';
 import { Icon } from './Icon';
 import type { InlineProps } from './Inline';
 import { getInlineProps, Inline } from './Inline';
-import { Link } from './Link';
+import { linkCSS } from './Link';
 import { Spinner, SpinnerSizes, SpinnerVariants } from './Spinner';
 import { Text } from './Text';
 import { getValueFromTheme } from './theme';
 
-const BootStrapVariants = {
-  PRIMARY: 'primary',
-  SECONDARY: 'secondary',
-  SUCCESS: 'success',
-  DANGER: 'danger',
-} as const;
-
-const ButtonVariants = {
-  ...BootStrapVariants,
-  UNSTYLED: 'unstyled',
-  LINK: 'link',
-} as const;
-
-const ButtonSizes = {
-  SMALL: 'sm',
-  LARGE: 'lg',
-} as const;
-
 const getValue = getValueFromTheme('button');
 
-const BaseButton = (props: Omit<InlineProps, 'size'>) => (
-  <Inline as="button" {...props} />
-);
-
-const customCSS = css`
+const defaultStyle = css`
   &.btn {
     border-radius: ${getValue('borderRadius')};
     padding: ${getValue('paddingY')} ${getValue('paddingX')};
@@ -54,10 +32,20 @@ const customCSS = css`
       outline: none;
       box-shadow: none;
     }
+
+    .button-spinner {
+      height: 1.5rem;
+      display: flex;
+      align-items: center;
+    }
   }
+`;
+
+const primaryStyle = css`
+  ${defaultStyle}
 
   &.btn-primary,
-  &.btn-primary.dropdown-toggle {
+&.btn-primary.dropdown-toggle {
     color: ${getValue('primary.color')};
     background-color: ${getValue('primary.backgroundColor')};
     border-color: ${getValue('primary.borderColor')};
@@ -80,9 +68,13 @@ const customCSS = css`
       box-shadow: ${getValue('primary.focusBoxShadow')};
     }
   }
+`;
+
+const secondaryStyle = css`
+  ${defaultStyle}
 
   &.btn-outline-secondary,
-  &.btn-outline-secondary.dropdown-toggle {
+&.btn-outline-secondary.dropdown-toggle {
     color: ${getValue('secondary.color')};
     background-color: ${getValue('secondary.backgroundColor')};
     border-color: ${getValue('secondary.borderColor')};
@@ -106,9 +98,13 @@ const customCSS = css`
       box-shadow: ${getValue('secondary.focusBoxShadow')};
     }
   }
+`;
+
+const successStyle = css`
+  ${defaultStyle}
 
   &.btn-success,
-  &.btn-success.dropdown-toggle {
+&.btn-success.dropdown-toggle {
     color: ${getValue('success.color')};
     border-color: ${getValue('success.borderColor')};
     background-color: ${getValue('success.backgroundColor')};
@@ -129,9 +125,13 @@ const customCSS = css`
       box-shadow: ${getValue('success.focusBoxShadow')};
     }
   }
+`;
+
+const dangerStyle = css`
+  ${defaultStyle}
 
   &.btn-danger,
-  &.btn-danger.dropdown-toggle {
+&.btn-danger.dropdown-toggle {
     color: ${getValue('danger.color')};
     border-color: ${getValue('danger.borderColor')};
     background-color: ${getValue('danger.backgroundColor')};
@@ -152,66 +152,85 @@ const customCSS = css`
       box-shadow: ${getValue('danger.focusBoxShadow')};
     }
   }
-
-  .button-spinner {
-    height: 1.5rem;
-    display: flex;
-    align-items: center;
-  }
 `;
 
-type ButtonProps = Omit<InlineProps, 'size'> & {
+const linkStyle = css`
+  ${defaultStyle}
+  background: none;
+  border: none;
+
+  :focus {
+    outline: auto;
+  }
+  :focus:not(:focus-visible) {
+    outline: none;
+    box-shadow: none;
+  }
+
+  ${linkCSS}
+`;
+
+const BootStrapVariants = {
+  PRIMARY: 'primary',
+  SECONDARY: 'secondary',
+  SUCCESS: 'success',
+  DANGER: 'danger',
+} as const;
+
+const ButtonVariants = {
+  ...BootStrapVariants,
+  UNSTYLED: 'unstyled',
+  LINK: 'link',
+} as const;
+
+const ButtonSizes = {
+  SMALL: 'sm',
+  LARGE: 'lg',
+} as const;
+
+type Props = Omit<InlineProps, 'size'> & {
   iconName?: Values<typeof Icons>;
   suffix?: ReactNode;
   loading?: boolean;
   disabled?: boolean;
-  customChildren?: boolean;
-  shouldHideText?: boolean;
   size?: Values<typeof ButtonSizes>;
   variant?: Values<typeof ButtonVariants>;
 };
 
+const BaseButton = (props: Omit<InlineProps, 'size'>) => (
+  <Inline as="button" {...props} />
+);
+
+// TODO: replace all occurences of customChildren prop
+// TODO: remove shouldHideText prop
 const Button = ({
   iconName,
   suffix,
-  variant,
-  disabled,
   loading,
-  children,
-  customChildren,
-  shouldHideText,
-  onClick,
-  className,
-  textAlign,
-  title,
+  disabled,
   size,
-  forwardedAs,
+  variant,
+  children,
   ...props
-}: ButtonProps) => {
+}: Props) => {
   const isBootstrapVariant = (Object.values(
     BootStrapVariants,
   ) as string[]).includes(variant);
-  const isLinkVariant = variant === ButtonVariants.LINK;
 
-  // @ts-expect-error
-  if (variant === ButtonVariants.SECONDARY) variant = 'outline-secondary';
-
-  const BaseButtonWithForwardedAs = (props) => (
-    <BaseButton {...props} forwardedAs={forwardedAs} />
-  );
-
-  const forwardedButton = forwardedAs ? BaseButtonWithForwardedAs : BaseButton;
-  const bootstrapProps = isBootstrapVariant
-    ? { forwardedAs: forwardedButton, variant }
-    : {};
+  const MappedVariants = {
+    [ButtonVariants.SECONDARY]: 'outline-secondary',
+  };
 
   const propsToApply = {
-    ...bootstrapProps,
     disabled,
-    onClick,
-    className,
-    title,
-    size,
+    cursor: disabled ? 'not-allowed' : 'pointer',
+    ...(isBootstrapVariant
+      ? {
+          forwardedAs: BootstrapButton,
+          size,
+          variant: MappedVariants[variant] ?? variant,
+        }
+      : {}),
     ...getInlineProps(props),
   };
 
@@ -225,6 +244,17 @@ const Button = ({
       })
     : undefined;
 
+  const content =
+    typeof children === 'string'
+      ? [
+          iconName && <Icon name={iconName} key="icon" />,
+          <Text flex={1} textAlign="left" key="text">
+            {children}
+          </Text>,
+          clonedSuffix,
+        ]
+      : children;
+
   const inner = loading ? (
     <Spinner
       className="button-spinner"
@@ -232,75 +262,19 @@ const Button = ({
       size={SpinnerSizes.SMALL}
     />
   ) : (
-    [
-      iconName && <Icon name={iconName} key="icon" />,
-      customChildren
-        ? children
-        : !shouldHideText && (
-            <Text flex={1} textAlign="left" key="text">
-              {children}
-            </Text>
-          ),
-      clonedSuffix,
-    ]
+    content
   );
 
-  if (isBootstrapVariant) {
-    return (
-      <BootstrapButton {...propsToApply} css={customCSS}>
-        {inner}
-      </BootstrapButton>
-    );
-  }
-
-  if (isLinkVariant) {
-    return (
-      <BaseButton
-        {...propsToApply}
-        color="inherit"
-        cursor="pointer"
-        css={`
-          background: none;
-          border: none;
-
-          :focus {
-            outline: auto;
-          }
-          :focus:not(:focus-visible) {
-            outline: none;
-            box-shadow: none;
-          }
-        `}
-        alignItems="center"
-        justifyContent="flex-start"
-      >
-        <Link as="span" href="">
-          {children}
-        </Link>
-      </BaseButton>
-    );
-  }
+  const Styles = {
+    [ButtonVariants.PRIMARY]: primaryStyle,
+    [ButtonVariants.SECONDARY]: secondaryStyle,
+    [ButtonVariants.SUCCESS]: successStyle,
+    [ButtonVariants.DANGER]: dangerStyle,
+    [ButtonVariants.LINK]: linkStyle,
+  };
 
   return (
-    <BaseButton
-      {...propsToApply}
-      color="inherit"
-      cursor="pointer"
-      css={`
-        background: none;
-        border: none;
-
-        :focus {
-          outline: auto;
-        }
-        :focus:not(:focus-visible) {
-          outline: none;
-          box-shadow: none;
-        }
-      `}
-      alignItems="center"
-      justifyContent="flex-start"
-    >
+    <BaseButton {...propsToApply} css={Styles[variant] ?? css``}>
       {inner}
     </BaseButton>
   );
@@ -310,9 +284,7 @@ Button.defaultProps = {
   variant: ButtonVariants.PRIMARY,
   disabled: false,
   loading: false,
-  customChildren: false,
-  shouldHideText: false,
   textAlign: 'center',
 };
 
-export { Button, customCSS as buttonCSS, ButtonSizes, ButtonVariants };
+export { Button, ButtonVariants };
