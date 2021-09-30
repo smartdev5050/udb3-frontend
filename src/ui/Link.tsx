@@ -1,6 +1,7 @@
 import NextLink from 'next/link';
 import type { ReactNode } from 'react';
 import { cloneElement, forwardRef } from 'react';
+import { css } from 'styled-components';
 
 import type { Values } from '@/types/Values';
 import { Button } from '@/ui/Button';
@@ -29,6 +30,18 @@ const LinkVariants = {
 type BaseLinkProps = InlineProps & {
   variant?: Values<typeof LinkVariants>;
 };
+
+const linkCSS = css`
+  color: ${getValue('color')};
+
+  :hover {
+    color: ${getValue('color')};
+    text-decoration: underline;
+  }
+
+  display: 'inline-flex';
+  font-weight: 400;
+`;
 
 const BaseLink = forwardRef<HTMLElement, BaseLinkProps>(
   ({ href, variant, title, children, className, as, ...props }, ref) => {
@@ -74,14 +87,7 @@ const BaseLink = forwardRef<HTMLElement, BaseLinkProps>(
         href={href}
         ref={ref}
         forwardedAs={as}
-        color={{ default: getValue('color'), hover: getValue('color') }}
-        display="inline-flex"
-        fontWeight={400}
-        css={`
-          &:hover {
-            text-decoration: underline;
-          }
-        `}
+        css={linkCSS}
         {...getInlineProps(props)}
       >
         {children}
@@ -199,4 +205,4 @@ Link.defaultProps = {
   shouldHideText: false,
 };
 
-export { Link, LinkVariants };
+export { Link, linkCSS, LinkVariants };
