@@ -5,12 +5,12 @@ import { cloneElement, forwardRef } from 'react';
 import type { Values } from '@/types/Values';
 import { Button } from '@/ui/Button';
 
-import type { Icons } from './Icon';
-import { Icon } from './Icon';
-import type { InlineProps } from './Inline';
-import { getInlineProps, Inline } from './Inline';
-import { linkCSS } from './shared/link';
-import { Text } from './Text';
+import type { Icons } from '../Icon';
+import { Icon } from '../Icon';
+import type { InlineProps } from '../Inline';
+import { getInlineProps, Inline } from '../Inline';
+import { Text } from '../Text';
+import { linkCSS } from './style';
 
 const LinkButtonVariants = {
   BUTTON_PRIMARY: 'primary',
@@ -93,6 +93,7 @@ type LinkProps = BaseLinkProps & {
   suffix?: ReactNode;
 };
 
+// TODO move linkCSS to folder with index.ts
 const Link = ({
   href,
   iconName,
