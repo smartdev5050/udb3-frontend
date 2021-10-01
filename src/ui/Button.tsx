@@ -9,7 +9,7 @@ import type { Icons } from './Icon';
 import { Icon } from './Icon';
 import type { InlineProps } from './Inline';
 import { getInlineProps, Inline } from './Inline';
-import { linkCSS } from './Link';
+import { linkCSS } from './shared/link';
 import { Spinner, SpinnerSizes, SpinnerVariants } from './Spinner';
 import { Text } from './Text';
 import { getValueFromTheme } from './theme';
@@ -156,6 +156,7 @@ const dangerStyle = css`
 
 const linkStyle = css`
   ${defaultStyle}
+
   background: none;
   border: none;
 
@@ -168,6 +169,19 @@ const linkStyle = css`
   }
 
   ${linkCSS}
+`;
+
+const unstyledStyle = css`
+  background: none;
+  border: none;
+
+  :focus {
+    outline: auto;
+  }
+  :focus:not(:focus-visible) {
+    outline: none;
+    box-shadow: none;
+  }
 `;
 
 const BootStrapVariants = {
@@ -202,7 +216,6 @@ const BaseButton = (props: Omit<InlineProps, 'size'>) => (
 );
 
 // TODO: replace all occurences of customChildren prop
-// TODO: remove shouldHideText prop
 const Button = ({
   iconName,
   suffix,
@@ -230,7 +243,7 @@ const Button = ({
           size,
           variant: MappedVariants[variant] ?? variant,
         }
-      : {}),
+      : { color: 'inherit' }),
     ...getInlineProps(props),
   };
 
@@ -244,16 +257,17 @@ const Button = ({
       })
     : undefined;
 
-  const content =
-    typeof children === 'string'
-      ? [
-          iconName && <Icon name={iconName} key="icon" />,
-          <Text flex={1} textAlign="left" key="text">
-            {children}
-          </Text>,
-          clonedSuffix,
-        ]
-      : children;
+  const content = [
+    iconName && <Icon name={iconName} key="icon" />,
+    typeof children === 'string' ? (
+      <Text flex={1} textAlign="left" key="text">
+        {children}
+      </Text>
+    ) : (
+      children
+    ),
+    clonedSuffix,
+  ];
 
   const inner = loading ? (
     <Spinner
@@ -271,6 +285,7 @@ const Button = ({
     [ButtonVariants.SUCCESS]: successStyle,
     [ButtonVariants.DANGER]: dangerStyle,
     [ButtonVariants.LINK]: linkStyle,
+    [ButtonVariants.UNSTYLED]: unstyledStyle,
   };
 
   return (
@@ -287,4 +302,4 @@ Button.defaultProps = {
   textAlign: 'center',
 };
 
-export { Button, ButtonVariants };
+export { Button, ButtonSizes, ButtonVariants };

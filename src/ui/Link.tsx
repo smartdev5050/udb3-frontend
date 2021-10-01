@@ -1,7 +1,6 @@
 import NextLink from 'next/link';
 import type { ReactNode } from 'react';
 import { cloneElement, forwardRef } from 'react';
-import { css } from 'styled-components';
 
 import type { Values } from '@/types/Values';
 import { Button } from '@/ui/Button';
@@ -10,10 +9,8 @@ import type { Icons } from './Icon';
 import { Icon } from './Icon';
 import type { InlineProps } from './Inline';
 import { getInlineProps, Inline } from './Inline';
+import { linkCSS } from './shared/link';
 import { Text } from './Text';
-import { getValueFromTheme } from './theme';
-
-const getValue = getValueFromTheme('link');
 
 const LinkButtonVariants = {
   BUTTON_PRIMARY: 'primary',
@@ -30,18 +27,6 @@ const LinkVariants = {
 type BaseLinkProps = InlineProps & {
   variant?: Values<typeof LinkVariants>;
 };
-
-const linkCSS = css`
-  color: ${getValue('color')};
-
-  :hover {
-    color: ${getValue('color')};
-    text-decoration: underline;
-  }
-
-  display: 'inline-flex';
-  font-weight: 400;
-`;
 
 const BaseLink = forwardRef<HTMLElement, BaseLinkProps>(
   ({ href, variant, title, children, className, as, ...props }, ref) => {
@@ -107,7 +92,6 @@ type LinkProps = BaseLinkProps & {
   iconName?: Values<typeof Icons>;
   suffix?: ReactNode;
   customChildren?: boolean;
-  shouldHideText?: boolean;
 };
 
 const Link = ({
@@ -116,7 +100,6 @@ const Link = ({
   suffix,
   children,
   customChildren,
-  shouldHideText,
   className,
   variant,
   title,
@@ -140,13 +123,13 @@ const Link = ({
 
   const inner = [
     iconName && <Icon name={iconName} key="icon" />,
-    customChildren
-      ? children
-      : !shouldHideText && (
-          <Text flex={1} textAlign="left" key="text">
-            {children}
-          </Text>
-        ),
+    customChildren ? (
+      children
+    ) : (
+      <Text flex={1} textAlign="left" key="text">
+        {children}
+      </Text>
+    ),
     clonedSuffix,
   ];
 
@@ -202,7 +185,6 @@ const Link = ({
 
 Link.defaultProps = {
   customChildren: false,
-  shouldHideText: false,
 };
 
 export { Link, linkCSS, LinkVariants };
