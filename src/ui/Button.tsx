@@ -223,6 +223,9 @@ const Button = ({
   size,
   variant,
   children,
+  className,
+  onClick,
+  title,
   ...props
 }: Props) => {
   const isBootstrapVariant = (Object.values(
@@ -234,8 +237,11 @@ const Button = ({
   };
 
   const propsToApply = {
+    className,
     disabled,
     cursor: disabled ? 'not-allowed' : 'pointer',
+    onClick,
+    title,
     ...(isBootstrapVariant
       ? {
           forwardedAs: BootstrapButton,
