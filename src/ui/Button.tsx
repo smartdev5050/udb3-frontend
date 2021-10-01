@@ -301,4 +301,4 @@ Button.defaultProps = {
   textAlign: 'center',
 };
 
-export { Button, ButtonSizes, ButtonVariants };
+export { Button, ButtonSizes, ButtonVariants, secondaryStyle };

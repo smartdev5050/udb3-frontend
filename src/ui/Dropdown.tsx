@@ -8,7 +8,7 @@ import {
 import type { Values } from '@/types/Values';
 import type { BoxProps } from '@/ui/Box';
 import { Box, getBoxProps } from '@/ui/Box';
-import { Button, buttonCSS, ButtonVariants } from '@/ui/Button';
+  ButtonVariants,
 import { Link, LinkVariants } from '@/ui/Link';
 import { getValueFromTheme } from '@/ui/theme';
 
