@@ -215,7 +215,6 @@ const BaseButton = (props: Omit<InlineProps, 'size'>) => (
   <Inline as="button" {...props} />
 );
 
-// TODO: replace all occurences of customChildren prop
 const Button = ({
   iconName,
   suffix,
