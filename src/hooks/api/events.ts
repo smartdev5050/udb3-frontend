@@ -259,13 +259,27 @@ const createSubEventPatch = (
   return subEventPatch;
 };
 
-const useChangeStatusSubEvents = (configuration) =>
+const useChangeStatusSubEvents = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: changeStatusSubEvents,
     ...configuration,
   });
 
+const addImageToEvent = async ({ headers, eventId, imageId }) =>
+  fetchFromApi({
+    path: `/events/${eventId.toString()}/images`,
+    options: {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ mediaObjectId: imageId }),
+    },
+  });
+
+const useAddImageToEvent = (configuration = {}) =>
+  useAuthenticatedMutation({ mutationFn: addImageToEvent, ...configuration });
+
 export {
+  useAddImageToEvent,
   useChangeStatus,
   useChangeStatusSubEvents,
   useDeleteEventById,
