@@ -25,7 +25,7 @@ type PictureUploadModalProps = {
   visible: boolean;
   onClose: () => void;
   imageToEdit?: { description: string; copyrightHolder: string };
-  onSubmitValid: (data: FormData) => void;
+  onSubmitValid: (data: FormData) => Promise<void>;
 };
 
 const MAX_FILE_SIZE = 5000000;
@@ -98,8 +98,12 @@ const PictureUploadModal = ({
         ref={formComponent}
         spacing={4}
         padding={4}
-        onSubmit={handleSubmit(onSubmitValid, (data) =>
-          console.log('INVALID', data),
+        onSubmit={handleSubmit(
+          async (data) => {
+            await onSubmitValid(data);
+            reset({});
+          },
+          (data) => console.log('INVALID', data),
         )}
       >
         {!imageToEdit && (

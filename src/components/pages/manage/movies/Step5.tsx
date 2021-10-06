@@ -118,13 +118,13 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
     setIsPictureDeleteModalVisible(false);
   };
 
-  const handleSubmitValid = ({
+  const handleSubmitValid = async ({
     file,
     description,
     copyrightHolder,
   }: FormData) => {
     if (imageToEdit) {
-      updateImageFromEventMutation.mutate({
+      await updateImageFromEventMutation.mutateAsync({
         eventId,
         imageId: parseOfferId(imageToEdit['@id']),
         description,
@@ -134,7 +134,7 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
       return;
     }
 
-    addImageMutation.mutate({
+    await addImageMutation.mutateAsync({
       description,
       copyrightHolder,
       file: file?.[0],
