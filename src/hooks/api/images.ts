@@ -47,7 +47,7 @@ const addImage = async ({
   }).forEach(([key, value]) => formData.append(key, value));
 
   return fetchFromApi({
-    path: `/images`,
+    path: `/images/`,
     options: {
       method: 'POST',
       headers: { ...headers, 'Content-Type': 'multipart/form-data' },
