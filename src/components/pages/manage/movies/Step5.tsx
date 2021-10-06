@@ -37,7 +37,7 @@ type Step5Props = StackProps & MachineProps;
 type FormData = {
   description: string;
   copyrightHolder: string;
-  file: any;
+  file: FileList;
 };
 
 type PictureUploadModalProps = {
@@ -46,6 +46,8 @@ type PictureUploadModalProps = {
   imageToEdit?: { description: string; copyrightHolder: string };
   onSubmitValid: (data: FormData) => void;
 };
+
+const MAX_FILE_SIZE = 5000000;
 
 const PictureUploadModal = ({
   visible,
@@ -61,7 +63,12 @@ const PictureUploadModal = ({
     .shape({
       description: yup.string().required().max(250),
       copyrightHolder: yup.string().required(),
-      ...(!imageToEdit && { file: yup.mixed().required() }),
+      ...(!imageToEdit && {
+        file: yup
+          .mixed()
+          .test((fileList: FileList) => fileList?.[0]?.size < MAX_FILE_SIZE)
+          .required(),
+      }),
     })
     .required();
 
@@ -76,13 +83,12 @@ const PictureUploadModal = ({
   });
 
   const watchedFile = watch('file');
-  const image = watchedFile?.item?.(0);
+  const image = watchedFile?.[0];
   const imagePreviewUrl = image && URL.createObjectURL(image);
 
   useEffect(() => {
     reset(imageToEdit ?? {});
-    // @ts-expect-error
-  }, [imageToEdit, reset, visible]);
+  }, [imageToEdit, reset]);
 
   const handleClickUpload = () => {
     document.getElementById('file').click();
@@ -156,7 +162,7 @@ const PictureUploadModal = ({
                 {...register('file')}
               />
               <Button onClick={handleClickUpload}>Kies bestand</Button>
-              <Text>{errors.file ? errors.file : ''}</Text>
+              <Text>{errors?.file?.message ?? ''}</Text>
             </Stack>
             <Text variant={TextVariants.MUTED} textAlign="center">
               De maximale grootte van je afbeelding is 5MB en heeft als type
@@ -307,7 +313,7 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
     addImageMutation.mutate({
       description,
       copyrightHolder,
-      file: file.item(0),
+      file: file?.[0],
       language: i18n.language,
     });
   };
