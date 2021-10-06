@@ -63,7 +63,7 @@ const PictureUploadModal = ({
     .shape({
       description: yup.string().required().max(250),
       copyrightHolder: yup.string().required(),
-      file: yup.mixed().required(),
+      ...(imageId && { file: yup.mixed().required() }),
     })
     .required();
 
