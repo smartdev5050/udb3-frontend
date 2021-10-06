@@ -11,7 +11,7 @@ import {
   useGetEventById,
   useUpdateImageFromEvent,
 } from '@/hooks/api/events';
-import { useAddImage, useGetImageById } from '@/hooks/api/images';
+import { useAddImage } from '@/hooks/api/images';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
 import { Image } from '@/ui/Image';
