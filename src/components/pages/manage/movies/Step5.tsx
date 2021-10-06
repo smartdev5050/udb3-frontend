@@ -84,8 +84,9 @@ const PictureUploadModal = ({
     // @ts-expect-error
   }, [getImageByIdQuery.data, reset, visible]);
 
+  const handleSuccessAddImage = ({ imageId }) => addImageToEventMutation.mutate({ eventId, imageId });
+
   const handleOnSubmitValid = (data: FormData) => {
-    console.log(data);
     addImageMutation.mutate(
       {
         ...data,
@@ -93,12 +94,14 @@ const PictureUploadModal = ({
         language: i18n.language,
       },
       {
-        onSuccess: ({ imageId }) => {
-          addImageToEventMutation.mutate({ eventId, imageId });
-        },
+        onSuccess: handleSuccessAddImage
       },
     );
   };
+
+  const handleOnSubmitInValid = (data) => {
+    console.log('INVALID', data)
+  }
 
   const handleClickUpload = () => {
     document.getElementById('file').click();
@@ -125,9 +128,7 @@ const PictureUploadModal = ({
         ref={formComponent}
         spacing={4}
         padding={4}
-        onSubmit={handleSubmit(handleOnSubmitValid, (data) =>
-          console.log(data),
-        )}
+        onSubmit={handleSubmit(handleOnSubmitValid, handleOnSubmitInValid)}
       >
         {!imageId && (
           <Stack
