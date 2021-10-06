@@ -2,6 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { useQueryClient } from 'react-query';
 import * as yup from 'yup';
 
 import {
@@ -42,40 +43,30 @@ type FormData = {
 type PictureUploadModalProps = {
   visible: boolean;
   onClose: () => void;
-  imageId?: string;
-  eventId: string;
+  imageToEdit?: { description: string; copyrightHolder: string };
+  onSubmitValid: (data: FormData) => void;
 };
 
 const PictureUploadModal = ({
   visible,
   onClose,
-  imageId,
-  eventId,
+  imageToEdit,
+  onSubmitValid,
 }: PictureUploadModalProps) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const formComponent = useRef<HTMLFormElement>();
-
-  // fetch data for imageId
-  const getImageByIdQuery = useGetImageById({
-    id: imageId,
-  });
-
-  const addImageMutation = useAddImage();
-
-  const addImageToEventMutation = useAddImageToEvent();
-
-  const updateImageFromEventMutation = useUpdateImageFromEvent();
 
   const schema = yup
     .object()
     .shape({
       description: yup.string().required().max(250),
       copyrightHolder: yup.string().required(),
-      ...(!imageId && { file: yup.mixed().required() }),
+      ...(!imageToEdit && { file: yup.mixed().required() }),
     })
     .required();
 
   const {
+    watch,
     reset,
     register,
     formState: { errors },
@@ -84,48 +75,14 @@ const PictureUploadModal = ({
     resolver: yupResolver(schema),
   });
 
+  const watchedFile = watch('file');
+  const image = watchedFile?.item?.(0);
+  const imagePreviewUrl = image && URL.createObjectURL(image);
+
   useEffect(() => {
+    reset(imageToEdit ?? {});
     // @ts-expect-error
-    const { description, copyrightHolder } = getImageByIdQuery.data ?? {};
-    reset({ description, copyrightHolder });
-    // @ts-expect-error
-  }, [getImageByIdQuery.data, reset, visible]);
-
-  const handleSuccessAddImage = ({ imageId }) =>
-    addImageToEventMutation.mutate({ eventId, imageId });
-
-  const handleOnSubmitValid = ({
-    file,
-    description,
-    copyrightHolder,
-  }: FormData) => {
-    if (imageId) {
-      updateImageFromEventMutation.mutate({
-        eventId,
-        imageId,
-        description,
-        copyrightHolder,
-      });
-
-      return;
-    }
-
-    addImageMutation.mutate(
-      {
-        description,
-        copyrightHolder,
-        file: file.item(0),
-        language: i18n.language,
-      },
-      {
-        onSuccess: handleSuccessAddImage,
-      },
-    );
-  };
-
-  const handleOnSubmitInValid = (data) => {
-    console.log('INVALID', data);
-  };
+  }, [imageToEdit, reset, visible]);
 
   const handleClickUpload = () => {
     document.getElementById('file').click();
@@ -137,7 +94,7 @@ const PictureUploadModal = ({
       visible={visible}
       variant={ModalVariants.QUESTION}
       onClose={onClose}
-      confirmTitle={imageId ? 'Aanpassen' : 'Uploaden'}
+      confirmTitle={imageToEdit ? 'Aanpassen' : 'Uploaden'}
       cancelTitle="Annuleren"
       size={ModalSizes.MD}
       onConfirm={() => {
@@ -152,9 +109,9 @@ const PictureUploadModal = ({
         ref={formComponent}
         spacing={4}
         padding={4}
-        onSubmit={handleSubmit(handleOnSubmitValid, handleOnSubmitInValid)}
+        onSubmit={handleSubmit(onSubmitValid)}
       >
-        {!imageId && (
+        {!imageToEdit && (
           <Stack
             flex={1}
             spacing={4}
@@ -167,13 +124,28 @@ const PictureUploadModal = ({
             `}
             padding={4}
           >
-            <Text fontWeight={700}>Selecteer je foto</Text>
-            <Icon
-              name={Icons.IMAGE}
-              width="4rem"
-              height="4rem"
-              color={getValue('pictureUploadBox.imageIconColor')}
-            />
+            <Text key="select" fontWeight={700}>
+              Selecteer je foto
+            </Text>
+            {imagePreviewUrl ? (
+              <Stack spacing={2}>
+                <Image
+                  src={imagePreviewUrl}
+                  alt="preview"
+                  width="auto"
+                  maxHeight="8rem"
+                  objectFit="cover"
+                />
+                <Text>{image.name}</Text>
+              </Stack>
+            ) : (
+              <Icon
+                name={Icons.IMAGE}
+                width="auto"
+                height="8rem"
+                color={getValue('pictureUploadBox.imageIconColor')}
+              />
+            )}
             <Stack spacing={2} alignItems="center">
               <Text>Sleep een bestand hierheen of</Text>
               <Input
@@ -244,24 +216,12 @@ const PictureUploadModal = ({
 };
 
 const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
-  const { t } = useTranslation();
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [imageToEditId, setImageToEditId] = useState('');
-
-  const deleteImageFromEventMutation = useDeleteImageFromEvent();
-
-  const handleClickAddImage = () => setIsModalVisible(true);
-  const handleCloseModal = () => setIsModalVisible(false);
-
-  const handleClickEditImage = (id: string) => {
-    setImageToEditId(id);
-    setIsModalVisible(true);
-  };
-
   const eventId = '1633a062-349e-482e-9d88-cde754c45f71';
 
-  const handleDeleteImage = (imageId: string) =>
-    deleteImageFromEventMutation.mutate({ eventId, imageId });
+  const queryClient = useQueryClient();
+  const { t, i18n } = useTranslation();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [imageToEditId, setImageToEditId] = useState('');
 
   // @ts-expect-error
   const getEventByIdQuery = useGetEventById({ id: eventId });
@@ -272,13 +232,93 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
     getEventByIdQuery.data,
   ]);
 
+  const imageToEdit = useMemo(() => {
+    const image = images.find(
+      (image) => parseOfferId(image['@id']) === imageToEditId,
+    );
+
+    if (!image) return null;
+
+    const { file, ...imageWithoutFile } = image;
+
+    return imageWithoutFile;
+  }, [images, imageToEditId]);
+
+  const invalidateEventQuery = async () =>
+    await queryClient.invalidateQueries(['events', { id: eventId }]);
+
+  const handleSuccessAddImage = ({ imageId }) =>
+    addImageToEventMutation.mutate({ eventId, imageId });
+
+  const addImageMutation = useAddImage({
+    onSuccess: handleSuccessAddImage,
+  });
+
+  const addImageToEventMutation = useAddImageToEvent({
+    onSuccess: () => {
+      setIsModalVisible(false);
+      invalidateEventQuery();
+    },
+  });
+
+  const updateImageFromEventMutation = useUpdateImageFromEvent({
+    onSuccess: () => {
+      setIsModalVisible(false);
+      invalidateEventQuery();
+    },
+  });
+
+  const handleSuccessDeleteImage = invalidateEventQuery;
+
+  const deleteImageFromEventMutation = useDeleteImageFromEvent({
+    onSuccess: handleSuccessDeleteImage,
+  });
+
+  const handleClickAddImage = () => {
+    setImageToEditId(undefined);
+    setIsModalVisible(true);
+  };
+  const handleCloseModal = () => setIsModalVisible(false);
+
+  const handleClickEditImage = (id: string) => {
+    setImageToEditId(id);
+    setIsModalVisible(true);
+  };
+
+  const handleDeleteImage = (imageId: string) =>
+    deleteImageFromEventMutation.mutate({ eventId, imageId });
+
+  const handleSubmitValid = ({
+    file,
+    description,
+    copyrightHolder,
+  }: FormData) => {
+    if (imageToEdit) {
+      updateImageFromEventMutation.mutate({
+        eventId,
+        imageId: parseOfferId(imageToEdit['@id']),
+        description,
+        copyrightHolder,
+      });
+
+      return;
+    }
+
+    addImageMutation.mutate({
+      description,
+      copyrightHolder,
+      file: file.item(0),
+      language: i18n.language,
+    });
+  };
+
   return (
     <Step stepNumber={5}>
       <PictureUploadModal
         visible={isModalVisible}
         onClose={handleCloseModal}
-        imageId={imageToEditId}
-        eventId={eventId}
+        imageToEdit={imageToEdit}
+        onSubmitValid={handleSubmitValid}
       />
       <Inline spacing={6}>
         <Stack spacing={3} flex={1}>
