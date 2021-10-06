@@ -34,19 +34,18 @@ type FormData = {
   file: any;
 };
 
-// const eventId = '1633a062-349e-482e-9d88-cde754c45f71';
-const eventId = '45c19cf4-3b79-4967-8b1c-e503e405defe';
-
 type PictureUploadModalProps = {
   visible: boolean;
   onClose: () => void;
   imageId?: string;
+  eventId: string;
 };
 
 const PictureUploadModal = ({
   visible,
   onClose,
   imageId,
+  eventId,
 }: PictureUploadModalProps) => {
   const { t, i18n } = useTranslation();
   const formComponent = useRef<HTMLFormElement>();
@@ -233,6 +232,8 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
   };
   const handleDeleteImage = () => {};
 
+  const eventId = '1633a062-349e-482e-9d88-cde754c45f71';
+
   // @ts-expect-error
   const getEventByIdQuery = useGetEventById({ id: eventId });
 
@@ -248,6 +249,7 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
         visible={isModalVisible}
         onClose={handleCloseModal}
         imageId={imageToEditId}
+        eventId={eventId}
       />
       <Inline spacing={6}>
         <Stack spacing={3} flex={1}>
