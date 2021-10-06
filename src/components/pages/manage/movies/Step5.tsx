@@ -207,8 +207,8 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
               </Stack>
             </Inline>
           ))}
-          <Stack alignItems="center">
-            <Text variant={TextVariants.MUTED}>
+          <Stack alignItems="center" padding={4} spacing={3}>
+            <Text variant={TextVariants.MUTED} textAlign="center">
               Voeg een afbeelding toe zodat bezoekers je activiteit beter
               herkennen
             </Text>
