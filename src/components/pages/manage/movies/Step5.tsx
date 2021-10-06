@@ -28,6 +28,7 @@ import { getValueFromTheme } from '@/ui/theme';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 import type { MachineProps } from './create';
+import { DeleteModal } from './DeleteModal';
 import { Step } from './Step';
 
 const getValue = getValueFromTheme('moviesCreatePage');
@@ -96,7 +97,7 @@ const PictureUploadModal = ({
 
   return (
     <Modal
-      title={t('movies.create.modal.title')}
+      title={t('movies.create.edit_modal.title')}
       visible={visible}
       variant={ModalVariants.QUESTION}
       onClose={onClose}
@@ -178,7 +179,7 @@ const PictureUploadModal = ({
           error={
             errors.description &&
             t(
-              `movies.create.modal.validation_messages.description.${errors.description.type}`,
+              `movies.create.edit_modal.validation_messages.description.${errors.description.type}`,
             )
           }
           {...register('description')}
@@ -208,7 +209,7 @@ const PictureUploadModal = ({
           error={
             errors.copyrightHolder &&
             t(
-              `movies.create.modal.validation_messages.copyrightHolder.${errors.copyrightHolder.type}`,
+              `movies.create.edit_modal.validation_messages.copyrightHolder.${errors.copyrightHolder.type}`,
             )
           }
           {...register('copyrightHolder')}
@@ -226,8 +227,16 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
 
   const queryClient = useQueryClient();
   const { t, i18n } = useTranslation();
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [
+    isPictureUploadModalVisible,
+    setIsPictureUploadModalVisible,
+  ] = useState(false);
+  const [
+    isPictureDeleteModalVisible,
+    setIsPictureDeleteModalVisible,
+  ] = useState(false);
   const [imageToEditId, setImageToEditId] = useState('');
+  const [imageToDeleteId, setImageToDeleteId] = useState('');
 
   // @ts-expect-error
   const getEventByIdQuery = useGetEventById({ id: eventId });
@@ -262,14 +271,14 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
 
   const addImageToEventMutation = useAddImageToEvent({
     onSuccess: () => {
-      setIsModalVisible(false);
+      setIsPictureUploadModalVisible(false);
       invalidateEventQuery();
     },
   });
 
   const updateImageFromEventMutation = useUpdateImageFromEvent({
     onSuccess: () => {
-      setIsModalVisible(false);
+      setIsPictureUploadModalVisible(false);
       invalidateEventQuery();
     },
   });
@@ -282,17 +291,24 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
 
   const handleClickAddImage = () => {
     setImageToEditId(undefined);
-    setIsModalVisible(true);
+    setIsPictureUploadModalVisible(true);
   };
-  const handleCloseModal = () => setIsModalVisible(false);
+  const handleCloseModal = () => setIsPictureUploadModalVisible(false);
 
-  const handleClickEditImage = (id: string) => {
-    setImageToEditId(id);
-    setIsModalVisible(true);
+  const handleClickEditImage = (imageId: string) => {
+    setImageToEditId(imageId);
+    setIsPictureUploadModalVisible(true);
   };
 
-  const handleDeleteImage = (imageId: string) =>
+  const handleClickDeleteImage = (imageId: string) => {
+    setImageToDeleteId(imageId);
+    setIsPictureDeleteModalVisible(true);
+  };
+
+  const handleConfirmDelete = (imageId: string) => {
     deleteImageFromEventMutation.mutate({ eventId, imageId });
+    setIsPictureDeleteModalVisible(false);
+  };
 
   const handleSubmitValid = ({
     file,
@@ -321,10 +337,15 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
   return (
     <Step stepNumber={5}>
       <PictureUploadModal
-        visible={isModalVisible}
+        visible={isPictureUploadModalVisible}
         onClose={handleCloseModal}
         imageToEdit={imageToEdit}
         onSubmitValid={handleSubmitValid}
+      />
+      <DeleteModal
+        visible={isPictureDeleteModalVisible}
+        onConfirm={() => handleConfirmDelete(imageToDeleteId)}
+        onClose={() => setIsPictureDeleteModalVisible(false)}
       />
       <Inline spacing={6}>
         <Stack spacing={3} flex={1}>
@@ -369,7 +390,9 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
                   variant={ButtonVariants.DANGER}
                   iconName={Icons.TRASH}
                   spacing={3}
-                  onClick={() => handleDeleteImage(parseOfferId(image['@id']))}
+                  onClick={() =>
+                    handleClickDeleteImage(parseOfferId(image['@id']))
+                  }
                 >
                   Verwijderen
                 </Button>
