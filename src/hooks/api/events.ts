@@ -300,11 +300,27 @@ const useUpdateImageFromEvent = (configuration = {}) =>
     ...configuration,
   });
 
+const deleteImageFromEvent = async ({ headers, eventId, imageId }) =>
+  fetchFromApi({
+    path: `/events/${eventId.toString()}/images/${imageId.toString()}`,
+    options: {
+      method: 'DELETE',
+      headers,
+    },
+  });
+
+const useDeleteImageFromEvent = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: deleteImageFromEvent,
+    ...configuration,
+  });
+
 export {
   useAddImageToEvent,
   useChangeStatus,
   useChangeStatusSubEvents,
   useDeleteEventById,
+  useDeleteImageFromEvent,
   useGetCalendarSummary,
   useGetEventById,
   useGetEventsByCreator,

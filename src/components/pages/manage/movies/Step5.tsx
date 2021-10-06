@@ -6,6 +6,7 @@ import * as yup from 'yup';
 
 import {
   useAddImageToEvent,
+  useDeleteImageFromEvent,
   useGetEventById,
   useUpdateImageFromEvent,
 } from '@/hooks/api/events';
@@ -247,6 +248,8 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [imageToEditId, setImageToEditId] = useState('');
 
+  const deleteImageFromEventMutation = useDeleteImageFromEvent();
+
   const handleClickAddImage = () => setIsModalVisible(true);
   const handleCloseModal = () => setIsModalVisible(false);
 
@@ -254,9 +257,11 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
     setImageToEditId(id);
     setIsModalVisible(true);
   };
-  const handleDeleteImage = () => {};
 
   const eventId = '1633a062-349e-482e-9d88-cde754c45f71';
+
+  const handleDeleteImage = (imageId: string) =>
+    deleteImageFromEventMutation.mutate({ eventId, imageId });
 
   // @ts-expect-error
   const getEventByIdQuery = useGetEventById({ id: eventId });
@@ -318,7 +323,7 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
                   variant={ButtonVariants.DANGER}
                   iconName={Icons.TRASH}
                   spacing={3}
-                  onClick={handleDeleteImage}
+                  onClick={() => handleDeleteImage(parseOfferId(image['@id']))}
                 >
                   Verwijderen
                 </Button>
