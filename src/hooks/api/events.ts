@@ -288,7 +288,7 @@ const updateImageFromEvent = async ({
   fetchFromApi({
     path: `/events/${eventId.toString()}/images/${imageId.toString()}`,
     options: {
-      method: 'POST',
+      method: 'PUT',
       headers,
       body: JSON.stringify({ description, copyrightHolder }),
     },
