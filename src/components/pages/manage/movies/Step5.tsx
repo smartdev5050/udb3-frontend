@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
-import { useGetEventById } from '@/hooks/api/events';
+import { useAddImageToEvent, useGetEventById } from '@/hooks/api/events';
 import { useAddImage, useGetImageById } from '@/hooks/api/images';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
@@ -58,6 +58,8 @@ const PictureUploadModal = ({
 
   const addImageMutation = useAddImage();
 
+  const addImageToEventMutation = useAddImageToEvent();
+
   const schema = yup
     .object()
     .shape({
@@ -85,11 +87,18 @@ const PictureUploadModal = ({
 
   const handleOnSubmitValid = (data: FormData) => {
     console.log(data);
-    addImageMutation.mutate({
-      ...data,
-      file: data.file.item(0),
-      language: i18n.language,
-    });
+    addImageMutation.mutate(
+      {
+        ...data,
+        file: data.file.item(0),
+        language: i18n.language,
+      },
+      {
+        onSuccess: ({ imageId }) => {
+          addImageToEventMutation.mutate({ eventId, imageId });
+        },
+      },
+    );
   };
 
   const handleClickUpload = () => {
