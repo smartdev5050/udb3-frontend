@@ -119,7 +119,7 @@
         "choose_name": "Kies een naam",
         "description": "Beschrijving"
       },
-      "modal": {
+      "edit_modal": {
         "title": "Afbeelding toevoegen",
         "validation_messages": {
           "description": {
@@ -129,6 +129,14 @@
           "copyrightHolder": {
             "required": "Copyright is verplicht."
           }
+        }
+      },
+      "delete_modal": {
+        "title": "Afbeeldingen verwijderen",
+        "description": "Ben je zeker dat je deze afbeelding wil verwijderen?",
+        "actions": {
+          "cancel": "Annuleren",
+          "confirm": "Verwijderen"
         }
       }
     }
