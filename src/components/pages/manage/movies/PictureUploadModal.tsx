@@ -69,10 +69,6 @@ const PictureUploadModal = ({
   const image = watchedFile?.[0];
   const imagePreviewUrl = image && URL.createObjectURL(image);
 
-  console.log({ image });
-
-  console.log({ error: errors.file });
-
   useEffect(() => {
     reset(imageToEdit ?? {});
   }, [imageToEdit, reset]);
