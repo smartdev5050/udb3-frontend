@@ -40,9 +40,9 @@ const addImage = async ({
   const formData = new FormData();
 
   Object.entries({
-    language,
-    copyrightHolder,
     description,
+    copyrightHolder,
+    language,
     file,
   }).forEach(([key, value]) => formData.append(key, value));
 
@@ -50,7 +50,9 @@ const addImage = async ({
     path: `/images/`,
     options: {
       method: 'POST',
-      headers: { ...headers, 'Content-Type': 'multipart/form-data' },
+      headers: {
+        ...headers,
+      },
       body: formData,
     },
   });
