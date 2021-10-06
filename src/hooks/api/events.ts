@@ -278,6 +278,28 @@ const addImageToEvent = async ({ headers, eventId, imageId }) =>
 const useAddImageToEvent = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: addImageToEvent, ...configuration });
 
+const updateImageFromEvent = async ({
+  headers,
+  eventId,
+  imageId,
+  description,
+  copyrightHolder,
+}) =>
+  fetchFromApi({
+    path: `/events/${eventId.toString()}/images/${imageId.toString()}`,
+    options: {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ description, copyrightHolder }),
+    },
+  });
+
+const useUpdateImageFromEvent = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: updateImageFromEvent,
+    ...configuration,
+  });
+
 export {
   useAddImageToEvent,
   useChangeStatus,
@@ -288,4 +310,5 @@ export {
   useGetEventsByCreator,
   useGetEventsByIds,
   useGetEventsToModerate,
+  useUpdateImageFromEvent,
 };
