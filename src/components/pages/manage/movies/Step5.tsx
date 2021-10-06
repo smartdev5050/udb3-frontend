@@ -4,7 +4,11 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
-import { useAddImageToEvent, useGetEventById } from '@/hooks/api/events';
+import {
+  useAddImageToEvent,
+  useGetEventById,
+  useUpdateImageFromEvent,
+} from '@/hooks/api/events';
 import { useAddImage, useGetImageById } from '@/hooks/api/images';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
@@ -59,12 +63,14 @@ const PictureUploadModal = ({
 
   const addImageToEventMutation = useAddImageToEvent();
 
+  const updateImageFromEventMutation = useUpdateImageFromEvent();
+
   const schema = yup
     .object()
     .shape({
       description: yup.string().required().max(250),
       copyrightHolder: yup.string().required(),
-      ...(imageId && { file: yup.mixed().required() }),
+      ...(!imageId && { file: yup.mixed().required() }),
     })
     .required();
 
@@ -84,24 +90,41 @@ const PictureUploadModal = ({
     // @ts-expect-error
   }, [getImageByIdQuery.data, reset, visible]);
 
-  const handleSuccessAddImage = ({ imageId }) => addImageToEventMutation.mutate({ eventId, imageId });
+  const handleSuccessAddImage = ({ imageId }) =>
+    addImageToEventMutation.mutate({ eventId, imageId });
 
-  const handleOnSubmitValid = (data: FormData) => {
+  const handleOnSubmitValid = ({
+    file,
+    description,
+    copyrightHolder,
+  }: FormData) => {
+    if (imageId) {
+      updateImageFromEventMutation.mutate({
+        eventId,
+        imageId,
+        description,
+        copyrightHolder,
+      });
+
+      return;
+    }
+
     addImageMutation.mutate(
       {
-        ...data,
-        file: data.file.item(0),
+        description,
+        copyrightHolder,
+        file: file.item(0),
         language: i18n.language,
       },
       {
-        onSuccess: handleSuccessAddImage
+        onSuccess: handleSuccessAddImage,
       },
     );
   };
 
   const handleOnSubmitInValid = (data) => {
-    console.log('INVALID', data)
-  }
+    console.log('INVALID', data);
+  };
 
   const handleClickUpload = () => {
     document.getElementById('file').click();
