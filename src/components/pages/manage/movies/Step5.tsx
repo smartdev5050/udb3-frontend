@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
 import {
+  useAddEventMainImage,
   useAddImageToEvent,
   useDeleteImageFromEvent,
   useGetEventById,
@@ -31,7 +32,7 @@ const getValue = getValueFromTheme('moviesCreatePage');
 type Step5Props = StackProps & MachineProps;
 
 const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
-  const eventId = '1633a062-349e-482e-9d88-cde754c45f71';
+  const eventId = '37d2edd9-ffb4-4abd-9f79-e21d9960d437';
 
   const queryClient = useQueryClient();
   const { t, i18n } = useTranslation();
@@ -93,6 +94,12 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
     },
   });
 
+  const addEventMainImageMutation = useAddEventMainImage({
+    onSuccess: () => {
+      invalidateEventQuery();
+    },
+  });
+
   const updateImageFromEventMutation = useUpdateImageFromEvent({
     onSuccess: () => {
       setIsPictureUploadModalVisible(false);
@@ -121,6 +128,9 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
     setImageToDeleteId(imageId);
     setIsPictureDeleteModalVisible(true);
   };
+
+  const handleClickSetMainImage = (imageId: string) =>
+    addEventMainImageMutation.mutate({ eventId, imageId });
 
   const handleConfirmDelete = (imageId: string) => {
     deleteImageFromEventMutation.mutate({ eventId, imageId });
@@ -186,9 +196,8 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
           {...props}
         >
           {images.map((image) => {
-            console.log(image);
             return (
-              <Inline key={image.description} alignItems="center" spacing={3}>
+              <Inline key={image.parsedId} alignItems="center" spacing={3}>
                 <Image
                   src={image.thumbnailUrl}
                   alt={image.description}
@@ -211,6 +220,14 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
                   >
                     Verwijderen
                   </Button>
+                  {!image.isMain ? (
+                    <Button
+                      variant={ButtonVariants.SECONDARY}
+                      onClick={() => handleClickSetMainImage(image.parsedId)}
+                    >
+                      Maak hoofdafbeelding
+                    </Button>
+                  ) : null}
                 </Stack>
               </Inline>
             );
