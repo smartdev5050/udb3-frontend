@@ -186,8 +186,10 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
         </Stack>
         <Stack
           flex={1}
-          spacing={3}
+          spacing={5}
+          padding={4}
           height={300}
+          overflow="hidden"
           backgroundColor={getValue('pictureUploadBox.backgroundColor')}
           justifyContent="center"
           css={`
@@ -196,14 +198,25 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
           {...props}
         >
           {images.map((image) => {
+            const thumbnailSize = 100;
             return (
-              <Inline key={image.parsedId} alignItems="center" spacing={3}>
-                <Image
-                  src={image.thumbnailUrl}
-                  alt={image.description}
-                  width={200}
-                />
-                <Stack spacing={3}>
+              <Stack key={image.parsedId} spacing={4}>
+                <Inline spacing={4} alignItems="center">
+                  <Image
+                    src={`${image.thumbnailUrl}?width=${thumbnailSize}&height=${thumbnailSize}`}
+                    alt={image.description}
+                    width={thumbnailSize}
+                    height={thumbnailSize}
+                    css="border: 1px solid #999"
+                  />
+                  <Stack spacing={2}>
+                    <Text>{image.description}</Text>
+                    <Text variant={TextVariants.MUTED}>
+                      © {image.copyrightHolder}
+                    </Text>
+                  </Stack>
+                </Inline>
+                <Inline spacing={3}>
                   <Button
                     variant={ButtonVariants.PRIMARY}
                     iconName={Icons.PENCIL}
@@ -228,8 +241,8 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
                       Maak hoofdafbeelding
                     </Button>
                   ) : null}
-                </Stack>
-              </Inline>
+                </Inline>
+              </Stack>
             );
           })}
           <Stack alignItems="center" padding={4} spacing={3}>
