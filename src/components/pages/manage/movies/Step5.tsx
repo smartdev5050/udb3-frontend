@@ -191,10 +191,8 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
         </Stack>
         <Stack
           flex={1}
-          spacing={5}
+          spacing={4}
           padding={4}
-          height={300}
-          overflow="hidden"
           backgroundColor={getValue('pictureUploadBox.backgroundColor')}
           justifyContent="center"
           css={`
@@ -202,54 +200,63 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
           `}
           {...props}
         >
-          {images.map((image) => {
-            const thumbnailSize = 100;
-            return (
-              <Stack key={image.parsedId} spacing={4}>
-                <Inline spacing={4} alignItems="center">
-                  <Image
-                    src={`${image.thumbnailUrl}?width=${thumbnailSize}&height=${thumbnailSize}`}
-                    alt={image.description}
-                    width={thumbnailSize}
-                    height={thumbnailSize}
-                    css="border: 1px solid #999"
-                  />
-                  <Stack spacing={2}>
-                    <Text>{image.description}</Text>
-                    <Text variant={TextVariants.MUTED}>
-                      © {image.copyrightHolder}
-                    </Text>
-                  </Stack>
-                </Inline>
-                <Inline spacing={3}>
-                  <Button
-                    variant={ButtonVariants.PRIMARY}
-                    iconName={Icons.PENCIL}
-                    spacing={3}
-                    onClick={() => handleClickEditImage(image.parsedId)}
-                  >
-                    Wijzigen
-                  </Button>
-                  <Button
-                    variant={ButtonVariants.DANGER}
-                    iconName={Icons.TRASH}
-                    spacing={3}
-                    onClick={() => handleClickDeleteImage(image.parsedId)}
-                  >
-                    Verwijderen
-                  </Button>
-                  {!image.isMain ? (
+          <Stack
+            spacing={5}
+            maxHeight={360}
+            padding={2}
+            css={`
+              overflow: auto;
+            `}
+          >
+            {images.map((image) => {
+              const thumbnailSize = 80;
+              return (
+                <Stack key={image.parsedId} spacing={4}>
+                  <Inline spacing={4} alignItems="center">
+                    <Image
+                      src={`${image.thumbnailUrl}?width=${thumbnailSize}&height=${thumbnailSize}`}
+                      alt={image.description}
+                      width={thumbnailSize}
+                      height={thumbnailSize}
+                      css="border: 1px solid #999"
+                    />
+                    <Stack spacing={2}>
+                      <Text>{image.description}</Text>
+                      <Text variant={TextVariants.MUTED}>
+                        © {image.copyrightHolder}
+                      </Text>
+                    </Stack>
+                  </Inline>
+                  <Inline spacing={3}>
                     <Button
-                      variant={ButtonVariants.SECONDARY}
-                      onClick={() => handleClickSetMainImage(image.parsedId)}
+                      variant={ButtonVariants.PRIMARY}
+                      iconName={Icons.PENCIL}
+                      spacing={3}
+                      onClick={() => handleClickEditImage(image.parsedId)}
                     >
-                      Maak hoofdafbeelding
+                      Wijzigen
                     </Button>
-                  ) : null}
-                </Inline>
-              </Stack>
-            );
-          })}
+                    <Button
+                      variant={ButtonVariants.DANGER}
+                      iconName={Icons.TRASH}
+                      spacing={3}
+                      onClick={() => handleClickDeleteImage(image.parsedId)}
+                    >
+                      Verwijderen
+                    </Button>
+                    {!image.isMain ? (
+                      <Button
+                        variant={ButtonVariants.SECONDARY}
+                        onClick={() => handleClickSetMainImage(image.parsedId)}
+                      >
+                        Maak hoofdafbeelding
+                      </Button>
+                    ) : null}
+                  </Inline>
+                </Stack>
+              );
+            })}
+          </Stack>
           <Stack alignItems="center" padding={4} spacing={3}>
             <Text variant={TextVariants.MUTED} textAlign="center">
               Voeg een afbeelding toe zodat bezoekers je activiteit beter
