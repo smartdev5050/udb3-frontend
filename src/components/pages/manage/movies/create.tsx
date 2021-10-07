@@ -138,7 +138,7 @@ const Create = () => {
       <Page.Title spacing={3} alignItems="center">
         {t(`movies.create.title`)}
       </Page.Title>
-      <Page.Content spacing={5}>
+      <Page.Content spacing={5} paddingBottom={6}>
         {steps.map((Step, index) => (
           <Step
             movieState={movieState}
