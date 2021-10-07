@@ -57,11 +57,16 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
     // @ts-expect-error
     const eventImage = getEventByIdQuery.data?.image;
 
-    return mediaObjects.map((mediaObject) => ({
+    const parsedMediaObjects = mediaObjects.map((mediaObject) => ({
       parsedId: parseOfferId(mediaObject['@id']),
       isMain: mediaObject.contentUrl === eventImage,
       ...mediaObject,
     }));
+
+    return [
+      ...parsedMediaObjects.filter((mediaObject) => mediaObject.isMain),
+      ...parsedMediaObjects.filter((mediaObject) => !mediaObject.isMain),
+    ];
   }, [
     // @ts-expect-error
     getEventByIdQuery.data,
