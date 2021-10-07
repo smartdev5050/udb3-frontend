@@ -201,9 +201,8 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
           {...props}
         >
           <Stack
-            spacing={5}
-            maxHeight={360}
-            padding={2}
+            spacing={2}
+            maxHeight={380}
             css={`
               overflow: auto;
             `}
@@ -211,7 +210,16 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
             {images.map((image) => {
               const thumbnailSize = 80;
               return (
-                <Stack key={image.parsedId} spacing={4}>
+                <Stack
+                  key={image.parsedId}
+                  spacing={4}
+                  padding={4}
+                  backgroundColor={image.isMain ? '#f0f8ff' : 'none'}
+                  css={`
+                    border-bottom: 1px solid
+                      ${image.isMain ? '#a3d4ff' : '#ccc'};
+                  `}
+                >
                   <Inline spacing={4} alignItems="center">
                     <Image
                       src={`${image.thumbnailUrl}?width=${thumbnailSize}&height=${thumbnailSize}`}
