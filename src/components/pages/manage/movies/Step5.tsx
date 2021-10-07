@@ -43,22 +43,31 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
     isPictureDeleteModalVisible,
     setIsPictureDeleteModalVisible,
   ] = useState(false);
+
   const [imageToEditId, setImageToEditId] = useState('');
   const [imageToDeleteId, setImageToDeleteId] = useState('');
 
   // @ts-expect-error
   const getEventByIdQuery = useGetEventById({ id: eventId });
 
-  // @ts-expect-error
-  const images = useMemo(() => getEventByIdQuery.data?.mediaObject ?? [], [
+  const images = useMemo(() => {
+    // @ts-expect-error
+    const mediaObjects = getEventByIdQuery.data?.mediaObject ?? [];
+    // @ts-expect-error
+    const eventImage = getEventByIdQuery.data?.image;
+
+    return mediaObjects.map((mediaObject) => ({
+      parsedId: parseOfferId(mediaObject['@id']),
+      isMain: mediaObject.contentUrl === eventImage,
+      ...mediaObject,
+    }));
+  }, [
     // @ts-expect-error
     getEventByIdQuery.data,
   ]);
 
   const imageToEdit = useMemo(() => {
-    const image = images.find(
-      (image) => parseOfferId(image['@id']) === imageToEditId,
-    );
+    const image = images.find((image) => image.parsedId === imageToEditId);
 
     if (!image) return null;
 
@@ -126,7 +135,7 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
     if (imageToEdit) {
       await updateImageFromEventMutation.mutateAsync({
         eventId,
-        imageId: parseOfferId(imageToEdit['@id']),
+        imageId: imageToEdit.parsedId,
         description,
         copyrightHolder,
       });
@@ -176,37 +185,36 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
           `}
           {...props}
         >
-          {images.map((image) => (
-            <Inline key={image.description} alignItems="center" spacing={3}>
-              <Image
-                src={image.thumbnailUrl}
-                alt={image.description}
-                width={200}
-              />
-              <Stack spacing={3}>
-                <Button
-                  variant={ButtonVariants.PRIMARY}
-                  iconName={Icons.PENCIL}
-                  spacing={3}
-                  onClick={() =>
-                    handleClickEditImage(parseOfferId(image['@id']))
-                  }
-                >
-                  Wijzigen
-                </Button>
-                <Button
-                  variant={ButtonVariants.DANGER}
-                  iconName={Icons.TRASH}
-                  spacing={3}
-                  onClick={() =>
-                    handleClickDeleteImage(parseOfferId(image['@id']))
-                  }
-                >
-                  Verwijderen
-                </Button>
-              </Stack>
-            </Inline>
-          ))}
+          {images.map((image) => {
+            console.log(image);
+            return (
+              <Inline key={image.description} alignItems="center" spacing={3}>
+                <Image
+                  src={image.thumbnailUrl}
+                  alt={image.description}
+                  width={200}
+                />
+                <Stack spacing={3}>
+                  <Button
+                    variant={ButtonVariants.PRIMARY}
+                    iconName={Icons.PENCIL}
+                    spacing={3}
+                    onClick={() => handleClickEditImage(image.parsedId)}
+                  >
+                    Wijzigen
+                  </Button>
+                  <Button
+                    variant={ButtonVariants.DANGER}
+                    iconName={Icons.TRASH}
+                    spacing={3}
+                    onClick={() => handleClickDeleteImage(image.parsedId)}
+                  >
+                    Verwijderen
+                  </Button>
+                </Stack>
+              </Inline>
+            );
+          })}
           <Stack alignItems="center" padding={4} spacing={3}>
             <Text variant={TextVariants.MUTED} textAlign="center">
               Voeg een afbeelding toe zodat bezoekers je activiteit beter
