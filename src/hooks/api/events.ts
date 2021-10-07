@@ -294,6 +294,22 @@ const updateImageFromEvent = async ({
     },
   });
 
+const addEventMainImage = async ({ headers, eventId, imageId }) =>
+  fetchFromApi({
+    path: `/events/${eventId.toString()}/images/main`,
+    options: {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ mediaObjectId: imageId }),
+    },
+  });
+
+const useAddEventMainImage = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: addEventMainImage,
+    ...configuration,
+  });
+
 const useUpdateImageFromEvent = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: updateImageFromEvent,
@@ -316,6 +332,7 @@ const useDeleteImageFromEvent = (configuration = {}) =>
   });
 
 export {
+  useAddEventMainImage,
   useAddImageToEvent,
   useChangeStatus,
   useChangeStatusSubEvents,
