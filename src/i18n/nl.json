@@ -128,6 +128,9 @@
           },
           "copyrightHolder": {
             "required": "Copyright is verplicht."
+          },
+          "file": {
+            "required": "Gelieve een bestand te selecteren van maximum 5Mb. "
           }
         }
       },

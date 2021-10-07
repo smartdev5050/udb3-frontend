@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect, useRef } from 'react';
+import { forwardRef, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -32,6 +32,74 @@ const MAX_FILE_SIZE = 5000000;
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
+// eslint-disable-next-line react/display-name
+const PictureUploadBox = forwardRef(
+  ({ error, image, marginBottom, ...props }, ref) => {
+    const handleClickUpload = () => {
+      document.getElementById('file').click();
+    };
+
+    const imagePreviewUrl = image && URL.createObjectURL(image);
+
+    return (
+      <Stack
+        flex={1}
+        spacing={4}
+        height={300}
+        backgroundColor={getValue('pictureUploadBox.backgroundColor')}
+        justifyContent="center"
+        alignItems="center"
+        css={`
+          border: 1px solid
+            ${getValue(
+              `pictureUploadBox.${error ? 'errorBorderColor' : 'borderColor'}`,
+            )};
+        `}
+        padding={4}
+        marginBottom={marginBottom}
+      >
+        <Text fontWeight={700}>Selecteer je foto</Text>
+        {imagePreviewUrl ? (
+          <Stack spacing={2}>
+            <Image
+              src={imagePreviewUrl}
+              alt="preview"
+              width="auto"
+              maxHeight="8rem"
+              objectFit="cover"
+            />
+            <Text>{image.name}</Text>
+          </Stack>
+        ) : (
+          <Icon
+            name={Icons.IMAGE}
+            width="auto"
+            height="8rem"
+            color={getValue('pictureUploadBox.imageIconColor')}
+          />
+        )}
+        <Stack spacing={3} alignItems="center">
+          <Text>Sleep een bestand hierheen of</Text>
+          <Input
+            id="file"
+            type="file"
+            display="none"
+            accept=".jpg,.jpeg,.gif,.png"
+            ref={ref}
+            {...props}
+          />
+          <Button onClick={handleClickUpload}>Kies bestand</Button>
+          <Text variant={TextVariants.ERROR}>{error}</Text>
+        </Stack>
+        <Text variant={TextVariants.MUTED} textAlign="center">
+          De maximale grootte van je afbeelding is 5MB en heeft als type .jpeg,
+          .gif of .png
+        </Text>
+      </Stack>
+    );
+  },
+);
+
 const PictureUploadModal = ({
   visible,
   onClose,
@@ -49,7 +117,10 @@ const PictureUploadModal = ({
       ...(!imageToEdit && {
         file: yup
           .mixed()
-          .test((fileList: FileList) => fileList?.[0]?.size < MAX_FILE_SIZE)
+          .test(
+            'file_size',
+            (fileList: FileList) => fileList?.[0]?.size < MAX_FILE_SIZE,
+          )
           .required(),
       }),
     })
@@ -67,15 +138,10 @@ const PictureUploadModal = ({
 
   const watchedFile = watch('file');
   const image = watchedFile?.[0];
-  const imagePreviewUrl = image && URL.createObjectURL(image);
 
   useEffect(() => {
     reset(imageToEdit ?? {});
-  }, [imageToEdit, reset]);
-
-  const handleClickUpload = () => {
-    document.getElementById('file').click();
-  };
+  }, [imageToEdit, reset, visible]);
 
   return (
     <Modal
@@ -98,64 +164,20 @@ const PictureUploadModal = ({
         ref={formComponent}
         spacing={4}
         padding={4}
-        onSubmit={handleSubmit(
-          async (data) => {
-            await onSubmitValid(data);
-            reset({});
-          },
-          (data) => console.log('INVALID', data),
-        )}
+        onSubmit={handleSubmit(async (data) => {
+          await onSubmitValid(data);
+          reset({});
+        })}
       >
         {!imageToEdit && (
-          <Stack
-            flex={1}
-            spacing={4}
-            height={300}
-            backgroundColor={getValue('pictureUploadBox.backgroundColor')}
-            justifyContent="center"
-            alignItems="center"
-            css={`
-              border: 1px solid ${getValue('pictureUploadBox.borderColor')};
-            `}
-            padding={4}
-          >
-            <Text fontWeight={700}>Selecteer je foto</Text>
-            {imagePreviewUrl ? (
-              <Stack spacing={2}>
-                <Image
-                  src={imagePreviewUrl}
-                  alt="preview"
-                  width="auto"
-                  maxHeight="8rem"
-                  objectFit="cover"
-                />
-                <Text>{image.name}</Text>
-              </Stack>
-            ) : (
-              <Icon
-                name={Icons.IMAGE}
-                width="auto"
-                height="8rem"
-                color={getValue('pictureUploadBox.imageIconColor')}
-              />
-            )}
-            <Stack spacing={2} alignItems="center">
-              <Text>Sleep een bestand hierheen of</Text>
-              <Input
-                id="file"
-                type="file"
-                display="none"
-                accept=".jpg,.jpeg,.gif,.png"
-                {...register('file')}
-              />
-              <Button onClick={handleClickUpload}>Kies bestand</Button>
-              <Text>{errors?.file?.message ?? ''}</Text>
-            </Stack>
-            <Text variant={TextVariants.MUTED} textAlign="center">
-              De maximale grootte van je afbeelding is 5MB en heeft als type
-              .jpeg, .gif of .png
-            </Text>
-          </Stack>
+          <PictureUploadBox
+            image={image}
+            error={
+              errors.file &&
+              t(`movies.create.edit_modal.validation_messages.file.required`)
+            }
+            {...register('file')}
+          />
         )}
         <InputWithLabel
           id="description"

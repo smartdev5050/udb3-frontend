@@ -7,16 +7,22 @@ const getValue = getValueFromTheme('text');
 const TextVariants = {
   REGULAR: 'regular',
   MUTED: 'muted',
+  ERROR: 'error',
 };
 
 type Props = BoxProps;
+
+const getColor = (variant) => {
+  if (variant === TextVariants.MUTED) return getValue('muted.color');
+  if (variant === TextVariants.ERROR) return getValue('error.color');
+};
 
 const Text = ({ as, children, className, variant, ...props }: Props) => {
   return (
     <Box
       as={as}
       className={className}
-      color={variant === TextVariants.MUTED && getValue('muted.color')}
+      color={getColor(variant)}
       {...getBoxProps(props)}
     >
       {children}

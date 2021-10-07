@@ -23,6 +23,7 @@ const colors = {
   red3: '#d23430',
   red4: '#900d09',
   red5: '#ef1810',
+  red: 'red',
   blue1: '#3e88ab',
   textColor: '#222',
 } as const;
@@ -268,6 +269,7 @@ const theme = {
       pictureUploadBox: {
         backgroundColor: colors.white,
         borderColor: colors.grey2,
+        errorBorderColor: colors.red1,
         imageIconColor: colors.grey5,
       },
     },
@@ -287,6 +289,9 @@ const theme = {
     text: {
       muted: {
         color: colors.grey5,
+      },
+      error: {
+        color: colors.red,
       },
     },
   },
