@@ -12,6 +12,7 @@ const colors = {
   grey3: '#ddd',
   grey4: '#f5f5f5',
   grey5: '#777777',
+  grey6: '#999999',
   green1: '#5cb85c',
   green2: '#449d44',
   green3: '#48874a',
@@ -24,7 +25,9 @@ const colors = {
   red4: '#900d09',
   red5: '#ef1810',
   red: 'red',
-  blue1: '#3e88ab',
+  blue1: '#f0f8ff',
+  blue2: '#a3d4ff',
+  blue3: '#3e88ab',
   textColor: '#222',
 } as const;
 
@@ -205,7 +208,7 @@ const theme = {
         remarkFillColor: colors.white,
       },
       busy: {
-        spinnerStrokeColor: colors.blue1,
+        spinnerStrokeColor: colors.blue3,
         backgroundColor: colors.white,
       },
       complete: {
@@ -271,6 +274,10 @@ const theme = {
         borderColor: colors.grey2,
         errorBorderColor: colors.red1,
         imageIconColor: colors.grey5,
+        imageBorderColor: colors.grey2,
+        mainImageBackgroundColor: colors.blue1,
+        mainImageBorderColor: colors.blue2,
+        thumbnailBorderColor: colors.grey6,
       },
     },
     tabs: {

@@ -215,12 +215,20 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
                   key={image.parsedId}
                   spacing={4}
                   padding={4}
-                  backgroundColor={image.isMain ? '#f0f8ff' : 'none'}
+                  backgroundColor={
+                    image.isMain
+                      ? getValue('pictureUploadBox.mainImageBackgroundColor')
+                      : 'none'
+                  }
                   css={`
                     border-bottom: 1px solid
                       ${image.isMain
-                        ? '#a3d4ff'
-                        : `${isLastItem ? 'none' : '#ccc'}`};
+                        ? getValue('pictureUploadBox.mainImageBorderColor')
+                        : `${
+                            isLastItem
+                              ? 'none'
+                              : getValue('pictureUploadBox.imageBorderColor')
+                          }`};
                   `}
                 >
                   <Inline spacing={4} alignItems="center">
@@ -229,7 +237,10 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
                       alt={image.description}
                       width={thumbnailSize}
                       height={thumbnailSize}
-                      css="border: 1px solid #999"
+                      css={`
+                        border: 1px solid
+                          ${getValue('pictureUploadBox.thumbnailBorderColor')};
+                      `}
                     />
                     <Stack spacing={2}>
                       <Text>{image.description}</Text>
