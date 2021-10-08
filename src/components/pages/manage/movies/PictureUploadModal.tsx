@@ -29,6 +29,7 @@ type PictureUploadModalProps = {
 };
 
 const MAX_FILE_SIZE = 5000000;
+const ALLOWED_FILE_TYPES = ['png', 'jpg', 'jpeg', 'gif'];
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
@@ -110,6 +111,8 @@ const PictureUploadModal = ({
   const { t } = useTranslation();
   const formComponent = useRef<HTMLFormElement>();
 
+  const allowedFileTypes = ['png', 'gif'];
+
   const schema = yup
     .object()
     .shape({
@@ -118,10 +121,13 @@ const PictureUploadModal = ({
       ...(!imageToEdit && {
         file: yup
           .mixed()
-          .test(
-            'file_size',
-            (fileList: FileList) => fileList?.[0]?.size < MAX_FILE_SIZE,
-          )
+          .test('type', (fileList: FileList) => {
+            const fileType = fileList?.[0]?.type.split('/').pop();
+            return ALLOWED_FILE_TYPES.includes(fileType);
+          })
+          .test('size', (fileList: FileList) => {
+            return fileList?.[0]?.size < MAX_FILE_SIZE;
+          })
           .required(),
       }),
     })
@@ -175,7 +181,9 @@ const PictureUploadModal = ({
             image={image}
             error={
               errors.file &&
-              t(`movies.create.edit_modal.validation_messages.file.required`)
+              t(
+                `movies.create.edit_modal.validation_messages.file.${errors.file.type}`,
+              )
             }
             {...register('file')}
           />

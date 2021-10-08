@@ -130,7 +130,9 @@
             "required": "Copyright is verplicht."
           },
           "file": {
-            "required": "Gelieve een bestand te selecteren van maximum 5Mb. "
+            "size": "Het bestand dat je selecteerde is groter dan 5MB.",
+            "type": "Het bestand dat je selecteerde is geen geldig bestandstype",
+            "required": "Gelieve een bestand te selecteren"
           }
         }
       },
