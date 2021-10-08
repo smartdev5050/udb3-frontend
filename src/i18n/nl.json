@@ -106,11 +106,21 @@
   "movies": {
     "create": {
       "title": "Films toevoegen",
-      "step1_title": "Wat voor film wil je invoeren?",
-      "step2_title": "Wanneer vindt de film plaats?",
-      "step3_title": "Waar vindt de film plaats?",
-      "step4_title": "Hoe noemt de film?",
-      "step5_title": "Laat je film extra opvallen.",
+      "step1": {
+        "title": "Wat voor film wil je invoeren?"
+      },
+      "step2": {
+        "title": "Wanneer vindt de film plaats?"
+      },
+      "step3": {
+        "title": "Waar vindt de film plaats?"
+      },
+      "step4": {
+        "title": "Hoe noemt de film?"
+      },
+      "step5": {
+        "title": "Laat je film extra opvallen."
+      },
       "actions": {
         "change_theme": "Wijzig thema",
         "copy_table": "Kopieer tabel",
@@ -119,29 +129,43 @@
         "choose_name": "Kies een naam",
         "description": "Beschrijving"
       },
-      "edit_modal": {
-        "title": "Afbeelding toevoegen",
-        "validation_messages": {
-          "description": {
-            "required": "Beschrijving is verplicht.",
-            "max": "Beschrijving mag maximaal 250 karakters bevatten."
+      "picture": {
+        "intro": "Voeg een afbeelding toe zodat bezoekers je activiteit beter herkennen",
+        "add_button": "Afbeelding toevoegen",
+        "delete": "Verwijderen",
+        "change": "Wijzigen",
+        "set_as_main_image": "Maak hoofdafbeelding",
+        "upload_modal": {
+          "title": "Afbeelding toevoegen",
+          "choose_file": "Kies bestand",
+          "file_requirements": "De maximale grootte van je afbeelding is 5MB en heeft als type .jpeg, .gif of .png",
+          "disclaimer": {
+            "copyright": "Vermeld de naam van de rechtenhoudende fotograaf. Vul alleen de naam van je eigen vereniging of organisatie in als je zelf de rechten bezit (minimum 2 karakters).",
+            "terms_and_conditions": "Je staat op het punt (een) afbeelding(en) toe te voegen en openbaar te verspreiden. Je dient daartoe alle geldende auteurs- en portretrechten te respecteren, alsook alle andere toepasselijke wetgeving. Je kan daarvoor aansprakelijk worden gehouden, zoals vastgelegd in de algemene voorwaarden. Meer informatie over copyright"
           },
-          "copyrightHolder": {
-            "required": "Copyright is verplicht."
-          },
-          "file": {
-            "size": "Het bestand dat je selecteerde is groter dan 5MB.",
-            "type": "Het bestand dat je selecteerde is geen geldig bestandstype",
-            "required": "Gelieve een bestand te selecteren"
+          "required_field": "verplicht veld",
+          "validation_messages": {
+            "description": {
+              "required": "Beschrijving is verplicht.",
+              "max": "Beschrijving mag maximaal 250 karakters bevatten."
+            },
+            "copyrightHolder": {
+              "required": "Copyright is verplicht."
+            },
+            "file": {
+              "size": "Het bestand dat je selecteerde is groter dan 5MB.",
+              "type": "Het bestand dat je selecteerde is geen geldig bestandstype",
+              "required": "Gelieve een bestand te selecteren"
+            }
           }
-        }
-      },
-      "delete_modal": {
-        "title": "Afbeeldingen verwijderen",
-        "description": "Ben je zeker dat je deze afbeelding wil verwijderen?",
-        "actions": {
-          "cancel": "Annuleren",
-          "confirm": "Verwijderen"
+        },
+        "delete_modal": {
+          "title": "Afbeeldingen verwijderen",
+          "description": "Ben je zeker dat je deze afbeelding wil verwijderen?",
+          "actions": {
+            "cancel": "Annuleren",
+            "confirm": "Verwijderen"
+          }
         }
       }
     }

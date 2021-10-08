@@ -256,7 +256,7 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
                       spacing={3}
                       onClick={() => handleClickEditImage(image.parsedId)}
                     >
-                      Wijzigen
+                      {t('movies.create.picture.change')}
                     </Button>
                     <Button
                       variant={ButtonVariants.DANGER}
@@ -264,14 +264,14 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
                       spacing={3}
                       onClick={() => handleClickDeleteImage(image.parsedId)}
                     >
-                      Verwijderen
+                      {t('movies.create.picture.delete')}
                     </Button>
                     {!image.isMain ? (
                       <Button
                         variant={ButtonVariants.SECONDARY}
                         onClick={() => handleClickSetMainImage(image.parsedId)}
                       >
-                        Maak hoofdafbeelding
+                        {t('movies.create.picture.set_as_main_image')}
                       </Button>
                     ) : null}
                   </Inline>
@@ -281,14 +281,13 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
           </Stack>
           <Stack alignItems="center" padding={4} spacing={3}>
             <Text variant={TextVariants.MUTED} textAlign="center">
-              Voeg een afbeelding toe zodat bezoekers je activiteit beter
-              herkennen
+              {t('movies.create.picture.intro')}
             </Text>
             <Button
               variant={ButtonVariants.SECONDARY}
               onClick={handleClickAddImage}
             >
-              Afbeelding toevoegen
+              {t('movies.create.picture.add_button')}
             </Button>
           </Stack>
         </Stack>

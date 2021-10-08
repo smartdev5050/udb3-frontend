@@ -40,6 +40,8 @@ const PictureUploadBox = forwardRef(
       document.getElementById('file').click();
     };
 
+    const { t } = useTranslation();
+
     const imagePreviewUrl = image && URL.createObjectURL(image);
 
     return (
@@ -90,12 +92,13 @@ const PictureUploadBox = forwardRef(
             ref={ref}
             {...props}
           />
-          <Button onClick={handleClickUpload}>Kies bestand</Button>
+          <Button onClick={handleClickUpload}>
+            {t('movies.create.picture.upload_modal.choose_file')}
+          </Button>
           <Text variant={TextVariants.ERROR}>{error}</Text>
         </Stack>
         <Text variant={TextVariants.MUTED} textAlign="center">
-          De maximale grootte van je afbeelding is 5MB en heeft als type .jpeg,
-          .gif of .png
+          {t('movies.create.picture.upload_modal.file_requirements')}
         </Text>
       </Stack>
     );
@@ -150,7 +153,7 @@ const PictureUploadModal = ({
 
   return (
     <Modal
-      title={t('movies.create.edit_modal.title')}
+      title={t('movies.create.picture.upload_modal.title')}
       visible={visible}
       variant={ModalVariants.QUESTION}
       onClose={onClose}
@@ -180,7 +183,7 @@ const PictureUploadModal = ({
             error={
               errors.file &&
               t(
-                `movies.create.edit_modal.validation_messages.file.${errors.file.type}`,
+                `movies.create.picture.upload_modal.validation_messages.file.${errors.file.type}`,
               )
             }
             {...register('file')}
@@ -194,7 +197,7 @@ const PictureUploadModal = ({
           error={
             errors.description &&
             t(
-              `movies.create.edit_modal.validation_messages.description.${errors.description.type}`,
+              `movies.create.picture.upload_modal.validation_messages.description.${errors.description.type}`,
             )
           }
           {...register('description')}
@@ -207,30 +210,26 @@ const PictureUploadModal = ({
           info={
             <Stack spacing={3}>
               <Paragraph>
-                Vermeld de naam van de rechtenhoudende fotograaf. Vul alleen de
-                naam van je eigen vereniging of organisatie in als je zelf de
-                rechten bezit (minimum 2 karakters).
+                {t('movies.create.picture.upload_modal.disclaimer.copyright')}
               </Paragraph>
               <Paragraph>
-                Je staat op het punt (een) afbeelding(en) toe te voegen en
-                openbaar te verspreiden. Je dient daartoe alle geldende auteurs-
-                en portretrechten te respecteren, alsook alle andere
-                toepasselijke wetgeving. Je kan daarvoor aansprakelijk worden
-                gehouden, zoals vastgelegd in de algemene voorwaarden. Meer
-                informatie over copyright
+                {t(
+                  'movies.create.picture.upload_modal.disclaimer.terms_and_conditions',
+                )}
               </Paragraph>
             </Stack>
           }
           error={
             errors.copyrightHolder &&
             t(
-              `movies.create.edit_modal.validation_messages.copyrightHolder.${errors.copyrightHolder.type}`,
+              `movies.create.picture.upload_modal.validation_messages.copyrightHolder.${errors.copyrightHolder.type}`,
             )
           }
           {...register('copyrightHolder')}
         />
         <Text>
-          <Text color="red">*</Text> verplicht veld
+          <Text color="red">*</Text>
+          {t(`movies.create.picture.upload_modal.required_field`)}
         </Text>
       </Stack>
     </Modal>
