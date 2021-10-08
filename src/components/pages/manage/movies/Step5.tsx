@@ -207,8 +207,9 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
               overflow: auto;
             `}
           >
-            {images.map((image) => {
+            {images.map((image, index, imagesArr) => {
               const thumbnailSize = 80;
+              const isLastItem = index === imagesArr.length - 1;
               return (
                 <Stack
                   key={image.parsedId}
@@ -217,7 +218,9 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
                   backgroundColor={image.isMain ? '#f0f8ff' : 'none'}
                   css={`
                     border-bottom: 1px solid
-                      ${image.isMain ? '#a3d4ff' : '#ccc'};
+                      ${image.isMain
+                        ? '#a3d4ff'
+                        : `${isLastItem ? 'none' : '#ccc'}`};
                   `}
                 >
                   <Inline spacing={4} alignItems="center">
