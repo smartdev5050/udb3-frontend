@@ -84,6 +84,7 @@ const PictureUploadBox = forwardRef(
             id="file"
             type="file"
             display="none"
+            name="file"
             accept=".jpg,.jpeg,.gif,.png"
             ref={ref}
             {...props}
