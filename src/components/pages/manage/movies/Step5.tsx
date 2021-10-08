@@ -22,7 +22,7 @@ import { getValueFromTheme } from '@/ui/theme';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 import type { MachineProps } from './create';
-import { DeleteModal } from './DeleteModal';
+import { PictureDeleteModal } from './PictureDeleteModal';
 import type { FormData } from './PictureUploadModal';
 import { PictureUploadModal } from './PictureUploadModal';
 import { Step } from './Step';
@@ -174,7 +174,7 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
         imageToEdit={imageToEdit}
         onSubmitValid={handleSubmitValid}
       />
-      <DeleteModal
+      <PictureDeleteModal
         visible={isPictureDeleteModalVisible}
         onConfirm={() => handleConfirmDelete(imageToDeleteId)}
         onClose={() => setIsPictureDeleteModalVisible(false)}
