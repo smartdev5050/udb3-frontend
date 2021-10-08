@@ -9,7 +9,7 @@ type Props = {
   onClose: () => void;
 };
 
-const DeleteModal = ({ visible, onConfirm, onClose }: Props) => {
+const PictureDeleteModal = ({ visible, onConfirm, onClose }: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -19,12 +19,14 @@ const DeleteModal = ({ visible, onConfirm, onClose }: Props) => {
       onConfirm={onConfirm}
       onClose={onClose}
       title={t('movies.create.delete_modal.title')}
-      confirmTitle={t('movies.create.delete_modal.actions.confirm')}
-      cancelTitle={t('movies.create.delete_modal.actions.cancel')}
+      confirmTitle={t('movies.create.picture.delete_modal.actions.confirm')}
+      cancelTitle={t('movies.create.picture.delete_modal.actions.cancel')}
     >
-      <Box padding={4}>{t('movies.create.delete_modal.description')}</Box>
+      <Box padding={4}>
+        {t('movies.create.picture.delete_modal.description')}
+      </Box>
     </Modal>
   );
 };
 
-export { DeleteModal };
+export { PictureDeleteModal };
