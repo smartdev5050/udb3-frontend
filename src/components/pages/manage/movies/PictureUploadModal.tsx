@@ -86,7 +86,7 @@ const PictureUploadBox = forwardRef(
             type="file"
             display="none"
             name="file"
-            accept=".jpg,.jpeg,.gif,.png"
+            accept={ALLOWED_FILE_TYPES.map((file) => `.${file}`).join(',')}
             ref={ref}
             {...props}
           />
@@ -110,8 +110,6 @@ const PictureUploadModal = ({
 }: PictureUploadModalProps) => {
   const { t } = useTranslation();
   const formComponent = useRef<HTMLFormElement>();
-
-  const allowedFileTypes = ['png', 'gif'];
 
   const schema = yup
     .object()
