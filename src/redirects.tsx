@@ -69,6 +69,11 @@ const getRedirects = (
     destination: '/places/:placeId/availability',
     permanent: environment !== 'development',
   },
+  {
+    source: '/:language/copyright',
+    destination: '/copyright',
+    permanent: environment !== 'development',
+  },
   ...(language !== 'nl'
     ? [
         {
