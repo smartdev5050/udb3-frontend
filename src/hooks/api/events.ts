@@ -331,9 +331,23 @@ const useDeleteImageFromEvent = (configuration = {}) =>
     ...configuration,
   });
 
+const changeDescription = async ({ headers, eventId, language, description }) =>
+  fetchFromApi({
+    path: `/event/${eventId}/${language}/description`,
+    options: {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ description }),
+    },
+  });
+
+const useChangeDescription = (configuration = {}) =>
+  useAuthenticatedMutation({ mutationFn: changeDescription, ...configuration });
+
 export {
   useAddEventMainImage,
   useAddImageToEvent,
+  useChangeDescription,
   useChangeStatus,
   useChangeStatusSubEvents,
   useDeleteEventById,
