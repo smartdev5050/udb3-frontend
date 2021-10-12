@@ -1,8 +1,10 @@
-import PropTypes from 'prop-types';
-
 import { Label, LabelVariants } from './Label';
+import type { StackProps } from './Stack';
 import { getStackProps, Stack } from './Stack';
+import type { TextAreaProps } from './TextArea';
 import { TextArea } from './TextArea';
+
+type Props = StackProps & TextAreaProps & { label: string; id: string };
 
 const TextAreaWithLabel = ({
   id,
@@ -13,14 +15,14 @@ const TextAreaWithLabel = ({
   disabled,
   rows,
   ...props
-}) => {
+}: Props) => {
   return (
     <Stack
       as="div"
       spacing={2}
       className={className}
-      {...getStackProps(props)}
       flex={1}
+      {...getStackProps(props)}
     >
       <Label htmlFor={id} variant={LabelVariants.BOLD}>
         {label}
@@ -34,16 +36,6 @@ const TextAreaWithLabel = ({
       />
     </Stack>
   );
-};
-
-TextAreaWithLabel.propTypes = {
-  id: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  className: PropTypes.string,
-  value: PropTypes.string,
-  onInput: PropTypes.func,
-  rows: PropTypes.number,
-  disabled: PropTypes.bool,
 };
 
 export { TextAreaWithLabel };
