@@ -1,9 +1,11 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import type { FormEvent } from 'react';
 import { forwardRef, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
+import type { BoxProps } from '@/ui/Box';
 import { Button } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
 import { Image } from '@/ui/Image';
@@ -33,9 +35,21 @@ const ALLOWED_FILE_TYPES = ['png', 'jpg', 'jpeg', 'gif'];
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
+type RegisterProps = {
+  onChange: (event: FormEvent<HTMLInputElement>) => void;
+  onBlur: (event: FormEvent<HTMLInputElement>) => void;
+  name: string;
+};
+
+type Props = {
+  error: any;
+  image: any;
+  marginBottom?: number;
+} & RegisterProps;
+
 // eslint-disable-next-line react/display-name
-const PictureUploadBox = forwardRef(
-  ({ error, image, marginBottom, ...props }, ref) => {
+const PictureUploadBox = forwardRef<HTMLInputElement, Props>(
+  ({ error, image, marginBottom, children, ...registerFileProps }, ref) => {
     const handleClickUpload = () => {
       document.getElementById('file').click();
     };
@@ -89,7 +103,7 @@ const PictureUploadBox = forwardRef(
             display="none"
             accept={ALLOWED_FILE_TYPES.map((file) => `.${file}`).join(',')}
             ref={ref}
-            {...props}
+            {...registerFileProps}
           />
           <Button onClick={handleClickUpload}>
             {t('movies.create.picture.upload_modal.choose_file')}
