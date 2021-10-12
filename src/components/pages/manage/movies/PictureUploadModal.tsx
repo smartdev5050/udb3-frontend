@@ -87,7 +87,6 @@ const PictureUploadBox = forwardRef(
             id="file"
             type="file"
             display="none"
-            name="file"
             accept={ALLOWED_FILE_TYPES.map((file) => `.${file}`).join(',')}
             ref={ref}
             {...props}
