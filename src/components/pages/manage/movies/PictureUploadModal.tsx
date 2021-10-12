@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
-import type { BoxProps } from '@/ui/Box';
 import { Button } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
 import { Image } from '@/ui/Image';
