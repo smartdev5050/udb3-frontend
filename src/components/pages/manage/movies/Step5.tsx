@@ -1,6 +1,9 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useMemo, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
+import * as yup from 'yup';
 
 import {
   useAddEventMainImage,
@@ -45,6 +48,7 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
     setIsPictureDeleteModalVisible,
   ] = useState(false);
 
+  const [description, setDescription] = useState('');
   const [imageToEditId, setImageToEditId] = useState('');
   const [imageToDeleteId, setImageToDeleteId] = useState('');
 
@@ -184,11 +188,16 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
           <TextAreaWithLabel
             id="movie-description"
             label={t('movies.create.actions.description')}
-            value=""
-            onInput={() => {}}
             rows={10}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
           />
-          <Button variant={ButtonVariants.LINK}>leegmaken</Button>
+          <Button
+            variant={ButtonVariants.LINK}
+            onClick={() => setDescription('')}
+          >
+            leegmaken
+          </Button>
         </Stack>
         <Stack
           flex={1}
