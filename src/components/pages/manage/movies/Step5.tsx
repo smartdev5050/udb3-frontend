@@ -182,6 +182,7 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
       <Inline spacing={6}>
         <Stack spacing={3} flex={1}>
           <TextAreaWithLabel
+            id="movie-description"
             label={t('movies.create.actions.description')}
             value=""
             onInput={() => {}}

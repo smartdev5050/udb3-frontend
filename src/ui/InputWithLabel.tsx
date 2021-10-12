@@ -24,7 +24,7 @@ type Props = InlineProps &
     required?: boolean;
     ref?: Ref<HTMLInputElement>;
     error?: string;
-    name: string;
+    name?: string;
   };
 
 const InputWithLabel = forwardRef(

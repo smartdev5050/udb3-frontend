@@ -41,7 +41,7 @@ type InputProps = {
   placeholder?: string;
   value?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-  name: string;
+  name?: string;
   isInvalid?: boolean;
   accept?: string;
 };
