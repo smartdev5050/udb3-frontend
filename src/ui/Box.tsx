@@ -112,11 +112,11 @@ type SpecificComponentProps = InlineProps &
 type EventHandlerProps = {
   onBlur: (event: FormEvent<HTMLInputElement>) => void;
   onChange:
-    | ((event: ChangeEvent<HTMLInputElement>) => void)
+    | ((event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void)
     | ((value: Date) => void)
     | ((value: unknown) => void);
   onClick: (event: MouseEvent<HTMLElement>) => void;
-  onInput: (event: ChangeEvent<HTMLInputElement>) => void;
+  onInput: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   onInputChange: (value: string) => void;
   onMouseOver: (event: MouseEvent<HTMLFormElement>) => void;
   onPaste: (event: ClipboardEvent<HTMLFormElement>) => void;
