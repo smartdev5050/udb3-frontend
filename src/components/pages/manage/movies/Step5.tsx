@@ -53,6 +53,8 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
   // @ts-expect-error
   const getEventByIdQuery = useGetEventById({ id: eventId });
 
+  const changeDescriptionMutation = useChangeDescription();
+
   const images = useMemo(() => {
     // @ts-expect-error
     const mediaObjects = getEventByIdQuery.data?.mediaObject ?? [];
@@ -169,8 +171,22 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
   };
 
   const handleBlurDescription = () => {
-    // if (!description) return;
-    // TODO: do api call to update deszcription
+    if (!description) return;
+
+    changeDescriptionMutation.mutate({
+      description,
+      language: i18n.language,
+      eventId,
+    });
+  };
+
+  const handleClickClearDescription = () => {
+    setDescription('');
+    changeDescriptionMutation.mutate({
+      description: '',
+      language: i18n.language,
+      eventId,
+    });
   };
 
   return (
@@ -198,7 +214,7 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
           />
           <Button
             variant={ButtonVariants.LINK}
-            onClick={() => setDescription('')}
+            onClick={handleClickClearDescription}
           >
             leegmaken
           </Button>
