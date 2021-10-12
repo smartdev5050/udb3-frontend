@@ -170,6 +170,11 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
     });
   };
 
+  const handleBlurDescription = () => {
+    // if (!description) return;
+    // TODO: do api call to update deszcription
+  };
+
   return (
     <Step stepNumber={5}>
       <PictureUploadModal
@@ -191,6 +196,7 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
             rows={10}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            onBlur={handleBlurDescription}
           />
           <Button
             variant={ButtonVariants.LINK}
