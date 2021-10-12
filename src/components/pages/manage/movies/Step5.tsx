@@ -1,13 +1,11 @@
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useMemo, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
-import * as yup from 'yup';
 
 import {
   useAddEventMainImage,
   useAddImageToEvent,
+  useChangeDescription,
   useDeleteImageFromEvent,
   useGetEventById,
   useUpdateImageFromEvent,
