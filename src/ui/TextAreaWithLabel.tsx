@@ -25,18 +25,6 @@ const TextAreaWithLabel = forwardRef<HTMLInputElement, Props>(
     }: Props,
     ref,
   ) => {
-    console.log({
-      id,
-      label,
-      className,
-      onInput,
-      disabled,
-      rows,
-      onChange,
-      value,
-      name,
-      ...props,
-    });
     return (
       <Stack
         as="div"
