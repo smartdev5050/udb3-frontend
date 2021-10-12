@@ -19,6 +19,7 @@ const TextAreaWithLabel = forwardRef<HTMLInputElement, Props>(
       disabled,
       rows,
       onChange,
+      onBlur,
       value,
       name,
       ...props
@@ -41,6 +42,7 @@ const TextAreaWithLabel = forwardRef<HTMLInputElement, Props>(
           rows={rows}
           onInput={onInput}
           onChange={onChange}
+          onBlur={onBlur}
           value={value}
           disabled={disabled}
           ref={ref}

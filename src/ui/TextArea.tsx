@@ -22,7 +22,18 @@ BaseInput.displayName = 'BaseInput';
 
 const TextArea = forwardRef<HTMLInputElement, Props>(
   (
-    { id, className, onInput, value, disabled, rows, onChange, name, ...props },
+    {
+      id,
+      className,
+      onInput,
+      value,
+      disabled,
+      rows,
+      onChange,
+      onBlur,
+      name,
+      ...props
+    },
     ref,
   ) => {
     return (
@@ -34,6 +45,7 @@ const TextArea = forwardRef<HTMLInputElement, Props>(
         minHeight="4rem"
         onInput={onInput}
         onChange={onChange}
+        onBlur={onBlur}
         value={value}
         disabled={disabled}
         css="border-radius: 0;"
