@@ -223,15 +223,10 @@ const PictureUploadModal = ({
         ref={formComponent}
         spacing={4}
         padding={4}
-        onSubmit={(e) => {
-          console.log('In on submit');
-
-          e.preventDefault();
-          handleSubmit(async (data) => {
-            await onSubmitValid(data);
-            reset({});
-          })(e);
-        }}
+        onSubmit={handleSubmit(async (data) => {
+          await onSubmitValid(data);
+          reset({});
+        })}
       >
         {!imageToEdit && (
           <PictureUploadBox
