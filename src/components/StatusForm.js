@@ -43,7 +43,6 @@ const StatusForm = ({
     <Stack spacing={5} {...getStackProps(props)}>
       <RadioButtonGroup
         key="offerStatus"
-        groupLabel={t('offerStatus.newStatus')}
         name="offerStatus"
         items={radioButtonItems}
         selected={statusType}
