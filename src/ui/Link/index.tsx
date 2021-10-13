@@ -93,7 +93,6 @@ type LinkProps = BaseLinkProps & {
   suffix?: ReactNode;
 };
 
-// TODO move linkCSS to folder with index.ts
 const Link = ({
   href,
   iconName,
