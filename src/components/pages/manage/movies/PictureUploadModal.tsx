@@ -283,6 +283,7 @@ const PictureUploadModal = ({
           <Text color="red">*</Text>
           {t(`movies.create.picture.upload_modal.required_field`)}
         </Text>
+        <Button type="submit" display="none" />
       </Stack>
     </Modal>
   );
