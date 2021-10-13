@@ -18,7 +18,8 @@ type TypeaheadProps<T> = {
   onChange?: (value: T[]) => void;
 };
 
-type Props<T> = Omit<BoxProps, 'onChange'> & TypeaheadProps<T>;
+type Props<T> = Omit<BoxProps, 'onChange'> &
+  TypeaheadProps<T> & { isInvalid?: boolean };
 
 type TypeaheadFunc = (<T>(
   props: Props<T> & { ref: ForwardedRef<HTMLInputElement> },
@@ -41,6 +42,7 @@ const Typeahead: TypeaheadFunc = forwardRef(
       onInputChange,
       onSearch,
       onChange,
+      isInvalid,
       ...props
     }: Props<T>,
     ref: ForwardedRef<HTMLInputElement>,
@@ -77,6 +79,7 @@ const Typeahead: TypeaheadFunc = forwardRef(
         delay={275}
         highlightOnlyResult
         ref={ref}
+        isInvalid={isInvalid}
         {...getBoxProps(props)}
       />
     );

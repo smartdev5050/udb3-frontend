@@ -97,6 +97,7 @@ type TypeaheadProps = {
   minLength: number;
   delay: number;
   highlightOnlyResult: boolean;
+  isInvalid: boolean;
 };
 
 type SpecificComponentProps = InlineProps &
