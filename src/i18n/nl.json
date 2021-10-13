@@ -127,7 +127,8 @@
         "change_cinema": "Wijzig bioscoop",
         "choose_cinema": "Kies een bioscoop",
         "choose_name": "Kies een naam",
-        "description": "Beschrijving"
+        "description": "Beschrijving",
+        "clear": "Leegmaken"
       },
       "picture": {
         "intro": "Voeg een afbeelding toe zodat bezoekers je activiteit beter herkennen",

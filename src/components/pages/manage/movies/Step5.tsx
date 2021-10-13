@@ -216,7 +216,7 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
             variant={ButtonVariants.LINK}
             onClick={handleClickClearDescription}
           >
-            leegmaken
+            {t('movies.create.actions.clear')}
           </Button>
         </Stack>
         <Stack
