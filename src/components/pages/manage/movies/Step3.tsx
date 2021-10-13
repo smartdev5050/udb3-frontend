@@ -22,7 +22,12 @@ const getValue = getValueFromTheme('moviesCreatePage');
 
 type Step3Props = StackProps & MachineProps;
 
-const Step3 = ({ movieState, sendMovieEvent, ...props }: Step3Props) => {
+const Step3 = ({
+  movieState,
+  sendMovieEvent,
+  isInvalid,
+  ...props
+}: Step3Props) => {
   const { t, i18n } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
 
@@ -45,6 +50,7 @@ const Step3 = ({ movieState, sendMovieEvent, ...props }: Step3Props) => {
       <Stack {...getStackProps(props)}>
         {movieState.context.cinema === null ? (
           <TypeaheadWithLabel<Place>
+            error={isInvalid ? 'this is an error' : undefined}
             id="step3-cinema-typeahead"
             label={t('movies.create.actions.choose_cinema')}
             options={cinemas}

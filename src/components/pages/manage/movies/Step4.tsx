@@ -13,7 +13,12 @@ import { Step } from './Step';
 
 type Step4Props = StackProps & MachineProps;
 
-const Step4 = ({ movieState, sendMovieEvent, ...props }: Step4Props) => {
+const Step4 = ({
+  movieState,
+  sendMovieEvent,
+  isInvalid,
+  ...props
+}: Step4Props) => {
   const { t } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
 
@@ -34,6 +39,7 @@ const Step4 = ({ movieState, sendMovieEvent, ...props }: Step4Props) => {
   return (
     <Step stepNumber={4}>
       <TypeaheadWithLabel<Production>
+        error={isInvalid ? 'this is another error' : undefined}
         id="step4-name-typeahead"
         label={t('movies.create.actions.choose_name')}
         options={productions}
