@@ -28,7 +28,7 @@ const DatePeriodPicker = ({
 
   return (
     <Inline as="div" spacing={5} {...getInlineProps(props)}>
-      <Stack as="div">
+      <Stack spacing={2} as="div">
         <Label variant={LabelVariants.BOLD} htmlFor={`${idPrefix}-start`}>
           {t('time_table.start')}
         </Label>
@@ -43,7 +43,7 @@ const DatePeriodPicker = ({
           }}
         />
       </Stack>
-      <Stack as="div">
+      <Stack spacing={2} as="div">
         <Label variant={LabelVariants.BOLD} htmlFor={`${idPrefix}-end`}>
           {t('time_table.end')}
         </Label>

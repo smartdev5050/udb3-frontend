@@ -8,10 +8,7 @@ import {
   radioButtonPropTypes,
 } from './RadioButton';
 import { Stack } from './Stack';
-import { Text } from './Text';
-import { getValueFromTheme } from './theme';
-
-const getValue = getValueFromTheme('radioButtonWithLabel');
+import { Text, TextVariants } from './Text';
 
 const RadioButtonWithLabel = ({
   id,
@@ -47,7 +44,7 @@ const RadioButtonWithLabel = ({
         <Label cursor="pointer" htmlFor={id}>
           {label}
         </Label>
-        {!!info && <Text color={getValue('infoTextColor')}>{info}</Text>}
+        {!!info && <Text variant={TextVariants.MUTED}>{info}</Text>}
       </Stack>
     </Inline>
   );

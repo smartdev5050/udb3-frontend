@@ -6,11 +6,8 @@ import { OfferStatus } from '@/constants/OfferStatus';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
 import { getStackProps, Stack } from '@/ui/Stack';
-import { Text } from '@/ui/Text';
+import { Text, TextVariants } from '@/ui/Text';
 import { TextAreaWithLabel } from '@/ui/TextAreaWithLabel';
-import { getValueFromTheme } from '@/ui/theme';
-
-const getValue = getValueFromTheme('statusPage');
 
 const StatusForm = ({
   offerType,
@@ -68,9 +65,7 @@ const StatusForm = ({
             </Alert>
           )}
         </Stack>
-        <Text color={getValue('infoTextColor')}>
-          {t('offerStatus.reasonTip')}
-        </Text>
+        <Text variant={TextVariants.MUTED}>{t('offerStatus.reasonTip')}</Text>
       </Stack>
     </Stack>
   );

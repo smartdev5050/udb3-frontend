@@ -8,6 +8,7 @@ const getValueForModal = getValueFromTheme('modal');
 const ContentModal = ({
   visible,
   title,
+  scrollable,
   onShow,
   onClose,
   children,
@@ -19,6 +20,7 @@ const ContentModal = ({
     show={visible}
     onShow={onShow}
     onHide={onClose}
+    scrollable={scrollable}
     keyboard={false}
     size={size}
     css={`
@@ -57,6 +59,7 @@ ContentModal.propTypes = {
   title: PropTypes.string,
   onShow: PropTypes.func,
   onClose: PropTypes.func,
+  scrollable: PropTypes.bool,
   children: PropTypes.node,
   size: PropTypes.string,
 };
@@ -65,6 +68,7 @@ ContentModal.defaultProps = {
   visible: false,
   title: '',
   size: 'xl',
+  scrollable: true,
   onShow: () => {},
   onClose: () => {},
 };

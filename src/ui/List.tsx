@@ -18,7 +18,7 @@ type ListProps = StackProps & {
 
 const List = ({ children, className, variant, ...props }: ListProps) => (
   <Stack
-    forwardedAs={variant === ListVariants.ORDERED ? 'ol' : 'ul'}
+    as={variant === ListVariants.ORDERED ? 'ol' : 'ul'}
     className={className}
     variant={variant}
     {...getStackProps(props)}
@@ -57,4 +57,4 @@ const ListItem = ({
 List.Item = ListItem;
 
 export type { ListItemProps, ListProps };
-export { List };
+export { List, ListVariants };

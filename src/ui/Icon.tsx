@@ -14,6 +14,7 @@ import {
   faFlag,
   faGift,
   faHome,
+  faImage,
   faLayerGroup,
   faPencilAlt,
   faPlus,
@@ -62,6 +63,7 @@ const Icons = {
   PENCIL: 'pencilAlt',
   VIDEO: 'video',
   COPY: 'copy',
+  IMAGE: 'image',
 } as const;
 
 const IconsMap = {
@@ -92,12 +94,13 @@ const IconsMap = {
   [Icons.PENCIL]: faPencilAlt,
   [Icons.VIDEO]: faVideo,
   [Icons.COPY]: faCopy,
+  [Icons.IMAGE]: faImage,
 };
 
 type Props = Omit<BoxProps, 'width' | 'height'> & {
   name: Values<typeof Icons>;
-  width?: number;
-  height?: number;
+  width?: number | string;
+  height?: number | string;
 };
 
 const Icon = ({ name, width, height, className, ...props }: Props) => {

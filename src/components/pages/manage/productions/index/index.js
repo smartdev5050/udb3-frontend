@@ -149,9 +149,8 @@ const Index = () => {
           id="productions-overview-search"
           placeholder={t('productions.overview.search.placeholder')}
           onChange={throttle(handleInputSearch, 275)}
-        >
-          {t('productions.overview.search.label')}
-        </InputWithLabel>
+          label={t('productions.overview.search.label')}
+        />
         <Inline spacing={5}>
           {getProductionsQuery.status !== QueryStatus.LOADING &&
           productions.length === 0 ? (

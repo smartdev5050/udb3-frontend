@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { StatusForm } from '@/components/StatusForm';
 import { OfferStatus } from '@/constants/OfferStatus';
 import { OfferType } from '@/constants/OfferType';
-import { Modal, ModalVariants } from '@/ui/Modal';
+import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
 import { Spinner } from '@/ui/Spinner';
 import { Stack } from '@/ui/Stack';
 
@@ -33,7 +33,7 @@ const StatusModal = ({ visible, loading, className, onClose, onConfirm }) => {
       visible={visible}
       title={t('offerStatus.changeStatus')}
       variant={ModalVariants.QUESTION}
-      size="xl"
+      size={ModalSizes.XL}
       className={className}
       confirmTitle={t('offerStatus.actions.save')}
       cancelTitle={t('offerStatus.actions.close')}

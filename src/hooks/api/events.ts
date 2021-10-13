@@ -259,19 +259,103 @@ const createSubEventPatch = (
   return subEventPatch;
 };
 
-const useChangeStatusSubEvents = (configuration) =>
+const useChangeStatusSubEvents = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: changeStatusSubEvents,
     ...configuration,
   });
 
+const addImageToEvent = async ({ headers, eventId, imageId }) =>
+  fetchFromApi({
+    path: `/events/${eventId.toString()}/images`,
+    options: {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ mediaObjectId: imageId }),
+    },
+  });
+
+const useAddImageToEvent = (configuration = {}) =>
+  useAuthenticatedMutation({ mutationFn: addImageToEvent, ...configuration });
+
+const updateImageFromEvent = async ({
+  headers,
+  eventId,
+  imageId,
+  description,
+  copyrightHolder,
+}) =>
+  fetchFromApi({
+    path: `/events/${eventId.toString()}/images/${imageId.toString()}`,
+    options: {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({ description, copyrightHolder }),
+    },
+  });
+
+const addEventMainImage = async ({ headers, eventId, imageId }) =>
+  fetchFromApi({
+    path: `/events/${eventId.toString()}/images/main`,
+    options: {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ mediaObjectId: imageId }),
+    },
+  });
+
+const useAddEventMainImage = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: addEventMainImage,
+    ...configuration,
+  });
+
+const useUpdateImageFromEvent = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: updateImageFromEvent,
+    ...configuration,
+  });
+
+const deleteImageFromEvent = async ({ headers, eventId, imageId }) =>
+  fetchFromApi({
+    path: `/events/${eventId.toString()}/images/${imageId.toString()}`,
+    options: {
+      method: 'DELETE',
+      headers,
+    },
+  });
+
+const useDeleteImageFromEvent = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: deleteImageFromEvent,
+    ...configuration,
+  });
+
+const changeDescription = async ({ headers, eventId, language, description }) =>
+  fetchFromApi({
+    path: `/events/${eventId}/description/${language}`,
+    options: {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({ description }),
+    },
+  });
+
+const useChangeDescription = (configuration = {}) =>
+  useAuthenticatedMutation({ mutationFn: changeDescription, ...configuration });
+
 export {
+  useAddEventMainImage,
+  useAddImageToEvent,
+  useChangeDescription,
   useChangeStatus,
   useChangeStatusSubEvents,
   useDeleteEventById,
+  useDeleteImageFromEvent,
   useGetCalendarSummary,
   useGetEventById,
   useGetEventsByCreator,
   useGetEventsByIds,
   useGetEventsToModerate,
+  useUpdateImageFromEvent,
 };

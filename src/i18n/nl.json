@@ -103,19 +103,132 @@
       "where": "Waar"
     }
   },
+  "copyright": {
+    "questions": {
+      "1": {
+        "question": "Wat doet publiq vzw met foto's die ik upload?",
+        "answer": "Indien de foto auteursrechtelijk beschermd is, dient de naam van de maker te worden vermeld in het copyright-veld. De foto's moeten rechtenvrij zijn. De ingevoerde foto’s kunnen door publiq vzw gebruikt worden voor publicatie op de website of in promotie- en perscampagnes. publiq vzw behoudt zich het recht om op de verzamelde afbeeldingen een fotoredactie uit te voeren. De foto's worden ook opgenomen in het fotoarchief van publiq vzw en kunnen gebruikt worden in de communicatiekanalen van publiq vzw zoals de website, nieuwsbrieven, perscommunicatie,…"
+      },
+      "2": {
+        "question": "Welke soorten werk zijn onderworpen aan het auteursrecht?",
+        "answer": {
+          "paragraph1": "Wanneer een persoon een origineel werk creëert, dat is vastgelegd in een fysiek medium (bv een foto), bezit hij of zij automatisch auteursrecht op het werk.",
+          "paragraph2": "Auteursrechten geven de eigenaar het exclusieve recht om het werk te gebruiken in bepaalde, specifieke manieren. Veel soorten werken komen in aanmerking voor auteursrechtelijke bescherming, inclusief:",
+          "step1": "Audiovisuele werken, zoals foto's, tv-shows, films en online video's",
+          "step2": "Geluidsopnamen en muzikale composities",
+          "step3": "Geschreven werken, zoals lezingen, artikelen, boeken, en muzikale composities",
+          "step4": "Visuele werken, zoals schilderijen, affiches en advertenties",
+          "step5": "Video games en computersoftware",
+          "step6": "Dramatische werken, zoals toneelstukken en musicals",
+          "paragraph3": "Ideeën, feiten en processen zijn niet onderworpen aan het auteursrecht. Om in aanmerking te komen voor auteursrechtelijke bescherming, moet een werk zowel creatief zijn als gevat in een tastbaar medium. Namen en titels zijn, op zichzelf, niet beschermd door het auteursrecht."
+        }
+      },
+      "3": {
+        "question": "Is het mogelijk om een auteursrechtelijk beschermd werk te gebruiken zonder inbreuk te plegen op de regelgeving terzake?",
+        "answer": "In sommige omstandigheden is het mogelijk om een auteursrechtelijk beschermd werk te gebruiken zonder inbreuk op het copyright van de eigenaar. Toch ga je er best van uit dat die mogelijkheid niet bestaat, tenzij je uitdrukkelijke toestemming hebt van de eigenaar. De Beheerder kan in geen geval in jouw plaats bepalen of auteursrechtelijke bescherming al dan niet van toepassing is."
+      },
+      "4": {
+        "question": "Het is belangrijk op te merken dat jouw upload van audiovisueel materiaal voorwerp kan zijn van een een claim van inbreuk op auteursrechten.",
+        "answer": {
+          "paragraph1": "Zelfs als je:",
+          "step1": "de eigenaar van het auteursrecht vermeldt",
+          "step2": "geen winstoogmerk nastreeft bij het gebruik van het materiaal",
+          "step3": "hetzelfde of gelijkaardig materiaal elders gebruikt zag",
+          "step4": "het audiovisueel materiaal aankocht (online, in een boek, op cd, dvd,...)",
+          "step5": "het materiaal zelf opnam of kopieerde van een boek, tijdschrift, krant, tv, een bioscoop, de radio",
+          "step6": "verklaarde dat \"er geen inbreuk op het auteursrecht bedoeld is\""
+        }
+      },
+      "5": {
+        "question": "Kan de Beheerder bemiddelen bij auteursrecht-disputen?",
+        "answer": "Nee, de Beheerder is niet in staat om te bemiddelen bij auteursrecht-disputen. Wanneer de Beheerder een eis tot verwijdering van met auteursrecht beschermd materiaal ontvangt, zal het daar steeds meteen aan voldoen en tevens de onrechtmatige invoerder/uploader onverwijld wijzen op zijn inbreuk. Vervolgens is het aan de betrokken partijen (rechtenhouder enerzijds en invoerder/uploader anderzijds) om het dispuut onderling te regelen, hetzij via minnelijke schikking, hetzij via rechtspraak."
+      },
+      "6": {
+        "question": "Wat is het verschil tussen auteursrecht en privacy?",
+        "answer": "Het is niet omdat je zelf verschijnt op een foto, in een video of audio-opname dat je het copyright erop bezit. Als bijvoorbeeld een vriend een gesprek tussen jou beide filmt, dan zou het de vriend zijn die over het copyright beschikt en niet jijzelf. De woorden die in dat gesprek gebruikt worden, zijn niet onderworpen aan een afzonderlijk copyright dan dat van de video zelf, tenzij ze vooraf werden opgesteld. Als je vriend, of iemand anders, een video of afbeelding heeft geüpload met daarin een afbeelding of opname van jezelf zonder jouw toestemming, en je voelt dit aan als een inbreuk op je privacy of veiligheid, dan kan je daarom een privacy-klacht indienen."
+      },
+      "7": {
+        "question": "Waar en hoe kan je op het internet meer zekerheid rond rechtenvrij fotomateriaal vinden?",
+        "answer": "Vooreerst: vermijd Google Images. Je komt uit bij een eindeloze reeks beelden waarvan je niet zeker weet of ze weergeven wie of wat je zocht, en waar je zelden de rechten op kan vinden. Je kan wel via ‘geavanceerd zoeken’ op zoek gaan naar herbruikbare afbeeldingen, maar zekerheid biedt dat allerminst. Betrouwbaarder op dit vlak is Flickr.com: de Creative Commons-zoekoptie filtert herbruikbare afbeeldingen uit het ruime aanbod. Geef een zoekterm op, klik daarna op ‘advanced search’, ga onderaan die pagina naar ‘creative commons’ en vink het vakje ‘Only search within Creative Commons licensed content’ aan. De resultaten die je dan nog overhoudt, vormen de vijver waaruit je kan kiezen. Je moet wel de regels respecteren: als je de beelden wil gebruiken, moet je linken naar de bron en het copyright vermelden."
+      }
+    }
+  },
   "movies": {
     "create": {
       "title": "Films toevoegen",
-      "step1_title": "Wat voor film wil je invoeren?",
-      "step2_title": "Wanneer vindt de film plaats?",
-      "step3_title": "Waar vindt de film plaats?",
-      "step4_title": "Hoe noemt de film?",
+      "step1": {
+        "title": "Wat voor film wil je invoeren?"
+      },
+      "step2": {
+        "title": "Wanneer vindt de film plaats?"
+      },
+      "step3": {
+        "title": "Waar vindt de film plaats?"
+      },
+      "step4": {
+        "title": "Hoe noemt de film?"
+      },
+      "step5": {
+        "title": "Laat je film extra opvallen."
+      },
       "actions": {
         "change_theme": "Wijzig thema",
         "copy_table": "Kopieer tabel",
         "change_cinema": "Wijzig bioscoop",
         "choose_cinema": "Kies een bioscoop",
-        "choose_name": "Kies een naam"
+        "choose_name": "Kies een naam",
+        "description": "Beschrijving",
+        "clear": "Leegmaken"
+      },
+      "picture": {
+        "intro": "Voeg een afbeelding toe zodat bezoekers je activiteit beter herkennen",
+        "add_button": "Afbeelding toevoegen",
+        "delete": "Verwijderen",
+        "change": "Wijzigen",
+        "set_as_main_image": "Maak hoofdafbeelding",
+        "upload_modal": {
+          "title": "Afbeelding toevoegen",
+          "actions": {
+            "choose_file": "Kies bestand",
+            "adjust": "Aanpassen",
+            "upload": "Uploaden",
+            "cancel": "Annuleren"
+          },
+          "file_requirements": "De maximale grootte van je afbeelding is 5MB en heeft als type .jpeg, .gif of .png",
+          "disclaimer": {
+            "copyright": "Vermeld de naam van de rechtenhoudende fotograaf. Vul alleen de naam van je eigen vereniging of organisatie in als je zelf de rechten bezit (minimum 2 karakters).",
+            "terms_and_conditions": {
+              "text": "Je staat op het punt (een) afbeelding(en) toe te voegen en openbaar te verspreiden. Je dient daartoe alle geldende auteurs- en portretrechten te respecteren, alsook alle andere toepasselijke wetgeving. Je kan daarvoor aansprakelijk worden gehouden, zoals vastgelegd in de <0></0>. Meer informatie over <1></1>",
+              "labels": {
+                "terms": "algemene voorwaarden",
+                "copyright": "copyright"
+              }
+            }
+          },
+          "required_field": "verplicht veld",
+          "validation_messages": {
+            "description": {
+              "required": "Beschrijving is verplicht.",
+              "max": "Beschrijving mag maximaal 250 karakters bevatten."
+            },
+            "copyrightHolder": {
+              "required": "Copyright is verplicht."
+            },
+            "file": {
+              "size": "Het bestand dat je selecteerde is groter dan 5MB.",
+              "type": "Het bestand dat je selecteerde is geen geldig bestandstype",
+              "required": "Gelieve een bestand te selecteren"
+            }
+          }
+        },
+        "delete_modal": {
+          "title": "Afbeeldingen verwijderen",
+          "description": "Ben je zeker dat je deze afbeelding wil verwijderen?",
+          "actions": {
+            "cancel": "Annuleren",
+            "confirm": "Verwijderen"
+          }
+        }
       }
     }
   },

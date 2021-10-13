@@ -37,7 +37,7 @@ const TypeaheadWithLabel: TypeaheadFunc = forwardRef(
     ref: ForwardedRef<HTMLInputElement>,
   ) => {
     return (
-      <Stack {...getStackProps(props)}>
+      <Stack spacing={2} {...getStackProps(props)}>
         <Label htmlFor={id} variant={LabelVariants.BOLD}>
           {label}
         </Label>

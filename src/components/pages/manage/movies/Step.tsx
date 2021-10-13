@@ -51,7 +51,7 @@ const Step = ({ stepNumber, children, ...props }: StepProps) => {
         `}
       >
         <NumberIndicator>{stepNumber}</NumberIndicator>
-        <Text>{t(`movies.create.step${stepNumber}_title`)}</Text>
+        <Text>{t(`movies.create.step${stepNumber}.title`)}</Text>
       </Title>
       {children}
     </Stack>

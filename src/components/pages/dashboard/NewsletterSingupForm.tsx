@@ -9,7 +9,7 @@ import { parseSpacing } from '@/ui/Box';
 import { Button } from '@/ui/Button';
 import { Image } from '@/ui/Image';
 import { Inline } from '@/ui/Inline';
-import { InputWithLabel } from '@/ui/InputWithLabel';
+import { InputWithLabel, LabelPositions } from '@/ui/InputWithLabel';
 import type { PanelProps } from '@/ui/Panel';
 import { Panel } from '@/ui/Panel';
 import { Paragraph } from '@/ui/Paragraph';
@@ -70,6 +70,7 @@ const NewsletterSignupForm = (props: Props) => {
                 value={email}
                 flex={1}
                 maxWidth="30rem"
+                labelPosition={LabelPositions.LEFT}
               />
               <Button maxHeight={parseSpacing(5)()}>
                 {t('dashboard.newsletter.subscribe')}
