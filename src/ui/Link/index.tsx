@@ -5,14 +5,12 @@ import { cloneElement, forwardRef } from 'react';
 import type { Values } from '@/types/Values';
 import { Button } from '@/ui/Button';
 
-import type { Icons } from './Icon';
-import { Icon } from './Icon';
-import type { InlineProps } from './Inline';
-import { getInlineProps, Inline } from './Inline';
-import { Text } from './Text';
-import { getValueFromTheme } from './theme';
-
-const getValue = getValueFromTheme('link');
+import type { Icons } from '../Icon';
+import { Icon } from '../Icon';
+import type { InlineProps } from '../Inline';
+import { getInlineProps, Inline } from '../Inline';
+import { Text } from '../Text';
+import { linkCSS } from './style';
 
 const LinkButtonVariants = {
   BUTTON_PRIMARY: 'primary',
@@ -74,14 +72,7 @@ const BaseLink = forwardRef<HTMLElement, BaseLinkProps>(
         href={href}
         ref={ref}
         forwardedAs={as}
-        color={{ default: getValue('color'), hover: getValue('color') }}
-        display="inline-flex"
-        fontWeight={400}
-        css={`
-          &:hover {
-            text-decoration: underline;
-          }
-        `}
+        css={linkCSS}
         {...getInlineProps(props)}
       >
         {children}
@@ -100,8 +91,6 @@ type LinkProps = BaseLinkProps & {
   href: string;
   iconName?: Values<typeof Icons>;
   suffix?: ReactNode;
-  customChildren?: boolean;
-  shouldHideText?: boolean;
 };
 
 const Link = ({
@@ -109,8 +98,6 @@ const Link = ({
   iconName,
   suffix,
   children,
-  customChildren,
-  shouldHideText,
   className,
   variant,
   title,
@@ -134,13 +121,13 @@ const Link = ({
 
   const inner = [
     iconName && <Icon name={iconName} key="icon" />,
-    customChildren
-      ? children
-      : !shouldHideText && (
-          <Text flex={1} textAlign="left" key="text">
-            {children}
-          </Text>
-        ),
+    typeof children === 'string' ? (
+      <Text flex={1} textAlign="left" key="text">
+        {children}
+      </Text>
+    ) : (
+      children
+    ),
     clonedSuffix,
   ];
 
@@ -194,9 +181,4 @@ const Link = ({
   );
 };
 
-Link.defaultProps = {
-  customChildren: false,
-  shouldHideText: false,
-};
-
-export { Link, LinkVariants };
+export { Link, linkCSS, LinkVariants };
