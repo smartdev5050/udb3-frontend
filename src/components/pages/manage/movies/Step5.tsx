@@ -97,22 +97,22 @@ const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
   });
 
   const addImageToEventMutation = useAddImageToEvent({
-    onSuccess: () => {
+    onSuccess: async () => {
       setIsPictureUploadModalVisible(false);
-      invalidateEventQuery();
+      await invalidateEventQuery();
     },
   });
 
   const addEventMainImageMutation = useAddEventMainImage({
-    onSuccess: () => {
-      invalidateEventQuery();
+    onSuccess: async () => {
+      await invalidateEventQuery();
     },
   });
 
   const updateImageFromEventMutation = useUpdateImageFromEvent({
-    onSuccess: () => {
+    onSuccess: async () => {
       setIsPictureUploadModalVisible(false);
-      invalidateEventQuery();
+      await invalidateEventQuery();
     },
   });
 
