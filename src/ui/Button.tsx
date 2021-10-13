@@ -209,6 +209,7 @@ type Props = Omit<InlineProps, 'size'> & {
   disabled?: boolean;
   size?: Values<typeof ButtonSizes>;
   variant?: Values<typeof ButtonVariants>;
+  type?: string;
 };
 
 const BaseButton = (props: Omit<InlineProps, 'size'>) => (
@@ -226,6 +227,7 @@ const Button = ({
   className,
   onClick,
   title,
+  type,
   ...props
 }: Props) => {
   const isBootstrapVariant = (Object.values(
@@ -242,6 +244,7 @@ const Button = ({
     cursor: disabled ? 'not-allowed' : 'pointer',
     onClick,
     title,
+    type,
     ...(isBootstrapVariant
       ? {
           forwardedAs: BootstrapButton,
