@@ -106,7 +106,7 @@ const PictureUploadBox = forwardRef<HTMLInputElement, Props>(
             {...registerFileProps}
           />
           <Button onClick={handleClickUpload}>
-            {t('movies.create.picture.upload_modal.choose_file')}
+            {t('movies.create.picture.upload_modal.actions.choose_file')}
           </Button>
           <Text variant={TextVariants.ERROR}>{error}</Text>
         </Stack>
@@ -204,8 +204,12 @@ const PictureUploadModal = ({
       visible={visible}
       variant={ModalVariants.QUESTION}
       onClose={onClose}
-      confirmTitle={imageToEdit ? 'Aanpassen' : 'Uploaden'}
-      cancelTitle="Annuleren"
+      confirmTitle={
+        imageToEdit
+          ? t('movies.create.picture.upload_modal.actions.adjust')
+          : t('movies.create.picture.upload_modal.actions.upload')
+      }
+      cancelTitle={t('movies.create.picture.upload_modal.actions.cancel')}
       size={ModalSizes.MD}
       onConfirm={() => {
         formComponent.current.dispatchEvent(
@@ -219,10 +223,15 @@ const PictureUploadModal = ({
         ref={formComponent}
         spacing={4}
         padding={4}
-        onSubmit={handleSubmit(async (data) => {
-          await onSubmitValid(data);
-          reset({});
-        })}
+        onSubmit={(e) => {
+          console.log('In on submit');
+
+          e.preventDefault();
+          handleSubmit(async (data) => {
+            await onSubmitValid(data);
+            reset({});
+          })(e);
+        }}
       >
         {!imageToEdit && (
           <PictureUploadBox

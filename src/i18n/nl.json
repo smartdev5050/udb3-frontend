@@ -138,7 +138,12 @@
         "set_as_main_image": "Maak hoofdafbeelding",
         "upload_modal": {
           "title": "Afbeelding toevoegen",
-          "choose_file": "Kies bestand",
+          "actions": {
+            "choose_file": "Kies bestand",
+            "adjust": "Aanpassen",
+            "upload": "Uploaden",
+            "cancel": "Annuleren"
+          },
           "file_requirements": "De maximale grootte van je afbeelding is 5MB en heeft als type .jpeg, .gif of .png",
           "disclaimer": {
             "copyright": "Vermeld de naam van de rechtenhoudende fotograaf. Vul alleen de naam van je eigen vereniging of organisatie in als je zelf de rechten bezit (minimum 2 karakters).",
