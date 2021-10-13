@@ -71,7 +71,7 @@ const Copyright = () => {
     {
       question: t('copyright.questions.4.question'),
       answer: (
-        <Stack>
+        <Stack spacing={3}>
           <Paragraph>{t('copyright.questions.4.answer.paragraph1')}</Paragraph>
           <NumberedList
             steps={[1, 2, 3, 4, 5, 6]}
