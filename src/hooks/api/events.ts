@@ -333,9 +333,9 @@ const useDeleteImageFromEvent = (configuration = {}) =>
 
 const changeDescription = async ({ headers, eventId, language, description }) =>
   fetchFromApi({
-    path: `/event/${eventId}/${language}/description`,
+    path: `/events/${eventId}/description/${language}`,
     options: {
-      method: 'POST',
+      method: 'PUT',
       headers,
       body: JSON.stringify({ description }),
     },
