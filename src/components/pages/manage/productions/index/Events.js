@@ -224,7 +224,6 @@ const Events = ({
   onToggleSelectEvent,
   onAddEvent,
   onCancelAddEvent,
-  onDismissError,
   className,
   onClickAdd,
   onClickDelete,
@@ -250,12 +249,7 @@ const Events = ({
               toBeAddedEventId={toBeAddedEventId}
               onToBeAddedEventIdInput={onToBeAddedEventIdInput}
             />
-            <Alert
-              visible={!!errorMessage}
-              variant={AlertVariants.WARNING}
-              dismissible
-              onDismiss={onDismissError}
-            >
+            <Alert visible={!!errorMessage} variant={AlertVariants.DANGER}>
               {errorMessage}
             </Alert>
           </Stack>
@@ -319,7 +313,6 @@ Events.propTypes = {
   onClickAdd: PropTypes.func,
   onAddEvent: PropTypes.func,
   onInputSearchTerm: PropTypes.func,
-  onDismissError: PropTypes.func,
   onToBeAddedEventIdInput: PropTypes.func,
   toBeAddedEventId: PropTypes.string,
   isAddActionVisible: PropTypes.bool,
