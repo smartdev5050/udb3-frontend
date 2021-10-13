@@ -118,7 +118,8 @@ const Actions = ({
   loading,
 }) => {
   const { t } = useTranslation();
-  const shouldCollapse = useMatchBreakpoint(Breakpoints.S);
+
+  const shouldShowText = !useMatchBreakpoint(Breakpoints.S);
 
   return (
     <Inline as="div" justifyContent="space-between" alignItems="center">
@@ -133,10 +134,9 @@ const Actions = ({
           spacing={3}
           maxHeight={parseSpacing(5)()}
           onClick={onClickAdd}
-          shouldHideText={shouldCollapse}
           disabled={loading}
         >
-          {t('productions.overview.create')}
+          {shouldShowText && t('productions.overview.create')}
         </Button>
         <Button
           disabled={shouldDisableDeleteButton || loading}
@@ -145,9 +145,8 @@ const Actions = ({
           spacing={3}
           onClick={onClickDelete}
           maxHeight={parseSpacing(5)()}
-          shouldHideText={shouldCollapse}
         >
-          {t('productions.overview.delete')}
+          {shouldShowText && t('productions.overview.delete')}
         </Button>
       </Inline>
     </Inline>
@@ -171,7 +170,7 @@ const AddAction = ({
   ...props
 }) => {
   const { t } = useTranslation();
-  const shouldCollapse = useMatchBreakpoint(Breakpoints.S);
+  const shouldShowText = !useMatchBreakpoint(Breakpoints.S);
 
   return (
     <Inline
@@ -195,18 +194,16 @@ const AddAction = ({
         spacing={3}
         disabled={!toBeAddedEventId}
         onClick={() => onAdd(toBeAddedEventId)}
-        shouldHideText={shouldCollapse}
       >
-        {t('productions.overview.confirm')}
+        {shouldShowText && t('productions.overview.confirm')}
       </Button>
       <Button
         variant={ButtonVariants.SECONDARY}
         iconName={Icons.TIMES}
         spacing={3}
         onClick={onCancel}
-        shouldHideText={shouldCollapse}
       >
-        {t('productions.overview.cancel')}
+        {shouldShowText && t('productions.overview.cancel')}
       </Button>
     </Inline>
   );

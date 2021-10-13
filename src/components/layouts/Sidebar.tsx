@@ -91,7 +91,6 @@ const MenuItem = memo(
           }}
           spacing={{ default: 3, s: 0 }}
           stackOn={Breakpoints.S}
-          customChildren
           title={label}
         >
           <Text
@@ -470,12 +469,7 @@ const Sidebar = () => {
         }, 100);
       }}
     >
-      <Link
-        justifyContent="center"
-        href="/dashboard"
-        title={t('menu.home')}
-        customChildren
-      >
+      <Link justifyContent="center" href="/dashboard" title={t('menu.home')}>
         <Logo
           variant={isSmallView ? LogoVariants.MOBILE : LogoVariants.DEFAULT}
         />
