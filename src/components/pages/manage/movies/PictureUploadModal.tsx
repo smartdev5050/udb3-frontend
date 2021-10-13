@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import type { FormEvent } from 'react';
 import { forwardRef, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { Button } from '@/ui/Button';
@@ -10,6 +10,7 @@ import { Icon, Icons } from '@/ui/Icon';
 import { Image } from '@/ui/Image';
 import { Input } from '@/ui/Input';
 import { InputWithLabel } from '@/ui/InputWithLabel';
+import { Link } from '@/ui/Link';
 import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
 import { Paragraph } from '@/ui/Paragraph';
 import { Stack } from '@/ui/Stack';
@@ -116,6 +117,40 @@ const PictureUploadBox = forwardRef<HTMLInputElement, Props>(
     );
   },
 );
+
+const TermsAndConditionsLink = () => {
+  const { t } = useTranslation();
+
+  return (
+    <Link
+      href="/conditions"
+      alt={t(
+        'movies.create.picture.upload_modal.disclaimer.terms_and_conditions.labels.terms',
+      )}
+    >
+      {t(
+        'movies.create.picture.upload_modal.disclaimer.terms_and_conditions.labels.terms',
+      )}
+    </Link>
+  );
+};
+
+const CopyrightLink = () => {
+  const { t } = useTranslation();
+
+  return (
+    <Link
+      href="/copyright"
+      alt={t(
+        'movies.create.picture.upload_modal.disclaimer.terms_and_conditions.labels.copyright',
+      )}
+    >
+      {t(
+        'movies.create.picture.upload_modal.disclaimer.terms_and_conditions.labels.copyright',
+      )}
+    </Link>
+  );
+};
 
 const PictureUploadModal = ({
   visible,
@@ -225,9 +260,10 @@ const PictureUploadModal = ({
                 {t('movies.create.picture.upload_modal.disclaimer.copyright')}
               </Paragraph>
               <Paragraph>
-                {t(
-                  'movies.create.picture.upload_modal.disclaimer.terms_and_conditions',
-                )}
+                <Trans i18nKey="movies.create.picture.upload_modal.disclaimer.terms_and_conditions.text">
+                  <TermsAndConditionsLink />
+                  <CopyrightLink />
+                </Trans>
               </Paragraph>
             </Stack>
           }

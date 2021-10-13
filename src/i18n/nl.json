@@ -142,7 +142,13 @@
           "file_requirements": "De maximale grootte van je afbeelding is 5MB en heeft als type .jpeg, .gif of .png",
           "disclaimer": {
             "copyright": "Vermeld de naam van de rechtenhoudende fotograaf. Vul alleen de naam van je eigen vereniging of organisatie in als je zelf de rechten bezit (minimum 2 karakters).",
-            "terms_and_conditions": "Je staat op het punt (een) afbeelding(en) toe te voegen en openbaar te verspreiden. Je dient daartoe alle geldende auteurs- en portretrechten te respecteren, alsook alle andere toepasselijke wetgeving. Je kan daarvoor aansprakelijk worden gehouden, zoals vastgelegd in de algemene voorwaarden. Meer informatie over copyright"
+            "terms_and_conditions": {
+              "text": "Je staat op het punt (een) afbeelding(en) toe te voegen en openbaar te verspreiden. Je dient daartoe alle geldende auteurs- en portretrechten te respecteren, alsook alle andere toepasselijke wetgeving. Je kan daarvoor aansprakelijk worden gehouden, zoals vastgelegd in de <0></0>. Meer informatie over <1></1>",
+              "labels": {
+                "terms": "algemene voorwaarden",
+                "copyright": "copyright"
+              }
+            }
           },
           "required_field": "verplicht veld",
           "validation_messages": {
