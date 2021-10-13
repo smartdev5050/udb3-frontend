@@ -119,11 +119,11 @@ const PictureUploadBox = forwardRef<HTMLInputElement, Props>(
 );
 
 const TermsAndConditionsLink = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   return (
     <Link
-      href="/conditions"
+      href={`https://www.publiq.be/${i18n.language}/gebruikersovereenkomst-uitdatabank`}
       alt={t(
         'movies.create.picture.upload_modal.disclaimer.terms_and_conditions.labels.terms',
       )}
