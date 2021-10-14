@@ -1,5 +1,4 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -36,9 +35,10 @@ const schema = yup
 const Create = () => {
   const {
     handleSubmit,
-    formState: { errors },
+    formState: { errors, dirtyFields },
     register,
     control,
+    watch,
     getValues,
     reset,
   } = useForm({
@@ -47,14 +47,22 @@ const Create = () => {
 
   const { t } = useTranslation();
 
-  const requiredSteps = useMemo(() => [Step1, Step2, Step3, Step4], []);
-
   const handleFormValid = (values) => {
     console.log(values);
   };
 
+  const filledInTimeTable = watch('timeTable');
+
   const handleFormInValid = (values) => {
     console.log(values);
+  };
+
+  const stepProps = {
+    errors: errors,
+    control: control,
+    getValues: getValues,
+    register: register,
+    reset: reset,
   };
 
   return (
@@ -63,16 +71,13 @@ const Create = () => {
         {t(`movies.create.title`)}
       </Page.Title>
       <Page.Content spacing={5} paddingBottom={6} alignItems="flex-start">
-        {requiredSteps.map((Step, index) => (
-          <Step
-            key={index}
-            errors={errors}
-            control={control}
-            getValues={getValues}
-            register={register}
-            reset={reset}
-          />
-        ))}
+        <Step1 {...stepProps} />
+        {dirtyFields.theme ? <Step2 {...stepProps} /> : null}
+        {dirtyFields.timeTable &&
+        filledInTimeTable.some((row) => row.some((cell) => !!cell)) ? (
+          <Step3 {...stepProps} />
+        ) : null}
+        {dirtyFields.cinema ? <Step4 {...stepProps} /> : null}
         <Button onClick={handleSubmit(handleFormValid, handleFormInValid)}>
           Opslaan
         </Button>
