@@ -10,7 +10,7 @@ const getValue = getValueFromTheme('typeahead');
 
 type TypeaheadProps<T> = {
   options: T[];
-  labelKey: (option: T) => string;
+  labelKey: (option: T) => string | string;
   disabled?: boolean;
   placeholder?: string;
   emptyLabel?: string;
@@ -44,6 +44,8 @@ const Typeahead: TypeaheadFunc = forwardRef(
       onChange,
       isInvalid,
       selected,
+      allowNew,
+      newSelectionPrefix,
       ...props
     }: Props<T>,
     ref: ForwardedRef<HTMLInputElement>,
@@ -52,6 +54,8 @@ const Typeahead: TypeaheadFunc = forwardRef(
       <Box
         forwardedAs={BootstrapTypeahead}
         id={id}
+        allowNew={allowNew}
+        newSelectionPrefix={newSelectionPrefix}
         options={options}
         labelKey={labelKey}
         isLoading={false}

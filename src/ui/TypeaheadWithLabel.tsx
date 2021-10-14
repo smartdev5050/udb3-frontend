@@ -33,6 +33,8 @@ const TypeaheadWithLabel: TypeaheadFunc = forwardRef(
       onInputChange,
       onSearch,
       onChange,
+      allowNew,
+      newSelectionPrefix,
       error,
       selected,
       ...props
@@ -60,6 +62,8 @@ const TypeaheadWithLabel: TypeaheadFunc = forwardRef(
             onChange={onChange}
             isInvalid={!!error}
             selected={selected}
+            allowNew={allowNew}
+            newSelectionPrefix={newSelectionPrefix}
             ref={ref}
           />
           {error && <Text color="red">{error}</Text>}
