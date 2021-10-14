@@ -1,14 +1,7 @@
 import copyToClipboard from 'clipboard-copy';
-import {
-  addDays,
-  differenceInHours,
-  format as formatDate,
-  set as setTime,
-} from 'date-fns';
+import { addDays, differenceInHours, format as formatDate } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
-import { formatDateToISO } from '@/utils/formatDateToISO';
 
 import { parseSpacing } from './Box';
 import { Button, ButtonVariants } from './Button';
