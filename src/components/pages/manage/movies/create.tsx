@@ -9,16 +9,17 @@ import { Page } from '@/ui/Page';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
 import { Step1 } from './Step1';
+import { Step2 } from './Step2';
 
 const schema = yup
   .object({
     theme: yup.string().required(),
-    // timeTable: yup
-    //   .array()
-    //   .test('has-timeslot', (value) =>
-    //     value.some((rows) => rows.some((cell) => !!cell)),
-    //   )
-    //   .required(),
+    timeTable: yup
+      .array()
+      .test('has-timeslot', (value) =>
+        value.some((rows) => rows.some((cell) => !!cell)),
+      )
+      .required(),
     // cinema: yup.string().required(),
   })
   .required();
@@ -37,7 +38,7 @@ const Create = () => {
 
   const { t } = useTranslation();
 
-  const requiredSteps = useMemo(() => [Step1], []);
+  const requiredSteps = useMemo(() => [Step1, Step2], []);
 
   const handleFormValid = (values) => {
     console.log(values);
