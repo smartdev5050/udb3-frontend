@@ -43,6 +43,7 @@ const Typeahead: TypeaheadFunc = forwardRef(
       onSearch,
       onChange,
       isInvalid,
+      selected,
       ...props
     }: Props<T>,
     ref: ForwardedRef<HTMLInputElement>,
@@ -80,6 +81,7 @@ const Typeahead: TypeaheadFunc = forwardRef(
         highlightOnlyResult
         ref={ref}
         isInvalid={isInvalid}
+        selected={selected}
         {...getBoxProps(props)}
       />
     );
