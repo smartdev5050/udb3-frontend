@@ -10,6 +10,7 @@ import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideP
 
 import { Step1 } from './Step1';
 import { Step2 } from './Step2';
+import { Step3 } from './Step3';
 
 const schema = yup
   .object({
@@ -20,7 +21,10 @@ const schema = yup
         value.some((rows) => rows.some((cell) => !!cell)),
       )
       .required(),
-    // cinema: yup.string().required(),
+    cinema: yup
+      .array()
+      .test('selected-cinema', (value) => !!value?.length)
+      .required(),
   })
   .required();
 
@@ -38,9 +42,13 @@ const Create = () => {
 
   const { t } = useTranslation();
 
-  const requiredSteps = useMemo(() => [Step1, Step2], []);
+  const requiredSteps = useMemo(() => [Step1, Step2, Step3], []);
 
   const handleFormValid = (values) => {
+    console.log(values);
+  };
+
+  const handleFormInValid = (values) => {
     console.log(values);
   };
 
@@ -60,7 +68,9 @@ const Create = () => {
             reset={reset}
           />
         ))}
-        <Button onClick={handleSubmit(handleFormValid)}>Opslaan</Button>
+        <Button onClick={handleSubmit(handleFormValid, handleFormInValid)}>
+          Opslaan
+        </Button>
       </Page.Content>
     </Page>
   );
