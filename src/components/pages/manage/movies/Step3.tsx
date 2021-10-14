@@ -81,7 +81,12 @@ const Step3 = ({ errors, getValues, reset, control, ...props }: Step3Props) => {
                 </Text>
                 <Button
                   variant={ButtonVariants.LINK}
-                  onClick={() => reset({ ...getValues(), cinema: undefined })}
+                  onClick={() =>
+                    reset(
+                      { ...getValues(), cinema: undefined },
+                      { keepDirty: true },
+                    )
+                  }
                 >
                   {t('movies.create.actions.change_cinema')}
                 </Button>

@@ -58,7 +58,12 @@ const Step1 = ({ errors, control, reset, getValues, ...props }: Step1Props) => {
               </Text>
               <Button
                 variant={ButtonVariants.LINK}
-                onClick={() => reset({ ...getValues(), theme: undefined })}
+                onClick={() =>
+                  reset(
+                    { ...getValues(), theme: undefined },
+                    { keepDirty: true },
+                  )
+                }
               >
                 {t('movies.create.actions.change_theme')}
               </Button>
