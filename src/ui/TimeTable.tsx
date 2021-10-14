@@ -163,8 +163,6 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
   const [dateStart, setDateStart] = useState(new Date());
   const [dateEnd, setDateEnd] = useState(new Date());
 
-  console.log({ value });
-
   const timeTable = value ?? [];
 
   const { t } = useTranslation();
