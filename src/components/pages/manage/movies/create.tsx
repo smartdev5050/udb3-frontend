@@ -11,6 +11,7 @@ import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideP
 import { Step1 } from './Step1';
 import { Step2 } from './Step2';
 import { Step3 } from './Step3';
+import { Step4 } from './Step4';
 
 const schema = yup
   .object({
@@ -24,6 +25,10 @@ const schema = yup
     cinema: yup
       .array()
       .test('selected-cinema', (value) => !!value?.length)
+      .required(),
+    production: yup
+      .array()
+      .test('selected-production', (value) => !!value?.length)
       .required(),
   })
   .required();
@@ -42,7 +47,7 @@ const Create = () => {
 
   const { t } = useTranslation();
 
-  const requiredSteps = useMemo(() => [Step1, Step2, Step3], []);
+  const requiredSteps = useMemo(() => [Step1, Step2, Step3, Step4], []);
 
   const handleFormValid = (values) => {
     console.log(values);
