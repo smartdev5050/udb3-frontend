@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-plus-operands */
 import copyToClipboard from 'clipboard-copy';
 import { addDays, differenceInHours, format as formatDate } from 'date-fns';
 import { useEffect, useState } from 'react';
@@ -295,7 +296,6 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
         forwardedAs="div"
         css={`
           display: grid;
-          // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
           grid-template-rows: repeat(${(timeTable?.length ?? 0) + 1}, 1fr);
           grid-template-columns:
             min-content repeat(${timeTable?.[0]?.length ?? 0}, 1fr)
