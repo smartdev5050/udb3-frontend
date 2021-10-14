@@ -126,9 +126,10 @@ const Row = ({
   editValueInTimeTable,
   ...props
 }: RowProps) => {
-  const dateLabel = <Text>{formatDate(date, 'dd/MM/yy')}</Text>;
+  const dateLabel = <Text key="dateLabel">{formatDate(date, 'dd/MM/yy')}</Text>;
   const copyButton = (
     <Button
+      key="copyButton"
       variant={ButtonVariants.UNSTYLED}
       onClick={() => onCopyRow(index)}
       {...getInlineProps(props)}
