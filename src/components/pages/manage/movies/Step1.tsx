@@ -17,7 +17,7 @@ const getValue = getValueFromTheme('moviesCreatePage');
 
 type Step1Props = StackProps;
 
-const Step1 = ({ errors, control, reset, ...props }: Step1Props) => {
+const Step1 = ({ errors, control, reset, getValues, ...props }: Step1Props) => {
   const { t } = useTranslation();
 
   return (
@@ -58,7 +58,7 @@ const Step1 = ({ errors, control, reset, ...props }: Step1Props) => {
               </Text>
               <Button
                 variant={ButtonVariants.LINK}
-                onClick={() => reset({ theme: undefined })}
+                onClick={() => reset({ ...getValues(), theme: undefined })}
               >
                 {t('movies.create.actions.change_theme')}
               </Button>

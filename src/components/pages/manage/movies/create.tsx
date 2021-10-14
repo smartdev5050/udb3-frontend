@@ -29,6 +29,7 @@ const Create = () => {
     formState: { errors },
     register,
     control,
+    getValues,
     reset,
   } = useForm({
     resolver: yupResolver(schema),
@@ -53,6 +54,7 @@ const Create = () => {
             key={index}
             errors={errors}
             control={control}
+            getValues={getValues}
             register={register}
             reset={reset}
           />
