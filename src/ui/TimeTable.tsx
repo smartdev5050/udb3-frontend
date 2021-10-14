@@ -109,11 +109,7 @@ type RowProps = Omit<InlineProps, 'onPaste'> & {
     colIndex: number,
     clipboardValue: CopyPayload,
   ) => void;
-  editValueInTimeTable: (
-    rowIndex: number,
-    colIndex: number,
-    value: string,
-  ) => void;
+  onEditCell: (rowIndex: number, colIndex: number, value: string) => void;
 };
 
 const Row = ({
@@ -123,7 +119,7 @@ const Row = ({
   onCopyRow,
   onCopyColumn,
   onPaste,
-  editValueInTimeTable,
+  onEditCell,
   ...props
 }: RowProps) => {
   const dateLabel = <Text key="dateLabel">{formatDate(date, 'dd/MM/yy')}</Text>;
@@ -145,15 +141,15 @@ const Row = ({
         key={`${index}${colIndex}`}
         id={colHeaders[colIndex]}
         value={row[colIndex] ?? ''}
-        onChange={(e) => editValueInTimeTable(index, colIndex, e.target.value)}
-        onBlur={(e) => {
-          editValueInTimeTable(index, colIndex, formatTimeValue(row[colIndex]));
+        onChange={(event) => onEditCell(index, colIndex, event.target.value)}
+        onBlur={() => {
+          onEditCell(index, colIndex, formatTimeValue(row[colIndex]));
         }}
-        onPaste={(e) => {
-          e.preventDefault();
+        onPaste={(event) => {
+          event.preventDefault();
 
           const clipboardValue = JSON.parse(
-            (e.clipboardData || window.clipboardData).getData('text'),
+            (event.clipboardData || window.clipboardData).getData('text'),
           );
 
           onPaste(index, colIndex, clipboardValue);
@@ -166,14 +162,16 @@ const Row = ({
 
 type Props = StackProps & {
   id: string;
-  onTimeTableChange: (value: Time[][]) => void;
+  onChange: (value: Time[][]) => void;
 };
 
-const TimeTable = ({ id, className, onTimeTableChange, ...props }: Props) => {
+const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
   const [dateStart, setDateStart] = useState(new Date());
   const [dateEnd, setDateEnd] = useState(new Date());
 
-  const [timeTable, setTimeTable] = useState<Time[][]>([]);
+  console.log({ value });
+
+  const timeTable = value ?? [];
 
   const { t } = useTranslation();
 
@@ -181,32 +179,29 @@ const TimeTable = ({ id, className, onTimeTableChange, ...props }: Props) => {
     const rowLength =
       Math.ceil(Math.abs(differenceInHours(dateStart, dateEnd)) / 24) + 1;
 
-    setTimeTable(
+    onChange(
       new Array(rowLength).fill(new Array(colHeaders.length).fill(null)),
     );
   }, [dateStart, dateEnd]);
 
-  useEffect(() => {
-    const timeTableAsDateStrings = timeTable.map((row, rowIndex) =>
-      row.map((time) => {
-        if (!time || !/[0-2][0-4]h[0-5][0-9]m/.test(time)) return null;
-        const hours = parseInt(time.substring(0, 2));
-        const minutes = parseInt(time.substring(3, 5));
-        const rowDate = addDays(dateStart, rowIndex);
-        const dateWithTime = setTime(rowDate, { hours, minutes, seconds: 0 });
-        return formatDateToISO(dateWithTime);
-      }),
-    );
-    onTimeTableChange(timeTableAsDateStrings);
-  }, [timeTable, dateStart]);
+  // TODO: needs to move to event post
+  // useEffect(() => {
+  //   const timeTableAsDateStrings = timeTable.map((row, rowIndex) =>
+  //     row.map((time) => {
+  //       if (!time || !/[0-2][0-4]h[0-5][0-9]m/.test(time)) return null;
+  //       const hours = parseInt(time.substring(0, 2));
+  //       const minutes = parseInt(time.substring(3, 5));
+  //       const rowDate = addDays(dateStart, rowIndex);
+  //       const dateWithTime = setTime(rowDate, { hours, minutes, seconds: 0 });
+  //       return formatDateToISO(dateWithTime);
+  //     }),
+  //   );
+  //   onChange(timeTableAsDateStrings);
+  // }, [timeTable, dateStart]);
 
-  const editValueInTimeTable = (
-    rowIndex: number,
-    colIndex: number,
-    value: Time,
-  ) => {
-    setTimeTable((prevTimeTable) =>
-      prevTimeTable.map((innerRow, innerRowIndex) => {
+  const onEditCell = (rowIndex: number, colIndex: number, value: Time) => {
+    onChange(
+      timeTable.map((innerRow, innerRowIndex) => {
         if (rowIndex === innerRowIndex) {
           return innerRow.map((time, timeIndex) => {
             if (colIndex === timeIndex) {
@@ -256,8 +251,8 @@ const TimeTable = ({ id, className, onTimeTableChange, ...props }: Props) => {
     copyAction: CopyPayload,
   ) => {
     if (copyAction.method === 'row') {
-      setTimeTable((prevTimeTable) =>
-        prevTimeTable.map((innerRow, innerRowIndex) => {
+      onChange(
+        timeTable.map((innerRow, innerRowIndex) => {
           if (rowIndex === innerRowIndex) {
             return copyAction.data;
           }
@@ -266,8 +261,8 @@ const TimeTable = ({ id, className, onTimeTableChange, ...props }: Props) => {
       );
     }
     if (copyAction.method === 'col') {
-      setTimeTable((prevTimeTable) =>
-        prevTimeTable.map((innerRow, innerRowIndex) => {
+      onChange(
+        timeTable.map((innerRow, innerRowIndex) => {
           return innerRow.map((time, timeIndex) => {
             if (timeIndex === colIndex) {
               return copyAction.data[innerRowIndex];
@@ -278,8 +273,8 @@ const TimeTable = ({ id, className, onTimeTableChange, ...props }: Props) => {
       );
     }
     if (copyAction.method === 'all') {
-      setTimeTable((prevTimeTable) =>
-        prevTimeTable.map((innerRow, innerRowIndex) => {
+      onChange(
+        timeTable.map((innerRow, innerRowIndex) => {
           return innerRow.map((_, innerColIndex) => {
             return copyAction.data?.[innerRowIndex]?.[innerColIndex] ?? null;
           });
@@ -338,7 +333,7 @@ const TimeTable = ({ id, className, onTimeTableChange, ...props }: Props) => {
             onCopyRow={handleCopyRow}
             onCopyColumn={handleCopyColumn}
             onPaste={handlePaste}
-            editValueInTimeTable={editValueInTimeTable}
+            onEditCell={onEditCell}
           />
         ))}
       </Stack>
