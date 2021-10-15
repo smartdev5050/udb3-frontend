@@ -98,6 +98,10 @@ type TypeaheadProps = {
   delay: number;
   highlightOnlyResult: boolean;
   isInvalid: boolean;
+  allowNew:
+    | boolean
+    | ((results: Array<Object | string>, props: Object) => boolean);
+  newSelectionPrefix: string;
 };
 
 type SpecificComponentProps = InlineProps &

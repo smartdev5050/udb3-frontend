@@ -16,6 +16,10 @@ type TypeaheadProps<T> = {
   emptyLabel?: string;
   minLength?: number;
   onChange?: (value: T[]) => void;
+  allowNew?:
+    | boolean
+    | ((results: Array<Object | string>, props: Object) => boolean);
+  newSelectionPrefix?: string;
 };
 
 type Props<T> = Omit<BoxProps, 'onChange'> &
@@ -82,7 +86,7 @@ const Typeahead: TypeaheadFunc = forwardRef(
         emptyLabel={emptyLabel}
         minLength={minLength}
         delay={275}
-        highlightOnlyResult
+        highlightOnlyResult={!allowNew}
         ref={ref}
         isInvalid={isInvalid}
         selected={selected}
