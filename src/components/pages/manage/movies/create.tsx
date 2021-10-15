@@ -42,11 +42,13 @@ const createTimeTablePayload = (timeTable: Time[][], dateStart: Date) =>
         seconds: 0,
       });
 
+      const isoDateTime = formatDateToISO(dateWithTime);
+
       return [
         ...acc,
         {
-          start: formatDateToISO(dateWithTime),
-          end: formatDateToISO(dateWithTime),
+          start: isoDateTime,
+          end: isoDateTime,
         },
       ];
     }, []);
