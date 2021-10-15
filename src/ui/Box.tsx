@@ -102,6 +102,7 @@ type TypeaheadProps = {
     | boolean
     | ((results: Array<Object | string>, props: Object) => boolean);
   newSelectionPrefix: string;
+  selected: unknown[];
 };
 
 type SpecificComponentProps = InlineProps &

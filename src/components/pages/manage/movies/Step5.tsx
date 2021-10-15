@@ -22,7 +22,6 @@ import { TextAreaWithLabel } from '@/ui/TextAreaWithLabel';
 import { getValueFromTheme } from '@/ui/theme';
 import { parseOfferId } from '@/utils/parseOfferId';
 
-import type { MachineProps } from './create';
 import { PictureDeleteModal } from './PictureDeleteModal';
 import type { FormData } from './PictureUploadModal';
 import { PictureUploadModal } from './PictureUploadModal';
@@ -30,7 +29,7 @@ import { Step } from './Step';
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
-type Step5Props = StackProps & MachineProps;
+type Step5Props = StackProps;
 
 const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
   const eventId = '37d2edd9-ffb4-4abd-9f79-e21d9960d437';

@@ -157,6 +157,7 @@ const Row = ({
 type Props = StackProps & {
   id: string;
   onChange: (value: Time[][]) => void;
+  value: Time[][];
 };
 
 const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
