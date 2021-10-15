@@ -24,6 +24,35 @@ import { Step2 } from './Step2';
 import { Step3 } from './Step3';
 import { Step4 } from './Step4';
 
+type Time = string;
+
+const createTimeTablePayload = (timeTable: Time[][], dateStart: Date) =>
+  timeTable.reduce((acc, row, rowIndex) => {
+    const onlyTimeStrings = row.reduce((acc, time) => {
+      if (!time || !/[0-2][0-4]h[0-5][0-9]m/.test(time)) {
+        return acc;
+      }
+
+      const hours = parseInt(time.substring(0, 2));
+      const minutes = parseInt(time.substring(3, 5));
+      const rowDate = addDays(dateStart, rowIndex);
+      const dateWithTime = setTime(rowDate, {
+        hours,
+        minutes,
+        seconds: 0,
+      });
+
+      return [
+        ...acc,
+        {
+          start: formatDateToISO(dateWithTime),
+          end: formatDateToISO(dateWithTime),
+        },
+      ];
+    }, []);
+    return [...acc, ...onlyTimeStrings];
+  }, []);
+
 const schema = yup
   .object({
     theme: yup.string().required(),
@@ -44,8 +73,6 @@ const schema = yup
       .required(),
   })
   .required();
-
-type Time = string;
 
 type FormData = {
   theme: string;
@@ -97,44 +124,12 @@ const Create = () => {
       ([key, value]) => value === themeId,
     );
 
-    const timeSpansPayload = timeTable
-      .map((row, rowIndex) => {
-        return row
-          .map((time) => {
-            if (!time || !/[0-2][0-4]h[0-5][0-9]m/.test(time)) return null;
-            const hours = parseInt(time.substring(0, 2));
-            const minutes = parseInt(time.substring(3, 5));
-            const rowDate = addDays(dateStart, rowIndex);
-            const dateWithTime = setTime(rowDate, {
-              hours,
-              minutes,
-              seconds: 0,
-            });
-            return formatDateToISO(dateWithTime);
-          })
-          .reduce((acc, curr) => {
-            if (!curr) {
-              return acc;
-            }
-            return [
-              ...acc,
-              {
-                start: curr,
-                end: curr,
-              },
-            ];
-          }, []);
-      })
-      .flat();
-
-    console.log({ timeSpansPayload });
-
     const variables: EventArguments = {
       mainLanguage: i18n.language as 'nl' | 'fr',
       name: productions[0].name,
       calendar: {
         calendarType: CalendarType.MULTIPLE,
-        timeSpans: timeSpansPayload,
+        timeSpans: createTimeTablePayload(timeTable, dateStart),
       },
       type: {
         id: OfferCategories.Film,
