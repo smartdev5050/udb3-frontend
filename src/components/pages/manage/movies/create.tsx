@@ -91,6 +91,14 @@ const Create = () => {
     reset: reset,
   };
 
+  const isStep2Visible = dirtyFields.theme || dirtyFields.cinema;
+  const isStep3Visible =
+    (dirtyFields.timeTable &&
+      filledInTimeTable.some((row) => row.some((cell) => !!cell))) ||
+    dirtyFields.cinema;
+  const isStep4Visible = dirtyFields.cinema;
+  const isSaveButtonVisible = dirtyFields.cinema;
+
   return (
     <Page>
       <Page.Title spacing={3} alignItems="center">
@@ -98,7 +106,6 @@ const Create = () => {
       </Page.Title>
       <Page.Content spacing={5} paddingBottom={6} alignItems="flex-start">
         <Step1 {...stepProps} />
-        {dirtyFields.theme ? <Step2 {...stepProps} /> : null}
         {isStep2Visible ? <Step2 {...stepProps} /> : null}
         {isStep3Visible ? <Step3 {...stepProps} /> : null}
         {isStep4Visible ? <Step4 {...stepProps} /> : null}
