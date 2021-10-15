@@ -1,9 +1,4 @@
-import {
-  Controller,
-  ControllerProps,
-  FieldError,
-  FieldErrors,
-} from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { MovieThemes } from '@/constants/MovieThemes';
@@ -25,8 +20,6 @@ type Step1Props = StackProps & StepProps;
 
 const Step1 = ({ errors, control, reset, getValues, ...props }: Step1Props) => {
   const { t } = useTranslation();
-
-  errors.theme;
 
   return (
     <Step stepNumber={1} {...getStackProps(props)}>

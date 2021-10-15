@@ -115,4 +115,4 @@ const Create = () => {
 export const getServerSideProps = getApplicationServerSideProps();
 
 export default Create;
-export type { StepProps, NewProduction };
+export type { NewProduction, StepProps };
