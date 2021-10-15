@@ -8,9 +8,16 @@ import { TimeTable } from '@/ui/TimeTable';
 import type { StepProps } from './create';
 import { Step } from './Step';
 
-type Step2Props = StackProps & StepProps;
+type Step2Props = StackProps &
+  StepProps & { dateStart: Date; onDateStartChange: (date: Date) => void };
 
-const Step2 = ({ errors, control, ...props }: Step2Props) => {
+const Step2 = ({
+  errors,
+  control,
+  dateStart,
+  onDateStartChange,
+  ...props
+}: Step2Props) => {
   return (
     <Step stepNumber={2} {...getStackProps(props)}>
       <Controller
@@ -22,6 +29,8 @@ const Step2 = ({ errors, control, ...props }: Step2Props) => {
               id="timetable-movies"
               value={field.value}
               onChange={(value) => field.onChange(value)}
+              dateStart={dateStart}
+              onDateStartChange={onDateStartChange}
               {...getStackProps(props)}
             />
           );

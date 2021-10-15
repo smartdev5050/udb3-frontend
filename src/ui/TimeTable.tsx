@@ -158,10 +158,19 @@ type Props = StackProps & {
   id: string;
   onChange: (value: Time[][]) => void;
   value: Time[][];
+  dateStart: Date;
+  onDateStartChange: (value: Date) => void;
 };
 
-const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
-  const [dateStart, setDateStart] = useState(new Date());
+const TimeTable = ({
+  id,
+  className,
+  onChange,
+  value,
+  dateStart,
+  onDateStartChange,
+  ...props
+}: Props) => {
   const [dateEnd, setDateEnd] = useState(new Date());
 
   const timeTable = value ?? [];
@@ -288,7 +297,7 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
         id={id}
         dateStart={dateStart}
         dateEnd={dateEnd}
-        onDateStartChange={setDateStart}
+        onDateStartChange={onDateStartChange}
         onDateEndChange={setDateEnd}
       />
       <Stack

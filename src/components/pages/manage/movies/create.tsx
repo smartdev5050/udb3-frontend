@@ -14,6 +14,14 @@ import { Step1 } from './Step1';
 import { Step2 } from './Step2';
 import { Step3 } from './Step3';
 import { Step4 } from './Step4';
+import { useAddEvent } from '@/hooks/api/events';
+import type { EventArguments } from '@/hooks/api/events';
+import { CalendarType } from '@/constants/CalendarType';
+import { OfferCategories } from '@/constants/OfferCategories';
+import { MovieThemes } from '@/constants/MovieThemes';
+import { addDays, set as setTime } from 'date-fns';
+import { formatDateToISO } from '@/utils/formatDateToISO';
+import { useState } from 'react';
 
 const schema = yup
   .object({
@@ -24,6 +32,7 @@ const schema = yup
         value.some((rows) => rows.some((cell) => !!cell)),
       )
       .required(),
+    dateStart: yup.date().required(),
     cinema: yup
       .array()
       .test('selected-cinema', (value) => !!value?.length)
@@ -37,17 +46,12 @@ const schema = yup
 
 type Time = string;
 
-type NewProduction = {
-  id: string;
-  name: string;
-  customOption: boolean;
-};
-
 type FormData = {
   theme: string;
   timeTable: Time[][];
   cinema: Place[];
-  production: Array<Production | NewProduction>;
+  production: Array<Production & { customOption?: boolean }>;
+  dateStart: Date;
 };
 
 type StepProps = Pick<
@@ -64,20 +68,101 @@ const Create = () => {
     control,
     watch,
     getValues,
+    setValue,
     reset,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
+    defaultValues: {
+      dateStart: new Date(),
+    },
   });
 
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
-  const handleFormValid = (values) => {
-    console.log(values);
+  // const addEventMutation = useAddEvent();
+
+  const handleFormValid = ({
+    production: productions,
+    cinema: cinemas,
+    theme: themeId,
+    timeTable,
+    dateStart,
+  }: FormData) => {
+    if (!productions.length) return;
+
+    const [themeLabel] = Object.entries(MovieThemes).find(
+      ([key, value]) => value === themeId,
+    );
+
+    const timeTableAsDateStrings = timeTable
+      .map((row, rowIndex) => {
+        return row
+          .map((time) => {
+            if (!time || !/[0-2][0-4]h[0-5][0-9]m/.test(time)) return null;
+            const hours = parseInt(time.substring(0, 2));
+            const minutes = parseInt(time.substring(3, 5));
+            const rowDate = addDays(dateStart, rowIndex);
+            const dateWithTime = setTime(rowDate, {
+              hours,
+              minutes,
+              seconds: 0,
+            });
+            return formatDateToISO(dateWithTime);
+          })
+          .reduce((acc, curr) => {
+            console.log({ curr });
+            if (!curr) {
+              return acc;
+            }
+            return [
+              ...acc,
+              {
+                start: curr,
+              },
+            ];
+          }, []);
+      })
+      .flat();
+
+    console.log({ timeTableAsDateStrings });
+
+    const variables: EventArguments = {
+      mainLanguage: i18n.language as 'nl' | 'fr',
+      name: productions[0].name,
+      calendar: {
+        calendarType: CalendarType.MULTIPLE,
+        timeSpans: [],
+      },
+      type: {
+        id: OfferCategories.Film,
+        label: 'Film',
+        domain: 'eventtype',
+      },
+      theme: {
+        id: themeId,
+        label: themeLabel,
+        domain: 'theme',
+      },
+      location: {
+        id: cinemas[0]['@id'],
+      },
+    };
+
+    // Make new Event
+    // addEventMutation.mutate(variables);
+
     // Prepare data for API post
+    // If no existing production -> create production first
+
+    if (productions[0].customOption) {
+      console.log('create production');
+    }
+
     // Submit to API
   };
 
   const filledInTimeTable = watch('timeTable');
+  const dateStart = watch('dateStart');
 
   const handleFormInValid = (values) => {
     console.log(values);
@@ -106,7 +191,15 @@ const Create = () => {
       </Page.Title>
       <Page.Content spacing={5} paddingBottom={6} alignItems="flex-start">
         <Step1 {...stepProps} />
-        {isStep2Visible ? <Step2 {...stepProps} /> : null}
+        {isStep2Visible ? (
+          <Step2
+            {...{
+              ...stepProps,
+              dateStart,
+              onDateStartChange: (value) => setValue('dateStart', value),
+            }}
+          />
+        ) : null}
         {isStep3Visible ? <Step3 {...stepProps} /> : null}
         {isStep4Visible ? <Step4 {...stepProps} /> : null}
         {isSaveButtonVisible ? (
@@ -122,4 +215,4 @@ const Create = () => {
 export const getServerSideProps = getApplicationServerSideProps();
 
 export default Create;
-export type { NewProduction, StepProps };
+export type { StepProps };
