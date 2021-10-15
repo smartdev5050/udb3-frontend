@@ -89,7 +89,7 @@ type DatePickerProps = {
 
 type TypeaheadProps = {
   options: unknown[];
-  labelKey: (option: unknown) => string;
+  labelKey: ((option: unknown) => string) | string;
   isLoading: boolean;
   disabled: boolean;
   placeholder: string;

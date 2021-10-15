@@ -3,7 +3,6 @@ import type { UseQueryOptions } from 'react-query';
 import type { Event } from '@/types/Event';
 import type { BookingAvailability, Status, Term } from '@/types/Offer';
 import type { User } from '@/types/User';
-import type { Headers } from './types';
 import { createEmbededCalendarSummaries } from '@/utils/createEmbededCalendarSummaries';
 import { createSortingArgument } from '@/utils/createSortingArgument';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
@@ -46,8 +45,9 @@ type EventArguments = {
   };
   mainLanguage: string;
 };
-type AddEventArguments = EventArguments & Headers;
+type AddEventArguments = EventArguments & { headers: any };
 
+// @TODO: fix typings for headers
 const addEvent = async ({
   headers,
   mainLanguage,
