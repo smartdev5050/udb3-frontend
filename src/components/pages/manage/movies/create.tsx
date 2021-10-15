@@ -99,14 +99,14 @@ const Create = () => {
       <Page.Content spacing={5} paddingBottom={6} alignItems="flex-start">
         <Step1 {...stepProps} />
         {dirtyFields.theme ? <Step2 {...stepProps} /> : null}
-        {dirtyFields.timeTable &&
-        filledInTimeTable.some((row) => row.some((cell) => !!cell)) ? (
-          <Step3 {...stepProps} />
+        {isStep2Visible ? <Step2 {...stepProps} /> : null}
+        {isStep3Visible ? <Step3 {...stepProps} /> : null}
+        {isStep4Visible ? <Step4 {...stepProps} /> : null}
+        {isSaveButtonVisible ? (
+          <Button onClick={handleSubmit(handleFormValid, handleFormInValid)}>
+            Opslaan
+          </Button>
         ) : null}
-        {dirtyFields.cinema ? <Step4 {...stepProps} /> : null}
-        <Button onClick={handleSubmit(handleFormValid, handleFormInValid)}>
-          Opslaan
-        </Button>
       </Page.Content>
     </Page>
   );
