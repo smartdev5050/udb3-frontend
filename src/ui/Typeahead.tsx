@@ -10,7 +10,7 @@ const getValue = getValueFromTheme('typeahead');
 
 type TypeaheadProps<T> = {
   options: T[];
-  labelKey: (option: T) => string | string;
+  labelKey: ((option: T) => string) | string;
   disabled?: boolean;
   placeholder?: string;
   emptyLabel?: string;
