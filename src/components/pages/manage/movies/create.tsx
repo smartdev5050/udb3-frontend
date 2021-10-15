@@ -1,8 +1,11 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import type { FormState, UseFormReturn } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
+import type { Place } from '@/types/Place';
+import type { Production } from '@/types/Production';
 import { Button } from '@/ui/Button';
 import { Page } from '@/ui/Page';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
@@ -32,6 +35,27 @@ const schema = yup
   })
   .required();
 
+type Time = string;
+
+type NewProduction = {
+  id: string;
+  name: string;
+  customOption: boolean;
+};
+
+type FormData = {
+  theme: string;
+  timeTable: Time[][];
+  cinema: Place[];
+  production: Array<Production | NewProduction>;
+};
+
+type StepProps = Pick<
+  UseFormReturn<FormData>,
+  'control' | 'getValues' | 'register' | 'reset'
+> &
+  Pick<FormState<FormData>, 'errors'>;
+
 const Create = () => {
   const {
     handleSubmit,
@@ -41,7 +65,7 @@ const Create = () => {
     watch,
     getValues,
     reset,
-  } = useForm({
+  } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
 
@@ -89,3 +113,4 @@ const Create = () => {
 export const getServerSideProps = getApplicationServerSideProps();
 
 export default Create;
+export type { StepProps };

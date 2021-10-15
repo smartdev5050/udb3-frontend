@@ -5,9 +5,10 @@ import type { StackProps } from '@/ui/Stack';
 import { getStackProps } from '@/ui/Stack';
 import { TimeTable } from '@/ui/TimeTable';
 
+import type { StepProps } from './create';
 import { Step } from './Step';
 
-type Step2Props = StackProps;
+type Step2Props = StackProps & StepProps;
 
 const Step2 = ({ errors, control, ...props }: Step2Props) => {
   return (

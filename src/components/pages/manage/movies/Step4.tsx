@@ -14,9 +14,10 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { TypeaheadWithLabel } from '@/ui/TypeaheadWithLabel';
 
+import type { StepProps } from './create';
 import { Step } from './Step';
 
-type Step4Props = StackProps;
+type Step4Props = StackProps & StepProps;
 
 const getValue = getValueFromTheme('moviesCreatePage');
 

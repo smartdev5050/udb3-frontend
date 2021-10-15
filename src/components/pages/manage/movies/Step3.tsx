@@ -15,11 +15,12 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { TypeaheadWithLabel } from '@/ui/TypeaheadWithLabel';
 
+import type { StepProps } from './create';
 import { Step } from './Step';
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
-type Step3Props = StackProps;
+type Step3Props = StackProps & StepProps;
 
 const Step3 = ({ errors, getValues, reset, control, ...props }: Step3Props) => {
   const { t, i18n } = useTranslation();
