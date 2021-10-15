@@ -21,7 +21,8 @@ import { OfferCategories } from '@/constants/OfferCategories';
 import { MovieThemes } from '@/constants/MovieThemes';
 import { addDays, set as setTime } from 'date-fns';
 import { formatDateToISO } from '@/utils/formatDateToISO';
-import { useState } from 'react';
+import { WorkflowStatusMap } from '@/types/WorkflowStatus';
+import { parseOfferId } from '@/utils/parseOfferId';
 
 const schema = yup
   .object({
@@ -79,7 +80,9 @@ const Create = () => {
 
   const { t, i18n } = useTranslation();
 
-  // const addEventMutation = useAddEvent();
+  const addEventMutation = useAddEvent({
+    onSuccess: (res) => console.log(res),
+  });
 
   const handleFormValid = ({
     production: productions,
@@ -94,7 +97,7 @@ const Create = () => {
       ([key, value]) => value === themeId,
     );
 
-    const timeTableAsDateStrings = timeTable
+    const timeSpansPayload = timeTable
       .map((row, rowIndex) => {
         return row
           .map((time) => {
@@ -110,7 +113,6 @@ const Create = () => {
             return formatDateToISO(dateWithTime);
           })
           .reduce((acc, curr) => {
-            console.log({ curr });
             if (!curr) {
               return acc;
             }
@@ -118,20 +120,21 @@ const Create = () => {
               ...acc,
               {
                 start: curr,
+                end: curr,
               },
             ];
           }, []);
       })
       .flat();
 
-    console.log({ timeTableAsDateStrings });
+    console.log({ timeSpansPayload });
 
     const variables: EventArguments = {
       mainLanguage: i18n.language as 'nl' | 'fr',
       name: productions[0].name,
       calendar: {
         calendarType: CalendarType.MULTIPLE,
-        timeSpans: [],
+        timeSpans: timeSpansPayload,
       },
       type: {
         id: OfferCategories.Film,
@@ -144,12 +147,14 @@ const Create = () => {
         domain: 'theme',
       },
       location: {
-        id: cinemas[0]['@id'],
+        id: parseOfferId(cinemas[0]['@id']),
       },
+      workflowStatus: WorkflowStatusMap.DRAFT,
+      audienceType: 'everyone',
     };
 
     // Make new Event
-    // addEventMutation.mutate(variables);
+    addEventMutation.mutate(variables);
 
     // Prepare data for API post
     // If no existing production -> create production first
