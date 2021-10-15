@@ -1,8 +1,9 @@
 import type { UseQueryOptions } from 'react-query';
 
 import type { Event } from '@/types/Event';
-import type { BookingAvailability, Status } from '@/types/Offer';
+import type { BookingAvailability, Status, Term } from '@/types/Offer';
 import type { User } from '@/types/User';
+import type { Headers } from './types';
 import { createEmbededCalendarSummaries } from '@/utils/createEmbededCalendarSummaries';
 import { createSortingArgument } from '@/utils/createSortingArgument';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
@@ -19,6 +20,72 @@ import {
   useAuthenticatedQueries,
   useAuthenticatedQuery,
 } from './authenticated-query';
+import { WorkflowStatus } from '@/types/WorkflowStatus';
+import { Values } from '@/types/Values';
+import { CalendarType } from '@/constants/CalendarType';
+
+type TimeSpan = {
+  start: string;
+  end: string;
+};
+
+type Calendar = {
+  calendarType: Values<typeof CalendarType>;
+  timeSpans: TimeSpan[];
+};
+
+type EventArguments = {
+  name: string;
+  calendar: Calendar;
+  type: Term;
+  theme: Term;
+  workflowStatus: WorkflowStatus;
+  audienceType: string;
+  location: {
+    id: string;
+  };
+  mainLanguage: string;
+};
+type AddEventArguments = EventArguments & Headers;
+
+const addEvent = async ({
+  headers,
+  mainLanguage,
+  name,
+  calendar,
+  type,
+  theme,
+  location,
+  audienceType,
+}: AddEventArguments) => {
+  const res = await fetchFromApi({
+    path: '/events/',
+    options: {
+      headers,
+      method: 'POST',
+      body: JSON.stringify({
+        mainLanguage,
+        name,
+        calendar,
+        type,
+        theme,
+        location,
+        audienceType,
+      }),
+    },
+  });
+  if (isErrorObject(res)) {
+    // eslint-disable-next-line no-console
+    return console.error(res);
+  }
+  return await res.json();
+};
+
+const useAddEvent = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: addEvent,
+    ...configuration,
+  });
 
 const getEventsToModerate = async ({ headers, queryKey, ...queryData }) => {
   const res = await fetchFromApi({
@@ -345,6 +412,7 @@ const useChangeDescription = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: changeDescription, ...configuration });
 
 export {
+  useAddEvent,
   useAddEventMainImage,
   useAddImageToEvent,
   useChangeDescription,
@@ -359,3 +427,5 @@ export {
   useGetEventsToModerate,
   useUpdateImageFromEvent,
 };
+
+export type { EventArguments };
