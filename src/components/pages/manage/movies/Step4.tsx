@@ -14,7 +14,7 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { TypeaheadWithLabel } from '@/ui/TypeaheadWithLabel';
 
-import type { StepProps } from './create';
+import type { NewProduction, StepProps } from './create';
 import { Step } from './Step';
 
 type Step4Props = StackProps & StepProps;
@@ -49,7 +49,7 @@ const Step4 = ({ errors, control, getValues, reset, ...props }: Step4Props) => {
 
           if (!selectedProduction) {
             return (
-              <TypeaheadWithLabel<Production>
+              <TypeaheadWithLabel<Production | NewProduction>
                 newSelectionPrefix="Voeg nieuwe productie toe: "
                 allowNew
                 error={errors.production ? 'this is another error' : undefined}
@@ -57,7 +57,7 @@ const Step4 = ({ errors, control, getValues, reset, ...props }: Step4Props) => {
                 label={t('movies.create.actions.choose_name')}
                 options={productions}
                 onInputChange={throttle(setSearchInput, 275)}
-                labelKey="name"
+                labelKey={(option) => option.name}
                 maxWidth="43rem"
                 selected={field.value}
                 onChange={(value) => field.onChange(value)}

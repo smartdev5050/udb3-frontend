@@ -20,7 +20,7 @@ type TypeaheadProps<T> = {
     | boolean
     | ((results: Array<Object | string>, props: Object) => boolean);
   newSelectionPrefix?: string;
-  selected: unknown[];
+  selected: T[];
 };
 
 type Props<T> = Omit<BoxProps, 'onChange'> &

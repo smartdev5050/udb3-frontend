@@ -31,7 +31,7 @@ const getValue = getValueFromTheme('moviesCreatePage');
 
 type Step5Props = StackProps;
 
-const Step5 = ({ movieState, sendMovieEvent, ...props }: Step5Props) => {
+const Step5 = ({ ...props }: Step5Props) => {
   const eventId = '37d2edd9-ffb4-4abd-9f79-e21d9960d437';
 
   const queryClient = useQueryClient();

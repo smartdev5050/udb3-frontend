@@ -23,7 +23,7 @@ const getValue = getValueFromTheme('moviesCreatePage');
 
 type Step1Props = StackProps & StepProps;
 
-const Step1 = ({ errors, control, ...props }: Step1Props) => {
+const Step1 = ({ errors, control, reset, getValues, ...props }: Step1Props) => {
   const { t } = useTranslation();
 
   errors.theme;

@@ -73,6 +73,8 @@ const Create = () => {
 
   const handleFormValid = (values) => {
     console.log(values);
+    // Prepare data for API post
+    // Submit to API
   };
 
   const filledInTimeTable = watch('timeTable');
@@ -113,4 +115,4 @@ const Create = () => {
 export const getServerSideProps = getApplicationServerSideProps();
 
 export default Create;
-export type { StepProps };
+export type { StepProps, NewProduction };
