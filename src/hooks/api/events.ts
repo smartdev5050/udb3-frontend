@@ -22,6 +22,7 @@ import {
   useAuthenticatedQueries,
   useAuthenticatedQuery,
 } from './authenticated-query';
+import type { Headers } from './types/Headers';
 
 type TimeSpan = {
   start: string;
@@ -45,9 +46,8 @@ type EventArguments = {
   };
   mainLanguage: string;
 };
-type AddEventArguments = EventArguments & { headers: any };
+type AddEventArguments = EventArguments & { headers: Headers };
 
-// @TODO: fix typings for headers
 const addEvent = async ({
   headers,
   mainLanguage,
