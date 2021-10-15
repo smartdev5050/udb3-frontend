@@ -186,21 +186,6 @@ const TimeTable = ({
     );
   }, [dateStart, dateEnd]);
 
-  // TODO: needs to move to event post
-  // useEffect(() => {
-  //   const timeTableAsDateStrings = timeTable.map((row, rowIndex) =>
-  //     row.map((time) => {
-  //       if (!time || !/[0-2][0-4]h[0-5][0-9]m/.test(time)) return null;
-  //       const hours = parseInt(time.substring(0, 2));
-  //       const minutes = parseInt(time.substring(3, 5));
-  //       const rowDate = addDays(dateStart, rowIndex);
-  //       const dateWithTime = setTime(rowDate, { hours, minutes, seconds: 0 });
-  //       return formatDateToISO(dateWithTime);
-  //     }),
-  //   );
-  //   onChange(timeTableAsDateStrings);
-  // }, [timeTable, dateStart]);
-
   const onEditCell = (rowIndex: number, colIndex: number, value: Time) => {
     onChange(
       timeTable.map((innerRow, innerRowIndex) => {
