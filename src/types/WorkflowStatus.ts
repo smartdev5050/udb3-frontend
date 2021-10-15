@@ -1,4 +1,4 @@
-import { Values } from './Values';
+import type { Values } from './Values';
 
 const WorkflowStatusMap = {
   DRAFT: 'DRAFT',

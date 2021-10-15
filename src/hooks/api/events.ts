@@ -1,8 +1,11 @@
 import type { UseQueryOptions } from 'react-query';
 
+import type { CalendarType } from '@/constants/CalendarType';
 import type { Event } from '@/types/Event';
 import type { BookingAvailability, Status, Term } from '@/types/Offer';
 import type { User } from '@/types/User';
+import type { Values } from '@/types/Values';
+import type { WorkflowStatus } from '@/types/WorkflowStatus';
 import { createEmbededCalendarSummaries } from '@/utils/createEmbededCalendarSummaries';
 import { createSortingArgument } from '@/utils/createSortingArgument';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
@@ -19,9 +22,6 @@ import {
   useAuthenticatedQueries,
   useAuthenticatedQuery,
 } from './authenticated-query';
-import { WorkflowStatus } from '@/types/WorkflowStatus';
-import { Values } from '@/types/Values';
-import { CalendarType } from '@/constants/CalendarType';
 
 type TimeSpan = {
   start: string;

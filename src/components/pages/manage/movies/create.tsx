@@ -1,28 +1,28 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import { addDays, set as setTime } from 'date-fns';
 import type { FormState, UseFormReturn } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
+import { CalendarType } from '@/constants/CalendarType';
+import { MovieThemes } from '@/constants/MovieThemes';
+import { OfferCategories } from '@/constants/OfferCategories';
+import type { EventArguments } from '@/hooks/api/events';
+import { useAddEvent } from '@/hooks/api/events';
 import type { Place } from '@/types/Place';
 import type { Production } from '@/types/Production';
+import { WorkflowStatusMap } from '@/types/WorkflowStatus';
 import { Button } from '@/ui/Button';
 import { Page } from '@/ui/Page';
+import { formatDateToISO } from '@/utils/formatDateToISO';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
+import { parseOfferId } from '@/utils/parseOfferId';
 
 import { Step1 } from './Step1';
 import { Step2 } from './Step2';
 import { Step3 } from './Step3';
 import { Step4 } from './Step4';
-import { useAddEvent } from '@/hooks/api/events';
-import type { EventArguments } from '@/hooks/api/events';
-import { CalendarType } from '@/constants/CalendarType';
-import { OfferCategories } from '@/constants/OfferCategories';
-import { MovieThemes } from '@/constants/MovieThemes';
-import { addDays, set as setTime } from 'date-fns';
-import { formatDateToISO } from '@/utils/formatDateToISO';
-import { WorkflowStatusMap } from '@/types/WorkflowStatus';
-import { parseOfferId } from '@/utils/parseOfferId';
 
 const schema = yup
   .object({
