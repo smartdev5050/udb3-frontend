@@ -1,6 +1,11 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { addDays, set as setTime } from 'date-fns';
-import { useState } from 'react';
+import {
+  addDays,
+  format as formatDate,
+  isSameDay,
+  set as setTime,
+} from 'date-fns';
+import { useMemo, useState } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -15,6 +20,7 @@ import {
   useAddEvent,
   useAddLabel,
   useChangeTypicalAgeRange,
+  useGetEventById,
   usePublish,
 } from '@/hooks/api/events';
 import { useAddEventById, useCreateWithEvents } from '@/hooks/api/productions';
@@ -22,7 +28,9 @@ import type { Place } from '@/types/Place';
 import type { Production } from '@/types/Production';
 import { WorkflowStatusMap } from '@/types/WorkflowStatus';
 import { Button, ButtonVariants } from '@/ui/Button';
+import { Inline } from '@/ui/Inline';
 import { Page } from '@/ui/Page';
+import { Text, TextVariants } from '@/ui/Text';
 import { formatDateToISO } from '@/utils/formatDateToISO';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 import { parseOfferId } from '@/utils/parseOfferId';
@@ -126,7 +134,7 @@ const Create = () => {
   const [isPublishLaterModalVisible, setIsPublishLaterModalVisible] = useState(
     false,
   );
-  const [publishLaterDate, setPublishLaterDate] = useState<Date>(null);
+  const [publishLaterDate, setPublishLaterDate] = useState<Date>();
 
   const addEventMutation = useAddEvent({
     onSuccess: async () => await queryClient.invalidateQueries('events'),
@@ -140,7 +148,18 @@ const Create = () => {
 
   const createWithEventsMutation = useCreateWithEvents();
 
-  const publishMutation = usePublish();
+  const publishMutation = usePublish({
+    onSuccess: () => {
+      queryClient.invalidateQueries(['events', { id: newEventId }]);
+    },
+  });
+
+  const getEventByIdQuery = useGetEventById({ id: newEventId });
+
+  const availableFromDate = useMemo(() => {
+    if (!getEventByIdQuery.data?.availableFrom) return;
+    return new Date(getEventByIdQuery.data?.availableFrom);
+  }, [getEventByIdQuery.data]);
 
   const handleFormValid = async ({
     production: productions,
@@ -273,15 +292,31 @@ const Create = () => {
       </Page.Content>
       {newEventId ? (
         <Page.Footer>
-          <Button variant={ButtonVariants.SUCCESS} onClick={handleClickPublish}>
-            {t('movies.create.actions.publish')}
-          </Button>
-          <Button
-            variant={ButtonVariants.SECONDARY}
-            onClick={handleClickPublishLater}
-          >
-            {t('movies.create.actions.publish_later')}
-          </Button>
+          {availableFromDate ? (
+            <Text variant={TextVariants.MUTED}>
+              {isSameDay(availableFromDate, new Date())
+                ? t('movies.create.footer.available')
+                : t('movies.create.footer.available_from', {
+                    date: formatDate(availableFromDate, 'dd/MM/yy'),
+                  })}
+            </Text>
+          ) : (
+            <Inline spacing={3}>
+              <Button
+                variant={ButtonVariants.SUCCESS}
+                onClick={handleClickPublish}
+              >
+                {t('movies.create.actions.publish')}
+              </Button>
+              <Button
+                variant={ButtonVariants.SECONDARY}
+                onClick={handleClickPublishLater}
+              >
+                {t('movies.create.actions.publish_later')}
+              </Button>
+            </Inline>
+          )}
+
           <PublishLaterModal
             visible={isPublishLaterModalVisible}
             selectedDate={publishLaterDate}
