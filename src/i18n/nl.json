@@ -181,6 +181,20 @@
         "description": "Beschrijving",
         "clear": "Leegmaken"
       },
+      "validation_messages": {
+        "theme": {
+          "required": "Thema is verplicht."
+        },
+        "timeTable": {
+          "has-timeslot": "Minstens 1 tijdslot is verplicht."
+        },
+        "cinema": {
+          "selected-cinema": "Bioscoop is verplicht."
+        },
+        "production": {
+          "selected-production": "Naam is verplicht."
+        }
+      },
       "picture": {
         "intro": "Voeg een afbeelding toe zodat bezoekers je activiteit beter herkennen",
         "add_button": "Afbeelding toevoegen",

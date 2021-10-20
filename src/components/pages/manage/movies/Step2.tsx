@@ -1,4 +1,5 @@
 import { Controller } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 import { Alert, AlertVariants } from '@/ui/Alert';
 import type { StackProps } from '@/ui/Stack';
@@ -18,6 +19,8 @@ const Step2 = ({
   onDateStartChange,
   ...props
 }: Step2Props) => {
+  const { t } = useTranslation();
+
   return (
     <Step stepNumber={2} {...getStackProps(props)}>
       <Controller
@@ -39,7 +42,9 @@ const Step2 = ({
 
       {errors?.timeTable ? (
         <Alert visible variant={AlertVariants.DANGER} maxWidth="53rem">
-          this is an error
+          {t(
+            `movies.create.validation_messages.timeTable.${errors.timeTable.type}`,
+          )}
         </Alert>
       ) : null}
     </Step>

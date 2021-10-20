@@ -52,7 +52,13 @@ const Step3 = ({ errors, getValues, reset, control, ...props }: Step3Props) => {
             if (!selectedCinema) {
               return (
                 <TypeaheadWithLabel<Place>
-                  error={errors?.cinema ? 'this is an error' : undefined}
+                  error={
+                    errors?.cinema
+                      ? t(
+                          `movies.create.validation_messages.cinema.${errors?.cinema.type}`,
+                        )
+                      : undefined
+                  }
                   id="step3-cinema-typeahead"
                   label={t('movies.create.actions.choose_cinema')}
                   options={cinemas}

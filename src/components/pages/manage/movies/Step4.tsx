@@ -52,7 +52,13 @@ const Step4 = ({ errors, control, getValues, reset, ...props }: Step4Props) => {
               <TypeaheadWithLabel<Production & { customOption?: boolean }>
                 newSelectionPrefix="Voeg nieuwe productie toe: "
                 allowNew
-                error={errors.production ? 'this is another error' : undefined}
+                error={
+                  errors.production
+                    ? t(
+                        `movies.create.validation_messages.production.${errors.production.type}`,
+                      )
+                    : undefined
+                }
                 id="step4-name-typeahead"
                 label={t('movies.create.actions.choose_name')}
                 options={productions}

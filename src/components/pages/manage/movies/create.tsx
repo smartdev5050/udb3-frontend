@@ -187,11 +187,11 @@ const Create = () => {
   const dateStart = watch('dateStart');
 
   const stepProps = {
-    errors: errors,
-    control: control,
-    getValues: getValues,
-    register: register,
-    reset: reset,
+    errors,
+    control,
+    getValues,
+    register,
+    reset,
   };
 
   const isStep2Visible = dirtyFields.theme || dirtyFields.cinema;

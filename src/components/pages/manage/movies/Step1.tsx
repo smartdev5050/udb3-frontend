@@ -74,7 +74,7 @@ const Step1 = ({ errors, control, reset, getValues, ...props }: Step1Props) => {
       />
       {errors?.theme ? (
         <Alert visible variant={AlertVariants.DANGER} maxWidth="53rem">
-          this is an error
+          {t(`movies.create.validation_messages.theme.${errors?.theme.type}`)}
         </Alert>
       ) : null}
     </Step>
