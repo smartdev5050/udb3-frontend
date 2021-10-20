@@ -71,6 +71,7 @@ const addEvent = async ({
         theme,
         location,
         audienceType,
+        labels: ['udb-filminvoer'],
       }),
     },
   });
@@ -421,10 +422,26 @@ const useChangeTypicalAgeRange = (configuration = {}) =>
     ...configuration,
   });
 
+const addLabel = async ({ headers, eventId, label }) =>
+  fetchFromApi({
+    path: `/events/${eventId}/labels/${label}`,
+    options: {
+      method: 'PUT',
+      headers,
+    },
+  });
+
+const useAddLabel = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: addLabel,
+    ...configuration,
+  });
+
 export {
   useAddEvent,
   useAddEventMainImage,
   useAddImageToEvent,
+  useAddLabel,
   useChangeDescription,
   useChangeStatus,
   useChangeStatusSubEvents,
