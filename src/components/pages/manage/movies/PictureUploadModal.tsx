@@ -256,19 +256,7 @@ const PictureUploadModal = ({
         <InputWithLabel
           id="copyrightHolder"
           label="Copyright"
-          info={
-            <Stack spacing={3}>
-              <Paragraph>
-                {t('movies.create.picture.upload_modal.disclaimer.copyright')}
-              </Paragraph>
-              <Paragraph>
-                <Trans i18nKey="movies.create.picture.upload_modal.disclaimer.terms_and_conditions.text">
-                  <TermsAndConditionsLink />
-                  <CopyrightLink />
-                </Trans>
-              </Paragraph>
-            </Stack>
-          }
+          info={t('movies.create.picture.upload_modal.disclaimer.copyright')}
           error={
             errors.copyrightHolder &&
             t(
@@ -277,6 +265,12 @@ const PictureUploadModal = ({
           }
           {...register('copyrightHolder')}
         />
+        <Text variant={TextVariants.MUTED} fontSize="0.8rem">
+          <Trans i18nKey="movies.create.picture.upload_modal.disclaimer.terms_and_conditions.text">
+            <TermsAndConditionsLink />
+            <CopyrightLink />
+          </Trans>
+        </Text>
         <Button type="submit" display="none" />
       </Stack>
     </Modal>
