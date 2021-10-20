@@ -44,6 +44,7 @@ const QuestionModal = ({
         border-radius: 0;
         max-height: 95vh;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        overflow: visible;
       }
 
       .modal-body {
