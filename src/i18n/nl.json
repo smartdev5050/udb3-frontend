@@ -180,7 +180,9 @@
         "choose_name": "Kies een naam",
         "description": "Beschrijving",
         "clear": "Leegmaken",
-        "save": "Opslaan"
+        "save": "Opslaan",
+        "publish": "Publiceren",
+        "publish_later": "Later publiceren"
       },
       "validation_messages": {
         "timeTable": {

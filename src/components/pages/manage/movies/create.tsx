@@ -249,11 +249,14 @@ const Create = () => {
       </Page.Content>
       {newEventId ? (
         <Page.Footer>
-          <Button variant={ButtonVariants.SUCCESS} onClick={() => {}}>
-            Publiceren
+          <Button variant={ButtonVariants.SUCCESS} onClick={handleClickPublish}>
+            {t('movies.create.actions.publish')}
           </Button>
-          <Button variant={ButtonVariants.SECONDARY} onClick={() => {}}>
-            Later publiceren
+          <Button
+            variant={ButtonVariants.SECONDARY}
+            onClick={handleClickPublishLater}
+          >
+            {t('movies.create.actions.publish_later')}
           </Button>
         </Page.Footer>
       ) : null}
