@@ -60,7 +60,7 @@ const createTimeTablePayload = (timeTable: Time[][], dateStart: Date) =>
 
 const schema = yup
   .object({
-    theme: yup.string().required(),
+    theme: yup.string(),
     timeTable: yup
       .array()
       .test('has-timeslot', (value) =>

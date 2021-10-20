@@ -2,7 +2,6 @@ import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { MovieThemes } from '@/constants/MovieThemes';
-import { Alert, AlertVariants } from '@/ui/Alert';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
@@ -72,11 +71,6 @@ const Step1 = ({ errors, control, reset, getValues, ...props }: Step1Props) => {
           );
         }}
       />
-      {errors?.theme ? (
-        <Alert visible variant={AlertVariants.DANGER} maxWidth="53rem">
-          {t(`movies.create.validation_messages.theme.${errors?.theme.type}`)}
-        </Alert>
-      ) : null}
     </Step>
   );
 };

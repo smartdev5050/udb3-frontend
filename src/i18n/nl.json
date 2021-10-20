@@ -182,9 +182,6 @@
         "clear": "Leegmaken"
       },
       "validation_messages": {
-        "theme": {
-          "required": "Thema is verplicht."
-        },
         "timeTable": {
           "has-timeslot": "Minstens 1 tijdslot is verplicht."
         },
