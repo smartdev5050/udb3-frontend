@@ -27,6 +27,7 @@ import { formatDateToISO } from '@/utils/formatDateToISO';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 import { parseOfferId } from '@/utils/parseOfferId';
 
+import { PublishLaterModal } from './PublishLaterModal';
 import { Step1 } from './Step1';
 import { Step2 } from './Step2';
 import { Step3 } from './Step3';
@@ -122,6 +123,10 @@ const Create = () => {
   const queryClient = useQueryClient();
 
   const [newEventId, setNewEventId] = useState('');
+  const [isPublishLaterModalVisible, setIsPublishLaterModalVisible] = useState(
+    false,
+  );
+  const [publishLaterDate, setPublishLaterDate] = useState<Date>(null);
 
   const addEventMutation = useAddEvent({
     onSuccess: async () => await queryClient.invalidateQueries('events'),
@@ -210,7 +215,14 @@ const Create = () => {
     });
   };
 
-  const handleClickPublishLater = () => {};
+  const handleClickPublishLater = () => setIsPublishLaterModalVisible(true);
+
+  const handleConfirmPublishLater = async () => {
+    await publishMutation.mutateAsync({
+      eventId: newEventId,
+      publicationDate: formatDateToISO(publishLaterDate),
+    });
+  };
 
   const filledInTimeTable = watch('timeTable');
   const dateStart = watch('dateStart');
@@ -270,6 +282,13 @@ const Create = () => {
           >
             {t('movies.create.actions.publish_later')}
           </Button>
+          <PublishLaterModal
+            visible={isPublishLaterModalVisible}
+            selectedDate={publishLaterDate}
+            onChangeDate={setPublishLaterDate}
+            onConfirm={handleConfirmPublishLater}
+            onClose={() => setIsPublishLaterModalVisible(false)}
+          />
         </Page.Footer>
       ) : null}
     </Page>

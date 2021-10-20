@@ -243,6 +243,15 @@
             "cancel": "Annuleren",
             "confirm": "Verwijderen"
           }
+        },
+        "publish_modal": {
+          "title": "Een latere publicatiedatum kiezen",
+          "description": "Vanaf wanneer mag dit online verschijnen?",
+          "warning": "Opgelet, deze datum kan je maar één keer instellen.",
+          "actions": {
+            "cancel": "Annuleren",
+            "confirm": "Bevestigen"
+          }
         }
       }
     }
