@@ -57,8 +57,8 @@ const addEvent = async ({
   theme,
   location,
   audienceType,
-}: AddEventArguments) => {
-  const res = await fetchFromApi({
+}: AddEventArguments) =>
+  fetchFromApi({
     path: '/events/',
     options: {
       headers,
@@ -74,12 +74,6 @@ const addEvent = async ({
       }),
     },
   });
-  if (isErrorObject(res)) {
-    // eslint-disable-next-line no-console
-    return console.error(res);
-  }
-  return await res.json();
-};
 
 const useAddEvent = (configuration = {}) =>
   useAuthenticatedMutation({
