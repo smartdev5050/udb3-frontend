@@ -220,7 +220,6 @@
               }
             }
           },
-          "required_field": "verplicht veld",
           "validation_messages": {
             "description": {
               "required": "Beschrijving is verplicht.",

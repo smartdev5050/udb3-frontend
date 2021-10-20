@@ -75,6 +75,14 @@ const Typeahead: TypeaheadFunc = forwardRef(
               color: ${getValue('active.color')};
             }
           }
+          .dropdown-item.hover,
+          .dropdown-item:hover {
+            color: ${getValue('hover.color')};
+            background-color: ${getValue('hover.backgroundColor')};
+            .rbt-highlight-text {
+              color: ${getValue('hover.color')};
+            }
+          }
           .rbt-highlight-text {
             font-weight: ${getValue('highlight.fontWeight')};
             background-color: ${getValue('highlight.backgroundColor')};

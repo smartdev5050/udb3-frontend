@@ -141,6 +141,10 @@ const theme = {
         color: colors.white,
         backgroundColor: colors.red2,
       },
+      hover: {
+        color: colors.white,
+        backgroundColor: colors.red2,
+      },
       highlight: {
         fontWeight: 'bold',
         backgroundColor: 'transparent',
