@@ -187,6 +187,7 @@ const Button = ({
   title,
   size,
   forwardedAs,
+  type,
   ...props
 }: ButtonProps) => {
   const isBootstrapVariant = (Object.values(
@@ -213,6 +214,7 @@ const Button = ({
     className,
     title,
     size,
+    type,
     ...getInlineProps(props),
   };
 
@@ -314,6 +316,7 @@ Button.defaultProps = {
   customChildren: false,
   shouldHideText: false,
   textAlign: 'center',
+  type: 'button',
 };
 
 export { Button, customCSS as buttonCSS, ButtonSizes, ButtonVariants };
