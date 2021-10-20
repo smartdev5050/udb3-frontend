@@ -1,5 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { addDays, set as setTime } from 'date-fns';
+import { useState } from 'react';
 import type { FormState, UseFormReturn } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +10,8 @@ import { CalendarType } from '@/constants/CalendarType';
 import { MovieThemes } from '@/constants/MovieThemes';
 import { OfferCategories } from '@/constants/OfferCategories';
 import type { EventArguments } from '@/hooks/api/events';
-import { useAddEvent } from '@/hooks/api/events';
+import { useAddEvent, useChangeTypicalAgeRange } from '@/hooks/api/events';
+import { useAddEventById, useCreateWithEvents } from '@/hooks/api/productions';
 import type { Place } from '@/types/Place';
 import type { Production } from '@/types/Production';
 import { WorkflowStatusMap } from '@/types/WorkflowStatus';
@@ -23,6 +25,7 @@ import { Step1 } from './Step1';
 import { Step2 } from './Step2';
 import { Step3 } from './Step3';
 import { Step4 } from './Step4';
+import { Step5 } from './Step5';
 
 type Time = string;
 
@@ -109,11 +112,17 @@ const Create = () => {
 
   const { t, i18n } = useTranslation();
 
-  const addEventMutation = useAddEvent({
-    onSuccess: (res) => console.log(res),
-  });
+  const [newEventId, setNewEventId] = useState('');
 
-  const handleFormValid = ({
+  const addEventMutation = useAddEvent();
+
+  const addEventByIdMutation = useAddEventById();
+
+  const changeTypicalAgeRangeMutation = useChangeTypicalAgeRange();
+
+  const createWithEventsMutation = useCreateWithEvents();
+
+  const handleFormValid = async ({
     production: productions,
     cinema: cinemas,
     theme: themeId,
@@ -192,6 +201,7 @@ const Create = () => {
     dirtyFields.cinema;
   const isStep4Visible = dirtyFields.cinema;
   const isSaveButtonVisible = dirtyFields.cinema;
+  const isStep5Visible = !!newEventId;
 
   return (
     <Page>
@@ -212,9 +222,10 @@ const Create = () => {
         {isStep3Visible ? <Step3 {...stepProps} /> : null}
         {isStep4Visible ? <Step4 {...stepProps} /> : null}
         {isSaveButtonVisible ? (
-          <Button onClick={handleSubmit(handleFormValid, handleFormInValid)}>
-            Opslaan
-          </Button>
+          <Button onClick={handleSubmit(handleFormValid)}>Opslaan</Button>
+        ) : null}
+        {isStep5Visible ? (
+          <Step5 {...{ ...stepProps, eventId: newEventId }} />
         ) : null}
       </Page.Content>
     </Page>

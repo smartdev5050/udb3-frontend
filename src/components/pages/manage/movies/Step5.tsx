@@ -29,11 +29,9 @@ import { Step } from './Step';
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
-type Step5Props = StackProps;
+type Step5Props = StackProps & { eventId: string };
 
-const Step5 = ({ ...props }: Step5Props) => {
-  const eventId = '37d2edd9-ffb4-4abd-9f79-e21d9960d437';
-
+const Step5 = ({ eventId, ...props }: Step5Props) => {
   const queryClient = useQueryClient();
   const { t, i18n } = useTranslation();
   const [
