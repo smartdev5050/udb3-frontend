@@ -85,7 +85,11 @@ const Header = ({ header, index, onCopy, ...props }: HeaderProps) => {
       {...getInlineProps(props)}
     >
       <Label htmlFor={header}>{header}</Label>
-      <Button variant={ButtonVariants.UNSTYLED} onClick={() => onCopy(index)}>
+      <Button
+        variant={ButtonVariants.UNSTYLED}
+        onClick={() => onCopy(index)}
+        customChildren
+      >
         <Icon name={Icons.COPY} />
       </Button>
     </Inline>
@@ -122,6 +126,7 @@ const Row = ({
       key="copyButton"
       variant={ButtonVariants.UNSTYLED}
       onClick={() => onCopyRow(index)}
+      customChildren
       {...getInlineProps(props)}
     >
       <Icon name={Icons.COPY} />
