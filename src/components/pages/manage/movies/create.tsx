@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { addDays, set as setTime } from 'date-fns';
 import { useState } from 'react';
-import type { FormState, UseFormReturn } from 'react-hook-form';
+import type { UseFormReturn } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
@@ -91,7 +91,9 @@ type FormData = {
 type StepProps = Pick<
   UseFormReturn<FormData>,
   'control' | 'getValues' | 'register' | 'reset'
-> & { errors: Partial<Record<keyof FormData, any>> };
+> & {
+  errors: Partial<Record<keyof FormData, any>>;
+};
 
 const Create = () => {
   const {
