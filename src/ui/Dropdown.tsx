@@ -8,11 +8,7 @@ import {
 import type { Values } from '@/types/Values';
 import type { BoxProps } from '@/ui/Box';
 import { Box, getBoxProps } from '@/ui/Box';
-import {
-  Button,
-  ButtonVariants,
-  secondaryStyle as buttonCSS,
-} from '@/ui/Button';
+import { Button, buttonCSS, ButtonVariants } from '@/ui/Button';
 import { Link, LinkVariants } from '@/ui/Link';
 import { getValueFromTheme } from '@/ui/theme';
 
@@ -76,15 +72,9 @@ const Item = ({ href, onClick, children }: ItemProps) => {
   if (onClick) {
     return (
       <BootstrapDropdown.Item
-        forwardedAs={Button}
+        as={Button}
         variant={ButtonVariants.SECONDARY}
         onClick={onClick}
-        css={`
-          .btn {
-            flex: 1;
-            border: none;
-          }
-        `}
       >
         {children}
       </BootstrapDropdown.Item>

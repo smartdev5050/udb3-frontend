@@ -49,7 +49,7 @@ const InputWithLabel = forwardRef(
     const Wrapper = labelPosition === LabelPositions.LEFT ? Inline : Stack;
     const wrapperProps =
       labelPosition === LabelPositions.LEFT
-        ? { ...getInlineProps(props), spacing: 3 }
+        ? { ...getInlineProps(props), spacing: 3, alignItems: 'flex-start' }
         : { ...getStackProps(props), spacing: 2 };
 
     return (
@@ -62,9 +62,9 @@ const InputWithLabel = forwardRef(
             : {})}
           required={required}
         >
-          <Text>{label}</Text>
+          {label}
         </Label>
-        <Stack spacing={3}>
+        <Stack spacing={3} flex={1}>
           <Stack>
             <Input
               name={name}

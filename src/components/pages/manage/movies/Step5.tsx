@@ -199,7 +199,7 @@ const Step5 = ({ eventId, ...props }: Step5Props) => {
         onConfirm={() => handleConfirmDelete(imageToDeleteId)}
         onClose={() => setIsPictureDeleteModalVisible(false)}
       />
-      <Inline spacing={6}>
+      <Inline spacing={6} alignItems="flex-start">
         <Stack spacing={3} flex={1}>
           <TextAreaWithLabel
             id="movie-description"

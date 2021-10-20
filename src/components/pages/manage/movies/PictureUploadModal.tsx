@@ -12,7 +12,6 @@ import { Input } from '@/ui/Input';
 import { InputWithLabel } from '@/ui/InputWithLabel';
 import { Link } from '@/ui/Link';
 import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
-import { Paragraph } from '@/ui/Paragraph';
 import { Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
@@ -244,7 +243,6 @@ const PictureUploadModal = ({
           id="description"
           label="Beschrijving"
           info="Maximum 250 karakters"
-          required
           error={
             errors.description &&
             t(
@@ -257,20 +255,7 @@ const PictureUploadModal = ({
         <InputWithLabel
           id="copyrightHolder"
           label="Copyright"
-          required
-          info={
-            <Stack spacing={3}>
-              <Paragraph>
-                {t('movies.create.picture.upload_modal.disclaimer.copyright')}
-              </Paragraph>
-              <Paragraph>
-                <Trans i18nKey="movies.create.picture.upload_modal.disclaimer.terms_and_conditions.text">
-                  <TermsAndConditionsLink />
-                  <CopyrightLink />
-                </Trans>
-              </Paragraph>
-            </Stack>
-          }
+          info={t('movies.create.picture.upload_modal.disclaimer.copyright')}
           error={
             errors.copyrightHolder &&
             t(
@@ -279,9 +264,11 @@ const PictureUploadModal = ({
           }
           {...register('copyrightHolder')}
         />
-        <Text>
-          <Text color="red">*</Text>
-          {t(`movies.create.picture.upload_modal.required_field`)}
+        <Text variant={TextVariants.MUTED} fontSize="0.8rem">
+          <Trans i18nKey="movies.create.picture.upload_modal.disclaimer.terms_and_conditions.text">
+            <TermsAndConditionsLink />
+            <CopyrightLink />
+          </Trans>
         </Text>
         <Button type="submit" display="none" />
       </Stack>
