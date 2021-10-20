@@ -437,6 +437,25 @@ const useAddLabel = (configuration = {}) =>
     ...configuration,
   });
 
+const publish = async ({ headers, eventId, publicationDate }) =>
+  fetchFromApi({
+    path: `/event/${eventId}`,
+    options: {
+      method: 'PATCH',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/ld+json;domain-model=Publish',
+      },
+      body: JSON.stringify({ publicationDate }),
+    },
+  });
+
+const usePublish = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: publish,
+    ...configuration,
+  });
+
 export {
   useAddEvent,
   useAddEventMainImage,
@@ -453,6 +472,7 @@ export {
   useGetEventsByCreator,
   useGetEventsByIds,
   useGetEventsToModerate,
+  usePublish,
   useUpdateImageFromEvent,
 };
 
