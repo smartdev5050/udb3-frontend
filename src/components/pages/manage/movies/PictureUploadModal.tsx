@@ -244,7 +244,6 @@ const PictureUploadModal = ({
           id="description"
           label="Beschrijving"
           info="Maximum 250 karakters"
-          required
           error={
             errors.description &&
             t(
@@ -257,7 +256,6 @@ const PictureUploadModal = ({
         <InputWithLabel
           id="copyrightHolder"
           label="Copyright"
-          required
           info={
             <Stack spacing={3}>
               <Paragraph>
@@ -279,10 +277,6 @@ const PictureUploadModal = ({
           }
           {...register('copyrightHolder')}
         />
-        <Text>
-          <Text color="red">*</Text>{' '}
-          {t(`movies.create.picture.upload_modal.required_field`)}
-        </Text>
         <Button type="submit" display="none" />
       </Stack>
     </Modal>

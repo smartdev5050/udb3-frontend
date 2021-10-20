@@ -29,20 +29,17 @@ const Label = ({
   required,
   ...props
 }: Props) => (
-  <Inline spacing={2} alignItems="center">
-    <Inline
-      forwardedAs="label"
-      htmlFor={htmlFor}
-      className={className}
-      variant={variant}
-      css={`
-        font-weight: ${getFontWeight};
-      `}
-      {...getInlineProps(props)}
-    >
-      <Text>{children}</Text>
-    </Inline>
-    {required && <Text color="red">*</Text>}
+  <Inline
+    forwardedAs="label"
+    htmlFor={htmlFor}
+    className={className}
+    variant={variant}
+    css={`
+      font-weight: ${getFontWeight};
+    `}
+    {...getInlineProps(props)}
+  >
+    <Text>{children}</Text>
   </Inline>
 );
 
