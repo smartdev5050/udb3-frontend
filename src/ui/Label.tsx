@@ -1,7 +1,6 @@
 import type { Values } from '@/types/Values';
 
 import type { BoxProps } from './Box';
-import { Box, getBoxProps } from './Box';
 import { getInlineProps, Inline } from './Inline';
 import { Text } from './Text';
 

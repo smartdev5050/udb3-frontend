@@ -12,7 +12,6 @@ import { Input } from '@/ui/Input';
 import { InputWithLabel } from '@/ui/InputWithLabel';
 import { Link } from '@/ui/Link';
 import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
-import { Paragraph } from '@/ui/Paragraph';
 import { Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
