@@ -2,7 +2,7 @@ import type { Values } from '@/types/Values';
 
 import type { BoxProps } from './Box';
 import { Box, getBoxProps } from './Box';
-import { Inline } from './Inline';
+import { getInlineProps, Inline } from './Inline';
 import { Text } from './Text';
 
 const LabelVariants = {
@@ -30,7 +30,7 @@ const Label = ({
   ...props
 }: Props) => (
   <Inline spacing={2} alignItems="center">
-    <Box
+    <Inline
       forwardedAs="label"
       htmlFor={htmlFor}
       className={className}
@@ -38,10 +38,10 @@ const Label = ({
       css={`
         font-weight: ${getFontWeight};
       `}
-      {...getBoxProps(props)}
+      {...getInlineProps(props)}
     >
-      {children}
-    </Box>
+      <Text>{children}</Text>
+    </Inline>
     {required && <Text color="red">*</Text>}
   </Inline>
 );
