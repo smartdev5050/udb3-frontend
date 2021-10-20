@@ -15,6 +15,7 @@ import type {
   AuthenticatedQueryOptions,
   CalendarSummaryFormats,
   PaginationOptions,
+  ServerSideQueryOptions,
   SortOptions,
 } from './authenticated-query';
 import {
@@ -130,7 +131,14 @@ const getEventById = async ({ headers, id }) => {
   return await res.json();
 };
 
-const useGetEventById = ({ req, queryClient, id }, configuration = {}) =>
+type UseGetEventByIdArguments = ServerSideQueryOptions & {
+  id: string;
+};
+
+const useGetEventById = (
+  { req, queryClient, id }: UseGetEventByIdArguments,
+  configuration = {},
+) =>
   useAuthenticatedQuery({
     req,
     queryClient,
