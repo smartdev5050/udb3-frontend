@@ -26,6 +26,8 @@ const Page = ({ children: rawChildren, className, ...props }: Props) => {
   const actions = children.find((child) => child.type === PageActions);
   // @ts-expect-error
   const content = children.find((child) => child.type === PageContent);
+  // @ts-expect-error
+  const footer = children.find((child) => child.type === PageFooter);
 
   return (
     <Stack
@@ -38,9 +40,8 @@ const Page = ({ children: rawChildren, className, ...props }: Props) => {
         overflow-x: hidden;
         overflow-y: auto;
       `}
-      paddingLeft={4}
-      paddingRight={4}
       spacing={5}
+      position="relative"
       {...getStackProps(props)}
     >
       <Inline
@@ -50,11 +51,13 @@ const Page = ({ children: rawChildren, className, ...props }: Props) => {
           border-bottom: 1px solid ${getValueForTitle('borderColor')};
         `}
         spacing={3}
+        paddingX={4}
       >
         {title}
         {actions}
       </Inline>
-      {content}
+      <Stack paddingX={4}>{content}</Stack>
+      {footer}
     </Stack>
   );
 };
@@ -89,8 +92,31 @@ const PageContent = ({ children, className, ...props }: PageContentProps) => (
   </Stack>
 );
 
+type PageFooterProps = InlineProps;
+
+const PageFooter = ({ children, className, ...props }: PageFooterProps) => (
+  <Inline
+    className={className}
+    spacing={3}
+    {...getInlineProps(props)}
+    position="sticky"
+    left="0"
+    bottom="0"
+    right="0"
+    zIndex={10}
+    backgroundColor="white"
+    padding={4}
+    css={`
+      border-top: 1px solid ${getValueForPage('borderColor')};
+    `}
+  >
+    {children}
+  </Inline>
+);
+
 Page.Title = PageTitle;
 Page.Actions = PageActions;
 Page.Content = PageContent;
+Page.Footer = PageFooter;
 
 export { Page };

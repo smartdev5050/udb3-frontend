@@ -20,7 +20,7 @@ import { useAddEventById, useCreateWithEvents } from '@/hooks/api/productions';
 import type { Place } from '@/types/Place';
 import type { Production } from '@/types/Production';
 import { WorkflowStatusMap } from '@/types/WorkflowStatus';
-import { Button } from '@/ui/Button';
+import { Button, ButtonVariants } from '@/ui/Button';
 import { Page } from '@/ui/Page';
 import { formatDateToISO } from '@/utils/formatDateToISO';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
@@ -247,6 +247,16 @@ const Create = () => {
           <Step5 {...{ ...stepProps, eventId: newEventId }} />
         ) : null}
       </Page.Content>
+      {newEventId ? (
+        <Page.Footer>
+          <Button variant={ButtonVariants.SUCCESS} onClick={() => {}}>
+            Publiceren
+          </Button>
+          <Button variant={ButtonVariants.SECONDARY} onClick={() => {}}>
+            Later publiceren
+          </Button>
+        </Page.Footer>
+      ) : null}
     </Page>
   );
 };
