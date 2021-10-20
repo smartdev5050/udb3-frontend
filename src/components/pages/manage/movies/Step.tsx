@@ -40,7 +40,7 @@ const Step = ({ stepNumber, children, ...props }: StepProps) => {
   const { t } = useTranslation();
 
   return (
-    <Stack spacing={4} {...getStackProps(props)}>
+    <Stack spacing={4} width="100%" {...getStackProps(props)}>
       <Title
         color={getValue('title.color')}
         lineHeight="220%"

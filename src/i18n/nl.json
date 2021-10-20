@@ -175,10 +175,23 @@
         "change_theme": "Wijzig thema",
         "copy_table": "Kopieer tabel",
         "change_cinema": "Wijzig bioscoop",
+        "change_name": "Wijzig naam",
         "choose_cinema": "Kies een bioscoop",
         "choose_name": "Kies een naam",
         "description": "Beschrijving",
-        "clear": "Leegmaken"
+        "clear": "Leegmaken",
+        "save": "Opslaan"
+      },
+      "validation_messages": {
+        "timeTable": {
+          "has-timeslot": "Minstens 1 tijdslot is verplicht."
+        },
+        "cinema": {
+          "selected-cinema": "Bioscoop is verplicht."
+        },
+        "production": {
+          "selected-production": "Naam is verplicht."
+        }
       },
       "picture": {
         "intro": "Voeg een afbeelding toe zodat bezoekers je activiteit beter herkennen",

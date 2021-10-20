@@ -196,9 +196,6 @@ const Index = () => {
                 }}
                 isAddActionVisible={isAddActionVisible}
                 toBeAddedEventId={toBeAddedEventId}
-                onDismissError={() => {
-                  setErrorMessageEvents('');
-                }}
                 onToBeAddedEventIdInput={(newInput) => {
                   setToBeAddedEventId(newInput);
                   setErrorMessageEvents('');

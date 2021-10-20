@@ -10,15 +10,21 @@ const getValue = getValueFromTheme('typeahead');
 
 type TypeaheadProps<T> = {
   options: T[];
-  labelKey: (option: T) => string;
+  labelKey: ((option: T) => string) | string;
   disabled?: boolean;
   placeholder?: string;
   emptyLabel?: string;
   minLength?: number;
   onChange?: (value: T[]) => void;
+  allowNew?:
+    | boolean
+    | ((results: Array<Object | string>, props: Object) => boolean);
+  newSelectionPrefix?: string;
+  selected: T[];
 };
 
-type Props<T> = Omit<BoxProps, 'onChange'> & TypeaheadProps<T>;
+type Props<T> = Omit<BoxProps, 'onChange'> &
+  TypeaheadProps<T> & { isInvalid?: boolean };
 
 type TypeaheadFunc = (<T>(
   props: Props<T> & { ref: ForwardedRef<HTMLInputElement> },
@@ -41,6 +47,10 @@ const Typeahead: TypeaheadFunc = forwardRef(
       onInputChange,
       onSearch,
       onChange,
+      isInvalid,
+      selected,
+      allowNew,
+      newSelectionPrefix,
       ...props
     }: Props<T>,
     ref: ForwardedRef<HTMLInputElement>,
@@ -49,6 +59,8 @@ const Typeahead: TypeaheadFunc = forwardRef(
       <Box
         forwardedAs={BootstrapTypeahead}
         id={id}
+        allowNew={allowNew}
+        newSelectionPrefix={newSelectionPrefix}
         options={options}
         labelKey={labelKey}
         isLoading={false}
@@ -75,8 +87,10 @@ const Typeahead: TypeaheadFunc = forwardRef(
         emptyLabel={emptyLabel}
         minLength={minLength}
         delay={275}
-        highlightOnlyResult
+        highlightOnlyResult={!allowNew}
         ref={ref}
+        isInvalid={isInvalid}
+        selected={selected}
         {...getBoxProps(props)}
       />
     );

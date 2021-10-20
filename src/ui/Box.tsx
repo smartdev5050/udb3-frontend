@@ -43,6 +43,7 @@ type GeneralProps = {
   className: string;
   as: string | ComponentType<any>;
   forwardedAs: string | ComponentType<any>;
+  selected: unknown;
 };
 
 type InlineProps = {
@@ -80,7 +81,6 @@ type SvgProps = {
 };
 
 type DatePickerProps = {
-  selected: Date;
   dateFormat: string;
   minDate: Date;
   maxDate: Date;
@@ -89,7 +89,7 @@ type DatePickerProps = {
 
 type TypeaheadProps = {
   options: unknown[];
-  labelKey: (option: unknown) => string;
+  labelKey: ((option: unknown) => string) | string;
   isLoading: boolean;
   disabled: boolean;
   placeholder: string;
@@ -97,6 +97,11 @@ type TypeaheadProps = {
   minLength: number;
   delay: number;
   highlightOnlyResult: boolean;
+  isInvalid: boolean;
+  allowNew:
+    | boolean
+    | ((results: Array<Object | string>, props: Object) => boolean);
+  newSelectionPrefix: string;
 };
 
 type SpecificComponentProps = InlineProps &

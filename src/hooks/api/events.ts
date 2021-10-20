@@ -1,8 +1,11 @@
 import type { UseQueryOptions } from 'react-query';
 
+import type { CalendarType } from '@/constants/CalendarType';
 import type { Event } from '@/types/Event';
-import type { BookingAvailability, Status } from '@/types/Offer';
+import type { BookingAvailability, Status, Term } from '@/types/Offer';
 import type { User } from '@/types/User';
+import type { Values } from '@/types/Values';
+import type { WorkflowStatus } from '@/types/WorkflowStatus';
 import { createEmbededCalendarSummaries } from '@/utils/createEmbededCalendarSummaries';
 import { createSortingArgument } from '@/utils/createSortingArgument';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
@@ -19,6 +22,64 @@ import {
   useAuthenticatedQueries,
   useAuthenticatedQuery,
 } from './authenticated-query';
+import type { Headers } from './types/Headers';
+
+type TimeSpan = {
+  start: string;
+  end: string;
+};
+
+type Calendar = {
+  calendarType: Values<typeof CalendarType>;
+  timeSpans: TimeSpan[];
+};
+
+type EventArguments = {
+  name: string;
+  calendar: Calendar;
+  type: Term;
+  theme: Term;
+  workflowStatus: WorkflowStatus;
+  audienceType: string;
+  location: {
+    id: string;
+  };
+  mainLanguage: string;
+};
+type AddEventArguments = EventArguments & { headers: Headers };
+
+const addEvent = async ({
+  headers,
+  mainLanguage,
+  name,
+  calendar,
+  type,
+  theme,
+  location,
+  audienceType,
+}: AddEventArguments) =>
+  fetchFromApi({
+    path: '/events/',
+    options: {
+      headers,
+      method: 'POST',
+      body: JSON.stringify({
+        mainLanguage,
+        name,
+        calendar,
+        type,
+        theme,
+        location,
+        audienceType,
+      }),
+    },
+  });
+
+const useAddEvent = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: addEvent,
+    ...configuration,
+  });
 
 const getEventsToModerate = async ({ headers, queryKey, ...queryData }) => {
   const res = await fetchFromApi({
@@ -344,12 +405,30 @@ const changeDescription = async ({ headers, eventId, language, description }) =>
 const useChangeDescription = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: changeDescription, ...configuration });
 
+const changeTypicalAgeRange = async ({ headers, eventId, typicalAgeRange }) =>
+  fetchFromApi({
+    path: `/events/${eventId}/typicalAgeRange`,
+    options: {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({ typicalAgeRange }),
+    },
+  });
+
+const useChangeTypicalAgeRange = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: changeTypicalAgeRange,
+    ...configuration,
+  });
+
 export {
+  useAddEvent,
   useAddEventMainImage,
   useAddImageToEvent,
   useChangeDescription,
   useChangeStatus,
   useChangeStatusSubEvents,
+  useChangeTypicalAgeRange,
   useDeleteEventById,
   useDeleteImageFromEvent,
   useGetCalendarSummary,
@@ -359,3 +438,5 @@ export {
   useGetEventsToModerate,
   useUpdateImageFromEvent,
 };
+
+export type { EventArguments };

@@ -4,11 +4,12 @@ import { forwardRef } from 'react';
 import { Label, LabelVariants } from './Label';
 import type { StackProps } from './Stack';
 import { getStackProps, Stack } from './Stack';
+import { Text } from './Text';
 import type { TypeaheadProps } from './Typeahead';
 import { Typeahead, typeaheadDefaultProps } from './Typeahead';
 
 type Props<T> = Omit<StackProps, 'options' | 'labelKey' | 'onChange'> &
-  TypeaheadProps<T> & { label?: string; id: string };
+  TypeaheadProps<T> & { error?: string; label?: string; id: string };
 
 type TypeaheadFunc = (<T>(
   props: Props<T> & { ref?: ForwardedRef<HTMLInputElement> },
@@ -32,6 +33,10 @@ const TypeaheadWithLabel: TypeaheadFunc = forwardRef(
       onInputChange,
       onSearch,
       onChange,
+      allowNew,
+      newSelectionPrefix,
+      error,
+      selected,
       ...props
     }: Props<T>,
     ref: ForwardedRef<HTMLInputElement>,
@@ -41,20 +46,28 @@ const TypeaheadWithLabel: TypeaheadFunc = forwardRef(
         <Label htmlFor={id} variant={LabelVariants.BOLD}>
           {label}
         </Label>
-        <Typeahead<T>
-          id={id}
-          options={options}
-          labelKey={labelKey}
-          disabled={disabled}
-          emptyLabel={emptyLabel}
-          minLength={minLength}
-          placeholder={placeholder}
-          className={className}
-          onInputChange={onInputChange}
-          onSearch={onSearch}
-          onChange={onChange}
-          ref={ref}
-        />
+
+        <Stack>
+          <Typeahead<T>
+            id={id}
+            options={options}
+            labelKey={labelKey}
+            disabled={disabled}
+            emptyLabel={emptyLabel}
+            minLength={minLength}
+            placeholder={placeholder}
+            className={className}
+            onInputChange={onInputChange}
+            onSearch={onSearch}
+            onChange={onChange}
+            isInvalid={!!error}
+            selected={selected}
+            allowNew={allowNew}
+            newSelectionPrefix={newSelectionPrefix}
+            ref={ref}
+          />
+          {error && <Text color="red">{error}</Text>}
+        </Stack>
       </Stack>
     );
   },
