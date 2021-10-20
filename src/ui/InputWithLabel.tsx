@@ -54,17 +54,10 @@ const InputWithLabel = forwardRef(
 
     return (
       <Wrapper className={className} as="div" {...wrapperProps}>
-        <Label
-          htmlFor={id}
-          variant={LabelVariants.BOLD}
-          {...(labelPosition === LabelPositions.LEFT
-            ? { height: '36px', alignItems: 'center' }
-            : {})}
-          required={required}
-        >
+        <Label htmlFor={id} variant={LabelVariants.BOLD} required={required}>
           <Text>{label}</Text>
         </Label>
-        <Stack spacing={3}>
+        <Stack spacing={3} flex={1}>
           <Stack>
             <Input
               name={name}
