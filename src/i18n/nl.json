@@ -179,7 +179,8 @@
         "choose_cinema": "Kies een bioscoop",
         "choose_name": "Kies een naam",
         "description": "Beschrijving",
-        "clear": "Leegmaken"
+        "clear": "Leegmaken",
+        "save": "Opslaan"
       },
       "validation_messages": {
         "timeTable": {

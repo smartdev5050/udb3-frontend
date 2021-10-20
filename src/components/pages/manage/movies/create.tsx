@@ -227,7 +227,9 @@ const Create = () => {
         {isStep3Visible ? <Step3 {...stepProps} /> : null}
         {isStep4Visible ? <Step4 {...stepProps} /> : null}
         {isSaveButtonVisible ? (
-          <Button onClick={handleSubmit(handleFormValid)}>Opslaan</Button>
+          <Button onClick={handleSubmit(handleFormValid)}>
+            {t('movies.create.actions.save')}
+          </Button>
         ) : null}
         {isStep5Visible ? (
           <Step5 {...{ ...stepProps, eventId: newEventId }} />
