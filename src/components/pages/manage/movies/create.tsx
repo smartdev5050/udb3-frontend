@@ -4,6 +4,7 @@ import { useState } from 'react';
 import type { FormState, UseFormReturn } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { useQueryClient } from 'react-query';
 import * as yup from 'yup';
 
 import { CalendarType } from '@/constants/CalendarType';
@@ -112,9 +113,13 @@ const Create = () => {
 
   const { t, i18n } = useTranslation();
 
+  const queryClient = useQueryClient();
+
   const [newEventId, setNewEventId] = useState('');
 
-  const addEventMutation = useAddEvent();
+  const addEventMutation = useAddEvent({
+    onSuccess: async () => await queryClient.invalidateQueries('events'),
+  });
 
   const addEventByIdMutation = useAddEventById();
 
