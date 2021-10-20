@@ -150,25 +150,32 @@ const Create = () => {
       audienceType: 'everyone',
     };
 
-    // Make new Event
-    addEventMutation.mutate(variables);
+    const { eventId } = await addEventMutation.mutateAsync(variables);
 
-    // Prepare data for API post
-    // If no existing production -> create production first
+    if (!eventId) return;
+
+    await changeTypicalAgeRangeMutation.mutateAsync({
+      eventId,
+      typicalAgeRange: '-',
+    });
 
     if (productions[0].customOption) {
-      console.log('create production');
+      await createWithEventsMutation.mutateAsync({
+        productionName: productions[0].name,
+        eventIds: [eventId],
+      });
+    } else {
+      await addEventByIdMutation.mutateAsync({
+        productionId: productions[0].production_id,
+        eventId,
+      });
     }
 
-    // Submit to API
+    setNewEventId(eventId);
   };
 
   const filledInTimeTable = watch('timeTable');
   const dateStart = watch('dateStart');
-
-  const handleFormInValid = (values) => {
-    console.log(values);
-  };
 
   const stepProps = {
     errors: errors,
