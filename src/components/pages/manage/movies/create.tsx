@@ -11,7 +11,11 @@ import { CalendarType } from '@/constants/CalendarType';
 import { MovieThemes } from '@/constants/MovieThemes';
 import { OfferCategories } from '@/constants/OfferCategories';
 import type { EventArguments } from '@/hooks/api/events';
-import { useAddEvent, useChangeTypicalAgeRange } from '@/hooks/api/events';
+import {
+  useAddEvent,
+  useAddLabel,
+  useChangeTypicalAgeRange,
+} from '@/hooks/api/events';
 import { useAddEventById, useCreateWithEvents } from '@/hooks/api/productions';
 import type { Place } from '@/types/Place';
 import type { Production } from '@/types/Production';
@@ -126,6 +130,8 @@ const Create = () => {
 
   const changeTypicalAgeRangeMutation = useChangeTypicalAgeRange();
 
+  const addLabelMutation = useAddLabel();
+
   const createWithEventsMutation = useCreateWithEvents();
 
   const handleFormValid = async ({
@@ -172,6 +178,11 @@ const Create = () => {
     await changeTypicalAgeRangeMutation.mutateAsync({
       eventId,
       typicalAgeRange: '-',
+    });
+
+    await addLabelMutation.mutateAsync({
+      eventId,
+      label: 'udb-filminvoer',
     });
 
     if (productions[0].customOption) {
