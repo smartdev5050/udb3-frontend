@@ -405,6 +405,22 @@ const changeDescription = async ({ headers, eventId, language, description }) =>
 const useChangeDescription = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: changeDescription, ...configuration });
 
+const changeTypicalAgeRange = async ({ headers, eventId, typicalAgeRange }) =>
+  fetchFromApi({
+    path: `/events/${eventId}/typicalAgeRange`,
+    options: {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({ typicalAgeRange }),
+    },
+  });
+
+const useChangeTypicalAgeRange = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: changeTypicalAgeRange,
+    ...configuration,
+  });
+
 export {
   useAddEvent,
   useAddEventMainImage,
@@ -412,6 +428,7 @@ export {
   useChangeDescription,
   useChangeStatus,
   useChangeStatusSubEvents,
+  useChangeTypicalAgeRange,
   useDeleteEventById,
   useDeleteImageFromEvent,
   useGetCalendarSummary,
