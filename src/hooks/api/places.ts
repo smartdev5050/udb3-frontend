@@ -113,7 +113,7 @@ const getPlacesByQuery = async ({
   name,
   terms,
 }: Headers & GetPlacesByQueryArguments) => {
-  const nameString = name ? `name.\\*:${name}` : '';
+  const nameString = name ? `name.\\*:*${name}*` : '';
   const termsString = terms.reduce(
     (acc, currentTerm) => `${acc}terms.id:${currentTerm}`,
     '',
