@@ -206,7 +206,7 @@ const Create = () => {
     dirtyFields.cinema;
   const isStep4Visible = dirtyFields.cinema;
   const isSaveButtonVisible = dirtyFields.cinema;
-  const isStep5Visible = !!newEventId;
+  const isStep5Visible = !!newEventId && Object.values(errors).length === 0;
 
   return (
     <Page>
