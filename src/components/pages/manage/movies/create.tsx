@@ -157,8 +157,11 @@ const Create = () => {
   const getEventByIdQuery = useGetEventById({ id: newEventId });
 
   const availableFromDate = useMemo(() => {
+    // @ts-expect-error
     if (!getEventByIdQuery.data?.availableFrom) return;
+    // @ts-expect-error
     return new Date(getEventByIdQuery.data?.availableFrom);
+    // @ts-expect-error
   }, [getEventByIdQuery.data]);
 
   const handleFormValid = async ({
