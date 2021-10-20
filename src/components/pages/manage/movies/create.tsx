@@ -91,8 +91,7 @@ type FormData = {
 type StepProps = Pick<
   UseFormReturn<FormData>,
   'control' | 'getValues' | 'register' | 'reset'
-> &
-  Pick<FormState<FormData>, 'errors'>;
+> & { errors: Partial<Record<keyof FormData, any>> };
 
 const Create = () => {
   const {
