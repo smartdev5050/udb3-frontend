@@ -15,6 +15,7 @@ import {
   useAddEvent,
   useAddLabel,
   useChangeTypicalAgeRange,
+  usePublish,
 } from '@/hooks/api/events';
 import { useAddEventById, useCreateWithEvents } from '@/hooks/api/productions';
 import type { Place } from '@/types/Place';
@@ -134,6 +135,8 @@ const Create = () => {
 
   const createWithEventsMutation = useCreateWithEvents();
 
+  const publishMutation = usePublish();
+
   const handleFormValid = async ({
     production: productions,
     cinema: cinemas,
@@ -199,6 +202,15 @@ const Create = () => {
 
     setNewEventId(eventId);
   };
+
+  const handleClickPublish = async () => {
+    await publishMutation.mutateAsync({
+      eventId: newEventId,
+      publicationDate: formatDateToISO(new Date()),
+    });
+  };
+
+  const handleClickPublishLater = () => {};
 
   const filledInTimeTable = watch('timeTable');
   const dateStart = watch('dateStart');
