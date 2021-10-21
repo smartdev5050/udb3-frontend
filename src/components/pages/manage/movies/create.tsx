@@ -244,6 +244,7 @@ const Create = () => {
       eventId: newEventId,
       publicationDate: formatDateToISO(publishLaterDate),
     });
+    setIsPublishLaterModalVisible(false);
   };
 
   const filledInTimeTable = watch('timeTable');
