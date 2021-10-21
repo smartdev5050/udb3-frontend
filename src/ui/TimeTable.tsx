@@ -183,7 +183,11 @@ const TimeTable = ({
   const { t } = useTranslation();
 
   useEffect(() => {
-    if (timeTable.some((row) => row.some((cell) => !!cell))) return null;
+    if (
+      timeTable.some((row) => row.some((cell) => !!cell)) ||
+      timeTable.length > 0
+    )
+      return null;
 
     const rowLength =
       Math.ceil(Math.abs(differenceInHours(dateStart, dateEnd)) / 24) + 1;
