@@ -180,7 +180,7 @@ const Create = () => {
       ([key, value]) => value === themeId,
     );
 
-    const variables: EventArguments = {
+    const payload: EventArguments = {
       mainLanguage: i18n.language as 'nl' | 'fr',
       name: productions[0].name,
       calendar: {
@@ -204,7 +204,7 @@ const Create = () => {
       audienceType: 'everyone',
     };
 
-    const { eventId } = await addEventMutation.mutateAsync(variables);
+    const { eventId } = await addEventMutation.mutateAsync(payload);
 
     if (!eventId) return;
 
