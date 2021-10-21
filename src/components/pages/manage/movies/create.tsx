@@ -110,6 +110,11 @@ type StepProps = Pick<
   errors: Partial<Record<keyof FormData, any>>;
 };
 
+const FooterStatus = {
+  PUBLISH: 'PUBLISH',
+  SAVE: 'SAVE',
+} as const;
+
 const Create = () => {
   const {
     handleSubmit,
@@ -266,8 +271,13 @@ const Create = () => {
       filledInTimeTable.some((row) => row.some((cell) => !!cell))) ||
     dirtyFields.cinema;
   const isStep4Visible = dirtyFields.cinema;
-  const isSaveButtonVisible = dirtyFields.cinema;
   const isStep5Visible = !!newEventId && Object.values(errors).length === 0;
+
+  const footerStatus = useMemo(() => {
+    if (newEventId && !availableFromDate) return FooterStatus.PUBLISH;
+    if (dirtyFields.cinema) return FooterStatus.SAVE;
+    return undefined;
+  }, [newEventId, availableFromDate, dirtyFields.cinema]);
 
   return (
     <Page>
@@ -287,30 +297,36 @@ const Create = () => {
         ) : null}
         {isStep3Visible ? <Step3 {...stepProps} /> : null}
         {isStep4Visible ? <Step4 {...stepProps} /> : null}
-        {isSaveButtonVisible ? (
-          <Button onClick={handleSubmit(handleFormValid)}>
-            {t('movies.create.actions.save')}
-          </Button>
-        ) : null}
+
         {isStep5Visible ? (
           <Step5 {...{ ...stepProps, eventId: newEventId }} />
         ) : null}
       </Page.Content>
-      {newEventId && !availableFromDate ? (
+      {footerStatus ? (
         <Page.Footer>
           <Inline spacing={3}>
-            <Button
-              variant={ButtonVariants.SUCCESS}
-              onClick={handleClickPublish}
-            >
-              {t('movies.create.actions.publish')}
-            </Button>
-            <Button
-              variant={ButtonVariants.SECONDARY}
-              onClick={handleClickPublishLater}
-            >
-              {t('movies.create.actions.publish_later')}
-            </Button>
+            {footerStatus === FooterStatus.PUBLISH ? (
+              [
+                <Button
+                  variant={ButtonVariants.SUCCESS}
+                  onClick={handleClickPublish}
+                  key="publish"
+                >
+                  {t('movies.create.actions.publish')}
+                </Button>,
+                <Button
+                  variant={ButtonVariants.SECONDARY}
+                  onClick={handleClickPublishLater}
+                  key="publishLater"
+                >
+                  {t('movies.create.actions.publish_later')}
+                </Button>,
+              ]
+            ) : (
+              <Button onClick={handleSubmit(handleFormValid)}>
+                {t('movies.create.actions.save')}
+              </Button>
+            )}
           </Inline>
           <PublishLaterModal
             visible={isPublishLaterModalVisible}
