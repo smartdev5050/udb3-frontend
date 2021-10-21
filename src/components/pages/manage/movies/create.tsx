@@ -1,10 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  addDays,
-  format as formatDate,
-  isSameDay,
-  set as setTime,
-} from 'date-fns';
+import { addDays, set as setTime } from 'date-fns';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
@@ -31,7 +26,6 @@ import { WorkflowStatusMap } from '@/types/WorkflowStatus';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Page } from '@/ui/Page';
-import { Text, TextVariants } from '@/ui/Text';
 import { formatDateToISO } from '@/utils/formatDateToISO';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 import { parseOfferId } from '@/utils/parseOfferId';
