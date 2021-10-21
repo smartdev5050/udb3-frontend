@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { addDays, set as setTime } from 'date-fns';
 import { useRouter } from 'next/router';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -272,6 +272,13 @@ const Create = () => {
     if (dirtyFields.cinema) return FooterStatus.SAVE;
     return undefined;
   }, [newEventId, availableFromDate, dirtyFields.cinema]);
+
+  useEffect(() => {
+    if (footerStatus) {
+      const main = document.querySelector('main');
+      main.scroll({ left: 0, top: main.scrollHeight, behavior: 'smooth' });
+    }
+  }, [footerStatus]);
 
   return (
     <Page>
