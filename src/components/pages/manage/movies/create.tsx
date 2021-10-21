@@ -5,6 +5,7 @@ import {
   isSameDay,
   set as setTime,
 } from 'date-fns';
+import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
@@ -127,6 +128,7 @@ const Create = () => {
   });
 
   const { t, i18n } = useTranslation();
+  const router = useRouter();
 
   const queryClient = useQueryClient();
 
@@ -149,8 +151,9 @@ const Create = () => {
   const createWithEventsMutation = useCreateWithEvents();
 
   const publishMutation = usePublish({
-    onSuccess: () => {
-      queryClient.invalidateQueries(['events', { id: newEventId }]);
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(['events', { id: newEventId }]);
+      router.push(`/event/${newEventId}/preview`);
     },
   });
 
@@ -244,7 +247,6 @@ const Create = () => {
       eventId: newEventId,
       publicationDate: formatDateToISO(publishLaterDate),
     });
-    setIsPublishLaterModalVisible(false);
   };
 
   const filledInTimeTable = watch('timeTable');
@@ -294,33 +296,22 @@ const Create = () => {
           <Step5 {...{ ...stepProps, eventId: newEventId }} />
         ) : null}
       </Page.Content>
-      {newEventId ? (
+      {newEventId && !availableFromDate ? (
         <Page.Footer>
-          {availableFromDate ? (
-            <Text variant={TextVariants.MUTED}>
-              {isSameDay(availableFromDate, new Date())
-                ? t('movies.create.footer.available')
-                : t('movies.create.footer.available_from', {
-                    date: formatDate(availableFromDate, 'dd/MM/yy'),
-                  })}
-            </Text>
-          ) : (
-            <Inline spacing={3}>
-              <Button
-                variant={ButtonVariants.SUCCESS}
-                onClick={handleClickPublish}
-              >
-                {t('movies.create.actions.publish')}
-              </Button>
-              <Button
-                variant={ButtonVariants.SECONDARY}
-                onClick={handleClickPublishLater}
-              >
-                {t('movies.create.actions.publish_later')}
-              </Button>
-            </Inline>
-          )}
-
+          <Inline spacing={3}>
+            <Button
+              variant={ButtonVariants.SUCCESS}
+              onClick={handleClickPublish}
+            >
+              {t('movies.create.actions.publish')}
+            </Button>
+            <Button
+              variant={ButtonVariants.SECONDARY}
+              onClick={handleClickPublishLater}
+            >
+              {t('movies.create.actions.publish_later')}
+            </Button>
+          </Inline>
           <PublishLaterModal
             visible={isPublishLaterModalVisible}
             selectedDate={publishLaterDate}
