@@ -28,6 +28,7 @@ const PublishLaterModal = ({
       variant={ModalVariants.QUESTION}
       visible={visible}
       onConfirm={onConfirm}
+      scrollable={false}
       onClose={onClose}
       title={t('movies.create.picture.publish_modal.title')}
       confirmTitle={t('movies.create.picture.publish_modal.actions.confirm')}
