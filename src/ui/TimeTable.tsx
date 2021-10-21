@@ -183,13 +183,15 @@ const TimeTable = ({
   const { t } = useTranslation();
 
   useEffect(() => {
+    if (timeTable.some((row) => row.some((cell) => !!cell))) return null;
+
     const rowLength =
       Math.ceil(Math.abs(differenceInHours(dateStart, dateEnd)) / 24) + 1;
 
     onChange(
       new Array(rowLength).fill(new Array(colHeaders.length).fill(null)),
     );
-  }, [dateStart, dateEnd]);
+  }, [dateStart, dateEnd, timeTable]);
 
   const onEditCell = (rowIndex: number, colIndex: number, value: Time) => {
     onChange(
