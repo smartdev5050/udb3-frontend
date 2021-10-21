@@ -171,10 +171,6 @@
       "step5": {
         "title": "Laat je film extra opvallen."
       },
-      "footer": {
-        "available": "Beschikbaar",
-        "available_from": "Beschikbaar vanaf {{date}}"
-      },
       "actions": {
         "change_theme": "Wijzig thema",
         "copy_table": "Kopieer tabel",
