@@ -176,9 +176,9 @@ const Create = () => {
   }: FormData) => {
     if (!productions.length) return;
 
-    const [themeLabel] = Object.entries(MovieThemes).find(
+    const themeLabel = Object.entries(MovieThemes).find(
       ([key, value]) => value === themeId,
-    );
+    )?.[0];
 
     const payload: EventArguments = {
       mainLanguage: i18n.language as 'nl' | 'fr',
@@ -192,11 +192,13 @@ const Create = () => {
         label: 'Film',
         domain: 'eventtype',
       },
-      theme: {
-        id: themeId,
-        label: themeLabel,
-        domain: 'theme',
-      },
+      ...(themeLabel && {
+        theme: {
+          id: themeId,
+          label: themeLabel,
+          domain: 'theme',
+        },
+      }),
       location: {
         id: parseOfferId(cinemas[0]['@id']),
       },
@@ -260,7 +262,6 @@ const Create = () => {
     reset,
   };
 
-  const isStep2Visible = dirtyFields.theme || dirtyFields.cinema;
   const isStep3Visible =
     (dirtyFields.timeTable &&
       filledInTimeTable.some((row) => row.some((cell) => !!cell))) ||
@@ -288,15 +289,13 @@ const Create = () => {
       </Page.Title>
       <Page.Content spacing={5} paddingBottom={6} alignItems="flex-start">
         <Step1 {...stepProps} />
-        {isStep2Visible ? (
-          <Step2
-            {...{
-              ...stepProps,
-              dateStart,
-              onDateStartChange: (value) => setValue('dateStart', value),
-            }}
-          />
-        ) : null}
+        <Step2
+          {...{
+            ...stepProps,
+            dateStart,
+            onDateStartChange: (value) => setValue('dateStart', value),
+          }}
+        />
         {isStep3Visible ? <Step3 {...stepProps} /> : null}
         {isStep4Visible ? <Step4 {...stepProps} /> : null}
 
