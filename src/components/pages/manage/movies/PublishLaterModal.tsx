@@ -36,7 +36,7 @@ const PublishLaterModal = ({
       confirmButtonDisabled={!selectedDate}
       size={ModalSizes.MD}
     >
-      <Stack padding={4} spacing={4}>
+      <Stack padding={4} spacing={4} alignItems="flex-start">
         <Text>{t('movies.create.picture.publish_modal.description')}</Text>
         <Alert variant={AlertVariants.WARNING}>
           {t('movies.create.picture.publish_modal.warning')}
