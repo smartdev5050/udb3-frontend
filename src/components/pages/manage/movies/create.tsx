@@ -136,7 +136,7 @@ const Create = () => {
   const [isPublishLaterModalVisible, setIsPublishLaterModalVisible] = useState(
     false,
   );
-  const [publishLaterDate, setPublishLaterDate] = useState<Date>();
+  const [publishLaterDate, setPublishLaterDate] = useState(new Date());
 
   const addEventMutation = useAddEvent({
     onSuccess: async () => await queryClient.invalidateQueries('events'),
