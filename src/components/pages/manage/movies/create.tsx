@@ -123,6 +123,7 @@ const Create = () => {
     resolver: yupResolver(schema),
     defaultValues: {
       dateStart: new Date(),
+      timeTable: [],
     },
   });
 

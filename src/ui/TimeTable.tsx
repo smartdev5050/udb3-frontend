@@ -178,24 +178,18 @@ const TimeTable = ({
 }: Props) => {
   const [dateEnd, setDateEnd] = useState(new Date());
 
-  const timeTable = value ?? [];
+  const timeTable = value;
 
   const { t } = useTranslation();
 
   useEffect(() => {
-    if (
-      timeTable.some((row) => row.some((cell) => !!cell)) ||
-      timeTable.length > 0
-    )
-      return null;
-
     const rowLength =
       Math.ceil(Math.abs(differenceInHours(dateStart, dateEnd)) / 24) + 1;
 
     onChange(
       new Array(rowLength).fill(new Array(colHeaders.length).fill(null)),
     );
-  }, [dateStart, dateEnd, timeTable]);
+  }, [dateStart, dateEnd]);
 
   const onEditCell = (rowIndex: number, colIndex: number, value: Time) => {
     onChange(
