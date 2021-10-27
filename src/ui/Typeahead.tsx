@@ -9,6 +9,7 @@ import { getValueFromTheme } from './theme';
 const getValue = getValueFromTheme('typeahead');
 
 type TypeaheadProps<T> = {
+  id: string;
   options: T[];
   labelKey: ((option: T) => string) | string;
   disabled?: boolean;
@@ -23,7 +24,7 @@ type TypeaheadProps<T> = {
   selected: T[];
 };
 
-type Props<T> = Omit<BoxProps, 'onChange'> &
+type Props<T> = Omit<BoxProps, 'onChange' | 'id'> &
   TypeaheadProps<T> & { isInvalid?: boolean };
 
 type TypeaheadFunc = (<T>(
@@ -96,9 +97,12 @@ const Typeahead: TypeaheadFunc = forwardRef(
         minLength={minLength}
         delay={275}
         highlightOnlyResult={!allowNew}
-        ref={ref}
         isInvalid={isInvalid}
         selected={selected}
+        inputProps={{
+          id,
+          ref,
+        }}
         {...getBoxProps(props)}
       />
     );
