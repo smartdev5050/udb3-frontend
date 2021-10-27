@@ -5,6 +5,7 @@ import type {
   ClipboardEvent,
   ComponentType,
   FormEvent,
+  HTMLProps,
   MouseEvent,
   ReactNode,
 } from 'react';
@@ -102,6 +103,7 @@ type TypeaheadProps = {
     | boolean
     | ((results: Array<Object | string>, props: Object) => boolean);
   newSelectionPrefix: string;
+  inputProps: HTMLProps<HTMLInputElement>;
 };
 
 type SpecificComponentProps = InlineProps &
