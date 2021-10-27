@@ -152,6 +152,7 @@ const theme = {
     },
     page: {
       backgroundColor: colors.grey1,
+      borderColor: colors.grey3,
     },
     pageTitle: {
       color: colors.textColor,

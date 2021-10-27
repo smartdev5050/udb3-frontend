@@ -15,6 +15,7 @@ import type {
   AuthenticatedQueryOptions,
   CalendarSummaryFormats,
   PaginationOptions,
+  ServerSideQueryOptions,
   SortOptions,
 } from './authenticated-query';
 import {
@@ -130,7 +131,14 @@ const getEventById = async ({ headers, id }) => {
   return await res.json();
 };
 
-const useGetEventById = ({ req, queryClient, id }, configuration = {}) =>
+type UseGetEventByIdArguments = ServerSideQueryOptions & {
+  id: string;
+};
+
+const useGetEventById = (
+  { req, queryClient, id }: UseGetEventByIdArguments,
+  configuration = {},
+) =>
   useAuthenticatedQuery({
     req,
     queryClient,
@@ -437,6 +445,25 @@ const useAddLabel = (configuration = {}) =>
     ...configuration,
   });
 
+const publish = async ({ headers, eventId, publicationDate }) =>
+  fetchFromApi({
+    path: `/event/${eventId}`,
+    options: {
+      method: 'PATCH',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/ld+json;domain-model=Publish',
+      },
+      body: JSON.stringify({ publicationDate }),
+    },
+  });
+
+const usePublish = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: publish,
+    ...configuration,
+  });
+
 export {
   useAddEvent,
   useAddEventMainImage,
@@ -453,6 +480,7 @@ export {
   useGetEventsByCreator,
   useGetEventsByIds,
   useGetEventsToModerate,
+  usePublish,
   useUpdateImageFromEvent,
 };
 

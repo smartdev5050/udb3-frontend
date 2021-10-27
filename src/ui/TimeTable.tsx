@@ -178,7 +178,7 @@ const TimeTable = ({
 }: Props) => {
   const [dateEnd, setDateEnd] = useState(new Date());
 
-  const timeTable = value ?? [];
+  const timeTable = value;
 
   const { t } = useTranslation();
 

@@ -47,7 +47,6 @@ const Step5 = ({ eventId, ...props }: Step5Props) => {
   const [imageToEditId, setImageToEditId] = useState('');
   const [imageToDeleteId, setImageToDeleteId] = useState('');
 
-  // @ts-expect-error
   const getEventByIdQuery = useGetEventById({ id: eventId });
 
   const changeDescriptionMutation = useChangeDescription();
