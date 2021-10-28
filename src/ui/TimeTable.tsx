@@ -163,7 +163,7 @@ type Props = StackProps & {
   id: string;
   onChange: (value: Time[][]) => void;
   value: Time[][];
-  dateStart: Date;
+  dateStart: string;
   onDateStartChange: (value: Date) => void;
 };
 
@@ -184,7 +184,9 @@ const TimeTable = ({
 
   useEffect(() => {
     const rowLength =
-      Math.ceil(Math.abs(differenceInHours(dateStart, dateEnd)) / 24) + 1;
+      Math.ceil(
+        Math.abs(differenceInHours(new Date(dateStart), dateEnd)) / 24,
+      ) + 1;
 
     onChange(
       new Array(rowLength).fill(new Array(colHeaders.length).fill(null)),
@@ -285,7 +287,7 @@ const TimeTable = ({
     >
       <DatePeriodPicker
         id={id}
-        dateStart={dateStart}
+        dateStart={new Date(dateStart)}
         dateEnd={dateEnd}
         onDateStartChange={onDateStartChange}
         onDateEndChange={setDateEnd}
@@ -321,7 +323,7 @@ const TimeTable = ({
             key={rowIndex}
             row={row}
             index={rowIndex}
-            date={addDays(dateStart, rowIndex)}
+            date={addDays(new Date(dateStart), rowIndex)}
             onCopyRow={handleCopyRow}
             onCopyColumn={handleCopyColumn}
             onPaste={handlePaste}

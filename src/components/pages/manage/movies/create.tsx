@@ -39,7 +39,7 @@ import { Step5 } from './Step5';
 
 type Time = string;
 
-const createTimeTablePayload = (timeTable: Time[][], dateStart: Date) =>
+const createTimeTablePayload = (timeTable: Time[][], dateStart: string) =>
   timeTable.reduce((acc, row, rowIndex) => {
     const onlyTimeStrings = row.reduce((acc, time) => {
       if (!time || !/[0-2][0-4]h[0-5][0-9]m/.test(time)) {
@@ -48,7 +48,7 @@ const createTimeTablePayload = (timeTable: Time[][], dateStart: Date) =>
 
       const hours = parseInt(time.substring(0, 2));
       const minutes = parseInt(time.substring(3, 5));
-      const rowDate = addDays(dateStart, rowIndex);
+      const rowDate = addDays(new Date(dateStart), rowIndex);
       const dateWithTime = setTime(rowDate, {
         hours,
         minutes,
@@ -77,7 +77,7 @@ const schema = yup
         value.some((rows) => rows.some((cell) => !!cell)),
       )
       .required(),
-    dateStart: yup.date().required(),
+    dateStart: yup.string().required(),
     cinema: yup
       .array()
       .test('selected-cinema', (value) => !!value?.length)
@@ -94,7 +94,7 @@ type FormData = {
   timeTable: Time[][];
   cinema: Place[];
   production: Array<Production & { customOption?: boolean }>;
-  dateStart: Date;
+  dateStart: string;
 };
 
 type StepProps = Pick<
@@ -122,7 +122,7 @@ const Create = () => {
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     defaultValues: {
-      dateStart: new Date(),
+      dateStart: new Date().toISOString(),
       timeTable: [],
     },
   });
@@ -293,7 +293,8 @@ const Create = () => {
           {...{
             ...stepProps,
             dateStart,
-            onDateStartChange: (value) => setValue('dateStart', value),
+            onDateStartChange: (value) =>
+              setValue('dateStart', value.toISOString()),
           }}
         />
         {isStep3Visible ? <Step3 {...stepProps} /> : null}
