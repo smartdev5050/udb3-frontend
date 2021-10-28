@@ -63,7 +63,7 @@ const Footer = ({
       <Stack alignItems="flex-start">
         <List alignItems={{ xs: 'center' }}>
           <List.Item>
-            <FooterLink href="mailto:vragen@uitdatabank.be">
+            <FooterLink href="https://helpdesk.publiq.be/hc/nl/categories/360001783039-UiTdatabank">
               {t('footer.contact')}
             </FooterLink>
           </List.Item>
