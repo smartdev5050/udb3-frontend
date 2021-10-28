@@ -72,7 +72,6 @@ const addEvent = async ({
         theme,
         location,
         audienceType,
-        labels: ['udb-filminvoer'],
       }),
     },
   });
