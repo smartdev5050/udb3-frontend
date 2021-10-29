@@ -7,6 +7,8 @@ import { css, keyframes } from 'styled-components';
 
 import { Footer } from '@/components/Footer';
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
+import type { SupportedLanguage } from '@/i18n/index';
+import { supportedLanguages } from '@/i18n/index';
 import { Box } from '@/ui/Box';
 import { Button, ButtonSizes } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
@@ -322,7 +324,7 @@ const useRedirectToLanguage = () => {
   useEffect(() => {
     if (!language) return;
 
-    if (['nl', 'fr'].includes(language as string)) {
+    if (supportedLanguages.includes(language as SupportedLanguage)) {
       i18n.changeLanguage(language as string);
       setCookie('udb-language', language);
     } else {
