@@ -1,15 +1,17 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
 import { FormElement } from './FormElement';
 import { Input } from './Input';
+import { LabelPositions } from './FormElement';
 
 <Meta title="Components/FormElement" component={FormElement} />
 
 <Canvas>
   <Story
-    name="Default"
+    name="Label Top"
     args={{
       id: 'my-form-element',
       label: 'test',
+      labelPosition: LabelPositions.TOP,
       Component: <Input />,
     }}
   >
@@ -17,4 +19,53 @@ import { Input } from './Input';
   </Story>
 </Canvas>
 
-<ArgsTable story="Default" />
+<ArgsTable story="LabelTop" />
+
+<Canvas>
+  <Story
+    name="Label Left"
+    args={{
+      id: 'my-form-element',
+      label: 'test',
+      labelPosition: LabelPositions.LEFT,
+      Component: <Input />,
+    }}
+  >
+    {(args) => <FormElement {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Label Left" />
+
+<Canvas>
+  <Story
+    name="With Error And Label Top"
+    args={{
+      id: 'my-form-element',
+      label: 'test',
+      error: 'this is an error',
+      Component: <Input />,
+    }}
+  >
+    {(args) => <FormElement {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="With Error And Label Top" />
+
+<Canvas>
+  <Story
+    name="With Error And Label Left"
+    args={{
+      id: 'my-form-element',
+      label: 'test',
+      labelPosition: LabelPositions.LEFT,
+      error: 'this is an error',
+      Component: <Input />,
+    }}
+  >
+    {(args) => <FormElement {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="With Error And Label Left" />
