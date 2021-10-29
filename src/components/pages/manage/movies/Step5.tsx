@@ -12,13 +12,14 @@ import {
 } from '@/hooks/api/events';
 import { useAddImage } from '@/hooks/api/images';
 import { Button, ButtonVariants } from '@/ui/Button';
+import { FormElement } from '@/ui/FormElement';
 import { Icons } from '@/ui/Icon';
 import { Image } from '@/ui/Image';
 import { Inline } from '@/ui/Inline';
 import type { StackProps } from '@/ui/Stack';
 import { Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
-import { TextAreaWithLabel } from '@/ui/TextAreaWithLabel';
+import { TextArea } from '@/ui/TextArea';
 import { getValueFromTheme } from '@/ui/theme';
 import { parseOfferId } from '@/utils/parseOfferId';
 
@@ -200,13 +201,17 @@ const Step5 = ({ eventId, ...props }: Step5Props) => {
       />
       <Inline spacing={6} alignItems="flex-start">
         <Stack spacing={3} flex={1}>
-          <TextAreaWithLabel
+          <FormElement
             id="movie-description"
             label={t('movies.create.actions.description')}
-            rows={10}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            onBlur={handleBlurDescription}
+            Component={
+              <TextArea
+                rows={10}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                onBlur={handleBlurDescription}
+              />
+            }
           />
           <Button
             variant={ButtonVariants.LINK}
