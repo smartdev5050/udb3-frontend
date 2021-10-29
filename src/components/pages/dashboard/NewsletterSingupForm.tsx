@@ -7,9 +7,10 @@ import { useAddNewsletterSubscriber } from '@/hooks/api/newsletter';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { parseSpacing } from '@/ui/Box';
 import { Button } from '@/ui/Button';
+import { FormElement } from '@/ui/FormElement';
 import { Image } from '@/ui/Image';
 import { Inline } from '@/ui/Inline';
-import { InputWithLabel, LabelPositions } from '@/ui/InputWithLabel';
+import { Input } from '@/ui/Input';
 import type { PanelProps } from '@/ui/Panel';
 import { Panel } from '@/ui/Panel';
 import { Paragraph } from '@/ui/Paragraph';
@@ -59,19 +60,24 @@ const NewsletterSignupForm = (props: Props) => {
               alignItems="center"
               spacing={4}
             >
-              <InputWithLabel
-                type="email"
+              <FormElement
                 id="newletter-email"
                 label="Email"
-                placeholder="email@domain.be"
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-                value={email}
-                flex={1}
-                maxWidth="30rem"
                 labelPosition={LabelPositions.LEFT}
+                Component={
+                  <Input
+                    type="email"
+                    placeholder="email@domain.be"
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                    }}
+                    value={email}
+                    flex={1}
+                    maxWidth="30rem"
+                  />
+                }
               />
+
               <Button maxHeight={parseSpacing(5)()}>
                 {t('dashboard.newsletter.subscribe')}
               </Button>
