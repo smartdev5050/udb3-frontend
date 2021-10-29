@@ -9,7 +9,7 @@ import { getValueFromTheme } from './theme';
 const getValue = getValueFromTheme('typeahead');
 
 type TypeaheadProps<T> = {
-  id: string;
+  id?: string;
   options: T[];
   labelKey: ((option: T) => string) | string;
   disabled?: boolean;
@@ -28,7 +28,7 @@ type Props<T> = Omit<BoxProps, 'onChange' | 'id'> &
   TypeaheadProps<T> & { isInvalid?: boolean };
 
 type TypeaheadFunc = (<T>(
-  props: Props<T> & { ref: ForwardedRef<HTMLInputElement> },
+  props: Props<T> & { ref?: ForwardedRef<HTMLInputElement> },
 ) => ReactElement) & {
   displayName?: string;
   defaultProps?: { [key: string]: unknown };
