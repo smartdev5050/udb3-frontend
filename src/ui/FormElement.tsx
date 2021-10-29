@@ -4,15 +4,10 @@ import { cloneElement } from 'react';
 import type { Values } from '@/types/Values';
 
 import { getInlineProps, Inline } from './Inline';
-import { Label, LabelVariants } from './Label';
+import { Label, LabelPositions, LabelVariants } from './Label';
 import type { StackProps } from './Stack';
 import { getStackProps, Stack } from './Stack';
 import { Text, TextVariants } from './Text';
-
-const LabelPositions = {
-  LEFT: 'left',
-  TOP: 'top',
-} as const;
 
 type Props = {
   id: string;
@@ -76,4 +71,4 @@ FormElement.defaultProps = {
   labelPosition: LabelPositions.TOP,
 };
 
-export { FormElement, LabelPositions };
+export { FormElement };

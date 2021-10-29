@@ -9,6 +9,11 @@ const LabelVariants = {
   NORMAL: 'normal',
 } as const;
 
+const LabelPositions = {
+  LEFT: 'left',
+  TOP: 'top',
+} as const;
+
 const getFontWeight = (props) => {
   if (props.variant === LabelVariants.BOLD) return 700;
   return 'normal';
@@ -47,4 +52,4 @@ Label.defaultProps = {
   required: false,
 };
 
-export { Label, LabelVariants };
+export { Label, LabelPositions, LabelVariants };
