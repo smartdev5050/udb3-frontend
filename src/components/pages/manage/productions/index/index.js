@@ -11,8 +11,9 @@ import {
   useDeleteEventsByIds,
   useGetProductions,
 } from '@/hooks/api/productions';
+import { FormElement } from '@/ui/FormElement';
 import { Inline } from '@/ui/Inline';
-import { InputWithLabel } from '@/ui/InputWithLabel';
+import { Input } from '@/ui/Input';
 import { Link } from '@/ui/Link';
 import { Page } from '@/ui/Page';
 import { Text } from '@/ui/Text';
@@ -145,12 +146,17 @@ const Index = () => {
         </Link>
       </Page.Actions>
       <Page.Content spacing={5}>
-        <InputWithLabel
+        <FormElement
           id="productions-overview-search"
-          placeholder={t('productions.overview.search.placeholder')}
-          onChange={throttle(handleInputSearch, 275)}
           label={t('productions.overview.search.label')}
+          Component={
+            <Input
+              placeholder={t('productions.overview.search.placeholder')}
+              onChange={throttle(handleInputSearch, 275)}
+            />
+          }
         />
+
         <Inline spacing={5}>
           {getProductionsQuery.status !== QueryStatus.LOADING &&
           productions.length === 0 ? (
