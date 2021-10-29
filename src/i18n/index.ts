@@ -16,6 +16,7 @@ i18n
     resources: {
       fr: { translation: fr },
       nl: { translation: nl },
+      de: { translation: de },
     },
     detection: { order: ['cookie'], lookupCookie: 'udb-language' },
     fallbackLng: 'nl',
