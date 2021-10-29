@@ -11,6 +11,7 @@ import { FormElement } from '@/ui/FormElement';
 import { Image } from '@/ui/Image';
 import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
+import { LabelPositions } from '@/ui/Label';
 import type { PanelProps } from '@/ui/Panel';
 import { Panel } from '@/ui/Panel';
 import { Paragraph } from '@/ui/Paragraph';
