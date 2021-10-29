@@ -384,7 +384,9 @@ const Index = () => {
       lang: i18n.language,
     });
 
-    router.push(`${publicRuntimeConfig.authUrl}/connect?${queryString}`);
+    router.push(
+      `${publicRuntimeConfig.authUrl}/connect?${queryString.toString()}`,
+    );
   };
 
   useRedirectToLanguage();
