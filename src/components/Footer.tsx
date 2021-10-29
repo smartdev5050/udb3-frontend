@@ -127,6 +127,12 @@ const Footer = ({
           >
             Français
           </LanguageSwitcherButton>
+          <LanguageSwitcherButton
+            variant={ButtonVariants.UNSTYLED}
+            onClick={handleChangeLanguage('de')}
+          >
+            Deutch
+          </LanguageSwitcherButton>
         </Inline>
       </Stack>
     </Wrapper>
