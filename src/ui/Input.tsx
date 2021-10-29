@@ -37,7 +37,7 @@ type InputType =
 
 type InputProps = {
   type?: InputType;
-  id: string;
+  id?: string;
   placeholder?: string;
   value?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
