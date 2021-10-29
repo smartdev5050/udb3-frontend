@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode, Ref } from 'react';
 import { cloneElement } from 'react';
 
 import type { Values } from '@/types/Values';
@@ -16,7 +16,7 @@ const LabelPositions = {
 
 type Props = {
   id: string;
-  ref: any;
+  ref?: Ref<HTMLElement>;
   label?: string;
   labelPosition?: Values<typeof LabelPositions>;
   error?: string;
