@@ -6,7 +6,7 @@ import de from './de.json';
 import fr from './fr.json';
 import nl from './nl.json';
 
-const supportedLanguages = ['nl', 'fr'] as const;
+const supportedLanguages = ['nl', 'fr', 'de'] as const;
 type SupportedLanguage = typeof supportedLanguages[number];
 
 i18n.use(LanguageDetector);
@@ -35,4 +35,4 @@ i18n
   });
 
 export type { SupportedLanguage };
-export default i18n;
+export { i18n as default, supportedLanguages };
