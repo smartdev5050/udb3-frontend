@@ -2,6 +2,7 @@ import type { ElementType } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
+import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
 import type { Values } from '@/types/Values';
 import { Box } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
@@ -56,6 +57,10 @@ const Footer = ({
 }: Props) => {
   const { t, i18n } = useTranslation();
   const { setCookie } = useCookiesWithOptions(['udb-language']);
+
+  const [isGermanLoginFeatureFlagEnabled] = useFeatureFlag(
+    FeatureFlags.GERMAN_LOGIN,
+  );
 
   const defaultHandleChangeLanguage = (
     language: Values<typeof SupportedLanguages>,
