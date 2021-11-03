@@ -2,7 +2,7 @@ import type { BookingAvailabilityType } from '@/constants/BookingAvailabilityTyp
 import type { CalendarType } from '@/constants/CalendarType';
 import type { OfferStatus } from '@/constants/OfferStatus';
 
-import type { SupportedLanguage } from '../i18n';
+import type { SupportedLanguages } from '../i18n';
 import type { ContactPoint } from './ContactPoint';
 import type { Organizer } from './Organizer';
 import type { Values } from './Values';
@@ -67,17 +67,18 @@ type OpeningHours = {
   dayOfWeek: string[];
 };
 
-type CalendarSummary = {
-  [key in SupportedLanguage]: {
+type CalendarSummary = Record<
+  Values<typeof SupportedLanguages>,
+  {
     text?: { [format: string]: string };
     html?: { [format: string]: string };
-  };
-};
+  }
+>;
 
 type Offer = {
   '@id': string;
-  name: { [key in SupportedLanguage]?: string };
-  description: { [key in SupportedLanguage]: string };
+  name: Partial<Record<Values<typeof SupportedLanguages>, string>>;
+  description: Partial<Record<Values<typeof SupportedLanguages>, string>>;
   status?: Status;
   availableFrom: string;
   availableTo: string;
@@ -101,9 +102,9 @@ type Offer = {
   seeAlso: string[];
   workflowStatus: WorkflowStatus;
   audience: { audienceType: string };
-  mainLanguage: SupportedLanguage;
-  languages: SupportedLanguage[];
-  completedLanguages: SupportedLanguage[];
+  mainLanguage: Values<typeof SupportedLanguages>;
+  languages: Array<Values<typeof SupportedLanguages>>;
+  completedLanguages: Array<Values<typeof SupportedLanguages>>;
   mediaObject?: MediaObject[];
   image?: string;
   typicalAgeRange: string;

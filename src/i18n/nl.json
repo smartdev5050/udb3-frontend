@@ -28,7 +28,10 @@
     "privacy": "Privacy",
     "questions": "Vragen of feedback?",
     "withSupport": "met steun van de",
-    "profile": "Mijn profiel wijzigen"
+    "profile": "Mijn profiel wijzigen",
+    "nl": "Nederlands",
+    "fr": "Français",
+    "de": "Deutch"
   },
   "announcements": {
     "new_features": "Nieuw in UiTdatabank",

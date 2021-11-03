@@ -2,6 +2,8 @@ import type { ElementType } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
+import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
+import type { Values } from '@/types/Values';
 import { Box } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Image } from '@/ui/Image';
@@ -9,6 +11,8 @@ import { Inline } from '@/ui/Inline';
 import { Link } from '@/ui/Link';
 import { List } from '@/ui/List';
 import { Stack } from '@/ui/Stack';
+
+import { SupportedLanguages } from '../i18n';
 
 const LanguageSwitcherButton = (props) => (
   <Button
@@ -40,7 +44,9 @@ const FooterLink = (props) => (
 type Props = {
   isProfileLinkVisible: boolean;
   wrapper?: ElementType;
-  onChangeLanguage?: (language: string) => () => Promise<boolean>;
+  onChangeLanguage?: (
+    language: Values<typeof SupportedLanguages>,
+  ) => () => Promise<boolean>;
 };
 
 const Footer = ({
@@ -52,7 +58,13 @@ const Footer = ({
   const { t, i18n } = useTranslation();
   const { setCookie } = useCookiesWithOptions(['udb-language']);
 
-  const defaultHandleChangeLanguage = (language) => () => {
+  const [isGermanLoginFeatureFlagEnabled] = useFeatureFlag(
+    FeatureFlags.GERMAN_LOGIN,
+  );
+
+  const defaultHandleChangeLanguage = (
+    language: Values<typeof SupportedLanguages>,
+  ) => () => {
     setCookie('udb-language', language);
   };
 
@@ -118,15 +130,23 @@ const Footer = ({
           width={150}
         />
         <Inline>
-          <LanguageSwitcherButton onClick={handleChangeLanguage('nl')}>
-            Nederlands
-          </LanguageSwitcherButton>
-          <LanguageSwitcherButton
-            variant={ButtonVariants.UNSTYLED}
-            onClick={handleChangeLanguage('fr')}
-          >
-            Français
-          </LanguageSwitcherButton>
+          {Object.values(SupportedLanguages).map((supportedLanguage, index) => {
+            if (
+              supportedLanguage === SupportedLanguages.DE &&
+              !isGermanLoginFeatureFlagEnabled
+            ) {
+              return null;
+            }
+
+            return (
+              <LanguageSwitcherButton
+                key={index}
+                onClick={handleChangeLanguage(supportedLanguage)}
+              >
+                {t(`footer.${supportedLanguage}`)}
+              </LanguageSwitcherButton>
+            );
+          })}
         </Inline>
       </Stack>
     </Wrapper>
