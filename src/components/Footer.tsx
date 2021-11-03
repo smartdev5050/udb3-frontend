@@ -137,6 +137,7 @@ const Footer = ({
             ) {
               return null;
             }
+
             return (
               <LanguageSwitcherButton
                 key={index}
