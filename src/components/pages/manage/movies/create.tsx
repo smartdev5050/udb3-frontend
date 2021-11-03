@@ -42,7 +42,7 @@ type Time = string;
 const createTimeTablePayload = (timeTable: Time[][], dateStart: string) =>
   timeTable.reduce((acc, row, rowIndex) => {
     const onlyTimeStrings = row.reduce((acc, time) => {
-      if (!time || !/[0-2][0-4]h[0-5][0-9]m/.test(time)) {
+      if (!time || !time.includes('m') || !time.includes('h')) {
         return acc;
       }
 
@@ -174,6 +174,17 @@ const Create = () => {
     timeTable,
     dateStart,
   }: FormData) => {
+    if (newEventId) {
+      console.log({
+        // newEventId,
+        // productions,
+        // cinemas,
+        // themeId,
+        timeTable: JSON.stringify(timeTable, undefined, 2),
+        // dateStart,
+      });
+      return;
+    }
     if (!productions.length) return;
 
     const themeLabel = Object.entries(MovieThemes).find(
@@ -251,8 +262,31 @@ const Create = () => {
     });
   };
 
-  const filledInTimeTable = watch('timeTable');
+  const theme = watch('theme');
+  const timeTable = watch('timeTable');
   const dateStart = watch('dateStart');
+
+  useEffect(() => {
+    if (newEventId) {
+      handleSubmit(handleFormValid)();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [theme]);
+
+  useEffect(() => {
+    if (
+      newEventId &&
+      timeTable.every((row) =>
+        row.every(
+          (cell) => cell === null || (cell.includes('m') && cell.includes('h')),
+        ),
+      )
+    ) {
+      console.log(JSON.stringify(timeTable, undefined, 2));
+      // handleSubmit(handleFormValid)();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timeTable]);
 
   const stepProps = {
     errors,
@@ -264,7 +298,7 @@ const Create = () => {
 
   const isStep3Visible =
     (dirtyFields.timeTable &&
-      filledInTimeTable.some((row) => row.some((cell) => !!cell))) ||
+      timeTable.some((row) => row.some((cell) => !!cell))) ||
     dirtyFields.cinema;
   const isStep4Visible = dirtyFields.cinema;
   const isStep5Visible = !!newEventId && Object.values(errors).length === 0;
