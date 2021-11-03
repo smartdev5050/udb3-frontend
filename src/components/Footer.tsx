@@ -130,23 +130,22 @@ const Footer = ({
           width={150}
         />
         <Inline>
-          <LanguageSwitcherButton
-            onClick={handleChangeLanguage(SupportedLanguages.NL)}
-          >
-            Nederlands
-          </LanguageSwitcherButton>
-          <LanguageSwitcherButton
-            variant={ButtonVariants.UNSTYLED}
-            onClick={handleChangeLanguage(SupportedLanguages.FR)}
-          >
-            Français
-          </LanguageSwitcherButton>
-          <LanguageSwitcherButton
-            variant={ButtonVariants.UNSTYLED}
-            onClick={handleChangeLanguage(SupportedLanguages.DE)}
-          >
-            Deutch
-          </LanguageSwitcherButton>
+          {Object.values(SupportedLanguages).map((supportedLanguage, index) => {
+            if (
+              supportedLanguage === SupportedLanguages.DE &&
+              !isGermanLoginFeatureFlagEnabled
+            ) {
+              return null;
+            }
+            return (
+              <LanguageSwitcherButton
+                key={index}
+                onClick={handleChangeLanguage(supportedLanguage)}
+              >
+                {t(`footer.${supportedLanguage}`)}
+              </LanguageSwitcherButton>
+            );
+          })}
         </Inline>
       </Stack>
     </Wrapper>
