@@ -7,8 +7,7 @@ import { css, keyframes } from 'styled-components';
 
 import { Footer } from '@/components/Footer';
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
-import type { SupportedLanguage } from '@/i18n/index';
-import { supportedLanguages } from '@/i18n/index';
+import { SupportedLanguages } from '@/i18n/index';
 import { Box } from '@/ui/Box';
 import { Button, ButtonSizes } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
@@ -316,7 +315,9 @@ Column.propTypes = {
 
 const useRedirectToLanguage = () => {
   const router = useRouter();
-  const { language } = router.query;
+  const language = Array.isArray(router.query?.language)
+    ? router.query.language[0]
+    : router.query.language;
   const { i18n } = useTranslation();
 
   const { setCookie } = useCookiesWithOptions();
@@ -324,8 +325,8 @@ const useRedirectToLanguage = () => {
   useEffect(() => {
     if (!language) return;
 
-    if (supportedLanguages.includes(language as SupportedLanguage)) {
-      i18n.changeLanguage(language as string);
+    if (SupportedLanguages[language.toUpperCase()]) {
+      i18n.changeLanguage(language);
       setCookie('udb-language', language);
     } else {
       router.push('/login/nl');

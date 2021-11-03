@@ -6,8 +6,11 @@ import de from './de.json';
 import fr from './fr.json';
 import nl from './nl.json';
 
-const supportedLanguages = ['nl', 'fr', 'de'] as const;
-type SupportedLanguage = typeof supportedLanguages[number];
+const SupportedLanguages = {
+  NL: 'nl',
+  FR: 'fr',
+  DE: 'de',
+} as const;
 
 i18n.use(LanguageDetector);
 i18n.use(initReactI18next);
@@ -20,7 +23,7 @@ i18n
     },
     detection: { order: ['cookie'], lookupCookie: 'udb-language' },
     fallbackLng: 'nl',
-    supportedLngs: [...supportedLanguages],
+    supportedLngs: Object.values(SupportedLanguages),
     debug: false,
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
@@ -35,5 +38,4 @@ i18n
     console.log('i18n initialisation failed', error);
   });
 
-export type { SupportedLanguage };
-export { i18n as default, supportedLanguages };
+export { i18n as default, SupportedLanguages };
