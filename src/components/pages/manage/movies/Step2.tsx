@@ -10,7 +10,7 @@ import type { StepProps } from './create';
 import { Step } from './Step';
 
 type Step2Props = StackProps &
-  StepProps & { dateStart: Date; onDateStartChange: (date: Date) => void };
+  StepProps & { dateStart: string; onDateStartChange: (date: Date) => void };
 
 const Step2 = ({
   errors,
