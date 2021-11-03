@@ -1,8 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { addDays, set as setTime } from 'date-fns';
+import { addDays, isMatch, set as setTime } from 'date-fns';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
-import type { UseFormReturn } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
@@ -42,7 +41,7 @@ type Time = string;
 const createTimeTablePayload = (timeTable: Time[][], dateStart: string) =>
   timeTable.reduce((acc, row, rowIndex) => {
     const onlyTimeStrings = row.reduce((acc, time) => {
-      if (!time || !time.includes('m') || !time.includes('h')) {
+      if (!time || isMatch(time, "HH'h'mm'm'")) {
         return acc;
       }
 
@@ -175,14 +174,8 @@ const Create = () => {
     dateStart,
   }: FormData) => {
     if (newEventId) {
-      console.log({
-        // newEventId,
-        // productions,
-        // cinemas,
-        // themeId,
-        timeTable: JSON.stringify(timeTable, undefined, 2),
-        // dateStart,
-      });
+      console.log('here');
+      console.table(timeTable);
       return;
     }
     if (!productions.length) return;
@@ -266,6 +259,14 @@ const Create = () => {
   const timeTable = watch('timeTable');
   const dateStart = watch('dateStart');
 
+  const isTimeTableValid = useMemo(
+    () =>
+      !timeTable.some((row) =>
+        row.some((cell) => cell !== null && !isMatch(cell, "HH'h'mm'm'")),
+      ),
+    [timeTable],
+  );
+
   useEffect(() => {
     if (newEventId) {
       handleSubmit(handleFormValid)();
@@ -274,16 +275,8 @@ const Create = () => {
   }, [theme]);
 
   useEffect(() => {
-    if (
-      newEventId &&
-      timeTable.every((row) =>
-        row.every(
-          (cell) => cell === null || (cell.includes('m') && cell.includes('h')),
-        ),
-      )
-    ) {
-      console.log(JSON.stringify(timeTable, undefined, 2));
-      // handleSubmit(handleFormValid)();
+    if (newEventId && isTimeTableValid) {
+      handleSubmit(handleFormValid)();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeTable]);
