@@ -1,4 +1,5 @@
-import type { SupportedLanguage } from '../i18n';
+import type { SupportedLanguages } from '../i18n';
+import type { Values } from './Values';
 
 type AddressInternal = {
   addressCountry: string;
@@ -8,6 +9,6 @@ type AddressInternal = {
 };
 type Address =
   | AddressInternal
-  | { [key in SupportedLanguage]?: AddressInternal };
+  | Partial<Record<Values<typeof SupportedLanguages>, AddressInternal>>;
 
 export type { Address, AddressInternal };
