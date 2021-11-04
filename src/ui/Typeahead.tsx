@@ -9,16 +9,23 @@ import { getValueFromTheme } from './theme';
 const getValue = getValueFromTheme('typeahead');
 
 type TypeaheadProps<T> = {
+  id: string;
   options: T[];
-  labelKey: (option: T) => string;
+  labelKey: ((option: T) => string) | string;
   disabled?: boolean;
   placeholder?: string;
   emptyLabel?: string;
   minLength?: number;
   onChange?: (value: T[]) => void;
+  allowNew?:
+    | boolean
+    | ((results: Array<Object | string>, props: Object) => boolean);
+  newSelectionPrefix?: string;
+  selected: T[];
 };
 
-type Props<T> = Omit<BoxProps, 'onChange'> & TypeaheadProps<T>;
+type Props<T> = Omit<BoxProps, 'onChange' | 'id'> &
+  TypeaheadProps<T> & { isInvalid?: boolean };
 
 type TypeaheadFunc = (<T>(
   props: Props<T> & { ref: ForwardedRef<HTMLInputElement> },
@@ -41,6 +48,10 @@ const Typeahead: TypeaheadFunc = forwardRef(
       onInputChange,
       onSearch,
       onChange,
+      isInvalid,
+      selected,
+      allowNew,
+      newSelectionPrefix,
       ...props
     }: Props<T>,
     ref: ForwardedRef<HTMLInputElement>,
@@ -49,6 +60,8 @@ const Typeahead: TypeaheadFunc = forwardRef(
       <Box
         forwardedAs={BootstrapTypeahead}
         id={id}
+        allowNew={allowNew}
+        newSelectionPrefix={newSelectionPrefix}
         options={options}
         labelKey={labelKey}
         isLoading={false}
@@ -63,6 +76,14 @@ const Typeahead: TypeaheadFunc = forwardRef(
               color: ${getValue('active.color')};
             }
           }
+          .dropdown-item.hover,
+          .dropdown-item:hover {
+            color: ${getValue('hover.color')};
+            background-color: ${getValue('hover.backgroundColor')};
+            .rbt-highlight-text {
+              color: ${getValue('hover.color')};
+            }
+          }
           .rbt-highlight-text {
             font-weight: ${getValue('highlight.fontWeight')};
             background-color: ${getValue('highlight.backgroundColor')};
@@ -75,8 +96,13 @@ const Typeahead: TypeaheadFunc = forwardRef(
         emptyLabel={emptyLabel}
         minLength={minLength}
         delay={275}
-        highlightOnlyResult
-        ref={ref}
+        highlightOnlyResult={!allowNew}
+        isInvalid={isInvalid}
+        selected={selected}
+        inputProps={{
+          id,
+          ref,
+        }}
         {...getBoxProps(props)}
       />
     );

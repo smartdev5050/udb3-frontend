@@ -1,5 +1,6 @@
 import { throttle } from 'lodash';
 import { useMemo, useState } from 'react';
+import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { OfferCategories } from '@/constants/OfferCategories';
@@ -14,15 +15,14 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { TypeaheadWithLabel } from '@/ui/TypeaheadWithLabel';
 
-import type { MachineProps } from './create';
-import { MovieEventTypes } from './create';
+import type { StepProps } from './create';
 import { Step } from './Step';
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
-type Step3Props = StackProps & MachineProps;
+type Step3Props = StackProps & StepProps;
 
-const Step3 = ({ movieState, sendMovieEvent, ...props }: Step3Props) => {
+const Step3 = ({ errors, getValues, reset, control, ...props }: Step3Props) => {
   const { t, i18n } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
 
@@ -43,43 +43,64 @@ const Step3 = ({ movieState, sendMovieEvent, ...props }: Step3Props) => {
   return (
     <Step stepNumber={3}>
       <Stack {...getStackProps(props)}>
-        {movieState.context.cinema === null ? (
-          <TypeaheadWithLabel<Place>
-            id="step3-cinema-typeahead"
-            label={t('movies.create.actions.choose_cinema')}
-            options={cinemas}
-            onInputChange={throttle(setSearchInput, 275)}
-            labelKey={(cinema) =>
-              cinema.name[i18n.language] ?? cinema.name[cinema.mainLanguage]
+        <Controller
+          control={control}
+          name="cinema"
+          render={({ field }) => {
+            const selectedCinema = field?.value?.[0];
+
+            if (!selectedCinema) {
+              return (
+                <TypeaheadWithLabel<Place>
+                  error={
+                    errors?.cinema
+                      ? t(
+                          `movies.create.validation_messages.cinema.${errors?.cinema.type}`,
+                        )
+                      : undefined
+                  }
+                  id="step3-cinema-typeahead"
+                  label={t('movies.create.actions.choose_cinema')}
+                  options={cinemas}
+                  onInputChange={throttle(setSearchInput, 275)}
+                  labelKey={(cinema) =>
+                    cinema.name[i18n.language] ??
+                    cinema.name[cinema.mainLanguage]
+                  }
+                  selected={field.value}
+                  maxWidth="43rem"
+                  onChange={(value) => {
+                    field.onChange(value);
+                  }}
+                  minLength={3}
+                />
+              );
             }
-            maxWidth="43rem"
-            onChange={(value) => {
-              sendMovieEvent({ type: 'CHOOSE_CINEMA', value: value[0] });
-            }}
-            minLength={3}
-          />
-        ) : (
-          <Inline alignItems="center" spacing={3}>
-            <Icon
-              name={Icons.CHECK_CIRCLE}
-              color={getValue('check.circleFillColor')}
-            />
-            <Text>
-              {movieState.context.cinema.name[i18n.language] ??
-                movieState.context.cinema.name[
-                  movieState.context.cinema.mainLanguage
-                ]}
-            </Text>
-            <Button
-              variant={ButtonVariants.LINK}
-              onClick={() =>
-                sendMovieEvent({ type: MovieEventTypes.CLEAR_CINEMA })
-              }
-            >
-              {t('movies.create.actions.change_cinema')}
-            </Button>
-          </Inline>
-        )}
+            return (
+              <Inline alignItems="center" spacing={3}>
+                <Icon
+                  name={Icons.CHECK_CIRCLE}
+                  color={getValue('check.circleFillColor')}
+                />
+                <Text>
+                  {selectedCinema.name[i18n.language] ??
+                    selectedCinema.name[selectedCinema.mainLanguage]}
+                </Text>
+                <Button
+                  variant={ButtonVariants.LINK}
+                  onClick={() =>
+                    reset(
+                      { ...getValues(), cinema: undefined },
+                      { keepDirty: true },
+                    )
+                  }
+                >
+                  {t('movies.create.actions.change_cinema')}
+                </Button>
+              </Inline>
+            );
+          }}
+        />
       </Stack>
     </Step>
   );

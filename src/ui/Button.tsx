@@ -9,14 +9,36 @@ import type { Icons } from './Icon';
 import { Icon } from './Icon';
 import type { InlineProps } from './Inline';
 import { getInlineProps, Inline } from './Inline';
-import { linkCSS } from './Link/style';
+import { Link } from './Link';
 import { Spinner, SpinnerSizes, SpinnerVariants } from './Spinner';
 import { Text } from './Text';
 import { getValueFromTheme } from './theme';
 
+const BootStrapVariants = {
+  PRIMARY: 'primary',
+  SECONDARY: 'secondary',
+  SUCCESS: 'success',
+  DANGER: 'danger',
+} as const;
+
+const ButtonVariants = {
+  ...BootStrapVariants,
+  UNSTYLED: 'unstyled',
+  LINK: 'link',
+} as const;
+
+const ButtonSizes = {
+  SMALL: 'sm',
+  LARGE: 'lg',
+} as const;
+
 const getValue = getValueFromTheme('button');
 
-const defaultStyle = css`
+const BaseButton = (props: Omit<InlineProps, 'size'>) => (
+  <Inline as="button" {...props} />
+);
+
+const customCSS = css`
   &.btn {
     border-radius: ${getValue('borderRadius')};
     padding: ${getValue('paddingY')} ${getValue('paddingX')};
@@ -32,20 +54,10 @@ const defaultStyle = css`
       outline: none;
       box-shadow: none;
     }
-
-    .button-spinner {
-      height: 1.5rem;
-      display: flex;
-      align-items: center;
-    }
   }
-`;
-
-const primaryStyle = css`
-  ${defaultStyle}
 
   &.btn-primary,
-&.btn-primary.dropdown-toggle {
+  &.btn-primary.dropdown-toggle {
     color: ${getValue('primary.color')};
     background-color: ${getValue('primary.backgroundColor')};
     border-color: ${getValue('primary.borderColor')};
@@ -68,13 +80,9 @@ const primaryStyle = css`
       box-shadow: ${getValue('primary.focusBoxShadow')};
     }
   }
-`;
-
-const secondaryStyle = css`
-  ${defaultStyle}
 
   &.btn-outline-secondary,
-&.btn-outline-secondary.dropdown-toggle {
+  &.btn-outline-secondary.dropdown-toggle {
     color: ${getValue('secondary.color')};
     background-color: ${getValue('secondary.backgroundColor')};
     border-color: ${getValue('secondary.borderColor')};
@@ -98,13 +106,9 @@ const secondaryStyle = css`
       box-shadow: ${getValue('secondary.focusBoxShadow')};
     }
   }
-`;
-
-const successStyle = css`
-  ${defaultStyle}
 
   &.btn-success,
-&.btn-success.dropdown-toggle {
+  &.btn-success.dropdown-toggle {
     color: ${getValue('success.color')};
     border-color: ${getValue('success.borderColor')};
     background-color: ${getValue('success.backgroundColor')};
@@ -125,13 +129,9 @@ const successStyle = css`
       box-shadow: ${getValue('success.focusBoxShadow')};
     }
   }
-`;
-
-const dangerStyle = css`
-  ${defaultStyle}
 
   &.btn-danger,
-&.btn-danger.dropdown-toggle {
+  &.btn-danger.dropdown-toggle {
     color: ${getValue('danger.color')};
     border-color: ${getValue('danger.borderColor')};
     background-color: ${getValue('danger.backgroundColor')};
@@ -152,106 +152,69 @@ const dangerStyle = css`
       box-shadow: ${getValue('danger.focusBoxShadow')};
     }
   }
-`;
 
-const linkStyle = css`
-  ${defaultStyle}
-
-  background: none;
-  border: none;
-
-  :focus {
-    outline: auto;
-  }
-  :focus:not(:focus-visible) {
-    outline: none;
-    box-shadow: none;
-  }
-
-  ${linkCSS}
-`;
-
-const unstyledStyle = css`
-  background: none;
-  border: none;
-
-  :focus {
-    outline: auto;
-  }
-  :focus:not(:focus-visible) {
-    outline: none;
-    box-shadow: none;
+  .button-spinner {
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
   }
 `;
 
-const BootStrapVariants = {
-  PRIMARY: 'primary',
-  SECONDARY: 'secondary',
-  SUCCESS: 'success',
-  DANGER: 'danger',
-} as const;
-
-const ButtonVariants = {
-  ...BootStrapVariants,
-  UNSTYLED: 'unstyled',
-  LINK: 'link',
-} as const;
-
-const ButtonSizes = {
-  SMALL: 'sm',
-  LARGE: 'lg',
-} as const;
-
-type Props = Omit<InlineProps, 'size'> & {
+type ButtonProps = Omit<InlineProps, 'size'> & {
   iconName?: Values<typeof Icons>;
   suffix?: ReactNode;
   loading?: boolean;
   disabled?: boolean;
+  customChildren?: boolean;
+  shouldHideText?: boolean;
   size?: Values<typeof ButtonSizes>;
   variant?: Values<typeof ButtonVariants>;
   type?: string;
 };
 
-const BaseButton = (props: Omit<InlineProps, 'size'>) => (
-  <Inline as="button" {...props} />
-);
-
 const Button = ({
   iconName,
   suffix,
-  loading,
-  disabled,
-  size,
   variant,
+  disabled,
+  loading,
   children,
-  className,
+  customChildren,
+  shouldHideText,
   onClick,
+  className,
+  textAlign,
   title,
+  size,
+  forwardedAs,
   type,
   ...props
-}: Props) => {
+}: ButtonProps) => {
   const isBootstrapVariant = (Object.values(
     BootStrapVariants,
   ) as string[]).includes(variant);
+  const isLinkVariant = variant === ButtonVariants.LINK;
 
-  const MappedVariants = {
-    [ButtonVariants.SECONDARY]: 'outline-secondary',
-  };
+  // @ts-expect-error
+  if (variant === ButtonVariants.SECONDARY) variant = 'outline-secondary';
+
+  const BaseButtonWithForwardedAs = (props) => (
+    <BaseButton {...props} forwardedAs={forwardedAs} />
+  );
+
+  const forwardedButton = forwardedAs ? BaseButtonWithForwardedAs : BaseButton;
+  const bootstrapProps = isBootstrapVariant
+    ? { forwardedAs: forwardedButton, variant }
+    : {};
 
   const propsToApply = {
-    className,
+    ...bootstrapProps,
     disabled,
-    cursor: disabled ? 'not-allowed' : 'pointer',
     onClick,
+    className,
     title,
+    size,
     type,
-    ...(isBootstrapVariant
-      ? {
-          forwardedAs: BootstrapButton,
-          size,
-          variant: MappedVariants[variant] ?? variant,
-        }
-      : { color: 'inherit' }),
     ...getInlineProps(props),
   };
 
@@ -265,18 +228,6 @@ const Button = ({
       })
     : undefined;
 
-  const content = [
-    iconName && <Icon name={iconName} key="icon" />,
-    typeof children === 'string' ? (
-      <Text flex={1} textAlign="left" key="text">
-        {children}
-      </Text>
-    ) : (
-      children
-    ),
-    clonedSuffix,
-  ];
-
   const inner = loading ? (
     <Spinner
       className="button-spinner"
@@ -284,20 +235,75 @@ const Button = ({
       size={SpinnerSizes.SMALL}
     />
   ) : (
-    content
+    [
+      iconName && <Icon name={iconName} key="icon" />,
+      customChildren
+        ? children
+        : !shouldHideText && (
+            <Text flex={1} textAlign="left" key="text">
+              {children}
+            </Text>
+          ),
+      clonedSuffix,
+    ]
   );
 
-  const Styles = {
-    [ButtonVariants.PRIMARY]: primaryStyle,
-    [ButtonVariants.SECONDARY]: secondaryStyle,
-    [ButtonVariants.SUCCESS]: successStyle,
-    [ButtonVariants.DANGER]: dangerStyle,
-    [ButtonVariants.LINK]: linkStyle,
-    [ButtonVariants.UNSTYLED]: unstyledStyle,
-  };
+  if (isBootstrapVariant) {
+    return (
+      <BootstrapButton {...propsToApply} css={customCSS}>
+        {inner}
+      </BootstrapButton>
+    );
+  }
+
+  if (isLinkVariant) {
+    return (
+      <BaseButton
+        {...propsToApply}
+        color="inherit"
+        cursor="pointer"
+        css={`
+          background: none;
+          border: none;
+
+          :focus {
+            outline: auto;
+          }
+          :focus:not(:focus-visible) {
+            outline: none;
+            box-shadow: none;
+          }
+        `}
+        alignItems="center"
+        justifyContent="flex-start"
+      >
+        <Link as="span" href="">
+          {children}
+        </Link>
+      </BaseButton>
+    );
+  }
 
   return (
-    <BaseButton {...propsToApply} css={Styles[variant] ?? css``}>
+    <BaseButton
+      {...propsToApply}
+      color="inherit"
+      cursor="pointer"
+      css={`
+        background: none;
+        border: none;
+
+        :focus {
+          outline: auto;
+        }
+        :focus:not(:focus-visible) {
+          outline: none;
+          box-shadow: none;
+        }
+      `}
+      alignItems="center"
+      justifyContent="flex-start"
+    >
       {inner}
     </BaseButton>
   );
@@ -307,7 +313,10 @@ Button.defaultProps = {
   variant: ButtonVariants.PRIMARY,
   disabled: false,
   loading: false,
+  customChildren: false,
+  shouldHideText: false,
   textAlign: 'center',
+  type: 'button',
 };
 
-export { Button, ButtonSizes, ButtonVariants, secondaryStyle };
+export { Button, customCSS as buttonCSS, ButtonSizes, ButtonVariants };

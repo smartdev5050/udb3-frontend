@@ -141,6 +141,10 @@ const theme = {
         color: colors.white,
         backgroundColor: colors.red2,
       },
+      hover: {
+        color: colors.white,
+        backgroundColor: colors.red2,
+      },
       highlight: {
         fontWeight: 'bold',
         backgroundColor: 'transparent',
@@ -148,6 +152,7 @@ const theme = {
     },
     page: {
       backgroundColor: colors.grey1,
+      borderColor: colors.grey3,
     },
     pageTitle: {
       color: colors.textColor,

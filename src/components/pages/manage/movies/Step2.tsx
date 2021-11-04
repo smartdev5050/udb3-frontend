@@ -1,23 +1,52 @@
+import { Controller } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+
+import { Alert, AlertVariants } from '@/ui/Alert';
 import type { StackProps } from '@/ui/Stack';
 import { getStackProps } from '@/ui/Stack';
 import { TimeTable } from '@/ui/TimeTable';
 
-import type { MachineProps } from './create';
-import { MovieEventTypes } from './create';
+import type { StepProps } from './create';
 import { Step } from './Step';
 
-type Step2Props = StackProps & MachineProps;
+type Step2Props = StackProps &
+  StepProps & { dateStart: Date; onDateStartChange: (date: Date) => void };
 
-const Step2 = ({ movieState, sendMovieEvent, ...props }: Step2Props) => {
+const Step2 = ({
+  errors,
+  control,
+  dateStart,
+  onDateStartChange,
+  ...props
+}: Step2Props) => {
+  const { t } = useTranslation();
+
   return (
-    <Step stepNumber={2}>
-      <TimeTable
-        id="timetable-movies"
-        onTimeTableChange={(value) =>
-          sendMovieEvent({ type: MovieEventTypes.CHANGE_TIME_TABLE, value })
-        }
-        {...getStackProps(props)}
+    <Step stepNumber={2} {...getStackProps(props)}>
+      <Controller
+        name="timeTable"
+        control={control}
+        render={({ field }) => {
+          return (
+            <TimeTable
+              id="timetable-movies"
+              value={field.value}
+              onChange={(value) => field.onChange(value)}
+              dateStart={dateStart}
+              onDateStartChange={onDateStartChange}
+              {...getStackProps(props)}
+            />
+          );
+        }}
       />
+
+      {errors?.timeTable ? (
+        <Alert visible variant={AlertVariants.DANGER} maxWidth="53rem">
+          {t(
+            `movies.create.validation_messages.timeTable.${errors.timeTable.type}`,
+          )}
+        </Alert>
+      ) : null}
     </Step>
   );
 };

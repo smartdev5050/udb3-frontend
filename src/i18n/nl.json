@@ -28,7 +28,10 @@
     "privacy": "Privacy",
     "questions": "Vragen of feedback?",
     "withSupport": "met steun van de",
-    "profile": "Mijn profiel wijzigen"
+    "profile": "Mijn profiel wijzigen",
+    "nl": "Nederlands",
+    "fr": "Français",
+    "de": "Deutch"
   },
   "announcements": {
     "new_features": "Nieuw in UiTdatabank",
@@ -175,10 +178,25 @@
         "change_theme": "Wijzig thema",
         "copy_table": "Kopieer tabel",
         "change_cinema": "Wijzig bioscoop",
+        "change_name": "Wijzig naam",
         "choose_cinema": "Kies een bioscoop",
         "choose_name": "Kies een naam",
         "description": "Beschrijving",
-        "clear": "Leegmaken"
+        "clear": "Leegmaken",
+        "save": "Opslaan",
+        "publish": "Publiceren",
+        "publish_later": "Later publiceren"
+      },
+      "validation_messages": {
+        "timeTable": {
+          "has-timeslot": "Minstens 1 tijdslot is verplicht."
+        },
+        "cinema": {
+          "selected-cinema": "Bioscoop is verplicht."
+        },
+        "production": {
+          "selected-production": "Naam is verplicht."
+        }
       },
       "picture": {
         "intro": "Voeg een afbeelding toe zodat bezoekers je activiteit beter herkennen",
@@ -205,7 +223,6 @@
               }
             }
           },
-          "required_field": "verplicht veld",
           "validation_messages": {
             "description": {
               "required": "Beschrijving is verplicht.",
@@ -227,6 +244,15 @@
           "actions": {
             "cancel": "Annuleren",
             "confirm": "Verwijderen"
+          }
+        },
+        "publish_modal": {
+          "title": "Een latere publicatiedatum kiezen",
+          "description": "Vanaf wanneer mag dit online verschijnen?",
+          "warning": "Opgelet, deze datum kan je maar één keer instellen.",
+          "actions": {
+            "cancel": "Annuleren",
+            "confirm": "Bevestigen"
           }
         }
       }

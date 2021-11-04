@@ -1,8 +1,7 @@
 import type { Values } from '@/types/Values';
 
 import type { BoxProps } from './Box';
-import { Box, getBoxProps } from './Box';
-import { Inline } from './Inline';
+import { getInlineProps, Inline } from './Inline';
 import { Text } from './Text';
 
 const LabelVariants = {
@@ -29,20 +28,17 @@ const Label = ({
   required,
   ...props
 }: Props) => (
-  <Inline spacing={2} alignItems="center">
-    <Box
-      forwardedAs="label"
-      htmlFor={htmlFor}
-      className={className}
-      variant={variant}
-      css={`
-        font-weight: ${getFontWeight};
-      `}
-      {...getBoxProps(props)}
-    >
-      {children}
-    </Box>
-    {required && <Text color="red">*</Text>}
+  <Inline
+    forwardedAs="label"
+    htmlFor={htmlFor}
+    className={className}
+    variant={variant}
+    css={`
+      font-weight: ${getFontWeight};
+    `}
+    {...getInlineProps(props)}
+  >
+    <Text>{children}</Text>
   </Inline>
 );
 

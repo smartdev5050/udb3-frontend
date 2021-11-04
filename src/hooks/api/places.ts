@@ -2,7 +2,7 @@ import type { UseMutationOptions, UseQueryOptions } from 'react-query';
 
 import type { OfferCategories } from '@/constants/OfferCategories';
 import type { OfferStatus } from '@/constants/OfferStatus';
-import type { SupportedLanguage } from '@/i18n/index';
+import type { SupportedLanguages } from '@/i18n/index';
 import type { Place } from '@/types/Place';
 import type { User } from '@/types/User';
 import type { Values } from '@/types/Values';
@@ -113,7 +113,7 @@ const getPlacesByQuery = async ({
   name,
   terms,
 }: Headers & GetPlacesByQueryArguments) => {
-  const nameString = name ? `name.\\*:${name}` : '';
+  const nameString = name ? `name.\\*:*${name}*` : '';
   const termsString = terms.reduce(
     (acc, currentTerm) => `${acc}terms.id:${currentTerm}`,
     '',
@@ -172,7 +172,7 @@ type ChangeStatusArguments = {
   headers: Headers;
   id: string;
   type: Values<typeof OfferStatus>;
-  reason: { [key in SupportedLanguage]: string };
+  reason: Record<Values<typeof SupportedLanguages>, string>;
 };
 
 const changeStatus = async ({
