@@ -1,1 +1,304 @@
-{}
+{
+  "brand": "UiTdatabank",
+  "description": "UiTdatabank liefert Informationen an mehr als 1.000 Agendas, darunter UiTinvlaanderen, Webseiten von Städten und Gemeinden, Themen-Agendas, Printmedien und mobile Apps. Auch Ihre Aktivität kann auf vielen Agendas erscheinen.",
+  "main": {
+    "activities_info": "Ein Ausflug, eine Sportaktivität, ein Spieleabend, Jahrmarkt oder Kurs? Ein Konzert, eine Ausstellung oder ein Film? UiTdatabank steht für die verschiedensten Freizeitaktivitäten offen.",
+    "activities": "Aktivitäten pro Jahr",
+    "channels_info_link_text": "1.000 Agendas",
+    "channels_info_link_url": "https://www.publiq.be/nl/publicatiekanalen",
+    "channels_info": "UiTdatabank liefert Informationen an mehr als <1>{{link}}</1>, darunter UiTinvlaanderen, Webseiten von Städten und Gemeinden, Themen-Agendas, Printmedien und mobile Apps. Auch Ihre Aktivität kann auf vielen Agendas erscheinen.",
+    "channels": "verschiedene Kanäle",
+    "lead_sub": "Fügen Sie kostenlos Ihre Aktivitäten hinzu und erreichen Sie ein größeres Publikum",
+    "lead": "Organisieren Sie eine Aktivität?",
+    "mission": "So machen Sie mehr Menschen Lust auf Ihre Aktivität.",
+    "organizers_info": "Jährlich promoten 28.000 Organisatoren ihre Aktivitäten über die UiTdatabank. Insgesamt erreichen sie damit jährlich mehr als 3 Millionen Menschen. Fügen Sie genau wie andere Organisatoren Ihre Aktivität schnell und einfach hinzu.",
+    "organizers": "Organisatoren",
+    "start": "Starten Sie hier",
+    "flanders_image": "vlaanderen-logo.svg"
+  },
+  "footer": {
+    "about": "Über UiTdatabank",
+    "by": "Ein Produkt von",
+    "changeProfile": "Mein Profil ändern",
+    "contact": "Kontaktieren Sie uns",
+    "dev": "Für Entwickler",
+    "flemishGovernment": "Flämische Regierung",
+    "legal_path": "Nutzungsbedingungen-uitdatabank",
+    "legal": "Nutzungsbedingungen",
+    "privacy": "Datenschutz",
+    "questions": "Haben Sie Fragen oder Feedback?",
+    "withSupport": "mit Unterstützung von",
+    "profile": "Mein Profil ändern"
+  },
+  "announcements": {
+    "new_features": "Neu bei UiTdatabank",
+    "no_features": "Momentan gibt es keine Neuigkeiten."
+  },
+  "menu": {
+    "add": "Eingeben",
+    "home": "Startseite",
+    "labels": "Labels",
+    "logout": "Abmelden",
+    "management": "Verwaltung",
+    "notifications": "Benachrichtigungen",
+    "organizations": "Organisationen",
+    "productions": "Produktionen",
+    "movies": "Filme",
+    "roles": "Rollen",
+    "search": "Suchen",
+    "users": "Benutzer",
+    "validate": "Validieren",
+    "announcements": "Ankündigungen"
+  },
+  "pagination": {
+    "next": "Weiter",
+    "previous": "Zurück"
+  },
+  "time_table": {
+    "start": "Start",
+    "end": "Ende"
+  },
+  "productions": {
+    "delete": {
+      "title": "Veranstaltungen(en) von Produktion entfernen"
+    },
+    "overview": {
+      "cancel": "Abbrechen",
+      "confirm": "Bestätigen",
+      "create": "Hinzufügen",
+      "delete_question_event": "Sind Sie sicher, dass Sie die ausgewählte Veranstaltung aus der Produktion '{{productionName}}' entfernen möchten?",
+      "delete_question_events": "Sind Sie sicher, dass Sie die ausgewählten {{eventCount}} Veranstaltungen aus der Produktion '{{productionName}}' entfernen möchten?",
+      "delete": "Löschen",
+      "details": "Details",
+      "events_in_production": "Veranstaltungen in {{productionName}}",
+      "loading": "Laden",
+      "no_events": "Keine Veranstaltungen unter dieser Produktion.",
+      "no_productions": "Keine Produktionen gefunden.",
+      "production": "Produktion",
+      "search": {
+        "label": "Nach Produktionsnamen suchen:",
+        "placeholder": "Erstellen Sie eine Suchanfrage von mindestens 3 Zeichen."
+      },
+      "title": "Produktionen",
+      "aria": {
+        "productions": "Produktionen",
+        "events": "Veranstaltungen"
+      }
+    },
+    "create": {
+      "no_productions": "Keine Produktionen gefunden.",
+      "new_production": "Neue Produktion: ",
+      "link": "Linken",
+      "no_suggested_events_found": "Keine Veranstaltungen gefunden, um an eine Produktion zu linken. Probieren Sie es später noch einmal.",
+      "production_name": "Produktionsname",
+      "skip": "Überspringen",
+      "suggested_events": "Vereinbarung für vorgestellte Veranstaltungen:",
+      "title": "Produktionen hinzufügen"
+    },
+    "event": {
+      "part_of_production": "Teil der Produktion",
+      "title": "Titel",
+      "type": "Art",
+      "when": "Wann",
+      "where": "Wo"
+    }
+  },
+  "movies": {
+    "create": {
+      "title": "Filme hinzufügen",
+      "step1_title": "Was für einen Film möchten Sie eingeben?",
+      "step2_title": "Wann wird der Film gezeigt?",
+      "step3_title": "Wo wird der Film gezeigt?",
+      "step4_title": "Wie heißt der Film?",
+      "actions": {
+        "change_theme": "Thema ändern",
+        "copy_table": "Tabelle kopieren",
+        "change_cinema": "Kino ändern",
+        "choose_cinema": "Wählen Sie ein Kino aus",
+        "choose_name": "Wählen Sie einen Namen"
+      }
+    }
+  },
+  "offerStatus": {
+    "title": "Verfügbarkeit für {{name}}",
+    "info": "Wählen Sie die Zeiten, für die Sie den Status oder die Verfügbarkeit von Tickets oder Plätzen anpassen möchten",
+    "period": "Zeit",
+    "statusLabel": "Status",
+    "newStatus": "Neuer Status",
+    "changeStatus": "Status ändern",
+    "reason": "Grund",
+    "reasonTip": "Sie können optional einen Grund für die Statusänderung angeben. Der Grund wird zusammen mit dem neuen Status auf UiTinVlaanderen und anderen UiT-Kanälen veröffentlicht.",
+    "status": {
+      "event": {
+        "available": "Findet statt",
+        "temporarilyUnavailable": "Verlegt",
+        "temporarilyUnavailableInfo": "Ihre Veranstaltung wurde auf einen späteren, noch unbekannten Zeitpunkt verlegt.",
+        "unavailable": "Abgesagt",
+        "unavailableInfo": "Ihre Veranstaltung findet nicht mehr zum vorgesehenen Zeitpunkt und auch zu keinem späteren Zeitpunkt statt."
+      },
+      "place": {
+        "available": "Offen",
+        "temporarilyUnavailable": "Zeitweise geschlossen",
+        "temporarilyUnavailableInfo": "Ihr Ort wird vorübergehend nicht mehr auf UiTinVlaanderen und anderen UiT-Kanälen angezeigt. Sobald Ihr Ort wieder öffnet, können Sie den Status erneut auf 'offen' ändern.",
+        "unavailable": "Permanent geschlossen",
+        "unavailableInfo": "Ihr Ort wird nicht mehr auf UiTinVlaanderen und anderen UiT-Kanälen angezeigt."
+      }
+    },
+    "dateToBeDefined": "Neues noch festzulegendes Datum",
+    "modificationReady": "Fertig mit Status ändern",
+    "actions": {
+      "cancel": "Abbrechen",
+      "close": "Schließen",
+      "save": "Speichern"
+    },
+    "maxLengthReason": "Der Grund für die Statusänderung kann nicht mehr als {{amount}} Zeichen umfassen."
+  },
+  "bookingAvailability": {
+    "title": "Verfügbarkeit Tickets & Plätze",
+    "change": "Tickets & Plätze anpassen",
+    "label": "Tickets & Plätze",
+    "available": "Verfügbar",
+    "unavailable": "Voll oder ausverkauft",
+    "actions": {
+      "cancel": "Abbrechen",
+      "close": "Schließen",
+      "save": "Speichern"
+    }
+  },
+  "dashboard": {
+    "welcome": "Willkommen",
+    "create": {
+      "events": "Veranstaltung hinzufügen",
+      "places": "Ort hinzufügen",
+      "organizers": "Organisatio hinzufügen"
+    },
+    "no_items": {
+      "events": "Keine Veranstaltungen gefunden",
+      "places": "Keine Orte gefunden",
+      "organizers": "Keine Organisationen gefunden"
+    },
+    "passed": "Abgelaufen {{type}}",
+    "event": "Veranstaltung",
+    "place": "Ort",
+    "organizer": "Organisation",
+    "not_published": "Nicht veröffentlicht",
+    "online_from": "Online ab {{date}}",
+    "tabs": {
+      "events": "Meine Veranstaltungen",
+      "places": "Meine Orte",
+      "organizers": "Meine Organisationen"
+    },
+    "actions": {
+      "edit": "Bearbeiten",
+      "preview": "Beispiel",
+      "delete": "Löschen",
+      "cancel": "Abbrechen"
+    },
+    "newsletter": {
+      "questions_or_feedback": "Haben Sie Fragen oder Feedback?",
+      "contact": "Kontaktieren Sie uns",
+      "title": "Praktische Eingabetipps in Ihrem Postfach",
+      "content": "Melden Sie sich für unseren Newsletter an und erhalten Sie praktische Tipps zum Eingeben Ihrer Aktivitäten in die UiTdatabank!",
+      "subscribe": "Anmelden",
+      "invalid": "Geben Sie eine gültige E-Mail-Adresse ein.",
+      "logo": "newsletter-logo.svg",
+      "logo_alt": "Newsletter Logo",
+      "success": {
+        "title": "Vielen Dank!",
+        "content": "Sie haben sich für unseren Newsletter angemeldet und erhalten nun praktische Tipps zum Eingeben Ihrer Aktivitäten in die UiTdatabank!"
+      }
+    },
+    "modal": {
+      "title": "{{type}} löschen",
+      "question": "Sind Sie sicher, dass Sie '{{name}}' löschen möchten?",
+      "types": {
+        "events": "Veranstaltungen",
+        "places": "Orte",
+        "organizers": "Organisatoren"
+      }
+    }
+  },
+  "jobs": {
+    "download": "Herunterladen",
+    "finished": "Abgeschlossen",
+    "in_progress": "In Behandlung",
+    "notifications": "Benachrichtigungen",
+    "time_ago": "{{time}} her"
+  },
+  "calendarSummary": {
+    "from": "Von",
+    "till": "bis",
+    "at": "um"
+  },
+  "selectionTable": {
+    "rowsSelectedCount": "{{count}} Reihe ausgewählt",
+    "rowsSelectedCount_plural": "{{count}} Reihen ausgewählt"
+  },
+  "offerTypes": {
+    "0.0.0.0.0": "Ausstellung",
+    "0.12.0.0.0": "Tag der offenen Tür",
+    "0.14.0.0.0": "Monument",
+    "0.15.0.0.0": "Naturgebiet oder Park",
+    "0.16.0.0.0": "Park oder Garten",
+    "0.17.0.0.0": "Fahrrad- oder Wanderroute",
+    "0.19.0.0.0": "Sportwettkampf ansehen",
+    "0.28.0.0.0": "Feier",
+    "0.3.1.0.0": "Vorlesungsreihe",
+    "0.3.1.0.1": "Kurs mit öffentlichen Sitzungen",
+    "0.3.2.0.0": "Lesung oder Kongress",
+    "0.3.3.0.0": "Kongress oder Studientag",
+    "0.37.0.0.0": "Markt, Straßenfest oder Jahrmarkt",
+    "0.41.0.0.0": "Themen- oder Vergnügungspark",
+    "0.49.0.0.0": "Party",
+    "0.5.0.0.0": "Festival",
+    "0.50.21.0.0": "Spiel oder Quiz",
+    "0.50.4.0.0": "Konzert",
+    "0.50.6.0.0": "Film",
+    "0.53.0.0.0": "Freizeitbereich oder -zentrum",
+    "0.54.0.0.0": "Tanzvorführung",
+    "0.55.0.0.0": "Theatervorstellung",
+    "0.57.0.0.0": "Camp oder Ferienlager",
+    "0.59.0.0.0": "Sportaktivität",
+    "0.6.0.0.0": "Messe",
+    "0.7.0.0.0": "Begleiteter Ausflug oder Rundgang",
+    "0.8.0.0.0": "Öffentliche Einrichtungen",
+    "1.50.0.0.0": "Spendenmahl",
+    "3CuHvenJ+EGkcvhXLg9Ykg": "Archäologische Stätte",
+    "BtVNd33sR0WntjALVbyp3w": "Kino",
+    "eBwaUAAhw0ur0Z02i5ttnw": "Sportzentrum",
+    "ekdc4ATGoUitCa0e6me6xA": "Gastgewerbe",
+    "GnPFp9uvOUyqhOckIFMKmg": "Museum oder Galerie",
+    "JCjA0i5COUmdjMwcyjNAFA": "Jugendzentrum",
+    "kI7uAyn2uUu9VV6Z3uWZTA": "Bibliothek oder Dokumentationszentrum",
+    "OyaPaf64AEmEAYXHeLMAtA": "Saal oder Expo-Halle",
+    "rJRFUqmd6EiqTD4c7HS90w": "Schule oder Bildungszentrum",
+    "VRC6HX0Wa063sq98G5ciqw": "Laden",
+    "Yf4aZBfsUEu2NsQqsprngw": "Kultur- oder Begegnungszentrum",
+    "YVBc8KVdrU6XfTNvhMYUpg": "Diskothek"
+  },
+  "themes": {
+    "1.7.2.0.0": "Action- und Abenteuerfilm",
+    "1.7.12.0.0": "Animations- und Kinderfilme",
+    "1.7.1.0.0": "Dokumentationen und Reportagen",
+    "1.7.6.0.0": "Gruselfilm oder Horror",
+    "1.7.8.0.0": "Historischer Film",
+    "1.7.3.0.0": "Komödie",
+    "1.7.13.0.0": "Kurzfilm",
+    "1.7.10.0.0": "Filmmusical",
+    "1.7.4.0.0": "Drama",
+    "1.7.7.0.0": "Science-Fiction",
+    "1.7.11.0.0": "Filmliebhaber",
+    "1.7.14.0.0": "Mehrere Filmgenres",
+    "1.7.15.0.0": "Thriller"
+  },
+  "404": {
+    "title": "404 Nicht Gefunden",
+    "sub_title": "Es tut uns leid, die Seite, die Sie gesucht haben, existiert nicht.",
+    "redirect": "Zurück zur Startseite"
+  },
+  "error": {
+    "title": "Es ist ein Fehler aufgetreten",
+    "description": "Etwas ist schief gegangen. Laden Sie die Seite erneut, um es noch einmal zu probieren. Kontaktieren Sie <1>{{email}}</1>, wenn das Problem bestehen bleibt",
+    "email": "vragen@uitdatabank.be"
+  }
+}
