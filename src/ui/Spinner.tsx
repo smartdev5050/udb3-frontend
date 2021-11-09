@@ -40,10 +40,12 @@ const Spinner = ({ variant, size, className, ...props }: Props) => {
       {...getBoxProps(props)}
     >
       <BootstrapSpinner
-        as={Box}
         animation="border"
         variant={variant}
         size={size}
+        css={`
+          display: flex;
+        `}
       />
     </Box>
   );
