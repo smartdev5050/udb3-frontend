@@ -20,7 +20,7 @@
     "about": "Over UiTdatabank",
     "by": "Een product van",
     "changeProfile": "Mijn profiel wijzigen",
-    "contact": "Contacteer ons",
+    "contact": "Helpcentrum",
     "dev": "Voor ontwikkelaars",
     "flemishGovernment": "Vlaamse overheid",
     "legal_path": "gebruikersovereenkomst-uitdatabank",
@@ -28,7 +28,10 @@
     "privacy": "Privacy",
     "questions": "Vragen of feedback?",
     "withSupport": "met steun van de",
-    "profile": "Mijn profiel wijzigen"
+    "profile": "Mijn profiel wijzigen",
+    "nl": "Nederlands",
+    "fr": "Français",
+    "de": "Deutch"
   },
   "announcements": {
     "new_features": "Nieuw in UiTdatabank",

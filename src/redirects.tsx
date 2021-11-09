@@ -1,4 +1,5 @@
-import type { SupportedLanguage } from './i18n';
+import type { SupportedLanguages } from './i18n';
+import type { Values } from './types/Values';
 
 const tabOptions = ['events', 'organizers', 'places'];
 
@@ -39,7 +40,7 @@ const createDashboardRedirects = (environment: Environment) => {
 
 const getRedirects = (
   environment: Environment,
-  language: SupportedLanguage = 'nl',
+  language: Values<typeof SupportedLanguages> = 'nl',
 ) => [
   // Only make the permanent redirects really permanent in environments other
   // than development, so we don't get permanent redirects on localhost which
