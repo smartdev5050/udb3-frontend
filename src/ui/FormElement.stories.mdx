@@ -69,3 +69,19 @@ import { LabelPositions } from './Label';
 </Canvas>
 
 <ArgsTable story="With Error And Label Left" />
+
+<Canvas>
+  <Story
+    name="With Label and Loading"
+    args={{
+      id: 'my-form-element',
+      label: 'test',
+      Component: <Input />,
+      loading: true,
+    }}
+  >
+    {(args) => <FormElement {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="With Label and Loading" />

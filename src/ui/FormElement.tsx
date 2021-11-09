@@ -3,8 +3,10 @@ import { cloneElement } from 'react';
 
 import type { Values } from '@/types/Values';
 
+import { parseSpacing } from './Box';
 import { getInlineProps, Inline } from './Inline';
 import { Label, LabelPositions, LabelVariants } from './Label';
+import { Spinner, SpinnerSizes } from './Spinner';
 import type { StackProps } from './Stack';
 import { getStackProps, Stack } from './Stack';
 import { Text, TextVariants } from './Text';
@@ -16,6 +18,7 @@ type Props = {
   labelPosition?: Values<typeof LabelPositions>;
   error?: string;
   info?: string;
+  loading?: boolean;
   Component: ReactNode;
 } & StackProps;
 
@@ -26,13 +29,14 @@ const FormElement = ({
   labelPosition,
   error,
   info,
+  loading,
   Component,
   ...props
 }: Props) => {
   const Wrapper = labelPosition === LabelPositions.LEFT ? Inline : Stack;
   const wrapperProps =
     labelPosition === LabelPositions.LEFT
-      ? { ...getInlineProps(props), spacing: 3, alignItems: 'flex-start' }
+      ? { ...getInlineProps(props), spacing: 3 }
       : { ...getStackProps(props), spacing: 2 };
 
   // @ts-expect-error
@@ -44,7 +48,7 @@ const FormElement = ({
   });
 
   return (
-    <Wrapper as="div" spacing={2} {...wrapperProps}>
+    <Wrapper as="div" spacing={2} alignItems="flex-start" {...wrapperProps}>
       {label && (
         <Label
           variant={LabelVariants.BOLD}
@@ -56,9 +60,24 @@ const FormElement = ({
           {label}
         </Label>
       )}
-      <Stack spacing={3} flex={1}>
+      <Stack spacing={3}>
         <Stack>
-          {clonedComponent}
+          <Inline
+            alignItems="center"
+            paddingRight={5}
+            justifyContent="flex-start"
+            position="relative"
+          >
+            {clonedComponent}
+            {loading ? (
+              <Spinner
+                size={SpinnerSizes.SMALL}
+                width="auto"
+                position="absolute"
+                right={parseSpacing(3)()}
+              />
+            ) : null}
+          </Inline>
           {error && <Text variant={TextVariants.ERROR}>{error}</Text>}
         </Stack>
         {info && <Text variant={TextVariants.MUTED}>{info}</Text>}
@@ -69,6 +88,7 @@ const FormElement = ({
 
 FormElement.defaultProps = {
   labelPosition: LabelPositions.TOP,
+  loading: false,
 };
 
 export { FormElement };
