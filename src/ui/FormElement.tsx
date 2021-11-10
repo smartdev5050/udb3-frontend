@@ -3,7 +3,7 @@ import { cloneElement } from 'react';
 
 import type { Values } from '@/types/Values';
 
-import { parseSpacing } from './Box';
+import { Box, parseSpacing } from './Box';
 import { getInlineProps, Inline } from './Inline';
 import { Label, LabelPositions, LabelVariants } from './Label';
 import { Spinner, SpinnerSizes } from './Spinner';
@@ -60,8 +60,6 @@ const FormElement = ({
           {label}
         </Label>
       )}
-      <Stack spacing={3}>
-        <Stack>
       <Stack as="div" spacing={3} width="100%">
         <Stack as="div">
           <Inline
@@ -71,7 +69,7 @@ const FormElement = ({
             justifyContent="flex-start"
             position="relative"
           >
-            {clonedComponent}
+            <Box flex={1}>{clonedComponent}</Box>
             {loading ? (
               <Spinner
                 size={SpinnerSizes.SMALL}
