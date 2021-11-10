@@ -62,21 +62,10 @@ const FormElement = ({
       )}
       <Stack as="div" spacing={3} width="100%">
         <Stack as="div">
-          <Inline
-            as="div"
-            alignItems="center"
-            paddingRight={5}
-            justifyContent="flex-start"
-            position="relative"
-          >
-            <Box flex={1}>{clonedComponent}</Box>
+          <Inline as="div" alignItems="center">
+            {clonedComponent}
             {loading ? (
-              <Spinner
-                size={SpinnerSizes.SMALL}
-                width="auto"
-                position="absolute"
-                right={parseSpacing(3)()}
-              />
+              <Spinner size={SpinnerSizes.SMALL} width="auto" padding={3} />
             ) : null}
           </Inline>
           {error && <Text variant={TextVariants.ERROR}>{error}</Text>}
