@@ -3,7 +3,6 @@ import { cloneElement } from 'react';
 
 import type { Values } from '@/types/Values';
 
-import { Box, parseSpacing } from './Box';
 import { getInlineProps, Inline } from './Inline';
 import { Label, LabelPositions, LabelVariants } from './Label';
 import { Spinner, SpinnerSizes } from './Spinner';
