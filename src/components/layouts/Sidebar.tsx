@@ -384,67 +384,67 @@ const Sidebar = () => {
     },
   ];
 
-  const manageMenu: MenuItemType[] = [
-    {
-      permission: PermissionTypes.AANBOD_MODEREREN,
-      href: '/manage/moderation/overview',
-      iconName: Icons.FLAG,
-      children: t('menu.validate'),
-      suffix: countEventsToModerate > 0 && (
-        <Badge>{countEventsToModerate}</Badge>
-      ),
-    },
-    {
-      permission: PermissionTypes.GEBRUIKERS_BEHEREN,
-      href: '/manage/users/overview',
-      iconName: Icons.USER,
-      children: t('menu.users'),
-    },
-    {
-      permission: PermissionTypes.GEBRUIKERS_BEHEREN,
-      href: '/manage/roles/overview',
-      iconName: Icons.USERS,
-      children: t('menu.roles'),
-    },
-    {
-      permission: PermissionTypes.LABELS_BEHEREN,
-      href: '/manage/labels/overview',
-      iconName: Icons.TAG,
-      children: t('menu.labels'),
-    },
-    {
-      permission: PermissionTypes.ORGANISATIES_BEHEREN,
-      href: '/manage/organizations',
-      iconName: Icons.SLIDE_SHARE,
-      children: t('menu.organizations'),
-    },
-    {
-      permission: PermissionTypes.PRODUCTIES_AANMAKEN,
-      href: '/manage/productions',
-      iconName: Icons.LAYER_GROUP,
-      children: t('menu.productions'),
-    },
-    {
-      permission: PermissionTypes.FILMS_AANMAKEN,
-      href: '/manage/movies/create',
-      iconName: Icons.VIDEO,
-      children: t('menu.movies'),
-      visible: i18n.language === 'nl',
-    },
-  ];
-
   const filteredManageMenu = useMemo(() => {
     // @ts-expect-error
     if (!getPermissionsQuery.data) {
       return [];
     }
 
+    const manageMenu: MenuItemType[] = [
+      {
+        permission: PermissionTypes.AANBOD_MODEREREN,
+        href: '/manage/moderation/overview',
+        iconName: Icons.FLAG,
+        children: t('menu.validate'),
+        suffix: countEventsToModerate > 0 && (
+          <Badge>{countEventsToModerate}</Badge>
+        ),
+      },
+      {
+        permission: PermissionTypes.GEBRUIKERS_BEHEREN,
+        href: '/manage/users/overview',
+        iconName: Icons.USER,
+        children: t('menu.users'),
+      },
+      {
+        permission: PermissionTypes.GEBRUIKERS_BEHEREN,
+        href: '/manage/roles/overview',
+        iconName: Icons.USERS,
+        children: t('menu.roles'),
+      },
+      {
+        permission: PermissionTypes.LABELS_BEHEREN,
+        href: '/manage/labels/overview',
+        iconName: Icons.TAG,
+        children: t('menu.labels'),
+      },
+      {
+        permission: PermissionTypes.ORGANISATIES_BEHEREN,
+        href: '/manage/organizations',
+        iconName: Icons.SLIDE_SHARE,
+        children: t('menu.organizations'),
+      },
+      {
+        permission: PermissionTypes.PRODUCTIES_AANMAKEN,
+        href: '/manage/productions',
+        iconName: Icons.LAYER_GROUP,
+        children: t('menu.productions'),
+      },
+      {
+        permission: PermissionTypes.FILMS_AANMAKEN,
+        href: '/manage/movies/create',
+        iconName: Icons.VIDEO,
+        children: t('menu.movies'),
+        visible: i18n.language === 'nl',
+      },
+    ];
+
     return manageMenu.filter((menuItem) => {
       // @ts-expect-error
       return getPermissionsQuery.data.includes(menuItem.permission);
     });
     // @ts-expect-error
-  }, [getPermissionsQuery.data]);
+  }, [countEventsToModerate, getPermissionsQuery.data, i18n.language, t]);
 
   return [
     <Stack
