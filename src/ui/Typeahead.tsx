@@ -67,6 +67,7 @@ const Typeahead: TypeaheadFunc = forwardRef(
         isLoading={false}
         disabled={disabled}
         className={className}
+        flex={1}
         css={`
           .dropdown-item.active,
           .dropdown-item:active {
