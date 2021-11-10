@@ -3,7 +3,8 @@ import { Spinner as BootstrapSpinner } from 'react-bootstrap';
 import type { Values } from '@/types/Values';
 
 import type { BoxProps } from './Box';
-import { Box, getBoxProps } from './Box';
+import { Box } from './Box';
+import { getInlineProps, Inline } from './Inline';
 import { getValueFromTheme } from './theme';
 
 const SpinnerVariants = {
@@ -24,9 +25,10 @@ type Props = Omit<BoxProps, 'size'> & {
 
 const Spinner = ({ variant, size, className, ...props }: Props) => {
   return (
-    <Box
+    <Inline
       className={className}
       width="100%"
+      justifyContent="center"
       alignItems="center"
       textAlign="center"
       css={`
@@ -37,17 +39,15 @@ const Spinner = ({ variant, size, className, ...props }: Props) => {
           color: ${getValue('light.color')} !important;
         }
       `}
-      {...getBoxProps(props)}
+      {...getInlineProps(props)}
     >
       <BootstrapSpinner
+        as={Box}
         animation="border"
         variant={variant}
         size={size}
-        css={`
-          display: flex;
-        `}
       />
-    </Box>
+    </Inline>
   );
 };
 
