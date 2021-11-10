@@ -4,10 +4,11 @@ import { useTranslation } from 'react-i18next';
 
 import { OfferStatus } from '@/constants/OfferStatus';
 import { Alert, AlertVariants } from '@/ui/Alert';
+import { FormElement } from '@/ui/FormElement';
 import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
-import { TextAreaWithLabel } from '@/ui/TextAreaWithLabel';
+import { TextArea } from '@/ui/TextArea';
 
 const StatusForm = ({
   offerType,
@@ -50,12 +51,16 @@ const StatusForm = ({
       />
       <Stack key="reason" spacing={2}>
         <Stack spacing={3}>
-          <TextAreaWithLabel
+          <FormElement
             id="reason"
             label={t('offerStatus.reason')}
-            value={statusReason}
-            onInput={onInputStatusReason}
-            disabled={statusType === OfferStatus.AVAILABLE}
+            Component={
+              <TextArea
+                value={statusReason}
+                onInput={onInputStatusReason}
+                disabled={statusType === OfferStatus.AVAILABLE}
+              />
+            }
           />
           {statusReason.length > 200 && (
             <Alert variant={AlertVariants.DANGER}>

@@ -6,13 +6,14 @@ import { useTranslation } from 'react-i18next';
 import { useGetProductions } from '@/hooks/api/productions';
 import type { Production } from '@/types/Production';
 import { Button, ButtonVariants } from '@/ui/Button';
+import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
 import { getInlineProps, Inline } from '@/ui/Inline';
 import type { StackProps } from '@/ui/Stack';
 import { getStackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
-import { TypeaheadWithLabel } from '@/ui/TypeaheadWithLabel';
+import { Typeahead } from '@/ui/Typeahead';
 
 import type { StepProps } from './create';
 import { Step } from './Step';
@@ -49,9 +50,9 @@ const Step4 = ({ errors, control, getValues, reset, ...props }: Step4Props) => {
 
           if (!selectedProduction) {
             return (
-              <TypeaheadWithLabel<Production & { customOption?: boolean }>
-                newSelectionPrefix="Voeg nieuwe productie toe: "
-                allowNew
+              <FormElement
+                id="step4-name-typeahead"
+                label={t('movies.create.actions.choose_name')}
                 error={
                   errors.production
                     ? t(
@@ -59,15 +60,19 @@ const Step4 = ({ errors, control, getValues, reset, ...props }: Step4Props) => {
                       )
                     : undefined
                 }
-                id="step4-name-typeahead"
-                label={t('movies.create.actions.choose_name')}
-                options={productions}
-                onInputChange={throttle(setSearchInput, 275)}
-                labelKey="name"
-                maxWidth="43rem"
-                selected={field.value}
-                onChange={(value) => field.onChange(value)}
-                minLength={3}
+                Component={
+                  <Typeahead<Production & { customOption?: boolean }>
+                    newSelectionPrefix="Voeg nieuwe productie toe: "
+                    allowNew
+                    options={productions}
+                    onInputChange={throttle(setSearchInput, 275)}
+                    labelKey="name"
+                    maxWidth="43rem"
+                    selected={field.value}
+                    onChange={(value) => field.onChange(value)}
+                    minLength={3}
+                  />
+                }
                 {...getStackProps(props)}
               />
             );
