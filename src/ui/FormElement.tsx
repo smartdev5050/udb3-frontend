@@ -62,7 +62,10 @@ const FormElement = ({
       )}
       <Stack spacing={3}>
         <Stack>
+      <Stack as="div" spacing={3} width="100%">
+        <Stack as="div">
           <Inline
+            as="div"
             alignItems="center"
             paddingRight={5}
             justifyContent="flex-start"
