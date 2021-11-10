@@ -56,7 +56,9 @@ const Page = ({ children: rawChildren, className, ...props }: Props) => {
         {title}
         {actions}
       </Inline>
-      <Stack paddingX={4}>{content}</Stack>
+      <Stack paddingX={4} flex={1}>
+        {content}
+      </Stack>
       {footer}
     </Stack>
   );
