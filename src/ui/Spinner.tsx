@@ -26,6 +26,7 @@ type Props = Omit<BoxProps, 'size'> & {
 const Spinner = ({ variant, size, className, ...props }: Props) => {
   return (
     <Inline
+      forwardedAs="div"
       className={className}
       width="100%"
       justifyContent="center"
