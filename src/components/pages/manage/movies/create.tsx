@@ -27,7 +27,6 @@ import { WorkflowStatusMap } from '@/types/WorkflowStatus';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Page } from '@/ui/Page';
-import { Text } from '@/ui/Text';
 import { formatDateToISO } from '@/utils/formatDateToISO';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 import { parseOfferId } from '@/utils/parseOfferId';
