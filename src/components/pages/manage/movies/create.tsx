@@ -15,6 +15,7 @@ import type { EventArguments } from '@/hooks/api/events';
 import {
   useAddEvent,
   useAddLabel,
+  useChangeTheme,
   useChangeTypicalAgeRange,
   useGetEventById,
   usePublish,
@@ -26,6 +27,7 @@ import { WorkflowStatusMap } from '@/types/WorkflowStatus';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Page } from '@/ui/Page';
+import { Text } from '@/ui/Text';
 import { formatDateToISO } from '@/utils/formatDateToISO';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 import { parseOfferId } from '@/utils/parseOfferId';
@@ -102,6 +104,7 @@ type StepProps = Pick<
   'control' | 'getValues' | 'register' | 'reset'
 > & {
   errors: Partial<Record<keyof FormData, any>>;
+  loading: boolean;
 };
 
 const FooterStatus = {
@@ -138,6 +141,8 @@ const Create = () => {
   );
   const [publishLaterDate, setPublishLaterDate] = useState(new Date());
 
+  const [fieldLoading, setFieldLoading] = useState<keyof FormData>();
+
   const addEventMutation = useAddEvent({
     onSuccess: async () => await queryClient.invalidateQueries('events'),
   });
@@ -159,6 +164,8 @@ const Create = () => {
 
   const getEventByIdQuery = useGetEventById({ id: newEventId });
 
+  const changeThemeMutation = useChangeTheme();
+
   const availableFromDate = useMemo(() => {
     // @ts-expect-error
     if (!getEventByIdQuery.data?.availableFrom) return;
@@ -167,18 +174,28 @@ const Create = () => {
     // @ts-expect-error
   }, [getEventByIdQuery.data]);
 
-  const handleFormValid = async ({
-    production: productions,
-    cinema: cinemas,
-    theme: themeId,
-    timeTable,
-    dateStart,
-  }: FormData) => {
-    if (newEventId) {
-      console.log('here');
-      console.table(timeTable);
+  const handleFormValid = async (
+    {
+      production: productions,
+      cinema: cinemas,
+      theme: themeId,
+      timeTable,
+      dateStart,
+    }: FormData,
+    editedField?: keyof FormData,
+  ) => {
+    if (newEventId && editedField) {
+      if (editedField === 'theme') {
+        await changeThemeMutation.mutateAsync({
+          id: newEventId,
+          themeId,
+        });
+      }
+
+      setFieldLoading(undefined);
       return;
     }
+
     if (!productions.length) return;
 
     const themeLabel = Object.entries(MovieThemes).find(
@@ -259,6 +276,8 @@ const Create = () => {
   const theme = watch('theme');
   const timeTable = watch('timeTable');
   const dateStart = watch('dateStart');
+  const cinema = watch('cinema');
+  const production = watch('production');
 
   const isTimeTableValid = useMemo(
     () =>
@@ -268,27 +287,43 @@ const Create = () => {
     [timeTable],
   );
 
+  const submitEditedField = (editedField: keyof FormData) => {
+    setFieldLoading(editedField);
+    handleSubmit(async (formData) => handleFormValid(formData, editedField))();
+  };
+
   useEffect(() => {
-    if (newEventId) {
-      handleSubmit(handleFormValid)();
-    }
+    if (!newEventId) return;
+    submitEditedField('theme');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [theme]);
 
   useEffect(() => {
-    if (newEventId && isTimeTableValid) {
-      handleSubmit(handleFormValid)();
-    }
+    if (!newEventId || !isTimeTableValid) return;
+    submitEditedField('timeTable');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeTable]);
 
-  const stepProps = {
+  useEffect(() => {
+    if (!newEventId) return;
+    submitEditedField('cinema');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cinema]);
+
+  useEffect(() => {
+    if (!newEventId) return;
+    submitEditedField('production');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [production]);
+
+  const stepProps = (field?: keyof FormData) => ({
     errors,
     control,
     getValues,
     register,
     reset,
-  };
+    loading: !!(field && fieldLoading === field),
+  });
 
   const isStep3Visible =
     (dirtyFields.timeTable &&
@@ -316,20 +351,20 @@ const Create = () => {
         {t(`movies.create.title`)}
       </Page.Title>
       <Page.Content spacing={5} paddingBottom={6} alignItems="flex-start">
-        <Step1 {...stepProps} />
+        <Step1 {...stepProps('theme')} />
         <Step2
           {...{
-            ...stepProps,
+            ...stepProps('timeTable'),
             dateStart,
             onDateStartChange: (value) =>
               setValue('dateStart', value.toISOString()),
           }}
         />
-        {isStep3Visible ? <Step3 {...stepProps} /> : null}
-        {isStep4Visible ? <Step4 {...stepProps} /> : null}
+        {isStep3Visible ? <Step3 {...stepProps('cinema')} /> : null}
+        {isStep4Visible ? <Step4 {...stepProps('production')} /> : null}
 
         {isStep5Visible ? (
-          <Step5 {...{ ...stepProps, eventId: newEventId }} />
+          <Step5 {...{ ...stepProps(), eventId: newEventId }} />
         ) : null}
       </Page.Content>
       {footerStatus ? (
@@ -353,7 +388,11 @@ const Create = () => {
                 </Button>,
               ]
             ) : (
-              <Button onClick={handleSubmit(handleFormValid)}>
+              <Button
+                onClick={handleSubmit(async (formData) =>
+                  handleFormValid(formData),
+                )}
+              >
                 {t('movies.create.actions.save')}
               </Button>
             )}

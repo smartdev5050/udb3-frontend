@@ -23,7 +23,14 @@ const getValue = getValueFromTheme('moviesCreatePage');
 
 type Step3Props = StackProps & StepProps;
 
-const Step3 = ({ errors, getValues, reset, control, ...props }: Step3Props) => {
+const Step3 = ({
+  errors,
+  getValues,
+  reset,
+  control,
+  loading,
+  ...props
+}: Step3Props) => {
   const { t, i18n } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
 
@@ -62,6 +69,7 @@ const Step3 = ({ errors, getValues, reset, control, ...props }: Step3Props) => {
                         )
                       : undefined
                   }
+                  loading={loading}
                   Component={
                     <Typeahead<Place>
                       options={cinemas}
