@@ -7,13 +7,14 @@ import { OfferCategories } from '@/constants/OfferCategories';
 import { useGetPlacesByQuery } from '@/hooks/api/places';
 import type { Place } from '@/types/Place';
 import { Button, ButtonVariants } from '@/ui/Button';
+import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import type { StackProps } from '@/ui/Stack';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
-import { TypeaheadWithLabel } from '@/ui/TypeaheadWithLabel';
+import { Typeahead } from '@/ui/Typeahead';
 
 import type { StepProps } from './create';
 import { Step } from './Step';
@@ -51,7 +52,9 @@ const Step3 = ({ errors, getValues, reset, control, ...props }: Step3Props) => {
 
             if (!selectedCinema) {
               return (
-                <TypeaheadWithLabel<Place>
+                <FormElement
+                  id="step3-cinema-typeahead"
+                  label={t('movies.create.actions.choose_cinema')}
                   error={
                     errors?.cinema
                       ? t(
@@ -59,20 +62,22 @@ const Step3 = ({ errors, getValues, reset, control, ...props }: Step3Props) => {
                         )
                       : undefined
                   }
-                  id="step3-cinema-typeahead"
-                  label={t('movies.create.actions.choose_cinema')}
-                  options={cinemas}
-                  onInputChange={throttle(setSearchInput, 275)}
-                  labelKey={(cinema) =>
-                    cinema.name[i18n.language] ??
-                    cinema.name[cinema.mainLanguage]
+                  Component={
+                    <Typeahead<Place>
+                      options={cinemas}
+                      onInputChange={throttle(setSearchInput, 275)}
+                      labelKey={(cinema) =>
+                        cinema.name[i18n.language] ??
+                        cinema.name[cinema.mainLanguage]
+                      }
+                      selected={field.value}
+                      maxWidth="43rem"
+                      onChange={(value) => {
+                        field.onChange(value);
+                      }}
+                      minLength={3}
+                    />
                   }
-                  selected={field.value}
-                  maxWidth="43rem"
-                  onChange={(value) => {
-                    field.onChange(value);
-                  }}
-                  minLength={3}
                 />
               );
             }

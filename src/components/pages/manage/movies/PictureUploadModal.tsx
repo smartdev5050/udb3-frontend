@@ -6,10 +6,10 @@ import { Trans, useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { Button } from '@/ui/Button';
+import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
 import { Image } from '@/ui/Image';
 import { Input } from '@/ui/Input';
-import { InputWithLabel } from '@/ui/InputWithLabel';
 import { Link } from '@/ui/Link';
 import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
 import { Stack } from '@/ui/Stack';
@@ -239,7 +239,7 @@ const PictureUploadModal = ({
             {...register('file')}
           />
         )}
-        <InputWithLabel
+        <FormElement
           id="description"
           label="Beschrijving"
           info="Maximum 250 karakters"
@@ -249,10 +249,9 @@ const PictureUploadModal = ({
               `movies.create.picture.upload_modal.validation_messages.description.${errors.description.type}`,
             )
           }
-          {...register('description')}
+          Component={<Input {...register('description')} />}
         />
-
-        <InputWithLabel
+        <FormElement
           id="copyrightHolder"
           label="Copyright"
           info={t('movies.create.picture.upload_modal.disclaimer.copyright')}
@@ -262,8 +261,9 @@ const PictureUploadModal = ({
               `movies.create.picture.upload_modal.validation_messages.copyrightHolder.${errors.copyrightHolder.type}`,
             )
           }
-          {...register('copyrightHolder')}
+          Component={<Input {...register('copyrightHolder')} />}
         />
+
         <Text variant={TextVariants.MUTED} fontSize="0.8rem">
           <Trans i18nKey="movies.create.picture.upload_modal.disclaimer.terms_and_conditions.text">
             <TermsAndConditionsLink />

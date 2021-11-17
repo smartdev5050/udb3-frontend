@@ -12,13 +12,14 @@ import {
   useSkipSuggestedEvents,
 } from '@/hooks/api/productions';
 import { Button, ButtonVariants } from '@/ui/Button';
+import { FormElement } from '@/ui/FormElement';
 import { Inline } from '@/ui/Inline';
 import { Page } from '@/ui/Page';
 import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
 import { Spinner } from '@/ui/Spinner';
 import { Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
-import { TypeaheadWithLabel } from '@/ui/TypeaheadWithLabel';
+import { Typeahead } from '@/ui/Typeahead';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 import { parseOfferId } from '@/utils/parseOfferId';
 
@@ -236,25 +237,29 @@ const Create = () => {
                   }}
                 />
               ) : (
-                <TypeaheadWithLabel
+                <FormElement
                   id="typeahead-productionname"
-                  options={suggestedProductions}
-                  labelKey={(production) => production.name}
-                  disabled={!!selectedProduction}
-                  placeholder={selectedProduction?.title}
-                  maxWidth="43rem"
                   label={t('productions.create.production_name')}
-                  emptyLabel={t('productions.create.no_productions')}
-                  minLength={minSearchLength}
-                  onInputChange={throttle(handleInputSearch, 275)}
-                  onChange={(selected) => {
-                    if (!selected || selected.length !== 1) {
-                      setSelectedProductionId(undefined);
-                      return;
-                    }
-                    setSelectedProductionId(selected[0].production_id);
-                  }}
                   ref={typeaheadComponent}
+                  Component={
+                    <Typeahead
+                      options={suggestedProductions}
+                      labelKey={(production) => production.name}
+                      disabled={!!selectedProduction}
+                      placeholder={selectedProduction?.title}
+                      maxWidth="43rem"
+                      emptyLabel={t('productions.create.no_productions')}
+                      minLength={minSearchLength}
+                      onInputChange={throttle(handleInputSearch, 275)}
+                      onChange={(selected) => {
+                        if (!selected || selected.length !== 1) {
+                          setSelectedProductionId(undefined);
+                          return;
+                        }
+                        setSelectedProductionId(selected[0].production_id);
+                      }}
+                    />
+                  }
                 />
               )}
               <Inline spacing={3}>
