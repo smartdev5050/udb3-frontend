@@ -259,6 +259,30 @@ const useGetCalendarSummary = (
     ...configuration,
   });
 
+const changeTheme = async ({ headers, id, themeId }) => {
+  if (!themeId) {
+    // This will be implemented on the backend https://jira.uitdatabank.be/browse/III-4378
+    return fetchFromApi({
+      path: `/events/${id.toString()}/theme/`,
+      options: {
+        method: 'DELETE',
+        headers,
+      },
+    });
+  }
+
+  return fetchFromApi({
+    path: `/events/${id.toString()}/theme/${themeId}`,
+    options: {
+      method: 'PUT',
+      headers,
+    },
+  });
+};
+
+const useChangeTheme = (configuration = {}) =>
+  useAuthenticatedMutation({ mutationFn: changeTheme, ...configuration });
+
 const changeStatus = async ({ headers, id, type, reason }) =>
   fetchFromApi({
     path: `/events/${id.toString()}/status`,
@@ -269,7 +293,7 @@ const changeStatus = async ({ headers, id, type, reason }) =>
     },
   });
 
-const useChangeStatus = (configuration) =>
+const useChangeStatus = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: changeStatus, ...configuration });
 
 const changeStatusSubEvents = async ({
@@ -471,6 +495,7 @@ export {
   useChangeDescription,
   useChangeStatus,
   useChangeStatusSubEvents,
+  useChangeTheme,
   useChangeTypicalAgeRange,
   useDeleteEventById,
   useDeleteImageFromEvent,
