@@ -15,6 +15,7 @@ import type { EventArguments } from '@/hooks/api/events';
 import {
   useAddEvent,
   useAddLabel,
+  useChangeLocation,
   useChangeName,
   useChangeTheme,
   useChangeTypicalAgeRange,
@@ -166,6 +167,8 @@ const Create = () => {
 
   const changeThemeMutation = useChangeTheme();
 
+  const changeLocationMutation = useChangeLocation();
+
   const changeNameMutation = useChangeName();
 
   const availableFromDate = useMemo(() => {
@@ -202,6 +205,10 @@ const Create = () => {
           console.log('in mutation timetable');
         },
         cinema: async () => {
+          await changeLocationMutation.mutateAsync({
+            id: newEventId,
+            locationId: parseOfferId(cinemas?.[0]?.['@id']),
+          });
           console.log('in mutation cinema', cinema);
         },
         production: async () => {
