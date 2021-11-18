@@ -195,7 +195,6 @@ const Create = () => {
       >;
       const fieldToMutationFunctionMap: FieldToMutationMap = {
         theme: async () => {
-          console.log('in mutation theme');
           await changeThemeMutation.mutateAsync({
             id: newEventId,
             themeId,
@@ -209,7 +208,6 @@ const Create = () => {
             id: newEventId,
             locationId: parseOfferId(cinemas?.[0]?.['@id']),
           });
-          console.log('in mutation cinema', cinema);
         },
         production: async () => {
           await changeNameMutation.mutateAsync({
@@ -217,7 +215,6 @@ const Create = () => {
             lang: 'nl',
             name: productions[0].name,
           });
-          console.log('in mutation production');
         },
       };
 
