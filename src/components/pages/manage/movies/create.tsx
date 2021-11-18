@@ -184,12 +184,29 @@ const Create = () => {
     editedField?: keyof FormData,
   ) => {
     if (newEventId && editedField) {
-      if (editedField === 'theme') {
-        await changeThemeMutation.mutateAsync({
-          id: newEventId,
-          themeId,
-        });
-      }
+      type FieldToMutationMap = Partial<
+        Record<keyof FormData, () => Promise<void>>
+      >;
+      const fieldToMutationFunctionMap: FieldToMutationMap = {
+        theme: async () => {
+          console.log('in mutation theme');
+          await changeThemeMutation.mutateAsync({
+            id: newEventId,
+            themeId,
+          });
+        },
+        timeTable: async () => {
+          console.log('in mutation timetable');
+        },
+        cinema: async () => {
+          console.log('in mutation cinema', cinema);
+        },
+        production: async () => {
+          console.log('in mutation production');
+        },
+      };
+
+      await fieldToMutationFunctionMap.[editedField]?.();
 
       setFieldLoading(undefined);
       return;
