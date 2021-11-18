@@ -15,6 +15,7 @@ import type { EventArguments } from '@/hooks/api/events';
 import {
   useAddEvent,
   useAddLabel,
+  useChangeCalendar,
   useChangeLocation,
   useChangeName,
   useChangeTheme,
@@ -169,6 +170,8 @@ const Create = () => {
 
   const changeLocationMutation = useChangeLocation();
 
+  const changeCalendarMutation = useChangeCalendar();
+
   const changeNameMutation = useChangeName();
 
   const availableFromDate = useMemo(() => {
@@ -189,7 +192,9 @@ const Create = () => {
     }: FormData,
     editedField?: keyof FormData,
   ) => {
-    if (newEventId && editedField) {
+    const isEditing = newEventId && editedField;
+
+    if (isEditing) {
       type FieldToMutationMap = Partial<
         Record<keyof FormData, () => Promise<void>>
       >;
@@ -201,15 +206,23 @@ const Create = () => {
           });
         },
         timeTable: async () => {
-          console.log('in mutation timetable');
+          await changeCalendarMutation.mutateAsync({
+            id: newEventId,
+            calendarType: CalendarType.MULTIPLE,
+            timeSpans: createTimeTablePayload(timeTable, dateStart),
+          });
         },
         cinema: async () => {
+          if (!cinemas?.length) return;
+
           await changeLocationMutation.mutateAsync({
             id: newEventId,
-            locationId: parseOfferId(cinemas?.[0]?.['@id']),
+            locationId: parseOfferId(cinemas[0]['@id']),
           });
         },
         production: async () => {
+          if (!productions?.length) return;
+
           await changeNameMutation.mutateAsync({
             id: newEventId,
             lang: 'nl',
@@ -224,7 +237,7 @@ const Create = () => {
       return;
     }
 
-    if (!productions.length) return;
+    if (!productions?.length) return;
 
     const themeLabel = Object.entries(MovieThemes).find(
       ([key, value]) => value === themeId,

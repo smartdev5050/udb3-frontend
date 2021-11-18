@@ -310,6 +310,44 @@ const changeName = async ({ headers, id, lang, name }) => {
 const useChangeName = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: changeName, ...configuration });
 
+const changeCalendar = async ({
+  headers,
+  id,
+  calendarType,
+  timeSpans,
+  start,
+  end,
+  startDate,
+  endDate,
+  openingHours,
+  dayOfWeek,
+  opens,
+  closes,
+}) => {
+  return fetchFromApi({
+    path: `/events/${id.toString()}/calendar`,
+    options: {
+      method: 'PUT',
+      body: JSON.stringify({
+        calendarType,
+        timeSpans,
+        start,
+        end,
+        startDate,
+        endDate,
+        openingHours,
+        dayOfWeek,
+        opens,
+        closes,
+      }),
+      headers,
+    },
+  });
+};
+
+const useChangeCalendar = (configuration = {}) =>
+  useAuthenticatedMutation({ mutationFn: changeCalendar, ...configuration });
+
 const changeStatus = async ({ headers, id, type, reason }) =>
   fetchFromApi({
     path: `/events/${id.toString()}/status`,
@@ -519,6 +557,7 @@ export {
   useAddEventMainImage,
   useAddImageToEvent,
   useAddLabel,
+  useChangeCalendar,
   useChangeDescription,
   useChangeLocation,
   useChangeName,
