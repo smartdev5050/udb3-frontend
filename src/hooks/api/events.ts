@@ -283,6 +283,20 @@ const changeTheme = async ({ headers, id, themeId }) => {
 const useChangeTheme = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: changeTheme, ...configuration });
 
+const changeName = async ({ headers, id, lang, name }) => {
+  return fetchFromApi({
+    path: `/events/${id.toString()}/name/${lang}`,
+    options: {
+      method: 'PUT',
+      body: JSON.stringify({ name }),
+      headers,
+    },
+  });
+};
+
+const useChangeName = (configuration = {}) =>
+  useAuthenticatedMutation({ mutationFn: changeName, ...configuration });
+
 const changeStatus = async ({ headers, id, type, reason }) =>
   fetchFromApi({
     path: `/events/${id.toString()}/status`,
@@ -493,6 +507,7 @@ export {
   useAddImageToEvent,
   useAddLabel,
   useChangeDescription,
+  useChangeName,
   useChangeStatus,
   useChangeStatusSubEvents,
   useChangeTheme,

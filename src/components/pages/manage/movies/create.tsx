@@ -15,6 +15,7 @@ import type { EventArguments } from '@/hooks/api/events';
 import {
   useAddEvent,
   useAddLabel,
+  useChangeName,
   useChangeTheme,
   useChangeTypicalAgeRange,
   useGetEventById,
@@ -129,7 +130,7 @@ const Create = () => {
     },
   });
 
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const router = useRouter();
 
   const queryClient = useQueryClient();
@@ -164,6 +165,8 @@ const Create = () => {
   const getEventByIdQuery = useGetEventById({ id: newEventId });
 
   const changeThemeMutation = useChangeTheme();
+
+  const changeNameMutation = useChangeName();
 
   const availableFromDate = useMemo(() => {
     // @ts-expect-error
@@ -202,11 +205,16 @@ const Create = () => {
           console.log('in mutation cinema', cinema);
         },
         production: async () => {
+          await changeNameMutation.mutateAsync({
+            id: newEventId,
+            lang: 'nl',
+            name: productions[0].name,
+          });
           console.log('in mutation production');
         },
       };
 
-      await fieldToMutationFunctionMap.[editedField]?.();
+      await fieldToMutationFunctionMap[editedField]?.();
 
       setFieldLoading(undefined);
       return;
@@ -219,7 +227,7 @@ const Create = () => {
     )?.[0];
 
     const payload: EventArguments = {
-      mainLanguage: i18n.language as 'nl' | 'fr',
+      mainLanguage: 'nl',
       name: productions[0].name,
       calendar: {
         calendarType: CalendarType.MULTIPLE,
