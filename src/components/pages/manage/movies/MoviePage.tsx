@@ -24,6 +24,7 @@ import {
   usePublish,
 } from '@/hooks/api/events';
 import { useAddEventById, useCreateWithEvents } from '@/hooks/api/productions';
+import type { Event } from '@/types/Event';
 import type { Place } from '@/types/Place';
 import type { Production } from '@/types/Production';
 import { WorkflowStatusMap } from '@/types/WorkflowStatus';
@@ -131,7 +132,9 @@ const MoviePage = () => {
 
   const queryClient = useQueryClient();
 
-  const [newEventId, setNewEventId] = useState(router.query.eventId ?? '');
+  const [newEventId, setNewEventId] = useState(
+    (router.query.eventId as string) ?? '',
+  );
   const [isPublishLaterModalVisible, setIsPublishLaterModalVisible] = useState(
     false,
   );
