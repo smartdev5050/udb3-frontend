@@ -16,7 +16,7 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
 
-import type { StepProps } from './create';
+import type { StepProps } from './MoviePage';
 import { Step } from './Step';
 
 const getValue = getValueFromTheme('moviesCreatePage');

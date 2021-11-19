@@ -6,7 +6,7 @@ import type { StackProps } from '@/ui/Stack';
 import { getStackProps } from '@/ui/Stack';
 import { TimeTable } from '@/ui/TimeTable';
 
-import type { StepProps } from './create';
+import type { StepProps } from './MoviePage';
 import { Step } from './Step';
 
 type Step2Props = StackProps &
