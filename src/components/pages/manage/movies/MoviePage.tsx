@@ -83,10 +83,7 @@ const schema = yup
       .required(),
     dateStart: yup.string().required(),
     cinema: yup.object().shape({}).required(),
-    production: yup
-      .array()
-      .test('selected-production', (value) => !!value?.length)
-      .required(),
+    production: yup.object().shape({}).required(),
   })
   .required();
 
@@ -94,7 +91,7 @@ type FormData = {
   theme: string;
   timeTable: Time[][];
   cinema: Place;
-  production: Array<Production & { customOption?: boolean }>;
+  production: Production & { customOption?: boolean };
   dateStart: string;
 };
 
@@ -180,13 +177,7 @@ const MoviePage = () => {
   }, [getEventByIdQuery.data]);
 
   const handleFormValid = async (
-    {
-      production: productions,
-      cinema,
-      theme: themeId,
-      timeTable,
-      dateStart,
-    }: FormData,
+    { production, cinema, theme: themeId, timeTable, dateStart }: FormData,
     editedField?: keyof FormData,
   ) => {
     const isEditing = newEventId && editedField;
@@ -218,12 +209,12 @@ const MoviePage = () => {
           });
         },
         production: async () => {
-          if (!productions?.length) return;
+          if (!production) return;
 
           await changeNameMutation.mutateAsync({
             id: newEventId,
             lang: 'nl',
-            name: productions[0].name,
+            name: production.name,
           });
         },
       };
@@ -234,7 +225,7 @@ const MoviePage = () => {
       return;
     }
 
-    if (!productions?.length) return;
+    if (!production) return;
 
     const themeLabel = Object.entries(MovieThemes).find(
       ([key, value]) => value === themeId,
@@ -242,7 +233,7 @@ const MoviePage = () => {
 
     const payload: EventArguments = {
       mainLanguage: 'nl',
-      name: productions[0].name,
+      name: production.name,
       calendar: {
         calendarType: CalendarType.MULTIPLE,
         timeSpans: createTimeTablePayload(timeTable, dateStart),
@@ -280,14 +271,14 @@ const MoviePage = () => {
       label: 'udb-filminvoer',
     });
 
-    if (productions[0].customOption) {
+    if (production.customOption) {
       await createWithEventsMutation.mutateAsync({
-        productionName: productions[0].name,
+        productionName: production.name,
         eventIds: [eventId],
       });
     } else {
       await addEventByIdMutation.mutateAsync({
-        productionId: productions[0].production_id,
+        productionId: production.production_id,
         eventId,
       });
     }

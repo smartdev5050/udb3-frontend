@@ -195,7 +195,7 @@
           "required": "Bioscoop is verplicht."
         },
         "production": {
-          "selected-production": "Naam is verplicht."
+          "required": "Naam is verplicht."
         }
       },
       "picture": {
