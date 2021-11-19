@@ -302,18 +302,18 @@ const MoviePage = () => {
     });
   };
 
-  const theme = watch('theme');
-  const timeTable = watch('timeTable');
-  const dateStart = watch('dateStart');
-  const cinema = watch('cinema');
-  const production = watch('production');
+  const watchedTheme = watch('theme');
+  const watchedTimeTable = watch('timeTable');
+  const watchedDateStart = watch('dateStart');
+  const watchedCinema = watch('cinema');
+  const watchedProduction = watch('production');
 
   const isTimeTableValid = useMemo(
     () =>
-      !timeTable.some((row) =>
+      !watchedTimeTable.some((row) =>
         row.some((cell) => cell !== null && !isMatch(cell, "HH'h'mm'm'")),
       ),
-    [timeTable],
+    [watchedTimeTable],
   );
 
   const submitEditedField = (editedField: keyof FormData) => {
@@ -325,25 +325,45 @@ const MoviePage = () => {
     if (!newEventId) return;
     submitEditedField('theme');
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [theme]);
+  }, [watchedTheme]);
 
   useEffect(() => {
     if (!newEventId || !isTimeTableValid) return;
     submitEditedField('timeTable');
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeTable]);
+  }, [watchedTimeTable]);
 
   useEffect(() => {
     if (!newEventId) return;
     submitEditedField('cinema');
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cinema]);
+  }, [watchedCinema]);
 
   useEffect(() => {
     if (!newEventId) return;
     submitEditedField('production');
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [production]);
+  }, [watchedProduction]);
+
+  useEffect(() => {
+    // @ts-expect-error
+    const event: Event = getEventByIdQuery.data;
+    if (!event) return;
+
+    reset({
+      theme: event.terms.find((term) => term.domain === 'theme')?.id,
+      dateStart: new Date().toISOString(),
+      timeTable: [],
+      cinema: event.location,
+      production: {
+        production_id: event.production.id,
+        name: event.production.title,
+        events: event.production.otherEvents,
+      },
+    });
+    // @ts-expect-error
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getEventByIdQuery.data]);
 
   const stepProps = (field?: keyof FormData) => ({
     errors,
@@ -356,7 +376,7 @@ const MoviePage = () => {
 
   const isStep3Visible =
     (dirtyFields.timeTable &&
-      timeTable.some((row) => row.some((cell) => !!cell))) ||
+      watchedTimeTable.some((row) => row.some((cell) => !!cell))) ||
     dirtyFields.cinema;
   const isStep4Visible = dirtyFields.cinema;
   const isStep5Visible = !!newEventId && Object.values(errors).length === 0;
@@ -384,7 +404,7 @@ const MoviePage = () => {
         <Step2
           {...{
             ...stepProps('timeTable'),
-            dateStart,
+            dateStart: watchedDateStart,
             onDateStartChange: (value) =>
               setValue('dateStart', value.toISOString()),
           }}
