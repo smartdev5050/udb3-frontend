@@ -44,7 +44,43 @@ import { Step5 } from './Step5';
 
 type Time = string;
 
-const createTimeTablePayload = (timeTable: Time[][], dateStart: string) =>
+type FormData = {
+  theme: string;
+  timeTable: Time[][];
+  cinema: Place;
+  production: Production & { customOption?: boolean };
+  dateStart: string;
+};
+
+type StepProps = Pick<
+  UseFormReturn<FormData>,
+  'control' | 'getValues' | 'register' | 'reset'
+> & {
+  errors: Partial<Record<keyof FormData, any>>;
+  loading: boolean;
+};
+
+const FooterStatus = {
+  PUBLISH: 'PUBLISH',
+  SAVE: 'SAVE',
+} as const;
+
+const schema = yup
+  .object({
+    theme: yup.string(),
+    timeTable: yup
+      .array()
+      .test('has-timeslot', (value) =>
+        value.some((rows) => rows.some((cell) => !!cell)),
+      )
+      .required(),
+    dateStart: yup.string().required(),
+    cinema: yup.object().shape({}).required(),
+    production: yup.object().shape({}).required(),
+  })
+  .required();
+
+const encodeTimeTablePayload = (timeTable: Time[][], dateStart: string) =>
   timeTable.reduce((acc, row, rowIndex) => {
     const onlyTimeStrings = row.reduce((acc, time) => {
       if (!time || isMatch(time, "HH'h'mm'm'")) {
@@ -73,42 +109,6 @@ const createTimeTablePayload = (timeTable: Time[][], dateStart: string) =>
     return [...acc, ...onlyTimeStrings];
   }, []);
 
-const schema = yup
-  .object({
-    theme: yup.string(),
-    timeTable: yup
-      .array()
-      .test('has-timeslot', (value) =>
-        value.some((rows) => rows.some((cell) => !!cell)),
-      )
-      .required(),
-    dateStart: yup.string().required(),
-    cinema: yup.object().shape({}).required(),
-    production: yup.object().shape({}).required(),
-  })
-  .required();
-
-type FormData = {
-  theme: string;
-  timeTable: Time[][];
-  cinema: Place;
-  production: Production & { customOption?: boolean };
-  dateStart: string;
-};
-
-type StepProps = Pick<
-  UseFormReturn<FormData>,
-  'control' | 'getValues' | 'register' | 'reset'
-> & {
-  errors: Partial<Record<keyof FormData, any>>;
-  loading: boolean;
-};
-
-const FooterStatus = {
-  PUBLISH: 'PUBLISH',
-  SAVE: 'SAVE',
-} as const;
-
 const MoviePage = () => {
   const {
     handleSubmit,
@@ -126,10 +126,8 @@ const MoviePage = () => {
       timeTable: [],
     },
   });
-
   const { t } = useTranslation();
   const router = useRouter();
-
   const queryClient = useQueryClient();
 
   const [newEventId, setNewEventId] = useState(
@@ -139,12 +137,13 @@ const MoviePage = () => {
     false,
   );
   const [publishLaterDate, setPublishLaterDate] = useState(new Date());
-
   const [fieldLoading, setFieldLoading] = useState<keyof FormData>();
 
   const addEventMutation = useAddEvent({
     onSuccess: async () => await queryClient.invalidateQueries('events'),
   });
+
+  const getEventByIdQuery = useGetEventById({ id: newEventId });
 
   const addEventByIdMutation = useAddEventById();
 
@@ -161,8 +160,6 @@ const MoviePage = () => {
     },
   });
 
-  const getEventByIdQuery = useGetEventById({ id: newEventId });
-
   const changeThemeMutation = useChangeTheme();
 
   const changeLocationMutation = useChangeLocation();
@@ -171,6 +168,12 @@ const MoviePage = () => {
 
   const changeNameMutation = useChangeName();
 
+  const watchedTheme = watch('theme');
+  const watchedTimeTable = watch('timeTable');
+  const watchedDateStart = watch('dateStart');
+  const watchedCinema = watch('cinema');
+  const watchedProduction = watch('production');
+
   const availableFromDate = useMemo(() => {
     // @ts-expect-error
     if (!getEventByIdQuery.data?.availableFrom) return;
@@ -178,6 +181,14 @@ const MoviePage = () => {
     return new Date(getEventByIdQuery.data?.availableFrom);
     // @ts-expect-error
   }, [getEventByIdQuery.data]);
+
+  const isTimeTableValid = useMemo(
+    () =>
+      !watchedTimeTable.some((row) =>
+        row.some((cell) => cell !== null && !isMatch(cell, "HH'h'mm'm'")),
+      ),
+    [watchedTimeTable],
+  );
 
   const handleFormValid = async (
     { production, cinema, theme: themeId, timeTable, dateStart }: FormData,
@@ -200,7 +211,7 @@ const MoviePage = () => {
           await changeCalendarMutation.mutateAsync({
             id: newEventId,
             calendarType: CalendarType.MULTIPLE,
-            timeSpans: createTimeTablePayload(timeTable, dateStart),
+            timeSpans: encodeTimeTablePayload(timeTable, dateStart),
           });
         },
         cinema: async () => {
@@ -239,7 +250,7 @@ const MoviePage = () => {
       name: production.name,
       calendar: {
         calendarType: CalendarType.MULTIPLE,
-        timeSpans: createTimeTablePayload(timeTable, dateStart),
+        timeSpans: encodeTimeTablePayload(timeTable, dateStart),
       },
       type: {
         id: OfferCategories.Film,
@@ -304,20 +315,6 @@ const MoviePage = () => {
       publicationDate: formatDateToISO(publishLaterDate),
     });
   };
-
-  const watchedTheme = watch('theme');
-  const watchedTimeTable = watch('timeTable');
-  const watchedDateStart = watch('dateStart');
-  const watchedCinema = watch('cinema');
-  const watchedProduction = watch('production');
-
-  const isTimeTableValid = useMemo(
-    () =>
-      !watchedTimeTable.some((row) =>
-        row.some((cell) => cell !== null && !isMatch(cell, "HH'h'mm'm'")),
-      ),
-    [watchedTimeTable],
-  );
 
   const submitEditedField = (editedField: keyof FormData) => {
     setFieldLoading(editedField);
