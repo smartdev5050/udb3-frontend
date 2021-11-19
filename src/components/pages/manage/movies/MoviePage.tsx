@@ -82,10 +82,7 @@ const schema = yup
       )
       .required(),
     dateStart: yup.string().required(),
-    cinema: yup
-      .array()
-      .test('selected-cinema', (value) => !!value?.length)
-      .required(),
+    cinema: yup.object().shape({}).required(),
     production: yup
       .array()
       .test('selected-production', (value) => !!value?.length)
@@ -96,7 +93,7 @@ const schema = yup
 type FormData = {
   theme: string;
   timeTable: Time[][];
-  cinema: Place[];
+  cinema: Place;
   production: Array<Production & { customOption?: boolean }>;
   dateStart: string;
 };
@@ -185,7 +182,7 @@ const MoviePage = () => {
   const handleFormValid = async (
     {
       production: productions,
-      cinema: cinemas,
+      cinema,
       theme: themeId,
       timeTable,
       dateStart,
@@ -213,11 +210,11 @@ const MoviePage = () => {
           });
         },
         cinema: async () => {
-          if (!cinemas?.length) return;
+          if (!cinema) return;
 
           await changeLocationMutation.mutateAsync({
             id: newEventId,
-            locationId: parseOfferId(cinemas[0]['@id']),
+            locationId: parseOfferId(cinema['@id']),
           });
         },
         production: async () => {
@@ -263,7 +260,7 @@ const MoviePage = () => {
         },
       }),
       location: {
-        id: parseOfferId(cinemas[0]['@id']),
+        id: parseOfferId(cinema['@id']),
       },
       workflowStatus: WorkflowStatusMap.DRAFT,
       audienceType: 'everyone',

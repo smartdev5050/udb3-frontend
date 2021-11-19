@@ -55,7 +55,7 @@ const Step3 = ({
           control={control}
           name="cinema"
           render={({ field }) => {
-            const selectedCinema = field?.value?.[0];
+            const selectedCinema = field?.value;
 
             if (!selectedCinema) {
               return (
@@ -78,10 +78,10 @@ const Step3 = ({
                         cinema.name[i18n.language] ??
                         cinema.name[cinema.mainLanguage]
                       }
-                      selected={field.value}
+                      selected={field.value ? [field.value] : []}
                       maxWidth="43rem"
-                      onChange={(value) => {
-                        field.onChange(value);
+                      onChange={(places) => {
+                        field.onChange(places?.[0]);
                       }}
                       minLength={3}
                     />
