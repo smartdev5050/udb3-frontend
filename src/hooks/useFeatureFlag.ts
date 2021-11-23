@@ -4,7 +4,6 @@ import { useCookiesWithOptions } from './useCookiesWithOptions';
 
 const FeatureFlags = {
   REACT_CREATE: 'react_create',
-  GERMAN_LOGIN: 'german_login',
 } as const;
 
 const createCookieName = (identifier: string) => `ff_${identifier}`;
