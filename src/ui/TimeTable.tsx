@@ -1,6 +1,6 @@
 import copyToClipboard from 'clipboard-copy';
 import { addDays, differenceInDays, format, parse } from 'date-fns';
-import { pick, setWith } from 'lodash';
+import { pick, setWith, unset } from 'lodash';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -79,15 +79,18 @@ type RowProps = InlineProps & {
   data: Object;
   date: string;
   onCopy: (date: string) => void;
-  onEditCell: ({
-    index,
-    date,
-    value,
-  }: {
-    index: number;
-    date: string;
-    value: string;
-  }) => void;
+  onEditCell: (
+    {
+      index,
+      date,
+      value,
+    }: {
+      index: number;
+      date: string;
+      value: string;
+    },
+    mode: 'blur' | 'change',
+  ) => void;
 };
 
 const Row = ({ data, date, onEditCell, onCopy, ...props }: RowProps) => {
@@ -100,14 +103,17 @@ const Row = ({ data, date, onEditCell, onCopy, ...props }: RowProps) => {
           key={`${date}-${index}`}
           value={value ?? ''}
           onChange={(event) =>
-            onEditCell({ index, date, value: event.target.value })
+            onEditCell({ index, date, value: event.target.value }, 'change')
           }
           onBlur={(event) => {
-            onEditCell({
-              index,
-              date,
-              value: formatTimeValue(event.target.value),
-            });
+            onEditCell(
+              {
+                index,
+                date,
+                value: formatTimeValue(event.target.value),
+              },
+              'blur',
+            );
           }}
         />
       ),
@@ -205,17 +211,6 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
     };
   };
 
-  const handleChange = (toCleanValue) => {
-    const cleanedValue = cleanValue(
-      value.dateStart,
-      value.dateEnd,
-      toCleanValue,
-    );
-
-    console.log(JSON.stringify(cleanedValue, null, 2));
-    onChange(cleanedValue);
-  };
-
   const handleCopyColumn = (index: number) => {
     const copyAction: CopyPayload = {
       method: 'col',
@@ -245,16 +240,26 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
     copyToClipboard(JSON.stringify(copyAction));
   };
 
-  const handleDateStartChange = (date) => {
-    handleChange({ ...value, dateStart: formatDate(date) });
+  const handleDateStartChange = (date: Date) => {
+    onChange(
+      cleanValue(value.dateStart, value.dateEnd, {
+        ...value,
+        dateStart: formatDate(date),
+      }),
+    );
   };
 
-  const handleDateEndChange = (date) => {
-    handleChange({ ...value, dateEnd: formatDate(date) });
+  const handleDateEndChange = (date: Date) => {
+    onChange(
+      cleanValue(value.dateStart, value.dateEnd, {
+        ...value,
+        dateEnd: formatDate(date),
+      }),
+    );
   };
 
-  const handleEditCell = ({ index, date, value: cellValue }) => {
-    handleChange({
+  const handleEditCell = ({ index, date, value: cellValue }, mode) => {
+    onChange({
       ...value,
       data: updateCell({
         originalData: value.data ?? {},
