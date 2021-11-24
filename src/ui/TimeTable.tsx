@@ -182,19 +182,26 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
     [value.dateStart, value.dateEnd],
   );
 
-  const handleChange = (toCleanValue) => {
-    const range = calculateDateRange(
-      toCleanValue.dateStart,
-      toCleanValue.dateEnd,
-    );
+  const cleanValue = (dateStart, dateEnd, toCleanValue) => {
+    const range = calculateDateRange(dateStart, dateEnd);
+    const data = pick(toCleanValue.data, range);
 
-    const cleanValue = {
+    return {
       ...toCleanValue,
       // clean data that is not relevant for the range
-      data: pick(toCleanValue.data, range),
+      data,
     };
+  };
 
-    onChange(cleanValue);
+  const handleChange = (toCleanValue) => {
+    const cleanedValue = cleanValue(
+      value.dateStart,
+      value.dateEnd,
+      toCleanValue,
+    );
+
+    console.log(JSON.stringify(cleanedValue, null, 2));
+    onChange(cleanedValue);
   };
 
   const handleCopyColumn = (index: number) => {
