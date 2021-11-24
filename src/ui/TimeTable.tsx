@@ -79,6 +79,7 @@ type RowProps = InlineProps & {
   data: Object;
   date: string;
   onCopy: (date: string) => void;
+  onPaste: (payload: CopyPayload, index: number) => void;
   onEditCell: (
     {
       index,
@@ -93,7 +94,27 @@ type RowProps = InlineProps & {
   ) => void;
 };
 
-const Row = ({ data, date, onEditCell, onCopy, ...props }: RowProps) => {
+const Row = ({
+  data,
+  date,
+  onEditCell,
+  onCopy,
+  onPaste,
+  ...props
+}: RowProps) => {
+  const handlePaste = (event, index: number, date: string) => {
+    const clipboardData = (event.clipboardData || window.clipboardData).getData(
+      'text',
+    );
+    try {
+      const clipboardValue = JSON.parse(clipboardData);
+      event.preventDefault();
+      onPaste(clipboardValue, index, date);
+    } catch (e) {
+      // fallback to normal copy / paste when the data is not JSON
+    }
+  };
+
   return [
     <Text key="dateLabel">{date}</Text>,
     ...Array.from({ length: amountOfColumns }, (_, i) => data?.[i]).map(
@@ -115,6 +136,7 @@ const Row = ({ data, date, onEditCell, onCopy, ...props }: RowProps) => {
               'blur',
             );
           }}
+          onPaste={(event) => handlePaste(event, index, date)}
         />
       ),
     ),
@@ -220,6 +242,18 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
     };
   };
 
+  const handlePaste = (payload: CopyPayload, index: number, date: string) => {
+    if (payload.method === 'col') {
+      console.log(index);
+    }
+    if (payload.method === 'row') {
+      console.log(date);
+    }
+    if (payload.method === 'all') {
+      console.log(date);
+    }
+  };
+
   const handleCopyColumn = (index: number) => {
     const copyAction: CopyPayload = {
       method: 'col',
@@ -237,7 +271,6 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
         (_, i) => value.data?.[date]?.[i],
       ),
     };
-
     copyToClipboard(JSON.stringify(copyAction));
   };
 
@@ -249,23 +282,21 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
     copyToClipboard(JSON.stringify(copyAction));
   };
 
-  const handleDateStartChange = (date: Date) => {
+  const handleDateStartChange = (date: Date) =>
     onChange(
       cleanValue(value.dateStart, value.dateEnd, {
         ...value,
         dateStart: formatDate(date),
       }),
     );
-  };
 
-  const handleDateEndChange = (date: Date) => {
+  const handleDateEndChange = (date: Date) =>
     onChange(
       cleanValue(value.dateStart, value.dateEnd, {
         ...value,
         dateEnd: formatDate(date),
       }),
     );
-  };
 
   const handleEditCell = (
     {
@@ -335,6 +366,7 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
             date={date}
             data={value?.data?.[date]}
             onCopy={handleCopyRow}
+            onPaste={handlePaste}
             onEditCell={handleEditCell}
           />
         ))}
