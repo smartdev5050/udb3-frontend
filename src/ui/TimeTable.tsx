@@ -123,10 +123,8 @@ const Header = ({ header, index, onCopy, ...props }: HeaderProps) => {
 
 type Props = {};
 
-const updateCell = ({ originalData, date, index, value }) => {
-  if (!value) return originalData;
-  return setWith(originalData, `[${date}][${index}]`, value, Object);
-};
+const updateCell = ({ originalData, date, index, value }) =>
+  setWith(originalData, `[${date}][${index}]`, value, Object);
 
 const calculateDateRange = (
   dateStartString: string,
@@ -164,17 +162,13 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
       toCleanValue.dateEnd,
     );
 
-    console.log(JSON.stringify(toCleanValue, null, 2));
+    const cleanValue = {
+      ...toCleanValue,
+      // clean data that is not relevant for the range
+      data: pick(toCleanValue.data, range),
+    };
 
-    // const cleanValue = {
-    //   ...toCleanValue,
-    //   // clean data that is not relevant for the range
-    //   data: pick(toCleanValue.data, range),
-    // };
-
-    console.log(JSON.stringify(toCleanValue, null, 2));
-
-    onChange(toCleanValue);
+    onChange(cleanValue);
   };
 
   const handleDateStartChange = (date) => {
