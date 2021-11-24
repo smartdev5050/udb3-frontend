@@ -1,5 +1,5 @@
 import { addDays, differenceInDays, format, parse } from 'date-fns';
-import { pick, set } from 'lodash';
+import { pick, set, setWith } from 'lodash';
 import { useMemo } from 'react';
 
 import { parseSpacing } from './Box';
@@ -123,8 +123,10 @@ const Header = ({ header, index, onCopy, ...props }: HeaderProps) => {
 
 type Props = {};
 
-const updateCell = ({ originalData, date, index, value }) =>
-  set(originalData, `[${date}][${index}]`, value);
+const updateCell = ({ originalData, date, index, value }) => {
+  if (!value) return originalData;
+  return setWith(originalData, `[${date}][${index}]`, value, Object);
+};
 
 const calculateDateRange = (
   dateStartString: string,
@@ -162,15 +164,17 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
       toCleanValue.dateEnd,
     );
 
-    const cleanValue = {
-      ...toCleanValue,
-      // clean data that is not relevant for the range
-      data: pick(toCleanValue.data, range),
-    };
+    console.log(JSON.stringify(toCleanValue, null, 2));
 
-    console.log(cleanValue);
+    // const cleanValue = {
+    //   ...toCleanValue,
+    //   // clean data that is not relevant for the range
+    //   data: pick(toCleanValue.data, range),
+    // };
 
-    onChange(cleanValue);
+    console.log(JSON.stringify(toCleanValue, null, 2));
+
+    onChange(toCleanValue);
   };
 
   const handleDateStartChange = (date) => {
