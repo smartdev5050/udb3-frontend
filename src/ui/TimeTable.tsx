@@ -1,6 +1,6 @@
 import copyToClipboard from 'clipboard-copy';
 import { addDays, differenceInDays, format, parse } from 'date-fns';
-import { pick, setWith, unset } from 'lodash';
+import { clone, pick, setWith, take } from 'lodash';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -197,7 +197,7 @@ const updateCell = ({
   date: string;
   index: number;
   value: string;
-}) => setWith(originalData, `[${date}][${index}]`, value, Object);
+}) => setWith(clone(originalData), `[${date}][${index}]`, value, clone);
 
 const calculateDateRange = (
   dateStartString: string,
@@ -244,7 +244,19 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
 
   const handlePaste = (payload: CopyPayload, index: number, date: string) => {
     if (payload.method === 'col') {
-      console.log(index);
+      onChange({
+        ...value,
+        data: take(dateRange, payload.data.length).reduce(
+          (acc, date, i) =>
+            updateCell({
+              originalData: acc,
+              date,
+              value: payload.data[i],
+              index,
+            }),
+          value.data ?? {},
+        ),
+      });
     }
     if (payload.method === 'row') {
       console.log(date);
