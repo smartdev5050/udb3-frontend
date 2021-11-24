@@ -165,8 +165,17 @@ type Props = {
   onChange: (value: TimeTableValue) => void;
 };
 
-const updateCell = ({ originalData, date, index, value }) =>
-  setWith(originalData, `[${date}][${index}]`, value, Object);
+const updateCell = ({
+  originalData,
+  date,
+  index,
+  value,
+}: {
+  originalData: TimeTableData;
+  date: string;
+  index: string;
+  value: string;
+}) => setWith(originalData, `[${date}][${index}]`, value, Object);
 
 const calculateDateRange = (
   dateStartString: string,
