@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/restrict-plus-operands */
-import copyToClipboard from 'clipboard-copy';
-import { addDays, differenceInHours, format as formatDate } from 'date-fns';
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { addDays, differenceInDays, format, parse } from 'date-fns';
+import { pick, set } from 'lodash';
+import { useMemo } from 'react';
 
 import { parseSpacing } from './Box';
 import { Button, ButtonVariants } from './Button';
@@ -12,20 +10,8 @@ import type { InlineProps } from './Inline';
 import { getInlineProps, Inline } from './Inline';
 import { Input } from './Input';
 import { Label } from './Label';
-import type { StackProps } from './Stack';
 import { getStackProps, Stack } from './Stack';
 import { Text } from './Text';
-
-const colHeaders = ['t1', 't2', 't3', 't4', 't5', 't6', 't7'];
-
-type Time = string;
-
-type CopyPayload =
-  | {
-      method: 'row' | 'col';
-      data: Time[];
-    }
-  | { method: 'all'; data: Time[][] };
 
 const formatTimeValue = (value: string) => {
   if (!value) {
@@ -68,6 +54,45 @@ const formatTimeValue = (value: string) => {
   return `${firstChars}h${lastChars}m`;
 };
 
+type RowProps = InlineProps & {
+  data: Object;
+  index: number;
+  date: string;
+  onEditCell: ({
+    index,
+    date,
+    value,
+  }: {
+    index: number;
+    date: string;
+    value: string;
+  }) => void;
+};
+
+const Row = ({ data, date, onEditCell, ...props }: RowProps) => {
+  return [
+    <Text key="dateLabel">{date}</Text>,
+    ...Array.from({ length: 7 }, (_, i) => data?.[i]).map((value, index) => (
+      <Input
+        id={`${date}-${index}`}
+        key={`${date}-${index}`}
+        value={value ?? ''}
+        onChange={(event) =>
+          onEditCell({ index, date, value: event.target.value })
+        }
+        onBlur={(event) => {
+          onEditCell({
+            index,
+            date,
+            value: formatTimeValue(event.target.value),
+          });
+        }}
+      />
+    )),
+    <Text key="dateLabel" />,
+  ];
+};
+
 type HeaderProps = InlineProps & {
   header: string;
   index: number;
@@ -96,185 +121,76 @@ const Header = ({ header, index, onCopy, ...props }: HeaderProps) => {
   );
 };
 
-type RowProps = Omit<InlineProps, 'onPaste'> & {
-  row: string[];
-  index: number;
-  date: Date;
-  onCopyRow: (index: number) => void;
-  onCopyColumn: (index: number) => void;
-  onPaste: (
-    rowIndex: number,
-    colIndex: number,
-    clipboardValue: CopyPayload,
-  ) => void;
-  onEditCell: (rowIndex: number, colIndex: number, value: string) => void;
-};
+type Props = {};
 
-const Row = ({
-  row,
-  index,
-  date,
-  onCopyRow,
-  onCopyColumn,
-  onPaste,
-  onEditCell,
-  ...props
-}: RowProps) => {
-  const dateLabel = <Text key="dateLabel">{formatDate(date, 'dd/MM/yy')}</Text>;
-  const copyButton = (
-    <Button
-      key="copyButton"
-      variant={ButtonVariants.UNSTYLED}
-      onClick={() => onCopyRow(index)}
-      customChildren
-      {...getInlineProps(props)}
-    >
-      <Icon name={Icons.COPY} />
-    </Button>
-  );
+const updateCell = ({ originalData, date, index, value }) =>
+  set(originalData, `[${date}][${index}]`, value);
+
+const calculateDateRange = (
+  dateStartString: string,
+  dateEndString: string,
+): string[] => {
+  const dateStart = parseDate(dateStartString);
+  const daysInBetween = differenceInDays(parseDate(dateEndString), dateStart);
+
+  if (dateStartString === dateEndString) {
+    return [dateStartString];
+  }
 
   return [
-    dateLabel,
-    ...row.map((col, colIndex) => (
-      <Input
-        key={`${index}${colIndex}`}
-        id={colHeaders[colIndex]}
-        value={row[colIndex] ?? ''}
-        onChange={(event) => onEditCell(index, colIndex, event.target.value)}
-        onBlur={() => {
-          onEditCell(index, colIndex, formatTimeValue(row[colIndex]));
-        }}
-        onPaste={(event) => {
-          event.preventDefault();
-
-          const clipboardValue = JSON.parse(
-            (event.clipboardData || window.clipboardData).getData('text'),
-          );
-
-          onPaste(index, colIndex, clipboardValue);
-        }}
-      />
-    )),
-    copyButton,
+    dateStartString,
+    ...Array.from({ length: daysInBetween - 1 }, (_, i) =>
+      formatDate(addDays(dateStart, i + 1)),
+    ),
+    dateEndString,
   ];
 };
 
-type Props = StackProps & {
-  id: string;
-  onChange: (value: Time[][]) => void;
-  value: Time[][];
-  dateStart: string;
-  onDateStartChange: (value: Date) => void;
-};
+const parseDate = (dateString: string) =>
+  parse(dateString, 'dd/MM/yyyy', new Date());
+const formatDate = (date: Date) => format(date, 'dd/MM/yyyy');
 
-const TimeTable = ({
-  id,
-  className,
-  onChange,
-  value,
-  dateStart,
-  onDateStartChange,
-  ...props
-}: Props) => {
-  const [dateEnd, setDateEnd] = useState(new Date());
+const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
+  const dateRange = useMemo(
+    () => calculateDateRange(value.dateStart, value.dateEnd),
+    [value.dateStart, value.dateEnd],
+  );
 
-  const timeTable = value;
-
-  const { t } = useTranslation();
-
-  useEffect(() => {
-    const rowLength =
-      Math.ceil(
-        Math.abs(differenceInHours(new Date(dateStart), dateEnd)) / 24,
-      ) + 1;
-
-    onChange(
-      new Array(rowLength).fill(new Array(colHeaders.length).fill(null)),
+  const handleChange = (toCleanValue) => {
+    const range = calculateDateRange(
+      toCleanValue.dateStart,
+      toCleanValue.dateEnd,
     );
-  }, [dateStart, dateEnd]);
 
-  const onEditCell = (rowIndex: number, colIndex: number, value: Time) => {
-    onChange(
-      timeTable.map((innerRow, innerRowIndex) => {
-        if (rowIndex === innerRowIndex) {
-          return innerRow.map((time, timeIndex) => {
-            if (colIndex === timeIndex) {
-              return value;
-            }
-            return time;
-          });
-        }
-        return innerRow;
+    const cleanValue = {
+      ...toCleanValue,
+      // clean data that is not relevant for the range
+      data: pick(toCleanValue.data, range),
+    };
+
+    console.log(cleanValue);
+
+    onChange(cleanValue);
+  };
+
+  const handleDateStartChange = (date) => {
+    handleChange({ ...value, dateStart: formatDate(date) });
+  };
+
+  const handleDateEndChange = (date) => {
+    handleChange({ ...value, dateEnd: formatDate(date) });
+  };
+
+  const handleEditCell = ({ index, date, value: cellValue }) => {
+    handleChange({
+      ...value,
+      data: updateCell({
+        originalData: value.data ?? {},
+        date,
+        value: cellValue,
+        index,
       }),
-    );
-  };
-
-  const handleCopyColumn = (colIndex: number) => {
-    const copyAction: CopyPayload = {
-      method: 'col',
-      data: timeTable.reduce((acc, currentRow) => {
-        const value = currentRow[colIndex];
-        return [...acc, value];
-      }, []),
-    };
-
-    copyToClipboard(JSON.stringify(copyAction));
-  };
-
-  const handleCopyRow = (rowIndex: number) => {
-    const copyAction: CopyPayload = {
-      method: 'row',
-      data: timeTable[rowIndex],
-    };
-
-    copyToClipboard(JSON.stringify(copyAction));
-  };
-
-  const handleCopyAll = () => {
-    const copyAction: CopyPayload = {
-      method: 'all',
-      data: timeTable,
-    };
-
-    copyToClipboard(JSON.stringify(copyAction));
-  };
-
-  const handlePaste = (
-    rowIndex: number,
-    colIndex: number,
-    copyAction: CopyPayload,
-  ) => {
-    if (copyAction.method === 'row') {
-      onChange(
-        timeTable.map((innerRow, innerRowIndex) => {
-          if (rowIndex === innerRowIndex) {
-            return copyAction.data;
-          }
-          return innerRow;
-        }),
-      );
-    }
-    if (copyAction.method === 'col') {
-      onChange(
-        timeTable.map((innerRow, innerRowIndex) => {
-          return innerRow.map((time, timeIndex) => {
-            if (timeIndex === colIndex) {
-              return copyAction.data[innerRowIndex];
-            }
-            return time;
-          });
-        }),
-      );
-    }
-    if (copyAction.method === 'all') {
-      onChange(
-        timeTable.map((innerRow, innerRowIndex) => {
-          return innerRow.map((_, innerColIndex) => {
-            return copyAction.data?.[innerRowIndex]?.[innerColIndex] ?? null;
-          });
-        }),
-      );
-    }
+    });
   };
 
   return (
@@ -287,18 +203,18 @@ const TimeTable = ({
     >
       <DatePeriodPicker
         id={id}
-        dateStart={new Date(dateStart)}
-        dateEnd={dateEnd}
-        onDateStartChange={onDateStartChange}
-        onDateEndChange={setDateEnd}
+        dateStart={parseDate(value.dateStart)}
+        dateEnd={parseDate(value.dateEnd)}
+        onDateStartChange={handleDateStartChange}
+        onDateEndChange={handleDateEndChange}
       />
       <Stack
         forwardedAs="div"
         css={`
           display: grid;
-          grid-template-rows: repeat(${(timeTable?.length ?? 0) + 1}, 1fr);
+          grid-template-rows: repeat(${(dateRange?.length ?? 0) + 1}, 1fr);
           grid-template-columns:
-            min-content repeat(${timeTable?.[0]?.length ?? 0}, 1fr)
+            min-content repeat(7, 1fr)
             min-content;
           column-gap: ${parseSpacing(3)};
           row-gap: ${parseSpacing(3)};
@@ -307,38 +223,26 @@ const TimeTable = ({
       >
         {[
           <Text key="pre" />,
-          ...colHeaders.map((header, headerIndex) => (
-            <Header
-              key={header}
-              header={header}
-              index={headerIndex}
-              onCopy={handleCopyColumn}
-            />
-          )),
+          ...Array.from({ length: 7 }, (_, i) => `t${i + 1}`).map(
+            (header, headerIndex) => (
+              <Header
+                key={header}
+                header={header}
+                index={headerIndex}
+                // onCopy={handleCopyColumn}
+              />
+            ),
+          ),
           <Text key="post" />,
         ]}
-        {timeTable.map((row, rowIndex) => (
-          // @ts-expect-error
+        {dateRange.map((date) => (
           <Row
-            key={rowIndex}
-            row={row}
-            index={rowIndex}
-            date={addDays(new Date(dateStart), rowIndex)}
-            onCopyRow={handleCopyRow}
-            onCopyColumn={handleCopyColumn}
-            onPaste={handlePaste}
-            onEditCell={onEditCell}
+            date={date}
+            data={value?.data?.[date]}
+            onEditCell={handleEditCell}
           />
         ))}
       </Stack>
-      <Button
-        spacing={3}
-        flex="none"
-        iconName={Icons.COPY}
-        onClick={() => handleCopyAll()}
-      >
-        {t('movies.create.actions.copy_table')}
-      </Button>
     </Stack>
   );
 };

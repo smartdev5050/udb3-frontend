@@ -2,7 +2,7 @@ import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { Alert, AlertVariants } from '@/ui/Alert';
-import { Box, parseSpacing } from '@/ui/Box';
+import { Box } from '@/ui/Box';
 import type { StackProps } from '@/ui/Stack';
 import { getStackProps } from '@/ui/Stack';
 import { TimeTable } from '@/ui/TimeTable';
@@ -10,16 +10,9 @@ import { TimeTable } from '@/ui/TimeTable';
 import type { StepProps } from './MoviePage';
 import { Step } from './Step';
 
-type Step2Props = StackProps &
-  StepProps & { dateStart: string; onDateStartChange: (date: Date) => void };
+type Step2Props = StackProps & StepProps;
 
-const Step2 = ({
-  errors,
-  control,
-  dateStart,
-  onDateStartChange,
-  ...props
-}: Step2Props) => {
+const Step2 = ({ errors, control, ...props }: Step2Props) => {
   const { t } = useTranslation();
 
   return (
@@ -34,8 +27,6 @@ const Step2 = ({
                 id="timetable-movies"
                 value={field.value}
                 onChange={(value) => field.onChange(value)}
-                dateStart={dateStart}
-                onDateStartChange={onDateStartChange}
               />
             );
           }}
