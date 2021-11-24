@@ -2,6 +2,7 @@ import copyToClipboard from 'clipboard-copy';
 import { addDays, differenceInDays, format, parse } from 'date-fns';
 import { pick, setWith } from 'lodash';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { parseSpacing } from './Box';
 import { Button, ButtonVariants } from './Button';
@@ -174,6 +175,8 @@ const parseDate = (dateString: string) =>
 const formatDate = (date: Date) => format(date, 'dd/MM/yyyy');
 
 const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
+  const { t } = useTranslation();
+
   const dateRange = useMemo(
     () => calculateDateRange(value.dateStart, value.dateEnd),
     [value.dateStart, value.dateEnd],
@@ -212,6 +215,14 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
       ),
     };
 
+    copyToClipboard(JSON.stringify(copyAction));
+  };
+
+  const handleCopyAll = () => {
+    const copyAction: CopyPayload = {
+      method: 'all',
+      data: value.data,
+    };
     copyToClipboard(JSON.stringify(copyAction));
   };
 
@@ -287,6 +298,14 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
           />
         ))}
       </Stack>
+      <Button
+        spacing={3}
+        flex="none"
+        iconName={Icons.COPY}
+        onClick={handleCopyAll}
+      >
+        {t('movies.create.actions.copy_table')}
+      </Button>
     </Stack>
   );
 };
