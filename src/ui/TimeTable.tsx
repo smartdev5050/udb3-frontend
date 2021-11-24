@@ -77,7 +77,6 @@ type CopyPayload =
 
 type RowProps = InlineProps & {
   data: Object;
-  index: number;
   date: string;
   onCopy: (date: string) => void;
   onEditCell: ({
@@ -311,6 +310,7 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
         ]}
         {dateRange.map((date) => (
           <Row
+            key={date}
             date={date}
             data={value?.data?.[date]}
             onCopy={handleCopyRow}
