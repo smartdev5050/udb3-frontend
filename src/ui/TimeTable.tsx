@@ -1,5 +1,6 @@
+import copyToClipboard from 'clipboard-copy';
 import { addDays, differenceInDays, format, parse } from 'date-fns';
-import { pick, set, setWith } from 'lodash';
+import { pick, setWith } from 'lodash';
 import { useMemo } from 'react';
 
 import { parseSpacing } from './Box';
@@ -54,10 +55,22 @@ const formatTimeValue = (value: string) => {
   return `${firstChars}h${lastChars}m`;
 };
 
+type Time = string;
+
+const amountOfColumns = 7;
+
+type CopyPayload =
+  | {
+      method: 'row' | 'col';
+      data: Time[];
+    }
+  | { method: 'all'; data: { [key: string]: { [index: string]: Time } } };
+
 type RowProps = InlineProps & {
   data: Object;
   index: number;
   date: string;
+  onCopy: (date: string) => void;
   onEditCell: ({
     index,
     date,
@@ -69,27 +82,37 @@ type RowProps = InlineProps & {
   }) => void;
 };
 
-const Row = ({ data, date, onEditCell, ...props }: RowProps) => {
+const Row = ({ data, date, onEditCell, onCopy, ...props }: RowProps) => {
   return [
     <Text key="dateLabel">{date}</Text>,
-    ...Array.from({ length: 7 }, (_, i) => data?.[i]).map((value, index) => (
-      <Input
-        id={`${date}-${index}`}
-        key={`${date}-${index}`}
-        value={value ?? ''}
-        onChange={(event) =>
-          onEditCell({ index, date, value: event.target.value })
-        }
-        onBlur={(event) => {
-          onEditCell({
-            index,
-            date,
-            value: formatTimeValue(event.target.value),
-          });
-        }}
-      />
-    )),
-    <Text key="dateLabel" />,
+    ...Array.from({ length: amountOfColumns }, (_, i) => data?.[i]).map(
+      (value, index) => (
+        <Input
+          id={`${date}-${index}`}
+          key={`${date}-${index}`}
+          value={value ?? ''}
+          onChange={(event) =>
+            onEditCell({ index, date, value: event.target.value })
+          }
+          onBlur={(event) => {
+            onEditCell({
+              index,
+              date,
+              value: formatTimeValue(event.target.value),
+            });
+          }}
+        />
+      ),
+    ),
+    <Button
+      key="copyButton"
+      variant={ButtonVariants.UNSTYLED}
+      onClick={() => onCopy(date)}
+      customChildren
+      {...getInlineProps(props)}
+    >
+      <Icon name={Icons.COPY} />
+    </Button>,
   ];
 };
 
@@ -171,6 +194,27 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
     onChange(cleanValue);
   };
 
+  const handleCopyColumn = (index: number) => {
+    const copyAction: CopyPayload = {
+      method: 'col',
+      data: dateRange.map((date) => value.data?.[date]?.[index]),
+    };
+
+    copyToClipboard(JSON.stringify(copyAction));
+  };
+
+  const handleCopyRow = (date: string) => {
+    const copyAction: CopyPayload = {
+      method: 'row',
+      data: Array.from(
+        { length: amountOfColumns },
+        (_, i) => value.data?.[date]?.[i],
+      ),
+    };
+
+    copyToClipboard(JSON.stringify(copyAction));
+  };
+
   const handleDateStartChange = (date) => {
     handleChange({ ...value, dateStart: formatDate(date) });
   };
@@ -221,22 +265,24 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
       >
         {[
           <Text key="pre" />,
-          ...Array.from({ length: 7 }, (_, i) => `t${i + 1}`).map(
-            (header, headerIndex) => (
-              <Header
-                key={header}
-                header={header}
-                index={headerIndex}
-                // onCopy={handleCopyColumn}
-              />
-            ),
-          ),
+          ...Array.from(
+            { length: amountOfColumns },
+            (_, i) => `t${i + 1}`,
+          ).map((header, headerIndex) => (
+            <Header
+              key={header}
+              header={header}
+              index={headerIndex}
+              onCopy={handleCopyColumn}
+            />
+          )),
           <Text key="post" />,
         ]}
         {dateRange.map((date) => (
           <Row
             date={date}
             data={value?.data?.[date]}
+            onCopy={handleCopyRow}
             onEditCell={handleEditCell}
           />
         ))}
