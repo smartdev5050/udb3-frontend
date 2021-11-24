@@ -173,7 +173,7 @@ const updateCell = ({
 }: {
   originalData: TimeTableData;
   date: string;
-  index: string;
+  index: number;
   value: string;
 }) => setWith(originalData, `[${date}][${index}]`, value, Object);
 
@@ -267,7 +267,14 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
     );
   };
 
-  const handleEditCell = ({ index, date, value: cellValue }, mode) => {
+  const handleEditCell = (
+    {
+      index,
+      date,
+      value: cellValue,
+    }: { index: number; date: string; value: string },
+    mode: 'change' | 'blur',
+  ) => {
     onChange({
       ...value,
       data: updateCell({
