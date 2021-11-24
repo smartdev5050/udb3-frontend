@@ -60,12 +60,20 @@ type Time = string;
 
 const amountOfColumns = 7;
 
+type TimeTableData = { [key: string]: { [index: string]: Time } };
+
+type TimeTableValue = {
+  dateStart: string;
+  dateEnd: string;
+  data: TimeTableData;
+};
+
 type CopyPayload =
   | {
       method: 'row' | 'col';
       data: Time[];
     }
-  | { method: 'all'; data: { [key: string]: { [index: string]: Time } } };
+  | { method: 'all'; data: TimeTableData };
 
 type RowProps = InlineProps & {
   data: Object;
@@ -145,7 +153,12 @@ const Header = ({ header, index, onCopy, ...props }: HeaderProps) => {
   );
 };
 
-type Props = {};
+type Props = {
+  id: string;
+  className: string;
+  value: TimeTableValue;
+  onChange: (value: TimeTableValue) => void;
+};
 
 const updateCell = ({ originalData, date, index, value }) =>
   setWith(originalData, `[${date}][${index}]`, value, Object);
@@ -182,7 +195,7 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
     [value.dateStart, value.dateEnd],
   );
 
-  const cleanValue = (dateStart, dateEnd, toCleanValue) => {
+  const cleanValue = (dateStart: string, dateEnd: string, toCleanValue) => {
     const range = calculateDateRange(dateStart, dateEnd);
     const data = pick(toCleanValue.data, range);
 
@@ -318,3 +331,4 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
 };
 
 export { TimeTable };
+export type { TimeTableValue };
