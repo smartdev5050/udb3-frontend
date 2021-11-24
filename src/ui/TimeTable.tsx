@@ -247,9 +247,9 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
       onChange({
         ...value,
         data: take(dateRange, payload.data.length).reduce(
-          (acc, date, i) =>
+          (originalData, date, i) =>
             updateCell({
-              originalData: acc,
+              originalData,
               date,
               value: payload.data[i],
               index,
