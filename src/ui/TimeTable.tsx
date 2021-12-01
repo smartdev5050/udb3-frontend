@@ -273,7 +273,7 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
     if (payload.method === 'all') {
       onChange({
         ...value,
-        data: dateRange.reduce((data, date, index) => {
+        data: dateRange.reduce<TimeTableData>((data, date, index) => {
           if (!payload.data[index]) {
             return data;
           }
