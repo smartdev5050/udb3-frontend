@@ -271,7 +271,18 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
       });
     }
     if (payload.method === 'all') {
-      console.log(payload.data, value.data);
+      onChange({
+        ...value,
+        data: dateRange.reduce((data, date, index) => {
+          if (!payload.data[index]) {
+            return data;
+          }
+          return {
+            ...data,
+            [date]: payload.data[index],
+          };
+        }, {}),
+      });
     }
   };
 
