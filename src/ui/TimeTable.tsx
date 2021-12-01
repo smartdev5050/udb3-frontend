@@ -249,7 +249,7 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
     if (payload.method === 'col') {
       onChange({
         ...value,
-        data: take(dateRange, payload.data.length).reduce(
+        data: dateRange.reduce<TimeTableData>(
           (originalData, date, i) =>
             updateCell({
               originalData,
@@ -306,7 +306,7 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
   const handleCopyAll = () => {
     const copyAction: CopyPayload = {
       method: 'all',
-      data: getDateRange(value.dateStart, value.dateEnd).reduce<Data[]>(
+      data: dateRange.reduce<Data[]>(
         (data, date) => [...data, cleanData(value?.data?.[date] ?? {})],
         [],
       ),
