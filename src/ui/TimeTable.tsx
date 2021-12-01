@@ -1,7 +1,7 @@
 import copyToClipboard from 'clipboard-copy';
-import { addDays, differenceInDays, format, parse } from 'date-fns';
-import { clone, pick, setWith, take } from 'lodash';
-import { useMemo } from 'react';
+import { addDays, differenceInDays, format, getDate, parse } from 'date-fns';
+import { isNil, omitBy, pick, range, setWith, take } from 'lodash';
+import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { parseSpacing } from './Box';
@@ -60,7 +60,11 @@ type Time = string;
 
 const amountOfColumns = 7;
 
-type TimeTableData = { [key: string]: { [index: string]: Time } };
+type Date = string;
+
+type Data = { [index: string]: Time };
+
+type TimeTableData = { [date: Date]: Data };
 
 type TimeTableValue = {
   dateStart: string;
@@ -71,9 +75,9 @@ type TimeTableValue = {
 type CopyPayload =
   | {
       method: 'row' | 'col';
-      data: Time[];
+      data: Data;
     }
-  | { method: 'all'; data: TimeTableData };
+  | { method: 'all'; data: Data[] };
 
 type RowProps = InlineProps & {
   data: Object;
@@ -197,9 +201,9 @@ const updateCell = ({
   date: string;
   index: number;
   value: string;
-}) => setWith(clone(originalData), `[${date}][${index}]`, value, clone);
+}) => setWith(originalData, `[${date}][${index}]`, value, Object);
 
-const calculateDateRange = (
+const getDateRange = (
   dateStartString: string,
   dateEndString: string,
 ): string[] => {
@@ -223,16 +227,18 @@ const parseDate = (dateString: string) =>
   parse(dateString, 'dd/MM/yyyy', new Date());
 const formatDate = (date: Date) => format(date, 'dd/MM/yyyy');
 
+const cleanData = (data: Data): Data => ({ ...omitBy(data, isNil) });
+
 const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
   const { t } = useTranslation();
 
   const dateRange = useMemo(
-    () => calculateDateRange(value.dateStart, value.dateEnd),
+    () => getDateRange(value.dateStart, value.dateEnd),
     [value.dateStart, value.dateEnd],
   );
 
   const cleanValue = (dateStart: string, dateEnd: string, toCleanValue) => {
-    const range = calculateDateRange(dateStart, dateEnd);
+    const range = getDateRange(dateStart, dateEnd);
     const data = pick(toCleanValue.data, range);
 
     return {
@@ -261,12 +267,12 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
     if (payload.method === 'row') {
       onChange({
         ...value,
-        data: payload.data.reduce(
-          (originalData, data, index) =>
+        data: range(amountOfColumns).reduce(
+          (originalData, index) =>
             updateCell({
               originalData,
               date,
-              value: data,
+              value: payload.data?.[index],
               index,
             }),
           value.data ?? {},
@@ -274,14 +280,19 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
       });
     }
     if (payload.method === 'all') {
-      console.log(date);
+      console.log(payload.data, value.data);
     }
   };
 
   const handleCopyColumn = (index: number) => {
     const copyAction: CopyPayload = {
       method: 'col',
-      data: dateRange.map((date) => value.data?.[date]?.[index]),
+      data: cleanData(
+        dateRange.reduce<Data>(
+          (data, date, i) => ({ ...data, [i]: value.data?.[date]?.[index] }),
+          {},
+        ),
+      ),
     };
 
     copyToClipboard(JSON.stringify(copyAction));
@@ -290,10 +301,7 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
   const handleCopyRow = (date: string) => {
     const copyAction: CopyPayload = {
       method: 'row',
-      data: Array.from(
-        { length: amountOfColumns },
-        (_, i) => value.data?.[date]?.[i],
-      ),
+      data: cleanData(value.data?.[date]),
     };
     copyToClipboard(JSON.stringify(copyAction));
   };
@@ -301,26 +309,31 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
   const handleCopyAll = () => {
     const copyAction: CopyPayload = {
       method: 'all',
-      data: value.data,
+      data: getDateRange(value.dateStart, value.dateEnd).reduce<Data[]>(
+        (data, date) => [...data, cleanData(value?.data?.[date] ?? {})],
+        [],
+      ),
     };
     copyToClipboard(JSON.stringify(copyAction));
   };
 
-  const handleDateStartChange = (date: Date) =>
+  const handleDateStartChange = (date: Date) => {
     onChange(
       cleanValue(value.dateStart, value.dateEnd, {
         ...value,
         dateStart: formatDate(date),
       }),
     );
+  };
 
-  const handleDateEndChange = (date: Date) =>
+  const handleDateEndChange = (date: Date) => {
     onChange(
       cleanValue(value.dateStart, value.dateEnd, {
         ...value,
         dateEnd: formatDate(date),
       }),
     );
+  };
 
   const handleEditCell = (
     {
@@ -340,6 +353,10 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
       }),
     });
   };
+
+  useEffect(() => {
+    console.log(JSON.stringify(value.data, null, 2));
+  }, [value]);
 
   return (
     <Stack
