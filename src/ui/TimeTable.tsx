@@ -264,16 +264,10 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
     if (payload.method === 'row') {
       onChange({
         ...value,
-        data: range(amountOfColumns).reduce(
-          (originalData, index) =>
-            updateCell({
-              originalData,
-              date,
-              value: payload.data?.[index],
-              index,
-            }),
-          value.data ?? {},
-        ),
+        data: {
+          ...value.data,
+          [date]: payload.data,
+        },
       });
     }
     if (payload.method === 'all') {
