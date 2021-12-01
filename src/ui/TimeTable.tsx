@@ -273,14 +273,10 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
     if (payload.method === 'all') {
       onChange({
         ...value,
-        data: dateRange.reduce<TimeTableData>((data, date, index) => {
-          if (!payload.data[index]) {
-            return data;
-          }
-
+        data: Object.keys(payload.data).reduce<TimeTableData>((data, index) => {
           return {
             ...data,
-            [date]: payload.data[index],
+            [dateRange[index]]: payload.data[index],
           };
         }, {}),
       });
