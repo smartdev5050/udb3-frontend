@@ -261,14 +261,16 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
     if (payload.method === 'row') {
       onChange({
         ...value,
-        data: payload.data.reduce((originalData, data, index) => {
-          return updateCell({
-            originalData,
-            date,
-            value: data,
-            index,
-          });
-        }, value.data ?? {}),
+        data: payload.data.reduce(
+          (originalData, data, index) =>
+            updateCell({
+              originalData,
+              date,
+              value: data,
+              index,
+            }),
+          value.data ?? {},
+        ),
       });
     }
     if (payload.method === 'all') {
