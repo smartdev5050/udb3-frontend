@@ -1,5 +1,5 @@
 import copyToClipboard from 'clipboard-copy';
-import { addDays, differenceInDays, format, getDate, parse } from 'date-fns';
+import { addDays, differenceInDays, format, parse } from 'date-fns';
 import { isNil, omitBy, pick, range, setWith, take } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -60,11 +60,8 @@ type Time = string;
 
 const amountOfColumns = 7;
 
-type Date = string;
-
 type Data = { [index: string]: Time };
-
-type TimeTableData = { [date: Date]: Data };
+type TimeTableData = { [date: string]: Data };
 
 type TimeTableValue = {
   dateStart: string;
@@ -353,10 +350,6 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
       }),
     });
   };
-
-  useEffect(() => {
-    console.log(JSON.stringify(value.data, null, 2));
-  }, [value]);
 
   return (
     <Stack
