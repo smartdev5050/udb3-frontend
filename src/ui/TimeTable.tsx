@@ -79,7 +79,7 @@ type RowProps = InlineProps & {
   data: Object;
   date: string;
   onCopy: (date: string) => void;
-  onPaste: (payload: CopyPayload, index: number) => void;
+  onRowPaste: (payload: CopyPayload, index: number, date: string) => void;
   onEditCell: (
     {
       index,
@@ -99,17 +99,17 @@ const Row = ({
   date,
   onEditCell,
   onCopy,
-  onPaste,
+  onRowPaste,
   ...props
 }: RowProps) => {
-  const handlePaste = (event, index: number, date: string) => {
+  const handlePaste = (event: ClipboardEvent, index: number, date: string) => {
     const clipboardData = (event.clipboardData || window.clipboardData).getData(
       'text',
     );
     try {
       const clipboardValue = JSON.parse(clipboardData);
       event.preventDefault();
-      onPaste(clipboardValue, index, date);
+      onRowPaste(clipboardValue, index, date);
     } catch (e) {
       // fallback to normal copy / paste when the data is not JSON
     }
@@ -378,7 +378,7 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
             date={date}
             data={value?.data?.[date]}
             onCopy={handleCopyRow}
-            onPaste={handlePaste}
+            onRowPaste={handlePaste}
             onEditCell={handleEditCell}
           />
         ))}
