@@ -1,6 +1,7 @@
 import copyToClipboard from 'clipboard-copy';
 import { addDays, differenceInDays, format, parse } from 'date-fns';
 import { isNil, omitBy, pick, setWith } from 'lodash';
+import type { FormEvent } from 'react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -103,7 +104,11 @@ const Row = ({
   onRowPaste,
   ...props
 }: RowProps) => {
-  const handlePaste = (event: ClipboardEvent, index: number, date: string) => {
+  const handlePaste = (
+    event: ClipboardEvent<HTMLFormElement>,
+    index: number,
+    date: string,
+  ) => {
     const clipboardData = (event.clipboardData || window.clipboardData).getData(
       'text',
     );
@@ -127,12 +132,14 @@ const Row = ({
           onChange={(event) =>
             onEditCell({ index, date, value: event.target.value }, 'change')
           }
-          onBlur={(event) => {
+          onBlur={(event: FormEvent<HTMLInputElement>) => {
             onEditCell(
               {
                 index,
                 date,
-                value: formatTimeValue(event.target.value),
+                value: formatTimeValue(
+                  (event.target as HTMLInputElement).value,
+                ),
               },
               'blur',
             );
