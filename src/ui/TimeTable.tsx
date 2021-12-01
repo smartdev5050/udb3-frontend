@@ -1,6 +1,6 @@
 import copyToClipboard from 'clipboard-copy';
 import { addDays, differenceInDays, format, parse } from 'date-fns';
-import { isNil, omitBy, pick, range, setWith, take } from 'lodash';
+import { isNil, omitBy, pick, range, setWith } from 'lodash';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
