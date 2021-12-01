@@ -259,7 +259,17 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
       });
     }
     if (payload.method === 'row') {
-      console.log(date);
+      onChange({
+        ...value,
+        data: payload.data.reduce((originalData, data, index) => {
+          return updateCell({
+            originalData,
+            date,
+            value: data,
+            index,
+          });
+        }, value.data ?? {}),
+      });
     }
     if (payload.method === 'all') {
       console.log(date);
