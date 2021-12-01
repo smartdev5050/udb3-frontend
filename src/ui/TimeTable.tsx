@@ -74,7 +74,7 @@ type CopyPayload =
       method: 'row' | 'col';
       data: Data;
     }
-  | { method: 'all'; data: Data[] };
+  | { method: 'all'; data: { [key: string]: Data } };
 
 type RowProps = InlineProps & {
   data: Object;
@@ -306,10 +306,17 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
   const handleCopyAll = () => {
     const copyAction: CopyPayload = {
       method: 'all',
-      data: dateRange.reduce<Data[]>(
-        (data, date) => [...data, cleanData(value?.data?.[date] ?? {})],
-        [],
-      ),
+      data: dateRange.reduce<{ [key: string]: Data }>((data, date, index) => {
+        const rowData = value?.data?.[date];
+        if (!rowData || !Object.keys(cleanData(rowData)).length) {
+          return data;
+        }
+
+        return {
+          ...data,
+          [index]: cleanData(rowData),
+        };
+      }, {}),
     };
     copyToClipboard(JSON.stringify(copyAction));
   };
