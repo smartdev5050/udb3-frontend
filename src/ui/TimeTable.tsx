@@ -4,7 +4,7 @@ import isNil from 'lodash/isNil';
 import omitBy from 'lodash/omitBy';
 import pick from 'lodash/pick';
 import setWith from 'lodash/setWith';
-import type { ClipboardEvent, FormEvent } from 'react';
+import type { ClipboardEvent, FormEvent, ReactElement } from 'react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -106,7 +106,7 @@ const Row = ({
   onCopy,
   onRowPaste,
   ...props
-}: RowProps) => {
+}: RowProps): ReactElement => {
   const handlePaste = (
     event: ClipboardEvent<HTMLFormElement>,
     index: number,
