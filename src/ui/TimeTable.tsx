@@ -5,7 +5,7 @@ import omitBy from 'lodash/omitBy';
 import pick from 'lodash/pick';
 import setWith from 'lodash/setWith';
 import type { ClipboardEvent, FormEvent } from 'react';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { parseSpacing } from './Box';
@@ -239,10 +239,10 @@ const cleanData = (data: Data): Data => ({ ...omitBy(data, isNil) });
 const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
   const { t } = useTranslation();
 
-  const dateRange = useMemo(
-    () => getDateRange(value.dateStart, value.dateEnd),
-    [value.dateStart, value.dateEnd],
-  );
+  const dateRange = useMemo(() => {
+    if (!value?.dateStart || !value?.dateEnd) return [];
+    return getDateRange(value.dateStart, value.dateEnd);
+  }, [value?.dateStart, value?.dateEnd]);
 
   const cleanValue = (dateStart: string, dateEnd: string, toCleanValue) => {
     const range = getDateRange(dateStart, dateEnd);
@@ -254,6 +254,17 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
       data,
     };
   };
+
+  useEffect(() => {
+    if (!value?.dateStart || !value?.dateEnd) {
+      const todayDateString = formatDate(new Date());
+      onChange({
+        data: value?.data ?? {},
+        dateStart: todayDateString,
+        dateEnd: todayDateString,
+      });
+    }
+  }, []);
 
   const handlePaste = (payload: CopyPayload, index: number, date: string) => {
     if (payload.method === 'col') {
@@ -369,6 +380,8 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
       }),
     });
   };
+
+  if (!value?.dateStart || !value?.dateEnd) return null;
 
   return (
     <Stack

@@ -115,13 +115,8 @@ const MoviePage = () => {
     reset,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
-    defaultValues: {
-      timeTable: {
-        dateStart: '21/11/2021',
-        dateEnd: '21/11/2021',
-      },
-    },
   });
+
   const { t } = useTranslation();
   const router = useRouter();
   const queryClient = useQueryClient();
