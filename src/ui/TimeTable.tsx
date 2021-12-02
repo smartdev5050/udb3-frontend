@@ -264,6 +264,7 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
         dateEnd: todayDateString,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handlePaste = (payload: CopyPayload, index: number, date: string) => {
