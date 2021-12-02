@@ -18,6 +18,7 @@ const useHandleSocketMessage = (eventsMap = {}) => {
       socket.on(event, handler);
     });
     return () => socket.close();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 };
 

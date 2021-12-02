@@ -18,6 +18,7 @@ const useHandleEvent = (eventsMap = {}) => {
         window.removeEventListener(type, handler);
       });
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isClient]);
 };
 

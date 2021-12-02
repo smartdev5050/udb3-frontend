@@ -100,6 +100,7 @@ const AvailabilityPageMultiple = ({ event, refetchEvent }) => {
         accessor: 'bookingAvailability',
       },
     ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 
@@ -130,6 +131,7 @@ const AvailabilityPageMultiple = ({ event, refetchEvent }) => {
           </Text>
         ),
       })),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [subEvents],
   );
 

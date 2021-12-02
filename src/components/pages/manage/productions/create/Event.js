@@ -33,6 +33,7 @@ const Event = ({
     const typeId = terms.find((term) => term.domain === 'eventtype')?.id ?? '';
     // The custom keySeparator was necessary because the ids contain '.' which i18n uses as default keySeparator
     return t(`offerTypes*${typeId}`, { keySeparator: '*' });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [terms]);
 
   const getCalendarSummaryQuery = useGetCalendarSummary({

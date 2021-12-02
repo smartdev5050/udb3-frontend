@@ -37,6 +37,7 @@ const StatusForm = ({
         info: t(`offerStatus.status.${offerType}.unavailableInfo`),
       },
     ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [offerType],
   );
 

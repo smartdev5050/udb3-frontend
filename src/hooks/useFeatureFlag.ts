@@ -16,6 +16,7 @@ const useFeatureFlag = (
 ): [isEnabled: boolean, setIsEnabled: (value: boolean | string) => void] => {
   if (!featureFlagName) return [false, () => {}];
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { cookies, setCookie } = useCookiesWithOptions();
 
   const cookieName = createCookieName(featureFlagName);

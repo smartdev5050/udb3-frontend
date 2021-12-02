@@ -72,6 +72,7 @@ const Create = () => {
     ? getProductionsQuery.data?.member ?? []
     : [];
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const events = getSuggestedEventsQuery.data?.events ?? [];
   const similarity = getSuggestedEventsQuery.data?.similarity ?? 0;
 
@@ -88,6 +89,7 @@ const Create = () => {
       availableProductions.find(
         (production) => production.id === selectedProductionId,
       ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [selectedProductionId],
   );
 
