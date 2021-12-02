@@ -48,7 +48,6 @@ type FormData = {
   timeTable: any;
   cinema: Place;
   production: Production & { customOption?: boolean };
-  dateStart: string;
 };
 
 type StepProps = Pick<
