@@ -4,7 +4,7 @@ import isNil from 'lodash/isNil';
 import omitBy from 'lodash/omitBy';
 import pick from 'lodash/pick';
 import setWith from 'lodash/setWith';
-import type { FormEvent } from 'react';
+import type { ClipboardEvent, FormEvent } from 'react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -126,12 +126,12 @@ const Row = ({
 
   return [
     <Text key="dateLabel">{date}</Text>,
-    ...Array.from({ length: amountOfColumns }, (_, i) => data?.[i]).map(
-      (value, index) => (
+    ...Array.from({ length: amountOfColumns }, (_, index) => {
+      return (
         <Input
           id={`${date}-${index}`}
           key={`${date}-${index}`}
-          value={value ?? ''}
+          value={data?.[index] ?? ''}
           onChange={(event) =>
             onEditCell({ index, date, value: event.target.value }, 'change')
           }
@@ -149,8 +149,8 @@ const Row = ({
           }}
           onPaste={(event) => handlePaste(event, index, date)}
         />
-      ),
-    ),
+      );
+    }),
     <Button
       key="copyButton"
       variant={ButtonVariants.UNSTYLED}
@@ -400,17 +400,17 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
       >
         {[
           <Text key="pre" />,
-          ...Array.from(
-            { length: amountOfColumns },
-            (_, i) => `t${i + 1}`,
-          ).map((header, headerIndex) => (
-            <Header
-              key={header}
-              header={header}
-              index={headerIndex}
-              onCopy={handleCopyColumn}
-            />
-          )),
+          ...Array.from({ length: amountOfColumns }, (_, index) => {
+            const header = `t${index + 1}`;
+            return (
+              <Header
+                key={header}
+                header={header}
+                index={index}
+                onCopy={handleCopyColumn}
+              />
+            );
+          }),
           <Text key="post" />,
         ]}
         {dateRange.map((date) => (
