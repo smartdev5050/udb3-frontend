@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { addDays, isMatch, set as setTime } from 'date-fns';
+import { isMatch, parse as parseDate, set as setTime } from 'date-fns';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
@@ -31,6 +31,7 @@ import { WorkflowStatusMap } from '@/types/WorkflowStatus';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Page } from '@/ui/Page';
+import type { TimeTableValue } from '@/ui/TimeTable';
 import { formatDateToISO } from '@/utils/formatDateToISO';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 import { parseOfferId } from '@/utils/parseOfferId';
@@ -41,8 +42,6 @@ import { Step2 } from './Step2';
 import { Step3 } from './Step3';
 import { Step4 } from './Step4';
 import { Step5 } from './Step5';
-
-type Time = string;
 
 type FormData = {
   theme: string;
@@ -69,40 +68,45 @@ const schema = yup
   .object({
     theme: yup.string(),
     timeTable: yup.mixed().required(),
-    dateStart: yup.string().required(),
     cinema: yup.object().shape({}).required(),
     production: yup.object().shape({}).required(),
   })
   .required();
 
-const encodeTimeTablePayload = (timeTable: Time[][], dateStart: string) =>
-  timeTable.reduce((acc, row, rowIndex) => {
-    const onlyTimeStrings = row.reduce((acc, time) => {
-      if (!time || isMatch(time, "HH'h'mm'm'")) {
-        return acc;
-      }
+type EncodedTimeTable = Array<{ start: string; end: string }>;
 
-      const hours = parseInt(time.substring(0, 2));
-      const minutes = parseInt(time.substring(3, 5));
-      const rowDate = addDays(new Date(dateStart), rowIndex);
-      const dateWithTime = setTime(rowDate, {
-        hours,
-        minutes,
-        seconds: 0,
-      });
+const encodeTimeTablePayload = (timeTable: TimeTableValue) => {
+  const { data = {} } = timeTable;
+  return Object.keys(data).reduce<EncodedTimeTable>(
+    (acc, date) => [
+      ...acc,
+      ...Object.keys(data[date]).reduce<EncodedTimeTable>((acc, index) => {
+        const time = data[date][index];
 
-      const isoDateTime = formatDateToISO(dateWithTime);
+        if (!time || !isMatch(time, "HH'h'mm'm'")) {
+          return acc;
+        }
 
-      return [
-        ...acc,
-        {
-          start: isoDateTime,
-          end: isoDateTime,
-        },
-      ];
-    }, []);
-    return [...acc, ...onlyTimeStrings];
-  }, []);
+        const isoDate = formatDateToISO(
+          setTime(parseDate(date, 'dd/MM/yyyy', new Date()), {
+            hours: parseInt(time.substring(0, 2)),
+            minutes: parseInt(time.substring(3, 5)),
+            seconds: 0,
+          }),
+        );
+
+        return [
+          ...acc,
+          {
+            start: isoDate,
+            end: isoDate,
+          },
+        ];
+      }, []),
+    ],
+    [],
+  );
+};
 
 const MoviePage = () => {
   const {
@@ -231,7 +235,7 @@ const MoviePage = () => {
       name: production.name,
       calendar: {
         calendarType: CalendarType.MULTIPLE,
-        timeSpans: encodeTimeTablePayload(timeTable, dateStart),
+        timeSpans: encodeTimeTablePayload(timeTable),
       },
       type: {
         id: OfferCategories.Film,
@@ -251,7 +255,6 @@ const MoviePage = () => {
       workflowStatus: WorkflowStatusMap.DRAFT,
       audienceType: 'everyone',
     };
-
     const { eventId } = await addEventMutation.mutateAsync(payload);
 
     if (!eventId) return;
@@ -348,7 +351,7 @@ const MoviePage = () => {
     loading: !!(field && fieldLoading === field),
   });
 
-  const isStep3Visible = false; // to fix
+  const isStep3Visible = true; // to fix
   const isStep4Visible = dirtyFields.cinema;
   const isStep5Visible = !!newEventId && Object.values(errors).length === 0;
 
@@ -402,9 +405,9 @@ const MoviePage = () => {
               ]
             ) : (
               <Button
-                onClick={handleSubmit(async (formData) =>
-                  handleFormValid(formData),
-                )}
+                onClick={handleSubmit(async (formData) => {
+                  handleFormValid(formData);
+                })}
               >
                 {t('movies.create.actions.save')}
               </Button>
