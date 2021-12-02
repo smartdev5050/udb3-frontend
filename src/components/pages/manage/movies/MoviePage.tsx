@@ -175,7 +175,7 @@ const MoviePage = () => {
   }, [getEventByIdQuery.data]);
 
   const handleFormValid = async (
-    { production, cinema, theme: themeId, timeTable, dateStart }: FormData,
+    { production, cinema, theme: themeId, timeTable }: FormData,
     editedField?: keyof FormData,
   ) => {
     const isEditing = newEventId && editedField;
@@ -329,7 +329,6 @@ const MoviePage = () => {
 
     reset({
       theme: event.terms.find((term) => term.domain === 'theme')?.id,
-      dateStart: new Date().toISOString(),
       cinema: event.location,
       production: {
         production_id: event.production.id,
