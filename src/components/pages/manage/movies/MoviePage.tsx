@@ -15,7 +15,7 @@ import type { EventArguments } from '@/hooks/api/events';
 import {
   useAddEvent,
   useAddLabel,
-  // useChangeCalendar,
+  useChangeCalendar,
   useChangeLocation,
   useChangeName,
   useChangeTheme,
@@ -159,7 +159,7 @@ const MoviePage = () => {
 
   const changeLocationMutation = useChangeLocation();
 
-  // const changeCalendarMutation = useChangeCalendar();
+  const changeCalendarMutation = useChangeCalendar();
 
   const changeNameMutation = useChangeName();
 
@@ -192,13 +192,13 @@ const MoviePage = () => {
             themeId,
           });
         },
-        // timeTable: async () => {
-        //  await changeCalendarMutation.mutateAsync({
-        //     id: newEventId,
-        //     calendarType: CalendarType.MULTIPLE,
-        //     timeSpans: encodeTimeTablePayload(timeTable, dateStart),
-        //   });
-        // },
+        timeTable: async () => {
+          await changeCalendarMutation.mutateAsync({
+            id: newEventId,
+            calendarType: CalendarType.MULTIPLE,
+            timeSpans: encodeTimeTablePayload(timeTable),
+          });
+        },
         cinema: async () => {
           if (!cinema) return;
 
