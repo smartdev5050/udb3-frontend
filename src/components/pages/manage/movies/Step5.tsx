@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
@@ -11,6 +11,7 @@ import {
   useUpdateImageFromEvent,
 } from '@/hooks/api/events';
 import { useAddImage } from '@/hooks/api/images';
+import type { Event } from '@/types/Event';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Icons } from '@/ui/Icon';
@@ -51,6 +52,14 @@ const Step5 = ({ eventId, ...props }: Step5Props) => {
   const getEventByIdQuery = useGetEventById({ id: eventId });
 
   const changeDescriptionMutation = useChangeDescription();
+
+  useEffect(() => {
+    // @ts-expect-error
+    if (!getEventByIdQuery.data) return;
+    // @ts-expect-error
+    setDescription(getEventByIdQuery.data.description.nl);
+    // @ts-expect-error
+  }, [getEventByIdQuery.data?.description]);
 
   const images = useMemo(() => {
     // @ts-expect-error
