@@ -384,7 +384,7 @@ const MoviePage = () => {
     loading: !!(field && fieldLoading === field),
   });
 
-  const isStep3Visible = true; // to fix
+  const isStep3Visible = true; // TODO: to fix
   const isStep4Visible = dirtyFields.cinema;
   const isStep5Visible = !!newEventId && Object.values(errors).length === 0;
 
