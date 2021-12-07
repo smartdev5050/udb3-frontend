@@ -58,6 +58,7 @@ const Step5 = ({ eventId, ...props }: Step5Props) => {
     // @ts-expect-error
     setDescription(getEventByIdQuery.data.description.nl);
     // @ts-expect-error
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getEventByIdQuery.data?.description]);
 
   const images = useMemo(() => {
