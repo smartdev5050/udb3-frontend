@@ -178,9 +178,9 @@ const MoviePage = () => {
     { production, cinema, theme: themeId, timeTable }: FormData,
     editedField?: keyof FormData,
   ) => {
-    const isEditing = newEventId && editedField;
+    if (newEventId) {
+      if (!editedField) return;
 
-    if (isEditing) {
       type FieldToMutationMap = Partial<
         Record<keyof FormData, () => Promise<void>>
       >;
