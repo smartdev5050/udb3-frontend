@@ -107,7 +107,7 @@ const Row = ({
   onCopy,
   onRowPaste,
   ...props
-}: RowProps) => {
+}: RowProps): any => {
   const handlePaste = (
     event: ClipboardEvent<HTMLFormElement>,
     index: number,
