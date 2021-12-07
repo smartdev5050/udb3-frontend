@@ -129,7 +129,9 @@ const convertSubEventsToTimeTable = (subEvents: SubEvent[] = []) => {
 
     const time = formatTimeValue(`${getHours(date)}${getMinutes(date)}`);
 
-    acc[dateWithoutTime] = [...(acc[dateWithoutTime] ?? []), time];
+    acc[dateWithoutTime] = [...(acc[dateWithoutTime] ?? []), time].filter(
+      (v) => !!v,
+    );
 
     return acc;
   }, {});
