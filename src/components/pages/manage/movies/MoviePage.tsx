@@ -1,5 +1,12 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { isMatch, parse as parseDate, set as setTime } from 'date-fns';
+import {
+  format,
+  getHours,
+  getMinutes,
+  isMatch,
+  parse as parseDate,
+  set as setTime,
+} from 'date-fns';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
@@ -25,6 +32,7 @@ import {
 } from '@/hooks/api/events';
 import { useAddEventById, useCreateWithEvents } from '@/hooks/api/productions';
 import type { Event } from '@/types/Event';
+import type { SubEvent } from '@/types/Offer';
 import type { Place } from '@/types/Place';
 import type { Production } from '@/types/Production';
 import { WorkflowStatusMap } from '@/types/WorkflowStatus';
@@ -32,6 +40,7 @@ import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Page } from '@/ui/Page';
 import type { TimeTableValue } from '@/ui/TimeTable';
+import { formatTimeValue } from '@/ui/TimeTable';
 import { formatDateToISO } from '@/utils/formatDateToISO';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 import { parseOfferId } from '@/utils/parseOfferId';
@@ -105,6 +114,31 @@ const encodeTimeTablePayload = (timeTable: TimeTableValue) => {
     ],
     [],
   );
+};
+
+const convertSubEventsToTimeTable = (subEvents: SubEvent[] = []) => {
+  const dateStart = format(new Date(subEvents[0].startDate), 'dd/MM/yyyy');
+  const dateEnd = format(
+    new Date(subEvents[subEvents.length - 1].endDate),
+    'dd/MM/yyyy',
+  );
+
+  const data = subEvents.reduce((acc, subEvent, index) => {
+    const date = new Date(subEvent.startDate);
+    const dateWithoutTime = format(date, 'dd/MM/yyyy');
+
+    const time = formatTimeValue(`${getHours(date)}${getMinutes(date)}`);
+
+    acc[dateWithoutTime] = [...(acc[dateWithoutTime] ?? []), time];
+
+    return acc;
+  }, {});
+
+  return {
+    dateStart,
+    dateEnd,
+    data,
+  };
 };
 
 const MoviePage = () => {
