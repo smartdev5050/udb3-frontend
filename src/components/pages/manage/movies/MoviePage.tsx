@@ -197,6 +197,7 @@ const MoviePage = () => {
   const changeNameMutation = useChangeName();
 
   const watchedTheme = watch('theme');
+  const watchedTimeTable = watch('timeTable');
   const watchedCinema = watch('cinema');
   const watchedProduction = watch('production');
 
@@ -343,6 +344,13 @@ const MoviePage = () => {
     submitEditedField('theme');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watchedTheme]);
+
+  useEffect(() => {
+    if (!newEventId) return;
+    console.log({ watchedTimeTable });
+    submitEditedField('timeTable');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [watchedTimeTable]);
 
   useEffect(() => {
     if (!newEventId) return;
