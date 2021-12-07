@@ -450,5 +450,5 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
   );
 };
 
-export { TimeTable };
-export type { TimeTableValue };
+export { formatTimeValue, TimeTable };
+export type { TimeTableData, TimeTableValue };
