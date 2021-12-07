@@ -12,7 +12,7 @@ import { Step } from './Step';
 
 type Step2Props = StackProps & StepProps;
 
-const Step2 = ({ errors, control, ...props }: Step2Props) => {
+const Step2 = ({ errors, control, className, ...props }: Step2Props) => {
   const { t } = useTranslation();
 
   return (
@@ -25,6 +25,7 @@ const Step2 = ({ errors, control, ...props }: Step2Props) => {
             return (
               <TimeTable
                 id="timetable-movies"
+                className={className}
                 value={field.value}
                 onChange={(value) => field.onChange(value)}
               />
