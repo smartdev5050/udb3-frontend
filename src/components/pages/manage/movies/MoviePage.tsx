@@ -364,6 +364,7 @@ const MoviePage = () => {
     reset({
       theme: event.terms.find((term) => term.domain === 'theme')?.id,
       cinema: event.location,
+      timeTable: convertSubEventsToTimeTable(event.subEvent),
       production: {
         production_id: event.production.id,
         name: event.production.title,
