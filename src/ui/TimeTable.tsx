@@ -16,6 +16,7 @@ import type { InlineProps } from './Inline';
 import { getInlineProps, Inline } from './Inline';
 import { Input } from './Input';
 import { Label } from './Label';
+import type { StackProps } from './Stack';
 import { getStackProps, Stack } from './Stack';
 import { Text } from './Text';
 
@@ -193,10 +194,9 @@ const Header = ({ header, index, onCopy, ...props }: HeaderProps) => {
 
 type Props = {
   id: string;
-  className: string;
   value: TimeTableValue;
   onChange: (value: TimeTableValue) => void;
-};
+} & StackProps;
 
 const updateCell = ({
   originalData,
