@@ -54,7 +54,7 @@ const Step5 = ({ eventId, ...props }: Step5Props) => {
 
   useEffect(() => {
     // @ts-expect-error
-    if (!getEventByIdQuery.data) return;
+    if (!getEventByIdQuery.data?.description) return;
     // @ts-expect-error
     setDescription(getEventByIdQuery.data.description.nl);
     // @ts-expect-error
