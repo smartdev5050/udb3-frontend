@@ -18,6 +18,7 @@ import * as yup from 'yup';
 import { CalendarType } from '@/constants/CalendarType';
 import { MovieThemes } from '@/constants/MovieThemes';
 import { OfferCategories } from '@/constants/OfferCategories';
+import { QueryStatus } from '@/hooks/api/authenticated-query';
 import type { EventArguments } from '@/hooks/api/events';
 import {
   useAddEvent,
@@ -415,16 +416,21 @@ const MoviePage = () => {
       <Page.Title spacing={3} alignItems="center">
         {t(`movies.create.title`)}
       </Page.Title>
-      <Page.Content spacing={5} paddingBottom={6} alignItems="flex-start">
-        <Step1 {...stepProps('theme')} />
-        <Step2 {...stepProps('timeTable')} />
-        {isStep3Visible ? <Step3 {...stepProps('cinema')} /> : null}
-        {isStep4Visible ? <Step4 {...stepProps('production')} /> : null}
-
-        {isStep5Visible ? (
-          <Step5 {...{ ...stepProps(), eventId: newEventId }} />
-        ) : null}
-      </Page.Content>
+      {
+        // @ts-expect-error
+        newEventId &&
+        getEventByIdQuery.status === QueryStatus.LOADING ? null : (
+          <Page.Content spacing={5} paddingBottom={6} alignItems="flex-start">
+            <Step1 {...stepProps('theme')} />
+            <Step2 {...stepProps('timeTable')} />
+            {isStep3Visible ? <Step3 {...stepProps('cinema')} /> : null}
+            {isStep4Visible ? <Step4 {...stepProps('production')} /> : null}
+            {isStep5Visible ? (
+              <Step5 {...{ ...stepProps(), eventId: newEventId }} />
+            ) : null}
+          </Page.Content>
+        )
+      }
       {footerStatus ? (
         <Page.Footer>
           <Inline spacing={3}>
