@@ -40,6 +40,7 @@ import { WorkflowStatusMap } from '@/types/WorkflowStatus';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Page } from '@/ui/Page';
+import { Spinner } from '@/ui/Spinner';
 import type { TimeTableValue } from '@/ui/TimeTable';
 import { formatTimeValue } from '@/ui/TimeTable';
 import { formatDateToISO } from '@/utils/formatDateToISO';
@@ -416,21 +417,23 @@ const MoviePage = () => {
       <Page.Title spacing={3} alignItems="center">
         {t(`movies.create.title`)}
       </Page.Title>
-      {
-        // @ts-expect-error
-        newEventId &&
-        getEventByIdQuery.status === QueryStatus.LOADING ? null : (
-          <Page.Content spacing={5} paddingBottom={6} alignItems="flex-start">
-            <Step1 {...stepProps('theme')} />
-            <Step2 {...stepProps('timeTable')} />
-            {isStep3Visible ? <Step3 {...stepProps('cinema')} /> : null}
-            {isStep4Visible ? <Step4 {...stepProps('production')} /> : null}
-            {isStep5Visible ? (
-              <Step5 {...{ ...stepProps(), eventId: newEventId }} />
-            ) : null}
-          </Page.Content>
-        )
-      }
+      {newEventId &&
+      // @ts-expect-error
+      getEventByIdQuery.status === QueryStatus.LOADING ? (
+        <Page.Content spacing={5} paddingBottom={6} alignItems="flex-start">
+          <Spinner marginTop={4} />
+        </Page.Content>
+      ) : (
+        <Page.Content spacing={5} paddingBottom={6} alignItems="flex-start">
+          <Step1 {...stepProps('theme')} />
+          <Step2 {...stepProps('timeTable')} />
+          {isStep3Visible ? <Step3 {...stepProps('cinema')} /> : null}
+          {isStep4Visible ? <Step4 {...stepProps('production')} /> : null}
+          {isStep5Visible ? (
+            <Step5 {...{ ...stepProps(), eventId: newEventId }} />
+          ) : null}
+        </Page.Content>
+      )}
       {footerStatus ? (
         <Page.Footer>
           <Inline spacing={3}>
