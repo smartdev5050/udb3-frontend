@@ -349,7 +349,6 @@ const MoviePage = () => {
 
   useEffect(() => {
     if (!newEventId) return;
-    console.log({ watchedTimeTable });
     submitEditedField('timeTable');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watchedTimeTable]);
