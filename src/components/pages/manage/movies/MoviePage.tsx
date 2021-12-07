@@ -83,7 +83,7 @@ const schema = yup
 
 type EncodedTimeTable = Array<{ start: string; end: string }>;
 
-const encodeTimeTablePayload = (timeTable: TimeTableValue) => {
+const convertTimeTableToSubEvents = (timeTable: TimeTableValue) => {
   const { data = {} } = timeTable;
   return Object.keys(data).reduce<EncodedTimeTable>(
     (acc, date) => [
@@ -229,7 +229,7 @@ const MoviePage = () => {
           await changeCalendarMutation.mutateAsync({
             id: newEventId,
             calendarType: CalendarType.MULTIPLE,
-            timeSpans: encodeTimeTablePayload(timeTable),
+            timeSpans: convertTimeTableToSubEvents(timeTable),
           });
         },
         cinema: async () => {
@@ -268,7 +268,7 @@ const MoviePage = () => {
       name: production.name,
       calendar: {
         calendarType: CalendarType.MULTIPLE,
-        timeSpans: encodeTimeTablePayload(timeTable),
+        timeSpans: convertTimeTableToSubEvents(timeTable),
       },
       type: {
         id: OfferCategories.Film,
