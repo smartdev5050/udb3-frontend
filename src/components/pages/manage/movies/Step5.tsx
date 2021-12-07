@@ -11,7 +11,6 @@ import {
   useUpdateImageFromEvent,
 } from '@/hooks/api/events';
 import { useAddImage } from '@/hooks/api/images';
-import type { Event } from '@/types/Event';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Icons } from '@/ui/Icon';
