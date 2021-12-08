@@ -1,5 +1,5 @@
 import copyToClipboard from 'clipboard-copy';
-import { addDays, differenceInDays, format, parse } from 'date-fns';
+import { addDays, differenceInDays, format, isMatch, parse } from 'date-fns';
 import isNil from 'lodash/isNil';
 import omitBy from 'lodash/omitBy';
 import pick from 'lodash/pick';
@@ -7,6 +7,8 @@ import setWith from 'lodash/setWith';
 import type { ClipboardEvent, FormEvent } from 'react';
 import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import type { Values } from '@/types/Values';
 
 import { parseSpacing } from './Box';
 import { Button, ButtonVariants } from './Button';
@@ -26,7 +28,7 @@ const formatTimeValue = (value: string) => {
   }
 
   // is already in correct format
-  if (/[0-2][0-4]h[0-5][0-9]m/.test(value)) {
+  if (isMatch(value, "HH'h'mm'm'")) {
     return value;
   }
 
@@ -228,6 +230,11 @@ const formatDate = (date: Date) => format(date, 'dd/MM/yyyy');
 
 const cleanData = (data: Data): Data => ({ ...omitBy(data, isNil) });
 
+const CellEditMode = {
+  BLUR: 'blur',
+  CHANGE: 'change',
+} as const;
+
 const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
   const { t } = useTranslation();
 
@@ -332,17 +339,67 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
       date,
       value: cellValue,
     }: { index: number; date: string; value: string },
-    mode: 'change' | 'blur',
+    mode: Values<typeof CellEditMode>,
   ) => {
-    onChange({
-      ...value,
-      data: updateCell({
-        originalData: value.data ?? {},
-        date,
-        value: cellValue,
-        index,
-      }),
-    });
+    if (mode === CellEditMode.BLUR) {
+      if (cellValue === null) {
+        onChange({
+          ...value,
+          data: updateCell({
+            originalData: value.data ?? {},
+            date,
+            value: cellValue,
+            index,
+          }),
+        });
+
+        return;
+      }
+
+      const previousRowData = value?.data[date] ?? [];
+      const newRowData = {
+        ...previousRowData,
+        [index]: cellValue,
+      };
+
+      const sortedRowData = [
+        ...new Set<string>(
+          Object.values(newRowData)
+            .map((formattedValue: string) => {
+              return formattedValue.split('').reduce((acc, char) => {
+                if (['h', 'm'].includes(char)) return acc;
+                return `${acc}${char}`;
+              });
+            })
+            .sort((a, b) => Number(a) - Number(b)),
+        ),
+      ];
+
+      const indexedValues = sortedRowData.reduce<Data>((acc, value, index) => {
+        return {
+          ...acc,
+          [index]: formatTimeValue(value),
+        };
+      }, {});
+
+      onChange({
+        ...value,
+        data: {
+          ...value.data,
+          [date]: indexedValues,
+        },
+      });
+    } else {
+      onChange({
+        ...value,
+        data: updateCell({
+          originalData: value.data ?? {},
+          date,
+          value: cellValue,
+          index,
+        }),
+      });
+    }
   };
 
   if (!value?.dateStart || !value?.dateEnd) return null;
