@@ -76,7 +76,7 @@ type TimeTableValue = {
 
 type CopyPayload =
   | {
-      method: 'row' | 'col';
+      method: 'row';
       data: Data;
     }
   | { method: 'all'; data: { [key: string]: Data } };
@@ -167,10 +167,9 @@ const Row = ({
 type HeaderProps = InlineProps & {
   header: string;
   index: number;
-  onCopy: (index: number) => void;
 };
 
-const Header = ({ header, index, onCopy, ...props }: HeaderProps) => {
+const Header = ({ header, index, ...props }: HeaderProps) => {
   return (
     <Inline
       as="div"
@@ -181,13 +180,6 @@ const Header = ({ header, index, onCopy, ...props }: HeaderProps) => {
       {...getInlineProps(props)}
     >
       <Label htmlFor={header}>{header}</Label>
-      <Button
-        variant={ButtonVariants.UNSTYLED}
-        onClick={() => onCopy(index)}
-        customChildren
-      >
-        <Icon name={Icons.COPY} />
-      </Button>
     </Inline>
   );
 };
@@ -268,21 +260,6 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
   }, []);
 
   const handlePaste = (payload: CopyPayload, index: number, date: string) => {
-    if (payload.method === 'col') {
-      onChange({
-        ...value,
-        data: dateRange.reduce<TimeTableData>(
-          (originalData, date, i) =>
-            updateCell({
-              originalData,
-              date,
-              value: payload.data[i],
-              index,
-            }),
-          value.data ?? {},
-        ),
-      });
-    }
     if (payload.method === 'row') {
       onChange({
         ...value,
@@ -303,20 +280,6 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
         }, {}),
       });
     }
-  };
-
-  const handleCopyColumn = (index: number) => {
-    const copyAction: CopyPayload = {
-      method: 'col',
-      data: cleanData(
-        dateRange.reduce<Data>(
-          (data, date, i) => ({ ...data, [i]: value.data?.[date]?.[index] }),
-          {},
-        ),
-      ),
-    };
-
-    copyToClipboard(JSON.stringify(copyAction));
   };
 
   const handleCopyRow = (date: string) => {
@@ -416,14 +379,7 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
           <Text key="pre" />,
           ...Array.from({ length: amountOfColumns }, (_, index) => {
             const header = `t${index + 1}`;
-            return (
-              <Header
-                key={header}
-                header={header}
-                index={index}
-                onCopy={handleCopyColumn}
-              />
-            );
+            return <Header key={header} header={header} index={index} />;
           }),
           <Text key="post" />,
         ]}
