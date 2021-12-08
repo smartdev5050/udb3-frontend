@@ -395,7 +395,8 @@ const MoviePage = () => {
     loading: !!(field && fieldLoading === field),
   });
 
-  const isStep3Visible = true; // TODO: to fix
+  const isStep3Visible =
+    dirtyFields.timeTable && Object.keys(watchedTimeTable.data).length > 0;
   const isStep4Visible = dirtyFields.cinema;
   const isStep5Visible = !!newEventId && Object.values(errors).length === 0;
 
