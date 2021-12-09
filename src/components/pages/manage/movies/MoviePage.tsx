@@ -11,7 +11,6 @@ import * as yup from 'yup';
 import { CalendarType } from '@/constants/CalendarType';
 import { MovieThemes } from '@/constants/MovieThemes';
 import { OfferCategories } from '@/constants/OfferCategories';
-import { QueryStatus } from '@/hooks/api/authenticated-query';
 import type { EventArguments } from '@/hooks/api/events';
 import {
   useAddEvent,
@@ -33,7 +32,6 @@ import { WorkflowStatusMap } from '@/types/WorkflowStatus';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Page } from '@/ui/Page';
-import { Spinner } from '@/ui/Spinner';
 import type { TimeTableValue } from '@/ui/TimeTable';
 import { formatDateToISO } from '@/utils/formatDateToISO';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
@@ -418,23 +416,16 @@ const MoviePage = () => {
       <Page.Title spacing={3} alignItems="center">
         {t(`movies.create.title`)}
       </Page.Title>
-      {newEventId &&
-      // @ts-expect-error
-      getEventByIdQuery.status === QueryStatus.LOADING ? (
-        <Page.Content spacing={5} paddingBottom={6} alignItems="flex-start">
-          <Spinner marginTop={4} />
-        </Page.Content>
-      ) : (
-        <Page.Content spacing={5} paddingBottom={6} alignItems="flex-start">
-          <Step1 {...stepProps('theme')} />
-          <Step2 {...stepProps('timeTable')} />
-          {isStep3Visible ? <Step3 {...stepProps('cinema')} /> : null}
-          {isStep4Visible ? <Step4 {...stepProps('production')} /> : null}
-          {isStep5Visible ? (
-            <Step5 {...{ ...stepProps(), eventId: newEventId }} />
-          ) : null}
-        </Page.Content>
-      )}
+
+      <Page.Content spacing={5} paddingBottom={6} alignItems="flex-start">
+        <Step1 {...stepProps('theme')} />
+        <Step2 {...stepProps('timeTable')} />
+        {isStep3Visible ? <Step3 {...stepProps('cinema')} /> : null}
+        {isStep4Visible ? <Step4 {...stepProps('production')} /> : null}
+        {isStep5Visible ? (
+          <Step5 {...{ ...stepProps(), eventId: newEventId }} />
+        ) : null}
+      </Page.Content>
       {footerStatus ? (
         <Page.Footer>
           <Inline spacing={3}>
