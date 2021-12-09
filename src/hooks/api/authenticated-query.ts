@@ -172,6 +172,7 @@ const useAuthenticatedMutation = ({ mutationFn, ...configuration }) => {
       return '';
     }
     return JSON.parse(result);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return useMutation(innerMutationFn, configuration);
@@ -216,6 +217,7 @@ const useAuthenticatedMutations = ({
         return JSON.parse(result);
       }),
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return useMutation(innerMutationFn, configuration);
@@ -232,9 +234,12 @@ const useAuthenticatedQuery = <TData>(
     return prefetchAuthenticatedQuery<TData>(options);
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { asPath, ...router } = useRouter();
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const headers = useHeaders();
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { cookies, removeAuthenticationCookies } = useCookiesWithOptions([
     'token',
   ]);
@@ -245,6 +250,7 @@ const useAuthenticatedQuery = <TData>(
     headers,
   });
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const result = useQuery<TData, FetchError>(preparedArguments);
 
   if (isUnAuthorized(result?.error?.status)) {
@@ -271,9 +277,12 @@ const useAuthenticatedQueries = ({
     });
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { asPath, ...router } = useRouter();
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const headers = useHeaders();
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { cookies, removeAuthenticationCookies } = useCookiesWithOptions([
     'token',
   ]);
@@ -286,6 +295,7 @@ const useAuthenticatedQueries = ({
     }),
   );
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const results = useQueries(options);
 
   // @ts-expect-error

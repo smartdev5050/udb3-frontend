@@ -64,6 +64,7 @@ const Fallback = () => {
     );
 
     return `${publicRuntimeConfig.legacyAppUrl}${path}${queryString}`;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [asPath, cookies.token, cookies['udb-language']]);
 
   if (notFoundPaths.includes(asPath)) {

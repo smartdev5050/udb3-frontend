@@ -27,6 +27,7 @@ const useLog = (
 
     // eslint-disable-next-line no-console
     console.log(rawData ? toLog : JSON.stringify(toLog, undefined, 2));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, Object.values(variables));
 };
 

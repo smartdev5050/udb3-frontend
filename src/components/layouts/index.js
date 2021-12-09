@@ -22,6 +22,7 @@ const useChangeLanguage = () => {
   const { cookies } = useCookiesWithOptions(['udb-language']);
   useEffect(() => {
     i18n.changeLanguage(cookies['udb-language']);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cookies['udb-language']]);
 };
 
@@ -47,12 +48,14 @@ const useHandleAuthentication = () => {
       undefined,
       { shallow: true },
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
   useEffect(() => {
     if (!getUserQuery.data) return;
     setCookie('user', getUserQuery.data);
     Sentry.setUser({ id: getUserQuery.data.id });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getUserQuery.data]);
 
   // redirect when there is no token or user cookie
@@ -71,6 +74,7 @@ const useHandleAuthentication = () => {
       }
     }, 5000); // checking every 5 seconds
     return cleanUp;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [asPath]);
 };
 

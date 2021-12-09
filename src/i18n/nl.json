@@ -192,10 +192,10 @@
           "has-timeslot": "Minstens 1 tijdslot is verplicht."
         },
         "cinema": {
-          "selected-cinema": "Bioscoop is verplicht."
+          "required": "Bioscoop is verplicht."
         },
         "production": {
-          "selected-production": "Naam is verplicht."
+          "required": "Naam is verplicht."
         }
       },
       "picture": {

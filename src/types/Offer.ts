@@ -120,5 +120,6 @@ export type {
   Status,
   StatusReason,
   StatusType,
+  SubEvent,
   Term,
 };

@@ -1,4 +1,4 @@
-import { throttle } from 'lodash';
+import throttle from 'lodash/throttle';
 import { useMemo, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -16,14 +16,21 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
 
-import type { StepProps } from './create';
+import type { StepProps } from './MoviePage';
 import { Step } from './Step';
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
 type Step3Props = StackProps & StepProps;
 
-const Step3 = ({ errors, getValues, reset, control, ...props }: Step3Props) => {
+const Step3 = ({
+  errors,
+  getValues,
+  reset,
+  control,
+  loading,
+  ...props
+}: Step3Props) => {
   const { t, i18n } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
 
@@ -48,7 +55,7 @@ const Step3 = ({ errors, getValues, reset, control, ...props }: Step3Props) => {
           control={control}
           name="cinema"
           render={({ field }) => {
-            const selectedCinema = field?.value?.[0];
+            const selectedCinema = field?.value;
 
             if (!selectedCinema) {
               return (
@@ -62,6 +69,7 @@ const Step3 = ({ errors, getValues, reset, control, ...props }: Step3Props) => {
                         )
                       : undefined
                   }
+                  loading={loading}
                   Component={
                     <Typeahead<Place>
                       options={cinemas}
@@ -70,10 +78,10 @@ const Step3 = ({ errors, getValues, reset, control, ...props }: Step3Props) => {
                         cinema.name[i18n.language] ??
                         cinema.name[cinema.mainLanguage]
                       }
-                      selected={field.value}
+                      selected={field.value ? [field.value] : []}
                       maxWidth="43rem"
-                      onChange={(value) => {
-                        field.onChange(value);
+                      onChange={(places) => {
+                        field.onChange(places?.[0]);
                       }}
                       minLength={3}
                     />

@@ -1,8 +1,14 @@
-/* eslint-disable @typescript-eslint/restrict-plus-operands */
 import copyToClipboard from 'clipboard-copy';
-import { addDays, differenceInHours, format as formatDate } from 'date-fns';
-import { useEffect, useState } from 'react';
+import { addDays, differenceInDays, format, isMatch, parse } from 'date-fns';
+import isNil from 'lodash/isNil';
+import omitBy from 'lodash/omitBy';
+import pick from 'lodash/pick';
+import setWith from 'lodash/setWith';
+import type { ClipboardEvent, FormEvent } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import type { Values } from '@/types/Values';
 
 import { parseSpacing } from './Box';
 import { Button, ButtonVariants } from './Button';
@@ -16,24 +22,13 @@ import type { StackProps } from './Stack';
 import { getStackProps, Stack } from './Stack';
 import { Text } from './Text';
 
-const colHeaders = ['t1', 't2', 't3', 't4', 't5', 't6', 't7'];
-
-type Time = string;
-
-type CopyPayload =
-  | {
-      method: 'row' | 'col';
-      data: Time[];
-    }
-  | { method: 'all'; data: Time[][] };
-
 const formatTimeValue = (value: string) => {
   if (!value) {
     return null;
   }
 
   // is already in correct format
-  if (/[0-2][0-4]h[0-5][0-9]m/.test(value)) {
+  if (isMatch(value, "HH'h'mm'm'")) {
     return value;
   }
 
@@ -68,13 +63,115 @@ const formatTimeValue = (value: string) => {
   return `${firstChars}h${lastChars}m`;
 };
 
+type Time = string;
+
+const amountOfColumns = 7;
+
+type Data = { [index: string]: Time };
+type TimeTableData = { [date: string]: Data };
+
+type TimeTableValue = {
+  dateStart: string;
+  dateEnd: string;
+  data: TimeTableData;
+};
+
+type CopyPayload =
+  | {
+      method: 'row';
+      data: Data;
+    }
+  | { method: 'all'; data: { [key: string]: Data } };
+
+type RowProps = InlineProps & {
+  data: Object;
+  date: string;
+  onCopy: (date: string) => void;
+  onRowPaste: (payload: CopyPayload, index: number, date: string) => void;
+  onEditCell: (
+    {
+      index,
+      date,
+      value,
+    }: {
+      index: number;
+      date: string;
+      value: string;
+    },
+    mode: 'blur' | 'change',
+  ) => void;
+};
+
+const Row = ({
+  data,
+  date,
+  onEditCell,
+  onCopy,
+  onRowPaste,
+  ...props
+}: RowProps): any => {
+  const handlePaste = (
+    event: ClipboardEvent<HTMLFormElement>,
+    index: number,
+    date: string,
+  ) => {
+    const clipboardData = (event.clipboardData || window.clipboardData).getData(
+      'text',
+    );
+    try {
+      const clipboardValue = JSON.parse(clipboardData);
+      event.preventDefault();
+      onRowPaste(clipboardValue, index, date);
+    } catch (e) {
+      // fallback to normal copy / paste when the data is not JSON
+    }
+  };
+
+  return [
+    <Text key="dateLabel">{date}</Text>,
+    ...Array.from({ length: amountOfColumns }, (_, index) => {
+      return (
+        <Input
+          id={`${date}-${index}`}
+          key={`${date}-${index}`}
+          value={data?.[index] ?? ''}
+          onChange={(event) =>
+            onEditCell({ index, date, value: event.target.value }, 'change')
+          }
+          onBlur={(event: FormEvent<HTMLInputElement>) => {
+            onEditCell(
+              {
+                index,
+                date,
+                value: formatTimeValue(
+                  (event.target as HTMLInputElement).value,
+                ),
+              },
+              'blur',
+            );
+          }}
+          onPaste={(event) => handlePaste(event, index, date)}
+        />
+      );
+    }),
+    <Button
+      key="copyButton"
+      variant={ButtonVariants.UNSTYLED}
+      onClick={() => onCopy(date)}
+      customChildren
+      {...getInlineProps(props)}
+    >
+      <Icon name={Icons.COPY} />
+    </Button>,
+  ];
+};
+
 type HeaderProps = InlineProps & {
   header: string;
   index: number;
-  onCopy: (index: number) => void;
 };
 
-const Header = ({ header, index, onCopy, ...props }: HeaderProps) => {
+const Header = ({ header, index, ...props }: HeaderProps) => {
   return (
     <Inline
       as="div"
@@ -85,195 +182,217 @@ const Header = ({ header, index, onCopy, ...props }: HeaderProps) => {
       {...getInlineProps(props)}
     >
       <Label htmlFor={header}>{header}</Label>
-      <Button
-        variant={ButtonVariants.UNSTYLED}
-        onClick={() => onCopy(index)}
-        customChildren
-      >
-        <Icon name={Icons.COPY} />
-      </Button>
     </Inline>
   );
 };
 
-type RowProps = Omit<InlineProps, 'onPaste'> & {
-  row: string[];
-  index: number;
-  date: Date;
-  onCopyRow: (index: number) => void;
-  onCopyColumn: (index: number) => void;
-  onPaste: (
-    rowIndex: number,
-    colIndex: number,
-    clipboardValue: CopyPayload,
-  ) => void;
-  onEditCell: (rowIndex: number, colIndex: number, value: string) => void;
-};
+type Props = {
+  id: string;
+  value: TimeTableValue;
+  onChange: (value: TimeTableValue) => void;
+} & StackProps;
 
-const Row = ({
-  row,
-  index,
+const updateCell = ({
+  originalData,
   date,
-  onCopyRow,
-  onCopyColumn,
-  onPaste,
-  onEditCell,
-  ...props
-}: RowProps) => {
-  const dateLabel = <Text key="dateLabel">{formatDate(date, 'dd/MM/yy')}</Text>;
-  const copyButton = (
-    <Button
-      key="copyButton"
-      variant={ButtonVariants.UNSTYLED}
-      onClick={() => onCopyRow(index)}
-      customChildren
-      {...getInlineProps(props)}
-    >
-      <Icon name={Icons.COPY} />
-    </Button>
-  );
+  index,
+  value,
+}: {
+  originalData: TimeTableData;
+  date: string;
+  index: number;
+  value: string;
+}) => setWith(originalData, `[${date}][${index}]`, value, Object);
+
+const getDateRange = (
+  dateStartString: string,
+  dateEndString: string,
+): string[] => {
+  const dateStart = parseDate(dateStartString);
+  const daysInBetween = differenceInDays(parseDate(dateEndString), dateStart);
+
+  if (dateStartString === dateEndString) {
+    return [dateStartString];
+  }
 
   return [
-    dateLabel,
-    ...row.map((col, colIndex) => (
-      <Input
-        key={`${index}${colIndex}`}
-        id={colHeaders[colIndex]}
-        value={row[colIndex] ?? ''}
-        onChange={(event) => onEditCell(index, colIndex, event.target.value)}
-        onBlur={() => {
-          onEditCell(index, colIndex, formatTimeValue(row[colIndex]));
-        }}
-        onPaste={(event) => {
-          event.preventDefault();
-
-          const clipboardValue = JSON.parse(
-            (event.clipboardData || window.clipboardData).getData('text'),
-          );
-
-          onPaste(index, colIndex, clipboardValue);
-        }}
-      />
-    )),
-    copyButton,
+    dateStartString,
+    ...Array.from({ length: daysInBetween - 1 }, (_, i) =>
+      formatDate(addDays(dateStart, i + 1)),
+    ),
+    dateEndString,
   ];
 };
 
-type Props = StackProps & {
-  id: string;
-  onChange: (value: Time[][]) => void;
-  value: Time[][];
-  dateStart: Date;
-  onDateStartChange: (value: Date) => void;
-};
+const parseDate = (dateString: string) =>
+  parse(dateString, 'dd/MM/yyyy', new Date());
+const formatDate = (date: Date) => format(date, 'dd/MM/yyyy');
 
-const TimeTable = ({
-  id,
-  className,
-  onChange,
-  value,
-  dateStart,
-  onDateStartChange,
-  ...props
-}: Props) => {
-  const [dateEnd, setDateEnd] = useState(new Date());
+const cleanData = (data: Data): Data => ({ ...omitBy(data, isNil) });
 
-  const timeTable = value;
+const CellEditMode = {
+  BLUR: 'blur',
+  CHANGE: 'change',
+} as const;
 
+const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
   const { t } = useTranslation();
 
-  useEffect(() => {
-    const rowLength =
-      Math.ceil(Math.abs(differenceInHours(dateStart, dateEnd)) / 24) + 1;
+  const dateRange = useMemo(() => {
+    if (!value?.dateStart || !value?.dateEnd) return [];
+    return getDateRange(value.dateStart, value.dateEnd);
+  }, [value?.dateStart, value?.dateEnd]);
 
-    onChange(
-      new Array(rowLength).fill(new Array(colHeaders.length).fill(null)),
-    );
-  }, [dateStart, dateEnd]);
+  const cleanValue = (dateStart: string, dateEnd: string, toCleanValue) => {
+    const range = getDateRange(dateStart, dateEnd);
+    const data = pick(toCleanValue.data, range);
 
-  const onEditCell = (rowIndex: number, colIndex: number, value: Time) => {
-    onChange(
-      timeTable.map((innerRow, innerRowIndex) => {
-        if (rowIndex === innerRowIndex) {
-          return innerRow.map((time, timeIndex) => {
-            if (colIndex === timeIndex) {
-              return value;
-            }
-            return time;
-          });
-        }
-        return innerRow;
-      }),
-    );
-  };
-
-  const handleCopyColumn = (colIndex: number) => {
-    const copyAction: CopyPayload = {
-      method: 'col',
-      data: timeTable.reduce((acc, currentRow) => {
-        const value = currentRow[colIndex];
-        return [...acc, value];
-      }, []),
+    return {
+      ...toCleanValue,
+      // clean data that is not relevant for the range
+      data,
     };
-
-    copyToClipboard(JSON.stringify(copyAction));
   };
 
-  const handleCopyRow = (rowIndex: number) => {
+  useEffect(() => {
+    if (!value?.dateStart || !value?.dateEnd) {
+      const todayDateString = formatDate(new Date());
+      onChange({
+        data: value?.data ?? {},
+        dateStart: todayDateString,
+        dateEnd: todayDateString,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handlePaste = (payload: CopyPayload, index: number, date: string) => {
+    if (payload.method === 'row') {
+      onChange({
+        ...value,
+        data: {
+          ...value.data,
+          [date]: payload.data,
+        },
+      });
+    }
+    if (payload.method === 'all') {
+      onChange({
+        ...value,
+        data: Object.keys(payload.data).reduce<TimeTableData>((data, index) => {
+          return {
+            ...data,
+            [dateRange[index]]: payload.data[index],
+          };
+        }, {}),
+      });
+    }
+  };
+
+  const handleCopyRow = (date: string) => {
     const copyAction: CopyPayload = {
       method: 'row',
-      data: timeTable[rowIndex],
+      data: cleanData(value.data?.[date]),
     };
-
     copyToClipboard(JSON.stringify(copyAction));
   };
 
   const handleCopyAll = () => {
     const copyAction: CopyPayload = {
       method: 'all',
-      data: timeTable,
-    };
+      data: dateRange.reduce<{ [key: string]: Data }>((data, date, index) => {
+        const rowData = value?.data?.[date];
+        if (!rowData || !Object.keys(cleanData(rowData)).length) {
+          return data;
+        }
 
+        return {
+          ...data,
+          [index]: cleanData(rowData),
+        };
+      }, {}),
+    };
     copyToClipboard(JSON.stringify(copyAction));
   };
 
-  const handlePaste = (
-    rowIndex: number,
-    colIndex: number,
-    copyAction: CopyPayload,
+  const handleDateStartChange = (date: Date) => {
+    onChange(
+      cleanValue(value.dateStart, value.dateEnd, {
+        ...value,
+        dateStart: formatDate(date),
+      }),
+    );
+  };
+
+  const handleDateEndChange = (date: Date) => {
+    onChange(
+      cleanValue(value.dateStart, value.dateEnd, {
+        ...value,
+        dateEnd: formatDate(date),
+      }),
+    );
+  };
+
+  const handleEditCell = (
+    {
+      index,
+      date,
+      value: cellValue,
+    }: { index: number; date: string; value: string },
+    mode: Values<typeof CellEditMode>,
   ) => {
-    if (copyAction.method === 'row') {
-      onChange(
-        timeTable.map((innerRow, innerRowIndex) => {
-          if (rowIndex === innerRowIndex) {
-            return copyAction.data;
-          }
-          return innerRow;
+    if (mode === CellEditMode.BLUR) {
+      const previousRowData = value?.data[date] ?? [];
+      const newRowData = {
+        ...previousRowData,
+        [index]: cellValue,
+      };
+
+      const sortedRowData = [
+        ...new Set<string>(
+          Object.values(newRowData)
+            .map((formattedValue: string) => {
+              if (formattedValue === null) {
+                return formattedValue;
+              }
+              return formattedValue.split('').reduce((acc, char) => {
+                if (['h', 'm'].includes(char)) return acc;
+                return `${acc}${char}`;
+              });
+            })
+            .filter((v) => v !== null)
+            .sort((a, b) => Number(a) - Number(b)),
+        ),
+      ];
+
+      const indexedValues = sortedRowData.reduce<Data>((acc, value, index) => {
+        return {
+          ...acc,
+          [index]: formatTimeValue(value),
+        };
+      }, {});
+
+      onChange({
+        ...value,
+        data: {
+          ...value.data,
+          [date]: indexedValues,
+        },
+      });
+    } else {
+      onChange({
+        ...value,
+        data: updateCell({
+          originalData: value.data ?? {},
+          date,
+          value: cellValue,
+          index,
         }),
-      );
-    }
-    if (copyAction.method === 'col') {
-      onChange(
-        timeTable.map((innerRow, innerRowIndex) => {
-          return innerRow.map((time, timeIndex) => {
-            if (timeIndex === colIndex) {
-              return copyAction.data[innerRowIndex];
-            }
-            return time;
-          });
-        }),
-      );
-    }
-    if (copyAction.method === 'all') {
-      onChange(
-        timeTable.map((innerRow, innerRowIndex) => {
-          return innerRow.map((_, innerColIndex) => {
-            return copyAction.data?.[innerRowIndex]?.[innerColIndex] ?? null;
-          });
-        }),
-      );
+      });
     }
   };
+
+  if (!value?.dateStart || !value?.dateEnd) return null;
 
   return (
     <Stack
@@ -285,18 +404,18 @@ const TimeTable = ({
     >
       <DatePeriodPicker
         id={id}
-        dateStart={dateStart}
-        dateEnd={dateEnd}
-        onDateStartChange={onDateStartChange}
-        onDateEndChange={setDateEnd}
+        dateStart={parseDate(value.dateStart)}
+        dateEnd={parseDate(value.dateEnd)}
+        onDateStartChange={handleDateStartChange}
+        onDateEndChange={handleDateEndChange}
       />
       <Stack
         forwardedAs="div"
         css={`
           display: grid;
-          grid-template-rows: repeat(${(timeTable?.length ?? 0) + 1}, 1fr);
+          grid-template-rows: repeat(${(dateRange?.length ?? 0) + 1}, 1fr);
           grid-template-columns:
-            min-content repeat(${timeTable?.[0]?.length ?? 0}, 1fr)
+            min-content repeat(7, 1fr)
             min-content;
           column-gap: ${parseSpacing(3)};
           row-gap: ${parseSpacing(3)};
@@ -305,27 +424,20 @@ const TimeTable = ({
       >
         {[
           <Text key="pre" />,
-          ...colHeaders.map((header, headerIndex) => (
-            <Header
-              key={header}
-              header={header}
-              index={headerIndex}
-              onCopy={handleCopyColumn}
-            />
-          )),
+          ...Array.from({ length: amountOfColumns }, (_, index) => {
+            const header = `t${index + 1}`;
+            return <Header key={header} header={header} index={index} />;
+          }),
           <Text key="post" />,
         ]}
-        {timeTable.map((row, rowIndex) => (
-          // @ts-expect-error
+        {dateRange.map((date) => (
           <Row
-            key={rowIndex}
-            row={row}
-            index={rowIndex}
-            date={addDays(dateStart, rowIndex)}
-            onCopyRow={handleCopyRow}
-            onCopyColumn={handleCopyColumn}
-            onPaste={handlePaste}
-            onEditCell={onEditCell}
+            key={date}
+            date={date}
+            data={value?.data?.[date]}
+            onCopy={handleCopyRow}
+            onRowPaste={handlePaste}
+            onEditCell={handleEditCell}
           />
         ))}
       </Stack>
@@ -333,7 +445,7 @@ const TimeTable = ({
         spacing={3}
         flex="none"
         iconName={Icons.COPY}
-        onClick={() => handleCopyAll()}
+        onClick={handleCopyAll}
       >
         {t('movies.create.actions.copy_table')}
       </Button>
@@ -341,4 +453,5 @@ const TimeTable = ({
   );
 };
 
-export { TimeTable };
+export { formatTimeValue, TimeTable };
+export type { TimeTableData, TimeTableValue };

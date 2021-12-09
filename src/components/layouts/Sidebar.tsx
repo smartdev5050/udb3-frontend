@@ -298,6 +298,7 @@ const Sidebar = () => {
     if (isAnnouncementsModalVisible) {
       setActiveAnnouncementId(announcements[0].uid);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAnnouncementsModalVisible]);
 
   useEffect(() => {
@@ -310,6 +311,7 @@ const Sidebar = () => {
         ]);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeAnnouncementId]);
 
   useEffect(() => {
@@ -325,6 +327,7 @@ const Sidebar = () => {
         ),
     );
     storage.setItem('seenAnnouncements', cleanedUpSeenAnnouncements);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rawAnnouncements]);
 
   useEffect(() => {
@@ -355,6 +358,7 @@ const Sidebar = () => {
         }
         return { ...announcement, status: AnnouncementStatus.UNSEEN };
       }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [rawAnnouncements, activeAnnouncementId],
   );
 

@@ -154,6 +154,7 @@ const JobLogger = ({ visible, onClose, onStatusChange }: JobLoggerProps) => {
       return;
     }
     onStatusChange(JobLoggerStates.IDLE);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [failedJobs, finishedJobs, queuedJobs]);
 
   const jobLoggerMenus = [

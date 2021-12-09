@@ -1,4 +1,4 @@
-import { throttle } from 'lodash';
+import throttle from 'lodash/throttle';
 import { useMemo, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -15,7 +15,7 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
 
-import type { StepProps } from './create';
+import type { StepProps } from './MoviePage';
 import { Step } from './Step';
 
 type Step4Props = StackProps & StepProps;
@@ -46,7 +46,7 @@ const Step4 = ({ errors, control, getValues, reset, ...props }: Step4Props) => {
         control={control}
         name="production"
         render={({ field }) => {
-          const selectedProduction = field?.value?.[0];
+          const selectedProduction = field?.value;
 
           if (!selectedProduction) {
             return (
@@ -68,8 +68,8 @@ const Step4 = ({ errors, control, getValues, reset, ...props }: Step4Props) => {
                     onInputChange={throttle(setSearchInput, 275)}
                     labelKey="name"
                     maxWidth="43rem"
-                    selected={field.value}
-                    onChange={(value) => field.onChange(value)}
+                    selected={field.value ? [field.value] : []}
+                    onChange={(value) => field.onChange(value?.[0])}
                     minLength={3}
                   />
                 }
