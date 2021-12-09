@@ -236,7 +236,6 @@ const ChangeNameAction = ({
   onAdd,
   onCancel,
   className,
-  productionName,
   changedProductionName,
   onChangedProductionName,
   ...props
@@ -254,7 +253,7 @@ const ChangeNameAction = ({
     >
       <Input
         id="name"
-        placeholder={productionName}
+        placeholder={t('productions.create.production_name')}
         maxWidth="22rem"
         value={changedProductionName}
         onChange={(event) => onChangedProductionName(event.currentTarget.value)}
@@ -281,11 +280,11 @@ const ChangeNameAction = ({
 };
 
 ChangeNameAction.propTypes = {
-  productionName: PropTypes.string,
   onAdd: PropTypes.func,
   onCancel: PropTypes.func,
   changedProductionName: PropTypes.string,
   onChangedProductionName: PropTypes.func,
+  onCancelChangeProductionName: PropTypes.func,
 };
 
 const Events = ({
@@ -305,6 +304,7 @@ const Events = ({
   toBeAddedEventId,
   onToBeAddedEventIdInput,
   onChangedProductionName,
+  onCancelChangeProductionName,
   changedProductionName,
   ...props
 }) => {
@@ -335,7 +335,7 @@ const Events = ({
           <Stack as="div" spacing={3}>
             <ChangeNameAction
               onAdd={() => console.log('add')}
-              onCancel={() => console.log('cancel')}
+              onCancel={onCancelChangeProductionName}
               productionName={activeProductionName}
               changedProductionName={changedProductionName}
               onChangedProductionName={onChangedProductionName}
@@ -410,6 +410,7 @@ Events.propTypes = {
   onInputSearchTerm: PropTypes.func,
   onToBeAddedEventIdInput: PropTypes.func,
   onChangedProductionName: PropTypes.func,
+  onCancelChangeProductionName: PropTypes.func,
   toBeAddedEventId: PropTypes.string,
   isAddActionVisible: PropTypes.bool,
   isChangeNameActionVisible: PropTypes.bool,

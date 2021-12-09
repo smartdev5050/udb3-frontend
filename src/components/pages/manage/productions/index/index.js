@@ -214,6 +214,10 @@ const Index = () => {
                 onChangedProductionName={(newProductionName) => {
                   setChangedProductionName(newProductionName);
                 }}
+                onCancelChangeProductionName={() => {
+                  setChangedProductionName(activeProduction?.name ?? '');
+                  setIsChangeNameActionVisible(false);
+                }}
                 onToBeAddedEventIdInput={(newInput) => {
                   setToBeAddedEventId(newInput);
                   setErrorMessageEvents('');
