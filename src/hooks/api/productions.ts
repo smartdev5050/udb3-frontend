@@ -172,6 +172,30 @@ const mergeProductions = async ({
 const useMergeProductions = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: mergeProductions, ...configuration });
 
+const changeProductionName = async ({
+  productionId = '',
+  productionName = '',
+  headers,
+  silentError = false,
+}) =>
+  fetchFromApi({
+    path: `/productions/${productionId}/name`,
+    options: {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({
+        name: productionName,
+      }),
+    },
+    silentError,
+  });
+
+const useChangeProductionName = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: changeProductionName,
+    ...configuration,
+  });
+
 export {
   useAddEventById,
   useAddEventsByIds,
@@ -182,4 +206,5 @@ export {
   useGetSuggestedEvents,
   useMergeProductions,
   useSkipSuggestedEvents,
+  useChangeProductionName,
 };
