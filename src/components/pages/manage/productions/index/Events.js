@@ -237,6 +237,8 @@ const ChangeNameAction = ({
   onCancel,
   className,
   productionName,
+  changedProductionName,
+  onChangedProductionName,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -254,8 +256,8 @@ const ChangeNameAction = ({
         id="name"
         placeholder={productionName}
         maxWidth="22rem"
-        value={productionName}
-        onChange={(event) => console.log('change name')}
+        value={changedProductionName}
+        onChange={(event) => onChangedProductionName(event.currentTarget.value)}
       />
       <Button
         iconName={Icons.CHECK}
@@ -282,6 +284,8 @@ ChangeNameAction.propTypes = {
   productionName: PropTypes.string,
   onAdd: PropTypes.func,
   onCancel: PropTypes.func,
+  changedProductionName: PropTypes.string,
+  onChangedProductionName: PropTypes.func,
 };
 
 const Events = ({
@@ -300,6 +304,8 @@ const Events = ({
   isChangeNameActionVisible,
   toBeAddedEventId,
   onToBeAddedEventIdInput,
+  onChangedProductionName,
+  changedProductionName,
   ...props
 }) => {
   const { i18n, t } = useTranslation();
@@ -331,6 +337,8 @@ const Events = ({
               onAdd={() => console.log('add')}
               onCancel={() => console.log('cancel')}
               productionName={activeProductionName}
+              changedProductionName={changedProductionName}
+              onChangedProductionName={onChangedProductionName}
             />
             <Alert visible={!!errorMessage} variant={AlertVariants.DANGER}>
               {errorMessage}
@@ -401,6 +409,7 @@ Events.propTypes = {
   onAddEvent: PropTypes.func,
   onInputSearchTerm: PropTypes.func,
   onToBeAddedEventIdInput: PropTypes.func,
+  onChangedProductionName: PropTypes.func,
   toBeAddedEventId: PropTypes.string,
   isAddActionVisible: PropTypes.bool,
   isChangeNameActionVisible: PropTypes.bool,

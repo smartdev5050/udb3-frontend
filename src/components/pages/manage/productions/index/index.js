@@ -35,6 +35,7 @@ const Index = () => {
   const [activeProductionId, setActiveProductionId] = useState('');
   const [selectedEventIds, setSelectedEventIds] = useState('');
   const [toBeAddedEventId, setToBeAddedEventId] = useState('');
+  const [changedProductionName, setChangedProductionName] = useState('');
 
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [isAddActionVisible, setIsAddActionVisible] = useState(false);
@@ -209,6 +210,10 @@ const Index = () => {
                 isAddActionVisible={isAddActionVisible}
                 isChangeNameActionVisible={isChangeNameActionVisible}
                 toBeAddedEventId={toBeAddedEventId}
+                changedProductionName={changedProductionName}
+                onChangedProductionName={(newProductionName) => {
+                  setChangedProductionName(newProductionName);
+                }}
                 onToBeAddedEventIdInput={(newInput) => {
                   setToBeAddedEventId(newInput);
                   setErrorMessageEvents('');
