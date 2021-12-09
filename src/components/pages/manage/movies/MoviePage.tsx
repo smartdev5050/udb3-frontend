@@ -7,6 +7,7 @@ import {
   parse as parseDate,
   set as setTime,
 } from 'date-fns';
+import { groupBy, mapValues } from 'lodash';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
@@ -125,17 +126,17 @@ const convertSubEventsToTimeTable = (subEvents: SubEvent[] = []) => {
     'dd/MM/yyyy',
   );
 
-  const data = subEvents.reduce((acc, subEvent, index) => {
+  const data = subEvents.reduce((acc, subEvent) => {
     const date = new Date(subEvent.startDate);
-    const dateWithoutTime = format(date, 'dd/MM/yyyy');
 
-    const time = formatTimeValue(`${getHours(date)}${getMinutes(date)}`);
+    const formattedDate = format(date, 'dd/MM/yyyy');
+    const formattedTime = format(date, "HH'h'mm'm'");
 
-    acc[dateWithoutTime] = [...(acc[dateWithoutTime] ?? []), time].filter(
-      (v) => !!v,
-    );
+    const prevData = acc?.[formattedDate] ?? {};
+    const insertKey = Math.max(0, Object.keys(prevData).length);
 
-    return acc;
+    const values = { ...prevData, [insertKey]: formattedTime };
+    return { ...acc, [formattedDate]: values };
   }, {});
 
   return {
