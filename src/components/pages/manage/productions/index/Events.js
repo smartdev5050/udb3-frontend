@@ -233,7 +233,7 @@ AddAction.propTypes = {
 };
 
 const ChangeNameAction = ({
-  onAdd,
+  onConfirm,
   onCancel,
   className,
   changedProductionName,
@@ -261,7 +261,7 @@ const ChangeNameAction = ({
       <Button
         iconName={Icons.CHECK}
         spacing={3}
-        onClick={onAdd}
+        onClick={onConfirm}
         shouldHideText={shouldCollapse}
       >
         {t('productions.overview.confirm')}
@@ -280,7 +280,7 @@ const ChangeNameAction = ({
 };
 
 ChangeNameAction.propTypes = {
-  onAdd: PropTypes.func,
+  onConfirm: PropTypes.func,
   onCancel: PropTypes.func,
   changedProductionName: PropTypes.string,
   onChangedProductionName: PropTypes.func,
@@ -303,9 +303,10 @@ const Events = ({
   isChangeNameActionVisible,
   toBeAddedEventId,
   onToBeAddedEventIdInput,
+  changedProductionName,
   onChangedProductionName,
   onCancelChangeProductionName,
-  changedProductionName,
+  onConfirmChangeProductionName,
   ...props
 }) => {
   const { i18n, t } = useTranslation();
@@ -334,7 +335,7 @@ const Events = ({
         {isChangeNameActionVisible ? (
           <Stack as="div" spacing={3}>
             <ChangeNameAction
-              onAdd={() => console.log('add')}
+              onConfirm={onConfirmChangeProductionName}
               onCancel={onCancelChangeProductionName}
               productionName={activeProductionName}
               changedProductionName={changedProductionName}
@@ -411,6 +412,7 @@ Events.propTypes = {
   onToBeAddedEventIdInput: PropTypes.func,
   onChangedProductionName: PropTypes.func,
   onCancelChangeProductionName: PropTypes.func,
+  onConfirmChangeProductionName: PropTypes.func,
   toBeAddedEventId: PropTypes.string,
   isAddActionVisible: PropTypes.bool,
   isChangeNameActionVisible: PropTypes.bool,

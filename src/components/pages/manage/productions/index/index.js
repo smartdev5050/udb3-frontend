@@ -10,6 +10,7 @@ import {
   useAddEventById,
   useDeleteEventsByIds,
   useGetProductions,
+  useChangeProductionName,
 } from '@/hooks/api/productions';
 import { FormElement } from '@/ui/FormElement';
 import { Inline } from '@/ui/Inline';
@@ -35,7 +36,9 @@ const Index = () => {
   const [activeProductionId, setActiveProductionId] = useState('');
   const [selectedEventIds, setSelectedEventIds] = useState('');
   const [toBeAddedEventId, setToBeAddedEventId] = useState('');
-  const [changedProductionName, setChangedProductionName] = useState('');
+  const [toBeChangedProductionName, setToBeChangedProductionName] = useState(
+    '',
+  );
 
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [isAddActionVisible, setIsAddActionVisible] = useState(false);
@@ -132,6 +135,12 @@ const Index = () => {
     onError: handleErrorAddEvent,
   });
 
+  const changeProductionName = useChangeProductionName({
+    onSuccess: async () => {
+      console.log('success');
+    },
+  });
+
   const handleInputSearch = useCallback((event) => {
     const searchTerm = event.target.value.toString().trim();
     setCurrentPageProductions(1);
@@ -210,12 +219,19 @@ const Index = () => {
                 isAddActionVisible={isAddActionVisible}
                 isChangeNameActionVisible={isChangeNameActionVisible}
                 toBeAddedEventId={toBeAddedEventId}
-                changedProductionName={changedProductionName}
+                changedProductionName={toBeChangedProductionName}
                 onChangedProductionName={(newProductionName) => {
-                  setChangedProductionName(newProductionName);
+                  setToBeChangedProductionName(newProductionName);
+                }}
+                onConfirmChangeProductionName={() => {
+                  changeProductionName.mutate({
+                    productionId: activeProduction.id,
+                    productionName: toBeChangedProductionName,
+                  });
+                  setIsChangeNameActionVisible(false);
                 }}
                 onCancelChangeProductionName={() => {
-                  setChangedProductionName(activeProduction?.name ?? '');
+                  setToBeChangedProductionName(activeProduction?.name ?? '');
                   setIsChangeNameActionVisible(false);
                 }}
                 onToBeAddedEventIdInput={(newInput) => {
