@@ -1,13 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  format,
-  getHours,
-  getMinutes,
-  isMatch,
-  parse as parseDate,
-  set as setTime,
-} from 'date-fns';
-import { groupBy, mapValues } from 'lodash';
+import { format, isMatch, parse as parseDate, set as setTime } from 'date-fns';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
@@ -43,7 +35,6 @@ import { Inline } from '@/ui/Inline';
 import { Page } from '@/ui/Page';
 import { Spinner } from '@/ui/Spinner';
 import type { TimeTableValue } from '@/ui/TimeTable';
-import { formatTimeValue } from '@/ui/TimeTable';
 import { formatDateToISO } from '@/utils/formatDateToISO';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 import { parseOfferId } from '@/utils/parseOfferId';
