@@ -129,7 +129,17 @@ const Actions = ({
       </Title>
       <Inline as="div" spacing={3}>
         <Button
+          iconName={Icons.PENCIL}
+          spacing={3}
+          maxHeight={parseSpacing(5)()}
+          shouldHideText={shouldCollapse}
+          disabled={loading}
+        >
+          {t('productions.overview.change_name')}
+        </Button>
+        <Button
           iconName={Icons.PLUS}
+          variant={ButtonVariants.SUCCESS}
           spacing={3}
           maxHeight={parseSpacing(5)()}
           onClick={onClickAdd}
