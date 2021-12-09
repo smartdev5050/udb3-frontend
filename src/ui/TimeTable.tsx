@@ -342,20 +342,6 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
     mode: Values<typeof CellEditMode>,
   ) => {
     if (mode === CellEditMode.BLUR) {
-      if (cellValue === null) {
-        onChange({
-          ...value,
-          data: updateCell({
-            originalData: value.data ?? {},
-            date,
-            value: cellValue,
-            index,
-          }),
-        });
-
-        return;
-      }
-
       const previousRowData = value?.data[date] ?? [];
       const newRowData = {
         ...previousRowData,
@@ -366,11 +352,15 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
         ...new Set<string>(
           Object.values(newRowData)
             .map((formattedValue: string) => {
+              if (formattedValue === null) {
+                return formattedValue;
+              }
               return formattedValue.split('').reduce((acc, char) => {
                 if (['h', 'm'].includes(char)) return acc;
                 return `${acc}${char}`;
               });
             })
+            .filter((v) => v !== null)
             .sort((a, b) => Number(a) - Number(b)),
         ),
       ];
