@@ -399,10 +399,11 @@ const MoviePage = () => {
   const isStep5Visible = !!newEventId && Object.values(errors).length === 0;
 
   const footerStatus = useMemo(() => {
+    if (queryClient.isMutating()) return undefined;
     if (newEventId && !availableFromDate) return FooterStatus.PUBLISH;
     if (dirtyFields.cinema) return FooterStatus.SAVE;
     return undefined;
-  }, [newEventId, availableFromDate, dirtyFields.cinema]);
+  }, [newEventId, availableFromDate, dirtyFields.cinema, queryClient]);
 
   useEffect(() => {
     if (footerStatus) {
