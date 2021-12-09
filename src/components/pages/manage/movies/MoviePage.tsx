@@ -369,16 +369,19 @@ const MoviePage = () => {
     const event: Event = getEventByIdQuery.data;
     if (!event) return;
 
-    reset({
-      theme: event.terms.find((term) => term.domain === 'theme')?.id,
-      cinema: event.location,
-      timeTable: convertSubEventsToTimeTable(event.subEvent),
-      production: {
-        production_id: event.production.id,
-        name: event.production.title,
-        events: event.production.otherEvents,
+    reset(
+      {
+        theme: event.terms.find((term) => term.domain === 'theme')?.id,
+        cinema: event.location,
+        timeTable: convertSubEventsToTimeTable(event.subEvent),
+        production: {
+          production_id: event.production.id,
+          name: event.production.title,
+          events: event.production.otherEvents,
+        },
       },
-    });
+      { keepDirty: true },
+    );
     // @ts-expect-error
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getEventByIdQuery.data]);
