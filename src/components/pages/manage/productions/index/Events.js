@@ -114,6 +114,7 @@ const Actions = ({
   activeProductionName,
   onClickAdd,
   onClickDelete,
+  onClickChangeName,
   shouldDisableDeleteButton,
   loading,
 }) => {
@@ -132,6 +133,7 @@ const Actions = ({
           iconName={Icons.PENCIL}
           spacing={3}
           maxHeight={parseSpacing(5)()}
+          onClick={onClickChangeName}
           shouldHideText={shouldCollapse}
           disabled={loading}
         >
@@ -169,6 +171,7 @@ Actions.propTypes = {
   activeProductionName: PropTypes.string,
   onClickAdd: PropTypes.func,
   onClickDelete: PropTypes.func,
+  onClickChangeName: PropTypes.func,
   shouldDisableDeleteButton: PropTypes.bool,
 };
 
@@ -229,6 +232,58 @@ AddAction.propTypes = {
   toBeAddedEventId: PropTypes.string,
 };
 
+const ChangeNameAction = ({
+  onAdd,
+  onCancel,
+  className,
+  productionName,
+  ...props
+}) => {
+  const { t } = useTranslation();
+  const shouldCollapse = useMatchBreakpoint(Breakpoints.S);
+
+  return (
+    <Inline
+      as="div"
+      className={className}
+      spacing={3}
+      alignItems="center"
+      {...getInlineProps(props)}
+    >
+      <Input
+        id="name"
+        placeholder={productionName}
+        maxWidth="22rem"
+        value={productionName}
+        onChange={(event) => console.log('change name')}
+      />
+      <Button
+        iconName={Icons.CHECK}
+        spacing={3}
+        onClick={onAdd}
+        shouldHideText={shouldCollapse}
+      >
+        {t('productions.overview.confirm')}
+      </Button>
+      <Button
+        variant={ButtonVariants.SECONDARY}
+        iconName={Icons.TIMES}
+        spacing={3}
+        onClick={onCancel}
+        shouldHideText={shouldCollapse}
+      >
+        {t('productions.overview.cancel')}
+      </Button>
+    </Inline>
+  );
+};
+
+ChangeNameAction.propTypes = {
+  productionName: PropTypes.string,
+  onAdd: PropTypes.func,
+  onCancel: PropTypes.func,
+};
+
 const Events = ({
   events,
   activeProductionName,
@@ -240,7 +295,9 @@ const Events = ({
   className,
   onClickAdd,
   onClickDelete,
+  onClickChangeName,
   isAddActionVisible,
+  isChangeNameActionVisible,
   toBeAddedEventId,
   onToBeAddedEventIdInput,
   ...props
@@ -266,15 +323,31 @@ const Events = ({
               {errorMessage}
             </Alert>
           </Stack>
-        ) : (
+        ) : null}
+
+        {isChangeNameActionVisible ? (
+          <Stack as="div" spacing={3}>
+            <ChangeNameAction
+              onAdd={() => console.log('add')}
+              onCancel={() => console.log('cancel')}
+              productionName={activeProductionName}
+            />
+            <Alert visible={!!errorMessage} variant={AlertVariants.DANGER}>
+              {errorMessage}
+            </Alert>
+          </Stack>
+        ) : null}
+
+        {!isAddActionVisible && !isChangeNameActionVisible ? (
           <Actions
             loading={loading}
             activeProductionName={activeProductionName}
             onClickAdd={onClickAdd}
+            onClickChangeName={onClickChangeName}
             onClickDelete={onClickDelete}
             shouldDisableDeleteButton={shouldDisableDeleteButton}
           />
-        )}
+        ) : null}
       </Stack>
       {loading ? (
         <Spinner marginTop={4} />
@@ -324,11 +397,13 @@ Events.propTypes = {
   selectedIds: PropTypes.array,
   onClickDelete: PropTypes.func,
   onClickAdd: PropTypes.func,
+  onClickChangeName: PropTypes.func,
   onAddEvent: PropTypes.func,
   onInputSearchTerm: PropTypes.func,
   onToBeAddedEventIdInput: PropTypes.func,
   toBeAddedEventId: PropTypes.string,
   isAddActionVisible: PropTypes.bool,
+  isChangeNameActionVisible: PropTypes.bool,
   className: PropTypes.string,
 };
 
