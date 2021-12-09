@@ -351,7 +351,12 @@ const MoviePage = () => {
 
   useEffect(() => {
     if (!newEventId) return;
-    submitEditedField('timeTable');
+    const isValid = !Object.values(watchedTimeTable.data).some((data) =>
+      Object.values(data).some((time) => !isMatch(time, "HH'h'mm'm'")),
+    );
+    if (isValid) {
+      submitEditedField('timeTable');
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watchedTimeTable]);
 
