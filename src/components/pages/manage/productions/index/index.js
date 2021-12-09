@@ -38,6 +38,9 @@ const Index = () => {
 
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [isAddActionVisible, setIsAddActionVisible] = useState(false);
+  const [isChangeNameActionVisible, setIsChangeNameActionVisible] = useState(
+    false,
+  );
   const [currentPageProductions, setCurrentPageProductions] = useState(1);
   const [errorMessageEvents, setErrorMessageEvents] = useState('');
 
@@ -193,6 +196,9 @@ const Index = () => {
                 onClickAdd={() => {
                   setIsAddActionVisible(true);
                 }}
+                onClickChangeName={() => {
+                  setIsChangeNameActionVisible(true);
+                }}
                 onAddEvent={() => {
                   setErrorMessageEvents('');
                   addEventByIdMutation.mutate({
@@ -201,6 +207,7 @@ const Index = () => {
                   });
                 }}
                 isAddActionVisible={isAddActionVisible}
+                isChangeNameActionVisible={isChangeNameActionVisible}
                 toBeAddedEventId={toBeAddedEventId}
                 onToBeAddedEventIdInput={(newInput) => {
                   setToBeAddedEventId(newInput);
