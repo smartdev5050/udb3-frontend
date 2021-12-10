@@ -27,6 +27,11 @@ import { Productions } from './Productions';
 
 const productionsPerPage = 15;
 
+const productions_query_key = [
+  'productions',
+  { limit: 15, name: '', start: 0 },
+];
+
 const Index = () => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
@@ -136,8 +141,42 @@ const Index = () => {
   });
 
   const changeProductionName = useChangeProductionName({
-    onSuccess: async () => {
-      console.log('success');
+    onMutate: async () => {
+      const changedProduction = {
+        ...activeProduction,
+        name: toBeChangedProductionName,
+      };
+
+      await queryClient.cancelQueries(productions_query_key);
+
+      const previousProductions = queryClient.getQueryData(
+        productions_query_key,
+      );
+
+      queryClient.setQueryData(productions_query_key, (productions) => {
+        return {
+          ...productions,
+          member: productions.member.map((oldProductions) => {
+            if (oldProductions.production_id === activeProduction.id) {
+              return changedProduction;
+            }
+            return oldProductions;
+          }),
+        };
+      });
+
+      return { previousProductions };
+    },
+
+    onError: (err, previousProductions, context) => {
+      queryClient.setQueryData(
+        productions_query_key,
+        context.previousProductions,
+      );
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries(productions_query_key);
     },
   });
 
