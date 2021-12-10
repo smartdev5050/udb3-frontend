@@ -284,7 +284,6 @@ ChangeNameAction.propTypes = {
   onCancel: PropTypes.func,
   changedProductionName: PropTypes.string,
   onChangedProductionName: PropTypes.func,
-  onCancelChangeProductionName: PropTypes.func,
 };
 
 const Events = ({
