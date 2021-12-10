@@ -249,6 +249,11 @@ const MoviePage = () => {
       await fieldToMutationFunctionMap[editedField]?.();
 
       setFieldLoading(undefined);
+
+      if (editedField !== 'timeTable') {
+        queryClient.invalidateQueries(['events', { id: newEventId }]);
+      }
+
       return;
     }
 
