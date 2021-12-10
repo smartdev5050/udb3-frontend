@@ -8,9 +8,9 @@ import { QueryStatus } from '@/hooks/api/authenticated-query';
 import { useGetEventsByIds } from '@/hooks/api/events';
 import {
   useAddEventById,
+  useChangeProductionName,
   useDeleteEventsByIds,
   useGetProductions,
-  useChangeProductionName,
 } from '@/hooks/api/productions';
 import { FormElement } from '@/ui/FormElement';
 import { Inline } from '@/ui/Inline';
