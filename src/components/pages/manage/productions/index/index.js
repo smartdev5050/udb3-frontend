@@ -84,6 +84,10 @@ const Index = () => {
     [productions],
   );
 
+  useEffect(() => {
+    setToBeChangedProductionName(activeProduction?.name ?? '');
+  }, [activeProduction]);
+
   const totalItemsProductions = getProductionsQuery.data?.totalItems ?? 0;
 
   const getEventsByIdsQuery = useGetEventsByIds({
