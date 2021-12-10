@@ -143,6 +143,8 @@ const Index = () => {
 
   const changeProductionName = useChangeProductionName({
     onMutate: async () => {
+      setErrorMessageEvents('');
+      setIsChangeNameActionVisible(false);
       const changedProduction = {
         ...activeProduction,
         name: toBeChangedProductionName,
@@ -167,7 +169,9 @@ const Index = () => {
       return { previousProductions };
     },
 
-    onError: (_err, previousProductions, context) => {
+    onError: (err, previousProductions, context) => {
+      setIsChangeNameActionVisible(true);
+      handleErrorAddEvent(err);
       queryClient.setQueryData(
         productionsQueryKey,
         context.previousProductions,
@@ -266,11 +270,11 @@ const Index = () => {
                     productionId: activeProduction.id,
                     productionName: toBeChangedProductionName,
                   });
-                  setIsChangeNameActionVisible(false);
                 }}
                 onCancelChangeProductionName={() => {
                   setToBeChangedProductionName(activeProduction?.name ?? '');
                   setIsChangeNameActionVisible(false);
+                  setErrorMessageEvents('');
                 }}
                 onToBeAddedEventIdInput={(newInput) => {
                   setToBeAddedEventId(newInput);
