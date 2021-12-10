@@ -199,6 +199,7 @@ const useChangeProductionName = (configuration = {}) =>
 export {
   useAddEventById,
   useAddEventsByIds,
+  useChangeProductionName,
   useCreateWithEvents,
   useDeleteEventById,
   useDeleteEventsByIds,
@@ -206,5 +207,4 @@ export {
   useGetSuggestedEvents,
   useMergeProductions,
   useSkipSuggestedEvents,
-  useChangeProductionName,
 };
