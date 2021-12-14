@@ -67,6 +67,7 @@
     },
     "overview": {
       "cancel": "Annuleren",
+      "change_name": "Naam wijzigen",
       "confirm": "Bevestigen",
       "create": "Toevoegen",
       "delete_question_event": "Ben je zeker dat je het geselecteerde event wilt verwijderen uit productie '{{productionName}}'?",
