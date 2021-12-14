@@ -88,6 +88,7 @@ const SelectionTable = ({
 
   const selectedRowsText = useMemo(
     () => translateSelectedRowCount(selectedFlatRows.length),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [selectedFlatRows.length],
   );
 

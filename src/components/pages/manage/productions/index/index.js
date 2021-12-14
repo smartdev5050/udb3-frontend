@@ -58,6 +58,7 @@ const Index = () => {
     },
   });
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const rawProductions = getProductionsQuery.data?.member ?? [];
 
   useEffect(() => {
@@ -108,6 +109,7 @@ const Index = () => {
         };
       })
       .filter((event) => event);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getEventsByIdsQuery.data]);
 
   const handleSuccessDeleteEvents = async () => {

@@ -72,7 +72,6 @@ const addEvent = async ({
         theme,
         location,
         audienceType,
-        labels: ['udb-filminvoer'],
       }),
     },
   });
@@ -260,6 +259,95 @@ const useGetCalendarSummary = (
     ...configuration,
   });
 
+const changeTheme = async ({ headers, id, themeId }) => {
+  if (!themeId) {
+    // This will be implemented on the backend https://jira.uitdatabank.be/browse/III-4378
+    return fetchFromApi({
+      path: `/events/${id.toString()}/theme/`,
+      options: {
+        method: 'DELETE',
+        headers,
+      },
+    });
+  }
+
+  return fetchFromApi({
+    path: `/events/${id.toString()}/theme/${themeId}`,
+    options: {
+      method: 'PUT',
+      headers,
+    },
+  });
+};
+
+const useChangeTheme = (configuration = {}) =>
+  useAuthenticatedMutation({ mutationFn: changeTheme, ...configuration });
+
+const changeLocation = async ({ headers, id, locationId }) => {
+  return fetchFromApi({
+    path: `/events/${id.toString()}/location/${locationId}`,
+    options: {
+      method: 'PUT',
+      headers,
+    },
+  });
+};
+
+const useChangeLocation = (configuration = {}) =>
+  useAuthenticatedMutation({ mutationFn: changeLocation, ...configuration });
+
+const changeName = async ({ headers, id, lang, name }) => {
+  return fetchFromApi({
+    path: `/events/${id.toString()}/name/${lang}`,
+    options: {
+      method: 'PUT',
+      body: JSON.stringify({ name }),
+      headers,
+    },
+  });
+};
+
+const useChangeName = (configuration = {}) =>
+  useAuthenticatedMutation({ mutationFn: changeName, ...configuration });
+
+const changeCalendar = async ({
+  headers,
+  id,
+  calendarType,
+  timeSpans,
+  start,
+  end,
+  startDate,
+  endDate,
+  openingHours,
+  dayOfWeek,
+  opens,
+  closes,
+}) => {
+  return fetchFromApi({
+    path: `/events/${id.toString()}/calendar`,
+    options: {
+      method: 'PUT',
+      body: JSON.stringify({
+        calendarType,
+        timeSpans,
+        start,
+        end,
+        startDate,
+        endDate,
+        openingHours,
+        dayOfWeek,
+        opens,
+        closes,
+      }),
+      headers,
+    },
+  });
+};
+
+const useChangeCalendar = (configuration = {}) =>
+  useAuthenticatedMutation({ mutationFn: changeCalendar, ...configuration });
+
 const changeStatus = async ({ headers, id, type, reason }) =>
   fetchFromApi({
     path: `/events/${id.toString()}/status`,
@@ -270,7 +358,7 @@ const changeStatus = async ({ headers, id, type, reason }) =>
     },
   });
 
-const useChangeStatus = (configuration) =>
+const useChangeStatus = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: changeStatus, ...configuration });
 
 const changeStatusSubEvents = async ({
@@ -469,9 +557,13 @@ export {
   useAddEventMainImage,
   useAddImageToEvent,
   useAddLabel,
+  useChangeCalendar,
   useChangeDescription,
+  useChangeLocation,
+  useChangeName,
   useChangeStatus,
   useChangeStatusSubEvents,
+  useChangeTheme,
   useChangeTypicalAgeRange,
   useDeleteEventById,
   useDeleteImageFromEvent,

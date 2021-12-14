@@ -98,6 +98,7 @@ const Job = ({
       formatDistance(isDone ? finishedAt : createdAt, new Date(), {
         locale: dateFnsLocales[i18n.language],
       }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [createdAt, finishedAt],
   );
 

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
@@ -51,6 +51,15 @@ const Step5 = ({ eventId, ...props }: Step5Props) => {
   const getEventByIdQuery = useGetEventById({ id: eventId });
 
   const changeDescriptionMutation = useChangeDescription();
+
+  useEffect(() => {
+    // @ts-expect-error
+    if (!getEventByIdQuery.data?.description) return;
+    // @ts-expect-error
+    setDescription(getEventByIdQuery.data.description.nl);
+    // @ts-expect-error
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getEventByIdQuery.data?.description]);
 
   const images = useMemo(() => {
     // @ts-expect-error

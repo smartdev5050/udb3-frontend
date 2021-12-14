@@ -24,7 +24,7 @@ type TypeaheadProps<T> = {
   selected: T[];
 };
 
-type Props<T> = Omit<BoxProps, 'onChange' | 'id'> &
+type Props<T> = Omit<BoxProps, 'onChange' | 'id' | 'labelKey'> &
   TypeaheadProps<T> & { isInvalid?: boolean };
 
 type TypeaheadFunc = (<T>(

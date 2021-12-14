@@ -26,6 +26,7 @@ const useHandleWindowMessage = (eventsMap = {}) => {
     if (!isClient) return;
     window.addEventListener('message', internalHandler);
     return () => window.removeEventListener('message', internalHandler);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isClient]);
 };
 
