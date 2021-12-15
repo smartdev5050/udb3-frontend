@@ -17,7 +17,14 @@ const getValue = getValueFromTheme('moviesCreatePage');
 
 type Step1Props = StackProps & StepProps;
 
-const Step1 = ({ errors, control, reset, getValues, ...props }: Step1Props) => {
+const Step1 = ({
+  errors,
+  control,
+  reset,
+  getValues,
+  onChange,
+  ...props
+}: Step1Props) => {
   const { t } = useTranslation();
 
   return (
@@ -36,7 +43,10 @@ const Step1 = ({ errors, control, reset, getValues, ...props }: Step1Props) => {
                     display="inline-flex"
                     key={key}
                     variant={ButtonVariants.SECONDARY}
-                    onClick={() => field.onChange(value)}
+                    onClick={async () => {
+                      await field.onChange(value);
+                      onChange(value);
+                    }}
                   >
                     {t(`themes*${value}`, { keySeparator: '*' })}
                   </Button>

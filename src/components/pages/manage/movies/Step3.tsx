@@ -29,6 +29,7 @@ const Step3 = ({
   reset,
   control,
   loading,
+  onChange,
   ...props
 }: Step3Props) => {
   const { t, i18n } = useTranslation();
@@ -82,6 +83,7 @@ const Step3 = ({
                       maxWidth="43rem"
                       onChange={(places) => {
                         field.onChange(places?.[0]);
+                        onChange(places?.[0]);
                       }}
                       minLength={3}
                     />

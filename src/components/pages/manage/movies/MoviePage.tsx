@@ -57,6 +57,7 @@ type StepProps = Pick<
 > & {
   errors: Partial<Record<keyof FormData, any>>;
   loading: boolean;
+  onChange: (value: any) => void;
 };
 
 const FooterStatus = {
@@ -141,7 +142,6 @@ const MoviePage = () => {
     formState: { errors, dirtyFields },
     register,
     control,
-    watch,
     getValues,
     reset,
   } = useForm<FormData>({
@@ -189,11 +189,6 @@ const MoviePage = () => {
   const changeCalendarMutation = useChangeCalendar();
 
   const changeNameMutation = useChangeName();
-
-  const watchedTheme = watch('theme');
-  const watchedTimeTable = watch('timeTable');
-  const watchedCinema = watch('cinema');
-  const watchedProduction = watch('production');
 
   const availableFromDate = useMemo(() => {
     // @ts-expect-error
@@ -339,35 +334,6 @@ const MoviePage = () => {
   };
 
   useEffect(() => {
-    if (!newEventId) return;
-    submitEditedField('theme');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watchedTheme]);
-
-  useEffect(() => {
-    if (!newEventId) return;
-    const isValid = !Object.values(watchedTimeTable?.data ?? {}).some((data) =>
-      Object.values(data).some((time) => !isMatch(time, "HH'h'mm'm'")),
-    );
-    if (isValid) {
-      submitEditedField('timeTable');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watchedTimeTable]);
-
-  useEffect(() => {
-    if (!newEventId) return;
-    submitEditedField('cinema');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watchedCinema]);
-
-  useEffect(() => {
-    if (!newEventId) return;
-    submitEditedField('production');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watchedProduction]);
-
-  useEffect(() => {
     // @ts-expect-error
     const event: Event = getEventByIdQuery.data;
     if (!event) return;
@@ -392,6 +358,7 @@ const MoviePage = () => {
   const stepProps = (field?: keyof FormData) => ({
     errors,
     control,
+    onChange: (value) => handleChange(field, value),
     getValues,
     register,
     reset,
