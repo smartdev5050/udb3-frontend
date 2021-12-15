@@ -5,7 +5,11 @@ import { Alert, AlertVariants } from '@/ui/Alert';
 import { Box } from '@/ui/Box';
 import type { StackProps } from '@/ui/Stack';
 import { getStackProps } from '@/ui/Stack';
-import { TimeTable } from '@/ui/TimeTable';
+import {
+  areAllTimeSlotsValid,
+  isTimeTableEmpty,
+  TimeTable,
+} from '@/ui/TimeTable';
 
 import type { StepProps } from './MoviePage';
 import { Step } from './Step';
@@ -35,7 +39,10 @@ const Step2 = ({
                 value={field.value}
                 onChange={(value) => {
                   field.onChange(value);
-                  onChange(value);
+
+                  if (isTimeTableEmpty(value) || areAllTimeSlotsValid(value)) {
+                    onChange(value);
+                  }
                 }}
               />
             );

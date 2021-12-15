@@ -37,6 +37,7 @@ import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Page } from '@/ui/Page';
 import type { TimeTableValue } from '@/ui/TimeTable';
+import { areAllTimeSlotsValid, isOneTimeSlotValid } from '@/ui/TimeTable';
 import { formatDateToISO } from '@/utils/formatDateToISO';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 import { parseOfferId } from '@/utils/parseOfferId';
@@ -72,7 +73,13 @@ const FooterStatus = {
 const schema = yup
   .object({
     theme: yup.string(),
-    timeTable: yup.mixed().required(),
+    timeTable: yup
+      .mixed()
+      .test({
+        name: 'has-timeslot',
+        test: (timeTableData) => areAllTimeSlotsValid(timeTableData),
+      })
+      .required(),
     cinema: yup.object().shape({}).required(),
     production: yup.object().shape({}).required(),
   })
@@ -148,6 +155,7 @@ const MoviePage = () => {
     control,
     getValues,
     reset,
+    watch,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
@@ -402,8 +410,12 @@ const MoviePage = () => {
     loading: !!(field && fieldLoading === field),
   });
 
-  const isStep3Visible = newEventId || dirtyFields.timeTable;
-  const isStep4Visible = newEventId || dirtyFields.cinema;
+  const watchedTimeTable = watch('timeTable');
+
+  const isStep3Visible =
+    !!newEventId ||
+    (dirtyFields.timeTable && isOneTimeSlotValid(watchedTimeTable));
+  const isStep4Visible = !!newEventId || (dirtyFields.cinema && isStep3Visible);
   const isStep5Visible = !!newEventId && Object.values(errors).length === 0;
 
   const footerStatus = useMemo(() => {
