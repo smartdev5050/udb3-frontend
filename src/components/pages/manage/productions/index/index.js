@@ -8,6 +8,7 @@ import { QueryStatus } from '@/hooks/api/authenticated-query';
 import { useGetEventsByIds } from '@/hooks/api/events';
 import {
   useAddEventById,
+  useChangeProductionName,
   useDeleteEventsByIds,
   useGetProductions,
 } from '@/hooks/api/productions';
@@ -26,6 +27,8 @@ import { Productions } from './Productions';
 
 const productionsPerPage = 15;
 
+const productionsQueryKey = ['productions', { limit: 15, name: '', start: 0 }];
+
 const Index = () => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
@@ -35,9 +38,15 @@ const Index = () => {
   const [activeProductionId, setActiveProductionId] = useState('');
   const [selectedEventIds, setSelectedEventIds] = useState('');
   const [toBeAddedEventId, setToBeAddedEventId] = useState('');
+  const [toBeChangedProductionName, setToBeChangedProductionName] = useState(
+    '',
+  );
 
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [isAddActionVisible, setIsAddActionVisible] = useState(false);
+  const [isChangeNameActionVisible, setIsChangeNameActionVisible] = useState(
+    false,
+  );
   const [currentPageProductions, setCurrentPageProductions] = useState(1);
   const [errorMessageEvents, setErrorMessageEvents] = useState('');
 
@@ -55,7 +64,9 @@ const Index = () => {
   useEffect(() => {
     if (rawProductions.length === 0) {
       setActiveProductionId('');
-    } else {
+    }
+
+    if (!activeProductionId) {
       setActiveProductionId(rawProductions[0].production_id);
     }
   }, [rawProductions]);
@@ -72,6 +83,10 @@ const Index = () => {
     () => productions.find((production) => production.active),
     [productions],
   );
+
+  useEffect(() => {
+    setToBeChangedProductionName(activeProduction?.name ?? '');
+  }, [activeProduction]);
 
   const totalItemsProductions = getProductionsQuery.data?.totalItems ?? 0;
 
@@ -128,6 +143,48 @@ const Index = () => {
   const addEventByIdMutation = useAddEventById({
     onSuccess: handleSuccessAddEvent,
     onError: handleErrorAddEvent,
+  });
+
+  const changeProductionName = useChangeProductionName({
+    onMutate: async () => {
+      setErrorMessageEvents('');
+      setIsChangeNameActionVisible(false);
+      const changedProduction = {
+        ...activeProduction,
+        name: toBeChangedProductionName,
+      };
+
+      await queryClient.cancelQueries(productionsQueryKey);
+
+      const previousProductions = queryClient.getQueryData(productionsQueryKey);
+
+      queryClient.setQueryData(productionsQueryKey, (productions) => {
+        return {
+          ...productions,
+          member: productions.member.map((oldProduction) => {
+            if (oldProduction.production_id === activeProduction.id) {
+              return changedProduction;
+            }
+            return oldProduction;
+          }),
+        };
+      });
+
+      return { previousProductions };
+    },
+
+    onError: (err, previousProductions, context) => {
+      setIsChangeNameActionVisible(true);
+      handleErrorAddEvent(err);
+      queryClient.setQueryData(
+        productionsQueryKey,
+        context.previousProductions,
+      );
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries(productionsQueryKey);
+    },
   });
 
   const handleInputSearch = useCallback((event) => {
@@ -195,6 +252,9 @@ const Index = () => {
                 onClickAdd={() => {
                   setIsAddActionVisible(true);
                 }}
+                onClickChangeName={() => {
+                  setIsChangeNameActionVisible(true);
+                }}
                 onAddEvent={() => {
                   setErrorMessageEvents('');
                   addEventByIdMutation.mutate({
@@ -203,7 +263,23 @@ const Index = () => {
                   });
                 }}
                 isAddActionVisible={isAddActionVisible}
+                isChangeNameActionVisible={isChangeNameActionVisible}
                 toBeAddedEventId={toBeAddedEventId}
+                changedProductionName={toBeChangedProductionName}
+                onChangedProductionName={(newProductionName) => {
+                  setToBeChangedProductionName(newProductionName);
+                }}
+                onConfirmChangeProductionName={() => {
+                  changeProductionName.mutate({
+                    productionId: activeProduction.id,
+                    productionName: toBeChangedProductionName,
+                  });
+                }}
+                onCancelChangeProductionName={() => {
+                  setToBeChangedProductionName(activeProduction?.name ?? '');
+                  setIsChangeNameActionVisible(false);
+                  setErrorMessageEvents('');
+                }}
                 onToBeAddedEventIdInput={(newInput) => {
                   setToBeAddedEventId(newInput);
                   setErrorMessageEvents('');

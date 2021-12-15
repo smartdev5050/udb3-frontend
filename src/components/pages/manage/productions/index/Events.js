@@ -115,6 +115,7 @@ const Actions = ({
   activeProductionName,
   onClickAdd,
   onClickDelete,
+  onClickChangeName,
   shouldDisableDeleteButton,
   loading,
 }) => {
@@ -130,7 +131,18 @@ const Actions = ({
       </Title>
       <Inline as="div" spacing={3}>
         <Button
+          iconName={Icons.PENCIL}
+          spacing={3}
+          maxHeight={parseSpacing(5)()}
+          onClick={onClickChangeName}
+          shouldHideText={shouldCollapse}
+          disabled={loading}
+        >
+          {t('productions.overview.change_name')}
+        </Button>
+        <Button
           iconName={Icons.PLUS}
+          variant={ButtonVariants.SUCCESS}
           spacing={3}
           maxHeight={parseSpacing(5)()}
           onClick={onClickAdd}
@@ -160,6 +172,7 @@ Actions.propTypes = {
   activeProductionName: PropTypes.string,
   onClickAdd: PropTypes.func,
   onClickDelete: PropTypes.func,
+  onClickChangeName: PropTypes.func,
   shouldDisableDeleteButton: PropTypes.bool,
 };
 
@@ -220,6 +233,60 @@ AddAction.propTypes = {
   toBeAddedEventId: PropTypes.string,
 };
 
+const ChangeNameAction = ({
+  onConfirm,
+  onCancel,
+  className,
+  changedProductionName,
+  onChangedProductionName,
+  ...props
+}) => {
+  const { t } = useTranslation();
+  const shouldCollapse = useMatchBreakpoint(Breakpoints.S);
+
+  return (
+    <Inline
+      as="div"
+      className={className}
+      spacing={3}
+      alignItems="center"
+      {...getInlineProps(props)}
+    >
+      <Input
+        id="name"
+        placeholder={t('productions.create.production_name')}
+        maxWidth="22rem"
+        value={changedProductionName}
+        onChange={(event) => onChangedProductionName(event.currentTarget.value)}
+      />
+      <Button
+        iconName={Icons.CHECK}
+        spacing={3}
+        onClick={onConfirm}
+        shouldHideText={shouldCollapse}
+      >
+        {t('productions.overview.confirm')}
+      </Button>
+      <Button
+        variant={ButtonVariants.SECONDARY}
+        iconName={Icons.TIMES}
+        spacing={3}
+        onClick={onCancel}
+        shouldHideText={shouldCollapse}
+      >
+        {t('productions.overview.cancel')}
+      </Button>
+    </Inline>
+  );
+};
+
+ChangeNameAction.propTypes = {
+  onConfirm: PropTypes.func,
+  onCancel: PropTypes.func,
+  changedProductionName: PropTypes.string,
+  onChangedProductionName: PropTypes.func,
+};
+
 const Events = ({
   events,
   activeProductionName,
@@ -231,9 +298,15 @@ const Events = ({
   className,
   onClickAdd,
   onClickDelete,
+  onClickChangeName,
   isAddActionVisible,
+  isChangeNameActionVisible,
   toBeAddedEventId,
   onToBeAddedEventIdInput,
+  changedProductionName,
+  onChangedProductionName,
+  onCancelChangeProductionName,
+  onConfirmChangeProductionName,
   ...props
 }) => {
   const { i18n, t } = useTranslation();
@@ -257,15 +330,33 @@ const Events = ({
               {errorMessage}
             </Alert>
           </Stack>
-        ) : (
+        ) : null}
+
+        {isChangeNameActionVisible ? (
+          <Stack as="div" spacing={3}>
+            <ChangeNameAction
+              onConfirm={onConfirmChangeProductionName}
+              onCancel={onCancelChangeProductionName}
+              productionName={activeProductionName}
+              changedProductionName={changedProductionName}
+              onChangedProductionName={onChangedProductionName}
+            />
+            <Alert visible={!!errorMessage} variant={AlertVariants.DANGER}>
+              {errorMessage}
+            </Alert>
+          </Stack>
+        ) : null}
+
+        {!isAddActionVisible && !isChangeNameActionVisible ? (
           <Actions
             loading={loading}
             activeProductionName={activeProductionName}
             onClickAdd={onClickAdd}
+            onClickChangeName={onClickChangeName}
             onClickDelete={onClickDelete}
             shouldDisableDeleteButton={shouldDisableDeleteButton}
           />
-        )}
+        ) : null}
       </Stack>
       {loading ? (
         <Spinner marginTop={4} />
@@ -315,11 +406,16 @@ Events.propTypes = {
   selectedIds: PropTypes.array,
   onClickDelete: PropTypes.func,
   onClickAdd: PropTypes.func,
+  onClickChangeName: PropTypes.func,
   onAddEvent: PropTypes.func,
   onInputSearchTerm: PropTypes.func,
   onToBeAddedEventIdInput: PropTypes.func,
+  onChangedProductionName: PropTypes.func,
+  onCancelChangeProductionName: PropTypes.func,
+  onConfirmChangeProductionName: PropTypes.func,
   toBeAddedEventId: PropTypes.string,
   isAddActionVisible: PropTypes.bool,
+  isChangeNameActionVisible: PropTypes.bool,
   className: PropTypes.string,
 };
 
