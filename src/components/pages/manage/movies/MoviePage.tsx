@@ -239,6 +239,31 @@ const MoviePage = () => {
         production: async () => {
           if (!production) return;
 
+          // unlink event from current production
+          // @ts-expect-error
+          if (getEventByIdQuery.data?.production?.id) {
+            await deleteEventFromProductionByIdMutation.mutateAsync({
+              // @ts-expect-error
+              productionId: getEventByIdQuery.data.production.id,
+              eventId: newEventId,
+            });
+          }
+
+          if (production.customOption) {
+            // make new production with name and event id
+            await createProductionWithEventsMutation.mutateAsync({
+              productionName: production.name,
+              eventIds: [newEventId],
+            });
+          } else {
+            // link event to production
+            await addEventToProductionByIdMutation.mutateAsync({
+              productionId: production.production_id,
+              eventId: newEventId,
+            });
+          }
+
+          // change name of event
           await changeNameMutation.mutateAsync({
             id: newEventId,
             lang: 'nl',
@@ -289,6 +314,7 @@ const MoviePage = () => {
       workflowStatus: WorkflowStatusMap.DRAFT,
       audienceType: 'everyone',
     };
+
     const { eventId } = await addEventMutation.mutateAsync(payload);
 
     if (!eventId) return;
@@ -332,6 +358,11 @@ const MoviePage = () => {
       eventId: newEventId,
       publicationDate: formatDateToISO(publishLaterDate),
     });
+  };
+
+  const handleChange = (editedField: keyof FormData, value) => {
+    if (!newEventId) return;
+    submitEditedField(editedField);
   };
 
   const submitEditedField = (editedField: keyof FormData) => {
