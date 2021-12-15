@@ -22,6 +22,45 @@ import type { StackProps } from './Stack';
 import { getStackProps, Stack } from './Stack';
 import { Text } from './Text';
 
+type Time = string;
+type Data = { [index: string]: Time };
+type TimeTableData = { [date: string]: Data };
+
+type TimeTableValue = {
+  dateStart: string;
+  dateEnd: string;
+  data: TimeTableData;
+};
+
+const isTimeTableEmpty = (timeTableData: TimeTableData) => {
+  if (Object.keys(timeTableData.data).length === 0) {
+    return true;
+  }
+
+  if (
+    Object.values(timeTableData.data).every(
+      (times) => Object.keys(times).length === 0,
+    )
+  ) {
+    return true;
+  }
+
+  return false;
+};
+
+const areAllTimeSlotsValid = (timeTableData: TimeTableData) => {
+  return Object.values(timeTableData?.data ?? {}).every((times) => {
+    return Object.values(times).every((time) => {
+      return isMatch(time, "HH'h'mm'm'");
+    });
+  });
+};
+
+const isOneTimeSlotValid = (timeTableData: TimeTableData) =>
+  Object.values(timeTableData?.data ?? {}).some((times) => {
+    return Object.values(times).some((time) => isMatch(time, "HH'h'mm'm'"));
+  });
+
 const formatTimeValue = (value: string) => {
   if (!value) {
     return null;
@@ -63,18 +102,7 @@ const formatTimeValue = (value: string) => {
   return `${firstChars}h${lastChars}m`;
 };
 
-type Time = string;
-
 const amountOfColumns = 7;
-
-type Data = { [index: string]: Time };
-type TimeTableData = { [date: string]: Data };
-
-type TimeTableValue = {
-  dateStart: string;
-  dateEnd: string;
-  data: TimeTableData;
-};
 
 type CopyPayload =
   | {
@@ -453,5 +481,11 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
   );
 };
 
-export { formatTimeValue, TimeTable };
+export {
+  areAllTimeSlotsValid,
+  formatTimeValue,
+  isOneTimeSlotValid,
+  isTimeTableEmpty,
+  TimeTable,
+};
 export type { TimeTableData, TimeTableValue };
