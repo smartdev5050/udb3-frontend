@@ -43,8 +43,8 @@ const Step1 = ({
                     display="inline-flex"
                     key={key}
                     variant={ButtonVariants.SECONDARY}
-                    onClick={async () => {
-                      await field.onChange(value);
+                    onClick={() => {
+                      field.onChange(value);
                       onChange(value);
                     }}
                   >
