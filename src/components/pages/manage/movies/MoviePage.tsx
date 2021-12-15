@@ -212,7 +212,7 @@ const MoviePage = () => {
     // @ts-expect-error
   }, [getEventByIdQuery.data]);
 
-  const editExistingEvent = (
+  const editExistingEvent = async (
     { production, cinema, theme: themeId, timeTable }: FormData,
     editedField?: keyof FormData,
   ) => {
@@ -288,7 +288,7 @@ const MoviePage = () => {
     }
   };
 
-  const createNewEvent = ({
+  const createNewEvent = async ({
     production,
     cinema,
     theme: themeId,
@@ -360,9 +360,9 @@ const MoviePage = () => {
     editedField?: keyof FormData,
   ) => {
     if (newEventId) {
-      editExistingEvent(formData, editedField);
+      await editExistingEvent(formData, editedField);
     } else {
-      createNewEvent(formData);
+      await createNewEvent(formData);
     }
   };
 
