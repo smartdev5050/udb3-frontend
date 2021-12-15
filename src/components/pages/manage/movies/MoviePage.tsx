@@ -23,7 +23,11 @@ import {
   useGetEventById,
   usePublish,
 } from '@/hooks/api/events';
-import { useAddEventById, useCreateWithEvents } from '@/hooks/api/productions';
+import {
+  useAddEventById as useAddEventToProductionById,
+  useCreateWithEvents as useCreateProductionWithEvents,
+  useDeleteEventById as useDeleteEventFromProductionById,
+} from '@/hooks/api/productions';
 import type { Event } from '@/types/Event';
 import type { SubEvent } from '@/types/Offer';
 import type { Place } from '@/types/Place';
@@ -167,13 +171,15 @@ const MoviePage = () => {
 
   const getEventByIdQuery = useGetEventById({ id: newEventId });
 
-  const addEventByIdMutation = useAddEventById();
+  const addEventToProductionByIdMutation = useAddEventToProductionById();
 
   const changeTypicalAgeRangeMutation = useChangeTypicalAgeRange();
 
   const addLabelMutation = useAddLabel();
 
-  const createWithEventsMutation = useCreateWithEvents();
+  const createProductionWithEventsMutation = useCreateProductionWithEvents();
+
+  const deleteEventFromProductionByIdMutation = useDeleteEventFromProductionById();
 
   const publishMutation = usePublish({
     onSuccess: async () => {
@@ -298,12 +304,12 @@ const MoviePage = () => {
     });
 
     if (production.customOption) {
-      await createWithEventsMutation.mutateAsync({
+      await createProductionWithEventsMutation.mutateAsync({
         productionName: production.name,
         eventIds: [eventId],
       });
     } else {
-      await addEventByIdMutation.mutateAsync({
+      await addEventToProductionByIdMutation.mutateAsync({
         productionId: production.production_id,
         eventId,
       });
