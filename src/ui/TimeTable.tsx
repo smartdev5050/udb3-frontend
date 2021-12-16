@@ -1,9 +1,11 @@
 import copyToClipboard from 'clipboard-copy';
 import { addDays, differenceInDays, format, isMatch, parse } from 'date-fns';
+import { cloneDeep } from 'lodash';
 import isNil from 'lodash/isNil';
 import omitBy from 'lodash/omitBy';
 import pick from 'lodash/pick';
 import setWith from 'lodash/setWith';
+import unset from 'lodash/unset';
 import type { ClipboardEvent, FormEvent } from 'react';
 import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -163,9 +165,13 @@ const Row = ({
           id={`${date}-${index}`}
           key={`${date}-${index}`}
           value={data?.[index] ?? ''}
-          onChange={(event) =>
-            onEditCell({ index, date, value: event.target.value }, 'change')
-          }
+          onChange={(event) => {
+            const value = event.target.value;
+            onEditCell(
+              { index, date, value: value !== '' ? value : null },
+              'change',
+            );
+          }}
           onBlur={(event: FormEvent<HTMLInputElement>) => {
             onEditCell(
               {
@@ -230,7 +236,15 @@ const updateCell = ({
   date: string;
   index: number;
   value: string;
-}) => setWith(originalData, `[${date}][${index}]`, value, Object);
+}) => {
+  if (value === null) {
+    // some weird in place editing mutation going on here, needed to clone the object before unsetting
+    const clondedOriginalData = cloneDeep(originalData);
+    unset(clondedOriginalData, `[${date}][${index}]`);
+    return clondedOriginalData;
+  }
+  return setWith(originalData, `[${date}][${index}]`, value, Object);
+};
 
 const getDateRange = (
   dateStartString: string,
