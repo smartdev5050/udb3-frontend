@@ -99,7 +99,9 @@ const Layout = ({ children }) => {
           `${window.location.protocol}//${window.location.host}${path}`,
         );
       } else {
-        router.push({ pathname: url.pathname, query });
+        if (url.pathname !== '/search') {
+          router.push({ pathname: url.pathname, query });
+        }
       }
     },
     [WindowMessageTypes.HTTP_ERROR_CODE]: ({ code }) => {
