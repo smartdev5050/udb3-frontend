@@ -164,6 +164,8 @@ const MoviePage = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
+  const isOnEditPage = router.query.eventId;
+
   const [newEventId, setNewEventId] = useState(
     (router.query.eventId as string) ?? '',
   );
@@ -441,9 +443,13 @@ const MoviePage = () => {
       <Page.Content spacing={5} paddingBottom={6} alignItems="flex-start">
         <Step1 {...stepProps('theme')} />
         <Step2 {...stepProps('timeTable')} />
-        {isStep3Visible ? <Step3 {...stepProps('cinema')} /> : null}
-        {isStep4Visible ? <Step4 {...stepProps('production')} /> : null}
-        {isStep5Visible ? (
+        {isOnEditPage || isStep3Visible ? (
+          <Step3 {...stepProps('cinema')} />
+        ) : null}
+        {isOnEditPage || isStep4Visible ? (
+          <Step4 {...stepProps('production')} />
+        ) : null}
+        {isOnEditPage || isStep5Visible ? (
           <Step5 {...{ ...stepProps(), eventId: newEventId }} />
         ) : null}
       </Page.Content>
