@@ -214,85 +214,88 @@ const MoviePage = () => {
     // @ts-expect-error
   }, [getEventByIdQuery.data]);
 
-  const handleFormValid = async (
+  const editExistingEvent = async (
     { production, cinema, theme: themeId, timeTable }: FormData,
     editedField?: keyof FormData,
   ) => {
-    if (newEventId) {
-      if (!editedField) return;
+    if (!editedField) return;
 
-      type FieldToMutationMap = Partial<
-        Record<keyof FormData, () => Promise<void>>
-      >;
-      const fieldToMutationFunctionMap: FieldToMutationMap = {
-        theme: async () => {
-          await changeThemeMutation.mutateAsync({
-            id: newEventId,
-            themeId,
+    type FieldToMutationMap = Partial<
+      Record<keyof FormData, () => Promise<void>>
+    >;
+    const fieldToMutationFunctionMap: FieldToMutationMap = {
+      theme: async () => {
+        await changeThemeMutation.mutateAsync({
+          id: newEventId,
+          themeId,
+        });
+      },
+      timeTable: async () => {
+        await changeCalendarMutation.mutateAsync({
+          id: newEventId,
+          calendarType: CalendarType.MULTIPLE,
+          timeSpans: convertTimeTableToSubEvents(timeTable),
+        });
+      },
+      cinema: async () => {
+        if (!cinema) return;
+
+        await changeLocationMutation.mutateAsync({
+          id: newEventId,
+          locationId: parseOfferId(cinema['@id']),
+        });
+      },
+      production: async () => {
+        if (!production) return;
+
+        // unlink event from current production
+        // @ts-expect-error
+        if (getEventByIdQuery.data?.production?.id) {
+          await deleteEventFromProductionByIdMutation.mutateAsync({
+            // @ts-expect-error
+            productionId: getEventByIdQuery.data.production.id,
+            eventId: newEventId,
           });
-        },
-        timeTable: async () => {
-          await changeCalendarMutation.mutateAsync({
-            id: newEventId,
-            calendarType: CalendarType.MULTIPLE,
-            timeSpans: convertTimeTableToSubEvents(timeTable),
+        }
+
+        if (production.customOption) {
+          // make new production with name and event id
+          await createProductionWithEventsMutation.mutateAsync({
+            productionName: production.name,
+            eventIds: [newEventId],
           });
-        },
-        cinema: async () => {
-          if (!cinema) return;
-
-          await changeLocationMutation.mutateAsync({
-            id: newEventId,
-            locationId: parseOfferId(cinema['@id']),
+        } else {
+          // link event to production
+          await addEventToProductionByIdMutation.mutateAsync({
+            productionId: production.production_id,
+            eventId: newEventId,
           });
-        },
-        production: async () => {
-          if (!production) return;
+        }
 
-          // unlink event from current production
-          // @ts-expect-error
-          if (getEventByIdQuery.data?.production?.id) {
-            await deleteEventFromProductionByIdMutation.mutateAsync({
-              // @ts-expect-error
-              productionId: getEventByIdQuery.data.production.id,
-              eventId: newEventId,
-            });
-          }
+        // change name of event
+        await changeNameMutation.mutateAsync({
+          id: newEventId,
+          lang: 'nl',
+          name: production.name,
+        });
+      },
+    };
 
-          if (production.customOption) {
-            // make new production with name and event id
-            await createProductionWithEventsMutation.mutateAsync({
-              productionName: production.name,
-              eventIds: [newEventId],
-            });
-          } else {
-            // link event to production
-            await addEventToProductionByIdMutation.mutateAsync({
-              productionId: production.production_id,
-              eventId: newEventId,
-            });
-          }
+    await fieldToMutationFunctionMap[editedField]?.();
 
-          // change name of event
-          await changeNameMutation.mutateAsync({
-            id: newEventId,
-            lang: 'nl',
-            name: production.name,
-          });
-        },
-      };
+    setFieldLoading(undefined);
 
-      await fieldToMutationFunctionMap[editedField]?.();
-
-      setFieldLoading(undefined);
-
-      if (editedField !== 'timeTable') {
-        queryClient.invalidateQueries(['events', { id: newEventId }]);
-      }
-
-      return;
+    if (editedField !== 'timeTable') {
+      queryClient.invalidateQueries(['events', { id: newEventId }]);
     }
+  };
 
+  const createNewEvent = async ({
+    production,
+    cinema,
+    theme: themeId,
+    timeTable,
+  }: FormData) => {
     if (!production) return;
 
     const themeLabel = Object.entries(MovieThemes).find(
@@ -352,6 +355,17 @@ const MoviePage = () => {
     }
 
     setNewEventId(eventId);
+  };
+
+  const handleFormValid = async (
+    formData: FormData,
+    editedField?: keyof FormData,
+  ) => {
+    if (newEventId) {
+      await editExistingEvent(formData, editedField);
+    } else {
+      await createNewEvent(formData);
+    }
   };
 
   const handleClickPublish = async () => {
