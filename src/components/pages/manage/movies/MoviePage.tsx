@@ -76,7 +76,7 @@ const schema = yup
     timeTable: yup
       .mixed()
       .test({
-        name: 'has-timeslot',
+        name: 'all-timeslots-valid',
         test: (timeTableData) => areAllTimeSlotsValid(timeTableData),
       })
       .required(),
