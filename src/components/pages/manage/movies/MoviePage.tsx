@@ -421,6 +421,9 @@ const MoviePage = () => {
       },
       { keepDirty: true },
     );
+
+    trigger('timeTable');
+
     // @ts-expect-error
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getEventByIdQuery.data]);
