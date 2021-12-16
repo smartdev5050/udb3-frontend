@@ -5,14 +5,24 @@ import { Alert, AlertVariants } from '@/ui/Alert';
 import { Box } from '@/ui/Box';
 import type { StackProps } from '@/ui/Stack';
 import { getStackProps } from '@/ui/Stack';
-import { TimeTable } from '@/ui/TimeTable';
+import {
+  areAllTimeSlotsValid,
+  isTimeTableEmpty,
+  TimeTable,
+} from '@/ui/TimeTable';
 
 import type { StepProps } from './MoviePage';
 import { Step } from './Step';
 
 type Step2Props = StackProps & StepProps;
 
-const Step2 = ({ errors, control, className, ...props }: Step2Props) => {
+const Step2 = ({
+  errors,
+  control,
+  className,
+  onChange,
+  ...props
+}: Step2Props) => {
   const { t } = useTranslation();
 
   return (
@@ -27,7 +37,13 @@ const Step2 = ({ errors, control, className, ...props }: Step2Props) => {
                 id="timetable-movies"
                 className={className}
                 value={field.value}
-                onChange={(value) => field.onChange(value)}
+                onChange={(value) => {
+                  field.onChange(value);
+
+                  if (isTimeTableEmpty(value) || areAllTimeSlotsValid(value)) {
+                    onChange(value);
+                  }
+                }}
               />
             );
           }}

@@ -69,6 +69,7 @@ const Index = () => {
     if (!activeProductionId) {
       setActiveProductionId(rawProductions[0].production_id);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rawProductions]);
 
   const productions = useMemo(() => {

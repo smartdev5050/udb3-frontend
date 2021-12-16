@@ -22,7 +22,14 @@ type Step4Props = StackProps & StepProps;
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
-const Step4 = ({ errors, control, getValues, reset, ...props }: Step4Props) => {
+const Step4 = ({
+  errors,
+  control,
+  getValues,
+  reset,
+  onChange,
+  ...props
+}: Step4Props) => {
   const { t } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
 
@@ -69,7 +76,10 @@ const Step4 = ({ errors, control, getValues, reset, ...props }: Step4Props) => {
                     labelKey="name"
                     maxWidth="43rem"
                     selected={field.value ? [field.value] : []}
-                    onChange={(value) => field.onChange(value?.[0])}
+                    onChange={(value) => {
+                      field.onChange(value?.[0]);
+                      onChange(value?.[0]);
+                    }}
                     minLength={3}
                   />
                 }
