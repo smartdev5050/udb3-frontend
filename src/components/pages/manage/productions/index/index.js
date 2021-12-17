@@ -64,6 +64,7 @@ const Index = () => {
   useEffect(() => {
     if (rawProductions.length === 0) {
       setActiveProductionId('');
+      return;
     }
 
     if (!activeProductionId) {
