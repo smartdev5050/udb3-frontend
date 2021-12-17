@@ -3,7 +3,7 @@ import { dehydrate } from 'react-query/hydration';
 import { useGetEventById } from '@/hooks/api/events';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
-import { MoviePage } from './MoviePage';
+import { MoviePage } from '../MoviePage';
 
 export const getServerSideProps = getApplicationServerSideProps(
   async ({ req, query, cookies, queryClient }) => {

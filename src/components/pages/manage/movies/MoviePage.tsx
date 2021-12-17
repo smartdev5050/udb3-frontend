@@ -23,7 +23,11 @@ import {
   useGetEventById,
   usePublish,
 } from '@/hooks/api/events';
-import { useAddEventById, useCreateWithEvents } from '@/hooks/api/productions';
+import {
+  useAddEventById as useAddEventToProductionById,
+  useCreateWithEvents as useCreateProductionWithEvents,
+  useDeleteEventById as useDeleteEventFromProductionById,
+} from '@/hooks/api/productions';
 import type { Event } from '@/types/Event';
 import type { SubEvent } from '@/types/Offer';
 import type { Place } from '@/types/Place';
@@ -33,6 +37,11 @@ import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Page } from '@/ui/Page';
 import type { TimeTableValue } from '@/ui/TimeTable';
+import {
+  areAllTimeSlotsValid,
+  isOneTimeSlotValid,
+  isTimeTableEmpty,
+} from '@/ui/TimeTable';
 import { formatDateToISO } from '@/utils/formatDateToISO';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 import { parseOfferId } from '@/utils/parseOfferId';
@@ -57,6 +66,7 @@ type StepProps = Pick<
 > & {
   errors: Partial<Record<keyof FormData, any>>;
   loading: boolean;
+  onChange: (value: any) => void;
 };
 
 const FooterStatus = {
@@ -67,7 +77,17 @@ const FooterStatus = {
 const schema = yup
   .object({
     theme: yup.string(),
-    timeTable: yup.mixed().required(),
+    timeTable: yup
+      .mixed()
+      .test({
+        name: 'all-timeslots-valid',
+        test: (timeTableData) => areAllTimeSlotsValid(timeTableData),
+      })
+      .test({
+        name: 'has-timeslot',
+        test: (timeTableData) => !isTimeTableEmpty(timeTableData),
+      })
+      .required(),
     cinema: yup.object().shape({}).required(),
     production: yup.object().shape({}).required(),
   })
@@ -141,9 +161,10 @@ const MoviePage = () => {
     formState: { errors, dirtyFields },
     register,
     control,
-    watch,
     getValues,
     reset,
+    watch,
+    trigger,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
@@ -151,6 +172,8 @@ const MoviePage = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const queryClient = useQueryClient();
+
+  const isOnEditPage = router.query.eventId;
 
   const [newEventId, setNewEventId] = useState(
     (router.query.eventId as string) ?? '',
@@ -167,13 +190,15 @@ const MoviePage = () => {
 
   const getEventByIdQuery = useGetEventById({ id: newEventId });
 
-  const addEventByIdMutation = useAddEventById();
+  const addEventToProductionByIdMutation = useAddEventToProductionById();
 
   const changeTypicalAgeRangeMutation = useChangeTypicalAgeRange();
 
   const addLabelMutation = useAddLabel();
 
-  const createWithEventsMutation = useCreateWithEvents();
+  const createProductionWithEventsMutation = useCreateProductionWithEvents();
+
+  const deleteEventFromProductionByIdMutation = useDeleteEventFromProductionById();
 
   const publishMutation = usePublish({
     onSuccess: async () => {
@@ -190,11 +215,6 @@ const MoviePage = () => {
 
   const changeNameMutation = useChangeName();
 
-  const watchedTheme = watch('theme');
-  const watchedTimeTable = watch('timeTable');
-  const watchedCinema = watch('cinema');
-  const watchedProduction = watch('production');
-
   const availableFromDate = useMemo(() => {
     // @ts-expect-error
     if (!getEventByIdQuery.data?.availableFrom) return;
@@ -203,55 +223,88 @@ const MoviePage = () => {
     // @ts-expect-error
   }, [getEventByIdQuery.data]);
 
-  const handleFormValid = async (
+  const editExistingEvent = async (
     { production, cinema, theme: themeId, timeTable }: FormData,
     editedField?: keyof FormData,
   ) => {
-    if (newEventId) {
-      if (!editedField) return;
+    if (!editedField) return;
 
-      type FieldToMutationMap = Partial<
-        Record<keyof FormData, () => Promise<void>>
-      >;
-      const fieldToMutationFunctionMap: FieldToMutationMap = {
-        theme: async () => {
-          await changeThemeMutation.mutateAsync({
-            id: newEventId,
-            themeId,
+    type FieldToMutationMap = Partial<
+      Record<keyof FormData, () => Promise<void>>
+    >;
+    const fieldToMutationFunctionMap: FieldToMutationMap = {
+      theme: async () => {
+        await changeThemeMutation.mutateAsync({
+          id: newEventId,
+          themeId,
+        });
+      },
+      timeTable: async () => {
+        await changeCalendarMutation.mutateAsync({
+          id: newEventId,
+          calendarType: CalendarType.MULTIPLE,
+          timeSpans: convertTimeTableToSubEvents(timeTable),
+        });
+      },
+      cinema: async () => {
+        if (!cinema) return;
+
+        await changeLocationMutation.mutateAsync({
+          id: newEventId,
+          locationId: parseOfferId(cinema['@id']),
+        });
+      },
+      production: async () => {
+        if (!production) return;
+
+        // unlink event from current production
+        // @ts-expect-error
+        if (getEventByIdQuery.data?.production?.id) {
+          await deleteEventFromProductionByIdMutation.mutateAsync({
+            // @ts-expect-error
+            productionId: getEventByIdQuery.data.production.id,
+            eventId: newEventId,
           });
-        },
-        timeTable: async () => {
-          await changeCalendarMutation.mutateAsync({
-            id: newEventId,
-            calendarType: CalendarType.MULTIPLE,
-            timeSpans: convertTimeTableToSubEvents(timeTable),
+        }
+
+        if (production.customOption) {
+          // make new production with name and event id
+          await createProductionWithEventsMutation.mutateAsync({
+            productionName: production.name,
+            eventIds: [newEventId],
           });
-        },
-        cinema: async () => {
-          if (!cinema) return;
-
-          await changeLocationMutation.mutateAsync({
-            id: newEventId,
-            locationId: parseOfferId(cinema['@id']),
+        } else {
+          // link event to production
+          await addEventToProductionByIdMutation.mutateAsync({
+            productionId: production.production_id,
+            eventId: newEventId,
           });
-        },
-        production: async () => {
-          if (!production) return;
+        }
 
-          await changeNameMutation.mutateAsync({
-            id: newEventId,
-            lang: 'nl',
-            name: production.name,
-          });
-        },
-      };
+        // change name of event
+        await changeNameMutation.mutateAsync({
+          id: newEventId,
+          lang: 'nl',
+          name: production.name,
+        });
+      },
+    };
 
-      await fieldToMutationFunctionMap[editedField]?.();
+    await fieldToMutationFunctionMap[editedField]?.();
 
-      setFieldLoading(undefined);
-      return;
+    setFieldLoading(undefined);
+
+    if (editedField !== 'timeTable') {
+      queryClient.invalidateQueries(['events', { id: newEventId }]);
     }
+  };
 
+  const createNewEvent = async ({
+    production,
+    cinema,
+    theme: themeId,
+    timeTable,
+  }: FormData) => {
     if (!production) return;
 
     const themeLabel = Object.entries(MovieThemes).find(
@@ -283,6 +336,7 @@ const MoviePage = () => {
       workflowStatus: WorkflowStatusMap.DRAFT,
       audienceType: 'everyone',
     };
+
     const { eventId } = await addEventMutation.mutateAsync(payload);
 
     if (!eventId) return;
@@ -298,18 +352,29 @@ const MoviePage = () => {
     });
 
     if (production.customOption) {
-      await createWithEventsMutation.mutateAsync({
+      await createProductionWithEventsMutation.mutateAsync({
         productionName: production.name,
         eventIds: [eventId],
       });
     } else {
-      await addEventByIdMutation.mutateAsync({
+      await addEventToProductionByIdMutation.mutateAsync({
         productionId: production.production_id,
         eventId,
       });
     }
 
     setNewEventId(eventId);
+  };
+
+  const handleFormValid = async (
+    formData: FormData,
+    editedField?: keyof FormData,
+  ) => {
+    if (newEventId) {
+      await editExistingEvent(formData, editedField);
+    } else {
+      await createNewEvent(formData);
+    }
   };
 
   const handleClickPublish = async () => {
@@ -328,39 +393,15 @@ const MoviePage = () => {
     });
   };
 
+  const handleChange = (editedField: keyof FormData, value) => {
+    if (!newEventId) return;
+    submitEditedField(editedField);
+  };
+
   const submitEditedField = (editedField: keyof FormData) => {
     setFieldLoading(editedField);
     handleSubmit(async (formData) => handleFormValid(formData, editedField))();
   };
-
-  useEffect(() => {
-    if (!newEventId) return;
-    submitEditedField('theme');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watchedTheme]);
-
-  useEffect(() => {
-    if (!newEventId) return;
-    const isValid = !Object.values(watchedTimeTable?.data ?? {}).some((data) =>
-      Object.values(data).some((time) => !isMatch(time, "HH'h'mm'm'")),
-    );
-    if (isValid) {
-      submitEditedField('timeTable');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watchedTimeTable]);
-
-  useEffect(() => {
-    if (!newEventId) return;
-    submitEditedField('cinema');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watchedCinema]);
-
-  useEffect(() => {
-    if (!newEventId) return;
-    submitEditedField('production');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watchedProduction]);
 
   useEffect(() => {
     // @ts-expect-error
@@ -380,6 +421,9 @@ const MoviePage = () => {
       },
       { keepDirty: true },
     );
+
+    trigger('timeTable');
+
     // @ts-expect-error
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getEventByIdQuery.data]);
@@ -387,14 +431,19 @@ const MoviePage = () => {
   const stepProps = (field?: keyof FormData) => ({
     errors,
     control,
+    onChange: (value) => handleChange(field, value),
     getValues,
     register,
     reset,
     loading: !!(field && fieldLoading === field),
   });
 
-  const isStep3Visible = newEventId || dirtyFields.timeTable;
-  const isStep4Visible = newEventId || dirtyFields.cinema;
+  const watchedTimeTable = watch('timeTable');
+
+  const isStep3Visible =
+    !!newEventId ||
+    (dirtyFields.timeTable && isOneTimeSlotValid(watchedTimeTable));
+  const isStep4Visible = !!newEventId || (dirtyFields.cinema && isStep3Visible);
   const isStep5Visible = !!newEventId && Object.values(errors).length === 0;
 
   const footerStatus = useMemo(() => {
@@ -420,9 +469,13 @@ const MoviePage = () => {
       <Page.Content spacing={5} paddingBottom={6} alignItems="flex-start">
         <Step1 {...stepProps('theme')} />
         <Step2 {...stepProps('timeTable')} />
-        {isStep3Visible ? <Step3 {...stepProps('cinema')} /> : null}
-        {isStep4Visible ? <Step4 {...stepProps('production')} /> : null}
-        {isStep5Visible ? (
+        {isOnEditPage || isStep3Visible ? (
+          <Step3 {...stepProps('cinema')} />
+        ) : null}
+        {isOnEditPage || isStep4Visible ? (
+          <Step4 {...stepProps('production')} />
+        ) : null}
+        {isOnEditPage || isStep5Visible ? (
           <Step5 {...{ ...stepProps(), eventId: newEventId }} />
         ) : null}
       </Page.Content>

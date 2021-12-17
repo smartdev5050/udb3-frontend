@@ -170,7 +170,7 @@
         "title": "Waar vindt de film plaats?"
       },
       "step4": {
-        "title": "Hoe noemt de film?"
+        "title": "Hoe heet de film?"
       },
       "step5": {
         "title": "Laat je film extra opvallen."
@@ -190,7 +190,8 @@
       },
       "validation_messages": {
         "timeTable": {
-          "has-timeslot": "Minstens 1 tijdslot is verplicht."
+          "has-timeslot": "Minstens 1 tijdslot is verplicht.",
+          "all-timeslots-valid": "Alle tijdssloten moet in een geldig formaat ingevoerd zijn."
         },
         "cinema": {
           "required": "Bioscoop is verplicht."

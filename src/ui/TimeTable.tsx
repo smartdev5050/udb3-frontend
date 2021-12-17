@@ -1,9 +1,11 @@
 import copyToClipboard from 'clipboard-copy';
 import { addDays, differenceInDays, format, isMatch, parse } from 'date-fns';
+import { cloneDeep } from 'lodash';
 import isNil from 'lodash/isNil';
 import omitBy from 'lodash/omitBy';
 import pick from 'lodash/pick';
 import setWith from 'lodash/setWith';
+import unset from 'lodash/unset';
 import type { ClipboardEvent, FormEvent } from 'react';
 import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -21,6 +23,45 @@ import { Label } from './Label';
 import type { StackProps } from './Stack';
 import { getStackProps, Stack } from './Stack';
 import { Text } from './Text';
+
+type Time = string;
+type Data = { [index: string]: Time };
+type TimeTableData = { [date: string]: Data };
+
+type TimeTableValue = {
+  dateStart: string;
+  dateEnd: string;
+  data: TimeTableData;
+};
+
+const isTimeTableEmpty = (timeTableData: TimeTableData) => {
+  if (Object.keys(timeTableData.data).length === 0) {
+    return true;
+  }
+
+  if (
+    Object.values(timeTableData.data).every(
+      (times) => Object.keys(times).length === 0,
+    )
+  ) {
+    return true;
+  }
+
+  return false;
+};
+
+const areAllTimeSlotsValid = (timeTableData: TimeTableData) => {
+  return Object.values(timeTableData?.data ?? {}).every((times) => {
+    return Object.values(times).every((time) => {
+      return isMatch(time, "HH'h'mm'm'");
+    });
+  });
+};
+
+const isOneTimeSlotValid = (timeTableData: TimeTableData) =>
+  Object.values(timeTableData?.data ?? {}).some((times) => {
+    return Object.values(times).some((time) => isMatch(time, "HH'h'mm'm'"));
+  });
 
 const formatTimeValue = (value: string) => {
   if (!value) {
@@ -63,18 +104,7 @@ const formatTimeValue = (value: string) => {
   return `${firstChars}h${lastChars}m`;
 };
 
-type Time = string;
-
 const amountOfColumns = 7;
-
-type Data = { [index: string]: Time };
-type TimeTableData = { [date: string]: Data };
-
-type TimeTableValue = {
-  dateStart: string;
-  dateEnd: string;
-  data: TimeTableData;
-};
 
 type CopyPayload =
   | {
@@ -135,9 +165,13 @@ const Row = ({
           id={`${date}-${index}`}
           key={`${date}-${index}`}
           value={data?.[index] ?? ''}
-          onChange={(event) =>
-            onEditCell({ index, date, value: event.target.value }, 'change')
-          }
+          onChange={(event) => {
+            const value = event.target.value;
+            onEditCell(
+              { index, date, value: value !== '' ? value : null },
+              'change',
+            );
+          }}
           onBlur={(event: FormEvent<HTMLInputElement>) => {
             onEditCell(
               {
@@ -202,7 +236,15 @@ const updateCell = ({
   date: string;
   index: number;
   value: string;
-}) => setWith(originalData, `[${date}][${index}]`, value, Object);
+}) => {
+  if (value === null) {
+    // some weird in place editing mutation going on here, needed to clone the object before unsetting
+    const clondedOriginalData = cloneDeep(originalData);
+    unset(clondedOriginalData, `[${date}][${index}]`);
+    return clondedOriginalData;
+  }
+  return setWith(originalData, `[${date}][${index}]`, value, Object);
+};
 
 const getDateRange = (
   dateStartString: string,
@@ -453,5 +495,11 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
   );
 };
 
-export { formatTimeValue, TimeTable };
+export {
+  areAllTimeSlotsValid,
+  formatTimeValue,
+  isOneTimeSlotValid,
+  isTimeTableEmpty,
+  TimeTable,
+};
 export type { TimeTableData, TimeTableValue };
