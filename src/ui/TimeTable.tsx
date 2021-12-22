@@ -296,13 +296,21 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
     };
   };
 
+  const nextWeekdayDate = (dayInWeek: number): Date => {
+    const nextDate = new Date(new Date());
+    nextDate.setDate(
+      nextDate.getDate() + ((dayInWeek - 1 - nextDate.getDay() + 7) % 7) + 1,
+    );
+    return nextDate;
+  };
+
   useEffect(() => {
     if (!value?.dateStart || !value?.dateEnd) {
-      const todayDateString = formatDate(new Date());
+      const nextWednesDay = nextWeekdayDate(3);
       onChange({
         data: value?.data ?? {},
-        dateStart: todayDateString,
-        dateEnd: todayDateString,
+        dateStart: formatDate(nextWednesDay),
+        dateEnd: formatDate(nextWednesDay),
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
