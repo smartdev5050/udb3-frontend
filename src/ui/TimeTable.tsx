@@ -297,7 +297,7 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
   };
 
   const nextWeekdayDate = (dayInWeek: number): Date => {
-    const nextDate = new Date(new Date());
+    const nextDate = new Date();
     nextDate.setDate(
       nextDate.getDate() + ((dayInWeek - 1 - nextDate.getDay() + 7) % 7) + 1,
     );
