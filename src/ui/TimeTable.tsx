@@ -4,8 +4,8 @@ import {
   differenceInDays,
   format,
   isMatch,
-  parse,
   nextWednesday,
+  parse,
 } from 'date-fns';
 import { cloneDeep } from 'lodash';
 import isNil from 'lodash/isNil';
