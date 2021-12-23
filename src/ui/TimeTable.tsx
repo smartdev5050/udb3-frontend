@@ -1,5 +1,12 @@
 import copyToClipboard from 'clipboard-copy';
-import { addDays, differenceInDays, format, isMatch, parse } from 'date-fns';
+import {
+  addDays,
+  differenceInDays,
+  format,
+  isMatch,
+  parse,
+  nextWednesday,
+} from 'date-fns';
 import { cloneDeep } from 'lodash';
 import isNil from 'lodash/isNil';
 import omitBy from 'lodash/omitBy';
@@ -296,21 +303,13 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
     };
   };
 
-  const nextWeekdayDate = (dayInWeek: number): Date => {
-    const nextDate = new Date();
-    nextDate.setDate(
-      nextDate.getDate() + ((dayInWeek - 1 - nextDate.getDay() + 7) % 7) + 1,
-    );
-    return nextDate;
-  };
-
   useEffect(() => {
     if (!value?.dateStart || !value?.dateEnd) {
-      const nextWednesDay = nextWeekdayDate(3);
+      const nextWeekWednesday = nextWednesday(new Date());
       onChange({
         data: value?.data ?? {},
-        dateStart: formatDate(nextWednesDay),
-        dateEnd: formatDate(nextWednesDay),
+        dateStart: formatDate(nextWeekWednesday),
+        dateEnd: formatDate(nextWeekWednesday),
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
