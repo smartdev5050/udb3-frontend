@@ -181,8 +181,6 @@ const MoviePage = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const isOnEditPage = router.query.eventId;
-
   const [newEventId, setNewEventId] = useState(
     (router.query.eventId as string) ?? '',
   );
@@ -455,24 +453,6 @@ const MoviePage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getEventByIdQuery.data]);
 
-  const stepProps = (field?: keyof FormData) => ({
-    errors,
-    control,
-    onChange: (value) => handleChange(field, value),
-    getValues,
-    register,
-    reset,
-    loading: !!(field && fieldLoading === field),
-  });
-
-  const watchedTimeTable = watch('timeTable');
-
-  const isStep3Visible =
-    !!newEventId ||
-    (dirtyFields.timeTable && isOneTimeSlotValid(watchedTimeTable));
-  const isStep4Visible = !!newEventId || (dirtyFields.cinema && isStep3Visible);
-  const isStep5Visible = !!newEventId && Object.values(errors).length === 0;
-
   const footerStatus = useMemo(() => {
     if (queryClient.isMutating()) return FooterStatus.HIDDEN;
     if (newEventId && !availableFromDate) return FooterStatus.PUBLISH;
@@ -498,6 +478,48 @@ const MoviePage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [toastMessage],
   );
+  const watchedTimeTable = watch('timeTable');
+  const watchedCinema = watch('cinema');
+
+  const stepProps = (field?: keyof FormData) => ({
+    errors,
+    control,
+    onChange: (value) => handleChange(field, value),
+    getValues,
+    register,
+    reset,
+    loading: !!(field && fieldLoading === field),
+  });
+
+  const steps = useMemo(() => {
+    return [
+      {
+        Component: Step1,
+        inputKey: 'theme',
+      },
+      {
+        Component: Step2,
+        inputKey: 'timeTable',
+        shouldShowNextStep: isOneTimeSlotValid(watchedTimeTable),
+      },
+      {
+        Component: Step3,
+        inputKey: 'cinema',
+        shouldShowNextStep: watchedCinema !== undefined,
+      },
+      {
+        Component: Step4,
+        inputKey: 'production',
+        shouldShowNextStep: !!newEventId && Object.values(errors).length === 0,
+      },
+      {
+        Component: Step5,
+        additionalProps: { eventId: newEventId },
+      },
+    ];
+  }, [errors, newEventId, watchedCinema, watchedTimeTable]);
+
+  const isInEditMode = !!newEventId || !!router.query.eventId;
 
   return (
     <Page>
@@ -513,21 +535,24 @@ const MoviePage = () => {
           visible={!!toastMessage}
           onClose={() => setToastMessage(undefined)}
         />
-        <Step1 {...stepProps('theme')} />
-        <Step2 {...stepProps('timeTable')} />
-        {(isOnEditPage || isStep3Visible) && <Step3 {...stepProps('cinema')} />}
-        {(isOnEditPage || isStep4Visible) && (
-          <Step4 {...stepProps('production')} />
-        )}
-        {(isOnEditPage || isStep5Visible) && (
-          <Step5
-            {...{
-              ...stepProps(),
-              eventId: newEventId,
-              onSuccessChangeDescription: handleSuccesOnChangeDescription,
-              onSuccessChangeImage: handleSuccesOnChangeImage,
-            }}
-          />
+        {steps.map(
+          (
+            { Component: StepComponent, inputKey, additionalProps = {} },
+            index,
+          ) => {
+            const shouldShowNextStep =
+              steps[index - 1]?.shouldShowNextStep ?? true;
+
+            if (!shouldShowNextStep && !isInEditMode) return null;
+
+            return (
+              <StepComponent
+                key={index}
+                {...stepProps(inputKey)}
+                {...additionalProps}
+              />
+            );
+          },
         )}
       </Page.Content>
       {footerStatus !== FooterStatus.HIDDEN && (
