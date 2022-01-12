@@ -28,6 +28,7 @@ import {
   useCreateWithEvents as useCreateProductionWithEvents,
   useDeleteEventById as useDeleteEventFromProductionById,
 } from '@/hooks/api/productions';
+import { Step } from '@/pages/Step';
 import type { Event } from '@/types/Event';
 import type { SubEvent } from '@/types/Offer';
 import type { Place } from '@/types/Place';
@@ -50,8 +51,8 @@ import { formatDateToISO } from '@/utils/formatDateToISO';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 import { parseOfferId } from '@/utils/parseOfferId';
 
+import { MovieThemeStep } from './MovieThemeStep';
 import { PublishLaterModal } from './PublishLaterModal';
-import { Step1 } from './Step1';
 import { Step2 } from './Step2';
 import { Step3 } from './Step3';
 import { Step4 } from './Step4';
@@ -494,7 +495,7 @@ const MoviePage = () => {
   const steps = useMemo(() => {
     return [
       {
-        Component: Step1,
+        Component: MovieThemeStep,
         inputKey: 'theme',
       },
       {
@@ -537,7 +538,7 @@ const MoviePage = () => {
         />
         {steps.map(
           (
-            { Component: StepComponent, inputKey, additionalProps = {} },
+            { Component: StepComponent, inputKey, additionalProps = {}, step },
             index,
           ) => {
             const shouldShowNextStep =
@@ -545,12 +546,16 @@ const MoviePage = () => {
 
             if (!shouldShowNextStep && !isInEditMode) return null;
 
+            const stepNumber = step ?? index + 1;
+
             return (
-              <StepComponent
-                key={index}
-                {...stepProps(inputKey)}
-                {...additionalProps}
-              />
+              <Step stepNumber={stepNumber} key={`step${stepNumber}`}>
+                <StepComponent
+                  key={index}
+                  {...stepProps(inputKey)}
+                  {...additionalProps}
+                />
+              </Step>
             );
           },
         )}

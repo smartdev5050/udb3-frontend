@@ -2,12 +2,11 @@ import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { MovieThemes } from '@/constants/MovieThemes';
-import { Step } from '@/pages/Step';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import type { StackProps } from '@/ui/Stack';
-import { getStackProps } from '@/ui/Stack';
+import { getStackProps, Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
@@ -28,11 +27,7 @@ const Step1 = ({
   const { t } = useTranslation();
 
   return (
-    <Step
-      stepNumber={1}
-      title={t(`movies.create.step1.title`)}
-      {...getStackProps(props)}
-    >
+    <Stack {...getStackProps(props)}>
       <Controller
         name="theme"
         control={control}
@@ -85,7 +80,7 @@ const Step1 = ({
           );
         }}
       />
-    </Step>
+    </Stack>
   );
 };
 

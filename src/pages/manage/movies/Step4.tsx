@@ -4,7 +4,6 @@ import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { useGetProductions } from '@/hooks/api/productions';
-import { Step } from '@/pages/Step';
 import type { Production } from '@/types/Production';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
@@ -48,69 +47,67 @@ const Step4 = ({
   ]);
 
   return (
-    <Step title={t(`movies.create.step4.title`)} stepNumber={4}>
-      <Controller
-        control={control}
-        name="production"
-        render={({ field }) => {
-          const selectedProduction = field?.value;
+    <Controller
+      control={control}
+      name="production"
+      render={({ field }) => {
+        const selectedProduction = field?.value;
 
-          if (!selectedProduction) {
-            return (
-              <FormElement
-                id="step4-name-typeahead"
-                label={t('movies.create.actions.choose_name')}
-                error={
-                  errors.production
-                    ? t(
-                        `movies.create.validation_messages.production.${errors.production.type}`,
-                      )
-                    : undefined
-                }
-                Component={
-                  <Typeahead<Production & { customOption?: boolean }>
-                    newSelectionPrefix="Voeg nieuwe productie toe: "
-                    allowNew
-                    options={productions}
-                    onInputChange={debounce(setSearchInput, 275)}
-                    labelKey="name"
-                    maxWidth="43rem"
-                    selected={field.value ? [field.value] : []}
-                    onChange={(value) => {
-                      field.onChange(value?.[0]);
-                      onChange(value?.[0]);
-                    }}
-                    minLength={3}
-                  />
-                }
-                {...getStackProps(props)}
-              />
-            );
-          }
-
+        if (!selectedProduction) {
           return (
-            <Inline alignItems="center" spacing={3} {...getInlineProps(props)}>
-              <Icon
-                name={Icons.CHECK_CIRCLE}
-                color={getValue('check.circleFillColor')}
-              />
-              <Text>{selectedProduction.name}</Text>
-              <Button
-                variant={ButtonVariants.LINK}
-                onClick={() =>
-                  reset(
-                    { ...getValues(), production: undefined },
-                    { keepDirty: true },
-                  )
-                }
-              >
-                {t('movies.create.actions.change_name')}
-              </Button>
-            </Inline>
+            <FormElement
+              id="step4-name-typeahead"
+              label={t('movies.create.actions.choose_name')}
+              error={
+                errors.production
+                  ? t(
+                      `movies.create.validation_messages.production.${errors.production.type}`,
+                    )
+                  : undefined
+              }
+              Component={
+                <Typeahead<Production & { customOption?: boolean }>
+                  newSelectionPrefix="Voeg nieuwe productie toe: "
+                  allowNew
+                  options={productions}
+                  onInputChange={debounce(setSearchInput, 275)}
+                  labelKey="name"
+                  maxWidth="43rem"
+                  selected={field.value ? [field.value] : []}
+                  onChange={(value) => {
+                    field.onChange(value?.[0]);
+                    onChange(value?.[0]);
+                  }}
+                  minLength={3}
+                />
+              }
+              {...getStackProps(props)}
+            />
           );
-        }}
-      />
-    </Step>
+        }
+
+        return (
+          <Inline alignItems="center" spacing={3} {...getInlineProps(props)}>
+            <Icon
+              name={Icons.CHECK_CIRCLE}
+              color={getValue('check.circleFillColor')}
+            />
+            <Text>{selectedProduction.name}</Text>
+            <Button
+              variant={ButtonVariants.LINK}
+              onClick={() =>
+                reset(
+                  { ...getValues(), production: undefined },
+                  { keepDirty: true },
+                )
+              }
+            >
+              {t('movies.create.actions.change_name')}
+            </Button>
+          </Inline>
+        );
+      }}
+    />
   );
 };
 

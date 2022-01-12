@@ -1,11 +1,10 @@
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { Step } from '@/pages/Step';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Box } from '@/ui/Box';
 import type { StackProps } from '@/ui/Stack';
-import { getStackProps } from '@/ui/Stack';
+import { getStackProps, Stack } from '@/ui/Stack';
 import {
   areAllTimeSlotsValid,
   isTimeTableEmpty,
@@ -26,12 +25,7 @@ const Step2 = ({
   const { t } = useTranslation();
 
   return (
-    <Step
-      stepNumber={2}
-      spacing={3}
-      title={t(`movies.create.step2.title`)}
-      {...getStackProps(props)}
-    >
+    <Stack spacing={3} {...getStackProps(props)}>
       <Box>
         <Controller
           name="timeTable"
@@ -61,7 +55,7 @@ const Step2 = ({
           )}
         </Alert>
       )}
-    </Step>
+    </Stack>
   );
 };
 

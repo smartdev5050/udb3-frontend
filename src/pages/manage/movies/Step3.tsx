@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 
 import { OfferCategories } from '@/constants/OfferCategories';
 import { useGetPlacesByQuery } from '@/hooks/api/places';
-import { Step } from '@/pages/Step';
 import type { Place } from '@/types/Place';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
@@ -50,74 +49,72 @@ const Step3 = ({
   ]);
 
   return (
-    <Step title={t(`movies.create.step3.title`)} stepNumber={3}>
-      <Stack {...getStackProps(props)}>
-        <Controller
-          control={control}
-          name="cinema"
-          render={({ field }) => {
-            const selectedCinema = field?.value;
+    <Stack {...getStackProps(props)}>
+      <Controller
+        control={control}
+        name="cinema"
+        render={({ field }) => {
+          const selectedCinema = field?.value;
 
-            if (!selectedCinema) {
-              return (
-                <FormElement
-                  id="step3-cinema-typeahead"
-                  label={t('movies.create.actions.choose_cinema')}
-                  error={
-                    errors?.cinema
-                      ? t(
-                          `movies.create.validation_messages.cinema.${errors?.cinema.type}`,
-                        )
-                      : undefined
-                  }
-                  loading={loading}
-                  Component={
-                    <Typeahead<Place>
-                      options={cinemas}
-                      onInputChange={debounce(setSearchInput, 275)}
-                      labelKey={(cinema) =>
-                        cinema.name[i18n.language] ??
-                        cinema.name[cinema.mainLanguage]
-                      }
-                      selected={field.value ? [field.value] : []}
-                      maxWidth="43rem"
-                      onChange={(places) => {
-                        field.onChange(places?.[0]);
-                        onChange(places?.[0]);
-                      }}
-                      minLength={3}
-                    />
-                  }
-                />
-              );
-            }
+          if (!selectedCinema) {
             return (
-              <Inline alignItems="center" spacing={3}>
-                <Icon
-                  name={Icons.CHECK_CIRCLE}
-                  color={getValue('check.circleFillColor')}
-                />
-                <Text>
-                  {selectedCinema.name[i18n.language] ??
-                    selectedCinema.name[selectedCinema.mainLanguage]}
-                </Text>
-                <Button
-                  variant={ButtonVariants.LINK}
-                  onClick={() =>
-                    reset(
-                      { ...getValues(), cinema: undefined },
-                      { keepDirty: true },
-                    )
-                  }
-                >
-                  {t('movies.create.actions.change_cinema')}
-                </Button>
-              </Inline>
+              <FormElement
+                id="step3-cinema-typeahead"
+                label={t('movies.create.actions.choose_cinema')}
+                error={
+                  errors?.cinema
+                    ? t(
+                        `movies.create.validation_messages.cinema.${errors?.cinema.type}`,
+                      )
+                    : undefined
+                }
+                loading={loading}
+                Component={
+                  <Typeahead<Place>
+                    options={cinemas}
+                    onInputChange={debounce(setSearchInput, 275)}
+                    labelKey={(cinema) =>
+                      cinema.name[i18n.language] ??
+                      cinema.name[cinema.mainLanguage]
+                    }
+                    selected={field.value ? [field.value] : []}
+                    maxWidth="43rem"
+                    onChange={(places) => {
+                      field.onChange(places?.[0]);
+                      onChange(places?.[0]);
+                    }}
+                    minLength={3}
+                  />
+                }
+              />
             );
-          }}
-        />
-      </Stack>
-    </Step>
+          }
+          return (
+            <Inline alignItems="center" spacing={3}>
+              <Icon
+                name={Icons.CHECK_CIRCLE}
+                color={getValue('check.circleFillColor')}
+              />
+              <Text>
+                {selectedCinema.name[i18n.language] ??
+                  selectedCinema.name[selectedCinema.mainLanguage]}
+              </Text>
+              <Button
+                variant={ButtonVariants.LINK}
+                onClick={() =>
+                  reset(
+                    { ...getValues(), cinema: undefined },
+                    { keepDirty: true },
+                  )
+                }
+              >
+                {t('movies.create.actions.change_cinema')}
+              </Button>
+            </Inline>
+          );
+        }}
+      />
+    </Stack>
   );
 };
 

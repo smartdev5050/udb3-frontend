@@ -11,7 +11,7 @@ import {
   useUpdateImageFromEvent,
 } from '@/hooks/api/events';
 import { useAddImage } from '@/hooks/api/images';
-import { Step } from '@/pages/Step';
+import { Box } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Icons } from '@/ui/Icon';
@@ -209,7 +209,7 @@ const Step5 = ({
   };
 
   return (
-    <Step title={t(`movies.create.step5.title`)} stepNumber={5}>
+    <Box>
       <PictureUploadModal
         visible={isPictureUploadModalVisible}
         onClose={handleCloseModal}
@@ -345,7 +345,7 @@ const Step5 = ({
           </Stack>
         </Stack>
       </Inline>
-    </Step>
+    </Box>
   );
 };
 
