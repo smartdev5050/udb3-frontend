@@ -17,18 +17,18 @@ import { Typeahead } from '@/ui/Typeahead';
 
 import type { StepProps } from './MoviePage';
 
-type Step4Props = StackProps & StepProps;
+type MovieNameStepProps = StackProps & StepProps;
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
-const Step4 = ({
+const MovieNameStep = ({
   errors,
   control,
   getValues,
   reset,
   onChange,
   ...props
-}: Step4Props) => {
+}: MovieNameStepProps) => {
   const { t } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
 
@@ -111,4 +111,4 @@ const Step4 = ({
   );
 };
 
-export { Step4 };
+export { MovieNameStep };

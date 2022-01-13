@@ -20,9 +20,9 @@ import type { StepProps } from './MoviePage';
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
-type Step3Props = StackProps & StepProps;
+type MovieCinemaProps = StackProps & StepProps;
 
-const Step3 = ({
+const MovieCinemaStep = ({
   errors,
   getValues,
   reset,
@@ -30,7 +30,7 @@ const Step3 = ({
   loading,
   onChange,
   ...props
-}: Step3Props) => {
+}: MovieCinemaProps) => {
   const { t, i18n } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
 
@@ -118,4 +118,4 @@ const Step3 = ({
   );
 };
 
-export { Step3 };
+export { MovieCinemaStep };

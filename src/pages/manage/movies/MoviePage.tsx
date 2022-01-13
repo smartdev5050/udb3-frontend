@@ -51,12 +51,12 @@ import { formatDateToISO } from '@/utils/formatDateToISO';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 import { parseOfferId } from '@/utils/parseOfferId';
 
+import { MovieAdditionalInformationStep } from './MovieAdditionalInformationStep';
+import { MovieCinemaStep } from './MovieCinemaStep';
+import { MovieNameStep } from './MovieNameStep';
 import { MovieThemeStep } from './MovieThemeStep';
+import { MovieTimeTableStep } from './MovieTimeTableStep';
 import { PublishLaterModal } from './PublishLaterModal';
-import { Step2 } from './Step2';
-import { Step3 } from './Step3';
-import { Step4 } from './Step4';
-import { Step5 } from './Step5';
 
 type FormData = {
   theme: string;
@@ -384,13 +384,15 @@ const MoviePage = () => {
     setNewEventId(eventId);
   };
 
-  const handleSuccesOnChangeDescription = () => {
-    setToastMessage(t('movies.create.toast.success.description'));
-  };
+  // TODO: fix
 
-  const handleSuccesOnChangeImage = () => {
-    setToastMessage(t('movies.create.toast.success.image'));
-  };
+  // const handleSuccesOnChangeDescription = () => {
+  //   setToastMessage(t('movies.create.toast.success.description'));
+  // };
+
+  // const handleSuccesOnChangeImage = () => {
+  //   setToastMessage(t('movies.create.toast.success.image'));
+  // };
 
   const handleFormValid = async (
     formData: FormData,
@@ -499,22 +501,22 @@ const MoviePage = () => {
         inputKey: 'theme',
       },
       {
-        Component: Step2,
+        Component: MovieTimeTableStep,
         inputKey: 'timeTable',
         shouldShowNextStep: isOneTimeSlotValid(watchedTimeTable),
       },
       {
-        Component: Step3,
+        Component: MovieCinemaStep,
         inputKey: 'cinema',
         shouldShowNextStep: watchedCinema !== undefined,
       },
       {
-        Component: Step4,
+        Component: MovieNameStep,
         inputKey: 'production',
         shouldShowNextStep: !!newEventId && Object.values(errors).length === 0,
       },
       {
-        Component: Step5,
+        Component: MovieAdditionalInformationStep,
         additionalProps: { eventId: newEventId },
       },
     ];

@@ -13,15 +13,15 @@ import {
 
 import type { StepProps } from './MoviePage';
 
-type Step2Props = StackProps & StepProps;
+type TimeTableStepProps = StackProps & StepProps;
 
-const Step2 = ({
+const MovieTimeTableStep = ({
   errors,
   control,
   className,
   onChange,
   ...props
-}: Step2Props) => {
+}: TimeTableStepProps) => {
   const { t } = useTranslation();
 
   return (
@@ -59,4 +59,4 @@ const Step2 = ({
   );
 };
 
-export { Step2 };
+export { MovieTimeTableStep };
