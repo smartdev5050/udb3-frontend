@@ -14,9 +14,9 @@ BaseSelect.displayName = 'BaseSelect';
 type SelectProps = {
   id?: string;
   onChange?: (event: ChangeEvent<HTMLSelectElement>) => void;
-  size: string;
-  children: any;
-  ariaLabel: string;
+  size?: string;
+  ariaLabel?: string;
+  value?: string;
 };
 
 type Props = Omit<BoxProps, 'onChange'> & SelectProps;
