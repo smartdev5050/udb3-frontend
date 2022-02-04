@@ -457,23 +457,34 @@ const Dashboard = (): any => {
     <Page key="page">
       <Page.Title>{`${t('dashboard.welcome')}, ${user?.username}`}</Page.Title>
       <Page.Content spacing={5}>
-        <Stack spacing={4} position="relative">
-          <Select ariaLabel="Sorteer" id="sorting" onChange={changeSorting}>
-            {SORTING_OPTIONS.map((sortOption) => (
-              <option key={sortOption} value={sortOption}>
-                {t(`dashboard.sorting.${sortOption}`)}
-              </option>
-            ))}
-          </Select>
-          <Link
-            href={CreateMap[tab]}
-            variant={LinkVariants.BUTTON_PRIMARY}
-            position="absolute"
-            right={0}
-            top={0}
-          >
+        <Inline>
+          <Link href={CreateMap[tab]} variant={LinkVariants.BUTTON_PRIMARY}>
             {t(`dashboard.create.${tab}`)}
           </Link>
+        </Inline>
+        <Stack position="relative">
+          <Stack position="absolute" right={0} top={-5}>
+            <Inline alignItems="center" justifyContent="space-between">
+              <Text>
+                <Text fontWeight="bold" marginRight={2}>
+                  {sharedTableContentProps.totalItems}
+                </Text>
+                <Text marginRight={5}>
+                  {t(`dashboard.sorting.results.${tab}`)}
+                </Text>
+              </Text>
+              <label htmlFor="sorting" css="margin-right: 0.5rem;">
+                {t('dashboard.sorting.label')}:
+              </label>
+              <Select id="sorting" onChange={changeSorting} css="width: auto;">
+                {SORTING_OPTIONS.map((sortOption) => (
+                  <option key={sortOption} value={sortOption}>
+                    {t(`dashboard.sorting.${sortOption}`)}
+                  </option>
+                ))}
+              </Select>
+            </Inline>
+          </Stack>
           <Tabs<TabOptions>
             activeKey={tab}
             onSelect={handleSelectTab}
