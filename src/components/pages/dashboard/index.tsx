@@ -1,7 +1,7 @@
 import { format, isAfter, isFuture } from 'date-fns';
 import { useRouter } from 'next/router';
-import type { ChangeEvent, ReactNode } from 'react';
-import { useMemo, useState } from 'react';
+import type { ReactNode } from 'react';
+import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { Cookies } from 'react-cookie';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
@@ -373,6 +373,7 @@ const Dashboard = (): any => {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [toBeDeletedItem, setToBeDeletedItem] = useState<Item>();
+
   const [sortingField, setSortingField] = useState<SortingFieldOptions>(
     SortingField.CREATED,
   );
@@ -382,11 +383,18 @@ const Dashboard = (): any => {
 
   const tab = (query?.tab as TabOptions) ?? 'events';
   const page = parseInt((query?.page as string) ?? '1');
+  const sort = (query?.sort as string) ?? 'created_desc';
 
   const useGetItemsByCreator = useMemo(
     () => UseGetItemsByCreatorMap[tab ?? 'events'],
     [tab],
   );
+
+  useEffect(() => {
+    const [field, order] = sort.toUpperCase().split('_');
+    setSortingField(SortingField[field]);
+    setSortingOrder(SortingOrder[order]);
+  }, [sort]);
 
   const useDeleteItemById = useMemo(
     () => UseDeleteItemByIdMap[tab ?? 'events'],
@@ -395,12 +403,21 @@ const Dashboard = (): any => {
 
   const handleSelectTab = async (tabKey: TabOptions) =>
     router.push(
-      { pathname: `/dashboard`, query: { tab: tabKey, page: 1 } },
+      { pathname: `/dashboard`, query: { tab: tabKey, page: 1, sort } },
       undefined,
       { shallow: true },
     );
 
   const user = cookies.user;
+
+  const handleSelectSorting = (event) => {
+    const sortValue = event.target.value;
+    router.push(
+      { pathname: `/dashboard`, query: { tab, page: 1, sort: sortValue } },
+      undefined,
+      { shallow: true },
+    );
+  };
 
   const UseGetItemsByCreatorQuery = useGetItemsByCreator({
     creator: user,
@@ -439,13 +456,6 @@ const Dashboard = (): any => {
     },
   };
 
-  const changeSorting = (event: ChangeEvent<HTMLSelectElement>) => {
-    const sortValue = event.target.value;
-    const [field, order] = sortValue.toUpperCase().split('_');
-    setSortingField(SortingField[field]);
-    setSortingOrder(SortingOrder[order]);
-  };
-
   const SORTING_OPTIONS = [
     'created_desc',
     'created_asc',
@@ -476,7 +486,12 @@ const Dashboard = (): any => {
               <label htmlFor="sorting" css="margin-right: 0.5rem;">
                 {t('dashboard.sorting.label')}:
               </label>
-              <Select id="sorting" onChange={changeSorting} css="width: auto;">
+              <Select
+                id="sorting"
+                value={sort}
+                onChange={handleSelectSorting}
+                css="width: auto;"
+              >
                 {SORTING_OPTIONS.map((sortOption) => (
                   <option key={sortOption} value={sortOption}>
                     {t(`dashboard.sorting.${sortOption}`)}

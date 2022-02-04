@@ -9,22 +9,22 @@ const createDashboardRedirects = (environment: Environment) => {
   return [
     {
       source: '/dashboard',
-      destination: '/dashboard?tab=events&page=1',
+      destination: '/dashboard?tab=events&page=1&sort=created_desc',
       permanent: environment !== 'development',
     },
     {
       source: '/events',
-      destination: '/dashboard?tab=events&page=1',
+      destination: '/dashboard?tab=events&page=1&sort=created_desc',
       permanent: environment !== 'development',
     },
     {
       source: '/organizers',
-      destination: '/dashboard?tab=organizers&page=1',
+      destination: '/dashboard?tab=organizers&page=1&sort=created_desc',
       permanent: environment !== 'development',
     },
     {
       source: '/places',
-      destination: '/dashboard?tab=places&page=1',
+      destination: '/dashboard?tab=places&page=1&sort=created_desc',
       permanent: environment !== 'development',
     },
     ...tabOptions.map((tabName) => {
