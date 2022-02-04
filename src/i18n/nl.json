@@ -313,6 +313,12 @@
       "places": "Locatie toevoegen",
       "organizers": "Organisatie toevoegen"
     },
+    "sorting": {
+      "created_desc": "creatiedatum (nieuw - oud)",
+      "created_asc": "creatiedatum (oud - nieuw)",
+      "availableTo_desc": "eventdatum (nieuw - oud)",
+      "availableTo_asc": "eventdatum (oud - nieuw)"
+    },
     "no_items": {
       "events": "Geen evenementen gevonden",
       "places": "Geen locaties gevonden",
