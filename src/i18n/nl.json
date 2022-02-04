@@ -314,10 +314,16 @@
       "organizers": "Organisatie toevoegen"
     },
     "sorting": {
+      "label": "Sorteren op",
       "created_desc": "creatiedatum (nieuw - oud)",
       "created_asc": "creatiedatum (oud - nieuw)",
       "availableTo_desc": "eventdatum (nieuw - oud)",
-      "availableTo_asc": "eventdatum (oud - nieuw)"
+      "availableTo_asc": "eventdatum (oud - nieuw)",
+      "results": {
+        "events": "evenementen",
+        "places": "locaties",
+        "organizers": "organisaties"
+      }
     },
     "no_items": {
       "events": "Geen evenementen gevonden",

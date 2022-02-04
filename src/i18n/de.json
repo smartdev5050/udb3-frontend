@@ -173,10 +173,16 @@
       "organizers": "Organisatio hinzufügen"
     },
     "sorting": {
+      "label": "Sortiere nach",
       "created_desc": "Erstellungsdatum (neu - alt)",
       "created_asc": "Erstellungsdatum (alt - neu)",
       "availableTo_desc": "Veranstaltungsdatum (neu - alt)",
-      "availableTo_asc": "Veranstaltungsdatum (alt - neu)"
+      "availableTo_asc": "Veranstaltungsdatum (alt - neu)",
+      "results": {
+        "events": "Veranstaltungen",
+        "places": "Orte",
+        "organizers": "Organisatoren"
+      }
     },
     "no_items": {
       "events": "Keine Veranstaltungen gefunden",
