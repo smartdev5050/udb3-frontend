@@ -354,7 +354,7 @@ type SortingFieldOptions = 'created' | 'availableTo';
 type SortingOrderOptions = 'asc' | 'desc';
 
 const SortingField = {
-  AVAILABLE_TO: 'availableTo',
+  AVAILABLETO: 'availableTo',
   CREATED: 'created',
 } as const;
 
@@ -441,10 +441,17 @@ const Dashboard = (): any => {
 
   const changeSorting = (event: ChangeEvent<HTMLSelectElement>) => {
     const sortValue = event.target.value;
-    const [field, order] = sortValue.split('-');
+    const [field, order] = sortValue.toUpperCase().split('_');
     setSortingField(SortingField[field]);
     setSortingOrder(SortingOrder[order]);
   };
+
+  const SORTING_OPTIONS = [
+    'created_desc',
+    'created_asc',
+    'availableTo_desc',
+    'availableTo_asc',
+  ];
 
   return [
     <Page key="page">
@@ -452,10 +459,11 @@ const Dashboard = (): any => {
       <Page.Content spacing={5}>
         <Stack spacing={4} position="relative">
           <Select ariaLabel="Sorteer" id="sorting" onChange={changeSorting}>
-            <option value="CREATED-DESC">Creatiedatum (nieuw- oud)</option>
-            <option value="CREATED-ASC">Creatiedatum (oud- nieuw)</option>
-            <option value="AVAILABLE_TO-DESC">Eventdatum (nieuw- oud)</option>
-            <option value="AVAILABLE_TO-ASC">Eventdatum (oud- nieuw)</option>
+            {SORTING_OPTIONS.map((sortOption) => (
+              <option key={sortOption} value={sortOption}>
+                {t(`dashboard.sorting.${sortOption}`)}
+              </option>
+            ))}
           </Select>
           <Link
             href={CreateMap[tab]}
