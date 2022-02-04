@@ -33,6 +33,7 @@ import { Modal, ModalVariants } from '@/ui/Modal';
 import { Page } from '@/ui/Page';
 import { Pagination } from '@/ui/Pagination';
 import { Panel } from '@/ui/Panel';
+import { Select } from '@/ui/Select';
 import { Spinner } from '@/ui/Spinner';
 import { Stack } from '@/ui/Stack';
 import { Tabs } from '@/ui/Tabs';
@@ -450,12 +451,12 @@ const Dashboard = (): any => {
       <Page.Title>{`${t('dashboard.welcome')}, ${user?.username}`}</Page.Title>
       <Page.Content spacing={5}>
         <Stack spacing={4} position="relative">
-          <select id="sorting" onChange={changeSorting}>
+          <Select ariaLabel="Sorteer" id="sorting" onChange={changeSorting}>
             <option value="CREATED-DESC">Creatiedatum (nieuw- oud)</option>
             <option value="CREATED-ASC">Creatiedatum (oud- nieuw)</option>
             <option value="AVAILABLE_TO-DESC">Eventdatum (nieuw- oud)</option>
             <option value="AVAILABLE_TO-ASC">Eventdatum (oud- nieuw)</option>
-          </select>
+          </Select>
           <Link
             href={CreateMap[tab]}
             variant={LinkVariants.BUTTON_PRIMARY}
