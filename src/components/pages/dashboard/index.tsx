@@ -1,6 +1,6 @@
 import { format, isAfter, isFuture } from 'date-fns';
 import { useRouter } from 'next/router';
-import type { ReactNode } from 'react';
+import type { ChangeEvent, ReactNode } from 'react';
 import { useMemo, useState } from 'react';
 import { Cookies } from 'react-cookie';
 import { useTranslation } from 'react-i18next';
@@ -349,6 +349,19 @@ const TabContent = ({
   );
 };
 
+type SortingFieldOptions = 'created' | 'availableTo';
+type SortingOrderOptions = 'asc' | 'desc';
+
+const SortingField = {
+  AVAILABLE_TO: 'availableTo',
+  CREATED: 'created',
+} as const;
+
+const SortingOrder = {
+  ASC: 'asc',
+  DESC: 'desc',
+} as const;
+
 const Dashboard = (): any => {
   const { t, i18n } = useTranslation();
   const { pathname, query, asPath, ...router } = useRouter();
@@ -359,6 +372,12 @@ const Dashboard = (): any => {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [toBeDeletedItem, setToBeDeletedItem] = useState<Item>();
+  const [sortingField, setSortingField] = useState<SortingFieldOptions>(
+    SortingField.CREATED,
+  );
+  const [sortingOrder, setSortingOrder] = useState<SortingOrderOptions>(
+    SortingOrder.DESC,
+  );
 
   const tab = (query?.tab as TabOptions) ?? 'events';
   const page = parseInt((query?.page as string) ?? '1');
@@ -384,6 +403,7 @@ const Dashboard = (): any => {
 
   const UseGetItemsByCreatorQuery = useGetItemsByCreator({
     creator: user,
+    sortOptions: { field: sortingField, order: sortingOrder },
     paginationOptions: {
       start: (page - 1) * itemsPerPage,
       limit: itemsPerPage,
@@ -418,11 +438,24 @@ const Dashboard = (): any => {
     },
   };
 
+  const changeSorting = (event: ChangeEvent<HTMLSelectElement>) => {
+    const sortValue = event.target.value;
+    const [field, order] = sortValue.split('-');
+    setSortingField(SortingField[field]);
+    setSortingOrder(SortingOrder[order]);
+  };
+
   return [
     <Page key="page">
       <Page.Title>{`${t('dashboard.welcome')}, ${user?.username}`}</Page.Title>
       <Page.Content spacing={5}>
         <Stack spacing={4} position="relative">
+          <select id="sorting" onChange={changeSorting}>
+            <option value="CREATED-DESC">Creatiedatum (nieuw- oud)</option>
+            <option value="CREATED-ASC">Creatiedatum (oud- nieuw)</option>
+            <option value="AVAILABLE_TO-DESC">Eventdatum (nieuw- oud)</option>
+            <option value="AVAILABLE_TO-ASC">Eventdatum (oud- nieuw)</option>
+          </select>
           <Link
             href={CreateMap[tab]}
             variant={LinkVariants.BUTTON_PRIMARY}
