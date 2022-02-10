@@ -475,21 +475,25 @@ const Dashboard = (): any => {
                   {t(`dashboard.sorting.results.${tab}`)}
                 </Text>
               </Text>
-              <label htmlFor="sorting" css="margin-right: 0.5rem;">
-                {t('dashboard.sorting.label')}:
-              </label>
-              <Select
-                id="sorting"
-                value={sort}
-                onChange={handleSelectSorting}
-                css="width: auto;"
-              >
-                {SORTING_OPTIONS.map((sortOption) => (
-                  <option key={sortOption} value={sortOption}>
-                    {t(`dashboard.sorting.${sortOption}`)}
-                  </option>
-                ))}
-              </Select>
+              {tab === 'events' && (
+                <>
+                  <label htmlFor="sorting" css="margin-right: 0.5rem;">
+                    {t('dashboard.sorting.label')}:
+                  </label>
+                  <Select
+                    id="sorting"
+                    value={sort}
+                    onChange={handleSelectSorting}
+                    css="width: auto;"
+                  >
+                    {SORTING_OPTIONS.map((sortOption) => (
+                      <option key={sortOption} value={sortOption}>
+                        {t(`dashboard.sorting.${sortOption}`)}
+                      </option>
+                    ))}
+                  </Select>
+                </>
+              )}
             </Inline>
           </Stack>
           <Tabs<TabOptions>
