@@ -395,7 +395,10 @@ const Dashboard = (): any => {
 
   const handleSelectTab = async (tabKey: TabOptions) =>
     router.push(
-      { pathname: `/dashboard`, query: { tab: tabKey, page: 1, sort } },
+      {
+        pathname: `/dashboard`,
+        query: { tab: tabKey, page: 1, ...(tabKey === 'events' && { sort }) },
+      },
       undefined,
       { shallow: true },
     );
@@ -413,7 +416,9 @@ const Dashboard = (): any => {
 
   const UseGetItemsByCreatorQuery = useGetItemsByCreator({
     creator: user,
-    sortOptions: { field: sortingField, order: sortingOrder },
+    ...(tab === 'events' && {
+      sortOptions: { field: sortingField, order: sortingOrder },
+    }),
     paginationOptions: {
       start: (page - 1) * itemsPerPage,
       limit: itemsPerPage,
