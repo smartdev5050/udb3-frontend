@@ -156,6 +156,18 @@
       "places": "Ajouter lieu",
       "organizers": "Ajouter organisation"
     },
+    "sorting": {
+      "label": "Filtrer par",
+      "created_desc": "date de création (nouveau - ancien)",
+      "created_asc": "date de création (ancien - nouveau)",
+      "availableTo_desc": "date de l'événement (nouveau - ancien)",
+      "availableTo_asc": "date de l'événement (ancien - nouveau)",
+      "results": {
+        "events": "événements",
+        "places": "éndroits",
+        "organizers": "organisateurs"
+      }
+    },
     "my_items": "Mes événements, endroits et organisateurs",
     "no_items": {
       "events": "Aucun événement trouvée.",

@@ -372,7 +372,7 @@ const Sidebar = () => {
 
   const userMenu = [
     {
-      href: '/dashboard?tab=events&page=1',
+      href: '/dashboard?tab=events&page=1&sort=created_desc',
       iconName: Icons.HOME,
       children: t('menu.home'),
     },

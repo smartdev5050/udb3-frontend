@@ -33,6 +33,7 @@ import { Modal, ModalVariants } from '@/ui/Modal';
 import { Page } from '@/ui/Page';
 import { Pagination } from '@/ui/Pagination';
 import { Panel } from '@/ui/Panel';
+import { Select } from '@/ui/Select';
 import { Spinner } from '@/ui/Spinner';
 import { Stack } from '@/ui/Stack';
 import { Tabs } from '@/ui/Tabs';
@@ -349,6 +350,16 @@ const TabContent = ({
   );
 };
 
+const SortingField = {
+  AVAILABLETO: 'availableTo',
+  CREATED: 'created',
+} as const;
+
+const SortingOrder = {
+  ASC: 'asc',
+  DESC: 'desc',
+} as const;
+
 const Dashboard = (): any => {
   const { t, i18n } = useTranslation();
   const { pathname, query, asPath, ...router } = useRouter();
@@ -362,11 +373,20 @@ const Dashboard = (): any => {
 
   const tab = (query?.tab as TabOptions) ?? 'events';
   const page = parseInt((query?.page as string) ?? '1');
+  const sort = (query?.sort as string) ?? 'created_desc';
 
   const useGetItemsByCreator = useMemo(
     () => UseGetItemsByCreatorMap[tab ?? 'events'],
     [tab],
   );
+
+  const sortingField = useMemo(() => {
+    return sort?.split('_')?.[0] ?? SortingField.CREATED;
+  }, [sort]);
+
+  const sortingOrder = useMemo(() => {
+    return sort?.split('_')?.[1] ?? SortingOrder.DESC;
+  }, [sort]);
 
   const useDeleteItemById = useMemo(
     () => UseDeleteItemByIdMap[tab ?? 'events'],
@@ -375,15 +395,25 @@ const Dashboard = (): any => {
 
   const handleSelectTab = async (tabKey: TabOptions) =>
     router.push(
-      { pathname: `/dashboard`, query: { tab: tabKey, page: 1 } },
+      { pathname: `/dashboard`, query: { tab: tabKey, page: 1, sort } },
       undefined,
       { shallow: true },
     );
 
   const user = cookies.user;
 
+  const handleSelectSorting = (event) => {
+    const sortValue = event.target.value;
+    router.push(
+      { pathname: `/dashboard`, query: { tab, page: 1, sort: sortValue } },
+      undefined,
+      { shallow: true },
+    );
+  };
+
   const UseGetItemsByCreatorQuery = useGetItemsByCreator({
     creator: user,
+    sortOptions: { field: sortingField, order: sortingOrder },
     paginationOptions: {
       start: (page - 1) * itemsPerPage,
       limit: itemsPerPage,
@@ -418,20 +448,50 @@ const Dashboard = (): any => {
     },
   };
 
+  const SORTING_OPTIONS = [
+    'created_desc',
+    'created_asc',
+    'availableTo_desc',
+    'availableTo_asc',
+  ];
+
   return [
     <Page key="page">
       <Page.Title>{`${t('dashboard.welcome')}, ${user?.username}`}</Page.Title>
       <Page.Content spacing={5}>
-        <Stack spacing={4} position="relative">
-          <Link
-            href={CreateMap[tab]}
-            variant={LinkVariants.BUTTON_PRIMARY}
-            position="absolute"
-            right={0}
-            top={0}
-          >
+        <Inline>
+          <Link href={CreateMap[tab]} variant={LinkVariants.BUTTON_PRIMARY}>
             {t(`dashboard.create.${tab}`)}
           </Link>
+        </Inline>
+        <Stack position="relative">
+          <Stack position="absolute" right={0} top={-5}>
+            <Inline alignItems="center" justifyContent="space-between">
+              <Text>
+                <Text fontWeight="bold" marginRight={2}>
+                  {sharedTableContentProps.totalItems}
+                </Text>
+                <Text marginRight={5}>
+                  {t(`dashboard.sorting.results.${tab}`)}
+                </Text>
+              </Text>
+              <label htmlFor="sorting" css="margin-right: 0.5rem;">
+                {t('dashboard.sorting.label')}:
+              </label>
+              <Select
+                id="sorting"
+                value={sort}
+                onChange={handleSelectSorting}
+                css="width: auto;"
+              >
+                {SORTING_OPTIONS.map((sortOption) => (
+                  <option key={sortOption} value={sortOption}>
+                    {t(`dashboard.sorting.${sortOption}`)}
+                  </option>
+                ))}
+              </Select>
+            </Inline>
+          </Stack>
           <Tabs<TabOptions>
             activeKey={tab}
             onSelect={handleSelectTab}
