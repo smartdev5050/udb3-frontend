@@ -350,9 +350,6 @@ const TabContent = ({
   );
 };
 
-type SortingFieldOptions = 'created' | 'availableTo';
-type SortingOrderOptions = 'asc' | 'desc';
-
 const SortingField = {
   AVAILABLETO: 'availableTo',
   CREATED: 'created',
@@ -374,13 +371,6 @@ const Dashboard = (): any => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [toBeDeletedItem, setToBeDeletedItem] = useState<Item>();
 
-  const [sortingField, setSortingField] = useState<SortingFieldOptions>(
-    SortingField.CREATED,
-  );
-  const [sortingOrder, setSortingOrder] = useState<SortingOrderOptions>(
-    SortingOrder.DESC,
-  );
-
   const tab = (query?.tab as TabOptions) ?? 'events';
   const page = parseInt((query?.page as string) ?? '1');
   const sort = (query?.sort as string) ?? 'created_desc';
@@ -390,10 +380,12 @@ const Dashboard = (): any => {
     [tab],
   );
 
-  useEffect(() => {
-    const [field, order] = sort.toUpperCase().split('_');
-    setSortingField(SortingField[field]);
-    setSortingOrder(SortingOrder[order]);
+  const sortingField = useMemo(() => {
+    return sort?.split('_')?.[0] ?? SortingField.CREATED;
+  }, [sort]);
+
+  const sortingOrder = useMemo(() => {
+    return sort?.split('_')?.[1] ?? SortingOrder.DESC;
   }, [sort]);
 
   const useDeleteItemById = useMemo(
