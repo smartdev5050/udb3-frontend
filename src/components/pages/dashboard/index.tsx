@@ -395,7 +395,10 @@ const Dashboard = (): any => {
 
   const handleSelectTab = async (tabKey: TabOptions) =>
     router.push(
-      { pathname: `/dashboard`, query: { tab: tabKey, page: 1, sort } },
+      {
+        pathname: `/dashboard`,
+        query: { tab: tabKey, page: 1, ...(tabKey === 'events' && { sort }) },
+      },
       undefined,
       { shallow: true },
     );
@@ -413,7 +416,9 @@ const Dashboard = (): any => {
 
   const UseGetItemsByCreatorQuery = useGetItemsByCreator({
     creator: user,
-    sortOptions: { field: sortingField, order: sortingOrder },
+    ...(tab === 'events' && {
+      sortOptions: { field: sortingField, order: sortingOrder },
+    }),
     paginationOptions: {
       start: (page - 1) * itemsPerPage,
       limit: itemsPerPage,
@@ -475,21 +480,25 @@ const Dashboard = (): any => {
                   {t(`dashboard.sorting.results.${tab}`)}
                 </Text>
               </Text>
-              <label htmlFor="sorting" css="margin-right: 0.5rem;">
-                {t('dashboard.sorting.label')}:
-              </label>
-              <Select
-                id="sorting"
-                value={sort}
-                onChange={handleSelectSorting}
-                css="width: auto;"
-              >
-                {SORTING_OPTIONS.map((sortOption) => (
-                  <option key={sortOption} value={sortOption}>
-                    {t(`dashboard.sorting.${sortOption}`)}
-                  </option>
-                ))}
-              </Select>
+              {tab === 'events' && (
+                <>
+                  <label htmlFor="sorting" css="margin-right: 0.5rem;">
+                    {t('dashboard.sorting.label')}:
+                  </label>
+                  <Select
+                    id="sorting"
+                    value={sort}
+                    onChange={handleSelectSorting}
+                    css="width: auto;"
+                  >
+                    {SORTING_OPTIONS.map((sortOption) => (
+                      <option key={sortOption} value={sortOption}>
+                        {t(`dashboard.sorting.${sortOption}`)}
+                      </option>
+                    ))}
+                  </Select>
+                </>
+              )}
             </Inline>
           </Stack>
           <Tabs<TabOptions>
