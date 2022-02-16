@@ -36,12 +36,14 @@ import { WorkflowStatusMap } from '@/types/WorkflowStatus';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Page } from '@/ui/Page';
+import { Text } from '@/ui/Text';
 import type { TimeTableValue } from '@/ui/TimeTable';
 import {
   areAllTimeSlotsValid,
   isOneTimeSlotValid,
   isTimeTableEmpty,
 } from '@/ui/TimeTable';
+import { Toast } from '@/ui/Toast';
 import { formatDateToISO } from '@/utils/formatDateToISO';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 import { parseOfferId } from '@/utils/parseOfferId';
@@ -70,8 +72,10 @@ type StepProps = Pick<
 };
 
 const FooterStatus = {
+  HIDDEN: 'HIDDEN',
   PUBLISH: 'PUBLISH',
-  SAVE: 'SAVE',
+  MANUAL_SAVE: 'MANUAL_SAVE',
+  AUTO_SAVE: 'AUTO_SAVE',
 } as const;
 
 const schema = yup
@@ -178,6 +182,9 @@ const MoviePage = () => {
   const [newEventId, setNewEventId] = useState(
     (router.query.eventId as string) ?? '',
   );
+
+  const [toastMessage, setToastMessage] = useState<string>();
+
   const [isPublishLaterModalVisible, setIsPublishLaterModalVisible] = useState(
     false,
   );
@@ -207,7 +214,9 @@ const MoviePage = () => {
     },
   });
 
-  const changeThemeMutation = useChangeTheme();
+  const changeThemeMutation = useChangeTheme({
+    onSuccess: () => setToastMessage('Hello World'),
+  });
 
   const changeLocationMutation = useChangeLocation();
 
@@ -447,14 +456,15 @@ const MoviePage = () => {
   const isStep5Visible = !!newEventId && Object.values(errors).length === 0;
 
   const footerStatus = useMemo(() => {
-    if (queryClient.isMutating()) return undefined;
+    if (queryClient.isMutating()) return FooterStatus.HIDDEN;
     if (newEventId && !availableFromDate) return FooterStatus.PUBLISH;
-    if (dirtyFields.cinema) return FooterStatus.SAVE;
-    return undefined;
+    if (dirtyFields.cinema) return FooterStatus.MANUAL_SAVE;
+    if (newEventId) return FooterStatus.AUTO_SAVE;
+    return FooterStatus.HIDDEN;
   }, [newEventId, availableFromDate, dirtyFields.cinema, queryClient]);
 
   useEffect(() => {
-    if (footerStatus) {
+    if (footerStatus !== FooterStatus.HIDDEN) {
       const main = document.querySelector('main');
       main.scroll({ left: 0, top: main.scrollHeight, behavior: 'smooth' });
     }
@@ -467,19 +477,29 @@ const MoviePage = () => {
       </Page.Title>
 
       <Page.Content spacing={5} paddingBottom={6} alignItems="flex-start">
+        <Toast
+          variant="success"
+          header={
+            <Inline justifyContent="space-between">
+              <Text>Opgeslagen</Text>
+              <Text as="small">op {format(new Date(), 'hh:mm')}</Text>
+            </Inline>
+          }
+          body={toastMessage}
+          visible={!!toastMessage}
+          onClose={() => setToastMessage(undefined)}
+        />
         <Step1 {...stepProps('theme')} />
         <Step2 {...stepProps('timeTable')} />
-        {isOnEditPage || isStep3Visible ? (
-          <Step3 {...stepProps('cinema')} />
-        ) : null}
-        {isOnEditPage || isStep4Visible ? (
-          <Step4 {...stepProps('production')} />
-        ) : null}
-        {isOnEditPage || isStep5Visible ? (
-          <Step5 {...{ ...stepProps(), eventId: newEventId }} />
-        ) : null}
+        {isOnEditPage || (isStep3Visible && <Step3 {...stepProps('cinema')} />)}
+        {isOnEditPage ||
+          (isStep4Visible && <Step4 {...stepProps('production')} />)}
+        {isOnEditPage ||
+          (isStep5Visible && (
+            <Step5 {...{ ...stepProps(), eventId: newEventId }} />
+          ))}
       </Page.Content>
-      {footerStatus ? (
+      {footerStatus !== FooterStatus.HIDDEN && (
         <Page.Footer>
           <Inline spacing={3}>
             {footerStatus === FooterStatus.PUBLISH ? (
@@ -499,7 +519,7 @@ const MoviePage = () => {
                   {t('movies.create.actions.publish_later')}
                 </Button>,
               ]
-            ) : (
+            ) : footerStatus === FooterStatus.MANUAL_SAVE ? (
               <Button
                 onClick={handleSubmit(async (formData) => {
                   handleFormValid(formData);
@@ -507,6 +527,8 @@ const MoviePage = () => {
               >
                 {t('movies.create.actions.save')}
               </Button>
+            ) : (
+              <Text>Je wijzigingen worden vanaf nu automatisch opgeslagen</Text>
             )}
           </Inline>
           <PublishLaterModal
@@ -517,7 +539,7 @@ const MoviePage = () => {
             onClose={() => setIsPublishLaterModalVisible(false)}
           />
         </Page.Footer>
-      ) : null}
+      )}
     </Page>
   );
 };
