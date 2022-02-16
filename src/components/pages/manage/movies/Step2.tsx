@@ -49,13 +49,13 @@ const Step2 = ({
           }}
         />
       </Box>
-      {errors?.timeTable ? (
+      {errors?.timeTable && (
         <Alert visible variant={AlertVariants.DANGER} maxWidth="53rem">
           {t(
             `movies.create.validation_messages.timeTable.${errors.timeTable.type}`,
           )}
         </Alert>
-      ) : null}
+      )}
     </Step>
   );
 };
