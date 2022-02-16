@@ -131,6 +131,25 @@ type EventHandlerProps = {
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
 };
 
+type Display =
+  | 'block'
+  | 'inline'
+  | 'inline-block'
+  | 'flex'
+  | 'inline-flex'
+  | 'grid'
+  | 'inline-grid'
+  | 'flow-root'
+  | 'none'
+  | 'contents'
+  | 'table'
+  | 'table-row'
+  | 'list-item'
+  | 'inherit'
+  | 'initial'
+  | 'revert'
+  | 'unset';
+
 type AlignItems =
   | 'normal'
   | 'flex-start'
@@ -165,7 +184,7 @@ type UIProps = {
   bottom: UIProp<string | number>;
   color: UIProp<string>;
   cursor: UIProp<string>;
-  display: UIProp<string>;
+  display: UIProp<Display>;
   flex: UIProp<string | number>;
   flexWrap: UIProp<FlexWrap>;
   fontSize: UIProp<string | number>;
