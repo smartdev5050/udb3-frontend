@@ -455,10 +455,6 @@ const boxProps = css`
   ${parseProperty('animation')}
 `;
 
-const StyledBox = styled.div`
-  ${boxProps}
-`;
-
 const boxPropTypes = [
   'alignItems',
   'animation',
@@ -508,6 +504,12 @@ const boxPropTypes = [
   'width',
   'zIndex',
 ] as const;
+
+const StyledBox = styled.div.withConfig({
+  shouldForwardProp: (prop, defaultValidatorFn) => defaultValidatorFn(prop),
+})`
+  ${boxProps}
+`;
 
 const getBoxProps = (props: UnknownProps) => pick(props, boxPropTypes);
 
