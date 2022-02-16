@@ -65,6 +65,22 @@ const theme = {
     alert: {
       borderRadius: 0,
     },
+    toast: {
+      primary: {
+        backgroundColor: colors.udbBlue,
+        borderColor: '#00417b',
+      },
+      secondary: {
+        color: '#333',
+        backgroundColor: colors.white,
+      },
+      success: {
+        borderColor: colors.green2,
+      },
+      danger: {
+        borderColor: colors.red3,
+      },
+    },
     modal: {
       zIndex: zIndexModal,
       zIndexBackdrop: zIndexModalBackdrop,
