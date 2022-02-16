@@ -3,13 +3,17 @@ import { Children, cloneElement, forwardRef } from 'react';
 import styled, { css } from 'styled-components';
 
 import type { BoxProps, UIProp, UnknownProps } from './Box';
-import { Box, boxProps, boxPropTypes, parseProperty } from './Box';
+import {
+  Box,
+  boxProps,
+  boxPropTypes,
+  FALSY_VALUES,
+  parseProperty,
+} from './Box';
 import type { BreakpointValues } from './theme';
 
 type StackProps = {
   spacing?: UIProp<number>;
-  alignItems?: UIProp<string>;
-  justifyContent?: UIProp<string>;
   stackOn?: BreakpointValues;
 };
 
@@ -30,12 +34,12 @@ const StyledBox = styled(Box)`
 
 const Stack = forwardRef<HTMLElement, Props>(
   ({ spacing, className, children, as, ...props }, ref) => {
-    const notNullChildren = Children.toArray(children).filter(
-      (child) => child !== null,
+    const validChildren = Children.toArray(children).filter(
+      (child) => !FALSY_VALUES.includes(child),
     );
 
-    const clonedChildren = Children.map(notNullChildren, (child, i) => {
-      const isLastItem = i === notNullChildren.length - 1;
+    const clonedChildren = Children.map(validChildren, (child, i) => {
+      const isLastItem = i === validChildren.length - 1;
 
       // @ts-expect-error
       return cloneElement(child, {

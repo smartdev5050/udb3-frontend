@@ -131,8 +131,51 @@ type EventHandlerProps = {
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
 };
 
+type Display =
+  | 'block'
+  | 'inline'
+  | 'inline-block'
+  | 'flex'
+  | 'inline-flex'
+  | 'grid'
+  | 'inline-grid'
+  | 'flow-root'
+  | 'none'
+  | 'contents'
+  | 'table'
+  | 'table-row'
+  | 'list-item'
+  | 'inherit'
+  | 'initial'
+  | 'revert'
+  | 'unset';
+
+type AlignItems =
+  | 'normal'
+  | 'flex-start'
+  | 'flex-end'
+  | 'center'
+  | 'start'
+  | 'end'
+  | 'self-start'
+  | 'self-end'
+  | 'baseline'
+  | 'stretch'
+  | 'safe'
+  | 'unsafe';
+
+type JustifyContent =
+  | 'flex-start'
+  | 'flex-end'
+  | 'center'
+  | 'space-between'
+  | 'space-around'
+  | 'space-evenly';
+
+type FlexWrap = 'nowrap' | 'wrap' | 'wrap-reverse';
+
 type UIProps = {
-  alignItems: UIProp<string>;
+  alignItems: UIProp<AlignItems>;
   animation: UIProp<FlattenSimpleInterpolation>;
   backgroundColor: UIProp<string>;
   backgroundPosition: UIProp<string>;
@@ -141,14 +184,14 @@ type UIProps = {
   bottom: UIProp<string | number>;
   color: UIProp<string>;
   cursor: UIProp<string>;
-  display: UIProp<string>;
+  display: UIProp<Display>;
   flex: UIProp<string | number>;
-  flexWrap: UIProp<string>;
+  flexWrap: UIProp<FlexWrap>;
   fontSize: UIProp<string | number>;
   fontWeight: UIProp<string | number>;
   height: UIProp<string | number>;
   id: UIProp<string>;
-  justifyContent: UIProp<string>;
+  justifyContent: UIProp<JustifyContent>;
   left: UIProp<string | number>;
   lineHeight: UIProp<string | number>;
   margin: UIProp<number>;
@@ -185,6 +228,8 @@ type BoxProps = Partial<
 >;
 
 const remInPixels = 15;
+
+const FALSY_VALUES = [null, undefined, false, '', NaN, 0] as const;
 
 const wrapStatementWithBreakpoint = (
   breakpoint: string,
@@ -482,6 +527,7 @@ export {
   Box,
   boxProps,
   boxPropTypes,
+  FALSY_VALUES,
   getBoxProps,
   parseDimension,
   parseProperty,

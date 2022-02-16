@@ -318,7 +318,7 @@ const Events = ({
   return (
     <Stack spacing={4} {...getStackProps(props)}>
       <Stack key="title-and-buttons" spacing={3}>
-        {isAddActionVisible ? (
+        {isAddActionVisible && (
           <Stack as="div" spacing={3}>
             <AddAction
               onAdd={onAddEvent}
@@ -330,9 +330,9 @@ const Events = ({
               {errorMessage}
             </Alert>
           </Stack>
-        ) : null}
+        )}
 
-        {isChangeNameActionVisible ? (
+        {isChangeNameActionVisible && (
           <Stack as="div" spacing={3}>
             <ChangeNameAction
               onConfirm={onConfirmChangeProductionName}
@@ -345,9 +345,9 @@ const Events = ({
               {errorMessage}
             </Alert>
           </Stack>
-        ) : null}
+        )}
 
-        {!isAddActionVisible && !isChangeNameActionVisible ? (
+        {!isAddActionVisible && !isChangeNameActionVisible && (
           <Actions
             loading={loading}
             activeProductionName={activeProductionName}
@@ -356,7 +356,7 @@ const Events = ({
             onClickDelete={onClickDelete}
             shouldDisableDeleteButton={shouldDisableDeleteButton}
           />
-        ) : null}
+        )}
       </Stack>
       {loading ? (
         <Spinner marginTop={4} />

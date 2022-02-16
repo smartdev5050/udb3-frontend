@@ -63,9 +63,9 @@ const FormElement = ({
         <Stack as="div">
           <Inline as="div" alignItems="center">
             {clonedComponent}
-            {loading ? (
+            {loading && (
               <Spinner size={SpinnerSizes.SMALL} width="auto" padding={3} />
-            ) : null}
+            )}
           </Inline>
           {error && <Text variant={TextVariants.ERROR}>{error}</Text>}
         </Stack>
