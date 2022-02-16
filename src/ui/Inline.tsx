@@ -10,8 +10,6 @@ import type { BreakpointValues } from './theme';
 
 type InlineProps = {
   spacing?: UIProp<number>;
-  alignItems?: UIProp<string>;
-  justifyContent?: UIProp<string>;
   stackOn?: BreakpointValues;
 };
 

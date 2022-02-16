@@ -8,8 +8,6 @@ import type { BreakpointValues } from './theme';
 
 type StackProps = {
   spacing?: UIProp<number>;
-  alignItems?: UIProp<string>;
-  justifyContent?: UIProp<string>;
   stackOn?: BreakpointValues;
 };
 
