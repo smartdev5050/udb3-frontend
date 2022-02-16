@@ -306,14 +306,14 @@ const Step5 = ({ eventId, ...props }: Step5Props) => {
                     >
                       {t('movies.create.picture.delete')}
                     </Button>
-                    {!image.isMain ? (
+                    {!image.isMain && (
                       <Button
                         variant={ButtonVariants.SECONDARY}
                         onClick={() => handleClickSetMainImage(image.parsedId)}
                       >
                         {t('movies.create.picture.set_as_main_image')}
                       </Button>
-                    ) : null}
+                    )}
                   </Inline>
                 </Stack>
               );
