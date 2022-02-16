@@ -527,11 +527,11 @@ export {
   Box,
   boxProps,
   boxPropTypes,
+  FALSY_VALUES,
   getBoxProps,
   parseDimension,
   parseProperty,
   parseSpacing,
-  FALSY_VALUES,
 };
 
 export type { BoxProps, UIProp, UnknownProps };

@@ -1,5 +1,4 @@
 import pick from 'lodash/pick';
-import type { ReactNode } from 'react';
 import { Children, cloneElement, forwardRef } from 'react';
 import styled, { css } from 'styled-components';
 
