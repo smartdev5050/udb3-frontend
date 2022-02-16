@@ -229,6 +229,8 @@ type BoxProps = Partial<
 
 const remInPixels = 15;
 
+const FALSY_VALUES = [null, undefined, false, '', NaN, 0] as const;
+
 const wrapStatementWithBreakpoint = (
   breakpoint: string,
   statementToWrap: string | (() => FlattenInterpolation<{ theme: Theme }>),
@@ -529,6 +531,7 @@ export {
   parseDimension,
   parseProperty,
   parseSpacing,
+  FALSY_VALUES,
 };
 
 export type { BoxProps, UIProp, UnknownProps };

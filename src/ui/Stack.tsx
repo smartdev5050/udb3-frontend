@@ -1,9 +1,16 @@
 import pick from 'lodash/pick';
+import type { ReactNode } from 'react';
 import { Children, cloneElement, forwardRef } from 'react';
 import styled, { css } from 'styled-components';
 
 import type { BoxProps, UIProp, UnknownProps } from './Box';
-import { Box, boxProps, boxPropTypes, parseProperty } from './Box';
+import {
+  Box,
+  boxProps,
+  boxPropTypes,
+  FALSY_VALUES,
+  parseProperty,
+} from './Box';
 import type { BreakpointValues } from './theme';
 
 type StackProps = {
@@ -29,7 +36,7 @@ const StyledBox = styled(Box)`
 const Stack = forwardRef<HTMLElement, Props>(
   ({ spacing, className, children, as, ...props }, ref) => {
     const validChildren = Children.toArray(children).filter(
-      (child) => !([null, undefined, false] as any[]).includes(child),
+      (child) => !FALSY_VALUES.includes(child),
     );
 
     const clonedChildren = Children.map(validChildren, (child, i) => {

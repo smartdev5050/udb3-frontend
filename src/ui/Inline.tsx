@@ -5,7 +5,13 @@ import styled, { css } from 'styled-components';
 import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
 
 import type { BoxProps, UIProp, UnknownProps } from './Box';
-import { Box, boxProps, boxPropTypes, parseProperty } from './Box';
+import {
+  Box,
+  boxProps,
+  boxPropTypes,
+  FALSY_VALUES,
+  parseProperty,
+} from './Box';
 import type { BreakpointValues } from './theme';
 
 type InlineProps = {
@@ -48,7 +54,7 @@ const Inline = forwardRef<HTMLElement, Props>(
       shouldCollapse && stackOn ? 'marginBottom' : 'marginRight';
 
     const validChildren = Children.toArray(children).filter(
-      (child) => !([null, undefined, false] as any[]).includes(child),
+      (child) => !FALSY_VALUES.includes(child),
     );
 
     const clonedChildren = Children.map(validChildren, (child, i) => {
