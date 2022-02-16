@@ -131,8 +131,32 @@ type EventHandlerProps = {
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
 };
 
+type AlignItems =
+  | 'normal'
+  | 'flex-start'
+  | 'flex-end'
+  | 'center'
+  | 'start'
+  | 'end'
+  | 'self-start'
+  | 'self-end'
+  | 'baseline'
+  | 'stretch'
+  | 'safe'
+  | 'unsafe';
+
+type JustifyContent =
+  | 'flex-start'
+  | 'flex-end'
+  | 'center'
+  | 'space-between'
+  | 'space-around'
+  | 'space-evenly';
+
+type FlexWrap = 'nowrap' | 'wrap' | 'wrap-reverse';
+
 type UIProps = {
-  alignItems: UIProp<string>;
+  alignItems: UIProp<AlignItems>;
   animation: UIProp<FlattenSimpleInterpolation>;
   backgroundColor: UIProp<string>;
   backgroundPosition: UIProp<string>;
@@ -143,12 +167,12 @@ type UIProps = {
   cursor: UIProp<string>;
   display: UIProp<string>;
   flex: UIProp<string | number>;
-  flexWrap: UIProp<string>;
+  flexWrap: UIProp<FlexWrap>;
   fontSize: UIProp<string | number>;
   fontWeight: UIProp<string | number>;
   height: UIProp<string | number>;
   id: UIProp<string>;
-  justifyContent: UIProp<string>;
+  justifyContent: UIProp<JustifyContent>;
   left: UIProp<string | number>;
   lineHeight: UIProp<string | number>;
   margin: UIProp<number>;
