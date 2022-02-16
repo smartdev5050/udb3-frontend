@@ -1,0 +1,76 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import { Toast, ToastVariants } from './Toast';
+
+<Meta title="Components/Toast" component={Toast} />
+
+# Variants
+
+## Primary
+
+<Canvas>
+  <Story name="Primary" args={{ variant: ToastVariants.PRIMARY }}>
+    {(args) => <Toast {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Primary" />
+
+## Secondary
+
+<Canvas>
+  <Story name="Secondary" args={{ variant: ToastVariants.SECONDARY }}>
+    {(args) => <Toast {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Secondary" />
+
+## Success
+
+<Canvas>
+  <Story name="Success" args={{ variant: ToastVariants.SUCCESS }}>
+    {(args) => <Toast {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Success" />
+
+## Danger
+
+<Canvas>
+  <Story name="Danger" args={{ variant: ToastVariants.DANGER }}>
+    {(args) => <Toast {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Danger" />
+
+## Info
+
+<Canvas>
+  <Story name="Info" args={{ variant: ToastVariants.INFO }}>
+    {(args) => <Toast {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Info" />
+
+## Light
+
+<Canvas>
+  <Story name="Light" args={{ variant: ToastVariants.LIGHT }}>
+    {(args) => <Toast {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Light" />
+
+## Dark
+
+<Canvas>
+  <Story name="Dark" args={{ variant: ToastVariants.DARK }}>
+    {(args) => <Toast {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Dark" />
