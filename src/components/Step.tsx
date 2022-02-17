@@ -1,5 +1,3 @@
-import { useTranslation } from 'react-i18next';
-
 import type { BoxProps } from '@/ui/Box';
 import { Box } from '@/ui/Box';
 import type { StackProps } from '@/ui/Stack';
