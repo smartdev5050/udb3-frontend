@@ -1,6 +1,7 @@
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
+import { Step } from '@/components/Step';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Box } from '@/ui/Box';
 import type { StackProps } from '@/ui/Stack';
@@ -12,7 +13,6 @@ import {
 } from '@/ui/TimeTable';
 
 import type { StepProps } from './MoviePage';
-import { Step } from './Step';
 
 type Step2Props = StackProps & StepProps;
 

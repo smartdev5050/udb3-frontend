@@ -1,6 +1,7 @@
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
+import { Step } from '@/components/Step';
 import { MovieThemes } from '@/constants/MovieThemes';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
@@ -11,7 +12,6 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
 import type { StepProps } from './MoviePage';
-import { Step } from './Step';
 
 const getValue = getValueFromTheme('moviesCreatePage');
 

@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
+import { Step } from '@/components/Step';
 import { OfferCategories } from '@/constants/OfferCategories';
 import { useGetPlacesByQuery } from '@/hooks/api/places';
 import type { Place } from '@/types/Place';
@@ -17,7 +18,6 @@ import { getValueFromTheme } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
 
 import type { StepProps } from './MoviePage';
-import { Step } from './Step';
 
 const getValue = getValueFromTheme('moviesCreatePage');
 

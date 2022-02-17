@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
+import { Step } from '@/components/Step';
 import {
   useAddEventMainImage,
   useAddImageToEvent,
@@ -26,7 +27,6 @@ import { parseOfferId } from '@/utils/parseOfferId';
 import { PictureDeleteModal } from './PictureDeleteModal';
 import type { FormData } from './PictureUploadModal';
 import { PictureUploadModal } from './PictureUploadModal';
-import { Step } from './Step';
 
 const getValue = getValueFromTheme('moviesCreatePage');
 

@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
+import { Step } from '@/components/Step';
 import { useGetProductions } from '@/hooks/api/productions';
 import type { Production } from '@/types/Production';
 import { Button, ButtonVariants } from '@/ui/Button';
@@ -16,7 +17,6 @@ import { getValueFromTheme } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
 
 import type { StepProps } from './MoviePage';
-import { Step } from './Step';
 
 type Step4Props = StackProps & StepProps;
 
