@@ -50,7 +50,7 @@ const Step3 = ({
   ]);
 
   return (
-    <Step stepNumber={3}>
+    <Step title={t(`movies.create.step3.title`)} stepNumber={3}>
       <Stack {...getStackProps(props)}>
         <Controller
           control={control}

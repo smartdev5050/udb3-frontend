@@ -26,7 +26,12 @@ const Step2 = ({
   const { t } = useTranslation();
 
   return (
-    <Step stepNumber={2} spacing={3} {...getStackProps(props)}>
+    <Step
+      stepNumber={2}
+      spacing={3}
+      title={t(`movies.create.step2.title`)}
+      {...getStackProps(props)}
+    >
       <Box>
         <Controller
           name="timeTable"

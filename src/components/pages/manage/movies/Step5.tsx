@@ -196,7 +196,7 @@ const Step5 = ({ eventId, ...props }: Step5Props) => {
   };
 
   return (
-    <Step stepNumber={5}>
+    <Step title={t(`movies.create.step5.title`)} stepNumber={5}>
       <PictureUploadModal
         visible={isPictureUploadModalVisible}
         onClose={handleCloseModal}

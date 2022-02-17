@@ -28,7 +28,11 @@ const Step1 = ({
   const { t } = useTranslation();
 
   return (
-    <Step stepNumber={1} {...getStackProps(props)}>
+    <Step
+      stepNumber={1}
+      title={t(`movies.create.step1.title`)}
+      {...getStackProps(props)}
+    >
       <Controller
         name="theme"
         control={control}

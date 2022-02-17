@@ -48,7 +48,7 @@ const Step4 = ({
   ]);
 
   return (
-    <Step stepNumber={4}>
+    <Step title={t(`movies.create.step4.title`)} stepNumber={4}>
       <Controller
         control={control}
         name="production"

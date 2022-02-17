@@ -8,7 +8,7 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
-type StepProps = StackProps & { stepNumber: number };
+type StepProps = StackProps & { title: string; stepNumber: number };
 
 type NumberIndicatorProps = {
   children: number;
@@ -36,9 +36,7 @@ const NumberIndicator = ({ children, ...props }: NumberIndicatorProps) => {
   );
 };
 
-const Step = ({ stepNumber, children, ...props }: StepProps) => {
-  const { t } = useTranslation();
-
+const Step = ({ stepNumber, children, title = '', ...props }: StepProps) => {
   return (
     <Stack spacing={4} width="100%" {...getStackProps(props)}>
       <Title
@@ -51,7 +49,7 @@ const Step = ({ stepNumber, children, ...props }: StepProps) => {
         `}
       >
         <NumberIndicator>{stepNumber}</NumberIndicator>
-        <Text>{t(`movies.create.step${stepNumber}.title`)}</Text>
+        <Text>{title}</Text>
       </Title>
       {children}
     </Stack>
