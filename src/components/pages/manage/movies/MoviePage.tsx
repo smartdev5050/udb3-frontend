@@ -491,13 +491,19 @@ const MoviePage = () => {
         />
         <Step1 {...stepProps('theme')} />
         <Step2 {...stepProps('timeTable')} />
-        {isOnEditPage || (isStep3Visible && <Step3 {...stepProps('cinema')} />)}
-        {isOnEditPage ||
-          (isStep4Visible && <Step4 {...stepProps('production')} />)}
-        {isOnEditPage ||
-          (isStep5Visible && (
-            <Step5 {...{ ...stepProps(), eventId: newEventId }} />
-          ))}
+        {(isOnEditPage || isStep3Visible) && <Step3 {...stepProps('cinema')} />}
+        {(isOnEditPage || isStep4Visible) && (
+          <Step4 {...stepProps('production')} />
+        )}
+        {(isOnEditPage || isStep5Visible) && (
+          <Step5
+            {...{
+              ...stepProps(),
+              eventId: newEventId,
+              onSuccessChangeDescription: handleSuccesOnChangeDescription,
+            }}
+          />
+        )}
       </Page.Content>
       {footerStatus !== FooterStatus.HIDDEN && (
         <Page.Footer>
