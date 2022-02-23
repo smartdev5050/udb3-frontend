@@ -385,6 +385,10 @@ const MoviePage = () => {
     setToastMessage(t('movies.create.toast.success.description'));
   };
 
+  const handleSuccesOnChangeImage = () => {
+    setToastMessage(t('movies.create.toast.success.image'));
+  };
+
   const handleFormValid = async (
     formData: FormData,
     editedField?: keyof FormData,
