@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-import type { ToastProps } from 'react-bootstrap';
 import { Toast as BootstrapToast } from 'react-bootstrap';
 import { css } from 'styled-components';
 

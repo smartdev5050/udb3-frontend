@@ -10,7 +10,6 @@ import {
   boxProps,
   boxPropTypes,
   FALSY_VALUES,
-  notAllowedPropsSet,
   parseProperty,
 } from './Box';
 import type { BreakpointValues } from './theme';
@@ -42,9 +41,7 @@ const inlineProps = css`
   ${parseStackOnProperty()};
 `;
 
-const StyledBox = styled(Box).withConfig({
-  shouldForwardProp: (prop) => !notAllowedPropsSet.has(prop as any),
-})`
+const StyledBox = styled(Box)`
   ${inlineProps};
   ${boxProps};
 `;
