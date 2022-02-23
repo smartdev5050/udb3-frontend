@@ -94,19 +94,12 @@ type Props = {
 };
 
 const Toast = ({ variant, visible, header, body, onClose }: Props) => {
-  // const shouldHaveWhiteText = ([
-  //   ToastVariants.PRIMARY,
-  //   ToastVariants.SUCCESS,
-  //   ToastVariants.DANGER,
-  //   ToastVariants.DARK,
-  // ] as string[]).includes(variant);
-
   return (
     <BootstrapToast
       className={`d-inline-block m-1 bg-${variant}`}
       css={VariantToStylesMap[variant]}
-      // autohide
-      // delay={5000}
+      autohide
+      delay={5000}
       show={visible}
       onClose={onClose}
     >
