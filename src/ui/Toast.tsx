@@ -5,6 +5,8 @@ import { css } from 'styled-components';
 import type { Values } from '@/types/Values';
 
 import { parseSpacing } from './Box';
+import { Button, ButtonVariants } from './Button';
+import { Icon, Icons } from './Icon';
 import { Inline } from './Inline';
 import { Paragraph } from './Paragraph';
 import { getValueFromTheme } from './theme';
@@ -27,18 +29,29 @@ const commonCss = css`
     border-radius: 0;
 
     position: fixed;
-    right: 0;
+    right: ${parseSpacing(3)()};
     top: ${parseSpacing(3)()};
 
-    min-width: 30rem;
+    z-index: ${getValue('zIndex')};
+
+    min-width: ${parseSpacing(8)()};
   }
 
   .toast-header {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 
+    border-bottom: none;
+
+    background-color: transparent;
+
     display: flex;
     justify-content: space-between;
+    align-items: center;
+
+    button.close {
+      color: #fff;
+    }
   }
 `;
 
@@ -83,28 +96,33 @@ type Props = {
 };
 
 const Toast = ({ variant, visible, header, body, onClose }: Props) => {
-  const shouldHaveWhiteText = ([
-    ToastVariants.PRIMARY,
-    ToastVariants.SUCCESS,
-    ToastVariants.DANGER,
-    ToastVariants.DARK,
-  ] as string[]).includes(variant);
+  // const shouldHaveWhiteText = ([
+  //   ToastVariants.PRIMARY,
+  //   ToastVariants.SUCCESS,
+  //   ToastVariants.DANGER,
+  //   ToastVariants.DARK,
+  // ] as string[]).includes(variant);
 
   return (
     <BootstrapToast
       className={`d-inline-block m-1 bg-${variant}`}
       css={VariantToStylesMap[variant]}
-      autohide
-      delay={5000}
+      // autohide
+      // delay={5000}
       show={visible}
       onClose={onClose}
     >
-      <Inline as={BootstrapToast.Header} spacing={3}>
+      <Inline
+        as={BootstrapToast.Header}
+        spacing={3}
+        color={getValue('textColor.light')}
+      >
         {header}
       </Inline>
       <Paragraph
         as={BootstrapToast.Body}
-        color={shouldHaveWhiteText ? '#FFF' : 'inherit'}
+        backgroundColor="rgba(255,255,255,.85)"
+        color={getValue('textColor.dark')}
       >
         {body}
       </Paragraph>
