@@ -1,4 +1,4 @@
-import throttle from 'lodash/throttle';
+import debounce from 'lodash/debounce';
 import { useMemo, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -72,7 +72,7 @@ const Step4 = ({
                     newSelectionPrefix="Voeg nieuwe productie toe: "
                     allowNew
                     options={productions}
-                    onInputChange={throttle(setSearchInput, 275)}
+                    onInputChange={debounce(setSearchInput, 275)}
                     labelKey="name"
                     maxWidth="43rem"
                     selected={field.value ? [field.value] : []}
