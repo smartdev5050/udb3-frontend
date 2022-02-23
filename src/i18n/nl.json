@@ -200,6 +200,15 @@
           "required": "Naam is verplicht."
         }
       },
+      "toast": {
+        "success": {
+          "theme": "Thema is succesvol gewijzigd",
+          "cinema": "Bioscoop is succesvol gewijzigd",
+          "timeslot": "Tijdssloten zijn succesvol gewijzigd",
+          "name": "Naam is succesvol gewijzigd",
+          "description": "Beschrijving is succesvol gewijzigd"
+        }
+      },
       "picture": {
         "intro": "Voeg een afbeelding toe zodat bezoekers je activiteit beter herkennen",
         "add_button": "Afbeelding toevoegen",

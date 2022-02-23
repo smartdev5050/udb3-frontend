@@ -215,14 +215,20 @@ const MoviePage = () => {
   });
 
   const changeThemeMutation = useChangeTheme({
-    onSuccess: () => setToastMessage('Hello World'),
+    onSuccess: () => setToastMessage(t('movies.create.toast.success.theme')),
   });
 
-  const changeLocationMutation = useChangeLocation();
+  const changeLocationMutation = useChangeLocation({
+    onSuccess: () => setToastMessage(t('movies.create.toast.success.movie')),
+  });
 
-  const changeCalendarMutation = useChangeCalendar();
+  const changeCalendarMutation = useChangeCalendar({
+    onSuccess: () => setToastMessage(t('movies.create.toast.success.timeslot')),
+  });
 
-  const changeNameMutation = useChangeName();
+  const changeNameMutation = useChangeName({
+    onSuccess: () => setToastMessage(t('movies.create.toast.success.name')),
+  });
 
   const availableFromDate = useMemo(() => {
     // @ts-expect-error
@@ -375,6 +381,10 @@ const MoviePage = () => {
     setNewEventId(eventId);
   };
 
+  const handleSuccesOnChangeDescription = () => {
+    setToastMessage(t('movies.create.toast.success.description'));
+  };
+
   const handleFormValid = async (
     formData: FormData,
     editedField?: keyof FormData,
@@ -480,9 +490,9 @@ const MoviePage = () => {
         <Toast
           variant="success"
           header={
-            <Inline justifyContent="space-between">
-              <Text>Opgeslagen</Text>
-              <Text as="small">op {format(new Date(), 'hh:mm')}</Text>
+            <Inline as="div" flex={1} justifyContent="space-between">
+              <Text>Succesvol gewijzigd</Text>
+              <Text as="small"> {format(new Date(), 'hh:mm')}</Text>
             </Inline>
           }
           body={toastMessage}
