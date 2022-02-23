@@ -476,9 +476,12 @@ const Dashboard = (): any => {
                 <Text fontWeight="bold" marginRight={2}>
                   {sharedTableContentProps.totalItems}
                 </Text>
-                <Text marginRight={5}>
-                  {t(`dashboard.sorting.results.${tab}`)}
-                </Text>
+                <Trans
+                  i18nKey={`dashboard.sorting.results.${tab}`}
+                  count={sharedTableContentProps.totalItems}
+                >
+                  <Text fontWeight="bold" /> evenementen
+                </Trans>
               </Text>
               {tab === 'events' && (
                 <>

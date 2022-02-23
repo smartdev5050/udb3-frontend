@@ -320,9 +320,12 @@
       "availableTo_desc": "eventdatum (nieuw - oud)",
       "availableTo_asc": "eventdatum (oud - nieuw)",
       "results": {
-        "events": "evenementen",
-        "places": "locaties",
-        "organizers": "organisaties"
+        "events": "<0>{{count}}</0> evenement",
+        "events_plural": "<0>{{count}}</0> evenementen",
+        "places": "<0>{{count}}</0> locatie",
+        "places_plural": "<0>{{count}}</0> locaties",
+        "organizers": "<0>{{count}}</0> organisatie",
+        "organizers_plural": "<0>{{count}}</0> organisaties"
       }
     },
     "no_items": {
