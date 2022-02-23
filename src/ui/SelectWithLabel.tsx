@@ -1,8 +1,7 @@
-import type { LabelPositions } from 'Label';
-
 import type { Values } from '@/types/Values';
 
 import { FormElement } from './FormElement';
+import type { LabelPositions } from './Label';
 import type { SelectProps } from './Select';
 import { Select } from './Select';
 
