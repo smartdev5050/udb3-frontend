@@ -5,8 +5,6 @@ import { css } from 'styled-components';
 import type { Values } from '@/types/Values';
 
 import { parseSpacing } from './Box';
-import { Button, ButtonVariants } from './Button';
-import { Icon, Icons } from './Icon';
 import { Inline } from './Inline';
 import { Paragraph } from './Paragraph';
 import { getValueFromTheme } from './theme';
