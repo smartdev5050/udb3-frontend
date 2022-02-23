@@ -1,3 +1,4 @@
+import difference from 'lodash/difference';
 import kebabCase from 'lodash/kebabCase';
 import pick from 'lodash/pick';
 import type {
@@ -505,8 +506,12 @@ const boxPropTypes = [
   'zIndex',
 ] as const;
 
+const notAllowedPropsSet = new Set(
+  difference(boxPropTypes, ['as', 'id', 'onClick']),
+);
+
 const StyledBox = styled.div.withConfig({
-  shouldForwardProp: (prop, defaultValidatorFn) => defaultValidatorFn(prop),
+  shouldForwardProp: (prop) => !notAllowedPropsSet.has(prop as any),
 })`
   ${boxProps}
 `;
@@ -531,6 +536,7 @@ export {
   boxPropTypes,
   FALSY_VALUES,
   getBoxProps,
+  notAllowedPropsSet,
   parseDimension,
   parseProperty,
   parseSpacing,
