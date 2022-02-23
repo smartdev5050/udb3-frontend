@@ -8,7 +8,6 @@ import type { Values } from '@/types/Values';
 import { parseSpacing } from './Box';
 import { Inline } from './Inline';
 import { Paragraph } from './Paragraph';
-import { Text } from './Text';
 import { getValueFromTheme } from './theme';
 
 const ToastVariants = {
@@ -28,14 +27,19 @@ const commonCss = css`
   &.toast {
     border-radius: 0;
 
-    position: absolute;
+    position: fixed;
     right: 0;
     top: ${parseSpacing(3)()};
+
+    min-width: 30rem;
   }
 
   .toast-header {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+
+    display: flex;
+    justify-content: space-between;
   }
 `;
 
@@ -92,7 +96,7 @@ const Toast = ({ variant, visible, header, body, onClose }: Props) => {
       className={`d-inline-block m-1 bg-${variant}`}
       css={VariantToStylesMap[variant]}
       autohide
-      delay={3000}
+      delay={5000}
       show={visible}
       onClose={onClose}
     >
