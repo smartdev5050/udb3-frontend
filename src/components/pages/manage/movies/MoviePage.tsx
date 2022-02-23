@@ -37,6 +37,7 @@ import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Page } from '@/ui/Page';
 import { Text } from '@/ui/Text';
+import { getValueFromTheme } from '@/ui/theme';
 import type { TimeTableValue } from '@/ui/TimeTable';
 import {
   areAllTimeSlotsValid,
@@ -70,6 +71,8 @@ type StepProps = Pick<
   loading: boolean;
   onChange: (value: any) => void;
 };
+
+const getValue = getValueFromTheme('moviesCreatePage');
 
 const FooterStatus = {
   HIDDEN: 'HIDDEN',
@@ -219,7 +222,7 @@ const MoviePage = () => {
   });
 
   const changeLocationMutation = useChangeLocation({
-    onSuccess: () => setToastMessage(t('movies.create.toast.success.movie')),
+    onSuccess: () => setToastMessage(t('movies.create.toast.success.cinema')),
   });
 
   const changeCalendarMutation = useChangeCalendar({
@@ -484,6 +487,17 @@ const MoviePage = () => {
     }
   }, [footerStatus]);
 
+  const header = useMemo(
+    () => (
+      <Inline as="div" flex={1} justifyContent="space-between">
+        <Text>{t('movies.create.toast.success.title')}</Text>
+        <Text>{format(new Date(), 'HH:mm')}</Text>
+      </Inline>
+    ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [toastMessage],
+  );
+
   return (
     <Page>
       <Page.Title spacing={3} alignItems="center">
@@ -493,12 +507,7 @@ const MoviePage = () => {
       <Page.Content spacing={5} paddingBottom={6} alignItems="flex-start">
         <Toast
           variant="success"
-          header={
-            <Inline as="div" flex={1} justifyContent="space-between">
-              <Text>Succesvol gewijzigd</Text>
-              <Text as="small"> {format(new Date(), 'hh:mm')}</Text>
-            </Inline>
-          }
+          header={header}
           body={toastMessage}
           visible={!!toastMessage}
           onClose={() => setToastMessage(undefined)}
@@ -515,6 +524,7 @@ const MoviePage = () => {
               ...stepProps(),
               eventId: newEventId,
               onSuccessChangeDescription: handleSuccesOnChangeDescription,
+              onSuccessChangeImage: handleSuccesOnChangeImage,
             }}
           />
         )}
@@ -548,7 +558,9 @@ const MoviePage = () => {
                 {t('movies.create.actions.save')}
               </Button>
             ) : (
-              <Text>Je wijzigingen worden vanaf nu automatisch opgeslagen</Text>
+              <Text color={getValue('footer.color')} fontSize="0.9rem">
+                {t('movies.create.footer.auto_save')}
+              </Text>
             )}
           </Inline>
           <PublishLaterModal
