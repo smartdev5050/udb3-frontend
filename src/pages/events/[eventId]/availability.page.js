@@ -1,8 +1,6 @@
 import { useRouter } from 'next/router';
 import { dehydrate } from 'react-query/hydration';
 
-import { AvailabilityPageMultiple } from '@/components/AvailabilityPageMultiple';
-import { AvailabilityPageSingle } from '@/components/AvailabilityPageSingle';
 import { CalendarType } from '@/constants/CalendarType';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
 import {
@@ -10,6 +8,8 @@ import {
   useChangeStatusSubEvents,
   useGetEventById,
 } from '@/hooks/api/events';
+import { AvailabilityPageMultiple } from '@/pages/AvailabilityPageMultiple';
+import { AvailabilityPageSingle } from '@/pages/AvailabilityPageSingle';
 import { Spinner } from '@/ui/Spinner';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 

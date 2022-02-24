@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { StatusForm } from '@/components/StatusForm';
 import { OfferStatus } from '@/constants/OfferStatus';
 import { OfferType } from '@/constants/OfferType';
+import { StatusForm } from '@/pages/StatusForm';
 import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
 import { Spinner } from '@/ui/Spinner';
 import { Stack } from '@/ui/Stack';

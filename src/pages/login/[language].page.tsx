@@ -5,9 +5,9 @@ import { useEffect } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { css, keyframes } from 'styled-components';
 
-import { Footer } from '@/components/Footer';
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import { SupportedLanguages } from '@/i18n/index';
+import { Footer } from '@/pages/Footer';
 import { Box } from '@/ui/Box';
 import { Button, ButtonSizes } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';

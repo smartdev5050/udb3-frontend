@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 import { dehydrate } from 'react-query/hydration';
 
-import { AvailabilityPageSingle } from '@/components/AvailabilityPageSingle';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
 import { useChangeStatus, useGetPlaceById } from '@/hooks/api/places';
+import { AvailabilityPageSingle } from '@/pages/AvailabilityPageSingle';
 import { Spinner } from '@/ui/Spinner';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 

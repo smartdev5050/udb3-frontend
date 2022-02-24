@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { BookingAvailabilityForm } from '@/components/BookingAvailabilityForm';
-import { StatusForm } from '@/components/StatusForm';
 import { CalendarType } from '@/constants/CalendarType';
 import { OfferStatus } from '@/constants/OfferStatus';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
+import { BookingAvailabilityForm } from '@/pages/BookingAvailabilityForm';
+import { StatusForm } from '@/pages/StatusForm';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
