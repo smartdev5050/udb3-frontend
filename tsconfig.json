@@ -6,7 +6,7 @@
     "paths": {
       "@/ui/*": ["ui/*"],
       "@/hooks/*": ["hooks/*"],
-      "@/pages/*": ["components/pages/*"],
+      "@/pages/*": ["pages/*"],
       "@/utils/*": ["utils/*"],
       "@/constants/*": ["constants/*"],
       "@/test/*": ["test/*"],
