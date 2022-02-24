@@ -510,7 +510,6 @@ const Dashboard = (): any => {
             activeKey={tab}
             onSelect={handleSelectTab}
             activeBackgroundColor="white"
-            height="2.8rem"
           >
             <Tabs.Tab eventKey="events" title={t('dashboard.tabs.events')}>
               {tab === 'events' && (
