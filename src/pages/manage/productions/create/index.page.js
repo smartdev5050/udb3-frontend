@@ -1,4 +1,4 @@
-import throttle from 'lodash/throttle';
+import debounce from 'lodash/debounce';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -252,7 +252,7 @@ const Create = () => {
                       maxWidth="43rem"
                       emptyLabel={t('productions.create.no_productions')}
                       minLength={minSearchLength}
-                      onInputChange={throttle(handleInputSearch, 275)}
+                      onInputChange={debounce(handleInputSearch, 275)}
                       onChange={(selected) => {
                         if (!selected || selected.length !== 1) {
                           setSelectedProductionId(undefined);

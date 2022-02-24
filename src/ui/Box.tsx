@@ -1,3 +1,4 @@
+import difference from 'lodash/difference';
 import kebabCase from 'lodash/kebabCase';
 import pick from 'lodash/pick';
 import type {
@@ -457,10 +458,6 @@ const boxProps = css`
   ${parseProperty('animation')}
 `;
 
-const StyledBox = styled.div`
-  ${boxProps}
-`;
-
 const boxPropTypes = [
   'alignItems',
   'animation',
@@ -512,6 +509,16 @@ const boxPropTypes = [
   'zIndex',
 ] as const;
 
+const notAllowedPropsSet = new Set(
+  difference(boxPropTypes, ['as', 'id', 'onClick']),
+);
+
+const StyledBox = styled.div.withConfig({
+  shouldForwardProp: (prop) => !notAllowedPropsSet.has(prop as any),
+})`
+  ${boxProps}
+`;
+
 const getBoxProps = (props: UnknownProps) => pick(props, boxPropTypes);
 
 const Box = forwardRef<HTMLElement, BoxProps>(({ children, ...props }, ref) => (
@@ -532,6 +539,7 @@ export {
   boxPropTypes,
   FALSY_VALUES,
   getBoxProps,
+  notAllowedPropsSet,
   parseDimension,
   parseProperty,
   parseSpacing,
