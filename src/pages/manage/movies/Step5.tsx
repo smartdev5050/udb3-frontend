@@ -30,9 +30,18 @@ import { Step } from './Step';
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
-type Step5Props = StackProps & { eventId: string };
+type Step5Props = StackProps & {
+  eventId: string;
+  onSuccessChangeDescription: () => void;
+  onSuccessChangeImage: () => void;
+};
 
-const Step5 = ({ eventId, ...props }: Step5Props) => {
+const Step5 = ({
+  eventId,
+  onSuccessChangeDescription,
+  onSuccessChangeImage,
+  ...props
+}: Step5Props) => {
   const queryClient = useQueryClient();
   const { t, i18n } = useTranslation();
   const [
@@ -50,7 +59,9 @@ const Step5 = ({ eventId, ...props }: Step5Props) => {
 
   const getEventByIdQuery = useGetEventById({ id: eventId });
 
-  const changeDescriptionMutation = useChangeDescription();
+  const changeDescriptionMutation = useChangeDescription({
+    onSuccess: onSuccessChangeDescription,
+  });
 
   useEffect(() => {
     // @ts-expect-error
@@ -92,8 +103,10 @@ const Step5 = ({ eventId, ...props }: Step5Props) => {
     return imageWithoutFile;
   }, [images, imageToEditId]);
 
-  const invalidateEventQuery = async () =>
+  const invalidateEventQuery = async () => {
     await queryClient.invalidateQueries(['events', { id: eventId }]);
+    onSuccessChangeImage();
+  };
 
   const handleSuccessAddImage = ({ imageId }) =>
     addImageToEventMutation.mutate({ eventId, imageId });

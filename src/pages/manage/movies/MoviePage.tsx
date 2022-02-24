@@ -36,12 +36,15 @@ import { WorkflowStatusMap } from '@/types/WorkflowStatus';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Page } from '@/ui/Page';
+import { Text } from '@/ui/Text';
+import { getValueFromTheme } from '@/ui/theme';
 import type { TimeTableValue } from '@/ui/TimeTable';
 import {
   areAllTimeSlotsValid,
   isOneTimeSlotValid,
   isTimeTableEmpty,
 } from '@/ui/TimeTable';
+import { Toast } from '@/ui/Toast';
 import { formatDateToISO } from '@/utils/formatDateToISO';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 import { parseOfferId } from '@/utils/parseOfferId';
@@ -69,9 +72,13 @@ type StepProps = Pick<
   onChange: (value: any) => void;
 };
 
+const getValue = getValueFromTheme('moviesCreatePage');
+
 const FooterStatus = {
+  HIDDEN: 'HIDDEN',
   PUBLISH: 'PUBLISH',
-  SAVE: 'SAVE',
+  MANUAL_SAVE: 'MANUAL_SAVE',
+  AUTO_SAVE: 'AUTO_SAVE',
 } as const;
 
 const schema = yup
@@ -178,6 +185,9 @@ const MoviePage = () => {
   const [newEventId, setNewEventId] = useState(
     (router.query.eventId as string) ?? '',
   );
+
+  const [toastMessage, setToastMessage] = useState<string>();
+
   const [isPublishLaterModalVisible, setIsPublishLaterModalVisible] = useState(
     false,
   );
@@ -207,13 +217,21 @@ const MoviePage = () => {
     },
   });
 
-  const changeThemeMutation = useChangeTheme();
+  const changeThemeMutation = useChangeTheme({
+    onSuccess: () => setToastMessage(t('movies.create.toast.success.theme')),
+  });
 
-  const changeLocationMutation = useChangeLocation();
+  const changeLocationMutation = useChangeLocation({
+    onSuccess: () => setToastMessage(t('movies.create.toast.success.cinema')),
+  });
 
-  const changeCalendarMutation = useChangeCalendar();
+  const changeCalendarMutation = useChangeCalendar({
+    onSuccess: () => setToastMessage(t('movies.create.toast.success.timeslot')),
+  });
 
-  const changeNameMutation = useChangeName();
+  const changeNameMutation = useChangeName({
+    onSuccess: () => setToastMessage(t('movies.create.toast.success.name')),
+  });
 
   const availableFromDate = useMemo(() => {
     // @ts-expect-error
@@ -366,6 +384,14 @@ const MoviePage = () => {
     setNewEventId(eventId);
   };
 
+  const handleSuccesOnChangeDescription = () => {
+    setToastMessage(t('movies.create.toast.success.description'));
+  };
+
+  const handleSuccesOnChangeImage = () => {
+    setToastMessage(t('movies.create.toast.success.image'));
+  };
+
   const handleFormValid = async (
     formData: FormData,
     editedField?: keyof FormData,
@@ -447,18 +473,30 @@ const MoviePage = () => {
   const isStep5Visible = !!newEventId && Object.values(errors).length === 0;
 
   const footerStatus = useMemo(() => {
-    if (queryClient.isMutating()) return undefined;
+    if (queryClient.isMutating()) return FooterStatus.HIDDEN;
     if (newEventId && !availableFromDate) return FooterStatus.PUBLISH;
-    if (dirtyFields.cinema) return FooterStatus.SAVE;
-    return undefined;
+    if (dirtyFields.cinema) return FooterStatus.MANUAL_SAVE;
+    if (newEventId) return FooterStatus.AUTO_SAVE;
+    return FooterStatus.HIDDEN;
   }, [newEventId, availableFromDate, dirtyFields.cinema, queryClient]);
 
   useEffect(() => {
-    if (footerStatus) {
+    if (footerStatus !== FooterStatus.HIDDEN) {
       const main = document.querySelector('main');
       main.scroll({ left: 0, top: main.scrollHeight, behavior: 'smooth' });
     }
   }, [footerStatus]);
+
+  const header = useMemo(
+    () => (
+      <Inline as="div" flex={1} justifyContent="space-between">
+        <Text>{t('movies.create.toast.success.title')}</Text>
+        <Text>{format(new Date(), 'HH:mm')}</Text>
+      </Inline>
+    ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [toastMessage],
+  );
 
   return (
     <Page>
@@ -467,19 +505,31 @@ const MoviePage = () => {
       </Page.Title>
 
       <Page.Content spacing={5} paddingBottom={6} alignItems="flex-start">
+        <Toast
+          variant="success"
+          header={header}
+          body={toastMessage}
+          visible={!!toastMessage}
+          onClose={() => setToastMessage(undefined)}
+        />
         <Step1 {...stepProps('theme')} />
         <Step2 {...stepProps('timeTable')} />
-        {isOnEditPage || isStep3Visible ? (
-          <Step3 {...stepProps('cinema')} />
-        ) : null}
-        {isOnEditPage || isStep4Visible ? (
+        {(isOnEditPage || isStep3Visible) && <Step3 {...stepProps('cinema')} />}
+        {(isOnEditPage || isStep4Visible) && (
           <Step4 {...stepProps('production')} />
-        ) : null}
-        {isOnEditPage || isStep5Visible ? (
-          <Step5 {...{ ...stepProps(), eventId: newEventId }} />
-        ) : null}
+        )}
+        {(isOnEditPage || isStep5Visible) && (
+          <Step5
+            {...{
+              ...stepProps(),
+              eventId: newEventId,
+              onSuccessChangeDescription: handleSuccesOnChangeDescription,
+              onSuccessChangeImage: handleSuccesOnChangeImage,
+            }}
+          />
+        )}
       </Page.Content>
-      {footerStatus ? (
+      {footerStatus !== FooterStatus.HIDDEN && (
         <Page.Footer>
           <Inline spacing={3}>
             {footerStatus === FooterStatus.PUBLISH ? (
@@ -499,7 +549,7 @@ const MoviePage = () => {
                   {t('movies.create.actions.publish_later')}
                 </Button>,
               ]
-            ) : (
+            ) : footerStatus === FooterStatus.MANUAL_SAVE ? (
               <Button
                 onClick={handleSubmit(async (formData) => {
                   handleFormValid(formData);
@@ -507,6 +557,10 @@ const MoviePage = () => {
               >
                 {t('movies.create.actions.save')}
               </Button>
+            ) : (
+              <Text color={getValue('footer.color')} fontSize="0.9rem">
+                {t('movies.create.footer.auto_save')}
+              </Text>
             )}
           </Inline>
           <PublishLaterModal
@@ -517,7 +571,7 @@ const MoviePage = () => {
             onClose={() => setIsPublishLaterModalVisible(false)}
           />
         </Page.Footer>
-      ) : null}
+      )}
     </Page>
   );
 };

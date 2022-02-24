@@ -1,4 +1,4 @@
-import throttle from 'lodash/throttle';
+import debounce from 'lodash/debounce';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
@@ -213,7 +213,7 @@ const Index = () => {
           Component={
             <Input
               placeholder={t('productions.overview.search.placeholder')}
-              onChange={throttle(handleInputSearch, 275)}
+              onChange={debounce(handleInputSearch, 275)}
             />
           }
         />

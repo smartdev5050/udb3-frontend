@@ -1,4 +1,4 @@
-import throttle from 'lodash/throttle';
+import debounce from 'lodash/debounce';
 import { useMemo, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -74,7 +74,7 @@ const Step3 = ({
                   Component={
                     <Typeahead<Place>
                       options={cinemas}
-                      onInputChange={throttle(setSearchInput, 275)}
+                      onInputChange={debounce(setSearchInput, 275)}
                       labelKey={(cinema) =>
                         cinema.name[i18n.language] ??
                         cinema.name[cinema.mainLanguage]
