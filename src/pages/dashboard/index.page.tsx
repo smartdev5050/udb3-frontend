@@ -8,7 +8,6 @@ import { useQueryClient } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { css } from 'styled-components';
 
-import { Footer } from '@/components/Footer';
 import { CalendarType } from '@/constants/CalendarType';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
 import { useDeleteEventById, useGetEventsByCreator } from '@/hooks/api/events';
@@ -18,6 +17,7 @@ import {
 } from '@/hooks/api/organizers';
 import { useDeletePlaceById, useGetPlacesByCreator } from '@/hooks/api/places';
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
+import { Footer } from '@/pages/Footer';
 import type { Event } from '@/types/Event';
 import type { Organizer } from '@/types/Organizer';
 import type { Place } from '@/types/Place';
@@ -598,5 +598,9 @@ const getServerSideProps = getApplicationServerSideProps(
   },
 );
 
+const DashboardWrapper = (props) => {
+  return <Dashboard {...props} />;
+};
+
+export default DashboardWrapper;
 export { getServerSideProps, itemsPerPage };
-export default Dashboard;

@@ -9,7 +9,7 @@ import { setupPage } from '@/test/utils/setupPage';
 import { waitForFetch } from '@/test/utils/waitForFetch';
 import { parseOfferId } from '@/utils/parseOfferId';
 
-import Availability from './availability';
+import Availability from './availability.page';
 
 const setup = async () => {
   const page = setupPage({
