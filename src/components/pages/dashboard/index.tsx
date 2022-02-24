@@ -18,7 +18,6 @@ import {
 } from '@/hooks/api/organizers';
 import { useDeletePlaceById, useGetPlacesByCreator } from '@/hooks/api/places';
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
-import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
 import type { Event } from '@/types/Event';
 import type { Organizer } from '@/types/Organizer';
 import type { Place } from '@/types/Place';
@@ -462,8 +461,6 @@ const Dashboard = (): any => {
     'availableTo_asc',
   ];
 
-  const shouldShowExtraInfo = useMatchBreakpoint(Breakpoints.L);
-
   return [
     <Page key="page">
       <Page.Title>{`${t('dashboard.welcome')}, ${user?.username}`}</Page.Title>
@@ -483,23 +480,19 @@ const Dashboard = (): any => {
             alignItems="center"
             spacing={4}
           >
-            {shouldShowExtraInfo && (
-              <Text>
-                <Trans
-                  i18nKey={`dashboard.sorting.results.${tab}`}
-                  count={sharedTableContentProps.totalItems}
-                >
-                  <Text fontWeight="bold" /> evenementen
-                </Trans>
-              </Text>
-            )}
+            <Text as="div" display={{ default: 'block', l: 'none' }}>
+              <Trans
+                i18nKey={`dashboard.sorting.results.${tab}`}
+                count={sharedTableContentProps.totalItems}
+              >
+                <Text fontWeight="bold" />
+              </Trans>
+            </Text>
             {tab === 'events' && (
               <SelectWithLabel
                 key="select"
                 id="sorting"
-                label={
-                  shouldShowExtraInfo ? `${t('dashboard.sorting.label')}:` : ''
-                }
+                label={`${t('dashboard.sorting.label')}:`}
                 value={sort}
                 onChange={handleSelectSorting}
                 width="auto"
