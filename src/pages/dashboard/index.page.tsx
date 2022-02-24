@@ -510,7 +510,6 @@ const Dashboard = (): any => {
             activeKey={tab}
             onSelect={handleSelectTab}
             activeBackgroundColor="white"
-            height="2.8rem"
           >
             <Tabs.Tab eventKey="events" title={t('dashboard.tabs.events')}>
               {tab === 'events' && (
@@ -577,10 +576,19 @@ const getServerSideProps = getApplicationServerSideProps(
         const page =
           query.tab === key ? (query.page ? parseInt(query.page) : 1) : 1;
 
+        const sortingField = query?.sort?.split('_')[0] ?? SortingField.CREATED;
+        const sortingOrder = query?.sort?.split('_')[1] ?? SortingOrder.DESC;
+
         return hook({
           req,
           queryClient,
           creator: user,
+          ...(key === 'events' && {
+            sortOptions: {
+              field: sortingField,
+              order: sortingOrder,
+            },
+          }),
           paginationOptions: {
             start: (page - 1) * itemsPerPage,
             limit: itemsPerPage,
