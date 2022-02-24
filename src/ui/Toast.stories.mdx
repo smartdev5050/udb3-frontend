@@ -15,16 +15,6 @@ import { Toast, ToastVariants } from './Toast';
 
 <ArgsTable story="Primary" />
 
-## Secondary
-
-<Canvas>
-  <Story name="Secondary" args={{ variant: ToastVariants.SECONDARY }}>
-    {(args) => <Toast {...args} />}
-  </Story>
-</Canvas>
-
-<ArgsTable story="Secondary" />
-
 ## Success
 
 <Canvas>
@@ -44,33 +34,3 @@ import { Toast, ToastVariants } from './Toast';
 </Canvas>
 
 <ArgsTable story="Danger" />
-
-## Info
-
-<Canvas>
-  <Story name="Info" args={{ variant: ToastVariants.INFO }}>
-    {(args) => <Toast {...args} />}
-  </Story>
-</Canvas>
-
-<ArgsTable story="Info" />
-
-## Light
-
-<Canvas>
-  <Story name="Light" args={{ variant: ToastVariants.LIGHT }}>
-    {(args) => <Toast {...args} />}
-  </Story>
-</Canvas>
-
-<ArgsTable story="Light" />
-
-## Dark
-
-<Canvas>
-  <Story name="Dark" args={{ variant: ToastVariants.DARK }}>
-    {(args) => <Toast {...args} />}
-  </Story>
-</Canvas>
-
-<ArgsTable story="Dark" />
