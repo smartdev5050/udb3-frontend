@@ -20,7 +20,7 @@ import { Stack } from '@/ui/Stack';
 import type { TitleProps } from '@/ui/Title';
 import { Title } from '@/ui/Title';
 
-import { getValueFromTheme } from '../../../ui/theme';
+import { getValueFromTheme } from '../../ui/theme';
 import type { JobType } from './Job';
 import { Job, JobStates } from './Job';
 

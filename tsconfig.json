@@ -12,7 +12,7 @@
       "@/components/*": ["components/*"],
       "@/test/*": ["test/*"],
       "@/i18n/*": ["i18n/*"],
-      "@/layouts/*": ["components/layouts/*"],
+      "@/layouts/*": ["layouts/*"],
       "@/styles/*": ["styles/*"],
       "@/types/*": ["types/*"]
     },
