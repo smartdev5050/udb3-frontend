@@ -39,7 +39,7 @@ import { Spinner } from '@/ui/Spinner';
 import { Stack } from '@/ui/Stack';
 import { Tabs } from '@/ui/Tabs';
 import { Text } from '@/ui/Text';
-import { Breakpoints, getValueFromTheme } from '@/ui/theme';
+import { getValueFromTheme } from '@/ui/theme';
 import { formatAddressInternal } from '@/utils/formatAddress';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 import { parseOfferId } from '@/utils/parseOfferId';
