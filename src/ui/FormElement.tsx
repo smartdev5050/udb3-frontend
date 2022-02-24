@@ -55,6 +55,7 @@ const FormElement = ({
           {...(labelPosition === LabelPositions.LEFT
             ? { height: '36px', alignItems: 'center' }
             : {})}
+          flexShrink={0}
         >
           {label}
         </Label>

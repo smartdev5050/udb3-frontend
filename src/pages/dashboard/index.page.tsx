@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import type { ReactNode } from 'react';
 import { useMemo, useState } from 'react';
 import { Cookies } from 'react-cookie';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { css } from 'styled-components';
@@ -27,13 +27,14 @@ import { Box } from '@/ui/Box';
 import { Dropdown, DropDownVariants } from '@/ui/Dropdown';
 import type { InlineProps } from '@/ui/Inline';
 import { getInlineProps, Inline } from '@/ui/Inline';
+import { LabelPositions } from '@/ui/Label';
 import { Link, LinkVariants } from '@/ui/Link';
 import { List } from '@/ui/List';
 import { Modal, ModalVariants } from '@/ui/Modal';
 import { Page } from '@/ui/Page';
 import { Pagination } from '@/ui/Pagination';
 import { Panel } from '@/ui/Panel';
-import { Select } from '@/ui/Select';
+import { SelectWithLabel } from '@/ui/SelectWithLabel';
 import { Spinner } from '@/ui/Spinner';
 import { Stack } from '@/ui/Stack';
 import { Tabs } from '@/ui/Tabs';
@@ -469,42 +470,47 @@ const Dashboard = (): any => {
             {t(`dashboard.create.${tab}`)}
           </Link>
         </Inline>
+
         <Stack position="relative">
-          <Stack position="absolute" right={0} top={-5}>
-            <Inline alignItems="center" justifyContent="space-between">
-              <Text>
-                <Text fontWeight="bold" marginRight={2}>
-                  {sharedTableContentProps.totalItems}
-                </Text>
-                <Text marginRight={5}>
-                  {t(`dashboard.sorting.results.${tab}`)}
-                </Text>
-              </Text>
-              {tab === 'events' && (
-                <>
-                  <label htmlFor="sorting" css="margin-right: 0.5rem;">
-                    {t('dashboard.sorting.label')}:
-                  </label>
-                  <Select
-                    id="sorting"
-                    value={sort}
-                    onChange={handleSelectSorting}
-                    css="width: auto;"
-                  >
-                    {SORTING_OPTIONS.map((sortOption) => (
-                      <option key={sortOption} value={sortOption}>
-                        {t(`dashboard.sorting.${sortOption}`)}
-                      </option>
-                    ))}
-                  </Select>
-                </>
-              )}
-            </Inline>
-          </Stack>
+          <Inline
+            position="absolute"
+            height="2.8rem"
+            top={0}
+            right={0}
+            alignItems="center"
+            spacing={4}
+          >
+            <Text as="div" display={{ default: 'block', l: 'none' }}>
+              <Trans
+                i18nKey={`dashboard.sorting.results.${tab}`}
+                count={sharedTableContentProps.totalItems}
+              >
+                <Text fontWeight="bold" />
+              </Trans>
+            </Text>
+            {tab === 'events' && (
+              <SelectWithLabel
+                key="select"
+                id="sorting"
+                label={`${t('dashboard.sorting.label')}:`}
+                value={sort}
+                onChange={handleSelectSorting}
+                width="auto"
+                labelPosition={LabelPositions.LEFT}
+              >
+                {SORTING_OPTIONS.map((sortOption) => (
+                  <option key={sortOption} value={sortOption}>
+                    {t(`dashboard.sorting.${sortOption}`)}
+                  </option>
+                ))}
+              </SelectWithLabel>
+            )}
+          </Inline>
           <Tabs<TabOptions>
             activeKey={tab}
             onSelect={handleSelectTab}
             activeBackgroundColor="white"
+            height="2.8rem"
           >
             <Tabs.Tab eventKey="events" title={t('dashboard.tabs.events')}>
               {tab === 'events' && (

@@ -36,10 +36,9 @@ const Select = forwardRef(
     ref,
   ) => (
     <Form.Control
-      as="select"
+      as={BaseSelect}
       size={size}
       ref={ref}
-      forwardedAs={BaseSelect}
       id={id}
       className={className}
       maxWidth="43rem"
@@ -56,4 +55,4 @@ const Select = forwardRef(
 Select.displayName = 'Select';
 
 export { Select };
-export type { SelectProps };
+export type { Props as SelectProps };
