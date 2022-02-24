@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 
-import { getValueFromTheme } from '../ui/theme';
+import { getValueFromTheme } from '@/ui/theme';
 
 const getValueForModal = getValueFromTheme('modal');
 

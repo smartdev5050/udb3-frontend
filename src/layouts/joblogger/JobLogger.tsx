@@ -17,10 +17,10 @@ import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { List } from '@/ui/List';
 import { Stack } from '@/ui/Stack';
+import { getValueFromTheme } from '@/ui/theme';
 import type { TitleProps } from '@/ui/Title';
 import { Title } from '@/ui/Title';
 
-import { getValueFromTheme } from '../../../ui/theme';
 import type { JobType } from './Job';
 import { Job, JobStates } from './Job';
 

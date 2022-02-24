@@ -9,7 +9,7 @@ import {
   WindowMessageTypes,
 } from '@/hooks/useHandleWindowMessage';
 import { useIsClient } from '@/hooks/useIsClient';
-import PageNotFound from '@/pages/404';
+import PageNotFound from '@/pages/404.page';
 import { Box } from '@/ui/Box';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
