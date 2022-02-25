@@ -35,6 +35,7 @@ import type { Production } from '@/types/Production';
 import { WorkflowStatusMap } from '@/types/WorkflowStatus';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
+import { Link, LinkVariants } from '@/ui/Link';
 import { Page } from '@/ui/Page';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
@@ -558,9 +559,17 @@ const MoviePage = () => {
                 {t('movies.create.actions.save')}
               </Button>
             ) : (
-              <Text color={getValue('footer.color')} fontSize="0.9rem">
-                {t('movies.create.footer.auto_save')}
-              </Text>
+              <Inline spacing={3} alignItems="center">
+                <Link
+                  href={`/event/${newEventId}/preview`}
+                  variant={LinkVariants.BUTTON_SUCCESS}
+                >
+                  <Text>{t('movies.create.footer.done_editing')}</Text>
+                </Link>
+                <Text color={getValue('footer.color')} fontSize="0.9rem">
+                  {t('movies.create.footer.auto_save')}
+                </Text>
+              </Inline>
             )}
           </Inline>
           <PublishLaterModal
