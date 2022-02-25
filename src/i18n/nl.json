@@ -270,6 +270,7 @@
         }
       },
       "footer": {
+        "done_editing": "Klaar met bewerken",
         "auto_save": "Je wijzigingen worden vanaf nu automatisch opgeslagen"
       }
     }
