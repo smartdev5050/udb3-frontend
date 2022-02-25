@@ -53,7 +53,7 @@ const Index = () => {
   const getProductionsQuery = useGetProductions({
     name: searchInput,
     paginationOptions: {
-      start: currentPageProductions - 1,
+      start: (currentPageProductions - 1) * productionsPerPage,
       limit: productionsPerPage,
     },
   });
