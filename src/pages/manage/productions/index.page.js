@@ -62,17 +62,11 @@ const Index = () => {
   const rawProductions = getProductionsQuery.data?.member ?? [];
 
   useEffect(() => {
-    if (rawProductions.length > 0) {
-      setActiveProductionId(rawProductions[0].production_id);
-    }
-  }, [rawProductions]);
-
-  useEffect(() => {
     if (rawProductions.length === 0) {
       setActiveProductionId('');
+    } else {
+      setActiveProductionId(rawProductions[0].production_id);
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rawProductions]);
 
   const productions = useMemo(() => {
