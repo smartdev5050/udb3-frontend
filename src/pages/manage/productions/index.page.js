@@ -53,7 +53,7 @@ const Index = () => {
   const getProductionsQuery = useGetProductions({
     name: searchInput,
     paginationOptions: {
-      start: currentPageProductions - 1,
+      start: (currentPageProductions - 1) * productionsPerPage,
       limit: productionsPerPage,
     },
   });
@@ -64,13 +64,9 @@ const Index = () => {
   useEffect(() => {
     if (rawProductions.length === 0) {
       setActiveProductionId('');
-      return;
-    }
-
-    if (!activeProductionId) {
+    } else {
       setActiveProductionId(rawProductions[0].production_id);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rawProductions]);
 
   const productions = useMemo(() => {
