@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { format, isMatch, parse as parseDate, set as setTime } from 'date-fns';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -38,6 +38,7 @@ import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Link, LinkVariants } from '@/ui/Link';
 import { Page } from '@/ui/Page';
+import { Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import type { TimeTableValue } from '@/ui/TimeTable';
@@ -162,6 +163,60 @@ const convertSubEventsToTimeTable = (subEvents: SubEvent[] = []) => {
     dateEnd,
     data,
   };
+};
+
+const Steps = ({
+  errors,
+  control,
+  getValues,
+  register,
+  isInEditMode,
+  onChange,
+  configuration,
+  fieldLoading,
+}) => {
+  return (
+    <Stack spacing={5}>
+      {configuration.map(
+        (
+          {
+            Component: StepComponent,
+            inputKey,
+            additionalProps = {},
+            step,
+            title,
+          },
+          index: number,
+        ) => {
+          const shouldShowNextStep =
+            configuration[index - 1]?.shouldShowNextStep ?? true;
+
+          if (!shouldShowNextStep && !isInEditMode) return null;
+
+          const stepNumber = step ?? index + 1;
+
+          return (
+            <Step
+              stepNumber={stepNumber}
+              key={`step${stepNumber}`}
+              title={title}
+            >
+              <StepComponent
+                errors={errors}
+                control={control}
+                onChange={(value) => onChange(inputKey, value)}
+                getValues={getValues}
+                register={register}
+                key={index}
+                loading={!!(inputKey && fieldLoading === inputKey)}
+                {...additionalProps}
+              />
+            </Step>
+          );
+        },
+      )}
+    </Stack>
+  );
 };
 
 const MoviePage = () => {
@@ -385,16 +440,6 @@ const MoviePage = () => {
     setNewEventId(eventId);
   };
 
-  // TODO: fix
-
-  // const handleSuccesOnChangeDescription = () => {
-  //   setToastMessage(t('movies.create.toast.success.description'));
-  // };
-
-  // const handleSuccesOnChangeImage = () => {
-  //   setToastMessage(t('movies.create.toast.success.image'));
-  // };
-
   const handleFormValid = async (
     formData: FormData,
     editedField?: keyof FormData,
@@ -485,17 +530,7 @@ const MoviePage = () => {
   const watchedTimeTable = watch('timeTable');
   const watchedCinema = watch('cinema');
 
-  const stepProps = (field?: keyof FormData) => ({
-    errors,
-    control,
-    onChange: (value) => handleChange(field, value),
-    getValues,
-    register,
-    reset,
-    loading: !!(field && fieldLoading === field),
-  });
-
-  const steps: Array<{
+  const configuration: Array<{
     Component: any;
     inputKey?: keyof FormData;
     step?: number;
@@ -562,39 +597,16 @@ const MoviePage = () => {
           visible={!!toastMessage}
           onClose={() => setToastMessage(undefined)}
         />
-        {steps.map(
-          (
-            {
-              Component: StepComponent,
-              inputKey,
-              additionalProps = {},
-              step,
-              title,
-            },
-            index,
-          ) => {
-            const shouldShowNextStep =
-              steps[index - 1]?.shouldShowNextStep ?? true;
-
-            if (!shouldShowNextStep && !isInEditMode) return null;
-
-            const stepNumber = step ?? index + 1;
-
-            return (
-              <Step
-                stepNumber={stepNumber}
-                key={`step${stepNumber}`}
-                title={title}
-              >
-                <StepComponent
-                  key={index}
-                  {...stepProps(inputKey)}
-                  {...additionalProps}
-                />
-              </Step>
-            );
-          },
-        )}
+        <Steps
+          configuration={configuration}
+          errors={errors}
+          control={control}
+          getValues={getValues}
+          register={register}
+          isInEditMode={isInEditMode}
+          onChange={handleChange}
+          fieldLoading={fieldLoading}
+        />
       </Page.Content>
       {footerStatus !== FooterStatus.HIDDEN && (
         <Page.Footer>
