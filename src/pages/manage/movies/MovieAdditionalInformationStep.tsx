@@ -32,7 +32,7 @@ const getValue = getValueFromTheme('moviesCreatePage');
 
 type MovieAdditionalInformationStepProps = StackProps & {
   eventId: string;
-  onSuccess: (field: string) => void;
+  onSuccess: (field: 'description' | 'image') => void;
 };
 
 const MovieAdditionalInformationStep = ({
