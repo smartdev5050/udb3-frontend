@@ -394,8 +394,6 @@ const MoviePage = () => {
     });
   };
 
-  const handleClickPublishLater = () => setIsPublishLaterModalVisible(true);
-
   const handleConfirmPublishLater = async () => {
     await publishMutation.mutateAsync({
       eventId: newEventId,
@@ -405,10 +403,6 @@ const MoviePage = () => {
 
   const handleChange = (editedField: keyof MovieFormData) => {
     if (!newEventId) return;
-    submitEditedField(editedField);
-  };
-
-  const submitEditedField = (editedField: keyof MovieFormData) => {
     setFieldLoading(editedField);
     handleSubmit(async (formData) => handleFormValid(formData, editedField))();
   };
@@ -545,7 +539,7 @@ const MoviePage = () => {
                 </Button>,
                 <Button
                   variant={ButtonVariants.SECONDARY}
-                  onClick={handleClickPublishLater}
+                  onClick={() => setIsPublishLaterModalVisible(true)}
                   key="publishLater"
                 >
                   {t('movies.create.actions.publish_later')}
