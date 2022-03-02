@@ -1,5 +1,6 @@
 import type { BoxProps } from '@/ui/Box';
 import { Box } from '@/ui/Box';
+import { inlineProps } from '@/ui/Inline';
 import type { StackProps } from '@/ui/Stack';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
@@ -68,27 +69,24 @@ StepWrapper.defaultProps = {
 const getValue = getValueFromTheme('moviesCreatePage');
 
 type StepsProps = {
-  errors: any;
+  formState: { errors: any };
   control: any;
   getValues: any;
   register: any;
-  isInEditMode: boolean;
+  mode: 'UPDATE' | 'CREATE';
   fieldLoading: string;
   onChange: (value: string, field: string) => void;
   configuration: StepsConfiguration;
 };
 
 const Steps = ({
-  errors,
-  control,
-  getValues,
-  register,
-  isInEditMode,
+  mode,
   onChange,
   configuration,
   fieldLoading,
+  ...props
 }: StepsProps) => {
-  const keys = Object.keys(getValues());
+  const keys = Object.keys(props.getValues());
 
   return (
     <Stack spacing={5}>
@@ -103,7 +101,7 @@ const Steps = ({
           if (
             !keys.includes(inputKey) &&
             !shouldShowNextStep &&
-            !isInEditMode
+            mode !== 'UPDATE'
           ) {
             return null;
           }
@@ -117,13 +115,10 @@ const Steps = ({
               title={title}
             >
               <Step
-                errors={errors}
-                control={control}
                 onChange={(value) => onChange(inputKey, value)}
-                getValues={getValues}
-                register={register}
                 key={index}
                 loading={!!(inputKey && fieldLoading === inputKey)}
+                {...props}
                 {...additionalProps}
               />
             </StepWrapper>

@@ -68,9 +68,8 @@ type FormData = {
 
 type StepProps = Pick<
   UseFormReturn<FormData>,
-  'control' | 'getValues' | 'register' | 'reset'
+  'control' | 'getValues' | 'register' | 'reset' | 'formState'
 > & {
-  errors: Partial<Record<keyof FormData, any>>;
   loading: boolean;
   onChange: (value: any) => void;
 };
@@ -166,18 +165,17 @@ const convertSubEventsToTimeTable = (subEvents: SubEvent[] = []) => {
 };
 
 const MoviePage = () => {
+  const form = useForm<FormData>({
+    resolver: yupResolver(schema),
+  });
+
   const {
     handleSubmit,
     formState: { errors, dirtyFields },
-    register,
-    control,
-    getValues,
     reset,
     watch,
     trigger,
-  } = useForm<FormData>({
-    resolver: yupResolver(schema),
-  });
+  } = form;
 
   const { t } = useTranslation();
   const router = useRouter();
@@ -413,7 +411,7 @@ const MoviePage = () => {
     });
   };
 
-  const handleChange = (editedField: keyof FormData, value) => {
+  const handleChange = (editedField: keyof FormData) => {
     if (!newEventId) return;
     submitEditedField(editedField);
   };
@@ -519,8 +517,6 @@ const MoviePage = () => {
     ];
   }, [errors, newEventId, watchedCinema, watchedTimeTable, t]);
 
-  const isInEditMode = !!newEventId || !!router.query.eventId;
-
   return (
     <Page>
       <Page.Title spacing={3} alignItems="center">
@@ -537,13 +533,10 @@ const MoviePage = () => {
         />
         <Steps
           configuration={configuration}
-          errors={errors}
-          control={control}
-          getValues={getValues}
-          register={register}
-          isInEditMode={isInEditMode}
+          mode={!!newEventId || !!router.query.eventId ? 'UPDATE' : 'CREATE'}
           onChange={handleChange}
           fieldLoading={fieldLoading}
+          {...form}
         />
       </Page.Content>
       {footerStatus !== FooterStatus.HIDDEN && (

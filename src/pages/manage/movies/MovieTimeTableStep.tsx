@@ -16,7 +16,7 @@ import type { StepProps } from './MoviePage';
 type TimeTableStepProps = StackProps & StepProps;
 
 const MovieTimeTableStep = ({
-  errors,
+  formState: { errors },
   control,
   className,
   onChange,

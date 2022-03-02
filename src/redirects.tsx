@@ -45,11 +45,11 @@ const getRedirects = (
   // Only make the permanent redirects really permanent in environments other
   // than development, so we don't get permanent redirects on localhost which
   // may conflict with other projects.
-  {
-    source: '/create',
-    destination: '/event',
-    permanent: false,
-  },
+  // {
+  //   source: '/create',
+  //   destination: '/event',
+  //   permanent: false,
+  // },
   {
     source: '/event/:eventId/status',
     destination: '/events/:eventId/availability',

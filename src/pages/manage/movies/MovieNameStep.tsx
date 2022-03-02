@@ -22,7 +22,7 @@ type MovieNameStepProps = StackProps & StepProps;
 const getValue = getValueFromTheme('moviesCreatePage');
 
 const MovieNameStep = ({
-  errors,
+  formState: { errors },
   control,
   getValues,
   reset,

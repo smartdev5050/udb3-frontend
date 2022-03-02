@@ -23,7 +23,7 @@ const getValue = getValueFromTheme('moviesCreatePage');
 type MovieCinemaProps = StackProps & StepProps;
 
 const MovieCinemaStep = ({
-  errors,
+  formState: { errors },
   getValues,
   reset,
   control,
