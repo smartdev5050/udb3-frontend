@@ -53,10 +53,10 @@ const MovieAdditionalInformationStep = ({
 
   const getEventByIdQuery = useGetEventById({ id: eventId });
 
-  // TODO: fix
-  // const changeDescriptionMutation = useChangeDescription({
-  //   onSuccess: onSuccessChangeDescription,
-  // });
+  const changeDescriptionMutation = useChangeDescription({
+    // TODO: fix handler
+    // onSuccess: onSuccessChangeDescription,
+  });
 
   useEffect(() => {
     // @ts-expect-error
