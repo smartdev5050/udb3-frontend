@@ -14,6 +14,60 @@ type NumberIndicatorProps = {
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
+const Steps = ({
+  errors,
+  control,
+  getValues,
+  register,
+  isInEditMode,
+  onChange,
+  configuration,
+  fieldLoading,
+}) => {
+  return (
+    <Stack spacing={5}>
+      {configuration.map(
+        (
+          {
+            Component: StepComponent,
+            inputKey,
+            additionalProps = {},
+            step,
+            title,
+          },
+          index: number,
+        ) => {
+          const shouldShowNextStep =
+            configuration[index - 1]?.shouldShowNextStep ?? true;
+
+          if (!shouldShowNextStep && !isInEditMode) return null;
+
+          const stepNumber = step ?? index + 1;
+
+          return (
+            <StepWrapper
+              stepNumber={stepNumber}
+              key={`step${stepNumber}`}
+              title={title}
+            >
+              <StepComponent
+                errors={errors}
+                control={control}
+                onChange={(value) => onChange(inputKey, value)}
+                getValues={getValues}
+                register={register}
+                key={index}
+                loading={!!(inputKey && fieldLoading === inputKey)}
+                {...additionalProps}
+              />
+            </StepWrapper>
+          );
+        },
+      )}
+    </Stack>
+  );
+};
+
 const NumberIndicator = ({ children, ...props }: NumberIndicatorProps) => {
   return (
     <Box
@@ -34,7 +88,12 @@ const NumberIndicator = ({ children, ...props }: NumberIndicatorProps) => {
   );
 };
 
-const Step = ({ stepNumber, children, title = '', ...props }: StepProps) => {
+const StepWrapper = ({
+  stepNumber,
+  children,
+  title = '',
+  ...props
+}: StepProps) => {
   return (
     <Stack spacing={4} width="100%" {...getStackProps(props)}>
       <Title
@@ -54,6 +113,5 @@ const Step = ({ stepNumber, children, title = '', ...props }: StepProps) => {
   );
 };
 
-export { Step };
-
+export { Steps };
 export type { StepProps };
