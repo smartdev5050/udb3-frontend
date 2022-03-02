@@ -30,11 +30,9 @@ const Create = () => {
   return (
     <Page>
       <Page.Title>create</Page.Title>
-      <Page.Content>
-        <Stack spacing={5}>
-          <Step1 />
-          <Step2 />
-        </Stack>
+      <Page.Content spacing={5}>
+        <Step1 />
+        <Step2 />
       </Page.Content>
     </Page>
   );
