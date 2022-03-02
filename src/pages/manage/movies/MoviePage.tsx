@@ -498,6 +498,7 @@ const MoviePage = () => {
     Component: unknown;
     inputKey?: string;
     step?: number;
+    title: string;
     shouldShowNextStep?: boolean;
     additionalProps?: { [key: string]: unknown };
   }> = useMemo(() => {
@@ -505,28 +506,33 @@ const MoviePage = () => {
       {
         Component: MovieThemeStep,
         inputKey: 'theme',
+        title: t(`movies.create.step1.title`),
       },
       {
         Component: MovieTimeTableStep,
         inputKey: 'timeTable',
         shouldShowNextStep: isOneTimeSlotValid(watchedTimeTable),
+        title: t(`movies.create.step2.title`),
       },
       {
         Component: MovieCinemaStep,
         inputKey: 'cinema',
         shouldShowNextStep: watchedCinema !== undefined,
+        title: t(`movies.create.step3.title`),
       },
       {
         Component: MovieNameStep,
         inputKey: 'production',
         shouldShowNextStep: !!newEventId && Object.values(errors).length === 0,
+        title: t(`movies.create.step4.title`),
       },
       {
         Component: MovieAdditionalInformationStep,
         additionalProps: { eventId: newEventId },
+        title: t(`movies.create.step5.title`),
       },
     ];
-  }, [errors, newEventId, watchedCinema, watchedTimeTable]);
+  }, [errors, newEventId, watchedCinema, watchedTimeTable, t]);
 
   const isInEditMode = !!newEventId || !!router.query.eventId;
 
@@ -546,7 +552,13 @@ const MoviePage = () => {
         />
         {steps.map(
           (
-            { Component: StepComponent, inputKey, additionalProps = {}, step },
+            {
+              Component: StepComponent,
+              inputKey,
+              additionalProps = {},
+              step,
+              title,
+            },
             index,
           ) => {
             const shouldShowNextStep =
@@ -557,7 +569,11 @@ const MoviePage = () => {
             const stepNumber = step ?? index + 1;
 
             return (
-              <Step stepNumber={stepNumber} key={`step${stepNumber}`}>
+              <Step
+                stepNumber={stepNumber}
+                key={`step${stepNumber}`}
+                title={title}
+              >
                 <StepComponent
                   key={index}
                   {...stepProps(inputKey)}
