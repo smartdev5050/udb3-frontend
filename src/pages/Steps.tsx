@@ -8,9 +8,11 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
+export type Keys<T> = keyof T & string;
+
 type StepsConfiguration<T> = Array<{
   Component: any;
-  field?: keyof T;
+  field?: Keys<T>;
   step?: number;
   title: string;
   shouldShowNextStep?: boolean;
