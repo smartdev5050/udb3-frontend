@@ -65,6 +65,7 @@ const MovieCinemaStep = ({
                 error={
                   errors?.cinema
                     ? t(
+                        // @ts-expect-error
                         `movies.create.validation_messages.cinema.${errors?.cinema.type}`,
                       )
                     : undefined

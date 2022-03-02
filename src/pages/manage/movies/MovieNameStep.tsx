@@ -62,6 +62,7 @@ const MovieNameStep = ({
               error={
                 errors.production
                   ? t(
+                      // @ts-expect-error
                       `movies.create.validation_messages.production.${errors.production.type}`,
                     )
                   : undefined
