@@ -6,11 +6,21 @@ import { Page } from '@/ui/Page';
 import { Stack } from '@/ui/Stack';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
-const Step2 = () => {
+const Step1 = (props) => {
   const { t } = useTranslation();
 
   return (
-    <Step stepNumber={2} title={t(`create.step2.title`)}>
+    <Step stepNumber={1} title={t(`create.step1.title`)} {...props}>
+      <Box>test</Box>
+    </Step>
+  );
+};
+
+const Step2 = (props) => {
+  const { t } = useTranslation();
+
+  return (
+    <Step stepNumber={2} title={t(`create.step2.title`)} {...props}>
       <Box>test</Box>
     </Step>
   );
@@ -21,7 +31,8 @@ const Create = () => {
     <Page>
       <Page.Title>create</Page.Title>
       <Page.Content>
-        <Stack>
+        <Stack spacing={5}>
+          <Step1 />
           <Step2 />
         </Stack>
       </Page.Content>
