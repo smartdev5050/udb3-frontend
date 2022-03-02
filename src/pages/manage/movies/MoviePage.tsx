@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { format, isMatch, parse as parseDate, set as setTime } from 'date-fns';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -28,7 +28,7 @@ import {
   useCreateWithEvents as useCreateProductionWithEvents,
   useDeleteEventById as useDeleteEventFromProductionById,
 } from '@/hooks/api/productions';
-import { Step } from '@/pages/Step';
+import { Steps } from '@/pages/Steps';
 import type { Event } from '@/types/Event';
 import type { SubEvent } from '@/types/Offer';
 import type { Place } from '@/types/Place';
@@ -38,7 +38,6 @@ import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Link, LinkVariants } from '@/ui/Link';
 import { Page } from '@/ui/Page';
-import { Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import type { TimeTableValue } from '@/ui/TimeTable';
@@ -163,60 +162,6 @@ const convertSubEventsToTimeTable = (subEvents: SubEvent[] = []) => {
     dateEnd,
     data,
   };
-};
-
-const Steps = ({
-  errors,
-  control,
-  getValues,
-  register,
-  isInEditMode,
-  onChange,
-  configuration,
-  fieldLoading,
-}) => {
-  return (
-    <Stack spacing={5}>
-      {configuration.map(
-        (
-          {
-            Component: StepComponent,
-            inputKey,
-            additionalProps = {},
-            step,
-            title,
-          },
-          index: number,
-        ) => {
-          const shouldShowNextStep =
-            configuration[index - 1]?.shouldShowNextStep ?? true;
-
-          if (!shouldShowNextStep && !isInEditMode) return null;
-
-          const stepNumber = step ?? index + 1;
-
-          return (
-            <Step
-              stepNumber={stepNumber}
-              key={`step${stepNumber}`}
-              title={title}
-            >
-              <StepComponent
-                errors={errors}
-                control={control}
-                onChange={(value) => onChange(inputKey, value)}
-                getValues={getValues}
-                register={register}
-                key={index}
-                loading={!!(inputKey && fieldLoading === inputKey)}
-                {...additionalProps}
-              />
-            </Step>
-          );
-        },
-      )}
-    </Stack>
-  );
 };
 
 const MoviePage = () => {
