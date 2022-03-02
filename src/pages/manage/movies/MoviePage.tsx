@@ -1,7 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { format, isMatch, parse as parseDate, set as setTime } from 'date-fns';
 import { useRouter } from 'next/router';
-import type { Component } from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
@@ -58,7 +57,6 @@ import { MovieNameStep } from './MovieNameStep';
 import { MovieThemeStep } from './MovieThemeStep';
 import { MovieTimeTableStep } from './MovieTimeTableStep';
 import { PublishLaterModal } from './PublishLaterModal';
-import { Step } from './Step';
 
 type FormData = {
   theme: string;

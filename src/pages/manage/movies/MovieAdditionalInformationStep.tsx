@@ -53,9 +53,10 @@ const MovieAdditionalInformationStep = ({
 
   const getEventByIdQuery = useGetEventById({ id: eventId });
 
-  const changeDescriptionMutation = useChangeDescription({
-    onSuccess: onSuccessChangeDescription,
-  });
+  // TODO: fix
+  // const changeDescriptionMutation = useChangeDescription({
+  //   onSuccess: onSuccessChangeDescription,
+  // });
 
   useEffect(() => {
     // @ts-expect-error
@@ -99,7 +100,8 @@ const MovieAdditionalInformationStep = ({
 
   const invalidateEventQuery = async () => {
     await queryClient.invalidateQueries(['events', { id: eventId }]);
-    onSuccessChangeImage();
+    // TODO: fix
+    // onSuccessChangeImage();
   };
 
   const handleSuccessAddImage = ({ imageId }) =>
