@@ -88,6 +88,8 @@ const Steps = ({
   configuration,
   fieldLoading,
 }: StepsProps) => {
+  const keys = Object.keys(getValues());
+
   return (
     <Stack spacing={5}>
       {configuration.map(
@@ -98,7 +100,13 @@ const Steps = ({
           const shouldShowNextStep =
             configuration[index - 1]?.shouldShowNextStep ?? true;
 
-          if (!shouldShowNextStep && !isInEditMode) return null;
+          if (
+            !keys.includes(inputKey) &&
+            !shouldShowNextStep &&
+            !isInEditMode
+          ) {
+            return null;
+          }
 
           const stepNumber = step ?? index + 1;
 
