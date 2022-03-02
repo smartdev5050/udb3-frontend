@@ -8,6 +8,15 @@ import { Title } from '@/ui/Title';
 
 type StepProps = StackProps & { title: string; stepNumber: number };
 
+type StepsConfiguration = Array<{
+  Component: any;
+  inputKey?: string;
+  step?: number;
+  title: string;
+  shouldShowNextStep?: boolean;
+  additionalProps?: { [key: string]: unknown };
+}>;
+
 type NumberIndicatorProps = {
   children: number;
 } & BoxProps;
@@ -58,6 +67,17 @@ StepWrapper.defaultProps = {
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
+type StepsProps = {
+  errors: any;
+  control: any;
+  getValues: any;
+  register: any;
+  isInEditMode: boolean;
+  fieldLoading: string;
+  onChange: (value: string, field: string) => void;
+  configuration: StepsConfiguration;
+};
+
 const Steps = ({
   errors,
   control,
@@ -67,7 +87,7 @@ const Steps = ({
   onChange,
   configuration,
   fieldLoading,
-}) => {
+}: StepsProps) => {
   return (
     <Stack spacing={5}>
       {configuration.map(
@@ -107,4 +127,4 @@ const Steps = ({
 };
 
 export { Steps };
-export type { StepProps };
+export type { StepProps, StepsConfiguration };

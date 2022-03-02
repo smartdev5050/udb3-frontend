@@ -28,6 +28,7 @@ import {
   useCreateWithEvents as useCreateProductionWithEvents,
   useDeleteEventById as useDeleteEventFromProductionById,
 } from '@/hooks/api/productions';
+import type { StepsConfiguration } from '@/pages/Steps';
 import { Steps } from '@/pages/Steps';
 import type { Event } from '@/types/Event';
 import type { SubEvent } from '@/types/Offer';
@@ -475,15 +476,7 @@ const MoviePage = () => {
   const watchedTimeTable = watch('timeTable');
   const watchedCinema = watch('cinema');
 
-  const configuration: Array<{
-    Component: any;
-    inputKey?: keyof FormData;
-    step?: number;
-    title: string;
-    shouldShowNextStep?: boolean;
-    additionalProps?: { [key: string]: unknown };
-    onChange?: (value: string, field: string) => void;
-  }> = useMemo(() => {
+  const configuration: StepsConfiguration = useMemo(() => {
     return [
       {
         Component: MovieThemeStep,
