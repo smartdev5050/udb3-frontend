@@ -83,7 +83,7 @@ type StepsProps<T> = UseFormReturn<T> & {
   mode: 'UPDATE' | 'CREATE';
   fieldLoading: string;
   onChange: (value: string, field: string) => void;
-  configuration: StepsConfiguration;
+  configuration: StepsConfiguration<T>;
 };
 
 const Steps = <T extends unknown>({
