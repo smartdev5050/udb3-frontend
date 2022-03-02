@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { Step } from '@/pages/Step';
 import { Box } from '@/ui/Box';
 import { Page } from '@/ui/Page';
-import { Stack } from '@/ui/Stack';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
 const Step1 = (props) => {
