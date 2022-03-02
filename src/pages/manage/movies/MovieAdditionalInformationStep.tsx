@@ -24,15 +24,16 @@ import { TextArea } from '@/ui/TextArea';
 import { getValueFromTheme } from '@/ui/theme';
 import { parseOfferId } from '@/utils/parseOfferId';
 
-import type { StepProps } from './MoviePage';
 import { PictureDeleteModal } from './PictureDeleteModal';
 import type { FormData } from './PictureUploadModal';
 import { PictureUploadModal } from './PictureUploadModal';
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
-type MovieAdditionalInformationStepProps = StackProps &
-  StepProps & { eventId: string, onSuccess: (field: string) => void };
+type MovieAdditionalInformationStepProps = StackProps & {
+  eventId: string;
+  onSuccess: (field: string) => void;
+};
 
 const MovieAdditionalInformationStep = ({
   eventId,
