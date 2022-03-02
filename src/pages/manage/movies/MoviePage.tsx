@@ -250,6 +250,7 @@ const MoviePage = () => {
     type FieldToMutationMap = Partial<
       Record<keyof FormData, () => Promise<void>>
     >;
+
     const fieldToMutationFunctionMap: FieldToMutationMap = {
       theme: async () => {
         await changeThemeMutation.mutateAsync({
@@ -495,12 +496,13 @@ const MoviePage = () => {
   });
 
   const steps: Array<{
-    Component: unknown;
-    inputKey?: string;
+    Component: any;
+    inputKey?: keyof FormData;
     step?: number;
     title: string;
     shouldShowNextStep?: boolean;
     additionalProps?: { [key: string]: unknown };
+    onChange?: (value: string, field: string) => void;
   }> = useMemo(() => {
     return [
       {
@@ -528,7 +530,17 @@ const MoviePage = () => {
       },
       {
         Component: MovieAdditionalInformationStep,
-        additionalProps: { eventId: newEventId },
+        additionalProps: {
+          eventId: newEventId,
+          onSuccess: (field: string) => {
+            if (field === 'image') {
+              setToastMessage(t('movies.create.toast.success.image'));
+            }
+            if (field === 'description') {
+              setToastMessage(t('movies.create.toast.success.description'));
+            }
+          },
+        },
         title: t(`movies.create.step5.title`),
       },
     ];

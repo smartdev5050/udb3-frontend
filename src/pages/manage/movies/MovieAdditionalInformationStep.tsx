@@ -24,16 +24,19 @@ import { TextArea } from '@/ui/TextArea';
 import { getValueFromTheme } from '@/ui/theme';
 import { parseOfferId } from '@/utils/parseOfferId';
 
+import type { StepProps } from './MoviePage';
 import { PictureDeleteModal } from './PictureDeleteModal';
 import type { FormData } from './PictureUploadModal';
 import { PictureUploadModal } from './PictureUploadModal';
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
-type MovieAdditionalInformationStepProps = StackProps & { eventId: string };
+type MovieAdditionalInformationStepProps = StackProps &
+  StepProps & { eventId: string, onSuccess: (field: string) => void };
 
 const MovieAdditionalInformationStep = ({
   eventId,
+  onSuccess,
   ...props
 }: MovieAdditionalInformationStepProps) => {
   const queryClient = useQueryClient();
@@ -54,8 +57,7 @@ const MovieAdditionalInformationStep = ({
   const getEventByIdQuery = useGetEventById({ id: eventId });
 
   const changeDescriptionMutation = useChangeDescription({
-    // TODO: fix handler
-    // onSuccess: onSuccessChangeDescription,
+    onSuccess: () => onSuccess('description'),
   });
 
   useEffect(() => {
@@ -100,8 +102,7 @@ const MovieAdditionalInformationStep = ({
 
   const invalidateEventQuery = async () => {
     await queryClient.invalidateQueries(['events', { id: eventId }]);
-    // TODO: fix
-    // onSuccessChangeImage();
+    onSuccess('image');
   };
 
   const handleSuccessAddImage = ({ imageId }) =>
