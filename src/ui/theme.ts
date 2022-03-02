@@ -46,6 +46,7 @@ const zIndexPaginationPageLink = above + base;
 
 const zIndexSidebar = above + zIndexPaginationPageLink;
 const zIndexJobLogger = zIndexSidebar;
+const zIndexToast = zIndexSidebar;
 
 const zIndexModalBackdrop = above + zIndexSidebar;
 const zIndexModal = above + zIndexModalBackdrop;
@@ -64,6 +65,27 @@ const theme = {
   components: {
     alert: {
       borderRadius: 0,
+    },
+    toast: {
+      zIndex: zIndexToast,
+      textColor: {
+        dark: colors.textColor,
+        light: colors.white,
+      },
+      primary: {
+        backgroundColor: colors.udbBlue,
+        borderColor: '#00417b',
+      },
+      secondary: {
+        color: '#333',
+        backgroundColor: colors.white,
+      },
+      success: {
+        borderColor: colors.green2,
+      },
+      danger: {
+        borderColor: colors.red3,
+      },
     },
     modal: {
       zIndex: zIndexModal,
@@ -287,6 +309,9 @@ const theme = {
         mainImageBackgroundColor: colors.blue1,
         mainImageBorderColor: colors.blue2,
         thumbnailBorderColor: colors.grey6,
+      },
+      footer: {
+        color: colors.textColor,
       },
     },
     tabs: {

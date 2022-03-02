@@ -31,6 +31,7 @@ const moduleExports = {
     newsletterApiUrl: process.env.NEXT_PUBLIC_NEWSLETTER_API_URL,
     newsletterEmailListId: process.env.NEXT_PUBLIC_NEWSLETTER_EMAIL_LIST_ID,
   },
+  pageExtensions: ['page.tsx', 'page.js'],
 };
 
 const SentryWebpackPluginOptions = {

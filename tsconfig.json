@@ -6,13 +6,12 @@
     "paths": {
       "@/ui/*": ["ui/*"],
       "@/hooks/*": ["hooks/*"],
-      "@/pages/*": ["components/pages/*"],
+      "@/pages/*": ["pages/*"],
       "@/utils/*": ["utils/*"],
       "@/constants/*": ["constants/*"],
-      "@/components/*": ["components/*"],
       "@/test/*": ["test/*"],
       "@/i18n/*": ["i18n/*"],
-      "@/layouts/*": ["components/layouts/*"],
+      "@/layouts/*": ["layouts/*"],
       "@/styles/*": ["styles/*"],
       "@/types/*": ["types/*"]
     },

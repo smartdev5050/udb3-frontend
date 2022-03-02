@@ -1,3 +1,4 @@
+import difference from 'lodash/difference';
 import kebabCase from 'lodash/kebabCase';
 import pick from 'lodash/pick';
 import type {
@@ -186,6 +187,7 @@ type UIProps = {
   cursor: UIProp<string>;
   display: UIProp<Display>;
   flex: UIProp<string | number>;
+  flexShrink: UIProp<string | number>;
   flexWrap: UIProp<FlexWrap>;
   fontSize: UIProp<string | number>;
   fontWeight: UIProp<string | number>;
@@ -449,14 +451,11 @@ const boxProps = css`
   ${parseProperty('display')};
   ${parseProperty('opacity')};
   ${parseProperty('flex')};
+  ${parseProperty('flexShrink')};
   ${parseProperty('flexWrap')};
   ${parseProperty('cursor')};
 
   ${parseProperty('animation')}
-`;
-
-const StyledBox = styled.div`
-  ${boxProps}
 `;
 
 const boxPropTypes = [
@@ -472,6 +471,7 @@ const boxPropTypes = [
   'cursor',
   'display',
   'flex',
+  'flexShrink',
   'fontSize',
   'fontWeight',
   'height',
@@ -509,6 +509,16 @@ const boxPropTypes = [
   'zIndex',
 ] as const;
 
+const notAllowedPropsSet = new Set(
+  difference(boxPropTypes, ['as', 'id', 'onClick']),
+);
+
+const StyledBox = styled.div.withConfig({
+  shouldForwardProp: (prop) => !notAllowedPropsSet.has(prop as any),
+})`
+  ${boxProps}
+`;
+
 const getBoxProps = (props: UnknownProps) => pick(props, boxPropTypes);
 
 const Box = forwardRef<HTMLElement, BoxProps>(({ children, ...props }, ref) => (
@@ -529,6 +539,7 @@ export {
   boxPropTypes,
   FALSY_VALUES,
   getBoxProps,
+  notAllowedPropsSet,
   parseDimension,
   parseProperty,
   parseSpacing,
