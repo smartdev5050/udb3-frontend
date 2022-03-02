@@ -1,6 +1,7 @@
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
+import type { StepProps } from '@/pages/Steps';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Box } from '@/ui/Box';
 import type { StackProps } from '@/ui/Stack';
@@ -11,9 +12,9 @@ import {
   TimeTable,
 } from '@/ui/TimeTable';
 
-import type { StepProps } from './MoviePage';
+import type { MovieFormData } from './MoviePage';
 
-type TimeTableStepProps = StackProps & StepProps;
+type TimeTableStepProps = StackProps & StepProps<MovieFormData>;
 
 const MovieTimeTableStep = ({
   formState: { errors },

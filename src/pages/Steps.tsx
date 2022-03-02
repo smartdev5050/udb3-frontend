@@ -1,17 +1,16 @@
+import type { UseFormReturn } from 'react-hook-form';
+
 import type { BoxProps } from '@/ui/Box';
 import { Box } from '@/ui/Box';
-import { inlineProps } from '@/ui/Inline';
 import type { StackProps } from '@/ui/Stack';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
-type StepProps = StackProps & { title: string; stepNumber: number };
-
-type StepsConfiguration = Array<{
+type StepsConfiguration<T> = Array<{
   Component: any;
-  inputKey?: string;
+  inputKey?: keyof T;
   step?: number;
   title: string;
   shouldShowNextStep?: boolean;
@@ -42,7 +41,14 @@ const NumberIndicator = ({ children, ...props }: NumberIndicatorProps) => {
   );
 };
 
-const StepWrapper = ({ stepNumber, children, title, ...props }: StepProps) => {
+type StepWrapperProps = StackProps & { title: string; stepNumber: number };
+
+const StepWrapper = ({
+  stepNumber,
+  children,
+  title,
+  ...props
+}: StepWrapperProps) => {
   return (
     <Stack spacing={4} width="100%" {...getStackProps(props)}>
       <Title
@@ -68,24 +74,25 @@ StepWrapper.defaultProps = {
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
-type StepsProps = {
-  formState: { errors: any };
-  control: any;
-  getValues: any;
-  register: any;
+type StepProps<T> = UseFormReturn<T> & {
+  loading: boolean;
+  onChange: (value: any) => void;
+};
+
+type StepsProps<T> = UseFormReturn<T> & {
   mode: 'UPDATE' | 'CREATE';
   fieldLoading: string;
   onChange: (value: string, field: string) => void;
   configuration: StepsConfiguration;
 };
 
-const Steps = ({
+const Steps = <T extends unknown>({
   mode,
   onChange,
   configuration,
   fieldLoading,
   ...props
-}: StepsProps) => {
+}: StepsProps<T>) => {
   const keys = Object.keys(props.getValues());
 
   return (
@@ -115,8 +122,8 @@ const Steps = ({
               title={title}
             >
               <Step
-                onChange={(value) => onChange(inputKey, value)}
                 key={index}
+                onChange={(value) => onChange(inputKey, value)}
                 loading={!!(inputKey && fieldLoading === inputKey)}
                 {...props}
                 {...additionalProps}

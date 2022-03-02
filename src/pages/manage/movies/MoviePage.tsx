@@ -59,19 +59,11 @@ import { MovieThemeStep } from './MovieThemeStep';
 import { MovieTimeTableStep } from './MovieTimeTableStep';
 import { PublishLaterModal } from './PublishLaterModal';
 
-type FormData = {
+type MovieFormData = {
   theme: string;
   timeTable: any;
   cinema: Place;
   production: Production & { customOption?: boolean };
-};
-
-type StepProps = Pick<
-  UseFormReturn<FormData>,
-  'control' | 'getValues' | 'register' | 'reset' | 'formState'
-> & {
-  loading: boolean;
-  onChange: (value: any) => void;
 };
 
 const getValue = getValueFromTheme('moviesCreatePage');
@@ -165,7 +157,7 @@ const convertSubEventsToTimeTable = (subEvents: SubEvent[] = []) => {
 };
 
 const MoviePage = () => {
-  const form = useForm<FormData>({
+  const form = useForm<MovieFormData>({
     resolver: yupResolver(schema),
   });
 
@@ -191,7 +183,7 @@ const MoviePage = () => {
     false,
   );
   const [publishLaterDate, setPublishLaterDate] = useState(new Date());
-  const [fieldLoading, setFieldLoading] = useState<keyof FormData>();
+  const [fieldLoading, setFieldLoading] = useState<keyof MovieFormData>();
 
   const addEventMutation = useAddEvent({
     onSuccess: async () => await queryClient.invalidateQueries('events'),
@@ -241,13 +233,13 @@ const MoviePage = () => {
   }, [getEventByIdQuery.data]);
 
   const editExistingEvent = async (
-    { production, cinema, theme: themeId, timeTable }: FormData,
-    editedField?: keyof FormData,
+    { production, cinema, theme: themeId, timeTable }: MovieFormData,
+    editedField?: keyof MovieFormData,
   ) => {
     if (!editedField) return;
 
     type FieldToMutationMap = Partial<
-      Record<keyof FormData, () => Promise<void>>
+      Record<keyof MovieFormData, () => Promise<void>>
     >;
 
     const fieldToMutationFunctionMap: FieldToMutationMap = {
@@ -322,7 +314,7 @@ const MoviePage = () => {
     cinema,
     theme: themeId,
     timeTable,
-  }: FormData) => {
+  }: MovieFormData) => {
     if (!production) return;
 
     const themeLabel = Object.entries(MovieThemes).find(
@@ -385,8 +377,8 @@ const MoviePage = () => {
   };
 
   const handleFormValid = async (
-    formData: FormData,
-    editedField?: keyof FormData,
+    formData: MovieFormData,
+    editedField?: keyof MovieFormData,
   ) => {
     if (newEventId) {
       await editExistingEvent(formData, editedField);
@@ -411,12 +403,12 @@ const MoviePage = () => {
     });
   };
 
-  const handleChange = (editedField: keyof FormData) => {
+  const handleChange = (editedField: keyof MovieFormData) => {
     if (!newEventId) return;
     submitEditedField(editedField);
   };
 
-  const submitEditedField = (editedField: keyof FormData) => {
+  const submitEditedField = (editedField: keyof MovieFormData) => {
     setFieldLoading(editedField);
     handleSubmit(async (formData) => handleFormValid(formData, editedField))();
   };
@@ -474,7 +466,7 @@ const MoviePage = () => {
   const watchedTimeTable = watch('timeTable');
   const watchedCinema = watch('cinema');
 
-  const configuration: StepsConfiguration = useMemo(() => {
+  const configuration: StepsConfiguration<MovieFormData> = useMemo(() => {
     return [
       {
         Component: MovieThemeStep,
@@ -531,7 +523,7 @@ const MoviePage = () => {
           visible={!!toastMessage}
           onClose={() => setToastMessage(undefined)}
         />
-        <Steps
+        <Steps<MovieFormData>
           configuration={configuration}
           mode={!!newEventId || !!router.query.eventId ? 'UPDATE' : 'CREATE'}
           onChange={handleChange}
@@ -597,4 +589,4 @@ const MoviePage = () => {
 export const getServerSideProps = getApplicationServerSideProps();
 
 export { MoviePage };
-export type { StepProps };
+export type { MovieFormData };

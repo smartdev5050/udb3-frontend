@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import { OfferCategories } from '@/constants/OfferCategories';
 import { useGetPlacesByQuery } from '@/hooks/api/places';
+import type { StepProps } from '@/pages/Steps';
 import type { Place } from '@/types/Place';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
@@ -16,11 +17,11 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
 
-import type { StepProps } from './MoviePage';
+import type { MovieFormData } from './MoviePage';
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
-type MovieCinemaProps = StackProps & StepProps;
+type MovieCinemaProps = StackProps & StepProps<MovieFormData>;
 
 const MovieCinemaStep = ({
   formState: { errors },

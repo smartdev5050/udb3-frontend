@@ -4,6 +4,7 @@ import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { useGetProductions } from '@/hooks/api/productions';
+import type { StepProps } from '@/pages/Steps';
 import type { Production } from '@/types/Production';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
@@ -15,9 +16,9 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
 
-import type { StepProps } from './MoviePage';
+import type { MovieFormData } from './MoviePage';
 
-type MovieNameStepProps = StackProps & StepProps;
+type MovieNameStepProps = StackProps & StepProps<MovieFormData>;
 
 const getValue = getValueFromTheme('moviesCreatePage');
 

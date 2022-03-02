@@ -2,25 +2,23 @@ import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { MovieThemes } from '@/constants/MovieThemes';
+import type { StepProps } from '@/pages/Steps';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
-import type { StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
-import type { StepProps } from './MoviePage';
+import type { MovieFormData } from './MoviePage';
 
 const getValue = getValueFromTheme('moviesCreatePage');
-
-type MovieThemeStepProps = StackProps & StepProps;
 
 const MovieThemeStep = ({
   control,
   reset,
   getValues,
   onChange,
-}: MovieThemeStepProps) => {
+}: StepProps<MovieFormData>) => {
   const { t } = useTranslation();
 
   return (
