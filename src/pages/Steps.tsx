@@ -10,7 +10,7 @@ import { Title } from '@/ui/Title';
 
 type StepsConfiguration<T> = Array<{
   Component: any;
-  inputKey?: keyof T;
+  field?: keyof T;
   step?: number;
   title: string;
   shouldShowNextStep?: boolean;
@@ -99,14 +99,14 @@ const Steps = <T extends unknown>({
     <Stack spacing={5}>
       {configuration.map(
         (
-          { Component: Step, inputKey, additionalProps = {}, step, title },
+          { Component: Step, field, additionalProps = {}, step, title },
           index: number,
         ) => {
           const shouldShowNextStep =
             configuration[index - 1]?.shouldShowNextStep ?? true;
 
           if (
-            !keys.includes(inputKey) &&
+            !keys.includes(field) &&
             !shouldShowNextStep &&
             mode !== 'UPDATE'
           ) {
@@ -123,8 +123,8 @@ const Steps = <T extends unknown>({
             >
               <Step
                 key={index}
-                onChange={(value) => onChange(inputKey, value)}
-                loading={!!(inputKey && fieldLoading === inputKey)}
+                onChange={(value) => onChange(field, value)}
+                loading={!!(field && fieldLoading === field)}
                 {...props}
                 {...additionalProps}
               />

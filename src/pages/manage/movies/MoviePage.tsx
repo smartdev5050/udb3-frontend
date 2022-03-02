@@ -470,24 +470,24 @@ const MoviePage = () => {
     return [
       {
         Component: MovieThemeStep,
-        inputKey: 'theme',
+        field: 'theme',
         title: t(`movies.create.step1.title`),
       },
       {
         Component: MovieTimeTableStep,
-        inputKey: 'timeTable',
+        field: 'timeTable',
         shouldShowNextStep: isOneTimeSlotValid(watchedTimeTable),
         title: t(`movies.create.step2.title`),
       },
       {
         Component: MovieCinemaStep,
-        inputKey: 'cinema',
+        field: 'cinema',
         shouldShowNextStep: watchedCinema !== undefined,
         title: t(`movies.create.step3.title`),
       },
       {
         Component: MovieNameStep,
-        inputKey: 'production',
+        field: 'production',
         shouldShowNextStep: !!newEventId && Object.values(errors).length === 0,
         title: t(`movies.create.step4.title`),
       },
