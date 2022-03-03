@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
+import type { Calendar } from '@/hooks/api/events';
 import type { StepsConfiguration } from '@/pages/Steps';
 import { Steps } from '@/pages/Steps';
 import { Page } from '@/ui/Page';
@@ -12,15 +13,17 @@ import { CalendarStep } from './CalendarStep';
 import { ThemeStep } from './ThemeStep';
 import { TypeStep } from './TypeStep';
 
+type EventType = 'event' | 'place';
+
 type FormData = {
-  type: any;
-  theme: any;
-  calendar: any;
+  type: EventType;
+  theme: string;
+  calendar: Calendar;
 };
 
 const schema = yup
   .object({
-    type: yup.string().required(),
+    type: yup.mixed<EventType>().required().oneOf(['event', 'place']),
     theme: yup.string().required(),
     calendar: yup.mixed().required(),
   })
