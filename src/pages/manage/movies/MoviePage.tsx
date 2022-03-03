@@ -526,7 +526,7 @@ const MoviePage = () => {
       </Page.Content>
       {footerStatus !== FooterStatus.HIDDEN && (
         <Page.Footer>
-          <Inline spacing={3}>
+          <Inline spacing={3} alignItems="center">
             {footerStatus === FooterStatus.PUBLISH ? (
               [
                 <Button
@@ -543,6 +543,13 @@ const MoviePage = () => {
                 >
                   {t('movies.create.actions.publish_later')}
                 </Button>,
+                <Text
+                  key="info"
+                  color={getValue('footer.color')}
+                  fontSize="0.9rem"
+                >
+                  {t('movies.create.footer.auto_save')}
+                </Text>,
               ]
             ) : footerStatus === FooterStatus.MANUAL_SAVE ? (
               <Button
