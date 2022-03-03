@@ -58,7 +58,7 @@ const EventForm = () => {
 
   return (
     <Page>
-      <Page.Title>create</Page.Title>
+      <Page.Title>{t(`event.create.title`)}</Page.Title>
       <Page.Content spacing={5}>
         <Steps configuration={configuration} {...form} />
       </Page.Content>
