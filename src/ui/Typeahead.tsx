@@ -68,6 +68,7 @@ const Typeahead: TypeaheadFunc = forwardRef(
         disabled={disabled}
         className={className}
         flex={1}
+        ref={ref}
         css={`
           .dropdown-item.active,
           .dropdown-item:active {
@@ -102,7 +103,6 @@ const Typeahead: TypeaheadFunc = forwardRef(
         selected={selected}
         inputProps={{
           id,
-          ref,
         }}
         {...getBoxProps(props)}
       />
