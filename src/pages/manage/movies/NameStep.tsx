@@ -16,20 +16,20 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
 
-import type { MovieFormData } from './MoviePage';
+import type { FormData } from './MoviePage';
 
-type MovieNameStepProps = StackProps & StepProps<MovieFormData>;
+type NameStepProps = StackProps & StepProps<FormData>;
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
-const MovieNameStep = ({
+const NameStep = ({
   formState: { errors },
   control,
   getValues,
   reset,
   onChange,
   ...props
-}: MovieNameStepProps) => {
+}: NameStepProps) => {
   const { t } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
 
@@ -113,4 +113,4 @@ const MovieNameStep = ({
   );
 };
 
-export { MovieNameStep };
+export { NameStep };

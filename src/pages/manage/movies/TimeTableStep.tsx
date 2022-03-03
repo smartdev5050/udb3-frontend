@@ -12,11 +12,11 @@ import {
   TimeTable,
 } from '@/ui/TimeTable';
 
-import type { MovieFormData } from './MoviePage';
+import type { FormData } from './MoviePage';
 
-type TimeTableStepProps = StackProps & StepProps<MovieFormData>;
+type TimeTableStepProps = StackProps & StepProps<FormData>;
 
-const MovieTimeTableStep = ({
+const TimeTableStep = ({
   formState: { errors },
   control,
   className,
@@ -60,4 +60,4 @@ const MovieTimeTableStep = ({
   );
 };
 
-export { MovieTimeTableStep };
+export { TimeTableStep };

@@ -51,14 +51,14 @@ import { formatDateToISO } from '@/utils/formatDateToISO';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 import { parseOfferId } from '@/utils/parseOfferId';
 
-import { MovieAdditionalInformationStep } from './MovieAdditionalInformationStep';
-import { MovieCinemaStep } from './MovieCinemaStep';
-import { MovieNameStep } from './MovieNameStep';
-import { MovieThemeStep } from './MovieThemeStep';
-import { MovieTimeTableStep } from './MovieTimeTableStep';
+import { AdditionalInformationStep } from './AdditionalInformationStep';
+import { CinemaStep } from './CinemaStep';
+import { NameStep } from './NameStep';
 import { PublishLaterModal } from './PublishLaterModal';
+import { ThemeStep } from './ThemeStep';
+import { TimeTableStep } from './TimeTableStep';
 
-type MovieFormData = {
+type FormData = {
   theme: string;
   timeTable: any;
   cinema: Place;
@@ -156,7 +156,7 @@ const convertSubEventsToTimeTable = (subEvents: SubEvent[] = []) => {
 };
 
 const MoviePage = () => {
-  const form = useForm<MovieFormData>({
+  const form = useForm<FormData>({
     resolver: yupResolver(schema),
   });
 
@@ -182,7 +182,7 @@ const MoviePage = () => {
     false,
   );
   const [publishLaterDate, setPublishLaterDate] = useState(new Date());
-  const [fieldLoading, setFieldLoading] = useState<keyof MovieFormData>();
+  const [fieldLoading, setFieldLoading] = useState<keyof FormData>();
 
   const addEventMutation = useAddEvent({
     onSuccess: async () => await queryClient.invalidateQueries('events'),
@@ -232,13 +232,13 @@ const MoviePage = () => {
   }, [getEventByIdQuery.data]);
 
   const editExistingEvent = async (
-    { production, cinema, theme: themeId, timeTable }: MovieFormData,
-    editedField?: keyof MovieFormData,
+    { production, cinema, theme: themeId, timeTable }: FormData,
+    editedField?: keyof FormData,
   ) => {
     if (!editedField) return;
 
     type FieldToMutationMap = Partial<
-      Record<keyof MovieFormData, () => Promise<void>>
+      Record<keyof FormData, () => Promise<void>>
     >;
 
     const fieldToMutationFunctionMap: FieldToMutationMap = {
@@ -313,7 +313,7 @@ const MoviePage = () => {
     cinema,
     theme: themeId,
     timeTable,
-  }: MovieFormData) => {
+  }: FormData) => {
     if (!production) return;
 
     const themeLabel = Object.entries(MovieThemes).find(
@@ -376,8 +376,8 @@ const MoviePage = () => {
   };
 
   const handleFormValid = async (
-    formData: MovieFormData,
-    editedField?: keyof MovieFormData,
+    formData: FormData,
+    editedField?: keyof FormData,
   ) => {
     if (newEventId) {
       await editExistingEvent(formData, editedField);
@@ -400,7 +400,7 @@ const MoviePage = () => {
     });
   };
 
-  const handleChange = (editedField: keyof MovieFormData) => {
+  const handleChange = (editedField: keyof FormData) => {
     if (!newEventId) return;
     setFieldLoading(editedField);
     handleSubmit(async (formData) => handleFormValid(formData, editedField))();
@@ -459,33 +459,33 @@ const MoviePage = () => {
   const watchedTimeTable = watch('timeTable');
   const watchedCinema = watch('cinema');
 
-  const configuration: StepsConfiguration<MovieFormData> = useMemo(() => {
+  const configuration: StepsConfiguration<FormData> = useMemo(() => {
     return [
       {
-        Component: MovieThemeStep,
+        Component: ThemeStep,
         field: 'theme',
         title: t(`movies.create.step1.title`),
       },
       {
-        Component: MovieTimeTableStep,
+        Component: TimeTableStep,
         field: 'timeTable',
         shouldShowNextStep: isOneTimeSlotValid(watchedTimeTable),
         title: t(`movies.create.step2.title`),
       },
       {
-        Component: MovieCinemaStep,
+        Component: CinemaStep,
         field: 'cinema',
         shouldShowNextStep: watchedCinema !== undefined,
         title: t(`movies.create.step3.title`),
       },
       {
-        Component: MovieNameStep,
+        Component: NameStep,
         field: 'production',
         shouldShowNextStep: !!newEventId && Object.values(errors).length === 0,
         title: t(`movies.create.step4.title`),
       },
       {
-        Component: MovieAdditionalInformationStep,
+        Component: AdditionalInformationStep,
         additionalProps: {
           eventId: newEventId,
           onSuccess: (field: string) => {
@@ -516,7 +516,7 @@ const MoviePage = () => {
           visible={!!toastMessage}
           onClose={() => setToastMessage(undefined)}
         />
-        <Steps<MovieFormData>
+        <Steps<FormData>
           configuration={configuration}
           mode={!!newEventId || !!router.query.eventId ? 'UPDATE' : 'CREATE'}
           onChange={handleChange}
@@ -589,4 +589,4 @@ const MoviePage = () => {
 export const getServerSideProps = getApplicationServerSideProps();
 
 export { MoviePage };
-export type { MovieFormData };
+export type { FormData };

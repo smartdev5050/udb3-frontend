@@ -9,16 +9,16 @@ import { Inline } from '@/ui/Inline';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
-import type { MovieFormData } from './MoviePage';
+import type { FormData } from './MoviePage';
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
-const MovieThemeStep = ({
+const ThemeStep = ({
   control,
   reset,
   getValues,
   onChange,
-}: StepProps<MovieFormData>) => {
+}: StepProps<FormData>) => {
   const { t } = useTranslation();
 
   return (
@@ -74,4 +74,4 @@ const MovieThemeStep = ({
   );
 };
 
-export { MovieThemeStep };
+export { ThemeStep };
