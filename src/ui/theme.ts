@@ -45,8 +45,8 @@ const above = 1;
 const zIndexPaginationPageLink = above + base;
 
 const zIndexSidebar = above + zIndexPaginationPageLink;
-const zIndexJobLogger = zIndexSidebar;
 const zIndexPageFooter = zIndexSidebar;
+const zIndexJobLogger = above + zIndexSidebar;
 const zIndexToast = above + zIndexSidebar;
 
 const zIndexModalBackdrop = above + zIndexToast;
