@@ -8,7 +8,7 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
-export type Keys<T> = keyof T & string;
+type Keys<T> = keyof T & string;
 
 type StepsConfiguration<T> = Array<{
   Component: any;
@@ -139,4 +139,4 @@ const Steps = <T extends unknown>({
 };
 
 export { Steps };
-export type { StepProps, StepsConfiguration };
+export type { Keys, StepProps, StepsConfiguration };
