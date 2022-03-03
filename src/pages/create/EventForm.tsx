@@ -1,8 +1,7 @@
 import { Page } from '@/ui/Page';
 import { Text } from '@/ui/Text';
-import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
-const Create = () => {
+const EventForm = () => {
   return (
     <Page>
       <Page.Title>create</Page.Title>
@@ -13,6 +12,4 @@ const Create = () => {
   );
 };
 
-export const getServerSideProps = getApplicationServerSideProps();
-
-export default Create;
+export { EventForm };
