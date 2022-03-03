@@ -48,7 +48,6 @@ import {
 } from '@/ui/TimeTable';
 import { Toast } from '@/ui/Toast';
 import { formatDateToISO } from '@/utils/formatDateToISO';
-import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 import { AdditionalInformationStep } from './AdditionalInformationStep';
@@ -585,8 +584,6 @@ const MoviePage = () => {
     </Page>
   );
 };
-
-export const getServerSideProps = getApplicationServerSideProps();
 
 export { MoviePage };
 export type { FormData };
