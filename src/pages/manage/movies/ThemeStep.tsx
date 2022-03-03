@@ -16,6 +16,7 @@ const getValue = getValueFromTheme('moviesCreatePage');
 const ThemeStep = ({
   control,
   reset,
+  field,
   getValues,
   onChange,
 }: StepProps<FormData>) => {
@@ -23,7 +24,7 @@ const ThemeStep = ({
 
   return (
     <Controller
-      name="theme"
+      name={field}
       control={control}
       render={({ field }) => {
         if (!field.value) {

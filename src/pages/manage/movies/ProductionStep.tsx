@@ -27,6 +27,7 @@ const ProductionStep = ({
   control,
   getValues,
   reset,
+  field,
   onChange,
   ...props
 }: ProductionStepProps) => {
@@ -50,7 +51,7 @@ const ProductionStep = ({
   return (
     <Controller
       control={control}
-      name="production"
+      name={field}
       render={({ field }) => {
         const selectedProduction = field?.value;
 

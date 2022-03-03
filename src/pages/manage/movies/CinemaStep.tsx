@@ -28,6 +28,7 @@ const CinemaStep = ({
   getValues,
   reset,
   control,
+  field,
   loading,
   onChange,
   ...props
@@ -53,7 +54,7 @@ const CinemaStep = ({
     <Stack {...getStackProps(props)}>
       <Controller
         control={control}
-        name="cinema"
+        name={field}
         render={({ field }) => {
           const selectedCinema = field?.value;
 

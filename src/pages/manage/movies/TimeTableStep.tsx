@@ -20,6 +20,7 @@ const TimeTableStep = ({
   formState: { errors },
   control,
   className,
+  field,
   onChange,
   ...props
 }: TimeTableStepProps) => {
@@ -29,7 +30,7 @@ const TimeTableStep = ({
     <Stack spacing={3} {...getStackProps(props)}>
       <Box>
         <Controller
-          name="timeTable"
+          name={field}
           control={control}
           render={({ field }) => {
             return (

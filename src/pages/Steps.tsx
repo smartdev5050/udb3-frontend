@@ -78,6 +78,7 @@ const getValue = getValueFromTheme('moviesCreatePage');
 
 type StepProps<T> = UseFormReturn<T> & {
   loading: boolean;
+  field: Keys<T>;
   onChange: (value: any) => void;
 };
 
@@ -127,6 +128,7 @@ const Steps = <T extends unknown>({
                 key={index}
                 onChange={(value) => onChange(field, value)}
                 loading={!!(field && fieldLoading === field)}
+                field={field}
                 {...props}
                 {...additionalProps}
               />
