@@ -12,7 +12,7 @@ import {
   TimeTable,
 } from '@/ui/TimeTable';
 
-import type { FormData } from './MoviePage';
+import type { FormData } from './MovieForm';
 
 type TimeTableStepProps = StackProps & StepProps<FormData>;
 

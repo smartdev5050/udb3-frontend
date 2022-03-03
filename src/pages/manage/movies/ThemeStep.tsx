@@ -9,7 +9,7 @@ import { Inline } from '@/ui/Inline';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
-import type { FormData } from './MoviePage';
+import type { FormData } from './MovieForm';
 
 const getValue = getValueFromTheme('moviesCreatePage');
 

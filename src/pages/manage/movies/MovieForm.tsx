@@ -154,7 +154,7 @@ const convertSubEventsToTimeTable = (subEvents: SubEvent[] = []) => {
   };
 };
 
-const MoviePage = () => {
+const MovieForm = () => {
   const form = useForm<FormData>({
     resolver: yupResolver(schema),
   });
@@ -585,5 +585,5 @@ const MoviePage = () => {
   );
 };
 
-export { MoviePage };
+export { MovieForm };
 export type { FormData };

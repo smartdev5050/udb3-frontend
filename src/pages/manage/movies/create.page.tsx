@@ -1,7 +1,7 @@
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
-import { MoviePage } from './MoviePage';
+import { MovieForm } from './MovieForm';
 
 export const getServerSideProps = getApplicationServerSideProps();
 
-export default MoviePage;
+export default MovieForm;
