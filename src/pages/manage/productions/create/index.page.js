@@ -242,7 +242,6 @@ const Create = () => {
                 <FormElement
                   id="typeahead-productionname"
                   label={t('productions.create.production_name')}
-                  ref={typeaheadComponent}
                   Component={
                     <Typeahead
                       options={suggestedProductions}
@@ -260,6 +259,7 @@ const Create = () => {
                         }
                         setSelectedProductionId(selected[0].production_id);
                       }}
+                      ref={typeaheadComponent}
                     />
                   }
                 />
