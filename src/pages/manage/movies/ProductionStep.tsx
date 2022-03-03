@@ -18,18 +18,18 @@ import { Typeahead } from '@/ui/Typeahead';
 
 import type { FormData } from './MovieForm';
 
-type NameStepProps = StackProps & StepProps<FormData>;
+type ProductionStepProps = StackProps & StepProps<FormData>;
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
-const NameStep = ({
+const ProductionStep = ({
   formState: { errors },
   control,
   getValues,
   reset,
   onChange,
   ...props
-}: NameStepProps) => {
+}: ProductionStepProps) => {
   const { t } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
 
@@ -113,4 +113,4 @@ const NameStep = ({
   );
 };
 
-export { NameStep };
+export { ProductionStep };

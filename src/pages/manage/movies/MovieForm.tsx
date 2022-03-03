@@ -52,7 +52,7 @@ import { parseOfferId } from '@/utils/parseOfferId';
 
 import { AdditionalInformationStep } from './AdditionalInformationStep';
 import { CinemaStep } from './CinemaStep';
-import { NameStep } from './NameStep';
+import { ProductionStep } from './ProductionStep';
 import { PublishLaterModal } from './PublishLaterModal';
 import { ThemeStep } from './ThemeStep';
 import { TimeTableStep } from './TimeTableStep';
@@ -478,7 +478,7 @@ const MovieForm = () => {
         title: t(`movies.create.step3.title`),
       },
       {
-        Component: NameStep,
+        Component: ProductionStep,
         field: 'production',
         shouldShowNextStep: !!newEventId && Object.values(errors).length === 0,
         title: t(`movies.create.step4.title`),
