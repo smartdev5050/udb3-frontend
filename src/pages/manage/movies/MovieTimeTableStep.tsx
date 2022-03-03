@@ -1,32 +1,32 @@
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
+import type { StepProps } from '@/pages/Steps';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Box } from '@/ui/Box';
 import type { StackProps } from '@/ui/Stack';
-import { getStackProps } from '@/ui/Stack';
+import { getStackProps, Stack } from '@/ui/Stack';
 import {
   areAllTimeSlotsValid,
   isTimeTableEmpty,
   TimeTable,
 } from '@/ui/TimeTable';
 
-import type { StepProps } from './MoviePage';
-import { Step } from './Step';
+import type { MovieFormData } from './MoviePage';
 
-type Step2Props = StackProps & StepProps;
+type TimeTableStepProps = StackProps & StepProps<MovieFormData>;
 
-const Step2 = ({
-  errors,
+const MovieTimeTableStep = ({
+  formState: { errors },
   control,
   className,
   onChange,
   ...props
-}: Step2Props) => {
+}: TimeTableStepProps) => {
   const { t } = useTranslation();
 
   return (
-    <Step stepNumber={2} spacing={3} {...getStackProps(props)}>
+    <Stack spacing={3} {...getStackProps(props)}>
       <Box>
         <Controller
           name="timeTable"
@@ -56,8 +56,8 @@ const Step2 = ({
           )}
         </Alert>
       )}
-    </Step>
+    </Stack>
   );
 };
 
-export { Step2 };
+export { MovieTimeTableStep };

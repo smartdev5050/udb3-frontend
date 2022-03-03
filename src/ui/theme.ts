@@ -45,10 +45,11 @@ const above = 1;
 const zIndexPaginationPageLink = above + base;
 
 const zIndexSidebar = above + zIndexPaginationPageLink;
-const zIndexJobLogger = zIndexSidebar;
-const zIndexToast = zIndexSidebar;
+const zIndexPageFooter = zIndexSidebar;
+const zIndexJobLogger = above + zIndexSidebar;
+const zIndexToast = above + zIndexSidebar;
 
-const zIndexModalBackdrop = above + zIndexSidebar;
+const zIndexModalBackdrop = above + zIndexToast;
 const zIndexModal = above + zIndexModalBackdrop;
 //
 
@@ -179,6 +180,9 @@ const theme = {
     pageTitle: {
       color: colors.textColor,
       borderColor: colors.grey2,
+    },
+    pageFooter: {
+      zIndex: zIndexPageFooter,
     },
     title: {
       color: colors.textColor,

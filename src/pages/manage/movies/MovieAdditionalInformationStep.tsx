@@ -11,6 +11,7 @@ import {
   useUpdateImageFromEvent,
 } from '@/hooks/api/events';
 import { useAddImage } from '@/hooks/api/images';
+import { Box } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Icons } from '@/ui/Icon';
@@ -26,22 +27,19 @@ import { parseOfferId } from '@/utils/parseOfferId';
 import { PictureDeleteModal } from './PictureDeleteModal';
 import type { FormData } from './PictureUploadModal';
 import { PictureUploadModal } from './PictureUploadModal';
-import { Step } from './Step';
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
-type Step5Props = StackProps & {
+type MovieAdditionalInformationStepProps = StackProps & {
   eventId: string;
-  onSuccessChangeDescription: () => void;
-  onSuccessChangeImage: () => void;
+  onSuccess: (field: 'description' | 'image') => void;
 };
 
-const Step5 = ({
+const MovieAdditionalInformationStep = ({
   eventId,
-  onSuccessChangeDescription,
-  onSuccessChangeImage,
+  onSuccess,
   ...props
-}: Step5Props) => {
+}: MovieAdditionalInformationStepProps) => {
   const queryClient = useQueryClient();
   const { t, i18n } = useTranslation();
   const [
@@ -60,7 +58,7 @@ const Step5 = ({
   const getEventByIdQuery = useGetEventById({ id: eventId });
 
   const changeDescriptionMutation = useChangeDescription({
-    onSuccess: onSuccessChangeDescription,
+    onSuccess: () => onSuccess('description'),
   });
 
   useEffect(() => {
@@ -105,7 +103,7 @@ const Step5 = ({
 
   const invalidateEventQuery = async () => {
     await queryClient.invalidateQueries(['events', { id: eventId }]);
-    onSuccessChangeImage();
+    onSuccess('image');
   };
 
   const handleSuccessAddImage = ({ imageId }) =>
@@ -209,7 +207,7 @@ const Step5 = ({
   };
 
   return (
-    <Step stepNumber={5}>
+    <Box>
       <PictureUploadModal
         visible={isPictureUploadModalVisible}
         onClose={handleCloseModal}
@@ -345,8 +343,8 @@ const Step5 = ({
           </Stack>
         </Stack>
       </Inline>
-    </Step>
+    </Box>
   );
 };
 
-export { Step5 };
+export { MovieAdditionalInformationStep };

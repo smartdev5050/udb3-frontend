@@ -11,6 +11,7 @@ import type { TitleProps } from './Title';
 import { Title } from './Title';
 
 const getValueForPage = getValueFromTheme('page');
+const getValueForPageFooter = getValueFromTheme('pageFooter');
 
 type Props = StackProps & {
   children: ReactNode;
@@ -105,7 +106,7 @@ const PageFooter = ({ children, className, ...props }: PageFooterProps) => (
     left="0"
     bottom="0"
     right="0"
-    zIndex={10}
+    zIndex={getValueForPageFooter('zIndex')}
     backgroundColor="white"
     padding={4}
     css={`
