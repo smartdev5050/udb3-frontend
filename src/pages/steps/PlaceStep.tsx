@@ -18,14 +18,12 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
 
-import type { FormData } from './MovieForm';
-
 const getValue = getValueFromTheme('moviesCreatePage');
 
-type PlaceStepProps = StackProps &
-  StepProps<FormData> & { terms: Array<Values<typeof OfferCategories>> };
+type PlaceStepProps<T> = StackProps &
+  StepProps<T> & { terms: Array<Values<typeof OfferCategories>> };
 
-const PlaceStep = ({
+const PlaceStep = <T extends unknown>({
   formState: { errors },
   getValues,
   reset,
@@ -35,11 +33,9 @@ const PlaceStep = ({
   onChange,
   terms,
   ...props
-}: PlaceStepProps) => {
+}: PlaceStepProps<T>) => {
   const { t, i18n } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
-
-  console.log(terms);
 
   const useGetPlacesQuery = useGetPlacesByQuery(
     {
@@ -85,7 +81,7 @@ const PlaceStep = ({
                       place.name[i18n.language] ??
                       place.name[place.mainLanguage]
                     }
-                    selected={field.value ? [field.value] : []}
+                    selected={field.value ? [field.value as Place] : []}
                     maxWidth="43rem"
                     onChange={(places) => {
                       field.onChange(places?.[0]);

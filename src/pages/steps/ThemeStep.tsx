@@ -1,7 +1,8 @@
+import { useMemo } from 'react';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { MovieThemes } from '@/constants/MovieThemes';
+import { useGetThemesByCategoryId } from '@/hooks/api/themes';
 import type { StepProps } from '@/pages/Steps';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
@@ -9,18 +10,28 @@ import { Inline } from '@/ui/Inline';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
-import type { FormData } from './MovieForm';
-
 const getValue = getValueFromTheme('moviesCreatePage');
 
-const ThemeStep = ({
+const CategoryAndThemeStep = <T extends unknown>({
   control,
   reset,
   field,
   getValues,
   onChange,
-}: StepProps<FormData>) => {
-  const { t } = useTranslation();
+}: StepProps<T>) => {
+  const categoryId = 'test';
+
+  const { t, i18n } = useTranslation();
+
+  const useGetThemesByCategoryIdQuery = useGetThemesByCategoryId({
+    categoryId,
+  });
+
+  // @ts-expect-error
+  const themes = useMemo(() => useGetThemesByCategoryIdQuery.data ?? {}, [
+    // @ts-expect-error
+    useGetThemesByCategoryIdQuery.data,
+  ]);
 
   return (
     <Controller
@@ -30,19 +41,19 @@ const ThemeStep = ({
         if (!field.value) {
           return (
             <Inline spacing={3} flexWrap="wrap" maxWidth="70rem">
-              {Object.entries(MovieThemes).map(([key, value]) => (
+              {Object.entries(themes).map(([themeId, themeData]) => (
                 <Button
                   width="auto"
                   marginBottom={3}
                   display="inline-flex"
-                  key={key}
+                  key={themeId}
                   variant={ButtonVariants.SECONDARY}
                   onClick={() => {
-                    field.onChange(value);
-                    onChange(value);
+                    field.onChange({ ...field.value, theme: { id: themeId } });
+                    onChange(themeId);
                   }}
                 >
-                  {t(`themes*${value}`, { keySeparator: '*' })}
+                  {themeData[`label_${i18n.language}`]}
                 </Button>
               ))}
             </Inline>
@@ -55,15 +66,14 @@ const ThemeStep = ({
               name={Icons.CHECK_CIRCLE}
               color={getValue('check.circleFillColor')}
             />
-            <Text>
-              {t(`themes*${field.value}`, {
-                keySeparator: '*',
-              })}
-            </Text>
+            <Text>{themes?.[field.value]?.[`label_${i18n.language}`]}</Text>
             <Button
               variant={ButtonVariants.LINK}
               onClick={() =>
-                reset({ ...getValues(), theme: undefined }, { keepDirty: true })
+                reset(
+                  { ...getValues(), categoryAndTheme: undefined },
+                  { keepDirty: true },
+                )
               }
             >
               {t('movies.create.actions.change_theme')}
@@ -75,4 +85,4 @@ const ThemeStep = ({
   );
 };
 
-export { ThemeStep };
+export { CategoryAndThemeStep };

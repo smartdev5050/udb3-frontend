@@ -12,18 +12,16 @@ import {
   TimeTable,
 } from '@/ui/TimeTable';
 
-import type { FormData } from './MovieForm';
+type TimeTableStepProps<T> = StackProps & StepProps<T>;
 
-type TimeTableStepProps = StackProps & StepProps<FormData>;
-
-const TimeTableStep = ({
+const TimeTableStep = <T extends unknown>({
   formState: { errors },
   control,
   className,
   field,
   onChange,
   ...props
-}: TimeTableStepProps) => {
+}: TimeTableStepProps<T>) => {
   const { t } = useTranslation();
 
   return (

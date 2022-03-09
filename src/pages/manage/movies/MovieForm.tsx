@@ -29,6 +29,12 @@ import {
 } from '@/hooks/api/productions';
 import type { StepsConfiguration } from '@/pages/Steps';
 import { Steps } from '@/pages/Steps';
+import { AdditionalInformationStep } from '@/pages/steps/AdditionalInformationStep';
+import { PublishLaterModal } from '@/pages/steps/modals/PublishLaterModal';
+import { PlaceStep } from '@/pages/steps/PlaceStep';
+import { ProductionStep } from '@/pages/steps/ProductionStep';
+import { CategoryAndThemeStep } from '@/pages/steps/ThemeStep';
+import { TimeTableStep } from '@/pages/steps/TimeTableStep';
 import type { Event } from '@/types/Event';
 import type { SubEvent } from '@/types/Offer';
 import type { Place } from '@/types/Place';
@@ -50,15 +56,8 @@ import { Toast } from '@/ui/Toast';
 import { formatDateToISO } from '@/utils/formatDateToISO';
 import { parseOfferId } from '@/utils/parseOfferId';
 
-import { AdditionalInformationStep } from './AdditionalInformationStep';
-import { PlaceStep } from './PlaceStep';
-import { ProductionStep } from './ProductionStep';
-import { PublishLaterModal } from './PublishLaterModal';
-import { ThemeStep } from './ThemeStep';
-import { TimeTableStep } from './TimeTableStep';
-
 type FormData = {
-  theme: string;
+  categoryAndTheme: { categoryId: string; themeId: string };
   timeTable: any;
   place: Place;
   production: Production & { customOption?: boolean };
@@ -75,7 +74,7 @@ const FooterStatus = {
 
 const schema = yup
   .object({
-    theme: yup.string(),
+    categoryAndTheme: yup.object().shape({}).required(),
     timeTable: yup
       .mixed()
       .test({
@@ -231,7 +230,7 @@ const MovieForm = () => {
   }, [getEventByIdQuery.data]);
 
   const editExistingEvent = async (
-    { production, place, theme: themeId, timeTable }: FormData,
+    { production, place, categoryAndTheme, timeTable }: FormData,
     editedField?: keyof FormData,
   ) => {
     if (!editedField) return;
@@ -241,10 +240,10 @@ const MovieForm = () => {
     >;
 
     const fieldToMutationFunctionMap: FieldToMutationMap = {
-      theme: async () => {
+      categoryAndTheme: async () => {
         await changeThemeMutation.mutateAsync({
           id: newEventId,
-          themeId,
+          themeId: categoryAndTheme.themeId,
         });
       },
       timeTable: async () => {
@@ -310,13 +309,13 @@ const MovieForm = () => {
   const createNewEvent = async ({
     production,
     place,
-    theme: themeId,
+    categoryAndTheme,
     timeTable,
   }: FormData) => {
     if (!production) return;
 
     const themeLabel = Object.entries(MovieThemes).find(
-      ([key, value]) => value === themeId,
+      ([_key, value]) => value === categoryAndTheme.themeId,
     )?.[0];
 
     const payload: EventArguments = {
@@ -327,13 +326,13 @@ const MovieForm = () => {
         timeSpans: convertTimeTableToSubEvents(timeTable),
       },
       type: {
-        id: OfferCategories.Film,
+        id: categoryAndTheme.categoryId,
         label: 'Film',
         domain: 'eventtype',
       },
       ...(themeLabel && {
         theme: {
-          id: themeId,
+          id: categoryAndTheme.themeId,
           label: themeLabel,
           domain: 'theme',
         },
@@ -412,7 +411,10 @@ const MovieForm = () => {
 
     reset(
       {
-        theme: event.terms.find((term) => term.domain === 'theme')?.id,
+        categoryAndTheme: {
+          themeId: event.terms.find((term) => term.domain === 'theme')?.id,
+          categoryId: OfferCategories.Film,
+        },
         place: event.location,
         timeTable: convertSubEventsToTimeTable(event.subEvent),
         production: {
@@ -461,8 +463,8 @@ const MovieForm = () => {
   const configuration: StepsConfiguration<FormData> = useMemo(() => {
     return [
       {
-        Component: ThemeStep,
-        field: 'theme',
+        Component: CategoryAndThemeStep,
+        field: 'categoryAndTheme',
         title: t(`movies.create.step1.title`),
       },
       {
@@ -489,6 +491,7 @@ const MovieForm = () => {
       {
         Component: AdditionalInformationStep,
         additionalProps: {
+          variant: 'minimal',
           eventId: newEventId,
           onSuccess: (field: string) => {
             if (field === 'image') {

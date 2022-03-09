@@ -16,13 +16,11 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
 
-import type { FormData } from './MovieForm';
-
-type ProductionStepProps = StackProps & StepProps<FormData>;
+type ProductionStepProps<T> = StackProps & StepProps<T>;
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
-const ProductionStep = ({
+const ProductionStep = <T extends unknown>({
   formState: { errors },
   control,
   getValues,
@@ -30,7 +28,7 @@ const ProductionStep = ({
   field,
   onChange,
   ...props
-}: ProductionStepProps) => {
+}: ProductionStepProps<T>) => {
   const { t } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
 
