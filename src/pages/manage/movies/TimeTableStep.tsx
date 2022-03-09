@@ -12,14 +12,15 @@ import {
   TimeTable,
 } from '@/ui/TimeTable';
 
-import type { MovieFormData } from './MoviePage';
+import type { FormData } from './MovieForm';
 
-type TimeTableStepProps = StackProps & StepProps<MovieFormData>;
+type TimeTableStepProps = StackProps & StepProps<FormData>;
 
-const MovieTimeTableStep = ({
+const TimeTableStep = ({
   formState: { errors },
   control,
   className,
+  field,
   onChange,
   ...props
 }: TimeTableStepProps) => {
@@ -29,7 +30,7 @@ const MovieTimeTableStep = ({
     <Stack spacing={3} {...getStackProps(props)}>
       <Box>
         <Controller
-          name="timeTable"
+          name={field}
           control={control}
           render={({ field }) => {
             return (
@@ -60,4 +61,4 @@ const MovieTimeTableStep = ({
   );
 };
 
-export { MovieTimeTableStep };
+export { TimeTableStep };

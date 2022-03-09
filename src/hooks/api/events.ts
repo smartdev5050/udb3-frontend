@@ -576,4 +576,4 @@ export {
   useUpdateImageFromEvent,
 };
 
-export type { EventArguments };
+export type { Calendar, EventArguments };

@@ -9,21 +9,22 @@ import { Inline } from '@/ui/Inline';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
-import type { MovieFormData } from './MoviePage';
+import type { FormData } from './MovieForm';
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
-const MovieThemeStep = ({
+const ThemeStep = ({
   control,
   reset,
+  field,
   getValues,
   onChange,
-}: StepProps<MovieFormData>) => {
+}: StepProps<FormData>) => {
   const { t } = useTranslation();
 
   return (
     <Controller
-      name="theme"
+      name={field}
       control={control}
       render={({ field }) => {
         if (!field.value) {
@@ -74,4 +75,4 @@ const MovieThemeStep = ({
   );
 };
 
-export { MovieThemeStep };
+export { ThemeStep };

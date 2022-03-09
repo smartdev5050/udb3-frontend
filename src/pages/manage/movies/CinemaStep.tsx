@@ -17,21 +17,22 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
 
-import type { MovieFormData } from './MoviePage';
+import type { FormData } from './MovieForm';
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
-type MovieCinemaProps = StackProps & StepProps<MovieFormData>;
+type CinemaProps = StackProps & StepProps<FormData>;
 
-const MovieCinemaStep = ({
+const CinemaStep = ({
   formState: { errors },
   getValues,
   reset,
   control,
+  field,
   loading,
   onChange,
   ...props
-}: MovieCinemaProps) => {
+}: CinemaProps) => {
   const { t, i18n } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
 
@@ -53,7 +54,7 @@ const MovieCinemaStep = ({
     <Stack {...getStackProps(props)}>
       <Controller
         control={control}
-        name="cinema"
+        name={field}
         render={({ field }) => {
           const selectedCinema = field?.value;
 
@@ -120,4 +121,4 @@ const MovieCinemaStep = ({
   );
 };
 
-export { MovieCinemaStep };
+export { CinemaStep };

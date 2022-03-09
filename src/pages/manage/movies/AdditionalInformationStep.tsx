@@ -30,16 +30,16 @@ import { PictureUploadModal } from './PictureUploadModal';
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
-type MovieAdditionalInformationStepProps = StackProps & {
+type AdditionalInformationStepProps = StackProps & {
   eventId: string;
   onSuccess: (field: 'description' | 'image') => void;
 };
 
-const MovieAdditionalInformationStep = ({
+const AdditionalInformationStep = ({
   eventId,
   onSuccess,
   ...props
-}: MovieAdditionalInformationStepProps) => {
+}: AdditionalInformationStepProps) => {
   const queryClient = useQueryClient();
   const { t, i18n } = useTranslation();
   const [
@@ -347,4 +347,4 @@ const MovieAdditionalInformationStep = ({
   );
 };
 
-export { MovieAdditionalInformationStep };
+export { AdditionalInformationStep };

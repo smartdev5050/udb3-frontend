@@ -1,7 +1,7 @@
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
-import { MovieForm } from './MovieForm';
+import { EventForm } from './EventForm';
 
 export const getServerSideProps = getApplicationServerSideProps();
 
-export default MovieForm;
+export default EventForm;
