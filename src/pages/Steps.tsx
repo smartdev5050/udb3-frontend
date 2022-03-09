@@ -1,4 +1,4 @@
-import type { UseFormReturn } from 'react-hook-form';
+import type { Path, UseFormReturn } from 'react-hook-form';
 
 import type { BoxProps } from '@/ui/Box';
 import { Box } from '@/ui/Box';
@@ -8,11 +8,11 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
-type Keys<T> = keyof T & string;
+// type Keys<T> = keyof T & string;
 
 type StepsConfiguration<T> = Array<{
   Component: any;
-  field?: Keys<T>;
+  field?: Path<T>;
   step?: number;
   title: string;
   shouldShowNextStep?: boolean;
@@ -78,7 +78,7 @@ const getValue = getValueFromTheme('moviesCreatePage');
 
 type StepProps<T> = UseFormReturn<T> & {
   loading: boolean;
-  field: Keys<T>;
+  field: Path<T>;
   onChange: (value: any) => void;
 };
 
@@ -124,7 +124,7 @@ const Steps = <T extends unknown>({
               key={`step${stepNumber}`}
               title={title}
             >
-              <Step
+              <Step<T>
                 key={index}
                 onChange={(value) => onChange(field, value)}
                 loading={!!(field && fieldLoading === field)}
@@ -147,4 +147,4 @@ Steps.defaultProps = {
 };
 
 export { Steps };
-export type { Keys, StepProps, StepsConfiguration };
+export type { StepProps, StepsConfiguration };
