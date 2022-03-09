@@ -13,7 +13,7 @@ import { CalendarStep } from './CalendarStep';
 import { ThemeStep } from './ThemeStep';
 import { TypeStep } from './TypeStep';
 
-type OfferType = 'event' | 'place';
+type EventType = 'event' | 'place';
 
 type FormData = {
   type: EventType;
