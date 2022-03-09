@@ -51,7 +51,7 @@ import { formatDateToISO } from '@/utils/formatDateToISO';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 import { AdditionalInformationStep } from './AdditionalInformationStep';
-import { CinemaStep } from './CinemaStep';
+import { PlaceStep } from './PlaceStep';
 import { ProductionStep } from './ProductionStep';
 import { PublishLaterModal } from './PublishLaterModal';
 import { ThemeStep } from './ThemeStep';
@@ -60,7 +60,7 @@ import { TimeTableStep } from './TimeTableStep';
 type FormData = {
   theme: string;
   timeTable: any;
-  cinema: Place;
+  place: Place;
   production: Production & { customOption?: boolean };
 };
 
@@ -87,7 +87,7 @@ const schema = yup
         test: (timeTableData) => !isTimeTableEmpty(timeTableData),
       })
       .required(),
-    cinema: yup.object().shape({}).required(),
+    place: yup.object().shape({}).required(),
     production: yup.object().shape({}).required(),
   })
   .required();
@@ -231,7 +231,7 @@ const MovieForm = () => {
   }, [getEventByIdQuery.data]);
 
   const editExistingEvent = async (
-    { production, cinema, theme: themeId, timeTable }: FormData,
+    { production, place, theme: themeId, timeTable }: FormData,
     editedField?: keyof FormData,
   ) => {
     if (!editedField) return;
@@ -254,12 +254,12 @@ const MovieForm = () => {
           timeSpans: convertTimeTableToSubEvents(timeTable),
         });
       },
-      cinema: async () => {
-        if (!cinema) return;
+      place: async () => {
+        if (!place) return;
 
         await changeLocationMutation.mutateAsync({
           id: newEventId,
-          locationId: parseOfferId(cinema['@id']),
+          locationId: parseOfferId(place['@id']),
         });
       },
       production: async () => {
@@ -309,7 +309,7 @@ const MovieForm = () => {
 
   const createNewEvent = async ({
     production,
-    cinema,
+    place,
     theme: themeId,
     timeTable,
   }: FormData) => {
@@ -339,7 +339,7 @@ const MovieForm = () => {
         },
       }),
       location: {
-        id: parseOfferId(cinema['@id']),
+        id: parseOfferId(place['@id']),
       },
       workflowStatus: WorkflowStatusMap.DRAFT,
       audienceType: 'everyone',
@@ -413,7 +413,7 @@ const MovieForm = () => {
     reset(
       {
         theme: event.terms.find((term) => term.domain === 'theme')?.id,
-        cinema: event.location,
+        place: event.location,
         timeTable: convertSubEventsToTimeTable(event.subEvent),
         production: {
           production_id: event.production.id,
@@ -433,10 +433,10 @@ const MovieForm = () => {
   const footerStatus = useMemo(() => {
     if (queryClient.isMutating()) return FooterStatus.HIDDEN;
     if (newEventId && !availableFromDate) return FooterStatus.PUBLISH;
-    if (dirtyFields.cinema) return FooterStatus.MANUAL_SAVE;
+    if (dirtyFields.place) return FooterStatus.MANUAL_SAVE;
     if (newEventId) return FooterStatus.AUTO_SAVE;
     return FooterStatus.HIDDEN;
-  }, [newEventId, availableFromDate, dirtyFields.cinema, queryClient]);
+  }, [newEventId, availableFromDate, dirtyFields.place, queryClient]);
 
   useEffect(() => {
     if (footerStatus !== FooterStatus.HIDDEN) {
@@ -456,7 +456,7 @@ const MovieForm = () => {
     [toastMessage],
   );
   const watchedTimeTable = watch('timeTable');
-  const watchedCinema = watch('cinema');
+  const watchedPlace = watch('place');
 
   const configuration: StepsConfiguration<FormData> = useMemo(() => {
     return [
@@ -472,10 +472,13 @@ const MovieForm = () => {
         title: t(`movies.create.step2.title`),
       },
       {
-        Component: CinemaStep,
-        field: 'cinema',
-        shouldShowNextStep: watchedCinema !== undefined,
+        Component: PlaceStep,
+        field: 'place',
+        shouldShowNextStep: watchedPlace !== undefined,
         title: t(`movies.create.step3.title`),
+        additionalProps: {
+          terms: [OfferCategories.Bioscoop],
+        },
       },
       {
         Component: ProductionStep,
@@ -499,7 +502,7 @@ const MovieForm = () => {
         title: t(`movies.create.step5.title`),
       },
     ];
-  }, [errors, newEventId, watchedCinema, watchedTimeTable, t]);
+  }, [errors, newEventId, watchedPlace, watchedTimeTable, t]);
 
   return (
     <Page>
