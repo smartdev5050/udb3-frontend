@@ -231,7 +231,7 @@ const PictureUploadModal = ({
           <PictureUploadBox
             image={image}
             error={
-              errors.file &&
+              errors?.file &&
               t(
                 `movies.create.picture.upload_modal.validation_messages.file.${errors.file.type}`,
               )
@@ -244,7 +244,7 @@ const PictureUploadModal = ({
           label="Beschrijving"
           info="Maximum 250 karakters"
           error={
-            errors.description &&
+            errors?.description &&
             t(
               `movies.create.picture.upload_modal.validation_messages.description.${errors.description.type}`,
             )
@@ -256,7 +256,7 @@ const PictureUploadModal = ({
           label="Copyright"
           info={t('movies.create.picture.upload_modal.disclaimer.copyright')}
           error={
-            errors.copyrightHolder &&
+            errors?.copyrightHolder &&
             t(
               `movies.create.picture.upload_modal.validation_messages.copyrightHolder.${errors.copyrightHolder.type}`,
             )

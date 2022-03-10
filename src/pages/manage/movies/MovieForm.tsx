@@ -1,5 +1,11 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { format, isMatch, parse as parseDate, set as setTime } from 'date-fns';
+import {
+  format,
+  isMatch,
+  nextWednesday,
+  parse as parseDate,
+  set as setTime,
+} from 'date-fns';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -8,8 +14,7 @@ import { useQueryClient } from 'react-query';
 import * as yup from 'yup';
 
 import { CalendarType } from '@/constants/CalendarType';
-import { MovieThemes } from '@/constants/MovieThemes';
-import { OfferCategories } from '@/constants/OfferCategories';
+import { EventTypes } from '@/constants/EventTypes';
 import type { EventArguments } from '@/hooks/api/events';
 import {
   useAddEvent,
@@ -29,6 +34,12 @@ import {
 } from '@/hooks/api/productions';
 import type { StepsConfiguration } from '@/pages/Steps';
 import { Steps } from '@/pages/Steps';
+import { AdditionalInformationStep } from '@/pages/steps/AdditionalInformationStep';
+import { EventTypeAndThemeStep } from '@/pages/steps/EventTypeAndThemeStep';
+import { PublishLaterModal } from '@/pages/steps/modals/PublishLaterModal';
+import { PlaceStep } from '@/pages/steps/PlaceStep';
+import { ProductionStep } from '@/pages/steps/ProductionStep';
+import { TimeTableStep } from '@/pages/steps/TimeTableStep';
 import type { Event } from '@/types/Event';
 import type { SubEvent } from '@/types/Offer';
 import type { Place } from '@/types/Place';
@@ -50,17 +61,13 @@ import { Toast } from '@/ui/Toast';
 import { formatDateToISO } from '@/utils/formatDateToISO';
 import { parseOfferId } from '@/utils/parseOfferId';
 
-import { AdditionalInformationStep } from './AdditionalInformationStep';
-import { CinemaStep } from './CinemaStep';
-import { ProductionStep } from './ProductionStep';
-import { PublishLaterModal } from './PublishLaterModal';
-import { ThemeStep } from './ThemeStep';
-import { TimeTableStep } from './TimeTableStep';
-
 type FormData = {
-  theme: string;
+  eventTypeAndTheme: {
+    eventType: { id: string; label: string };
+    theme: { id: string; label: string };
+  };
   timeTable: any;
-  cinema: Place;
+  place: Place;
   production: Production & { customOption?: boolean };
 };
 
@@ -75,7 +82,7 @@ const FooterStatus = {
 
 const schema = yup
   .object({
-    theme: yup.string(),
+    eventTypeAndTheme: yup.object().shape({}).required(),
     timeTable: yup
       .mixed()
       .test({
@@ -87,7 +94,7 @@ const schema = yup
         test: (timeTableData) => !isTimeTableEmpty(timeTableData),
       })
       .required(),
-    cinema: yup.object().shape({}).required(),
+    place: yup.object().shape({}).required(),
     production: yup.object().shape({}).required(),
   })
   .required();
@@ -154,9 +161,25 @@ const convertSubEventsToTimeTable = (subEvents: SubEvent[] = []) => {
   };
 };
 
+const nextWeekWednesday = nextWednesday(new Date());
+const formatDate = (date: Date) => format(date, 'dd/MM/yyyy');
+
 const MovieForm = () => {
   const form = useForm<FormData>({
     resolver: yupResolver(schema),
+    defaultValues: {
+      timeTable: {
+        data: {},
+        dateStart: formatDate(nextWeekWednesday),
+        dateEnd: formatDate(nextWeekWednesday),
+      },
+      eventTypeAndTheme: {
+        eventType: {
+          id: EventTypes.Film,
+          label: 'Film',
+        },
+      },
+    },
   });
 
   const {
@@ -231,7 +254,7 @@ const MovieForm = () => {
   }, [getEventByIdQuery.data]);
 
   const editExistingEvent = async (
-    { production, cinema, theme: themeId, timeTable }: FormData,
+    { production, place, eventTypeAndTheme, timeTable }: FormData,
     editedField?: keyof FormData,
   ) => {
     if (!editedField) return;
@@ -241,10 +264,10 @@ const MovieForm = () => {
     >;
 
     const fieldToMutationFunctionMap: FieldToMutationMap = {
-      theme: async () => {
+      eventTypeAndTheme: async () => {
         await changeThemeMutation.mutateAsync({
           id: newEventId,
-          themeId,
+          themeId: eventTypeAndTheme.theme.id,
         });
       },
       timeTable: async () => {
@@ -254,12 +277,12 @@ const MovieForm = () => {
           timeSpans: convertTimeTableToSubEvents(timeTable),
         });
       },
-      cinema: async () => {
-        if (!cinema) return;
+      place: async () => {
+        if (!place) return;
 
         await changeLocationMutation.mutateAsync({
           id: newEventId,
-          locationId: parseOfferId(cinema['@id']),
+          locationId: parseOfferId(place['@id']),
         });
       },
       production: async () => {
@@ -309,15 +332,11 @@ const MovieForm = () => {
 
   const createNewEvent = async ({
     production,
-    cinema,
-    theme: themeId,
+    place,
+    eventTypeAndTheme: { eventType, theme },
     timeTable,
   }: FormData) => {
     if (!production) return;
-
-    const themeLabel = Object.entries(MovieThemes).find(
-      ([key, value]) => value === themeId,
-    )?.[0];
 
     const payload: EventArguments = {
       mainLanguage: 'nl',
@@ -327,19 +346,17 @@ const MovieForm = () => {
         timeSpans: convertTimeTableToSubEvents(timeTable),
       },
       type: {
-        id: OfferCategories.Film,
-        label: 'Film',
+        id: eventType?.id,
+        label: eventType?.label,
         domain: 'eventtype',
       },
-      ...(themeLabel && {
-        theme: {
-          id: themeId,
-          label: themeLabel,
-          domain: 'theme',
-        },
-      }),
+      theme: {
+        id: theme?.id,
+        label: theme?.label,
+        domain: 'theme',
+      },
       location: {
-        id: parseOfferId(cinema['@id']),
+        id: parseOfferId(place['@id']),
       },
       workflowStatus: WorkflowStatusMap.DRAFT,
       audienceType: 'everyone',
@@ -412,8 +429,11 @@ const MovieForm = () => {
 
     reset(
       {
-        theme: event.terms.find((term) => term.domain === 'theme')?.id,
-        cinema: event.location,
+        eventTypeAndTheme: {
+          theme: event.terms.find((term) => term.domain === 'theme'),
+          eventType: event.terms.find((term) => term.domain === 'eventtype'),
+        },
+        place: event.location,
         timeTable: convertSubEventsToTimeTable(event.subEvent),
         production: {
           production_id: event.production.id,
@@ -433,10 +453,10 @@ const MovieForm = () => {
   const footerStatus = useMemo(() => {
     if (queryClient.isMutating()) return FooterStatus.HIDDEN;
     if (newEventId && !availableFromDate) return FooterStatus.PUBLISH;
-    if (dirtyFields.cinema) return FooterStatus.MANUAL_SAVE;
+    if (dirtyFields.place) return FooterStatus.MANUAL_SAVE;
     if (newEventId) return FooterStatus.AUTO_SAVE;
     return FooterStatus.HIDDEN;
-  }, [newEventId, availableFromDate, dirtyFields.cinema, queryClient]);
+  }, [newEventId, availableFromDate, dirtyFields.place, queryClient]);
 
   useEffect(() => {
     if (footerStatus !== FooterStatus.HIDDEN) {
@@ -456,13 +476,13 @@ const MovieForm = () => {
     [toastMessage],
   );
   const watchedTimeTable = watch('timeTable');
-  const watchedCinema = watch('cinema');
+  const watchedPlace = watch('place');
 
   const configuration: StepsConfiguration<FormData> = useMemo(() => {
     return [
       {
-        Component: ThemeStep,
-        field: 'theme',
+        Component: EventTypeAndThemeStep,
+        field: 'eventTypeAndTheme',
         title: t(`movies.create.step1.title`),
       },
       {
@@ -472,10 +492,13 @@ const MovieForm = () => {
         title: t(`movies.create.step2.title`),
       },
       {
-        Component: CinemaStep,
-        field: 'cinema',
-        shouldShowNextStep: watchedCinema !== undefined,
+        Component: PlaceStep,
+        field: 'place',
+        shouldShowNextStep: watchedPlace !== undefined,
         title: t(`movies.create.step3.title`),
+        additionalProps: {
+          terms: [EventTypes.Bioscoop],
+        },
       },
       {
         Component: ProductionStep,
@@ -486,6 +509,7 @@ const MovieForm = () => {
       {
         Component: AdditionalInformationStep,
         additionalProps: {
+          variant: 'minimal',
           eventId: newEventId,
           onSuccess: (field: string) => {
             if (field === 'image') {
@@ -499,7 +523,7 @@ const MovieForm = () => {
         title: t(`movies.create.step5.title`),
       },
     ];
-  }, [errors, newEventId, watchedCinema, watchedTimeTable, t]);
+  }, [errors, newEventId, watchedPlace, watchedTimeTable, t]);
 
   return (
     <Page>

@@ -3,10 +3,11 @@ import { useMemo, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { OfferCategories } from '@/constants/OfferCategories';
+import type { EventTypes } from '@/constants/EventTypes';
 import { useGetPlacesByQuery } from '@/hooks/api/places';
-import type { StepProps } from '@/pages/Steps';
+import type { FormDataIntersection, StepProps } from '@/pages/Steps';
 import type { Place } from '@/types/Place';
+import type { Values } from '@/types/Values';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
@@ -17,13 +18,12 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
 
-import type { FormData } from './MovieForm';
-
 const getValue = getValueFromTheme('moviesCreatePage');
 
-type CinemaProps = StackProps & StepProps<FormData>;
+type PlaceStepProps<TFormData extends FormDataIntersection> = StackProps &
+  StepProps<TFormData> & { terms: Array<Values<typeof EventTypes>> };
 
-const CinemaStep = ({
+const PlaceStep = <TFormData extends FormDataIntersection>({
   formState: { errors },
   getValues,
   reset,
@@ -31,56 +31,56 @@ const CinemaStep = ({
   field,
   loading,
   onChange,
+  terms,
   ...props
-}: CinemaProps) => {
+}: PlaceStepProps<TFormData>) => {
   const { t, i18n } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
 
-  const useGetCinemasQuery = useGetPlacesByQuery(
+  const useGetPlacesQuery = useGetPlacesByQuery(
     {
       name: searchInput,
-      terms: [OfferCategories.Bioscoop],
+      terms,
     },
     { enabled: !!searchInput },
   );
 
   // @ts-expect-error
-  const cinemas = useMemo(() => useGetCinemasQuery.data?.member ?? [], [
+  const places = useMemo(() => useGetPlacesQuery.data?.member ?? [], [
     // @ts-expect-error
-    useGetCinemasQuery.data?.member,
+    useGetPlacesQuery.data?.member,
   ]);
 
   return (
     <Stack {...getStackProps(props)}>
-      <Controller
+      <Controller<TFormData>
         control={control}
         name={field}
         render={({ field }) => {
-          const selectedCinema = field?.value;
+          const selectedPlace = field?.value as Place;
 
-          if (!selectedCinema) {
+          if (!selectedPlace) {
             return (
               <FormElement
-                id="step3-cinema-typeahead"
+                id="place-step"
                 label={t('movies.create.actions.choose_cinema')}
                 error={
-                  errors?.cinema
+                  errors?.place
                     ? t(
-                        // @ts-expect-error
-                        `movies.create.validation_messages.cinema.${errors?.cinema.type}`,
+                        `movies.create.validation_messages.cinema.${errors?.place.type}`,
                       )
                     : undefined
                 }
                 loading={loading}
                 Component={
                   <Typeahead<Place>
-                    options={cinemas}
+                    options={places}
                     onInputChange={debounce(setSearchInput, 275)}
-                    labelKey={(cinema) =>
-                      cinema.name[i18n.language] ??
-                      cinema.name[cinema.mainLanguage]
+                    labelKey={(place) =>
+                      place.name[i18n.language] ??
+                      place.name[place.mainLanguage]
                     }
-                    selected={field.value ? [field.value] : []}
+                    selected={field.value ? [field.value as Place] : []}
                     maxWidth="43rem"
                     onChange={(places) => {
                       field.onChange(places?.[0]);
@@ -99,16 +99,15 @@ const CinemaStep = ({
                 color={getValue('check.circleFillColor')}
               />
               <Text>
-                {selectedCinema.name[i18n.language] ??
-                  selectedCinema.name[selectedCinema.mainLanguage]}
+                {selectedPlace.name[i18n.language] ??
+                  selectedPlace.name[selectedPlace.mainLanguage]}
               </Text>
               <Button
                 variant={ButtonVariants.LINK}
                 onClick={() =>
-                  reset(
-                    { ...getValues(), cinema: undefined },
-                    { keepDirty: true },
-                  )
+                  reset({ ...getValues(), place: undefined } as any, {
+                    keepDirty: true,
+                  })
                 }
               >
                 {t('movies.create.actions.change_cinema')}
@@ -121,4 +120,8 @@ const CinemaStep = ({
   );
 };
 
-export { CinemaStep };
+PlaceStep.defaultProps = {
+  terms: [],
+};
+
+export { PlaceStep };

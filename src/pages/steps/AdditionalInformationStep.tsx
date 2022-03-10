@@ -11,6 +11,9 @@ import {
   useUpdateImageFromEvent,
 } from '@/hooks/api/events';
 import { useAddImage } from '@/hooks/api/images';
+import { PictureDeleteModal } from '@/pages/steps/modals/PictureDeleteModal';
+import type { FormData } from '@/pages/steps/modals/PictureUploadModal';
+import { PictureUploadModal } from '@/pages/steps/modals/PictureUploadModal';
 import { Box } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
@@ -23,10 +26,6 @@ import { Text, TextVariants } from '@/ui/Text';
 import { TextArea } from '@/ui/TextArea';
 import { getValueFromTheme } from '@/ui/theme';
 import { parseOfferId } from '@/utils/parseOfferId';
-
-import { PictureDeleteModal } from './PictureDeleteModal';
-import type { FormData } from './PictureUploadModal';
-import { PictureUploadModal } from './PictureUploadModal';
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
