@@ -19,12 +19,10 @@ const EventTypeAndThemeStep = <T extends unknown>({
   getValues,
   onChange,
 }: StepProps<T>) => {
-  const eventTypeId = 'test';
-
   const { t, i18n } = useTranslation();
 
   const useGetThemesByCategoryIdQuery = useGetThemesByEventTypeId({
-    eventTypeId,
+    eventTypeId: 'test',
   });
 
   // @ts-expect-error
