@@ -12,7 +12,7 @@ import { getValueFromTheme } from '@/ui/theme';
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
-const CategoryAndThemeStep = <T extends unknown>({
+const EventTypeAndThemeStep = <T extends unknown>({
   control,
   reset,
   field,
@@ -49,7 +49,10 @@ const CategoryAndThemeStep = <T extends unknown>({
                   key={themeId}
                   variant={ButtonVariants.SECONDARY}
                   onClick={() => {
-                    field.onChange({ ...field.value, theme: { id: themeId } });
+                    field.onChange({
+                      ...field.value,
+                      theme: { id: themeId, label: themeData.label_nl },
+                    });
                     onChange(themeId);
                   }}
                 >
@@ -71,7 +74,7 @@ const CategoryAndThemeStep = <T extends unknown>({
               variant={ButtonVariants.LINK}
               onClick={() =>
                 reset(
-                  { ...getValues(), categoryAndTheme: undefined },
+                  { ...getValues(), eventTypeAndTheme: undefined },
                   { keepDirty: true },
                 )
               }
@@ -85,4 +88,4 @@ const CategoryAndThemeStep = <T extends unknown>({
   );
 };
 
-export { CategoryAndThemeStep };
+export { EventTypeAndThemeStep };
