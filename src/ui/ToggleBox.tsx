@@ -37,10 +37,24 @@ const ToggleBox = ({ children, onClick, active, icon, text }: Props) => {
       {active && (
         <Icon
           name={Icons.CHECK_CIRCLE}
-          css="color: green;position: absolute;top:-13px;left:-6px;"
+          backgroundColor="white"
+          borderRadius="50%"
+          color={getValue('iconCheckColor')}
+          position="absolute"
+          top={-7}
+          left={-6}
+          width={15}
+          height={15}
         />
       )}
-      {icon && <Icon name={icon} width={30} height={30} />}
+      {icon && (
+        <Icon
+          name={icon}
+          color={getValue('iconColor')}
+          width={30}
+          height={30}
+        />
+      )}
       {text && (
         <span
           css={`
