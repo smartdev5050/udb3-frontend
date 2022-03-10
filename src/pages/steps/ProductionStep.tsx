@@ -47,7 +47,7 @@ const ProductionStep = <T extends unknown>({
   ]);
 
   return (
-    <Controller
+    <Controller<any>
       control={control}
       name={field}
       render={({ field }) => {
@@ -97,7 +97,7 @@ const ProductionStep = <T extends unknown>({
               variant={ButtonVariants.LINK}
               onClick={() =>
                 reset(
-                  { ...getValues(), production: undefined },
+                  { ...(getValues() as any), production: undefined },
                   { keepDirty: true },
                 )
               }

@@ -27,7 +27,7 @@ const TimeTableStep = <T extends unknown>({
   return (
     <Stack spacing={3} {...getStackProps(props)}>
       <Box>
-        <Controller
+        <Controller<any>
           name={field}
           control={control}
           render={({ field }) => {

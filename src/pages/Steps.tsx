@@ -1,4 +1,4 @@
-import type { Path, UseFormReturn } from 'react-hook-form';
+import type { FieldError, Path, UseFormReturn } from 'react-hook-form';
 
 import type { BoxProps } from '@/ui/Box';
 import { Box } from '@/ui/Box';
@@ -76,9 +76,13 @@ StepWrapper.defaultProps = {
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
-type StepProps<T> = UseFormReturn<T> & {
+type StepProps<T> = Omit<UseFormReturn<T>, 'formState'> & {
+  formState: {
+    errors: Record<string, FieldError>;
+  };
+} & {
   loading: boolean;
-  field: Path<T>;
+  field: any; // FIXME
   onChange: (value: any) => void;
 };
 

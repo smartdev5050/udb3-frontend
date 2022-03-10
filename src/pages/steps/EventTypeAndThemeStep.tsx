@@ -32,31 +32,34 @@ const EventTypeAndThemeStep = <T extends unknown>({
   ]);
 
   return (
-    <Controller
+    <Controller<any>
       name={field}
       control={control}
       render={({ field }) => {
         if (!field.value) {
           return (
             <Inline spacing={3} flexWrap="wrap" maxWidth="70rem">
-              {Object.entries(themes).map(([themeId, themeData]) => (
-                <Button
-                  width="auto"
-                  marginBottom={3}
-                  display="inline-flex"
-                  key={themeId}
-                  variant={ButtonVariants.SECONDARY}
-                  onClick={() => {
-                    field.onChange({
-                      ...field.value,
-                      theme: { id: themeId, label: themeData.label_nl },
-                    });
-                    onChange(themeId);
-                  }}
-                >
-                  {themeData[`label_${i18n.language}`]}
-                </Button>
-              ))}
+              {Object.entries(themes).map(
+                // eslint-disable-next-line camelcase
+                ([themeId, themeData]: [string, { label_nl: string }]) => (
+                  <Button
+                    width="auto"
+                    marginBottom={3}
+                    display="inline-flex"
+                    key={themeId}
+                    variant={ButtonVariants.SECONDARY}
+                    onClick={() => {
+                      field.onChange({
+                        ...field.value,
+                        theme: { id: themeId, label: themeData.label_nl },
+                      });
+                      onChange(themeId);
+                    }}
+                  >
+                    {themeData[`label_${i18n.language}`]}
+                  </Button>
+                ),
+              )}
             </Inline>
           );
         }
@@ -74,7 +77,7 @@ const EventTypeAndThemeStep = <T extends unknown>({
               variant={ButtonVariants.LINK}
               onClick={() =>
                 reset(
-                  { ...getValues(), eventTypeAndTheme: undefined },
+                  { ...(getValues() as any), eventTypeAndTheme: undefined },
                   { keepDirty: true },
                 )
               }

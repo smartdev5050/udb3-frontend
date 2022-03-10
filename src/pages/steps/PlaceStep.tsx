@@ -53,7 +53,7 @@ const PlaceStep = <T extends unknown>({
 
   return (
     <Stack {...getStackProps(props)}>
-      <Controller
+      <Controller<any>
         control={control}
         name={field}
         render={({ field }) => {
@@ -67,7 +67,6 @@ const PlaceStep = <T extends unknown>({
                 error={
                   errors?.place
                     ? t(
-                        // @ts-expect-error
                         `movies.create.validation_messages.cinema.${errors?.place.type}`,
                       )
                     : undefined
@@ -107,7 +106,7 @@ const PlaceStep = <T extends unknown>({
                 variant={ButtonVariants.LINK}
                 onClick={() =>
                   reset(
-                    { ...getValues(), place: undefined },
+                    { ...(getValues() as any), place: undefined },
                     { keepDirty: true },
                   )
                 }

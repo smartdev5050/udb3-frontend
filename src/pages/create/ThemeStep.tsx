@@ -5,7 +5,7 @@ import { Text } from '@/ui/Text';
 
 const ThemeStep = ({ control, field }: StepProps<FormData>) => {
   return (
-    <Controller
+    <Controller<any>
       control={control}
       name={field}
       render={({ field }) => {
