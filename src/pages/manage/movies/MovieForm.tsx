@@ -175,7 +175,7 @@ const MovieForm = () => {
       },
       eventTypeAndTheme: {
         eventType: {
-          id: '0.50.6.0.0',
+          id: OfferCategories.Film,
           label: 'Film',
         },
       },
