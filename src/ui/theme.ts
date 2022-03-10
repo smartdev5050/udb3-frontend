@@ -333,6 +333,7 @@ const theme = {
       activeBackgroundColor: colors.green5,
       borderColor: colors.grey2,
       textColor: colors.udbBlue,
+      activeTextColor: colors.textColor,
     },
     dropdown: {
       activeToggleBoxShadow: 'inset 0 3px 5px rgba(0, 0, 0, 0.125)',
