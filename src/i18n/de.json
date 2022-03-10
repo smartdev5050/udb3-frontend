@@ -246,10 +246,6 @@
     "rowsSelectedCount": "{{count}} Reihe ausgewählt",
     "rowsSelectedCount_plural": "{{count}} Reihen ausgewählt"
   },
-  "offerTypes": {
-    "event": "Veranstaltung",
-    "place": "Ort"
-  },
   "eventTypes": {
     "0.0.0.0.0": "Ausstellung",
     "0.12.0.0.0": "Tag der offenen Tür",
@@ -306,6 +302,15 @@
     "1.7.11.0.0": "Filmliebhaber",
     "1.7.14.0.0": "Mehrere Filmgenres",
     "1.7.15.0.0": "Thriller"
+  },
+  "steps": {
+    "offerTypes": {
+      "event": "Veranstaltung",
+      "place": "Ort"
+    },
+    "offerTypeStep": {
+      "or": "Oder"
+    }
   },
   "404": {
     "title": "404 Nicht Gefunden",

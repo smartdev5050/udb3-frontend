@@ -221,10 +221,6 @@
     "rowsSelectedCount": "{{count}} ligne sélectionnée",
     "rowsSelectedCount_plural": "{{count}} lignes sélectionnées"
   },
-  "offerTypes": {
-    "event": "Événement",
-    "place": "Lieu"
-  },
   "eventTypes": {
     "0.0.0.0.0": "Exposition",
     "0.12.0.0.0": "Journée portes ouvertes",
@@ -267,6 +263,15 @@
     "VRC6HX0Wa063sq98G5ciqw": "Magasin",
     "Yf4aZBfsUEu2NsQqsprngw": "Centre culturel ou centre de réunion",
     "YVBc8KVdrU6XfTNvhMYUpg": "Discothèque"
+  },
+  "steps": {
+    "offerTypes": {
+      "event": "Événement",
+      "place": "Lieu"
+    },
+    "offerTypeStep": {
+      "or": "Ou"
+    }
   },
   "404": {
     "title": "404 Pas trouvée",
