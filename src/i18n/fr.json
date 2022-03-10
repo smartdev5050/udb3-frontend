@@ -221,6 +221,10 @@
     "rowsSelectedCount": "{{count}} ligne sélectionnée",
     "rowsSelectedCount_plural": "{{count}} lignes sélectionnées"
   },
+  "offerTypes": {
+    "event": "Événement",
+    "place": "Lieu"
+  },
   "offerCategories": {
     "0.0.0.0.0": "Exposition",
     "0.12.0.0.0": "Journée portes ouvertes",

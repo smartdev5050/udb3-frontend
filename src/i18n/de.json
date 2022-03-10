@@ -246,6 +246,10 @@
     "rowsSelectedCount": "{{count}} Reihe ausgewählt",
     "rowsSelectedCount_plural": "{{count}} Reihen ausgewählt"
   },
+  "offerTypes": {
+    "event": "Veranstaltung",
+    "place": "Ort"
+  },
   "offerCategories": {
     "0.0.0.0.0": "Ausstellung",
     "0.12.0.0.0": "Tag der offenen Tür",
