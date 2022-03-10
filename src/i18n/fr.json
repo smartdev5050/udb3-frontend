@@ -267,8 +267,10 @@
   "steps": {
     "offerTypeStep": {
       "or": "Ou",
-      "event": "Événement",
-      "place": "Lieu"
+      "types": {
+        "event": "Événement",
+        "place": "Lieu"
+      }
     }
   },
   "404": {
