@@ -463,12 +463,12 @@
     "1.7.15.0.0": "Thriller"
   },
   "steps": {
-    "offerTypes": {
-      "event": "Evenement",
-      "place": "Locatie"
-    },
     "offerTypeStep": {
-      "or": "Of"
+      "or": "Of",
+      "types": {
+        "event": "Evenement",
+        "place": "Locatie"
+      }
     }
   },
   "404": {

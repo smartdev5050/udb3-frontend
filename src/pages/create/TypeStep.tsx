@@ -26,14 +26,14 @@ const TypeStep = ({ control, field }: StepProps<FormData>) => {
               onClick={() => field.onChange(OfferType.EVENT)}
               active={field.value === OfferType.EVENT}
               icon={Icons.CALENDAR_ALT}
-              text={t('offerTypes.event')}
+              text={t('steps.offerTypeStep.types.event')}
             />
             <Text css="font-style: italic;">{t('steps.offerTypeStep.or')}</Text>
             <ToggleBox
               onClick={() => field.onChange(OfferType.PLACE)}
               active={field.value === OfferType.PLACE}
               icon={Icons.BUILDING}
-              text={t('offerTypes.place')}
+              text={t('steps.offerTypeStep.types.place')}
             />
           </Inline>
         );

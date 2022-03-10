@@ -265,12 +265,10 @@
     "YVBc8KVdrU6XfTNvhMYUpg": "Discothèque"
   },
   "steps": {
-    "offerTypes": {
+    "offerTypeStep": {
+      "or": "Ou",
       "event": "Événement",
       "place": "Lieu"
-    },
-    "offerTypeStep": {
-      "or": "Ou"
     }
   },
   "404": {

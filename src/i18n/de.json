@@ -304,12 +304,12 @@
     "1.7.15.0.0": "Thriller"
   },
   "steps": {
-    "offerTypes": {
-      "event": "Veranstaltung",
-      "place": "Ort"
-    },
     "offerTypeStep": {
-      "or": "Oder"
+      "or": "Oder",
+      "types": {
+        "event": "Veranstaltung",
+        "place": "Ort"
+      }
     }
   },
   "404": {
