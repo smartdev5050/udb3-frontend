@@ -17,6 +17,7 @@ const colors = {
   green2: '#449d44',
   green3: '#48874a',
   green4: '#dcf2d7',
+  green5: '#c7e6c7',
   pink1: '#fcd1cf',
   pink2: '#f9a29f',
   red1: '#d9534f',
