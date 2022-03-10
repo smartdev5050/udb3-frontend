@@ -1,11 +1,14 @@
 import { Controller } from 'react-hook-form';
 
-import type { StepProps } from '@/pages/Steps';
+import type { FormDataIntersection, StepProps } from '@/pages/Steps';
 import { Text } from '@/ui/Text';
 
-const ThemeStep = ({ control, field }: StepProps<FormData>) => {
+const ThemeStep = <TFormData extends FormDataIntersection>({
+  control,
+  field,
+}: StepProps<TFormData>) => {
   return (
-    <Controller<any>
+    <Controller<TFormData>
       control={control}
       name={field}
       render={({ field }) => {

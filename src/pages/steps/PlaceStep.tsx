@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import type { EventTypes } from '@/constants/EventTypes';
 import { useGetPlacesByQuery } from '@/hooks/api/places';
-import type { StepProps } from '@/pages/Steps';
+import type { FormDataIntersection, StepProps } from '@/pages/Steps';
 import type { Place } from '@/types/Place';
 import type { Values } from '@/types/Values';
 import { Button, ButtonVariants } from '@/ui/Button';
@@ -20,10 +20,10 @@ import { Typeahead } from '@/ui/Typeahead';
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
-type PlaceStepProps<T> = StackProps &
-  StepProps<T> & { terms: Array<Values<typeof EventTypes>> };
+type PlaceStepProps<TFormData extends FormDataIntersection> = StackProps &
+  StepProps<TFormData> & { terms: Array<Values<typeof EventTypes>> };
 
-const PlaceStep = <T extends unknown>({
+const PlaceStep = <TFormData extends FormDataIntersection>({
   formState: { errors },
   getValues,
   reset,
@@ -33,7 +33,7 @@ const PlaceStep = <T extends unknown>({
   onChange,
   terms,
   ...props
-}: PlaceStepProps<T>) => {
+}: PlaceStepProps<TFormData>) => {
   const { t, i18n } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
 
@@ -53,11 +53,11 @@ const PlaceStep = <T extends unknown>({
 
   return (
     <Stack {...getStackProps(props)}>
-      <Controller<any>
+      <Controller<TFormData>
         control={control}
         name={field}
         render={({ field }) => {
-          const selectedPlace = field?.value;
+          const selectedPlace = field?.value as Place;
 
           if (!selectedPlace) {
             return (
@@ -105,10 +105,9 @@ const PlaceStep = <T extends unknown>({
               <Button
                 variant={ButtonVariants.LINK}
                 onClick={() =>
-                  reset(
-                    { ...(getValues() as any), place: undefined },
-                    { keepDirty: true },
-                  )
+                  reset({ ...getValues(), place: undefined } as any, {
+                    keepDirty: true,
+                  })
                 }
               >
                 {t('movies.create.actions.change_cinema')}
