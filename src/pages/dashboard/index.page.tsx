@@ -134,7 +134,7 @@ const EventRow = ({ item: event, onDelete, ...props }: EventRowProps) => {
   const previewUrl = `/event/${parseOfferId(event['@id'])}/preview`;
   const typeId = event.terms.find((term) => term.domain === 'eventtype')?.id;
   // The custom keySeparator was necessary because the ids contain '.' which i18n uses as default keySeparator
-  const eventType = t(`offerTypes*${typeId}`, { keySeparator: '*' });
+  const eventType = t(`offerCategories*${typeId}`, { keySeparator: '*' });
 
   const period =
     event.calendarSummary[i18n.language]?.text?.[
@@ -191,7 +191,7 @@ const PlaceRow = ({ item: place, onDelete, ...props }: PlaceRowProps) => {
   const previewUrl = `/place/${parseOfferId(place['@id'])}/preview`;
   const typeId = place.terms.find((term) => term.domain === 'eventtype')?.id;
   // The custom keySeparator was necessary because the ids contain '.' which i18n uses as default keySeparator
-  const placeType = t(`offerTypes*${typeId}`, { keySeparator: '*' });
+  const placeType = t(`offerCategories*${typeId}`, { keySeparator: '*' });
 
   const period =
     place.calendarSummary[i18n.language]?.text?.[
