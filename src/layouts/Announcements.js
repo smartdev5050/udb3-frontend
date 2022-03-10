@@ -29,6 +29,7 @@ const Announcement = ({ id, title, status, onClick }) => {
     <List.Item
       padding={4}
       spacing={3}
+      alignItems="center"
       backgroundColor={{
         default:
           status === AnnouncementStatus.ACTIVE

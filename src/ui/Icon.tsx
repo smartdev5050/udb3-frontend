@@ -112,6 +112,8 @@ type Props = Omit<BoxProps, 'width' | 'height'> & {
 const Icon = ({ name, width, height, className, ...props }: Props) => {
   return (
     <Box
+      display="flex"
+      alignItems="center"
       className={className}
       css={`
         .svg-inline--fa {
