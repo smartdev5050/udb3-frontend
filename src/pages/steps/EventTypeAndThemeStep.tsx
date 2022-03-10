@@ -69,7 +69,9 @@ const EventTypeAndThemeStep = <T extends unknown>({
               name={Icons.CHECK_CIRCLE}
               color={getValue('check.circleFillColor')}
             />
-            <Text>{themes?.[field.value]?.[`label_${i18n.language}`]}</Text>
+            <Text>
+              {themes?.[field.value.theme.id]?.[`label_${i18n.language}`]}
+            </Text>
             <Button
               variant={ButtonVariants.LINK}
               onClick={() =>
