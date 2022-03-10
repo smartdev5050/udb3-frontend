@@ -14,7 +14,7 @@ import { useQueryClient } from 'react-query';
 import * as yup from 'yup';
 
 import { CalendarType } from '@/constants/CalendarType';
-import { OfferCategories } from '@/constants/OfferCategories';
+import { EventTypes } from '@/constants/EventTypes';
 import type { EventArguments } from '@/hooks/api/events';
 import {
   useAddEvent,
@@ -175,7 +175,7 @@ const MovieForm = () => {
       },
       eventTypeAndTheme: {
         eventType: {
-          id: OfferCategories.Film,
+          id: EventTypes.Film,
           label: 'Film',
         },
       },
@@ -497,7 +497,7 @@ const MovieForm = () => {
         shouldShowNextStep: watchedPlace !== undefined,
         title: t(`movies.create.step3.title`),
         additionalProps: {
-          terms: [OfferCategories.Bioscoop],
+          terms: [EventTypes.Bioscoop],
         },
       },
       {

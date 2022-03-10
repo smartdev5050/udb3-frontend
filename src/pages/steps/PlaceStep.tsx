@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import type { OfferCategories } from '@/constants/OfferCategories';
+import type { EventTypes } from '@/constants/EventTypes';
 import { useGetPlacesByQuery } from '@/hooks/api/places';
 import type { StepProps } from '@/pages/Steps';
 import type { Place } from '@/types/Place';
@@ -21,7 +21,7 @@ import { Typeahead } from '@/ui/Typeahead';
 const getValue = getValueFromTheme('moviesCreatePage');
 
 type PlaceStepProps<T> = StackProps &
-  StepProps<T> & { terms: Array<Values<typeof OfferCategories>> };
+  StepProps<T> & { terms: Array<Values<typeof EventTypes>> };
 
 const PlaceStep = <T extends unknown>({
   formState: { errors },
