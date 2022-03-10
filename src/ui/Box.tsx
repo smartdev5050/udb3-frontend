@@ -175,8 +175,6 @@ type JustifyContent =
 
 type FlexWrap = 'nowrap' | 'wrap' | 'wrap-reverse';
 
-type FlexDirection = 'row' | 'row-reverse' | 'column' | 'column-reverse';
-
 type UIProps = {
   alignItems: UIProp<AlignItems>;
   animation: UIProp<FlattenSimpleInterpolation>;
@@ -191,7 +189,6 @@ type UIProps = {
   flex: UIProp<string | number>;
   flexShrink: UIProp<string | number>;
   flexWrap: UIProp<FlexWrap>;
-  flexDirection: UIProp<FlexDirection>;
   fontSize: UIProp<string | number>;
   fontWeight: UIProp<string | number>;
   height: UIProp<string | number>;
@@ -456,7 +453,6 @@ const boxProps = css`
   ${parseProperty('flex')};
   ${parseProperty('flexShrink')};
   ${parseProperty('flexWrap')};
-  ${parseProperty('flexDirection')};
   ${parseProperty('cursor')};
 
   ${parseProperty('animation')}
@@ -476,7 +472,6 @@ const boxPropTypes = [
   'display',
   'flex',
   'flexShrink',
-  'flexDirection',
   'fontSize',
   'fontWeight',
   'height',
