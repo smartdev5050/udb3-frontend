@@ -328,6 +328,12 @@ const theme = {
       hoverTabBackgroundColor: colors.grey3,
       borderRadius: 0,
     },
+    toggleBox: {
+      backgroundColor: colors.white,
+      activeBackgroundColor: colors.green5,
+      borderColor: colors.grey2,
+      textColor: colors.udbBlue,
+    },
     dropdown: {
       activeToggleBoxShadow: 'inset 0 3px 5px rgba(0, 0, 0, 0.125)',
       menuBorderRadius: 0,
