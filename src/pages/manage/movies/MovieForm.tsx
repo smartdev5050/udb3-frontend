@@ -1,5 +1,11 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { format, isMatch, parse as parseDate, set as setTime } from 'date-fns';
+import {
+  format,
+  isMatch,
+  nextWednesday,
+  parse as parseDate,
+  set as setTime,
+} from 'date-fns';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -155,9 +161,25 @@ const convertSubEventsToTimeTable = (subEvents: SubEvent[] = []) => {
   };
 };
 
+const nextWeekWednesday = nextWednesday(new Date());
+const formatDate = (date: Date) => format(date, 'dd/MM/yyyy');
+
 const MovieForm = () => {
   const form = useForm<FormData>({
     resolver: yupResolver(schema),
+    defaultValues: {
+      timeTable: {
+        data: {},
+        dateStart: formatDate(nextWeekWednesday),
+        dateEnd: formatDate(nextWeekWednesday),
+      },
+      eventTypeAndTheme: {
+        eventType: {
+          id: '0.50.6.0.0',
+          label: 'Film',
+        },
+      },
+    },
   });
 
   const {
@@ -324,13 +346,13 @@ const MovieForm = () => {
         timeSpans: convertTimeTableToSubEvents(timeTable),
       },
       type: {
-        id: eventType.id,
-        label: eventType.label,
+        id: eventType?.id,
+        label: eventType?.label,
         domain: 'eventtype',
       },
       theme: {
-        id: theme.id,
-        label: theme.label,
+        id: theme?.id,
+        label: theme?.label,
         domain: 'theme',
       },
       location: {
