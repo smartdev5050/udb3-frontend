@@ -1,5 +1,11 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { format, isMatch, parse as parseDate, set as setTime } from 'date-fns';
+import {
+  format,
+  isMatch,
+  nextWednesday,
+  parse as parseDate,
+  set as setTime,
+} from 'date-fns';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -8,8 +14,7 @@ import { useQueryClient } from 'react-query';
 import * as yup from 'yup';
 
 import { CalendarType } from '@/constants/CalendarType';
-import { MovieThemes } from '@/constants/MovieThemes';
-import { OfferCategories } from '@/constants/OfferCategories';
+import { EventTypes } from '@/constants/EventTypes';
 import type { EventArguments } from '@/hooks/api/events';
 import {
   useAddEvent,
@@ -30,10 +35,10 @@ import {
 import type { StepsConfiguration } from '@/pages/Steps';
 import { Steps } from '@/pages/Steps';
 import { AdditionalInformationStep } from '@/pages/steps/AdditionalInformationStep';
+import { EventTypeAndThemeStep } from '@/pages/steps/EventTypeAndThemeStep';
 import { PublishLaterModal } from '@/pages/steps/modals/PublishLaterModal';
 import { PlaceStep } from '@/pages/steps/PlaceStep';
 import { ProductionStep } from '@/pages/steps/ProductionStep';
-import { CategoryAndThemeStep } from '@/pages/steps/ThemeStep';
 import { TimeTableStep } from '@/pages/steps/TimeTableStep';
 import type { Event } from '@/types/Event';
 import type { SubEvent } from '@/types/Offer';
@@ -57,7 +62,10 @@ import { formatDateToISO } from '@/utils/formatDateToISO';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 type FormData = {
-  categoryAndTheme: { categoryId: string; themeId: string };
+  eventTypeAndTheme: {
+    eventType: { id: string; label: string };
+    theme: { id: string; label: string };
+  };
   timeTable: any;
   place: Place;
   production: Production & { customOption?: boolean };
@@ -74,7 +82,7 @@ const FooterStatus = {
 
 const schema = yup
   .object({
-    categoryAndTheme: yup.object().shape({}).required(),
+    eventTypeAndTheme: yup.object().shape({}).required(),
     timeTable: yup
       .mixed()
       .test({
@@ -153,9 +161,25 @@ const convertSubEventsToTimeTable = (subEvents: SubEvent[] = []) => {
   };
 };
 
+const nextWeekWednesday = nextWednesday(new Date());
+const formatDate = (date: Date) => format(date, 'dd/MM/yyyy');
+
 const MovieForm = () => {
   const form = useForm<FormData>({
     resolver: yupResolver(schema),
+    defaultValues: {
+      timeTable: {
+        data: {},
+        dateStart: formatDate(nextWeekWednesday),
+        dateEnd: formatDate(nextWeekWednesday),
+      },
+      eventTypeAndTheme: {
+        eventType: {
+          id: EventTypes.Film,
+          label: 'Film',
+        },
+      },
+    },
   });
 
   const {
@@ -230,7 +254,7 @@ const MovieForm = () => {
   }, [getEventByIdQuery.data]);
 
   const editExistingEvent = async (
-    { production, place, categoryAndTheme, timeTable }: FormData,
+    { production, place, eventTypeAndTheme, timeTable }: FormData,
     editedField?: keyof FormData,
   ) => {
     if (!editedField) return;
@@ -240,10 +264,10 @@ const MovieForm = () => {
     >;
 
     const fieldToMutationFunctionMap: FieldToMutationMap = {
-      categoryAndTheme: async () => {
+      eventTypeAndTheme: async () => {
         await changeThemeMutation.mutateAsync({
           id: newEventId,
-          themeId: categoryAndTheme.themeId,
+          themeId: eventTypeAndTheme.theme.id,
         });
       },
       timeTable: async () => {
@@ -309,14 +333,10 @@ const MovieForm = () => {
   const createNewEvent = async ({
     production,
     place,
-    categoryAndTheme,
+    eventTypeAndTheme: { eventType, theme },
     timeTable,
   }: FormData) => {
     if (!production) return;
-
-    const themeLabel = Object.entries(MovieThemes).find(
-      ([_key, value]) => value === categoryAndTheme.themeId,
-    )?.[0];
 
     const payload: EventArguments = {
       mainLanguage: 'nl',
@@ -326,17 +346,15 @@ const MovieForm = () => {
         timeSpans: convertTimeTableToSubEvents(timeTable),
       },
       type: {
-        id: categoryAndTheme.categoryId,
-        label: 'Film',
+        id: eventType?.id,
+        label: eventType?.label,
         domain: 'eventtype',
       },
-      ...(themeLabel && {
-        theme: {
-          id: categoryAndTheme.themeId,
-          label: themeLabel,
-          domain: 'theme',
-        },
-      }),
+      theme: {
+        id: theme?.id,
+        label: theme?.label,
+        domain: 'theme',
+      },
       location: {
         id: parseOfferId(place['@id']),
       },
@@ -411,9 +429,9 @@ const MovieForm = () => {
 
     reset(
       {
-        categoryAndTheme: {
-          themeId: event.terms.find((term) => term.domain === 'theme')?.id,
-          categoryId: OfferCategories.Film,
+        eventTypeAndTheme: {
+          theme: event.terms.find((term) => term.domain === 'theme'),
+          eventType: event.terms.find((term) => term.domain === 'eventtype'),
         },
         place: event.location,
         timeTable: convertSubEventsToTimeTable(event.subEvent),
@@ -463,8 +481,8 @@ const MovieForm = () => {
   const configuration: StepsConfiguration<FormData> = useMemo(() => {
     return [
       {
-        Component: CategoryAndThemeStep,
-        field: 'categoryAndTheme',
+        Component: EventTypeAndThemeStep,
+        field: 'eventTypeAndTheme',
         title: t(`movies.create.step1.title`),
       },
       {
@@ -479,7 +497,7 @@ const MovieForm = () => {
         shouldShowNextStep: watchedPlace !== undefined,
         title: t(`movies.create.step3.title`),
         additionalProps: {
-          terms: [OfferCategories.Bioscoop],
+          terms: [EventTypes.Bioscoop],
         },
       },
       {

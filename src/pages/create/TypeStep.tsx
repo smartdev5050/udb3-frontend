@@ -2,17 +2,20 @@ import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { OfferType } from '@/constants/OfferType';
-import type { StepProps } from '@/pages/Steps';
+import type { FormDataIntersection, StepProps } from '@/pages/Steps';
 import { Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { Text } from '@/ui/Text';
 import { ToggleBox } from '@/ui/ToggleBox';
 
-const TypeStep = ({ control, field }: StepProps<FormData>) => {
+const TypeStep = <TFormData extends FormDataIntersection>({
+  control,
+  field,
+}: StepProps<TFormData>) => {
   const { t } = useTranslation();
 
   return (
-    <Controller
+    <Controller<TFormData>
       control={control}
       name={field}
       render={({ field }) => {

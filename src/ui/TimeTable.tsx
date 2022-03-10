@@ -1,12 +1,5 @@
 import copyToClipboard from 'clipboard-copy';
-import {
-  addDays,
-  differenceInDays,
-  format,
-  isMatch,
-  nextWednesday,
-  parse,
-} from 'date-fns';
+import { addDays, differenceInDays, format, isMatch, parse } from 'date-fns';
 import { cloneDeep } from 'lodash';
 import isNil from 'lodash/isNil';
 import omitBy from 'lodash/omitBy';
@@ -14,7 +7,7 @@ import pick from 'lodash/pick';
 import setWith from 'lodash/setWith';
 import unset from 'lodash/unset';
 import type { ClipboardEvent, FormEvent } from 'react';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import type { Values } from '@/types/Values';
@@ -302,18 +295,6 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
       data,
     };
   };
-
-  useEffect(() => {
-    if (!value?.dateStart || !value?.dateEnd) {
-      const nextWeekWednesday = nextWednesday(new Date());
-      onChange({
-        data: value?.data ?? {},
-        dateStart: formatDate(nextWeekWednesday),
-        dateEnd: formatDate(nextWeekWednesday),
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handlePaste = (payload: CopyPayload, index: number, date: string) => {
     if (payload.method === 'row') {

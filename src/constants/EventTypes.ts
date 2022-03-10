@@ -1,4 +1,4 @@
-const OfferCategories = {
+const EventTypes = {
   Tentoonstelling: '0.0.0.0.0',
   Opendeurdag: '0.12.0.0.0',
   Monument: '0.14.0.0.0',
@@ -41,4 +41,4 @@ const OfferCategories = {
   Discotheek: 'YVBc8KVdrU6XfTNvhMYUpg',
 } as const;
 
-export { OfferCategories };
+export { EventTypes };

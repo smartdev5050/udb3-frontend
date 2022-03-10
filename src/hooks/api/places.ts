@@ -1,6 +1,6 @@
 import type { UseMutationOptions, UseQueryOptions } from 'react-query';
 
-import type { OfferCategories } from '@/constants/OfferCategories';
+import type { EventTypes } from '@/constants/EventTypes';
 import type { OfferStatus } from '@/constants/OfferStatus';
 import type { SupportedLanguages } from '@/i18n/index';
 import type { Place } from '@/types/Place';
@@ -105,7 +105,7 @@ const useGetPlacesByCreator = (
 
 type GetPlacesByQueryArguments = {
   name: string;
-  terms: Array<Values<typeof OfferCategories>>;
+  terms: Array<Values<typeof EventTypes>>;
 };
 
 const getPlacesByQuery = async ({

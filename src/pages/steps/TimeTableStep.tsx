@@ -1,33 +1,35 @@
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import type { StepProps } from '@/pages/Steps';
+import type { FormDataIntersection, StepProps } from '@/pages/Steps';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Box } from '@/ui/Box';
 import type { StackProps } from '@/ui/Stack';
 import { getStackProps, Stack } from '@/ui/Stack';
+import type { TimeTableValue } from '@/ui/TimeTable';
 import {
   areAllTimeSlotsValid,
   isTimeTableEmpty,
   TimeTable,
 } from '@/ui/TimeTable';
 
-type TimeTableStepProps<T> = StackProps & StepProps<T>;
+type TimeTableStepProps<TFormData extends FormDataIntersection> = StackProps &
+  StepProps<TFormData>;
 
-const TimeTableStep = <T extends unknown>({
+const TimeTableStep = <TFormData extends FormDataIntersection>({
   formState: { errors },
   control,
   className,
   field,
   onChange,
   ...props
-}: TimeTableStepProps<T>) => {
+}: TimeTableStepProps<TFormData>) => {
   const { t } = useTranslation();
 
   return (
     <Stack spacing={3} {...getStackProps(props)}>
       <Box>
-        <Controller
+        <Controller<TFormData>
           name={field}
           control={control}
           render={({ field }) => {
@@ -35,7 +37,7 @@ const TimeTableStep = <T extends unknown>({
               <TimeTable
                 id="timetable-movies"
                 className={className}
-                value={field.value}
+                value={field.value as TimeTableValue}
                 onChange={(value) => {
                   field.onChange(value);
 

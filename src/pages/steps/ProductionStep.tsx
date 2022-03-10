@@ -4,7 +4,7 @@ import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { useGetProductions } from '@/hooks/api/productions';
-import type { StepProps } from '@/pages/Steps';
+import type { FormDataIntersection, StepProps } from '@/pages/Steps';
 import type { Production } from '@/types/Production';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
@@ -16,11 +16,12 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
 
-type ProductionStepProps<T> = StackProps & StepProps<T>;
+type ProductionStepProps<TFormData extends FormDataIntersection> = StackProps &
+  StepProps<TFormData>;
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
-const ProductionStep = <T extends unknown>({
+const ProductionStep = <TFormData extends FormDataIntersection>({
   formState: { errors },
   control,
   getValues,
@@ -28,7 +29,7 @@ const ProductionStep = <T extends unknown>({
   field,
   onChange,
   ...props
-}: ProductionStepProps<T>) => {
+}: ProductionStepProps<TFormData>) => {
   const { t } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
 
@@ -47,7 +48,7 @@ const ProductionStep = <T extends unknown>({
   ]);
 
   return (
-    <Controller
+    <Controller<TFormData>
       control={control}
       name={field}
       render={({ field }) => {
@@ -59,9 +60,8 @@ const ProductionStep = <T extends unknown>({
               id="step4-name-typeahead"
               label={t('movies.create.actions.choose_name')}
               error={
-                errors.production
+                errors?.production
                   ? t(
-                      // @ts-expect-error
                       `movies.create.validation_messages.production.${errors.production.type}`,
                     )
                   : undefined
@@ -74,7 +74,11 @@ const ProductionStep = <T extends unknown>({
                   onInputChange={debounce(setSearchInput, 275)}
                   labelKey="name"
                   maxWidth="43rem"
-                  selected={field.value ? [field.value] : []}
+                  selected={
+                    field.value
+                      ? [field.value as Production & { customOption?: boolean }]
+                      : []
+                  }
                   onChange={(value) => {
                     field.onChange(value?.[0]);
                     onChange(value?.[0]);
@@ -98,7 +102,7 @@ const ProductionStep = <T extends unknown>({
               variant={ButtonVariants.LINK}
               onClick={() =>
                 reset(
-                  { ...getValues(), production: undefined },
+                  { ...(getValues() as any), production: undefined },
                   { keepDirty: true },
                 )
               }
