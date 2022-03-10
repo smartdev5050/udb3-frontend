@@ -8,8 +8,6 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
-// type Keys<T> = keyof T & string;
-
 type StepsConfiguration<T> = Array<{
   Component: any;
   field?: Path<T>;
