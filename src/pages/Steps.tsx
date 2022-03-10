@@ -8,11 +8,14 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
-// type Keys<T> = keyof T & string;
+import type { FormData as EventFormData } from './create/EventForm';
+import type { FormData as MovieFormData } from './manage/movies/MovieForm';
 
-type StepsConfiguration<T> = Array<{
+type FormDataIntersection = Partial<MovieFormData & EventFormData>;
+
+type StepsConfiguration<TFormData extends FormDataIntersection> = Array<{
   Component: any;
-  field?: Path<T>;
+  field?: Path<TFormData>;
   step?: number;
   title: string;
   shouldShowNextStep?: boolean;
@@ -76,30 +79,35 @@ StepWrapper.defaultProps = {
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
-type StepProps<T> = Omit<UseFormReturn<T>, 'formState'> & {
+type StepProps<TFormData extends FormDataIntersection> = Omit<
+  UseFormReturn<TFormData>,
+  'formState'
+> & {
   formState: {
-    errors: Record<string, FieldError>;
+    errors: Record<keyof TFormData, FieldError>;
   };
 } & {
   loading: boolean;
-  field: any; // FIXME
+  field: Path<TFormData>;
   onChange: (value: any) => void;
 };
 
-type StepsProps<T> = UseFormReturn<T> & {
+type StepsProps<
+  TFormData extends FormDataIntersection
+> = UseFormReturn<TFormData> & {
   mode: 'UPDATE' | 'CREATE';
   fieldLoading?: string;
   onChange?: (value: string, field: string) => void;
-  configuration: StepsConfiguration<T>;
+  configuration: StepsConfiguration<TFormData>;
 };
 
-const Steps = <T extends unknown>({
+const Steps = <TFormData extends FormDataIntersection>({
   mode,
   onChange,
   configuration,
   fieldLoading,
   ...props
-}: StepsProps<T>) => {
+}: StepsProps<TFormData>) => {
   const keys = Object.keys(props.getValues());
 
   return (
@@ -128,7 +136,7 @@ const Steps = <T extends unknown>({
               key={`step${stepNumber}`}
               title={title}
             >
-              <Step<T>
+              <Step<TFormData>
                 key={index}
                 onChange={(value) => onChange(field, value)}
                 loading={!!(field && fieldLoading === field)}
@@ -151,4 +159,4 @@ Steps.defaultProps = {
 };
 
 export { Steps };
-export type { StepProps, StepsConfiguration };
+export type { FormDataIntersection, StepProps, StepsConfiguration };

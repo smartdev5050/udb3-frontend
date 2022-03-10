@@ -3,7 +3,7 @@ import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { useGetThemesByEventTypeId } from '@/hooks/api/themes';
-import type { StepProps } from '@/pages/Steps';
+import type { FormDataIntersection, StepProps } from '@/pages/Steps';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
@@ -12,13 +12,13 @@ import { getValueFromTheme } from '@/ui/theme';
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
-const EventTypeAndThemeStep = <T extends unknown>({
+const EventTypeAndThemeStep = <TFormData extends FormDataIntersection>({
   control,
   reset,
   field,
   getValues,
   onChange,
-}: StepProps<T>) => {
+}: StepProps<TFormData>) => {
   const { t, i18n } = useTranslation();
 
   const useGetThemesByCategoryIdQuery = useGetThemesByEventTypeId({
@@ -32,7 +32,7 @@ const EventTypeAndThemeStep = <T extends unknown>({
   ]);
 
   return (
-    <Controller<any>
+    <Controller<TFormData>
       name={field}
       control={control}
       render={({ field }) => {
