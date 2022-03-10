@@ -59,9 +59,8 @@ const ProductionStep = <T extends unknown>({
               id="step4-name-typeahead"
               label={t('movies.create.actions.choose_name')}
               error={
-                errors.production
+                errors?.production
                   ? t(
-                      // @ts-expect-error
                       `movies.create.validation_messages.production.${errors.production.type}`,
                     )
                   : undefined
