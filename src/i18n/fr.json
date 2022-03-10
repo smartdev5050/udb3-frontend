@@ -225,7 +225,7 @@
     "event": "Événement",
     "place": "Lieu"
   },
-  "offerCategories": {
+  "eventTypes": {
     "0.0.0.0.0": "Exposition",
     "0.12.0.0.0": "Journée portes ouvertes",
     "0.14.0.0.0": "Monument",

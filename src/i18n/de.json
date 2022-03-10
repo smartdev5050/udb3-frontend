@@ -250,7 +250,7 @@
     "event": "Veranstaltung",
     "place": "Ort"
   },
-  "offerCategories": {
+  "eventTypes": {
     "0.0.0.0.0": "Ausstellung",
     "0.12.0.0.0": "Tag der offenen Tür",
     "0.14.0.0.0": "Monument",
