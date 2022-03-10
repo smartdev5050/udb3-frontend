@@ -36,7 +36,7 @@ const EventTypeAndThemeStep = <TFormData extends FormDataIntersection>({
       name={field}
       control={control}
       render={({ field }) => {
-        if (!field.value) {
+        if (!field.value?.theme?.id) {
           return (
             <Inline spacing={3} flexWrap="wrap" maxWidth="70rem">
               {Object.entries(themes).map(
