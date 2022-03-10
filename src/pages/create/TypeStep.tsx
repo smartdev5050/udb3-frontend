@@ -5,6 +5,7 @@ import { OfferType } from '@/constants/OfferType';
 import type { StepProps } from '@/pages/Steps';
 import { Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
+import { Text } from '@/ui/Text';
 import { ToggleBox } from '@/ui/ToggleBox';
 
 const TypeStep = ({ control, field }: StepProps<FormData>) => {
@@ -27,7 +28,7 @@ const TypeStep = ({ control, field }: StepProps<FormData>) => {
               icon={Icons.CALENDAR_ALT}
               text={t('offerTypes.event')}
             />
-            <span css="font-style: italic;">{t('steps.offerTypeStep.or')}</span>
+            <Text css="font-style: italic;">{t('steps.offerTypeStep.or')}</Text>
             <ToggleBox
               onClick={() => field.onChange(OfferType.PLACE)}
               active={field.value === OfferType.PLACE}
