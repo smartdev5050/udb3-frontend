@@ -8,7 +8,6 @@ import { useQueryClient } from 'react-query';
 import * as yup from 'yup';
 
 import { CalendarType } from '@/constants/CalendarType';
-import { MovieThemes } from '@/constants/MovieThemes';
 import { OfferCategories } from '@/constants/OfferCategories';
 import type { EventArguments } from '@/hooks/api/events';
 import {

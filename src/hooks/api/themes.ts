@@ -1,26 +1,24 @@
 import { useAuthenticatedQuery } from './authenticated-query';
 
-type GetThemesByCategoryIdArguments = {
-  categoryId: string;
+type GetThemesByEventTypeIdArguments = {
+  eventTypeId: string;
 };
 
-const useGetThemesByCategoryId = (
-  { categoryId }: GetThemesByCategoryIdArguments,
+const useGetThemesByEventTypeId = (
+  { eventTypeId }: GetThemesByEventTypeIdArguments,
   configuration = {},
 ) =>
   useAuthenticatedQuery<Record<string, unknown>>({
     queryKey: ['themes'],
-    queryFn: getThemesByCategoryId,
+    queryFn: getThemesByEventTypeId,
     queryArguments: {
-      categoryId,
+      eventTypeId,
     },
-    enabled: categoryId,
+    enabled: eventTypeId,
     ...configuration,
   });
 
-const getThemesByCategoryId = ({ categoryId }) => {
-  console.log(categoryId);
-
+const getThemesByEventTypeId = () => {
   return {
     '1.7.2.0.0': { label_nl: 'Actie- en avonturenfilm' },
     '1.7.12.0.0': { label_nl: 'Animatie en kinderfilms' },
@@ -38,4 +36,4 @@ const getThemesByCategoryId = ({ categoryId }) => {
   };
 };
 
-export { useGetThemesByCategoryId };
+export { useGetThemesByEventTypeId };

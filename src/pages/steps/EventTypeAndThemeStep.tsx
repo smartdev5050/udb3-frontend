@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { useGetThemesByCategoryId } from '@/hooks/api/themes';
+import { useGetThemesByEventTypeId } from '@/hooks/api/themes';
 import type { StepProps } from '@/pages/Steps';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
@@ -23,7 +23,7 @@ const EventTypeAndThemeStep = <T extends unknown>({
 
   const { t, i18n } = useTranslation();
 
-  const useGetThemesByCategoryIdQuery = useGetThemesByCategoryId({
+  const useGetThemesByCategoryIdQuery = useGetThemesByEventTypeId({
     categoryId,
   });
 
