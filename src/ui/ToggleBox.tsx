@@ -1,8 +1,9 @@
 import type { Values } from '@/types/Values';
 
 import type { BoxProps } from './Box';
-import { Box } from './Box';
 import { Icon, Icons } from './Icon';
+import { Stack } from './Stack';
+import { Text } from './Text';
 import { getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme(`toggleBox`);
@@ -15,12 +16,9 @@ type Props = BoxProps & {
 
 const ToggleBox = ({ children, onClick, active, icon, text }: Props) => {
   return (
-    <Box
+    <Stack
       onClick={onClick}
       padding={5}
-      display="flex"
-      flexWrap="wrap"
-      flexDirection="column"
       alignItems="center"
       position="relative"
       backgroundColor={getValue(
@@ -56,23 +54,22 @@ const ToggleBox = ({ children, onClick, active, icon, text }: Props) => {
         />
       )}
       {text && (
-        <span
+        <Text
+          color={getValue(active ? 'activeTextColor' : 'textColor')}
+          fontWeight={700}
+          fontSize="16px"
           css={`
-            color: ${getValue(active ? 'activeTextColor' : 'textColor')};
             text-decoration: ${active ? 'underline' : 'none'};
-            font-size: 16px;
-            font-weight: 700;
-
             &:hover {
               text-decoration: underline;
             }
           `}
         >
           {text}
-        </span>
+        </Text>
       )}
       {children}
-    </Box>
+    </Stack>
   );
 };
 
