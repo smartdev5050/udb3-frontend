@@ -405,7 +405,7 @@
     "rowsSelectedCount": "{{count}} rij geselecteerd",
     "rowsSelectedCount_plural": "{{count}} rijen geselecteerd"
   },
-  "offerTypes": {
+  "eventTypes": {
     "0.0.0.0.0": "Tentoonstelling",
     "0.12.0.0.0": "Opendeurdag",
     "0.14.0.0.0": "Monument",
@@ -461,6 +461,15 @@
     "1.7.11.0.0": "Cinefiel",
     "1.7.14.0.0": "Meerdere filmgenres",
     "1.7.15.0.0": "Thriller"
+  },
+  "steps": {
+    "offerTypeStep": {
+      "or": "Of",
+      "types": {
+        "event": "Evenement",
+        "place": "Locatie"
+      }
+    }
   },
   "404": {
     "title": "404 Niet Gevonden",

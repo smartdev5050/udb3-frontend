@@ -1,0 +1,30 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import { ToggleBox } from './ToggleBox';
+import { Icons } from './Icon';
+
+<Meta title="Components/ToggleBox" component={ToggleBox} />
+
+# ToggleBox
+
+export const args = {
+  text: 'This is a ToggleBox',
+  active: false,
+  icon: Icons.CALENDAR_ALT,
+};
+
+export const argTypes = {
+  icon: {
+    control: {
+      type: 'select',
+      options: [...Object.values(Icons)],
+    },
+  },
+};
+
+<Canvas>
+  <Story name="Default" args={args} argTypes={argTypes}>
+    {(args) => <ToggleBox {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Default" />

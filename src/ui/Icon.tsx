@@ -2,6 +2,8 @@ import { faSlideshare } from '@fortawesome/free-brands-svg-icons';
 import {
   faBell,
   faBinoculars,
+  faBuilding,
+  faCalendarAlt,
   faCheck,
   faCheckCircle,
   faChevronDown,
@@ -51,6 +53,7 @@ const Icons = {
   EYE: 'eye',
   EYE_SLASH: 'eyeSlash',
   SIGN_OUT: 'signOutAlt',
+  CALENDAR_ALT: 'calendarAlt',
   CHECK: 'check',
   CHECK_CIRCLE: 'checkCircle',
   CHECK_NOTCH: 'circleNotch',
@@ -64,6 +67,7 @@ const Icons = {
   VIDEO: 'video',
   COPY: 'copy',
   IMAGE: 'image',
+  BUILDING: 'building',
 } as const;
 
 const IconsMap = {
@@ -82,6 +86,7 @@ const IconsMap = {
   [Icons.EYE]: faEye,
   [Icons.EYE_SLASH]: faEyeSlash,
   [Icons.SIGN_OUT]: faSignOutAlt,
+  [Icons.CALENDAR_ALT]: faCalendarAlt,
   [Icons.CHECK]: faCheck,
   [Icons.CHECK_CIRCLE]: faCheckCircle,
   [Icons.CHECK_NOTCH]: faCircleNotch,
@@ -95,6 +100,7 @@ const IconsMap = {
   [Icons.VIDEO]: faVideo,
   [Icons.COPY]: faCopy,
   [Icons.IMAGE]: faImage,
+  [Icons.BUILDING]: faBuilding,
 };
 
 type Props = Omit<BoxProps, 'width' | 'height'> & {
@@ -106,6 +112,8 @@ type Props = Omit<BoxProps, 'width' | 'height'> & {
 const Icon = ({ name, width, height, className, ...props }: Props) => {
   return (
     <Box
+      display="flex"
+      alignItems="center"
       className={className}
       css={`
         .svg-inline--fa {

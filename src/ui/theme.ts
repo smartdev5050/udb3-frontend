@@ -17,6 +17,7 @@ const colors = {
   green2: '#449d44',
   green3: '#48874a',
   green4: '#dcf2d7',
+  green5: '#c7e6c7',
   pink1: '#fcd1cf',
   pink2: '#f9a29f',
   red1: '#d9534f',
@@ -326,6 +327,15 @@ const theme = {
       activeTabBackgroundColor: colors.grey1,
       hoverTabBackgroundColor: colors.grey3,
       borderRadius: 0,
+    },
+    toggleBox: {
+      backgroundColor: colors.white,
+      activeBackgroundColor: colors.green5,
+      borderColor: colors.grey2,
+      textColor: colors.udbBlue,
+      activeTextColor: colors.textColor,
+      iconColor: colors.grey5,
+      iconCheckColor: colors.green3,
     },
     dropdown: {
       activeToggleBoxShadow: 'inset 0 3px 5px rgba(0, 0, 0, 0.125)',
