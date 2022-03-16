@@ -14,7 +14,8 @@ import { useAddImage } from '@/hooks/api/images';
 import { PictureDeleteModal } from '@/pages/steps/modals/PictureDeleteModal';
 import type { FormData } from '@/pages/steps/modals/PictureUploadModal';
 import { PictureUploadModal } from '@/pages/steps/modals/PictureUploadModal';
-import { Box } from '@/ui/Box';
+import { Alert, AlertVariants } from '@/ui/Alert';
+import { Box, parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Icons } from '@/ui/Icon';
@@ -81,6 +82,16 @@ const AdditionalInformationStep = ({
       ...parsedMediaObjects.filter((mediaObject) => mediaObject.isMain),
       ...parsedMediaObjects.filter((mediaObject) => !mediaObject.isMain),
     ];
+  }, [
+    // @ts-expect-error
+    getEventByIdQuery.data,
+  ]);
+
+  const eventTypeId = useMemo(() => {
+    // @ts-expect-error
+    return getEventByIdQuery.data?.terms?.find(
+      (term) => term.domain === 'eventtype',
+    )?.id;
   }, [
     // @ts-expect-error
     getEventByIdQuery.data,
@@ -232,6 +243,50 @@ const AdditionalInformationStep = ({
                 onChange={(e) => setDescription(e.target.value)}
                 onBlur={handleBlurDescription}
               />
+            }
+            info={
+              eventTypeId && (
+                <Alert>
+                  <Box
+                    forwardedAs="div"
+                    dangerouslySetInnerHTML={{
+                      __html: t(`create*description*tips*${eventTypeId}`, {
+                        keySeparator: '*',
+                      }),
+                    }}
+                    css={`
+                      strong {
+                        font-weight: bold;
+                      }
+
+                      a {
+                        color: inherit;
+                      }
+
+                      p {
+                        margin-bottom: ${parseSpacing(4)};
+                      }
+
+                      ol {
+                        list-style-type: decimal;
+                        margin-bottom: ${parseSpacing(4)};
+
+                        li {
+                          margin-left: ${parseSpacing(5)};
+                        }
+                      }
+                      ul {
+                        list-style-type: disc;
+                        margin-bottom: ${parseSpacing(4)};
+
+                        li {
+                          margin-left: ${parseSpacing(5)};
+                        }
+                      }
+                    `}
+                  />
+                </Alert>
+              )
             }
           />
           <Button

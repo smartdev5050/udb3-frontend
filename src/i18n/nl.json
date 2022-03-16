@@ -321,6 +321,34 @@
       "save": "Bewaren"
     }
   },
+  "create": {
+    "description": {
+      "tips": {
+        "0.50.4.0.0": "Geef een enthousiaste omschrijving van het concert. <ul><li>Welk(e)<strong> artiest(en)</strong> treden op? </li><li>Welk <strong>genre</strong> is het?</li><li>Welk<strong> album</strong> <strong>of werk </strong>wordt voorgesteld? </li></ul>",
+        "0.54.0.0.0": "Geef een enthousiaste omschrijving van de dansvoorstelling.<ul><li>Wie is de <strong>choreograaf</strong>?</li><li>Wie zijn de<strong> dansers</strong>?</li><li>In welke <strong>stijl</strong> dansen ze?</li><li>Over welk <strong>thema of onderwerp</strong> gaat de voorstelling?</li></ul>",
+        "0.5.0.0.0": "Geef een enthousiaste omschrijving van het festival. <ul> <li>Wie of wat staat er op het <strong>programma?</strong> </li> <li>Welke <strong>(rand)animatie</strong> is er?</li> </ul>",
+        "0.50.6.0.0": "Geef een enthousiaste omschrijving van de film. <ul> <li>Schets kort het <strong>verhaal</strong>. </li> <li>Wie is de <strong>regisseur?</strong> </li> <li>Wie zijn de  <strong>hoofdrolspelers?</strong> </li> <li>Heeft de film <strong>prijzen</strong> gewonnen? </li></ul>",
+        "0.3.2.0.0": "Geef een enthousiaste omschrijving van de lezing of het congres. <ul> <li>Welke<strong> thema’s</strong> komen aan bod? </li><li>Welke <strong>sprekers </strong>nemen het woord?</li></ul>",
+        "0.55.0.0.0": "Geef een enthousiaste omschrijving van de voorstelling.  <ul> <li>Schets kort het <strong>verhaal</strong> of het <strong>thema</strong>. </li> <li>Welk <strong>theatergezelschap</strong> brengt het stuk? </li> <li>Welke <strong>acteurs</strong> spelen mee?</li></ul>",
+        "0.19.0.0.0": "Geef een enthousiaste omschrijving van de sportwedstrijd. <ul> <li>Welke <strong>ploegen of deelnemers</strong> spelen er mee? </li> <li>In welke<strong> competitie</strong> kadert de wedstrijd?</li></ul>",
+        "0.37.0.0.0": "Geef een enthousiaste omschrijving van de markt of braderie. <ul> <li>In <strong>welke straten</strong> vindt ze plaats? </li> <li>Welke <strong>kramen of standjes</strong> zullen er zijn? </li><li>Is er <strong>(rand)animatie</strong>?</li></ul>",
+        "0.12.0.0.0": "Geef een enthousiaste omschrijving van de opendeurdag. Wat kan je <strong>bekijken </strong>of <strong>beleven?</strong>",
+        "0.6.0.0.0": "Geef een enthousiaste omschrijving van de beurs. Wat kan je kan <strong>bekijken</strong>, <strong>beleven</strong> of <strong>kopen</strong>?",
+        "0.0.0.0.0": "Geef een enthousiaste omschrijving van de tentoonstelling. <ul> <li>Welke <strong>kunstenaars</strong> stellen tentoon?</li> <li>Welke<strong> collecties</strong> kan je bekijken? </li> <li>Is er een <strong>(audio)gids</strong> of <strong>brochure</strong> beschikbaar?</li></ul>",
+        "0.7.0.0.0": "Geef een enthousiaste omschrijving van de rondleiding. <ul> <li>Wat valt er langs de route te <strong>bekijken of beleven</strong>? </li> <li>Is er een maximaal <strong>aantal deelnemers</strong>? </li> <li>Wordt de rondleiding doorlopend of op <strong>bepaalde tijdstippen</strong> georganiseerd? </li> <li>Zijn er <strong>speciale aandachtspunten</strong> (bv. laarzen aangewezen)?</li> </ul>",
+        "0.3.1.0.0": "Geef een enthousiaste omschrijving van de lessenreeks. <ul> <li>Wat leer je er precies? </li> <li>Is er <strong>voorkennis</strong> nodig om deel te nemen? </li> <li>Wat is het <strong>niveau</strong> van de lessen? </li><li>Krijg je op het einde een <strong>diploma</strong> of certificaat?</li></ul>",
+        "0.3.1.0.1": "Geef een enthousiaste omschrijving van de workshop of cursus met open sessies.  <ul> <li>Wat leer je er precies? </li> <li>Is er <strong>voorkennis</strong> nodig om deel te nemen? </li> <li>Wat is het <strong>niveau</strong> van de lessen? </li> <li>Krijg je op het einde een <strong>diploma</strong> of certificaat?</li> </ul>",
+        "0.57.0.0.0": "Geef een enthousiaste omschrijving van het kamp of de vakantie.  <ul> <li>Welke <strong>activiteiten</strong> kan je er doen? </li> <li>Is er een <strong>thema</strong>? </li> <li>Is het kamp <strong>met of zonder overnachtingen</strong>? </li> <li>Wat is het <strong>start en einduur</strong> voor dagkampen en is er vooraf en nadien <strong>opvang</strong> voorzien?</li> </ul>",
+        "0.28.0.0.0": "Geef een enthousiaste omschrijving van de kermis. <ul> <li>Welke <strong>attracties</strong> zijn er? </li> <li>Zijn er<strong> (rand)activiteiten</strong> (quiz, concerten, foodtrucks, marktje ...)?</li> </ul>",
+        "0.17.0.0.0": "Geef een enthousiaste omschrijving van de route. <ul> <li>Leg je de route af <strong>te voet, per fiets, per boot </strong>…? </li> <li>Welke mogelijke <strong>tussenstops</strong> zijn er? </li> <li>Wat is de <strong>afstand</strong> of <strong>duur</strong> van de route?</li> <li>Is de route <strong>begeleid</strong>, met een gids, brochure of wegwijzers?</li> </ul>",
+        "0.49.0.0.0": "Geef een enthousiaste omschrijving van de party of fuif. Welke <strong>dj’s</strong> of <strong>bands</strong> treden er op?",
+        "1.50.0.0.0": "Geef een enthousiaste omschrijving van het eet -of drankfestijn. <ul> <li>Wat staat er op het <strong>menu?</strong> </li> <li>Gaat de opbrengst naar een<strong> goed doel</strong>? </li> <li>Is er <strong>(rand)animatie</strong>?</li> </ul>",
+        "0.50.21.0.0": "Geef een enthousiaste omschrijving van de quiz of het spel. <ul> <li>Over welke <strong>onderwerpen</strong> gaat de quiz?</li> <li>Heeft het spel een <strong>thema</strong>?</li> <li>Valt er iets te <strong>winnen</strong>?</li> <li>Is er een <strong>maximaal</strong> aantal <strong>deelnemers</strong>?</li> </ul>",
+        "0.59.0.0.0": "Geef een enthousiaste omschrijving van de sportactiviteit. <ul> <li>Welke <strong>sport</strong>(en) kan je beoefenen? </li> <li>Welk <strong>materiaal</strong> wordt (niet) voorzien?</li> </ul>",
+        "0.14.0.0.0": "Geef hier een wervende omschrijving van het monument. Geef ook aan indien het monument slechts beperkt opengesteld is (vb. enkel salons)."
+      }
+    }
+  },
   "dashboard": {
     "welcome": "Welkom",
     "create": {
