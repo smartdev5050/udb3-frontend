@@ -294,7 +294,7 @@ const theme = {
         },
       },
     },
-    moviesCreatePage: {
+    createPage: {
       title: {
         color: colors.textColor,
         borderColor: colors.grey2,

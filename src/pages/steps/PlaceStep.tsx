@@ -18,7 +18,7 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
 
-const getValue = getValueFromTheme('moviesCreatePage');
+const getValue = getValueFromTheme('createPage');
 
 type PlaceStepProps<TFormData extends FormDataIntersection> = StackProps &
   StepProps<TFormData> & { terms: Array<Values<typeof EventTypes>> };

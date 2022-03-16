@@ -71,7 +71,7 @@ type FormData = {
   production: Production & { customOption?: boolean };
 };
 
-const getValue = getValueFromTheme('moviesCreatePage');
+const getValue = getValueFromTheme('createPage');
 
 const FooterStatus = {
   HIDDEN: 'HIDDEN',

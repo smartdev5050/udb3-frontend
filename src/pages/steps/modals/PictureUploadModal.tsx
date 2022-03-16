@@ -32,7 +32,7 @@ type PictureUploadModalProps = {
 const MAX_FILE_SIZE = 5000000;
 const ALLOWED_FILE_TYPES = ['png', 'jpg', 'jpeg', 'gif'];
 
-const getValue = getValueFromTheme('moviesCreatePage');
+const getValue = getValueFromTheme('createPage');
 
 type RegisterProps = {
   onChange: (event: FormEvent<HTMLInputElement>) => void;

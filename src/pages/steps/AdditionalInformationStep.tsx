@@ -31,7 +31,7 @@ import { parseOfferId } from '@/utils/parseOfferId';
 
 const IDEAL_DESCRIPTION_LENGTH = 200;
 
-const getValue = getValueFromTheme('moviesCreatePage');
+const getValue = getValueFromTheme('createPage');
 
 type Field = 'description' | 'image';
 
