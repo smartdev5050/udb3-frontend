@@ -46,6 +46,9 @@ type GeneralProps = {
   as: string | ComponentType<any>;
   forwardedAs: string | ComponentType<any>;
   selected: unknown;
+  dangerouslySetInnerHTML: {
+    __html: string;
+  };
 };
 
 type InlineProps = {
@@ -507,10 +510,11 @@ const boxPropTypes = [
   'top',
   'width',
   'zIndex',
+  'dangerouslySetInnerHTML',
 ] as const;
 
 const notAllowedPropsSet = new Set(
-  difference(boxPropTypes, ['as', 'id', 'onClick']),
+  difference(boxPropTypes, ['as', 'id', 'onClick', 'dangerouslySetInnerHTML']),
 );
 
 const StyledBox = styled.div.withConfig({
