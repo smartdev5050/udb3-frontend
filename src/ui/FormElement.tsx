@@ -16,7 +16,7 @@ type Props = {
   label?: string;
   labelPosition?: Values<typeof LabelPositions>;
   error?: string;
-  info?: string;
+  info?: ReactNode;
   loading?: boolean;
   Component: ReactNode;
 } & StackProps;
@@ -70,7 +70,12 @@ const FormElement = ({
           </Inline>
           {error && <Text variant={TextVariants.ERROR}>{error}</Text>}
         </Stack>
-        {info && <Text variant={TextVariants.MUTED}>{info}</Text>}
+        {info &&
+          (typeof info === 'string' ? (
+            <Text variant={TextVariants.MUTED}>{info}</Text>
+          ) : (
+            info
+          ))}
       </Stack>
     </Wrapper>
   );
