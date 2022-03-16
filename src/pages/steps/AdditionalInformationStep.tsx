@@ -30,9 +30,11 @@ import { parseOfferId } from '@/utils/parseOfferId';
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
+type Field = 'description' | 'image';
+
 type AdditionalInformationStepProps = StackProps & {
   eventId: string;
-  onSuccess: (field: 'description' | 'image') => void;
+  onSuccess: (field: Field) => void;
 };
 
 const AdditionalInformationStep = ({
@@ -107,7 +109,7 @@ const AdditionalInformationStep = ({
     return imageWithoutFile;
   }, [images, imageToEditId]);
 
-  const invalidateEventQuery = async (field: 'description' | 'image') => {
+  const invalidateEventQuery = async (field: Field) => {
     await queryClient.invalidateQueries(['events', { id: eventId }]);
     onSuccess(field);
   };
