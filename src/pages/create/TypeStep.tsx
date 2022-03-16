@@ -30,6 +30,8 @@ const TypeStep = <TFormData extends FormDataIntersection>({
               active={field.value === OfferType.EVENT}
               icon={Icons.CALENDAR_ALT}
               text={t('steps.offerTypeStep.types.event')}
+              width="40%"
+              minHeight={parseSpacing(7)}
             />
             <Text css="font-style: italic;">{t('steps.offerTypeStep.or')}</Text>
             <ToggleBox
@@ -37,6 +39,8 @@ const TypeStep = <TFormData extends FormDataIntersection>({
               active={field.value === OfferType.PLACE}
               icon={Icons.BUILDING}
               text={t('steps.offerTypeStep.types.place')}
+              width="40%"
+              minHeight={parseSpacing(7)}
             />
           </Inline>
         );

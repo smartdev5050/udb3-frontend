@@ -33,7 +33,7 @@ const ToggleBox = ({
       backgroundColor={getValue(
         active ? 'activeBackgroundColor' : 'backgroundColor',
       )}
-      width="40%"
+      minWidth={parseSpacing(8)}
       css={`
         border: 1px solid ${getValue('borderColor')};
       `}
