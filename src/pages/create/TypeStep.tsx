@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { OfferType } from '@/constants/OfferType';
 import type { FormDataIntersection, StepProps } from '@/pages/Steps';
+import { parseSpacing } from '@/ui/Box';
 import { Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { Text } from '@/ui/Text';
@@ -21,9 +22,12 @@ const TypeStep = <TFormData extends FormDataIntersection>({
       render={({ field }) => {
         return (
           <Inline
-            spacing={5}
+            spacing={{
+              default: 6,
+              m: 4,
+            }}
             alignItems="center"
-            justifyContent="space-between"
+            justifyContent="center"
           >
             <ToggleBox
               onClick={() => field.onChange(OfferType.EVENT)}
@@ -33,7 +37,15 @@ const TypeStep = <TFormData extends FormDataIntersection>({
               width="40%"
               minHeight={parseSpacing(7)}
             />
-            <Text css="font-style: italic;">{t('steps.offerTypeStep.or')}</Text>
+            <Text
+              display={{
+                default: 'block',
+                m: 'none',
+              }}
+              fontStyle="italic"
+            >
+              {t('steps.offerTypeStep.or')}
+            </Text>
             <ToggleBox
               onClick={() => field.onChange(OfferType.PLACE)}
               active={field.value === OfferType.PLACE}

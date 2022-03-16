@@ -191,6 +191,7 @@ type UIProps = {
   flexWrap: UIProp<FlexWrap>;
   fontSize: UIProp<string | number>;
   fontWeight: UIProp<string | number>;
+  fontStyle: UIProp<string | number>;
   height: UIProp<string | number>;
   id: UIProp<string>;
   justifyContent: UIProp<JustifyContent>;
@@ -439,6 +440,7 @@ const boxProps = css`
 
   ${parseProperty('fontSize')};
   ${parseProperty('fontWeight')};
+  ${parseProperty('fontStyle')};
   ${parseProperty('borderRadius')};
   ${parseProperty('textAlign')};
   ${parseProperty('justifyContent')};
@@ -474,6 +476,7 @@ const boxPropTypes = [
   'flexShrink',
   'fontSize',
   'fontWeight',
+  'fontStyle',
   'height',
   'id',
   'justifyContent',
