@@ -570,6 +570,22 @@ const useAddVideoToEvent = (configuration = {}) =>
     mutationFn: addVideoToEvent,
     ...configuration,
   });
+
+const deleteVideoFromEvent = async ({ headers, eventId, videoId }) =>
+  fetchFromApi({
+    path: `/events/${eventId}/videos/${videoId}`,
+    options: {
+      method: 'DELETE',
+      headers,
+    },
+  });
+
+const useDeleteVideoFromEvent = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: deleteVideoFromEvent,
+    ...configuration,
+  });
+
 export {
   useAddEvent,
   useAddEventMainImage,
@@ -586,6 +602,7 @@ export {
   useChangeTypicalAgeRange,
   useDeleteEventById,
   useDeleteImageFromEvent,
+  useDeleteVideoFromEvent,
   useGetCalendarSummary,
   useGetEventById,
   useGetEventsByCreator,
