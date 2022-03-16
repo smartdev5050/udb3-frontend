@@ -25,6 +25,7 @@ const ToggleBox = ({
 }: Props) => {
   return (
     <Stack
+      forwardedAs="button"
       onClick={onClick}
       padding={5}
       alignItems="center"
@@ -35,9 +36,6 @@ const ToggleBox = ({
       width="40%"
       css={`
         border: 1px solid ${getValue('borderColor')};
-        &:hover {
-          cursor: pointer;
-        }
       `}
       {...getStackProps(props)}
     >
