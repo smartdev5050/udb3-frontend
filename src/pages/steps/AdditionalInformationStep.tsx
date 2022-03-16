@@ -263,22 +263,37 @@ const AdditionalInformationStep = ({
                 )}
                 <Text variant={TextVariants.MUTED}>
                   {description.length < IDEAL_DESCRIPTION_LENGTH
-                    ? t('create.description.progress_info.not_complete', {
-                        idealLength: IDEAL_DESCRIPTION_LENGTH,
-                        count: IDEAL_DESCRIPTION_LENGTH - description.length,
-                      })
-                    : t('create.description.progress_info.complete', {
-                        idealLength: IDEAL_DESCRIPTION_LENGTH,
-                      })}
+                    ? t(
+                        'create.additionalInformation.description.progress_info.not_complete',
+                        {
+                          idealLength: IDEAL_DESCRIPTION_LENGTH,
+                          count: IDEAL_DESCRIPTION_LENGTH - description.length,
+                        },
+                      )
+                    : t(
+                        'create.additionalInformation.description.progress_info.complete',
+                        {
+                          idealLength: IDEAL_DESCRIPTION_LENGTH,
+                        },
+                      )}
                 </Text>
+                <Button
+                  variant={ButtonVariants.LINK}
+                  onClick={handleClickClearDescription}
+                >
+                  {t('movies.create.actions.clear')}
+                </Button>
                 {eventTypeId && (
                   <Alert>
                     <Box
                       forwardedAs="div"
                       dangerouslySetInnerHTML={{
-                        __html: t(`create*description*tips*${eventTypeId}`, {
-                          keySeparator: '*',
-                        }),
+                        __html: t(
+                          `create*additionalInformation*description*tips*${eventTypeId}`,
+                          {
+                            keySeparator: '*',
+                          },
+                        ),
                       }}
                       css={`
                         strong {
@@ -300,12 +315,6 @@ const AdditionalInformationStep = ({
               </Stack>
             }
           />
-          <Button
-            variant={ButtonVariants.LINK}
-            onClick={handleClickClearDescription}
-          >
-            {t('movies.create.actions.clear')}
-          </Button>
         </Stack>
         <Stack
           flex={1}
