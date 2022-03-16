@@ -1,14 +1,71 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
-import { ProgressBar } from './ProgressBar';
+import { ProgressBar, ProgressBarVariants } from './ProgressBar';
 
 <Meta title="Components/ProgressBar" component={ProgressBar} />
 
+export const argTypes = {
+  progress: {
+    defaultValue: 50,
+    control: {
+      type: 'number',
+    },
+  },
+};
+
 # Variants
 
-## Default
+## Info
 
 <Canvas>
-  <Story name="Default">{() => <ProgressBar />}</Story>
+  <Story
+    name="Info"
+    args={{ variant: ProgressBarVariants.INFO }}
+    argTypes={argTypes}
+  >
+    {(args) => <ProgressBar {...args} />}
+  </Story>
 </Canvas>
 
-<ArgsTable story="Default" />
+<ArgsTable story="Info" />
+
+## Danger
+
+<Canvas>
+  <Story
+    name="Danger"
+    args={{ variant: ProgressBarVariants.DANGER }}
+    argTypes={argTypes}
+  >
+    {(args) => <ProgressBar {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Danger" />
+
+## Success
+
+<Canvas>
+  <Story
+    name="Success"
+    args={{ variant: ProgressBarVariants.SUCCESS }}
+    argTypes={argTypes}
+  >
+    {(args) => <ProgressBar {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Success" />
+
+## Success
+
+<Canvas>
+  <Story
+    name="Warning"
+    args={{ variant: ProgressBarVariants.WARNING }}
+    argTypes={argTypes}
+  >
+    {(args) => <ProgressBar {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Warning" />
