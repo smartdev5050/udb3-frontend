@@ -23,7 +23,7 @@ import { Image } from '@/ui/Image';
 import { Inline } from '@/ui/Inline';
 import { ProgressBar, ProgressBarVariants } from '@/ui/ProgressBar';
 import type { StackProps } from '@/ui/Stack';
-import { Stack } from '@/ui/Stack';
+import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { TextArea } from '@/ui/TextArea';
 import { getValueFromTheme } from '@/ui/theme';
@@ -227,6 +227,68 @@ const AdditionalInformationStep = ({
     });
   };
 
+  const DescriptionInfo = (props: StackProps) => (
+    <Stack spacing={3} {...getStackProps(props)}>
+      {description.length < IDEAL_DESCRIPTION_LENGTH && (
+        <ProgressBar
+          variant={ProgressBarVariants.SUCCESS}
+          progress={descriptionProgress}
+        />
+      )}
+      <Text variant={TextVariants.MUTED}>
+        {description.length < IDEAL_DESCRIPTION_LENGTH
+          ? t(
+              'create.additionalInformation.description.progress_info.not_complete',
+              {
+                idealLength: IDEAL_DESCRIPTION_LENGTH,
+                count: IDEAL_DESCRIPTION_LENGTH - description.length,
+              },
+            )
+          : t(
+              'create.additionalInformation.description.progress_info.complete',
+              {
+                idealLength: IDEAL_DESCRIPTION_LENGTH,
+              },
+            )}
+      </Text>
+      <Button
+        variant={ButtonVariants.LINK}
+        onClick={handleClickClearDescription}
+      >
+        {t('create.additionalInformation.description.clear')}
+      </Button>
+      {eventTypeId && (
+        <Alert>
+          <Box
+            forwardedAs="div"
+            dangerouslySetInnerHTML={{
+              __html: t(
+                `create*additionalInformation*description*tips*${eventTypeId}`,
+                {
+                  keySeparator: '*',
+                },
+              ),
+            }}
+            css={`
+              strong {
+                font-weight: bold;
+              }
+
+              ul {
+                list-style-type: disc;
+                margin-bottom: ${parseSpacing(4)};
+
+                li {
+                  margin-left: ${parseSpacing(5)};
+                }
+              }
+            `}
+          />
+        </Alert>
+      )}
+    </Stack>
+  );
+
   return (
     <Box>
       <PictureUploadModal
@@ -253,67 +315,7 @@ const AdditionalInformationStep = ({
                 onBlur={handleBlurDescription}
               />
             }
-            info={
-              <Stack spacing={3}>
-                {description.length < IDEAL_DESCRIPTION_LENGTH && (
-                  <ProgressBar
-                    variant={ProgressBarVariants.SUCCESS}
-                    progress={descriptionProgress}
-                  />
-                )}
-                <Text variant={TextVariants.MUTED}>
-                  {description.length < IDEAL_DESCRIPTION_LENGTH
-                    ? t(
-                        'create.additionalInformation.description.progress_info.not_complete',
-                        {
-                          idealLength: IDEAL_DESCRIPTION_LENGTH,
-                          count: IDEAL_DESCRIPTION_LENGTH - description.length,
-                        },
-                      )
-                    : t(
-                        'create.additionalInformation.description.progress_info.complete',
-                        {
-                          idealLength: IDEAL_DESCRIPTION_LENGTH,
-                        },
-                      )}
-                </Text>
-                <Button
-                  variant={ButtonVariants.LINK}
-                  onClick={handleClickClearDescription}
-                >
-                  {t('create.additionalInformation.description.clear')}
-                </Button>
-                {eventTypeId && (
-                  <Alert>
-                    <Box
-                      forwardedAs="div"
-                      dangerouslySetInnerHTML={{
-                        __html: t(
-                          `create*additionalInformation*description*tips*${eventTypeId}`,
-                          {
-                            keySeparator: '*',
-                          },
-                        ),
-                      }}
-                      css={`
-                        strong {
-                          font-weight: bold;
-                        }
-
-                        ul {
-                          list-style-type: disc;
-                          margin-bottom: ${parseSpacing(4)};
-
-                          li {
-                            margin-left: ${parseSpacing(5)};
-                          }
-                        }
-                      `}
-                    />
-                  </Alert>
-                )}
-              </Stack>
-            }
+            info={<DescriptionInfo />}
           />
         </Stack>
         <Stack
