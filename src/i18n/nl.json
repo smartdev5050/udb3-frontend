@@ -325,6 +325,8 @@
     "additionalInformation": {
       "title": "Laat je evenement extra opvallen",
       "description": {
+        "title": "Beschrijving",
+        "clear": "Leegmaken",
         "progress_info": {
           "not_complete": "De eerste {{idealLength}} tekens zijn het belangrijkst om een nieuw publiek aan te spreken. Nog {{count}} tekens.",
           "complete": "Plaats de belangrijkste boodschap in de eerste {{idealLength}} tekens. Je kan nog verder aanvullen met achtergrondinformatie."
@@ -353,6 +355,13 @@
           "0.59.0.0.0": "Geef een enthousiaste omschrijving van de sportactiviteit. <ul> <li>Welke <strong>sport</strong>(en) kan je beoefenen? </li> <li>Welk <strong>materiaal</strong> wordt (niet) voorzien?</li> </ul>",
           "0.14.0.0.0": "Geef een enthousiaste omschrijving van het monument. Geef ook aan indien het monument slechts beperkt opengesteld is (vb. enkel salons)."
         }
+      },
+      "picture": {
+        "add_button": "Afbeelding toevoegen",
+        "intro": "Voeg een afbeelding toe zodat bezoekers je activiteit beter herkennen",
+        "change": "Wijzigen",
+        "delete": "Verwijderen",
+        "set_as_main_image": "Maak hoofdafbeelding"
       }
     }
   },

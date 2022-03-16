@@ -243,8 +243,8 @@ const AdditionalInformationStep = ({
       <Inline spacing={6} alignItems="flex-start">
         <Stack spacing={3} flex={1}>
           <FormElement
-            id="movie-description"
-            label={t('movies.create.actions.description')}
+            id="create-description"
+            label={t('create.additionalInformation.description.title')}
             Component={
               <TextArea
                 rows={10}
@@ -281,7 +281,7 @@ const AdditionalInformationStep = ({
                   variant={ButtonVariants.LINK}
                   onClick={handleClickClearDescription}
                 >
-                  {t('movies.create.actions.clear')}
+                  {t('create.additionalInformation.description.clear')}
                 </Button>
                 {eventTypeId && (
                   <Alert>
@@ -383,7 +383,7 @@ const AdditionalInformationStep = ({
                       spacing={3}
                       onClick={() => handleClickEditImage(image.parsedId)}
                     >
-                      {t('movies.create.picture.change')}
+                      {t('create.additionalInformation.picture.change')}
                     </Button>
                     <Button
                       variant={ButtonVariants.DANGER}
@@ -391,14 +391,16 @@ const AdditionalInformationStep = ({
                       spacing={3}
                       onClick={() => handleClickDeleteImage(image.parsedId)}
                     >
-                      {t('movies.create.picture.delete')}
+                      {t('create.additionalInformation.picture.delete')}
                     </Button>
                     {!image.isMain && (
                       <Button
                         variant={ButtonVariants.SECONDARY}
                         onClick={() => handleClickSetMainImage(image.parsedId)}
                       >
-                        {t('movies.create.picture.set_as_main_image')}
+                        {t(
+                          'create.additionalInformation.picture.set_as_main_image',
+                        )}
                       </Button>
                     )}
                   </Inline>
@@ -408,13 +410,13 @@ const AdditionalInformationStep = ({
           </Stack>
           <Stack alignItems="center" padding={4} spacing={3}>
             <Text variant={TextVariants.MUTED} textAlign="center">
-              {t('movies.create.picture.intro')}
+              {t('create.additionalInformation.picture.intro')}
             </Text>
             <Button
               variant={ButtonVariants.SECONDARY}
               onClick={handleClickAddImage}
             >
-              {t('movies.create.picture.add_button')}
+              {t('create.additionalInformation.picture.add_button')}
             </Button>
           </Stack>
         </Stack>
