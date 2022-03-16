@@ -350,11 +350,13 @@ const MovieForm = () => {
         label: eventType?.label,
         domain: 'eventtype',
       },
-      theme: {
-        id: theme?.id,
-        label: theme?.label,
-        domain: 'theme',
-      },
+      ...(theme && {
+        theme: {
+          id: theme?.id,
+          label: theme?.label,
+          domain: 'theme',
+        },
+      }),
       location: {
         id: parseOfferId(place['@id']),
       },
