@@ -552,11 +552,30 @@ const usePublish = (configuration = {}) =>
     ...configuration,
   });
 
+const addVideoToEvent = async ({ headers, eventId, url, language }) =>
+  fetchFromApi({
+    path: `/events/${eventId}/videos`,
+    options: {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        url,
+        language,
+      }),
+    },
+  });
+
+const useAddVideoToEvent = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: addVideoToEvent,
+    ...configuration,
+  });
 export {
   useAddEvent,
   useAddEventMainImage,
   useAddImageToEvent,
   useAddLabel,
+  useAddVideoToEvent,
   useChangeCalendar,
   useChangeDescription,
   useChangeLocation,
