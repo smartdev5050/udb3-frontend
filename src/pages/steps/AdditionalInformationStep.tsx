@@ -261,22 +261,6 @@ const AdditionalInformationStep = ({
                         font-weight: bold;
                       }
 
-                      a {
-                        color: inherit;
-                      }
-
-                      p {
-                        margin-bottom: ${parseSpacing(4)};
-                      }
-
-                      ol {
-                        list-style-type: decimal;
-                        margin-bottom: ${parseSpacing(4)};
-
-                        li {
-                          margin-left: ${parseSpacing(5)};
-                        }
-                      }
                       ul {
                         list-style-type: disc;
                         margin-bottom: ${parseSpacing(4)};
