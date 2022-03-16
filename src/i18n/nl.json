@@ -323,6 +323,10 @@
   },
   "create": {
     "description": {
+      "progress_info": {
+        "not_complete": "De eerste {{idealLength}} tekens zijn het belangrijkst om een nieuw publiek aan te spreken. Nog {{count}} tekens.",
+        "complete": "Plaats de belangrijkste boodschap in de eerste {{idealLength}} tekens. Je kan nog verder aanvullen met achtergrondinformatie."
+      },
       "tips": {
         "0.50.4.0.0": "Geef een enthousiaste omschrijving van het concert. <ul><li>Welk(e)<strong> artiest(en)</strong> treden op? </li><li>Welk <strong>genre</strong> is het?</li><li>Welk<strong> album</strong> <strong>of werk </strong>wordt voorgesteld? </li></ul>",
         "0.54.0.0.0": "Geef een enthousiaste omschrijving van de dansvoorstelling.<ul><li>Wie is de <strong>choreograaf</strong>?</li><li>Wie zijn de<strong> dansers</strong>?</li><li>In welke <strong>stijl</strong> dansen ze?</li><li>Over welk <strong>thema of onderwerp</strong> gaat de voorstelling?</li></ul>",

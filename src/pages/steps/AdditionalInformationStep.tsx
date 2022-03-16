@@ -21,12 +21,15 @@ import { FormElement } from '@/ui/FormElement';
 import { Icons } from '@/ui/Icon';
 import { Image } from '@/ui/Image';
 import { Inline } from '@/ui/Inline';
+import { ProgressBar, ProgressBarVariants } from '@/ui/ProgressBar';
 import type { StackProps } from '@/ui/Stack';
 import { Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { TextArea } from '@/ui/TextArea';
 import { getValueFromTheme } from '@/ui/theme';
 import { parseOfferId } from '@/utils/parseOfferId';
+
+const IDEAL_DESCRIPTION_LENGTH = 200;
 
 const getValue = getValueFromTheme('moviesCreatePage');
 
@@ -98,6 +101,10 @@ const AdditionalInformationStep = ({
     // @ts-expect-error
     getEventByIdQuery.data,
   ]);
+
+  const descriptionProgress = useMemo(() => {
+    return (description.length / IDEAL_DESCRIPTION_LENGTH) * 100;
+  }, [description]);
 
   const imageToEdit = useMemo(() => {
     const image = images.find((image) => image.parsedId === imageToEditId);
@@ -247,32 +254,50 @@ const AdditionalInformationStep = ({
               />
             }
             info={
-              eventTypeId && (
-                <Alert>
-                  <Box
-                    forwardedAs="div"
-                    dangerouslySetInnerHTML={{
-                      __html: t(`create*description*tips*${eventTypeId}`, {
-                        keySeparator: '*',
-                      }),
-                    }}
-                    css={`
-                      strong {
-                        font-weight: bold;
-                      }
-
-                      ul {
-                        list-style-type: disc;
-                        margin-bottom: ${parseSpacing(4)};
-
-                        li {
-                          margin-left: ${parseSpacing(5)};
-                        }
-                      }
-                    `}
+              <Stack spacing={3}>
+                {description.length < IDEAL_DESCRIPTION_LENGTH && (
+                  <ProgressBar
+                    variant={ProgressBarVariants.SUCCESS}
+                    progress={descriptionProgress}
                   />
-                </Alert>
-              )
+                )}
+                <Text variant={TextVariants.MUTED}>
+                  {description.length < IDEAL_DESCRIPTION_LENGTH
+                    ? t('create.description.progress_info.not_complete', {
+                        idealLength: IDEAL_DESCRIPTION_LENGTH,
+                        count: IDEAL_DESCRIPTION_LENGTH - description.length,
+                      })
+                    : t('create.description.progress_info.complete', {
+                        idealLength: IDEAL_DESCRIPTION_LENGTH,
+                      })}
+                </Text>
+                {eventTypeId && (
+                  <Alert>
+                    <Box
+                      forwardedAs="div"
+                      dangerouslySetInnerHTML={{
+                        __html: t(`create*description*tips*${eventTypeId}`, {
+                          keySeparator: '*',
+                        }),
+                      }}
+                      css={`
+                        strong {
+                          font-weight: bold;
+                        }
+
+                        ul {
+                          list-style-type: disc;
+                          margin-bottom: ${parseSpacing(4)};
+
+                          li {
+                            margin-left: ${parseSpacing(5)};
+                          }
+                        }
+                      `}
+                    />
+                  </Alert>
+                )}
+              </Stack>
             }
           />
           <Button
