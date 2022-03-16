@@ -56,10 +56,6 @@ const AdditionalInformationStep = ({
 
   const getEventByIdQuery = useGetEventById({ id: eventId });
 
-  const changeDescriptionMutation = useChangeDescription({
-    onSuccess: () => onSuccess('description'),
-  });
-
   useEffect(() => {
     // @ts-expect-error
     if (!getEventByIdQuery.data?.description) return;
@@ -100,13 +96,19 @@ const AdditionalInformationStep = ({
     return imageWithoutFile;
   }, [images, imageToEditId]);
 
-  const invalidateEventQuery = async () => {
+  const invalidateEventQuery = async (field: 'description' | 'image') => {
     await queryClient.invalidateQueries(['events', { id: eventId }]);
-    onSuccess('image');
+    onSuccess(field);
   };
 
   const handleSuccessAddImage = ({ imageId }) =>
     addImageToEventMutation.mutate({ eventId, imageId });
+
+  const changeDescriptionMutation = useChangeDescription({
+    onSuccess: async () => {
+      await invalidateEventQuery('description');
+    },
+  });
 
   const addImageMutation = useAddImage({
     onSuccess: handleSuccessAddImage,
@@ -115,20 +117,20 @@ const AdditionalInformationStep = ({
   const addImageToEventMutation = useAddImageToEvent({
     onSuccess: async () => {
       setIsPictureUploadModalVisible(false);
-      await invalidateEventQuery();
+      await invalidateEventQuery('image');
     },
   });
 
   const addEventMainImageMutation = useAddEventMainImage({
     onSuccess: async () => {
-      await invalidateEventQuery();
+      await invalidateEventQuery('image');
     },
   });
 
   const updateImageFromEventMutation = useUpdateImageFromEvent({
     onSuccess: async () => {
       setIsPictureUploadModalVisible(false);
-      await invalidateEventQuery();
+      await invalidateEventQuery('image');
     },
   });
 
