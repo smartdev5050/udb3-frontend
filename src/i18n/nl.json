@@ -109,14 +109,27 @@
         "cancel": "Annuleren",
         "confirm": "Verwijderen"
       }
+    }
+  },
+  "videos": {
+    "title": "Video's",
+    "intro": "Voeg een video-link toe zodat bezoekers je activiteit beter herkennen",
+    "add_button": "Video-link toevoegen",
+    "delete": "Verwijderen",
+    "upload_modal": {
+      "title": "Video-link toevoegen",
+      "actions": {
+        "add": "Toevoegen",
+        "cancel": "Annuleren"
+      },
+      "video_requirements": "De maximale grootte van je afbeelding is 5MB en heeft als type .jpeg, .gif of .png"
     },
-    "publish_modal": {
-      "title": "Een latere publicatiedatum kiezen",
-      "description": "Vanaf wanneer mag dit online verschijnen?",
-      "warning": "Opgelet, deze datum kan je maar één keer instellen.",
+    "delete_modal": {
+      "title": "Video-link verwijderen",
+      "description": "Ben je zeker dat je deze video-link wil verwijderen?",
       "actions": {
         "cancel": "Annuleren",
-        "confirm": "Bevestigen"
+        "confirm": "Verwijderen"
       }
     }
   },
@@ -156,7 +169,16 @@
       "production_name": "Productienaam",
       "skip": "Overslaan",
       "suggested_events": "Overeenkomst voorgestelde evenementen:",
-      "title": "Producties toevoegen"
+      "title": "Producties toevoegen",
+      "publish_modal": {
+        "title": "Een latere publicatiedatum kiezen",
+        "description": "Vanaf wanneer mag dit online verschijnen?",
+        "warning": "Opgelet, deze datum kan je maar één keer instellen.",
+        "actions": {
+          "cancel": "Annuleren",
+          "confirm": "Bevestigen"
+        }
+      }
     },
     "event": {
       "part_of_production": "Onderdeel van de productie",
