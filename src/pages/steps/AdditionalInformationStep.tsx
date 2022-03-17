@@ -24,15 +24,13 @@ import type { StackProps } from '@/ui/Stack';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { TextArea } from '@/ui/TextArea';
-import { getValueFromTheme } from '@/ui/theme';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 import type { ImageType } from '../PictureUploadBox';
 import { PictureUploadBox } from '../PictureUploadBox';
+import { VideoUploadBox } from '../VideoUploadBox';
 
 const IDEAL_DESCRIPTION_LENGTH = 200;
-
-const getValue = getValueFromTheme('createPage');
 
 type Field = 'description' | 'image';
 
@@ -92,6 +90,55 @@ const AdditionalInformationStep = ({
     // @ts-expect-error
     getEventByIdQuery.data,
   ]);
+
+  const videoUrls = [
+    'https://www.youtube.com/watch?v=aZkeGgm85fk',
+    'https://vimeo.com/529254176',
+  ];
+
+  const [videos, setVideos] = useState([]);
+
+  const convertVideoUrls = async (videoUrls: string[]) => {
+    const getYoutubeThumbnailUrl = (videoUrl: string) => {
+      return `https://i.ytimg.com/vi_webp/${
+        videoUrl.split('v=')[1]
+      }/maxresdefault.webp`;
+    };
+
+    const getVimeoThumbnailUrl = async (videoUrl: string) => {
+      const urlParts = videoUrl.split('/');
+      const videoId = videoUrl.endsWith('/')
+        ? urlParts[urlParts.length - 2]
+        : urlParts[urlParts.length - 1];
+
+      const response = await fetch(
+        `http://vimeo.com/api/v2/video/${videoId}.json`,
+      );
+
+      const data = await response.json();
+
+      return data?.[0]?.thumbnail_small;
+    };
+
+    const convertAllVideoUrlsPromises = videoUrls.map(async (videoUrl) => {
+      const thumbnailUrl = videoUrl.includes('youtube')
+        ? getYoutubeThumbnailUrl(videoUrl)
+        : await getVimeoThumbnailUrl(videoUrl);
+
+      return {
+        videoUrl,
+        thumbnailUrl,
+      };
+    });
+
+    const videos = await Promise.all(convertAllVideoUrlsPromises);
+
+    setVideos(videos);
+  };
+
+  useEffect(() => {
+    convertVideoUrls(videoUrls);
+  }, [videoUrls]);
 
   const eventTypeId = useMemo(() => {
     // @ts-expect-error
@@ -319,13 +366,20 @@ const AdditionalInformationStep = ({
             info={<DescriptionInfo />}
           />
         </Stack>
-        <PictureUploadBox
-          images={images}
-          onClickEditImage={handleClickEditImage}
-          onClickDeleteImage={handleClickDeleteImage}
-          onClickSetMainImage={handleClickSetMainImage}
-          onClickAddImage={handleClickAddImage}
-        />
+        <Stack spacing={3} flex={1}>
+          <PictureUploadBox
+            images={images}
+            onClickEditImage={handleClickEditImage}
+            onClickDeleteImage={handleClickDeleteImage}
+            onClickSetMainImage={handleClickSetMainImage}
+            onClickAddImage={handleClickAddImage}
+          />
+          <VideoUploadBox
+            videos={videos}
+            onClickAddVideo={() => console.log('add:')}
+            onClickDeleteVideo={(videoUrl) => console.log('delete: ', videoUrl)}
+          />
+        </Stack>
       </Inline>
     </Box>
   );
