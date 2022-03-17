@@ -8,6 +8,7 @@ import type { StackProps } from '@/ui/Stack';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
+import { Title } from '@/ui/Title';
 
 const getValue = getValueFromTheme('pictureUploadBox');
 
@@ -39,98 +40,101 @@ const PictureUploadBox = ({
   const { t } = useTranslation();
 
   return (
-    <Stack
-      flex={1}
-      spacing={4}
-      padding={4}
-      backgroundColor={getValue('backgroundColor')}
-      justifyContent="center"
-      css={`
-        border: 1px solid ${getValue('borderColor')};
-      `}
-      {...getStackProps(props)}
-    >
+    <Stack spacing={2}>
+      <Title size={3}>{t('pictures.title')}</Title>
       <Stack
-        spacing={2}
-        maxHeight={380}
+        flex={1}
+        spacing={4}
+        padding={4}
+        backgroundColor={getValue('backgroundColor')}
+        justifyContent="center"
         css={`
-          overflow: auto;
+          border: 1px solid ${getValue('borderColor')};
         `}
+        {...getStackProps(props)}
       >
-        {images.map((image, index, imagesArr) => {
-          const thumbnailSize = 80;
-          const isLastItem = index === imagesArr.length - 1;
-          return (
-            <Stack
-              key={image.parsedId}
-              spacing={4}
-              padding={4}
-              backgroundColor={
-                image.isMain ? getValue('mainImageBackgroundColor') : 'none'
-              }
-              css={`
-                border-bottom: 1px solid
-                  ${image.isMain
-                    ? getValue('mainImageBorderColor')
-                    : `${isLastItem ? 'none' : getValue('imageBorderColor')}`};
-              `}
-            >
-              <Inline spacing={4} alignItems="center">
-                <Image
-                  src={`${image.thumbnailUrl}?width=${thumbnailSize}&height=${thumbnailSize}`}
-                  alt={image.description}
-                  width={thumbnailSize}
-                  height={thumbnailSize}
-                  css={`
-                    border: 1px solid ${getValue('thumbnailBorderColor')};
-                  `}
-                />
-                <Stack spacing={2}>
-                  <Text>{image.description}</Text>
-                  <Text variant={TextVariants.MUTED}>
-                    © {image.copyrightHolder}
-                  </Text>
-                </Stack>
-              </Inline>
-              <Inline spacing={3}>
-                <Button
-                  variant={ButtonVariants.PRIMARY}
-                  iconName={Icons.PENCIL}
-                  spacing={3}
-                  onClick={() => onClickEditImage(image.parsedId)}
-                >
-                  {t('create.additionalInformation.picture.change')}
-                </Button>
-                <Button
-                  variant={ButtonVariants.DANGER}
-                  iconName={Icons.TRASH}
-                  spacing={3}
-                  onClick={() => onClickDeleteImage(image.parsedId)}
-                >
-                  {t('create.additionalInformation.picture.delete')}
-                </Button>
-                {!image.isMain && (
+        <Stack
+          spacing={2}
+          maxHeight={380}
+          css={`
+            overflow: auto;
+          `}
+        >
+          {images.map((image, index, imagesArr) => {
+            const thumbnailSize = 80;
+            const isLastItem = index === imagesArr.length - 1;
+            return (
+              <Stack
+                key={image.parsedId}
+                spacing={4}
+                padding={4}
+                backgroundColor={
+                  image.isMain ? getValue('mainImageBackgroundColor') : 'none'
+                }
+                css={`
+                  border-bottom: 1px solid
+                    ${image.isMain
+                      ? getValue('mainImageBorderColor')
+                      : `${
+                          isLastItem ? 'none' : getValue('imageBorderColor')
+                        }`};
+                `}
+              >
+                <Inline spacing={4} alignItems="center">
+                  <Image
+                    src={`${image.thumbnailUrl}?width=${thumbnailSize}&height=${thumbnailSize}`}
+                    alt={image.description}
+                    width={thumbnailSize}
+                    height={thumbnailSize}
+                    css={`
+                      border: 1px solid ${getValue('thumbnailBorderColor')};
+                    `}
+                  />
+                  <Stack spacing={2}>
+                    <Text>{image.description}</Text>
+                    <Text variant={TextVariants.MUTED}>
+                      © {image.copyrightHolder}
+                    </Text>
+                  </Stack>
+                </Inline>
+                <Inline spacing={3}>
                   <Button
-                    variant={ButtonVariants.SECONDARY}
-                    onClick={() => onClickSetMainImage(image.parsedId)}
+                    variant={ButtonVariants.PRIMARY}
+                    iconName={Icons.PENCIL}
+                    spacing={3}
+                    onClick={() => onClickEditImage(image.parsedId)}
                   >
-                    {t(
-                      'create.additionalInformation.picture.set_as_main_image',
-                    )}
+                    {t('pictures.change')}
                   </Button>
-                )}
-              </Inline>
-            </Stack>
-          );
-        })}
-      </Stack>
-      <Stack alignItems="center" padding={4} spacing={3}>
-        <Text variant={TextVariants.MUTED} textAlign="center">
-          {t('create.additionalInformation.picture.intro')}
-        </Text>
-        <Button variant={ButtonVariants.SECONDARY} onClick={onClickAddImage}>
-          {t('create.additionalInformation.picture.add_button')}
-        </Button>
+                  <Button
+                    variant={ButtonVariants.DANGER}
+                    iconName={Icons.TRASH}
+                    spacing={3}
+                    onClick={() => onClickDeleteImage(image.parsedId)}
+                  >
+                    {t('pictures.delete')}
+                  </Button>
+                  {!image.isMain && (
+                    <Button
+                      variant={ButtonVariants.SECONDARY}
+                      onClick={() => onClickSetMainImage(image.parsedId)}
+                    >
+                      {t('pictures.set_as_main_image')}
+                    </Button>
+                  )}
+                </Inline>
+              </Stack>
+            );
+          })}
+        </Stack>
+        <Stack alignItems="center" padding={4} spacing={3}>
+          <Text variant={TextVariants.MUTED} textAlign="center">
+            {t('pictures.intro')}
+          </Text>
+          <Button variant={ButtonVariants.SECONDARY} onClick={onClickAddImage}>
+            {t('pictures.add_button')}
+          </Button>
+        </Stack>
       </Stack>
     </Stack>
   );
