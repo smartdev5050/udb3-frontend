@@ -362,6 +362,14 @@
         "change": "Wijzigen",
         "delete": "Verwijderen",
         "set_as_main_image": "Maak hoofdafbeelding"
+      },
+      "price_info": {
+        "title": "Prijzen toevoegen",
+        "close": "Sluiten",
+        "save": "Bewaren",
+        "free": "Gratis",
+        "add": "Tarief toevoegen",
+        "basic_rate": "Basistarief"
       }
     }
   },
