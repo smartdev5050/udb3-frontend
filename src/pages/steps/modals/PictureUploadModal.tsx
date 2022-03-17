@@ -102,12 +102,12 @@ const PictureUploadBox = forwardRef<HTMLInputElement, Props>(
             {...registerFileProps}
           />
           <Button onClick={handleClickUpload}>
-            {t('movies.create.picture.upload_modal.actions.choose_file')}
+            {t('pictures.upload_modal.actions.choose_file')}
           </Button>
           <Text variant={TextVariants.ERROR}>{error}</Text>
         </Stack>
         <Text variant={TextVariants.MUTED} textAlign="center">
-          {t('movies.create.picture.upload_modal.file_requirements')}
+          {t('pictures.upload_modal.file_requirements')}
         </Text>
       </Stack>
     );
@@ -123,12 +123,10 @@ const TermsAndConditionsLink = () => {
     <Link
       href={`https://www.publiq.be/${i18n.language}/gebruikersovereenkomst-uitdatabank`}
       alt={t(
-        'movies.create.picture.upload_modal.disclaimer.terms_and_conditions.labels.terms',
+        'pictures.upload_modal.disclaimer.terms_and_conditions.labels.terms',
       )}
     >
-      {t(
-        'movies.create.picture.upload_modal.disclaimer.terms_and_conditions.labels.terms',
-      )}
+      {t('pictures.upload_modal.disclaimer.terms_and_conditions.labels.terms')}
     </Link>
   );
 };
@@ -140,11 +138,11 @@ const CopyrightLink = () => {
     <Link
       href="/copyright"
       alt={t(
-        'movies.create.picture.upload_modal.disclaimer.terms_and_conditions.labels.copyright',
+        'pictures.upload_modal.disclaimer.terms_and_conditions.labels.copyright',
       )}
     >
       {t(
-        'movies.create.picture.upload_modal.disclaimer.terms_and_conditions.labels.copyright',
+        'pictures.upload_modal.disclaimer.terms_and_conditions.labels.copyright',
       )}
     </Link>
   );
@@ -198,16 +196,16 @@ const PictureUploadModal = ({
 
   return (
     <Modal
-      title={t('movies.create.picture.upload_modal.title')}
+      title={t('pictures.upload_modal.title')}
       visible={visible}
       variant={ModalVariants.QUESTION}
       onClose={onClose}
       confirmTitle={
         imageToEdit
-          ? t('movies.create.picture.upload_modal.actions.adjust')
-          : t('movies.create.picture.upload_modal.actions.upload')
+          ? t('pictures.upload_modal.actions.adjust')
+          : t('pictures.upload_modal.actions.upload')
       }
-      cancelTitle={t('movies.create.picture.upload_modal.actions.cancel')}
+      cancelTitle={t('pictures.upload_modal.actions.cancel')}
       size={ModalSizes.MD}
       onConfirm={() => {
         formComponent.current.dispatchEvent(
@@ -232,7 +230,7 @@ const PictureUploadModal = ({
             error={
               errors?.file &&
               t(
-                `movies.create.picture.upload_modal.validation_messages.file.${errors.file.type}`,
+                `pictures.upload_modal.validation_messages.file.${errors.file.type}`,
               )
             }
             {...register('file')}
@@ -245,7 +243,7 @@ const PictureUploadModal = ({
           error={
             errors?.description &&
             t(
-              `movies.create.picture.upload_modal.validation_messages.description.${errors.description.type}`,
+              `pictures.upload_modal.validation_messages.description.${errors.description.type}`,
             )
           }
           Component={<Input {...register('description')} />}
@@ -253,18 +251,18 @@ const PictureUploadModal = ({
         <FormElement
           id="copyrightHolder"
           label="Copyright"
-          info={t('movies.create.picture.upload_modal.disclaimer.copyright')}
+          info={t('pictures.upload_modal.disclaimer.copyright')}
           error={
             errors?.copyrightHolder &&
             t(
-              `movies.create.picture.upload_modal.validation_messages.copyrightHolder.${errors.copyrightHolder.type}`,
+              `pictures.upload_modal.validation_messages.copyrightHolder.${errors.copyrightHolder.type}`,
             )
           }
           Component={<Input {...register('copyrightHolder')} />}
         />
 
         <Text variant={TextVariants.MUTED} fontSize="0.8rem">
-          <Trans i18nKey="movies.create.picture.upload_modal.disclaimer.terms_and_conditions.text">
+          <Trans i18nKey="pictures.upload_modal.disclaimer.terms_and_conditions.text">
             <TermsAndConditionsLink />
             <CopyrightLink />
           </Trans>

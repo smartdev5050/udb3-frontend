@@ -30,16 +30,16 @@ const PublishLaterModal = ({
       onConfirm={onConfirm}
       scrollable={false}
       onClose={onClose}
-      title={t('movies.create.picture.publish_modal.title')}
-      confirmTitle={t('movies.create.picture.publish_modal.actions.confirm')}
-      cancelTitle={t('movies.create.picture.publish_modal.actions.cancel')}
+      title={t('create.publish_modal.title')}
+      confirmTitle={t('create.publish_modal.actions.confirm')}
+      cancelTitle={t('create.publish_modal.actions.cancel')}
       confirmButtonDisabled={!selectedDate}
       size={ModalSizes.MD}
     >
       <Stack padding={4} spacing={4} alignItems="flex-start">
-        <Text>{t('movies.create.picture.publish_modal.description')}</Text>
+        <Text>{t('create.publish_modal.description')}</Text>
         <Alert variant={AlertVariants.WARNING}>
-          {t('movies.create.picture.publish_modal.warning')}
+          {t('create.publish_modal.warning')}
         </Alert>
         <DatePicker
           id="publish-later-date"

@@ -169,16 +169,7 @@
       "production_name": "Productienaam",
       "skip": "Overslaan",
       "suggested_events": "Overeenkomst voorgestelde evenementen:",
-      "title": "Producties toevoegen",
-      "publish_modal": {
-        "title": "Een latere publicatiedatum kiezen",
-        "description": "Vanaf wanneer mag dit online verschijnen?",
-        "warning": "Opgelet, deze datum kan je maar één keer instellen.",
-        "actions": {
-          "cancel": "Annuleren",
-          "confirm": "Bevestigen"
-        }
-      }
+      "title": "Producties toevoegen"
     },
     "event": {
       "part_of_production": "Onderdeel van de productie",
@@ -345,6 +336,15 @@
     }
   },
   "create": {
+    "publish_modal": {
+      "title": "Een latere publicatiedatum kiezen",
+      "description": "Vanaf wanneer mag dit online verschijnen?",
+      "warning": "Opgelet, deze datum kan je maar één keer instellen.",
+      "actions": {
+        "cancel": "Annuleren",
+        "confirm": "Bevestigen"
+      }
+    },
     "additionalInformation": {
       "title": "Laat je evenement extra opvallen",
       "description": {
