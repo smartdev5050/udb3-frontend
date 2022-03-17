@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import * as yup from 'yup';
 
+import type { Values } from '@/types/Values';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
@@ -10,34 +13,87 @@ import { Input } from '@/ui/Input';
 import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
 import { Stack } from '@/ui/Stack';
 
+const PRICE_CURRENCY = 'EUR';
+
+const PriceCategories = {
+  BASE: 'base',
+  TARIFF: 'tarrif',
+} as const;
+
+type PriceCategory = Values<typeof PriceCategories>;
+
 type Rate = {
-  targetGroup: string;
+  name: string;
+  category: PriceCategory;
   price: number | null;
+  priceCurrency: string;
 };
 
-type FormData = Rate[];
+type FormData = { rates: Rate[] };
 
 const PriceInfoModal = ({ visible, onClose }: any) => {
   const { t } = useTranslation();
+  const formComponent = useRef<HTMLFormElement>();
 
-  const { register } = useForm<FormData>();
+  const schema = yup
+    .object()
+    .shape({
+      rates: yup.array().of(
+        yup.object({
+          name: yup.string().max(250),
+          category: yup.string(),
+          price: yup.number(),
+          priceCurrency: yup.string(),
+        }),
+      ),
+    })
+    .required();
 
-  const [rates, setRates] = useState<Rate[]>([
-    { targetGroup: 'base', price: null },
-  ]);
+  const {
+    register,
+    watch,
+    setValue,
+    formState: { errors },
+    reset,
+    handleSubmit,
+  } = useForm<FormData>({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      rates: [
+        {
+          name: 'Basistarief',
+          price: null,
+          category: PriceCategories.BASE,
+          priceCurrency: PRICE_CURRENCY,
+        },
+      ],
+    },
+  });
+
+  const watchedRates = watch('rates');
 
   const handleClickAddRate = () => {
-    setRates([
-      ...rates,
+    setValue('rates', [
+      ...watchedRates,
       {
-        targetGroup: '',
+        name: '',
         price: null,
+        category: PriceCategories.TARIFF,
+        priceCurrency: PRICE_CURRENCY,
       },
     ]);
   };
 
   const handleClickDeleteRate = (id: number): void => {
-    setRates([...rates.filter((_value, index) => id !== index)]);
+    setValue('rates', [...watchedRates.filter((_rate, index) => id !== index)]);
+  };
+
+  const setPriceToRate = (id: number, price: number = 0.0): void => {
+    setValue('rates', [
+      ...watchedRates.map((rate, index) =>
+        id === index ? { ...rate, price } : rate,
+      ),
+    ]);
   };
 
   return (
@@ -49,11 +105,24 @@ const PriceInfoModal = ({ visible, onClose }: any) => {
       confirmTitle={t('create.additionalInformation.price_info.save')}
       cancelTitle={t('create.additionalInformation.price_info.close')}
       size={ModalSizes.LG}
-      onConfirm={() => console.log('close')}
+      onConfirm={() => {
+        formComponent.current.dispatchEvent(
+          new Event('submit', { cancelable: true, bubbles: true }),
+        );
+      }}
       confirmButtonDisabled={false}
     >
-      <Stack as="form" spacing={4} padding={4}>
-        {rates.map((rate, key) => (
+      <Stack
+        as="form"
+        spacing={4}
+        padding={4}
+        onSubmit={handleSubmit(async (data) => {
+          console.log({ data });
+          reset({});
+        })}
+        ref={formComponent}
+      >
+        {watchedRates.map((rate, key) => (
           <Inline
             spacing={5}
             key={`rate_${key}`}
@@ -61,27 +130,28 @@ const PriceInfoModal = ({ visible, onClose }: any) => {
             alignItems="center"
           >
             <FormElement
-              id="targetGroup"
+              id="name"
               placeholder="doelgroep"
-              error="error"
-              Component={<Input {...register('targetGroup')} />}
+              error={
+                errors?.rates && errors?.rates[key].name && 'error in naam'
+              }
+              Component={<Input {...register(`rates.${key}.name`)} />}
             />
             <FormElement
               id="price"
               placeholder="prijs"
-              error="error"
-              Component={<Input {...register('price')} />}
+              Component={<Input {...register(`rates.${key}.price`)} />}
             />
             <Button
-              onClick={() => console.log('set free')}
               variant={ButtonVariants.LINK}
+              onClick={() => setPriceToRate(key)}
             >
               {t('create.additionalInformation.price_info.free')}
             </Button>
             {key !== 0 && (
               <Button
-                onClick={() => handleClickDeleteRate(key)}
                 variant={ButtonVariants.UNSTYLED}
+                onClick={() => handleClickDeleteRate(key)}
               >
                 <Icon name={Icons.TIMES} />
               </Button>
