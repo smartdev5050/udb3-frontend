@@ -9,9 +9,10 @@ import type { StepsConfiguration } from '@/pages/Steps';
 import { Steps } from '@/pages/Steps';
 import { Page } from '@/ui/Page';
 
-import { CalendarStep } from './CalendarStep';
-import { ThemeStep } from './ThemeStep';
-import { TypeStep } from './TypeStep';
+import { AdditionalInformationStep } from '../steps/AdditionalInformationStep';
+// import { CalendarStep } from './CalendarStep';
+// import { ThemeStep } from './ThemeStep';
+// import { TypeStep } from './TypeStep';
 
 type EventType = 'event' | 'place';
 
@@ -36,22 +37,35 @@ const EventForm = () => {
     resolver: yupResolver(schema),
   });
 
-  const configuration: StepsConfiguration<FormData> = useMemo(() => {
+  const configuration: StepsConfiguration<
+    FormData & {
+      additionalInformation: any;
+    }
+  > = useMemo(() => {
     return [
+      // {
+      //   Component: TypeStep,
+      //   field: 'type',
+      //   title: t(`event.create.type.title`),
+      // },
+      // {
+      //   Component: ThemeStep,
+      //   field: 'theme',
+      //   title: t(`event.create.theme.title`),
+      // },
+      // {
+      //   Component: CalendarStep,
+      //   field: 'calendar',
+      //   title: t(`event.create.calendar.title`),
+      // },
       {
-        Component: TypeStep,
-        field: 'type',
-        title: t(`event.create.type.title`),
-      },
-      {
-        Component: ThemeStep,
-        field: 'theme',
-        title: t(`event.create.theme.title`),
-      },
-      {
-        Component: CalendarStep,
-        field: 'calendar',
-        title: t(`event.create.calendar.title`),
+        Component: AdditionalInformationStep,
+        field: 'additionalInformation',
+        title: t(`event.create.additionalInformation.title`),
+        additionalProps: {
+          eventId: '11d89de3-4cf3-47ed-9a4d-dd2fcffb4216',
+          onSuccess: () => {},
+        },
       },
     ];
   }, [t]);

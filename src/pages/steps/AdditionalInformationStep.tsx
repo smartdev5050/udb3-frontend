@@ -5,6 +5,7 @@ import { useQueryClient } from 'react-query';
 import {
   useAddEventMainImage,
   useAddImageToEvent,
+  useAddVideoToEvent,
   useChangeDescription,
   useDeleteImageFromEvent,
   useGetEventById,
@@ -26,13 +27,15 @@ import { Text, TextVariants } from '@/ui/Text';
 import { TextArea } from '@/ui/TextArea';
 import { parseOfferId } from '@/utils/parseOfferId';
 
+import { AddVideoLinkModal } from '../AddVideoLinkModal';
 import type { ImageType } from '../PictureUploadBox';
 import { PictureUploadBox } from '../PictureUploadBox';
+import type { Video, VideoEnriched } from '../VideoUploadBox';
 import { VideoUploadBox } from '../VideoUploadBox';
 
 const IDEAL_DESCRIPTION_LENGTH = 200;
 
-type Field = 'description' | 'image';
+type Field = 'description' | 'image' | 'video';
 
 type AdditionalInformationStepProps = StackProps & {
   eventId: string;
@@ -54,6 +57,9 @@ const AdditionalInformationStep = ({
     isPictureDeleteModalVisible,
     setIsPictureDeleteModalVisible,
   ] = useState(false);
+  const [isAddVideoLinkModalVisible, setIsAddVideoLinkModalVisible] = useState(
+    true,
+  );
 
   const [description, setDescription] = useState('');
   const [imageToEditId, setImageToEditId] = useState('');
@@ -91,14 +97,7 @@ const AdditionalInformationStep = ({
     getEventByIdQuery.data,
   ]);
 
-  const videoUrls = [
-    'https://www.youtube.com/watch?v=aZkeGgm85fk',
-    'https://vimeo.com/529254176',
-  ];
-
-  const [videos, setVideos] = useState([]);
-
-  const convertVideoUrls = async (videoUrls: string[]) => {
+  const enrichVideos = async (video: Video[]) => {
     const getYoutubeThumbnailUrl = (videoUrl: string) => {
       return `https://i.ytimg.com/vi_webp/${
         videoUrl.split('v=')[1]
@@ -120,25 +119,42 @@ const AdditionalInformationStep = ({
       return data?.[0]?.thumbnail_small;
     };
 
-    const convertAllVideoUrlsPromises = videoUrls.map(async (videoUrl) => {
-      const thumbnailUrl = videoUrl.includes('youtube')
-        ? getYoutubeThumbnailUrl(videoUrl)
-        : await getVimeoThumbnailUrl(videoUrl);
+    const convertAllVideoUrlsPromises = video.map(async ({ url, ...video }) => {
+      const thumbnailUrl = url.includes('youtube')
+        ? getYoutubeThumbnailUrl(url)
+        : await getVimeoThumbnailUrl(url);
 
-      return {
-        videoUrl,
+      const enrichedVideo: VideoEnriched = {
+        ...video,
+        url,
         thumbnailUrl,
       };
+
+      return enrichedVideo;
     });
 
-    const videos = await Promise.all(convertAllVideoUrlsPromises);
+    const data = await Promise.all(convertAllVideoUrlsPromises);
 
-    setVideos(videos);
+    setVideos(data);
   };
 
+  const [videos, setVideos] = useState([]);
+
   useEffect(() => {
-    convertVideoUrls(videoUrls);
-  }, [videoUrls]);
+    if (
+      // @ts-expect-error
+      !getEventByIdQuery.data?.videos ||
+      // @ts-expect-error
+      getEventByIdQuery.data.videos.length === 0
+    ) {
+      return;
+    }
+    // @ts-expect-error
+    enrichVideos(getEventByIdQuery.data.videos as Video[]);
+  }, [
+    // @ts-expect-error
+    getEventByIdQuery.data?.videos,
+  ]);
 
   const eventTypeId = useMemo(() => {
     // @ts-expect-error
@@ -208,6 +224,13 @@ const AdditionalInformationStep = ({
     onSuccess: handleSuccessDeleteImage,
   });
 
+  const addVideoToEventMutation = useAddVideoToEvent({
+    onSuccess: async () => {
+      setIsAddVideoLinkModalVisible(false);
+      await invalidateEventQuery('video');
+    },
+  });
+
   const handleClickAddImage = () => {
     setImageToEditId(undefined);
     setIsPictureUploadModalVisible(true);
@@ -230,6 +253,14 @@ const AdditionalInformationStep = ({
   const handleConfirmDelete = (imageId: string) => {
     deleteImageFromEventMutation.mutate({ eventId, imageId });
     setIsPictureDeleteModalVisible(false);
+  };
+
+  const handleAddVideoLink = async (url: string) => {
+    await addVideoToEventMutation.mutateAsync({
+      eventId,
+      url,
+      language: i18n.language,
+    });
   };
 
   const handleSubmitValid = async ({
@@ -350,6 +381,11 @@ const AdditionalInformationStep = ({
         onConfirm={() => handleConfirmDelete(imageToDeleteId)}
         onClose={() => setIsPictureDeleteModalVisible(false)}
       />
+      <AddVideoLinkModal
+        visible={isAddVideoLinkModalVisible}
+        onConfirm={handleAddVideoLink}
+        onClose={() => setIsAddVideoLinkModalVisible(false)}
+      />
       <Inline
         spacing={6}
         alignItems={{ default: 'flex-start', m: 'normal' }}
@@ -370,7 +406,7 @@ const AdditionalInformationStep = ({
             info={<DescriptionInfo />}
           />
         </Stack>
-        <Stack spacing={3} flex={1}>
+        <Stack spacing={4} flex={1}>
           <PictureUploadBox
             images={images}
             onClickEditImage={handleClickEditImage}
@@ -380,7 +416,7 @@ const AdditionalInformationStep = ({
           />
           <VideoUploadBox
             videos={videos}
-            onClickAddVideo={() => console.log('add:')}
+            onClickAddVideo={() => setIsAddVideoLinkModalVisible(true)}
             onClickDeleteVideo={(videoUrl) => console.log('delete: ', videoUrl)}
           />
         </Stack>

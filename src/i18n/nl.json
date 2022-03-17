@@ -122,7 +122,10 @@
         "add": "Toevoegen",
         "cancel": "Annuleren"
       },
-      "video_requirements": "De maximale grootte van je afbeelding is 5MB en heeft als type .jpeg, .gif of .png"
+      "validation_messages": {
+        "link": "Je video-link voldoet niet aan de vereisten."
+      },
+      "link_requirements": "Je kan enkel video-urls van YouTube of Vimeo toevoegen"
     },
     "delete_modal": {
       "title": "Video-link verwijderen",
@@ -280,7 +283,8 @@
           "timeslot": "Tijdssloten zijn succesvol gewijzigd",
           "name": "Naam is succesvol gewijzigd",
           "description": "Beschrijving is succesvol gewijzigd",
-          "image": "Afbeelding is succesvol gewijzigd"
+          "image": "Afbeelding is succesvol gewijzigd",
+          "video": "Video is succesvol gewijzigd"
         }
       },
       "footer": {

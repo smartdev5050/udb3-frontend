@@ -520,6 +520,9 @@ const MovieForm = () => {
             if (field === 'description') {
               setToastMessage(t('movies.create.toast.success.description'));
             }
+            if (field === 'video') {
+              setToastMessage(t('movies.create.toast.success.video'));
+            }
           },
         },
         title: t(`movies.create.step5.title`),

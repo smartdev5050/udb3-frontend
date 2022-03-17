@@ -22,14 +22,21 @@ type ImageType = {
 };
 
 type Video = {
-  videoUrl: string;
+  id: string;
+  url: string;
+  embedUrl: string;
+  language: string;
+  copyrightHolder: string;
+};
+
+type VideoEnriched = Video & {
   thumbnailUrl: string;
 };
 
 type Props = StackProps & {
-  videos: Video[];
+  videos: VideoEnriched[];
   onClickAddVideo: () => void;
-  onClickDeleteVideo: (videoUrl: string) => void;
+  onClickDeleteVideo: (url: string) => void;
 };
 
 const VideoUploadBox = ({
@@ -61,12 +68,12 @@ const VideoUploadBox = ({
             overflow: auto;
           `}
         >
-          {videos.map(({ videoUrl, thumbnailUrl }, index, imagesArr) => {
+          {videos.map(({ url, thumbnailUrl }, index, imagesArr) => {
             const thumbnailSize = 80;
             const isLastItem = index === imagesArr.length - 1;
             return (
               <Stack
-                key={videoUrl}
+                key={url}
                 spacing={4}
                 padding={4}
                 css={`
@@ -84,14 +91,14 @@ const VideoUploadBox = ({
                       border: 1px solid ${getValue('thumbnailBorderColor')};
                     `}
                   />
-                  <Text>{videoUrl}</Text>
+                  <Text>{url}</Text>
                 </Inline>
                 <Inline spacing={3}>
                   <Button
                     variant={ButtonVariants.DANGER}
                     iconName={Icons.TRASH}
                     spacing={3}
-                    onClick={() => onClickDeleteVideo(videoUrl)}
+                    onClick={() => onClickDeleteVideo(url)}
                   >
                     {t('videos.delete')}
                   </Button>
@@ -115,4 +122,4 @@ const VideoUploadBox = ({
 
 export { VideoUploadBox };
 
-export type { ImageType };
+export type { ImageType, Video, VideoEnriched };
