@@ -350,7 +350,11 @@ const AdditionalInformationStep = ({
         onConfirm={() => handleConfirmDelete(imageToDeleteId)}
         onClose={() => setIsPictureDeleteModalVisible(false)}
       />
-      <Inline spacing={6} alignItems="flex-start">
+      <Inline
+        spacing={6}
+        alignItems={{ default: 'flex-start', m: 'normal' }}
+        stackOn="m"
+      >
         <Stack spacing={3} flex={1}>
           <FormElement
             id="create-description"
