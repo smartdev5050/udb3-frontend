@@ -533,6 +533,22 @@ const useAddLabel = (configuration = {}) =>
     ...configuration,
   });
 
+const addPriceInfo = async ({ headers, eventId, priceInfo }) =>
+  fetchFromApi({
+    path: `/events/${eventId}/priceInfo`,
+    options: {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({ priceInfo }),
+    },
+  });
+
+const useAddPriceInfo = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: addPriceInfo,
+    ...configuration,
+  });
+
 const publish = async ({ headers, eventId, publicationDate }) =>
   fetchFromApi({
     path: `/event/${eventId}`,
@@ -557,6 +573,7 @@ export {
   useAddEventMainImage,
   useAddImageToEvent,
   useAddLabel,
+  useAddPriceInfo,
   useChangeCalendar,
   useChangeDescription,
   useChangeLocation,
