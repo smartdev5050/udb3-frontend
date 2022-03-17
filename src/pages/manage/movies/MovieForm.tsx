@@ -533,7 +533,7 @@ const MovieForm = () => {
         {t(`movies.create.title`)}
       </Page.Title>
 
-      <Page.Content spacing={5} paddingBottom={6} alignItems="flex-start">
+      <Page.Content spacing={5} alignItems="flex-start">
         <Toast
           variant="success"
           header={header}
