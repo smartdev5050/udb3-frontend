@@ -9,7 +9,7 @@ import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
-const getValue = getValueFromTheme('createPage');
+const getValue = getValueFromTheme('pictureUploadBox');
 
 type ImageType = {
   parsedId: string;
@@ -43,10 +43,10 @@ const PictureUploadBox = ({
       flex={1}
       spacing={4}
       padding={4}
-      backgroundColor={getValue('pictureUploadBox.backgroundColor')}
+      backgroundColor={getValue('backgroundColor')}
       justifyContent="center"
       css={`
-        border: 1px solid ${getValue('pictureUploadBox.borderColor')};
+        border: 1px solid ${getValue('borderColor')};
       `}
       {...getStackProps(props)}
     >
@@ -66,19 +66,13 @@ const PictureUploadBox = ({
               spacing={4}
               padding={4}
               backgroundColor={
-                image.isMain
-                  ? getValue('pictureUploadBox.mainImageBackgroundColor')
-                  : 'none'
+                image.isMain ? getValue('mainImageBackgroundColor') : 'none'
               }
               css={`
                 border-bottom: 1px solid
                   ${image.isMain
-                    ? getValue('pictureUploadBox.mainImageBorderColor')
-                    : `${
-                        isLastItem
-                          ? 'none'
-                          : getValue('pictureUploadBox.imageBorderColor')
-                      }`};
+                    ? getValue('mainImageBorderColor')
+                    : `${isLastItem ? 'none' : getValue('imageBorderColor')}`};
               `}
             >
               <Inline spacing={4} alignItems="center">
@@ -88,8 +82,7 @@ const PictureUploadBox = ({
                   width={thumbnailSize}
                   height={thumbnailSize}
                   css={`
-                    border: 1px solid
-                      ${getValue('pictureUploadBox.thumbnailBorderColor')};
+                    border: 1px solid ${getValue('thumbnailBorderColor')};
                   `}
                 />
                 <Stack spacing={2}>

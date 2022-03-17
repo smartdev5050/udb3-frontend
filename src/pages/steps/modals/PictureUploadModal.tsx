@@ -32,7 +32,7 @@ type PictureUploadModalProps = {
 const MAX_FILE_SIZE = 5000000;
 const ALLOWED_FILE_TYPES = ['png', 'jpg', 'jpeg', 'gif'];
 
-const getValue = getValueFromTheme('createPage');
+const getValue = getValueFromTheme('pictureUploadBox');
 
 type RegisterProps = {
   onChange: (event: FormEvent<HTMLInputElement>) => void;
@@ -46,7 +46,6 @@ type Props = {
   marginBottom?: number;
 } & RegisterProps;
 
-// eslint-disable-next-line react/display-name
 const PictureUploadBox = forwardRef<HTMLInputElement, Props>(
   ({ error, image, marginBottom, children, ...registerFileProps }, ref) => {
     const handleClickUpload = () => {
@@ -62,14 +61,12 @@ const PictureUploadBox = forwardRef<HTMLInputElement, Props>(
         flex={1}
         spacing={4}
         height={300}
-        backgroundColor={getValue('pictureUploadBox.backgroundColor')}
+        backgroundColor={getValue('backgroundColor')}
         justifyContent="center"
         alignItems="center"
         css={`
           border: 1px solid
-            ${getValue(
-              `pictureUploadBox.${error ? 'errorBorderColor' : 'borderColor'}`,
-            )};
+            ${getValue(`${error ? 'errorBorderColor' : 'borderColor'}`)};
         `}
         padding={4}
         marginBottom={marginBottom}
@@ -91,7 +88,7 @@ const PictureUploadBox = forwardRef<HTMLInputElement, Props>(
             name={Icons.IMAGE}
             width="auto"
             height="8rem"
-            color={getValue('pictureUploadBox.imageIconColor')}
+            color={getValue('imageIconColor')}
           />
         )}
         <Stack spacing={3} alignItems="center">
@@ -116,6 +113,8 @@ const PictureUploadBox = forwardRef<HTMLInputElement, Props>(
     );
   },
 );
+
+PictureUploadBox.displayName = 'PictureUploadBox';
 
 const TermsAndConditionsLink = () => {
   const { t, i18n } = useTranslation();
