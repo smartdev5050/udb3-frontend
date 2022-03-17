@@ -329,6 +329,16 @@ const theme = {
       mainImageBorderColor: colors.blue2,
       thumbnailBorderColor: colors.grey6,
     },
+    videoUploadBox: {
+      backgroundColor: colors.white,
+      borderColor: colors.grey2,
+      errorBorderColor: colors.red1,
+      imageIconColor: colors.grey5,
+      imageBorderColor: colors.grey2,
+      mainImageBackgroundColor: colors.blue1,
+      mainImageBorderColor: colors.blue2,
+      thumbnailBorderColor: colors.grey6,
+    },
     toggleBox: {
       backgroundColor: colors.white,
       activeBackgroundColor: colors.green5,
