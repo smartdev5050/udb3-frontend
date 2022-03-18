@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -12,6 +12,7 @@ import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
 import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
 import { Stack } from '@/ui/Stack';
+import { Text } from '@/ui/Text';
 
 const PRICE_CURRENCY = 'EUR';
 
@@ -40,9 +41,9 @@ const PriceInfoModal = ({ visible, onClose }: any) => {
     .shape({
       rates: yup.array().of(
         yup.object({
-          name: yup.string().max(250),
+          name: yup.string().required().max(250),
           category: yup.string(),
-          price: yup.number(),
+          price: yup.number().required('price is verplicht'),
           priceCurrency: yup.string(),
         }),
       ),
@@ -123,39 +124,44 @@ const PriceInfoModal = ({ visible, onClose }: any) => {
         ref={formComponent}
       >
         {watchedRates.map((rate, key) => (
-          <Inline
-            spacing={5}
-            key={`rate_${key}`}
-            css="border-bottom: 1px solid grey;"
-            alignItems="center"
-          >
-            <FormElement
-              id="name"
-              placeholder="doelgroep"
-              error={
-                errors?.rates && errors?.rates[key].name && 'error in naam'
-              }
-              Component={<Input {...register(`rates.${key}.name`)} />}
-            />
-            <FormElement
-              id="price"
-              placeholder="prijs"
-              Component={<Input {...register(`rates.${key}.price`)} />}
-            />
-            <Button
-              variant={ButtonVariants.LINK}
-              onClick={() => setPriceToRate(key)}
-            >
-              {t('create.additionalInformation.price_info.free')}
-            </Button>
-            {key !== 0 && (
+          <Inline key={`rate_${key}`} css="border-bottom: 1px solid grey;">
+            <Inline paddingBottom={3} spacing={5} alignItems="center">
+              {rate.category === PriceCategories.BASE && (
+                <Text>{rate.name}</Text>
+              )}
+              {rate.category === PriceCategories.TARIFF && (
+                <FormElement
+                  id="name"
+                  placeholder="doelgroep"
+                  error={
+                    errors?.rates && errors?.rates[key]?.name && 'error in naam'
+                  }
+                  Component={<Input {...register(`rates.${key}.name`)} />}
+                />
+              )}
+              <FormElement
+                id="price"
+                placeholder="prijs"
+                error={
+                  errors?.rates && errors?.rates[key]?.price && 'error in prijs'
+                }
+                Component={<Input {...register(`rates.${key}.price`)} />}
+              />
               <Button
-                variant={ButtonVariants.UNSTYLED}
-                onClick={() => handleClickDeleteRate(key)}
+                variant={ButtonVariants.LINK}
+                onClick={() => setPriceToRate(key)}
               >
-                <Icon name={Icons.TIMES} />
+                {t('create.additionalInformation.price_info.free')}
               </Button>
-            )}
+              {key !== 0 && (
+                <Button
+                  variant={ButtonVariants.UNSTYLED}
+                  onClick={() => handleClickDeleteRate(key)}
+                >
+                  <Icon name={Icons.TIMES} />
+                </Button>
+              )}
+            </Inline>
           </Inline>
         ))}
         <Inline>
