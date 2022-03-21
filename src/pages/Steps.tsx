@@ -77,7 +77,7 @@ StepWrapper.defaultProps = {
   title: '',
 };
 
-const getValue = getValueFromTheme('moviesCreatePage');
+const getValue = getValueFromTheme('createPage');
 
 type StepProps<TFormData extends FormDataIntersection> = Omit<
   UseFormReturn<TFormData>,

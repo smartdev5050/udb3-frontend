@@ -19,7 +19,7 @@ import { Typeahead } from '@/ui/Typeahead';
 type ProductionStepProps<TFormData extends FormDataIntersection> = StackProps &
   StepProps<TFormData>;
 
-const getValue = getValueFromTheme('moviesCreatePage');
+const getValue = getValueFromTheme('createPage');
 
 const ProductionStep = <TFormData extends FormDataIntersection>({
   formState: { errors },

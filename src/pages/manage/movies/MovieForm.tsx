@@ -71,7 +71,7 @@ type FormData = {
   production: Production & { customOption?: boolean };
 };
 
-const getValue = getValueFromTheme('moviesCreatePage');
+const getValue = getValueFromTheme('createPage');
 
 const FooterStatus = {
   HIDDEN: 'HIDDEN',
@@ -350,11 +350,13 @@ const MovieForm = () => {
         label: eventType?.label,
         domain: 'eventtype',
       },
-      theme: {
-        id: theme?.id,
-        label: theme?.label,
-        domain: 'theme',
-      },
+      ...(theme && {
+        theme: {
+          id: theme?.id,
+          label: theme?.label,
+          domain: 'theme',
+        },
+      }),
       location: {
         id: parseOfferId(place['@id']),
       },

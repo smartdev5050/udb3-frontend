@@ -10,7 +10,7 @@ import { Inline } from '@/ui/Inline';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
-const getValue = getValueFromTheme('moviesCreatePage');
+const getValue = getValueFromTheme('createPage');
 
 const EventTypeAndThemeStep = <TFormData extends FormDataIntersection>({
   control,
