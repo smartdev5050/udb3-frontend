@@ -87,6 +87,7 @@ const VideoUploadBox = ({
                     alt="video"
                     width={thumbnailSize}
                     height={thumbnailSize}
+                    objectFit="contain"
                     css={`
                       border: 1px solid ${getValue('thumbnailBorderColor')};
                     `}
