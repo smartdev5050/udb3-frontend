@@ -15,7 +15,7 @@ type Props = {
   onClose: () => void;
 };
 
-const ALLOWED_SOURCE_REGEX = /^http(s?):\/\/(www\.)?((youtube\.com\/watch\?v=([^\/#&?]*))|(vimeo\.com\/([^\/#&?]*))|(youtu\.be\/([^\/#&?]*)))/;
+const ALLOWED_VIDEO_SOURCES_REGEX: RegExp = /^http(s?):\/\/(www\.)?((youtube\.com\/watch\?v=([^/#&?]*))|(vimeo\.com\/([^/#&?]*))|(youtu\.be\/([^/#&?]*)))/;
 
 type FormData = {
   link: string;
@@ -24,14 +24,14 @@ type FormData = {
 const schema = yup
   .object()
   .shape({
-    link: yup.string().matches(ALLOWED_SOURCE_REGEX).required(),
+    link: yup.string().matches(ALLOWED_VIDEO_SOURCES_REGEX).required(),
   })
   .required();
 
-const AddVideoLinkModal = ({ visible, onConfirm, onClose }: Props) => {
+const VideoLinkAddModal = ({ visible, onConfirm, onClose }: Props) => {
   const { t } = useTranslation();
 
-  const { register, handleSubmit, formState, reset } = useForm<FormData>({
+  const { register, handleSubmit, formState } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
 
@@ -39,7 +39,6 @@ const AddVideoLinkModal = ({ visible, onConfirm, onClose }: Props) => {
     await handleSubmit((data) => {
       onConfirm(data.link);
     })();
-    reset({ link: '' });
   };
 
   return (
@@ -73,4 +72,4 @@ const AddVideoLinkModal = ({ visible, onConfirm, onClose }: Props) => {
   );
 };
 
-export { AddVideoLinkModal };
+export { VideoLinkAddModal };
