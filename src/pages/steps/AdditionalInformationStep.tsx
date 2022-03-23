@@ -14,6 +14,7 @@ import { useAddImage } from '@/hooks/api/images';
 import { PictureDeleteModal } from '@/pages/steps/modals/PictureDeleteModal';
 import type { FormData } from '@/pages/steps/modals/PictureUploadModal';
 import { PictureUploadModal } from '@/pages/steps/modals/PictureUploadModal';
+import type { Values } from '@/types/Values';
 import { Alert } from '@/ui/Alert';
 import { Box, parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
@@ -35,14 +36,21 @@ const getValue = getValueFromTheme('createPage');
 
 type Field = 'description' | 'image';
 
+const AdditionalInformationStepVariant = {
+  MINIMAL: 'minimal',
+  EXTENDED: 'extended',
+} as const;
+
 type AdditionalInformationStepProps = StackProps & {
   eventId: string;
   onSuccess: (field: Field) => void;
+  variant?: Values<typeof AdditionalInformationStepVariant>;
 };
 
 const AdditionalInformationStep = ({
   eventId,
   onSuccess,
+  variant,
   ...props
 }: AdditionalInformationStepProps) => {
   const queryClient = useQueryClient();
@@ -427,4 +435,8 @@ const AdditionalInformationStep = ({
   );
 };
 
-export { AdditionalInformationStep };
+AdditionalInformationStep.defaultProps = {
+  variant: AdditionalInformationStepVariant.EXTENDED,
+};
+
+export { AdditionalInformationStep, AdditionalInformationStepVariant };
