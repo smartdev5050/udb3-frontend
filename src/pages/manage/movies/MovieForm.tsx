@@ -34,7 +34,10 @@ import {
 } from '@/hooks/api/productions';
 import type { StepsConfiguration } from '@/pages/Steps';
 import { Steps } from '@/pages/Steps';
-import { AdditionalInformationStep } from '@/pages/steps/AdditionalInformationStep';
+import {
+  AdditionalInformationStep,
+  AdditionalInformationStepVariant,
+} from '@/pages/steps/AdditionalInformationStep';
 import { EventTypeAndThemeStep } from '@/pages/steps/EventTypeAndThemeStep';
 import { PublishLaterModal } from '@/pages/steps/modals/PublishLaterModal';
 import { PlaceStep } from '@/pages/steps/PlaceStep';
@@ -511,7 +514,7 @@ const MovieForm = () => {
       {
         Component: AdditionalInformationStep,
         additionalProps: {
-          variant: 'minimal',
+          variant: AdditionalInformationStepVariant.MINIMAL,
           eventId: newEventId,
           onSuccess: (field: string) => {
             if (field === 'image') {
