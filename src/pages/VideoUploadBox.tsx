@@ -68,12 +68,12 @@ const VideoUploadBox = ({
             overflow: auto;
           `}
         >
-          {videos.map(({ url, thumbnailUrl }, index, imagesArr) => {
+          {videos.map(({ id, url, thumbnailUrl }, index, imagesArr) => {
             const thumbnailSize = 80;
             const isLastItem = index === imagesArr.length - 1;
             return (
               <Stack
-                key={url}
+                key={id}
                 spacing={4}
                 padding={4}
                 css={`
