@@ -36,7 +36,7 @@ type VideoEnriched = Video & {
 type Props = StackProps & {
   videos: VideoEnriched[];
   onClickAddVideo: () => void;
-  onClickDeleteVideo: (url: string) => void;
+  onClickDeleteVideo: (videoId: string) => void;
 };
 
 const VideoUploadBox = ({
@@ -99,7 +99,7 @@ const VideoUploadBox = ({
                     variant={ButtonVariants.DANGER}
                     iconName={Icons.TRASH}
                     spacing={3}
-                    onClick={() => onClickDeleteVideo(url)}
+                    onClick={() => onClickDeleteVideo(id)}
                   >
                     {t('videos.delete')}
                   </Button>
