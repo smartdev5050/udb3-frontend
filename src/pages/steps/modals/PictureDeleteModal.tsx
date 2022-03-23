@@ -18,13 +18,11 @@ const PictureDeleteModal = ({ visible, onConfirm, onClose }: Props) => {
       visible={visible}
       onConfirm={onConfirm}
       onClose={onClose}
-      title={t('movies.create.picture.delete_modal.title')}
-      confirmTitle={t('movies.create.picture.delete_modal.actions.confirm')}
-      cancelTitle={t('movies.create.picture.delete_modal.actions.cancel')}
+      title={t('pictures.delete_modal.title')}
+      confirmTitle={t('pictures.delete_modal.actions.confirm')}
+      cancelTitle={t('pictures.delete_modal.actions.cancel')}
     >
-      <Box padding={4}>
-        {t('movies.create.picture.delete_modal.description')}
-      </Box>
+      <Box padding={4}>{t('pictures.delete_modal.description')}</Box>
     </Modal>
   );
 };
