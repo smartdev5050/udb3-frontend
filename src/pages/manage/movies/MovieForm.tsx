@@ -523,6 +523,9 @@ const MovieForm = () => {
             if (field === 'description') {
               setToastMessage(t('movies.create.toast.success.description'));
             }
+            if (field === 'video') {
+              setToastMessage(t('movies.create.toast.success.video'));
+            }
           },
         },
         title: t(`movies.create.step5.title`),
@@ -536,7 +539,7 @@ const MovieForm = () => {
         {t(`movies.create.title`)}
       </Page.Title>
 
-      <Page.Content spacing={5} paddingBottom={6} alignItems="flex-start">
+      <Page.Content spacing={5} alignItems="flex-start">
         <Toast
           variant="success"
           header={header}

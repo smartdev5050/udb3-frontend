@@ -21,7 +21,8 @@ const getFontWeight = (props) => {
 
 const getFontSize = (props) => {
   if (props.size === 1) return 1.6;
-  return 1.2;
+  if (props.size === 2) return 1.2;
+  return 1;
 };
 
 const getBorderBottom = (props) => {

@@ -552,11 +552,46 @@ const usePublish = (configuration = {}) =>
     ...configuration,
   });
 
+const addVideoToEvent = async ({ headers, eventId, url, language }) =>
+  fetchFromApi({
+    path: `/events/${eventId}/videos`,
+    options: {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        url,
+        language,
+      }),
+    },
+  });
+
+const useAddVideoToEvent = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: addVideoToEvent,
+    ...configuration,
+  });
+
+const deleteVideoFromEvent = async ({ headers, eventId, videoId }) =>
+  fetchFromApi({
+    path: `/events/${eventId}/videos/${videoId}`,
+    options: {
+      method: 'DELETE',
+      headers,
+    },
+  });
+
+const useDeleteVideoFromEvent = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: deleteVideoFromEvent,
+    ...configuration,
+  });
+
 export {
   useAddEvent,
   useAddEventMainImage,
   useAddImageToEvent,
   useAddLabel,
+  useAddVideoToEvent,
   useChangeCalendar,
   useChangeDescription,
   useChangeLocation,
@@ -567,6 +602,7 @@ export {
   useChangeTypicalAgeRange,
   useDeleteEventById,
   useDeleteImageFromEvent,
+  useDeleteVideoFromEvent,
   useGetCalendarSummary,
   useGetEventById,
   useGetEventsByCreator,

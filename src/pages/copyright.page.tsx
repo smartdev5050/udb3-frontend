@@ -97,7 +97,7 @@ const Copyright = () => {
   return (
     <Page>
       <Page.Title>Copyright</Page.Title>
-      <Page.Content spacing={5} paddingBottom={6}>
+      <Page.Content spacing={5}>
         {questionsAndAnswers.map(({ question, answer }) => (
           <Stack key={question} spacing={3}>
             <Title size={2}>{question}</Title>

@@ -56,7 +56,7 @@ type InlineProps = {
 };
 
 type TitleProps = {
-  size: 1 | 2;
+  size: 1 | 2 | 3;
 };
 
 type ListProps = {

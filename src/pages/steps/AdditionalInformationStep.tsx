@@ -5,8 +5,10 @@ import { useQueryClient } from 'react-query';
 import {
   useAddEventMainImage,
   useAddImageToEvent,
+  useAddVideoToEvent,
   useChangeDescription,
   useDeleteImageFromEvent,
+  useDeleteVideoFromEvent,
   useGetEventById,
   useUpdateImageFromEvent,
 } from '@/hooks/api/events';
@@ -19,29 +21,31 @@ import { Alert } from '@/ui/Alert';
 import { Box, parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
-import { Icons } from '@/ui/Icon';
-import { Image } from '@/ui/Image';
 import { Inline } from '@/ui/Inline';
 import { ProgressBar, ProgressBarVariants } from '@/ui/ProgressBar';
 import type { StackProps } from '@/ui/Stack';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { TextArea } from '@/ui/TextArea';
-import { getValueFromTheme } from '@/ui/theme';
 import { parseOfferId } from '@/utils/parseOfferId';
 
+import type { ImageType } from '../PictureUploadBox';
+import { PictureUploadBox } from '../PictureUploadBox';
+import { VideoLinkAddModal } from '../VideoLinkAddModal';
+import { VideoLinkDeleteModal } from '../VideoLinkDeleteModal';
+import type { Video, VideoEnriched } from '../VideoUploadBox';
+import { VideoUploadBox } from '../VideoUploadBox';
+
 const IDEAL_DESCRIPTION_LENGTH = 200;
-
-const getValue = getValueFromTheme('createPage');
-
-type Field = 'description' | 'image';
 
 const AdditionalInformationStepVariant = {
   MINIMAL: 'minimal',
   EXTENDED: 'extended',
 } as const;
 
-type AdditionalInformationStepProps = StackProps & {
+type Field = 'description' | 'image' | 'video';
+
+type Props = StackProps & {
   eventId: string;
   onSuccess: (field: Field) => void;
   variant?: Values<typeof AdditionalInformationStepVariant>;
@@ -52,9 +56,10 @@ const AdditionalInformationStep = ({
   onSuccess,
   variant,
   ...props
-}: AdditionalInformationStepProps) => {
+}: Props) => {
   const queryClient = useQueryClient();
   const { t, i18n } = useTranslation();
+
   const [
     isPictureUploadModalVisible,
     setIsPictureUploadModalVisible,
@@ -63,12 +68,71 @@ const AdditionalInformationStep = ({
     isPictureDeleteModalVisible,
     setIsPictureDeleteModalVisible,
   ] = useState(false);
+  const [isVideoLinkAddModalVisible, setIsVideoLinkAddModalVisible] = useState(
+    false,
+  );
+  const [
+    isVideoLinkDeleteModalVisible,
+    setIsVideoLinkDeleteModalVisible,
+  ] = useState(false);
 
   const [description, setDescription] = useState('');
   const [imageToEditId, setImageToEditId] = useState('');
   const [imageToDeleteId, setImageToDeleteId] = useState('');
+  const [videoToDeleteId, setVideoToDeleteId] = useState('');
+
+  const [videos, setVideos] = useState([]);
 
   const getEventByIdQuery = useGetEventById({ id: eventId });
+
+  const addImageToEventMutation = useAddImageToEvent({
+    onSuccess: async () => {
+      setIsPictureUploadModalVisible(false);
+      await invalidateEventQuery('image');
+    },
+  });
+
+  const handleSuccessAddImage = ({ imageId }) => {
+    return addImageToEventMutation.mutate({ eventId, imageId });
+  };
+
+  const addImageMutation = useAddImage({
+    onSuccess: handleSuccessAddImage,
+  });
+
+  const addEventMainImageMutation = useAddEventMainImage({
+    onSuccess: async () => {
+      await invalidateEventQuery('image');
+    },
+  });
+
+  const updateImageFromEventMutation = useUpdateImageFromEvent({
+    onSuccess: async () => {
+      setIsPictureUploadModalVisible(false);
+      await invalidateEventQuery('image');
+    },
+  });
+
+  const deleteImageFromEventMutation = useDeleteImageFromEvent({
+    onSuccess: async () => {
+      setIsPictureUploadModalVisible(false);
+      await invalidateEventQuery('image');
+    },
+  });
+
+  const addVideoToEventMutation = useAddVideoToEvent({
+    onSuccess: async () => {
+      setIsVideoLinkDeleteModalVisible(false);
+      await invalidateEventQuery('video');
+    },
+  });
+
+  const deleteVideoFromEventMutation = useDeleteVideoFromEvent({
+    onSuccess: async () => {
+      setIsVideoLinkDeleteModalVisible(false);
+      await invalidateEventQuery('video');
+    },
+  });
 
   useEffect(() => {
     // @ts-expect-error
@@ -78,6 +142,29 @@ const AdditionalInformationStep = ({
     // @ts-expect-error
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getEventByIdQuery.data?.description]);
+
+  useEffect(() => {
+    if (variant !== AdditionalInformationStepVariant.EXTENDED) {
+      return;
+    }
+
+    if (
+      // @ts-expect-error
+      !getEventByIdQuery.data?.videos ||
+      // @ts-expect-error
+      getEventByIdQuery.data.videos.length === 0
+    ) {
+      setVideos([]);
+      return;
+    }
+
+    // @ts-expect-error
+    enrichVideos(getEventByIdQuery.data.videos as Video[]);
+  }, [
+    // @ts-expect-error
+    getEventByIdQuery.data?.videos,
+    variant,
+  ]);
 
   const images = useMemo(() => {
     // @ts-expect-error
@@ -94,11 +181,52 @@ const AdditionalInformationStep = ({
     return [
       ...parsedMediaObjects.filter((mediaObject) => mediaObject.isMain),
       ...parsedMediaObjects.filter((mediaObject) => !mediaObject.isMain),
-    ];
+    ] as ImageType[];
   }, [
     // @ts-expect-error
     getEventByIdQuery.data,
   ]);
+
+  const enrichVideos = async (video: Video[]) => {
+    const getYoutubeThumbnailUrl = (videoUrl: string) => {
+      return `https://i.ytimg.com/vi_webp/${
+        videoUrl.split('v=')[1]
+      }/maxresdefault.webp`;
+    };
+
+    const getVimeoThumbnailUrl = async (videoUrl: string) => {
+      const urlParts = videoUrl.split('/');
+      const videoId = videoUrl.endsWith('/')
+        ? urlParts[urlParts.length - 2]
+        : urlParts[urlParts.length - 1];
+
+      const response = await fetch(
+        `http://vimeo.com/api/v2/video/${videoId}.json`,
+      );
+
+      const data = await response.json();
+
+      return data?.[0]?.thumbnail_small;
+    };
+
+    const convertAllVideoUrlsPromises = video.map(async ({ url, ...video }) => {
+      const thumbnailUrl = url.includes('youtube')
+        ? getYoutubeThumbnailUrl(url)
+        : await getVimeoThumbnailUrl(url);
+
+      const enrichedVideo: VideoEnriched = {
+        ...video,
+        url,
+        thumbnailUrl,
+      };
+
+      return enrichedVideo;
+    });
+
+    const data = await Promise.all(convertAllVideoUrlsPromises);
+
+    setVideos(data);
+  };
 
   const eventTypeId = useMemo(() => {
     // @ts-expect-error
@@ -129,50 +257,16 @@ const AdditionalInformationStep = ({
     onSuccess(field);
   };
 
-  const handleSuccessAddImage = ({ imageId }) =>
-    addImageToEventMutation.mutate({ eventId, imageId });
-
   const changeDescriptionMutation = useChangeDescription({
     onSuccess: async () => {
       await invalidateEventQuery('description');
     },
   });
 
-  const addImageMutation = useAddImage({
-    onSuccess: handleSuccessAddImage,
-  });
-
-  const addImageToEventMutation = useAddImageToEvent({
-    onSuccess: async () => {
-      setIsPictureUploadModalVisible(false);
-      await invalidateEventQuery('image');
-    },
-  });
-
-  const addEventMainImageMutation = useAddEventMainImage({
-    onSuccess: async () => {
-      await invalidateEventQuery('image');
-    },
-  });
-
-  const updateImageFromEventMutation = useUpdateImageFromEvent({
-    onSuccess: async () => {
-      setIsPictureUploadModalVisible(false);
-      await invalidateEventQuery('image');
-    },
-  });
-
-  const handleSuccessDeleteImage = invalidateEventQuery;
-
-  const deleteImageFromEventMutation = useDeleteImageFromEvent({
-    onSuccess: handleSuccessDeleteImage,
-  });
-
   const handleClickAddImage = () => {
     setImageToEditId(undefined);
     setIsPictureUploadModalVisible(true);
   };
-  const handleCloseModal = () => setIsPictureUploadModalVisible(false);
 
   const handleClickEditImage = (imageId: string) => {
     setImageToEditId(imageId);
@@ -187,9 +281,28 @@ const AdditionalInformationStep = ({
   const handleClickSetMainImage = (imageId: string) =>
     addEventMainImageMutation.mutate({ eventId, imageId });
 
-  const handleConfirmDelete = (imageId: string) => {
+  const handleConfirmDeleteImage = (imageId: string) => {
     deleteImageFromEventMutation.mutate({ eventId, imageId });
     setIsPictureDeleteModalVisible(false);
+  };
+
+  const handleAddVideoLink = (url: string) => {
+    addVideoToEventMutation.mutate({
+      eventId,
+      url,
+      language: i18n.language,
+    });
+    setIsVideoLinkAddModalVisible(false);
+  };
+
+  const handleDeleteVideoLink = (videoId: string) => {
+    setVideoToDeleteId(videoId);
+    setIsVideoLinkDeleteModalVisible(true);
+  };
+
+  const handleConfirmDeleteVideo = (videoId: string) => {
+    deleteVideoFromEventMutation.mutate({ eventId, videoId });
+    setIsVideoLinkDeleteModalVisible(false);
   };
 
   const handleSubmitValid = async ({
@@ -298,19 +411,33 @@ const AdditionalInformationStep = ({
   );
 
   return (
-    <Box>
+    <Stack {...getStackProps(props)}>
       <PictureUploadModal
         visible={isPictureUploadModalVisible}
-        onClose={handleCloseModal}
+        onClose={() => setIsPictureUploadModalVisible(false)}
         imageToEdit={imageToEdit}
         onSubmitValid={handleSubmitValid}
       />
       <PictureDeleteModal
         visible={isPictureDeleteModalVisible}
-        onConfirm={() => handleConfirmDelete(imageToDeleteId)}
+        onConfirm={() => handleConfirmDeleteImage(imageToDeleteId)}
         onClose={() => setIsPictureDeleteModalVisible(false)}
       />
-      <Inline spacing={6} alignItems="flex-start">
+      <VideoLinkAddModal
+        visible={isVideoLinkAddModalVisible}
+        onConfirm={handleAddVideoLink}
+        onClose={() => setIsVideoLinkAddModalVisible(false)}
+      />
+      <VideoLinkDeleteModal
+        visible={isVideoLinkDeleteModalVisible}
+        onConfirm={() => handleConfirmDeleteVideo(videoToDeleteId)}
+        onClose={() => setIsVideoLinkDeleteModalVisible(false)}
+      />
+      <Inline
+        spacing={6}
+        alignItems={{ default: 'flex-start', m: 'normal' }}
+        stackOn="m"
+      >
         <Stack spacing={3} flex={1}>
           <FormElement
             id="create-description"
@@ -326,112 +453,24 @@ const AdditionalInformationStep = ({
             info={<DescriptionInfo />}
           />
         </Stack>
-        <Stack
-          flex={1}
-          spacing={4}
-          padding={4}
-          backgroundColor={getValue('pictureUploadBox.backgroundColor')}
-          justifyContent="center"
-          css={`
-            border: 1px solid ${getValue('pictureUploadBox.borderColor')};
-          `}
-          {...props}
-        >
-          <Stack
-            spacing={2}
-            maxHeight={380}
-            css={`
-              overflow: auto;
-            `}
-          >
-            {images.map((image, index, imagesArr) => {
-              const thumbnailSize = 80;
-              const isLastItem = index === imagesArr.length - 1;
-              return (
-                <Stack
-                  key={image.parsedId}
-                  spacing={4}
-                  padding={4}
-                  backgroundColor={
-                    image.isMain
-                      ? getValue('pictureUploadBox.mainImageBackgroundColor')
-                      : 'none'
-                  }
-                  css={`
-                    border-bottom: 1px solid
-                      ${image.isMain
-                        ? getValue('pictureUploadBox.mainImageBorderColor')
-                        : `${
-                            isLastItem
-                              ? 'none'
-                              : getValue('pictureUploadBox.imageBorderColor')
-                          }`};
-                  `}
-                >
-                  <Inline spacing={4} alignItems="center">
-                    <Image
-                      src={`${image.thumbnailUrl}?width=${thumbnailSize}&height=${thumbnailSize}`}
-                      alt={image.description}
-                      width={thumbnailSize}
-                      height={thumbnailSize}
-                      css={`
-                        border: 1px solid
-                          ${getValue('pictureUploadBox.thumbnailBorderColor')};
-                      `}
-                    />
-                    <Stack spacing={2}>
-                      <Text>{image.description}</Text>
-                      <Text variant={TextVariants.MUTED}>
-                        © {image.copyrightHolder}
-                      </Text>
-                    </Stack>
-                  </Inline>
-                  <Inline spacing={3}>
-                    <Button
-                      variant={ButtonVariants.PRIMARY}
-                      iconName={Icons.PENCIL}
-                      spacing={3}
-                      onClick={() => handleClickEditImage(image.parsedId)}
-                    >
-                      {t('create.additionalInformation.picture.change')}
-                    </Button>
-                    <Button
-                      variant={ButtonVariants.DANGER}
-                      iconName={Icons.TRASH}
-                      spacing={3}
-                      onClick={() => handleClickDeleteImage(image.parsedId)}
-                    >
-                      {t('create.additionalInformation.picture.delete')}
-                    </Button>
-                    {!image.isMain && (
-                      <Button
-                        variant={ButtonVariants.SECONDARY}
-                        onClick={() => handleClickSetMainImage(image.parsedId)}
-                      >
-                        {t(
-                          'create.additionalInformation.picture.set_as_main_image',
-                        )}
-                      </Button>
-                    )}
-                  </Inline>
-                </Stack>
-              );
-            })}
-          </Stack>
-          <Stack alignItems="center" padding={4} spacing={3}>
-            <Text variant={TextVariants.MUTED} textAlign="center">
-              {t('create.additionalInformation.picture.intro')}
-            </Text>
-            <Button
-              variant={ButtonVariants.SECONDARY}
-              onClick={handleClickAddImage}
-            >
-              {t('create.additionalInformation.picture.add_button')}
-            </Button>
-          </Stack>
+        <Stack spacing={4} flex={1}>
+          <PictureUploadBox
+            images={images}
+            onClickEditImage={handleClickEditImage}
+            onClickDeleteImage={handleClickDeleteImage}
+            onClickSetMainImage={handleClickSetMainImage}
+            onClickAddImage={handleClickAddImage}
+          />
+          {variant === AdditionalInformationStepVariant.EXTENDED && (
+            <VideoUploadBox
+              videos={videos}
+              onClickAddVideo={() => setIsVideoLinkAddModalVisible(true)}
+              onClickDeleteVideo={handleDeleteVideoLink}
+            />
+          )}
         </Stack>
       </Inline>
-    </Box>
+    </Stack>
   );
 };
 
