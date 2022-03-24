@@ -369,6 +369,7 @@
         "save": "Bewaren",
         "free": "Gratis",
         "add": "Tarief toevoegen",
+        "delete": "Tarief verwijderen",
         "basic_rate": "Basistarief"
       }
     }
