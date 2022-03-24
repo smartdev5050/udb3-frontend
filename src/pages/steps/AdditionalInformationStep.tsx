@@ -5,6 +5,7 @@ import { useQueryClient } from 'react-query';
 import {
   useAddEventMainImage,
   useAddImageToEvent,
+  useAddPriceInfo,
   useChangeDescription,
   useDeleteImageFromEvent,
   useGetEventById,
@@ -14,6 +15,7 @@ import { useAddImage } from '@/hooks/api/images';
 import { PictureDeleteModal } from '@/pages/steps/modals/PictureDeleteModal';
 import type { FormData } from '@/pages/steps/modals/PictureUploadModal';
 import { PictureUploadModal } from '@/pages/steps/modals/PictureUploadModal';
+import type { FormData as PriceInfoFormData } from '@/pages/steps/modals/PriceInfoModal';
 import { Alert } from '@/ui/Alert';
 import { Box, parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
@@ -28,6 +30,8 @@ import { Text, TextVariants } from '@/ui/Text';
 import { TextArea } from '@/ui/TextArea';
 import { getValueFromTheme } from '@/ui/theme';
 import { parseOfferId } from '@/utils/parseOfferId';
+
+import { PriceInfoModal } from './modals/PriceInfoModal';
 
 const IDEAL_DESCRIPTION_LENGTH = 200;
 
@@ -55,6 +59,8 @@ const AdditionalInformationStep = ({
     isPictureDeleteModalVisible,
     setIsPictureDeleteModalVisible,
   ] = useState(false);
+
+  const [isPriceInfoModalVisible, setIsPriceInfoModalVisible] = useState(false);
 
   const [description, setDescription] = useState('');
   const [imageToEditId, setImageToEditId] = useState('');
@@ -208,6 +214,25 @@ const AdditionalInformationStep = ({
     });
   };
 
+  const addPriceInfoMutation = useAddPriceInfo({
+    onSuccess: handleSuccessAddImage,
+  });
+
+  const handlePriceInfoSubmitValid = async ({ rates }: PriceInfoFormData) => {
+    const convertedPriceInfo = rates.map((rate) => {
+      return {
+        ...rate,
+        name: { [`${i18n.language}`]: rate.name },
+        price: parseFloat(rate.price.replace(',', '.')),
+      };
+    });
+
+    await addPriceInfoMutation.mutateAsync({
+      eventId,
+      priceInfo: convertedPriceInfo,
+    });
+  };
+
   const handleBlurDescription = () => {
     if (!description) return;
 
@@ -302,6 +327,11 @@ const AdditionalInformationStep = ({
         onConfirm={() => handleConfirmDelete(imageToDeleteId)}
         onClose={() => setIsPictureDeleteModalVisible(false)}
       />
+      <PriceInfoModal
+        visible={isPriceInfoModalVisible}
+        onClose={() => setIsPriceInfoModalVisible(false)}
+        onSubmitValid={handlePriceInfoSubmitValid}
+      />
       <Inline spacing={6} alignItems="flex-start">
         <Stack spacing={3} flex={1}>
           <FormElement
@@ -317,6 +347,9 @@ const AdditionalInformationStep = ({
             }
             info={<DescriptionInfo />}
           />
+          <Button onClick={() => setIsPriceInfoModalVisible(true)}>
+            {t('create.additionalInformation.price_info.title')}
+          </Button>
         </Stack>
         <Stack
           flex={1}

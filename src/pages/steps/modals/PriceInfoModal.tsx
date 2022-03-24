@@ -34,6 +34,12 @@ type Rate = {
 
 type FormData = { rates: Rate[] };
 
+type PriceInfoModalProps = {
+  visible: boolean;
+  onClose: () => void;
+  onSubmitValid: (data: FormData) => Promise<void>;
+};
+
 const isNotUitpas = (value: string): boolean => {
   return value.toLowerCase() !== 'uitpas';
 };
@@ -58,7 +64,11 @@ const schema = yup
   })
   .required();
 
-const PriceInfoModal = ({ visible, onClose }: any) => {
+const PriceInfoModal = ({
+  visible,
+  onClose,
+  onSubmitValid,
+}: PriceInfoModalProps) => {
   const { t } = useTranslation();
   const formComponent = useRef<HTMLFormElement>();
   const [hasGlobalError, setHasGlobalError] = useState(false);
@@ -85,7 +95,7 @@ const PriceInfoModal = ({ visible, onClose }: any) => {
     },
   });
 
-  const watchedRates = watch('rates');
+  const watchedRates = watch('rates') ?? [];
 
   const handleClickAddRate = () => {
     setValue('rates', [
@@ -148,8 +158,7 @@ const PriceInfoModal = ({ visible, onClose }: any) => {
         as="form"
         padding={4}
         onSubmit={handleSubmit(async (data) => {
-          console.log({ data });
-          reset({});
+          await onSubmitValid(data);
         })}
         ref={formComponent}
       >
@@ -256,3 +265,4 @@ const PriceInfoModal = ({ visible, onClose }: any) => {
 };
 
 export { PriceInfoModal };
+export type { FormData };
