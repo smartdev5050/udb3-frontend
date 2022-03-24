@@ -10,6 +10,8 @@ import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
+const THUMBNAIL_SIZE = 80;
+
 const getValue = getValueFromTheme('pictureUploadBox');
 
 type ImageType = {
@@ -61,7 +63,6 @@ const PictureUploadBox = ({
           `}
         >
           {images.map((image, index, imagesArr) => {
-            const thumbnailSize = 80;
             const isLastItem = index === imagesArr.length - 1;
             return (
               <Stack
@@ -82,10 +83,10 @@ const PictureUploadBox = ({
               >
                 <Inline spacing={4} alignItems="center">
                   <Image
-                    src={`${image.thumbnailUrl}?width=${thumbnailSize}&height=${thumbnailSize}`}
+                    src={`${image.thumbnailUrl}?width=${THUMBNAIL_SIZE}&height=${THUMBNAIL_SIZE}`}
                     alt={image.description}
-                    width={thumbnailSize}
-                    height={thumbnailSize}
+                    width={THUMBNAIL_SIZE}
+                    height={THUMBNAIL_SIZE}
                     css={`
                       border: 1px solid ${getValue('thumbnailBorderColor')};
                     `}
