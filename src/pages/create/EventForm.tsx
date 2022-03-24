@@ -9,6 +9,7 @@ import type { StepsConfiguration } from '@/pages/Steps';
 import { Steps } from '@/pages/Steps';
 import { Page } from '@/ui/Page';
 
+import { AdditionalInformationStep } from '../steps/AdditionalInformationStep';
 import { CalendarStep } from './CalendarStep';
 import { ThemeStep } from './ThemeStep';
 import { TypeStep } from './TypeStep';
@@ -52,6 +53,13 @@ const EventForm = () => {
         Component: CalendarStep,
         field: 'calendar',
         title: t(`event.create.calendar.title`),
+      },
+      {
+        Component: AdditionalInformationStep,
+        title: t(`event.create.additionalInformation.title`),
+        additionalProps: {
+          eventId: '73a5663a-2368-4c9f-a3cc-390076399108',
+        },
       },
     ];
   }, [t]);
