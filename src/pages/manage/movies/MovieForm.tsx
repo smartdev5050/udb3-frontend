@@ -168,8 +168,13 @@ const nextWeekWednesday = nextWednesday(new Date());
 const formatDate = (date: Date) => format(date, 'dd/MM/yyyy');
 
 const usePublishEvent = ({ id, onSuccess }) => {
+  const queryClient = useQueryClient();
+
   const publishMutation = usePublishMutation({
-    onSuccess,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['events', { id }]);
+      onSuccess();
+    },
   });
 
   return async (date: Date = new Date()) => {
@@ -254,6 +259,7 @@ const useAddEvent = ({ onSuccess }) => {
 };
 
 const useEditField = ({ onSuccess, id, handleSubmit }) => {
+  const queryClient = useQueryClient();
   const [fieldLoading, setFieldLoading] = useState<keyof FormData>();
 
   const getEventByIdQuery = useGetEventByIdQuery({ id });
@@ -263,20 +269,27 @@ const useEditField = ({ onSuccess, id, handleSubmit }) => {
 
   const deleteEventFromProductionByIdMutation = useDeleteEventFromProductionById();
 
+  const handleSuccess = (editedField: string) => {
+    onSuccess(editedField);
+    if (editedField !== 'timeTable') {
+      queryClient.invalidateQueries(['events', { id }]);
+    }
+  };
+
   const changeThemeMutation = useChangeThemeMutation({
-    onSuccess: () => onSuccess('theme'),
+    onSuccess: () => handleSuccess('theme'),
   });
 
   const changeLocationMutation = useChangeLocationMutation({
-    onSuccess: () => onSuccess('cinema'),
+    onSuccess: () => handleSuccess('cinema'),
   });
 
   const changeCalendarMutation = useChangeCalendarMutation({
-    onSuccess: () => onSuccess('calendar'),
+    onSuccess: () => handleSuccess('calendar'),
   });
 
   const changeNameMutation = useChangeNameMutation({
-    onSuccess: () => onSuccess('name'),
+    onSuccess: () => handleSuccess('name'),
   });
 
   const editEvent = async (
@@ -441,7 +454,6 @@ const MovieForm = () => {
   const publishEvent = usePublishEvent({
     id: newEventId,
     onSuccess: () => {
-      queryClient.invalidateQueries(['events', { id: newEventId }]);
       router.push(`/event/${newEventId}/preview`);
     },
   });
@@ -453,13 +465,7 @@ const MovieForm = () => {
   const { handleChange, fieldLoading } = useEditField({
     id: newEventId,
     handleSubmit,
-    onSuccess: (editedField: string) => {
-      toast.trigger(editedField);
-
-      if (editedField !== 'timeTable') {
-        queryClient.invalidateQueries(['events', { id: newEventId }]);
-      }
-    },
+    onSuccess: toast.trigger,
   });
 
   const [isPublishLaterModalVisible, setIsPublishLaterModalVisible] = useState(
