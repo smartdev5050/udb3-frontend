@@ -360,7 +360,32 @@ const useEditField = ({ onSuccess, id, handleSubmit }) => {
     )();
   };
 
-  return [handleChange, fieldLoading] as const;
+  return { handleChange, fieldLoading };
+};
+
+const useToast = ({ messages, title }) => {
+  const [toastMessage, setToastMessage] = useState<string>();
+
+  const clearToast = () => setToastMessage(undefined);
+
+  const triggerToast = (key: string) => {
+    const message = messages[key];
+    if (!key) return;
+    setToastMessage(message);
+  };
+
+  const toastHeader = useMemo(
+    () => (
+      <Inline as="div" flex={1} justifyContent="space-between">
+        <Text>{title}</Text>
+        <Text>{format(new Date(), 'HH:mm')}</Text>
+      </Inline>
+    ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [toastMessage],
+  );
+
+  return { toastMessage, toastHeader, clearToast, triggerToast };
 };
 
 const MovieForm = () => {
@@ -396,9 +421,21 @@ const MovieForm = () => {
   const [newEventId, setNewEventId] = useState(
     (router.query.eventId as string) ?? '',
   );
-  const [toastMessage, setToastMessage] = useState<string>();
 
   const getEventByIdQuery = useGetEventByIdQuery({ id: newEventId });
+
+  const { toastMessage, toastHeader, triggerToast, clearToast } = useToast({
+    messages: {
+      image: t('movies.create.toast.success.image'),
+      description: t('movies.create.toast.success.description'),
+      video: t('movies.create.toast.success.video'),
+      theme: t('movies.create.toast.success.theme'),
+      cinema: t('movies.create.toast.success.cinema'),
+      timeslot: t('movies.create.toast.success.timeslot'),
+      name: t('movies.create.toast.success.name'),
+    },
+    title: t('movies.create.toast.success.title'),
+  });
 
   const publishEvent = usePublishEvent({
     id: newEventId,
@@ -412,7 +449,7 @@ const MovieForm = () => {
     onSuccess: setNewEventId,
   });
 
-  const [handleChange, fieldLoading] = useEditField({
+  const { handleChange, fieldLoading } = useEditField({
     id: newEventId,
     handleSubmit,
     onSuccess: (editedField: string) => {
@@ -485,39 +522,8 @@ const MovieForm = () => {
     }
   }, [footerStatus]);
 
-  const header = useMemo(
-    () => (
-      <Inline as="div" flex={1} justifyContent="space-between">
-        <Text>{t('movies.create.toast.success.title')}</Text>
-        <Text>{format(new Date(), 'HH:mm')}</Text>
-      </Inline>
-    ),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [toastMessage],
-  );
   const watchedTimeTable = watch('timeTable');
   const watchedPlace = watch('place');
-
-  const triggerToast = useCallback(
-    (editedField: string) => {
-      const toastMessageMap = {
-        image: t('movies.create.toast.success.image'),
-        description: t('movies.create.toast.success.description'),
-        video: t('movies.create.toast.success.video'),
-        theme: t('movies.create.toast.success.theme'),
-        cinema: t('movies.create.toast.success.cinema'),
-        timeslot: t('movies.create.toast.success.timeslot'),
-        name: t('movies.create.toast.success.name'),
-      };
-
-      const toastMessage = toastMessageMap[editedField];
-
-      if (toastMessage) {
-        setToastMessage(toastMessage);
-      }
-    },
-    [t, setToastMessage],
-  );
 
   const configuration: StepsConfiguration<FormData> = useMemo(() => {
     return [
@@ -568,10 +574,10 @@ const MovieForm = () => {
       <Page.Content spacing={5} alignItems="flex-start">
         <Toast
           variant="success"
-          header={header}
+          header={toastHeader}
           body={toastMessage}
           visible={!!toastMessage}
-          onClose={() => setToastMessage(undefined)}
+          onClose={clearToast}
         />
         <Steps<FormData>
           configuration={configuration}
