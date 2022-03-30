@@ -151,7 +151,7 @@
   },
   "create": {
     "publish_modal": {
-      "title": "Een latere publicatiedatum kiezen",
+      "title": "Choisissez une date de publication",
       "description": "A partir de quand l'activité peut-elle apparaître en ligne?",
       "warning": "Attention, vous ne pouvez définir cette date qu'une seule fois.",
       "actions": {
