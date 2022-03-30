@@ -466,14 +466,6 @@ const MovieForm = () => {
     false,
   );
 
-  const availableFromDate = useMemo(() => {
-    // @ts-expect-error
-    if (!getEventByIdQuery.data?.availableFrom) return;
-    // @ts-expect-error
-    return new Date(getEventByIdQuery.data?.availableFrom);
-    // @ts-expect-error
-  }, [getEventByIdQuery.data]);
-
   useEffect(() => {
     // @ts-expect-error
     const event: Event = getEventByIdQuery.data;
@@ -503,14 +495,18 @@ const MovieForm = () => {
   }, [getEventByIdQuery.data]);
 
   const footerStatus = useMemo(() => {
-    if (router.route.includes('edit')) return FooterStatus.AUTO_SAVE;
     if (queryClient.isMutating()) return FooterStatus.HIDDEN;
-    if (newEventId && !availableFromDate) return FooterStatus.PUBLISH;
+    // @ts-expect-error
+    if (newEventId && !getEventByIdQuery.data?.availableFrom) {
+      return FooterStatus.PUBLISH;
+    }
+    if (router.route.includes('edit')) return FooterStatus.AUTO_SAVE;
     if (dirtyFields.place) return FooterStatus.MANUAL_SAVE;
     return FooterStatus.HIDDEN;
   }, [
     newEventId,
-    availableFromDate,
+    // @ts-expect-error
+    getEventByIdQuery.data?.availableFrom,
     dirtyFields.place,
     queryClient,
     router.route,
