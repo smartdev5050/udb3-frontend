@@ -4,12 +4,12 @@ import { useTranslation } from 'react-i18next';
 
 import { QueryStatus } from '@/hooks/api/authenticated-query';
 import {
-  useAddEventsByIds,
-  useCreateWithEvents,
-  useGetProductions,
-  useGetSuggestedEvents,
-  useMergeProductions,
-  useSkipSuggestedEvents,
+  useAddEventsByIdsMutation,
+  useCreateWithEventsMutation,
+  useGetProductionsQuery,
+  useGetSuggestedEventsQuery,
+  useMergeProductionsMutation,
+  useSkipSuggestedEventsMutation,
 } from '@/hooks/api/productions';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
@@ -38,9 +38,9 @@ const Create = () => {
   const [selectedProductionId, setSelectedProductionId] = useState('');
   const typeaheadComponent = useRef();
 
-  const getSuggestedEventsQuery = useGetSuggestedEvents({ retry: false });
+  const getSuggestedEventsQuery = useGetSuggestedEventsQuery({ retry: false });
 
-  const getProductionsQuery = useGetProductions({
+  const getProductionsQuery = useGetProductionsQuery({
     name: searchInput,
     paginationOptions: { limit: 10 },
   });
@@ -52,19 +52,19 @@ const Create = () => {
     typeaheadComponent?.current?.clear();
   };
 
-  const skipSuggestedEventsMutation = useSkipSuggestedEvents({
+  const skipSuggestedEventsMutation = useSkipSuggestedEventsMutation({
     onSuccess: handleSuccess,
   });
 
-  const createProductionWithEventsMutation = useCreateWithEvents({
+  const createProductionWithEventsMutation = useCreateWithEventsMutation({
     onSuccess: handleSuccess,
   });
 
-  const mergeProductionsMutation = useMergeProductions({
+  const mergeProductionsMutation = useMergeProductionsMutation({
     onSuccess: handleSuccess,
   });
 
-  const addEventsByIdsMutation = useAddEventsByIds({
+  const addEventsByIdsMutation = useAddEventsByIdsMutation({
     onSuccess: handleSuccess,
   });
 

@@ -4,9 +4,9 @@ import { dehydrate } from 'react-query/hydration';
 import { CalendarType } from '@/constants/CalendarType';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
 import {
-  useChangeStatus,
-  useChangeStatusSubEvents,
-  useGetEventById,
+  useChangeStatusMutation,
+  useChangeStatusSubEventsMutation,
+  useGetEventByIdQuery,
 } from '@/hooks/api/events';
 import { AvailabilityPageMultiple } from '@/pages/AvailabilityPageMultiple';
 import { AvailabilityPageSingle } from '@/pages/AvailabilityPageSingle';
@@ -17,7 +17,7 @@ const Availability = () => {
   const router = useRouter();
   const { eventId } = router.query;
 
-  const getEventByIdQuery = useGetEventById({ id: eventId });
+  const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
 
   const event = getEventByIdQuery.data;
 
@@ -37,10 +37,10 @@ const Availability = () => {
     <AvailabilityPageSingle
       offer={event}
       error={getEventByIdQuery.error}
-      useChangeStatus={
+      useChangeStatusMutation={
         event.calendarType === CalendarType.SINGLE
-          ? useChangeStatusSubEvents
-          : useChangeStatus
+          ? useChangeStatusSubEventsMutation
+          : useChangeStatusMutation
       }
     />
   );
@@ -49,7 +49,7 @@ const Availability = () => {
 export const getServerSideProps = getApplicationServerSideProps(
   async ({ req, query, cookies, queryClient }) => {
     const { eventId } = query;
-    await useGetEventById({ req, queryClient, id: eventId });
+    await useGetEventByIdQuery({ req, queryClient, id: eventId });
 
     return {
       props: {

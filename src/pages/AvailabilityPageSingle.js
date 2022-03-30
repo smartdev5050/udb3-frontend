@@ -20,7 +20,7 @@ import { parseOfferType } from '@/utils/parseOfferType';
 
 const getValue = getValueFromTheme('statusPage');
 
-const AvailabilityPageSingle = ({ offer, error, useChangeStatus }) => {
+const AvailabilityPageSingle = ({ offer, error, useChangeStatusMutation }) => {
   const { t, i18n } = useTranslation();
   const router = useRouter();
 
@@ -60,7 +60,7 @@ const AvailabilityPageSingle = ({ offer, error, useChangeStatus }) => {
 
   const handleSuccess = () => router.push(`/${offerType}/${offerId}/preview`);
 
-  const changeStatusMutation = useChangeStatus({
+  const changeStatusMutation = useChangeStatusMutation({
     onSuccess: handleSuccess,
   });
 
@@ -171,7 +171,7 @@ const AvailabilityPageSingle = ({ offer, error, useChangeStatus }) => {
 AvailabilityPageSingle.propTypes = {
   offer: PropTypes.object.isRequired,
   error: PropTypes.object,
-  useChangeStatus: PropTypes.func.isRequired,
+  useChangeStatusMutation: PropTypes.func.isRequired,
 };
 
 export { AvailabilityPageSingle };
