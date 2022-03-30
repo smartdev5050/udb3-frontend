@@ -416,18 +416,7 @@ const MovieForm = () => {
     id: newEventId,
     handleSubmit,
     onSuccess: (editedField: string) => {
-      const toastMessageMap = {
-        theme: t('movies.create.toast.success.theme'),
-        cinema: t('movies.create.toast.success.cinema'),
-        timeslot: t('movies.create.toast.success.timeslot'),
-        name: t('movies.create.toast.success.name'),
-      };
-
-      const toastMessage = toastMessageMap[editedField];
-
-      if (toastMessage) {
-        setToastMessage(toastMessage);
-      }
+      triggerToast(editedField);
 
       if (editedField !== 'timeTable') {
         queryClient.invalidateQueries(['events', { id: newEventId }]);
@@ -509,6 +498,24 @@ const MovieForm = () => {
   const watchedTimeTable = watch('timeTable');
   const watchedPlace = watch('place');
 
+  const triggerToast = (editedField: string) => {
+    const toastMessageMap = {
+      image: t('movies.create.toast.success.image'),
+      description: t('movies.create.toast.success.description'),
+      video: t('movies.create.toast.success.video'),
+      theme: t('movies.create.toast.success.theme'),
+      cinema: t('movies.create.toast.success.cinema'),
+      timeslot: t('movies.create.toast.success.timeslot'),
+      name: t('movies.create.toast.success.name'),
+    };
+
+    const toastMessage = toastMessageMap[editedField];
+
+    if (toastMessage) {
+      setToastMessage(toastMessage);
+    }
+  };
+
   const configuration: StepsConfiguration<FormData> = useMemo(() => {
     return [
       {
@@ -542,17 +549,7 @@ const MovieForm = () => {
         additionalProps: {
           variant: AdditionalInformationStepVariant.MINIMAL,
           eventId: newEventId,
-          onSuccess: (field: string) => {
-            if (field === 'image') {
-              setToastMessage(t('movies.create.toast.success.image'));
-            }
-            if (field === 'description') {
-              setToastMessage(t('movies.create.toast.success.description'));
-            }
-            if (field === 'video') {
-              setToastMessage(t('movies.create.toast.success.video'));
-            }
-          },
+          onSuccess: triggerToast,
         },
         title: t(`movies.create.step5.title`),
       },
