@@ -230,7 +230,7 @@ const PriceInfoModal = ({
                     margin-right: ${parseSpacing(3)};
                   `}
                 >
-                  euro
+                  {t('create.additionalInformation.price_info.euro')}
                 </Text>
                 {!isPriceFree(rate.price) && (
                   <Button

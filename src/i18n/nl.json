@@ -364,6 +364,7 @@
         "set_as_main_image": "Maak hoofdafbeelding"
       },
       "price_info": {
+        "euro": "euro",
         "title": "Prijzen toevoegen",
         "close": "Sluiten",
         "save": "Bewaren",
