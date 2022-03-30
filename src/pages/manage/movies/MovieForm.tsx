@@ -167,40 +167,29 @@ const convertSubEventsToTimeTable = (subEvents: SubEvent[] = []) => {
 const nextWeekWednesday = nextWednesday(new Date());
 const formatDate = (date: Date) => format(date, 'dd/MM/yyyy');
 
-const usePublishEvent = ({ id }) => {
-  const queryClient = useQueryClient();
-  const router = useRouter();
-
+const usePublishEvent = ({ id, onSuccess }) => {
   const publishMutation = usePublishMutation({
-    onSuccess: async () => {
-      await queryClient.invalidateQueries(['events', { id }]);
-      router.push(`/event/${id}/preview`);
-    },
+    onSuccess,
   });
 
-  const publishEvent = async (date: Date = new Date()) => {
+  return async (date: Date = new Date()) => {
+    if (!id) return;
+
     await publishMutation.mutateAsync({
       eventId: id,
       publicationDate: formatDateToISO(date),
     });
   };
-
-  return publishEvent;
 };
 
-const useAddEvent = ({ setNewEventId }) => {
-  const queryClient = useQueryClient();
-
-  const addEventMutation = useAddEventMutation({
-    onSuccess: async () => await queryClient.invalidateQueries('events'),
-  });
-
+const useAddEvent = ({ onSuccess }) => {
+  const addEventMutation = useAddEventMutation();
   const changeTypicalAgeRangeMutation = useChangeTypicalAgeRangeMutation();
   const addLabelMutation = useAddLabelMutation();
   const createProductionWithEventsMutation = useCreateProductionWithEvents();
   const addEventToProductionByIdMutation = useAddEventToProductionById();
 
-  const addEvent = async ({
+  return async ({
     production,
     place,
     eventTypeAndTheme: { eventType, theme },
@@ -260,15 +249,12 @@ const useAddEvent = ({ setNewEventId }) => {
       });
     }
 
-    setNewEventId(eventId);
+    onSuccess(eventId);
   };
-
-  return addEvent;
 };
 
-const useEditEvent = ({ setToastMessage, setFieldLoading, id }) => {
-  const queryClient = useQueryClient();
-  const { t } = useTranslation();
+const useEditField = ({ onSuccess, id, handleSubmit }) => {
+  const [fieldLoading, setFieldLoading] = useState<keyof FormData>();
 
   const getEventByIdQuery = useGetEventByIdQuery({ id });
 
@@ -278,19 +264,19 @@ const useEditEvent = ({ setToastMessage, setFieldLoading, id }) => {
   const deleteEventFromProductionByIdMutation = useDeleteEventFromProductionById();
 
   const changeThemeMutation = useChangeThemeMutation({
-    onSuccess: () => setToastMessage(t('movies.create.toast.success.theme')),
+    onSuccess: () => onSuccess('theme'),
   });
 
   const changeLocationMutation = useChangeLocationMutation({
-    onSuccess: () => setToastMessage(t('movies.create.toast.success.cinema')),
+    onSuccess: () => onSuccess('cinema'),
   });
 
   const changeCalendarMutation = useChangeCalendarMutation({
-    onSuccess: () => setToastMessage(t('movies.create.toast.success.timeslot')),
+    onSuccess: () => onSuccess('calendar'),
   });
 
   const changeNameMutation = useChangeNameMutation({
-    onSuccess: () => setToastMessage(t('movies.create.toast.success.name')),
+    onSuccess: () => onSuccess('name'),
   });
 
   const editEvent = async (
@@ -364,13 +350,17 @@ const useEditEvent = ({ setToastMessage, setFieldLoading, id }) => {
     await fieldToMutationFunctionMap[editedField]?.();
 
     setFieldLoading(undefined);
-
-    if (editedField !== 'timeTable') {
-      queryClient.invalidateQueries(['events', { id }]);
-    }
   };
 
-  return editEvent;
+  const handleChange = (editedField: keyof FormData) => {
+    if (!id) return;
+    setFieldLoading(editedField);
+    handleSubmit(async (formData: FormData) =>
+      editEvent(formData, editedField),
+    )();
+  };
+
+  return [handleChange, fieldLoading] as const;
 };
 
 const MovieForm = () => {
@@ -407,16 +397,42 @@ const MovieForm = () => {
     (router.query.eventId as string) ?? '',
   );
   const [toastMessage, setToastMessage] = useState<string>();
-  const [fieldLoading, setFieldLoading] = useState<keyof FormData>();
 
   const getEventByIdQuery = useGetEventByIdQuery({ id: newEventId });
 
-  const publishEvent = usePublishEvent({ id: newEventId });
-  const addEvent = useAddEvent({ setNewEventId });
-  const editEvent = useEditEvent({
-    setToastMessage,
-    setFieldLoading,
+  const publishEvent = usePublishEvent({
     id: newEventId,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['events', { id: newEventId }]);
+      router.push(`/event/${newEventId}/preview`);
+    },
+  });
+
+  const addEvent = useAddEvent({
+    onSuccess: setNewEventId,
+  });
+
+  const [handleChange, fieldLoading] = useEditField({
+    id: newEventId,
+    handleSubmit,
+    onSuccess: (editedField: string) => {
+      const toastMessageMap = {
+        theme: t('movies.create.toast.success.theme'),
+        cinema: t('movies.create.toast.success.cinema'),
+        timeslot: t('movies.create.toast.success.timeslot'),
+        name: t('movies.create.toast.success.name'),
+      };
+
+      const toastMessage = toastMessageMap[editedField];
+
+      if (toastMessage) {
+        setToastMessage(toastMessage);
+      }
+
+      if (editedField !== 'timeTable') {
+        queryClient.invalidateQueries(['events', { id: newEventId }]);
+      }
+    },
   });
 
   const [isPublishLaterModalVisible, setIsPublishLaterModalVisible] = useState(
@@ -430,23 +446,6 @@ const MovieForm = () => {
     return new Date(getEventByIdQuery.data?.availableFrom);
     // @ts-expect-error
   }, [getEventByIdQuery.data]);
-
-  const handleFormValid = async (
-    formData: FormData,
-    editedField?: keyof FormData,
-  ) => {
-    if (newEventId) {
-      await editEvent(formData, editedField);
-    } else {
-      await addEvent(formData);
-    }
-  };
-
-  const handleChange = (editedField: keyof FormData) => {
-    if (!newEventId) return;
-    setFieldLoading(editedField);
-    handleSubmit(async (formData) => handleFormValid(formData, editedField))();
-  };
 
   useEffect(() => {
     // @ts-expect-error
@@ -610,11 +609,7 @@ const MovieForm = () => {
                 </Text>,
               ]
             ) : footerStatus === FooterStatus.MANUAL_SAVE ? (
-              <Button
-                onClick={handleSubmit(async (formData) => {
-                  handleFormValid(formData);
-                })}
-              >
+              <Button onClick={handleSubmit(addEvent)}>
                 {t('movies.create.actions.save')}
               </Button>
             ) : (
@@ -633,9 +628,7 @@ const MovieForm = () => {
           </Inline>
           <PublishLaterModal
             visible={isPublishLaterModalVisible}
-            onConfirm={async (publishLaterDate) =>
-              publishEvent(publishLaterDate)
-            }
+            onConfirm={publishEvent}
             onClose={() => setIsPublishLaterModalVisible(false)}
           />
         </Page.Footer>
