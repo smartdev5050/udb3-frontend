@@ -422,7 +422,6 @@ const MovieForm = () => {
   const [isPublishLaterModalVisible, setIsPublishLaterModalVisible] = useState(
     false,
   );
-  const [publishLaterDate, setPublishLaterDate] = useState(new Date());
 
   const availableFromDate = useMemo(() => {
     // @ts-expect-error
@@ -634,9 +633,9 @@ const MovieForm = () => {
           </Inline>
           <PublishLaterModal
             visible={isPublishLaterModalVisible}
-            selectedDate={publishLaterDate}
-            onChangeDate={setPublishLaterDate}
-            onConfirm={async () => publishEvent(publishLaterDate)}
+            onConfirm={async (publishLaterDate) =>
+              publishEvent(publishLaterDate)
+            }
             onClose={() => setIsPublishLaterModalVisible(false)}
           />
         </Page.Footer>

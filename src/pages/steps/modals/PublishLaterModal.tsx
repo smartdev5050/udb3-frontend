@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Alert, AlertVariants } from '@/ui/Alert';
@@ -8,32 +9,31 @@ import { Text } from '@/ui/Text';
 
 type Props = {
   visible: boolean;
-  selectedDate: Date;
-  onChangeDate: (value: Date) => void;
-  onConfirm: () => void;
+  onConfirm: (publishLaterDate: Date) => void;
   onClose: () => void;
 };
 
-const PublishLaterModal = ({
-  selectedDate,
-  onChangeDate,
-  visible,
-  onConfirm,
-  onClose,
-}: Props) => {
+const PublishLaterModal = ({ visible, onConfirm, onClose }: Props) => {
   const { t } = useTranslation();
+  const [publishLaterDate, setPublishLaterDate] = useState(new Date());
+
+  const handleChangeDate = (date: Date) => {
+    setPublishLaterDate(date);
+  };
+
+  const handleConfirm = () => onConfirm(publishLaterDate);
 
   return (
     <Modal
       variant={ModalVariants.QUESTION}
       visible={visible}
-      onConfirm={onConfirm}
+      onConfirm={handleConfirm}
       scrollable={false}
       onClose={onClose}
       title={t('create.publish_modal.title')}
       confirmTitle={t('create.publish_modal.actions.confirm')}
       cancelTitle={t('create.publish_modal.actions.cancel')}
-      confirmButtonDisabled={!selectedDate}
+      confirmButtonDisabled={!publishLaterDate}
       size={ModalSizes.MD}
     >
       <Stack padding={4} spacing={4} alignItems="flex-start">
@@ -43,8 +43,8 @@ const PublishLaterModal = ({
         </Alert>
         <DatePicker
           id="publish-later-date"
-          selected={selectedDate}
-          onChange={onChangeDate}
+          selected={publishLaterDate}
+          onChange={handleChangeDate}
           maxWidth="16rem"
         />
       </Stack>
