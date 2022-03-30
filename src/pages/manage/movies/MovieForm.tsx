@@ -188,6 +188,84 @@ const usePublishEvent = ({ id }) => {
   return publishEvent;
 };
 
+const useAddEvent = ({ setNewEventId }) => {
+  const queryClient = useQueryClient();
+
+  const addEventMutation = useAddEventMutation({
+    onSuccess: async () => await queryClient.invalidateQueries('events'),
+  });
+
+  const changeTypicalAgeRangeMutation = useChangeTypicalAgeRangeMutation();
+  const addLabelMutation = useAddLabelMutation();
+  const createProductionWithEventsMutation = useCreateProductionWithEvents();
+  const addEventToProductionByIdMutation = useAddEventToProductionById();
+
+  const addEvent = async ({
+    production,
+    place,
+    eventTypeAndTheme: { eventType, theme },
+    timeTable,
+  }: FormData) => {
+    if (!production) return;
+
+    const payload: EventArguments = {
+      mainLanguage: 'nl',
+      name: production.name,
+      calendar: {
+        calendarType: CalendarType.MULTIPLE,
+        timeSpans: convertTimeTableToSubEvents(timeTable),
+      },
+      type: {
+        id: eventType?.id,
+        label: eventType?.label,
+        domain: 'eventtype',
+      },
+      ...(theme && {
+        theme: {
+          id: theme?.id,
+          label: theme?.label,
+          domain: 'theme',
+        },
+      }),
+      location: {
+        id: parseOfferId(place['@id']),
+      },
+      workflowStatus: WorkflowStatusMap.DRAFT,
+      audienceType: 'everyone',
+    };
+
+    const { eventId } = await addEventMutation.mutateAsync(payload);
+
+    if (!eventId) return;
+
+    await changeTypicalAgeRangeMutation.mutateAsync({
+      eventId,
+      typicalAgeRange: '-',
+    });
+
+    await addLabelMutation.mutateAsync({
+      eventId,
+      label: 'udb-filminvoer',
+    });
+
+    if (production.customOption) {
+      await createProductionWithEventsMutation.mutateAsync({
+        productionName: production.name,
+        eventIds: [eventId],
+      });
+    } else {
+      await addEventToProductionByIdMutation.mutateAsync({
+        productionId: production.production_id,
+        eventId,
+      });
+    }
+
+    setNewEventId(eventId);
+  };
+
+  return addEvent;
+};
+
 const MovieForm = () => {
   const form = useForm<FormData>({
     resolver: yupResolver(schema),
@@ -223,6 +301,7 @@ const MovieForm = () => {
   );
 
   const publishEvent = usePublishEvent({ id: newEventId });
+  const addEvent = useAddEvent({ setNewEventId });
 
   const [toastMessage, setToastMessage] = useState<string>();
 
@@ -232,19 +311,9 @@ const MovieForm = () => {
   const [publishLaterDate, setPublishLaterDate] = useState(new Date());
   const [fieldLoading, setFieldLoading] = useState<keyof FormData>();
 
-  const addEventMutation = useAddEventMutation({
-    onSuccess: async () => await queryClient.invalidateQueries('events'),
-  });
-
   const getEventByIdQuery = useGetEventByIdQuery({ id: newEventId });
-
-  const addEventToProductionByIdMutation = useAddEventToProductionById();
-
-  const changeTypicalAgeRangeMutation = useChangeTypicalAgeRangeMutation();
-
-  const addLabelMutation = useAddLabelMutation();
-
   const createProductionWithEventsMutation = useCreateProductionWithEvents();
+  const addEventToProductionByIdMutation = useAddEventToProductionById();
 
   const deleteEventFromProductionByIdMutation = useDeleteEventFromProductionById();
 
@@ -349,69 +418,6 @@ const MovieForm = () => {
     }
   };
 
-  const createNewEvent = async ({
-    production,
-    place,
-    eventTypeAndTheme: { eventType, theme },
-    timeTable,
-  }: FormData) => {
-    if (!production) return;
-
-    const payload: EventArguments = {
-      mainLanguage: 'nl',
-      name: production.name,
-      calendar: {
-        calendarType: CalendarType.MULTIPLE,
-        timeSpans: convertTimeTableToSubEvents(timeTable),
-      },
-      type: {
-        id: eventType?.id,
-        label: eventType?.label,
-        domain: 'eventtype',
-      },
-      ...(theme && {
-        theme: {
-          id: theme?.id,
-          label: theme?.label,
-          domain: 'theme',
-        },
-      }),
-      location: {
-        id: parseOfferId(place['@id']),
-      },
-      workflowStatus: WorkflowStatusMap.DRAFT,
-      audienceType: 'everyone',
-    };
-
-    const { eventId } = await addEventMutation.mutateAsync(payload);
-
-    if (!eventId) return;
-
-    await changeTypicalAgeRangeMutation.mutateAsync({
-      eventId,
-      typicalAgeRange: '-',
-    });
-
-    await addLabelMutation.mutateAsync({
-      eventId,
-      label: 'udb-filminvoer',
-    });
-
-    if (production.customOption) {
-      await createProductionWithEventsMutation.mutateAsync({
-        productionName: production.name,
-        eventIds: [eventId],
-      });
-    } else {
-      await addEventToProductionByIdMutation.mutateAsync({
-        productionId: production.production_id,
-        eventId,
-      });
-    }
-
-    setNewEventId(eventId);
-  };
-
   const handleFormValid = async (
     formData: FormData,
     editedField?: keyof FormData,
@@ -419,7 +425,7 @@ const MovieForm = () => {
     if (newEventId) {
       await editExistingEvent(formData, editedField);
     } else {
-      await createNewEvent(formData);
+      await addEvent(formData);
     }
   };
 
