@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { QueryStatus } from '@/hooks/api/authenticated-query';
-import { useAddNewsletterSubscriber } from '@/hooks/api/newsletter';
+import { useAddNewsletterSubscriberMutation } from '@/hooks/api/newsletter';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { parseSpacing } from '@/ui/Box';
 import { Button } from '@/ui/Button';
@@ -29,7 +29,7 @@ const NewsletterSignupForm = (props: Props) => {
 
   const { t } = useTranslation();
 
-  const addNewsletterSubscriberMutation = useAddNewsletterSubscriber();
+  const addNewsletterSubscriberMutation = useAddNewsletterSubscriberMutation();
 
   const handleSubmit = () => {
     const isEmailValid = isEmail(email);

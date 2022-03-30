@@ -19,7 +19,7 @@ const getImageById = async ({ headers, id }) => {
   return await res.json();
 };
 
-const useGetImageById = ({ id }, configuration = {}) =>
+const useGetImageByIdQuery = ({ id }, configuration = {}) =>
   useAuthenticatedQuery({
     queryKey: ['images'],
     queryFn: getImageById,
@@ -58,7 +58,7 @@ const addImage = async ({
   });
 };
 
-const useAddImage = (configuration = {}) =>
+const useAddImageMutation = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: addImage, ...configuration });
 
-export { useAddImage, useGetImageById };
+export { useAddImageMutation, useGetImageByIdQuery };

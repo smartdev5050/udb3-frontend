@@ -17,20 +17,20 @@ import { CalendarType } from '@/constants/CalendarType';
 import { EventTypes } from '@/constants/EventTypes';
 import type { EventArguments } from '@/hooks/api/events';
 import {
-  useAddEvent,
-  useAddLabel,
-  useChangeCalendar,
-  useChangeLocation,
-  useChangeName,
-  useChangeTheme,
-  useChangeTypicalAgeRange,
-  useGetEventById,
-  usePublish,
+  useAddEventMutation,
+  useAddLabelMutation,
+  useChangeCalendarMutation,
+  useChangeLocationMutation,
+  useChangeNameMutation,
+  useChangeThemeMutation,
+  useChangeTypicalAgeRangeMutation,
+  useGetEventByIdQuery,
+  usePublishMutation,
 } from '@/hooks/api/events';
 import {
-  useAddEventById as useAddEventToProductionById,
-  useCreateWithEvents as useCreateProductionWithEvents,
-  useDeleteEventById as useDeleteEventFromProductionById,
+  useAddEventByIdMutation as useAddEventToProductionById,
+  useCreateWithEventsMutation as useCreateProductionWithEvents,
+  useDeleteEventByIdMutation as useDeleteEventFromProductionById,
 } from '@/hooks/api/productions';
 import type { StepsConfiguration } from '@/pages/Steps';
 import { Steps } from '@/pages/Steps';
@@ -209,42 +209,42 @@ const MovieForm = () => {
   const [publishLaterDate, setPublishLaterDate] = useState(new Date());
   const [fieldLoading, setFieldLoading] = useState<keyof FormData>();
 
-  const addEventMutation = useAddEvent({
+  const addEventMutation = useAddEventMutation({
     onSuccess: async () => await queryClient.invalidateQueries('events'),
   });
 
-  const getEventByIdQuery = useGetEventById({ id: newEventId });
+  const getEventByIdQuery = useGetEventByIdQuery({ id: newEventId });
 
   const addEventToProductionByIdMutation = useAddEventToProductionById();
 
-  const changeTypicalAgeRangeMutation = useChangeTypicalAgeRange();
+  const changeTypicalAgeRangeMutation = useChangeTypicalAgeRangeMutation();
 
-  const addLabelMutation = useAddLabel();
+  const addLabelMutation = useAddLabelMutation();
 
   const createProductionWithEventsMutation = useCreateProductionWithEvents();
 
   const deleteEventFromProductionByIdMutation = useDeleteEventFromProductionById();
 
-  const publishMutation = usePublish({
+  const publishMutation = usePublishMutation({
     onSuccess: async () => {
       await queryClient.invalidateQueries(['events', { id: newEventId }]);
       router.push(`/event/${newEventId}/preview`);
     },
   });
 
-  const changeThemeMutation = useChangeTheme({
+  const changeThemeMutation = useChangeThemeMutation({
     onSuccess: () => setToastMessage(t('movies.create.toast.success.theme')),
   });
 
-  const changeLocationMutation = useChangeLocation({
+  const changeLocationMutation = useChangeLocationMutation({
     onSuccess: () => setToastMessage(t('movies.create.toast.success.cinema')),
   });
 
-  const changeCalendarMutation = useChangeCalendar({
+  const changeCalendarMutation = useChangeCalendarMutation({
     onSuccess: () => setToastMessage(t('movies.create.toast.success.timeslot')),
   });
 
-  const changeNameMutation = useChangeName({
+  const changeNameMutation = useChangeNameMutation({
     onSuccess: () => setToastMessage(t('movies.create.toast.success.name')),
   });
 

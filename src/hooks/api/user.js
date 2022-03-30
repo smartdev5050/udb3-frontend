@@ -12,7 +12,7 @@ const getUser = async ({ headers }) => {
   return await res.json();
 };
 
-const useGetUser = ({ req, queryClient } = {}, configuration = {}) =>
+const useGetUserQuery = ({ req, queryClient } = {}, configuration = {}) =>
   useAuthenticatedQuery({
     req,
     queryClient,
@@ -31,7 +31,7 @@ const getPermissions = async ({ headers }) => {
   return await res.json();
 };
 
-const useGetPermissions = (configuration = {}) =>
+const useGetPermissionsQuery = (configuration = {}) =>
   useAuthenticatedQuery({
     queryKey: ['user', 'permissions'],
     queryFn: getPermissions,
@@ -48,11 +48,11 @@ const getRoles = async ({ headers }) => {
   return await res.json();
 };
 
-const useGetRoles = (configuration = {}) =>
+const useGetRolesQuery = (configuration = {}) =>
   useAuthenticatedQuery({
     queryKey: ['user', 'roles'],
     queryFn: getRoles,
     ...configuration,
   });
 
-export { useGetPermissions, useGetRoles, useGetUser };
+export { useGetPermissionsQuery, useGetRolesQuery, useGetUserQuery };

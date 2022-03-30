@@ -23,7 +23,7 @@ export const getProductions = async ({ headers, ...queryData }) => {
   return await res.json();
 };
 
-const useGetProductions = (
+const useGetProductionsQuery = (
   { req, queryClient, name = '', paginationOptions = { start: 0, limit: 15 } },
   configuration = {},
 ) =>
@@ -55,7 +55,7 @@ const deleteEventById = async ({
     silentError,
   });
 
-const useDeleteEventById = (configuration = {}) =>
+const useDeleteEventByIdMutation = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: deleteEventById, ...configuration });
 
 const deleteEventsByIds = async ({
@@ -69,7 +69,7 @@ const deleteEventsByIds = async ({
     ),
   );
 
-const useDeleteEventsByIds = (configuration = {}) =>
+const useDeleteEventsByIdsMutation = (configuration = {}) =>
   useAuthenticatedMutations({
     mutationFns: deleteEventsByIds,
     ...configuration,
@@ -90,7 +90,7 @@ const addEventById = async ({
     silentError,
   });
 
-const useAddEventById = (configuration = {}) =>
+const useAddEventByIdMutation = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: addEventById, ...configuration });
 
 const addEventsByIds = async ({ productionId = '', eventIds = [], headers }) =>
@@ -100,7 +100,7 @@ const addEventsByIds = async ({ productionId = '', eventIds = [], headers }) =>
     ),
   );
 
-const useAddEventsByIds = (configuration = {}) =>
+const useAddEventsByIdsMutation = (configuration = {}) =>
   useAuthenticatedMutations({ mutationFns: addEventsByIds, ...configuration });
 
 const getSuggestedEvents = async ({ headers }) => {
@@ -118,7 +118,7 @@ const getSuggestedEvents = async ({ headers }) => {
   return await response.json();
 };
 
-const useGetSuggestedEvents = (configuration = {}) =>
+const useGetSuggestedEventsQuery = (configuration = {}) =>
   useAuthenticatedQuery({
     queryKey: ['productions', 'suggestion'],
     queryFn: getSuggestedEvents,
@@ -137,7 +137,7 @@ const skipSuggestedEvents = async ({ headers, eventIds = [] }) =>
     },
   });
 
-const useSkipSuggestedEvents = (configuration = {}) =>
+const useSkipSuggestedEventsMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: skipSuggestedEvents,
     ...configuration,
@@ -156,7 +156,7 @@ const createWithEvents = async ({ headers, productionName, eventIds = [] }) =>
     },
   });
 
-const useCreateWithEvents = (configuration = {}) =>
+const useCreateWithEventsMutation = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: createWithEvents, ...configuration });
 
 const mergeProductions = async ({
@@ -169,7 +169,7 @@ const mergeProductions = async ({
     options: { method: 'POST', headers },
   });
 
-const useMergeProductions = (configuration = {}) =>
+const useMergeProductionsMutation = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: mergeProductions, ...configuration });
 
 const changeProductionName = async ({
@@ -190,21 +190,21 @@ const changeProductionName = async ({
     silentError,
   });
 
-const useChangeProductionName = (configuration = {}) =>
+const useChangeProductionNameMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: changeProductionName,
     ...configuration,
   });
 
 export {
-  useAddEventById,
-  useAddEventsByIds,
-  useChangeProductionName,
-  useCreateWithEvents,
-  useDeleteEventById,
-  useDeleteEventsByIds,
-  useGetProductions,
-  useGetSuggestedEvents,
-  useMergeProductions,
-  useSkipSuggestedEvents,
+  useAddEventByIdMutation,
+  useAddEventsByIdsMutation,
+  useChangeProductionNameMutation,
+  useCreateWithEventsMutation,
+  useDeleteEventByIdMutation,
+  useDeleteEventsByIdsMutation,
+  useGetProductionsQuery,
+  useGetSuggestedEventsQuery,
+  useMergeProductionsMutation,
+  useSkipSuggestedEventsMutation,
 };
