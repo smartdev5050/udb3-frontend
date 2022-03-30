@@ -33,7 +33,7 @@ const ProductionStep = <TFormData extends FormDataIntersection>({
   const { t } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
 
-  const useGetProductionsQuery = useGetProductionsQuery(
+  const getProductionsQuery = useGetProductionsQuery(
     // @ts-expect-error
     {
       name: searchInput,
@@ -42,9 +42,9 @@ const ProductionStep = <TFormData extends FormDataIntersection>({
   );
 
   // @ts-expect-error
-  const productions = useMemo(() => useGetProductionsQuery.data?.member ?? [], [
+  const productions = useMemo(() => getProductionsQuery.data?.member ?? [], [
     // @ts-expect-error
-    useGetProductionsQuery.data?.member,
+    getProductionsQuery.data?.member,
   ]);
 
   return (
