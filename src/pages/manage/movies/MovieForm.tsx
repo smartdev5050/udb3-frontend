@@ -364,17 +364,17 @@ const useEditField = ({ onSuccess, id, handleSubmit }) => {
 };
 
 const useToast = ({ messages, title }) => {
-  const [toastMessage, setToastMessage] = useState<string>();
+  const [message, setMessage] = useState<string>();
 
-  const clearToast = () => setToastMessage(undefined);
+  const clear = () => setMessage(undefined);
 
-  const triggerToast = (key: string) => {
-    const message = messages[key];
-    if (!message) return;
-    setToastMessage(message);
+  const trigger = (key: string) => {
+    const foundMessage = messages[key];
+    if (!foundMessage) return;
+    setMessage(foundMessage);
   };
 
-  const toastHeader = useMemo(
+  const header = useMemo(
     () => (
       <Inline as="div" flex={1} justifyContent="space-between">
         <Text>{title}</Text>
@@ -382,10 +382,10 @@ const useToast = ({ messages, title }) => {
       </Inline>
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [toastMessage],
+    [message],
   );
 
-  return { toastMessage, toastHeader, clearToast, triggerToast };
+  return { message, header, clear, trigger };
 };
 
 const MovieForm = () => {
@@ -424,7 +424,7 @@ const MovieForm = () => {
 
   const getEventByIdQuery = useGetEventByIdQuery({ id: newEventId });
 
-  const { toastMessage, toastHeader, triggerToast, clearToast } = useToast({
+  const toast = useToast({
     messages: {
       image: t('movies.create.toast.success.image'),
       description: t('movies.create.toast.success.description'),
@@ -454,7 +454,7 @@ const MovieForm = () => {
     id: newEventId,
     handleSubmit,
     onSuccess: (editedField: string) => {
-      triggerToast(editedField);
+      toast.trigger(editedField);
 
       if (editedField !== 'timeTable') {
         queryClient.invalidateQueries(['events', { id: newEventId }]);
@@ -559,12 +559,12 @@ const MovieForm = () => {
         additionalProps: {
           variant: AdditionalInformationStepVariant.MINIMAL,
           eventId: newEventId,
-          onSuccess: triggerToast,
+          onSuccess: toast.trigger,
         },
         title: t(`movies.create.step5.title`),
       },
     ];
-  }, [errors, newEventId, watchedPlace, watchedTimeTable, t, triggerToast]);
+  }, [errors, newEventId, watchedPlace, watchedTimeTable, t, toast.trigger]);
 
   return (
     <Page>
@@ -575,10 +575,10 @@ const MovieForm = () => {
       <Page.Content spacing={5} alignItems="flex-start">
         <Toast
           variant="success"
-          header={toastHeader}
-          body={toastMessage}
-          visible={!!toastMessage}
-          onClose={clearToast}
+          header={toast.header}
+          body={toast.message}
+          visible={!!toast.message}
+          onClose={() => toast.clear()}
         />
         <Steps<FormData>
           configuration={configuration}
