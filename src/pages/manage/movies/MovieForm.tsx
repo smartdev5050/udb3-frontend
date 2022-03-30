@@ -167,6 +167,27 @@ const convertSubEventsToTimeTable = (subEvents: SubEvent[] = []) => {
 const nextWeekWednesday = nextWednesday(new Date());
 const formatDate = (date: Date) => format(date, 'dd/MM/yyyy');
 
+const usePublishEvent = ({ id }) => {
+  const queryClient = useQueryClient();
+  const router = useRouter();
+
+  const publishMutation = usePublishMutation({
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(['events', { id }]);
+      router.push(`/event/${id}/preview`);
+    },
+  });
+
+  const publishEvent = async (date: Date = new Date()) => {
+    await publishMutation.mutateAsync({
+      eventId: id,
+      publicationDate: formatDateToISO(date),
+    });
+  };
+
+  return publishEvent;
+};
+
 const MovieForm = () => {
   const form = useForm<FormData>({
     resolver: yupResolver(schema),
@@ -201,6 +222,8 @@ const MovieForm = () => {
     (router.query.eventId as string) ?? '',
   );
 
+  const publishEvent = usePublishEvent({ id: newEventId });
+
   const [toastMessage, setToastMessage] = useState<string>();
 
   const [isPublishLaterModalVisible, setIsPublishLaterModalVisible] = useState(
@@ -224,13 +247,6 @@ const MovieForm = () => {
   const createProductionWithEventsMutation = useCreateProductionWithEvents();
 
   const deleteEventFromProductionByIdMutation = useDeleteEventFromProductionById();
-
-  const publishMutation = usePublishMutation({
-    onSuccess: async () => {
-      await queryClient.invalidateQueries(['events', { id: newEventId }]);
-      router.push(`/event/${newEventId}/preview`);
-    },
-  });
 
   const changeThemeMutation = useChangeThemeMutation({
     onSuccess: () => setToastMessage(t('movies.create.toast.success.theme')),
@@ -407,20 +423,6 @@ const MovieForm = () => {
     }
   };
 
-  const handleClickPublish = async () => {
-    await publishMutation.mutateAsync({
-      eventId: newEventId,
-      publicationDate: formatDateToISO(new Date()),
-    });
-  };
-
-  const handleConfirmPublishLater = async () => {
-    await publishMutation.mutateAsync({
-      eventId: newEventId,
-      publicationDate: formatDateToISO(publishLaterDate),
-    });
-  };
-
   const handleChange = (editedField: keyof FormData) => {
     if (!newEventId) return;
     setFieldLoading(editedField);
@@ -568,7 +570,7 @@ const MovieForm = () => {
               [
                 <Button
                   variant={ButtonVariants.SUCCESS}
-                  onClick={handleClickPublish}
+                  onClick={async () => publishEvent()}
                   key="publish"
                 >
                   {t('movies.create.actions.publish')}
@@ -614,7 +616,7 @@ const MovieForm = () => {
             visible={isPublishLaterModalVisible}
             selectedDate={publishLaterDate}
             onChangeDate={setPublishLaterDate}
-            onConfirm={handleConfirmPublishLater}
+            onConfirm={async () => publishEvent(publishLaterDate)}
             onClose={() => setIsPublishLaterModalVisible(false)}
           />
         </Page.Footer>
