@@ -7,7 +7,7 @@ import {
   set as setTime,
 } from 'date-fns';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
@@ -498,23 +498,26 @@ const MovieForm = () => {
   const watchedTimeTable = watch('timeTable');
   const watchedPlace = watch('place');
 
-  const triggerToast = (editedField: string) => {
-    const toastMessageMap = {
-      image: t('movies.create.toast.success.image'),
-      description: t('movies.create.toast.success.description'),
-      video: t('movies.create.toast.success.video'),
-      theme: t('movies.create.toast.success.theme'),
-      cinema: t('movies.create.toast.success.cinema'),
-      timeslot: t('movies.create.toast.success.timeslot'),
-      name: t('movies.create.toast.success.name'),
-    };
+  const triggerToast = useCallback(
+    (editedField: string) => {
+      const toastMessageMap = {
+        image: t('movies.create.toast.success.image'),
+        description: t('movies.create.toast.success.description'),
+        video: t('movies.create.toast.success.video'),
+        theme: t('movies.create.toast.success.theme'),
+        cinema: t('movies.create.toast.success.cinema'),
+        timeslot: t('movies.create.toast.success.timeslot'),
+        name: t('movies.create.toast.success.name'),
+      };
 
-    const toastMessage = toastMessageMap[editedField];
+      const toastMessage = toastMessageMap[editedField];
 
-    if (toastMessage) {
-      setToastMessage(toastMessage);
-    }
-  };
+      if (toastMessage) {
+        setToastMessage(toastMessage);
+      }
+    },
+    [t, setToastMessage],
+  );
 
   const configuration: StepsConfiguration<FormData> = useMemo(() => {
     return [
