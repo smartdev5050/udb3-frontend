@@ -90,7 +90,12 @@ const PageActions = ({ children, className, ...props }: PageActionsProps) => (
 type PageContentProps = StackProps;
 
 const PageContent = ({ children, className, ...props }: PageContentProps) => (
-  <Stack className={className} spacing={3} {...getStackProps(props)}>
+  <Stack
+    className={className}
+    spacing={3}
+    paddingBottom={6}
+    {...getStackProps(props)}
+  >
     {children}
   </Stack>
 );

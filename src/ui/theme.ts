@@ -305,16 +305,7 @@ const theme = {
       check: {
         circleFillColor: colors.green3,
       },
-      pictureUploadBox: {
-        backgroundColor: colors.white,
-        borderColor: colors.grey2,
-        errorBorderColor: colors.red1,
-        imageIconColor: colors.grey5,
-        imageBorderColor: colors.grey2,
-        mainImageBackgroundColor: colors.blue1,
-        mainImageBorderColor: colors.blue2,
-        thumbnailBorderColor: colors.grey6,
-      },
+
       footer: {
         color: colors.textColor,
       },
@@ -327,6 +318,26 @@ const theme = {
       activeTabBackgroundColor: colors.grey1,
       hoverTabBackgroundColor: colors.grey3,
       borderRadius: 0,
+    },
+    pictureUploadBox: {
+      backgroundColor: colors.white,
+      borderColor: colors.grey2,
+      errorBorderColor: colors.red1,
+      imageIconColor: colors.grey5,
+      imageBorderColor: colors.grey2,
+      mainImageBackgroundColor: colors.blue1,
+      mainImageBorderColor: colors.blue2,
+      thumbnailBorderColor: colors.grey6,
+    },
+    videoUploadBox: {
+      backgroundColor: colors.white,
+      borderColor: colors.grey2,
+      errorBorderColor: colors.red1,
+      imageIconColor: colors.grey5,
+      imageBorderColor: colors.grey2,
+      mainImageBackgroundColor: colors.blue1,
+      mainImageBorderColor: colors.blue2,
+      thumbnailBorderColor: colors.grey6,
     },
     toggleBox: {
       backgroundColor: colors.white,

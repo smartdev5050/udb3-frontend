@@ -5,11 +5,11 @@ import { Modal, ModalVariants } from '@/ui/Modal';
 
 type Props = {
   visible: boolean;
-  onConfirm: () => void;
+  onConfirm: (videoId: string) => void;
   onClose: () => void;
 };
 
-const PictureDeleteModal = ({ visible, onConfirm, onClose }: Props) => {
+const VideoLinkDeleteModal = ({ visible, onConfirm, onClose }: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -18,13 +18,13 @@ const PictureDeleteModal = ({ visible, onConfirm, onClose }: Props) => {
       visible={visible}
       onConfirm={onConfirm}
       onClose={onClose}
-      title={t('pictures.delete_modal.title')}
-      confirmTitle={t('pictures.delete_modal.actions.confirm')}
-      cancelTitle={t('pictures.delete_modal.actions.cancel')}
+      title={t('videos.delete_modal.title')}
+      confirmTitle={t('videos.delete_modal.actions.confirm')}
+      cancelTitle={t('videos.delete_modal.actions.cancel')}
     >
-      <Box padding={4}>{t('pictures.delete_modal.description')}</Box>
+      <Box padding={4}>{t('videos.delete_modal.description')}</Box>
     </Modal>
   );
 };
 
-export { PictureDeleteModal };
+export { VideoLinkDeleteModal };

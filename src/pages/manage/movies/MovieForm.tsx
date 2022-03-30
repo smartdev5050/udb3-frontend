@@ -34,7 +34,10 @@ import {
 } from '@/hooks/api/productions';
 import type { StepsConfiguration } from '@/pages/Steps';
 import { Steps } from '@/pages/Steps';
-import { AdditionalInformationStep } from '@/pages/steps/AdditionalInformationStep';
+import {
+  AdditionalInformationStep,
+  AdditionalInformationStepVariant,
+} from '@/pages/steps/AdditionalInformationStep';
 import { EventTypeAndThemeStep } from '@/pages/steps/EventTypeAndThemeStep';
 import { PublishLaterModal } from '@/pages/steps/modals/PublishLaterModal';
 import { PlaceStep } from '@/pages/steps/PlaceStep';
@@ -453,12 +456,18 @@ const MovieForm = () => {
   }, [getEventByIdQuery.data]);
 
   const footerStatus = useMemo(() => {
+    if (router.route.includes('edit')) return FooterStatus.AUTO_SAVE;
     if (queryClient.isMutating()) return FooterStatus.HIDDEN;
     if (newEventId && !availableFromDate) return FooterStatus.PUBLISH;
     if (dirtyFields.place) return FooterStatus.MANUAL_SAVE;
-    if (newEventId) return FooterStatus.AUTO_SAVE;
     return FooterStatus.HIDDEN;
-  }, [newEventId, availableFromDate, dirtyFields.place, queryClient]);
+  }, [
+    newEventId,
+    availableFromDate,
+    dirtyFields.place,
+    queryClient,
+    router.route,
+  ]);
 
   useEffect(() => {
     if (footerStatus !== FooterStatus.HIDDEN) {
@@ -511,7 +520,7 @@ const MovieForm = () => {
       {
         Component: AdditionalInformationStep,
         additionalProps: {
-          variant: 'minimal',
+          variant: AdditionalInformationStepVariant.MINIMAL,
           eventId: newEventId,
           onSuccess: (field: string) => {
             if (field === 'image') {
@@ -519,6 +528,9 @@ const MovieForm = () => {
             }
             if (field === 'description') {
               setToastMessage(t('movies.create.toast.success.description'));
+            }
+            if (field === 'video') {
+              setToastMessage(t('movies.create.toast.success.video'));
             }
           },
         },
@@ -533,7 +545,7 @@ const MovieForm = () => {
         {t(`movies.create.title`)}
       </Page.Title>
 
-      <Page.Content spacing={5} paddingBottom={6} alignItems="flex-start">
+      <Page.Content spacing={5} alignItems="flex-start">
         <Toast
           variant="success"
           header={header}

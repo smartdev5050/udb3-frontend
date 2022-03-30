@@ -1,22 +1,31 @@
 import type { Values } from '@/types/Values';
 
-import type { BoxProps } from './Box';
+import { parseSpacing } from './Box';
 import { Icon, Icons } from './Icon';
-import { Stack } from './Stack';
+import type { StackProps } from './Stack';
+import { getStackProps, Stack } from './Stack';
 import { Text } from './Text';
 import { getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme(`toggleBox`);
 
-type Props = BoxProps & {
+type Props = StackProps & {
   active: boolean;
   icon: Values<typeof Icons>;
   text: string;
 };
 
-const ToggleBox = ({ children, onClick, active, icon, text }: Props) => {
+const ToggleBox = ({
+  children,
+  onClick,
+  active,
+  icon,
+  text,
+  ...props
+}: Props) => {
   return (
     <Stack
+      forwardedAs="button"
       onClick={onClick}
       padding={5}
       alignItems="center"
@@ -24,13 +33,11 @@ const ToggleBox = ({ children, onClick, active, icon, text }: Props) => {
       backgroundColor={getValue(
         active ? 'activeBackgroundColor' : 'backgroundColor',
       )}
-      width="40%"
+      minWidth={parseSpacing(8)}
       css={`
         border: 1px solid ${getValue('borderColor')};
-        &:hover {
-          cursor: pointer;
-        }
       `}
+      {...getStackProps(props)}
     >
       {active && (
         <Icon
