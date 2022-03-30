@@ -4,4 +4,8 @@ import { MovieForm } from './MovieForm';
 
 export const getServerSideProps = getApplicationServerSideProps();
 
-export default MovieForm;
+const WrappedMovieForm = (props: unknown) => (
+  <MovieForm {...props} key="create" />
+);
+
+export default WrappedMovieForm;
