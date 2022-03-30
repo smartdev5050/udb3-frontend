@@ -224,7 +224,14 @@ const PriceInfoModal = ({
                     />
                   }
                 />
-                <Text variant={TextVariants.MUTED}>euro</Text>
+                <Text
+                  variant={TextVariants.MUTED}
+                  css={`
+                    margin-right: ${parseSpacing(3)};
+                  `}
+                >
+                  euro
+                </Text>
                 {!isPriceFree(rate.price) && (
                   <Button
                     variant={ButtonVariants.LINK}
