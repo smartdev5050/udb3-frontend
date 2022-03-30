@@ -370,7 +370,7 @@ const useToast = ({ messages, title }) => {
 
   const triggerToast = (key: string) => {
     const message = messages[key];
-    if (!key) return;
+    if (!message) return;
     setToastMessage(message);
   };
 
@@ -428,6 +428,7 @@ const MovieForm = () => {
     messages: {
       image: t('movies.create.toast.success.image'),
       description: t('movies.create.toast.success.description'),
+      calendar: t('movies.create.toast.success.calendar'),
       video: t('movies.create.toast.success.video'),
       theme: t('movies.create.toast.success.theme'),
       cinema: t('movies.create.toast.success.cinema'),
