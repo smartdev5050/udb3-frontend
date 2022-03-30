@@ -16,6 +16,7 @@ import { PictureDeleteModal } from '@/pages/steps/modals/PictureDeleteModal';
 import type { FormData } from '@/pages/steps/modals/PictureUploadModal';
 import { PictureUploadModal } from '@/pages/steps/modals/PictureUploadModal';
 import type { FormData as PriceInfoFormData } from '@/pages/steps/modals/PriceInfoModal';
+import { PriceInfoModal } from '@/pages/steps/modals/PriceInfoModal';
 import { Alert } from '@/ui/Alert';
 import { Box, parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
@@ -30,8 +31,6 @@ import { Text, TextVariants } from '@/ui/Text';
 import { TextArea } from '@/ui/TextArea';
 import { getValueFromTheme } from '@/ui/theme';
 import { parseOfferId } from '@/utils/parseOfferId';
-
-import { PriceInfoModal } from './modals/PriceInfoModal';
 
 const IDEAL_DESCRIPTION_LENGTH = 200;
 
@@ -96,6 +95,29 @@ const AdditionalInformationStep = ({
   }, [
     // @ts-expect-error
     getEventByIdQuery.data,
+  ]);
+
+  const priceInfo = useMemo(() => {
+    // @ts-expect-error
+    const priceInfo = getEventByIdQuery.data?.priceInfo ?? [];
+    // @ts-expect-error
+    const mainLanguage = getEventByIdQuery.data?.mainLanguage;
+
+    return priceInfo.map((rate: any) => {
+      return {
+        ...rate,
+        name: {
+          ...rate.name,
+          [i18n.language]: rate.name[i18n.language] ?? rate.name[mainLanguage],
+        },
+        price: rate.price.toFixed(2).replace('.', ','),
+      };
+    });
+    // @ts-expect-error
+  }, [
+    getEventByIdQuery.data?.priceInfo,
+    getEventByIdQuery.data?.mainLanguage,
+    i18n.language,
   ]);
 
   const eventTypeId = useMemo(() => {
@@ -215,14 +237,13 @@ const AdditionalInformationStep = ({
   };
 
   const addPriceInfoMutation = useAddPriceInfo({
-    onSuccess: handleSuccessAddImage,
+    onSuccess: () => setIsPriceInfoModalVisible(false),
   });
 
   const handlePriceInfoSubmitValid = async ({ rates }: PriceInfoFormData) => {
     const convertedPriceInfo = rates.map((rate) => {
       return {
         ...rate,
-        name: { [`${i18n.language}`]: rate.name },
         price: parseFloat(rate.price.replace(',', '.')),
       };
     });
@@ -331,6 +352,7 @@ const AdditionalInformationStep = ({
         visible={isPriceInfoModalVisible}
         onClose={() => setIsPriceInfoModalVisible(false)}
         onSubmitValid={handlePriceInfoSubmitValid}
+        priceInfo={priceInfo}
       />
       <Inline spacing={6} alignItems="flex-start">
         <Stack spacing={3} flex={1}>

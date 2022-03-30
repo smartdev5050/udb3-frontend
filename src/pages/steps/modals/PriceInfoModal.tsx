@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
+import i18n from '@/i18n/index';
 import type { Values } from '@/types/Values';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Box, parseSpacing } from '@/ui/Box';
@@ -20,13 +21,20 @@ const PRICE_CURRENCY = 'EUR';
 
 const PriceCategories = {
   BASE: 'base',
-  TARIFF: 'tarrif',
+  TARIFF: 'tariff',
 } as const;
 
 type PriceCategory = Values<typeof PriceCategories>;
 
+type NameInLanguages = Partial<{
+  nl: string;
+  fr: string;
+  de: string;
+  en: string;
+}>;
+
 type Rate = {
-  name: string;
+  name: NameInLanguages;
   category: PriceCategory;
   price: string;
   priceCurrency: string;
@@ -38,10 +46,15 @@ type PriceInfoModalProps = {
   visible: boolean;
   onClose: () => void;
   onSubmitValid: (data: FormData) => Promise<void>;
+  priceInfo: Rate[];
 };
 
-const isNotUitpas = (value: string): boolean => {
-  return value.toLowerCase() !== 'uitpas';
+const isNotUitpas = (value: any): boolean => {
+  return value[i18n.language].toLowerCase() !== 'uitpas';
+};
+
+const shouldHaveAName = (value: any): boolean => {
+  return !!value[i18n.language];
 };
 
 const priceRegex: RegExp = /^([1-9][0-9]*|[0-9]|[0])(,[0-9]{1,2})?$/;
@@ -52,10 +65,15 @@ const schema = yup
     rates: yup.array().of(
       yup.object({
         name: yup
-          .string()
+          .object({
+            nl: yup.string(),
+            fr: yup.string(),
+            en: yup.string(),
+            de: yup.string(),
+          })
+          .test(`name-is-required`, 'name is required', shouldHaveAName)
           .test(`name-is-not-uitpas`, 'should not be uitpas', isNotUitpas)
-          .required()
-          .max(250),
+          .required(),
         category: yup.string(),
         price: yup.string().matches(priceRegex).required(),
         priceCurrency: yup.string(),
@@ -68,8 +86,9 @@ const PriceInfoModal = ({
   visible,
   onClose,
   onSubmitValid,
+  priceInfo,
 }: PriceInfoModalProps) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const formComponent = useRef<HTMLFormElement>();
   const [hasGlobalError, setHasGlobalError] = useState(false);
   const [hasUitpasError, setHasUitpasError] = useState(false);
@@ -79,29 +98,27 @@ const PriceInfoModal = ({
     watch,
     setValue,
     formState: { errors },
-    reset,
     handleSubmit,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     defaultValues: {
-      rates: [
-        {
-          name: 'Basistarief',
-          price: '',
-          category: PriceCategories.BASE,
-          priceCurrency: PRICE_CURRENCY,
-        },
-      ],
+      rates: priceInfo,
     },
   });
 
-  const watchedRates = watch('rates') ?? [];
+  useEffect(() => {
+    setValue('rates', [...priceInfo]);
+  }, [priceInfo]);
+
+  const watchedRates = watch('rates');
 
   const handleClickAddRate = () => {
     setValue('rates', [
       ...watchedRates,
       {
-        name: '',
+        name: {
+          [i18n.language]: '',
+        },
         price: '',
         category: PriceCategories.TARIFF,
         priceCurrency: PRICE_CURRENCY,
@@ -129,14 +146,16 @@ const PriceInfoModal = ({
     const errorRates = (errors.rates || []).filter(
       (error: any) => error !== undefined,
     );
+
     const hasGlobalError = errorRates.length > 0;
     const hasUitpasError = errorRates.some(
+      // @ts-expect-error
       (error) => error.name?.type === 'name-is-not-uitpas',
     );
 
     setHasGlobalError(hasGlobalError && !hasUitpasError);
     setHasUitpasError(hasUitpasError);
-  }, [errors]);
+  }, [errors, i18n.language]);
 
   return (
     <Modal
@@ -162,9 +181,9 @@ const PriceInfoModal = ({
         })}
         ref={formComponent}
       >
-        {watchedRates.map((rate, key) => (
+        {watchedRates.map((rate, index) => (
           <Inline
-            key={`rate_${key}`}
+            key={`rate_${index}`}
             paddingTop={3}
             paddingBottom={3}
             css="border-bottom: 1px solid #ddd;"
@@ -172,14 +191,18 @@ const PriceInfoModal = ({
             <Inline width="100%" alignItems="center">
               <Inline width="30%">
                 {rate.category === PriceCategories.BASE && (
-                  <Text>{rate.name}</Text>
+                  <Text>{rate.name[i18n.language]}</Text>
                 )}
                 {rate.category === PriceCategories.TARIFF && (
                   <FormElement
                     id="name"
                     Component={
                       <Input
-                        {...register(`rates.${key}.name`)}
+                        {...register(
+                          `rates.${index}.name.${
+                            i18n.language as keyof NameInLanguages
+                          }`,
+                        )}
                         placeholder={t(
                           'create.additionalInformation.price_info.target',
                         )}
@@ -194,7 +217,7 @@ const PriceInfoModal = ({
                   Component={
                     <Input
                       marginRight={3}
-                      {...register(`rates.${key}.price`)}
+                      {...register(`rates.${index}.price`)}
                       placeholder={t(
                         'create.additionalInformation.price_info.price',
                       )}
@@ -205,19 +228,19 @@ const PriceInfoModal = ({
                 {!isPriceFree(rate.price) && (
                   <Button
                     variant={ButtonVariants.LINK}
-                    onClick={() => setPriceToRate(key)}
+                    onClick={() => setPriceToRate(index)}
                   >
                     {t('create.additionalInformation.price_info.free')}
                   </Button>
                 )}
               </Inline>
               <Inline width="30%" justifyContent="flex-end">
-                {key !== 0 && (
+                {index !== 0 && (
                   <Button
                     iconName={Icons.TRASH}
                     spacing={3}
                     variant={ButtonVariants.DANGER}
-                    onClick={() => handleClickDeleteRate(key)}
+                    onClick={() => handleClickDeleteRate(index)}
                   >
                     {t('create.additionalInformation.price_info.delete')}
                   </Button>
@@ -264,5 +287,21 @@ const PriceInfoModal = ({
   );
 };
 
-export { PriceInfoModal };
+PriceInfoModal.defaultProps = {
+  rates: [
+    {
+      name: {
+        nl: 'Basistarief',
+        fr: 'Tarif de base',
+        en: 'Base tariff',
+        de: 'Basisrate',
+      },
+      price: '',
+      category: PriceCategories.BASE,
+      priceCurrency: PRICE_CURRENCY,
+    },
+  ],
+};
+
+export { PriceCategories, PriceInfoModal };
 export type { FormData };
