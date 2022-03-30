@@ -554,7 +554,7 @@ const MovieForm = () => {
         title: t(`movies.create.step5.title`),
       },
     ];
-  }, [errors, newEventId, watchedPlace, watchedTimeTable, t]);
+  }, [errors, newEventId, watchedPlace, watchedTimeTable, t, triggerToast]);
 
   return (
     <Page>
