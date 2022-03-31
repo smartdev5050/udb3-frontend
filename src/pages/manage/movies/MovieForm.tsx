@@ -554,8 +554,9 @@ const MovieForm = () => {
       {
         Component: ProductionStep,
         field: 'production',
-        shouldShowNextStep: ({ formState: { errors }, eventId }) =>
-          !!eventId && Object.values(errors).length === 0,
+        shouldShowNextStep: ({ formState: { errors }, eventId }) => {
+          return !!eventId && Object.values(errors).length === 0;
+        },
         title: t(`movies.create.step4.title`),
       },
       {
