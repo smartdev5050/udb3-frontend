@@ -28,9 +28,9 @@ import {
   usePublishMutation,
 } from '@/hooks/api/events';
 import {
-  useAddEventByIdMutation as useAddEventToProductionById,
-  useCreateWithEventsMutation as useCreateProductionWithEvents,
-  useDeleteEventByIdMutation as useDeleteEventFromProductionById,
+  useAddEventByIdMutation as useAddEventToProductionByIdMutation,
+  useCreateWithEventsMutation as useCreateProductionWithEventsMutation,
+  useDeleteEventByIdMutation as useDeleteEventFromProductionByIdMutation,
 } from '@/hooks/api/productions';
 import type { StepsConfiguration } from '@/pages/Steps';
 import { Steps } from '@/pages/Steps';
@@ -215,15 +215,15 @@ const MovieForm = () => {
 
   const getEventByIdQuery = useGetEventByIdQuery({ id: newEventId });
 
-  const addEventToProductionByIdMutation = useAddEventToProductionById();
+  const addEventToProductionByIdMutation = useAddEventToProductionByIdMutation();
 
   const changeTypicalAgeRangeMutation = useChangeTypicalAgeRangeMutation();
 
   const addLabelMutation = useAddLabelMutation();
 
-  const createProductionWithEventsMutation = useCreateProductionWithEvents();
+  const createProductionWithEventsMutation = useCreateProductionWithEventsMutation();
 
-  const deleteEventFromProductionByIdMutation = useDeleteEventFromProductionById();
+  const deleteEventFromProductionByIdMutation = useDeleteEventFromProductionByIdMutation();
 
   const publishMutation = usePublishMutation({
     onSuccess: async () => {
