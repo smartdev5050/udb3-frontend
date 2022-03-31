@@ -437,6 +437,8 @@ const MovieForm = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
+  // eventId is set after adding (saving) the event
+  // or when entering the page from the edit route
   const [eventId, setEventId] = useState(
     (router.query.eventId as string) ?? '',
   );
