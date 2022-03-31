@@ -502,19 +502,13 @@ const MovieForm = () => {
 
   const footerStatus = useMemo(() => {
     if (queryClient.isMutating()) return FooterStatus.HIDDEN;
-    if (eventId && !event?.availableFrom) {
+    if (event?.['@id'] && !event?.availableFrom) {
       return FooterStatus.PUBLISH;
     }
     if (router.route.includes('edit')) return FooterStatus.AUTO_SAVE;
     if (dirtyFields.place) return FooterStatus.MANUAL_SAVE;
     return FooterStatus.HIDDEN;
-  }, [
-    eventId,
-    event?.availableFrom,
-    dirtyFields.place,
-    queryClient,
-    router.route,
-  ]);
+  }, [event, dirtyFields.place, queryClient, router.route]);
 
   useEffect(() => {
     if (footerStatus !== FooterStatus.HIDDEN) {
