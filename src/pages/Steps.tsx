@@ -101,7 +101,7 @@ type StepsProps<TFormData extends FormDataIntersection> = {
   eventId?: string;
   form: UseFormReturn<TFormData>;
   fieldLoading?: string;
-  onChange?: (value: string, field: string) => void;
+  onChange?: (editedField: string) => void;
   onChangeSuccess?: (editedField: string) => void;
   configuration: StepsConfiguration<TFormData>;
 };
@@ -153,7 +153,7 @@ const Steps = <TFormData extends FormDataIntersection>({
             >
               <Step<TFormData>
                 key={index}
-                onChange={(value) => onChange(field, value)}
+                onChange={(editedField: string) => onChange(editedField)}
                 loading={!!(field && fieldLoading === field)}
                 field={field}
                 eventId={eventId}
