@@ -191,7 +191,7 @@ const useAddEvent = ({ onSuccess }) => {
   const addEventMutation = useAddEventMutation();
   const changeTypicalAgeRangeMutation = useChangeTypicalAgeRangeMutation();
   const addLabelMutation = useAddLabelMutation();
-  
+
   const createProductionWithEventsMutation = useCreateProductionWithEventsMutation();
   const addEventToProductionByIdMutation = useAddEventToProductionByIdMutation();
 
