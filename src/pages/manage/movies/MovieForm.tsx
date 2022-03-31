@@ -453,8 +453,6 @@ const MovieForm = () => {
     (router.query.eventId as string) ?? '',
   );
 
-  const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
-
   const toast = useToast({
     messages: {
       image: t('movies.create.toast.success.image'),
@@ -490,7 +488,7 @@ const MovieForm = () => {
     false,
   );
 
-  useGetEvent({
+  const event = useGetEvent({
     id: eventId,
     onSuccess: (event: Event) => {
       const formData = {
@@ -513,8 +511,7 @@ const MovieForm = () => {
 
   const footerStatus = useMemo(() => {
     if (queryClient.isMutating()) return FooterStatus.HIDDEN;
-    // @ts-expect-error
-    if (eventId && !getEventByIdQuery.data?.availableFrom) {
+    if (eventId && !event?.availableFrom) {
       return FooterStatus.PUBLISH;
     }
     if (router.route.includes('edit')) return FooterStatus.AUTO_SAVE;
@@ -522,8 +519,7 @@ const MovieForm = () => {
     return FooterStatus.HIDDEN;
   }, [
     eventId,
-    // @ts-expect-error
-    getEventByIdQuery.data?.availableFrom,
+    event?.availableFrom,
     dirtyFields.place,
     queryClient,
     router.route,
