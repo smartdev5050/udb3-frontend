@@ -429,9 +429,8 @@ const MovieForm = () => {
 
   const {
     handleSubmit,
-    formState: { errors, dirtyFields },
+    formState: { dirtyFields },
     reset,
-    watch,
   } = form;
 
   const { t } = useTranslation();
@@ -521,9 +520,6 @@ const MovieForm = () => {
     }
   }, [footerStatus]);
 
-  const watchedTimeTable = watch('timeTable');
-  const watchedPlace = watch('place');
-
   const configuration: StepsConfiguration<FormData> = useMemo(() => {
     return [
       {
@@ -534,13 +530,19 @@ const MovieForm = () => {
       {
         Component: TimeTableStep,
         field: 'timeTable',
-        shouldShowNextStep: isOneTimeSlotValid(watchedTimeTable),
+        shouldShowNextStep: ({ watch }) => {
+          const watchedTimeTable = watch('timeTable');
+          return isOneTimeSlotValid(watchedTimeTable);
+        },
         title: t(`movies.create.step2.title`),
       },
       {
         Component: PlaceStep,
         field: 'place',
-        shouldShowNextStep: watchedPlace !== undefined,
+        shouldShowNextStep: ({ watch }) => {
+          const watchedPlace = watch('place');
+          return watchedPlace !== undefined;
+        },
         title: t(`movies.create.step3.title`),
         additionalProps: {
           terms: [EventTypes.Bioscoop],
@@ -549,7 +551,8 @@ const MovieForm = () => {
       {
         Component: ProductionStep,
         field: 'production',
-        shouldShowNextStep: !!eventId && Object.values(errors).length === 0,
+        shouldShowNextStep: ({ formState: { errors } }) =>
+          !!eventId && Object.values(errors).length === 0,
         title: t(`movies.create.step4.title`),
       },
       {
@@ -562,7 +565,7 @@ const MovieForm = () => {
         title: t(`movies.create.step5.title`),
       },
     ];
-  }, [errors, eventId, watchedPlace, watchedTimeTable, t, toast.trigger]);
+  }, [eventId, t, toast.trigger]);
 
   return (
     <Page>
@@ -583,7 +586,7 @@ const MovieForm = () => {
           mode={eventId ? 'UPDATE' : 'CREATE'}
           onChange={handleChange}
           fieldLoading={fieldLoading}
-          {...form}
+          form={form}
         />
       </Page.Content>
       {footerStatus !== FooterStatus.HIDDEN && (
