@@ -164,7 +164,7 @@ const Row = ({
         <Input
           id={`${date}-${index}`}
           key={`${date}-${index}`}
-          value={data?.[index] ?? ''}
+          value={(data?.[index] as string) ?? ''}
           onChange={(event) => {
             const value = event.target.value;
             onEditCell(
