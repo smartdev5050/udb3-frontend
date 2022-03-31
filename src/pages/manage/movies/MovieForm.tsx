@@ -366,6 +366,7 @@ const useEditField = ({ onSuccess, eventId, handleSubmit, editMap }) => {
   const preparedFieldToMutationFunctionMap = useMemo(() => {
     return Object.entries(editMap).reduce((newMap, [key, hook]) => {
       return {
+        // @ts-expect-error
         [key]: hook({ eventId, onSuccess: handleSuccess }),
         ...newMap,
       };
