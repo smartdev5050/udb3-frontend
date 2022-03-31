@@ -7,7 +7,7 @@ import {
   set as setTime,
 } from 'date-fns';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
@@ -103,39 +103,6 @@ const schema = yup
   .required();
 
 type EncodedTimeTable = Array<{ start: string; end: string }>;
-
-const convertTimeTableToSubEvents = (timeTable: TimeTableValue) => {
-  const { data = {} } = timeTable;
-  return Object.keys(data).reduce<EncodedTimeTable>(
-    (acc, date) => [
-      ...acc,
-      ...Object.keys(data[date]).reduce<EncodedTimeTable>((acc, index) => {
-        const time = data[date][index];
-
-        if (!time || !isMatch(time, "HH'h'mm'm'")) {
-          return acc;
-        }
-
-        const isoDate = formatDateToISO(
-          setTime(parseDate(date, 'dd/MM/yyyy', new Date()), {
-            hours: parseInt(time.substring(0, 2)),
-            minutes: parseInt(time.substring(3, 5)),
-            seconds: 0,
-          }),
-        );
-
-        return [
-          ...acc,
-          {
-            start: isoDate,
-            end: isoDate,
-          },
-        ];
-      }, []),
-    ],
-    [],
-  );
-};
 
 const convertSubEventsToTimeTable = (subEvents: SubEvent[] = []) => {
   const dateStart = format(new Date(subEvents[0].startDate), 'dd/MM/yyyy');
@@ -259,109 +226,159 @@ const useAddEvent = ({ onSuccess }) => {
   };
 };
 
-const useEditField = ({ onSuccess, eventId, handleSubmit }) => {
-  const queryClient = useQueryClient();
-  const [fieldLoading, setFieldLoading] = useState<keyof FormData>();
-
+const useEditNameAndProduction = ({ onSuccess, eventId }) => {
   const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
 
   const createProductionWithEventsMutation = useCreateProductionWithEventsMutation();
   const addEventToProductionByIdMutation = useAddEventToProductionByIdMutation();
   const deleteEventFromProductionByIdMutation = useDeleteEventFromProductionByIdMutation();
 
-  const handleSuccess = (editedField: string) => {
-    onSuccess(editedField);
-
-    if (editedField !== 'timeTable') {
-      queryClient.invalidateQueries(['events', { id: eventId }]);
-    }
-  };
-
-  const changeThemeMutation = useChangeThemeMutation({
-    onSuccess: () => handleSuccess('theme'),
-  });
-
-  const changeLocationMutation = useChangeLocationMutation({
-    onSuccess: () => handleSuccess('cinema'),
-  });
-
-  const changeCalendarMutation = useChangeCalendarMutation({
-    onSuccess: () => handleSuccess('calendar'),
-  });
-
   const changeNameMutation = useChangeNameMutation({
-    onSuccess: () => handleSuccess('name'),
+    onSuccess: () => onSuccess('name'),
   });
+
+  return async ({ production }: FormData) => {
+    if (!production) return;
+
+    // unlink event from current production
+    // @ts-expect-error
+    if (getEventByIdQuery.data?.production?.id) {
+      await deleteEventFromProductionByIdMutation.mutateAsync({
+        // @ts-expect-error
+        productionId: getEventByIdQuery.data.production.id,
+        eventId,
+      });
+    }
+
+    if (production.customOption) {
+      // make new production with name and event id
+      await createProductionWithEventsMutation.mutateAsync({
+        productionName: production.name,
+        eventIds: [eventId],
+      });
+    } else {
+      // link event to production
+      await addEventToProductionByIdMutation.mutateAsync({
+        productionId: production.production_id,
+        eventId,
+      });
+    }
+
+    // change name of event
+    await changeNameMutation.mutateAsync({
+      id: eventId,
+      lang: 'nl',
+      name: production.name,
+    });
+  };
+};
+
+const useEditLocation = ({ eventId, onSuccess }) => {
+  const changeLocationMutation = useChangeLocationMutation({
+    onSuccess: () => onSuccess('cinema'),
+  });
+
+  return async ({ place }: FormData) => {
+    if (!place) return;
+
+    await changeLocationMutation.mutateAsync({
+      id: eventId,
+      locationId: parseOfferId(place['@id']),
+    });
+  };
+};
+
+const convertTimeTableToSubEvents = (timeTable: TimeTableValue) => {
+  const { data = {} } = timeTable;
+  return Object.keys(data).reduce<EncodedTimeTable>(
+    (acc, date) => [
+      ...acc,
+      ...Object.keys(data[date]).reduce<EncodedTimeTable>((acc, index) => {
+        const time = data[date][index];
+
+        if (!time || !isMatch(time, "HH'h'mm'm'")) {
+          return acc;
+        }
+
+        const isoDate = formatDateToISO(
+          setTime(parseDate(date, 'dd/MM/yyyy', new Date()), {
+            hours: parseInt(time.substring(0, 2)),
+            minutes: parseInt(time.substring(3, 5)),
+            seconds: 0,
+          }),
+        );
+
+        return [
+          ...acc,
+          {
+            start: isoDate,
+            end: isoDate,
+          },
+        ];
+      }, []),
+    ],
+    [],
+  );
+};
+
+const useEditCalendar = ({ eventId, onSuccess }) => {
+  const changeCalendarMutation = useChangeCalendarMutation({
+    onSuccess: () => onSuccess('calendar'),
+  });
+
+  return async ({ timeTable }: FormData) => {
+    await changeCalendarMutation.mutateAsync({
+      id: eventId,
+      calendarType: CalendarType.MULTIPLE,
+      timeSpans: convertTimeTableToSubEvents(timeTable),
+    });
+  };
+};
+
+const useEditTheme = ({ eventId, onSuccess }) => {
+  const changeThemeMutation = useChangeThemeMutation({
+    onSuccess: () => onSuccess('theme'),
+  });
+
+  return async ({ eventTypeAndTheme }) => {
+    await changeThemeMutation.mutateAsync({
+      id: eventId,
+      themeId: eventTypeAndTheme.theme.id,
+    });
+  };
+};
+
+const useEditField = ({ onSuccess, eventId, handleSubmit, editMap }) => {
+  const queryClient = useQueryClient();
+  const [fieldLoading, setFieldLoading] = useState<keyof FormData>();
+
+  const handleSuccess = useCallback(
+    (editedField: string) => {
+      onSuccess(editedField);
+
+      if (editedField !== 'timeTable') {
+        queryClient.invalidateQueries(['events', { id: eventId }]);
+      }
+    },
+    [onSuccess, eventId, queryClient],
+  );
+
+  const preparedFieldToMutationFunctionMap = useMemo(() => {
+    return Object.entries(editMap).reduce((newMap, [key, hook]) => {
+      return {
+        [key]: hook({ eventId, onSuccess: handleSuccess }),
+        ...newMap,
+      };
+    }, {});
+  }, [editMap, eventId, handleSuccess]);
 
   const editEvent = async (
-    { production, place, eventTypeAndTheme, timeTable }: FormData,
+    formData: FormData,
     editedField?: keyof FormData,
   ) => {
     if (!editedField) return;
 
-    type FieldToMutationMap = Partial<
-      Record<keyof FormData, () => Promise<void>>
-    >;
-
-    const fieldToMutationFunctionMap: FieldToMutationMap = {
-      eventTypeAndTheme: async () => {
-        await changeThemeMutation.mutateAsync({
-          id: eventId,
-          themeId: eventTypeAndTheme.theme.id,
-        });
-      },
-      timeTable: async () => {
-        await changeCalendarMutation.mutateAsync({
-          id: eventId,
-          calendarType: CalendarType.MULTIPLE,
-          timeSpans: convertTimeTableToSubEvents(timeTable),
-        });
-      },
-      place: async () => {
-        if (!place) return;
-
-        await changeLocationMutation.mutateAsync({
-          id: eventId,
-          locationId: parseOfferId(place['@id']),
-        });
-      },
-      production: async () => {
-        if (!production) return;
-
-        // unlink event from current production
-        // @ts-expect-error
-        if (getEventByIdQuery.data?.production?.id) {
-          await deleteEventFromProductionByIdMutation.mutateAsync({
-            // @ts-expect-error
-            productionId: getEventByIdQuery.data.production.id,
-            eventId,
-          });
-        }
-
-        if (production.customOption) {
-          // make new production with name and event id
-          await createProductionWithEventsMutation.mutateAsync({
-            productionName: production.name,
-            eventIds: [eventId],
-          });
-        } else {
-          // link event to production
-          await addEventToProductionByIdMutation.mutateAsync({
-            productionId: production.production_id,
-            eventId,
-          });
-        }
-
-        // change name of event
-        await changeNameMutation.mutateAsync({
-          id: eventId,
-          lang: 'nl',
-          name: production.name,
-        });
-      },
-    };
-
-    await fieldToMutationFunctionMap[editedField]?.();
+    await preparedFieldToMutationFunctionMap[editedField]?.(formData);
 
     setFieldLoading(undefined);
   };
@@ -471,10 +488,20 @@ const MovieForm = () => {
   const handleChangeSuccess = (editedField: string) =>
     toast.trigger(editedField);
 
+  const editMap = useMemo(() => {
+    return {
+      eventTypeAndTheme: useEditTheme,
+      timeTable: useEditCalendar,
+      place: useEditLocation,
+      production: useEditNameAndProduction,
+    };
+  }, []);
+
   const { handleChange, fieldLoading } = useEditField({
     eventId,
     handleSubmit,
     onSuccess: handleChangeSuccess,
+    editMap,
   });
 
   const [isPublishLaterModalVisible, setIsPublishLaterModalVisible] = useState(
