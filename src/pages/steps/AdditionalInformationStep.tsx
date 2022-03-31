@@ -500,7 +500,7 @@ const AdditionalInformationStep = ({
             label={t('create.additionalInformation.description.title')}
             Component={
               <TextArea
-                rows={10}
+                rows={5}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 onBlur={handleBlurDescription}
