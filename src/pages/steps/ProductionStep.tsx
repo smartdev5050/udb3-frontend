@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { useGetProductions } from '@/hooks/api/productions';
+import { useGetProductionsQuery } from '@/hooks/api/productions';
 import type { FormDataIntersection, StepProps } from '@/pages/Steps';
 import type { Production } from '@/types/Production';
 import { Button, ButtonVariants } from '@/ui/Button';
@@ -33,7 +33,7 @@ const ProductionStep = <TFormData extends FormDataIntersection>({
   const { t } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
 
-  const useGetProductionsQuery = useGetProductions(
+  const getProductionsQuery = useGetProductionsQuery(
     // @ts-expect-error
     {
       name: searchInput,
@@ -42,9 +42,9 @@ const ProductionStep = <TFormData extends FormDataIntersection>({
   );
 
   // @ts-expect-error
-  const productions = useMemo(() => useGetProductionsQuery.data?.member ?? [], [
+  const productions = useMemo(() => getProductionsQuery.data?.member ?? [], [
     // @ts-expect-error
-    useGetProductionsQuery.data?.member,
+    getProductionsQuery.data?.member,
   ]);
 
   return (

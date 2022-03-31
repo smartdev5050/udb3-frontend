@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { Cookies } from 'react-cookie';
 import { useTranslation } from 'react-i18next';
 
-import { useGetUser } from '@/hooks/api/user';
+import { useGetUserQuery } from '@/hooks/api/user';
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import {
   useHandleWindowMessage,
@@ -29,7 +29,7 @@ const useChangeLanguage = () => {
 const useHandleAuthentication = () => {
   const { pathname, query, asPath, ...router } = useRouter();
   const { setCookie, cookies } = useCookiesWithOptions(['user', 'token']);
-  const getUserQuery = useGetUser();
+  const getUserQuery = useGetUserQuery();
 
   useEffect(() => {
     if (!query?.jwt) return;

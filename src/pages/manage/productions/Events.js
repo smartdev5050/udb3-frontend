@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { css } from 'styled-components';
 
 import { CalendarType } from '@/constants/CalendarType';
-import { useGetCalendarSummary } from '@/hooks/api/events';
+import { useGetCalendarSummaryQuery } from '@/hooks/api/events';
 import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { parseSpacing } from '@/ui/Box';
@@ -35,7 +35,7 @@ const Event = ({
   className,
 }) => {
   const { i18n, t } = useTranslation();
-  const getCalendarSummaryQuery = useGetCalendarSummary({
+  const getCalendarSummaryQuery = useGetCalendarSummaryQuery({
     id,
     locale: i18n?.language ?? '',
     format: calendarType === CalendarType.SINGLE ? 'lg' : 'sm',

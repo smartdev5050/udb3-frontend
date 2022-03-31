@@ -3,17 +3,17 @@ import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
 import {
-  useAddEventMainImage,
-  useAddImageToEvent,
-  useAddPriceInfo,
-  useAddVideoToEvent,
-  useChangeDescription,
-  useDeleteImageFromEvent,
-  useDeleteVideoFromEvent,
-  useGetEventById,
-  useUpdateImageFromEvent,
+  useAddEventMainImageMutation,
+  useAddImageToEventMutation,
+  useAddPriceInfoMutation,
+  useAddVideoToEventMutation,
+  useChangeDescriptionMutation,
+  useDeleteImageFromEventMutation,
+  useDeleteVideoFromEventMutation,
+  useGetEventByIdQuery,
+  useUpdateImageFromEventMutation,
 } from '@/hooks/api/events';
-import { useAddImage } from '@/hooks/api/images';
+import { useAddImageMutation } from '@/hooks/api/images';
 import { PictureDeleteModal } from '@/pages/steps/modals/PictureDeleteModal';
 import type { FormData } from '@/pages/steps/modals/PictureUploadModal';
 import { PictureUploadModal } from '@/pages/steps/modals/PictureUploadModal';
@@ -88,9 +88,9 @@ const AdditionalInformationStep = ({
 
   const [videos, setVideos] = useState([]);
 
-  const getEventByIdQuery = useGetEventById({ id: eventId });
+  const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
 
-  const addImageToEventMutation = useAddImageToEvent({
+  const addImageToEventMutation = useAddImageToEventMutation({
     onSuccess: async () => {
       setIsPictureUploadModalVisible(false);
       await invalidateEventQuery('image');
@@ -101,38 +101,38 @@ const AdditionalInformationStep = ({
     return addImageToEventMutation.mutate({ eventId, imageId });
   };
 
-  const addImageMutation = useAddImage({
+  const addImageMutation = useAddImageMutation({
     onSuccess: handleSuccessAddImage,
   });
 
-  const addEventMainImageMutation = useAddEventMainImage({
+  const addEventMainImageMutation = useAddEventMainImageMutation({
     onSuccess: async () => {
       await invalidateEventQuery('image');
     },
   });
 
-  const updateImageFromEventMutation = useUpdateImageFromEvent({
-    onSuccess: async () => {
-      setIsPictureUploadModalVisible(false);
-      await invalidateEventQuery('image');
-    },
-  });
-
-  const deleteImageFromEventMutation = useDeleteImageFromEvent({
+  const updateImageFromEventMutation = useUpdateImageFromEventMutation({
     onSuccess: async () => {
       setIsPictureUploadModalVisible(false);
       await invalidateEventQuery('image');
     },
   });
 
-  const addVideoToEventMutation = useAddVideoToEvent({
+  const deleteImageFromEventMutation = useDeleteImageFromEventMutation({
+    onSuccess: async () => {
+      setIsPictureUploadModalVisible(false);
+      await invalidateEventQuery('image');
+    },
+  });
+
+  const addVideoToEventMutation = useAddVideoToEventMutation({
     onSuccess: async () => {
       setIsVideoLinkDeleteModalVisible(false);
       await invalidateEventQuery('video');
     },
   });
 
-  const deleteVideoFromEventMutation = useDeleteVideoFromEvent({
+  const deleteVideoFromEventMutation = useDeleteVideoFromEventMutation({
     onSuccess: async () => {
       setIsVideoLinkDeleteModalVisible(false);
       await invalidateEventQuery('video');
@@ -286,7 +286,7 @@ const AdditionalInformationStep = ({
     onSuccess(field);
   };
 
-  const changeDescriptionMutation = useChangeDescription({
+  const changeDescriptionMutation = useChangeDescriptionMutation({
     onSuccess: async () => {
       await invalidateEventQuery('description');
     },
@@ -358,7 +358,7 @@ const AdditionalInformationStep = ({
     });
   };
 
-  const addPriceInfoMutation = useAddPriceInfo({
+  const addPriceInfoMutation = useAddPriceInfoMutation({
     onSuccess: () => setIsPriceInfoModalVisible(false),
   });
 

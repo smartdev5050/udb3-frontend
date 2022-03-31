@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { useGetThemesByEventTypeId } from '@/hooks/api/themes';
+import { useGetThemesByEventTypeIdQuery } from '@/hooks/api/themes';
 import type { FormDataIntersection, StepProps } from '@/pages/Steps';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
@@ -21,7 +21,7 @@ const EventTypeAndThemeStep = <TFormData extends FormDataIntersection>({
 }: StepProps<TFormData>) => {
   const { t, i18n } = useTranslation();
 
-  const useGetThemesByCategoryIdQuery = useGetThemesByEventTypeId({
+  const useGetThemesByCategoryIdQuery = useGetThemesByEventTypeIdQuery({
     eventTypeId: 'test',
   });
 

@@ -5,7 +5,7 @@ import { QueryClient } from 'react-query';
 import { generatePath, matchPath } from 'react-router';
 import UniversalCookies from 'universal-cookie';
 
-import { useGetUser } from '@/hooks/api/user';
+import { useGetUserQuery } from '@/hooks/api/user';
 import { isFeatureFlagEnabledInCookies } from '@/hooks/useFeatureFlag';
 
 import { getRedirects } from '../redirects';
@@ -127,7 +127,7 @@ const getApplicationServerSideProps = (callbackFn) => async ({
 
   const queryClient = new QueryClient();
 
-  const user = await useGetUser({ req, queryClient });
+  const user = await useGetUserQuery({ req, queryClient });
 
   if (user) {
     cookies.set('user', user);

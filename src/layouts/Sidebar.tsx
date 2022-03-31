@@ -5,9 +5,9 @@ import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
-import { useGetAnnouncements } from '@/hooks/api/announcements';
-import { useGetEventsToModerate } from '@/hooks/api/events';
-import { useGetPermissions, useGetRoles } from '@/hooks/api/user';
+import { useGetAnnouncementsQuery } from '@/hooks/api/announcements';
+import { useGetEventsToModerateQuery } from '@/hooks/api/events';
+import { useGetPermissionsQuery, useGetRolesQuery } from '@/hooks/api/user';
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
@@ -266,14 +266,14 @@ const Sidebar = () => {
 
   const [searchQuery, setSearchQuery] = useState('');
 
-  const getAnnouncementsQuery = useGetAnnouncements({
+  const getAnnouncementsQuery = useGetAnnouncementsQuery({
     refetchInterval: 60000,
   });
 
   const rawAnnouncements = getAnnouncementsQuery.data?.data ?? [];
-  const getPermissionsQuery = useGetPermissions();
-  const getRolesQuery = useGetRoles();
-  const getEventsToModerateQuery = useGetEventsToModerate(searchQuery);
+  const getPermissionsQuery = useGetPermissionsQuery();
+  const getRolesQuery = useGetRolesQuery();
+  const getEventsToModerateQuery = useGetEventsToModerateQuery(searchQuery);
   // @ts-expect-error
   const countEventsToModerate = getEventsToModerateQuery.data?.totalItems || 0;
 

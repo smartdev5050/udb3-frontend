@@ -38,7 +38,7 @@ const getOrganizerById = async ({ headers, id }: GetOrganizerByIdArguments) => {
   return await res.json();
 };
 
-const useGetOrganizerById = (
+const useGetOrganizerByIdQuery = (
   { req, queryClient, id },
   configuration: UseQueryOptions = {},
 ) =>
@@ -80,13 +80,13 @@ const deleteOrganizerById = async ({ headers, id }) =>
     options: { headers, method: 'DELETE' },
   });
 
-const useDeleteOrganizerById = (configuration = {}) =>
+const useDeleteOrganizerByIdMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: deleteOrganizerById,
     ...configuration,
   });
 
-const useGetOrganizersByCreator = (
+const useGetOrganizersByCreatorQuery = (
   {
     req,
     queryClient,
@@ -118,7 +118,7 @@ const useGetOrganizersByCreator = (
   });
 
 export {
-  useDeleteOrganizerById,
-  useGetOrganizerById,
-  useGetOrganizersByCreator,
+  useDeleteOrganizerByIdMutation,
+  useGetOrganizerByIdQuery,
+  useGetOrganizersByCreatorQuery,
 };

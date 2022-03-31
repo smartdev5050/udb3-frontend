@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import { OfferStatus } from '@/constants/OfferStatus';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
-import { useChangeStatusSubEvents } from '@/hooks/api/events';
+import { useChangeStatusSubEventsMutation } from '@/hooks/api/events';
 import { Alert } from '@/ui/Alert';
 import { Icons } from '@/ui/Icon';
 import { Link, LinkVariants } from '@/ui/Link';
@@ -59,7 +59,7 @@ const AvailabilityPageMultiple = ({ event, refetchEvent }) => {
     setIsBookingModalVisible(false);
   };
 
-  const changeSubEventsMutation = useChangeStatusSubEvents({
+  const changeSubEventsMutation = useChangeStatusSubEventsMutation({
     onSuccess: handleSuccess,
   });
 

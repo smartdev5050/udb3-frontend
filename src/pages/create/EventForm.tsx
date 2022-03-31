@@ -37,7 +37,11 @@ const EventForm = () => {
     resolver: yupResolver(schema),
   });
 
-  const configuration: StepsConfiguration<FormData> = useMemo(() => {
+  const configuration: StepsConfiguration<
+    FormData & {
+      additionalInformation: any;
+    }
+  > = useMemo(() => {
     return [
       {
         Component: TypeStep,

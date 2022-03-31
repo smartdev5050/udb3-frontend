@@ -76,7 +76,7 @@ const addEvent = async ({
     },
   });
 
-const useAddEvent = (configuration = {}) =>
+const useAddEventMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: addEvent,
     ...configuration,
@@ -100,7 +100,7 @@ const getEventsToModerate = async ({ headers, queryKey, ...queryData }) => {
   return await res.json();
 };
 
-const useGetEventsToModerate = (searchQuery, configuration = {}) =>
+const useGetEventsToModerateQuery = (searchQuery, configuration = {}) =>
   useAuthenticatedQuery<Event[]>({
     queryKey: ['events'],
     queryFn: getEventsToModerate,
@@ -134,7 +134,7 @@ type UseGetEventByIdArguments = ServerSideQueryOptions & {
   id: string;
 };
 
-const useGetEventById = (
+const useGetEventByIdQuery = (
   { req, queryClient, id }: UseGetEventByIdArguments,
   configuration = {},
 ) =>
@@ -148,7 +148,7 @@ const useGetEventById = (
     ...configuration,
   });
 
-const useGetEventsByIds = ({ req, queryClient, ids = [] }) => {
+const useGetEventsByIdsQuery = ({ req, queryClient, ids = [] }) => {
   const options = ids.map((id) => ({
     queryKey: ['events'],
     queryFn: getEventById,
@@ -165,7 +165,7 @@ const deleteEventById = async ({ headers, id }) =>
     options: { headers, method: 'DELETE' },
   });
 
-const useDeleteEventById = (configuration = {}) =>
+const useDeleteEventByIdMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: deleteEventById,
     ...configuration,
@@ -188,7 +188,7 @@ const getEventsByCreator = async ({ headers, ...queryData }) => {
   return await res.json();
 };
 
-const useGetEventsByCreator = (
+const useGetEventsByCreatorQuery = (
   {
     req,
     queryClient,
@@ -243,7 +243,7 @@ const getCalendarSummary = async ({ headers, id, format, locale }) => {
   return res.text();
 };
 
-const useGetCalendarSummary = (
+const useGetCalendarSummaryQuery = (
   { id, locale, format = 'lg' },
   configuration: UseQueryOptions = {},
 ) =>
@@ -280,7 +280,7 @@ const changeTheme = async ({ headers, id, themeId }) => {
   });
 };
 
-const useChangeTheme = (configuration = {}) =>
+const useChangeThemeMutation = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: changeTheme, ...configuration });
 
 const changeLocation = async ({ headers, id, locationId }) => {
@@ -293,7 +293,7 @@ const changeLocation = async ({ headers, id, locationId }) => {
   });
 };
 
-const useChangeLocation = (configuration = {}) =>
+const useChangeLocationMutation = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: changeLocation, ...configuration });
 
 const changeName = async ({ headers, id, lang, name }) => {
@@ -307,7 +307,7 @@ const changeName = async ({ headers, id, lang, name }) => {
   });
 };
 
-const useChangeName = (configuration = {}) =>
+const useChangeNameMutation = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: changeName, ...configuration });
 
 const changeCalendar = async ({
@@ -345,7 +345,7 @@ const changeCalendar = async ({
   });
 };
 
-const useChangeCalendar = (configuration = {}) =>
+const useChangeCalendarMutation = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: changeCalendar, ...configuration });
 
 const changeStatus = async ({ headers, id, type, reason }) =>
@@ -358,7 +358,7 @@ const changeStatus = async ({ headers, id, type, reason }) =>
     },
   });
 
-const useChangeStatus = (configuration = {}) =>
+const useChangeStatusMutation = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: changeStatus, ...configuration });
 
 const changeStatusSubEvents = async ({
@@ -417,7 +417,7 @@ const createSubEventPatch = (
   return subEventPatch;
 };
 
-const useChangeStatusSubEvents = (configuration = {}) =>
+const useChangeStatusSubEventsMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: changeStatusSubEvents,
     ...configuration,
@@ -433,7 +433,7 @@ const addImageToEvent = async ({ headers, eventId, imageId }) =>
     },
   });
 
-const useAddImageToEvent = (configuration = {}) =>
+const useAddImageToEventMutation = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: addImageToEvent, ...configuration });
 
 const updateImageFromEvent = async ({
@@ -462,13 +462,13 @@ const addEventMainImage = async ({ headers, eventId, imageId }) =>
     },
   });
 
-const useAddEventMainImage = (configuration = {}) =>
+const useAddEventMainImageMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: addEventMainImage,
     ...configuration,
   });
 
-const useUpdateImageFromEvent = (configuration = {}) =>
+const useUpdateImageFromEventMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: updateImageFromEvent,
     ...configuration,
@@ -483,7 +483,7 @@ const deleteImageFromEvent = async ({ headers, eventId, imageId }) =>
     },
   });
 
-const useDeleteImageFromEvent = (configuration = {}) =>
+const useDeleteImageFromEventMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: deleteImageFromEvent,
     ...configuration,
@@ -499,7 +499,7 @@ const changeDescription = async ({ headers, eventId, language, description }) =>
     },
   });
 
-const useChangeDescription = (configuration = {}) =>
+const useChangeDescriptionMutation = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: changeDescription, ...configuration });
 
 const changeTypicalAgeRange = async ({ headers, eventId, typicalAgeRange }) =>
@@ -512,7 +512,7 @@ const changeTypicalAgeRange = async ({ headers, eventId, typicalAgeRange }) =>
     },
   });
 
-const useChangeTypicalAgeRange = (configuration = {}) =>
+const useChangeTypicalAgeRangeMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: changeTypicalAgeRange,
     ...configuration,
@@ -527,7 +527,7 @@ const addLabel = async ({ headers, eventId, label }) =>
     },
   });
 
-const useAddLabel = (configuration = {}) =>
+const useAddLabelMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: addLabel,
     ...configuration,
@@ -543,7 +543,7 @@ const addPriceInfo = async ({ headers, eventId, priceInfo }) =>
     },
   });
 
-const useAddPriceInfo = (configuration = {}) =>
+const useAddPriceInfoMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: addPriceInfo,
     ...configuration,
@@ -562,7 +562,7 @@ const publish = async ({ headers, eventId, publicationDate }) =>
     },
   });
 
-const usePublish = (configuration = {}) =>
+const usePublishMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: publish,
     ...configuration,
@@ -581,7 +581,7 @@ const addVideoToEvent = async ({ headers, eventId, url, language }) =>
     },
   });
 
-const useAddVideoToEvent = (configuration = {}) =>
+const useAddVideoToEventMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: addVideoToEvent,
     ...configuration,
@@ -596,37 +596,37 @@ const deleteVideoFromEvent = async ({ headers, eventId, videoId }) =>
     },
   });
 
-const useDeleteVideoFromEvent = (configuration = {}) =>
+const useDeleteVideoFromEventMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: deleteVideoFromEvent,
     ...configuration,
   });
 
 export {
-  useAddEvent,
-  useAddEventMainImage,
-  useAddImageToEvent,
-  useAddLabel,
-  useAddPriceInfo,
-  useAddVideoToEvent,
-  useChangeCalendar,
-  useChangeDescription,
-  useChangeLocation,
-  useChangeName,
-  useChangeStatus,
-  useChangeStatusSubEvents,
-  useChangeTheme,
-  useChangeTypicalAgeRange,
-  useDeleteEventById,
-  useDeleteImageFromEvent,
-  useDeleteVideoFromEvent,
-  useGetCalendarSummary,
-  useGetEventById,
-  useGetEventsByCreator,
-  useGetEventsByIds,
-  useGetEventsToModerate,
-  usePublish,
-  useUpdateImageFromEvent,
+  useAddEventMainImageMutation,
+  useAddEventMutation,
+  useAddImageToEventMutation,
+  useAddLabelMutation,
+  useAddPriceInfoMutation,
+  useAddVideoToEventMutation,
+  useChangeCalendarMutation,
+  useChangeDescriptionMutation,
+  useChangeLocationMutation,
+  useChangeNameMutation,
+  useChangeStatusMutation,
+  useChangeStatusSubEventsMutation,
+  useChangeThemeMutation,
+  useChangeTypicalAgeRangeMutation,
+  useDeleteEventByIdMutation,
+  useDeleteImageFromEventMutation,
+  useDeleteVideoFromEventMutation,
+  useGetCalendarSummaryQuery,
+  useGetEventByIdQuery,
+  useGetEventsByCreatorQuery,
+  useGetEventsByIdsQuery,
+  useGetEventsToModerateQuery,
+  usePublishMutation,
+  useUpdateImageFromEventMutation,
 };
 
 export type { Calendar, EventArguments };
