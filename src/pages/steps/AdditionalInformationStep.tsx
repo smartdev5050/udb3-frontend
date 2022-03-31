@@ -53,7 +53,7 @@ const AdditionalInformationStepVariant = {
   EXTENDED: 'extended',
 } as const;
 
-type Field = 'description' | 'image' | 'video';
+type Field = 'description' | 'image' | 'video' | 'priceInfo';
 
 type Props = StackProps & {
   eventId: string;
@@ -200,6 +200,9 @@ const AdditionalInformationStep = ({
   ]);
 
   const priceInfo = useMemo(() => {
+    if (variant !== AdditionalInformationStepVariant.EXTENDED) {
+      return [];
+    }
     // @ts-expect-error
     const priceInfo = getEventByIdQuery.data?.priceInfo ?? [];
     // @ts-expect-error
@@ -221,6 +224,7 @@ const AdditionalInformationStep = ({
     // @ts-expect-error
     getEventByIdQuery.data?.mainLanguage,
     i18n.language,
+    variant,
   ]);
 
   const enrichVideos = async (video: Video[]) => {
@@ -366,7 +370,10 @@ const AdditionalInformationStep = ({
   };
 
   const addPriceInfoMutation = useAddPriceInfoMutation({
-    onSuccess: () => setIsPriceInfoModalVisible(false),
+    onSuccess: async () => {
+      await invalidateEventQuery('priceInfo');
+      setIsPriceInfoModalVisible(false);
+    },
   });
 
   const handlePriceInfoSubmitValid = async ({ rates }: PriceInfoFormData) => {
