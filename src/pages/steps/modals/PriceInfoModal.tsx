@@ -102,12 +102,26 @@ const PriceInfoModal = ({
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     defaultValues: {
-      rates: priceInfo,
+      rates: [
+        {
+          name: {
+            nl: 'Basistarief',
+            fr: 'Tarif de base',
+            en: 'Base tariff',
+            de: 'Basisrate',
+          },
+          price: '',
+          category: PriceCategories.BASE,
+          priceCurrency: PRICE_CURRENCY,
+        },
+      ],
     },
   });
 
   useEffect(() => {
-    setValue('rates', [...priceInfo]);
+    if (priceInfo?.length > 0) {
+      setValue('rates', [...priceInfo]);
+    }
   }, [priceInfo]);
 
   const watchedRates = watch('rates');
@@ -292,22 +306,6 @@ const PriceInfoModal = ({
       </Stack>
     </Modal>
   );
-};
-
-PriceInfoModal.defaultProps = {
-  rates: [
-    {
-      name: {
-        nl: 'Basistarief',
-        fr: 'Tarif de base',
-        en: 'Base tariff',
-        de: 'Basisrate',
-      },
-      price: '',
-      category: PriceCategories.BASE,
-      priceCurrency: PRICE_CURRENCY,
-    },
-  ],
 };
 
 export { PriceCategories, PriceInfoModal };
