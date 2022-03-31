@@ -149,6 +149,73 @@
       "save": " Sauver"
     }
   },
+  "create": {
+    "publish_modal": {
+      "title": "Choisissez une date de publication",
+      "description": "A partir de quand l'activité peut-elle apparaître en ligne?",
+      "warning": "Attention, vous ne pouvez définir cette date qu'une seule fois.",
+      "actions": {
+        "cancel": "Annuler",
+        "confirm": "Confirmer"
+      }
+    },
+    "additionalInformation": {
+      "title": "Augmentez la visibilité de votre évènement",
+      "description": {
+        "title": "Description",
+        "clear": "Vider",
+        "progress_info": {
+          "not_complete": "Pour attirer un nouveau public, les {{idealLength}} premier caractères sont les plus importants. Encore {{count}} caractères.",
+          "complete": "Intégrez le message le plus important dans les {{idealLength}} premiers caractères. Vous pouvez ensuite ajouter des informations générales."
+        },
+        "tips": {
+          "0.50.4.0.0": "Donnez une description enthousiaste du concert. <ul><li>Quel(s) <strong>artiste(s)</strong> se produisent?</li><li>De quel <strong>genre</strong> s'agit-il?</li><li>Quel <strong>album ou œuvre</strong> sera présenté?</li></ul>",
+          "0.54.0.0.0": "Donnez une description enthousiaste du spectacle de danse. <ul> <li>Qui est le <strong>chorégraphe</strong>?</li> <li>Qui sont les <strong>danseurs</strong>?</li> <li>Dans quel <strong>style</strong> dansent-ils?</li> <li>Quel est le <strong>thème ou le sujet</strong> de la représentation?</li> </ul>",
+          "0.5.0.0.0": "Donnez une description enthousiaste du festival. <ul><li>Qui ou quoi est au <strong>programme</strong>?</li><li>Quelle est l'<strong>animation</strong> (périphérique)?</li></ul>",
+          "0.50.6.0.0": "Donnez une description enthousiaste du cinéma. <ul><li>Faites une brève description de <strong>l'histoire</strong>.</li><li>Qui est le <strong>réalisateur</strong>?</li><li>Qui sont les <strong>protagonistes</strong>?</li><li>Le film a-t-il remporté des <strong>prix</strong>?</li></ul>",
+          "0.3.2.0.0": "Donnez une description enthousiaste de la conférence où congrès <ul><li>Quels <strong>thèmes</strong> sont couverts?</li><li>Quels <strong>orateurs</strong> prennent la parole?</li></ul>",
+          "0.55.0.0.0": "Donnez une description enthousiaste du théâtre. <ul><li>Esquissez brièvement <strong>l'histoire</strong> ou le <strong>thème</strong>.</li><li>Quelle<strong> compagnie de théâtre</strong> jouera la pièce?</li><li>Quels sont les <strong>acteurs</strong> qui jouent?</li></ul>",
+          "0.19.0.0.0": "Donnez une description enthousiaste de la compétition sportive. <ul><li>Quelles <strong>équipes</strong> ou <strong>quels participants </strong>jouent?</li><li>Dans quelle <strong>compétition</strong> se déroule la compétition?</li></ul>",
+          "0.37.0.0.0": "Donnez une description enthousiaste du marché, foire ou fête foraine <ul><li>Dans <strong>quelles rues </strong>a-t-il lieu?</li><li>Quels seront les <strong>stands</strong> ou les <strong>stands de vente</strong>?</li><li>Y a-t-il une <strong>animation</strong> (de bord)?</li></ul>",
+          "0.12.0.0.0": "Donnez une description enthousiaste de la journée portes ouvertes. Que pouvez-vous <strong>voir</strong> ou <strong>vivre</strong>?",
+          "0.6.0.0.0": "Donnez une description enthousiaste de la foire. Que pouvez-vous <strong>voir</strong>, <strong>vivre</strong> ou <strong>acheter</strong>?",
+          "0.0.0.0.0": "Donnez une description enthousiaste de l'exposition. <ul><li>Quels sont les <strong>artistes</strong> qui exposent?</li><li>Quelles <strong>collections</strong> peuvent être vues?</li><li>Existe-t-il un <strong>guide (audio)</strong> ou une <strong>brochure</strong>?</li></ul>",
+          "0.7.0.0.0": "Donnez une description enthousiaste de la visite guidée. <ul><li>Qu'y a-t-il à <strong>voir</strong> ou à <strong>vivre</strong> le long du parcours?</li><li>Y a-t-il un <strong>nombre</strong> maximum de <strong>participants</strong>?</li><li>La visite guidée est-elle organisée en continu ou à des moments précis?</li><li>Y a-t-il des <strong>points d'attention</strong> particuliers (par exemple, des bottes indiquées)?</li></ul>",
+          "0.3.1.0.0": "Donnez une description enthousiaste de la série de cours. <ul> <li>Qu'y apprenez-vous exactement?</li> <li>Des <strong>connaissances préalables</strong> sont-elles nécessaires pour participer?</li> <li>Quel est le <strong>niveau</strong> des cours?</li> <li>Recevez-vous un <strong>diplôme</strong> ou un certificat à la fin?</li> </ul>",
+          "0.3.1.0.1": "Donnez une description enthousiaste du cours avec sessions ouvertes ou workshop. <ul><li>Qu'y apprenez-vous exactement?</li><li>Des <strong>connaissances préalables</strong> sont-elles nécessaires pour participer?</li><li>Quel est le <strong>niveau</strong> des cours?</li><li>Recevez-vous un <strong>diplôme</strong> ou un certificat à la fin?</li> </ul>",
+          "0.57.0.0.0": "Donnez une description enthousiaste du camp de vacances <ul><li>Quelles <strong>activités</strong> pouvez-vous y faire?</li><li>Y a-t-il un <strong>thème</strong>?</li><li>Est-il <strong>avec ou sans nuitées</strong>?</li><li>Quelle est <strong>l'heure de début</strong> <strong>et de fin</strong> des camps de jour et les soins sont-ils <strong>fournis</strong> avant et après?</li></ul>",
+          "0.28.0.0.0": "Donnez une description enthousiaste de la festivité <ul><li>Quelles sont les <strong>attractions</strong>?</li><li>Y a-t-il des <strong>activités (périphériques)</strong>: quiz, concerts, food trucks, marché,...?</li></ul>",
+          "0.17.0.0.0": "Donnez une description enthousiaste de l'itinéraire. <ul><li>Faites-vous le <strong>trajet à pied, en vélo, en bateau</strong>,..?</li><li>Quels sont les <strong>arrêts possibles</strong>?</li><li>Quelle est la <strong>distance</strong> ou la <strong>durée</strong> de l'itinéraire?</li><li>L'itinéraire est-il <strong>accompagné</strong>, avec un guide, une brochure ou des panneaux indicateurs?</li></ul>",
+          "0.49.0.0.0": "Donnez une description enthousiaste de la soirée. Quels <strong>deejays</strong> ou <strong>groupes</strong> se produisent?",
+          "1.50.0.0.0": "Donnez une description enthousiaste du festin de nourriture ou de boisson. <ul> <li>Qu'y a-t-il au <strong>menu</strong>?</li> <li>Les <strong>recettes</strong> seront-elles versées à une <strong>organisation caritative</strong>?</li> <li>Y a-t-il une <strong>animation (périphérique)</strong>?</li> </ul>",
+          "0.50.21.0.0": "Donnez une description enthousiaste du quiz ou du jeu. <ul><li>Sur quels <strong>sujets</strong> porte le quiz?</li><li>Le jeu a-t-il un <strong>thème</strong>?</li><li>Y a-t-il quelque chose à <strong>gagner</strong>?</li><li>Y a-t-il un <strong>nombre maximum de participants</strong>?</li></ul>",
+          "0.59.0.0.0": "Donnez une description enthousiaste de l'activité sportive. <ul><li>Quel(s) <strong>sport(s)</strong> pouvez-vous pratiquer?</li><li>Quel <strong>matériel</strong> est (non) fourni?</li></ul>",
+          "0.14.0.0.0": "Donnez ici une description enthousiaste du monument. Indiquez également si l'ouverture du monument est limitée (p.ex. seulement des salons)."
+        }
+      },
+      "picture": {
+        "add_button": "Ajouter une image",
+        "intro": "Ajoutez une image de sorte que les visiteurs reconnaissent mieux votre activité.",
+        "change": "Modifier",
+        "delete": "Supprimer",
+        "set_as_main_image": "Créer image principale"
+      },
+      "price_info": {
+        "euro": "euro",
+        "title": "Ajouter des prix",
+        "close": "Fermer",
+        "save": "Sauver",
+        "free": "Gratuit",
+        "add": "Ajouter tarif",
+        "delete": "Supprimer tarif",
+        "basic_rate": "Tarif de base",
+        "target": "Public cible",
+        "price": "Prix",
+        "uitpas_error": "Le prix UiTPAS est calculé pour vous par UiTdatabank. Vous ne pouvez pas les ajouter vous-même.",
+        "global_error": "Cette information du prix semble invalide et ne peut pas être enregistrée. <ul><li>Notez les décimales avec une virgule.</li><li>Ne laissez aucune ligne vide, remplissez toujours un public cible et un montant.</li><li>Donnez au maximum deux chiffres après la virgule.</li></ul>"
+      }
+    }
+  },
   "dashboard": {
     "welcome": "Bienvenue",
     "create": {
