@@ -377,7 +377,7 @@ const useEditField = ({ onSuccess, eventId, handleSubmit }) => {
   return { handleChange, fieldLoading };
 };
 
-const useGetEvent = ({ id, reset, convertBodyToFormData }) => {
+const useGetEvent = ({ id, onSuccess }) => {
   const getEventByIdQuery = useGetEventByIdQuery({ id });
 
   useEffect(() => {
@@ -385,7 +385,7 @@ const useGetEvent = ({ id, reset, convertBodyToFormData }) => {
     const event: Event = getEventByIdQuery.data;
     if (!event) return;
 
-    reset(convertBodyToFormData(event), { keepDirty: true });
+    onSuccess(event);
 
     // @ts-expect-error
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -496,9 +496,8 @@ const MovieForm = () => {
 
   useGetEvent({
     id: eventId,
-    reset,
-    convertBodyToFormData: (event: Event) => {
-      return {
+    onSuccess: (event: Event) => {
+      const formData = {
         eventTypeAndTheme: {
           theme: event.terms.find((term) => term.domain === 'theme'),
           eventType: event.terms.find((term) => term.domain === 'eventtype'),
@@ -511,6 +510,8 @@ const MovieForm = () => {
           events: event.production?.otherEvents,
         },
       };
+
+      reset(formData, { keepDirty: true });
     },
   });
 
