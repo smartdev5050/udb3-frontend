@@ -44,6 +44,7 @@ import { VideoLinkAddModal } from '../VideoLinkAddModal';
 import { VideoLinkDeleteModal } from '../VideoLinkDeleteModal';
 import type { Video, VideoEnriched } from '../VideoUploadBox';
 import { VideoUploadBox } from '../VideoUploadBox';
+import { PriceInformation } from './PriceInformation';
 
 const IDEAL_DESCRIPTION_LENGTH = 200;
 
@@ -59,8 +60,6 @@ type Props = StackProps & {
   onSuccess: (field: Field) => void;
   variant?: Values<typeof AdditionalInformationStepVariant>;
 };
-
-const getValue = getValueFromTheme('additionalInformationStep');
 
 const AdditionalInformationStep = ({
   eventId,
@@ -223,10 +222,6 @@ const AdditionalInformationStep = ({
     getEventByIdQuery.data?.mainLanguage,
     i18n.language,
   ]);
-
-  const hasPriceInfo = useMemo(() => {
-    return priceInfo.length > 0;
-  }, [priceInfo]);
 
   const enrichVideos = async (video: Video[]) => {
     const getYoutubeThumbnailUrl = (videoUrl: string) => {
@@ -517,52 +512,11 @@ const AdditionalInformationStep = ({
             }
             info={<DescriptionInfo />}
           />
-          <Inline spacing={3}>
-            <Text fontWeight="bold">Prijs</Text>
-            {hasPriceInfo && <Icon color="green" name={Icons.CHECK_CIRCLE} />}
-          </Inline>
-          <Inline
-            justifyContent="space-between"
-            paddingTop={3}
-            paddingBottom={3}
-          >
-            <Text>Prijzen</Text>
-            <Button
-              onClick={() => setIsPriceInfoModalVisible(true)}
-              variant={ButtonVariants.SECONDARY}
-            >
-              Wijzigen
-            </Button>
-          </Inline>
-          {priceInfo.map((rate: Rate, index) => (
-            <Inline
-              key={index}
-              justifyContent="space-between"
-              paddingTop={3}
-              paddingBottom={3}
-              css={`
-                border-top: 1px solid ${getValue('borderColor')};
-              `}
-            >
-              <Text>{rate.name[i18n.language]}</Text>
-              <Text>
-                {rate.price === '0,00'
-                  ? t('create.additionalInformation.price_info.free')
-                  : `${rate.price} ${t(
-                      'create.additionalInformation.price_info.euro',
-                    )}`}
-              </Text>
-            </Inline>
-          ))}
-          {!hasPriceInfo && (
-            <Stack alignItems="flex-start">
-              <Button
-                onClick={() => setIsPriceInfoModalVisible(true)}
-                variant={ButtonVariants.SECONDARY}
-              >
-                {t('create.additionalInformation.price_info.title')}
-              </Button>
-            </Stack>
+          {variant === AdditionalInformationStepVariant.EXTENDED && (
+            <PriceInformation
+              priceInfo={priceInfo}
+              onClickAddPriceInfo={() => setIsPriceInfoModalVisible(true)}
+            />
           )}
         </Stack>
         <Stack spacing={4} flex={1}>

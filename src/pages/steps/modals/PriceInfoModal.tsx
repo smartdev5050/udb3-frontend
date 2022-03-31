@@ -52,7 +52,7 @@ type PriceInfoModalProps = {
   priceInfo: Rate[];
 };
 
-const getValue = getValueFromTheme('priceInfoModal');
+const getValue = getValueFromTheme('priceInformation');
 
 const isNotUitpas = (value: any): boolean => {
   return value[i18n.language].toLowerCase() !== 'uitpas';
