@@ -453,10 +453,6 @@ const MovieForm = () => {
     (router.query.eventId as string) ?? '',
   );
 
-  useEffect(() => setEventId(router.query.eventId as string), [
-    router.query.eventId,
-  ]);
-
   const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
 
   const toast = useToast({
