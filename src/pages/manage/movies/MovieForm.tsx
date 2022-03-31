@@ -486,9 +486,9 @@ const MovieForm = () => {
         place: event.location,
         timeTable: convertSubEventsToTimeTable(event.subEvent),
         production: {
-          production_id: event.production.id,
-          name: event.production.title,
-          events: event.production.otherEvents,
+          production_id: event.production?.id,
+          name: event.production?.title,
+          events: event.production?.otherEvents,
         },
       },
       { keepDirty: true },
