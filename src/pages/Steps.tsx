@@ -18,6 +18,7 @@ type StepsConfiguration<TFormData extends FormDataIntersection> = Array<{
   field?: Path<TFormData>;
   step?: number;
   title: string;
+  variant?: string;
   shouldShowNextStep?: (
     data: UseFormReturn<TFormData> & {
       eventId?: string;
@@ -97,7 +98,6 @@ type StepProps<TFormData extends FormDataIntersection> = Omit<
 };
 
 type StepsProps<TFormData extends FormDataIntersection> = {
-  variant?: string;
   eventId?: string;
   form: UseFormReturn<TFormData>;
   fieldLoading?: string;
@@ -107,7 +107,6 @@ type StepsProps<TFormData extends FormDataIntersection> = {
 };
 
 const Steps = <TFormData extends FormDataIntersection>({
-  variant,
   onChange,
   configuration,
   fieldLoading,
@@ -123,7 +122,14 @@ const Steps = <TFormData extends FormDataIntersection>({
     <Stack spacing={5}>
       {configuration.map(
         (
-          { Component: Step, field, additionalProps = {}, step, title },
+          {
+            Component: Step,
+            field,
+            additionalProps = {},
+            variant,
+            step,
+            title,
+          },
           index: number,
         ) => {
           const shouldShowNextStep =
