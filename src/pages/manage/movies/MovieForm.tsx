@@ -167,173 +167,35 @@ const convertSubEventsToTimeTable = (subEvents: SubEvent[] = []) => {
 const nextWeekWednesday = nextWednesday(new Date());
 const formatDate = (date: Date) => format(date, 'dd/MM/yyyy');
 
-const MovieForm = () => {
-  const form = useForm<FormData>({
-    resolver: yupResolver(schema),
-    defaultValues: {
-      timeTable: {
-        data: {},
-        dateStart: formatDate(nextWeekWednesday),
-        dateEnd: formatDate(nextWeekWednesday),
-      },
-      eventTypeAndTheme: {
-        eventType: {
-          id: EventTypes.Film,
-          label: 'Film',
-        },
-      },
+const usePublishEvent = ({ id, onSuccess }) => {
+  const queryClient = useQueryClient();
+
+  const publishMutation = usePublishMutation({
+    onSuccess: () => {
+      queryClient.invalidateQueries(['events', { id }]);
+      onSuccess();
     },
   });
 
-  const {
-    handleSubmit,
-    formState: { errors, dirtyFields },
-    reset,
-    watch,
-    trigger,
-  } = form;
+  return async (date: Date = new Date()) => {
+    if (!id) return;
 
-  const { t } = useTranslation();
-  const router = useRouter();
-  const queryClient = useQueryClient();
+    await publishMutation.mutateAsync({
+      eventId: id,
+      publicationDate: formatDateToISO(date),
+    });
+  };
+};
 
-  const [newEventId, setNewEventId] = useState(
-    (router.query.eventId as string) ?? '',
-  );
-
-  const [toastMessage, setToastMessage] = useState<string>();
-
-  const [isPublishLaterModalVisible, setIsPublishLaterModalVisible] = useState(
-    false,
-  );
-  const [publishLaterDate, setPublishLaterDate] = useState(new Date());
-  const [fieldLoading, setFieldLoading] = useState<keyof FormData>();
-
-  const addEventMutation = useAddEventMutation({
-    onSuccess: async () => await queryClient.invalidateQueries('events'),
-  });
-
-  const getEventByIdQuery = useGetEventByIdQuery({ id: newEventId });
-
-  const addEventToProductionByIdMutation = useAddEventToProductionByIdMutation();
-
+const useAddEvent = ({ onSuccess }) => {
+  const addEventMutation = useAddEventMutation();
   const changeTypicalAgeRangeMutation = useChangeTypicalAgeRangeMutation();
-
   const addLabelMutation = useAddLabelMutation();
 
   const createProductionWithEventsMutation = useCreateProductionWithEventsMutation();
+  const addEventToProductionByIdMutation = useAddEventToProductionByIdMutation();
 
-  const deleteEventFromProductionByIdMutation = useDeleteEventFromProductionByIdMutation();
-
-  const publishMutation = usePublishMutation({
-    onSuccess: async () => {
-      await queryClient.invalidateQueries(['events', { id: newEventId }]);
-      router.push(`/event/${newEventId}/preview`);
-    },
-  });
-
-  const changeThemeMutation = useChangeThemeMutation({
-    onSuccess: () => setToastMessage(t('movies.create.toast.success.theme')),
-  });
-
-  const changeLocationMutation = useChangeLocationMutation({
-    onSuccess: () => setToastMessage(t('movies.create.toast.success.cinema')),
-  });
-
-  const changeCalendarMutation = useChangeCalendarMutation({
-    onSuccess: () => setToastMessage(t('movies.create.toast.success.timeslot')),
-  });
-
-  const changeNameMutation = useChangeNameMutation({
-    onSuccess: () => setToastMessage(t('movies.create.toast.success.name')),
-  });
-
-  const availableFromDate = useMemo(() => {
-    // @ts-expect-error
-    if (!getEventByIdQuery.data?.availableFrom) return;
-    // @ts-expect-error
-    return new Date(getEventByIdQuery.data?.availableFrom);
-    // @ts-expect-error
-  }, [getEventByIdQuery.data]);
-
-  const editExistingEvent = async (
-    { production, place, eventTypeAndTheme, timeTable }: FormData,
-    editedField?: keyof FormData,
-  ) => {
-    if (!editedField) return;
-
-    type FieldToMutationMap = Partial<
-      Record<keyof FormData, () => Promise<void>>
-    >;
-
-    const fieldToMutationFunctionMap: FieldToMutationMap = {
-      eventTypeAndTheme: async () => {
-        await changeThemeMutation.mutateAsync({
-          id: newEventId,
-          themeId: eventTypeAndTheme.theme.id,
-        });
-      },
-      timeTable: async () => {
-        await changeCalendarMutation.mutateAsync({
-          id: newEventId,
-          calendarType: CalendarType.MULTIPLE,
-          timeSpans: convertTimeTableToSubEvents(timeTable),
-        });
-      },
-      place: async () => {
-        if (!place) return;
-
-        await changeLocationMutation.mutateAsync({
-          id: newEventId,
-          locationId: parseOfferId(place['@id']),
-        });
-      },
-      production: async () => {
-        if (!production) return;
-
-        // unlink event from current production
-        // @ts-expect-error
-        if (getEventByIdQuery.data?.production?.id) {
-          await deleteEventFromProductionByIdMutation.mutateAsync({
-            // @ts-expect-error
-            productionId: getEventByIdQuery.data.production.id,
-            eventId: newEventId,
-          });
-        }
-
-        if (production.customOption) {
-          // make new production with name and event id
-          await createProductionWithEventsMutation.mutateAsync({
-            productionName: production.name,
-            eventIds: [newEventId],
-          });
-        } else {
-          // link event to production
-          await addEventToProductionByIdMutation.mutateAsync({
-            productionId: production.production_id,
-            eventId: newEventId,
-          });
-        }
-
-        // change name of event
-        await changeNameMutation.mutateAsync({
-          id: newEventId,
-          lang: 'nl',
-          name: production.name,
-        });
-      },
-    };
-
-    await fieldToMutationFunctionMap[editedField]?.();
-
-    setFieldLoading(undefined);
-
-    if (editedField !== 'timeTable') {
-      queryClient.invalidateQueries(['events', { id: newEventId }]);
-    }
-  };
-
-  const createNewEvent = async ({
+  return async ({
     production,
     place,
     eventTypeAndTheme: { eventType, theme },
@@ -393,39 +255,222 @@ const MovieForm = () => {
       });
     }
 
-    setNewEventId(eventId);
+    onSuccess(eventId);
   };
+};
 
-  const handleFormValid = async (
-    formData: FormData,
-    editedField?: keyof FormData,
-  ) => {
-    if (newEventId) {
-      await editExistingEvent(formData, editedField);
-    } else {
-      await createNewEvent(formData);
+const useEditField = ({ onSuccess, id, handleSubmit }) => {
+  const queryClient = useQueryClient();
+  const [fieldLoading, setFieldLoading] = useState<keyof FormData>();
+
+  const getEventByIdQuery = useGetEventByIdQuery({ id });
+
+  const createProductionWithEventsMutation = useCreateProductionWithEventsMutation();
+  const addEventToProductionByIdMutation = useAddEventToProductionByIdMutation();
+  const deleteEventFromProductionByIdMutation = useDeleteEventFromProductionByIdMutation();
+
+  const handleSuccess = (editedField: string) => {
+    onSuccess(editedField);
+    if (editedField !== 'timeTable') {
+      queryClient.invalidateQueries(['events', { id }]);
     }
   };
 
-  const handleClickPublish = async () => {
-    await publishMutation.mutateAsync({
-      eventId: newEventId,
-      publicationDate: formatDateToISO(new Date()),
-    });
-  };
+  const changeThemeMutation = useChangeThemeMutation({
+    onSuccess: () => handleSuccess('theme'),
+  });
 
-  const handleConfirmPublishLater = async () => {
-    await publishMutation.mutateAsync({
-      eventId: newEventId,
-      publicationDate: formatDateToISO(publishLaterDate),
-    });
+  const changeLocationMutation = useChangeLocationMutation({
+    onSuccess: () => handleSuccess('cinema'),
+  });
+
+  const changeCalendarMutation = useChangeCalendarMutation({
+    onSuccess: () => handleSuccess('calendar'),
+  });
+
+  const changeNameMutation = useChangeNameMutation({
+    onSuccess: () => handleSuccess('name'),
+  });
+
+  const editEvent = async (
+    { production, place, eventTypeAndTheme, timeTable }: FormData,
+    editedField?: keyof FormData,
+  ) => {
+    if (!editedField) return;
+
+    type FieldToMutationMap = Partial<
+      Record<keyof FormData, () => Promise<void>>
+    >;
+
+    const fieldToMutationFunctionMap: FieldToMutationMap = {
+      eventTypeAndTheme: async () => {
+        await changeThemeMutation.mutateAsync({
+          id,
+          themeId: eventTypeAndTheme.theme.id,
+        });
+      },
+      timeTable: async () => {
+        await changeCalendarMutation.mutateAsync({
+          id,
+          calendarType: CalendarType.MULTIPLE,
+          timeSpans: convertTimeTableToSubEvents(timeTable),
+        });
+      },
+      place: async () => {
+        if (!place) return;
+
+        await changeLocationMutation.mutateAsync({
+          id,
+          locationId: parseOfferId(place['@id']),
+        });
+      },
+      production: async () => {
+        if (!production) return;
+
+        // unlink event from current production
+        // @ts-expect-error
+        if (getEventByIdQuery.data?.production?.id) {
+          await deleteEventFromProductionByIdMutation.mutateAsync({
+            // @ts-expect-error
+            productionId: getEventByIdQuery.data.production.id,
+            eventId: id,
+          });
+        }
+
+        if (production.customOption) {
+          // make new production with name and event id
+          await createProductionWithEventsMutation.mutateAsync({
+            productionName: production.name,
+            eventIds: [id],
+          });
+        } else {
+          // link event to production
+          await addEventToProductionByIdMutation.mutateAsync({
+            productionId: production.production_id,
+            eventId: id,
+          });
+        }
+
+        // change name of event
+        await changeNameMutation.mutateAsync({
+          id,
+          lang: 'nl',
+          name: production.name,
+        });
+      },
+    };
+
+    await fieldToMutationFunctionMap[editedField]?.();
+
+    setFieldLoading(undefined);
   };
 
   const handleChange = (editedField: keyof FormData) => {
-    if (!newEventId) return;
+    if (!id) return;
     setFieldLoading(editedField);
-    handleSubmit(async (formData) => handleFormValid(formData, editedField))();
+    handleSubmit(async (formData: FormData) =>
+      editEvent(formData, editedField),
+    )();
   };
+
+  return { handleChange, fieldLoading };
+};
+
+const useToast = ({ messages, title }) => {
+  const [message, setMessage] = useState<string>();
+
+  const clear = () => setMessage(undefined);
+
+  const trigger = (key: string) => {
+    const foundMessage = messages[key];
+    if (!foundMessage) return;
+    setMessage(foundMessage);
+  };
+
+  const header = useMemo(
+    () => (
+      <Inline as="div" flex={1} justifyContent="space-between">
+        <Text>{title}</Text>
+        <Text>{format(new Date(), 'HH:mm')}</Text>
+      </Inline>
+    ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [message],
+  );
+
+  return { message, header, clear, trigger };
+};
+
+const MovieForm = () => {
+  const form = useForm<FormData>({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      timeTable: {
+        data: {},
+        dateStart: formatDate(nextWeekWednesday),
+        dateEnd: formatDate(nextWeekWednesday),
+      },
+      eventTypeAndTheme: {
+        eventType: {
+          id: EventTypes.Film,
+          label: 'Film',
+        },
+      },
+    },
+  });
+
+  const {
+    handleSubmit,
+    formState: { errors, dirtyFields },
+    reset,
+    watch,
+    trigger,
+  } = form;
+
+  const { t } = useTranslation();
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
+  const [newEventId, setNewEventId] = useState(
+    (router.query.eventId as string) ?? '',
+  );
+
+  const getEventByIdQuery = useGetEventByIdQuery({ id: newEventId });
+
+  const toast = useToast({
+    messages: {
+      image: t('movies.create.toast.success.image'),
+      description: t('movies.create.toast.success.description'),
+      calendar: t('movies.create.toast.success.calendar'),
+      video: t('movies.create.toast.success.video'),
+      theme: t('movies.create.toast.success.theme'),
+      cinema: t('movies.create.toast.success.cinema'),
+      timeslot: t('movies.create.toast.success.timeslot'),
+      name: t('movies.create.toast.success.name'),
+    },
+    title: t('movies.create.toast.success.title'),
+  });
+
+  const publishEvent = usePublishEvent({
+    id: newEventId,
+    onSuccess: () => {
+      router.push(`/event/${newEventId}/preview`);
+    },
+  });
+
+  const addEvent = useAddEvent({
+    onSuccess: setNewEventId,
+  });
+
+  const { handleChange, fieldLoading } = useEditField({
+    id: newEventId,
+    handleSubmit,
+    onSuccess: toast.trigger,
+  });
+
+  const [isPublishLaterModalVisible, setIsPublishLaterModalVisible] = useState(
+    false,
+  );
 
   useEffect(() => {
     // @ts-expect-error
@@ -441,9 +486,9 @@ const MovieForm = () => {
         place: event.location,
         timeTable: convertSubEventsToTimeTable(event.subEvent),
         production: {
-          production_id: event.production.id,
-          name: event.production.title,
-          events: event.production.otherEvents,
+          production_id: event.production?.id,
+          name: event.production?.title,
+          events: event.production?.otherEvents,
         },
       },
       { keepDirty: true },
@@ -456,14 +501,18 @@ const MovieForm = () => {
   }, [getEventByIdQuery.data]);
 
   const footerStatus = useMemo(() => {
-    if (router.route.includes('edit')) return FooterStatus.AUTO_SAVE;
     if (queryClient.isMutating()) return FooterStatus.HIDDEN;
-    if (newEventId && !availableFromDate) return FooterStatus.PUBLISH;
+    // @ts-expect-error
+    if (newEventId && !getEventByIdQuery.data?.availableFrom) {
+      return FooterStatus.PUBLISH;
+    }
+    if (router.route.includes('edit')) return FooterStatus.AUTO_SAVE;
     if (dirtyFields.place) return FooterStatus.MANUAL_SAVE;
     return FooterStatus.HIDDEN;
   }, [
     newEventId,
-    availableFromDate,
+    // @ts-expect-error
+    getEventByIdQuery.data?.availableFrom,
     dirtyFields.place,
     queryClient,
     router.route,
@@ -476,16 +525,6 @@ const MovieForm = () => {
     }
   }, [footerStatus]);
 
-  const header = useMemo(
-    () => (
-      <Inline as="div" flex={1} justifyContent="space-between">
-        <Text>{t('movies.create.toast.success.title')}</Text>
-        <Text>{format(new Date(), 'HH:mm')}</Text>
-      </Inline>
-    ),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [toastMessage],
-  );
   const watchedTimeTable = watch('timeTable');
   const watchedPlace = watch('place');
 
@@ -522,22 +561,12 @@ const MovieForm = () => {
         additionalProps: {
           variant: AdditionalInformationStepVariant.MINIMAL,
           eventId: newEventId,
-          onSuccess: (field: string) => {
-            if (field === 'image') {
-              setToastMessage(t('movies.create.toast.success.image'));
-            }
-            if (field === 'description') {
-              setToastMessage(t('movies.create.toast.success.description'));
-            }
-            if (field === 'video') {
-              setToastMessage(t('movies.create.toast.success.video'));
-            }
-          },
+          onSuccess: toast.trigger,
         },
         title: t(`movies.create.step5.title`),
       },
     ];
-  }, [errors, newEventId, watchedPlace, watchedTimeTable, t]);
+  }, [errors, newEventId, watchedPlace, watchedTimeTable, t, toast.trigger]);
 
   return (
     <Page>
@@ -548,10 +577,10 @@ const MovieForm = () => {
       <Page.Content spacing={5} alignItems="flex-start">
         <Toast
           variant="success"
-          header={header}
-          body={toastMessage}
-          visible={!!toastMessage}
-          onClose={() => setToastMessage(undefined)}
+          header={toast.header}
+          body={toast.message}
+          visible={!!toast.message}
+          onClose={() => toast.clear()}
         />
         <Steps<FormData>
           configuration={configuration}
@@ -568,7 +597,7 @@ const MovieForm = () => {
               [
                 <Button
                   variant={ButtonVariants.SUCCESS}
-                  onClick={handleClickPublish}
+                  onClick={async () => publishEvent()}
                   key="publish"
                 >
                   {t('movies.create.actions.publish')}
@@ -589,11 +618,7 @@ const MovieForm = () => {
                 </Text>,
               ]
             ) : footerStatus === FooterStatus.MANUAL_SAVE ? (
-              <Button
-                onClick={handleSubmit(async (formData) => {
-                  handleFormValid(formData);
-                })}
-              >
+              <Button onClick={handleSubmit(addEvent)}>
                 {t('movies.create.actions.save')}
               </Button>
             ) : (
@@ -612,9 +637,7 @@ const MovieForm = () => {
           </Inline>
           <PublishLaterModal
             visible={isPublishLaterModalVisible}
-            selectedDate={publishLaterDate}
-            onChangeDate={setPublishLaterDate}
-            onConfirm={handleConfirmPublishLater}
+            onConfirm={publishEvent}
             onClose={() => setIsPublishLaterModalVisible(false)}
           />
         </Page.Footer>
