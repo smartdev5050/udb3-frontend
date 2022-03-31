@@ -114,7 +114,7 @@ type CopyPayload =
   | { method: 'all'; data: { [key: string]: Data } };
 
 type RowProps = InlineProps & {
-  data: Object;
+  data: Record<string, unknown>;
   date: string;
   onCopy: (date: string) => void;
   onRowPaste: (payload: CopyPayload, index: number, date: string) => void;
@@ -164,7 +164,7 @@ const Row = ({
         <Input
           id={`${date}-${index}`}
           key={`${date}-${index}`}
-          value={data?.[index] ?? ''}
+          value={(data?.[index] as string) ?? ''}
           onChange={(event) => {
             const value = event.target.value;
             onEditCell(
