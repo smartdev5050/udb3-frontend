@@ -567,10 +567,12 @@ const MovieForm = () => {
     ];
   }, [t]);
 
+  const title = t(`movies.create.title`);
+
   return (
     <Page>
       <Page.Title spacing={3} alignItems="center">
-        {t(`movies.create.title`)}
+        {title}
       </Page.Title>
 
       <Page.Content spacing={5} alignItems="flex-start">
