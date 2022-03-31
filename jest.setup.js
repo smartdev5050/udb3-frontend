@@ -6,6 +6,7 @@ import { setConfig } from 'next/config';
 
 fetchMock.enableMocks();
 
+// eslint-disable-next-line no-console
 console.error = jest.fn();
 
 jest.mock('@/layouts/Sidebar.tsx', () => ({
