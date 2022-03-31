@@ -334,7 +334,7 @@ const useEditField = ({ onSuccess, eventId, handleSubmit }) => {
           await deleteEventFromProductionByIdMutation.mutateAsync({
             // @ts-expect-error
             productionId: getEventByIdQuery.data.production.id,
-            eventId: eventId,
+            eventId,
           });
         }
 
