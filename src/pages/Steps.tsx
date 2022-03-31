@@ -114,14 +114,12 @@ const Steps = <TFormData extends FormDataIntersection>({
   eventId,
   ...props
 }: StepsProps<TFormData>) => {
-  const keys = Object.keys(form.getValues());
-
   const showStep = ({ field, index }) => {
     // when there is an eventId, we're in edit mode, show all fields
     if (!!eventId) return true;
 
-    // don't hide fields that were edited
-    if (keys.includes(field)) return true;
+    // don't hide steps that were visible before
+    if (Object.keys(form.getValues()).includes(field)) return true;
 
     // no shouldShowNextStep function = show the step
     return (
