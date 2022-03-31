@@ -24,7 +24,7 @@ type StepsConfiguration<TFormData extends FormDataIntersection> = Array<{
       eventId?: string;
     },
   ) => boolean;
-  additionalProps?: { [key: string]: unknown };
+  additionalProps?: Record<string, unknown>;
 }>;
 
 type NumberIndicatorProps = {
