@@ -466,10 +466,13 @@ const MovieForm = () => {
     onSuccess: setEventId,
   });
 
+  const handleChangeSuccess = (editedField: string) =>
+    toast.trigger(editedField);
+
   const { handleChange, fieldLoading } = useEditField({
     eventId,
     handleSubmit,
-    onSuccess: toast.trigger,
+    onSuccess: handleChangeSuccess,
   });
 
   const [isPublishLaterModalVisible, setIsPublishLaterModalVisible] = useState(
@@ -581,7 +584,7 @@ const MovieForm = () => {
           configuration={configuration}
           onChange={handleChange}
           fieldLoading={fieldLoading}
-          onChangeSuccess={(editedField) => toast.trigger(editedField)}
+          onChangeSuccess={handleChangeSuccess}
           eventId={eventId}
           form={form}
         />
