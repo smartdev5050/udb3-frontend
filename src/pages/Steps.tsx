@@ -153,7 +153,7 @@ const Steps = <TFormData extends FormDataIntersection>({
             >
               <Step<TFormData>
                 key={index}
-                onChange={(editedField: string) => onChange(editedField)}
+                onChange={() => onChange(field)}
                 loading={!!(field && fieldLoading === field)}
                 field={field}
                 eventId={eventId}
