@@ -57,7 +57,7 @@ type Field = 'description' | 'image' | 'video' | 'priceInfo';
 
 type Props = StackProps & {
   eventId: string;
-  onSuccess: (field: Field) => void;
+  onSuccess?: (field: Field) => void;
   variant?: Values<typeof AdditionalInformationStepVariant>;
 };
 
@@ -294,7 +294,7 @@ const AdditionalInformationStep = ({
 
   const invalidateEventQuery = async (field: Field) => {
     await queryClient.invalidateQueries(['events', { id: eventId }]);
-    onSuccess(field);
+    onSuccess?.(field);
   };
 
   const changeDescriptionMutation = useChangeDescriptionMutation({
