@@ -152,7 +152,7 @@ const PriceInfoModal = ({
   };
 
   const isPriceFree = (price: string): boolean => {
-    return price === '0' || price === '0,0' || price === '0,00';
+    return ['0', '0,0', '0,00'].includes(price);
   };
 
   useEffect(() => {
