@@ -551,7 +551,7 @@ const MovieForm = () => {
       {
         Component: ProductionStep,
         field: 'production',
-        shouldShowNextStep: ({ formState: { errors } }) =>
+        shouldShowNextStep: ({ formState: { errors }, eventId }) =>
           !!eventId && Object.values(errors).length === 0,
         title: t(`movies.create.step4.title`),
       },
@@ -559,13 +559,12 @@ const MovieForm = () => {
         Component: AdditionalInformationStep,
         additionalProps: {
           variant: AdditionalInformationStepVariant.MINIMAL,
-          eventId,
           onSuccess: toast.trigger,
         },
         title: t(`movies.create.step5.title`),
       },
     ];
-  }, [eventId, t, toast.trigger]);
+  }, [t, toast.trigger]);
 
   return (
     <Page>
@@ -586,6 +585,7 @@ const MovieForm = () => {
           mode={eventId ? 'UPDATE' : 'CREATE'}
           onChange={handleChange}
           fieldLoading={fieldLoading}
+          eventId={eventId}
           form={form}
         />
       </Page.Content>

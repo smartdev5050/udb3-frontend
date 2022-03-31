@@ -18,7 +18,11 @@ type StepsConfiguration<TFormData extends FormDataIntersection> = Array<{
   field?: Path<TFormData>;
   step?: number;
   title: string;
-  shouldShowNextStep?: (form: UseFormReturn<TFormData>) => boolean;
+  shouldShowNextStep?: (
+    data: UseFormReturn<TFormData> & {
+      eventId?: string;
+    },
+  ) => boolean;
   additionalProps?: { [key: string]: unknown };
 }>;
 
@@ -93,6 +97,7 @@ type StepProps<TFormData extends FormDataIntersection> = Omit<
 };
 
 type StepsProps<TFormData extends FormDataIntersection> = {
+  eventId?: string;
   form: UseFormReturn<TFormData>;
   mode: 'UPDATE' | 'CREATE';
   fieldLoading?: string;
@@ -106,6 +111,7 @@ const Steps = <TFormData extends FormDataIntersection>({
   configuration,
   fieldLoading,
   form,
+  eventId,
   ...props
 }: StepsProps<TFormData>) => {
   const keys = Object.keys(form.getValues());
@@ -118,7 +124,10 @@ const Steps = <TFormData extends FormDataIntersection>({
           index: number,
         ) => {
           const shouldShowNextStep =
-            configuration[index - 1]?.shouldShowNextStep?.(form) ?? true;
+            configuration[index - 1]?.shouldShowNextStep?.({
+              ...form,
+              eventId,
+            }) ?? true;
 
           if (
             !keys.includes(field) &&
@@ -141,6 +150,7 @@ const Steps = <TFormData extends FormDataIntersection>({
                 onChange={(value) => onChange(field, value)}
                 loading={!!(field && fieldLoading === field)}
                 field={field}
+                eventId={eventId}
                 {...form}
                 {...props}
                 {...additionalProps}
