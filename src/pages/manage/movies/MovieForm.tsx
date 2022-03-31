@@ -28,9 +28,9 @@ import {
   usePublishMutation,
 } from '@/hooks/api/events';
 import {
-  useAddEventByIdMutation as useAddEventToProductionById,
-  useCreateWithEventsMutation as useCreateProductionWithEvents,
-  useDeleteEventByIdMutation as useDeleteEventFromProductionById,
+  useAddEventByIdMutation as useAddEventToProductionByIdMutation,
+  useCreateWithEventsMutation as useCreateProductionWithEventsMutation,
+  useDeleteEventByIdMutation as useDeleteEventFromProductionByIdMutation,
 } from '@/hooks/api/productions';
 import type { StepsConfiguration } from '@/pages/Steps';
 import { Steps } from '@/pages/Steps';
@@ -191,8 +191,9 @@ const useAddEvent = ({ onSuccess }) => {
   const addEventMutation = useAddEventMutation();
   const changeTypicalAgeRangeMutation = useChangeTypicalAgeRangeMutation();
   const addLabelMutation = useAddLabelMutation();
-  const createProductionWithEventsMutation = useCreateProductionWithEvents();
-  const addEventToProductionByIdMutation = useAddEventToProductionById();
+  
+  const createProductionWithEventsMutation = useCreateProductionWithEventsMutation();
+  const addEventToProductionByIdMutation = useAddEventToProductionByIdMutation();
 
   return async ({
     production,
@@ -264,10 +265,8 @@ const useEditField = ({ onSuccess, id, handleSubmit }) => {
 
   const getEventByIdQuery = useGetEventByIdQuery({ id });
 
-  const createProductionWithEventsMutation = useCreateProductionWithEvents();
-  const addEventToProductionByIdMutation = useAddEventToProductionById();
-
-  const deleteEventFromProductionByIdMutation = useDeleteEventFromProductionById();
+  const createProductionWithEventsMutation = useCreateProductionWithEventsMutation();
+  const deleteEventFromProductionByIdMutation = useDeleteEventFromProductionByIdMutation();
 
   const handleSuccess = (editedField: string) => {
     onSuccess(editedField);
