@@ -17,7 +17,10 @@ import { useAddImageMutation } from '@/hooks/api/images';
 import { PictureDeleteModal } from '@/pages/steps/modals/PictureDeleteModal';
 import type { FormData } from '@/pages/steps/modals/PictureUploadModal';
 import { PictureUploadModal } from '@/pages/steps/modals/PictureUploadModal';
-import type { FormData as PriceInfoFormData } from '@/pages/steps/modals/PriceInfoModal';
+import type {
+  FormData as PriceInfoFormData,
+  Rate,
+} from '@/pages/steps/modals/PriceInfoModal';
 import { PriceInfoModal } from '@/pages/steps/modals/PriceInfoModal';
 import type { Values } from '@/types/Values';
 import { Alert } from '@/ui/Alert';
@@ -363,7 +366,7 @@ const AdditionalInformationStep = ({
   });
 
   const handlePriceInfoSubmitValid = async ({ rates }: PriceInfoFormData) => {
-    const convertedPriceInfo = rates.map((rate) => {
+    const convertedPriceInfo = rates.map((rate: Rate) => {
       return {
         ...rate,
         price: parseFloat(rate.price.replace(',', '.')),

@@ -313,4 +313,4 @@ const PriceInfoModal = ({
 };
 
 export { PriceCategories, PriceInfoModal };
-export type { FormData };
+export type { FormData, Rate };
