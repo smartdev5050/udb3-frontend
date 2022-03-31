@@ -17,7 +17,9 @@ import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
 import { Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 
-const PRICE_CURRENCY = 'EUR';
+const PRICE_CURRENCY: string = 'EUR';
+
+const PRICE_REGEX: RegExp = /^([1-9][0-9]*|[0-9]|[0])(,[0-9]{1,2})?$/;
 
 const PriceCategories = {
   BASE: 'base',
@@ -57,8 +59,6 @@ const shouldHaveAName = (value: any): boolean => {
   return !!value[i18n.language];
 };
 
-const priceRegex: RegExp = /^([1-9][0-9]*|[0-9]|[0])(,[0-9]{1,2})?$/;
-
 const schema = yup
   .object()
   .shape({
@@ -75,7 +75,7 @@ const schema = yup
           .test(`name-is-not-uitpas`, 'should not be uitpas', isNotUitpas)
           .required(),
         category: yup.string(),
-        price: yup.string().matches(priceRegex).required(),
+        price: yup.string().matches(PRICE_REGEX).required(),
         priceCurrency: yup.string(),
       }),
     ),
