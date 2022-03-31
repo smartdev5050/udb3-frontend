@@ -116,7 +116,21 @@ const Steps = <TFormData extends FormDataIntersection>({
 }: StepsProps<TFormData>) => {
   const keys = Object.keys(form.getValues());
 
-  const mode = eventId ? 'UPDATE' : 'CREATE';
+  const showStep = ({ field, index }) => {
+    // when there is an eventId, we're in edit mode, show all fields
+    if (!!eventId) return true;
+
+    // don't hide fields that were edited
+    if (keys.includes(field)) return true;
+
+    // no shouldShowNextStep function = show the step
+    return (
+      configuration[index - 1]?.shouldShowNextStep?.({
+        ...form,
+        eventId,
+      }) ?? true
+    );
+  };
 
   return (
     <Stack spacing={5}>
@@ -125,17 +139,7 @@ const Steps = <TFormData extends FormDataIntersection>({
           { Component: Step, field, stepProps = {}, variant, step, title },
           index: number,
         ) => {
-          const shouldShowNextStep =
-            configuration[index - 1]?.shouldShowNextStep?.({
-              ...form,
-              eventId,
-            }) ?? true;
-
-          if (
-            !keys.includes(field) &&
-            !shouldShowNextStep &&
-            mode !== 'UPDATE'
-          ) {
+          if (!showStep({ field, index })) {
             return null;
           }
 
