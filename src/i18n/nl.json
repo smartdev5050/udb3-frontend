@@ -279,7 +279,7 @@
         "success": {
           "title": "Succesvol gewijzigd",
           "theme": "Thema is succesvol gewijzigd",
-          "cinema": "Bioscoop is succesvol gewijzigd",
+          "location": "Bioscoop is succesvol gewijzigd",
           "calendar": "Tijdssloten zijn succesvol gewijzigd",
           "name": "Naam is succesvol gewijzigd",
           "description": "Beschrijving is succesvol gewijzigd",
