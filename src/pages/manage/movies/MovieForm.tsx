@@ -579,7 +579,6 @@ const MovieForm = () => {
         />
         <Steps<FormData>
           configuration={configuration}
-          mode={eventId ? 'UPDATE' : 'CREATE'}
           onChange={handleChange}
           fieldLoading={fieldLoading}
           onChangeSuccess={(editedField) => toast.trigger(editedField)}

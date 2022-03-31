@@ -100,7 +100,6 @@ type StepsProps<TFormData extends FormDataIntersection> = {
   variant?: string;
   eventId?: string;
   form: UseFormReturn<TFormData>;
-  mode: 'UPDATE' | 'CREATE';
   fieldLoading?: string;
   onChange?: (value: string, field: string) => void;
   onChangeSuccess?: (editedField: string) => void;
@@ -108,7 +107,6 @@ type StepsProps<TFormData extends FormDataIntersection> = {
 };
 
 const Steps = <TFormData extends FormDataIntersection>({
-  mode,
   variant,
   onChange,
   configuration,
@@ -118,6 +116,8 @@ const Steps = <TFormData extends FormDataIntersection>({
   ...props
 }: StepsProps<TFormData>) => {
   const keys = Object.keys(form.getValues());
+
+  const mode = eventId ? 'UPDATE' : 'CREATE';
 
   return (
     <Stack spacing={5}>
@@ -168,7 +168,6 @@ const Steps = <TFormData extends FormDataIntersection>({
 };
 
 Steps.defaultProps = {
-  mode: 'CREATE',
   onChange: () => {},
   fieldLoading: '',
 };
