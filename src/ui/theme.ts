@@ -319,7 +319,6 @@ const theme = {
       hoverTabBackgroundColor: colors.grey3,
       borderRadius: 0,
     },
-
     pictureUploadBox: {
       backgroundColor: colors.white,
       borderColor: colors.grey2,
