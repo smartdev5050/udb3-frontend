@@ -5,6 +5,7 @@ import { useQueryClient } from 'react-query';
 import {
   useAddEventMainImageMutation,
   useAddImageToEventMutation,
+  useAddPriceInfoMutation,
   useAddVideoToEventMutation,
   useChangeDescriptionMutation,
   useDeleteImageFromEventMutation,
@@ -16,6 +17,11 @@ import { useAddImageMutation } from '@/hooks/api/images';
 import { PictureDeleteModal } from '@/pages/steps/modals/PictureDeleteModal';
 import type { FormData } from '@/pages/steps/modals/PictureUploadModal';
 import { PictureUploadModal } from '@/pages/steps/modals/PictureUploadModal';
+import type {
+  FormData as PriceInfoFormData,
+  Rate,
+} from '@/pages/steps/modals/PriceInfoModal';
+import { PriceInfoModal } from '@/pages/steps/modals/PriceInfoModal';
 import type { Values } from '@/types/Values';
 import { Alert } from '@/ui/Alert';
 import { Box, parseSpacing } from '@/ui/Box';
@@ -75,6 +81,8 @@ const AdditionalInformationStep = ({
     isVideoLinkDeleteModalVisible,
     setIsVideoLinkDeleteModalVisible,
   ] = useState(false);
+
+  const [isPriceInfoModalVisible, setIsPriceInfoModalVisible] = useState(false);
 
   const [description, setDescription] = useState('');
   const [imageToEditId, setImageToEditId] = useState('');
@@ -185,6 +193,30 @@ const AdditionalInformationStep = ({
   }, [
     // @ts-expect-error
     getEventByIdQuery.data,
+  ]);
+
+  const priceInfo = useMemo(() => {
+    // @ts-expect-error
+    const priceInfo = getEventByIdQuery.data?.priceInfo ?? [];
+    // @ts-expect-error
+    const mainLanguage = getEventByIdQuery.data?.mainLanguage;
+
+    return priceInfo.map((rate: any) => {
+      return {
+        ...rate,
+        name: {
+          ...rate.name,
+          [i18n.language]: rate.name[i18n.language] ?? rate.name[mainLanguage],
+        },
+        price: rate.price.toFixed(2).replace('.', ','),
+      };
+    });
+  }, [
+    // @ts-expect-error
+    getEventByIdQuery.data?.priceInfo,
+    // @ts-expect-error
+    getEventByIdQuery.data?.mainLanguage,
+    i18n.language,
   ]);
 
   const enrichVideos = async (video: Video[]) => {
@@ -329,6 +361,24 @@ const AdditionalInformationStep = ({
     });
   };
 
+  const addPriceInfoMutation = useAddPriceInfoMutation({
+    onSuccess: () => setIsPriceInfoModalVisible(false),
+  });
+
+  const handlePriceInfoSubmitValid = async ({ rates }: PriceInfoFormData) => {
+    const convertedPriceInfo = rates.map((rate: Rate) => {
+      return {
+        ...rate,
+        price: parseFloat(rate.price.replace(',', '.')),
+      };
+    });
+
+    await addPriceInfoMutation.mutateAsync({
+      eventId,
+      priceInfo: convertedPriceInfo,
+    });
+  };
+
   const handleBlurDescription = () => {
     if (!description) return;
 
@@ -423,6 +473,12 @@ const AdditionalInformationStep = ({
         onConfirm={() => handleConfirmDeleteImage(imageToDeleteId)}
         onClose={() => setIsPictureDeleteModalVisible(false)}
       />
+      <PriceInfoModal
+        visible={isPriceInfoModalVisible}
+        onClose={() => setIsPriceInfoModalVisible(false)}
+        onSubmitValid={handlePriceInfoSubmitValid}
+        priceInfo={priceInfo}
+      />
       <VideoLinkAddModal
         visible={isVideoLinkAddModalVisible}
         onConfirm={handleAddVideoLink}
@@ -452,6 +508,9 @@ const AdditionalInformationStep = ({
             }
             info={<DescriptionInfo />}
           />
+          <Button onClick={() => setIsPriceInfoModalVisible(true)}>
+            {t('create.additionalInformation.price_info.title')}
+          </Button>
         </Stack>
         <Stack spacing={4} flex={1}>
           <PictureUploadBox

@@ -165,6 +165,73 @@
       "save": "Speichern"
     }
   },
+  "create": {
+    "publish_modal": {
+      "title": "Wählen Sie ein Veröffentlichungsdatum",
+      "description": "Ab wann soll dies online angezeigt werden?",
+      "warning": "Achtung, dieses Datum kann nur einmalig eingestellt werden.",
+      "actions": {
+        "cancel": "Abbrechen",
+        "confirm": "Fertig mit bearbeiten"
+      }
+    },
+    "additionalInformation": {
+      "title": "Heben Sie Ihre Veranstaltung besonders hervor",
+      "description": {
+        "title": "Beschreibung",
+        "clear": "Leeren",
+        "progress_info": {
+          "not_complete": "Die ersten {{idealLength}} Zeichen sind am wichtigsten, wenn Sie sich an ein neues Publikum richten. Noch {{count}} Zeichen.",
+          "complete": "Bringen Sie die wichtigste Botschaft in den ersten {{idealLength}} Zeichen unter. Sie können noch zusätzliche Hintergrundinformationen hinzufügen."
+        },
+        "tips": {
+          "0.50.4.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Konzerts. <ul><li>Welche(r)<strong> Künstler(innen)</strong> treten auf? </li><li>Um welches <strong>Genre</strong> handelt es sich?</li><li>Welches<strong> Album</strong> <strong>oder Werk </strong>wird vorgestellt? </li></ul>",
+          "0.54.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung der Tanzvorführung.<ul><li>Wer ist der <strong>Choreograph</strong>?</li><li>Wer sind die<strong> Tänzer</strong>?</li><li>Welchen <strong>Stil</strong> tanzen sie?</li><li>Um welches <strong>Thema oder Problem</strong> dreht sich die Vorstellung?</li></ul>",
+          "0.5.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Festivals. <ul> <li>Wer oder was steht auf dem <strong>Programm?</strong> </li> <li>Welche <strong>(Neben)Aktivitäten</strong> gibt es?</li> </ul>",
+          "0.50.6.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Films. <ul> <li>Umreißen Sie kurz die <strong>Geschichte</strong>. </li> <li>Wer ist der <strong>Regisseur?</strong> </li> <li>Wer spielt die  <strong>Hauptrolle?</strong> </li> <li>Hat der Film <strong>Preise</strong> gewonnen? </li></ul>",
+          "0.3.2.0.0": "Schreiben Sie eine enthusiastische Umschreibung der Lesung oder des Kongresses. <ul> <li>Welche<strong> Themas</strong> werden behandelt? </li><li>Welche <strong>Sprecher </strong>nehmen das Wort?</li></ul>",
+          "0.55.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung der Vorstellung.  <ul> <li>Umreißen Sie kurz die <strong>Geschichte</strong> oder das <strong>Thema</strong>. </li> <li>Welches <strong>Theaterensemble</strong> führt das Stück auf? </li> <li>Welche <strong>Darsteller</strong> spielen mit?</li></ul>",
+          "0.19.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Sportwettkampfes. <ul> <li>Welche <strong>Mannschaften oder Teilnehmer</strong> treten an? </li> <li>In welcher<strong> Liga</strong> findet der Wettkampf statt?</li></ul>",
+          "0.37.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Markts oder Straßenfests. <ul> <li>In <strong>welchen Straßen</strong> findet dieser statt? </li> <li>Welche <strong>Stände</strong> werden anwesend sein? </li><li>Gibt es <strong>(Neben)Aktivitäten</strong>?</li></ul>",
+          "0.12.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung vom Tag der offenen Tür. Was kann man <strong>sehen </strong>oder <strong>erleben?</strong>",
+          "0.6.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung der Messe. Was kann man <strong>ansehen</strong>, <strong>erleben</strong> oder <strong>kaufen</strong>?",
+          "0.0.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung der Ausstellung. <ul> <li>Welche <strong>Künstler</strong> stellen aus?</li> <li>Welche<strong> Kollektionen</strong> können betrachtet werden? </li> <li>Steht ein <strong>(Audio)Guide</strong> oder <strong>eine Broschüre</strong> zur Verfügung?</li></ul>",
+          "0.7.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Rundgangs. <ul> <li>Was kann man entlang der Strecke <strong>sehen oder erleben</strong>? </li><li>Gibt es eine maximale <strong>Anzahl Teilnehmer</strong>? </li><li>Wird der Rundgang durchgehen oder zu <strong>bestimmten Zeiten</strong> organisiert? </li><li>Gibt es <strong>Dinge zu beachten</strong> (zB. Stiefel notwendig)?</li></ul>",
+          "0.3.1.0.0": "Schreiben Sie eine enthusiastische Umschreibung der Vorlesungsreihe. <ul><li>Was genau lernt man? </li><li>Benötigt man <strong>Vorkenntnisse</strong> um teilzunehmen? </li><li>Welches <strong>Niveau</strong> haben die Vorlesungen? </li><li>Erhält man am Ende ein <strong>Diplom</strong> oder Zertifikat?</li></ul>",
+          "0.3.1.0.1": "Schreiben Sie eine enthusiastische Umschreibung des Workshops oder Kurses mit öffentlichen Sitzungen. <ul><li>Was genau lernt man? </li><li>Benötigt man <strong>Vorkenntnisse</strong> um teilzunehmen? </li><li>Welches <strong>Niveau</strong> haben die Vorlesungen? </li><li>Erhält man am Ende ein <strong>Diplom</strong> oder Zertifikat?</li></ul>",
+          "0.57.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Camps oder Ferienlagers.  <ul><li>Welche <strong>Aktivitäten</strong> gibt es? </li><li>Gibt es ein <strong>Thema</strong>? </li><li>Gibt es beim Camp <strong>Übernachtungsmöglichkeiten</strong>? </li><li>Wann <strong>beginnt und endet</strong> das Tagescamp und gibt es davor und danach <strong>Betreuungsmöglichkeiten</strong>?</li></ul>",
+          "0.28.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Jahrmarkts. <ul> <li>Welche <strong>Attraktionen</strong> gibt es? </li> <li>Gibt es<strong> (Neben)Aktivitäten</strong> (Quiz, Konzerte, Foodtrucks, Markt...)?</li></ul>",
+          "0.17.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Ausflugs. <ul> <li>Findet dieser <strong>zu Fuß, mit dem Rad, mit dem Boot </strong>…statt? </li> <li>Welche möglichen <strong>Zwischenstopps</strong> gibt es? </li> <li>Wie lang ist die <strong>Strecke</strong> oder <strong>Dauer</strong> dieses Ausflugs?</li> <li>Findet der Ausflug <strong>in Begleitung</strong>, mit einem Guide, einer Broschüre oder mit Wegweisern statt?</li> </ul>",
+          "0.49.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung der Party. Welche <strong>DJs</strong> oder <strong>Bands</strong> treten auf?",
+          "1.50.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Spendenmahls. <ul><li>Was steht auf der <strong>Speisekarte?</strong> </li><li>Geht der Erlös an einen<strong> guten Zweck</strong>? </li><li>Gibt es <strong>(Neben)Aktivitäten</strong>?</li></ul>",
+          "0.50.21.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Quiz oder Spiels. <ul><li>Um welche <strong>Themen</strong> dreht sich das Quiz?</li><li>Hat das Spiel ein <strong>Thema</strong>?</li><li>Gibt es etwas zu <strong>gewinnen</strong>?</li><li>Gibt es eine <strong>maximale</strong> Anzahl <strong>Teilnehmer</strong>?</li></ul>",
+          "0.59.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung der Sportaktivität. <ul> <li>Welche <strong>Sportart</strong>(en) können ausgeübt werden? </li><li>Welche <strong>Geräte</strong> werden (nicht) gestellt?</li></ul>",
+          "0.14.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Monuments. Geben Sie auch an, ob das Monument nur eingeschränkt zugänglich ist (zB. nur Salons)."
+        }
+      },
+      "picture": {
+        "add_button": "Hauptabbildung erstellen",
+        "intro": "Fügen Sie eine Abbildung hinzu, damit die Besucher Ihre Aktivität besser erkennen können.",
+        "change": "Ändern",
+        "delete": "Löschen",
+        "set_as_main_image": "Hauptabbildung erstellen"
+      },
+      "price_info": {
+        "euro": "euro",
+        "title": "Preise hinzufügen",
+        "close": "Schließen",
+        "save": "Speichern",
+        "free": "Kostenlos",
+        "add": "Tarif hinzufügen",
+        "delete": "Tarif löschen",
+        "basic_rate": "Basistarif",
+        "target": "Zielgruppe",
+        "price": "Preis",
+        "uitpas_error": "Der UiTPAS-Preis wird von UiTdatabank für Sie berechnet. Sie können diese nicht selbst hinzufügen.",
+        "global_error": "Diese Preisinformation scheint ungültig zu sein und kann daher nicht gespeichert werden. <ul><li>Notieren Sie Dezimalstellen mit einem Komma.</li><li>Lassen Sie keine Reihe frei, geben Sie immer eine Zielgruppe und einen Betrag ein.</li><li>Geben Sie maximal zwei Ziffern nach dem Komma ein.</li></ul>"
+      }
+    }
+  },
   "dashboard": {
     "welcome": "Willkommen",
     "create": {
