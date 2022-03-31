@@ -378,18 +378,7 @@ const useEditField = ({ onSuccess, eventId, handleSubmit }) => {
 };
 
 const useGetEvent = ({ id, onSuccess }) => {
-  const getEventByIdQuery = useGetEventByIdQuery({ id });
-
-  useEffect(() => {
-    // @ts-expect-error
-    const event: Event = getEventByIdQuery.data;
-    if (!event) return;
-
-    onSuccess(event);
-
-    // @ts-expect-error
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getEventByIdQuery.data]);
+  const getEventByIdQuery = useGetEventByIdQuery({ id }, { onSuccess });
 
   // @ts-expect-error
   return getEventByIdQuery?.data;
