@@ -24,7 +24,7 @@ type StepsConfiguration<TFormData extends FormDataIntersection> = Array<{
       eventId?: string;
     },
   ) => boolean;
-  additionalProps?: Record<string, unknown>;
+  stepProps?: Record<string, unknown>;
 }>;
 
 type NumberIndicatorProps = {
@@ -122,14 +122,7 @@ const Steps = <TFormData extends FormDataIntersection>({
     <Stack spacing={5}>
       {configuration.map(
         (
-          {
-            Component: Step,
-            field,
-            additionalProps = {},
-            variant,
-            step,
-            title,
-          },
+          { Component: Step, field, stepProps = {}, variant, step, title },
           index: number,
         ) => {
           const shouldShowNextStep =
@@ -163,7 +156,7 @@ const Steps = <TFormData extends FormDataIntersection>({
                 variant={variant}
                 {...form}
                 {...props}
-                {...additionalProps}
+                {...stepProps}
               />
             </StepWrapper>
           );

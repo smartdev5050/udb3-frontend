@@ -57,7 +57,7 @@ const EventForm = () => {
       {
         Component: AdditionalInformationStep,
         title: t(`event.create.additionalInformation.title`),
-        additionalProps: {
+        stepProps: {
           eventId: '73a5663a-2368-4c9f-a3cc-390076399108',
         },
       },

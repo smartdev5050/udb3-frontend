@@ -547,7 +547,7 @@ const MovieForm = () => {
           return watchedPlace !== undefined;
         },
         title: t(`movies.create.step3.title`),
-        additionalProps: {
+        stepProps: {
           terms: [EventTypes.Bioscoop],
         },
       },
