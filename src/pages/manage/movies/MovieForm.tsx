@@ -269,9 +269,12 @@ const useEditField = ({ onSuccess, eventId, handleSubmit }) => {
   const addEventToProductionByIdMutation = useAddEventToProductionByIdMutation();
   const deleteEventFromProductionByIdMutation = useDeleteEventFromProductionByIdMutation();
 
+  type HandleSuccessOptions = {
+    shouldInvalidateEvent?: boolean;
+  };
   const handleSuccess = (
     editedField: string,
-    { shouldInvalidateEvent = true }: { shouldInvalidateEvent?: boolean } = {},
+    { shouldInvalidateEvent = true }: HandleSuccessOptions = {},
   ) => {
     onSuccess(editedField);
 
