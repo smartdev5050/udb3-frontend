@@ -275,7 +275,7 @@ const useEditNameAndProduction = ({ onSuccess, eventId }) => {
 
 const useEditLocation = ({ eventId, onSuccess }) => {
   const changeLocationMutation = useChangeLocationMutation({
-    onSuccess: () => onSuccess('cinema'),
+    onSuccess: () => onSuccess('location'),
   });
 
   return async ({ place }: FormData) => {
@@ -323,7 +323,7 @@ const convertTimeTableToSubEvents = (timeTable: TimeTableValue) => {
 
 const useEditCalendar = ({ eventId, onSuccess }) => {
   const changeCalendarMutation = useChangeCalendarMutation({
-    onSuccess: () => onSuccess('calendar'),
+    onSuccess: () => onSuccess('calendar', { shouldInvalidateEvent: false }),
   });
 
   return async ({ timeTable }: FormData) => {
@@ -348,17 +348,23 @@ const useEditTheme = ({ eventId, onSuccess }) => {
   };
 };
 
+type HandleSuccessOptions = {
+  shouldInvalidateEvent?: boolean;
+};
+
 const useEditField = ({ onSuccess, eventId, handleSubmit, editMap }) => {
   const queryClient = useQueryClient();
   const [fieldLoading, setFieldLoading] = useState<keyof FormData>();
 
   const handleSuccess = useCallback(
-    (editedField: string) => {
+    (
+      editedField: string,
+      { shouldInvalidateEvent = true }: HandleSuccessOptions = {},
+    ) => {
       onSuccess(editedField);
 
-      if (editedField !== 'timeTable') {
-        queryClient.invalidateQueries(['events', { id: eventId }]);
-      }
+      if (!shouldInvalidateEvent) return;
+      queryClient.invalidateQueries(['events', { id: eventId }]);
     },
     [onSuccess, eventId, queryClient],
   );
@@ -468,8 +474,7 @@ const MovieForm = () => {
       calendar: t('movies.create.toast.success.calendar'),
       video: t('movies.create.toast.success.video'),
       theme: t('movies.create.toast.success.theme'),
-      cinema: t('movies.create.toast.success.cinema'),
-      timeslot: t('movies.create.toast.success.timeslot'),
+      location: t('movies.create.toast.success.location'),
       name: t('movies.create.toast.success.name'),
     },
     title: t('movies.create.toast.success.title'),
