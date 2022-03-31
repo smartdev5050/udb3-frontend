@@ -259,11 +259,11 @@ const useAddEvent = ({ onSuccess }) => {
   };
 };
 
-const useEditField = ({ onSuccess, id, handleSubmit }) => {
+const useEditField = ({ onSuccess, eventId, handleSubmit }) => {
   const queryClient = useQueryClient();
   const [fieldLoading, setFieldLoading] = useState<keyof FormData>();
 
-  const getEventByIdQuery = useGetEventByIdQuery({ id });
+  const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
 
   const createProductionWithEventsMutation = useCreateProductionWithEventsMutation();
   const addEventToProductionByIdMutation = useAddEventToProductionByIdMutation();
@@ -271,8 +271,9 @@ const useEditField = ({ onSuccess, id, handleSubmit }) => {
 
   const handleSuccess = (editedField: string) => {
     onSuccess(editedField);
+
     if (editedField !== 'timeTable') {
-      queryClient.invalidateQueries(['events', { id }]);
+      queryClient.invalidateQueries(['events', { id: eventId }]);
     }
   };
 
@@ -305,13 +306,13 @@ const useEditField = ({ onSuccess, id, handleSubmit }) => {
     const fieldToMutationFunctionMap: FieldToMutationMap = {
       eventTypeAndTheme: async () => {
         await changeThemeMutation.mutateAsync({
-          id,
+          id: eventId,
           themeId: eventTypeAndTheme.theme.id,
         });
       },
       timeTable: async () => {
         await changeCalendarMutation.mutateAsync({
-          id,
+          id: eventId,
           calendarType: CalendarType.MULTIPLE,
           timeSpans: convertTimeTableToSubEvents(timeTable),
         });
@@ -320,7 +321,7 @@ const useEditField = ({ onSuccess, id, handleSubmit }) => {
         if (!place) return;
 
         await changeLocationMutation.mutateAsync({
-          id,
+          id: eventId,
           locationId: parseOfferId(place['@id']),
         });
       },
@@ -333,7 +334,7 @@ const useEditField = ({ onSuccess, id, handleSubmit }) => {
           await deleteEventFromProductionByIdMutation.mutateAsync({
             // @ts-expect-error
             productionId: getEventByIdQuery.data.production.id,
-            eventId: id,
+            eventId,
           });
         }
 
@@ -341,19 +342,19 @@ const useEditField = ({ onSuccess, id, handleSubmit }) => {
           // make new production with name and event id
           await createProductionWithEventsMutation.mutateAsync({
             productionName: production.name,
-            eventIds: [id],
+            eventIds: [eventId],
           });
         } else {
           // link event to production
           await addEventToProductionByIdMutation.mutateAsync({
             productionId: production.production_id,
-            eventId: id,
+            eventId,
           });
         }
 
         // change name of event
         await changeNameMutation.mutateAsync({
-          id,
+          id: eventId,
           lang: 'nl',
           name: production.name,
         });
@@ -366,7 +367,7 @@ const useEditField = ({ onSuccess, id, handleSubmit }) => {
   };
 
   const handleChange = (editedField: keyof FormData) => {
-    if (!id) return;
+    if (!eventId) return;
     setFieldLoading(editedField);
     handleSubmit(async (formData: FormData) =>
       editEvent(formData, editedField),
@@ -374,6 +375,13 @@ const useEditField = ({ onSuccess, id, handleSubmit }) => {
   };
 
   return { handleChange, fieldLoading };
+};
+
+const useGetEvent = ({ id, onSuccess }) => {
+  const getEventByIdQuery = useGetEventByIdQuery({ id }, { onSuccess });
+
+  // @ts-expect-error
+  return getEventByIdQuery?.data;
 };
 
 const useToast = ({ messages, title }) => {
@@ -424,18 +432,15 @@ const MovieForm = () => {
     formState: { errors, dirtyFields },
     reset,
     watch,
-    trigger,
   } = form;
 
   const { t } = useTranslation();
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const [newEventId, setNewEventId] = useState(
+  const [eventId, setEventId] = useState(
     (router.query.eventId as string) ?? '',
   );
-
-  const getEventByIdQuery = useGetEventByIdQuery({ id: newEventId });
 
   const toast = useToast({
     messages: {
@@ -452,18 +457,18 @@ const MovieForm = () => {
   });
 
   const publishEvent = usePublishEvent({
-    id: newEventId,
+    id: eventId,
     onSuccess: () => {
-      router.push(`/event/${newEventId}/preview`);
+      router.push(`/event/${eventId}/preview`);
     },
   });
 
   const addEvent = useAddEvent({
-    onSuccess: setNewEventId,
+    onSuccess: setEventId,
   });
 
   const { handleChange, fieldLoading } = useEditField({
-    id: newEventId,
+    eventId,
     handleSubmit,
     onSuccess: toast.trigger,
   });
@@ -472,13 +477,10 @@ const MovieForm = () => {
     false,
   );
 
-  useEffect(() => {
-    // @ts-expect-error
-    const event: Event = getEventByIdQuery.data;
-    if (!event) return;
-
-    reset(
-      {
+  const event = useGetEvent({
+    id: eventId,
+    onSuccess: (event: Event) => {
+      const formData = {
         eventTypeAndTheme: {
           theme: event.terms.find((term) => term.domain === 'theme'),
           eventType: event.terms.find((term) => term.domain === 'eventtype'),
@@ -490,29 +492,23 @@ const MovieForm = () => {
           name: event.production?.title,
           events: event.production?.otherEvents,
         },
-      },
-      { keepDirty: true },
-    );
+      };
 
-    trigger('timeTable');
-
-    // @ts-expect-error
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getEventByIdQuery.data]);
+      reset(formData, { keepDirty: true });
+    },
+  });
 
   const footerStatus = useMemo(() => {
     if (queryClient.isMutating()) return FooterStatus.HIDDEN;
-    // @ts-expect-error
-    if (newEventId && !getEventByIdQuery.data?.availableFrom) {
+    if (eventId && !event?.availableFrom) {
       return FooterStatus.PUBLISH;
     }
     if (router.route.includes('edit')) return FooterStatus.AUTO_SAVE;
     if (dirtyFields.place) return FooterStatus.MANUAL_SAVE;
     return FooterStatus.HIDDEN;
   }, [
-    newEventId,
-    // @ts-expect-error
-    getEventByIdQuery.data?.availableFrom,
+    eventId,
+    event?.availableFrom,
     dirtyFields.place,
     queryClient,
     router.route,
@@ -553,20 +549,20 @@ const MovieForm = () => {
       {
         Component: ProductionStep,
         field: 'production',
-        shouldShowNextStep: !!newEventId && Object.values(errors).length === 0,
+        shouldShowNextStep: !!eventId && Object.values(errors).length === 0,
         title: t(`movies.create.step4.title`),
       },
       {
         Component: AdditionalInformationStep,
         additionalProps: {
           variant: AdditionalInformationStepVariant.MINIMAL,
-          eventId: newEventId,
+          eventId,
           onSuccess: toast.trigger,
         },
         title: t(`movies.create.step5.title`),
       },
     ];
-  }, [errors, newEventId, watchedPlace, watchedTimeTable, t, toast.trigger]);
+  }, [errors, eventId, watchedPlace, watchedTimeTable, t, toast.trigger]);
 
   return (
     <Page>
@@ -584,7 +580,7 @@ const MovieForm = () => {
         />
         <Steps<FormData>
           configuration={configuration}
-          mode={!!newEventId || !!router.query.eventId ? 'UPDATE' : 'CREATE'}
+          mode={eventId ? 'UPDATE' : 'CREATE'}
           onChange={handleChange}
           fieldLoading={fieldLoading}
           {...form}
@@ -624,7 +620,7 @@ const MovieForm = () => {
             ) : (
               <Inline spacing={3} alignItems="center">
                 <Link
-                  href={`/event/${newEventId}/preview`}
+                  href={`/event/${eventId}/preview`}
                   variant={LinkVariants.BUTTON_SUCCESS}
                 >
                   <Text>{t('movies.create.footer.done_editing')}</Text>
