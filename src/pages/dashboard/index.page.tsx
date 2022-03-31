@@ -10,12 +10,18 @@ import { css } from 'styled-components';
 
 import { CalendarType } from '@/constants/CalendarType';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
-import { useDeleteEventById, useGetEventsByCreator } from '@/hooks/api/events';
 import {
-  useDeleteOrganizerById,
-  useGetOrganizersByCreator,
+  useDeleteEventByIdMutation,
+  useGetEventsByCreatorQuery,
+} from '@/hooks/api/events';
+import {
+  useDeleteOrganizerByIdMutation,
+  useGetOrganizersByCreatorQuery,
 } from '@/hooks/api/organizers';
-import { useDeletePlaceById, useGetPlacesByCreator } from '@/hooks/api/places';
+import {
+  useDeletePlaceByIdMutation,
+  useGetPlacesByCreatorQuery,
+} from '@/hooks/api/places';
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import { Footer } from '@/pages/Footer';
 import type { Event } from '@/types/Event';
@@ -55,15 +61,15 @@ const getValue = getValueFromTheme('dashboardPage');
 const itemsPerPage = 14;
 
 const UseGetItemsByCreatorMap = {
-  events: useGetEventsByCreator,
-  places: useGetPlacesByCreator,
-  organizers: useGetOrganizersByCreator,
+  events: useGetEventsByCreatorQuery,
+  places: useGetPlacesByCreatorQuery,
+  organizers: useGetOrganizersByCreatorQuery,
 } as const;
 
 const UseDeleteItemByIdMap = {
-  events: useDeleteEventById,
-  places: useDeletePlaceById,
-  organizers: useDeleteOrganizerById,
+  events: useDeleteEventByIdMutation,
+  places: useDeletePlaceByIdMutation,
+  organizers: useDeleteOrganizerByIdMutation,
 } as const;
 
 const CreateMap = {

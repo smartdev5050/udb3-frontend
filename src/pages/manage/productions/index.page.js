@@ -5,12 +5,12 @@ import { useQueryClient } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 
 import { QueryStatus } from '@/hooks/api/authenticated-query';
-import { useGetEventsByIds } from '@/hooks/api/events';
+import { useGetEventsByIdsQuery } from '@/hooks/api/events';
 import {
-  useAddEventById,
-  useChangeProductionName,
-  useDeleteEventsByIds,
-  useGetProductions,
+  useAddEventByIdMutation,
+  useChangeProductionNameMutation,
+  useDeleteEventsByIdsMutation,
+  useGetProductionsQuery,
 } from '@/hooks/api/productions';
 import { FormElement } from '@/ui/FormElement';
 import { Inline } from '@/ui/Inline';
@@ -50,7 +50,7 @@ const Index = () => {
   const [currentPageProductions, setCurrentPageProductions] = useState(1);
   const [errorMessageEvents, setErrorMessageEvents] = useState('');
 
-  const getProductionsQuery = useGetProductions({
+  const getProductionsQuery = useGetProductionsQuery({
     name: searchInput,
     paginationOptions: {
       start: (currentPageProductions - 1) * productionsPerPage,
@@ -88,7 +88,7 @@ const Index = () => {
 
   const totalItemsProductions = getProductionsQuery.data?.totalItems ?? 0;
 
-  const getEventsByIdsQuery = useGetEventsByIds({
+  const getEventsByIdsQuery = useGetEventsByIdsQuery({
     ids: activeProduction?.events ?? [],
   });
 
@@ -115,7 +115,7 @@ const Index = () => {
     setSelectedEventIds([]);
   };
 
-  const deleteEventsByIdsMutation = useDeleteEventsByIds({
+  const deleteEventsByIdsMutation = useDeleteEventsByIdsMutation({
     onSuccess: handleSuccessDeleteEvents,
   });
 
@@ -138,12 +138,12 @@ const Index = () => {
     });
   };
 
-  const addEventByIdMutation = useAddEventById({
+  const addEventByIdMutation = useAddEventByIdMutation({
     onSuccess: handleSuccessAddEvent,
     onError: handleErrorAddEvent,
   });
 
-  const changeProductionName = useChangeProductionName({
+  const changeProductionName = useChangeProductionNameMutation({
     onMutate: async () => {
       setErrorMessageEvents('');
       setIsChangeNameActionVisible(false);
@@ -306,7 +306,7 @@ const Index = () => {
 
 export const getServerSideProps = getApplicationServerSideProps(
   async ({ req, query, cookies, queryClient }) => {
-    const productions = await useGetProductions({
+    const productions = await useGetProductionsQuery({
       req,
       queryClient,
       paginationOptions: { limit: productionsPerPage, start: 0 },
@@ -314,7 +314,7 @@ export const getServerSideProps = getApplicationServerSideProps(
 
     const eventIds = productions?.member?.[0]?.events ?? [];
 
-    await useGetEventsByIds({ req, queryClient, ids: eventIds });
+    await useGetEventsByIdsQuery({ req, queryClient, ids: eventIds });
 
     return {
       props: {

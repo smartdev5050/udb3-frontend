@@ -36,7 +36,7 @@ const getPlaceById = async ({ headers, id }) => {
   return await res.json();
 };
 
-const useGetPlaceById = (
+const useGetPlaceByIdQuery = (
   { req, queryClient, id },
   configuration: UseQueryOptions = {},
 ) =>
@@ -67,7 +67,7 @@ const getPlacesByCreator = async ({ headers, ...queryData }) => {
   return await res.json();
 };
 
-const useGetPlacesByCreator = (
+const useGetPlacesByCreatorQuery = (
   {
     req,
     queryClient,
@@ -162,7 +162,7 @@ const deletePlaceById = async ({ headers, id }) =>
     options: { headers, method: 'DELETE' },
   });
 
-const useDeletePlaceById = (configuration = {}) =>
+const useDeletePlaceByIdMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: deletePlaceById,
     ...configuration,
@@ -190,13 +190,13 @@ const changeStatus = async ({
     },
   });
 
-const useChangeStatus = (configuration: UseMutationOptions = {}) =>
+const useChangeStatusMutation = (configuration: UseMutationOptions = {}) =>
   useAuthenticatedMutation({ mutationFn: changeStatus, ...configuration });
 
 export {
-  useChangeStatus,
-  useDeletePlaceById,
-  useGetPlaceById,
-  useGetPlacesByCreator,
+  useChangeStatusMutation,
+  useDeletePlaceByIdMutation,
+  useGetPlaceByIdQuery,
+  useGetPlacesByCreatorQuery,
   useGetPlacesByQuery,
 };

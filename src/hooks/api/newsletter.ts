@@ -12,7 +12,7 @@ const addNewsletterSubscriber = async ({ email }: { email: string }) => {
   return await response.text();
 };
 
-const useAddNewsletterSubscriber = (configuration = {}) =>
+const useAddNewsletterSubscriberMutation = (configuration = {}) =>
   useMutation(addNewsletterSubscriber, configuration);
 
-export { useAddNewsletterSubscriber };
+export { useAddNewsletterSubscriberMutation };

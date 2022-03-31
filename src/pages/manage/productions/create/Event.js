@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import stripHTML from 'string-strip-html';
 
 import { CalendarType } from '@/constants/CalendarType';
-import { useGetCalendarSummary } from '@/hooks/api/events';
+import { useGetCalendarSummaryQuery } from '@/hooks/api/events';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Card } from '@/ui/Card';
 import { Image } from '@/ui/Image';
@@ -36,7 +36,7 @@ const Event = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [terms]);
 
-  const getCalendarSummaryQuery = useGetCalendarSummary({
+  const getCalendarSummaryQuery = useGetCalendarSummaryQuery({
     id,
     locale: i18n.language,
     format: calendarType === CalendarType.SINGLE ? 'lg' : 'sm',

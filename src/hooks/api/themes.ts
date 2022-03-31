@@ -4,7 +4,7 @@ type GetThemesByEventTypeIdArguments = {
   eventTypeId: string;
 };
 
-const useGetThemesByEventTypeId = (
+const useGetThemesByEventTypeIdQuery = (
   { eventTypeId }: GetThemesByEventTypeIdArguments,
   configuration = {},
 ) =>
@@ -36,4 +36,4 @@ const getThemesByEventTypeId = () => {
   };
 };
 
-export { useGetThemesByEventTypeId };
+export { useGetThemesByEventTypeIdQuery };
