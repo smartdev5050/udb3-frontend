@@ -329,6 +329,9 @@ const theme = {
       mainImageBorderColor: colors.blue2,
       thumbnailBorderColor: colors.grey6,
     },
+    priceInfoModal: {
+      borderColor: colors.grey3,
+    },
     videoUploadBox: {
       backgroundColor: colors.white,
       borderColor: colors.grey2,

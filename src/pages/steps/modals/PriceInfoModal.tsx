@@ -16,6 +16,7 @@ import { Input } from '@/ui/Input';
 import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
 import { Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
+import { getValueFromTheme } from '@/ui/theme';
 
 const PRICE_CURRENCY: string = 'EUR';
 
@@ -50,6 +51,8 @@ type PriceInfoModalProps = {
   onSubmitValid: (data: FormData) => Promise<void>;
   priceInfo: Rate[];
 };
+
+const getValue = getValueFromTheme('priceInfoModal');
 
 const isNotUitpas = (value: any): boolean => {
   return value[i18n.language].toLowerCase() !== 'uitpas';
@@ -199,7 +202,9 @@ const PriceInfoModal = ({
             key={`rate_${index}`}
             paddingTop={3}
             paddingBottom={3}
-            css="border-bottom: 1px solid #ddd;"
+            css={`
+              border-bottom: 1px solid ${getValue('borderColor')};
+            `}
           >
             <Inline width="100%" alignItems="center">
               <Inline width="30%">
