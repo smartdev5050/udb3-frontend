@@ -266,6 +266,7 @@ const useEditField = ({ onSuccess, id, handleSubmit }) => {
   const getEventByIdQuery = useGetEventByIdQuery({ id });
 
   const createProductionWithEventsMutation = useCreateProductionWithEventsMutation();
+  const addEventToProductionByIdMutation = useAddEventToProductionByIdMutation();
   const deleteEventFromProductionByIdMutation = useDeleteEventFromProductionByIdMutation();
 
   const handleSuccess = (editedField: string) => {
