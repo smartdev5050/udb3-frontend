@@ -557,14 +557,11 @@ const MovieForm = () => {
       },
       {
         Component: AdditionalInformationStep,
-        additionalProps: {
-          variant: AdditionalInformationStepVariant.MINIMAL,
-          onSuccess: toast.trigger,
-        },
+        variant: AdditionalInformationStepVariant.MINIMAL,
         title: t(`movies.create.step5.title`),
       },
     ];
-  }, [t, toast.trigger]);
+  }, [t]);
 
   return (
     <Page>
@@ -585,6 +582,7 @@ const MovieForm = () => {
           mode={eventId ? 'UPDATE' : 'CREATE'}
           onChange={handleChange}
           fieldLoading={fieldLoading}
+          onChangeSuccess={(editedField) => toast.trigger(editedField)}
           eventId={eventId}
           form={form}
         />

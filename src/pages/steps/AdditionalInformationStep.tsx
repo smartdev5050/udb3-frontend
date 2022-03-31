@@ -47,13 +47,13 @@ type Field = 'description' | 'image' | 'video';
 
 type Props = StackProps & {
   eventId: string;
-  onSuccess: (field: Field) => void;
+  onChangeSuccess: (field: Field) => void;
   variant?: Values<typeof AdditionalInformationStepVariant>;
 };
 
 const AdditionalInformationStep = ({
   eventId,
-  onSuccess,
+  onChangeSuccess,
   variant,
   ...props
 }: Props) => {
@@ -254,7 +254,7 @@ const AdditionalInformationStep = ({
 
   const invalidateEventQuery = async (field: Field) => {
     await queryClient.invalidateQueries(['events', { id: eventId }]);
-    onSuccess(field);
+    onChangeSuccess(field);
   };
 
   const changeDescriptionMutation = useChangeDescriptionMutation({
