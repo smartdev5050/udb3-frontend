@@ -269,12 +269,17 @@ const useEditField = ({ onSuccess, eventId, handleSubmit }) => {
   const addEventToProductionByIdMutation = useAddEventToProductionByIdMutation();
   const deleteEventFromProductionByIdMutation = useDeleteEventFromProductionByIdMutation();
 
-  const handleSuccess = (editedField: string) => {
+  type HandleSuccessOptions = {
+    shouldInvalidateEvent?: boolean;
+  };
+  const handleSuccess = (
+    editedField: string,
+    { shouldInvalidateEvent = true }: HandleSuccessOptions = {},
+  ) => {
     onSuccess(editedField);
 
-    if (editedField !== 'timeTable') {
-      queryClient.invalidateQueries(['events', { id: eventId }]);
-    }
+    if (!shouldInvalidateEvent) return;
+    queryClient.invalidateQueries(['events', { id: eventId }]);
   };
 
   const changeThemeMutation = useChangeThemeMutation({
@@ -282,11 +287,13 @@ const useEditField = ({ onSuccess, eventId, handleSubmit }) => {
   });
 
   const changeLocationMutation = useChangeLocationMutation({
-    onSuccess: () => handleSuccess('cinema'),
+    onSuccess: () => handleSuccess('location'),
   });
 
   const changeCalendarMutation = useChangeCalendarMutation({
-    onSuccess: () => handleSuccess('calendar'),
+    onSuccess: () => {
+      handleSuccess('calendar', { shouldInvalidateEvent: false });
+    },
   });
 
   const changeNameMutation = useChangeNameMutation({
@@ -449,8 +456,7 @@ const MovieForm = () => {
       calendar: t('movies.create.toast.success.calendar'),
       video: t('movies.create.toast.success.video'),
       theme: t('movies.create.toast.success.theme'),
-      cinema: t('movies.create.toast.success.cinema'),
-      timeslot: t('movies.create.toast.success.timeslot'),
+      location: t('movies.create.toast.success.location'),
       name: t('movies.create.toast.success.name'),
     },
     title: t('movies.create.toast.success.title'),
