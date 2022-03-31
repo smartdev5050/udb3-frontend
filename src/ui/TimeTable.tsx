@@ -114,7 +114,7 @@ type CopyPayload =
   | { method: 'all'; data: { [key: string]: Data } };
 
 type RowProps = InlineProps & {
-  data: Object;
+  data: Record<string, unknown>;
   date: string;
   onCopy: (date: string) => void;
   onRowPaste: (payload: CopyPayload, index: number, date: string) => void;

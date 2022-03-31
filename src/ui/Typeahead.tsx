@@ -19,7 +19,10 @@ type TypeaheadProps<T> = {
   onChange?: (value: T[]) => void;
   allowNew?:
     | boolean
-    | ((results: Array<Object | string>, props: Object) => boolean);
+    | ((
+        results: Array<Record<string, unknown> | string>,
+        props: Record<string, unknown>,
+      ) => boolean);
   newSelectionPrefix?: string;
   selected: T[];
 };
