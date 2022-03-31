@@ -481,24 +481,28 @@ const MovieForm = () => {
     false,
   );
 
+  const convertEventToFormData = (event: Event) => {
+    return {
+      eventTypeAndTheme: {
+        theme: event.terms.find((term) => term.domain === 'theme'),
+        eventType: event.terms.find((term) => term.domain === 'eventtype'),
+      },
+      place: event.location,
+      timeTable: convertSubEventsToTimeTable(event.subEvent),
+      production: {
+        production_id: event.production?.id,
+        name: event.production?.title,
+        events: event.production?.otherEvents,
+      },
+    };
+  };
+
   const event = useGetEvent({
     id: eventId,
     onSuccess: (event: Event) => {
-      const formData = {
-        eventTypeAndTheme: {
-          theme: event.terms.find((term) => term.domain === 'theme'),
-          eventType: event.terms.find((term) => term.domain === 'eventtype'),
-        },
-        place: event.location,
-        timeTable: convertSubEventsToTimeTable(event.subEvent),
-        production: {
-          production_id: event.production?.id,
-          name: event.production?.title,
-          events: event.production?.otherEvents,
-        },
-      };
-
-      reset(formData, { keepDirty: true });
+      reset(convertEventToFormData(event), {
+        keepDirty: true,
+      });
     },
   });
 
