@@ -54,6 +54,22 @@ type PriceInfoModalProps = {
 
 const getValue = getValueFromTheme('priceInformation');
 
+const defaultPriceInfoValues = {
+  rates: [
+    {
+      name: {
+        nl: 'Basistarief',
+        fr: 'Tarif de base',
+        en: 'Base tariff',
+        de: 'Basisrate',
+      },
+      price: '',
+      category: PriceCategories.BASE,
+      priceCurrency: PRICE_CURRENCY,
+    },
+  ],
+};
+
 const isNotUitpas = (value: any): boolean => {
   return value[i18n.language].toLowerCase() !== 'uitpas';
 };
@@ -104,21 +120,7 @@ const PriceInfoModal = ({
     handleSubmit,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
-    defaultValues: {
-      rates: [
-        {
-          name: {
-            nl: 'Basistarief',
-            fr: 'Tarif de base',
-            en: 'Base tariff',
-            de: 'Basisrate',
-          },
-          price: '',
-          category: PriceCategories.BASE,
-          priceCurrency: PRICE_CURRENCY,
-        },
-      ],
-    },
+    defaultValues: defaultPriceInfoValues,
   });
 
   useEffect(() => {
@@ -312,5 +314,5 @@ const PriceInfoModal = ({
   );
 };
 
-export { PriceCategories, PriceInfoModal };
+export { defaultPriceInfoValues, PriceCategories, PriceInfoModal };
 export type { FormData, Rate };

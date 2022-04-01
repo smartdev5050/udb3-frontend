@@ -17,7 +17,8 @@ import { useAddImageMutation } from '@/hooks/api/images';
 import { PictureDeleteModal } from '@/pages/steps/modals/PictureDeleteModal';
 import type { FormData } from '@/pages/steps/modals/PictureUploadModal';
 import { PictureUploadModal } from '@/pages/steps/modals/PictureUploadModal';
-import type {
+import {
+  defaultPriceInfoValues,
   FormData as PriceInfoFormData,
   Rate,
 } from '@/pages/steps/modals/PriceInfoModal';
@@ -390,6 +391,15 @@ const AdditionalInformationStep = ({
     });
   };
 
+  const handleAddFreePriceInfo = async () => {
+    const freePriceInfoRates = defaultPriceInfoValues.rates;
+    freePriceInfoRates[0].price = 0;
+    await addPriceInfoMutation.mutateAsync({
+      eventId,
+      priceInfo: freePriceInfoRates,
+    });
+  };
+
   const handleBlurDescription = () => {
     if (!description) return;
 
@@ -523,6 +533,7 @@ const AdditionalInformationStep = ({
             <PriceInformation
               priceInfo={priceInfo}
               onClickAddPriceInfo={() => setIsPriceInfoModalVisible(true)}
+              onClickAddFreePriceInfo={() => handleAddFreePriceInfo()}
             />
           )}
         </Stack>
