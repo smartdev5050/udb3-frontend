@@ -13,7 +13,6 @@ import type { EventArguments } from '@/hooks/api/events';
 import {
   useAddEventMutation,
   useAddLabelMutation,
-  useChangeThemeMutation,
   useChangeTypicalAgeRangeMutation,
   useGetEventByIdQuery,
   usePublishMutation,
