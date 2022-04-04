@@ -30,7 +30,7 @@ type ProductionStepProps<TFormData extends FormDataIntersection> = StackProps &
 
 const getValue = getValueFromTheme('createPage');
 
-const useEditNameAndProduction = <T extends FormDataIntersection>({
+const useEditNameAndProduction = <TFormData extends FormDataIntersection>({
   onSuccess,
   eventId,
 }) => {
@@ -44,7 +44,7 @@ const useEditNameAndProduction = <T extends FormDataIntersection>({
     onSuccess: () => onSuccess('name'),
   });
 
-  return async ({ production }: T) => {
+  return async ({ production }: TFormData) => {
     if (!production) return;
 
     // unlink event from current production

@@ -52,7 +52,7 @@ const convertTimeTableToSubEvents = (timeTable: TimeTableValue) => {
   );
 };
 
-const useEditCalendar = <T extends FormDataIntersection>({
+const useEditCalendar = <TFormData extends FormDataIntersection>({
   eventId,
   onSuccess,
 }) => {
@@ -60,7 +60,7 @@ const useEditCalendar = <T extends FormDataIntersection>({
     onSuccess: () => onSuccess('calendar', { shouldInvalidateEvent: false }),
   });
 
-  return async ({ timeTable }: T) => {
+  return async ({ timeTable }: TFormData) => {
     await changeCalendarMutation.mutateAsync({
       id: eventId,
       calendarType: CalendarType.MULTIPLE,

@@ -13,7 +13,7 @@ import { getValueFromTheme } from '@/ui/theme';
 
 const getValue = getValueFromTheme('createPage');
 
-const useEditTheme = <T extends FormDataIntersection>({
+const useEditTheme = <TFormData extends FormDataIntersection>({
   eventId,
   onSuccess,
 }) => {
@@ -21,7 +21,7 @@ const useEditTheme = <T extends FormDataIntersection>({
     onSuccess: () => onSuccess('theme'),
   });
 
-  return async ({ eventTypeAndTheme }: T) => {
+  return async ({ eventTypeAndTheme }: TFormData) => {
     await changeThemeMutation.mutateAsync({
       id: eventId,
       themeId: eventTypeAndTheme.theme.id,

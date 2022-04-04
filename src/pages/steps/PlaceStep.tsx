@@ -22,7 +22,7 @@ import { parseOfferId } from '@/utils/parseOfferId';
 
 const getValue = getValueFromTheme('createPage');
 
-const useEditLocation = <T extends FormDataIntersection>({
+const useEditLocation = <TFormData extends FormDataIntersection>({
   eventId,
   onSuccess,
 }) => {
@@ -30,7 +30,7 @@ const useEditLocation = <T extends FormDataIntersection>({
     onSuccess: () => onSuccess('location'),
   });
 
-  return async ({ place }: T) => {
+  return async ({ place }: TFormData) => {
     if (!place) return;
 
     await changeLocationMutation.mutateAsync({
