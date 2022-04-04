@@ -436,9 +436,8 @@ const MovieForm = () => {
 
   const {
     handleSubmit,
-    formState: { errors, dirtyFields },
+    formState: { dirtyFields },
     reset,
-    watch,
   } = form;
 
   const { t } = useTranslation();
@@ -473,10 +472,13 @@ const MovieForm = () => {
     onSuccess: setEventId,
   });
 
+  const handleChangeSuccess = (editedField: string) =>
+    toast.trigger(editedField);
+
   const { handleChange, fieldLoading } = useEditField({
     eventId,
     handleSubmit,
-    onSuccess: toast.trigger,
+    onSuccess: handleChangeSuccess,
   });
 
   const [isPublishLaterModalVisible, setIsPublishLaterModalVisible] = useState(
@@ -506,19 +508,13 @@ const MovieForm = () => {
 
   const footerStatus = useMemo(() => {
     if (queryClient.isMutating()) return FooterStatus.HIDDEN;
-    if (eventId && !event?.availableFrom) {
+    if (event?.['@id'] && !event?.availableFrom) {
       return FooterStatus.PUBLISH;
     }
     if (router.route.includes('edit')) return FooterStatus.AUTO_SAVE;
     if (dirtyFields.place) return FooterStatus.MANUAL_SAVE;
     return FooterStatus.HIDDEN;
-  }, [
-    eventId,
-    event?.availableFrom,
-    dirtyFields.place,
-    queryClient,
-    router.route,
-  ]);
+  }, [event, dirtyFields.place, queryClient, router.route]);
 
   useEffect(() => {
     if (footerStatus !== FooterStatus.HIDDEN) {
@@ -526,9 +522,6 @@ const MovieForm = () => {
       main.scroll({ left: 0, top: main.scrollHeight, behavior: 'smooth' });
     }
   }, [footerStatus]);
-
-  const watchedTimeTable = watch('timeTable');
-  const watchedPlace = watch('place');
 
   const configuration: StepsConfiguration<FormData> = useMemo(() => {
     return [
@@ -540,35 +533,39 @@ const MovieForm = () => {
       {
         Component: TimeTableStep,
         field: 'timeTable',
-        shouldShowNextStep: isOneTimeSlotValid(watchedTimeTable),
+        shouldShowNextStep: ({ watch }) => {
+          const watchedTimeTable = watch('timeTable');
+          return isOneTimeSlotValid(watchedTimeTable);
+        },
         title: t(`movies.create.step2.title`),
       },
       {
         Component: PlaceStep,
         field: 'place',
-        shouldShowNextStep: watchedPlace !== undefined,
+        shouldShowNextStep: ({ watch }) => {
+          const watchedPlace = watch('place');
+          return watchedPlace !== undefined;
+        },
         title: t(`movies.create.step3.title`),
-        additionalProps: {
+        stepProps: {
           terms: [EventTypes.Bioscoop],
         },
       },
       {
         Component: ProductionStep,
         field: 'production',
-        shouldShowNextStep: !!eventId && Object.values(errors).length === 0,
+        shouldShowNextStep: ({ formState: { errors }, eventId }) => {
+          return !!eventId && Object.values(errors).length === 0;
+        },
         title: t(`movies.create.step4.title`),
       },
       {
         Component: AdditionalInformationStep,
-        additionalProps: {
-          variant: AdditionalInformationStepVariant.MINIMAL,
-          eventId,
-          onSuccess: toast.trigger,
-        },
+        variant: AdditionalInformationStepVariant.MINIMAL,
         title: t(`movies.create.step5.title`),
       },
     ];
-  }, [errors, eventId, watchedPlace, watchedTimeTable, t, toast.trigger]);
+  }, [t]);
 
   return (
     <Page>
@@ -586,10 +583,11 @@ const MovieForm = () => {
         />
         <Steps<FormData>
           configuration={configuration}
-          mode={eventId ? 'UPDATE' : 'CREATE'}
           onChange={handleChange}
           fieldLoading={fieldLoading}
-          {...form}
+          onChangeSuccess={handleChangeSuccess}
+          eventId={eventId}
+          form={form}
         />
       </Page.Content>
       {footerStatus !== FooterStatus.HIDDEN && (

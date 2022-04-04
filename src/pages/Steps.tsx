@@ -18,8 +18,13 @@ type StepsConfiguration<TFormData extends FormDataIntersection> = Array<{
   field?: Path<TFormData>;
   step?: number;
   title: string;
-  shouldShowNextStep?: boolean;
-  additionalProps?: { [key: string]: unknown };
+  variant?: string;
+  shouldShowNextStep?: (
+    data: UseFormReturn<TFormData> & {
+      eventId?: string;
+    },
+  ) => boolean;
+  stepProps?: Record<string, unknown>;
 }>;
 
 type NumberIndicatorProps = {
@@ -92,39 +97,47 @@ type StepProps<TFormData extends FormDataIntersection> = Omit<
   onChange: (value: any) => void;
 };
 
-type StepsProps<
-  TFormData extends FormDataIntersection
-> = UseFormReturn<TFormData> & {
-  mode: 'UPDATE' | 'CREATE';
+type StepsProps<TFormData extends FormDataIntersection> = {
+  eventId?: string;
+  form: UseFormReturn<TFormData>;
   fieldLoading?: string;
-  onChange?: (value: string, field: string) => void;
+  onChange?: (editedField: string) => void;
+  onChangeSuccess?: (editedField: string) => void;
   configuration: StepsConfiguration<TFormData>;
 };
 
 const Steps = <TFormData extends FormDataIntersection>({
-  mode,
   onChange,
   configuration,
   fieldLoading,
+  form,
+  eventId,
   ...props
 }: StepsProps<TFormData>) => {
-  const keys = Object.keys(props.getValues());
+  const showStep = ({ field, index }) => {
+    // when there is an eventId, we're in edit mode, show all steps
+    if (!!eventId) return true;
+
+    // don't hide steps that were visible before
+    if (Object.keys(form.getValues()).includes(field)) return true;
+
+    // no shouldShowNextStep function = show the step
+    return (
+      configuration[index - 1]?.shouldShowNextStep?.({
+        ...form,
+        eventId,
+      }) ?? true
+    );
+  };
 
   return (
     <Stack spacing={5}>
       {configuration.map(
         (
-          { Component: Step, field, additionalProps = {}, step, title },
+          { Component: Step, field, stepProps = {}, variant, step, title },
           index: number,
         ) => {
-          const shouldShowNextStep =
-            configuration[index - 1]?.shouldShowNextStep ?? true;
-
-          if (
-            !keys.includes(field) &&
-            !shouldShowNextStep &&
-            mode !== 'UPDATE'
-          ) {
+          if (!showStep({ field, index })) {
             return null;
           }
 
@@ -138,11 +151,14 @@ const Steps = <TFormData extends FormDataIntersection>({
             >
               <Step<TFormData>
                 key={index}
-                onChange={(value) => onChange(field, value)}
+                onChange={() => onChange(field)}
                 loading={!!(field && fieldLoading === field)}
                 field={field}
+                eventId={eventId}
+                variant={variant}
+                {...form}
                 {...props}
-                {...additionalProps}
+                {...stepProps}
               />
             </StepWrapper>
           );
@@ -153,7 +169,6 @@ const Steps = <TFormData extends FormDataIntersection>({
 };
 
 Steps.defaultProps = {
-  mode: 'CREATE',
   onChange: () => {},
   fieldLoading: '',
 };
