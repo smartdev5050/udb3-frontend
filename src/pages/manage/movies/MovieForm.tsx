@@ -19,9 +19,7 @@ import type { EventArguments } from '@/hooks/api/events';
 import {
   useAddEventMutation,
   useAddLabelMutation,
-  useChangeCalendarMutation,
   useChangeLocationMutation,
-  useChangeNameMutation,
   useChangeThemeMutation,
   useChangeTypicalAgeRangeMutation,
   useGetEventByIdQuery,
@@ -30,7 +28,6 @@ import {
 import {
   useAddEventByIdMutation as useAddEventToProductionByIdMutation,
   useCreateWithEventsMutation as useCreateProductionWithEventsMutation,
-  useDeleteEventByIdMutation as useDeleteEventFromProductionByIdMutation,
 } from '@/hooks/api/productions';
 import type { StepsConfiguration } from '@/pages/Steps';
 import { Steps } from '@/pages/Steps';
@@ -41,7 +38,10 @@ import {
 import { EventTypeAndThemeStep } from '@/pages/steps/EventTypeAndThemeStep';
 import { PublishLaterModal } from '@/pages/steps/modals/PublishLaterModal';
 import { PlaceStep } from '@/pages/steps/PlaceStep';
-import { ProductionStep } from '@/pages/steps/ProductionStep';
+import {
+  ProductionStep,
+  useEditNameAndProduction,
+} from '@/pages/steps/ProductionStep';
 import {
   convertTimeTableToSubEvents,
   TimeTableStep,
@@ -225,53 +225,6 @@ const useAddEvent = ({ onSuccess }) => {
     }
 
     onSuccess(eventId);
-  };
-};
-
-const useEditNameAndProduction = ({ onSuccess, eventId }) => {
-  const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
-
-  const createProductionWithEventsMutation = useCreateProductionWithEventsMutation();
-  const addEventToProductionByIdMutation = useAddEventToProductionByIdMutation();
-  const deleteEventFromProductionByIdMutation = useDeleteEventFromProductionByIdMutation();
-
-  const changeNameMutation = useChangeNameMutation({
-    onSuccess: () => onSuccess('name'),
-  });
-
-  return async ({ production }: FormData) => {
-    if (!production) return;
-
-    // unlink event from current production
-    // @ts-expect-error
-    if (getEventByIdQuery.data?.production?.id) {
-      await deleteEventFromProductionByIdMutation.mutateAsync({
-        // @ts-expect-error
-        productionId: getEventByIdQuery.data.production.id,
-        eventId,
-      });
-    }
-
-    if (production.customOption) {
-      // make new production with name and event id
-      await createProductionWithEventsMutation.mutateAsync({
-        productionName: production.name,
-        eventIds: [eventId],
-      });
-    } else {
-      // link event to production
-      await addEventToProductionByIdMutation.mutateAsync({
-        productionId: production.production_id,
-        eventId,
-      });
-    }
-
-    // change name of event
-    await changeNameMutation.mutateAsync({
-      id: eventId,
-      lang: 'nl',
-      name: production.name,
-    });
   };
 };
 
