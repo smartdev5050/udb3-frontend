@@ -393,6 +393,7 @@ const AdditionalInformationStep = ({
 
   const handleAddFreePriceInfo = async () => {
     const freePriceInfoRates = defaultPriceInfoValues.rates;
+    // @ts-expect-error
     freePriceInfoRates[0].price = 0;
     await addPriceInfoMutation.mutateAsync({
       eventId,
