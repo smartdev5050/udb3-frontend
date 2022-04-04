@@ -248,7 +248,7 @@ const useEditField = ({ onSuccess, eventId, handleSubmit, editMap }) => {
     return Object.entries(editMap).reduce((newMap, [key, hook]) => {
       return {
         // @ts-expect-error
-        [key]: hook({ eventId, onSuccess: handleSuccess }),
+        [key]: hook<FormData>({ eventId, onSuccess: handleSuccess }),
         ...newMap,
       };
     }, {});
