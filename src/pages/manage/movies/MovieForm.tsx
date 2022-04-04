@@ -133,8 +133,8 @@ const useFooterStatus = ({ event, form }) => {
     if (fetchedEventId && !availableFrom) {
       return FooterStatus.PUBLISH;
     }
-    if (isMutating) return FooterStatus.HIDDEN;
     if (router.route.includes('edit')) return FooterStatus.AUTO_SAVE;
+    if (isMutating) return FooterStatus.HIDDEN;
     if (isPlaceDirty) return FooterStatus.MANUAL_SAVE;
     return FooterStatus.HIDDEN;
   }, [fetchedEventId, availableFrom, isPlaceDirty, isMutating, router.route]);
