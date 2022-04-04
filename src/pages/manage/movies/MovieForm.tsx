@@ -42,7 +42,11 @@ import { EventTypeAndThemeStep } from '@/pages/steps/EventTypeAndThemeStep';
 import { PublishLaterModal } from '@/pages/steps/modals/PublishLaterModal';
 import { PlaceStep } from '@/pages/steps/PlaceStep';
 import { ProductionStep } from '@/pages/steps/ProductionStep';
-import { TimeTableStep } from '@/pages/steps/TimeTableStep';
+import {
+  convertTimeTableToSubEvents,
+  TimeTableStep,
+  useEditCalendar,
+} from '@/pages/steps/TimeTableStep';
 import type { Event } from '@/types/Event';
 import type { SubEvent } from '@/types/Offer';
 import type { Place } from '@/types/Place';
@@ -101,8 +105,6 @@ const schema = yup
     production: yup.object().shape({}).required(),
   })
   .required();
-
-type EncodedTimeTable = Array<{ start: string; end: string }>;
 
 const convertSubEventsToTimeTable = (subEvents: SubEvent[] = []) => {
   const dateStart = format(new Date(subEvents[0].startDate), 'dd/MM/yyyy');
@@ -284,53 +286,6 @@ const useEditLocation = ({ eventId, onSuccess }) => {
     await changeLocationMutation.mutateAsync({
       id: eventId,
       locationId: parseOfferId(place['@id']),
-    });
-  };
-};
-
-const convertTimeTableToSubEvents = (timeTable: TimeTableValue) => {
-  const { data = {} } = timeTable;
-  return Object.keys(data).reduce<EncodedTimeTable>(
-    (acc, date) => [
-      ...acc,
-      ...Object.keys(data[date]).reduce<EncodedTimeTable>((acc, index) => {
-        const time = data[date][index];
-
-        if (!time || !isMatch(time, "HH'h'mm'm'")) {
-          return acc;
-        }
-
-        const isoDate = formatDateToISO(
-          setTime(parseDate(date, 'dd/MM/yyyy', new Date()), {
-            hours: parseInt(time.substring(0, 2)),
-            minutes: parseInt(time.substring(3, 5)),
-            seconds: 0,
-          }),
-        );
-
-        return [
-          ...acc,
-          {
-            start: isoDate,
-            end: isoDate,
-          },
-        ];
-      }, []),
-    ],
-    [],
-  );
-};
-
-const useEditCalendar = ({ eventId, onSuccess }) => {
-  const changeCalendarMutation = useChangeCalendarMutation({
-    onSuccess: () => onSuccess('calendar', { shouldInvalidateEvent: false }),
-  });
-
-  return async ({ timeTable }: FormData) => {
-    await changeCalendarMutation.mutateAsync({
-      id: eventId,
-      calendarType: CalendarType.MULTIPLE,
-      timeSpans: convertTimeTableToSubEvents(timeTable),
     });
   };
 };
