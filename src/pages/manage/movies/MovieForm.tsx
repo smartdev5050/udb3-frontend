@@ -1,11 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  format,
-  isMatch,
-  nextWednesday,
-  parse as parseDate,
-  set as setTime,
-} from 'date-fns';
+import { format, nextWednesday } from 'date-fns';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -19,7 +13,6 @@ import type { EventArguments } from '@/hooks/api/events';
 import {
   useAddEventMutation,
   useAddLabelMutation,
-  useChangeLocationMutation,
   useChangeThemeMutation,
   useChangeTypicalAgeRangeMutation,
   useGetEventByIdQuery,
@@ -37,7 +30,7 @@ import {
 } from '@/pages/steps/AdditionalInformationStep';
 import { EventTypeAndThemeStep } from '@/pages/steps/EventTypeAndThemeStep';
 import { PublishLaterModal } from '@/pages/steps/modals/PublishLaterModal';
-import { PlaceStep } from '@/pages/steps/PlaceStep';
+import { PlaceStep, useEditLocation } from '@/pages/steps/PlaceStep';
 import {
   ProductionStep,
   useEditNameAndProduction,
@@ -58,7 +51,6 @@ import { Link, LinkVariants } from '@/ui/Link';
 import { Page } from '@/ui/Page';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
-import type { TimeTableValue } from '@/ui/TimeTable';
 import {
   areAllTimeSlotsValid,
   isOneTimeSlotValid,
@@ -225,21 +217,6 @@ const useAddEvent = ({ onSuccess }) => {
     }
 
     onSuccess(eventId);
-  };
-};
-
-const useEditLocation = ({ eventId, onSuccess }) => {
-  const changeLocationMutation = useChangeLocationMutation({
-    onSuccess: () => onSuccess('location'),
-  });
-
-  return async ({ place }: FormData) => {
-    if (!place) return;
-
-    await changeLocationMutation.mutateAsync({
-      id: eventId,
-      locationId: parseOfferId(place['@id']),
-    });
   };
 };
 

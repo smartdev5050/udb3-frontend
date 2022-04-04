@@ -4,6 +4,7 @@ import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import type { EventTypes } from '@/constants/EventTypes';
+import { useChangeLocationMutation } from '@/hooks/api/events';
 import { useGetPlacesByQuery } from '@/hooks/api/places';
 import type { FormDataIntersection, StepProps } from '@/pages/Steps';
 import type { Place } from '@/types/Place';
@@ -17,8 +18,27 @@ import { getStackProps, Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
+import { parseOfferId } from '@/utils/parseOfferId';
 
 const getValue = getValueFromTheme('createPage');
+
+const useEditLocation = <T extends FormDataIntersection>({
+  eventId,
+  onSuccess,
+}) => {
+  const changeLocationMutation = useChangeLocationMutation({
+    onSuccess: () => onSuccess('location'),
+  });
+
+  return async ({ place }: T) => {
+    if (!place) return;
+
+    await changeLocationMutation.mutateAsync({
+      id: eventId,
+      locationId: parseOfferId(place['@id']),
+    });
+  };
+};
 
 type PlaceStepProps<TFormData extends FormDataIntersection> = StackProps &
   StepProps<TFormData> & { terms: Array<Values<typeof EventTypes>> };
@@ -124,4 +144,4 @@ PlaceStep.defaultProps = {
   terms: [],
 };
 
-export { PlaceStep };
+export { PlaceStep, useEditLocation };
