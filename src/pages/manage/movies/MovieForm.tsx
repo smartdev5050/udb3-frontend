@@ -28,7 +28,10 @@ import {
   AdditionalInformationStep,
   AdditionalInformationStepVariant,
 } from '@/pages/steps/AdditionalInformationStep';
-import { EventTypeAndThemeStep } from '@/pages/steps/EventTypeAndThemeStep';
+import {
+  EventTypeAndThemeStep,
+  useEditTheme,
+} from '@/pages/steps/EventTypeAndThemeStep';
 import { PublishLaterModal } from '@/pages/steps/modals/PublishLaterModal';
 import { PlaceStep, useEditLocation } from '@/pages/steps/PlaceStep';
 import {
@@ -217,19 +220,6 @@ const useAddEvent = ({ onSuccess }) => {
     }
 
     onSuccess(eventId);
-  };
-};
-
-const useEditTheme = ({ eventId, onSuccess }) => {
-  const changeThemeMutation = useChangeThemeMutation({
-    onSuccess: () => onSuccess('theme'),
-  });
-
-  return async ({ eventTypeAndTheme }) => {
-    await changeThemeMutation.mutateAsync({
-      id: eventId,
-      themeId: eventTypeAndTheme.theme.id,
-    });
   };
 };
 

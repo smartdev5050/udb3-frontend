@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
+import { useChangeThemeMutation } from '@/hooks/api/events';
 import { useGetThemesByEventTypeIdQuery } from '@/hooks/api/themes';
 import type { FormDataIntersection, StepProps } from '@/pages/Steps';
 import { Button, ButtonVariants } from '@/ui/Button';
@@ -11,6 +12,22 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
 const getValue = getValueFromTheme('createPage');
+
+const useEditTheme = <T extends FormDataIntersection>({
+  eventId,
+  onSuccess,
+}) => {
+  const changeThemeMutation = useChangeThemeMutation({
+    onSuccess: () => onSuccess('theme'),
+  });
+
+  return async ({ eventTypeAndTheme }: T) => {
+    await changeThemeMutation.mutateAsync({
+      id: eventId,
+      themeId: eventTypeAndTheme.theme.id,
+    });
+  };
+};
 
 const EventTypeAndThemeStep = <TFormData extends FormDataIntersection>({
   control,
@@ -91,4 +108,4 @@ const EventTypeAndThemeStep = <TFormData extends FormDataIntersection>({
   );
 };
 
-export { EventTypeAndThemeStep };
+export { EventTypeAndThemeStep, useEditTheme };
