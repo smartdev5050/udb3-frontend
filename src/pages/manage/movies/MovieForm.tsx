@@ -7,20 +7,8 @@ import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import * as yup from 'yup';
 
-import { CalendarType } from '@/constants/CalendarType';
 import { EventTypes } from '@/constants/EventTypes';
-import type { EventArguments } from '@/hooks/api/events';
-import {
-  useAddEventMutation,
-  useAddLabelMutation,
-  useChangeTypicalAgeRangeMutation,
-  useGetEventByIdQuery,
-  usePublishMutation,
-} from '@/hooks/api/events';
-import {
-  useAddEventByIdMutation as useAddEventToProductionByIdMutation,
-  useCreateWithEventsMutation as useCreateProductionWithEventsMutation,
-} from '@/hooks/api/productions';
+import { useGetEventByIdQuery, usePublishMutation } from '@/hooks/api/events';
 import type { StepsConfiguration } from '@/pages/Steps';
 import { Steps } from '@/pages/Steps';
 import {
@@ -37,16 +25,11 @@ import {
   ProductionStep,
   useEditNameAndProduction,
 } from '@/pages/steps/ProductionStep';
-import {
-  convertTimeTableToSubEvents,
-  TimeTableStep,
-  useEditCalendar,
-} from '@/pages/steps/TimeTableStep';
+import { TimeTableStep, useEditCalendar } from '@/pages/steps/TimeTableStep';
 import type { Event } from '@/types/Event';
 import type { SubEvent } from '@/types/Offer';
 import type { Place } from '@/types/Place';
 import type { Production } from '@/types/Production';
-import { WorkflowStatusMap } from '@/types/WorkflowStatus';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Link, LinkVariants } from '@/ui/Link';
@@ -60,7 +43,6 @@ import {
 } from '@/ui/TimeTable';
 import { Toast } from '@/ui/Toast';
 import { formatDateToISO } from '@/utils/formatDateToISO';
-import { parseOfferId } from '@/utils/parseOfferId';
 
 type FormData = {
   eventTypeAndTheme: {
@@ -147,78 +129,6 @@ const usePublishEvent = ({ id, onSuccess }) => {
       eventId: id,
       publicationDate: formatDateToISO(date),
     });
-  };
-};
-
-const useAddEvent = ({ onSuccess }) => {
-  const addEventMutation = useAddEventMutation();
-  const changeTypicalAgeRangeMutation = useChangeTypicalAgeRangeMutation();
-  const addLabelMutation = useAddLabelMutation();
-
-  const createProductionWithEventsMutation = useCreateProductionWithEventsMutation();
-  const addEventToProductionByIdMutation = useAddEventToProductionByIdMutation();
-
-  return async ({
-    production,
-    place,
-    eventTypeAndTheme: { eventType, theme },
-    timeTable,
-  }: FormData) => {
-    if (!production) return;
-
-    const payload: EventArguments = {
-      mainLanguage: 'nl',
-      name: production.name,
-      calendar: {
-        calendarType: CalendarType.MULTIPLE,
-        timeSpans: convertTimeTableToSubEvents(timeTable),
-      },
-      type: {
-        id: eventType?.id,
-        label: eventType?.label,
-        domain: 'eventtype',
-      },
-      ...(theme && {
-        theme: {
-          id: theme?.id,
-          label: theme?.label,
-          domain: 'theme',
-        },
-      }),
-      location: {
-        id: parseOfferId(place['@id']),
-      },
-      workflowStatus: WorkflowStatusMap.DRAFT,
-      audienceType: 'everyone',
-    };
-
-    const { eventId } = await addEventMutation.mutateAsync(payload);
-
-    if (!eventId) return;
-
-    await changeTypicalAgeRangeMutation.mutateAsync({
-      eventId,
-      typicalAgeRange: '-',
-    });
-
-    await addLabelMutation.mutateAsync({
-      eventId,
-      label: 'udb-filminvoer',
-    });
-
-    if (production.customOption) {
-      await createProductionWithEventsMutation.mutateAsync({
-        productionName: production.name,
-        eventIds: [eventId],
-      });
-    } else {
-      await addEventToProductionByIdMutation.mutateAsync({
-        productionId: production.production_id,
-        eventId,
-      });
-    }
-
-    onSuccess(eventId);
   };
 };
 
