@@ -116,6 +116,40 @@ const convertSubEventsToTimeTable = (subEvents: SubEvent[] = []) => {
 const nextWeekWednesday = nextWednesday(new Date());
 const formatDate = (date: Date) => format(date, 'dd/MM/yyyy');
 
+const useFooterStatus = ({ event, form }) => {
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
+  const {
+    formState: { dirtyFields },
+  } = form;
+
+  const isMutating = queryClient.isMutating();
+  const fetchedEventId = event?.['@id'];
+  const availableFrom = event?.availableFrom;
+  const isPlaceDirty = dirtyFields.place;
+
+  const footerStatus = useMemo(() => {
+    if (fetchedEventId && !availableFrom) {
+      return FooterStatus.PUBLISH;
+    }
+    if (isMutating) return FooterStatus.HIDDEN;
+    if (router.route.includes('edit')) return FooterStatus.AUTO_SAVE;
+    if (isPlaceDirty) return FooterStatus.MANUAL_SAVE;
+    return FooterStatus.HIDDEN;
+  }, [fetchedEventId, availableFrom, isPlaceDirty, isMutating, router.route]);
+
+  // scroll effect
+  useEffect(() => {
+    if (footerStatus !== FooterStatus.HIDDEN) {
+      const main = document.querySelector('main');
+      main.scroll({ left: 0, top: main.scrollHeight, behavior: 'smooth' });
+    }
+  }, [footerStatus]);
+
+  return footerStatus;
+};
+
 const MovieForm = () => {
   const form = useForm<FormData>({
     resolver: yupResolver(schema),
@@ -134,15 +168,10 @@ const MovieForm = () => {
     },
   });
 
-  const {
-    handleSubmit,
-    formState: { dirtyFields },
-    reset,
-  } = form;
+  const { handleSubmit, reset } = form;
 
   const { t } = useTranslation();
   const router = useRouter();
-  const queryClient = useQueryClient();
 
   // eventId is set after adding (saving) the event
   // or when entering the page from the edit route
@@ -212,22 +241,7 @@ const MovieForm = () => {
     },
   });
 
-  const footerStatus = useMemo(() => {
-    if (queryClient.isMutating()) return FooterStatus.HIDDEN;
-    if (event?.['@id'] && !event?.availableFrom) {
-      return FooterStatus.PUBLISH;
-    }
-    if (router.route.includes('edit')) return FooterStatus.AUTO_SAVE;
-    if (dirtyFields.place) return FooterStatus.MANUAL_SAVE;
-    return FooterStatus.HIDDEN;
-  }, [event, dirtyFields.place, queryClient, router.route]);
-
-  useEffect(() => {
-    if (footerStatus !== FooterStatus.HIDDEN) {
-      const main = document.querySelector('main');
-      main.scroll({ left: 0, top: main.scrollHeight, behavior: 'smooth' });
-    }
-  }, [footerStatus]);
+  const footerStatus = useFooterStatus({ event, form });
 
   const configuration: StepsConfiguration<FormData> = useMemo(() => {
     return [
