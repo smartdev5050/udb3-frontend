@@ -46,6 +46,7 @@ import { useAddEvent } from './useAddEvent';
 import { useEditField } from './useEditField';
 import { useGetEvent } from './useGetEvent';
 import { usePublishEvent } from './usePublishEvent';
+import { useToast } from './useToast';
 
 type FormData = {
   eventTypeAndTheme: {
@@ -114,31 +115,6 @@ const convertSubEventsToTimeTable = (subEvents: SubEvent[] = []) => {
 
 const nextWeekWednesday = nextWednesday(new Date());
 const formatDate = (date: Date) => format(date, 'dd/MM/yyyy');
-
-const useToast = ({ messages, title }) => {
-  const [message, setMessage] = useState<string>();
-
-  const clear = () => setMessage(undefined);
-
-  const trigger = (key: string) => {
-    const foundMessage = messages[key];
-    if (!foundMessage) return;
-    setMessage(foundMessage);
-  };
-
-  const header = useMemo(
-    () => (
-      <Inline as="div" flex={1} justifyContent="space-between">
-        <Text>{title}</Text>
-        <Text>{format(new Date(), 'HH:mm')}</Text>
-      </Inline>
-    ),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [message],
-  );
-
-  return { message, header, clear, trigger };
-};
 
 const MovieForm = () => {
   const form = useForm<FormData>({
