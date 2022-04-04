@@ -1,6 +1,9 @@
+import { isMatch, parse, set } from 'date-fns';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
+import { CalendarType } from '@/constants/CalendarType';
+import { useChangeCalendarMutation } from '@/hooks/api/events';
 import type { FormDataIntersection, StepProps } from '@/pages/Steps';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Box } from '@/ui/Box';
@@ -12,6 +15,59 @@ import {
   isTimeTableEmpty,
   TimeTable,
 } from '@/ui/TimeTable';
+import { formatDateToISO } from '@/utils/formatDateToISO';
+
+type EncodedTimeTable = Array<{ start: string; end: string }>;
+
+const convertTimeTableToSubEvents = (timeTable: TimeTableValue) => {
+  const { data = {} } = timeTable;
+  return Object.keys(data).reduce<EncodedTimeTable>(
+    (acc, date) => [
+      ...acc,
+      ...Object.keys(data[date]).reduce<EncodedTimeTable>((acc, index) => {
+        const time = data[date][index];
+
+        if (!time || !isMatch(time, "HH'h'mm'm'")) {
+          return acc;
+        }
+
+        const isoDate = formatDateToISO(
+          set(parse(date, 'dd/MM/yyyy', new Date()), {
+            hours: parseInt(time.substring(0, 2)),
+            minutes: parseInt(time.substring(3, 5)),
+            seconds: 0,
+          }),
+        );
+
+        return [
+          ...acc,
+          {
+            start: isoDate,
+            end: isoDate,
+          },
+        ];
+      }, []),
+    ],
+    [],
+  );
+};
+
+const useEditCalendar = <TFormData extends FormDataIntersection>({
+  eventId,
+  onSuccess,
+}) => {
+  const changeCalendarMutation = useChangeCalendarMutation({
+    onSuccess: () => onSuccess('calendar', { shouldInvalidateEvent: false }),
+  });
+
+  return async ({ timeTable }: TFormData) => {
+    await changeCalendarMutation.mutateAsync({
+      id: eventId,
+      calendarType: CalendarType.MULTIPLE,
+      timeSpans: convertTimeTableToSubEvents(timeTable),
+    });
+  };
+};
 
 type TimeTableStepProps<TFormData extends FormDataIntersection> = StackProps &
   StepProps<TFormData>;
@@ -61,4 +117,4 @@ const TimeTableStep = <TFormData extends FormDataIntersection>({
   );
 };
 
-export { TimeTableStep };
+export { convertTimeTableToSubEvents, TimeTableStep, useEditCalendar };
