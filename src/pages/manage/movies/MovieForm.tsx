@@ -1,14 +1,13 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { format, nextWednesday } from 'date-fns';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import * as yup from 'yup';
 
 import { EventTypes } from '@/constants/EventTypes';
-import { useGetEventByIdQuery, usePublishMutation } from '@/hooks/api/events';
 import type { StepsConfiguration } from '@/pages/Steps';
 import { Steps } from '@/pages/Steps';
 import {
@@ -42,7 +41,11 @@ import {
   isTimeTableEmpty,
 } from '@/ui/TimeTable';
 import { Toast } from '@/ui/Toast';
-import { formatDateToISO } from '@/utils/formatDateToISO';
+
+import { useAddEvent } from './useAddEvent';
+import { useEditField } from './useEditField';
+import { useGetEvent } from './useGetEvent';
+import { usePublishEvent } from './usePublishEvent';
 
 type FormData = {
   eventTypeAndTheme: {
@@ -111,86 +114,6 @@ const convertSubEventsToTimeTable = (subEvents: SubEvent[] = []) => {
 
 const nextWeekWednesday = nextWednesday(new Date());
 const formatDate = (date: Date) => format(date, 'dd/MM/yyyy');
-
-const usePublishEvent = ({ id, onSuccess }) => {
-  const queryClient = useQueryClient();
-
-  const publishMutation = usePublishMutation({
-    onSuccess: () => {
-      queryClient.invalidateQueries(['events', { id }]);
-      onSuccess();
-    },
-  });
-
-  return async (date: Date = new Date()) => {
-    if (!id) return;
-
-    await publishMutation.mutateAsync({
-      eventId: id,
-      publicationDate: formatDateToISO(date),
-    });
-  };
-};
-
-type HandleSuccessOptions = {
-  shouldInvalidateEvent?: boolean;
-};
-
-const useEditField = ({ onSuccess, eventId, handleSubmit, editMap }) => {
-  const queryClient = useQueryClient();
-  const [fieldLoading, setFieldLoading] = useState<keyof FormData>();
-
-  const handleSuccess = useCallback(
-    (
-      editedField: string,
-      { shouldInvalidateEvent = true }: HandleSuccessOptions = {},
-    ) => {
-      onSuccess(editedField);
-
-      if (!shouldInvalidateEvent) return;
-      queryClient.invalidateQueries(['events', { id: eventId }]);
-    },
-    [onSuccess, eventId, queryClient],
-  );
-
-  const preparedFieldToMutationFunctionMap = useMemo(() => {
-    return Object.entries(editMap).reduce((newMap, [key, hook]) => {
-      return {
-        // @ts-expect-error
-        [key]: hook<FormData>({ eventId, onSuccess: handleSuccess }),
-        ...newMap,
-      };
-    }, {});
-  }, [editMap, eventId, handleSuccess]);
-
-  const editEvent = async (
-    formData: FormData,
-    editedField?: keyof FormData,
-  ) => {
-    if (!editedField) return;
-
-    await preparedFieldToMutationFunctionMap[editedField]?.(formData);
-
-    setFieldLoading(undefined);
-  };
-
-  const handleChange = (editedField: keyof FormData) => {
-    if (!eventId) return;
-    setFieldLoading(editedField);
-    handleSubmit(async (formData: FormData) =>
-      editEvent(formData, editedField),
-    )();
-  };
-
-  return { handleChange, fieldLoading };
-};
-
-const useGetEvent = ({ id, onSuccess }) => {
-  const getEventByIdQuery = useGetEventByIdQuery({ id }, { onSuccess });
-
-  // @ts-expect-error
-  return getEventByIdQuery?.data;
-};
 
 const useToast = ({ messages, title }) => {
   const [message, setMessage] = useState<string>();
