@@ -177,20 +177,10 @@ const MovieForm = () => {
   const handleChangeSuccess = (editedField: string) =>
     toast.trigger(editedField);
 
-  const editMap = useMemo(() => {
-    return {
-      eventTypeAndTheme: useEditTheme,
-      timeTable: useEditCalendar,
-      place: useEditLocation,
-      production: useEditNameAndProduction,
-    };
-  }, []);
-
   const { handleChange, fieldLoading } = useEditField({
     eventId,
     handleSubmit,
     onSuccess: handleChangeSuccess,
-    editMap,
   });
 
   const [isPublishLaterModalVisible, setIsPublishLaterModalVisible] = useState(
