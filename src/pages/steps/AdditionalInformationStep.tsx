@@ -86,6 +86,7 @@ const AdditionalInformationStep = ({
 
   const [description, setDescription] = useState('');
   const [imageToEditId, setImageToEditId] = useState('');
+  const [draggedImageFile, setDraggedImageFile] = useState<FileList>();
   const [imageToDeleteId, setImageToDeleteId] = useState('');
   const [videoToDeleteId, setVideoToDeleteId] = useState('');
 
@@ -300,6 +301,12 @@ const AdditionalInformationStep = ({
     setIsPictureUploadModalVisible(true);
   };
 
+  const handleDragAddImage = (files: FileList) => {
+    setImageToEditId(undefined);
+    setDraggedImageFile(files);
+    setIsPictureUploadModalVisible(true);
+  };
+
   const handleClickEditImage = (imageId: string) => {
     setImageToEditId(imageId);
     setIsPictureUploadModalVisible(true);
@@ -465,6 +472,7 @@ const AdditionalInformationStep = ({
       <PictureUploadModal
         visible={isPictureUploadModalVisible}
         onClose={() => setIsPictureUploadModalVisible(false)}
+        draggedImageFile={draggedImageFile}
         imageToEdit={imageToEdit}
         onSubmitValid={handleSubmitValid}
       />
@@ -519,6 +527,7 @@ const AdditionalInformationStep = ({
             onClickDeleteImage={handleClickDeleteImage}
             onClickSetMainImage={handleClickSetMainImage}
             onClickAddImage={handleClickAddImage}
+            onDragAddImage={handleDragAddImage}
           />
           {variant === AdditionalInformationStepVariant.EXTENDED && (
             <VideoUploadBox

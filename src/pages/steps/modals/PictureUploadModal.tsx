@@ -25,6 +25,7 @@ type FormData = {
 type PictureUploadModalProps = {
   visible: boolean;
   onClose: () => void;
+  draggedImageFile?: FileList;
   imageToEdit?: { description: string; copyrightHolder: string };
   onSubmitValid: (data: FormData) => Promise<void>;
 };
@@ -151,6 +152,7 @@ const CopyrightLink = () => {
 const PictureUploadModal = ({
   visible,
   onClose,
+  draggedImageFile,
   imageToEdit,
   onSubmitValid,
 }: PictureUploadModalProps) => {
@@ -183,6 +185,7 @@ const PictureUploadModal = ({
     register,
     formState: { errors },
     handleSubmit,
+    setValue,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
@@ -191,8 +194,16 @@ const PictureUploadModal = ({
   const image = watchedFile?.[0];
 
   useEffect(() => {
-    reset(imageToEdit ?? {});
+    const resetData = imageToEdit ?? {
+      description: '',
+      copyrightHolder: '',
+    };
+    reset(resetData);
   }, [imageToEdit, reset, visible]);
+
+  useEffect(() => {
+    setValue('file', draggedImageFile);
+  }, [draggedImageFile, setValue]);
 
   return (
     <Modal
