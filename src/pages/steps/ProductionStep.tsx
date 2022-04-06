@@ -3,7 +3,16 @@ import { useMemo, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
+import {
+  useChangeNameMutation,
+  useGetEventByIdQuery,
+} from '@/hooks/api/events';
 import { useGetProductionsQuery } from '@/hooks/api/productions';
+import {
+  useAddEventByIdMutation as useAddEventToProductionByIdMutation,
+  useCreateWithEventsMutation as useCreateProductionWithEventsMutation,
+  useDeleteEventByIdMutation as useDeleteEventFromProductionByIdMutation,
+} from '@/hooks/api/productions';
 import type { FormDataIntersection, StepProps } from '@/pages/Steps';
 import type { Production } from '@/types/Production';
 import { Button, ButtonVariants } from '@/ui/Button';
@@ -20,6 +29,56 @@ type ProductionStepProps<TFormData extends FormDataIntersection> = StackProps &
   StepProps<TFormData>;
 
 const getValue = getValueFromTheme('createPage');
+
+const useEditNameAndProduction = <TFormData extends FormDataIntersection>({
+  onSuccess,
+  eventId,
+}) => {
+  const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
+
+  const createProductionWithEventsMutation = useCreateProductionWithEventsMutation();
+  const addEventToProductionByIdMutation = useAddEventToProductionByIdMutation();
+  const deleteEventFromProductionByIdMutation = useDeleteEventFromProductionByIdMutation();
+
+  const changeNameMutation = useChangeNameMutation({
+    onSuccess: () => onSuccess('name'),
+  });
+
+  return async ({ production }: TFormData) => {
+    if (!production) return;
+
+    // unlink event from current production
+    // @ts-expect-error
+    if (getEventByIdQuery.data?.production?.id) {
+      await deleteEventFromProductionByIdMutation.mutateAsync({
+        // @ts-expect-error
+        productionId: getEventByIdQuery.data.production.id,
+        eventId,
+      });
+    }
+
+    if (production.customOption) {
+      // make new production with name and event id
+      await createProductionWithEventsMutation.mutateAsync({
+        productionName: production.name,
+        eventIds: [eventId],
+      });
+    } else {
+      // link event to production
+      await addEventToProductionByIdMutation.mutateAsync({
+        productionId: production.production_id,
+        eventId,
+      });
+    }
+
+    // change name of event
+    await changeNameMutation.mutateAsync({
+      id: eventId,
+      lang: 'nl',
+      name: production.name,
+    });
+  };
+};
 
 const ProductionStep = <TFormData extends FormDataIntersection>({
   formState: { errors },
@@ -116,4 +175,4 @@ const ProductionStep = <TFormData extends FormDataIntersection>({
   );
 };
 
-export { ProductionStep };
+export { ProductionStep, useEditNameAndProduction };

@@ -60,7 +60,7 @@ const EventForm = () => {
       {
         Component: AdditionalInformationStep,
         title: t(`event.create.additionalInformation.title`),
-        additionalProps: {
+        stepProps: {
           eventId: '73a5663a-2368-4c9f-a3cc-390076399108',
         },
       },
@@ -71,7 +71,7 @@ const EventForm = () => {
     <Page>
       <Page.Title>{t(`event.create.title`)}</Page.Title>
       <Page.Content spacing={5}>
-        <Steps configuration={configuration} {...form} />
+        <Steps configuration={configuration} form={form} />
       </Page.Content>
     </Page>
   );
