@@ -157,10 +157,6 @@ const AdditionalInformationStep = ({
   }, [getEventByIdQuery.data?.description]);
 
   useEffect(() => {
-    if (variant !== AdditionalInformationStepVariant.EXTENDED) {
-      return;
-    }
-
     if (
       // @ts-expect-error
       !getEventByIdQuery.data?.videos ||
@@ -546,13 +542,11 @@ const AdditionalInformationStep = ({
             onClickSetMainImage={handleClickSetMainImage}
             onClickAddImage={handleClickAddImage}
           />
-          {variant === AdditionalInformationStepVariant.EXTENDED && (
-            <VideoUploadBox
-              videos={videos}
-              onClickAddVideo={() => setIsVideoLinkAddModalVisible(true)}
-              onClickDeleteVideo={handleDeleteVideoLink}
-            />
-          )}
+          <VideoUploadBox
+            videos={videos}
+            onClickAddVideo={() => setIsVideoLinkAddModalVisible(true)}
+            onClickDeleteVideo={handleDeleteVideoLink}
+          />
         </Stack>
       </Inline>
     </Stack>
