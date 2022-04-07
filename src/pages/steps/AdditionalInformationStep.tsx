@@ -45,6 +45,7 @@ import { VideoLinkAddModal } from '../VideoLinkAddModal';
 import { VideoLinkDeleteModal } from '../VideoLinkDeleteModal';
 import type { Video, VideoEnriched } from '../VideoUploadBox';
 import { VideoUploadBox } from '../VideoUploadBox';
+import { Audience } from './Audience';
 import { PriceInformation } from './PriceInformation';
 
 const IDEAL_DESCRIPTION_LENGTH = 200;
@@ -527,11 +528,14 @@ const AdditionalInformationStep = ({
             info={<DescriptionInfo />}
           />
           {variant === AdditionalInformationStepVariant.EXTENDED && (
-            <PriceInformation
-              priceInfo={priceInfo}
-              onClickAddPriceInfo={() => setIsPriceInfoModalVisible(true)}
-              onClickAddFreePriceInfo={() => handleAddFreePriceInfo()}
-            />
+            <Stack spacing={4}>
+              <PriceInformation
+                priceInfo={priceInfo}
+                onClickAddPriceInfo={() => setIsPriceInfoModalVisible(true)}
+                onClickAddFreePriceInfo={() => handleAddFreePriceInfo()}
+              />
+              <Audience />
+            </Stack>
           )}
         </Stack>
         <Stack spacing={4} flex={1}>
