@@ -32,12 +32,7 @@ const PriceInformation = ({
 
   return (
     <Stack>
-      <Inline
-        spacing={3}
-        css={`
-          margin-bottom: ${parseSpacing(3)};
-        `}
-      >
+      <Inline spacing={3} marginBottom={3}>
         <Text fontWeight="bold">
           {t('create.additionalInformation.price_info.price')}
         </Text>
