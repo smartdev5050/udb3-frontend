@@ -26,9 +26,7 @@ const PriceInformation = ({
 }: Props) => {
   const { t, i18n } = useTranslation();
 
-  const hasPriceInfo = useMemo(() => {
-    return priceInfo.length > 0;
-  }, [priceInfo]);
+  const hasPriceInfo = priceInfo.length > 0;
 
   return (
     <Stack>
