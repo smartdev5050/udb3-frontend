@@ -1,8 +1,21 @@
-import PropTypes from 'prop-types';
-
 import { Label, LabelVariants } from './Label';
 import { RadioButtonWithLabel } from './RadioButtonWithLabel';
 import { getStackProps, Stack } from './Stack';
+
+type Item = {
+  value: string;
+  label?: string;
+  info?: string;
+};
+
+type Props = {
+  name: string;
+  groupLabel?: string;
+  items?: Array<Item>;
+  selected: string;
+  className: string;
+  onChange: () => void;
+};
 
 const RadioButtonGroup = ({
   name,
@@ -12,16 +25,14 @@ const RadioButtonGroup = ({
   className,
   onChange,
   ...props
-}) => {
+}: Props) => {
   return (
     <Stack className={className} as="div" spacing={3} {...getStackProps(props)}>
-      {groupLabel && <Label variant={LabelVariants.BOLD}>{groupLabel}</Label>}
-      <Stack role="radiogroup" as="ul" spacing={2}>
-        {items.map((item) => (
+      <Stack as="ul" spacing={2}>
+        {items.map((item: Item) => (
           <RadioButtonWithLabel
             key={item.value}
             value={item.value}
-            checked={selected === item.value}
             id={`${name}-radio-${item.value}`}
             name={name}
             onChange={onChange}
@@ -32,15 +43,6 @@ const RadioButtonGroup = ({
       </Stack>
     </Stack>
   );
-};
-
-RadioButtonGroup.propTypes = {
-  name: PropTypes.string.isRequired,
-  groupLabel: PropTypes.string,
-  items: PropTypes.array,
-  selected: PropTypes.string,
-  className: PropTypes.string,
-  onChange: PropTypes.func,
 };
 
 RadioButtonGroup.defaultProps = {

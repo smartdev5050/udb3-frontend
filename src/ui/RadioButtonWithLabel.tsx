@@ -22,14 +22,13 @@ const RadioButtonWithLabel = ({
   label,
   info,
   value,
-  checked,
   className,
   ...props
 }: Props) => {
   return (
     <Inline
       className={className}
-      alignItems="center"
+      alignItems={info ? 'flex-start' : 'center'}
       spacing={3}
       as="li"
       {...getInlineProps(props)}
