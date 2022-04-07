@@ -58,7 +58,9 @@ const Audience = ({ ...props }: Props) => {
             Component={
               <RadioButtonWithLabel
                 {...register(AudienceType[key])}
-                label={AudienceType[key]}
+                label={t(
+                  `create.additionalInformation.audience.${AudienceType[key]}`,
+                )}
                 value={AudienceType[key]}
                 checked={wactchedAudienceType === AudienceType[key]}
                 onChange={() => handleOnChangeAudience(AudienceType[key])}
