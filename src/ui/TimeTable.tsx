@@ -1,6 +1,6 @@
 import copyToClipboard from 'clipboard-copy';
 import { addDays, differenceInDays, format, isMatch, parse } from 'date-fns';
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 import isNil from 'lodash/isNil';
 import omitBy from 'lodash/omitBy';
 import pick from 'lodash/pick';
