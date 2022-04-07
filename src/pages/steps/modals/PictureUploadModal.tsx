@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import type { FormEvent } from 'react';
+import type { DragEvent, FormEvent } from 'react';
 import { forwardRef, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { Trans, useTranslation } from 'react-i18next';
@@ -41,14 +41,31 @@ type RegisterProps = {
   name: string;
 };
 
+type DragAndDropProps = {
+  onDrop: (e: DragEvent) => void;
+  onDragOver: (e: DragEvent) => void;
+};
+
 type Props = {
   error: any;
   image: any;
   marginBottom?: number;
-} & RegisterProps;
+} & RegisterProps &
+  DragAndDropProps;
 
 const PictureUploadBox = forwardRef<HTMLInputElement, Props>(
-  ({ error, image, marginBottom, children, ...registerFileProps }, ref) => {
+  (
+    {
+      error,
+      image,
+      marginBottom,
+      children,
+      onDrop,
+      onDragOver,
+      ...registerFileProps
+    },
+    ref,
+  ) => {
     const handleClickUpload = () => {
       document.getElementById('file').click();
     };
@@ -71,6 +88,8 @@ const PictureUploadBox = forwardRef<HTMLInputElement, Props>(
         `}
         padding={4}
         marginBottom={marginBottom}
+        onDrop={onDrop}
+        onDragOver={onDragOver}
       >
         <Text fontWeight={700}>Selecteer je foto</Text>
         {imagePreviewUrl ? (
@@ -205,6 +224,18 @@ const PictureUploadModal = ({
     setValue('file', draggedImageFile);
   }, [draggedImageFile, setValue]);
 
+  const handleInternalOnDrop = (e: DragEvent<HTMLElement>) => {
+    e.nativeEvent.preventDefault();
+
+    if (!e) return;
+
+    const files = e.nativeEvent.dataTransfer.files;
+
+    if (files.length === 0) return;
+
+    setValue('file', files);
+  };
+
   return (
     <Modal
       title={t('pictures.upload_modal.title')}
@@ -244,6 +275,8 @@ const PictureUploadModal = ({
                 `pictures.upload_modal.validation_messages.file.${errors.file.type}`,
               )
             }
+            onDrop={handleInternalOnDrop}
+            onDragOver={(e) => e.preventDefault()}
             {...register('file')}
           />
         )}
