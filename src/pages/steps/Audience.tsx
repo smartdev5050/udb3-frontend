@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
+import { useAddAudienceMutation } from '@/hooks/api/events';
 import { Values } from '@/types/Values';
 import { FormElement } from '@/ui/FormElement';
 import { Inline } from '@/ui/Inline';
@@ -12,7 +13,9 @@ import { RadioButtonWithLabel } from '@/ui/RadioButtonWithLabel';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 
-type Props = StackProps;
+type Props = StackProps & {
+  eventId: string;
+};
 
 const AudienceType = {
   EVERYONE: 'everyone',
@@ -28,10 +31,11 @@ const schema = yup.object({
   audienceType: yup.string().required(),
 });
 
-const Audience = ({ ...props }: Props) => {
+const Audience = ({ eventId, ...props }: Props) => {
   const { t, i18n } = useTranslation();
   const formComponent = useRef<HTMLFormElement>();
 
+  console.log(eventId);
   const {
     register,
     watch,
@@ -41,8 +45,20 @@ const Audience = ({ ...props }: Props) => {
   } = useForm<any>({
     resolver: yupResolver(schema),
   });
-  const handleOnChangeAudience = (audienceType: AudienceType) => {
+
+  const addAudienceMutation = useAddAudienceMutation({
+    onSuccess: async () => {
+      console.log('added audience');
+    },
+  });
+
+  const handleOnChangeAudience = async (audienceType: AudienceType) => {
     setValue('audienceType', audienceType);
+
+    await addAudienceMutation.mutateAsync({
+      eventId,
+      audienceType,
+    });
   };
 
   const wactchedAudienceType = watch('audienceType');
