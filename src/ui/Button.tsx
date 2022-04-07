@@ -43,6 +43,7 @@ const customCSS = css`
     border-radius: ${getValue('borderRadius')};
     padding: ${getValue('paddingY')} ${getValue('paddingX')};
     flex-shrink: 0;
+    align-items: center;
 
     &:focus,
     &.focus {
