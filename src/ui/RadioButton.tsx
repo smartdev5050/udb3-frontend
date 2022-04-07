@@ -22,6 +22,7 @@ type RadioButtonProps = {
   disabled?: boolean;
   isInvalid?: boolean;
   isValid?: boolean;
+  checked?: boolean;
 };
 
 type Props = Omit<BoxProps, 'onChange'> & RadioButtonProps;
@@ -38,6 +39,7 @@ const RadioButton = forwardRef(
       disabled,
       isInvalid,
       isValid,
+      checked,
       ...props
     }: Props,
     ref,
@@ -54,6 +56,7 @@ const RadioButton = forwardRef(
       isInvalid={isInvalid}
       isValid={isValid}
       disabled={disabled}
+      checked={checked}
       {...getBoxProps(props)}
     />
   ),
@@ -65,6 +68,7 @@ RadioButton.defaultProps = {
   type: 'radio',
   isInvalid: false,
   disabled: false,
+  checked: false,
 };
 
 export { RadioButton };

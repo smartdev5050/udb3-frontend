@@ -23,6 +23,7 @@ const RadioButtonWithLabel = ({
   info,
   value,
   className,
+  checked,
   ...props
 }: Props) => {
   return (
@@ -39,6 +40,7 @@ const RadioButtonWithLabel = ({
         disabled={disabled}
         value={value}
         name={name}
+        checked={checked}
       />
       <Stack>
         <Label cursor="pointer" htmlFor={id}>

@@ -1,4 +1,3 @@
-import { Label, LabelVariants } from './Label';
 import { RadioButtonWithLabel } from './RadioButtonWithLabel';
 import { getStackProps, Stack } from './Stack';
 
@@ -6,6 +5,7 @@ type Item = {
   value: string;
   label?: string;
   info?: string;
+  checked?: boolean;
 };
 
 type Props = {
@@ -34,6 +34,7 @@ const RadioButtonGroup = ({
             key={item.value}
             value={item.value}
             id={`${name}-radio-${item.value}`}
+            checked={item.value === selected}
             name={name}
             onChange={onChange}
             label={item.label}
