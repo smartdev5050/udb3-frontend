@@ -45,9 +45,9 @@ const PictureUploadBox = ({
   const { t } = useTranslation();
 
   const handleDrop = (e: DragEvent<HTMLElement>) => {
-    e.nativeEvent.preventDefault();
-
     if (!e) return;
+
+    e.nativeEvent.preventDefault();
 
     const files = e.nativeEvent.dataTransfer.files;
 
