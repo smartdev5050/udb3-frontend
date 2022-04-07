@@ -45,7 +45,7 @@ const Stack = forwardRef<HTMLElement, Props>(
       return cloneElement(child, {
         // @ts-expect-error
         ...child.props,
-        ...(!isLastItem ? { marginBottom: spacing } : {}),
+        ...(!isLastItem && spacing ? { marginBottom: spacing } : {}),
       });
     });
 

@@ -393,6 +393,7 @@
       "price_info": {
         "euro": "euro",
         "title": "Prijzen toevoegen",
+        "change": "Wijzigen",
         "close": "Sluiten",
         "save": "Bewaren",
         "free": "Gratis",
@@ -401,6 +402,7 @@
         "basic_rate": "Basistarief",
         "target": "Doelgroep",
         "price": "Prijs",
+        "prices": "Prijzen",
         "uitpas_error": "De UiTPAS prijs wordt voor jou berekend door UiTdatabank. Je kan deze niet zelf toevoegen.",
         "global_error": "Deze prijsinformatie lijkt ongeldig en kan je daarom niet bewaren. <ul><li>Noteer decimalen met een komma.</li><li>Laat geen enkel rij leeg, vul steeds een doelgroep en een bedrag in.</li><li>Geef maximum twee cijfers na de komma.</li></ul>"
       }

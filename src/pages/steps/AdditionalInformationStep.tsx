@@ -17,7 +17,8 @@ import { useAddImageMutation } from '@/hooks/api/images';
 import { PictureDeleteModal } from '@/pages/steps/modals/PictureDeleteModal';
 import type { FormData } from '@/pages/steps/modals/PictureUploadModal';
 import { PictureUploadModal } from '@/pages/steps/modals/PictureUploadModal';
-import type {
+import {
+  defaultPriceInfoValues,
   FormData as PriceInfoFormData,
   Rate,
 } from '@/pages/steps/modals/PriceInfoModal';
@@ -27,12 +28,15 @@ import { Alert } from '@/ui/Alert';
 import { Box, parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
+import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
+import { Label } from '@/ui/Label';
 import { ProgressBar, ProgressBarVariants } from '@/ui/ProgressBar';
 import type { StackProps } from '@/ui/Stack';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { TextArea } from '@/ui/TextArea';
+import { getValueFromTheme } from '@/ui/theme';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 import type { ImageType } from '../PictureUploadBox';
@@ -41,6 +45,7 @@ import { VideoLinkAddModal } from '../VideoLinkAddModal';
 import { VideoLinkDeleteModal } from '../VideoLinkDeleteModal';
 import type { Video, VideoEnriched } from '../VideoUploadBox';
 import { VideoUploadBox } from '../VideoUploadBox';
+import { PriceInformation } from './PriceInformation';
 
 const IDEAL_DESCRIPTION_LENGTH = 200;
 
@@ -49,7 +54,7 @@ const AdditionalInformationStepVariant = {
   EXTENDED: 'extended',
 } as const;
 
-type Field = 'description' | 'image' | 'video';
+type Field = 'description' | 'image' | 'video' | 'priceInfo';
 
 type Props = StackProps & {
   eventId: string;
@@ -192,6 +197,9 @@ const AdditionalInformationStep = ({
   ]);
 
   const priceInfo = useMemo(() => {
+    if (variant !== AdditionalInformationStepVariant.EXTENDED) {
+      return [];
+    }
     // @ts-expect-error
     const priceInfo = getEventByIdQuery.data?.priceInfo ?? [];
     // @ts-expect-error
@@ -213,6 +221,7 @@ const AdditionalInformationStep = ({
     // @ts-expect-error
     getEventByIdQuery.data?.mainLanguage,
     i18n.language,
+    variant,
   ]);
 
   const enrichVideos = async (video: Video[]) => {
@@ -358,7 +367,10 @@ const AdditionalInformationStep = ({
   };
 
   const addPriceInfoMutation = useAddPriceInfoMutation({
-    onSuccess: () => setIsPriceInfoModalVisible(false),
+    onSuccess: async () => {
+      await invalidateEventQuery('priceInfo');
+      setIsPriceInfoModalVisible(false);
+    },
   });
 
   const handlePriceInfoSubmitValid = async ({ rates }: PriceInfoFormData) => {
@@ -372,6 +384,16 @@ const AdditionalInformationStep = ({
     await addPriceInfoMutation.mutateAsync({
       eventId,
       priceInfo: convertedPriceInfo,
+    });
+  };
+
+  const handleAddFreePriceInfo = async () => {
+    const freePriceInfoRates = defaultPriceInfoValues.rates;
+    // @ts-expect-error
+    freePriceInfoRates[0].price = 0;
+    await addPriceInfoMutation.mutateAsync({
+      eventId,
+      priceInfo: freePriceInfoRates,
     });
   };
 
@@ -496,7 +518,7 @@ const AdditionalInformationStep = ({
             label={t('create.additionalInformation.description.title')}
             Component={
               <TextArea
-                rows={10}
+                rows={5}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 onBlur={handleBlurDescription}
@@ -504,9 +526,13 @@ const AdditionalInformationStep = ({
             }
             info={<DescriptionInfo />}
           />
-          <Button onClick={() => setIsPriceInfoModalVisible(true)}>
-            {t('create.additionalInformation.price_info.title')}
-          </Button>
+          {variant === AdditionalInformationStepVariant.EXTENDED && (
+            <PriceInformation
+              priceInfo={priceInfo}
+              onClickAddPriceInfo={() => setIsPriceInfoModalVisible(true)}
+              onClickAddFreePriceInfo={() => handleAddFreePriceInfo()}
+            />
+          )}
         </Stack>
         <Stack spacing={4} flex={1}>
           <PictureUploadBox
