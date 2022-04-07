@@ -1,4 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -34,6 +35,9 @@ const schema = yup
   .required();
 
 const EventForm = () => {
+  const router = useRouter();
+  const { eventId } = router.query;
+
   const { t } = useTranslation();
 
   const form = useForm<FormData>({
@@ -61,7 +65,7 @@ const EventForm = () => {
         Component: AdditionalInformationStep,
         title: t(`event.create.additionalInformation.title`),
         stepProps: {
-          eventId: '73a5663a-2368-4c9f-a3cc-390076399108',
+          ...(eventId && { eventId }),
         },
       },
     ];
