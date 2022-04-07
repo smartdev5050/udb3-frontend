@@ -137,8 +137,8 @@ type EventHandlerProps = {
   onPaste: (event: ClipboardEvent<HTMLFormElement>) => void;
   onSearch: (search: string) => void;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
-  onDragOver: (event: DragEvent) => void;
-  onDrop: (event: DragEvent) => void;
+  onDragOver: (event: DragEvent<HTMLElement>) => void;
+  onDrop: (event: DragEvent<HTMLElement>) => void;
 };
 
 type Display =

@@ -1,3 +1,4 @@
+import { DragEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Button, ButtonVariants } from '@/ui/Button';
@@ -43,12 +44,12 @@ const PictureUploadBox = ({
 }: Props) => {
   const { t } = useTranslation();
 
-  const handleDrop = (e: any) => {
+  const handleDrop = (e: DragEvent<HTMLElement>) => {
     e.nativeEvent.preventDefault();
 
     if (!e) return;
 
-    const files = e.nativeEvent.dataTransfer.files as FileList;
+    const files = e.nativeEvent.dataTransfer.files;
 
     if (files.length === 0) return;
 
