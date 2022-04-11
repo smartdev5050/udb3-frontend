@@ -203,6 +203,7 @@
       "price_info": {
         "euro": "euro",
         "title": "Ajouter des prix",
+        "change": "Modifier",
         "close": "Fermer",
         "save": "Sauver",
         "free": "Gratuit",
@@ -211,6 +212,7 @@
         "basic_rate": "Tarif de base",
         "target": "Public cible",
         "price": "Prix",
+        "prices": "Prix",
         "uitpas_error": "Le prix UiTPAS est calculé pour vous par UiTdatabank. Vous ne pouvez pas les ajouter vous-même.",
         "global_error": "Cette information du prix semble invalide et ne peut pas être enregistrée. <ul><li>Notez les décimales avec une virgule.</li><li>Ne laissez aucune ligne vide, remplissez toujours un public cible et un montant.</li><li>Donnez au maximum deux chiffres après la virgule.</li></ul>"
       }

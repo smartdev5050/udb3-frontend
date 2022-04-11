@@ -64,7 +64,7 @@ const Inline = forwardRef<HTMLElement, Props>(
       return cloneElement(child, {
         // @ts-expect-error
         ...child.props,
-        ...(!isLastItem ? { [marginProp]: spacing } : {}),
+        ...(!isLastItem && spacing ? { [marginProp]: spacing } : {}),
       });
     });
 
