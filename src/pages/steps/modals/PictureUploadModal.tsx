@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import type { FormEvent } from 'react';
+import type { DragEvent, FormEvent } from 'react';
 import { forwardRef, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { Trans, useTranslation } from 'react-i18next';
@@ -25,6 +25,7 @@ type FormData = {
 type PictureUploadModalProps = {
   visible: boolean;
   onClose: () => void;
+  draggedImageFile?: FileList;
   imageToEdit?: { description: string; copyrightHolder: string };
   onSubmitValid: (data: FormData) => Promise<void>;
 };
@@ -40,14 +41,31 @@ type RegisterProps = {
   name: string;
 };
 
+type DragAndDropProps = {
+  onDrop: (e: DragEvent) => void;
+  onDragOver: (e: DragEvent) => void;
+};
+
 type Props = {
   error: any;
   image: any;
   marginBottom?: number;
-} & RegisterProps;
+} & RegisterProps &
+  DragAndDropProps;
 
 const PictureUploadBox = forwardRef<HTMLInputElement, Props>(
-  ({ error, image, marginBottom, children, ...registerFileProps }, ref) => {
+  (
+    {
+      error,
+      image,
+      marginBottom,
+      children,
+      onDrop,
+      onDragOver,
+      ...registerFileProps
+    },
+    ref,
+  ) => {
     const handleClickUpload = () => {
       document.getElementById('file').click();
     };
@@ -70,6 +88,8 @@ const PictureUploadBox = forwardRef<HTMLInputElement, Props>(
         `}
         padding={4}
         marginBottom={marginBottom}
+        onDrop={onDrop}
+        onDragOver={onDragOver}
       >
         <Text fontWeight={700}>Selecteer je foto</Text>
         {imagePreviewUrl ? (
@@ -151,6 +171,7 @@ const CopyrightLink = () => {
 const PictureUploadModal = ({
   visible,
   onClose,
+  draggedImageFile,
   imageToEdit,
   onSubmitValid,
 }: PictureUploadModalProps) => {
@@ -183,6 +204,7 @@ const PictureUploadModal = ({
     register,
     formState: { errors },
     handleSubmit,
+    setValue,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
@@ -191,8 +213,28 @@ const PictureUploadModal = ({
   const image = watchedFile?.[0];
 
   useEffect(() => {
-    reset(imageToEdit ?? {});
+    const resetData = imageToEdit ?? {
+      description: '',
+      copyrightHolder: '',
+    };
+    reset(resetData);
   }, [imageToEdit, reset, visible]);
+
+  useEffect(() => {
+    setValue('file', draggedImageFile);
+  }, [draggedImageFile, setValue]);
+
+  const handleInternalOnDrop = (e: DragEvent<HTMLElement>) => {
+    if (!e) return;
+
+    e.preventDefault();
+
+    const files = e.dataTransfer.files;
+
+    if (files.length === 0) return;
+
+    setValue('file', files);
+  };
 
   return (
     <Modal
@@ -233,6 +275,8 @@ const PictureUploadModal = ({
                 `pictures.upload_modal.validation_messages.file.${errors.file.type}`,
               )
             }
+            onDrop={handleInternalOnDrop}
+            onDragOver={(e) => e.preventDefault()}
             {...register('file')}
           />
         )}
