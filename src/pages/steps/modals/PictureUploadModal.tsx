@@ -227,9 +227,9 @@ const PictureUploadModal = ({
   const handleInternalOnDrop = (e: DragEvent<HTMLElement>) => {
     if (!e) return;
 
-    e.nativeEvent.preventDefault();
+    e.preventDefault();
 
-    const files = e.nativeEvent.dataTransfer.files;
+    const files = e.dataTransfer.files;
 
     if (files.length === 0) return;
 
