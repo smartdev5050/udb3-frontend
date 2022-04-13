@@ -1,9 +1,11 @@
 {
-  "plugins": ["simple-import-sort", "unicorn"],
+  "plugins": ["unused-imports", "simple-import-sort", "unicorn"],
   "extends": ["next/core-web-vitals", "prettier"],
   "rules": {
+    "unused-imports/no-unused-imports": "error",
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
+    "no-restricted-imports": "warn",
     "no-console": "warn",
     "react/display-name": "warn",
     "react-hooks/rules-of-hooks": "warn"
