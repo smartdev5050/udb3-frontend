@@ -12,7 +12,6 @@ import { Page } from '@/ui/Page';
 
 import {
   AdditionalInformationStep,
-  AdditionalInformationStepVariant,
 } from '../steps/AdditionalInformationStep';
 import { CalendarStep } from './CalendarStep';
 import { ThemeStep } from './ThemeStep';

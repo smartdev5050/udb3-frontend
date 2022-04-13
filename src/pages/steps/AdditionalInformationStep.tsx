@@ -20,23 +20,20 @@ import { PictureUploadModal } from '@/pages/steps/modals/PictureUploadModal';
 import {
   defaultPriceInfoValues,
   FormData as PriceInfoFormData,
+  PriceInfoModal,
   Rate,
 } from '@/pages/steps/modals/PriceInfoModal';
-import { PriceInfoModal } from '@/pages/steps/modals/PriceInfoModal';
 import type { Values } from '@/types/Values';
 import { Alert } from '@/ui/Alert';
 import { Box, parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
-import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
-import { Label } from '@/ui/Label';
 import { ProgressBar, ProgressBarVariants } from '@/ui/ProgressBar';
 import type { StackProps } from '@/ui/Stack';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { TextArea } from '@/ui/TextArea';
-import { getValueFromTheme } from '@/ui/theme';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 import type { ImageType } from '../PictureUploadBox';
