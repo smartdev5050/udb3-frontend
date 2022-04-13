@@ -383,6 +383,9 @@
           "0.14.0.0.0": "Geef een enthousiaste omschrijving van het monument. Geef ook aan indien het monument slechts beperkt opengesteld is (vb. enkel salons)."
         }
       },
+      "organizer": {
+        "title": "Organisatie"
+      },
       "picture": {
         "add_button": "Afbeelding toevoegen",
         "intro": "Voeg een afbeelding toe zodat bezoekers je activiteit beter herkennen",
