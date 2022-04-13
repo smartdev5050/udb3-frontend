@@ -23,6 +23,7 @@ import {
   PriceInfoModal,
   Rate,
 } from '@/pages/steps/modals/PriceInfoModal';
+import { Organizer } from '@/types/Organizer';
 import type { Values } from '@/types/Values';
 import { Alert } from '@/ui/Alert';
 import { Box, parseSpacing } from '@/ui/Box';
@@ -42,6 +43,7 @@ import { VideoLinkAddModal } from '../VideoLinkAddModal';
 import { VideoLinkDeleteModal } from '../VideoLinkDeleteModal';
 import type { Video, VideoEnriched } from '../VideoUploadBox';
 import { VideoUploadBox } from '../VideoUploadBox';
+import { OrganizerPicker } from './OrganizerPicker';
 import { PriceInformation } from './PriceInformation';
 
 const IDEAL_DESCRIPTION_LENGTH = 200;
@@ -87,6 +89,7 @@ const AdditionalInformationStep = ({
   const [isPriceInfoModalVisible, setIsPriceInfoModalVisible] = useState(false);
 
   const [description, setDescription] = useState('');
+  const [organizer, setOrganizer] = useState<Organizer>();
   const [imageToEditId, setImageToEditId] = useState('');
   const [draggedImageFile, setDraggedImageFile] = useState<FileList>();
   const [imageToDeleteId, setImageToDeleteId] = useState('');
@@ -531,6 +534,7 @@ const AdditionalInformationStep = ({
             }
             info={<DescriptionInfo />}
           />
+          <OrganizerPicker value={organizer} onChange={setOrganizer} />
           {variant === AdditionalInformationStepVariant.EXTENDED && (
             <PriceInformation
               priceInfo={priceInfo}
