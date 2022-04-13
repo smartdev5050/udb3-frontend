@@ -209,7 +209,7 @@
           "0.14.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Monuments. Geben Sie auch an, ob das Monument nur eingeschränkt zugänglich ist (zB. nur Salons)."
         }
       },
-      "organisation": {
+      "organizer": {
         "title": "Organisator"
       },
       "picture": {
