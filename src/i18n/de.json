@@ -231,6 +231,11 @@
         "prices": "Preise",
         "uitpas_error": "Der UiTPAS-Preis wird von UiTdatabank für Sie berechnet. Sie können diese nicht selbst hinzufügen.",
         "global_error": "Diese Preisinformation scheint ungültig zu sein und kann daher nicht gespeichert werden. <ul><li>Notieren Sie Dezimalstellen mit einem Komma.</li><li>Lassen Sie keine Reihe frei, geben Sie immer eine Zielgruppe und einen Betrag ein.</li><li>Geben Sie maximal zwei Ziffern nach dem Komma ein.</li></ul>"
+      },
+      "contact_info": {
+        "url": "Website",
+        "phone": "Telefonnummer",
+        "email": "E-Mail-Adresse"
       }
     }
   },

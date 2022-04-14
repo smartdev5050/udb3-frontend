@@ -407,7 +407,9 @@
         "global_error": "Deze prijsinformatie lijkt ongeldig en kan je daarom niet bewaren. <ul><li>Noteer decimalen met een komma.</li><li>Laat geen enkel rij leeg, vul steeds een doelgroep en een bedrag in.</li><li>Geef maximum twee cijfers na de komma.</li></ul>"
       },
       "contact_info": {
-        "title": "Contact & reservatie"
+        "url": "Website",
+        "phone": "Telefoonnummer",
+        "email": "E-mailadres"
       }
     }
   },
