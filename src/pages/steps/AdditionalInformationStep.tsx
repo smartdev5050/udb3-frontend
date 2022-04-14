@@ -28,15 +28,12 @@ import { Alert } from '@/ui/Alert';
 import { Box, parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
-import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
-import { Label } from '@/ui/Label';
 import { ProgressBar, ProgressBarVariants } from '@/ui/ProgressBar';
 import type { StackProps } from '@/ui/Stack';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { TextArea } from '@/ui/TextArea';
-import { getValueFromTheme } from '@/ui/theme';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 import type { ImageType } from '../PictureUploadBox';
@@ -55,7 +52,7 @@ const AdditionalInformationStepVariant = {
   EXTENDED: 'extended',
 } as const;
 
-type Field = 'description' | 'image' | 'video' | 'priceInfo';
+type Field = 'description' | 'image' | 'video' | 'priceInfo' | 'audience';
 
 type Props = StackProps & {
   eventId: string;
@@ -551,7 +548,11 @@ const AdditionalInformationStep = ({
                 onClickAddPriceInfo={() => setIsPriceInfoModalVisible(true)}
                 onClickAddFreePriceInfo={() => handleAddFreePriceInfo()}
               />
-              <Audience eventId={eventId} selectedAudience={audienceType} />
+              <Audience
+                eventId={eventId}
+                selectedAudience={audienceType}
+                onChangeSuccess={() => invalidateEventQuery('audience')}
+              />
             </Stack>
           )}
         </Stack>

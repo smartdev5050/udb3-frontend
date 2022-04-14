@@ -16,6 +16,7 @@ import { Text } from '@/ui/Text';
 type Props = StackProps & {
   eventId: string;
   selectedAudience?: string;
+  onChangeSuccess: () => void;
 };
 
 const AudienceType = {
@@ -32,7 +33,12 @@ const schema = yup.object({
   audienceType: yup.string().required(),
 });
 
-const Audience = ({ eventId, selectedAudience, ...props }: Props) => {
+const Audience = ({
+  eventId,
+  selectedAudience,
+  onChangeSuccess,
+  ...props
+}: Props) => {
   const { t, i18n } = useTranslation();
   const formComponent = useRef<HTMLFormElement>();
 
@@ -52,7 +58,7 @@ const Audience = ({ eventId, selectedAudience, ...props }: Props) => {
 
   const addAudienceMutation = useAddAudienceMutation({
     onSuccess: async () => {
-      console.log('added audience');
+      await onChangeSuccess();
     },
   });
 

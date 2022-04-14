@@ -349,6 +349,11 @@
         "confirm": "Bevestigen"
       }
     },
+    "toast": {
+      "success": {
+        "audienceType": "Toegang is succesvol gewijzigd"
+      }
+    },
     "additionalInformation": {
       "title": "Laat je evenement extra opvallen",
       "description": {
