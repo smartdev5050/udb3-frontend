@@ -6,14 +6,20 @@ import { useGetOrganizersQuery } from '@/hooks/api/organizers';
 import { Organizer } from '@/types/Organizer';
 import { FormElement } from '@/ui/FormElement';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
-import { Typeahead } from '@/ui/Typeahead';
+import { isNewEntry, NewEntry, Typeahead } from '@/ui/Typeahead';
 
 type Props = Omit<StackProps, 'onChange'> & {
   value: Organizer;
   onChange: (organizer: Organizer) => void;
+  onAddNewOrganizer: (organizer: NewEntry) => void;
 };
 
-const OrganizerPicker = ({ value, onChange, ...props }: Props) => {
+const OrganizerPicker = ({
+  value,
+  onChange,
+  onAddNewOrganizer,
+  ...props
+}: Props) => {
   const { i18n, t } = useTranslation();
 
   const [organizerSearchInput, setOrganizerSearchInput] = useState('');
@@ -24,7 +30,9 @@ const OrganizerPicker = ({ value, onChange, ...props }: Props) => {
   );
 
   const organizers = useMemo(() => {
+    // @ts-expect-error
     return getOrganizersQuery.data?.member;
+    // @ts-expect-error
   }, [getOrganizersQuery.data?.member]);
 
   return (
@@ -47,8 +55,18 @@ const OrganizerPicker = ({ value, onChange, ...props }: Props) => {
             }}
             selected={value ? [value] : []}
             onInputChange={throttle(setOrganizerSearchInput, 275)}
-            onChange={(organizers) => onChange(organizers[0])}
+            onChange={(organizers) => {
+              const organizer = organizers[0];
+
+              if (isNewEntry(organizer)) {
+                return onAddNewOrganizer(organizer);
+              }
+
+              onChange(organizer);
+            }}
             minLength={3}
+            newSelectionPrefix="Voeg nieuwe organisator toe: "
+            allowNew
           />
         }
       />

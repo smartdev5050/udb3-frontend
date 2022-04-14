@@ -35,6 +35,7 @@ import type { StackProps } from '@/ui/Stack';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { TextArea } from '@/ui/TextArea';
+import { NewEntry } from '@/ui/Typeahead';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 import type { ImageType } from '../PictureUploadBox';
@@ -534,7 +535,15 @@ const AdditionalInformationStep = ({
             }
             info={<DescriptionInfo />}
           />
-          <OrganizerPicker value={organizer} onChange={setOrganizer} />
+          {variant === AdditionalInformationStepVariant.EXTENDED && (
+            <OrganizerPicker
+              value={organizer}
+              onChange={setOrganizer}
+              onAddNewOrganizer={(newOrganizer: NewEntry) => {
+                // TODO: Add Modal for adding new organizer
+              }}
+            />
+          )}
           {variant === AdditionalInformationStepVariant.EXTENDED && (
             <PriceInformation
               priceInfo={priceInfo}
