@@ -1,4 +1,4 @@
-import { throttle } from 'lodash';
+import debounce from 'lodash/debounce';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -54,7 +54,7 @@ const OrganizerPicker = ({
               );
             }}
             selected={value ? [value] : []}
-            onInputChange={throttle(setOrganizerSearchInput, 275)}
+            onInputChange={debounce(setOrganizerSearchInput, 275)}
             onChange={(organizers) => {
               const organizer = organizers[0];
 
