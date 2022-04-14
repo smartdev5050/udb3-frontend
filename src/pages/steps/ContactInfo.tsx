@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { Button, ButtonVariants } from '@/ui/Button';
+import { Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
 import { Select } from '@/ui/Select';
@@ -57,35 +58,78 @@ const ContactInfo = ({}: Props) => {
     ]);
   };
 
+  const handleDeleteContactPoint = (id: number): void => {
+    setValue('contactPoints', [
+      ...watchedContactPoints.filter((_contactPoint, index) => id !== index),
+    ]);
+  };
+
   return (
     <Stack>
       <Inline spacing={3} marginBottom={3}>
         <Text fontWeight="bold">
           {t('create.additionalInformation.contact_info.title')}
         </Text>
-        <Button
-          onClick={handleAddContactPoint}
-          variant={ButtonVariants.SECONDARY}
-        >
-          {t('create.additionalInformation.contact_info.add')}
-        </Button>
+        {watchedContactPoints.length === 0 && (
+          <Button
+            onClick={handleAddContactPoint}
+            variant={ButtonVariants.SECONDARY}
+          >
+            {t('create.additionalInformation.contact_info.add')}
+          </Button>
+        )}
       </Inline>
-      <Stack spacing={3}>
-        {watchedContactPoints.map((contactPoint, index) => (
-          <Inline key={index} spacing={5}>
-            <Select {...register(`contactPoint.${index}.contactInfoType`)}>
-              {Object.keys(ContactInfoType).map((key, index) => (
-                <option key={index} value={ContactInfoType[key]}>
-                  {t(
-                    `create.additionalInformation.contact_info.${ContactInfoType[key]}`,
-                  )}
-                </option>
-              ))}
-            </Select>
-            <Input {...register(`contactPoint.${index}.contactInfo`)} />
+      {watchedContactPoints.length > 0 && (
+        <Stack
+          spacing={3}
+          css={`
+            border: 1px solid #ddd;
+          `}
+        >
+          {watchedContactPoints.map((contactPoint, index) => (
+            <Inline
+              padding={3}
+              key={index}
+              css={
+                index !== 0 &&
+                `
+              border-top: 1px solid #ddd;
+            `
+              }
+              spacing={5}
+            >
+              <Select {...register(`contactPoint.${index}.contactInfoType`)}>
+                {Object.keys(ContactInfoType).map((key, index) => (
+                  <option key={index} value={ContactInfoType[key]}>
+                    {t(
+                      `create.additionalInformation.contact_info.${ContactInfoType[key]}`,
+                    )}
+                  </option>
+                ))}
+              </Select>
+              <Input {...register(`contactPoint.${index}.contactInfo`)} />
+              <Button
+                onClick={() => handleDeleteContactPoint(index)}
+                variant={ButtonVariants.DANGER}
+                iconName={Icons.TRASH}
+              ></Button>
+            </Inline>
+          ))}
+          <Inline
+            padding={3}
+            css={`
+              border-top: 1px solid #ddd;
+            `}
+          >
+            <Button
+              variant={ButtonVariants.LINK}
+              onClick={handleAddContactPoint}
+            >
+              Meer contactgegevens toevoegen
+            </Button>
           </Inline>
-        ))}
-      </Stack>
+        </Stack>
+      )}
     </Stack>
   );
 };
