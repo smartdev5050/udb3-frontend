@@ -8,6 +8,16 @@ import { getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme('typeahead');
 
+type NewEntry = {
+  customOption: boolean;
+  id: string;
+  label: string;
+};
+
+const isNewEntry = (value: any): value is NewEntry => {
+  return !!value?.customOption;
+};
+
 type TypeaheadProps<T> = {
   id?: string;
   options: T[];
@@ -16,7 +26,7 @@ type TypeaheadProps<T> = {
   placeholder?: string;
   emptyLabel?: string;
   minLength?: number;
-  onChange?: (value: T[]) => void;
+  onChange?: (value: (T | NewEntry)[]) => void;
   allowNew?:
     | boolean
     | ((
@@ -126,5 +136,5 @@ Typeahead.defaultProps = {
   ...typeaheadDefaultProps,
 };
 
-export type { TypeaheadProps };
-export { Typeahead, typeaheadDefaultProps };
+export type { NewEntry, TypeaheadProps };
+export { isNewEntry, Typeahead, typeaheadDefaultProps };
