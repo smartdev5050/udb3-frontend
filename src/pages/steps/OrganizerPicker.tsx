@@ -65,7 +65,9 @@ const OrganizerPicker = ({
               onChange(organizer);
             }}
             minLength={3}
-            newSelectionPrefix="Voeg nieuwe organisator toe: "
+            newSelectionPrefix={t(
+              'create.additionalInformation.organizer.add_new',
+            )}
             allowNew
           />
         }

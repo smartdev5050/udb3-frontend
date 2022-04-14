@@ -384,7 +384,8 @@
         }
       },
       "organizer": {
-        "title": "Organisatie"
+        "title": "Organisatie",
+        "add_new": "Voeg nieuwe organisator toe: "
       },
       "picture": {
         "add_button": "Afbeelding toevoegen",

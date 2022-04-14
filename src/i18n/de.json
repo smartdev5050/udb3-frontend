@@ -210,7 +210,8 @@
         }
       },
       "organizer": {
-        "title": "Organisator"
+        "title": "Organisator",
+        "add_new": "Neuen Organisator hinzufügen: "
       },
       "picture": {
         "add_button": "Hauptabbildung erstellen",
