@@ -14,14 +14,10 @@ import {
   AdditionalInformationStep,
   AdditionalInformationStepVariant,
 } from '@/pages/steps/AdditionalInformationStep';
-import {
-  EventTypeAndThemeStep,
-} from '@/pages/steps/EventTypeAndThemeStep';
+import { EventTypeAndThemeStep } from '@/pages/steps/EventTypeAndThemeStep';
 import { PublishLaterModal } from '@/pages/steps/modals/PublishLaterModal';
 import { PlaceStep } from '@/pages/steps/PlaceStep';
-import {
-  ProductionStep,
-} from '@/pages/steps/ProductionStep';
+import { ProductionStep } from '@/pages/steps/ProductionStep';
 import { TimeTableStep } from '@/pages/steps/TimeTableStep';
 import type { Event } from '@/types/Event';
 import type { SubEvent } from '@/types/Offer';
