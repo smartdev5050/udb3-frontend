@@ -22,7 +22,8 @@ type HeadersAndQueryData = {
 
 type GetOrganizersArguments = {
   headers: Headers;
-  embed: boolean;
+  embed: string;
+  q: string;
 };
 
 const getOrganizers = async ({ headers, q, embed }: GetOrganizersArguments) => {
