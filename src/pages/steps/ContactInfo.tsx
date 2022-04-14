@@ -1,7 +1,11 @@
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import * as yup from 'yup';
 
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
+import { Input } from '@/ui/Input';
 import { Select } from '@/ui/Select';
 import { Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
@@ -14,8 +18,44 @@ const ContactInfoType = {
 
 type Props = {};
 
+const schema = yup
+  .object()
+  .shape({
+    contactPoints: yup.array().of(
+      yup.object({
+        contactInfoType: yup.string(),
+        contactInfo: yup.string(),
+      }),
+    ),
+  })
+  .required();
+
+type FormData = yup.InferType<typeof schema>;
+
 const ContactInfo = ({}: Props) => {
   const { t } = useTranslation();
+
+  const {
+    register,
+    watch,
+    setValue,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<FormData>({
+    resolver: yupResolver(schema),
+  });
+
+  const watchedContactPoints = watch('contactPoints') ?? [];
+
+  const handleAddContactPoint = () => {
+    setValue('contactPoints', [
+      ...watchedContactPoints,
+      {
+        contactInfoType: ContactInfoType.PHONE,
+        contactInfo: '',
+      },
+    ]);
+  };
 
   return (
     <Stack>
@@ -24,23 +64,27 @@ const ContactInfo = ({}: Props) => {
           {t('create.additionalInformation.contact_info.title')}
         </Text>
         <Button
-          onClick={() => console.log('add price info')}
+          onClick={handleAddContactPoint}
           variant={ButtonVariants.SECONDARY}
         >
-          Contactinformatie toevoegen
+          {t('create.additionalInformation.contact_info.add')}
         </Button>
       </Inline>
-      <Stack>
-        <Text>Price Info</Text>
-        <Select>
-          {Object.keys(ContactInfoType).map((key, index) => (
-            <option key={index} value={ContactInfoType[key]}>
-              {t(
-                `create.additionalInformation.contact_info.${ContactInfoType[key]}`,
-              )}
-            </option>
-          ))}
-        </Select>
+      <Stack spacing={3}>
+        {watchedContactPoints.map((contactPoint, index) => (
+          <Inline key={index} spacing={5}>
+            <Select {...register(`contactPoint.${index}.contactInfoType`)}>
+              {Object.keys(ContactInfoType).map((key, index) => (
+                <option key={index} value={ContactInfoType[key]}>
+                  {t(
+                    `create.additionalInformation.contact_info.${ContactInfoType[key]}`,
+                  )}
+                </option>
+              ))}
+            </Select>
+            <Input {...register(`contactPoint.${index}.contactInfo`)} />
+          </Inline>
+        ))}
       </Stack>
     </Stack>
   );
