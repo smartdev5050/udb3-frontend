@@ -10,6 +10,7 @@ import { Input } from '@/ui/Input';
 import { Select } from '@/ui/Select';
 import { Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
+import { getValueFromTheme } from '@/ui/theme';
 
 const ContactInfoType = {
   PHONE: 'phone',
@@ -18,6 +19,8 @@ const ContactInfoType = {
 } as const;
 
 type Props = {};
+
+const getValue = getValueFromTheme('contactInformation');
 
 const schema = yup
   .object()
@@ -83,7 +86,7 @@ const ContactInfo = ({}: Props) => {
         <Stack
           spacing={3}
           css={`
-            border: 1px solid #ddd;
+            border: 1px solid ${getValue('borderColor')};
           `}
         >
           {watchedContactPoints.map((contactPoint, index) => (
@@ -93,7 +96,7 @@ const ContactInfo = ({}: Props) => {
               css={
                 index !== 0 &&
                 `
-              border-top: 1px solid #ddd;
+              border-top: 1px solid ${getValue('borderColor')};
             `
               }
               spacing={5}
@@ -118,14 +121,14 @@ const ContactInfo = ({}: Props) => {
           <Inline
             padding={3}
             css={`
-              border-top: 1px solid #ddd;
+              border-top: 1px solid ${getValue('borderColor')};
             `}
           >
             <Button
               variant={ButtonVariants.LINK}
               onClick={handleAddContactPoint}
             >
-              Meer contactgegevens toevoegen
+              {t('create.additionalInformation.contact_info.add_more')}
             </Button>
           </Inline>
         </Stack>
