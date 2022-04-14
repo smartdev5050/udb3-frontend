@@ -225,6 +225,15 @@ const AdditionalInformationStep = ({
     variant,
   ]);
 
+  const audienceType = useMemo(() => {
+    if (variant !== AdditionalInformationStepVariant.EXTENDED) {
+      return;
+    }
+    // @ts-expect-error
+    return getEventByIdQuery.data?.audience?.audienceType;
+    // @ts-expect-error
+  }, [getEventByIdQuery.data?.audience?.audienceType, variant]);
+
   const enrichVideos = async (video: Video[]) => {
     const getYoutubeThumbnailUrl = (videoUrl: string) => {
       return `https://i.ytimg.com/vi_webp/${
@@ -534,7 +543,7 @@ const AdditionalInformationStep = ({
                 onClickAddPriceInfo={() => setIsPriceInfoModalVisible(true)}
                 onClickAddFreePriceInfo={() => handleAddFreePriceInfo()}
               />
-              <Audience eventId={eventId} />
+              <Audience eventId={eventId} selectedAudience={audienceType} />
             </Stack>
           )}
         </Stack>

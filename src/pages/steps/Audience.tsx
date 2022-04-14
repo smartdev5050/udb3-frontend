@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -15,6 +15,7 @@ import { Text } from '@/ui/Text';
 
 type Props = StackProps & {
   eventId: string;
+  selectedAudience?: string;
 };
 
 const AudienceType = {
@@ -31,20 +32,23 @@ const schema = yup.object({
   audienceType: yup.string().required(),
 });
 
-const Audience = ({ eventId, ...props }: Props) => {
+const Audience = ({ eventId, selectedAudience, ...props }: Props) => {
   const { t, i18n } = useTranslation();
   const formComponent = useRef<HTMLFormElement>();
 
-  console.log(eventId);
   const {
     register,
     watch,
     setValue,
     formState: { errors },
     handleSubmit,
-  } = useForm<any>({
+  } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
+
+  useEffect(() => {
+    setValue('audienceType', selectedAudience ?? AudienceType.EVERYONE);
+  }, [selectedAudience, setValue]);
 
   const addAudienceMutation = useAddAudienceMutation({
     onSuccess: async () => {
