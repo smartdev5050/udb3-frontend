@@ -126,7 +126,7 @@ const PriceInfoModal = ({
   useEffect(() => {
     if (!priceInfo?.length) return;
     setValue('rates', [...priceInfo]);
-  }, [priceInfo]);
+  }, [priceInfo, setValue]);
 
   const watchedRates = watch('rates');
 

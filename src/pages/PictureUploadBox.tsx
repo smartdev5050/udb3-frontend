@@ -1,3 +1,4 @@
+import { DragEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Button, ButtonVariants } from '@/ui/Button';
@@ -29,6 +30,7 @@ type Props = StackProps & {
   onClickDeleteImage: (id: string) => void;
   onClickSetMainImage: (id: string) => void;
   onClickAddImage: () => void;
+  onDragAddImage: (file: FileList) => void;
 };
 
 const PictureUploadBox = ({
@@ -37,12 +39,29 @@ const PictureUploadBox = ({
   onClickDeleteImage,
   onClickSetMainImage,
   onClickAddImage,
+  onDragAddImage,
   ...props
 }: Props) => {
   const { t } = useTranslation();
 
+  const handleDrop = (e: DragEvent<HTMLElement>) => {
+    if (!e) return;
+
+    e.preventDefault();
+
+    const files = e.dataTransfer.files;
+
+    if (files.length === 0) return;
+
+    onDragAddImage(files);
+  };
+
   return (
-    <Stack spacing={2}>
+    <Stack
+      spacing={2}
+      onDrop={handleDrop}
+      onDragOver={(e) => e.preventDefault()}
+    >
       <Title size={3}>{t('pictures.title')}</Title>
       <Stack
         flex={1}
