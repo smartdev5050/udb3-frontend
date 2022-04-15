@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { useAddContactPointMutation } from '@/hooks/api/events';
-import { ContactPoint } from '@/types/ContactPoint';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Icons } from '@/ui/Icon';
