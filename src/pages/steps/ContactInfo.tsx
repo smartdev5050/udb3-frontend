@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -21,8 +21,16 @@ const ContactInfoType = {
   URL: 'url',
 } as const;
 
+type contactPoint = {
+  phone: string[];
+  email: string[];
+  url: string[];
+};
+
 type Props = {
   eventId: string;
+  eventContactInfo: contactPoint;
+  invalidateEventQuery: (field: string) => void;
 };
 
 const getValue = getValueFromTheme('contactInformation');
@@ -41,7 +49,11 @@ const schema = yup
 
 type FormData = yup.InferType<typeof schema>;
 
-const ContactInfo = ({ eventId }: Props) => {
+const ContactInfo = ({
+  eventId,
+  eventContactInfo,
+  invalidateEventQuery,
+}: Props) => {
   const { t } = useTranslation();
   const formComponent = useRef<HTMLFormElement>();
 
@@ -57,6 +69,22 @@ const ContactInfo = ({ eventId }: Props) => {
 
   const watchedContactPoints = watch('contactPoints') ?? [];
 
+  useEffect(() => {
+    if (eventContactInfo) {
+      const formData = [];
+      // transform to event contact info to formData
+      Object.keys(eventContactInfo).forEach((key, index) => {
+        eventContactInfo[key].forEach((item) => {
+          formData.push({
+            contactInfoType: ContactInfoType[key.toUpperCase()],
+            contactInfo: item,
+          });
+        });
+      });
+      setValue('contactPoints', formData);
+    }
+  }, [eventContactInfo, setValue]);
+
   const handleAddContactPoint = () => {
     setValue('contactPoints', [
       ...watchedContactPoints,
@@ -67,17 +95,15 @@ const ContactInfo = ({ eventId }: Props) => {
     ]);
   };
 
-  const handleDeleteContactPoint = (id: number): void => {
-    setValue('contactPoints', [
-      ...watchedContactPoints.filter((_contactPoint, index) => id !== index),
-    ]);
-  };
-
   const addContactPointMutation = useAddContactPointMutation({
     onSuccess: async () => {
       console.log('added contact point');
-      // await invalidateEventQuery('priceInfo');
-      // setIsPriceInfoModalVisible(false);
+    },
+  });
+
+  const deleteContactPointMutation = useAddContactPointMutation({
+    onSuccess: async () => {
+      await invalidateEventQuery('contactPoint');
     },
   });
 
@@ -92,7 +118,7 @@ const ContactInfo = ({ eventId }: Props) => {
     ]);
   };
 
-  const handleAddContactPointMutation = async () => {
+  const prepareContactPointPayload = () => {
     // prepare payload
     const phone = watchedContactPoints
       .filter(
@@ -114,6 +140,48 @@ const ContactInfo = ({ eventId }: Props) => {
       )
       .map((contactPoint) => contactPoint.contactInfo);
 
+    return {
+      contactPoint: {
+        phone,
+        email,
+        url,
+      },
+    };
+  };
+
+  const handleAddContactPointMutation = async () => {
+    const contactPoint = prepareContactPointPayload();
+    await addContactPointMutation.mutateAsync({
+      eventId,
+      contactPoint,
+    });
+  };
+
+  const handleDeleteContactPoint = async (id: number) => {
+    const newContactPoints = watchedContactPoints.filter(
+      (_contactPoint, index) => id !== index,
+    );
+
+    const phone = newContactPoints
+      .filter(
+        (contactPoint) =>
+          contactPoint.contactInfoType === ContactInfoType.PHONE,
+      )
+      .map((contactPoint) => contactPoint.contactInfo);
+
+    const email = newContactPoints
+      .filter(
+        (contactPoint) =>
+          contactPoint.contactInfoType === ContactInfoType.EMAIL,
+      )
+      .map((contactPoint) => contactPoint.contactInfo);
+
+    const url = newContactPoints
+      .filter(
+        (contactPoint) => contactPoint.contactInfoType === ContactInfoType.URL,
+      )
+      .map((contactPoint) => contactPoint.contactInfo);
+
     const contactPoint = {
       contactPoint: {
         phone,
@@ -122,7 +190,7 @@ const ContactInfo = ({ eventId }: Props) => {
       },
     };
 
-    await addContactPointMutation.mutateAsync({
+    await deleteContactPointMutation.mutateAsync({
       eventId,
       contactPoint,
     });

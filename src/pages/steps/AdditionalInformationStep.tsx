@@ -55,7 +55,7 @@ const AdditionalInformationStepVariant = {
   EXTENDED: 'extended',
 } as const;
 
-type Field = 'description' | 'image' | 'video' | 'priceInfo';
+type Field = 'description' | 'image' | 'video' | 'priceInfo' | 'contactPoint';
 
 type Props = StackProps & {
   eventId: string;
@@ -225,6 +225,13 @@ const AdditionalInformationStep = ({
     i18n.language,
     variant,
   ]);
+
+  const eventContactInfo = useMemo(() => {
+    if (variant !== AdditionalInformationStepVariant.EXTENDED) return;
+    // @ts-expect-error
+    return getEventByIdQuery.data?.contactPoint;
+    // @ts-expect-error
+  }, [getEventByIdQuery.data?.contactPoint, variant]);
 
   const enrichVideos = async (video: Video[]) => {
     const getYoutubeThumbnailUrl = (videoUrl: string) => {
@@ -542,7 +549,11 @@ const AdditionalInformationStep = ({
                 onClickAddPriceInfo={() => setIsPriceInfoModalVisible(true)}
                 onClickAddFreePriceInfo={() => handleAddFreePriceInfo()}
               />
-              <ContactInfo eventId={eventId} />
+              <ContactInfo
+                eventId={eventId}
+                eventContactInfo={eventContactInfo}
+                invalidateEventQuery={invalidateEventQuery}
+              />
             </Stack>
           )}
         </Stack>
