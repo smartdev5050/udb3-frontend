@@ -118,39 +118,27 @@ const ContactInfo = ({
     ]);
   };
 
-  const prepareContactPointPayload = () => {
-    // prepare payload
-    const phone = watchedContactPoints
-      .filter(
-        (contactPoint) =>
-          contactPoint.contactInfoType === ContactInfoType.PHONE,
-      )
-      .map((contactPoint) => contactPoint.contactInfo);
-
-    const email = watchedContactPoints
-      .filter(
-        (contactPoint) =>
-          contactPoint.contactInfoType === ContactInfoType.EMAIL,
-      )
-      .map((contactPoint) => contactPoint.contactInfo);
-
-    const url = watchedContactPoints
-      .filter(
-        (contactPoint) => contactPoint.contactInfoType === ContactInfoType.URL,
-      )
-      .map((contactPoint) => contactPoint.contactInfo);
+  const prepareContactPointPayload = (contactPoints): contactPoint => {
+    const [phone, email, url] = Object.keys(ContactInfoType).map(
+      (key, _index) => {
+        return contactPoints
+          .filter(
+            (contactPoint) =>
+              contactPoint.contactInfoType === ContactInfoType[key],
+          )
+          .map((contactPoint) => contactPoint.contactInfo);
+      },
+    );
 
     return {
-      contactPoint: {
-        phone,
-        email,
-        url,
-      },
+      phone,
+      email,
+      url,
     };
   };
 
   const handleAddContactPointMutation = async () => {
-    const contactPoint = prepareContactPointPayload();
+    const contactPoint = prepareContactPointPayload(watchedContactPoints);
     await addContactPointMutation.mutateAsync({
       eventId,
       contactPoint,
@@ -158,37 +146,13 @@ const ContactInfo = ({
   };
 
   const handleDeleteContactPoint = async (id: number) => {
-    const newContactPoints = watchedContactPoints.filter(
+    const contactPointsWithDeletedItem = watchedContactPoints.filter(
       (_contactPoint, index) => id !== index,
     );
 
-    const phone = newContactPoints
-      .filter(
-        (contactPoint) =>
-          contactPoint.contactInfoType === ContactInfoType.PHONE,
-      )
-      .map((contactPoint) => contactPoint.contactInfo);
-
-    const email = newContactPoints
-      .filter(
-        (contactPoint) =>
-          contactPoint.contactInfoType === ContactInfoType.EMAIL,
-      )
-      .map((contactPoint) => contactPoint.contactInfo);
-
-    const url = newContactPoints
-      .filter(
-        (contactPoint) => contactPoint.contactInfoType === ContactInfoType.URL,
-      )
-      .map((contactPoint) => contactPoint.contactInfo);
-
-    const contactPoint = {
-      contactPoint: {
-        phone,
-        email,
-        url,
-      },
-    };
+    const contactPoint = prepareContactPointPayload(
+      contactPointsWithDeletedItem,
+    );
 
     await deleteContactPointMutation.mutateAsync({
       eventId,

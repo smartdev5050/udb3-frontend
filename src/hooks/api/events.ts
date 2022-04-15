@@ -555,7 +555,7 @@ const addContactPoint = async ({ headers, eventId, contactPoint }) =>
     options: {
       method: 'PUT',
       headers,
-      body: JSON.stringify(contactPoint),
+      body: JSON.stringify({ contactPoint }),
     },
   });
 
