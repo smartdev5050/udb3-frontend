@@ -1,9 +1,13 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
+import { useAddContactPointMutation } from '@/hooks/api/events';
+import { ContactPoint } from '@/types/ContactPoint';
 import { Button, ButtonVariants } from '@/ui/Button';
+import { FormElement } from '@/ui/FormElement';
 import { Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
@@ -18,7 +22,9 @@ const ContactInfoType = {
   URL: 'url',
 } as const;
 
-type Props = {};
+type Props = {
+  eventId: string;
+};
 
 const getValue = getValueFromTheme('contactInformation');
 
@@ -36,8 +42,9 @@ const schema = yup
 
 type FormData = yup.InferType<typeof schema>;
 
-const ContactInfo = ({}: Props) => {
+const ContactInfo = ({ eventId }: Props) => {
   const { t } = useTranslation();
+  const formComponent = useRef<HTMLFormElement>();
 
   const {
     register,
@@ -67,6 +74,61 @@ const ContactInfo = ({}: Props) => {
     ]);
   };
 
+  const addContactPointMutation = useAddContactPointMutation({
+    onSuccess: async () => {
+      console.log('added contact point');
+      // await invalidateEventQuery('priceInfo');
+      // setIsPriceInfoModalVisible(false);
+    },
+  });
+
+  const handleChangeInfoType = (event: any, id: number): void => {
+    setValue('contactPoints', [
+      ...watchedContactPoints.map((contactPoint, index) => {
+        if (id === index) {
+          contactPoint.contactInfoType = event.target.value;
+        }
+        return contactPoint;
+      }),
+    ]);
+  };
+
+  const handleAddContactPointMutation = async () => {
+    // prepare payload
+    const phone = watchedContactPoints
+      .filter(
+        (contactPoint) =>
+          contactPoint.contactInfoType === ContactInfoType.PHONE,
+      )
+      .map((contactPoint) => contactPoint.contactInfo);
+
+    const email = watchedContactPoints
+      .filter(
+        (contactPoint) =>
+          contactPoint.contactInfoType === ContactInfoType.EMAIL,
+      )
+      .map((contactPoint) => contactPoint.contactInfo);
+
+    const url = watchedContactPoints
+      .filter(
+        (contactPoint) => contactPoint.contactInfoType === ContactInfoType.URL,
+      )
+      .map((contactPoint) => contactPoint.contactInfo);
+
+    const contactPoint = {
+      contactPoint: {
+        phone,
+        email,
+        url,
+      },
+    };
+
+    await addContactPointMutation.mutateAsync({
+      eventId,
+      contactPoint,
+    });
+  };
+
   return (
     <Stack>
       <Inline spacing={3} marginBottom={3}>
@@ -84,6 +146,8 @@ const ContactInfo = ({}: Props) => {
       </Inline>
       {watchedContactPoints.length > 0 && (
         <Stack
+          as="form"
+          ref={formComponent}
           spacing={3}
           css={`
             border: 1px solid ${getValue('borderColor')};
@@ -101,16 +165,32 @@ const ContactInfo = ({}: Props) => {
               }
               spacing={5}
             >
-              <Select {...register(`contactPoint.${index}.contactInfoType`)}>
-                {Object.keys(ContactInfoType).map((key, index) => (
-                  <option key={index} value={ContactInfoType[key]}>
-                    {t(
-                      `create.additionalInformation.contact_info.${ContactInfoType[key]}`,
-                    )}
-                  </option>
-                ))}
-              </Select>
-              <Input {...register(`contactPoint.${index}.contactInfo`)} />
+              <FormElement
+                id="contactInfoType"
+                Component={
+                  <Select
+                    {...register(`contactPoints.${index}.contactInfoType`)}
+                    onChange={(event) => handleChangeInfoType(event, index)}
+                  >
+                    {Object.keys(ContactInfoType).map((key, index) => (
+                      <option key={index} value={ContactInfoType[key]}>
+                        {t(
+                          `create.additionalInformation.contact_info.${ContactInfoType[key]}`,
+                        )}
+                      </option>
+                    ))}
+                  </Select>
+                }
+              />
+              <FormElement
+                id="contactInfo"
+                Component={
+                  <Input
+                    {...register(`contactPoints.${index}.contactInfo`)}
+                    onBlur={handleAddContactPointMutation}
+                  />
+                }
+              />
               <Button
                 onClick={() => handleDeleteContactPoint(index)}
                 variant={ButtonVariants.DANGER}

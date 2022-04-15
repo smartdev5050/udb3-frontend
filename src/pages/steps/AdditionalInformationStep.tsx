@@ -542,7 +542,7 @@ const AdditionalInformationStep = ({
                 onClickAddPriceInfo={() => setIsPriceInfoModalVisible(true)}
                 onClickAddFreePriceInfo={() => handleAddFreePriceInfo()}
               />
-              <ContactInfo />
+              <ContactInfo eventId={eventId} />
             </Stack>
           )}
         </Stack>
