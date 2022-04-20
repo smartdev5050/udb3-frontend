@@ -20,10 +20,51 @@ type HeadersAndQueryData = {
   headers: Headers;
 } & { [x: string]: string };
 
+type GetOrganizersArguments = {
+  headers: Headers;
+  embed: string;
+  q: string;
+};
+
+const getOrganizers = async ({ headers, q, embed }: GetOrganizersArguments) => {
+  const res = await fetchFromApi({
+    path: '/organizers',
+    searchParams: {
+      embed: `${embed}`,
+      q,
+    },
+    options: {
+      headers,
+    },
+  });
+  if (isErrorObject(res)) {
+    // eslint-disable-next-line no-console
+    return console.error(res);
+  }
+  return await res.json();
+};
+
+const useGetOrganizersQuery = (
+  { req, queryClient, q }: AuthenticatedQueryOptions<{ q?: string }> = {},
+  configuration: UseQueryOptions = {},
+) =>
+  useAuthenticatedQuery<{ member: Organizer[] }>({
+    req,
+    queryClient,
+    queryKey: ['organizers'],
+    queryFn: getOrganizers,
+    queryArguments: {
+      embed: true,
+      q,
+    },
+    ...configuration,
+  });
+
 type GetOrganizerByIdArguments = {
   headers: Headers;
   id: string;
 };
+
 const getOrganizerById = async ({ headers, id }: GetOrganizerByIdArguments) => {
   const res = await fetchFromApi({
     path: `/organizers/${id.toString()}`,
@@ -121,4 +162,5 @@ export {
   useDeleteOrganizerByIdMutation,
   useGetOrganizerByIdQuery,
   useGetOrganizersByCreatorQuery,
+  useGetOrganizersQuery,
 };

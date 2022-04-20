@@ -126,21 +126,18 @@ const ProductionStep = <TFormData extends FormDataIntersection>({
                   : undefined
               }
               Component={
-                <Typeahead<Production & { customOption?: boolean }>
+                <Typeahead<Production>
                   newSelectionPrefix="Voeg nieuwe productie toe: "
                   allowNew
                   options={productions}
                   onInputChange={debounce(setSearchInput, 275)}
                   labelKey="name"
                   maxWidth="43rem"
-                  selected={
-                    field.value
-                      ? [field.value as Production & { customOption?: boolean }]
-                      : []
-                  }
-                  onChange={(value) => {
-                    field.onChange(value?.[0]);
-                    onChange(value?.[0]);
+                  selected={field.value ? [field.value as Production] : []}
+                  onChange={(productions) => {
+                    const production = productions[0];
+                    field.onChange(production);
+                    onChange(production);
                   }}
                   minLength={3}
                 />

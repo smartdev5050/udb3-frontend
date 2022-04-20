@@ -4,6 +4,7 @@
   "rules": {
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
+    "no-restricted-imports": "warn",
     "no-console": "warn",
     "react/display-name": "warn",
     "react-hooks/rules-of-hooks": "warn"

@@ -20,23 +20,22 @@ import { PictureUploadModal } from '@/pages/steps/modals/PictureUploadModal';
 import {
   defaultPriceInfoValues,
   FormData as PriceInfoFormData,
+  PriceInfoModal,
   Rate,
 } from '@/pages/steps/modals/PriceInfoModal';
-import { PriceInfoModal } from '@/pages/steps/modals/PriceInfoModal';
+import { Organizer } from '@/types/Organizer';
 import type { Values } from '@/types/Values';
 import { Alert } from '@/ui/Alert';
 import { Box, parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
-import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
-import { Label } from '@/ui/Label';
 import { ProgressBar, ProgressBarVariants } from '@/ui/ProgressBar';
 import type { StackProps } from '@/ui/Stack';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { TextArea } from '@/ui/TextArea';
-import { getValueFromTheme } from '@/ui/theme';
+import { NewEntry } from '@/ui/Typeahead';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 import type { ImageType } from '../PictureUploadBox';
@@ -45,6 +44,7 @@ import { VideoLinkAddModal } from '../VideoLinkAddModal';
 import { VideoLinkDeleteModal } from '../VideoLinkDeleteModal';
 import type { Video, VideoEnriched } from '../VideoUploadBox';
 import { VideoUploadBox } from '../VideoUploadBox';
+import { OrganizerPicker } from './OrganizerPicker';
 import { PriceInformation } from './PriceInformation';
 
 const IDEAL_DESCRIPTION_LENGTH = 200;
@@ -90,6 +90,7 @@ const AdditionalInformationStep = ({
   const [isPriceInfoModalVisible, setIsPriceInfoModalVisible] = useState(false);
 
   const [description, setDescription] = useState('');
+  const [organizer, setOrganizer] = useState<Organizer>();
   const [imageToEditId, setImageToEditId] = useState('');
   const [draggedImageFile, setDraggedImageFile] = useState<FileList>();
   const [imageToDeleteId, setImageToDeleteId] = useState('');
@@ -534,6 +535,15 @@ const AdditionalInformationStep = ({
             }
             info={<DescriptionInfo />}
           />
+          {variant === AdditionalInformationStepVariant.EXTENDED && (
+            <OrganizerPicker
+              value={organizer}
+              onChange={setOrganizer}
+              onAddNewOrganizer={(newOrganizer: NewEntry) => {
+                // TODO: Add Modal for adding new organizer
+              }}
+            />
+          )}
           {variant === AdditionalInformationStepVariant.EXTENDED && (
             <PriceInformation
               priceInfo={priceInfo}

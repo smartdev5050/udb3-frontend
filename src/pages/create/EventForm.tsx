@@ -10,10 +10,7 @@ import type { StepsConfiguration } from '@/pages/Steps';
 import { Steps } from '@/pages/Steps';
 import { Page } from '@/ui/Page';
 
-import {
-  AdditionalInformationStep,
-  AdditionalInformationStepVariant,
-} from '../steps/AdditionalInformationStep';
+import { AdditionalInformationStep } from '../steps/AdditionalInformationStep';
 import { CalendarStep } from './CalendarStep';
 import { ThemeStep } from './ThemeStep';
 import { TypeStep } from './TypeStep';

@@ -209,6 +209,10 @@
           "0.14.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Monuments. Geben Sie auch an, ob das Monument nur eingeschränkt zugänglich ist (zB. nur Salons)."
         }
       },
+      "organizer": {
+        "title": "Organisator",
+        "add_new": "Neuen Organisator hinzufügen: "
+      },
       "picture": {
         "add_button": "Hauptabbildung erstellen",
         "intro": "Fügen Sie eine Abbildung hinzu, damit die Besucher Ihre Aktivität besser erkennen können.",
