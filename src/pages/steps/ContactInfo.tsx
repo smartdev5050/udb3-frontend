@@ -6,6 +6,7 @@ import * as yup from 'yup';
 
 import { useAddContactPointMutation } from '@/hooks/api/events';
 import { Button, ButtonVariants } from '@/ui/Button';
+import { CheckboxWithLabel } from '@/ui/CheckboxWithLabel';
 import { FormElement } from '@/ui/FormElement';
 import { Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
@@ -39,10 +40,13 @@ const schema = yup
   .object()
   .shape({
     contactPoints: yup.array().of(
-      yup.object({
-        contactInfoType: yup.string(),
-        contactInfo: yup.string(),
-      }),
+      yup
+        .object({
+          contactInfoType: yup.string(),
+          contactInfo: yup.string(),
+          isUsedForReservation: yup.boolean().default(false),
+        })
+        .test(`is-email-valid`, 'email is not valid', isValidEmail),
     ),
   })
   .required();
@@ -78,6 +82,7 @@ const ContactInfo = ({
           formData.push({
             contactInfoType: ContactInfoType[key.toUpperCase()],
             contactInfo: item,
+            isUsedForReservation: false,
           });
         });
       });
@@ -160,6 +165,15 @@ const ContactInfo = ({
     });
   };
 
+  const handleUseForReservation = (event: any, id: number): void => {
+    setValue('contactPoints', [
+      ...watchedContactPoints.map((contactPoint, index) => {
+        contactPoint.isUsedForReservation = id === index;
+        return contactPoint;
+      }),
+    ]);
+  };
+
   return (
     <Stack>
       <Inline spacing={3} marginBottom={3}>
@@ -213,15 +227,32 @@ const ContactInfo = ({
                   </Select>
                 }
               />
-              <FormElement
-                id="contactInfo"
-                Component={
-                  <Input
-                    {...register(`contactPoints.${index}.contactInfo`)}
-                    onBlur={handleAddContactPointMutation}
-                  />
-                }
-              />
+              <Stack>
+                <FormElement
+                  id="contactInfo"
+                  Component={
+                    <Input
+                      {...register(`contactPoints.${index}.contactInfo`)}
+                      onBlur={handleAddContactPointMutation}
+                    />
+                  }
+                />
+                <FormElement
+                  id={`radioButton-${index}`}
+                  Component={
+                    <CheckboxWithLabel
+                      checked={contactPoint.isUsedForReservation}
+                      onToggle={(event) =>
+                        handleUseForReservation(event, index)
+                      }
+                    >
+                      {t(
+                        'create.additionalInformation.contact_info.use_for_reservation',
+                      )}
+                    </CheckboxWithLabel>
+                  }
+                />
+              </Stack>
               <Button
                 onClick={() => handleDeleteContactPoint(index)}
                 variant={ButtonVariants.DANGER}
