@@ -1,10 +1,14 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import { isThisQuarter } from 'date-fns';
 import { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
-import { useAddContactPointMutation } from '@/hooks/api/events';
+import {
+  useAddBookingInfoMutation,
+  useAddContactPointMutation,
+} from '@/hooks/api/events';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { CheckboxWithLabel } from '@/ui/CheckboxWithLabel';
 import { FormElement } from '@/ui/FormElement';
@@ -22,19 +26,29 @@ const ContactInfoType = {
   URL: 'url',
 } as const;
 
-type contactPoint = {
+type ContactPoint = {
   phone: string[];
   email: string[];
   url: string[];
 };
 
+type BookingInfo = {
+  [Property in keyof ContactPoint]?: string;
+};
+
 type Props = {
   eventId: string;
-  eventContactInfo: contactPoint;
+  eventContactInfo: ContactPoint;
+  eventBookingInfo: BookingInfo;
   invalidateEventQuery: (field: string) => void;
 };
 
 const getValue = getValueFromTheme('contactInformation');
+
+const isValidEmail = (value: any): boolean => {
+  console.log(value);
+  return true;
+};
 
 const schema = yup
   .object()
@@ -56,6 +70,7 @@ type FormData = yup.InferType<typeof schema>;
 const ContactInfo = ({
   eventId,
   eventContactInfo,
+  eventBookingInfo,
   invalidateEventQuery,
 }: Props) => {
   const { t } = useTranslation();
@@ -75,7 +90,7 @@ const ContactInfo = ({
 
   useEffect(() => {
     if (eventContactInfo) {
-      const formData = [];
+      let formData = [];
       // transform to event contact info to formData
       Object.keys(eventContactInfo).forEach((key, index) => {
         eventContactInfo[key].forEach((item) => {
@@ -86,9 +101,22 @@ const ContactInfo = ({
           });
         });
       });
+      if (eventBookingInfo) {
+        const eventBookingInfoType = Object.keys(eventBookingInfo)[0];
+        formData = formData.map((info) => {
+          if (
+            info.contactInfoType === eventBookingInfoType &&
+            info.contactInfo === eventBookingInfo[`${eventBookingInfoType}`]
+          ) {
+            info.isUsedForReservation = true;
+          }
+          return info;
+        });
+      }
+      console.log(formData);
       setValue('contactPoints', formData);
     }
-  }, [eventContactInfo, setValue]);
+  }, [eventContactInfo, eventBookingInfo, setValue]);
 
   const handleAddContactPoint = () => {
     setValue('contactPoints', [
@@ -103,6 +131,12 @@ const ContactInfo = ({
   const addContactPointMutation = useAddContactPointMutation({
     onSuccess: async () => {
       console.log('added contact point');
+    },
+  });
+
+  const addBookingInfoMutation = useAddBookingInfoMutation({
+    onSuccess: async () => {
+      console.log('added booking info');
     },
   });
 
@@ -123,7 +157,7 @@ const ContactInfo = ({
     ]);
   };
 
-  const prepareContactPointPayload = (contactPoints): contactPoint => {
+  const prepareContactPointPayload = (contactPoints): ContactPoint => {
     const [phone, email, url] = Object.keys(ContactInfoType).map(
       (key, _index) => {
         return contactPoints
@@ -150,6 +184,20 @@ const ContactInfo = ({
     });
   };
 
+  const handleAddBookingInfoMutation = async () => {
+    const contactPointusedForReservation = watchedContactPoints.find(
+      (contactPoint) => contactPoint.isUsedForReservation,
+    );
+    const bookingInfo = {
+      [contactPointusedForReservation['contactInfoType']]:
+        contactPointusedForReservation['contactInfo'],
+    };
+    await addBookingInfoMutation.mutateAsync({
+      eventId,
+      bookingInfo,
+    });
+  };
+
   const handleDeleteContactPoint = async (id: number) => {
     const contactPointsWithDeletedItem = watchedContactPoints.filter(
       (_contactPoint, index) => id !== index,
@@ -172,6 +220,7 @@ const ContactInfo = ({
         return contactPoint;
       }),
     ]);
+    handleAddBookingInfoMutation();
   };
 
   return (
@@ -278,4 +327,5 @@ const ContactInfo = ({
     </Stack>
   );
 };
+
 export { ContactInfo };

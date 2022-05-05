@@ -233,6 +233,11 @@ const AdditionalInformationStep = ({
     // @ts-expect-error
   }, [getEventByIdQuery.data?.contactPoint, variant]);
 
+  const eventBookingInfo = useMemo(() => {
+    if (variant !== AdditionalInformationStepVariant.EXTENDED) return;
+    return getEventByIdQuery.data?.bookingInfo;
+  }, [getEventByIdQuery.data?.bookingInfo, variant]);
+
   const enrichVideos = async (video: Video[]) => {
     const getYoutubeThumbnailUrl = (videoUrl: string) => {
       return `https://i.ytimg.com/vi_webp/${
@@ -552,6 +557,7 @@ const AdditionalInformationStep = ({
               <ContactInfo
                 eventId={eventId}
                 eventContactInfo={eventContactInfo}
+                eventBookingInfo={eventBookingInfo}
                 invalidateEventQuery={invalidateEventQuery}
               />
             </Stack>
