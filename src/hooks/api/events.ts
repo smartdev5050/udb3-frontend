@@ -565,6 +565,23 @@ const useAddContactPointMutation = (configuration = {}) =>
     ...configuration,
   });
 
+const addBookingInfo = async ({ headers, eventId, bookingInfo }) => {
+  fetchFromApi({
+    path: `/events/${eventId}/bookingInfo`,
+    options: {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({ bookingInfo }),
+    },
+  });
+};
+
+const useAddBookingInfoMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: addBookingInfo,
+    ...configuration,
+  });
+
 const publish = async ({ headers, eventId, publicationDate }) =>
   fetchFromApi({
     path: `/event/${eventId}`,
@@ -619,6 +636,7 @@ const useDeleteVideoFromEventMutation = (configuration = {}) =>
   });
 
 export {
+  useAddBookingInfoMutation,
   useAddContactPointMutation,
   useAddEventMainImageMutation,
   useAddEventMutation,
