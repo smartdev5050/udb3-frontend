@@ -91,29 +91,25 @@ const ContactInfo = ({
   useEffect(() => {
     if (eventContactInfo) {
       let formData = [];
+      const eventBookingInfoTypes = Object.keys(eventBookingInfo);
       // transform to event contact info to formData
       Object.keys(eventContactInfo).forEach((key, index) => {
         eventContactInfo[key].forEach((item) => {
+          const contactInfoType = ContactInfoType[key.toUpperCase()];
+          const isUsedForReservation =
+            eventBookingInfoTypes.some(
+              (eventBookingInfoType) =>
+                eventBookingInfoType === contactInfoType,
+            ) && item === eventBookingInfo[`${contactInfoType}`];
+
           formData.push({
-            contactInfoType: ContactInfoType[key.toUpperCase()],
+            contactInfoType,
             contactInfo: item,
-            isUsedForReservation: false,
+            isUsedForReservation,
           });
         });
       });
-      if (eventBookingInfo) {
-        const eventBookingInfoType = Object.keys(eventBookingInfo)[0];
-        formData = formData.map((info) => {
-          if (
-            info.contactInfoType === eventBookingInfoType &&
-            info.contactInfo === eventBookingInfo[`${eventBookingInfoType}`]
-          ) {
-            info.isUsedForReservation = true;
-          }
-          return info;
-        });
-      }
-      console.log(formData);
+
       setValue('contactPoints', formData);
     }
   }, [eventContactInfo, eventBookingInfo, setValue]);
@@ -185,13 +181,23 @@ const ContactInfo = ({
   };
 
   const handleAddBookingInfoMutation = async () => {
-    const contactPointusedForReservation = watchedContactPoints.find(
+    const contactPointsUsedForReservation = watchedContactPoints.filter(
       (contactPoint) => contactPoint.isUsedForReservation,
     );
-    const bookingInfo = {
-      [contactPointusedForReservation['contactInfoType']]:
-        contactPointusedForReservation['contactInfo'],
-    };
+
+    if (contactPointsUsedForReservation.length === 0) return;
+
+    const bookingInfo = {};
+
+    contactPointsUsedForReservation.forEach(
+      (contactPointUsedForReservation) => {
+        const contactInfoType =
+          contactPointUsedForReservation['contactInfoType'];
+        bookingInfo[contactInfoType] =
+          contactPointUsedForReservation.contactInfo;
+      },
+    );
+
     await addBookingInfoMutation.mutateAsync({
       eventId,
       bookingInfo,
@@ -214,9 +220,28 @@ const ContactInfo = ({
   };
 
   const handleUseForReservation = (event: any, id: number): void => {
+    const selectedContactInfoType = watchedContactPoints[id].contactInfoType;
+    const alreadyHasReservationTypeIndex = watchedContactPoints.findIndex(
+      (contactPoint) =>
+        contactPoint.contactInfoType === selectedContactInfoType &&
+        contactPoint.isUsedForReservation,
+    );
+
     setValue('contactPoints', [
       ...watchedContactPoints.map((contactPoint, index) => {
-        contactPoint.isUsedForReservation = id === index;
+        // only allow 1  isUsedForReservation per type
+        if (index === alreadyHasReservationTypeIndex) {
+          contactPoint.isUsedForReservation = false;
+        }
+
+        if (id === index) {
+          contactPoint.isUsedForReservation = true;
+        }
+
+        if (id === index && id === alreadyHasReservationTypeIndex) {
+          contactPoint.isUsedForReservation = false;
+        }
+
         return contactPoint;
       }),
     ]);

@@ -235,7 +235,9 @@ const AdditionalInformationStep = ({
 
   const eventBookingInfo = useMemo(() => {
     if (variant !== AdditionalInformationStepVariant.EXTENDED) return;
+    // @ts-expect-error
     return getEventByIdQuery.data?.bookingInfo;
+    // @ts-expect-error
   }, [getEventByIdQuery.data?.bookingInfo, variant]);
 
   const enrichVideos = async (video: Video[]) => {
