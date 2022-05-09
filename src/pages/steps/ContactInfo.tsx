@@ -315,6 +315,10 @@ const ContactInfo = ({
                   id={`radioButton-${index}`}
                   Component={
                     <CheckboxWithLabel
+                      id="contact-info-reservation"
+                      name="contact-info-reservation"
+                      className="contact-info-reservation"
+                      disabled={false}
                       checked={contactPoint.isUsedForReservation}
                       onToggle={(event) =>
                         handleUseForReservation(event, index)
