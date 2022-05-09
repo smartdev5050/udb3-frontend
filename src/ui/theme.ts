@@ -363,6 +363,11 @@ const theme = {
         color: colors.red,
       },
     },
+    organizerAddModal: {
+      address: {
+        borderColor: colors.grey3,
+      },
+    },
   },
 } as const;
 

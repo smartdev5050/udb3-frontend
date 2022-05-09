@@ -14,6 +14,7 @@ import {
   useUpdateImageFromEventMutation,
 } from '@/hooks/api/events';
 import { useAddImageMutation } from '@/hooks/api/images';
+import { useCreateOrganizerMutation } from '@/hooks/api/organizers';
 import { PictureDeleteModal } from '@/pages/steps/modals/PictureDeleteModal';
 import type { FormData } from '@/pages/steps/modals/PictureUploadModal';
 import { PictureUploadModal } from '@/pages/steps/modals/PictureUploadModal';
@@ -38,6 +39,7 @@ import { TextArea } from '@/ui/TextArea';
 import { NewEntry } from '@/ui/Typeahead';
 import { parseOfferId } from '@/utils/parseOfferId';
 
+import { OrganizerAddModal } from '../OrganizerAddModal';
 import type { ImageType } from '../PictureUploadBox';
 import { PictureUploadBox } from '../PictureUploadBox';
 import { VideoLinkAddModal } from '../VideoLinkAddModal';
@@ -54,7 +56,7 @@ const AdditionalInformationStepVariant = {
   EXTENDED: 'extended',
 } as const;
 
-type Field = 'description' | 'image' | 'video' | 'priceInfo';
+type Field = 'description' | 'image' | 'video' | 'priceInfo' | 'organizer';
 
 type Props = StackProps & {
   eventId: string;
@@ -86,10 +88,14 @@ const AdditionalInformationStep = ({
     isVideoLinkDeleteModalVisible,
     setIsVideoLinkDeleteModalVisible,
   ] = useState(false);
+  const [isOrganizerAddModalVisible, setIsOrganizerAddModalVisible] = useState(
+    false,
+  );
 
   const [isPriceInfoModalVisible, setIsPriceInfoModalVisible] = useState(false);
 
   const [description, setDescription] = useState('');
+  const [organizerCreateData, setOrganizerCreateData] = useState<NewEntry>();
   const [organizer, setOrganizer] = useState<Organizer>();
   const [imageToEditId, setImageToEditId] = useState('');
   const [draggedImageFile, setDraggedImageFile] = useState<FileList>();
@@ -146,6 +152,12 @@ const AdditionalInformationStep = ({
     onSuccess: async () => {
       setIsVideoLinkDeleteModalVisible(false);
       await invalidateEventQuery('video');
+    },
+  });
+
+  const createOrganizerMutation = useCreateOrganizerMutation({
+    onSuccess: async () => {
+      await invalidateEventQuery('organizer');
     },
   });
 
@@ -340,6 +352,11 @@ const AdditionalInformationStep = ({
     setIsVideoLinkAddModalVisible(false);
   };
 
+  const handleAddOrganizer = () => {
+    createOrganizerMutation.mutate(organizerCreateData);
+    setIsOrganizerAddModalVisible(false);
+  };
+
   const handleDeleteVideoLink = (videoId: string) => {
     setVideoToDeleteId(videoId);
     setIsVideoLinkDeleteModalVisible(true);
@@ -516,6 +533,11 @@ const AdditionalInformationStep = ({
         onConfirm={() => handleConfirmDeleteVideo(videoToDeleteId)}
         onClose={() => setIsVideoLinkDeleteModalVisible(false)}
       />
+      <OrganizerAddModal
+        visible={isOrganizerAddModalVisible}
+        onConfirm={handleAddOrganizer}
+        onClose={() => setIsOrganizerAddModalVisible(false)}
+      />
       <Inline
         spacing={6}
         alignItems={{ default: 'flex-start', m: 'normal' }}
@@ -540,6 +562,8 @@ const AdditionalInformationStep = ({
               value={organizer}
               onChange={setOrganizer}
               onAddNewOrganizer={(newOrganizer: NewEntry) => {
+                setOrganizerCreateData(newOrganizer);
+                setIsOrganizerAddModalVisible(true);
                 // TODO: Add Modal for adding new organizer
               }}
             />

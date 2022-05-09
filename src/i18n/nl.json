@@ -136,6 +136,31 @@
       }
     }
   },
+  "organizer": {
+    "add_modal": {
+      "title": "Organisatie toevoegen",
+      "actions": {
+        "add": "Toevoegen",
+        "cancel": "Annuleren"
+      },
+      "labels": {
+        "website": "Website",
+        "name": "Naam",
+        "address": {
+          "title": "Adres",
+          "streetAndNumber": "Straat en nummer"
+        }
+      },
+      "validation_messages": {
+        "website": "Je website voldoet niet aan de vereisten.",
+        "name": "Je naam voldoet niet aan de vereisten.",
+        "address": {
+          "streetAndNumber": "Je straat en nummer voldoen niet aan de vereisten."
+        }
+      },
+      "website_requirements": "Om organisaties in de UiTdatabank uniek te houden, vragen we elke organisatie een unieke en geldige hyperlink"
+    }
+  },
   "productions": {
     "delete": {
       "title": "Evenement(en) verwijderen van productie"

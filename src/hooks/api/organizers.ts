@@ -158,7 +158,28 @@ const useGetOrganizersByCreatorQuery = (
     ...configuration,
   });
 
+const createOrganizer = ({ headers, url, name, mainLanguage }) =>
+  fetchFromApi({
+    path: '/organizers',
+    options: {
+      headers,
+      method: 'POST',
+      body: JSON.stringify({
+        mainLanguage,
+        name,
+        url,
+      }),
+    },
+  });
+
+const useCreateOrganizerMutation = (configuration) =>
+  useAuthenticatedMutation({
+    mutationFn: createOrganizer,
+    ...configuration,
+  });
+
 export {
+  useCreateOrganizerMutation,
   useDeleteOrganizerByIdMutation,
   useGetOrganizerByIdQuery,
   useGetOrganizersByCreatorQuery,

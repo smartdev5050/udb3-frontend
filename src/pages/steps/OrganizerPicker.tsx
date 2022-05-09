@@ -43,16 +43,7 @@ const OrganizerPicker = ({
         Component={
           <Typeahead<Organizer>
             options={organizers}
-            labelKey={(organizer) => {
-              if (typeof organizer.name === 'string') {
-                return organizer.name;
-              }
-
-              return (
-                organizer.name[i18n.language] ??
-                organizer.name[organizer.mainLanguage]
-              );
-            }}
+            labelKey="name"
             selected={value ? [value] : []}
             onInputChange={debounce(setOrganizerSearchInput, 275)}
             onChange={(organizers) => {
