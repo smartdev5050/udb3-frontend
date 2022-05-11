@@ -61,25 +61,6 @@ const FooterStatus = {
   AUTO_SAVE: 'AUTO_SAVE',
 } as const;
 
-const schema = yup
-  .object({
-    eventTypeAndTheme: yup.object().shape({}).required(),
-    timeTable: yup
-      .mixed()
-      .test({
-        name: 'all-timeslots-valid',
-        test: (timeTableData) => areAllTimeSlotsValid(timeTableData),
-      })
-      .test({
-        name: 'has-timeslot',
-        test: (timeTableData) => !isTimeTableEmpty(timeTableData),
-      })
-      .required(),
-    place: yup.object().shape({}).required(),
-    production: yup.object().shape({}).required(),
-  })
-  .required();
-
 const convertSubEventsToTimeTable = (subEvents: SubEvent[] = []) => {
   const dateStart = format(new Date(subEvents[0].startDate), 'dd/MM/yyyy');
   const dateEnd = format(
@@ -144,7 +125,82 @@ const useFooterStatus = ({ event, form }) => {
   return footerStatus;
 };
 
+const useSchema = (configuration) =>
+  yup
+    .object(
+      configuration.reduce(
+        (acc: Object, val: { field: string; validation: () => void }) => ({
+          ...acc,
+          [val.field]: val.validation,
+        }),
+        {},
+      ),
+    )
+    .required();
+
 const MovieForm = () => {
+  const { t } = useTranslation();
+
+  const configuration: StepsConfiguration<FormData> = useMemo(() => {
+    return [
+      {
+        Component: EventTypeAndThemeStep,
+        field: 'eventTypeAndTheme',
+        validation: yup.object().shape({}).required(),
+        title: t(`movies.create.step1.title`),
+      },
+      {
+        Component: TimeTableStep,
+        validation: yup
+          .mixed()
+          .test({
+            name: 'all-timeslots-valid',
+            test: (timeTableData) => areAllTimeSlotsValid(timeTableData),
+          })
+          .test({
+            name: 'has-timeslot',
+            test: (timeTableData) => !isTimeTableEmpty(timeTableData),
+          })
+          .required(),
+        field: 'timeTable',
+        shouldShowNextStep: ({ watch }) => {
+          const watchedTimeTable = watch('timeTable');
+          return isOneTimeSlotValid(watchedTimeTable);
+        },
+        title: t(`movies.create.step2.title`),
+      },
+      {
+        Component: PlaceStep,
+        validation: yup.object().shape({}).required(),
+        field: 'place',
+        shouldShowNextStep: ({ watch }) => {
+          const watchedPlace = watch('place');
+          return watchedPlace !== undefined;
+        },
+        title: t(`movies.create.step3.title`),
+        stepProps: {
+          terms: [EventTypes.Bioscoop],
+        },
+      },
+      {
+        Component: ProductionStep,
+        validation: yup.object().shape({}).required(),
+        field: 'production',
+        shouldShowNextStep: ({ formState: { errors }, eventId }) => {
+          return !!eventId && Object.values(errors).length === 0;
+        },
+        title: t(`movies.create.step4.title`),
+      },
+      {
+        Component: AdditionalInformationStep,
+        variant: AdditionalInformationStepVariant.MINIMAL,
+        title: t(`movies.create.step5.title`),
+      },
+    ];
+  }, [t]);
+
+  const schema = useSchema(configuration);
+
   const form = useForm<FormData>({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -164,7 +220,6 @@ const MovieForm = () => {
 
   const { handleSubmit, reset } = form;
 
-  const { t } = useTranslation();
   const router = useRouter();
 
   // eventId is set after adding (saving) the event
@@ -236,50 +291,6 @@ const MovieForm = () => {
   });
 
   const footerStatus = useFooterStatus({ event, form });
-
-  const configuration: StepsConfiguration<FormData> = useMemo(() => {
-    return [
-      {
-        Component: EventTypeAndThemeStep,
-        field: 'eventTypeAndTheme',
-        title: t(`movies.create.step1.title`),
-      },
-      {
-        Component: TimeTableStep,
-        field: 'timeTable',
-        shouldShowNextStep: ({ watch }) => {
-          const watchedTimeTable = watch('timeTable');
-          return isOneTimeSlotValid(watchedTimeTable);
-        },
-        title: t(`movies.create.step2.title`),
-      },
-      {
-        Component: PlaceStep,
-        field: 'place',
-        shouldShowNextStep: ({ watch }) => {
-          const watchedPlace = watch('place');
-          return watchedPlace !== undefined;
-        },
-        title: t(`movies.create.step3.title`),
-        stepProps: {
-          terms: [EventTypes.Bioscoop],
-        },
-      },
-      {
-        Component: ProductionStep,
-        field: 'production',
-        shouldShowNextStep: ({ formState: { errors }, eventId }) => {
-          return !!eventId && Object.values(errors).length === 0;
-        },
-        title: t(`movies.create.step4.title`),
-      },
-      {
-        Component: AdditionalInformationStep,
-        variant: AdditionalInformationStepVariant.MINIMAL,
-        title: t(`movies.create.step5.title`),
-      },
-    ];
-  }, [t]);
 
   const title = t(`movies.create.title`);
 
