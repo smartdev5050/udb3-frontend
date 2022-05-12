@@ -147,7 +147,7 @@ const MovieForm = () => {
         Component: EventTypeAndThemeStep,
         field: 'eventTypeAndTheme',
         validation: yup.object().shape({}).required(),
-        title: t(`movies.create.step1.title`),
+        title: (t) => t(`movies.create.step1.title`),
       },
       {
         Component: TimeTableStep,
@@ -167,7 +167,7 @@ const MovieForm = () => {
           const watchedTimeTable = watch('timeTable');
           return isOneTimeSlotValid(watchedTimeTable);
         },
-        title: t(`movies.create.step2.title`),
+        title: (t) => t(`movies.create.step2.title`),
       },
       {
         Component: PlaceStep,
@@ -177,7 +177,7 @@ const MovieForm = () => {
           const watchedPlace = watch('place');
           return watchedPlace !== undefined;
         },
-        title: t(`movies.create.step3.title`),
+        title: (t) => t(`movies.create.step3.title`),
         stepProps: {
           terms: [EventTypes.Bioscoop],
         },
@@ -189,15 +189,15 @@ const MovieForm = () => {
         shouldShowNextStep: ({ formState: { errors }, eventId }) => {
           return !!eventId && Object.values(errors).length === 0;
         },
-        title: t(`movies.create.step4.title`),
+        title: (t) => t(`movies.create.step4.title`),
       },
       {
         Component: AdditionalInformationStep,
         variant: AdditionalInformationStepVariant.MINIMAL,
-        title: t(`movies.create.step5.title`),
+        title: (t) => t(`movies.create.step5.title`),
       },
     ];
-  }, [t]);
+  }, []);
 
   const schema = useSchema(configuration);
 
