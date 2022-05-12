@@ -149,8 +149,6 @@ const useParseStepConfiguration = (
     {},
   );
 
-  console.log({ defaultValues });
-
   const form = useForm<FormData>({
     resolver,
     defaultValues,
