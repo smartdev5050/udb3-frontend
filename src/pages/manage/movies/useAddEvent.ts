@@ -1,6 +1,4 @@
-import { CalendarType } from '@/constants/CalendarType';
 import {
-  EventArguments,
   useAddEventMutation,
   useAddLabelMutation,
   useChangeTypicalAgeRangeMutation,
@@ -10,11 +8,12 @@ import {
   useCreateWithEventsMutation as useCreateProductionWithEventsMutation,
 } from '@/hooks/api/productions';
 import { FormDataIntersection } from '@/pages/Steps';
-import { convertTimeTableToSubEvents } from '@/pages/steps/TimeTableStep';
-import { WorkflowStatusMap } from '@/types/WorkflowStatus';
-import { parseOfferId } from '@/utils/parseOfferId';
 
-const useAddEvent = <TFormData extends FormDataIntersection>({ onSuccess }) => {
+const useAddEvent = <TFormData extends FormDataIntersection>({
+  onSuccess,
+  convertFormDataToEvent,
+  label,
+}) => {
   const addEventMutation = useAddEventMutation();
   const changeTypicalAgeRangeMutation = useChangeTypicalAgeRangeMutation();
   const addLabelMutation = useAddLabelMutation();
@@ -22,53 +21,30 @@ const useAddEvent = <TFormData extends FormDataIntersection>({ onSuccess }) => {
   const createProductionWithEventsMutation = useCreateProductionWithEventsMutation();
   const addEventToProductionByIdMutation = useAddEventToProductionByIdMutation();
 
-  return async ({
-    production,
-    place,
-    eventTypeAndTheme: { eventType, theme },
-    timeTable,
-  }: TFormData) => {
+  return async (formData: TFormData) => {
+    const { production } = formData;
+
     if (!production) return;
 
-    const payload: EventArguments = {
-      mainLanguage: 'nl',
-      name: production.name,
-      calendar: {
-        calendarType: CalendarType.MULTIPLE,
-        timeSpans: convertTimeTableToSubEvents(timeTable),
-      },
-      type: {
-        id: eventType?.id,
-        label: eventType?.label,
-        domain: 'eventtype',
-      },
-      ...(theme && {
-        theme: {
-          id: theme?.id,
-          label: theme?.label,
-          domain: 'theme',
-        },
-      }),
-      location: {
-        id: parseOfferId(place['@id']),
-      },
-      workflowStatus: WorkflowStatusMap.DRAFT,
-      audienceType: 'everyone',
-    };
+    const payload = convertFormDataToEvent(formData);
 
     const { eventId } = await addEventMutation.mutateAsync(payload);
 
     if (!eventId) return;
 
-    await changeTypicalAgeRangeMutation.mutateAsync({
-      eventId,
-      typicalAgeRange: '-',
-    });
+    if (!production?.typicalAgeRange) {
+      await changeTypicalAgeRangeMutation.mutateAsync({
+        eventId,
+        typicalAgeRange: '-',
+      });
+    }
 
-    await addLabelMutation.mutateAsync({
-      eventId,
-      label: 'udb-filminvoer',
-    });
+    if (label) {
+      await addLabelMutation.mutateAsync({
+        eventId,
+        label,
+      });
+    }
 
     if (production.customOption) {
       await createProductionWithEventsMutation.mutateAsync({

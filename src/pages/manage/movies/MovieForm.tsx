@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import * as yup from 'yup';
 
+import { CalendarType } from '@/constants/CalendarType';
 import { EventTypes } from '@/constants/EventTypes';
 import { Steps } from '@/pages/Steps';
 import {
@@ -17,11 +18,15 @@ import { eventTypeAndThemeStepConfiguration } from '@/pages/steps/EventTypeAndTh
 import { PublishLaterModal } from '@/pages/steps/modals/PublishLaterModal';
 import { placeStepConfiguration } from '@/pages/steps/PlaceStep';
 import { productionStepConfiguration } from '@/pages/steps/ProductionStep';
-import { timeTableStepConfiguration } from '@/pages/steps/TimeTableStep';
+import {
+  convertTimeTableToSubEvents,
+  timeTableStepConfiguration,
+} from '@/pages/steps/TimeTableStep';
 import type { Event } from '@/types/Event';
 import type { SubEvent } from '@/types/Offer';
 import type { Place } from '@/types/Place';
 import type { Production } from '@/types/Production';
+import { WorkflowStatusMap } from '@/types/WorkflowStatus';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Link, LinkVariants } from '@/ui/Link';
@@ -29,6 +34,7 @@ import { Page } from '@/ui/Page';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Toast } from '@/ui/Toast';
+import { parseOfferId } from '@/utils/parseOfferId';
 
 import { useAddEvent } from './useAddEvent';
 import { useEditField } from './useEditField';
@@ -207,8 +213,43 @@ const MovieForm = () => {
     },
   });
 
+  const convertFormDataToEvent = ({
+    production,
+    eventTypeAndTheme: { eventType, theme },
+    place,
+    timeTable,
+  }: FormData) => {
+    return {
+      mainLanguage: 'nl',
+      name: production.name,
+      calendar: {
+        calendarType: CalendarType.MULTIPLE,
+        timeSpans: convertTimeTableToSubEvents(timeTable),
+      },
+      type: {
+        id: eventType?.id,
+        label: eventType?.label,
+        domain: 'eventtype',
+      },
+      ...(theme && {
+        theme: {
+          id: theme?.id,
+          label: theme?.label,
+          domain: 'theme',
+        },
+      }),
+      location: {
+        id: parseOfferId(place['@id']),
+      },
+      workflowStatus: WorkflowStatusMap.DRAFT,
+      audienceType: 'everyone',
+    };
+  };
+
   const addEvent = useAddEvent({
     onSuccess: setEventId,
+    convertFormDataToEvent,
+    label: 'udb-filminvoer',
   });
 
   const handleChangeSuccess = (editedField: string) =>
