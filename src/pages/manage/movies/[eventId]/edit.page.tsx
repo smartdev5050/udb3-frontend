@@ -3,7 +3,7 @@ import { dehydrate } from 'react-query/hydration';
 import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
-import { MovieForm } from '../MovieForm';
+export { MovieForm as default } from '../MovieForm';
 
 export const getServerSideProps = getApplicationServerSideProps(
   async ({ req, query, cookies, queryClient }) => {
@@ -23,9 +23,3 @@ export const getServerSideProps = getApplicationServerSideProps(
     };
   },
 );
-
-const WrappedMovieForm = (props: unknown) => (
-  <MovieForm {...props} key="edit" />
-);
-
-export default WrappedMovieForm;

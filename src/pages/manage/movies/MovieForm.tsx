@@ -164,7 +164,7 @@ const useParseStepConfiguration = (
   return { form, configuration };
 };
 
-const MovieForm = () => {
+const InnerMovieForm = () => {
   const { t } = useTranslation();
 
   const { form, configuration } = useParseStepConfiguration([
@@ -371,6 +371,12 @@ const MovieForm = () => {
       )}
     </Page>
   );
+};
+
+const MovieForm = (props) => {
+  const router = useRouter();
+  const parts = router.pathname.split('/');
+  return <InnerMovieForm {...props} key={parts[parts.length - 1]} />;
 };
 
 export { MovieForm };
