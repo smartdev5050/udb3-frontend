@@ -164,24 +164,14 @@ const useParseStepConfiguration = (
   return { form, configuration };
 };
 
-const InnerMovieForm = () => {
+const StepForm = ({
+  configuration,
+  convertFormDataToEvent,
+  convertEventToFormData,
+  label,
+}) => {
   const { t } = useTranslation();
-
-  const { form, configuration } = useParseStepConfiguration([
-    eventTypeAndThemeStepConfiguration,
-    timeTableStepConfiguration,
-    {
-      ...placeStepConfiguration,
-      stepProps: {
-        terms: [EventTypes.Bioscoop],
-      },
-    },
-    productionStepConfiguration,
-    {
-      ...additionalInformationStepConfiguration,
-      variant: AdditionalInformationStepVariant.MINIMAL,
-    },
-  ]);
+  const { form } = useParseStepConfiguration(configuration);
 
   const { handleSubmit, reset } = form;
 
@@ -213,43 +203,10 @@ const InnerMovieForm = () => {
     },
   });
 
-  const convertFormDataToEvent = ({
-    production,
-    eventTypeAndTheme: { eventType, theme },
-    place,
-    timeTable,
-  }: FormData) => {
-    return {
-      mainLanguage: 'nl',
-      name: production.name,
-      calendar: {
-        calendarType: CalendarType.MULTIPLE,
-        timeSpans: convertTimeTableToSubEvents(timeTable),
-      },
-      type: {
-        id: eventType?.id,
-        label: eventType?.label,
-        domain: 'eventtype',
-      },
-      ...(theme && {
-        theme: {
-          id: theme?.id,
-          label: theme?.label,
-          domain: 'theme',
-        },
-      }),
-      location: {
-        id: parseOfferId(place['@id']),
-      },
-      workflowStatus: WorkflowStatusMap.DRAFT,
-      audienceType: 'everyone',
-    };
-  };
-
   const addEvent = useAddEvent({
     onSuccess: setEventId,
     convertFormDataToEvent,
-    label: 'udb-filminvoer',
+    label,
   });
 
   const handleChangeSuccess = (editedField: string) =>
@@ -264,22 +221,6 @@ const InnerMovieForm = () => {
   const [isPublishLaterModalVisible, setIsPublishLaterModalVisible] = useState(
     false,
   );
-
-  const convertEventToFormData = (event: Event) => {
-    return {
-      eventTypeAndTheme: {
-        theme: event.terms.find((term) => term.domain === 'theme'),
-        eventType: event.terms.find((term) => term.domain === 'eventtype'),
-      },
-      place: event.location,
-      timeTable: convertSubEventsToTimeTable(event.subEvent),
-      production: {
-        production_id: event.production?.id,
-        name: event.production?.title,
-        events: event.production?.otherEvents,
-      },
-    };
-  };
 
   const event = useGetEvent({
     id: eventId,
@@ -376,7 +317,80 @@ const InnerMovieForm = () => {
 const MovieForm = (props) => {
   const router = useRouter();
   const parts = router.pathname.split('/');
-  return <InnerMovieForm {...props} key={parts[parts.length - 1]} />;
+
+  const convertEventToFormData = (event: Event) => {
+    return {
+      eventTypeAndTheme: {
+        theme: event.terms.find((term) => term.domain === 'theme'),
+        eventType: event.terms.find((term) => term.domain === 'eventtype'),
+      },
+      place: event.location,
+      timeTable: convertSubEventsToTimeTable(event.subEvent),
+      production: {
+        production_id: event.production?.id,
+        name: event.production?.title,
+        events: event.production?.otherEvents,
+      },
+    };
+  };
+
+  const convertFormDataToEvent = ({
+    production,
+    eventTypeAndTheme: { eventType, theme },
+    place,
+    timeTable,
+  }: FormData) => {
+    return {
+      mainLanguage: 'nl',
+      name: production.name,
+      calendar: {
+        calendarType: CalendarType.MULTIPLE,
+        timeSpans: convertTimeTableToSubEvents(timeTable),
+      },
+      type: {
+        id: eventType?.id,
+        label: eventType?.label,
+        domain: 'eventtype',
+      },
+      ...(theme && {
+        theme: {
+          id: theme?.id,
+          label: theme?.label,
+          domain: 'theme',
+        },
+      }),
+      location: {
+        id: parseOfferId(place['@id']),
+      },
+      workflowStatus: WorkflowStatusMap.DRAFT,
+      audienceType: 'everyone',
+    };
+  };
+
+  return (
+    <StepForm
+      {...props}
+      key={parts[parts.length - 1]}
+      label="udb-filminvoer"
+      convertFormDataToEvent={convertFormDataToEvent}
+      convertEventToFormData={convertEventToFormData}
+      configuration={[
+        eventTypeAndThemeStepConfiguration,
+        timeTableStepConfiguration,
+        {
+          ...placeStepConfiguration,
+          stepProps: {
+            terms: [EventTypes.Bioscoop],
+          },
+        },
+        productionStepConfiguration,
+        {
+          ...additionalInformationStepConfiguration,
+          variant: AdditionalInformationStepVariant.MINIMAL,
+        },
+      ]}
+    />
+  );
 };
 
 export { MovieForm };
