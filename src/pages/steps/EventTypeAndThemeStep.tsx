@@ -3,6 +3,7 @@ import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
+import { EventTypes } from '@/constants/EventTypes';
 import { useChangeThemeMutation } from '@/hooks/api/events';
 import { useGetThemesByEventTypeIdQuery } from '@/hooks/api/themes';
 import type { FormDataIntersection, StepProps } from '@/pages/Steps';
@@ -111,6 +112,12 @@ const EventTypeAndThemeStep = <TFormData extends FormDataIntersection>({
 
 const eventTypeAndThemeStepConfiguration = {
   Component: EventTypeAndThemeStep,
+  defaultValue: {
+    eventType: {
+      id: EventTypes.Film,
+      label: 'Film',
+    },
+  },
   field: 'eventTypeAndTheme',
   validation: yup.object().shape({}).required(),
   title: (t) => t(`movies.create.step1.title`),

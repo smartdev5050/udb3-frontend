@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { format, nextWednesday } from 'date-fns';
+import { format } from 'date-fns';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -8,27 +8,16 @@ import { useQueryClient } from 'react-query';
 import * as yup from 'yup';
 
 import { EventTypes } from '@/constants/EventTypes';
-import type { StepsConfiguration } from '@/pages/Steps';
 import { Steps } from '@/pages/Steps';
 import {
-  AdditionalInformationStep,
   additionalInformationStepConfiguration,
   AdditionalInformationStepVariant,
 } from '@/pages/steps/AdditionalInformationStep';
-import {
-  EventTypeAndThemeStep,
-  eventTypeAndThemeStepConfiguration,
-} from '@/pages/steps/EventTypeAndThemeStep';
+import { eventTypeAndThemeStepConfiguration } from '@/pages/steps/EventTypeAndThemeStep';
 import { PublishLaterModal } from '@/pages/steps/modals/PublishLaterModal';
-import { PlaceStep, placeStepConfiguration } from '@/pages/steps/PlaceStep';
-import {
-  ProductionStep,
-  productionStepConfiguration,
-} from '@/pages/steps/ProductionStep';
-import {
-  TimeTableStep,
-  timeTableStepConfiguration,
-} from '@/pages/steps/TimeTableStep';
+import { placeStepConfiguration } from '@/pages/steps/PlaceStep';
+import { productionStepConfiguration } from '@/pages/steps/ProductionStep';
+import { timeTableStepConfiguration } from '@/pages/steps/TimeTableStep';
 import type { Event } from '@/types/Event';
 import type { SubEvent } from '@/types/Offer';
 import type { Place } from '@/types/Place';
@@ -39,11 +28,6 @@ import { Link, LinkVariants } from '@/ui/Link';
 import { Page } from '@/ui/Page';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
-import {
-  areAllTimeSlotsValid,
-  isOneTimeSlotValid,
-  isTimeTableEmpty,
-} from '@/ui/TimeTable';
 import { Toast } from '@/ui/Toast';
 
 import { useAddEvent } from './useAddEvent';
@@ -98,9 +82,6 @@ const convertSubEventsToTimeTable = (subEvents: SubEvent[] = []) => {
   };
 };
 
-const nextWeekWednesday = nextWednesday(new Date());
-const formatDate = (date: Date) => format(date, 'dd/MM/yyyy');
-
 const useFooterStatus = ({ event, form }) => {
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -135,58 +116,68 @@ const useFooterStatus = ({ event, form }) => {
   return footerStatus;
 };
 
-const useSchema = (configuration) =>
-  yup
+const useParseStepConfiguration = (
+  configuration,
+  { formConfiguration = {} } = {},
+) => {
+  const schema = yup
     .object(
       configuration.reduce(
-        (acc: Object, val: { field: string; validation: () => void }) => ({
-          ...acc,
-          [val.field]: val.validation,
-        }),
+        (acc: Object, val: { field: string; validation: () => void }) => {
+          if (!val.field || !val.validation) return acc;
+
+          return {
+            ...acc,
+            [val.field]: val.validation,
+          };
+        },
         {},
       ),
     )
     .required();
 
+  const resolver = yupResolver(schema);
+
+  const defaultValues = configuration.reduce(
+    (acc: Object, val: { field: string; defaultValue: unknown }) => {
+      if (!val.field || !val.defaultValue) return acc;
+      return {
+        ...acc,
+        [val.field]: val.defaultValue,
+      };
+    },
+    {},
+  );
+
+  console.log({ defaultValues });
+
+  const form = useForm<FormData>({
+    resolver,
+    defaultValues,
+    ...formConfiguration,
+  });
+
+  return { form, configuration };
+};
+
 const MovieForm = () => {
   const { t } = useTranslation();
 
-  const configuration: StepsConfiguration<FormData> = useMemo(() => {
-    return [
-      eventTypeAndThemeStepConfiguration,
-      timeTableStepConfiguration,
-      {
-        ...placeStepConfiguration,
-        stepProps: {
-          terms: [EventTypes.Bioscoop],
-        },
-      },
-      productionStepConfiguration,
-      {
-        ...additionalInformationStepConfiguration,
-        variant: AdditionalInformationStepVariant.MINIMAL,
-      },
-    ];
-  }, []);
-
-  const schema = useSchema(configuration);
-
-  const form = useForm<FormData>({
-    resolver: yupResolver(schema),
-    defaultValues: {
-      timeTable: {
-        data: {},
-        dateStart: formatDate(nextWeekWednesday),
-        dateEnd: formatDate(nextWeekWednesday),
-      },
-      eventTypeAndTheme: {
-        eventType: {
-          id: EventTypes.Film,
-          label: 'Film',
-        },
+  const { form, configuration } = useParseStepConfiguration([
+    eventTypeAndThemeStepConfiguration,
+    timeTableStepConfiguration,
+    {
+      ...placeStepConfiguration,
+      stepProps: {
+        terms: [EventTypes.Bioscoop],
       },
     },
-  });
+    productionStepConfiguration,
+    {
+      ...additionalInformationStepConfiguration,
+      variant: AdditionalInformationStepVariant.MINIMAL,
+    },
+  ]);
 
   const { handleSubmit, reset } = form;
 

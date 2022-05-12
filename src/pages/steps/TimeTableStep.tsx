@@ -1,4 +1,4 @@
-import { isMatch, parse, set } from 'date-fns';
+import { format, isMatch, nextWednesday, parse, set } from 'date-fns';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -118,8 +118,16 @@ const TimeTableStep = <TFormData extends FormDataIntersection>({
   );
 };
 
+const formatDate = (date: Date) => format(date, 'dd/MM/yyyy');
+const nextWeekWednesday = nextWednesday(new Date());
+
 const timeTableStepConfiguration = {
   Component: TimeTableStep,
+  defaultValue: {
+    data: {},
+    dateStart: formatDate(nextWeekWednesday),
+    dateEnd: formatDate(nextWeekWednesday),
+  },
   validation: yup
     .mixed()
     .test({
