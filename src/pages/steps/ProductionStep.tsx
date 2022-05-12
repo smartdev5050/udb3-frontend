@@ -2,6 +2,7 @@ import debounce from 'lodash/debounce';
 import { useMemo, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import * as yup from 'yup';
 
 import {
   useChangeNameMutation,
@@ -172,4 +173,14 @@ const ProductionStep = <TFormData extends FormDataIntersection>({
   );
 };
 
-export { ProductionStep, useEditNameAndProduction };
+const productionStepConfiguration = {
+  Component: ProductionStep,
+  validation: yup.object().shape({}).required(),
+  field: 'production',
+  shouldShowNextStep: ({ formState: { errors }, eventId }) => {
+    return !!eventId && Object.values(errors).length === 0;
+  },
+  title: (t) => t(`movies.create.step4.title`),
+};
+
+export { productionStepConfiguration, useEditNameAndProduction };

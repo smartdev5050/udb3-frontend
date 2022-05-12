@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import * as yup from 'yup';
 
 import { useChangeThemeMutation } from '@/hooks/api/events';
 import { useGetThemesByEventTypeIdQuery } from '@/hooks/api/themes';
@@ -108,4 +109,11 @@ const EventTypeAndThemeStep = <TFormData extends FormDataIntersection>({
   );
 };
 
-export { EventTypeAndThemeStep, useEditTheme };
+const eventTypeAndThemeStepConfiguration = {
+  Component: EventTypeAndThemeStep,
+  field: 'eventTypeAndTheme',
+  validation: yup.object().shape({}).required(),
+  title: (t) => t(`movies.create.step1.title`),
+};
+
+export { eventTypeAndThemeStepConfiguration, useEditTheme };

@@ -1,6 +1,7 @@
 import { isMatch, parse, set } from 'date-fns';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import * as yup from 'yup';
 
 import { CalendarType } from '@/constants/CalendarType';
 import { useChangeCalendarMutation } from '@/hooks/api/events';
@@ -9,7 +10,7 @@ import { Alert, AlertVariants } from '@/ui/Alert';
 import { Box } from '@/ui/Box';
 import type { StackProps } from '@/ui/Stack';
 import { getStackProps, Stack } from '@/ui/Stack';
-import type { TimeTableValue } from '@/ui/TimeTable';
+import { isOneTimeSlotValid, TimeTableValue } from '@/ui/TimeTable';
 import {
   areAllTimeSlotsValid,
   isTimeTableEmpty,
@@ -117,4 +118,29 @@ const TimeTableStep = <TFormData extends FormDataIntersection>({
   );
 };
 
-export { convertTimeTableToSubEvents, TimeTableStep, useEditCalendar };
+const timeTableStepConfiguration = {
+  Component: TimeTableStep,
+  validation: yup
+    .mixed()
+    .test({
+      name: 'all-timeslots-valid',
+      test: (timeTableData) => areAllTimeSlotsValid(timeTableData),
+    })
+    .test({
+      name: 'has-timeslot',
+      test: (timeTableData) => !isTimeTableEmpty(timeTableData),
+    })
+    .required(),
+  field: 'timeTable',
+  shouldShowNextStep: ({ watch }) => {
+    const watchedTimeTable = watch('timeTable');
+    return isOneTimeSlotValid(watchedTimeTable);
+  },
+  title: (t) => t(`movies.create.step2.title`),
+};
+
+export {
+  convertTimeTableToSubEvents,
+  timeTableStepConfiguration,
+  useEditCalendar,
+};

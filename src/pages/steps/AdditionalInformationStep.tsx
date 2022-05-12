@@ -576,4 +576,12 @@ AdditionalInformationStep.defaultProps = {
   variant: AdditionalInformationStepVariant.EXTENDED,
 };
 
-export { AdditionalInformationStep, AdditionalInformationStepVariant };
+const additionalInformationStepConfiguration = {
+  Component: AdditionalInformationStep,
+  title: (t) => t(`movies.create.step5.title`),
+};
+
+export {
+  additionalInformationStepConfiguration,
+  AdditionalInformationStepVariant,
+};
