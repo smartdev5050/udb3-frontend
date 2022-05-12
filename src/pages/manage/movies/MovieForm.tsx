@@ -370,7 +370,7 @@ const MovieForm = (props) => {
   return (
     <StepForm
       {...props}
-      key={parts[parts.length - 1]}
+      key={parts[parts.length - 1]} // needed to re-render the form between create and edit.
       label="udb-filminvoer"
       convertFormDataToEvent={convertFormDataToEvent}
       convertEventToFormData={convertEventToFormData}
