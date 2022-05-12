@@ -1,6 +1,6 @@
 import { Controller } from 'react-hook-form';
 
-import type { FormDataIntersection, StepProps } from '@/pages/Steps';
+import type { FormDataIntersection, StepProps } from '@/pages/steps/Steps';
 import { Text } from '@/ui/Text';
 
 const CalendarStep = <TFormData extends FormDataIntersection>({

@@ -2,7 +2,7 @@ import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { OfferType } from '@/constants/OfferType';
-import type { FormDataIntersection, StepProps } from '@/pages/Steps';
+import type { FormDataIntersection, StepProps } from '@/pages/steps/Steps';
 import { parseSpacing } from '@/ui/Box';
 import { Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';

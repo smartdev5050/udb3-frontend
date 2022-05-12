@@ -5,7 +5,7 @@ import * as yup from 'yup';
 
 import { CalendarType } from '@/constants/CalendarType';
 import { useChangeCalendarMutation } from '@/hooks/api/events';
-import type { FormDataIntersection, StepProps } from '@/pages/Steps';
+import type { FormDataIntersection, StepProps } from '@/pages/steps/Steps';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Box } from '@/ui/Box';
 import type { StackProps } from '@/ui/Stack';

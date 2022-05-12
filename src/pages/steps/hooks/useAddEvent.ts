@@ -7,7 +7,7 @@ import {
   useAddEventByIdMutation as useAddEventToProductionByIdMutation,
   useCreateWithEventsMutation as useCreateProductionWithEventsMutation,
 } from '@/hooks/api/productions';
-import { FormDataIntersection } from '@/pages/Steps';
+import { FormDataIntersection } from '@/pages/steps/Steps';
 
 const useAddEvent = <TFormData extends FormDataIntersection>({
   onSuccess,

@@ -6,8 +6,8 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import type { Calendar } from '@/hooks/api/events';
-import type { StepsConfiguration } from '@/pages/Steps';
-import { Steps } from '@/pages/Steps';
+import type { StepsConfiguration } from '@/pages/steps/Steps';
+import { Steps } from '@/pages/steps/Steps';
 import { Page } from '@/ui/Page';
 
 import { AdditionalInformationStep } from '../steps/AdditionalInformationStep';

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useQueryClient } from 'react-query';
 
-import { FormDataIntersection } from '@/pages/Steps';
+import { FormDataIntersection } from '@/pages/steps/Steps';
 import { useEditTheme } from '@/pages/steps/EventTypeAndThemeStep';
 import { useEditLocation } from '@/pages/steps/PlaceStep';
 import { useEditNameAndProduction } from '@/pages/steps/ProductionStep';

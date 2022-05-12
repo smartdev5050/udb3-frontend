@@ -14,7 +14,7 @@ import {
   useCreateWithEventsMutation as useCreateProductionWithEventsMutation,
   useDeleteEventByIdMutation as useDeleteEventFromProductionByIdMutation,
 } from '@/hooks/api/productions';
-import type { FormDataIntersection, StepProps } from '@/pages/Steps';
+import type { FormDataIntersection, StepProps } from '@/pages/steps/Steps';
 import type { Production } from '@/types/Production';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';

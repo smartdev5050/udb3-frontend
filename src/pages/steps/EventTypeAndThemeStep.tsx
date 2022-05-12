@@ -6,7 +6,7 @@ import * as yup from 'yup';
 import { EventTypes } from '@/constants/EventTypes';
 import { useChangeThemeMutation } from '@/hooks/api/events';
 import { useGetThemesByEventTypeIdQuery } from '@/hooks/api/themes';
-import type { FormDataIntersection, StepProps } from '@/pages/Steps';
+import type { FormDataIntersection, StepProps } from '@/pages/steps/Steps';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';

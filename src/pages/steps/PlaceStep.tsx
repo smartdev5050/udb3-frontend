@@ -7,7 +7,7 @@ import * as yup from 'yup';
 import type { EventTypes } from '@/constants/EventTypes';
 import { useChangeLocationMutation } from '@/hooks/api/events';
 import { useGetPlacesByQuery } from '@/hooks/api/places';
-import type { FormDataIntersection, StepProps } from '@/pages/Steps';
+import type { FormDataIntersection, StepProps } from '@/pages/steps/Steps';
 import type { Place } from '@/types/Place';
 import type { Values } from '@/types/Values';
 import { Button, ButtonVariants } from '@/ui/Button';
