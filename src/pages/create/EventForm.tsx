@@ -10,11 +10,7 @@ import type { StepsConfiguration } from '@/pages/steps/Steps';
 import { Steps } from '@/pages/steps/Steps';
 import { Page } from '@/ui/Page';
 
-import { AdditionalInformationStep } from '../steps/AdditionalInformationStep';
-import { CalendarStep } from './CalendarStep';
-import { ThemeStep } from './ThemeStep';
-import { TypeStep } from './TypeStep';
-
+import { additionalInformationStepConfiguration } from '../steps/AdditionalInformationStep';
 type EventType = 'event' | 'place';
 
 type FormData = {
@@ -44,29 +40,13 @@ const EventForm = () => {
   const configuration: StepsConfiguration<FormData> = useMemo(() => {
     return [
       {
-        Component: TypeStep,
-        field: 'type',
-        title: t(`event.create.type.title`),
-      },
-      {
-        Component: ThemeStep,
-        field: 'theme',
-        title: t(`event.create.theme.title`),
-      },
-      {
-        Component: CalendarStep,
-        field: 'calendar',
-        title: t(`event.create.calendar.title`),
-      },
-      {
-        Component: AdditionalInformationStep,
-        title: t(`event.create.additionalInformation.title`),
+        ...additionalInformationStepConfiguration,
         stepProps: {
           ...(eventId && { eventId }),
         },
       },
     ];
-  }, [t]);
+  }, [eventId]);
 
   return (
     <Page>
