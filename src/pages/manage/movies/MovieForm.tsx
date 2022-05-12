@@ -161,7 +161,7 @@ const useParseStepConfiguration = (
     ...formConfiguration,
   });
 
-  return { form, configuration };
+  return { form };
 };
 
 const StepForm = ({
