@@ -2,12 +2,12 @@ import debounce from 'lodash/debounce';
 import { forwardRef, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { useGetCitiesByQuery } from '@/hooks/api/cities';
+import { useGetMunicipalitiesByQuery } from '@/hooks/api/municipalities';
 import { FormElement } from '@/ui/FormElement';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Typeahead } from '@/ui/Typeahead';
 
-type City = {
+type Municipality = {
   name: string;
   key: string;
 };
@@ -25,13 +25,11 @@ const CityPicker = forwardRef<HTMLInputElement, Props>(
 
     const [citySearchInput, setCitySearchInput] = useState('');
 
-    const getCitiesQuery = useGetCitiesByQuery({
+    const getMunicipalitiesQuery = useGetMunicipalitiesByQuery({
       q: citySearchInput,
     });
 
-    const cities = useMemo(() => {
-      return getCitiesQuery.data;
-    }, [getCitiesQuery.data]);
+    const municipalities = getMunicipalitiesQuery.data ?? [];
 
     return (
       <Stack {...getStackProps(props)}>
@@ -40,19 +38,27 @@ const CityPicker = forwardRef<HTMLInputElement, Props>(
           label={t('city_picker.label')}
           error={error}
           Component={
-            <Typeahead<City>
+            <Typeahead<Municipality>
               name={name}
               ref={ref}
-              options={cities}
-              labelKey={(city) => city.name}
+              options={municipalities}
+              labelKey={(municipality) => municipality.name}
               selected={
-                value ? [cities.find((city) => city.name === value)] : []
+                value
+                  ? [
+                      municipalities.find(
+                        (municipality) => municipality.name === value,
+                      ),
+                    ]
+                  : []
               }
               onInputChange={debounce(setCitySearchInput, 275)}
-              onChange={([value]: [City]) => onChange(value?.name ?? '')}
+              onChange={([value]: [Municipality]) =>
+                onChange(value?.name ?? '')
+              }
               onBlur={onBlur}
               minLength={3}
-              emptyLabel={t('city_picker.no_cities')}
+              emptyLabel={t('city_picker.no_municipalities')}
             />
           }
         />

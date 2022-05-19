@@ -1,4 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -19,6 +20,7 @@ import { CityPicker } from './CityPicker';
 const getValue = getValueFromTheme('organizerAddModal');
 
 type Props = {
+  prefillName: string;
   visible: boolean;
   onConfirm: (data: FormData) => void;
   onClose: () => void;
@@ -49,7 +51,12 @@ const defaultValues = {
   },
 };
 
-const OrganizerAddModal = ({ visible, onConfirm, onClose }: Props) => {
+const OrganizerAddModal = ({
+  visible,
+  prefillName,
+  onConfirm,
+  onClose,
+}: Props) => {
   const { t } = useTranslation();
 
   const {
@@ -58,10 +65,15 @@ const OrganizerAddModal = ({ visible, onConfirm, onClose }: Props) => {
     formState,
     control,
     reset,
+    setValue,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     defaultValues,
   });
+
+  useEffect(() => {
+    setValue('name', prefillName);
+  }, [prefillName, setValue]);
 
   const websiteRegisterProps = register('website');
 
