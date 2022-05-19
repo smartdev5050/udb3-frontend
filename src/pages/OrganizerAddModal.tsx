@@ -1,9 +1,10 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ChangeHandler, useForm } from 'react-hook-form';
+import { useEffect } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { css } from 'styled-components';
 import * as yup from 'yup';
 
+import { OrganizerData } from '@/pages/OrganizerAddModal';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { FormElement } from '@/ui/FormElement';
 import { Input } from '@/ui/Input';
@@ -46,8 +47,9 @@ const OrganizerAddModal = ({ visible, onConfirm, onClose }: Props) => {
     register,
     handleSubmit,
     formState,
+    control,
+    reset,
     watch,
-    setValue,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -60,7 +62,7 @@ const OrganizerAddModal = ({ visible, onConfirm, onClose }: Props) => {
 
   const watchedAddressLocality = watch('address.addressLocality');
 
-  console.log({ watchedAddressLocality });
+  console.log('watchedAddressLocality', { watchedAddressLocality });
 
   const handleConfirm = async () => {
     await handleSubmit((data) => {
@@ -129,9 +131,12 @@ const OrganizerAddModal = ({ visible, onConfirm, onClose }: Props) => {
                 )
               }
             />
-            <CityPicker
-              value={watchedAddressLocality}
-              {...register('address.addressLocality')}
+            <Controller<OrganizerData>
+              control={control}
+              name="address.addressLocality"
+              render={({ field }) => {
+                return <CityPicker {...field} value={field.value as string} />;
+              }}
             />
           </Stack>
         </Stack>

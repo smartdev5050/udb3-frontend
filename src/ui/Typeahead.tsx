@@ -20,6 +20,7 @@ const isNewEntry = (value: any): value is NewEntry => {
 
 type TypeaheadProps<T> = {
   id?: string;
+  name?: string;
   options: T[];
   labelKey: ((option: T) => string) | string;
   disabled?: boolean;
@@ -51,6 +52,7 @@ const Typeahead: TypeaheadFunc = forwardRef(
   <T,>(
     {
       id,
+      name,
       options,
       labelKey,
       disabled,
@@ -73,6 +75,7 @@ const Typeahead: TypeaheadFunc = forwardRef(
       <Box
         forwardedAs={BootstrapTypeahead}
         id={id}
+        name={name}
         allowNew={allowNew}
         newSelectionPrefix={newSelectionPrefix}
         options={options}
