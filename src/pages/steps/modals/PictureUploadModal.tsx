@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { Trans, useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
+import { useAutoFocus } from '@/hooks/useAutoFocus';
 import { Button } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
@@ -209,6 +210,8 @@ const PictureUploadModal = ({
     resolver: yupResolver(schema),
   });
 
+  const [reference] = useAutoFocus({ retriggerOn: visible });
+
   const watchedFile = watch('file');
   const image = watchedFile?.[0];
 
@@ -235,6 +238,8 @@ const PictureUploadModal = ({
 
     setValue('file', files);
   };
+
+  const registerDescriptionProps = register('description');
 
   return (
     <Modal
@@ -290,7 +295,15 @@ const PictureUploadModal = ({
               `pictures.upload_modal.validation_messages.description.${errors.description.type}`,
             )
           }
-          Component={<Input {...register('description')} />}
+          Component={
+            <Input
+              {...registerDescriptionProps}
+              ref={(element) => {
+                registerDescriptionProps.ref(element);
+                reference.current = element;
+              }}
+            />
+          }
         />
         <FormElement
           id="copyrightHolder"
