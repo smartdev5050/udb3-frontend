@@ -1,5 +1,5 @@
 import debounce from 'lodash/debounce';
-import { FormEvent, forwardRef, useMemo, useState } from 'react';
+import { forwardRef, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useGetCitiesByQuery } from '@/hooks/api/cities';
@@ -16,10 +16,11 @@ type Props = Omit<StackProps, 'onChange'> & {
   name: string;
   value: string;
   onChange: (cityName: string) => void;
+  error?: string;
 };
 
 const CityPicker = forwardRef<HTMLInputElement, Props>(
-  ({ name, value, onChange, onBlur, ...props }, ref) => {
+  ({ name, value, onChange, onBlur, error, ...props }, ref) => {
     const { t } = useTranslation();
 
     const [citySearchInput, setCitySearchInput] = useState('');
@@ -35,8 +36,9 @@ const CityPicker = forwardRef<HTMLInputElement, Props>(
     return (
       <Stack {...getStackProps(props)}>
         <FormElement
-          id="create-city"
-          label={t('create.additionalInformation.city.title')}
+          id="city_picker"
+          label={t('city_picker.label')}
+          error={error}
           Component={
             <Typeahead<City>
               name={name}
@@ -50,9 +52,7 @@ const CityPicker = forwardRef<HTMLInputElement, Props>(
               onChange={([value]: [City]) => onChange(value?.name ?? '')}
               onBlur={onBlur}
               minLength={3}
-              newSelectionPrefix={t(
-                'create.additionalInformation.city.add_new',
-              )}
+              emptyLabel={t('city_picker.no_cities')}
             />
           }
         />
