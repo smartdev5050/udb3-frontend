@@ -1,5 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
+import { useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -48,8 +49,11 @@ const defaultValues = {
     streetAndNumber: '',
   },
 };
+
 const OrganizerAddModal = ({ visible, onConfirm, onClose }: Props) => {
   const { t } = useTranslation();
+
+  const websiteInput = useRef<HTMLInputElement>(null);
 
   const {
     register,
@@ -57,15 +61,16 @@ const OrganizerAddModal = ({ visible, onConfirm, onClose }: Props) => {
     formState,
     control,
     reset,
-    watch,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     defaultValues,
   });
 
-  const watchedAddressLocality = watch('address.addressLocality');
+  const websiteRegisterProps = register('website');
 
-  console.log('watchedAddressLocality', { watchedAddressLocality });
+  useEffect(() => {
+    websiteInput.current?.focus();
+  }, [websiteRegisterProps]);
 
   const handleConfirm = async () => {
     await handleSubmit((data) => {
@@ -91,7 +96,15 @@ const OrganizerAddModal = ({ visible, onConfirm, onClose }: Props) => {
     >
       <Stack padding={4} spacing={4}>
         <FormElement
-          Component={<Input {...register('website')} />}
+          Component={
+            <Input
+              {...websiteRegisterProps}
+              ref={(element: HTMLInputElement) => {
+                websiteRegisterProps.ref(element);
+                websiteInput.current = element;
+              }}
+            />
+          }
           id="organizer-website"
           label={t('organizer.add_modal.labels.website')}
           info={
@@ -143,7 +156,18 @@ const OrganizerAddModal = ({ visible, onConfirm, onClose }: Props) => {
               control={control}
               name="address.addressLocality"
               render={({ field }) => {
-                return <CityPicker {...field} value={field.value as string} />;
+                return (
+                  <CityPicker
+                    {...field}
+                    value={field.value as string}
+                    error={
+                      formState.errors.address?.addressLocality &&
+                      t(
+                        'organizer.add_modal.validation_messages.address.addressLocality',
+                      )
+                    }
+                  />
+                );
               }}
             />
           </Stack>
