@@ -136,9 +136,9 @@
       }
     }
   },
-  "city_picker": {
+  "municipality_picker": {
     "label": "Gemeente",
-    "no_cities": "Geen gemeentes gevonden"
+    "no_municipalities": "Geen gemeentes gevonden"
   },
   "organizer": {
     "add_modal": {

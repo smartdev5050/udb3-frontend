@@ -3,7 +3,7 @@ import { Typeahead } from './Typeahead';
 
 <Meta title="Components/Typeahead" component={Typeahead} />
 
-export const cities = [
+export const municipalities = [
   { id: 1, name: 'Rome' },
   { id: 2, name: 'Romania' },
   { id: 3, name: 'Paris' },
@@ -12,8 +12,8 @@ export const cities = [
 
 export const commonArgs = {
   id: 'test',
-  options: cities,
-  labelKey: (city) => city.name,
+  options: municipalities,
+  labelKey: (municipality) => municipality.name,
 };
 
 <Canvas>
