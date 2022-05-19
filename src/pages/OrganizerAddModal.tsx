@@ -40,6 +40,14 @@ const schema = yup
 
 type FormData = yup.InferType<typeof schema>;
 
+const defaultValues = {
+  website: 'https://',
+  name: '',
+  address: {
+    addressLocality: '',
+    streetAndNumber: '',
+  },
+};
 const OrganizerAddModal = ({ visible, onConfirm, onClose }: Props) => {
   const { t } = useTranslation();
 
@@ -52,12 +60,7 @@ const OrganizerAddModal = ({ visible, onConfirm, onClose }: Props) => {
     watch,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
-    defaultValues: {
-      address: {
-        addressLocality: '',
-        streetAndNumber: '',
-      },
-    },
+    defaultValues,
   });
 
   const watchedAddressLocality = watch('address.addressLocality');
@@ -70,6 +73,11 @@ const OrganizerAddModal = ({ visible, onConfirm, onClose }: Props) => {
     })();
   };
 
+  const handleClose = () => {
+    reset(defaultValues);
+    onClose();
+  };
+
   return (
     <Modal
       title={t('organizer.add_modal.title')}
@@ -78,7 +86,7 @@ const OrganizerAddModal = ({ visible, onConfirm, onClose }: Props) => {
       visible={visible}
       variant={ModalVariants.QUESTION}
       onConfirm={handleConfirm}
-      onClose={onClose}
+      onClose={handleClose}
       size={ModalSizes.LG}
     >
       <Stack padding={4} spacing={4}>
