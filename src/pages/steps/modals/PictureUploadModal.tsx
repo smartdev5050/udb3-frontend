@@ -298,7 +298,7 @@ const PictureUploadModal = ({
           Component={
             <Input
               {...registerDescriptionProps}
-              ref={(element) => {
+              ref={(element: HTMLInputElement) => {
                 registerDescriptionProps.ref(element);
                 reference.current = element;
               }}

@@ -62,7 +62,7 @@ const VideoLinkAddModal = ({ visible, onConfirm, onClose }: Props) => {
           Component={
             <Input
               {...registerLinkProps}
-              ref={(element) => {
+              ref={(element: HTMLInputElement) => {
                 registerLinkProps.ref(element);
                 reference.current = element;
               }}
