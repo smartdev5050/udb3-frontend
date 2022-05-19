@@ -1,10 +1,9 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect } from 'react';
-import { useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
+import { useAutoFocus } from '@/hooks/useAutoFocus';
 import { OrganizerData } from '@/pages/OrganizerAddModal';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { FormElement } from '@/ui/FormElement';
@@ -53,8 +52,6 @@ const defaultValues = {
 const OrganizerAddModal = ({ visible, onConfirm, onClose }: Props) => {
   const { t } = useTranslation();
 
-  const websiteInput = useRef<HTMLInputElement>(null);
-
   const {
     register,
     handleSubmit,
@@ -68,9 +65,9 @@ const OrganizerAddModal = ({ visible, onConfirm, onClose }: Props) => {
 
   const websiteRegisterProps = register('website');
 
-  useEffect(() => {
-    websiteInput.current?.focus();
-  }, [websiteRegisterProps]);
+  const [reference] = useAutoFocus({
+    retriggerOn: visible,
+  });
 
   const handleConfirm = async () => {
     await handleSubmit((data) => {
@@ -102,7 +99,7 @@ const OrganizerAddModal = ({ visible, onConfirm, onClose }: Props) => {
               {...websiteRegisterProps}
               ref={(element: HTMLInputElement) => {
                 websiteRegisterProps.ref(element);
-                websiteInput.current = element;
+                reference.current = element;
               }}
             />
           }
