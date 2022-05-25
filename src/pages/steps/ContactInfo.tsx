@@ -55,12 +55,12 @@ type Props = {
   eventContactInfo: ContactPoint;
   eventBookingInfo: BookingInfo;
   invalidateEventQuery: (field: string) => void;
+  onChangeSucces: () => void;
 };
 
 const getValue = getValueFromTheme('contactInformation');
 
 const isValidEmail = (value: any): boolean => {
-  console.log(value);
   return true;
 };
 
@@ -87,6 +87,7 @@ const ContactInfo = ({
   eventContactInfo,
   eventBookingInfo,
   invalidateEventQuery,
+  onChangeSuccess,
 }: Props) => {
   const { t } = useTranslation();
   const formComponent = useRef<HTMLFormElement>();
@@ -166,18 +167,21 @@ const ContactInfo = ({
   const addContactPointMutation = useAddContactPointMutation({
     onSuccess: async () => {
       await invalidateEventQuery('contactPoint');
+      onChangeSuccess('contactPoint');
     },
   });
 
   const addBookingInfoMutation = useAddBookingInfoMutation({
     onSuccess: async () => {
       await invalidateEventQuery('bookingInfo');
+      onChangeSuccess('bookingInfo');
     },
   });
 
   const deleteContactPointMutation = useAddContactPointMutation({
     onSuccess: async () => {
       await invalidateEventQuery('contactPoint');
+      onChangeSuccess('contactPoint');
     },
   });
 
@@ -427,6 +431,7 @@ const ContactInfo = ({
                 onClick={() => handleDeleteContactPoint(index)}
                 variant={ButtonVariants.DANGER}
                 iconName={Icons.TRASH}
+                maxHeight={40}
               ></Button>
             </Inline>
           ))}

@@ -587,6 +587,7 @@ const AdditionalInformationStep = ({
                 eventContactInfo={eventContactInfo}
                 eventBookingInfo={eventBookingInfo}
                 invalidateEventQuery={invalidateEventQuery}
+                onChangeSuccess={() => onChangeSuccess}
               />
               <Audience
                 eventId={eventId}
