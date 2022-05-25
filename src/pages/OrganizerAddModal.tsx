@@ -7,6 +7,7 @@ import * as yup from 'yup';
 import { useAutoFocus } from '@/hooks/useAutoFocus';
 import { OrganizerData } from '@/pages/OrganizerAddModal';
 import { Alert, AlertVariants } from '@/ui/Alert';
+import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Input } from '@/ui/Input';
 import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
@@ -15,7 +16,7 @@ import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
-import { CityPicker } from './CityPicker';
+import { MunicipalityPicker } from './MunicipalityPicker';
 
 const getValue = getValueFromTheme('organizerAddModal');
 
@@ -36,7 +37,13 @@ const schema = yup
         addressLocality: yup.string().required(),
       })
       .required(),
-    contact: yup.object({}).required(),
+    contactPoint: yup
+      .object({
+        phone: yup.array(yup.string()),
+        email: yup.array(yup.string()),
+        url: yup.array(yup.string()),
+      })
+      .required(),
   })
   .required();
 
@@ -167,7 +174,7 @@ const OrganizerAddModal = ({
               name="address.addressLocality"
               render={({ field }) => {
                 return (
-                  <CityPicker
+                  <MunicipalityPicker
                     {...field}
                     value={field.value as string}
                     error={

@@ -19,7 +19,7 @@ type Props = Omit<StackProps, 'onChange'> & {
   error?: string;
 };
 
-const CityPicker = forwardRef<HTMLInputElement, Props>(
+const MunicipalityPicker = forwardRef<HTMLInputElement, Props>(
   ({ name, value, onChange, onBlur, error, ...props }, ref) => {
     const { t } = useTranslation();
 
@@ -67,4 +67,4 @@ const CityPicker = forwardRef<HTMLInputElement, Props>(
   },
 );
 
-export { CityPicker };
+export { MunicipalityPicker };
