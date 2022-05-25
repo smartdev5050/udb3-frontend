@@ -13,6 +13,10 @@ import { Stack } from '@/ui/Stack';
 
 import { SupportedLanguages } from '../i18n';
 
+const allowedLanguageToggles = Object.values(SupportedLanguages).filter(
+  (language) => language !== 'en',
+);
+
 const LanguageSwitcherButton = (props) => (
   <Button
     {...props}
@@ -125,13 +129,13 @@ const Footer = ({
           width={150}
         />
         <Inline>
-          {Object.values(SupportedLanguages).map((supportedLanguage, index) => {
+          {allowedLanguageToggles.map((allowedLanguage, index) => {
             return (
               <LanguageSwitcherButton
                 key={index}
-                onClick={handleChangeLanguage(supportedLanguage)}
+                onClick={handleChangeLanguage(allowedLanguage)}
               >
-                {t(`footer.${supportedLanguage}`)}
+                {t(`footer.${allowedLanguage}`)}
               </LanguageSwitcherButton>
             );
           })}
