@@ -12,10 +12,7 @@ import { Page } from '@/ui/Page';
 import { Toast } from '@/ui/Toast';
 
 import { useToast } from '../manage/movies/useToast';
-import {
-  AdditionalInformationStep,
-  AdditionalInformationStepVariant,
-} from '../steps/AdditionalInformationStep';
+import { AdditionalInformationStep } from '../steps/AdditionalInformationStep';
 import { CalendarStep } from './CalendarStep';
 import { ThemeStep } from './ThemeStep';
 import { TypeStep } from './TypeStep';
