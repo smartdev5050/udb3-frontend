@@ -55,7 +55,7 @@ type Props = {
   eventContactInfo: ContactPoint;
   eventBookingInfo: BookingInfo;
   invalidateEventQuery: (field: string) => void;
-  onChangeSucces: () => void;
+  onChangeSuccess: () => void;
 };
 
 const getValue = getValueFromTheme('contactInformation');
