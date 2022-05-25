@@ -26,15 +26,29 @@ const ContactInfoType = {
   URL: 'url',
 } as const;
 
+const BookingInfoUrlLabels = {
+  SUBSCRIBE: 'subscribe',
+  AVAILABILITY: 'availability',
+  BUY: 'buy',
+  RESERVE: 'reserve',
+} as const;
+
 type ContactPoint = {
   phone: string[];
   email: string[];
   url: string[];
 };
 
+type UrlLabelInLanguages = Partial<{
+  nl: string;
+  fr: string;
+  de: string;
+  en: string;
+}>;
+
 type BookingInfo = {
-  [Property in keyof ContactPoint]?: string;
-};
+  urlLabel?: UrlLabelInLanguages;
+} & { [Property in keyof ContactPoint]?: string };
 
 type Props = {
   eventId: string;
@@ -59,6 +73,7 @@ const schema = yup
           contactInfoType: yup.string(),
           contactInfo: yup.string(),
           isUsedForReservation: yup.boolean().default(false),
+          urlLabel: yup.string().optional(),
         })
         .test(`is-email-valid`, 'email is not valid', isValidEmail),
     ),
@@ -102,10 +117,19 @@ const ContactInfo = ({
                 eventBookingInfoType === contactInfoType,
             ) && item === eventBookingInfo[`${contactInfoType}`];
 
+          const hasUrlBookingInfo =
+            contactInfoType === ContactInfoType.URL &&
+            eventBookingInfo.urlLabel?.en;
+
           formData.push({
             contactInfoType,
             contactInfo: item,
             isUsedForReservation,
+            ...(hasUrlBookingInfo && {
+              urlLabel: getUrlLabelTypeByEngString(
+                eventBookingInfo.urlLabel.en,
+              ),
+            }),
           });
         });
       });
@@ -113,6 +137,21 @@ const ContactInfo = ({
       setValue('contactPoints', formData);
     }
   }, [eventContactInfo, eventBookingInfo, setValue]);
+
+  const getUrlLabelTypeByEngString = (engUrlLabel: string): string => {
+    if (engUrlLabel.toLowerCase().includes(BookingInfoUrlLabels.AVAILABILITY)) {
+      return BookingInfoUrlLabels.AVAILABILITY;
+    }
+    if (engUrlLabel.toLowerCase().includes(BookingInfoUrlLabels.BUY)) {
+      return BookingInfoUrlLabels.BUY;
+    }
+    if (engUrlLabel.toLowerCase().includes(BookingInfoUrlLabels.SUBSCRIBE)) {
+      return BookingInfoUrlLabels.SUBSCRIBE;
+    }
+    if (engUrlLabel.toLowerCase().includes(BookingInfoUrlLabels.RESERVE)) {
+      return BookingInfoUrlLabels.RESERVE;
+    }
+  };
 
   const handleAddContactPoint = () => {
     setValue('contactPoints', [
@@ -126,13 +165,13 @@ const ContactInfo = ({
 
   const addContactPointMutation = useAddContactPointMutation({
     onSuccess: async () => {
-      console.log('added contact point');
+      await invalidateEventQuery('contactPoint');
     },
   });
 
   const addBookingInfoMutation = useAddBookingInfoMutation({
     onSuccess: async () => {
-      console.log('added booking info');
+      await invalidateEventQuery('bookingInfo');
     },
   });
 
@@ -151,6 +190,18 @@ const ContactInfo = ({
         return contactPoint;
       }),
     ]);
+  };
+
+  const handleChangeUrlLabel = (event: any, id: number): void => {
+    setValue('contactPoints', [
+      ...watchedContactPoints.map((contactPoint, index) => {
+        if (id === index) {
+          contactPoint.urlLabel = event.target.value;
+        }
+        return contactPoint;
+      }),
+    ]);
+    handleAddBookingInfoMutation();
   };
 
   const prepareContactPointPayload = (contactPoints): ContactPoint => {
@@ -174,6 +225,7 @@ const ContactInfo = ({
 
   const handleAddContactPointMutation = async () => {
     const contactPoint = prepareContactPointPayload(watchedContactPoints);
+    handleAddBookingInfoMutation();
     await addContactPointMutation.mutateAsync({
       eventId,
       contactPoint,
@@ -195,6 +247,17 @@ const ContactInfo = ({
           contactPointUsedForReservation['contactInfoType'];
         bookingInfo[contactInfoType] =
           contactPointUsedForReservation.contactInfo;
+
+        if (contactInfoType === ContactInfoType.URL) {
+          const urlLabelType = contactPointUsedForReservation.urlLabel;
+          const urlLabelTranslationString = `create.additionalInformation.booking_info.${urlLabelType}`;
+          bookingInfo['urlLabel'] = {
+            nl: t(urlLabelTranslationString, { lng: 'nl' }),
+            fr: t(urlLabelTranslationString, { lng: 'fr' }),
+            en: t(urlLabelTranslationString, { lng: 'en' }),
+            de: t(urlLabelTranslationString, { lng: 'de' }),
+          };
+        }
       },
     );
 
@@ -217,6 +280,8 @@ const ContactInfo = ({
       eventId,
       contactPoint,
     });
+
+    await handleAddBookingInfoMutation();
   };
 
   const handleUseForReservation = (event: any, id: number): void => {
@@ -330,6 +395,33 @@ const ContactInfo = ({
                     </CheckboxWithLabel>
                   }
                 />
+                {contactPoint.isUsedForReservation &&
+                  contactPoint.contactInfoType === ContactInfoType.URL && (
+                    <FormElement
+                      id="contact-info-url-label"
+                      Component={
+                        <Select
+                          {...register(`contactPoints.${index}.urlLabel`)}
+                          onChange={(event) =>
+                            handleChangeUrlLabel(event, index)
+                          }
+                        >
+                          {Object.keys(BookingInfoUrlLabels).map(
+                            (key, index) => (
+                              <option
+                                key={index}
+                                value={BookingInfoUrlLabels[key]}
+                              >
+                                {t(
+                                  `create.additionalInformation.booking_info.${BookingInfoUrlLabels[key]}`,
+                                )}
+                              </option>
+                            ),
+                          )}
+                        </Select>
+                      }
+                    />
+                  )}
               </Stack>
               <Button
                 onClick={() => handleDeleteContactPoint(index)}

@@ -62,7 +62,8 @@ type Field =
   | 'video'
   | 'priceInfo'
   | 'audience'
-  | 'contactPoint';
+  | 'contactPoint'
+  | 'bookingInfo';
 
 type Props = StackProps & {
   eventId: string;
