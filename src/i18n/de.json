@@ -239,7 +239,8 @@
       "contact_info": {
         "url": "Website",
         "phone": "Telefonnummer",
-        "email": "E-Mail-Adresse",
+        "email": "E-Mail-Adresse"
+      },
       "audience": {
         "everyone": "Für alle",
         "members": "Nur für Mitglieder",

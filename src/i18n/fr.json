@@ -223,7 +223,8 @@
       "contact_info": {
         "url": "Site web",
         "phone": "Numéro de téléphone",
-        "email": "Adresse mail",
+        "email": "Adresse mail"
+      },
       "audience": {
         "everyone": "Pour tout le monde",
         "members": "Seulement pour des membres",
