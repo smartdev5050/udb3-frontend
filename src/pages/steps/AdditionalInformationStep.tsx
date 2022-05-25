@@ -20,23 +20,22 @@ import { PictureUploadModal } from '@/pages/steps/modals/PictureUploadModal';
 import {
   defaultPriceInfoValues,
   FormData as PriceInfoFormData,
+  PriceInfoModal,
   Rate,
 } from '@/pages/steps/modals/PriceInfoModal';
-import { PriceInfoModal } from '@/pages/steps/modals/PriceInfoModal';
+import { Organizer } from '@/types/Organizer';
 import type { Values } from '@/types/Values';
 import { Alert } from '@/ui/Alert';
 import { Box, parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
-import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
-import { Label } from '@/ui/Label';
 import { ProgressBar, ProgressBarVariants } from '@/ui/ProgressBar';
 import type { StackProps } from '@/ui/Stack';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { TextArea } from '@/ui/TextArea';
-import { getValueFromTheme } from '@/ui/theme';
+import { NewEntry } from '@/ui/Typeahead';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 import type { ImageType } from '../PictureUploadBox';
@@ -45,7 +44,9 @@ import { VideoLinkAddModal } from '../VideoLinkAddModal';
 import { VideoLinkDeleteModal } from '../VideoLinkDeleteModal';
 import type { Video, VideoEnriched } from '../VideoUploadBox';
 import { VideoUploadBox } from '../VideoUploadBox';
+import { Audience } from './Audience';
 import { ContactInfo } from './ContactInfo';
+import { OrganizerPicker } from './OrganizerPicker';
 import { PriceInformation } from './PriceInformation';
 
 const IDEAL_DESCRIPTION_LENGTH = 200;
@@ -55,7 +56,13 @@ const AdditionalInformationStepVariant = {
   EXTENDED: 'extended',
 } as const;
 
-type Field = 'description' | 'image' | 'video' | 'priceInfo' | 'contactPoint';
+type Field =
+  | 'description'
+  | 'image'
+  | 'video'
+  | 'priceInfo'
+  | 'audience'
+  | 'contactPoint';
 
 type Props = StackProps & {
   eventId: string;
@@ -91,6 +98,7 @@ const AdditionalInformationStep = ({
   const [isPriceInfoModalVisible, setIsPriceInfoModalVisible] = useState(false);
 
   const [description, setDescription] = useState('');
+  const [organizer, setOrganizer] = useState<Organizer>();
   const [imageToEditId, setImageToEditId] = useState('');
   const [draggedImageFile, setDraggedImageFile] = useState<FileList>();
   const [imageToDeleteId, setImageToDeleteId] = useState('');
@@ -239,6 +247,14 @@ const AdditionalInformationStep = ({
     return getEventByIdQuery.data?.bookingInfo;
     // @ts-expect-error
   }, [getEventByIdQuery.data?.bookingInfo, variant]);
+  const audienceType = useMemo(() => {
+    if (variant !== AdditionalInformationStepVariant.EXTENDED) {
+      return;
+    }
+    // @ts-expect-error
+    return getEventByIdQuery.data?.audience?.audienceType;
+    // @ts-expect-error
+  }, [getEventByIdQuery.data?.audience?.audienceType, variant]);
 
   const enrichVideos = async (video: Video[]) => {
     const getYoutubeThumbnailUrl = (videoUrl: string) => {
@@ -550,7 +566,16 @@ const AdditionalInformationStep = ({
             info={<DescriptionInfo />}
           />
           {variant === AdditionalInformationStepVariant.EXTENDED && (
-            <Stack>
+            <OrganizerPicker
+              value={organizer}
+              onChange={setOrganizer}
+              onAddNewOrganizer={(newOrganizer: NewEntry) => {
+                // TODO: Add Modal for adding new organizer
+              }}
+            />
+          )}
+          {variant === AdditionalInformationStepVariant.EXTENDED && (
+            <Stack spacing={4}>
               <PriceInformation
                 priceInfo={priceInfo}
                 onClickAddPriceInfo={() => setIsPriceInfoModalVisible(true)}
@@ -561,6 +586,11 @@ const AdditionalInformationStep = ({
                 eventContactInfo={eventContactInfo}
                 eventBookingInfo={eventBookingInfo}
                 invalidateEventQuery={invalidateEventQuery}
+              />
+              <Audience
+                eventId={eventId}
+                selectedAudience={audienceType}
+                onChangeSuccess={() => invalidateEventQuery('audience')}
               />
             </Stack>
           )}

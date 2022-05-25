@@ -9,11 +9,10 @@ import type { Calendar } from '@/hooks/api/events';
 import type { StepsConfiguration } from '@/pages/Steps';
 import { Steps } from '@/pages/Steps';
 import { Page } from '@/ui/Page';
+import { Toast } from '@/ui/Toast';
 
-import {
-  AdditionalInformationStep,
-  AdditionalInformationStepVariant,
-} from '../steps/AdditionalInformationStep';
+import { useToast } from '../manage/movies/useToast';
+import { AdditionalInformationStep } from '../steps/AdditionalInformationStep';
 import { CalendarStep } from './CalendarStep';
 import { ThemeStep } from './ThemeStep';
 import { TypeStep } from './TypeStep';
@@ -43,6 +42,17 @@ const EventForm = () => {
   const form = useForm<FormData>({
     resolver: yupResolver(schema),
   });
+
+  const toast = useToast({
+    messages: {
+      audience: t('create.toast.success.audienceType'),
+    },
+    title: 'event.create.title',
+  });
+
+  const handleChangeSuccess = (editedField: string) => {
+    toast.trigger(editedField);
+  };
 
   const configuration: StepsConfiguration<FormData> = useMemo(() => {
     return [
@@ -75,7 +85,18 @@ const EventForm = () => {
     <Page>
       <Page.Title>{t(`event.create.title`)}</Page.Title>
       <Page.Content spacing={5}>
-        <Steps configuration={configuration} form={form} />
+        <Toast
+          variant="success"
+          header={toast.header}
+          body={toast.message}
+          visible={!!toast.message}
+          onClose={() => toast.clear()}
+        />
+        <Steps
+          configuration={configuration}
+          form={form}
+          onChangeSuccess={handleChangeSuccess}
+        />
       </Page.Content>
     </Page>
   );

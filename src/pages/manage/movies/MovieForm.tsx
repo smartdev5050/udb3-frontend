@@ -14,17 +14,11 @@ import {
   AdditionalInformationStep,
   AdditionalInformationStepVariant,
 } from '@/pages/steps/AdditionalInformationStep';
-import {
-  EventTypeAndThemeStep,
-  useEditTheme,
-} from '@/pages/steps/EventTypeAndThemeStep';
+import { EventTypeAndThemeStep } from '@/pages/steps/EventTypeAndThemeStep';
 import { PublishLaterModal } from '@/pages/steps/modals/PublishLaterModal';
-import { PlaceStep, useEditLocation } from '@/pages/steps/PlaceStep';
-import {
-  ProductionStep,
-  useEditNameAndProduction,
-} from '@/pages/steps/ProductionStep';
-import { TimeTableStep, useEditCalendar } from '@/pages/steps/TimeTableStep';
+import { PlaceStep } from '@/pages/steps/PlaceStep';
+import { ProductionStep } from '@/pages/steps/ProductionStep';
+import { TimeTableStep } from '@/pages/steps/TimeTableStep';
 import type { Event } from '@/types/Event';
 import type { SubEvent } from '@/types/Offer';
 import type { Place } from '@/types/Place';

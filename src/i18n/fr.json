@@ -193,6 +193,10 @@
           "0.14.0.0.0": "Donnez ici une description enthousiaste du monument. Indiquez également si l'ouverture du monument est limitée (p.ex. seulement des salons)."
         }
       },
+      "organizer": {
+        "title": "Organisateur",
+        "add_new": "Ajouter un nouveau organisateur: "
+      },
       "picture": {
         "add_button": "Ajouter une image",
         "intro": "Ajoutez une image de sorte que les visiteurs reconnaissent mieux votre activité.",
@@ -219,7 +223,11 @@
       "contact_info": {
         "url": "Site web",
         "phone": "Numéro de téléphone",
-        "email": "Adresse mail"
+        "email": "Adresse mail",
+      "audience": {
+        "everyone": "Pour tout le monde",
+        "members": "Seulement pour des membres",
+        "education": "Spécifiquement pour des écoles"
       }
     }
   },
