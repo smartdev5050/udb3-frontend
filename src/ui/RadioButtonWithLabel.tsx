@@ -1,14 +1,18 @@
-import PropTypes from 'prop-types';
+import { ReactNode } from 'react';
 
+import { BoxProps } from './Box';
 import { getInlineProps, Inline } from './Inline';
 import { Label } from './Label';
-import {
-  RadioButton,
-  radioButtonDefaultProps,
-  radioButtonPropTypes,
-} from './RadioButton';
+import type { RadioButtonProps } from './RadioButton';
+import { RadioButton } from './RadioButton';
 import { Stack } from './Stack';
 import { Text, TextVariants } from './Text';
+
+type Props = RadioButtonProps &
+  BoxProps & {
+    info?: string;
+    label?: ReactNode;
+  };
 
 const RadioButtonWithLabel = ({
   id,
@@ -18,14 +22,14 @@ const RadioButtonWithLabel = ({
   label,
   info,
   value,
-  checked,
   className,
+  checked,
   ...props
-}) => {
+}: Props) => {
   return (
     <Inline
       className={className}
-      alignItems="flex-start"
+      alignItems={info ? 'flex-start' : 'center'}
       spacing={3}
       as="li"
       {...getInlineProps(props)}
@@ -33,12 +37,10 @@ const RadioButtonWithLabel = ({
       <RadioButton
         id={id}
         onChange={onChange}
+        disabled={disabled}
         value={value}
         name={name}
         checked={checked}
-        css={`
-          margin-top: 0.36rem;
-        `}
       />
       <Stack>
         <Label cursor="pointer" htmlFor={id}>
@@ -48,16 +50,6 @@ const RadioButtonWithLabel = ({
       </Stack>
     </Inline>
   );
-};
-
-RadioButtonWithLabel.propTypes = {
-  ...radioButtonPropTypes,
-  label: PropTypes.node,
-  info: PropTypes.string,
-};
-
-RadioButtonWithLabel.defaultprops = {
-  ...radioButtonDefaultProps,
 };
 
 export { RadioButtonWithLabel };
