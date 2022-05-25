@@ -225,6 +225,12 @@
         "phone": "Numéro de téléphone",
         "email": "Adresse mail"
       },
+      "booking_info": {
+        "subscribe": "Inscrivez-vous",
+        "availability": "Controlez la disponibilité",
+        "buy": "Achetez des tickets",
+        "reserve": "Réservez des places"
+      },
       "audience": {
         "everyone": "Pour tout le monde",
         "members": "Seulement pour des membres",

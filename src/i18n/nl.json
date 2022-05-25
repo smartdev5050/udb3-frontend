@@ -421,7 +421,14 @@
         "add_more": "Meer contactgegevens toevoegen",
         "url": "Website",
         "phone": "Telefoonnummer",
-        "email": "E-mailadres"
+        "email": "E-mailadres",
+        "use_for_reservation": "Gebruik voor reservatie"
+      },
+      "booking_info": {
+        "subscribe": "Schrijf je in",
+        "availability": "Controleer beschikbaarheid",
+        "buy": "Koop tickets",
+        "reserve": "Reserveer plaatsen"
       },
       "audience": {
         "everyone": "Voor iedereen",

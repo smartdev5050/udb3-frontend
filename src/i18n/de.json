@@ -241,6 +241,12 @@
         "phone": "Telefonnummer",
         "email": "E-Mail-Adresse"
       },
+      "booking_info": {
+        "subscribe": "Melden Sie sich an",
+        "availability": "Verfügbarkeit kontrollieren",
+        "buy": "Tickets kaufen",
+        "reserve": "Plätze reservieren"
+      },
       "audience": {
         "everyone": "Für alle",
         "members": "Nur für Mitglieder",
