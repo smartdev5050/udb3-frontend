@@ -11,7 +11,7 @@ const getValue = getValueFromTheme('typeahead');
 type NewEntry = {
   customOption: boolean;
   id: string;
-  label: string;
+  name: string;
 };
 
 const isNewEntry = (value: any): value is NewEntry => {
