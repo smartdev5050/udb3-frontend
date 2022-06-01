@@ -68,7 +68,9 @@ const ContactPoint = ({ name, onAdd, addLabel, ...props }: Props) => {
         <Button
           variant={ButtonVariants.SECONDARY}
           onClick={() => {
-            reset({});
+            reset({
+              [name]: '',
+            });
             setIsExpanded(false);
           }}
         >
@@ -82,6 +84,12 @@ const ContactPoint = ({ name, onAdd, addLabel, ...props }: Props) => {
             if (!isValid) return;
 
             onAdd(watchedValue);
+
+            reset({
+              [name]: '',
+            });
+
+            setIsExpanded(false);
           }}
         >
           Toevoegen
