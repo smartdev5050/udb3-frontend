@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useMemo, useState } from 'react';
-import { Controller, Path, useForm } from 'react-hook-form';
+import { Controller, Path, useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
@@ -32,9 +32,9 @@ const schema = yup
       .required(),
     contactPoint: yup
       .object({
-        phone: yup.array(yup.string()),
-        email: yup.array(yup.string()),
-        url: yup.array(yup.string()),
+        phone: yup.array().of(yup.string()),
+        email: yup.array().of(yup.string()),
+        url: yup.array().of(yup.string()),
       })
       .required(),
   })
@@ -92,7 +92,6 @@ const OrganizerAddModal = ({
     control,
     reset,
     setValue,
-    watch,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     defaultValues,
@@ -100,8 +99,28 @@ const OrganizerAddModal = ({
 
   const websiteRegisterProps = register('website');
 
-  const watchedWebsite = watch('website');
-  const watchedContactPoint = watch('contactPoint');
+  const watchedWebsite = useWatch({ control, name: 'website' });
+  const watchedContactPoint = useWatch({ control, name: 'contactPoint' });
+
+  const contactPoints = useMemo(() => {
+    const uniqueContactPoints = Object.values(watchedContactPoint).reduce(
+      (acc, current) => {
+        return [...acc, ...current];
+      },
+      [],
+    );
+
+    if (formState.dirtyFields.website && !formState.errors.website) {
+      uniqueContactPoints.push(watchedWebsite);
+    }
+
+    return [...new Set(uniqueContactPoints)];
+  }, [
+    formState.errors.website,
+    formState.dirtyFields.website,
+    watchedContactPoint,
+    watchedWebsite,
+  ]);
 
   const [
     contactPointConfig,
@@ -120,23 +139,6 @@ const OrganizerAddModal = ({
       addLabel: 'Website toevoegen',
     },
   });
-
-  const contactPoints = useMemo(() => {
-    const uniqueContactPoints = new Set(
-      Object.values(watchedContactPoint).flat(),
-    );
-
-    if (formState.dirtyFields.website && !formState.errors.website) {
-      uniqueContactPoints.add(watchedWebsite);
-    }
-
-    return [...uniqueContactPoints];
-  }, [
-    watchedContactPoint,
-    formState.dirtyFields.website,
-    formState.errors.website,
-    watchedWebsite,
-  ]);
 
   useEffect(() => {
     setValue('name', prefillName);
@@ -264,9 +266,15 @@ const OrganizerAddModal = ({
             <ContactPoint
               key={name}
               name={name}
-              register={register}
               formState={formState}
-              onAdd={handleSubmit}
+              onAdd={(value) => {
+                const [_field, type] = name.split('.');
+                setValue(name, [...watchedContactPoint[type], value]);
+                setContactPointConfig((prevConfig) => ({
+                  ...prevConfig,
+                  [name]: { ...prevConfig[name], isExpanded: false },
+                }));
+              }}
               onCancel={() => handleCancelAddContactPoint(name)}
               onExpand={() => handleExpandContactPoint(name)}
               {...contactPointConfig[name]}

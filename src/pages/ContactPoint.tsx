@@ -1,4 +1,5 @@
-import { Path, UseFormRegister, UseFormReturn } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import { Path, UseFormReturn } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { Button, ButtonVariants } from '@/ui/Button';
@@ -16,12 +17,11 @@ type Props = {
   onAdd: any;
   onCancel: () => void;
   onExpand: () => void;
-} & Pick<UseFormReturn<OrganizerData>, 'formState' | 'register'>;
+} & Pick<UseFormReturn<OrganizerData>, 'formState'>;
 
 export const ContactPoint = ({
   isExpanded,
   name,
-  register,
   formState,
   addLabel,
   onAdd,
@@ -30,11 +30,22 @@ export const ContactPoint = ({
 }: Props) => {
   const { t } = useTranslation();
 
-  return !isExpanded ? (
-    <Button variant={ButtonVariants.LINK} onClick={onExpand}>
-      {addLabel}
-    </Button>
-  ) : (
+  const [value, setValue] = useState('');
+
+  useEffect(() => {
+    if (isExpanded) return;
+    setValue('');
+  }, [isExpanded]);
+
+  if (!isExpanded) {
+    return (
+      <Button variant={ButtonVariants.LINK} onClick={onExpand}>
+        {addLabel}
+      </Button>
+    );
+  }
+
+  return (
     <Stack
       padding={4}
       spacing={4}
@@ -43,7 +54,15 @@ export const ContactPoint = ({
       `}
     >
       <FormElement
-        Component={<Input {...register(name)} />}
+        Component={
+          <Input
+            value={value}
+            onChange={(e) => {
+              e.preventDefault();
+              setValue(e.target.value);
+            }}
+          />
+        }
         id={`organizer-${name}`}
         label={t(`organizer.add_modal.labels.${name}`)}
         error={
@@ -55,7 +74,7 @@ export const ContactPoint = ({
         <Button variant={ButtonVariants.SECONDARY} onClick={onCancel}>
           Annuleren
         </Button>
-        <Button variant={ButtonVariants.PRIMARY} onClick={onAdd}>
+        <Button variant={ButtonVariants.PRIMARY} onClick={() => onAdd(value)}>
           Toevoegen
         </Button>
       </Inline>
