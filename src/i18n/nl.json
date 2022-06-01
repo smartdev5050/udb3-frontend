@@ -424,6 +424,7 @@
         "url": "Website",
         "phone": "Telefoonnummer",
         "email": "E-mailadres",
+        "email_not_valid": "Gelieve een geldig e-mailadres in te vullen.",
         "use_for_reservation": "Gebruik voor reservatie"
       },
       "booking_info": {

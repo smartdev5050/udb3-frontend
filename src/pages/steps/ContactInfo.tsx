@@ -15,6 +15,7 @@ import { FormElement } from '@/ui/FormElement';
 import { Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
+import { Paragraph } from '@/ui/Paragraph';
 import { Select } from '@/ui/Select';
 import { Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
@@ -55,13 +56,18 @@ type Props = {
   eventContactInfo: ContactPoint;
   eventBookingInfo: BookingInfo;
   invalidateEventQuery: (field: string) => void;
-  onChangeSuccess: () => void;
+  onChangeSuccess: (field: string) => void;
 };
 
 const getValue = getValueFromTheme('contactInformation');
 
+const EMAIL_REGEX: RegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
 const isValidEmail = (value: any): boolean => {
-  return true;
+  const { contactInfoType, contactInfo } = value;
+  if (contactInfoType !== ContactInfoType.EMAIL) return true;
+
+  return EMAIL_REGEX.test(contactInfo);
 };
 
 const schema = yup
@@ -75,7 +81,7 @@ const schema = yup
           isUsedForReservation: yup.boolean().default(false),
           urlLabel: yup.string().optional(),
         })
-        .test(`is-email-valid`, 'email is not valid', isValidEmail),
+        .test('is valid email', 'email_not_valid', isValidEmail),
     ),
   })
   .required();
@@ -97,6 +103,7 @@ const ContactInfo = ({
     watch,
     setValue,
     formState: { errors },
+    trigger,
     handleSubmit,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
@@ -106,6 +113,7 @@ const ContactInfo = ({
 
   useEffect(() => {
     if (eventContactInfo) {
+      console.log(eventContactInfo);
       let formData = [];
       const eventBookingInfoTypes = Object.keys(eventBookingInfo);
       // transform to event contact info to formData
@@ -138,6 +146,10 @@ const ContactInfo = ({
       setValue('contactPoints', formData);
     }
   }, [eventContactInfo, eventBookingInfo, setValue]);
+
+  useEffect(() => {
+    console.log({ errors });
+  }, [errors]);
 
   const getUrlLabelTypeByEngString = (engUrlLabel: string): string => {
     if (engUrlLabel.toLowerCase().includes(BookingInfoUrlLabels.AVAILABILITY)) {
@@ -180,6 +192,7 @@ const ContactInfo = ({
 
   const deleteContactPointMutation = useAddContactPointMutation({
     onSuccess: async () => {
+      console.log('on success?');
       await invalidateEventQuery('contactPoint');
       onChangeSuccess('contactPoint');
     },
@@ -228,6 +241,8 @@ const ContactInfo = ({
   };
 
   const handleAddContactPointMutation = async () => {
+    const result = await trigger();
+    console.log({ result });
     const contactPoint = prepareContactPointPayload(watchedContactPoints);
     handleAddBookingInfoMutation();
     await addContactPointMutation.mutateAsync({
@@ -285,7 +300,7 @@ const ContactInfo = ({
       contactPoint,
     });
 
-    await handleAddBookingInfoMutation();
+    // await handleAddBookingInfoMutation();
   };
 
   const handleUseForReservation = (event: any, id: number): void => {
@@ -370,7 +385,7 @@ const ContactInfo = ({
                   </Select>
                 }
               />
-              <Stack>
+              <Stack width="40%">
                 <FormElement
                   id="contactInfo"
                   Component={
@@ -399,6 +414,13 @@ const ContactInfo = ({
                     </CheckboxWithLabel>
                   }
                 />
+                {errors?.contactPoints?.[index] && (
+                  <Paragraph color={getValue('errorText')}>
+                    {t(
+                      `create.additionalInformation.contact_info.${errors.contactPoints[index].message}`,
+                    )}
+                  </Paragraph>
+                )}
                 {contactPoint.isUsedForReservation &&
                   contactPoint.contactInfoType === ContactInfoType.URL && (
                     <FormElement
