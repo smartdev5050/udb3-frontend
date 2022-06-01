@@ -23,7 +23,7 @@ type Data = yup.InferType<typeof schema>;
 
 type Props = StackProps & {
   name: keyof Data;
-  onAdd: any;
+  onAdd: (value: string) => void;
   addLabel: string;
 };
 
@@ -77,7 +77,7 @@ const ContactPoint = ({ name, onAdd, addLabel, ...props }: Props) => {
         <Button
           variant={ButtonVariants.PRIMARY}
           onClick={async () => {
-            const isValid = await trigger();
+            const isValid = await trigger(name);
 
             if (!isValid) return;
 

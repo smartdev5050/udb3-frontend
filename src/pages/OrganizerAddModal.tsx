@@ -240,7 +240,13 @@ const OrganizerAddModal = ({
               <ContactPoint
                 key={name}
                 name={name}
-                onAdd={() => {}}
+                onAdd={(value) => {
+                  console.log({ value });
+                  setValue(`contactPoint.${name}`, [
+                    ...watchedContactPoint[name],
+                    value,
+                  ]);
+                }}
                 {...contactPointConfig[name]}
               />
             ),
