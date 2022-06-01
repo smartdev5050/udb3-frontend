@@ -1,45 +1,46 @@
-import { useEffect, useState } from 'react';
-import { Path, UseFormReturn } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import * as yup from 'yup';
 
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
-import { Stack } from '@/ui/Stack';
+import { getStackProps, Stack, StackProps } from '@/ui/Stack';
+import { getValueFromTheme } from '@/ui/theme';
 
-import { getValue, OrganizerData } from './OrganizerAddModal';
+const getValue = getValueFromTheme('organizeAddModal');
 
-type Props = {
-  isExpanded: boolean;
-  name: Path<OrganizerData>;
-  addLabel: string;
+const schema = yup.object({
+  phone: yup.string().required(),
+  email: yup.string().email().required(),
+  url: yup.string().url().required(),
+});
+
+type Data = yup.InferType<typeof schema>;
+
+type Props = StackProps & {
+  name: keyof Data;
   onAdd: any;
-  onCancel: () => void;
-  onExpand: () => void;
-} & Pick<UseFormReturn<OrganizerData>, 'formState'>;
+  addLabel: string;
+};
 
-export const ContactPoint = ({
-  isExpanded,
-  name,
-  formState,
-  addLabel,
-  onAdd,
-  onCancel,
-  onExpand,
-}: Props) => {
+const ContactPoint = ({ name, onAdd, addLabel, ...props }: Props) => {
   const { t } = useTranslation();
 
-  const [value, setValue] = useState('');
+  const [isExpanded, setIsExpanded] = useState(false);
 
-  useEffect(() => {
-    if (isExpanded) return;
-    setValue('');
-  }, [isExpanded]);
+  const { reset, trigger, watch, formState, register } = useForm<Data>({
+    resolver: yupResolver(schema),
+  });
+
+  const watchedValue = watch(name);
 
   if (!isExpanded) {
     return (
-      <Button variant={ButtonVariants.LINK} onClick={onExpand}>
+      <Button variant={ButtonVariants.LINK} onClick={() => setIsExpanded(true)}>
         {addLabel}
       </Button>
     );
@@ -52,35 +53,42 @@ export const ContactPoint = ({
       css={`
         border: 1px solid ${getValue('address.borderColor')};
       `}
+      {...getStackProps(props)}
     >
       <FormElement
-        Component={
-          <Input
-            value={value}
-            onChange={(e) => {
-              e.preventDefault();
-              setValue(e.target.value);
-            }}
-          />
-        }
-        id={`organizer-${name}`}
-        label={t(`organizer.add_modal.labels.${name}`)}
+        Component={<Input {...register(name)} />}
+        id={`organizer-contactPoint-${name}`}
+        label={t(`organizer.add_modal.labels.contactPoint.${name}`)}
         error={
           formState.errors[name] &&
-          t(`organizer.add_modal.validation_messages.${name}`)
+          t(`organizer.add_modal.validation_messages.contactPoint.${name}`)
         }
       />
       <Inline spacing={3}>
-        <Button variant={ButtonVariants.SECONDARY} onClick={onCancel}>
+        <Button
+          variant={ButtonVariants.SECONDARY}
+          onClick={() => {
+            reset({});
+            setIsExpanded(false);
+          }}
+        >
           Annuleren
         </Button>
-        <Button variant={ButtonVariants.PRIMARY} onClick={() => onAdd(value)}>
+        <Button
+          variant={ButtonVariants.PRIMARY}
+          onClick={async () => {
+            const isValid = await trigger();
+
+            if (!isValid) return;
+
+            onAdd(watchedValue);
+          }}
+        >
           Toevoegen
         </Button>
       </Inline>
     </Stack>
   );
 };
-ContactPoint.defaultProps = {
-  isExpanded: false,
-};
+
+export { ContactPoint };

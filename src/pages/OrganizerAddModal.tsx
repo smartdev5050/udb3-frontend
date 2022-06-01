@@ -33,8 +33,8 @@ const schema = yup
     contactPoint: yup
       .object({
         phone: yup.array().of(yup.string()),
-        email: yup.array().of(yup.string()),
-        url: yup.array().of(yup.string()),
+        email: yup.array().of(yup.string().email()),
+        url: yup.array().of(yup.string().url()),
       })
       .required(),
   })
@@ -56,15 +56,17 @@ const defaultValues: FormData = {
   },
 };
 
-type ContactPointConfig = Partial<
-  Record<
-    Path<FormData>,
-    {
-      isExpanded: boolean;
-      addLabel: string;
-    }
-  >
->;
+const contactPointConfig = {
+  email: {
+    addLabel: 'Email toevoegen',
+  },
+  phone: {
+    addLabel: 'Telefoonnummer toevoegen',
+  },
+  url: {
+    addLabel: 'Website toevoegen',
+  },
+};
 
 type Props = {
   prefillName: string;
@@ -92,6 +94,7 @@ const OrganizerAddModal = ({
     control,
     reset,
     setValue,
+    trigger,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     defaultValues,
@@ -122,24 +125,6 @@ const OrganizerAddModal = ({
     watchedWebsite,
   ]);
 
-  const [
-    contactPointConfig,
-    setContactPointConfig,
-  ] = useState<ContactPointConfig>({
-    'contactPoint.email': {
-      isExpanded: false,
-      addLabel: 'Email toevoegen',
-    },
-    'contactPoint.phone': {
-      isExpanded: false,
-      addLabel: 'Telefoonnummer toevoegen',
-    },
-    'contactPoint.url': {
-      isExpanded: false,
-      addLabel: 'Website toevoegen',
-    },
-  });
-
   useEffect(() => {
     setValue('name', prefillName);
   }, [prefillName, setValue]);
@@ -154,18 +139,6 @@ const OrganizerAddModal = ({
     reset(defaultValues);
     onClose();
   };
-
-  const handleCancelAddContactPoint = (name: Path<FormData>) =>
-    setContactPointConfig((prevConfig) => ({
-      ...prevConfig,
-      [name]: { ...prevConfig[name], isExpanded: false },
-    }));
-
-  const handleExpandContactPoint = (name: Path<FormData>) =>
-    setContactPointConfig((prevConfig) => ({
-      ...prevConfig,
-      [name]: { ...prevConfig[name], isExpanded: true },
-    }));
 
   return (
     <Modal
@@ -262,24 +235,16 @@ const OrganizerAddModal = ({
             {t('organizer.add_modal.labels.contactPoint.title')}
           </Title>
           <Text>{JSON.stringify(contactPoints)}</Text>
-          {Object.keys(contactPointConfig).map((name: Path<FormData>) => (
-            <ContactPoint
-              key={name}
-              name={name}
-              formState={formState}
-              onAdd={(value) => {
-                const [_field, type] = name.split('.');
-                setValue(name, [...watchedContactPoint[type], value]);
-                setContactPointConfig((prevConfig) => ({
-                  ...prevConfig,
-                  [name]: { ...prevConfig[name], isExpanded: false },
-                }));
-              }}
-              onCancel={() => handleCancelAddContactPoint(name)}
-              onExpand={() => handleExpandContactPoint(name)}
-              {...contactPointConfig[name]}
-            />
-          ))}
+          {Object.keys(contactPointConfig).map(
+            (name: keyof typeof contactPointConfig) => (
+              <ContactPoint
+                key={name}
+                name={name}
+                onAdd={() => {}}
+                {...contactPointConfig[name]}
+              />
+            ),
+          )}
         </Stack>
       </Stack>
     </Modal>
