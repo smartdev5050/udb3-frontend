@@ -1,5 +1,4 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { isThisQuarter } from 'date-fns';
 import { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -112,8 +111,7 @@ const ContactInfo = ({
   const watchedContactPoints = watch('contactPoints') ?? [];
 
   useEffect(() => {
-    if (eventContactInfo) {
-      console.log(eventContactInfo);
+    const loadContactInfoToFormData = (): void => {
       let formData = [];
       const eventBookingInfoTypes = Object.keys(eventBookingInfo);
       // transform to event contact info to formData
@@ -144,12 +142,12 @@ const ContactInfo = ({
       });
 
       setValue('contactPoints', formData);
+    };
+
+    if (eventContactInfo) {
+      loadContactInfoToFormData();
     }
   }, [eventContactInfo, eventBookingInfo, setValue]);
-
-  useEffect(() => {
-    console.log({ errors });
-  }, [errors]);
 
   const getUrlLabelTypeByEngString = (engUrlLabel: string): string => {
     if (engUrlLabel.toLowerCase().includes(BookingInfoUrlLabels.AVAILABILITY)) {
@@ -190,37 +188,6 @@ const ContactInfo = ({
     },
   });
 
-  const deleteContactPointMutation = useAddContactPointMutation({
-    onSuccess: async () => {
-      console.log('on success?');
-      await invalidateEventQuery('contactPoint');
-      onChangeSuccess('contactPoint');
-    },
-  });
-
-  const handleChangeInfoType = (event: any, id: number): void => {
-    setValue('contactPoints', [
-      ...watchedContactPoints.map((contactPoint, index) => {
-        if (id === index) {
-          contactPoint.contactInfoType = event.target.value;
-        }
-        return contactPoint;
-      }),
-    ]);
-  };
-
-  const handleChangeUrlLabel = (event: any, id: number): void => {
-    setValue('contactPoints', [
-      ...watchedContactPoints.map((contactPoint, index) => {
-        if (id === index) {
-          contactPoint.urlLabel = event.target.value;
-        }
-        return contactPoint;
-      }),
-    ]);
-    handleAddBookingInfoMutation();
-  };
-
   const prepareContactPointPayload = (contactPoints): ContactPoint => {
     const [phone, email, url] = Object.keys(ContactInfoType).map(
       (key, _index) => {
@@ -240,19 +207,16 @@ const ContactInfo = ({
     };
   };
 
-  const handleAddContactPointMutation = async () => {
-    const result = await trigger();
-    console.log({ result });
-    const contactPoint = prepareContactPointPayload(watchedContactPoints);
-    handleAddBookingInfoMutation();
+  const handleAddContactPointMutation = async (contactPoints) => {
+    const contactPoint = prepareContactPointPayload(contactPoints);
     await addContactPointMutation.mutateAsync({
       eventId,
       contactPoint,
     });
   };
 
-  const handleAddBookingInfoMutation = async () => {
-    const contactPointsUsedForReservation = watchedContactPoints.filter(
+  const handleAddBookingInfoMutation = async (contactPoints) => {
+    const contactPointsUsedForReservation = contactPoints.filter(
       (contactPoint) => contactPoint.isUsedForReservation,
     );
 
@@ -286,21 +250,28 @@ const ContactInfo = ({
     });
   };
 
+  const handleContactInfoChange = (
+    event: any,
+    id: number,
+    infoType: 'contactInfoType' | 'urlLabel',
+  ): void => {
+    const contactPoints = [
+      ...watchedContactPoints.map((contactPoint, index) => {
+        if (id === index) {
+          contactPoint[infoType] = event.target.value;
+        }
+        return contactPoint;
+      }),
+    ];
+    handleMutations(contactPoints);
+  };
+
   const handleDeleteContactPoint = async (id: number) => {
     const contactPointsWithDeletedItem = watchedContactPoints.filter(
       (_contactPoint, index) => id !== index,
     );
 
-    const contactPoint = prepareContactPointPayload(
-      contactPointsWithDeletedItem,
-    );
-
-    await deleteContactPointMutation.mutateAsync({
-      eventId,
-      contactPoint,
-    });
-
-    // await handleAddBookingInfoMutation();
+    handleMutations(contactPointsWithDeletedItem);
   };
 
   const handleUseForReservation = (event: any, id: number): void => {
@@ -311,7 +282,7 @@ const ContactInfo = ({
         contactPoint.isUsedForReservation,
     );
 
-    setValue('contactPoints', [
+    const newContactPoints = [
       ...watchedContactPoints.map((contactPoint, index) => {
         // only allow 1  isUsedForReservation per type
         if (index === alreadyHasReservationTypeIndex) {
@@ -328,9 +299,20 @@ const ContactInfo = ({
 
         return contactPoint;
       }),
-    ]);
-    handleAddBookingInfoMutation();
+    ];
+
+    handleAddBookingInfoMutation(newContactPoints);
   };
+  const handleMutations = (contactPoints) => {
+    handleAddContactPointMutation(contactPoints);
+    handleAddBookingInfoMutation(contactPoints);
+  };
+
+  const onSubmitValid = (data, e) => {
+    const { contactPoints } = data;
+    handleMutations(contactPoints);
+  };
+  const onError = (errors, e) => console.log(errors, e);
 
   return (
     <Stack>
@@ -352,6 +334,7 @@ const ContactInfo = ({
           as="form"
           ref={formComponent}
           spacing={3}
+          onSubmit={handleSubmit(onSubmitValid, onError)}
           css={`
             border: 1px solid ${getValue('borderColor')};
           `}
@@ -373,7 +356,9 @@ const ContactInfo = ({
                 Component={
                   <Select
                     {...register(`contactPoints.${index}.contactInfoType`)}
-                    onChange={(event) => handleChangeInfoType(event, index)}
+                    onChange={(event) =>
+                      handleContactInfoChange(event, index, 'contactInfoType')
+                    }
                   >
                     {Object.keys(ContactInfoType).map((key, index) => (
                       <option key={index} value={ContactInfoType[key]}>
@@ -391,7 +376,7 @@ const ContactInfo = ({
                   Component={
                     <Input
                       {...register(`contactPoints.${index}.contactInfo`)}
-                      onBlur={handleAddContactPointMutation}
+                      onBlur={handleSubmit(onSubmitValid, onError)}
                     />
                   }
                 />
@@ -429,7 +414,7 @@ const ContactInfo = ({
                         <Select
                           {...register(`contactPoints.${index}.urlLabel`)}
                           onChange={(event) =>
-                            handleChangeUrlLabel(event, index)
+                            handleContactInfoChange(event, index, 'urlLabel')
                           }
                         >
                           {Object.keys(BookingInfoUrlLabels).map(
@@ -470,6 +455,9 @@ const ContactInfo = ({
               {t('create.additionalInformation.contact_info.add_more')}
             </Button>
           </Inline>
+          <Button display="none" type="submit">
+            Submit Form
+          </Button>
         </Stack>
       )}
     </Stack>
