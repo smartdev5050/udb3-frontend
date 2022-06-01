@@ -9,6 +9,7 @@ import { OrganizerData } from '@/pages/OrganizerAddModal';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { FormElement } from '@/ui/FormElement';
 import { Input } from '@/ui/Input';
+import { List } from '@/ui/List';
 import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
 import { Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
@@ -234,14 +235,19 @@ const OrganizerAddModal = ({
           <Title size={3}>
             {t('organizer.add_modal.labels.contactPoint.title')}
           </Title>
-          <Text>{JSON.stringify(contactPoints)}</Text>
+          <List>
+            {contactPoints.map((cp) => (
+              <List.Item key={cp}>
+                <Text>{cp}</Text>
+              </List.Item>
+            ))}
+          </List>
           {Object.keys(contactPointConfig).map(
             (name: keyof typeof contactPointConfig) => (
               <ContactPoint
                 key={name}
                 name={name}
                 onAdd={(value) => {
-                  console.log({ value });
                   setValue(`contactPoint.${name}`, [
                     ...watchedContactPoint[name],
                     value,
