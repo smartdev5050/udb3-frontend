@@ -534,7 +534,7 @@ const AdditionalInformationStep = ({
         onClose={() => setIsVideoLinkDeleteModalVisible(false)}
       />
       <OrganizerAddModal
-        prefillName={organizerCreateData?.label}
+        prefillName={organizerCreateData?.name}
         visible={isOrganizerAddModalVisible}
         onConfirm={handleAddOrganizer}
         onClose={() => setIsOrganizerAddModalVisible(false)}
