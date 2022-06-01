@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
-import { Stack } from '@/ui/Stack';
+import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
@@ -11,7 +11,7 @@ import { Rate } from './modals/PriceInfoModal';
 
 const getValue = getValueFromTheme('priceInformation');
 
-type Props = {
+type Props = StackProps & {
   priceInfo: Rate[];
   onClickAddPriceInfo: () => void;
   onClickAddFreePriceInfo: () => void;
@@ -21,13 +21,14 @@ const PriceInformation = ({
   priceInfo,
   onClickAddPriceInfo,
   onClickAddFreePriceInfo,
+  ...props
 }: Props) => {
   const { t, i18n } = useTranslation();
 
   const hasPriceInfo = priceInfo.length > 0;
 
   return (
-    <Stack>
+    <Stack {...getStackProps(props)}>
       <Inline spacing={3} marginBottom={3}>
         <Text fontWeight="bold">
           {t('create.additionalInformation.price_info.price')}

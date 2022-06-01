@@ -602,7 +602,26 @@ const useDeleteVideoFromEventMutation = (configuration = {}) =>
     ...configuration,
   });
 
+const addAudience = async ({ headers, eventId, audienceType }) =>
+  fetchFromApi({
+    path: `/events/${eventId}/audience`,
+    options: {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({
+        audienceType,
+      }),
+    },
+  });
+
+const useAddAudienceMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: addAudience,
+    ...configuration,
+  });
+
 export {
+  useAddAudienceMutation,
   useAddEventMainImageMutation,
   useAddEventMutation,
   useAddImageToEventMutation,

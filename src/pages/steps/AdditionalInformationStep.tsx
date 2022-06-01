@@ -46,6 +46,7 @@ import { VideoLinkAddModal } from '../VideoLinkAddModal';
 import { VideoLinkDeleteModal } from '../VideoLinkDeleteModal';
 import type { Video, VideoEnriched } from '../VideoUploadBox';
 import { VideoUploadBox } from '../VideoUploadBox';
+import { Audience } from './Audience';
 import { OrganizerPicker } from './OrganizerPicker';
 import { PriceInformation } from './PriceInformation';
 
@@ -56,7 +57,7 @@ const AdditionalInformationStepVariant = {
   EXTENDED: 'extended',
 } as const;
 
-type Field = 'description' | 'image' | 'video' | 'priceInfo' | 'organizer';
+type Field = 'description' | 'image' | 'video' | 'priceInfo' | 'audience' | 'organizer';
 
 type Props = StackProps & {
   eventId: string;
@@ -237,6 +238,15 @@ const AdditionalInformationStep = ({
     i18n.language,
     variant,
   ]);
+
+  const audienceType = useMemo(() => {
+    if (variant !== AdditionalInformationStepVariant.EXTENDED) {
+      return;
+    }
+    // @ts-expect-error
+    return getEventByIdQuery.data?.audience?.audienceType;
+    // @ts-expect-error
+  }, [getEventByIdQuery.data?.audience?.audienceType, variant]);
 
   const enrichVideos = async (video: Video[]) => {
     const getYoutubeThumbnailUrl = (videoUrl: string) => {
@@ -570,11 +580,18 @@ const AdditionalInformationStep = ({
             />
           )}
           {variant === AdditionalInformationStepVariant.EXTENDED && (
-            <PriceInformation
-              priceInfo={priceInfo}
-              onClickAddPriceInfo={() => setIsPriceInfoModalVisible(true)}
-              onClickAddFreePriceInfo={() => handleAddFreePriceInfo()}
-            />
+            <Stack spacing={4}>
+              <PriceInformation
+                priceInfo={priceInfo}
+                onClickAddPriceInfo={() => setIsPriceInfoModalVisible(true)}
+                onClickAddFreePriceInfo={() => handleAddFreePriceInfo()}
+              />
+              <Audience
+                eventId={eventId}
+                selectedAudience={audienceType}
+                onChangeSuccess={() => invalidateEventQuery('audience')}
+              />
+            </Stack>
           )}
         </Stack>
         <Stack spacing={4} flex={1}>
