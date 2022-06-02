@@ -425,6 +425,8 @@
         "phone": "Telefoonnummer",
         "email": "E-mailadres",
         "email_not_valid": "Gelieve een geldig e-mailadres in te vullen.",
+        "error_required": "Gelieve dit veld niet leeg te laten.",
+        "url_not_valid": "Een geldige url begint met http:// of https://",
         "use_for_reservation": "Gebruik voor reservatie"
       },
       "booking_info": {

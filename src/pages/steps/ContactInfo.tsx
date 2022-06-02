@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -61,6 +61,7 @@ type Props = {
 const getValue = getValueFromTheme('contactInformation');
 
 const EMAIL_REGEX: RegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+const URL_REGEX: RegExp = /https?:\/\//;
 
 const isValidEmail = (value: any): boolean => {
   const { contactInfoType, contactInfo } = value;
@@ -69,18 +70,31 @@ const isValidEmail = (value: any): boolean => {
   return EMAIL_REGEX.test(contactInfo);
 };
 
+const isValidUrl = (value: any): boolean => {
+  const { contactInfoType, contactInfo } = value;
+  if (contactInfoType !== ContactInfoType.URL) return true;
+
+  return URL_REGEX.test(contactInfo);
+};
+
+const hasContactInfo = (value: any): boolean => {
+  const { contactInfo } = value;
+  return !!contactInfo;
+};
+
 const schema = yup
-  .object()
-  .shape({
+  .object({
     contactPoints: yup.array().of(
       yup
         .object({
           contactInfoType: yup.string(),
           contactInfo: yup.string(),
-          isUsedForReservation: yup.boolean().default(false),
+          isUsedForReservation: yup.boolean(),
           urlLabel: yup.string().optional(),
         })
-        .test('is valid email', 'email_not_valid', isValidEmail),
+        .test('has contact info', 'error_required', hasContactInfo)
+        .test('is valid email', 'email_not_valid', isValidEmail)
+        .test('is valid url', 'url_not_valid', isValidUrl),
     ),
   })
   .required();
@@ -96,24 +110,44 @@ const ContactInfo = ({
 }: Props) => {
   const { t } = useTranslation();
   const formComponent = useRef<HTMLFormElement>();
+  const [hasInitialEventBookingInfo, setHasInitialEventBookingInfo] = useState(
+    false,
+  );
 
   const {
     register,
     watch,
     setValue,
-    formState: { errors },
+    formState: { errors, touchedFields },
     trigger,
     handleSubmit,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
+    defaultValues: { contactPoints: [] },
   });
 
   const watchedContactPoints = watch('contactPoints') ?? [];
+
+  const getUrlLabelTypeByEngString = (engUrlLabel: string): string => {
+    if (engUrlLabel.toLowerCase().includes(BookingInfoUrlLabels.AVAILABILITY)) {
+      return BookingInfoUrlLabels.AVAILABILITY;
+    }
+    if (engUrlLabel.toLowerCase().includes(BookingInfoUrlLabels.BUY)) {
+      return BookingInfoUrlLabels.BUY;
+    }
+    if (engUrlLabel.toLowerCase().includes(BookingInfoUrlLabels.SUBSCRIBE)) {
+      return BookingInfoUrlLabels.SUBSCRIBE;
+    }
+    if (engUrlLabel.toLowerCase().includes(BookingInfoUrlLabels.RESERVE)) {
+      return BookingInfoUrlLabels.RESERVE;
+    }
+  };
 
   useEffect(() => {
     const loadContactInfoToFormData = (): void => {
       let formData = [];
       const eventBookingInfoTypes = Object.keys(eventBookingInfo);
+      setHasInitialEventBookingInfo(eventBookingInfoTypes.length > 0);
       // transform to event contact info to formData
       Object.keys(eventContactInfo).forEach((key, index) => {
         eventContactInfo[key].forEach((item) => {
@@ -149,27 +183,14 @@ const ContactInfo = ({
     }
   }, [eventContactInfo, eventBookingInfo, setValue]);
 
-  const getUrlLabelTypeByEngString = (engUrlLabel: string): string => {
-    if (engUrlLabel.toLowerCase().includes(BookingInfoUrlLabels.AVAILABILITY)) {
-      return BookingInfoUrlLabels.AVAILABILITY;
-    }
-    if (engUrlLabel.toLowerCase().includes(BookingInfoUrlLabels.BUY)) {
-      return BookingInfoUrlLabels.BUY;
-    }
-    if (engUrlLabel.toLowerCase().includes(BookingInfoUrlLabels.SUBSCRIBE)) {
-      return BookingInfoUrlLabels.SUBSCRIBE;
-    }
-    if (engUrlLabel.toLowerCase().includes(BookingInfoUrlLabels.RESERVE)) {
-      return BookingInfoUrlLabels.RESERVE;
-    }
-  };
-
   const handleAddContactPoint = () => {
     setValue('contactPoints', [
       ...watchedContactPoints,
       {
         contactInfoType: ContactInfoType.PHONE,
         contactInfo: '',
+        isUsedForReservation: false,
+        urlLabel: '',
       },
     ]);
   };
@@ -220,7 +241,11 @@ const ContactInfo = ({
       (contactPoint) => contactPoint.isUsedForReservation,
     );
 
-    if (contactPointsUsedForReservation.length === 0) return;
+    if (
+      contactPointsUsedForReservation.length === 0 &&
+      !hasInitialEventBookingInfo
+    )
+      return;
 
     const bookingInfo = {};
 
@@ -250,11 +275,11 @@ const ContactInfo = ({
     });
   };
 
-  const handleContactInfoChange = (
+  const handleContactInfoChange = async (
     event: any,
     id: number,
     infoType: 'contactInfoType' | 'urlLabel',
-  ): void => {
+  ) => {
     const contactPoints = [
       ...watchedContactPoints.map((contactPoint, index) => {
         if (id === index) {
@@ -263,6 +288,11 @@ const ContactInfo = ({
         return contactPoint;
       }),
     ];
+
+    const isFormValid = await trigger();
+
+    if (!isFormValid) return;
+
     handleMutations(contactPoints);
   };
 
@@ -339,109 +369,120 @@ const ContactInfo = ({
             border: 1px solid ${getValue('borderColor')};
           `}
         >
-          {watchedContactPoints.map((contactPoint, index) => (
-            <Inline
-              padding={3}
-              key={index}
-              css={
-                index !== 0 &&
-                `
+          {watchedContactPoints.map((contactPoint, index) => {
+            const registerContactInfoTypeProps = register(
+              `contactPoints.${index}.contactInfoType`,
+            );
+            return (
+              <Inline
+                padding={3}
+                key={index}
+                css={
+                  index !== 0 &&
+                  `
               border-top: 1px solid ${getValue('borderColor')};
             `
-              }
-              spacing={5}
-            >
-              <FormElement
-                id="contactInfoType"
-                Component={
-                  <Select
-                    {...register(`contactPoints.${index}.contactInfoType`)}
-                    onChange={(event) =>
-                      handleContactInfoChange(event, index, 'contactInfoType')
-                    }
-                  >
-                    {Object.keys(ContactInfoType).map((key, index) => (
-                      <option key={index} value={ContactInfoType[key]}>
-                        {t(
-                          `create.additionalInformation.contact_info.${ContactInfoType[key]}`,
-                        )}
-                      </option>
-                    ))}
-                  </Select>
                 }
-              />
-              <Stack width="40%">
+                spacing={5}
+              >
                 <FormElement
-                  id="contactInfo"
+                  id="contactInfoType"
                   Component={
-                    <Input
-                      {...register(`contactPoints.${index}.contactInfo`)}
-                      onBlur={handleSubmit(onSubmitValid, onError)}
-                    />
-                  }
-                />
-                <FormElement
-                  id={`radioButton-${index}`}
-                  Component={
-                    <CheckboxWithLabel
-                      id="contact-info-reservation"
-                      name="contact-info-reservation"
-                      className="contact-info-reservation"
-                      disabled={false}
-                      checked={contactPoint.isUsedForReservation}
-                      onToggle={(event) =>
-                        handleUseForReservation(event, index)
-                      }
+                    <Select
+                      {...registerContactInfoTypeProps}
+                      onChange={(event) => {
+                        handleContactInfoChange(
+                          event,
+                          index,
+                          'contactInfoType',
+                        );
+                        registerContactInfoTypeProps.onChange(event);
+                      }}
                     >
-                      {t(
-                        'create.additionalInformation.contact_info.use_for_reservation',
-                      )}
-                    </CheckboxWithLabel>
+                      {Object.keys(ContactInfoType).map((key, index) => (
+                        <option key={index} value={ContactInfoType[key]}>
+                          {t(
+                            `create.additionalInformation.contact_info.${ContactInfoType[key]}`,
+                          )}
+                        </option>
+                      ))}
+                    </Select>
                   }
                 />
-                {errors?.contactPoints?.[index] && (
-                  <Paragraph color={getValue('errorText')}>
-                    {t(
-                      `create.additionalInformation.contact_info.${errors.contactPoints[index].message}`,
+                <Stack width="40%">
+                  <FormElement
+                    id="contactInfo"
+                    Component={
+                      <Input
+                        {...register(`contactPoints.${index}.contactInfo`)}
+                        // onBlur={handleSubmit(onSubmitValid, onError)}
+                      />
+                    }
+                  />
+                  <FormElement
+                    id={`radioButton-${index}`}
+                    Component={
+                      <CheckboxWithLabel
+                        id="contact-info-reservation"
+                        name="contact-info-reservation"
+                        className="contact-info-reservation"
+                        disabled={false}
+                        checked={contactPoint.isUsedForReservation}
+                        onToggle={(event) =>
+                          handleUseForReservation(event, index)
+                        }
+                      >
+                        {t(
+                          'create.additionalInformation.contact_info.use_for_reservation',
+                        )}
+                      </CheckboxWithLabel>
+                    }
+                  />
+                  {errors?.contactPoints?.[index] &&
+                    touchedFields?.contactPoints?.[index] && (
+                      <Paragraph color={getValue('errorText')}>
+                        {t(
+                          `create.additionalInformation.contact_info.${errors.contactPoints[index].message}`,
+                        )}
+                      </Paragraph>
                     )}
-                  </Paragraph>
-                )}
-                {contactPoint.isUsedForReservation &&
-                  contactPoint.contactInfoType === ContactInfoType.URL && (
-                    <FormElement
-                      id="contact-info-url-label"
-                      Component={
-                        <Select
-                          {...register(`contactPoints.${index}.urlLabel`)}
-                          onChange={(event) =>
-                            handleContactInfoChange(event, index, 'urlLabel')
-                          }
-                        >
-                          {Object.keys(BookingInfoUrlLabels).map(
-                            (key, index) => (
-                              <option
-                                key={index}
-                                value={BookingInfoUrlLabels[key]}
-                              >
-                                {t(
-                                  `create.additionalInformation.booking_info.${BookingInfoUrlLabels[key]}`,
-                                )}
-                              </option>
-                            ),
-                          )}
-                        </Select>
-                      }
-                    />
-                  )}
-              </Stack>
-              <Button
-                onClick={() => handleDeleteContactPoint(index)}
-                variant={ButtonVariants.DANGER}
-                iconName={Icons.TRASH}
-                maxHeight={40}
-              ></Button>
-            </Inline>
-          ))}
+                  {contactPoint.isUsedForReservation &&
+                    contactPoint.contactInfoType === ContactInfoType.URL && (
+                      <FormElement
+                        id="contact-info-url-label"
+                        Component={
+                          <Select
+                            {...register(`contactPoints.${index}.urlLabel`)}
+                            // onChange={(event) =>
+                            //   handleContactInfoChange(event, index, 'urlLabel')
+                            // }
+                          >
+                            {Object.keys(BookingInfoUrlLabels).map(
+                              (key, index) => (
+                                <option
+                                  key={index}
+                                  value={BookingInfoUrlLabels[key]}
+                                >
+                                  {t(
+                                    `create.additionalInformation.booking_info.${BookingInfoUrlLabels[key]}`,
+                                  )}
+                                </option>
+                              ),
+                            )}
+                          </Select>
+                        }
+                      />
+                    )}
+                </Stack>
+                <Button
+                  onClick={() => handleDeleteContactPoint(index)}
+                  variant={ButtonVariants.DANGER}
+                  iconName={Icons.TRASH}
+                  maxHeight={40}
+                ></Button>
+              </Inline>
+            );
+          })}
           <Inline
             padding={3}
             css={`
