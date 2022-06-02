@@ -11,7 +11,7 @@ import { Input } from '@/ui/Input';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { getValueFromTheme } from '@/ui/theme';
 
-const getValue = getValueFromTheme('organizeAddModal');
+const getValue = getValueFromTheme('organizerAddModal');
 
 const schema = yup.object({
   phone: yup.string().required(),
