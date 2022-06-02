@@ -7,7 +7,9 @@ import * as yup from 'yup';
 import { useAutoFocus } from '@/hooks/useAutoFocus';
 import { OrganizerData } from '@/pages/OrganizerAddModal';
 import { Alert, AlertVariants } from '@/ui/Alert';
+import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
+import { Icon, Icons } from '@/ui/Icon';
 import { Input } from '@/ui/Input';
 import { List } from '@/ui/List';
 import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
@@ -239,6 +241,12 @@ const OrganizerAddModal = ({
             {contactPoints.map((cp) => (
               <List.Item key={cp}>
                 <Text>{cp}</Text>
+                <Button variant={ButtonVariants.UNSTYLED} onClick={() => {}}>
+                  <Icon
+                    name={Icons.TIMES}
+                    opacity={{ default: 0.5, hover: 1 }}
+                  />
+                </Button>
               </List.Item>
             ))}
           </List>
