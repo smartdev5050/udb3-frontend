@@ -342,7 +342,6 @@ const ContactInfo = ({
     const { contactPoints } = data;
     handleMutations(contactPoints);
   };
-  const onError = (errors, e) => console.log(errors, e);
 
   return (
     <Stack>
@@ -364,7 +363,7 @@ const ContactInfo = ({
           as="form"
           ref={formComponent}
           spacing={3}
-          onSubmit={handleSubmit(onSubmitValid, onError)}
+          onSubmit={handleSubmit(onSubmitValid)}
           css={`
             border: 1px solid ${getValue('borderColor')};
           `}
@@ -415,7 +414,7 @@ const ContactInfo = ({
                     Component={
                       <Input
                         {...register(`contactPoints.${index}.contactInfo`)}
-                        // onBlur={handleSubmit(onSubmitValid, onError)}
+                        // onBlur={handleSubmit(onSubmitValid)}
                       />
                     }
                   />
