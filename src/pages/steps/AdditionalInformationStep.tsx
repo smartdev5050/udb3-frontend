@@ -57,7 +57,13 @@ const AdditionalInformationStepVariant = {
   EXTENDED: 'extended',
 } as const;
 
-type Field = 'description' | 'image' | 'video' | 'priceInfo' | 'audience' | 'organizer';
+type Field =
+  | 'description'
+  | 'image'
+  | 'video'
+  | 'priceInfo'
+  | 'audience'
+  | 'organizer';
 
 type Props = StackProps & {
   eventId: string;
@@ -575,7 +581,6 @@ const AdditionalInformationStep = ({
               onAddNewOrganizer={(newOrganizer: NewEntry) => {
                 setOrganizerCreateData(newOrganizer);
                 setIsOrganizerAddModalVisible(true);
-                // TODO: Add Modal for adding new organizer
               }}
             />
           )}
