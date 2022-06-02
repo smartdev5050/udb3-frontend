@@ -1,15 +1,16 @@
-import { useQuery } from 'react-query';
+import { QueryFunctionContext, useQuery } from 'react-query';
 
 import municipalities from '../../../public/assets/sapi3Cities.json';
 
-const getMunicipalitiesByQuery = (ctx: any) => {
+const getMunicipalitiesByQuery = (
+  ctx: QueryFunctionContext<[string, string]>,
+) => {
   const [_, query] = ctx.queryKey;
 
-  const newMunicipalities = municipalities.filter((municipality) =>
-    municipality.name.toLowerCase().includes(query.toLowerCase()),
-  );
+  const matchesQuery = (municipality: { name: string; key: string }): boolean =>
+    municipality.name.toLowerCase().includes(query.toLowerCase());
 
-  return newMunicipalities;
+  return municipalities.filter(matchesQuery);
 };
 
 const useGetMunicipalitiesByQuery = (
