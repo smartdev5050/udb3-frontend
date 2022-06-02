@@ -1,24 +1,20 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect, useMemo, useState } from 'react';
-import { Controller, Path, useForm, useWatch } from 'react-hook-form';
+import { useEffect } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { useAutoFocus } from '@/hooks/useAutoFocus';
 import { OrganizerData } from '@/pages/OrganizerAddModal';
 import { Alert, AlertVariants } from '@/ui/Alert';
-import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
-import { Icon, Icons } from '@/ui/Icon';
 import { Input } from '@/ui/Input';
-import { List } from '@/ui/List';
 import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
 import { Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
-import { ContactPoint } from './ContactPoint';
 import { MunicipalityPicker } from './MunicipalityPicker';
 
 export const getValue = getValueFromTheme('organizerAddModal');
@@ -33,13 +29,6 @@ const schema = yup
         addressLocality: yup.string().required(),
       })
       .required(),
-    contactPoint: yup
-      .object({
-        phone: yup.array().of(yup.string()),
-        email: yup.array().of(yup.string().email()),
-        url: yup.array().of(yup.string().url()),
-      })
-      .required(),
   })
   .required();
 
@@ -51,23 +40,6 @@ const defaultValues: FormData = {
   address: {
     addressLocality: '',
     streetAndNumber: '',
-  },
-  contactPoint: {
-    email: [],
-    phone: [],
-    url: [],
-  },
-};
-
-const contactPointConfig = {
-  email: {
-    addLabel: 'Email toevoegen',
-  },
-  phone: {
-    addLabel: 'Telefoonnummer toevoegen',
-  },
-  url: {
-    addLabel: 'Website toevoegen',
   },
 };
 
@@ -104,29 +76,6 @@ const OrganizerAddModal = ({
   });
 
   const websiteRegisterProps = register('website');
-
-  const watchedWebsite = useWatch({ control, name: 'website' });
-  const watchedContactPoint = useWatch({ control, name: 'contactPoint' });
-
-  const contactPoints = useMemo(() => {
-    const uniqueContactPoints = Object.values(watchedContactPoint).reduce(
-      (acc, current) => {
-        return [...acc, ...current];
-      },
-      [],
-    );
-
-    if (formState.dirtyFields.website && !formState.errors.website) {
-      uniqueContactPoints.push(watchedWebsite);
-    }
-
-    return [...new Set(uniqueContactPoints)];
-  }, [
-    formState.errors.website,
-    formState.dirtyFields.website,
-    watchedContactPoint,
-    watchedWebsite,
-  ]);
 
   useEffect(() => {
     setValue('name', prefillName);
@@ -232,39 +181,6 @@ const OrganizerAddModal = ({
               }}
             />
           </Stack>
-        </Stack>
-        <Stack spacing={2}>
-          <Title size={3}>
-            {t('organizer.add_modal.labels.contactPoint.title')}
-          </Title>
-          <List>
-            {contactPoints.map((cp) => (
-              <List.Item key={cp}>
-                <Text>{cp}</Text>
-                <Button variant={ButtonVariants.UNSTYLED} onClick={() => {}}>
-                  <Icon
-                    name={Icons.TIMES}
-                    opacity={{ default: 0.5, hover: 1 }}
-                  />
-                </Button>
-              </List.Item>
-            ))}
-          </List>
-          {Object.keys(contactPointConfig).map(
-            (name: keyof typeof contactPointConfig) => (
-              <ContactPoint
-                key={name}
-                name={name}
-                onAdd={(value) => {
-                  setValue(`contactPoint.${name}`, [
-                    ...watchedContactPoint[name],
-                    value,
-                  ]);
-                }}
-                {...contactPointConfig[name]}
-              />
-            ),
-          )}
         </Stack>
       </Stack>
     </Modal>

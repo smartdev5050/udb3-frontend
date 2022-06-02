@@ -575,17 +575,15 @@ const AdditionalInformationStep = ({
             info={<DescriptionInfo />}
           />
           {variant === AdditionalInformationStepVariant.EXTENDED && (
-            <OrganizerPicker
-              value={organizer}
-              onChange={setOrganizer}
-              onAddNewOrganizer={(newOrganizer: NewEntry) => {
-                setOrganizerCreateData(newOrganizer);
-                setIsOrganizerAddModalVisible(true);
-              }}
-            />
-          )}
-          {variant === AdditionalInformationStepVariant.EXTENDED && (
             <Stack spacing={4}>
+              <OrganizerPicker
+                value={organizer}
+                onChange={setOrganizer}
+                onAddNewOrganizer={(newOrganizer: NewEntry) => {
+                  setOrganizerCreateData(newOrganizer);
+                  setIsOrganizerAddModalVisible(true);
+                }}
+              />
               <PriceInformation
                 priceInfo={priceInfo}
                 onClickAddPriceInfo={() => setIsPriceInfoModalVisible(true)}

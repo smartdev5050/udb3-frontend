@@ -6,7 +6,6 @@ import { useGetOrganizersQuery } from '@/hooks/api/organizers';
 import { Organizer } from '@/types/Organizer';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
-import { Inline } from '@/ui/Inline';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { isNewEntry, NewEntry, Typeahead } from '@/ui/Typeahead';
 
@@ -22,7 +21,7 @@ const OrganizerPicker = ({
   onAddNewOrganizer,
   ...props
 }: Props) => {
-  const { i18n, t } = useTranslation();
+  const { t } = useTranslation();
 
   const [addButtonHasBeenPressed, setAddButtonHasBeenPressed] = useState(false);
   const [organizerSearchInput, setOrganizerSearchInput] = useState('');
