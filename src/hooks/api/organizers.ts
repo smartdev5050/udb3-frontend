@@ -1,4 +1,4 @@
-import type { UseQueryOptions } from 'react-query';
+import type { UseMutationOptions, UseQueryOptions } from 'react-query';
 
 import type {
   AuthenticatedQueryOptions,
@@ -172,7 +172,7 @@ const createOrganizer = ({ headers, url, name, mainLanguage }) =>
     },
   });
 
-const useCreateOrganizerMutation = (configuration) =>
+const useCreateOrganizerMutation = (configuration: UseMutationOptions = {}) =>
   useAuthenticatedMutation({
     mutationFn: createOrganizer,
     ...configuration,
