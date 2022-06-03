@@ -58,7 +58,7 @@ const OrganizerAddModal = ({
 }: Props) => {
   const { t } = useTranslation();
 
-  const [reference] = useAutoFocus({
+  const [websiteInputComponent] = useAutoFocus({
     retriggerOn: visible,
   });
 
@@ -111,7 +111,7 @@ const OrganizerAddModal = ({
               {...websiteRegisterProps}
               ref={(element: HTMLInputElement) => {
                 websiteRegisterProps.ref(element);
-                reference.current = element;
+                websiteInputComponent.current = element;
               }}
             />
           }

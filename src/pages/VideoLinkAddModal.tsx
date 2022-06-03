@@ -36,7 +36,7 @@ const VideoLinkAddModal = ({ visible, onConfirm, onClose }: Props) => {
     resolver: yupResolver(schema),
   });
 
-  const [reference] = useAutoFocus({ retriggerOn: visible });
+  const [linkInputComponent] = useAutoFocus({ retriggerOn: visible });
 
   const handleConfirm = async () => {
     await handleSubmit((data) => {
@@ -64,7 +64,7 @@ const VideoLinkAddModal = ({ visible, onConfirm, onClose }: Props) => {
               {...registerLinkProps}
               ref={(element: HTMLInputElement) => {
                 registerLinkProps.ref(element);
-                reference.current = element;
+                linkInputComponent.current = element;
               }}
             />
           }

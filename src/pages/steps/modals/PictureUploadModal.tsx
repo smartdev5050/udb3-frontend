@@ -210,7 +210,7 @@ const PictureUploadModal = ({
     resolver: yupResolver(schema),
   });
 
-  const [reference] = useAutoFocus({ retriggerOn: visible });
+  const [descriptionInputComponent] = useAutoFocus({ retriggerOn: visible });
 
   const watchedFile = watch('file');
   const image = watchedFile?.[0];
@@ -300,7 +300,7 @@ const PictureUploadModal = ({
               {...registerDescriptionProps}
               ref={(element: HTMLInputElement) => {
                 registerDescriptionProps.ref(element);
-                reference.current = element;
+                descriptionInputComponent.current = element;
               }}
             />
           }
