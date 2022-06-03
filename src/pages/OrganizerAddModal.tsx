@@ -102,7 +102,7 @@ const OrganizerAddModal = ({
       onConfirm={handleConfirm}
       onClose={handleClose}
       size={ModalSizes.LG}
-      // scrollable={false}
+      scrollable={false}
     >
       <Stack padding={4} spacing={4}>
         <FormElement
