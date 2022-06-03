@@ -45,11 +45,9 @@ const MunicipalityPicker = forwardRef<HTMLInputElement, Props>(
               labelKey={(municipality) => municipality.name}
               selected={
                 value
-                  ? [
-                      municipalities.find(
-                        (municipality) => municipality.name === value,
-                      ),
-                    ]
+                  ? municipalities.filter(
+                      (municipality) => municipality.name === value,
+                    )
                   : []
               }
               onInputChange={debounce(setCitySearchInput, 275)}
