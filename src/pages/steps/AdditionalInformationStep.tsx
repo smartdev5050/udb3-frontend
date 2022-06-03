@@ -39,7 +39,7 @@ import { TextArea } from '@/ui/TextArea';
 import { NewEntry } from '@/ui/Typeahead';
 import { parseOfferId } from '@/utils/parseOfferId';
 
-import { OrganizerAddModal } from '../OrganizerAddModal';
+import { OrganizerAddModal, OrganizerData } from '../OrganizerAddModal';
 import type { ImageType } from '../PictureUploadBox';
 import { PictureUploadBox } from '../PictureUploadBox';
 import { VideoLinkAddModal } from '../VideoLinkAddModal';
@@ -368,8 +368,8 @@ const AdditionalInformationStep = ({
     setIsVideoLinkAddModalVisible(false);
   };
 
-  const handleAddOrganizer = () => {
-    createOrganizerMutation.mutate(organizerCreateData);
+  const handleAddOrganizer = (data: OrganizerData) => {
+    createOrganizerMutation.mutate(data);
     setIsOrganizerAddModalVisible(false);
   };
 
