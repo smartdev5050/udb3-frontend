@@ -106,6 +106,8 @@ type TypeaheadProps = {
   delay: number;
   highlightOnlyResult: boolean;
   isInvalid: boolean;
+  promptText: string;
+  searchText: string;
   allowNew:
     | boolean
     | ((

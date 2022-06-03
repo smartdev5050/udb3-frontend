@@ -1,6 +1,7 @@
 import type { ForwardedRef, ReactElement } from 'react';
 import { forwardRef } from 'react';
 import { AsyncTypeahead as BootstrapTypeahead } from 'react-bootstrap-typeahead';
+import { useTranslation } from 'react-i18next';
 
 import type { BoxProps } from './Box';
 import { Box, getBoxProps } from './Box';
@@ -71,6 +72,8 @@ const Typeahead: TypeaheadFunc = forwardRef(
     }: Props<T>,
     ref: ForwardedRef<HTMLInputElement>,
   ) => {
+    const { t } = useTranslation();
+
     return (
       <Box
         forwardedAs={BootstrapTypeahead}
@@ -112,6 +115,8 @@ const Typeahead: TypeaheadFunc = forwardRef(
         onChange={onChange}
         placeholder={placeholder}
         emptyLabel={emptyLabel}
+        promptText={t('typeahead.prompt_text')}
+        searchText={t('typeahead.search_text')}
         minLength={minLength}
         delay={275}
         highlightOnlyResult={!allowNew}

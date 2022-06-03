@@ -54,6 +54,10 @@
     "next": "Weiter",
     "previous": "Zurück"
   },
+  "typeahead": {
+    "prompt_text": "Entrez pour rechercher...",
+    "search_text": "En train de chercher..."
+  },
   "time_table": {
     "start": "Start",
     "end": "Ende"

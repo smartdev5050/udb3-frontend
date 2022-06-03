@@ -57,6 +57,10 @@
     "next": "Volgende",
     "previous": "Vorige"
   },
+  "typeahead": {
+    "prompt_text": "Tipp deine Suche einfach...",
+    "search_text": "Wird gesucht..."
+  },
   "time_table": {
     "start": "Start",
     "end": "Einde"
