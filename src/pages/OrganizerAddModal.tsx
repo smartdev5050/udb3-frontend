@@ -69,7 +69,6 @@ const OrganizerAddModal = ({
     control,
     reset,
     setValue,
-    trigger,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     defaultValues,
@@ -130,14 +129,14 @@ const OrganizerAddModal = ({
         <FormElement
           Component={<Input {...register('name')} />}
           id="organizer-name"
-          label={t('organizer.add_modal.labels.name')}
+          label={t('organizer.add_modal.labels.name.title')}
           error={
             formState.errors.name &&
             t('organizer.add_modal.validation_messages.name')
           }
           info={
             <Text variant={TextVariants.MUTED}>
-              De officiële publieke naam van de organisatie
+              {t('organizer.add_modal.labels.name.info')}
             </Text>
           }
         />

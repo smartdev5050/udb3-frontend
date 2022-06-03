@@ -153,7 +153,10 @@
       },
       "labels": {
         "website": "Website",
-        "name": "Naam",
+        "name": {
+          "title": "Naam",
+          "info": "De officiële publieke naam van de organisatie"
+        },
         "address": {
           "title": "Adres",
           "streetAndNumber": "Straat en nummer"
@@ -164,7 +167,7 @@
         "name": "Je naam voldoet niet aan de vereisten.",
         "address": {
           "streetAndNumber": "Je straat en nummer voldoen niet aan de vereisten.",
-          "addressLocality": "Je gemeente voldoen niet aan de vereisten."
+          "addressLocality": "Je gemeente voldoet niet aan de vereisten."
         }
       },
       "website_requirements": "Om organisaties in de UiTdatabank uniek te houden, vragen we elke organisatie een unieke en geldige hyperlink"
