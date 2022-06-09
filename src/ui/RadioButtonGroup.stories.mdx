@@ -5,8 +5,8 @@ import { useState } from 'react';
 <Meta title="Components/RadioButtonGroup" component={RadioButtonGroup} />
 
 export const commonArgs = {
-  name: 'municipality',
-  groupLabel: 'Select a municipality:',
+  name: 'city',
+  groupLabel: 'Select a city:',
   items: [
     { label: 'Rome', value: 'rome', info: 'Info about Rome' },
     { label: 'Paris', value: 'paris', info: 'Info about Paris' },
@@ -28,7 +28,7 @@ export const commonArgs = {
             }}
           />
           <br />
-          <p>Selected municipality: {selectedCity}</p>
+          <p>Selected city: {selectedCity}</p>
         </>
       );
     }}

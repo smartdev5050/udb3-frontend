@@ -15,7 +15,7 @@ import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
-import { MunicipalityPicker } from './MunicipalityPicker';
+import { City, CityPicker } from './CityPicker';
 
 export const getValue = getValueFromTheme('organizerAddModal');
 
@@ -166,7 +166,7 @@ const OrganizerAddModal = ({
               name="address.addressLocality"
               render={({ field }) => {
                 return (
-                  <MunicipalityPicker
+                  <CityPicker
                     {...field}
                     value={field.value as string}
                     error={
