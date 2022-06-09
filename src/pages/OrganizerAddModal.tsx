@@ -54,7 +54,7 @@ const defaultValues: FormData = {
 type Props = {
   prefillName: string;
   visible: boolean;
-  onConfirm: (data: FormData) => void;
+  onConfirm: (data: FormData) => Promise<void>;
   onClose: () => void;
 };
 
@@ -89,8 +89,8 @@ const OrganizerAddModal = ({
   }, [prefillName, setValue]);
 
   const handleConfirm = async () => {
-    await handleSubmit((data) => {
-      onConfirm(data);
+    await handleSubmit(async (data) => {
+      await onConfirm(data);
       reset(defaultValues);
     })();
   };

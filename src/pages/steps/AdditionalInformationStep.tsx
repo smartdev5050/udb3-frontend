@@ -443,6 +443,8 @@ const AdditionalInformationStep = ({
     });
   };
 
+  const handleChangeOrganizer = () => {};
+
   const handleAddFreePriceInfo = async () => {
     const freePriceInfoRates = defaultPriceInfoValues.rates;
     // @ts-expect-error
@@ -583,7 +585,7 @@ const AdditionalInformationStep = ({
               <TextArea
                 rows={5}
                 value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                onChange={handleChangeDescription}
                 onBlur={handleBlurDescription}
               />
             }
@@ -593,9 +595,9 @@ const AdditionalInformationStep = ({
             <Stack spacing={4}>
               <OrganizerPicker
                 value={organizer}
-                onChange={setOrganizer}
+                onChange={handleChangeOrganizer}
                 onAddNewOrganizer={(newOrganizer) => {
-                  setNewOrganizerName(newOrganizer[`name.${i18n.language}`]);
+                  setNewOrganizerName(newOrganizer.label);
                   setIsOrganizerAddModalVisible(true);
                 }}
               />

@@ -4,10 +4,13 @@ import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
 import { useGetOrganizersQuery } from '@/hooks/api/organizers';
+import { SupportedLanguages } from '@/i18n/index';
 import { Organizer } from '@/types/Organizer';
+import { Values } from '@/types/Values';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
+import { Text } from '@/ui/Text';
 import { isNewEntry, NewEntry, Typeahead } from '@/ui/Typeahead';
 import { valueToArray } from '@/utils/valueToArray';
 
@@ -15,6 +18,12 @@ type Props = Omit<StackProps, 'onChange'> & {
   value: Organizer;
   onChange: (organizer: Organizer) => void;
   onAddNewOrganizer: (organizer: NewEntry) => void;
+};
+
+const getLabelKey = (language: Values<typeof SupportedLanguages>) => {
+  return (org: Organizer) =>
+    (typeof org.name === 'string' ? org.name : org.name[language]) ??
+    org.name[org.mainLanguage];
 };
 
 const OrganizerPicker = ({
@@ -36,7 +45,7 @@ const OrganizerPicker = ({
 
   const organizers = useMemo(() => {
     // @ts-expect-error
-    return getOrganizersQuery.data?.member;
+    return getOrganizersQuery.data?.member ?? [];
     // @ts-expect-error
   }, [getOrganizersQuery.data?.member]);
 
@@ -56,7 +65,9 @@ const OrganizerPicker = ({
           ) : (
             <Typeahead<Organizer>
               options={organizers}
-              labelKey={`name.${i18n.language}`}
+              labelKey={getLabelKey(
+                i18n.language as Values<typeof SupportedLanguages>,
+              )}
               selected={valueToArray(value)}
               onInputChange={debounce(setOrganizerSearchInput, 275)}
               onChange={(organizers) => {
@@ -70,7 +81,8 @@ const OrganizerPicker = ({
 
                 onChange(organizer);
               }}
-              // minLength={3}
+              maxWidth="30rem"
+              minLength={3}
               newSelectionPrefix={t(
                 'create.additionalInformation.organizer.add_new_label',
               )}

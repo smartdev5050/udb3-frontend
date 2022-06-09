@@ -171,7 +171,7 @@
           "addressLocality": "Je gemeente voldoet niet aan de vereisten."
         }
       },
-      "website_requirements": "Om organisaties in de UiTdatabank uniek te houden, vragen we elke organisatie een unieke en geldige hyperlink"
+      "url_requirements": "Om organisaties in de UiTdatabank uniek te houden, vragen we elke organisatie een unieke en geldige hyperlink"
     }
   },
   "productions": {
