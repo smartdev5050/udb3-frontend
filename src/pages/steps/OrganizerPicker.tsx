@@ -1,6 +1,7 @@
 import debounce from 'lodash/debounce';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useQueryClient } from 'react-query';
 
 import { useGetOrganizersQuery } from '@/hooks/api/organizers';
 import { Organizer } from '@/types/Organizer';
@@ -21,7 +22,8 @@ const OrganizerPicker = ({
   onAddNewOrganizer,
   ...props
 }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const queryClient = useQueryClient();
 
   const [addButtonHasBeenPressed, setAddButtonHasBeenPressed] = useState(false);
   const [organizerSearchInput, setOrganizerSearchInput] = useState('');
