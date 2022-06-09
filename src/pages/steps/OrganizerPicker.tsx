@@ -53,14 +53,16 @@ const OrganizerPicker = ({
           ) : (
             <Typeahead<Organizer>
               options={organizers}
-              labelKey="name"
+              labelKey={`name.${i18n.language}`}
               selected={value ? [value] : []}
               onInputChange={debounce(setOrganizerSearchInput, 275)}
               onChange={(organizers) => {
                 const organizer = organizers[0];
 
                 if (isNewEntry(organizer)) {
-                  return onAddNewOrganizer(organizer);
+                  onAddNewOrganizer(organizer);
+                  queryClient.invalidateQueries('organizers');
+                  return;
                 }
 
                 onChange(organizer);
