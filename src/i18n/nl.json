@@ -58,8 +58,8 @@
     "previous": "Vorige"
   },
   "typeahead": {
-    "prompt_text": "Tipp deine Suche einfach...",
-    "search_text": "Wird gesucht..."
+    "prompt_text": "Typ om te zoeken...",
+    "search_text": "Aan het zoeken..."
   },
   "time_table": {
     "start": "Start",
@@ -140,9 +140,9 @@
       }
     }
   },
-  "municipality_picker": {
+  "city_picker": {
     "label": "Gemeente",
-    "no_municipalities": "Geen gemeentes gevonden"
+    "no_cities": "Geen gemeentes gevonden"
   },
   "organizer": {
     "add_modal": {

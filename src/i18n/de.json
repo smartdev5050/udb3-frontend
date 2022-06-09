@@ -55,8 +55,8 @@
     "previous": "Zurück"
   },
   "typeahead": {
-    "prompt_text": "Entrez pour rechercher...",
-    "search_text": "En train de chercher..."
+    "prompt_text": "Tipp deine Suche einfach...",
+    "search_text": "Wird gesucht..."
   },
   "time_table": {
     "start": "Start",

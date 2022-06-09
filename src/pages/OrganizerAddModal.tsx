@@ -21,12 +21,19 @@ export const getValue = getValueFromTheme('organizerAddModal');
 
 const schema = yup
   .object({
-    website: yup.string().url().required(),
+    url: yup.string().url().required(),
     name: yup.string().required(),
     address: yup
       .object({
         streetAndNumber: yup.string().required(),
-        addressLocality: yup.string().required(),
+        country: yup.string().oneOf(['BE', 'NL']).required(),
+        city: yup
+          .object({
+            label: yup.string().required(),
+            name: yup.string().required(),
+            zip: yup.string().required(),
+          })
+          .required(),
       })
       .required(),
   })
@@ -35,11 +42,12 @@ const schema = yup
 type FormData = yup.InferType<typeof schema>;
 
 const defaultValues: FormData = {
-  website: 'https://',
+  url: 'https://',
   name: '',
   address: {
-    addressLocality: '',
+    country: 'BE',
     streetAndNumber: '',
+    city: undefined,
   },
 };
 
@@ -58,7 +66,7 @@ const OrganizerAddModal = ({
 }: Props) => {
   const { t } = useTranslation();
 
-  const [websiteInputComponent] = useAutoFocus({
+  const [urlInputComponent] = useAutoFocus({
     retriggerOn: visible,
   });
 
@@ -74,7 +82,7 @@ const OrganizerAddModal = ({
     defaultValues,
   });
 
-  const websiteRegisterProps = register('website');
+  const urlRegisterProps = register('url');
 
   useEffect(() => {
     setValue('name', prefillName);
@@ -83,6 +91,7 @@ const OrganizerAddModal = ({
   const handleConfirm = async () => {
     await handleSubmit((data) => {
       onConfirm(data);
+      reset(defaultValues);
     })();
   };
 
@@ -107,23 +116,23 @@ const OrganizerAddModal = ({
         <FormElement
           Component={
             <Input
-              {...websiteRegisterProps}
+              {...urlRegisterProps}
               ref={(element: HTMLInputElement) => {
-                websiteRegisterProps.ref(element);
-                websiteInputComponent.current = element;
+                urlRegisterProps.ref(element);
+                urlInputComponent.current = element;
               }}
             />
           }
-          id="organizer-website"
-          label={t('organizer.add_modal.labels.website')}
+          id="organizer-url"
+          label={t('organizer.add_modal.labels.url')}
           info={
             <Alert variant={AlertVariants.INFO}>
-              {t('organizer.add_modal.website_requirements')}
+              {t('organizer.add_modal.url_requirements')}
             </Alert>
           }
           error={
-            formState.errors.website &&
-            t('organizer.add_modal.validation_messages.website')
+            formState.errors.url &&
+            t('organizer.add_modal.validation_messages.url')
           }
         />
         <FormElement
@@ -163,14 +172,14 @@ const OrganizerAddModal = ({
             />
             <Controller<OrganizerData>
               control={control}
-              name="address.addressLocality"
+              name="address.city"
               render={({ field }) => {
                 return (
                   <CityPicker
                     {...field}
-                    value={field.value as string}
+                    value={field.value as City}
                     error={
-                      formState.errors.address?.addressLocality &&
+                      formState.errors.address?.city &&
                       t(
                         'organizer.add_modal.validation_messages.address.addressLocality',
                       )

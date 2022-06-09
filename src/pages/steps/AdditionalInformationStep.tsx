@@ -368,8 +368,23 @@ const AdditionalInformationStep = ({
     setIsVideoLinkAddModalVisible(false);
   };
 
-  const handleAddOrganizer = (data: OrganizerData) => {
-    createOrganizerMutation.mutate(data);
+  const handleAddOrganizer = async ({ url, name, address }: OrganizerData) => {
+    const payload = {
+      mainLanguage: i18n.language,
+      url,
+      name: {
+        [i18n.language]: name,
+      },
+      address: {
+        [i18n.language]: {
+          addressCountry: address.country,
+          addressLocality: address.city.name,
+          postalCode: address.city.zip,
+          streetAddress: address.streetAndNumber,
+        },
+      },
+    };
+    await createOrganizerMutation.mutateAsync(payload);
     setIsOrganizerAddModalVisible(false);
   };
 
