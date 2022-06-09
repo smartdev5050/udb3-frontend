@@ -18,13 +18,11 @@ type GetCitiesArguments = {
 const getCitiesBe = (): City[] =>
   citiesBE.cities
     .filter((city) => city.submunicipality)
-    .map((city) => {
-      return {
-        label: city.zip + ' ' + city.labelnl,
-        name: city.labelnl,
-        zip: city.zip,
-      };
-    });
+    .map((city) => ({
+      label: city.zip + ' ' + city.labelnl,
+      name: city.labelnl,
+      zip: city.zip,
+    }));
 
 const getCitiesNl = (): City[] => citiesNL.cities;
 
