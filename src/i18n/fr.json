@@ -56,7 +56,8 @@
   },
   "typeahead": {
     "prompt_text": "Entrez pour rechercher...",
-    "search_text": "En train de chercher..."
+    "search_text": "En train de chercher...",
+    "no_results": "Aucun résultat trouvé"
   },
   "time_table": {
     "start": "Début",

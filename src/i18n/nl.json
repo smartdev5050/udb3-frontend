@@ -59,7 +59,8 @@
   },
   "typeahead": {
     "prompt_text": "Typ om te zoeken...",
-    "search_text": "Aan het zoeken..."
+    "search_text": "Aan het zoeken...",
+    "no_results": "Geen resultaten gevonden"
   },
   "time_table": {
     "start": "Start",

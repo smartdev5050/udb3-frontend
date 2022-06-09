@@ -56,7 +56,8 @@
   },
   "typeahead": {
     "prompt_text": "Tipp deine Suche einfach...",
-    "search_text": "Wird gesucht..."
+    "search_text": "Wird gesucht...",
+    "no_results": "Keine Ergebnisse gefunden"
   },
   "time_table": {
     "start": "Start",
