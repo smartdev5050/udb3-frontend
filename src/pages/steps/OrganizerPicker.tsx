@@ -51,7 +51,7 @@ const OrganizerPicker = ({
               variant={ButtonVariants.SECONDARY}
               onClick={() => setAddButtonHasBeenPressed(true)}
             >
-              Organisatie toevoegen
+              {t('create.additionalInformation.organizer.add_new_button')}
             </Button>
           ) : (
             <Typeahead<Organizer>
@@ -70,9 +70,9 @@ const OrganizerPicker = ({
 
                 onChange(organizer);
               }}
-              minLength={3}
+              // minLength={3}
               newSelectionPrefix={t(
-                'create.additionalInformation.organizer.add_new',
+                'create.additionalInformation.organizer.add_new_label',
               )}
               allowNew
             />

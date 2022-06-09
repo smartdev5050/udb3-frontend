@@ -427,7 +427,8 @@
       },
       "organizer": {
         "title": "Organisatie",
-        "add_new": "Voeg nieuwe organisator toe: "
+        "add_new_label": "Voeg nieuwe organisator toe: ",
+        "add_new_button": "Organisator toevoegen"
       },
       "picture": {
         "add_button": "Afbeelding toevoegen",
