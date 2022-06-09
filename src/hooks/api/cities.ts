@@ -10,18 +10,6 @@ type City = {
   zip: string;
 };
 
-const byLevenshtein = (query: string) => {
-  return (a: City, b: City) => {
-    const aLowercase = a.label.toLowerCase();
-    const bLowercase = b.label.toLowerCase();
-
-    const distanceA = levenshtein.get(query, aLowercase);
-    const distanceB = levenshtein.get(query, bLowercase);
-
-    return distanceA - distanceB;
-  };
-};
-
 type GetCitiesArguments = {
   q: string;
   country: 'BE' | 'NL';
@@ -40,20 +28,32 @@ const getCitiesBe = (): City[] =>
 
 const getCitiesNl = (): City[] => citiesNL.cities;
 
+const matchesQuery = (query: string) => {
+  return (city: City) => city.label.toLowerCase().includes(query);
+};
+
+const byLevenshtein = (query: string) => {
+  return (a: City, b: City) => {
+    const aLowercase = a.label.toLowerCase();
+    const bLowercase = b.label.toLowerCase();
+
+    const distanceA = levenshtein.get(query, aLowercase);
+    const distanceB = levenshtein.get(query, bLowercase);
+
+    return distanceA - distanceB;
+  };
+};
+
 const getCitiesByQuery = (
   ctx: QueryFunctionContext<[string, GetCitiesArguments]>,
 ) => {
-  const [_, { q: query, country }] = ctx.queryKey;
+  const [_, { q, country }] = ctx.queryKey;
 
   const cities = country === 'NL' ? getCitiesNl() : getCitiesBe();
 
-  const queryLowercase = query.toLowerCase();
+  const query = q.toLowerCase();
 
-  const matchesQuery = (city: City): boolean => {
-    return city.label.toLowerCase().includes(queryLowercase);
-  };
-
-  return cities.filter(matchesQuery).sort(byLevenshtein(queryLowercase));
+  return cities.filter(matchesQuery(query)).sort(byLevenshtein(query));
 };
 
 const useGetCitiesByQuery = (
