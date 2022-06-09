@@ -6,6 +6,7 @@ import { City, useGetCitiesByQuery } from '@/hooks/api/cities';
 import { FormElement } from '@/ui/FormElement';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Typeahead } from '@/ui/Typeahead';
+import { valueToArray } from '@/utils/valueToArray';
 
 type Props = Omit<StackProps, 'onChange'> & {
   name: string;
@@ -39,7 +40,7 @@ const CityPicker = forwardRef<HTMLInputElement, Props>(
               ref={ref}
               options={cities}
               labelKey={(city) => city.label}
-              selected={value ? [value] : []}
+              selected={valueToArray(value)}
               onInputChange={debounce(setCitySearchInput, 275)}
               onChange={([value]: [City]) => onChange(value)}
               onBlur={onBlur}

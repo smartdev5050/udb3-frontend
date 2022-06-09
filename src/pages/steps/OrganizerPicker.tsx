@@ -9,6 +9,7 @@ import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { isNewEntry, NewEntry, Typeahead } from '@/ui/Typeahead';
+import { valueToArray } from '@/utils/valueToArray';
 
 type Props = Omit<StackProps, 'onChange'> & {
   value: Organizer;
@@ -56,7 +57,7 @@ const OrganizerPicker = ({
             <Typeahead<Organizer>
               options={organizers}
               labelKey={`name.${i18n.language}`}
-              selected={value ? [value] : []}
+              selected={valueToArray(value)}
               onInputChange={debounce(setOrganizerSearchInput, 275)}
               onChange={(organizers) => {
                 const organizer = organizers[0];
