@@ -102,7 +102,7 @@ const AdditionalInformationStep = ({
   const [isPriceInfoModalVisible, setIsPriceInfoModalVisible] = useState(false);
 
   const [description, setDescription] = useState('');
-  const [organizerCreateData, setOrganizerCreateData] = useState<NewEntry>();
+  const [newOrganizerName, setNewOrganizerName] = useState('');
   const [organizer, setOrganizer] = useState<Organizer>();
   const [imageToEditId, setImageToEditId] = useState('');
   const [draggedImageFile, setDraggedImageFile] = useState<FileList>();
@@ -565,7 +565,7 @@ const AdditionalInformationStep = ({
         onClose={() => setIsVideoLinkDeleteModalVisible(false)}
       />
       <OrganizerAddModal
-        prefillName={organizerCreateData?.name}
+        prefillName={newOrganizerName}
         visible={isOrganizerAddModalVisible}
         onConfirm={handleAddOrganizer}
         onClose={() => setIsOrganizerAddModalVisible(false)}
@@ -594,8 +594,8 @@ const AdditionalInformationStep = ({
               <OrganizerPicker
                 value={organizer}
                 onChange={setOrganizer}
-                onAddNewOrganizer={(newOrganizer: NewEntry) => {
-                  setOrganizerCreateData(newOrganizer);
+                onAddNewOrganizer={(newOrganizer) => {
+                  setNewOrganizerName(newOrganizer[`name.${i18n.language}`]);
                   setIsOrganizerAddModalVisible(true);
                 }}
               />
