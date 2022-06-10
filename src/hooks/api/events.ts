@@ -549,39 +549,6 @@ const useAddPriceInfoMutation = (configuration = {}) =>
     ...configuration,
   });
 
-const addContactPoint = async ({ headers, eventId, contactPoint }) =>
-  fetchFromApi({
-    path: `/events/${eventId}/contactPoint`,
-    options: {
-      method: 'PUT',
-      headers,
-      body: JSON.stringify({ contactPoint }),
-    },
-  });
-
-const useAddContactPointMutation = (configuration = {}) =>
-  useAuthenticatedMutation({
-    mutationFn: addContactPoint,
-    ...configuration,
-  });
-
-const addBookingInfo = async ({ headers, eventId, bookingInfo }) => {
-  fetchFromApi({
-    path: `/events/${eventId}/bookingInfo`,
-    options: {
-      method: 'PUT',
-      headers,
-      body: JSON.stringify({ bookingInfo }),
-    },
-  });
-};
-
-const useAddBookingInfoMutation = (configuration = {}) =>
-  useAuthenticatedMutation({
-    mutationFn: addBookingInfo,
-    ...configuration,
-  });
-
 const publish = async ({ headers, eventId, publicationDate }) =>
   fetchFromApi({
     path: `/event/${eventId}`,
@@ -655,8 +622,6 @@ const useAddAudienceMutation = (configuration = {}) =>
 
 export {
   useAddAudienceMutation,
-  useAddBookingInfoMutation,
-  useAddContactPointMutation,
   useAddEventMainImageMutation,
   useAddEventMutation,
   useAddImageToEventMutation,
