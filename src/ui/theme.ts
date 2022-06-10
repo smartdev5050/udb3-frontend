@@ -334,6 +334,7 @@ const theme = {
     },
     contactInformation: {
       borderColor: colors.grey3,
+      iconColor: colors.grey2,
       errorText: colors.red,
     },
     videoUploadBox: {
