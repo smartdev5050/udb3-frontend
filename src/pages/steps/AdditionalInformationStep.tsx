@@ -56,14 +56,7 @@ const AdditionalInformationStepVariant = {
   EXTENDED: 'extended',
 } as const;
 
-type Field =
-  | 'description'
-  | 'image'
-  | 'video'
-  | 'priceInfo'
-  | 'audience'
-  | 'contactPoint'
-  | 'bookingInfo';
+type Field = 'description' | 'image' | 'video' | 'priceInfo' | 'audience';
 
 type Props = StackProps & {
   eventId: string;
@@ -583,11 +576,8 @@ const AdditionalInformationStep = ({
                 onClickAddFreePriceInfo={() => handleAddFreePriceInfo()}
               />
               <ContactInfo
-                eventId={eventId}
                 eventContactInfo={eventContactInfo}
                 eventBookingInfo={eventBookingInfo}
-                invalidateEventQuery={invalidateEventQuery}
-                onChangeSuccess={() => onChangeSuccess}
               />
               <Audience
                 eventId={eventId}

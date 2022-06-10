@@ -3,7 +3,6 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 
 import de from './de.json';
-import en from './en.json';
 import fr from './fr.json';
 import nl from './nl.json';
 
@@ -11,7 +10,6 @@ const SupportedLanguages = {
   NL: 'nl',
   FR: 'fr',
   DE: 'de',
-  EN: 'en',
 } as const;
 
 i18n.use(LanguageDetector);
@@ -22,7 +20,6 @@ i18n
       fr: { translation: fr },
       nl: { translation: nl },
       de: { translation: de },
-      en: { translation: en },
     },
     detection: { order: ['cookie'], lookupCookie: 'udb-language' },
     fallbackLng: 'nl',

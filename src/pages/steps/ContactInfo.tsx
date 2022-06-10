@@ -37,16 +37,11 @@ type BookingInfo = {
 } & { [Property in keyof ContactPoint]?: string };
 
 type Props = {
-  eventId: string;
   eventContactInfo: ContactPoint;
   eventBookingInfo: BookingInfo;
 };
 
-const ContactInfo = ({
-  eventId,
-  eventContactInfo,
-  eventBookingInfo,
-}: Props) => {
+const ContactInfo = ({ eventContactInfo, eventBookingInfo }: Props) => {
   const { t } = useTranslation();
 
   const mergedContactAndBookingInfo = useMemo(() => {
