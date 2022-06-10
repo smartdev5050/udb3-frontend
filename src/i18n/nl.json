@@ -351,9 +351,7 @@
     },
     "toast": {
       "success": {
-        "audienceType": "Toegang is succesvol gewijzigd",
-        "bookingInfo": "Reservatie is succesvol gewijzigd",
-        "contactInfo": "Contact is succesvol gewijzigd"
+        "audienceType": "Toegang is succesvol gewijzigd"
       }
     },
     "additionalInformation": {
