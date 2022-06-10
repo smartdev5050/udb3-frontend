@@ -424,10 +424,11 @@
         "url": "Website",
         "phone": "Telefoonnummer",
         "email": "E-mailadres",
+        "empty": "U heeft nog geen {{contactInfoType}} toegevoegd",
         "email_not_valid": "Gelieve een geldig e-mailadres in te vullen.",
         "error_required": "Gelieve dit veld niet leeg te laten.",
         "url_not_valid": "Een geldige url begint met http:// of https://",
-        "use_for_reservation": "Gebruik voor reservatie"
+        "is_used_for_reservation": "Wordt gebruikt voor reservatie"
       },
       "booking_info": {
         "subscribe": "Schrijf je in",
