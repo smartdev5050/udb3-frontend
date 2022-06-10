@@ -237,9 +237,13 @@
         "global_error": "Diese Preisinformation scheint ungültig zu sein und kann daher nicht gespeichert werden. <ul><li>Notieren Sie Dezimalstellen mit einem Komma.</li><li>Lassen Sie keine Reihe frei, geben Sie immer eine Zielgruppe und einen Betrag ein.</li><li>Geben Sie maximal zwei Ziffern nach dem Komma ein.</li></ul>"
       },
       "contact_info": {
+        "title": "Kontakt & Reservierung",
         "url": "Website",
-        "phone": "Telefonnummer",
-        "email": "E-Mail-Adresse"
+        "phone": "Telefoonnummer",
+        "email": "E-mailadres",
+        "empty": "Sie haben noch keine {{contactInfoType}} hinzugefügt",
+        "is_used_for_reservation": "Für die Reservierung verwendet",
+        "edit_cta": "Bearbeiten"
       },
       "audience": {
         "everyone": "Für alle",

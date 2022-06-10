@@ -221,9 +221,13 @@
         "global_error": "Cette information du prix semble invalide et ne peut pas être enregistrée. <ul><li>Notez les décimales avec une virgule.</li><li>Ne laissez aucune ligne vide, remplissez toujours un public cible et un montant.</li><li>Donnez au maximum deux chiffres après la virgule.</li></ul>"
       },
       "contact_info": {
+        "title": "Contact et réservation",
         "url": "Site web",
         "phone": "Numéro de téléphone",
-        "email": "Adresse mail"
+        "email": "Adresse mail",
+        "empty": "Vous n'avez pas encore ajouté des {{contactInfoType}}",
+        "is_used_for_reservation": "Utilisé pour la réservation",
+        "edit_cta": "Modifier"
       },
       "audience": {
         "everyone": "Pour tout le monde",
