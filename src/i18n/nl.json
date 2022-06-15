@@ -398,7 +398,8 @@
     },
     "toast": {
       "success": {
-        "audienceType": "Toegang is succesvol gewijzigd"
+        "audienceType": "Toegang is succesvol gewijzigd",
+        "organizer": "Organisatie is succesvol gewijzigd"
       }
     },
     "additionalInformation": {

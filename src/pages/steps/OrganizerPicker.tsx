@@ -24,10 +24,12 @@ type Props = Omit<StackProps, 'onChange'> & {
   onDeleteOrganizer: (organizerId: string) => void;
 };
 
+const getOrganizerName = (org: Organizer, language: string) =>
+  (typeof org.name === 'string' ? org.name : org.name[language]) ??
+  org.name[org.mainLanguage];
+
 const getLabelKey = (language: Values<typeof SupportedLanguages>) => {
-  return (org: Organizer) =>
-    (typeof org.name === 'string' ? org.name : org.name[language]) ??
-    org.name[org.mainLanguage];
+  return (org: Organizer) => getOrganizerName(org, language);
 };
 
 const OrganizerPicker = ({
@@ -68,8 +70,10 @@ const OrganizerPicker = ({
               spacing={3}
             >
               <Text>
-                {organizer.name[i18n.language] ??
-                  organizer.name[organizer.mainLanguage]}
+                {getOrganizerName(
+                  organizer,
+                  i18n.language as Values<typeof SupportedLanguages>,
+                )}
               </Text>
               <Button
                 spacing={3}
