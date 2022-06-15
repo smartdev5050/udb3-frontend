@@ -563,6 +563,22 @@ const useAddOrganizerToEventMutation = (configuration = {}) =>
     mutationFn: addOrganizerToEvent,
     ...configuration,
   });
+
+const deleteOrganizerFromEvent = async ({ headers, eventId, organizerId }) =>
+  fetchFromApi({
+    path: `/events/${eventId}/organizer/${organizerId}`,
+    options: {
+      method: 'DELETE',
+      headers,
+    },
+  });
+
+const useDeleteOrganizerFromEventMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: deleteOrganizerFromEvent,
+    ...configuration,
+  });
+
 const publish = async ({ headers, eventId, publicationDate }) =>
   fetchFromApi({
     path: `/event/${eventId}`,
@@ -653,6 +669,7 @@ export {
   useChangeTypicalAgeRangeMutation,
   useDeleteEventByIdMutation,
   useDeleteImageFromEventMutation,
+  useDeleteOrganizerFromEventMutation,
   useDeleteVideoFromEventMutation,
   useGetCalendarSummaryQuery,
   useGetEventByIdQuery,
