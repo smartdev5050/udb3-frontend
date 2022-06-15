@@ -200,7 +200,9 @@
       },
       "organizer": {
         "title": "Organisateur",
-        "add_new": "Ajouter un nouveau organisateur: "
+        "add_new_label": "Ajouter un nouveau organisateur: ",
+        "add_new_button": "Ajouter organisateur",
+        "delete": "Supprimer"
       },
       "picture": {
         "add_button": "Ajouter une image",

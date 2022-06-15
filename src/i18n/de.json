@@ -216,7 +216,9 @@
       },
       "organizer": {
         "title": "Organisator",
-        "add_new": "Neuen Organisator hinzufügen: "
+        "add_new_label": "Neuen Organisator hinzufügen: ",
+        "add_new_button": "Organisator hinzufügen",
+        "delete": "Löschen"
       },
       "picture": {
         "add_button": "Hauptabbildung erstellen",
