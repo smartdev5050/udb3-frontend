@@ -1,7 +1,7 @@
 import levenshtein from 'fast-levenshtein';
 import { QueryFunctionContext, useQuery } from 'react-query';
 
-import { Country } from '@/types/Country';
+import { Countries, Country } from '@/types/Country';
 
 import citiesBE from '../../../public/assets/citiesBE.json';
 import citiesNL from '../../../public/assets/citiesNl.json';
