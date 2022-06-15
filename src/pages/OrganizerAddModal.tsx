@@ -123,15 +123,11 @@ const OrganizerAddModal = ({
     setValue('name', prefillName);
   }, [prefillName, setValue]);
 
-  const validateUniquenessUrl = async () => {
-    if (isUrlUnique) return true;
-    setError('url', { type: 'not_unique' });
-    return false;
-  };
-
   const handleConfirm = async () => {
-    const isUniqueUrl = await validateUniquenessUrl();
-    if (!isUniqueUrl) return;
+    if (!isUrlUnique) {
+      setError('url', { type: 'not_unique' });
+      return;
+    }
 
     await handleSubmit(async (data) => {
       await onConfirm(data);
