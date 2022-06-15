@@ -539,7 +539,7 @@ const addPriceInfo = async ({ headers, eventId, priceInfo }) =>
     options: {
       method: 'PUT',
       headers,
-      body: JSON.stringify({ ...priceInfo }),
+      body: JSON.stringify([...priceInfo]),
     },
   });
 
