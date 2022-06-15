@@ -36,7 +36,9 @@ const NumberIndicator = ({ children, ...props }: NumberIndicatorProps) => {
     <Box
       borderRadius="50%"
       width="1.8rem"
+      minWidth="1.8rem"
       height="1.8rem"
+      minHeight="1.8rem"
       lineHeight="1.8rem"
       backgroundColor={getValue('stepNumber.backgroundColor')}
       padding={0}
