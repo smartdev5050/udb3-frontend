@@ -4,6 +4,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
+import { useGetOrganizersByWebsiteQuery } from '@/hooks/api/organizers';
 import { useAutoFocus } from '@/hooks/useAutoFocus';
 import { OrganizerData } from '@/pages/OrganizerAddModal';
 import { Alert, AlertVariants } from '@/ui/Alert';
@@ -23,12 +24,12 @@ export const getValue = getValueFromTheme('organizerAddModal');
 
 const schema = yup
   .object({
-    url: yup.string().url().required(),
+    url: yup.string().required(),
     name: yup.string().required(),
     address: yup
       .object({
         streetAndNumber: yup.string().required(),
-        country: yup.string().oneOf(['BE', 'NL', 'CUSTOM']).required(),
+        country: yup.string().oneOf(['BE', 'NL']).required(),
         city: yup
           .object({
             label: yup.string().required(),
@@ -68,7 +69,7 @@ const OrganizerAddModal = ({
 }: Props) => {
   const { t } = useTranslation();
 
-  const [urlInputComponent] = useAutoFocus({
+  const [urlInputComponent] = useAutoFocus<HTMLInputElement>({
     retriggerOn: visible,
   });
 
@@ -80,6 +81,7 @@ const OrganizerAddModal = ({
     reset,
     watch,
     setValue,
+    setError,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     defaultValues,
@@ -87,7 +89,19 @@ const OrganizerAddModal = ({
 
   const urlRegisterProps = register('url');
 
+  const watchedUrl = watch('url');
   const watchedCountry = watch('address.country');
+
+  const getOrganizersByWebsiteQuery = useGetOrganizersByWebsiteQuery(
+    {
+      website: watchedUrl,
+    },
+    { enabled: !formState.errors.url },
+  );
+
+  const isUrlUnique =
+    // @ts-expect-error
+    getOrganizersByWebsiteQuery.data?.totalItems === 0;
 
   const countries = useMemo(
     () => [
@@ -108,7 +122,16 @@ const OrganizerAddModal = ({
     setValue('name', prefillName);
   }, [prefillName, setValue]);
 
+  const validateUniquenessUrl = async () => {
+    if (isUrlUnique) return true;
+    setError('url', { type: 'not_unique' });
+    return false;
+  };
+
   const handleConfirm = async () => {
+    const isUniqueUrl = await validateUniquenessUrl();
+    if (!isUniqueUrl) return;
+
     await handleSubmit(async (data) => {
       await onConfirm(data);
       reset(defaultValues);
@@ -130,7 +153,6 @@ const OrganizerAddModal = ({
       onConfirm={handleConfirm}
       onClose={handleClose}
       size={ModalSizes.LG}
-      scrollable={false}
     >
       <Stack padding={4} spacing={4}>
         <FormElement

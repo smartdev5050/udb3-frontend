@@ -170,7 +170,7 @@
         }
       },
       "validation_messages": {
-        "website": "Je website voldoet niet aan de vereisten.",
+        "url": "Je website voldoet niet aan de vereisten.",
         "name": "Je naam voldoet niet aan de vereisten.",
         "address": {
           "streetAndNumber": "Je straat en nummer voldoen niet aan de vereisten.",

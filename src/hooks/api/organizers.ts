@@ -20,31 +20,13 @@ type HeadersAndQueryData = {
   headers: Headers;
 } & { [x: string]: string };
 
-type GetOrganizersArguments = {
+type GetOrganizersArgumentsByQuery = {
   headers: Headers;
   embed: string;
   q: string;
 };
 
-const getOrganizers = async ({ headers, q, embed }: GetOrganizersArguments) => {
-  const res = await fetchFromApi({
-    path: '/organizers',
-    searchParams: {
-      embed: `${embed}`,
-      q,
-    },
-    options: {
-      headers,
-    },
-  });
-  if (isErrorObject(res)) {
-    // eslint-disable-next-line no-console
-    return console.error(res);
-  }
-  return await res.json();
-};
-
-const useGetOrganizersQuery = (
+const useGetOrganizersByQueryQuery = (
   { req, queryClient, q }: AuthenticatedQueryOptions<{ q?: string }> = {},
   configuration: UseQueryOptions = {},
 ) =>
@@ -57,7 +39,60 @@ const useGetOrganizersQuery = (
       embed: true,
       q,
     },
+    enabled: !!q,
     ...configuration,
+  });
+
+type GetOrganizersArguments = {
+  headers: Headers;
+  embed?: string;
+  website?: string;
+  q?: string;
+};
+
+const getOrganizers = async ({
+  headers,
+  website,
+  q,
+  embed,
+}: GetOrganizersArguments) => {
+  const res = await fetchFromApi({
+    path: '/organizers',
+    searchParams: {
+      embed: `${embed}`,
+      ...(website && { website }),
+      ...(q && { q }),
+    },
+    options: {
+      headers,
+    },
+  });
+  if (isErrorObject(res)) {
+    // eslint-disable-next-line no-console
+    return console.error(res);
+  }
+  return await res.json();
+};
+
+const useGetOrganizersByWebsiteQuery = (
+  {
+    req,
+    queryClient,
+    website,
+  }: AuthenticatedQueryOptions<{ website?: string }> = {},
+  configuration: UseQueryOptions = {},
+) =>
+  useAuthenticatedQuery<{ member: Organizer[] }>({
+    req,
+    queryClient,
+    queryKey: ['organizers'],
+    queryFn: getOrganizers,
+    queryArguments: {
+      embed: false,
+      website,
+    },
+    ...configuration,
+    enabled: configuration.enabled && !!website,
   });
 
 type GetOrganizerByIdArguments = {
@@ -184,5 +219,6 @@ export {
   useDeleteOrganizerByIdMutation,
   useGetOrganizerByIdQuery,
   useGetOrganizersByCreatorQuery,
-  useGetOrganizersQuery,
+  useGetOrganizersByQueryQuery,
+  useGetOrganizersByWebsiteQuery,
 };

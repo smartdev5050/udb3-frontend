@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
-import { useGetOrganizersQuery } from '@/hooks/api/organizers';
+import { useGetOrganizersByQueryQuery } from '@/hooks/api/organizers';
 import { SupportedLanguages } from '@/i18n/index';
 import { Organizer } from '@/types/Organizer';
 import { Values } from '@/types/Values';
@@ -45,16 +45,16 @@ const OrganizerPicker = ({
   const [addButtonHasBeenPressed, setAddButtonHasBeenPressed] = useState(false);
   const [organizerSearchInput, setOrganizerSearchInput] = useState('');
 
-  const getOrganizersQuery = useGetOrganizersQuery(
+  const getOrganizersByQueryQuery = useGetOrganizersByQueryQuery(
     { q: organizerSearchInput },
     { enabled: !!organizerSearchInput },
   );
 
   const organizers = useMemo(() => {
     // @ts-expect-error
-    return getOrganizersQuery.data?.member ?? [];
+    return getOrganizersByQueryQuery.data?.member ?? [];
     // @ts-expect-error
-  }, [getOrganizersQuery.data?.member]);
+  }, [getOrganizersByQueryQuery.data?.member]);
 
   return (
     <Stack {...getStackProps(props)}>
