@@ -97,7 +97,7 @@ const OrganizerAddModal = ({
     {
       website: watchedUrl,
     },
-    { enabled: !formState.errors.url },
+    { enabled: visible && !formState.errors.url },
   );
 
   const isUrlUnique =
