@@ -19,21 +19,6 @@ import { Title } from '@/ui/Title';
 
 import { City, CityPicker } from './CityPicker';
 
-const countries = [
-  {
-    label: 'België',
-    value: 'BE',
-  },
-  {
-    label: 'Nederland',
-    value: 'NL',
-  },
-  {
-    label: 'Locatie in overleg met de school',
-    value: 'CUSTOM',
-  },
-];
-
 export const getValue = getValueFromTheme('organizerAddModal');
 
 const schema = yup
@@ -103,6 +88,21 @@ const OrganizerAddModal = ({
   const urlRegisterProps = register('url');
 
   const watchedCountry = watch('address.country');
+
+  const countries = useMemo(
+    () => [
+      {
+        label: t('countries.BE'),
+        value: 'BE',
+      },
+      {
+        label: t('countries.NL'),
+        value: 'NL',
+      },
+      // TODO: Add "Locatie in overleg met school"
+    ],
+    [t],
+  );
 
   useEffect(() => {
     setValue('name', prefillName);

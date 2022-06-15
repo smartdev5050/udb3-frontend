@@ -1,6 +1,10 @@
 {
   "brand": "UiTdatabank",
   "description": "UiTdatabank liefert Informationen an mehr als 1.000 Agendas, darunter UiTinvlaanderen, Webseiten von Städten und Gemeinden, Themen-Agendas, Printmedien und mobile Apps. Auch Ihre Aktivität kann auf vielen Agendas erscheinen.",
+  "countries": {
+    "BE": "Belgien",
+    "NL": "Niederlande"
+  },
   "main": {
     "activities_info": "Ein Ausflug, eine Sportaktivität, ein Spieleabend, Jahrmarkt oder Kurs? Ein Konzert, eine Ausstellung oder ein Film? UiTdatabank steht für die verschiedensten Freizeitaktivitäten offen.",
     "activities": "Aktivitäten pro Jahr",

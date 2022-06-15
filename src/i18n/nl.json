@@ -1,6 +1,10 @@
 {
   "brand": "UiTdatabank",
   "description": "UiTdatabank levert informatie aan meer dan 1.000 agenda's, waaronder UiTinvlaanderen, websites van steden en gemeenten, thema-agenda's, gedrukte bladen en mobiele apps. Ook jouw activiteit kan verschijnen op vele agenda's.",
+  "countries": {
+    "BE": "België",
+    "NL": "Nederland"
+  },
   "main": {
     "activities_info": "Een uitstap, sportactiviteit, kaartavond, kermis of cursus? Een concert, tentoonstelling of film? UiTdatabank staat open voor de meest uiteenlopende vrijetijdsactiviteiten.",
     "activities": "activiteiten per jaar",
@@ -160,7 +164,9 @@
         },
         "address": {
           "title": "Adres",
-          "streetAndNumber": "Straat en nummer"
+          "streetAndNumber": "Straat en nummer",
+          "country": "Land",
+          "zip": "Postcode"
         }
       },
       "validation_messages": {
@@ -170,6 +176,9 @@
           "streetAndNumber": "Je straat en nummer voldoen niet aan de vereisten.",
           "addressLocality": "Je gemeente voldoet niet aan de vereisten."
         }
+      },
+      "info": {
+        "zip": "bv. 1104CA"
       },
       "url_requirements": "Om organisaties in de UiTdatabank uniek te houden, vragen we elke organisatie een unieke en geldige hyperlink"
     }
