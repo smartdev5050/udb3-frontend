@@ -202,7 +202,7 @@
         "title": "Organisateur",
         "add_new_label": "Ajouter un nouveau organisateur: ",
         "add_new_button": "Ajouter organisateur",
-        "delete": "Supprimer"
+        "change": "Modifier"
       },
       "picture": {
         "add_button": "Ajouter une image",

@@ -73,13 +73,12 @@ const OrganizerPicker = ({
               </Text>
               <Button
                 spacing={3}
-                iconName={Icons.TRASH}
-                variant={ButtonVariants.DANGER}
+                variant={ButtonVariants.SECONDARY}
                 onClick={() =>
                   onDeleteOrganizer(parseOfferId(organizer['@id']))
                 }
               >
-                {t('create.additionalInformation.organizer.delete')}
+                {t('create.additionalInformation.organizer.change')}
               </Button>
             </Inline>
           ) : !addButtonHasBeenPressed ? (

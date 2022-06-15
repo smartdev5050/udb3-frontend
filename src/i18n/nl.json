@@ -430,7 +430,7 @@
         "title": "Organisatie",
         "add_new_label": "Voeg nieuwe organisator toe: ",
         "add_new_button": "Organisator toevoegen",
-        "delete": "Verwijderen"
+        "change": "Wijzigen"
       },
       "picture": {
         "add_button": "Afbeelding toevoegen",
