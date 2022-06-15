@@ -8,6 +8,7 @@ import { useAutoFocus } from '@/hooks/useAutoFocus';
 import { OrganizerData } from '@/pages/OrganizerAddModal';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { FormElement } from '@/ui/FormElement';
+import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
 import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
 import { Stack } from '@/ui/Stack';
@@ -155,6 +156,7 @@ const OrganizerAddModal = ({
           </Title>
           <Stack
             padding={4}
+            spacing={3}
             css={`
               border: 1px solid ${getValue('address.borderColor')};
             `}
