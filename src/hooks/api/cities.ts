@@ -1,6 +1,8 @@
 import levenshtein from 'fast-levenshtein';
 import { QueryFunctionContext, useQuery } from 'react-query';
 
+import { Country } from '@/types/Country';
+
 import citiesBE from '../../../public/assets/citiesBE.json';
 import citiesNL from '../../../public/assets/citiesNl.json';
 
@@ -12,7 +14,7 @@ type City = {
 
 type GetCitiesArguments = {
   q: string;
-  country: 'BE' | 'NL';
+  country: Country;
 };
 
 const getCitiesBe = (): City[] =>
@@ -47,7 +49,7 @@ const getCitiesByQuery = (
 ) => {
   const [_, { q, country }] = ctx.queryKey;
 
-  const cities = country === 'NL' ? getCitiesNl() : getCitiesBe();
+  const cities = country === Countries.NL ? getCitiesNl() : getCitiesBe();
 
   const query = q.toLowerCase();
 

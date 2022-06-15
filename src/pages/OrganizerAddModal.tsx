@@ -7,6 +7,7 @@ import * as yup from 'yup';
 import { useGetOrganizersByWebsiteQuery } from '@/hooks/api/organizers';
 import { useAutoFocus } from '@/hooks/useAutoFocus';
 import { OrganizerData } from '@/pages/OrganizerAddModal';
+import { Countries, Country } from '@/types/Country';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { FormElement } from '@/ui/FormElement';
 import { Inline } from '@/ui/Inline';
@@ -24,12 +25,12 @@ export const getValue = getValueFromTheme('organizerAddModal');
 
 const schema = yup
   .object({
-    url: yup.string().required(),
+    url: yup.string().url().required(),
     name: yup.string().required(),
     address: yup
       .object({
         streetAndNumber: yup.string().required(),
-        country: yup.string().oneOf(['BE', 'NL']).required(),
+        country: yup.string().oneOf(Object.values(Countries)).required(),
         city: yup
           .object({
             label: yup.string().required(),
@@ -48,7 +49,7 @@ const defaultValues: FormData = {
   url: 'https://',
   name: '',
   address: {
-    country: 'BE',
+    country: Countries.BE,
     streetAndNumber: '',
     city: undefined,
   },
@@ -107,11 +108,11 @@ const OrganizerAddModal = ({
     () => [
       {
         label: t('countries.BE'),
-        value: 'BE',
+        value: Countries.BE,
       },
       {
         label: t('countries.NL'),
-        value: 'NL',
+        value: Countries.NL,
       },
       // TODO: Add "Locatie in overleg met school"
     ],
@@ -243,7 +244,7 @@ const OrganizerAddModal = ({
                   render={({ field }) => {
                     return (
                       <CityPicker
-                        country={watchedCountry as 'BE' | 'NL'}
+                        country={watchedCountry as Country}
                         {...field}
                         value={field.value as City}
                         error={

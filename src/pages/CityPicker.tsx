@@ -3,13 +3,14 @@ import { forwardRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { City, useGetCitiesByQuery } from '@/hooks/api/cities';
+import { Countries, Country } from '@/types/Country';
 import { FormElement } from '@/ui/FormElement';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Typeahead } from '@/ui/Typeahead';
 import { valueToArray } from '@/utils/valueToArray';
 
 type Props = Omit<StackProps, 'onChange'> & {
-  country?: 'BE' | 'NL';
+  country?: Country;
   name: string;
   value: City;
   onChange: (city: City) => void;
@@ -56,7 +57,7 @@ const CityPicker = forwardRef<HTMLInputElement, Props>(
 );
 
 CityPicker.defaultProps = {
-  country: 'BE',
+  country: Countries.BE,
 };
 
 export { CityPicker };
