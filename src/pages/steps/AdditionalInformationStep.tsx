@@ -49,6 +49,7 @@ import { VideoLinkDeleteModal } from '../VideoLinkDeleteModal';
 import type { Video, VideoEnriched } from '../VideoUploadBox';
 import { VideoUploadBox } from '../VideoUploadBox';
 import { Audience } from './Audience';
+import { ContactInfo } from './ContactInfo';
 import { OrganizerPicker } from './OrganizerPicker';
 import { PriceInformation } from './PriceInformation';
 
@@ -254,6 +255,19 @@ const AdditionalInformationStep = ({
     variant,
   ]);
 
+  const eventContactInfo = useMemo(() => {
+    if (variant !== AdditionalInformationStepVariant.EXTENDED) return;
+    // @ts-expect-error
+    return getEventByIdQuery.data?.contactPoint;
+    // @ts-expect-error
+  }, [getEventByIdQuery.data?.contactPoint, variant]);
+
+  const eventBookingInfo = useMemo(() => {
+    if (variant !== AdditionalInformationStepVariant.EXTENDED) return;
+    // @ts-expect-error
+    return getEventByIdQuery.data?.bookingInfo;
+    // @ts-expect-error
+  }, [getEventByIdQuery.data?.bookingInfo, variant]);
   const audienceType = useMemo(() => {
     if (variant !== AdditionalInformationStepVariant.EXTENDED) {
       return;
@@ -628,6 +642,10 @@ const AdditionalInformationStep = ({
                 priceInfo={priceInfo}
                 onClickAddPriceInfo={() => setIsPriceInfoModalVisible(true)}
                 onClickAddFreePriceInfo={() => handleAddFreePriceInfo()}
+              />
+              <ContactInfo
+                eventContactInfo={eventContactInfo}
+                eventBookingInfo={eventBookingInfo}
               />
               <Audience
                 eventId={eventId}

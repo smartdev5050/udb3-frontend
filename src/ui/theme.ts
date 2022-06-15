@@ -334,6 +334,11 @@ const theme = {
     priceInformation: {
       borderColor: colors.grey3,
     },
+    contactInformation: {
+      borderColor: colors.grey3,
+      iconColor: colors.grey2,
+      errorText: colors.red,
+    },
     videoUploadBox: {
       backgroundColor: colors.white,
       borderColor: colors.grey2,
