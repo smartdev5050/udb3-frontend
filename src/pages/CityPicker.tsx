@@ -46,7 +46,6 @@ const CityPicker = forwardRef<HTMLInputElement, Props>(
               onChange={([value]: [City]) => onChange(value)}
               onBlur={onBlur}
               minLength={3}
-              maxWidth="25rem"
               emptyLabel={t('city_picker.no_cities')}
             />
           }

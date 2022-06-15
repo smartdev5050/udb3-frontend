@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -185,13 +185,19 @@ const OrganizerAddModal = ({
                 control={control}
                 name="address.country"
                 render={({ field }) => (
-                  <RadioButtonGroup
-                    name="country"
-                    items={countries}
-                    selected={
-                      field.value as OrganizerData['address']['country']
+                  <FormElement
+                    Component={
+                      <RadioButtonGroup
+                        name="country"
+                        items={countries}
+                        selected={
+                          field.value as OrganizerData['address']['country']
+                        }
+                        onChange={field.onChange}
+                      />
                     }
-                    onChange={field.onChange}
+                    id="organizer-address-country"
+                    label={t('organizer.add_modal.labels.address.country')}
                   />
                 )}
               />
@@ -208,7 +214,7 @@ const OrganizerAddModal = ({
               }
             />
             <Inline spacing={4}>
-              <Stack flex={1}>
+              <Stack minWidth="20rem" maxWidth="25rem">
                 <Controller<OrganizerData>
                   control={control}
                   name="address.city"
@@ -233,7 +239,8 @@ const OrganizerAddModal = ({
                 <FormElement
                   Component={<Input {...register('address.city.zip')} />}
                   id="organizer-address-city-zip"
-                  label={t('organizer.add_modal.labels.address.city.zip')}
+                  label={t('organizer.add_modal.labels.address.zip')}
+                  info={t('organizer.add_modal.info.zip')}
                   error={
                     formState.errors.address?.city?.zip &&
                     t(
