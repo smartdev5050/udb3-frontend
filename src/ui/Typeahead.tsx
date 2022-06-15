@@ -89,6 +89,10 @@ const Typeahead: TypeaheadFunc = forwardRef(
         flex={1}
         ref={ref}
         css={`
+          .form-control {
+            border-radius: 0rem;
+          }
+
           .dropdown-item.active,
           .dropdown-item:active {
             color: ${getValue('active.color')};
