@@ -5,10 +5,12 @@ import { useQueryClient } from 'react-query';
 import {
   useAddEventMainImageMutation,
   useAddImageToEventMutation,
+  useAddOrganizerToEventMutation,
   useAddPriceInfoMutation,
   useAddVideoToEventMutation,
   useChangeDescriptionMutation,
   useDeleteImageFromEventMutation,
+  useDeleteOrganizerFromEventMutation,
   useDeleteVideoFromEventMutation,
   useGetEventByIdQuery,
   useUpdateImageFromEventMutation,
@@ -103,7 +105,6 @@ const AdditionalInformationStep = ({
 
   const [description, setDescription] = useState('');
   const [newOrganizerName, setNewOrganizerName] = useState('');
-  const [organizer, setOrganizer] = useState<Organizer>();
   const [imageToEditId, setImageToEditId] = useState('');
   const [draggedImageFile, setDraggedImageFile] = useState<FileList>();
   const [imageToDeleteId, setImageToDeleteId] = useState('');
@@ -162,7 +163,15 @@ const AdditionalInformationStep = ({
     },
   });
 
-  const createOrganizerMutation = useCreateOrganizerMutation({
+  const createOrganizerMutation = useCreateOrganizerMutation();
+
+  const addOrganizerToEventMutation = useAddOrganizerToEventMutation({
+    onSuccess: async () => {
+      await invalidateEventQuery('organizer');
+    },
+  });
+
+  const deleteOrganizerFromEventMutation = useDeleteOrganizerFromEventMutation({
     onSuccess: async () => {
       await invalidateEventQuery('organizer');
     },
@@ -253,6 +262,9 @@ const AdditionalInformationStep = ({
     return getEventByIdQuery.data?.audience?.audienceType;
     // @ts-expect-error
   }, [getEventByIdQuery.data?.audience?.audienceType, variant]);
+
+  // @ts-expect-error
+  const organizer = getEventByIdQuery.data?.organizer;
 
   const enrichVideos = async (video: Video[]) => {
     const getYoutubeThumbnailUrl = (videoUrl: string) => {
@@ -384,7 +396,10 @@ const AdditionalInformationStep = ({
         },
       },
     };
-    await createOrganizerMutation.mutateAsync(payload);
+    const { organizerId } = await createOrganizerMutation.mutateAsync(payload);
+
+    await addOrganizerToEventMutation.mutateAsync({ eventId, organizerId });
+
     setIsOrganizerAddModalVisible(false);
   };
 
@@ -443,7 +458,9 @@ const AdditionalInformationStep = ({
     });
   };
 
-  const handleChangeOrganizer = () => {};
+  const handleChangeOrganizer = (organizerId: string) => {
+    addOrganizerToEventMutation.mutate({ eventId, organizerId });
+  };
 
   const handleAddFreePriceInfo = async () => {
     const freePriceInfoRates = defaultPriceInfoValues.rates;
@@ -585,7 +602,7 @@ const AdditionalInformationStep = ({
               <TextArea
                 rows={5}
                 value={description}
-                onChange={handleChangeDescription}
+                onChange={(e) => setDescription(e.target.value)}
                 onBlur={handleBlurDescription}
               />
             }
@@ -594,12 +611,18 @@ const AdditionalInformationStep = ({
           {variant === AdditionalInformationStepVariant.EXTENDED && (
             <Stack spacing={4}>
               <OrganizerPicker
-                value={organizer}
+                organizer={organizer}
                 onChange={handleChangeOrganizer}
                 onAddNewOrganizer={(newOrganizer) => {
                   setNewOrganizerName(newOrganizer.label);
                   setIsOrganizerAddModalVisible(true);
                 }}
+                onDeleteOrganizer={(organizerId) =>
+                  deleteOrganizerFromEventMutation.mutate({
+                    eventId,
+                    organizerId,
+                  })
+                }
               />
               <PriceInformation
                 priceInfo={priceInfo}

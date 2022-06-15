@@ -9,15 +9,19 @@ import { Organizer } from '@/types/Organizer';
 import { Values } from '@/types/Values';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
+import { Icons } from '@/ui/Icon';
+import { Inline } from '@/ui/Inline';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { isNewEntry, NewEntry, Typeahead } from '@/ui/Typeahead';
+import { parseOfferId } from '@/utils/parseOfferId';
 import { valueToArray } from '@/utils/valueToArray';
 
 type Props = Omit<StackProps, 'onChange'> & {
-  value: Organizer;
-  onChange: (organizer: Organizer) => void;
+  organizer: Organizer;
+  onChange: (organizerId: string) => void;
   onAddNewOrganizer: (organizer: NewEntry) => void;
+  onDeleteOrganizer: (organizerId: string) => void;
 };
 
 const getLabelKey = (language: Values<typeof SupportedLanguages>) => {
@@ -27,9 +31,10 @@ const getLabelKey = (language: Values<typeof SupportedLanguages>) => {
 };
 
 const OrganizerPicker = ({
-  value,
+  organizer,
   onChange,
   onAddNewOrganizer,
+  onDeleteOrganizer,
   ...props
 }: Props) => {
   const { t, i18n } = useTranslation();
@@ -55,7 +60,29 @@ const OrganizerPicker = ({
         id="create-organizer"
         label={t('create.additionalInformation.organizer.title')}
         Component={
-          !addButtonHasBeenPressed ? (
+          organizer ? (
+            <Inline
+              justifyContent="space-between"
+              alignItems="center"
+              paddingY={3}
+              spacing={3}
+            >
+              <Text>
+                {organizer.name[i18n.language] ??
+                  organizer.name[organizer.mainLanguage]}
+              </Text>
+              <Button
+                spacing={3}
+                iconName={Icons.TRASH}
+                variant={ButtonVariants.DANGER}
+                onClick={() =>
+                  onDeleteOrganizer(parseOfferId(organizer['@id']))
+                }
+              >
+                {t('create.additionalInformation.organizer.delete')}
+              </Button>
+            </Inline>
+          ) : !addButtonHasBeenPressed ? (
             <Button
               variant={ButtonVariants.SECONDARY}
               onClick={() => setAddButtonHasBeenPressed(true)}
@@ -68,7 +95,7 @@ const OrganizerPicker = ({
               labelKey={getLabelKey(
                 i18n.language as Values<typeof SupportedLanguages>,
               )}
-              selected={valueToArray(value)}
+              selected={valueToArray(organizer)}
               onInputChange={debounce(setOrganizerSearchInput, 275)}
               onChange={(organizers) => {
                 const organizer = organizers[0];
@@ -79,7 +106,7 @@ const OrganizerPicker = ({
                   return;
                 }
 
-                onChange(organizer);
+                onChange(parseOfferId(organizer['@id']));
               }}
               maxWidth="30rem"
               minLength={3}
