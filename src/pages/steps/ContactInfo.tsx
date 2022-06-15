@@ -49,9 +49,13 @@ const ContactInfo = ({ eventContactInfo, eventBookingInfo }: Props) => {
       return { email: [], url: [], phone: [] };
     }
     return {
-      email: [...eventContactInfo['email'], eventBookingInfo['email']],
-      url: [...eventContactInfo['url'], eventBookingInfo['url']],
-      phone: [...eventContactInfo['phone'], eventBookingInfo['phone']],
+      email: [
+        ...new Set([...eventContactInfo['email'], eventBookingInfo['email']]),
+      ],
+      url: [...new Set([...eventContactInfo['url'], eventBookingInfo['url']])],
+      phone: [
+        ...new Set([...eventContactInfo['phone'], eventBookingInfo['phone']]),
+      ],
     };
   }, [eventContactInfo, eventBookingInfo]);
 
