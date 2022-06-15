@@ -5,7 +5,7 @@ import { css } from 'styled-components';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
-import { Stack } from '@/ui/Stack';
+import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
@@ -41,7 +41,11 @@ type Props = {
   eventBookingInfo: BookingInfo;
 };
 
-const ContactInfo = ({ eventContactInfo, eventBookingInfo }: Props) => {
+const ContactInfo = ({
+  eventContactInfo,
+  eventBookingInfo,
+  ...props
+}: Props) => {
   const { t } = useTranslation();
 
   const mergedContactAndBookingInfo = useMemo(() => {
@@ -64,7 +68,7 @@ const ContactInfo = ({ eventContactInfo, eventBookingInfo }: Props) => {
   };
 
   return (
-    <Stack>
+    <Stack {...getStackProps(props)}>
       <Inline spacing={3} marginBottom={3}>
         <Text fontWeight="bold">
           {t('create.additionalInformation.contact_info.title')}
