@@ -9,6 +9,7 @@ import { Typeahead } from '@/ui/Typeahead';
 import { valueToArray } from '@/utils/valueToArray';
 
 type Props = Omit<StackProps, 'onChange'> & {
+  country?: 'BE' | 'NL';
   name: string;
   value: City;
   onChange: (city: City) => void;
@@ -16,14 +17,14 @@ type Props = Omit<StackProps, 'onChange'> & {
 };
 
 const CityPicker = forwardRef<HTMLInputElement, Props>(
-  ({ name, value, onChange, onBlur, error, ...props }, ref) => {
+  ({ country, name, value, onChange, onBlur, error, ...props }, ref) => {
     const { t } = useTranslation();
 
     const [citySearchInput, setCitySearchInput] = useState('');
 
     const getCitiesQuery = useGetCitiesByQuery({
       q: citySearchInput,
-      country: 'BE',
+      country,
     });
 
     const cities = getCitiesQuery.data ?? [];
@@ -54,6 +55,10 @@ const CityPicker = forwardRef<HTMLInputElement, Props>(
     );
   },
 );
+
+CityPicker.defaultProps = {
+  country: 'BE',
+};
 
 export { CityPicker };
 export type { City };

@@ -11,12 +11,28 @@ import { FormElement } from '@/ui/FormElement';
 import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
 import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
+import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
 import { Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
 import { City, CityPicker } from './CityPicker';
+
+const countries = [
+  {
+    label: 'België',
+    value: 'BE',
+  },
+  {
+    label: 'Nederland',
+    value: 'NL',
+  },
+  {
+    label: 'Locatie in overleg met de school',
+    value: 'CUSTOM',
+  },
+];
 
 export const getValue = getValueFromTheme('organizerAddModal');
 
@@ -27,7 +43,7 @@ const schema = yup
     address: yup
       .object({
         streetAndNumber: yup.string().required(),
-        country: yup.string().oneOf(['BE', 'NL']).required(),
+        country: yup.string().oneOf(['BE', 'NL', 'CUSTOM']).required(),
         city: yup
           .object({
             label: yup.string().required(),
@@ -77,6 +93,7 @@ const OrganizerAddModal = ({
     formState,
     control,
     reset,
+    watch,
     setValue,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
@@ -84,6 +101,8 @@ const OrganizerAddModal = ({
   });
 
   const urlRegisterProps = register('url');
+
+  const watchedCountry = watch('address.country');
 
   useEffect(() => {
     setValue('name', prefillName);
@@ -161,6 +180,22 @@ const OrganizerAddModal = ({
               border: 1px solid ${getValue('address.borderColor')};
             `}
           >
+            <Stack>
+              <Controller<OrganizerData>
+                control={control}
+                name="address.country"
+                render={({ field }) => (
+                  <RadioButtonGroup
+                    name="country"
+                    items={countries}
+                    selected={
+                      field.value as OrganizerData['address']['country']
+                    }
+                    onChange={field.onChange}
+                  />
+                )}
+              />
+            </Stack>
             <FormElement
               Component={<Input {...register('address.streetAndNumber')} />}
               id="organizer-address-streetAndNumber"
@@ -172,24 +207,42 @@ const OrganizerAddModal = ({
                 )
               }
             />
-            <Controller<OrganizerData>
-              control={control}
-              name="address.city"
-              render={({ field }) => {
-                return (
-                  <CityPicker
-                    {...field}
-                    value={field.value as City}
-                    error={
-                      formState.errors.address?.city &&
-                      t(
-                        'organizer.add_modal.validation_messages.address.addressLocality',
-                      )
-                    }
-                  />
-                );
-              }}
-            />
+            <Inline spacing={4}>
+              <Stack flex={1}>
+                <Controller<OrganizerData>
+                  control={control}
+                  name="address.city"
+                  render={({ field }) => {
+                    return (
+                      <CityPicker
+                        country={watchedCountry as 'BE' | 'NL'}
+                        {...field}
+                        value={field.value as City}
+                        error={
+                          formState.errors.address?.city &&
+                          t(
+                            'organizer.add_modal.validation_messages.address.addressLocality',
+                          )
+                        }
+                      />
+                    );
+                  }}
+                />
+              </Stack>
+              {watchedCountry === 'NL' && (
+                <FormElement
+                  Component={<Input {...register('address.city.zip')} />}
+                  id="organizer-address-city-zip"
+                  label={t('organizer.add_modal.labels.address.city.zip')}
+                  error={
+                    formState.errors.address?.city?.zip &&
+                    t(
+                      'organizer.add_modal.validation_messages.address.city.zip',
+                    )
+                  }
+                />
+              )}
+            </Inline>
           </Stack>
         </Stack>
       </Stack>
