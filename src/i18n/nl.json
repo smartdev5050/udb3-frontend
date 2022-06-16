@@ -349,6 +349,11 @@
         "confirm": "Bevestigen"
       }
     },
+    "toast": {
+      "success": {
+        "audienceType": "Toegang is succesvol gewijzigd"
+      }
+    },
     "additionalInformation": {
       "title": "Laat je evenement extra opvallen",
       "description": {
@@ -409,6 +414,20 @@
         "prices": "Prijzen",
         "uitpas_error": "De UiTPAS prijs wordt voor jou berekend door UiTdatabank. Je kan deze niet zelf toevoegen.",
         "global_error": "Deze prijsinformatie lijkt ongeldig en kan je daarom niet bewaren. <ul><li>Noteer decimalen met een komma.</li><li>Laat geen enkel rij leeg, vul steeds een doelgroep en een bedrag in.</li><li>Geef maximum twee cijfers na de komma.</li></ul>"
+      },
+      "contact_info": {
+        "title": "Contact & reservatie",
+        "url": "Website",
+        "phone": "Telefoonnummer",
+        "email": "E-mailadres",
+        "empty": "U heeft nog geen {{contactInfoType}} toegevoegd",
+        "is_used_for_reservation": "Wordt gebruikt voor reservatie",
+        "edit_cta": "Bewerken"
+      },
+      "audience": {
+        "everyone": "Voor iedereen",
+        "members": "Enkel voor leden",
+        "education": "Specifiek voor scholen"
       }
     }
   },

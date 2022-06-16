@@ -44,6 +44,8 @@ import { VideoLinkAddModal } from '../VideoLinkAddModal';
 import { VideoLinkDeleteModal } from '../VideoLinkDeleteModal';
 import type { Video, VideoEnriched } from '../VideoUploadBox';
 import { VideoUploadBox } from '../VideoUploadBox';
+import { Audience } from './Audience';
+import { ContactInfo } from './ContactInfo';
 import { OrganizerPicker } from './OrganizerPicker';
 import { PriceInformation } from './PriceInformation';
 
@@ -54,7 +56,7 @@ const AdditionalInformationStepVariant = {
   EXTENDED: 'extended',
 } as const;
 
-type Field = 'description' | 'image' | 'video' | 'priceInfo';
+type Field = 'description' | 'image' | 'video' | 'priceInfo' | 'audience';
 
 type Props = StackProps & {
   eventId: string;
@@ -225,6 +227,28 @@ const AdditionalInformationStep = ({
     i18n.language,
     variant,
   ]);
+
+  const eventContactInfo = useMemo(() => {
+    if (variant !== AdditionalInformationStepVariant.EXTENDED) return;
+    // @ts-expect-error
+    return getEventByIdQuery.data?.contactPoint;
+    // @ts-expect-error
+  }, [getEventByIdQuery.data?.contactPoint, variant]);
+
+  const eventBookingInfo = useMemo(() => {
+    if (variant !== AdditionalInformationStepVariant.EXTENDED) return;
+    // @ts-expect-error
+    return getEventByIdQuery.data?.bookingInfo;
+    // @ts-expect-error
+  }, [getEventByIdQuery.data?.bookingInfo, variant]);
+  const audienceType = useMemo(() => {
+    if (variant !== AdditionalInformationStepVariant.EXTENDED) {
+      return;
+    }
+    // @ts-expect-error
+    return getEventByIdQuery.data?.audience?.audienceType;
+    // @ts-expect-error
+  }, [getEventByIdQuery.data?.audience?.audienceType, variant]);
 
   const enrichVideos = async (video: Video[]) => {
     const getYoutubeThumbnailUrl = (videoUrl: string) => {
@@ -545,11 +569,22 @@ const AdditionalInformationStep = ({
             />
           )}
           {variant === AdditionalInformationStepVariant.EXTENDED && (
-            <PriceInformation
-              priceInfo={priceInfo}
-              onClickAddPriceInfo={() => setIsPriceInfoModalVisible(true)}
-              onClickAddFreePriceInfo={() => handleAddFreePriceInfo()}
-            />
+            <Stack spacing={4}>
+              <PriceInformation
+                priceInfo={priceInfo}
+                onClickAddPriceInfo={() => setIsPriceInfoModalVisible(true)}
+                onClickAddFreePriceInfo={() => handleAddFreePriceInfo()}
+              />
+              <ContactInfo
+                eventContactInfo={eventContactInfo}
+                eventBookingInfo={eventBookingInfo}
+              />
+              <Audience
+                eventId={eventId}
+                selectedAudience={audienceType}
+                onChangeSuccess={() => invalidateEventQuery('audience')}
+              />
+            </Stack>
           )}
         </Stack>
         <Stack spacing={4} flex={1}>
