@@ -111,15 +111,8 @@ const PriceInfoModal = ({
   const formComponent = useRef<HTMLFormElement>();
   const [hasGlobalError, setHasGlobalError] = useState(false);
   const [hasUitpasError, setHasUitpasError] = useState(false);
-  const [
-    hasDuplicatePriceInfoNameError,
-    setHasDuplicatePriceInfoNameError,
-  ] = useState(false);
 
-  const [
-    duplicatePriceInfoNameErrorMessage,
-    setDuplicatePriceInfoNameErrorMessage,
-  ] = useState('');
+  const [duplicateNameError, setDuplicateNameError] = useState('');
 
   const {
     register,
@@ -165,30 +158,21 @@ const PriceInfoModal = ({
     ]);
   };
 
-  const hasDuplicatePriceInfoName = (): Rate[] => {
-    const language = i18n.language;
-    return watchedRates.filter((rate: Rate) => {
-      const name = rate.name[language];
-      return (
-        watchedRates.filter((rate: Rate) => name === rate.name[language])
-          .length > 1
-      );
-    });
-  };
+  const getDuplicateName = () => {
+    const seenRates = [];
 
-  const handleDuplicatePriceInfoName = (
-    ratesWithDuplicateNames: Rate[],
-  ): void => {
-    if (ratesWithDuplicateNames.length > 0) {
-      const priceName = ratesWithDuplicateNames[0].name[i18n.language];
-      setHasDuplicatePriceInfoNameError(true);
-      setDuplicatePriceInfoNameErrorMessage(
-        t('create.additionalInformation.price_info.duplicate_name_error', {
-          priceName,
-        }),
-      );
-      return;
-    }
+    const duplicateName =
+      watchedRates.find((rate) => {
+        const name = rate.name[i18n.language];
+
+        if (seenRates.includes(name)) {
+          return true;
+        }
+
+        seenRates.push(name);
+      })?.name[i18n.language] ?? '';
+
+    return duplicateName;
   };
 
   const isPriceFree = (price: string): boolean => {
@@ -230,12 +214,21 @@ const PriceInfoModal = ({
         as="form"
         padding={4}
         onSubmit={handleSubmit(async (data) => {
-          const duplicates = hasDuplicatePriceInfoName();
-          if (duplicates.length > 0) {
-            handleDuplicatePriceInfoName(duplicates);
+          const duplicateName = getDuplicateName();
+
+          if (duplicateName) {
+            setDuplicateNameError(
+              t(
+                'create.additionalInformation.price_info.duplicate_name_error',
+                {
+                  priceName: duplicateName,
+                },
+              ),
+            );
             return;
           }
-          setHasDuplicatePriceInfoNameError(false);
+
+          setDuplicateNameError('');
           await onSubmitValid(data);
         })}
         ref={formComponent}
@@ -342,9 +335,9 @@ const PriceInfoModal = ({
             {t('create.additionalInformation.price_info.uitpas_error')}
           </Alert>
         )}
-        {hasDuplicatePriceInfoNameError && (
+        {!!duplicateNameError && (
           <Alert marginTop={3} variant={AlertVariants.DANGER}>
-            {duplicatePriceInfoNameErrorMessage}
+            {duplicateNameError}
           </Alert>
         )}
         <Inline marginTop={3}>
