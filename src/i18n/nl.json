@@ -87,6 +87,7 @@
   "create": {
     "additionalInformation": {
       "audience": {
+        "title": "Toegang",
         "education": "Specifiek voor scholen",
         "everyone": "Voor iedereen",
         "members": "Enkel voor leden"
