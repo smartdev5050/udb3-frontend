@@ -46,6 +46,7 @@ import type { Video, VideoEnriched } from '../VideoUploadBox';
 import { VideoUploadBox } from '../VideoUploadBox';
 import { Audience } from './Audience';
 import { ContactInfo } from './ContactInfo';
+import { ContactInfoEntry } from './ContactInfoEntry';
 import { OrganizerPicker } from './OrganizerPicker';
 import { PriceInformation } from './PriceInformation';
 
@@ -579,6 +580,7 @@ const AdditionalInformationStep = ({
                 eventContactInfo={eventContactInfo}
                 eventBookingInfo={eventBookingInfo}
               />
+              <ContactInfoEntry />
               <Audience
                 eventId={eventId}
                 selectedAudience={audienceType}
