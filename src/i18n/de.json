@@ -1,348 +1,259 @@
 {
-  "brand": "UiTdatabank",
-  "description": "UiTdatabank liefert Informationen an mehr als 1.000 Agendas, darunter UiTinvlaanderen, Webseiten von Städten und Gemeinden, Themen-Agendas, Printmedien und mobile Apps. Auch Ihre Aktivität kann auf vielen Agendas erscheinen.",
-  "countries": {
-    "BE": "Belgien",
-    "NL": "Niederlande"
-  },
-  "main": {
-    "activities_info": "Ein Ausflug, eine Sportaktivität, ein Spieleabend, Jahrmarkt oder Kurs? Ein Konzert, eine Ausstellung oder ein Film? UiTdatabank steht für die verschiedensten Freizeitaktivitäten offen.",
-    "activities": "Aktivitäten pro Jahr",
-    "channels_info_link_text": "1.000 Agendas",
-    "channels_info_link_url": "https://www.publiq.be/nl/publicatiekanalen",
-    "channels_info": "UiTdatabank liefert Informationen an mehr als <1>{{link}}</1>, darunter UiTinvlaanderen, Webseiten von Städten und Gemeinden, Themen-Agendas, Printmedien und mobile Apps. Auch Ihre Aktivität kann auf vielen Agendas erscheinen.",
-    "channels": "verschiedene Kanäle",
-    "lead_sub": "Fügen Sie kostenlos Ihre Aktivitäten hinzu und erreichen Sie ein größeres Publikum",
-    "lead": "Organisieren Sie eine Aktivität?",
-    "mission": "So machen Sie mehr Menschen Lust auf Ihre Aktivität.",
-    "organizers_info": "Jährlich promoten 28.000 Organisatoren ihre Aktivitäten über die UiTdatabank. Insgesamt erreichen sie damit jährlich mehr als 3 Millionen Menschen. Fügen Sie genau wie andere Organisatoren Ihre Aktivität schnell und einfach hinzu.",
-    "organizers": "Organisatoren",
-    "start": "Starten Sie hier",
-    "flanders_image": "vlaanderen-logo.svg"
-  },
-  "footer": {
-    "about": "Über UiTdatabank",
-    "by": "Ein Produkt von",
-    "changeProfile": "Mein Profil ändern",
-    "contact": "Kontaktieren Sie uns",
-    "dev": "Für Entwickler",
-    "flemishGovernment": "Flämische Regierung",
-    "legal_path": "Nutzungsbedingungen-uitdatabank",
-    "legal": "Nutzungsbedingungen",
-    "privacy": "Datenschutz",
-    "questions": "Haben Sie Fragen oder Feedback?",
-    "withSupport": "mit Unterstützung von",
-    "profile": "Mein Profil ändern"
+  "404": {
+    "redirect": "Zurück zur Startseite",
+    "sub_title": "Es tut uns leid, die Seite, die Sie gesucht haben, existiert nicht.",
+    "title": "404 Nicht Gefunden"
   },
   "announcements": {
     "new_features": "Neu bei UiTdatabank",
     "no_features": "Momentan gibt es keine Neuigkeiten."
   },
-  "menu": {
-    "add": "Eingeben",
-    "home": "Startseite",
-    "labels": "Labels",
-    "logout": "Abmelden",
-    "management": "Verwaltung",
-    "notifications": "Benachrichtigungen",
-    "organizations": "Organisationen",
-    "productions": "Produktionen",
-    "movies": "Filme",
-    "roles": "Rollen",
-    "search": "Suchen",
-    "users": "Benutzer",
-    "validate": "Validieren",
-    "announcements": "Ankündigungen"
-  },
-  "pagination": {
-    "next": "Weiter",
-    "previous": "Zurück"
-  },
-  "typeahead": {
-    "prompt_text": "Tipp deine Suche einfach...",
-    "search_text": "Wird gesucht...",
-    "no_results": "Keine Ergebnisse gefunden"
-  },
-  "time_table": {
-    "start": "Start",
-    "end": "Ende"
-  },
-  "productions": {
-    "delete": {
-      "title": "Veranstaltungen(en) von Produktion entfernen"
-    },
-    "overview": {
-      "cancel": "Abbrechen",
-      "confirm": "Bestätigen",
-      "create": "Hinzufügen",
-      "delete_question_event": "Sind Sie sicher, dass Sie die ausgewählte Veranstaltung aus der Produktion '{{productionName}}' entfernen möchten?",
-      "delete_question_events": "Sind Sie sicher, dass Sie die ausgewählten {{eventCount}} Veranstaltungen aus der Produktion '{{productionName}}' entfernen möchten?",
-      "delete": "Löschen",
-      "details": "Details",
-      "events_in_production": "Veranstaltungen in {{productionName}}",
-      "loading": "Laden",
-      "no_events": "Keine Veranstaltungen unter dieser Produktion.",
-      "no_productions": "Keine Produktionen gefunden.",
-      "production": "Produktion",
-      "search": {
-        "label": "Nach Produktionsnamen suchen:",
-        "placeholder": "Erstellen Sie eine Suchanfrage von mindestens 3 Zeichen."
-      },
-      "title": "Produktionen",
-      "aria": {
-        "productions": "Produktionen",
-        "events": "Veranstaltungen"
-      }
-    },
-    "create": {
-      "no_productions": "Keine Produktionen gefunden.",
-      "new_production": "Neue Produktion: ",
-      "link": "Linken",
-      "no_suggested_events_found": "Keine Veranstaltungen gefunden, um an eine Produktion zu linken. Probieren Sie es später noch einmal.",
-      "production_name": "Produktionsname",
-      "skip": "Überspringen",
-      "suggested_events": "Vereinbarung für vorgestellte Veranstaltungen:",
-      "title": "Produktionen hinzufügen"
-    },
-    "event": {
-      "part_of_production": "Teil der Produktion",
-      "title": "Titel",
-      "type": "Art",
-      "when": "Wann",
-      "where": "Wo"
-    }
-  },
-  "movies": {
-    "create": {
-      "title": "Filme hinzufügen",
-      "step1_title": "Was für einen Film möchten Sie eingeben?",
-      "step2_title": "Wann wird der Film gezeigt?",
-      "step3_title": "Wo wird der Film gezeigt?",
-      "step4_title": "Wie heißt der Film?",
-      "actions": {
-        "change_theme": "Thema ändern",
-        "copy_table": "Tabelle kopieren",
-        "change_cinema": "Kino ändern",
-        "choose_cinema": "Wählen Sie ein Kino aus",
-        "choose_name": "Wählen Sie einen Namen"
-      }
-    }
-  },
-  "offerStatus": {
-    "title": "Verfügbarkeit für {{name}}",
-    "info": "Wählen Sie die Zeiten, für die Sie den Status oder die Verfügbarkeit von Tickets oder Plätzen anpassen möchten",
-    "period": "Zeit",
-    "statusLabel": "Status",
-    "newStatus": "Neuer Status",
-    "changeStatus": "Status ändern",
-    "reason": "Grund",
-    "reasonTip": "Sie können optional einen Grund für die Statusänderung angeben. Der Grund wird zusammen mit dem neuen Status auf UiTinVlaanderen und anderen UiT-Kanälen veröffentlicht.",
-    "status": {
-      "event": {
-        "available": "Findet statt",
-        "temporarilyUnavailable": "Verlegt",
-        "temporarilyUnavailableInfo": "Ihre Veranstaltung wurde auf einen späteren, noch unbekannten Zeitpunkt verlegt.",
-        "unavailable": "Abgesagt",
-        "unavailableInfo": "Ihre Veranstaltung findet nicht mehr zum vorgesehenen Zeitpunkt und auch zu keinem späteren Zeitpunkt statt."
-      },
-      "place": {
-        "available": "Offen",
-        "temporarilyUnavailable": "Zeitweise geschlossen",
-        "temporarilyUnavailableInfo": "Ihr Ort wird vorübergehend nicht mehr auf UiTinVlaanderen und anderen UiT-Kanälen angezeigt. Sobald Ihr Ort wieder öffnet, können Sie den Status erneut auf 'offen' ändern.",
-        "unavailable": "Permanent geschlossen",
-        "unavailableInfo": "Ihr Ort wird nicht mehr auf UiTinVlaanderen und anderen UiT-Kanälen angezeigt."
-      }
-    },
-    "dateToBeDefined": "Neues noch festzulegendes Datum",
-    "modificationReady": "Fertig mit Status ändern",
+  "bookingAvailability": {
     "actions": {
       "cancel": "Abbrechen",
       "close": "Schließen",
       "save": "Speichern"
     },
-    "maxLengthReason": "Der Grund für die Statusänderung kann nicht mehr als {{amount}} Zeichen umfassen."
-  },
-  "bookingAvailability": {
-    "title": "Verfügbarkeit Tickets & Plätze",
+    "available": "Verfügbar",
     "change": "Tickets & Plätze anpassen",
     "label": "Tickets & Plätze",
-    "available": "Verfügbar",
-    "unavailable": "Voll oder ausverkauft",
-    "actions": {
-      "cancel": "Abbrechen",
-      "close": "Schließen",
-      "save": "Speichern"
+    "title": "Verfügbarkeit Tickets & Plätze",
+    "unavailable": "Voll oder ausverkauft"
+  },
+  "brand": "UiTdatabank",
+  "calendarSummary": {
+    "at": "um",
+    "from": "Von",
+    "till": "bis"
+  },
+  "city_picker": {
+    "label": "Gemeinde",
+    "no_cities": "Keine Gemeinden gefunden"
+  },
+  "copyright": {
+    "questions": {
+      "1": {
+        "answer": "",
+        "question": ""
+      },
+      "2": {
+        "answer": {
+          "paragraph1": "",
+          "paragraph2": "",
+          "paragraph3": "",
+          "step1": "",
+          "step2": "",
+          "step3": "",
+          "step4": "",
+          "step5": "",
+          "step6": ""
+        },
+        "question": ""
+      },
+      "3": {
+        "answer": "",
+        "question": ""
+      },
+      "4": {
+        "answer": {
+          "paragraph1": "",
+          "step1": "",
+          "step2": "",
+          "step3": "",
+          "step4": "",
+          "step5": "",
+          "step6": ""
+        },
+        "question": ""
+      },
+      "5": {
+        "answer": "",
+        "question": ""
+      },
+      "6": {
+        "answer": "",
+        "question": ""
+      },
+      "7": {
+        "answer": "",
+        "question": ""
+      }
     }
   },
+  "countries": {
+    "BE": "Belgien",
+    "NL": "Niederlande"
+  },
   "create": {
-    "publish_modal": {
-      "title": "Wählen Sie ein Veröffentlichungsdatum",
-      "description": "Ab wann soll dies online angezeigt werden?",
-      "warning": "Achtung, dieses Datum kann nur einmalig eingestellt werden.",
-      "actions": {
-        "cancel": "Abbrechen",
-        "confirm": "Fertig mit bearbeiten"
-      }
-    },
     "additionalInformation": {
-      "title": "Heben Sie Ihre Veranstaltung besonders hervor",
-      "description": {
-        "title": "Beschreibung",
-        "clear": "Leeren",
-        "progress_info": {
-          "not_complete": "Die ersten {{idealLength}} Zeichen sind am wichtigsten, wenn Sie sich an ein neues Publikum richten. Noch {{count}} Zeichen.",
-          "complete": "Bringen Sie die wichtigste Botschaft in den ersten {{idealLength}} Zeichen unter. Sie können noch zusätzliche Hintergrundinformationen hinzufügen."
-        },
-        "tips": {
-          "0.50.4.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Konzerts. <ul><li>Welche(r)<strong> Künstler(innen)</strong> treten auf? </li><li>Um welches <strong>Genre</strong> handelt es sich?</li><li>Welches<strong> Album</strong> <strong>oder Werk </strong>wird vorgestellt? </li></ul>",
-          "0.54.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung der Tanzvorführung.<ul><li>Wer ist der <strong>Choreograph</strong>?</li><li>Wer sind die<strong> Tänzer</strong>?</li><li>Welchen <strong>Stil</strong> tanzen sie?</li><li>Um welches <strong>Thema oder Problem</strong> dreht sich die Vorstellung?</li></ul>",
-          "0.5.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Festivals. <ul> <li>Wer oder was steht auf dem <strong>Programm?</strong> </li> <li>Welche <strong>(Neben)Aktivitäten</strong> gibt es?</li> </ul>",
-          "0.50.6.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Films. <ul> <li>Umreißen Sie kurz die <strong>Geschichte</strong>. </li> <li>Wer ist der <strong>Regisseur?</strong> </li> <li>Wer spielt die  <strong>Hauptrolle?</strong> </li> <li>Hat der Film <strong>Preise</strong> gewonnen? </li></ul>",
-          "0.3.2.0.0": "Schreiben Sie eine enthusiastische Umschreibung der Lesung oder des Kongresses. <ul> <li>Welche<strong> Themas</strong> werden behandelt? </li><li>Welche <strong>Sprecher </strong>nehmen das Wort?</li></ul>",
-          "0.55.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung der Vorstellung.  <ul> <li>Umreißen Sie kurz die <strong>Geschichte</strong> oder das <strong>Thema</strong>. </li> <li>Welches <strong>Theaterensemble</strong> führt das Stück auf? </li> <li>Welche <strong>Darsteller</strong> spielen mit?</li></ul>",
-          "0.19.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Sportwettkampfes. <ul> <li>Welche <strong>Mannschaften oder Teilnehmer</strong> treten an? </li> <li>In welcher<strong> Liga</strong> findet der Wettkampf statt?</li></ul>",
-          "0.37.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Markts oder Straßenfests. <ul> <li>In <strong>welchen Straßen</strong> findet dieser statt? </li> <li>Welche <strong>Stände</strong> werden anwesend sein? </li><li>Gibt es <strong>(Neben)Aktivitäten</strong>?</li></ul>",
-          "0.12.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung vom Tag der offenen Tür. Was kann man <strong>sehen </strong>oder <strong>erleben?</strong>",
-          "0.6.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung der Messe. Was kann man <strong>ansehen</strong>, <strong>erleben</strong> oder <strong>kaufen</strong>?",
-          "0.0.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung der Ausstellung. <ul> <li>Welche <strong>Künstler</strong> stellen aus?</li> <li>Welche<strong> Kollektionen</strong> können betrachtet werden? </li> <li>Steht ein <strong>(Audio)Guide</strong> oder <strong>eine Broschüre</strong> zur Verfügung?</li></ul>",
-          "0.7.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Rundgangs. <ul> <li>Was kann man entlang der Strecke <strong>sehen oder erleben</strong>? </li><li>Gibt es eine maximale <strong>Anzahl Teilnehmer</strong>? </li><li>Wird der Rundgang durchgehen oder zu <strong>bestimmten Zeiten</strong> organisiert? </li><li>Gibt es <strong>Dinge zu beachten</strong> (zB. Stiefel notwendig)?</li></ul>",
-          "0.3.1.0.0": "Schreiben Sie eine enthusiastische Umschreibung der Vorlesungsreihe. <ul><li>Was genau lernt man? </li><li>Benötigt man <strong>Vorkenntnisse</strong> um teilzunehmen? </li><li>Welches <strong>Niveau</strong> haben die Vorlesungen? </li><li>Erhält man am Ende ein <strong>Diplom</strong> oder Zertifikat?</li></ul>",
-          "0.3.1.0.1": "Schreiben Sie eine enthusiastische Umschreibung des Workshops oder Kurses mit öffentlichen Sitzungen. <ul><li>Was genau lernt man? </li><li>Benötigt man <strong>Vorkenntnisse</strong> um teilzunehmen? </li><li>Welches <strong>Niveau</strong> haben die Vorlesungen? </li><li>Erhält man am Ende ein <strong>Diplom</strong> oder Zertifikat?</li></ul>",
-          "0.57.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Camps oder Ferienlagers.  <ul><li>Welche <strong>Aktivitäten</strong> gibt es? </li><li>Gibt es ein <strong>Thema</strong>? </li><li>Gibt es beim Camp <strong>Übernachtungsmöglichkeiten</strong>? </li><li>Wann <strong>beginnt und endet</strong> das Tagescamp und gibt es davor und danach <strong>Betreuungsmöglichkeiten</strong>?</li></ul>",
-          "0.28.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Jahrmarkts. <ul> <li>Welche <strong>Attraktionen</strong> gibt es? </li> <li>Gibt es<strong> (Neben)Aktivitäten</strong> (Quiz, Konzerte, Foodtrucks, Markt...)?</li></ul>",
-          "0.17.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Ausflugs. <ul> <li>Findet dieser <strong>zu Fuß, mit dem Rad, mit dem Boot </strong>…statt? </li> <li>Welche möglichen <strong>Zwischenstopps</strong> gibt es? </li> <li>Wie lang ist die <strong>Strecke</strong> oder <strong>Dauer</strong> dieses Ausflugs?</li> <li>Findet der Ausflug <strong>in Begleitung</strong>, mit einem Guide, einer Broschüre oder mit Wegweisern statt?</li> </ul>",
-          "0.49.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung der Party. Welche <strong>DJs</strong> oder <strong>Bands</strong> treten auf?",
-          "1.50.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Spendenmahls. <ul><li>Was steht auf der <strong>Speisekarte?</strong> </li><li>Geht der Erlös an einen<strong> guten Zweck</strong>? </li><li>Gibt es <strong>(Neben)Aktivitäten</strong>?</li></ul>",
-          "0.50.21.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Quiz oder Spiels. <ul><li>Um welche <strong>Themen</strong> dreht sich das Quiz?</li><li>Hat das Spiel ein <strong>Thema</strong>?</li><li>Gibt es etwas zu <strong>gewinnen</strong>?</li><li>Gibt es eine <strong>maximale</strong> Anzahl <strong>Teilnehmer</strong>?</li></ul>",
-          "0.59.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung der Sportaktivität. <ul> <li>Welche <strong>Sportart</strong>(en) können ausgeübt werden? </li><li>Welche <strong>Geräte</strong> werden (nicht) gestellt?</li></ul>",
-          "0.14.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Monuments. Geben Sie auch an, ob das Monument nur eingeschränkt zugänglich ist (zB. nur Salons)."
-        }
-      },
-      "organizer": {
-        "title": "Organisator",
-        "add_new_label": "Neuen Organisator hinzufügen: ",
-        "add_new_button": "Organisator hinzufügen",
-        "change": "Ändern"
-      },
-      "picture": {
-        "add_button": "Hauptabbildung erstellen",
-        "intro": "Fügen Sie eine Abbildung hinzu, damit die Besucher Ihre Aktivität besser erkennen können.",
-        "change": "Ändern",
-        "delete": "Löschen",
-        "set_as_main_image": "Hauptabbildung erstellen"
-      },
-      "price_info": {
-        "euro": "euro",
-        "title": "Preise hinzufügen",
-        "change": "Ändern",
-        "close": "Schließen",
-        "save": "Speichern",
-        "free": "Kostenlos",
-        "add": "Tarif hinzufügen",
-        "delete": "Tarif löschen",
-        "basic_rate": "Basistarif",
-        "target": "Zielgruppe",
-        "price": "Preis",
-        "prices": "Preise",
-        "uitpas_error": "Der UiTPAS-Preis wird von UiTdatabank für Sie berechnet. Sie können diese nicht selbst hinzufügen.",
-        "global_error": "Diese Preisinformation scheint ungültig zu sein und kann daher nicht gespeichert werden. <ul><li>Notieren Sie Dezimalstellen mit einem Komma.</li><li>Lassen Sie keine Reihe frei, geben Sie immer eine Zielgruppe und einen Betrag ein.</li><li>Geben Sie maximal zwei Ziffern nach dem Komma ein.</li></ul>"
+      "audience": {
+        "education": "Nur für Schulen",
+        "everyone": "Für alle",
+        "members": "Nur für Mitglieder",
+        "title": "Zugang"
       },
       "contact_info": {
-        "title": "Kontakt & Reservierung",
-        "url": "Website",
-        "phone": "Telefoonnummer",
+        "edit_cta": "Bearbeiten",
         "email": "E-mailadres",
         "empty": "Sie haben noch keine {{contactInfoType}} hinzugefügt",
         "is_used_for_reservation": "Für die Reservierung verwendet",
-        "edit_cta": "Bearbeiten"
+        "phone": "Telefoonnummer",
+        "title": "Kontakt & Reservierung",
+        "url": "Website"
       },
-      "audience": {
-        "everyone": "Für alle",
-        "members": "Nur für Mitglieder",
-        "education": "Nur für Schulen"
+      "description": {
+        "clear": "Leeren",
+        "progress_info": {
+          "complete": "Bringen Sie die wichtigste Botschaft in den ersten {{idealLength}} Zeichen unter. Sie können noch zusätzliche Hintergrundinformationen hinzufügen.",
+          "not_complete": "Die ersten {{idealLength}} Zeichen sind am wichtigsten, wenn Sie sich an ein neues Publikum richten. Noch {{count}} Zeichen."
+        },
+        "tips": {
+          "0.0.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung der Ausstellung. <ul> <li>Welche <strong>Künstler</strong> stellen aus?</li> <li>Welche<strong> Kollektionen</strong> können betrachtet werden? </li> <li>Steht ein <strong>(Audio)Guide</strong> oder <strong>eine Broschüre</strong> zur Verfügung?</li></ul>",
+          "0.12.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung vom Tag der offenen Tür. Was kann man <strong>sehen </strong>oder <strong>erleben?</strong>",
+          "0.14.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Monuments. Geben Sie auch an, ob das Monument nur eingeschränkt zugänglich ist (zB. nur Salons).",
+          "0.17.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Ausflugs. <ul> <li>Findet dieser <strong>zu Fuß, mit dem Rad, mit dem Boot </strong>…statt? </li> <li>Welche möglichen <strong>Zwischenstopps</strong> gibt es? </li> <li>Wie lang ist die <strong>Strecke</strong> oder <strong>Dauer</strong> dieses Ausflugs?</li> <li>Findet der Ausflug <strong>in Begleitung</strong>, mit einem Guide, einer Broschüre oder mit Wegweisern statt?</li> </ul>",
+          "0.19.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Sportwettkampfes. <ul> <li>Welche <strong>Mannschaften oder Teilnehmer</strong> treten an? </li> <li>In welcher<strong> Liga</strong> findet der Wettkampf statt?</li></ul>",
+          "0.28.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Jahrmarkts. <ul> <li>Welche <strong>Attraktionen</strong> gibt es? </li> <li>Gibt es<strong> (Neben)Aktivitäten</strong> (Quiz, Konzerte, Foodtrucks, Markt...)?</li></ul>",
+          "0.3.1.0.0": "Schreiben Sie eine enthusiastische Umschreibung der Vorlesungsreihe. <ul><li>Was genau lernt man? </li><li>Benötigt man <strong>Vorkenntnisse</strong> um teilzunehmen? </li><li>Welches <strong>Niveau</strong> haben die Vorlesungen? </li><li>Erhält man am Ende ein <strong>Diplom</strong> oder Zertifikat?</li></ul>",
+          "0.3.1.0.1": "Schreiben Sie eine enthusiastische Umschreibung des Workshops oder Kurses mit öffentlichen Sitzungen. <ul><li>Was genau lernt man? </li><li>Benötigt man <strong>Vorkenntnisse</strong> um teilzunehmen? </li><li>Welches <strong>Niveau</strong> haben die Vorlesungen? </li><li>Erhält man am Ende ein <strong>Diplom</strong> oder Zertifikat?</li></ul>",
+          "0.3.2.0.0": "Schreiben Sie eine enthusiastische Umschreibung der Lesung oder des Kongresses. <ul> <li>Welche<strong> Themas</strong> werden behandelt? </li><li>Welche <strong>Sprecher </strong>nehmen das Wort?</li></ul>",
+          "0.37.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Markts oder Straßenfests. <ul> <li>In <strong>welchen Straßen</strong> findet dieser statt? </li> <li>Welche <strong>Stände</strong> werden anwesend sein? </li><li>Gibt es <strong>(Neben)Aktivitäten</strong>?</li></ul>",
+          "0.49.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung der Party. Welche <strong>DJs</strong> oder <strong>Bands</strong> treten auf?",
+          "0.5.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Festivals. <ul> <li>Wer oder was steht auf dem <strong>Programm?</strong> </li> <li>Welche <strong>(Neben)Aktivitäten</strong> gibt es?</li> </ul>",
+          "0.50.21.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Quiz oder Spiels. <ul><li>Um welche <strong>Themen</strong> dreht sich das Quiz?</li><li>Hat das Spiel ein <strong>Thema</strong>?</li><li>Gibt es etwas zu <strong>gewinnen</strong>?</li><li>Gibt es eine <strong>maximale</strong> Anzahl <strong>Teilnehmer</strong>?</li></ul>",
+          "0.50.4.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Konzerts. <ul><li>Welche(r)<strong> Künstler(innen)</strong> treten auf? </li><li>Um welches <strong>Genre</strong> handelt es sich?</li><li>Welches<strong> Album</strong> <strong>oder Werk </strong>wird vorgestellt? </li></ul>",
+          "0.50.6.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Films. <ul> <li>Umreißen Sie kurz die <strong>Geschichte</strong>. </li> <li>Wer ist der <strong>Regisseur?</strong> </li> <li>Wer spielt die  <strong>Hauptrolle?</strong> </li> <li>Hat der Film <strong>Preise</strong> gewonnen? </li></ul>",
+          "0.54.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung der Tanzvorführung.<ul><li>Wer ist der <strong>Choreograph</strong>?</li><li>Wer sind die<strong> Tänzer</strong>?</li><li>Welchen <strong>Stil</strong> tanzen sie?</li><li>Um welches <strong>Thema oder Problem</strong> dreht sich die Vorstellung?</li></ul>",
+          "0.55.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung der Vorstellung.  <ul> <li>Umreißen Sie kurz die <strong>Geschichte</strong> oder das <strong>Thema</strong>. </li> <li>Welches <strong>Theaterensemble</strong> führt das Stück auf? </li> <li>Welche <strong>Darsteller</strong> spielen mit?</li></ul>",
+          "0.57.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Camps oder Ferienlagers.  <ul><li>Welche <strong>Aktivitäten</strong> gibt es? </li><li>Gibt es ein <strong>Thema</strong>? </li><li>Gibt es beim Camp <strong>Übernachtungsmöglichkeiten</strong>? </li><li>Wann <strong>beginnt und endet</strong> das Tagescamp und gibt es davor und danach <strong>Betreuungsmöglichkeiten</strong>?</li></ul>",
+          "0.59.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung der Sportaktivität. <ul> <li>Welche <strong>Sportart</strong>(en) können ausgeübt werden? </li><li>Welche <strong>Geräte</strong> werden (nicht) gestellt?</li></ul>",
+          "0.6.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung der Messe. Was kann man <strong>ansehen</strong>, <strong>erleben</strong> oder <strong>kaufen</strong>?",
+          "0.7.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Rundgangs. <ul> <li>Was kann man entlang der Strecke <strong>sehen oder erleben</strong>? </li><li>Gibt es eine maximale <strong>Anzahl Teilnehmer</strong>? </li><li>Wird der Rundgang durchgehen oder zu <strong>bestimmten Zeiten</strong> organisiert? </li><li>Gibt es <strong>Dinge zu beachten</strong> (zB. Stiefel notwendig)?</li></ul>",
+          "1.50.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Spendenmahls. <ul><li>Was steht auf der <strong>Speisekarte?</strong> </li><li>Geht der Erlös an einen<strong> guten Zweck</strong>? </li><li>Gibt es <strong>(Neben)Aktivitäten</strong>?</li></ul>"
+        },
+        "title": "Beschreibung"
+      },
+      "organizer": {
+        "add_new_button": "Organisator hinzufügen",
+        "add_new_label": "Neuen Organisator hinzufügen: ",
+        "change": "Ändern",
+        "title": "Organisator"
+      },
+      "picture": {
+        "add_button": "Hauptabbildung erstellen",
+        "change": "Ändern",
+        "delete": "Löschen",
+        "intro": "Fügen Sie eine Abbildung hinzu, damit die Besucher Ihre Aktivität besser erkennen können.",
+        "set_as_main_image": "Hauptabbildung erstellen"
+      },
+      "price_info": {
+        "add": "Tarif hinzufügen",
+        "basic_rate": "Basistarif",
+        "change": "Ändern",
+        "close": "Schließen",
+        "delete": "Tarif löschen",
+        "euro": "euro",
+        "free": "Kostenlos",
+        "global_error": "Diese Preisinformation scheint ungültig zu sein und kann daher nicht gespeichert werden. <ul><li>Notieren Sie Dezimalstellen mit einem Komma.</li><li>Lassen Sie keine Reihe frei, geben Sie immer eine Zielgruppe und einen Betrag ein.</li><li>Geben Sie maximal zwei Ziffern nach dem Komma ein.</li></ul>",
+        "price": "Preis",
+        "prices": "Preise",
+        "save": "Speichern",
+        "target": "Zielgruppe",
+        "title": "Preise hinzufügen",
+        "uitpas_error": "Der UiTPAS-Preis wird von UiTdatabank für Sie berechnet. Sie können diese nicht selbst hinzufügen."
+      },
+      "title": "Heben Sie Ihre Veranstaltung besonders hervor"
+    },
+    "publish_modal": {
+      "actions": {
+        "cancel": "Abbrechen",
+        "confirm": "Fertig mit bearbeiten"
+      },
+      "description": "Ab wann soll dies online angezeigt werden?",
+      "title": "Wählen Sie ein Veröffentlichungsdatum",
+
+      "warning": "Achtung, dieses Datum kann nur einmalig eingestellt werden."
+    },
+    "toast": {
+      "success": {
+        "audienceType": "Zugang wurde erfolgreich geändert",
+        "organizer": "Organisation wurde erfolgreich geändert"
       }
     }
   },
   "dashboard": {
-    "welcome": "Willkommen",
+    "actions": {
+      "cancel": "Abbrechen",
+      "delete": "Löschen",
+      "edit": "Bearbeiten",
+      "preview": "Beispiel"
+    },
     "create": {
       "events": "Veranstaltung hinzufügen",
-      "places": "Ort hinzufügen",
-      "organizers": "Organisatio hinzufügen"
+      "organizers": "Organisatio hinzufügen",
+      "places": "Ort hinzufügen"
     },
-    "sorting": {
-      "label": "Sortiere nach",
-      "created_desc": "Erstellungsdatum (neu - alt)",
-      "created_asc": "Erstellungsdatum (alt - neu)",
-      "availableTo_desc": "Veranstaltungsdatum (neu - alt)",
-      "availableTo_asc": "Veranstaltungsdatum (alt - neu)",
-      "results": {
+    "event": "Veranstaltung",
+    "modal": {
+      "question": "Sind Sie sicher, dass Sie '{{name}}' löschen möchten?",
+      "title": "{{type}} löschen",
+      "types": {
         "events": "Veranstaltungen",
-        "places": "Orte",
-        "organizers": "Organisatoren"
+        "organizers": "Organisatoren",
+        "places": "Orte"
       }
     },
-    "no_items": {
-      "events": "Keine Veranstaltungen gefunden",
-      "places": "Keine Orte gefunden",
-      "organizers": "Keine Organisationen gefunden"
-    },
-    "passed": "Abgelaufen {{type}}",
-    "event": "Veranstaltung",
-    "place": "Ort",
-    "organizer": "Organisation",
-    "not_published": "Nicht veröffentlicht",
-    "online_from": "Online ab {{date}}",
-    "tabs": {
-      "events": "Meine Veranstaltungen",
-      "places": "Meine Orte",
-      "organizers": "Meine Organisationen"
-    },
-    "actions": {
-      "edit": "Bearbeiten",
-      "preview": "Beispiel",
-      "delete": "Löschen",
-      "cancel": "Abbrechen"
-    },
     "newsletter": {
-      "questions_or_feedback": "Haben Sie Fragen oder Feedback?",
       "contact": "Kontaktieren Sie uns",
-      "title": "Praktische Eingabetipps in Ihrem Postfach",
       "content": "Melden Sie sich für unseren Newsletter an und erhalten Sie praktische Tipps zum Eingeben Ihrer Aktivitäten in die UiTdatabank!",
-      "subscribe": "Anmelden",
       "invalid": "Geben Sie eine gültige E-Mail-Adresse ein.",
       "logo": "newsletter-logo.svg",
       "logo_alt": "Newsletter Logo",
+      "questions_or_feedback": "Haben Sie Fragen oder Feedback?",
+      "subscribe": "Anmelden",
       "success": {
-        "title": "Vielen Dank!",
-        "content": "Sie haben sich für unseren Newsletter angemeldet und erhalten nun praktische Tipps zum Eingeben Ihrer Aktivitäten in die UiTdatabank!"
+        "content": "Sie haben sich für unseren Newsletter angemeldet und erhalten nun praktische Tipps zum Eingeben Ihrer Aktivitäten in die UiTdatabank!",
+        "title": "Vielen Dank!"
+      },
+      "title": "Praktische Eingabetipps in Ihrem Postfach"
+    },
+    "no_items": {
+      "events": "Keine Veranstaltungen gefunden",
+      "organizers": "Keine Organisationen gefunden",
+      "places": "Keine Orte gefunden"
+    },
+    "not_published": "Nicht veröffentlicht",
+    "online_from": "Online ab {{date}}",
+    "organizer": "Organisation",
+    "passed": "Abgelaufen {{type}}",
+    "place": "Ort",
+    "sorting": {
+      "availableTo_asc": "Veranstaltungsdatum (alt - neu)",
+      "availableTo_desc": "Veranstaltungsdatum (neu - alt)",
+      "created_asc": "Erstellungsdatum (alt - neu)",
+      "created_desc": "Erstellungsdatum (neu - alt)",
+      "label": "Sortiere nach",
+      "results": {
+        "events": "<0>{{count}}</0> veranstaltung",
+        "events_plural": "<0>{{count}}</0> veranstaltungen",
+        "organizers": "<0>{{count}}</0> organisator",
+        "organizers_plural": "<0>{{count}}</0> organisatoren",
+        "places": "<0>{{count}}</0> orte",
+        "places_plural": "<0>{{count}}</0> standorte"
       }
     },
-    "modal": {
-      "title": "{{type}} löschen",
-      "question": "Sind Sie sicher, dass Sie '{{name}}' löschen möchten?",
-      "types": {
-        "events": "Veranstaltungen",
-        "places": "Orte",
-        "organizers": "Organisatoren"
-      }
-    }
+    "tabs": {
+      "events": "Meine Veranstaltungen",
+      "organizers": "Meine Organisationen",
+      "places": "Meine Orte"
+    },
+    "welcome": "Willkommen"
   },
-  "jobs": {
-    "download": "Herunterladen",
-    "finished": "Abgeschlossen",
-    "in_progress": "In Behandlung",
-    "notifications": "Benachrichtigungen",
-    "time_ago": "{{time}} her"
-  },
-  "calendarSummary": {
-    "from": "Von",
-    "till": "bis",
-    "at": "um"
-  },
-  "selectionTable": {
-    "rowsSelectedCount": "{{count}} Reihe ausgewählt",
-    "rowsSelectedCount_plural": "{{count}} Reihen ausgewählt"
+  "description": "UiTdatabank liefert Informationen an mehr als 1.000 Agendas, darunter UiTinvlaanderen, Webseiten von Städten und Gemeinden, Themen-Agendas, Printmedien und mobile Apps. Auch Ihre Aktivität kann auf vielen Agendas erscheinen.",
+  "error": {
+    "description": "Etwas ist schief gegangen. Laden Sie die Seite erneut, um es noch einmal zu probieren. Kontaktieren Sie <1>{{email}}</1>, wenn das Problem bestehen bleibt",
+    "email": "vragen@uitdatabank.be",
+    "title": "Es ist ein Fehler aufgetreten"
   },
   "eventTypes": {
     "0.0.0.0.0": "Ausstellung",
@@ -386,20 +297,292 @@
     "Yf4aZBfsUEu2NsQqsprngw": "Kultur- oder Begegnungszentrum",
     "YVBc8KVdrU6XfTNvhMYUpg": "Diskothek"
   },
-  "themes": {
-    "1.7.2.0.0": "Action- und Abenteuerfilm",
-    "1.7.12.0.0": "Animations- und Kinderfilme",
-    "1.7.1.0.0": "Dokumentationen und Reportagen",
-    "1.7.6.0.0": "Gruselfilm oder Horror",
-    "1.7.8.0.0": "Historischer Film",
-    "1.7.3.0.0": "Komödie",
-    "1.7.13.0.0": "Kurzfilm",
-    "1.7.10.0.0": "Filmmusical",
-    "1.7.4.0.0": "Drama",
-    "1.7.7.0.0": "Science-Fiction",
-    "1.7.11.0.0": "Filmliebhaber",
-    "1.7.14.0.0": "Mehrere Filmgenres",
-    "1.7.15.0.0": "Thriller"
+  "footer": {
+    "about": "Über UiTdatabank",
+    "by": "Ein Produkt von",
+    "changeProfile": "Mein Profil ändern",
+    "contact": "Kontaktieren Sie uns",
+    "de": "Deutsch",
+    "dev": "Für Entwickler",
+    "flemishGovernment": "Flämische Regierung",
+    "fr": "Français",
+    "legal": "Nutzungsbedingungen",
+    "legal_path": "Nutzungsbedingungen-uitdatabank",
+    "nl": "Nederlands",
+    "privacy": "Datenschutz",
+    "profile": "Mein Profil ändern",
+    "questions": "Haben Sie Fragen oder Feedback?",
+    "withSupport": "mit Unterstützung von"
+  },
+  "jobs": {
+    "download": "Herunterladen",
+    "finished": "Abgeschlossen",
+    "in_progress": "In Behandlung",
+    "notifications": "Benachrichtigungen",
+    "time_ago": "{{time}} her"
+  },
+  "main": {
+    "activities": "Aktivitäten pro Jahr",
+    "activities_info": "Ein Ausflug, eine Sportaktivität, ein Spieleabend, Jahrmarkt oder Kurs? Ein Konzert, eine Ausstellung oder ein Film? UiTdatabank steht für die verschiedensten Freizeitaktivitäten offen.",
+    "channels": "verschiedene Kanäle",
+    "channels_info": "UiTdatabank liefert Informationen an mehr als <1>{{link}}</1>, darunter UiTinvlaanderen, Webseiten von Städten und Gemeinden, Themen-Agendas, Printmedien und mobile Apps. Auch Ihre Aktivität kann auf vielen Agendas erscheinen.",
+    "channels_info_link_text": "1.000 Agendas",
+    "channels_info_link_url": "https://www.publiq.be/nl/publicatiekanalen",
+    "flanders_image": "vlaanderen-logo.svg",
+    "lead": "Organisieren Sie eine Aktivität?",
+    "lead_sub": "Fügen Sie kostenlos Ihre Aktivitäten hinzu und erreichen Sie ein größeres Publikum",
+    "mission": "So machen Sie mehr Menschen Lust auf Ihre Aktivität.",
+    "organizers": "Organisatoren",
+    "organizers_info": "Jährlich promoten 28.000 Organisatoren ihre Aktivitäten über die UiTdatabank. Insgesamt erreichen sie damit jährlich mehr als 3 Millionen Menschen. Fügen Sie genau wie andere Organisatoren Ihre Aktivität schnell und einfach hinzu.",
+    "start": "Starten Sie hier"
+  },
+  "menu": {
+    "add": "Eingeben",
+    "announcements": "Ankündigungen",
+    "home": "Startseite",
+    "labels": "Labels",
+    "logout": "Abmelden",
+    "management": "Verwaltung",
+    "movies": "Filme",
+    "notifications": "Benachrichtigungen",
+    "organizations": "Organisationen",
+    "productions": "Produktionen",
+    "roles": "Rollen",
+    "search": "Suchen",
+    "users": "Benutzer",
+    "validate": "Validieren"
+  },
+  "movies": {
+    "create": {
+      "actions": {
+        "change_cinema": "",
+        "change_name": "",
+        "change_theme": "",
+        "choose_cinema": "",
+        "choose_name": "",
+        "clear": "",
+        "copy_table": "",
+        "description": "",
+        "publish": "",
+        "publish_later": "",
+        "save": ""
+      },
+      "footer": {
+        "auto_save": "",
+        "done_editing": ""
+      },
+      "step1": {
+        "title": ""
+      },
+      "step2": {
+        "title": ""
+      },
+      "step3": {
+        "title": ""
+      },
+      "step4": {
+        "title": ""
+      },
+      "step5": {
+        "title": ""
+      },
+      "title": "",
+      "toast": {
+        "success": {
+          "calendar": "",
+          "description": "",
+          "image": "",
+          "location": "",
+          "name": "",
+          "theme": "",
+          "title": "",
+          "video": ""
+        }
+      },
+      "validation_messages": {
+        "cinema": {
+          "required": ""
+        },
+        "production": {
+          "required": ""
+        },
+        "timeTable": {
+          "all-timeslots-valid": "",
+          "has-timeslot": ""
+        }
+      }
+    }
+  },
+  "offerStatus": {
+    "actions": {
+      "cancel": "Abbrechen",
+      "close": "Schließen",
+      "save": "Speichern"
+    },
+    "changeStatus": "Status ändern",
+    "dateToBeDefined": "Neues noch festzulegendes Datum",
+    "info": "Wählen Sie die Zeiten, für die Sie den Status oder die Verfügbarkeit von Tickets oder Plätzen anpassen möchten",
+    "maxLengthReason": "Der Grund für die Statusänderung kann nicht mehr als {{amount}} Zeichen umfassen.",
+    "modificationReady": "Fertig mit Status ändern",
+    "newStatus": "Neuer Status",
+    "period": "Zeit",
+    "reason": "Grund",
+    "reasonTip": "Sie können optional einen Grund für die Statusänderung angeben. Der Grund wird zusammen mit dem neuen Status auf UiTinVlaanderen und anderen UiT-Kanälen veröffentlicht.",
+    "status": {
+      "event": {
+        "available": "Findet statt",
+        "temporarilyUnavailable": "Verlegt",
+        "temporarilyUnavailableInfo": "Ihre Veranstaltung wurde auf einen späteren, noch unbekannten Zeitpunkt verlegt.",
+        "unavailable": "Abgesagt",
+        "unavailableInfo": "Ihre Veranstaltung findet nicht mehr zum vorgesehenen Zeitpunkt und auch zu keinem späteren Zeitpunkt statt."
+      },
+      "place": {
+        "available": "Offen",
+        "temporarilyUnavailable": "Zeitweise geschlossen",
+        "temporarilyUnavailableInfo": "Ihr Ort wird vorübergehend nicht mehr auf UiTinVlaanderen und anderen UiT-Kanälen angezeigt. Sobald Ihr Ort wieder öffnet, können Sie den Status erneut auf 'offen' ändern.",
+        "unavailable": "Permanent geschlossen",
+        "unavailableInfo": "Ihr Ort wird nicht mehr auf UiTinVlaanderen und anderen UiT-Kanälen angezeigt."
+      }
+    },
+    "statusLabel": "Status",
+    "title": "Verfügbarkeit für {{name}}"
+  },
+  "organizer": {
+    "add_modal": {
+      "actions": {
+        "add": "Hinzufügen",
+        "cancel": "Absagen"
+      },
+      "info": {
+        "zip": "Beispiel 1104CA"
+      },
+      "labels": {
+        "address": {
+          "country": "Land",
+          "streetAndNumber": "Straße und Nummer",
+          "title": "Adresse",
+          "zip": "Postleitzahl"
+        },
+        "name": {
+          "info": "Der offizielle öffentliche Name der Organisation",
+          "title": "Name"
+        },
+        "url": "Webseite"
+      },
+      "title": "Organisation hinzufügen",
+      "url_requirements": "Um Organisationen in der UiT-Datenbank einzigartig zu halten, bitten wir jede Organisation um einen eindeutigen und gültigen Hyperlink",
+      "validation_messages": {
+        "address": {
+          "addressLocality": "Ihre Gemeinde erfüllt die Anforderungen nicht.",
+          "streetAndNumber": "Ihre Straße und Hausnummer entsprechen nicht den Anforderungen."
+        },
+        "name": "Ihr Name entspricht nicht den Anforderungen.",
+        "url": "Ihre Website entspricht nicht den Anforderungen."
+      }
+    }
+  },
+  "pagination": {
+    "next": "Weiter",
+    "previous": "Zurück"
+  },
+  "pictures": {
+    "add_button": "Bild hinzufügen",
+    "change": "Ändern",
+    "delete": "Löschen",
+    "delete_modal": {
+      "actions": {
+        "cancel": "Abbrechen",
+        "confirm": "Bestätigen"
+      },
+      "description": "Möchten Sie dieses Bild wirklich löschen?",
+      "title": "Bilder löschen"
+    },
+    "intro": "Fügen Sie ein Bild hinzu, damit Besucher Ihre Aktivität erkennen können",
+    "set_as_main_image": "Hauptbild erstellen",
+    "title": "Bilder",
+    "upload_modal": {
+      "actions": {
+        "adjust": "Anpassen",
+        "cancel": "Abbrechen",
+        "choose_file": "Datei wählen",
+        "upload": "Hochladen"
+      },
+      "disclaimer": {
+        "copyright": "Geben Sie den Namen des urheberrechtlich geschützten Fotografen an. Geben Sie den Namen Ihres eigenen Vereins oder Ihrer Organisation nur ein, wenn Sie die Rechte besitzen (mindestens 2 Zeichen).",
+        "terms_and_conditions": {
+          "labels": {
+            "copyright": "urheberrechte",
+            "terms": "geschäftsbedingungen"
+          },
+          "text": "Sie sind dabei, Bilder hinzuzufügen und öffentlich zu verteilen. Sie müssen alle anwendbaren Urheber- und Porträtrechte sowie alle anderen anwendbaren Gesetze respektieren. Sie können dafür gemäß <0></0> haftbar gemacht werden. Weitere Informationen zu <1></1>"
+        }
+      },
+      "file_requirements": "Die maximale Größe Ihres Bildes beträgt 5 MB und hat den Typ .jpeg, .gif oder .png",
+      "title": "Bild hinzufügen",
+      "validation_messages": {
+        "copyrightHolder": {
+          "required": "Urheberrecht ist erforderlich."
+        },
+        "description": {
+          "max": "Beschreibung darf maximal 250 Zeichen lang sein.",
+          "required": "Beschreibung ist erforderlich."
+        },
+        "file": {
+          "required": "Bitte wählen Sie eine Datei aus",
+          "size": "Die ausgewählte Datei ist größer als 5 MB.",
+          "type": "Die ausgewählte Datei hat keinen gültigen Dateityp"
+        }
+      }
+    }
+  },
+  "productions": {
+    "create": {
+      "link": "Linken",
+      "new_production": "Neue Produktion: ",
+      "no_productions": "Keine Produktionen gefunden.",
+      "no_suggested_events_found": "Keine Veranstaltungen gefunden, um an eine Produktion zu linken. Probieren Sie es später noch einmal.",
+      "production_name": "Produktionsname",
+      "skip": "Überspringen",
+      "suggested_events": "Vereinbarung für vorgestellte Veranstaltungen:",
+      "title": "Produktionen hinzufügen"
+    },
+    "delete": {
+      "title": "Veranstaltungen(en) von Produktion entfernen"
+    },
+    "event": {
+      "part_of_production": "Teil der Produktion",
+      "title": "Titel",
+      "type": "Art",
+      "when": "Wann",
+      "where": "Wo"
+    },
+    "overview": {
+      "aria": {
+        "events": "Veranstaltungen",
+        "productions": "Produktionen"
+      },
+      "cancel": "Abbrechen",
+      "confirm": "Bestätigen",
+      "create": "Hinzufügen",
+      "delete": "Löschen",
+      "delete_question_event": "Sind Sie sicher, dass Sie die ausgewählte Veranstaltung aus der Produktion '{{productionName}}' entfernen möchten?",
+      "delete_question_events": "Sind Sie sicher, dass Sie die ausgewählten {{eventCount}} Veranstaltungen aus der Produktion '{{productionName}}' entfernen möchten?",
+      "details": "Details",
+      "events_in_production": "Veranstaltungen in {{productionName}}",
+      "loading": "Laden",
+      "no_events": "Keine Veranstaltungen unter dieser Produktion.",
+      "no_productions": "Keine Produktionen gefunden.",
+      "production": "Produktion",
+      "search": {
+        "label": "Nach Produktionsnamen suchen:",
+        "placeholder": "Erstellen Sie eine Suchanfrage von mindestens 3 Zeichen."
+      },
+      "title": "Produktionen"
+    }
+  },
+  "selectionTable": {
+    "rowsSelectedCount": "{{count}} Reihe ausgewählt",
+    "rowsSelectedCount_plural": "{{count}} Reihen ausgewählt"
   },
   "steps": {
     "offerTypeStep": {
@@ -410,14 +593,53 @@
       }
     }
   },
-  "404": {
-    "title": "404 Nicht Gefunden",
-    "sub_title": "Es tut uns leid, die Seite, die Sie gesucht haben, existiert nicht.",
-    "redirect": "Zurück zur Startseite"
+  "themes": {
+    "1.7.1.0.0": "Dokumentationen und Reportagen",
+    "1.7.10.0.0": "Filmmusical",
+    "1.7.11.0.0": "Filmliebhaber",
+    "1.7.12.0.0": "Animations- und Kinderfilme",
+    "1.7.13.0.0": "Kurzfilm",
+    "1.7.14.0.0": "Mehrere Filmgenres",
+    "1.7.15.0.0": "Thriller",
+    "1.7.2.0.0": "Action- und Abenteuerfilm",
+    "1.7.3.0.0": "Komödie",
+    "1.7.4.0.0": "Drama",
+    "1.7.6.0.0": "Gruselfilm oder Horror",
+    "1.7.7.0.0": "Science-Fiction",
+    "1.7.8.0.0": "Historischer Film"
   },
-  "error": {
-    "title": "Es ist ein Fehler aufgetreten",
-    "description": "Etwas ist schief gegangen. Laden Sie die Seite erneut, um es noch einmal zu probieren. Kontaktieren Sie <1>{{email}}</1>, wenn das Problem bestehen bleibt",
-    "email": "vragen@uitdatabank.be"
+  "time_table": {
+    "end": "Ende",
+    "start": "Start"
+  },
+  "typeahead": {
+    "no_results": "Keine Ergebnisse gefunden",
+    "prompt_text": "Tipp deine Suche einfach...",
+    "search_text": "Wird gesucht..."
+  },
+  "videos": {
+    "add_button": "Videolink hinzufügen",
+    "delete": "Löschen",
+    "delete_modal": {
+      "actions": {
+        "cancel": "Abbrechen",
+        "confirm": "Bestätigen"
+      },
+      "description": "Möchten Sie diesen Videolink wirklich entfernen?",
+      "title": "Videolink entfernen"
+    },
+    "intro": "Fügen Sie einen Videolink hinzu, damit Besucher Ihre Aktivität erkennen können",
+    "title": "Videos",
+    "upload_modal": {
+      "actions": {
+        "add": "Hinzufügen",
+        "cancel": "Abbrechen"
+      },
+      "link_requirements": "Sie können nur Video-URLs von YouTube oder Vimeo hinzufügen",
+      "title": "Videolink hinzufügen",
+      "validation_messages": {
+        "link": "Ihr Videolink entspricht nicht den Anforderungen."
+      }
+    }
   }
 }
