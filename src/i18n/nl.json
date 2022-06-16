@@ -1,6 +1,10 @@
 {
   "brand": "UiTdatabank",
   "description": "UiTdatabank levert informatie aan meer dan 1.000 agenda's, waaronder UiTinvlaanderen, websites van steden en gemeenten, thema-agenda's, gedrukte bladen en mobiele apps. Ook jouw activiteit kan verschijnen op vele agenda's.",
+  "countries": {
+    "BE": "België",
+    "NL": "Nederland"
+  },
   "main": {
     "activities_info": "Een uitstap, sportactiviteit, kaartavond, kermis of cursus? Een concert, tentoonstelling of film? UiTdatabank staat open voor de meest uiteenlopende vrijetijdsactiviteiten.",
     "activities": "activiteiten per jaar",
@@ -56,6 +60,11 @@
   "pagination": {
     "next": "Volgende",
     "previous": "Vorige"
+  },
+  "typeahead": {
+    "prompt_text": "Typ om te zoeken...",
+    "search_text": "Aan het zoeken...",
+    "no_results": "Geen resultaten gevonden"
   },
   "time_table": {
     "start": "Start",
@@ -134,6 +143,44 @@
         "cancel": "Annuleren",
         "confirm": "Verwijderen"
       }
+    }
+  },
+  "city_picker": {
+    "label": "Gemeente",
+    "no_cities": "Geen gemeentes gevonden"
+  },
+  "organizer": {
+    "add_modal": {
+      "title": "Organisatie toevoegen",
+      "actions": {
+        "add": "Toevoegen",
+        "cancel": "Annuleren"
+      },
+      "labels": {
+        "url": "Website",
+        "name": {
+          "title": "Naam",
+          "info": "De officiële publieke naam van de organisatie"
+        },
+        "address": {
+          "title": "Adres",
+          "streetAndNumber": "Straat en nummer",
+          "country": "Land",
+          "zip": "Postcode"
+        }
+      },
+      "validation_messages": {
+        "url": "Je website voldoet niet aan de vereisten.",
+        "name": "Je naam voldoet niet aan de vereisten.",
+        "address": {
+          "streetAndNumber": "Je straat en nummer voldoen niet aan de vereisten.",
+          "addressLocality": "Je gemeente voldoet niet aan de vereisten."
+        }
+      },
+      "info": {
+        "zip": "bv. 1104CA"
+      },
+      "url_requirements": "Om organisaties in de UiTdatabank uniek te houden, vragen we elke organisatie een unieke en geldige hyperlink"
     }
   },
   "productions": {
@@ -351,7 +398,8 @@
     },
     "toast": {
       "success": {
-        "audienceType": "Toegang is succesvol gewijzigd"
+        "audienceType": "Toegang is succesvol gewijzigd",
+        "organizer": "Organisatie is succesvol gewijzigd"
       }
     },
     "additionalInformation": {
@@ -390,7 +438,9 @@
       },
       "organizer": {
         "title": "Organisatie",
-        "add_new": "Voeg nieuwe organisator toe: "
+        "add_new_label": "Voeg nieuwe organisator toe: ",
+        "add_new_button": "Organisator toevoegen",
+        "change": "Wijzigen"
       },
       "picture": {
         "add_button": "Afbeelding toevoegen",

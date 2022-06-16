@@ -46,6 +46,7 @@ const EventForm = () => {
   const toast = useToast({
     messages: {
       audience: t('create.toast.success.audienceType'),
+      organizer: t('create.toast.success.organizer'),
     },
     title: 'event.create.title',
   });

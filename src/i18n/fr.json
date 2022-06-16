@@ -1,6 +1,10 @@
 {
   "brand": "UiTdatabank",
   "description": "UiTdatabank alimente en outre plus de 1.000 agendas de loisirs imprimés et numériques qui proposent des informations à jour. Ce sont les agendas de chaînes audio-visuelles et de médias locaux ou nationaux, de villes et communes, de services touristiques ou de grandes organisations de coordination.",
+  "countries": {
+    "BE": "Belgique",
+    "NL": "Pays-Bas"
+  },
   "main": {
     "activities_info": "Vous proposez un concert, une représentation, une exposition ou un film? Ou plutôt un événement sportif, une randonnée, une soirée cartes, une kermesse? Ou encore des cours, des ateliers ou des événements? Tout cela trouvera sa place dans l’UiTdatabank.",
     "activities": "activités par an",
@@ -53,6 +57,11 @@
   "pagination": {
     "next": "Prochain",
     "previous": "Dernier"
+  },
+  "typeahead": {
+    "prompt_text": "Entrez pour rechercher...",
+    "search_text": "En train de chercher...",
+    "no_results": "Aucun résultat trouvé"
   },
   "time_table": {
     "start": "Début",
@@ -195,7 +204,9 @@
       },
       "organizer": {
         "title": "Organisateur",
-        "add_new": "Ajouter un nouveau organisateur: "
+        "add_new_label": "Ajouter un nouveau organisateur: ",
+        "add_new_button": "Ajouter organisateur",
+        "change": "Modifier"
       },
       "picture": {
         "add_button": "Ajouter une image",

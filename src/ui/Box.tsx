@@ -44,6 +44,8 @@ type GeneralProps = {
   theme: Theme;
   children: ReactNode;
   className: string;
+  id: string;
+  name: string;
   as: string | ComponentType<any>;
   forwardedAs: string | ComponentType<any>;
   selected: unknown;
@@ -104,6 +106,8 @@ type TypeaheadProps = {
   delay: number;
   highlightOnlyResult: boolean;
   isInvalid: boolean;
+  promptText: string;
+  searchText: string;
   allowNew:
     | boolean
     | ((
@@ -202,7 +206,6 @@ type UIProps = {
   fontWeight: UIProp<string | number>;
   fontStyle: UIProp<string | number>;
   height: UIProp<string | number>;
-  id: UIProp<string>;
   justifyContent: UIProp<JustifyContent>;
   left: UIProp<string | number>;
   lineHeight: UIProp<string | number>;
