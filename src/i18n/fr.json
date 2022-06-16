@@ -152,6 +152,7 @@
         "change": "Modifier",
         "close": "Fermer",
         "delete": "Supprimer tarif",
+        "duplicate_name_error": " Le tarif avec le nom \"{{priceName}}\" existe déjà, veuillez utiliser un autre nom.",
         "euro": "euro",
         "free": "Gratuit",
         "global_error": "Cette information du prix semble invalide et ne peut pas être enregistrée. <ul><li>Notez les décimales avec une virgule.</li><li>Ne laissez aucune ligne vide, remplissez toujours un public cible et un montant.</li><li>Donnez au maximum deux chiffres après la virgule.</li></ul>",

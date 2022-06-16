@@ -152,6 +152,7 @@
         "change": "Wijzigen",
         "close": "Sluiten",
         "delete": "Tarief verwijderen",
+        "duplicate_name_error": "Tarief met de naam \"{{priceName}}\" bestaat al, gelieve een andere naam te gebruiken.",
         "euro": "euro",
         "free": "Gratis",
         "global_error": "Deze prijsinformatie lijkt ongeldig en kan je daarom niet bewaren. <ul><li>Noteer decimalen met een komma.</li><li>Laat geen enkel rij leeg, vul steeds een doelgroep en een bedrag in.</li><li>Geef maximum twee cijfers na de komma.</li></ul>",

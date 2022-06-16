@@ -152,6 +152,7 @@
         "change": "Ändern",
         "close": "Schließen",
         "delete": "Tarif löschen",
+        "duplicate_name_error": "Tarif mit dem Namen \"Hallo\" existiert bereits, bitte verwenden Sie einen anderen Namen.",
         "euro": "euro",
         "free": "Kostenlos",
         "global_error": "Diese Preisinformation scheint ungültig zu sein und kann daher nicht gespeichert werden. <ul><li>Notieren Sie Dezimalstellen mit einem Komma.</li><li>Lassen Sie keine Reihe frei, geben Sie immer eine Zielgruppe und einen Betrag ein.</li><li>Geben Sie maximal zwei Ziffern nach dem Komma ein.</li></ul>",
