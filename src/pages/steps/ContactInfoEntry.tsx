@@ -6,15 +6,16 @@ import { Inline } from '@/ui/Inline';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
+import { Title } from '@/ui/Title';
 
-const ContactInfoEntry = ({ ...props }) => {
+type Props = {
+  withReservationInfo: boolean;
+};
+
+const ContactInfoEntry = ({ withReservationInfo = false, ...props }: Props) => {
   const { t } = useTranslation();
 
-  return (
-    <Stack {...getStackProps(props)}>
-      <p>ContactInfoEntry</p>
-    </Stack>
-  );
+  return <Stack {...getStackProps(props)}></Stack>;
 };
 
 export { ContactInfoEntry };
