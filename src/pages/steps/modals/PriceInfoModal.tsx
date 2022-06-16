@@ -111,6 +111,15 @@ const PriceInfoModal = ({
   const formComponent = useRef<HTMLFormElement>();
   const [hasGlobalError, setHasGlobalError] = useState(false);
   const [hasUitpasError, setHasUitpasError] = useState(false);
+  const [
+    hasDuplicatePriceInfoNameError,
+    setHasDuplicatePriceInfoNameError,
+  ] = useState(false);
+
+  const [
+    duplicatePriceInfoNameErrorMessage,
+    setDuplicatePriceInfoNameErrorMessage,
+  ] = useState('');
 
   const {
     register,
@@ -156,6 +165,32 @@ const PriceInfoModal = ({
     ]);
   };
 
+  const hasDuplicatePriceInfoName = (): Rate[] => {
+    const language = i18n.language;
+    return watchedRates.filter((rate: Rate) => {
+      const name = rate.name[language];
+      return (
+        watchedRates.filter((rate: Rate) => name === rate.name[language])
+          .length > 1
+      );
+    });
+  };
+
+  const handleDuplicatePriceInfoName = (
+    ratesWithDuplicateNames: Rate[],
+  ): void => {
+    if (ratesWithDuplicateNames.length > 0) {
+      const priceName = ratesWithDuplicateNames[0].name[i18n.language];
+      setHasDuplicatePriceInfoNameError(true);
+      setDuplicatePriceInfoNameErrorMessage(
+        t('create.additionalInformation.price_info.duplicate_name_error', {
+          priceName,
+        }),
+      );
+      return;
+    }
+  };
+
   const isPriceFree = (price: string): boolean => {
     return ['0', '0,0', '0,00'].includes(price);
   };
@@ -195,6 +230,12 @@ const PriceInfoModal = ({
         as="form"
         padding={4}
         onSubmit={handleSubmit(async (data) => {
+          const duplicates = hasDuplicatePriceInfoName();
+          if (duplicates.length > 0) {
+            handleDuplicatePriceInfoName(duplicates);
+            return;
+          }
+          setHasDuplicatePriceInfoNameError(false);
           await onSubmitValid(data);
         })}
         ref={formComponent}
@@ -299,6 +340,11 @@ const PriceInfoModal = ({
         {hasUitpasError && (
           <Alert marginTop={3} variant={AlertVariants.WARNING}>
             {t('create.additionalInformation.price_info.uitpas_error')}
+          </Alert>
+        )}
+        {hasDuplicatePriceInfoNameError && (
+          <Alert marginTop={3} variant={AlertVariants.DANGER}>
+            {duplicatePriceInfoNameErrorMessage}
           </Alert>
         )}
         <Inline marginTop={3}>
