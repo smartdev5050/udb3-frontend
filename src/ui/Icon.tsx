@@ -24,6 +24,7 @@ import {
   faSearch,
   faSignOutAlt,
   faTag,
+  faTicketAlt,
   faTimes,
   faTrash,
   faUser,
@@ -68,6 +69,7 @@ const Icons = {
   COPY: 'copy',
   IMAGE: 'image',
   BUILDING: 'building',
+  TICKET: 'ticket',
 } as const;
 
 const IconsMap = {
@@ -101,6 +103,7 @@ const IconsMap = {
   [Icons.COPY]: faCopy,
   [Icons.IMAGE]: faImage,
   [Icons.BUILDING]: faBuilding,
+  [Icons.TICKET]: faTicketAlt,
 };
 
 type Props = Omit<BoxProps, 'width' | 'height'> & {
