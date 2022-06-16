@@ -28,10 +28,6 @@ const getOrganizerName = (org: Organizer, language: string) =>
   (typeof org.name === 'string' ? org.name : org.name[language]) ??
   org.name[org.mainLanguage];
 
-const getLabelKey = (language: Values<typeof SupportedLanguages>) => {
-  return (org: Organizer) => getOrganizerName(org, language);
-};
-
 const OrganizerPicker = ({
   organizer,
   onChange,
@@ -95,9 +91,7 @@ const OrganizerPicker = ({
           ) : (
             <Typeahead<Organizer>
               options={organizers}
-              labelKey={getLabelKey(
-                i18n.language as Values<typeof SupportedLanguages>,
-              )}
+              labelKey={(org) => getOrganizerName(org, i18n.language)}
               selected={valueToArray(organizer)}
               onInputChange={debounce(setOrganizerSearchInput, 275)}
               onChange={(organizers) => {
