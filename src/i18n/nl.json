@@ -1,213 +1,60 @@
 {
-  "brand": "UiTdatabank",
-  "description": "UiTdatabank levert informatie aan meer dan 1.000 agenda's, waaronder UiTinvlaanderen, websites van steden en gemeenten, thema-agenda's, gedrukte bladen en mobiele apps. Ook jouw activiteit kan verschijnen op vele agenda's.",
-  "main": {
-    "activities_info": "Een uitstap, sportactiviteit, kaartavond, kermis of cursus? Een concert, tentoonstelling of film? UiTdatabank staat open voor de meest uiteenlopende vrijetijdsactiviteiten.",
-    "activities": "activiteiten per jaar",
-    "channels_info_link_text": "1.000 agenda's",
-    "channels_info_link_url": "https://www.publiq.be/nl/publicatiekanalen",
-    "channels_info": "UiTdatabank levert informatie aan meer dan <1>{{link}}</1>, waaronder UiTinvlaanderen, websites van steden en gemeenten, thema-agenda's, gedrukte bladen en mobiele apps. Ook jouw activiteit kan verschijnen op vele agenda's.",
-    "channels": "verschillende kanalen",
-    "lead_sub": "Voeg gratis je activiteiten toe en bereik een groter publiek",
-    "lead": "Organiseer je een activiteit?",
-    "mission": "Zo geef je meer mensen meer goesting in jouw activiteit.",
-    "organizers_info": "Jaarlijks promoten 28.000 organisatoren hun activiteiten via UiTdatabank. In totaal bereiken ze daarmee jaarlijks meer dan 3 miljoen mensen. Voeg net als andere organisatoren je activiteit snel en eenvoudig toe.",
-    "organizers": "organisatoren",
-    "start": "Start hier",
-    "flanders_image": "vlaanderen-logo.svg"
-  },
-  "footer": {
-    "about": "Over UiTdatabank",
-    "by": "Een product van",
-    "changeProfile": "Mijn profiel wijzigen",
-    "contact": "Helpcentrum",
-    "dev": "Voor ontwikkelaars",
-    "flemishGovernment": "Vlaamse overheid",
-    "legal_path": "gebruikersovereenkomst-uitdatabank",
-    "legal": "Gebruiksvoorwaarden",
-    "privacy": "Privacy",
-    "questions": "Vragen of feedback?",
-    "withSupport": "met steun van de",
-    "profile": "Mijn profiel wijzigen",
-    "nl": "Nederlands",
-    "fr": "Français",
-    "de": "Deutsch"
+  "404": {
+    "redirect": "Ga terug naar Home",
+    "sub_title": "Sorry, de pagina die u zocht bestaat niet.",
+    "title": "404 Niet Gevonden"
   },
   "announcements": {
     "new_features": "Nieuw in UiTdatabank",
     "no_features": "Er zijn momenteel geen nieuwigheden."
   },
-  "menu": {
-    "add": "Invoeren",
-    "home": "Home",
-    "labels": "Labels",
-    "logout": "Afmelden",
-    "management": "Beheer",
-    "notifications": "Meldingen",
-    "organizations": "Organisaties",
-    "productions": "Producties",
-    "movies": "Films",
-    "roles": "Rollen",
-    "search": "Zoeken",
-    "users": "Gebruikers",
-    "validate": "Valideren",
-    "announcements": "Nieuwigheden"
-  },
-  "pagination": {
-    "next": "Volgende",
-    "previous": "Vorige"
-  },
-  "time_table": {
-    "start": "Start",
-    "end": "Einde"
-  },
-  "pictures": {
-    "title": "Afbeeldingen",
-    "intro": "Voeg een afbeelding toe zodat bezoekers je activiteit beter herkennen",
-    "add_button": "Afbeelding toevoegen",
-    "delete": "Verwijderen",
-    "change": "Wijzigen",
-    "set_as_main_image": "Maak hoofdafbeelding",
-    "upload_modal": {
-      "title": "Afbeelding toevoegen",
-      "actions": {
-        "choose_file": "Kies bestand",
-        "adjust": "Aanpassen",
-        "upload": "Uploaden",
-        "cancel": "Annuleren"
-      },
-      "file_requirements": "De maximale grootte van je afbeelding is 5MB en heeft als type .jpeg, .gif of .png",
-      "disclaimer": {
-        "copyright": "Vermeld de naam van de rechtenhoudende fotograaf. Vul alleen de naam van je eigen vereniging of organisatie in als je zelf de rechten bezit (minimum 2 karakters).",
-        "terms_and_conditions": {
-          "text": "Je staat op het punt (een) afbeelding(en) toe te voegen en openbaar te verspreiden. Je dient daartoe alle geldende auteurs- en portretrechten te respecteren, alsook alle andere toepasselijke wetgeving. Je kan daarvoor aansprakelijk worden gehouden, zoals vastgelegd in de <0></0>. Meer informatie over <1></1>",
-          "labels": {
-            "terms": "algemene voorwaarden",
-            "copyright": "copyright"
-          }
-        }
-      },
-      "validation_messages": {
-        "description": {
-          "required": "Beschrijving is verplicht.",
-          "max": "Beschrijving mag maximaal 250 karakters bevatten."
-        },
-        "copyrightHolder": {
-          "required": "Copyright is verplicht."
-        },
-        "file": {
-          "size": "Het bestand dat je selecteerde is groter dan 5MB.",
-          "type": "Het bestand dat je selecteerde is geen geldig bestandstype",
-          "required": "Gelieve een bestand te selecteren"
-        }
-      }
-    },
-    "delete_modal": {
-      "title": "Afbeeldingen verwijderen",
-      "description": "Ben je zeker dat je deze afbeelding wil verwijderen?",
-      "actions": {
-        "cancel": "Annuleren",
-        "confirm": "Verwijderen"
-      }
-    }
-  },
-  "videos": {
-    "title": "Video's",
-    "intro": "Voeg een video-link toe zodat bezoekers je activiteit beter herkennen",
-    "add_button": "Video-link toevoegen",
-    "delete": "Verwijderen",
-    "upload_modal": {
-      "title": "Video-link toevoegen",
-      "actions": {
-        "add": "Toevoegen",
-        "cancel": "Annuleren"
-      },
-      "validation_messages": {
-        "link": "Je video-link voldoet niet aan de vereisten."
-      },
-      "link_requirements": "Je kan enkel video-urls van YouTube of Vimeo toevoegen"
-    },
-    "delete_modal": {
-      "title": "Video-link verwijderen",
-      "description": "Ben je zeker dat je deze video-link wil verwijderen?",
-      "actions": {
-        "cancel": "Annuleren",
-        "confirm": "Verwijderen"
-      }
-    }
-  },
-  "productions": {
-    "delete": {
-      "title": "Evenement(en) verwijderen van productie"
-    },
-    "overview": {
+  "bookingAvailability": {
+    "actions": {
       "cancel": "Annuleren",
-      "change_name": "Naam wijzigen",
-      "confirm": "Bevestigen",
-      "create": "Toevoegen",
-      "delete_question_event": "Ben je zeker dat je het geselecteerde event wilt verwijderen uit productie '{{productionName}}'?",
-      "delete_question_events": "Ben je zeker dat je de geselecteerde {{eventCount}} events wilt verwijderen uit productie '{{productionName}}'?",
-      "delete": "Verwijderen",
-      "details": "Details",
-      "events_in_production": "Evenementen in {{productionName}}",
-      "loading": "Laden",
-      "no_events": "Geen evenementen onder deze productie.",
-      "no_productions": "Geen producties gevonden.",
-      "production": "Productie",
-      "search": {
-        "label": "Zoeken op productienaam:",
-        "placeholder": "Schrijf een zoekopdracht van minstens 3 karakters."
-      },
-      "title": "Producties",
-      "aria": {
-        "productions": "Producties",
-        "events": "Evenementen"
-      }
+      "close": "Sluiten",
+      "save": "Bewaren"
     },
-    "create": {
-      "no_productions": "Geen producties gevonden.",
-      "new_production": "Nieuwe productie: ",
-      "link": "Linken",
-      "no_suggested_events_found": "Geen evenementen gevonden om te linken aan een productie. Probeer het later opnieuw.",
-      "production_name": "Productienaam",
-      "skip": "Overslaan",
-      "suggested_events": "Overeenkomst voorgestelde evenementen:",
-      "title": "Producties toevoegen"
-    },
-    "event": {
-      "part_of_production": "Onderdeel van de productie",
-      "title": "Titel",
-      "type": "Type",
-      "when": "Wanneer",
-      "where": "Waar"
-    }
+    "available": "Beschikbaar",
+    "change": "Tickets & plaatsen wijzigen",
+    "label": "Tickets & plaatsen",
+    "title": "Beschikbaarheid tickets & plaatsen",
+    "unavailable": "Volzet of uitverkocht"
+  },
+  "brand": "UiTdatabank",
+  "calendarSummary": {
+    "at": "om",
+    "from": "Van",
+    "till": "tot"
+  },
+  "city_picker": {
+    "label": "Gemeente",
+    "no_cities": "Geen gemeentes gevonden"
   },
   "copyright": {
     "questions": {
       "1": {
-        "question": "Wat doet publiq vzw met foto's die ik upload?",
-        "answer": "Indien de foto auteursrechtelijk beschermd is, dient de naam van de maker te worden vermeld in het copyright-veld. De foto's moeten rechtenvrij zijn. De ingevoerde foto’s kunnen door publiq vzw gebruikt worden voor publicatie op de website of in promotie- en perscampagnes. publiq vzw behoudt zich het recht om op de verzamelde afbeeldingen een fotoredactie uit te voeren. De foto's worden ook opgenomen in het fotoarchief van publiq vzw en kunnen gebruikt worden in de communicatiekanalen van publiq vzw zoals de website, nieuwsbrieven, perscommunicatie,…"
+        "answer": "Indien de foto auteursrechtelijk beschermd is, dient de naam van de maker te worden vermeld in het copyright-veld. De foto's moeten rechtenvrij zijn. De ingevoerde foto’s kunnen door publiq vzw gebruikt worden voor publicatie op de website of in promotie- en perscampagnes. publiq vzw behoudt zich het recht om op de verzamelde afbeeldingen een fotoredactie uit te voeren. De foto's worden ook opgenomen in het fotoarchief van publiq vzw en kunnen gebruikt worden in de communicatiekanalen van publiq vzw zoals de website, nieuwsbrieven, perscommunicatie,…",
+        "question": "Wat doet publiq vzw met foto's die ik upload?"
       },
       "2": {
-        "question": "Welke soorten werk zijn onderworpen aan het auteursrecht?",
         "answer": {
           "paragraph1": "Wanneer een persoon een origineel werk creëert, dat is vastgelegd in een fysiek medium (bv een foto), bezit hij of zij automatisch auteursrecht op het werk.",
           "paragraph2": "Auteursrechten geven de eigenaar het exclusieve recht om het werk te gebruiken in bepaalde, specifieke manieren. Veel soorten werken komen in aanmerking voor auteursrechtelijke bescherming, inclusief:",
+          "paragraph3": "Ideeën, feiten en processen zijn niet onderworpen aan het auteursrecht. Om in aanmerking te komen voor auteursrechtelijke bescherming, moet een werk zowel creatief zijn als gevat in een tastbaar medium. Namen en titels zijn, op zichzelf, niet beschermd door het auteursrecht.",
           "step1": "Audiovisuele werken, zoals foto's, tv-shows, films en online video's",
           "step2": "Geluidsopnamen en muzikale composities",
           "step3": "Geschreven werken, zoals lezingen, artikelen, boeken, en muzikale composities",
           "step4": "Visuele werken, zoals schilderijen, affiches en advertenties",
           "step5": "Video games en computersoftware",
-          "step6": "Dramatische werken, zoals toneelstukken en musicals",
-          "paragraph3": "Ideeën, feiten en processen zijn niet onderworpen aan het auteursrecht. Om in aanmerking te komen voor auteursrechtelijke bescherming, moet een werk zowel creatief zijn als gevat in een tastbaar medium. Namen en titels zijn, op zichzelf, niet beschermd door het auteursrecht."
-        }
+          "step6": "Dramatische werken, zoals toneelstukken en musicals"
+        },
+        "question": "Welke soorten werk zijn onderworpen aan het auteursrecht?"
       },
       "3": {
-        "question": "Is het mogelijk om een auteursrechtelijk beschermd werk te gebruiken zonder inbreuk te plegen op de regelgeving terzake?",
-        "answer": "In sommige omstandigheden is het mogelijk om een auteursrechtelijk beschermd werk te gebruiken zonder inbreuk op het copyright van de eigenaar. Toch ga je er best van uit dat die mogelijkheid niet bestaat, tenzij je uitdrukkelijke toestemming hebt van de eigenaar. De Beheerder kan in geen geval in jouw plaats bepalen of auteursrechtelijke bescherming al dan niet van toepassing is."
+        "answer": "In sommige omstandigheden is het mogelijk om een auteursrechtelijk beschermd werk te gebruiken zonder inbreuk op het copyright van de eigenaar. Toch ga je er best van uit dat die mogelijkheid niet bestaat, tenzij je uitdrukkelijke toestemming hebt van de eigenaar. De Beheerder kan in geen geval in jouw plaats bepalen of auteursrechtelijke bescherming al dan niet van toepassing is.",
+        "question": "Is het mogelijk om een auteursrechtelijk beschermd werk te gebruiken zonder inbreuk te plegen op de regelgeving terzake?"
       },
       "4": {
-        "question": "Het is belangrijk op te merken dat jouw upload van audiovisueel materiaal voorwerp kan zijn van een een claim van inbreuk op auteursrechten.",
         "answer": {
           "paragraph1": "Zelfs als je:",
           "step1": "de eigenaar van het auteursrecht vermeldt",
@@ -216,305 +63,197 @@
           "step4": "het audiovisueel materiaal aankocht (online, in een boek, op cd, dvd,...)",
           "step5": "het materiaal zelf opnam of kopieerde van een boek, tijdschrift, krant, tv, een bioscoop, de radio",
           "step6": "verklaarde dat \"er geen inbreuk op het auteursrecht bedoeld is\""
-        }
+        },
+        "question": "Het is belangrijk op te merken dat jouw upload van audiovisueel materiaal voorwerp kan zijn van een een claim van inbreuk op auteursrechten."
       },
       "5": {
-        "question": "Kan de Beheerder bemiddelen bij auteursrecht-disputen?",
-        "answer": "Nee, de Beheerder is niet in staat om te bemiddelen bij auteursrecht-disputen. Wanneer de Beheerder een eis tot verwijdering van met auteursrecht beschermd materiaal ontvangt, zal het daar steeds meteen aan voldoen en tevens de onrechtmatige invoerder/uploader onverwijld wijzen op zijn inbreuk. Vervolgens is het aan de betrokken partijen (rechtenhouder enerzijds en invoerder/uploader anderzijds) om het dispuut onderling te regelen, hetzij via minnelijke schikking, hetzij via rechtspraak."
+        "answer": "Nee, de Beheerder is niet in staat om te bemiddelen bij auteursrecht-disputen. Wanneer de Beheerder een eis tot verwijdering van met auteursrecht beschermd materiaal ontvangt, zal het daar steeds meteen aan voldoen en tevens de onrechtmatige invoerder/uploader onverwijld wijzen op zijn inbreuk. Vervolgens is het aan de betrokken partijen (rechtenhouder enerzijds en invoerder/uploader anderzijds) om het dispuut onderling te regelen, hetzij via minnelijke schikking, hetzij via rechtspraak.",
+        "question": "Kan de Beheerder bemiddelen bij auteursrecht-disputen?"
       },
       "6": {
-        "question": "Wat is het verschil tussen auteursrecht en privacy?",
-        "answer": "Het is niet omdat je zelf verschijnt op een foto, in een video of audio-opname dat je het copyright erop bezit. Als bijvoorbeeld een vriend een gesprek tussen jou beide filmt, dan zou het de vriend zijn die over het copyright beschikt en niet jijzelf. De woorden die in dat gesprek gebruikt worden, zijn niet onderworpen aan een afzonderlijk copyright dan dat van de video zelf, tenzij ze vooraf werden opgesteld. Als je vriend, of iemand anders, een video of afbeelding heeft geüpload met daarin een afbeelding of opname van jezelf zonder jouw toestemming, en je voelt dit aan als een inbreuk op je privacy of veiligheid, dan kan je daarom een privacy-klacht indienen."
+        "answer": "Het is niet omdat je zelf verschijnt op een foto, in een video of audio-opname dat je het copyright erop bezit. Als bijvoorbeeld een vriend een gesprek tussen jou beide filmt, dan zou het de vriend zijn die over het copyright beschikt en niet jijzelf. De woorden die in dat gesprek gebruikt worden, zijn niet onderworpen aan een afzonderlijk copyright dan dat van de video zelf, tenzij ze vooraf werden opgesteld. Als je vriend, of iemand anders, een video of afbeelding heeft geüpload met daarin een afbeelding of opname van jezelf zonder jouw toestemming, en je voelt dit aan als een inbreuk op je privacy of veiligheid, dan kan je daarom een privacy-klacht indienen.",
+        "question": "Wat is het verschil tussen auteursrecht en privacy?"
       },
       "7": {
-        "question": "Waar en hoe kan je op het internet meer zekerheid rond rechtenvrij fotomateriaal vinden?",
-        "answer": "Vooreerst: vermijd Google Images. Je komt uit bij een eindeloze reeks beelden waarvan je niet zeker weet of ze weergeven wie of wat je zocht, en waar je zelden de rechten op kan vinden. Je kan wel via ‘geavanceerd zoeken’ op zoek gaan naar herbruikbare afbeeldingen, maar zekerheid biedt dat allerminst. Betrouwbaarder op dit vlak is Flickr.com: de Creative Commons-zoekoptie filtert herbruikbare afbeeldingen uit het ruime aanbod. Geef een zoekterm op, klik daarna op ‘advanced search’, ga onderaan die pagina naar ‘creative commons’ en vink het vakje ‘Only search within Creative Commons licensed content’ aan. De resultaten die je dan nog overhoudt, vormen de vijver waaruit je kan kiezen. Je moet wel de regels respecteren: als je de beelden wil gebruiken, moet je linken naar de bron en het copyright vermelden."
+        "answer": "Vooreerst: vermijd Google Images. Je komt uit bij een eindeloze reeks beelden waarvan je niet zeker weet of ze weergeven wie of wat je zocht, en waar je zelden de rechten op kan vinden. Je kan wel via ‘geavanceerd zoeken’ op zoek gaan naar herbruikbare afbeeldingen, maar zekerheid biedt dat allerminst. Betrouwbaarder op dit vlak is Flickr.com: de Creative Commons-zoekoptie filtert herbruikbare afbeeldingen uit het ruime aanbod. Geef een zoekterm op, klik daarna op ‘advanced search’, ga onderaan die pagina naar ‘creative commons’ en vink het vakje ‘Only search within Creative Commons licensed content’ aan. De resultaten die je dan nog overhoudt, vormen de vijver waaruit je kan kiezen. Je moet wel de regels respecteren: als je de beelden wil gebruiken, moet je linken naar de bron en het copyright vermelden.",
+        "question": "Waar en hoe kan je op het internet meer zekerheid rond rechtenvrij fotomateriaal vinden?"
       }
     }
   },
-  "movies": {
-    "create": {
-      "title": "Films toevoegen",
-      "step1": {
-        "title": "Wat voor film wil je invoeren?"
-      },
-      "step2": {
-        "title": "Wanneer vindt de film plaats?"
-      },
-      "step3": {
-        "title": "Waar vindt de film plaats?"
-      },
-      "step4": {
-        "title": "Hoe heet de film?"
-      },
-      "step5": {
-        "title": "Laat je film extra opvallen."
-      },
-      "actions": {
-        "change_theme": "Wijzig thema",
-        "copy_table": "Kopieer tabel",
-        "change_cinema": "Wijzig bioscoop",
-        "change_name": "Wijzig naam",
-        "choose_cinema": "Kies een bioscoop",
-        "choose_name": "Kies een naam",
-        "description": "Beschrijving",
-        "clear": "Leegmaken",
-        "save": "Opslaan",
-        "publish": "Publiceren",
-        "publish_later": "Later publiceren"
-      },
-      "validation_messages": {
-        "timeTable": {
-          "has-timeslot": "Minstens 1 tijdslot is verplicht.",
-          "all-timeslots-valid": "Alle tijdssloten moet in een geldig formaat ingevoerd zijn."
-        },
-        "cinema": {
-          "required": "Bioscoop is verplicht."
-        },
-        "production": {
-          "required": "Naam is verplicht."
-        }
-      },
-      "toast": {
-        "success": {
-          "title": "Succesvol gewijzigd",
-          "theme": "Thema is succesvol gewijzigd",
-          "location": "Bioscoop is succesvol gewijzigd",
-          "calendar": "Tijdssloten zijn succesvol gewijzigd",
-          "name": "Naam is succesvol gewijzigd",
-          "description": "Beschrijving is succesvol gewijzigd",
-          "image": "Afbeelding is succesvol gewijzigd",
-          "video": "Video is succesvol gewijzigd"
-        }
-      },
-      "footer": {
-        "done_editing": "Klaar met bewerken",
-        "auto_save": "Je wijzigingen worden vanaf nu automatisch opgeslagen"
-      }
-    }
-  },
-  "offerStatus": {
-    "title": "Beschikbaarheid voor {{name}}",
-    "info": "Selecteer de tijdstippen waarvoor je de status of beschikbaarheid van tickets of plaatsen wilt aanpassen",
-    "period": "Tijdstip",
-    "statusLabel": "Status",
-    "newStatus": "Nieuwe status",
-    "changeStatus": "Status wijzigen",
-    "reason": "Reden",
-    "reasonTip": "Je kan optioneel een reden voor de statuswijziging opgeven. De reden wordt samen met de nieuwe status gepubliceerd op UiTinVlaanderen en andere UiT-kanalen.",
-    "status": {
-      "event": {
-        "available": "Gaat door",
-        "temporarilyUnavailable": "Uitgesteld",
-        "temporarilyUnavailableInfo": "Je evenement is uitgesteld naar een later, nog te bepalen tijdstip.",
-        "unavailable": "Geannuleerd",
-        "unavailableInfo": "Je evenement gaat niet meer door op het voorziene tijdstip en ook niet op een later tijdstip."
-      },
-      "place": {
-        "available": "Open",
-        "temporarilyUnavailable": "Tijdelijk gesloten",
-        "temporarilyUnavailableInfo": "Je locatie zal tijdelijk niet meer gepubliceerd worden op UiTinVlaanderen en andere UiT-kanalen. Wanneer je locatie terug open gaat, kan je de status opnieuw wijzigen naar 'open'.",
-        "unavailable": "Permanent gesloten",
-        "unavailableInfo": "Je locatie zal niet meer gepubliceerd worden op UiTinVlaanderen en andere UiT-kanalen."
-      }
-    },
-    "dateToBeDefined": "Nieuwe datum nog te bepalen",
-    "modificationReady": "Klaar met status wijzigen",
-    "actions": {
-      "cancel": "Annuleren",
-      "close": "Sluiten",
-      "save": "Bewaren"
-    },
-    "maxLengthReason": "De reden voor je statuswijziging kan niet meer dan {{amount}} karakters bevatten."
-  },
-  "bookingAvailability": {
-    "title": "Beschikbaarheid tickets & plaatsen",
-    "change": "Tickets & plaatsen wijzigen",
-    "label": "Tickets & plaatsen",
-    "available": "Beschikbaar",
-    "unavailable": "Volzet of uitverkocht",
-    "actions": {
-      "cancel": "Annuleren",
-      "close": "Sluiten",
-      "save": "Bewaren"
-    }
+  "countries": {
+    "BE": "België",
+    "NL": "Nederland"
   },
   "create": {
-    "publish_modal": {
-      "title": "Een latere publicatiedatum kiezen",
-      "description": "Vanaf wanneer mag dit online verschijnen?",
-      "warning": "Opgelet, deze datum kan je maar één keer instellen.",
-      "actions": {
-        "cancel": "Annuleren",
-        "confirm": "Bevestigen"
-      }
-    },
-    "toast": {
-      "success": {
-        "audienceType": "Toegang is succesvol gewijzigd"
-      }
-    },
     "additionalInformation": {
-      "title": "Laat je evenement extra opvallen",
-      "description": {
-        "title": "Beschrijving",
-        "clear": "Leegmaken",
-        "progress_info": {
-          "not_complete": "De eerste {{idealLength}} tekens zijn het belangrijkst om een nieuw publiek aan te spreken. Nog {{count}} tekens.",
-          "complete": "Plaats de belangrijkste boodschap in de eerste {{idealLength}} tekens. Je kan nog verder aanvullen met achtergrondinformatie."
-        },
-        "tips": {
-          "0.50.4.0.0": "Geef een enthousiaste omschrijving van het concert. <ul><li>Welk(e)<strong> artiest(en)</strong> treden op? </li><li>Welk <strong>genre</strong> is het?</li><li>Welk<strong> album</strong> <strong>of werk </strong>wordt voorgesteld? </li></ul>",
-          "0.54.0.0.0": "Geef een enthousiaste omschrijving van de dansvoorstelling.<ul><li>Wie is de <strong>choreograaf</strong>?</li><li>Wie zijn de<strong> dansers</strong>?</li><li>In welke <strong>stijl</strong> dansen ze?</li><li>Over welk <strong>thema of onderwerp</strong> gaat de voorstelling?</li></ul>",
-          "0.5.0.0.0": "Geef een enthousiaste omschrijving van het festival. <ul> <li>Wie of wat staat er op het <strong>programma?</strong> </li> <li>Welke <strong>(rand)animatie</strong> is er?</li> </ul>",
-          "0.50.6.0.0": "Geef een enthousiaste omschrijving van de film. <ul> <li>Schets kort het <strong>verhaal</strong>. </li> <li>Wie is de <strong>regisseur?</strong> </li> <li>Wie zijn de  <strong>hoofdrolspelers?</strong> </li> <li>Heeft de film <strong>prijzen</strong> gewonnen? </li></ul>",
-          "0.3.2.0.0": "Geef een enthousiaste omschrijving van de lezing of het congres. <ul> <li>Welke<strong> thema’s</strong> komen aan bod? </li><li>Welke <strong>sprekers </strong>nemen het woord?</li></ul>",
-          "0.55.0.0.0": "Geef een enthousiaste omschrijving van de voorstelling.  <ul> <li>Schets kort het <strong>verhaal</strong> of het <strong>thema</strong>. </li> <li>Welk <strong>theatergezelschap</strong> brengt het stuk? </li> <li>Welke <strong>acteurs</strong> spelen mee?</li></ul>",
-          "0.19.0.0.0": "Geef een enthousiaste omschrijving van de sportwedstrijd. <ul> <li>Welke <strong>ploegen of deelnemers</strong> spelen er mee? </li> <li>In welke<strong> competitie</strong> kadert de wedstrijd?</li></ul>",
-          "0.37.0.0.0": "Geef een enthousiaste omschrijving van de markt of braderie. <ul> <li>In <strong>welke straten</strong> vindt ze plaats? </li> <li>Welke <strong>kramen of standjes</strong> zullen er zijn? </li><li>Is er <strong>(rand)animatie</strong>?</li></ul>",
-          "0.12.0.0.0": "Geef een enthousiaste omschrijving van de opendeurdag. Wat kan je <strong>bekijken </strong>of <strong>beleven?</strong>",
-          "0.6.0.0.0": "Geef een enthousiaste omschrijving van de beurs. Wat kan je kan <strong>bekijken</strong>, <strong>beleven</strong> of <strong>kopen</strong>?",
-          "0.0.0.0.0": "Geef een enthousiaste omschrijving van de tentoonstelling. <ul> <li>Welke <strong>kunstenaars</strong> stellen tentoon?</li> <li>Welke<strong> collecties</strong> kan je bekijken? </li> <li>Is er een <strong>(audio)gids</strong> of <strong>brochure</strong> beschikbaar?</li></ul>",
-          "0.7.0.0.0": "Geef een enthousiaste omschrijving van de rondleiding. <ul> <li>Wat valt er langs de route te <strong>bekijken of beleven</strong>? </li> <li>Is er een maximaal <strong>aantal deelnemers</strong>? </li> <li>Wordt de rondleiding doorlopend of op <strong>bepaalde tijdstippen</strong> georganiseerd? </li> <li>Zijn er <strong>speciale aandachtspunten</strong> (bv. laarzen aangewezen)?</li> </ul>",
-          "0.3.1.0.0": "Geef een enthousiaste omschrijving van de lessenreeks. <ul> <li>Wat leer je er precies? </li> <li>Is er <strong>voorkennis</strong> nodig om deel te nemen? </li> <li>Wat is het <strong>niveau</strong> van de lessen? </li><li>Krijg je op het einde een <strong>diploma</strong> of certificaat?</li></ul>",
-          "0.3.1.0.1": "Geef een enthousiaste omschrijving van de workshop of cursus met open sessies.  <ul> <li>Wat leer je er precies? </li> <li>Is er <strong>voorkennis</strong> nodig om deel te nemen? </li> <li>Wat is het <strong>niveau</strong> van de lessen? </li> <li>Krijg je op het einde een <strong>diploma</strong> of certificaat?</li> </ul>",
-          "0.57.0.0.0": "Geef een enthousiaste omschrijving van het kamp of de vakantie.  <ul> <li>Welke <strong>activiteiten</strong> kan je er doen? </li> <li>Is er een <strong>thema</strong>? </li> <li>Is het kamp <strong>met of zonder overnachtingen</strong>? </li> <li>Wat is het <strong>start en einduur</strong> voor dagkampen en is er vooraf en nadien <strong>opvang</strong> voorzien?</li> </ul>",
-          "0.28.0.0.0": "Geef een enthousiaste omschrijving van de kermis. <ul> <li>Welke <strong>attracties</strong> zijn er? </li> <li>Zijn er<strong> (rand)activiteiten</strong> (quiz, concerten, foodtrucks, marktje ...)?</li> </ul>",
-          "0.17.0.0.0": "Geef een enthousiaste omschrijving van de route. <ul> <li>Leg je de route af <strong>te voet, per fiets, per boot </strong>…? </li> <li>Welke mogelijke <strong>tussenstops</strong> zijn er? </li> <li>Wat is de <strong>afstand</strong> of <strong>duur</strong> van de route?</li> <li>Is de route <strong>begeleid</strong>, met een gids, brochure of wegwijzers?</li> </ul>",
-          "0.49.0.0.0": "Geef een enthousiaste omschrijving van de party of fuif. Welke <strong>dj’s</strong> of <strong>bands</strong> treden er op?",
-          "1.50.0.0.0": "Geef een enthousiaste omschrijving van het eet -of drankfestijn. <ul> <li>Wat staat er op het <strong>menu?</strong> </li> <li>Gaat de opbrengst naar een<strong> goed doel</strong>? </li> <li>Is er <strong>(rand)animatie</strong>?</li> </ul>",
-          "0.50.21.0.0": "Geef een enthousiaste omschrijving van de quiz of het spel. <ul> <li>Over welke <strong>onderwerpen</strong> gaat de quiz?</li> <li>Heeft het spel een <strong>thema</strong>?</li> <li>Valt er iets te <strong>winnen</strong>?</li> <li>Is er een <strong>maximaal</strong> aantal <strong>deelnemers</strong>?</li> </ul>",
-          "0.59.0.0.0": "Geef een enthousiaste omschrijving van de sportactiviteit. <ul> <li>Welke <strong>sport</strong>(en) kan je beoefenen? </li> <li>Welk <strong>materiaal</strong> wordt (niet) voorzien?</li> </ul>",
-          "0.14.0.0.0": "Geef een enthousiaste omschrijving van het monument. Geef ook aan indien het monument slechts beperkt opengesteld is (vb. enkel salons)."
-        }
-      },
-      "organizer": {
-        "title": "Organisatie",
-        "add_new": "Voeg nieuwe organisator toe: "
-      },
-      "picture": {
-        "add_button": "Afbeelding toevoegen",
-        "intro": "Voeg een afbeelding toe zodat bezoekers je activiteit beter herkennen",
-        "change": "Wijzigen",
-        "delete": "Verwijderen",
-        "set_as_main_image": "Maak hoofdafbeelding"
-      },
-      "price_info": {
-        "euro": "euro",
-        "title": "Prijzen toevoegen",
-        "change": "Wijzigen",
-        "close": "Sluiten",
-        "save": "Bewaren",
-        "free": "Gratis",
-        "add": "Tarief toevoegen",
-        "delete": "Tarief verwijderen",
-        "basic_rate": "Basistarief",
-        "target": "Doelgroep",
-        "price": "Prijs",
-        "prices": "Prijzen",
-        "uitpas_error": "De UiTPAS prijs wordt voor jou berekend door UiTdatabank. Je kan deze niet zelf toevoegen.",
-        "global_error": "Deze prijsinformatie lijkt ongeldig en kan je daarom niet bewaren. <ul><li>Noteer decimalen met een komma.</li><li>Laat geen enkel rij leeg, vul steeds een doelgroep en een bedrag in.</li><li>Geef maximum twee cijfers na de komma.</li></ul>",
-        "duplicate_name_error": "Tarief met de naam \"{{priceName}}\" bestaat al, gelieve een andere naam te gebruiken."
+      "audience": {
+        "title": "Toegang",
+        "education": "Specifiek voor scholen",
+        "everyone": "Voor iedereen",
+        "members": "Enkel voor leden"
       },
       "contact_info": {
-        "title": "Contact & reservatie",
-        "url": "Website",
-        "phone": "Telefoonnummer",
+        "edit_cta": "Bewerken",
         "email": "E-mailadres",
         "empty": "U heeft nog geen {{contactInfoType}} toegevoegd",
         "is_used_for_reservation": "Wordt gebruikt voor reservatie",
-        "edit_cta": "Bewerken"
+        "phone": "Telefoonnummer",
+        "title": "Contact & reservatie",
+        "url": "Website"
       },
-      "audience": {
-        "everyone": "Voor iedereen",
-        "members": "Enkel voor leden",
-        "education": "Specifiek voor scholen"
+      "description": {
+        "clear": "Leegmaken",
+        "progress_info": {
+          "complete": "Plaats de belangrijkste boodschap in de eerste {{idealLength}} tekens. Je kan nog verder aanvullen met achtergrondinformatie.",
+          "not_complete": "De eerste {{idealLength}} tekens zijn het belangrijkst om een nieuw publiek aan te spreken. Nog {{count}} tekens."
+        },
+        "tips": {
+          "0.0.0.0.0": "Geef een enthousiaste omschrijving van de tentoonstelling. <ul> <li>Welke <strong>kunstenaars</strong> stellen tentoon?</li> <li>Welke<strong> collecties</strong> kan je bekijken? </li> <li>Is er een <strong>(audio)gids</strong> of <strong>brochure</strong> beschikbaar?</li></ul>",
+          "0.12.0.0.0": "Geef een enthousiaste omschrijving van de opendeurdag. Wat kan je <strong>bekijken </strong>of <strong>beleven?</strong>",
+          "0.14.0.0.0": "Geef een enthousiaste omschrijving van het monument. Geef ook aan indien het monument slechts beperkt opengesteld is (vb. enkel salons).",
+          "0.17.0.0.0": "Geef een enthousiaste omschrijving van de route. <ul> <li>Leg je de route af <strong>te voet, per fiets, per boot </strong>…? </li> <li>Welke mogelijke <strong>tussenstops</strong> zijn er? </li> <li>Wat is de <strong>afstand</strong> of <strong>duur</strong> van de route?</li> <li>Is de route <strong>begeleid</strong>, met een gids, brochure of wegwijzers?</li> </ul>",
+          "0.19.0.0.0": "Geef een enthousiaste omschrijving van de sportwedstrijd. <ul> <li>Welke <strong>ploegen of deelnemers</strong> spelen er mee? </li> <li>In welke<strong> competitie</strong> kadert de wedstrijd?</li></ul>",
+          "0.28.0.0.0": "Geef een enthousiaste omschrijving van de kermis. <ul> <li>Welke <strong>attracties</strong> zijn er? </li> <li>Zijn er<strong> (rand)activiteiten</strong> (quiz, concerten, foodtrucks, marktje ...)?</li> </ul>",
+          "0.3.1.0.0": "Geef een enthousiaste omschrijving van de lessenreeks. <ul> <li>Wat leer je er precies? </li> <li>Is er <strong>voorkennis</strong> nodig om deel te nemen? </li> <li>Wat is het <strong>niveau</strong> van de lessen? </li><li>Krijg je op het einde een <strong>diploma</strong> of certificaat?</li></ul>",
+          "0.3.1.0.1": "Geef een enthousiaste omschrijving van de workshop of cursus met open sessies.  <ul> <li>Wat leer je er precies? </li> <li>Is er <strong>voorkennis</strong> nodig om deel te nemen? </li> <li>Wat is het <strong>niveau</strong> van de lessen? </li> <li>Krijg je op het einde een <strong>diploma</strong> of certificaat?</li> </ul>",
+          "0.3.2.0.0": "Geef een enthousiaste omschrijving van de lezing of het congres. <ul> <li>Welke<strong> thema’s</strong> komen aan bod? </li><li>Welke <strong>sprekers </strong>nemen het woord?</li></ul>",
+          "0.37.0.0.0": "Geef een enthousiaste omschrijving van de markt of braderie. <ul> <li>In <strong>welke straten</strong> vindt ze plaats? </li> <li>Welke <strong>kramen of standjes</strong> zullen er zijn? </li><li>Is er <strong>(rand)animatie</strong>?</li></ul>",
+          "0.49.0.0.0": "Geef een enthousiaste omschrijving van de party of fuif. Welke <strong>dj’s</strong> of <strong>bands</strong> treden er op?",
+          "0.5.0.0.0": "Geef een enthousiaste omschrijving van het festival. <ul> <li>Wie of wat staat er op het <strong>programma?</strong> </li> <li>Welke <strong>(rand)animatie</strong> is er?</li> </ul>",
+          "0.50.21.0.0": "Geef een enthousiaste omschrijving van de quiz of het spel. <ul> <li>Over welke <strong>onderwerpen</strong> gaat de quiz?</li> <li>Heeft het spel een <strong>thema</strong>?</li> <li>Valt er iets te <strong>winnen</strong>?</li> <li>Is er een <strong>maximaal</strong> aantal <strong>deelnemers</strong>?</li> </ul>",
+          "0.50.4.0.0": "Geef een enthousiaste omschrijving van het concert. <ul><li>Welk(e)<strong> artiest(en)</strong> treden op? </li><li>Welk <strong>genre</strong> is het?</li><li>Welk<strong> album</strong> <strong>of werk </strong>wordt voorgesteld? </li></ul>",
+          "0.50.6.0.0": "Geef een enthousiaste omschrijving van de film. <ul> <li>Schets kort het <strong>verhaal</strong>. </li> <li>Wie is de <strong>regisseur?</strong> </li> <li>Wie zijn de  <strong>hoofdrolspelers?</strong> </li> <li>Heeft de film <strong>prijzen</strong> gewonnen? </li></ul>",
+          "0.54.0.0.0": "Geef een enthousiaste omschrijving van de dansvoorstelling.<ul><li>Wie is de <strong>choreograaf</strong>?</li><li>Wie zijn de<strong> dansers</strong>?</li><li>In welke <strong>stijl</strong> dansen ze?</li><li>Over welk <strong>thema of onderwerp</strong> gaat de voorstelling?</li></ul>",
+          "0.55.0.0.0": "Geef een enthousiaste omschrijving van de voorstelling.  <ul> <li>Schets kort het <strong>verhaal</strong> of het <strong>thema</strong>. </li> <li>Welk <strong>theatergezelschap</strong> brengt het stuk? </li> <li>Welke <strong>acteurs</strong> spelen mee?</li></ul>",
+          "0.57.0.0.0": "Geef een enthousiaste omschrijving van het kamp of de vakantie.  <ul> <li>Welke <strong>activiteiten</strong> kan je er doen? </li> <li>Is er een <strong>thema</strong>? </li> <li>Is het kamp <strong>met of zonder overnachtingen</strong>? </li> <li>Wat is het <strong>start en einduur</strong> voor dagkampen en is er vooraf en nadien <strong>opvang</strong> voorzien?</li> </ul>",
+          "0.59.0.0.0": "Geef een enthousiaste omschrijving van de sportactiviteit. <ul> <li>Welke <strong>sport</strong>(en) kan je beoefenen? </li> <li>Welk <strong>materiaal</strong> wordt (niet) voorzien?</li> </ul>",
+          "0.6.0.0.0": "Geef een enthousiaste omschrijving van de beurs. Wat kan je kan <strong>bekijken</strong>, <strong>beleven</strong> of <strong>kopen</strong>?",
+          "0.7.0.0.0": "Geef een enthousiaste omschrijving van de rondleiding. <ul> <li>Wat valt er langs de route te <strong>bekijken of beleven</strong>? </li> <li>Is er een maximaal <strong>aantal deelnemers</strong>? </li> <li>Wordt de rondleiding doorlopend of op <strong>bepaalde tijdstippen</strong> georganiseerd? </li> <li>Zijn er <strong>speciale aandachtspunten</strong> (bv. laarzen aangewezen)?</li> </ul>",
+          "1.50.0.0.0": "Geef een enthousiaste omschrijving van het eet -of drankfestijn. <ul> <li>Wat staat er op het <strong>menu?</strong> </li> <li>Gaat de opbrengst naar een<strong> goed doel</strong>? </li> <li>Is er <strong>(rand)animatie</strong>?</li> </ul>"
+        },
+        "title": "Beschrijving"
+      },
+      "organizer": {
+        "add_new_button": "Organisator toevoegen",
+        "add_new_label": "Voeg nieuwe organisator toe: ",
+        "change": "Wijzigen",
+        "title": "Organisatie"
+      },
+      "picture": {
+        "add_button": "Afbeelding toevoegen",
+        "change": "Wijzigen",
+        "delete": "Verwijderen",
+        "intro": "Voeg een afbeelding toe zodat bezoekers je activiteit beter herkennen",
+        "set_as_main_image": "Maak hoofdafbeelding"
+      },
+      "price_info": {
+        "add": "Tarief toevoegen",
+        "basic_rate": "Basistarief",
+        "change": "Wijzigen",
+        "close": "Sluiten",
+        "delete": "Tarief verwijderen",
+        "duplicate_name_error": "Tarief met de naam \"{{priceName}}\" bestaat al, gelieve een andere naam te gebruiken.",
+        "euro": "euro",
+        "free": "Gratis",
+        "global_error": "Deze prijsinformatie lijkt ongeldig en kan je daarom niet bewaren. <ul><li>Noteer decimalen met een komma.</li><li>Laat geen enkel rij leeg, vul steeds een doelgroep en een bedrag in.</li><li>Geef maximum twee cijfers na de komma.</li></ul>",
+        "price": "Prijs",
+        "prices": "Prijzen",
+        "save": "Bewaren",
+        "target": "Doelgroep",
+        "title": "Prijzen toevoegen",
+        "uitpas_error": "De UiTPAS prijs wordt voor jou berekend door UiTdatabank. Je kan deze niet zelf toevoegen."
+      },
+      "title": "Laat je evenement extra opvallen"
+    },
+    "publish_modal": {
+      "actions": {
+        "cancel": "Annuleren",
+        "confirm": "Bevestigen"
+      },
+      "description": "Vanaf wanneer mag dit online verschijnen?",
+      "title": "Een latere publicatiedatum kiezen",
+      "warning": "Opgelet, deze datum kan je maar één keer instellen."
+    },
+    "toast": {
+      "success": {
+        "audienceType": "Toegang is succesvol gewijzigd",
+        "organizer": "Organisatie is succesvol gewijzigd"
       }
     }
   },
   "dashboard": {
-    "welcome": "Welkom",
+    "actions": {
+      "cancel": "Annuleren",
+      "delete": "Verwijderen",
+      "edit": "Bewerken",
+      "preview": "Voorbeeld"
+    },
     "create": {
       "events": "Evenement toevoegen",
-      "places": "Locatie toevoegen",
-      "organizers": "Organisatie toevoegen"
+      "organizers": "Organisatie toevoegen",
+      "places": "Locatie toevoegen"
     },
-    "sorting": {
-      "label": "Sorteren op",
-      "created_desc": "creatiedatum (nieuw - oud)",
-      "created_asc": "creatiedatum (oud - nieuw)",
-      "availableTo_desc": "eventdatum (nieuw - oud)",
-      "availableTo_asc": "eventdatum (oud - nieuw)",
-      "results": {
-        "events": "<0>{{count}}</0> evenement",
-        "events_plural": "<0>{{count}}</0> evenementen",
-        "places": "<0>{{count}}</0> locatie",
-        "places_plural": "<0>{{count}}</0> locaties",
-        "organizers": "<0>{{count}}</0> organisatie",
-        "organizers_plural": "<0>{{count}}</0> organisaties"
+    "event": "evenement",
+    "modal": {
+      "question": "Ben je zeker dat je '{{name}}' wil verwijderen?",
+      "title": "{{type}} verwijderen",
+      "types": {
+        "events": "Evenementen",
+        "organizers": "Organisatoren",
+        "places": "Plaatsen"
       }
     },
-    "no_items": {
-      "events": "Geen evenementen gevonden",
-      "places": "Geen locaties gevonden",
-      "organizers": "Geen organisaties gevonden"
-    },
-    "passed": "Afgelopen {{type}}",
-    "event": "evenement",
-    "place": "locatie",
-    "organizer": "organisatie",
-    "not_published": "Niet gepubliceerd",
-    "online_from": "Online vanaf {{date}}",
-    "tabs": {
-      "events": "Mijn evenementen",
-      "places": "Mijn locaties",
-      "organizers": "Mijn organisaties"
-    },
-    "actions": {
-      "edit": "Bewerken",
-      "preview": "Voorbeeld",
-      "delete": "Verwijderen",
-      "cancel": "Annuleren"
-    },
     "newsletter": {
-      "questions_or_feedback": "Vragen of feedback?",
       "contact": "Contacteer ons",
-      "title": "Praktische invoertips in je mailbox",
       "content": "Schrijf je in op onze nieuwsbrief en ontvang praktische tips voor het invoeren van jouw activiteiten in de UiTdatabank!",
-      "subscribe": "Inschrijven",
       "invalid": "Geef een geldig email adres in.",
       "logo": "newsletter-logo.svg",
       "logo_alt": "nieuwsbrief logo",
+      "questions_or_feedback": "Vragen of feedback?",
+      "subscribe": "Inschrijven",
       "success": {
-        "title": "Bedankt!",
-        "content": "Je bent ingeschreven op onze nieuwsbrief en ontvangt praktische tips voor het invoeren van jouw activiteiten in de UiTdatabank!"
+        "content": "Je bent ingeschreven op onze nieuwsbrief en ontvangt praktische tips voor het invoeren van jouw activiteiten in de UiTdatabank!",
+        "title": "Bedankt!"
+      },
+      "title": "Praktische invoertips in je mailbox"
+    },
+    "no_items": {
+      "events": "Geen evenementen gevonden",
+      "organizers": "Geen organisaties gevonden",
+      "places": "Geen locaties gevonden"
+    },
+    "not_published": "Niet gepubliceerd",
+    "online_from": "Online vanaf {{date}}",
+    "organizer": "organisatie",
+    "passed": "Afgelopen {{type}}",
+    "place": "locatie",
+    "sorting": {
+      "availableTo_asc": "eventdatum (oud - nieuw)",
+      "availableTo_desc": "eventdatum (nieuw - oud)",
+      "created_asc": "creatiedatum (oud - nieuw)",
+      "created_desc": "creatiedatum (nieuw - oud)",
+      "label": "Sorteren op",
+      "results": {
+        "events": "<0>{{count}}</0> evenement",
+        "events_plural": "<0>{{count}}</0> evenementen",
+        "organizers": "<0>{{count}}</0> organisatie",
+        "organizers_plural": "<0>{{count}}</0> organisaties",
+        "places": "<0>{{count}}</0> locatie",
+        "places_plural": "<0>{{count}}</0> locaties"
       }
     },
-    "modal": {
-      "title": "{{type}} verwijderen",
-      "question": "Ben je zeker dat je '{{name}}' wil verwijderen?",
-      "types": {
-        "events": "Evenementen",
-        "places": "Plaatsen",
-        "organizers": "Organisatoren"
-      }
-    }
+    "tabs": {
+      "events": "Mijn evenementen",
+      "organizers": "Mijn organisaties",
+      "places": "Mijn locaties"
+    },
+    "welcome": "Welkom"
   },
-  "jobs": {
-    "download": "Downloaden",
-    "finished": "Voltooid",
-    "in_progress": "Bezig",
-    "notifications": "Meldingen",
-    "time_ago": "{{time}} geleden"
-  },
-  "calendarSummary": {
-    "from": "Van",
-    "till": "tot",
-    "at": "om"
-  },
-  "selectionTable": {
-    "rowsSelectedCount": "{{count}} rij geselecteerd",
-    "rowsSelectedCount_plural": "{{count}} rijen geselecteerd"
+  "description": "UiTdatabank levert informatie aan meer dan 1.000 agenda's, waaronder UiTinvlaanderen, websites van steden en gemeenten, thema-agenda's, gedrukte bladen en mobiele apps. Ook jouw activiteit kan verschijnen op vele agenda's.",
+  "error": {
+    "description": "Er ging iets mis. Herlaad de pagina om opnieuw te proberen. Neem contact op met <1>{{email}}</1> als dit probleem zich blijft voordoen",
+    "email": "vragen@uitdatabank.be",
+    "title": "Er is iets misgelopen"
   },
   "eventTypes": {
     "0.0.0.0.0": "Tentoonstelling",
@@ -558,20 +297,293 @@
     "Yf4aZBfsUEu2NsQqsprngw": "Cultuur- of ontmoetingscentrum",
     "YVBc8KVdrU6XfTNvhMYUpg": "Discotheek"
   },
-  "themes": {
-    "1.7.2.0.0": "Actie- en avonturenfilm",
-    "1.7.12.0.0": "Animatie en kinderfilms",
-    "1.7.1.0.0": "Documentaires en reportages",
-    "1.7.6.0.0": "Griezelfilm of horror",
-    "1.7.8.0.0": "Historische film",
-    "1.7.3.0.0": "Komedie",
-    "1.7.13.0.0": "Kortfilm",
-    "1.7.10.0.0": "Filmmusical",
-    "1.7.4.0.0": "Drama",
-    "1.7.7.0.0": "Science fiction",
-    "1.7.11.0.0": "Cinefiel",
-    "1.7.14.0.0": "Meerdere filmgenres",
-    "1.7.15.0.0": "Thriller"
+  "footer": {
+    "about": "Over UiTdatabank",
+    "by": "Een product van",
+    "changeProfile": "Mijn profiel wijzigen",
+    "contact": "Helpcentrum",
+    "de": "Deutsch",
+    "dev": "Voor ontwikkelaars",
+    "flemishGovernment": "Vlaamse overheid",
+    "fr": "Français",
+    "legal": "Gebruiksvoorwaarden",
+    "legal_path": "gebruikersovereenkomst-uitdatabank",
+    "nl": "Nederlands",
+    "privacy": "Privacy",
+    "profile": "Mijn profiel wijzigen",
+    "questions": "Vragen of feedback?",
+    "withSupport": "met steun van de"
+  },
+  "jobs": {
+    "download": "Downloaden",
+    "finished": "Voltooid",
+    "in_progress": "Bezig",
+    "notifications": "Meldingen",
+    "time_ago": "{{time}} geleden"
+  },
+  "main": {
+    "activities": "activiteiten per jaar",
+    "activities_info": "Een uitstap, sportactiviteit, kaartavond, kermis of cursus? Een concert, tentoonstelling of film? UiTdatabank staat open voor de meest uiteenlopende vrijetijdsactiviteiten.",
+    "channels": "verschillende kanalen",
+    "channels_info": "UiTdatabank levert informatie aan meer dan <1>{{link}}</1>, waaronder UiTinvlaanderen, websites van steden en gemeenten, thema-agenda's, gedrukte bladen en mobiele apps. Ook jouw activiteit kan verschijnen op vele agenda's.",
+    "channels_info_link_text": "1.000 agenda's",
+    "channels_info_link_url": "https://www.publiq.be/nl/publicatiekanalen",
+    "flanders_image": "vlaanderen-logo.svg",
+    "lead": "Organiseer je een activiteit?",
+    "lead_sub": "Voeg gratis je activiteiten toe en bereik een groter publiek",
+    "mission": "Zo geef je meer mensen meer goesting in jouw activiteit.",
+    "organizers": "organisatoren",
+    "organizers_info": "Jaarlijks promoten 28.000 organisatoren hun activiteiten via UiTdatabank. In totaal bereiken ze daarmee jaarlijks meer dan 3 miljoen mensen. Voeg net als andere organisatoren je activiteit snel en eenvoudig toe.",
+    "start": "Start hier"
+  },
+  "menu": {
+    "add": "Invoeren",
+    "announcements": "Nieuwigheden",
+    "home": "Home",
+    "labels": "Labels",
+    "logout": "Afmelden",
+    "management": "Beheer",
+    "movies": "Films",
+    "notifications": "Meldingen",
+    "organizations": "Organisaties",
+    "productions": "Producties",
+    "roles": "Rollen",
+    "search": "Zoeken",
+    "users": "Gebruikers",
+    "validate": "Valideren"
+  },
+  "movies": {
+    "create": {
+      "actions": {
+        "change_cinema": "Wijzig bioscoop",
+        "change_name": "Wijzig naam",
+        "change_theme": "Wijzig thema",
+        "choose_cinema": "Kies een bioscoop",
+        "choose_name": "Kies een naam",
+        "clear": "Leegmaken",
+        "copy_table": "Kopieer tabel",
+        "description": "Beschrijving",
+        "publish": "Publiceren",
+        "publish_later": "Later publiceren",
+        "save": "Opslaan"
+      },
+      "footer": {
+        "auto_save": "Je wijzigingen worden vanaf nu automatisch opgeslagen",
+        "done_editing": "Klaar met bewerken"
+      },
+      "step1": {
+        "title": "Wat voor film wil je invoeren?"
+      },
+      "step2": {
+        "title": "Wanneer vindt de film plaats?"
+      },
+      "step3": {
+        "title": "Waar vindt de film plaats?"
+      },
+      "step4": {
+        "title": "Hoe heet de film?"
+      },
+      "step5": {
+        "title": "Laat je film extra opvallen."
+      },
+      "title": "Films toevoegen",
+      "toast": {
+        "success": {
+          "calendar": "Tijdssloten zijn succesvol gewijzigd",
+          "description": "Beschrijving is succesvol gewijzigd",
+          "image": "Afbeelding is succesvol gewijzigd",
+          "location": "Bioscoop is succesvol gewijzigd",
+          "name": "Naam is succesvol gewijzigd",
+          "theme": "Thema is succesvol gewijzigd",
+          "title": "Succesvol gewijzigd",
+          "video": "Video is succesvol gewijzigd"
+        }
+      },
+      "validation_messages": {
+        "cinema": {
+          "required": "Bioscoop is verplicht."
+        },
+        "production": {
+          "required": "Naam is verplicht."
+        },
+        "timeTable": {
+          "all-timeslots-valid": "Alle tijdssloten moet in een geldig formaat ingevoerd zijn.",
+          "has-timeslot": "Minstens 1 tijdslot is verplicht."
+        }
+      }
+    }
+  },
+  "offerStatus": {
+    "actions": {
+      "cancel": "Annuleren",
+      "close": "Sluiten",
+      "save": "Bewaren"
+    },
+    "changeStatus": "Status wijzigen",
+    "dateToBeDefined": "Nieuwe datum nog te bepalen",
+    "info": "Selecteer de tijdstippen waarvoor je de status of beschikbaarheid van tickets of plaatsen wilt aanpassen",
+    "maxLengthReason": "De reden voor je statuswijziging kan niet meer dan {{amount}} karakters bevatten.",
+    "modificationReady": "Klaar met status wijzigen",
+    "newStatus": "Nieuwe status",
+    "period": "Tijdstip",
+    "reason": "Reden",
+    "reasonTip": "Je kan optioneel een reden voor de statuswijziging opgeven. De reden wordt samen met de nieuwe status gepubliceerd op UiTinVlaanderen en andere UiT-kanalen.",
+    "status": {
+      "event": {
+        "available": "Gaat door",
+        "temporarilyUnavailable": "Uitgesteld",
+        "temporarilyUnavailableInfo": "Je evenement is uitgesteld naar een later, nog te bepalen tijdstip.",
+        "unavailable": "Geannuleerd",
+        "unavailableInfo": "Je evenement gaat niet meer door op het voorziene tijdstip en ook niet op een later tijdstip."
+      },
+      "place": {
+        "available": "Open",
+        "temporarilyUnavailable": "Tijdelijk gesloten",
+        "temporarilyUnavailableInfo": "Je locatie zal tijdelijk niet meer gepubliceerd worden op UiTinVlaanderen en andere UiT-kanalen. Wanneer je locatie terug open gaat, kan je de status opnieuw wijzigen naar 'open'.",
+        "unavailable": "Permanent gesloten",
+        "unavailableInfo": "Je locatie zal niet meer gepubliceerd worden op UiTinVlaanderen en andere UiT-kanalen."
+      }
+    },
+    "statusLabel": "Status",
+    "title": "Beschikbaarheid voor {{name}}"
+  },
+  "organizer": {
+    "add_modal": {
+      "actions": {
+        "add": "Toevoegen",
+        "cancel": "Annuleren"
+      },
+      "info": {
+        "zip": "bv. 1104CA"
+      },
+      "labels": {
+        "address": {
+          "country": "Land",
+          "streetAndNumber": "Straat en nummer",
+          "title": "Adres",
+          "zip": "Postcode"
+        },
+        "name": {
+          "info": "De officiële publieke naam van de organisatie",
+          "title": "Naam"
+        },
+        "url": "Website"
+      },
+      "title": "Organisatie toevoegen",
+      "url_requirements": "Om organisaties in de UiTdatabank uniek te houden, vragen we elke organisatie een unieke en geldige hyperlink",
+      "validation_messages": {
+        "address": {
+          "addressLocality": "Je gemeente voldoet niet aan de vereisten.",
+          "streetAndNumber": "Je straat en nummer voldoen niet aan de vereisten."
+        },
+        "name": "Je naam voldoet niet aan de vereisten.",
+        "url": "Je website voldoet niet aan de vereisten."
+      }
+    }
+  },
+  "pagination": {
+    "next": "Volgende",
+    "previous": "Vorige"
+  },
+  "pictures": {
+    "add_button": "Afbeelding toevoegen",
+    "change": "Wijzigen",
+    "delete": "Verwijderen",
+    "delete_modal": {
+      "actions": {
+        "cancel": "Annuleren",
+        "confirm": "Verwijderen"
+      },
+      "description": "Ben je zeker dat je deze afbeelding wil verwijderen?",
+      "title": "Afbeeldingen verwijderen"
+    },
+    "intro": "Voeg een afbeelding toe zodat bezoekers je activiteit beter herkennen",
+    "set_as_main_image": "Maak hoofdafbeelding",
+    "title": "Afbeeldingen",
+    "upload_modal": {
+      "actions": {
+        "adjust": "Aanpassen",
+        "cancel": "Annuleren",
+        "choose_file": "Kies bestand",
+        "upload": "Uploaden"
+      },
+      "disclaimer": {
+        "copyright": "Vermeld de naam van de rechtenhoudende fotograaf. Vul alleen de naam van je eigen vereniging of organisatie in als je zelf de rechten bezit (minimum 2 karakters).",
+        "terms_and_conditions": {
+          "labels": {
+            "copyright": "copyright",
+            "terms": "algemene voorwaarden"
+          },
+          "text": "Je staat op het punt (een) afbeelding(en) toe te voegen en openbaar te verspreiden. Je dient daartoe alle geldende auteurs- en portretrechten te respecteren, alsook alle andere toepasselijke wetgeving. Je kan daarvoor aansprakelijk worden gehouden, zoals vastgelegd in de <0></0>. Meer informatie over <1></1>"
+        }
+      },
+      "file_requirements": "De maximale grootte van je afbeelding is 5MB en heeft als type .jpeg, .gif of .png",
+      "title": "Afbeelding toevoegen",
+      "validation_messages": {
+        "copyrightHolder": {
+          "required": "Copyright is verplicht."
+        },
+        "description": {
+          "max": "Beschrijving mag maximaal 250 karakters bevatten.",
+          "required": "Beschrijving is verplicht."
+        },
+        "file": {
+          "required": "Gelieve een bestand te selecteren",
+          "size": "Het bestand dat je selecteerde is groter dan 5MB.",
+          "type": "Het bestand dat je selecteerde is geen geldig bestandstype"
+        }
+      }
+    }
+  },
+  "productions": {
+    "create": {
+      "link": "Linken",
+      "new_production": "Nieuwe productie: ",
+      "no_productions": "Geen producties gevonden.",
+      "no_suggested_events_found": "Geen evenementen gevonden om te linken aan een productie. Probeer het later opnieuw.",
+      "production_name": "Productienaam",
+      "skip": "Overslaan",
+      "suggested_events": "Overeenkomst voorgestelde evenementen:",
+      "title": "Producties toevoegen"
+    },
+    "delete": {
+      "title": "Evenement(en) verwijderen van productie"
+    },
+    "event": {
+      "part_of_production": "Onderdeel van de productie",
+      "title": "Titel",
+      "type": "Type",
+      "when": "Wanneer",
+      "where": "Waar"
+    },
+    "overview": {
+      "aria": {
+        "events": "Evenementen",
+        "productions": "Producties"
+      },
+      "cancel": "Annuleren",
+      "change_name": "Naam wijzigen",
+      "confirm": "Bevestigen",
+      "create": "Toevoegen",
+      "delete": "Verwijderen",
+      "delete_question_event": "Ben je zeker dat je het geselecteerde event wilt verwijderen uit productie '{{productionName}}'?",
+      "delete_question_events": "Ben je zeker dat je de geselecteerde {{eventCount}} events wilt verwijderen uit productie '{{productionName}}'?",
+      "details": "Details",
+      "events_in_production": "Evenementen in {{productionName}}",
+      "loading": "Laden",
+      "no_events": "Geen evenementen onder deze productie.",
+      "no_productions": "Geen producties gevonden.",
+      "production": "Productie",
+      "search": {
+        "label": "Zoeken op productienaam:",
+        "placeholder": "Schrijf een zoekopdracht van minstens 3 karakters."
+      },
+      "title": "Producties"
+    }
+  },
+  "selectionTable": {
+    "rowsSelectedCount": "{{count}} rij geselecteerd",
+    "rowsSelectedCount_plural": "{{count}} rijen geselecteerd"
   },
   "steps": {
     "offerTypeStep": {
@@ -582,14 +594,53 @@
       }
     }
   },
-  "404": {
-    "title": "404 Niet Gevonden",
-    "sub_title": "Sorry, de pagina die u zocht bestaat niet.",
-    "redirect": "Ga terug naar Home"
+  "themes": {
+    "1.7.1.0.0": "Documentaires en reportages",
+    "1.7.10.0.0": "Filmmusical",
+    "1.7.11.0.0": "Cinefiel",
+    "1.7.12.0.0": "Animatie en kinderfilms",
+    "1.7.13.0.0": "Kortfilm",
+    "1.7.14.0.0": "Meerdere filmgenres",
+    "1.7.15.0.0": "Thriller",
+    "1.7.2.0.0": "Actie- en avonturenfilm",
+    "1.7.3.0.0": "Komedie",
+    "1.7.4.0.0": "Drama",
+    "1.7.6.0.0": "Griezelfilm of horror",
+    "1.7.7.0.0": "Science fiction",
+    "1.7.8.0.0": "Historische film"
   },
-  "error": {
-    "title": "Er is iets misgelopen",
-    "description": "Er ging iets mis. Herlaad de pagina om opnieuw te proberen. Neem contact op met <1>{{email}}</1> als dit probleem zich blijft voordoen",
-    "email": "vragen@uitdatabank.be"
+  "time_table": {
+    "end": "Einde",
+    "start": "Start"
+  },
+  "typeahead": {
+    "no_results": "Geen resultaten gevonden",
+    "prompt_text": "Typ om te zoeken...",
+    "search_text": "Aan het zoeken..."
+  },
+  "videos": {
+    "add_button": "Video-link toevoegen",
+    "delete": "Verwijderen",
+    "delete_modal": {
+      "actions": {
+        "cancel": "Annuleren",
+        "confirm": "Verwijderen"
+      },
+      "description": "Ben je zeker dat je deze video-link wil verwijderen?",
+      "title": "Video-link verwijderen"
+    },
+    "intro": "Voeg een video-link toe zodat bezoekers je activiteit beter herkennen",
+    "title": "Video's",
+    "upload_modal": {
+      "actions": {
+        "add": "Toevoegen",
+        "cancel": "Annuleren"
+      },
+      "link_requirements": "Je kan enkel video-urls van YouTube of Vimeo toevoegen",
+      "title": "Video-link toevoegen",
+      "validation_messages": {
+        "link": "Je video-link voldoet niet aan de vereisten."
+      }
+    }
   }
 }

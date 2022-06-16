@@ -549,6 +549,36 @@ const useAddPriceInfoMutation = (configuration = {}) =>
     ...configuration,
   });
 
+const addOrganizerToEvent = async ({ headers, eventId, organizerId }) =>
+  fetchFromApi({
+    path: `/events/${eventId}/organizer/${organizerId}`,
+    options: {
+      method: 'PUT',
+      headers,
+    },
+  });
+
+const useAddOrganizerToEventMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: addOrganizerToEvent,
+    ...configuration,
+  });
+
+const deleteOrganizerFromEvent = async ({ headers, eventId, organizerId }) =>
+  fetchFromApi({
+    path: `/events/${eventId}/organizer/${organizerId}`,
+    options: {
+      method: 'DELETE',
+      headers,
+    },
+  });
+
+const useDeleteOrganizerFromEventMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: deleteOrganizerFromEvent,
+    ...configuration,
+  });
+
 const publish = async ({ headers, eventId, publicationDate }) =>
   fetchFromApi({
     path: `/event/${eventId}`,
@@ -626,6 +656,7 @@ export {
   useAddEventMutation,
   useAddImageToEventMutation,
   useAddLabelMutation,
+  useAddOrganizerToEventMutation,
   useAddPriceInfoMutation,
   useAddVideoToEventMutation,
   useChangeCalendarMutation,
@@ -638,6 +669,7 @@ export {
   useChangeTypicalAgeRangeMutation,
   useDeleteEventByIdMutation,
   useDeleteImageFromEventMutation,
+  useDeleteOrganizerFromEventMutation,
   useDeleteVideoFromEventMutation,
   useGetCalendarSummaryQuery,
   useGetEventByIdQuery,
