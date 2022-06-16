@@ -1,4 +1,4 @@
-import levenshtein from 'fast-levenshtein';
+import { distance } from 'fastest-levenshtein';
 import { QueryFunctionContext, useQuery } from 'react-query';
 
 import { Countries, Country } from '@/types/Country';
@@ -37,8 +37,8 @@ const sortByLevenshtein = (query: string) => {
     const aLowercase = a.label.toLowerCase();
     const bLowercase = b.label.toLowerCase();
 
-    const distanceA = levenshtein.get(query, aLowercase);
-    const distanceB = levenshtein.get(query, bLowercase);
+    const distanceA = distance(query, aLowercase);
+    const distanceB = distance(query, bLowercase);
 
     return distanceA - distanceB;
   };
