@@ -5,6 +5,10 @@
     "BE": "Belgique",
     "NL": "Pays-Bas"
   },
+  "city_picker": {
+    "label": "Municipalité",
+    "no_cities": "Aucune municipalité trouvée"
+  },
   "main": {
     "activities_info": "Vous proposez un concert, une représentation, une exposition ou un film? Ou plutôt un événement sportif, une randonnée, une soirée cartes, une kermesse? Ou encore des cours, des ateliers ou des événements? Tout cela trouvera sa place dans l’UiTdatabank.",
     "activities": "activités par an",
@@ -168,6 +172,12 @@
         "confirm": "Confirmer"
       }
     },
+    "toast": {
+      "success": {
+        "audienceType": "Accès modifié avec succès",
+        "organizer": "L'organisation modifiée avec succès"
+      }
+    },
     "additionalInformation": {
       "title": "Augmentez la visibilité de votre évènement",
       "description": {
@@ -208,12 +218,37 @@
         "add_new_button": "Ajouter organisateur",
         "change": "Modifier"
       },
-      "picture": {
+      "pictures": {
         "add_button": "Ajouter une image",
         "intro": "Ajoutez une image de sorte que les visiteurs reconnaissent mieux votre activité.",
         "change": "Modifier",
         "delete": "Supprimer",
         "set_as_main_image": "Créer image principale"
+      },
+      "videos": {
+        "title": "Vidéos",
+        "intro": "Ajoutez un lien vidéo pour aider les visiteurs à reconnaître votre activité",
+        "add_button": "Ajouter un lien vidéo",
+        "delete": "Supprimer",
+        "upload_modal": {
+          "title": "Ajouter un lien vidéo",
+          "actions": {
+            "add": "Ajouter",
+            "cancel": "Annuler"
+          },
+          "validation_messages": {
+            "link": "Votre lien vidéo ne répond pas aux exigences."
+          },
+          "link_requirements": "Vous ne pouvez ajouter que des URL de vidéo de YouTube ou Vimeo"
+        },
+        "delete_modal": {
+          "title": "Video-link verwijderen",
+          "description": "Ben je zeker dat je deze video-link wil verwijderen?",
+          "actions": {
+            "cancel": "Annuleren",
+            "confirm": "Verwijderen"
+          }
+        }
       },
       "price_info": {
         "euro": "euro",
@@ -261,9 +296,12 @@
       "availableTo_desc": "date de l'événement (nouveau - ancien)",
       "availableTo_asc": "date de l'événement (ancien - nouveau)",
       "results": {
-        "events": "événements",
-        "places": "éndroits",
-        "organizers": "organisateurs"
+        "events": "<0>{{count}}</0> événement",
+        "events_plural": "<0>{{count}}</0> événements",
+        "organizers": "<0>{{count}}</0> éndroit",
+        "organizers_plural": "<0>{{count}}</0> éndroits",
+        "places": "<0>{{count}}</0> organisateur",
+        "places_plural": "<0>{{count}}</0> organisateurs"
       }
     },
     "my_items": "Mes événements, endroits et organisateurs",
