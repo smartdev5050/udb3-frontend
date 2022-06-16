@@ -180,12 +180,15 @@ const AdditionalInformationStep = ({
 
   useEffect(() => {
     // @ts-expect-error
-    if (!getEventByIdQuery.data?.description) return;
-    // @ts-expect-error
-    setDescription(getEventByIdQuery.data.description.nl);
+    const eventData = getEventByIdQuery.data;
+    if (!eventData?.description) return;
+    setDescription(
+      eventData.description[i18n.language] ??
+        eventData.description[eventData.mainLanguage],
+    );
     // @ts-expect-error
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getEventByIdQuery.data?.description]);
+  }, [getEventByIdQuery.data]);
 
   useEffect(() => {
     if (

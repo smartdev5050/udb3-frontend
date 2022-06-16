@@ -1,4 +1,4 @@
-import levenshtein from 'fast-levenshtein';
+import { distance } from 'fastest-levenshtein';
 import { QueryFunctionContext, useQuery } from 'react-query';
 
 import { Countries, Country } from '@/types/Country';
@@ -32,13 +32,13 @@ const matchesQuery = (query: string) => {
   return (city: City) => city.label.toLowerCase().includes(query);
 };
 
-const byLevenshtein = (query: string) => {
+const sortByLevenshtein = (query: string) => {
   return (a: City, b: City) => {
     const aLowercase = a.label.toLowerCase();
     const bLowercase = b.label.toLowerCase();
 
-    const distanceA = levenshtein.get(query, aLowercase);
-    const distanceB = levenshtein.get(query, bLowercase);
+    const distanceA = distance(query, aLowercase);
+    const distanceB = distance(query, bLowercase);
 
     return distanceA - distanceB;
   };
@@ -53,7 +53,7 @@ const getCitiesByQuery = (
 
   const query = q.toLowerCase();
 
-  return cities.filter(matchesQuery(query)).sort(byLevenshtein(query));
+  return cities.filter(matchesQuery(query)).sort(sortByLevenshtein(query));
 };
 
 const useGetCitiesByQuery = (

@@ -26,7 +26,11 @@ export const useAutoFocus = <T extends HTMLElement>({
   useEffect(() => {
     if (!focusOnLoad) return;
     focus();
-  }, [focusOnLoad, element, retriggerOn]);
+  }, [element, focusOnLoad]);
+
+  useEffect(() => {
+    focus();
+  }, [element, retriggerOn]);
 
   return [element, focus];
 };
