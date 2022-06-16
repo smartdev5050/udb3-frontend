@@ -26,6 +26,60 @@
     "from": "Von",
     "till": "bis"
   },
+  "city_picker": {
+    "label": "Gemeinde",
+    "no_cities": "Keine Gemeinden gefunden"
+  },
+  "copyright": {
+    "questions": {
+      "1": {
+        "answer": "",
+        "question": ""
+      },
+      "2": {
+        "answer": {
+          "paragraph1": "",
+          "paragraph2": "",
+          "paragraph3": "",
+          "step1": "",
+          "step2": "",
+          "step3": "",
+          "step4": "",
+          "step5": "",
+          "step6": ""
+        },
+        "question": ""
+      },
+      "3": {
+        "answer": "",
+        "question": ""
+      },
+      "4": {
+        "answer": {
+          "paragraph1": "",
+          "step1": "",
+          "step2": "",
+          "step3": "",
+          "step4": "",
+          "step5": "",
+          "step6": ""
+        },
+        "question": ""
+      },
+      "5": {
+        "answer": "",
+        "question": ""
+      },
+      "6": {
+        "answer": "",
+        "question": ""
+      },
+      "7": {
+        "answer": "",
+        "question": ""
+      }
+    }
+  },
   "countries": {
     "BE": "Belgien",
     "NL": "Niederlande"
@@ -35,7 +89,8 @@
       "audience": {
         "education": "Nur für Schulen",
         "everyone": "Für alle",
-        "members": "Nur für Mitglieder"
+        "members": "Nur für Mitglieder",
+        "title": "Zugang"
       },
       "contact_info": {
         "edit_cta": "Bearbeiten",
@@ -116,7 +171,14 @@
       },
       "description": "Ab wann soll dies online angezeigt werden?",
       "title": "Wählen Sie ein Veröffentlichungsdatum",
+
       "warning": "Achtung, dieses Datum kann nur einmalig eingestellt werden."
+    },
+    "toast": {
+      "success": {
+        "audienceType": "Zugang wurde erfolgreich geändert",
+        "organizer": "Organisation wurde erfolgreich geändert"
+      }
     }
   },
   "dashboard": {
@@ -172,9 +234,12 @@
       "created_desc": "Erstellungsdatum (neu - alt)",
       "label": "Sortiere nach",
       "results": {
-        "events": "Veranstaltungen",
-        "organizers": "Organisatoren",
-        "places": "Orte"
+        "events": "<0>{{count}}</0> veranstaltung",
+        "events_plural": "<0>{{count}}</0> veranstaltungen",
+        "organizers": "<0>{{count}}</0> organisator",
+        "organizers_plural": "<0>{{count}}</0> organisatoren",
+        "places": "<0>{{count}}</0> orte",
+        "places_plural": "<0>{{count}}</0> standorte"
       }
     },
     "tabs": {
@@ -237,10 +302,13 @@
     "by": "Ein Produkt von",
     "changeProfile": "Mein Profil ändern",
     "contact": "Kontaktieren Sie uns",
+    "de": "Deutsch",
     "dev": "Für Entwickler",
     "flemishGovernment": "Flämische Regierung",
+    "fr": "Français",
     "legal": "Nutzungsbedingungen",
     "legal_path": "Nutzungsbedingungen-uitdatabank",
+    "nl": "Nederlands",
     "privacy": "Datenschutz",
     "profile": "Mein Profil ändern",
     "questions": "Haben Sie Fragen oder Feedback?",
@@ -287,17 +355,62 @@
   "movies": {
     "create": {
       "actions": {
-        "change_cinema": "Kino ändern",
-        "change_theme": "Thema ändern",
-        "choose_cinema": "Wählen Sie ein Kino aus",
-        "choose_name": "Wählen Sie einen Namen",
-        "copy_table": "Tabelle kopieren"
+        "change_cinema": "",
+        "change_name": "",
+        "change_theme": "",
+        "choose_cinema": "",
+        "choose_name": "",
+        "clear": "",
+        "copy_table": "",
+        "description": "",
+        "publish": "",
+        "publish_later": "",
+        "save": ""
       },
-      "step1_title": "Was für einen Film möchten Sie eingeben?",
-      "step2_title": "Wann wird der Film gezeigt?",
-      "step3_title": "Wo wird der Film gezeigt?",
-      "step4_title": "Wie heißt der Film?",
-      "title": "Filme hinzufügen"
+      "footer": {
+        "auto_save": "",
+        "done_editing": ""
+      },
+      "step1": {
+        "title": ""
+      },
+      "step2": {
+        "title": ""
+      },
+      "step3": {
+        "title": ""
+      },
+      "step4": {
+        "title": ""
+      },
+      "step5": {
+        "title": ""
+      },
+      "title": "",
+      "toast": {
+        "success": {
+          "calendar": "",
+          "description": "",
+          "image": "",
+          "location": "",
+          "name": "",
+          "theme": "",
+          "title": "",
+          "video": ""
+        }
+      },
+      "validation_messages": {
+        "cinema": {
+          "required": ""
+        },
+        "production": {
+          "required": ""
+        },
+        "timeTable": {
+          "all-timeslots-valid": "",
+          "has-timeslot": ""
+        }
+      }
     }
   },
   "offerStatus": {
@@ -334,9 +447,93 @@
     "statusLabel": "Status",
     "title": "Verfügbarkeit für {{name}}"
   },
+  "organizer": {
+    "add_modal": {
+      "actions": {
+        "add": "Hinzufügen",
+        "cancel": "Absagen"
+      },
+      "info": {
+        "zip": "Beispiel 1104CA"
+      },
+      "labels": {
+        "address": {
+          "country": "Land",
+          "streetAndNumber": "Straße und Nummer",
+          "title": "Adresse",
+          "zip": "Postleitzahl"
+        },
+        "name": {
+          "info": "Der offizielle öffentliche Name der Organisation",
+          "title": "Name"
+        },
+        "url": "Webseite"
+      },
+      "title": "Organisation hinzufügen",
+      "url_requirements": "Um Organisationen in der UiT-Datenbank einzigartig zu halten, bitten wir jede Organisation um einen eindeutigen und gültigen Hyperlink",
+      "validation_messages": {
+        "address": {
+          "addressLocality": "Ihre Gemeinde erfüllt die Anforderungen nicht.",
+          "streetAndNumber": "Ihre Straße und Hausnummer entsprechen nicht den Anforderungen."
+        },
+        "name": "Ihr Name entspricht nicht den Anforderungen.",
+        "url": "Ihre Website entspricht nicht den Anforderungen."
+      }
+    }
+  },
   "pagination": {
     "next": "Weiter",
     "previous": "Zurück"
+  },
+  "pictures": {
+    "add_button": "Bild hinzufügen",
+    "change": "Ändern",
+    "delete": "Löschen",
+    "delete_modal": {
+      "actions": {
+        "cancel": "Abbrechen",
+        "confirm": "Bestätigen"
+      },
+      "description": "Möchten Sie dieses Bild wirklich löschen?",
+      "title": "Bilder löschen"
+    },
+    "intro": "Fügen Sie ein Bild hinzu, damit Besucher Ihre Aktivität erkennen können",
+    "set_as_main_image": "Hauptbild erstellen",
+    "title": "Bilder",
+    "upload_modal": {
+      "actions": {
+        "adjust": "Anpassen",
+        "cancel": "Abbrechen",
+        "choose_file": "Datei wählen",
+        "upload": "Hochladen"
+      },
+      "disclaimer": {
+        "copyright": "Geben Sie den Namen des urheberrechtlich geschützten Fotografen an. Geben Sie den Namen Ihres eigenen Vereins oder Ihrer Organisation nur ein, wenn Sie die Rechte besitzen (mindestens 2 Zeichen).",
+        "terms_and_conditions": {
+          "labels": {
+            "copyright": "urheberrechte",
+            "terms": "geschäftsbedingungen"
+          },
+          "text": "Sie sind dabei, Bilder hinzuzufügen und öffentlich zu verteilen. Sie müssen alle anwendbaren Urheber- und Porträtrechte sowie alle anderen anwendbaren Gesetze respektieren. Sie können dafür gemäß <0></0> haftbar gemacht werden. Weitere Informationen zu <1></1>"
+        }
+      },
+      "file_requirements": "Die maximale Größe Ihres Bildes beträgt 5 MB und hat den Typ .jpeg, .gif oder .png",
+      "title": "Bild hinzufügen",
+      "validation_messages": {
+        "copyrightHolder": {
+          "required": "Urheberrecht ist erforderlich."
+        },
+        "description": {
+          "max": "Beschreibung darf maximal 250 Zeichen lang sein.",
+          "required": "Beschreibung ist erforderlich."
+        },
+        "file": {
+          "required": "Bitte wählen Sie eine Datei aus",
+          "size": "Die ausgewählte Datei ist größer als 5 MB.",
+          "type": "Die ausgewählte Datei hat keinen gültigen Dateityp"
+        }
+      }
+    }
   },
   "productions": {
     "create": {
@@ -419,5 +616,30 @@
     "no_results": "Keine Ergebnisse gefunden",
     "prompt_text": "Tipp deine Suche einfach...",
     "search_text": "Wird gesucht..."
+  },
+  "videos": {
+    "add_button": "Videolink hinzufügen",
+    "delete": "Löschen",
+    "delete_modal": {
+      "actions": {
+        "cancel": "Abbrechen",
+        "confirm": "Bestätigen"
+      },
+      "description": "Möchten Sie diesen Videolink wirklich entfernen?",
+      "title": "Videolink entfernen"
+    },
+    "intro": "Fügen Sie einen Videolink hinzu, damit Besucher Ihre Aktivität erkennen können",
+    "title": "Videos",
+    "upload_modal": {
+      "actions": {
+        "add": "Hinzufügen",
+        "cancel": "Abbrechen"
+      },
+      "link_requirements": "Sie können nur Video-URLs von YouTube oder Vimeo hinzufügen",
+      "title": "Videolink hinzufügen",
+      "validation_messages": {
+        "link": "Ihr Videolink entspricht nicht den Anforderungen."
+      }
+    }
   }
 }
