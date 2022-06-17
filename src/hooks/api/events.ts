@@ -549,6 +549,22 @@ const useAddPriceInfoMutation = (configuration = {}) =>
     ...configuration,
   });
 
+const addContactPoint = async ({ headers, eventId, contactPoint }) =>
+  fetchFromApi({
+    path: `/events/${eventId}/contactPoint`,
+    options: {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({ contactPoint }),
+    },
+  });
+
+const useAddContactPointMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: addContactPoint,
+    ...configuration,
+  });
+
 const publish = async ({ headers, eventId, publicationDate }) =>
   fetchFromApi({
     path: `/event/${eventId}`,
@@ -622,6 +638,7 @@ const useAddAudienceMutation = (configuration = {}) =>
 
 export {
   useAddAudienceMutation,
+  useAddContactPointMutation,
   useAddEventMainImageMutation,
   useAddEventMutation,
   useAddImageToEventMutation,
