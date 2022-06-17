@@ -25,6 +25,18 @@ type ContactInfo = {
   url: string[];
 };
 
+type BookingInfo = {
+  email?: string;
+  phone?: string;
+  url?: string;
+  urlLabel: {
+    de: string;
+    en: string;
+    fr: string;
+    nl: string;
+  };
+};
+
 const getValue = getValueFromTheme('contactInformation');
 
 const EMAIL_REGEX: RegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
