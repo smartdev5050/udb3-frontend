@@ -580,7 +580,10 @@ const AdditionalInformationStep = ({
                 eventContactInfo={eventContactInfo}
                 eventBookingInfo={eventBookingInfo}
               />
-              <ContactInfoEntry />
+              <ContactInfoEntry
+                contactInfo={eventContactInfo}
+                bookingInfo={eventBookingInfo}
+              />
               <Audience
                 eventId={eventId}
                 selectedAudience={audienceType}

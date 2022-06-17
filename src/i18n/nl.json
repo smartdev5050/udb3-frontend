@@ -417,6 +417,7 @@
       },
       "contact_info": {
         "title": "Contact & reservatie",
+        "add_input_placeholder": "Voeg een {{contactInfoType}} toe",
         "url": "Website",
         "phone": "Telefoonnummer",
         "email": "E-mailadres",
