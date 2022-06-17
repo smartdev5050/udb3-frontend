@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
 import {
+  useAddContactPointMutation,
   useAddEventMainImageMutation,
   useAddImageToEventMutation,
   useAddPriceInfoMutation,
@@ -57,7 +58,13 @@ const AdditionalInformationStepVariant = {
   EXTENDED: 'extended',
 } as const;
 
-type Field = 'description' | 'image' | 'video' | 'priceInfo' | 'audience';
+type Field =
+  | 'description'
+  | 'image'
+  | 'video'
+  | 'priceInfo'
+  | 'audience'
+  | 'contactPoint';
 
 type Props = StackProps & {
   eventId: string;
@@ -406,6 +413,12 @@ const AdditionalInformationStep = ({
     },
   });
 
+  const addEventContactPointMutation = useAddContactPointMutation({
+    onSuccess: async () => {
+      await invalidateEventQuery('contactPoint');
+    },
+  });
+
   const handlePriceInfoSubmitValid = async ({ rates }: PriceInfoFormData) => {
     const convertedPriceInfo = rates.map((rate: Rate) => {
       return {
@@ -583,6 +596,8 @@ const AdditionalInformationStep = ({
               <ContactInfoEntry
                 contactInfo={eventContactInfo}
                 bookingInfo={eventBookingInfo}
+                eventId={eventId}
+                addContactInfoMutation={addEventContactPointMutation}
               />
               <Audience
                 eventId={eventId}
