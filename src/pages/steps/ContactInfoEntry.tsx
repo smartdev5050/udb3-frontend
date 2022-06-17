@@ -1,15 +1,20 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { css } from 'styled-components';
 
-import { useAddContactPointMutation } from '@/hooks/api/events';
+import {
+  useAddBookingInfoMutation,
+  useAddContactPointMutation,
+} from '@/hooks/api/events';
 import { Button, ButtonVariants } from '@/ui/Button';
+import { CheckboxWithLabel } from '@/ui/CheckboxWithLabel';
 import { FormElement } from '@/ui/FormElement';
 import { Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
 import { Select } from '@/ui/Select';
 import { getStackProps, Stack } from '@/ui/Stack';
-import { Text } from '@/ui/Text';
+import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
@@ -48,18 +53,36 @@ const isValidEmail = (value: any): boolean => {
 const Form = ({
   type,
   contactAndBookingInfo,
-  hasBookingInfo,
+  bookingInfo,
+  contactInfo,
   onAddInfo,
+  onAddBookingInfo,
 }: {
   type: string;
   contactAndBookingInfo: ContactInfo;
-  hasBookingInfo: boolean;
+  contactInfo: ContactInfo;
+  bookingInfo?: BookingInfo;
   onAddInfo: (newContactInfo, onSuccess) => Promise<void>;
+  onAddBookingInfo: (newBookingInfo, onSuccess) => Promise<void>;
 }) => {
   const { t } = useTranslation();
 
   const [value, setValue] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+
+  console.log({ bookingInfo });
+
+  const handleAddBookingInfo = (value: string) => {
+    // TODO add bookingInfo
+    console.log('handle booking info');
+
+    const newBookingInfo = bookingInfo;
+    newBookingInfo[type] = value;
+
+    onAddBookingInfo(newBookingInfo, () => {
+      console.log('success');
+    });
+  };
 
   const handleAddInfo = () => {
     if (type === ContactInfoType.EMAIL && !isValidEmail(value)) {
@@ -70,7 +93,7 @@ const Form = ({
     }
 
     setErrorMessage('');
-    const newContactInfo = contactAndBookingInfo;
+    const newContactInfo = contactInfo;
     newContactInfo[type].push(value);
     onAddInfo(newContactInfo, () => setValue(''));
   };
@@ -104,17 +127,45 @@ const Form = ({
       {errorMessage && (
         <Text color={getValue('errorText')}>{errorMessage}</Text>
       )}
-      {contactAndBookingInfo[type].map((info) => {
+      {contactAndBookingInfo[type].map((info, index) => {
         return (
           info && (
-            <Inline marginBottom={3} spacing={5} justifyContent="space-between">
-              <Text flex={2}>{info}</Text>
-              <Button iconName={Icons.TRASH} variant={ButtonVariants.DANGER} />
-            </Inline>
+            <Stack
+              css={
+                index !== 0
+                  ? css`border-top: 1px solid ${getValue('borderColor')}}`
+                  : ''
+              }
+            >
+              <Inline
+                paddingTop={2}
+                paddingBottom={2}
+                spacing={5}
+                justifyContent="space-between"
+              >
+                <Text flex={2}>{info}</Text>
+                {type !== ContactInfoType.URL && (
+                  <CheckboxWithLabel
+                    id="contact-info-reservation"
+                    name="contact-info-reservation"
+                    className="booking-info-reservation"
+                    checked={bookingInfo[type] === info}
+                    disabled={false}
+                    onToggle={() => handleAddBookingInfo(info)}
+                  >
+                    Gebruik voor reservatie
+                  </CheckboxWithLabel>
+                )}
+                <Button
+                  iconName={Icons.TRASH}
+                  variant={ButtonVariants.DANGER}
+                />
+              </Inline>
+            </Stack>
           )
         );
       })}
-      {hasBookingInfo && type === ContactInfoType.URL && (
+      {bookingInfo && type === ContactInfoType.URL && (
         <Stack>
           <Select>
             <option>Kies je reservatie website</option>
@@ -133,6 +184,7 @@ const Form = ({
 type Props = {
   eventId: string;
   onAddContactInfoSuccess: () => void;
+  onAddBookingInfoSuccess: () => void;
   contactInfo: ContactInfo;
   bookingInfo?: any;
   withReservationInfo?: boolean;
@@ -144,6 +196,7 @@ const ContactInfoEntry = ({
   bookingInfo,
   withReservationInfo = false,
   onAddContactInfoSuccess,
+  onAddBookingInfoSuccess,
   ...props
 }: Props) => {
   const { t } = useTranslation();
@@ -163,6 +216,22 @@ const ContactInfoEntry = ({
       contactPoint: newContactInfo,
     });
     onSuccessCallback();
+  };
+
+  const addBookingInfoMutation = useAddBookingInfoMutation({
+    onSuccess: async () => {
+      onAddBookingInfoSuccess();
+    },
+  });
+
+  const handleAddBookingInfoMutation = async (
+    newBookingInfo,
+    onSuccessCallback,
+  ) => {
+    await addBookingInfoMutation.mutateAsync({
+      eventId,
+      bookingInfo: newBookingInfo,
+    });
   };
 
   const mergedContactAndBookingInfo = useMemo(() => {
@@ -186,8 +255,10 @@ const ContactInfoEntry = ({
               contactAndBookingInfo={mergedContactAndBookingInfo}
               key={type}
               type={type}
-              hasBookingInfo={!!bookingInfo}
+              bookingInfo={bookingInfo}
+              contactInfo={contactInfo}
               onAddInfo={handleAddContactInfoMutation}
+              onAddBookingInfo={handleAddBookingInfoMutation}
             />
           );
         })}
