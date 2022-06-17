@@ -4,12 +4,13 @@ import { useTranslation } from 'react-i18next';
 import { useAddContactPointMutation } from '@/hooks/api/events';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
-import { Icon, Icons } from '@/ui/Icon';
+import { Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
 import { Select } from '@/ui/Select';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
+import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
 const ContactInfoType = {
@@ -22,6 +23,14 @@ type ContactInfo = {
   email: string[];
   phone: string[];
   url: string[];
+};
+
+const getValue = getValueFromTheme('contactInformation');
+
+const EMAIL_REGEX: RegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+const isValidEmail = (value: any): boolean => {
+  return EMAIL_REGEX.test(value);
 };
 
 const Form = ({
@@ -38,8 +47,17 @@ const Form = ({
   const { t } = useTranslation();
 
   const [value, setValue] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleAddInfo = () => {
+    if (type === ContactInfoType.EMAIL && !isValidEmail(value)) {
+      setErrorMessage(
+        t('create.additionalInformation.contact_info.email_error'),
+      );
+      return;
+    }
+
+    setErrorMessage('');
     const newContactInfo = contactAndBookingInfo;
     newContactInfo[type].push(value);
     onAddInfo(newContactInfo, () => setValue(''));
@@ -60,6 +78,7 @@ const Form = ({
                 'create.additionalInformation.contact_info.add_input_placeholder',
                 { type: label.toLowerCase() },
               )}
+              isInvalid={!!errorMessage}
               onChange={(e) => setValue(e.target.value)}
             />
           }
@@ -70,6 +89,9 @@ const Form = ({
           onClick={handleAddInfo}
         />
       </Inline>
+      {errorMessage && (
+        <Text color={getValue('errorText')}>{errorMessage}</Text>
+      )}
       {contactAndBookingInfo[type].map((info) => {
         return (
           info && (
@@ -120,12 +142,15 @@ const ContactInfoEntry = ({
     },
   });
 
-  const handleAddContactInfoMutation = async (newContactInfo, onSuccess) => {
+  const handleAddContactInfoMutation = async (
+    newContactInfo,
+    onSuccessCallback,
+  ) => {
     await addContactPointMutation.mutateAsync({
       eventId,
       contactPoint: newContactInfo,
     });
-    onSuccess();
+    onSuccessCallback();
   };
 
   const mergedContactAndBookingInfo = useMemo(() => {

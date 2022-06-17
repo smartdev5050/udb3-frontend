@@ -421,6 +421,7 @@
         "url": "Website",
         "phone": "Telefoonnummer",
         "email": "E-mailadres",
+        "email_error": "Geen geldig e-mailadres",
         "empty": "U heeft nog geen {{contactInfoType}} toegevoegd",
         "is_used_for_reservation": "Wordt gebruikt voor reservatie",
         "edit_cta": "Bewerken"
