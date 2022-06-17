@@ -1,7 +1,7 @@
-import { useMemo, useRef } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Values } from '@/types/Values';
+import { useAddContactPointMutation } from '@/hooks/api/events';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
@@ -9,8 +9,7 @@ import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
 import { Select } from '@/ui/Select';
 import { getStackProps, Stack } from '@/ui/Stack';
-import { Text, TextVariants } from '@/ui/Text';
-import { getValueFromTheme } from '@/ui/theme';
+import { Text } from '@/ui/Text';
 import { Title } from '@/ui/Title';
 
 const ContactInfoType = {
@@ -25,9 +24,81 @@ type ContactInfo = {
   url: string[];
 };
 
+const Form = ({
+  type,
+  contactAndBookingInfo,
+  hasBookingInfo,
+  onAddInfo,
+}: {
+  type: string;
+  contactAndBookingInfo: ContactInfo;
+  hasBookingInfo: boolean;
+  onAddInfo: (newContactInfo, onSuccess) => Promise<void>;
+}) => {
+  const { t } = useTranslation();
+
+  const [value, setValue] = useState('');
+
+  const handleAddInfo = () => {
+    const newContactInfo = contactAndBookingInfo;
+    newContactInfo[type].push(value);
+    onAddInfo(newContactInfo, () => setValue(''));
+  };
+
+  const label = t(`create.additionalInformation.contact_info.${type}`);
+  return (
+    <Stack spacing={3} marginBottom={3}>
+      <Title marginBottom={2}>{label}</Title>
+      <Inline spacing={5} justifyContent="space-between">
+        <FormElement
+          flex={2}
+          id={`name-${type}`}
+          Component={
+            <Input
+              value={value}
+              placeholder={t(
+                'create.additionalInformation.contact_info.add_input_placeholder',
+                { type: label.toLowerCase() },
+              )}
+              onChange={(e) => setValue(e.target.value)}
+            />
+          }
+        />
+        <Button
+          iconName={Icons.PLUS}
+          variant={ButtonVariants.SUCCESS}
+          onClick={handleAddInfo}
+        />
+      </Inline>
+      {contactAndBookingInfo[type].map((info) => {
+        return (
+          info && (
+            <Inline marginBottom={3} spacing={5} justifyContent="space-between">
+              <Text flex={2}>{info}</Text>
+              <Button iconName={Icons.TRASH} variant={ButtonVariants.DANGER} />
+            </Inline>
+          )
+        );
+      })}
+      {hasBookingInfo && type === ContactInfoType.URL && (
+        <Stack>
+          <Select>
+            <option>Kies je reservatie website</option>
+            {contactAndBookingInfo[type].map((contactInfo, key) => (
+              <option key={key} value={contactInfo}>
+                {contactInfo}
+              </option>
+            ))}
+          </Select>
+        </Stack>
+      )}
+    </Stack>
+  );
+};
+
 type Props = {
   eventId: string;
-  addContactInfoMutation: () => void;
+  onAddContactInfoSuccess: () => void;
   contactInfo: ContactInfo;
   bookingInfo?: any;
   withReservationInfo?: boolean;
@@ -35,15 +106,31 @@ type Props = {
 
 const ContactInfoEntry = ({
   eventId,
-  addContactInfoMutation,
   contactInfo,
   bookingInfo,
   withReservationInfo = false,
+  onAddContactInfoSuccess,
   ...props
 }: Props) => {
   const { t } = useTranslation();
 
+  const addContactPointMutation = useAddContactPointMutation({
+    onSuccess: async () => {
+      onAddContactInfoSuccess();
+    },
+  });
+
+  const handleAddContactInfoMutation = async (newContactInfo, onSuccess) => {
+    await addContactPointMutation.mutateAsync({
+      eventId,
+      contactPoint: newContactInfo,
+    });
+    onSuccess();
+  };
+
   const mergedContactAndBookingInfo = useMemo(() => {
+    if (!contactInfo) return;
+
     if (!bookingInfo) return contactInfo;
 
     return {
@@ -53,107 +140,18 @@ const ContactInfoEntry = ({
     };
   }, [contactInfo, bookingInfo]);
 
-  const handleAddContactInfo = (value: string, type: string): void => {
-    const newContactInfo = mergedContactAndBookingInfo;
-
-    newContactInfo[type].push(value);
-
-    // @ts-ignore
-    addContactInfoMutation.mutateAsync({
-      eventId,
-      contactPoint: { ...newContactInfo },
-    });
-  };
-
-  const isFromContactInfo = (info: string, type: string): boolean => {
-    return contactInfo[type].some((value) => info === value);
-  };
-
-  const isFromBookingInfo = (info: string, type: string): boolean => {
-    return bookingInfo[type].some((value) => info === value);
-  };
-
-  const handleDeleteContactInfo = (info: string, type: string): void => {
-    if (isFromContactInfo(info, type)) {
-      const newContactInfo = contactInfo;
-      newContactInfo[type] = newContactInfo[type].filter(
-        (contactInfoForType: string) => contactInfoForType !== info,
-      );
-
-      // @ts-ignore
-      addContactInfoMutation.mutateAsync({
-        eventId,
-        contactPoint: { ...newContactInfo },
-      });
-    }
-  };
-
   return (
     <Stack {...getStackProps(props)}>
       {mergedContactAndBookingInfo &&
-        Object.keys(mergedContactAndBookingInfo).map((key, index) => {
-          const contactInfoType = key;
-          const contactInfoTypeLabel = t(
-            `create.additionalInformation.contact_info.${contactInfoType}`,
-          );
+        Object.keys(mergedContactAndBookingInfo).map((type, index) => {
           return (
-            <Stack key={index} spacing={3} marginBottom={3}>
-              <Title marginBottom={2}>{contactInfoTypeLabel}</Title>
-              <Inline spacing={5} justifyContent="space-between">
-                <FormElement
-                  flex={2}
-                  id={`name-${contactInfoType}`}
-                  Component={
-                    <Input
-                      placeholder={t(
-                        'create.additionalInformation.contact_info.add_input_placeholder',
-                        { contactInfoType: contactInfoTypeLabel.toLowerCase() },
-                      )}
-                    />
-                  }
-                />
-                <Button
-                  iconName={Icons.PLUS}
-                  variant={ButtonVariants.SUCCESS}
-                  onClick={() => {
-                    console.log('hanlde add contactPoint');
-                    // handleAddContactInfo(textInput.current.value, key);
-                  }}
-                />
-              </Inline>
-              {mergedContactAndBookingInfo[key].map((info) => {
-                return (
-                  info && (
-                    <Inline
-                      marginBottom={3}
-                      spacing={5}
-                      justifyContent="space-between"
-                    >
-                      <Text flex={2}>{info}</Text>
-                      <Button
-                        iconName={Icons.TRASH}
-                        variant={ButtonVariants.DANGER}
-                        onClick={() =>
-                          handleDeleteContactInfo(info, contactInfoType)
-                        }
-                      />
-                    </Inline>
-                  )
-                );
-              })}
-              {bookingInfo && key === ContactInfoType.URL && (
-                <Stack>
-                  <Select>
-                    <option>Kies Je Website url</option>
-                    {mergedContactAndBookingInfo[key].map((contactInfo) => (
-                      <option key={key} value={contactInfo}>
-                        {contactInfo}
-                      </option>
-                    ))}
-                  </Select>
-                </Stack>
-              )}
-            </Stack>
+            <Form
+              contactAndBookingInfo={mergedContactAndBookingInfo}
+              key={type}
+              type={type}
+              hasBookingInfo={!!bookingInfo}
+              onAddInfo={handleAddContactInfoMutation}
+            />
           );
         })}
     </Stack>

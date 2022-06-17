@@ -15,6 +15,7 @@ import {
   useUpdateImageFromEventMutation,
 } from '@/hooks/api/events';
 import { useAddImageMutation } from '@/hooks/api/images';
+import { useAddEventsByIdsMutation } from '@/hooks/api/productions';
 import { PictureDeleteModal } from '@/pages/steps/modals/PictureDeleteModal';
 import type { FormData } from '@/pages/steps/modals/PictureUploadModal';
 import { PictureUploadModal } from '@/pages/steps/modals/PictureUploadModal';
@@ -597,7 +598,9 @@ const AdditionalInformationStep = ({
                 contactInfo={eventContactInfo}
                 bookingInfo={eventBookingInfo}
                 eventId={eventId}
-                addContactInfoMutation={addEventContactPointMutation}
+                onAddContactInfoSuccess={() =>
+                  invalidateEventQuery('contactPoint')
+                }
               />
               <Audience
                 eventId={eventId}
