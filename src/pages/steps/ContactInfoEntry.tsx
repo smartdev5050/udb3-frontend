@@ -6,6 +6,7 @@ import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
+import { Select } from '@/ui/Select';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
@@ -99,6 +100,18 @@ const ContactInfoEntry = ({
                   )
                 );
               })}
+              {bookingInfo && key === ContactInfoType.URL && (
+                <Stack>
+                  <Select>
+                    <option>Kies Je Website url</option>
+                    {mergedContactAndBookingInfo[key].map((contactInfo) => (
+                      <option key={key} value={contactInfo}>
+                        {contactInfo}
+                      </option>
+                    ))}
+                  </Select>
+                </Stack>
+              )}
             </Stack>
           );
         })}
