@@ -37,6 +37,7 @@ const EventTypes = {
   'Zaal of expohal': 'OyaPaf64AEmEAYXHeLMAtA',
   'School of onderwijscentrum': 'rJRFUqmd6EiqTD4c7HS90w',
   Winkel: 'VRC6HX0Wa063sq98G5ciqw',
+  Speeltuin: 'wwjRVmExI0w6xfQwT1KWpx',
   'Cultuur- of ontmoetingscentrum': 'Yf4aZBfsUEu2NsQqsprngw',
   Discotheek: 'YVBc8KVdrU6XfTNvhMYUpg',
 } as const;

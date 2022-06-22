@@ -539,13 +539,43 @@ const addPriceInfo = async ({ headers, eventId, priceInfo }) =>
     options: {
       method: 'PUT',
       headers,
-      body: JSON.stringify({ ...priceInfo }),
+      body: JSON.stringify(priceInfo),
     },
   });
 
 const useAddPriceInfoMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: addPriceInfo,
+    ...configuration,
+  });
+
+const addOrganizerToEvent = async ({ headers, eventId, organizerId }) =>
+  fetchFromApi({
+    path: `/events/${eventId}/organizer/${organizerId}`,
+    options: {
+      method: 'PUT',
+      headers,
+    },
+  });
+
+const useAddOrganizerToEventMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: addOrganizerToEvent,
+    ...configuration,
+  });
+
+const deleteOrganizerFromEvent = async ({ headers, eventId, organizerId }) =>
+  fetchFromApi({
+    path: `/events/${eventId}/organizer/${organizerId}`,
+    options: {
+      method: 'DELETE',
+      headers,
+    },
+  });
+
+const useDeleteOrganizerFromEventMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: deleteOrganizerFromEvent,
     ...configuration,
   });
 
@@ -602,11 +632,31 @@ const useDeleteVideoFromEventMutation = (configuration = {}) =>
     ...configuration,
   });
 
+const addAudience = async ({ headers, eventId, audienceType }) =>
+  fetchFromApi({
+    path: `/events/${eventId}/audience`,
+    options: {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({
+        audienceType,
+      }),
+    },
+  });
+
+const useAddAudienceMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: addAudience,
+    ...configuration,
+  });
+
 export {
+  useAddAudienceMutation,
   useAddEventMainImageMutation,
   useAddEventMutation,
   useAddImageToEventMutation,
   useAddLabelMutation,
+  useAddOrganizerToEventMutation,
   useAddPriceInfoMutation,
   useAddVideoToEventMutation,
   useChangeCalendarMutation,
@@ -619,6 +669,7 @@ export {
   useChangeTypicalAgeRangeMutation,
   useDeleteEventByIdMutation,
   useDeleteImageFromEventMutation,
+  useDeleteOrganizerFromEventMutation,
   useDeleteVideoFromEventMutation,
   useGetCalendarSummaryQuery,
   useGetEventByIdQuery,

@@ -1,5 +1,6 @@
 import { format } from 'date-fns';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'react-i18next';
 
 import { CalendarType } from '@/constants/CalendarType';
 import { EventTypes } from '@/constants/EventTypes';
@@ -62,6 +63,7 @@ const convertSubEventsToTimeTable = (subEvents: SubEvent[] = []) => {
 const MovieForm = (props) => {
   const router = useRouter();
   const parts = router.pathname.split('/');
+  const { t } = useTranslation();
 
   const convertEventToFormData = (event: Event) => {
     return {
@@ -119,6 +121,19 @@ const MovieForm = (props) => {
       label="udb-filminvoer"
       convertFormDataToEvent={convertFormDataToEvent}
       convertEventToFormData={convertEventToFormData}
+      title={t(`movies.create.title`)}
+      toastConfiguration={{
+        messages: {
+          image: t('movies.create.toast.success.image'),
+          description: t('movies.create.toast.success.description'),
+          calendar: t('movies.create.toast.success.calendar'),
+          video: t('movies.create.toast.success.video'),
+          theme: t('movies.create.toast.success.theme'),
+          location: t('movies.create.toast.success.location'),
+          name: t('movies.create.toast.success.name'),
+        },
+        title: t('movies.create.toast.success.title'),
+      }}
       configuration={[
         eventTypeAndThemeStepConfiguration,
         timeTableStepConfiguration,

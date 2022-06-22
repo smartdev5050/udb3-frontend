@@ -1,3 +1,4 @@
+import { FeatureFlags } from './hooks/useFeatureFlag';
 import type { SupportedLanguages } from './i18n';
 import type { Values } from './types/Values';
 
@@ -49,6 +50,7 @@ const getRedirects = (
     source: '/create',
     destination: '/event',
     permanent: false,
+    featureFlag: FeatureFlags.REACT_CREATE,
   },
   {
     source: '/event/:eventId/status',

@@ -25,6 +25,7 @@ import { getStackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
+import { valueToArray } from '@/utils/valueToArray';
 
 type ProductionStepProps<TFormData extends FormDataIntersection> = StackProps &
   StepProps<TFormData>;
@@ -134,7 +135,7 @@ const ProductionStep = <TFormData extends FormDataIntersection>({
                   onInputChange={debounce(setSearchInput, 275)}
                   labelKey="name"
                   maxWidth="43rem"
-                  selected={field.value ? [field.value as Production] : []}
+                  selected={valueToArray(field.value as Production)}
                   onChange={(productions) => {
                     const production = productions[0];
                     field.onChange(production);

@@ -47,10 +47,12 @@ const zIndexPaginationPageLink = above + base;
 
 const zIndexSidebar = above + zIndexPaginationPageLink;
 const zIndexPageFooter = zIndexSidebar;
+
 const zIndexJobLogger = above + zIndexSidebar;
-const zIndexToast = above + zIndexSidebar;
+const zIndexToast = zIndexJobLogger;
 
 const zIndexModalBackdrop = above + zIndexToast;
+
 const zIndexModal = above + zIndexModalBackdrop;
 //
 
@@ -332,6 +334,11 @@ const theme = {
     priceInformation: {
       borderColor: colors.grey3,
     },
+    contactInformation: {
+      borderColor: colors.grey3,
+      iconColor: colors.grey2,
+      errorText: colors.red,
+    },
     videoUploadBox: {
       backgroundColor: colors.white,
       borderColor: colors.grey2,
@@ -361,6 +368,11 @@ const theme = {
       },
       error: {
         color: colors.red,
+      },
+    },
+    organizerAddModal: {
+      address: {
+        borderColor: colors.grey3,
       },
     },
   },

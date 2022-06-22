@@ -23,12 +23,23 @@ import { Steps } from './Steps';
 
 const getValue = getValueFromTheme('createPage');
 
+type StepsFormProps = {
+  configuration: Object;
+  convertFormDataToEvent: Object;
+  convertEventToFormData: Object;
+  toastConfiguration: Object;
+  title: string;
+  label?: string;
+};
+
 const StepsForm = ({
   configuration,
   convertFormDataToEvent,
   convertEventToFormData,
+  toastConfiguration,
+  title,
   label,
-}) => {
+}: StepsFormProps) => {
   const { t } = useTranslation();
   const { form } = useParseStepConfiguration(configuration);
 
@@ -42,18 +53,7 @@ const StepsForm = ({
     (router.query.eventId as string) ?? '',
   );
 
-  const toast = useToast({
-    messages: {
-      image: t('movies.create.toast.success.image'),
-      description: t('movies.create.toast.success.description'),
-      calendar: t('movies.create.toast.success.calendar'),
-      video: t('movies.create.toast.success.video'),
-      theme: t('movies.create.toast.success.theme'),
-      location: t('movies.create.toast.success.location'),
-      name: t('movies.create.toast.success.name'),
-    },
-    title: t('movies.create.toast.success.title'),
-  });
+  const toast = useToast(toastConfiguration);
 
   const publishEvent = usePublishEvent({
     id: eventId,
@@ -92,12 +92,10 @@ const StepsForm = ({
 
   const footerStatus = useFooterStatus({ event, form });
 
-  const title = t(`movies.create.title`);
-
   return (
     <Page>
       <Page.Title spacing={3} alignItems="center">
-        {title}
+        {title ?? ''}
       </Page.Title>
 
       <Page.Content spacing={5} alignItems="flex-start">
