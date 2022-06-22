@@ -32,6 +32,7 @@ const useAddEvent = <TFormData extends FormDataIntersection>({
 
     if (!eventId) return;
 
+    // @ts-expect-error
     if (!production?.typicalAgeRange) {
       await changeTypicalAgeRangeMutation.mutateAsync({
         eventId,

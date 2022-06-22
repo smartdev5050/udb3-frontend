@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
-import { FormData } from './MovieForm';
+import { FormData } from '@/pages/manage/movies/MovieForm';
 
 const useParseStepConfiguration = (
   configuration,
@@ -38,6 +38,7 @@ const useParseStepConfiguration = (
   );
 
   const form = useForm<FormData>({
+    //@ts-expect-error
     resolver,
     defaultValues,
     ...formConfiguration,
