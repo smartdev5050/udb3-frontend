@@ -70,21 +70,19 @@ const Form = ({
   const [value, setValue] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  console.log({ bookingInfo });
-
-  const handleAddBookingInfo = (value: string) => {
+  const handleAddBookingInfo = async (value: string) => {
     // TODO add bookingInfo
-    console.log('handle booking info');
+    console.log('handle booking info', value);
 
     const newBookingInfo = bookingInfo;
     newBookingInfo[type] = value;
 
-    onAddBookingInfo(newBookingInfo, () => {
+    await onAddBookingInfo(newBookingInfo, () => {
       console.log('success');
     });
   };
 
-  const handleAddInfo = () => {
+  const handleAddInfo = async () => {
     if (type === ContactInfoType.EMAIL && !isValidEmail(value)) {
       setErrorMessage(
         t('create.additionalInformation.contact_info.email_error'),
@@ -95,7 +93,7 @@ const Form = ({
     setErrorMessage('');
     const newContactInfo = contactInfo;
     newContactInfo[type].push(value);
-    onAddInfo(newContactInfo, () => setValue(''));
+    await onAddInfo(newContactInfo, () => setValue(''));
   };
 
   const label = t(`create.additionalInformation.contact_info.${type}`);
@@ -127,42 +125,45 @@ const Form = ({
       {errorMessage && (
         <Text color={getValue('errorText')}>{errorMessage}</Text>
       )}
-      {contactAndBookingInfo[type].map((info, index) => {
+      {contactAndBookingInfo[type].map((info: string, index) => {
+        if (!info) return null;
+
+        const isChecked = bookingInfo[type] === info;
+        console.log({ info });
+        console.log('bookingInfo type', bookingInfo[type]);
+        console.log({ isChecked });
+
         return (
-          info && (
-            <Stack
-              css={
-                index !== 0
-                  ? css`border-top: 1px solid ${getValue('borderColor')}}`
-                  : ''
-              }
+          <Stack
+            key={info}
+            css={
+              index !== 0
+                ? css`border-top: 1px solid ${getValue('borderColor')}}`
+                : ''
+            }
+          >
+            <Inline
+              paddingTop={2}
+              paddingBottom={2}
+              spacing={5}
+              justifyContent="space-between"
             >
-              <Inline
-                paddingTop={2}
-                paddingBottom={2}
-                spacing={5}
-                justifyContent="space-between"
-              >
-                <Text flex={2}>{info}</Text>
-                {type !== ContactInfoType.URL && (
-                  <CheckboxWithLabel
-                    id="contact-info-reservation"
-                    name="contact-info-reservation"
-                    className="booking-info-reservation"
-                    checked={bookingInfo[type] === info}
-                    disabled={false}
-                    onToggle={() => handleAddBookingInfo(info)}
-                  >
-                    Gebruik voor reservatie
-                  </CheckboxWithLabel>
-                )}
-                <Button
-                  iconName={Icons.TRASH}
-                  variant={ButtonVariants.DANGER}
-                />
-              </Inline>
-            </Stack>
-          )
+              <Text flex={2}>{info}</Text>
+              {type !== ContactInfoType.URL && (
+                <CheckboxWithLabel
+                  id="contact-info-reservation"
+                  name="contact-info-reservation"
+                  className="booking-info-reservation"
+                  checked={bookingInfo[type] === info}
+                  disabled={false}
+                  onToggle={() => handleAddBookingInfo(info)}
+                >
+                  Gebruik voor reservatie
+                </CheckboxWithLabel>
+              )}
+              <Button iconName={Icons.TRASH} variant={ButtonVariants.DANGER} />
+            </Inline>
+          </Stack>
         );
       })}
       {bookingInfo && type === ContactInfoType.URL && (
@@ -183,8 +184,8 @@ const Form = ({
 
 type Props = {
   eventId: string;
-  onAddContactInfoSuccess: () => void;
-  onAddBookingInfoSuccess: () => void;
+  onAddContactInfoSuccess: () => Promise<void>;
+  onAddBookingInfoSuccess: (field: string) => Promise<void>;
   contactInfo: ContactInfo;
   bookingInfo?: any;
   withReservationInfo?: boolean;
@@ -203,7 +204,7 @@ const ContactInfoEntry = ({
 
   const addContactPointMutation = useAddContactPointMutation({
     onSuccess: async () => {
-      onAddContactInfoSuccess();
+      await onAddContactInfoSuccess();
     },
   });
 
@@ -220,7 +221,7 @@ const ContactInfoEntry = ({
 
   const addBookingInfoMutation = useAddBookingInfoMutation({
     onSuccess: async () => {
-      onAddBookingInfoSuccess();
+      await onAddBookingInfoSuccess('bookingInfo');
     },
   });
 
@@ -232,6 +233,8 @@ const ContactInfoEntry = ({
       eventId,
       bookingInfo: newBookingInfo,
     });
+    console.log('finish mutation');
+    onSuccessCallback();
   };
 
   const mergedContactAndBookingInfo = useMemo(() => {

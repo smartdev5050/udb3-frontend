@@ -65,6 +65,7 @@ type Field =
   | 'video'
   | 'priceInfo'
   | 'audience'
+  | 'bookingInfo'
   | 'contactPoint';
 
 type Props = StackProps & {
@@ -109,7 +110,10 @@ const AdditionalInformationStep = ({
 
   const [videos, setVideos] = useState([]);
 
-  const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
+  const getEventByIdQuery = useGetEventByIdQuery(
+    { id: eventId },
+    { refetchOnWindowFocus: false },
+  );
 
   const addImageToEventMutation = useAddImageToEventMutation({
     onSuccess: async () => {
@@ -250,6 +254,7 @@ const AdditionalInformationStep = ({
     return getEventByIdQuery.data?.bookingInfo;
     // @ts-expect-error
   }, [getEventByIdQuery.data?.bookingInfo, variant]);
+
   const audienceType = useMemo(() => {
     if (variant !== AdditionalInformationStepVariant.EXTENDED) {
       return;
@@ -325,6 +330,7 @@ const AdditionalInformationStep = ({
   }, [images, imageToEditId]);
 
   const invalidateEventQuery = async (field: Field) => {
+    console.log('in invalidate?', field);
     await queryClient.invalidateQueries(['events', { id: eventId }]);
     onChangeSuccess(field);
   };
@@ -411,12 +417,6 @@ const AdditionalInformationStep = ({
     onSuccess: async () => {
       await invalidateEventQuery('priceInfo');
       setIsPriceInfoModalVisible(false);
-    },
-  });
-
-  const addEventContactPointMutation = useAddContactPointMutation({
-    onSuccess: async () => {
-      await invalidateEventQuery('contactPoint');
     },
   });
 
@@ -601,6 +601,7 @@ const AdditionalInformationStep = ({
                 onAddContactInfoSuccess={() =>
                   invalidateEventQuery('contactPoint')
                 }
+                onAddBookingInfoSuccess={invalidateEventQuery}
               />
               <Audience
                 eventId={eventId}
