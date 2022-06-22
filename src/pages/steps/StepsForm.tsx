@@ -19,14 +19,14 @@ import { useGetEvent } from './hooks/useGetEvent';
 import { useParseStepConfiguration } from './hooks/useParseStepConfiguration';
 import { usePublishEvent } from './hooks/usePublishEvent';
 import { PublishLaterModal } from './modals/PublishLaterModal';
-import { Steps } from './Steps';
+import { Steps, StepsConfiguration } from './Steps';
 
 const getValue = getValueFromTheme('createPage');
 
 type StepsFormProps = {
-  configuration: Object;
-  convertFormDataToEvent: Object;
-  convertEventToFormData: Object;
+  configuration: StepsConfiguration<FormData>;
+  convertFormDataToEvent: (data: Object) => Object;
+  convertEventToFormData: (event: Object) => Object;
   toastConfiguration: Object;
   title: string;
   label?: string;

@@ -8,9 +8,9 @@ const EventForm = () => {
 
   return (
     <StepsForm
-      convertFormDataToEvent={() => {}}
-      convertEventToFormData={() => {}}
       title={t(`event.create.title`)}
+      convertFormDataToEvent={(data) => data}
+      convertEventToFormData={(data) => data}
       toastConfiguration={{
         messages: {
           audience: t('create.toast.success.audienceType'),
