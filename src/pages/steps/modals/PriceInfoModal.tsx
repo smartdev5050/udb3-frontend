@@ -112,6 +112,8 @@ const PriceInfoModal = ({
   const [hasGlobalError, setHasGlobalError] = useState(false);
   const [hasUitpasError, setHasUitpasError] = useState(false);
 
+  const [duplicateNameError, setDuplicateNameError] = useState('');
+
   const {
     register,
     watch,
@@ -156,6 +158,23 @@ const PriceInfoModal = ({
     ]);
   };
 
+  const getDuplicateName = () => {
+    const seenRates = [];
+
+    const duplicateName =
+      watchedRates.find((rate) => {
+        const name = rate.name[i18n.language];
+
+        if (seenRates.includes(name)) {
+          return true;
+        }
+
+        seenRates.push(name);
+      })?.name[i18n.language] ?? '';
+
+    return duplicateName;
+  };
+
   const isPriceFree = (price: string): boolean => {
     return ['0', '0,0', '0,00'].includes(price);
   };
@@ -195,6 +214,21 @@ const PriceInfoModal = ({
         as="form"
         padding={4}
         onSubmit={handleSubmit(async (data) => {
+          const duplicateName = getDuplicateName();
+
+          if (duplicateName) {
+            setDuplicateNameError(
+              t(
+                'create.additionalInformation.price_info.duplicate_name_error',
+                {
+                  priceName: duplicateName,
+                },
+              ),
+            );
+            return;
+          }
+
+          setDuplicateNameError('');
           await onSubmitValid(data);
         })}
         ref={formComponent}
@@ -299,6 +333,11 @@ const PriceInfoModal = ({
         {hasUitpasError && (
           <Alert marginTop={3} variant={AlertVariants.WARNING}>
             {t('create.additionalInformation.price_info.uitpas_error')}
+          </Alert>
+        )}
+        {!!duplicateNameError && (
+          <Alert marginTop={3} variant={AlertVariants.DANGER}>
+            {duplicateNameError}
           </Alert>
         )}
         <Inline marginTop={3}>

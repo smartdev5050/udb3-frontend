@@ -76,7 +76,9 @@ const Audience = ({
   return (
     <Stack {...getStackProps(props)}>
       <Stack spacing={3} marginBottom={3}>
-        <Text fontWeight="bold">Toegang</Text>
+        <Text fontWeight="bold">
+          {t('create.additionalInformation.audience.title')}
+        </Text>
         {Object.keys(AudienceType).map((key, index) => (
           <FormElement
             key={index}

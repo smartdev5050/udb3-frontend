@@ -6,15 +6,18 @@ import {
   useAddContactPointMutation,
   useAddEventMainImageMutation,
   useAddImageToEventMutation,
+  useAddOrganizerToEventMutation,
   useAddPriceInfoMutation,
   useAddVideoToEventMutation,
   useChangeDescriptionMutation,
   useDeleteImageFromEventMutation,
+  useDeleteOrganizerFromEventMutation,
   useDeleteVideoFromEventMutation,
   useGetEventByIdQuery,
   useUpdateImageFromEventMutation,
 } from '@/hooks/api/events';
 import { useAddImageMutation } from '@/hooks/api/images';
+import { useCreateOrganizerMutation } from '@/hooks/api/organizers';
 import { useAddEventsByIdsMutation } from '@/hooks/api/productions';
 import { PictureDeleteModal } from '@/pages/steps/modals/PictureDeleteModal';
 import type { FormData } from '@/pages/steps/modals/PictureUploadModal';
@@ -40,6 +43,7 @@ import { TextArea } from '@/ui/TextArea';
 import { NewEntry } from '@/ui/Typeahead';
 import { parseOfferId } from '@/utils/parseOfferId';
 
+import { OrganizerAddModal, OrganizerData } from '../OrganizerAddModal';
 import type { ImageType } from '../PictureUploadBox';
 import { PictureUploadBox } from '../PictureUploadBox';
 import { VideoLinkAddModal } from '../VideoLinkAddModal';
@@ -66,7 +70,8 @@ type Field =
   | 'priceInfo'
   | 'audience'
   | 'bookingInfo'
-  | 'contactPoint';
+  | 'contactPoint'
+  | 'organizer';
 
 type Props = StackProps & {
   eventId: string;
@@ -98,11 +103,14 @@ const AdditionalInformationStep = ({
     isVideoLinkDeleteModalVisible,
     setIsVideoLinkDeleteModalVisible,
   ] = useState(false);
+  const [isOrganizerAddModalVisible, setIsOrganizerAddModalVisible] = useState(
+    false,
+  );
 
   const [isPriceInfoModalVisible, setIsPriceInfoModalVisible] = useState(false);
 
   const [description, setDescription] = useState('');
-  const [organizer, setOrganizer] = useState<Organizer>();
+  const [newOrganizerName, setNewOrganizerName] = useState('');
   const [imageToEditId, setImageToEditId] = useState('');
   const [draggedImageFile, setDraggedImageFile] = useState<FileList>();
   const [imageToDeleteId, setImageToDeleteId] = useState('');
@@ -164,14 +172,31 @@ const AdditionalInformationStep = ({
     },
   });
 
+  const createOrganizerMutation = useCreateOrganizerMutation();
+
+  const addOrganizerToEventMutation = useAddOrganizerToEventMutation({
+    onSuccess: async () => {
+      await invalidateEventQuery('organizer');
+    },
+  });
+
+  const deleteOrganizerFromEventMutation = useDeleteOrganizerFromEventMutation({
+    onSuccess: async () => {
+      await invalidateEventQuery('organizer');
+    },
+  });
+
   useEffect(() => {
     // @ts-expect-error
-    if (!getEventByIdQuery.data?.description) return;
-    // @ts-expect-error
-    setDescription(getEventByIdQuery.data.description.nl);
+    const eventData = getEventByIdQuery.data;
+    if (!eventData?.description) return;
+    setDescription(
+      eventData.description[i18n.language] ??
+        eventData.description[eventData.mainLanguage],
+    );
     // @ts-expect-error
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getEventByIdQuery.data?.description]);
+  }, [getEventByIdQuery.data]);
 
   useEffect(() => {
     if (
@@ -263,6 +288,9 @@ const AdditionalInformationStep = ({
     return getEventByIdQuery.data?.audience?.audienceType;
     // @ts-expect-error
   }, [getEventByIdQuery.data?.audience?.audienceType, variant]);
+
+  // @ts-expect-error
+  const organizer = getEventByIdQuery.data?.organizer;
 
   const enrichVideos = async (video: Video[]) => {
     const getYoutubeThumbnailUrl = (videoUrl: string) => {
@@ -379,6 +407,29 @@ const AdditionalInformationStep = ({
     setIsVideoLinkAddModalVisible(false);
   };
 
+  const handleAddOrganizer = async ({ url, name, address }: OrganizerData) => {
+    const payload = {
+      mainLanguage: i18n.language,
+      url,
+      name: {
+        [i18n.language]: name,
+      },
+      address: {
+        [i18n.language]: {
+          addressCountry: address.country,
+          addressLocality: address.city.name,
+          postalCode: address.city.zip,
+          streetAddress: address.streetAndNumber,
+        },
+      },
+    };
+    const { organizerId } = await createOrganizerMutation.mutateAsync(payload);
+
+    await addOrganizerToEventMutation.mutateAsync({ eventId, organizerId });
+
+    setIsOrganizerAddModalVisible(false);
+  };
+
   const handleDeleteVideoLink = (videoId: string) => {
     setVideoToDeleteId(videoId);
     setIsVideoLinkDeleteModalVisible(true);
@@ -432,6 +483,10 @@ const AdditionalInformationStep = ({
       eventId,
       priceInfo: convertedPriceInfo,
     });
+  };
+
+  const handleChangeOrganizer = (organizerId: string) => {
+    addOrganizerToEventMutation.mutate({ eventId, organizerId });
   };
 
   const handleAddFreePriceInfo = async () => {
@@ -555,6 +610,12 @@ const AdditionalInformationStep = ({
         onConfirm={() => handleConfirmDeleteVideo(videoToDeleteId)}
         onClose={() => setIsVideoLinkDeleteModalVisible(false)}
       />
+      <OrganizerAddModal
+        prefillName={newOrganizerName}
+        visible={isOrganizerAddModalVisible}
+        onConfirm={handleAddOrganizer}
+        onClose={() => setIsOrganizerAddModalVisible(false)}
+      />
       <Inline
         spacing={6}
         alignItems={{ default: 'flex-start', m: 'normal' }}
@@ -575,16 +636,21 @@ const AdditionalInformationStep = ({
             info={<DescriptionInfo />}
           />
           {variant === AdditionalInformationStepVariant.EXTENDED && (
-            <OrganizerPicker
-              value={organizer}
-              onChange={setOrganizer}
-              onAddNewOrganizer={(newOrganizer: NewEntry) => {
-                // TODO: Add Modal for adding new organizer
-              }}
-            />
-          )}
-          {variant === AdditionalInformationStepVariant.EXTENDED && (
             <Stack spacing={4}>
+              <OrganizerPicker
+                organizer={organizer}
+                onChange={handleChangeOrganizer}
+                onAddNewOrganizer={(newOrganizer) => {
+                  setNewOrganizerName(newOrganizer.label);
+                  setIsOrganizerAddModalVisible(true);
+                }}
+                onDeleteOrganizer={(organizerId) =>
+                  deleteOrganizerFromEventMutation.mutate({
+                    eventId,
+                    organizerId,
+                  })
+                }
+              />
               <PriceInformation
                 priceInfo={priceInfo}
                 onClickAddPriceInfo={() => setIsPriceInfoModalVisible(true)}

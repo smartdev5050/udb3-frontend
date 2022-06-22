@@ -13,7 +13,7 @@ type Props = {
   groupLabel?: string;
   items?: Array<Item>;
   selected: string;
-  className: string;
+  className?: string;
   onChange: () => void;
 };
 

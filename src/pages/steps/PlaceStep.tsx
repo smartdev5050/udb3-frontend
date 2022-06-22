@@ -19,6 +19,7 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
 import { parseOfferId } from '@/utils/parseOfferId';
+import { valueToArray } from '@/utils/valueToArray';
 
 const getValue = getValueFromTheme('createPage');
 
@@ -100,7 +101,7 @@ const PlaceStep = <TFormData extends FormDataIntersection>({
                       place.name[i18n.language] ??
                       place.name[place.mainLanguage]
                     }
-                    selected={field.value ? [field.value as Place] : []}
+                    selected={valueToArray(field.value as Place)}
                     maxWidth="43rem"
                     onChange={(places) => {
                       field.onChange(places[0]);

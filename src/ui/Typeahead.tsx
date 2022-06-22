@@ -1,6 +1,7 @@
 import type { ForwardedRef, ReactElement } from 'react';
 import { forwardRef } from 'react';
 import { AsyncTypeahead as BootstrapTypeahead } from 'react-bootstrap-typeahead';
+import { useTranslation } from 'react-i18next';
 
 import type { BoxProps } from './Box';
 import { Box, getBoxProps } from './Box';
@@ -20,6 +21,7 @@ const isNewEntry = (value: any): value is NewEntry => {
 
 type TypeaheadProps<T> = {
   id?: string;
+  name?: string;
   options: T[];
   labelKey: ((option: T) => string) | string;
   disabled?: boolean;
@@ -51,6 +53,7 @@ const Typeahead: TypeaheadFunc = forwardRef(
   <T,>(
     {
       id,
+      name,
       options,
       labelKey,
       disabled,
@@ -69,10 +72,13 @@ const Typeahead: TypeaheadFunc = forwardRef(
     }: Props<T>,
     ref: ForwardedRef<HTMLInputElement>,
   ) => {
+    const { t } = useTranslation();
+
     return (
       <Box
         forwardedAs={BootstrapTypeahead}
         id={id}
+        name={name}
         allowNew={allowNew}
         newSelectionPrefix={newSelectionPrefix}
         options={options}
@@ -83,6 +89,10 @@ const Typeahead: TypeaheadFunc = forwardRef(
         flex={1}
         ref={ref}
         css={`
+          .form-control {
+            border-radius: 0rem;
+          }
+
           .dropdown-item.active,
           .dropdown-item:active {
             color: ${getValue('active.color')};
@@ -108,7 +118,9 @@ const Typeahead: TypeaheadFunc = forwardRef(
         onInputChange={onInputChange}
         onChange={onChange}
         placeholder={placeholder}
-        emptyLabel={emptyLabel}
+        emptyLabel={emptyLabel ?? t('typeahead.no_results')}
+        promptText={t('typeahead.prompt_text')}
+        searchText={t('typeahead.search_text')}
         minLength={minLength}
         delay={275}
         highlightOnlyResult={!allowNew}

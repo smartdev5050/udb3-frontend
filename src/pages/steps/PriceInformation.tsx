@@ -39,7 +39,6 @@ const PriceInformation = ({
         <Inline justifyContent="space-between" paddingTop={3} paddingBottom={3}>
           <Text>{t('create.additionalInformation.price_info.prices')}</Text>
           <Button
-            // () => setIsPriceInfoModalVisible(true)
             onClick={onClickAddPriceInfo}
             variant={ButtonVariants.SECONDARY}
           >
