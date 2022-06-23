@@ -63,6 +63,7 @@
     "stream-browserify": "^3.0.0",
     "string-strip-html": "^7.0.3",
     "styled-components": "^5.2.0",
+    "use-deep-compare-effect": "^1.8.1",
     "xstate": "^4.17.1",
     "yup": "^0.32.9"
   },
