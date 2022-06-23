@@ -7,7 +7,6 @@ import {
   useAddContactPointMutation,
 } from '@/hooks/api/events';
 import { Button, ButtonVariants } from '@/ui/Button';
-import { CheckboxWithLabel } from '@/ui/CheckboxWithLabel';
 import { FormElement } from '@/ui/FormElement';
 import { Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
@@ -81,11 +80,16 @@ const Form = ({
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleAddBookingInfo = async (value: string) => {
-    const newBookingInfo = bookingInfo;
+    const newBookingInfo = { ...bookingInfo };
     newBookingInfo[type] = value;
 
-    let newContactInfo = contactInfo;
+    let newContactInfo = { ...contactInfo };
     newContactInfo[type] = contactInfo[type].filter((info) => info !== value);
+
+    // Readd old bookingInfo as contactInfo
+    if (bookingInfo[type]) {
+      newContactInfo[type].push(bookingInfo[type]);
+    }
 
     await onAddInfo(newContactInfo, () => {
       console.log('contact info verwijderd');
@@ -105,14 +109,14 @@ const Form = ({
     }
 
     setErrorMessage('');
-    const newContactInfo = contactInfo;
+    const newContactInfo = { ...contactInfo };
     newContactInfo[type].push(value);
     await onAddInfo(newContactInfo, () => setValue(''));
   };
 
-  const handleDeleteInfo = async (value: string, type: string) => {
+  const handleDeleteInfo = async (value: string) => {
     if (bookingInfo[type] === value) {
-      const newBookingInfo = bookingInfo;
+      const newBookingInfo = { ...bookingInfo };
       delete newBookingInfo[type];
       await onAddBookingInfo(newBookingInfo, () =>
         console.log('removed as bookingInfo'),
@@ -120,8 +124,10 @@ const Form = ({
       return;
     }
 
-    let newContactInfo = contactInfo;
-    contactInfo[type] = contactInfo[type].filter((info) => info !== value);
+    let newContactInfo = { ...contactInfo };
+    newContactInfo[type] = newContactInfo[type].filter(
+      (info) => info !== value,
+    );
 
     await onAddInfo(newContactInfo, () => console.log('delete done'));
   };
@@ -178,7 +184,7 @@ const Form = ({
               <Button
                 iconName={Icons.TRASH}
                 variant={ButtonVariants.DANGER}
-                onClick={() => handleDeleteInfo(info, type)}
+                onClick={() => handleDeleteInfo(info)}
               />
             </Inline>
           </Stack>
