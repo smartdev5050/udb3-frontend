@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { css } from 'styled-components';
 
@@ -17,6 +17,8 @@ import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
+
+import { MergedInfo } from './AdditionalInformationStep';
 
 const ContactInfoType = {
   EMAIL: 'email',
@@ -187,7 +189,8 @@ type Props = {
   onAddContactInfoSuccess: () => Promise<void>;
   onAddBookingInfoSuccess: (field: string) => Promise<void>;
   contactInfo: ContactInfo;
-  bookingInfo?: any;
+  bookingInfo?: BookingInfo;
+  mergedInfo: MergedInfo;
   withReservationInfo?: boolean;
 };
 
@@ -195,6 +198,7 @@ const ContactInfoEntry = ({
   eventId,
   contactInfo,
   bookingInfo,
+  mergedInfo,
   withReservationInfo = false,
   onAddContactInfoSuccess,
   onAddBookingInfoSuccess,
@@ -237,25 +241,13 @@ const ContactInfoEntry = ({
     onSuccessCallback();
   };
 
-  const mergedContactAndBookingInfo = useMemo(() => {
-    if (!contactInfo) return;
-
-    if (!bookingInfo) return contactInfo;
-
-    return {
-      email: [...new Set([...contactInfo['email'], bookingInfo['email']])],
-      url: [...new Set([...contactInfo['url'], bookingInfo['url']])],
-      phone: [...new Set([...contactInfo['phone'], bookingInfo['phone']])],
-    };
-  }, [contactInfo, bookingInfo]);
-
   return (
     <Stack {...getStackProps(props)}>
-      {mergedContactAndBookingInfo &&
-        Object.keys(mergedContactAndBookingInfo).map((type, index) => {
+      {mergedInfo &&
+        Object.keys(mergedInfo).map((type, index) => {
           return (
             <Form
-              contactAndBookingInfo={mergedContactAndBookingInfo}
+              contactAndBookingInfo={mergedInfo}
               key={type}
               type={type}
               bookingInfo={bookingInfo}
