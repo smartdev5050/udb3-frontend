@@ -124,9 +124,9 @@ const MovieForm = (props) => {
       title={t(`movies.create.title`)}
       toastConfiguration={{
         messages: {
+          calendar: t('movies.create.toast.success.calendar'),
           image: t('movies.create.toast.success.image'),
           description: t('movies.create.toast.success.description'),
-          calendar: t('movies.create.toast.success.calendar'),
           video: t('movies.create.toast.success.video'),
           theme: t('movies.create.toast.success.theme'),
           location: t('movies.create.toast.success.location'),

@@ -14,6 +14,9 @@ const EventForm = () => {
       convertEventToFormData={(data) => data}
       toastConfiguration={{
         messages: {
+          image: t('movies.create.toast.success.image'),
+          description: t('movies.create.toast.success.description'),
+          video: t('movies.create.toast.success.video'),
           audience: t('create.toast.success.audienceType'),
           organizer: t('create.toast.success.organizer'),
         },
