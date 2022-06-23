@@ -14,7 +14,7 @@ import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
 import { Select } from '@/ui/Select';
 import { getStackProps, Stack } from '@/ui/Stack';
-import { Text, TextVariants } from '@/ui/Text';
+import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
@@ -63,7 +63,7 @@ const Form = ({
   contactInfo: ContactInfo;
   bookingInfo?: BookingInfo;
   onAddInfo: (newContactInfo, onSuccess) => Promise<void>;
-  onAddBookingInfo: (newBookingInfo, onSuccess) => Promise<void>;
+  onAddBookingInfo: (newBookingInfo, onSuccess) => void;
 }) => {
   const { t } = useTranslation();
 
@@ -71,11 +71,15 @@ const Form = ({
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleAddBookingInfo = async (value: string) => {
-    // TODO add bookingInfo
-    console.log('handle booking info', value);
-
     const newBookingInfo = bookingInfo;
     newBookingInfo[type] = value;
+
+    let newContactInfo = contactInfo;
+    newContactInfo[type] = contactInfo[type].filter((info) => info !== value);
+
+    await onAddInfo(newContactInfo, () => {
+      console.log('contact info verwijderd');
+    });
 
     await onAddBookingInfo(newBookingInfo, () => {
       console.log('success');
@@ -94,6 +98,22 @@ const Form = ({
     const newContactInfo = contactInfo;
     newContactInfo[type].push(value);
     await onAddInfo(newContactInfo, () => setValue(''));
+  };
+
+  const handleDeleteInfo = async (value: string, type: string) => {
+    if (bookingInfo[type] === value) {
+      const newBookingInfo = bookingInfo;
+      delete newBookingInfo[type];
+      await onAddBookingInfo(newBookingInfo, () =>
+        console.log('removed as bookingInfo'),
+      );
+      return;
+    }
+
+    let newContactInfo = contactInfo;
+    contactInfo[type] = contactInfo[type].filter((info) => info !== value);
+
+    await onAddInfo(newContactInfo, () => console.log('delete done'));
   };
 
   const label = t(`create.additionalInformation.contact_info.${type}`);
@@ -128,11 +148,6 @@ const Form = ({
       {contactAndBookingInfo[type].map((info: string, index) => {
         if (!info) return null;
 
-        const isChecked = bookingInfo[type] === info;
-        console.log({ info });
-        console.log('bookingInfo type', bookingInfo[type]);
-        console.log({ isChecked });
-
         return (
           <Stack
             key={info}
@@ -161,7 +176,11 @@ const Form = ({
                   Gebruik voor reservatie
                 </CheckboxWithLabel>
               )}
-              <Button iconName={Icons.TRASH} variant={ButtonVariants.DANGER} />
+              <Button
+                iconName={Icons.TRASH}
+                variant={ButtonVariants.DANGER}
+                onClick={() => handleDeleteInfo(info, type)}
+              />
             </Inline>
           </Stack>
         );
@@ -184,8 +203,8 @@ const Form = ({
 
 type Props = {
   eventId: string;
-  onAddContactInfoSuccess: () => Promise<void>;
-  onAddBookingInfoSuccess: (field: string) => Promise<void>;
+  onAddContactInfoSuccess: () => void;
+  onAddBookingInfoSuccess: () => void;
   contactInfo: ContactInfo;
   bookingInfo?: any;
   withReservationInfo?: boolean;
@@ -203,8 +222,8 @@ const ContactInfoEntry = ({
   const { t } = useTranslation();
 
   const addContactPointMutation = useAddContactPointMutation({
-    onSuccess: async () => {
-      await onAddContactInfoSuccess();
+    onSuccess: () => {
+      onAddContactInfoSuccess();
     },
   });
 
@@ -220,8 +239,10 @@ const ContactInfoEntry = ({
   };
 
   const addBookingInfoMutation = useAddBookingInfoMutation({
-    onSuccess: async () => {
-      await onAddBookingInfoSuccess('bookingInfo');
+    onSuccess: () => {
+      setTimeout(() => {
+        onAddBookingInfoSuccess();
+      }, 1000);
     },
   });
 
@@ -233,12 +254,14 @@ const ContactInfoEntry = ({
       eventId,
       bookingInfo: newBookingInfo,
     });
-    console.log('finish mutation');
-    onSuccessCallback();
+    // onSuccessCallback();
   };
 
   const mergedContactAndBookingInfo = useMemo(() => {
+    console.log({ contactInfo });
     if (!contactInfo) return;
+
+    console.log({ contactInfo });
 
     if (!bookingInfo) return contactInfo;
 
@@ -252,7 +275,7 @@ const ContactInfoEntry = ({
   return (
     <Stack {...getStackProps(props)}>
       {mergedContactAndBookingInfo &&
-        Object.keys(mergedContactAndBookingInfo).map((type, index) => {
+        Object.keys(mergedContactAndBookingInfo).map((type: string, index) => {
           return (
             <Form
               contactAndBookingInfo={mergedContactAndBookingInfo}
