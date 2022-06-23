@@ -2,11 +2,12 @@ import debounce from 'lodash/debounce';
 import { useMemo, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import * as yup from 'yup';
 
 import type { EventTypes } from '@/constants/EventTypes';
 import { useChangeLocationMutation } from '@/hooks/api/events';
 import { useGetPlacesByQuery } from '@/hooks/api/places';
-import type { FormDataIntersection, StepProps } from '@/pages/Steps';
+import type { FormDataIntersection, StepProps } from '@/pages/steps/Steps';
 import type { Place } from '@/types/Place';
 import type { Values } from '@/types/Values';
 import { Button, ButtonVariants } from '@/ui/Button';
@@ -141,8 +142,19 @@ const PlaceStep = <TFormData extends FormDataIntersection>({
   );
 };
 
+const placeStepConfiguration = {
+  Component: PlaceStep,
+  validation: yup.object().shape({}).required(),
+  field: 'place',
+  shouldShowNextStep: ({ watch }) => {
+    const watchedPlace = watch('place');
+    return watchedPlace !== undefined;
+  },
+  title: (t) => t(`movies.create.step3.title`),
+};
+
 PlaceStep.defaultProps = {
   terms: [],
 };
 
-export { PlaceStep, useEditLocation };
+export { placeStepConfiguration, useEditLocation };

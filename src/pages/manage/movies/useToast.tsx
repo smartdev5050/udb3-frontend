@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 import { Inline } from '@/ui/Inline';
 import { Text } from '@/ui/Text';
 
-const useToast = ({ messages, title }) => {
+const useToast = ({ messages = {}, title = '' } = {}) => {
   const [message, setMessage] = useState<string>();
 
   const clear = () => setMessage(undefined);

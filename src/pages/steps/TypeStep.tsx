@@ -2,12 +2,13 @@ import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { OfferType } from '@/constants/OfferType';
-import type { FormDataIntersection, StepProps } from '@/pages/Steps';
 import { parseSpacing } from '@/ui/Box';
 import { Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { Text } from '@/ui/Text';
 import { ToggleBox } from '@/ui/ToggleBox';
+
+import { FormDataIntersection, StepProps } from './Steps';
 
 const TypeStep = <TFormData extends FormDataIntersection>({
   control,
@@ -54,4 +55,10 @@ const TypeStep = <TFormData extends FormDataIntersection>({
   );
 };
 
-export { TypeStep };
+const typeStepConfiguration = {
+  Component: TypeStep,
+  field: 'type',
+  title: (t) => t(`event.create.type.title`),
+};
+
+export { TypeStep, typeStepConfiguration };
