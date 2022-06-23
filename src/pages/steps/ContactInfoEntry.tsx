@@ -162,7 +162,7 @@ const Form = ({
       {errorMessage && (
         <Text color={getValue('errorText')}>{errorMessage}</Text>
       )}
-      {contactAndBookingInfo[type].map((info: string, index) => {
+      {contactAndBookingInfo[type].map((info: string, index: number) => {
         if (!info) return null;
 
         return (
@@ -192,52 +192,56 @@ const Form = ({
         );
       })}
 
-      <Stack spacing={4} marginTop={3}>
-        <Stack>
-          <SelectWithLabel
-            label={t(
-              'create.additionalInformation.contact_info.select_for_reservation',
-              { contactInfoType: label.toLowerCase() },
-            )}
-            labelPosition={LabelPositions.TOP}
-            onChange={(e) => handleAddBookingInfo(e.target.value)}
-          >
-            <option value="" disabled selected={!bookingInfo[type]}>
-              {t(
+      {contactAndBookingInfo[type].length > 0 && (
+        <Stack spacing={4} marginTop={3}>
+          <Stack>
+            <SelectWithLabel
+              label={t(
                 'create.additionalInformation.contact_info.select_for_reservation',
                 { contactInfoType: label.toLowerCase() },
               )}
-            </option>
-            {contactAndBookingInfo[type].map(
-              (contactInfo, key) =>
-                contactInfo && (
-                  <option
-                    key={key}
-                    value={contactInfo}
-                    selected={bookingInfo[type] === contactInfo}
-                  >
-                    {contactInfo}
-                  </option>
-                ),
-            )}
-          </SelectWithLabel>
-        </Stack>
-        {type === ContactInfoType.URL && bookingInfo[type] && (
-          <Stack>
-            <Text fontWeight="bold">
-              {t('create.additionalInformation.contact_info.select_url_label')}
-            </Text>
-            <RadioButtonGroup
-              name="urlLabel"
-              items={URL_LABELS}
-              selected="buy"
-              onChange={() => {
-                console.log('handle change');
-              }}
-            />
+              labelPosition={LabelPositions.TOP}
+              onChange={(e) => handleAddBookingInfo(e.target.value)}
+            >
+              <option value="" disabled selected={!bookingInfo[type]}>
+                {t(
+                  'create.additionalInformation.contact_info.select_for_reservation',
+                  { contactInfoType: label.toLowerCase() },
+                )}
+              </option>
+              {contactAndBookingInfo[type].map(
+                (contactInfo, key) =>
+                  contactInfo && (
+                    <option
+                      key={key}
+                      value={contactInfo}
+                      selected={bookingInfo[type] === contactInfo}
+                    >
+                      {contactInfo}
+                    </option>
+                  ),
+              )}
+            </SelectWithLabel>
           </Stack>
-        )}
-      </Stack>
+          {type === ContactInfoType.URL && bookingInfo[type] && (
+            <Stack>
+              <Text fontWeight="bold">
+                {t(
+                  'create.additionalInformation.contact_info.select_url_label',
+                )}
+              </Text>
+              <RadioButtonGroup
+                name="urlLabel"
+                items={URL_LABELS}
+                selected="buy"
+                onChange={() => {
+                  console.log('handle change');
+                }}
+              />
+            </Stack>
+          )}
+        </Stack>
+      )}
     </Stack>
   );
 };
