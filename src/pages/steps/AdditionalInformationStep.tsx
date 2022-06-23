@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
+import { useDeepCompareMemoize } from 'use-deep-compare-effect';
 
 import {
   useAddContactPointMutation,
@@ -18,7 +19,6 @@ import {
 } from '@/hooks/api/events';
 import { useAddImageMutation } from '@/hooks/api/images';
 import { useCreateOrganizerMutation } from '@/hooks/api/organizers';
-import { useAddEventsByIdsMutation } from '@/hooks/api/productions';
 import { PictureDeleteModal } from '@/pages/steps/modals/PictureDeleteModal';
 import type { FormData } from '@/pages/steps/modals/PictureUploadModal';
 import { PictureUploadModal } from '@/pages/steps/modals/PictureUploadModal';
@@ -273,8 +273,9 @@ const AdditionalInformationStep = ({
     // @ts-expect-error
   }, [getEventByIdQuery.data?.contactPoint, variant]);
 
-  const eventBookingInfo = useMemo(() => {
+  const getEventBookingInfo = useDeepCompareMemoize(() => {
     if (variant !== AdditionalInformationStepVariant.EXTENDED) return;
+
     // @ts-expect-error
     return getEventByIdQuery.data?.bookingInfo;
     // @ts-expect-error
@@ -658,11 +659,11 @@ const AdditionalInformationStep = ({
               />
               <ContactInfo
                 eventContactInfo={eventContactInfo}
-                eventBookingInfo={eventBookingInfo}
+                eventBookingInfo={getEventBookingInfo()}
               />
               <ContactInfoEntry
                 contactInfo={eventContactInfo}
-                bookingInfo={eventBookingInfo}
+                bookingInfo={getEventBookingInfo()}
                 eventId={eventId}
                 onAddContactInfoSuccess={() =>
                   invalidateEventQuery('contactPoint')
