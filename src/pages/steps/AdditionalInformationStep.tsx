@@ -31,6 +31,8 @@ import { Alert } from '@/ui/Alert';
 import { Box, parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
+import { Icon, Icons } from '@/ui/Icon';
+import { getInlineProps, Inline, InlineProps } from '@/ui/Inline';
 import { ProgressBar, ProgressBarVariants } from '@/ui/ProgressBar';
 import type { StackProps } from '@/ui/Stack';
 import { getStackProps, Stack } from '@/ui/Stack';
@@ -72,6 +74,21 @@ type TabConfig = {
   title: string;
   Component: ReactNode;
   visible: boolean;
+  completed: boolean;
+};
+
+type TabTitleProps = InlineProps & {
+  title: string;
+  completed: boolean;
+};
+
+const TabTitle = ({ title, completed, ...props }: TabTitleProps) => {
+  return (
+    <Inline spacing={3} {...getInlineProps(props)}>
+      {completed && <Icon name={Icons.CHECK_CIRCLE} color="#48874a" />}
+      <Text>{title}</Text>
+    </Inline>
+  );
 };
 
 type Props = StackProps & {
@@ -204,7 +221,7 @@ const AdditionalInformationStep = ({
     );
     // @ts-expect-error
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getEventByIdQuery.data]);
+  }, [getEventByIdQuery.data?.description]);
 
   useEffect(() => {
     if (
@@ -241,10 +258,7 @@ const AdditionalInformationStep = ({
       ...parsedMediaObjects.filter((mediaObject) => mediaObject.isMain),
       ...parsedMediaObjects.filter((mediaObject) => !mediaObject.isMain),
     ] as ImageType[];
-  }, [
-    // @ts-expect-error
-    getEventByIdQuery.data,
-  ]);
+  }, [getEventByIdQuery.data?.image, getEventByIdQuery.data?.mediaObject]);
 
   const priceInfo = useMemo(() => {
     if (variant !== AdditionalInformationStepVariant.EXTENDED) {
@@ -287,6 +301,7 @@ const AdditionalInformationStep = ({
     return getEventByIdQuery.data?.bookingInfo;
     // @ts-expect-error
   }, [getEventByIdQuery.data?.bookingInfo, variant]);
+
   const audienceType = useMemo(() => {
     if (variant !== AdditionalInformationStepVariant.EXTENDED) {
       return;
@@ -488,7 +503,7 @@ const AdditionalInformationStep = ({
     });
   };
 
-  const tabsConfigurations: TabConfig[] = useMemo(() => {
+  const tabsConfigurations = useMemo<TabConfig[]>(() => {
     const handleChangeOrganizer = (organizerId: string) => {
       addOrganizerToEventMutation.mutate({ eventId, organizerId });
     };
@@ -604,6 +619,7 @@ const AdditionalInformationStep = ({
           />
         ),
         visible: true,
+        completed: true,
       },
       {
         eventKey: 'organizer',
@@ -625,6 +641,7 @@ const AdditionalInformationStep = ({
           />
         ),
         visible: variant === AdditionalInformationStepVariant.EXTENDED,
+        completed: true,
       },
       {
         eventKey: 'priceInfo',
@@ -637,6 +654,7 @@ const AdditionalInformationStep = ({
           />
         ),
         visible: variant === AdditionalInformationStepVariant.EXTENDED,
+        completed: true,
       },
       {
         eventKey: 'contactInfo',
@@ -660,12 +678,13 @@ const AdditionalInformationStep = ({
           />
         ),
         visible: variant === AdditionalInformationStepVariant.EXTENDED,
+        completed: true,
       },
       {
         eventKey: 'imagesAndVideos',
         title: 'imagesAndVideos',
         Component: (
-          <Stack spacing={4} flex={1}>
+          <Inline spacing={4} flex={1}>
             <PictureUploadBox
               images={images}
               onClickEditImage={handleClickEditImage}
@@ -679,9 +698,10 @@ const AdditionalInformationStep = ({
               onClickAddVideo={() => setIsVideoLinkAddModalVisible(true)}
               onClickDeleteVideo={handleDeleteVideoLink}
             />
-          </Stack>
+          </Inline>
         ),
-        visible: variant === AdditionalInformationStepVariant.EXTENDED,
+        visible: true,
+        completed: true,
       },
     ];
   }, [
@@ -753,11 +773,18 @@ const AdditionalInformationStep = ({
           }
         `}
       >
-        {tabsConfigurations.map(({ eventKey, title, Component }) => (
-          <Tabs.Tab key={eventKey} eventKey={eventKey} title={title}>
-            {Component}
-          </Tabs.Tab>
-        ))}
+        {tabsConfigurations.map(
+          ({ eventKey, title, Component, visible, completed }) =>
+            visible && (
+              <Tabs.Tab
+                key={eventKey}
+                eventKey={eventKey}
+                title={<TabTitle title={title} completed={completed} />}
+              >
+                {Component}
+              </Tabs.Tab>
+            ),
+        )}
       </Tabs>
     </Stack>
   );
