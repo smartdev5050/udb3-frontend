@@ -1,4 +1,5 @@
 import { format, isAfter, isFuture } from 'date-fns';
+import getConfig from 'next/config';
 import { useRouter } from 'next/router';
 import type { ReactNode } from 'react';
 import { useMemo, useState } from 'react';
@@ -28,6 +29,7 @@ import type { Event } from '@/types/Event';
 import type { Organizer } from '@/types/Organizer';
 import type { Place } from '@/types/Place';
 import type { User } from '@/types/User';
+import { Alert, AlertVariants } from '@/ui/Alert';
 import { Badge, BadgeVariants } from '@/ui/Badge';
 import { Box } from '@/ui/Box';
 import { Dropdown, DropDownVariants } from '@/ui/Dropdown';
@@ -52,9 +54,22 @@ import { parseOfferId } from '@/utils/parseOfferId';
 
 import { NewsletterSignupForm } from './NewsletterSingupForm';
 
+const { publicRuntimeConfig } = getConfig();
+
 type TabOptions = 'events' | 'places' | 'organizers';
 
 type Item = Event | Place | Organizer;
+
+const globalAlertMessages =
+  typeof publicRuntimeConfig.globalAlertMessage === 'string'
+    ? JSON.parse(publicRuntimeConfig.globalAlertMessage)
+    : undefined;
+
+const globalAlertVariant = Object.values(AlertVariants).some(
+  (variant) => variant === publicRuntimeConfig.globalAlertVariant,
+)
+  ? publicRuntimeConfig.globalAlertVariant
+  : AlertVariants.INFO;
 
 const getValue = getValueFromTheme('dashboardPage');
 
@@ -471,6 +486,14 @@ const Dashboard = (): any => {
     <Page key="page">
       <Page.Title>{`${t('dashboard.welcome')}, ${user?.username}`}</Page.Title>
       <Page.Content spacing={5}>
+        {globalAlertMessages && (
+          <Inline>
+            <Alert variant={globalAlertVariant}>
+              {globalAlertMessages[i18n.language ?? 'nl']}
+            </Alert>
+          </Inline>
+        )}
+
         <Inline>
           <Link href={CreateMap[tab]} variant={LinkVariants.BUTTON_PRIMARY}>
             {t(`dashboard.create.${tab}`)}

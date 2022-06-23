@@ -14,7 +14,7 @@ import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
 import { Select } from '@/ui/Select';
 import { getStackProps, Stack } from '@/ui/Stack';
-import { Text, TextVariants } from '@/ui/Text';
+import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
@@ -73,11 +73,15 @@ const Form = ({
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleAddBookingInfo = async (value: string) => {
-    // TODO add bookingInfo
-    console.log('handle booking info', value);
-
     const newBookingInfo = bookingInfo;
     newBookingInfo[type] = value;
+
+    let newContactInfo = contactInfo;
+    newContactInfo[type] = contactInfo[type].filter((info) => info !== value);
+
+    await onAddInfo(newContactInfo, () => {
+      console.log('contact info verwijderd');
+    });
 
     await onAddBookingInfo(newBookingInfo, () => {
       console.log('success');
@@ -96,6 +100,22 @@ const Form = ({
     const newContactInfo = contactInfo;
     newContactInfo[type].push(value);
     await onAddInfo(newContactInfo, () => setValue(''));
+  };
+
+  const handleDeleteInfo = async (value: string, type: string) => {
+    if (bookingInfo[type] === value) {
+      const newBookingInfo = bookingInfo;
+      delete newBookingInfo[type];
+      await onAddBookingInfo(newBookingInfo, () =>
+        console.log('removed as bookingInfo'),
+      );
+      return;
+    }
+
+    let newContactInfo = contactInfo;
+    contactInfo[type] = contactInfo[type].filter((info) => info !== value);
+
+    await onAddInfo(newContactInfo, () => console.log('delete done'));
   };
 
   const label = t(`create.additionalInformation.contact_info.${type}`);
@@ -130,11 +150,6 @@ const Form = ({
       {contactAndBookingInfo[type].map((info: string, index) => {
         if (!info) return null;
 
-        const isChecked = bookingInfo[type] === info;
-        console.log({ info });
-        console.log('bookingInfo type', bookingInfo[type]);
-        console.log({ isChecked });
-
         return (
           <Stack
             key={info}
@@ -151,43 +166,38 @@ const Form = ({
               justifyContent="space-between"
             >
               <Text flex={2}>{info}</Text>
-              {type !== ContactInfoType.URL && (
-                <CheckboxWithLabel
-                  id="contact-info-reservation"
-                  name="contact-info-reservation"
-                  className="booking-info-reservation"
-                  checked={bookingInfo[type] === info}
-                  disabled={false}
-                  onToggle={() => handleAddBookingInfo(info)}
-                >
-                  Gebruik voor reservatie
-                </CheckboxWithLabel>
-              )}
-              <Button iconName={Icons.TRASH} variant={ButtonVariants.DANGER} />
+              <Button
+                iconName={Icons.TRASH}
+                variant={ButtonVariants.DANGER}
+                onClick={() => handleDeleteInfo(info, type)}
+              />
             </Inline>
           </Stack>
         );
       })}
-      {bookingInfo && type === ContactInfoType.URL && (
-        <Stack>
-          <Select>
-            <option>Kies je reservatie website</option>
-            {contactAndBookingInfo[type].map((contactInfo, key) => (
-              <option key={key} value={contactInfo}>
-                {contactInfo}
-              </option>
-            ))}
-          </Select>
-        </Stack>
-      )}
+
+      <Stack>
+        <Select onChange={(e) => handleAddBookingInfo(e.target.value)}>
+          <option>Kies je reservatie {type}</option>
+          {contactAndBookingInfo[type].map((contactInfo, key) => (
+            <option
+              key={key}
+              value={contactInfo}
+              selected={bookingInfo[type] === contactInfo}
+            >
+              {contactInfo}
+            </option>
+          ))}
+        </Select>
+      </Stack>
     </Stack>
   );
 };
 
 type Props = {
   eventId: string;
-  onAddContactInfoSuccess: () => Promise<void>;
-  onAddBookingInfoSuccess: (field: string) => Promise<void>;
+  onAddContactInfoSuccess: () => void;
+  onAddBookingInfoSuccess: () => void;
   contactInfo: ContactInfo;
   bookingInfo?: BookingInfo;
   mergedInfo: MergedInfo;
@@ -207,8 +217,8 @@ const ContactInfoEntry = ({
   const { t } = useTranslation();
 
   const addContactPointMutation = useAddContactPointMutation({
-    onSuccess: async () => {
-      await onAddContactInfoSuccess();
+    onSuccess: () => {
+      onAddContactInfoSuccess();
     },
   });
 
@@ -224,8 +234,10 @@ const ContactInfoEntry = ({
   };
 
   const addBookingInfoMutation = useAddBookingInfoMutation({
-    onSuccess: async () => {
-      await onAddBookingInfoSuccess('bookingInfo');
+    onSuccess: () => {
+      setTimeout(() => {
+        onAddBookingInfoSuccess();
+      }, 1000);
     },
   });
 
@@ -237,8 +249,7 @@ const ContactInfoEntry = ({
       eventId,
       bookingInfo: newBookingInfo,
     });
-    console.log('finish mutation');
-    onSuccessCallback();
+    // onSuccessCallback();
   };
 
   return (
