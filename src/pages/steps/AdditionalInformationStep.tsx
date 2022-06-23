@@ -668,7 +668,9 @@ const AdditionalInformationStep = ({
                 onAddContactInfoSuccess={() =>
                   invalidateEventQuery('contactPoint')
                 }
-                onAddBookingInfoSuccess={invalidateEventQuery}
+                onAddBookingInfoSuccess={() =>
+                  invalidateEventQuery('bookingInfo')
+                }
               />
               <Audience
                 eventId={eventId}

@@ -63,7 +63,7 @@ const Form = ({
   contactInfo: ContactInfo;
   bookingInfo?: BookingInfo;
   onAddInfo: (newContactInfo, onSuccess) => Promise<void>;
-  onAddBookingInfo: (newBookingInfo, onSuccess) => void;
+  onAddBookingInfo: (newBookingInfo, onSuccess) => Promise<void>;
 }) => {
   const { t } = useTranslation();
 
@@ -164,18 +164,6 @@ const Form = ({
               justifyContent="space-between"
             >
               <Text flex={2}>{info}</Text>
-              {type !== ContactInfoType.URL && (
-                <CheckboxWithLabel
-                  id="contact-info-reservation"
-                  name="contact-info-reservation"
-                  className="booking-info-reservation"
-                  checked={bookingInfo[type] === info}
-                  disabled={false}
-                  onToggle={() => handleAddBookingInfo(info)}
-                >
-                  Gebruik voor reservatie
-                </CheckboxWithLabel>
-              )}
               <Button
                 iconName={Icons.TRASH}
                 variant={ButtonVariants.DANGER}
@@ -185,18 +173,21 @@ const Form = ({
           </Stack>
         );
       })}
-      {bookingInfo && type === ContactInfoType.URL && (
-        <Stack>
-          <Select>
-            <option>Kies je reservatie website</option>
-            {contactAndBookingInfo[type].map((contactInfo, key) => (
-              <option key={key} value={contactInfo}>
-                {contactInfo}
-              </option>
-            ))}
-          </Select>
-        </Stack>
-      )}
+
+      <Stack>
+        <Select onChange={(e) => handleAddBookingInfo(e.target.value)}>
+          <option>Kies je reservatie {type}</option>
+          {contactAndBookingInfo[type].map((contactInfo, key) => (
+            <option
+              key={key}
+              value={contactInfo}
+              selected={bookingInfo[type] === contactInfo}
+            >
+              {contactInfo}
+            </option>
+          ))}
+        </Select>
+      </Stack>
     </Stack>
   );
 };
