@@ -80,7 +80,7 @@ const Tabs = <T,>({
 
 type TabProps = {
   eventKey: string;
-  title: string;
+  title: ReactNode;
   children?: ReactNode;
 };
 
