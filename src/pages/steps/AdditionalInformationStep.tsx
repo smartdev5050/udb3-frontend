@@ -235,10 +235,26 @@ const AdditionalInformationStep = ({
     if (!contactInfo) return;
     if (!bookingInfo) return contactInfo;
 
+    const emails = new Set(contactInfo['email']);
+    const urls = new Set(contactInfo['url']);
+    const phones = new Set(contactInfo['phones']);
+
+    if (bookingInfo['email']) {
+      emails.add(bookingInfo['email']);
+    }
+
+    if (bookingInfo['url']) {
+      urls.add(bookingInfo['url']);
+    }
+
+    if (bookingInfo['phone']) {
+      phones.add(bookingInfo['phone']);
+    }
+
     return {
-      email: [...new Set([...contactInfo['email'], bookingInfo['email']])],
-      url: [...new Set([...contactInfo['url'], bookingInfo['url']])],
-      phone: [...new Set([...contactInfo['phone'], bookingInfo['phone']])],
+      email: [...emails],
+      url: [...urls],
+      phone: [...phones],
     };
   });
 
