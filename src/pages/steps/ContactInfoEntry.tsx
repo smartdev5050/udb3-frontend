@@ -12,6 +12,7 @@ import { FormElement } from '@/ui/FormElement';
 import { Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
+import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
 import { Select } from '@/ui/Select';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
@@ -49,6 +50,13 @@ const EMAIL_REGEX: RegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const isValidEmail = (value: any): boolean => {
   return EMAIL_REGEX.test(value);
 };
+
+const URL_LABELS = [
+  { label: 'Koop tickets', value: 'buy' },
+  { label: 'Reserveer plaatsen', value: 'book' },
+  { label: 'Controleer beschikbaarheid', value: 'availability' },
+  { label: 'Schrijf je in', value: 'subscribe' },
+];
 
 const Form = ({
   type,
@@ -150,6 +158,7 @@ const Form = ({
 
         return (
           <Stack
+            marginBottom={2}
             key={info}
             css={
               index !== 0
@@ -177,16 +186,29 @@ const Form = ({
       <Stack>
         <Select onChange={(e) => handleAddBookingInfo(e.target.value)}>
           <option>Kies je reservatie {type}</option>
-          {contactAndBookingInfo[type].map((contactInfo, key) => (
-            <option
-              key={key}
-              value={contactInfo}
-              selected={bookingInfo[type] === contactInfo}
-            >
-              {contactInfo}
-            </option>
-          ))}
+          {contactAndBookingInfo[type].map(
+            (contactInfo, key) =>
+              contactInfo && (
+                <option
+                  key={key}
+                  value={contactInfo}
+                  selected={bookingInfo[type] === contactInfo}
+                >
+                  {contactInfo}
+                </option>
+              ),
+          )}
         </Select>
+        {type === ContactInfoType.URL && (
+          <RadioButtonGroup
+            name="urlLabel"
+            items={URL_LABELS}
+            selected="buy"
+            onChange={() => {
+              console.log('handle change');
+            }}
+          />
+        )}
       </Stack>
     </Stack>
   );
