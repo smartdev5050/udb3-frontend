@@ -63,6 +63,12 @@ const AdditionalInformationStepVariant = {
   EXTENDED: 'extended',
 } as const;
 
+type MergedInfo = {
+  email: string[];
+  url: string[];
+  phone: string[];
+};
+
 type Field =
   | 'description'
   | 'image'
@@ -217,6 +223,25 @@ const AdditionalInformationStep = ({
     variant,
   ]);
 
+  // @ts-expect-error
+  const contactInfo = getEventByIdQuery.data?.contactPoint;
+
+  // @ts-expect-error
+  const bookingInfo = getEventByIdQuery.data?.bookingInfo;
+
+  const getMergedContactAndBookingInfo = useDeepCompareMemoize<
+    () => MergedInfo | undefined
+  >(() => {
+    if (!contactInfo) return;
+    if (!bookingInfo) return contactInfo;
+
+    return {
+      email: [...new Set([...contactInfo['email'], bookingInfo['email']])],
+      url: [...new Set([...contactInfo['url'], bookingInfo['url']])],
+      phone: [...new Set([...contactInfo['phone'], bookingInfo['phone']])],
+    };
+  });
+
   const images = useMemo(() => {
     // @ts-expect-error
     const mediaObjects = getEventByIdQuery.data?.mediaObject ?? [];
@@ -265,21 +290,6 @@ const AdditionalInformationStep = ({
     i18n.language,
     variant,
   ]);
-
-  const eventContactInfo = useMemo(() => {
-    if (variant !== AdditionalInformationStepVariant.EXTENDED) return;
-    // @ts-expect-error
-    return getEventByIdQuery.data?.contactPoint;
-    // @ts-expect-error
-  }, [getEventByIdQuery.data?.contactPoint, variant]);
-
-  const getEventBookingInfo = useDeepCompareMemoize(() => {
-    if (variant !== AdditionalInformationStepVariant.EXTENDED) return;
-
-    // @ts-expect-error
-    return getEventByIdQuery.data?.bookingInfo;
-    // @ts-expect-error
-  }, [getEventByIdQuery.data?.bookingInfo, variant]);
 
   const audienceType = useMemo(() => {
     if (variant !== AdditionalInformationStepVariant.EXTENDED) {
@@ -658,12 +668,14 @@ const AdditionalInformationStep = ({
                 onClickAddFreePriceInfo={() => handleAddFreePriceInfo()}
               />
               <ContactInfo
-                eventContactInfo={eventContactInfo}
-                eventBookingInfo={getEventBookingInfo()}
+                contactInfo={contactInfo}
+                bookingInfo={bookingInfo}
+                mergedInfo={getMergedContactAndBookingInfo()}
               />
               <ContactInfoEntry
-                contactInfo={eventContactInfo}
-                bookingInfo={getEventBookingInfo()}
+                contactInfo={contactInfo}
+                bookingInfo={bookingInfo}
+                mergedInfo={getMergedContactAndBookingInfo()}
                 eventId={eventId}
                 onAddContactInfoSuccess={() =>
                   invalidateEventQuery('contactPoint')
@@ -704,4 +716,5 @@ AdditionalInformationStep.defaultProps = {
   variant: AdditionalInformationStepVariant.EXTENDED,
 };
 
+export type { MergedInfo };
 export { AdditionalInformationStep, AdditionalInformationStepVariant };

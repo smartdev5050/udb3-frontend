@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { css } from 'styled-components';
 
@@ -8,6 +7,8 @@ import { Inline } from '@/ui/Inline';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
+
+import { MergedInfo } from './AdditionalInformationStep';
 
 const getValue = getValueFromTheme('contactInformation');
 const borderColorFromTheme = getValue('borderColor');
@@ -37,34 +38,21 @@ type BookingInfo = {
 } & { [Property in keyof ContactPoint]?: string };
 
 type Props = {
-  eventContactInfo: ContactPoint;
-  eventBookingInfo: BookingInfo;
+  contactInfo: ContactPoint;
+  bookingInfo?: BookingInfo;
+  mergedInfo: MergedInfo;
 };
 
 const ContactInfo = ({
-  eventContactInfo,
-  eventBookingInfo,
+  contactInfo,
+  bookingInfo,
+  mergedInfo,
   ...props
 }: Props) => {
   const { t } = useTranslation();
 
-  const mergedContactAndBookingInfo = useMemo(() => {
-    if (!eventContactInfo && !eventBookingInfo) {
-      return { email: [], url: [], phone: [] };
-    }
-    return {
-      email: [
-        ...new Set([...eventContactInfo['email'], eventBookingInfo['email']]),
-      ],
-      url: [...new Set([...eventContactInfo['url'], eventBookingInfo['url']])],
-      phone: [
-        ...new Set([...eventContactInfo['phone'], eventBookingInfo['phone']]),
-      ],
-    };
-  }, [eventContactInfo, eventBookingInfo]);
-
   const isUsedForReservation = (contactInfo: string) => {
-    return Object.values(eventBookingInfo).some((item) => item === contactInfo);
+    return Object.values(bookingInfo).some((item) => item === contactInfo);
   };
 
   return (
@@ -74,14 +62,14 @@ const ContactInfo = ({
           {t('create.additionalInformation.contact_info.title')}
         </Text>
       </Inline>
-      {eventContactInfo && (
+      {contactInfo && (
         <Stack
           spacing={3}
           css={`
             border: 1px solid ${borderColorFromTheme};
           `}
         >
-          {Object.keys(mergedContactAndBookingInfo).map((key, index) => {
+          {Object.keys(mergedInfo).map((key, index) => {
             const contactInfoTypeLabel = t(
               `create.additionalInformation.contact_info.${key}`,
             );
@@ -90,43 +78,37 @@ const ContactInfo = ({
                 <Stack flex={1}>
                   <Text fontWeight="bold">{contactInfoTypeLabel}</Text>
                   <Stack>
-                    {mergedContactAndBookingInfo[key].length === 0 && (
+                    {mergedInfo[key].length === 0 && (
                       <Text variant={TextVariants.MUTED}>
                         {t('create.additionalInformation.contact_info.empty', {
                           contactInfoType: contactInfoTypeLabel.toLowerCase(),
                         })}
                       </Text>
                     )}
-                    {mergedContactAndBookingInfo[key].map(
-                      (contactInfo, index) => {
-                        return (
-                          <Stack
-                            key={index}
-                            css={
-                              index !== 0
-                                ? css`border-top: 1px solid ${borderColorFromTheme}}`
-                                : ''
-                            }
-                          >
-                            <Inline spacing={3} alignItems="center">
-                              <Text
-                                key={index}
-                                paddingTop={2}
-                                paddingBottom={2}
-                              >
-                                {contactInfo}
-                              </Text>
-                              {isUsedForReservation(contactInfo) && (
-                                <Icon
-                                  name={Icons.TICKET}
-                                  color={iconColorFromTheme}
-                                />
-                              )}
-                            </Inline>
-                          </Stack>
-                        );
-                      },
-                    )}
+                    {mergedInfo[key].map((contactInfo, index) => {
+                      return (
+                        <Stack
+                          key={index}
+                          css={
+                            index !== 0
+                              ? css`border-top: 1px solid ${borderColorFromTheme}}`
+                              : ''
+                          }
+                        >
+                          <Inline spacing={3} alignItems="center">
+                            <Text key={index} paddingTop={2} paddingBottom={2}>
+                              {contactInfo}
+                            </Text>
+                            {isUsedForReservation(contactInfo) && (
+                              <Icon
+                                name={Icons.TICKET}
+                                color={iconColorFromTheme}
+                              />
+                            )}
+                          </Inline>
+                        </Stack>
+                      );
+                    })}
                   </Stack>
                 </Stack>
               </Inline>
