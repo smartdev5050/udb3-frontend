@@ -94,6 +94,8 @@
       },
       "contact_info": {
         "add_input_placeholder": "Voeg een {{contactInfoType}} toe",
+        "select_for_reservation": "Kies je reservatie {{contactInfoType}}",
+        "select_url_label": "Hoe mag deze reservatie link verschijnen?",
         "edit_cta": "Bewerken",
         "email_error": "Geen geldig e-mailadres",
         "email": "E-mailadres",

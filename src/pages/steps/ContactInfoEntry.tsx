@@ -11,8 +11,9 @@ import { FormElement } from '@/ui/FormElement';
 import { Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
+import { LabelPositions } from '@/ui/Label';
 import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
-import { Select } from '@/ui/Select';
+import { SelectWithLabel } from '@/ui/SelectWithLabel';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
@@ -36,7 +37,7 @@ type BookingInfo = {
   email?: string;
   phone?: string;
   url?: string;
-  urlLabel: {
+  urlLabel?: {
     de: string;
     en: string;
     fr: string;
@@ -134,7 +135,7 @@ const Form = ({
 
   const label = t(`create.additionalInformation.contact_info.${type}`);
   return (
-    <Stack spacing={3} marginBottom={3}>
+    <Stack spacing={3} marginBottom={5}>
       <Title marginBottom={2}>{label}</Title>
       <Inline spacing={5} justifyContent="space-between">
         <FormElement
@@ -145,7 +146,7 @@ const Form = ({
               value={value}
               placeholder={t(
                 'create.additionalInformation.contact_info.add_input_placeholder',
-                { type: label.toLowerCase() },
+                { contactInfoType: label.toLowerCase() },
               )}
               isInvalid={!!errorMessage}
               onChange={(e) => setValue(e.target.value)}
@@ -166,7 +167,7 @@ const Form = ({
 
         return (
           <Stack
-            marginBottom={2}
+            marginBottom={10}
             key={info}
             css={
               index !== 0
@@ -191,31 +192,50 @@ const Form = ({
         );
       })}
 
-      <Stack>
-        <Select onChange={(e) => handleAddBookingInfo(e.target.value)}>
-          <option>Kies je reservatie {type}</option>
-          {contactAndBookingInfo[type].map(
-            (contactInfo, key) =>
-              contactInfo && (
-                <option
-                  key={key}
-                  value={contactInfo}
-                  selected={bookingInfo[type] === contactInfo}
-                >
-                  {contactInfo}
-                </option>
-              ),
-          )}
-        </Select>
-        {type === ContactInfoType.URL && (
-          <RadioButtonGroup
-            name="urlLabel"
-            items={URL_LABELS}
-            selected="buy"
-            onChange={() => {
-              console.log('handle change');
-            }}
-          />
+      <Stack spacing={4} marginTop={3}>
+        <Stack>
+          <SelectWithLabel
+            label={t(
+              'create.additionalInformation.contact_info.select_for_reservation',
+              { contactInfoType: label.toLowerCase() },
+            )}
+            labelPosition={LabelPositions.TOP}
+            onChange={(e) => handleAddBookingInfo(e.target.value)}
+          >
+            <option value="" disabled selected={!bookingInfo[type]}>
+              {t(
+                'create.additionalInformation.contact_info.select_for_reservation',
+                { contactInfoType: label.toLowerCase() },
+              )}
+            </option>
+            {contactAndBookingInfo[type].map(
+              (contactInfo, key) =>
+                contactInfo && (
+                  <option
+                    key={key}
+                    value={contactInfo}
+                    selected={bookingInfo[type] === contactInfo}
+                  >
+                    {contactInfo}
+                  </option>
+                ),
+            )}
+          </SelectWithLabel>
+        </Stack>
+        {type === ContactInfoType.URL && bookingInfo[type] && (
+          <Stack>
+            <Text fontWeight="bold">
+              {t('create.additionalInformation.contact_info.select_url_label')}
+            </Text>
+            <RadioButtonGroup
+              name="urlLabel"
+              items={URL_LABELS}
+              selected="buy"
+              onChange={() => {
+                console.log('handle change');
+              }}
+            />
+          </Stack>
         )}
       </Stack>
     </Stack>
@@ -283,7 +303,7 @@ const ContactInfoEntry = ({
   return (
     <Stack {...getStackProps(props)}>
       {mergedInfo &&
-        Object.keys(mergedInfo).map((type, index) => {
+        Object.keys(mergedInfo).map((type: string) => {
           return (
             <Form
               contactAndBookingInfo={mergedInfo}
