@@ -65,8 +65,6 @@ const StepWrapper = ({
   title,
   ...props
 }: StepWrapperProps) => {
-  const { t } = useTranslation();
-
   return (
     <Stack spacing={4} width="100%" {...getStackProps(props)}>
       <Title
