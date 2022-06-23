@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
@@ -26,19 +26,17 @@ import {
   PriceInfoModal,
   Rate,
 } from '@/pages/steps/modals/PriceInfoModal';
-import { Organizer } from '@/types/Organizer';
 import type { Values } from '@/types/Values';
 import { Alert } from '@/ui/Alert';
 import { Box, parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
-import { Inline } from '@/ui/Inline';
 import { ProgressBar, ProgressBarVariants } from '@/ui/ProgressBar';
 import type { StackProps } from '@/ui/Stack';
 import { getStackProps, Stack } from '@/ui/Stack';
+import { Tabs } from '@/ui/Tabs';
 import { Text, TextVariants } from '@/ui/Text';
 import { TextArea } from '@/ui/TextArea';
-import { NewEntry } from '@/ui/Typeahead';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 import { OrganizerAddModal, OrganizerData } from '../OrganizerAddModal';
@@ -64,9 +62,17 @@ type Field =
   | 'description'
   | 'image'
   | 'video'
+  | 'contactInfo'
   | 'priceInfo'
   | 'audience'
   | 'organizer';
+
+type TabConfig = {
+  eventKey: string;
+  title: string;
+  Component: ReactNode;
+  visible: boolean;
+};
 
 type Props = StackProps & {
   eventId: string;
@@ -81,7 +87,18 @@ const AdditionalInformationStep = ({
   ...props
 }: Props) => {
   const queryClient = useQueryClient();
+
+  const invalidateEventQuery = useCallback(
+    async (field: Field) => {
+      await queryClient.invalidateQueries(['events', { id: eventId }]);
+      onChangeSuccess(field);
+    },
+    [eventId, onChangeSuccess, queryClient],
+  );
+
   const { t, i18n } = useTranslation();
+
+  const [tab, setTab] = useState('description');
 
   const [
     isPictureUploadModalVisible,
@@ -101,7 +118,6 @@ const AdditionalInformationStep = ({
   const [isOrganizerAddModalVisible, setIsOrganizerAddModalVisible] = useState(
     false,
   );
-
   const [isPriceInfoModalVisible, setIsPriceInfoModalVisible] = useState(false);
 
   const [description, setDescription] = useState('');
@@ -348,11 +364,6 @@ const AdditionalInformationStep = ({
     return imageWithoutFile;
   }, [images, imageToEditId]);
 
-  const invalidateEventQuery = async (field: Field) => {
-    await queryClient.invalidateQueries(['events', { id: eventId }]);
-    onChangeSuccess(field);
-  };
-
   const changeDescriptionMutation = useChangeDescriptionMutation({
     onSuccess: async () => {
       await invalidateEventQuery('description');
@@ -380,8 +391,10 @@ const AdditionalInformationStep = ({
     setIsPictureDeleteModalVisible(true);
   };
 
-  const handleClickSetMainImage = (imageId: string) =>
-    addEventMainImageMutation.mutate({ eventId, imageId });
+  const handleClickSetMainImage = useCallback(
+    (imageId: string) => addEventMainImageMutation.mutate({ eventId, imageId }),
+    [addEventMainImageMutation, eventId],
+  );
 
   const handleConfirmDeleteImage = (imageId: string) => {
     deleteImageFromEventMutation.mutate({ eventId, imageId });
@@ -475,100 +488,224 @@ const AdditionalInformationStep = ({
     });
   };
 
-  const handleChangeOrganizer = (organizerId: string) => {
-    addOrganizerToEventMutation.mutate({ eventId, organizerId });
-  };
+  const tabsConfigurations: TabConfig[] = useMemo(() => {
+    const handleChangeOrganizer = (organizerId: string) => {
+      addOrganizerToEventMutation.mutate({ eventId, organizerId });
+    };
 
-  const handleAddFreePriceInfo = async () => {
-    const freePriceInfoRates = defaultPriceInfoValues.rates;
-    // @ts-expect-error
-    freePriceInfoRates[0].price = 0;
-    await addPriceInfoMutation.mutateAsync({
-      eventId,
-      priceInfo: freePriceInfoRates,
-    });
-  };
+    const handleAddFreePriceInfo = async () => {
+      const freePriceInfoRates = defaultPriceInfoValues.rates;
+      // @ts-expect-error
+      freePriceInfoRates[0].price = 0;
+      await addPriceInfoMutation.mutateAsync({
+        eventId,
+        priceInfo: freePriceInfoRates,
+      });
+    };
 
-  const handleBlurDescription = () => {
-    if (!description) return;
+    const handleBlurDescription = () => {
+      if (!description) return;
 
-    changeDescriptionMutation.mutate({
-      description,
-      language: i18n.language,
-      eventId,
-    });
-  };
+      changeDescriptionMutation.mutate({
+        description,
+        language: i18n.language,
+        eventId,
+      });
+    };
 
-  const handleClickClearDescription = () => {
-    setDescription('');
-    changeDescriptionMutation.mutate({
-      description: '',
-      language: i18n.language,
-      eventId,
-    });
-  };
+    const handleClickClearDescription = () => {
+      setDescription('');
+      changeDescriptionMutation.mutate({
+        description: '',
+        language: i18n.language,
+        eventId,
+      });
+    };
 
-  const DescriptionInfo = (props: StackProps) => (
-    <Stack spacing={3} {...getStackProps(props)}>
-      {description.length < IDEAL_DESCRIPTION_LENGTH && (
-        <ProgressBar
-          variant={ProgressBarVariants.SUCCESS}
-          progress={descriptionProgress}
-        />
-      )}
-      <Text variant={TextVariants.MUTED}>
-        {description.length < IDEAL_DESCRIPTION_LENGTH
-          ? t(
-              'create.additionalInformation.description.progress_info.not_complete',
-              {
-                idealLength: IDEAL_DESCRIPTION_LENGTH,
-                count: IDEAL_DESCRIPTION_LENGTH - description.length,
-              },
-            )
-          : t(
-              'create.additionalInformation.description.progress_info.complete',
-              {
-                idealLength: IDEAL_DESCRIPTION_LENGTH,
-              },
-            )}
-      </Text>
-      <Button
-        variant={ButtonVariants.LINK}
-        onClick={handleClickClearDescription}
-      >
-        {t('create.additionalInformation.description.clear')}
-      </Button>
-      {eventTypeId && (
-        <Alert>
-          <Box
-            forwardedAs="div"
-            dangerouslySetInnerHTML={{
-              __html: t(
-                `create*additionalInformation*description*tips*${eventTypeId}`,
-                {
-                  keySeparator: '*',
-                },
-              ),
-            }}
-            css={`
-              strong {
-                font-weight: bold;
-              }
-
-              ul {
-                list-style-type: disc;
-                margin-bottom: ${parseSpacing(4)};
-
-                li {
-                  margin-left: ${parseSpacing(5)};
-                }
-              }
-            `}
+    const DescriptionInfo = (props: StackProps) => (
+      <Stack spacing={3} {...getStackProps(props)}>
+        {description.length < IDEAL_DESCRIPTION_LENGTH && (
+          <ProgressBar
+            variant={ProgressBarVariants.SUCCESS}
+            progress={descriptionProgress}
           />
-        </Alert>
-      )}
-    </Stack>
-  );
+        )}
+        <Text variant={TextVariants.MUTED}>
+          {description.length < IDEAL_DESCRIPTION_LENGTH
+            ? t(
+                'create.additionalInformation.description.progress_info.not_complete',
+                {
+                  idealLength: IDEAL_DESCRIPTION_LENGTH,
+                  count: IDEAL_DESCRIPTION_LENGTH - description.length,
+                },
+              )
+            : t(
+                'create.additionalInformation.description.progress_info.complete',
+                {
+                  idealLength: IDEAL_DESCRIPTION_LENGTH,
+                },
+              )}
+        </Text>
+        <Button
+          variant={ButtonVariants.LINK}
+          onClick={handleClickClearDescription}
+        >
+          {t('create.additionalInformation.description.clear')}
+        </Button>
+        {eventTypeId && (
+          <Alert>
+            <Box
+              forwardedAs="div"
+              dangerouslySetInnerHTML={{
+                __html: t(
+                  `create*additionalInformation*description*tips*${eventTypeId}`,
+                  {
+                    keySeparator: '*',
+                  },
+                ),
+              }}
+              css={`
+                strong {
+                  font-weight: bold;
+                }
+
+                ul {
+                  list-style-type: disc;
+                  margin-bottom: ${parseSpacing(4)};
+
+                  li {
+                    margin-left: ${parseSpacing(5)};
+                  }
+                }
+              `}
+            />
+          </Alert>
+        )}
+      </Stack>
+    );
+
+    return [
+      {
+        eventKey: 'description',
+        title: 'description',
+        Component: (
+          <FormElement
+            id="create-description"
+            label={t('create.additionalInformation.description.title')}
+            Component={
+              <TextArea
+                rows={5}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                onBlur={handleBlurDescription}
+              />
+            }
+            info={<DescriptionInfo />}
+          />
+        ),
+        visible: true,
+      },
+      {
+        eventKey: 'organizer',
+        title: 'organizer',
+        Component: (
+          <OrganizerPicker
+            organizer={organizer}
+            onChange={handleChangeOrganizer}
+            onAddNewOrganizer={(newOrganizer) => {
+              setNewOrganizerName(newOrganizer.label);
+              setIsOrganizerAddModalVisible(true);
+            }}
+            onDeleteOrganizer={(organizerId) =>
+              deleteOrganizerFromEventMutation.mutate({
+                eventId,
+                organizerId,
+              })
+            }
+          />
+        ),
+        visible: variant === AdditionalInformationStepVariant.EXTENDED,
+      },
+      {
+        eventKey: 'priceInfo',
+        title: 'priceInfo',
+        Component: (
+          <PriceInformation
+            priceInfo={priceInfo}
+            onClickAddPriceInfo={() => setIsPriceInfoModalVisible(true)}
+            onClickAddFreePriceInfo={() => handleAddFreePriceInfo()}
+          />
+        ),
+        visible: variant === AdditionalInformationStepVariant.EXTENDED,
+      },
+      {
+        eventKey: 'contactInfo',
+        title: 'contactInfo',
+        Component: (
+          <ContactInfo
+            eventContactInfo={eventContactInfo}
+            eventBookingInfo={eventBookingInfo}
+          />
+        ),
+        visible: variant === AdditionalInformationStepVariant.EXTENDED,
+      },
+      {
+        eventKey: 'audience',
+        title: 'audience',
+        Component: (
+          <Audience
+            eventId={eventId}
+            selectedAudience={audienceType}
+            onChangeSuccess={() => invalidateEventQuery('audience')}
+          />
+        ),
+        visible: variant === AdditionalInformationStepVariant.EXTENDED,
+      },
+      {
+        eventKey: 'imagesAndVideos',
+        title: 'imagesAndVideos',
+        Component: (
+          <Stack spacing={4} flex={1}>
+            <PictureUploadBox
+              images={images}
+              onClickEditImage={handleClickEditImage}
+              onClickDeleteImage={handleClickDeleteImage}
+              onClickSetMainImage={handleClickSetMainImage}
+              onClickAddImage={handleClickAddImage}
+              onDragAddImage={handleDragAddImage}
+            />
+            <VideoUploadBox
+              videos={videos}
+              onClickAddVideo={() => setIsVideoLinkAddModalVisible(true)}
+              onClickDeleteVideo={handleDeleteVideoLink}
+            />
+          </Stack>
+        ),
+        visible: variant === AdditionalInformationStepVariant.EXTENDED,
+      },
+    ];
+  }, [
+    addOrganizerToEventMutation,
+    addPriceInfoMutation,
+    audienceType,
+    changeDescriptionMutation,
+    deleteOrganizerFromEventMutation,
+    description,
+    descriptionProgress,
+    eventBookingInfo,
+    eventContactInfo,
+    eventId,
+    eventTypeId,
+    handleClickSetMainImage,
+    i18n.language,
+    images,
+    invalidateEventQuery,
+    organizer,
+    priceInfo,
+    t,
+    variant,
+    videos,
+  ]);
 
   return (
     <Stack {...getStackProps(props)}>
@@ -606,74 +743,22 @@ const AdditionalInformationStep = ({
         onConfirm={handleAddOrganizer}
         onClose={() => setIsOrganizerAddModalVisible(false)}
       />
-      <Inline
-        spacing={6}
-        alignItems={{ default: 'flex-start', m: 'normal' }}
-        stackOn="m"
+
+      <Tabs
+        activeKey={tab}
+        onSelect={setTab}
+        css={`
+          .tab-content {
+            padding-top: ${parseSpacing(3)};
+          }
+        `}
       >
-        <Stack spacing={3} flex={1}>
-          <FormElement
-            id="create-description"
-            label={t('create.additionalInformation.description.title')}
-            Component={
-              <TextArea
-                rows={5}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                onBlur={handleBlurDescription}
-              />
-            }
-            info={<DescriptionInfo />}
-          />
-          {variant === AdditionalInformationStepVariant.EXTENDED && (
-            <Stack spacing={4}>
-              <OrganizerPicker
-                organizer={organizer}
-                onChange={handleChangeOrganizer}
-                onAddNewOrganizer={(newOrganizer) => {
-                  setNewOrganizerName(newOrganizer.label);
-                  setIsOrganizerAddModalVisible(true);
-                }}
-                onDeleteOrganizer={(organizerId) =>
-                  deleteOrganizerFromEventMutation.mutate({
-                    eventId,
-                    organizerId,
-                  })
-                }
-              />
-              <PriceInformation
-                priceInfo={priceInfo}
-                onClickAddPriceInfo={() => setIsPriceInfoModalVisible(true)}
-                onClickAddFreePriceInfo={() => handleAddFreePriceInfo()}
-              />
-              <ContactInfo
-                eventContactInfo={eventContactInfo}
-                eventBookingInfo={eventBookingInfo}
-              />
-              <Audience
-                eventId={eventId}
-                selectedAudience={audienceType}
-                onChangeSuccess={() => invalidateEventQuery('audience')}
-              />
-            </Stack>
-          )}
-        </Stack>
-        <Stack spacing={4} flex={1}>
-          <PictureUploadBox
-            images={images}
-            onClickEditImage={handleClickEditImage}
-            onClickDeleteImage={handleClickDeleteImage}
-            onClickSetMainImage={handleClickSetMainImage}
-            onClickAddImage={handleClickAddImage}
-            onDragAddImage={handleDragAddImage}
-          />
-          <VideoUploadBox
-            videos={videos}
-            onClickAddVideo={() => setIsVideoLinkAddModalVisible(true)}
-            onClickDeleteVideo={handleDeleteVideoLink}
-          />
-        </Stack>
-      </Inline>
+        {tabsConfigurations.map(({ eventKey, title, Component }) => (
+          <Tabs.Tab key={eventKey} eventKey={eventKey} title={title}>
+            {Component}
+          </Tabs.Tab>
+        ))}
+      </Tabs>
     </Stack>
   );
 };
