@@ -8,7 +8,6 @@ import {
   useAddOrganizerToEventMutation,
   useAddPriceInfoMutation,
   useAddVideoToEventMutation,
-  useChangeDescriptionMutation,
   useDeleteImageFromEventMutation,
   useDeleteOrganizerFromEventMutation,
   useDeleteVideoFromEventMutation,
@@ -30,7 +29,6 @@ import type { Values } from '@/types/Values';
 import { Alert } from '@/ui/Alert';
 import { Box, parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
-import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
 import { getInlineProps, Inline, InlineProps } from '@/ui/Inline';
 import { ProgressBar, ProgressBarVariants } from '@/ui/ProgressBar';
@@ -38,7 +36,6 @@ import type { StackProps } from '@/ui/Stack';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Tabs } from '@/ui/Tabs';
 import { Text, TextVariants } from '@/ui/Text';
-import { TextArea } from '@/ui/TextArea';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 import { OrganizerAddModal, OrganizerData } from '../OrganizerAddModal';
@@ -50,10 +47,9 @@ import type { Video, VideoEnriched } from '../VideoUploadBox';
 import { VideoUploadBox } from '../VideoUploadBox';
 import { Audience } from './Audience';
 import { ContactInfo } from './ContactInfo';
+import { DescriptionStep } from './DescriptionStep';
 import { OrganizerPicker } from './OrganizerPicker';
 import { PriceInformation } from './PriceInformation';
-
-const IDEAL_DESCRIPTION_LENGTH = 200;
 
 const AdditionalInformationStepVariant = {
   MINIMAL: 'minimal',
@@ -137,7 +133,6 @@ const AdditionalInformationStep = ({
   );
   const [isPriceInfoModalVisible, setIsPriceInfoModalVisible] = useState(false);
 
-  const [description, setDescription] = useState('');
   const [newOrganizerName, setNewOrganizerName] = useState('');
   const [imageToEditId, setImageToEditId] = useState('');
   const [draggedImageFile, setDraggedImageFile] = useState<FileList>();
@@ -210,18 +205,6 @@ const AdditionalInformationStep = ({
       await invalidateEventQuery('organizer');
     },
   });
-
-  useEffect(() => {
-    // @ts-expect-error
-    const eventData = getEventByIdQuery.data;
-    if (!eventData?.description) return;
-    setDescription(
-      eventData.description[i18n.language] ??
-        eventData.description[eventData.mainLanguage],
-    );
-    // @ts-expect-error
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getEventByIdQuery.data?.description]);
 
   useEffect(() => {
     if (
@@ -362,12 +345,8 @@ const AdditionalInformationStep = ({
     )?.id;
   }, [
     // @ts-expect-error
-    getEventByIdQuery.data,
+    getEventByIdQuery.data?.terms,
   ]);
-
-  const descriptionProgress = useMemo(() => {
-    return (description.length / IDEAL_DESCRIPTION_LENGTH) * 100;
-  }, [description]);
 
   const imageToEdit = useMemo(() => {
     const image = images.find((image) => image.parsedId === imageToEditId);
@@ -378,12 +357,6 @@ const AdditionalInformationStep = ({
 
     return imageWithoutFile;
   }, [images, imageToEditId]);
-
-  const changeDescriptionMutation = useChangeDescriptionMutation({
-    onSuccess: async () => {
-      await invalidateEventQuery('description');
-    },
-  });
 
   const handleClickAddImage = () => {
     setImageToEditId(undefined);
@@ -518,106 +491,11 @@ const AdditionalInformationStep = ({
       });
     };
 
-    const handleBlurDescription = () => {
-      if (!description) return;
-
-      changeDescriptionMutation.mutate({
-        description,
-        language: i18n.language,
-        eventId,
-      });
-    };
-
-    const handleClickClearDescription = () => {
-      setDescription('');
-      changeDescriptionMutation.mutate({
-        description: '',
-        language: i18n.language,
-        eventId,
-      });
-    };
-
-    const DescriptionInfo = (props: StackProps) => (
-      <Stack spacing={3} {...getStackProps(props)}>
-        {description.length < IDEAL_DESCRIPTION_LENGTH && (
-          <ProgressBar
-            variant={ProgressBarVariants.SUCCESS}
-            progress={descriptionProgress}
-          />
-        )}
-        <Text variant={TextVariants.MUTED}>
-          {description.length < IDEAL_DESCRIPTION_LENGTH
-            ? t(
-                'create.additionalInformation.description.progress_info.not_complete',
-                {
-                  idealLength: IDEAL_DESCRIPTION_LENGTH,
-                  count: IDEAL_DESCRIPTION_LENGTH - description.length,
-                },
-              )
-            : t(
-                'create.additionalInformation.description.progress_info.complete',
-                {
-                  idealLength: IDEAL_DESCRIPTION_LENGTH,
-                },
-              )}
-        </Text>
-        <Button
-          variant={ButtonVariants.LINK}
-          onClick={handleClickClearDescription}
-        >
-          {t('create.additionalInformation.description.clear')}
-        </Button>
-        {eventTypeId && (
-          <Alert>
-            <Box
-              forwardedAs="div"
-              dangerouslySetInnerHTML={{
-                __html: t(
-                  `create*additionalInformation*description*tips*${eventTypeId}`,
-                  {
-                    keySeparator: '*',
-                  },
-                ),
-              }}
-              css={`
-                strong {
-                  font-weight: bold;
-                }
-
-                ul {
-                  list-style-type: disc;
-                  margin-bottom: ${parseSpacing(4)};
-
-                  li {
-                    margin-left: ${parseSpacing(5)};
-                  }
-                }
-              `}
-            />
-          </Alert>
-        )}
-      </Stack>
-    );
-
     return [
       {
         eventKey: 'description',
         title: 'description',
-        Component: (
-          <FormElement
-            id="create-description"
-            label={t('create.additionalInformation.description.title')}
-            Component={
-              <TextArea
-                rows={5}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                onBlur={handleBlurDescription}
-              />
-            }
-            info={<DescriptionInfo />}
-          />
-        ),
+        Component: <DescriptionStep eventId={eventId} />,
         visible: true,
         completed: true,
       },
@@ -708,21 +586,15 @@ const AdditionalInformationStep = ({
     addOrganizerToEventMutation,
     addPriceInfoMutation,
     audienceType,
-    changeDescriptionMutation,
     deleteOrganizerFromEventMutation,
-    description,
-    descriptionProgress,
     eventBookingInfo,
     eventContactInfo,
     eventId,
-    eventTypeId,
     handleClickSetMainImage,
-    i18n.language,
     images,
     invalidateEventQuery,
     organizer,
     priceInfo,
-    t,
     variant,
     videos,
   ]);
