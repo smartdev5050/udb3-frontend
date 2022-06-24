@@ -26,14 +26,10 @@ import {
   Rate,
 } from '@/pages/steps/modals/PriceInfoModal';
 import type { Values } from '@/types/Values';
-import { Alert } from '@/ui/Alert';
-import { Box, parseSpacing } from '@/ui/Box';
-import { Button, ButtonVariants } from '@/ui/Button';
+import { parseSpacing } from '@/ui/Box';
 import { Icon, Icons } from '@/ui/Icon';
 import { getInlineProps, Inline, InlineProps } from '@/ui/Inline';
-import { ProgressBar, ProgressBarVariants } from '@/ui/ProgressBar';
-import type { StackProps } from '@/ui/Stack';
-import { getStackProps, Stack } from '@/ui/Stack';
+import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Tabs } from '@/ui/Tabs';
 import { Text, TextVariants } from '@/ui/Text';
 import { Breakpoints } from '@/ui/theme';
