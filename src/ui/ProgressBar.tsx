@@ -25,9 +25,14 @@ const ProgressBar = ({
   ...props
 }: Props) => {
   return (
-    <Box {...getBoxProps(props)}>
-      <BootstrapProgressBar now={progress} variant={variant} />
-    </Box>
+    <Box
+      as={BootstrapProgressBar}
+      display="flex"
+      width="100%"
+      now={progress}
+      variant={variant}
+      {...getBoxProps(props)}
+    ></Box>
   );
 };
 

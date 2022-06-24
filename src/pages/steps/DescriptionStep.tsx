@@ -37,7 +37,7 @@ export const DescriptionInfo = ({
   );
 
   return (
-    <Stack spacing={3} {...getStackProps(props)}>
+    <Stack spacing={3} alignItems="flex-start" {...getStackProps(props)}>
       {description.length < IDEAL_DESCRIPTION_LENGTH && (
         <ProgressBar
           variant={ProgressBarVariants.SUCCESS}
