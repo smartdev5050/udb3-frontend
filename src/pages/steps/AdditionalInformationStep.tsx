@@ -532,7 +532,7 @@ const AdditionalInformationStep = ({
           />
         ),
         visible: variant === AdditionalInformationStepVariant.EXTENDED,
-        completed: true,
+        completed: false,
       },
       {
         eventKey: 'priceInfo',
@@ -545,7 +545,7 @@ const AdditionalInformationStep = ({
           />
         ),
         visible: variant === AdditionalInformationStepVariant.EXTENDED,
-        completed: true,
+        completed: false,
       },
       {
         eventKey: 'contactInfo',
@@ -557,24 +557,10 @@ const AdditionalInformationStep = ({
           />
         ),
         visible: variant === AdditionalInformationStepVariant.EXTENDED,
-        completed: true,
-      },
-      {
-        eventKey: 'audience',
-        title: 'audience',
-        Component: (
-          <Audience
-            eventId={eventId}
-            selectedAudience={audienceType}
-            onChangeSuccess={() => invalidateEventQuery('audience')}
-          />
-        ),
-        visible: variant === AdditionalInformationStepVariant.EXTENDED,
-        completed: true,
+        completed: false,
       },
       {
         eventKey: 'imagesAndVideos',
-        title: 'imagesAndVideos',
         title: t('create.additionalInformation.pictures_and_videos.title'),
         Component: (
           <Inline spacing={4} flex={1} stackOn={Breakpoints.M}>
@@ -594,7 +580,20 @@ const AdditionalInformationStep = ({
           </Inline>
         ),
         visible: true,
-        completed: true,
+        completed: false,
+      },
+      {
+        eventKey: 'audience',
+        title: t('create.additionalInformation.audience.title'),
+        Component: (
+          <Audience
+            eventId={eventId}
+            selectedAudience={audienceType}
+            onChangeSuccess={() => invalidateEventQuery('audience')}
+          />
+        ),
+        visible: variant === AdditionalInformationStepVariant.EXTENDED,
+        completed: false,
       },
     ];
   }, [
