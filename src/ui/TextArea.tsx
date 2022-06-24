@@ -9,7 +9,8 @@ type TextAreaProps = {
   name?: string;
   value?: string;
   rows?: number;
-  onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+  onChange?: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+  onInput?: (e: ChangeEvent<HTMLTextAreaElement>) => void;
 };
 
 type Props = Omit<BoxProps, 'onChange'> & TextAreaProps;
