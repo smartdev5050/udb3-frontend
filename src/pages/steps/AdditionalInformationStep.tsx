@@ -241,6 +241,7 @@ const AdditionalInformationStep = ({
       ...parsedMediaObjects.filter((mediaObject) => mediaObject.isMain),
       ...parsedMediaObjects.filter((mediaObject) => !mediaObject.isMain),
     ] as ImageType[];
+    // @ts-expect-error
   }, [getEventByIdQuery.data?.image, getEventByIdQuery.data?.mediaObject]);
 
   const priceInfo = useMemo(() => {
@@ -549,6 +550,7 @@ const AdditionalInformationStep = ({
           />
         ),
         visible: variant === AdditionalInformationStepVariant.EXTENDED,
+        completed: true,
       },
       {
         eventKey: 'audience',
