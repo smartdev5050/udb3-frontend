@@ -95,7 +95,7 @@ export const DescriptionInfo = ({
 };
 
 type DescriptionStepProps = StackProps & {
-  eventId: string;
+  eventId?: string;
 };
 
 export const DescriptionStep = ({
