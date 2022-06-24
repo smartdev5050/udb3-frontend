@@ -146,6 +146,9 @@
         "intro": "Ajoutez une image de sorte que les visiteurs reconnaissent mieux votre activité.",
         "set_as_main_image": "Créer image principale"
       },
+      "pictures_and_videos": {
+        "title": "Images et Vidéos"
+      },
       "price_info": {
         "add": "Ajouter tarif",
         "basic_rate": "Tarif de base",
@@ -160,7 +163,7 @@
         "prices": "Prix",
         "save": "Sauver",
         "target": "Public cible",
-        "title": "Ajouter des prix",
+        "title": "Prix",
         "uitpas_error": "Le prix UiTPAS est calculé pour vous par UiTdatabank. Vous ne pouvez pas les ajouter vous-même."
       },
       "title": "Augmentez la visibilité de votre évènement"

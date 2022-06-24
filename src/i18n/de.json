@@ -146,6 +146,9 @@
         "intro": "Fügen Sie eine Abbildung hinzu, damit die Besucher Ihre Aktivität besser erkennen können.",
         "set_as_main_image": "Hauptabbildung erstellen"
       },
+      "pictures_and_videos": {
+        "title": "Bilder und Videos"
+      },
       "price_info": {
         "add": "Tarif hinzufügen",
         "basic_rate": "Basistarif",
@@ -160,7 +163,7 @@
         "prices": "Preise",
         "save": "Speichern",
         "target": "Zielgruppe",
-        "title": "Preise hinzufügen",
+        "title": "Preise",
         "uitpas_error": "Der UiTPAS-Preis wird von UiTdatabank für Sie berechnet. Sie können diese nicht selbst hinzufügen."
       },
       "title": "Heben Sie Ihre Veranstaltung besonders hervor"
