@@ -31,8 +31,10 @@ export const DescriptionInfo = ({
 }: DescriptionInfoProps) => {
   const { t } = useTranslation();
 
-  const descriptionProgress =
-    (description.length / IDEAL_DESCRIPTION_LENGTH) * 100;
+  const descriptionProgress = Math.min(
+    Math.round((description.length / IDEAL_DESCRIPTION_LENGTH) * 100),
+    100,
+  );
 
   return (
     <Stack spacing={3} {...getStackProps(props)}>
@@ -96,12 +98,16 @@ export const DescriptionInfo = ({
 
 type DescriptionStepProps = StackProps & {
   eventId?: string;
+  completed: boolean;
+  onChangeCompleted: (completed: boolean) => void;
   onSuccessfulChange: () => void;
 };
 
 export const DescriptionStep = ({
   eventId,
   onSuccessfulChange,
+  completed,
+  onChangeCompleted,
   ...props
 }: DescriptionStepProps) => {
   const { t, i18n } = useTranslation();
@@ -150,6 +156,14 @@ export const DescriptionStep = ({
     });
   };
 
+  const handleInput = (e) => {
+    setDescription(e.target.value);
+
+    const newIsCompleted = e.target.value.length >= IDEAL_DESCRIPTION_LENGTH;
+    if (completed === newIsCompleted) return;
+    onChangeCompleted(newIsCompleted);
+  };
+
   return (
     <FormElement
       id="create-description"
@@ -158,7 +172,7 @@ export const DescriptionStep = ({
         <TextArea
           rows={5}
           value={description}
-          onInput={(e) => setDescription(e.target.value)}
+          onInput={handleInput}
           onBlur={handleBlur}
         />
       }

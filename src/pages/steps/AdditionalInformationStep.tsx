@@ -133,6 +133,8 @@ const AdditionalInformationStep = ({
   );
   const [isPriceInfoModalVisible, setIsPriceInfoModalVisible] = useState(false);
 
+  const [isDescriptionCompleted, setIsDescriptionCompleted] = useState(false);
+
   const [newOrganizerName, setNewOrganizerName] = useState('');
   const [imageToEditId, setImageToEditId] = useState('');
   const [draggedImageFile, setDraggedImageFile] = useState<FileList>();
@@ -495,15 +497,19 @@ const AdditionalInformationStep = ({
     return [
       {
         eventKey: 'description',
-        title: 'description',
+        title: t('create.additionalInformation.description.title'),
         Component: (
           <DescriptionStep
             eventId={eventId}
+            completed={isDescriptionCompleted}
+            onChangeCompleted={(isCompleted) =>
+              setIsDescriptionCompleted(isCompleted)
+            }
             onSuccessfulChange={() => invalidateEventQuery('description')}
           />
         ),
         visible: true,
-        completed: true,
+        completed: isDescriptionCompleted,
       },
       {
         eventKey: 'organizer',
@@ -600,8 +606,10 @@ const AdditionalInformationStep = ({
     handleClickSetMainImage,
     images,
     invalidateEventQuery,
+    isDescriptionCompleted,
     organizer,
     priceInfo,
+    t,
     variant,
     videos,
   ]);
