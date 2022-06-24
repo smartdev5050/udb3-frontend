@@ -513,7 +513,7 @@ const AdditionalInformationStep = ({
       },
       {
         eventKey: 'organizer',
-        title: 'organizer',
+        title: t('create.additionalInformation.organizer.title'),
         Component: (
           <OrganizerPicker
             organizer={organizer}
@@ -535,7 +535,7 @@ const AdditionalInformationStep = ({
       },
       {
         eventKey: 'priceInfo',
-        title: 'priceInfo',
+        title: t('create.additionalInformation.price_info.title'),
         Component: (
           <PriceInformation
             priceInfo={priceInfo}
@@ -548,7 +548,7 @@ const AdditionalInformationStep = ({
       },
       {
         eventKey: 'contactInfo',
-        title: 'contactInfo',
+        title: t('create.additionalInformation.contact_info.title'),
         Component: (
           <ContactInfo
             eventContactInfo={eventContactInfo}
@@ -574,6 +574,7 @@ const AdditionalInformationStep = ({
       {
         eventKey: 'imagesAndVideos',
         title: 'imagesAndVideos',
+        title: t('create.additionalInformation.pictures_and_videos.title'),
         Component: (
           <Inline spacing={4} flex={1}>
             <PictureUploadBox
