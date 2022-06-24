@@ -495,7 +495,12 @@ const AdditionalInformationStep = ({
       {
         eventKey: 'description',
         title: 'description',
-        Component: <DescriptionStep eventId={eventId} />,
+        Component: (
+          <DescriptionStep
+            eventId={eventId}
+            onSuccessfulChange={() => invalidateEventQuery('description')}
+          />
+        ),
         visible: true,
         completed: true,
       },

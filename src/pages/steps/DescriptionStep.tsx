@@ -96,10 +96,12 @@ export const DescriptionInfo = ({
 
 type DescriptionStepProps = StackProps & {
   eventId?: string;
+  onSuccessfulChange: () => void;
 };
 
 export const DescriptionStep = ({
   eventId,
+  onSuccessfulChange,
   ...props
 }: DescriptionStepProps) => {
   const { t, i18n } = useTranslation();
@@ -124,7 +126,9 @@ export const DescriptionStep = ({
     return event?.terms.find((term) => term.domain === 'eventtype')?.id!;
   }, [event?.terms]);
 
-  const changeDescriptionMutation = useChangeDescriptionMutation();
+  const changeDescriptionMutation = useChangeDescriptionMutation({
+    onSuccess: onSuccessfulChange,
+  });
 
   const handleBlur = () => {
     if (!description) return;
