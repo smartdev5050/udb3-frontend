@@ -36,6 +36,7 @@ import type { StackProps } from '@/ui/Stack';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Tabs } from '@/ui/Tabs';
 import { Text, TextVariants } from '@/ui/Text';
+import { Breakpoints } from '@/ui/theme';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 import { OrganizerAddModal, OrganizerData } from '../OrganizerAddModal';
@@ -576,7 +577,7 @@ const AdditionalInformationStep = ({
         title: 'imagesAndVideos',
         title: t('create.additionalInformation.pictures_and_videos.title'),
         Component: (
-          <Inline spacing={4} flex={1}>
+          <Inline spacing={4} flex={1} stackOn={Breakpoints.M}>
             <PictureUploadBox
               images={images}
               onClickEditImage={handleClickEditImage}
