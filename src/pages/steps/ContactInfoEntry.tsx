@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { css } from 'styled-components';
 
@@ -67,7 +67,7 @@ const isValidPhone = (phone: string): boolean => {
 
 const UrlLabelType = {
   BUY: 'buy',
-  BOOK: 'book',
+  RESERVE: 'reserve',
   AVAILABILITY: 'availability',
   SUBSCRIBE: 'subscribe',
 } as const;
@@ -89,6 +89,36 @@ const Form = ({
 }) => {
   const { t } = useTranslation();
 
+  const urlLabelTranslationString =
+    'create.additionalInformation.contact_info.url_type_labels';
+
+  const URL_LABEL_TRANSLATIONS = {
+    buy: {
+      nl: t(`${urlLabelTranslationString}.buy`, { lng: 'nl' }),
+      fr: t(`${urlLabelTranslationString}.buy`, { lng: 'fr' }),
+      en: 'Buy tickets',
+      de: t(`${urlLabelTranslationString}.buy`, { lng: 'de' }),
+    },
+    availability: {
+      nl: t(`${urlLabelTranslationString}.availability`, { lng: 'nl' }),
+      fr: t(`${urlLabelTranslationString}.availability`, { lng: 'fr' }),
+      en: 'Check availability',
+      de: t(`${urlLabelTranslationString}.availability`, { lng: 'de' }),
+    },
+    subscribe: {
+      nl: t(`${urlLabelTranslationString}.subscribe`, { lng: 'nl' }),
+      fr: t(`${urlLabelTranslationString}.subscribe`, { lng: 'fr' }),
+      en: 'Subscribe',
+      de: t(`${urlLabelTranslationString}.subscribe`, { lng: 'de' }),
+    },
+    reserve: {
+      nl: t(`${urlLabelTranslationString}.reserve`, { lng: 'nl' }),
+      fr: t(`${urlLabelTranslationString}.reserve`, { lng: 'fr' }),
+      en: 'Reserve places',
+      de: t(`${urlLabelTranslationString}.reserve`, { lng: 'de' }),
+    },
+  };
+
   const URL_LABELS = [
     {
       label: t('create.additionalInformation.contact_info.url_type_labels.buy'),
@@ -96,9 +126,9 @@ const Form = ({
     },
     {
       label: t(
-        'create.additionalInformation.contact_info.url_type_labels.book',
+        'create.additionalInformation.contact_info.url_type_labels.reserve',
       ),
-      value: UrlLabelType.BOOK,
+      value: UrlLabelType.RESERVE,
     },
     {
       label: t(
@@ -116,13 +146,20 @@ const Form = ({
 
   const [value, setValue] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [urlLabelType, setUrlLabelType] = useState('');
 
   const handleAddBookingInfo = async (value: string) => {
     const newBookingInfo = { ...bookingInfo };
     newBookingInfo[type] = value;
 
+    if (type === ContactInfoType.URL && !bookingInfo.urlLabel) {
+      newBookingInfo['urlLabel'] = URL_LABEL_TRANSLATIONS.buy;
+    }
+
     let newContactInfo = { ...contactInfo };
-    newContactInfo[type] = contactInfo[type].filter((info) => info !== value);
+    newContactInfo[type] = newContactInfo[type].filter(
+      (info: string) => info !== value,
+    );
 
     // Readd old bookingInfo as contactInfo
     if (bookingInfo[type]) {
@@ -168,6 +205,11 @@ const Form = ({
     if (bookingInfo[type] === value) {
       const newBookingInfo = { ...bookingInfo };
       delete newBookingInfo[type];
+
+      if (type === ContactInfoType.URL) {
+        delete newBookingInfo['urlLabel'];
+      }
+
       await onAddBookingInfo(newBookingInfo, () =>
         console.log('removed as bookingInfo'),
       );
@@ -180,6 +222,40 @@ const Form = ({
     );
 
     await onAddInfo(newContactInfo, () => console.log('delete done'));
+  };
+
+  const getUrlLabelTypeByEngString = useCallback((): string => {
+    if (
+      bookingInfo.urlLabel?.en.toLowerCase().includes(UrlLabelType.AVAILABILITY)
+    ) {
+      return UrlLabelType.AVAILABILITY;
+    }
+    if (bookingInfo.urlLabel?.en.toLowerCase().includes(UrlLabelType.BUY)) {
+      return UrlLabelType.BUY;
+    }
+    if (
+      bookingInfo.urlLabel?.en.toLowerCase().includes(UrlLabelType.SUBSCRIBE)
+    ) {
+      return UrlLabelType.SUBSCRIBE;
+    }
+    if (bookingInfo.urlLabel?.en.toLowerCase().includes(UrlLabelType.RESERVE)) {
+      return UrlLabelType.RESERVE;
+    }
+    return UrlLabelType.BUY;
+  }, [bookingInfo.urlLabel?.en]);
+
+  useEffect(() => {
+    const urlLabel = getUrlLabelTypeByEngString();
+    setUrlLabelType(urlLabel);
+  }, [getUrlLabelTypeByEngString]);
+
+  const handleOnUrlLabelChange = async (e: any) => {
+    const urlLabelType = e.target.value;
+    setUrlLabelType(urlLabelType);
+    const newBookingInfo = { ...bookingInfo };
+    newBookingInfo.urlLabel = URL_LABEL_TRANSLATIONS[urlLabelType];
+
+    await onAddBookingInfo(newBookingInfo, () => {});
   };
 
   const label = t(`create.additionalInformation.contact_info.${type}`);
@@ -282,10 +358,8 @@ const Form = ({
               <RadioButtonGroup
                 name="urlLabel"
                 items={URL_LABELS}
-                selected="buy"
-                onChange={() => {
-                  console.log('handle change');
-                }}
+                selected={urlLabelType}
+                onChange={handleOnUrlLabelChange}
               />
             </Stack>
           )}
@@ -315,8 +389,6 @@ const ContactInfoEntry = ({
   onAddBookingInfoSuccess,
   ...props
 }: Props) => {
-  const { t } = useTranslation();
-
   const addContactPointMutation = useAddContactPointMutation({
     onSuccess: () => {
       onAddContactInfoSuccess();
