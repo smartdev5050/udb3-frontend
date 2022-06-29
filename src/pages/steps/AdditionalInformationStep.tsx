@@ -237,7 +237,7 @@ const AdditionalInformationStep = ({
 
     const emails = new Set(contactInfo['email']);
     const urls = new Set(contactInfo['url']);
-    const phones = new Set(contactInfo['phones']);
+    const phones = new Set(contactInfo['phone']);
 
     if (bookingInfo['email']) {
       emails.add(bookingInfo['email']);
