@@ -99,7 +99,13 @@
         "is_used_for_reservation": "Utilisé pour la réservation",
         "phone": "Numéro de téléphone",
         "title": "Contact et réservation",
-        "url": "Site web"
+        "url": "Site web",
+        "url_type_labels": {
+          "subscribe": "Inscrivez-vous",
+          "availability": "Controlez la disponibilité",
+          "buy": "Achetez des tickets",
+          "reserve": "Réservez des places"
+        }
       },
       "description": {
         "clear": "Vider",

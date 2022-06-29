@@ -108,7 +108,7 @@
         "url_error": "Een geldige url begint met http:// of https://",
         "url_type_labels": {
           "buy": "Koop tickets",
-          "book": "Reserveer plaatsen",
+          "reserve": "Reserveer plaatsen",
           "availability": "Controleer beschikbaarheid",
           "subscribe": "Schrijf je in"
         }

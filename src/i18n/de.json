@@ -99,7 +99,13 @@
         "is_used_for_reservation": "Für die Reservierung verwendet",
         "phone": "Telefoonnummer",
         "title": "Kontakt & Reservierung",
-        "url": "Website"
+        "url": "Website",
+        "url_type_labels": {
+          "subscribe": "Melden Sie sich an",
+          "availability": "Verfügbarkeit kontrollieren",
+          "buy": "Tickets kaufen",
+          "reserve": "Plätze reservieren"
+        }
       },
       "description": {
         "clear": "Leeren",
