@@ -102,6 +102,7 @@
         "empty": "U heeft nog geen {{contactInfoType}} toegevoegd",
         "is_used_for_reservation": "Wordt gebruikt voor reservatie",
         "phone": "Telefoonnummer",
+        "phone_error": "Geen geldig telefoonnummer",
         "title": "Contact & reservatie",
         "url": "Website",
         "url_error": "Een geldige url begint met http:// of https://"

@@ -50,6 +50,7 @@ const getValue = getValueFromTheme('contactInformation');
 const EMAIL_REGEX: RegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
 const URL_REGEX: RegExp = /https?:\/\//;
+const PHONE_REGEX: RegExp = /^[0-9\/_.+ ]*$/;
 
 const isValidEmail = (email: string): boolean => {
   return EMAIL_REGEX.test(email);
@@ -57,6 +58,10 @@ const isValidEmail = (email: string): boolean => {
 
 const isValidUrl = (url: string): boolean => {
   return URL_REGEX.test(url);
+};
+
+const isValidPhone = (phone: string): boolean => {
+  return PHONE_REGEX.test(phone);
 };
 
 const URL_LABELS = [
@@ -117,6 +122,13 @@ const Form = ({
 
     if (type === ContactInfoType.URL && !isValidUrl(value)) {
       setErrorMessage(t('create.additionalInformation.contact_info.url_error'));
+      return;
+    }
+
+    if (type === ContactInfoType.PHONE && !isValidPhone(value)) {
+      setErrorMessage(
+        t('create.additionalInformation.contact_info.phone_error'),
+      );
       return;
     }
 
