@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { css } from 'styled-components';
 
@@ -249,7 +249,7 @@ const Form = ({
     setUrlLabelType(urlLabel);
   }, [getUrlLabelTypeByEngString]);
 
-  const handleOnUrlLabelChange = async (e: any) => {
+  const handleOnUrlLabelChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const urlLabelType = e.target.value;
     setUrlLabelType(urlLabelType);
     const newBookingInfo = { ...bookingInfo };
