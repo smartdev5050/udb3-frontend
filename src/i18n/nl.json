@@ -103,7 +103,8 @@
         "is_used_for_reservation": "Wordt gebruikt voor reservatie",
         "phone": "Telefoonnummer",
         "title": "Contact & reservatie",
-        "url": "Website"
+        "url": "Website",
+        "url_error": "Een geldige url begint met http:// of https://"
       },
       "description": {
         "clear": "Leegmaken",

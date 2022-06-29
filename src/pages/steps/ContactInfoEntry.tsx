@@ -49,8 +49,14 @@ const getValue = getValueFromTheme('contactInformation');
 
 const EMAIL_REGEX: RegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
-const isValidEmail = (value: any): boolean => {
-  return EMAIL_REGEX.test(value);
+const URL_REGEX: RegExp = /https?:\/\//;
+
+const isValidEmail = (email: string): boolean => {
+  return EMAIL_REGEX.test(email);
+};
+
+const isValidUrl = (url: string): boolean => {
+  return URL_REGEX.test(url);
 };
 
 const URL_LABELS = [
@@ -106,6 +112,11 @@ const Form = ({
       setErrorMessage(
         t('create.additionalInformation.contact_info.email_error'),
       );
+      return;
+    }
+
+    if (type === ContactInfoType.URL && !isValidUrl(value)) {
+      setErrorMessage(t('create.additionalInformation.contact_info.url_error'));
       return;
     }
 
