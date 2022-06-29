@@ -65,12 +65,12 @@ const isValidPhone = (phone: string): boolean => {
   return PHONE_REGEX.test(phone);
 };
 
-const URL_LABELS = [
-  { label: 'Koop tickets', value: 'buy' },
-  { label: 'Reserveer plaatsen', value: 'book' },
-  { label: 'Controleer beschikbaarheid', value: 'availability' },
-  { label: 'Schrijf je in', value: 'subscribe' },
-];
+const UrlLabelType = {
+  BUY: 'buy',
+  BOOK: 'book',
+  AVAILABILITY: 'availability',
+  SUBSCRIBE: 'subscribe',
+} as const;
 
 const Form = ({
   type,
@@ -88,6 +88,31 @@ const Form = ({
   onAddBookingInfo: (newBookingInfo, onSuccess) => Promise<void>;
 }) => {
   const { t } = useTranslation();
+
+  const URL_LABELS = [
+    {
+      label: t('create.additionalInformation.contact_info.url_type_labels.buy'),
+      value: UrlLabelType.BUY,
+    },
+    {
+      label: t(
+        'create.additionalInformation.contact_info.url_type_labels.book',
+      ),
+      value: UrlLabelType.BOOK,
+    },
+    {
+      label: t(
+        'create.additionalInformation.contact_info.url_type_labels.availability',
+      ),
+      value: UrlLabelType.AVAILABILITY,
+    },
+    {
+      label: t(
+        'create.additionalInformation.contact_info.url_type_labels.subscribe',
+      ),
+      value: UrlLabelType.SUBSCRIBE,
+    },
+  ];
 
   const [value, setValue] = useState('');
   const [errorMessage, setErrorMessage] = useState('');

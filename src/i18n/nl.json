@@ -105,7 +105,13 @@
         "phone_error": "Geen geldig telefoonnummer",
         "title": "Contact & reservatie",
         "url": "Website",
-        "url_error": "Een geldige url begint met http:// of https://"
+        "url_error": "Een geldige url begint met http:// of https://",
+        "url_type_labels": {
+          "buy": "Koop tickets",
+          "book": "Reserveer plaatsen",
+          "availability": "Controleer beschikbaarheid",
+          "subscribe": "Schrijf je in"
+        }
       },
       "description": {
         "clear": "Leegmaken",
