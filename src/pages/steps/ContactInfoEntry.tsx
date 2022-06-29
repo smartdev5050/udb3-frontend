@@ -7,11 +7,13 @@ import {
   useAddContactPointMutation,
 } from '@/hooks/api/events';
 import { Button, ButtonVariants } from '@/ui/Button';
+import { DatePicker } from '@/ui/DatePicker';
 import { FormElement } from '@/ui/FormElement';
-import { Icons } from '@/ui/Icon';
+import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
 import { LabelPositions } from '@/ui/Label';
+import { Paragraph } from '@/ui/Paragraph';
 import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
 import { SelectWithLabel } from '@/ui/SelectWithLabel';
 import { getStackProps, Stack } from '@/ui/Stack';
@@ -369,7 +371,80 @@ const Form = ({
   );
 };
 
-type Props = {
+type ReservationPeriodProps = {
+  bookingInfo: BookingInfo;
+};
+
+const ReservationPeriod = ({ bookingInfo }: ReservationPeriodProps) => {
+  const [isReservationPeriodVisible, setIsReservationPeriodVisible] = useState(
+    false,
+  );
+  const [reservationStartDate, setReservationStartDate] = useState(new Date());
+  const [reservationEndDate, setReservationEndDate] = useState(new Date());
+
+  return (
+    <Stack>
+      <Inline>
+        {!isReservationPeriodVisible && (
+          <Button
+            onClick={() => setIsReservationPeriodVisible(true)}
+            variant={ButtonVariants.PRIMARY}
+          >
+            Reservatieperiode toevoegen
+          </Button>
+        )}
+      </Inline>
+      {isReservationPeriodVisible && (
+        <Stack spacing={4}>
+          <Inline alignItems="center" justifyContent="space-between">
+            <Title>Reservatie periode</Title>
+            <Icon
+              css={`
+                &:hover {
+                  cursor: pointer;
+                  color: ${getValue('iconColorHover')};
+                }
+              `}
+              onClick={() => setIsReservationPeriodVisible(false)}
+              name={Icons.TIMES}
+              color={getValue('iconColor')}
+              width="20px"
+              height="20px"
+            ></Icon>
+          </Inline>
+          <Inline justifyContent="space-between">
+            <Stack spacing={3}>
+              <Paragraph fontWeight="bold">Start</Paragraph>
+              <DatePicker
+                id="booking-info-reservation-start-date"
+                selected={reservationStartDate}
+                onChange={() => {
+                  console.log('change date');
+                }}
+                minDate={new Date()}
+                maxWidth="16rem"
+              />
+            </Stack>
+            <Stack spacing={3}>
+              <Paragraph fontWeight="bold">Einde</Paragraph>
+              <DatePicker
+                id="booking-info-reservation-end-date"
+                minDate={new Date()}
+                selected={reservationEndDate}
+                onChange={() => {
+                  console.log('change date');
+                }}
+                maxWidth="16rem"
+              />
+            </Stack>
+          </Inline>
+        </Stack>
+      )}
+    </Stack>
+  );
+};
+
+type ContactInfoEntryProps = {
   eventId: string;
   onAddContactInfoSuccess: () => void;
   onAddBookingInfoSuccess: () => void;
@@ -388,7 +463,9 @@ const ContactInfoEntry = ({
   onAddContactInfoSuccess,
   onAddBookingInfoSuccess,
   ...props
-}: Props) => {
+}: ContactInfoEntryProps) => {
+  console.log({ bookingInfo });
+
   const addContactPointMutation = useAddContactPointMutation({
     onSuccess: () => {
       onAddContactInfoSuccess();
@@ -441,6 +518,7 @@ const ContactInfoEntry = ({
             />
           );
         })}
+      {bookingInfo && <ReservationPeriod bookingInfo={bookingInfo} />}
     </Stack>
   );
 };
