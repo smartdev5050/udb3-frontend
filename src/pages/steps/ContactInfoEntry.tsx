@@ -7,13 +7,12 @@ import {
   useAddContactPointMutation,
 } from '@/hooks/api/events';
 import { Button, ButtonVariants } from '@/ui/Button';
-import { DatePicker } from '@/ui/DatePicker';
+import { DatePeriodPicker } from '@/ui/DatePeriodPicker';
 import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
 import { LabelPositions } from '@/ui/Label';
-import { Paragraph } from '@/ui/Paragraph';
 import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
 import { SelectWithLabel } from '@/ui/SelectWithLabel';
 import { getStackProps, Stack } from '@/ui/Stack';
@@ -86,8 +85,11 @@ const Form = ({
   contactAndBookingInfo: ContactInfo;
   contactInfo: ContactInfo;
   bookingInfo?: BookingInfo;
-  onAddInfo: (newContactInfo, onSuccess) => Promise<void>;
-  onAddBookingInfo: (newBookingInfo, onSuccess) => Promise<void>;
+  onAddInfo: (
+    newContactInfo: ContactInfo,
+    onSuccess?: () => void,
+  ) => Promise<void>;
+  onAddBookingInfo: (newBookingInfo: BookingInfo) => Promise<void>;
 }) => {
   const { t } = useTranslation();
 
@@ -168,13 +170,9 @@ const Form = ({
       newContactInfo[type].push(bookingInfo[type]);
     }
 
-    await onAddInfo(newContactInfo, () => {
-      console.log('contact info verwijderd');
-    });
+    await onAddInfo(newContactInfo);
 
-    await onAddBookingInfo(newBookingInfo, () => {
-      console.log('success');
-    });
+    await onAddBookingInfo(newBookingInfo);
   };
 
   const handleAddInfo = async () => {
@@ -212,10 +210,7 @@ const Form = ({
         delete newBookingInfo['urlLabel'];
       }
 
-      await onAddBookingInfo(newBookingInfo, () =>
-        console.log('removed as bookingInfo'),
-      );
-      return;
+      await onAddBookingInfo(newBookingInfo);
     }
 
     let newContactInfo = { ...contactInfo };
@@ -223,7 +218,7 @@ const Form = ({
       (info) => info !== value,
     );
 
-    await onAddInfo(newContactInfo, () => console.log('delete done'));
+    await onAddInfo(newContactInfo);
   };
 
   const getUrlLabelTypeByEngString = useCallback((): string => {
@@ -257,7 +252,7 @@ const Form = ({
     const newBookingInfo = { ...bookingInfo };
     newBookingInfo.urlLabel = URL_LABEL_TRANSLATIONS[urlLabelType];
 
-    await onAddBookingInfo(newBookingInfo, () => {});
+    await onAddBookingInfo(newBookingInfo);
   };
 
   const label = t(`create.additionalInformation.contact_info.${type}`);
@@ -373,14 +368,41 @@ const Form = ({
 
 type ReservationPeriodProps = {
   bookingInfo: BookingInfo;
+  onChangeReservationPeriod: (newBookingInfo: BookingInfo) => Promise<void>;
 };
 
-const ReservationPeriod = ({ bookingInfo }: ReservationPeriodProps) => {
+const ReservationPeriod = ({
+  bookingInfo,
+  onChangeReservationPeriod,
+}: ReservationPeriodProps) => {
   const [isReservationPeriodVisible, setIsReservationPeriodVisible] = useState(
     false,
   );
   const [reservationStartDate, setReservationStartDate] = useState(new Date());
   const [reservationEndDate, setReservationEndDate] = useState(new Date());
+
+  const handleChangeReservationStartDate = async (
+    date: Date,
+  ): Promise<void> => {
+    setReservationStartDate(date);
+    const newBookingInfo = { ...bookingInfo };
+
+    // TODO do validation: end date cannot be before the start date
+    newBookingInfo['availabilityStarts'] = date;
+    newBookingInfo['availabilityEnds'] = reservationEndDate;
+
+    await onChangeReservationPeriod(newBookingInfo);
+  };
+
+  const handleChangeReservationEndDate = async (date: Date): Promise<void> => {
+    setReservationEndDate(date);
+    const newBookingInfo = { ...bookingInfo };
+
+    newBookingInfo['availabilityStarts'] = reservationStartDate;
+    newBookingInfo['availabilityEnds'] = date;
+
+    await onChangeReservationPeriod(newBookingInfo);
+  };
 
   return (
     <Stack>
@@ -412,32 +434,14 @@ const ReservationPeriod = ({ bookingInfo }: ReservationPeriodProps) => {
               height="20px"
             ></Icon>
           </Inline>
-          <Inline justifyContent="space-between">
-            <Stack spacing={3}>
-              <Paragraph fontWeight="bold">Start</Paragraph>
-              <DatePicker
-                id="booking-info-reservation-start-date"
-                selected={reservationStartDate}
-                onChange={() => {
-                  console.log('change date');
-                }}
-                minDate={new Date()}
-                maxWidth="16rem"
-              />
-            </Stack>
-            <Stack spacing={3}>
-              <Paragraph fontWeight="bold">Einde</Paragraph>
-              <DatePicker
-                id="booking-info-reservation-end-date"
-                minDate={new Date()}
-                selected={reservationEndDate}
-                onChange={() => {
-                  console.log('change date');
-                }}
-                maxWidth="16rem"
-              />
-            </Stack>
-          </Inline>
+          <DatePeriodPicker
+            id="reservation-date-picker"
+            dateStart={reservationStartDate}
+            dateEnd={reservationEndDate}
+            minDate={new Date()}
+            onDateStartChange={handleChangeReservationStartDate}
+            onDateEndChange={handleChangeReservationEndDate}
+          />
         </Stack>
       )}
     </Stack>
@@ -464,8 +468,6 @@ const ContactInfoEntry = ({
   onAddBookingInfoSuccess,
   ...props
 }: ContactInfoEntryProps) => {
-  console.log({ bookingInfo });
-
   const addContactPointMutation = useAddContactPointMutation({
     onSuccess: () => {
       onAddContactInfoSuccess();
@@ -473,14 +475,16 @@ const ContactInfoEntry = ({
   });
 
   const handleAddContactInfoMutation = async (
-    newContactInfo,
-    onSuccessCallback,
+    newContactInfo: ContactInfo,
+    onSuccessCallback?: () => void,
   ) => {
     await addContactPointMutation.mutateAsync({
       eventId,
       contactPoint: newContactInfo,
     });
-    onSuccessCallback();
+    if (onSuccessCallback) {
+      onSuccessCallback();
+    }
   };
 
   const addBookingInfoMutation = useAddBookingInfoMutation({
@@ -491,15 +495,11 @@ const ContactInfoEntry = ({
     },
   });
 
-  const handleAddBookingInfoMutation = async (
-    newBookingInfo,
-    onSuccessCallback,
-  ) => {
+  const handleAddBookingInfoMutation = async (newBookingInfo: BookingInfo) => {
     await addBookingInfoMutation.mutateAsync({
       eventId,
       bookingInfo: newBookingInfo,
     });
-    // onSuccessCallback();
   };
 
   return (
@@ -518,7 +518,12 @@ const ContactInfoEntry = ({
             />
           );
         })}
-      {bookingInfo && <ReservationPeriod bookingInfo={bookingInfo} />}
+      {bookingInfo && (
+        <ReservationPeriod
+          bookingInfo={bookingInfo}
+          onChangeReservationPeriod={handleAddBookingInfoMutation}
+        />
+      )}
     </Stack>
   );
 };
