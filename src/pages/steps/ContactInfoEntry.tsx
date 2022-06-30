@@ -408,7 +408,7 @@ const ReservationPeriod = ({
 
   const handleNewBookingPeriod = async (
     startDate: Date,
-    enDate: Date,
+    endDate: Date,
   ): Promise<void> => {
     const newBookingInfo: BookingInfo = {
       ...bookingInfo,
@@ -444,6 +444,22 @@ const ReservationPeriod = ({
     await handleNewBookingPeriod(startDate, newEndDate);
   };
 
+  const handleDelete = async (): Promise<void> => {
+    setIsDatePickerVisible(false);
+
+    const newBookingInfo: BookingInfo = {
+      ...bookingInfo,
+    };
+
+    delete newBookingInfo.availabilityStarts;
+    delete newBookingInfo.availabilityEnds;
+
+    await onChangePeriod(newBookingInfo);
+
+    setStartDate(new Date());
+    setEndDate(new Date());
+  };
+
   return (
     <Stack>
       <Inline>
@@ -460,25 +476,11 @@ const ReservationPeriod = ({
       </Inline>
       {isDatePickerVisible && (
         <Stack spacing={4}>
-          <Inline alignItems="center" justifyContent="space-between">
-            <Title>
-              {t(
-                'create.additionalInformation.contact_info.reservation_period.title',
-              )}
-            </Title>
-            <Icon
-              css={`
-                &:hover {
-                  cursor: pointer;
-                }
-              `}
-              onClick={() => setIsDatePickerVisible(false)}
-              name={Icons.TIMES}
-              color={getValue('iconColor')}
-              width="20px"
-              height="20px"
-            ></Icon>
-          </Inline>
+          <Title>
+            {t(
+              'create.additionalInformation.contact_info.reservation_period.title',
+            )}
+          </Title>
           <DatePeriodPicker
             id="reservation-date-picker"
             dateStart={startDate}
@@ -490,6 +492,11 @@ const ReservationPeriod = ({
           {errorMessage && (
             <Alert variant={AlertVariants.DANGER}>{errorMessage}</Alert>
           )}
+          <Button onClick={handleDelete} variant={ButtonVariants.LINK}>
+            {t(
+              'create.additionalInformation.contact_info.reservation_period.delete',
+            )}
+          </Button>
         </Stack>
       )}
     </Stack>

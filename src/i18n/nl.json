@@ -107,6 +107,7 @@
         "reservation_period": {
           "cta": "Reservatieperiode toevoegen",
           "title": "Reservatie periode",
+          "delete": "Reservatieperiode verwijderen",
           "error": {
             "enddate_before_startdate": "De gekozen einddatum moet na de startdatum vallen."
           }
