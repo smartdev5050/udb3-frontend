@@ -45,6 +45,8 @@ type BookingInfo = {
     fr: string;
     nl: string;
   };
+  availabilityStarts?: Date;
+  availabilityEnds?: Date;
 };
 
 const getValue = getValueFromTheme('contactInformation');
@@ -382,6 +384,19 @@ const ReservationPeriod = ({
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [errorMessage, setErrorMessage] = useState('');
+
+  useEffect(() => {
+    if (bookingInfo.availabilityStarts && bookingInfo.availabilityEnds) {
+      const { availabilityStarts, availabilityEnds } = bookingInfo;
+      setIsDatePickerVisible(true);
+      setStartDate(new Date(availabilityStarts));
+      setEndDate(new Date(availabilityEnds));
+    }
+  }, [
+    bookingInfo,
+    bookingInfo.availabilityStarts,
+    bookingInfo.availabilityEnds,
+  ]);
 
   const handleChangeStartDate = async (newStartDate: Date): Promise<void> => {
     setStartDate(newStartDate);
