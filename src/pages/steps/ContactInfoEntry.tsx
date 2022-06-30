@@ -398,47 +398,50 @@ const ReservationPeriod = ({
     bookingInfo.availabilityEnds,
   ]);
 
+  const handleEndDateBeforeStartDateError = (): void => {
+    setErrorMessage(
+      t(
+        'create.additionalInformation.contact_info.reservation_period.error.enddate_before_startdate',
+      ),
+    );
+  };
+
+  const handleNewBookingPeriod = async (
+    startDate: Date,
+    enDate: Date,
+  ): Promise<void> => {
+    const newBookingInfo: BookingInfo = {
+      ...bookingInfo,
+      availabilityStarts: startDate,
+      availabilityEnds: endDate,
+    };
+
+    await onChangePeriod(newBookingInfo);
+  };
+
   const handleChangeStartDate = async (newStartDate: Date): Promise<void> => {
     setStartDate(newStartDate);
     if (endDate <= newStartDate) {
-      setErrorMessage(
-        t(
-          'create.additionalInformation.contact_info.reservation_period.error.enddate_before_startdate',
-        ),
-      );
+      handleEndDateBeforeStartDateError();
       return;
     }
 
     setErrorMessage('');
 
-    const newBookingInfo = { ...bookingInfo };
-
-    newBookingInfo['availabilityStarts'] = newStartDate;
-    newBookingInfo['availabilityEnds'] = endDate;
-
-    await onChangePeriod(newBookingInfo);
+    await handleNewBookingPeriod(newStartDate, endDate);
   };
 
   const handleChangeEndDate = async (newEndDate: Date): Promise<void> => {
     setEndDate(newEndDate);
 
     if (newEndDate <= startDate) {
-      setErrorMessage(
-        t(
-          'create.additionalInformation.contact_info.reservation_period.error.enddate_before_startdate',
-        ),
-      );
+      handleEndDateBeforeStartDateError();
       return;
     }
 
     setErrorMessage('');
 
-    const newBookingInfo = { ...bookingInfo };
-
-    newBookingInfo['availabilityStarts'] = startDate;
-    newBookingInfo['availabilityEnds'] = newEndDate;
-
-    await onChangePeriod(newBookingInfo);
+    await handleNewBookingPeriod(startDate, newEndDate);
   };
 
   return (
