@@ -88,10 +88,7 @@ const Form = ({
   contactAndBookingInfo: ContactInfo;
   contactInfo: ContactInfo;
   bookingInfo?: BookingInfo;
-  onAddInfo: (
-    newContactInfo: ContactInfo,
-    onSuccess?: () => void,
-  ) => Promise<void>;
+  onAddInfo: (newContactInfo: ContactInfo) => Promise<void>;
   onAddBookingInfo: (newBookingInfo: BookingInfo) => Promise<void>;
 }) => {
   const { t } = useTranslation();
@@ -178,7 +175,7 @@ const Form = ({
     await onAddBookingInfo(newBookingInfo);
   };
 
-  const handleAddInfo = async () => {
+  const handleAddInfo = async (): Promise<void> => {
     if (type === ContactInfoType.EMAIL && !isValidEmail(value)) {
       setErrorMessage(
         t('create.additionalInformation.contact_info.email_error'),
@@ -201,10 +198,10 @@ const Form = ({
     setErrorMessage('');
     const newContactInfo = { ...contactInfo };
     newContactInfo[type].push(value);
-    await onAddInfo(newContactInfo, () => setValue(''));
+    await onAddInfo(newContactInfo);
   };
 
-  const handleDeleteInfo = async (value: string) => {
+  const handleDeleteInfo = async (value: string): Promise<void> => {
     if (bookingInfo[type] === value) {
       const newBookingInfo = { ...bookingInfo };
       delete newBookingInfo[type];
@@ -281,7 +278,10 @@ const Form = ({
         <Button
           iconName={Icons.PLUS}
           variant={ButtonVariants.SUCCESS}
-          onClick={handleAddInfo}
+          onClick={() => {
+            setValue('');
+            handleAddInfo();
+          }}
         />
       </Inline>
       {errorMessage && (
@@ -529,17 +529,11 @@ const ContactInfoEntry = ({
     },
   });
 
-  const handleAddContactInfoMutation = async (
-    newContactInfo: ContactInfo,
-    onSuccessCallback?: () => void,
-  ) => {
+  const handleAddContactInfoMutation = async (newContactInfo: ContactInfo) => {
     await addContactPointMutation.mutateAsync({
       eventId,
       contactPoint: newContactInfo,
     });
-    if (onSuccessCallback) {
-      onSuccessCallback();
-    }
   };
 
   const addBookingInfoMutation = useAddBookingInfoMutation({
