@@ -369,28 +369,22 @@ const Form = ({
 
 type ReservationPeriodProps = {
   bookingInfo: BookingInfo;
-  onChangeReservationPeriod: (newBookingInfo: BookingInfo) => Promise<void>;
+  onChangePeriod: (newBookingInfo: BookingInfo) => Promise<void>;
 };
 
 const ReservationPeriod = ({
   bookingInfo,
-  onChangeReservationPeriod,
+  onChangePeriod,
 }: ReservationPeriodProps) => {
   const { t } = useTranslation();
 
-  const [isReservationPeriodVisible, setIsReservationPeriodVisible] = useState(
-    false,
-  );
-  const [reservationStartDate, setReservationStartDate] = useState(new Date());
-  const [reservationEndDate, setReservationEndDate] = useState(new Date());
+  const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleChangeReservationStartDate = async (
-    date: Date,
-  ): Promise<void> => {
-    setReservationStartDate(date);
-
-    if (reservationEndDate < date) {
+  const handleChangeStartDate = async (newStartDate: Date): Promise<void> => {
+    if (endDate < newStartDate) {
       setErrorMessage(
         t(
           'create.additionalInformation.contact_info.reservation_period_error.enddate_before_startdate',
@@ -403,17 +397,16 @@ const ReservationPeriod = ({
 
     const newBookingInfo = { ...bookingInfo };
 
-    newBookingInfo['availabilityStarts'] = date;
-    newBookingInfo['availabilityEnds'] = reservationEndDate;
+    newBookingInfo['availabilityStarts'] = newStartDate;
+    newBookingInfo['availabilityEnds'] = endDate;
 
-    await onChangeReservationPeriod(newBookingInfo);
+    await onChangePeriod(newBookingInfo);
   };
 
-  const handleChangeReservationEndDate = async (date: Date): Promise<void> => {
-    setReservationEndDate(date);
-    const newBookingInfo = { ...bookingInfo };
+  const handleChangeEndDate = async (newEndDate: Date): Promise<void> => {
+    setEndDate(newEndDate);
 
-    if (date < reservationStartDate) {
+    if (newEndDate < startDate) {
       setErrorMessage(
         t(
           'create.additionalInformation.contact_info.reservation_period_error.enddate_before_startdate',
@@ -424,25 +417,27 @@ const ReservationPeriod = ({
 
     setErrorMessage('');
 
-    newBookingInfo['availabilityStarts'] = reservationStartDate;
-    newBookingInfo['availabilityEnds'] = date;
+    const newBookingInfo = { ...bookingInfo };
 
-    await onChangeReservationPeriod(newBookingInfo);
+    newBookingInfo['availabilityStarts'] = startDate;
+    newBookingInfo['availabilityEnds'] = newEndDate;
+
+    await onChangePeriod(newBookingInfo);
   };
 
   return (
     <Stack>
       <Inline>
-        {!isReservationPeriodVisible && (
+        {!isDatePickerVisible && (
           <Button
-            onClick={() => setIsReservationPeriodVisible(true)}
+            onClick={() => setIsDatePickerVisible(true)}
             variant={ButtonVariants.PRIMARY}
           >
             Reservatieperiode toevoegen
           </Button>
         )}
       </Inline>
-      {isReservationPeriodVisible && (
+      {isDatePickerVisible && (
         <Stack spacing={4}>
           <Inline alignItems="center" justifyContent="space-between">
             <Title>Reservatie periode</Title>
@@ -450,10 +445,9 @@ const ReservationPeriod = ({
               css={`
                 &:hover {
                   cursor: pointer;
-                  color: ${getValue('iconColorHover')};
                 }
               `}
-              onClick={() => setIsReservationPeriodVisible(false)}
+              onClick={() => setIsDatePickerVisible(false)}
               name={Icons.TIMES}
               color={getValue('iconColor')}
               width="20px"
@@ -462,11 +456,11 @@ const ReservationPeriod = ({
           </Inline>
           <DatePeriodPicker
             id="reservation-date-picker"
-            dateStart={reservationStartDate}
-            dateEnd={reservationEndDate}
+            dateStart={startDate}
+            dateEnd={endDate}
             minDate={new Date()}
-            onDateStartChange={handleChangeReservationStartDate}
-            onDateEndChange={handleChangeReservationEndDate}
+            onDateStartChange={handleChangeStartDate}
+            onDateEndChange={handleChangeEndDate}
           />
           {errorMessage && (
             <Alert variant={AlertVariants.DANGER}>{errorMessage}</Alert>
@@ -550,7 +544,7 @@ const ContactInfoEntry = ({
       {bookingInfo && (
         <ReservationPeriod
           bookingInfo={bookingInfo}
-          onChangeReservationPeriod={handleAddBookingInfoMutation}
+          onChangePeriod={handleAddBookingInfoMutation}
         />
       )}
     </Stack>
