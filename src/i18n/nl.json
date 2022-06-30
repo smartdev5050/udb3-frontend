@@ -104,6 +104,9 @@
         "phone": "Telefoonnummer",
         "phone_error": "Geen geldig telefoonnummer",
         "title": "Contact & reservatie",
+        "reservation_period_error": {
+          "enddate_before_startdate": "De gekozen einddatum moet na de startdatum vallen."
+        },
         "url": "Website",
         "url_error": "Een geldige url begint met http:// of https://",
         "url_type_labels": {

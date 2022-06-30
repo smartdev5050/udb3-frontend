@@ -6,6 +6,7 @@ import {
   useAddBookingInfoMutation,
   useAddContactPointMutation,
 } from '@/hooks/api/events';
+import { Alert, AlertVariants } from '@/ui/Alert';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { DatePeriodPicker } from '@/ui/DatePeriodPicker';
 import { FormElement } from '@/ui/FormElement';
@@ -375,19 +376,33 @@ const ReservationPeriod = ({
   bookingInfo,
   onChangeReservationPeriod,
 }: ReservationPeriodProps) => {
+  const { t } = useTranslation();
+
   const [isReservationPeriodVisible, setIsReservationPeriodVisible] = useState(
     false,
   );
   const [reservationStartDate, setReservationStartDate] = useState(new Date());
   const [reservationEndDate, setReservationEndDate] = useState(new Date());
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleChangeReservationStartDate = async (
     date: Date,
   ): Promise<void> => {
     setReservationStartDate(date);
+
+    if (reservationEndDate < date) {
+      setErrorMessage(
+        t(
+          'create.additionalInformation.contact_info.reservation_period_error.enddate_before_startdate',
+        ),
+      );
+      return;
+    }
+
+    setErrorMessage('');
+
     const newBookingInfo = { ...bookingInfo };
 
-    // TODO do validation: end date cannot be before the start date
     newBookingInfo['availabilityStarts'] = date;
     newBookingInfo['availabilityEnds'] = reservationEndDate;
 
@@ -397,6 +412,17 @@ const ReservationPeriod = ({
   const handleChangeReservationEndDate = async (date: Date): Promise<void> => {
     setReservationEndDate(date);
     const newBookingInfo = { ...bookingInfo };
+
+    if (date < reservationStartDate) {
+      setErrorMessage(
+        t(
+          'create.additionalInformation.contact_info.reservation_period_error.enddate_before_startdate',
+        ),
+      );
+      return;
+    }
+
+    setErrorMessage('');
 
     newBookingInfo['availabilityStarts'] = reservationStartDate;
     newBookingInfo['availabilityEnds'] = date;
@@ -442,6 +468,9 @@ const ReservationPeriod = ({
             onDateStartChange={handleChangeReservationStartDate}
             onDateEndChange={handleChangeReservationEndDate}
           />
+          {errorMessage && (
+            <Alert variant={AlertVariants.DANGER}>{errorMessage}</Alert>
+          )}
         </Stack>
       )}
     </Stack>
