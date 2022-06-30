@@ -195,6 +195,8 @@
     "toast": {
       "success": {
         "audienceType": "Zugang wurde erfolgreich geändert",
+        "booking_info": "Reservierungsinformationen wurden erfolgreich geändert",
+        "contact_point": "Kontaktdaten wurden erfolgreich geändert",
         "organizer": "Organisation wurde erfolgreich geändert"
       }
     }

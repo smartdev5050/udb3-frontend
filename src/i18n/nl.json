@@ -197,6 +197,8 @@
     "toast": {
       "success": {
         "audienceType": "Toegang is succesvol gewijzigd",
+        "booking_info": "Reservatie info is succesvol gewijzigd",
+        "contact_point": "Contactinfo is succesvol gewijzigd",
         "organizer": "Organisatie is succesvol gewijzigd"
       }
     }

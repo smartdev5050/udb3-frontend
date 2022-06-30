@@ -15,6 +15,8 @@ const EventForm = () => {
       toastConfiguration={{
         messages: {
           image: t('movies.create.toast.success.image'),
+          bookingInfo: t('create.toast.success.booking_info'),
+          contactPoint: t('create.toast.success.contact_point'),
           description: t('movies.create.toast.success.description'),
           video: t('movies.create.toast.success.video'),
           audience: t('create.toast.success.audienceType'),
