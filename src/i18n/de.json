@@ -95,11 +95,22 @@
       "contact_info": {
         "edit_cta": "Bearbeiten",
         "email": "E-mailadres",
+        "email_error": "Keine gültige E-Mail-Adresse",
         "empty": "Sie haben noch keine {{contactInfoType}} hinzugefügt",
         "is_used_for_reservation": "Für die Reservierung verwendet",
         "phone": "Telefoonnummer",
+        "phone_error": "Keine gültige Telefonnummer",
         "title": "Kontakt & Reservierung",
+        "reservation_period": {
+          "cta": "Reservierungszeitraum hinzufügen",
+          "title": "Reservierungszeitraum",
+          "delete": "Reservierungszeitraum löschen",
+          "error": {
+            "enddate_before_startdate": "Das gewählte Enddatum muss nach dem Startdatum liegen."
+          }
+        },
         "url": "Website",
+        "url_error": "Eine gültige URL beginnt mit http:// oder https://",
         "url_type_labels": {
           "subscribe": "Melden Sie sich an",
           "availability": "Verfügbarkeit kontrollieren",
