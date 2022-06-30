@@ -4,7 +4,6 @@ import { useQueryClient } from 'react-query';
 import { useDeepCompareMemoize } from 'use-deep-compare-effect';
 
 import {
-  useAddContactPointMutation,
   useAddEventMainImageMutation,
   useAddImageToEventMutation,
   useAddOrganizerToEventMutation,
@@ -732,5 +731,14 @@ AdditionalInformationStep.defaultProps = {
   variant: AdditionalInformationStepVariant.EXTENDED,
 };
 
+const additionalInformationStepConfiguration = {
+  Component: AdditionalInformationStep,
+  title: (t) => t(`movies.create.step5.title`),
+};
+
 export type { MergedInfo };
-export { AdditionalInformationStep, AdditionalInformationStepVariant };
+
+export {
+  additionalInformationStepConfiguration,
+  AdditionalInformationStepVariant,
+};

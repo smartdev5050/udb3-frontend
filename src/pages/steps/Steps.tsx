@@ -1,4 +1,6 @@
+import { TFunction } from 'i18next';
 import type { FieldError, Path, UseFormReturn } from 'react-hook-form';
+import { useTranslation, UseTranslationResponse } from 'react-i18next';
 
 import type { BoxProps } from '@/ui/Box';
 import { Box } from '@/ui/Box';
@@ -8,16 +10,15 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
-import type { FormData as EventFormData } from './create/EventForm';
-import type { FormData as MovieFormData } from './manage/movies/MovieForm';
+import type { FormData as MovieFormData } from '../manage/movies/MovieForm';
 
-type FormDataIntersection = Partial<MovieFormData & EventFormData>;
+type FormDataIntersection = Partial<MovieFormData>;
 
 type StepsConfiguration<TFormData extends FormDataIntersection> = Array<{
   Component: any;
   field?: Path<TFormData>;
   step?: number;
-  title: string;
+  title: (t: TFunction) => string;
   variant?: string;
   shouldShowNextStep?: (
     data: UseFormReturn<TFormData> & {
@@ -53,7 +54,10 @@ const NumberIndicator = ({ children, ...props }: NumberIndicatorProps) => {
   );
 };
 
-type StepWrapperProps = StackProps & { title: string; stepNumber: number };
+type StepWrapperProps = StackProps & {
+  title: string;
+  stepNumber: number;
+};
 
 const StepWrapper = ({
   stepNumber,
@@ -116,6 +120,8 @@ const Steps = <TFormData extends FormDataIntersection>({
   eventId,
   ...props
 }: StepsProps<TFormData>) => {
+  const { t } = useTranslation();
+
   const showStep = ({ field, index }) => {
     // when there is an eventId, we're in edit mode, show all steps
     if (!!eventId) return true;
@@ -136,7 +142,14 @@ const Steps = <TFormData extends FormDataIntersection>({
     <Stack spacing={5}>
       {configuration.map(
         (
-          { Component: Step, field, stepProps = {}, variant, step, title },
+          {
+            Component: Step,
+            field,
+            stepProps = {},
+            variant,
+            step,
+            title: getTitle,
+          },
           index: number,
         ) => {
           if (!showStep({ field, index })) {
@@ -149,7 +162,7 @@ const Steps = <TFormData extends FormDataIntersection>({
             <StepWrapper
               stepNumber={stepNumber}
               key={`step${stepNumber}`}
-              title={title}
+              title={getTitle(t)}
             >
               <Step<TFormData>
                 key={index}
