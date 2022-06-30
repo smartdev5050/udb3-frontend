@@ -384,10 +384,11 @@ const ReservationPeriod = ({
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleChangeStartDate = async (newStartDate: Date): Promise<void> => {
-    if (endDate < newStartDate) {
+    setStartDate(newStartDate);
+    if (endDate <= newStartDate) {
       setErrorMessage(
         t(
-          'create.additionalInformation.contact_info.reservation_period_error.enddate_before_startdate',
+          'create.additionalInformation.contact_info.reservation_period.error.enddate_before_startdate',
         ),
       );
       return;
@@ -406,10 +407,10 @@ const ReservationPeriod = ({
   const handleChangeEndDate = async (newEndDate: Date): Promise<void> => {
     setEndDate(newEndDate);
 
-    if (newEndDate < startDate) {
+    if (newEndDate <= startDate) {
       setErrorMessage(
         t(
-          'create.additionalInformation.contact_info.reservation_period_error.enddate_before_startdate',
+          'create.additionalInformation.contact_info.reservation_period.error.enddate_before_startdate',
         ),
       );
       return;
@@ -433,14 +434,20 @@ const ReservationPeriod = ({
             onClick={() => setIsDatePickerVisible(true)}
             variant={ButtonVariants.PRIMARY}
           >
-            Reservatieperiode toevoegen
+            {t(
+              'create.additionalInformation.contact_info.reservation_period.cta',
+            )}
           </Button>
         )}
       </Inline>
       {isDatePickerVisible && (
         <Stack spacing={4}>
           <Inline alignItems="center" justifyContent="space-between">
-            <Title>Reservatie periode</Title>
+            <Title>
+              {t(
+                'create.additionalInformation.contact_info.reservation_period.title',
+              )}
+            </Title>
             <Icon
               css={`
                 &:hover {
