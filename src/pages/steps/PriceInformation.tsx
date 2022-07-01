@@ -152,6 +152,7 @@ const PriceInformation = ({
     register,
     watch,
     setValue,
+    trigger,
     formState: { errors },
     handleSubmit,
   } = useForm<FormData>({
@@ -170,7 +171,11 @@ const PriceInformation = ({
   const watchedRates = watch('rates');
 
   const addPriceInfoMutation = useAddPriceInfoMutation({
-    onSuccess: onSuccessfulChange,
+    onSuccess: () => {
+      setTimeout(() => {
+        onSuccessfulChange();
+      }, 1000);
+    },
   });
 
   const handlePriceInfoSubmitValid = async (rates: Rate[]) => {
@@ -225,25 +230,6 @@ const PriceInformation = ({
     }
   };
 
-  const setFreePriceToRate = async (id: number): Promise<void> => {
-    const ratesWithNewFreePrice = [
-      ...watchedRates.map((rate, index) =>
-        id === index ? { ...rate, price: '0,00' } : rate,
-      ),
-    ];
-
-    setValue('rates', ratesWithNewFreePrice);
-
-    const errorRates = (errors.rates || []).filter(
-      (error: any) => error !== undefined,
-    );
-
-    if (errorRates.length > 0 || hasGlobalError || hasUitpasError) return;
-
-    // If no errors submit to API
-    await handlePriceInfoSubmitValid(ratesWithNewFreePrice);
-  };
-
   const getDuplicateName = () => {
     const seenRates = [];
 
@@ -261,6 +247,30 @@ const PriceInformation = ({
     return duplicateName;
   };
 
+  const handleDuplicateNameError = (priceName: string): void => {
+    setDuplicateNameError(
+      t('create.additionalInformation.price_info.duplicate_name_error', {
+        priceName,
+      }),
+    );
+  };
+
+  const setFreePriceToRate = async (): Promise<void> => {
+    const isValid = await trigger();
+
+    if (!isValid) return;
+
+    const duplicateName = getDuplicateName();
+
+    if (duplicateName) {
+      handleDuplicateNameError(duplicateName);
+      return;
+    }
+
+    // If no errors submit to API
+    await handlePriceInfoSubmitValid(watchedRates);
+  };
+
   const isPriceFree = (price: string): boolean => {
     return ['0', '0,0', '0,00'].includes(price);
   };
@@ -276,7 +286,7 @@ const PriceInformation = ({
       (error) => error.name?.type === 'name-is-not-uitpas',
     );
 
-    setHasGlobalError(hasGlobalError && !hasUitpasError);
+    setHasGlobalError(hasGlobalError);
     setHasUitpasError(hasUitpasError);
   }, [errors, i18n.language]);
 
@@ -288,11 +298,7 @@ const PriceInformation = ({
         const duplicateName = getDuplicateName();
 
         if (duplicateName) {
-          setDuplicateNameError(
-            t('create.additionalInformation.price_info.duplicate_name_error', {
-              priceName: duplicateName,
-            }),
-          );
+          handleDuplicateNameError(duplicateName);
           return;
         }
 
@@ -358,7 +364,8 @@ const PriceInformation = ({
                 <Button
                   variant={ButtonVariants.LINK}
                   onClick={() => {
-                    setFreePriceToRate(index);
+                    setValue(`rates.${index}.price`, '0,00');
+                    setFreePriceToRate();
                   }}
                 >
                   {t('create.additionalInformation.price_info.free')}
