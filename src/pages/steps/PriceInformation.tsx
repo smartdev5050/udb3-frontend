@@ -75,7 +75,7 @@ const defaultPriceInfoValues = {
 };
 
 const isNotUitpas = (value: any): boolean => {
-  return value[i18n.language].toLowerCase() !== 'uitpas';
+  return !value[i18n.language].toLowerCase().startsWith('uitpas');
 };
 
 const shouldHaveAName = (value: any): boolean => {
