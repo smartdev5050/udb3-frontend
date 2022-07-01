@@ -126,7 +126,16 @@ export const DescriptionStep = ({
       event.description[i18n.language] ?? event.description[event.mainLanguage];
 
     setDescription(newDescription);
-  }, [event?.description, event?.mainLanguage, i18n.language]);
+
+    if (newDescription) {
+      onChangeCompleted(true);
+    }
+  }, [
+    event?.description,
+    event?.mainLanguage,
+    i18n.language,
+    onChangeCompleted,
+  ]);
 
   const eventTypeId = useMemo(() => {
     return event?.terms.find((term) => term.domain === 'eventtype')?.id!;
