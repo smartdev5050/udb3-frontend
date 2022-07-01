@@ -305,16 +305,6 @@ const AdditionalInformationStep = ({
     setVideos(data);
   };
 
-  const eventTypeId = useMemo(() => {
-    // @ts-expect-error
-    return getEventByIdQuery.data?.terms?.find(
-      (term) => term.domain === 'eventtype',
-    )?.id;
-  }, [
-    // @ts-expect-error
-    getEventByIdQuery.data?.terms,
-  ]);
-
   const imageToEdit = useMemo(() => {
     const image = images.find((image) => image.parsedId === imageToEditId);
 
