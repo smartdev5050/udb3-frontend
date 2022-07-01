@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
+import { useAddPriceInfoMutation } from '@/hooks/api/events';
 import i18n from '@/i18n/index';
 import type { Values } from '@/types/Values';
 import { Alert, AlertVariants } from '@/ui/Alert';
@@ -45,9 +46,9 @@ type Rate = {
 type FormData = { rates: Rate[] };
 
 type Props = {
-  visible: boolean;
-  onClose: () => void;
-  onSubmitValid: (data: FormData) => Promise<void>;
+  eventId: string;
+  completed: boolean;
+  onSuccessfulChange: () => void;
   priceInfo: Rate[];
 };
 
@@ -100,7 +101,11 @@ const schema = yup
   })
   .required();
 
-const PriceInformation = ({ priceInfo }: Props) => {
+const PriceInformation = ({
+  priceInfo,
+  eventId,
+  onSuccessfulChange,
+}: Props) => {
   const { t, i18n } = useTranslation();
   const formComponent = useRef<HTMLFormElement>();
   const [hasGlobalError, setHasGlobalError] = useState(false);
@@ -125,6 +130,34 @@ const PriceInformation = ({ priceInfo }: Props) => {
   }, [priceInfo, setValue]);
 
   const watchedRates = watch('rates');
+
+  const addPriceInfoMutation = useAddPriceInfoMutation({
+    onSuccess: onSuccessfulChange,
+  });
+
+  const handlePriceInfoSubmitValid = async ({ rates }: FormData) => {
+    const convertedPriceInfo = rates.map((rate: Rate) => {
+      return {
+        ...rate,
+        price: parseFloat(rate.price.replace(',', '.')),
+      };
+    });
+
+    await addPriceInfoMutation.mutateAsync({
+      eventId,
+      priceInfo: convertedPriceInfo,
+    });
+  };
+
+  const handleAddFreePriceInfo = async () => {
+    const freePriceInfoRates = defaultPriceInfoValues.rates;
+    // @ts-expect-error
+    freePriceInfoRates[0].price = 0;
+    await addPriceInfoMutation.mutateAsync({
+      eventId,
+      priceInfo: freePriceInfoRates,
+    });
+  };
 
   const handleClickAddRate = () => {
     setValue('rates', [
@@ -323,5 +356,4 @@ const PriceInformation = ({ priceInfo }: Props) => {
   );
 };
 
-export { defaultPriceInfoValues, PriceCategories, PriceInformation };
-export type { FormData, Rate };
+export { PriceInformation };

@@ -6,7 +6,6 @@ import {
   useAddEventMainImageMutation,
   useAddImageToEventMutation,
   useAddOrganizerToEventMutation,
-  useAddPriceInfoMutation,
   useAddVideoToEventMutation,
   useDeleteImageFromEventMutation,
   useDeleteOrganizerFromEventMutation,
@@ -25,7 +24,7 @@ import { Icon, Icons } from '@/ui/Icon';
 import { getInlineProps, Inline, InlineProps } from '@/ui/Inline';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Tabs } from '@/ui/Tabs';
-import { Text, TextVariants } from '@/ui/Text';
+import { Text } from '@/ui/Text';
 import { Breakpoints } from '@/ui/theme';
 import { parseOfferId } from '@/utils/parseOfferId';
 
@@ -123,6 +122,10 @@ const AdditionalInformationStep = ({
     false,
   );
   const [isDescriptionCompleted, setIsDescriptionCompleted] = useState(false);
+  const [
+    isPriceInformationCompleted,
+    setIsPriceInformationCompleted,
+  ] = useState(false);
 
   const [newOrganizerName, setNewOrganizerName] = useState('');
   const [imageToEditId, setImageToEditId] = useState('');
@@ -241,6 +244,11 @@ const AdditionalInformationStep = ({
     }
     // @ts-expect-error
     const priceInfo = getEventByIdQuery.data?.priceInfo ?? [];
+
+    if (priceInfo.length > 0) {
+      setIsPriceInformationCompleted(true);
+    }
+
     // @ts-expect-error
     const mainLanguage = getEventByIdQuery.data?.mainLanguage;
 
@@ -447,39 +455,9 @@ const AdditionalInformationStep = ({
     });
   };
 
-  const addPriceInfoMutation = useAddPriceInfoMutation({
-    onSuccess: async () => {
-      await invalidateEventQuery('priceInfo');
-    },
-  });
-
-  const handlePriceInfoSubmitValid = async ({ rates }: PriceInfoFormData) => {
-    const convertedPriceInfo = rates.map((rate: Rate) => {
-      return {
-        ...rate,
-        price: parseFloat(rate.price.replace(',', '.')),
-      };
-    });
-
-    await addPriceInfoMutation.mutateAsync({
-      eventId,
-      priceInfo: convertedPriceInfo,
-    });
-  };
-
   const tabsConfigurations = useMemo<TabConfig[]>(() => {
     const handleChangeOrganizer = (organizerId: string) => {
       addOrganizerToEventMutation.mutate({ eventId, organizerId });
-    };
-
-    const handleAddFreePriceInfo = async () => {
-      const freePriceInfoRates = defaultPriceInfoValues.rates;
-      // @ts-expect-error
-      freePriceInfoRates[0].price = 0;
-      await addPriceInfoMutation.mutateAsync({
-        eventId,
-        priceInfo: freePriceInfoRates,
-      });
     };
 
     return [
@@ -527,14 +505,13 @@ const AdditionalInformationStep = ({
         Component: (
           <PriceInformation
             priceInfo={priceInfo}
-            // onSubmitValid={handlePriceInfoSubmitValid}
-            // priceInfo={priceInfo}
-            // onClickAddPriceInfo={() => setIsPriceInfoModalVisible(true)}
-            // onClickAddFreePriceInfo={() => handleAddFreePriceInfo()}
+            eventId={eventId}
+            completed={isPriceInformationCompleted}
+            onSuccessfulChange={() => invalidateEventQuery('priceInfo')}
           />
         ),
         isVisible: variant === AdditionalInformationStepVariant.EXTENDED,
-        isCompleted: false,
+        isCompleted: isPriceInformationCompleted,
       },
       {
         eventKey: 'contactInfo',
@@ -587,7 +564,6 @@ const AdditionalInformationStep = ({
     ];
   }, [
     addOrganizerToEventMutation,
-    addPriceInfoMutation,
     audienceType,
     deleteOrganizerFromEventMutation,
     eventBookingInfo,
