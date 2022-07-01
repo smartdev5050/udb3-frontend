@@ -146,6 +146,9 @@
         "intro": "Voeg een afbeelding toe zodat bezoekers je activiteit beter herkennen",
         "set_as_main_image": "Maak hoofdafbeelding"
       },
+      "pictures_and_videos": {
+        "title": "Media"
+      },
       "price_info": {
         "add": "Tarief toevoegen",
         "basic_rate": "Basistarief",
@@ -160,7 +163,7 @@
         "prices": "Prijzen",
         "save": "Bewaren",
         "target": "Doelgroep",
-        "title": "Prijzen toevoegen",
+        "title": "Prijzen",
         "uitpas_error": "De UiTPAS prijs wordt voor jou berekend door UiTdatabank. Je kan deze niet zelf toevoegen."
       },
       "title": "Laat je evenement extra opvallen"

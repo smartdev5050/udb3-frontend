@@ -95,6 +95,10 @@ type DatePickerProps = {
   customInput: ReactNode;
 };
 
+type ProgressBarProps = {
+  now: number;
+};
+
 type TypeaheadProps = {
   options: unknown[];
   labelKey: ((option: unknown) => string) | string;
@@ -126,6 +130,7 @@ type SpecificComponentProps = InlineProps &
   ImageProps &
   SvgProps &
   DatePickerProps &
+  ProgressBarProps &
   TypeaheadProps;
 
 type EventHandlerProps = {
