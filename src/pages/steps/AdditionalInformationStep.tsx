@@ -66,19 +66,19 @@ type TabConfig = {
   eventKey: string;
   title: string;
   Component: ReactNode;
-  visible: boolean;
-  completed: boolean;
+  isVisible: boolean;
+  isCompleted: boolean;
 };
 
 type TabTitleProps = InlineProps & {
   title: string;
-  completed: boolean;
+  isCompleted: boolean;
 };
 
-const TabTitle = ({ title, completed, ...props }: TabTitleProps) => {
+const TabTitle = ({ title, isCompleted, ...props }: TabTitleProps) => {
   return (
     <Inline spacing={3} {...getInlineProps(props)}>
-      {completed && <Icon name={Icons.CHECK_CIRCLE} color="#48874a" />}
+      {isCompleted && <Icon name={Icons.CHECK_CIRCLE} color="#48874a" />}
       <Text>{title}</Text>
     </Inline>
   );
@@ -505,8 +505,8 @@ const AdditionalInformationStep = ({
             onSuccessfulChange={() => invalidateEventQuery('description')}
           />
         ),
-        visible: true,
-        completed: isDescriptionCompleted,
+        isVisible: true,
+        isCompleted: isDescriptionCompleted,
       },
       {
         eventKey: 'organizer',
@@ -527,8 +527,8 @@ const AdditionalInformationStep = ({
             }
           />
         ),
-        visible: variant === AdditionalInformationStepVariant.EXTENDED,
-        completed: false,
+        isVisible: variant === AdditionalInformationStepVariant.EXTENDED,
+        isCompleted: false,
       },
       {
         eventKey: 'priceInfo',
@@ -540,8 +540,8 @@ const AdditionalInformationStep = ({
             onClickAddFreePriceInfo={() => handleAddFreePriceInfo()}
           />
         ),
-        visible: variant === AdditionalInformationStepVariant.EXTENDED,
-        completed: false,
+        isVisible: variant === AdditionalInformationStepVariant.EXTENDED,
+        isCompleted: false,
       },
       {
         eventKey: 'contactInfo',
@@ -552,8 +552,8 @@ const AdditionalInformationStep = ({
             eventBookingInfo={eventBookingInfo}
           />
         ),
-        visible: variant === AdditionalInformationStepVariant.EXTENDED,
-        completed: false,
+        isVisible: variant === AdditionalInformationStepVariant.EXTENDED,
+        isCompleted: false,
       },
       {
         eventKey: 'imagesAndVideos',
@@ -575,8 +575,8 @@ const AdditionalInformationStep = ({
             />
           </Inline>
         ),
-        visible: true,
-        completed: false,
+        isVisible: true,
+        isCompleted: false,
       },
       {
         eventKey: 'audience',
@@ -588,8 +588,8 @@ const AdditionalInformationStep = ({
             onChangeSuccess={() => invalidateEventQuery('audience')}
           />
         ),
-        visible: variant === AdditionalInformationStepVariant.EXTENDED,
-        completed: false,
+        isVisible: variant === AdditionalInformationStepVariant.EXTENDED,
+        isCompleted: false,
       },
     ];
   }, [
@@ -658,12 +658,12 @@ const AdditionalInformationStep = ({
         `}
       >
         {tabsConfigurations.map(
-          ({ eventKey, title, Component, visible, completed }) =>
-            visible && (
+          ({ eventKey, title, Component, isVisible, isCompleted }) =>
+            isVisible && (
               <Tabs.Tab
                 key={eventKey}
                 eventKey={eventKey}
-                title={<TabTitle title={title} completed={completed} />}
+                title={<TabTitle title={title} isCompleted={isCompleted} />}
               >
                 {Component}
               </Tabs.Tab>
