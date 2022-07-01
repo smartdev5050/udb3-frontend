@@ -122,6 +122,7 @@ const AdditionalInformationStep = ({
     false,
   );
   const [isDescriptionCompleted, setIsDescriptionCompleted] = useState(false);
+  const [isAudienceTypeCompleted, setIsAudienceTypeCompleted] = useState(false);
   const [
     isPriceInformationCompleted,
     setIsPriceInformationCompleted,
@@ -251,15 +252,6 @@ const AdditionalInformationStep = ({
     return getEventByIdQuery.data?.bookingInfo;
     // @ts-expect-error
   }, [getEventByIdQuery.data?.bookingInfo, variant]);
-
-  const audienceType = useMemo(() => {
-    if (variant !== AdditionalInformationStepVariant.EXTENDED) {
-      return;
-    }
-    // @ts-expect-error
-    return getEventByIdQuery.data?.audience?.audienceType;
-    // @ts-expect-error
-  }, [getEventByIdQuery.data?.audience?.audienceType, variant]);
 
   // @ts-expect-error
   const organizer = getEventByIdQuery.data?.organizer;
@@ -513,17 +505,18 @@ const AdditionalInformationStep = ({
         Component: (
           <Audience
             eventId={eventId}
-            selectedAudience={audienceType}
             onChangeSuccess={() => invalidateEventQuery('audience')}
+            onChangeCompleted={(isCompleted) =>
+              setIsAudienceTypeCompleted(isCompleted)
+            }
           />
         ),
         isVisible: variant === AdditionalInformationStepVariant.EXTENDED,
-        isCompleted: false,
+        isCompleted: isAudienceTypeCompleted,
       },
     ];
   }, [
     addOrganizerToEventMutation,
-    audienceType,
     deleteOrganizerFromEventMutation,
     eventBookingInfo,
     eventContactInfo,
