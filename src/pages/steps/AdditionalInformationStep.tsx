@@ -238,39 +238,6 @@ const AdditionalInformationStep = ({
     // @ts-expect-error
   }, [getEventByIdQuery.data?.image, getEventByIdQuery.data?.mediaObject]);
 
-  const priceInfo = useMemo(() => {
-    if (variant !== AdditionalInformationStepVariant.EXTENDED) {
-      return [];
-    }
-    // @ts-expect-error
-    const priceInfo = getEventByIdQuery.data?.priceInfo ?? [];
-
-    if (priceInfo.length > 0) {
-      setIsPriceInformationCompleted(true);
-    }
-
-    // @ts-expect-error
-    const mainLanguage = getEventByIdQuery.data?.mainLanguage;
-
-    return priceInfo.map((rate: any) => {
-      return {
-        ...rate,
-        name: {
-          ...rate.name,
-          [i18n.language]: rate.name[i18n.language] ?? rate.name[mainLanguage],
-        },
-        price: rate.price.toFixed(2).replace('.', ','),
-      };
-    });
-  }, [
-    // @ts-expect-error
-    getEventByIdQuery.data?.priceInfo,
-    // @ts-expect-error
-    getEventByIdQuery.data?.mainLanguage,
-    i18n.language,
-    variant,
-  ]);
-
   const eventContactInfo = useMemo(() => {
     if (variant !== AdditionalInformationStepVariant.EXTENDED) return;
     // @ts-expect-error
@@ -504,9 +471,11 @@ const AdditionalInformationStep = ({
         title: t('create.additionalInformation.price_info.title'),
         Component: (
           <PriceInformation
-            priceInfo={priceInfo}
             eventId={eventId}
             completed={isPriceInformationCompleted}
+            onChangeCompleted={(isCompleted) =>
+              setIsPriceInformationCompleted(isCompleted)
+            }
             onSuccessfulChange={() => invalidateEventQuery('priceInfo')}
           />
         ),
@@ -574,7 +543,6 @@ const AdditionalInformationStep = ({
     invalidateEventQuery,
     isDescriptionCompleted,
     organizer,
-    priceInfo,
     t,
     variant,
     videos,

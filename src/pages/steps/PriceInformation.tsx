@@ -4,8 +4,12 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
-import { useAddPriceInfoMutation } from '@/hooks/api/events';
+import {
+  useAddPriceInfoMutation,
+  useGetEventByIdQuery,
+} from '@/hooks/api/events';
 import i18n from '@/i18n/index';
+import { Event } from '@/types/Event';
 import type { Values } from '@/types/Values';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Box, parseSpacing } from '@/ui/Box';
@@ -48,8 +52,8 @@ type FormData = { rates: Rate[] };
 type Props = {
   eventId: string;
   completed: boolean;
+  onChangeCompleted: (isCompleted: boolean) => void;
   onSuccessfulChange: () => void;
-  priceInfo: Rate[];
 };
 
 const getValue = getValueFromTheme('priceInformation');
@@ -102,8 +106,8 @@ const schema = yup
   .required();
 
 const PriceInformation = ({
-  priceInfo,
   eventId,
+  onChangeCompleted,
   onSuccessfulChange,
 }: Props) => {
   const { t, i18n } = useTranslation();
@@ -112,6 +116,34 @@ const PriceInformation = ({
   const [hasUitpasError, setHasUitpasError] = useState(false);
 
   const [duplicateNameError, setDuplicateNameError] = useState('');
+  const [priceInfo, setPriceInfo] = useState([]);
+
+  const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
+
+  // @ts-expect-error
+  const event: Event | undefined = getEventByIdQuery.data;
+
+  useEffect(() => {
+    let newPriceInfo = event?.priceInfo ?? [];
+
+    if (newPriceInfo.length > 0) {
+      onChangeCompleted(true);
+    }
+    const mainLanguage = event?.mainLanguage;
+
+    newPriceInfo = newPriceInfo.map((rate: any) => {
+      return {
+        ...rate,
+        name: {
+          ...rate.name,
+          [i18n.language]: rate.name[i18n.language] ?? rate.name[mainLanguage],
+        },
+        price: rate.price.toFixed(2).replace('.', ','),
+      };
+    });
+
+    setPriceInfo(newPriceInfo);
+  }, [event?.priceInfo, event?.mainLanguage, i18n.language, onChangeCompleted]);
 
   const {
     register,
