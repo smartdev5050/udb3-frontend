@@ -1,88 +1,327 @@
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useEffect, useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import * as yup from 'yup';
 
+import i18n from '@/i18n/index';
+import type { Values } from '@/types/Values';
+import { Alert, AlertVariants } from '@/ui/Alert';
+import { Box, parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
-import { Icon, Icons } from '@/ui/Icon';
+import { FormElement } from '@/ui/FormElement';
+import { Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
-import { getStackProps, Stack, StackProps } from '@/ui/Stack';
-import { Text } from '@/ui/Text';
+import { Input } from '@/ui/Input';
+import { Stack } from '@/ui/Stack';
+import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
-import { Rate } from './modals/PriceInfoModal';
+const PRICE_CURRENCY: string = 'EUR';
+
+const PRICE_REGEX: RegExp = /^([1-9][0-9]*|[0-9]|[0])(,[0-9]{1,2})?$/;
+
+const PriceCategories = {
+  BASE: 'base',
+  TARIFF: 'tariff',
+} as const;
+
+type PriceCategory = Values<typeof PriceCategories>;
+
+type NameInLanguages = Partial<{
+  nl: string;
+  fr: string;
+  de: string;
+  en: string;
+}>;
+
+type Rate = {
+  name: NameInLanguages;
+  category: PriceCategory;
+  price: string;
+  priceCurrency: string;
+};
+
+type FormData = { rates: Rate[] };
+
+type Props = {
+  visible: boolean;
+  onClose: () => void;
+  onSubmitValid: (data: FormData) => Promise<void>;
+  priceInfo: Rate[];
+};
 
 const getValue = getValueFromTheme('priceInformation');
 
-type Props = StackProps & {
-  priceInfo: Rate[];
-  onClickAddPriceInfo: () => void;
-  onClickAddFreePriceInfo: () => void;
+const defaultPriceInfoValues = {
+  rates: [
+    {
+      name: {
+        nl: 'Basistarief',
+        fr: 'Tarif de base',
+        en: 'Base tariff',
+        de: 'Basisrate',
+      },
+      price: '',
+      category: PriceCategories.BASE,
+      priceCurrency: PRICE_CURRENCY,
+    },
+  ],
 };
 
-const PriceInformation = ({
-  priceInfo,
-  onClickAddPriceInfo,
-  onClickAddFreePriceInfo,
-  ...props
-}: Props) => {
-  const { t, i18n } = useTranslation();
+const isNotUitpas = (value: any): boolean => {
+  return value[i18n.language].toLowerCase() !== 'uitpas';
+};
 
-  const hasPriceInfo = priceInfo.length > 0;
+const shouldHaveAName = (value: any): boolean => {
+  return !!value[i18n.language];
+};
+
+const schema = yup
+  .object()
+  .shape({
+    rates: yup.array().of(
+      yup.object({
+        name: yup
+          .object({
+            nl: yup.string(),
+            fr: yup.string(),
+            en: yup.string(),
+            de: yup.string(),
+          })
+          .test(`name-is-required`, 'name is required', shouldHaveAName)
+          .test(`name-is-not-uitpas`, 'should not be uitpas', isNotUitpas)
+          .required(),
+        category: yup.string(),
+        price: yup.string().matches(PRICE_REGEX).required(),
+        priceCurrency: yup.string(),
+      }),
+    ),
+  })
+  .required();
+
+const PriceInformation = ({ priceInfo }: Props) => {
+  const { t, i18n } = useTranslation();
+  const formComponent = useRef<HTMLFormElement>();
+  const [hasGlobalError, setHasGlobalError] = useState(false);
+  const [hasUitpasError, setHasUitpasError] = useState(false);
+
+  const [duplicateNameError, setDuplicateNameError] = useState('');
+
+  const {
+    register,
+    watch,
+    setValue,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<FormData>({
+    resolver: yupResolver(schema),
+    defaultValues: defaultPriceInfoValues,
+  });
+
+  useEffect(() => {
+    if (!priceInfo?.length) return;
+    setValue('rates', [...priceInfo]);
+  }, [priceInfo, setValue]);
+
+  const watchedRates = watch('rates');
+
+  const handleClickAddRate = () => {
+    setValue('rates', [
+      ...watchedRates,
+      {
+        name: {
+          [i18n.language]: '',
+        },
+        price: '',
+        category: PriceCategories.TARIFF,
+        priceCurrency: PRICE_CURRENCY,
+      },
+    ]);
+  };
+
+  const handleClickDeleteRate = (id: number): void => {
+    setValue('rates', [...watchedRates.filter((_rate, index) => id !== index)]);
+  };
+
+  const setPriceToRate = (id: number, price: string = '0,00'): void => {
+    setValue('rates', [
+      ...watchedRates.map((rate, index) =>
+        id === index ? { ...rate, price } : rate,
+      ),
+    ]);
+  };
+
+  const getDuplicateName = () => {
+    const seenRates = [];
+
+    const duplicateName =
+      watchedRates.find((rate) => {
+        const name = rate.name[i18n.language];
+
+        if (seenRates.includes(name)) {
+          return true;
+        }
+
+        seenRates.push(name);
+      })?.name[i18n.language] ?? '';
+
+    return duplicateName;
+  };
+
+  const isPriceFree = (price: string): boolean => {
+    return ['0', '0,0', '0,00'].includes(price);
+  };
+
+  useEffect(() => {
+    const errorRates = (errors.rates || []).filter(
+      (error: any) => error !== undefined,
+    );
+
+    const hasGlobalError = errorRates.length > 0;
+    const hasUitpasError = errorRates.some(
+      // @ts-expect-error
+      (error) => error.name?.type === 'name-is-not-uitpas',
+    );
+
+    setHasGlobalError(hasGlobalError && !hasUitpasError);
+    setHasUitpasError(hasUitpasError);
+  }, [errors, i18n.language]);
 
   return (
-    <Stack {...getStackProps(props)}>
-      <Inline spacing={3} marginBottom={3}>
-        <Text fontWeight="bold">
-          {t('create.additionalInformation.price_info.price')}
-        </Text>
-        {hasPriceInfo && <Icon color="green" name={Icons.CHECK_CIRCLE} />}
-      </Inline>
-      {hasPriceInfo && (
-        <Inline justifyContent="space-between" paddingTop={3} paddingBottom={3}>
-          <Text>{t('create.additionalInformation.price_info.prices')}</Text>
-          <Button
-            onClick={onClickAddPriceInfo}
-            variant={ButtonVariants.SECONDARY}
-          >
-            {t('create.additionalInformation.price_info.change')}
-          </Button>
-        </Inline>
-      )}
-      {priceInfo.map((rate: Rate, index) => (
+    <Stack
+      as="form"
+      padding={4}
+      onSubmit={handleSubmit(async (data) => {
+        const duplicateName = getDuplicateName();
+
+        if (duplicateName) {
+          setDuplicateNameError(
+            t('create.additionalInformation.price_info.duplicate_name_error', {
+              priceName: duplicateName,
+            }),
+          );
+          return;
+        }
+
+        setDuplicateNameError('');
+        // await onSubmitValid(data);
+      })}
+      ref={formComponent}
+    >
+      {watchedRates.map((rate, index) => (
         <Inline
-          key={index}
-          justifyContent="space-between"
+          key={`rate_${index}`}
           paddingTop={3}
           paddingBottom={3}
           css={`
-            border-top: 1px solid ${getValue('borderColor')};
+            border-bottom: 1px solid ${getValue('borderColor')};
           `}
         >
-          <Text>{rate.name[i18n.language]}</Text>
-          <Text>
-            {rate.price === '0,00'
-              ? t('create.additionalInformation.price_info.free')
-              : `${rate.price} ${t(
-                  'create.additionalInformation.price_info.euro',
-                )}`}
-          </Text>
+          <Inline width="100%" alignItems="center">
+            <Inline width="30%">
+              {rate.category === PriceCategories.BASE && (
+                <Text>{rate.name[i18n.language]}</Text>
+              )}
+              {rate.category === PriceCategories.TARIFF && (
+                <FormElement
+                  id="name"
+                  Component={
+                    <Input
+                      {...register(
+                        `rates.${index}.name.${
+                          i18n.language as keyof NameInLanguages
+                        }`,
+                      )}
+                      placeholder={t(
+                        'create.additionalInformation.price_info.target',
+                      )}
+                    />
+                  }
+                />
+              )}
+            </Inline>
+            <Inline width="40%" alignItems="center">
+              <FormElement
+                id="price"
+                Component={
+                  <Input
+                    marginRight={3}
+                    {...register(`rates.${index}.price`)}
+                    placeholder={t(
+                      'create.additionalInformation.price_info.price',
+                    )}
+                  />
+                }
+              />
+              <Text
+                variant={TextVariants.MUTED}
+                css={`
+                  margin-right: ${parseSpacing(3)};
+                `}
+              >
+                {t('create.additionalInformation.price_info.euro')}
+              </Text>
+              {!isPriceFree(rate.price) && (
+                <Button
+                  variant={ButtonVariants.LINK}
+                  onClick={() => setPriceToRate(index)}
+                >
+                  {t('create.additionalInformation.price_info.free')}
+                </Button>
+              )}
+            </Inline>
+            <Inline width="30%" justifyContent="flex-end">
+              {index !== 0 && (
+                <Button
+                  iconName={Icons.TRASH}
+                  spacing={3}
+                  variant={ButtonVariants.DANGER}
+                  onClick={() => handleClickDeleteRate(index)}
+                >
+                  {t('create.additionalInformation.price_info.delete')}
+                </Button>
+              )}
+            </Inline>
+          </Inline>
         </Inline>
       ))}
-      {!hasPriceInfo && (
-        <Inline spacing={3} alignItems="center">
-          <Button
-            onClick={onClickAddPriceInfo}
-            variant={ButtonVariants.SECONDARY}
-          >
-            {t('create.additionalInformation.price_info.title')}
-          </Button>
-          <Button
-            variant={ButtonVariants.LINK}
-            onClick={onClickAddFreePriceInfo}
-          >
-            {t('create.additionalInformation.price_info.free')}
-          </Button>
-        </Inline>
+      {hasGlobalError && (
+        <Alert marginTop={3} variant={AlertVariants.INFO}>
+          <Box
+            forwardedAs="div"
+            dangerouslySetInnerHTML={{
+              __html: t('create.additionalInformation.price_info.global_error'),
+            }}
+            css={`
+              ul {
+                list-style-type: disc;
+                li {
+                  margin-left: ${parseSpacing(5)};
+                }
+              }
+            `}
+          />
+        </Alert>
       )}
+      {hasUitpasError && (
+        <Alert marginTop={3} variant={AlertVariants.WARNING}>
+          {t('create.additionalInformation.price_info.uitpas_error')}
+        </Alert>
+      )}
+      {!!duplicateNameError && (
+        <Alert marginTop={3} variant={AlertVariants.DANGER}>
+          {duplicateNameError}
+        </Alert>
+      )}
+      <Inline marginTop={3}>
+        <Button onClick={handleClickAddRate} variant={ButtonVariants.SECONDARY}>
+          {t('create.additionalInformation.price_info.add')}
+        </Button>
+      </Inline>
     </Stack>
   );
 };
-export { PriceInformation };
+
+export { defaultPriceInfoValues, PriceCategories, PriceInformation };
+export type { FormData, Rate };

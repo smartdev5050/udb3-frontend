@@ -19,12 +19,6 @@ import { useCreateOrganizerMutation } from '@/hooks/api/organizers';
 import { PictureDeleteModal } from '@/pages/steps/modals/PictureDeleteModal';
 import type { FormData } from '@/pages/steps/modals/PictureUploadModal';
 import { PictureUploadModal } from '@/pages/steps/modals/PictureUploadModal';
-import {
-  defaultPriceInfoValues,
-  FormData as PriceInfoFormData,
-  PriceInfoModal,
-  Rate,
-} from '@/pages/steps/modals/PriceInfoModal';
 import type { Values } from '@/types/Values';
 import { parseSpacing } from '@/ui/Box';
 import { Icon, Icons } from '@/ui/Icon';
@@ -128,8 +122,6 @@ const AdditionalInformationStep = ({
   const [isOrganizerAddModalVisible, setIsOrganizerAddModalVisible] = useState(
     false,
   );
-  const [isPriceInfoModalVisible, setIsPriceInfoModalVisible] = useState(false);
-
   const [isDescriptionCompleted, setIsDescriptionCompleted] = useState(false);
 
   const [newOrganizerName, setNewOrganizerName] = useState('');
@@ -458,7 +450,6 @@ const AdditionalInformationStep = ({
   const addPriceInfoMutation = useAddPriceInfoMutation({
     onSuccess: async () => {
       await invalidateEventQuery('priceInfo');
-      setIsPriceInfoModalVisible(false);
     },
   });
 
@@ -536,8 +527,10 @@ const AdditionalInformationStep = ({
         Component: (
           <PriceInformation
             priceInfo={priceInfo}
-            onClickAddPriceInfo={() => setIsPriceInfoModalVisible(true)}
-            onClickAddFreePriceInfo={() => handleAddFreePriceInfo()}
+            // onSubmitValid={handlePriceInfoSubmitValid}
+            // priceInfo={priceInfo}
+            // onClickAddPriceInfo={() => setIsPriceInfoModalVisible(true)}
+            // onClickAddFreePriceInfo={() => handleAddFreePriceInfo()}
           />
         ),
         isVisible: variant === AdditionalInformationStepVariant.EXTENDED,
@@ -624,12 +617,6 @@ const AdditionalInformationStep = ({
         visible={isPictureDeleteModalVisible}
         onConfirm={() => handleConfirmDeleteImage(imageToDeleteId)}
         onClose={() => setIsPictureDeleteModalVisible(false)}
-      />
-      <PriceInfoModal
-        visible={isPriceInfoModalVisible}
-        onClose={() => setIsPriceInfoModalVisible(false)}
-        onSubmitValid={handlePriceInfoSubmitValid}
-        priceInfo={priceInfo}
       />
       <VideoLinkAddModal
         visible={isVideoLinkAddModalVisible}
