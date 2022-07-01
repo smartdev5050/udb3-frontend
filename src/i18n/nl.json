@@ -180,7 +180,8 @@
     "toast": {
       "success": {
         "audienceType": "Toegang is succesvol gewijzigd",
-        "organizer": "Organisatie is succesvol gewijzigd"
+        "organizer": "Organisatie is succesvol gewijzigd",
+        "priceInfo": "Prijsinformatie is succesvol gewijzigd"
       }
     }
   },

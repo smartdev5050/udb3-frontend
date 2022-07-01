@@ -18,6 +18,7 @@ const EventForm = () => {
           description: t('movies.create.toast.success.description'),
           video: t('movies.create.toast.success.video'),
           audience: t('create.toast.success.audienceType'),
+          priceInfo: t('create.toast.success.priceInfo'),
           organizer: t('create.toast.success.organizer'),
         },
         title: '',
