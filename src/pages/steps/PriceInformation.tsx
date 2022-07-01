@@ -118,7 +118,10 @@ const PriceInformation = ({
   const [duplicateNameError, setDuplicateNameError] = useState('');
   const [priceInfo, setPriceInfo] = useState([]);
 
-  const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
+  const getEventByIdQuery = useGetEventByIdQuery(
+    { id: eventId },
+    { refetchOnWindowFocus: false },
+  );
 
   // @ts-expect-error
   const event: Event | undefined = getEventByIdQuery.data;
@@ -152,7 +155,10 @@ const PriceInformation = ({
     formState: { errors },
     handleSubmit,
   } = useForm<FormData>({
+    mode: 'onBlur',
     resolver: yupResolver(schema),
+    reValidateMode: 'onBlur',
+    shouldFocusError: false,
     defaultValues: defaultPriceInfoValues,
   });
 
@@ -167,7 +173,7 @@ const PriceInformation = ({
     onSuccess: onSuccessfulChange,
   });
 
-  const handlePriceInfoSubmitValid = async ({ rates }: FormData) => {
+  const handlePriceInfoSubmitValid = async (rates: Rate[]) => {
     const convertedPriceInfo = rates.map((rate: Rate) => {
       return {
         ...rate,
@@ -178,16 +184,6 @@ const PriceInformation = ({
     await addPriceInfoMutation.mutateAsync({
       eventId,
       priceInfo: convertedPriceInfo,
-    });
-  };
-
-  const handleAddFreePriceInfo = async () => {
-    const freePriceInfoRates = defaultPriceInfoValues.rates;
-    // @ts-expect-error
-    freePriceInfoRates[0].price = 0;
-    await addPriceInfoMutation.mutateAsync({
-      eventId,
-      priceInfo: freePriceInfoRates,
     });
   };
 
@@ -205,16 +201,47 @@ const PriceInformation = ({
     ]);
   };
 
-  const handleClickDeleteRate = (id: number): void => {
-    setValue('rates', [...watchedRates.filter((_rate, index) => id !== index)]);
+  const handleClickDeleteRate = async (id: number): Promise<void> => {
+    const ratesWithDeletedItem = [
+      ...watchedRates.filter((_rate, index) => id !== index),
+    ];
+    setValue('rates', ratesWithDeletedItem);
+
+    const selectedRate = watchedRates[id];
+
+    // if rate exists on priceInfo, also delete it from API
+    // @ts-ignore
+    const existsInCurrentData = priceInfo.some(
+      (priceInfoItem) =>
+        // @ts-ignore
+        selectedRate.name[i18n.language] ===
+          priceInfoItem.name[i18n.language] &&
+        // @ts-ignore
+        selectedRate.price === priceInfoItem.price,
+    );
+
+    if (existsInCurrentData) {
+      await handlePriceInfoSubmitValid(ratesWithDeletedItem);
+    }
   };
 
-  const setPriceToRate = (id: number, price: string = '0,00'): void => {
-    setValue('rates', [
+  const setFreePriceToRate = async (id: number): Promise<void> => {
+    const ratesWithNewFreePrice = [
       ...watchedRates.map((rate, index) =>
-        id === index ? { ...rate, price } : rate,
+        id === index ? { ...rate, price: '0,00' } : rate,
       ),
-    ]);
+    ];
+
+    setValue('rates', ratesWithNewFreePrice);
+
+    const errorRates = (errors.rates || []).filter(
+      (error: any) => error !== undefined,
+    );
+
+    if (errorRates.length > 0 || hasGlobalError || hasUitpasError) return;
+
+    // If no errors submit to API
+    await handlePriceInfoSubmitValid(ratesWithNewFreePrice);
   };
 
   const getDuplicateName = () => {
@@ -257,7 +284,7 @@ const PriceInformation = ({
     <Stack
       as="form"
       padding={4}
-      onSubmit={handleSubmit(async (data) => {
+      onBlur={handleSubmit(async (data) => {
         const duplicateName = getDuplicateName();
 
         if (duplicateName) {
@@ -270,7 +297,7 @@ const PriceInformation = ({
         }
 
         setDuplicateNameError('');
-        // await onSubmitValid(data);
+        await handlePriceInfoSubmitValid(data.rates);
       })}
       ref={formComponent}
     >
@@ -290,7 +317,7 @@ const PriceInformation = ({
               )}
               {rate.category === PriceCategories.TARIFF && (
                 <FormElement
-                  id="name"
+                  id={`rate_name_${index}`}
                   Component={
                     <Input
                       {...register(
@@ -308,7 +335,7 @@ const PriceInformation = ({
             </Inline>
             <Inline width="40%" alignItems="center">
               <FormElement
-                id="price"
+                id={`rate_price_${index}`}
                 Component={
                   <Input
                     marginRight={3}
@@ -330,7 +357,9 @@ const PriceInformation = ({
               {!isPriceFree(rate.price) && (
                 <Button
                   variant={ButtonVariants.LINK}
-                  onClick={() => setPriceToRate(index)}
+                  onClick={() => {
+                    setFreePriceToRate(index);
+                  }}
                 >
                   {t('create.additionalInformation.price_info.free')}
                 </Button>
