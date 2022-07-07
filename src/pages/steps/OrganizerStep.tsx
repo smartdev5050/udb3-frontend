@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -7,6 +7,7 @@ import {
   useGetEventByIdQuery,
 } from '@/hooks/api/events';
 import { useCreateOrganizerMutation } from '@/hooks/api/organizers';
+import { parseOfferId } from '@/utils/parseOfferId';
 
 import { OrganizerAddModal, OrganizerData } from '../OrganizerAddModal';
 import { OrganizerPicker } from './OrganizerPicker';
@@ -35,6 +36,15 @@ const OrganizerStep = ({
     false,
   );
   const [newOrganizerName, setNewOrganizerName] = useState('');
+  const [organizerId, setOrganizerId] = useState('');
+
+  useEffect(() => {
+    if (!organizer) return;
+
+    const organizerId = parseOfferId(organizer['@id']);
+
+    setOrganizerId(organizerId);
+  }, [organizer]);
 
   const createOrganizerMutation = useCreateOrganizerMutation();
 
@@ -46,7 +56,7 @@ const OrganizerStep = ({
     onSuccess: onSuccessfulChange,
   });
 
-  const handleChangeOrganizer = (organizerId: string) => {
+  const handleChangeOrganizer = () => {
     addOrganizerToEventMutation.mutate({ eventId, organizerId });
   };
 
