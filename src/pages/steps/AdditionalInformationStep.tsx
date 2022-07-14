@@ -234,20 +234,20 @@ const AdditionalInformationStep = ({
     if (!contactInfo) return;
     if (!bookingInfo) return contactInfo;
 
-    const emails = new Set(contactInfo['email']);
-    const urls = new Set(contactInfo['url']);
-    const phones = new Set(contactInfo['phone']);
+    const emails = new Set(contactInfo.email);
+    const urls = new Set(contactInfo.url);
+    const phones = new Set(contactInfo.phone);
 
-    if (bookingInfo['email']) {
-      emails.add(bookingInfo['email']);
+    if (bookingInfo.email) {
+      emails.add(bookingInfo.email);
     }
 
-    if (bookingInfo['url']) {
-      urls.add(bookingInfo['url']);
+    if (bookingInfo.url) {
+      urls.add(bookingInfo.url);
     }
 
-    if (bookingInfo['phone']) {
-      phones.add(bookingInfo['phone']);
+    if (bookingInfo.phone) {
+      phones.add(bookingInfo.phone);
     }
 
     return {
