@@ -4,7 +4,7 @@ import { css } from 'styled-components';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
-import { getStackProps, Stack } from '@/ui/Stack';
+import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
@@ -37,7 +37,7 @@ type BookingInfo = {
   urlLabel?: UrlLabelInLanguages;
 } & { [Property in keyof ContactPoint]?: string };
 
-type Props = {
+type Props = StackProps & {
   contactInfo: ContactPoint;
   bookingInfo?: BookingInfo;
   mergedInfo: MergedInfo;

@@ -596,8 +596,9 @@ const AdditionalInformationStep = ({
         title: t('create.additionalInformation.contact_info.title'),
         Component: (
           <ContactInfo
-            eventContactInfo={eventContactInfo}
-            eventBookingInfo={eventBookingInfo}
+            contactInfo={eventContactInfo}
+            bookingInfo={eventBookingInfo}
+            mergedInfo={getMergedContactAndBookingInfo()}
           />
         ),
         isVisible: variant === AdditionalInformationStepVariant.EXTENDED,
