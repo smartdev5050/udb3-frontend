@@ -66,7 +66,7 @@ const StepWrapper = ({
   ...props
 }: StepWrapperProps) => {
   return (
-    <Stack spacing={4} width="100%" {...getStackProps(props)}>
+    <Stack spacing={4} {...getStackProps(props)}>
       <Title
         color={getValue('title.color')}
         lineHeight="220%"
@@ -139,7 +139,7 @@ const Steps = <TFormData extends FormDataIntersection>({
   };
 
   return (
-    <Stack spacing={5}>
+    <Stack spacing={5} width="100%">
       {configuration.map(
         (
           {

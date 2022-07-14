@@ -47,7 +47,7 @@ const FormElement = ({
   });
 
   return (
-    <Wrapper as="div" spacing={2} alignItems="flex-start" {...wrapperProps}>
+    <Wrapper as="div" alignItems="flex-start" {...wrapperProps}>
       {label && (
         <Label
           variant={LabelVariants.BOLD}
