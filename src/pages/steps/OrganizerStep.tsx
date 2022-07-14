@@ -7,7 +7,7 @@ import {
   useGetEventByIdQuery,
 } from '@/hooks/api/events';
 import { useCreateOrganizerMutation } from '@/hooks/api/organizers';
-import { Stack } from '@/ui/Stack';
+import { getStackProps, Stack } from '@/ui/Stack';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 import { OrganizerAddModal, OrganizerData } from '../OrganizerAddModal';

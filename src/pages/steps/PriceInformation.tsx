@@ -18,7 +18,7 @@ import { FormElement } from '@/ui/FormElement';
 import { Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
-import { Stack } from '@/ui/Stack';
+import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
@@ -109,6 +109,7 @@ const PriceInformation = ({
   eventId,
   onChangeCompleted,
   onSuccessfulChange,
+  ...props
 }: Props) => {
   const { t, i18n } = useTranslation();
   const formComponent = useRef<HTMLFormElement>();
@@ -292,6 +293,7 @@ const PriceInformation = ({
 
   return (
     <Stack
+      {...getStackProps(props)}
       as="form"
       padding={4}
       onBlur={handleSubmit(async (data) => {
