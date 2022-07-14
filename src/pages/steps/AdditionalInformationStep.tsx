@@ -133,7 +133,6 @@ const AdditionalInformationStep = ({
         Component: (
           <OrganizerStep
             eventId={eventId}
-            completed={isOrganizerStepCompleted}
             onChangeCompleted={(isCompleted) =>
               setIsOrganizerStepCompleted(isCompleted)
             }
