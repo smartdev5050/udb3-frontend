@@ -10,6 +10,7 @@ type Props = InlineProps & {
   id: string;
   dateStart: Date;
   dateEnd: Date;
+  minDate?: Date;
   onDateStartChange: (date: Date) => void;
   onDateEndChange: (date: Date) => void;
 };
@@ -18,6 +19,7 @@ const DatePeriodPicker = ({
   id,
   dateStart,
   dateEnd,
+  minDate,
   onDateStartChange,
   onDateEndChange,
   ...props
@@ -35,6 +37,7 @@ const DatePeriodPicker = ({
         <DatePicker
           id={`${idPrefix}-start`}
           selected={dateStart}
+          minDate={minDate}
           onChange={(newDateStart) => {
             onDateStartChange(newDateStart);
             if (dateEnd.getTime() < newDateStart.getTime()) {

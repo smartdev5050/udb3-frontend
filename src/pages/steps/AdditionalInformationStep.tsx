@@ -1,6 +1,7 @@
 import { ReactNode, useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
+import { useDeepCompareMemoize } from 'use-deep-compare-effect';
 
 import { useGetEventByIdQuery } from '@/hooks/api/events';
 import type { Values } from '@/types/Values';
@@ -13,6 +14,7 @@ import { Text } from '@/ui/Text';
 
 import { Audience } from './Audience';
 import { ContactInfo } from './ContactInfo';
+import { ContactInfoEntry } from './ContactInfoEntry';
 import { DescriptionStep } from './DescriptionStep';
 import { MediaStep } from './MediaStep';
 import { OrganizerStep } from './OrganizerStep';
@@ -23,6 +25,12 @@ const AdditionalInformationStepVariant = {
   EXTENDED: 'extended',
 } as const;
 
+type MergedInfo = {
+  email: string[];
+  url: string[];
+  phone: string[];
+};
+
 type Field =
   | 'description'
   | 'image'
@@ -30,6 +38,8 @@ type Field =
   | 'contactInfo'
   | 'priceInfo'
   | 'audience'
+  | 'bookingInfo'
+  | 'contactPoint'
   | 'organizer';
 
 type TabConfig = {
@@ -93,21 +103,45 @@ const AdditionalInformationStep = ({
 
   const [isMediaStepCompleted, setIsMediaStepCompleted] = useState(false);
 
-  const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
+  const getEventByIdQuery = useGetEventByIdQuery(
+    { id: eventId },
+    { refetchOnWindowFocus: false },
+  );
 
-  const eventContactInfo = useMemo(() => {
-    if (variant !== AdditionalInformationStepVariant.EXTENDED) return;
-    // @ts-expect-error
-    return getEventByIdQuery.data?.contactPoint;
-    // @ts-expect-error
-  }, [getEventByIdQuery.data?.contactPoint, variant]);
+  // @ts-expect-error
+  const contactInfo = getEventByIdQuery.data?.contactPoint;
 
-  const eventBookingInfo = useMemo(() => {
-    if (variant !== AdditionalInformationStepVariant.EXTENDED) return;
-    // @ts-expect-error
-    return getEventByIdQuery.data?.bookingInfo;
-    // @ts-expect-error
-  }, [getEventByIdQuery.data?.bookingInfo, variant]);
+  // @ts-expect-error
+  const bookingInfo = getEventByIdQuery.data?.bookingInfo;
+
+  const getMergedContactAndBookingInfo = useDeepCompareMemoize<
+    () => MergedInfo | undefined
+  >(() => {
+    if (!contactInfo) return;
+    if (!bookingInfo) return contactInfo;
+
+    const emails = new Set(contactInfo.email);
+    const urls = new Set(contactInfo.url);
+    const phones = new Set(contactInfo.phone);
+
+    if (bookingInfo.email) {
+      emails.add(bookingInfo.email);
+    }
+
+    if (bookingInfo.url) {
+      urls.add(bookingInfo.url);
+    }
+
+    if (bookingInfo.phone) {
+      phones.add(bookingInfo.phone);
+    }
+
+    return {
+      email: [...emails],
+      url: [...urls],
+      phone: [...phones],
+    };
+  });
 
   const tabsConfigurations = useMemo<TabConfig[]>(() => {
     return [
@@ -160,8 +194,9 @@ const AdditionalInformationStep = ({
         title: t('create.additionalInformation.contact_info.title'),
         Component: (
           <ContactInfo
-            eventContactInfo={eventContactInfo}
-            eventBookingInfo={eventBookingInfo}
+            contactInfo={contactInfo}
+            bookingInfo={bookingInfo}
+            mergedInfo={getMergedContactAndBookingInfo()}
           />
         ),
         isVisible: variant === AdditionalInformationStepVariant.EXTENDED,
@@ -200,8 +235,8 @@ const AdditionalInformationStep = ({
       },
     ];
   }, [
-    eventBookingInfo,
-    eventContactInfo,
+    bookingInfo,
+    contactInfo,
     eventId,
     invalidateEventQuery,
     isAudienceTypeCompleted,
@@ -211,6 +246,7 @@ const AdditionalInformationStep = ({
     isPriceInformationCompleted,
     t,
     variant,
+    getMergedContactAndBookingInfo,
   ]);
 
   return (
@@ -249,6 +285,8 @@ const additionalInformationStepConfiguration = {
   Component: AdditionalInformationStep,
   title: (t) => t(`movies.create.step5.title`),
 };
+
+export type { MergedInfo };
 
 export {
   additionalInformationStepConfiguration,
