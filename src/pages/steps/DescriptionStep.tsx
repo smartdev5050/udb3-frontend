@@ -98,7 +98,6 @@ export const DescriptionInfo = ({
 
 type DescriptionStepProps = StackProps & {
   eventId?: string;
-  completed: boolean;
   onChangeCompleted: (completed: boolean) => void;
   onSuccessfulChange: () => void;
 };
@@ -106,7 +105,6 @@ type DescriptionStepProps = StackProps & {
 export const DescriptionStep = ({
   eventId,
   onSuccessfulChange,
-  completed,
   onChangeCompleted,
   ...props
 }: DescriptionStepProps) => {
@@ -127,15 +125,10 @@ export const DescriptionStep = ({
 
     setDescription(newDescription);
 
-    if (newDescription) {
-      onChangeCompleted(true);
-    }
-  }, [
-    event?.description,
-    event?.mainLanguage,
-    i18n.language,
-    onChangeCompleted,
-  ]);
+    const isCompleted = newDescription.length >= IDEAL_DESCRIPTION_LENGTH;
+
+    onChangeCompleted(isCompleted);
+  }, [event.description, event.mainLanguage, i18n.language, onChangeCompleted]);
 
   const eventTypeId = useMemo(() => {
     return event?.terms.find((term) => term.domain === 'eventtype')?.id!;
@@ -147,6 +140,10 @@ export const DescriptionStep = ({
 
   const handleBlur = () => {
     if (!description) return;
+
+    const isCompleted = description.length >= IDEAL_DESCRIPTION_LENGTH;
+
+    onChangeCompleted(isCompleted);
 
     changeDescriptionMutation.mutate({
       description,
@@ -167,10 +164,6 @@ export const DescriptionStep = ({
 
   const handleInput = (e) => {
     setDescription(e.target.value);
-
-    const newIsCompleted = e.target.value.length >= IDEAL_DESCRIPTION_LENGTH;
-    if (completed === newIsCompleted) return;
-    onChangeCompleted(newIsCompleted);
   };
 
   return (

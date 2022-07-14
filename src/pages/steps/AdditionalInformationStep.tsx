@@ -369,10 +369,7 @@ const AdditionalInformationStep = ({
         Component: (
           <DescriptionStep
             eventId={eventId}
-            completed={isDescriptionCompleted}
-            onChangeCompleted={(isCompleted) =>
-              setIsDescriptionCompleted(isCompleted)
-            }
+            onChangeCompleted={setIsDescriptionCompleted}
             onSuccessfulChange={() => invalidateEventQuery('description')}
           />
         ),
@@ -469,7 +466,10 @@ const AdditionalInformationStep = ({
     handleClickSetMainImage,
     images,
     invalidateEventQuery,
+    isAudienceTypeCompleted,
     isDescriptionCompleted,
+    isOrganizerStepCompleted,
+    isPriceInformationCompleted,
     t,
     variant,
     videos,
