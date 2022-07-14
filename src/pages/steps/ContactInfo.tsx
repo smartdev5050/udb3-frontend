@@ -92,7 +92,7 @@ const ContactInfo = ({
                           css={
                             index !== 0
                               ? css`border-top: 1px solid ${borderColorFromTheme}}`
-                              : ''
+                              : css``
                           }
                         >
                           <Inline spacing={3} alignItems="center">
