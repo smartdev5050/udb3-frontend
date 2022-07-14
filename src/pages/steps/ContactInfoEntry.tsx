@@ -1,10 +1,12 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { css } from 'styled-components';
+import { useDeepCompareMemoize } from 'use-deep-compare-effect';
 
 import {
   useAddBookingInfoMutation,
   useAddContactPointMutation,
+  useGetEventByIdQuery,
 } from '@/hooks/api/events';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Button, ButtonVariants } from '@/ui/Button';
@@ -502,30 +504,66 @@ const ReservationPeriod = ({
   );
 };
 
-type ContactInfoEntryProps = {
+type Props = {
   eventId: string;
-  onAddContactInfoSuccess: () => void;
-  onAddBookingInfoSuccess: () => void;
-  contactInfo: ContactInfo;
-  bookingInfo?: BookingInfo;
-  mergedInfo: MergedInfo;
+  onSuccessfulContactPointChange: () => void;
+  onSuccessfulBookingInfoChange: () => void;
+  onChangeCompleted: (completed: boolean) => void;
   withReservationInfo?: boolean;
 };
 
 const ContactInfoEntry = ({
   eventId,
-  contactInfo,
-  bookingInfo,
-  mergedInfo,
   withReservationInfo = false,
-  onAddContactInfoSuccess,
-  onAddBookingInfoSuccess,
+  onSuccessfulContactPointChange,
+  onSuccessfulBookingInfoChange,
+  onChangeCompleted,
   ...props
-}: ContactInfoEntryProps) => {
+}: Props) => {
+  const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
+
+  // @ts-expect-error
+  const contactInfo = getEventByIdQuery.data?.contactPoint;
+
+  // @ts-expect-error
+  const bookingInfo = getEventByIdQuery.data?.bookingInfo;
+
+  useEffect(() => {
+    if (!contactInfo && !bookingInfo) return;
+    onChangeCompleted(true);
+  }, [contactInfo, bookingInfo, onChangeCompleted]);
+
+  const getMergedContactAndBookingInfo = useDeepCompareMemoize<
+    () => MergedInfo | undefined
+  >(() => {
+    if (!contactInfo) return;
+    if (!bookingInfo) return contactInfo;
+
+    const emails = new Set(contactInfo.email);
+    const urls = new Set(contactInfo.url);
+    const phones = new Set(contactInfo.phone);
+
+    if (bookingInfo.email) {
+      emails.add(bookingInfo.email);
+    }
+
+    if (bookingInfo.url) {
+      urls.add(bookingInfo.url);
+    }
+
+    if (bookingInfo.phone) {
+      phones.add(bookingInfo.phone);
+    }
+
+    return {
+      email: [...emails],
+      url: [...urls],
+      phone: [...phones],
+    };
+  });
+
   const addContactPointMutation = useAddContactPointMutation({
-    onSuccess: () => {
-      onAddContactInfoSuccess();
-    },
+    onSuccess: onSuccessfulContactPointChange,
   });
 
   const handleAddContactInfoMutation = async (newContactInfo: ContactInfo) => {
@@ -538,7 +576,7 @@ const ContactInfoEntry = ({
   const addBookingInfoMutation = useAddBookingInfoMutation({
     onSuccess: () => {
       setTimeout(() => {
-        onAddBookingInfoSuccess();
+        onSuccessfulBookingInfoChange();
       }, 1000);
     },
   });
@@ -551,12 +589,12 @@ const ContactInfoEntry = ({
   };
 
   return (
-    <Stack {...getStackProps(props)}>
-      {mergedInfo &&
-        Object.keys(mergedInfo).map((type: string) => {
+    <Stack maxWidth="40rem" {...getStackProps(props)}>
+      {getMergedContactAndBookingInfo() &&
+        Object.keys(getMergedContactAndBookingInfo()).map((type: string) => {
           return (
             <Form
-              contactAndBookingInfo={mergedInfo}
+              contactAndBookingInfo={getMergedContactAndBookingInfo()}
               key={type}
               type={type}
               bookingInfo={bookingInfo}

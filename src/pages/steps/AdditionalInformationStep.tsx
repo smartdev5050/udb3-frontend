@@ -1,9 +1,7 @@
 import { ReactNode, useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
-import { useDeepCompareMemoize } from 'use-deep-compare-effect';
 
-import { useGetEventByIdQuery } from '@/hooks/api/events';
 import type { Values } from '@/types/Values';
 import { parseSpacing } from '@/ui/Box';
 import { Icon, Icons } from '@/ui/Icon';
@@ -13,7 +11,6 @@ import { Tabs } from '@/ui/Tabs';
 import { Text } from '@/ui/Text';
 
 import { Audience } from './Audience';
-import { ContactInfo } from './ContactInfo';
 import { ContactInfoEntry } from './ContactInfoEntry';
 import { DescriptionStep } from './DescriptionStep';
 import { MediaStep } from './MediaStep';
@@ -103,45 +100,7 @@ const AdditionalInformationStep = ({
 
   const [isMediaStepCompleted, setIsMediaStepCompleted] = useState(false);
 
-  const getEventByIdQuery = useGetEventByIdQuery(
-    { id: eventId },
-    { refetchOnWindowFocus: false },
-  );
-
-  // @ts-expect-error
-  const contactInfo = getEventByIdQuery.data?.contactPoint;
-
-  // @ts-expect-error
-  const bookingInfo = getEventByIdQuery.data?.bookingInfo;
-
-  const getMergedContactAndBookingInfo = useDeepCompareMemoize<
-    () => MergedInfo | undefined
-  >(() => {
-    if (!contactInfo) return;
-    if (!bookingInfo) return contactInfo;
-
-    const emails = new Set(contactInfo.email);
-    const urls = new Set(contactInfo.url);
-    const phones = new Set(contactInfo.phone);
-
-    if (bookingInfo.email) {
-      emails.add(bookingInfo.email);
-    }
-
-    if (bookingInfo.url) {
-      urls.add(bookingInfo.url);
-    }
-
-    if (bookingInfo.phone) {
-      phones.add(bookingInfo.phone);
-    }
-
-    return {
-      email: [...emails],
-      url: [...urls],
-      phone: [...phones],
-    };
-  });
+  const [isContactInfoCompleted, setIsContactInfoCompleted] = useState(false);
 
   const tabsConfigurations = useMemo<TabConfig[]>(() => {
     return [
@@ -193,14 +152,21 @@ const AdditionalInformationStep = ({
         eventKey: 'contactInfo',
         title: t('create.additionalInformation.contact_info.title'),
         Component: (
-          <ContactInfo
-            contactInfo={contactInfo}
-            bookingInfo={bookingInfo}
-            mergedInfo={getMergedContactAndBookingInfo()}
+          <ContactInfoEntry
+            eventId={eventId}
+            onChangeCompleted={(isCompleted) =>
+              setIsContactInfoCompleted(isCompleted)
+            }
+            onSuccessfulContactPointChange={() =>
+              invalidateEventQuery('contactPoint')
+            }
+            onSuccessfulBookingInfoChange={() =>
+              invalidateEventQuery('bookingInfo')
+            }
           />
         ),
         isVisible: variant === AdditionalInformationStepVariant.EXTENDED,
-        isCompleted: false,
+        isCompleted: isContactInfoCompleted,
       },
       {
         eventKey: 'imagesAndVideos',
@@ -235,8 +201,6 @@ const AdditionalInformationStep = ({
       },
     ];
   }, [
-    bookingInfo,
-    contactInfo,
     eventId,
     invalidateEventQuery,
     isAudienceTypeCompleted,
@@ -244,9 +208,9 @@ const AdditionalInformationStep = ({
     isMediaStepCompleted,
     isOrganizerStepCompleted,
     isPriceInformationCompleted,
+    isContactInfoCompleted,
     t,
     variant,
-    getMergedContactAndBookingInfo,
   ]);
 
   return (
