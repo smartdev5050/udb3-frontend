@@ -7,6 +7,7 @@ import {
   useGetEventByIdQuery,
 } from '@/hooks/api/events';
 import { useCreateOrganizerMutation } from '@/hooks/api/organizers';
+import { Stack } from '@/ui/Stack';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 import { OrganizerAddModal, OrganizerData } from '../OrganizerAddModal';
@@ -14,16 +15,15 @@ import { OrganizerPicker } from './OrganizerPicker';
 
 type Props = {
   eventId?: string;
-  completed: boolean;
   onChangeCompleted: (completed: boolean) => void;
   onSuccessfulChange: () => void;
 };
 
 const OrganizerStep = ({
   eventId,
-  completed,
   onChangeCompleted,
   onSuccessfulChange,
+  ...props
 }: Props) => {
   const { i18n } = useTranslation();
 
@@ -44,7 +44,9 @@ const OrganizerStep = ({
     const organizerId = parseOfferId(organizer['@id']);
 
     setOrganizerId(organizerId);
-  }, [organizer]);
+
+    onChangeCompleted(true);
+  }, [organizer, onChangeCompleted]);
 
   const createOrganizerMutation = useCreateOrganizerMutation();
 
@@ -84,7 +86,7 @@ const OrganizerStep = ({
   };
 
   return (
-    <>
+    <Stack {...getStackProps(props)}>
       <OrganizerAddModal
         prefillName={newOrganizerName}
         visible={isOrganizerAddModalVisible}
@@ -105,7 +107,7 @@ const OrganizerStep = ({
         }
         organizer={organizer}
       />
-    </>
+    </Stack>
   );
 };
 
