@@ -93,6 +93,11 @@
         "title": "Zugang"
       },
       "contact_info": {
+        "add_phone_input_placeholder": "Fügen Sie eine Telefonnummer hinzu",
+        "add_url_input_placeholder": "Fügen Sie einen Link hinzu",
+        "add_email_input_placeholder": "Fügen Sie eine E-Mail-Adresse hinzu",
+        "select_for_reservation": "Wählen Sie Ihre Reservierungs {{contactInfoType}}",
+        "select_url_label": "Wie kann dieser Reservierungslink aussehen?",
         "edit_cta": "Bearbeiten",
         "email": "E-mailadres",
         "email_error": "Keine gültige E-Mail-Adresse",

@@ -93,7 +93,9 @@
         "members": "Enkel voor leden"
       },
       "contact_info": {
-        "add_input_placeholder": "Voeg een {{contactInfoType}} toe",
+        "add_phone_input_placeholder": "Voeg een telefoonnummer toe",
+        "add_url_input_placeholder": "Voeg een link toe",
+        "add_email_input_placeholder": "Voeg een e-mailadres toe",
         "select_for_reservation": "Kies je reservatie {{contactInfoType}}",
         "select_url_label": "Hoe mag deze reservatie link verschijnen?",
         "edit_cta": "Bewerken",

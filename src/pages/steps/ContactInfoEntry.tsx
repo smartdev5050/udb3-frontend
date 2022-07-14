@@ -267,8 +267,7 @@ const Form = ({
             <Input
               value={value}
               placeholder={t(
-                'create.additionalInformation.contact_info.add_input_placeholder',
-                { contactInfoType: label.toLowerCase() },
+                `create.additionalInformation.contact_info.add_${type}_input_placeholder`,
               )}
               isInvalid={!!errorMessage}
               onChange={(e) => setValue(e.target.value)}
