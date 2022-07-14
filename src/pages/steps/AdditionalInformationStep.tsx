@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useMemo, useState } from 'react';
+import { FC, ReactNode, useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
@@ -33,11 +33,16 @@ type Field =
   | 'organizer';
 
 type TabConfig = {
-  eventKey: string;
+  eventKey: Field;
   title: string;
-  Component: ReactNode;
   isVisible: boolean;
   isCompleted: boolean;
+  onChangeCompleted: (value: boolean) => void;
+  Component: FC<{
+    eventId: string;
+    onSuccessfulChange: () => Promise<void>;
+    onChangeCompleted: (value: boolean) => void;
+  }>;
 };
 
 type TabTitleProps = InlineProps & {
@@ -109,109 +114,19 @@ const AdditionalInformationStep = ({
     // @ts-expect-error
   }, [getEventByIdQuery.data?.bookingInfo, variant]);
 
-  const tabsConfigurations = useMemo<TabConfig[]>(() => {
-    return [
+  const tabsConfigurations = useMemo<TabConfig[]>(
+    () => [
       {
         eventKey: 'description',
         title: t('create.additionalInformation.description.title'),
-        Component: (
-          <DescriptionStep
-            eventId={eventId}
-            onChangeCompleted={setIsDescriptionCompleted}
-            onSuccessfulChange={() => invalidateEventQuery('description')}
-          />
-        ),
+        Component: DescriptionStep,
         isVisible: true,
         isCompleted: isDescriptionCompleted,
+        onChangeCompleted: setIsDescriptionCompleted,
       },
-      {
-        eventKey: 'organizer',
-        title: t('create.additionalInformation.organizer.title'),
-        Component: (
-          <OrganizerStep
-            eventId={eventId}
-            onChangeCompleted={(isCompleted) =>
-              setIsOrganizerStepCompleted(isCompleted)
-            }
-            onSuccessfulChange={() => invalidateEventQuery('organizer')}
-          />
-        ),
-        isVisible: variant === AdditionalInformationStepVariant.EXTENDED,
-        isCompleted: isOrganizerStepCompleted,
-      },
-      {
-        eventKey: 'priceInfo',
-        title: t('create.additionalInformation.price_info.title'),
-        Component: (
-          <PriceInformation
-            eventId={eventId}
-            completed={isPriceInformationCompleted}
-            onChangeCompleted={(isCompleted) =>
-              setIsPriceInformationCompleted(isCompleted)
-            }
-            onSuccessfulChange={() => invalidateEventQuery('priceInfo')}
-          />
-        ),
-        isVisible: variant === AdditionalInformationStepVariant.EXTENDED,
-        isCompleted: isPriceInformationCompleted,
-      },
-      {
-        eventKey: 'contactInfo',
-        title: t('create.additionalInformation.contact_info.title'),
-        Component: (
-          <ContactInfo
-            eventContactInfo={eventContactInfo}
-            eventBookingInfo={eventBookingInfo}
-          />
-        ),
-        isVisible: variant === AdditionalInformationStepVariant.EXTENDED,
-        isCompleted: false,
-      },
-      {
-        eventKey: 'imagesAndVideos',
-        title: t('create.additionalInformation.pictures_and_videos.title'),
-        Component: (
-          <MediaStep
-            eventId={eventId}
-            onChangeImageSuccess={() => invalidateEventQuery('image')}
-            onChangeVideoSuccess={() => invalidateEventQuery('video')}
-            onChangeCompleted={(isCompleted: boolean) =>
-              setIsMediaStepCompleted(isCompleted)
-            }
-          />
-        ),
-        isVisible: true,
-        isCompleted: isMediaStepCompleted,
-      },
-      {
-        eventKey: 'audience',
-        title: t('create.additionalInformation.audience.title'),
-        Component: (
-          <Audience
-            eventId={eventId}
-            onChangeSuccess={() => invalidateEventQuery('audience')}
-            onChangeCompleted={(isCompleted) =>
-              setIsAudienceTypeCompleted(isCompleted)
-            }
-          />
-        ),
-        isVisible: variant === AdditionalInformationStepVariant.EXTENDED,
-        isCompleted: isAudienceTypeCompleted,
-      },
-    ];
-  }, [
-    eventBookingInfo,
-    eventContactInfo,
-    eventId,
-    invalidateEventQuery,
-    isAudienceTypeCompleted,
-    isDescriptionCompleted,
-    isMediaStepCompleted,
-    isOrganizerStepCompleted,
-    isPriceInformationCompleted,
-    t,
-    variant,
-  ]);
+    ],
+    [isDescriptionCompleted, t],
+  );
 
   return (
     <Stack {...getStackProps(props)}>
@@ -225,14 +140,25 @@ const AdditionalInformationStep = ({
         `}
       >
         {tabsConfigurations.map(
-          ({ eventKey, title, Component, isVisible, isCompleted }) =>
+          ({
+            eventKey,
+            title,
+            Component,
+            isVisible,
+            isCompleted,
+            onChangeCompleted,
+          }) =>
             isVisible && (
               <Tabs.Tab
                 key={eventKey}
                 eventKey={eventKey}
                 title={<TabTitle title={title} isCompleted={isCompleted} />}
               >
-                {Component}
+                <Component
+                  eventId={eventId}
+                  onChangeCompleted={onChangeCompleted}
+                  onSuccessfulChange={() => invalidateEventQuery(eventKey)}
+                />
               </Tabs.Tab>
             ),
         )}
