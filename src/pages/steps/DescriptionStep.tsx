@@ -128,7 +128,12 @@ export const DescriptionStep = ({
     const isCompleted = newDescription.length >= IDEAL_DESCRIPTION_LENGTH;
 
     onChangeCompleted(isCompleted);
-  }, [event.description, event.mainLanguage, i18n.language, onChangeCompleted]);
+  }, [
+    event?.description,
+    event?.mainLanguage,
+    i18n.language,
+    onChangeCompleted,
+  ]);
 
   const eventTypeId = useMemo(() => {
     return event?.terms.find((term) => term.domain === 'eventtype')?.id!;
