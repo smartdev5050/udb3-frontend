@@ -93,13 +93,35 @@
         "title": "Zugang"
       },
       "contact_info": {
+        "add_phone_input_placeholder": "Fügen Sie eine Telefonnummer hinzu",
+        "add_url_input_placeholder": "Fügen Sie einen Link hinzu",
+        "add_email_input_placeholder": "Fügen Sie eine E-Mail-Adresse hinzu",
+        "select_for_reservation": "Wählen Sie Ihre Reservierungs {{contactInfoType}}",
+        "select_url_label": "Wie kann dieser Reservierungslink aussehen?",
         "edit_cta": "Bearbeiten",
         "email": "E-mailadres",
+        "email_error": "Keine gültige E-Mail-Adresse",
         "empty": "Sie haben noch keine {{contactInfoType}} hinzugefügt",
         "is_used_for_reservation": "Für die Reservierung verwendet",
         "phone": "Telefoonnummer",
+        "phone_error": "Keine gültige Telefonnummer",
         "title": "Kontakt & Reservierung",
-        "url": "Website"
+        "reservation_period": {
+          "cta": "Reservierungszeitraum hinzufügen",
+          "title": "Reservierungszeitraum",
+          "delete": "Reservierungszeitraum löschen",
+          "error": {
+            "enddate_before_startdate": "Das gewählte Enddatum muss nach dem Startdatum liegen."
+          }
+        },
+        "url": "Website",
+        "url_error": "Eine gültige URL beginnt mit http:// oder https://",
+        "url_type_labels": {
+          "subscribe": "Melden Sie sich an",
+          "availability": "Verfügbarkeit kontrollieren",
+          "buy": "Tickets kaufen",
+          "reserve": "Plätze reservieren"
+        }
       },
       "description": {
         "clear": "Leeren",
@@ -181,6 +203,8 @@
     "toast": {
       "success": {
         "audienceType": "Zugang wurde erfolgreich geändert",
+        "booking_info": "Reservierungsinformationen wurden erfolgreich geändert",
+        "contact_point": "Kontaktdaten wurden erfolgreich geändert",
         "organizer": "Organisation wurde erfolgreich geändert"
       }
     }

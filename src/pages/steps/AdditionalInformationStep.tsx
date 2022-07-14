@@ -1,6 +1,7 @@
 import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
+import { useDeepCompareMemoize } from 'use-deep-compare-effect';
 
 import {
   useAddEventMainImageMutation,
@@ -44,6 +45,7 @@ import type { Video, VideoEnriched } from '../VideoUploadBox';
 import { VideoUploadBox } from '../VideoUploadBox';
 import { Audience } from './Audience';
 import { ContactInfo } from './ContactInfo';
+import { ContactInfoEntry } from './ContactInfoEntry';
 import { DescriptionStep } from './DescriptionStep';
 import { OrganizerPicker } from './OrganizerPicker';
 import { PriceInformation } from './PriceInformation';
@@ -53,6 +55,12 @@ const AdditionalInformationStepVariant = {
   EXTENDED: 'extended',
 } as const;
 
+type MergedInfo = {
+  email: string[];
+  url: string[];
+  phone: string[];
+};
+
 type Field =
   | 'description'
   | 'image'
@@ -60,6 +68,8 @@ type Field =
   | 'contactInfo'
   | 'priceInfo'
   | 'audience'
+  | 'bookingInfo'
+  | 'contactPoint'
   | 'organizer';
 
 type TabConfig = {
@@ -140,7 +150,10 @@ const AdditionalInformationStep = ({
 
   const [videos, setVideos] = useState([]);
 
-  const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
+  const getEventByIdQuery = useGetEventByIdQuery(
+    { id: eventId },
+    { refetchOnWindowFocus: false },
+  );
 
   const addImageToEventMutation = useAddImageToEventMutation({
     onSuccess: async () => {
@@ -223,6 +236,41 @@ const AdditionalInformationStep = ({
     getEventByIdQuery.data?.videos,
     variant,
   ]);
+
+  // @ts-expect-error
+  const contactInfo = getEventByIdQuery.data?.contactPoint;
+
+  // @ts-expect-error
+  const bookingInfo = getEventByIdQuery.data?.bookingInfo;
+
+  const getMergedContactAndBookingInfo = useDeepCompareMemoize<
+    () => MergedInfo | undefined
+  >(() => {
+    if (!contactInfo) return;
+    if (!bookingInfo) return contactInfo;
+
+    const emails = new Set(contactInfo.email);
+    const urls = new Set(contactInfo.url);
+    const phones = new Set(contactInfo.phone);
+
+    if (bookingInfo.email) {
+      emails.add(bookingInfo.email);
+    }
+
+    if (bookingInfo.url) {
+      urls.add(bookingInfo.url);
+    }
+
+    if (bookingInfo.phone) {
+      phones.add(bookingInfo.phone);
+    }
+
+    return {
+      email: [...emails],
+      url: [...urls],
+      phone: [...phones],
+    };
+  });
 
   const images = useMemo(() => {
     // @ts-expect-error
@@ -548,8 +596,9 @@ const AdditionalInformationStep = ({
         title: t('create.additionalInformation.contact_info.title'),
         Component: (
           <ContactInfo
-            eventContactInfo={eventContactInfo}
-            eventBookingInfo={eventBookingInfo}
+            contactInfo={eventContactInfo}
+            bookingInfo={eventBookingInfo}
+            mergedInfo={getMergedContactAndBookingInfo()}
           />
         ),
         isVisible: variant === AdditionalInformationStepVariant.EXTENDED,
@@ -682,6 +731,8 @@ const additionalInformationStepConfiguration = {
   Component: AdditionalInformationStep,
   title: (t) => t(`movies.create.step5.title`),
 };
+
+export type { MergedInfo };
 
 export {
   additionalInformationStepConfiguration,

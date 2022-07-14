@@ -1,3 +1,5 @@
+import { ChangeEvent } from 'react';
+
 import { RadioButtonWithLabel } from './RadioButtonWithLabel';
 import { getStackProps, Stack } from './Stack';
 
@@ -14,7 +16,7 @@ type Props = {
   items?: Array<Item>;
   selected: string;
   className?: string;
-  onChange: () => void;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
 const RadioButtonGroup = ({
