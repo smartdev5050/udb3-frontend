@@ -13,7 +13,7 @@ import {
 import { useAddImageMutation } from '@/hooks/api/images';
 import type { FormData } from '@/pages/steps/modals/PictureUploadModal';
 import { Inline } from '@/ui/Inline';
-import { Stack } from '@/ui/Stack';
+import { getStackProps, Stack } from '@/ui/Stack';
 import { Breakpoints } from '@/ui/theme';
 import { parseOfferId } from '@/utils/parseOfferId';
 
@@ -38,6 +38,7 @@ const MediaStep = ({
   onChangeImageSuccess,
   onChangeVideoSuccess,
   onChangeCompleted,
+  ...props
 }: Props) => {
   const { i18n } = useTranslation();
 
@@ -277,7 +278,7 @@ const MediaStep = ({
   };
 
   return (
-    <Stack>
+    <Stack {...getStackProps(props)}>
       <PictureUploadModal
         visible={isPictureUploadModalVisible}
         onClose={() => setIsPictureUploadModalVisible(false)}
