@@ -384,7 +384,6 @@ const AdditionalInformationStep = ({
   }, [images, imageToEditId]);
 
   const invalidateEventQuery = async (field: Field) => {
-    console.log('in invalidate?', field);
     await queryClient.invalidateQueries(['events', { id: eventId }]);
     onChangeSuccess(field);
   };
