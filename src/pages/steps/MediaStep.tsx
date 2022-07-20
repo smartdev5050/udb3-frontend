@@ -38,8 +38,6 @@ const MediaStep = ({
   onChangeCompleted,
   ...props
 }: Props) => {
-  console.log('in MediaStep');
-
   const { i18n } = useTranslation();
 
   const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
@@ -57,7 +55,6 @@ const MediaStep = ({
     [getEventByIdQuery.data?.mediaObject],
   );
 
-  console.log('mediaObjects', mediaObjects);
   const eventImage = useMemo(
     // @ts-expect-error
     () => getEventByIdQuery.data?.image ?? [],

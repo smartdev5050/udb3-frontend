@@ -106,8 +106,6 @@ const DescriptionStep = ({
   onChangeCompleted,
   ...props
 }: DescriptionStepProps) => {
-  console.log('in DescriptionStep');
-
   const { t, i18n } = useTranslation();
 
   const [description, setDescription] = useState('');
