@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -117,6 +117,9 @@ const DescriptionStep = ({
   // @ts-expect-error
   const event: Event | undefined = getEventByIdQuery.data;
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleChangeCompleted = useCallback(onChangeCompleted, []);
+
   useEffect(() => {
     if (!event?.description) return;
 
@@ -127,12 +130,12 @@ const DescriptionStep = ({
 
     const isCompleted = newDescription.length >= IDEAL_DESCRIPTION_LENGTH;
 
-    onChangeCompleted(isCompleted);
+    handleChangeCompleted(isCompleted);
   }, [
     event?.description,
     event?.mainLanguage,
     i18n.language,
-    onChangeCompleted,
+    handleChangeCompleted,
   ]);
 
   const eventTypeId = useMemo(() => {
