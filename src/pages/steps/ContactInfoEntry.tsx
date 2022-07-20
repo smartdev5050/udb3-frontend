@@ -18,12 +18,12 @@ import { Input } from '@/ui/Input';
 import { LabelPositions } from '@/ui/Label';
 import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
 import { SelectWithLabel } from '@/ui/SelectWithLabel';
-import { getStackProps, Stack } from '@/ui/Stack';
+import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
-import { MergedInfo } from './AdditionalInformationStep';
+import { MergedInfo, TabContentProps } from './AdditionalInformationStep';
 
 const ContactInfoType = {
   EMAIL: 'email',
@@ -504,20 +504,16 @@ const ReservationPeriod = ({
   );
 };
 
-type Props = {
-  eventId: string;
-  onSuccessfulContactPointChange: () => void;
-  onSuccessfulBookingInfoChange: () => void;
-  onChangeCompleted: (completed: boolean) => void;
-  withReservationInfo?: boolean;
-};
+type Props = StackProps &
+  TabContentProps & {
+    withReservationInfo?: boolean;
+  };
 
 const ContactInfoEntry = ({
   eventId,
-  withReservationInfo = false,
-  onSuccessfulContactPointChange,
-  onSuccessfulBookingInfoChange,
+  onSuccessfulChange,
   onChangeCompleted,
+  withReservationInfo,
   ...props
 }: Props) => {
   const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
@@ -528,10 +524,13 @@ const ContactInfoEntry = ({
   // @ts-expect-error
   const bookingInfo = getEventByIdQuery.data?.bookingInfo;
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleChangeCompleted = useCallback(onChangeCompleted, []);
+
   useEffect(() => {
     if (!contactInfo && !bookingInfo) return;
-    onChangeCompleted(true);
-  }, [contactInfo, bookingInfo, onChangeCompleted]);
+    handleChangeCompleted(true);
+  }, [contactInfo, bookingInfo, handleChangeCompleted]);
 
   const getMergedContactAndBookingInfo = useDeepCompareMemoize<
     () => MergedInfo | undefined
@@ -563,7 +562,7 @@ const ContactInfoEntry = ({
   });
 
   const addContactPointMutation = useAddContactPointMutation({
-    onSuccess: onSuccessfulContactPointChange,
+    onSuccess: onSuccessfulChange,
   });
 
   const handleAddContactInfoMutation = async (newContactInfo: ContactInfo) => {
@@ -576,7 +575,7 @@ const ContactInfoEntry = ({
   const addBookingInfoMutation = useAddBookingInfoMutation({
     onSuccess: () => {
       setTimeout(() => {
-        onSuccessfulBookingInfoChange();
+        onSuccessfulChange();
       }, 1000);
     },
   });
@@ -612,6 +611,10 @@ const ContactInfoEntry = ({
       )}
     </Stack>
   );
+};
+
+ContactInfoEntry.defaultProps = {
+  withReservationInfo: false,
 };
 
 export { ContactInfoEntry };

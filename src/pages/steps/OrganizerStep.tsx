@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -7,17 +7,14 @@ import {
   useGetEventByIdQuery,
 } from '@/hooks/api/events';
 import { useCreateOrganizerMutation } from '@/hooks/api/organizers';
-import { getStackProps, Stack } from '@/ui/Stack';
+import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 import { OrganizerAddModal, OrganizerData } from '../OrganizerAddModal';
+import { TabContentProps } from './AdditionalInformationStep';
 import { OrganizerPicker } from './OrganizerPicker';
 
-type Props = {
-  eventId?: string;
-  onChangeCompleted: (completed: boolean) => void;
-  onSuccessfulChange: () => void;
-};
+type Props = StackProps & TabContentProps;
 
 const OrganizerStep = ({
   eventId,
@@ -38,6 +35,9 @@ const OrganizerStep = ({
   const [newOrganizerName, setNewOrganizerName] = useState('');
   const [organizerId, setOrganizerId] = useState('');
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleChangeCompleted = useCallback(onChangeCompleted, []);
+
   useEffect(() => {
     if (!organizer) return;
 
@@ -45,8 +45,8 @@ const OrganizerStep = ({
 
     setOrganizerId(organizerId);
 
-    onChangeCompleted(true);
-  }, [organizer, onChangeCompleted]);
+    handleChangeCompleted(true);
+  }, [organizer, handleChangeCompleted]);
 
   const createOrganizerMutation = useCreateOrganizerMutation();
 

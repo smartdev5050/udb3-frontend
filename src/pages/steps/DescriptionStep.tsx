@@ -15,6 +15,8 @@ import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { TextArea } from '@/ui/TextArea';
 
+import { TabContentProps } from './AdditionalInformationStep';
+
 const IDEAL_DESCRIPTION_LENGTH = 200;
 
 type DescriptionInfoProps = StackProps & {
@@ -96,11 +98,7 @@ const DescriptionInfo = ({
   );
 };
 
-type DescriptionStepProps = StackProps & {
-  eventId?: string;
-  onChangeCompleted: (completed: boolean) => void;
-  onSuccessfulChange: () => void;
-};
+type DescriptionStepProps = StackProps & TabContentProps;
 
 const DescriptionStep = ({
   eventId,
@@ -108,6 +106,8 @@ const DescriptionStep = ({
   onChangeCompleted,
   ...props
 }: DescriptionStepProps) => {
+  console.log('in DescriptionStep');
+
   const { t, i18n } = useTranslation();
 
   const [description, setDescription] = useState('');

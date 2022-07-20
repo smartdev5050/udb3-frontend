@@ -28,28 +28,42 @@ import { PictureUploadModal } from './modals/PictureUploadModal';
 
 type Props = {
   eventId?: string;
-  onChangeImageSuccess: () => void;
-  onChangeVideoSuccess: () => void;
+  onSuccessfulChange: () => void;
   onChangeCompleted: (completed: boolean) => void;
 };
 
 const MediaStep = ({
   eventId,
-  onChangeImageSuccess,
-  onChangeVideoSuccess,
+  onSuccessfulChange,
   onChangeCompleted,
   ...props
 }: Props) => {
+  console.log('in MediaStep');
+
   const { i18n } = useTranslation();
 
   const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
 
   // @ts-expect-error
-  const videosFromQuery = getEventByIdQuery.data?.videos;
-  // @ts-expect-error
-  const mediaObjects = getEventByIdQuery.data?.mediaObject ?? [];
-  // @ts-expect-error
-  const eventImage = getEventByIdQuery.data?.image;
+  const videosFromQuery = useMemo(() => getEventByIdQuery.data?.videos ?? [], [
+    // @ts-expect-error
+    getEventByIdQuery.data?.videos,
+  ]);
+
+  const mediaObjects = useMemo(
+    // @ts-expect-error
+    () => getEventByIdQuery.data?.mediaObject ?? [],
+    // @ts-expect-error
+    [getEventByIdQuery.data?.mediaObject],
+  );
+
+  console.log('mediaObjects', mediaObjects);
+  const eventImage = useMemo(
+    // @ts-expect-error
+    () => getEventByIdQuery.data?.image ?? [],
+    // @ts-expect-error
+    [getEventByIdQuery.data?.image],
+  );
 
   const [
     isPictureUploadModalVisible,
@@ -75,10 +89,15 @@ const MediaStep = ({
   const [videos, setVideos] = useState([]);
   const [images, setImages] = useState<ImageType[]>([]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleSetImages = useCallback(setImages, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleSetVideos = useCallback(setVideos, []);
+
   const addImageToEventMutation = useAddImageToEventMutation({
     onSuccess: async () => {
       setIsPictureUploadModalVisible(false);
-      onChangeImageSuccess();
+      onSuccessfulChange();
     },
   });
 
@@ -91,34 +110,34 @@ const MediaStep = ({
   });
 
   const addEventMainImageMutation = useAddEventMainImageMutation({
-    onSuccess: onChangeImageSuccess,
+    onSuccess: onSuccessfulChange,
   });
 
   const updateImageFromEventMutation = useUpdateImageFromEventMutation({
     onSuccess: async () => {
       setIsPictureUploadModalVisible(false);
-      onChangeImageSuccess();
+      onSuccessfulChange();
     },
   });
 
   const deleteImageFromEventMutation = useDeleteImageFromEventMutation({
     onSuccess: async () => {
       setIsPictureUploadModalVisible(false);
-      onChangeImageSuccess();
+      onSuccessfulChange();
     },
   });
 
   const addVideoToEventMutation = useAddVideoToEventMutation({
     onSuccess: async () => {
       setIsVideoLinkDeleteModalVisible(false);
-      onChangeVideoSuccess();
+      onSuccessfulChange();
     },
   });
 
   const deleteVideoFromEventMutation = useDeleteVideoFromEventMutation({
     onSuccess: async () => {
       setIsVideoLinkDeleteModalVisible(false);
-      onChangeVideoSuccess();
+      onSuccessfulChange();
     },
   });
 
@@ -160,23 +179,26 @@ const MediaStep = ({
 
     const data = await Promise.all(convertAllVideoUrlsPromises);
 
-    setVideos(data);
+    handleSetVideos(data);
   };
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleChangeCompleted = useCallback(onChangeCompleted, []);
 
   useEffect(() => {
     if (!videosFromQuery || videosFromQuery.length === 0) {
-      setVideos([]);
+      handleSetVideos([]);
       return;
     }
 
     enrichVideos(videosFromQuery as Video[]);
 
-    onChangeCompleted(true);
-  }, [videosFromQuery, setVideos, onChangeCompleted]);
+    handleChangeCompleted(true);
+  }, [videosFromQuery, handleSetVideos, handleChangeCompleted]);
 
   useEffect(() => {
     if (!mediaObjects || mediaObjects.length === 0) {
-      setImages([]);
+      handleSetImages([]);
       return;
     }
     const parsedMediaObjects = mediaObjects.map((mediaObject) => ({
@@ -185,13 +207,13 @@ const MediaStep = ({
       ...mediaObject,
     }));
 
-    setImages([
+    handleSetImages([
       ...parsedMediaObjects.filter((mediaObject) => mediaObject.isMain),
       ...parsedMediaObjects.filter((mediaObject) => !mediaObject.isMain),
     ] as ImageType[]);
 
-    onChangeCompleted(true);
-  }, [eventImage, mediaObjects, setImages, onChangeCompleted]);
+    handleChangeCompleted(true);
+  }, [eventImage, mediaObjects, handleSetImages, handleChangeCompleted]);
 
   const imageToEdit = useMemo(() => {
     const image = images.find((image) => image.parsedId === imageToEditId);

@@ -1,4 +1,4 @@
-import { FC, useCallback, useMemo, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
@@ -28,31 +28,60 @@ type MergedInfo = {
   phone: string[];
 };
 
-type Field =
-  | 'description'
-  | 'image'
-  | 'video'
-  | 'contactInfo'
-  | 'priceInfo'
-  | 'audience'
-  | 'bookingInfo'
-  | 'contactPoint'
-  | 'organizer';
+const Fields = {
+  DESCRIPTION: 'description',
+  MEDIA: 'media',
+  CONTACT_INFO: 'contact_info',
+  PRICE_INFO: 'price_info',
+  AUDIENCE: 'audience',
+  BOOKING_INFO: 'booking_info',
+  CONTACT_POINT: 'contact_point',
+  ORGANIZER: 'organizer',
+};
+
+type Field = Values<typeof Fields>;
+
+type TabContentProps = {
+  eventId: string;
+  onSuccessfulChange: () => Promise<void>;
+  onChangeCompleted: (value: boolean) => void;
+};
 
 type TabConfig = {
   field: Field;
-  TabContent: FC<{
-    eventId: string;
-    onSuccessfulChange: () => Promise<void>;
-    onChangeCompleted: (value: boolean) => void;
-  }>;
+  TabContent: FC<TabContentProps & { [prop: string]: unknown }>;
   shouldShowOnMinimal: boolean;
 };
 
-const tabsConfigurations: TabConfig[] = [
+const tabConfigurations: TabConfig[] = [
   {
-    field: 'description',
+    field: Fields.DESCRIPTION,
     TabContent: DescriptionStep,
+    shouldShowOnMinimal: true,
+  },
+  {
+    field: Fields.ORGANIZER,
+    TabContent: OrganizerStep,
+    shouldShowOnMinimal: true,
+  },
+  {
+    field: Fields.PRICE_INFO,
+    TabContent: PriceInformation,
+    shouldShowOnMinimal: true,
+  },
+  {
+    field: Fields.CONTACT_INFO,
+    TabContent: ContactInfoEntry,
+    shouldShowOnMinimal: true,
+  },
+  {
+    field: Fields.MEDIA,
+    TabContent: MediaStep,
+    shouldShowOnMinimal: true,
+  },
+  {
+    field: Fields.AUDIENCE,
+    TabContent: Audience,
     shouldShowOnMinimal: true,
   },
 ];
@@ -103,10 +132,9 @@ const AdditionalInformationStep = ({
     description: false,
     audience: false,
     contactInfo: false,
-    image: false,
+    media: false,
     organizer: false,
     priceInfo: false,
-    video: false,
     bookingInfo: false,
     contactPoint: false,
   });
@@ -122,39 +150,34 @@ const AdditionalInformationStep = ({
           }
         `}
       >
-        {tabsConfigurations.map(
-          ({ shouldShowOnMinimal, field, TabContent }) => {
-            const shouldShowTab =
-              variant !== AdditionalInformationStepVariant.MINIMAL ||
-              shouldShowOnMinimal;
+        {tabConfigurations.map(({ shouldShowOnMinimal, field, TabContent }) => {
+          const shouldShowTab =
+            variant !== AdditionalInformationStepVariant.MINIMAL ||
+            shouldShowOnMinimal;
 
-            if (!shouldShowTab) return null;
+          if (!shouldShowTab) return null;
 
-            return (
-              <Tabs.Tab
-                key={field}
-                eventKey={field}
-                title={
-                  <TabTitle
-                    field={field}
-                    isCompleted={isFieldCompleted[field]}
-                  />
+          return (
+            <Tabs.Tab
+              key={field}
+              eventKey={field}
+              title={
+                <TabTitle field={field} isCompleted={isFieldCompleted[field]} />
+              }
+            >
+              <TabContent
+                eventId={eventId}
+                onChangeCompleted={(isCompleted) =>
+                  setIsFieldCompleted((prevFields) => ({
+                    ...prevFields,
+                    [field]: isCompleted,
+                  }))
                 }
-              >
-                <TabContent
-                  eventId={eventId}
-                  onChangeCompleted={(isCompleted) =>
-                    setIsFieldCompleted((prevFields) => ({
-                      ...prevFields,
-                      [field]: isCompleted,
-                    }))
-                  }
-                  onSuccessfulChange={() => invalidateEventQuery(field)}
-                />
-              </Tabs.Tab>
-            );
-          },
-        )}
+                onSuccessfulChange={() => invalidateEventQuery(field)}
+              />
+            </Tabs.Tab>
+          );
+        })}
       </Tabs>
     </Stack>
   );
@@ -169,7 +192,7 @@ const additionalInformationStepConfiguration = {
   title: (t) => t(`movies.create.step5.title`),
 };
 
-export type { MergedInfo };
+export type { MergedInfo, TabContentProps };
 
 export {
   additionalInformationStepConfiguration,

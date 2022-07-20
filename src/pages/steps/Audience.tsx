@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -15,11 +15,9 @@ import { RadioButtonWithLabel } from '@/ui/RadioButtonWithLabel';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 
-type Props = StackProps & {
-  eventId: string;
-  onChangeSuccess: () => void;
-  onChangeCompleted: (completed: boolean) => void;
-};
+import { TabContentProps } from './AdditionalInformationStep';
+
+type Props = StackProps & TabContentProps;
 
 const AudienceType = {
   EVERYONE: 'everyone',
@@ -37,7 +35,7 @@ const schema = yup.object({
 
 const Audience = ({
   eventId,
-  onChangeSuccess,
+  onSuccessfulChange,
   onChangeCompleted,
   ...props
 }: Props) => {
@@ -52,6 +50,9 @@ const Audience = ({
   // @ts-expect-error
   const event: Event | undefined = getEventByIdQuery.data;
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleChangeCompleted = useCallback(onChangeCompleted, []);
+
   useEffect(() => {
     if (!event?.audience?.audienceType) {
       setValue('audienceType', AudienceType.EVERYONE);
@@ -60,11 +61,11 @@ const Audience = ({
       setValue('audienceType', newAudienceType);
     }
 
-    onChangeCompleted(true);
-  }, [event?.audience?.audienceType, onChangeCompleted, setValue]);
+    handleChangeCompleted(true);
+  }, [event?.audience?.audienceType, handleChangeCompleted, setValue]);
 
   const addAudienceMutation = useAddAudienceMutation({
-    onSuccess: onChangeSuccess,
+    onSuccess: onSuccessfulChange,
   });
 
   const handleOnChangeAudience = async (audienceType: AudienceType) => {

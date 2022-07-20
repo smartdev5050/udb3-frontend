@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -51,7 +51,6 @@ type FormData = { rates: Rate[] };
 
 type Props = {
   eventId: string;
-  completed: boolean;
   onChangeCompleted: (isCompleted: boolean) => void;
   onSuccessfulChange: () => void;
 };
@@ -127,11 +126,14 @@ const PriceInformation = ({
   // @ts-expect-error
   const event: Event | undefined = getEventByIdQuery.data;
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleChangeCompleted = useCallback(onChangeCompleted, []);
+
   useEffect(() => {
     let newPriceInfo = event?.priceInfo ?? [];
 
     if (newPriceInfo.length > 0) {
-      onChangeCompleted(true);
+      handleChangeCompleted(true);
     }
     const mainLanguage = event?.mainLanguage;
 
@@ -147,7 +149,12 @@ const PriceInformation = ({
     });
 
     setPriceInfo(newPriceInfo);
-  }, [event?.priceInfo, event?.mainLanguage, i18n.language, onChangeCompleted]);
+  }, [
+    event?.priceInfo,
+    event?.mainLanguage,
+    i18n.language,
+    handleChangeCompleted,
+  ]);
 
   const {
     register,
