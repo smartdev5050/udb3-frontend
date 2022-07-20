@@ -568,14 +568,10 @@ const ContactInfoEntry = ({
   const mergedContactAndBookingInfo = getMergedContactAndBookingInfo();
 
   useEffect(() => {
-    if (!mergedContactAndBookingInfo) return;
+    if (!bookingInfo && !contactInfo) return;
 
-    const isCompleted = Object.values<string[]>(
-      mergedContactAndBookingInfo,
-    ).some((info) => info.length > 0);
-
-    handleChangeCompleted(isCompleted);
-  }, [mergedContactAndBookingInfo, handleChangeCompleted]);
+    handleChangeCompleted(true);
+  }, [contactInfo, bookingInfo, handleChangeCompleted]);
 
   const addContactPointMutation = useAddContactPointMutation({
     onSuccess: onSuccessfulChange,
@@ -605,19 +601,20 @@ const ContactInfoEntry = ({
 
   return (
     <Stack maxWidth="40rem" {...getStackProps(props)}>
-      <Text>TEST: {JSON.stringify(mergedContactAndBookingInfo)}</Text>
       {mergedContactAndBookingInfo &&
-        Object.keys(mergedContactAndBookingInfo).map((type: string) => (
-          <Form
-            key={type}
-            type={type}
-            contactAndBookingInfo={mergedContactAndBookingInfo}
-            bookingInfo={bookingInfo}
-            contactInfo={contactInfo}
-            onAddContactInfo={handleAddContactInfoMutation}
-            onAddBookingInfo={handleAddBookingInfoMutation}
-          />
-        ))}
+        Object.keys(mergedContactAndBookingInfo)
+          .sort()
+          .map((type: string) => (
+            <Form
+              key={type}
+              type={type}
+              contactAndBookingInfo={mergedContactAndBookingInfo}
+              bookingInfo={bookingInfo}
+              contactInfo={contactInfo}
+              onAddContactInfo={handleAddContactInfoMutation}
+              onAddBookingInfo={handleAddBookingInfoMutation}
+            />
+          ))}
       {bookingInfo && (
         <ReservationPeriod
           bookingInfo={bookingInfo}
