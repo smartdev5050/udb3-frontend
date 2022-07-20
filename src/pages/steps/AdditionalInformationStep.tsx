@@ -30,13 +30,11 @@ type MergedInfo = {
 
 const Fields = {
   DESCRIPTION: 'description',
-  MEDIA: 'media',
+  ORGANIZER: 'organizer',
   CONTACT_INFO: 'contact_info',
   PRICE_INFO: 'price_info',
+  MEDIA: 'media',
   AUDIENCE: 'audience',
-  BOOKING_INFO: 'booking_info',
-  CONTACT_POINT: 'contact_point',
-  ORGANIZER: 'organizer',
 };
 
 type Field = Values<typeof Fields>;
@@ -131,12 +129,12 @@ const AdditionalInformationStep = ({
   >({
     description: false,
     audience: false,
-    contactInfo: false,
+    contact_info: false,
     media: false,
     organizer: false,
-    priceInfo: false,
-    bookingInfo: false,
-    contactPoint: false,
+    price_info: false,
+    booking_info: false,
+    contact_point: false,
   });
 
   return (
@@ -168,9 +166,8 @@ const AdditionalInformationStep = ({
               <TabContent
                 eventId={eventId}
                 onChangeCompleted={(isCompleted) => {
-                  if (isFieldCompleted[field] === isCompleted) {
-                    return;
-                  }
+                  if (isFieldCompleted[field] === isCompleted) return;
+
                   setIsFieldCompleted((prevFields) => ({
                     ...prevFields,
                     [field]: isCompleted,
