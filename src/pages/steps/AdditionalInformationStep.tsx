@@ -1,4 +1,4 @@
-import { FC, ReactNode, useCallback, useMemo, useState } from 'react';
+import { FC, useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
@@ -40,28 +40,35 @@ type Field =
   | 'organizer';
 
 type TabConfig = {
-  eventKey: Field;
-  title: string;
-  isVisible: boolean;
-  isCompleted: boolean;
-  onChangeCompleted: (value: boolean) => void;
-  Component: FC<{
+  field: Field;
+  TabContent: FC<{
     eventId: string;
     onSuccessfulChange: () => Promise<void>;
     onChangeCompleted: (value: boolean) => void;
   }>;
+  shouldShowOnMinimal: boolean;
 };
 
+const tabsConfigurations: TabConfig[] = [
+  {
+    field: 'description',
+    TabContent: DescriptionStep,
+    shouldShowOnMinimal: true,
+  },
+];
+
 type TabTitleProps = InlineProps & {
-  title: string;
+  field: Field;
   isCompleted: boolean;
 };
 
-const TabTitle = ({ title, isCompleted, ...props }: TabTitleProps) => {
+const TabTitle = ({ field, isCompleted, ...props }: TabTitleProps) => {
+  const { t } = useTranslation();
+
   return (
     <Inline spacing={3} {...getInlineProps(props)}>
       {isCompleted && <Icon name={Icons.CHECK_CIRCLE} color="#48874a" />}
-      <Text>{title}</Text>
+      <Text>{t(`create.additionalInformation.${field}.title`)}</Text>
     </Inline>
   );
 };
@@ -88,38 +95,21 @@ const AdditionalInformationStep = ({
     [eventId, onChangeSuccess, queryClient],
   );
 
-  const { t } = useTranslation();
-
   const [tab, setTab] = useState('description');
 
-  const [isDescriptionCompleted, setIsDescriptionCompleted] = useState(false);
-  const [isAudienceTypeCompleted, setIsAudienceTypeCompleted] = useState(false);
-  const [
-    isPriceInformationCompleted,
-    setIsPriceInformationCompleted,
-  ] = useState(false);
-
-  const [isOrganizerStepCompleted, setIsOrganizerStepCompleted] = useState(
-    false,
-  );
-
-  const [isMediaStepCompleted, setIsMediaStepCompleted] = useState(false);
-
-  const [isContactInfoCompleted, setIsContactInfoCompleted] = useState(false);
-
-  const tabsConfigurations = useMemo<TabConfig[]>(
-    () => [
-      {
-        eventKey: 'description',
-        title: t('create.additionalInformation.description.title'),
-        Component: DescriptionStep,
-        isVisible: true,
-        isCompleted: isDescriptionCompleted,
-        onChangeCompleted: setIsDescriptionCompleted,
-      },
-    ],
-    [isDescriptionCompleted, t],
-  );
+  const [isFieldCompleted, setIsFieldCompleted] = useState<
+    Record<Field, boolean>
+  >({
+    description: false,
+    audience: false,
+    contactInfo: false,
+    image: false,
+    organizer: false,
+    priceInfo: false,
+    video: false,
+    bookingInfo: false,
+    contactPoint: false,
+  });
 
   return (
     <Stack {...getStackProps(props)}>
@@ -133,27 +123,37 @@ const AdditionalInformationStep = ({
         `}
       >
         {tabsConfigurations.map(
-          ({
-            eventKey,
-            title,
-            Component,
-            isVisible,
-            isCompleted,
-            onChangeCompleted,
-          }) =>
-            isVisible && (
+          ({ shouldShowOnMinimal, field, TabContent }) => {
+            const shouldShowTab =
+              variant !== AdditionalInformationStepVariant.MINIMAL ||
+              shouldShowOnMinimal;
+
+            if (!shouldShowTab) return null;
+
+            return (
               <Tabs.Tab
-                key={eventKey}
-                eventKey={eventKey}
-                title={<TabTitle title={title} isCompleted={isCompleted} />}
+                key={field}
+                eventKey={field}
+                title={
+                  <TabTitle
+                    field={field}
+                    isCompleted={isFieldCompleted[field]}
+                  />
+                }
               >
-                <Component
+                <TabContent
                   eventId={eventId}
-                  onChangeCompleted={onChangeCompleted}
-                  onSuccessfulChange={() => invalidateEventQuery(eventKey)}
+                  onChangeCompleted={(isCompleted) =>
+                    setIsFieldCompleted((prevFields) => ({
+                      ...prevFields,
+                      [field]: isCompleted,
+                    }))
+                  }
+                  onSuccessfulChange={() => invalidateEventQuery(field)}
                 />
               </Tabs.Tab>
-            ),
+            );
+          },
         )}
       </Tabs>
     </Stack>
