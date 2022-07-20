@@ -201,11 +201,12 @@
     },
     "toast": {
       "success": {
-        "audienceType": "Toegang is succesvol gewijzigd",
-        "priceInfo": "Prijsinformatie is succesvol gewijzigd",
+        "description": "Beschrijving is succesvol gewijzigd",
+        "organizer": "Organisatie is succesvol gewijzigd",
+        "price_info": "Prijsinformatie is succesvol gewijzigd",
         "booking_info": "Reservatie info is succesvol gewijzigd",
-        "contact_point": "Contactinfo is succesvol gewijzigd",
-        "organizer": "Organisatie is succesvol gewijzigd"
+        "contact_info": "Contactinfo is succesvol gewijzigd",
+        "audience": "Toegang is succesvol gewijzigd"
       }
     }
   },
