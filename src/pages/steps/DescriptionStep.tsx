@@ -17,13 +17,13 @@ import { TextArea } from '@/ui/TextArea';
 
 const IDEAL_DESCRIPTION_LENGTH = 200;
 
-export type DescriptionInfoProps = StackProps & {
+type DescriptionInfoProps = StackProps & {
   description: string;
   eventTypeId: string;
   onClear: () => void;
 };
 
-export const DescriptionInfo = ({
+const DescriptionInfo = ({
   description,
   eventTypeId,
   onClear,
@@ -102,7 +102,7 @@ type DescriptionStepProps = StackProps & {
   onSuccessfulChange: () => void;
 };
 
-export const DescriptionStep = ({
+const DescriptionStep = ({
   eventId,
   onSuccessfulChange,
   onChangeCompleted,
@@ -194,3 +194,5 @@ export const DescriptionStep = ({
     />
   );
 };
+
+export { DescriptionStep };
