@@ -25,6 +25,9 @@ import { Title } from '@/ui/Title';
 
 import { MergedInfo, TabContentProps } from './AdditionalInformationStep';
 
+const urlLabelTranslationString =
+  'create.additionalInformation.contact_info.url_type_labels';
+
 const ContactInfoType = {
   EMAIL: 'email',
   PHONE: 'phone',
@@ -85,13 +88,26 @@ const UrlLabelType = {
 const getUrlLabelType = (englishUrlLabel: string): string => {
   if (englishUrlLabel.toLowerCase().includes(UrlLabelType.AVAILABILITY))
     return UrlLabelType.AVAILABILITY;
+
   if (englishUrlLabel.toLowerCase().includes(UrlLabelType.BUY))
     return UrlLabelType.BUY;
+
   if (englishUrlLabel.toLowerCase().includes(UrlLabelType.SUBSCRIBE))
     return UrlLabelType.SUBSCRIBE;
+
   if (englishUrlLabel.toLowerCase().includes(UrlLabelType.RESERVE))
     return UrlLabelType.RESERVE;
+
   return UrlLabelType.BUY;
+};
+
+type FormProps = {
+  type: string;
+  contactAndBookingInfo: ContactInfo;
+  contactInfo: ContactInfo;
+  bookingInfo?: BookingInfo;
+  onAddContactInfo: (newContactInfo: ContactInfo) => Promise<void>;
+  onAddBookingInfo: (newBookingInfo: BookingInfo) => Promise<void>;
 };
 
 const Form = ({
@@ -99,20 +115,16 @@ const Form = ({
   contactAndBookingInfo,
   bookingInfo,
   contactInfo,
-  onAddInfo,
+  onAddContactInfo,
   onAddBookingInfo,
-}: {
-  type: string;
-  contactAndBookingInfo: ContactInfo;
-  contactInfo: ContactInfo;
-  bookingInfo?: BookingInfo;
-  onAddInfo: (newContactInfo: ContactInfo) => Promise<void>;
-  onAddBookingInfo: (newBookingInfo: BookingInfo) => Promise<void>;
-}) => {
+}: FormProps) => {
   const { t } = useTranslation();
 
-  const urlLabelTranslationString =
-    'create.additionalInformation.contact_info.url_type_labels';
+  useEffect(() => {
+    if (!bookingInfo?.urlLabel?.en) return;
+    const urlLabelType = getUrlLabelType(bookingInfo.urlLabel?.en);
+    setUrlLabelType(urlLabelType);
+  }, [bookingInfo?.urlLabel?.en]);
 
   const URL_LABEL_TRANSLATIONS = {
     buy: {
@@ -190,7 +202,7 @@ const Form = ({
       newContactInfo[type].push(bookingInfo[type]);
     }
 
-    await onAddInfo(newContactInfo);
+    await onAddContactInfo(newContactInfo);
     await onAddBookingInfo(newBookingInfo);
   };
 
@@ -219,7 +231,7 @@ const Form = ({
       ...(contactInfo ? contactInfo : emptyContactInfo),
     };
     newContactInfo[type].push(value);
-    await onAddInfo(newContactInfo);
+    await onAddContactInfo(newContactInfo);
   };
 
   const handleDeleteInfo = async (value: string): Promise<void> => {
@@ -239,14 +251,8 @@ const Form = ({
       (info) => info !== value,
     );
 
-    await onAddInfo(newContactInfo);
+    await onAddContactInfo(newContactInfo);
   };
-
-  useEffect(() => {
-    if (!bookingInfo?.urlLabel?.en) return;
-    const urlLabelType = getUrlLabelType(bookingInfo.urlLabel?.en);
-    setUrlLabelType(urlLabelType);
-  }, [bookingInfo?.urlLabel?.en]);
 
   const handleOnUrlLabelChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const urlLabelType = e.target.value;
@@ -298,7 +304,7 @@ const Form = ({
             css={
               index !== 0
                 ? css`border-top: 1px solid ${getValue('borderColor')}}`
-                : ''
+                : css``
             }
           >
             <Inline
@@ -387,17 +393,15 @@ const ReservationPeriod = ({
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    if (bookingInfo.availabilityStarts && bookingInfo.availabilityEnds) {
-      const { availabilityStarts, availabilityEnds } = bookingInfo;
-      setIsDatePickerVisible(true);
-      setStartDate(new Date(availabilityStarts));
-      setEndDate(new Date(availabilityEnds));
+    if (!bookingInfo?.availabilityStarts || !bookingInfo?.availabilityEnds) {
+      return;
     }
-  }, [
-    bookingInfo,
-    bookingInfo.availabilityStarts,
-    bookingInfo.availabilityEnds,
-  ]);
+
+    const { availabilityStarts, availabilityEnds } = bookingInfo;
+    setIsDatePickerVisible(true);
+    setStartDate(new Date(availabilityStarts));
+    setEndDate(new Date(availabilityEnds));
+  }, [bookingInfo]);
 
   const handleEndDateBeforeStartDateError = (): void => {
     setErrorMessage(
@@ -524,18 +528,10 @@ const ContactInfoEntry = ({
   // @ts-expect-error
   const bookingInfo = getEventByIdQuery.data?.bookingInfo;
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleChangeCompleted = useCallback(onChangeCompleted, []);
-
-  useEffect(() => {
-    if (!contactInfo && !bookingInfo) return;
-    handleChangeCompleted(true);
-  }, [contactInfo, bookingInfo, handleChangeCompleted]);
-
   const getMergedContactAndBookingInfo = useDeepCompareMemoize<
     () => MergedInfo | undefined
   >(() => {
-    if (!contactInfo && !bookingInfo) {
+    if (!contactInfo) {
       return emptyContactInfo;
     }
 
@@ -566,6 +562,21 @@ const ContactInfoEntry = ({
     };
   });
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleChangeCompleted = useCallback(onChangeCompleted, []);
+
+  const mergedContactAndBookingInfo = getMergedContactAndBookingInfo();
+
+  useEffect(() => {
+    if (!mergedContactAndBookingInfo) return;
+
+    const isCompleted = Object.values<string[]>(
+      mergedContactAndBookingInfo,
+    ).some((info) => info.length > 0);
+
+    handleChangeCompleted(isCompleted);
+  }, [mergedContactAndBookingInfo, handleChangeCompleted]);
+
   const addContactPointMutation = useAddContactPointMutation({
     onSuccess: onSuccessfulChange,
   });
@@ -592,25 +603,21 @@ const ContactInfoEntry = ({
     });
   };
 
-  const mergedContactAndBookingInfo = getMergedContactAndBookingInfo();
-
   return (
     <Stack maxWidth="40rem" {...getStackProps(props)}>
       <Text>TEST: {JSON.stringify(mergedContactAndBookingInfo)}</Text>
       {mergedContactAndBookingInfo &&
-        Object.keys(mergedContactAndBookingInfo).map((type: string) => {
-          return (
-            <Form
-              contactAndBookingInfo={mergedContactAndBookingInfo}
-              key={type}
-              type={type}
-              bookingInfo={bookingInfo}
-              contactInfo={contactInfo}
-              onAddInfo={handleAddContactInfoMutation}
-              onAddBookingInfo={handleAddBookingInfoMutation}
-            />
-          );
-        })}
+        Object.keys(mergedContactAndBookingInfo).map((type: string) => (
+          <Form
+            key={type}
+            type={type}
+            contactAndBookingInfo={mergedContactAndBookingInfo}
+            bookingInfo={bookingInfo}
+            contactInfo={contactInfo}
+            onAddContactInfo={handleAddContactInfoMutation}
+            onAddBookingInfo={handleAddBookingInfoMutation}
+          />
+        ))}
       {bookingInfo && (
         <ReservationPeriod
           bookingInfo={bookingInfo}

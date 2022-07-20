@@ -167,12 +167,15 @@ const AdditionalInformationStep = ({
             >
               <TabContent
                 eventId={eventId}
-                onChangeCompleted={(isCompleted) =>
+                onChangeCompleted={(isCompleted) => {
+                  if (isFieldCompleted[field] === isCompleted) {
+                    return;
+                  }
                   setIsFieldCompleted((prevFields) => ({
                     ...prevFields,
                     [field]: isCompleted,
-                  }))
-                }
+                  }));
+                }}
                 onSuccessfulChange={() => invalidateEventQuery(field)}
               />
             </Tabs.Tab>
