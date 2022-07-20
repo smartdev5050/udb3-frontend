@@ -2,7 +2,6 @@ import { FC, ReactNode, useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
-import { useGetEventByIdQuery } from '@/hooks/api/events';
 import type { Values } from '@/types/Values';
 import { parseSpacing } from '@/ui/Box';
 import { Icon, Icons } from '@/ui/Icon';
@@ -12,7 +11,7 @@ import { Tabs } from '@/ui/Tabs';
 import { Text } from '@/ui/Text';
 
 import { Audience } from './Audience';
-import { ContactInfo } from './ContactInfo';
+import { ContactInfoEntry } from './ContactInfoEntry';
 import { DescriptionStep } from './DescriptionStep';
 import { MediaStep } from './MediaStep';
 import { OrganizerStep } from './OrganizerStep';
@@ -23,6 +22,12 @@ const AdditionalInformationStepVariant = {
   EXTENDED: 'extended',
 } as const;
 
+type MergedInfo = {
+  email: string[];
+  url: string[];
+  phone: string[];
+};
+
 type Field =
   | 'description'
   | 'image'
@@ -30,6 +35,8 @@ type Field =
   | 'contactInfo'
   | 'priceInfo'
   | 'audience'
+  | 'bookingInfo'
+  | 'contactPoint'
   | 'organizer';
 
 type TabConfig = {
@@ -98,21 +105,7 @@ const AdditionalInformationStep = ({
 
   const [isMediaStepCompleted, setIsMediaStepCompleted] = useState(false);
 
-  const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
-
-  const eventContactInfo = useMemo(() => {
-    if (variant !== AdditionalInformationStepVariant.EXTENDED) return;
-    // @ts-expect-error
-    return getEventByIdQuery.data?.contactPoint;
-    // @ts-expect-error
-  }, [getEventByIdQuery.data?.contactPoint, variant]);
-
-  const eventBookingInfo = useMemo(() => {
-    if (variant !== AdditionalInformationStepVariant.EXTENDED) return;
-    // @ts-expect-error
-    return getEventByIdQuery.data?.bookingInfo;
-    // @ts-expect-error
-  }, [getEventByIdQuery.data?.bookingInfo, variant]);
+  const [isContactInfoCompleted, setIsContactInfoCompleted] = useState(false);
 
   const tabsConfigurations = useMemo<TabConfig[]>(
     () => [
@@ -175,6 +168,8 @@ const additionalInformationStepConfiguration = {
   Component: AdditionalInformationStep,
   title: (t) => t(`movies.create.step5.title`),
 };
+
+export type { MergedInfo };
 
 export {
   additionalInformationStepConfiguration,

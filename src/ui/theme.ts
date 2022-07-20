@@ -333,10 +333,12 @@ const theme = {
     },
     priceInformation: {
       borderColor: colors.grey3,
+      iconColor: colors.grey5,
     },
     contactInformation: {
       borderColor: colors.grey3,
       iconColor: colors.grey2,
+      iconColorHover: colors.grey6,
       errorText: colors.red,
     },
     videoUploadBox: {

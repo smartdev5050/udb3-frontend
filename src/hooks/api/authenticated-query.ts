@@ -161,6 +161,8 @@ const useAuthenticatedMutation = ({ mutationFn, ...configuration }) => {
   const innerMutationFn = useCallback(async (variables) => {
     const response = await mutationFn({ ...variables, headers });
 
+    if (!response) return '';
+
     if (isUnAuthorized(response?.status)) {
       removeAuthenticationCookies();
       router.push('/login');
