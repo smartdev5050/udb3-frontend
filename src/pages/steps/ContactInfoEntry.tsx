@@ -12,7 +12,7 @@ import { Alert, AlertVariants } from '@/ui/Alert';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { DatePeriodPicker } from '@/ui/DatePeriodPicker';
 import { FormElement } from '@/ui/FormElement';
-import { Icon, Icons } from '@/ui/Icon';
+import { Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
 import { LabelPositions } from '@/ui/Label';
@@ -37,6 +37,12 @@ type ContactInfo = {
   url: string[];
 };
 
+const emptyContactInfo: ContactInfo = {
+  email: [],
+  url: [],
+  phone: [],
+};
+
 type BookingInfo = {
   email?: string;
   phone?: string;
@@ -51,22 +57,20 @@ type BookingInfo = {
   availabilityEnds?: Date;
 };
 
+const emptyBookingInfo: BookingInfo = {};
+
 const getValue = getValueFromTheme('contactInformation');
 
 const EMAIL_REGEX: RegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-
 const URL_REGEX: RegExp = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
-
 const PHONE_REGEX: RegExp = /^[0-9\/_.+ ]*$/;
 
 const isValidEmail = (email: string): boolean => {
   return EMAIL_REGEX.test(email);
 };
-
 const isValidUrl = (url: string): boolean => {
   return URL_REGEX.test(url);
 };
-
 const isValidPhone = (phone: string): boolean => {
   return PHONE_REGEX.test(phone);
 };
@@ -77,6 +81,18 @@ const UrlLabelType = {
   AVAILABILITY: 'availability',
   SUBSCRIBE: 'subscribe',
 } as const;
+
+const getUrlLabelType = (englishUrlLabel: string): string => {
+  if (englishUrlLabel.toLowerCase().includes(UrlLabelType.AVAILABILITY))
+    return UrlLabelType.AVAILABILITY;
+  if (englishUrlLabel.toLowerCase().includes(UrlLabelType.BUY))
+    return UrlLabelType.BUY;
+  if (englishUrlLabel.toLowerCase().includes(UrlLabelType.SUBSCRIBE))
+    return UrlLabelType.SUBSCRIBE;
+  if (englishUrlLabel.toLowerCase().includes(UrlLabelType.RESERVE))
+    return UrlLabelType.RESERVE;
+  return UrlLabelType.BUY;
+};
 
 const Form = ({
   type,
@@ -155,25 +171,26 @@ const Form = ({
   const [urlLabelType, setUrlLabelType] = useState('');
 
   const handleAddBookingInfo = async (value: string) => {
-    const newBookingInfo = { ...bookingInfo };
-    newBookingInfo[type] = value;
+    const newBookingInfo = {
+      ...(bookingInfo ? bookingInfo : emptyBookingInfo),
+      [type]: value,
+    };
 
     if (type === ContactInfoType.URL && !bookingInfo.urlLabel) {
       newBookingInfo['urlLabel'] = URL_LABEL_TRANSLATIONS.buy;
     }
 
-    let newContactInfo = { ...contactInfo };
+    const newContactInfo = { ...contactInfo };
     newContactInfo[type] = newContactInfo[type].filter(
       (info: string) => info !== value,
     );
 
     // Readd old bookingInfo as contactInfo
-    if (bookingInfo[type]) {
+    if (bookingInfo?.[type]) {
       newContactInfo[type].push(bookingInfo[type]);
     }
 
     await onAddInfo(newContactInfo);
-
     await onAddBookingInfo(newBookingInfo);
   };
 
@@ -198,13 +215,15 @@ const Form = ({
     }
 
     setErrorMessage('');
-    const newContactInfo = { ...contactInfo };
+    const newContactInfo = {
+      ...(contactInfo ? contactInfo : emptyContactInfo),
+    };
     newContactInfo[type].push(value);
     await onAddInfo(newContactInfo);
   };
 
   const handleDeleteInfo = async (value: string): Promise<void> => {
-    if (bookingInfo[type] === value) {
+    if (bookingInfo?.[type] === value) {
       const newBookingInfo = { ...bookingInfo };
       delete newBookingInfo[type];
 
@@ -223,30 +242,11 @@ const Form = ({
     await onAddInfo(newContactInfo);
   };
 
-  const getUrlLabelTypeByEngString = useCallback((): string => {
-    if (
-      bookingInfo.urlLabel?.en.toLowerCase().includes(UrlLabelType.AVAILABILITY)
-    ) {
-      return UrlLabelType.AVAILABILITY;
-    }
-    if (bookingInfo.urlLabel?.en.toLowerCase().includes(UrlLabelType.BUY)) {
-      return UrlLabelType.BUY;
-    }
-    if (
-      bookingInfo.urlLabel?.en.toLowerCase().includes(UrlLabelType.SUBSCRIBE)
-    ) {
-      return UrlLabelType.SUBSCRIBE;
-    }
-    if (bookingInfo.urlLabel?.en.toLowerCase().includes(UrlLabelType.RESERVE)) {
-      return UrlLabelType.RESERVE;
-    }
-    return UrlLabelType.BUY;
-  }, [bookingInfo.urlLabel?.en]);
-
   useEffect(() => {
-    const urlLabel = getUrlLabelTypeByEngString();
-    setUrlLabelType(urlLabel);
-  }, [getUrlLabelTypeByEngString]);
+    if (!bookingInfo?.urlLabel?.en) return;
+    const urlLabelType = getUrlLabelType(bookingInfo.urlLabel?.en);
+    setUrlLabelType(urlLabelType);
+  }, [bookingInfo?.urlLabel?.en]);
 
   const handleOnUrlLabelChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const urlLabelType = e.target.value;
@@ -329,7 +329,7 @@ const Form = ({
               labelPosition={LabelPositions.TOP}
               onChange={(e) => handleAddBookingInfo(e.target.value)}
             >
-              <option value="" disabled selected={!bookingInfo[type]}>
+              <option value="" disabled selected={!bookingInfo?.[type]}>
                 {t(
                   'create.additionalInformation.contact_info.select_for_reservation',
                   { contactInfoType: label.toLowerCase() },
@@ -341,7 +341,7 @@ const Form = ({
                     <option
                       key={key}
                       value={contactInfo}
-                      selected={bookingInfo[type] === contactInfo}
+                      selected={bookingInfo?.[type] === contactInfo}
                     >
                       {contactInfo}
                     </option>
@@ -535,12 +535,17 @@ const ContactInfoEntry = ({
   const getMergedContactAndBookingInfo = useDeepCompareMemoize<
     () => MergedInfo | undefined
   >(() => {
-    if (!contactInfo) return;
-    if (!bookingInfo) return contactInfo;
+    if (!contactInfo && !bookingInfo) {
+      return emptyContactInfo;
+    }
 
-    const emails = new Set(contactInfo.email);
-    const urls = new Set(contactInfo.url);
-    const phones = new Set(contactInfo.phone);
+    if (!bookingInfo) {
+      return contactInfo;
+    }
+
+    const emails = new Set<string>(contactInfo.email);
+    const urls = new Set<string>(contactInfo.url);
+    const phones = new Set<string>(contactInfo.phone);
 
     if (bookingInfo.email) {
       emails.add(bookingInfo.email);
@@ -587,13 +592,16 @@ const ContactInfoEntry = ({
     });
   };
 
+  const mergedContactAndBookingInfo = getMergedContactAndBookingInfo();
+
   return (
     <Stack maxWidth="40rem" {...getStackProps(props)}>
-      {getMergedContactAndBookingInfo() &&
-        Object.keys(getMergedContactAndBookingInfo()).map((type: string) => {
+      <Text>TEST: {JSON.stringify(mergedContactAndBookingInfo)}</Text>
+      {mergedContactAndBookingInfo &&
+        Object.keys(mergedContactAndBookingInfo).map((type: string) => {
           return (
             <Form
-              contactAndBookingInfo={getMergedContactAndBookingInfo()}
+              contactAndBookingInfo={mergedContactAndBookingInfo}
               key={type}
               type={type}
               bookingInfo={bookingInfo}
