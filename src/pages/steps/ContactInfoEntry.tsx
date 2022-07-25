@@ -565,14 +565,22 @@ const ContactInfoEntry = ({
   const mergedContactAndBookingInfo = getMergedContactAndBookingInfo();
 
   useEffect(() => {
-    if (!bookingInfo && !contactInfo) return;
+    const hasContactInfo =
+      contactInfo &&
+      Object.values(contactInfo).some((info: any) => info.length > 0);
 
-    onChangeCompleted(true);
+    const hasBookingInfo =
+      bookingInfo && Object.values(bookingInfo).some((info) => !!info);
+
+    onChangeCompleted(hasContactInfo || hasBookingInfo);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contactInfo, bookingInfo]);
 
   const addContactPointMutation = useAddContactPointMutation({
-    onSuccess: onSuccessfulChange,
+    onSuccess: () =>
+      setTimeout(() => {
+        onSuccessfulChange();
+      }, 1000),
   });
 
   const handleAddContactInfoMutation = async (newContactInfo: ContactInfo) => {
