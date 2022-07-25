@@ -59,6 +59,9 @@ const typeStepConfiguration = {
   Component: TypeStep,
   field: 'type',
   title: (t) => t(`event.create.type.title`),
+  shouldShowNextStep: ({ watch }) => {
+    return !!watch('type');
+  },
 };
 
 export { TypeStep, typeStepConfiguration };
