@@ -1,23 +1,23 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
-import { useAddAudienceMutation } from '@/hooks/api/events';
+import {
+  useAddAudienceMutation,
+  useGetEventByIdQuery,
+} from '@/hooks/api/events';
+import { Event } from '@/types/Event';
 import { Values } from '@/types/Values';
 import { FormElement } from '@/ui/FormElement';
-import { Inline } from '@/ui/Inline';
-import { RadioButton } from '@/ui/RadioButton';
 import { RadioButtonWithLabel } from '@/ui/RadioButtonWithLabel';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 
-type Props = StackProps & {
-  eventId: string;
-  selectedAudience?: string;
-  onChangeSuccess: () => void;
-};
+import { TabContentProps } from './AdditionalInformationStep';
+
+type Props = StackProps & TabContentProps;
 
 const AudienceType = {
   EVERYONE: 'everyone',
@@ -35,31 +35,35 @@ const schema = yup.object({
 
 const Audience = ({
   eventId,
-  selectedAudience,
-  onChangeSuccess,
+  onSuccessfulChange,
+  onChangeCompleted,
   ...props
 }: Props) => {
-  const { t, i18n } = useTranslation();
-  const formComponent = useRef<HTMLFormElement>();
+  const { t } = useTranslation();
 
-  const {
-    register,
-    watch,
-    setValue,
-    formState: { errors },
-    handleSubmit,
-  } = useForm<FormData>({
+  const { register, watch, setValue } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
 
+  const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
+
+  // @ts-expect-error
+  const event: Event | undefined = getEventByIdQuery.data;
+
   useEffect(() => {
-    setValue('audienceType', selectedAudience ?? AudienceType.EVERYONE);
-  }, [selectedAudience, setValue]);
+    if (!event?.audience?.audienceType) {
+      setValue('audienceType', AudienceType.EVERYONE);
+    } else {
+      const newAudienceType = event.audience.audienceType;
+      setValue('audienceType', newAudienceType);
+    }
+
+    onChangeCompleted(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [event?.audience?.audienceType, setValue]);
 
   const addAudienceMutation = useAddAudienceMutation({
-    onSuccess: async () => {
-      await onChangeSuccess();
-    },
+    onSuccess: onSuccessfulChange,
   });
 
   const handleOnChangeAudience = async (audienceType: AudienceType) => {

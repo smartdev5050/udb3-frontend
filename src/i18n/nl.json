@@ -168,7 +168,7 @@
         "intro": "Voeg een afbeelding toe zodat bezoekers je activiteit beter herkennen",
         "set_as_main_image": "Maak hoofdafbeelding"
       },
-      "pictures_and_videos": {
+      "media": {
         "title": "Media"
       },
       "price_info": {
@@ -201,10 +201,12 @@
     },
     "toast": {
       "success": {
-        "audienceType": "Toegang is succesvol gewijzigd",
-        "booking_info": "Reservatie info is succesvol gewijzigd",
-        "contact_point": "Contactinfo is succesvol gewijzigd",
-        "organizer": "Organisatie is succesvol gewijzigd"
+        "description": "Beschrijving is succesvol gewijzigd",
+        "organizer": "Organisatie is succesvol gewijzigd",
+        "price_info": "Prijsinformatie is succesvol gewijzigd",
+        "contact_info": "Contactinfo is succesvol gewijzigd",
+        "media": "Media is succesvol gewijzigd",
+        "audience": "Toegang is succesvol gewijzigd"
       }
     }
   },

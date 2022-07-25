@@ -168,7 +168,7 @@
         "intro": "Ajoutez une image de sorte que les visiteurs reconnaissent mieux votre activité.",
         "set_as_main_image": "Créer image principale"
       },
-      "pictures_and_videos": {
+      "media": {
         "title": "Médias"
       },
       "price_info": {
@@ -201,10 +201,12 @@
     },
     "toast": {
       "success": {
-        "audienceType": "Accès modifié avec succès",
-        "booking_info": "Les informations de réservation ont été modifiées avec succès",
-        "contact_point": "Les coordonnées ont été modifiées avec succès",
-        "organizer": "L'organisation modifiée avec succès"
+        "description": "La description a été modifiée avec succès",
+        "organizer": "L'organisation a modifiée avec succès",
+        "price_info": "Les prix ont été modifiées avec succès",
+        "contact_info": "Les coordonnées ont été modifiées avec succès",
+        "media": "Media is succesvol gewijzigd",
+        "audience": "Accès modifié avec succès"
       }
     }
   },

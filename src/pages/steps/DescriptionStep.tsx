@@ -15,15 +15,17 @@ import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { TextArea } from '@/ui/TextArea';
 
+import { TabContentProps } from './AdditionalInformationStep';
+
 const IDEAL_DESCRIPTION_LENGTH = 200;
 
-export type DescriptionInfoProps = StackProps & {
+type DescriptionInfoProps = StackProps & {
   description: string;
   eventTypeId: string;
   onClear: () => void;
 };
 
-export const DescriptionInfo = ({
+const DescriptionInfo = ({
   description,
   eventTypeId,
   onClear,
@@ -96,17 +98,11 @@ export const DescriptionInfo = ({
   );
 };
 
-type DescriptionStepProps = StackProps & {
-  eventId?: string;
-  completed: boolean;
-  onChangeCompleted: (completed: boolean) => void;
-  onSuccessfulChange: () => void;
-};
+type DescriptionStepProps = StackProps & TabContentProps;
 
-export const DescriptionStep = ({
+const DescriptionStep = ({
   eventId,
   onSuccessfulChange,
-  completed,
   onChangeCompleted,
   ...props
 }: DescriptionStepProps) => {
@@ -126,6 +122,11 @@ export const DescriptionStep = ({
       event.description[i18n.language] ?? event.description[event.mainLanguage];
 
     setDescription(newDescription);
+
+    const isCompleted = newDescription.length >= IDEAL_DESCRIPTION_LENGTH;
+
+    onChangeCompleted(isCompleted);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [event?.description, event?.mainLanguage, i18n.language]);
 
   const eventTypeId = useMemo(() => {
@@ -138,6 +139,10 @@ export const DescriptionStep = ({
 
   const handleBlur = () => {
     if (!description) return;
+
+    const isCompleted = description.length >= IDEAL_DESCRIPTION_LENGTH;
+
+    onChangeCompleted(isCompleted);
 
     changeDescriptionMutation.mutate({
       description,
@@ -158,10 +163,6 @@ export const DescriptionStep = ({
 
   const handleInput = (e) => {
     setDescription(e.target.value);
-
-    const newIsCompleted = e.target.value.length >= IDEAL_DESCRIPTION_LENGTH;
-    if (completed === newIsCompleted) return;
-    onChangeCompleted(newIsCompleted);
   };
 
   return (
@@ -187,3 +188,5 @@ export const DescriptionStep = ({
     />
   );
 };
+
+export { DescriptionStep };
