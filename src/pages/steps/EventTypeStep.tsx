@@ -1,11 +1,13 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { EventType, useGetTermsQuery } from '@/hooks/api/terms';
 import { Button, ButtonVariants } from '@/ui/Button';
+import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { Stack } from '@/ui/Stack';
+import { Text } from '@/ui/Text';
 
 import { FormDataIntersection, StepProps } from './Steps';
 
@@ -82,7 +84,22 @@ const EventTypeStep = <TFormData extends FormDataIntersection>({
               ))}
             {eventType && (
               <Stack>
-                <p>{eventType.theme.label}</p>
+                <Inline marginBottom={3} spacing={3}>
+                  <Icon name={Icons.CHECK_CIRCLE} color="green" />
+                  <Text fontStyle="italic">{eventType.theme.label}</Text>
+                  <Button
+                    variant={ButtonVariants.LINK}
+                    onClick={() => {
+                      field.onChange();
+                      onChange('');
+                    }}
+                  >
+                    Wijzigen
+                  </Button>
+                </Inline>
+                <Text marginBottom={2} fontWeight="bold">
+                  Verfijn
+                </Text>
                 <Inline spacing={3} flexWrap="wrap" maxWidth="70rem">
                   {themes.map((theme) => (
                     <Button
