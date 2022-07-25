@@ -1,7 +1,8 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { css } from 'styled-components';
-import useDeepCompareEffect, {
+import {
+  useDeepCompareEffectNoCheck,
   useDeepCompareMemoize,
 } from 'use-deep-compare-effect';
 
@@ -566,7 +567,7 @@ const ContactInfoEntry = ({
 
   const mergedContactAndBookingInfo = getMergedContactAndBookingInfo();
 
-  useDeepCompareEffect(() => {
+  useDeepCompareEffectNoCheck(() => {
     const hasContactInfo =
       contactInfo &&
       Object.values(contactInfo).some((info: any) => info.length > 0);
