@@ -458,14 +458,14 @@
     "reason": "Grund",
     "reasonTip": "Sie können optional einen Grund für die Statusänderung angeben. Der Grund wird zusammen mit dem neuen Status auf UiTinVlaanderen und anderen UiT-Kanälen veröffentlicht.",
     "status": {
-      "event": {
+      "events": {
         "available": "Findet statt",
         "temporarilyUnavailable": "Verlegt",
         "temporarilyUnavailableInfo": "Ihre Veranstaltung wurde auf einen späteren, noch unbekannten Zeitpunkt verlegt.",
         "unavailable": "Abgesagt",
         "unavailableInfo": "Ihre Veranstaltung findet nicht mehr zum vorgesehenen Zeitpunkt und auch zu keinem späteren Zeitpunkt statt."
       },
-      "place": {
+      "places": {
         "available": "Offen",
         "temporarilyUnavailable": "Zeitweise geschlossen",
         "temporarilyUnavailableInfo": "Ihr Ort wird vorübergehend nicht mehr auf UiTinVlaanderen und anderen UiT-Kanälen angezeigt. Sobald Ihr Ort wieder öffnet, können Sie den Status erneut auf 'offen' ändern.",
