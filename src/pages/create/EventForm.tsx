@@ -14,13 +14,12 @@ const EventForm = () => {
       convertEventToFormData={(data) => data}
       toastConfiguration={{
         messages: {
-          image: t('movies.create.toast.success.image'),
-          bookingInfo: t('create.toast.success.booking_info'),
-          contactPoint: t('create.toast.success.contact_point'),
-          description: t('movies.create.toast.success.description'),
-          video: t('movies.create.toast.success.video'),
-          audience: t('create.toast.success.audienceType'),
-          priceInfo: t('create.toast.success.priceInfo'),
+          media: t('create.toast.success.media'),
+          booking_info: t('create.toast.success.booking_info'),
+          contact_info: t('create.toast.success.contact_info'),
+          description: t('create.toast.success.description'),
+          audience: t('create.toast.success.audience'),
+          price_info: t('create.toast.success.price_info'),
           organizer: t('create.toast.success.organizer'),
         },
         title: '',

@@ -202,10 +202,12 @@
     },
     "toast": {
       "success": {
-        "audienceType": "Zugang wurde erfolgreich geändert",
-        "booking_info": "Reservierungsinformationen wurden erfolgreich geändert",
-        "contact_point": "Kontaktdaten wurden erfolgreich geändert",
-        "organizer": "Organisation wurde erfolgreich geändert"
+        "description": "Die Beschreibung wurde erfolgreich geändert",
+        "organizer": "Organisation wurde erfolgreich geändert",
+        "price_info": "Preisinformationen wurden erfolgreich geändert",
+        "contact_info": "Kontaktdaten wurden erfolgreich geändert",
+        "media": "Medien erfolgreich gewechselt",
+        "audience": "Zugang wurde erfolgreich geändert"
       }
     }
   },
