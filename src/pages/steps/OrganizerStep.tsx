@@ -58,7 +58,7 @@ const OrganizerStep = ({
     onSuccess: onSuccessfulChange,
   });
 
-  const handleChangeOrganizer = () => {
+  const handleChangeOrganizer = (organizerId: string) => {
     addOrganizerToEventMutation.mutate({ eventId, organizerId });
   };
 
