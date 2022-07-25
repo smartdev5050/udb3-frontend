@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -50,9 +50,6 @@ const Audience = ({
   // @ts-expect-error
   const event: Event | undefined = getEventByIdQuery.data;
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleChangeCompleted = useCallback(onChangeCompleted, []);
-
   useEffect(() => {
     if (!event?.audience?.audienceType) {
       setValue('audienceType', AudienceType.EVERYONE);
@@ -61,8 +58,9 @@ const Audience = ({
       setValue('audienceType', newAudienceType);
     }
 
-    handleChangeCompleted(true);
-  }, [event?.audience?.audienceType, handleChangeCompleted, setValue]);
+    onChangeCompleted(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [event?.audience?.audienceType, setValue]);
 
   const addAudienceMutation = useAddAudienceMutation({
     onSuccess: onSuccessfulChange,

@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { css } from 'styled-components';
 import { useDeepCompareMemoize } from 'use-deep-compare-effect';
@@ -562,16 +562,14 @@ const ContactInfoEntry = ({
     };
   });
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleChangeCompleted = useCallback(onChangeCompleted, []);
-
   const mergedContactAndBookingInfo = getMergedContactAndBookingInfo();
 
   useEffect(() => {
     if (!bookingInfo && !contactInfo) return;
 
-    handleChangeCompleted(true);
-  }, [contactInfo, bookingInfo, handleChangeCompleted]);
+    onChangeCompleted(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [contactInfo, bookingInfo]);
 
   const addContactPointMutation = useAddContactPointMutation({
     onSuccess: onSuccessfulChange,

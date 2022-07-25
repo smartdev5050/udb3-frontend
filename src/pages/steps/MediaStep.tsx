@@ -86,11 +86,6 @@ const MediaStep = ({
   const [videos, setVideos] = useState([]);
   const [images, setImages] = useState<ImageType[]>([]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleSetImages = useCallback(setImages, []);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleSetVideos = useCallback(setVideos, []);
-
   const addImageToEventMutation = useAddImageToEventMutation({
     onSuccess: async () => {
       setIsPictureUploadModalVisible(false);
@@ -176,26 +171,24 @@ const MediaStep = ({
 
     const data = await Promise.all(convertAllVideoUrlsPromises);
 
-    handleSetVideos(data);
+    setVideos(data);
   };
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleChangeCompleted = useCallback(onChangeCompleted, []);
 
   useEffect(() => {
     if (!videosFromQuery || videosFromQuery.length === 0) {
-      handleSetVideos([]);
+      setVideos([]);
       return;
     }
 
     enrichVideos(videosFromQuery as Video[]);
 
-    handleChangeCompleted(true);
-  }, [videosFromQuery, handleSetVideos, handleChangeCompleted]);
+    onChangeCompleted(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [videosFromQuery, setVideos]);
 
   useEffect(() => {
     if (!mediaObjects || mediaObjects.length === 0) {
-      handleSetImages([]);
+      setImages([]);
       return;
     }
     const parsedMediaObjects = mediaObjects.map((mediaObject) => ({
@@ -204,13 +197,13 @@ const MediaStep = ({
       ...mediaObject,
     }));
 
-    handleSetImages([
+    setImages([
       ...parsedMediaObjects.filter((mediaObject) => mediaObject.isMain),
       ...parsedMediaObjects.filter((mediaObject) => !mediaObject.isMain),
     ] as ImageType[]);
 
-    handleChangeCompleted(true);
-  }, [eventImage, mediaObjects, handleSetImages, handleChangeCompleted]);
+    onChangeCompleted(true);
+  }, [eventImage, mediaObjects, setImages, onChangeCompleted]);
 
   const imageToEdit = useMemo(() => {
     const image = images.find((image) => image.parsedId === imageToEditId);

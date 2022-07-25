@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -115,9 +115,6 @@ const DescriptionStep = ({
   // @ts-expect-error
   const event: Event | undefined = getEventByIdQuery.data;
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleChangeCompleted = useCallback(onChangeCompleted, []);
-
   useEffect(() => {
     if (!event?.description) return;
 
@@ -128,13 +125,9 @@ const DescriptionStep = ({
 
     const isCompleted = newDescription.length >= IDEAL_DESCRIPTION_LENGTH;
 
-    handleChangeCompleted(isCompleted);
-  }, [
-    event?.description,
-    event?.mainLanguage,
-    i18n.language,
-    handleChangeCompleted,
-  ]);
+    onChangeCompleted(isCompleted);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [event?.description, event?.mainLanguage, i18n.language]);
 
   const eventTypeId = useMemo(() => {
     return event?.terms.find((term) => term.domain === 'eventtype')?.id!;
