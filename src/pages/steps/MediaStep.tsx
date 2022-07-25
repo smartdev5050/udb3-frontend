@@ -182,7 +182,6 @@ const MediaStep = ({
 
     enrichVideos(videosFromQuery as Video[]);
 
-    onChangeCompleted(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [videosFromQuery, setVideos]);
 
@@ -201,9 +200,14 @@ const MediaStep = ({
       ...parsedMediaObjects.filter((mediaObject) => mediaObject.isMain),
       ...parsedMediaObjects.filter((mediaObject) => !mediaObject.isMain),
     ] as ImageType[]);
-
-    onChangeCompleted(true);
   }, [eventImage, mediaObjects, setImages, onChangeCompleted]);
+
+  useEffect(() => {
+    const hasImages = images.length > 0;
+    const hasVideos = videos.length > 0;
+    onChangeCompleted(hasImages || hasVideos);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [images, videos]);
 
   const imageToEdit = useMemo(() => {
     const image = images.find((image) => image.parsedId === imageToEditId);
