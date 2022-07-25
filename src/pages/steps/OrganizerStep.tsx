@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -33,20 +33,15 @@ const OrganizerStep = ({
     false,
   );
   const [newOrganizerName, setNewOrganizerName] = useState('');
-  const [organizerId, setOrganizerId] = useState('');
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleChangeCompleted = useCallback(onChangeCompleted, []);
 
   useEffect(() => {
-    if (!organizer) return;
-
-    const organizerId = parseOfferId(organizer['@id']);
-
-    setOrganizerId(organizerId);
-
-    handleChangeCompleted(true);
-  }, [organizer, handleChangeCompleted]);
+    if (!organizer) {
+      onChangeCompleted(false);
+      return;
+    }
+    onChangeCompleted(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [organizer]);
 
   const createOrganizerMutation = useCreateOrganizerMutation();
 
