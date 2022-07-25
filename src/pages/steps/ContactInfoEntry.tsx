@@ -1,7 +1,9 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { css } from 'styled-components';
-import { useDeepCompareMemoize } from 'use-deep-compare-effect';
+import useDeepCompareEffect, {
+  useDeepCompareMemoize,
+} from 'use-deep-compare-effect';
 
 import {
   useAddBookingInfoMutation,
@@ -564,7 +566,7 @@ const ContactInfoEntry = ({
 
   const mergedContactAndBookingInfo = getMergedContactAndBookingInfo();
 
-  useEffect(() => {
+  useDeepCompareEffect(() => {
     const hasContactInfo =
       contactInfo &&
       Object.values(contactInfo).some((info: any) => info.length > 0);
@@ -573,14 +575,10 @@ const ContactInfoEntry = ({
       bookingInfo && Object.values(bookingInfo).some((info) => !!info);
 
     onChangeCompleted(hasContactInfo || hasBookingInfo);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contactInfo, bookingInfo]);
 
   const addContactPointMutation = useAddContactPointMutation({
-    onSuccess: () =>
-      setTimeout(() => {
-        onSuccessfulChange();
-      }, 1000),
+    onSuccess: onSuccessfulChange,
   });
 
   const handleAddContactInfoMutation = async (newContactInfo: ContactInfo) => {
@@ -591,11 +589,7 @@ const ContactInfoEntry = ({
   };
 
   const addBookingInfoMutation = useAddBookingInfoMutation({
-    onSuccess: () => {
-      setTimeout(() => {
-        onSuccessfulChange();
-      }, 1000);
-    },
+    onSuccess: onSuccessfulChange,
   });
 
   const handleAddBookingInfoMutation = async (newBookingInfo: BookingInfo) => {
