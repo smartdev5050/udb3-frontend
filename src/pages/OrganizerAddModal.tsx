@@ -20,6 +20,7 @@ import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
 import { City, CityPicker } from './CityPicker';
+import { ContactInfoEntry } from './steps/ContactInfoEntry';
 
 export const getValue = getValueFromTheme('organizerAddModal');
 
@@ -40,6 +41,7 @@ const schema = yup
           .required(),
       })
       .required(),
+    contact: yup.array(yup.object({ type: yup.string(), value: yup.string() })),
   })
   .required();
 
@@ -53,6 +55,7 @@ const defaultValues: FormData = {
     streetAndNumber: '',
     city: undefined,
   },
+  contact: [],
 };
 
 type Props = {
@@ -138,6 +141,23 @@ const OrganizerAddModal = ({
   const handleClose = () => {
     reset(defaultValues);
     onClose();
+  };
+
+  const handleSetContactInfo = (contactInfo: any) => {
+    const organizerContactInfo = [];
+
+    Object.keys(contactInfo).map((key, index) => {
+      contactInfo[key].map((value: string) => {
+        organizerContactInfo.push({
+          type: key,
+          value,
+        });
+      });
+    });
+
+    const withoutDuplicates = [...new Set(organizerContactInfo)];
+
+    setValue('contact', organizerContactInfo);
   };
 
   return (
@@ -270,6 +290,16 @@ const OrganizerAddModal = ({
               )}
             </Inline>
           </Stack>
+        </Stack>
+        <Stack spacing={2}>
+          <Title size={2}>Contact</Title>
+          <ContactInfoEntry
+            isOrganizer={true}
+            // @ts-ignore
+            onSuccessfulChange={handleSetContactInfo}
+            withReservationInfo={false}
+            onChangeCompleted={() => console.log('random function')}
+          />
         </Stack>
       </Stack>
     </Modal>

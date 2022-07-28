@@ -57,7 +57,12 @@ const OrganizerStep = ({
     addOrganizerToEventMutation.mutate({ eventId, organizerId });
   };
 
-  const handleAddOrganizer = async ({ url, name, address }: OrganizerData) => {
+  const handleAddOrganizer = async ({
+    url,
+    name,
+    address,
+    contact,
+  }: OrganizerData) => {
     const payload = {
       mainLanguage: i18n.language,
       url,
@@ -72,7 +77,9 @@ const OrganizerStep = ({
           streetAddress: address.streetAndNumber,
         },
       },
+      contact,
     };
+
     const { organizerId } = await createOrganizerMutation.mutateAsync(payload);
 
     await addOrganizerToEventMutation.mutateAsync({ eventId, organizerId });

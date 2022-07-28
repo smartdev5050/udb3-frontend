@@ -111,6 +111,8 @@ type FormProps = {
   bookingInfo?: BookingInfo;
   onAddContactInfo: (newContactInfo: ContactInfo) => Promise<void>;
   onAddBookingInfo: (newBookingInfo: BookingInfo) => Promise<void>;
+  onAddOrganizerContactInfo: (newContactInfo: ContactInfo) => void;
+  isOrganizer?: boolean;
 };
 
 const Form = ({
@@ -120,6 +122,8 @@ const Form = ({
   contactInfo,
   onAddContactInfo,
   onAddBookingInfo,
+  onAddOrganizerContactInfo,
+  isOrganizer = false,
 }: FormProps) => {
   const { t } = useTranslation();
 
@@ -233,7 +237,14 @@ const Form = ({
     const newContactInfo = {
       ...(contactInfo ? contactInfo : emptyContactInfo),
     };
+
     newContactInfo[type].push(value);
+
+    if (isOrganizer) {
+      onAddOrganizerContactInfo(newContactInfo);
+      return;
+    }
+
     await onAddContactInfo(newContactInfo);
   };
 
@@ -269,7 +280,9 @@ const Form = ({
   const label = t(`create.additionalInformation.contact_info.${type}`);
   return (
     <Stack spacing={3} marginBottom={5}>
-      <Title marginBottom={2}>{label}</Title>
+      <Title size={3} marginBottom={2}>
+        {label}
+      </Title>
       <Inline spacing={5} justifyContent="space-between">
         <FormElement
           flex={2}
@@ -484,7 +497,7 @@ const ReservationPeriod = ({
       </Inline>
       {isDatePickerVisible && (
         <Stack spacing={4}>
-          <Title>
+          <Title size={3}>
             {t(
               'create.additionalInformation.contact_info.reservation_period.title',
             )}
@@ -514,6 +527,7 @@ const ReservationPeriod = ({
 type Props = StackProps &
   TabContentProps & {
     withReservationInfo?: boolean;
+    isOrganizer?: boolean;
   };
 
 const ContactInfoEntry = ({
@@ -521,6 +535,7 @@ const ContactInfoEntry = ({
   onSuccessfulChange,
   onChangeCompleted,
   withReservationInfo,
+  isOrganizer = false,
   ...props
 }: Props) => {
   const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
@@ -589,6 +604,13 @@ const ContactInfoEntry = ({
     });
   };
 
+  const handleAddOrganizerContactInfoMutation = (
+    newContactInfo: ContactInfo,
+  ) => {
+    // @ts-ignore
+    onSuccessfulChange(newContactInfo);
+  };
+
   const addBookingInfoMutation = useAddBookingInfoMutation({
     onSuccess: onSuccessfulChange,
   });
@@ -614,6 +636,8 @@ const ContactInfoEntry = ({
               contactInfo={contactInfo}
               onAddContactInfo={handleAddContactInfoMutation}
               onAddBookingInfo={handleAddBookingInfoMutation}
+              onAddOrganizerContactInfo={handleAddOrganizerContactInfoMutation}
+              isOrganizer={isOrganizer}
             />
           ))}
       {bookingInfo && (
@@ -628,6 +652,7 @@ const ContactInfoEntry = ({
 
 ContactInfoEntry.defaultProps = {
   withReservationInfo: false,
+  isOrganizer: false,
 };
 
 export { ContactInfoEntry };
