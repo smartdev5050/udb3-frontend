@@ -602,6 +602,8 @@ const ContactInfoEntry = ({
     const hasBookingInfo =
       bookingInfo && Object.values(bookingInfo).some((info) => !!info);
 
+    if (isOrganizer) return;
+
     onChangeCompleted(hasContactInfo || hasBookingInfo);
   }, [contactInfo, bookingInfo]);
 
