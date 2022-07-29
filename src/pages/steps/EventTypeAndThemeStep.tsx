@@ -1,19 +1,37 @@
-import { useMemo } from 'react';
+import { Button } from 'react-bootstrap';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
-import { EventTypes } from '@/constants/EventTypes';
 import { useChangeThemeMutation } from '@/hooks/api/events';
-import { useGetThemesByEventTypeIdQuery } from '@/hooks/api/themes';
-import type { FormDataIntersection, StepProps } from '@/pages/steps/Steps';
-import { Button, ButtonVariants } from '@/ui/Button';
+import { useGetTypesByScopeQuery } from '@/hooks/api/types';
+import { ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
+import { Label, LabelVariants } from '@/ui/Label';
+import { Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
+import { FormDataIntersection, StepProps } from './Steps';
+
 const getValue = getValueFromTheme('createPage');
+
+const useEditType = <TFormData extends FormDataIntersection>({
+  eventId,
+  onSuccess,
+}) => {
+  const changeThemeMutation = useChangeThemeMutation({
+    onSuccess: () => onSuccess('type'),
+  });
+
+  return async ({ typeAndTheme }: TFormData) => {
+    await changeThemeMutation.mutateAsync({
+      id: eventId,
+      themeId: typeAndTheme.type.id,
+    });
+  };
+};
 
 const useEditTheme = <TFormData extends FormDataIntersection>({
   eventId,
@@ -23,10 +41,10 @@ const useEditTheme = <TFormData extends FormDataIntersection>({
     onSuccess: () => onSuccess('theme'),
   });
 
-  return async ({ eventTypeAndTheme }: TFormData) => {
+  return async ({ typeAndTheme }: TFormData) => {
     await changeThemeMutation.mutateAsync({
       id: eventId,
-      themeId: eventTypeAndTheme.theme.id,
+      themeId: typeAndTheme.theme.id,
     });
   };
 };
@@ -37,73 +55,129 @@ const EventTypeAndThemeStep = <TFormData extends FormDataIntersection>({
   field,
   getValues,
   onChange,
+  watch,
 }: StepProps<TFormData>) => {
   const { t, i18n } = useTranslation();
 
-  const useGetThemesByCategoryIdQuery = useGetThemesByEventTypeIdQuery({
-    eventTypeId: 'test',
+  const watchedScope = watch('scope', undefined);
+
+  const getTypesByScopeQuery = useGetTypesByScopeQuery({
+    scope: watchedScope,
   });
 
-  // @ts-expect-error
-  const themes = useMemo(() => useGetThemesByCategoryIdQuery.data ?? {}, [
-    // @ts-expect-error
-    useGetThemesByCategoryIdQuery.data,
-  ]);
+  const types = getTypesByScopeQuery.data ?? [];
+
+  const watchedTypeAndTheme = watch('typeAndTheme');
+
+  const themes =
+    types?.find((type) => type.id === watchedTypeAndTheme?.type?.id)
+      ?.otherSuggestedTerms ?? [];
 
   return (
     <Controller<TFormData>
       name={field}
       control={control}
       render={({ field }) => {
-        if (!field.value?.theme?.id) {
-          return (
-            <Inline spacing={3} flexWrap="wrap" maxWidth="70rem">
-              {Object.entries(themes).map(
-                // eslint-disable-next-line camelcase
-                ([themeId, themeData]: [string, { label_nl: string }]) => (
+        return (
+          <Stack spacing={4}>
+            {!field.value?.type?.id ? (
+              <Inline spacing={3} flexWrap="wrap" maxWidth="70rem">
+                {types.map(({ id, name }) => (
                   <Button
                     width="auto"
                     marginBottom={3}
                     display="inline-flex"
-                    key={themeId}
+                    key={id}
                     variant={ButtonVariants.SECONDARY}
                     onClick={() => {
                       field.onChange({
                         ...field.value,
-                        theme: { id: themeId, label: themeData.label_nl },
+                        type: { id, label: name[i18n.language] },
                       });
-                      onChange(themeId);
+                      onChange(id);
                     }}
                   >
-                    {themeData[`label_${i18n.language}`]}
+                    {name[i18n.language]}
                   </Button>
-                ),
-              )}
-            </Inline>
-          );
-        }
-
-        return (
-          <Inline alignItems="center" spacing={3}>
-            <Icon
-              name={Icons.CHECK_CIRCLE}
-              color={getValue('check.circleFillColor')}
-            />
-            <Text>
-              {themes?.[field.value.theme.id]?.[`label_${i18n.language}`]}
-            </Text>
-            <Button
-              variant={ButtonVariants.LINK}
-              onClick={() =>
-                reset(
-                  { ...(getValues() as any), eventTypeAndTheme: undefined },
-                  { keepDirty: true },
-                )
-              }
-            >
-              {t('movies.create.actions.change_theme')}
-            </Button>
-          </Inline>
+                ))}
+              </Inline>
+            ) : (
+              <Inline alignItems="center" spacing={3}>
+                <Icon
+                  name={Icons.CHECK_CIRCLE}
+                  color={getValue('check.circleFillColor')}
+                />
+                <Text>{field.value?.type?.label}</Text>
+                <Button
+                  variant={ButtonVariants.LINK}
+                  onClick={() =>
+                    reset(
+                      {
+                        ...(getValues() as any),
+                        typeAndTheme: {
+                          type: undefined,
+                          theme: undefined,
+                        },
+                      },
+                      { keepDirty: true },
+                    )
+                  }
+                >
+                  Wijzig type
+                </Button>
+              </Inline>
+            )}
+            {themes.length > 0 && (
+              <Label variant={LabelVariants.BOLD}>Verfijn</Label>
+            )}
+            {!field.value?.theme?.id ? (
+              <Inline spacing={3} flexWrap="wrap" maxWidth="70rem">
+                {themes.map(({ id, name }) => (
+                  <Button
+                    width="auto"
+                    marginBottom={3}
+                    display="inline-flex"
+                    key={id}
+                    variant={ButtonVariants.SECONDARY}
+                    onClick={() => {
+                      field.onChange({
+                        ...field.value,
+                        theme: { id, label: name[i18n.language] },
+                      });
+                      onChange(id);
+                    }}
+                  >
+                    {name[i18n.language]}
+                  </Button>
+                ))}
+              </Inline>
+            ) : (
+              <Inline alignItems="center" spacing={3}>
+                <Icon
+                  name={Icons.CHECK_CIRCLE}
+                  color={getValue('check.circleFillColor')}
+                />
+                <Text>{field.value?.theme?.label}</Text>
+                <Button
+                  variant={ButtonVariants.LINK}
+                  onClick={() =>
+                    reset(
+                      {
+                        ...(getValues() as any),
+                        typeAndTheme: {
+                          ...(getValues() as any).typeAndTheme,
+                          theme: undefined,
+                        },
+                      },
+                      { keepDirty: true },
+                    )
+                  }
+                >
+                  Wijzig thema
+                </Button>
+              </Inline>
+            )}
+          </Stack>
         );
       }}
     />
@@ -112,13 +186,8 @@ const EventTypeAndThemeStep = <TFormData extends FormDataIntersection>({
 
 const eventTypeAndThemeStepConfiguration = {
   Component: EventTypeAndThemeStep,
-  defaultValue: {
-    eventType: {
-      id: EventTypes.Film,
-      label: 'Film',
-    },
-  },
-  field: 'eventTypeAndTheme',
+  defaultValue: {},
+  field: 'typeAndTheme',
   validation: yup.object().shape({}).required(),
   title: (t) => t(`movies.create.step1.title`),
 };

@@ -24,10 +24,6 @@ import { WorkflowStatusMap } from '@/types/WorkflowStatus';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 type FormData = {
-  eventTypeAndTheme: {
-    eventType: { id: string; label: string };
-    theme: { id: string; label: string };
-  };
   timeTable: any;
   place: Place;
   production: Production & { customOption?: boolean };
@@ -67,7 +63,7 @@ const MovieForm = (props) => {
 
   const convertEventToFormData = (event: Event) => {
     return {
-      eventTypeAndTheme: {
+      typeAndTheme: {
         theme: event.terms.find((term) => term.domain === 'theme'),
         eventType: event.terms.find((term) => term.domain === 'eventtype'),
       },
@@ -83,7 +79,7 @@ const MovieForm = (props) => {
 
   const convertFormDataToEvent = ({
     production,
-    eventTypeAndTheme: { eventType, theme },
+    typeAndTheme: { eventType, theme },
     place,
     timeTable,
   }: FormData) => {

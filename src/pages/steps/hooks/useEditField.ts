@@ -41,7 +41,7 @@ const useEditField = <TFormData extends FormDataIntersection>({
     setFieldLoading(editedField);
 
     const editMap = {
-      eventTypeAndTheme: editTheme,
+      typeAndTheme: editTheme,
       timeTable: editCalendar,
       place: editLocation,
       production: editNameAndProduction,

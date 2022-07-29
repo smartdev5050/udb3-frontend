@@ -10,7 +10,7 @@ import { ToggleBox } from '@/ui/ToggleBox';
 
 import { FormDataIntersection, StepProps } from './Steps';
 
-const TypeStep = <TFormData extends FormDataIntersection>({
+const ScopeStep = <TFormData extends FormDataIntersection>({
   control,
   field,
 }: StepProps<TFormData>) => {
@@ -55,13 +55,13 @@ const TypeStep = <TFormData extends FormDataIntersection>({
   );
 };
 
-const typeStepConfiguration = {
-  Component: TypeStep,
-  field: 'type',
-  title: (t) => t(`event.create.type.title`),
+const scopeStepConfiguration = {
+  Component: ScopeStep,
+  field: 'scope',
+  title: (t) => t(`event.create.scope.title`),
   shouldShowNextStep: ({ watch }) => {
-    return !!watch('type');
+    return !!watch('scope');
   },
 };
 
-export { TypeStep, typeStepConfiguration };
+export { ScopeStep, scopeStepConfiguration };
