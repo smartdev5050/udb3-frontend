@@ -301,11 +301,9 @@ const OrganizerAddModal = ({
           <Title size={2}>Contact</Title>
           <ContactInfoEntry
             isOrganizer={true}
-            // @ts-ignore
             onSuccessfulChange={handleSetContactInfo}
             withReservationInfo={false}
             organizerContactInfo={contactInfo}
-            onChangeCompleted={() => console.log('random function')}
           />
         </Stack>
       </Stack>

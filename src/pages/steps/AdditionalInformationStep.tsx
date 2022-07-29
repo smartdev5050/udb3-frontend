@@ -40,9 +40,9 @@ const Fields = {
 type Field = Values<typeof Fields>;
 
 type TabContentProps = {
-  eventId: string;
-  onSuccessfulChange: () => Promise<void>;
-  onChangeCompleted: (value: boolean) => void;
+  eventId?: string;
+  onSuccessfulChange: (() => Promise<void>) | ((data: any) => void);
+  onChangeCompleted?: (value: boolean) => void;
 };
 
 type TabConfig = {
