@@ -113,6 +113,7 @@ type FormProps = {
   onAddBookingInfo: (newBookingInfo: BookingInfo) => Promise<void>;
   onAddOrganizerContactInfo: (newContactInfo: ContactInfo) => void;
   isOrganizer?: boolean;
+  withReservationInfo?: boolean;
 };
 
 const Form = ({
@@ -124,6 +125,7 @@ const Form = ({
   onAddBookingInfo,
   onAddOrganizerContactInfo,
   isOrganizer = false,
+  withReservationInfo = false,
 }: FormProps) => {
   const { t } = useTranslation();
 
@@ -265,6 +267,11 @@ const Form = ({
       (info) => info !== value,
     );
 
+    if (isOrganizer) {
+      onAddOrganizerContactInfo(newContactInfo);
+      return;
+    }
+
     await onAddContactInfo(newContactInfo);
   };
 
@@ -343,35 +350,37 @@ const Form = ({
       {contactAndBookingInfo[type].length > 0 && (
         <Stack spacing={4} marginTop={3}>
           <Stack>
-            <SelectWithLabel
-              label={t(
-                'create.additionalInformation.contact_info.select_for_reservation',
-                { contactInfoType: label.toLowerCase() },
-              )}
-              labelPosition={LabelPositions.TOP}
-              onChange={(e) => handleAddBookingInfo(e.target.value)}
-            >
-              <option value="" disabled selected={!bookingInfo?.[type]}>
-                {t(
+            {withReservationInfo && (
+              <SelectWithLabel
+                label={t(
                   'create.additionalInformation.contact_info.select_for_reservation',
                   { contactInfoType: label.toLowerCase() },
                 )}
-              </option>
-              {contactAndBookingInfo[type].map(
-                (contactInfo, key) =>
-                  contactInfo && (
-                    <option
-                      key={key}
-                      value={contactInfo}
-                      selected={bookingInfo?.[type] === contactInfo}
-                    >
-                      {contactInfo}
-                    </option>
-                  ),
-              )}
-            </SelectWithLabel>
+                labelPosition={LabelPositions.TOP}
+                onChange={(e) => handleAddBookingInfo(e.target.value)}
+              >
+                <option value="" disabled selected={!bookingInfo?.[type]}>
+                  {t(
+                    'create.additionalInformation.contact_info.select_for_reservation',
+                    { contactInfoType: label.toLowerCase() },
+                  )}
+                </option>
+                {contactAndBookingInfo[type].map(
+                  (contactInfo, key) =>
+                    contactInfo && (
+                      <option
+                        key={key}
+                        value={contactInfo}
+                        selected={bookingInfo?.[type] === contactInfo}
+                      >
+                        {contactInfo}
+                      </option>
+                    ),
+                )}
+              </SelectWithLabel>
+            )}
           </Stack>
-          {type === ContactInfoType.URL && bookingInfo[type] && (
+          {type === ContactInfoType.URL && bookingInfo?.[type] && (
             <Stack>
               <Text fontWeight="bold">
                 {t(
@@ -528,6 +537,7 @@ type Props = StackProps &
   TabContentProps & {
     withReservationInfo?: boolean;
     isOrganizer?: boolean;
+    organizerContactInfo: ContactInfo;
   };
 
 const ContactInfoEntry = ({
@@ -535,13 +545,15 @@ const ContactInfoEntry = ({
   onSuccessfulChange,
   onChangeCompleted,
   withReservationInfo,
+  organizerContactInfo,
   isOrganizer = false,
   ...props
 }: Props) => {
   const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
 
-  // @ts-expect-error
-  const contactInfo = getEventByIdQuery.data?.contactPoint;
+  const contactInfo =
+    // @ts-expect-error
+    getEventByIdQuery.data?.contactPoint ?? organizerContactInfo;
 
   // @ts-expect-error
   const bookingInfo = getEventByIdQuery.data?.bookingInfo;
@@ -655,4 +667,5 @@ ContactInfoEntry.defaultProps = {
   isOrganizer: false,
 };
 
-export { ContactInfoEntry };
+export { ContactInfoEntry, emptyContactInfo };
+export type { ContactInfo };

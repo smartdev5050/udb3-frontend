@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -20,7 +20,11 @@ import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
 import { City, CityPicker } from './CityPicker';
-import { ContactInfoEntry } from './steps/ContactInfoEntry';
+import {
+  ContactInfo,
+  ContactInfoEntry,
+  emptyContactInfo,
+} from './steps/ContactInfoEntry';
 
 export const getValue = getValueFromTheme('organizerAddModal');
 
@@ -76,6 +80,8 @@ const OrganizerAddModal = ({
   const [urlInputComponent] = useAutoFocus<HTMLInputElement>({
     retriggerOn: visible,
   });
+
+  const [contactInfo, setContactInfo] = useState(emptyContactInfo);
 
   const {
     register,
@@ -143,7 +149,7 @@ const OrganizerAddModal = ({
     onClose();
   };
 
-  const handleSetContactInfo = (contactInfo: any) => {
+  const handleSetContactInfo = (contactInfo: ContactInfo) => {
     const organizerContactInfo = [];
 
     Object.keys(contactInfo).map((key, index) => {
@@ -155,7 +161,7 @@ const OrganizerAddModal = ({
       });
     });
 
-    const withoutDuplicates = [...new Set(organizerContactInfo)];
+    setContactInfo(contactInfo);
 
     setValue('contact', organizerContactInfo);
   };
@@ -298,6 +304,7 @@ const OrganizerAddModal = ({
             // @ts-ignore
             onSuccessfulChange={handleSetContactInfo}
             withReservationInfo={false}
+            organizerContactInfo={contactInfo}
             onChangeCompleted={() => console.log('random function')}
           />
         </Stack>
