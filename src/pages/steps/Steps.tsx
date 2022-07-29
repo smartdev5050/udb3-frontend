@@ -10,9 +10,10 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
+import type { FormData as EventFormData } from '../create/EventForm';
 import type { FormData as MovieFormData } from '../manage/movies/MovieForm';
 
-type FormDataIntersection = Partial<MovieFormData>;
+type FormDataIntersection = Partial<MovieFormData | EventFormData>;
 
 type StepsConfiguration<TFormData extends FormDataIntersection> = Array<{
   Component: any;
