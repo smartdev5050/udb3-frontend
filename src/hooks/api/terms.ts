@@ -20,7 +20,9 @@ type EventType = Term & {
   otherSuggestedTerms?: Term[];
 };
 
-const getTerms = async (): Promise<{ terms: EventType[] }> => {
+type TermsData = { terms: EventType[] };
+
+const getTerms = async (): Promise<TermsData> => {
   const { publicRuntimeConfig } = getConfig();
   const res = await fetch(`${publicRuntimeConfig.taxonomyUrl}/terms`);
   return await res.json();
