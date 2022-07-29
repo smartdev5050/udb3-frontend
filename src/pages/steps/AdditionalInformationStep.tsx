@@ -49,6 +49,7 @@ type TabConfig = {
   field: Field;
   TabContent: FC<TabContentProps & { [prop: string]: unknown }>;
   shouldShowOnMinimal: boolean;
+  stepProps?: Record<string, unknown>;
 };
 
 const tabConfigurations: TabConfig[] = [
@@ -71,6 +72,9 @@ const tabConfigurations: TabConfig[] = [
     field: Fields.CONTACT_INFO,
     TabContent: ContactInfoEntry,
     shouldShowOnMinimal: true,
+    stepProps: {
+      withReservationInfo: true,
+    },
   },
   {
     field: Fields.MEDIA,
@@ -148,36 +152,42 @@ const AdditionalInformationStep = ({
           }
         `}
       >
-        {tabConfigurations.map(({ shouldShowOnMinimal, field, TabContent }) => {
-          const shouldShowTab =
-            variant !== AdditionalInformationStepVariant.MINIMAL ||
-            shouldShowOnMinimal;
+        {tabConfigurations.map(
+          ({ shouldShowOnMinimal, field, TabContent, stepProps }) => {
+            const shouldShowTab =
+              variant !== AdditionalInformationStepVariant.MINIMAL ||
+              shouldShowOnMinimal;
 
-          if (!shouldShowTab) return null;
+            if (!shouldShowTab) return null;
 
-          return (
-            <Tabs.Tab
-              key={field}
-              eventKey={field}
-              title={
-                <TabTitle field={field} isCompleted={isFieldCompleted[field]} />
-              }
-            >
-              <TabContent
-                eventId={eventId}
-                onChangeCompleted={(isCompleted) => {
-                  if (isFieldCompleted[field] === isCompleted) return;
+            return (
+              <Tabs.Tab
+                key={field}
+                eventKey={field}
+                title={
+                  <TabTitle
+                    field={field}
+                    isCompleted={isFieldCompleted[field]}
+                  />
+                }
+              >
+                <TabContent
+                  eventId={eventId}
+                  onChangeCompleted={(isCompleted) => {
+                    if (isFieldCompleted[field] === isCompleted) return;
 
-                  setIsFieldCompleted((prevFields) => ({
-                    ...prevFields,
-                    [field]: isCompleted,
-                  }));
-                }}
-                onSuccessfulChange={() => invalidateEventQuery(field)}
-              />
-            </Tabs.Tab>
-          );
-        })}
+                    setIsFieldCompleted((prevFields) => ({
+                      ...prevFields,
+                      [field]: isCompleted,
+                    }));
+                  }}
+                  onSuccessfulChange={() => invalidateEventQuery(field)}
+                  {...stepProps}
+                />
+              </Tabs.Tab>
+            );
+          },
+        )}
       </Tabs>
     </Stack>
   );

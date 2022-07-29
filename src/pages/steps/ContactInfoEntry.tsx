@@ -650,6 +650,7 @@ const ContactInfoEntry = ({
               onAddBookingInfo={handleAddBookingInfoMutation}
               onAddOrganizerContactInfo={handleAddOrganizerContactInfoMutation}
               isOrganizer={isOrganizer}
+              withReservationInfo={withReservationInfo}
             />
           ))}
       {bookingInfo && (
