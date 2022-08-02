@@ -16,7 +16,8 @@ type Event = Offer & {
 };
 
 const isEvent = (value: unknown): value is Event => {
-  return value['@context'] === '/contexts/event';
+  if (typeof value?.['@context'] !== 'string') return false;
+  return value['@context'].endsWith('/contexts/event');
 };
 
 const areEvents = (value: unknown[]): value is Event[] => {
