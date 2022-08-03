@@ -1,3 +1,4 @@
+import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { css } from 'styled-components';
 
@@ -21,7 +22,15 @@ const AgeRanges = {
   CUSTOM: {},
 } as const;
 
-const AgeRangeStep = (field: any) => {
+const AgeRangeStep = ({
+  field,
+  control,
+  onChange,
+}: {
+  field: any;
+  control: any;
+  onChange: any;
+}) => {
   const { t } = useTranslation();
 
   const getAgeRangeLabel = (key: string): string => {
@@ -29,44 +38,60 @@ const AgeRangeStep = (field: any) => {
       typeof AgeRanges[key].min === 'number' &&
       typeof AgeRanges[key].max === 'number'
     ) {
-      return ` ${AgeRanges[key].min}-${AgeRanges[key].max}`;
+      return `${AgeRanges[key].min}-${AgeRanges[key].max}`;
     }
     if (typeof AgeRanges[key].min === 'number') {
-      return ` ${AgeRanges[key].min}+`;
+      return `${AgeRanges[key].min}+`;
     }
     return '';
   };
 
+  const isSelectedAgeRange = (key: string): boolean => {
+    return field.value?.typicalAgeRange === getAgeRangeLabel(key);
+  };
+
   return (
-    <Stack spacing={2}>
-      <Text fontWeight="bold">{t(`create.step4.age.title`)}</Text>
-      <Inline spacing={3} flexWrap="wrap" maxWidth="40rem">
-        {Object.keys(AgeRanges).map((key) => {
-          return (
-            <Button
-              width="auto"
-              marginBottom={3}
-              display="inline-flex"
-              key={key}
-              variant={ButtonVariants.SECONDARY}
-              onClick={() => {
-                console.log('hanldeOnClick');
-              }}
-            >
-              {t(`create.step4.age.${key.toLowerCase()}`)}
-              <span
-                css={css`
-                  color: ${getValue('rangeTextColor')};
-                  font-size: 0.9rem;
-                `}
-              >
-                {getAgeRangeLabel(key)}
-              </span>
-            </Button>
-          );
-        })}
-      </Inline>
-    </Stack>
+    <Controller
+      name="nameAndAge"
+      control={control}
+      render={({ field }) => {
+        return (
+          <Stack spacing={2}>
+            <Text fontWeight="bold">{t(`create.step4.age.title`)}</Text>
+            <Inline spacing={3} flexWrap="wrap" maxWidth="40rem">
+              {Object.keys(AgeRanges).map((key) => {
+                return (
+                  <Button
+                    width="auto"
+                    marginBottom={3}
+                    display="inline-flex"
+                    key={key}
+                    variant={
+                      isSelectedAgeRange(key)
+                        ? ButtonVariants.SUCCESS
+                        : ButtonVariants.SECONDARY
+                    }
+                    onClick={() => {
+                      console.log('hanldeOnClick');
+                    }}
+                  >
+                    {t(`create.step4.age.${key.toLowerCase()}`)}
+                    <span
+                      css={css`
+                        color: ${getValue('rangeTextColor')};
+                        font-size: 0.9rem;
+                      `}
+                    >
+                      &nbsp;{getAgeRangeLabel(key)}
+                    </span>
+                  </Button>
+                );
+              })}
+            </Inline>
+          </Stack>
+        );
+      }}
+    />
   );
 };
 

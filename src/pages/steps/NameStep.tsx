@@ -20,6 +20,7 @@ const useEditNameAndAge = <TFormData extends FormDataIntersection>({
     onSuccess: () => onSuccess('name'),
   });
 
+  // @ts-ignore
   return async ({ nameAndAge }: TFormData) => {
     console.log({ nameAndAge });
     const { name } = nameAndAge;
@@ -47,7 +48,6 @@ const NameStep = <TFormData extends FormDataIntersection>({
       control={control}
       name={field}
       render={({ field }) => {
-        console.log({ field });
         return (
           <Stack spacing={4} maxWidth={parseSpacing(11)}>
             <Stack spacing={2}>
@@ -96,7 +96,11 @@ const NameStep = <TFormData extends FormDataIntersection>({
               ></Text>
             </Stack>
             <Stack>
-              <AgeRangeStep field={field} />
+              <AgeRangeStep
+                field={field}
+                onChange={onChange}
+                control={control}
+              />
             </Stack>
           </Stack>
         );
