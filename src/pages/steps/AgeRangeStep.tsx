@@ -46,11 +46,20 @@ const AgeRangeStep = ({
     return '';
   };
 
+  const ageRangeLabelToApiFormat = (label: string) => {
+    if (!label) return '-';
+    return label.replace('+', '-');
+  };
+
   const isSelectedAgeRange = (key: string, ageRangeLabel: string): boolean => {
-    return field.value?.typicalAgeRange === ageRangeLabel.replace('+', '-');
+    if (key === 'CUSTOM') return false;
+    return (
+      field.value?.typicalAgeRange === ageRangeLabelToApiFormat(ageRangeLabel)
+    );
   };
 
   return (
+    //TODO: Handle custom ranges
     <Controller
       name="nameAndAge"
       control={control}
@@ -73,14 +82,17 @@ const AgeRangeStep = ({
                         : ButtonVariants.SECONDARY
                     }
                     onClick={() => {
-                      console.log('hanldeOnClick');
                       field.onChange({
                         ...field.value,
-                        typicalAgeRange: ageRangeLabel.replace('+', '-'),
+                        typicalAgeRange: ageRangeLabelToApiFormat(
+                          ageRangeLabel,
+                        ),
                       });
                       onChange({
                         ...field.value,
-                        typicalAgeRange: ageRangeLabel.replace('+', '-'),
+                        typicalAgeRange: ageRangeLabelToApiFormat(
+                          ageRangeLabel,
+                        ),
                       });
                     }}
                   >
