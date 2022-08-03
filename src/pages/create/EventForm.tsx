@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
 import { additionalInformationStepConfiguration } from '../steps/AdditionalInformationStep';
+import { nameStepConfiguration } from '../steps/NameStep';
 import { StepsForm } from '../steps/StepsForm';
 import { typeStepConfiguration } from '../steps/TypeStep';
 
@@ -27,6 +28,8 @@ const EventForm = () => {
       configuration={[
         // @ts-expect-error
         typeStepConfiguration,
+        // @ts-expect-error
+        nameStepConfiguration,
         additionalInformationStepConfiguration,
       ]}
     />
