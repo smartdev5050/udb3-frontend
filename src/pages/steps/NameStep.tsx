@@ -2,7 +2,10 @@ import { FormEvent } from 'react';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { useChangeNameMutation } from '@/hooks/api/events';
+import {
+  useChangeNameMutation,
+  useChangeTypicalAgeRangeMutation,
+} from '@/hooks/api/events';
 import { parseSpacing } from '@/ui/Box';
 import { FormElement } from '@/ui/FormElement';
 import { Input } from '@/ui/Input';
@@ -20,10 +23,21 @@ const useEditNameAndAge = <TFormData extends FormDataIntersection>({
     onSuccess: () => onSuccess('name'),
   });
 
+  const changeTypicalAgeRangeMutation = useChangeTypicalAgeRangeMutation({
+    onSuccess: () => onSuccess('name'),
+  });
+
   // @ts-ignore
   return async ({ nameAndAge }: TFormData) => {
-    console.log({ nameAndAge });
-    const { name } = nameAndAge;
+    const { name, typicalAgeRange } = nameAndAge;
+
+    if (typicalAgeRange) {
+      await changeTypicalAgeRangeMutation.mutateAsync({
+        eventId,
+        typicalAgeRange,
+      });
+    }
+
     await changeNameMutation.mutateAsync({
       id: eventId,
       lang: 'nl',
@@ -36,12 +50,8 @@ const NameStep = <TFormData extends FormDataIntersection>({
   control,
   field,
   onChange,
-  watch,
 }: StepProps<TFormData>) => {
   const { t } = useTranslation();
-
-  // @ts-ignore
-  const watchedNameAndAge = watch('nameAndAge');
 
   return (
     <Controller<TFormData>

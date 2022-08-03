@@ -46,8 +46,8 @@ const AgeRangeStep = ({
     return '';
   };
 
-  const isSelectedAgeRange = (key: string): boolean => {
-    return field.value?.typicalAgeRange === getAgeRangeLabel(key);
+  const isSelectedAgeRange = (key: string, ageRangeLabel: string): boolean => {
+    return field.value?.typicalAgeRange === ageRangeLabel.replace('+', '-');
   };
 
   return (
@@ -60,6 +60,7 @@ const AgeRangeStep = ({
             <Text fontWeight="bold">{t(`create.step4.age.title`)}</Text>
             <Inline spacing={3} flexWrap="wrap" maxWidth="40rem">
               {Object.keys(AgeRanges).map((key) => {
+                const ageRangeLabel = getAgeRangeLabel(key);
                 return (
                   <Button
                     width="auto"
@@ -67,12 +68,20 @@ const AgeRangeStep = ({
                     display="inline-flex"
                     key={key}
                     variant={
-                      isSelectedAgeRange(key)
+                      isSelectedAgeRange(key, ageRangeLabel)
                         ? ButtonVariants.SUCCESS
                         : ButtonVariants.SECONDARY
                     }
                     onClick={() => {
                       console.log('hanldeOnClick');
+                      field.onChange({
+                        ...field.value,
+                        typicalAgeRange: ageRangeLabel.replace('+', '-'),
+                      });
+                      onChange({
+                        ...field.value,
+                        typicalAgeRange: ageRangeLabel.replace('+', '-'),
+                      });
                     }}
                   >
                     {t(`create.step4.age.${key.toLowerCase()}`)}
@@ -82,7 +91,7 @@ const AgeRangeStep = ({
                         font-size: 0.9rem;
                       `}
                     >
-                      &nbsp;{getAgeRangeLabel(key)}
+                      &nbsp;{ageRangeLabel}
                     </span>
                   </Button>
                 );
