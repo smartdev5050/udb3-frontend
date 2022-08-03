@@ -124,8 +124,8 @@ const Form = ({
   onAddContactInfo,
   onAddBookingInfo,
   onAddOrganizerContactInfo,
-  isOrganizer = false,
-  withReservationInfo = false,
+  isOrganizer,
+  withReservationInfo,
 }: FormProps) => {
   const { t } = useTranslation();
 
@@ -546,7 +546,7 @@ const ContactInfoEntry = ({
   onChangeCompleted,
   withReservationInfo,
   organizerContactInfo,
-  isOrganizer = false,
+  isOrganizer,
   ...props
 }: Props) => {
   const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
