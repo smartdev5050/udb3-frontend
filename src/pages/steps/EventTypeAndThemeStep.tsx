@@ -1,4 +1,4 @@
-import { Controller } from 'react-hook-form';
+import { Controller, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
@@ -54,22 +54,19 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
   field,
   getValues,
   onChange,
-  watch,
 }: StepProps<TFormData>) => {
   const { t, i18n } = useTranslation();
 
-  const watchedScope = watch('scope');
+  const watchedValues = useWatch({ control });
 
   const getTypesByScopeQuery = useGetTypesByScopeQuery({
-    scope: watchedScope,
+    scope: watchedValues.scope,
   });
 
   const types = getTypesByScopeQuery.data ?? [];
 
-  const watchedTypeAndTheme = watch('typeAndTheme');
-
   const themes =
-    types?.find((type) => type.id === watchedTypeAndTheme?.type?.id)
+    types?.find((type) => type.id === watchedValues?.typeAndTheme?.type?.id)
       ?.otherSuggestedTerms ?? [];
 
   return (
@@ -185,7 +182,7 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
   );
 };
 
-const eventTypeAndThemeStepConfiguration = {
+const typeAndThemeStepConfiguration = {
   Component: EventTypeAndThemeStep,
   defaultValue: {},
   field: 'typeAndTheme',
@@ -193,4 +190,4 @@ const eventTypeAndThemeStepConfiguration = {
   title: (t) => t(`movies.create.step1.title`),
 };
 
-export { eventTypeAndThemeStepConfiguration, useEditTheme };
+export { typeAndThemeStepConfiguration, useEditTheme };

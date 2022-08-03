@@ -8,7 +8,7 @@ import {
   additionalInformationStepConfiguration,
   AdditionalInformationStepVariant,
 } from '@/pages/steps/AdditionalInformationStep';
-import { eventTypeAndThemeStepConfiguration } from '@/pages/steps/EventTypeAndThemeStep';
+import { typeAndThemeStepConfiguration } from '@/pages/steps/EventTypeAndThemeStep';
 import { placeStepConfiguration } from '@/pages/steps/PlaceStep';
 import { productionStepConfiguration } from '@/pages/steps/ProductionStep';
 import { StepsForm } from '@/pages/steps/StepsForm';
@@ -24,6 +24,10 @@ import { WorkflowStatusMap } from '@/types/WorkflowStatus';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 type FormData = {
+  typeAndTheme: {
+    type: { id: string; label: string };
+    theme: { id: string; label: string };
+  };
   timeTable: any;
   place: Place;
   production: Production & { customOption?: boolean };
@@ -65,7 +69,7 @@ const MovieForm = (props) => {
     return {
       typeAndTheme: {
         theme: event.terms.find((term) => term.domain === 'theme'),
-        eventType: event.terms.find((term) => term.domain === 'eventtype'),
+        type: event.terms.find((term) => term.domain === 'eventtype'),
       },
       place: event.location,
       timeTable: convertSubEventsToTimeTable(event.subEvent),
@@ -79,7 +83,7 @@ const MovieForm = (props) => {
 
   const convertFormDataToEvent = ({
     production,
-    typeAndTheme: { eventType, theme },
+    typeAndTheme: { type, theme },
     place,
     timeTable,
   }: FormData) => {
@@ -91,8 +95,8 @@ const MovieForm = (props) => {
         timeSpans: convertTimeTableToSubEvents(timeTable),
       },
       type: {
-        id: eventType?.id,
-        label: eventType?.label,
+        id: type?.id,
+        label: type?.label,
         domain: 'eventtype',
       },
       ...(theme && {
@@ -131,7 +135,7 @@ const MovieForm = (props) => {
         title: t('movies.create.toast.success.title'),
       }}
       configuration={[
-        eventTypeAndThemeStepConfiguration,
+        typeAndThemeStepConfiguration,
         timeTableStepConfiguration,
         {
           ...placeStepConfiguration,

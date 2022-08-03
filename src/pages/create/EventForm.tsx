@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
 import { additionalInformationStepConfiguration } from '../steps/AdditionalInformationStep';
-import { eventTypeAndThemeStepConfiguration } from '../steps/EventTypeAndThemeStep';
+import { typeAndThemeStepConfiguration } from '../steps/EventTypeAndThemeStep';
 import { scopeStepConfiguration } from '../steps/ScopeStep';
 import { StepsForm } from '../steps/StepsForm';
 
@@ -39,7 +39,7 @@ const EventForm = () => {
         // @ts-expect-error
         scopeStepConfiguration,
         // @ts-expect-error
-        eventTypeAndThemeStepConfiguration,
+        typeAndThemeStepConfiguration,
         additionalInformationStepConfiguration,
       ]}
     />
