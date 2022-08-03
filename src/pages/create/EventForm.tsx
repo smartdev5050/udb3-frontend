@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
 import { additionalInformationStepConfiguration } from '../steps/AdditionalInformationStep';
-import { eventTypeAndThemeStepConfiguration } from '../steps/EventTypeAndThemeStep2';
+import { eventTypeAndThemeStepConfiguration } from '../steps/EventTypeAndThemeStep';
 import { scopeStepConfiguration } from '../steps/ScopeStep';
 import { StepsForm } from '../steps/StepsForm';
 

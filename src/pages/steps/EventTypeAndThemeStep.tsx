@@ -1,11 +1,10 @@
-import { Button } from 'react-bootstrap';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { useChangeThemeMutation } from '@/hooks/api/events';
 import { useGetTypesByScopeQuery } from '@/hooks/api/types';
-import { ButtonVariants } from '@/ui/Button';
+import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { Label, LabelVariants } from '@/ui/Label';
@@ -13,11 +12,11 @@ import { Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
-import { FormDataIntersection, StepProps } from './Steps';
+import { FormDataUnion, StepProps } from './Steps';
 
 const getValue = getValueFromTheme('createPage');
 
-const useEditType = <TFormData extends FormDataIntersection>({
+const useEditType = <TFormData extends FormDataUnion>({
   eventId,
   onSuccess,
 }) => {
@@ -33,7 +32,7 @@ const useEditType = <TFormData extends FormDataIntersection>({
   };
 };
 
-const useEditTheme = <TFormData extends FormDataIntersection>({
+const useEditTheme = <TFormData extends FormDataUnion>({
   eventId,
   onSuccess,
 }) => {
@@ -49,7 +48,7 @@ const useEditTheme = <TFormData extends FormDataIntersection>({
   };
 };
 
-const EventTypeAndThemeStep = <TFormData extends FormDataIntersection>({
+const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
   control,
   reset,
   field,
@@ -59,7 +58,7 @@ const EventTypeAndThemeStep = <TFormData extends FormDataIntersection>({
 }: StepProps<TFormData>) => {
   const { t, i18n } = useTranslation();
 
-  const watchedScope = watch('scope', undefined);
+  const watchedScope = watch('scope');
 
   const getTypesByScopeQuery = useGetTypesByScopeQuery({
     scope: watchedScope,
@@ -128,7 +127,9 @@ const EventTypeAndThemeStep = <TFormData extends FormDataIntersection>({
               </Inline>
             )}
             {themes.length > 0 && (
-              <Label variant={LabelVariants.BOLD}>Verfijn</Label>
+              <Label htmlFor="" variant={LabelVariants.BOLD}>
+                Verfijn
+              </Label>
             )}
             {!field.value?.theme?.id ? (
               <Inline spacing={3} flexWrap="wrap" maxWidth="70rem">

@@ -10,7 +10,6 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Toast } from '@/ui/Toast';
 
-import { FormData } from '../manage/movies/MovieForm';
 import { useToast } from '../manage/movies/useToast';
 import { useAddEvent } from './hooks/useAddEvent';
 import { useEditField } from './hooks/useEditField';
@@ -19,29 +18,29 @@ import { useGetEvent } from './hooks/useGetEvent';
 import { useParseStepConfiguration } from './hooks/useParseStepConfiguration';
 import { usePublishEvent } from './hooks/usePublishEvent';
 import { PublishLaterModal } from './modals/PublishLaterModal';
-import { Steps, StepsConfiguration } from './Steps';
+import { FormDataUnion, Steps, StepsConfiguration } from './Steps';
 
 const getValue = getValueFromTheme('createPage');
 
-type StepsFormProps = {
-  configuration: StepsConfiguration<FormData>;
-  convertFormDataToEvent: (data: Object) => Object;
-  convertEventToFormData: (event: Object) => Object;
-  toastConfiguration: Object;
+type StepsFormProps<TFormData extends FormDataUnion> = {
+  configuration: StepsConfiguration<TFormData>;
+  convertFormDataToEvent: (data: any) => any;
+  convertEventToFormData: (event: any) => any;
+  toastConfiguration: any;
   title: string;
   label?: string;
 };
 
-const StepsForm = ({
+const StepsForm = <TFormData extends FormDataUnion>({
   configuration,
   convertFormDataToEvent,
   convertEventToFormData,
   toastConfiguration,
   title,
   label,
-}: StepsFormProps) => {
+}: StepsFormProps<TFormData>) => {
   const { t } = useTranslation();
-  const { form } = useParseStepConfiguration(configuration);
+  const { form } = useParseStepConfiguration<TFormData>(configuration);
 
   const { handleSubmit, reset } = form;
 
@@ -71,7 +70,7 @@ const StepsForm = ({
   const handleChangeSuccess = (editedField: string) =>
     toast.trigger(editedField);
 
-  const { handleChange, fieldLoading } = useEditField({
+  const { handleChange, fieldLoading } = useEditField<TFormData>({
     eventId,
     handleSubmit,
     onSuccess: handleChangeSuccess,
@@ -106,7 +105,7 @@ const StepsForm = ({
           visible={!!toast.message}
           onClose={() => toast.clear()}
         />
-        <Steps<FormData>
+        <Steps<TFormData>
           configuration={configuration}
           onChange={handleChange}
           fieldLoading={fieldLoading}

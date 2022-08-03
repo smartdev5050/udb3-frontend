@@ -13,9 +13,9 @@ import { Title } from '@/ui/Title';
 import type { FormData as EventFormData } from '../create/EventForm';
 import type { FormData as MovieFormData } from '../manage/movies/MovieForm';
 
-type FormDataIntersection = Partial<MovieFormData | EventFormData>;
+type FormDataUnion = MovieFormData & EventFormData;
 
-type StepsConfiguration<TFormData extends FormDataIntersection> = Array<{
+type StepsConfiguration<TFormData extends FormDataUnion> = Array<{
   Component: any;
   field?: Path<TFormData>;
   step?: number;
@@ -91,7 +91,7 @@ StepWrapper.defaultProps = {
 
 const getValue = getValueFromTheme('createPage');
 
-type StepProps<TFormData extends FormDataIntersection> = Omit<
+type StepProps<TFormData extends FormDataUnion> = Omit<
   UseFormReturn<TFormData>,
   'formState'
 > & {
@@ -104,7 +104,7 @@ type StepProps<TFormData extends FormDataIntersection> = Omit<
   onChange: (value: any) => void;
 };
 
-type StepsProps<TFormData extends FormDataIntersection> = {
+type StepsProps<TFormData extends FormDataUnion> = {
   eventId?: string;
   form: UseFormReturn<TFormData>;
   fieldLoading?: string;
@@ -113,7 +113,7 @@ type StepsProps<TFormData extends FormDataIntersection> = {
   configuration: StepsConfiguration<TFormData>;
 };
 
-const Steps = <TFormData extends FormDataIntersection>({
+const Steps = <TFormData extends FormDataUnion>({
   onChange,
   configuration,
   fieldLoading,
@@ -190,4 +190,4 @@ Steps.defaultProps = {
 };
 
 export { Steps };
-export type { FormDataIntersection, StepProps, StepsConfiguration };
+export type { FormDataUnion, StepProps, StepsConfiguration };

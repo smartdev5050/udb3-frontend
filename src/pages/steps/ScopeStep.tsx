@@ -8,9 +8,9 @@ import { Inline } from '@/ui/Inline';
 import { Text } from '@/ui/Text';
 import { ToggleBox } from '@/ui/ToggleBox';
 
-import { FormDataIntersection, StepProps } from './Steps';
+import { FormDataUnion, StepProps } from './Steps';
 
-const ScopeStep = <TFormData extends FormDataIntersection>({
+const ScopeStep = <TFormData extends FormDataUnion>({
   control,
   field,
 }: StepProps<TFormData>) => {
