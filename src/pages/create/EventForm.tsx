@@ -1,18 +1,55 @@
 import { useTranslation } from 'react-i18next';
 
+import { Event } from '@/types/Event';
+
 import { additionalInformationStepConfiguration } from '../steps/AdditionalInformationStep';
 import { nameStepConfiguration } from '../steps/NameStep';
 import { StepsForm } from '../steps/StepsForm';
 import { typeStepConfiguration } from '../steps/TypeStep';
 
+type FormData = {
+  eventTypeAndTheme: {
+    eventType: { id: string; label: string };
+    theme: { id: string; label: string };
+  };
+  nameAndAge: {
+    name: {
+      nl: string;
+    };
+    typicalAgeRange: string;
+  };
+};
+
 const EventForm = () => {
   const { t } = useTranslation();
+
+  const convertEventToFormData = (event: Event) => {
+    return {
+      eventTypeAndTheme: {
+        theme: event.terms.find((term) => term.domain === 'theme'),
+        eventType: event.terms.find((term) => term.domain === 'eventtype'),
+      },
+      nameAndAge: {
+        name: event.name,
+        typicalAgeRange: event.typicalAgeRange,
+      },
+    };
+  };
+
+  const convertFormDataToEvent = ({
+    nameAndAge: { name, typicalAgeRange },
+  }: FormData) => {
+    return {
+      name,
+      typicalAgeRange,
+    };
+  };
 
   return (
     <StepsForm
       title={t(`event.create.title`)}
-      convertFormDataToEvent={(data) => data}
-      convertEventToFormData={(data) => data}
+      convertFormDataToEvent={convertFormDataToEvent}
+      convertEventToFormData={convertEventToFormData}
       toastConfiguration={{
         messages: {
           media: t('create.toast.success.media'),

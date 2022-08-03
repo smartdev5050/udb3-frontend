@@ -21,7 +21,7 @@ const AgeRanges = {
   CUSTOM: {},
 } as const;
 
-const AgeRangeStep = () => {
+const AgeRangeStep = (field: any) => {
   const { t } = useTranslation();
 
   const getAgeRangeLabel = (key: string): string => {

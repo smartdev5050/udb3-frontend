@@ -12,7 +12,7 @@ import { Text, TextVariants } from '@/ui/Text';
 import { AgeRangeStep } from './AgeRangeStep';
 import { FormDataIntersection, StepProps } from './Steps';
 
-const useEditName = <TFormData extends FormDataIntersection>({
+const useEditNameAndAge = <TFormData extends FormDataIntersection>({
   onSuccess,
   eventId,
 }) => {
@@ -20,7 +20,9 @@ const useEditName = <TFormData extends FormDataIntersection>({
     onSuccess: () => onSuccess('name'),
   });
 
-  return async ({ name }: TFormData) => {
+  return async ({ nameAndAge }: TFormData) => {
+    console.log({ nameAndAge });
+    const { name } = nameAndAge;
     await changeNameMutation.mutateAsync({
       id: eventId,
       lang: 'nl',
@@ -33,14 +35,19 @@ const NameStep = <TFormData extends FormDataIntersection>({
   control,
   field,
   onChange,
+  watch,
 }: StepProps<TFormData>) => {
   const { t } = useTranslation();
+
+  // @ts-ignore
+  const watchedNameAndAge = watch('nameAndAge');
 
   return (
     <Controller<TFormData>
       control={control}
       name={field}
       render={({ field }) => {
+        console.log({ field });
         return (
           <Stack spacing={4} maxWidth={parseSpacing(11)}>
             <Stack spacing={2}>
@@ -50,19 +57,28 @@ const NameStep = <TFormData extends FormDataIntersection>({
                 id="event-name"
                 Component={
                   <Input
-                    value={field.value?.nl}
+                    value={field.value?.name.nl}
                     placeholder={t('create.step4.name.title')}
                     onChange={(event) => {
                       field.onChange({
-                        nl: (event.target as HTMLInputElement).value,
+                        ...field.value,
+                        name: {
+                          nl: (event.target as HTMLInputElement).value,
+                        },
                       });
                     }}
                     onBlur={(event: FormEvent<HTMLInputElement>) => {
                       field.onChange({
-                        nl: (event.target as HTMLInputElement).value,
+                        ...field.value,
+                        name: {
+                          nl: (event.target as HTMLInputElement).value,
+                        },
                       });
                       onChange({
-                        nl: (event.target as HTMLInputElement).value,
+                        ...field.value,
+                        name: {
+                          nl: (event.target as HTMLInputElement).value,
+                        },
                       });
                     }}
                   />
@@ -80,7 +96,7 @@ const NameStep = <TFormData extends FormDataIntersection>({
               ></Text>
             </Stack>
             <Stack>
-              <AgeRangeStep />
+              <AgeRangeStep field={field} />
             </Stack>
           </Stack>
         );
@@ -91,8 +107,8 @@ const NameStep = <TFormData extends FormDataIntersection>({
 
 const nameStepConfiguration = {
   Component: NameStep,
-  field: 'name',
+  field: 'nameAndAge',
   title: (t) => t('create.step4.title'),
 };
 
-export { nameStepConfiguration, useEditName };
+export { nameStepConfiguration, useEditNameAndAge };

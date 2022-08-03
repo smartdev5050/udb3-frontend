@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useQueryClient } from 'react-query';
 
 import { useEditTheme } from '@/pages/steps/EventTypeAndThemeStep';
-import { useEditName } from '@/pages/steps/NameStep';
+import { useEditNameAndAge } from '@/pages/steps/NameStep';
 import { useEditLocation } from '@/pages/steps/PlaceStep';
 import { useEditNameAndProduction } from '@/pages/steps/ProductionStep';
 import { FormDataIntersection } from '@/pages/steps/Steps';
@@ -33,7 +33,7 @@ const useEditField = <TFormData extends FormDataIntersection>({
   const editArguments = { eventId, onSuccess: handleSuccess };
 
   const editTheme = useEditTheme(editArguments);
-  const editName = useEditName(editArguments);
+  const editNameAndAge = useEditNameAndAge(editArguments);
   const editCalendar = useEditCalendar(editArguments);
   const editLocation = useEditLocation(editArguments);
   const editNameAndProduction = useEditNameAndProduction(editArguments);
@@ -44,7 +44,7 @@ const useEditField = <TFormData extends FormDataIntersection>({
 
     const editMap = {
       eventTypeAndTheme: editTheme,
-      name: editName,
+      nameAndAge: editNameAndAge,
       timeTable: editCalendar,
       place: editLocation,
       production: editNameAndProduction,
