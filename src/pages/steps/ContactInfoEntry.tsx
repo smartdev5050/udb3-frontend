@@ -111,6 +111,9 @@ type FormProps = {
   bookingInfo?: BookingInfo;
   onAddContactInfo: (newContactInfo: ContactInfo) => Promise<void>;
   onAddBookingInfo: (newBookingInfo: BookingInfo) => Promise<void>;
+  onAddOrganizerContactInfo: (newContactInfo: ContactInfo) => void;
+  isOrganizer?: boolean;
+  withReservationInfo?: boolean;
 };
 
 const Form = ({
@@ -120,6 +123,9 @@ const Form = ({
   contactInfo,
   onAddContactInfo,
   onAddBookingInfo,
+  onAddOrganizerContactInfo,
+  isOrganizer,
+  withReservationInfo,
 }: FormProps) => {
   const { t } = useTranslation();
 
@@ -233,7 +239,14 @@ const Form = ({
     const newContactInfo = {
       ...(contactInfo ? contactInfo : emptyContactInfo),
     };
+
     newContactInfo[type].push(value);
+
+    if (isOrganizer) {
+      onAddOrganizerContactInfo(newContactInfo);
+      return;
+    }
+
     await onAddContactInfo(newContactInfo);
   };
 
@@ -254,6 +267,11 @@ const Form = ({
       (info) => info !== value,
     );
 
+    if (isOrganizer) {
+      onAddOrganizerContactInfo(newContactInfo);
+      return;
+    }
+
     await onAddContactInfo(newContactInfo);
   };
 
@@ -269,7 +287,9 @@ const Form = ({
   const label = t(`create.additionalInformation.contact_info.${type}`);
   return (
     <Stack spacing={3} marginBottom={5}>
-      <Title marginBottom={2}>{label}</Title>
+      <Title size={3} marginBottom={2}>
+        {label}
+      </Title>
       <Inline spacing={5} justifyContent="space-between">
         <FormElement
           flex={2}
@@ -330,35 +350,37 @@ const Form = ({
       {contactAndBookingInfo[type].length > 0 && (
         <Stack spacing={4} marginTop={3}>
           <Stack>
-            <SelectWithLabel
-              label={t(
-                'create.additionalInformation.contact_info.select_for_reservation',
-                { contactInfoType: label.toLowerCase() },
-              )}
-              labelPosition={LabelPositions.TOP}
-              onChange={(e) => handleAddBookingInfo(e.target.value)}
-            >
-              <option value="" disabled selected={!bookingInfo?.[type]}>
-                {t(
+            {withReservationInfo && (
+              <SelectWithLabel
+                label={t(
                   'create.additionalInformation.contact_info.select_for_reservation',
                   { contactInfoType: label.toLowerCase() },
                 )}
-              </option>
-              {contactAndBookingInfo[type].map(
-                (contactInfo, key) =>
-                  contactInfo && (
-                    <option
-                      key={key}
-                      value={contactInfo}
-                      selected={bookingInfo?.[type] === contactInfo}
-                    >
-                      {contactInfo}
-                    </option>
-                  ),
-              )}
-            </SelectWithLabel>
+                labelPosition={LabelPositions.TOP}
+                onChange={(e) => handleAddBookingInfo(e.target.value)}
+              >
+                <option value="" disabled selected={!bookingInfo?.[type]}>
+                  {t(
+                    'create.additionalInformation.contact_info.select_for_reservation',
+                    { contactInfoType: label.toLowerCase() },
+                  )}
+                </option>
+                {contactAndBookingInfo[type].map(
+                  (contactInfo, key) =>
+                    contactInfo && (
+                      <option
+                        key={key}
+                        value={contactInfo}
+                        selected={bookingInfo?.[type] === contactInfo}
+                      >
+                        {contactInfo}
+                      </option>
+                    ),
+                )}
+              </SelectWithLabel>
+            )}
           </Stack>
-          {type === ContactInfoType.URL && bookingInfo[type] && (
+          {type === ContactInfoType.URL && bookingInfo?.[type] && (
             <Stack>
               <Text fontWeight="bold">
                 {t(
@@ -484,7 +506,7 @@ const ReservationPeriod = ({
       </Inline>
       {isDatePickerVisible && (
         <Stack spacing={4}>
-          <Title>
+          <Title size={3}>
             {t(
               'create.additionalInformation.contact_info.reservation_period.title',
             )}
@@ -514,6 +536,8 @@ const ReservationPeriod = ({
 type Props = StackProps &
   TabContentProps & {
     withReservationInfo?: boolean;
+    isOrganizer?: boolean;
+    organizerContactInfo: ContactInfo;
   };
 
 const ContactInfoEntry = ({
@@ -521,12 +545,15 @@ const ContactInfoEntry = ({
   onSuccessfulChange,
   onChangeCompleted,
   withReservationInfo,
+  organizerContactInfo,
+  isOrganizer,
   ...props
 }: Props) => {
   const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
 
-  // @ts-expect-error
-  const contactInfo = getEventByIdQuery.data?.contactPoint;
+  const contactInfo =
+    // @ts-expect-error
+    getEventByIdQuery.data?.contactPoint ?? organizerContactInfo;
 
   // @ts-expect-error
   const bookingInfo = getEventByIdQuery.data?.bookingInfo;
@@ -575,6 +602,8 @@ const ContactInfoEntry = ({
     const hasBookingInfo =
       bookingInfo && Object.values(bookingInfo).some((info) => !!info);
 
+    if (isOrganizer) return;
+
     onChangeCompleted(hasContactInfo || hasBookingInfo);
   }, [contactInfo, bookingInfo]);
 
@@ -587,6 +616,13 @@ const ContactInfoEntry = ({
       eventId,
       contactPoint: newContactInfo,
     });
+  };
+
+  const handleAddOrganizerContactInfoMutation = (
+    newContactInfo: ContactInfo,
+  ) => {
+    // @ts-ignore
+    onSuccessfulChange(newContactInfo);
   };
 
   const addBookingInfoMutation = useAddBookingInfoMutation({
@@ -614,6 +650,9 @@ const ContactInfoEntry = ({
               contactInfo={contactInfo}
               onAddContactInfo={handleAddContactInfoMutation}
               onAddBookingInfo={handleAddBookingInfoMutation}
+              onAddOrganizerContactInfo={handleAddOrganizerContactInfoMutation}
+              isOrganizer={isOrganizer}
+              withReservationInfo={withReservationInfo}
             />
           ))}
       {bookingInfo && (
@@ -628,6 +667,8 @@ const ContactInfoEntry = ({
 
 ContactInfoEntry.defaultProps = {
   withReservationInfo: false,
+  isOrganizer: false,
 };
 
-export { ContactInfoEntry };
+export { ContactInfoEntry, emptyContactInfo };
+export type { ContactInfo };

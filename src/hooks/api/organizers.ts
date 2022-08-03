@@ -193,7 +193,14 @@ const useGetOrganizersByCreatorQuery = (
     ...configuration,
   });
 
-const createOrganizer = ({ headers, url, name, address, mainLanguage }) =>
+const createOrganizer = ({
+  headers,
+  url,
+  name,
+  address,
+  mainLanguage,
+  contact,
+}) =>
   fetchFromApi({
     path: '/organizers',
     options: {
@@ -204,6 +211,7 @@ const createOrganizer = ({ headers, url, name, address, mainLanguage }) =>
         name,
         url,
         address,
+        contact,
       }),
     },
   });
