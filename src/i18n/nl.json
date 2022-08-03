@@ -85,6 +85,29 @@
     "NL": "Nederland"
   },
   "create": {
+    "step4": {
+      "title": " Basisgegevens",
+      "name": {
+        "title": "Naam van het evenement",
+        "tip": "Gebruik een <strong>sprekende titel</strong>, bv. \"Fietsen langs kapelletjes\", \"De Sage van de Eenhoorn\". Een <strong>uitgebreide beschrijving</strong> kan je in stap 5 toevoegen."
+      },
+      "age": {
+        "title": "Geschikt voor",
+        "all": "Alle leeftijden",
+        "toddlers": "Peuters",
+        "preschoolers": "Kleuters",
+        "kids": "Kinderen",
+        "teenagers": "Tieners",
+        "youngsters": "Jongeren",
+        "adults": "Volwassenen",
+        "seniors": "Senioren",
+        "custom": "Andere",
+        "from": "Van",
+        "till": "Tot",
+        "age": "jaar",
+        "error_max_lower_than_min": "De maximumleeftijd kan niet lager zijn dan de minimumleeftijd."
+      }
+    },
     "additionalInformation": {
       "audience": {
         "title": "Toegang",
