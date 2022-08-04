@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { CalendarType } from '@/constants/CalendarType';
 import { EventTypes } from '@/constants/EventTypes';
+import { OfferType } from '@/constants/OfferType';
 import {
   additionalInformationStepConfiguration,
   AdditionalInformationStepVariant,
@@ -128,14 +129,21 @@ const MovieForm = (props) => {
           image: t('movies.create.toast.success.image'),
           description: t('movies.create.toast.success.description'),
           video: t('movies.create.toast.success.video'),
-          theme: t('movies.create.toast.success.theme'),
+          typeAndTheme: t('movies.create.toast.success.theme'),
           location: t('movies.create.toast.success.location'),
           name: t('movies.create.toast.success.name'),
         },
         title: t('movies.create.toast.success.title'),
       }}
-      configuration={[
-        typeAndThemeStepConfiguration,
+      configurations={[
+        { field: 'scope', defaultValue: OfferType.EVENTS },
+        {
+          ...typeAndThemeStepConfiguration,
+          defaultValue: { type: { id: EventTypes.Film, label: 'Film' } },
+          stepProps: {
+            shouldHideType: true,
+          },
+        },
         timeTableStepConfiguration,
         {
           ...placeStepConfiguration,

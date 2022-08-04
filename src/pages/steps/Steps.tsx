@@ -130,7 +130,9 @@ const Steps = <TFormData extends FormDataUnion>({
     if (!!eventId) return true;
 
     // don't hide steps that were visible before
-    if (Object.keys(form.getValues()).includes(field)) return true;
+    if (form.getFieldState(field).isTouched) return true;
+
+    if (index === 0) return true;
 
     // no shouldShowNextStep function = show the step
     return (
