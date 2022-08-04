@@ -182,9 +182,7 @@ const productionStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: ProductionStep,
   validation: yup.object().shape({}).required(),
   field: 'production',
-  shouldShowNextStep: ({ formState: { errors }, eventId }) => {
-    return !!eventId && Object.values(errors).length === 0;
-  },
+  shouldShowStep: ({ watch }) => !!watch('place'),
   title: (t) => t(`movies.create.step4.title`),
 };
 

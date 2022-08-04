@@ -196,10 +196,7 @@ const typeAndThemeStepConfiguration: StepsConfiguration<FormDataUnion> = {
   field: 'typeAndTheme',
   validation: yup.object().shape({}).required(),
   title: (t) => t(`movies.create.step1.title`),
-  shouldShowNextStep: ({ watch }) => {
-    const { type } = watch('typeAndTheme') ?? {};
-    return !!type;
-  },
+  shouldShowStep: ({ watch }) => !!watch('scope'),
 };
 
 export { typeAndThemeStepConfiguration, useEditTheme };
