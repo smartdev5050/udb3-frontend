@@ -12,13 +12,6 @@ type Scope = 'events' | 'places';
 
 type FormData = {
   scope: Scope;
-  typeAndTheme: {
-    type: { id: string; label: string };
-    theme: { id: string; label: string };
-  };
-};
-
-type FormData = {
   eventTypeAndTheme: {
     eventType: { id: string; label: string };
     theme: { id: string; label: string };

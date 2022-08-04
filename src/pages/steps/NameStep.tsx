@@ -13,9 +13,9 @@ import { Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 
 import { AgeRangeStep } from './AgeRangeStep';
-import { FormDataIntersection, StepProps } from './Steps';
+import { FormDataUnion, StepProps } from './Steps';
 
-const useEditNameAndAge = <TFormData extends FormDataIntersection>({
+const useEditNameAndAge = <TFormData extends FormDataUnion>({
   onSuccess,
   eventId,
 }) => {
