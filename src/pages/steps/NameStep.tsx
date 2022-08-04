@@ -46,7 +46,7 @@ const useEditNameAndAge = <TFormData extends FormDataUnion>({
   };
 };
 
-const NameStep = <TFormData extends FormDataIntersection>({
+const NameStep = <TFormData extends FormDataUnion>({
   control,
   field,
   onChange,
