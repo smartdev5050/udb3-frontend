@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next';
 
-import { EventTypes } from '@/constants/EventTypes';
 import { Event } from '@/types/Event';
 
 import { additionalInformationStepConfiguration } from '../steps/AdditionalInformationStep';
