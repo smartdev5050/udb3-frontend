@@ -1,4 +1,3 @@
-import { FormEvent } from 'react';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
@@ -7,12 +6,10 @@ import {
   useChangeTypicalAgeRangeMutation,
 } from '@/hooks/api/events';
 import { parseSpacing } from '@/ui/Box';
-import { FormElement } from '@/ui/FormElement';
-import { Input } from '@/ui/Input';
 import { Stack } from '@/ui/Stack';
-import { Text, TextVariants } from '@/ui/Text';
 
 import { AgeRangeStep } from './AgeRangeStep';
+import { NameStep } from './NameStep';
 import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
 
 const useEditNameAndAgeRange = <TFormData extends FormDataUnion>({
@@ -59,51 +56,7 @@ const NameAndAgeRangeStep = <TFormData extends FormDataUnion>({
       render={({ field }) => {
         return (
           <Stack spacing={4} maxWidth={parseSpacing(11)}>
-            <Stack spacing={2}>
-              <Text fontWeight="bold">{t('create.step4.name.title')}</Text>
-              <FormElement
-                flex={2}
-                id="event-name"
-                Component={
-                  <Input
-                    value={field.value?.name.nl}
-                    placeholder={t('create.step4.name.title')}
-                    onChange={(event) => {
-                      field.onChange({
-                        ...field.value,
-                        name: {
-                          nl: (event.target as HTMLInputElement).value,
-                        },
-                      });
-                    }}
-                    onBlur={(event: FormEvent<HTMLInputElement>) => {
-                      field.onChange({
-                        ...field.value,
-                        name: {
-                          nl: (event.target as HTMLInputElement).value,
-                        },
-                      });
-                      onChange({
-                        ...field.value,
-                        name: {
-                          nl: (event.target as HTMLInputElement).value,
-                        },
-                      });
-                    }}
-                  />
-                }
-              />
-              <Text
-                variant={TextVariants.MUTED}
-                maxWidth={parseSpacing(9)}
-                dangerouslySetInnerHTML={{ __html: t('create.step4.name.tip') }}
-                css={`
-                  strong {
-                    font-weight: bold;
-                  }
-                `}
-              ></Text>
-            </Stack>
+            <NameStep field={field} onChange={onChange} control={control} />
             <Stack>
               <AgeRangeStep
                 field={field}

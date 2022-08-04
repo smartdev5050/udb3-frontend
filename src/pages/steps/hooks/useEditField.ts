@@ -33,7 +33,7 @@ const useEditField = <TFormData extends FormDataUnion>({
   const editArguments = { eventId, onSuccess: handleSuccess };
 
   const editTheme = useEditTheme<TFormData>(editArguments);
-  const editNameAndAgeRange = useEditNameAndAgeRange<TFormData>(editArguments);
+  const editNameAndAgeRange = useEditNameAndAgeRange(editArguments);
   const editCalendar = useEditCalendar(editArguments);
   const editLocation = useEditLocation(editArguments);
   const editNameAndProduction = useEditNameAndProduction(editArguments);
