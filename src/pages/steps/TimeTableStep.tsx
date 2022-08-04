@@ -5,7 +5,11 @@ import * as yup from 'yup';
 
 import { CalendarType } from '@/constants/CalendarType';
 import { useChangeCalendarMutation } from '@/hooks/api/events';
-import type { FormDataIntersection, StepProps } from '@/pages/steps/Steps';
+import type {
+  FormDataUnion,
+  StepProps,
+  StepsConfiguration,
+} from '@/pages/steps/Steps';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Box } from '@/ui/Box';
 import type { StackProps } from '@/ui/Stack';
@@ -53,7 +57,7 @@ const convertTimeTableToSubEvents = (timeTable: TimeTableValue) => {
   );
 };
 
-const useEditCalendar = <TFormData extends FormDataIntersection>({
+const useEditCalendar = <TFormData extends FormDataUnion>({
   eventId,
   onSuccess,
 }) => {
@@ -70,10 +74,10 @@ const useEditCalendar = <TFormData extends FormDataIntersection>({
   };
 };
 
-type TimeTableStepProps<TFormData extends FormDataIntersection> = StackProps &
+type TimeTableStepProps<TFormData extends FormDataUnion> = StackProps &
   StepProps<TFormData>;
 
-const TimeTableStep = <TFormData extends FormDataIntersection>({
+const TimeTableStep = <TFormData extends FormDataUnion>({
   formState: { errors },
   control,
   className,
@@ -121,7 +125,7 @@ const TimeTableStep = <TFormData extends FormDataIntersection>({
 const formatDate = (date: Date) => format(date, 'dd/MM/yyyy');
 const nextWeekWednesday = nextWednesday(new Date());
 
-const timeTableStepConfiguration = {
+const timeTableStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: TimeTableStep,
   defaultValue: {
     data: {},

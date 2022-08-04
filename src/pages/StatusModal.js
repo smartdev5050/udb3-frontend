@@ -46,7 +46,7 @@ const StatusModal = ({ visible, loading, className, onClose, onConfirm }) => {
       ) : (
         <Stack padding={4}>
           <StatusForm
-            offerType={OfferType.EVENT}
+            offerType={OfferType.EVENTS}
             statusType={type}
             statusReason={reason}
             onChangeStatusType={(e) => setType(e.target.value)}

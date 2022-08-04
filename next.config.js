@@ -27,6 +27,7 @@ const moduleExports = {
     authUrl: process.env.NEXT_PUBLIC_AUTH_URL,
     socketUrl: process.env.NEXT_PUBLIC_SOCKET_URL,
     newAnnouncementsUrl: process.env.NEXT_PUBLIC_NEW_ANNOUNCEMENTS_URL,
+    taxonomyUrl: process.env.NEXT_PUBLIC_TAXONOMY_URL,
     sentryDsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
     newsletterApiUrl: process.env.NEXT_PUBLIC_NEWSLETTER_API_URL,
     newsletterEmailListId: process.env.NEXT_PUBLIC_NEWSLETTER_EMAIL_LIST_ID,

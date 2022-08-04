@@ -4,11 +4,12 @@ import { useTranslation } from 'react-i18next';
 
 import { CalendarType } from '@/constants/CalendarType';
 import { EventTypes } from '@/constants/EventTypes';
+import { OfferType } from '@/constants/OfferType';
 import {
   additionalInformationStepConfiguration,
   AdditionalInformationStepVariant,
 } from '@/pages/steps/AdditionalInformationStep';
-import { eventTypeAndThemeStepConfiguration } from '@/pages/steps/EventTypeAndThemeStep';
+import { typeAndThemeStepConfiguration } from '@/pages/steps/EventTypeAndThemeStep';
 import { placeStepConfiguration } from '@/pages/steps/PlaceStep';
 import { productionStepConfiguration } from '@/pages/steps/ProductionStep';
 import { StepsForm } from '@/pages/steps/StepsForm';
@@ -24,8 +25,8 @@ import { WorkflowStatusMap } from '@/types/WorkflowStatus';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 type FormData = {
-  eventTypeAndTheme: {
-    eventType: { id: string; label: string };
+  typeAndTheme: {
+    type: { id: string; label: string };
     theme: { id: string; label: string };
   };
   timeTable: any;
@@ -67,9 +68,9 @@ const MovieForm = (props) => {
 
   const convertEventToFormData = (event: Event) => {
     return {
-      eventTypeAndTheme: {
+      typeAndTheme: {
         theme: event.terms.find((term) => term.domain === 'theme'),
-        eventType: event.terms.find((term) => term.domain === 'eventtype'),
+        type: event.terms.find((term) => term.domain === 'eventtype'),
       },
       place: event.location,
       timeTable: convertSubEventsToTimeTable(event.subEvent),
@@ -83,7 +84,7 @@ const MovieForm = (props) => {
 
   const convertFormDataToEvent = ({
     production,
-    eventTypeAndTheme: { eventType, theme },
+    typeAndTheme: { type, theme },
     place,
     timeTable,
   }: FormData) => {
@@ -95,8 +96,8 @@ const MovieForm = (props) => {
         timeSpans: convertTimeTableToSubEvents(timeTable),
       },
       type: {
-        id: eventType?.id,
-        label: eventType?.label,
+        id: type?.id,
+        label: type?.label,
         domain: 'eventtype',
       },
       ...(theme && {
@@ -128,14 +129,21 @@ const MovieForm = (props) => {
           image: t('movies.create.toast.success.image'),
           description: t('movies.create.toast.success.description'),
           video: t('movies.create.toast.success.video'),
-          theme: t('movies.create.toast.success.theme'),
+          typeAndTheme: t('movies.create.toast.success.theme'),
           location: t('movies.create.toast.success.location'),
           name: t('movies.create.toast.success.name'),
         },
         title: t('movies.create.toast.success.title'),
       }}
-      configuration={[
-        eventTypeAndThemeStepConfiguration,
+      configurations={[
+        { field: 'scope', defaultValue: OfferType.EVENTS },
+        {
+          ...typeAndThemeStepConfiguration,
+          defaultValue: { type: { id: EventTypes.Film, label: 'Film' } },
+          stepProps: {
+            shouldHideType: true,
+          },
+        },
         timeTableStepConfiguration,
         {
           ...placeStepConfiguration,

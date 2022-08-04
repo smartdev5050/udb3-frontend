@@ -39,7 +39,7 @@ test('I can save a status', async () => {
   expect(screen.getByLabelText(nl.bookingAvailability.available)).toBeChecked();
 
   expect(
-    screen.getByLabelText(nl.offerStatus.status.event.available),
+    screen.getByLabelText(nl.offerStatus.status.events.available),
   ).toBeChecked();
 
   expect(screen.getByLabelText(nl.offerStatus.reason)).toBeDisabled();
@@ -72,15 +72,15 @@ test('I can save a status with a reason', async () => {
   const page = await setup();
 
   userEvent.click(
-    screen.getByLabelText(nl.offerStatus.status.event.temporarilyUnavailable),
+    screen.getByLabelText(nl.offerStatus.status.events.temporarilyUnavailable),
   );
 
   expect(
-    screen.getByLabelText(nl.offerStatus.status.event.available),
+    screen.getByLabelText(nl.offerStatus.status.events.available),
   ).not.toBeChecked();
 
   expect(
-    screen.getByLabelText(nl.offerStatus.status.event.temporarilyUnavailable),
+    screen.getByLabelText(nl.offerStatus.status.events.temporarilyUnavailable),
   ).toBeChecked();
 
   expect(screen.getByLabelText(nl.offerStatus.reason)).toBeEnabled();
@@ -120,7 +120,7 @@ test('The reason and error are cleared when switching back to "available"', asyn
   await setup();
 
   userEvent.click(
-    screen.getByLabelText(nl.offerStatus.status.event.temporarilyUnavailable),
+    screen.getByLabelText(nl.offerStatus.status.events.temporarilyUnavailable),
   );
 
   userEvent.type(
@@ -136,7 +136,9 @@ test('The reason and error are cleared when switching back to "available"', asyn
     }),
   ).toBeDisabled();
 
-  userEvent.click(screen.getByLabelText(nl.offerStatus.status.event.available));
+  userEvent.click(
+    screen.getByLabelText(nl.offerStatus.status.events.available),
+  );
 
   expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 

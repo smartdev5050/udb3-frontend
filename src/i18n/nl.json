@@ -85,6 +85,11 @@
     "NL": "Nederland"
   },
   "create": {
+    "type_and_theme": {
+      "change_theme": "Wijzig thema",
+      "change_type": "Wijzig type",
+      "refine": "Verfijn"
+    },
     "additionalInformation": {
       "audience": {
         "title": "Toegang",
@@ -388,6 +393,7 @@
         "change_cinema": "Wijzig bioscoop",
         "change_name": "Wijzig naam",
         "change_theme": "Wijzig thema",
+        "change_type": "Wijzig type",
         "choose_cinema": "Kies een bioscoop",
         "choose_name": "Kies een naam",
         "clear": "Leegmaken",
@@ -459,14 +465,14 @@
     "reason": "Reden",
     "reasonTip": "Je kan optioneel een reden voor de statuswijziging opgeven. De reden wordt samen met de nieuwe status gepubliceerd op UiTinVlaanderen en andere UiT-kanalen.",
     "status": {
-      "event": {
+      "events": {
         "available": "Gaat door",
         "temporarilyUnavailable": "Uitgesteld",
         "temporarilyUnavailableInfo": "Je evenement is uitgesteld naar een later, nog te bepalen tijdstip.",
         "unavailable": "Geannuleerd",
         "unavailableInfo": "Je evenement gaat niet meer door op het voorziene tijdstip en ook niet op een later tijdstip."
       },
-      "place": {
+      "places": {
         "available": "Open",
         "temporarilyUnavailable": "Tijdelijk gesloten",
         "temporarilyUnavailableInfo": "Je locatie zal tijdelijk niet meer gepubliceerd worden op UiTinVlaanderen en andere UiT-kanalen. Wanneer je locatie terug open gaat, kan je de status opnieuw wijzigen naar 'open'.",

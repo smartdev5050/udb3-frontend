@@ -85,6 +85,11 @@
     "NL": "Pays-Bas"
   },
   "create": {
+    "type_and_theme": {
+      "change_theme": "Changer thème",
+      "change_type": "Changer type",
+      "refine": "Affiner"
+    },
     "additionalInformation": {
       "audience": {
         "education": "Spécifiquement pour des écoles",
@@ -459,14 +464,14 @@
     "reason": "Raison",
     "reasonTip": "Vous pouvez éventuellement indiquer un motif de changement de statut. Le motif sera publié en même temps que le nouveau statut sur UiTinVlaanderen et les autres calendriers de UiT.",
     "status": {
-      "event": {
+      "events": {
         "available": "A lieu",
         "temporarilyUnavailable": "Reporté",
         "temporarilyUnavailableInfo": "Votre événement a été reporté à une date ultérieure qui reste à déterminer.",
         "unavailable": "Annulé",
         "unavailableInfo": "Votre événement n'aura pas lieu à l'heure prévue ou à une date ultérieure."
       },
-      "place": {
+      "places": {
         "available": "Ouvert",
         "temporarilyUnavailable": "Fermé temporairement",
         "temporarilyUnavailableInfo": "Votre lieu ne sera temporairement plus publiée sur UiTinVlaanderen et les autres calendriers de UiT. Lorsque votre lieu rouvre, vous pouvez en modifier le statut pour qu'il redevienne 'ouvert'.",
