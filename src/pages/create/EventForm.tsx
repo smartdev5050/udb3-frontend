@@ -3,9 +3,20 @@ import { useTranslation } from 'react-i18next';
 import { Event } from '@/types/Event';
 
 import { additionalInformationStepConfiguration } from '../steps/AdditionalInformationStep';
+import { typeAndThemeStepConfiguration } from '../steps/EventTypeAndThemeStep';
 import { nameStepConfiguration } from '../steps/NameStep';
+import { scopeStepConfiguration } from '../steps/ScopeStep';
 import { StepsForm } from '../steps/StepsForm';
-import { typeStepConfiguration } from '../steps/TypeStep';
+
+type Scope = 'events' | 'places';
+
+type FormData = {
+  scope: Scope;
+  typeAndTheme: {
+    type: { id: string; label: string };
+    theme: { id: string; label: string };
+  };
+};
 
 type FormData = {
   eventTypeAndTheme: {
@@ -62,10 +73,9 @@ const EventForm = () => {
         },
         title: '',
       }}
-      configuration={[
-        // @ts-expect-error
-        typeStepConfiguration,
-        // @ts-expect-error
+      configurations={[
+        scopeStepConfiguration,
+        typeAndThemeStepConfiguration,
         nameStepConfiguration,
         additionalInformationStepConfiguration,
       ]}
@@ -73,4 +83,5 @@ const EventForm = () => {
   );
 };
 
+export type { FormData, Scope };
 export { EventForm };

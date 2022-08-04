@@ -7,9 +7,9 @@ import {
   useAddEventByIdMutation as useAddEventToProductionByIdMutation,
   useCreateWithEventsMutation as useCreateProductionWithEventsMutation,
 } from '@/hooks/api/productions';
-import { FormDataIntersection } from '@/pages/steps/Steps';
+import { FormDataUnion } from '@/pages/steps/Steps';
 
-const useAddEvent = <TFormData extends FormDataIntersection>({
+const useAddEvent = <TFormData extends FormDataUnion>({
   onSuccess,
   convertFormDataToEvent,
   label,

@@ -1,6 +1,6 @@
 const OfferType = {
-  EVENT: 'event',
-  PLACE: 'place',
+  EVENTS: 'events',
+  PLACES: 'places',
 } as const;
 
 export { OfferType };

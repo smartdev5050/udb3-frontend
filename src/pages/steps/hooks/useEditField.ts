@@ -5,14 +5,14 @@ import { useEditTheme } from '@/pages/steps/EventTypeAndThemeStep';
 import { useEditNameAndAge } from '@/pages/steps/NameStep';
 import { useEditLocation } from '@/pages/steps/PlaceStep';
 import { useEditNameAndProduction } from '@/pages/steps/ProductionStep';
-import { FormDataIntersection } from '@/pages/steps/Steps';
+import { FormDataUnion } from '@/pages/steps/Steps';
 import { useEditCalendar } from '@/pages/steps/TimeTableStep';
 
 type HandleSuccessOptions = {
   shouldInvalidateEvent?: boolean;
 };
 
-const useEditField = <TFormData extends FormDataIntersection>({
+const useEditField = <TFormData extends FormDataUnion>({
   onSuccess,
   eventId,
   handleSubmit,
@@ -32,8 +32,8 @@ const useEditField = <TFormData extends FormDataIntersection>({
 
   const editArguments = { eventId, onSuccess: handleSuccess };
 
-  const editTheme = useEditTheme(editArguments);
-  const editNameAndAge = useEditNameAndAge(editArguments);
+  const editTheme = useEditTheme<TFormData>(editArguments);
+  const editNameAndAge = useEditNameAndAge<TFormData>(editArguments);
   const editCalendar = useEditCalendar(editArguments);
   const editLocation = useEditLocation(editArguments);
   const editNameAndProduction = useEditNameAndProduction(editArguments);
@@ -43,7 +43,7 @@ const useEditField = <TFormData extends FormDataIntersection>({
     setFieldLoading(editedField);
 
     const editMap = {
-      eventTypeAndTheme: editTheme,
+      typeAndTheme: editTheme,
       nameAndAge: editNameAndAge,
       timeTable: editCalendar,
       place: editLocation,

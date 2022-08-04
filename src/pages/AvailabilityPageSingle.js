@@ -136,7 +136,7 @@ const AvailabilityPageSingle = ({ offer, error, useChangeStatusMutation }) => {
             </Title>,
             <StatusForm
               key="reason-and-type"
-              offerType={offerType}
+              offerType={`${offerType}s`}
               statusType={type}
               statusReason={reasonInCurrentLanguage}
               onChangeStatusType={(e) => setType(e.target.value)}

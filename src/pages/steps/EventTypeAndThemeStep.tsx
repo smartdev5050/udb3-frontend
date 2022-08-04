@@ -1,21 +1,38 @@
-import { useMemo } from 'react';
-import { Controller } from 'react-hook-form';
+import { Controller, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
-import { EventTypes } from '@/constants/EventTypes';
 import { useChangeThemeMutation } from '@/hooks/api/events';
-import { useGetThemesByEventTypeIdQuery } from '@/hooks/api/themes';
-import type { FormDataIntersection, StepProps } from '@/pages/steps/Steps';
+import { useGetTypesByScopeQuery } from '@/hooks/api/types';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
+import { Label, LabelVariants } from '@/ui/Label';
+import { Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
+import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
+
 const getValue = getValueFromTheme('createPage');
 
-const useEditTheme = <TFormData extends FormDataIntersection>({
+const useEditType = <TFormData extends FormDataUnion>({
+  eventId,
+  onSuccess,
+}) => {
+  const changeThemeMutation = useChangeThemeMutation({
+    onSuccess: () => onSuccess('type'),
+  });
+
+  return async ({ typeAndTheme }: TFormData) => {
+    await changeThemeMutation.mutateAsync({
+      id: eventId,
+      themeId: typeAndTheme.type.id,
+    });
+  };
+};
+
+const useEditTheme = <TFormData extends FormDataUnion>({
   eventId,
   onSuccess,
 }) => {
@@ -23,104 +40,166 @@ const useEditTheme = <TFormData extends FormDataIntersection>({
     onSuccess: () => onSuccess('theme'),
   });
 
-  return async ({ eventTypeAndTheme }: TFormData) => {
+  return async ({ typeAndTheme }: TFormData) => {
     await changeThemeMutation.mutateAsync({
       id: eventId,
-      themeId: eventTypeAndTheme.theme.id,
+      themeId: typeAndTheme.theme.id,
     });
   };
 };
 
-const EventTypeAndThemeStep = <TFormData extends FormDataIntersection>({
+type Props<TFormData extends FormDataUnion> = StepProps<TFormData> & {
+  shouldHideType: boolean;
+};
+
+const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
   control,
   reset,
   field,
   getValues,
   onChange,
-}: StepProps<TFormData>) => {
+  shouldHideType,
+}: Props<TFormData>) => {
   const { t, i18n } = useTranslation();
 
-  const useGetThemesByCategoryIdQuery = useGetThemesByEventTypeIdQuery({
-    eventTypeId: 'test',
+  const watchedValues = useWatch({ control });
+
+  const getTypesByScopeQuery = useGetTypesByScopeQuery({
+    scope: watchedValues.scope,
   });
 
-  // @ts-expect-error
-  const themes = useMemo(() => useGetThemesByCategoryIdQuery.data ?? {}, [
-    // @ts-expect-error
-    useGetThemesByCategoryIdQuery.data,
-  ]);
+  const types = getTypesByScopeQuery.data ?? [];
+
+  const themes =
+    types?.find((type) => type.id === watchedValues?.typeAndTheme?.type?.id)
+      ?.otherSuggestedTerms ?? [];
 
   return (
     <Controller<TFormData>
       name={field}
       control={control}
       render={({ field }) => {
-        if (!field.value?.theme?.id) {
-          return (
-            <Inline spacing={3} flexWrap="wrap" maxWidth="70rem">
-              {Object.entries(themes).map(
-                // eslint-disable-next-line camelcase
-                ([themeId, themeData]: [string, { label_nl: string }]) => (
+        return (
+          <Stack spacing={4}>
+            {!shouldHideType && (
+              <Stack>
+                {!field.value?.type?.id ? (
+                  <Inline spacing={3} flexWrap="wrap" maxWidth="70rem">
+                    {types.map(({ id, name }) => (
+                      <Button
+                        width="auto"
+                        marginBottom={3}
+                        display="inline-flex"
+                        key={id}
+                        variant={ButtonVariants.SECONDARY}
+                        onClick={() => {
+                          field.onChange({
+                            ...field.value,
+                            type: { id, label: name[i18n.language] },
+                          });
+                          onChange(id);
+                        }}
+                      >
+                        {name[i18n.language]}
+                      </Button>
+                    ))}
+                  </Inline>
+                ) : (
+                  <Inline alignItems="center" spacing={3}>
+                    <Icon
+                      name={Icons.CHECK_CIRCLE}
+                      color={getValue('check.circleFillColor')}
+                    />
+                    <Text>{field.value?.type?.label}</Text>
+                    <Button
+                      variant={ButtonVariants.LINK}
+                      onClick={() =>
+                        reset(
+                          {
+                            ...(getValues() as any),
+                            typeAndTheme: {
+                              type: undefined,
+                              theme: undefined,
+                            },
+                          },
+                          { keepDirty: true },
+                        )
+                      }
+                    >
+                      {t('create.type_and_theme.change_type')}
+                    </Button>
+                  </Inline>
+                )}
+              </Stack>
+            )}
+            {themes.length > 0 && (
+              <Label htmlFor="" variant={LabelVariants.BOLD}>
+                {t('create.type_and_theme.refine')}
+              </Label>
+            )}
+            {!field.value?.theme?.id ? (
+              <Inline spacing={3} flexWrap="wrap" maxWidth="70rem">
+                {themes.map(({ id, name }) => (
                   <Button
                     width="auto"
                     marginBottom={3}
                     display="inline-flex"
-                    key={themeId}
+                    key={id}
                     variant={ButtonVariants.SECONDARY}
                     onClick={() => {
                       field.onChange({
                         ...field.value,
-                        theme: { id: themeId, label: themeData.label_nl },
+                        theme: { id, label: name[i18n.language] },
                       });
-                      onChange(themeId);
+                      onChange(id);
                     }}
                   >
-                    {themeData[`label_${i18n.language}`]}
+                    {name[i18n.language]}
                   </Button>
-                ),
-              )}
-            </Inline>
-          );
-        }
-
-        return (
-          <Inline alignItems="center" spacing={3}>
-            <Icon
-              name={Icons.CHECK_CIRCLE}
-              color={getValue('check.circleFillColor')}
-            />
-            <Text>
-              {themes?.[field.value.theme.id]?.[`label_${i18n.language}`]}
-            </Text>
-            <Button
-              variant={ButtonVariants.LINK}
-              onClick={() =>
-                reset(
-                  { ...(getValues() as any), eventTypeAndTheme: undefined },
-                  { keepDirty: true },
-                )
-              }
-            >
-              {t('movies.create.actions.change_theme')}
-            </Button>
-          </Inline>
+                ))}
+              </Inline>
+            ) : (
+              <Inline alignItems="center" spacing={3}>
+                <Icon
+                  name={Icons.CHECK_CIRCLE}
+                  color={getValue('check.circleFillColor')}
+                />
+                <Text>{field.value?.theme?.label}</Text>
+                <Button
+                  variant={ButtonVariants.LINK}
+                  onClick={() =>
+                    reset(
+                      {
+                        ...(getValues() as any),
+                        typeAndTheme: {
+                          ...(getValues() as any).typeAndTheme,
+                          theme: undefined,
+                        },
+                      },
+                      { keepDirty: true },
+                    )
+                  }
+                >
+                  {t('create.type_and_theme.change_theme')}
+                </Button>
+              </Inline>
+            )}
+          </Stack>
         );
       }}
     />
   );
 };
 
-const eventTypeAndThemeStepConfiguration = {
+const typeAndThemeStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: EventTypeAndThemeStep,
-  defaultValue: {
-    eventType: {
-      id: EventTypes.Film,
-      label: 'Film',
-    },
-  },
-  field: 'eventTypeAndTheme',
+  field: 'typeAndTheme',
   validation: yup.object().shape({}).required(),
   title: (t) => t(`movies.create.step1.title`),
+  shouldShowNextStep: ({ watch }) => {
+    const { type } = watch('typeAndTheme') ?? {};
+    return !!type;
+  },
 };
 
-export { eventTypeAndThemeStepConfiguration, useEditTheme };
+export { typeAndThemeStepConfiguration, useEditTheme };

@@ -2,15 +2,15 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
-import { FormData } from '@/pages/manage/movies/MovieForm';
+import { FormDataUnion } from '../Steps';
 
-const useParseStepConfiguration = (
-  configuration,
+const useParseStepConfiguration = <TFormData extends FormDataUnion>(
+  configurations,
   { formConfiguration = {} } = {},
 ) => {
   const schema = yup
     .object(
-      configuration.reduce(
+      configurations.reduce(
         (acc: Object, val: { field: string; validation: () => void }) => {
           if (!val.field || !val.validation) return acc;
 
@@ -26,7 +26,7 @@ const useParseStepConfiguration = (
 
   const resolver = yupResolver(schema);
 
-  const defaultValues = configuration.reduce(
+  const defaultValues = configurations.reduce(
     (acc: Object, val: { field: string; defaultValue: unknown }) => {
       if (!val.field || !val.defaultValue) return acc;
       return {
@@ -37,8 +37,7 @@ const useParseStepConfiguration = (
     {},
   );
 
-  const form = useForm<FormData>({
-    //@ts-expect-error
+  const form = useForm<TFormData>({
     resolver,
     defaultValues,
     ...formConfiguration,

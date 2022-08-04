@@ -8,9 +8,9 @@ import { Inline } from '@/ui/Inline';
 import { Text } from '@/ui/Text';
 import { ToggleBox } from '@/ui/ToggleBox';
 
-import { FormDataIntersection, StepProps } from './Steps';
+import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
 
-const TypeStep = <TFormData extends FormDataIntersection>({
+const ScopeStep = <TFormData extends FormDataUnion>({
   control,
   field,
 }: StepProps<TFormData>) => {
@@ -24,8 +24,8 @@ const TypeStep = <TFormData extends FormDataIntersection>({
         return (
           <Inline spacing={5} alignItems="center" maxWidth={parseSpacing(11)}>
             <ToggleBox
-              onClick={() => field.onChange(OfferType.EVENT)}
-              active={field.value === OfferType.EVENT}
+              onClick={() => field.onChange(OfferType.EVENTS)}
+              active={field.value === OfferType.EVENTS}
               icon={Icons.CALENDAR_ALT}
               text={t('steps.offerTypeStep.types.event')}
               width="30%"
@@ -41,8 +41,8 @@ const TypeStep = <TFormData extends FormDataIntersection>({
               {t('steps.offerTypeStep.or')}
             </Text>
             <ToggleBox
-              onClick={() => field.onChange(OfferType.PLACE)}
-              active={field.value === OfferType.PLACE}
+              onClick={() => field.onChange(OfferType.PLACES)}
+              active={field.value === OfferType.PLACES}
               icon={Icons.BUILDING}
               text={t('steps.offerTypeStep.types.place')}
               width="30%"
@@ -55,10 +55,13 @@ const TypeStep = <TFormData extends FormDataIntersection>({
   );
 };
 
-const typeStepConfiguration = {
-  Component: TypeStep,
-  field: 'type',
-  title: (t) => t(`event.create.type.title`),
+const scopeStepConfiguration: StepsConfiguration<FormDataUnion> = {
+  Component: ScopeStep,
+  field: 'scope',
+  title: (t) => t(`event.create.scope.title`),
+  shouldShowNextStep: ({ watch }) => {
+    return !!watch('scope');
+  },
 };
 
-export { TypeStep, typeStepConfiguration };
+export { ScopeStep, scopeStepConfiguration };
