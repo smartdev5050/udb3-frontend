@@ -15,7 +15,7 @@ import { Text, TextVariants } from '@/ui/Text';
 import { AgeRangeStep } from './AgeRangeStep';
 import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
 
-const useEditNameAndAge = <TFormData extends FormDataUnion>({
+const useEditNameAndAgeRange = <TFormData extends FormDataUnion>({
   onSuccess,
   eventId,
 }) => {
@@ -28,8 +28,8 @@ const useEditNameAndAge = <TFormData extends FormDataUnion>({
   });
 
   // @ts-ignore
-  return async ({ nameAndAge }: TFormData) => {
-    const { name, typicalAgeRange } = nameAndAge;
+  return async ({ nameAndAgeRange }: TFormData) => {
+    const { name, typicalAgeRange } = nameAndAgeRange;
 
     if (typicalAgeRange) {
       await changeTypicalAgeRangeMutation.mutateAsync({
@@ -46,7 +46,7 @@ const useEditNameAndAge = <TFormData extends FormDataUnion>({
   };
 };
 
-const NameStep = <TFormData extends FormDataUnion>({
+const NameAndAgeRangeStep = <TFormData extends FormDataUnion>({
   control,
   field,
   onChange,
@@ -119,10 +119,10 @@ const NameStep = <TFormData extends FormDataUnion>({
   );
 };
 
-const nameStepConfiguration: StepsConfiguration<FormDataUnion> = {
-  Component: NameStep,
-  field: 'nameAndAge',
+const nameAndAgeRangeStepConfiguration: StepsConfiguration<FormDataUnion> = {
+  Component: NameAndAgeRangeStep,
+  field: 'nameAndAgeRange',
   title: (t) => t('create.step4.title'),
 };
 
-export { nameStepConfiguration, useEditNameAndAge };
+export { nameAndAgeRangeStepConfiguration, useEditNameAndAgeRange };

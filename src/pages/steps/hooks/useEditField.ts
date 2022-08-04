@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useQueryClient } from 'react-query';
 
 import { useEditTheme } from '@/pages/steps/EventTypeAndThemeStep';
-import { useEditNameAndAge } from '@/pages/steps/NameStep';
+import { useEditNameAndAgeRange } from '@/pages/steps/NameStep';
 import { useEditLocation } from '@/pages/steps/PlaceStep';
 import { useEditNameAndProduction } from '@/pages/steps/ProductionStep';
 import { FormDataUnion } from '@/pages/steps/Steps';
@@ -33,7 +33,7 @@ const useEditField = <TFormData extends FormDataUnion>({
   const editArguments = { eventId, onSuccess: handleSuccess };
 
   const editTheme = useEditTheme<TFormData>(editArguments);
-  const editNameAndAge = useEditNameAndAge<TFormData>(editArguments);
+  const editNameAndAgeRange = useEditNameAndAgeRange<TFormData>(editArguments);
   const editCalendar = useEditCalendar(editArguments);
   const editLocation = useEditLocation(editArguments);
   const editNameAndProduction = useEditNameAndProduction(editArguments);
@@ -44,7 +44,7 @@ const useEditField = <TFormData extends FormDataUnion>({
 
     const editMap = {
       typeAndTheme: editTheme,
-      nameAndAge: editNameAndAge,
+      nameAndAgeRange: editNameAndAgeRange,
       timeTable: editCalendar,
       place: editLocation,
       production: editNameAndProduction,

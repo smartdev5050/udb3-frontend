@@ -6,7 +6,7 @@ import { css } from 'styled-components';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
-import { Stack } from '@/ui/Stack';
+import { getStackProps, Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
@@ -28,6 +28,7 @@ const AgeRangeStep = ({
   field,
   control,
   onChange,
+  ...props
 }: {
   field: any;
   control: any;
@@ -57,127 +58,129 @@ const AgeRangeStep = ({
   };
 
   return (
-    <Controller
-      name="nameAndAge"
-      control={control}
-      render={({ field }) => {
-        const [min, max] = (field.value?.typicalAgeRange ?? '').split('-');
-        const selectedAgeRange = getSelectedAgeRange(
-          field.value?.typicalAgeRange,
-        );
-        return (
-          <Stack spacing={2}>
-            <Text fontWeight="bold">{t(`create.step4.age.title`)}</Text>
-            <Inline spacing={3} flexWrap="wrap" maxWidth="40rem">
-              {Object.keys(AgeRanges).map((key: string) => {
-                const apiLabel =
-                  key === 'CUSTOM' ? '0-99' : AgeRanges[key].apiLabel;
-                return (
-                  <Inline key={key}>
-                    <Button
-                      width="auto"
-                      marginBottom={3}
-                      display="inline-flex"
-                      variant={
-                        selectedAgeRange === key
-                          ? ButtonVariants.SUCCESS
-                          : ButtonVariants.SECONDARY
-                      }
-                      onClick={() => {
-                        field.onChange({
-                          ...field.value,
-                          typicalAgeRange: apiLabel,
-                        });
-                        onChange({
-                          ...field.value,
-                          typicalAgeRange: apiLabel,
-                        });
-                      }}
-                    >
-                      {t(`create.step4.age.${key.toLowerCase()}`)}
-                      <span
-                        css={css`
-                          color: ${getValue('rangeTextColor')};
-                          font-size: 0.9rem;
-                        `}
+    <Stack {...getStackProps(props)}>
+      <Controller
+        name="nameAndAgeRange"
+        control={control}
+        render={({ field }) => {
+          const [min, max] = (field.value?.typicalAgeRange ?? '').split('-');
+          const selectedAgeRange = getSelectedAgeRange(
+            field.value?.typicalAgeRange,
+          );
+          return (
+            <Stack spacing={2}>
+              <Text fontWeight="bold">{t(`create.step4.age.title`)}</Text>
+              <Inline spacing={3} flexWrap="wrap" maxWidth="40rem">
+                {Object.keys(AgeRanges).map((key: string) => {
+                  const apiLabel =
+                    key === 'CUSTOM' ? '0-99' : AgeRanges[key].apiLabel;
+                  return (
+                    <Inline key={key}>
+                      <Button
+                        width="auto"
+                        marginBottom={3}
+                        display="inline-flex"
+                        variant={
+                          selectedAgeRange === key
+                            ? ButtonVariants.SUCCESS
+                            : ButtonVariants.SECONDARY
+                        }
+                        onClick={() => {
+                          field.onChange({
+                            ...field.value,
+                            typicalAgeRange: apiLabel,
+                          });
+                          onChange({
+                            ...field.value,
+                            typicalAgeRange: apiLabel,
+                          });
+                        }}
                       >
-                        &nbsp; {AgeRanges[key].label ?? ''}
-                      </span>
-                    </Button>
+                        {t(`create.step4.age.${key.toLowerCase()}`)}
+                        <span
+                          css={css`
+                            color: ${getValue('rangeTextColor')};
+                            font-size: 0.9rem;
+                          `}
+                        >
+                          &nbsp; {AgeRanges[key].label ?? ''}
+                        </span>
+                      </Button>
+                    </Inline>
+                  );
+                })}
+              </Inline>
+              <Inline>
+                {selectedAgeRange === 'CUSTOM' && (
+                  <Inline spacing={3}>
+                    <Stack>
+                      <Text fontWeight="bold">Van</Text>
+                      <Input
+                        marginRight={3}
+                        value={min}
+                        placeholder="Van"
+                        onChange={(event) => {
+                          field.onChange({
+                            ...field.value,
+                            typicalAgeRange: `${
+                              (event.target as HTMLInputElement).value
+                            }-${max ?? ''}`,
+                          });
+                        }}
+                        onBlur={(event: FormEvent<HTMLInputElement>) => {
+                          field.onChange({
+                            ...field.value,
+                            typicalAgeRange: `${
+                              (event.target as HTMLInputElement).value
+                            }-${max ?? ''}`,
+                          });
+                          onChange({
+                            ...field.value,
+                            typicalAgeRange: `${
+                              (event.target as HTMLInputElement).value
+                            }-${max ?? ''}`,
+                          });
+                        }}
+                      />
+                    </Stack>
+                    <Stack>
+                      <Text fontWeight="bold">Tot</Text>
+                      <Input
+                        marginRight={3}
+                        value={max}
+                        placeholder="Tot"
+                        onChange={(event) => {
+                          field.onChange({
+                            ...field.value,
+                            typicalAgeRange: `${min ?? 0}-${
+                              (event.target as HTMLInputElement).value
+                            }`,
+                          });
+                        }}
+                        onBlur={(event: FormEvent<HTMLInputElement>) => {
+                          field.onChange({
+                            ...field.value,
+                            typicalAgeRange: `${min ?? 0}-${
+                              (event.target as HTMLInputElement).value
+                            }`,
+                          });
+                          onChange({
+                            ...field.value,
+                            typicalAgeRange: `${min ?? 0}-${
+                              (event.target as HTMLInputElement).value
+                            }`,
+                          });
+                        }}
+                      />
+                    </Stack>
                   </Inline>
-                );
-              })}
-            </Inline>
-            <Inline>
-              {selectedAgeRange === 'CUSTOM' && (
-                <Inline spacing={3}>
-                  <Stack>
-                    <Text fontWeight="bold">Van</Text>
-                    <Input
-                      marginRight={3}
-                      value={min}
-                      placeholder="Van"
-                      onChange={(event) => {
-                        field.onChange({
-                          ...field.value,
-                          typicalAgeRange: `${
-                            (event.target as HTMLInputElement).value
-                          }-${max ?? ''}`,
-                        });
-                      }}
-                      onBlur={(event: FormEvent<HTMLInputElement>) => {
-                        field.onChange({
-                          ...field.value,
-                          typicalAgeRange: `${
-                            (event.target as HTMLInputElement).value
-                          }-${max ?? ''}`,
-                        });
-                        onChange({
-                          ...field.value,
-                          typicalAgeRange: `${
-                            (event.target as HTMLInputElement).value
-                          }-${max ?? ''}`,
-                        });
-                      }}
-                    />
-                  </Stack>
-                  <Stack>
-                    <Text fontWeight="bold">Tot</Text>
-                    <Input
-                      marginRight={3}
-                      value={max}
-                      placeholder="Tot"
-                      onChange={(event) => {
-                        field.onChange({
-                          ...field.value,
-                          typicalAgeRange: `${min ?? 0}-${
-                            (event.target as HTMLInputElement).value
-                          }`,
-                        });
-                      }}
-                      onBlur={(event: FormEvent<HTMLInputElement>) => {
-                        field.onChange({
-                          ...field.value,
-                          typicalAgeRange: `${min ?? 0}-${
-                            (event.target as HTMLInputElement).value
-                          }`,
-                        });
-                        onChange({
-                          ...field.value,
-                          typicalAgeRange: `${min ?? 0}-${
-                            (event.target as HTMLInputElement).value
-                          }`,
-                        });
-                      }}
-                    />
-                  </Stack>
-                </Inline>
-              )}
-            </Inline>
-          </Stack>
-        );
-      }}
-    />
+                )}
+              </Inline>
+            </Stack>
+          );
+        }}
+      />
+    </Stack>
   );
 };
 

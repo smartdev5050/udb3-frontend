@@ -4,7 +4,7 @@ import { Event } from '@/types/Event';
 
 import { additionalInformationStepConfiguration } from '../steps/AdditionalInformationStep';
 import { typeAndThemeStepConfiguration } from '../steps/EventTypeAndThemeStep';
-import { nameStepConfiguration } from '../steps/NameStep';
+import { nameAndAgeRangeStepConfiguration } from '../steps/NameAndAgeRangeStep';
 import { scopeStepConfiguration } from '../steps/ScopeStep';
 import { StepsForm } from '../steps/StepsForm';
 
@@ -16,7 +16,7 @@ type FormData = {
     type: { id: string; label: string };
     theme: { id: string; label: string };
   };
-  nameAndAge: {
+  nameAndAgeRange: {
     name: {
       nl: string;
     };
@@ -33,7 +33,7 @@ const EventForm = () => {
         theme: event.terms.find((term) => term.domain === 'theme'),
         type: event.terms.find((term) => term.domain === 'eventtype'),
       },
-      nameAndAge: {
+      nameAndAgeRange: {
         name: event.name,
         typicalAgeRange: event.typicalAgeRange,
       },
@@ -41,7 +41,7 @@ const EventForm = () => {
   };
 
   const convertFormDataToEvent = ({
-    nameAndAge: { name, typicalAgeRange },
+    nameAndAgeRange: { name, typicalAgeRange },
   }: FormData) => {
     return {
       name,
@@ -69,7 +69,7 @@ const EventForm = () => {
       configurations={[
         scopeStepConfiguration,
         typeAndThemeStepConfiguration,
-        nameStepConfiguration,
+        nameAndAgeRangeStepConfiguration,
         additionalInformationStepConfiguration,
       ]}
     />
