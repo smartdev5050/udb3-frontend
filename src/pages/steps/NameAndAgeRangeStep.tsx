@@ -27,7 +27,6 @@ const useEditNameAndAgeRange = <TFormData extends FormDataUnion>({
     onSuccess: () => onSuccess('name'),
   });
 
-  // @ts-ignore
   return async ({ nameAndAgeRange }: TFormData) => {
     const { name, typicalAgeRange } = nameAndAgeRange;
 
