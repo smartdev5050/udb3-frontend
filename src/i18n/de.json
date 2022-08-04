@@ -85,6 +85,11 @@
     "NL": "Niederlande"
   },
   "create": {
+    "type_and_theme": {
+      "change_theme": "Ändert den thema",
+      "change_type": "Ändert den typ",
+      "refine": "Verfeinere"
+    },
     "additionalInformation": {
       "audience": {
         "education": "Nur für Schulen",

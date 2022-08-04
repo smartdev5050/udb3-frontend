@@ -85,6 +85,11 @@
     "NL": "Nederland"
   },
   "create": {
+    "type_and_theme": {
+      "change_theme": "Wijzig thema",
+      "change_type": "Wijzig type",
+      "refine": "Verfijn"
+    },
     "additionalInformation": {
       "audience": {
         "title": "Toegang",
@@ -388,6 +393,7 @@
         "change_cinema": "Wijzig bioscoop",
         "change_name": "Wijzig naam",
         "change_theme": "Wijzig thema",
+        "change_type": "Wijzig type",
         "choose_cinema": "Kies een bioscoop",
         "choose_name": "Kies een naam",
         "clear": "Leegmaken",

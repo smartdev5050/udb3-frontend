@@ -60,7 +60,7 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
   onChange,
   shouldHideType,
 }: Props<TFormData>) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const watchedValues = useWatch({ control });
 
@@ -126,7 +126,7 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
                         )
                       }
                     >
-                      Wijzig type
+                      {t('create.type_and_theme.change_type')}
                     </Button>
                   </Inline>
                 )}
@@ -134,7 +134,7 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
             )}
             {themes.length > 0 && (
               <Label htmlFor="" variant={LabelVariants.BOLD}>
-                Verfijn
+                {t('create.type_and_theme.refine')}
               </Label>
             )}
             {!field.value?.theme?.id ? (
@@ -180,7 +180,7 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
                     )
                   }
                 >
-                  Wijzig thema
+                  {t('create.type_and_theme.change_theme')}
                 </Button>
               </Inline>
             )}
