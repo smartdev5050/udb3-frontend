@@ -21,7 +21,7 @@ const useEditNameAndAgeRange = <TFormData extends FormDataUnion>({
   });
 
   const changeTypicalAgeRangeMutation = useChangeTypicalAgeRangeMutation({
-    onSuccess: () => onSuccess('name'),
+    onSuccess: () => onSuccess('age_range'),
   });
 
   return async ({ nameAndAgeRange }: TFormData) => {
