@@ -52,7 +52,9 @@ test('I can save a status', async () => {
     }),
   ).toBeDisabled();
 
-  userEvent.click(screen.getByLabelText(nl.offerStatus.status.event.available));
+  userEvent.click(
+    screen.getByLabelText(nl.offerStatus.status.events.available),
+  );
 
   expect(screen.getByLabelText(nl.offerStatus.reason)).toBeDisabled();
 
@@ -98,7 +100,7 @@ test('I can save a status with a reason', async () => {
   );
 
   userEvent.click(
-    screen.getByLabelText(nl.offerStatus.status.event.unavailable),
+    screen.getByLabelText(nl.offerStatus.status.events.unavailable),
   );
 
   expect(screen.getByLabelText(nl.offerStatus.reason)).toBeEnabled();

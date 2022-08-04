@@ -116,7 +116,7 @@ const AvailabilityPageMultiple = ({ event, refetchEvent }) => {
         status: (
           <Status
             type={t(
-              `offerStatus.status.event.${camelCase(subEvent.status.type)}`,
+              `offerStatus.status.events.${camelCase(subEvent.status.type)}`,
             )}
             reason={subEvent.status.reason}
           />
