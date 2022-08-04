@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useQueryClient } from 'react-query';
 
 import { useEditTheme } from '@/pages/steps/EventTypeAndThemeStep';
-import { useEditNameAndAgeRange } from '@/pages/steps/NameStep';
+import { useEditNameAndAgeRange } from '@/pages/steps/NameAndAgeRangeStep';
 import { useEditLocation } from '@/pages/steps/PlaceStep';
 import { useEditNameAndProduction } from '@/pages/steps/ProductionStep';
 import { FormDataUnion } from '@/pages/steps/Steps';
