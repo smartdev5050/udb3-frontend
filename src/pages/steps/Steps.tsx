@@ -1,4 +1,5 @@
 import { TFunction } from 'i18next';
+import { useMemo } from 'react';
 import type { FieldError, Path, UseFormReturn } from 'react-hook-form';
 import { useTranslation, UseTranslationResponse } from 'react-i18next';
 
@@ -23,7 +24,7 @@ type StepsConfiguration<TFormData extends FormDataUnion> = {
   title: (t: TFunction) => string;
   variant?: string;
   validation?: any;
-  shouldShowNextStep?: (
+  shouldShowStep?: (
     data: UseFormReturn<TFormData> & {
       eventId?: string;
     },
@@ -125,6 +126,11 @@ const Steps = <TFormData extends FormDataUnion>({
 }: StepsProps<TFormData>) => {
   const { t } = useTranslation();
 
+  const configurationsWithComponent = useMemo(
+    () => configurations.filter(({ Component }) => !!Component),
+    [configurations],
+  );
+
   const showStep = ({ field, index }) => {
     // when there is an eventId, we're in edit mode, show all steps
     if (!!eventId) return true;
@@ -132,60 +138,55 @@ const Steps = <TFormData extends FormDataUnion>({
     // don't hide steps that were visible before
     if (form.getFieldState(field).isTouched) return true;
 
-    if (index === 0) return true;
-
-    // no shouldShowNextStep function = show the step
     return (
-      configurations[index - 1]?.shouldShowNextStep?.({
+      configurationsWithComponent[index]?.shouldShowStep?.({
         ...form,
         eventId,
-      }) ?? true
+      }) ?? false
     );
   };
 
   return (
     <Stack spacing={5} width="100%">
-      {configurations
-        .filter(({ Component }) => !!Component)
-        .map(
-          (
-            {
-              Component: Step,
-              field,
-              stepProps = {},
-              variant,
-              step,
-              title: getTitle,
-            },
-            index: number,
-          ) => {
-            if (!showStep({ field, index })) {
-              return null;
-            }
-
-            const stepNumber = step ?? index + 1;
-
-            return (
-              <StepWrapper
-                stepNumber={stepNumber}
-                key={`step${stepNumber}`}
-                title={getTitle(t)}
-              >
-                <Step<TFormData>
-                  key={index}
-                  onChange={() => onChange(field)}
-                  loading={!!(field && fieldLoading === field)}
-                  field={field}
-                  eventId={eventId}
-                  variant={variant}
-                  {...form}
-                  {...props}
-                  {...stepProps}
-                />
-              </StepWrapper>
-            );
+      {configurationsWithComponent.map(
+        (
+          {
+            Component: Step,
+            field,
+            stepProps = {},
+            variant,
+            step,
+            title: getTitle,
           },
-        )}
+          index: number,
+        ) => {
+          if (!showStep({ field, index })) {
+            return null;
+          }
+
+          const stepNumber = step ?? index + 1;
+
+          return (
+            <StepWrapper
+              stepNumber={stepNumber}
+              key={`step${stepNumber}`}
+              title={getTitle(t)}
+            >
+              <Step<TFormData>
+                key={index}
+                onChange={() => onChange(field)}
+                loading={!!(field && fieldLoading === field)}
+                field={field}
+                eventId={eventId}
+                variant={variant}
+                {...form}
+                {...props}
+                {...stepProps}
+              />
+            </StepWrapper>
+          );
+        },
+      )}
     </Stack>
   );
 };

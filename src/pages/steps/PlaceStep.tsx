@@ -22,6 +22,7 @@ import type { StackProps } from '@/ui/Stack';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
+import { isOneTimeSlotValid } from '@/ui/TimeTable';
 import { Typeahead } from '@/ui/Typeahead';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { valueToArray } from '@/utils/valueToArray';
@@ -150,10 +151,7 @@ const placeStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: PlaceStep,
   validation: yup.object().shape({}).required(),
   field: 'place',
-  shouldShowNextStep: ({ watch }) => {
-    const watchedPlace = watch('place');
-    return watchedPlace !== undefined;
-  },
+  shouldShowStep: ({ watch }) => isOneTimeSlotValid(watch('timeTable')),
   title: (t) => t(`movies.create.step3.title`),
 };
 
