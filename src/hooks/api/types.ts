@@ -18,10 +18,9 @@ const useGetTypesByScopeQuery = (
 
   const data = useMemo(() => {
     if (!getTermsQuery.data?.terms) return;
-    const terms = getTermsQuery.data.terms.filter(
+    return getTermsQuery.data.terms.filter(
       (term) => term.scope.includes(scope) && term.domain === 'eventtype',
     );
-    return terms;
   }, [getTermsQuery.data?.terms, scope]);
 
   return { ...getTermsQuery, data };
