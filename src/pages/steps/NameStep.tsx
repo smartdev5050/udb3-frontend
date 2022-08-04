@@ -13,7 +13,7 @@ import { Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 
 import { AgeRangeStep } from './AgeRangeStep';
-import { FormDataUnion, StepProps } from './Steps';
+import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
 
 const useEditNameAndAge = <TFormData extends FormDataUnion>({
   onSuccess,
@@ -119,7 +119,7 @@ const NameStep = <TFormData extends FormDataIntersection>({
   );
 };
 
-const nameStepConfiguration = {
+const nameStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: NameStep,
   field: 'nameAndAge',
   title: (t) => t('create.step4.title'),
