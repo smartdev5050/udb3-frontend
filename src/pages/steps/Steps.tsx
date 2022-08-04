@@ -15,19 +15,21 @@ import type { FormData as MovieFormData } from '../manage/movies/MovieForm';
 
 type FormDataUnion = MovieFormData & EventFormData;
 
-type StepsConfiguration<TFormData extends FormDataUnion> = Array<{
+type StepsConfiguration<TFormData extends FormDataUnion> = {
   Component: any;
+  defaultValue?: any;
   field?: Path<TFormData>;
   step?: number;
   title: (t: TFunction) => string;
   variant?: string;
+  validation?: any;
   shouldShowNextStep?: (
     data: UseFormReturn<TFormData> & {
       eventId?: string;
     },
   ) => boolean;
   stepProps?: Record<string, unknown>;
-}>;
+};
 
 type NumberIndicatorProps = {
   children: number;
@@ -110,12 +112,12 @@ type StepsProps<TFormData extends FormDataUnion> = {
   fieldLoading?: string;
   onChange?: (editedField: string) => void;
   onChangeSuccess?: (editedField: string) => void;
-  configuration: StepsConfiguration<TFormData>;
+  configurations: Array<StepsConfiguration<TFormData>>;
 };
 
 const Steps = <TFormData extends FormDataUnion>({
   onChange,
-  configuration,
+  configurations,
   fieldLoading,
   form,
   eventId,
@@ -132,7 +134,7 @@ const Steps = <TFormData extends FormDataUnion>({
 
     // no shouldShowNextStep function = show the step
     return (
-      configuration[index - 1]?.shouldShowNextStep?.({
+      configurations[index - 1]?.shouldShowNextStep?.({
         ...form,
         eventId,
       }) ?? true
@@ -141,45 +143,47 @@ const Steps = <TFormData extends FormDataUnion>({
 
   return (
     <Stack spacing={5} width="100%">
-      {configuration.map(
-        (
-          {
-            Component: Step,
-            field,
-            stepProps = {},
-            variant,
-            step,
-            title: getTitle,
+      {configurations
+        .filter(({ Component }) => !!Component)
+        .map(
+          (
+            {
+              Component: Step,
+              field,
+              stepProps = {},
+              variant,
+              step,
+              title: getTitle,
+            },
+            index: number,
+          ) => {
+            if (!showStep({ field, index })) {
+              return null;
+            }
+
+            const stepNumber = step ?? index + 1;
+
+            return (
+              <StepWrapper
+                stepNumber={stepNumber}
+                key={`step${stepNumber}`}
+                title={getTitle(t)}
+              >
+                <Step<TFormData>
+                  key={index}
+                  onChange={() => onChange(field)}
+                  loading={!!(field && fieldLoading === field)}
+                  field={field}
+                  eventId={eventId}
+                  variant={variant}
+                  {...form}
+                  {...props}
+                  {...stepProps}
+                />
+              </StepWrapper>
+            );
           },
-          index: number,
-        ) => {
-          if (!showStep({ field, index })) {
-            return null;
-          }
-
-          const stepNumber = step ?? index + 1;
-
-          return (
-            <StepWrapper
-              stepNumber={stepNumber}
-              key={`step${stepNumber}`}
-              title={getTitle(t)}
-            >
-              <Step<TFormData>
-                key={index}
-                onChange={() => onChange(field)}
-                loading={!!(field && fieldLoading === field)}
-                field={field}
-                eventId={eventId}
-                variant={variant}
-                {...form}
-                {...props}
-                {...stepProps}
-              />
-            </StepWrapper>
-          );
-        },
-      )}
+        )}
     </Stack>
   );
 };

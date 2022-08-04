@@ -23,7 +23,7 @@ import { FormDataUnion, Steps, StepsConfiguration } from './Steps';
 const getValue = getValueFromTheme('createPage');
 
 type StepsFormProps<TFormData extends FormDataUnion> = {
-  configuration: StepsConfiguration<TFormData>;
+  configurations: Array<StepsConfiguration<TFormData>>;
   convertFormDataToEvent: (data: any) => any;
   convertEventToFormData: (event: any) => any;
   toastConfiguration: any;
@@ -32,7 +32,7 @@ type StepsFormProps<TFormData extends FormDataUnion> = {
 };
 
 const StepsForm = <TFormData extends FormDataUnion>({
-  configuration,
+  configurations,
   convertFormDataToEvent,
   convertEventToFormData,
   toastConfiguration,
@@ -40,7 +40,7 @@ const StepsForm = <TFormData extends FormDataUnion>({
   label,
 }: StepsFormProps<TFormData>) => {
   const { t } = useTranslation();
-  const { form } = useParseStepConfiguration<TFormData>(configuration);
+  const { form } = useParseStepConfiguration<TFormData>(configurations);
 
   const { handleSubmit, reset } = form;
 
@@ -106,7 +106,7 @@ const StepsForm = <TFormData extends FormDataUnion>({
           onClose={() => toast.clear()}
         />
         <Steps<TFormData>
-          configuration={configuration}
+          configurations={configurations}
           onChange={handleChange}
           fieldLoading={fieldLoading}
           onChangeSuccess={handleChangeSuccess}

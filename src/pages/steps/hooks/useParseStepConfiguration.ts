@@ -5,12 +5,12 @@ import * as yup from 'yup';
 import { FormDataUnion } from '../Steps';
 
 const useParseStepConfiguration = <TFormData extends FormDataUnion>(
-  configuration,
+  configurations,
   { formConfiguration = {} } = {},
 ) => {
   const schema = yup
     .object(
-      configuration.reduce(
+      configurations.reduce(
         (acc: Object, val: { field: string; validation: () => void }) => {
           if (!val.field || !val.validation) return acc;
 
@@ -26,7 +26,7 @@ const useParseStepConfiguration = <TFormData extends FormDataUnion>(
 
   const resolver = yupResolver(schema);
 
-  const defaultValues = configuration.reduce(
+  const defaultValues = configurations.reduce(
     (acc: Object, val: { field: string; defaultValue: unknown }) => {
       if (!val.field || !val.defaultValue) return acc;
       return {

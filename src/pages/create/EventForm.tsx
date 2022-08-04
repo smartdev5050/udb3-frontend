@@ -35,10 +35,8 @@ const EventForm = () => {
         },
         title: '',
       }}
-      configuration={[
-        // @ts-expect-error
+      configurations={[
         scopeStepConfiguration,
-        // @ts-expect-error
         typeAndThemeStepConfiguration,
         additionalInformationStepConfiguration,
       ]}
