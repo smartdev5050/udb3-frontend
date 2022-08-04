@@ -42,16 +42,18 @@ const AgeRangeStep = ({
     );
   };
 
-  const isSelectedAgeRange = (key: string, apiLabel: string): boolean => {
-    if (!field.value?.typicalAgeRange) {
-      return;
+  const getSelectedAgeRange = (typicalAgeRange: string): string => {
+    const foundAgeRange = Object.keys(AgeRanges).find((key: string) => {
+      return (
+        AgeRanges[key].apiLabel && AgeRanges[key].apiLabel === typicalAgeRange
+      );
+    });
+
+    if (isCustomAgeRange(typicalAgeRange)) {
+      return 'CUSTOM';
     }
 
-    if (key === 'CUSTOM') {
-      return isCustomAgeRange(field.value.typicalAgeRange);
-    }
-
-    return field.value.typicalAgeRange === apiLabel;
+    if (!foundAgeRange) return 'NONE';
   };
 
   return (
@@ -60,7 +62,9 @@ const AgeRangeStep = ({
       control={control}
       render={({ field }) => {
         const [min, max] = (field.value?.typicalAgeRange ?? '').split('-');
-
+        const selectedAgeRange = getSelectedAgeRange(
+          field.value?.typicalAgeRange,
+        );
         return (
           <Stack spacing={2}>
             <Text fontWeight="bold">{t(`create.step4.age.title`)}</Text>
@@ -68,7 +72,6 @@ const AgeRangeStep = ({
               {Object.keys(AgeRanges).map((key: string) => {
                 const apiLabel =
                   key === 'CUSTOM' ? '0-99' : AgeRanges[key].apiLabel;
-                const isSelected = isSelectedAgeRange(key, apiLabel);
                 return (
                   <Inline key={key}>
                     <Button
@@ -76,7 +79,7 @@ const AgeRangeStep = ({
                       marginBottom={3}
                       display="inline-flex"
                       variant={
-                        isSelected
+                        selectedAgeRange === key
                           ? ButtonVariants.SUCCESS
                           : ButtonVariants.SECONDARY
                       }
@@ -101,73 +104,75 @@ const AgeRangeStep = ({
                         &nbsp; {AgeRanges[key].label ?? ''}
                       </span>
                     </Button>
-                    {isSelected && key === 'CUSTOM' && (
-                      <Inline width="100%">
-                        <Stack>
-                          <Text fontWeight="bold">Van</Text>
-                          <Input
-                            marginRight={3}
-                            value={min}
-                            placeholder="Van"
-                            onChange={(event) => {
-                              field.onChange({
-                                ...field.value,
-                                typicalAgeRange: `${
-                                  (event.target as HTMLInputElement).value
-                                }-${max ?? ''}`,
-                              });
-                            }}
-                            onBlur={(event: FormEvent<HTMLInputElement>) => {
-                              field.onChange({
-                                ...field.value,
-                                typicalAgeRange: `${
-                                  (event.target as HTMLInputElement).value
-                                }-${max ?? ''}`,
-                              });
-                              onChange({
-                                ...field.value,
-                                typicalAgeRange: `${
-                                  (event.target as HTMLInputElement).value
-                                }-${max ?? ''}`,
-                              });
-                            }}
-                          />
-                        </Stack>
-                        <Stack>
-                          <Text fontWeight="bold">Tot</Text>
-                          <Input
-                            marginRight={3}
-                            value={max}
-                            placeholder="Tot"
-                            onChange={(event) => {
-                              field.onChange({
-                                ...field.value,
-                                typicalAgeRange: `${min ?? 0}-${
-                                  (event.target as HTMLInputElement).value
-                                }`,
-                              });
-                            }}
-                            onBlur={(event: FormEvent<HTMLInputElement>) => {
-                              field.onChange({
-                                ...field.value,
-                                typicalAgeRange: `${min ?? 0}-${
-                                  (event.target as HTMLInputElement).value
-                                }`,
-                              });
-                              onChange({
-                                ...field.value,
-                                typicalAgeRange: `${min ?? 0}-${
-                                  (event.target as HTMLInputElement).value
-                                }`,
-                              });
-                            }}
-                          />
-                        </Stack>
-                      </Inline>
-                    )}
                   </Inline>
                 );
               })}
+            </Inline>
+            <Inline>
+              {selectedAgeRange === 'CUSTOM' && (
+                <Inline spacing={3}>
+                  <Stack>
+                    <Text fontWeight="bold">Van</Text>
+                    <Input
+                      marginRight={3}
+                      value={min}
+                      placeholder="Van"
+                      onChange={(event) => {
+                        field.onChange({
+                          ...field.value,
+                          typicalAgeRange: `${
+                            (event.target as HTMLInputElement).value
+                          }-${max ?? ''}`,
+                        });
+                      }}
+                      onBlur={(event: FormEvent<HTMLInputElement>) => {
+                        field.onChange({
+                          ...field.value,
+                          typicalAgeRange: `${
+                            (event.target as HTMLInputElement).value
+                          }-${max ?? ''}`,
+                        });
+                        onChange({
+                          ...field.value,
+                          typicalAgeRange: `${
+                            (event.target as HTMLInputElement).value
+                          }-${max ?? ''}`,
+                        });
+                      }}
+                    />
+                  </Stack>
+                  <Stack>
+                    <Text fontWeight="bold">Tot</Text>
+                    <Input
+                      marginRight={3}
+                      value={max}
+                      placeholder="Tot"
+                      onChange={(event) => {
+                        field.onChange({
+                          ...field.value,
+                          typicalAgeRange: `${min ?? 0}-${
+                            (event.target as HTMLInputElement).value
+                          }`,
+                        });
+                      }}
+                      onBlur={(event: FormEvent<HTMLInputElement>) => {
+                        field.onChange({
+                          ...field.value,
+                          typicalAgeRange: `${min ?? 0}-${
+                            (event.target as HTMLInputElement).value
+                          }`,
+                        });
+                        onChange({
+                          ...field.value,
+                          typicalAgeRange: `${min ?? 0}-${
+                            (event.target as HTMLInputElement).value
+                          }`,
+                        });
+                      }}
+                    />
+                  </Stack>
+                </Inline>
+              )}
             </Inline>
           </Stack>
         );
