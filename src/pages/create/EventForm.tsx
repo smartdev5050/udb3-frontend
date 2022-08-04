@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
+import { EventTypes } from '@/constants/EventTypes';
 import { Event } from '@/types/Event';
 
 import { additionalInformationStepConfiguration } from '../steps/AdditionalInformationStep';
@@ -12,8 +13,8 @@ type Scope = 'events' | 'places';
 
 type FormData = {
   scope: Scope;
-  eventTypeAndTheme: {
-    eventType: { id: string; label: string };
+  typeAndTheme: {
+    type: { id: string; label: string };
     theme: { id: string; label: string };
   };
   nameAndAge: {
@@ -29,9 +30,9 @@ const EventForm = () => {
 
   const convertEventToFormData = (event: Event) => {
     return {
-      eventTypeAndTheme: {
+      typeAndTheme: {
         theme: event.terms.find((term) => term.domain === 'theme'),
-        eventType: event.terms.find((term) => term.domain === 'eventtype'),
+        type: event.terms.find((term) => term.domain === 'eventtype'),
       },
       nameAndAge: {
         name: event.name,

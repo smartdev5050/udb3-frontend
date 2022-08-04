@@ -67,7 +67,7 @@ const AgeRangeStep = ({
             <Inline spacing={3} flexWrap="wrap" maxWidth="40rem">
               {Object.keys(AgeRanges).map((key: string) => {
                 const apiLabel =
-                  key === 'custom' ? '0-99' : AgeRanges[key].apiLabel;
+                  key === 'CUSTOM' ? '0-99' : AgeRanges[key].apiLabel;
                 const isSelected = isSelectedAgeRange(key, apiLabel);
                 return (
                   <Inline key={key}>
