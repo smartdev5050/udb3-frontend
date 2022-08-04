@@ -65,8 +65,9 @@ const AgeRangeStep = ({
           <Stack spacing={2}>
             <Text fontWeight="bold">{t(`create.step4.age.title`)}</Text>
             <Inline spacing={3} flexWrap="wrap" maxWidth="40rem">
-              {Object.keys(AgeRanges).map((key) => {
-                const apiLabel = AgeRanges[key].apiLabel;
+              {Object.keys(AgeRanges).map((key: string) => {
+                const apiLabel =
+                  key === 'custom' ? '0-99' : AgeRanges[key].apiLabel;
                 const isSelected = isSelectedAgeRange(key, apiLabel);
                 return (
                   <Inline key={key}>
@@ -82,11 +83,11 @@ const AgeRangeStep = ({
                       onClick={() => {
                         field.onChange({
                           ...field.value,
-                          typicalAgeRange: key === 'CUSTOM' ? '0-99' : apiLabel,
+                          typicalAgeRange: apiLabel,
                         });
                         onChange({
                           ...field.value,
-                          typicalAgeRange: key === 'CUSTOM' ? '0-99' : apiLabel,
+                          typicalAgeRange: apiLabel,
                         });
                       }}
                     >
