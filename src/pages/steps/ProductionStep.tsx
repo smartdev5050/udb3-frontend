@@ -14,7 +14,11 @@ import {
   useCreateWithEventsMutation as useCreateProductionWithEventsMutation,
   useDeleteEventByIdMutation as useDeleteEventFromProductionByIdMutation,
 } from '@/hooks/api/productions';
-import type { FormDataUnion, StepProps } from '@/pages/steps/Steps';
+import type {
+  FormDataUnion,
+  StepProps,
+  StepsConfiguration,
+} from '@/pages/steps/Steps';
 import type { Production } from '@/types/Production';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
@@ -174,7 +178,7 @@ const ProductionStep = <TFormData extends FormDataUnion>({
   );
 };
 
-const productionStepConfiguration = {
+const productionStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: ProductionStep,
   validation: yup.object().shape({}).required(),
   field: 'production',

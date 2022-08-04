@@ -7,7 +7,11 @@ import * as yup from 'yup';
 import type { EventTypes } from '@/constants/EventTypes';
 import { useChangeLocationMutation } from '@/hooks/api/events';
 import { useGetPlacesByQuery } from '@/hooks/api/places';
-import type { FormDataUnion, StepProps } from '@/pages/steps/Steps';
+import type {
+  FormDataUnion,
+  StepProps,
+  StepsConfiguration,
+} from '@/pages/steps/Steps';
 import type { Place } from '@/types/Place';
 import type { Values } from '@/types/Values';
 import { Button, ButtonVariants } from '@/ui/Button';
@@ -142,7 +146,7 @@ const PlaceStep = <TFormData extends FormDataUnion>({
   );
 };
 
-const placeStepConfiguration = {
+const placeStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: PlaceStep,
   validation: yup.object().shape({}).required(),
   field: 'place',

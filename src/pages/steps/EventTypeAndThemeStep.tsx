@@ -12,7 +12,7 @@ import { Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
-import { FormDataUnion, StepProps } from './Steps';
+import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
 
 const getValue = getValueFromTheme('createPage');
 
@@ -48,14 +48,19 @@ const useEditTheme = <TFormData extends FormDataUnion>({
   };
 };
 
+type Props<TFormData extends FormDataUnion> = StepProps<TFormData> & {
+  shouldHideType: boolean;
+};
+
 const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
   control,
   reset,
   field,
   getValues,
   onChange,
-}: StepProps<TFormData>) => {
-  const { t, i18n } = useTranslation();
+  shouldHideType,
+}: Props<TFormData>) => {
+  const { i18n } = useTranslation();
 
   const watchedValues = useWatch({ control });
 
@@ -76,52 +81,56 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
       render={({ field }) => {
         return (
           <Stack spacing={4}>
-            {!field.value?.type?.id ? (
-              <Inline spacing={3} flexWrap="wrap" maxWidth="70rem">
-                {types.map(({ id, name }) => (
-                  <Button
-                    width="auto"
-                    marginBottom={3}
-                    display="inline-flex"
-                    key={id}
-                    variant={ButtonVariants.SECONDARY}
-                    onClick={() => {
-                      field.onChange({
-                        ...field.value,
-                        type: { id, label: name[i18n.language] },
-                      });
-                      onChange(id);
-                    }}
-                  >
-                    {name[i18n.language]}
-                  </Button>
-                ))}
-              </Inline>
-            ) : (
-              <Inline alignItems="center" spacing={3}>
-                <Icon
-                  name={Icons.CHECK_CIRCLE}
-                  color={getValue('check.circleFillColor')}
-                />
-                <Text>{field.value?.type?.label}</Text>
-                <Button
-                  variant={ButtonVariants.LINK}
-                  onClick={() =>
-                    reset(
-                      {
-                        ...(getValues() as any),
-                        typeAndTheme: {
-                          type: undefined,
-                          theme: undefined,
-                        },
-                      },
-                      { keepDirty: true },
-                    )
-                  }
-                >
-                  Wijzig type
-                </Button>
-              </Inline>
+            {!shouldHideType && (
+              <Stack>
+                {!field.value?.type?.id ? (
+                  <Inline spacing={3} flexWrap="wrap" maxWidth="70rem">
+                    {types.map(({ id, name }) => (
+                      <Button
+                        width="auto"
+                        marginBottom={3}
+                        display="inline-flex"
+                        key={id}
+                        variant={ButtonVariants.SECONDARY}
+                        onClick={() => {
+                          field.onChange({
+                            ...field.value,
+                            type: { id, label: name[i18n.language] },
+                          });
+                          onChange(id);
+                        }}
+                      >
+                        {name[i18n.language]}
+                      </Button>
+                    ))}
+                  </Inline>
+                ) : (
+                  <Inline alignItems="center" spacing={3}>
+                    <Icon
+                      name={Icons.CHECK_CIRCLE}
+                      color={getValue('check.circleFillColor')}
+                    />
+                    <Text>{field.value?.type?.label}</Text>
+                    <Button
+                      variant={ButtonVariants.LINK}
+                      onClick={() =>
+                        reset(
+                          {
+                            ...(getValues() as any),
+                            typeAndTheme: {
+                              type: undefined,
+                              theme: undefined,
+                            },
+                          },
+                          { keepDirty: true },
+                        )
+                      }
+                    >
+                      Wijzig type
+                    </Button>
+                  </Inline>
+                )}
+              </Stack>
             )}
             {themes.length > 0 && (
               <Label htmlFor="" variant={LabelVariants.BOLD}>
@@ -182,12 +191,15 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
   );
 };
 
-const typeAndThemeStepConfiguration = {
+const typeAndThemeStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: EventTypeAndThemeStep,
-  defaultValue: {},
   field: 'typeAndTheme',
   validation: yup.object().shape({}).required(),
   title: (t) => t(`movies.create.step1.title`),
+  shouldShowNextStep: ({ watch }) => {
+    const { type } = watch('typeAndTheme') ?? {};
+    return !!type;
+  },
 };
 
 export { typeAndThemeStepConfiguration, useEditTheme };

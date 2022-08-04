@@ -5,7 +5,11 @@ import * as yup from 'yup';
 
 import { CalendarType } from '@/constants/CalendarType';
 import { useChangeCalendarMutation } from '@/hooks/api/events';
-import type { FormDataUnion, StepProps } from '@/pages/steps/Steps';
+import type {
+  FormDataUnion,
+  StepProps,
+  StepsConfiguration,
+} from '@/pages/steps/Steps';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Box } from '@/ui/Box';
 import type { StackProps } from '@/ui/Stack';
@@ -121,7 +125,7 @@ const TimeTableStep = <TFormData extends FormDataUnion>({
 const formatDate = (date: Date) => format(date, 'dd/MM/yyyy');
 const nextWeekWednesday = nextWednesday(new Date());
 
-const timeTableStepConfiguration = {
+const timeTableStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: TimeTableStep,
   defaultValue: {
     data: {},

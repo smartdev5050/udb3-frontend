@@ -8,7 +8,7 @@ import { Inline } from '@/ui/Inline';
 import { Text } from '@/ui/Text';
 import { ToggleBox } from '@/ui/ToggleBox';
 
-import { FormDataUnion, StepProps } from './Steps';
+import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
 
 const ScopeStep = <TFormData extends FormDataUnion>({
   control,
@@ -55,7 +55,7 @@ const ScopeStep = <TFormData extends FormDataUnion>({
   );
 };
 
-const scopeStepConfiguration = {
+const scopeStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: ScopeStep,
   field: 'scope',
   title: (t) => t(`event.create.scope.title`),

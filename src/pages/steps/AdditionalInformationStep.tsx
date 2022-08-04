@@ -16,6 +16,7 @@ import { DescriptionStep } from './DescriptionStep';
 import { MediaStep } from './MediaStep';
 import { OrganizerStep } from './OrganizerStep';
 import { PriceInformation } from './PriceInformation';
+import { FormDataUnion, StepsConfiguration } from './Steps';
 
 const AdditionalInformationStepVariant = {
   MINIMAL: 'minimal',
@@ -187,7 +188,7 @@ AdditionalInformationStep.defaultProps = {
   variant: AdditionalInformationStepVariant.EXTENDED,
 };
 
-const additionalInformationStepConfiguration = {
+const additionalInformationStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: AdditionalInformationStep,
   title: (t) => t(`movies.create.step5.title`),
 };
