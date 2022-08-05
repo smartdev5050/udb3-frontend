@@ -85,6 +85,9 @@
     "NL": "Nederland"
   },
   "create": {
+    "step2": {
+      "title": "Wat wil je toevoegen?"
+    },
     "step4": {
       "title": " Basisgegevens",
       "name": {
@@ -117,6 +120,8 @@
       "refine": "Verfijn"
     },
     "additionalInformation": {
+      "title_events": "Laat dit evenement extra opvallen",
+      "title_places": "Laat deze locatie extra opvallen",
       "audience": {
         "title": "Toegang",
         "education": "Specifiek voor scholen",
