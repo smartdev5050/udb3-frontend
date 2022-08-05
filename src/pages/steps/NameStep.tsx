@@ -1,5 +1,5 @@
 import { FormEvent } from 'react';
-import { Controller } from 'react-hook-form';
+import { Controller, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { parseSpacing } from '@/ui/Box';
@@ -20,6 +20,10 @@ const NameStep = ({
 }) => {
   const { t } = useTranslation();
 
+  const watchedValues = useWatch({ control });
+
+  const scope = watchedValues.scope;
+
   return (
     <Stack {...getStackProps(props)}>
       <Controller
@@ -28,14 +32,16 @@ const NameStep = ({
         render={({ field }) => {
           return (
             <Stack spacing={2}>
-              <Text fontWeight="bold">{t('create.step4.name.title')}</Text>
+              <Text fontWeight="bold">
+                {t(`create.step4.name.title_${scope}`)}
+              </Text>
               <FormElement
                 flex={2}
                 id="event-name"
                 Component={
                   <Input
                     value={field.value?.name.nl}
-                    placeholder={t('create.step4.name.title')}
+                    placeholder={t(`create.step4.name.title_${scope}`)}
                     onChange={(event) => {
                       field.onChange({
                         ...field.value,
@@ -64,7 +70,9 @@ const NameStep = ({
               <Text
                 variant={TextVariants.MUTED}
                 maxWidth={parseSpacing(9)}
-                dangerouslySetInnerHTML={{ __html: t('create.step4.name.tip') }}
+                dangerouslySetInnerHTML={{
+                  __html: t(`create.step4.name.tip_${scope}`),
+                }}
                 css={`
                   strong {
                     font-weight: bold;

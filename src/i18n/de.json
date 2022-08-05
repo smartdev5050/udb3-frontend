@@ -88,8 +88,10 @@
     "step4": {
       "title": " Basisangaben",
       "name": {
-        "title": "Name der Veranstaltung",
-        "tip": "Verwenden Sie einen <strong>aussagekräftigen Titel</strong>, zB. \"Radtour entlang von Kapellen\", \"Die Sage vom Einhorn\"."
+        "title_events": "Name der Veranstaltung",
+        "title_places": "Bezeichnung des Ortes",
+        "tip_events": "Verwenden Sie einen <strong>aussagekräftigen Titel</strong>, zB. \"Radtour entlang von Kapellen\", \"Die Sage vom Einhorn\".",
+        "tip_places": "Verwenden Sie die <strong>offizielle Bezeichnung</strong>, zB. \"Gravensteen\", \"Abdijsite Herkenrode\", \"Cultuurcentrum De Werf\"."
       },
       "age": {
         "title": "Geeignet für",

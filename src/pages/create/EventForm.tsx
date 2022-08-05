@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
+import { OfferType } from '@/constants/OfferType';
 import { Event } from '@/types/Event';
 
 import { additionalInformationStepConfiguration } from '../steps/AdditionalInformationStep';
@@ -29,6 +30,9 @@ const EventForm = () => {
 
   const convertEventToFormData = (event: Event) => {
     return {
+      scope: event['@context'].endsWith('event')
+        ? OfferType.EVENTS
+        : OfferType.PLACES,
       typeAndTheme: {
         theme: event.terms.find((term) => term.domain === 'theme'),
         type: event.terms.find((term) => term.domain === 'eventtype'),

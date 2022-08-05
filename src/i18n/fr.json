@@ -88,8 +88,10 @@
     "step4": {
       "title": " Données de base",
       "name": {
-        "title": "Nom de l'événement",
-        "tip": "Choisissez un <strong>bon titre</strong>, p.ex. \"Rouler à vélo le long des chapelles\", \"La Saga de la Licorne\"."
+        "title_events": "Nom de l'événement",
+        "title_places": "Nom du lieu",
+        "tip_events": "Choisissez un <strong>bon titre</strong>, p.ex. \"Rouler à vélo le long des chapelles\", \"La Saga de la Licorne\".",
+        "tip_places": "Utilisez la <strong>dénomination officielle</strong>, p.ex. \"Argos, centre pour l'art et les médias\", \"Site de l'abbaye Herkenrode\", \"Centre culturel De Werf\"."
       },
       "age": {
         "title": "Adapté à",
