@@ -102,6 +102,14 @@ const customCSS = css`
       box-shadow: ${getValue('secondary.activeBoxShadow')};
     }
 
+    &:not(:disabled):not(.disabled).active,
+    &:not(:disabled):not(.disabled):active {
+      color: ${getValue('secondary.activeColor')};
+      background-color: ${getValue('secondary.activeBackgroundColor')};
+      border-color: ${getValue('secondary.activeBorderColor')};
+      box-shadow: ${getValue('secondary.activeBoxShadow')};
+    }
+
     &:focus,
     &.focus {
       box-shadow: ${getValue('secondary.focusBoxShadow')};
@@ -171,6 +179,7 @@ type ButtonProps = Omit<InlineProps, 'size'> & {
   size?: Values<typeof ButtonSizes>;
   variant?: Values<typeof ButtonVariants>;
   type?: string;
+  active?: boolean;
 };
 
 const Button = ({
@@ -189,6 +198,7 @@ const Button = ({
   size,
   forwardedAs,
   type,
+  active,
   ...props
 }: ButtonProps) => {
   const isBootstrapVariant = (Object.values(
@@ -216,6 +226,7 @@ const Button = ({
     title,
     size,
     type,
+    active,
     ...getInlineProps(props),
   };
 
