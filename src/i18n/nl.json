@@ -105,7 +105,8 @@
         "from": "Van",
         "till": "Tot",
         "age": "jaar",
-        "error_max_lower_than_min": "De maximumleeftijd kan niet lager zijn dan de minimumleeftijd."
+        "error_max_lower_than_min": "De maximumleeftijd kan niet lager zijn dan de minimumleeftijd.",
+        "error_no_min_age": "Gelieve een minimum leeftijd in te vullen"
       }
     },
     "type_and_theme": {

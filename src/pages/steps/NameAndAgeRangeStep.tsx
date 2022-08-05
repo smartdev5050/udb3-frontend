@@ -47,8 +47,6 @@ const NameAndAgeRangeStep = <TFormData extends FormDataUnion>({
   field,
   onChange,
 }: StepProps<TFormData>) => {
-  const { t } = useTranslation();
-
   return (
     <Controller<TFormData>
       control={control}
@@ -57,13 +55,7 @@ const NameAndAgeRangeStep = <TFormData extends FormDataUnion>({
         return (
           <Stack spacing={4} maxWidth={parseSpacing(11)}>
             <NameStep field={field} onChange={onChange} control={control} />
-            <Stack>
-              <AgeRangeStep
-                field={field}
-                onChange={onChange}
-                control={control}
-              />
-            </Stack>
+            <AgeRangeStep field={field} onChange={onChange} control={control} />
           </Stack>
         );
       }}

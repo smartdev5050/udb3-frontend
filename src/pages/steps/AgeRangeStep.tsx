@@ -1,8 +1,9 @@
-import { FormEvent } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { css } from 'styled-components';
 
+import { Alert, AlertVariants } from '@/ui/Alert';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
@@ -36,12 +37,40 @@ const AgeRangeStep = ({
 }) => {
   const { t } = useTranslation();
 
+  const [showCustomAgeRange, setShowCustomAgeRange] = useState(false);
+  const [customMinAgeRange, setCustomMinAgeRange] = useState('');
+  const [customMaxAgeRange, setCustomMaxAgeRange] = useState('');
+  const [customAgeRangeError, setCustomAgeRangeError] = useState('');
+
   const isCustomAgeRange = (typicalAgeRange: string): boolean => {
     return !Object.keys(AgeRanges).some(
       (key) =>
         AgeRanges[key].apiLabel && AgeRanges[key].apiLabel === typicalAgeRange,
     );
   };
+
+  const resetCustomAgeRange = (): void => {
+    setCustomMinAgeRange('');
+    setCustomMaxAgeRange('');
+    setShowCustomAgeRange(false);
+    setCustomAgeRangeError('');
+  };
+
+  useEffect(() => {
+    if (!field.value?.typicalAgeRange) return;
+    const typicalAgeRange = field.value.typicalAgeRange;
+
+    if (isCustomAgeRange(typicalAgeRange)) {
+      const [min, max] = field.value.typicalAgeRange.split('-');
+
+      setCustomMinAgeRange(min ?? '');
+      setCustomMaxAgeRange(max ?? '');
+      setShowCustomAgeRange(true);
+      return;
+    }
+
+    resetCustomAgeRange();
+  }, [field.value?.typicalAgeRange]);
 
   const getSelectedAgeRange = (typicalAgeRange: string): string => {
     const foundAgeRange = Object.keys(AgeRanges).find((key: string) => {
@@ -50,11 +79,48 @@ const AgeRangeStep = ({
       );
     });
 
-    if (isCustomAgeRange(typicalAgeRange)) {
+    if (showCustomAgeRange) {
       return 'CUSTOM';
     }
 
     if (!foundAgeRange) return 'NONE';
+
+    return foundAgeRange;
+  };
+
+  const handleSubmitCustomAgeRange = (): void => {
+    if (parseInt(customMinAgeRange) > parseInt(customMaxAgeRange)) {
+      setCustomAgeRangeError(t('create.step4.age.error_max_lower_than_min'));
+      return;
+    }
+
+    setCustomAgeRangeError('');
+
+    field.onChange({
+      ...field.value,
+      typicalAgeRange: `${customMinAgeRange}-${customMaxAgeRange ?? ''}`,
+    });
+
+    onChange({
+      ...field.value,
+      typicalAgeRange: `${customMinAgeRange}-${customMaxAgeRange ?? ''}`,
+    });
+  };
+
+  const handleMinAgeRangeChange = (value: string): void => {
+    setCustomMinAgeRange(value);
+    handleSubmitCustomAgeRange();
+  };
+
+  const handleMaxAgeRangeChange = (value: string): void => {
+    setCustomMaxAgeRange(value);
+
+    if (!customMinAgeRange) {
+      setCustomAgeRangeError(t('create.step4.age.error_no_min_age'));
+      return;
+    }
+
+    handleSubmitCustomAgeRange();
   };
 
   return (
@@ -63,7 +129,6 @@ const AgeRangeStep = ({
         name="nameAndAgeRange"
         control={control}
         render={({ field }) => {
-          const [min, max] = (field.value?.typicalAgeRange ?? '').split('-');
           const selectedAgeRange = getSelectedAgeRange(
             field.value?.typicalAgeRange,
           );
@@ -72,8 +137,7 @@ const AgeRangeStep = ({
               <Text fontWeight="bold">{t(`create.step4.age.title`)}</Text>
               <Inline spacing={3} flexWrap="wrap" maxWidth="40rem">
                 {Object.keys(AgeRanges).map((key: string) => {
-                  const apiLabel =
-                    key === 'CUSTOM' ? '0-99' : AgeRanges[key].apiLabel;
+                  const apiLabel = AgeRanges[key].apiLabel;
                   return (
                     <Inline key={key}>
                       <Button
@@ -86,6 +150,11 @@ const AgeRangeStep = ({
                             : ButtonVariants.SECONDARY
                         }
                         onClick={() => {
+                          if (key === 'CUSTOM') {
+                            setShowCustomAgeRange(true);
+                            return;
+                          }
+                          setShowCustomAgeRange(false);
                           field.onChange({
                             ...field.value,
                             typicalAgeRange: apiLabel,
@@ -111,69 +180,56 @@ const AgeRangeStep = ({
                 })}
               </Inline>
               <Inline>
-                {selectedAgeRange === 'CUSTOM' && (
-                  <Inline spacing={3}>
-                    <Stack>
-                      <Text fontWeight="bold">Van</Text>
-                      <Input
-                        marginRight={3}
-                        value={min}
-                        placeholder="Van"
-                        onChange={(event) => {
-                          field.onChange({
-                            ...field.value,
-                            typicalAgeRange: `${
-                              (event.target as HTMLInputElement).value
-                            }-${max ?? ''}`,
-                          });
-                        }}
-                        onBlur={(event: FormEvent<HTMLInputElement>) => {
-                          field.onChange({
-                            ...field.value,
-                            typicalAgeRange: `${
-                              (event.target as HTMLInputElement).value
-                            }-${max ?? ''}`,
-                          });
-                          onChange({
-                            ...field.value,
-                            typicalAgeRange: `${
-                              (event.target as HTMLInputElement).value
-                            }-${max ?? ''}`,
-                          });
-                        }}
-                      />
-                    </Stack>
-                    <Stack>
-                      <Text fontWeight="bold">Tot</Text>
-                      <Input
-                        marginRight={3}
-                        value={max}
-                        placeholder="Tot"
-                        onChange={(event) => {
-                          field.onChange({
-                            ...field.value,
-                            typicalAgeRange: `${min ?? 0}-${
-                              (event.target as HTMLInputElement).value
-                            }`,
-                          });
-                        }}
-                        onBlur={(event: FormEvent<HTMLInputElement>) => {
-                          field.onChange({
-                            ...field.value,
-                            typicalAgeRange: `${min ?? 0}-${
-                              (event.target as HTMLInputElement).value
-                            }`,
-                          });
-                          onChange({
-                            ...field.value,
-                            typicalAgeRange: `${min ?? 0}-${
-                              (event.target as HTMLInputElement).value
-                            }`,
-                          });
-                        }}
-                      />
-                    </Stack>
-                  </Inline>
+                {showCustomAgeRange && (
+                  <Stack spacing={3}>
+                    <Inline spacing={3}>
+                      <Stack>
+                        <Text fontWeight="bold">
+                          {t('create.step4.age.from')}
+                        </Text>
+                        <Input
+                          marginRight={3}
+                          value={customMinAgeRange}
+                          placeholder={t('create.step4.age.from')}
+                          onChange={(event) => {
+                            const value = (event.target as HTMLInputElement)
+                              .value;
+                            setCustomMinAgeRange(value);
+                          }}
+                          onBlur={(event: FormEvent<HTMLInputElement>) => {
+                            const value = (event.target as HTMLInputElement)
+                              .value;
+                            handleMinAgeRangeChange(value);
+                          }}
+                        />
+                      </Stack>
+                      <Stack>
+                        <Text fontWeight="bold">
+                          {t('create.step4.age.till')}
+                        </Text>
+                        <Input
+                          marginRight={3}
+                          value={customMaxAgeRange}
+                          placeholder={t('create.step4.age.till')}
+                          onChange={(event) => {
+                            const value = (event.target as HTMLInputElement)
+                              .value;
+                            setCustomMaxAgeRange(value);
+                          }}
+                          onBlur={(event: FormEvent<HTMLInputElement>) => {
+                            const value = (event.target as HTMLInputElement)
+                              .value;
+                            handleMaxAgeRangeChange(value);
+                          }}
+                        />
+                      </Stack>
+                    </Inline>
+                    {customAgeRangeError && (
+                      <Alert variant={AlertVariants.DANGER}>
+                        {customAgeRangeError}
+                      </Alert>
+                    )}
+                  </Stack>
                 )}
               </Inline>
             </Stack>
