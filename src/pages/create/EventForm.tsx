@@ -56,8 +56,7 @@ const EventForm = () => {
       convertEventToFormData={convertEventToFormData}
       toastConfiguration={{
         messages: {
-          age_range: t('create.toast.success.age_range'),
-          name: t('create.toast.success.name'),
+          basic_info: t('create.toast.success.basic_info'),
           media: t('create.toast.success.media'),
           booking_info: t('create.toast.success.booking_info'),
           contact_info: t('create.toast.success.contact_info'),
