@@ -85,6 +85,9 @@
     "NL": "Niederlande"
   },
   "create": {
+    "step2": {
+      "title": "Was willst du hinzufügen"
+    },
     "step4": {
       "title": " Basisangaben",
       "name": {
