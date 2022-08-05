@@ -28,8 +28,12 @@ const getTerms = async (): Promise<TermsData> => {
   return await res.json();
 };
 
-const useGetTermsQuery = (configuration = { retry: false }) =>
-  useQuery(['terms'], getTerms, configuration);
+const useGetTermsQuery = (configuration = {}) =>
+  useQuery(['terms'], getTerms, {
+    retry: false,
+    staleTime: Infinity,
+    ...configuration,
+  });
 
 export { useGetTermsQuery };
 export type { EventType };

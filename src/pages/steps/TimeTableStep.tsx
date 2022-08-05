@@ -144,10 +144,7 @@ const timeTableStepConfiguration: StepsConfiguration<FormDataUnion> = {
     })
     .required(),
   field: 'timeTable',
-  shouldShowNextStep: ({ watch }) => {
-    const watchedTimeTable = watch('timeTable');
-    return isOneTimeSlotValid(watchedTimeTable);
-  },
+  shouldShowStep: ({ watch }) => !!watch('typeAndTheme')?.type,
   title: (t) => t(`movies.create.step2.title`),
 };
 
