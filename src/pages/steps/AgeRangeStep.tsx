@@ -139,43 +139,39 @@ const AgeRangeStep = ({
                 {Object.keys(AgeRanges).map((key: string) => {
                   const apiLabel = AgeRanges[key].apiLabel;
                   return (
-                    <Inline key={key}>
-                      <Button
-                        width="auto"
-                        marginBottom={3}
-                        display="inline-flex"
-                        variant={
-                          selectedAgeRange === key
-                            ? ButtonVariants.SUCCESS
-                            : ButtonVariants.SECONDARY
+                    <Button
+                      key={key}
+                      width="auto"
+                      active={selectedAgeRange === key}
+                      marginBottom={3}
+                      display="inline-flex"
+                      variant={ButtonVariants.SECONDARY}
+                      onClick={() => {
+                        if (key === 'CUSTOM') {
+                          setShowCustomAgeRange(true);
+                          return;
                         }
-                        onClick={() => {
-                          if (key === 'CUSTOM') {
-                            setShowCustomAgeRange(true);
-                            return;
-                          }
-                          setShowCustomAgeRange(false);
-                          field.onChange({
-                            ...field.value,
-                            typicalAgeRange: apiLabel,
-                          });
-                          onChange({
-                            ...field.value,
-                            typicalAgeRange: apiLabel,
-                          });
-                        }}
+                        setShowCustomAgeRange(false);
+                        field.onChange({
+                          ...field.value,
+                          typicalAgeRange: apiLabel,
+                        });
+                        onChange({
+                          ...field.value,
+                          typicalAgeRange: apiLabel,
+                        });
+                      }}
+                    >
+                      {t(`create.step4.age.${key.toLowerCase()}`)}
+                      <Text
+                        css={css`
+                          color: ${getValue('rangeTextColor')};
+                          font-size: 0.9rem;
+                        `}
                       >
-                        {t(`create.step4.age.${key.toLowerCase()}`)}
-                        <span
-                          css={css`
-                            color: ${getValue('rangeTextColor')};
-                            font-size: 0.9rem;
-                          `}
-                        >
-                          &nbsp; {AgeRanges[key].label ?? ''}
-                        </span>
-                      </Button>
-                    </Inline>
+                        &nbsp; {AgeRanges[key].label ?? ''}
+                      </Text>
+                    </Button>
                   );
                 })}
               </Inline>
