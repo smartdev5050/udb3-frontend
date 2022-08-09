@@ -1,7 +1,9 @@
 import { useTranslation } from 'react-i18next';
 
 import { OfferType } from '@/constants/OfferType';
-import { Event } from '@/types/Event';
+import { SupportedLanguages } from '@/i18n/index';
+import { Event, isEvent } from '@/types/Event';
+import { Values } from '@/types/Values';
 
 import { additionalInformationStepConfiguration } from '../steps/AdditionalInformationStep';
 import { typeAndThemeStepConfiguration } from '../steps/EventTypeAndThemeStep';
@@ -18,9 +20,7 @@ type FormData = {
     theme: { id: string; label: string };
   };
   nameAndAgeRange: {
-    name: {
-      nl: string;
-    };
+    name: Record<Values<typeof SupportedLanguages>, string>;
     typicalAgeRange: string;
   };
 };
@@ -30,9 +30,7 @@ const EventForm = () => {
 
   const convertEventToFormData = (event: Event) => {
     return {
-      scope: event['@context'].endsWith('event')
-        ? OfferType.EVENTS
-        : OfferType.PLACES,
+      scope: isEvent(event) ? OfferType.EVENTS : OfferType.PLACES,
       typeAndTheme: {
         theme: event.terms.find((term) => term.domain === 'theme'),
         type: event.terms.find((term) => term.domain === 'eventtype'),

@@ -37,12 +37,12 @@ const AgeRangeStep = ({
 }) => {
   const { t } = useTranslation();
 
-  const [showCustomAgeRange, setShowCustomAgeRange] = useState(false);
+  const [isCustomAgeRange, setIsCustomAgeRange] = useState(false);
   const [customMinAgeRange, setCustomMinAgeRange] = useState('');
   const [customMaxAgeRange, setCustomMaxAgeRange] = useState('');
   const [customAgeRangeError, setCustomAgeRangeError] = useState('');
 
-  const isCustomAgeRange = (typicalAgeRange: string): boolean => {
+  const isCustomAgeRangeSelected = (typicalAgeRange: string): boolean => {
     return !Object.keys(AgeRanges).some(
       (key) =>
         AgeRanges[key].apiLabel && AgeRanges[key].apiLabel === typicalAgeRange,
@@ -52,7 +52,7 @@ const AgeRangeStep = ({
   const resetCustomAgeRange = (): void => {
     setCustomMinAgeRange('');
     setCustomMaxAgeRange('');
-    setShowCustomAgeRange(false);
+    setIsCustomAgeRange(false);
     setCustomAgeRangeError('');
   };
 
@@ -60,12 +60,12 @@ const AgeRangeStep = ({
     if (!field.value?.typicalAgeRange) return;
     const typicalAgeRange = field.value.typicalAgeRange;
 
-    if (isCustomAgeRange(typicalAgeRange)) {
+    if (isCustomAgeRangeSelected(typicalAgeRange)) {
       const [min, max] = field.value.typicalAgeRange.split('-');
 
       setCustomMinAgeRange(min ?? '');
       setCustomMaxAgeRange(max ?? '');
-      setShowCustomAgeRange(true);
+      setIsCustomAgeRange(true);
       return;
     }
 
@@ -79,7 +79,7 @@ const AgeRangeStep = ({
       );
     });
 
-    if (showCustomAgeRange) {
+    if (isCustomAgeRange) {
       return 'CUSTOM';
     }
 
@@ -148,10 +148,10 @@ const AgeRangeStep = ({
                       variant={ButtonVariants.SECONDARY}
                       onClick={() => {
                         if (key === 'CUSTOM') {
-                          setShowCustomAgeRange(true);
+                          setIsCustomAgeRange(true);
                           return;
                         }
-                        setShowCustomAgeRange(false);
+                        setIsCustomAgeRange(false);
                         field.onChange({
                           ...field.value,
                           typicalAgeRange: apiLabel,
@@ -176,7 +176,7 @@ const AgeRangeStep = ({
                 })}
               </Inline>
               <Inline>
-                {showCustomAgeRange && (
+                {isCustomAgeRange && (
                   <Stack spacing={3}>
                     <Inline spacing={3}>
                       <Stack>

@@ -18,7 +18,7 @@ const NameStep = ({
   control: any;
   onChange: any;
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const watchedValues = useWatch({ control });
 
@@ -46,7 +46,8 @@ const NameStep = ({
                       field.onChange({
                         ...field.value,
                         name: {
-                          nl: (event.target as HTMLInputElement).value,
+                          [i18n.language]: (event.target as HTMLInputElement)
+                            .value,
                         },
                       });
                     }}
@@ -54,13 +55,15 @@ const NameStep = ({
                       field.onChange({
                         ...field.value,
                         name: {
-                          nl: (event.target as HTMLInputElement).value,
+                          [i18n.language]: (event.target as HTMLInputElement)
+                            .value,
                         },
                       });
                       onChange({
                         ...field.value,
                         name: {
-                          nl: (event.target as HTMLInputElement).value,
+                          [i18n.language]: (event.target as HTMLInputElement)
+                            .value,
                         },
                       });
                     }}
