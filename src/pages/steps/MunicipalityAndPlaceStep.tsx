@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { EventTypes } from '@/constants/EventTypes';
 import { City } from '@/hooks/api/cities';
+import { useChangeLocationMutation } from '@/hooks/api/events';
 import { Values } from '@/types/Values';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
@@ -10,6 +11,7 @@ import { Inline } from '@/ui/Inline';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
+import { parseOfferId } from '@/utils/parseOfferId';
 
 import { CityPicker } from '../CityPicker';
 import { PlaceStep } from './PlaceStep';
@@ -20,7 +22,19 @@ const getValue = getValueFromTheme('createPage');
 const useEditMunicipalityAndPlace = <TFormData extends FormDataUnion>({
   eventId,
   onSuccess,
-}) => {};
+}) => {
+  const changeLocationMutation = useChangeLocationMutation();
+
+  return async ({ municipalityAndPlace }: TFormData) => {
+    if (!municipalityAndPlace.municipality) return;
+    if (!municipalityAndPlace.place) return;
+
+    changeLocationMutation.mutate({
+      id: eventId,
+      locationId: parseOfferId(municipalityAndPlace.place['@id']),
+    });
+  };
+};
 
 type MunicipalityAndPlaceStepProps<
   TFormData extends FormDataUnion
@@ -38,7 +52,7 @@ const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
   terms,
   ...props
 }: MunicipalityAndPlaceStepProps<TFormData>) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <Stack {...getStackProps(props)}>
@@ -54,7 +68,11 @@ const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
                   {...field}
                   value={field.value?.municipality}
                   onChange={(value) =>
-                    field.onChange({ ...field.value, municipality: value })
+                    field.onChange({
+                      ...field.value,
+                      municipality: value,
+                      place: undefined,
+                    })
                   }
                 />
               )}
@@ -81,10 +99,16 @@ const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
                   <PlaceStep
                     field={'municipalityAndPlace.place' as Path<TFormData>}
                     onChange={(value) => {
-                      field.onChange({
-                        ...field.value,
-                        place: value,
-                      });
+                      {
+                        field.onChange({
+                          ...field.value,
+                          place: value,
+                        });
+                        onChange({
+                          ...field.value,
+                          place: value,
+                        });
+                      }
                     }}
                     zip={selectedMunicipality.zip}
                     {...{
@@ -116,4 +140,4 @@ const municipalityAndPlaceStepConfiguration: StepsConfiguration<FormDataUnion> =
 
 MunicipalityAndPlaceStep.defaultProps = {};
 
-export { municipalityAndPlaceStepConfiguration };
+export { municipalityAndPlaceStepConfiguration, useEditMunicipalityAndPlace };

@@ -46,6 +46,7 @@ const EventForm = () => {
           }`,
           name: event.location.address[i18n.language].addressLocality,
         },
+        place: event.location,
       },
       typeAndTheme: {
         theme: event.terms.find((term) => term.domain === 'theme'),

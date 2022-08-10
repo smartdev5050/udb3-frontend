@@ -8,6 +8,8 @@ import { useEditNameAndProduction } from '@/pages/steps/ProductionStep';
 import { FormDataUnion } from '@/pages/steps/Steps';
 import { useEditCalendar } from '@/pages/steps/TimeTableStep';
 
+import { useEditMunicipalityAndPlace } from '../MunicipalityAndPlaceStep';
+
 type HandleSuccessOptions = {
   shouldInvalidateEvent?: boolean;
 };
@@ -33,6 +35,9 @@ const useEditField = <TFormData extends FormDataUnion>({
   const editArguments = { eventId, onSuccess: handleSuccess };
 
   const editTypeAndTheme = useEditTypeAndTheme<TFormData>(editArguments);
+  const editMunicipalityAndPlace = useEditMunicipalityAndPlace<TFormData>(
+    editArguments,
+  );
   const editNameAndAgeRange = useEditNameAndAgeRange<TFormData>(editArguments);
   const editCalendar = useEditCalendar<TFormData>(editArguments);
   const editLocation = useEditLocation<TFormData>(editArguments);
@@ -46,6 +51,7 @@ const useEditField = <TFormData extends FormDataUnion>({
 
     const editMap = {
       typeAndTheme: editTypeAndTheme,
+      municipalityAndPlace: editMunicipalityAndPlace,
       nameAndAgeRange: editNameAndAgeRange,
       timeTable: editCalendar,
       place: editLocation,
