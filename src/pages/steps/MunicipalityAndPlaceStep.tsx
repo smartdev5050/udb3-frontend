@@ -1,6 +1,7 @@
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
+import { City } from '@/hooks/api/cities';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
@@ -31,7 +32,7 @@ const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
       control={control}
       name={field}
       render={({ field }) => {
-        const selectedMunicipality = field?.value?.municipality as any;
+        const selectedMunicipality = field?.value?.municipality as City;
         return (
           <Stack>
             {!selectedMunicipality && (
