@@ -1,4 +1,4 @@
-import { Controller } from 'react-hook-form';
+import { Controller, Path } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { EventTypes } from '@/constants/EventTypes';
@@ -79,8 +79,14 @@ const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
                     </Button>
                   </Inline>
                   <PlaceStep
-                    field="municipalityAndPlace.place"
-                    onChange={() => {}}
+                    field={'municipalityAndPlace.place' as Path<TFormData>}
+                    onChange={(value) => {
+                      field.onChange({
+                        ...field.value,
+                        place: value,
+                      });
+                    }}
+                    zip={selectedMunicipality.zip}
                     {...{
                       formState,
                       getValues,
@@ -89,7 +95,7 @@ const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
                       loading,
                       terms,
                     }}
-                    zip={selectedMunicipality.zip}
+                    {...props}
                   />
                 </Stack>
               )}

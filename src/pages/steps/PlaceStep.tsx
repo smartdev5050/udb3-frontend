@@ -136,11 +136,10 @@ const PlaceStep = <TFormData extends FormDataUnion>({
               </Text>
               <Button
                 variant={ButtonVariants.LINK}
-                onClick={() =>
-                  reset({ ...getValues(), place: undefined } as any, {
-                    keepDirty: true,
-                  })
-                }
+                onClick={() => {
+                  field.onChange(undefined);
+                  onChange(undefined);
+                }}
               >
                 {t('movies.create.actions.change_cinema')}
               </Button>
