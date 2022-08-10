@@ -89,6 +89,7 @@
       "title": "Wat wil je toevoegen?"
     },
     "municipality_and_place": {
+      "title": "Waar vindt dit evenement of deze activiteit plaats?",
       "municipality": {
         "change": "Wijzigen"
       }

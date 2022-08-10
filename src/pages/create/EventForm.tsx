@@ -36,7 +36,6 @@ const EventForm = () => {
   const { t, i18n } = useTranslation();
 
   const convertEventToFormData = (event: Event) => {
-    console.log({ event });
     return {
       scope: isEvent(event) ? OfferType.EVENTS : OfferType.PLACES,
       municipalityAndPlace: {

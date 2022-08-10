@@ -83,7 +83,7 @@ const municipalityAndPlaceStepConfiguration: StepsConfiguration<FormDataUnion> =
   Component: MunicipalityAndPlaceStep,
   field: 'municipalityAndPlace',
   shouldShowStep: () => true,
-  title: (t) => 'Waar vindt dit evenement of deze activiteit plaats?',
+  title: (t) => t('create.municipality_and_place.title'),
 };
 
 MunicipalityAndPlaceStep.defaultProps = {};
