@@ -5,7 +5,7 @@ import { City } from '@/hooks/api/cities';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
-import { Stack } from '@/ui/Stack';
+import { getStackProps, Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
@@ -28,54 +28,58 @@ const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
   const getValue = getValueFromTheme('createPage');
 
   return (
-    <Controller<TFormData>
-      control={control}
-      name={field}
-      render={({ field }) => {
-        const selectedMunicipality = field?.value?.municipality as City;
-        return (
-          <Stack>
-            {!selectedMunicipality && (
-              <CityPicker
-                {...field}
-                value={field.value?.municipality}
-                onChange={(value) =>
-                  field.onChange({ ...field.value, municipality: value })
-                }
-              />
-            )}
-            {selectedMunicipality && (
-              <Inline alignItems="center" spacing={3}>
-                <Icon
-                  name={Icons.CHECK_CIRCLE}
-                  color={getValue('check.circleFillColor')}
-                />
-                <Text>{selectedMunicipality.name}</Text>
-                <Button
-                  variant={ButtonVariants.LINK}
-                  onClick={() =>
-                    reset(
-                      {
-                        ...getValues(),
-                        municipalityAndPlace: {
-                          ...field.value,
-                          municipality: undefined,
-                        },
-                      },
-                      {
-                        keepDirty: true,
-                      },
-                    )
+    <Stack {...getStackProps(props)}>
+      <Controller<TFormData>
+        control={control}
+        name={field}
+        render={({ field }) => {
+          const selectedMunicipality = field?.value?.municipality as City;
+          return (
+            <Stack>
+              {!selectedMunicipality && (
+                <CityPicker
+                  {...field}
+                  value={field.value?.municipality}
+                  onChange={(value) =>
+                    field.onChange({ ...field.value, municipality: value })
                   }
-                >
-                  {t('create.municipality_and_place.municipality.change')}
-                </Button>
-              </Inline>
-            )}
-          </Stack>
-        );
-      }}
-    />
+                />
+              )}
+              {selectedMunicipality && (
+                <Stack>
+                  <Inline alignItems="center" spacing={3}>
+                    <Icon
+                      name={Icons.CHECK_CIRCLE}
+                      color={getValue('check.circleFillColor')}
+                    />
+                    <Text>{selectedMunicipality.name}</Text>
+                    <Button
+                      variant={ButtonVariants.LINK}
+                      onClick={() =>
+                        reset(
+                          {
+                            ...getValues(),
+                            municipalityAndPlace: {
+                              ...field.value,
+                              municipality: undefined,
+                            },
+                          },
+                          {
+                            keepDirty: true,
+                          },
+                        )
+                      }
+                    >
+                      {t('create.municipality_and_place.municipality.change')}
+                    </Button>
+                  </Inline>
+                </Stack>
+              )}
+            </Stack>
+          );
+        }}
+      />
+    </Stack>
   );
 };
 
