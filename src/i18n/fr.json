@@ -85,6 +85,35 @@
     "NL": "Pays-Bas"
   },
   "create": {
+    "step2": {
+      "title": "Que voulez-vous ajouter"
+    },
+    "step4": {
+      "title": " Données de base",
+      "name": {
+        "title_events": "Nom de l'événement",
+        "title_places": "Nom du lieu",
+        "tip_events": "Choisissez un <strong>bon titre</strong>, p.ex. \"Rouler à vélo le long des chapelles\", \"La Saga de la Licorne\".",
+        "tip_places": "Utilisez la <strong>dénomination officielle</strong>, p.ex. \"Argos, centre pour l'art et les médias\", \"Site de l'abbaye Herkenrode\", \"Centre culturel De Werf\"."
+      },
+      "age": {
+        "title": "Adapté à",
+        "all": "De tous âges",
+        "toddlers": "Tout-petits",
+        "preschoolers": "Jeunes enfants",
+        "kids": "Enfants d'âge scolaire",
+        "teenagers": "Adolescents",
+        "youngsters": "Jeunes",
+        "adults": "Adultes",
+        "seniors": "Seniors",
+        "custom": "Autres",
+        "from": "De",
+        "till": "à",
+        "age": "ans",
+        "error_max_lower_than_min": "L'âge maximum ne peut être inférieur à l'âge minimum.",
+        "error_no_min_age": "Veuillez entrer un âge minimum"
+      }
+    },
     "type_and_theme": {
       "change_theme": "Changer thème",
       "change_type": "Changer type",
@@ -206,6 +235,7 @@
     },
     "toast": {
       "success": {
+        "basic_info": "Les données de base ont été modifiées avec succès",
         "description": "La description a été modifiée avec succès",
         "organizer": "L'organisation a modifiée avec succès",
         "price_info": "Les prix ont été modifiées avec succès",

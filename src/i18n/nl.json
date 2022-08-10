@@ -85,12 +85,43 @@
     "NL": "Nederland"
   },
   "create": {
+    "step2": {
+      "title": "Wat wil je toevoegen?"
+    },
+    "step4": {
+      "title": " Basisgegevens",
+      "name": {
+        "title_events": "Naam van het evenement",
+        "title_places": "Naam van de locatie",
+        "tip_events": "Gebruik een <strong>sprekende titel</strong>, bv. \"Fietsen langs kapelletjes\", \"De Sage van de Eenhoorn\". Een <strong>uitgebreide beschrijving</strong> kan je in stap 5 toevoegen.",
+        "tip_places": "Gebruik de <strong>officiële benaming</strong>, bv. \"Gravensteen\", \"Abdijsite Herkenrode\", \"Cultuurcentrum De Werf\"."
+      },
+      "age": {
+        "title": "Geschikt voor",
+        "all": "Alle leeftijden",
+        "toddlers": "Peuters",
+        "preschoolers": "Kleuters",
+        "kids": "Kinderen",
+        "teenagers": "Tieners",
+        "youngsters": "Jongeren",
+        "adults": "Volwassenen",
+        "seniors": "Senioren",
+        "custom": "Andere",
+        "from": "Van",
+        "till": "Tot",
+        "age": "jaar",
+        "error_max_lower_than_min": "De maximumleeftijd kan niet lager zijn dan de minimumleeftijd.",
+        "error_no_min_age": "Gelieve een minimum leeftijd in te vullen"
+      }
+    },
     "type_and_theme": {
       "change_theme": "Wijzig thema",
       "change_type": "Wijzig type",
       "refine": "Verfijn"
     },
     "additionalInformation": {
+      "title_events": "Laat dit evenement extra opvallen",
+      "title_places": "Laat deze locatie extra opvallen",
       "audience": {
         "title": "Toegang",
         "education": "Specifiek voor scholen",
@@ -206,6 +237,7 @@
     },
     "toast": {
       "success": {
+        "basic_info": "Basisgegevens zijn succesvol gewijzigd",
         "description": "Beschrijving is succesvol gewijzigd",
         "organizer": "Organisatie is succesvol gewijzigd",
         "price_info": "Prijsinformatie is succesvol gewijzigd",

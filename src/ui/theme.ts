@@ -331,6 +331,9 @@ const theme = {
       mainImageBorderColor: colors.blue2,
       thumbnailBorderColor: colors.grey6,
     },
+    ageRange: {
+      rangeTextColor: colors.grey5,
+    },
     priceInformation: {
       borderColor: colors.grey3,
       iconColor: colors.grey5,

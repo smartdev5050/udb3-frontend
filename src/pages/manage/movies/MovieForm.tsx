@@ -139,6 +139,7 @@ const MovieForm = (props) => {
         { field: 'scope', defaultValue: OfferType.EVENTS },
         {
           ...typeAndThemeStepConfiguration,
+          title: () => t('movies.create.step1.title'),
           defaultValue: { type: { id: EventTypes.Film, label: 'Film' } },
           stepProps: {
             shouldHideType: true,
@@ -155,6 +156,7 @@ const MovieForm = (props) => {
         {
           ...additionalInformationStepConfiguration,
           variant: AdditionalInformationStepVariant.MINIMAL,
+          title: () => t(`movies.create.step5.title`),
         },
       ]}
     />

@@ -85,6 +85,35 @@
     "NL": "Niederlande"
   },
   "create": {
+    "step2": {
+      "title": "Was willst du hinzufügen"
+    },
+    "step4": {
+      "title": " Basisangaben",
+      "name": {
+        "title_events": "Name der Veranstaltung",
+        "title_places": "Bezeichnung des Ortes",
+        "tip_events": "Verwenden Sie einen <strong>aussagekräftigen Titel</strong>, zB. \"Radtour entlang von Kapellen\", \"Die Sage vom Einhorn\".",
+        "tip_places": "Verwenden Sie die <strong>offizielle Bezeichnung</strong>, zB. \"Gravensteen\", \"Abdijsite Herkenrode\", \"Cultuurcentrum De Werf\"."
+      },
+      "age": {
+        "title": "Geeignet für",
+        "all": "Alle Altersgruppen",
+        "toddlers": "Kleinkinder",
+        "preschoolers": "Kindergartenkinder",
+        "kids": "Kinder",
+        "teenagers": "Teenager",
+        "youngsters": "Junge",
+        "adults": "Erwachsene",
+        "seniors": "Senioren",
+        "custom": "Andere",
+        "fro": "Von",
+        "till": "Bis",
+        "age": "Jahre",
+        "error_max_lower_than_min": "Das Höchstalter kann nicht unter dem Mindestalter liegen.",
+        "error_no_min_age": "Bitte geben Sie ein Mindestalter ein"
+      }
+    },
     "type_and_theme": {
       "change_theme": "Ändert den thema",
       "change_type": "Ändert den typ",
@@ -207,6 +236,7 @@
     },
     "toast": {
       "success": {
+        "basic_info": "Grunddaten wurden erfolgreich geändert",
         "description": "Die Beschreibung wurde erfolgreich geändert",
         "organizer": "Organisation wurde erfolgreich geändert",
         "price_info": "Preisinformationen wurden erfolgreich geändert",
