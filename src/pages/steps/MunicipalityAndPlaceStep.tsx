@@ -77,7 +77,7 @@ const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
                 />
               )}
               {selectedMunicipality && (
-                <Stack>
+                <Stack spacing={4}>
                   <Inline alignItems="center" spacing={3}>
                     <Icon
                       name={Icons.CHECK_CIRCLE}
