@@ -19,7 +19,7 @@ type GetCitiesArguments = {
 
 const getCitiesBe = (): City[] =>
   citiesBE.cities
-    .filter((city) => city.submunicipality)
+    .filter((city) => typeof city.submunicipality === 'string')
     .map((city) => ({
       label: city.zip + ' ' + city.labelnl,
       name: city.labelnl,
