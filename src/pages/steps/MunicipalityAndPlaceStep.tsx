@@ -14,6 +14,11 @@ import { FormDataUnion, StepsConfiguration } from './Steps';
 
 const getValue = getValueFromTheme('createPage');
 
+const useEditMunicipalityAndPlace = <TFormData extends FormDataUnion>({
+  eventId,
+  onSuccess,
+}) => {};
+
 const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
   formState: { errors },
   getValues,
@@ -56,18 +61,10 @@ const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
                     <Button
                       variant={ButtonVariants.LINK}
                       onClick={() =>
-                        reset(
-                          {
-                            ...getValues(),
-                            municipalityAndPlace: {
-                              ...field.value,
-                              municipality: undefined,
-                            },
-                          },
-                          {
-                            keepDirty: true,
-                          },
-                        )
+                        field.onChange({
+                          ...field.value,
+                          municipality: undefined,
+                        })
                       }
                     >
                       {t('create.municipality_and_place.municipality.change')}
