@@ -68,6 +68,7 @@ const MovieForm = (props) => {
 
   const convertEventToFormData = (event: Event) => {
     return {
+      scope: OfferType.EVENTS,
       typeAndTheme: {
         theme: event.terms.find((term) => term.domain === 'theme'),
         type: event.terms.find((term) => term.domain === 'eventtype'),

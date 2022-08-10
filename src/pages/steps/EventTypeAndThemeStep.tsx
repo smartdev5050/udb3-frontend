@@ -2,7 +2,10 @@ import { Controller, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
-import { useChangeThemeMutation } from '@/hooks/api/events';
+import {
+  useChangeThemeMutation,
+  useChangeTypeMutation,
+} from '@/hooks/api/events';
 import { useGetTypesByScopeQuery } from '@/hooks/api/types';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
@@ -16,34 +19,29 @@ import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
 
 const getValue = getValueFromTheme('createPage');
 
-const useEditType = <TFormData extends FormDataUnion>({
+const useEditTypeAndTheme = <TFormData extends FormDataUnion>({
   eventId,
   onSuccess,
 }) => {
+  const changeTypeMutation = useChangeTypeMutation({
+    onSuccess: () => onSuccess('typeAndTheme'),
+  });
+
   const changeThemeMutation = useChangeThemeMutation({
-    onSuccess: () => onSuccess('type'),
+    onSuccess: () => onSuccess('typeAndTheme'),
   });
 
   return async ({ typeAndTheme }: TFormData) => {
-    await changeThemeMutation.mutateAsync({
+    if (!typeAndTheme.type) return;
+
+    await changeTypeMutation.mutateAsync({
       id: eventId,
-      themeId: typeAndTheme.type.id,
+      typeId: typeAndTheme.type?.id,
     });
-  };
-};
 
-const useEditTheme = <TFormData extends FormDataUnion>({
-  eventId,
-  onSuccess,
-}) => {
-  const changeThemeMutation = useChangeThemeMutation({
-    onSuccess: () => onSuccess('theme'),
-  });
-
-  return async ({ typeAndTheme }: TFormData) => {
     await changeThemeMutation.mutateAsync({
       id: eventId,
-      themeId: typeAndTheme.theme.id,
+      themeId: typeAndTheme.theme?.id,
     });
   };
 };
@@ -54,7 +52,6 @@ type Props<TFormData extends FormDataUnion> = StepProps<TFormData> & {
 
 const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
   control,
-  reset,
   field,
   getValues,
   onChange,
@@ -97,7 +94,10 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
                             ...field.value,
                             type: { id, label: name[i18n.language] },
                           });
-                          onChange(id);
+                          onChange({
+                            ...field.value,
+                            type: { id, label: name[i18n.language] },
+                          });
                         }}
                       >
                         {name[i18n.language]}
@@ -113,18 +113,13 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
                     <Text>{field.value?.type?.label}</Text>
                     <Button
                       variant={ButtonVariants.LINK}
-                      onClick={() =>
-                        reset(
-                          {
-                            ...(getValues() as any),
-                            typeAndTheme: {
-                              type: undefined,
-                              theme: undefined,
-                            },
-                          },
-                          { keepDirty: true },
-                        )
-                      }
+                      onClick={() => {
+                        field.onChange({
+                          ...field.value,
+                          type: undefined,
+                          theme: undefined,
+                        });
+                      }}
                     >
                       {t('create.type_and_theme.change_type')}
                     </Button>
@@ -167,18 +162,16 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
                 <Text>{field.value?.theme?.label}</Text>
                 <Button
                   variant={ButtonVariants.LINK}
-                  onClick={() =>
-                    reset(
-                      {
-                        ...(getValues() as any),
-                        typeAndTheme: {
-                          ...(getValues() as any).typeAndTheme,
-                          theme: undefined,
-                        },
-                      },
-                      { keepDirty: true },
-                    )
-                  }
+                  onClick={() => {
+                    field.onChange({
+                      ...field.value,
+                      theme: undefined,
+                    });
+                    onChange({
+                      ...field.value,
+                      theme: undefined,
+                    });
+                  }}
                 >
                   {t('create.type_and_theme.change_theme')}
                 </Button>
@@ -199,4 +192,4 @@ const typeAndThemeStepConfiguration: StepsConfiguration<FormDataUnion> = {
   shouldShowStep: ({ watch }) => !!watch('scope'),
 };
 
-export { typeAndThemeStepConfiguration, useEditTheme };
+export { typeAndThemeStepConfiguration, useEditTypeAndTheme };

@@ -12,6 +12,8 @@ import { getValueFromTheme } from '@/ui/theme';
 import { CityPicker } from '../CityPicker';
 import { FormDataUnion, StepsConfiguration } from './Steps';
 
+const getValue = getValueFromTheme('createPage');
+
 const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
   formState: { errors },
   getValues,
@@ -24,8 +26,6 @@ const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
   ...props
 }) => {
   const { t, i18n } = useTranslation();
-
-  const getValue = getValueFromTheme('createPage');
 
   return (
     <Stack {...getStackProps(props)}>
