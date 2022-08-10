@@ -1,16 +1,19 @@
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
+import { EventTypes } from '@/constants/EventTypes';
 import { City } from '@/hooks/api/cities';
+import { Values } from '@/types/Values';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
-import { getStackProps, Stack } from '@/ui/Stack';
+import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
 import { CityPicker } from '../CityPicker';
-import { FormDataUnion, StepsConfiguration } from './Steps';
+import { PlaceStep } from './PlaceStep';
+import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
 
 const getValue = getValueFromTheme('createPage');
 
@@ -19,8 +22,13 @@ const useEditMunicipalityAndPlace = <TFormData extends FormDataUnion>({
   onSuccess,
 }) => {};
 
+type MunicipalityAndPlaceStepProps<
+  TFormData extends FormDataUnion
+> = StackProps &
+  StepProps<TFormData> & { terms: Array<Values<typeof EventTypes>> };
+
 const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
-  formState: { errors },
+  formState,
   getValues,
   reset,
   control,
@@ -29,7 +37,7 @@ const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
   onChange,
   terms,
   ...props
-}) => {
+}: MunicipalityAndPlaceStepProps<TFormData>) => {
   const { t, i18n } = useTranslation();
 
   return (
@@ -70,6 +78,19 @@ const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
                       {t('create.municipality_and_place.municipality.change')}
                     </Button>
                   </Inline>
+                  <PlaceStep
+                    field="municipalityAndPlace.place"
+                    onChange={() => {}}
+                    {...{
+                      formState,
+                      getValues,
+                      reset,
+                      control,
+                      loading,
+                      terms,
+                    }}
+                    zip={selectedMunicipality.zip}
+                  />
                 </Stack>
               )}
             </Stack>

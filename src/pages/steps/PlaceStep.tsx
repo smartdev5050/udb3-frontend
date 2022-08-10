@@ -48,7 +48,10 @@ const useEditLocation = <TFormData extends FormDataUnion>({
 };
 
 type PlaceStepProps<TFormData extends FormDataUnion> = StackProps &
-  StepProps<TFormData> & { terms: Array<Values<typeof EventTypes>> };
+  StepProps<TFormData> & {
+    terms: Array<Values<typeof EventTypes>>;
+    zip?: string;
+  };
 
 const PlaceStep = <TFormData extends FormDataUnion>({
   formState: { errors },
@@ -59,6 +62,7 @@ const PlaceStep = <TFormData extends FormDataUnion>({
   loading,
   onChange,
   terms,
+  zip,
   ...props
 }: PlaceStepProps<TFormData>) => {
   const { t, i18n } = useTranslation();
@@ -68,6 +72,7 @@ const PlaceStep = <TFormData extends FormDataUnion>({
     {
       name: searchInput,
       terms,
+      zip,
     },
     { enabled: !!searchInput },
   );
@@ -159,4 +164,4 @@ PlaceStep.defaultProps = {
   terms: [],
 };
 
-export { placeStepConfiguration, useEditLocation };
+export { PlaceStep, placeStepConfiguration, useEditLocation };
