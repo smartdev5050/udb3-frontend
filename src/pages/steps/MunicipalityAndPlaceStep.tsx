@@ -1,3 +1,4 @@
+import { TFunction } from 'i18next';
 import { Controller, Path } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
@@ -39,7 +40,10 @@ const useEditMunicipalityAndPlace = <TFormData extends FormDataUnion>({
 type MunicipalityAndPlaceStepProps<
   TFormData extends FormDataUnion
 > = StackProps &
-  StepProps<TFormData> & { terms: Array<Values<typeof EventTypes>> };
+  StepProps<TFormData> & {
+    terms: Array<Values<typeof EventTypes>>;
+    chooseLabel: (t: TFunction) => string;
+  };
 
 const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
   formState,
@@ -50,6 +54,7 @@ const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
   loading,
   onChange,
   terms,
+  chooseLabel,
   ...props
 }: MunicipalityAndPlaceStepProps<TFormData>) => {
   const { t } = useTranslation();
@@ -62,7 +67,7 @@ const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
         render={({ field }) => {
           const selectedMunicipality = field?.value?.municipality as City;
           return (
-            <Stack>
+            <Stack maxWidth="25rem">
               {!selectedMunicipality && (
                 <CityPicker
                   {...field}
@@ -111,6 +116,7 @@ const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
                       }
                     }}
                     zip={selectedMunicipality.zip}
+                    chooseLabel={chooseLabel}
                     {...{
                       formState,
                       getValues,
@@ -136,6 +142,11 @@ const municipalityAndPlaceStepConfiguration: StepsConfiguration<FormDataUnion> =
   field: 'municipalityAndPlace',
   shouldShowStep: ({ watch }) => !!watch('typeAndTheme')?.type?.id,
   title: (t) => t('create.municipality_and_place.title'),
+  stepProps: {
+    chooseLabel: (t) => t('create.municipality_and_place.place.choose_label'),
+    placeholderLabel: (t) =>
+      t('create.municipality_and_place.place.placeholder'),
+  },
 };
 
 MunicipalityAndPlaceStep.defaultProps = {};

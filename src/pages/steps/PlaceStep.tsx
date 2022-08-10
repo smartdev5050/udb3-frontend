@@ -1,3 +1,4 @@
+import { TFunction } from 'i18next';
 import debounce from 'lodash/debounce';
 import { useMemo, useState } from 'react';
 import { Controller } from 'react-hook-form';
@@ -51,6 +52,8 @@ type PlaceStepProps<TFormData extends FormDataUnion> = StackProps &
   StepProps<TFormData> & {
     terms: Array<Values<typeof EventTypes>>;
     zip?: string;
+    chooseLabel: (t: TFunction) => string;
+    placeholderLabel: (t: TFunction) => string;
   };
 
 const PlaceStep = <TFormData extends FormDataUnion>({
@@ -63,6 +66,8 @@ const PlaceStep = <TFormData extends FormDataUnion>({
   onChange,
   terms,
   zip,
+  chooseLabel,
+  placeholderLabel,
   ...props
 }: PlaceStepProps<TFormData>) => {
   const { t, i18n } = useTranslation();
@@ -95,7 +100,7 @@ const PlaceStep = <TFormData extends FormDataUnion>({
             return (
               <FormElement
                 id="place-step"
-                label={t('movies.create.actions.choose_cinema')}
+                label={chooseLabel(t)}
                 error={
                   errors?.place
                     ? t(
@@ -119,6 +124,7 @@ const PlaceStep = <TFormData extends FormDataUnion>({
                       onChange(places[0]);
                     }}
                     minLength={3}
+                    placeholder={placeholderLabel(t)}
                   />
                 }
               />

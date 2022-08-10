@@ -88,6 +88,16 @@
     "step2": {
       "title": "Que voulez-vous ajouter"
     },
+    "municipality_and_place": {
+      "title": "Waar vindt dit evenement of deze activiteit plaats?",
+      "municipality": {
+        "change": "Wijzigen"
+      },
+      "place": {
+        "choose_label": "Kies een locatie",
+        "placeholder": "Naam of adres"
+      }
+    },
     "step4": {
       "title": " Données de base",
       "name": {

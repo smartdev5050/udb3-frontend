@@ -151,6 +151,8 @@ const MovieForm = (props) => {
           ...placeStepConfiguration,
           stepProps: {
             terms: [EventTypes.Bioscoop],
+            chooseLabel: () => t('movies.create.actions.choose_cinema'),
+            placeholderLabel: (t) => t('movies.create.cinema.placeholder'),
           },
         },
         productionStepConfiguration,
