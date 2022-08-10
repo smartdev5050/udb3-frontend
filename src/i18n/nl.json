@@ -88,6 +88,11 @@
     "step2": {
       "title": "Wat wil je toevoegen?"
     },
+    "municipality_and_place": {
+      "municipality": {
+        "change": "Wijzigen"
+      }
+    },
     "step4": {
       "title": " Basisgegevens",
       "name": {
