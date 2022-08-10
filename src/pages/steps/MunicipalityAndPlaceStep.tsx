@@ -134,7 +134,7 @@ const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
 const municipalityAndPlaceStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: MunicipalityAndPlaceStep,
   field: 'municipalityAndPlace',
-  shouldShowStep: () => true,
+  shouldShowStep: ({ watch }) => !!watch('typeAndTheme')?.type?.id,
   title: (t) => t('create.municipality_and_place.title'),
 };
 
