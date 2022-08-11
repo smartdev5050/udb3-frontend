@@ -48,7 +48,7 @@ const NameAndAgeRangeStep = <TFormData extends FormDataUnion>({
   onChange,
 }: StepProps<TFormData>) => {
   return (
-    <Controller<TFormData>
+    <Controller
       control={control}
       name={field}
       render={({ field }) => {

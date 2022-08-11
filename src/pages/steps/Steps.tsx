@@ -169,7 +169,7 @@ const Steps = <TFormData extends FormDataUnion>({
               key={`step${stepNumber}`}
               title={getTitle(t)}
             >
-              <Step<TFormData>
+              <Step
                 key={index}
                 onChange={() => onChange(field)}
                 loading={!!(field && fieldLoading === field)}

@@ -113,7 +113,7 @@ const ProductionStep = <TFormData extends FormDataUnion>({
   ]);
 
   return (
-    <Controller<TFormData>
+    <Controller
       control={control}
       name={field}
       render={({ field }) => {

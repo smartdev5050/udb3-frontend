@@ -83,14 +83,14 @@ const PlaceStep = <TFormData extends FormDataUnion>({
   );
 
   // @ts-expect-error
-  const places = useMemo(() => useGetPlacesQuery.data?.member ?? [], [
+  const places = useMemo<Place[]>(() => useGetPlacesQuery.data?.member ?? [], [
     // @ts-expect-error
     useGetPlacesQuery.data?.member,
   ]);
 
   return (
     <Stack {...getStackProps(props)}>
-      <Controller<TFormData>
+      <Controller
         control={control}
         name={field}
         render={({ field }) => {
@@ -110,7 +110,7 @@ const PlaceStep = <TFormData extends FormDataUnion>({
                 }
                 loading={loading}
                 Component={
-                  <Typeahead<Place>
+                  <Typeahead
                     options={places}
                     onInputChange={debounce(setSearchInput, 275)}
                     labelKey={(place) =>

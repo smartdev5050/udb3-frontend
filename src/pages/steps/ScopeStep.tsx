@@ -17,7 +17,7 @@ const ScopeStep = <TFormData extends FormDataUnion>({
   const { t } = useTranslation();
 
   return (
-    <Controller<TFormData>
+    <Controller
       control={control}
       name={field}
       render={({ field }) => {

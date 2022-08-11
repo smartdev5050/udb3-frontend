@@ -63,7 +63,7 @@ const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
 
   return (
     <Stack {...getStackProps(props)}>
-      <Controller<TFormData>
+      <Controller
         control={control}
         name={field}
         render={({ field }) => {

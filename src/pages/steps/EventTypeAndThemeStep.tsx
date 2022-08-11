@@ -72,7 +72,7 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
       ?.otherSuggestedTerms ?? [];
 
   return (
-    <Controller<TFormData>
+    <Controller
       name={field}
       control={control}
       render={({ field }) => {
