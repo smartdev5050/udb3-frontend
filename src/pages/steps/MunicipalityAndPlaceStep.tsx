@@ -43,6 +43,7 @@ type MunicipalityAndPlaceStepProps<
   StepProps<TFormData> & {
     terms: Array<Values<typeof EventTypes>>;
     chooseLabel: (t: TFunction) => string;
+    placeholderLabel: (t: TFunction) => string;
   };
 
 const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
@@ -55,6 +56,7 @@ const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
   onChange,
   terms,
   chooseLabel,
+  placeholderLabel,
   ...props
 }: MunicipalityAndPlaceStepProps<TFormData>) => {
   const { t } = useTranslation();
@@ -117,6 +119,7 @@ const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
                     }}
                     zip={selectedMunicipality.zip}
                     chooseLabel={chooseLabel}
+                    placeholderLabel={placeholderLabel}
                     {...{
                       formState,
                       getValues,
