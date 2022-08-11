@@ -132,9 +132,6 @@ const Steps = <TFormData extends FormDataUnion>({
   );
 
   const showStep = ({ field, index }) => {
-    // when there is an eventId, we're in edit mode, show all steps
-    if (!!eventId) return true;
-
     // don't hide steps that were visible before
     if (form.getFieldState(field).isTouched) return true;
 
