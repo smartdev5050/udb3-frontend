@@ -191,6 +191,17 @@
         },
         "title": "Beschrijving"
       },
+      "event_score": {
+        "tip": {
+          "theme": "Tip: voeg een thema toe",
+          "media": "Tip: voeg een video of afbeelding toe",
+          "description": "Tip: voeg een omschrijving toe",
+          "price_info": "Tip: voeg prijsinformatie toe",
+          "contact_info": "Tip: voeg contactinformatie toe",
+          "organizer": "Tip: voeg een organisator toe",
+          "completed": "You're the best"
+        }
+      },
       "organizer": {
         "add_new_button": "Organisator toevoegen",
         "add_new_label": "Voeg nieuwe organisator toe: ",

@@ -1,5 +1,5 @@
-import { difference } from 'lodash';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { Event } from '@/types/Event';
@@ -79,8 +79,6 @@ const scoreWeightMapping = {
   },
 };
 
-const randomIcon = <Icon name={Icons.BUILDING} />;
-
 type Props = {
   eventId: string;
   completedFields: Record<Field, boolean>;
@@ -99,6 +97,8 @@ const getMinimumScore = (): number => {
 const minimumScore = getMinimumScore();
 
 const EventScore = ({ completedFields, eventId, ...props }: Props) => {
+  const { t } = useTranslation();
+
   const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
 
   // @ts-expect-error
@@ -119,6 +119,36 @@ const EventScore = ({ completedFields, eventId, ...props }: Props) => {
     return Math.round((completeScore + minimumScore) / 10);
   }, [completedFields, hasTheme]);
 
+  const tip = useMemo(() => {
+    if (score === 100)
+      return t(`create.additionalInformation.event_score.tip.completed`);
+    // find uncompleted fields with the highest weight to give a tip to the user
+    const unCompletedFieldKeys = Object.keys(completedFields).filter(
+      (key) => !completedFields[key],
+    );
+
+    let highestUncompletedValue = {
+      weight: 0,
+      fieldName: '',
+    };
+
+    unCompletedFieldKeys.forEach((fieldKey: string) => {
+      if (
+        scoreWeightMapping[fieldKey] &&
+        scoreWeightMapping[fieldKey].weight > highestUncompletedValue.weight
+      ) {
+        highestUncompletedValue = {
+          weight: scoreWeightMapping[fieldKey].weight,
+          fieldName: fieldKey,
+        };
+      }
+    });
+
+    const { fieldName } = highestUncompletedValue;
+
+    return t(`create.additionalInformation.event_score.tip.${fieldName}`);
+  }, [completedFields, score, t]);
+
   const getIconName = (): string => {
     const nearestScore = Object.keys(ScoreIconMapping).reduce((prev, curr) => {
       return Math.abs(parseInt(curr) - score) < Math.abs(parseInt(prev) - score)
@@ -134,7 +164,7 @@ const EventScore = ({ completedFields, eventId, ...props }: Props) => {
     <Image
       width={50}
       height={50}
-      alt="blabalb"
+      alt={iconName}
       src={`/assets/icons/${iconName}.png`}
     />
   );
@@ -146,7 +176,7 @@ const EventScore = ({ completedFields, eventId, ...props }: Props) => {
           <span>{score}</span>/100
         </Text>
       }
-      body="Tip: voeg nog een video toe"
+      body={tip}
       icon={Icon}
     />
   );
