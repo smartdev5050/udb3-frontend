@@ -24,7 +24,7 @@ import { getStackProps, Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { isOneTimeSlotValid } from '@/ui/TimeTable';
-import { Typeahead } from '@/ui/Typeahead';
+import { NewEntry, Typeahead } from '@/ui/Typeahead';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { valueToArray } from '@/utils/valueToArray';
 
@@ -54,8 +54,8 @@ type PlaceStepProps<TFormData extends FormDataUnion> = StackProps &
     zip?: string;
     chooseLabel: (t: TFunction) => string;
     placeholderLabel: (t: TFunction) => string;
-    parentOnChange?: (val: Place | undefined) => void;
-    parentFieldOnChange?: (val: Place | undefined) => void;
+    parentOnChange?: (val: Place | NewEntry | undefined) => void;
+    parentFieldOnChange?: (val: Place | NewEntry | undefined) => void;
     parentFieldValue: any;
   };
 
