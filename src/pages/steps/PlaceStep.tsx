@@ -1,7 +1,7 @@
 import { TFunction } from 'i18next';
 import debounce from 'lodash/debounce';
-import { useMemo, useState } from 'react';
-import { Controller } from 'react-hook-form';
+import { memo, useEffect, useMemo, useState } from 'react';
+import { Controller, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
@@ -56,111 +56,122 @@ type PlaceStepProps<TFormData extends FormDataUnion> = StackProps &
     placeholderLabel: (t: TFunction) => string;
   };
 
-const PlaceStep = <TFormData extends FormDataUnion>({
-  formState: { errors },
-  getValues,
-  reset,
-  control,
-  field,
-  loading,
-  onChange,
-  terms,
-  zip,
-  chooseLabel,
-  placeholderLabel,
-  ...props
-}: PlaceStepProps<TFormData>) => {
-  const { t, i18n } = useTranslation();
-  const [searchInput, setSearchInput] = useState('');
+const PlaceStep = memo(
+  <TFormData extends FormDataUnion>({
+    formState: { errors },
+    getValues,
+    reset,
+    control,
+    name,
+    loading,
+    onChange,
+    terms,
+    zip,
+    chooseLabel,
+    placeholderLabel,
+    ...props
+  }: PlaceStepProps<TFormData>) => {
+    console.log('PlaceStep rerender');
 
-  const useGetPlacesQuery = useGetPlacesByQuery(
-    {
-      name: searchInput,
-      terms,
-      zip,
-    },
-    { enabled: !!searchInput },
-  );
+    const { t, i18n } = useTranslation();
+    const [searchInput, setSearchInput] = useState('');
 
-  // @ts-expect-error
-  const places = useMemo<Place[]>(() => useGetPlacesQuery.data?.member ?? [], [
+    const useGetPlacesQuery = useGetPlacesByQuery(
+      {
+        name: searchInput,
+        terms,
+        zip,
+      },
+      { enabled: !!searchInput },
+    );
+
     // @ts-expect-error
-    useGetPlacesQuery.data?.member,
-  ]);
+    const places = useMemo<Place[]>(
+      () => useGetPlacesQuery.data?.member ?? [],
+      [
+        // @ts-expect-error
+        useGetPlacesQuery.data?.member,
+      ],
+    );
 
-  return (
-    <Stack {...getStackProps(props)}>
-      <Controller
-        control={control}
-        name={field}
-        render={({ field }) => {
-          const selectedPlace = field?.value as Place;
+    const selectedPlace = useWatch({ control })?.municipalityAndPlace?.place;
 
-          if (!selectedPlace) {
+    useEffect(() => console.log(selectedPlace), [selectedPlace]);
+
+    return (
+      <Stack {...getStackProps(props)}>
+        <Controller
+          control={control}
+          name={name}
+          render={({ field }) => {
+            if (!selectedPlace) {
+              return (
+                <FormElement
+                  id="place-step"
+                  label={chooseLabel(t)}
+                  error={
+                    errors?.place
+                      ? t(
+                          `movies.create.validation_messages.cinema.${errors?.place.type}`,
+                        )
+                      : undefined
+                  }
+                  loading={loading}
+                  Component={
+                    <Typeahead
+                      options={places}
+                      onInputChange={debounce(setSearchInput, 275)}
+                      labelKey={(place) =>
+                        place.name[i18n.language] ??
+                        place.name[place.mainLanguage]
+                      }
+                      selected={valueToArray(selectedPlace as Place)}
+                      maxWidth="43rem"
+                      onChange={(places) => {
+                        console.log('in on change typeahead');
+                        field.onChange(places[0]);
+                        onChange(places[0]);
+                      }}
+                      minLength={3}
+                      placeholder={placeholderLabel(t)}
+                    />
+                  }
+                />
+              );
+            }
+
             return (
-              <FormElement
-                id="place-step"
-                label={chooseLabel(t)}
-                error={
-                  errors?.place
-                    ? t(
-                        `movies.create.validation_messages.cinema.${errors?.place.type}`,
-                      )
-                    : undefined
-                }
-                loading={loading}
-                Component={
-                  <Typeahead
-                    options={places}
-                    onInputChange={debounce(setSearchInput, 275)}
-                    labelKey={(place) =>
-                      place.name[i18n.language] ??
-                      place.name[place.mainLanguage]
-                    }
-                    selected={valueToArray(field.value as Place)}
-                    maxWidth="43rem"
-                    onChange={(places) => {
-                      field.onChange(places[0]);
-                      onChange(places[0]);
-                    }}
-                    minLength={3}
-                    placeholder={placeholderLabel(t)}
-                  />
-                }
-              />
+              <Inline alignItems="center" spacing={3}>
+                <Icon
+                  name={Icons.CHECK_CIRCLE}
+                  color={getValue('check.circleFillColor')}
+                />
+                <Text>
+                  {selectedPlace.name[i18n.language] ??
+                    selectedPlace.name[selectedPlace.mainLanguage]}
+                </Text>
+                <Button
+                  variant={ButtonVariants.LINK}
+                  onClick={() => {
+                    field.onChange(undefined);
+                    onChange(undefined);
+                  }}
+                >
+                  {t('movies.create.actions.change_cinema')}
+                </Button>
+              </Inline>
             );
-          }
-          return (
-            <Inline alignItems="center" spacing={3}>
-              <Icon
-                name={Icons.CHECK_CIRCLE}
-                color={getValue('check.circleFillColor')}
-              />
-              <Text>
-                {selectedPlace.name[i18n.language] ??
-                  selectedPlace.name[selectedPlace.mainLanguage]}
-              </Text>
-              <Button
-                variant={ButtonVariants.LINK}
-                onClick={() => {
-                  field.onChange(undefined);
-                  onChange(undefined);
-                }}
-              >
-                {t('movies.create.actions.change_cinema')}
-              </Button>
-            </Inline>
-          );
-        }}
-      />
-    </Stack>
-  );
-};
+          }}
+        />
+      </Stack>
+    );
+  },
+);
 
 const placeStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: PlaceStep,
   validation: yup.object().shape({}).required(),
-  field: 'place',
+  name: 'place',
   shouldShowStep: ({ watch }) => isOneTimeSlotValid(watch('timeTable')),
   title: (t) => t(`movies.create.step3.title`),
 };

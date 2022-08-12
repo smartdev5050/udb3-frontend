@@ -181,7 +181,7 @@ const ProductionStep = <TFormData extends FormDataUnion>({
 const productionStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: ProductionStep,
   validation: yup.object().shape({}).required(),
-  field: 'production',
+  name: 'production',
   shouldShowStep: ({ watch }) => !!watch('place'),
   title: (t) => t(`movies.create.step4.title`),
 };

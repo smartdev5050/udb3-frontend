@@ -143,7 +143,7 @@ const timeTableStepConfiguration: StepsConfiguration<FormDataUnion> = {
       test: (timeTableData) => !isTimeTableEmpty(timeTableData),
     })
     .required(),
-  field: 'timeTable',
+  name: 'timeTable',
   shouldShowStep: ({ watch }) => !!watch('typeAndTheme')?.type,
   title: (t) => t(`movies.create.step2.title`),
 };

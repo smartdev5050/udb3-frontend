@@ -52,7 +52,7 @@ type Props<TFormData extends FormDataUnion> = StepProps<TFormData> & {
 
 const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
   control,
-  field,
+  name,
   getValues,
   onChange,
   shouldHideType,
@@ -73,7 +73,7 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
 
   return (
     <Controller
-      name={field}
+      name={name}
       control={control}
       render={({ field }) => {
         return (
@@ -186,7 +186,7 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
 
 const typeAndThemeStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: EventTypeAndThemeStep,
-  field: 'typeAndTheme',
+  name: 'typeAndTheme',
   validation: yup.object().shape({}).required(),
   title: (t) => t(`create.step2.title`),
   shouldShowStep: ({ watch }) => !!watch('scope'),

@@ -51,7 +51,7 @@ const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
   getValues,
   reset,
   control,
-  field,
+  name,
   loading,
   onChange,
   terms,
@@ -65,9 +65,10 @@ const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
     <Stack {...getStackProps(props)}>
       <Controller
         control={control}
-        name={field}
+        name={name}
         render={({ field }) => {
           const selectedMunicipality = field?.value?.municipality as City;
+
           return (
             <Stack maxWidth="25rem">
               {!selectedMunicipality && (
@@ -104,22 +105,11 @@ const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
                     </Button>
                   </Inline>
                   <PlaceStep
-                    field={'municipalityAndPlace.place' as Path<TFormData>}
-                    onChange={(value) => {
-                      {
-                        field.onChange({
-                          ...field.value,
-                          place: value,
-                        });
-                        onChange({
-                          ...field.value,
-                          place: value,
-                        });
-                      }
-                    }}
+                    name={'municipalityAndPlace.place' as Path<TFormData>}
                     zip={selectedMunicipality.zip}
                     chooseLabel={chooseLabel}
                     placeholderLabel={placeholderLabel}
+                    onChange={() => {}}
                     {...{
                       formState,
                       getValues,
@@ -142,7 +132,7 @@ const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
 
 const municipalityAndPlaceStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: MunicipalityAndPlaceStep,
-  field: 'municipalityAndPlace',
+  name: 'municipalityAndPlace',
   shouldShowStep: ({ watch }) => !!watch('typeAndTheme')?.type?.id,
   title: (t) => t('create.municipality_and_place.title'),
   stepProps: {

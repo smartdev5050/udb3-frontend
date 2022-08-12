@@ -4,25 +4,34 @@ import { useTranslation } from 'react-i18next';
 import { OfferType } from '@/constants/OfferType';
 import { parseSpacing } from '@/ui/Box';
 import { Icons } from '@/ui/Icon';
-import { Inline } from '@/ui/Inline';
+import { getInlineProps, Inline, InlineProps } from '@/ui/Inline';
 import { Text } from '@/ui/Text';
 import { ToggleBox } from '@/ui/ToggleBox';
 
 import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
 
+type Props<TFormData extends FormDataUnion> = InlineProps &
+  StepProps<TFormData>;
+
 const ScopeStep = <TFormData extends FormDataUnion>({
   control,
-  field,
-}: StepProps<TFormData>) => {
+  name,
+  ...props
+}: Props<TFormData>) => {
   const { t } = useTranslation();
 
   return (
     <Controller
       control={control}
-      name={field}
+      name={name}
       render={({ field }) => {
         return (
-          <Inline spacing={5} alignItems="center" maxWidth={parseSpacing(11)}>
+          <Inline
+            spacing={5}
+            alignItems="center"
+            maxWidth={parseSpacing(11)}
+            {...getInlineProps(props)}
+          >
             <ToggleBox
               onClick={() => field.onChange(OfferType.EVENTS)}
               active={field.value === OfferType.EVENTS}
@@ -57,7 +66,7 @@ const ScopeStep = <TFormData extends FormDataUnion>({
 
 const scopeStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: ScopeStep,
-  field: 'scope',
+  name: 'scope',
   title: (t) => t(`event.create.scope.title`),
   shouldShowStep: ({ watch, eventId }) => {
     return !eventId && !watch('typeAndTheme')?.type?.id;

@@ -137,7 +137,7 @@ const MovieForm = (props) => {
         title: t('movies.create.toast.success.title'),
       }}
       configurations={[
-        { field: 'scope', defaultValue: OfferType.EVENTS },
+        { name: 'scope', defaultValue: OfferType.EVENTS },
         {
           ...typeAndThemeStepConfiguration,
           title: () => t('movies.create.step1.title'),
