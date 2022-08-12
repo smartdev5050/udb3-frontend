@@ -5,6 +5,7 @@ import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { Event } from '@/types/Event';
 import { Icon, Icons } from '@/ui/Icon';
 import { Image } from '@/ui/Image';
+import { Inline } from '@/ui/Inline';
 import { Notification } from '@/ui/Notification';
 import { Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
@@ -172,11 +173,16 @@ const EventScore = ({ completedFields, eventId, ...props }: Props) => {
   return (
     <Notification
       header={
-        <Text>
-          <span>{score}</span>/100
-        </Text>
+        <Inline alignItems="flex-end">
+          <Text fontSize="1.5rem" lineHeight="initial" fontWeight="bold">
+            {score}
+          </Text>
+          <Text fontSize="1.2rem" fontWeight="bold">
+            /100
+          </Text>
+        </Inline>
       }
-      body={tip}
+      body={<Text>{tip}</Text>}
       icon={Icon}
     />
   );

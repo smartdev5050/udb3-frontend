@@ -14,6 +14,8 @@ const commonCss = css`
     border-radius: 1rem;
     border: none;
 
+    max-width: none;
+
     background-color: white;
 
     position: fixed;
@@ -29,8 +31,7 @@ const commonCss = css`
 type Props = {
   icon?: JSX.Element;
   header?: JSX.Element;
-  body: string;
-  visible?: boolean;
+  body: JSX.Element;
 };
 
 const Notification = ({ icon, header, body }: Props) => {
@@ -58,11 +59,6 @@ const Notification = ({ icon, header, body }: Props) => {
       </Inline>
     </BootstrapToast>
   );
-};
-
-Notification.defaultProps = {
-  visible: true,
-  body: '',
 };
 
 export { Notification };
