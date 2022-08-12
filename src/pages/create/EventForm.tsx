@@ -36,15 +36,15 @@ const EventForm = () => {
   const { t, i18n } = useTranslation();
 
   const convertEventToFormData = (event: Event) => {
+    const eventAddress =
+      event.location.address[i18n.language] ?? event.location.address;
     return {
       scope: isEvent(event) ? OfferType.EVENTS : OfferType.PLACES,
       municipalityAndPlace: {
         municipality: {
-          zip: event.location.address[i18n.language].postalCode,
-          label: `${event.location.address[i18n.language].postalCode} ${
-            event.location.address[i18n.language].addressLocality
-          }`,
-          name: event.location.address[i18n.language].addressLocality,
+          zip: eventAddress.postalCode,
+          label: `${eventAddress.postalCode} ${eventAddress.addressLocality}`,
+          name: eventAddress.addressLocality,
         },
         place: event.location,
       },
