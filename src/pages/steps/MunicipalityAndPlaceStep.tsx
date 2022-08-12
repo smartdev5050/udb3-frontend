@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { EventTypes } from '@/constants/EventTypes';
 import { City } from '@/hooks/api/cities';
 import { useChangeLocationMutation } from '@/hooks/api/events';
+import { Place } from '@/types/Place';
 import { Values } from '@/types/Values';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
@@ -57,6 +58,7 @@ const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
   terms,
   chooseLabel,
   placeholderLabel,
+  watch,
   ...props
 }: MunicipalityAndPlaceStepProps<TFormData>) => {
   const { t } = useTranslation();
@@ -109,7 +111,16 @@ const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
                     zip={selectedMunicipality.zip}
                     chooseLabel={chooseLabel}
                     placeholderLabel={placeholderLabel}
-                    onChange={() => {}}
+                    parentFieldValue={field.value}
+                    parentFieldOnChange={(val: Place | undefined) => {
+                      field.onChange({ ...field.value, place: val });
+                    }}
+                    parentOnChange={(val: Place | undefined) => {
+                      onChange({
+                        ...field.value,
+                        place: val,
+                      });
+                    }}
                     {...{
                       formState,
                       getValues,
@@ -117,6 +128,9 @@ const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
                       control,
                       loading,
                       terms,
+                      field,
+                      onChange,
+                      watch,
                     }}
                     {...props}
                   />
