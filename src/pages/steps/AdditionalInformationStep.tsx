@@ -13,6 +13,7 @@ import { Text } from '@/ui/Text';
 import { Audience } from './Audience';
 import { ContactInfoEntry } from './ContactInfoEntry';
 import { DescriptionStep } from './DescriptionStep';
+import { EventScore } from './EventScore';
 import { MediaStep } from './MediaStep';
 import { OrganizerStep } from './OrganizerStep';
 import { PriceInformation } from './PriceInformation';
@@ -129,7 +130,7 @@ const AdditionalInformationStep = ({
 
   const [tab, setTab] = useState('description');
 
-  const [isFieldCompleted, setIsFieldCompleted] = useState<
+  const [completedFields, setCompletedFields] = useState<
     Record<Field, boolean>
   >({
     description: false,
@@ -168,16 +169,16 @@ const AdditionalInformationStep = ({
                 title={
                   <TabTitle
                     field={field}
-                    isCompleted={isFieldCompleted[field]}
+                    isCompleted={completedFields[field]}
                   />
                 }
               >
                 <TabContent
                   eventId={eventId}
                   onChangeCompleted={(isCompleted) => {
-                    if (isFieldCompleted[field] === isCompleted) return;
+                    if (completedFields[field] === isCompleted) return;
 
-                    setIsFieldCompleted((prevFields) => ({
+                    setCompletedFields((prevFields) => ({
                       ...prevFields,
                       [field]: isCompleted,
                     }));
@@ -190,6 +191,7 @@ const AdditionalInformationStep = ({
           },
         )}
       </Tabs>
+      <EventScore eventId={eventId} completedFields={completedFields} />
     </Stack>
   );
 };
@@ -203,7 +205,7 @@ const additionalInformationStepConfiguration: StepsConfiguration<FormDataUnion> 
   title: (t) => t(`movies.create.step5.title`),
 };
 
-export type { MergedInfo, TabContentProps };
+export type { Field, MergedInfo, TabContentProps };
 
 export {
   additionalInformationStepConfiguration,
