@@ -91,7 +91,7 @@ const ProductionStep = <TFormData extends FormDataUnion>({
   control,
   getValues,
   reset,
-  field,
+  name,
   onChange,
   ...props
 }: ProductionStepProps<TFormData>) => {
@@ -115,7 +115,7 @@ const ProductionStep = <TFormData extends FormDataUnion>({
   return (
     <Controller
       control={control}
-      name={field}
+      name={name}
       render={({ field }) => {
         const selectedProduction = field?.value;
 

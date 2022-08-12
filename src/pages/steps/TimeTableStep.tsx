@@ -81,7 +81,7 @@ const TimeTableStep = <TFormData extends FormDataUnion>({
   formState: { errors },
   control,
   className,
-  field,
+  name,
   onChange,
   ...props
 }: TimeTableStepProps<TFormData>) => {
@@ -91,7 +91,7 @@ const TimeTableStep = <TFormData extends FormDataUnion>({
     <Stack spacing={3} {...getStackProps(props)}>
       <Box>
         <Controller
-          name={field}
+          name={name}
           control={control}
           render={({ field }) => {
             return (

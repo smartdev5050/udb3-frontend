@@ -43,13 +43,13 @@ const useEditNameAndAgeRange = <TFormData extends FormDataUnion>({
 
 const NameAndAgeRangeStep = <TFormData extends FormDataUnion>({
   control,
-  field,
+  name,
   onChange,
 }: StepProps<TFormData>) => {
   return (
     <Controller
       control={control}
-      name={field}
+      name={name}
       render={({ field }) => {
         return (
           <Stack spacing={4} maxWidth={parseSpacing(11)}>
