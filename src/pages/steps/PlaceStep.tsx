@@ -54,6 +54,9 @@ type PlaceStepProps<TFormData extends FormDataUnion> = StackProps &
     zip?: string;
     chooseLabel: (t: TFunction) => string;
     placeholderLabel: (t: TFunction) => string;
+    parentOnChange?: (val: Place | undefined) => void;
+    parentFieldOnChange?: (val: Place | undefined) => void;
+    parentFieldValue: any;
   };
 
 const PlaceStep = memo(
@@ -69,10 +72,12 @@ const PlaceStep = memo(
     zip,
     chooseLabel,
     placeholderLabel,
+    parentOnChange,
+    parentFieldOnChange,
+    parentFieldValue,
+    watch,
     ...props
   }: PlaceStepProps<TFormData>) => {
-    console.log('PlaceStep rerender');
-
     const { t, i18n } = useTranslation();
     const [searchInput, setSearchInput] = useState('');
 
@@ -94,9 +99,13 @@ const PlaceStep = memo(
       ],
     );
 
-    const selectedPlace = useWatch({ control })?.municipalityAndPlace?.place;
+    // @ts-ignore
+    const place = watch('place');
 
-    useEffect(() => console.log(selectedPlace), [selectedPlace]);
+    // @ts-ignore
+    const selectedPlace = parentFieldValue
+      ? parentFieldValue.place ?? undefined
+      : place;
 
     return (
       <Stack {...getStackProps(props)}>
@@ -128,7 +137,11 @@ const PlaceStep = memo(
                       selected={valueToArray(selectedPlace as Place)}
                       maxWidth="43rem"
                       onChange={(places) => {
-                        console.log('in on change typeahead');
+                        if (parentFieldOnChange && parentOnChange) {
+                          parentFieldOnChange(places[0]);
+                          parentOnChange(places[0]);
+                          return;
+                        }
                         field.onChange(places[0]);
                         onChange(places[0]);
                       }}
@@ -153,8 +166,11 @@ const PlaceStep = memo(
                 <Button
                   variant={ButtonVariants.LINK}
                   onClick={() => {
+                    if (parentFieldOnChange) {
+                      parentFieldOnChange(undefined);
+                      return;
+                    }
                     field.onChange(undefined);
-                    onChange(undefined);
                   }}
                 >
                   {t('movies.create.actions.change_cinema')}
