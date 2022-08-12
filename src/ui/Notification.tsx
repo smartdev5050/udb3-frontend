@@ -28,12 +28,12 @@ const commonCss = css`
 
 type Props = {
   icon?: JSX.Element;
-  title: string;
+  header?: JSX.Element;
   body: string;
   visible?: boolean;
 };
 
-const Notification = ({ icon, title, body }: Props) => {
+const Notification = ({ icon, header, body }: Props) => {
   return (
     <BootstrapToast
       css={css`
@@ -52,9 +52,7 @@ const Notification = ({ icon, title, body }: Props) => {
       >
         {icon && <Stack alignItems="center">{icon}</Stack>}
         <Stack>
-          <Text fontWeight="bold" fontSize="1.2rem">
-            {title}
-          </Text>
+          {header}
           <Text fontSize="1rem">{body}</Text>
         </Stack>
       </Inline>
@@ -64,7 +62,6 @@ const Notification = ({ icon, title, body }: Props) => {
 
 Notification.defaultProps = {
   visible: true,
-  title: '',
   body: '',
 };
 
