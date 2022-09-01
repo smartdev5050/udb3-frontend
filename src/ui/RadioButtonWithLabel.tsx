@@ -24,6 +24,7 @@ const RadioButtonWithLabel = ({
   value,
   className,
   checked,
+  type,
   ...props
 }: Props) => {
   return (
@@ -36,6 +37,7 @@ const RadioButtonWithLabel = ({
     >
       <RadioButton
         id={id}
+        type={type}
         onChange={onChange}
         disabled={disabled}
         value={value}

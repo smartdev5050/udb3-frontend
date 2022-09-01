@@ -2,6 +2,8 @@ import type { ChangeEvent } from 'react';
 import { forwardRef } from 'react';
 import { Form } from 'react-bootstrap';
 
+import { Values } from '@/types/Values';
+
 import type { BoxProps } from './Box';
 import { Box, getBoxProps } from './Box';
 
@@ -11,10 +13,14 @@ const BaseRadioButton = forwardRef<HTMLInputElement, any>((props, ref) => (
 
 BaseRadioButton.displayName = 'RadioButton';
 
-type InputType = 'radio' | 'checkbox' | 'switch';
+const RadioButtonTypes = {
+  RADIO: 'radio',
+  CHECKBOX: 'checkbox',
+  SWITCH: 'switch',
+} as const;
 
 type RadioButtonProps = {
-  type?: InputType;
+  type?: Values<typeof RadioButtonTypes>;
   id?: string;
   value?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -71,5 +77,5 @@ RadioButton.defaultProps = {
   checked: false,
 };
 
-export { RadioButton };
+export { RadioButton, RadioButtonTypes };
 export type { RadioButtonProps };

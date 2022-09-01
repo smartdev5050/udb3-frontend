@@ -1,8 +1,17 @@
 import { useState } from 'react';
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
-import { RadioButton } from './RadioButton';
+import { RadioButton, RadioButtonTypes } from './RadioButton';
 
 <Meta title="Components/RadioButton" component={RadioButton} />
+
+export const argTypes = {
+  type: {
+    control: {
+      type: 'select',
+      options: [...Object.values(RadioButtonTypes)],
+    },
+  },
+};
 
 <Canvas>
   <Story
@@ -11,9 +20,24 @@ import { RadioButton } from './RadioButton';
       id: '123',
       name: 'my-radiobutton',
       disabled: false,
+      type: RadioButtonTypes.SWITCH,
+      onChange: () => {},
     }}
+    argTypes={argTypes}
   >
-    {(args) => <RadioButton {...args} />}
+    {(args) => {
+      const [checked, setChecked] = useState(false);
+      return (
+        <RadioButton
+          {...args}
+          checked={checked}
+          onChange={(e) => {
+            setChecked(e.target.checked);
+            args.onChange(e.target.checked);
+          }}
+        />
+      );
+    }}
   </Story>
 </Canvas>
 
