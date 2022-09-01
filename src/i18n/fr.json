@@ -442,6 +442,9 @@
         "publish_later": "",
         "save": ""
       },
+      "cinema": {
+        "placeholder": ""
+      },
       "footer": {
         "auto_save": "",
         "done_editing": ""
