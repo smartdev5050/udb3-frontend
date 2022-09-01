@@ -260,8 +260,6 @@ const useGetCalendarSummaryQuery = (
     ...configuration,
   });
 
-// typeAndTheme.theme.id
-
 const changeTheme = async ({ headers, id, themeId }) => {
   if (!themeId) {
     // This will be implemented on the backend https://jira.uitdatabank.be/browse/III-4378
