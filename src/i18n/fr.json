@@ -89,13 +89,13 @@
       "title": "Que voulez-vous ajouter"
     },
     "municipality_and_place": {
-      "title": "Waar vindt dit evenement of deze activiteit plaats?",
+      "title": "Où cet événement ou cette activité aura-t-il lieu ?",
       "municipality": {
-        "change": "Wijzigen"
+        "change": "Modifier"
       },
       "place": {
-        "choose_label": "Kies een locatie",
-        "placeholder": "Naam of adres"
+        "choose_label": "Choisissez un emplacement",
+        "placeholder": "Nom ou adresse"
       }
     },
     "step4": {
