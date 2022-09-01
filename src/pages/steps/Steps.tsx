@@ -19,7 +19,7 @@ type FormDataUnion = MovieFormData & EventFormData;
 type StepsConfiguration<TFormData extends FormDataUnion> = {
   Component: any;
   defaultValue?: any;
-  field?: Path<TFormData>;
+  name?: Path<TFormData>;
   step?: number;
   title: (t: TFunction) => string;
   variant?: string;
@@ -103,7 +103,7 @@ type StepProps<TFormData extends FormDataUnion> = Omit<
   };
 } & {
   loading: boolean;
-  field: Path<TFormData>;
+  name: Path<TFormData>;
   onChange: (value: any) => void;
 };
 
@@ -131,12 +131,9 @@ const Steps = <TFormData extends FormDataUnion>({
     [configurations],
   );
 
-  const showStep = ({ field, index }) => {
-    // when there is an eventId, we're in edit mode, show all steps
-    if (!!eventId) return true;
-
+  const showStep = ({ name, index }) => {
     // don't hide steps that were visible before
-    if (form.getFieldState(field).isTouched) return true;
+    if (form.getFieldState(name).isTouched) return true;
 
     return (
       configurationsWithComponent[index]?.shouldShowStep?.({
@@ -152,7 +149,7 @@ const Steps = <TFormData extends FormDataUnion>({
         (
           {
             Component: Step,
-            field,
+            name,
             stepProps = {},
             variant,
             step,
@@ -160,7 +157,7 @@ const Steps = <TFormData extends FormDataUnion>({
           },
           index: number,
         ) => {
-          if (!showStep({ field, index })) {
+          if (!showStep({ name, index })) {
             return null;
           }
 
@@ -172,11 +169,11 @@ const Steps = <TFormData extends FormDataUnion>({
               key={`step${stepNumber}`}
               title={getTitle(t)}
             >
-              <Step<TFormData>
+              <Step
                 key={index}
-                onChange={() => onChange(field)}
-                loading={!!(field && fieldLoading === field)}
-                field={field}
+                onChange={() => onChange(name)}
+                loading={!!(name && fieldLoading === name)}
+                name={name}
                 eventId={eventId}
                 variant={variant}
                 {...form}

@@ -106,19 +106,22 @@ const useGetPlacesByCreatorQuery = (
 type GetPlacesByQueryArguments = {
   name: string;
   terms: Array<Values<typeof EventTypes>>;
+  zip?: string;
 };
 
 const getPlacesByQuery = async ({
   headers,
   name,
   terms,
+  zip,
 }: Headers & GetPlacesByQueryArguments) => {
   const nameString = name ? `name.\\*:*${name}*` : '';
   const termsString = terms.reduce(
     (acc, currentTerm) => `${acc}terms.id:${currentTerm}`,
     '',
   );
-  const queryArguments = [nameString, termsString].filter(
+  const postalCodeString = zip ? `address.\\*postalCode:${zip}` : '';
+  const queryArguments = [nameString, termsString, postalCodeString].filter(
     (argument) => !!argument,
   );
 
@@ -142,7 +145,7 @@ const getPlacesByQuery = async ({
 };
 
 const useGetPlacesByQuery = (
-  { name, terms }: GetPlacesByQueryArguments,
+  { name, terms, zip }: GetPlacesByQueryArguments,
   configuration = {},
 ) =>
   useAuthenticatedQuery<Place[]>({
@@ -151,6 +154,7 @@ const useGetPlacesByQuery = (
     queryArguments: {
       name,
       terms,
+      zip,
     },
     enabled: !!name || terms.length,
     ...configuration,

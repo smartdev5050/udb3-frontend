@@ -201,6 +201,7 @@ AdditionalInformationStep.defaultProps = {
 const additionalInformationStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: AdditionalInformationStep,
   title: (t) => t(`movies.create.step5.title`),
+  shouldShowStep: ({ eventId }) => !!eventId,
 };
 
 export type { MergedInfo, TabContentProps };

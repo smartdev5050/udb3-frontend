@@ -91,7 +91,7 @@ const ProductionStep = <TFormData extends FormDataUnion>({
   control,
   getValues,
   reset,
-  field,
+  name,
   onChange,
   ...props
 }: ProductionStepProps<TFormData>) => {
@@ -113,9 +113,9 @@ const ProductionStep = <TFormData extends FormDataUnion>({
   ]);
 
   return (
-    <Controller<TFormData>
+    <Controller
       control={control}
-      name={field}
+      name={name}
       render={({ field }) => {
         const selectedProduction = field?.value;
 
@@ -181,7 +181,7 @@ const ProductionStep = <TFormData extends FormDataUnion>({
 const productionStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: ProductionStep,
   validation: yup.object().shape({}).required(),
-  field: 'production',
+  name: 'production',
   shouldShowStep: ({ watch }) => !!watch('place'),
   title: (t) => t(`movies.create.step4.title`),
 };

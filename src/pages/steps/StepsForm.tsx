@@ -105,7 +105,7 @@ const StepsForm = <TFormData extends FormDataUnion>({
           visible={!!toast.message}
           onClose={() => toast.clear()}
         />
-        <Steps<TFormData>
+        <Steps
           configurations={configurations}
           onChange={handleChange}
           fieldLoading={fieldLoading}
