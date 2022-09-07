@@ -51,7 +51,7 @@ const useEditField = <TFormData extends FormDataUnion>({
 
     const editMap = {
       typeAndTheme: editTypeAndTheme,
-      municipalityAndPlace: editMunicipalityAndPlace,
+      location: editMunicipalityAndPlace,
       nameAndAgeRange: editNameAndAgeRange,
       timeTable: editCalendar,
       place: editLocation,

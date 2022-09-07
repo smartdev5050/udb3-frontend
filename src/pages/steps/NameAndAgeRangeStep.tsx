@@ -66,7 +66,7 @@ const nameAndAgeRangeStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: NameAndAgeRangeStep,
   name: 'nameAndAgeRange',
   title: (t) => t('create.step4.title'),
-  shouldShowStep: ({ watch }) => !!watch('municipalityAndPlace')?.place,
+  shouldShowStep: ({ watch }) => !!watch('location')?.place,
 };
 
 export { nameAndAgeRangeStepConfiguration, useEditNameAndAgeRange };

@@ -22,7 +22,9 @@ type FormData = {
     type: { id: string; label: string };
     theme: { id: string; label: string };
   };
-  municipalityAndPlace: {
+  location: {
+    isOnline: boolean;
+    onlineUrl: string;
     municipality: City;
     place: Place;
   };
@@ -40,7 +42,8 @@ const EventForm = () => {
       event.location.address[i18n.language] ?? event.location.address;
     return {
       scope: isEvent(event) ? OfferType.EVENTS : OfferType.PLACES,
-      municipalityAndPlace: {
+      location: {
+        isOnline: false,
         municipality: {
           zip: eventAddress.postalCode,
           label: `${eventAddress.postalCode} ${eventAddress.addressLocality}`,
