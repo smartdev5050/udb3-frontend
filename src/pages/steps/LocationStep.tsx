@@ -7,7 +7,7 @@ import { useChangeLocationMutation } from '@/hooks/api/events';
 import { FormData as EventFormData } from '@/pages/create/EventForm';
 import { Place } from '@/types/Place';
 import { Values } from '@/types/Values';
-import { Alert } from '@/ui/Alert';
+import { parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
@@ -16,7 +16,7 @@ import { Input } from '@/ui/Input';
 import { RadioButtonTypes } from '@/ui/RadioButton';
 import { RadioButtonWithLabel } from '@/ui/RadioButtonWithLabel';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
-import { Text } from '@/ui/Text';
+import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { parseOfferId } from '@/utils/parseOfferId';
 
@@ -123,9 +123,12 @@ const LocationStep = <TFormData extends FormDataUnion>({
                     t('organizer.add_modal.validation_messages.name')
                   }
                   info={
-                    <Alert maxWidth="53rem">
+                    <Text
+                      variant={TextVariants.MUTED}
+                      maxWidth={parseSpacing(9)}
+                    >
                       {t('create.location.online_url.info')}
-                    </Alert>
+                    </Text>
                   }
                 />
               </Stack>
