@@ -204,7 +204,8 @@
       "event_score": {
         "tip": {
           "theme": "Tip: voeg een thema toe",
-          "media": "Tip: voeg een video of afbeelding toe",
+          "mediaObject": "Tip: voeg een afbeelding toe",
+          "video": "Tip: voeg een video toe",
           "description": "Tip: voeg een omschrijving toe",
           "price_info": "Tip: voeg prijsinformatie toe",
           "contact_info": "Tip: voeg contactinformatie toe",
