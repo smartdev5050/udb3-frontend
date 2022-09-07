@@ -109,25 +109,36 @@ const EventScore = ({ completedFields, eventId, ...props }: Props) => {
     (term) => term.domain === 'theme',
   );
 
+  const hasMediaObject: boolean = (event?.mediaObject ?? []).length > 0;
+
+  const hasVideo: boolean = (event?.videos ?? []).length > 0;
+
+  const fullCompletedFields = useMemo(() => {
+    return {
+      ...completedFields,
+      mediaObject: hasMediaObject,
+      video: hasVideo,
+      theme: hasTheme,
+    };
+  }, [completedFields, hasMediaObject, hasVideo]);
+
   const score = useMemo(() => {
     let completeScore = 0;
-    Object.keys(completedFields).forEach((field) => {
-      if (completedFields[field] && scoreWeightMapping[field]) {
+    Object.keys(fullCompletedFields).forEach((field) => {
+      if (fullCompletedFields[field] && scoreWeightMapping[field]) {
         completeScore += scoreWeightMapping[field].weight;
       }
     });
-    completeScore = hasTheme
-      ? completeScore + scoreWeightMapping.theme.weight
-      : completeScore;
+
     return completeScore + minimumScore;
-  }, [completedFields, hasTheme]);
+  }, [fullCompletedFields]);
 
   const tip = useMemo(() => {
     if (score === 100)
       return t(`create.additionalInformation.event_score.tip.completed`);
     // find uncompleted fields with the highest weight to give a tip to the user
-    const unCompletedFieldKeys = Object.keys(completedFields).filter(
-      (key) => !completedFields[key],
+    const unCompletedFieldKeys = Object.keys(fullCompletedFields).filter(
+      (key) => !fullCompletedFields[key],
     );
 
     let highestUncompletedValue = {
@@ -150,7 +161,7 @@ const EventScore = ({ completedFields, eventId, ...props }: Props) => {
     const { fieldName } = highestUncompletedValue;
 
     return t(`create.additionalInformation.event_score.tip.${fieldName}`);
-  }, [completedFields, score, t]);
+  }, [fullCompletedFields, score, t]);
 
   const getIconName = (): string => {
     const nearestScore = Object.keys(ScoreIconMapping).reduce((prev, curr) => {
