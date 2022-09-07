@@ -9,7 +9,7 @@ import { Stack } from './Stack';
 import { Text, TextVariants } from './Text';
 
 type Props = RadioButtonProps &
-  BoxProps & {
+  Omit<BoxProps, 'onChange'> & {
     info?: string;
     label?: ReactNode;
   };
