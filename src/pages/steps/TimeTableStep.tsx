@@ -81,7 +81,7 @@ const TimeTableStep = <TFormData extends FormDataUnion>({
   formState: { errors },
   control,
   className,
-  field,
+  name,
   onChange,
   ...props
 }: TimeTableStepProps<TFormData>) => {
@@ -90,8 +90,8 @@ const TimeTableStep = <TFormData extends FormDataUnion>({
   return (
     <Stack spacing={3} {...getStackProps(props)}>
       <Box>
-        <Controller<TFormData>
-          name={field}
+        <Controller
+          name={name}
           control={control}
           render={({ field }) => {
             return (
@@ -143,7 +143,7 @@ const timeTableStepConfiguration: StepsConfiguration<FormDataUnion> = {
       test: (timeTableData) => !isTimeTableEmpty(timeTableData),
     })
     .required(),
-  field: 'timeTable',
+  name: 'timeTable',
   shouldShowStep: ({ watch }) => !!watch('typeAndTheme')?.type,
   title: (t) => t(`movies.create.step2.title`),
 };

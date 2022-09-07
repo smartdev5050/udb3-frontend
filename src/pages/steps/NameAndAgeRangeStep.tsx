@@ -1,5 +1,4 @@
 import { Controller } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
 
 import {
   useChangeNameMutation,
@@ -44,13 +43,13 @@ const useEditNameAndAgeRange = <TFormData extends FormDataUnion>({
 
 const NameAndAgeRangeStep = <TFormData extends FormDataUnion>({
   control,
-  field,
+  name,
   onChange,
 }: StepProps<TFormData>) => {
   return (
-    <Controller<TFormData>
+    <Controller
       control={control}
-      name={field}
+      name={name}
       render={({ field }) => {
         return (
           <Stack spacing={4} maxWidth={parseSpacing(11)}>
@@ -65,8 +64,9 @@ const NameAndAgeRangeStep = <TFormData extends FormDataUnion>({
 
 const nameAndAgeRangeStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: NameAndAgeRangeStep,
-  field: 'nameAndAgeRange',
+  name: 'nameAndAgeRange',
   title: (t) => t('create.step4.title'),
+  shouldShowStep: ({ watch }) => !!watch('municipalityAndPlace')?.place,
 };
 
 export { nameAndAgeRangeStepConfiguration, useEditNameAndAgeRange };

@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { useQueryClient } from 'react-query';
 
-import { useEditTheme } from '@/pages/steps/EventTypeAndThemeStep';
+import { useEditTypeAndTheme } from '@/pages/steps/EventTypeAndThemeStep';
 import { useEditNameAndAgeRange } from '@/pages/steps/NameAndAgeRangeStep';
 import { useEditLocation } from '@/pages/steps/PlaceStep';
 import { useEditNameAndProduction } from '@/pages/steps/ProductionStep';
 import { FormDataUnion } from '@/pages/steps/Steps';
 import { useEditCalendar } from '@/pages/steps/TimeTableStep';
+
+import { useEditMunicipalityAndPlace } from '../MunicipalityAndPlaceStep';
 
 type HandleSuccessOptions = {
   shouldInvalidateEvent?: boolean;
@@ -32,18 +34,24 @@ const useEditField = <TFormData extends FormDataUnion>({
 
   const editArguments = { eventId, onSuccess: handleSuccess };
 
-  const editTheme = useEditTheme<TFormData>(editArguments);
-  const editNameAndAgeRange = useEditNameAndAgeRange(editArguments);
-  const editCalendar = useEditCalendar(editArguments);
-  const editLocation = useEditLocation(editArguments);
-  const editNameAndProduction = useEditNameAndProduction(editArguments);
+  const editTypeAndTheme = useEditTypeAndTheme<TFormData>(editArguments);
+  const editMunicipalityAndPlace = useEditMunicipalityAndPlace<TFormData>(
+    editArguments,
+  );
+  const editNameAndAgeRange = useEditNameAndAgeRange<TFormData>(editArguments);
+  const editCalendar = useEditCalendar<TFormData>(editArguments);
+  const editLocation = useEditLocation<TFormData>(editArguments);
+  const editNameAndProduction = useEditNameAndProduction<TFormData>(
+    editArguments,
+  );
 
   const handleChange = (editedField: string) => {
     if (!eventId) return;
     setFieldLoading(editedField);
 
     const editMap = {
-      typeAndTheme: editTheme,
+      typeAndTheme: editTypeAndTheme,
+      municipalityAndPlace: editMunicipalityAndPlace,
       nameAndAgeRange: editNameAndAgeRange,
       timeTable: editCalendar,
       place: editLocation,

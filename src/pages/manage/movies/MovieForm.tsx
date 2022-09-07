@@ -68,6 +68,7 @@ const MovieForm = (props) => {
 
   const convertEventToFormData = (event: Event) => {
     return {
+      scope: OfferType.EVENTS,
       typeAndTheme: {
         theme: event.terms.find((term) => term.domain === 'theme'),
         type: event.terms.find((term) => term.domain === 'eventtype'),
@@ -136,7 +137,7 @@ const MovieForm = (props) => {
         title: t('movies.create.toast.success.title'),
       }}
       configurations={[
-        { field: 'scope', defaultValue: OfferType.EVENTS },
+        { name: 'scope', defaultValue: OfferType.EVENTS },
         {
           ...typeAndThemeStepConfiguration,
           title: () => t('movies.create.step1.title'),
@@ -150,6 +151,8 @@ const MovieForm = (props) => {
           ...placeStepConfiguration,
           stepProps: {
             terms: [EventTypes.Bioscoop],
+            chooseLabel: () => t('movies.create.actions.choose_cinema'),
+            placeholderLabel: (t) => t('movies.create.cinema.placeholder'),
           },
         },
         productionStepConfiguration,

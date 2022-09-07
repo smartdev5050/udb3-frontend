@@ -88,6 +88,16 @@
     "step2": {
       "title": "Was willst du hinzufügen"
     },
+    "municipality_and_place": {
+      "title": "Wo findet diese Veranstaltung oder Aktivität statt?",
+      "municipality": {
+        "change": "Ändern"
+      },
+      "place": {
+        "choose_label": "Wählen Sie einen Standort aus",
+        "placeholder": "Name oder Adresse"
+      }
+    },
     "step4": {
       "title": " Basisangaben",
       "name": {
@@ -432,6 +442,9 @@
         "publish": "",
         "publish_later": "",
         "save": ""
+      },
+      "cinema": {
+        "placeholder": ""
       },
       "footer": {
         "auto_save": "",

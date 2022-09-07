@@ -88,6 +88,16 @@
     "step2": {
       "title": "Wat wil je toevoegen?"
     },
+    "municipality_and_place": {
+      "title": "Waar vindt dit evenement of deze activiteit plaats?",
+      "municipality": {
+        "change": "Wijzigen"
+      },
+      "place": {
+        "choose_label": "Kies een locatie",
+        "placeholder": "Naam of adres"
+      }
+    },
     "step4": {
       "title": " Basisgegevens",
       "name": {
@@ -445,6 +455,9 @@
         "publish": "Publiceren",
         "publish_later": "Later publiceren",
         "save": "Opslaan"
+      },
+      "cinema": {
+        "placeholder": "Naam van bioscoop"
       },
       "footer": {
         "auto_save": "Je wijzigingen worden vanaf nu automatisch opgeslagen",

@@ -11,12 +11,12 @@ const useParseStepConfiguration = <TFormData extends FormDataUnion>(
   const schema = yup
     .object(
       configurations.reduce(
-        (acc: Object, val: { field: string; validation: () => void }) => {
-          if (!val.field || !val.validation) return acc;
+        (acc: Object, val: { name: string; validation: () => void }) => {
+          if (!val.name || !val.validation) return acc;
 
           return {
             ...acc,
-            [val.field]: val.validation,
+            [val.name]: val.validation,
           };
         },
         {},
@@ -27,11 +27,11 @@ const useParseStepConfiguration = <TFormData extends FormDataUnion>(
   const resolver = yupResolver(schema);
 
   const defaultValues = configurations.reduce(
-    (acc: Object, val: { field: string; defaultValue: unknown }) => {
-      if (!val.field || !val.defaultValue) return acc;
+    (acc: Object, val: { name: string; defaultValue: unknown }) => {
+      if (!val.name || !val.defaultValue) return acc;
       return {
         ...acc,
-        [val.field]: val.defaultValue,
+        [val.name]: val.defaultValue,
       };
     },
     {},
