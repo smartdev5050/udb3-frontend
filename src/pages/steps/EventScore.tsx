@@ -31,51 +31,51 @@ const ScoreIconMapping = {
 
 const scoreWeightMapping = {
   type: {
-    weight: 120,
+    weight: 12,
     mandatory: true,
   },
   theme: {
-    weight: 50,
+    weight: 5,
     mandatory: false,
   },
   calendar: {
-    weight: 120,
+    weight: 12,
     mandatory: true,
   },
   location: {
-    weight: 120,
+    weight: 12,
     mandatory: true,
   },
   name: {
-    weight: 120,
+    weight: 12,
     mandatory: true,
   },
   typicalAgeRange: {
-    weight: 120,
+    weight: 12,
     mandatory: true,
   },
   media: {
-    weight: 105,
+    weight: 9,
     mandatory: false,
   },
   description: {
-    weight: 80,
+    weight: 8,
     mandatory: false,
   },
   price_info: {
-    weight: 75,
+    weight: 7,
     mandatory: false,
   },
   contact_info: {
-    weight: 60,
+    weight: 6,
     mandatory: false,
   },
   organizer: {
-    weight: 30,
+    weight: 3,
     mandatory: false,
   },
   video: {
-    weight: 20,
+    weight: 2,
     mandatory: false,
   },
 };
@@ -116,8 +116,10 @@ const EventScore = ({ completedFields, eventId, ...props }: Props) => {
         completeScore += scoreWeightMapping[field].weight;
       }
     });
-    completeScore += hasTheme ? scoreWeightMapping.theme.weight : completeScore;
-    return Math.round((completeScore + minimumScore) / 10);
+    completeScore = hasTheme
+      ? completeScore + scoreWeightMapping.theme.weight
+      : completeScore;
+    return completeScore + minimumScore;
   }, [completedFields, hasTheme]);
 
   const tip = useMemo(() => {
