@@ -97,7 +97,7 @@ const LocationStep = <TFormData extends FormDataUnion>({
 
           if (isOnline) {
             return (
-              <Stack>
+              <Stack spacing={4}>
                 {OnlineToggle}
                 <FormElement
                   Component={
@@ -138,7 +138,7 @@ const LocationStep = <TFormData extends FormDataUnion>({
 
           if (!municipality) {
             return (
-              <Stack>
+              <Stack spacing={4}>
                 {OnlineToggle}
                 <CityPicker
                   maxWidth="28rem"
