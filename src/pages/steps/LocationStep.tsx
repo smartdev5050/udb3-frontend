@@ -82,7 +82,7 @@ const LocationStep = <TFormData extends FormDataUnion>({
             <RadioButtonWithLabel
               id="online-toggle"
               type={RadioButtonTypes.SWITCH}
-              label={'Online'}
+              label={t('create.location.is_online.label')}
               checked={isOnline}
               onChange={(e) => {
                 const updatedValue = {
@@ -117,18 +117,14 @@ const LocationStep = <TFormData extends FormDataUnion>({
                     />
                   }
                   id="online-url"
-                  label={'Url voor online deelname'}
+                  label={t('create.location.online_url.label')}
                   error={
                     formState.errors.location &&
                     t('organizer.add_modal.validation_messages.name')
                   }
                   info={
                     <Alert maxWidth="53rem">
-                      Voeg een link toe zodat mensen weten hoe ze aan je
-                      evenement kunnen deelnemen. Wil je de deelnamelink niet
-                      publiek delen? Dan kan je deze stap overslaan en
-                      deelname-instructies toevoegen aan je beschrijving in stap
-                      5.
+                      {t('create.location.online_url.info')}
                     </Alert>
                   }
                 />
@@ -178,10 +174,11 @@ const LocationStep = <TFormData extends FormDataUnion>({
                       onChange(updatedValue);
                     }}
                   >
-                    {t('create.municipality_and_place.municipality.change')}
+                    {t('create.location.municipality.change')}
                   </Button>
                 </Inline>
                 <PlaceStep
+                  maxWidth="28rem"
                   name={'location.place' as Path<TFormData>}
                   zip={municipality.zip}
                   chooseLabel={chooseLabel}
@@ -222,11 +219,10 @@ const locationStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: LocationStep,
   name: 'location',
   shouldShowStep: ({ watch }) => !!watch('typeAndTheme')?.type?.id,
-  title: (t) => t('create.municipality_and_place.title'),
+  title: ({ t }) => t('create.location.title'),
   stepProps: {
-    chooseLabel: (t) => t('create.municipality_and_place.place.choose_label'),
-    placeholderLabel: (t) =>
-      t('create.municipality_and_place.place.placeholder'),
+    chooseLabel: (t) => t('create.location.place.choose_label'),
+    placeholderLabel: (t) => t('create.location.place.placeholder'),
   },
   defaultValue: {
     isOnline: false,

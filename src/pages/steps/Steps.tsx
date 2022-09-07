@@ -21,7 +21,7 @@ type StepsConfiguration<TFormData extends FormDataUnion> = {
   defaultValue?: any;
   name?: Path<TFormData>;
   step?: number;
-  title: (t: TFunction) => string;
+  title: (data: { t: TFunction } & UseFormReturn<TFormData, any>) => string;
   variant?: string;
   validation?: any;
   shouldShowStep?: (
@@ -167,7 +167,7 @@ const Steps = <TFormData extends FormDataUnion>({
             <StepWrapper
               stepNumber={stepNumber}
               key={`step${stepNumber}`}
-              title={getTitle(t)}
+              title={getTitle({ ...form, t })}
             >
               <Step
                 key={index}

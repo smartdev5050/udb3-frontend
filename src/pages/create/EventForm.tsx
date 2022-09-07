@@ -73,7 +73,7 @@ const EventForm = () => {
 
   return (
     <StepsForm
-      title={t(`event.create.title`)}
+      title={t(`create.title`)}
       convertFormDataToEvent={convertFormDataToEvent}
       convertEventToFormData={convertEventToFormData}
       toastConfiguration={{

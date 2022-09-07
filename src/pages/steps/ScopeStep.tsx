@@ -67,7 +67,7 @@ const ScopeStep = <TFormData extends FormDataUnion>({
 const scopeStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: ScopeStep,
   name: 'scope',
-  title: (t) => t(`event.create.scope.title`),
+  title: ({ t }) => t(`create.scope.title`),
   shouldShowStep: ({ watch, eventId }) => {
     return !eventId && !watch('typeAndTheme')?.type?.id;
   },

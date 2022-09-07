@@ -85,11 +85,19 @@
     "NL": "Nederland"
   },
   "create": {
-    "step2": {
+    "title": "Iets toevoegen in de UiTdatabank",
+    "scope": {
       "title": "Wat wil je toevoegen?"
     },
-    "municipality_and_place": {
+    "location": {
       "title": "Waar vindt dit evenement of deze activiteit plaats?",
+      "is_online": {
+        "label": "Online"
+      },
+      "online_url": {
+        "label": "Url voor online deelname",
+        "info": "Voeg een link toe zodat mensen weten hoe ze aan je evenement kunnen deelnemen. Wil je de deelnamelink niet publiek delen? Dan kan je deze stap overslaan en deelname-instructies toevoegen aan je beschrijving in stap 5."
+      },
       "municipality": {
         "change": "Wijzigen"
       },
@@ -98,7 +106,7 @@
         "placeholder": "Naam of adres"
       }
     },
-    "step4": {
+    "name_and_age": {
       "title": " Basisgegevens",
       "name": {
         "title_events": "Naam van het evenement",
@@ -125,6 +133,8 @@
       }
     },
     "type_and_theme": {
+      "title_events": "Wat voor soort event?",
+      "title_places": "Wat voor soort locatie?",
       "change_theme": "Wijzig thema",
       "change_type": "Wijzig type",
       "refine": "Verfijn"
