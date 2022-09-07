@@ -120,7 +120,7 @@ const EventScore = ({ completedFields, eventId, ...props }: Props) => {
       video: hasVideo,
       theme: hasTheme,
     };
-  }, [completedFields, hasMediaObject, hasVideo]);
+  }, [completedFields, hasMediaObject, hasVideo, hasTheme]);
 
   const score = useMemo(() => {
     let completeScore = 0;
