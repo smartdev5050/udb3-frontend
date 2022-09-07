@@ -3,7 +3,6 @@ import { Controller, Path } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { EventTypes } from '@/constants/EventTypes';
-import { City } from '@/hooks/api/cities';
 import { useChangeLocationMutation } from '@/hooks/api/events';
 import { FormData as EventFormData } from '@/pages/create/EventForm';
 import { Place } from '@/types/Place';
@@ -17,7 +16,7 @@ import { Input } from '@/ui/Input';
 import { RadioButtonTypes } from '@/ui/RadioButton';
 import { RadioButtonWithLabel } from '@/ui/RadioButtonWithLabel';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
-import { Text, TextVariants } from '@/ui/Text';
+import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { parseOfferId } from '@/utils/parseOfferId';
 
@@ -27,7 +26,7 @@ import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
 
 const getValue = getValueFromTheme('createPage');
 
-const useEditMunicipalityAndPlace = <TFormData extends FormDataUnion>({
+const useEditPlace = <TFormData extends FormDataUnion>({
   eventId,
   onSuccess,
 }) => {
@@ -44,16 +43,14 @@ const useEditMunicipalityAndPlace = <TFormData extends FormDataUnion>({
   };
 };
 
-type MunicipalityAndPlaceStepProps<
-  TFormData extends FormDataUnion
-> = StackProps &
+type PlaceStepProps<TFormData extends FormDataUnion> = StackProps &
   StepProps<TFormData> & {
     terms: Array<Values<typeof EventTypes>>;
     chooseLabel: (t: TFunction) => string;
     placeholderLabel: (t: TFunction) => string;
   };
 
-const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
+const LocationStep = <TFormData extends FormDataUnion>({
   formState,
   getValues,
   reset,
@@ -66,7 +63,7 @@ const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
   placeholderLabel,
   watch,
   ...props
-}: MunicipalityAndPlaceStepProps<TFormData>) => {
+}: PlaceStepProps<TFormData>) => {
   const { t } = useTranslation();
 
   return (
@@ -108,10 +105,14 @@ const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
                       maxWidth="28rem"
                       value={onlineUrl}
                       onChange={(e) => {
-                        field.onChange({
-                          ...field?.value,
-                          onlineUrl: e.target.value,
-                        });
+                        {
+                          const updatedValue = {
+                            ...field?.value,
+                            onlineUrl: e.target.value,
+                          };
+                          field.onChange(updatedValue);
+                          onChange(updatedValue);
+                        }
                       }}
                     />
                   }
@@ -143,13 +144,15 @@ const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
                   maxWidth="28rem"
                   {...field}
                   value={field.value?.municipality}
-                  onChange={(value) =>
-                    field.onChange({
+                  onChange={(value) => {
+                    const updatedValue = {
                       ...field.value,
                       municipality: value,
                       place: undefined,
-                    })
-                  }
+                    };
+                    field.onChange(updatedValue);
+                    onChange(updatedValue);
+                  }}
                 />
               </Stack>
             );
@@ -166,12 +169,14 @@ const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
                   <Text>{municipality.name}</Text>
                   <Button
                     variant={ButtonVariants.LINK}
-                    onClick={() =>
-                      field.onChange({
+                    onClick={() => {
+                      const updatedValue = {
                         ...field.value,
                         municipality: undefined,
-                      })
-                    }
+                      };
+                      field.onChange(updatedValue);
+                      onChange(updatedValue);
+                    }}
                   >
                     {t('create.municipality_and_place.municipality.change')}
                   </Button>
@@ -213,8 +218,8 @@ const MunicipalityAndPlaceStep = <TFormData extends FormDataUnion>({
   );
 };
 
-const municipalityAndPlaceStepConfiguration: StepsConfiguration<FormDataUnion> = {
-  Component: MunicipalityAndPlaceStep,
+const locationStepConfiguration: StepsConfiguration<FormDataUnion> = {
+  Component: LocationStep,
   name: 'location',
   shouldShowStep: ({ watch }) => !!watch('typeAndTheme')?.type?.id,
   title: (t) => t('create.municipality_and_place.title'),
@@ -228,6 +233,6 @@ const municipalityAndPlaceStepConfiguration: StepsConfiguration<FormDataUnion> =
   },
 };
 
-MunicipalityAndPlaceStep.defaultProps = {};
+LocationStep.defaultProps = {};
 
-export { municipalityAndPlaceStepConfiguration, useEditMunicipalityAndPlace };
+export { locationStepConfiguration, useEditPlace };

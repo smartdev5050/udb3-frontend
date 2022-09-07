@@ -9,7 +9,7 @@ import { Values } from '@/types/Values';
 import { City } from '../CityPicker';
 import { additionalInformationStepConfiguration } from '../steps/AdditionalInformationStep';
 import { typeAndThemeStepConfiguration } from '../steps/EventTypeAndThemeStep';
-import { municipalityAndPlaceStepConfiguration } from '../steps/MunicipalityAndPlaceStep';
+import { locationStepConfiguration } from '../steps/LocationStep';
 import { nameAndAgeRangeStepConfiguration } from '../steps/NameAndAgeRangeStep';
 import { scopeStepConfiguration } from '../steps/ScopeStep';
 import { StepsForm } from '../steps/StepsForm';
@@ -92,7 +92,7 @@ const EventForm = () => {
       configurations={[
         scopeStepConfiguration,
         typeAndThemeStepConfiguration,
-        municipalityAndPlaceStepConfiguration,
+        locationStepConfiguration,
         nameAndAgeRangeStepConfiguration,
         additionalInformationStepConfiguration,
       ]}
