@@ -1,6 +1,7 @@
 import { TFunction } from 'i18next';
 import { Controller, Path } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import * as yup from 'yup';
 
 import { EventTypes } from '@/constants/EventTypes';
 import { useChangeLocationMutation } from '@/hooks/api/events';
@@ -13,6 +14,7 @@ import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
+import { LabelPositions } from '@/ui/Label';
 import { RadioButtonTypes } from '@/ui/RadioButton';
 import { RadioButtonWithLabel } from '@/ui/RadioButtonWithLabel';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
@@ -79,19 +81,24 @@ const LocationStep = <TFormData extends FormDataUnion>({
           } = field?.value as EventFormData['location'];
 
           const OnlineToggle = (
-            <RadioButtonWithLabel
+            <FormElement
+              Component={
+                <RadioButtonWithLabel
+                  type={RadioButtonTypes.SWITCH}
+                  checked={isOnline}
+                  onChange={(e) => {
+                    const updatedValue = {
+                      ...field.value,
+                      isOnline: e.target.checked,
+                    };
+                    field.onChange(updatedValue);
+                    onChange(updatedValue);
+                  }}
+                />
+              }
               id="online-toggle"
-              type={RadioButtonTypes.SWITCH}
               label={t('create.location.is_online.label')}
-              checked={isOnline}
-              onChange={(e) => {
-                const updatedValue = {
-                  ...field.value,
-                  isOnline: e.target.checked,
-                };
-                field.onChange(updatedValue);
-                onChange(updatedValue);
-              }}
+              labelPosition={LabelPositions.LEFT}
             />
           );
 
@@ -114,13 +121,15 @@ const LocationStep = <TFormData extends FormDataUnion>({
                           onChange(updatedValue);
                         }
                       }}
+                      onBlur={field.onBlur}
                     />
                   }
                   id="online-url"
                   label={t('create.location.online_url.label')}
                   error={
-                    formState.errors.location &&
-                    t('organizer.add_modal.validation_messages.name')
+                    // @ts-expect-error
+                    formState.errors.location?.onlineUrl &&
+                    t('create.validation_messages.location.online_url')
                   }
                   info={
                     <Text
@@ -230,6 +239,13 @@ const locationStepConfiguration: StepsConfiguration<FormDataUnion> = {
   defaultValue: {
     isOnline: false,
   },
+  validation: yup
+    .object()
+    .shape({
+      onlineUrl: yup.string().url(),
+      place: yup.object().shape({}).required(),
+    })
+    .required(),
 };
 
 LocationStep.defaultProps = {};
