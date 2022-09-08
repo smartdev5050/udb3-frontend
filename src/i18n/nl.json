@@ -86,6 +86,11 @@
   },
   "create": {
     "title": "Aanbod toevoegen",
+    "validation_messages": {
+      "location": {
+        "online_url": "Je online url voldoet niet aan de vereisten."
+      }
+    },
     "scope": {
       "title": "Wat wil je toevoegen?"
     },
