@@ -94,14 +94,7 @@ StepWrapper.defaultProps = {
 
 const getValue = getValueFromTheme('createPage');
 
-type StepProps<TFormData extends FormDataUnion> = Omit<
-  UseFormReturn<TFormData>,
-  'formState'
-> & {
-  formState: {
-    errors: Record<keyof TFormData, FieldError>;
-  };
-} & {
+type StepProps<TFormData extends FormDataUnion> = UseFormReturn<TFormData> & {
   loading: boolean;
   name: Path<TFormData>;
   onChange: (value: any) => void;
