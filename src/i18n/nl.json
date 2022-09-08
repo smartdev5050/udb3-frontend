@@ -133,8 +133,8 @@
       }
     },
     "type_and_theme": {
-      "title_events": "Wat voor soort event?",
-      "title_places": "Wat voor soort locatie?",
+      "title_events": "Wat voor soort evenement wil je toevoegen?",
+      "title_places": "Wat voor soort locatie wil je toevoegen?",
       "change_theme": "Wijzig thema",
       "change_type": "Wijzig type",
       "refine": "Verfijn"
