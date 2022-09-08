@@ -40,7 +40,7 @@ const NameStep = ({
                 id="event-name"
                 Component={
                   <Input
-                    value={field.value?.name.nl}
+                    value={field.value?.name?.nl}
                     placeholder={t(`create.name_and_age.name.title_${scope}`)}
                     onChange={(event) => {
                       field.onChange({
