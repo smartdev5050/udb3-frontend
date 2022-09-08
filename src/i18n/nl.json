@@ -100,7 +100,8 @@
         "label": "Online"
       },
       "online_url": {
-        "label": "Url voor online deelname",
+        "label": "Deelname-link",
+        "placeholder": "Voeg een deelname-link toe",
         "info": "Voeg een link toe zodat mensen weten hoe ze aan je evenement kunnen deelnemen. Wil je de deelnamelink niet publiek delen? Dan kan je deze stap overslaan en deelname-instructies toevoegen aan je beschrijving in stap 5."
       },
       "municipality": {

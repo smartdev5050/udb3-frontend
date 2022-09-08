@@ -122,6 +122,7 @@ const LocationStep = <TFormData extends FormDataUnion>({
                         }
                       }}
                       onBlur={field.onBlur}
+                      placeholder={t('create.location.online_url.placeholder')}
                     />
                   }
                   id="online-url"
