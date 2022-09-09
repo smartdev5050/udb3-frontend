@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 
 import { OfferType } from '@/constants/OfferType';
 import { SupportedLanguages } from '@/i18n/index';
-import { AttendenceModes, Event, isEvent } from '@/types/Event';
+import { AttendanceMode, Event, isEvent } from '@/types/Event';
 import { Place } from '@/types/Place';
 import { Values } from '@/types/Values';
 
@@ -43,7 +43,7 @@ const EventForm = () => {
     return {
       scope: isEvent(event) ? OfferType.EVENTS : OfferType.PLACES,
       location: {
-        isOnline: event.attendanceMode === AttendenceModes.ONLINE,
+        isOnline: event.attendanceMode === AttendanceMode.ONLINE,
         municipality: {
           zip: eventAddress.postalCode,
           label: `${eventAddress.postalCode} ${eventAddress.addressLocality}`,

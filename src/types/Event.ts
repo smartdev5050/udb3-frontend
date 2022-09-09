@@ -10,7 +10,7 @@ type ProductionOnEvent = {
   otherEvents: EventId[];
 };
 
-const AttendenceModes = {
+const AttendanceMode = {
   OFFLINE: 'offline',
   ONLINE: 'online',
   MIXED: 'mixed',
@@ -20,7 +20,7 @@ type Event = Offer & {
   '@context': '/contexts/event';
   location: Place;
   production?: ProductionOnEvent;
-  attendanceMode: Values<typeof AttendenceModes>;
+  attendanceMode: Values<typeof AttendanceMode>;
 };
 
 const isEvent = (value: unknown): value is Event => {
@@ -32,5 +32,5 @@ const areEvents = (value: unknown[]): value is Event[] => {
   return value.every(isEvent);
 };
 
-export { areEvents, AttendenceModes, isEvent };
+export { areEvents, AttendanceMode, isEvent };
 export type { Event, EventId };
