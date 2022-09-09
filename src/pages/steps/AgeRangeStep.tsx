@@ -90,7 +90,9 @@ const AgeRangeStep = ({
 
   const handleSubmitCustomAgeRange = (): void => {
     if (parseInt(customMinAgeRange) > parseInt(customMaxAgeRange)) {
-      setCustomAgeRangeError(t('create.step4.age.error_max_lower_than_min'));
+      setCustomAgeRangeError(
+        t('create.name_and_age.age.error_max_lower_than_min'),
+      );
       return;
     }
 
@@ -116,7 +118,7 @@ const AgeRangeStep = ({
     setCustomMaxAgeRange(value);
 
     if (!customMinAgeRange) {
-      setCustomAgeRangeError(t('create.step4.age.error_no_min_age'));
+      setCustomAgeRangeError(t('create.name_and_age.age.error_no_min_age'));
       return;
     }
 
@@ -134,7 +136,9 @@ const AgeRangeStep = ({
           );
           return (
             <Stack spacing={2}>
-              <Text fontWeight="bold">{t(`create.step4.age.title`)}</Text>
+              <Text fontWeight="bold">
+                {t(`create.name_and_age.age.title`)}
+              </Text>
               <Inline spacing={3} flexWrap="wrap" maxWidth="40rem">
                 {Object.keys(AgeRanges).map((key: string) => {
                   const apiLabel = AgeRanges[key].apiLabel;
@@ -162,7 +166,7 @@ const AgeRangeStep = ({
                         });
                       }}
                     >
-                      {t(`create.step4.age.${key.toLowerCase()}`)}
+                      {t(`create.name_and_age.age.${key.toLowerCase()}`)}
                       <Text
                         css={css`
                           color: ${getValue('rangeTextColor')};
@@ -181,12 +185,12 @@ const AgeRangeStep = ({
                     <Inline spacing={3}>
                       <Stack>
                         <Text fontWeight="bold">
-                          {t('create.step4.age.from')}
+                          {t('create.name_and_age.age.from')}
                         </Text>
                         <Input
                           marginRight={3}
                           value={customMinAgeRange}
-                          placeholder={t('create.step4.age.from')}
+                          placeholder={t('create.name_and_age.age.from')}
                           onChange={(event) => {
                             const value = (event.target as HTMLInputElement)
                               .value;
@@ -201,12 +205,12 @@ const AgeRangeStep = ({
                       </Stack>
                       <Stack>
                         <Text fontWeight="bold">
-                          {t('create.step4.age.till')}
+                          {t('create.name_and_age.age.till')}
                         </Text>
                         <Input
                           marginRight={3}
                           value={customMaxAgeRange}
-                          placeholder={t('create.step4.age.till')}
+                          placeholder={t('create.name_and_age.age.till')}
                           onChange={(event) => {
                             const value = (event.target as HTMLInputElement)
                               .value;

@@ -184,7 +184,7 @@ const placeStepConfiguration: StepsConfiguration<FormDataUnion> = {
   validation: yup.object().shape({}).required(),
   name: 'place',
   shouldShowStep: ({ watch }) => isOneTimeSlotValid(watch('timeTable')),
-  title: (t) => t(`movies.create.step3.title`),
+  title: ({ t }) => t(`movies.create.step3.title`),
 };
 
 PlaceStep.defaultProps = {

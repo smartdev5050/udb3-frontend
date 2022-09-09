@@ -21,7 +21,7 @@ type StepsConfiguration<TFormData extends FormDataUnion> = {
   defaultValue?: any;
   name?: Path<TFormData>;
   step?: number;
-  title: (t: TFunction) => string;
+  title: (data: { t: TFunction } & UseFormReturn<TFormData, any>) => string;
   variant?: string;
   validation?: any;
   shouldShowStep?: (
@@ -94,14 +94,7 @@ StepWrapper.defaultProps = {
 
 const getValue = getValueFromTheme('createPage');
 
-type StepProps<TFormData extends FormDataUnion> = Omit<
-  UseFormReturn<TFormData>,
-  'formState'
-> & {
-  formState: {
-    errors: Record<keyof TFormData, FieldError>;
-  };
-} & {
+type StepProps<TFormData extends FormDataUnion> = UseFormReturn<TFormData> & {
   loading: boolean;
   name: Path<TFormData>;
   onChange: (value: any) => void;
@@ -167,7 +160,7 @@ const Steps = <TFormData extends FormDataUnion>({
             <StepWrapper
               stepNumber={stepNumber}
               key={`step${stepNumber}`}
-              title={getTitle(t)}
+              title={getTitle({ ...form, t })}
             >
               <Step
                 key={index}

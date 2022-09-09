@@ -283,7 +283,6 @@ const PriceInformation = ({
 
     const hasGlobalError = errorRates.length > 0;
     const hasUitpasError = errorRates.some(
-      // @ts-expect-error
       (error) => error.name?.type === 'name-is-not-uitpas',
     );
 
