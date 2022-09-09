@@ -42,7 +42,7 @@
     "i18next": "^19.8.3",
     "i18next-browser-languagedetector": "^6.0.1",
     "lodash": "^4.17.20",
-    "next": "^12.1.0",
+    "next": "^12.3.0",
     "next-absolute-url": "^1.2.2",
     "path-to-regexp": "^6.2.0",
     "polished": "^4.0.5",

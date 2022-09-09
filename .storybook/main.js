@@ -19,6 +19,12 @@ const paths = Object.entries(tsConfig.compilerOptions.paths).reduce(
 // Export a function. Accept the base config as the only param.
 module.exports = {
   ...nextConfig,
+  stories: ['../src/ui/**/*.stories.mdx'],
+  addons: [
+    '@storybook/addon-links',
+    '@storybook/addon-essentials',
+    '@storybook/addon-a11y',
+  ],
   core: {
     builder: 'webpack5',
   },
