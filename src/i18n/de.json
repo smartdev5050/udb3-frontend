@@ -85,11 +85,29 @@
     "NL": "Niederlande"
   },
   "create": {
-    "step2": {
+    "actions": {
+      "publish": "Veröffentlichen",
+      "publish_later": "Später veröffentlichen",
+      "save": "Speichern"
+    },
+    "validation_messages": {
+      "location": {
+        "online_url": "Ihre Online-URL entspricht nicht den Anforderungen."
+      }
+    },
+    "scope": {
       "title": "Was willst du hinzufügen"
     },
     "location": {
       "title": "Wo findet diese Veranstaltung oder Aktivität statt?",
+      "is_online": {
+        "label": "Online"
+      },
+      "online_url": {
+        "label": "Teilnahmelink",
+        "placeholder": "https://",
+        "info": "Fügen Sie einen Link hinzu, damit die Leute wissen, wie sie an Ihrer Veranstaltung teilnehmen können. Sie möchten den Link zur Teilnahme nicht öffentlich freigeben? Dann können Sie diesen Schritt überspringen und die Teilnahmeanweisungen in Schritt 5 Ihrer Beschreibung hinzufügen."
+      },
       "municipality": {
         "change": "Ändern"
       },
@@ -125,6 +143,8 @@
       }
     },
     "type_and_theme": {
+      "title_events": "Welche Art von Veranstaltung möchten Sie hinzufügen?",
+      "title_places": "Welche Art von Standort möchten Sie hinzufügen?",
       "change_theme": "Ändert den thema",
       "change_type": "Ändert den typ",
       "refine": "Verfeinere"
@@ -438,10 +458,7 @@
         "choose_name": "",
         "clear": "",
         "copy_table": "",
-        "description": "",
-        "publish": "",
-        "publish_later": "",
-        "save": ""
+        "description": ""
       },
       "cinema": {
         "placeholder": ""

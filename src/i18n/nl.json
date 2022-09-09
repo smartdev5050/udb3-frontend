@@ -86,6 +86,11 @@
   },
   "create": {
     "title": "Aanbod toevoegen",
+    "actions": {
+      "publish": "Publiceren",
+      "publish_later": "Later publiceren",
+      "save": "Opslaan"
+    },
     "validation_messages": {
       "location": {
         "online_url": "Je online url voldoet niet aan de vereisten."
@@ -101,7 +106,7 @@
       },
       "online_url": {
         "label": "Deelname-link",
-        "placeholder": "Voeg een deelname-link toe",
+        "placeholder": "https://",
         "info": "Voeg een link toe zodat mensen weten hoe ze aan je evenement kunnen deelnemen. Wil je de deelnamelink niet publiek delen? Dan kan je deze stap overslaan en deelname-instructies toevoegen aan je beschrijving in stap 5."
       },
       "municipality": {
@@ -251,6 +256,10 @@
         "uitpas_error": "De UiTPAS prijs wordt voor jou berekend door UiTdatabank. Je kan deze niet zelf toevoegen."
       },
       "title": "Laat je evenement extra opvallen"
+    },
+    "footer": {
+      "auto_save": "Je wijzigingen worden vanaf nu automatisch opgeslagen",
+      "done_editing": "Klaar met bewerken"
     },
     "publish_modal": {
       "actions": {
@@ -456,17 +465,10 @@
         "choose_name": "Kies een naam",
         "clear": "Leegmaken",
         "copy_table": "Kopieer tabel",
-        "description": "Beschrijving",
-        "publish": "Publiceren",
-        "publish_later": "Later publiceren",
-        "save": "Opslaan"
+        "description": "Beschrijving"
       },
       "cinema": {
         "placeholder": "Naam van bioscoop"
-      },
-      "footer": {
-        "auto_save": "Je wijzigingen worden vanaf nu automatisch opgeslagen",
-        "done_editing": "Klaar met bewerken"
       },
       "step1": {
         "title": "Wat voor film wil je invoeren?"

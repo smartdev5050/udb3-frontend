@@ -124,26 +124,26 @@ const StepsForm = <TFormData extends FormDataUnion>({
                   onClick={async () => publishEvent()}
                   key="publish"
                 >
-                  {t('movies.create.actions.publish')}
+                  {t('create.actions.publish')}
                 </Button>,
                 <Button
                   variant={ButtonVariants.SECONDARY}
                   onClick={() => setIsPublishLaterModalVisible(true)}
                   key="publishLater"
                 >
-                  {t('movies.create.actions.publish_later')}
+                  {t('create.actions.publish_later')}
                 </Button>,
                 <Text
                   key="info"
                   color={getValue('footer.color')}
                   fontSize="0.9rem"
                 >
-                  {t('movies.create.footer.auto_save')}
+                  {t('create.footer.auto_save')}
                 </Text>,
               ]
             ) : footerStatus === FooterStatus.MANUAL_SAVE ? (
               <Button onClick={handleSubmit(addEvent)}>
-                {t('movies.create.actions.save')}
+                {t('create.actions.save')}
               </Button>
             ) : (
               <Inline spacing={3} alignItems="center">
@@ -151,10 +151,10 @@ const StepsForm = <TFormData extends FormDataUnion>({
                   href={`/event/${eventId}/preview`}
                   variant={LinkVariants.BUTTON_SUCCESS}
                 >
-                  <Text>{t('movies.create.footer.done_editing')}</Text>
+                  <Text>{t('create.footer.done_editing')}</Text>
                 </Link>
                 <Text color={getValue('footer.color')} fontSize="0.9rem">
-                  {t('movies.create.footer.auto_save')}
+                  {t('create.footer.auto_save')}
                 </Text>
               </Inline>
             )}
