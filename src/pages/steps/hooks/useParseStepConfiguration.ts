@@ -2,21 +2,21 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
-import { FormData } from '@/pages/manage/movies/MovieForm';
+import { FormDataUnion } from '../Steps';
 
-const useParseStepConfiguration = (
-  configuration,
+const useParseStepConfiguration = <TFormData extends FormDataUnion>(
+  configurations,
   { formConfiguration = {} } = {},
 ) => {
   const schema = yup
     .object(
-      configuration.reduce(
-        (acc: Object, val: { field: string; validation: () => void }) => {
-          if (!val.field || !val.validation) return acc;
+      configurations.reduce(
+        (acc: Object, val: { name: string; validation: () => void }) => {
+          if (!val.name || !val.validation) return acc;
 
           return {
             ...acc,
-            [val.field]: val.validation,
+            [val.name]: val.validation,
           };
         },
         {},
@@ -26,19 +26,18 @@ const useParseStepConfiguration = (
 
   const resolver = yupResolver(schema);
 
-  const defaultValues = configuration.reduce(
-    (acc: Object, val: { field: string; defaultValue: unknown }) => {
-      if (!val.field || !val.defaultValue) return acc;
+  const defaultValues = configurations.reduce(
+    (acc: Object, val: { name: string; defaultValue: unknown }) => {
+      if (!val.name || !val.defaultValue) return acc;
       return {
         ...acc,
-        [val.field]: val.defaultValue,
+        [val.name]: val.defaultValue,
       };
     },
     {},
   );
 
-  const form = useForm<FormData>({
-    //@ts-expect-error
+  const form = useForm<TFormData>({
     resolver,
     defaultValues,
     ...formConfiguration,

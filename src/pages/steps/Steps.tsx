@@ -1,4 +1,5 @@
 import { TFunction } from 'i18next';
+import { useMemo } from 'react';
 import type { FieldError, Path, UseFormReturn } from 'react-hook-form';
 import { useTranslation, UseTranslationResponse } from 'react-i18next';
 
@@ -10,23 +11,26 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
+import type { FormData as EventFormData } from '../create/EventForm';
 import type { FormData as MovieFormData } from '../manage/movies/MovieForm';
 
-type FormDataIntersection = Partial<MovieFormData>;
+type FormDataUnion = MovieFormData & EventFormData;
 
-type StepsConfiguration<TFormData extends FormDataIntersection> = Array<{
+type StepsConfiguration<TFormData extends FormDataUnion> = {
   Component: any;
-  field?: Path<TFormData>;
+  defaultValue?: any;
+  name?: Path<TFormData>;
   step?: number;
-  title: (t: TFunction) => string;
+  title: (data: { t: TFunction } & UseFormReturn<TFormData, any>) => string;
   variant?: string;
-  shouldShowNextStep?: (
+  validation?: any;
+  shouldShowStep?: (
     data: UseFormReturn<TFormData> & {
       eventId?: string;
     },
   ) => boolean;
   stepProps?: Record<string, unknown>;
-}>;
+};
 
 type NumberIndicatorProps = {
   children: number;
@@ -90,31 +94,24 @@ StepWrapper.defaultProps = {
 
 const getValue = getValueFromTheme('createPage');
 
-type StepProps<TFormData extends FormDataIntersection> = Omit<
-  UseFormReturn<TFormData>,
-  'formState'
-> & {
-  formState: {
-    errors: Record<keyof TFormData, FieldError>;
-  };
-} & {
+type StepProps<TFormData extends FormDataUnion> = UseFormReturn<TFormData> & {
   loading: boolean;
-  field: Path<TFormData>;
+  name: Path<TFormData>;
   onChange: (value: any) => void;
 };
 
-type StepsProps<TFormData extends FormDataIntersection> = {
+type StepsProps<TFormData extends FormDataUnion> = {
   eventId?: string;
   form: UseFormReturn<TFormData>;
   fieldLoading?: string;
   onChange?: (editedField: string) => void;
   onChangeSuccess?: (editedField: string) => void;
-  configuration: StepsConfiguration<TFormData>;
+  configurations: Array<StepsConfiguration<TFormData>>;
 };
 
-const Steps = <TFormData extends FormDataIntersection>({
+const Steps = <TFormData extends FormDataUnion>({
   onChange,
-  configuration,
+  configurations,
   fieldLoading,
   form,
   eventId,
@@ -122,29 +119,30 @@ const Steps = <TFormData extends FormDataIntersection>({
 }: StepsProps<TFormData>) => {
   const { t } = useTranslation();
 
-  const showStep = ({ field, index }) => {
-    // when there is an eventId, we're in edit mode, show all steps
-    if (!!eventId) return true;
+  const configurationsWithComponent = useMemo(
+    () => configurations.filter(({ Component }) => !!Component),
+    [configurations],
+  );
 
+  const showStep = ({ name, index }) => {
     // don't hide steps that were visible before
-    if (Object.keys(form.getValues()).includes(field)) return true;
+    if (form.getFieldState(name).isTouched) return true;
 
-    // no shouldShowNextStep function = show the step
     return (
-      configuration[index - 1]?.shouldShowNextStep?.({
+      configurationsWithComponent[index]?.shouldShowStep?.({
         ...form,
         eventId,
-      }) ?? true
+      }) ?? false
     );
   };
 
   return (
     <Stack spacing={5} width="100%">
-      {configuration.map(
+      {configurationsWithComponent.map(
         (
           {
             Component: Step,
-            field,
+            name,
             stepProps = {},
             variant,
             step,
@@ -152,7 +150,7 @@ const Steps = <TFormData extends FormDataIntersection>({
           },
           index: number,
         ) => {
-          if (!showStep({ field, index })) {
+          if (!showStep({ name, index })) {
             return null;
           }
 
@@ -162,13 +160,13 @@ const Steps = <TFormData extends FormDataIntersection>({
             <StepWrapper
               stepNumber={stepNumber}
               key={`step${stepNumber}`}
-              title={getTitle(t)}
+              title={getTitle({ ...form, t })}
             >
-              <Step<TFormData>
+              <Step
                 key={index}
-                onChange={() => onChange(field)}
-                loading={!!(field && fieldLoading === field)}
-                field={field}
+                onChange={() => onChange(name)}
+                loading={!!(name && fieldLoading === name)}
+                name={name}
                 eventId={eventId}
                 variant={variant}
                 {...form}
@@ -189,4 +187,4 @@ Steps.defaultProps = {
 };
 
 export { Steps };
-export type { FormDataIntersection, StepProps, StepsConfiguration };
+export type { FormDataUnion, StepProps, StepsConfiguration };

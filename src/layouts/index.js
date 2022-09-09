@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { Cookies } from 'react-cookie';
 import { useTranslation } from 'react-i18next';
 
+import { useGetTermsQuery } from '@/hooks/api/terms';
 import { useGetUserQuery } from '@/hooks/api/user';
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import {
@@ -112,6 +113,7 @@ const Layout = ({ children }) => {
     },
   });
   useHandleAuthentication();
+  useGetTermsQuery();
 
   if (!cookies.token) return null;
 

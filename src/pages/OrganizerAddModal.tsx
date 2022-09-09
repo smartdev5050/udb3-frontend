@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -20,6 +20,11 @@ import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
 import { City, CityPicker } from './CityPicker';
+import {
+  ContactInfo,
+  ContactInfoEntry,
+  emptyContactInfo,
+} from './steps/ContactInfoEntry';
 
 export const getValue = getValueFromTheme('organizerAddModal');
 
@@ -40,6 +45,7 @@ const schema = yup
           .required(),
       })
       .required(),
+    contact: yup.array(yup.object({ type: yup.string(), value: yup.string() })),
   })
   .required();
 
@@ -53,6 +59,7 @@ const defaultValues: FormData = {
     streetAndNumber: '',
     city: undefined,
   },
+  contact: [],
 };
 
 type Props = {
@@ -73,6 +80,8 @@ const OrganizerAddModal = ({
   const [urlInputComponent] = useAutoFocus<HTMLInputElement>({
     retriggerOn: visible,
   });
+
+  const [contactInfo, setContactInfo] = useState(emptyContactInfo);
 
   const {
     register,
@@ -138,6 +147,23 @@ const OrganizerAddModal = ({
   const handleClose = () => {
     reset(defaultValues);
     onClose();
+  };
+
+  const handleSetContactInfo = (contactInfo: ContactInfo) => {
+    const organizerContactInfo = [];
+
+    Object.keys(contactInfo).map((key, index) => {
+      contactInfo[key].map((value: string) => {
+        organizerContactInfo.push({
+          type: key,
+          value,
+        });
+      });
+    });
+
+    setContactInfo(contactInfo);
+
+    setValue('contact', organizerContactInfo);
   };
 
   return (
@@ -270,6 +296,15 @@ const OrganizerAddModal = ({
               )}
             </Inline>
           </Stack>
+        </Stack>
+        <Stack spacing={2}>
+          <Title size={2}>Contact</Title>
+          <ContactInfoEntry
+            isOrganizer={true}
+            onSuccessfulChange={handleSetContactInfo}
+            withReservationInfo={false}
+            organizerContactInfo={contactInfo}
+          />
         </Stack>
       </Stack>
     </Modal>

@@ -39,7 +39,7 @@ type TypeaheadProps<T> = {
   selected: T[];
 };
 
-type Props<T> = Omit<BoxProps, 'onChange' | 'id' | 'labelKey'> &
+type Props<T> = Omit<BoxProps, 'onChange' | 'id' | 'labelKey' | 'options'> &
   TypeaheadProps<T> & { isInvalid?: boolean };
 
 type TypeaheadFunc = (<T>(

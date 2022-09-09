@@ -85,7 +85,74 @@
     "NL": "Nederland"
   },
   "create": {
+    "title": "Aanbod toevoegen",
+    "actions": {
+      "publish": "Publiceren",
+      "publish_later": "Later publiceren",
+      "save": "Opslaan"
+    },
+    "validation_messages": {
+      "location": {
+        "online_url": "Je online url voldoet niet aan de vereisten."
+      }
+    },
+    "scope": {
+      "title": "Wat wil je toevoegen?"
+    },
+    "location": {
+      "title": "Waar vindt dit evenement of deze activiteit plaats?",
+      "is_online": {
+        "label": "Online"
+      },
+      "online_url": {
+        "label": "Deelname-link",
+        "placeholder": "https://",
+        "info": "Voeg een link toe zodat mensen weten hoe ze aan je evenement kunnen deelnemen. Wil je de deelnamelink niet publiek delen? Dan kan je deze stap overslaan en deelname-instructies toevoegen aan je beschrijving in stap 5."
+      },
+      "municipality": {
+        "change": "Wijzigen"
+      },
+      "place": {
+        "choose_label": "Kies een locatie",
+        "placeholder": "Naam of adres"
+      }
+    },
+    "name_and_age": {
+      "title": " Basisgegevens",
+      "name": {
+        "title_events": "Naam van het evenement",
+        "title_places": "Naam van de locatie",
+        "tip_events": "Gebruik een <strong>sprekende titel</strong>, bv. \"Fietsen langs kapelletjes\", \"De Sage van de Eenhoorn\". Een <strong>uitgebreide beschrijving</strong> kan je in stap 5 toevoegen.",
+        "tip_places": "Gebruik de <strong>officiële benaming</strong>, bv. \"Gravensteen\", \"Abdijsite Herkenrode\", \"Cultuurcentrum De Werf\"."
+      },
+      "age": {
+        "title": "Geschikt voor",
+        "all": "Alle leeftijden",
+        "toddlers": "Peuters",
+        "preschoolers": "Kleuters",
+        "kids": "Kinderen",
+        "teenagers": "Tieners",
+        "youngsters": "Jongeren",
+        "adults": "Volwassenen",
+        "seniors": "Senioren",
+        "custom": "Andere",
+        "from": "Van",
+        "till": "Tot",
+        "age": "jaar",
+        "error_max_lower_than_min": "De maximumleeftijd kan niet lager zijn dan de minimumleeftijd.",
+        "error_no_min_age": "Gelieve een minimum leeftijd in te vullen"
+      }
+    },
+    "type_and_theme": {
+      "title_events": "Wat voor soort evenement wil je toevoegen?",
+      "title_places": "Wat voor soort locatie wil je toevoegen?",
+      "change_theme": "Wijzig thema",
+      "change_type": "Wijzig type",
+      "refine": "Verfijn"
+    },
     "additionalInformation": {
+      "title_events": "Laat dit evenement extra opvallen",
+      "title_places": "Laat deze locatie extra opvallen",
       "audience": {
         "title": "Toegang",
         "education": "Specifiek voor scholen",
@@ -168,7 +235,7 @@
         "intro": "Voeg een afbeelding toe zodat bezoekers je activiteit beter herkennen",
         "set_as_main_image": "Maak hoofdafbeelding"
       },
-      "pictures_and_videos": {
+      "media": {
         "title": "Media"
       },
       "price_info": {
@@ -190,6 +257,10 @@
       },
       "title": "Laat je evenement extra opvallen"
     },
+    "footer": {
+      "auto_save": "Je wijzigingen worden vanaf nu automatisch opgeslagen",
+      "done_editing": "Klaar met bewerken"
+    },
     "publish_modal": {
       "actions": {
         "cancel": "Annuleren",
@@ -201,10 +272,13 @@
     },
     "toast": {
       "success": {
-        "audienceType": "Toegang is succesvol gewijzigd",
-        "booking_info": "Reservatie info is succesvol gewijzigd",
-        "contact_point": "Contactinfo is succesvol gewijzigd",
-        "organizer": "Organisatie is succesvol gewijzigd"
+        "basic_info": "Basisgegevens zijn succesvol gewijzigd",
+        "description": "Beschrijving is succesvol gewijzigd",
+        "organizer": "Organisatie is succesvol gewijzigd",
+        "price_info": "Prijsinformatie is succesvol gewijzigd",
+        "contact_info": "Contactinfo is succesvol gewijzigd",
+        "media": "Media is succesvol gewijzigd",
+        "audience": "Toegang is succesvol gewijzigd"
       }
     }
   },
@@ -386,18 +460,15 @@
         "change_cinema": "Wijzig bioscoop",
         "change_name": "Wijzig naam",
         "change_theme": "Wijzig thema",
+        "change_type": "Wijzig type",
         "choose_cinema": "Kies een bioscoop",
         "choose_name": "Kies een naam",
         "clear": "Leegmaken",
         "copy_table": "Kopieer tabel",
-        "description": "Beschrijving",
-        "publish": "Publiceren",
-        "publish_later": "Later publiceren",
-        "save": "Opslaan"
+        "description": "Beschrijving"
       },
-      "footer": {
-        "auto_save": "Je wijzigingen worden vanaf nu automatisch opgeslagen",
-        "done_editing": "Klaar met bewerken"
+      "cinema": {
+        "placeholder": "Naam van bioscoop"
       },
       "step1": {
         "title": "Wat voor film wil je invoeren?"
@@ -457,14 +528,14 @@
     "reason": "Reden",
     "reasonTip": "Je kan optioneel een reden voor de statuswijziging opgeven. De reden wordt samen met de nieuwe status gepubliceerd op UiTinVlaanderen en andere UiT-kanalen.",
     "status": {
-      "event": {
+      "events": {
         "available": "Gaat door",
         "temporarilyUnavailable": "Uitgesteld",
         "temporarilyUnavailableInfo": "Je evenement is uitgesteld naar een later, nog te bepalen tijdstip.",
         "unavailable": "Geannuleerd",
         "unavailableInfo": "Je evenement gaat niet meer door op het voorziene tijdstip en ook niet op een later tijdstip."
       },
-      "place": {
+      "places": {
         "available": "Open",
         "temporarilyUnavailable": "Tijdelijk gesloten",
         "temporarilyUnavailableInfo": "Je locatie zal tijdelijk niet meer gepubliceerd worden op UiTinVlaanderen en andere UiT-kanalen. Wanneer je locatie terug open gaat, kan je de status opnieuw wijzigen naar 'open'.",

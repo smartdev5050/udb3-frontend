@@ -85,6 +85,70 @@
     "NL": "Niederlande"
   },
   "create": {
+    "actions": {
+      "publish": "Veröffentlichen",
+      "publish_later": "Später veröffentlichen",
+      "save": "Speichern"
+    },
+    "validation_messages": {
+      "location": {
+        "online_url": "Ihre Online-URL entspricht nicht den Anforderungen."
+      }
+    },
+    "scope": {
+      "title": "Was willst du hinzufügen"
+    },
+    "location": {
+      "title": "Wo findet diese Veranstaltung oder Aktivität statt?",
+      "is_online": {
+        "label": "Online"
+      },
+      "online_url": {
+        "label": "Teilnahmelink",
+        "placeholder": "https://",
+        "info": "Fügen Sie einen Link hinzu, damit die Leute wissen, wie sie an Ihrer Veranstaltung teilnehmen können. Sie möchten den Link zur Teilnahme nicht öffentlich freigeben? Dann können Sie diesen Schritt überspringen und die Teilnahmeanweisungen in Schritt 5 Ihrer Beschreibung hinzufügen."
+      },
+      "municipality": {
+        "change": "Ändern"
+      },
+      "place": {
+        "choose_label": "Wählen Sie einen Standort aus",
+        "placeholder": "Name oder Adresse"
+      }
+    },
+    "name_and_age": {
+      "title": " Basisangaben",
+      "name": {
+        "title_events": "Name der Veranstaltung",
+        "title_places": "Bezeichnung des Ortes",
+        "tip_events": "Verwenden Sie einen <strong>aussagekräftigen Titel</strong>, zB. \"Radtour entlang von Kapellen\", \"Die Sage vom Einhorn\".",
+        "tip_places": "Verwenden Sie die <strong>offizielle Bezeichnung</strong>, zB. \"Gravensteen\", \"Abdijsite Herkenrode\", \"Cultuurcentrum De Werf\"."
+      },
+      "age": {
+        "title": "Geeignet für",
+        "all": "Alle Altersgruppen",
+        "toddlers": "Kleinkinder",
+        "preschoolers": "Kindergartenkinder",
+        "kids": "Kinder",
+        "teenagers": "Teenager",
+        "youngsters": "Junge",
+        "adults": "Erwachsene",
+        "seniors": "Senioren",
+        "custom": "Andere",
+        "fro": "Von",
+        "till": "Bis",
+        "age": "Jahre",
+        "error_max_lower_than_min": "Das Höchstalter kann nicht unter dem Mindestalter liegen.",
+        "error_no_min_age": "Bitte geben Sie ein Mindestalter ein"
+      }
+    },
+    "type_and_theme": {
+      "title_events": "Welche Art von Veranstaltung möchten Sie hinzufügen?",
+      "title_places": "Welche Art von Standort möchten Sie hinzufügen?",
+      "change_theme": "Ändert den thema",
+      "change_type": "Ändert den typ",
+      "refine": "Verfeinere"
+    },
     "additionalInformation": {
       "audience": {
         "education": "Nur für Schulen",
@@ -168,7 +232,7 @@
         "intro": "Fügen Sie eine Abbildung hinzu, damit die Besucher Ihre Aktivität besser erkennen können.",
         "set_as_main_image": "Hauptabbildung erstellen"
       },
-      "pictures_and_videos": {
+      "media": {
         "title": "Medien"
       },
       "price_info": {
@@ -202,10 +266,13 @@
     },
     "toast": {
       "success": {
-        "audienceType": "Zugang wurde erfolgreich geändert",
-        "booking_info": "Reservierungsinformationen wurden erfolgreich geändert",
-        "contact_point": "Kontaktdaten wurden erfolgreich geändert",
-        "organizer": "Organisation wurde erfolgreich geändert"
+        "basic_info": "Grunddaten wurden erfolgreich geändert",
+        "description": "Die Beschreibung wurde erfolgreich geändert",
+        "organizer": "Organisation wurde erfolgreich geändert",
+        "price_info": "Preisinformationen wurden erfolgreich geändert",
+        "contact_info": "Kontaktdaten wurden erfolgreich geändert",
+        "media": "Medien erfolgreich gewechselt",
+        "audience": "Zugang wurde erfolgreich geändert"
       }
     }
   },
@@ -391,10 +458,10 @@
         "choose_name": "",
         "clear": "",
         "copy_table": "",
-        "description": "",
-        "publish": "",
-        "publish_later": "",
-        "save": ""
+        "description": ""
+      },
+      "cinema": {
+        "placeholder": ""
       },
       "footer": {
         "auto_save": "",
@@ -458,14 +525,14 @@
     "reason": "Grund",
     "reasonTip": "Sie können optional einen Grund für die Statusänderung angeben. Der Grund wird zusammen mit dem neuen Status auf UiTinVlaanderen und anderen UiT-Kanälen veröffentlicht.",
     "status": {
-      "event": {
+      "events": {
         "available": "Findet statt",
         "temporarilyUnavailable": "Verlegt",
         "temporarilyUnavailableInfo": "Ihre Veranstaltung wurde auf einen späteren, noch unbekannten Zeitpunkt verlegt.",
         "unavailable": "Abgesagt",
         "unavailableInfo": "Ihre Veranstaltung findet nicht mehr zum vorgesehenen Zeitpunkt und auch zu keinem späteren Zeitpunkt statt."
       },
-      "place": {
+      "places": {
         "available": "Offen",
         "temporarilyUnavailable": "Zeitweise geschlossen",
         "temporarilyUnavailableInfo": "Ihr Ort wird vorübergehend nicht mehr auf UiTinVlaanderen und anderen UiT-Kanälen angezeigt. Sobald Ihr Ort wieder öffnet, können Sie den Status erneut auf 'offen' ändern.",

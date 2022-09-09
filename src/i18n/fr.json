@@ -85,6 +85,71 @@
     "NL": "Pays-Bas"
   },
   "create": {
+    "title": "Ajouter une offre",
+    "actions": {
+      "publish": "Publier",
+      "publish_later": "Publier plus tard",
+      "save": "Sauver"
+    },
+    "validation_messages": {
+      "location": {
+        "online_url": "Votre URL en ligne ne répond pas aux exigences."
+      }
+    },
+    "scope": {
+      "title": "Que voulez-vous ajouter"
+    },
+    "location": {
+      "title": "Où cet événement ou cette activité aura-t-il lieu?",
+      "is_online": {
+        "label": "En ligne"
+      },
+      "online_url": {
+        "label": "Lien de participation",
+        "placeholder": "https://",
+        "info": "Ajoutez un lien pour informer votre public de comment participer à votre événement. Vous ne souhaitez pas partager publiquement ce lien? Vous pouvez sauter cette étape et ajouter les informations relatives à la participation à votre description à l'étape 5."
+      },
+      "municipality": {
+        "change": "Modifier"
+      },
+      "place": {
+        "choose_label": "Choisissez un emplacement",
+        "placeholder": "Nom ou adresse"
+      }
+    },
+    "name_and_age": {
+      "title": " Données de base",
+      "name": {
+        "title_events": "Nom de l'événement",
+        "title_places": "Nom du lieu",
+        "tip_events": "Choisissez un <strong>bon titre</strong>, p.ex. \"Rouler à vélo le long des chapelles\", \"La Saga de la Licorne\".",
+        "tip_places": "Utilisez la <strong>dénomination officielle</strong>, p.ex. \"Argos, centre pour l'art et les médias\", \"Site de l'abbaye Herkenrode\", \"Centre culturel De Werf\"."
+      },
+      "age": {
+        "title": "Adapté à",
+        "all": "De tous âges",
+        "toddlers": "Tout-petits",
+        "preschoolers": "Jeunes enfants",
+        "kids": "Enfants d'âge scolaire",
+        "teenagers": "Adolescents",
+        "youngsters": "Jeunes",
+        "adults": "Adultes",
+        "seniors": "Seniors",
+        "custom": "Autres",
+        "from": "De",
+        "till": "à",
+        "age": "ans",
+        "error_max_lower_than_min": "L'âge maximum ne peut être inférieur à l'âge minimum.",
+        "error_no_min_age": "Veuillez entrer un âge minimum"
+      }
+    },
+    "type_and_theme": {
+      "title_events": "Quel type d'événement souhaitez-vous ajouter?",
+      "title_places": "Quel type de lieu souhaitez-vous ajouter?",
+      "change_theme": "Changer thème",
+      "change_type": "Changer type",
+      "refine": "Affiner"
+    },
     "additionalInformation": {
       "audience": {
         "education": "Spécifiquement pour des écoles",
@@ -168,7 +233,7 @@
         "intro": "Ajoutez une image de sorte que les visiteurs reconnaissent mieux votre activité.",
         "set_as_main_image": "Créer image principale"
       },
-      "pictures_and_videos": {
+      "media": {
         "title": "Médias"
       },
       "price_info": {
@@ -190,6 +255,10 @@
       },
       "title": "Augmentez la visibilité de votre évènement"
     },
+    "footer": {
+      "auto_save": "Je wijzigingen worden vanaf nu automatisch opgeslagen",
+      "done_editing": "Klaar met bewerken"
+    },
     "publish_modal": {
       "actions": {
         "cancel": "Annuler",
@@ -201,10 +270,13 @@
     },
     "toast": {
       "success": {
-        "audienceType": "Accès modifié avec succès",
-        "booking_info": "Les informations de réservation ont été modifiées avec succès",
-        "contact_point": "Les coordonnées ont été modifiées avec succès",
-        "organizer": "L'organisation modifiée avec succès"
+        "basic_info": "Les données de base ont été modifiées avec succès",
+        "description": "La description a été modifiée avec succès",
+        "organizer": "L'organisation a modifiée avec succès",
+        "price_info": "Les prix ont été modifiées avec succès",
+        "contact_info": "Les coordonnées ont été modifiées avec succès",
+        "media": "Media is succesvol gewijzigd",
+        "audience": "Accès modifié avec succès"
       }
     }
   },
@@ -390,14 +462,10 @@
         "choose_name": "",
         "clear": "",
         "copy_table": "",
-        "description": "",
-        "publish": "",
-        "publish_later": "",
-        "save": ""
+        "description": ""
       },
-      "footer": {
-        "auto_save": "",
-        "done_editing": ""
+      "cinema": {
+        "placeholder": ""
       },
       "step1": {
         "title": ""
@@ -457,14 +525,14 @@
     "reason": "Raison",
     "reasonTip": "Vous pouvez éventuellement indiquer un motif de changement de statut. Le motif sera publié en même temps que le nouveau statut sur UiTinVlaanderen et les autres calendriers de UiT.",
     "status": {
-      "event": {
+      "events": {
         "available": "A lieu",
         "temporarilyUnavailable": "Reporté",
         "temporarilyUnavailableInfo": "Votre événement a été reporté à une date ultérieure qui reste à déterminer.",
         "unavailable": "Annulé",
         "unavailableInfo": "Votre événement n'aura pas lieu à l'heure prévue ou à une date ultérieure."
       },
-      "place": {
+      "places": {
         "available": "Ouvert",
         "temporarilyUnavailable": "Fermé temporairement",
         "temporarilyUnavailableInfo": "Votre lieu ne sera temporairement plus publiée sur UiTinVlaanderen et les autres calendriers de UiT. Lorsque votre lieu rouvre, vous pouvez en modifier le statut pour qu'il redevienne 'ouvert'.",

@@ -1,13 +1,11 @@
 const { withSentryConfig } = require('@sentry/nextjs');
 
+/**
+ * @type {import('next').NextConfig}
+ */
 const moduleExports = {
   productionBrowserSourceMaps: true,
-  stories: ['../src/ui/**/*.stories.mdx'],
-  addons: [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/addon-a11y',
-  ],
+  swcMinify: true,
   async redirects() {
     // Redirects to fix non-existing paths should go in `src/redirects.js`!!!
     const env = process.env.NEXT_PUBLIC_ENVIRONMENT;
@@ -27,6 +25,7 @@ const moduleExports = {
     authUrl: process.env.NEXT_PUBLIC_AUTH_URL,
     socketUrl: process.env.NEXT_PUBLIC_SOCKET_URL,
     newAnnouncementsUrl: process.env.NEXT_PUBLIC_NEW_ANNOUNCEMENTS_URL,
+    taxonomyUrl: process.env.NEXT_PUBLIC_TAXONOMY_URL,
     sentryDsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
     newsletterApiUrl: process.env.NEXT_PUBLIC_NEWSLETTER_API_URL,
     newsletterEmailListId: process.env.NEXT_PUBLIC_NEWSLETTER_EMAIL_LIST_ID,

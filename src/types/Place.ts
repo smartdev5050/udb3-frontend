@@ -11,7 +11,8 @@ type Place = Offer & {
 };
 
 const isPlace = (value: unknown): value is Event => {
-  return value['@context'] === '/contexts/place';
+  if (typeof value?.['@context'] !== 'string') return false;
+  return value['@context'].endsWith('/place');
 };
 
 const arePlaces = (value: any): value is Place => {

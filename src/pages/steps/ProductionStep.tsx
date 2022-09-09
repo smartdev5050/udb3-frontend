@@ -14,7 +14,11 @@ import {
   useCreateWithEventsMutation as useCreateProductionWithEventsMutation,
   useDeleteEventByIdMutation as useDeleteEventFromProductionByIdMutation,
 } from '@/hooks/api/productions';
-import type { FormDataIntersection, StepProps } from '@/pages/steps/Steps';
+import type {
+  FormDataUnion,
+  StepProps,
+  StepsConfiguration,
+} from '@/pages/steps/Steps';
 import type { Production } from '@/types/Production';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
@@ -27,12 +31,12 @@ import { getValueFromTheme } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
 import { valueToArray } from '@/utils/valueToArray';
 
-type ProductionStepProps<TFormData extends FormDataIntersection> = StackProps &
+type ProductionStepProps<TFormData extends FormDataUnion> = StackProps &
   StepProps<TFormData>;
 
 const getValue = getValueFromTheme('createPage');
 
-const useEditNameAndProduction = <TFormData extends FormDataIntersection>({
+const useEditNameAndProduction = <TFormData extends FormDataUnion>({
   onSuccess,
   eventId,
 }) => {
@@ -82,12 +86,12 @@ const useEditNameAndProduction = <TFormData extends FormDataIntersection>({
   };
 };
 
-const ProductionStep = <TFormData extends FormDataIntersection>({
+const ProductionStep = <TFormData extends FormDataUnion>({
   formState: { errors },
   control,
   getValues,
   reset,
-  field,
+  name,
   onChange,
   ...props
 }: ProductionStepProps<TFormData>) => {
@@ -109,16 +113,16 @@ const ProductionStep = <TFormData extends FormDataIntersection>({
   ]);
 
   return (
-    <Controller<TFormData>
+    <Controller
       control={control}
-      name={field}
+      name={name}
       render={({ field }) => {
         const selectedProduction = field?.value;
 
         if (!selectedProduction) {
           return (
             <FormElement
-              id="step4-name-typeahead"
+              id="production-step-name-typeahead"
               label={t('movies.create.actions.choose_name')}
               error={
                 errors?.production
@@ -174,14 +178,12 @@ const ProductionStep = <TFormData extends FormDataIntersection>({
   );
 };
 
-const productionStepConfiguration = {
+const productionStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: ProductionStep,
   validation: yup.object().shape({}).required(),
-  field: 'production',
-  shouldShowNextStep: ({ formState: { errors }, eventId }) => {
-    return !!eventId && Object.values(errors).length === 0;
-  },
-  title: (t) => t(`movies.create.step4.title`),
+  name: 'production',
+  shouldShowStep: ({ watch }) => !!watch('place'),
+  title: ({ t }) => t(`movies.create.step4.title`),
 };
 
 export { productionStepConfiguration, useEditNameAndProduction };
