@@ -64,7 +64,7 @@ const BarometerIcon = ({ rotationValue }: { rotationValue: number }) => {
             css={`
               transform: rotate(${rotationValue}deg);
               transform-origin: 50% 58%;
-              transition: transform 0.8s ease-in-out;
+              transition: transform 1s ease-in-out;
             `}
             fill="#B3ADB5"
             d="m126.39 349.1 97.24-60.6a50.87 50.87 0 1 0-33.49-36.9l-69.71 90.92c-3.05 3.99 1.7 9.23 5.96 6.57Z"
