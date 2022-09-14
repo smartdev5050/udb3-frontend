@@ -147,6 +147,9 @@ const theme = {
         focusBoxShadow: 'none',
       },
     },
+    global: {
+      successIcon: colors.green3,
+    },
     pagination: {
       color: colors.textColor,
       activeBackgroundColor: colors.red2,
