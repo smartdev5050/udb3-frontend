@@ -1,6 +1,5 @@
-import type { Values } from '@/types/Values';
-
 import { parseSpacing } from './Box';
+import { Icon, Icons } from './Icon';
 import type { StackProps } from './Stack';
 import { getStackProps, Stack } from './Stack';
 import { Text } from './Text';
@@ -41,6 +40,17 @@ const ToggleBox = ({
       `}
       {...getStackProps(props)}
     >
+      {active && (
+        <Icon
+          css={`
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            color: ${getValue('iconCheckColor')};
+          `}
+          name={Icons.CHECK_CIRCLE}
+        />
+      )}
       {icon && <Stack>{icon}</Stack>}
       {text && (
         <Text
