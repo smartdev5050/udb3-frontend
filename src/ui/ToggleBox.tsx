@@ -1,7 +1,6 @@
 import type { Values } from '@/types/Values';
 
 import { parseSpacing } from './Box';
-import { Icon, Icons } from './Icon';
 import type { StackProps } from './Stack';
 import { getStackProps, Stack } from './Stack';
 import { Text } from './Text';
@@ -11,7 +10,7 @@ const getValue = getValueFromTheme(`toggleBox`);
 
 type Props = StackProps & {
   active: boolean;
-  icon: Values<typeof Icons>;
+  icon?: JSX.Element;
   text: string;
 };
 
@@ -27,39 +26,22 @@ const ToggleBox = ({
     <Stack
       forwardedAs="button"
       onClick={onClick}
-      padding={5}
+      padding={5.5}
       alignItems="center"
       position="relative"
+      spacing={3}
       backgroundColor={getValue(
         active ? 'activeBackgroundColor' : 'backgroundColor',
       )}
       minWidth={parseSpacing(8)}
+      borderRadius="0.5rem"
       css={`
-        border: 1px solid ${getValue('borderColor')};
+        border: none;
+        box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
       `}
       {...getStackProps(props)}
     >
-      {active && (
-        <Icon
-          name={Icons.CHECK_CIRCLE}
-          backgroundColor="white"
-          borderRadius="50%"
-          color={getValue('iconCheckColor')}
-          position="absolute"
-          top={-7}
-          left={-6}
-          width={15}
-          height={15}
-        />
-      )}
-      {icon && (
-        <Icon
-          name={icon}
-          color={getValue('iconColor')}
-          width={30}
-          height={30}
-        />
-      )}
+      {icon && <Stack>{icon}</Stack>}
       {text && (
         <Text
           color={getValue(active ? 'activeTextColor' : 'textColor')}
