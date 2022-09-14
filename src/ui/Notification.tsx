@@ -29,7 +29,7 @@ const commonCss = css`
 `;
 
 type Props = {
-  icon: JSX.Element;
+  icon?: JSX.Element;
   header?: JSX.Element;
   body: JSX.Element;
 };
