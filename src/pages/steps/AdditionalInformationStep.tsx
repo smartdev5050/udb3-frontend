@@ -61,8 +61,8 @@ const tabConfigurations: TabConfig[] = [
     shouldShowOnMinimal: true,
   },
   {
-    field: Fields.ORGANIZER,
-    TabContent: OrganizerStep,
+    field: Fields.MEDIA,
+    TabContent: MediaStep,
     shouldShowOnMinimal: true,
   },
   {
@@ -79,8 +79,8 @@ const tabConfigurations: TabConfig[] = [
     },
   },
   {
-    field: Fields.MEDIA,
-    TabContent: MediaStep,
+    field: Fields.ORGANIZER,
+    TabContent: OrganizerStep,
     shouldShowOnMinimal: true,
   },
   {
