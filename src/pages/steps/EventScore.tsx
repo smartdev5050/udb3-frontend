@@ -10,6 +10,8 @@ import { Text } from '@/ui/Text';
 import { Field } from './AdditionalInformationStep';
 
 const BarometerIcon = ({ rotationValue }: { rotationValue: number }) => {
+  const initialRotationValue = 15;
+
   return (
     <div
       css={`
@@ -62,7 +64,9 @@ const BarometerIcon = ({ rotationValue }: { rotationValue: number }) => {
           />
           <path
             css={`
-              transform: rotate(${rotationValue}deg);
+              transform: rotate(
+                ${rotationValue === 0 ? initialRotationValue : rotationValue}deg
+              );
               transform-origin: 50% 58%;
               transition: transform 1s ease-in-out;
             `}
