@@ -154,7 +154,7 @@ const PriceInformation = ({
     watch,
     setValue,
     trigger,
-    formState: { errors },
+    formState: { errors, touchedFields },
     handleSubmit,
   } = useForm<FormData>({
     mode: 'onBlur',
@@ -277,6 +277,8 @@ const PriceInformation = ({
   };
 
   useEffect(() => {
+    if (Object.keys(touchedFields).length === 0) return;
+
     const errorRates = (errors.rates || []).filter(
       (error: any) => error !== undefined,
     );
