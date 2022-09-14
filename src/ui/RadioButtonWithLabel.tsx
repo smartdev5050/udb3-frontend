@@ -9,7 +9,7 @@ import { Stack } from './Stack';
 import { Text, TextVariants } from './Text';
 
 type Props = RadioButtonProps &
-  BoxProps & {
+  Omit<BoxProps, 'onChange'> & {
     info?: string;
     label?: ReactNode;
   };
@@ -24,6 +24,7 @@ const RadioButtonWithLabel = ({
   value,
   className,
   checked,
+  type,
   ...props
 }: Props) => {
   return (
@@ -36,6 +37,7 @@ const RadioButtonWithLabel = ({
     >
       <RadioButton
         id={id}
+        type={type}
         onChange={onChange}
         disabled={disabled}
         value={value}

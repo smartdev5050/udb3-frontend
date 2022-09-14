@@ -47,7 +47,13 @@ const FormElement = ({
   });
 
   return (
-    <Wrapper as="div" alignItems="flex-start" {...wrapperProps}>
+    <Wrapper
+      as="div"
+      alignItems={
+        labelPosition === LabelPositions.LEFT ? 'center' : 'flex-start'
+      }
+      {...wrapperProps}
+    >
       {label && (
         <Label
           variant={LabelVariants.BOLD}

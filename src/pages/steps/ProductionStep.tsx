@@ -122,7 +122,7 @@ const ProductionStep = <TFormData extends FormDataUnion>({
         if (!selectedProduction) {
           return (
             <FormElement
-              id="step4-name-typeahead"
+              id="production-step-name-typeahead"
               label={t('movies.create.actions.choose_name')}
               error={
                 errors?.production
@@ -183,7 +183,7 @@ const productionStepConfiguration: StepsConfiguration<FormDataUnion> = {
   validation: yup.object().shape({}).required(),
   name: 'production',
   shouldShowStep: ({ watch }) => !!watch('place'),
-  title: (t) => t(`movies.create.step4.title`),
+  title: ({ t }) => t(`movies.create.step4.title`),
 };
 
 export { productionStepConfiguration, useEditNameAndProduction };

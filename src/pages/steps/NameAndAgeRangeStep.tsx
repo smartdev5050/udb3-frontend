@@ -65,8 +65,11 @@ const NameAndAgeRangeStep = <TFormData extends FormDataUnion>({
 const nameAndAgeRangeStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: NameAndAgeRangeStep,
   name: 'nameAndAgeRange',
-  title: (t) => t('create.step4.title'),
-  shouldShowStep: ({ watch }) => !!watch('municipalityAndPlace')?.place,
+  title: ({ t }) => t('create.name_and_age.title'),
+  shouldShowStep: ({ watch }) => {
+    const location = watch('location');
+    return !!location?.place || location?.isOnline;
+  },
 };
 
 export { nameAndAgeRangeStepConfiguration, useEditNameAndAgeRange };

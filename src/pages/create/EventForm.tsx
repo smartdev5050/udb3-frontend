@@ -2,14 +2,14 @@ import { useTranslation } from 'react-i18next';
 
 import { OfferType } from '@/constants/OfferType';
 import { SupportedLanguages } from '@/i18n/index';
-import { Event, isEvent } from '@/types/Event';
+import { AttendanceMode, Event, isEvent } from '@/types/Event';
 import { Place } from '@/types/Place';
 import { Values } from '@/types/Values';
 
 import { City } from '../CityPicker';
 import { additionalInformationStepConfiguration } from '../steps/AdditionalInformationStep';
 import { typeAndThemeStepConfiguration } from '../steps/EventTypeAndThemeStep';
-import { municipalityAndPlaceStepConfiguration } from '../steps/MunicipalityAndPlaceStep';
+import { locationStepConfiguration } from '../steps/LocationStep';
 import { nameAndAgeRangeStepConfiguration } from '../steps/NameAndAgeRangeStep';
 import { scopeStepConfiguration } from '../steps/ScopeStep';
 import { StepsForm } from '../steps/StepsForm';
@@ -22,7 +22,9 @@ type FormData = {
     type: { id: string; label: string };
     theme: { id: string; label: string };
   };
-  municipalityAndPlace: {
+  location: {
+    isOnline: boolean;
+    onlineUrl: string;
     municipality: City;
     place: Place;
   };
@@ -40,7 +42,8 @@ const EventForm = () => {
       event.location.address[i18n.language] ?? event.location.address;
     return {
       scope: isEvent(event) ? OfferType.EVENTS : OfferType.PLACES,
-      municipalityAndPlace: {
+      location: {
+        isOnline: event.attendanceMode === AttendanceMode.ONLINE,
         municipality: {
           zip: eventAddress.postalCode,
           label: `${eventAddress.postalCode} ${eventAddress.addressLocality}`,
@@ -70,7 +73,7 @@ const EventForm = () => {
 
   return (
     <StepsForm
-      title={t(`event.create.title`)}
+      title={t(`create.title`)}
       convertFormDataToEvent={convertFormDataToEvent}
       convertEventToFormData={convertEventToFormData}
       toastConfiguration={{
@@ -89,7 +92,7 @@ const EventForm = () => {
       configurations={[
         scopeStepConfiguration,
         typeAndThemeStepConfiguration,
-        municipalityAndPlaceStepConfiguration,
+        locationStepConfiguration,
         nameAndAgeRangeStepConfiguration,
         additionalInformationStepConfiguration,
       ]}

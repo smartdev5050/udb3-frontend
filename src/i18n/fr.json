@@ -85,11 +85,30 @@
     "NL": "Pays-Bas"
   },
   "create": {
-    "step2": {
+    "title": "Ajouter une offre",
+    "actions": {
+      "publish": "Publier",
+      "publish_later": "Publier plus tard",
+      "save": "Sauver"
+    },
+    "validation_messages": {
+      "location": {
+        "online_url": "Votre URL en ligne ne répond pas aux exigences."
+      }
+    },
+    "scope": {
       "title": "Que voulez-vous ajouter"
     },
-    "municipality_and_place": {
+    "location": {
       "title": "Où cet événement ou cette activité aura-t-il lieu?",
+      "is_online": {
+        "label": "En ligne"
+      },
+      "online_url": {
+        "label": "Lien de participation",
+        "placeholder": "https://",
+        "info": "Ajoutez un lien pour informer votre public de comment participer à votre événement. Vous ne souhaitez pas partager publiquement ce lien? Vous pouvez sauter cette étape et ajouter les informations relatives à la participation à votre description à l'étape 5."
+      },
       "municipality": {
         "change": "Modifier"
       },
@@ -98,7 +117,7 @@
         "placeholder": "Nom ou adresse"
       }
     },
-    "step4": {
+    "name_and_age": {
       "title": " Données de base",
       "name": {
         "title_events": "Nom de l'événement",
@@ -125,6 +144,8 @@
       }
     },
     "type_and_theme": {
+      "title_events": "Quel type d'événement souhaitez-vous ajouter?",
+      "title_places": "Quel type de lieu souhaitez-vous ajouter?",
       "change_theme": "Changer thème",
       "change_type": "Changer type",
       "refine": "Affiner"
@@ -233,6 +254,10 @@
         "uitpas_error": "Le prix UiTPAS est calculé pour vous par UiTdatabank. Vous ne pouvez pas les ajouter vous-même."
       },
       "title": "Augmentez la visibilité de votre évènement"
+    },
+    "footer": {
+      "auto_save": "Je wijzigingen worden vanaf nu automatisch opgeslagen",
+      "done_editing": "Klaar met bewerken"
     },
     "publish_modal": {
       "actions": {
@@ -437,17 +462,10 @@
         "choose_name": "",
         "clear": "",
         "copy_table": "",
-        "description": "",
-        "publish": "",
-        "publish_later": "",
-        "save": ""
+        "description": ""
       },
       "cinema": {
         "placeholder": ""
-      },
-      "footer": {
-        "auto_save": "",
-        "done_editing": ""
       },
       "step1": {
         "title": ""

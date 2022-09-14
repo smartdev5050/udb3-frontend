@@ -188,7 +188,7 @@ const typeAndThemeStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: EventTypeAndThemeStep,
   name: 'typeAndTheme',
   validation: yup.object().shape({}).required(),
-  title: (t) => t(`create.step2.title`),
+  title: ({ t, watch }) => t(`create.type_and_theme.title_${watch('scope')}`),
   shouldShowStep: ({ watch }) => !!watch('scope'),
 };
 

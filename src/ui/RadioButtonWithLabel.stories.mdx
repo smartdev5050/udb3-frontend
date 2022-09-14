@@ -1,10 +1,21 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
 import { RadioButtonWithLabel } from './RadioButtonWithLabel';
+import { RadioButtonTypes } from './RadioButton';
+import { useState } from 'react';
 
 <Meta
   title="Components/RadioButtonWithLabel"
   component={RadioButtonWithLabel}
 />
+
+export const argTypes = {
+  type: {
+    control: {
+      type: 'select',
+      options: Object.values(RadioButtonTypes),
+    },
+  },
+};
 
 <Canvas>
   <Story
@@ -13,11 +24,24 @@ import { RadioButtonWithLabel } from './RadioButtonWithLabel';
       id: '123',
       name: 'my-checkbox',
       disabled: false,
-      label: 'Click me',
+      label: 'Online',
+      type: RadioButtonTypes.RADIO,
+      onChange: () => {},
     }}
+    argTypes={argTypes}
   >
     {(args) => {
-      return <RadioButtonWithLabel {...args} />;
+      const [checked, setChecked] = useState(false);
+      return (
+        <RadioButtonWithLabel
+          {...args}
+          checked={checked}
+          onChange={(e) => {
+            setChecked(e.target.checked);
+            args.onChange(e.target.checked);
+          }}
+        />
+      );
     }}
   </Story>
 </Canvas>

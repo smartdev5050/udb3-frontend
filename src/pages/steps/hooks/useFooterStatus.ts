@@ -20,7 +20,7 @@ const useFooterStatus = ({ event, form }) => {
   const isMutating = queryClient.isMutating();
   const fetchedEventId = event?.['@id'];
   const availableFrom = event?.availableFrom;
-  const isPlaceDirty = dirtyFields.place;
+  const isPlaceDirty = dirtyFields.place || dirtyFields.location;
 
   const footerStatus = useMemo(() => {
     if (fetchedEventId && !availableFrom) {
