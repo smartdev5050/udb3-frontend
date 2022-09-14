@@ -170,12 +170,16 @@ const PictureUploadBox = ({
           })}
         </Stack>
         <Stack alignItems="center" padding={4} spacing={3}>
-          <Stack>
-            <ImageIcon width="60" />
-          </Stack>
-          <Text variant={TextVariants.MUTED} textAlign="center">
-            {t('pictures.intro')}
-          </Text>
+          {images.length === 0 && (
+            <>
+              <Stack>
+                <ImageIcon width="60" />
+              </Stack>
+              <Text variant={TextVariants.MUTED} textAlign="center">
+                {t('pictures.intro')}
+              </Text>
+            </>
+          )}
           <Button variant={ButtonVariants.SECONDARY} onClick={onClickAddImage}>
             {t('pictures.add_button')}
           </Button>

@@ -132,12 +132,16 @@ const VideoUploadBox = ({
           })}
         </Stack>
         <Stack alignItems="center" padding={4} spacing={3}>
-          <Stack>
-            <VideoIcon width="60" />
-          </Stack>
-          <Text variant={TextVariants.MUTED} textAlign="center">
-            {t('videos.intro')}
-          </Text>
+          {videos?.length === 0 && (
+            <>
+              <Stack>
+                <VideoIcon width="60" />
+              </Stack>
+              <Text variant={TextVariants.MUTED} textAlign="center">
+                {t('videos.intro')}
+              </Text>
+            </>
+          )}
           <Button variant={ButtonVariants.SECONDARY} onClick={onClickAddVideo}>
             {t('videos.add_button')}
           </Button>
