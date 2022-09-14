@@ -72,7 +72,7 @@ const VideoUploadBox = ({
   const { t } = useTranslation();
 
   return (
-    <Stack spacing={2}>
+    <Stack spacing={2} {...getStackProps(props)}>
       <Title size={3}>{t('videos.title')}</Title>
       <Stack
         flex={1}
@@ -83,7 +83,6 @@ const VideoUploadBox = ({
         css={`
           border: 1px solid ${getValue('borderColor')};
         `}
-        {...getStackProps(props)}
       >
         <Stack
           spacing={2}
@@ -133,14 +132,14 @@ const VideoUploadBox = ({
         </Stack>
         <Stack alignItems="center" padding={4} spacing={3}>
           {videos?.length === 0 && (
-            <>
+            <Stack alignItems="center">
               <Stack>
                 <VideoIcon width="60" />
               </Stack>
               <Text variant={TextVariants.MUTED} textAlign="center">
                 {t('videos.intro')}
               </Text>
-            </>
+            </Stack>
           )}
           <Button variant={ButtonVariants.SECONDARY} onClick={onClickAddVideo}>
             {t('videos.add_button')}

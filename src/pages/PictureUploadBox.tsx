@@ -83,6 +83,7 @@ const PictureUploadBox = ({
       spacing={2}
       onDrop={handleDrop}
       onDragOver={(e) => e.preventDefault()}
+      {...getStackProps(props)}
     >
       <Title size={3}>{t('pictures.title')}</Title>
       <Stack
@@ -94,7 +95,6 @@ const PictureUploadBox = ({
         css={`
           border: 1px solid ${getValue('borderColor')};
         `}
-        {...getStackProps(props)}
       >
         <Stack
           spacing={2}
@@ -171,14 +171,14 @@ const PictureUploadBox = ({
         </Stack>
         <Stack alignItems="center" padding={4} spacing={3}>
           {images.length === 0 && (
-            <>
+            <Stack alignItems="center">
               <Stack>
                 <ImageIcon width="60" />
               </Stack>
               <Text variant={TextVariants.MUTED} textAlign="center">
                 {t('pictures.intro')}
               </Text>
-            </>
+            </Stack>
           )}
           <Button variant={ButtonVariants.SECONDARY} onClick={onClickAddImage}>
             {t('pictures.add_button')}

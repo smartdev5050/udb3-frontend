@@ -317,8 +317,9 @@ const MediaStep = ({
         onConfirm={() => handleConfirmDeleteVideo(videoToDeleteId)}
         onClose={() => setIsVideoLinkDeleteModalVisible(false)}
       />
-      <Inline spacing={4} flex={1} stackOn={Breakpoints.M}>
+      <Inline spacing={4} alignItems="flex-start" stackOn={Breakpoints.M}>
         <PictureUploadBox
+          width="45%"
           images={images}
           onClickEditImage={handleClickEditImage}
           onClickDeleteImage={handleClickDeleteImage}
@@ -327,6 +328,7 @@ const MediaStep = ({
           onDragAddImage={handleDragAddImage}
         />
         <VideoUploadBox
+          width="45%"
           videos={videos}
           onClickAddVideo={() => setIsVideoLinkAddModalVisible(true)}
           onClickDeleteVideo={handleDeleteVideoLink}
