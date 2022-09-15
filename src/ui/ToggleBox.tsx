@@ -25,7 +25,7 @@ const ToggleBox = ({
     <Stack
       forwardedAs="button"
       onClick={onClick}
-      padding={5.5}
+      padding={5}
       alignItems="center"
       position="relative"
       spacing={3}
