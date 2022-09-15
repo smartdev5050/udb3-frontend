@@ -138,7 +138,7 @@ const DescriptionStep = ({
   };
 
   return (
-    <Inline>
+    <Inline stackOn={Breakpoints.M}>
       <FormElement
         width="50%"
         marginRight={5}
