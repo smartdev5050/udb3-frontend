@@ -10,10 +10,12 @@ import { Alert } from '@/ui/Alert';
 import { Box, parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
+import { Inline } from '@/ui/Inline';
 import { ProgressBar, ProgressBarVariants } from '@/ui/ProgressBar';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { TextArea } from '@/ui/TextArea';
+import { Breakpoints } from '@/ui/theme';
 
 import { TabContentProps } from './AdditionalInformationStep';
 
@@ -65,35 +67,6 @@ const DescriptionInfo = ({
       <Button variant={ButtonVariants.LINK} onClick={onClear}>
         {t('create.additionalInformation.description.clear')}
       </Button>
-      {eventTypeId && (
-        <Alert>
-          <Box
-            forwardedAs="div"
-            dangerouslySetInnerHTML={{
-              __html: t(
-                `create*additionalInformation*description*tips*${eventTypeId}`,
-                {
-                  keySeparator: '*',
-                },
-              ),
-            }}
-            css={`
-              strong {
-                font-weight: bold;
-              }
-
-              ul {
-                list-style-type: disc;
-                margin-bottom: ${parseSpacing(4)};
-
-                li {
-                  margin-left: ${parseSpacing(5)};
-                }
-              }
-            `}
-          />
-        </Alert>
-      )}
     </Stack>
   );
 };
@@ -166,26 +139,63 @@ const DescriptionStep = ({
   };
 
   return (
-    <FormElement
-      id="create-description"
-      label={t('create.additionalInformation.description.title')}
-      Component={
-        <TextArea
-          rows={5}
-          value={description}
-          onInput={handleInput}
-          onBlur={handleBlur}
-        />
-      }
-      info={
-        <DescriptionInfo
-          description={description}
-          onClear={handleClear}
-          eventTypeId={eventTypeId}
-        />
-      }
-      {...getStackProps(props)}
-    />
+    <Inline stackOn={Breakpoints.M}>
+      <FormElement
+        min-width="50%"
+        marginRight={5}
+        id="create-description"
+        label={t('create.additionalInformation.description.title')}
+        Component={
+          <TextArea
+            rows={10}
+            value={description}
+            onInput={handleInput}
+            onBlur={handleBlur}
+          />
+        }
+        info={
+          <DescriptionInfo
+            description={description}
+            onClear={handleClear}
+            eventTypeId={eventTypeId}
+          />
+        }
+        {...getStackProps(props)}
+      />
+      {eventTypeId && (
+        <Alert
+          css={`
+            margin-top: 1.86rem;
+          `}
+        >
+          <Box
+            forwardedAs="div"
+            dangerouslySetInnerHTML={{
+              __html: t(
+                `create*additionalInformation*description*tips*${eventTypeId}`,
+                {
+                  keySeparator: '*',
+                },
+              ),
+            }}
+            css={`
+              strong {
+                font-weight: bold;
+              }
+
+              ul {
+                list-style-type: disc;
+                margin-bottom: ${parseSpacing(4)};
+
+                li {
+                  margin-left: ${parseSpacing(5)};
+                }
+              }
+            `}
+          />
+        </Alert>
+      )}
+    </Inline>
   );
 };
 
