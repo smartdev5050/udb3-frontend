@@ -154,7 +154,7 @@ const PriceInformation = ({
     watch,
     setValue,
     trigger,
-    formState: { errors, touchedFields },
+    formState: { errors, dirtyFields },
     handleSubmit,
   } = useForm<FormData>({
     mode: 'onBlur',
@@ -277,7 +277,7 @@ const PriceInformation = ({
   };
 
   useEffect(() => {
-    if (Object.keys(touchedFields).length === 0) return;
+    if (Object.keys(dirtyFields).length === 0) return;
 
     const errorRates = (errors.rates || []).filter(
       (error: any) => error !== undefined,
@@ -290,7 +290,7 @@ const PriceInformation = ({
 
     setHasGlobalError(hasGlobalError);
     setHasUitpasError(hasUitpasError);
-  }, [errors, i18n.language]);
+  }, [errors, i18n.language, dirtyFields]);
 
   return (
     <Stack
