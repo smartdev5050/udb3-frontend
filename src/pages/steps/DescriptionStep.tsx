@@ -15,6 +15,7 @@ import { ProgressBar, ProgressBarVariants } from '@/ui/ProgressBar';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { TextArea } from '@/ui/TextArea';
+import { Breakpoints } from '@/ui/theme';
 
 import { TabContentProps } from './AdditionalInformationStep';
 
@@ -140,7 +141,7 @@ const DescriptionStep = ({
   return (
     <Inline stackOn={Breakpoints.M}>
       <FormElement
-        width="50%"
+        min-width="50%"
         marginRight={5}
         id="create-description"
         label={t('create.additionalInformation.description.title')}
