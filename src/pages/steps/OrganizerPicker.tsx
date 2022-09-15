@@ -9,13 +9,16 @@ import { Organizer } from '@/types/Organizer';
 import { Values } from '@/types/Values';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
-import { Icons } from '@/ui/Icon';
+import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
+import { getValueFromTheme } from '@/ui/theme';
 import { isNewEntry, NewEntry, Typeahead } from '@/ui/Typeahead';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { valueToArray } from '@/utils/valueToArray';
+
+const getValueFromGlobalTheme = getValueFromTheme('global');
 
 type Props = Omit<StackProps, 'onChange'> & {
   organizer: Organizer;
@@ -65,6 +68,10 @@ const OrganizerPicker = ({
               paddingY={3}
               spacing={3}
             >
+              <Icon
+                name={Icons.CHECK_CIRCLE}
+                color={getValueFromGlobalTheme('successIcon')}
+              />
               <Text>
                 {getOrganizerName(
                   organizer,
@@ -73,7 +80,7 @@ const OrganizerPicker = ({
               </Text>
               <Button
                 spacing={3}
-                variant={ButtonVariants.SECONDARY}
+                variant={ButtonVariants.LINK}
                 onClick={() =>
                   onDeleteOrganizer(parseOfferId(organizer['@id']))
                 }
