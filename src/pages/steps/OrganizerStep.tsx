@@ -8,7 +8,6 @@ import {
 } from '@/hooks/api/events';
 import { useCreateOrganizerMutation } from '@/hooks/api/organizers';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
-import { parseOfferId } from '@/utils/parseOfferId';
 
 import { OrganizerAddModal, OrganizerData } from '../OrganizerAddModal';
 import { TabContentProps } from './AdditionalInformationStep';
