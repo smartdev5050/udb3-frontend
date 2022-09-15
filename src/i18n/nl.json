@@ -222,10 +222,22 @@
         },
         "title": "Beschrijving"
       },
+      "event_score": {
+        "tip": {
+          "theme": "Tip: voeg een thema toe",
+          "mediaObject": "Tip: voeg een afbeelding toe",
+          "video": "Tip: voeg een video toe",
+          "description": "Tip: voeg een beschrijving toe",
+          "price_info": "Tip: voeg prijsinformatie toe",
+          "contact_info": "Tip: voeg contactinformatie toe",
+          "organizer": "Tip: voeg een organisator toe",
+          "completed": "You're the best"
+        }
+      },
       "organizer": {
         "add_new_button": "Organisator toevoegen",
         "add_new_label": "Voeg nieuwe organisator toe: ",
-        "change": "Wijzigen",
+        "change": "Wijzig organisatie",
         "title": "Organisatie"
       },
       "picture": {

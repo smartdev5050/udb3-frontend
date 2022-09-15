@@ -1,0 +1,24 @@
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks';
+import { Notification } from './Notification';
+import { Text } from './Text';
+import { Paragraph } from './Paragraph';
+
+<Meta title="Components/Notification" component={Notification} />
+
+# Notification
+
+<Canvas>
+  <Story
+    name="Default"
+    args={{
+      header: (
+        <Text fontSize="1.2rem" fontWeight="bold">
+          Header
+        </Text>
+      ),
+      body: <Paragraph>Body</Paragraph>,
+    }}
+  >
+    {(args) => <Notification {...args} />}
+  </Story>
+</Canvas>

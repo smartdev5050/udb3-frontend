@@ -220,10 +220,22 @@
         },
         "title": "Description"
       },
+      "event_score": {
+        "tip": {
+          "theme": "Astuce: ajouter un thème",
+          "mediaObject": "Astuce: ajoutez une image",
+          "video": "Astuce: ajoutez une vidéo",
+          "description": "Astuce: ajoutez une description",
+          "price_info": "Astuce: ajoutez des informations sur les prix",
+          "contact_info": "Astuce: ajoutez des informations de contact",
+          "organizer": "Astuce: ajouter un organisateur",
+          "completed": "You're the best"
+        }
+      },
       "organizer": {
         "add_new_button": "Ajouter organisateur",
         "add_new_label": "Ajouter un nouveau organisateur: ",
-        "change": "Modifier",
+        "change": "Modifier l'organisateur",
         "title": "Organisateur"
       },
       "picture": {
