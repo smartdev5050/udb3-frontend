@@ -219,10 +219,22 @@
         },
         "title": "Beschreibung"
       },
+      "event_score": {
+        "tip": {
+          "theme": "Tipp: Fügen Sie ein Thema hinzu",
+          "mediaObject": "Tipp: Fügen Sie ein Bild hinzu",
+          "video": "Tipp: Fügen Sie ein Video hinzu",
+          "description": "Tipp: Fügen Sie eine Beschreibung hinzu",
+          "price_info": "Tipp: Preisinformationen hinzufügen",
+          "contact_info": "Tipp: Fügen Sie Kontaktinformationen hinzu",
+          "organizer": "Tipp: Fügen Sie einen Organisator hinzu",
+          "completed": "You're the best"
+        }
+      },
       "organizer": {
         "add_new_button": "Organisator hinzufügen",
         "add_new_label": "Neuen Organisator hinzufügen: ",
-        "change": "Ändern",
+        "change": "Ändern Organisator",
         "title": "Organisator"
       },
       "picture": {

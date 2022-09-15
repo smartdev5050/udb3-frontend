@@ -37,6 +37,14 @@ type MediaObject = {
   inLanguage: string;
 };
 
+type VideoObject = {
+  id: string;
+  embedUrl: string;
+  language: string;
+  copyrightHolder: string;
+  url: string;
+};
+
 type BookingInfo = {
   availabilityStarts?: string;
   availabilityEnds?: string;
@@ -106,6 +114,7 @@ type Offer = {
   languages: Array<Values<typeof SupportedLanguages>>;
   completedLanguages: Array<Values<typeof SupportedLanguages>>;
   mediaObject?: MediaObject[];
+  videos?: VideoObject[];
   image?: string;
   typicalAgeRange: string;
   bookingInfo?: BookingInfo;
