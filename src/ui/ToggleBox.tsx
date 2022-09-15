@@ -36,7 +36,7 @@ const ToggleBox = ({
       borderRadius="0.5rem"
       css={`
         border: none;
-        box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+        box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
       `}
       {...getStackProps(props)}
     >
