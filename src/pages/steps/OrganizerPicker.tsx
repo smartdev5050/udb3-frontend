@@ -3,14 +3,18 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
+import { useGetEventsByCreatorQuery } from '@/hooks/api/events';
 import { useGetOrganizersByQueryQuery } from '@/hooks/api/organizers';
+import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import { SupportedLanguages } from '@/i18n/index';
 import { Organizer } from '@/types/Organizer';
 import { Values } from '@/types/Values';
+import { Badge, BadgeVariants } from '@/ui/Badge';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
+import { Paragraph } from '@/ui/Paragraph';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
@@ -18,7 +22,98 @@ import { isNewEntry, NewEntry, Typeahead } from '@/ui/Typeahead';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { valueToArray } from '@/utils/valueToArray';
 
+const MAX_RECENT_USED_ORGANIZERS = 4;
+
 const getValueFromGlobalTheme = getValueFromTheme('global');
+
+const isUitpasOrganizer = (organizer: Organizer): boolean => {
+  const combinedLabels = (organizer.labels || []).concat(
+    organizer.hiddenLabels || [],
+  );
+
+  return combinedLabels.some(
+    (label) =>
+      (typeof label === 'string' && label.toLowerCase().includes('uitpas')) ||
+      label.toLowerCase().includes('paspartoe'),
+  );
+};
+
+const RecentUsedOrganizers = ({
+  organizers,
+  onChange,
+}: {
+  organizers: Organizer[];
+  onChange: (organizerId: string) => void;
+}) => {
+  return (
+    <Stack marginTop={4} spacing={4}>
+      <Text fontWeight="bold">
+        Of selecteer een van je laatst gebruikte organisaties
+      </Text>
+      <Inline spacing={4} flexWrap="wrap" maxWidth="60rem">
+        {organizers.map((organizer: Organizer, index) => (
+          <Button
+            key={index}
+            onClick={() => onChange(parseOfferId(organizer['@id']))}
+            paddingTop={4}
+            paddingBottom={4}
+            paddingLeft={5}
+            paddingRight={5}
+            borderRadius="0.5rem"
+            variant={ButtonVariants.UNSTYLED}
+            customChildren
+            marginBottom={4}
+            maxWidth="25rem"
+            title={organizer.name?.nl ?? organizer.name}
+            css={`
+              flex-direction: column;
+              align-items: flex-start;
+              background-color: rgba(255, 255, 255, 1);
+              box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
+
+              &:hover {
+                background-color: #e6e6e6;
+              }
+            `}
+          >
+            <Paragraph
+              fontWeight="bold"
+              display="flex"
+              justifyContent="space-between"
+              width="20rem"
+              textAlign="left"
+            >
+              <Text
+                css={`
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  width: 80%;
+                `}
+              >
+                {organizer.name?.nl ?? organizer.name}{' '}
+              </Text>
+              {isUitpasOrganizer(organizer) && (
+                <Badge variant={BadgeVariants.SECONDARY}>UiTPAS</Badge>
+              )}
+            </Paragraph>
+            {organizer.address && (
+              <Text>
+                {organizer.address?.nl?.streetAddress ??
+                  organizer.address?.streetAddress}{' '}
+                -{' '}
+                {organizer.address?.nl?.postalCode ??
+                  organizer.address?.postalCode}{' '}
+                {organizer.address?.nl?.addressLocality ??
+                  organizer.address?.addressLocality}
+              </Text>
+            )}
+          </Button>
+        ))}
+      </Inline>
+    </Stack>
+  );
+};
 
 type Props = Omit<StackProps, 'onChange'> & {
   organizer: Organizer;
@@ -41,6 +136,8 @@ const OrganizerPicker = ({
   const { t, i18n } = useTranslation();
   const queryClient = useQueryClient();
 
+  const { cookies } = useCookiesWithOptions(['user']);
+
   const [addButtonHasBeenPressed, setAddButtonHasBeenPressed] = useState(false);
   const [organizerSearchInput, setOrganizerSearchInput] = useState('');
 
@@ -48,6 +145,30 @@ const OrganizerPicker = ({
     { q: organizerSearchInput },
     { enabled: !!organizerSearchInput },
   );
+
+  const getEventsByCreatorQuery = useGetEventsByCreatorQuery({
+    creator: cookies.user,
+  });
+
+  const recentUsedOrganizers = useMemo(() => {
+    const recentOrganizers = [];
+
+    // @ts-expect-error
+    getEventsByCreatorQuery.data?.member.forEach((event) => {
+      if (
+        event.organizer &&
+        !recentOrganizers.some(
+          (recentOrganizer) =>
+            recentOrganizer['@id'] === event.organizer['@id'],
+        )
+      )
+        recentOrganizers.push(event.organizer);
+    });
+
+    return recentOrganizers.slice(0, MAX_RECENT_USED_ORGANIZERS);
+
+    // @ts-expect-error
+  }, [getEventsByCreatorQuery.data?.member]);
 
   const organizers = useMemo(() => {
     // @ts-expect-error
@@ -62,63 +183,72 @@ const OrganizerPicker = ({
         label={t('create.additionalInformation.organizer.title')}
         Component={
           organizer ? (
-            <Inline
-              justifyContent="space-between"
-              alignItems="center"
-              paddingY={3}
-              spacing={3}
-            >
-              <Icon
-                name={Icons.CHECK_CIRCLE}
-                color={getValueFromGlobalTheme('successIcon')}
-              />
-              <Text>
-                {getOrganizerName(
-                  organizer,
-                  i18n.language as Values<typeof SupportedLanguages>,
-                )}
-              </Text>
-              <Button
-                spacing={3}
-                variant={ButtonVariants.LINK}
-                onClick={() =>
-                  onDeleteOrganizer(parseOfferId(organizer['@id']))
-                }
-              >
-                {t('create.additionalInformation.organizer.change')}
-              </Button>
-            </Inline>
+            <Stack>
+              <Inline alignItems="center" paddingY={3} spacing={3}>
+                <Icon
+                  name={Icons.CHECK_CIRCLE}
+                  color={getValueFromGlobalTheme('successIcon')}
+                />
+                <Text>
+                  {getOrganizerName(
+                    organizer,
+                    i18n.language as Values<typeof SupportedLanguages>,
+                  )}
+                </Text>
+                <Button
+                  spacing={3}
+                  variant={ButtonVariants.LINK}
+                  onClick={() =>
+                    onDeleteOrganizer(parseOfferId(organizer['@id']))
+                  }
+                >
+                  {t('create.additionalInformation.organizer.change')}
+                </Button>
+              </Inline>
+            </Stack>
           ) : !addButtonHasBeenPressed ? (
-            <Button
-              variant={ButtonVariants.SECONDARY}
-              onClick={() => setAddButtonHasBeenPressed(true)}
-            >
-              {t('create.additionalInformation.organizer.add_new_button')}
-            </Button>
+            <Stack alignItems="flex-start">
+              <Button
+                variant={ButtonVariants.SECONDARY}
+                onClick={() => setAddButtonHasBeenPressed(true)}
+              >
+                {t('create.additionalInformation.organizer.add_new_button')}
+              </Button>
+              <RecentUsedOrganizers
+                organizers={recentUsedOrganizers}
+                onChange={onChange}
+              />
+            </Stack>
           ) : (
-            <Typeahead<Organizer>
-              options={organizers}
-              labelKey={(org) => getOrganizerName(org, i18n.language)}
-              selected={valueToArray(organizer)}
-              onInputChange={debounce(setOrganizerSearchInput, 275)}
-              onChange={(organizers) => {
-                const organizer = organizers[0];
+            <Stack>
+              <Typeahead<Organizer>
+                options={organizers}
+                labelKey={(org) => getOrganizerName(org, i18n.language)}
+                selected={valueToArray(organizer)}
+                onInputChange={debounce(setOrganizerSearchInput, 275)}
+                onChange={(organizers) => {
+                  const organizer = organizers[0];
 
-                if (isNewEntry(organizer)) {
-                  onAddNewOrganizer(organizer);
-                  queryClient.invalidateQueries('organizers');
-                  return;
-                }
+                  if (isNewEntry(organizer)) {
+                    onAddNewOrganizer(organizer);
+                    queryClient.invalidateQueries('organizers');
+                    return;
+                  }
 
-                onChange(parseOfferId(organizer['@id']));
-              }}
-              maxWidth="30rem"
-              minLength={3}
-              newSelectionPrefix={t(
-                'create.additionalInformation.organizer.add_new_label',
-              )}
-              allowNew
-            />
+                  onChange(parseOfferId(organizer['@id']));
+                }}
+                maxWidth="30rem"
+                minLength={3}
+                newSelectionPrefix={t(
+                  'create.additionalInformation.organizer.add_new_label',
+                )}
+                allowNew
+              />
+              <RecentUsedOrganizers
+                organizers={recentUsedOrganizers}
+                onChange={onChange}
+              />
+            </Stack>
           )
         }
       />
