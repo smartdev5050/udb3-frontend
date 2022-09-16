@@ -51,65 +51,71 @@ const RecentUsedOrganizers = ({
         Of selecteer een van je laatst gebruikte organisaties
       </Text>
       <Inline spacing={4} flexWrap="wrap" maxWidth="60rem">
-        {organizers.map((organizer: Organizer, index) => (
-          <Button
-            key={index}
-            onClick={() => onChange(parseOfferId(organizer['@id']))}
-            paddingTop={4}
-            paddingBottom={4}
-            paddingLeft={5}
-            paddingRight={5}
-            borderRadius="0.5rem"
-            variant={ButtonVariants.UNSTYLED}
-            customChildren
-            marginBottom={4}
-            maxWidth="25rem"
-            title={organizer.name?.nl ?? organizer.name}
-            css={`
-              flex-direction: column;
-              align-items: flex-start;
-              background-color: rgba(255, 255, 255, 1);
-              box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
+        {organizers.map((organizer: Organizer, index) => {
+          const name =
+            typeof organizer.name === 'string'
+              ? organizer.name
+              : organizer.name[organizer.mainLanguage];
+          const address = organizer.address
+            ? organizer.address.hasOwnProperty(organizer.mainLanguage)
+              ? organizer.address[organizer.mainLanguage]
+              : organizer.address
+            : '';
+          return (
+            <Button
+              key={index}
+              onClick={() => onChange(parseOfferId(organizer['@id']))}
+              paddingTop={4}
+              paddingBottom={4}
+              paddingLeft={5}
+              paddingRight={5}
+              borderRadius="0.5rem"
+              variant={ButtonVariants.UNSTYLED}
+              customChildren
+              marginBottom={4}
+              maxWidth="25rem"
+              title={name}
+              css={`
+                flex-direction: column;
+                align-items: flex-start;
+                background-color: rgba(255, 255, 255, 1);
+                box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
 
-              &:hover {
-                background-color: #e6e6e6;
-              }
-            `}
-          >
-            <Paragraph
-              fontWeight="bold"
-              display="flex"
-              justifyContent="space-between"
-              width="20rem"
-              textAlign="left"
+                &:hover {
+                  background-color: #e6e6e6;
+                }
+              `}
             >
-              <Text
-                css={`
-                  white-space: nowrap;
-                  overflow: hidden;
-                  text-overflow: ellipsis;
-                  width: 80%;
-                `}
+              <Paragraph
+                fontWeight="bold"
+                display="flex"
+                justifyContent="space-between"
+                width="20rem"
+                textAlign="left"
               >
-                {organizer.name?.nl ?? organizer.name}{' '}
-              </Text>
-              {isUitpasOrganizer(organizer) && (
-                <Badge variant={BadgeVariants.SECONDARY}>UiTPAS</Badge>
+                <Text
+                  css={`
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    width: 80%;
+                  `}
+                >
+                  {name}{' '}
+                </Text>
+                {isUitpasOrganizer(organizer) && (
+                  <Badge variant={BadgeVariants.SECONDARY}>UiTPAS</Badge>
+                )}
+              </Paragraph>
+              {address && (
+                <Text>
+                  {address.streetAddress} - {address.postalCode}{' '}
+                  {address.addressLocality}
+                </Text>
               )}
-            </Paragraph>
-            {organizer.address && (
-              <Text>
-                {organizer.address?.nl?.streetAddress ??
-                  organizer.address?.streetAddress}{' '}
-                -{' '}
-                {organizer.address?.nl?.postalCode ??
-                  organizer.address?.postalCode}{' '}
-                {organizer.address?.nl?.addressLocality ??
-                  organizer.address?.addressLocality}
-              </Text>
-            )}
-          </Button>
-        ))}
+            </Button>
+          );
+        })}
       </Inline>
     </Stack>
   );
