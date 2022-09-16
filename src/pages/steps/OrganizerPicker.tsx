@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
-import { useGetEventsByCreatorQuery } from '@/hooks/api/events';
+import { useGetOffersByCreatorQuery } from '@/hooks/api/offers';
 import { useGetOrganizersByQueryQuery } from '@/hooks/api/organizers';
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import { SupportedLanguages } from '@/i18n/index';
@@ -158,15 +158,17 @@ const OrganizerPicker = ({
     { enabled: !!organizerSearchInput },
   );
 
-  const getEventsByCreatorQuery = useGetEventsByCreatorQuery({
+  const getOffersByCreatorQuery = useGetOffersByCreatorQuery({
+    advancedQuery: '_exists_:organizer.id',
     creator: cookies.user,
+    paginationOptions: { start: 0, limit: 20 },
   });
 
   const recentUsedOrganizers = useMemo(() => {
     const recentOrganizers = [];
 
     // @ts-expect-error
-    getEventsByCreatorQuery.data?.member.forEach((event) => {
+    getOffersByCreatorQuery.data?.member.forEach((event) => {
       if (
         event.organizer &&
         !recentOrganizers.some(
@@ -180,7 +182,7 @@ const OrganizerPicker = ({
     return recentOrganizers.slice(0, MAX_RECENT_USED_ORGANIZERS);
 
     // @ts-expect-error
-  }, [getEventsByCreatorQuery.data?.member]);
+  }, [getOffersByCreatorQuery.data?.member]);
 
   const organizers = useMemo(() => {
     // @ts-expect-error
