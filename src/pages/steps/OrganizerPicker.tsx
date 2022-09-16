@@ -45,13 +45,17 @@ const RecentUsedOrganizers = ({
   organizers: Organizer[];
   onChange: (organizerId: string) => void;
 }) => {
+  const { t } = useTranslation();
+
   return (
     <Stack marginTop={4} spacing={4}>
       <Text fontWeight="bold">
-        Of selecteer een van je laatst gebruikte organisaties
+        {t(
+          'create.additionalInformation.organizer.or_select_recent_used_organizer',
+        )}
       </Text>
       <Inline spacing={4} flexWrap="wrap" maxWidth="60rem">
-        {organizers.map((organizer: Organizer, index) => {
+        {organizers.map((organizer, index) => {
           const name =
             typeof organizer.name === 'string'
               ? organizer.name
@@ -94,17 +98,19 @@ const RecentUsedOrganizers = ({
                 textAlign="left"
               >
                 <Text
+                  width="80%"
                   css={`
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
-                    width: 80%;
                   `}
                 >
-                  {name}{' '}
+                  {name}
                 </Text>
                 {isUitpasOrganizer(organizer) && (
-                  <Badge variant={BadgeVariants.SECONDARY}>UiTPAS</Badge>
+                  <Badge variant={BadgeVariants.SECONDARY}>
+                    {t('brand_uitpas')}
+                  </Badge>
                 )}
               </Paragraph>
               {address && (
