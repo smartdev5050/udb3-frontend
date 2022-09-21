@@ -41,6 +41,7 @@ const isUitpasOrganizer = (organizer: Organizer): boolean => {
 const RecentUsedOrganizers = ({
   organizers,
   onChange,
+  ...props
 }: {
   organizers: Organizer[];
   onChange: (organizerId: string) => void;
@@ -48,7 +49,7 @@ const RecentUsedOrganizers = ({
   const { t } = useTranslation();
 
   return (
-    <Stack marginTop={4} spacing={4}>
+    <Stack marginTop={4} spacing={4} {...getStackProps(props)}>
       <Text fontWeight="bold">
         {t(
           'create.additionalInformation.organizer.or_select_recent_used_organizer',
