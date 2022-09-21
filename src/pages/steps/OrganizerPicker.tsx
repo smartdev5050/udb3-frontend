@@ -49,7 +49,7 @@ const RecentUsedOrganizers = ({
   const { t } = useTranslation();
 
   return (
-    <Stack marginTop={4} spacing={4} {...getStackProps(props)}>
+    <Stack spacing={4} {...getStackProps(props)}>
       <Text fontWeight="bold">
         {t(
           'create.additionalInformation.organizer.or_select_recent_used_organizer',
@@ -222,7 +222,7 @@ const OrganizerPicker = ({
               </Inline>
             </Stack>
           ) : !addButtonHasBeenPressed ? (
-            <Stack alignItems="flex-start">
+            <Stack alignItems="flex-start" spacing={4}>
               <Button
                 variant={ButtonVariants.SECONDARY}
                 onClick={() => setAddButtonHasBeenPressed(true)}
@@ -235,7 +235,7 @@ const OrganizerPicker = ({
               />
             </Stack>
           ) : (
-            <Stack>
+            <Stack spacing={4}>
               <Typeahead<Organizer>
                 options={organizers}
                 labelKey={(org) => getOrganizerName(org, i18n.language)}
