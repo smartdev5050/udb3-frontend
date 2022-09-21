@@ -21,6 +21,7 @@
     "unavailable": "Voll oder ausverkauft"
   },
   "brand": "UiTdatabank",
+  "brand_uitpas": "UiTPAS",
   "calendarSummary": {
     "at": "um",
     "from": "Von",
@@ -235,7 +236,8 @@
         "add_new_button": "Organisator hinzufügen",
         "add_new_label": "Neuen Organisator hinzufügen: ",
         "change": "Ändern Organisator",
-        "title": "Organisator"
+        "title": "Organisator",
+        "or_select_recent_used_organizer": "Oder wählen Sie eine Ihrer zuletzt verwendeten Organisationen aus"
       },
       "picture": {
         "add_button": "Hauptabbildung erstellen",
