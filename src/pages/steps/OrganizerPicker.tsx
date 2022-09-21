@@ -48,6 +48,10 @@ const RecentUsedOrganizers = ({
 }) => {
   const { t } = useTranslation();
 
+  if (organizers.length === 0) {
+    return null;
+  }
+
   return (
     <Stack spacing={4} {...getStackProps(props)}>
       <Text fontWeight="bold">
