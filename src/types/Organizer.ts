@@ -9,6 +9,7 @@ type Organizer = {
   name: string | { nl: string };
   address: Address;
   labels: string[];
+  hiddenLabels: string[];
   contactPoint: ContactPoint;
   workflowStatus: WorkflowStatus;
   languages: string[];

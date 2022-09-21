@@ -21,6 +21,7 @@
     "unavailable": "Volzet of uitverkocht"
   },
   "brand": "UiTdatabank",
+  "brand_uitpas": "UiTPAS",
   "calendarSummary": {
     "at": "om",
     "from": "Van",
@@ -238,7 +239,8 @@
         "add_new_button": "Organisator toevoegen",
         "add_new_label": "Voeg nieuwe organisator toe: ",
         "change": "Wijzig organisatie",
-        "title": "Organisatie"
+        "title": "Organisatie",
+        "or_select_recent_used_organizer": "Of selecteer een van je laatst gebruikte organisaties"
       },
       "picture": {
         "add_button": "Afbeelding toevoegen",
