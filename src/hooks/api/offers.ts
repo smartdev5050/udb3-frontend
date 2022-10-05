@@ -50,7 +50,7 @@ const useGetOffersByCreatorQuery = (
   >,
   configuration: UseQueryOptions = {},
 ) => {
-  const defaultQuery = `creator:(${creator.id} OR ${creator.email})`;
+  const defaultQuery = `creator:(${creator?.id} OR ${creator?.email})`;
   const query = advancedQuery
     ? defaultQuery.concat(' AND ', advancedQuery)
     : defaultQuery;
@@ -70,7 +70,7 @@ const useGetOffersByCreatorQuery = (
       ...(calendarSummaryFormats &&
         createEmbededCalendarSummaries(calendarSummaryFormats)),
     },
-    enabled: !!(creator.id && creator.email),
+    enabled: !!(creator?.id && creator?.email),
     ...configuration,
   });
 };

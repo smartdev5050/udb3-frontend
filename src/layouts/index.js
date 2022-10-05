@@ -29,7 +29,7 @@ const useChangeLanguage = () => {
 
 const useHandleAuthentication = () => {
   const { pathname, query, asPath, ...router } = useRouter();
-  const { setCookie, cookies } = useCookiesWithOptions(['user', 'token']);
+  const { setCookie, cookies } = useCookiesWithOptions(['token']);
   const getUserQuery = useGetUserQuery();
 
   useEffect(() => {
@@ -54,7 +54,6 @@ const useHandleAuthentication = () => {
 
   useEffect(() => {
     if (!getUserQuery.data) return;
-    setCookie('user', getUserQuery.data);
     Sentry.setUser({ id: getUserQuery.data.id });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getUserQuery.data]);
@@ -67,8 +66,7 @@ const useHandleAuthentication = () => {
     if (asPath.startsWith('/login')) return cleanUp;
     intervalId = setInterval(() => {
       const cookies = new Cookies();
-      if (!isTokenValid(cookies.get('token')) || !cookies.get('user')) {
-        cookies.remove('user');
+      if (!isTokenValid(cookies.get('token'))) {
         Sentry.setUser(null);
         cookies.remove('token');
         router.push('/login');

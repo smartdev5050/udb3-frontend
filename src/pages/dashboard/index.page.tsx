@@ -23,7 +23,7 @@ import {
   useDeletePlaceByIdMutation,
   useGetPlacesByCreatorQuery,
 } from '@/hooks/api/places';
-import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
+import { useGetUserQuery } from '@/hooks/api/user';
 import { Footer } from '@/pages/Footer';
 import type { Event } from '@/types/Event';
 import type { Organizer } from '@/types/Organizer';
@@ -386,8 +386,6 @@ const Dashboard = (): any => {
   const { t, i18n } = useTranslation();
   const { pathname, query, asPath, ...router } = useRouter();
 
-  const { cookies } = useCookiesWithOptions(['user']);
-
   const queryClient = useQueryClient();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -425,7 +423,9 @@ const Dashboard = (): any => {
       { shallow: true },
     );
 
-  const user = cookies.user;
+  const getUserQuery = useGetUserQuery();
+  // @ts-expect-error
+  const user = getUserQuery.data;
 
   const handleSelectSorting = (event) => {
     const sortValue = event.target.value;
@@ -436,16 +436,21 @@ const Dashboard = (): any => {
     );
   };
 
-  const UseGetItemsByCreatorQuery = useGetItemsByCreator({
-    creator: user,
-    ...(tab === 'events' && {
-      sortOptions: { field: sortingField, order: sortingOrder },
-    }),
-    paginationOptions: {
-      start: (page - 1) * itemsPerPage,
-      limit: itemsPerPage,
+  const UseGetItemsByCreatorQuery = useGetItemsByCreator(
+    {
+      creator: user,
+      ...(tab === 'events' && {
+        sortOptions: { field: sortingField, order: sortingOrder },
+      }),
+      paginationOptions: {
+        start: (page - 1) * itemsPerPage,
+        limit: itemsPerPage,
+      },
     },
-  });
+    {
+      enabled: !!user,
+    },
+  );
 
   const UseDeleteItemByIdMutation = useDeleteItemById({
     onSuccess: async () => {
@@ -597,7 +602,9 @@ const Dashboard = (): any => {
 const getServerSideProps = getApplicationServerSideProps(
   async ({ req, query, cookies: rawCookies, queryClient }) => {
     const cookies = new Cookies(rawCookies);
-    const user: User = cookies.get('user');
+    const getUserQuery = useGetUserQuery({ req, queryClient });
+    // @ts-expect-error
+    const user = getUserQuery.data;
 
     await Promise.all(
       Object.entries(UseGetItemsByCreatorMap).map(([key, hook]) => {
