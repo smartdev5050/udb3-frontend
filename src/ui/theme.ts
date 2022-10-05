@@ -68,7 +68,7 @@ const theme = {
   },
   components: {
     alert: {
-      borderRadius: 0,
+      borderRadius: '8px',
     },
     toast: {
       zIndex: zIndexToast,
@@ -103,9 +103,9 @@ const theme = {
       backgroundColor: colors.red1,
     },
     button: {
-      borderRadius: 0,
-      paddingX: '0.8rem',
-      paddingY: '0.267rem',
+      borderRadius: '8px',
+      paddingX: '0.9rem',
+      paddingY: '0.4rem',
       primary: {
         backgroundColor: colors.udbBlue,
         borderColor: '#00417b',
@@ -119,7 +119,6 @@ const theme = {
       secondary: {
         color: '#333',
         backgroundColor: colors.white,
-        borderColor: '#ccc',
         focusBoxShadow: 'none',
         hoverBackgroundColor: '#e6e6e6',
         hoverBorderColor: '#adadad',
@@ -322,7 +321,7 @@ const theme = {
       activeTabColor: colors.grey5,
       activeTabBackgroundColor: colors.grey1,
       hoverTabBackgroundColor: colors.grey3,
-      borderRadius: 0,
+      borderRadius: '8px',
     },
     pictureUploadBox: {
       backgroundColor: colors.white,

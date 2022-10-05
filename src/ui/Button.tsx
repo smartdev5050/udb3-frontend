@@ -73,12 +73,12 @@ const customCSS = css`
     .btn-primary:not(:disabled):not(.disabled).active {
       background-color: ${getValue('primary.activeBackgroundColor')};
       border-color: ${getValue('primary.activeBorderColor')};
-      box-shadow: ${getValue('primary.activeBoxShadow')};
+      box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
     }
 
     &:focus,
     &.focus {
-      box-shadow: ${getValue('primary.focusBoxShadow')};
+      box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
     }
   }
 
@@ -86,11 +86,13 @@ const customCSS = css`
   &.btn-outline-secondary.dropdown-toggle {
     color: ${getValue('secondary.color')};
     background-color: ${getValue('secondary.backgroundColor')};
-    border-color: ${getValue('secondary.borderColor')};
+    border: none;
+    box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
 
     &:hover {
       background-color: ${getValue('secondary.hoverBackgroundColor')};
-      border-color: ${getValue('secondary.hoverBorderColor')};
+      border: none;
+      box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
     }
 
     // active
@@ -98,21 +100,21 @@ const customCSS = css`
     .btn-outline-secondary:not(:disabled):not(.disabled).active {
       color: ${getValue('secondary.activeColor')};
       background-color: ${getValue('secondary.activeBackgroundColor')};
-      border-color: ${getValue('secondary.activeBorderColor')};
-      box-shadow: ${getValue('secondary.activeBoxShadow')};
+      border: none;
+      box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
     }
 
     &:not(:disabled):not(.disabled).active,
     &:not(:disabled):not(.disabled):active {
       color: ${getValue('secondary.activeColor')};
       background-color: ${getValue('secondary.activeBackgroundColor')};
-      border-color: ${getValue('secondary.activeBorderColor')};
-      box-shadow: ${getValue('secondary.activeBoxShadow')};
+      border: none;
+      box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
     }
 
     &:focus,
     &.focus {
-      box-shadow: ${getValue('secondary.focusBoxShadow')};
+      box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
     }
   }
 
@@ -130,12 +132,12 @@ const customCSS = css`
     // active & focus
     &:not(:disabled):not(.disabled):active:focus,
     &:not(:disabled):not(.disabled).active:focus {
-      box-shadow: ${getValue('success.activeBoxShadow')};
+      box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
     }
 
     &:focus,
     &.focus {
-      box-shadow: ${getValue('success.focusBoxShadow')};
+      box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
     }
   }
 

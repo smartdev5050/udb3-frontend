@@ -139,7 +139,14 @@ const AgeRangeStep = ({
               <Text fontWeight="bold">
                 {t(`create.name_and_age.age.title`)}
               </Text>
-              <Inline spacing={3} flexWrap="wrap" maxWidth="40rem">
+              <Inline
+                spacing={3}
+                flexWrap="wrap"
+                maxWidth="40rem"
+                css={`
+                  row-gap: 0.3rem;
+                `}
+              >
                 {Object.keys(AgeRanges).map((key: string) => {
                   const apiLabel = AgeRanges[key].apiLabel;
                   return (

@@ -11,7 +11,7 @@ const getValue = getValueFromTheme('toast');
 
 const commonCss = css`
   &.toast {
-    border-radius: 1rem;
+    border-radius: 8px;
     border: none;
 
     max-width: none;

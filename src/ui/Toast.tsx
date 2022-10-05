@@ -24,7 +24,7 @@ const getValue = getValueFromTheme('toast');
 
 const commonCss = css`
   &.toast {
-    border-radius: 0;
+    border-radius: 8px;
 
     position: fixed;
     right: ${parseSpacing(3)()};

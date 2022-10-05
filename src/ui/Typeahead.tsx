@@ -90,7 +90,7 @@ const Typeahead: TypeaheadFunc = forwardRef(
         ref={ref}
         css={`
           .form-control {
-            border-radius: 0rem;
+            border-radius: 8px;
           }
 
           .dropdown-item.active,

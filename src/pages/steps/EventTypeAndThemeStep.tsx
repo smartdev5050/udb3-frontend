@@ -81,7 +81,14 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
             {!shouldHideType && (
               <Stack>
                 {!field.value?.type?.id ? (
-                  <Inline spacing={3} flexWrap="wrap" maxWidth="70rem">
+                  <Inline
+                    spacing={3}
+                    flexWrap="wrap"
+                    maxWidth="70rem"
+                    css={`
+                      row-gap: 0.3rem;
+                    `}
+                  >
                     {types.map(({ id, name }) => (
                       <Button
                         width="auto"
@@ -105,7 +112,13 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
                     ))}
                   </Inline>
                 ) : (
-                  <Inline alignItems="center" spacing={3}>
+                  <Inline
+                    alignItems="center"
+                    spacing={3}
+                    css={`
+                      row-gap: 0.3rem;
+                    `}
+                  >
                     <Icon
                       name={Icons.CHECK_CIRCLE}
                       color={getValue('check.circleFillColor')}
@@ -133,7 +146,14 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
               </Label>
             )}
             {!field.value?.theme?.id ? (
-              <Inline spacing={3} flexWrap="wrap" maxWidth="70rem">
+              <Inline
+                spacing={3}
+                flexWrap="wrap"
+                maxWidth="70rem"
+                css={`
+                  row-gap: 0.3rem;
+                `}
+              >
                 {themes.map(({ id, name }) => (
                   <Button
                     width="auto"
@@ -154,7 +174,13 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
                 ))}
               </Inline>
             ) : (
-              <Inline alignItems="center" spacing={3}>
+              <Inline
+                alignItems="center"
+                spacing={3}
+                css={`
+                  row-gap: 0.3rem;
+                `}
+              >
                 <Icon
                   name={Icons.CHECK_CIRCLE}
                   color={getValue('check.circleFillColor')}

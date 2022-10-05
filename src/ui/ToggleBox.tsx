@@ -33,7 +33,7 @@ const ToggleBox = ({
         active ? 'activeBackgroundColor' : 'backgroundColor',
       )}
       minWidth={parseSpacing(8)}
-      borderRadius="0.5rem"
+      borderRadius="8px"
       css={`
         border: none;
         box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);

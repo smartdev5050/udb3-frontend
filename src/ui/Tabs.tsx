@@ -53,6 +53,11 @@ const Tabs = <T,>({
             padding: ${parseSpacing(3)} ${parseSpacing(4)};
             margin-right: ${parseSpacing(1)};
 
+            &.nav-link {
+              border-bottom-left-radius: 0;
+              border-bottom-right-radius: 0;
+            }
+
             &:hover {
               color: ${getValue('hoverColor')};
               border-color: transparent;
