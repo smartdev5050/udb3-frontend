@@ -3,6 +3,8 @@ import type { UseMutationOptions, UseQueryOptions } from 'react-query';
 import type { EventTypes } from '@/constants/EventTypes';
 import type { OfferStatus } from '@/constants/OfferStatus';
 import type { SupportedLanguages } from '@/i18n/index';
+import type { Address } from '@/types/Address';
+import { Term } from '@/types/Offer';
 import type { Place } from '@/types/Place';
 import type { User } from '@/types/User';
 import type { Values } from '@/types/Values';
@@ -20,6 +22,7 @@ import {
   useAuthenticatedMutation,
   useAuthenticatedQuery,
 } from './authenticated-query';
+import type { Calendar } from './events';
 import type { Headers } from './types/Headers';
 
 const getPlaceById = async ({ headers, id }) => {
@@ -197,7 +200,41 @@ const changeStatus = async ({
 const useChangeStatusMutation = (configuration: UseMutationOptions = {}) =>
   useAuthenticatedMutation({ mutationFn: changeStatus, ...configuration });
 
+type PlaceArguments = {
+  calendar: Calendar;
+  address: Address;
+  mainLanguage: string;
+  name: string;
+  type: Term;
+};
+
+type AddPlaceArguments = PlaceArguments & { headers: Headers };
+
+const addPlace = async ({
+  headers,
+  calendar,
+  address,
+  mainLanguage,
+  name,
+  type,
+}: AddPlaceArguments) =>
+  fetchFromApi({
+    path: `/place`,
+    options: {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ calendar, address, mainLanguage, name, type }),
+    },
+  });
+
+const useAddPlaceMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: addPlace,
+    ...configuration,
+  });
+
 export {
+  useAddPlaceMutation,
   useChangeStatusMutation,
   useDeletePlaceByIdMutation,
   useGetPlaceByIdQuery,
