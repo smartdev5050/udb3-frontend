@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
+import { CalendarType } from '@/constants/CalendarType';
+import { useAddPlaceMutation } from '@/hooks/api/places';
 import { useGetTypesByScopeQuery } from '@/hooks/api/types';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
@@ -22,6 +24,11 @@ const schema = yup
     streetAndNumber: yup.string().required(),
     zip: yup.string().required(),
     municipalityName: yup.string().required(),
+    type: yup.object({
+      label: yup.string().required(),
+      domain: yup.string().required(),
+      id: yup.string().required(),
+    }),
   })
   .required();
 
@@ -44,8 +51,30 @@ const PlaceAddModal = ({ visible, onClose, municipality }: Props) => {
 
   const types = getTypesByScopeQuery.data ?? [];
 
-  const handleConfirm = () => {
-    console.log('handle confirm');
+  const addPlaceMutation = useAddPlaceMutation();
+
+  const handleConfirm = async () => {
+    await handleSubmit(async (data) => {
+      console.log('submit handled');
+
+      const formData = {
+        address: {
+          addressCountry: 'BE', // TODO get country from event form
+          addressLocality: data.municipalityName,
+          postalCode: data.zip,
+          streetAddress: data.streetAndNumber,
+        },
+        calendar: {
+          calendarType: CalendarType.PERMANENT,
+        },
+        mainLanguage: i18n.language,
+        name: data.name,
+        type: data.type,
+      };
+
+      const resp = await addPlaceMutation.mutateAsync({ ...formData });
+      console.log({ resp });
+    })();
   };
 
   const handleClose = () => {
@@ -70,6 +99,10 @@ const PlaceAddModal = ({ visible, onClose, municipality }: Props) => {
     setValue('zip', municipality.zip);
     setValue('municipalityName', municipality.name);
   }, [municipality, setValue]);
+
+  const selectedType = watch('type');
+
+  console.log({ selectedType });
 
   return (
     <Modal
@@ -111,16 +144,21 @@ const PlaceAddModal = ({ visible, onClose, municipality }: Props) => {
             Kies een categorie die deze locatie het best omschrijft.
           </Paragraph>
           <Inline spacing={3} flexWrap="wrap" maxWidth="70rem">
-            {types.map(({ id, name }) => (
+            {types.map(({ id, name, domain }) => (
               <Button
                 width="auto"
                 marginBottom={3}
                 display="inline-flex"
                 key={id}
+                active={id === selectedType?.id}
                 variant={ButtonVariants.SECONDARY}
-                onClick={() => {
-                  console.log('changed type');
-                }}
+                onClick={() =>
+                  setValue('type', {
+                    id,
+                    label: name[i18n.language],
+                    domain,
+                  })
+                }
               >
                 {name[i18n.language]}
               </Button>
