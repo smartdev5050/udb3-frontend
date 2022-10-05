@@ -1,7 +1,7 @@
 import { TFunction } from 'i18next';
 import debounce from 'lodash/debounce';
-import { memo, useEffect, useMemo, useState } from 'react';
-import { Controller, useWatch } from 'react-hook-form';
+import { useMemo, useState } from 'react';
+import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
