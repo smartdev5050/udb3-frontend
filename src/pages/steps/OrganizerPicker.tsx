@@ -122,6 +122,7 @@ const RecentUsedOrganizers = ({
                 <Text textAlign="left">
                   {address.streetAddress} - {address.postalCode}{' '}
                   {address.addressLocality}
+                  {address.postalCode} {address.addressLocality}
                 </Text>
               )}
             </Button>
