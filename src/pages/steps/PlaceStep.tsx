@@ -24,9 +24,11 @@ import { getStackProps, Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { isOneTimeSlotValid } from '@/ui/TimeTable';
-import { NewEntry, Typeahead } from '@/ui/Typeahead';
+import { isNewEntry, NewEntry, Typeahead } from '@/ui/Typeahead';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { valueToArray } from '@/utils/valueToArray';
+
+import { PlaceAddModal } from '../PlaceAddModal';
 
 const getValue = getValueFromTheme('createPage');
 
@@ -79,6 +81,7 @@ const PlaceStep = <TFormData extends FormDataUnion>({
 }: PlaceStepProps<TFormData>) => {
   const { t, i18n } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
+  const [isPlaceAddModalVisible, setIsPlaceAddModalVisible] = useState(false);
 
   const useGetPlacesQuery = useGetPlacesByQuery(
     {
@@ -111,43 +114,59 @@ const PlaceStep = <TFormData extends FormDataUnion>({
         render={({ field }) => {
           if (!selectedPlace) {
             return (
-              <FormElement
-                id="place-step"
-                label={chooseLabel(t)}
-                error={
-                  errors?.place
-                    ? t(
-                        `movies.create.validation_messages.cinema.${errors?.place.type}`,
-                      )
-                    : undefined
-                }
-                loading={loading}
-                Component={
-                  <Typeahead
-                    options={places}
-                    onInputChange={debounce(setSearchInput, 275)}
-                    labelKey={(place) =>
-                      place.name[i18n.language] ??
-                      place.name[place.mainLanguage]
-                    }
-                    selected={valueToArray(selectedPlace as Place)}
-                    maxWidth="43rem"
-                    onChange={(places) => {
-                      if (parentFieldOnChange && parentOnChange) {
-                        parentFieldOnChange(places[0]);
-                        parentOnChange(places[0]);
-                        return;
+              <Stack>
+                <PlaceAddModal
+                  visible={isPlaceAddModalVisible}
+                  onClose={() => setIsPlaceAddModalVisible(false)}
+                />
+                <FormElement
+                  id="place-step"
+                  label={chooseLabel(t)}
+                  error={
+                    errors?.place
+                      ? t(
+                          `movies.create.validation_messages.cinema.${errors?.place.type}`,
+                        )
+                      : undefined
+                  }
+                  loading={loading}
+                  Component={
+                    <Typeahead
+                      options={places}
+                      onInputChange={debounce(setSearchInput, 275)}
+                      labelKey={(place) =>
+                        place.name[i18n.language] ??
+                        place.name[place.mainLanguage]
                       }
-                      field.onChange(places[0]);
-                      onChange(places[0]);
-                    }}
-                    minLength={3}
-                    placeholder={placeholderLabel(t)}
-                    newSelectionPrefix="Locatie niet gevonden?"
-                    allowNew
-                  />
-                }
-              />
+                      selected={valueToArray(selectedPlace as Place)}
+                      maxWidth="43rem"
+                      onChange={(places) => {
+                        console.log('on change');
+
+                        const place = places[0];
+
+                        if (isNewEntry(place)) {
+                          console.log('new entry');
+                          setIsPlaceAddModalVisible(true);
+                          return;
+                        }
+
+                        if (parentFieldOnChange && parentOnChange) {
+                          parentFieldOnChange(place);
+                          parentOnChange(place);
+                          return;
+                        }
+                        field.onChange(place);
+                        onChange(place);
+                      }}
+                      minLength={3}
+                      placeholder={placeholderLabel(t)}
+                      newSelectionPrefix="Locatie niet gevonden?"
+                      allowNew
+                    />
+                  }
+                />
+              </Stack>
             );
           }
 
