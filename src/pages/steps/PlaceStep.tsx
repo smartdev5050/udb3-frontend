@@ -28,6 +28,7 @@ import { isNewEntry, NewEntry, Typeahead } from '@/ui/Typeahead';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { valueToArray } from '@/utils/valueToArray';
 
+import { City } from '../CityPicker';
 import { PlaceAddModal } from '../PlaceAddModal';
 
 const getValue = getValueFromTheme('createPage');
@@ -53,7 +54,7 @@ const useEditLocation = <TFormData extends FormDataUnion>({
 type PlaceStepProps<TFormData extends FormDataUnion> = StackProps &
   StepProps<TFormData> & {
     terms: Array<Values<typeof EventTypes>>;
-    zip?: string;
+    municipality?: City;
     chooseLabel: (t: TFunction) => string;
     placeholderLabel: (t: TFunction) => string;
     parentOnChange?: (val: Place | NewEntry | undefined) => void;
@@ -70,7 +71,7 @@ const PlaceStep = <TFormData extends FormDataUnion>({
   loading,
   onChange,
   terms,
-  zip,
+  municipality,
   chooseLabel,
   placeholderLabel,
   parentOnChange,
@@ -87,7 +88,7 @@ const PlaceStep = <TFormData extends FormDataUnion>({
     {
       name: searchInput,
       terms,
-      zip,
+      zip: municipality.zip,
     },
     { enabled: !!searchInput },
   );
@@ -118,6 +119,7 @@ const PlaceStep = <TFormData extends FormDataUnion>({
                 <PlaceAddModal
                   visible={isPlaceAddModalVisible}
                   onClose={() => setIsPlaceAddModalVisible(false)}
+                  municipality={municipality}
                 />
                 <FormElement
                   id="place-step"
