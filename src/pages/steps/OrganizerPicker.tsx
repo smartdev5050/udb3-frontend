@@ -82,7 +82,7 @@ const RecentUsedOrganizers = ({
               variant={ButtonVariants.UNSTYLED}
               customChildren
               marginBottom={4}
-              maxWidth="25rem"
+              width="25rem"
               title={name}
               css={`
                 flex-direction: column;
