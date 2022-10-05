@@ -436,21 +436,16 @@ const Dashboard = (): any => {
     );
   };
 
-  const UseGetItemsByCreatorQuery = useGetItemsByCreator(
-    {
-      creator: user,
-      ...(tab === 'events' && {
-        sortOptions: { field: sortingField, order: sortingOrder },
-      }),
-      paginationOptions: {
-        start: (page - 1) * itemsPerPage,
-        limit: itemsPerPage,
-      },
+  const UseGetItemsByCreatorQuery = useGetItemsByCreator({
+    creator: user,
+    ...(tab === 'events' && {
+      sortOptions: { field: sortingField, order: sortingOrder },
+    }),
+    paginationOptions: {
+      start: (page - 1) * itemsPerPage,
+      limit: itemsPerPage,
     },
-    {
-      enabled: !!user,
-    },
-  );
+  });
 
   const UseDeleteItemByIdMutation = useDeleteItemById({
     onSuccess: async () => {
