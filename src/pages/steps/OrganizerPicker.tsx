@@ -82,7 +82,7 @@ const RecentUsedOrganizers = ({
               variant={ButtonVariants.UNSTYLED}
               customChildren
               marginBottom={4}
-              maxWidth="25rem"
+              width="25rem"
               title={name}
               css={`
                 flex-direction: column;
@@ -119,9 +119,16 @@ const RecentUsedOrganizers = ({
                 )}
               </Paragraph>
               {address && (
-                <Text>
-                  {address.streetAddress} - {address.postalCode}{' '}
-                  {address.addressLocality}
+                <Text
+                  textAlign="left"
+                  width="80%"
+                  css={`
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                  `}
+                >
+                  {address.postalCode} {address.addressLocality}
                 </Text>
               )}
             </Button>
