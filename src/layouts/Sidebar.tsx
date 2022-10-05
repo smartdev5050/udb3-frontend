@@ -202,7 +202,7 @@ const ProfileMenu = ({ profileImage }: ProfileMenuProps) => {
     >
       <Image src={profileImage} width={50} height={50} alt="Profile picture" />
       <Stack as="div" padding={2} spacing={2} flex={1} display={{ s: 'none' }}>
-        <Text>{user?.username ?? ''}</Text>
+        {user?.username && <Text>{user.userName}</Text>}
         <Menu items={loginMenu} />
       </Stack>
     </Inline>
