@@ -1,6 +1,10 @@
-import { fetchFromApi } from '@/utils/fetchFromApi';
+import { User } from '@/types/User';
+import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 
-import { useAuthenticatedQuery } from './authenticated-query';
+import {
+  ServerSideQueryOptions,
+  useAuthenticatedQuery,
+} from './authenticated-query';
 
 const getUser = async ({ headers }) => {
   const res = await fetchFromApi({
@@ -9,17 +13,25 @@ const getUser = async ({ headers }) => {
       headers,
     },
   });
+  if (isErrorObject(res)) {
+    // eslint-disable-next-line no-console
+    return console.error(res);
+  }
   return await res.json();
 };
 
-const useGetUserQuery = ({ req, queryClient } = {}, configuration = {}) =>
-  useAuthenticatedQuery({
+const useGetUserQuery = (
+  { req, queryClient }: ServerSideQueryOptions = {},
+  configuration = {},
+) => {
+  return useAuthenticatedQuery({
     req,
     queryClient,
     queryKey: ['user'],
     queryFn: getUser,
     ...configuration,
   });
+};
 
 const getPermissions = async ({ headers }) => {
   const res = await fetchFromApi({
@@ -28,6 +40,10 @@ const getPermissions = async ({ headers }) => {
       headers,
     },
   });
+  if (isErrorObject(res)) {
+    // eslint-disable-next-line no-console
+    return console.error(res);
+  }
   return await res.json();
 };
 
@@ -45,6 +61,10 @@ const getRoles = async ({ headers }) => {
       headers,
     },
   });
+  if (isErrorObject(res)) {
+    // eslint-disable-next-line no-console
+    return console.error(res);
+  }
   return await res.json();
 };
 

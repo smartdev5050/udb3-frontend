@@ -5,7 +5,7 @@ import { useQueryClient } from 'react-query';
 
 import { useGetOffersByCreatorQuery } from '@/hooks/api/offers';
 import { useGetOrganizersByQueryQuery } from '@/hooks/api/organizers';
-import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
+import { useGetUserQuery } from '@/hooks/api/user';
 import { SupportedLanguages } from '@/i18n/index';
 import { Organizer } from '@/types/Organizer';
 import { Values } from '@/types/Values';
@@ -160,7 +160,9 @@ const OrganizerPicker = ({
   const { t, i18n } = useTranslation();
   const queryClient = useQueryClient();
 
-  const { cookies } = useCookiesWithOptions(['user']);
+  const getUserQuery = useGetUserQuery();
+  // @ts-expect-error
+  const user = getUserQuery.data;
 
   const [addButtonHasBeenPressed, setAddButtonHasBeenPressed] = useState(false);
   const [organizerSearchInput, setOrganizerSearchInput] = useState('');
@@ -172,7 +174,7 @@ const OrganizerPicker = ({
 
   const getOffersByCreatorQuery = useGetOffersByCreatorQuery({
     advancedQuery: '_exists_:organizer.id',
-    creator: cookies.user,
+    creator: user,
     paginationOptions: { start: 0, limit: 20 },
   });
 

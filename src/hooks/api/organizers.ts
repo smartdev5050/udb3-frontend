@@ -183,13 +183,13 @@ const useGetOrganizersByCreatorQuery = (
     queryKey: ['organizers'],
     queryFn: getOrganizersByCreator,
     queryArguments: {
-      q: `creator:(${creator.id} OR ${creator.email})`,
+      q: `creator:(${creator?.id} OR ${creator?.email})`,
       limit: paginationOptions.limit,
       start: paginationOptions.start,
       embed: true,
       ...createSortingArgument(sortOptions),
     },
-    enabled: !!(creator.id && creator.email),
+    enabled: !!(creator?.id && creator?.email),
     ...configuration,
   });
 
