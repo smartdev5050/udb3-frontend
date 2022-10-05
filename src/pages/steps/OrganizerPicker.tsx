@@ -119,7 +119,7 @@ const RecentUsedOrganizers = ({
                 )}
               </Paragraph>
               {address && (
-                <Text>
+                <Text textAlign="left">
                   {address.streetAddress} - {address.postalCode}{' '}
                   {address.addressLocality}
                 </Text>
