@@ -52,8 +52,6 @@ const PlaceAddModal = ({
 }: Props) => {
   const { t, i18n } = useTranslation();
 
-  console.log({ municipality });
-
   const getTypesByScopeQuery = useGetTypesByScopeQuery({
     scope: 'places',
   });
@@ -66,8 +64,6 @@ const PlaceAddModal = ({
 
   const handleConfirm = async () => {
     await handleSubmit(async (data) => {
-      console.log('submit handled');
-
       const formData = {
         address: {
           addressCountry: 'BE', // TODO get country from event form
@@ -94,17 +90,17 @@ const PlaceAddModal = ({
 
   const handleClose = () => {
     onClose();
+    clearErrors();
   };
 
   const {
     register,
     handleSubmit,
     formState,
-    control,
-    reset,
     watch,
     setValue,
-    setError,
+    trigger,
+    clearErrors,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
@@ -138,11 +134,19 @@ const PlaceAddModal = ({
           Component={<Input {...register('name')} />}
           id="location-name"
           label="Naam locatie"
+          error={
+            formState.errors.name &&
+            'Gelieve een naam voor jouw locatie in te vullen'
+          }
         />
         <FormElement
           Component={<Input {...register('streetAndNumber')} />}
           id="location-street"
           label="Straat en nummer"
+          error={
+            formState.errors.streetAndNumber &&
+            'Gelieve een straat en nummer in te vullen'
+          }
         />
         <Inline spacing={5}>
           <FormElement
@@ -161,6 +165,9 @@ const PlaceAddModal = ({
           <Paragraph marginBottom={3} variant={TextVariants.MUTED}>
             Kies een categorie die deze locatie het best omschrijft.
           </Paragraph>
+          {formState.errors.type?.id && (
+            <Text color="red">Gelieve een categorie te selecteren</Text>
+          )}
           <Inline spacing={3} flexWrap="wrap" maxWidth="70rem">
             {types.map(({ id, name, domain }) => (
               <Button
@@ -170,13 +177,14 @@ const PlaceAddModal = ({
                 key={id}
                 active={id === selectedType?.id}
                 variant={ButtonVariants.SECONDARY}
-                onClick={() =>
+                onClick={() => {
                   setValue('type', {
                     id,
                     label: name[i18n.language],
                     domain,
-                  })
-                }
+                  });
+                  trigger('type');
+                }}
               >
                 {name[i18n.language]}
               </Button>

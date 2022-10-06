@@ -149,8 +149,6 @@ const PlaceStep = <TFormData extends FormDataUnion>({
                       selected={valueToArray(selectedPlace as Place)}
                       maxWidth="43rem"
                       onChange={(places) => {
-                        console.log('on change');
-
                         const place = places[0];
 
                         if (isNewEntry(place)) {
