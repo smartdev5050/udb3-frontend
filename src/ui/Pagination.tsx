@@ -65,7 +65,9 @@ const Pagination = ({
           border-color: ${getValue('borderColor')};
           padding: ${getValue('paddingY')} ${getValue('paddingX')};
 
-          &:hover {
+          border-radius: 8px;
+
+          */ &:hover {
             background-color: ${getValue('hoverBackgroundColor')};
             color: ${getValue('hoverColor')};
           }
@@ -83,11 +85,21 @@ const Pagination = ({
         }
 
         .prev-btn {
-          margin-right: 0.2rem;
+          margin-right: 0.8rem;
+
+          .page-link {
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+          }
         }
 
         .next-btn {
-          margin-left: 0.2rem;
+          margin-left: 0.8rem;
+
+          .page-link {
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+          }
         }
       `}
       {...getInlineProps(props)}
