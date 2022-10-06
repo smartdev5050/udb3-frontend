@@ -82,6 +82,7 @@ const PlaceStep = <TFormData extends FormDataUnion>({
 }: PlaceStepProps<TFormData>) => {
   const { t, i18n } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
+  const [prefillPlaceName, setPrefillPlaceName] = useState('');
   const [isPlaceAddModalVisible, setIsPlaceAddModalVisible] = useState(false);
 
   const useGetPlacesQuery = useGetPlacesByQuery(
@@ -119,7 +120,12 @@ const PlaceStep = <TFormData extends FormDataUnion>({
                 <PlaceAddModal
                   visible={isPlaceAddModalVisible}
                   onClose={() => setIsPlaceAddModalVisible(false)}
+                  prefillPlaceName={prefillPlaceName}
                   municipality={municipality}
+                  onConfirmSuccess={(place) => {
+                    parentFieldOnChange(place);
+                    parentOnChange(place);
+                  }}
                 />
                 <FormElement
                   id="place-step"
@@ -148,7 +154,7 @@ const PlaceStep = <TFormData extends FormDataUnion>({
                         const place = places[0];
 
                         if (isNewEntry(place)) {
-                          console.log('new entry');
+                          setPrefillPlaceName(place.label);
                           setIsPlaceAddModalVisible(true);
                           return;
                         }
@@ -163,7 +169,7 @@ const PlaceStep = <TFormData extends FormDataUnion>({
                       }}
                       minLength={3}
                       placeholder={placeholderLabel(t)}
-                      newSelectionPrefix="Locatie niet gevonden?"
+                      newSelectionPrefix="Locatie niet gevonden? "
                       allowNew
                     />
                   }

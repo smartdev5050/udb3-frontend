@@ -16,6 +16,7 @@ import type {
   AuthenticatedQueryOptions,
   CalendarSummaryFormats,
   PaginationOptions,
+  ServerSideQueryOptions,
   SortOptions,
 } from './authenticated-query';
 import {
@@ -39,8 +40,12 @@ const getPlaceById = async ({ headers, id }) => {
   return await res.json();
 };
 
+type UseGetPlaceByIdArguments = ServerSideQueryOptions & {
+  id: string;
+};
+
 const useGetPlaceByIdQuery = (
-  { req, queryClient, id },
+  { req, queryClient, id }: UseGetPlaceByIdArguments,
   configuration: UseQueryOptions = {},
 ) =>
   useAuthenticatedQuery({
@@ -234,6 +239,7 @@ const useAddPlaceMutation = (configuration = {}) =>
   });
 
 export {
+  getPlaceById,
   useAddPlaceMutation,
   useChangeStatusMutation,
   useDeletePlaceByIdMutation,

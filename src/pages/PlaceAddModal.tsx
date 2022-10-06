@@ -5,8 +5,9 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { CalendarType } from '@/constants/CalendarType';
-import { useAddPlaceMutation } from '@/hooks/api/places';
+import { getPlaceById, useAddPlaceMutation } from '@/hooks/api/places';
 import { useGetTypesByScopeQuery } from '@/hooks/api/types';
+import { useHeaders } from '@/hooks/api/useHeaders';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Inline } from '@/ui/Inline';
@@ -37,10 +38,18 @@ type FormData = yup.InferType<typeof schema>;
 type Props = {
   visible: boolean;
   municipality: City;
+  prefillPlaceName: string;
   onClose: () => void;
+  onConfirmSuccess: (place: any) => void;
 };
 
-const PlaceAddModal = ({ visible, onClose, municipality }: Props) => {
+const PlaceAddModal = ({
+  visible,
+  onClose,
+  municipality,
+  prefillPlaceName,
+  onConfirmSuccess,
+}: Props) => {
   const { t, i18n } = useTranslation();
 
   console.log({ municipality });
@@ -48,6 +57,8 @@ const PlaceAddModal = ({ visible, onClose, municipality }: Props) => {
   const getTypesByScopeQuery = useGetTypesByScopeQuery({
     scope: 'places',
   });
+
+  const headers = useHeaders();
 
   const types = getTypesByScopeQuery.data ?? [];
 
@@ -73,7 +84,11 @@ const PlaceAddModal = ({ visible, onClose, municipality }: Props) => {
       };
 
       const resp = await addPlaceMutation.mutateAsync({ ...formData });
-      console.log({ resp });
+
+      if (resp.placeId) {
+        const newPlace = await getPlaceById({ headers, id: resp.placeId });
+        onConfirmSuccess(newPlace);
+      }
     })();
   };
 
@@ -100,9 +115,12 @@ const PlaceAddModal = ({ visible, onClose, municipality }: Props) => {
     setValue('municipalityName', municipality.name);
   }, [municipality, setValue]);
 
-  const selectedType = watch('type');
+  useEffect(() => {
+    if (!prefillPlaceName) return;
+    setValue('name', prefillPlaceName);
+  }, [prefillPlaceName, setValue]);
 
-  console.log({ selectedType });
+  const selectedType = watch('type');
 
   return (
     <Modal
