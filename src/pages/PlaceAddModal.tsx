@@ -120,9 +120,9 @@ const PlaceAddModal = ({
 
   return (
     <Modal
-      title="Nieuwe locatie toevoegen"
-      confirmTitle="Toevoegen"
-      cancelTitle="Annuleren"
+      title={t('location.add_modal.title')}
+      confirmTitle={t('location.add_modal.actions.add')}
+      cancelTitle={t('location.add_modal.actions.cancel')}
       visible={visible}
       variant={ModalVariants.QUESTION}
       onConfirm={handleConfirm}
@@ -133,40 +133,37 @@ const PlaceAddModal = ({
         <FormElement
           Component={<Input {...register('name')} />}
           id="location-name"
-          label="Naam locatie"
-          error={
-            formState.errors.name &&
-            'Gelieve een naam voor jouw locatie in te vullen'
-          }
+          label={t('location.add_modal.labels.name')}
+          error={formState.errors.name && t('location.add_modal.errors.name')}
         />
         <FormElement
           Component={<Input {...register('streetAndNumber')} />}
           id="location-street"
-          label="Straat en nummer"
+          label={t('location.add_modal.labels.streetAndNumber')}
           error={
             formState.errors.streetAndNumber &&
-            'Gelieve een straat en nummer in te vullen'
+            t('location.add_modal.errors.streetAndNumber')
           }
         />
         <Inline spacing={5}>
           <FormElement
             Component={<Input {...register('zip')} disabled />}
             id="location-zip"
-            label="Postcode"
+            label={t('location.add_modal.labels.zip')}
           />
           <FormElement
             Component={<Input {...register('municipalityName')} disabled />}
             id="location-municipality-name"
-            label="Gemeente"
+            label={t('location.add_modal.labels.municipality')}
           />
         </Inline>
         <Stack>
-          <Text fontWeight="bold">Categorie</Text>
+          <Text fontWeight="bold">{t('location.add_modal.labels.type')}</Text>
           <Paragraph marginBottom={3} variant={TextVariants.MUTED}>
-            Kies een categorie die deze locatie het best omschrijft.
+            {t('location.add_modal.labels.typeInfo')}
           </Paragraph>
           {formState.errors.type?.id && (
-            <Text color="red">Gelieve een categorie te selecteren</Text>
+            <Text color="red">{t('location.add_modal.errors.type')}</Text>
           )}
           <Inline spacing={3} flexWrap="wrap" maxWidth="70rem">
             {types.map(({ id, name, domain }) => (

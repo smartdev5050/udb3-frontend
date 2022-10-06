@@ -594,6 +594,28 @@
       }
     }
   },
+  "location": {
+    "add_modal": {
+      "title": "Nieuwe locatie toevoegen",
+      "actions": {
+        "add": "Toevoegen",
+        "cancel": "Annuleren"
+      },
+      "labels": {
+        "name": "Naam locatie",
+        "streetAndNumber": "Straat en nummer",
+        "zip": "Postcode",
+        "municipality": "Gemeente",
+        "type": "Categorie",
+        "typeInfo": "Kies een categorie die deze locatie het best omschrijft."
+      },
+      "errors": {
+        "name": "De naam van de locatie is een verplicht veld.",
+        "streetAndNumber": "Straat is een verplicht veld.",
+        "type": "Categorie is een verplicht veld."
+      }
+    }
+  },
   "pagination": {
     "next": "Volgende",
     "previous": "Vorige"
