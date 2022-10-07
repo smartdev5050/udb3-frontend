@@ -191,6 +191,9 @@
           "subscribe": "Schrijf je in"
         }
       },
+      "booking_info": {
+        "title": "Reservatie"
+      },
       "description": {
         "clear": "Leegmaken",
         "progress_info": {
