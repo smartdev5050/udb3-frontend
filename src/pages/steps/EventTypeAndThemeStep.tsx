@@ -7,6 +7,7 @@ import {
   useChangeTypeMutation,
 } from '@/hooks/api/events';
 import { useGetTypesByScopeQuery } from '@/hooks/api/types';
+import { parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
@@ -86,13 +87,12 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
                     flexWrap="wrap"
                     maxWidth="70rem"
                     css={`
-                      row-gap: 0.3rem;
+                      row-gap: ${parseSpacing(3.5)()};
                     `}
                   >
                     {types.map(({ id, name }) => (
                       <Button
                         width="auto"
-                        marginBottom={3}
                         display="inline-flex"
                         key={id}
                         variant={ButtonVariants.SECONDARY}
@@ -116,7 +116,7 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
                     alignItems="center"
                     spacing={3}
                     css={`
-                      row-gap: 0.3rem;
+                      row-gap: ${parseSpacing(3.5)()};
                     `}
                   >
                     <Icon
@@ -151,13 +151,12 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
                 flexWrap="wrap"
                 maxWidth="70rem"
                 css={`
-                  row-gap: 0.3rem;
+                  row-gap: ${parseSpacing(3.5)()};
                 `}
               >
                 {themes.map(({ id, name }) => (
                   <Button
                     width="auto"
-                    marginBottom={3}
                     display="inline-flex"
                     key={id}
                     variant={ButtonVariants.SECONDARY}
@@ -178,7 +177,7 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
                 alignItems="center"
                 spacing={3}
                 css={`
-                  row-gap: 0.3rem;
+                  row-gap: ${parseSpacing(3.5)()};
                 `}
               >
                 <Icon
