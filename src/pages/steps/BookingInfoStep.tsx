@@ -41,6 +41,8 @@ const isValidPhone = (phone: string): boolean => {
 
 const schema = yup
   .object({
+    availabilityEnds: yup.string(),
+    availabilityStarts: yup.string(),
     email: yup
       .string()
       .test(`email-is-not-valid`, 'email is not valid', isValidEmail),
@@ -118,12 +120,14 @@ const getUrlLabelType = (englishUrlLabel: string): string => {
 };
 
 type ReservationPeriodProps = {
-  bookingInfo: BookingInfo;
-  onChangePeriod: (newBookingInfo: BookingInfo) => Promise<void>;
+  availabilityStarts: string;
+  availabilityEnds: string;
+  onChangePeriod: (newPeriod: any) => Promise<void>;
 };
 
 const ReservationPeriod = ({
-  bookingInfo,
+  availabilityEnds,
+  availabilityStarts,
   onChangePeriod,
 }: ReservationPeriodProps) => {
   const { t } = useTranslation();
@@ -134,15 +138,14 @@ const ReservationPeriod = ({
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    if (!bookingInfo?.availabilityStarts || !bookingInfo?.availabilityEnds) {
+    if (!availabilityEnds || !availabilityStarts) {
       return;
     }
 
-    const { availabilityStarts, availabilityEnds } = bookingInfo;
     setIsDatePickerVisible(true);
     setStartDate(new Date(availabilityStarts));
     setEndDate(new Date(availabilityEnds));
-  }, [bookingInfo]);
+  }, [availabilityEnds, availabilityStarts]);
 
   const handleEndDateBeforeStartDateError = (): void => {
     setErrorMessage(
@@ -156,13 +159,10 @@ const ReservationPeriod = ({
     startDate: Date,
     endDate: Date,
   ): Promise<void> => {
-    const newBookingInfo: BookingInfo = {
-      ...bookingInfo,
+    await onChangePeriod({
       availabilityStarts: startDate,
       availabilityEnds: endDate,
-    };
-
-    await onChangePeriod(newBookingInfo);
+    });
   };
 
   const handleChangeStartDate = async (newStartDate: Date): Promise<void> => {
@@ -192,18 +192,6 @@ const ReservationPeriod = ({
 
   const handleDelete = async (): Promise<void> => {
     setIsDatePickerVisible(false);
-
-    const newBookingInfo: BookingInfo = {
-      ...bookingInfo,
-    };
-
-    delete newBookingInfo.availabilityStarts;
-    delete newBookingInfo.availabilityEnds;
-
-    await onChangePeriod(newBookingInfo);
-
-    setStartDate(new Date());
-    setEndDate(new Date());
   };
 
   return (
@@ -287,12 +275,25 @@ const BookingInfoStep = ({
   });
 
   useEffect(() => {
+    if (!bookingInfo) return;
+
     Object.values(ContactInfoType).map((type) => {
-      if (bookingInfo[type]) {
+      if (bookingInfo?.[type]) {
         setValue(type, bookingInfo[type]);
       }
     });
+
+    if (bookingInfo.availabilityStarts) {
+      setValue('availabilityStarts', bookingInfo.availabilityStarts);
+    }
+
+    if (bookingInfo.availabilityEnds) {
+      setValue('availabilityEnds', bookingInfo.availabilityEnds);
+    }
   }, [bookingInfo, setValue]);
+
+  const availabilityEnds = watch('availabilityEnds');
+  const availabilityStarts = watch('availabilityStarts');
 
   const addBookingInfoMutation = useAddBookingInfoMutation({
     onSuccess: onSuccessfulChange,
@@ -329,7 +330,10 @@ const BookingInfoStep = ({
           />
         </Stack>
         <Stack width="40%">
-          <ReservationPeriod />
+          <ReservationPeriod
+            availabilityEnds={availabilityEnds}
+            availabilityStarts={availabilityStarts}
+          />
         </Stack>
       </Inline>
     </Stack>
