@@ -122,12 +122,14 @@ const getUrlLabelType = (englishUrlLabel: string): string => {
 type ReservationPeriodProps = {
   availabilityStarts: string;
   availabilityEnds: string;
+  handleDelete: () => Promise<void>;
   onChangePeriod: (newPeriod: any) => Promise<void>;
 };
 
 const ReservationPeriod = ({
   availabilityEnds,
   availabilityStarts,
+  handleDelete,
   onChangePeriod,
 }: ReservationPeriodProps) => {
   const { t } = useTranslation();
@@ -190,10 +192,6 @@ const ReservationPeriod = ({
     await handleNewBookingPeriod(startDate, newEndDate);
   };
 
-  const handleDelete = async (): Promise<void> => {
-    setIsDatePickerVisible(false);
-  };
-
   return (
     <Stack>
       <Inline>
@@ -217,6 +215,14 @@ const ReservationPeriod = ({
             border: 1px solid ${getValue('borderColor')};
           `}
         >
+          <Button
+            onClick={() => {
+              handleDelete();
+              setIsDatePickerVisible(false);
+            }}
+          >
+            Delete
+          </Button>
           <Title size={3}>
             {t(
               'create.additionalInformation.contact_info.reservation_period.title',
@@ -270,6 +276,7 @@ const BookingInfoStep = ({
     setValue,
     trigger,
     clearErrors,
+    getValues,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
@@ -306,6 +313,16 @@ const BookingInfoStep = ({
     });
   };
 
+  const handleDeleteBookingPeriod = async () => {
+    const formValues = getValues();
+
+    await handleAddBookingInfoMutation({
+      ...formValues,
+      availabilityEnds: undefined,
+      availabilityStarts: undefined,
+    });
+  };
+
   return (
     <Stack maxWidth="50rem" {...getStackProps(props)}>
       <Inline justifyContent="space-between">
@@ -331,6 +348,7 @@ const BookingInfoStep = ({
         </Stack>
         <Stack width="40%">
           <ReservationPeriod
+            handleDelete={handleDeleteBookingPeriod}
             availabilityEnds={availabilityEnds}
             availabilityStarts={availabilityStarts}
           />
