@@ -89,7 +89,7 @@ const PlaceStep = <TFormData extends FormDataUnion>({
     {
       name: searchInput,
       terms,
-      zip: municipality.zip,
+      zip: municipality?.zip,
     },
     { enabled: !!searchInput },
   );
