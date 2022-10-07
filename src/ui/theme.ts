@@ -105,7 +105,7 @@ const theme = {
     button: {
       borderRadius: '8px',
       paddingX: '0.9rem',
-      paddingY: '0.4rem',
+      paddingY: '0.5rem',
       primary: {
         backgroundColor: colors.udbBlue,
         borderColor: '#00417b',

@@ -40,16 +40,43 @@ const Dropdown = ({ variant, children, ...props }: DropdownProps) => {
         .dropdown-menu {
           border-radius: ${getValue('menuBorderRadius')};
         }
-
-        .show > .dropdown-toggle,
-        .show > .dropdown-toggle:focus:not(:focus-visible),
-        .show > .dropdown-toggle.focus:not(:focus-visible) {
-          box-shadow: ${getValue('activeToggleBoxShadow')};
-        }
       `}
       {...getBoxProps(props)}
     >
-      <BootstrapDropdown as={BootstrapButtonGroup}>
+      <BootstrapDropdown
+        // @ts-expect-error
+        forwardedAs={BootstrapButtonGroup}
+        css={`
+          & {
+            box-shadow: -4px 6px 21px 3px rgb(210 210 210 / 80%);
+          }
+
+          > * {
+            box-shadow: none;
+          }
+
+          &:first-element {
+            border-top-right: 0;
+            box-shadow: none;
+            border-bottom-right: 0;
+            border-right: 1px solid gray;
+          }
+
+          &.btn:not(:first-element) {
+            flex: 1;
+            border: none;
+            box-shadow: none;
+            border-radius: 0;
+          }
+
+          .btn:not(:first-element) {
+            flex: 1;
+            border: none;
+            box-shadow: none;
+            border-radius: 0;
+          }
+        `}
+      >
         {primaryActionChildren}
         {menuChildren.length > 0 && (
           <>
@@ -72,9 +99,17 @@ const Item = ({ href, onClick, children }: ItemProps) => {
   if (onClick) {
     return (
       <BootstrapDropdown.Item
-        as={Button}
+        forwardedAs={Button}
         variant={ButtonVariants.SECONDARY}
         onClick={onClick}
+        css={`
+          &.btn {
+            flex: 1;
+            border: none;
+            box-shadow: none;
+            border-radius: 0;
+          }
+        `}
       >
         {children}
       </BootstrapDropdown.Item>
@@ -92,6 +127,8 @@ const Item = ({ href, onClick, children }: ItemProps) => {
           .btn {
             flex: 1;
             border: none;
+            box-shadow: none;
+            border-radius: 0;
           }
         `}
       >

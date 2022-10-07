@@ -15,6 +15,7 @@ const Panel = ({ children, className, ...props }: PanelProps) => {
     <Stack
       css={`
         border: 1px solid ${getValue('borderColor')};
+        border-radius: 8px;
         box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
       `}
       className={className}
@@ -39,6 +40,9 @@ const PanelFooter = ({ children, className, ...props }: PanelFooterProps) => {
       backgroundColor={getValueForPanelFooter('backgroundColor')}
       css={`
         border-top: 1px solid ${getValueForPanelFooter('borderColor')};
+        border-radius: 8px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
         background-color: ${getValueForPanelFooter('backgroundColor')};
       `}
       padding={5}

@@ -36,7 +36,7 @@ const Select = forwardRef(
     ref,
   ) => (
     <Form.Control
-      as={BaseSelect}
+      forwardedAs={BaseSelect}
       size={size}
       ref={ref}
       id={id}
@@ -45,6 +45,11 @@ const Select = forwardRef(
       onChange={onChange}
       value={value}
       aria-label={ariaLabel}
+      css={`
+        height: auto;
+        padding: 0.275rem 0.65rem;
+        border-radius: 8px;
+      `}
       {...getBoxProps(props)}
     >
       {children}

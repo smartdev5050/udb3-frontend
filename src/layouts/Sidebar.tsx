@@ -192,7 +192,7 @@ const ProfileMenu = ({ profileImage }: ProfileMenuProps) => {
 
   return (
     <Inline
-      padding={1}
+      padding={3}
       spacing={2}
       alignItems="center"
       justifyContent="center"
@@ -200,7 +200,13 @@ const ProfileMenu = ({ profileImage }: ProfileMenuProps) => {
         border-top: 1px solid ${getValueForMenu('borderColor')};
       `}
     >
-      <Image src={profileImage} width={50} height={50} alt="Profile picture" />
+      <Image
+        src={profileImage}
+        width={40}
+        height={40}
+        borderRadius="8px"
+        alt="Profile picture"
+      />
       <Stack as="div" padding={2} spacing={2} flex={1} display={{ s: 'none' }}>
         {user?.username && <Text>{user.userName}</Text>}
         <Menu items={loginMenu} />
