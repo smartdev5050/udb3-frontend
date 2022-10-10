@@ -347,22 +347,6 @@ const BookingInfoStep = ({
     },
   ];
 
-  const getUrlLabelType = (englishUrlLabel: string): string => {
-    if (englishUrlLabel.toLowerCase().includes(UrlLabelType.AVAILABILITY))
-      return UrlLabelType.AVAILABILITY;
-
-    if (englishUrlLabel.toLowerCase().includes(UrlLabelType.BUY))
-      return UrlLabelType.BUY;
-
-    if (englishUrlLabel.toLowerCase().includes(UrlLabelType.SUBSCRIBE))
-      return UrlLabelType.SUBSCRIBE;
-
-    if (englishUrlLabel.toLowerCase().includes(UrlLabelType.RESERVE))
-      return UrlLabelType.RESERVE;
-
-    return UrlLabelType.BUY;
-  };
-
   const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
 
   // @ts-expect-error
