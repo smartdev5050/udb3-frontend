@@ -1,8 +1,6 @@
 import { useCookies as useReactCookies } from 'react-cookie';
 import type { CookieSetOptions } from 'universal-cookie';
 
-import type { User } from '@/types/User';
-
 const defaultCookieOptions = {
   maxAge: 60 * 60 * 24 * 30,
   path: '/',
@@ -10,7 +8,6 @@ const defaultCookieOptions = {
 
 type Cookies = {
   'udb-language'?: string;
-  user?: User;
   token?: string;
 };
 
@@ -30,7 +27,7 @@ const useCookiesWithOptions = (
   const setCookieWithOptions = (name: string, value: any) =>
     setCookie(name, value, options);
   const removeAuthenticationCookies = () =>
-    ['token', 'user'].forEach((cookie) => removeCookie(cookie));
+    ['token'].forEach((cookie) => removeCookie(cookie));
 
   return {
     cookies,

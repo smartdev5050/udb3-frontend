@@ -74,7 +74,6 @@ const getApplicationServerSideProps = (callbackFn) => async ({
   const cookies = new Cookies(rawCookies);
 
   if (!isTokenValid(query?.jwt ?? cookies.get('token'))) {
-    cookies.remove('user');
     Sentry.setUser(null);
     cookies.remove('token');
 
@@ -127,11 +126,7 @@ const getApplicationServerSideProps = (callbackFn) => async ({
 
   const queryClient = new QueryClient();
 
-  const user = await useGetUserQuery({ req, queryClient });
-
-  if (user) {
-    cookies.set('user', user);
-  }
+  await useGetUserQuery({ req, queryClient });
 
   req.headers.cookie = cookies.toString();
 

@@ -11,6 +11,7 @@ import { Tabs } from '@/ui/Tabs';
 import { Text } from '@/ui/Text';
 
 import { Audience } from './Audience';
+import { BookingInfoStep } from './BookingInfoStep';
 import { ContactInfoEntry } from './ContactInfoEntry';
 import { DescriptionStep } from './DescriptionStep';
 import { EventScore } from './EventScore';
@@ -34,6 +35,7 @@ const Fields = {
   DESCRIPTION: 'description',
   ORGANIZER: 'organizer',
   CONTACT_INFO: 'contact_info',
+  BOOKING_INFO: 'booking_info',
   PRICE_INFO: 'price_info',
   MEDIA: 'media',
   AUDIENCE: 'audience',
@@ -77,6 +79,11 @@ const tabConfigurations: TabConfig[] = [
     stepProps: {
       withReservationInfo: true,
     },
+  },
+  {
+    field: Fields.BOOKING_INFO,
+    TabContent: BookingInfoStep,
+    shouldShowOnMinimal: true,
   },
   {
     field: Fields.ORGANIZER,

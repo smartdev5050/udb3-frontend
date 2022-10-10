@@ -7,7 +7,11 @@ import { useQueryClient } from 'react-query';
 
 import { useGetAnnouncementsQuery } from '@/hooks/api/announcements';
 import { useGetEventsToModerateQuery } from '@/hooks/api/events';
-import { useGetPermissionsQuery, useGetRolesQuery } from '@/hooks/api/user';
+import {
+  useGetPermissionsQuery,
+  useGetRolesQuery,
+  useGetUserQuery,
+} from '@/hooks/api/user';
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
@@ -156,13 +160,15 @@ type ProfileMenuProps = {
 
 const ProfileMenu = ({ profileImage }: ProfileMenuProps) => {
   const { t } = useTranslation();
-  const { cookies, removeAuthenticationCookies } = useCookiesWithOptions([
-    'user',
-  ]);
+  const { removeAuthenticationCookies } = useCookiesWithOptions();
   const { publicRuntimeConfig } = getConfig();
 
   const router = useRouter();
   const queryClient = useQueryClient();
+
+  const getUserQuery = useGetUserQuery();
+  // @ts-expect-error
+  const user = getUserQuery.data;
 
   const loginMenu = [
     {
@@ -196,7 +202,7 @@ const ProfileMenu = ({ profileImage }: ProfileMenuProps) => {
     >
       <Image src={profileImage} width={50} height={50} alt="Profile picture" />
       <Stack as="div" padding={2} spacing={2} flex={1} display={{ s: 'none' }}>
-        <Text>{cookies?.user?.username ?? ''}</Text>
+        {user?.username && <Text>{user.userName}</Text>}
         <Menu items={loginMenu} />
       </Stack>
     </Inline>
