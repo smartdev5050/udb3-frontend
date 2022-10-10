@@ -20,6 +20,7 @@ import { LabelPositions } from '@/ui/Label';
 import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
 import { SelectWithLabel } from '@/ui/SelectWithLabel';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
+import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
@@ -196,14 +197,19 @@ const ReservationPeriod = ({
     <Stack>
       <Inline>
         {!isDatePickerVisible && (
-          <Button
-            onClick={() => setIsDatePickerVisible(true)}
-            variant={ButtonVariants.PRIMARY}
-          >
-            {t(
-              'create.additionalInformation.contact_info.reservation_period.cta',
-            )}
-          </Button>
+          <Stack>
+            <Text fontWeight="bold" marginBottom={3}>
+              Reservatieperiode
+            </Text>
+            <Button
+              onClick={() => setIsDatePickerVisible(true)}
+              variant={ButtonVariants.SECONDARY}
+            >
+              {t(
+                'create.additionalInformation.contact_info.reservation_period.cta',
+              )}
+            </Button>
+          </Stack>
         )}
       </Inline>
       {isDatePickerVisible && (
