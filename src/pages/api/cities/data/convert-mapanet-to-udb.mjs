@@ -8,16 +8,16 @@ const regionToAmountUsedMap = new Map();
  * Convert the Mapanet format to the Uitdatabank format
  */
 const toUitdatabankFormat = (feature) => {
-  const { Region2: region2, Locality: locality } = feature.properties;
+  const { Region2: region, Locality: locality } = feature.properties;
 
-  if (regionToAmountUsedMap.has(region2)) {
-    const currentValue = regionToAmountUsedMap.get(region2);
+  if (regionToAmountUsedMap.has(region)) {
+    const currentValue = regionToAmountUsedMap.get(region);
     regionToAmountUsedMap.set(currentValue + 1);
   } else {
     regionToAmountUsedMap.set(1);
   }
 
-  const label = region2 ? `${locality} (${region2})` : `${locality}`;
+  const label = region ? `${locality} (${region})` : `${locality}`;
 
   return {
     label: label,
