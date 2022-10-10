@@ -79,12 +79,12 @@ const PlaceAddModal = ({
         type: data.type,
       };
 
-      const resp = await addPlaceMutation.mutateAsync({ ...formData });
+      const resp = await addPlaceMutation.mutateAsync(formData);
 
-      if (resp.placeId) {
-        const newPlace = await getPlaceById({ headers, id: resp.placeId });
-        onConfirmSuccess(newPlace);
-      }
+      if (!resp?.placeId) return;
+
+      const newPlace = await getPlaceById({ headers, id: resp.placeId });
+      onConfirmSuccess(newPlace);
     })();
   };
 
