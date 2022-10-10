@@ -62,7 +62,7 @@ const schema = yup
 type FormData = yup.InferType<typeof schema>;
 
 const urlLabelTranslationString =
-  'create.additionalInformation.contact_info.url_type_labels';
+  'create.additionalInformation.booking_info.url_type_labels';
 
 const ContactInfoType = {
   EMAIL: 'email',
@@ -145,7 +145,7 @@ const ReservationPeriod = ({
   const handleEndDateBeforeStartDateError = (): void => {
     setErrorMessage(
       t(
-        'create.additionalInformation.contact_info.reservation_period.error.enddate_before_startdate',
+        'create.additionalInformation.booking_info.reservation_period.error.enddate_before_startdate',
       ),
     );
   };
@@ -195,7 +195,7 @@ const ReservationPeriod = ({
               variant={ButtonVariants.SECONDARY}
             >
               {t(
-                'create.additionalInformation.contact_info.reservation_period.cta',
+                'create.additionalInformation.booking_info.reservation_period.cta',
               )}
             </Button>
           </Stack>
@@ -230,7 +230,7 @@ const ReservationPeriod = ({
             ></Button>
             <Title size={3}>
               {t(
-                'create.additionalInformation.contact_info.reservation_period.title',
+                'create.additionalInformation.booking_info.reservation_period.title',
               )}
             </Title>
             <DatePeriodPicker
@@ -299,24 +299,24 @@ const BookingInfoStep = ({
 
   const URL_LABELS = [
     {
-      label: t('create.additionalInformation.contact_info.url_type_labels.buy'),
+      label: t('create.additionalInformation.booking_info.url_type_labels.buy'),
       value: UrlLabelType.BUY,
     },
     {
       label: t(
-        'create.additionalInformation.contact_info.url_type_labels.reserve',
+        'create.additionalInformation.booking_info.url_type_labels.reserve',
       ),
       value: UrlLabelType.RESERVE,
     },
     {
       label: t(
-        'create.additionalInformation.contact_info.url_type_labels.availability',
+        'create.additionalInformation.booking_info.url_type_labels.availability',
       ),
       value: UrlLabelType.AVAILABILITY,
     },
     {
       label: t(
-        'create.additionalInformation.contact_info.url_type_labels.subscribe',
+        'create.additionalInformation.booking_info.url_type_labels.subscribe',
       ),
       value: UrlLabelType.SUBSCRIBE,
     },
@@ -432,34 +432,43 @@ const BookingInfoStep = ({
           })}
           ref={formComponent}
         >
-          <FormElement
-            flex={2}
-            id={`email`}
-            label="E-mailadres"
-            Component={<Input placeholder="Email" {...register('email')} />}
-            error={formState.errors.email?.message}
-          />
-          <FormElement
-            flex={2}
-            id={`phone`}
-            label="Telefoon"
-            Component={<Input placeholder="Telefoon" {...register('phone')} />}
-            error={formState.errors.phone?.message}
-          />
-          <FormElement
-            flex={2}
-            id={`url`}
-            label="Website"
-            Component={<Input placeholder="Website" {...register('url')} />}
-            error={formState.errors.url?.message}
-          />
+          {Object.keys(ContactInfoType).map((key, index) => {
+            const type = ContactInfoType[key];
+            return (
+              <FormElement
+                key={index}
+                flex={2}
+                id={type}
+                label={t(`create.additionalInformation.booking_info.${type}`)}
+                Component={
+                  <Input
+                    placeholder={t(
+                      `create.additionalInformation.booking_info.${type}`,
+                    )}
+                    {...register(type)}
+                  />
+                }
+                error={
+                  formState.errors?.[type] &&
+                  t(`create.additionalInformation.booking_info.${type}_error`)
+                }
+              />
+            );
+          })}
           {url && (
-            <RadioButtonGroup
-              name="urlLabel"
-              selected={getUrlLabelType(urlLabel.en)}
-              items={URL_LABELS}
-              onChange={handleOnUrlLabelChange}
-            />
+            <Stack>
+              <Text fontWeight="bold">
+                {t(
+                  'create.additionalInformation.booking_info.select_url_label',
+                )}
+              </Text>
+              <RadioButtonGroup
+                name="urlLabel"
+                selected={getUrlLabelType(urlLabel.en)}
+                items={URL_LABELS}
+                onChange={handleOnUrlLabelChange}
+              />
+            </Stack>
           )}
         </Stack>
         <Stack width="40%">
