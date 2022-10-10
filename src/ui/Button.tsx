@@ -45,15 +45,17 @@ const customCSS = css`
     flex-shrink: 0;
     align-items: center;
 
+    border: none;
+    box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
+
     &:focus,
     &.focus {
-      outline: auto;
+      outline: solid black;
     }
 
     &:focus:not(:focus-visible),
     &.focus:not(:focus-visible) {
       outline: none;
-      box-shadow: none;
     }
   }
 
@@ -62,27 +64,14 @@ const customCSS = css`
     color: ${getValue('primary.color')};
     background-color: ${getValue('primary.backgroundColor')};
 
-    border: none;
-    box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
-
     &:hover {
       background-color: ${getValue('primary.hoverBackgroundColor')};
-      border: none;
-      box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
     }
 
     // active
     &.btn-primary:not(:disabled):not(.disabled):active,
     .btn-primary:not(:disabled):not(.disabled).active {
       background-color: ${getValue('primary.activeBackgroundColor')};
-      border: none;
-      box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
-    }
-
-    &:focus,
-    &.focus {
-      border: none;
-      box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
     }
   }
 
@@ -90,13 +79,9 @@ const customCSS = css`
   &.btn-outline-secondary.dropdown-toggle {
     color: ${getValue('secondary.color')};
     background-color: ${getValue('secondary.backgroundColor')};
-    border: none;
-    box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
 
     &:hover {
       background-color: ${getValue('secondary.hoverBackgroundColor')};
-      border: none;
-      box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
     }
 
     // active
@@ -104,75 +89,44 @@ const customCSS = css`
     .btn-outline-secondary:not(:disabled):not(.disabled).active {
       color: ${getValue('secondary.activeColor')};
       background-color: ${getValue('secondary.activeBackgroundColor')};
-      border: none;
-      box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
     }
 
     &:not(:disabled):not(.disabled).active,
     &:not(:disabled):not(.disabled):active {
       color: ${getValue('secondary.activeColor')};
       background-color: ${getValue('secondary.activeBackgroundColor')};
-      border: none;
-      box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
-    }
-
-    &:focus,
-    &.focus {
-      box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
     }
   }
 
   &.btn-success,
   &.btn-success.dropdown-toggle {
     color: ${getValue('success.color')};
-    border: none;
-    box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
+
     background-color: ${getValue('success.backgroundColor')};
 
     &:hover {
       background-color: ${getValue('success.hoverBackgroundColor')};
-      border: none;
-      box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
     }
 
     // active & focus
     &:not(:disabled):not(.disabled):active:focus,
     &:not(:disabled):not(.disabled).active:focus {
-      border: none;
-      box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
-    }
-
-    &:focus,
-    &.focus {
-      border: none;
-      box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
     }
   }
 
   &.btn-danger,
   &.btn-danger.dropdown-toggle {
     color: ${getValue('danger.color')};
-    border: none;
-    box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
+
     background-color: ${getValue('danger.backgroundColor')};
 
     &:hover {
       background-color: ${getValue('danger.hoverBackgroundColor')};
-      border: none;
-      box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
     }
 
     // active & focus
     &:not(:disabled):not(.disabled):active:focus,
     &:not(:disabled):not(.disabled).active:focus {
-      border: none;
-      box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
-    }
-
-    &:focus,
-    &.focus {
-      border: none;
-      box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
     }
   }
 
