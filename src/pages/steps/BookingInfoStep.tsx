@@ -472,31 +472,28 @@ const BookingInfoStep = ({
           as="form"
           width="50%"
           spacing={4}
-          onBlur={() => {
-            console.log(formState.errors);
-            handleSubmit(() => {
-              console.log('valid?');
-            });
-          }}
+          onBlur={handleSubmit(async (data) => {
+            await handleAddBookingInfoMutation(data);
+          })}
           ref={formComponent}
         >
           <FormElement
             flex={2}
-            id={`name-email`}
+            id={`email`}
             label="E-mailadres"
             Component={<Input placeholder="Email" {...register('email')} />}
             error={formState.errors.email?.message}
           />
           <FormElement
             flex={2}
-            id={`name-phone`}
+            id={`phone`}
             label="Telefoon"
             Component={<Input placeholder="Telefoon" {...register('phone')} />}
             error={formState.errors.phone?.message}
           />
           <FormElement
             flex={2}
-            id={`name-website`}
+            id={`url`}
             label="Website"
             Component={<Input placeholder="Website" {...register('url')} />}
             error={formState.errors.url?.message}
