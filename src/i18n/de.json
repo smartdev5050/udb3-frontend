@@ -162,7 +162,6 @@
         "add_url_input_placeholder": "Fügen Sie einen Link hinzu",
         "add_email_input_placeholder": "Fügen Sie eine E-Mail-Adresse hinzu",
         "select_for_reservation": "Wählen Sie Ihre Reservierungs {{contactInfoType}}",
-        "select_url_label": "Wie kann dieser Reservierungslink aussehen?",
         "edit_cta": "Bearbeiten",
         "email": "E-mailadres",
         "email_error": "Keine gültige E-Mail-Adresse",
@@ -170,14 +169,15 @@
         "phone": "Telefoonnummer",
         "phone_error": "Keine gültige Telefonnummer",
         "title": "Kontakt & Reservierung",
-        "reservation_period": {
-          "cta": "Reservierungszeitraum hinzufügen",
-          "title": "Reservierungszeitraum",
-          "delete": "Reservierungszeitraum löschen",
-          "error": {
-            "enddate_before_startdate": "Das gewählte Enddatum muss nach dem Startdatum liegen."
-          }
-        },
+        "url": "Website",
+        "url_error": "Eine gültige URL beginnt mit http:// oder https://"
+      },
+      "booking_info": {
+        "title": "Reservierung",
+        "email_error": "Keine gültige E-Mail-Adresse",
+        "email": "E-mailadres",
+        "phone": "Telefoonnummer",
+        "phone_error": "Keine gültige Telefonnummer",
         "url": "Website",
         "url_error": "Eine gültige URL beginnt mit http:// oder https://",
         "url_type_labels": {
@@ -185,6 +185,15 @@
           "availability": "Verfügbarkeit kontrollieren",
           "buy": "Tickets kaufen",
           "reserve": "Plätze reservieren"
+        },
+        "select_url_label": "Wie kann dieser Reservierungslink aussehen?",
+        "reservation_period": {
+          "cta": "Reservierungszeitraum hinzufügen",
+          "title": "Reservierungszeitraum",
+          "delete": "Reservierungszeitraum löschen",
+          "error": {
+            "enddate_before_startdate": "Das gewählte Enddatum muss nach dem Startdatum liegen."
+          }
         }
       },
       "description": {

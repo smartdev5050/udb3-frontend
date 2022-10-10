@@ -188,7 +188,9 @@ const ReservationPeriod = ({
         {!isDatePickerVisible && (
           <Stack>
             <Text fontWeight="bold" marginBottom={3}>
-              Reservatieperiode
+              {t(
+                'create.additionalInformation.booking_info.reservation_period.title',
+              )}
             </Text>
             <Button
               onClick={() => setIsDatePickerVisible(true)}
@@ -222,6 +224,9 @@ const ReservationPeriod = ({
                 handleDelete();
                 setIsDatePickerVisible(false);
               }}
+              title={t(
+                'create.additionalInformation.booking_info.reservation_period.delete',
+              )}
               css={`
                 position: absolute;
                 right: 0;
