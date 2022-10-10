@@ -208,37 +208,48 @@ const ReservationPeriod = ({
       </Inline>
       {isDatePickerVisible && (
         <Stack
-          spacing={4}
           padding={4}
           backgroundColor="white"
           css={`
             border: 1px solid ${getValue('borderColor')};
           `}
         >
-          <Button
-            onClick={() => {
-              handleDelete();
-              setIsDatePickerVisible(false);
-            }}
+          <Stack
+            spacing={4}
+            css={`
+              position: relative;
+            `}
           >
-            Delete
-          </Button>
-          <Title size={3}>
-            {t(
-              'create.additionalInformation.contact_info.reservation_period.title',
+            <Button
+              iconName={Icons.TRASH}
+              variant={ButtonVariants.DANGER}
+              onClick={() => {
+                handleDelete();
+                setIsDatePickerVisible(false);
+              }}
+              css={`
+                position: absolute;
+                right: 0;
+                top: 0;
+              `}
+            ></Button>
+            <Title size={3}>
+              {t(
+                'create.additionalInformation.contact_info.reservation_period.title',
+              )}
+            </Title>
+            <DatePeriodPicker
+              id="reservation-date-picker"
+              dateStart={startDate}
+              dateEnd={endDate}
+              minDate={new Date()}
+              onDateStartChange={handleChangeStartDate}
+              onDateEndChange={handleChangeEndDate}
+            />
+            {errorMessage && (
+              <Alert variant={AlertVariants.DANGER}>{errorMessage}</Alert>
             )}
-          </Title>
-          <DatePeriodPicker
-            id="reservation-date-picker"
-            dateStart={startDate}
-            dateEnd={endDate}
-            minDate={new Date()}
-            onDateStartChange={handleChangeStartDate}
-            onDateEndChange={handleChangeEndDate}
-          />
-          {errorMessage && (
-            <Alert variant={AlertVariants.DANGER}>{errorMessage}</Alert>
-          )}
+          </Stack>
         </Stack>
       )}
     </Stack>
