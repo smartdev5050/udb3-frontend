@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { css } from 'styled-components';
@@ -31,13 +31,13 @@ const URL_REGEX: RegExp = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.
 const PHONE_REGEX: RegExp = /^[0-9\/_.+ ]*$/;
 
 const isValidEmail = (email: string): boolean => {
-  return EMAIL_REGEX.test(email);
+  return !email || EMAIL_REGEX.test(email);
 };
 const isValidUrl = (url: string): boolean => {
-  return URL_REGEX.test(url);
+  return !url || URL_REGEX.test(url);
 };
 const isValidPhone = (phone: string): boolean => {
-  return PHONE_REGEX.test(phone);
+  return !phone || PHONE_REGEX.test(phone);
 };
 
 const schema = yup
@@ -286,6 +286,8 @@ const BookingInfoStep = ({
 }: Props) => {
   const { t } = useTranslation();
 
+  const formComponent = useRef<HTMLFormElement>();
+
   const UrlLabelType = {
     BUY: 'buy',
     RESERVE: 'reserve',
@@ -378,7 +380,9 @@ const BookingInfoStep = ({
     clearErrors,
     getValues,
   } = useForm<FormData>({
+    mode: 'onBlur',
     resolver: yupResolver(schema),
+    reValidateMode: 'onBlur',
   });
 
   useEffect(() => {
@@ -464,24 +468,38 @@ const BookingInfoStep = ({
   return (
     <Stack maxWidth="50rem" {...getStackProps(props)}>
       <Inline justifyContent="space-between">
-        <Stack width="50%" spacing={4}>
+        <Stack
+          as="form"
+          width="50%"
+          spacing={4}
+          onBlur={() => {
+            console.log(formState.errors);
+            handleSubmit(() => {
+              console.log('valid?');
+            });
+          }}
+          ref={formComponent}
+        >
           <FormElement
             flex={2}
             id={`name-email`}
             label="E-mailadres"
             Component={<Input placeholder="Email" {...register('email')} />}
+            error={formState.errors.email?.message}
           />
           <FormElement
             flex={2}
             id={`name-phone`}
             label="Telefoon"
             Component={<Input placeholder="Telefoon" {...register('phone')} />}
+            error={formState.errors.phone?.message}
           />
           <FormElement
             flex={2}
             id={`name-website`}
             label="Website"
             Component={<Input placeholder="Website" {...register('url')} />}
+            error={formState.errors.url?.message}
           />
           {url && (
             <RadioButtonGroup
