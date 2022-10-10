@@ -2,7 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const regionToAmountUsedMap = new Map();
+const regionToTimesUsedMap = new Map();
 
 /**
  * Convert the Mapanet format to the Uitdatabank format
@@ -10,11 +10,11 @@ const regionToAmountUsedMap = new Map();
 const toUitdatabankFormat = (feature) => {
   const { Region2: region, Locality: locality } = feature.properties;
 
-  if (regionToAmountUsedMap.has(region)) {
-    const currentValue = regionToAmountUsedMap.get(region);
-    regionToAmountUsedMap.set(currentValue + 1);
+  if (regionToTimesUsedMap.has(region)) {
+    const currentValue = regionToTimesUsedMap.get(region);
+    regionToTimesUsedMap.set(currentValue + 1);
   } else {
-    regionToAmountUsedMap.set(1);
+    regionToTimesUsedMap.set(1);
   }
 
   const label = region ? `${locality} (${region})` : `${locality}`;
@@ -37,7 +37,7 @@ const removeRegionIfOnlyUsedOnce = (city) => {
   const [locality, lastPart] = city.name.split(' (');
   const region = lastPart.substring(0, lastPart.length - 1);
 
-  if (regionToAmountUsedMap.get(region) > 1) {
+  if (regionToTimesUsedMap.get(region) > 1) {
     return city;
   }
 
