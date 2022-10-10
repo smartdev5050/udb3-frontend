@@ -53,6 +53,12 @@ const schema = yup
     url: yup
       .string()
       .test(`website-is-not-valid`, 'url is not valid', isValidUrl),
+    urlLabel: yup.object({
+      de: yup.string(),
+      en: yup.string(),
+      fr: yup.string(),
+      nl: yup.string(),
+    }),
   })
   .required();
 
@@ -278,6 +284,56 @@ const BookingInfoStep = ({
   isOrganizer,
   ...props
 }: Props) => {
+  const { t } = useTranslation();
+
+  const UrlLabelType = {
+    BUY: 'buy',
+    RESERVE: 'reserve',
+    AVAILABILITY: 'availability',
+    SUBSCRIBE: 'subscribe',
+  } as const;
+
+  const URL_LABELS = [
+    {
+      label: t('create.additionalInformation.contact_info.url_type_labels.buy'),
+      value: UrlLabelType.BUY,
+    },
+    {
+      label: t(
+        'create.additionalInformation.contact_info.url_type_labels.reserve',
+      ),
+      value: UrlLabelType.RESERVE,
+    },
+    {
+      label: t(
+        'create.additionalInformation.contact_info.url_type_labels.availability',
+      ),
+      value: UrlLabelType.AVAILABILITY,
+    },
+    {
+      label: t(
+        'create.additionalInformation.contact_info.url_type_labels.subscribe',
+      ),
+      value: UrlLabelType.SUBSCRIBE,
+    },
+  ];
+
+  const getUrlLabelType = (englishUrlLabel: string): string => {
+    if (englishUrlLabel.toLowerCase().includes(UrlLabelType.AVAILABILITY))
+      return UrlLabelType.AVAILABILITY;
+
+    if (englishUrlLabel.toLowerCase().includes(UrlLabelType.BUY))
+      return UrlLabelType.BUY;
+
+    if (englishUrlLabel.toLowerCase().includes(UrlLabelType.SUBSCRIBE))
+      return UrlLabelType.SUBSCRIBE;
+
+    if (englishUrlLabel.toLowerCase().includes(UrlLabelType.RESERVE))
+      return UrlLabelType.RESERVE;
+
+    return UrlLabelType.BUY;
+  };
+
   const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
 
   // @ts-expect-error
@@ -314,8 +370,14 @@ const BookingInfoStep = ({
     if (bookingInfo.availabilityEnds) {
       setValue('availabilityEnds', bookingInfo.availabilityEnds);
     }
+
+    if (bookingInfo.urlLabel) {
+      setValue('urlLabel', bookingInfo.urlLabel);
+    }
   }, [bookingInfo, setValue]);
 
+  const url = watch('url');
+  const urlLabel = watch('urlLabel');
   const availabilityEnds = watch('availabilityEnds');
   const availabilityStarts = watch('availabilityStarts');
 
@@ -381,6 +443,16 @@ const BookingInfoStep = ({
             label="Website"
             Component={<Input placeholder="Website" {...register('url')} />}
           />
+          {url && (
+            <RadioButtonGroup
+              name="urlLabel"
+              selected={getUrlLabelType(urlLabel.en)}
+              items={URL_LABELS}
+              onChange={() => {
+                console.log('change url label');
+              }}
+            />
+          )}
         </Stack>
         <Stack width="40%">
           <ReservationPeriod
