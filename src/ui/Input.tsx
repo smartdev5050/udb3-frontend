@@ -44,6 +44,7 @@ type InputProps = {
   name?: string;
   isInvalid?: boolean;
   accept?: string;
+  disabled?: boolean;
 };
 
 type Props = Omit<BoxProps, 'onChange'> & InputProps;
@@ -61,6 +62,7 @@ const Input = forwardRef(
       value,
       name,
       isInvalid,
+      disabled,
       accept,
       ...props
     }: Props,
@@ -82,6 +84,7 @@ const Input = forwardRef(
       name={name}
       isInvalid={isInvalid}
       accept={accept}
+      disabled={disabled}
       {...getBoxProps(props)}
     />
   ),

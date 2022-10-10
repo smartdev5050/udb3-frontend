@@ -600,6 +600,28 @@
       }
     }
   },
+  "location": {
+    "add_modal": {
+      "title": "Ajouter un nouveau lieu",
+      "actions": {
+        "add": "Ajouter",
+        "cancel": "Annuler"
+      },
+      "labels": {
+        "name": "Nom de lieu",
+        "streetAndNumber": "Rue et numéro",
+        "zip": "Code postal",
+        "municipality": "Commune",
+        "type": "Catégorie",
+        "typeInfo": "Choisissez la catégorie qui décrit le mieux ce lieu."
+      },
+      "errors": {
+        "name": "Le nom du lieu est un domaine obligatoire.",
+        "streetAndNumber": "Rue est un domaine obligatoire.",
+        "type": "Catégorie est un domaine obligatoire."
+      }
+    }
+  },
   "pagination": {
     "next": "Prochain",
     "previous": "Dernier"
