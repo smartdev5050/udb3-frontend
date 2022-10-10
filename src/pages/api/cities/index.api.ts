@@ -61,6 +61,10 @@ const getCitiesBe = (data: any): City[] =>
       zip: city.zip,
     }));
 
+const getCitiesNl = (data: any): City[] => {
+  return data.cities;
+};
+
 const countryToFileName = {
   [Countries.BE]: 'citiesBE.json',
   [Countries.NL]: 'GEO-NL-5-STD.json',
@@ -86,6 +90,12 @@ const getCities: NextApiHandler = async (req, res) => {
 
   if (country === Countries.BE) {
     const result = getCitiesBe(JSON.parse(json));
+    res.send(result.slice(0, 10));
+    return;
+  }
+
+  if (country === Countries.NL) {
+    const result = getCitiesNl(JSON.parse(json));
     res.send(result.slice(0, 10));
     return;
   }
