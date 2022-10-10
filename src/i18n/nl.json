@@ -169,7 +169,6 @@
         "email_error": "Geen geldig e-mailadres",
         "email": "E-mailadres",
         "empty": "U heeft nog geen {{contactInfoType}} toegevoegd",
-        "is_used_for_reservation": "Wordt gebruikt voor reservatie",
         "phone": "Telefoonnummer",
         "phone_error": "Geen geldig telefoonnummer",
         "title": "Contact & reservatie",

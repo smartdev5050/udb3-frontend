@@ -167,7 +167,6 @@
         "email": "E-mailadres",
         "email_error": "Keine gültige E-Mail-Adresse",
         "empty": "Sie haben noch keine {{contactInfoType}} hinzugefügt",
-        "is_used_for_reservation": "Für die Reservierung verwendet",
         "phone": "Telefoonnummer",
         "phone_error": "Keine gültige Telefonnummer",
         "title": "Kontakt & Reservierung",

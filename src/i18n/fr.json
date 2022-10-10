@@ -168,7 +168,6 @@
         "email": "Adresse mail",
         "email_error": "Pas d'adresse email valide",
         "empty": "Vous n'avez pas encore ajouté des {{contactInfoType}}",
-        "is_used_for_reservation": "Utilisé pour la réservation",
         "phone": "Numéro de téléphone",
         "phone_error": "Pas un numéro de téléphone valide",
         "title": "Contact et réservation",
