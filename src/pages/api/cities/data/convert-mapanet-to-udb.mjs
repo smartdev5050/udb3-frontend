@@ -27,7 +27,7 @@ const toUitdatabankFormat = (feature) => {
 };
 
 /**
- * Remove region from name if it is only used once
+ * Remove region from name and label if it is only used once
  */
 const removeRegionIfOnlyUsedOnce = (city) => {
   if (!city.name.includes('(')) {
@@ -41,7 +41,6 @@ const removeRegionIfOnlyUsedOnce = (city) => {
     return city;
   }
 
-  // Use locality as the name if this region is only used once
   return {
     ...city,
     label: locality,
@@ -67,9 +66,9 @@ const convertMapanetToUdb = async () => {
 
   const newFilePath = path.resolve('./', GENERATED_FILE_NAME);
 
-  const doesGeneratedFileExist = fs.existsSync(newFilePath);
+  const generatedFileExists = fs.existsSync(newFilePath);
 
-  if (doesGeneratedFileExist) {
+  if (generatedFileExists) {
     await fs.promises.rm(newFilePath);
     console.info(`🗑 ${GENERATED_FILE_NAME} removed`);
   }
@@ -94,7 +93,7 @@ const convertMapanetToUdb = async () => {
     .map(toUitdatabankFormat)
     .map(removeRegionIfOnlyUsedOnce);
 
-  await fs.promises.writeFile(newFilePath, JSON.stringify(cities), 'utf-8');
+  await fs.promises.writeFile(newFilePath, JSON.stringify({ cities }), 'utf-8');
 
   console.info('--------------------------------------');
   console.info('✅ Done converting');
