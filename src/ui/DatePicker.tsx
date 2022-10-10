@@ -34,7 +34,7 @@ const DatePicker = ({
 }: Props) => {
   return (
     <Box
-      as={ReactDatePicker}
+      forwardedAs={ReactDatePicker}
       className={className}
       id={id}
       selected={selected}
@@ -43,6 +43,18 @@ const DatePicker = ({
       minDate={minDate}
       maxDate={maxDate}
       customInput={<Input id={id} />}
+      css={`
+        .react-datepicker {
+          border-radius: 8px;
+
+          &__header {
+            .border-top-left-radius,
+            .border-top-right-radius {
+              border-radius: 8px;
+            }
+          }
+        }
+      `}
       {...getBoxProps(props)}
     />
   );
