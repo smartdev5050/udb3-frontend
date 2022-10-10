@@ -88,8 +88,8 @@ type BookingInfo = {
     fr: string;
     nl: string;
   };
-  availabilityStarts?: Date;
-  availabilityEnds?: Date;
+  availabilityStarts?: string;
+  availabilityEnds?: string;
 };
 
 const emptyBookingInfo: BookingInfo = {};
@@ -123,14 +123,17 @@ type ReservationPeriodProps = {
   availabilityStarts: string;
   availabilityEnds: string;
   handleDelete: () => Promise<void>;
-  onChangePeriod: (newPeriod: any) => Promise<void>;
+  handlePeriodChange: (
+    availabilityEnds: Date,
+    availabilityStarts: Date,
+  ) => Promise<void>;
 };
 
 const ReservationPeriod = ({
   availabilityEnds,
   availabilityStarts,
   handleDelete,
-  onChangePeriod,
+  handlePeriodChange,
 }: ReservationPeriodProps) => {
   const { t } = useTranslation();
 
@@ -161,10 +164,7 @@ const ReservationPeriod = ({
     startDate: Date,
     endDate: Date,
   ): Promise<void> => {
-    await onChangePeriod({
-      availabilityStarts: startDate,
-      availabilityEnds: endDate,
-    });
+    await handlePeriodChange(endDate, startDate);
   };
 
   const handleChangeStartDate = async (newStartDate: Date): Promise<void> => {
@@ -313,6 +313,25 @@ const BookingInfoStep = ({
     });
   };
 
+  const handleChangeBookingPeriod = async (
+    availabilityEnds: Date,
+    availabilityStarts: Date,
+  ) => {
+    const isoEndDate = availabilityEnds.toISOString();
+    const isoStartDate = availabilityStarts.toISOString();
+
+    setValue('availabilityEnds', isoEndDate);
+    setValue('availabilityStarts', isoStartDate);
+
+    const formValues = getValues();
+
+    await handleAddBookingInfoMutation({
+      ...formValues,
+      availabilityEnds: isoEndDate,
+      availabilityStarts: isoStartDate,
+    });
+  };
+
   const handleDeleteBookingPeriod = async () => {
     const formValues = getValues();
 
@@ -348,6 +367,7 @@ const BookingInfoStep = ({
         </Stack>
         <Stack width="40%">
           <ReservationPeriod
+            handlePeriodChange={handleChangeBookingPeriod}
             handleDelete={handleDeleteBookingPeriod}
             availabilityEnds={availabilityEnds}
             availabilityStarts={availabilityStarts}
