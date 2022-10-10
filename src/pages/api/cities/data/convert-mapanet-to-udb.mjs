@@ -3,7 +3,6 @@ import fs from 'fs';
 import path from 'path';
 
 /**
- *
  * Convert the Mapanet format to the Uitdatabank format
  */
 const toUitdatabankFormat = (feature) => {
@@ -26,8 +25,7 @@ const toUitdatabankFormat = (feature) => {
 };
 
 /**
- *
- * Remove region in '()' where there is only 1 locality
+ * Remove region from name if it is only used once
  */
 const removeRegionIfOnlyUsedOnce = (city) => {
   if (!city.name.includes('(')) {
