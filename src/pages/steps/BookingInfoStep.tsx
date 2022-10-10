@@ -348,6 +348,8 @@ const BookingInfoStep = ({
   useEffect(() => {
     if (!bookingInfo) return;
 
+    onChangeCompleted(true);
+
     Object.values(ContactInfoType).map((type) => {
       if (bookingInfo?.[type]) {
         setValue(type, bookingInfo[type]);
@@ -365,7 +367,7 @@ const BookingInfoStep = ({
     if (bookingInfo.urlLabel) {
       setValue('urlLabel', bookingInfo.urlLabel);
     }
-  }, [bookingInfo, setValue]);
+  }, [bookingInfo, setValue, onChangeCompleted]);
 
   const url = watch('url');
   const urlLabel = watch('urlLabel');
