@@ -293,6 +293,33 @@ const BookingInfoStep = ({
     SUBSCRIBE: 'subscribe',
   } as const;
 
+  const URL_LABEL_TRANSLATIONS = {
+    buy: {
+      nl: t(`${urlLabelTranslationString}.buy`, { lng: 'nl' }),
+      fr: t(`${urlLabelTranslationString}.buy`, { lng: 'fr' }),
+      en: 'Buy tickets',
+      de: t(`${urlLabelTranslationString}.buy`, { lng: 'de' }),
+    },
+    availability: {
+      nl: t(`${urlLabelTranslationString}.availability`, { lng: 'nl' }),
+      fr: t(`${urlLabelTranslationString}.availability`, { lng: 'fr' }),
+      en: 'Check availability',
+      de: t(`${urlLabelTranslationString}.availability`, { lng: 'de' }),
+    },
+    subscribe: {
+      nl: t(`${urlLabelTranslationString}.subscribe`, { lng: 'nl' }),
+      fr: t(`${urlLabelTranslationString}.subscribe`, { lng: 'fr' }),
+      en: 'Subscribe',
+      de: t(`${urlLabelTranslationString}.subscribe`, { lng: 'de' }),
+    },
+    reserve: {
+      nl: t(`${urlLabelTranslationString}.reserve`, { lng: 'nl' }),
+      fr: t(`${urlLabelTranslationString}.reserve`, { lng: 'fr' }),
+      en: 'Reserve places',
+      de: t(`${urlLabelTranslationString}.reserve`, { lng: 'de' }),
+    },
+  };
+
   const URL_LABELS = [
     {
       label: t('create.additionalInformation.contact_info.url_type_labels.buy'),
@@ -421,6 +448,19 @@ const BookingInfoStep = ({
     });
   };
 
+  const handleOnUrlLabelChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const urlLabelType = e.target.value;
+    const newUrlLabels = URL_LABEL_TRANSLATIONS[urlLabelType];
+    setValue('urlLabel', newUrlLabels);
+
+    const formValues = getValues();
+
+    await handleAddBookingInfoMutation({
+      ...formValues,
+      urlLabel: newUrlLabels,
+    });
+  };
+
   return (
     <Stack maxWidth="50rem" {...getStackProps(props)}>
       <Inline justifyContent="space-between">
@@ -448,9 +488,7 @@ const BookingInfoStep = ({
               name="urlLabel"
               selected={getUrlLabelType(urlLabel.en)}
               items={URL_LABELS}
-              onChange={() => {
-                console.log('change url label');
-              }}
+              onChange={handleOnUrlLabelChange}
             />
           )}
         </Stack>
