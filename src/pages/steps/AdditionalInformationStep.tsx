@@ -12,6 +12,7 @@ import { Text } from '@/ui/Text';
 
 import { Audience } from './Audience';
 import { ContactInfoEntry } from './ContactInfoEntry';
+import { ContactInfoStep } from './ContactInfoStep';
 import { DescriptionStep } from './DescriptionStep';
 import { EventScore } from './EventScore';
 import { MediaStep } from './MediaStep';
@@ -72,11 +73,8 @@ const tabConfigurations: TabConfig[] = [
   },
   {
     field: Fields.CONTACT_INFO,
-    TabContent: ContactInfoEntry,
+    TabContent: ContactInfoStep,
     shouldShowOnMinimal: true,
-    stepProps: {
-      withReservationInfo: true,
-    },
   },
   {
     field: Fields.ORGANIZER,
