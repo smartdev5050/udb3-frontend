@@ -2,6 +2,8 @@
 import fs from 'fs';
 import path from 'path';
 
+const regionToAmountUsedMap = new Map();
+
 /**
  * Convert the Mapanet format to the Uitdatabank format
  */
@@ -79,6 +81,7 @@ const convertMapanetToUdb = async () => {
 
   if (!mapanetFileExists) {
     console.error(`🚨 ${MAPANET_FILE_NAME} not found`);
+
     process.exit(1);
   }
 
@@ -86,8 +89,6 @@ const convertMapanetToUdb = async () => {
   const mapanetData = JSON.parse(mapanetJson);
 
   const { features } = mapanetData;
-
-  const regionToAmountUsedMap = new Map();
 
   const cities = features
     .map(toUitdatabankFormat)
