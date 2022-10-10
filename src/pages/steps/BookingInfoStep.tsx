@@ -2,7 +2,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { css } from 'styled-components';
 import * as yup from 'yup';
 
 import {
@@ -16,9 +15,7 @@ import { FormElement } from '@/ui/FormElement';
 import { Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
-import { LabelPositions } from '@/ui/Label';
 import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
-import { SelectWithLabel } from '@/ui/SelectWithLabel';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
@@ -73,18 +70,6 @@ const ContactInfoType = {
   URL: 'url',
 } as const;
 
-type ContactInfo = {
-  email: string[];
-  phone: string[];
-  url: string[];
-};
-
-const emptyContactInfo: ContactInfo = {
-  email: [],
-  url: [],
-  phone: [],
-};
-
 type BookingInfo = {
   email?: string;
   phone?: string;
@@ -98,8 +83,6 @@ type BookingInfo = {
   availabilityStarts?: string;
   availabilityEnds?: string;
 };
-
-const emptyBookingInfo: BookingInfo = {};
 
 const getValue = getValueFromTheme('contactInformation');
 
@@ -268,20 +251,12 @@ const ReservationPeriod = ({
   );
 };
 
-type Props = StackProps &
-  TabContentProps & {
-    withReservationInfo?: boolean;
-    isOrganizer?: boolean;
-    organizerContactInfo: ContactInfo;
-  };
+type Props = StackProps & TabContentProps;
 
 const BookingInfoStep = ({
   eventId,
   onSuccessfulChange,
   onChangeCompleted,
-  withReservationInfo,
-  organizerContactInfo,
-  isOrganizer,
   ...props
 }: Props) => {
   const { t } = useTranslation();
@@ -352,16 +327,12 @@ const BookingInfoStep = ({
   // @ts-expect-error
   const bookingInfo = getEventByIdQuery.data?.bookingInfo;
 
-  console.log({ bookingInfo });
-
   const {
     register,
     handleSubmit,
     formState,
     watch,
     setValue,
-    trigger,
-    clearErrors,
     getValues,
   } = useForm<FormData>({
     mode: 'onBlur',
@@ -504,4 +475,4 @@ const BookingInfoStep = ({
   );
 };
 
-export { BookingInfoStep, emptyContactInfo };
+export { BookingInfoStep };
