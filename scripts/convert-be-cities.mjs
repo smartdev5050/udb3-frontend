@@ -7,7 +7,7 @@ const data = JSON.parse(json);
 const mappedCities = data.cities
   .filter((city) => typeof city.submunicipality === 'string')
   .map((city) => ({
-    label: city.zip + ' ' + city.labelnl,
+    label: `${city.zip}  ${city.labelnl}`,
     name: city.labelnl,
     zip: city.zip,
   }));
