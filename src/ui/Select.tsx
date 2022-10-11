@@ -4,6 +4,7 @@ import { Form } from 'react-bootstrap';
 
 import type { BoxProps } from './Box';
 import { Box, getBoxProps } from './Box';
+import { getGlobalBorderRadius } from './theme';
 
 const BaseSelect = forwardRef<HTMLSelectElement, any>((props, ref) => (
   <Box as="select" {...props} ref={ref} />
@@ -48,7 +49,7 @@ const Select = forwardRef(
       css={`
         height: auto;
         padding: 0.275rem 0.65rem;
-        border-radius: 8px;
+        border-radius: ${getGlobalBorderRadius};
       `}
       {...getBoxProps(props)}
     >

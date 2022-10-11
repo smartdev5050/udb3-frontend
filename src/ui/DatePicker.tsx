@@ -10,6 +10,7 @@ import ReactDatePicker, {
 import type { BoxProps } from './Box';
 import { Box, getBoxProps } from './Box';
 import { Input } from './Input';
+import { getGlobalBorderRadius } from './theme';
 
 setDefaultLocale('nl');
 registerLocale('nl', nl);
@@ -45,12 +46,12 @@ const DatePicker = ({
       customInput={<Input id={id} />}
       css={`
         .react-datepicker {
-          border-radius: 8px;
+          border-radius: ${getGlobalBorderRadius};
 
           &__header {
             .border-top-left-radius,
             .border-top-right-radius {
-              border-radius: 8px;
+              border-radius: ${getGlobalBorderRadius};
             }
           }
         }

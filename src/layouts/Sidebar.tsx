@@ -28,7 +28,11 @@ import { List } from '@/ui/List';
 import { Logo, LogoVariants } from '@/ui/Logo';
 import { Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
-import { Breakpoints, getValueFromTheme } from '@/ui/theme';
+import {
+  Breakpoints,
+  getGlobalBorderRadius,
+  getValueFromTheme,
+} from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
 import { Announcements, AnnouncementStatus } from './Announcements';
@@ -204,7 +208,7 @@ const ProfileMenu = ({ profileImage }: ProfileMenuProps) => {
         src={profileImage}
         width={40}
         height={40}
-        borderRadius="8px"
+        borderRadius={getGlobalBorderRadius}
         alt="Profile picture"
       />
       <Stack as="div" padding={2} spacing={2} flex={1} display={{ s: 'none' }}>

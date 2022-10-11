@@ -2,7 +2,7 @@ import { Children } from 'react';
 
 import type { StackProps } from './Stack';
 import { getStackProps, Stack } from './Stack';
-import { getValueFromTheme } from './theme';
+import { getGlobalBorderRadius, getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme('panel');
 
@@ -15,7 +15,7 @@ const Panel = ({ children, className, ...props }: PanelProps) => {
     <Stack
       css={`
         border: 1px solid ${getValue('borderColor')};
-        border-radius: 8px;
+        border-radius: ${getGlobalBorderRadius};
         box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
       `}
       className={className}
@@ -40,7 +40,7 @@ const PanelFooter = ({ children, className, ...props }: PanelFooterProps) => {
       backgroundColor={getValueForPanelFooter('backgroundColor')}
       css={`
         border-top: 1px solid ${getValueForPanelFooter('borderColor')};
-        border-radius: 8px;
+        border-radius: ${getGlobalBorderRadius};
         border-top-left-radius: 0;
         border-top-right-radius: 0;
         background-color: ${getValueForPanelFooter('backgroundColor')};

@@ -3,7 +3,7 @@ import { Pagination as BootstrapPagination } from 'react-bootstrap';
 
 import type { InlineProps } from './Inline';
 import { getInlineProps, Inline } from './Inline';
-import { getValueFromTheme } from './theme';
+import { getGlobalBorderRadius, getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme(`pagination`);
 
@@ -65,7 +65,7 @@ const Pagination = ({
           border-color: ${getValue('borderColor')};
           padding: ${getValue('paddingY')} ${getValue('paddingX')};
 
-          border-radius: 8px;
+          border-radius: ${getGlobalBorderRadius};
 
           */ &:hover {
             background-color: ${getValue('hoverBackgroundColor')};

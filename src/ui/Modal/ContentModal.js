@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Modal as BootstrapModal } from 'react-bootstrap';
 
-import { getValueFromTheme } from '../theme';
+import { getGlobalBorderRadius, getValueFromTheme } from '../theme';
 
 const getValueForModal = getValueFromTheme('modal');
 
@@ -36,7 +36,7 @@ const ContentModal = ({
       }
 
       .modal-content {
-        border-radius: 8px;
+        border-radius: ${getGlobalBorderRadius};
         max-height: 95vh;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
         overflow: visible;

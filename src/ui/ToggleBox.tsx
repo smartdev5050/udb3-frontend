@@ -3,7 +3,7 @@ import { Icon, Icons } from './Icon';
 import type { StackProps } from './Stack';
 import { getStackProps, Stack } from './Stack';
 import { Text } from './Text';
-import { getValueFromTheme } from './theme';
+import { getGlobalBorderRadius, getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme(`toggleBox`);
 
@@ -33,7 +33,7 @@ const ToggleBox = ({
         active ? 'activeBackgroundColor' : 'backgroundColor',
       )}
       minWidth={parseSpacing(8)}
-      borderRadius="8px"
+      borderRadius={getGlobalBorderRadius}
       css={`
         border: none;
         box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);

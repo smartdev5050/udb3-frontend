@@ -1,5 +1,5 @@
 import get from 'lodash/get';
-import { lighten } from 'polished';
+import { borderRadius, lighten } from 'polished';
 
 import type { Values } from '@/types/Values';
 
@@ -58,6 +58,9 @@ const zIndexModal = above + zIndexModalBackdrop;
 
 type BreakpointValues = Values<typeof Breakpoints>;
 
+const getGlobalBorderRadius = (props: { theme: Theme }) =>
+  props.theme.borderRadius;
+
 const theme = {
   colors,
   breakpoints: {
@@ -66,6 +69,7 @@ const theme = {
     [Breakpoints.M]: 992,
     [Breakpoints.L]: 1200,
   },
+  borderRadius: '8px',
   components: {
     alert: {
       borderRadius: '8px',
@@ -391,5 +395,5 @@ const getValueFromTheme = (component: string) => (path: string) => (props: {
   theme: Theme;
 }) => get(props.theme, `components.${component}.${path}`);
 
-export { Breakpoints, getValueFromTheme, theme };
+export { Breakpoints, getGlobalBorderRadius, getValueFromTheme, theme };
 export type { BreakpointValues, Theme };
