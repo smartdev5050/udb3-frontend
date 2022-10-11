@@ -600,6 +600,28 @@
       }
     }
   },
+  "location": {
+    "add_modal": {
+      "title": "Neuen Ort hinzufügen",
+      "actions": {
+        "add": "Hinzufügen",
+        "cancel": "Abbrechen"
+      },
+      "labels": {
+        "name": "Bezeichnung Ort",
+        "streetAndNumber": "Straße und Hausnummer",
+        "zip": "Postleitzahl",
+        "municipality": "Stadt",
+        "type": "Kategorie",
+        "typeInfo": "Wählen Sie eine Kategorie, die diesen Ort am besten umschreibt."
+      },
+      "errors": {
+        "name": "Die Bezeichnung des Ortes ist ein Pflichtfeld.",
+        "streetAndNumber": "Straße ist ein Pflichtfeld.",
+        "type": "Kategorie ist ein Pflichtfeld."
+      }
+    }
+  },
   "pagination": {
     "next": "Weiter",
     "previous": "Zurück"
