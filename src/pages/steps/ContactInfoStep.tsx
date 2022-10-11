@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -60,31 +60,77 @@ const ContactInfoStep = ({
 }: Props) => {
   const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
 
+  const [contactInfoState, setContactInfoState] = useState({});
+
   const contactInfo =
     // @ts-expect-error
     getEventByIdQuery.data?.contactPoint ?? organizerContactInfo;
 
   console.log({ contactInfo });
 
+  useEffect(() => {
+    if (!contactInfo) return;
+
+    setContactInfoState(contactInfo);
+  }, [contactInfo, setContactInfoState]);
+
+  const addContactPointMutation = useAddContactPointMutation({
+    onSuccess: onSuccessfulChange,
+  });
+
+  const handleAddContactInfoMutation = async (newContactInfo: ContactInfo) => {
+    await addContactPointMutation.mutateAsync({
+      eventId,
+      contactPoint: newContactInfo,
+    });
+  };
+
+  const handleChangeValue = async (
+    event: FormEvent<HTMLInputElement>,
+    infoType: string,
+    key: number,
+  ) => {
+    const newValue = (event.target as HTMLInputElement).value;
+
+    const newContactInfo = { ...contactInfo };
+    newContactInfo[infoType][key] = newValue;
+
+    await handleAddContactInfoMutation(newContactInfo);
+  };
+
   return (
     <Stack maxWidth="40rem" {...getStackProps(props)}>
       <Text fontWeight="bold">ContactInfoStep</Text>
-      {Object.keys(contactInfo).map((key) => {
-        return contactInfo[key].map((info, index) => (
-          <Inline key={index} spacing={3}>
-            <Select width="40%">
-              {Object.keys(contactInfo).map((contactInfoKey) => (
-                <option key={contactInfoKey}>{contactInfoKey}</option>
-              ))}
-            </Select>
-            <Input value={info} />
-            <Button
-              variant={ButtonVariants.DANGER}
-              iconName={Icons.TRASH}
-            ></Button>
-          </Inline>
-        ));
-      })}
+      {contactInfoState &&
+        Object.keys(contactInfoState).map((key) => {
+          return contactInfoState[key].map((info, index) => (
+            <Inline key={index} spacing={3}>
+              <Select width="40%">
+                {Object.keys(contactInfoState).map((contactInfoKey) => (
+                  <option
+                    selected={key === contactInfoKey}
+                    key={contactInfoKey}
+                  >
+                    {contactInfoKey}
+                  </option>
+                ))}
+              </Select>
+              <Input
+                value={info}
+                onChange={(e) => {
+                  const newContactInfoState = { ...contactInfo };
+                  newContactInfoState[key][index] = e.target.value;
+                  setContactInfoState(newContactInfoState);
+                }}
+                onBlur={(e) => handleChangeValue(e, key, index)}
+              />
+              <Button
+                variant={ButtonVariants.DANGER}
+                iconName={Icons.TRASH}
+              ></Button>
+            </Inline>
+          ));
+        })}
     </Stack>
   );
 };
