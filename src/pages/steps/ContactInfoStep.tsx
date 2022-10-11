@@ -120,6 +120,22 @@ const ContactInfoStep = ({
     }
   };
 
+  const handleChangeContactInfoType = async (
+    e: any,
+    key: string,
+    index: number,
+  ) => {
+    const newType = e.target.value;
+    const newContactInfo = { ...contactInfoState };
+    const valueToMove = newContactInfo[key][index];
+    delete newContactInfo[key][index];
+
+    newContactInfo[newType].push(valueToMove);
+    setContactInfoState(newContactInfo);
+
+    await handleAddContactInfoMutation(newContactInfo);
+  };
+
   return (
     <Stack maxWidth="40rem" {...getStackProps(props)} spacing={3}>
       <Text fontWeight="bold">ContactInfoStep</Text>
@@ -127,7 +143,12 @@ const ContactInfoStep = ({
         Object.keys(contactInfoState).map((key) => {
           return contactInfoState[key].map((info, index) => (
             <Inline key={index} spacing={3}>
-              <Select width="40%">
+              <Select
+                width="40%"
+                onChange={(e) => {
+                  handleChangeContactInfoType(e, key, index);
+                }}
+              >
                 {Object.keys(contactInfoState).map((contactInfoKey) => (
                   <option
                     selected={key === contactInfoKey}
