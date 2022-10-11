@@ -60,7 +60,11 @@ const ContactInfoStep = ({
 }: Props) => {
   const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
 
-  const [contactInfoState, setContactInfoState] = useState({});
+  const [contactInfoState, setContactInfoState] = useState({
+    email: [],
+    url: [],
+    phone: [],
+  });
 
   const contactInfo =
     // @ts-expect-error
@@ -92,14 +96,20 @@ const ContactInfoStep = ({
   ) => {
     const newValue = (event.target as HTMLInputElement).value;
 
-    const newContactInfo = { ...contactInfo };
+    const newContactInfo = { ...contactInfoState };
     newContactInfo[infoType][key] = newValue;
 
     await handleAddContactInfoMutation(newContactInfo);
   };
 
+  const handleAddNewContactInfo = () => {
+    const newContactInfo = { ...contactInfoState };
+    contactInfoState['phone'].push('');
+    setContactInfoState(newContactInfo);
+  };
+
   return (
-    <Stack maxWidth="40rem" {...getStackProps(props)}>
+    <Stack maxWidth="40rem" {...getStackProps(props)} spacing={3}>
       <Text fontWeight="bold">ContactInfoStep</Text>
       {contactInfoState &&
         Object.keys(contactInfoState).map((key) => {
@@ -131,6 +141,14 @@ const ContactInfoStep = ({
             </Inline>
           ));
         })}
+      <Inline>
+        <Button
+          onClick={handleAddNewContactInfo}
+          variant={ButtonVariants.SECONDARY}
+        >
+          Meer contactgegevens toevoegen
+        </Button>
+      </Inline>
     </Stack>
   );
 };
