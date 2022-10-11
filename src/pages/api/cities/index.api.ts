@@ -76,44 +76,48 @@ const parseCitiesForCountry = {
 };
 
 const getCities: NextApiHandler = async (req, res) => {
-  const { country: countryArr, q: qArr } = req.query;
+  try {
+    const { country: countryArr, q: qArr } = req.query;
 
-  const country = arrayToValue(countryArr);
-  const q = arrayToValue(qArr);
+    const country = arrayToValue(countryArr);
+    const q = arrayToValue(qArr);
 
-  const fileName = countryToFileName[country];
+    const fileName = countryToFileName[country];
 
-  if (!fileName) {
-    res.status(400).send('');
-    return;
-  }
+    if (!fileName) {
+      res.status(400).send('');
+      return;
+    }
 
-  const json = await fs.readFile(
-    path.resolve(`./public/assets/`, fileName),
-    'utf-8',
-  );
-  const data = JSON.parse(json);
+    const json = await fs.readFile(
+      path.resolve(`./public/assets/`, fileName),
+      'utf-8',
+    );
+    const data = JSON.parse(json);
 
-  const cities = parseCitiesForCountry[country]?.(data);
+    const cities = parseCitiesForCountry[country]?.(data);
 
-  if (!cities) {
-    res.status(400).send('');
-    return;
-  }
+    if (!cities) {
+      res.status(400).send('');
+      return;
+    }
 
-  const query = q.toLowerCase();
+    const query = q.toLowerCase();
 
-  if (!query) {
-    const result = cities;
+    if (!query) {
+      res.json(cities);
+      return;
+    }
+
+    const result = cities
+      .filter(matchesQuery(query))
+      .sort(sortByLevenshtein(query));
+
     res.json(result);
-    return;
+  } catch (error) {
+    res.status(500).send('Internal Server Error');
+    console.error('Internal Server Error', error);
   }
-
-  const result = cities
-    .filter(matchesQuery(query))
-    .sort(sortByLevenshtein(query));
-
-  res.json(result);
 };
 
 export default getCities;
