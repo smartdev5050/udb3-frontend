@@ -104,7 +104,7 @@ const getCities: NextApiHandler = async (req, res) => {
   const query = q.toLowerCase();
 
   if (!query) {
-    const result = cities.sort(sortByLevenshtein(query));
+    const result = cities;
     res.json(result);
     return;
   }
