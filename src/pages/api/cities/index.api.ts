@@ -7,35 +7,6 @@ import { City } from '@/pages/CityPicker';
 import { Countries } from '@/types/Country';
 import { arrayToValue } from '@/utils/arrayToValue';
 
-export interface Geometry {
-  type: string;
-  coordinates: number[];
-}
-
-export interface Properties {
-  Elevation: string;
-  ISO: string;
-  Country: string;
-  Language: string;
-  ID: string;
-  PostalCode: string;
-  Region1: string;
-  Region2: string;
-  Region3: string;
-  Region4: string;
-  Locality: string;
-  Suburb: string;
-  TimeZone: string;
-  UTC: string;
-  DST: string;
-}
-
-export interface Feature {
-  type: string;
-  geometry: Geometry;
-  properties: Properties;
-}
-
 const sortByLevenshtein = (query: string) => {
   return (a: City, b: City) => {
     const aLowercase = a.label.toLowerCase();
@@ -117,6 +88,7 @@ const getCities: NextApiHandler = async (req, res) => {
     res.json(result);
   } catch (error) {
     res.status(500).send('Internal Server Error');
+    // eslint-disable-next-line no-console
     console.error('Internal Server Error', error);
   }
 };
