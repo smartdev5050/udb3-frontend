@@ -2,7 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const regionToTimesUsedMap = new Map();
+const localityToTimesUsed = new Map();
 
 /**
  * Convert the Mapanet format to the Uitdatabank format
@@ -10,11 +10,11 @@ const regionToTimesUsedMap = new Map();
 const toUitdatabankFormat = (feature) => {
   const { Region2: region, Locality: locality } = feature.properties;
 
-  if (regionToTimesUsedMap.has(region)) {
-    const currentValue = regionToTimesUsedMap.get(region);
-    regionToTimesUsedMap.set(region, currentValue + 1);
+  if (localityToTimesUsed.has(locality)) {
+    const currentValue = localityToTimesUsed.get(locality);
+    localityToTimesUsed.set(locality, currentValue + 1);
   } else {
-    regionToTimesUsedMap.set(region, 1);
+    localityToTimesUsed.set(locality, 1);
   }
 
   const label = region ? `${locality} (${region})` : `${locality}`;
@@ -26,10 +26,23 @@ const toUitdatabankFormat = (feature) => {
   };
 };
 
+const seenCityNames = new Set();
+
+const filterOutDuplicates = (city) => {
+  if (seenCityNames.has(city.name)) {
+    const [locality] = city.name.split(' (');
+    const currentValue = localityToTimesUsed.get(locality);
+    localityToTimesUsed.set(locality, Math.max(currentValue - 1), 1);
+    return false;
+  }
+  seenCityNames.add(city.name);
+  return true;
+};
+
 /**
  * Remove region from name and label if it is only used once
  */
-const removeRegionIfOnlyUsedOnce = (city) => {
+const removeRegionIfLocalityOnlyUsedOnce = (city) => {
   if (!city.name.includes('(')) {
     return city;
   }
@@ -37,7 +50,7 @@ const removeRegionIfOnlyUsedOnce = (city) => {
   const [locality, lastPart] = city.name.split(' (');
   const region = lastPart.substring(0, lastPart.length - 1);
 
-  if (regionToTimesUsedMap.get(region) > 1) {
+  if (localityToTimesUsed.get(locality) > 1) {
     return city;
   }
 
@@ -55,8 +68,8 @@ const convertMapanetToUdb = () => {
 
   if (!MAPANET_FILE_NAME || !GENERATED_FILE_NAME) {
     console.error('🚨 Please specify the correct arguments:');
-    console.error('- Input filename as first argument');
-    console.error('- Output filename as second argument');
+    console.error('\t- Input filename as first argument');
+    console.error('\t- Output filename as second argument');
 
     process.exit(1);
   }
@@ -91,7 +104,8 @@ const convertMapanetToUdb = () => {
 
   const cities = features
     .map(toUitdatabankFormat)
-    .map(removeRegionIfOnlyUsedOnce);
+    .filter(filterOutDuplicates)
+    .map(removeRegionIfLocalityOnlyUsedOnce);
 
   fs.writeFileSync(newFilePath, JSON.stringify({ cities }), 'utf-8');
 
