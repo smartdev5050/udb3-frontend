@@ -25,7 +25,7 @@ const CityPicker = forwardRef<HTMLInputElement, Props>(
 
     const getCitiesQuery = useGetCitiesByQuery({
       q: citySearchInput,
-      country: country,
+      country,
     });
 
     const cities = getCitiesQuery.data ?? [];
