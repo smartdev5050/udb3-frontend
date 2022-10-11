@@ -23,28 +23,10 @@ const matchesQuery = (query: string) => {
   return (city: City) => city.label.toLowerCase().includes(query);
 };
 
-const getCitiesBe = (data: any): City[] => {
-  return data.cities;
-};
-
-const getCitiesNl = (data: any): City[] => {
-  return data.cities;
-};
-
-const getCitiesDe = (data: any): City[] => {
-  return data.cities;
-};
-
 const countryToFileName = {
   [Countries.BE]: 'citiesBE.json',
   [Countries.NL]: 'citiesNL.json',
   [Countries.DE]: 'citiesDE.json',
-};
-
-const parseCitiesForCountry = {
-  [Countries.BE]: getCitiesBe,
-  [Countries.NL]: getCitiesNl,
-  [Countries.DE]: getCitiesDe,
 };
 
 const getCities: NextApiHandler = async (req, res) => {
@@ -67,7 +49,7 @@ const getCities: NextApiHandler = async (req, res) => {
     );
     const data = JSON.parse(json);
 
-    const cities = parseCitiesForCountry[country]?.(data);
+    const cities = data?.cities;
 
     if (!cities) {
       res.status(400).send('');
