@@ -108,6 +108,18 @@ const ContactInfoStep = ({
     setContactInfoState(newContactInfo);
   };
 
+  const handleDeleteContactInfo = async (key: string, index: number) => {
+    const newContactInfo = { ...contactInfoState };
+    const isEmptyString = newContactInfo[key][index] === '';
+
+    delete newContactInfo[key][index];
+    setContactInfoState(newContactInfo);
+
+    if (!isEmptyString) {
+      await handleAddContactInfoMutation(newContactInfo);
+    }
+  };
+
   return (
     <Stack maxWidth="40rem" {...getStackProps(props)} spacing={3}>
       <Text fontWeight="bold">ContactInfoStep</Text>
@@ -135,6 +147,7 @@ const ContactInfoStep = ({
                 onBlur={(e) => handleChangeValue(e, key, index)}
               />
               <Button
+                onClick={() => handleDeleteContactInfo(key, index)}
                 variant={ButtonVariants.DANGER}
                 iconName={Icons.TRASH}
               ></Button>
