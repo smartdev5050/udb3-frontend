@@ -120,13 +120,16 @@
         "info": "Voeg een link toe zodat mensen weten hoe ze aan je evenement kunnen deelnemen. Wil je de deelnamelink niet publiek delen? Dan kan je deze stap overslaan en deelname-instructies toevoegen aan je beschrijving in stap 5."
       },
       "municipality": {
-        "change": "Wijzigen"
+        "change_be": "Wijzig gemeente",
+        "change_nl": "Wijzig woonplaats",
+        "change_de": "Wijzig woonplaats"
       },
       "place": {
         "choose_label": "Kies een locatie",
         "placeholder": "Naam of adres"
       },
       "country": {
+        "change_location": "Wijzig locatie",
         "location_school": "Locatie in overleg met de school",
         "location_school_info": "Evenement waarvan de locatie in overleg wordt bepaald, worden niet gepubliceerd op UiTinVlaanderen of andere publiekskanalen. Je evenement verschijnt wel op cultuurkuur.be"
       }
