@@ -67,14 +67,19 @@ const getCitiesNl = (data: any): City[] => {
 
 const countryToFileName = {
   [Countries.BE]: 'citiesBE.json',
-  [Countries.NL]: 'GEO-NL-5-STD.json',
+  [Countries.NL]: 'citiesNL.json',
+};
+
+const parseCitiesForCountry = {
+  [Countries.BE]: getCitiesBe,
+  [Countries.NL]: getCitiesNl,
 };
 
 const getCities: NextApiHandler = async (req, res) => {
-  const { country: countryArr, q: qAsArr } = req.query;
+  const { country: countryArr, q: qArr } = req.query;
 
   const country = arrayToValue(countryArr);
-  const q = arrayToValue(qAsArr);
+  const q = arrayToValue(qArr);
 
   const fileName = countryToFileName[country];
 
@@ -87,50 +92,28 @@ const getCities: NextApiHandler = async (req, res) => {
     path.resolve(`./public/assets/`, fileName),
     'utf-8',
   );
+  const data = JSON.parse(json);
 
-  if (country === Countries.BE) {
-    const result = getCitiesBe(JSON.parse(json));
-    res.send(result.slice(0, 10));
+  const cities = parseCitiesForCountry[country]?.(data);
+
+  if (!cities) {
+    res.status(400).send('');
     return;
   }
-
-  if (country === Countries.NL) {
-    const result = getCitiesNl(JSON.parse(json));
-    res.send(result.slice(0, 10));
-    return;
-  }
-
-  const { features }: { features: Feature[] } = JSON.parse(json);
-
-  const countries = features.map((feature) => {
-    const city = feature.properties;
-    const municipality = `${city.Region2}`;
-    const label = `${city.PostalCode} ${municipality}`;
-    const name = `${municipality}`;
-    const zip = city.PostalCode;
-
-    return {
-      label,
-      name,
-      zip,
-    };
-  });
 
   const query = q.toLowerCase();
 
-  res.setHeader('Content-Type', 'application/json');
-
   if (!query) {
-    const result = countries.sort(sortByLevenshtein(query));
-    res.send(result.slice(0, 100));
+    const result = cities.sort(sortByLevenshtein(query));
+    res.json(result);
     return;
   }
 
-  const result = countries
+  const result = cities
     .filter(matchesQuery(query))
     .sort(sortByLevenshtein(query));
 
-  res.send(result.slice(0, 2));
+  res.json(result);
 };
 
 export default getCities;
