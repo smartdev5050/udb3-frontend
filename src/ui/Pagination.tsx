@@ -67,7 +67,7 @@ const Pagination = ({
 
           border-radius: ${getGlobalBorderRadius};
 
-          */ &:hover {
+          &:hover {
             background-color: ${getValue('hoverBackgroundColor')};
             color: ${getValue('hoverColor')};
           }
