@@ -5,6 +5,11 @@ import {
   useAddContactPointMutation,
   useGetEventByIdQuery,
 } from '@/hooks/api/events';
+import { Button, ButtonVariants } from '@/ui/Button';
+import { Icons } from '@/ui/Icon';
+import { Inline } from '@/ui/Inline';
+import { Input } from '@/ui/Input';
+import { Select } from '@/ui/Select';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
@@ -59,9 +64,27 @@ const ContactInfoStep = ({
     // @ts-expect-error
     getEventByIdQuery.data?.contactPoint ?? organizerContactInfo;
 
+  console.log({ contactInfo });
+
   return (
     <Stack maxWidth="40rem" {...getStackProps(props)}>
-      <Text>ContactInfoStep</Text>
+      <Text fontWeight="bold">ContactInfoStep</Text>
+      {Object.keys(contactInfo).map((key) => {
+        return contactInfo[key].map((info, index) => (
+          <Inline key={index} spacing={3}>
+            <Select width="40%">
+              {Object.keys(contactInfo).map((contactInfoKey) => (
+                <option key={contactInfoKey}>{contactInfoKey}</option>
+              ))}
+            </Select>
+            <Input value={info} />
+            <Button
+              variant={ButtonVariants.DANGER}
+              iconName={Icons.TRASH}
+            ></Button>
+          </Inline>
+        ));
+      })}
     </Stack>
   );
 };
