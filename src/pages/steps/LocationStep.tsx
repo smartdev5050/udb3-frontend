@@ -193,7 +193,7 @@ const LocationStep = <TFormData extends FormDataUnion>({
                 <PlaceStep
                   maxWidth="28rem"
                   name={'location.place' as Path<TFormData>}
-                  zip={municipality.zip}
+                  municipality={municipality}
                   chooseLabel={chooseLabel}
                   placeholderLabel={placeholderLabel}
                   parentFieldValue={field.value}
