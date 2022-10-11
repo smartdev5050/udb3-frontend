@@ -28,8 +28,16 @@
     "till": "bis"
   },
   "city_picker": {
-    "label": "Gemeinde",
+    "label_be": "Gemeinde",
+    "label_nl": "Gemeinde",
+    "label_de": "Gemeinde",
+    "info_be": "z.B. Gent oder 9000",
+    "info_nl": "z.B. Groningen oder Amsterdam",
+    "info_de": "z.B. Aachen oder Berlin",
     "no_cities": "Keine Gemeinden gefunden"
+  },
+  "country_picker": {
+    "location_school": "Ort in Absprache mit der Schule"
   },
   "copyright": {
     "questions": {
@@ -116,6 +124,11 @@
       "place": {
         "choose_label": "Wählen Sie einen Standort aus",
         "placeholder": "Name oder Adresse"
+      },
+      "country": {
+        "change_location": "Den Ort wechseln",
+        "location_school": "Ort in Absprache mit der Schule",
+        "location_school_info": "Veranstaltungen, deren Ort in Absprache festgelegt wird, werden nicht auf UiTinVlaanderen oder anderen öffentlichen Kanälen veröffentlicht. Ihre Veranstaltung erscheint auf cultuurkuur.be"
       }
     },
     "name_and_age": {
