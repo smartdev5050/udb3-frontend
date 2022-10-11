@@ -21,6 +21,11 @@ const getCitiesByQuery = async (
   const params = new URLSearchParams({ q, country });
 
   const res = await fetch(`/api/cities?${params.toString()}`);
+
+  if (!res.ok) {
+    return;
+  }
+
   const data = await res.json();
 
   return data;
