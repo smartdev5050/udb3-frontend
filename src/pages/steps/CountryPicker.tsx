@@ -8,6 +8,7 @@ import { Dropdown, DropDownVariants } from '@/ui/Dropdown';
 import { Inline } from '@/ui/Inline';
 import { Text } from '@/ui/Text';
 
+import { CultuurKuurIcon } from '../CultuurKuurIcon';
 import { FlagIcon } from '../FlagIcon';
 
 type Props = BoxProps & {
@@ -46,6 +47,15 @@ const CountryPicker = ({ value, onChange, className, ...props }: Props) => {
           </Inline>
         </Dropdown.Item>
       ))}
+
+      <Dropdown.Divider />
+
+      <Dropdown.Item onClick={() => onChange(undefined)}>
+        <Inline spacing={3}>
+          <CultuurKuurIcon />
+          <Text>{t('country_picker.location_school')}</Text>
+        </Inline>
+      </Dropdown.Item>
     </Dropdown>
   );
 };

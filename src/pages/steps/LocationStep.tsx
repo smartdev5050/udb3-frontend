@@ -9,6 +9,7 @@ import { FormData as EventFormData } from '@/pages/create/EventForm';
 import { Countries } from '@/types/Country';
 import { Place } from '@/types/Place';
 import { Values } from '@/types/Values';
+import { Alert } from '@/ui/Alert';
 import { parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
@@ -105,6 +106,36 @@ const LocationStep = <TFormData extends FormDataUnion>({
             />
           );
 
+          if (!country) {
+            return (
+              <Stack spacing={4}>
+                <Inline alignItems="center" spacing={3}>
+                  <Icon
+                    name={Icons.CHECK_CIRCLE}
+                    color={getValue('check.circleFillColor')}
+                  />
+                  <Text>{t('create.location.country.location_school')}</Text>
+                  <Button
+                    variant={ButtonVariants.LINK}
+                    onClick={() => {
+                      const updatedValue = {
+                        ...field.value,
+                        country: Countries.BE,
+                      };
+                      field.onChange(updatedValue);
+                      onChange(updatedValue);
+                    }}
+                  >
+                    {t('create.location.country.change_location')}
+                  </Button>
+                </Inline>
+                <Alert maxWidth="53rem">
+                  {t('create.location.country.location_school_info')}
+                </Alert>
+              </Stack>
+            );
+          }
+
           if (isOnline) {
             return (
               <Stack spacing={4}>
@@ -152,7 +183,7 @@ const LocationStep = <TFormData extends FormDataUnion>({
             return (
               <Stack spacing={4}>
                 {OnlineToggle}
-                <Inline spacing={1} alignItems="flex-end">
+                <Inline spacing={1} alignItems="center">
                   <CityPicker
                     name="city-picker-location-step"
                     country={country}
@@ -171,7 +202,6 @@ const LocationStep = <TFormData extends FormDataUnion>({
                   <CountryPicker
                     value={country}
                     onChange={(newCountry) => {
-                      console.log({ newCountry });
                       const updatedValue = {
                         ...field.value,
                         country: newCountry,
@@ -179,6 +209,11 @@ const LocationStep = <TFormData extends FormDataUnion>({
                       field.onChange(updatedValue);
                       onChange(updatedValue);
                     }}
+                    css={`
+                      & button {
+                        margin-bottom: 0.3rem;
+                      }
+                    `}
                   />
                 </Inline>
               </Stack>
@@ -205,7 +240,9 @@ const LocationStep = <TFormData extends FormDataUnion>({
                       onChange(updatedValue);
                     }}
                   >
-                    {t('create.location.municipality.change')}
+                    {t(
+                      `create.location.municipality.change_${country?.toLowerCase()}`,
+                    )}
                   </Button>
                 </Inline>
                 <PlaceStep

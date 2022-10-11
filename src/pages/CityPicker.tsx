@@ -34,7 +34,8 @@ const CityPicker = forwardRef<HTMLInputElement, Props>(
       <Stack {...getStackProps(props)}>
         <FormElement
           id="city_picker"
-          label={t('city_picker.label')}
+          label={t(`city_picker.label_${country?.toLowerCase()}`)}
+          info={t(`city_picker.info_${country?.toLowerCase()}`)}
           error={error}
           Component={
             <Typeahead<City>
