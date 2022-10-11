@@ -67,7 +67,7 @@ const Dropdown = ({ variant, isSplit, children, ...props }: DropdownProps) => {
         {isSplit ? (
           primaryAction
         ) : (
-          <BootstrapDropdown.Toggle variant={buttonVariant} as={Button}>
+          <BootstrapDropdown.Toggle variant={variant} css={buttonCSS}>
             {/* @ts-expect-error */}
             {primaryActionChild.props.children}
           </BootstrapDropdown.Toggle>
