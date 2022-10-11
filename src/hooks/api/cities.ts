@@ -1,10 +1,6 @@
-import { distance } from 'fastest-levenshtein';
 import { QueryFunctionContext, useQuery } from 'react-query';
 
-import { Countries, Country } from '@/types/Country';
-
-import citiesBE from '../../../public/assets/citiesBE.json';
-import citiesNL from '../../../public/assets/citiesNl.json';
+import { Country } from '@/types/Country';
 
 type City = {
   label: string;
@@ -17,43 +13,22 @@ type GetCitiesArguments = {
   country: Country;
 };
 
-const getCitiesBe = (): City[] =>
-  citiesBE.cities
-    .filter((city) => typeof city.submunicipality === 'string')
-    .map((city) => ({
-      label: city.zip + ' ' + city.labelnl,
-      name: city.labelnl,
-      zip: city.zip,
-    }));
-
-const getCitiesNl = (): City[] => citiesNL.cities;
-
-const matchesQuery = (query: string) => {
-  return (city: City) => city.label.toLowerCase().includes(query);
-};
-
-const sortByLevenshtein = (query: string) => {
-  return (a: City, b: City) => {
-    const aLowercase = a.label.toLowerCase();
-    const bLowercase = b.label.toLowerCase();
-
-    const distanceA = distance(query, aLowercase);
-    const distanceB = distance(query, bLowercase);
-
-    return distanceA - distanceB;
-  };
-};
-
-const getCitiesByQuery = (
+const getCitiesByQuery = async (
   ctx: QueryFunctionContext<[string, GetCitiesArguments]>,
 ) => {
   const [_, { q, country }] = ctx.queryKey;
 
-  const cities = country === Countries.NL ? getCitiesNl() : getCitiesBe();
+  const params = new URLSearchParams({ q, country });
 
-  const query = q.toLowerCase();
+  const res = await fetch(`/api/cities?${params.toString()}`);
 
-  return cities.filter(matchesQuery(query)).sort(sortByLevenshtein(query));
+  if (!res.ok) {
+    return;
+  }
+
+  const data = await res.json();
+
+  return data;
 };
 
 const useGetCitiesByQuery = (

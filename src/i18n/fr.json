@@ -28,8 +28,16 @@
     "till": "au"
   },
   "city_picker": {
-    "label": "Municipalité",
+    "label_be": "Municipalité",
+    "label_nl": "Municipalité",
+    "label_de": "Municipalité",
+    "info_be": "Par exemple. Gand ou 9000",
+    "info_nl": "Par exemple. Groningue ou Amsterdam",
+    "info_de": "Par exemple. Aix-la-Chapelle ou Berlin",
     "no_cities": "Aucune municipalité trouvée"
+  },
+  "country_picker": {
+    "location_school": "Emplacement en concertation avec l'école"
   },
   "copyright": {
     "questions": {
@@ -83,7 +91,8 @@
   },
   "countries": {
     "BE": "Belgique",
-    "NL": "Pays-Bas"
+    "NL": "Pays-Bas",
+    "DE": "L'Allemagne"
   },
   "create": {
     "title": "Ajouter une offre",
@@ -116,6 +125,11 @@
       "place": {
         "choose_label": "Choisissez un emplacement",
         "placeholder": "Nom ou adresse"
+      },
+      "country": {
+        "change_location": "Changer de lieu",
+        "location_school": "Emplacement en concertation avec l'école",
+        "location_school_info": "Lieu en concertation avec l'écoleL'événement dont le lieu est déterminé en concertation ne sera pas publié sur UiTinVlaanderen ou d'autres chaînes publiques. Votre événement apparaîtra sur cultuurkuur.be"
       }
     },
     "name_and_age": {

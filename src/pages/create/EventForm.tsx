@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 
 import { OfferType } from '@/constants/OfferType';
 import { SupportedLanguages } from '@/i18n/index';
+import { Country } from '@/types/Country';
 import { AttendanceMode, Event, isEvent } from '@/types/Event';
 import { Place } from '@/types/Place';
 import { Values } from '@/types/Values';
@@ -27,6 +28,7 @@ type FormData = {
     onlineUrl: string;
     municipality: City;
     place: Place;
+    country: Country;
   };
   nameAndAgeRange: {
     name: Record<Values<typeof SupportedLanguages>, string>;
