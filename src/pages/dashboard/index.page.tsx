@@ -126,7 +126,9 @@ const Row = ({
         <Text color={getValue('listItem.passedEvent.color')}>{status}</Text>
       ) : (
         actions.length > 0 && (
-          <Dropdown variant={DropDownVariants.SECONDARY}>{actions}</Dropdown>
+          <Dropdown variant={DropDownVariants.SECONDARY} isSplit>
+            {actions}
+          </Dropdown>
         )
       )}
     </Inline>

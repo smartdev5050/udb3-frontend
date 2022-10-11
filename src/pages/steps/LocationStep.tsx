@@ -6,6 +6,7 @@ import * as yup from 'yup';
 import { EventTypes } from '@/constants/EventTypes';
 import { useChangeLocationMutation } from '@/hooks/api/events';
 import { FormData as EventFormData } from '@/pages/create/EventForm';
+import { Countries } from '@/types/Country';
 import { Place } from '@/types/Place';
 import { Values } from '@/types/Values';
 import { parseSpacing } from '@/ui/Box';
@@ -23,6 +24,7 @@ import { getValueFromTheme } from '@/ui/theme';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 import { CityPicker } from '../CityPicker';
+import { CountryPicker } from './CountryPicker';
 import { PlaceStep } from './PlaceStep';
 import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
 
@@ -78,6 +80,7 @@ const LocationStep = <TFormData extends FormDataUnion>({
             isOnline,
             onlineUrl,
             municipality,
+            country,
           } = field?.value as EventFormData['location'];
 
           const OnlineToggle = (
@@ -149,20 +152,35 @@ const LocationStep = <TFormData extends FormDataUnion>({
             return (
               <Stack spacing={4}>
                 {OnlineToggle}
-                <CityPicker
-                  maxWidth="28rem"
-                  {...field}
-                  value={field.value?.municipality}
-                  onChange={(value) => {
-                    const updatedValue = {
-                      ...field.value,
-                      municipality: value,
-                      place: undefined,
-                    };
-                    field.onChange(updatedValue);
-                    onChange(updatedValue);
-                  }}
-                />
+                <Inline spacing={1} alignItems="flex-end">
+                  <CityPicker
+                    name="city-picker-location-step"
+                    country={country}
+                    value={field.value?.municipality}
+                    onChange={(value) => {
+                      const updatedValue = {
+                        ...field.value,
+                        municipality: value,
+                        place: undefined,
+                      };
+                      field.onChange(updatedValue);
+                      onChange(updatedValue);
+                    }}
+                    width="22rem"
+                  />
+                  <CountryPicker
+                    value={country}
+                    onChange={(newCountry) => {
+                      console.log({ newCountry });
+                      const updatedValue = {
+                        ...field.value,
+                        country: newCountry,
+                      };
+                      field.onChange(updatedValue);
+                      onChange(updatedValue);
+                    }}
+                  />
+                </Inline>
               </Stack>
             );
           }
@@ -239,12 +257,14 @@ const locationStepConfiguration: StepsConfiguration<FormDataUnion> = {
   },
   defaultValue: {
     isOnline: false,
+    country: Countries.BE,
   },
   validation: yup
     .object()
     .shape({
       onlineUrl: yup.string().url(),
       place: yup.object().shape({}).required(),
+      country: yup.string().oneOf(Object.values(Countries)).required(),
     })
     .required(),
 };

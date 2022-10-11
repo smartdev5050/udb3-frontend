@@ -24,7 +24,13 @@ type DropdownProps = BoxProps & {
   isSplit?: boolean;
 };
 
-const Dropdown = ({ variant, isSplit, children, ...props }: DropdownProps) => {
+const Dropdown = ({
+  variant,
+  isSplit,
+  children,
+  className,
+  ...props
+}: DropdownProps) => {
   const isMenuChild = (child) =>
     child.type === Dropdown.Item || child.type === Dropdown.Divider;
   const menuChildren = Children.toArray(children).filter(isMenuChild);
@@ -61,6 +67,7 @@ const Dropdown = ({ variant, isSplit, children, ...props }: DropdownProps) => {
           box-shadow: ${getValue('activeToggleBoxShadow')};
         }
       `}
+      className={className}
       {...getBoxProps(props)}
     >
       <BootstrapDropdown as={BootstrapButtonGroup}>

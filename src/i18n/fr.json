@@ -83,7 +83,8 @@
   },
   "countries": {
     "BE": "Belgique",
-    "NL": "Pays-Bas"
+    "NL": "Pays-Bas",
+    "DE": "L'Allemagne"
   },
   "create": {
     "title": "Ajouter une offre",

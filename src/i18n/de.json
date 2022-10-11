@@ -83,7 +83,8 @@
   },
   "countries": {
     "BE": "Belgien",
-    "NL": "Niederlande"
+    "NL": "Niederlande",
+    "DE": "Deutschland"
   },
   "create": {
     "actions": {

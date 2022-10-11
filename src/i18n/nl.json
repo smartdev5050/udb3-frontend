@@ -83,7 +83,8 @@
   },
   "countries": {
     "BE": "België",
-    "NL": "Nederland"
+    "NL": "Nederland",
+    "DE": "Duitsland"
   },
   "create": {
     "title": "Aanbod toevoegen",
