@@ -52,14 +52,9 @@ const matchesQuery = (query: string) => {
   return (city: City) => city.label.toLowerCase().includes(query);
 };
 
-const getCitiesBe = (data: any): City[] =>
-  data.cities
-    .filter((city) => typeof city.submunicipality === 'string')
-    .map((city) => ({
-      label: city.zip + ' ' + city.labelnl,
-      name: city.labelnl,
-      zip: city.zip,
-    }));
+const getCitiesBe = (data: any): City[] => {
+  return data.cities;
+};
 
 const getCitiesNl = (data: any): City[] => {
   return data.cities;
