@@ -12,8 +12,6 @@ import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
 import { Select } from '@/ui/Select';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
-import { Text } from '@/ui/Text';
-import { getValueFromTheme } from '@/ui/theme';
 
 import { TabContentProps } from './AdditionalInformationStep';
 
@@ -29,23 +27,22 @@ type ContactInfo = {
   url: string[];
 };
 
-const emptyContactInfo: ContactInfo = {
-  email: [],
-  url: [],
-  phone: [],
+type NewContactInfo = {
+  type: string;
+  value: string;
 };
 
 const EMAIL_REGEX: RegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const URL_REGEX: RegExp = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
 const PHONE_REGEX: RegExp = /^[0-9\/_.+ ]*$/;
 
-const isValidEmail = (email: string): boolean => {
+const isValidEmail = (email: string) => {
   return EMAIL_REGEX.test(email);
 };
-const isValidUrl = (url: string): boolean => {
+const isValidUrl = (url: string) => {
   return URL_REGEX.test(url);
 };
-const isValidPhone = (phone: string): boolean => {
+const isValidPhone = (phone: string) => {
   return PHONE_REGEX.test(phone);
 };
 
@@ -74,14 +71,14 @@ const ContactInfoStep = ({
 
   const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
 
-  const [contactInfoState, setContactInfoState] = useState([]);
+  const [contactInfoState, setContactInfoState] = useState<NewContactInfo[]>(
+    [],
+  );
   const [isFieldFocused, setIsFieldFocused] = useState(false);
 
   const contactInfo =
     // @ts-expect-error
     getEventByIdQuery.data?.contactPoint ?? organizerContactInfo;
-
-  console.log({ contactInfo });
 
   useEffect(() => {
     if (!contactInfo) return;
@@ -100,25 +97,19 @@ const ContactInfoStep = ({
   }, [contactInfo, setContactInfoState]);
 
   const addContactPointMutation = useAddContactPointMutation({
-    onSuccess: () => onSuccessfulChange(false),
-    enabled: false,
+    onSuccess: onSuccessfulChange,
   });
 
-  const handleAddContactInfoMutation = async (newContactInfo) => {
-    const email =
+  const handleAddContactInfoMutation = async (
+    newContactInfo: NewContactInfo[],
+  ) => {
+    const [email, phone, url] = Object.values(
+      ContactInfoTypes,
+    ).map((infoType) =>
       newContactInfo
-        .filter((info) => info.type === 'email')
-        .map((info) => info.value) ?? [];
-
-    const phone =
-      newContactInfo
-        .filter((info) => info.type === 'phone' && info.value)
-        .map((info) => info.value) ?? [];
-
-    const url =
-      newContactInfo
-        .filter((info) => info.type === 'url' && info.value)
-        .map((info) => info.value) ?? [];
+        .filter((info) => info.type === infoType)
+        .map((info) => info.value),
+    );
 
     await addContactPointMutation.mutateAsync({
       eventId,
@@ -149,21 +140,17 @@ const ContactInfoStep = ({
 
   const handleAddNewContactInfo = () => {
     const newContactInfo = [...contactInfoState];
-    newContactInfo.push({ type: 'email', value: '' });
+    newContactInfo.push({ type: ContactInfoTypes.EMAIL, value: '' });
     setContactInfoState(newContactInfo);
   };
 
   const handleDeleteContactInfo = async (index: number) => {
-    const isEmptyString = contactInfoState[index].value === '';
-
     const newContactInfo = [...contactInfoState];
     newContactInfo.splice(index, 1);
 
     setContactInfoState(newContactInfo);
 
-    if (!isEmptyString) {
-      await handleAddContactInfoMutation(newContactInfo);
-    }
+    await handleAddContactInfoMutation(newContactInfo);
   };
 
   const handleChangeContactInfoType = async (
@@ -183,63 +170,60 @@ const ContactInfoStep = ({
 
   return (
     <Stack maxWidth="40rem" {...getStackProps(props)} spacing={3}>
-      <Text fontWeight="bold">ContactInfoStep</Text>
-      {contactInfoState &&
-        contactInfoState.map((info, index) => {
-          return (
-            <Inline key={index} spacing={3}>
-              <Select
-                width="40%"
-                onChange={(e) => {
-                  handleChangeContactInfoType(e, index);
-                }}
-              >
-                {Object.values(ContactInfoTypes).map((type) => (
-                  <option selected={info.type === type} key={type}>
-                    {type}
-                  </option>
-                ))}
-              </Select>
-              <FormElement
-                Component={
-                  <Input
-                    value={info.value}
-                    onChange={(e) => {
-                      const newContactInfoState = [...contactInfoState];
-                      newContactInfoState[index].value = e.target.value;
-                      setContactInfoState(newContactInfoState);
-                      setIsFieldFocused(true);
-                    }}
-                    onBlur={(e) => {
-                      setIsFieldFocused(false);
-                      handleChangeValue(e, index);
-                    }}
-                  />
-                }
-                id="contact-info-value"
-                error={
-                  !isFieldFocused &&
-                  !isValidInfo(info.type, info.value) &&
-                  t(
-                    `create.additionalInformation.contact_info.${info.type}_error`,
-                  )
-                }
-              />
+      {(contactInfoState ?? []).map((info, index) => {
+        return (
+          <Inline key={index} spacing={3}>
+            <Select
+              width="30%"
+              onChange={(e) => handleChangeContactInfoType(e, index)}
+            >
+              {Object.values(ContactInfoTypes).map((type) => (
+                <option value={type} selected={info.type === type} key={type}>
+                  {t(`create.additionalInformation.contact_info.${type}`)}
+                </option>
+              ))}
+            </Select>
+            <FormElement
+              width="55%"
+              Component={
+                <Input
+                  value={info.value}
+                  onChange={(e) => {
+                    const newContactInfoState = [...contactInfoState];
+                    newContactInfoState[index].value = e.target.value;
+                    setContactInfoState(newContactInfoState);
+                    setIsFieldFocused(true);
+                  }}
+                  onBlur={(e) => {
+                    setIsFieldFocused(false);
+                    handleChangeValue(e, index);
+                  }}
+                />
+              }
+              id="contact-info-value"
+              error={
+                !isFieldFocused &&
+                !isValidInfo(info.type, info.value) &&
+                t(
+                  `create.additionalInformation.contact_info.${info.type}_error`,
+                )
+              }
+            />
 
-              <Button
-                onClick={() => handleDeleteContactInfo(index)}
-                variant={ButtonVariants.DANGER}
-                iconName={Icons.TRASH}
-              ></Button>
-            </Inline>
-          );
-        })}
+            <Button
+              onClick={() => handleDeleteContactInfo(index)}
+              variant={ButtonVariants.DANGER}
+              iconName={Icons.TRASH}
+            ></Button>
+          </Inline>
+        );
+      })}
       <Inline>
         <Button
           onClick={handleAddNewContactInfo}
           variant={ButtonVariants.SECONDARY}
         >
-          Meer contactgegevens toevoegen
+          {t('create.additionalInformation.contact_info.add_more')}
         </Button>
       </Inline>
     </Stack>
@@ -250,5 +234,5 @@ ContactInfoStep.defaultProps = {
   isOrganizer: false,
 };
 
-export { ContactInfoStep, emptyContactInfo };
+export { ContactInfoStep };
 export type { ContactInfo };
