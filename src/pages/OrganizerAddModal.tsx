@@ -20,12 +20,7 @@ import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
 import { City, CityPicker } from './CityPicker';
-import {
-  ContactInfo,
-  ContactInfoEntry,
-  emptyContactInfo,
-} from './steps/ContactInfoEntry';
-import { ContactInfoStep } from './steps/ContactInfoStep';
+import { ContactInfo, ContactInfoStep } from './steps/ContactInfoStep';
 
 export const getValue = getValueFromTheme('organizerAddModal');
 
@@ -82,7 +77,11 @@ const OrganizerAddModal = ({
     retriggerOn: visible,
   });
 
-  const [contactInfo, setContactInfo] = useState(emptyContactInfo);
+  const [contactInfo, setContactInfo] = useState({
+    email: [],
+    phone: [],
+    url: [],
+  });
 
   const {
     register,
