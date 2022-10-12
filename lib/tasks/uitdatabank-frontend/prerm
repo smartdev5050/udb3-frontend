@@ -1,0 +1,3 @@
+#!/bin/bash
+
+service uitdatabank-frontend stop || exit 0
