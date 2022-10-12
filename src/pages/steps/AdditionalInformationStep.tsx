@@ -52,6 +52,7 @@ type TabConfig = {
   field: Field;
   TabContent: FC<TabContentProps & { [prop: string]: unknown }>;
   shouldShowOnMinimal: boolean;
+  shouldInvalidate: boolean;
   stepProps?: Record<string, unknown>;
 };
 
@@ -60,31 +61,37 @@ const tabConfigurations: TabConfig[] = [
     field: Fields.DESCRIPTION,
     TabContent: DescriptionStep,
     shouldShowOnMinimal: true,
+    shouldInvalidate: true,
   },
   {
     field: Fields.MEDIA,
     TabContent: MediaStep,
     shouldShowOnMinimal: true,
+    shouldInvalidate: true,
   },
   {
     field: Fields.PRICE_INFO,
     TabContent: PriceInformation,
     shouldShowOnMinimal: true,
+    shouldInvalidate: true,
   },
   {
     field: Fields.CONTACT_INFO,
     TabContent: ContactInfoStep,
     shouldShowOnMinimal: true,
+    shouldInvalidate: false,
   },
   {
     field: Fields.ORGANIZER,
     TabContent: OrganizerStep,
     shouldShowOnMinimal: true,
+    shouldInvalidate: true,
   },
   {
     field: Fields.AUDIENCE,
     TabContent: Audience,
     shouldShowOnMinimal: true,
+    shouldInvalidate: true,
   },
 ];
 
@@ -119,8 +126,10 @@ const AdditionalInformationStep = ({
   const queryClient = useQueryClient();
 
   const invalidateEventQuery = useCallback(
-    async (field: Field) => {
-      await queryClient.invalidateQueries(['events', { id: eventId }]);
+    async (field: Field, shouldInvalidate: boolean) => {
+      if (shouldInvalidate) {
+        await queryClient.invalidateQueries(['events', { id: eventId }]);
+      }
       onChangeSuccess(field);
     },
     [eventId, onChangeSuccess, queryClient],
@@ -153,7 +162,13 @@ const AdditionalInformationStep = ({
         `}
       >
         {tabConfigurations.map(
-          ({ shouldShowOnMinimal, field, TabContent, stepProps }) => {
+          ({
+            shouldShowOnMinimal,
+            field,
+            shouldInvalidate,
+            TabContent,
+            stepProps,
+          }) => {
             const shouldShowTab =
               variant !== AdditionalInformationStepVariant.MINIMAL ||
               shouldShowOnMinimal;
@@ -181,7 +196,9 @@ const AdditionalInformationStep = ({
                       [field]: isCompleted,
                     }));
                   }}
-                  onSuccessfulChange={() => invalidateEventQuery(field)}
+                  onSuccessfulChange={() =>
+                    invalidateEventQuery(field, shouldInvalidate)
+                  }
                   {...stepProps}
                 />
               </Tabs.Tab>
