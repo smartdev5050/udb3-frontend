@@ -261,13 +261,6 @@
         "title": "Organisator",
         "or_select_recent_used_organizer": "Oder wählen Sie eine Ihrer zuletzt verwendeten Organisationen aus"
       },
-      "picture": {
-        "add_button": "Hauptabbildung erstellen",
-        "change": "Ändern",
-        "delete": "Löschen",
-        "intro": "Fügen Sie eine Abbildung hinzu, damit die Besucher Ihre Aktivität besser erkennen können.",
-        "set_as_main_image": "Hauptabbildung erstellen"
-      },
       "media": {
         "title": "Medien"
       },
