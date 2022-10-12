@@ -7,7 +7,7 @@ import { Inline } from '@/ui/Inline';
 import type { StackProps } from '@/ui/Stack';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
-import { getValueFromTheme } from '@/ui/theme';
+import { getGlobalBorderRadius, getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
 const THUMBNAIL_SIZE = 80;
@@ -78,6 +78,7 @@ const VideoUploadBox = ({
         flex={1}
         spacing={4}
         padding={4}
+        borderRadius={getGlobalBorderRadius}
         backgroundColor={getValue('backgroundColor')}
         justifyContent="center"
         css={`
