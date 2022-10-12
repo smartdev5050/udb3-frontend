@@ -239,7 +239,9 @@ const ContactInfoStep = ({
           onClick={handleAddNewContactInfo}
           variant={ButtonVariants.SECONDARY}
         >
-          {t('create.additionalInformation.contact_info.add_more')}
+          {contactInfoState.length === 0
+            ? t('create.additionalInformation.contact_info.add_more_singular')
+            : t('create.additionalInformation.contact_info.add_more_multiple')}
         </Button>
       </Inline>
     </Stack>
