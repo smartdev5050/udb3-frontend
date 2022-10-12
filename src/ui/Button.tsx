@@ -61,7 +61,7 @@ const customCSS = css`
     // active & focus
     &:not(:disabled):not(.disabled):active:focus,
     &:not(:disabled):not(.disabled).active:focus {
-      box-shadow: none;
+      box-shadow: ${getValue('activeFocusBoxShadow')};
     }
   }
 
@@ -113,12 +113,6 @@ const customCSS = css`
     &:hover {
       background-color: ${getValue('success.hoverBackgroundColor')};
     }
-
-    // active & focus
-    &:not(:disabled):not(.disabled):active:focus,
-    &:not(:disabled):not(.disabled).active:focus {
-      box-shadow: none;
-    }
   }
 
   &.btn-danger,
@@ -129,12 +123,6 @@ const customCSS = css`
 
     &:hover {
       background-color: ${getValue('danger.hoverBackgroundColor')};
-    }
-
-    // active & focus
-    &:not(:disabled):not(.disabled):active:focus,
-    &:not(:disabled):not(.disabled).active:focus {
-      box-shadow: none;
     }
   }
 
