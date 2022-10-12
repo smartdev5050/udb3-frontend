@@ -12,7 +12,6 @@ import { Text } from '@/ui/Text';
 
 import { Audience } from './Audience';
 import { BookingInfoStep } from './BookingInfoStep';
-import { ContactInfoEntry } from './ContactInfoEntry';
 import { ContactInfoStep } from './ContactInfoStep';
 import { DescriptionStep } from './DescriptionStep';
 import { EventScore } from './EventScore';
