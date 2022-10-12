@@ -181,7 +181,15 @@ const PictureUploadBox = ({
               </Text>
             </Stack>
           )}
-          <Button variant={ButtonVariants.SECONDARY} onClick={onClickAddImage}>
+          <Button
+            variant={ButtonVariants.SECONDARY}
+            onClick={onClickAddImage}
+            css={`
+              &.btn {
+                box-shadow: 0px 4px 6px 0px rgb(210 210 210 / 70%);
+              }
+            `}
+          >
             {t('pictures.add_button')}
           </Button>
         </Stack>
