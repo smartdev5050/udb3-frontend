@@ -83,6 +83,8 @@ const ContactInfoStep = ({
   useEffect(() => {
     if (!contactInfo) return;
 
+    onChangeCompleted(true);
+
     const contactInfoArray = [];
     Object.keys(contactInfo).forEach((key) => {
       contactInfo[key].forEach((item) => {
@@ -94,7 +96,7 @@ const ContactInfoStep = ({
     });
 
     setContactInfoState(contactInfoArray);
-  }, [contactInfo, setContactInfoState]);
+  }, [contactInfo, setContactInfoState, onChangeCompleted]);
 
   const addContactPointMutation = useAddContactPointMutation({
     onSuccess: onSuccessfulChange,
