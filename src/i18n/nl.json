@@ -266,13 +266,6 @@
         "title": "Organisatie",
         "or_select_recent_used_organizer": "Of selecteer een van je laatst gebruikte organisaties"
       },
-      "picture": {
-        "add_button": "Afbeelding toevoegen",
-        "change": "Wijzigen",
-        "delete": "Verwijderen",
-        "intro": "Voeg een afbeelding toe zodat bezoekers je activiteit beter herkennen",
-        "set_as_main_image": "Maak hoofdafbeelding"
-      },
       "media": {
         "title": "Media"
       },

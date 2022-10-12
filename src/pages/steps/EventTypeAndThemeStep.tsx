@@ -7,6 +7,7 @@ import {
   useChangeTypeMutation,
 } from '@/hooks/api/events';
 import { useGetTypesByScopeQuery } from '@/hooks/api/types';
+import { parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
@@ -81,11 +82,17 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
             {!shouldHideType && (
               <Stack>
                 {!field.value?.type?.id ? (
-                  <Inline spacing={3} flexWrap="wrap" maxWidth="70rem">
+                  <Inline
+                    spacing={3}
+                    flexWrap="wrap"
+                    maxWidth="70rem"
+                    css={`
+                      row-gap: ${parseSpacing(3.5)()};
+                    `}
+                  >
                     {types.map(({ id, name }) => (
                       <Button
                         width="auto"
-                        marginBottom={3}
                         display="inline-flex"
                         key={id}
                         variant={ButtonVariants.SECONDARY}
@@ -105,7 +112,13 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
                     ))}
                   </Inline>
                 ) : (
-                  <Inline alignItems="center" spacing={3}>
+                  <Inline
+                    alignItems="center"
+                    spacing={3}
+                    css={`
+                      row-gap: ${parseSpacing(3.5)()};
+                    `}
+                  >
                     <Icon
                       name={Icons.CHECK_CIRCLE}
                       color={getValue('check.circleFillColor')}
@@ -133,11 +146,17 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
               </Label>
             )}
             {!field.value?.theme?.id ? (
-              <Inline spacing={3} flexWrap="wrap" maxWidth="70rem">
+              <Inline
+                spacing={3}
+                flexWrap="wrap"
+                maxWidth="70rem"
+                css={`
+                  row-gap: ${parseSpacing(3.5)()};
+                `}
+              >
                 {themes.map(({ id, name }) => (
                   <Button
                     width="auto"
-                    marginBottom={3}
                     display="inline-flex"
                     key={id}
                     variant={ButtonVariants.SECONDARY}
@@ -154,7 +173,13 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
                 ))}
               </Inline>
             ) : (
-              <Inline alignItems="center" spacing={3}>
+              <Inline
+                alignItems="center"
+                spacing={3}
+                css={`
+                  row-gap: ${parseSpacing(3.5)()};
+                `}
+              >
                 <Icon
                   name={Icons.CHECK_CIRCLE}
                   color={getValue('check.circleFillColor')}

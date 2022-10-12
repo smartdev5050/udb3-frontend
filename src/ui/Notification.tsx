@@ -5,13 +5,13 @@ import { parseSpacing } from './Box';
 import { Inline } from './Inline';
 import { Stack } from './Stack';
 import { Text } from './Text';
-import { getValueFromTheme } from './theme';
+import { getGlobalBorderRadius, getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme('toast');
 
 const commonCss = css`
   &.toast {
-    border-radius: 1rem;
+    border-radius: ${getGlobalBorderRadius};
     border: none;
 
     max-width: none;

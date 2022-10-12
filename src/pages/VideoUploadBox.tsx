@@ -7,7 +7,7 @@ import { Inline } from '@/ui/Inline';
 import type { StackProps } from '@/ui/Stack';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
-import { getValueFromTheme } from '@/ui/theme';
+import { getGlobalBorderRadius, getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
 const THUMBNAIL_SIZE = 80;
@@ -78,6 +78,7 @@ const VideoUploadBox = ({
         flex={1}
         spacing={4}
         padding={4}
+        borderRadius={getGlobalBorderRadius}
         backgroundColor={getValue('backgroundColor')}
         justifyContent="center"
         css={`
@@ -141,7 +142,15 @@ const VideoUploadBox = ({
               </Text>
             </Stack>
           )}
-          <Button variant={ButtonVariants.SECONDARY} onClick={onClickAddVideo}>
+          <Button
+            variant={ButtonVariants.SECONDARY}
+            onClick={onClickAddVideo}
+            css={`
+              &.btn {
+                box-shadow: 0px 4px 6px 0px rgb(210 210 210 / 70%);
+              }
+            `}
+          >
             {t('videos.add_button')}
           </Button>
         </Stack>
