@@ -57,6 +57,12 @@ const customCSS = css`
     &.focus:not(:focus-visible) {
       outline: none;
     }
+
+    // active & focus
+    &:not(:disabled):not(.disabled):active:focus,
+    &:not(:disabled):not(.disabled).active:focus {
+      box-shadow: none;
+    }
   }
 
   &.btn-primary,
@@ -111,6 +117,7 @@ const customCSS = css`
     // active & focus
     &:not(:disabled):not(.disabled):active:focus,
     &:not(:disabled):not(.disabled).active:focus {
+      box-shadow: none;
     }
   }
 
@@ -127,6 +134,7 @@ const customCSS = css`
     // active & focus
     &:not(:disabled):not(.disabled):active:focus,
     &:not(:disabled):not(.disabled).active:focus {
+      box-shadow: none;
     }
   }
 
