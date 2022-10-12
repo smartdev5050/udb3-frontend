@@ -161,35 +161,15 @@
         "members": "Enkel voor leden"
       },
       "contact_info": {
-        "add_phone_input_placeholder": "Voeg een telefoonnummer toe",
-        "add_url_input_placeholder": "Voeg een link toe",
-        "add_email_input_placeholder": "Voeg een e-mailadres toe",
-        "select_for_reservation": "Kies je reservatie {{contactInfoType}}",
-        "select_url_label": "Hoe mag deze reservatie link verschijnen?",
-        "edit_cta": "Bewerken",
+        "add_more_singular": "Contactgegevens toevoegen",
+        "add_more_multiple": "Meer contactgegevens toevoegen",
         "email_error": "Geen geldig e-mailadres",
         "email": "E-mailadres",
-        "empty": "U heeft nog geen {{contactInfoType}} toegevoegd",
-        "is_used_for_reservation": "Wordt gebruikt voor reservatie",
         "phone": "Telefoonnummer",
         "phone_error": "Geen geldig telefoonnummer",
-        "title": "Contact & reservatie",
-        "reservation_period": {
-          "cta": "Reservatieperiode toevoegen",
-          "title": "Reservatie periode",
-          "delete": "Reservatieperiode verwijderen",
-          "error": {
-            "enddate_before_startdate": "De gekozen einddatum moet na de startdatum vallen."
-          }
-        },
+        "title": "Contact",
         "url": "Website",
-        "url_error": "Een geldige url begint met http:// of https://",
-        "url_type_labels": {
-          "buy": "Koop tickets",
-          "reserve": "Reserveer plaatsen",
-          "availability": "Controleer beschikbaarheid",
-          "subscribe": "Schrijf je in"
-        }
+        "url_error": "Een geldige url begint met http:// of https://"
       },
       "description": {
         "clear": "Leegmaken",
