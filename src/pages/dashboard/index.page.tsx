@@ -31,7 +31,7 @@ import type { Place } from '@/types/Place';
 import type { User } from '@/types/User';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Badge, BadgeVariants } from '@/ui/Badge';
-import { Box } from '@/ui/Box';
+import { Box, parseSpacing } from '@/ui/Box';
 import { Dropdown, DropDownVariants } from '@/ui/Dropdown';
 import type { InlineProps } from '@/ui/Inline';
 import { getInlineProps, Inline } from '@/ui/Inline';
@@ -323,6 +323,9 @@ const TabContent = ({
           border-top: none !important;
         `}
         backgroundColor="white"
+        minHeight="5rem"
+        alignItems="center"
+        justifyContent="center"
       >
         <Text margin={3} maxWidth="36rem">
           {t(`dashboard.no_items.${tab}`)}

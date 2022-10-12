@@ -60,12 +60,6 @@ const Dropdown = ({
         .dropdown-menu {
           border-radius: ${getValue('menuBorderRadius')};
         }
-
-        .show > .dropdown-toggle,
-        .show > .dropdown-toggle:focus:not(:focus-visible),
-        .show > .dropdown-toggle.focus:not(:focus-visible) {
-          box-shadow: ${getValue('activeToggleBoxShadow')};
-        }
       `}
       className={className}
       {...getBoxProps(props)}
@@ -110,9 +104,17 @@ const Item = ({ href, onClick, children }: ItemProps) => {
   if (onClick) {
     return (
       <BootstrapDropdown.Item
-        as={Button}
+        forwardedAs={Button}
         variant={ButtonVariants.SECONDARY}
         onClick={onClick}
+        css={`
+          &.btn {
+            flex: 1;
+            border: none;
+            box-shadow: none;
+            border-radius: 0;
+          }
+        `}
       >
         {children}
       </BootstrapDropdown.Item>
@@ -130,6 +132,8 @@ const Item = ({ href, onClick, children }: ItemProps) => {
           .btn {
             flex: 1;
             border: none;
+            box-shadow: none;
+            border-radius: 0;
           }
         `}
       >

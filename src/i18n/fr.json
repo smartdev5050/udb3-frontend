@@ -262,13 +262,6 @@
         "title": "Organisateur",
         "or_select_recent_used_organizer": "Ou sélectionnez l'une de vos organisations les plus récemment utilisées"
       },
-      "picture": {
-        "add_button": "Ajouter une image",
-        "change": "Modifier",
-        "delete": "Supprimer",
-        "intro": "Ajoutez une image de sorte que les visiteurs reconnaissent mieux votre activité.",
-        "set_as_main_image": "Créer image principale"
-      },
       "media": {
         "title": "Médias"
       },

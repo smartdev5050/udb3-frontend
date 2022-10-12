@@ -1,5 +1,5 @@
 import get from 'lodash/get';
-import { lighten } from 'polished';
+import { borderRadius, lighten } from 'polished';
 
 import type { Values } from '@/types/Values';
 
@@ -58,6 +58,9 @@ const zIndexModal = above + zIndexModalBackdrop;
 
 type BreakpointValues = Values<typeof Breakpoints>;
 
+const getGlobalBorderRadius = (props: { theme: Theme }) =>
+  props.theme.borderRadius;
+
 const theme = {
   colors,
   breakpoints: {
@@ -66,9 +69,10 @@ const theme = {
     [Breakpoints.M]: 992,
     [Breakpoints.L]: 1200,
   },
+  borderRadius: '8px',
   components: {
     alert: {
-      borderRadius: 0,
+      borderRadius: '8px',
     },
     toast: {
       zIndex: zIndexToast,
@@ -103,30 +107,26 @@ const theme = {
       backgroundColor: colors.red1,
     },
     button: {
-      borderRadius: 0,
-      paddingX: '0.8rem',
-      paddingY: '0.267rem',
+      borderRadius: '8px',
+      paddingX: '0.9rem',
+      paddingY: '0.5rem',
+      activeFocusBoxShadow: 'none',
       primary: {
         backgroundColor: colors.udbBlue,
         borderColor: '#00417b',
-        focusBoxShadow: 'none',
         hoverBackgroundColor: '#003461',
         hoverBorderColor: '#00213d',
         activeBackgroundColor: '#003461',
         activeBorderColor: '#00213d',
-        activeBoxShadow: 'none',
       },
       secondary: {
         color: '#333',
         backgroundColor: colors.white,
-        borderColor: '#ccc',
-        focusBoxShadow: 'none',
         hoverBackgroundColor: '#e6e6e6',
         hoverBorderColor: '#adadad',
         activeColor: '#333',
         activeBackgroundColor: '#e6e6e6',
         activeBorderColor: '#adadad',
-        activeBoxShadow: 'inset 0 3px 5px rgba(0, 0, 0, 0.125)',
       },
       success: {
         color: colors.white,
@@ -134,8 +134,6 @@ const theme = {
         hoverBackgroundColor: colors.green2,
         hoverBorderColor: colors.green3,
         backgroundColor: colors.green1,
-        activeBoxShadow: 'none',
-        focusBoxShadow: 'none',
       },
       danger: {
         color: colors.white,
@@ -143,8 +141,6 @@ const theme = {
         hoverBackgroundColor: colors.red3,
         hoverBorderColor: colors.red4,
         backgroundColor: colors.red1,
-        activeBoxShadow: 'none',
-        focusBoxShadow: 'none',
       },
     },
     global: {
@@ -322,7 +318,7 @@ const theme = {
       activeTabColor: colors.grey5,
       activeTabBackgroundColor: colors.grey1,
       hoverTabBackgroundColor: colors.grey3,
-      borderRadius: 0,
+      borderRadius: '8px',
     },
     pictureUploadBox: {
       backgroundColor: colors.white,
@@ -392,5 +388,5 @@ const getValueFromTheme = (component: string) => (path: string) => (props: {
   theme: Theme;
 }) => get(props.theme, `components.${component}.${path}`);
 
-export { Breakpoints, getValueFromTheme, theme };
+export { Breakpoints, getGlobalBorderRadius, getValueFromTheme, theme };
 export type { BreakpointValues, Theme };
