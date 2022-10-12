@@ -254,5 +254,5 @@ ContactInfoStep.defaultProps = {
   isOrganizer: false,
 };
 
-export { ContactInfoStep };
+export { ContactInfoStep, isValidEmail, isValidPhone, isValidUrl };
 export type { ContactInfo };
