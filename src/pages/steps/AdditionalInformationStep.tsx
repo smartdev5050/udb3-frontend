@@ -86,6 +86,7 @@ const tabConfigurations: TabConfig[] = [
     field: Fields.BOOKING_INFO,
     TabContent: BookingInfoStep,
     shouldShowOnMinimal: true,
+    shouldInvalidate: true,
   },
   {
     field: Fields.ORGANIZER,
