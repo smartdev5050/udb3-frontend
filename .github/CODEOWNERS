@@ -2,4 +2,10 @@
 
 # Global owners (also need to be duplicated in later rules)
 
+# Jenkins / deployment owners
+Gemfile* @willaerk @paulherbosch
+Jenkinsfile @willaerk @paulherbosch
+Rakefile @willaerk @paulherbosch
+lib/ @willaerk @paulherbosch
+
 * @simon-debruijn @brampauwelyn @HanneSips
