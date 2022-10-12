@@ -25,6 +25,7 @@ import {
   ContactInfoEntry,
   emptyContactInfo,
 } from './steps/ContactInfoEntry';
+import { ContactInfoStep } from './steps/ContactInfoStep';
 
 export const getValue = getValueFromTheme('organizerAddModal');
 
@@ -299,10 +300,9 @@ const OrganizerAddModal = ({
         </Stack>
         <Stack spacing={2}>
           <Title size={2}>Contact</Title>
-          <ContactInfoEntry
+          <ContactInfoStep
             isOrganizer={true}
             onSuccessfulChange={handleSetContactInfo}
-            withReservationInfo={false}
             organizerContactInfo={contactInfo}
           />
         </Stack>

@@ -100,9 +100,7 @@ const ContactInfoStep = ({
     onSuccess: onSuccessfulChange,
   });
 
-  const handleAddContactInfoMutation = async (
-    newContactInfo: NewContactInfo[],
-  ) => {
+  const parseNewContactInfo = (newContactInfo: NewContactInfo[]) => {
     const [email, phone, url] = Object.values(
       ContactInfoTypes,
     ).map((infoType) =>
@@ -111,14 +109,22 @@ const ContactInfoStep = ({
         .map((info) => info.value),
     );
 
+    return { email, phone, url };
+  };
+
+  const handleAddContactInfoMutation = async (
+    newContactInfo: NewContactInfo[],
+  ) => {
     await addContactPointMutation.mutateAsync({
       eventId,
-      contactPoint: {
-        email,
-        phone,
-        url,
-      },
+      contactPoint: parseNewContactInfo(newContactInfo),
     });
+  };
+
+  const handleAddOrganizerContactInfo = (newContactInfo: NewContactInfo[]) => {
+    // @ts-ignore
+    const contactInfo = parseNewContactInfo(newContactInfo);
+    onSuccessfulChange(contactInfo);
   };
 
   const handleChangeValue = async (
@@ -133,9 +139,14 @@ const ContactInfoStep = ({
     const newContactInfo = [...contactInfoState];
     newContactInfo[index].value = newValue;
 
-    if (newValue !== '') {
-      await handleAddContactInfoMutation(newContactInfo);
+    if (newValue === '') return;
+
+    if (isOrganizer) {
+      handleAddOrganizerContactInfo(newContactInfo);
+      return;
     }
+
+    await handleAddContactInfoMutation(newContactInfo);
   };
 
   const handleAddNewContactInfo = () => {
@@ -149,6 +160,11 @@ const ContactInfoStep = ({
     newContactInfo.splice(index, 1);
 
     setContactInfoState(newContactInfo);
+
+    if (isOrganizer) {
+      handleAddOrganizerContactInfo(newContactInfo);
+      return;
+    }
 
     await handleAddContactInfoMutation(newContactInfo);
   };
