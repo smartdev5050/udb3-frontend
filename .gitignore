@@ -58,3 +58,8 @@ node_modules/
 
 # typescript build info
 tsconfig.tsbuildinfo
+
+# Jenkins pipeline
+/vendor
+/pkg
+.bundle

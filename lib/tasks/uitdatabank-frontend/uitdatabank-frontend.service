@@ -1,0 +1,19 @@
+[Unit]
+Description=UiTdatabank frontend
+After=syslog.target network.target remote-fs.target nss-lookup.target
+
+[Service]
+User=www-data
+Group=www-data
+PIDFile=/var/run/udb3-frontend.pid
+Environment=NEXT_HOST=localhost
+Environment=NEXT_PORT=4000
+EnvironmentFile=-/etc/default/udb3-frontend
+WorkingDirectory=/var/www/udb3-frontend
+ExecStart=/usr/bin/node node_modules/next/dist/bin/next start -H ${NEXT_HOST} -p ${NEXT_PORT}
+Restart=on-failure
+RestartSec=10s
+Type=simple
+
+[Install]
+WantedBy=multi-user.target
