@@ -7,7 +7,7 @@ import type { Values } from '@/types/Values';
 import { parseSpacing } from './Box';
 import { Inline } from './Inline';
 import { Paragraph } from './Paragraph';
-import { getValueFromTheme } from './theme';
+import { getGlobalBorderRadius, getValueFromTheme } from './theme';
 
 const ToastVariants = {
   PRIMARY: 'primary',
@@ -24,7 +24,7 @@ const getValue = getValueFromTheme('toast');
 
 const commonCss = css`
   &.toast {
-    border-radius: 0;
+    border-radius: ${getGlobalBorderRadius};
 
     position: fixed;
     right: ${parseSpacing(3)()};

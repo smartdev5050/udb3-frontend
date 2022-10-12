@@ -1,4 +1,4 @@
-import type { MouseEvent, ReactNode } from 'react';
+import { cloneElement, MouseEvent, ReactNode } from 'react';
 import { Children } from 'react';
 import {
   ButtonGroup as BootstrapButtonGroup,
@@ -21,17 +21,37 @@ const DropDownVariants = {
 
 type DropdownProps = BoxProps & {
   variant: Values<typeof DropDownVariants>;
+  isSplit?: boolean;
 };
 
-const Dropdown = ({ variant, children, ...props }: DropdownProps) => {
+const Dropdown = ({
+  variant,
+  isSplit,
+  children,
+  className,
+  ...props
+}: DropdownProps) => {
   const isMenuChild = (child) =>
     child.type === Dropdown.Item || child.type === Dropdown.Divider;
   const menuChildren = Children.toArray(children).filter(isMenuChild);
 
   const isPrimaryActionChild = (child) =>
     child.type === Button || child.type === Link;
-  const primaryActionChildren = Children.toArray(children).filter(
+  const primaryActionChild = Children.toArray(children).find(
     isPrimaryActionChild,
+  );
+
+  const buttonVariant =
+    variant === DropDownVariants.SECONDARY ? ButtonVariants.SECONDARY : variant;
+
+  const primaryAction = cloneElement(
+    // @ts-expect-error
+    primaryActionChild,
+    {
+      // @ts-expect-error
+      ...primaryActionChild.props,
+      variant: buttonVariant,
+    },
   );
 
   return (
@@ -40,26 +60,38 @@ const Dropdown = ({ variant, children, ...props }: DropdownProps) => {
         .dropdown-menu {
           border-radius: ${getValue('menuBorderRadius')};
         }
-
-        .show > .dropdown-toggle,
-        .show > .dropdown-toggle:focus:not(:focus-visible),
-        .show > .dropdown-toggle.focus:not(:focus-visible) {
-          box-shadow: ${getValue('activeToggleBoxShadow')};
-        }
       `}
+      className={className}
       {...getBoxProps(props)}
     >
       <BootstrapDropdown as={BootstrapButtonGroup}>
-        {primaryActionChildren}
+        {isSplit ? (
+          primaryAction
+        ) : (
+          <BootstrapDropdown.Toggle variant={variant} css={buttonCSS}>
+            {/* @ts-expect-error */}
+            {primaryActionChild.props.children}
+          </BootstrapDropdown.Toggle>
+        )}
         {menuChildren.length > 0 && (
           <>
-            <BootstrapDropdown.Toggle split variant={variant} css={buttonCSS} />
+            {isSplit && (
+              <BootstrapDropdown.Toggle
+                split
+                variant={variant}
+                css={buttonCSS}
+              />
+            )}
             <BootstrapDropdown.Menu>{menuChildren}</BootstrapDropdown.Menu>
           </>
         )}
       </BootstrapDropdown>
     </Box>
   );
+};
+
+Dropdown.defaultProps = {
+  isSplit: false,
 };
 
 type ItemProps = {
@@ -72,9 +104,17 @@ const Item = ({ href, onClick, children }: ItemProps) => {
   if (onClick) {
     return (
       <BootstrapDropdown.Item
-        as={Button}
+        forwardedAs={Button}
         variant={ButtonVariants.SECONDARY}
         onClick={onClick}
+        css={`
+          &.btn {
+            flex: 1;
+            border: none;
+            box-shadow: none;
+            border-radius: 0;
+          }
+        `}
       >
         {children}
       </BootstrapDropdown.Item>
@@ -92,6 +132,8 @@ const Item = ({ href, onClick, children }: ItemProps) => {
           .btn {
             flex: 1;
             border: none;
+            box-shadow: none;
+            border-radius: 0;
           }
         `}
       >

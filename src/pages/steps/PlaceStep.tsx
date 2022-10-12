@@ -1,7 +1,7 @@
 import { TFunction } from 'i18next';
 import debounce from 'lodash/debounce';
-import { memo, useEffect, useMemo, useState } from 'react';
-import { Controller, useWatch } from 'react-hook-form';
+import { useMemo, useState } from 'react';
+import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
@@ -24,9 +24,12 @@ import { getStackProps, Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { isOneTimeSlotValid } from '@/ui/TimeTable';
-import { NewEntry, Typeahead } from '@/ui/Typeahead';
+import { isNewEntry, NewEntry, Typeahead } from '@/ui/Typeahead';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { valueToArray } from '@/utils/valueToArray';
+
+import { City } from '../CityPicker';
+import { PlaceAddModal } from '../PlaceAddModal';
 
 const getValue = getValueFromTheme('createPage');
 
@@ -51,7 +54,7 @@ const useEditLocation = <TFormData extends FormDataUnion>({
 type PlaceStepProps<TFormData extends FormDataUnion> = StackProps &
   StepProps<TFormData> & {
     terms: Array<Values<typeof EventTypes>>;
-    zip?: string;
+    municipality?: City;
     chooseLabel: (t: TFunction) => string;
     placeholderLabel: (t: TFunction) => string;
     parentOnChange?: (val: Place | NewEntry | undefined) => void;
@@ -68,7 +71,7 @@ const PlaceStep = <TFormData extends FormDataUnion>({
   loading,
   onChange,
   terms,
-  zip,
+  municipality,
   chooseLabel,
   placeholderLabel,
   parentOnChange,
@@ -79,12 +82,14 @@ const PlaceStep = <TFormData extends FormDataUnion>({
 }: PlaceStepProps<TFormData>) => {
   const { t, i18n } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
+  const [prefillPlaceName, setPrefillPlaceName] = useState('');
+  const [isPlaceAddModalVisible, setIsPlaceAddModalVisible] = useState(false);
 
   const useGetPlacesQuery = useGetPlacesByQuery(
     {
       name: searchInput,
       terms,
-      zip,
+      zip: municipality?.zip,
     },
     { enabled: !!searchInput },
   );
@@ -111,41 +116,63 @@ const PlaceStep = <TFormData extends FormDataUnion>({
         render={({ field }) => {
           if (!selectedPlace) {
             return (
-              <FormElement
-                id="place-step"
-                label={chooseLabel(t)}
-                error={
-                  errors?.place
-                    ? t(
-                        `movies.create.validation_messages.cinema.${errors?.place.type}`,
-                      )
-                    : undefined
-                }
-                loading={loading}
-                Component={
-                  <Typeahead
-                    options={places}
-                    onInputChange={debounce(setSearchInput, 275)}
-                    labelKey={(place) =>
-                      place.name[i18n.language] ??
-                      place.name[place.mainLanguage]
-                    }
-                    selected={valueToArray(selectedPlace as Place)}
-                    maxWidth="43rem"
-                    onChange={(places) => {
-                      if (parentFieldOnChange && parentOnChange) {
-                        parentFieldOnChange(places[0]);
-                        parentOnChange(places[0]);
-                        return;
+              <Stack>
+                <PlaceAddModal
+                  visible={isPlaceAddModalVisible}
+                  onClose={() => setIsPlaceAddModalVisible(false)}
+                  prefillPlaceName={prefillPlaceName}
+                  municipality={municipality}
+                  onConfirmSuccess={(place) => {
+                    parentFieldOnChange(place);
+                    parentOnChange(place);
+                  }}
+                />
+                <FormElement
+                  id="place-step"
+                  label={chooseLabel(t)}
+                  error={
+                    errors?.place
+                      ? t(
+                          `movies.create.validation_messages.cinema.${errors?.place.type}`,
+                        )
+                      : undefined
+                  }
+                  loading={loading}
+                  Component={
+                    <Typeahead
+                      options={places}
+                      onInputChange={debounce(setSearchInput, 275)}
+                      labelKey={(place) =>
+                        place.name[i18n.language] ??
+                        place.name[place.mainLanguage]
                       }
-                      field.onChange(places[0]);
-                      onChange(places[0]);
-                    }}
-                    minLength={3}
-                    placeholder={placeholderLabel(t)}
-                  />
-                }
-              />
+                      selected={valueToArray(selectedPlace as Place)}
+                      maxWidth="43rem"
+                      onChange={(places) => {
+                        const place = places[0];
+
+                        if (isNewEntry(place)) {
+                          setPrefillPlaceName(place.label);
+                          setIsPlaceAddModalVisible(true);
+                          return;
+                        }
+
+                        if (parentFieldOnChange && parentOnChange) {
+                          parentFieldOnChange(place);
+                          parentOnChange(place);
+                          return;
+                        }
+                        field.onChange(place);
+                        onChange(place);
+                      }}
+                      minLength={3}
+                      placeholder={placeholderLabel(t)}
+                      newSelectionPrefix="Locatie niet gevonden? "
+                      allowNew
+                    />
+                  }
+                />
+              </Stack>
             );
           }
 

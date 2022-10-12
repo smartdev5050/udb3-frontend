@@ -28,8 +28,16 @@
     "till": "tot"
   },
   "city_picker": {
-    "label": "Gemeente",
+    "label_be": "Gemeente",
+    "label_nl": "Woonplaats",
+    "label_de": "Gemeente",
+    "info_be": "Bv. Gent of 9000",
+    "info_nl": "Bv. Groningen of Amsterdam",
+    "info_de": "Bv. Aken of Berlijn",
     "no_cities": "Geen gemeentes gevonden"
+  },
+  "country_picker": {
+    "location_school": "Locatie in overleg met de school"
   },
   "copyright": {
     "questions": {
@@ -83,7 +91,8 @@
   },
   "countries": {
     "BE": "België",
-    "NL": "Nederland"
+    "NL": "Nederland",
+    "DE": "Duitsland"
   },
   "create": {
     "title": "Aanbod toevoegen",
@@ -111,11 +120,18 @@
         "info": "Voeg een link toe zodat mensen weten hoe ze aan je evenement kunnen deelnemen. Wil je de deelnamelink niet publiek delen? Dan kan je deze stap overslaan en deelname-instructies toevoegen aan je beschrijving in stap 5."
       },
       "municipality": {
-        "change": "Wijzigen"
+        "change_be": "Wijzig gemeente",
+        "change_nl": "Wijzig woonplaats",
+        "change_de": "Wijzig woonplaats"
       },
       "place": {
         "choose_label": "Kies een locatie",
         "placeholder": "Naam of adres"
+      },
+      "country": {
+        "change_location": "Wijzig locatie",
+        "location_school": "Locatie in overleg met de school",
+        "location_school_info": "Evenement waarvan de locatie in overleg wordt bepaald, worden niet gepubliceerd op UiTinVlaanderen of andere publiekskanalen. Je evenement verschijnt wel op cultuurkuur.be"
       }
     },
     "name_and_age": {
@@ -171,6 +187,30 @@
         "url": "Website",
         "url_error": "Een geldige url begint met http:// of https://"
       },
+      "booking_info": {
+        "title": "Reservatie",
+        "email_error": "Geen geldig e-mailadres",
+        "email": "E-mailadres",
+        "phone": "Telefoonnummer",
+        "phone_error": "Geen geldig telefoonnummer",
+        "url": "Website",
+        "url_error": "Een geldige url begint met http:// of https://",
+        "url_type_labels": {
+          "buy": "Koop tickets",
+          "reserve": "Reserveer plaatsen",
+          "availability": "Controleer beschikbaarheid",
+          "subscribe": "Schrijf je in"
+        },
+        "select_url_label": "Hoe mag deze reservatie link verschijnen?",
+        "reservation_period": {
+          "cta": "Reservatieperiode toevoegen",
+          "title": "Reservatie periode",
+          "delete": "Reservatieperiode verwijderen",
+          "error": {
+            "enddate_before_startdate": "De gekozen einddatum moet na de startdatum vallen."
+          }
+        }
+      },
       "description": {
         "clear": "Leegmaken",
         "progress_info": {
@@ -222,13 +262,6 @@
         "title": "Organisatie",
         "or_select_recent_used_organizer": "Of selecteer een van je laatst gebruikte organisaties"
       },
-      "picture": {
-        "add_button": "Afbeelding toevoegen",
-        "change": "Wijzigen",
-        "delete": "Verwijderen",
-        "intro": "Voeg een afbeelding toe zodat bezoekers je activiteit beter herkennen",
-        "set_as_main_image": "Maak hoofdafbeelding"
-      },
       "media": {
         "title": "Media"
       },
@@ -271,6 +304,7 @@
         "organizer": "Organisatie is succesvol gewijzigd",
         "price_info": "Prijsinformatie is succesvol gewijzigd",
         "contact_info": "Contactinfo is succesvol gewijzigd",
+        "booking_info": "Reservatie informatie is succesvol gewijzigd",
         "media": "Media is succesvol gewijzigd",
         "audience": "Toegang is succesvol gewijzigd"
       }
@@ -571,6 +605,28 @@
         },
         "name": "Je naam voldoet niet aan de vereisten.",
         "url": "Je website voldoet niet aan de vereisten."
+      }
+    }
+  },
+  "location": {
+    "add_modal": {
+      "title": "Nieuwe locatie toevoegen",
+      "actions": {
+        "add": "Toevoegen",
+        "cancel": "Annuleren"
+      },
+      "labels": {
+        "name": "Naam locatie",
+        "streetAndNumber": "Straat en nummer",
+        "zip": "Postcode",
+        "municipality": "Gemeente",
+        "type": "Categorie",
+        "typeInfo": "Kies een categorie die deze locatie het best omschrijft."
+      },
+      "errors": {
+        "name": "De naam van de locatie is een verplicht veld.",
+        "streetAndNumber": "Straat is een verplicht veld.",
+        "type": "Categorie is een verplicht veld."
       }
     }
   },

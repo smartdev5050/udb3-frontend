@@ -28,8 +28,16 @@
     "till": "au"
   },
   "city_picker": {
-    "label": "Municipalité",
+    "label_be": "Municipalité",
+    "label_nl": "Municipalité",
+    "label_de": "Municipalité",
+    "info_be": "Par exemple. Gand ou 9000",
+    "info_nl": "Par exemple. Groningue ou Amsterdam",
+    "info_de": "Par exemple. Aix-la-Chapelle ou Berlin",
     "no_cities": "Aucune municipalité trouvée"
+  },
+  "country_picker": {
+    "location_school": "Emplacement en concertation avec l'école"
   },
   "copyright": {
     "questions": {
@@ -83,7 +91,8 @@
   },
   "countries": {
     "BE": "Belgique",
-    "NL": "Pays-Bas"
+    "NL": "Pays-Bas",
+    "DE": "L'Allemagne"
   },
   "create": {
     "title": "Ajouter une offre",
@@ -116,6 +125,11 @@
       "place": {
         "choose_label": "Choisissez un emplacement",
         "placeholder": "Nom ou adresse"
+      },
+      "country": {
+        "change_location": "Changer de lieu",
+        "location_school": "Emplacement en concertation avec l'école",
+        "location_school_info": "Lieu en concertation avec l'écoleL'événement dont le lieu est déterminé en concertation ne sera pas publié sur UiTinVlaanderen ou d'autres chaînes publiques. Votre événement apparaîtra sur cultuurkuur.be"
       }
     },
     "name_and_age": {
@@ -163,15 +177,31 @@
         "add_phone_input_placeholder": "Ajouter un numéro de téléphone",
         "add_email_input_placeholder": "Ajouter une adresse e-mail",
         "select_for_reservation": "Choisissez votre {{contactInfoType}} de réservation",
-        "select_url_label": "Comment ce lien de réservation peut-il apparaître ?",
         "edit_cta": "Modifier",
         "email": "Adresse mail",
         "email_error": "Pas d'adresse email valide",
         "empty": "Vous n'avez pas encore ajouté des {{contactInfoType}}",
-        "is_used_for_reservation": "Utilisé pour la réservation",
         "phone": "Numéro de téléphone",
         "phone_error": "Pas un numéro de téléphone valide",
         "title": "Contact et réservation",
+        "url": "Site web",
+        "url_error": "Une URL valide commence par http:// ou https://"
+      },
+      "booking_info": {
+        "title": "Réservation",
+        "email_error": "Pas d'adresse email valide",
+        "email": "Adresse mail",
+        "phone": "Numéro de téléphone",
+        "phone_error": "Pas un numéro de téléphone valide",
+        "url": "Site web",
+        "url_error": "Une URL valide commence par http:// ou https://",
+        "select_url_label": "Comment ce lien de réservation peut-il apparaître ?",
+        "url_type_labels": {
+          "subscribe": "Inscrivez-vous",
+          "availability": "Controlez la disponibilité",
+          "buy": "Achetez des tickets",
+          "reserve": "Réservez des places"
+        },
         "reservation_period": {
           "cta": "Ajouter une période de réservation",
           "title": "Période de réservation",
@@ -179,14 +209,6 @@
           "error": {
             "enddate_before_startdate": "La date de fin choisie doit être postérieure à la date de début."
           }
-        },
-        "url": "Site web",
-        "url_error": "Une URL valide commence par http:// ou https://",
-        "url_type_labels": {
-          "subscribe": "Inscrivez-vous",
-          "availability": "Controlez la disponibilité",
-          "buy": "Achetez des tickets",
-          "reserve": "Réservez des places"
         }
       },
       "description": {
@@ -240,13 +262,6 @@
         "title": "Organisateur",
         "or_select_recent_used_organizer": "Ou sélectionnez l'une de vos organisations les plus récemment utilisées"
       },
-      "picture": {
-        "add_button": "Ajouter une image",
-        "change": "Modifier",
-        "delete": "Supprimer",
-        "intro": "Ajoutez une image de sorte que les visiteurs reconnaissent mieux votre activité.",
-        "set_as_main_image": "Créer image principale"
-      },
       "media": {
         "title": "Médias"
       },
@@ -289,6 +304,7 @@
         "organizer": "L'organisation a modifiée avec succès",
         "price_info": "Les prix ont été modifiées avec succès",
         "contact_info": "Les coordonnées ont été modifiées avec succès",
+        "booking_info": "Les informations de réservation ont été modifiées avec succès",
         "media": "Media is succesvol gewijzigd",
         "audience": "Accès modifié avec succès"
       }
@@ -588,6 +604,28 @@
         },
         "name": "Votre nom ne répond pas aux exigences.",
         "url": "Votre site web ne répond pas aux exigences."
+      }
+    }
+  },
+  "location": {
+    "add_modal": {
+      "title": "Ajouter un nouveau lieu",
+      "actions": {
+        "add": "Ajouter",
+        "cancel": "Annuler"
+      },
+      "labels": {
+        "name": "Nom de lieu",
+        "streetAndNumber": "Rue et numéro",
+        "zip": "Code postal",
+        "municipality": "Commune",
+        "type": "Catégorie",
+        "typeInfo": "Choisissez la catégorie qui décrit le mieux ce lieu."
+      },
+      "errors": {
+        "name": "Le nom du lieu est un domaine obligatoire.",
+        "streetAndNumber": "Rue est un domaine obligatoire.",
+        "type": "Catégorie est un domaine obligatoire."
       }
     }
   },

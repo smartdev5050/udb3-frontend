@@ -28,7 +28,11 @@ import { List } from '@/ui/List';
 import { Logo, LogoVariants } from '@/ui/Logo';
 import { Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
-import { Breakpoints, getValueFromTheme } from '@/ui/theme';
+import {
+  Breakpoints,
+  getGlobalBorderRadius,
+  getValueFromTheme,
+} from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
 import { Announcements, AnnouncementStatus } from './Announcements';
@@ -192,7 +196,7 @@ const ProfileMenu = ({ profileImage }: ProfileMenuProps) => {
 
   return (
     <Inline
-      padding={1}
+      padding={3}
       spacing={2}
       alignItems="center"
       justifyContent="center"
@@ -200,7 +204,13 @@ const ProfileMenu = ({ profileImage }: ProfileMenuProps) => {
         border-top: 1px solid ${getValueForMenu('borderColor')};
       `}
     >
-      <Image src={profileImage} width={50} height={50} alt="Profile picture" />
+      <Image
+        src={profileImage}
+        width={40}
+        height={40}
+        borderRadius={getGlobalBorderRadius}
+        alt="Profile picture"
+      />
       <Stack as="div" padding={2} spacing={2} flex={1} display={{ s: 'none' }}>
         {user?.username && <Text>{user.userName}</Text>}
         <Menu items={loginMenu} />

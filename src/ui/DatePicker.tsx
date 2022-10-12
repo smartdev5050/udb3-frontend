@@ -10,6 +10,7 @@ import ReactDatePicker, {
 import type { BoxProps } from './Box';
 import { Box, getBoxProps } from './Box';
 import { Input } from './Input';
+import { getGlobalBorderRadius } from './theme';
 
 setDefaultLocale('nl');
 registerLocale('nl', nl);
@@ -34,7 +35,7 @@ const DatePicker = ({
 }: Props) => {
   return (
     <Box
-      as={ReactDatePicker}
+      forwardedAs={ReactDatePicker}
       className={className}
       id={id}
       selected={selected}
@@ -43,6 +44,18 @@ const DatePicker = ({
       minDate={minDate}
       maxDate={maxDate}
       customInput={<Input id={id} />}
+      css={`
+        .react-datepicker {
+          border-radius: ${getGlobalBorderRadius};
+
+          &__header {
+            .border-top-left-radius,
+            .border-top-right-radius {
+              border-radius: ${getGlobalBorderRadius};
+            }
+          }
+        }
+      `}
       {...getBoxProps(props)}
     />
   );

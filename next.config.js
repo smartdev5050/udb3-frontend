@@ -32,7 +32,7 @@ const moduleExports = {
     globalAlertMessage: process.env.NEXT_PUBLIC_GLOBAL_ALERT_MESSAGE,
     globalAlertVariant: process.env.NEXT_PUBLIC_GLOBAL_ALERT_VARIANT,
   },
-  pageExtensions: ['page.tsx', 'page.js'],
+  pageExtensions: ['page.tsx', 'page.js', 'api.ts'],
 };
 
 const SentryWebpackPluginOptions = {
