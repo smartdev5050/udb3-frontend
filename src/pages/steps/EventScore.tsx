@@ -1,3 +1,4 @@
+import { useAnnouncementModalContext } from 'context/AnnouncementModalContext';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -156,6 +157,8 @@ const EventScore = ({ completedFields, eventId, ...props }: Props) => {
   // @ts-expect-error
   const event: Event | undefined = getEventByIdQuery.data;
 
+  const [showModal, setShowModal] = useAnnouncementModalContext();
+
   const hasTheme: boolean = event?.terms.some(
     (term) => term.domain === 'theme',
   );
@@ -238,7 +241,10 @@ const EventScore = ({ completedFields, eventId, ...props }: Props) => {
               /100
             </Text>
           </Text>
-          <Button variant={ButtonVariants.UNSTYLED}>
+          <Button
+            onClick={() => setShowModal(true)}
+            variant={ButtonVariants.UNSTYLED}
+          >
             <Icon color={getValue('infoIconColor')} name={Icons.QUESTION} />
           </Button>
         </Inline>
