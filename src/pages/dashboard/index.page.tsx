@@ -309,6 +309,8 @@ const TabContent = ({
         backgroundColor="white"
         css={`
           border-top: none !important;
+          border-top-left-radius: 0;
+          border-top-right-radius: 0;
         `}
       >
         <Spinner marginY={4} />
@@ -321,6 +323,8 @@ const TabContent = ({
       <Panel
         css={`
           border-top: none !important;
+          border-top-left-radius: 0;
+          border-top-right-radius: 0;
         `}
         backgroundColor="white"
         minHeight="5rem"
@@ -338,6 +342,16 @@ const TabContent = ({
     <Panel
       css={`
         border-top: none !important;
+        border-top-left-radius: 0;
+
+        & ul li:first-child {
+          border-top-left-radius: 0;
+        }
+
+        & ul li:last-child {
+          border-bottom-left-radius: 0;
+          border-bottom-right-radius: 0;
+        }
       `}
     >
       <List>
