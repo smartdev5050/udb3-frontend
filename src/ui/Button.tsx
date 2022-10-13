@@ -57,6 +57,7 @@ const customCSS = css`
     &:focus:not(:focus-visible),
     &.focus:not(:focus-visible) {
       outline: none;
+      box-shadow: none;
     }
 
     // active & focus
