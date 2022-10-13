@@ -1,5 +1,5 @@
 import get from 'lodash/get';
-import { borderRadius, lighten } from 'polished';
+import { lighten } from 'polished';
 
 import type { Values } from '@/types/Values';
 
