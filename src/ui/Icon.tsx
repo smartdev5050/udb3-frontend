@@ -21,6 +21,7 @@ import {
   faPencilAlt,
   faPlus,
   faPlusCircle,
+  faQuestionCircle,
   faSearch,
   faSignOutAlt,
   faTag,
@@ -70,6 +71,7 @@ const Icons = {
   IMAGE: 'image',
   BUILDING: 'building',
   TICKET: 'ticket',
+  QUESTION: 'question',
 } as const;
 
 const IconsMap = {
@@ -104,6 +106,7 @@ const IconsMap = {
   [Icons.IMAGE]: faImage,
   [Icons.BUILDING]: faBuilding,
   [Icons.TICKET]: faTicketAlt,
+  [Icons.QUESTION]: faQuestionCircle,
 };
 
 type Props = Omit<BoxProps, 'width' | 'height'> & {

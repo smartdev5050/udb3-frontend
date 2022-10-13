@@ -262,6 +262,9 @@ const theme = {
     eventItem: {
       borderColor: colors.grey3,
     },
+    eventScore: {
+      infoIconColor: colors.grey6,
+    },
     detailTable: {
       backgroundColor: colors.grey1,
       borderColor: colors.grey3,

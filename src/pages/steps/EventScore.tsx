@@ -3,11 +3,16 @@ import { useTranslation } from 'react-i18next';
 
 import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { Event } from '@/types/Event';
+import { Button, ButtonVariants } from '@/ui/Button';
+import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { Notification } from '@/ui/Notification';
 import { Text } from '@/ui/Text';
+import { getValueFromTheme } from '@/ui/theme';
 
 import { Field } from './AdditionalInformationStep';
+
+const getValue = getValueFromTheme('eventScore');
 
 const BarometerIcon = ({ rotationValue }: { rotationValue: number }) => {
   const initialRotationValue = 15;
@@ -220,13 +225,22 @@ const EventScore = ({ completedFields, eventId, ...props }: Props) => {
   return (
     <Notification
       header={
-        <Inline alignItems="flex-end">
-          <Text fontSize="1.5rem" lineHeight="initial" fontWeight="bold">
+        <Inline alignItems="center" spacing={2}>
+          <Text
+            display="inline-flex"
+            alignItems="flex-end"
+            fontSize="1.5rem"
+            lineHeight="initial"
+            fontWeight="bold"
+          >
             {score}
+            <Text fontSize="1.2rem" fontWeight="bold">
+              /100
+            </Text>
           </Text>
-          <Text fontSize="1.2rem" fontWeight="bold">
-            /100
-          </Text>
+          <Button variant={ButtonVariants.UNSTYLED}>
+            <Icon color={getValue('infoIconColor')} name={Icons.QUESTION} />
+          </Button>
         </Inline>
       }
       body={<Text>{tip}</Text>}
