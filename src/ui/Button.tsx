@@ -40,14 +40,18 @@ const BaseButton = (props: Omit<InlineProps, 'size'>) => (
 
 const customCSS = css`
   &.btn {
+    display: flex;
     border-radius: ${getValue('borderRadius')};
     padding: ${getValue('paddingY')} ${getValue('paddingX')};
     flex-shrink: 0;
     align-items: center;
 
+    border: none;
+    box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
+
     &:focus,
     &.focus {
-      outline: auto;
+      outline: solid black;
     }
 
     &:focus:not(:focus-visible),
@@ -55,30 +59,27 @@ const customCSS = css`
       outline: none;
       box-shadow: none;
     }
+
+    // active & focus
+    &:not(:disabled):not(.disabled):active:focus,
+    &:not(:disabled):not(.disabled).active:focus {
+      box-shadow: ${getValue('activeFocusBoxShadow')};
+    }
   }
 
   &.btn-primary,
   &.btn-primary.dropdown-toggle {
     color: ${getValue('primary.color')};
     background-color: ${getValue('primary.backgroundColor')};
-    border-color: ${getValue('primary.borderColor')};
 
     &:hover {
       background-color: ${getValue('primary.hoverBackgroundColor')};
-      border-color: ${getValue('primary.hoverBorderColor')};
     }
 
     // active
     &.btn-primary:not(:disabled):not(.disabled):active,
     .btn-primary:not(:disabled):not(.disabled).active {
       background-color: ${getValue('primary.activeBackgroundColor')};
-      border-color: ${getValue('primary.activeBorderColor')};
-      box-shadow: ${getValue('primary.activeBoxShadow')};
-    }
-
-    &:focus,
-    &.focus {
-      box-shadow: ${getValue('primary.focusBoxShadow')};
     }
   }
 
@@ -86,11 +87,9 @@ const customCSS = css`
   &.btn-outline-secondary.dropdown-toggle {
     color: ${getValue('secondary.color')};
     background-color: ${getValue('secondary.backgroundColor')};
-    border-color: ${getValue('secondary.borderColor')};
 
     &:hover {
       background-color: ${getValue('secondary.hoverBackgroundColor')};
-      border-color: ${getValue('secondary.hoverBorderColor')};
     }
 
     // active
@@ -98,67 +97,34 @@ const customCSS = css`
     .btn-outline-secondary:not(:disabled):not(.disabled).active {
       color: ${getValue('secondary.activeColor')};
       background-color: ${getValue('secondary.activeBackgroundColor')};
-      border-color: ${getValue('secondary.activeBorderColor')};
-      box-shadow: ${getValue('secondary.activeBoxShadow')};
     }
 
     &:not(:disabled):not(.disabled).active,
     &:not(:disabled):not(.disabled):active {
       color: ${getValue('secondary.activeColor')};
       background-color: ${getValue('secondary.activeBackgroundColor')};
-      border-color: ${getValue('secondary.activeBorderColor')};
-      box-shadow: ${getValue('secondary.activeBoxShadow')};
-    }
-
-    &:focus,
-    &.focus {
-      box-shadow: ${getValue('secondary.focusBoxShadow')};
     }
   }
 
   &.btn-success,
   &.btn-success.dropdown-toggle {
     color: ${getValue('success.color')};
-    border-color: ${getValue('success.borderColor')};
+
     background-color: ${getValue('success.backgroundColor')};
 
     &:hover {
       background-color: ${getValue('success.hoverBackgroundColor')};
-      border-color: ${getValue('success.hoverBorderColor')};
-    }
-
-    // active & focus
-    &:not(:disabled):not(.disabled):active:focus,
-    &:not(:disabled):not(.disabled).active:focus {
-      box-shadow: ${getValue('success.activeBoxShadow')};
-    }
-
-    &:focus,
-    &.focus {
-      box-shadow: ${getValue('success.focusBoxShadow')};
     }
   }
 
   &.btn-danger,
   &.btn-danger.dropdown-toggle {
     color: ${getValue('danger.color')};
-    border-color: ${getValue('danger.borderColor')};
+
     background-color: ${getValue('danger.backgroundColor')};
 
     &:hover {
       background-color: ${getValue('danger.hoverBackgroundColor')};
-      border-color: ${getValue('danger.hoverBorderColor')};
-    }
-
-    // active & focus
-    &:not(:disabled):not(.disabled):active:focus,
-    &:not(:disabled):not(.disabled).active:focus {
-      box-shadow: ${getValue('danger.activeBoxShadow')};
-    }
-
-    &:focus,
-    &.focus {
-      box-shadow: ${getValue('danger.focusBoxShadow')};
     }
   }
 

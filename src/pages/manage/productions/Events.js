@@ -133,7 +133,6 @@ const Actions = ({
         <Button
           iconName={Icons.PENCIL}
           spacing={3}
-          maxHeight={parseSpacing(5)()}
           onClick={onClickChangeName}
           shouldHideText={shouldCollapse}
           disabled={loading}
@@ -144,7 +143,6 @@ const Actions = ({
           iconName={Icons.PLUS}
           variant={ButtonVariants.SUCCESS}
           spacing={3}
-          maxHeight={parseSpacing(5)()}
           onClick={onClickAdd}
           shouldHideText={shouldCollapse}
           disabled={loading}
@@ -157,7 +155,6 @@ const Actions = ({
           iconName={Icons.TRASH}
           spacing={3}
           onClick={onClickDelete}
-          maxHeight={parseSpacing(5)()}
           shouldHideText={shouldCollapse}
         >
           {t('productions.overview.delete')}

@@ -15,7 +15,7 @@ pipeline {
         }
 
         stage('Setup and build') {
-            agent { label 'ubuntu' && '16.04' && 'nodejs14' }
+            agent { label 'ubuntu' && '16.04' && 'nodejs16' }
             environment {
                 GIT_SHORT_COMMIT = build.shortCommitRef()
                 ARTIFACT_VERSION = "${env.PIPELINE_VERSION}" + '+sha.' + "${env.GIT_SHORT_COMMIT}"

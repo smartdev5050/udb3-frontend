@@ -41,8 +41,14 @@ const NewsletterSignupForm = (props: Props) => {
   };
 
   return (
-    <Panel backgroundColor="white" padding={4} spacing={4} {...props}>
-      <Inline as="div" justifyContent="space-between">
+    <Panel
+      backgroundColor="white"
+      padding={5}
+      spacing={4}
+      maxWidth="64rem"
+      {...props}
+    >
+      <Inline as="div" spacing={4} flexWrap="wrap">
         {addNewsletterSubscriberMutation.status === QueryStatus.SUCCESS ? (
           <Stack spacing={4}>
             <Title>{t('dashboard.newsletter.success.title')}</Title>
@@ -74,14 +80,13 @@ const NewsletterSignupForm = (props: Props) => {
                     }}
                     value={email}
                     flex={1}
+                    minWidth="20rem"
                     maxWidth="30rem"
                   />
                 }
               />
 
-              <Button maxHeight={parseSpacing(5)()}>
-                {t('dashboard.newsletter.subscribe')}
-              </Button>
+              <Button>{t('dashboard.newsletter.subscribe')}</Button>
             </Inline>
             {!isValid && (
               <Alert variant={AlertVariants.DANGER}>
