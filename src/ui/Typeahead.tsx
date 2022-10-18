@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import type { BoxProps } from './Box';
 import { Box, getBoxProps } from './Box';
-import { getValueFromTheme } from './theme';
+import { getGlobalBorderRadius, getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme('typeahead');
 
@@ -90,7 +90,7 @@ const Typeahead: TypeaheadFunc = forwardRef(
         ref={ref}
         css={`
           .form-control {
-            border-radius: 0rem;
+            border-radius: ${getGlobalBorderRadius};
           }
 
           .dropdown-item.active,

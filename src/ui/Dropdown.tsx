@@ -4,13 +4,14 @@ import {
   ButtonGroup as BootstrapButtonGroup,
   Dropdown as BootstrapDropdown,
 } from 'react-bootstrap';
+import { css } from 'styled-components';
 
 import type { Values } from '@/types/Values';
 import type { BoxProps } from '@/ui/Box';
 import { Box, getBoxProps } from '@/ui/Box';
 import { Button, buttonCSS, ButtonVariants } from '@/ui/Button';
 import { Link, LinkVariants } from '@/ui/Link';
-import { getValueFromTheme } from '@/ui/theme';
+import { getGlobalBorderRadius, getValueFromTheme } from '@/ui/theme';
 
 const getValue = getValueFromTheme(`dropdown`);
 
@@ -57,14 +58,17 @@ const Dropdown = ({
   return (
     <Box
       css={`
-        .dropdown-menu {
-          border-radius: ${getValue('menuBorderRadius')};
+        .dropdown *:first-child {
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
         }
 
-        .show > .dropdown-toggle,
-        .show > .dropdown-toggle:focus:not(:focus-visible),
-        .show > .dropdown-toggle.focus:not(:focus-visible) {
-          box-shadow: ${getValue('activeToggleBoxShadow')};
+        .dropdown-menu {
+          border-radius: ${getGlobalBorderRadius};
+        }
+
+        .dropdown-divider {
+          margin: 0;
         }
       `}
       className={className}
@@ -85,7 +89,14 @@ const Dropdown = ({
               <BootstrapDropdown.Toggle
                 split
                 variant={variant}
-                css={buttonCSS}
+                css={`
+                  ${buttonCSS}
+
+                  &.btn {
+                    border-top-left-radius: 0;
+                    border-bottom-left-radius: 0;
+                  }
+                `}
               />
             )}
             <BootstrapDropdown.Menu>{menuChildren}</BootstrapDropdown.Menu>
@@ -110,9 +121,17 @@ const Item = ({ href, onClick, children }: ItemProps) => {
   if (onClick) {
     return (
       <BootstrapDropdown.Item
-        as={Button}
+        forwardedAs={Button}
         variant={ButtonVariants.SECONDARY}
         onClick={onClick}
+        css={`
+          &.btn {
+            flex: 1;
+            border: none;
+            box-shadow: none;
+            border-radius: 0;
+          }
+        `}
       >
         {children}
       </BootstrapDropdown.Item>
@@ -130,6 +149,8 @@ const Item = ({ href, onClick, children }: ItemProps) => {
           .btn {
             flex: 1;
             border: none;
+            box-shadow: none;
+            border-radius: 0;
           }
         `}
       >

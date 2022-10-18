@@ -8,7 +8,7 @@ import { Inline } from '@/ui/Inline';
 import type { StackProps } from '@/ui/Stack';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
-import { getValueFromTheme } from '@/ui/theme';
+import { getGlobalBorderRadius, getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
 const THUMBNAIL_SIZE = 80;
@@ -90,6 +90,7 @@ const PictureUploadBox = ({
         flex={1}
         spacing={4}
         padding={4}
+        borderRadius={getGlobalBorderRadius}
         backgroundColor={getValue('backgroundColor')}
         justifyContent="center"
         css={`
@@ -180,7 +181,15 @@ const PictureUploadBox = ({
               </Text>
             </Stack>
           )}
-          <Button variant={ButtonVariants.SECONDARY} onClick={onClickAddImage}>
+          <Button
+            variant={ButtonVariants.SECONDARY}
+            onClick={onClickAddImage}
+            css={`
+              &.btn {
+                box-shadow: 0px 4px 6px 0px rgb(210 210 210 / 70%);
+              }
+            `}
+          >
             {t('pictures.add_button')}
           </Button>
         </Stack>

@@ -5,7 +5,7 @@ import { Tab as BootstrapTab, Tabs as BootstrapTabs } from 'react-bootstrap';
 import type { BoxProps } from '@/ui/Box';
 import { Box, getBoxProps, parseSpacing } from '@/ui/Box';
 
-import { getValueFromTheme } from './theme';
+import { getGlobalBorderRadius, getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme(`tabs`);
 
@@ -45,13 +45,18 @@ const Tabs = <T,>({
         activeKey={activeKey}
         onSelect={onSelect}
         css={`
-          border-bottom-color: ${getValue('borderColor')};
+          border-bottom: none;
 
           .nav-item {
             color: ${getValue('color')};
             border-radius: ${getValue('borderRadius')};
             padding: ${parseSpacing(3)} ${parseSpacing(4)};
             margin-right: ${parseSpacing(1)};
+
+            &.nav-link {
+              border-bottom-left-radius: 0;
+              border-bottom-right-radius: 0;
+            }
 
             &:hover {
               color: ${getValue('hoverColor')};

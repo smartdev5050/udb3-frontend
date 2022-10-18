@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { css } from 'styled-components';
 
 import { Alert, AlertVariants } from '@/ui/Alert';
+import { parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
@@ -139,7 +140,14 @@ const AgeRangeStep = ({
               <Text fontWeight="bold">
                 {t(`create.name_and_age.age.title`)}
               </Text>
-              <Inline spacing={3} flexWrap="wrap" maxWidth="40rem">
+              <Inline
+                spacing={3}
+                flexWrap="wrap"
+                maxWidth="40rem"
+                css={`
+                  row-gap: ${parseSpacing(3.5)()};
+                `}
+              >
                 {Object.keys(AgeRanges).map((key: string) => {
                   const apiLabel = AgeRanges[key].apiLabel;
                   return (
@@ -147,7 +155,6 @@ const AgeRangeStep = ({
                       key={key}
                       width="auto"
                       active={selectedAgeRange === key}
-                      marginBottom={3}
                       display="inline-flex"
                       variant={ButtonVariants.SECONDARY}
                       onClick={() => {
@@ -165,6 +172,11 @@ const AgeRangeStep = ({
                           typicalAgeRange: apiLabel,
                         });
                       }}
+                      css={`
+                        &.btn {
+                          padding: 0.3rem 0.7rem;
+                        }
+                      `}
                     >
                       {t(`create.name_and_age.age.${key.toLowerCase()}`)}
                       <Text
