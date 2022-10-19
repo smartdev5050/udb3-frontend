@@ -56,7 +56,7 @@ const BarometerIcon = ({ rotationValue }: { rotationValue: number }) => {
           <path
             css={`
               transform: rotate(${rotationValue}deg);
-              transform-origin: 46% 61%;
+              transform-origin: 47% 61%;
               transition: transform 1s ease-in-out;
             `}
             fill="#B3ADB5"
@@ -175,7 +175,7 @@ const EventScore = ({ completedFields, eventId, ...props }: Props) => {
   }, [fullCompletedFields]);
 
   const rotationValue = useMemo(() => {
-    const maxRotation = 262;
+    const maxRotation = 247;
     const minRotation = 15;
 
     const scorePercentage = (score - minimumScore) / (100 - minimumScore);
