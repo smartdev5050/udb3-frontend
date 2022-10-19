@@ -40,6 +40,7 @@ const BaseButton = (props: Omit<InlineProps, 'size'>) => (
 
 const customCSS = css`
   &.btn {
+    display: flex;
     border-radius: ${getValue('borderRadius')};
     padding: ${getValue('paddingY')} ${getValue('paddingX')};
     flex-shrink: 0;
@@ -56,6 +57,7 @@ const customCSS = css`
     &:focus:not(:focus-visible),
     &.focus:not(:focus-visible) {
       outline: none;
+      box-shadow: none;
     }
 
     // active & focus

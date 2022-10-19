@@ -106,6 +106,11 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
                             type: { id, label: name[i18n.language] },
                           });
                         }}
+                        css={`
+                          &.btn {
+                            padding: 0.3rem 0.7rem;
+                          }
+                        `}
                       >
                         {name[i18n.language]}
                       </Button>
@@ -167,6 +172,11 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
                       });
                       onChange(id);
                     }}
+                    css={`
+                      &.btn {
+                        padding: 0.3rem 0.7rem;
+                      }
+                    `}
                   >
                     {name[i18n.language]}
                   </Button>
