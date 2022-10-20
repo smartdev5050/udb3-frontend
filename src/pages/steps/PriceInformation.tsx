@@ -29,6 +29,7 @@ const PRICE_REGEX: RegExp = /^([1-9][0-9]*|[0-9]|[0])(,[0-9]{1,2})?$/;
 const PriceCategories = {
   BASE: 'base',
   TARIFF: 'tariff',
+  UITPAS: 'uitpas',
 } as const;
 
 type PriceCategory = Values<typeof PriceCategories>;
@@ -310,6 +311,9 @@ const PriceInformation = ({
       })}
       ref={formComponent}
     >
+      <Alert variant={AlertVariants.INFO}>
+        UiTPAS prijzen werden automatisch toegevoegd
+      </Alert>
       {watchedRates.map((rate, index) => (
         <Inline
           key={`rate_${index}`}
@@ -341,20 +345,27 @@ const PriceInformation = ({
                   }
                 />
               )}
+              {rate.category === PriceCategories.UITPAS && (
+                <Text>{rate.name[i18n.language]}</Text>
+              )}
             </Inline>
             <Inline width="40%" alignItems="center">
-              <FormElement
-                id={`rate_price_${index}`}
-                Component={
-                  <Input
-                    marginRight={3}
-                    {...register(`rates.${index}.price`)}
-                    placeholder={t(
-                      'create.additionalInformation.price_info.price',
-                    )}
-                  />
-                }
-              />
+              {rate.category && (
+                <FormElement
+                  id={`rate_price_${index}`}
+                  Component={
+                    <Input
+                      marginRight={3}
+                      {...register(`rates.${index}.price`)}
+                      placeholder={t(
+                        'create.additionalInformation.price_info.price',
+                      )}
+                      disabled={rate.category === PriceCategories.UITPAS}
+                    />
+                  }
+                />
+              )}
+
               <Text
                 variant={TextVariants.MUTED}
                 css={`
@@ -363,20 +374,21 @@ const PriceInformation = ({
               >
                 {t('create.additionalInformation.price_info.euro')}
               </Text>
-              {!isPriceFree(rate.price) && (
-                <Button
-                  variant={ButtonVariants.LINK}
-                  onClick={() => {
-                    setValue(`rates.${index}.price`, '0,00');
-                    setFreePriceToRate();
-                  }}
-                >
-                  {t('create.additionalInformation.price_info.free')}
-                </Button>
-              )}
+              {!isPriceFree(rate.price) &&
+                rate.category !== PriceCategories.UITPAS && (
+                  <Button
+                    variant={ButtonVariants.LINK}
+                    onClick={() => {
+                      setValue(`rates.${index}.price`, '0,00');
+                      setFreePriceToRate();
+                    }}
+                  >
+                    {t('create.additionalInformation.price_info.free')}
+                  </Button>
+                )}
             </Inline>
             <Inline width="30%" justifyContent="flex-end">
-              {index !== 0 && (
+              {index !== 0 && rate.category !== PriceCategories.UITPAS && (
                 <Button
                   iconName={Icons.TRASH}
                   spacing={3}
