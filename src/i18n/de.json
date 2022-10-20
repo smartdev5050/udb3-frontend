@@ -172,17 +172,13 @@
         "title": "Zugang"
       },
       "contact_info": {
-        "add_phone_input_placeholder": "Fügen Sie eine Telefonnummer hinzu",
-        "add_url_input_placeholder": "Fügen Sie einen Link hinzu",
-        "add_email_input_placeholder": "Fügen Sie eine E-Mail-Adresse hinzu",
-        "select_for_reservation": "Wählen Sie Ihre Reservierungs {{contactInfoType}}",
-        "edit_cta": "Bearbeiten",
+        "add_more_singular": "Kontaktdaten hinzufügen",
+        "add_more_multiple": "Fügen Sie weitere Kontaktdaten hinzu",
         "email": "E-mailadres",
         "email_error": "Keine gültige E-Mail-Adresse",
-        "empty": "Sie haben noch keine {{contactInfoType}} hinzugefügt",
         "phone": "Telefoonnummer",
         "phone_error": "Keine gültige Telefonnummer",
-        "title": "Kontakt & Reservierung",
+        "title": "Kontakt",
         "url": "Website",
         "url_error": "Eine gültige URL beginnt mit http:// oder https://"
       },

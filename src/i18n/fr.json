@@ -173,17 +173,13 @@
         "title": "Accès"
       },
       "contact_info": {
-        "add_url_input_placeholder": "Ajouter un lien",
-        "add_phone_input_placeholder": "Ajouter un numéro de téléphone",
-        "add_email_input_placeholder": "Ajouter une adresse e-mail",
-        "select_for_reservation": "Choisissez votre {{contactInfoType}} de réservation",
-        "edit_cta": "Modifier",
+        "add_more_singular": "Ajouter des coordonnées",
+        "add_more_multiple": "Ajouter plus de coordonnées",
         "email": "Adresse mail",
         "email_error": "Pas d'adresse email valide",
-        "empty": "Vous n'avez pas encore ajouté des {{contactInfoType}}",
         "phone": "Numéro de téléphone",
         "phone_error": "Pas un numéro de téléphone valide",
-        "title": "Contact et réservation",
+        "title": "Contact",
         "url": "Site web",
         "url_error": "Une URL valide commence par http:// ou https://"
       },
