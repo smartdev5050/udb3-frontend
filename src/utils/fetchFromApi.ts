@@ -26,7 +26,7 @@ const isErrorObject = (value: any): value is ErrorObject => {
 
 type FetchFromApiArguments = {
   path: string;
-  searchParams?: { [key: string]: string };
+  searchParams?: { [key: string]: string | boolean };
   options?: RequestInit;
   silentError?: boolean;
 };
