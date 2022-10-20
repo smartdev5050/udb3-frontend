@@ -284,7 +284,8 @@
         "save": "Bewaren",
         "target": "Doelgroep",
         "title": "Prijzen",
-        "uitpas_error": "De UiTPAS prijs wordt voor jou berekend door UiTdatabank. Je kan deze niet zelf toevoegen."
+        "uitpas_error": "De UiTPAS prijs wordt voor jou berekend door UiTdatabank. Je kan deze niet zelf toevoegen.",
+        "uitpas_info": "UiTPAS prijzen werden automatisch toegevoegd"
       },
       "title": "Laat je evenement extra opvallen"
     },

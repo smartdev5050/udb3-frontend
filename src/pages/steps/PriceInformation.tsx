@@ -312,7 +312,7 @@ const PriceInformation = ({
       ref={formComponent}
     >
       <Alert variant={AlertVariants.INFO}>
-        UiTPAS prijzen werden automatisch toegevoegd
+        {t('create.additionalInformation.price_info.uitpas_info')}
       </Alert>
       {watchedRates.map((rate, index) => (
         <Inline
