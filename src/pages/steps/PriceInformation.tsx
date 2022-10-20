@@ -311,9 +311,13 @@ const PriceInformation = ({
       })}
       ref={formComponent}
     >
-      <Alert variant={AlertVariants.INFO}>
-        {t('create.additionalInformation.price_info.uitpas_info')}
-      </Alert>
+      {watchedRates.some(
+        (rate) => rate.category === PriceCategories.UITPAS,
+      ) && (
+        <Alert variant={AlertVariants.INFO}>
+          {t('create.additionalInformation.price_info.uitpas_info')}
+        </Alert>
+      )}
       {watchedRates.map((rate, index) => (
         <Inline
           key={`rate_${index}`}
