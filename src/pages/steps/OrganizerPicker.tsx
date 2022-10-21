@@ -17,7 +17,7 @@ import { Inline } from '@/ui/Inline';
 import { Paragraph } from '@/ui/Paragraph';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
-import { getValueFromTheme } from '@/ui/theme';
+import { getGlobalBorderRadius, getValueFromTheme } from '@/ui/theme';
 import { isNewEntry, NewEntry, Typeahead } from '@/ui/Typeahead';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { valueToArray } from '@/utils/valueToArray';
@@ -75,7 +75,7 @@ const RecentUsedOrganizers = ({
               key={index}
               onClick={() => onChange(parseOfferId(organizer['@id']))}
               padding={4}
-              borderRadius="0.5rem"
+              borderRadius={getGlobalBorderRadius}
               variant={ButtonVariants.UNSTYLED}
               customChildren
               marginBottom={4}
