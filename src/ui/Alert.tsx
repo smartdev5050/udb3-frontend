@@ -4,6 +4,9 @@ import type { Values } from '@/types/Values';
 
 import type { BoxProps } from './Box';
 import { Box, getBoxProps } from './Box';
+import { Icon, Icons } from './Icon';
+import { Inline } from './Inline';
+import { Text } from './Text';
 import { getValueFromTheme } from './theme';
 
 const AlertVariants = {
@@ -14,6 +17,13 @@ const AlertVariants = {
   WARNING: 'warning',
   DARK: 'dark',
 } as const;
+
+const AlertVariantIconsMap = {
+  [AlertVariants.PRIMARY]: [Icons.INFO],
+  [AlertVariants.SUCCESS]: [Icons.CHECK_CIRCLE],
+  [AlertVariants.WARNING]: [Icons.EXCLAMATION_CIRCLE],
+  [AlertVariants.DANGER]: [Icons.EXCLAMATION_TRIANGLE],
+};
 
 const getValue = getValueFromTheme(`alert`);
 
