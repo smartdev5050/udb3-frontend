@@ -249,7 +249,6 @@ const theme = {
         backgroundColor: colors.white,
       },
       complete: {
-        circleFillColor: colors.green3,
         checkFillColor: colors.green4,
       },
     },
@@ -303,10 +302,6 @@ const theme = {
       stepNumber: {
         backgroundColor: colors.grey5,
       },
-      check: {
-        circleFillColor: colors.green3,
-      },
-
       footer: {
         color: colors.textColor,
       },
