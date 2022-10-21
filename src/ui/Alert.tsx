@@ -7,6 +7,7 @@ import { Box, getBoxProps } from './Box';
 import { getValueFromTheme } from './theme';
 
 const AlertVariants = {
+  PRIMARY: 'primary',
   INFO: 'info',
   SUCCESS: 'success',
   DANGER: 'danger',
@@ -47,7 +48,15 @@ const Alert = ({
         `}
         onClose={onDismiss}
       >
-        {children}
+        <Inline spacing={3} alignItems="flex-start">
+          <Icon
+            name={AlertVariantIconsMap[variant]}
+            css={`
+              height: 24px;
+            `}
+          />
+          <Text> {children}</Text>
+        </Inline>
       </BootstrapAlert>
     </Box>
   );
@@ -55,7 +64,7 @@ const Alert = ({
 
 Alert.defaultProps = {
   visible: true,
-  variant: AlertVariants.INFO,
+  variant: AlertVariants.PRIMARY,
   dismissible: false,
 };
 
