@@ -314,7 +314,7 @@ const PriceInformation = ({
       {watchedRates.some(
         (rate) => rate.category === PriceCategories.UITPAS,
       ) && (
-        <Alert variant={AlertVariants.INFO}>
+        <Alert display="flex" variant={AlertVariants.INFO} marginBottom={3}>
           {t('create.additionalInformation.price_info.uitpas_info')}
         </Alert>
       )}
