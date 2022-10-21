@@ -132,8 +132,8 @@ const Icon = ({ name, width, height, className, ...props }: Props) => {
 };
 
 Icon.defaultProps = {
-  width: 15,
-  height: 15,
+  width: 18,
+  height: 18,
 };
 
 export { Icon, Icons };
