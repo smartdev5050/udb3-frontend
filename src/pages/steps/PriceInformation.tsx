@@ -391,7 +391,7 @@ const PriceInformation = ({
         </Inline>
       ))}
       {hasGlobalError && (
-        <Alert marginTop={3} variant={AlertVariants.INFO}>
+        <Alert display="flex" marginTop={3} variant={AlertVariants.INFO}>
           <Box
             forwardedAs="div"
             dangerouslySetInnerHTML={{
@@ -409,12 +409,12 @@ const PriceInformation = ({
         </Alert>
       )}
       {hasUitpasError && (
-        <Alert marginTop={3} variant={AlertVariants.WARNING}>
+        <Alert display="flex" marginTop={3} variant={AlertVariants.WARNING}>
           {t('create.additionalInformation.price_info.uitpas_error')}
         </Alert>
       )}
       {!!duplicateNameError && (
-        <Alert marginTop={3} variant={AlertVariants.DANGER}>
+        <Alert display="flex" marginTop={3} variant={AlertVariants.DANGER}>
           {duplicateNameError}
         </Alert>
       )}
