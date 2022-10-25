@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -277,6 +277,12 @@ const PriceInformation = ({
     return ['0', '0,0', '0,00'].includes(price);
   };
 
+  const hasUitpasPrices = useMemo(() => {
+    return watchedRates.some(
+      (rate) => rate.category === PriceCategories.UITPAS,
+    );
+  }, [watchedRates]);
+
   useEffect(() => {
     if (Object.keys(dirtyFields).length === 0) return;
 
@@ -311,9 +317,7 @@ const PriceInformation = ({
       })}
       ref={formComponent}
     >
-      {watchedRates.some(
-        (rate) => rate.category === PriceCategories.UITPAS,
-      ) && (
+      {hasUitpasPrices && (
         <Alert display="flex" variant={AlertVariants.INFO} marginBottom={3}>
           {t('create.additionalInformation.price_info.uitpas_info')}
         </Alert>
