@@ -391,7 +391,7 @@ const PriceInformation = ({
         </Inline>
       ))}
       {hasGlobalError && (
-        <Alert marginTop={3} variant={AlertVariants.INFO}>
+        <Alert marginTop={3} variant={AlertVariants.PRIMARY}>
           <Box
             forwardedAs="div"
             dangerouslySetInnerHTML={{

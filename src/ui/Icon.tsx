@@ -10,6 +10,7 @@ import {
   faChevronRight,
   faCircleNotch,
   faCopy,
+  faExclamationCircle,
   faExclamationTriangle,
   faEye,
   faEyeSlash,
@@ -17,6 +18,7 @@ import {
   faGift,
   faHome,
   faImage,
+  faInfoCircle,
   faLayerGroup,
   faPencilAlt,
   faPlus,
@@ -63,6 +65,7 @@ const Icons = {
   PLUS: 'plus',
   TRASH: 'trash',
   BINOCULARS: 'binoculars',
+  EXCLAMATION_CIRCLE: 'exclamationCircle',
   EXCLAMATION_TRIANGLE: 'exclamationTriangle',
   PENCIL: 'pencilAlt',
   VIDEO: 'video',
@@ -70,6 +73,7 @@ const Icons = {
   IMAGE: 'image',
   BUILDING: 'building',
   TICKET: 'ticket',
+  INFO: 'info',
 } as const;
 
 const IconsMap = {
@@ -104,6 +108,8 @@ const IconsMap = {
   [Icons.IMAGE]: faImage,
   [Icons.BUILDING]: faBuilding,
   [Icons.TICKET]: faTicketAlt,
+  [Icons.INFO]: faInfoCircle,
+  [Icons.EXCLAMATION_CIRCLE]: faExclamationCircle,
 };
 
 type Props = Omit<BoxProps, 'width' | 'height'> & {
