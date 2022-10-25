@@ -270,7 +270,7 @@
         "duplicate_name_error": " Le tarif avec le nom \"{{priceName}}\" existe déjà, veuillez utiliser un autre nom.",
         "euro": "euro",
         "free": "Gratuit",
-        "global_error": "Cette information du prix semble invalide et ne peut pas être enregistrée. <ul><li>Notez les décimales avec une virgule.</li><li>Ne laissez aucune ligne vide, remplissez toujours un public cible et un montant.</li><li>Donnez au maximum deux chiffres après la virgule.</li></ul>",
+        "global_error": "Assurez-vous que vos informations tarifaires sont toujours valables : <ul><li>Écrivez les décimales avec une virgule.</li> <li>Ne laissez aucune ligne en blanc, saisissez toujours un groupe cible et un montant.</li><li>Donnez un maximum de deux décimales.</li></ul>",
         "price": "Prix",
         "prices": "Prix",
         "save": "Sauver",
