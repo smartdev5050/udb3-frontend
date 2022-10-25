@@ -20,11 +20,7 @@ import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
 import { City, CityPicker } from './CityPicker';
-import {
-  ContactInfo,
-  ContactInfoEntry,
-  emptyContactInfo,
-} from './steps/ContactInfoEntry';
+import { ContactInfo, ContactInfoStep } from './steps/ContactInfoStep';
 
 export const getValue = getValueFromTheme('organizerAddModal');
 
@@ -81,7 +77,11 @@ const OrganizerAddModal = ({
     retriggerOn: visible,
   });
 
-  const [contactInfo, setContactInfo] = useState(emptyContactInfo);
+  const [contactInfo, setContactInfo] = useState({
+    email: [],
+    phone: [],
+    url: [],
+  });
 
   const {
     register,
@@ -191,7 +191,7 @@ const OrganizerAddModal = ({
           id="organizer-url"
           label={t('organizer.add_modal.labels.url')}
           info={
-            <Alert variant={AlertVariants.INFO}>
+            <Alert variant={AlertVariants.PRIMARY}>
               {t('organizer.add_modal.url_requirements')}
             </Alert>
           }
@@ -299,10 +299,9 @@ const OrganizerAddModal = ({
         </Stack>
         <Stack spacing={2}>
           <Title size={2}>Contact</Title>
-          <ContactInfoEntry
+          <ContactInfoStep
             isOrganizer={true}
             onSuccessfulChange={handleSetContactInfo}
-            withReservationInfo={false}
             organizerContactInfo={contactInfo}
           />
         </Stack>
