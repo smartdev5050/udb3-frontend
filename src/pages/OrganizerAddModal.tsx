@@ -191,7 +191,7 @@ const OrganizerAddModal = ({
           id="organizer-url"
           label={t('organizer.add_modal.labels.url')}
           info={
-            <Alert variant={AlertVariants.INFO}>
+            <Alert variant={AlertVariants.PRIMARY}>
               {t('organizer.add_modal.url_requirements')}
             </Alert>
           }
