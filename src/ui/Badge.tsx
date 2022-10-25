@@ -1,5 +1,4 @@
 import { Badge as BootstrapBadge } from 'react-bootstrap';
-import { css } from 'styled-components';
 
 import type { Values } from '@/types/Values';
 
