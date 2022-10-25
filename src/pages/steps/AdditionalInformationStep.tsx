@@ -194,6 +194,7 @@ const AdditionalInformationStep = ({
                 }
               >
                 <TabContent
+                  minHeight="350px"
                   eventId={eventId}
                   onChangeCompleted={(isCompleted) => {
                     if (completedFields[field] === isCompleted) return;
