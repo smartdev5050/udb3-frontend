@@ -37,6 +37,7 @@ const inlineProps = css`
   flex-direction: row;
 
   ${parseProperty('alignItems')};
+  ${parseProperty('alignSelf')};
   ${parseProperty('justifyContent')};
   ${parseStackOnProperty()};
 `;
@@ -84,7 +85,13 @@ const Inline = forwardRef<HTMLElement, Props>(
 
 Inline.displayName = 'Inline';
 
-const inlinePropTypes = ['spacing', 'alignItems', 'justifyContent', 'stackOn'];
+const inlinePropTypes = [
+  'spacing',
+  'alignItems',
+  'alignSelf',
+  'justifyContent',
+  'stackOn',
+];
 
 const getInlineProps = (props: UnknownProps) =>
   pick(props, [...boxPropTypes, ...inlinePropTypes]);
