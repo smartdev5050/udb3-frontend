@@ -69,7 +69,7 @@ const globalAlertVariant = Object.values(AlertVariants).some(
   (variant) => variant === publicRuntimeConfig.globalAlertVariant,
 )
   ? publicRuntimeConfig.globalAlertVariant
-  : AlertVariants.INFO;
+  : AlertVariants.PRIMARY;
 
 const getValue = getValueFromTheme('dashboardPage');
 

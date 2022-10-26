@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 
-import { getValueFromTheme } from '@/ui/theme';
+import { colors as globalColors, getValueFromTheme } from '@/ui/theme';
 
 const getValueForModal = getValueFromTheme('modal');
 
@@ -146,6 +146,10 @@ const GlobalStyle = createGlobalStyle`
 
   .modal-backdrop {
     z-index: ${getValueForModal('zIndexBackdrop')};
+  }
+
+  .badge-secondary{
+    background-color: ${globalColors.grey5};
   }
 `;
 
