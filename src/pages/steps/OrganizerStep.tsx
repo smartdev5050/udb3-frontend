@@ -7,7 +7,14 @@ import {
   useGetEventByIdQuery,
 } from '@/hooks/api/events';
 import { useCreateOrganizerMutation } from '@/hooks/api/organizers';
+import {
+  CardSystem,
+  useGetCardSystemsForOrganizerQuery,
+} from '@/hooks/api/uitpas';
+import { CheckboxWithLabel } from '@/ui/CheckboxWithLabel';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
+import { Text } from '@/ui/Text';
+import { parseOfferId } from '@/utils/parseOfferId';
 
 import { OrganizerAddModal, OrganizerData } from '../OrganizerAddModal';
 import { TabContentProps } from './AdditionalInformationStep';
@@ -27,6 +34,16 @@ const OrganizerStep = ({
 
   // @ts-expect-error
   const organizer = getEventByIdQuery.data?.organizer;
+
+  // @ts-ignore
+  const getCardSystemsForOrganizerQuery = useGetCardSystemsForOrganizerQuery({
+    id: parseOfferId(organizer['@id']) ?? '',
+  });
+
+  // @ts-expect-error
+  const cardSystems = getCardSystemsForOrganizerQuery.data ?? [];
+
+  console.log({ cardSystems });
 
   const [isOrganizerAddModalVisible, setIsOrganizerAddModalVisible] = useState(
     false,
@@ -108,6 +125,14 @@ const OrganizerStep = ({
         }
         organizer={organizer}
       />
+      <Stack>
+        <Text fontWeight="bold">UiTPAS Kaartsystemen</Text>
+        {Object.values(cardSystems).map((cardSystem: CardSystem) => (
+          <CheckboxWithLabel key={cardSystem.id} name={cardSystem.name}>
+            {cardSystem.name}
+          </CheckboxWithLabel>
+        ))}
+      </Stack>
     </Stack>
   );
 };
