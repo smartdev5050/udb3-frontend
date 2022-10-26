@@ -195,6 +195,7 @@ type FlexWrap = 'nowrap' | 'wrap' | 'wrap-reverse';
 
 type UIProps = {
   alignItems: UIProp<AlignItems>;
+  alignSelf: UIProp<AlignItems>;
   animation: UIProp<FlattenSimpleInterpolation>;
   backgroundColor: UIProp<string>;
   backgroundPosition: UIProp<string>;
