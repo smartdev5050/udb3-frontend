@@ -143,11 +143,7 @@ const prefetchAuthenticatedQuery = async <TData>({
     headers,
   });
 
-  try {
-    await queryClient.prefetchQuery(queryKey, queryFn);
-  } catch {}
-
-  return await queryClient.getQueryData(queryKey);
+  return await queryClient.fetchQuery(queryKey, queryFn);
 };
 
 /// /////////////////////////////////////////////////////////////////////////////////////////////
