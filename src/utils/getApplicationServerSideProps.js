@@ -6,9 +6,11 @@ import { generatePath, matchPath } from 'react-router';
 import UniversalCookies from 'universal-cookie';
 
 import { useGetUserQuery } from '@/hooks/api/user';
+import { defaultCookieOptions } from '@/hooks/useCookiesWithOptions';
 import { isFeatureFlagEnabledInCookies } from '@/hooks/useFeatureFlag';
 
 import { getRedirects } from '../redirects';
+import { FetchError } from './fetchFromApi';
 import { isTokenValid } from './isTokenValid';
 
 class Cookies extends UniversalCookies {
@@ -59,6 +61,21 @@ const getRedirect = (originalPath, environment, cookies) => {
     .find((match) => !!match);
 };
 
+const redirectToLogin = (cookies, req, resolvedUrl) => {
+  Sentry.setUser(null);
+  cookies.remove('token');
+
+  const { origin } = absoluteUrl(req);
+  const referer = encodeURIComponent(`${origin}${resolvedUrl}`);
+
+  return {
+    redirect: {
+      destination: `/login?referer=${referer}`,
+      permanent: false,
+    },
+  };
+};
+
 const getApplicationServerSideProps = (callbackFn) => async ({
   req,
   query,
@@ -71,22 +88,10 @@ const getApplicationServerSideProps = (callbackFn) => async ({
 
   const rawCookies = req?.headers?.cookie ?? '';
 
-  const cookies = new Cookies(rawCookies);
+  const cookies = new Cookies(rawCookies, defaultCookieOptions);
 
   if (!isTokenValid(query?.jwt ?? cookies.get('token'))) {
-    Sentry.setUser(null);
-    cookies.remove('token');
-
-    const { origin } = absoluteUrl(req);
-
-    const referer = encodeURIComponent(`${origin}${resolvedUrl}`);
-
-    return {
-      redirect: {
-        destination: `/login?referer=${referer}`,
-        permanent: false,
-      },
-    };
+    return redirectToLogin(cookies, req, resolvedUrl);
   }
 
   // set token in req.headers.cookie so that the token is known when prefetching a request
@@ -126,7 +131,13 @@ const getApplicationServerSideProps = (callbackFn) => async ({
 
   const queryClient = new QueryClient();
 
-  await useGetUserQuery({ req, queryClient });
+  try {
+    await useGetUserQuery({ req, queryClient });
+  } catch (error) {
+    if (error instanceof FetchError) {
+      return redirectToLogin(cookies, req, resolvedUrl);
+    }
+  }
 
   req.headers.cookie = cookies.toString();
 
