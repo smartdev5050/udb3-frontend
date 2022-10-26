@@ -14,6 +14,34 @@ type CardSystems = {
   [key: string]: CardSystem;
 };
 
+const getCardSystemForEvent = async ({ headers, id }: CardSystems) => {
+  const res = await fetchFromApi({
+    path: `/uitpas/events/${id.toString()}/cardSystems/`,
+    options: {
+      headers,
+    },
+  });
+  if (isErrorObject(res)) {
+    // eslint-disable-next-line no-console
+    return console.error(res);
+  }
+  return await res.json();
+};
+
+const useGetCardSystemForEventQuery = (
+  { req, queryClient, id },
+  configuration: UseQueryOptions = {},
+) =>
+  useAuthenticatedQuery({
+    req,
+    queryClient,
+    queryKey: ['uitpas_events'],
+    queryFn: getCardSystemForEvent,
+    queryArguments: { id },
+    enabled: !!id,
+    ...configuration,
+  });
+
 const getCardSystemsForOrganizer = async ({ headers, id }: CardSystems) => {
   const res = await fetchFromApi({
     path: `/uitpas/organizers/${id.toString()}/cardSystems/`,
@@ -35,12 +63,12 @@ const useGetCardSystemsForOrganizerQuery = (
   useAuthenticatedQuery({
     req,
     queryClient,
-    queryKey: ['uitpas'],
+    queryKey: ['uitpas_organizers'],
     queryFn: getCardSystemsForOrganizer,
     queryArguments: { id },
     enabled: !!id,
     ...configuration,
   });
 
-export { useGetCardSystemsForOrganizerQuery };
+export { useGetCardSystemForEventQuery, useGetCardSystemsForOrganizerQuery };
 export type { CardSystem };
