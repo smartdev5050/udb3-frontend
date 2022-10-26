@@ -9,6 +9,7 @@ import {
 import { useCreateOrganizerMutation } from '@/hooks/api/organizers';
 import {
   CardSystem,
+  useGetCardSystemForEventQuery,
   useGetCardSystemsForOrganizerQuery,
 } from '@/hooks/api/uitpas';
 import { CheckboxWithLabel } from '@/ui/CheckboxWithLabel';
@@ -32,12 +33,22 @@ const OrganizerStep = ({
 
   const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
 
+  // @ts-ignore
+  const getCardSystemForEventQuery = useGetCardSystemForEventQuery({
+    id: eventId,
+  });
+
   // @ts-expect-error
   const organizer = getEventByIdQuery.data?.organizer;
 
+  // @ts-expect-error
+  const cardSystemForEvent = getCardSystemForEventQuery.data;
+
+  const selectedCardSystems: CardSystem[] = Object.values(cardSystemForEvent);
+
   // @ts-ignore
   const getCardSystemsForOrganizerQuery = useGetCardSystemsForOrganizerQuery({
-    id: parseOfferId(organizer['@id']) ?? '',
+    id: '8f4a3a2b-fa24-43e9-a874-3cf1354dfaff',
   });
 
   // @ts-expect-error
@@ -128,7 +139,11 @@ const OrganizerStep = ({
       <Stack>
         <Text fontWeight="bold">UiTPAS Kaartsystemen</Text>
         {Object.values(cardSystems).map((cardSystem: CardSystem) => (
-          <CheckboxWithLabel key={cardSystem.id} name={cardSystem.name}>
+          <CheckboxWithLabel
+            key={cardSystem.id}
+            name={cardSystem.name}
+            checked={selectedCardSystems.some(({ id }) => cardSystem.id === id)}
+          >
             {cardSystem.name}
           </CheckboxWithLabel>
         ))}
