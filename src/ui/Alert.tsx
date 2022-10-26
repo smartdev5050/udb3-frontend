@@ -2,10 +2,9 @@ import { Alert as BootstrapAlert } from 'react-bootstrap';
 
 import type { Values } from '@/types/Values';
 
-import type { BoxProps } from './Box';
-import { Box, getBoxProps } from './Box';
 import { Icon, Icons } from './Icon';
-import { Inline } from './Inline';
+import type { InlineProps } from './Inline';
+import { getInlineProps, Inline } from './Inline';
 import { Text } from './Text';
 import { getValueFromTheme } from './theme';
 
@@ -27,7 +26,7 @@ const AlertVariantIconsMap = {
 
 const getValue = getValueFromTheme(`alert`);
 
-type Props = BoxProps & {
+type Props = InlineProps & {
   variant?: Values<typeof AlertVariants>;
   visible?: boolean;
   dismissible?: boolean;
@@ -44,7 +43,7 @@ const Alert = ({
   ...props
 }: Props) => {
   return (
-    <Box {...getBoxProps(props)}>
+    <Inline {...getInlineProps(props)} alignSelf="flex-start">
       <BootstrapAlert
         variant={variant}
         hidden={!visible}
@@ -68,7 +67,7 @@ const Alert = ({
           <Text> {children}</Text>
         </Inline>
       </BootstrapAlert>
-    </Box>
+    </Inline>
   );
 };
 
