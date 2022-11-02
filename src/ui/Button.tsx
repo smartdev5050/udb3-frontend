@@ -87,6 +87,7 @@ const customCSS = css`
   &.btn-outline-secondary.dropdown-toggle {
     color: ${getValue('secondary.color')};
     background-color: ${getValue('secondary.backgroundColor')};
+    box-shadow: 0px 4px 6px 0px rgba(210, 210, 210, 0.6);
 
     &:hover {
       background-color: ${getValue('secondary.hoverBackgroundColor')};
