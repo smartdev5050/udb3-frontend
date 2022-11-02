@@ -255,7 +255,8 @@
         "add_new_label": "Neuen Organisator hinzufügen: ",
         "change": "Ändern Organisator",
         "title": "Organisator",
-        "or_select_recent_used_organizer": "Oder wählen Sie eine Ihrer zuletzt verwendeten Organisationen aus"
+        "or_select_recent_used_organizer": "Oder wählen Sie eine Ihrer zuletzt verwendeten Organisationen aus",
+        "uitpas_cardsystems": "UiTPAS Kartensysteme"
       },
       "media": {
         "title": "Medien"

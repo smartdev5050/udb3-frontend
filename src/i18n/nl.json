@@ -260,7 +260,8 @@
         "add_new_label": "Voeg nieuwe organisator toe: ",
         "change": "Wijzig organisatie",
         "title": "Organisatie",
-        "or_select_recent_used_organizer": "Of selecteer een van je laatst gebruikte organisaties"
+        "or_select_recent_used_organizer": "Of selecteer een van je laatst gebruikte organisaties",
+        "uitpas_cardsystems": "UiTPAS Kaartsystemen"
       },
       "media": {
         "title": "Media"

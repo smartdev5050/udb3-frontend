@@ -35,7 +35,7 @@ const OrganizerStep = ({
   onSuccessfulChange,
   ...props
 }: Props) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const queryClient = useQueryClient();
 
   const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
@@ -202,7 +202,7 @@ const OrganizerStep = ({
       {Object.values(cardSystems).length !== 0 && (
         <Stack>
           <Text fontWeight="bold" marginBottom={3}>
-            UiTPAS Kaartsystemen
+            {t('create.additionalInformation.organizer.uitpas_cardsystems')}
           </Text>
           {Object.values(cardSystems).map((cardSystem: CardSystem) => (
             <Inline key={cardSystem.id} spacing={5} marginBottom={3}>
