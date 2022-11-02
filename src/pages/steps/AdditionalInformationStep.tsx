@@ -9,6 +9,7 @@ import { getInlineProps, Inline, InlineProps } from '@/ui/Inline';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Tabs } from '@/ui/Tabs';
 import { Text } from '@/ui/Text';
+import { getValueFromTheme } from '@/ui/theme';
 
 import { Audience } from './Audience';
 import { BookingInfoStep } from './BookingInfoStep';
@@ -19,6 +20,8 @@ import { MediaStep } from './MediaStep';
 import { OrganizerStep } from './OrganizerStep';
 import { PriceInformation } from './PriceInformation';
 import { FormDataUnion, StepsConfiguration } from './Steps';
+
+const getGlobalValue = getValueFromTheme('global');
 
 const AdditionalInformationStepVariant = {
   MINIMAL: 'minimal',
@@ -112,7 +115,9 @@ const TabTitle = ({ field, isCompleted, ...props }: TabTitleProps) => {
 
   return (
     <Inline spacing={3} {...getInlineProps(props)}>
-      {isCompleted && <Icon name={Icons.CHECK_CIRCLE} color="#48874a" />}
+      {isCompleted && (
+        <Icon name={Icons.CHECK_CIRCLE} color={getGlobalValue('successIcon')} />
+      )}
       <Text>{t(`create.additionalInformation.${field}.title`)}</Text>
     </Inline>
   );

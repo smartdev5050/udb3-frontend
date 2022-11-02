@@ -35,6 +35,7 @@ type ProductionStepProps<TFormData extends FormDataUnion> = StackProps &
   StepProps<TFormData>;
 
 const getValue = getValueFromTheme('createPage');
+const getGlobalValue = getValueFromTheme('global');
 
 const useEditNameAndProduction = <TFormData extends FormDataUnion>({
   onSuccess,
@@ -157,7 +158,7 @@ const ProductionStep = <TFormData extends FormDataUnion>({
           <Inline alignItems="center" spacing={3} {...getInlineProps(props)}>
             <Icon
               name={Icons.CHECK_CIRCLE}
-              color={getValue('check.circleFillColor')}
+              color={getGlobalValue('successIcon')}
             />
             <Text>{selectedProduction.name}</Text>
             <Button
