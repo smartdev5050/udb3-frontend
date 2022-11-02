@@ -110,7 +110,10 @@ const theme = {
       borderRadius: '8px',
       paddingX: '0.9rem',
       paddingY: '0.5rem',
-      activeFocusBoxShadow: 'none',
+      boxShadow: {
+        small: '0px 2px 3px 0px rgba(210, 210, 210, 0.5)',
+        large: '0px 4px 6px 0px rgba(210, 210, 210, 0.7)',
+      },
       primary: {
         backgroundColor: colors.udbBlue,
         borderColor: '#00417b',
@@ -127,10 +130,6 @@ const theme = {
         activeColor: '#333',
         activeBackgroundColor: '#e6e6e6',
         activeBorderColor: '#adadad',
-        boxShadow: {
-          small: '0px 2px 3px 0px rgba(210, 210, 210, 0.5)',
-          large: '0px 4px 6px 0px rgba(210, 210, 210, 0.7)',
-        },
       },
       success: {
         color: colors.white,

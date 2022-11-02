@@ -187,7 +187,7 @@ const PictureUploadBox = ({
             css={`
               &.btn {
                 box-shadow: ${({ theme }) =>
-                  theme.components.button.secondary.boxShadow.large};
+                  theme.components.button.boxShadow.large};
               }
             `}
           >

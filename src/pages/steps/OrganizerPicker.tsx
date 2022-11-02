@@ -86,7 +86,7 @@ const RecentUsedOrganizers = ({
                 align-items: flex-start;
                 background-color: rgba(255, 255, 255, 1);
                 box-shadow: ${({ theme }) =>
-                  theme.components.button.secondary.boxShadow.small};
+                  theme.components.button.boxShadow.small};
 
                 &:hover {
                   background-color: #e6e6e6;
