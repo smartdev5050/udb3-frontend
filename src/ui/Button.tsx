@@ -67,10 +67,14 @@ const customCSS = css`
     }
   }
 
-  &.btn-primary,
-  &.btn-primary.dropdown-toggle {
+  &.btn-primary {
     color: ${getValue('primary.color')};
     background-color: ${getValue('primary.backgroundColor')};
+
+    &.dropdown-toggle {
+      box-shadow: 4px 4px 6px 0px rgb(210 210 210 / 70%);
+      border-left: 1px solid #f0f0f0;
+    }
 
     &:hover {
       background-color: ${getValue('primary.hoverBackgroundColor')};
@@ -83,11 +87,15 @@ const customCSS = css`
     }
   }
 
-  &.btn-outline-secondary,
-  &.btn-outline-secondary.dropdown-toggle {
+  &.btn-outline-secondary {
     color: ${getValue('secondary.color')};
     background-color: ${getValue('secondary.backgroundColor')};
-    box-shadow: ${getValue('secondary.boxShadow.large')};
+    box-shadow: 0px 4px 6px 0px rgba(210, 210, 210, 0.5);
+
+    &.dropdown-toggle {
+      box-shadow: 4px 4px 6px 0px rgb(210 210 210 / 70%);
+      border-left: 1px solid #f0f0f0;
+    }
 
     &:hover {
       background-color: ${getValue('secondary.hoverBackgroundColor')};
@@ -107,22 +115,28 @@ const customCSS = css`
     }
   }
 
-  &.btn-success,
-  &.btn-success.dropdown-toggle {
+  &.btn-success {
     color: ${getValue('success.color')};
-
     background-color: ${getValue('success.backgroundColor')};
+
+    &.dropdown-toggle {
+      box-shadow: 4px 4px 6px 0px rgb(210 210 210 / 70%);
+      border-left: 1px solid #f0f0f0;
+    }
 
     &:hover {
       background-color: ${getValue('success.hoverBackgroundColor')};
     }
   }
 
-  &.btn-danger,
-  &.btn-danger.dropdown-toggle {
+  &.btn-danger {
     color: ${getValue('danger.color')};
-
     background-color: ${getValue('danger.backgroundColor')};
+
+    &.dropdown-toggle {
+      box-shadow: 4px 4px 6px 0px rgb(210 210 210 / 70%);
+      border-left: 1px solid #f0f0f0;
+    }
 
     &:hover {
       background-color: ${getValue('danger.hoverBackgroundColor')};
