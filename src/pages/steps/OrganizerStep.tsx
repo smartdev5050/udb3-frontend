@@ -86,14 +86,16 @@ const OrganizerStep = ({
   });
 
   const addCardSystemToEventMutation = useAddCardSystemToEventMutation({
-    onSuccess: () => {
+    onSuccess: (data) => {
+      onSuccessfulChange(data);
       queryClient.invalidateQueries('uitpas_events');
     },
   });
 
   const deleteCardSystemFromEventMutation = useDeleteCardSystemFromEventMutation(
     {
-      onSuccess: () => {
+      onSuccess: (data) => {
+        onSuccessfulChange(data);
         queryClient.invalidateQueries('uitpas_events');
       },
     },
@@ -120,8 +122,8 @@ const OrganizerStep = ({
   };
 
   const changeDistributionKey = useChangeDistributionKeyMutation({
-    onSuccess: () => {
-      console.log('change distributionkey success');
+    onSuccess: (data) => {
+      onSuccessfulChange(data);
       queryClient.invalidateQueries('uitpas_events');
     },
   });
