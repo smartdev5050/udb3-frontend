@@ -30,6 +30,7 @@ import { PlaceStep } from './PlaceStep';
 import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
 
 const getValue = getValueFromTheme('createPage');
+const getGlobalValue = getValueFromTheme('global');
 
 const useEditPlace = <TFormData extends FormDataUnion>({
   eventId,
@@ -112,7 +113,7 @@ const LocationStep = <TFormData extends FormDataUnion>({
                 <Inline alignItems="center" spacing={3}>
                   <Icon
                     name={Icons.CHECK_CIRCLE}
-                    color={getValue('check.circleFillColor')}
+                    color={getGlobalValue('successIcon')}
                   />
                   <Text>{t('create.location.country.location_school')}</Text>
                   <Button
@@ -226,7 +227,7 @@ const LocationStep = <TFormData extends FormDataUnion>({
                 <Inline alignItems="center" spacing={3}>
                   <Icon
                     name={Icons.CHECK_CIRCLE}
-                    color={getValue('check.circleFillColor')}
+                    color={getGlobalValue('successIcon')}
                   />
                   <Text>{municipality.name}</Text>
                   <Button

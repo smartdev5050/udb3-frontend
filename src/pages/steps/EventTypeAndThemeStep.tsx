@@ -19,6 +19,7 @@ import { getValueFromTheme } from '@/ui/theme';
 import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
 
 const getValue = getValueFromTheme('createPage');
+const getGlobalValue = getValueFromTheme('global');
 
 const useEditTypeAndTheme = <TFormData extends FormDataUnion>({
   eventId,
@@ -126,7 +127,7 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
                   >
                     <Icon
                       name={Icons.CHECK_CIRCLE}
-                      color={getValue('check.circleFillColor')}
+                      color={getGlobalValue('successIcon')}
                     />
                     <Text>{field.value?.type?.label}</Text>
                     <Button
@@ -192,7 +193,7 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
               >
                 <Icon
                   name={Icons.CHECK_CIRCLE}
-                  color={getValue('check.circleFillColor')}
+                  color={getGlobalValue('succcessIcon')}
                 />
                 <Text>{field.value?.theme?.label}</Text>
                 <Button

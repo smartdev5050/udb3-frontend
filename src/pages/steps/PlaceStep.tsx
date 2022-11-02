@@ -32,6 +32,7 @@ import { City } from '../CityPicker';
 import { PlaceAddModal } from '../PlaceAddModal';
 
 const getValue = getValueFromTheme('createPage');
+const getGlobalValue = getValueFromTheme('global');
 
 const useEditLocation = <TFormData extends FormDataUnion>({
   eventId,
@@ -180,7 +181,7 @@ const PlaceStep = <TFormData extends FormDataUnion>({
             <Inline alignItems="center" spacing={3}>
               <Icon
                 name={Icons.CHECK_CIRCLE}
-                color={getValue('check.circleFillColor')}
+                color={getGlobalValue('successIcon')}
               />
               <Text>
                 {selectedPlace.name[i18n.language] ??
