@@ -36,7 +36,7 @@ const ToggleBox = ({
       borderRadius={getGlobalBorderRadius}
       css={`
         border: none;
-        box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
+        box-shadow: ${getValue('boxShadow.large')};
       `}
       {...getStackProps(props)}
     >
