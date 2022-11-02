@@ -175,12 +175,14 @@ const OrganizerStep = ({
           <Text fontWeight="bold">UiTPAS Kaartsystemen</Text>
           {Object.values(cardSystems).map((cardSystem: CardSystem) => (
             <CheckboxWithLabel
+              className="cardsystem-checkbox"
               id={cardSystem.id}
               key={cardSystem.id}
               name={cardSystem.name}
               checked={selectedCardSystems.some(
                 ({ id }) => cardSystem.id === id,
               )}
+              disabled={false}
               onToggle={(e) => handleToggleCardSystem(e, cardSystem.id)}
             >
               {cardSystem.name}
