@@ -52,13 +52,14 @@ const Dropdown = ({
       // @ts-expect-error
       ...primaryActionChild.props,
       variant: buttonVariant,
+      className: 'primary-action',
     },
   );
 
   return (
     <Box
       css={`
-        .dropdown *:first-child {
+        .dropdown .primary-action:not(:only-child) > * {
           border-top-right-radius: 0;
           border-bottom-right-radius: 0;
         }
