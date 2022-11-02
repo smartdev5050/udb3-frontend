@@ -109,6 +109,9 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
                         css={`
                           &.btn {
                             padding: 0.3rem 0.7rem;
+                            box-shadow: ${({ theme }) =>
+                              theme.components.button.secondary.boxShadow
+                                .small};
                           }
                         `}
                       >
@@ -175,6 +178,8 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
                     css={`
                       &.btn {
                         padding: 0.3rem 0.7rem;
+                        box-shadow: ${({ theme }) =>
+                          theme.components.button.secondary.boxShadow.small};
                       }
                     `}
                   >

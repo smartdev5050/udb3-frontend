@@ -127,6 +127,10 @@ const theme = {
         activeColor: '#333',
         activeBackgroundColor: '#e6e6e6',
         activeBorderColor: '#adadad',
+        boxShadow: {
+          small: '0px 2px 3px 0px rgba(210, 210, 210, 0.5)',
+          large: '0px 4px 6px 0px rgba(210, 210, 210, 0.7)',
+        },
       },
       success: {
         color: colors.white,
@@ -361,6 +365,10 @@ const theme = {
       activeTextColor: colors.textColor,
       iconColor: colors.grey5,
       iconCheckColor: colors.green3,
+      boxShadow: {
+        small: '0px 2px 3px 0px rgba(210, 210, 210, 0.5)',
+        large: '0px 4px 6px 0px rgba(210, 210, 210, 0.7)',
+      },
     },
     dropdown: {
       activeToggleBoxShadow: 'inset 0 3px 5px rgba(0, 0, 0, 0.125)',

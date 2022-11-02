@@ -186,7 +186,8 @@ const PictureUploadBox = ({
             onClick={onClickAddImage}
             css={`
               &.btn {
-                box-shadow: 0px 4px 6px 0px rgb(210 210 210 / 70%);
+                box-shadow: ${({ theme }) =>
+                  theme.components.button.secondary.boxShadow.large};
               }
             `}
           >
