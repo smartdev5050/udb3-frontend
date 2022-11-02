@@ -1,5 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useQueryClient } from 'react-query';
 
 import {
   useAddOrganizerToEventMutation,
@@ -35,6 +36,7 @@ const OrganizerStep = ({
   ...props
 }: Props) => {
   const { i18n } = useTranslation();
+  const queryClient = useQueryClient();
 
   const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
 
@@ -85,14 +87,14 @@ const OrganizerStep = ({
 
   const addCardSystemToEventMutation = useAddCardSystemToEventMutation({
     onSuccess: () => {
-      console.log('added success');
+      queryClient.invalidateQueries('uitpas_events');
     },
   });
 
   const deleteCardSystemFromEventMutation = useDeleteCardSystemFromEventMutation(
     {
       onSuccess: () => {
-        console.log('delete success');
+        queryClient.invalidateQueries('uitpas_events');
       },
     },
   );
@@ -120,6 +122,7 @@ const OrganizerStep = ({
   const changeDistributionKey = useChangeDistributionKeyMutation({
     onSuccess: () => {
       console.log('change distributionkey success');
+      queryClient.invalidateQueries('uitpas_events');
     },
   });
 
@@ -130,7 +133,6 @@ const OrganizerStep = ({
     distributionKeyId: number;
     cardSystemId: number;
   }) => {
-    console.log({ distributionKeyId });
     changeDistributionKey.mutate({
       id: eventId,
       cardSystemId,
