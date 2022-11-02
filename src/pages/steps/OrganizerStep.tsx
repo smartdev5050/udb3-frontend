@@ -10,11 +10,14 @@ import { useCreateOrganizerMutation } from '@/hooks/api/organizers';
 import {
   CardSystem,
   useAddCardSystemToEventMutation,
+  useChangeDistributionKeyMutation,
   useDeleteCardSystemFromEventMutation,
   useGetCardSystemForEventQuery,
   useGetCardSystemsForOrganizerQuery,
 } from '@/hooks/api/uitpas';
 import { CheckboxWithLabel } from '@/ui/CheckboxWithLabel';
+import { Inline } from '@/ui/Inline';
+import { Select } from '@/ui/Select';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { parseOfferId } from '@/utils/parseOfferId';
@@ -114,6 +117,27 @@ const OrganizerStep = ({
     handleDeleteCardSystemFromEvent(cardSystemId);
   };
 
+  const changeDistributionKey = useChangeDistributionKeyMutation({
+    onSuccess: () => {
+      console.log('change distributionkey success');
+    },
+  });
+
+  const handleChangeDistributionKey = ({
+    distributionKeyId,
+    cardSystemId,
+  }: {
+    distributionKeyId: number;
+    cardSystemId: number;
+  }) => {
+    console.log({ distributionKeyId });
+    changeDistributionKey.mutate({
+      id: eventId,
+      cardSystemId,
+      distributionKeyId,
+    });
+  };
+
   const handleChangeOrganizer = (organizerId: string) => {
     addOrganizerToEventMutation.mutate({ eventId, organizerId });
   };
@@ -157,6 +181,7 @@ const OrganizerStep = ({
         onClose={() => setIsOrganizerAddModalVisible(false)}
       />
       <OrganizerPicker
+        marginBottom={4}
         onChange={handleChangeOrganizer}
         onAddNewOrganizer={(newOrganizer) => {
           setNewOrganizerName(newOrganizer.label);
@@ -172,21 +197,52 @@ const OrganizerStep = ({
       />
       {Object.values(cardSystems).length !== 0 && (
         <Stack>
-          <Text fontWeight="bold">UiTPAS Kaartsystemen</Text>
+          <Text fontWeight="bold" marginBottom={3}>
+            UiTPAS Kaartsystemen
+          </Text>
           {Object.values(cardSystems).map((cardSystem: CardSystem) => (
-            <CheckboxWithLabel
-              className="cardsystem-checkbox"
-              id={cardSystem.id}
-              key={cardSystem.id}
-              name={cardSystem.name}
-              checked={selectedCardSystems.some(
-                ({ id }) => cardSystem.id === id,
+            <Inline key={cardSystem.id} spacing={5} marginBottom={3}>
+              <CheckboxWithLabel
+                className="cardsystem-checkbox"
+                id={cardSystem.id}
+                name={cardSystem.name}
+                checked={selectedCardSystems.some(
+                  ({ id }) => cardSystem.id === id,
+                )}
+                disabled={false}
+                onToggle={(e) => handleToggleCardSystem(e, cardSystem.id)}
+              >
+                {cardSystem.name}
+              </CheckboxWithLabel>
+              {Object.values(cardSystem.distributionKeys).length > 0 && (
+                <Select
+                  maxWidth="20%"
+                  onChange={(e) =>
+                    handleChangeDistributionKey({
+                      distributionKeyId: parseInt(e.target.value),
+                      cardSystemId: cardSystem.id,
+                    })
+                  }
+                >
+                  {Object.values(cardSystem.distributionKeys).map(
+                    (distributionKey) => (
+                      <option
+                        selected={selectedCardSystems.some(
+                          (selectedCardSystem) =>
+                            Object.values(
+                              selectedCardSystem.distributionKeys,
+                            ).some(({ id }) => id === distributionKey.id),
+                        )}
+                        value={distributionKey.id}
+                        key={distributionKey.id}
+                      >
+                        {distributionKey.name}
+                      </option>
+                    ),
+                  )}
+                </Select>
               )}
-              disabled={false}
-              onToggle={(e) => handleToggleCardSystem(e, cardSystem.id)}
-            >
-              {cardSystem.name}
-            </CheckboxWithLabel>
+            </Inline>
           ))}
         </Stack>
       )}

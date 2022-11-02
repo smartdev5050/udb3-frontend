@@ -103,8 +103,30 @@ const useDeleteCardSystemFromEventMutation = (configuration = {}) =>
     ...configuration,
   });
 
+const changeDistributionKey = async ({
+  headers,
+  id,
+  cardSystemId,
+  distributionKeyId,
+}) =>
+  await fetchFromApi({
+    path: `/uitpas/events/${id.toString()}/cardSystems/${cardSystemId}/distributionKey/${distributionKeyId}`,
+    options: {
+      headers,
+      method: 'PUT',
+    },
+  });
+
+const useChangeDistributionKeyMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: changeDistributionKey,
+    ...configuration,
+  });
+
 export {
+  changeDistributionKey,
   useAddCardSystemToEventMutation,
+  useChangeDistributionKeyMutation,
   useDeleteCardSystemFromEventMutation,
   useGetCardSystemForEventQuery,
   useGetCardSystemsForOrganizerQuery,
