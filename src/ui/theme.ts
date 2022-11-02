@@ -15,7 +15,7 @@ const colors = {
   grey6: '#999999',
   green1: '#5cb85c',
   green2: '#449d44',
-  green3: '#48874a',
+  green3: '#28a745',
   green4: '#dcf2d7',
   green5: '#c7e6c7',
   pink1: '#fcd1cf',
@@ -110,7 +110,10 @@ const theme = {
       borderRadius: '8px',
       paddingX: '0.9rem',
       paddingY: '0.5rem',
-      activeFocusBoxShadow: 'none',
+      boxShadow: {
+        small: '0px 2px 3px 0px rgba(210, 210, 210, 0.5)',
+        large: '0px 4px 6px 0px rgba(210, 210, 210, 0.7)',
+      },
       primary: {
         backgroundColor: colors.udbBlue,
         borderColor: '#00417b',
@@ -249,7 +252,6 @@ const theme = {
         backgroundColor: colors.white,
       },
       complete: {
-        circleFillColor: colors.green3,
         checkFillColor: colors.green4,
       },
     },
@@ -303,10 +305,6 @@ const theme = {
       stepNumber: {
         backgroundColor: colors.grey5,
       },
-      check: {
-        circleFillColor: colors.green3,
-      },
-
       footer: {
         color: colors.textColor,
       },
@@ -361,6 +359,10 @@ const theme = {
       activeTextColor: colors.textColor,
       iconColor: colors.grey5,
       iconCheckColor: colors.green3,
+      boxShadow: {
+        small: '0px 2px 3px 0px rgba(210, 210, 210, 0.5)',
+        large: '0px 4px 6px 0px rgba(210, 210, 210, 0.7)',
+      },
     },
     dropdown: {
       activeToggleBoxShadow: 'inset 0 3px 5px rgba(0, 0, 0, 0.125)',

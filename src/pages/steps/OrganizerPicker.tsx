@@ -85,7 +85,8 @@ const RecentUsedOrganizers = ({
                 flex-direction: column;
                 align-items: flex-start;
                 background-color: rgba(255, 255, 255, 1);
-                box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
+                box-shadow: ${({ theme }) =>
+                  theme.components.button.boxShadow.small};
 
                 &:hover {
                   background-color: #e6e6e6;

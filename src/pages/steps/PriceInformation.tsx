@@ -318,7 +318,7 @@ const PriceInformation = ({
       ref={formComponent}
     >
       {hasUitpasPrices && (
-        <Alert display="flex" variant={AlertVariants.INFO} marginBottom={3}>
+        <Alert variant={AlertVariants.INFO} marginBottom={3}>
           {t('create.additionalInformation.price_info.uitpas_info')}
         </Alert>
       )}
@@ -411,7 +411,7 @@ const PriceInformation = ({
         </Inline>
       ))}
       {hasGlobalError && (
-        <Alert display="flex" marginTop={3} variant={AlertVariants.PRIMARY}>
+        <Alert marginTop={3} variant={AlertVariants.PRIMARY}>
           <Box
             forwardedAs="div"
             dangerouslySetInnerHTML={{
@@ -429,12 +429,12 @@ const PriceInformation = ({
         </Alert>
       )}
       {hasUitpasError && (
-        <Alert display="flex" marginTop={3} variant={AlertVariants.WARNING}>
+        <Alert marginTop={3} variant={AlertVariants.WARNING}>
           {t('create.additionalInformation.price_info.uitpas_error')}
         </Alert>
       )}
       {!!duplicateNameError && (
-        <Alert display="flex" marginTop={3} variant={AlertVariants.DANGER}>
+        <Alert marginTop={3} variant={AlertVariants.DANGER}>
           {duplicateNameError}
         </Alert>
       )}
