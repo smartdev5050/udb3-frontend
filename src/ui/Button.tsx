@@ -71,7 +71,7 @@ const customCSS = css`
     color: ${getValue('primary.color')};
     background-color: ${getValue('primary.backgroundColor')};
 
-    &.dropdown-toggle {
+    &.dropdown-toggle.dropdown-toggle-split {
       box-shadow: 4px 4px 6px 0px rgb(210 210 210 / 70%);
       border-left: 1px solid #f0f0f0;
     }
@@ -92,7 +92,7 @@ const customCSS = css`
     background-color: ${getValue('secondary.backgroundColor')};
     box-shadow: 0px 4px 6px 0px rgba(210, 210, 210, 0.5);
 
-    &.dropdown-toggle {
+    &.dropdown-toggle.dropdown-toggle-split {
       box-shadow: 4px 4px 6px 0px rgb(210 210 210 / 70%);
       border-left: 1px solid #f0f0f0;
     }
@@ -119,7 +119,7 @@ const customCSS = css`
     color: ${getValue('success.color')};
     background-color: ${getValue('success.backgroundColor')};
 
-    &.dropdown-toggle {
+    &.dropdown-toggle.dropdown-toggle-split {
       box-shadow: 4px 4px 6px 0px rgb(210 210 210 / 70%);
       border-left: 1px solid #f0f0f0;
     }
@@ -133,7 +133,7 @@ const customCSS = css`
     color: ${getValue('danger.color')};
     background-color: ${getValue('danger.backgroundColor')};
 
-    &.dropdown-toggle {
+    &.dropdown-toggle.dropdown-toggle-split {
       box-shadow: 4px 4px 6px 0px rgb(210 210 210 / 70%);
       border-left: 1px solid #f0f0f0;
     }
