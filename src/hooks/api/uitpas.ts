@@ -2,7 +2,10 @@ import { UseQueryOptions } from 'react-query';
 
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 
-import { useAuthenticatedQuery } from './authenticated-query';
+import {
+  useAuthenticatedMutation,
+  useAuthenticatedQuery,
+} from './authenticated-query';
 
 type CardSystem = {
   id: number;
@@ -14,7 +17,7 @@ type CardSystems = {
   [key: string]: CardSystem;
 };
 
-const getCardSystemForEvent = async ({ headers, id }: CardSystems) => {
+const getCardSystemForEvent = async ({ headers, id }) => {
   const res = await fetchFromApi({
     path: `/uitpas/events/${id.toString()}/cardSystems/`,
     options: {
@@ -42,7 +45,7 @@ const useGetCardSystemForEventQuery = (
     ...configuration,
   });
 
-const getCardSystemsForOrganizer = async ({ headers, id }: CardSystems) => {
+const getCardSystemsForOrganizer = async ({ headers, id }) => {
   const res = await fetchFromApi({
     path: `/uitpas/organizers/${id.toString()}/cardSystems/`,
     options: {
@@ -70,5 +73,40 @@ const useGetCardSystemsForOrganizerQuery = (
     ...configuration,
   });
 
-export { useGetCardSystemForEventQuery, useGetCardSystemsForOrganizerQuery };
+const addCardSystemToEvent = async ({ headers, id, cardSystemId }) =>
+  await fetchFromApi({
+    path: `/uitpas/events/${id.toString()}/cardSystems/${cardSystemId}`,
+    options: {
+      headers,
+      method: 'PUT',
+    },
+  });
+
+const useAddCardSystemToEventMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: addCardSystemToEvent,
+    ...configuration,
+  });
+
+const deleteCardSystemFromEvent = async ({ headers, id, cardSystemId }) =>
+  await fetchFromApi({
+    path: `/uitpas/events/${id.toString()}/cardSystems/${cardSystemId}`,
+    options: {
+      headers,
+      method: 'DELETE',
+    },
+  });
+
+const useDeleteCardSystemFromEventMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: deleteCardSystemFromEvent,
+    ...configuration,
+  });
+
+export {
+  useAddCardSystemToEventMutation,
+  useDeleteCardSystemFromEventMutation,
+  useGetCardSystemForEventQuery,
+  useGetCardSystemsForOrganizerQuery,
+};
 export type { CardSystem };

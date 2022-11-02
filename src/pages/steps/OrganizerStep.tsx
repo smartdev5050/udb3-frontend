@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -9,6 +9,8 @@ import {
 import { useCreateOrganizerMutation } from '@/hooks/api/organizers';
 import {
   CardSystem,
+  useAddCardSystemToEventMutation,
+  useDeleteCardSystemFromEventMutation,
   useGetCardSystemForEventQuery,
   useGetCardSystemsForOrganizerQuery,
 } from '@/hooks/api/uitpas';
@@ -41,20 +43,18 @@ const OrganizerStep = ({
   // @ts-expect-error
   const organizer = getEventByIdQuery.data?.organizer;
 
-  // @ts-expect-error
-  const cardSystemForEvent = getCardSystemForEventQuery.data;
-
-  const selectedCardSystems: CardSystem[] = Object.values(cardSystemForEvent);
-
   // @ts-ignore
   const getCardSystemsForOrganizerQuery = useGetCardSystemsForOrganizerQuery({
-    id: '8f4a3a2b-fa24-43e9-a874-3cf1354dfaff',
+    id: organizer?.['@id'] ? parseOfferId(organizer['@id']) : undefined,
   });
 
   // @ts-expect-error
-  const cardSystems = getCardSystemsForOrganizerQuery.data ?? [];
+  const cardSystemForEvent = getCardSystemForEventQuery.data ?? {};
 
-  console.log({ cardSystems });
+  const selectedCardSystems: CardSystem[] = Object.values(cardSystemForEvent);
+
+  // @ts-expect-error
+  const cardSystems = getCardSystemsForOrganizerQuery.data ?? {};
 
   const [isOrganizerAddModalVisible, setIsOrganizerAddModalVisible] = useState(
     false,
@@ -79,6 +79,40 @@ const OrganizerStep = ({
   const deleteOrganizerFromEventMutation = useDeleteOrganizerFromEventMutation({
     onSuccess: onSuccessfulChange,
   });
+
+  const addCardSystemToEventMutation = useAddCardSystemToEventMutation({
+    onSuccess: () => {
+      console.log('added success');
+    },
+  });
+
+  const deleteCardSystemFromEventMutation = useDeleteCardSystemFromEventMutation(
+    {
+      onSuccess: () => {
+        console.log('delete success');
+      },
+    },
+  );
+
+  const handleAddCardSystemToEvent = (cardSystemId: number) => {
+    addCardSystemToEventMutation.mutate({ cardSystemId, id: eventId });
+  };
+
+  const handleDeleteCardSystemFromEvent = (cardSystemId: number) => {
+    deleteCardSystemFromEventMutation.mutate({ cardSystemId, id: eventId });
+  };
+
+  const handleToggleCardSystem = (
+    event: ChangeEvent<HTMLInputElement>,
+    cardSystemId: number,
+  ) => {
+    if (event.target.checked) {
+      handleAddCardSystemToEvent(cardSystemId);
+      return;
+    }
+
+    handleDeleteCardSystemFromEvent(cardSystemId);
+  };
 
   const handleChangeOrganizer = (organizerId: string) => {
     addOrganizerToEventMutation.mutate({ eventId, organizerId });
@@ -136,18 +170,24 @@ const OrganizerStep = ({
         }
         organizer={organizer}
       />
-      <Stack>
-        <Text fontWeight="bold">UiTPAS Kaartsystemen</Text>
-        {Object.values(cardSystems).map((cardSystem: CardSystem) => (
-          <CheckboxWithLabel
-            key={cardSystem.id}
-            name={cardSystem.name}
-            checked={selectedCardSystems.some(({ id }) => cardSystem.id === id)}
-          >
-            {cardSystem.name}
-          </CheckboxWithLabel>
-        ))}
-      </Stack>
+      {Object.values(cardSystems).length !== 0 && (
+        <Stack>
+          <Text fontWeight="bold">UiTPAS Kaartsystemen</Text>
+          {Object.values(cardSystems).map((cardSystem: CardSystem) => (
+            <CheckboxWithLabel
+              id={cardSystem.id}
+              key={cardSystem.id}
+              name={cardSystem.name}
+              checked={selectedCardSystems.some(
+                ({ id }) => cardSystem.id === id,
+              )}
+              onToggle={(e) => handleToggleCardSystem(e, cardSystem.id)}
+            >
+              {cardSystem.name}
+            </CheckboxWithLabel>
+          ))}
+        </Stack>
+      )}
     </Stack>
   );
 };
