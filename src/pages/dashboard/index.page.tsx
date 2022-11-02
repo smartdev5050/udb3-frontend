@@ -615,10 +615,7 @@ const Dashboard = (): any => {
 
 const getServerSideProps = getApplicationServerSideProps(
   async ({ req, query, cookies: rawCookies, queryClient }) => {
-    const cookies = new Cookies(rawCookies);
-    const getUserQuery = useGetUserQuery({ req, queryClient });
-    // @ts-expect-error
-    const user = getUserQuery.data;
+    const user = (await useGetUserQuery({ req, queryClient })) as User;
 
     await Promise.all(
       Object.entries(UseGetItemsByCreatorMap).map(([key, hook]) => {
