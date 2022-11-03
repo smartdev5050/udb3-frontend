@@ -256,7 +256,8 @@
         "change": "Ändern Organisator",
         "title": "Organisator",
         "or_select_recent_used_organizer": "Oder wählen Sie eine Ihrer zuletzt verwendeten Organisationen aus",
-        "uitpas_cardsystems": "UiTPAS Kartensysteme"
+        "uitpas_cardsystems": "UiTPAS Kartensysteme",
+        "uitpas_info_alert": "Dies ist ein UiTPAS-Organisator. Wählen Sie einen Preis, um eine bestimmte UiTPAS-Information hinzuzufügen."
       },
       "media": {
         "title": "Medien"

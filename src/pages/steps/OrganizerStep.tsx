@@ -16,6 +16,7 @@ import {
   useGetCardSystemForEventQuery,
   useGetCardSystemsForOrganizerQuery,
 } from '@/hooks/api/uitpas';
+import { Alert, AlertVariants } from '@/ui/Alert';
 import { CheckboxWithLabel } from '@/ui/CheckboxWithLabel';
 import { Inline } from '@/ui/Inline';
 import { Select } from '@/ui/Select';
@@ -176,6 +177,8 @@ const OrganizerStep = ({
     setIsOrganizerAddModalVisible(false);
   };
 
+  const isUitpasOrganizer = Object.values(cardSystems).length > 0;
+
   return (
     <Stack {...getStackProps(props)}>
       <OrganizerAddModal
@@ -199,11 +202,14 @@ const OrganizerStep = ({
         }
         organizer={organizer}
       />
-      {Object.values(cardSystems).length !== 0 && (
+      {isUitpasOrganizer && (
         <Stack>
           <Text fontWeight="bold" marginBottom={3}>
             {t('create.additionalInformation.organizer.uitpas_cardsystems')}
           </Text>
+          <Alert marginBottom={3} variant={AlertVariants.PRIMARY}>
+            {t('create.additionalInformation.organizer.uitpas_info_alert')}
+          </Alert>
           {Object.values(cardSystems).map((cardSystem: CardSystem) => (
             <Inline key={cardSystem.id} spacing={5} marginBottom={3}>
               <CheckboxWithLabel

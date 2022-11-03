@@ -261,7 +261,8 @@
         "change": "Wijzig organisatie",
         "title": "Organisatie",
         "or_select_recent_used_organizer": "Of selecteer een van je laatst gebruikte organisaties",
-        "uitpas_cardsystems": "UiTPAS Kaartsystemen"
+        "uitpas_cardsystems": "UiTPAS Kaartsystemen",
+        "uitpas_info_alert": "Dit is een UiTPAS organisator. Selecteer een prijs om specifieke UiTPAS-informatie toe te voegen."
       },
       "media": {
         "title": "Media"
