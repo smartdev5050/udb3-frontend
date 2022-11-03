@@ -197,7 +197,7 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
               >
                 <Icon
                   name={Icons.CHECK_CIRCLE}
-                  color={getGlobalValue('succcessIcon')}
+                  color={getGlobalValue('successIcon')}
                 />
                 <Text>{field.value?.theme?.label}</Text>
                 <Button
