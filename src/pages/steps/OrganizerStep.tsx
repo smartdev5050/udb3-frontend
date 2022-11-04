@@ -43,7 +43,7 @@ const OrganizerStep = ({
 
   // @ts-ignore
   const getCardSystemForEventQuery = useGetCardSystemForEventQuery({
-    id: eventId,
+    eventId,
   });
 
   // @ts-expect-error
@@ -51,7 +51,9 @@ const OrganizerStep = ({
 
   // @ts-ignore
   const getCardSystemsForOrganizerQuery = useGetCardSystemsForOrganizerQuery({
-    id: organizer?.['@id'] ? parseOfferId(organizer['@id']) : undefined,
+    organizerId: organizer?.['@id']
+      ? parseOfferId(organizer['@id'])
+      : undefined,
   });
 
   // @ts-expect-error
@@ -103,11 +105,11 @@ const OrganizerStep = ({
   );
 
   const handleAddCardSystemToEvent = (cardSystemId: number) => {
-    addCardSystemToEventMutation.mutate({ cardSystemId, id: eventId });
+    addCardSystemToEventMutation.mutate({ cardSystemId, eventId });
   };
 
   const handleDeleteCardSystemFromEvent = (cardSystemId: number) => {
-    deleteCardSystemFromEventMutation.mutate({ cardSystemId, id: eventId });
+    deleteCardSystemFromEventMutation.mutate({ cardSystemId, eventId });
   };
 
   const handleToggleCardSystem = (
@@ -137,7 +139,7 @@ const OrganizerStep = ({
     cardSystemId: number;
   }) => {
     changeDistributionKey.mutate({
-      id: eventId,
+      eventId,
       cardSystemId,
       distributionKeyId,
     });

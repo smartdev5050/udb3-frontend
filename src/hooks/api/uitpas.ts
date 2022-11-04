@@ -32,7 +32,7 @@ const getCardSystemForEvent = async ({ headers, eventId }) => {
 };
 
 const useGetCardSystemForEventQuery = (
-  { req, queryClient, id },
+  { req, queryClient, eventId },
   configuration: UseQueryOptions = {},
 ) =>
   useAuthenticatedQuery({
@@ -40,14 +40,14 @@ const useGetCardSystemForEventQuery = (
     queryClient,
     queryKey: ['uitpas_events'],
     queryFn: getCardSystemForEvent,
-    queryArguments: { id },
-    enabled: !!id,
+    queryArguments: { eventId },
+    enabled: !!eventId,
     ...configuration,
   });
 
 const getCardSystemsForOrganizer = async ({ headers, organizerId }) => {
   const res = await fetchFromApi({
-    path: `/uitpas/organizers/${id.toString()}/cardSystems/`,
+    path: `/uitpas/organizers/${organizerId.toString()}/cardSystems/`,
     options: {
       headers,
     },
@@ -60,7 +60,7 @@ const getCardSystemsForOrganizer = async ({ headers, organizerId }) => {
 };
 
 const useGetCardSystemsForOrganizerQuery = (
-  { req, queryClient, id },
+  { req, queryClient, organizerId },
   configuration: UseQueryOptions = {},
 ) =>
   useAuthenticatedQuery({
@@ -68,14 +68,14 @@ const useGetCardSystemsForOrganizerQuery = (
     queryClient,
     queryKey: ['uitpas_organizers'],
     queryFn: getCardSystemsForOrganizer,
-    queryArguments: { id },
-    enabled: !!id,
+    queryArguments: { organizerId },
+    enabled: !!organizerId,
     ...configuration,
   });
 
-const addCardSystemToEvent = async ({ headers, id, cardSystemId }) =>
+const addCardSystemToEvent = async ({ headers, eventId, cardSystemId }) =>
   await fetchFromApi({
-    path: `/uitpas/events/${id.toString()}/cardSystems/${cardSystemId}`,
+    path: `/uitpas/events/${eventId.toString()}/cardSystems/${cardSystemId}`,
     options: {
       headers,
       method: 'PUT',
@@ -88,9 +88,9 @@ const useAddCardSystemToEventMutation = (configuration = {}) =>
     ...configuration,
   });
 
-const deleteCardSystemFromEvent = async ({ headers, id, cardSystemId }) =>
+const deleteCardSystemFromEvent = async ({ headers, eventId, cardSystemId }) =>
   await fetchFromApi({
-    path: `/uitpas/events/${id.toString()}/cardSystems/${cardSystemId}`,
+    path: `/uitpas/events/${eventId.toString()}/cardSystems/${cardSystemId}`,
     options: {
       headers,
       method: 'DELETE',
@@ -105,12 +105,12 @@ const useDeleteCardSystemFromEventMutation = (configuration = {}) =>
 
 const changeDistributionKey = async ({
   headers,
-  id,
+  eventId,
   cardSystemId,
   distributionKeyId,
 }) =>
   await fetchFromApi({
-    path: `/uitpas/events/${id.toString()}/cardSystems/${cardSystemId}/distributionKey/${distributionKeyId}`,
+    path: `/uitpas/events/${eventId.toString()}/cardSystems/${cardSystemId}/distributionKey/${distributionKeyId}`,
     options: {
       headers,
       method: 'PUT',
