@@ -45,7 +45,7 @@ const useGetCardSystemForEventQuery = (
     ...configuration,
   });
 
-const getCardSystemsForOrganizer = async ({ headers, id }) => {
+const getCardSystemsForOrganizer = async ({ headers, organizerId }) => {
   const res = await fetchFromApi({
     path: `/uitpas/organizers/${id.toString()}/cardSystems/`,
     options: {
