@@ -17,9 +17,9 @@ type CardSystems = {
   [key: string]: CardSystem;
 };
 
-const getCardSystemForEvent = async ({ headers, id }) => {
+const getCardSystemForEvent = async ({ headers, eventId }) => {
   const res = await fetchFromApi({
-    path: `/uitpas/events/${id.toString()}/cardSystems/`,
+    path: `/uitpas/events/${eventId.toString()}/cardSystems/`,
     options: {
       headers,
     },
