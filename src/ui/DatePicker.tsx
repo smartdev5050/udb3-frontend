@@ -50,8 +50,13 @@ const DatePicker = ({
         className={className}
         id={id}
         selected={selected}
-        onChange={onChange}
+        onChange={(newValue) => {
+          setIsOpen(false);
+          onChange(newValue);
+        }}
         onBlur={handleOnBlur}
+        onCalendarClose={() => setIsOpen(false)}
+        onCalendarOpen={() => setIsOpen(true)}
         dateFormat="dd/MM/yyyy"
         minDate={minDate}
         maxDate={maxDate}
