@@ -763,6 +763,10 @@
     "end": "Einde",
     "start": "Start"
   },
+  "date_period_picker": {
+    "end": "Einde",
+    "start": "Start"
+  },
   "typeahead": {
     "no_results": "Geen resultaten gevonden",
     "prompt_text": "Typ om te zoeken...",
