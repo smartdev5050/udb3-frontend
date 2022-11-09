@@ -9,22 +9,22 @@ import { FormDataUnion, StepsConfiguration } from './Steps';
 
 type CalendarStepProps = StackProps;
 
+const getHourOptions = () => {
+  const hours = Array(24).fill(0);
+  const quarterHours = ['00', '15', '30', '45'];
+  const times = [];
+  hours.forEach((_hour, i) => {
+    quarterHours.forEach((quarterHour) =>
+      times.push(`${i > 9 ? i : `0${i}`}:${quarterHour}`),
+    );
+  });
+  return times;
+};
+
+const hourOptions = getHourOptions();
+
 const CalendarStep = ({ ...props }: CalendarStepProps) => {
   const { t, i18n } = useTranslation();
-
-  const getHourOptions = () => {
-    const hours = Array(24).fill(0);
-    const quarterHours = ['00', '15', '30', '45'];
-    const times = [];
-    hours.forEach((_hour, i) => {
-      quarterHours.forEach((quarterHour) =>
-        times.push(`${i > 9 ? i : `0${i}`}:${quarterHour}`),
-      );
-    });
-    return times;
-  };
-
-  const hourOptions = getHourOptions();
 
   return (
     <Inline>
@@ -41,6 +41,7 @@ const CalendarStep = ({ ...props }: CalendarStepProps) => {
             onBlur={() => {
               console.log('on blur');
             }}
+            selected=""
             minLength={0}
             inputType="time"
             customFilter={() => true}

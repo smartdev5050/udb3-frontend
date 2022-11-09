@@ -133,7 +133,7 @@ const Typeahead: TypeaheadFunc = forwardRef(
         selected={selected}
         inputProps={{
           id,
-          type: inputType ?? 'text',
+          type: inputType,
         }}
         {...(customFilter && { filterBy: customFilter })}
         {...getBoxProps(props)}
