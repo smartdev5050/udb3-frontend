@@ -1,7 +1,5 @@
 import { useTranslation } from 'react-i18next';
 
-import { valueToArray } from '@/utils/valueToArray';
-
 import { getInlineProps, Inline, InlineProps } from './Inline';
 import { Label, LabelVariants } from './Label';
 import { Stack } from './Stack';
@@ -53,14 +51,18 @@ const TimeSpanPicker = ({
           {t('time_table.start')}
         </Label>
         <Typeahead<string>
-          inputType="time"
           name="startTime"
           id="startTime"
-          customFilter={(time) => true /* time.startsWith('0') */}
-          selected={valueToArray(startTime)}
+          customFilter={(time) =>
+            quarterHours.some((quarterHour) => time.endsWith(quarterHour))
+          }
+          inputType="time"
+          defaultInputValue={startTime}
           options={hourOptions}
           labelKey={(option) => option}
+          onBlur={(event) => onChangeStartTime(event.target.value)}
           onChange={([newValue]: string[]) => {
+            if (!newValue) return;
             onChangeStartTime(newValue);
           }}
         />
@@ -73,11 +75,14 @@ const TimeSpanPicker = ({
           inputType="time"
           name="endTime"
           id="endTime"
-          customFilter={(time) => true /* time.startsWith('0') */}
-          selected={valueToArray(endTime)}
+          customFilter={(time) =>
+            quarterHours.some((quarterHour) => time.endsWith(quarterHour))
+          }
           options={hourOptions}
           labelKey={(option) => option}
+          onBlur={(event) => onChangeEndTime(event.target.value)}
           onChange={([newValue]: string[]) => {
+            if (!newValue) return;
             onChangeEndTime(newValue);
           }}
         />
