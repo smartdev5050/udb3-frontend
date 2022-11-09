@@ -3,10 +3,11 @@ import { useTranslation } from 'react-i18next';
 
 import { useLog } from '@/hooks/useLog';
 import { parseSpacing } from '@/ui/Box';
-import { Button } from '@/ui/Button';
+import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
 import { getInlineProps, Inline } from '@/ui/Inline';
+import { Panel } from '@/ui/Panel';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { ToggleBox } from '@/ui/ToggleBox';
@@ -128,36 +129,26 @@ const CalendarStep = ({ ...props }: CalendarStepProps) => {
         onChooseOneOrMoreDays={handleChooseOneOrMoreDays}
         onChooseFixedDays={handleChooseFixedDays}
       />
-      <Inline>
-        <Stack position="relative" width="50%">
-          <Text>{JSON.stringify(state.value)}</Text>
-          {state.context.days.length > 0 && (
-            <Days
-              days={state.context.days}
-              onDeleteDay={handleDeleteDay}
-              onChangeStartDate={handleChangeStartDate}
-              onChangeEndDate={handleChangeEndDate}
-              onChangeStartHour={handleChangeStartTime}
-              onChangeEndHour={handleChangeEndTime}
-            />
-          )}
-          <Button onClick={handleAddDay}>Add day</Button>
-        </Stack>
-        <Stack position="relative" width="50%" justifyContent="center">
-          <code
-            style={{
-              position: 'sticky',
-              top: '3rem',
-              maxWidth: '80%',
-              whiteSpace: 'normal',
-              padding: '1.5rem',
-              height: 'fit-content',
-            }}
-          >
-            {JSON.stringify(state.context, undefined, 8)}
-          </code>
-        </Stack>
-      </Inline>
+      <Panel
+        backgroundColor="white"
+        padding={5}
+        spacing={5}
+        alignItems="flex-start"
+      >
+        {state.context.days.length > 0 && (
+          <Days
+            days={state.context.days}
+            onDeleteDay={handleDeleteDay}
+            onChangeStartDate={handleChangeStartDate}
+            onChangeEndDate={handleChangeEndDate}
+            onChangeStartHour={handleChangeStartTime}
+            onChangeEndHour={handleChangeEndTime}
+          />
+        )}
+        <Button variant={ButtonVariants.SECONDARY} onClick={handleAddDay}>
+          Dag toevoegen
+        </Button>
+      </Panel>
     </Stack>
   );
 };
