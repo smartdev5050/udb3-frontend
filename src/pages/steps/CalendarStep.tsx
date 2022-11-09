@@ -1,14 +1,67 @@
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { useLog } from '@/hooks/useLog';
+import { parseSpacing } from '@/ui/Box';
 import { Button } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
+import { Icon, Icons } from '@/ui/Icon';
 import { getInlineProps, Inline } from '@/ui/Inline';
-import { Stack, StackProps } from '@/ui/Stack';
+import { getStackProps, Stack, StackProps } from '@/ui/Stack';
+import { Text } from '@/ui/Text';
+import { ToggleBox } from '@/ui/ToggleBox';
 import { Typeahead } from '@/ui/Typeahead';
 
 import { Days } from './Days';
 import { useCalendarMachine } from './machines/calendarMachine';
 import { FormDataUnion, StepsConfiguration } from './Steps';
+
+type Props = {
+  value: string | Record<string, unknown>;
+  onChooseOneOrMoreDays: () => void;
+  onChooseFixedDays: () => void;
+};
+
+const CalendarOptionToggle = ({
+  value,
+  onChooseOneOrMoreDays,
+  onChooseFixedDays,
+  ...props
+}: Props) => {
+  const { t } = useTranslation();
+
+  const isOneOrMoreDays =
+    typeof value === 'string' && ['single', 'multiple'].includes(value);
+  const isFixedDays = ['periodic', 'permanent'].some(
+    (key) => !!value && typeof value === 'object' && !!value[key],
+  );
+
+  return (
+    <Inline
+      spacing={5}
+      alignItems="center"
+      maxWidth={parseSpacing(9)}
+      {...getInlineProps(props)}
+    >
+      <ToggleBox
+        onClick={onChooseOneOrMoreDays}
+        active={isOneOrMoreDays}
+        icon={<Icon name={Icons.CALENDAR_ALT} />}
+        text="Een of meerdere dagen"
+        width="30%"
+        minHeight={parseSpacing(7)}
+      />
+      <ToggleBox
+        onClick={onChooseFixedDays}
+        active={isFixedDays}
+        icon={<Icon name={Icons.CALENDAR_ALT} />}
+        text="Vaste dagen per week"
+        width="30%"
+        minHeight={parseSpacing(7)}
+      />
+    </Inline>
+  );
+};
 
 type CalendarStepProps = StackProps;
 
@@ -58,37 +111,54 @@ const CalendarStep = ({ ...props }: CalendarStepProps) => {
     });
   };
 
+  const handleChooseOneOrMoreDays = () => {
+    send('CHOOSE_ONE_OR_MORE_DAYS');
+  };
+
+  const handleChooseFixedDays = () => {
+    send('CHOOSE_FIXED_DAYS');
+  };
+
+  const calendarOption = state.value;
+
   return (
-    <Inline {...getInlineProps(props)}>
-      <Stack position="relative" width="50%">
-        {state.matches('single') ? <h2>Single</h2> : <h2>Multiple</h2>}
-        {state.context.days.length > 0 && (
-          <Days
-            days={state.context.days}
-            onDeleteDay={handleDeleteDay}
-            onChangeStartDate={handleChangeStartDate}
-            onChangeEndDate={handleChangeEndDate}
-            onChangeStartHour={handleChangeStartTime}
-            onChangeEndHour={handleChangeEndTime}
-          />
-        )}
-        <Button onClick={handleAddDay}>Add day</Button>
-      </Stack>
-      <Stack position="relative" width="50%" justifyContent="center">
-        <code
-          style={{
-            position: 'sticky',
-            top: '3rem',
-            maxWidth: '80%',
-            whiteSpace: 'normal',
-            padding: '1.5rem',
-            height: 'fit-content',
-          }}
-        >
-          {JSON.stringify(state.context, undefined, 8)}
-        </code>
-      </Stack>
-    </Inline>
+    <Stack {...getStackProps(props)}>
+      <CalendarOptionToggle
+        value={calendarOption}
+        onChooseOneOrMoreDays={handleChooseOneOrMoreDays}
+        onChooseFixedDays={handleChooseFixedDays}
+      />
+      <Inline>
+        <Stack position="relative" width="50%">
+          <Text>{JSON.stringify(state.value)}</Text>
+          {state.context.days.length > 0 && (
+            <Days
+              days={state.context.days}
+              onDeleteDay={handleDeleteDay}
+              onChangeStartDate={handleChangeStartDate}
+              onChangeEndDate={handleChangeEndDate}
+              onChangeStartHour={handleChangeStartTime}
+              onChangeEndHour={handleChangeEndTime}
+            />
+          )}
+          <Button onClick={handleAddDay}>Add day</Button>
+        </Stack>
+        <Stack position="relative" width="50%" justifyContent="center">
+          <code
+            style={{
+              position: 'sticky',
+              top: '3rem',
+              maxWidth: '80%',
+              whiteSpace: 'normal',
+              padding: '1.5rem',
+              height: 'fit-content',
+            }}
+          >
+            {JSON.stringify(state.context, undefined, 8)}
+          </code>
+        </Stack>
+      </Inline>
+    </Stack>
   );
 };
 
