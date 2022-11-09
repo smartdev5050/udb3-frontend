@@ -1,6 +1,7 @@
 import { Button } from '@/ui/Button';
 import { DatePeriodPicker } from '@/ui/DatePeriodPicker';
 import { DatePicker } from '@/ui/DatePicker';
+import { TimeSpanPicker } from '@/ui/TimeSpanPicker';
 import { Typeahead } from '@/ui/Typeahead';
 import { arrayToValue } from '@/utils/arrayToValue';
 import { valueToArray } from '@/utils/valueToArray';
@@ -58,6 +59,16 @@ export const Days = ({
         const startTime = getStartTime(day);
         const endTime = getEndTime(day);
 
+        const handleChangeStartTime = (newValue: string): void => {
+          const [hours, minutes] = newValue.split(':');
+          onChangeStartHour(index, parseInt(hours), parseInt(minutes));
+        };
+
+        const handleChangeEndTime = (newValue: string): void => {
+          const [hours, minutes] = newValue.split(':');
+          onChangeEndHour(index, parseInt(hours), parseInt(minutes));
+        };
+
         return (
           <div key={index}>
             <li>
@@ -65,7 +76,7 @@ export const Days = ({
               <span> - </span>
               <span>{day.endDate}</span>
               <DatePeriodPicker
-                id={`calendar-day-${index}-period`}
+                id={`calendar-step-day-${index}`}
                 dateStart={new Date(day.startDate)}
                 dateEnd={new Date(day.endDate)}
                 onDateStartChange={(newDate) =>
@@ -73,35 +84,13 @@ export const Days = ({
                 }
                 onDateEndChange={(newDate) => onChangeEndDate(index, newDate)}
               />
-              <label htmlFor="startTime">Start</label>
-              <Typeahead<string>
-                inputType="time"
-                name="startTime"
-                id="startTime"
-                customFilter={(time) => time.startsWith('0')}
-                selected={valueToArray(startTime)}
-                options={hourOptions}
-                labelKey={(option) => option}
-                onChange={([newValue]: string[]) => {
-                  const [hours, minutes] = newValue.split(':');
-                  onChangeStartHour(index, parseInt(hours), parseInt(minutes));
-                }}
+              <TimeSpanPicker
+                id={`calendar-step-day-${index}`}
+                startTime={startTime}
+                endTime={endTime}
+                onChangeStartTime={handleChangeStartTime}
+                onChangeEndTime={handleChangeEndTime}
               />
-              <label htmlFor="endTime">Start</label>
-              <Typeahead<string>
-                inputType="time"
-                name="endTime"
-                id="endTime"
-                customFilter={(time) => time.startsWith('0')}
-                options={hourOptions}
-                selected={valueToArray(endTime)}
-                labelKey={(option) => option}
-                onChange={([newValue]: string[]) => {
-                  const [hours, minutes] = newValue.split(':');
-                  onChangeEndHour(index, parseInt(hours), parseInt(minutes));
-                }}
-              />
-
               {days.length > 1 && (
                 <Button onClick={() => onDeleteDay(index)}> X</Button>
               )}
