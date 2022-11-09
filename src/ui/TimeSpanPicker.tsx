@@ -33,6 +33,30 @@ type Props = {
   onChangeEndTime: (newEndTime: string) => void;
 } & InlineProps;
 
+const isQuarterHour = (time: string) =>
+  quarterHours.some((quarterHour) => time.endsWith(quarterHour));
+
+const timesToNumeric = (startTime: string, endTime: string) => {
+  const startTimeValue = parseInt(startTime.replace(':', ''));
+  const endTimeValue = parseInt(endTime.replace(':', ''));
+
+  return [startTimeValue, endTimeValue];
+};
+
+const filterStartTimes = (time: string, endTime: string) => {
+  const [startTimeValue, endTimeValue] = timesToNumeric(time, endTime);
+  const isBeforeEndTime = startTimeValue < endTimeValue;
+
+  return isQuarterHour(time) && isBeforeEndTime;
+};
+
+const filterEndTimes = (time: string, startTime: string) => {
+  const [startTimeValue, endTimeValue] = timesToNumeric(startTime, time);
+  const isAfterStartTime = startTimeValue < endTimeValue;
+
+  return isQuarterHour(time) && isAfterStartTime;
+};
+
 const TimeSpanPicker = ({
   id,
   startTime,
@@ -53,9 +77,7 @@ const TimeSpanPicker = ({
         <Typeahead<string>
           name="startTime"
           id="startTime"
-          customFilter={(time) =>
-            quarterHours.some((quarterHour) => time.endsWith(quarterHour))
-          }
+          customFilter={(time) => filterStartTimes(time, endTime)}
           inputType="time"
           defaultInputValue={startTime}
           options={hourOptions}
@@ -75,9 +97,7 @@ const TimeSpanPicker = ({
           inputType="time"
           name="endTime"
           id="endTime"
-          customFilter={(time) =>
-            quarterHours.some((quarterHour) => time.endsWith(quarterHour))
-          }
+          customFilter={(time) => filterEndTimes(time, startTime)}
           defaultInputValue={endTime}
           options={hourOptions}
           labelKey={(option) => option}
