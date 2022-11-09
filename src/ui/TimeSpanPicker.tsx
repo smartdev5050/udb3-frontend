@@ -10,7 +10,7 @@ const getHourOptions = () => {
   const minutes = Array(59).fill(0);
   const times = [];
   hours.forEach((_hour, i) => {
-    minutes.forEach((minute, minuteIndex) =>
+    minutes.forEach((_minute, minuteIndex) =>
       times.push(
         `${i > 9 ? i : `0${i}`}:${
           minuteIndex > 9 ? minuteIndex : `0${minuteIndex}`
@@ -78,6 +78,7 @@ const TimeSpanPicker = ({
           customFilter={(time) =>
             quarterHours.some((quarterHour) => time.endsWith(quarterHour))
           }
+          defaultInputValue={endTime}
           options={hourOptions}
           labelKey={(option) => option}
           onBlur={(event) => onChangeEndTime(event.target.value)}
