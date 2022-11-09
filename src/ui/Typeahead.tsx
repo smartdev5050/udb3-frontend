@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import type { BoxProps } from './Box';
 import { Box, getBoxProps } from './Box';
+import { InputType } from './Input';
 import { getGlobalBorderRadius, getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme('typeahead');
@@ -28,6 +29,8 @@ type TypeaheadProps<T> = {
   placeholder?: string;
   emptyLabel?: string;
   minLength?: number;
+  inputType?: InputType;
+  customFilter?: () => boolean;
   onChange?: (value: (T | NewEntry)[]) => void;
   allowNew?:
     | boolean
@@ -54,6 +57,7 @@ const Typeahead: TypeaheadFunc = forwardRef(
     {
       id,
       name,
+      inputType,
       options,
       labelKey,
       disabled,
@@ -67,6 +71,7 @@ const Typeahead: TypeaheadFunc = forwardRef(
       isInvalid,
       selected,
       allowNew,
+      customFilter,
       newSelectionPrefix,
       ...props
     }: Props<T>,
@@ -128,7 +133,9 @@ const Typeahead: TypeaheadFunc = forwardRef(
         selected={selected}
         inputProps={{
           id,
+          type: inputType,
         }}
+        {...(customFilter && { filterBy: customFilter })}
         {...getBoxProps(props)}
       />
     );
@@ -142,6 +149,7 @@ const typeaheadDefaultProps = {
   onSearch: async () => {},
   disabled: false,
   minLength: 3,
+  inputType: 'text',
 };
 
 Typeahead.defaultProps = {
