@@ -87,6 +87,11 @@ const TimeSpanPicker = ({
             if (!newValue) return;
             onChangeStartTime(newValue);
           }}
+          css={`
+            .rbt-menu.dropdown-menu.show {
+              min-width: 0;
+            }
+          `}
         />
       </Stack>
       <Stack spacing={2} as="div">
@@ -106,6 +111,11 @@ const TimeSpanPicker = ({
             if (!newValue) return;
             onChangeEndTime(newValue);
           }}
+          css={`
+            .rbt-menu.dropdown-menu.show {
+              min-width: 0;
+            }
+          `}
         />
       </Stack>
     </Inline>
