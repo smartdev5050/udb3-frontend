@@ -7,7 +7,6 @@ import ReactDatePicker, {
   registerLocale,
   setDefaultLocale,
 } from 'react-datepicker';
-import { css } from 'styled-components';
 
 import type { BoxProps } from './Box';
 import { Box, getBoxProps } from './Box';
@@ -69,7 +68,7 @@ const DatePicker = ({
         variant={ButtonVariants.SECONDARY}
         iconName={Icons.CALENDAR_ALT}
         onClick={() => setIsOpen((prev) => !prev)}
-        css={css`
+        css={`
           &.btn {
             box-shadow: none;
             border: 1px lightgray solid;
