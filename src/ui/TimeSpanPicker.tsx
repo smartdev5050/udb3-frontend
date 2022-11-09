@@ -75,10 +75,10 @@ const TimeSpanPicker = ({
           {t('time_span_picker.start')}
         </Label>
         <Typeahead<string>
+          inputType="time"
           name="startTime"
           id="startTime"
           customFilter={(time) => filterStartTimes(time, endTime)}
-          inputType="time"
           defaultInputValue={startTime}
           options={hourOptions}
           labelKey={(option) => option}
@@ -87,6 +87,13 @@ const TimeSpanPicker = ({
             if (!newValue) return;
             onChangeStartTime(newValue);
           }}
+          maxHeight="140px"
+          css={`
+            .rbt-menu.dropdown-menu.show {
+              min-width: 0;
+              max-height: 140px !important;
+            }
+          `}
         />
       </Stack>
       <Stack spacing={2} as="div">
@@ -106,6 +113,12 @@ const TimeSpanPicker = ({
             if (!newValue) return;
             onChangeEndTime(newValue);
           }}
+          css={`
+            .rbt-menu.dropdown-menu.show {
+              min-width: 0;
+              max-height: 140px !important;
+            }
+          `}
         />
       </Stack>
     </Inline>
