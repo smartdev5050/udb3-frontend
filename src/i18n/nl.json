@@ -767,6 +767,10 @@
     "end": "Einde",
     "start": "Start"
   },
+  "time_span_picker": {
+    "end": "Einduur",
+    "start": "Beginuur"
+  },
   "typeahead": {
     "no_results": "Geen resultaten gevonden",
     "prompt_text": "Typ om te zoeken...",

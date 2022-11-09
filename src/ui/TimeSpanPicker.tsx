@@ -72,7 +72,7 @@ const TimeSpanPicker = ({
     <Inline as="div" spacing={5} {...getInlineProps(props)}>
       <Stack spacing={2} as="div">
         <Label variant={LabelVariants.BOLD} htmlFor={`${idPrefix}-start`}>
-          {t('time_table.start')}
+          {t('time_span_picker.start')}
         </Label>
         <Typeahead<string>
           name="startTime"
@@ -91,7 +91,7 @@ const TimeSpanPicker = ({
       </Stack>
       <Stack spacing={2} as="div">
         <Label variant={LabelVariants.BOLD} htmlFor={`${idPrefix}-end`}>
-          {t('time_table.end')}
+          {t('time_span_picker.end')}
         </Label>
         <Typeahead<string>
           inputType="time"
