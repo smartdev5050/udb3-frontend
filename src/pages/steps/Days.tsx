@@ -1,10 +1,20 @@
 import { Button } from '@/ui/Button';
 import { DatePeriodPicker } from '@/ui/DatePeriodPicker';
-import { DatePicker } from '@/ui/DatePicker';
 import { TimeSpanPicker } from '@/ui/TimeSpanPicker';
-import { Typeahead } from '@/ui/Typeahead';
-import { arrayToValue } from '@/utils/arrayToValue';
-import { valueToArray } from '@/utils/valueToArray';
+
+type ChangeTimeHandler = (
+  index: number,
+  hours: number,
+  minutes: number,
+) => void;
+
+const createChangeTimeHandler = (
+  index: number,
+  changeTimeHandler: ChangeTimeHandler,
+) => (newValue: string) => {
+  const [hours, minutes] = newValue.split(':');
+  changeTimeHandler(index, parseInt(hours), parseInt(minutes));
+};
 
 const getEndTime = (day: any) => {
   const end = new Date(day.endDate);
@@ -31,20 +41,6 @@ type DaysProps = {
   onChangeEndHour: (index: number, hours: number, minutes: number) => void;
 };
 
-const getHourOptions = () => {
-  const hours = Array(24).fill(0);
-  const quarterHours = ['00', '15', '30', '45'];
-  const times = [];
-  hours.forEach((_hour, i) => {
-    quarterHours.forEach((quarterHour) =>
-      times.push(`${i > 9 ? i : `0${i}`}:${quarterHour}`),
-    );
-  });
-  return times;
-};
-
-const hourOptions = getHourOptions();
-
 export const Days = ({
   days,
   onDeleteDay,
@@ -59,15 +55,14 @@ export const Days = ({
         const startTime = getStartTime(day);
         const endTime = getEndTime(day);
 
-        const handleChangeStartTime = (newValue: string): void => {
-          const [hours, minutes] = newValue.split(':');
-          onChangeStartHour(index, parseInt(hours), parseInt(minutes));
-        };
-
-        const handleChangeEndTime = (newValue: string): void => {
-          const [hours, minutes] = newValue.split(':');
-          onChangeEndHour(index, parseInt(hours), parseInt(minutes));
-        };
+        const handleChangeStartTime = createChangeTimeHandler(
+          index,
+          onChangeStartHour,
+        );
+        const handleChangeEndTime = createChangeTimeHandler(
+          index,
+          onChangeEndHour,
+        );
 
         return (
           <div key={index}>
