@@ -94,6 +94,10 @@ const Typeahead: TypeaheadFunc = forwardRef(
         flex={1}
         ref={ref}
         css={`
+          input[type='time']::-webkit-calendar-picker-indicator {
+            display: none;
+          }
+
           .form-control {
             border-radius: ${getGlobalBorderRadius};
           }
