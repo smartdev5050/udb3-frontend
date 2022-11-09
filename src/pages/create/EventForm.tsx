@@ -9,6 +9,7 @@ import { Values } from '@/types/Values';
 
 import { City } from '../CityPicker';
 import { additionalInformationStepConfiguration } from '../steps/AdditionalInformationStep';
+import { calendarStepConfiguration } from '../steps/CalendarStep';
 import { typeAndThemeStepConfiguration } from '../steps/EventTypeAndThemeStep';
 import { locationStepConfiguration } from '../steps/LocationStep';
 import { nameAndAgeRangeStepConfiguration } from '../steps/NameAndAgeRangeStep';
@@ -19,6 +20,7 @@ type Scope = 'events' | 'places';
 
 type FormData = {
   scope: Scope;
+  calendar: any;
   typeAndTheme: {
     type: { id: string; label: string };
     theme: { id: string; label: string };
@@ -93,6 +95,7 @@ const EventForm = () => {
       }}
       configurations={[
         scopeStepConfiguration,
+        calendarStepConfiguration,
         typeAndThemeStepConfiguration,
         locationStepConfiguration,
         nameAndAgeRangeStepConfiguration,

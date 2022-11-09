@@ -98,4 +98,4 @@ Input.defaultProps = {
 };
 
 export { Input };
-export type { InputProps };
+export type { InputProps, InputType };
