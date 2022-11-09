@@ -9,17 +9,23 @@ import { Typeahead } from './Typeahead';
 
 const getHourOptions = () => {
   const hours = Array(24).fill(0);
-  const quarterHours = ['00', '15', '30', '45'];
+  const minutes = Array(59).fill(0);
   const times = [];
   hours.forEach((_hour, i) => {
-    quarterHours.forEach((quarterHour) =>
-      times.push(`${i > 9 ? i : `0${i}`}:${quarterHour}`),
+    minutes.forEach((minute, minuteIndex) =>
+      times.push(
+        `${i > 9 ? i : `0${i}`}:${
+          minuteIndex > 9 ? minuteIndex : `0${minuteIndex}`
+        }`,
+      ),
     );
   });
   return times;
 };
 
 const hourOptions = getHourOptions();
+
+const quarterHours = ['00', '15', '30', '45'];
 
 type Props = {
   id: string;
