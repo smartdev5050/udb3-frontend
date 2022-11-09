@@ -40,7 +40,7 @@ type TypeaheadProps<T> = {
         props: Record<string, unknown>,
       ) => boolean);
   newSelectionPrefix?: string;
-  selected: T[];
+  selected?: T[];
 };
 
 type Props<T> = Omit<BoxProps, 'onChange' | 'id' | 'labelKey' | 'options'> &
