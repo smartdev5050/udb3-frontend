@@ -102,7 +102,7 @@ const calendarMachineOptions: MachineOptions<
   CalendarEvents
 > = {
   guards: {
-    hasLessOrEqualTo2Days: (context) => context.days.length <= 2,
+    has2Days: (context) => context.days.length === 2,
     hasMoreThan2Days: (context) => context.days.length > 2,
     hasHours: (context) => false,
     hasNoHours: (context) => false,
@@ -261,7 +261,7 @@ const calendarMachineConfig: MachineConfig<
         REMOVE_DAY: [
           {
             target: 'single',
-            cond: 'hasLessOrEqualTo2Days',
+            cond: 'has2Days',
             actions: ['removeDay'] as CalendarActions,
           },
           {
