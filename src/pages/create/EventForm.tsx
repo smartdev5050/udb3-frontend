@@ -95,8 +95,8 @@ const EventForm = () => {
       }}
       configurations={[
         scopeStepConfiguration,
-        calendarStepConfiguration,
         typeAndThemeStepConfiguration,
+        calendarStepConfiguration,
         locationStepConfiguration,
         nameAndAgeRangeStepConfiguration,
         additionalInformationStepConfiguration,
