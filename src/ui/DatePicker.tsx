@@ -2,7 +2,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 import fr from 'date-fns/locale/fr';
 import nl from 'date-fns/locale/nl';
-import { useState } from 'react';
+import { useRef } from 'react';
 import ReactDatePicker, {
   registerLocale,
   setDefaultLocale,
@@ -36,27 +36,19 @@ const DatePicker = ({
   maxDate,
   ...props
 }: Props) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleOnBlur = () => {
-    setIsOpen(false);
-  };
+  const datePickerRef = useRef(null);
 
   return (
     <Inline {...getInlineProps(props)}>
       <Box
         forwardedAs={ReactDatePicker}
-        open={isOpen}
+        ref={datePickerRef}
         className={className}
         id={id}
         selected={selected}
         onChange={(newValue) => {
-          setIsOpen(false);
           onChange(newValue);
         }}
-        onBlur={handleOnBlur}
-        onCalendarClose={() => setIsOpen(false)}
-        onCalendarOpen={() => setIsOpen(true)}
         dateFormat="dd/MM/yyyy"
         minDate={minDate}
         maxDate={maxDate}
@@ -72,7 +64,7 @@ const DatePicker = ({
       <Button
         variant={ButtonVariants.SECONDARY}
         iconName={Icons.CALENDAR_ALT}
-        onClick={() => setIsOpen((prev) => !prev)}
+        onClick={() => datePickerRef.current?.setOpen(true)}
         css={`
           &.btn {
             box-shadow: none;
