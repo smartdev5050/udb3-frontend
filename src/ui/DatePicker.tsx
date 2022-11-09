@@ -2,15 +2,19 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 import fr from 'date-fns/locale/fr';
 import nl from 'date-fns/locale/nl';
+import { useState } from 'react';
 import ReactDatePicker, {
   registerLocale,
   setDefaultLocale,
 } from 'react-datepicker';
+import { css } from 'styled-components';
 
 import type { BoxProps } from './Box';
 import { Box, getBoxProps } from './Box';
+import { Button, ButtonVariants } from './Button';
+import { Icons } from './Icon';
+import { getInlineProps, Inline } from './Inline';
 import { Input } from './Input';
-import { getGlobalBorderRadius } from './theme';
 
 setDefaultLocale('nl');
 registerLocale('nl', nl);
@@ -33,31 +37,49 @@ const DatePicker = ({
   maxDate,
   ...props
 }: Props) => {
-  return (
-    <Box
-      forwardedAs={ReactDatePicker}
-      className={className}
-      id={id}
-      selected={selected}
-      onChange={onChange}
-      dateFormat="dd/MM/yyyy"
-      minDate={minDate}
-      maxDate={maxDate}
-      customInput={<Input id={id} />}
-      css={`
-        .react-datepicker {
-          border-radius: ${getGlobalBorderRadius};
+  const [isOpen, setIsOpen] = useState(false);
 
-          &__header {
-            .border-top-left-radius,
-            .border-top-right-radius {
-              border-radius: ${getGlobalBorderRadius};
-            }
+  const handleOnBlur = () => {
+    setIsOpen(false);
+  };
+
+  return (
+    <Inline {...getInlineProps(props)}>
+      <Box
+        forwardedAs={ReactDatePicker}
+        open={isOpen}
+        className={className}
+        id={id}
+        selected={selected}
+        onChange={onChange}
+        onBlur={handleOnBlur}
+        dateFormat="dd/MM/yyyy"
+        minDate={minDate}
+        maxDate={maxDate}
+        customInput={<Input id={id} />}
+        css={`
+          &.form-control {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
           }
-        }
-      `}
-      {...getBoxProps(props)}
-    />
+        `}
+        {...getBoxProps(props)}
+      />
+      <Button
+        variant={ButtonVariants.SECONDARY}
+        iconName={Icons.CALENDAR_ALT}
+        onClick={() => setIsOpen((prev) => !prev)}
+        css={css`
+          &.btn {
+            box-shadow: none;
+            border: 1px lightgray solid;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            border-left: none;
+          }
+        `}
+      />
+    </Inline>
   );
 };
 
