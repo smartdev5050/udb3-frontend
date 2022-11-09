@@ -41,7 +41,7 @@ const CalendarStep = ({ ...props }: CalendarStepProps) => {
             onBlur={() => {
               console.log('on blur');
             }}
-            selected=""
+            selected={['']}
             minLength={0}
             inputType="time"
             customFilter={() => true}
