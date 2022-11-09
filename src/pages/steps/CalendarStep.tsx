@@ -123,7 +123,7 @@ const CalendarStep = ({ ...props }: CalendarStepProps) => {
   const calendarOption = state.value;
 
   return (
-    <Stack {...getStackProps(props)}>
+    <Stack spacing={4} {...getStackProps(props)}>
       <CalendarOptionToggle
         value={calendarOption}
         onChooseOneOrMoreDays={handleChooseOneOrMoreDays}

@@ -1,5 +1,6 @@
-import { Button } from '@/ui/Button';
+import { Button, ButtonSizes, ButtonVariants } from '@/ui/Button';
 import { DatePeriodPicker } from '@/ui/DatePeriodPicker';
+import { Icons } from '@/ui/Icon';
 import { List } from '@/ui/List';
 import { getStackProps, StackProps } from '@/ui/Stack';
 import { TimeSpanPicker } from '@/ui/TimeSpanPicker';
@@ -53,7 +54,7 @@ export const Days = ({
   ...props
 }: DaysProps) => {
   return (
-    <List {...getStackProps(props)}>
+    <List spacing={4} {...getStackProps(props)}>
       {days.map((day, index) => {
         const startTime = getStartTime(day);
         const endTime = getEndTime(day);
@@ -68,7 +69,7 @@ export const Days = ({
         );
 
         return (
-          <List.Item key={index} spacing={5}>
+          <List.Item alignItems="center" key={index} spacing={5}>
             <DatePeriodPicker
               spacing={3}
               id={`calendar-step-day-${index}`}
@@ -86,7 +87,13 @@ export const Days = ({
               onChangeEndTime={handleChangeEndTime}
             />
             {days.length > 1 && (
-              <Button onClick={() => onDeleteDay(index)}> X</Button>
+              <Button
+                alignSelf="flex-end"
+                size={ButtonSizes.SMALL}
+                variant={ButtonVariants.DANGER}
+                onClick={() => onDeleteDay(index)}
+                iconName={Icons.TRASH}
+              />
             )}
           </List.Item>
         );
