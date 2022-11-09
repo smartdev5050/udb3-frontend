@@ -30,7 +30,7 @@ type TypeaheadProps<T> = {
   emptyLabel?: string;
   minLength?: number;
   inputType?: InputType;
-  customFilter?: () => boolean;
+  customFilter?: (option: T) => boolean;
   onChange?: (value: (T | NewEntry)[]) => void;
   allowNew?:
     | boolean
