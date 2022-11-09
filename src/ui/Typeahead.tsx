@@ -32,6 +32,7 @@ type TypeaheadProps<T> = {
   inputType?: InputType;
   customFilter?: (option: T) => boolean;
   onChange?: (value: (T | NewEntry)[]) => void;
+  defaultInputValue?: string;
   allowNew?:
     | boolean
     | ((
@@ -66,6 +67,8 @@ const Typeahead: TypeaheadFunc = forwardRef(
       minLength,
       className,
       onInputChange,
+      defaultInputValue,
+      onBlur,
       onSearch,
       onChange,
       isInvalid,
@@ -135,6 +138,8 @@ const Typeahead: TypeaheadFunc = forwardRef(
         highlightOnlyResult={!allowNew}
         isInvalid={isInvalid}
         selected={selected}
+        defaultInputValue={defaultInputValue}
+        onBlur={onBlur}
         inputProps={{
           id,
           type: inputType,

@@ -120,6 +120,7 @@ type TypeaheadProps = {
       ) => boolean);
   newSelectionPrefix: string;
   inputProps: HTMLProps<HTMLInputElement>;
+  defaultInputValue: string;
 };
 
 type SpecificComponentProps = InlineProps &
@@ -134,7 +135,7 @@ type SpecificComponentProps = InlineProps &
   TypeaheadProps;
 
 type EventHandlerProps = {
-  onBlur: (event: FormEvent<HTMLInputElement>) => void;
+  onBlur: (event: ChangeEvent<HTMLInputElement>) => void;
   onChange:
     | ((event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void)
     | ((value: Date) => void)
