@@ -1,5 +1,7 @@
 import { Button } from '@/ui/Button';
 import { DatePeriodPicker } from '@/ui/DatePeriodPicker';
+import { List } from '@/ui/List';
+import { getStackProps, StackProps } from '@/ui/Stack';
 import { TimeSpanPicker } from '@/ui/TimeSpanPicker';
 
 type ChangeTimeHandler = (
@@ -39,7 +41,7 @@ type DaysProps = {
   onChangeEndDate: (index: number, date: Date | null) => void;
   onChangeStartHour: (index: number, hours: number, minutes: number) => void;
   onChangeEndHour: (index: number, hours: number, minutes: number) => void;
-};
+} & StackProps;
 
 export const Days = ({
   days,
@@ -48,9 +50,10 @@ export const Days = ({
   onChangeEndDate,
   onChangeStartHour,
   onChangeEndHour,
+  ...props
 }: DaysProps) => {
   return (
-    <ul>
+    <List {...getStackProps(props)}>
       {days.map((day, index) => {
         const startTime = getStartTime(day);
         const endTime = getEndTime(day);
@@ -65,35 +68,29 @@ export const Days = ({
         );
 
         return (
-          <div key={index}>
-            <li>
-              <span>{day.startDate}</span>
-              <span> - </span>
-              <span>{day.endDate}</span>
-              <DatePeriodPicker
-                id={`calendar-step-day-${index}`}
-                dateStart={new Date(day.startDate)}
-                dateEnd={new Date(day.endDate)}
-                onDateStartChange={(newDate) =>
-                  onChangeStartDate(index, newDate)
-                }
-                onDateEndChange={(newDate) => onChangeEndDate(index, newDate)}
-              />
-              <TimeSpanPicker
-                id={`calendar-step-day-${index}`}
-                startTime={startTime}
-                endTime={endTime}
-                onChangeStartTime={handleChangeStartTime}
-                onChangeEndTime={handleChangeEndTime}
-              />
-              {days.length > 1 && (
-                <Button onClick={() => onDeleteDay(index)}> X</Button>
-              )}
-            </li>
-            <hr />
-          </div>
+          <List.Item key={index} spacing={5}>
+            <DatePeriodPicker
+              spacing={3}
+              id={`calendar-step-day-${index}`}
+              dateStart={new Date(day.startDate)}
+              dateEnd={new Date(day.endDate)}
+              onDateStartChange={(newDate) => onChangeStartDate(index, newDate)}
+              onDateEndChange={(newDate) => onChangeEndDate(index, newDate)}
+            />
+            <TimeSpanPicker
+              spacing={3}
+              id={`calendar-step-day-${index}`}
+              startTime={startTime}
+              endTime={endTime}
+              onChangeStartTime={handleChangeStartTime}
+              onChangeEndTime={handleChangeEndTime}
+            />
+            {days.length > 1 && (
+              <Button onClick={() => onDeleteDay(index)}> X</Button>
+            )}
+          </List.Item>
         );
       })}
-    </ul>
+    </List>
   );
 };
