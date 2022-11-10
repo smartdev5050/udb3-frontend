@@ -63,6 +63,9 @@ const dropDownCss = css`
     min-width: 0;
     max-height: 140px !important;
   }
+  .rbt-input-hint {
+    display: none;
+  }
 `;
 
 const TimeSpanPicker = ({
