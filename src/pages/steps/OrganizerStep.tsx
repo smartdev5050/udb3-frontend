@@ -205,15 +205,15 @@ const OrganizerStep = ({
         organizer={organizer}
       />
       {isUitpasOrganizer && (
-        <Stack>
-          <Text fontWeight="bold" marginBottom={3}>
+        <Stack spacing={3}>
+          <Text fontWeight="bold">
             {t('create.additionalInformation.organizer.uitpas_cardsystems')}
           </Text>
-          <Alert marginBottom={3} variant={AlertVariants.PRIMARY}>
+          <Alert variant={AlertVariants.PRIMARY}>
             {t('create.additionalInformation.organizer.uitpas_info_alert')}
           </Alert>
           {Object.values(cardSystems).map((cardSystem: CardSystem) => (
-            <Inline key={cardSystem.id} spacing={5} marginBottom={3}>
+            <Inline key={cardSystem.id} spacing={5}>
               <CheckboxWithLabel
                 className="cardsystem-checkbox"
                 id={cardSystem.id}
