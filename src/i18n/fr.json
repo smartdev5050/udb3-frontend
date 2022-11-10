@@ -258,7 +258,8 @@
         "title": "Organisateur",
         "or_select_recent_used_organizer": "Ou sélectionnez l'une de vos organisations les plus récemment utilisées",
         "uitpas_cardsystems": "UiTPAS systèmes de cartes",
-        "uitpas_info_alert": "Ceci est un organisateur UiTPAS. Sélectionnez le prix afin d'ajouter de l'information spécifique concernant UiTPAS."
+        "uitpas_info": "Votre activité est désormais enregistrée en tant qu'activité UitPAS",
+        "uitpas_info_no_price_alert": "Ceci est un organisateur UiTPAS. Ajoutez <link1>un prix</link1> pour publier votre événement en tant qu'activité UiTPAS."
       },
       "media": {
         "title": "Médias"

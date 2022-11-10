@@ -262,7 +262,8 @@
         "title": "Organisatie",
         "or_select_recent_used_organizer": "Of selecteer een van je laatst gebruikte organisaties",
         "uitpas_cardsystems": "UiTPAS Kaartsystemen",
-        "uitpas_info_alert": "Dit is een UiTPAS organisator. Selecteer een prijs om specifieke UiTPAS-informatie toe te voegen."
+        "uitpas_info": "Ihre Aktivität ist jetzt als UitPAS-Aktivität registriert",
+        "uitpas_info_no_price_alert": "Dit is een UiTPAS organisator. Voeg een <link1>prijs</link1> toe om je evenement te publiceren als UiTPAS activiteit"
       },
       "media": {
         "title": "Media"

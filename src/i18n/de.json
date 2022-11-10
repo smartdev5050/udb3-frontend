@@ -257,7 +257,7 @@
         "title": "Organisator",
         "or_select_recent_used_organizer": "Oder wählen Sie eine Ihrer zuletzt verwendeten Organisationen aus",
         "uitpas_cardsystems": "UiTPAS Kartensysteme",
-        "uitpas_info_alert": "Dies ist ein UiTPAS-Organisator. Wählen Sie einen Preis, um eine bestimmte UiTPAS-Information hinzuzufügen."
+        "uitpas_info_no_price_alert": "Dies ist ein UiTPAS-Organisator. Fügen Sie einen <link1>Preis</link1> hinzu, um Ihre Veranstaltung als UiTPAS-Aktivität zu veröffentlichen"
       },
       "media": {
         "title": "Medien"
