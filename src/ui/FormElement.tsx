@@ -58,7 +58,7 @@ const FormElement = ({
     >
       {label && (
         <Label
-          variant={labelIsBold && LabelVariants.BOLD}
+          variant={labelIsBold ? LabelVariants.BOLD : LabelVariants.NORMAL}
           htmlFor={id}
           {...(labelPosition === LabelPositions.LEFT
             ? { height: '36px', alignItems: 'center' }
