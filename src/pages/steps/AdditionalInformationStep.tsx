@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { FC, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
@@ -137,6 +138,8 @@ const AdditionalInformationStep = ({
 }: Props) => {
   const queryClient = useQueryClient();
 
+  const router = useRouter();
+
   const invalidateEventQuery = useCallback(
     async (field: Field, shouldInvalidate: boolean) => {
       if (shouldInvalidate) {
@@ -149,20 +152,27 @@ const AdditionalInformationStep = ({
 
   const [tab, setTab] = useState('description');
 
+  const hashHandlerCallback = useCallback(() => {
+    const { hash } = window.location;
+    const newTab = hash.replace('#', '');
+    if (newTab && Object.values(Fields).some((field) => newTab === field)) {
+      setTab(newTab);
+    }
+  }, [setTab]);
+
   useEffect(() => {
-    const hashChangeHandler = () => {
-      const { hash } = window.location;
-      const newTab = hash.replace('#', '');
-      if (newTab && Object.values(Fields).some((field) => newTab === field)) {
-        setTab(newTab);
-      }
-    };
-    hashChangeHandler();
-    window.addEventListener('hashchange', hashChangeHandler);
+    hashHandlerCallback();
+
+    window.addEventListener('hashchange', hashHandlerCallback);
+
     return () => {
-      window.removeEventListener('hashchange', hashChangeHandler);
+      window.removeEventListener('hashchange', hashHandlerCallback);
     };
-  }, [tab, setTab]);
+  }, [hashHandlerCallback]);
+
+  const handleSelectTab = (tab: string) => {
+    window.location.hash = tab;
+  };
 
   const [completedFields, setCompletedFields] = useState<
     Record<Field, boolean>
@@ -181,7 +191,7 @@ const AdditionalInformationStep = ({
     <Stack {...getStackProps(props)}>
       <Tabs
         activeKey={tab}
-        onSelect={setTab}
+        onSelect={handleSelectTab}
         css={`
           .tab-content {
             padding-top: ${parseSpacing(3)};
