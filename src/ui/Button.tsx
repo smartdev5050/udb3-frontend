@@ -102,6 +102,11 @@ const customCSS = css`
       background-color: ${getValue('secondary.hoverBackgroundColor')};
     }
 
+    &.btn-outline-secondary:not(:disabled):not(.disabled):focus,
+    .btn-outline-secondary:not(:disabled):not(.disabled).focus {
+      box-shadow: ${getValue('boxShadow.large')};
+    }
+
     // active
     &.btn-outline-secondary:not(:disabled):not(.disabled):active,
     .btn-outline-secondary:not(:disabled):not(.disabled).active {
