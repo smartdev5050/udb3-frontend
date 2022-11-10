@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { css } from 'styled-components';
 
 import { getInlineProps, Inline, InlineProps } from './Inline';
 import { Label, LabelVariants } from './Label';
@@ -57,6 +58,13 @@ const filterEndTimes = (time: string, startTime: string) => {
   return isQuarterHour(time) && isAfterStartTime;
 };
 
+const dropDownCss = css`
+  .rbt-menu.dropdown-menu.show {
+    min-width: 0;
+    max-height: 140px !important;
+  }
+`;
+
 const TimeSpanPicker = ({
   id,
   startTime,
@@ -89,12 +97,7 @@ const TimeSpanPicker = ({
             onChangeStartTime(newValue);
           }}
           maxHeight="140px"
-          css={`
-            .rbt-menu.dropdown-menu.show {
-              min-width: 0;
-              max-height: 140px !important;
-            }
-          `}
+          css={dropDownCss}
         />
       </Stack>
       <Stack spacing={2} as="div">
@@ -115,12 +118,7 @@ const TimeSpanPicker = ({
             if (!newValue) return;
             onChangeEndTime(newValue);
           }}
-          css={`
-            .rbt-menu.dropdown-menu.show {
-              min-width: 0;
-              max-height: 140px !important;
-            }
-          `}
+          css={dropDownCss}
         />
       </Stack>
     </Inline>
