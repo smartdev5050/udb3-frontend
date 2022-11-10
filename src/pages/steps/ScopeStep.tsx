@@ -132,15 +132,6 @@ const ScopeStep = <TFormData extends FormDataUnion>({
               width="30%"
               minHeight={parseSpacing(7)}
             />
-            <Text
-              display={{
-                default: 'block',
-                m: 'none',
-              }}
-              fontStyle="italic"
-            >
-              {t('steps.offerTypeStep.or')}
-            </Text>
             <ToggleBox
               onClick={() => field.onChange(OfferType.PLACES)}
               active={field.value === OfferType.PLACES}
