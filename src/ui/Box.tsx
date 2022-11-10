@@ -93,6 +93,9 @@ type DatePickerProps = {
   minDate: Date;
   maxDate: Date;
   customInput: ReactNode;
+  open: boolean;
+  onCalendarClose: () => void;
+  onCalendarOpen: () => void;
 };
 
 type ProgressBarProps = {

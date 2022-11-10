@@ -4,6 +4,7 @@ import { Form } from 'react-bootstrap';
 
 import type { BoxProps } from './Box';
 import { Box, getBoxProps } from './Box';
+import { getGlobalBorderRadius } from './theme';
 
 const BaseInput = forwardRef<HTMLInputElement, any>((props, ref) => (
   <Box as="input" {...props} ref={ref} />
@@ -70,13 +71,13 @@ const Input = forwardRef(
   ) => (
     <Form.Control
       ref={ref}
-      forwardedAs={BaseInput}
+      as={BaseInput}
       id={id}
       type={type}
       placeholder={placeholder}
       className={className}
       maxWidth="43rem"
-      css="border-radius: ${getGlobalBorderRadius};"
+      borderRadius={getGlobalBorderRadius}
       onInput={onChange}
       onBlur={onBlur}
       onPaste={onPaste}
