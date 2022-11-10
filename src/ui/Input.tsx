@@ -59,6 +59,8 @@ const Input = forwardRef(
       onChange,
       onBlur,
       onPaste,
+      onFocus,
+      onKeyDown,
       className,
       value,
       name,
@@ -86,6 +88,8 @@ const Input = forwardRef(
       isInvalid={isInvalid}
       accept={accept}
       disabled={disabled}
+      onFocus={onFocus}
+      onKeyDown={onKeyDown}
       {...getBoxProps(props)}
     />
   ),

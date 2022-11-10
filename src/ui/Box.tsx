@@ -6,8 +6,10 @@ import type {
   ClipboardEvent,
   ComponentType,
   DragEvent,
+  FocusEvent,
   FormEvent,
   HTMLProps,
+  KeyboardEvent,
   MouseEvent,
   ReactNode,
 } from 'react';
@@ -152,6 +154,8 @@ type EventHandlerProps = {
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
   onDragOver: (event: DragEvent<HTMLElement>) => void;
   onDrop: (event: DragEvent<HTMLElement>) => void;
+  onFocus: (event: FocusEvent<HTMLElement>) => void;
+  onKeyDown: (event: KeyboardEvent<HTMLElement>) => void;
 };
 
 type Display =
