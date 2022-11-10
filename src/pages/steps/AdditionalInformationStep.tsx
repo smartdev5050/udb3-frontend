@@ -1,4 +1,4 @@
-import { FC, useCallback, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
@@ -148,6 +148,21 @@ const AdditionalInformationStep = ({
   );
 
   const [tab, setTab] = useState('description');
+
+  useEffect(() => {
+    const hashChangeHandler = () => {
+      const { hash } = window.location;
+      const newTab = hash.replace('#', '');
+      if (newTab && Object.values(Fields).some((field) => newTab === field)) {
+        setTab(newTab);
+      }
+    };
+    hashChangeHandler();
+    window.addEventListener('hashchange', hashChangeHandler);
+    return () => {
+      window.removeEventListener('hashchange', hashChangeHandler);
+    };
+  }, [tab, setTab]);
 
   const [completedFields, setCompletedFields] = useState<
     Record<Field, boolean>
