@@ -46,9 +46,7 @@ const DatePicker = ({
         className={className}
         id={id}
         selected={selected}
-        onChange={(newValue) => {
-          onChange(newValue);
-        }}
+        onChange={onChange}
         dateFormat="dd/MM/yyyy"
         minDate={minDate}
         maxDate={maxDate}
@@ -59,7 +57,6 @@ const DatePicker = ({
             border-bottom-right-radius: 0;
           }
         `}
-        {...getBoxProps(props)}
       />
       <Button
         variant={ButtonVariants.SECONDARY}
