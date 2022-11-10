@@ -30,6 +30,7 @@ type TypeaheadProps<T> = {
   emptyLabel?: string;
   minLength?: number;
   inputType?: InputType;
+  inputRequired?: boolean;
   customFilter?: (option: T) => boolean;
   onChange?: (value: (T | NewEntry)[]) => void;
   defaultInputValue?: string;
@@ -59,6 +60,7 @@ const Typeahead: TypeaheadFunc = forwardRef(
       id,
       name,
       inputType,
+      inputRequired,
       options,
       labelKey,
       disabled,
@@ -143,6 +145,7 @@ const Typeahead: TypeaheadFunc = forwardRef(
         inputProps={{
           id,
           type: inputType,
+          required: inputRequired,
         }}
         {...(customFilter && { filterBy: customFilter })}
         {...getBoxProps(props)}
