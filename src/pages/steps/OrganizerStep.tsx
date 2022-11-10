@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
 import {
@@ -16,9 +16,11 @@ import {
   useGetCardSystemForEventQuery,
   useGetCardSystemsForOrganizerQuery,
 } from '@/hooks/api/uitpas';
+import { Event } from '@/types/Event';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { CheckboxWithLabel } from '@/ui/CheckboxWithLabel';
 import { Inline } from '@/ui/Inline';
+import { Link, LinkVariants } from '@/ui/Link';
 import { Select } from '@/ui/Select';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
@@ -47,7 +49,10 @@ const OrganizerStep = ({
   });
 
   // @ts-expect-error
-  const organizer = getEventByIdQuery.data?.organizer;
+  const event: Event | undefined = getEventByIdQuery.data;
+
+  const organizer = event?.organizer;
+  const hasPriceInfo = (event?.priceInfo ?? []).length > 0;
 
   // @ts-ignore
   const getCardSystemsForOrganizerQuery = useGetCardSystemsForOrganizerQuery({
@@ -182,36 +187,58 @@ const OrganizerStep = ({
   const isUitpasOrganizer = Object.values(cardSystems).length > 0;
 
   return (
-    <Stack {...getStackProps(props)}>
-      <OrganizerAddModal
-        prefillName={newOrganizerName}
-        visible={isOrganizerAddModalVisible}
-        onConfirm={handleAddOrganizer}
-        onClose={() => setIsOrganizerAddModalVisible(false)}
-      />
-      <OrganizerPicker
-        marginBottom={4}
-        onChange={handleChangeOrganizer}
-        onAddNewOrganizer={(newOrganizer) => {
-          setNewOrganizerName(newOrganizer.label);
-          setIsOrganizerAddModalVisible(true);
-        }}
-        onDeleteOrganizer={(organizerId) =>
-          deleteOrganizerFromEventMutation.mutate({
-            eventId,
-            organizerId,
-          })
-        }
-        organizer={organizer}
-      />
+    <Stack {...getStackProps(props)} spacing={5}>
+      <Stack>
+        <OrganizerAddModal
+          prefillName={newOrganizerName}
+          visible={isOrganizerAddModalVisible}
+          onConfirm={handleAddOrganizer}
+          onClose={() => setIsOrganizerAddModalVisible(false)}
+        />
+        <OrganizerPicker
+          marginBottom={4}
+          onChange={handleChangeOrganizer}
+          onAddNewOrganizer={(newOrganizer) => {
+            setNewOrganizerName(newOrganizer.label);
+            setIsOrganizerAddModalVisible(true);
+          }}
+          onDeleteOrganizer={(organizerId) =>
+            deleteOrganizerFromEventMutation.mutate({
+              eventId,
+              organizerId,
+            })
+          }
+          organizer={organizer}
+        />
+        {isUitpasOrganizer && (
+          <Alert variant={AlertVariants.PRIMARY}>
+            {hasPriceInfo ? (
+              t('create.additionalInformation.organizer.uitpas_info')
+            ) : (
+              <Trans
+                i18nKey="create.additionalInformation.organizer.uitpas_info_no_price_alert"
+                components={{
+                  link1: (
+                    <Link
+                      as="a"
+                      css={`
+                        text-decoration: underline;
+                      `}
+                      href="#price_info"
+                    ></Link>
+                  ),
+                }}
+              />
+            )}
+          </Alert>
+        )}
+      </Stack>
+
       {isUitpasOrganizer && (
         <Stack spacing={3}>
           <Text fontWeight="bold">
             {t('create.additionalInformation.organizer.uitpas_cardsystems')}
           </Text>
-          <Alert variant={AlertVariants.PRIMARY}>
-            {t('create.additionalInformation.organizer.uitpas_info_alert')}
-          </Alert>
           {Object.values(cardSystems).map((cardSystem: CardSystem) => (
             <Inline key={cardSystem.id} spacing={5}>
               <CheckboxWithLabel
