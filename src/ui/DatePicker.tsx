@@ -39,7 +39,14 @@ const DatePicker = ({
   const datePickerRef = useRef(null);
 
   return (
-    <Inline {...getInlineProps(props)}>
+    <Inline
+      {...getInlineProps(props)}
+      css={`
+        .react-datepicker-wrapper {
+          width: auto;
+        }
+      `}
+    >
       <Box
         forwardedAs={ReactDatePicker}
         ref={datePickerRef}
