@@ -128,6 +128,7 @@ const LocationStep = <TFormData extends FormDataUnion>({
               id="online-toggle"
               label={t('create.location.is_online.label')}
               labelPosition={LabelPositions.LEFT}
+              labelIsBold={false}
             />
           );
 
