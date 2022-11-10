@@ -76,6 +76,7 @@ const TimeSpanPicker = ({
         </Label>
         <Typeahead<string>
           inputType="time"
+          inputRequired={true}
           name="startTime"
           id="startTime"
           customFilter={(time) => filterStartTimes(time, endTime)}
@@ -102,6 +103,7 @@ const TimeSpanPicker = ({
         </Label>
         <Typeahead<string>
           inputType="time"
+          inputRequired={true}
           name="endTime"
           id="endTime"
           customFilter={(time) => filterEndTimes(time, startTime)}
