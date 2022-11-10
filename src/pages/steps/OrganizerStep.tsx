@@ -20,7 +20,7 @@ import { Event } from '@/types/Event';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { CheckboxWithLabel } from '@/ui/CheckboxWithLabel';
 import { Inline } from '@/ui/Inline';
-import { Link, LinkVariants } from '@/ui/Link';
+import { Link } from '@/ui/Link';
 import { Select } from '@/ui/Select';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
