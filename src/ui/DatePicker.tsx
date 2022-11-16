@@ -9,15 +9,18 @@ import ReactDatePicker, {
 } from 'react-datepicker';
 
 import type { BoxProps } from './Box';
-import { Box, getBoxProps } from './Box';
+import { Box } from './Box';
 import { Button, ButtonVariants } from './Button';
 import { Icons } from './Icon';
 import { getInlineProps, Inline } from './Inline';
 import { Input } from './Input';
+import { getValueFromTheme } from './theme';
 
 setDefaultLocale('nl');
 registerLocale('nl', nl);
 registerLocale('fr', fr);
+
+const getValue = getValueFromTheme('datePicker');
 
 type Props = Omit<BoxProps, 'onChange'> & {
   id: string;
@@ -44,6 +47,7 @@ const DatePicker = ({
       css={`
         .react-datepicker-wrapper {
           width: auto;
+          ${getValue('zIndexInput')};
         }
       `}
     >
@@ -76,6 +80,12 @@ const DatePicker = ({
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
             border-left: none;
+
+            z-index: ${getValue('zIndexButton')};
+
+            &:focus {
+              border-left: inherit;
+            }
           }
         `}
       />

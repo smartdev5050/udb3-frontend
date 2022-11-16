@@ -45,7 +45,10 @@ const above = 1;
 
 const zIndexPaginationPageLink = above + base;
 
-const zIndexSidebar = above + zIndexPaginationPageLink;
+const zIndexDatePickerInput = above + zIndexPaginationPageLink;
+const zIndexDatePickerButton = above + zIndexDatePickerInput;
+
+const zIndexSidebar = above + zIndexDatePickerButton;
 const zIndexPageFooter = zIndexSidebar;
 
 const zIndexJobLogger = above + zIndexSidebar;
@@ -98,6 +101,10 @@ const theme = {
     modal: {
       zIndex: zIndexModal,
       zIndexBackdrop: zIndexModalBackdrop,
+    },
+    datePicker: {
+      zIndexInput: zIndexDatePickerInput,
+      zIndexButton: zIndexDatePickerButton,
     },
     link: {
       color: colors.udbBlue,
