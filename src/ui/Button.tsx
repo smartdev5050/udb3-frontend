@@ -113,6 +113,7 @@ const customCSS = css`
       color: ${getValue('secondary.activeColor')};
       background-color: ${getValue('secondary.activeBackgroundColor')};
       box-shadow: ${getValue('boxShadow.large')};
+      border: none;
     }
 
     &:not(:disabled):not(.disabled).active,
