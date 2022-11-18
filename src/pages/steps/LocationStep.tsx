@@ -16,7 +16,7 @@ import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
-import { LabelPositions } from '@/ui/Label';
+import { LabelPositions, LabelVariants } from '@/ui/Label';
 import { RadioButtonTypes } from '@/ui/RadioButton';
 import { RadioButtonWithLabel } from '@/ui/RadioButtonWithLabel';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
@@ -128,7 +128,7 @@ const LocationStep = <TFormData extends FormDataUnion>({
               id="online-toggle"
               label={t('create.location.is_online.label')}
               labelPosition={LabelPositions.LEFT}
-              labelIsBold={false}
+              labelVariant={LabelVariants.NORMAL}
             />
           );
 
