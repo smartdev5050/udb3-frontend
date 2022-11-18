@@ -1,3 +1,4 @@
+import Router, { useRouter } from 'next/router';
 import { FC, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
@@ -135,6 +136,8 @@ const AdditionalInformationStep = ({
   variant,
   ...props
 }: Props) => {
+  const { asPath, ...router } = useRouter();
+
   const queryClient = useQueryClient();
 
   const invalidateEventQuery = useCallback(
@@ -149,26 +152,15 @@ const AdditionalInformationStep = ({
 
   const [tab, setTab] = useState('description');
 
-  const hashHandlerCallback = useCallback(() => {
-    const { hash } = window.location;
-    const newTab = hash.replace('#', '');
-    if (newTab && Object.values(Fields).some((field) => newTab === field)) {
-      setTab(newTab);
-    }
-  }, [setTab]);
+  const [_path, hash] = asPath.split('#');
 
   useEffect(() => {
-    hashHandlerCallback();
-
-    window.addEventListener('hashchange', hashHandlerCallback);
-
-    return () => {
-      window.removeEventListener('hashchange', hashHandlerCallback);
-    };
-  }, [hashHandlerCallback]);
+    if (!hash || !Object.values(Fields).some((field) => hash === field)) return;
+    setTab(hash);
+  }, [hash]);
 
   const handleSelectTab = (tab: string) => {
-    window.location.hash = tab;
+    router.push({ hash: tab });
   };
 
   const [completedFields, setCompletedFields] = useState<
