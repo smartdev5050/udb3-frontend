@@ -43,7 +43,7 @@ const OrganizerStep = ({
 
   const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
 
-  // @ts-ignore
+  // @ts-expect-error
   const getCardSystemForEventQuery = useGetCardSystemForEventQuery({
     eventId,
   });
@@ -54,7 +54,7 @@ const OrganizerStep = ({
   const organizer = event?.organizer;
   const hasPriceInfo = (event?.priceInfo ?? []).length > 0;
 
-  // @ts-ignore
+  // @ts-expect-error
   const getCardSystemsForOrganizerQuery = useGetCardSystemsForOrganizerQuery({
     organizerId: organizer?.['@id']
       ? parseOfferId(organizer['@id'])
