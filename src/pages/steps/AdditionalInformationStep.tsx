@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import { FC, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
@@ -137,8 +136,6 @@ const AdditionalInformationStep = ({
   ...props
 }: Props) => {
   const queryClient = useQueryClient();
-
-  const router = useRouter();
 
   const invalidateEventQuery = useCallback(
     async (field: Field, shouldInvalidate: boolean) => {
