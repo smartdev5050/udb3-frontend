@@ -128,7 +128,9 @@ const PictureUploadBox = forwardRef<HTMLInputElement, Props>(
           <Text variant={TextVariants.ERROR}>{error}</Text>
         </Stack>
         <Text variant={TextVariants.MUTED} textAlign="center">
-          {t('pictures.upload_modal.file_requirements')}
+          {t('pictures.upload_modal.file_requirements', {
+            maxFileSize: MAX_FILE_SIZE / 1_000_000,
+          })}
         </Text>
       </Stack>
     );
