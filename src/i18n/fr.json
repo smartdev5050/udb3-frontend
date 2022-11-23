@@ -256,7 +256,10 @@
         "add_new_label": "Ajouter un nouveau organisateur: ",
         "change": "Modifier l'organisateur",
         "title": "Organisateur",
-        "or_select_recent_used_organizer": "Ou sélectionnez l'une de vos organisations les plus récemment utilisées"
+        "or_select_recent_used_organizer": "Ou sélectionnez l'une de vos organisations les plus récemment utilisées",
+        "uitpas_cardsystems": "UiTPAS systèmes de cartes",
+        "uitpas_info": "Votre activité est désormais enregistrée en tant qu'activité UitPAS",
+        "uitpas_info_no_price_alert": "Ceci est un organisateur UiTPAS. Ajoutez <link1>un prix</link1> pour publier votre événement en tant qu'activité UiTPAS."
       },
       "media": {
         "title": "Médias"
@@ -277,7 +280,7 @@
         "target": "Public cible",
         "title": "Prix",
         "uitpas_error": "Le prix UiTPAS est calculé pour vous par UiTdatabank. Vous ne pouvez pas les ajouter vous-même.",
-        "uitpas_info": "Les prix UiTPAS ont été ajoutés automatiquement"
+        "uitpas_info": "Le taux d'opportunité UiTPAS est automatiquement calculé en fonction du prix de base et des systèmes de cartes actifs."
       },
       "title": "Augmentez la visibilité de votre évènement"
     },
