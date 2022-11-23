@@ -40,8 +40,8 @@ type DaysProps = {
   onDeleteDay: (index: number) => void;
   onChangeStartDate: (index: number, date: Date | null) => void;
   onChangeEndDate: (index: number, date: Date | null) => void;
-  onChangeStartHour: (index: number, hours: number, minutes: number) => void;
-  onChangeEndHour: (index: number, hours: number, minutes: number) => void;
+  onChangeStartTime: (index: number, hours: number, minutes: number) => void;
+  onChangeEndTime: (index: number, hours: number, minutes: number) => void;
 } & StackProps;
 
 export const Days = ({
@@ -49,8 +49,8 @@ export const Days = ({
   onDeleteDay,
   onChangeStartDate,
   onChangeEndDate,
-  onChangeStartHour,
-  onChangeEndHour,
+  onChangeStartTime,
+  onChangeEndTime,
   ...props
 }: DaysProps) => {
   return (
@@ -61,11 +61,11 @@ export const Days = ({
 
         const handleChangeStartTime = createChangeTimeHandler(
           index,
-          onChangeStartHour,
+          onChangeStartTime,
         );
         const handleChangeEndTime = createChangeTimeHandler(
           index,
-          onChangeEndHour,
+          onChangeEndTime,
         );
 
         return (

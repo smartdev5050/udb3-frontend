@@ -1,23 +1,54 @@
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-
-import { useLog } from '@/hooks/useLog';
 import { parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
-import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
 import { getInlineProps, Inline } from '@/ui/Inline';
 import { Panel } from '@/ui/Panel';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { ToggleBox } from '@/ui/ToggleBox';
-import { Typeahead } from '@/ui/Typeahead';
 
 import { Days } from './Days';
-import { useCalendarMachine } from './machines/calendarMachine';
+import { CalendarState, useCalendarMachine } from './machines/calendarMachine';
 import { FormDataUnion, StepsConfiguration } from './Steps';
 
-type Props = {
+const isOneOrMoreDays = (value: string | Record<string, unknown>) =>
+  typeof value === 'string' && ['single', 'multiple'].includes(value);
+
+const isFixedDays = (value: string | Record<string, unknown>) =>
+  ['periodic', 'permanent'].some(
+    (key) => !!value && typeof value === 'object' && !!value[key],
+  );
+
+type OneOrMoreDaysProps<TState> = {
+  state: TState;
+  onAddDay: () => void;
+  onDeleteDay: (index: number) => void;
+  onChangeStartDate: (index: number, date: Date | null) => void;
+  onChangeEndDate: (index: number, date: Date | null) => void;
+  onChangeStartTime: (index: number, hours: number, minutes: number) => void;
+  onChangeEndTime: (index: number, hours: number, minutes: number) => void;
+};
+
+const OneOrMoreDays = <TState extends CalendarState>({
+  state,
+  onAddDay,
+  ...handlers
+}: OneOrMoreDaysProps<TState>) => {
+  return (
+    <Stack spacing={5} alignItems="flex-start">
+      <Days days={state.context.days} {...handlers} />
+      <Button variant={ButtonVariants.SECONDARY} onClick={onAddDay}>
+        Dag toevoegen
+      </Button>
+    </Stack>
+  );
+};
+
+const FixedDays = () => {
+  return <Text>FixedDays</Text>;
+};
+
+type CalendarOptionToggleProps = {
   value: string | Record<string, unknown>;
   onChooseOneOrMoreDays: () => void;
   onChooseFixedDays: () => void;
@@ -28,15 +59,7 @@ const CalendarOptionToggle = ({
   onChooseOneOrMoreDays,
   onChooseFixedDays,
   ...props
-}: Props) => {
-  const { t } = useTranslation();
-
-  const isOneOrMoreDays =
-    typeof value === 'string' && ['single', 'multiple'].includes(value);
-  const isFixedDays = ['periodic', 'permanent'].some(
-    (key) => !!value && typeof value === 'object' && !!value[key],
-  );
-
+}: CalendarOptionToggleProps) => {
   return (
     <Inline
       spacing={5}
@@ -46,7 +69,7 @@ const CalendarOptionToggle = ({
     >
       <ToggleBox
         onClick={onChooseOneOrMoreDays}
-        active={isOneOrMoreDays}
+        active={isOneOrMoreDays(value)}
         icon={<Icon name={Icons.CALENDAR_ALT} />}
         text="Een of meerdere dagen"
         width="30%"
@@ -54,7 +77,7 @@ const CalendarOptionToggle = ({
       />
       <ToggleBox
         onClick={onChooseFixedDays}
-        active={isFixedDays}
+        active={isFixedDays(value)}
         icon={<Icon name={Icons.CALENDAR_ALT} />}
         text="Vaste dagen per week"
         width="30%"
@@ -67,12 +90,9 @@ const CalendarOptionToggle = ({
 type CalendarStepProps = StackProps;
 
 const CalendarStep = ({ ...props }: CalendarStepProps) => {
-  const { t, i18n } = useTranslation();
-
   const [state, send] = useCalendarMachine();
 
   const handleDeleteDay = (index: number) => {
-    console.log('in handleDeleteDay');
     return send('REMOVE_DAY', { index });
   };
 
@@ -129,25 +149,19 @@ const CalendarStep = ({ ...props }: CalendarStepProps) => {
         onChooseOneOrMoreDays={handleChooseOneOrMoreDays}
         onChooseFixedDays={handleChooseFixedDays}
       />
-      <Panel
-        backgroundColor="white"
-        padding={5}
-        spacing={5}
-        alignItems="flex-start"
-      >
-        {state.context.days.length > 0 && (
-          <Days
-            days={state.context.days}
+      <Panel backgroundColor="white" padding={5}>
+        {isFixedDays(calendarOption) && <FixedDays />}
+        {isOneOrMoreDays(calendarOption) && (
+          <OneOrMoreDays
+            state={state}
             onDeleteDay={handleDeleteDay}
             onChangeStartDate={handleChangeStartDate}
             onChangeEndDate={handleChangeEndDate}
-            onChangeStartHour={handleChangeStartTime}
-            onChangeEndHour={handleChangeEndTime}
+            onChangeStartTime={handleChangeStartTime}
+            onChangeEndTime={handleChangeEndTime}
+            onAddDay={handleAddDay}
           />
         )}
-        <Button variant={ButtonVariants.SECONDARY} onClick={handleAddDay}>
-          Dag toevoegen
-        </Button>
       </Panel>
     </Stack>
   );
