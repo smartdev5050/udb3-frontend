@@ -233,7 +233,10 @@ const EventScore = ({ completedFields, eventId, ...props }: Props) => {
             onClick={() => setShowModal(true)}
             variant={ButtonVariants.UNSTYLED}
           >
-            <Icon color={getValue('infoIconColor')} name={Icons.QUESTION} />
+            <Icon
+              color={getValue('infoIconColor')}
+              name={Icons.QUESTION_CIRCLE}
+            />
           </Button>
         </Inline>
       }
