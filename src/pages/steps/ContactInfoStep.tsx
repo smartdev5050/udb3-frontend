@@ -192,6 +192,8 @@ const ContactInfoStep = ({
         return (
           <Inline key={index} spacing={3}>
             <Select
+              alignSelf="flex-start"
+              height="35.75px"
               width="30%"
               onChange={(e) => handleChangeContactInfoType(e, index)}
             >
@@ -202,6 +204,7 @@ const ContactInfoStep = ({
               ))}
             </Select>
             <FormElement
+              alignSelf="flex-start"
               width="55%"
               Component={
                 <Input
@@ -229,6 +232,7 @@ const ContactInfoStep = ({
             />
 
             <Button
+              alignSelf="flex-start"
               onClick={() => handleDeleteContactInfo(index)}
               variant={ButtonVariants.DANGER}
               iconName={Icons.TRASH}

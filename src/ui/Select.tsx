@@ -47,7 +47,6 @@ const Select = forwardRef(
       value={value}
       aria-label={ariaLabel}
       css={`
-        height: auto;
         padding: 0.275rem 0.65rem;
         border-radius: ${getGlobalBorderRadius};
       `}
