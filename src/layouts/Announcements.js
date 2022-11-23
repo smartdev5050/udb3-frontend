@@ -177,7 +177,7 @@ const Announcements = ({
       visible={showModal}
       title={t('announcements.new_features')}
       onShow={onShow}
-      scrollable={false}
+      scrollable={true}
       onClose={() => setShowModal(false)}
     >
       {announcements.length > 0 ? (
