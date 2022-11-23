@@ -281,7 +281,7 @@
         "target": "Doelgroep",
         "title": "Prijzen",
         "uitpas_error": "De UiTPAS prijs wordt voor jou berekend door UiTdatabank. Je kan deze niet zelf toevoegen.",
-        "uitpas_info": "UiTPAS prijzen werden automatisch toegevoegd"
+        "uitpas_info": "Het UiTPAS kansentarief wordt automatish berekend op basis van de basisprijs en de actieve kaartsystemen."
       },
       "title": "Laat je evenement extra opvallen"
     },
