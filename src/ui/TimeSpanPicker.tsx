@@ -8,7 +8,7 @@ import { Typeahead } from './Typeahead';
 
 const getHourOptions = () => {
   const hours = Array(24).fill(0);
-  const minutes = Array(59).fill(0);
+  const minutes = Array(60).fill(0);
   const times = [];
   hours.forEach((_hour, i) => {
     minutes.forEach((_minute, minuteIndex) =>
@@ -19,6 +19,7 @@ const getHourOptions = () => {
       ),
     );
   });
+
   return times;
 };
 
@@ -55,7 +56,7 @@ const filterEndTimes = (time: string, startTime: string) => {
   const [startTimeValue, endTimeValue] = timesToNumeric(startTime, time);
   const isAfterStartTime = startTimeValue < endTimeValue;
 
-  return isQuarterHour(time) && isAfterStartTime;
+  return time === '23:59' || (isQuarterHour(time) && isAfterStartTime);
 };
 
 const dropDownCss = css`
