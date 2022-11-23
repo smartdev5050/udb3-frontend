@@ -318,7 +318,7 @@ const PriceInformation = ({
       ref={formComponent}
     >
       {hasUitpasPrices && (
-        <Alert variant={AlertVariants.INFO} marginBottom={3}>
+        <Alert variant={AlertVariants.PRIMARY} marginBottom={3}>
           {t('create.additionalInformation.price_info.uitpas_info')}
         </Alert>
       )}
