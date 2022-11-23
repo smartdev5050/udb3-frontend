@@ -62,6 +62,17 @@ const dropDownCss = css`
   .rbt-menu.dropdown-menu.show {
     min-width: 0;
     max-height: 140px !important;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .dropdown-item {
+      padding: 0.25rem 0;
+      text-align: center;
+    }
   }
   .rbt-input-hint {
     display: none;
