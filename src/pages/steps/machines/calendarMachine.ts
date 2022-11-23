@@ -13,6 +13,7 @@ import {
   createMachine,
   MachineConfig,
   MachineOptions,
+  State,
   StateNodeConfig,
 } from 'xstate';
 
@@ -88,6 +89,12 @@ const calendarSchema = {
 } as const;
 
 type CalendarSchema = typeof calendarSchema;
+
+export type CalendarState = State<
+  CalendarContext,
+  CalendarEvents,
+  CalendarSchema
+>;
 
 export type CalendarStateNodeConfig = StateNodeConfig<
   CalendarContext,
