@@ -47,8 +47,9 @@ const zIndexPaginationPageLink = above + base;
 
 const zIndexDatePickerInput = above + zIndexPaginationPageLink;
 const zIndexDatePickerButton = above + zIndexDatePickerInput;
+const zIndexDatePickerPopup = above + zIndexDatePickerButton;
 
-const zIndexSidebar = above + zIndexDatePickerButton;
+const zIndexSidebar = above + zIndexDatePickerPopup;
 const zIndexPageFooter = zIndexSidebar;
 
 const zIndexJobLogger = above + zIndexSidebar;
@@ -105,6 +106,7 @@ const theme = {
     datePicker: {
       zIndexInput: zIndexDatePickerInput,
       zIndexButton: zIndexDatePickerButton,
+      zIndexPopup: zIndexDatePickerPopup,
     },
     link: {
       color: colors.udbBlue,

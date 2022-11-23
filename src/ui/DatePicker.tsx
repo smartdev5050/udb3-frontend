@@ -47,7 +47,11 @@ const DatePicker = ({
       css={`
         .react-datepicker-wrapper {
           width: auto;
-          ${getValue('zIndexInput')};
+          z-index: ${getValue('zIndexInput')};
+        }
+
+        .react-datepicker-popper {
+          z-index: ${getValue('zIndexPopup')};
         }
       `}
     >
