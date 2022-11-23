@@ -64,6 +64,25 @@ const event = {
   production: null,
   status: { type: 'Available' },
   bookingAvailability: { type: 'Available' },
+  priceInfo: [
+    {
+      category: 'base',
+      name: {
+        nl: 'Basistarief',
+        fr: 'Tarif de base',
+        en: 'Base tariff',
+        de: 'Basisrate',
+      },
+      price: 10,
+      priceCurrency: 'EUR',
+    },
+    {
+      category: 'tariff',
+      name: { nl: 'III-4815', en: 'III-4815' },
+      price: 0,
+      priceCurrency: 'EUR',
+    },
+  ],
 };
 
 const eventWithSubEvents = {
@@ -142,6 +161,25 @@ const eventWithSubEvents = {
   calendarType: 'multiple',
   startDate: '2021-03-04T23:00:00+00:00',
   endDate: '2021-06-20T21:59:59+00:00',
+  priceInfo: [
+    {
+      category: 'base',
+      name: {
+        nl: 'Basistarief',
+        fr: 'Tarif de base',
+        en: 'Base tariff',
+        de: 'Basisrate',
+      },
+      price: 10,
+      priceCurrency: 'EUR',
+    },
+    {
+      category: 'tariff',
+      name: { nl: 'III-4815', en: 'III-4815' },
+      price: 0,
+      priceCurrency: 'EUR',
+    },
+  ],
   subEvent: [
     {
       status: { type: 'Available' },

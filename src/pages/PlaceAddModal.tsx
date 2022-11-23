@@ -182,6 +182,11 @@ const PlaceAddModal = ({
                   });
                   trigger('type');
                 }}
+                css={`
+                  &.btn {
+                    padding: 0.3rem 0.7rem;
+                  }
+                `}
               >
                 {name[i18n.language]}
               </Button>

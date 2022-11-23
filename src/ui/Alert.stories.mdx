@@ -25,6 +25,23 @@ export const commonArgs = {
   </Story>
 </Canvas>
 
+<ArgsTable story="Primary" />
+
+## Primary
+
+<Canvas>
+  <Story
+    name="Primary"
+    args={{
+      variant: AlertVariants.PRIMARY,
+      children: 'A Primary Alert',
+      ...commonArgs,
+    }}
+  >
+    {(args) => <Alert {...args} />}
+  </Story>
+</Canvas>
+
 <ArgsTable story="Info" />
 
 ## Success

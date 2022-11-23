@@ -177,17 +177,13 @@
         "members": "Enkel voor leden"
       },
       "contact_info": {
-        "add_phone_input_placeholder": "Voeg een telefoonnummer toe",
-        "add_url_input_placeholder": "Voeg een link toe",
-        "add_email_input_placeholder": "Voeg een e-mailadres toe",
-        "select_for_reservation": "Kies je reservatie {{contactInfoType}}",
-        "edit_cta": "Bewerken",
+        "add_more_singular": "Contactgegevens toevoegen",
+        "add_more_multiple": "Meer contactgegevens toevoegen",
         "email_error": "Geen geldig e-mailadres",
         "email": "E-mailadres",
-        "empty": "U heeft nog geen {{contactInfoType}} toegevoegd",
         "phone": "Telefoonnummer",
         "phone_error": "Geen geldig telefoonnummer",
-        "title": "Contact & reservatie",
+        "title": "Contact",
         "url": "Website",
         "url_error": "Een geldige url begint met http:// of https://"
       },
@@ -264,7 +260,10 @@
         "add_new_label": "Voeg nieuwe organisator toe: ",
         "change": "Wijzig organisatie",
         "title": "Organisatie",
-        "or_select_recent_used_organizer": "Of selecteer een van je laatst gebruikte organisaties"
+        "or_select_recent_used_organizer": "Of selecteer een van je laatst gebruikte organisaties",
+        "uitpas_cardsystems": "UiTPAS Kaartsystemen",
+        "uitpas_info": "Je activiteit is nu geregistreerd als UiTPAS activiteit.",
+        "uitpas_info_no_price_alert": "Dit is een UiTPAS organisator. Voeg een <link1>prijs</link1> toe om je evenement te publiceren als UiTPAS activiteit"
       },
       "media": {
         "title": "Media"
@@ -278,13 +277,14 @@
         "duplicate_name_error": "Tarief met de naam \"{{priceName}}\" bestaat al, gelieve een andere naam te gebruiken.",
         "euro": "euro",
         "free": "Gratis",
-        "global_error": "Deze prijsinformatie lijkt ongeldig en kan je daarom niet bewaren. <ul><li>Noteer decimalen met een komma.</li><li>Laat geen enkel rij leeg, vul steeds een doelgroep en een bedrag in.</li><li>Geef maximum twee cijfers na de komma.</li></ul>",
+        "global_error": "Zorg ervoor dat je prijsinformatie steeds geldig is: <ul><li>Noteer decimalen met een komma.</li><li>Laat geen enkele rij leeg, vul steeds een doelgroep en een bedrag in.</li> <li>Geef maximum twee cijfers na de komma.</li></ul>",
         "price": "Prijs",
         "prices": "Prijzen",
         "save": "Bewaren",
         "target": "Doelgroep",
         "title": "Prijzen",
-        "uitpas_error": "De UiTPAS prijs wordt voor jou berekend door UiTdatabank. Je kan deze niet zelf toevoegen."
+        "uitpas_error": "De UiTPAS prijs wordt voor jou berekend door UiTdatabank. Je kan deze niet zelf toevoegen.",
+        "uitpas_info": "Het UiTPAS kansentarief wordt automatish berekend op basis van de basisprijs en de actieve kaartsystemen."
       },
       "title": "Laat je evenement extra opvallen"
     },
@@ -740,7 +740,6 @@
   },
   "steps": {
     "offerTypeStep": {
-      "or": "Of",
       "types": {
         "event": "Evenement",
         "place": "Locatie"

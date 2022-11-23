@@ -19,6 +19,7 @@ import { getValueFromTheme } from '@/ui/theme';
 import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
 
 const getValue = getValueFromTheme('createPage');
+const getGlobalValue = getValueFromTheme('global');
 
 const useEditTypeAndTheme = <TFormData extends FormDataUnion>({
   eventId,
@@ -106,6 +107,13 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
                             type: { id, label: name[i18n.language] },
                           });
                         }}
+                        css={`
+                          &.btn {
+                            padding: 0.3rem 0.7rem;
+                            box-shadow: ${({ theme }) =>
+                              theme.components.button.boxShadow.small};
+                          }
+                        `}
                       >
                         {name[i18n.language]}
                       </Button>
@@ -121,7 +129,7 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
                   >
                     <Icon
                       name={Icons.CHECK_CIRCLE}
-                      color={getValue('check.circleFillColor')}
+                      color={getGlobalValue('successIcon')}
                     />
                     <Text>{field.value?.type?.label}</Text>
                     <Button
@@ -167,6 +175,13 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
                       });
                       onChange(id);
                     }}
+                    css={`
+                      &.btn {
+                        padding: 0.3rem 0.7rem;
+                        box-shadow: ${({ theme }) =>
+                          theme.components.button.boxShadow.small};
+                      }
+                    `}
                   >
                     {name[i18n.language]}
                   </Button>
@@ -182,7 +197,7 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
               >
                 <Icon
                   name={Icons.CHECK_CIRCLE}
-                  color={getValue('check.circleFillColor')}
+                  color={getGlobalValue('successIcon')}
                 />
                 <Text>{field.value?.theme?.label}</Text>
                 <Button

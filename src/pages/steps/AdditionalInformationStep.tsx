@@ -1,4 +1,5 @@
-import { FC, useCallback, useState } from 'react';
+import Router, { useRouter } from 'next/router';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
@@ -9,16 +10,19 @@ import { getInlineProps, Inline, InlineProps } from '@/ui/Inline';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Tabs } from '@/ui/Tabs';
 import { Text } from '@/ui/Text';
+import { getValueFromTheme } from '@/ui/theme';
 
 import { Audience } from './Audience';
 import { BookingInfoStep } from './BookingInfoStep';
-import { ContactInfoEntry } from './ContactInfoEntry';
+import { ContactInfoStep } from './ContactInfoStep';
 import { DescriptionStep } from './DescriptionStep';
 import { EventScore } from './EventScore';
 import { MediaStep } from './MediaStep';
 import { OrganizerStep } from './OrganizerStep';
 import { PriceInformation } from './PriceInformation';
 import { FormDataUnion, StepsConfiguration } from './Steps';
+
+const getGlobalValue = getValueFromTheme('global');
 
 const AdditionalInformationStepVariant = {
   MINIMAL: 'minimal',
@@ -53,6 +57,7 @@ type TabConfig = {
   field: Field;
   TabContent: FC<TabContentProps & { [prop: string]: unknown }>;
   shouldShowOnMinimal: boolean;
+  shouldInvalidate: boolean;
   stepProps?: Record<string, unknown>;
 };
 
@@ -61,39 +66,43 @@ const tabConfigurations: TabConfig[] = [
     field: Fields.DESCRIPTION,
     TabContent: DescriptionStep,
     shouldShowOnMinimal: true,
+    shouldInvalidate: true,
   },
   {
     field: Fields.MEDIA,
     TabContent: MediaStep,
     shouldShowOnMinimal: true,
+    shouldInvalidate: true,
   },
   {
     field: Fields.PRICE_INFO,
     TabContent: PriceInformation,
     shouldShowOnMinimal: true,
+    shouldInvalidate: true,
   },
   {
     field: Fields.CONTACT_INFO,
-    TabContent: ContactInfoEntry,
+    TabContent: ContactInfoStep,
     shouldShowOnMinimal: true,
-    stepProps: {
-      withReservationInfo: true,
-    },
+    shouldInvalidate: false,
   },
   {
     field: Fields.BOOKING_INFO,
     TabContent: BookingInfoStep,
     shouldShowOnMinimal: true,
+    shouldInvalidate: true,
   },
   {
     field: Fields.ORGANIZER,
     TabContent: OrganizerStep,
     shouldShowOnMinimal: true,
+    shouldInvalidate: true,
   },
   {
     field: Fields.AUDIENCE,
     TabContent: Audience,
     shouldShowOnMinimal: true,
+    shouldInvalidate: true,
   },
 ];
 
@@ -107,7 +116,9 @@ const TabTitle = ({ field, isCompleted, ...props }: TabTitleProps) => {
 
   return (
     <Inline spacing={3} {...getInlineProps(props)}>
-      {isCompleted && <Icon name={Icons.CHECK_CIRCLE} color="#48874a" />}
+      {isCompleted && (
+        <Icon name={Icons.CHECK_CIRCLE} color={getGlobalValue('successIcon')} />
+      )}
       <Text>{t(`create.additionalInformation.${field}.title`)}</Text>
     </Inline>
   );
@@ -125,17 +136,32 @@ const AdditionalInformationStep = ({
   variant,
   ...props
 }: Props) => {
+  const { asPath, ...router } = useRouter();
+
   const queryClient = useQueryClient();
 
   const invalidateEventQuery = useCallback(
-    async (field: Field) => {
-      await queryClient.invalidateQueries(['events', { id: eventId }]);
+    async (field: Field, shouldInvalidate: boolean) => {
+      if (shouldInvalidate) {
+        await queryClient.invalidateQueries(['events', { id: eventId }]);
+      }
       onChangeSuccess(field);
     },
     [eventId, onChangeSuccess, queryClient],
   );
 
   const [tab, setTab] = useState('description');
+
+  const [_path, hash] = asPath.split('#');
+
+  useEffect(() => {
+    if (!hash || !Object.values(Fields).some((field) => hash === field)) return;
+    setTab(hash);
+  }, [hash]);
+
+  const handleSelectTab = (tab: string) => {
+    router.push({ hash: tab }, undefined, { shallow: true });
+  };
 
   const [completedFields, setCompletedFields] = useState<
     Record<Field, boolean>
@@ -154,7 +180,7 @@ const AdditionalInformationStep = ({
     <Stack {...getStackProps(props)}>
       <Tabs
         activeKey={tab}
-        onSelect={setTab}
+        onSelect={handleSelectTab}
         css={`
           .tab-content {
             padding-top: ${parseSpacing(3)};
@@ -162,7 +188,13 @@ const AdditionalInformationStep = ({
         `}
       >
         {tabConfigurations.map(
-          ({ shouldShowOnMinimal, field, TabContent, stepProps }) => {
+          ({
+            shouldShowOnMinimal,
+            field,
+            shouldInvalidate,
+            TabContent,
+            stepProps,
+          }) => {
             const shouldShowTab =
               variant !== AdditionalInformationStepVariant.MINIMAL ||
               shouldShowOnMinimal;
@@ -181,6 +213,7 @@ const AdditionalInformationStep = ({
                 }
               >
                 <TabContent
+                  minHeight="350px"
                   eventId={eventId}
                   onChangeCompleted={(isCompleted) => {
                     if (completedFields[field] === isCompleted) return;
@@ -190,7 +223,9 @@ const AdditionalInformationStep = ({
                       [field]: isCompleted,
                     }));
                   }}
-                  onSuccessfulChange={() => invalidateEventQuery(field)}
+                  onSuccessfulChange={() =>
+                    invalidateEventQuery(field, shouldInvalidate)
+                  }
                   {...stepProps}
                 />
               </Tabs.Tab>

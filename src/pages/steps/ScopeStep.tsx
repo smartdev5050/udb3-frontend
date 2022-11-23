@@ -6,7 +6,6 @@ import { parseSpacing } from '@/ui/Box';
 import { Icons } from '@/ui/Icon';
 import { getInlineProps, Inline, InlineProps } from '@/ui/Inline';
 import { Stack } from '@/ui/Stack';
-import { Text } from '@/ui/Text';
 import { ToggleBox } from '@/ui/ToggleBox';
 
 import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
@@ -132,15 +131,6 @@ const ScopeStep = <TFormData extends FormDataUnion>({
               width="30%"
               minHeight={parseSpacing(7)}
             />
-            <Text
-              display={{
-                default: 'block',
-                m: 'none',
-              }}
-              fontStyle="italic"
-            >
-              {t('steps.offerTypeStep.or')}
-            </Text>
             <ToggleBox
               onClick={() => field.onChange(OfferType.PLACES)}
               active={field.value === OfferType.PLACES}

@@ -40,13 +40,14 @@ const BaseButton = (props: Omit<InlineProps, 'size'>) => (
 
 const customCSS = css`
   &.btn {
+    display: flex;
     border-radius: ${getValue('borderRadius')};
     padding: ${getValue('paddingY')} ${getValue('paddingX')};
     flex-shrink: 0;
     align-items: center;
 
     border: none;
-    box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
+    box-shadow: ${getValue('boxShadow.small')};
 
     &:focus,
     &.focus {
@@ -56,19 +57,24 @@ const customCSS = css`
     &:focus:not(:focus-visible),
     &.focus:not(:focus-visible) {
       outline: none;
+      box-shadow: none;
     }
 
     // active & focus
     &:not(:disabled):not(.disabled):active:focus,
     &:not(:disabled):not(.disabled).active:focus {
-      box-shadow: ${getValue('activeFocusBoxShadow')};
+      box-shadow: ${getValue('boxShadow.small')};
     }
   }
 
-  &.btn-primary,
-  &.btn-primary.dropdown-toggle {
+  &.btn-primary {
     color: ${getValue('primary.color')};
     background-color: ${getValue('primary.backgroundColor')};
+
+    &.dropdown-toggle.dropdown-toggle-split {
+      box-shadow: 2px 2px 3px 0px rgb(210 210 210 / 70%);
+      border-left: 1px solid ${getValue('primary.color')};
+    }
 
     &:hover {
       background-color: ${getValue('primary.hoverBackgroundColor')};
@@ -78,13 +84,19 @@ const customCSS = css`
     &.btn-primary:not(:disabled):not(.disabled):active,
     .btn-primary:not(:disabled):not(.disabled).active {
       background-color: ${getValue('primary.activeBackgroundColor')};
+      box-shadow: ${getValue('boxShadow.small')};
     }
   }
 
-  &.btn-outline-secondary,
-  &.btn-outline-secondary.dropdown-toggle {
+  &.btn-outline-secondary {
     color: ${getValue('secondary.color')};
     background-color: ${getValue('secondary.backgroundColor')};
+    box-shadow: ${getValue('boxShadow.large')};
+
+    &.dropdown-toggle.dropdown-toggle-split {
+      box-shadow: 4px 4px 6px 0px rgb(210 210 210 / 70%);
+      border-left: 1px solid #f0f0f0;
+    }
 
     &:hover {
       background-color: ${getValue('secondary.hoverBackgroundColor')};
@@ -95,6 +107,7 @@ const customCSS = css`
     .btn-outline-secondary:not(:disabled):not(.disabled).active {
       color: ${getValue('secondary.activeColor')};
       background-color: ${getValue('secondary.activeBackgroundColor')};
+      box-shadow: ${getValue('boxShadow.large')};
     }
 
     &:not(:disabled):not(.disabled).active,
@@ -104,22 +117,28 @@ const customCSS = css`
     }
   }
 
-  &.btn-success,
-  &.btn-success.dropdown-toggle {
+  &.btn-success {
     color: ${getValue('success.color')};
-
     background-color: ${getValue('success.backgroundColor')};
+
+    &.dropdown-toggle.dropdown-toggle-split {
+      box-shadow: 2px 2px 3px 0px rgb(210 210 210 / 70%);
+      border-left: 1px solid ${getValue('success.color')};
+    }
 
     &:hover {
       background-color: ${getValue('success.hoverBackgroundColor')};
     }
   }
 
-  &.btn-danger,
-  &.btn-danger.dropdown-toggle {
+  &.btn-danger {
     color: ${getValue('danger.color')};
-
     background-color: ${getValue('danger.backgroundColor')};
+
+    &.dropdown-toggle.dropdown-toggle-split {
+      box-shadow: 2px 2px 3px 0px rgb(210 210 210 / 70%);
+      border-left: 1px solid ${getValue('danger.color')};
+    }
 
     &:hover {
       background-color: ${getValue('danger.hoverBackgroundColor')};

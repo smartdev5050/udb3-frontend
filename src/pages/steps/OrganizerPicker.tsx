@@ -17,7 +17,7 @@ import { Inline } from '@/ui/Inline';
 import { Paragraph } from '@/ui/Paragraph';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
-import { getValueFromTheme } from '@/ui/theme';
+import { getGlobalBorderRadius, getValueFromTheme } from '@/ui/theme';
 import { isNewEntry, NewEntry, Typeahead } from '@/ui/Typeahead';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { valueToArray } from '@/utils/valueToArray';
@@ -74,21 +74,19 @@ const RecentUsedOrganizers = ({
             <Button
               key={index}
               onClick={() => onChange(parseOfferId(organizer['@id']))}
-              paddingTop={4}
-              paddingBottom={4}
-              paddingLeft={5}
-              paddingRight={5}
-              borderRadius="0.5rem"
+              padding={4}
+              borderRadius={getGlobalBorderRadius}
               variant={ButtonVariants.UNSTYLED}
               customChildren
               marginBottom={4}
-              width="25rem"
+              width="20rem"
               title={name}
               css={`
                 flex-direction: column;
                 align-items: flex-start;
                 background-color: rgba(255, 255, 255, 1);
-                box-shadow: 0px 2px 3px 0px rgba(210, 210, 210, 0.5);
+                box-shadow: ${({ theme }) =>
+                  theme.components.button.boxShadow.small};
 
                 &:hover {
                   background-color: #e6e6e6;
@@ -99,7 +97,7 @@ const RecentUsedOrganizers = ({
                 fontWeight="bold"
                 display="flex"
                 justifyContent="space-between"
-                width="20rem"
+                width="18rem"
                 textAlign="left"
               >
                 <Text

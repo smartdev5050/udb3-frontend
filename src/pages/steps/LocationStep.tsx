@@ -16,7 +16,7 @@ import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
-import { LabelPositions } from '@/ui/Label';
+import { LabelPositions, LabelVariants } from '@/ui/Label';
 import { RadioButtonTypes } from '@/ui/RadioButton';
 import { RadioButtonWithLabel } from '@/ui/RadioButtonWithLabel';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
@@ -30,6 +30,7 @@ import { PlaceStep } from './PlaceStep';
 import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
 
 const getValue = getValueFromTheme('createPage');
+const getGlobalValue = getValueFromTheme('global');
 
 const useEditPlace = <TFormData extends FormDataUnion>({
   eventId,
@@ -98,11 +99,36 @@ const LocationStep = <TFormData extends FormDataUnion>({
                     field.onChange(updatedValue);
                     onChange(updatedValue);
                   }}
+                  css={`
+                    .custom-switch .custom-control-label {
+                      padding-left: 2rem;
+                      padding-bottom: 1.5rem;
+                    }
+
+                    .custom-switch .custom-control-label::before {
+                      height: 1.5rem;
+                      width: calc(2rem + 0.75rem);
+                      border-radius: 3rem;
+                    }
+
+                    .custom-switch .custom-control-label::after {
+                      width: calc(1.5rem - 4px);
+                      height: calc(1.5rem - 4px);
+                      border-radius: calc(2rem - (1.5rem / 2));
+                    }
+
+                    .custom-switch
+                      .custom-control-input:checked
+                      ~ .custom-control-label::after {
+                      transform: translateX(calc(1.5rem - 0.25rem));
+                    }
+                  `}
                 />
               }
               id="online-toggle"
               label={t('create.location.is_online.label')}
               labelPosition={LabelPositions.LEFT}
+              labelVariant={LabelVariants.NORMAL}
             />
           );
 
@@ -112,7 +138,7 @@ const LocationStep = <TFormData extends FormDataUnion>({
                 <Inline alignItems="center" spacing={3}>
                   <Icon
                     name={Icons.CHECK_CIRCLE}
-                    color={getValue('check.circleFillColor')}
+                    color={getGlobalValue('successIcon')}
                   />
                   <Text>{t('create.location.country.location_school')}</Text>
                   <Button
@@ -226,7 +252,7 @@ const LocationStep = <TFormData extends FormDataUnion>({
                 <Inline alignItems="center" spacing={3}>
                   <Icon
                     name={Icons.CHECK_CIRCLE}
-                    color={getValue('check.circleFillColor')}
+                    color={getGlobalValue('successIcon')}
                   />
                   <Text>{municipality.name}</Text>
                   <Button

@@ -172,17 +172,13 @@
         "title": "Zugang"
       },
       "contact_info": {
-        "add_phone_input_placeholder": "Fügen Sie eine Telefonnummer hinzu",
-        "add_url_input_placeholder": "Fügen Sie einen Link hinzu",
-        "add_email_input_placeholder": "Fügen Sie eine E-Mail-Adresse hinzu",
-        "select_for_reservation": "Wählen Sie Ihre Reservierungs {{contactInfoType}}",
-        "edit_cta": "Bearbeiten",
+        "add_more_singular": "Kontaktdaten hinzufügen",
+        "add_more_multiple": "Fügen Sie weitere Kontaktdaten hinzu",
         "email": "E-mailadres",
         "email_error": "Keine gültige E-Mail-Adresse",
-        "empty": "Sie haben noch keine {{contactInfoType}} hinzugefügt",
         "phone": "Telefoonnummer",
         "phone_error": "Keine gültige Telefonnummer",
-        "title": "Kontakt & Reservierung",
+        "title": "Kontakt",
         "url": "Website",
         "url_error": "Eine gültige URL beginnt mit http:// oder https://"
       },
@@ -259,7 +255,10 @@
         "add_new_label": "Neuen Organisator hinzufügen: ",
         "change": "Ändern Organisator",
         "title": "Organisator",
-        "or_select_recent_used_organizer": "Oder wählen Sie eine Ihrer zuletzt verwendeten Organisationen aus"
+        "or_select_recent_used_organizer": "Oder wählen Sie eine Ihrer zuletzt verwendeten Organisationen aus",
+        "uitpas_cardsystems": "UiTPAS Kartensysteme",
+        "uitpas_info": "Ihre Aktivität ist jetzt als UitPAS-Aktivität registriert",
+        "uitpas_info_no_price_alert": "Dies ist ein UiTPAS-Organisator. Fügen Sie einen <link1>Preis</link1> hinzu, um Ihre Veranstaltung als UiTPAS-Aktivität zu veröffentlichen"
       },
       "media": {
         "title": "Medien"
@@ -273,13 +272,14 @@
         "duplicate_name_error": "Tarif mit dem Namen \"Hallo\" existiert bereits, bitte verwenden Sie einen anderen Namen.",
         "euro": "euro",
         "free": "Kostenlos",
-        "global_error": "Diese Preisinformation scheint ungültig zu sein und kann daher nicht gespeichert werden. <ul><li>Notieren Sie Dezimalstellen mit einem Komma.</li><li>Lassen Sie keine Reihe frei, geben Sie immer eine Zielgruppe und einen Betrag ein.</li><li>Geben Sie maximal zwei Ziffern nach dem Komma ein.</li></ul>",
+        "global_error": "Vergewissern Sie sich, dass Ihre Preisinformationen immer gültig sind:<ul><li>Schreiben Sie Dezimalzahlen mit einem Komma.</li><li>Lassen Sie keine Zeile leer, geben Sie immer eine Zielgruppe und einen Betrag an.</li><li>Geben Sie maximal zwei Dezimalstellen an.</li></ul>",
         "price": "Preis",
         "prices": "Preise",
         "save": "Speichern",
         "target": "Zielgruppe",
         "title": "Preise",
-        "uitpas_error": "Der UiTPAS-Preis wird von UiTdatabank für Sie berechnet. Sie können diese nicht selbst hinzufügen."
+        "uitpas_error": "Der UiTPAS-Preis wird von UiTdatabank für Sie berechnet. Sie können diese nicht selbst hinzufügen.",
+        "uitpas_info": "Der UiTPAS Opportunity-Tarif wird automatisch auf Basis des Basispreises und der aktiven Kartensysteme berechnet."
       },
       "title": "Heben Sie Ihre Veranstaltung besonders hervor"
     },
@@ -734,7 +734,6 @@
   },
   "steps": {
     "offerTypeStep": {
-      "or": "Oder",
       "types": {
         "event": "Veranstaltung",
         "place": "Ort"

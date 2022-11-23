@@ -119,6 +119,9 @@ const useGetEventsToModerateQuery = (searchQuery, configuration = {}) =>
 const getEventById = async ({ headers, id }) => {
   const res = await fetchFromApi({
     path: `/event/${id.toString()}`,
+    searchParams: {
+      embedUitpasPrices: 'true',
+    },
     options: {
       headers,
     },

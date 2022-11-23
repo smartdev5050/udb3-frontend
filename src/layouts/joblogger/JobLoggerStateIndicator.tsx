@@ -9,6 +9,7 @@ import { getValueFromTheme } from '@/ui/theme';
 import { JobLoggerStates } from './JobLogger';
 
 const getValue = getValueFromTheme('jobStatusIcon');
+const getGlobalValue = getValueFromTheme('global');
 
 type SvgProps = BoxProps;
 
@@ -97,7 +98,7 @@ const CompleteIcon = ({ className }: { className?: string }) => (
       />
       <circle
         css={`
-          fill: ${getValue('complete.circleFillColor')};
+          fill: ${getGlobalValue('successIcon')};
         `}
         cx="20"
         cy="40"
@@ -156,7 +157,7 @@ const WarningIcon = ({ className }: { className?: string }) => (
       />
       <circle
         css={`
-          fill: ${getValue('warning.circleFillColor')};
+          fill: ${getGlobalValue('successIcon')};
         `}
         cx="20"
         cy="40"

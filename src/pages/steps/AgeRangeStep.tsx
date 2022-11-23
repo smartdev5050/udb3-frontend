@@ -172,6 +172,13 @@ const AgeRangeStep = ({
                           typicalAgeRange: apiLabel,
                         });
                       }}
+                      css={`
+                        &.btn {
+                          padding: 0.3rem 0.7rem;
+                          box-shadow: ${({ theme }) =>
+                            theme.components.button.boxShadow.small};
+                        }
+                      `}
                     >
                       {t(`create.name_and_age.age.${key.toLowerCase()}`)}
                       <Text

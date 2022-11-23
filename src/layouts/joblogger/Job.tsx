@@ -15,6 +15,7 @@ import { Stack } from '@/ui/Stack';
 import { getValueFromTheme } from '@/ui/theme';
 
 const getValue = getValueFromTheme('jobStatusIcon');
+const getGlobalValue = getValueFromTheme('global');
 
 const dateFnsLocales = { nl: nlBE, fr };
 
@@ -33,12 +34,7 @@ const JobStates = {
 
 const StatusIcon = memo(({ state }: { state: Values<typeof JobStates> }) => {
   if (state === JobStates.FINISHED) {
-    return (
-      <Icon
-        name={Icons.CHECK_CIRCLE}
-        color={getValue('complete.circleFillColor')}
-      />
-    );
+    return <Icon name={Icons.CHECK_CIRCLE} color={getGlobalValue('success')} />;
   }
   return (
     <Icon

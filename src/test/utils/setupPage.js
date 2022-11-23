@@ -24,7 +24,7 @@ const mockRouterWithParams = ({ query, ...rest } = {}) => {
 
 const mockResponses = (responses) => {
   fetch.mockResponse((req) => {
-    const url = req.url.split('http://localhost:3000')[1];
+    const url = req.url.split('http://localhost:3000')[1].split('?')[0];
 
     const foundPath = Object.keys(responses).find((path) => match(path)(url));
     if (!foundPath) return undefined;
