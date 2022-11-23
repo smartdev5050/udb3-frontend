@@ -13,6 +13,8 @@ import { getValueFromTheme } from '@/ui/theme';
 
 import { Field } from './AdditionalInformationStep';
 
+const ANNOUNCEMENT_UID = '27f6ab5d-5ca3-4933-a8bf-ccce25b40723';
+
 const getValue = getValueFromTheme('eventScore');
 
 const BarometerIcon = ({ rotationValue }: { rotationValue: number }) => {
@@ -144,7 +146,10 @@ const EventScore = ({ completedFields, eventId, ...props }: Props) => {
   // @ts-expect-error
   const event: Event | undefined = getEventByIdQuery.data;
 
-  const [showModal, setShowModal] = useAnnouncementModalContext();
+  const [
+    announcementModalContext,
+    setAnnouncementModalContext,
+  ] = useAnnouncementModalContext();
 
   const hasTheme: boolean = event?.terms.some(
     (term) => term.domain === 'theme',
@@ -230,7 +235,13 @@ const EventScore = ({ completedFields, eventId, ...props }: Props) => {
             </Text>
           </Text>
           <Button
-            onClick={() => setShowModal(true)}
+            onClick={() =>
+              setAnnouncementModalContext({
+                ...announcementModalContext,
+                visible: true,
+                visibleAnnouncementUid: ANNOUNCEMENT_UID,
+              })
+            }
             variant={ButtonVariants.UNSTYLED}
           >
             <Icon
