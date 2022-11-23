@@ -222,6 +222,7 @@ const calendarMachineConfig: MachineConfig<
   preserveActionOrder: true,
   predictableActionArguments: true,
   id: 'calendar-step',
+  // @ts-expect-error
   initial: 'single',
   states: {
     single: {

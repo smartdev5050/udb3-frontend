@@ -4,6 +4,7 @@ import { Form } from 'react-bootstrap';
 
 import type { BoxProps } from './Box';
 import { Box, getBoxProps } from './Box';
+import { getGlobalBorderRadius } from './theme';
 
 type TextAreaProps = {
   name?: string;
