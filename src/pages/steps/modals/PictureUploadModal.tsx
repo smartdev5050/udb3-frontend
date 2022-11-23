@@ -31,7 +31,7 @@ type PictureUploadModalProps = {
   onSubmitValid: (data: FormData) => Promise<void>;
 };
 
-const MAX_FILE_SIZE = 5_000_000;
+const MAX_FILE_SIZE = 20_000_000;
 const ALLOWED_FILE_TYPES = ['png', 'jpg', 'jpeg', 'gif'];
 
 const getValue = getValueFromTheme('pictureUploadBox');
