@@ -218,6 +218,9 @@ const calendarMachineOptions: MachineOptions<
       },
     }),
   },
+  activities: undefined,
+  services: undefined,
+  delays: undefined,
 };
 
 const calendarMachineConfig: MachineConfig<
