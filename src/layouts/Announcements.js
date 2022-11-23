@@ -166,7 +166,7 @@ const Announcements = ({
 }) => {
   const { t } = useTranslation();
 
-  const [showModal, setShowModal] = useAnnouncementModalContext();
+  const [modalContext, setModalContext] = useAnnouncementModalContext();
 
   const activeAnnouncement = announcements.find(
     (announcement) => announcement.status === AnnouncementStatus.ACTIVE,
@@ -174,11 +174,11 @@ const Announcements = ({
 
   return (
     <Modal
-      visible={showModal}
+      visible={modalContext.visible}
       title={t('announcements.new_features')}
       onShow={onShow}
       scrollable={true}
-      onClose={() => setShowModal(false)}
+      onClose={() => setModalContext({ ...modalContext, visible: false })}
     >
       {announcements.length > 0 ? (
         <Inline>

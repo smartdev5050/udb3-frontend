@@ -276,8 +276,8 @@ const Sidebar = () => {
   const sidebarComponent = useRef();
 
   const [
-    isAnnouncementsModalVisible,
-    setIsAnnouncementsModalVisible,
+    announcementModalContext,
+    setAnnouncementModalContext,
   ] = useAnnouncementModalContext();
 
   const [activeAnnouncementId, setActiveAnnouncementId] = useState();
@@ -303,7 +303,11 @@ const Sidebar = () => {
   );
 
   const toggleIsAnnouncementsModalVisible = useCallback(
-    () => setIsAnnouncementsModalVisible((prevValue) => !prevValue),
+    () =>
+      setAnnouncementModalContext({
+        ...announcementModalContext,
+        visible: !announcementModalContext.visible,
+      }),
     [],
   );
 
@@ -313,11 +317,13 @@ const Sidebar = () => {
   );
 
   useEffect(() => {
-    if (isAnnouncementsModalVisible) {
-      setActiveAnnouncementId(announcements[0].uid);
+    if (announcementModalContext.visible) {
+      setActiveAnnouncementId(
+        announcementModalContext.visibleAnnouncementUid ?? announcements[0].uid,
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAnnouncementsModalVisible]);
+  }, [announcementModalContext.visible]);
 
   useEffect(() => {
     if (activeAnnouncementId) {
@@ -542,7 +548,7 @@ const Sidebar = () => {
     />,
     <Announcements
       key="announcements"
-      visible={isAnnouncementsModalVisible}
+      visible={announcementModalContext.visible}
       announcements={announcements || []}
       onClickAnnouncement={handleClickAnnouncement}
       onClose={toggleIsAnnouncementsModalVisible}
