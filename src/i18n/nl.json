@@ -737,7 +737,6 @@
   },
   "steps": {
     "offerTypeStep": {
-      "or": "Of",
       "types": {
         "event": "Evenement",
         "place": "Locatie"
