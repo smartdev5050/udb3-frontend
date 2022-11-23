@@ -19,6 +19,9 @@ const getHourOptions = () => {
       ),
     );
   });
+
+  times.push('23:59');
+
   return times;
 };
 
@@ -55,7 +58,7 @@ const filterEndTimes = (time: string, startTime: string) => {
   const [startTimeValue, endTimeValue] = timesToNumeric(startTime, time);
   const isAfterStartTime = startTimeValue < endTimeValue;
 
-  return isQuarterHour(time) && isAfterStartTime;
+  return time === '23:59' || (isQuarterHour(time) && isAfterStartTime);
 };
 
 const dropDownCss = css`
