@@ -160,7 +160,7 @@ const AdditionalInformationStep = ({
   }, [hash]);
 
   const handleSelectTab = (tab: string) => {
-    router.push({ hash: tab });
+    router.push({ hash: tab }, undefined, { shallow: true });
   };
 
   const [completedFields, setCompletedFields] = useState<
