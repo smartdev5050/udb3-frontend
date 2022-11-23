@@ -6,7 +6,7 @@ export const AnnouncementModalContext = React.createContext([
 ]);
 
 export const AnnouncementModalProvider = ({ children }) => {
-  const state = useState(false);
+  const state = useState({ visible: false, visibleAnnouncementUid: null });
   return (
     <AnnouncementModalContext.Provider value={state}>
       {children}
