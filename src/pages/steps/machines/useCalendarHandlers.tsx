@@ -1,4 +1,4 @@
-import { OpeningHour, useCalendarContext } from './machines/calendarMachine';
+import { OpeningHour, useCalendarContext } from './calendarMachine';
 
 export const useCalendarHandlers = () => {
   const calendarService = useCalendarContext();
