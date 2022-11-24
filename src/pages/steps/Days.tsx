@@ -58,8 +58,6 @@ export const Days = ({
 }: DaysProps) => {
   const days = useCalendarSelector((state) => state.context.days);
 
-  console.log({ days });
-
   const isOneOrMoreDays = useIsOneOrMoreDays();
 
   return (
