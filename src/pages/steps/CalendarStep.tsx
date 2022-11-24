@@ -31,6 +31,7 @@ const CalendarStep = ({ ...props }: CalendarStepProps) => {
     handleChooseFixedDays,
     handleChooseWithStartAndEndDate,
     handleChoosePermanent,
+    handleChangeOpeningHours,
   } = useCalendarHandlers();
 
   return (
@@ -46,6 +47,7 @@ const CalendarStep = ({ ...props }: CalendarStepProps) => {
             onChoosePermanent={handleChoosePermanent}
             onChangeStartDate={handleChangeStartDate}
             onChangeEndDate={handleChangeEndDate}
+            onChangeOpeningHours={handleChangeOpeningHours}
           />
         )}
         {isOneOrMoreDays && (

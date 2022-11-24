@@ -1,5 +1,6 @@
 import { ChangeEvent, useMemo } from 'react';
 
+import { Button, ButtonVariants } from '@/ui/Button';
 import { DatePeriodPicker } from '@/ui/DatePeriodPicker';
 import { FormElement } from '@/ui/FormElement';
 import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
@@ -7,7 +8,6 @@ import { Stack } from '@/ui/Stack';
 
 import {
   useCalendarSelector,
-  useIsPeriodic,
   useIsPermanent,
 } from './machines/calendarMachine';
 
@@ -15,34 +15,37 @@ const FixedDayOptions = {
   PERMANENT: 'permanent',
   PERIODIC: 'periodic',
 } as const;
+
+const options = [
+  {
+    label: 'Met start-en einddatum',
+    value: FixedDayOptions.PERIODIC,
+  },
+  {
+    label: 'Permanent',
+    value: FixedDayOptions.PERMANENT,
+  },
+];
+
 type FixedDaysProps = {
   onChooseWithStartAndEndDate: () => void;
   onChoosePermanent: () => void;
   onChangeStartDate: (date: Date | null) => void;
   onChangeEndDate: (date: Date | null) => void;
+  onChangeOpeningHours: () => void;
 };
+
 export const FixedDays = ({
   onChooseWithStartAndEndDate,
   onChoosePermanent,
   onChangeStartDate,
   onChangeEndDate,
+  onChangeOpeningHours,
 }: FixedDaysProps) => {
-  const isPeriodic = useIsPeriodic();
   const isPermanent = useIsPermanent();
 
   const startDate = useCalendarSelector((state) => state.context.startDate);
   const endDate = useCalendarSelector((state) => state.context.endDate);
-
-  const options = [
-    {
-      label: 'Met start-en einddatum',
-      value: FixedDayOptions.PERIODIC,
-    },
-    {
-      label: 'Permanent',
-      value: FixedDayOptions.PERMANENT,
-    },
-  ];
 
   const handleChangeOption = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -62,7 +65,7 @@ export const FixedDays = ({
   }, [isPermanent]);
 
   return (
-    <Stack spacing={5}>
+    <Stack spacing={5} alignItems="flex-start">
       <FormElement
         Component={
           <RadioButtonGroup
@@ -82,6 +85,12 @@ export const FixedDays = ({
         onDateStartChange={onChangeStartDate}
         onDateEndChange={onChangeEndDate}
       />
+      <Button
+        variant={ButtonVariants.SECONDARY}
+        onClick={() => console.log('open modal')}
+      >
+        Openingsuren toevoegen
+      </Button>
     </Stack>
   );
 };

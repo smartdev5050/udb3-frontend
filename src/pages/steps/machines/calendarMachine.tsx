@@ -90,6 +90,9 @@ type CalendarEvents =
       newHours: number;
       newMinutes: number;
       index: number;
+    }
+  | {
+      type: 'CHANGE_OPENING_HOURS';
     };
 
 const calendarSchema = {
@@ -151,6 +154,11 @@ const calendarMachineOptions: MachineOptions<
         if (event.type !== 'CHANGE_END_DATE') return context.endDate;
 
         return event.newDate.toString();
+      },
+    }),
+    changeOpeningHours: assign({
+      openingHours: (context, event) => {
+        if (event.type !== 'CHANGE_OPENING_HOURS') return context.openingHours;
       },
     }),
     changeStartDateOfDay: assign({
@@ -343,6 +351,9 @@ const calendarMachineConfig: MachineConfig<
         },
         CHANGE_END_DATE: {
           actions: ['changeEndDate'] as CalendarActions,
+        },
+        CHANGE_OPENING_HOURS: {
+          actions: ['changeOpeningHours'] as CalendarActions,
         },
         CHOOSE_ONE_OR_MORE_DAYS: {
           target: 'single',
