@@ -5,7 +5,10 @@ import { List } from '@/ui/List';
 import { getStackProps, StackProps } from '@/ui/Stack';
 import { TimeSpanPicker } from '@/ui/TimeSpanPicker';
 
-import { useCalendarSelector } from './machines/calendarMachine';
+import {
+  useCalendarSelector,
+  useIsOneOrMoreDays,
+} from './machines/calendarMachine';
 
 type ChangeTimeHandler = (
   index: number,
@@ -38,11 +41,11 @@ const getStartTime = (day: any) => {
 };
 
 type DaysProps = {
-  onDeleteDay: (index: number) => void;
+  onDeleteDay?: (index: number) => void;
   onChangeStartDate: (index: number, date: Date | null) => void;
   onChangeEndDate: (index: number, date: Date | null) => void;
-  onChangeStartTime: (index: number, hours: number, minutes: number) => void;
-  onChangeEndTime: (index: number, hours: number, minutes: number) => void;
+  onChangeStartTime?: (index: number, hours: number, minutes: number) => void;
+  onChangeEndTime?: (index: number, hours: number, minutes: number) => void;
 } & StackProps;
 
 export const Days = ({
@@ -54,6 +57,10 @@ export const Days = ({
   ...props
 }: DaysProps) => {
   const days = useCalendarSelector((state) => state.context.days);
+
+  console.log({ days });
+
+  const isOneOrMoreDays = useIsOneOrMoreDays();
 
   return (
     <List spacing={4} {...getStackProps(props)}>
@@ -80,14 +87,17 @@ export const Days = ({
               onDateStartChange={(newDate) => onChangeStartDate(index, newDate)}
               onDateEndChange={(newDate) => onChangeEndDate(index, newDate)}
             />
-            <TimeSpanPicker
-              spacing={3}
-              id={`calendar-step-day-${index}`}
-              startTime={startTime}
-              endTime={endTime}
-              onChangeStartTime={handleChangeStartTime}
-              onChangeEndTime={handleChangeEndTime}
-            />
+            {isOneOrMoreDays && (
+              <TimeSpanPicker
+                spacing={3}
+                id={`calendar-step-day-${index}`}
+                startTime={startTime}
+                endTime={endTime}
+                onChangeStartTime={handleChangeStartTime}
+                onChangeEndTime={handleChangeEndTime}
+              />
+            )}
+
             {days.length > 1 && (
               <Button
                 alignSelf="flex-end"
