@@ -7,6 +7,7 @@ import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
 import { Stack } from '@/ui/Stack';
 
 import {
+  OpeningHour,
   useCalendarSelector,
   useIsPermanent,
 } from './machines/calendarMachine';
@@ -32,7 +33,7 @@ type FixedDaysProps = {
   onChoosePermanent: () => void;
   onChangeStartDate: (date: Date | null) => void;
   onChangeEndDate: (date: Date | null) => void;
-  onChangeOpeningHours: () => void;
+  onChangeOpeningHours: (newOpeningHours: OpeningHour[]) => void;
 };
 
 export const FixedDays = ({

@@ -51,7 +51,7 @@ type DayOfWeek =
   | 'saturday'
   | 'sunday';
 
-type OpeningHour = {
+export type OpeningHour = {
   opens: string;
   closes: string;
   dayOfWeek: DayOfWeek[];
