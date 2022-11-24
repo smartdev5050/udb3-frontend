@@ -5,7 +5,7 @@ import { Inline } from '@/ui/Inline';
 import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
 import { Stack } from '@/ui/Stack';
 
-import { useCalendarSelector } from './machines/calendarMachine';
+import { useCalendarSelector } from '../machines/calendarMachine';
 
 const DaysOfWeek = {
   MONDAY: 'monday',
