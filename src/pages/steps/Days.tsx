@@ -5,6 +5,8 @@ import { List } from '@/ui/List';
 import { getStackProps, StackProps } from '@/ui/Stack';
 import { TimeSpanPicker } from '@/ui/TimeSpanPicker';
 
+import { useCalendarSelector } from './machines/calendarMachine';
+
 type ChangeTimeHandler = (
   index: number,
   hours: number,
@@ -36,7 +38,6 @@ const getStartTime = (day: any) => {
 };
 
 type DaysProps = {
-  days: any[];
   onDeleteDay: (index: number) => void;
   onChangeStartDate: (index: number, date: Date | null) => void;
   onChangeEndDate: (index: number, date: Date | null) => void;
@@ -45,7 +46,6 @@ type DaysProps = {
 } & StackProps;
 
 export const Days = ({
-  days,
   onDeleteDay,
   onChangeStartDate,
   onChangeEndDate,
@@ -53,6 +53,8 @@ export const Days = ({
   onChangeEndTime,
   ...props
 }: DaysProps) => {
+  const days = useCalendarSelector((state) => state.context.days);
+
   return (
     <List spacing={4} {...getStackProps(props)}>
       {days.map((day, index) => {
