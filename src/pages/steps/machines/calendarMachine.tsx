@@ -357,7 +357,7 @@ const calendarMachine =
 
 const useCalendarService = () => useInterpret(calendarMachine);
 
-export const CalendarMachineContext = createContext(
+const CalendarMachineContext = createContext(
   {} as Interpreter<CalendarContext, CalendarSchema, CalendarEvents>,
 );
 
