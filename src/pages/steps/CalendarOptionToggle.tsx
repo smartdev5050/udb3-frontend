@@ -2,6 +2,7 @@ import { parseSpacing } from '@/ui/Box';
 import { Icon, Icons } from '@/ui/Icon';
 import { getInlineProps, Inline } from '@/ui/Inline';
 import { ToggleBox } from '@/ui/ToggleBox';
+
 import { useIsFixedDays, useIsOneOrMoreDays } from './machines/calendarMachine';
 
 type CalendarOptionToggleProps = {

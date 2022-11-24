@@ -1,8 +1,10 @@
 import { ChangeEvent, useMemo } from 'react';
+
 import { DatePeriodPicker } from '@/ui/DatePeriodPicker';
 import { FormElement } from '@/ui/FormElement';
 import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
 import { Stack } from '@/ui/Stack';
+
 import {
   useCalendarSelector,
   useIsPeriodic,
