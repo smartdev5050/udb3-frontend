@@ -42,11 +42,26 @@ const getEndDate = () => {
   return today.toString();
 };
 
+type DayOfWeek =
+  | 'monday'
+  | 'tuesday'
+  | 'wednesday'
+  | 'thursday'
+  | 'friday'
+  | 'saturday'
+  | 'sunday';
+
+type OpeningHour = {
+  opens: string;
+  closes: string;
+  dayOfWeek: DayOfWeek[];
+};
+
 const initialCalendarContext = {
   days: [{ startDate: getStartDate(), endDate: getEndDate() }],
   startDate: getStartDate(),
   endDate: getEndDate(),
-  openingHours: [],
+  openingHours: [] as OpeningHour[],
 };
 
 type CalendarContext = typeof initialCalendarContext;
