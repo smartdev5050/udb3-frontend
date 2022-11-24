@@ -34,11 +34,9 @@ type OneOrMoreDaysProps = {
 };
 
 const OneOrMoreDays = ({ onAddDay, ...handlers }: OneOrMoreDaysProps) => {
-  const days = useCalendarSelector((state) => state.context.days);
-
   return (
     <Stack spacing={5} alignItems="flex-start">
-      <Days days={days} {...handlers} />
+      <Days {...handlers} />
       <Button variant={ButtonVariants.SECONDARY} onClick={onAddDay}>
         Dag toevoegen
       </Button>

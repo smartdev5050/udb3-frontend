@@ -377,11 +377,11 @@ export const CalendarMachineProvider = ({
 
 export const useCalendarContext = () => useContext(CalendarMachineContext);
 
-export const useCalendarSelector = (
-  selector: (state: CalendarState) => any,
+export const useCalendarSelector = <T,>(
+  selector: (state: CalendarState) => T,
 ) => {
   const calendarService = useCalendarContext();
-  return useSelector(calendarService, selector);
+  return useSelector(calendarService, selector) as T;
 };
 
 export const useIsOneOrMoreDays = () =>
