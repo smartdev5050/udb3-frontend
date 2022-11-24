@@ -8,7 +8,7 @@ import { TimeSpanPicker } from '@/ui/TimeSpanPicker';
 import {
   useCalendarSelector,
   useIsOneOrMoreDays,
-} from './machines/calendarMachine';
+} from '../machines/calendarMachine';
 
 type ChangeTimeHandler = (
   index: number,

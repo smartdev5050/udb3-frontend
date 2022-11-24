@@ -8,9 +8,9 @@ import {
   useIsFixedDays,
   useIsOneOrMoreDays,
 } from './machines/calendarMachine';
+import { useCalendarHandlers } from './machines/useCalendarHandlers';
 import { OneOrMoreDays } from './OneOrMoreDays';
 import { FormDataUnion, StepsConfiguration } from './Steps';
-import { useCalendarHandlers } from './useCalendarHandlers';
 
 type CalendarStepProps = StackProps;
 
