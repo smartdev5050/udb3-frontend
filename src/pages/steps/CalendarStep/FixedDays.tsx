@@ -6,13 +6,13 @@ import { FormElement } from '@/ui/FormElement';
 import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
 import { Stack } from '@/ui/Stack';
 
-import { CalendarOpeninghoursModal } from './CalendarOpeningHoursModal';
 import {
   OpeningHour,
   useCalendarSelector,
   useIsPeriodic,
   useIsPermanent,
 } from '../machines/calendarMachine';
+import { CalendarOpeninghoursModal } from './CalendarOpeninghoursModal';
 
 const FixedDayOptions = {
   PERMANENT: 'permanent',
