@@ -1,0 +1,1 @@
+export { additionalInformationStepConfiguration } from './AdditionalInformationStep';
