@@ -1,4 +1,3 @@
-import { useSelector } from '@xstate/react';
 import { ChangeEvent, useMemo } from 'react';
 
 import { parseSpacing } from '@/ui/Box';
@@ -9,7 +8,6 @@ import { getInlineProps, Inline } from '@/ui/Inline';
 import { Panel } from '@/ui/Panel';
 import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
-import { Text } from '@/ui/Text';
 import { ToggleBox } from '@/ui/ToggleBox';
 
 import { Days } from './Days';
@@ -19,7 +17,6 @@ import {
   useCalendarSelector,
   useIsFixedDays,
   useIsOneOrMoreDays,
-  useIsPeriodic,
   useIsPermanent,
 } from './machines/calendarMachine';
 import { FormDataUnion, StepsConfiguration } from './Steps';
@@ -34,6 +31,8 @@ type OneOrMoreDaysProps = {
 };
 
 const OneOrMoreDays = ({ onAddDay, ...handlers }: OneOrMoreDaysProps) => {
+  const days = useCalendarSelector((state) => state.context.days);
+
   return (
     <Stack spacing={5} alignItems="flex-start">
       <Days {...handlers} />
@@ -47,6 +46,10 @@ const OneOrMoreDays = ({ onAddDay, ...handlers }: OneOrMoreDaysProps) => {
 type FixedDaysProps = {
   onChooseWithStartAndEndDate: () => void;
   onChoosePermanent: () => void;
+  onChangeStartDate: (index: number, date: Date | null) => void;
+  onChangeEndDate: (index: number, date: Date | null) => void;
+  onChangeStartTime: (index: number, hours: number, minutes: number) => void;
+  onChangeEndTime: (index: number, hours: number, minutes: number) => void;
 };
 
 const FixedDayOptions = {
@@ -57,8 +60,8 @@ const FixedDayOptions = {
 const FixedDays = ({
   onChooseWithStartAndEndDate,
   onChoosePermanent,
+  ...handlers
 }: FixedDaysProps) => {
-  const isPeriodic = useIsPeriodic();
   const isPermanent = useIsPermanent();
 
   const options = [
@@ -73,7 +76,7 @@ const FixedDays = ({
   ];
 
   const handleChangeOption = (event: ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
+    const { value } = event.target;
     if (value === FixedDayOptions.PERIODIC) {
       onChooseWithStartAndEndDate();
     }
@@ -102,6 +105,7 @@ const FixedDays = ({
         }
         id="fixed-days-options"
       />
+      <Days {...handlers} />
     </Stack>
   );
 };
@@ -222,6 +226,9 @@ const CalendarStep = ({ ...props }: CalendarStepProps) => {
           <FixedDays
             onChooseWithStartAndEndDate={handleChooseWithStartAndEndDate}
             onChoosePermanent={handleChoosePermanent}
+            onChangeEndDate={handleChangeEndDate}
+            onChangeStartTime={handleChangeStartTime}
+            onChangeEndTime={handleChangeEndTime}
           />
         )}
         {isOneOrMoreDays && (
