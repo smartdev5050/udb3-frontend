@@ -19,6 +19,8 @@ import {
   useCalendarSelector,
   useIsFixedDays,
   useIsOneOrMoreDays,
+  useIsPeriodic,
+  useIsPermanent,
 } from './machines/calendarMachine';
 import { FormDataUnion, StepsConfiguration } from './Steps';
 
@@ -51,17 +53,20 @@ type FixedDaysProps = {
 
 const FixedDayOptions = {
   PERMANENT: 'permanent',
-  WITH_START_AND_END_DATE: 'Met start-en einddatum',
+  PERIODIC: 'periodic',
 } as const;
 
 const FixedDays = ({
   onChooseWithStartAndEndDate,
   onChoosePermanent,
 }: FixedDaysProps) => {
+  const isPeriodic = useIsPeriodic();
+  const isPermanent = useIsPermanent();
+
   const options = [
     {
       label: 'Met start-en einddatum',
-      value: FixedDayOptions.WITH_START_AND_END_DATE,
+      value: FixedDayOptions.PERIODIC,
     },
     {
       label: 'Permanent',
@@ -71,22 +76,20 @@ const FixedDays = ({
 
   const handleChangeOption = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    console.log({ value });
-    if (value === FixedDayOptions.WITH_START_AND_END_DATE) {
+    if (value === FixedDayOptions.PERIODIC) {
       onChooseWithStartAndEndDate();
     }
     if (value === FixedDayOptions.PERMANENT) {
-      console.log('should trigger Permanent');
       onChoosePermanent();
     }
   };
 
   const selectedOption = useMemo(() => {
-    if (Object.keys(state.value)[0] === 'permanent') {
+    if (isPermanent) {
       return FixedDayOptions.PERMANENT;
     }
-    return FixedDayOptions.WITH_START_AND_END_DATE;
-  }, [state.value]);
+    return FixedDayOptions.PERIODIC;
+  }, [isPermanent]);
 
   return (
     <Stack spacing={5}>
@@ -209,8 +212,6 @@ const CalendarStep = ({ ...props }: CalendarStepProps) => {
   const handleChoosePermanent = () => {
     send('CHOOSE_PERMANENT');
   };
-
-  const calendarOption = state.value;
 
   return (
     <Stack spacing={4} {...getStackProps(props)}>

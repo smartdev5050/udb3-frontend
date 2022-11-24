@@ -393,3 +393,9 @@ export const useIsFixedDays = () =>
   useCalendarSelector(
     (state) => state.matches('periodic') || state.matches('permanent'),
   );
+
+export const useIsPeriodic = () =>
+  useCalendarSelector((state) => state.matches('periodic'));
+
+export const useIsPermanent = () =>
+  useCalendarSelector((state) => state.matches('permanent'));
