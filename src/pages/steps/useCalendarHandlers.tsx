@@ -1,4 +1,4 @@
-import { useCalendarContext } from './machines/calendarMachine';
+import { OpeningHour, useCalendarContext } from './machines/calendarMachine';
 
 export const useCalendarHandlers = () => {
   const calendarService = useCalendarContext();
@@ -68,6 +68,10 @@ export const useCalendarHandlers = () => {
     send('CHOOSE_PERMANENT');
   };
 
+  const handleChangeOpeningHours = (newOpeningHours: OpeningHour[]) => {
+    send('CHANGE_OPENING_HOURS');
+  };
+
   return {
     handleAddDay,
     handleDeleteDay,
@@ -81,5 +85,6 @@ export const useCalendarHandlers = () => {
     handleChooseFixedDays,
     handleChooseWithStartAndEndDate,
     handleChoosePermanent,
+    handleChangeOpeningHours,
   };
 };

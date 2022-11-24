@@ -42,11 +42,26 @@ const getEndDate = () => {
   return today.toString();
 };
 
+type DayOfWeek =
+  | 'monday'
+  | 'tuesday'
+  | 'wednesday'
+  | 'thursday'
+  | 'friday'
+  | 'saturday'
+  | 'sunday';
+
+export type OpeningHour = {
+  opens: string;
+  closes: string;
+  dayOfWeek: DayOfWeek[];
+};
+
 const initialCalendarContext = {
   days: [{ startDate: getStartDate(), endDate: getEndDate() }],
   startDate: getStartDate(),
   endDate: getEndDate(),
-  openingHours: [],
+  openingHours: [] as OpeningHour[],
 };
 
 type CalendarContext = typeof initialCalendarContext;
@@ -93,6 +108,7 @@ type CalendarEvents =
     }
   | {
       type: 'CHANGE_OPENING_HOURS';
+      newOpeningHours: OpeningHour[];
     };
 
 const calendarSchema = {
@@ -159,6 +175,7 @@ const calendarMachineOptions: MachineOptions<
     changeOpeningHours: assign({
       openingHours: (context, event) => {
         if (event.type !== 'CHANGE_OPENING_HOURS') return context.openingHours;
+        return [...event.newOpeningHours];
       },
     }),
     changeStartDateOfDay: assign({
