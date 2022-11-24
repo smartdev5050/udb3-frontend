@@ -44,6 +44,9 @@ const getEndDate = () => {
 
 const initialCalendarContext = {
   days: [{ startDate: getStartDate(), endDate: getEndDate() }],
+  startDate: getStartDate(),
+  endDate: getEndDate(),
+  openingHours: [],
 };
 
 type CalendarContext = typeof initialCalendarContext;
@@ -61,10 +64,18 @@ type CalendarEvents =
   | {
       type: 'CHANGE_START_DATE';
       newDate: Date;
-      index: number;
     }
   | {
       type: 'CHANGE_END_DATE';
+      newDate: Date;
+    }
+  | {
+      type: 'CHANGE_START_DATE_OF_DAY';
+      newDate: Date;
+      index: number;
+    }
+  | {
+      type: 'CHANGE_END_DATE_OF_DAY';
       newDate: Date;
       index: number;
     }
@@ -79,6 +90,9 @@ type CalendarEvents =
       newHours: number;
       newMinutes: number;
       index: number;
+    }
+  | {
+      type: 'CHANGE_OPENING_HOURS';
     };
 
 const calendarSchema = {
@@ -129,8 +143,27 @@ const calendarMachineOptions: MachineOptions<
       },
     }),
     changeStartDate: assign({
+      startDate: (context, event) => {
+        if (event.type !== 'CHANGE_START_DATE') return context.startDate;
+
+        return event.newDate.toString();
+      },
+    }),
+    changeEndDate: assign({
+      endDate: (context, event) => {
+        if (event.type !== 'CHANGE_END_DATE') return context.endDate;
+
+        return event.newDate.toString();
+      },
+    }),
+    changeOpeningHours: assign({
+      openingHours: (context, event) => {
+        if (event.type !== 'CHANGE_OPENING_HOURS') return context.openingHours;
+      },
+    }),
+    changeStartDateOfDay: assign({
       days: (context, event) => {
-        if (event.type !== 'CHANGE_START_DATE') return context.days;
+        if (event.type !== 'CHANGE_START_DATE_OF_DAY') return context.days;
 
         return context.days.map((day, index) => {
           if (index !== event.index) return day;
@@ -149,9 +182,9 @@ const calendarMachineOptions: MachineOptions<
         });
       },
     }),
-    changeEndDate: assign({
+    changeEndDateOfDay: assign({
       days: (context, event) => {
-        if (event.type !== 'CHANGE_END_DATE') return context.days;
+        if (event.type !== 'CHANGE_END_DATE_OF_DAY') return context.days;
 
         return context.days.map((day, index) => {
           if (index !== event.index) return day;
@@ -241,6 +274,12 @@ const calendarMachineConfig: MachineConfig<
         CHANGE_END_DATE: {
           actions: ['changeEndDate'] as CalendarActions,
         },
+        CHANGE_START_DATE_OF_DAY: {
+          actions: ['changeStartDateOfDay'] as CalendarActions,
+        },
+        CHANGE_END_DATE_OF_DAY: {
+          actions: ['changeEndDateOfDay'] as CalendarActions,
+        },
         CHANGE_START_HOUR: {
           actions: ['changeStartHour'] as CalendarActions,
         },
@@ -268,11 +307,11 @@ const calendarMachineConfig: MachineConfig<
             actions: ['removeDay'] as CalendarActions,
           },
         ],
-        CHANGE_START_DATE: {
-          actions: ['changeStartDate'] as CalendarActions,
+        CHANGE_START_DATE_OF_DAY: {
+          actions: ['changeStartDateOfDay'] as CalendarActions,
         },
-        CHANGE_END_DATE: {
-          actions: ['changeEndDate'] as CalendarActions,
+        CHANGE_END_DATE_OF_DAY: {
+          actions: ['changeEndDateOfDay'] as CalendarActions,
         },
         CHANGE_START_HOUR: {
           actions: ['changeStartHour'] as CalendarActions,
@@ -307,6 +346,15 @@ const calendarMachineConfig: MachineConfig<
         },
       },
       on: {
+        CHANGE_START_DATE: {
+          actions: ['changeStartDate'] as CalendarActions,
+        },
+        CHANGE_END_DATE: {
+          actions: ['changeEndDate'] as CalendarActions,
+        },
+        CHANGE_OPENING_HOURS: {
+          actions: ['changeOpeningHours'] as CalendarActions,
+        },
         CHOOSE_ONE_OR_MORE_DAYS: {
           target: 'single',
         },
