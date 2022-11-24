@@ -1,12 +1,12 @@
-import { ChangeEvent, useMemo } from 'react';
+import { ChangeEvent, useMemo, useState } from 'react';
 
 import { Button, ButtonVariants } from '@/ui/Button';
 import { DatePeriodPicker } from '@/ui/DatePeriodPicker';
 import { FormElement } from '@/ui/FormElement';
-import { Inline } from '@/ui/Inline';
 import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
 import { Stack } from '@/ui/Stack';
 
+import { CalendarOpeninghoursModal } from './CalendarOpeningHoursModal';
 import {
   OpeningHour,
   useCalendarSelector,
@@ -45,6 +45,11 @@ export const FixedDays = ({
   onChangeEndDate,
   onChangeOpeningHours,
 }: FixedDaysProps) => {
+  const [
+    isCalendarOpeninghoursModalVisible,
+    setIsCalendarOpeninghoursModalVisible,
+  ] = useState(false);
+
   const isPeriodic = useIsPeriodic();
   const isPermanent = useIsPermanent();
 
@@ -94,11 +99,15 @@ export const FixedDays = ({
         <Button
           key="date-add-openinghours-button"
           variant={ButtonVariants.SECONDARY}
-          onClick={() => console.log('open modal')}
+          onClick={() => setIsCalendarOpeninghoursModalVisible(true)}
         >
           Openingsuren toevoegen
         </Button>,
       ]}
+      <CalendarOpeninghoursModal
+        visible={isCalendarOpeninghoursModalVisible}
+        onClose={() => setIsCalendarOpeninghoursModalVisible(false)}
+      />
     </Stack>
   );
 };
