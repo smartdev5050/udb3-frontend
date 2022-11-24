@@ -1,1 +1,1 @@
-export { additionalInformationStepConfiguration } from './AdditionalInformationStep';
+export * from './AdditionalInformationStep';
