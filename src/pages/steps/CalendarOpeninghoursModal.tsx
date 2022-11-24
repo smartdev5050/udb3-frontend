@@ -1,8 +1,21 @@
 import { useTranslation } from 'react-i18next';
 
+import { CheckboxWithLabel } from '@/ui/CheckboxWithLabel';
+import { Inline } from '@/ui/Inline';
 import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
 import { Stack } from '@/ui/Stack';
-import { Text } from '@/ui/Text';
+
+import { useCalendarSelector } from './machines/calendarMachine';
+
+const DaysOfWeek = {
+  MONDAY: 'monday',
+  TUESDAY: 'tuesday',
+  WEDNESDAY: 'wednesday',
+  THURSDAY: 'thursday',
+  FRIDAY: 'friday',
+  SATURDAY: 'saturday',
+  SUNDAY: 'sunday',
+} as const;
 
 type CalendarOpeninghoursModalProps = {
   visible: boolean;
@@ -15,6 +28,10 @@ const CalendarOpeninghoursModal = ({
 }: CalendarOpeninghoursModalProps) => {
   const { t } = useTranslation();
 
+  const openinghours = useCalendarSelector(
+    (state) => state.context.openingHours,
+  );
+
   return (
     <Modal
       title="Openingsuren"
@@ -25,11 +42,25 @@ const CalendarOpeninghoursModal = ({
       cancelTitle="Annuleren"
       size={ModalSizes.MD}
       onConfirm={() => {
-        console.log('on confirm');
+        onClose();
       }}
     >
       <Stack spacing={4} padding={4}>
-        <Text></Text>
+        <Inline spacing={4}>
+          {Object.values(DaysOfWeek).map((dayOfWeek) => (
+            <CheckboxWithLabel
+              key={dayOfWeek}
+              className="day-of-week-radio"
+              id={`day-of-week-radio-${dayOfWeek}`}
+              name={dayOfWeek}
+              checked={false}
+              disabled={false}
+              onToggle={(e) => console.log('toggle')}
+            >
+              {t(`create.calendar.days.short.${dayOfWeek}`)}
+            </CheckboxWithLabel>
+          ))}
+        </Inline>
       </Stack>
     </Modal>
   );
