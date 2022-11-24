@@ -109,6 +109,19 @@
     "scope": {
       "title": "Wat wil je toevoegen?"
     },
+    "calendar": {
+      "days": {
+        "short": {
+          "monday": "Ma",
+          "tuesday": "Di",
+          "wednesday": "Wo",
+          "thursday": "Do",
+          "friday": "Vr",
+          "saturday": "Za",
+          "sunday": "Zo"
+        }
+      }
+    },
     "location": {
       "title": "Waar vindt dit evenement of deze activiteit plaats?",
       "is_online": {

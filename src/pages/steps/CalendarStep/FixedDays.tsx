@@ -1,4 +1,4 @@
-import { ChangeEvent, useMemo } from 'react';
+import { ChangeEvent, useMemo, useState } from 'react';
 
 import { Button, ButtonVariants } from '@/ui/Button';
 import { DatePeriodPicker } from '@/ui/DatePeriodPicker';
@@ -9,8 +9,10 @@ import { Stack } from '@/ui/Stack';
 import {
   OpeningHour,
   useCalendarSelector,
+  useIsPeriodic,
   useIsPermanent,
 } from '../machines/calendarMachine';
+import { CalendarOpeninghoursModal } from './CalendarOpeninghoursModal';
 
 const FixedDayOptions = {
   PERMANENT: 'permanent',
@@ -43,6 +45,12 @@ export const FixedDays = ({
   onChangeEndDate,
   onChangeOpeningHours,
 }: FixedDaysProps) => {
+  const [
+    isCalendarOpeninghoursModalVisible,
+    setIsCalendarOpeninghoursModalVisible,
+  ] = useState(false);
+
+  const isPeriodic = useIsPeriodic();
   const isPermanent = useIsPermanent();
 
   const startDate = useCalendarSelector((state) => state.context.startDate);
@@ -78,20 +86,28 @@ export const FixedDays = ({
         }
         id="fixed-days-options"
       />
-      <DatePeriodPicker
-        spacing={3}
-        id={`calendar-step-fixed`}
-        dateStart={new Date(startDate)}
-        dateEnd={new Date(endDate)}
-        onDateStartChange={onChangeStartDate}
-        onDateEndChange={onChangeEndDate}
+      {isPeriodic && [
+        <DatePeriodPicker
+          key="date-period-picker"
+          spacing={3}
+          id={`calendar-step-fixed`}
+          dateStart={new Date(startDate)}
+          dateEnd={new Date(endDate)}
+          onDateStartChange={onChangeStartDate}
+          onDateEndChange={onChangeEndDate}
+        />,
+        <Button
+          key="date-add-openinghours-button"
+          variant={ButtonVariants.SECONDARY}
+          onClick={() => setIsCalendarOpeninghoursModalVisible(true)}
+        >
+          Openingsuren toevoegen
+        </Button>,
+      ]}
+      <CalendarOpeninghoursModal
+        visible={isCalendarOpeninghoursModalVisible}
+        onClose={() => setIsCalendarOpeninghoursModalVisible(false)}
       />
-      <Button
-        variant={ButtonVariants.SECONDARY}
-        onClick={() => console.log('open modal')}
-      >
-        Openingsuren toevoegen
-      </Button>
     </Stack>
   );
 };
