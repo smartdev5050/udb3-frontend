@@ -1,4 +1,5 @@
-import { FC, useCallback, useState } from 'react';
+import Router, { useRouter } from 'next/router';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
@@ -135,6 +136,8 @@ const AdditionalInformationStep = ({
   variant,
   ...props
 }: Props) => {
+  const { asPath, ...router } = useRouter();
+
   const queryClient = useQueryClient();
 
   const invalidateEventQuery = useCallback(
@@ -148,6 +151,17 @@ const AdditionalInformationStep = ({
   );
 
   const [tab, setTab] = useState('description');
+
+  const [_path, hash] = asPath.split('#');
+
+  useEffect(() => {
+    if (!hash || !Object.values(Fields).some((field) => hash === field)) return;
+    setTab(hash);
+  }, [hash]);
+
+  const handleSelectTab = (tab: string) => {
+    router.push({ hash: tab }, undefined, { shallow: true });
+  };
 
   const [completedFields, setCompletedFields] = useState<
     Record<Field, boolean>
@@ -166,7 +180,7 @@ const AdditionalInformationStep = ({
     <Stack {...getStackProps(props)}>
       <Tabs
         activeKey={tab}
-        onSelect={setTab}
+        onSelect={handleSelectTab}
         css={`
           .tab-content {
             padding-top: ${parseSpacing(3)};

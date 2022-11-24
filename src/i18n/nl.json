@@ -260,7 +260,10 @@
         "add_new_label": "Voeg nieuwe organisator toe: ",
         "change": "Wijzig organisatie",
         "title": "Organisatie",
-        "or_select_recent_used_organizer": "Of selecteer een van je laatst gebruikte organisaties"
+        "or_select_recent_used_organizer": "Of selecteer een van je laatst gebruikte organisaties",
+        "uitpas_cardsystems": "UiTPAS Kaartsystemen",
+        "uitpas_info": "Je activiteit is nu geregistreerd als UiTPAS activiteit.",
+        "uitpas_info_no_price_alert": "Dit is een UiTPAS organisator. Voeg een <link1>prijs</link1> toe om je evenement te publiceren als UiTPAS activiteit"
       },
       "media": {
         "title": "Media"
@@ -281,7 +284,7 @@
         "target": "Doelgroep",
         "title": "Prijzen",
         "uitpas_error": "De UiTPAS prijs wordt voor jou berekend door UiTdatabank. Je kan deze niet zelf toevoegen.",
-        "uitpas_info": "UiTPAS prijzen werden automatisch toegevoegd"
+        "uitpas_info": "Het UiTPAS kansentarief wordt automatish berekend op basis van de basisprijs en de actieve kaartsystemen."
       },
       "title": "Laat je evenement extra opvallen"
     },
@@ -737,7 +740,6 @@
   },
   "steps": {
     "offerTypeStep": {
-      "or": "Of",
       "types": {
         "event": "Evenement",
         "place": "Locatie"
