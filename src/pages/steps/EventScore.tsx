@@ -236,11 +236,11 @@ const EventScore = ({ completedFields, eventId, ...props }: Props) => {
           </Text>
           <Button
             onClick={() =>
-              setAnnouncementModalContext({
-                ...announcementModalContext,
+              setAnnouncementModalContext((prevModalContext) => ({
+                ...prevModalContext,
                 visible: true,
                 visibleAnnouncementUid: ANNOUNCEMENT_UID,
-              })
+              }))
             }
             variant={ButtonVariants.UNSTYLED}
           >

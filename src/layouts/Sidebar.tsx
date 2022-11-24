@@ -5,7 +5,10 @@ import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
-import { useAnnouncementModalContext } from '@/context/AnnouncementModalContext';
+import {
+  AnnouncementModalContext,
+  useAnnouncementModalContext,
+} from '@/context/AnnouncementModalContext';
 import { useGetAnnouncementsQuery } from '@/hooks/api/announcements';
 import { useGetEventsToModerateQuery } from '@/hooks/api/events';
 import {
@@ -304,10 +307,10 @@ const Sidebar = () => {
 
   const toggleIsAnnouncementsModalVisible = useCallback(
     () =>
-      setAnnouncementModalContext({
-        ...announcementModalContext,
-        visible: !announcementModalContext.visible,
-      }),
+      setAnnouncementModalContext((prevModalContext) => ({
+        ...prevModalContext,
+        visible: false,
+      })),
     [],
   );
 

@@ -178,7 +178,12 @@ const Announcements = ({
       title={t('announcements.new_features')}
       onShow={onShow}
       scrollable={true}
-      onClose={() => setModalContext({ ...modalContext, visible: false })}
+      onClose={() =>
+        setModalContext((prevModalContext) => ({
+          ...prevModalContext,
+          visible: false,
+        }))
+      }
     >
       {announcements.length > 0 ? (
         <Inline>
