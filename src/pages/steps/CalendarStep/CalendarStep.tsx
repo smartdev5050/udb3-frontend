@@ -1,16 +1,16 @@
 import { Panel } from '@/ui/Panel';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 
-import { CalendarOptionToggle } from './CalendarOptionToggle';
-import { FixedDays } from './FixedDays';
 import {
   CalendarMachineProvider,
   useIsFixedDays,
   useIsOneOrMoreDays,
-} from './machines/calendarMachine';
-import { useCalendarHandlers } from './machines/useCalendarHandlers';
+} from '../machines/calendarMachine';
+import { useCalendarHandlers } from '../machines/useCalendarHandlers';
+import { FormDataUnion, StepsConfiguration } from '../Steps';
+import { CalendarOptionToggle } from './CalendarOptionToggle';
+import { FixedDays } from './FixedDays';
 import { OneOrMoreDays } from './OneOrMoreDays';
-import { FormDataUnion, StepsConfiguration } from './Steps';
 
 type CalendarStepProps = StackProps;
 

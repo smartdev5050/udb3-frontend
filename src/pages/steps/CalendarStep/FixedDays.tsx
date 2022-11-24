@@ -10,7 +10,7 @@ import {
   OpeningHour,
   useCalendarSelector,
   useIsPermanent,
-} from './machines/calendarMachine';
+} from '../machines/calendarMachine';
 
 const FixedDayOptions = {
   PERMANENT: 'permanent',
