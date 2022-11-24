@@ -101,7 +101,7 @@ const TimeSpanPicker = ({
           inputType="time"
           inputRequired={true}
           name="startTime"
-          id="startTime"
+          id={`${idPrefix}-start`}
           customFilter={(time) => filterStartTimes(time, endTime)}
           defaultInputValue={startTime}
           options={hourOptions}
@@ -123,7 +123,7 @@ const TimeSpanPicker = ({
           inputType="time"
           inputRequired={true}
           name="endTime"
-          id="endTime"
+          id={`${idPrefix}-end`}
           customFilter={(time) => filterEndTimes(time, startTime)}
           defaultInputValue={endTime}
           options={hourOptions}
