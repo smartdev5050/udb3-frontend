@@ -1,3 +1,5 @@
+import { useSelector } from '@xstate/react';
+
 import { parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
@@ -8,19 +10,16 @@ import { Text } from '@/ui/Text';
 import { ToggleBox } from '@/ui/ToggleBox';
 
 import { Days } from './Days';
-import { CalendarState, useCalendarMachine } from './machines/calendarMachine';
+import {
+  CalendarMachineProvider,
+  useCalendarContext,
+  useCalendarSelector,
+  useIsFixedDays,
+  useIsOneOrMoreDays,
+} from './machines/calendarMachine';
 import { FormDataUnion, StepsConfiguration } from './Steps';
 
-const isOneOrMoreDays = (value: string | Record<string, unknown>) =>
-  typeof value === 'string' && ['single', 'multiple'].includes(value);
-
-const isFixedDays = (value: string | Record<string, unknown>) =>
-  ['periodic', 'permanent'].some(
-    (key) => !!value && typeof value === 'object' && !!value[key],
-  );
-
-type OneOrMoreDaysProps<TState> = {
-  state: TState;
+type OneOrMoreDaysProps = {
   onAddDay: () => void;
   onDeleteDay: (index: number) => void;
   onChangeStartDate: (index: number, date: Date | null) => void;
@@ -29,14 +28,12 @@ type OneOrMoreDaysProps<TState> = {
   onChangeEndTime: (index: number, hours: number, minutes: number) => void;
 };
 
-const OneOrMoreDays = <TState extends CalendarState>({
-  state,
-  onAddDay,
-  ...handlers
-}: OneOrMoreDaysProps<TState>) => {
+const OneOrMoreDays = ({ onAddDay, ...handlers }: OneOrMoreDaysProps) => {
+  const days = useCalendarSelector((state) => state.context.days);
+
   return (
     <Stack spacing={5} alignItems="flex-start">
-      <Days days={state.context.days} {...handlers} />
+      <Days days={days} {...handlers} />
       <Button variant={ButtonVariants.SECONDARY} onClick={onAddDay}>
         Dag toevoegen
       </Button>
@@ -49,17 +46,18 @@ const FixedDays = () => {
 };
 
 type CalendarOptionToggleProps = {
-  value: string | Record<string, unknown>;
   onChooseOneOrMoreDays: () => void;
   onChooseFixedDays: () => void;
 };
 
 const CalendarOptionToggle = ({
-  value,
   onChooseOneOrMoreDays,
   onChooseFixedDays,
   ...props
 }: CalendarOptionToggleProps) => {
+  const isOneOrMoreDays = useIsOneOrMoreDays();
+  const isFixedDays = useIsFixedDays();
+
   return (
     <Inline
       spacing={5}
@@ -69,7 +67,7 @@ const CalendarOptionToggle = ({
     >
       <ToggleBox
         onClick={onChooseOneOrMoreDays}
-        active={isOneOrMoreDays(value)}
+        active={isOneOrMoreDays}
         icon={<Icon name={Icons.CALENDAR_ALT} />}
         text="Een of meerdere dagen"
         width="30%"
@@ -77,7 +75,7 @@ const CalendarOptionToggle = ({
       />
       <ToggleBox
         onClick={onChooseFixedDays}
-        active={isFixedDays(value)}
+        active={isFixedDays}
         icon={<Icon name={Icons.CALENDAR_ALT} />}
         text="Vaste dagen per week"
         width="30%"
@@ -90,7 +88,11 @@ const CalendarOptionToggle = ({
 type CalendarStepProps = StackProps;
 
 const CalendarStep = ({ ...props }: CalendarStepProps) => {
-  const [state, send] = useCalendarMachine();
+  const calendarService = useCalendarContext();
+  const send = calendarService.send;
+
+  const isOneOrMoreDays = useIsOneOrMoreDays();
+  const isFixedDays = useIsFixedDays();
 
   const handleDeleteDay = (index: number) => {
     return send('REMOVE_DAY', { index });
@@ -140,20 +142,16 @@ const CalendarStep = ({ ...props }: CalendarStepProps) => {
     send('CHOOSE_FIXED_DAYS');
   };
 
-  const calendarOption = state.value;
-
   return (
     <Stack spacing={4} {...getStackProps(props)}>
       <CalendarOptionToggle
-        value={calendarOption}
         onChooseOneOrMoreDays={handleChooseOneOrMoreDays}
         onChooseFixedDays={handleChooseFixedDays}
       />
       <Panel backgroundColor="white" padding={5}>
-        {isFixedDays(calendarOption) && <FixedDays />}
-        {isOneOrMoreDays(calendarOption) && (
+        {isFixedDays && <FixedDays />}
+        {isOneOrMoreDays && (
           <OneOrMoreDays
-            state={state}
             onDeleteDay={handleDeleteDay}
             onChangeStartDate={handleChangeStartDate}
             onChangeEndDate={handleChangeEndDate}
@@ -168,7 +166,12 @@ const CalendarStep = ({ ...props }: CalendarStepProps) => {
 };
 
 const calendarStepConfiguration: StepsConfiguration<FormDataUnion> = {
-  Component: CalendarStep,
+  // eslint-disable-next-line react/display-name
+  Component: (props: any) => (
+    <CalendarMachineProvider>
+      <CalendarStep {...props} />
+    </CalendarMachineProvider>
+  ),
   name: 'calendar',
   title: ({ t }) => 'Wanneer vindt dit evenement of deze activiteit plaats?',
   shouldShowStep: ({ watch, eventId, formState }) => {

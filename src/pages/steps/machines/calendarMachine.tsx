@@ -1,4 +1,4 @@
-import { useMachine } from '@xstate/react';
+import { useInterpret, useSelector } from '@xstate/react';
 import {
   getDate,
   getMonth,
@@ -7,19 +7,17 @@ import {
   setMonth,
   setYear,
 } from 'date-fns';
+import { createContext, ReactNode, useContext } from 'react';
 import {
   Actions,
   assign,
   createMachine,
+  Interpreter,
   MachineConfig,
   MachineOptions,
   State,
   StateNodeConfig,
 } from 'xstate';
-
-export const useCalendarMachine = () => {
-  return useMachine(calendarMachine);
-};
 
 const getTodayWithoutTime = () => {
   const date = new Date();
@@ -120,14 +118,11 @@ const calendarMachineOptions: MachineOptions<
         const lastDay = context.days.at(-1);
         if (!lastDay) return context.days;
 
-        console.log({ days: context.days, lastDay });
-
         return [...context.days, { ...lastDay }];
       },
     }),
     removeDay: assign({
       days: (context, event) => {
-        console.log('in removeDay');
         if (event.type !== 'REMOVE_DAY') return context.days;
 
         return context.days.filter((_, index) => index !== event.index);
@@ -186,10 +181,6 @@ const calendarMachineOptions: MachineOptions<
 
           startDate.setHours(event.newHours);
           startDate.setMinutes(event.newMinutes);
-
-          console.log({
-            str: startDate.toString(),
-          });
 
           return {
             ...day,
@@ -264,10 +255,7 @@ const calendarMachineConfig: MachineConfig<
           target: 'periodic',
         },
         ADD_DAY: {
-          actions: [
-            'addNewDay',
-            (context) => console.log('ctx after', context),
-          ] as CalendarActions,
+          actions: ['addNewDay'] as CalendarActions,
         },
         REMOVE_DAY: [
           {
@@ -366,3 +354,42 @@ const calendarMachineConfig: MachineConfig<
 const calendarMachine =
   /** @xstate-layout N4IgpgJg5mDOIC5QGMCGAbMA7CqBOAtLAC5gAOAdLAJZZSYDEAwgBIDybAygKID6AYgEkAGtwAivMQEEAmpwDaABgC6iUGQD2NYtQ1Y1IAB6IAnACYANCACeiAIwBWRQHYKDswDYAHAGYzDj2dFDwAWAF8wqzRMHHwiUkoaOkYpMQlpGSVVJBBNbV19HOMETxCKEy8HEJ87Z2c7RR8PEx8rWwQvDzsKHyDnEMqQkMc7EwiojGxcQhJyKlp6MGYWKQA5AHE+TgAVKQAlbckpbe4sgzzqHT0DYo9PChCWkOczF0VHRS820zsyrxNHE4QmYvP5vOMQNEpnFZokFoxWGtNrxuKt0sdTipzlpLgUbogPD4fA8PB4XM4as8HJ1vh1HBQPA5RnYWcDFNSIVDYjMEvNkktERstrsDrx2ABVPZnHIXK6FUC3MzEnxeZwtCmE4Z1Wn1DwPOxK0leUZOLqcybc+JzJKLZZIvioiQSqVYmU4uX4hCExQ9MmE5wOXUvZy0rquWpmZy+HwmYHOO7mmLTK2UAC2AFd0DoyAj2Fw+EJROi5NL1O68UVEMCvBRPD5FJH3HZjf9aWY7M0Hv4mnX1QFE9CeXMM1nqDmlqli6XcuXrpWEGyGc8KkrTZVGW3gg4GcHCWTfJUB5bYRQR9nGHtuABZNgANT4GWnsorCsQpXKgxqdQaTRaOruFB2DUzb9IS9YtEeyYnmeY4Xted4PrI8h2NkZb5HOr4IPWNYtg4ATGiCAYmA4tKjKSDxEga1RmO2nSQTCvIweOdpCrwOz7Ic0gnE+s7ykYiC9GUNGqkq8Z3OyIY2PYnThk8lSNA4FTOPRQ5ppm54CisrGOkc3GumhuIYfxWHGrW7w+AEsYGiYaokVJCC1IE5QODGSrEUyQw+CpKanupsGafabEioczo8ehfHFL03QGn4QzmIoQyOKRRoUPU1R3Kq1QNt50F+cxgrIjpoX6TO4Wer0NaKMR5iRl4WVeKqpGWQ8-QvBZDU-jlvJkGAeC6BA1DIBQWAaCwGjpngsAMJOYpsJKCglc+RnFLZqVucCfiOFGdntDR9Ide2AQSR2XVzD1fUaANQ0AO6XAAFmNE1TQVfDOgtqGlYZEX2AarjEQl9TtQGLlth23TxcEFJeA2ninZQ539YNFC3cQD3jZNLHIm9yEfUt30IKtbWxkqh3baDhLlJR8Z4TUVXKZEkIWlB3W9YjyDLBwPC8Gwqx8Gwey8Del5HCWi28Z6dxtiCJj6mYwyKZ4-gOHDFAI5dg0c-mvAAArcHsV5rKi2xhV9noNJY9lAZ0FDsmY5jPHczSqir52pqgWDYMQw2jejU0zdjYtlfOoxmIB1G1JUdufL4tL1t07bNtRTj-EyLu9W7HtYF7KNo09mOvXNezvdiQeYUdtbAs2oTkiY5hts8tbJ50PiPDRRJp3gGee8j92PRjL2zfNOMl6bwfmGHm3bVHDWtPZcsy72fiBJUtSfB3XdZ5rXM83zAtC4hou4+L87mDW9SdDZJhkkM3ikXVNsKc2dXydD9MTEmDFnen7ue1vfAAOqCG2CwIKHFeBrAkDpLimIj6l2MubUiLgZYNCZFVRwMZwQQhGhAOABguTM2tPCMAI8PTB3ZAybwK4hgNWhl0RBoxALARZE4EwVVYwqyYpgEhL54EVFSnUIkqoAREmCOTGWAI5YNn+CEakFkO5s29n3eAbo4G3ADG4V+csQjeFJDZKWnwbauUysCAYb9GYf1UqrVm6sbq919tw5a9hXjhgDEEGMjgGrUils2CgnRjTBGor4Mw8ibEOPxncVw1IXBaJ0c0SSu1onOUZAMFytRRjrx-lnRR9iVGj0wi8NsLRfQVCGLZWMmD36Dh8q7TJ2c7FPTCRLaktZ3KKVCP4Kqs92j1jKKMDqTQ1T-FGOEBm+DP7w2-pnYgjT5xyyajWQiAynAuA7F5UZTNxkzMwgQOZ9lOx+BVAMRkNFOkRAiEAA */
   createMachine(calendarMachineConfig, calendarMachineOptions);
+
+const useCalendarService = () => useInterpret(calendarMachine);
+
+export const CalendarMachineContext = createContext(
+  {} as Interpreter<CalendarContext, CalendarSchema, CalendarEvents>,
+);
+
+export const CalendarMachineProvider = ({
+  children,
+}: {
+  children: ReactNode;
+}) => {
+  const calendarService = useCalendarService();
+
+  return (
+    <CalendarMachineContext.Provider value={calendarService}>
+      {children}
+    </CalendarMachineContext.Provider>
+  );
+};
+
+export const useCalendarContext = () => useContext(CalendarMachineContext);
+
+export const useCalendarSelector = (
+  selector: (state: CalendarState) => any,
+) => {
+  const calendarService = useCalendarContext();
+  return useSelector(calendarService, selector);
+};
+
+export const useIsOneOrMoreDays = () =>
+  useCalendarSelector(
+    (state) => state.matches('single') || state.matches('multiple'),
+  );
+
+export const useIsFixedDays = () =>
+  useCalendarSelector(
+    (state) => state.matches('periodic') || state.matches('permanent'),
+  );
