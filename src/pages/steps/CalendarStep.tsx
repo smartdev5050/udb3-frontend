@@ -226,6 +226,7 @@ const CalendarStep = ({ ...props }: CalendarStepProps) => {
           <FixedDays
             onChooseWithStartAndEndDate={handleChooseWithStartAndEndDate}
             onChoosePermanent={handleChoosePermanent}
+            onChangeStartDate={handleChangeStartDate}
             onChangeEndDate={handleChangeEndDate}
             onChangeStartTime={handleChangeStartTime}
             onChangeEndTime={handleChangeEndTime}
