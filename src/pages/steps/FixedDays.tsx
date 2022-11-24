@@ -3,11 +3,13 @@ import { ChangeEvent, useMemo } from 'react';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { DatePeriodPicker } from '@/ui/DatePeriodPicker';
 import { FormElement } from '@/ui/FormElement';
+import { Inline } from '@/ui/Inline';
 import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
 import { Stack } from '@/ui/Stack';
 
 import {
   useCalendarSelector,
+  useIsPeriodic,
   useIsPermanent,
 } from './machines/calendarMachine';
 
@@ -42,6 +44,7 @@ export const FixedDays = ({
   onChangeEndDate,
   onChangeOpeningHours,
 }: FixedDaysProps) => {
+  const isPeriodic = useIsPeriodic();
   const isPermanent = useIsPermanent();
 
   const startDate = useCalendarSelector((state) => state.context.startDate);
@@ -77,20 +80,24 @@ export const FixedDays = ({
         }
         id="fixed-days-options"
       />
-      <DatePeriodPicker
-        spacing={3}
-        id={`calendar-step-fixed`}
-        dateStart={new Date(startDate)}
-        dateEnd={new Date(endDate)}
-        onDateStartChange={onChangeStartDate}
-        onDateEndChange={onChangeEndDate}
-      />
-      <Button
-        variant={ButtonVariants.SECONDARY}
-        onClick={() => console.log('open modal')}
-      >
-        Openingsuren toevoegen
-      </Button>
+      {isPeriodic && [
+        <DatePeriodPicker
+          key="date-period-picker"
+          spacing={3}
+          id={`calendar-step-fixed`}
+          dateStart={new Date(startDate)}
+          dateEnd={new Date(endDate)}
+          onDateStartChange={onChangeStartDate}
+          onDateEndChange={onChangeEndDate}
+        />,
+        <Button
+          key="date-add-openinghours-button"
+          variant={ButtonVariants.SECONDARY}
+          onClick={() => console.log('open modal')}
+        >
+          Openingsuren toevoegen
+        </Button>,
+      ]}
     </Stack>
   );
 };
