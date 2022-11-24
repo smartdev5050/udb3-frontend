@@ -108,6 +108,7 @@ type CalendarEvents =
     }
   | {
       type: 'CHANGE_OPENING_HOURS';
+      newOpeningHours: OpeningHour[];
     };
 
 const calendarSchema = {
@@ -174,6 +175,7 @@ const calendarMachineOptions: MachineOptions<
     changeOpeningHours: assign({
       openingHours: (context, event) => {
         if (event.type !== 'CHANGE_OPENING_HOURS') return context.openingHours;
+        return [...event.newOpeningHours];
       },
     }),
     changeStartDateOfDay: assign({
