@@ -1,10 +1,13 @@
 import { useSelector } from '@xstate/react';
+import { ChangeEvent, useMemo } from 'react';
 
 import { parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
+import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
 import { getInlineProps, Inline } from '@/ui/Inline';
 import { Panel } from '@/ui/Panel';
+import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { ToggleBox } from '@/ui/ToggleBox';
@@ -41,8 +44,65 @@ const OneOrMoreDays = ({ onAddDay, ...handlers }: OneOrMoreDaysProps) => {
   );
 };
 
-const FixedDays = () => {
-  return <Text>FixedDays</Text>;
+type FixedDaysProps = {
+  onChooseWithStartAndEndDate: () => void;
+  onChoosePermanent: () => void;
+};
+
+const FixedDayOptions = {
+  PERMANENT: 'permanent',
+  WITH_START_AND_END_DATE: 'Met start-en einddatum',
+} as const;
+
+const FixedDays = ({
+  onChooseWithStartAndEndDate,
+  onChoosePermanent,
+}: FixedDaysProps) => {
+  const options = [
+    {
+      label: 'Met start-en einddatum',
+      value: FixedDayOptions.WITH_START_AND_END_DATE,
+    },
+    {
+      label: 'Permanent',
+      value: FixedDayOptions.PERMANENT,
+    },
+  ];
+
+  const handleChangeOption = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    console.log({ value });
+    if (value === FixedDayOptions.WITH_START_AND_END_DATE) {
+      onChooseWithStartAndEndDate();
+    }
+    if (value === FixedDayOptions.PERMANENT) {
+      console.log('should trigger Permanent');
+      onChoosePermanent();
+    }
+  };
+
+  const selectedOption = useMemo(() => {
+    if (Object.keys(state.value)[0] === 'permanent') {
+      return FixedDayOptions.PERMANENT;
+    }
+    return FixedDayOptions.WITH_START_AND_END_DATE;
+  }, [state.value]);
+
+  return (
+    <Stack spacing={5}>
+      <FormElement
+        Component={
+          <RadioButtonGroup
+            name="fixed-days-options"
+            items={options}
+            selected={selectedOption}
+            onChange={handleChangeOption}
+          />
+        }
+        id="fixed-days-options"
+      />
+    </Stack>
+  );
 };
 
 type CalendarOptionToggleProps = {
@@ -142,6 +202,16 @@ const CalendarStep = ({ ...props }: CalendarStepProps) => {
     send('CHOOSE_FIXED_DAYS');
   };
 
+  const handleChooseWithStartAndEndDate = () => {
+    send('CHOOSE_WITH_START_AND_END_DATE');
+  };
+
+  const handleChoosePermanent = () => {
+    send('CHOOSE_PERMANENT');
+  };
+
+  const calendarOption = state.value;
+
   return (
     <Stack spacing={4} {...getStackProps(props)}>
       <CalendarOptionToggle
@@ -149,7 +219,12 @@ const CalendarStep = ({ ...props }: CalendarStepProps) => {
         onChooseFixedDays={handleChooseFixedDays}
       />
       <Panel backgroundColor="white" padding={5}>
-        {isFixedDays && <FixedDays />}
+        {isFixedDays && (
+          <FixedDays
+            onChooseWithStartAndEndDate={handleChooseWithStartAndEndDate}
+            onChoosePermanent={handleChoosePermanent}
+          />
+        )}
         {isOneOrMoreDays && (
           <OneOrMoreDays
             onDeleteDay={handleDeleteDay}
