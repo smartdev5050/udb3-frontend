@@ -26,7 +26,7 @@ import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { parseOfferId } from '@/utils/parseOfferId';
 
-import { OrganizerAddModal, OrganizerData } from '../OrganizerAddModal';
+import { OrganizerAddModal, OrganizerData } from '../../OrganizerAddModal';
 import { TabContentProps } from './AdditionalInformationStep';
 import { OrganizerPicker } from './OrganizerPicker';
 

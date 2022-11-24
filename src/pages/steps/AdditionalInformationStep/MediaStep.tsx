@@ -17,14 +17,14 @@ import { getStackProps, Stack } from '@/ui/Stack';
 import { Breakpoints } from '@/ui/theme';
 import { parseOfferId } from '@/utils/parseOfferId';
 
-import type { ImageType } from '../PictureUploadBox';
-import { PictureUploadBox } from '../PictureUploadBox';
-import { VideoLinkAddModal } from '../VideoLinkAddModal';
-import { VideoLinkDeleteModal } from '../VideoLinkDeleteModal';
-import type { Video, VideoEnriched } from '../VideoUploadBox';
-import { VideoUploadBox } from '../VideoUploadBox';
-import { PictureDeleteModal } from './modals/PictureDeleteModal';
-import { PictureUploadModal } from './modals/PictureUploadModal';
+import type { ImageType } from '../../PictureUploadBox';
+import { PictureUploadBox } from '../../PictureUploadBox';
+import { VideoLinkAddModal } from '../../VideoLinkAddModal';
+import { VideoLinkDeleteModal } from '../../VideoLinkDeleteModal';
+import type { Video, VideoEnriched } from '../../VideoUploadBox';
+import { VideoUploadBox } from '../../VideoUploadBox';
+import { PictureDeleteModal } from '../modals/PictureDeleteModal';
+import { PictureUploadModal } from '../modals/PictureUploadModal';
 
 type Props = {
   eventId?: string;
