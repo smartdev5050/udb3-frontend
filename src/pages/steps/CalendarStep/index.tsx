@@ -1,1 +1,1 @@
-export * from './CalendarStep';
+export { CalendarStep, calendarStepConfiguration } from './CalendarStep';
