@@ -149,9 +149,9 @@ const CalendarOpeninghoursModal = ({
             <Inline spacing={4}>
               {Object.values(DaysOfWeek).map((dayOfWeek) => (
                 <CheckboxWithLabel
-                  key={dayOfWeek}
+                  key={`${openingHour.uuid}-${dayOfWeek}`}
                   className="day-of-week-radio"
-                  id={`day-of-week-radio-${dayOfWeek}`}
+                  id={`day-of-week-radio-${openingHour.uuid}-${dayOfWeek}`}
                   name={dayOfWeek}
                   checked={openingHour.dayOfWeek.includes(dayOfWeek)}
                   disabled={false}
