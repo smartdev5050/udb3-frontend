@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuidv4 } from 'uuid';
 
+import { Values } from '@/types/Values';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { CheckboxWithLabel } from '@/ui/CheckboxWithLabel';
 import { Icons } from '@/ui/Icon';
@@ -100,6 +101,31 @@ const CalendarOpeninghoursModal = ({
     );
   };
 
+  const handleToggleDaysOfWeek = (
+    event: ChangeEvent<HTMLFormElement>,
+    dayOfWeek: Values<typeof DaysOfWeek>,
+    uuidToChange: string,
+  ) => {
+    const checked = event.target.checked;
+    setOpeningHours((current) =>
+      current.map((openingHour) => {
+        if (openingHour.uuid === uuidToChange && checked) {
+          openingHour.dayOfWeek.push(dayOfWeek);
+        }
+        if (
+          openingHour.uuid === uuidToChange &&
+          !checked &&
+          openingHour.dayOfWeek.includes(dayOfWeek)
+        ) {
+          openingHour.dayOfWeek = openingHour.dayOfWeek.filter(
+            (day) => day !== dayOfWeek,
+          );
+        }
+        return openingHour;
+      }),
+    );
+  };
+
   return (
     <Modal
       title="Openingsuren"
@@ -127,9 +153,11 @@ const CalendarOpeninghoursModal = ({
                   className="day-of-week-radio"
                   id={`day-of-week-radio-${dayOfWeek}`}
                   name={dayOfWeek}
-                  checked={false}
+                  checked={openingHour.dayOfWeek.includes(dayOfWeek)}
                   disabled={false}
-                  onToggle={(e) => console.log('toggle')}
+                  onToggle={(e) =>
+                    handleToggleDaysOfWeek(e, dayOfWeek, openingHour.uuid)
+                  }
                 >
                   {t(`create.calendar.days.short.${dayOfWeek}`)}
                 </CheckboxWithLabel>
