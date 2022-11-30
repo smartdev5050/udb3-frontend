@@ -1,5 +1,5 @@
 import get from 'lodash/get';
-import { borderRadius, lighten } from 'polished';
+import { lighten } from 'polished';
 
 import type { Values } from '@/types/Values';
 
@@ -272,6 +272,9 @@ const theme = {
     },
     eventItem: {
       borderColor: colors.grey3,
+    },
+    eventScore: {
+      infoIconColor: colors.grey6,
     },
     detailTable: {
       backgroundColor: colors.grey1,

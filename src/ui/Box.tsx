@@ -471,6 +471,7 @@ const boxProps = css`
   ${parseProperty('textAlign')};
   ${parseProperty('justifyContent')};
   ${parseProperty('alignItems')};
+  ${parseProperty('alignSelf')};
   ${parseProperty('lineHeight')};
   ${parseProperty('color')};
   ${parseProperty('stroke')};
@@ -488,6 +489,7 @@ const boxProps = css`
 
 const boxPropTypes = [
   'alignItems',
+  'alignSelf',
   'animation',
   'as',
   'backgroundColor',

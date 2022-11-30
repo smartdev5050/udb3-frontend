@@ -31,7 +31,7 @@ type PictureUploadModalProps = {
   onSubmitValid: (data: FormData) => Promise<void>;
 };
 
-const MAX_FILE_SIZE = 5_000_000;
+const MAX_FILE_SIZE = 20_000_000;
 const ALLOWED_FILE_TYPES = ['png', 'jpg', 'jpeg', 'gif'];
 
 const getValue = getValueFromTheme('pictureUploadBox');
@@ -128,7 +128,9 @@ const PictureUploadBox = forwardRef<HTMLInputElement, Props>(
           <Text variant={TextVariants.ERROR}>{error}</Text>
         </Stack>
         <Text variant={TextVariants.MUTED} textAlign="center">
-          {t('pictures.upload_modal.file_requirements')}
+          {t('pictures.upload_modal.file_requirements', {
+            maxFileSize: MAX_FILE_SIZE / 1_000_000,
+          })}
         </Text>
       </Stack>
     );
