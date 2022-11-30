@@ -1,12 +1,14 @@
+import { useEffect } from 'react';
+
+import { useGetEventByIdQuery } from '@/hooks/api/events';
+import { Event } from '@/types/Event';
 import { Panel } from '@/ui/Panel';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 
 import {
   CalendarMachineProvider,
-  useCalendarService,
   useIsFixedDays,
   useIsOneOrMoreDays,
-  useSetCalendarContext,
 } from '../machines/calendarMachine';
 import { useCalendarHandlers } from '../machines/useCalendarHandlers';
 import { FormDataUnion, StepsConfiguration } from '../Steps';
@@ -14,9 +16,9 @@ import { CalendarOptionToggle } from './CalendarOptionToggle';
 import { FixedDays } from './FixedDays';
 import { OneOrMoreDays } from './OneOrMoreDays';
 
-type CalendarStepProps = StackProps;
+type CalendarStepProps = StackProps & { eventId?: string };
 
-const CalendarStep = ({ ...props }: CalendarStepProps) => {
+const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
   const isOneOrMoreDays = useIsOneOrMoreDays();
   const isFixedDays = useIsFixedDays();
 
@@ -37,21 +39,37 @@ const CalendarStep = ({ ...props }: CalendarStepProps) => {
     handleChangeOpeningHours,
   } = useCalendarHandlers();
 
-  const startDate = new Date();
+  console.log({ eventId });
 
-  const initialContext = {
-    days: [
-      { startDate: startDate.toString(), endDate: startDate.toString() },
-      { startDate: startDate.toString(), endDate: startDate.toString() },
-      { startDate: startDate.toString(), endDate: startDate.toString() },
-      { startDate: startDate.toString(), endDate: startDate.toString() },
-    ],
-    startDate: startDate.toString(),
-    endDate: startDate.toString(),
-    openingHours: [],
-  };
+  const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
 
-  handleInitialContext(initialContext);
+  // @ts-expect-error
+  const event: Event | undefined = getEventByIdQuery.data;
+
+  console.log({ event });
+
+  useEffect(() => {
+    if (event) {
+      const startDate = new Date();
+
+      const initialContext = {
+        days: [],
+        startDate: startDate.toString(),
+        endDate: startDate.toString(),
+        openingHours: [],
+      };
+
+      const days = event.subEvent.map((subEvent) => ({
+        startDate: subEvent.startDate,
+        endDate: subEvent.endDate,
+      }));
+
+      handleInitialContext({
+        ...initialContext,
+        days,
+      });
+    }
+  }, [event, handleInitialContext]);
 
   return (
     <Stack spacing={4} {...getStackProps(props)}>

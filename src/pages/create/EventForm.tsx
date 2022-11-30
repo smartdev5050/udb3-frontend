@@ -98,7 +98,12 @@ const EventForm = () => {
       configurations={[
         scopeStepConfiguration,
         typeAndThemeStepConfiguration,
-        calendarStepConfiguration,
+        {
+          ...calendarStepConfiguration,
+          stepProps: {
+            eventId: query.id || query.eventId,
+          },
+        },
         locationStepConfiguration,
         nameAndAgeRangeStepConfiguration,
         {
