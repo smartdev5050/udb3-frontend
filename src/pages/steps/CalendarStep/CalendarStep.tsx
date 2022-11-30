@@ -58,10 +58,20 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
         endDate: subEvent.endDate,
       }));
 
-      handleInitialContext({
+      const openingHours = (event.openingHours ?? []).map((openingHour) => ({
+        opens: openingHour.opens,
+        closes: openingHour.closes,
+        dayOfWeek: openingHour.dayOfWeek,
+      }));
+
+      const newContext = {
         ...initialContext,
         ...(days.length > 0 && { days }),
-      });
+        ...(openingHours.length > 0 && { openingHours }),
+      };
+
+      // @ts-ignore
+      handleInitialContext(newContext);
     }
   }, [event, handleInitialContext]);
 

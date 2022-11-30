@@ -29,7 +29,7 @@ type CalendarOpeninghoursModalProps = {
   onClose: () => void;
 };
 
-type OpeningHourWithId = OpeningHour & { uuid: string };
+type OpeningHourWithId = OpeningHour;
 
 const CalendarOpeninghoursModal = ({
   visible,
@@ -41,10 +41,11 @@ const CalendarOpeninghoursModal = ({
     (state) => state.context.openingHours,
   );
 
-  const [openingHours, setOpeningHours] = useState<OpeningHourWithId[]>([]);
+  const [openingHours, setOpeningHours] = useState<OpeningHour[]>([]);
+  const [openingHoursInitialized, setOpeningHoursInitialized] = useState(false);
 
   useEffect(() => {
-    console.log({ openingHours });
+    if (openingHoursInitialized) return;
     if (
       openingHours.length === 0 &&
       openinghoursFromStateMachine?.length === 0
@@ -52,20 +53,26 @@ const CalendarOpeninghoursModal = ({
       setOpeningHours((prevOpeningHours) => [
         ...prevOpeningHours,
         {
-          uuid: uuidv4(),
           opens: '00:00',
           closes: '23:59',
           dayOfWeek: [],
         },
       ]);
+      return;
     }
-  }, [openinghoursFromStateMachine, openingHours, setOpeningHours]);
+    setOpeningHours(openinghoursFromStateMachine);
+    setOpeningHoursInitialized(true);
+  }, [
+    openinghoursFromStateMachine,
+    openingHours,
+    setOpeningHours,
+    openingHoursInitialized,
+  ]);
 
   const handleAddOpeningHours = () => {
     setOpeningHours((prevOpeningHours) => [
       ...prevOpeningHours,
       {
-        uuid: uuidv4(),
         opens: '00:00',
         closes: '23:59',
         dayOfWeek: [],
@@ -73,26 +80,28 @@ const CalendarOpeninghoursModal = ({
     ]);
   };
 
-  const handleRemoveOpeningHours = (uuidToRemove: string) => {
+  const handleRemoveOpeningHours = (indexToRemove: number) => {
     setOpeningHours((current) =>
-      current.filter((openingHour) => openingHour.uuid !== uuidToRemove),
+      current.filter(
+        (openingHour, currentIndex) => currentIndex !== indexToRemove,
+      ),
     );
   };
 
-  const handleChangeOpens = (uuidToChange: string, newTime: string) => {
+  const handleChangeOpens = (indexToChange: number, newTime: string) => {
     setOpeningHours((current) =>
-      current.map((openingHour) => {
-        if (openingHour.uuid === uuidToChange) {
+      current.map((openingHour, openingHourIndex) => {
+        if (openingHourIndex === indexToChange) {
           openingHour.opens === newTime;
         }
         return openingHour;
       }),
     );
   };
-  const handleChangeCloses = (uuidToChange: string, newTime: string) => {
+  const handleChangeCloses = (indexToChange: number, newTime: string) => {
     setOpeningHours((current) =>
-      current.map((openingHour) => {
-        if (openingHour.uuid === uuidToChange) {
+      current.map((openingHour, openingHourIndex) => {
+        if (openingHourIndex === indexToChange) {
           openingHour.closes === newTime;
         }
         return openingHour;
@@ -103,16 +112,16 @@ const CalendarOpeninghoursModal = ({
   const handleToggleDaysOfWeek = (
     event: ChangeEvent<HTMLFormElement>,
     dayOfWeek: Values<typeof DaysOfWeek>,
-    uuidToChange: string,
+    indexToChange: number,
   ) => {
     const checked = event.target.checked;
     setOpeningHours((current) =>
-      current.map((openingHour) => {
-        if (openingHour.uuid === uuidToChange && checked) {
+      current.map((openingHour, openingHourIndex) => {
+        if (openingHourIndex === indexToChange && checked) {
           openingHour.dayOfWeek.push(dayOfWeek);
         }
         if (
-          openingHour.uuid === uuidToChange &&
+          openingHourIndex === indexToChange &&
           !checked &&
           openingHour.dayOfWeek.includes(dayOfWeek)
         ) {
@@ -139,23 +148,23 @@ const CalendarOpeninghoursModal = ({
       }}
     >
       <Stack spacing={4} padding={4}>
-        {openingHours.map((openingHour) => (
+        {openingHours.map((openingHour, openingHourIndex) => (
           <Inline
             alignItems="center"
-            key={`openinghours-row-${openingHour.uuid}`}
+            key={`openinghours-row-${openingHourIndex}`}
             spacing={5}
           >
             <Inline spacing={4}>
               {Object.values(DaysOfWeek).map((dayOfWeek) => (
                 <CheckboxWithLabel
-                  key={`${openingHour.uuid}-${dayOfWeek}`}
+                  key={`${openingHourIndex}-${dayOfWeek}`}
                   className="day-of-week-radio"
-                  id={`day-of-week-radio-${openingHour.uuid}-${dayOfWeek}`}
+                  id={`day-of-week-radio-${openingHourIndex}-${dayOfWeek}`}
                   name={dayOfWeek}
                   checked={openingHour.dayOfWeek.includes(dayOfWeek)}
                   disabled={false}
                   onToggle={(e) =>
-                    handleToggleDaysOfWeek(e, dayOfWeek, openingHour.uuid)
+                    handleToggleDaysOfWeek(e, dayOfWeek, openingHourIndex)
                   }
                 >
                   {t(`create.calendar.days.short.${dayOfWeek}`)}
@@ -164,20 +173,20 @@ const CalendarOpeninghoursModal = ({
             </Inline>
             <TimeSpanPicker
               spacing={3}
-              id={`openinghours-row-timespan-${openingHour.uuid}`}
+              id={`openinghours-row-timespan-${openingHourIndex}`}
               startTime={openingHour.opens}
               endTime={openingHour.closes}
               onChangeStartTime={(newStartTime) => {
-                handleChangeOpens(openingHour.uuid, newStartTime);
+                handleChangeOpens(openingHourIndex, newStartTime);
               }}
               onChangeEndTime={(newEndTime) => {
-                handleChangeCloses(openingHour.uuid, newEndTime);
+                handleChangeCloses(openingHourIndex, newEndTime);
               }}
             />
             <Button
               iconName={Icons.TRASH}
               variant={ButtonVariants.DANGER}
-              onClick={() => handleRemoveOpeningHours(openingHour.uuid)}
+              onClick={() => handleRemoveOpeningHours(openingHourIndex)}
             />
           </Inline>
         ))}

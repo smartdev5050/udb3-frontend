@@ -57,7 +57,7 @@ export type OpeningHour = {
   dayOfWeek: DayOfWeek[];
 };
 
-const initialCalendarContext = {
+export const initialCalendarContext = {
   days: [{ startDate: getStartDate(), endDate: getEndDate() }],
   startDate: getStartDate(),
   endDate: getEndDate(),
@@ -148,7 +148,6 @@ const calendarMachineOptions: MachineOptions<
     loadInitialContext: assign((context, event) => {
       if (event.type !== 'LOAD_INITIAL_CONTEXT') return context;
       return {
-        ...context,
         ...event.newContext,
       };
     }),
