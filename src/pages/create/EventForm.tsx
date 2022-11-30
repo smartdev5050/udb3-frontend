@@ -104,10 +104,10 @@ const EventForm = () => {
         {
           ...additionalInformationStepConfiguration,
           stepProps: {
-            eventId: query.id,
+            eventId: query.id || query.eventId,
           },
           shouldShowStep: ({ watch }) =>
-            !!query.id && !!watch('nameAndAgeRange.name'),
+            !!(query.id || query.eventId) && !!watch('nameAndAgeRange.name'),
         },
       ]}
     />
