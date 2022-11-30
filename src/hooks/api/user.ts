@@ -1,23 +1,41 @@
-import { User } from '@/types/User';
-import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
+import {
+  ErrorObject,
+  FetchError,
+  fetchFromApi,
+  isErrorObject,
+} from '@/utils/fetchFromApi';
 
 import {
   ServerSideQueryOptions,
   useAuthenticatedQuery,
 } from './authenticated-query';
 
-const getUser = async ({ headers }) => {
-  const res = await fetchFromApi({
-    path: '/user',
-    options: {
-      headers,
-    },
-  });
-  if (isErrorObject(res)) {
-    // eslint-disable-next-line no-console
-    return console.error(res);
+const tryToFetch = async (promise: () => Promise<ErrorObject | Response>) => {
+  let res: ErrorObject | Response;
+
+  try {
+    res = await promise();
+    if (isErrorObject(res)) {
+      // eslint-disable-next-line no-console
+      return console.error(res);
+    }
+    return await res.json();
+  } catch (error) {
+    const status = error?.message === 'Failed to fetch' ? 401 : res?.status;
+    throw new FetchError(status, error?.message ?? 'Unknown error');
   }
-  return await res.json();
+};
+
+const getUser = async ({ headers }) => {
+  return tryToFetch(
+    async () =>
+      await fetchFromApi({
+        path: '/user',
+        options: {
+          headers,
+        },
+      }),
+  );
 };
 
 const useGetUserQuery = (
@@ -34,17 +52,15 @@ const useGetUserQuery = (
 };
 
 const getPermissions = async ({ headers }) => {
-  const res = await fetchFromApi({
-    path: '/user/permissions/',
-    options: {
-      headers,
-    },
-  });
-  if (isErrorObject(res)) {
-    // eslint-disable-next-line no-console
-    return console.error(res);
-  }
-  return await res.json();
+  return tryToFetch(
+    async () =>
+      await fetchFromApi({
+        path: '/user/permissions/',
+        options: {
+          headers,
+        },
+      }),
+  );
 };
 
 const useGetPermissionsQuery = (configuration = {}) =>
@@ -55,17 +71,15 @@ const useGetPermissionsQuery = (configuration = {}) =>
   });
 
 const getRoles = async ({ headers }) => {
-  const res = await fetchFromApi({
-    path: '/user/roles/',
-    options: {
-      headers,
-    },
-  });
-  if (isErrorObject(res)) {
-    // eslint-disable-next-line no-console
-    return console.error(res);
-  }
-  return await res.json();
+  return tryToFetch(
+    async () =>
+      await fetchFromApi({
+        path: '/user/roles/',
+        options: {
+          headers,
+        },
+      }),
+  );
 };
 
 const useGetRolesQuery = (configuration = {}) =>
