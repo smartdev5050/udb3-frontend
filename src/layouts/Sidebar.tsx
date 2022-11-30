@@ -5,6 +5,10 @@ import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
+import {
+  AnnouncementModalContext,
+  useAnnouncementModalContext,
+} from '@/context/AnnouncementModalContext';
 import { useGetAnnouncementsQuery } from '@/hooks/api/announcements';
 import { useGetEventsToModerateQuery } from '@/hooks/api/events';
 import {
@@ -275,9 +279,10 @@ const Sidebar = () => {
   const sidebarComponent = useRef();
 
   const [
-    isAnnouncementsModalVisible,
-    setIsAnnouncementsModalVisible,
-  ] = useState(false);
+    announcementModalContext,
+    setAnnouncementModalContext,
+  ] = useAnnouncementModalContext();
+
   const [activeAnnouncementId, setActiveAnnouncementId] = useState();
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -301,7 +306,11 @@ const Sidebar = () => {
   );
 
   const toggleIsAnnouncementsModalVisible = useCallback(
-    () => setIsAnnouncementsModalVisible((prevValue) => !prevValue),
+    () =>
+      setAnnouncementModalContext((prevModalContext) => ({
+        ...prevModalContext,
+        visible: false,
+      })),
     [],
   );
 
@@ -311,11 +320,13 @@ const Sidebar = () => {
   );
 
   useEffect(() => {
-    if (isAnnouncementsModalVisible) {
-      setActiveAnnouncementId(announcements[0].uid);
+    if (announcementModalContext.visible) {
+      setActiveAnnouncementId(
+        announcementModalContext.visibleAnnouncementUid ?? announcements[0].uid,
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAnnouncementsModalVisible]);
+  }, [announcementModalContext.visible]);
 
   useEffect(() => {
     if (activeAnnouncementId) {
@@ -540,7 +551,7 @@ const Sidebar = () => {
     />,
     <Announcements
       key="announcements"
-      visible={isAnnouncementsModalVisible}
+      visible={announcementModalContext.visible}
       announcements={announcements || []}
       onClickAnnouncement={handleClickAnnouncement}
       onClose={toggleIsAnnouncementsModalVisible}

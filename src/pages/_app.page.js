@@ -17,6 +17,8 @@ import Layout from '@/layouts/index';
 import { GlobalStyle } from '@/styles/GlobalStyle';
 import { ThemeProvider } from '@/ui/ThemeProvider';
 
+import { AnnouncementModalProvider } from '../context/AnnouncementModalContext';
+
 const cookies = new Cookies();
 
 if (typeof window !== 'undefined') {
@@ -105,6 +107,7 @@ const App = ({ Component, pageProps, children }) => {
           ],
           [QueryClientProvider, { client: queryClient }],
           [Hydrate, { state: pageProps?.dehydratedState ?? {} }],
+          AnnouncementModalProvider,
         ]}
       >
         <GlobalStyle />

@@ -23,6 +23,7 @@ import {
   faPencilAlt,
   faPlus,
   faPlusCircle,
+  faQuestionCircle,
   faSearch,
   faSignOutAlt,
   faTag,
@@ -74,6 +75,7 @@ const Icons = {
   BUILDING: 'building',
   TICKET: 'ticket',
   INFO: 'info',
+  QUESTION_CIRCLE: 'questionCircle',
 } as const;
 
 const IconsMap = {
@@ -108,6 +110,7 @@ const IconsMap = {
   [Icons.IMAGE]: faImage,
   [Icons.BUILDING]: faBuilding,
   [Icons.TICKET]: faTicketAlt,
+  [Icons.QUESTION_CIRCLE]: faQuestionCircle,
   [Icons.INFO]: faInfoCircle,
   [Icons.EXCLAMATION_CIRCLE]: faExclamationCircle,
 };
