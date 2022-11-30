@@ -11,6 +11,7 @@ namespace 'uitdatabank-frontend' do
     license        = 'Apache-2.0'
     description    = 'Frontend for UiTdatabank 3'
     source         = 'https://github.com/cultuurnet/udb3-frontend'
+    build_url      = ENV['JOB_DISPLAY_URL'].nil? ? "" : ENV['JOB_DISPLAY_URL']
 
     FileUtils.mkdir_p('pkg')
 
@@ -28,6 +29,7 @@ namespace 'uitdatabank-frontend' do
       --license '#{license}' -m '#{maintainer}' \
       --deb-field 'Pipeline-Version: #{calver_version}' \
       --deb-field 'Git-Ref: #{git_short_ref}' \
+      --deb-field 'Build-Url: #{build_url}' \
       ."
     ) or exit 1
   end
