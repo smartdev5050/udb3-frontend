@@ -10,7 +10,6 @@ import { Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
 import { Stack } from '@/ui/Stack';
-import { Text } from '@/ui/Text';
 import { TimeSpanPicker } from '@/ui/TimeSpanPicker';
 
 import { OpeningHour, useCalendarSelector } from '../machines/calendarMachine';
