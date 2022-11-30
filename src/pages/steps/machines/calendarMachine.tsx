@@ -137,6 +137,7 @@ const calendarMachineOptions: MachineOptions<
   CalendarEvents
 > = {
   guards: {
+    has1Day: (context) => context.days.length === 1,
     has2Days: (context) => context.days.length === 2,
     hasMoreThan2Days: (context) => context.days.length > 2,
     hasHours: (context) => false,
@@ -372,9 +373,15 @@ const calendarMachineConfig: MachineConfig<
         CHANGE_OPENING_HOURS: {
           actions: ['changeOpeningHours'] as CalendarActions,
         },
-        CHOOSE_ONE_OR_MORE_DAYS: {
-          target: 'single',
-        },
+        CHOOSE_ONE_OR_MORE_DAYS: [
+          {
+            target: 'single',
+            cond: 'has1Day',
+          },
+          {
+            target: 'multiple',
+          },
+        ],
         CHOOSE_PERMANENT: {
           target: 'permanent',
         },
