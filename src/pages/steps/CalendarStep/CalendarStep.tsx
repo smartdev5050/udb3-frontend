@@ -7,6 +7,7 @@ import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 
 import {
   CalendarMachineProvider,
+  initialCalendarContext,
   useIsFixedDays,
   useIsOneOrMoreDays,
 } from '../machines/calendarMachine';
@@ -50,23 +51,16 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
 
   useEffect(() => {
     if (event) {
-      const startDate = new Date();
+      const initialContext = initialCalendarContext;
 
-      const initialContext = {
-        days: [],
-        startDate: startDate.toString(),
-        endDate: startDate.toString(),
-        openingHours: [],
-      };
-
-      const days = event.subEvent.map((subEvent) => ({
+      const days = (event.subEvent ?? []).map((subEvent) => ({
         startDate: subEvent.startDate,
         endDate: subEvent.endDate,
       }));
 
       handleInitialContext({
         ...initialContext,
-        days,
+        ...(days.length > 0 && { days }),
       });
     }
   }, [event, handleInitialContext]);
