@@ -1,7 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { v4 as uuidv4 } from 'uuid';
 
 import { Values } from '@/types/Values';
 import { Button, ButtonVariants } from '@/ui/Button';
