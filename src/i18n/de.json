@@ -665,7 +665,7 @@
           "text": "Sie sind dabei, Bilder hinzuzufügen und öffentlich zu verteilen. Sie müssen alle anwendbaren Urheber- und Porträtrechte sowie alle anderen anwendbaren Gesetze respektieren. Sie können dafür gemäß <0></0> haftbar gemacht werden. Weitere Informationen zu <1></1>"
         }
       },
-      "file_requirements": "Die maximale Größe Ihres Bildes beträgt 5 MB und hat den Typ .jpeg, .gif oder .png",
+      "file_requirements": "Die maximale Größe Ihres Bildes beträgt {{maxFileSize}} MB und hat den Typ .jpeg, .gif oder .png",
       "title": "Bild hinzufügen",
       "validation_messages": {
         "copyrightHolder": {
