@@ -13,10 +13,6 @@ type CardSystem = {
   distributionKeys?: any[];
 };
 
-type CardSystems = {
-  [key: string]: CardSystem;
-};
-
 const getCardSystemForEvent = async ({ headers, eventId }) => {
   const res = await fetchFromApi({
     path: `/uitpas/events/${eventId.toString()}/cardSystems/`,
