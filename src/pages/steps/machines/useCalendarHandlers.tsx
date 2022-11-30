@@ -1,8 +1,16 @@
-import { OpeningHour, useCalendarContext } from './calendarMachine';
+import {
+  CalendarContext,
+  OpeningHour,
+  useCalendarContext,
+} from './calendarMachine';
 
 export const useCalendarHandlers = () => {
   const calendarService = useCalendarContext();
   const send = calendarService.send;
+
+  const handleInitialContext = (newContext: CalendarContext) => {
+    send('LOAD_INITIAL_CONTEXT', { newContext });
+  };
 
   const handleAddDay = () => {
     send('ADD_DAY');
@@ -73,6 +81,7 @@ export const useCalendarHandlers = () => {
   };
 
   return {
+    handleInitialContext,
     handleAddDay,
     handleDeleteDay,
     handleChangeStartDate,

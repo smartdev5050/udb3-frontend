@@ -3,8 +3,10 @@ import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 
 import {
   CalendarMachineProvider,
+  useCalendarService,
   useIsFixedDays,
   useIsOneOrMoreDays,
+  useSetCalendarContext,
 } from '../machines/calendarMachine';
 import { useCalendarHandlers } from '../machines/useCalendarHandlers';
 import { FormDataUnion, StepsConfiguration } from '../Steps';
@@ -19,6 +21,7 @@ const CalendarStep = ({ ...props }: CalendarStepProps) => {
   const isFixedDays = useIsFixedDays();
 
   const {
+    handleInitialContext,
     handleAddDay,
     handleDeleteDay,
     handleChangeStartDate,
@@ -33,6 +36,22 @@ const CalendarStep = ({ ...props }: CalendarStepProps) => {
     handleChoosePermanent,
     handleChangeOpeningHours,
   } = useCalendarHandlers();
+
+  const startDate = new Date();
+
+  const initialContext = {
+    days: [
+      { startDate: startDate.toString(), endDate: startDate.toString() },
+      { startDate: startDate.toString(), endDate: startDate.toString() },
+      { startDate: startDate.toString(), endDate: startDate.toString() },
+      { startDate: startDate.toString(), endDate: startDate.toString() },
+    ],
+    startDate: startDate.toString(),
+    endDate: startDate.toString(),
+    openingHours: [],
+  };
+
+  handleInitialContext(initialContext);
 
   return (
     <Stack spacing={4} {...getStackProps(props)}>
