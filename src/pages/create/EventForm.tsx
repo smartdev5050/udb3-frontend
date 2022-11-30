@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 
 import { OfferType } from '@/constants/OfferType';
@@ -40,6 +41,7 @@ type FormData = {
 
 const EventForm = () => {
   const { t, i18n } = useTranslation();
+  const { query } = useRouter();
 
   const convertEventToFormData = (event: Event) => {
     const eventAddress =
@@ -99,7 +101,14 @@ const EventForm = () => {
         typeAndThemeStepConfiguration,
         locationStepConfiguration,
         nameAndAgeRangeStepConfiguration,
-        additionalInformationStepConfiguration,
+        {
+          ...additionalInformationStepConfiguration,
+          stepProps: {
+            eventId: query.id,
+          },
+          shouldShowStep: ({ watch }) =>
+            !!query.id && !!watch('nameAndAgeRange.name'),
+        },
       ]}
     />
   );
