@@ -665,7 +665,7 @@
           "text": "Vous êtes sur le point d'ajouter des images et de les diffuser publiquement. Vous devez respecter tous les droits d'auteur et de portrait applicables, ainsi que toutes les autres lois applicables. Vous pouvez en être tenu responsable, comme indiqué dans le <0></0>. Plus d'informations sur <1></1>"
         }
       },
-      "file_requirements": "La taille maximale de votre image est de 5 Mo et est de type .jpeg, .gif ou .png",
+      "file_requirements": "La taille maximale de votre image est de {{maxFileSize}} Mo et est de type .jpeg, .gif ou .png",
       "title": "Ajouter image",
       "validation_messages": {
         "copyrightHolder": {
