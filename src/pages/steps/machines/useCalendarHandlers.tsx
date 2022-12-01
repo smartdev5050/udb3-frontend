@@ -1,3 +1,6 @@
+import { CalendarType } from '@/constants/CalendarType';
+import { Values } from '@/types/Values';
+
 import {
   CalendarContext,
   OpeningHour,
@@ -8,8 +11,11 @@ export const useCalendarHandlers = () => {
   const calendarService = useCalendarContext();
   const send = calendarService.send;
 
-  const handleInitialContext = (newContext: CalendarContext) => {
-    send('LOAD_INITIAL_CONTEXT', { newContext });
+  const handleLoadInitialContext = (
+    newContext: CalendarContext,
+    calendarType: Values<typeof CalendarType>,
+  ) => {
+    send('LOAD_INITIAL_CONTEXT', { newContext, calendarType });
   };
 
   const handleAddDay = () => {
@@ -81,7 +87,7 @@ export const useCalendarHandlers = () => {
   };
 
   return {
-    handleInitialContext,
+    handleLoadInitialContext,
     handleAddDay,
     handleDeleteDay,
     handleChangeStartDate,

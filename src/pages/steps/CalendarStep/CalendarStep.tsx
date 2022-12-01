@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 
+import { CalendarType } from '@/constants/CalendarType';
 import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { Event } from '@/types/Event';
 import { Panel } from '@/ui/Panel';
@@ -24,7 +25,7 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
   const isFixedDays = useIsFixedDays();
 
   const {
-    handleInitialContext,
+    handleLoadInitialContext,
     handleAddDay,
     handleDeleteDay,
     handleChangeStartDate,
@@ -40,8 +41,6 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
     handleChangeOpeningHours,
   } = useCalendarHandlers();
 
-  console.log({ eventId });
-
   const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
 
   // @ts-expect-error
@@ -50,32 +49,31 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
   console.log({ event });
 
   useEffect(() => {
-    if (event) {
-      const initialContext = initialCalendarContext;
+    if (!event) return;
+    const initialContext = initialCalendarContext;
 
-      const days = (event.subEvent ?? []).map((subEvent) => ({
-        startDate: subEvent.startDate,
-        endDate: subEvent.endDate,
-      }));
+    const days = (event.subEvent ?? []).map((subEvent) => ({
+      startDate: subEvent.startDate,
+      endDate: subEvent.endDate,
+    }));
 
-      const openingHours = (event.openingHours ?? []).map((openingHour) => ({
-        opens: openingHour.opens,
-        closes: openingHour.closes,
-        dayOfWeek: openingHour.dayOfWeek,
-      }));
+    const openingHours = (event.openingHours ?? []).map((openingHour) => ({
+      opens: openingHour.opens,
+      closes: openingHour.closes,
+      dayOfWeek: openingHour.dayOfWeek,
+    }));
 
-      const newContext = {
-        ...initialContext,
-        ...(days.length > 0 && { days }),
-        ...(openingHours.length > 0 && { openingHours }),
-        ...(event.startDate && { startDate: event.startDate }),
-        ...(event.endDate && { endDate: event.endDate }),
-      };
+    const newContext = {
+      ...initialContext,
+      ...(days.length > 0 && { days }),
+      ...(openingHours.length > 0 && { openingHours }),
+      ...(event && { startDate: event.startDate ?? '' }),
+      ...(event && { endDate: event.endDate ?? '' }),
+    };
 
-      // @ts-ignore
-      handleInitialContext(newContext);
-    }
-  }, [event, handleInitialContext]);
+    // @ts-expect-error
+    handleLoadInitialContext(newContext, event.calendarType);
+  }, [event, handleLoadInitialContext]);
 
   return (
     <Stack spacing={4} {...getStackProps(props)}>

@@ -19,6 +19,9 @@ import {
   StateNodeConfig,
 } from 'xstate';
 
+import { CalendarType } from '@/constants/CalendarType';
+import { Values } from '@/types/Values';
+
 const getTodayWithoutTime = () => {
   const date = new Date();
   date.setHours(0);
@@ -72,7 +75,11 @@ type CalendarEvents =
   | { type: 'CHOOSE_WITH_START_AND_END_DATE' }
   | { type: 'CHOOSE_PERMANENT' }
   | { type: 'ADD_DAY' }
-  | { type: 'LOAD_INITIAL_CONTEXT'; newContext: CalendarContext }
+  | {
+      type: 'LOAD_INITIAL_CONTEXT';
+      newContext: CalendarContext;
+      calendarType: Values<typeof CalendarType>;
+    }
   | {
       type: 'REMOVE_DAY';
       index: number;
@@ -141,13 +148,29 @@ const calendarMachineOptions: MachineOptions<
     has1Day: (context) => context.days.length === 1,
     has2Days: (context) => context.days.length === 2,
     hasMoreThan2Days: (context) => context.days.length > 2,
+    isSingle: (_context, event) => {
+      if (event.type !== 'LOAD_INITIAL_CONTEXT') return false;
+      return event.calendarType === CalendarType.SINGLE;
+    },
+    isMultiple: (_context, event) => {
+      if (event.type !== 'LOAD_INITIAL_CONTEXT') return false;
+      return event.calendarType === CalendarType.MULTIPLE;
+    },
+    isPeriodic: (_context, event) => {
+      if (event.type !== 'LOAD_INITIAL_CONTEXT') return false;
+      return event.calendarType === CalendarType.PERIODIC;
+    },
+    isPermanent: (_context, event) => {
+      if (event.type !== 'LOAD_INITIAL_CONTEXT') return false;
+      return event.calendarType === CalendarType.PERMANENT;
+    },
     hasHours: (context) => false,
     hasNoHours: (context) => false,
   },
   actions: {
-    loadInitialContext: assign((context, event) => {
-      if (event.type !== 'LOAD_INITIAL_CONTEXT') return context;
+    loadInitialContext: assign((_context, event) => {
       return {
+        // @ts-expect-error
         ...event.newContext,
       };
     }),
@@ -286,10 +309,31 @@ const calendarMachineConfig: MachineConfig<
   states: {
     idle: {
       on: {
-        LOAD_INITIAL_CONTEXT: {
-          actions: ['loadInitialContext'],
-          target: 'single',
-        },
+        LOAD_INITIAL_CONTEXT: [
+          {
+            target: 'single',
+            cond: 'isSingle',
+            actions: ['loadInitialContext'],
+          },
+          {
+            target: 'multiple',
+            cond: 'isMultiple',
+            actions: ['loadInitialContext'],
+          },
+          {
+            target: 'periodic',
+            cond: 'isPeriodic',
+            actions: ['loadInitialContext'],
+          },
+          {
+            target: 'permanent',
+            cond: 'isPermanent',
+            actions: ['loadInitialContext'],
+          },
+          {
+            target: 'single',
+          },
+        ],
       },
     },
     single: {
