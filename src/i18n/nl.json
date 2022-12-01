@@ -129,6 +129,10 @@
           "saturday": "Zaterdag",
           "sunday": "Zondag"
         }
+      },
+      "opening_hours": {
+        "start_time": "Van",
+        "end_time": "Tot"
       }
     },
     "location": {
