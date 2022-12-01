@@ -49,10 +49,13 @@ const getEndDate = () => {
 
 export type OpeningHoursWithId = OpeningHours & { id: string };
 
+export const createDayId = () => uniqueId('day-');
+export const createOpeninghoursId = () => uniqueId('openinghours-');
+
 export const initialCalendarContext = {
   days: [
     {
-      id: uniqueId('day-'),
+      id: createDayId(),
       startDate: getStartDate(),
       endDate: getEndDate(),
     },
@@ -174,7 +177,7 @@ const calendarMachineOptions: MachineOptions<
         const lastDay = context.days.at(-1);
         if (!lastDay) return context.days;
 
-        return [...context.days, { ...lastDay, id: uniqueId('day-') }];
+        return [...context.days, { ...lastDay, id: createDayId() }];
       },
     }),
     removeDay: assign({

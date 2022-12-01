@@ -8,6 +8,8 @@ import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 
 import {
   CalendarMachineProvider,
+  createDayId,
+  createOpeninghoursId,
   initialCalendarContext,
   useIsFixedDays,
   useIsOneOrMoreDays,
@@ -61,13 +63,13 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
     if (!event) return;
 
     const days = (event.subEvent ?? []).map((subEvent) => ({
-      id: uniqueId('day-'),
+      id: createDayId(),
       startDate: subEvent.startDate,
       endDate: subEvent.endDate,
     }));
 
     const openingHours = (event.openingHours ?? []).map((openingHour) => ({
-      id: uniqueId('openinghours-'),
+      id: createOpeninghoursId(),
       opens: openingHour.opens,
       closes: openingHour.closes,
       dayOfWeek: openingHour.dayOfWeek,

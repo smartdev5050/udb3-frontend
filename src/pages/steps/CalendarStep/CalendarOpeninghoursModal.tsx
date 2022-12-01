@@ -1,9 +1,7 @@
-import uniqueId from 'lodash/uniqueId';
 import { ChangeEvent, useState } from 'react';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { OpeningHours } from '@/types/Offer';
 import { Values } from '@/types/Values';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { CheckboxWithLabel } from '@/ui/CheckboxWithLabel';
@@ -14,6 +12,7 @@ import { Stack } from '@/ui/Stack';
 import { TimeSpanPicker } from '@/ui/TimeSpanPicker';
 
 import {
+  createOpeninghoursId,
   OpeningHoursWithId,
   useCalendarSelector,
 } from '../machines/calendarMachine';
@@ -55,7 +54,7 @@ const CalendarOpeninghoursModal = ({
       setOpeningHours((prevOpeningHours) => [
         ...prevOpeningHours,
         {
-          id: uniqueId('openinghours-'),
+          id: createOpeninghoursId(),
           opens: '00:00',
           closes: '23:59',
           dayOfWeek: [],
@@ -76,7 +75,7 @@ const CalendarOpeninghoursModal = ({
     setOpeningHours((prevOpeningHours) => [
       ...prevOpeningHours,
       {
-        id: uniqueId('openinghours-'),
+        id: createOpeninghoursId(),
         opens: '00:00',
         closes: '23:59',
         dayOfWeek: [],
