@@ -48,8 +48,7 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
 
   useEffect(() => {
     if (eventId) return;
-    const initialContext = initialCalendarContext;
-    handleLoadInitialContext(initialContext);
+    handleLoadInitialContext();
   }, [eventId, handleLoadInitialContext]);
 
   const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
