@@ -102,7 +102,7 @@ type CalendarEvents =
     }
   | {
       type: 'CHANGE_OPENING_HOURS';
-      newOpeningHours: OpeningHour[];
+      newOpeningHours: OpeningHours[];
     };
 
 const calendarSchema = {
