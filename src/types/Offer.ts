@@ -8,6 +8,15 @@ import type { Organizer } from './Organizer';
 import type { Values } from './Values';
 import type { WorkflowStatus } from './WorkflowStatus';
 
+type DayOfWeek =
+  | 'monday'
+  | 'tuesday'
+  | 'wednesday'
+  | 'thursday'
+  | 'friday'
+  | 'saturday'
+  | 'sunday';
+
 type StatusType = Values<typeof OfferStatus>;
 
 type StatusReason = { [languages: string]: string };
@@ -72,7 +81,7 @@ type SubEvent = {
 type OpeningHours = {
   opens: string;
   closes: string;
-  dayOfWeek: string[];
+  dayOfWeek: DayOfWeek[];
 };
 
 type CalendarSummary = Record<
@@ -124,8 +133,10 @@ type Offer = {
 
 export type {
   BookingAvailability,
+  DayOfWeek,
   MediaObject,
   Offer,
+  OpeningHours,
   Status,
   StatusReason,
   StatusType,

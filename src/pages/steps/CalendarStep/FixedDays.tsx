@@ -1,6 +1,7 @@
 import { ChangeEvent, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { OpeningHours } from '@/types/Offer';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { DatePeriodPicker } from '@/ui/DatePeriodPicker';
 import { FormElement } from '@/ui/FormElement';
@@ -10,7 +11,6 @@ import { Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 
 import {
-  OpeningHour,
   useCalendarSelector,
   useIsPeriodic,
   useIsPermanent,
@@ -38,7 +38,7 @@ type FixedDaysProps = {
   onChoosePermanent: () => void;
   onChangeStartDate: (date: Date | null) => void;
   onChangeEndDate: (date: Date | null) => void;
-  onChangeOpeningHours: (newOpeningHours: OpeningHour[]) => void;
+  onChangeOpeningHours: (newOpeningHours: OpeningHours[]) => void;
 };
 
 export const FixedDays = ({

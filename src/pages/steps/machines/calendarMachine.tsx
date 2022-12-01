@@ -20,6 +20,7 @@ import {
 } from 'xstate';
 
 import { CalendarType } from '@/constants/CalendarType';
+import { OpeningHours } from '@/types/Offer';
 import { Values } from '@/types/Values';
 
 const getTodayWithoutTime = () => {
@@ -45,26 +46,11 @@ const getEndDate = () => {
   return today.toString();
 };
 
-type DayOfWeek =
-  | 'monday'
-  | 'tuesday'
-  | 'wednesday'
-  | 'thursday'
-  | 'friday'
-  | 'saturday'
-  | 'sunday';
-
-export type OpeningHour = {
-  opens: string;
-  closes: string;
-  dayOfWeek: DayOfWeek[];
-};
-
 export const initialCalendarContext = {
   days: [{ startDate: getStartDate(), endDate: getEndDate() }],
   startDate: getStartDate(),
   endDate: getEndDate(),
-  openingHours: [] as OpeningHour[],
+  openingHours: [] as OpeningHours[],
 };
 
 export type CalendarContext = typeof initialCalendarContext;
@@ -78,7 +64,7 @@ type CalendarEvents =
   | {
       type: 'LOAD_INITIAL_CONTEXT';
       newContext: CalendarContext;
-      calendarType: Values<typeof CalendarType>;
+      calendarType?: Values<typeof CalendarType>;
     }
   | {
       type: 'REMOVE_DAY';

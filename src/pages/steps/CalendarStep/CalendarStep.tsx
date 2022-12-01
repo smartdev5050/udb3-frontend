@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 
-import { CalendarType } from '@/constants/CalendarType';
 import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { Event } from '@/types/Event';
 import { Panel } from '@/ui/Panel';
@@ -75,7 +74,6 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
       ...(event && { endDate: event.endDate ?? '' }),
     };
 
-    // @ts-expect-error
     handleLoadInitialContext(newContext, event.calendarType);
   }, [event, handleLoadInitialContext]);
 

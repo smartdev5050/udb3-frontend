@@ -2,6 +2,7 @@ import { ChangeEvent, useState } from 'react';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { OpeningHours } from '@/types/Offer';
 import { Values } from '@/types/Values';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { CheckboxWithLabel } from '@/ui/CheckboxWithLabel';
@@ -11,7 +12,7 @@ import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
 import { Stack } from '@/ui/Stack';
 import { TimeSpanPicker } from '@/ui/TimeSpanPicker';
 
-import { OpeningHour, useCalendarSelector } from '../machines/calendarMachine';
+import { useCalendarSelector } from '../machines/calendarMachine';
 
 const DaysOfWeek = {
   MONDAY: 'monday',
@@ -38,7 +39,7 @@ const CalendarOpeninghoursModal = ({
     (state) => state.context.openingHours,
   );
 
-  const [openingHours, setOpeningHours] = useState<OpeningHour[]>([]);
+  const [openingHours, setOpeningHours] = useState<OpeningHours[]>([]);
   const [openingHoursInitialized, setOpeningHoursInitialized] = useState(false);
 
   useEffect(() => {
@@ -80,7 +81,7 @@ const CalendarOpeninghoursModal = ({
   const handleRemoveOpeningHours = (indexToRemove: number) => {
     setOpeningHours((current) =>
       current.filter(
-        (openingHour, currentIndex) => currentIndex !== indexToRemove,
+        (_openingHour, currentIndex) => currentIndex !== indexToRemove,
       ),
     );
   };
