@@ -1,10 +1,14 @@
 import { ChangeEvent, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Button, ButtonVariants } from '@/ui/Button';
 import { DatePeriodPicker } from '@/ui/DatePeriodPicker';
 import { FormElement } from '@/ui/FormElement';
+import { Inline } from '@/ui/Inline';
+import { List } from '@/ui/List';
 import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
 import { Stack } from '@/ui/Stack';
+import { Text } from '@/ui/Text';
 
 import {
   OpeningHour,
@@ -45,6 +49,8 @@ export const FixedDays = ({
   onChangeEndDate,
   onChangeOpeningHours,
 }: FixedDaysProps) => {
+  const { t } = useTranslation();
+
   const [
     isCalendarOpeninghoursModalVisible,
     setIsCalendarOpeninghoursModalVisible,
@@ -55,6 +61,10 @@ export const FixedDays = ({
 
   const startDate = useCalendarSelector((state) => state.context.startDate);
   const endDate = useCalendarSelector((state) => state.context.endDate);
+
+  const openingHours = useCalendarSelector(
+    (state) => state.context.openingHours,
+  );
 
   const handleChangeOption = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -86,7 +96,7 @@ export const FixedDays = ({
         }
         id="fixed-days-options"
       />
-      {isPeriodic && [
+      {isPeriodic && (
         <DatePeriodPicker
           key="date-period-picker"
           spacing={3}
@@ -95,15 +105,46 @@ export const FixedDays = ({
           dateEnd={new Date(endDate)}
           onDateStartChange={onChangeStartDate}
           onDateEndChange={onChangeEndDate}
-        />,
-        <Button
-          key="date-add-openinghours-button"
-          variant={ButtonVariants.SECONDARY}
-          onClick={() => setIsCalendarOpeninghoursModalVisible(true)}
+        />
+      )}
+      <List width="75%">
+        <List.Item
+          alignItems="center"
+          paddingTop={3}
+          paddingBottom={3}
+          justifyContent="space-between"
+          spacing={5}
         >
-          Openingsuren toevoegen
-        </Button>,
-      ]}
+          <Text fontWeight="bold">Openingsuren</Text>
+          <Button
+            key="date-change-openinghours-button"
+            variant={ButtonVariants.SECONDARY}
+            onClick={() => setIsCalendarOpeninghoursModalVisible(true)}
+          >
+            Openingsuren wijzigen
+          </Button>
+        </List.Item>
+        {openingHours.map((openingHour, index) => (
+          <List.Item
+            paddingTop={2}
+            paddingBottom={2}
+            css={`
+              border-top: 1px solid lightgrey;
+            `}
+            justifyContent="space-between"
+            key={index}
+          >
+            <Text>
+              {openingHour.dayOfWeek
+                .map((dayOfWeek) => t(`create.calendar.days.full.${dayOfWeek}`))
+                .join(', ')}
+            </Text>
+            <Text>
+              {openingHour.opens} - {openingHour.closes}
+            </Text>
+          </List.Item>
+        ))}
+      </List>
       <CalendarOpeninghoursModal
         visible={isCalendarOpeninghoursModalVisible}
         onClose={() => setIsCalendarOpeninghoursModalVisible(false)}

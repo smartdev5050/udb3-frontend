@@ -68,6 +68,8 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
         ...initialContext,
         ...(days.length > 0 && { days }),
         ...(openingHours.length > 0 && { openingHours }),
+        ...(event.startDate && { startDate: event.startDate }),
+        ...(event.endDate && { endDate: event.endDate }),
       };
 
       // @ts-ignore
