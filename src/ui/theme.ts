@@ -58,6 +58,8 @@ const zIndexToast = zIndexJobLogger;
 const zIndexModalBackdrop = above + zIndexToast;
 
 const zIndexModal = above + zIndexModalBackdrop;
+
+const zIndexTimePickerPopup = above + zIndexModal;
 //
 
 type BreakpointValues = Values<typeof Breakpoints>;
@@ -107,6 +109,9 @@ const theme = {
       zIndexInput: zIndexDatePickerInput,
       zIndexButton: zIndexDatePickerButton,
       zIndexPopup: zIndexDatePickerPopup,
+    },
+    timePicker: {
+      zIndexPopup: zIndexTimePickerPopup,
     },
     link: {
       color: colors.udbBlue,
