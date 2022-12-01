@@ -1,3 +1,4 @@
+import uniqueId from 'lodash/uniqueId';
 import { ChangeEvent, useState } from 'react';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -12,7 +13,10 @@ import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
 import { Stack } from '@/ui/Stack';
 import { TimeSpanPicker } from '@/ui/TimeSpanPicker';
 
-import { useCalendarSelector } from '../machines/calendarMachine';
+import {
+  OpeningHoursWithId,
+  useCalendarSelector,
+} from '../machines/calendarMachine';
 
 const DaysOfWeek = {
   MONDAY: 'monday',
@@ -39,7 +43,7 @@ const CalendarOpeninghoursModal = ({
     (state) => state.context.openingHours,
   );
 
-  const [openingHours, setOpeningHours] = useState<OpeningHours[]>([]);
+  const [openingHours, setOpeningHours] = useState<OpeningHoursWithId[]>([]);
   const [openingHoursInitialized, setOpeningHoursInitialized] = useState(false);
 
   useEffect(() => {
@@ -51,6 +55,7 @@ const CalendarOpeninghoursModal = ({
       setOpeningHours((prevOpeningHours) => [
         ...prevOpeningHours,
         {
+          id: uniqueId('openinghours-'),
           opens: '00:00',
           closes: '23:59',
           dayOfWeek: [],
@@ -71,6 +76,7 @@ const CalendarOpeninghoursModal = ({
     setOpeningHours((prevOpeningHours) => [
       ...prevOpeningHours,
       {
+        id: uniqueId('openinghours-'),
         opens: '00:00',
         closes: '23:59',
         dayOfWeek: [],
@@ -78,28 +84,26 @@ const CalendarOpeninghoursModal = ({
     ]);
   };
 
-  const handleRemoveOpeningHours = (indexToRemove: number) => {
+  const handleRemoveOpeningHours = (idToRemove: string) => {
     setOpeningHours((current) =>
-      current.filter(
-        (_openingHour, currentIndex) => currentIndex !== indexToRemove,
-      ),
+      current.filter((openingHour) => openingHour.id !== idToRemove),
     );
   };
 
-  const handleChangeOpens = (indexToChange: number, newTime: string) => {
+  const handleChangeOpens = (idToChange: string, newTime: string) => {
     setOpeningHours((current) =>
-      current.map((openingHour, openingHourIndex) => {
-        if (openingHourIndex === indexToChange) {
+      current.map((openingHour) => {
+        if (openingHour.id === idToChange) {
           openingHour.opens === newTime;
         }
         return openingHour;
       }),
     );
   };
-  const handleChangeCloses = (indexToChange: number, newTime: string) => {
+  const handleChangeCloses = (idToChange: string, newTime: string) => {
     setOpeningHours((current) =>
-      current.map((openingHour, openingHourIndex) => {
-        if (openingHourIndex === indexToChange) {
+      current.map((openingHour) => {
+        if (openingHour.id === idToChange) {
           openingHour.closes === newTime;
         }
         return openingHour;
@@ -110,16 +114,16 @@ const CalendarOpeninghoursModal = ({
   const handleToggleDaysOfWeek = (
     event: ChangeEvent<HTMLFormElement>,
     dayOfWeek: Values<typeof DaysOfWeek>,
-    indexToChange: number,
+    idToChange: string,
   ) => {
     const checked = event.target.checked;
     setOpeningHours((current) =>
-      current.map((openingHour, openingHourIndex) => {
-        if (openingHourIndex === indexToChange && checked) {
+      current.map((openingHour) => {
+        if (openingHour.id === idToChange && checked) {
           openingHour.dayOfWeek.push(dayOfWeek);
         }
         if (
-          openingHourIndex === indexToChange &&
+          openingHour.id === idToChange &&
           !checked &&
           openingHour.dayOfWeek.includes(dayOfWeek)
         ) {
@@ -146,23 +150,19 @@ const CalendarOpeninghoursModal = ({
       }}
     >
       <Stack spacing={4} padding={4}>
-        {openingHours.map((openingHour, openingHourIndex) => (
-          <Inline
-            alignItems="center"
-            key={`openinghours-row-${openingHourIndex}`}
-            spacing={5}
-          >
+        {openingHours.map((openingHour) => (
+          <Inline alignItems="center" key={openingHour.id} spacing={5}>
             <Inline spacing={4}>
               {Object.values(DaysOfWeek).map((dayOfWeek) => (
                 <CheckboxWithLabel
-                  key={`${openingHourIndex}-${dayOfWeek}`}
+                  key={`${openingHour.id}-${dayOfWeek}`}
                   className="day-of-week-radio"
-                  id={`day-of-week-radio-${openingHourIndex}-${dayOfWeek}`}
+                  id={`day-of-week-radio-${openingHour.id}-${dayOfWeek}`}
                   name={dayOfWeek}
                   checked={openingHour.dayOfWeek.includes(dayOfWeek)}
                   disabled={false}
                   onToggle={(e) =>
-                    handleToggleDaysOfWeek(e, dayOfWeek, openingHourIndex)
+                    handleToggleDaysOfWeek(e, dayOfWeek, openingHour.id)
                   }
                 >
                   {t(`create.calendar.days.short.${dayOfWeek}`)}
@@ -171,20 +171,20 @@ const CalendarOpeninghoursModal = ({
             </Inline>
             <TimeSpanPicker
               spacing={3}
-              id={`openinghours-row-timespan-${openingHourIndex}`}
+              id={`openinghours-row-timespan-${openingHour.id}`}
               startTime={openingHour.opens}
               endTime={openingHour.closes}
               onChangeStartTime={(newStartTime) => {
-                handleChangeOpens(openingHourIndex, newStartTime);
+                handleChangeOpens(openingHour.id, newStartTime);
               }}
               onChangeEndTime={(newEndTime) => {
-                handleChangeCloses(openingHourIndex, newEndTime);
+                handleChangeCloses(openingHour.id, newEndTime);
               }}
             />
             <Button
               iconName={Icons.TRASH}
               variant={ButtonVariants.DANGER}
-              onClick={() => handleRemoveOpeningHours(openingHourIndex)}
+              onClick={() => handleRemoveOpeningHours(openingHour.id)}
             />
           </Inline>
         ))}

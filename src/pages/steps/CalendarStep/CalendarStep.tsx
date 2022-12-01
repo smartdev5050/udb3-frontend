@@ -1,3 +1,4 @@
+import { uniqueId } from 'lodash';
 import { useEffect } from 'react';
 
 import { useGetEventByIdQuery } from '@/hooks/api/events';
@@ -45,8 +46,6 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
   // @ts-expect-error
   const event: Event | undefined = getEventByIdQuery.data;
 
-  console.log({ event });
-
   useEffect(() => {
     const initialContext = initialCalendarContext;
 
@@ -56,11 +55,13 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
     }
 
     const days = (event.subEvent ?? []).map((subEvent) => ({
+      id: uniqueId('day-'),
       startDate: subEvent.startDate,
       endDate: subEvent.endDate,
     }));
 
     const openingHours = (event.openingHours ?? []).map((openingHour) => ({
+      id: uniqueId('openinghours-'),
       opens: openingHour.opens,
       closes: openingHour.closes,
       dayOfWeek: openingHour.dayOfWeek,

@@ -19,8 +19,8 @@ export const useCalendarHandlers = () => {
     send('ADD_DAY');
   };
 
-  const handleDeleteDay = (index: number) => {
-    send('REMOVE_DAY', { index });
+  const handleDeleteDay = (id: string) => {
+    send('REMOVE_DAY', { id });
   };
 
   const handleChangeStartDate = (newDate: Date) => {
@@ -31,33 +31,29 @@ export const useCalendarHandlers = () => {
     send('CHANGE_END_DATE', { newDate });
   };
 
-  const handleChangeStartDateOfDay = (index: number, newDate: Date | null) => {
-    send('CHANGE_START_DATE_OF_DAY', { index, newDate });
+  const handleChangeStartDateOfDay = (id: string, newDate: Date | null) => {
+    send('CHANGE_START_DATE_OF_DAY', { id, newDate });
   };
 
-  const handleChangeEndDateOfDay = (index: number, newDate: Date | null) => {
-    send('CHANGE_END_DATE_OF_DAY', { index, newDate });
+  const handleChangeEndDateOfDay = (id: string, newDate: Date | null) => {
+    send('CHANGE_END_DATE_OF_DAY', { id, newDate });
   };
 
   const handleChangeStartTime = (
-    index: number,
+    id: string,
     hours: number,
     minutes: number,
   ) => {
     send('CHANGE_START_HOUR', {
-      index,
+      id,
       newHours: hours,
       newMinutes: minutes,
     });
   };
 
-  const handleChangeEndTime = (
-    index: number,
-    hours: number,
-    minutes: number,
-  ) => {
+  const handleChangeEndTime = (id: string, hours: number, minutes: number) => {
     send('CHANGE_END_HOUR', {
-      index,
+      id,
       newHours: hours,
       newMinutes: minutes,
     });

@@ -5,11 +5,11 @@ import { Days } from './Days';
 
 type OneOrMoreDaysProps = {
   onAddDay: () => void;
-  onDeleteDay: (index: number) => void;
-  onChangeStartDate: (index: number, date: Date | null) => void;
-  onChangeEndDate: (index: number, date: Date | null) => void;
-  onChangeStartTime: (index: number, hours: number, minutes: number) => void;
-  onChangeEndTime: (index: number, hours: number, minutes: number) => void;
+  onDeleteDay: (id: string) => void;
+  onChangeStartDate: (id: string, date: Date | null) => void;
+  onChangeEndDate: (id: string, date: Date | null) => void;
+  onChangeStartTime: (id: string, hours: number, minutes: number) => void;
+  onChangeEndTime: (id: string, hours: number, minutes: number) => void;
 };
 export const OneOrMoreDays = ({
   onAddDay,

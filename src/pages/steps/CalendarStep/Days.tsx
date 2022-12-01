@@ -10,18 +10,14 @@ import {
   useIsOneOrMoreDays,
 } from '../machines/calendarMachine';
 
-type ChangeTimeHandler = (
-  index: number,
-  hours: number,
-  minutes: number,
-) => void;
+type ChangeTimeHandler = (id: string, hours: number, minutes: number) => void;
 
 const createChangeTimeHandler = (
-  index: number,
+  id: string,
   changeTimeHandler: ChangeTimeHandler,
 ) => (newValue: string) => {
   const [hours, minutes] = newValue.split(':');
-  changeTimeHandler(index, parseInt(hours), parseInt(minutes));
+  changeTimeHandler(id, parseInt(hours), parseInt(minutes));
 };
 
 const getEndTime = (day: any) => {
@@ -41,11 +37,11 @@ const getStartTime = (day: any) => {
 };
 
 type DaysProps = {
-  onDeleteDay?: (index: number) => void;
-  onChangeStartDate: (index: number, date: Date | null) => void;
-  onChangeEndDate: (index: number, date: Date | null) => void;
-  onChangeStartTime?: (index: number, hours: number, minutes: number) => void;
-  onChangeEndTime?: (index: number, hours: number, minutes: number) => void;
+  onDeleteDay?: (id: string) => void;
+  onChangeStartDate: (id: string, date: Date | null) => void;
+  onChangeEndDate: (id: string, date: Date | null) => void;
+  onChangeStartTime?: (id: string, hours: number, minutes: number) => void;
+  onChangeEndTime?: (id: string, hours: number, minutes: number) => void;
 } & StackProps;
 
 export const Days = ({
@@ -62,33 +58,35 @@ export const Days = ({
 
   return (
     <List spacing={4} {...getStackProps(props)}>
-      {days.map((day, index) => {
+      {days.map((day) => {
         const startTime = getStartTime(day);
         const endTime = getEndTime(day);
 
         const handleChangeStartTime = createChangeTimeHandler(
-          index,
+          day.id,
           onChangeStartTime,
         );
         const handleChangeEndTime = createChangeTimeHandler(
-          index,
+          day.id,
           onChangeEndTime,
         );
 
         return (
-          <List.Item alignItems="center" key={index} spacing={5}>
+          <List.Item alignItems="center" key={day.id} spacing={5}>
             <DatePeriodPicker
               spacing={3}
-              id={`calendar-step-day-${index}`}
+              id={`calendar-step-day-${day.id}`}
               dateStart={new Date(day.startDate)}
               dateEnd={new Date(day.endDate)}
-              onDateStartChange={(newDate) => onChangeStartDate(index, newDate)}
-              onDateEndChange={(newDate) => onChangeEndDate(index, newDate)}
+              onDateStartChange={(newDate) =>
+                onChangeStartDate(day.id, newDate)
+              }
+              onDateEndChange={(newDate) => onChangeEndDate(day.id, newDate)}
             />
             {isOneOrMoreDays && (
               <TimeSpanPicker
                 spacing={3}
-                id={`calendar-step-day-${index}`}
+                id={`calendar-step-day-${day.id}`}
                 startTime={startTime}
                 endTime={endTime}
                 onChangeStartTime={handleChangeStartTime}
@@ -101,7 +99,7 @@ export const Days = ({
                 alignSelf="flex-end"
                 size={ButtonSizes.SMALL}
                 variant={ButtonVariants.DANGER}
-                onClick={() => onDeleteDay(index)}
+                onClick={() => onDeleteDay(day.id)}
                 iconName={Icons.TRASH}
               />
             )}

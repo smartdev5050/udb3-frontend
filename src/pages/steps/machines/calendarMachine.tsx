@@ -7,6 +7,7 @@ import {
   setMonth,
   setYear,
 } from 'date-fns';
+import uniqueId from 'lodash/uniqueId';
 import { createContext, ReactNode, useContext } from 'react';
 import {
   Actions,
@@ -46,11 +47,19 @@ const getEndDate = () => {
   return today.toString();
 };
 
+export type OpeningHoursWithId = OpeningHours & { id: string };
+
 export const initialCalendarContext = {
-  days: [{ startDate: getStartDate(), endDate: getEndDate() }],
+  days: [
+    {
+      id: uniqueId('day-'),
+      startDate: getStartDate(),
+      endDate: getEndDate(),
+    },
+  ],
   startDate: getStartDate(),
   endDate: getEndDate(),
-  openingHours: [] as OpeningHours[],
+  openingHours: [] as OpeningHoursWithId[],
 };
 
 export type CalendarContext = typeof initialCalendarContext;
@@ -68,7 +77,7 @@ type CalendarEvents =
     }
   | {
       type: 'REMOVE_DAY';
-      index: number;
+      id: string;
     }
   | {
       type: 'CHANGE_START_DATE';
@@ -81,28 +90,28 @@ type CalendarEvents =
   | {
       type: 'CHANGE_START_DATE_OF_DAY';
       newDate: Date;
-      index: number;
+      id: string;
     }
   | {
       type: 'CHANGE_END_DATE_OF_DAY';
       newDate: Date;
-      index: number;
+      id: string;
     }
   | {
       type: 'CHANGE_START_HOUR';
       newHours: number;
       newMinutes: number;
-      index: number;
+      id: string;
     }
   | {
       type: 'CHANGE_END_HOUR';
       newHours: number;
       newMinutes: number;
-      index: number;
+      id: string;
     }
   | {
       type: 'CHANGE_OPENING_HOURS';
-      newOpeningHours: OpeningHours[];
+      newOpeningHours: OpeningHoursWithId[];
     };
 
 const calendarSchema = {
@@ -165,14 +174,14 @@ const calendarMachineOptions: MachineOptions<
         const lastDay = context.days.at(-1);
         if (!lastDay) return context.days;
 
-        return [...context.days, { ...lastDay }];
+        return [...context.days, { ...lastDay, id: uniqueId('day-') }];
       },
     }),
     removeDay: assign({
       days: (context, event) => {
         if (event.type !== 'REMOVE_DAY') return context.days;
 
-        return context.days.filter((_, index) => index !== event.index);
+        return context.days.filter((day) => day.id !== event.id);
       },
     }),
     changeStartDate: assign({
@@ -199,8 +208,8 @@ const calendarMachineOptions: MachineOptions<
       days: (context, event) => {
         if (event.type !== 'CHANGE_START_DATE_OF_DAY') return context.days;
 
-        return context.days.map((day, index) => {
-          if (index !== event.index) return day;
+        return context.days.map((day) => {
+          if (day.id !== event.id) return day;
 
           // Keep time, only set day/month/year
           let startDate: Date = new Date(day.startDate);
@@ -220,8 +229,8 @@ const calendarMachineOptions: MachineOptions<
       days: (context, event) => {
         if (event.type !== 'CHANGE_END_DATE_OF_DAY') return context.days;
 
-        return context.days.map((day, index) => {
-          if (index !== event.index) return day;
+        return context.days.map((day) => {
+          if (day.id !== event.id) return day;
 
           // Keep time, only set day/month/year
           let endDate: Date = new Date(day.endDate);
@@ -241,8 +250,8 @@ const calendarMachineOptions: MachineOptions<
       days: (context, event) => {
         if (event.type !== 'CHANGE_START_HOUR') return context.days;
 
-        return context.days.map((day, index) => {
-          if (index !== event.index) return day;
+        return context.days.map((day) => {
+          if (day.id !== event.id) return day;
 
           const startDate = new Date(day.startDate);
 
@@ -260,8 +269,8 @@ const calendarMachineOptions: MachineOptions<
       days: (context, event) => {
         if (event.type !== 'CHANGE_END_HOUR') return context.days;
 
-        return context.days.map((day, index) => {
-          if (index !== event.index) return day;
+        return context.days.map((day) => {
+          if (day.id !== event.id) return day;
 
           const endDate = new Date(day.endDate);
 

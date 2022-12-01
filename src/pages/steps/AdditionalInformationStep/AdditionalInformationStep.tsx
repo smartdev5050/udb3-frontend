@@ -147,7 +147,8 @@ const AdditionalInformationStep = ({
       }
       onChangeSuccess(field);
     },
-    [eventId, onChangeSuccess, queryClient],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [eventId, queryClient],
   );
 
   const [tab, setTab] = useState('description');
