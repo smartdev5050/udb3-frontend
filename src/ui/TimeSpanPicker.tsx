@@ -32,6 +32,8 @@ const quarterHours = ['00', '15', '30', '45'];
 
 type Props = {
   id: string;
+  startTimeLabel?: string;
+  endTimeLabel?: string;
   startTime?: string;
   endTime?: string;
   onChangeStartTime: (newStartTime: string) => void;
@@ -89,6 +91,8 @@ const TimeSpanPicker = ({
   id,
   startTime,
   endTime,
+  startTimeLabel,
+  endTimeLabel,
   onChangeStartTime,
   onChangeEndTime,
   ...props
@@ -100,7 +104,7 @@ const TimeSpanPicker = ({
     <Inline as="div" spacing={5} {...getInlineProps(props)}>
       <Stack spacing={2} as="div">
         <Label variant={LabelVariants.BOLD} htmlFor={`${idPrefix}-start`}>
-          {t('time_span_picker.start')}
+          {startTimeLabel ?? t('time_span_picker.start')}
         </Label>
         <Typeahead<string>
           inputType="time"
@@ -122,7 +126,7 @@ const TimeSpanPicker = ({
       </Stack>
       <Stack spacing={2} as="div">
         <Label variant={LabelVariants.BOLD} htmlFor={`${idPrefix}-end`}>
-          {t('time_span_picker.end')}
+          {endTimeLabel ?? t('time_span_picker.end')}
         </Label>
         <Typeahead<string>
           inputType="time"

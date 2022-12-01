@@ -169,6 +169,8 @@ const CalendarOpeninghoursModal = ({
               id={`openinghours-row-timespan-${openingHour.id}`}
               startTime={openingHour.opens}
               endTime={openingHour.closes}
+              startTimeLabel={t('create.calendar.opening_hours.start_time')}
+              endTimeLabel={t('create.calendar.opening_hours.end_time')}
               onChangeStartTime={(newStartTime) => {
                 handleChangeOpens(openingHour.id, newStartTime);
               }}
