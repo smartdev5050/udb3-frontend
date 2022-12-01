@@ -60,6 +60,7 @@ const CalendarOpeninghoursModal = ({
           dayOfWeek: [],
         },
       ]);
+      setOpeningHoursInitialized(true);
       return;
     }
     setOpeningHours(openinghoursFromStateMachine);
