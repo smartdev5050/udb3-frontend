@@ -102,8 +102,8 @@ export const FixedDays = ({
           key="date-period-picker"
           spacing={3}
           id={`calendar-step-fixed`}
-          dateStart={new Date(startDate)}
-          dateEnd={new Date(endDate)}
+          dateStart={startDate ? new Date(startDate) : undefined}
+          dateEnd={endDate ? new Date(endDate) : undefined}
           onDateStartChange={onChangeStartDate}
           onDateEndChange={onChangeEndDate}
         />
