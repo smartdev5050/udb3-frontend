@@ -28,8 +28,6 @@ type CalendarOpeninghoursModalProps = {
   onClose: () => void;
 };
 
-type OpeningHourWithId = OpeningHour;
-
 const CalendarOpeninghoursModal = ({
   visible,
   onClose,

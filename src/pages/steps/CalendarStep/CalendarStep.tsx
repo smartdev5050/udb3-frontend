@@ -49,8 +49,12 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
   console.log({ event });
 
   useEffect(() => {
-    if (!event) return;
     const initialContext = initialCalendarContext;
+
+    if (!event) {
+      handleLoadInitialContext(initialContext);
+      return;
+    }
 
     const days = (event.subEvent ?? []).map((subEvent) => ({
       startDate: subEvent.startDate,
