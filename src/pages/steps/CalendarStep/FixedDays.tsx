@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { DatePeriodPicker } from '@/ui/DatePeriodPicker';
 import { FormElement } from '@/ui/FormElement';
-import { Inline } from '@/ui/Inline';
 import { List } from '@/ui/List';
 import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
 import { Stack } from '@/ui/Stack';
