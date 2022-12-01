@@ -1,3 +1,4 @@
+import uniqueId from 'lodash/uniqueId';
 import { ChangeEvent, useState } from 'react';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -93,7 +94,10 @@ const CalendarOpeninghoursModal = ({
     setOpeningHours((current) =>
       current.map((openingHour) => {
         if (openingHour.id === idToChange) {
-          openingHour.opens === newTime;
+          return {
+            ...openingHour,
+            opens: newTime,
+          };
         }
         return openingHour;
       }),
@@ -103,7 +107,10 @@ const CalendarOpeninghoursModal = ({
     setOpeningHours((current) =>
       current.map((openingHour) => {
         if (openingHour.id === idToChange) {
-          openingHour.closes === newTime;
+          return {
+            ...openingHour,
+            closes: newTime,
+          };
         }
         return openingHour;
       }),
