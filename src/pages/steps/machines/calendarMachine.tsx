@@ -75,7 +75,7 @@ type CalendarEvents =
   | { type: 'ADD_DAY' }
   | {
       type: 'LOAD_INITIAL_CONTEXT';
-      newContext: CalendarContext;
+      newContext?: CalendarContext;
       calendarType?: Values<typeof CalendarType>;
     }
   | {
@@ -166,9 +166,11 @@ const calendarMachineOptions: MachineOptions<
     hasNoHours: (context) => false,
   },
   actions: {
-    loadInitialContext: assign((_context, event) => {
+    loadInitialContext: assign((context, event) => {
+      if (event.type !== 'LOAD_INITIAL_CONTEXT') return;
+      if (!event.newContext) return context;
+
       return {
-        // @ts-expect-error
         ...event.newContext,
       };
     }),
