@@ -43,14 +43,9 @@ const CalendarOpeninghoursModal = ({
   );
 
   const [openingHours, setOpeningHours] = useState<OpeningHoursWithId[]>([]);
-  const [openingHoursInitialized, setOpeningHoursInitialized] = useState(false);
 
   useEffect(() => {
-    if (openingHoursInitialized) return;
-    if (
-      openingHours.length === 0 &&
-      openinghoursFromStateMachine?.length === 0
-    ) {
+    if (openinghoursFromStateMachine.length === 0) {
       setOpeningHours((prevOpeningHours) => [
         ...prevOpeningHours,
         {
@@ -60,17 +55,10 @@ const CalendarOpeninghoursModal = ({
           dayOfWeek: [],
         },
       ]);
-      setOpeningHoursInitialized(true);
       return;
     }
     setOpeningHours(openinghoursFromStateMachine);
-    setOpeningHoursInitialized(true);
-  }, [
-    openinghoursFromStateMachine,
-    openingHours,
-    setOpeningHours,
-    openingHoursInitialized,
-  ]);
+  }, [openinghoursFromStateMachine, setOpeningHours]);
 
   const handleAddOpeningHours = () => {
     setOpeningHours((prevOpeningHours) => [
