@@ -66,6 +66,8 @@ export const FixedDays = ({
     (state) => state.context.openingHours,
   );
 
+  const hasOpeningHours = openingHours.length > 0;
+
   const handleChangeOption = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     if (value === FixedDayOptions.PERIODIC) {
@@ -107,44 +109,57 @@ export const FixedDays = ({
           onDateEndChange={onChangeEndDate}
         />
       )}
-      <List width="75%">
-        <List.Item
-          alignItems="center"
-          paddingTop={3}
-          paddingBottom={3}
-          justifyContent="space-between"
-          spacing={5}
-        >
-          <Text fontWeight="bold">Openingsuren</Text>
-          <Button
-            key="date-change-openinghours-button"
-            variant={ButtonVariants.SECONDARY}
-            onClick={() => setIsCalendarOpeninghoursModalVisible(true)}
-          >
-            Openingsuren wijzigen
-          </Button>
-        </List.Item>
-        {openingHours.map((openingHour, index) => (
+      {hasOpeningHours && (
+        <List width="75%">
           <List.Item
-            paddingTop={2}
-            paddingBottom={2}
-            css={`
-              border-top: 1px solid lightgrey;
-            `}
+            alignItems="center"
+            paddingTop={3}
+            paddingBottom={3}
             justifyContent="space-between"
-            key={index}
+            spacing={5}
           >
-            <Text>
-              {openingHour.dayOfWeek
-                .map((dayOfWeek) => t(`create.calendar.days.full.${dayOfWeek}`))
-                .join(', ')}
-            </Text>
-            <Text>
-              {openingHour.opens} - {openingHour.closes}
-            </Text>
+            <Text fontWeight="bold">Openingsuren</Text>
+            <Button
+              key="date-change-openinghours-button"
+              variant={ButtonVariants.SECONDARY}
+              onClick={() => setIsCalendarOpeninghoursModalVisible(true)}
+            >
+              Openingsuren wijzigen
+            </Button>
           </List.Item>
-        ))}
-      </List>
+          {openingHours.map((openingHour, index) => (
+            <List.Item
+              paddingTop={2}
+              paddingBottom={2}
+              css={`
+                border-top: 1px solid lightgrey;
+              `}
+              justifyContent="space-between"
+              key={index}
+            >
+              <Text>
+                {openingHour.dayOfWeek
+                  .map((dayOfWeek) =>
+                    t(`create.calendar.days.full.${dayOfWeek}`),
+                  )
+                  .join(', ')}
+              </Text>
+              <Text>
+                {openingHour.opens} - {openingHour.closes}
+              </Text>
+            </List.Item>
+          ))}
+        </List>
+      )}
+      {!hasOpeningHours && (
+        <Button
+          key="date-add-openinghours-button"
+          variant={ButtonVariants.SECONDARY}
+          onClick={() => setIsCalendarOpeninghoursModalVisible(true)}
+        >
+          Openingsuren toevoegen
+        </Button>
+      )}
       <CalendarOpeninghoursModal
         visible={isCalendarOpeninghoursModalVisible}
         onClose={() => setIsCalendarOpeninghoursModalVisible(false)}
