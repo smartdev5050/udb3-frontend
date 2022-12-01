@@ -1,5 +1,5 @@
 import { uniqueId } from 'lodash';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { Event } from '@/types/Event';
@@ -25,7 +25,7 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
   const isFixedDays = useIsFixedDays();
 
   const {
-    handleLoadInitialContext,
+    handleLoadInitialContext: loadInitialContext,
     handleAddDay,
     handleDeleteDay,
     handleChangeStartDate,
@@ -41,6 +41,15 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
     handleChangeOpeningHours,
   } = useCalendarHandlers();
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleLoadInitialContext = useCallback(loadInitialContext, []);
+
+  useEffect(() => {
+    if (eventId) return;
+    const initialContext = initialCalendarContext;
+    handleLoadInitialContext(initialContext);
+  }, [eventId, handleLoadInitialContext]);
+
   const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
 
   // @ts-expect-error
@@ -49,10 +58,7 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
   useEffect(() => {
     const initialContext = initialCalendarContext;
 
-    if (!event) {
-      handleLoadInitialContext(initialContext);
-      return;
-    }
+    if (!event) return;
 
     const days = (event.subEvent ?? []).map((subEvent) => ({
       id: uniqueId('day-'),
