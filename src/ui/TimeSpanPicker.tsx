@@ -4,7 +4,10 @@ import { css } from 'styled-components';
 import { getInlineProps, Inline, InlineProps } from './Inline';
 import { Label, LabelVariants } from './Label';
 import { Stack } from './Stack';
+import { getValueFromTheme } from './theme';
 import { Typeahead } from './Typeahead';
+
+const getValueForTimePicker = getValueFromTheme('timePicker');
 
 const getHourOptions = () => {
   const hours = Array(24).fill(0);
@@ -65,6 +68,8 @@ const dropDownCss = css`
   .rbt-menu.dropdown-menu.show {
     min-width: 0;
     max-height: 140px !important;
+
+    z-index: ${getValueForTimePicker('zIndexPopup')};
 
     scrollbar-width: none;
     -ms-overflow-style: none;

@@ -117,6 +117,7 @@ type TypeaheadProps = {
   isInvalid: boolean;
   promptText: string;
   searchText: string;
+  positionFixed: boolean;
   allowNew:
     | boolean
     | ((
