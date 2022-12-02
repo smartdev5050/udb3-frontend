@@ -42,6 +42,7 @@ type TypeaheadProps<T> = {
       ) => boolean);
   newSelectionPrefix?: string;
   selected?: T[];
+  positionFixed?: boolean;
 };
 
 type Props<T> = Omit<BoxProps, 'onChange' | 'id' | 'labelKey' | 'options'> &
@@ -78,6 +79,7 @@ const Typeahead: TypeaheadFunc = forwardRef(
       allowNew,
       customFilter,
       newSelectionPrefix,
+      positionFixed,
       ...props
     }: Props<T>,
     ref: ForwardedRef<HTMLInputElement>,
@@ -142,6 +144,7 @@ const Typeahead: TypeaheadFunc = forwardRef(
         selected={selected}
         defaultInputValue={defaultInputValue}
         onBlur={onBlur}
+        positionFixed={true}
         inputProps={{
           id,
           type: inputType,

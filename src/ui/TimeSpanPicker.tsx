@@ -115,6 +115,7 @@ const TimeSpanPicker = ({
             if (!newValue) return;
             onChangeStartTime(newValue);
           }}
+          positionFixed={true}
           maxHeight="140px"
           css={dropDownCss}
         />
