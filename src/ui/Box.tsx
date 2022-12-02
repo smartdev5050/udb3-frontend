@@ -127,7 +127,6 @@ type TypeaheadProps = {
   newSelectionPrefix: string;
   inputProps: HTMLProps<HTMLInputElement>;
   defaultInputValue: string;
-  positionFixed?: boolean;
 };
 
 type SpecificComponentProps = InlineProps &
