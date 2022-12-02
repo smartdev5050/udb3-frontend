@@ -1,8 +1,13 @@
-import { uniqueId } from 'lodash';
 import { useCallback, useEffect } from 'react';
 
-import { useGetEventByIdQuery } from '@/hooks/api/events';
+import { BookingAvailabilityType } from '@/constants/BookingAvailabilityType';
+import { OfferStatus } from '@/constants/OfferStatus';
+import {
+  useChangeCalendarMutation,
+  useGetEventByIdQuery,
+} from '@/hooks/api/events';
 import { Event } from '@/types/Event';
+import { Button } from '@/ui/Button';
 import { Panel } from '@/ui/Panel';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 
@@ -11,8 +16,11 @@ import {
   createDayId,
   createOpeninghoursId,
   initialCalendarContext,
+  useCalendarSelector,
   useIsFixedDays,
+  useIsIdle,
   useIsOneOrMoreDays,
+  useIsPeriodic,
 } from '../machines/calendarMachine';
 import { useCalendarHandlers } from '../machines/useCalendarHandlers';
 import { FormDataUnion, StepsConfiguration } from '../Steps';
@@ -25,6 +33,17 @@ type CalendarStepProps = StackProps & { eventId?: string };
 const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
   const isOneOrMoreDays = useIsOneOrMoreDays();
   const isFixedDays = useIsFixedDays();
+  const isIdle = useIsIdle();
+
+  // @SIMON selectors here or rather in the submit handler
+  const isPeriodic = useIsPeriodic();
+  const startDate = useCalendarSelector((state) => state.context.startDate);
+  const endDate = useCalendarSelector((state) => state.context.endDate);
+  const calendarStateType = useCalendarSelector((state) => state.value);
+  const days = useCalendarSelector((state) => state.context.days);
+  const openingHours = useCalendarSelector(
+    (state) => state.context.openingHours,
+  );
 
   const {
     handleLoadInitialContext: loadInitialContext,
@@ -85,6 +104,57 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
     handleLoadInitialContext(newContext, event.calendarType);
   }, [event, handleLoadInitialContext]);
 
+  const changeCalendarMutation = useChangeCalendarMutation({
+    onSuccess: () => {
+      console.log('calendar mutation success');
+    },
+  });
+
+  const convertStateToFormData = () => {
+    const subEvent = days.map((day) => ({
+      startDate: new Date(day.startDate).toISOString(),
+      endDate: new Date(day.endDate).toISOString(),
+      bookingAvailability: {
+        type: BookingAvailabilityType.AVAILABLE,
+      }, // Always available or depends on current state?
+      status: {
+        type: OfferStatus.AVAILABLE,
+      },
+    }));
+
+    const newOpeningHours = openingHours.map((openingHour) => ({
+      opens: openingHour.opens,
+      closes: openingHour.closes,
+      dayOfWeek: openingHour.dayOfWeek,
+    }));
+
+    const newStartDate = new Date(startDate).toISOString();
+    const newEndDate = new Date(endDate).toISOString();
+
+    return {
+      ...(isOneOrMoreDays && { subEvent }),
+      ...(isFixedDays && { openingHours: newOpeningHours }),
+      ...(isPeriodic && { startDate: newStartDate, endDate: newEndDate }),
+    };
+  };
+
+  const handleSubmitCalendarMutation = async () => {
+    if (isIdle) return;
+
+    const formData = convertStateToFormData();
+
+    const calendarType =
+      calendarStateType === 'string'
+        ? calendarStateType
+        : Object.keys(calendarStateType)[0];
+
+    await changeCalendarMutation.mutateAsync({
+      id: eventId,
+      calendarType,
+      ...formData,
+    });
+  };
+
   return (
     <Stack spacing={4} {...getStackProps(props)}>
       <CalendarOptionToggle
@@ -112,6 +182,7 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
           />
         )}
       </Panel>
+      <Button onClick={handleSubmitCalendarMutation}>Submit payload</Button>
     </Stack>
   );
 };
