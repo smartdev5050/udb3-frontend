@@ -140,12 +140,11 @@ const Typeahead: TypeaheadFunc = forwardRef(
         minLength={minLength}
         delay={275}
         highlightOnlyResult={!allowNew}
-        positionFixed
         isInvalid={isInvalid}
         selected={selected}
         defaultInputValue={defaultInputValue}
         onBlur={onBlur}
-        positionFixed={true}
+        positionFixed={positionFixed}
         inputProps={{
           id,
           type: inputType,
