@@ -536,3 +536,6 @@ export const useIsPeriodic = () =>
 
 export const useIsPermanent = () =>
   useCalendarSelector((state) => state.matches('permanent'));
+
+export const useIsIdle = () =>
+  useCalendarSelector((state) => state.matches('idle'));
