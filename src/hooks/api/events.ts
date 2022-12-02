@@ -331,6 +331,7 @@ const changeCalendar = async ({
   id,
   calendarType,
   timeSpans,
+  subEvent,
   start,
   end,
   startDate,
@@ -347,6 +348,7 @@ const changeCalendar = async ({
       body: JSON.stringify({
         calendarType,
         timeSpans,
+        subEvent,
         start,
         end,
         startDate,
