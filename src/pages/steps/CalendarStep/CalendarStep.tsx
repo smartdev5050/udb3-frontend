@@ -45,6 +45,8 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
     (state) => state.context.openingHours,
   );
 
+  const context = useCalendarSelector((state) => state.context);
+
   const {
     handleLoadInitialContext: loadInitialContext,
     handleAddDay,
@@ -128,13 +130,13 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
       dayOfWeek: openingHour.dayOfWeek,
     }));
 
-    const newStartDate = new Date(startDate).toISOString();
-    const newEndDate = new Date(endDate).toISOString();
-
     return {
       ...(isOneOrMoreDays && { subEvent }),
       ...(isFixedDays && { openingHours: newOpeningHours }),
-      ...(isPeriodic && { startDate: newStartDate, endDate: newEndDate }),
+      ...(isPeriodic && {
+        startDate: new Date(startDate).toISOString(),
+        endDate: new Date(endDate).toISOString(),
+      }),
     };
   };
 
