@@ -477,6 +477,9 @@ const calendarMachineConfig: MachineConfig<
         CHOOSE_WITH_START_AND_END_DATE: {
           target: 'periodic',
         },
+        CHANGE_OPENING_HOURS: {
+          actions: ['changeOpeningHours'] as CalendarActions,
+        },
       },
     },
   },
