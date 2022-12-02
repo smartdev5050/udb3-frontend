@@ -17,6 +17,7 @@ import {
   OpeningHoursWithId,
   useCalendarSelector,
 } from '../machines/calendarMachine';
+import { useCalendarHandlers } from '../machines/useCalendarHandlers';
 
 const DaysOfWeek = {
   MONDAY: 'monday',
@@ -38,6 +39,8 @@ const CalendarOpeninghoursModal = ({
   onClose,
 }: CalendarOpeninghoursModalProps) => {
   const { t } = useTranslation();
+
+  const { handleChangeOpeningHours } = useCalendarHandlers();
 
   const openinghoursFromStateMachine = useCalendarSelector(
     (state) => state.context.openingHours,
@@ -141,6 +144,7 @@ const CalendarOpeninghoursModal = ({
       cancelTitle="Annuleren"
       size={ModalSizes.LG}
       onConfirm={() => {
+        handleChangeOpeningHours(openingHours);
         onClose();
       }}
     >

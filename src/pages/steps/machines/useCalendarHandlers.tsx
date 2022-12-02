@@ -2,7 +2,11 @@ import { CalendarType } from '@/constants/CalendarType';
 import { OpeningHours } from '@/types/Offer';
 import { Values } from '@/types/Values';
 
-import { CalendarContext, useCalendarContext } from './calendarMachine';
+import {
+  CalendarContext,
+  OpeningHoursWithId,
+  useCalendarContext,
+} from './calendarMachine';
 
 export const useCalendarHandlers = () => {
   const calendarService = useCalendarContext();
@@ -75,8 +79,8 @@ export const useCalendarHandlers = () => {
     send('CHOOSE_PERMANENT');
   };
 
-  const handleChangeOpeningHours = (newOpeningHours: OpeningHours[]) => {
-    send('CHANGE_OPENING_HOURS');
+  const handleChangeOpeningHours = (newOpeningHours: OpeningHoursWithId[]) => {
+    send('CHANGE_OPENING_HOURS', { newOpeningHours });
   };
 
   return {
