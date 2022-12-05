@@ -78,6 +78,8 @@ const BaseLink = forwardRef<HTMLElement, BaseLinkProps>(
         display="inline-flex"
         fontWeight={400}
         css={`
+          text-decoration: underline;
+
           &:hover {
             text-decoration: underline;
           }
