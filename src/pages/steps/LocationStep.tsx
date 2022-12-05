@@ -293,6 +293,16 @@ const LocationStep = <TFormData extends FormDataUnion>({
                     });
                   }}
                   {...getStepProps(props)}
+                  {...{
+                    formState,
+                    getValues,
+                    reset,
+                    control,
+                    name,
+                    loading,
+                    onChange,
+                    watch,
+                  }}
                 />
               </Stack>
             </Stack>
