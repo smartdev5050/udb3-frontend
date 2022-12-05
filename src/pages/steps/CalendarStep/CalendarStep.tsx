@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
 import { BookingAvailabilityType } from '@/constants/BookingAvailabilityType';
 import { OfferStatus } from '@/constants/OfferStatus';
@@ -39,13 +39,12 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
   const isPeriodic = useIsPeriodic();
   const startDate = useCalendarSelector((state) => state.context.startDate);
   const endDate = useCalendarSelector((state) => state.context.endDate);
-  const calendarStateType = useCalendarSelector((state) => state.value);
+  const calendarStateType = useCalendarSelector((state) => state.value); // 'idle' | { 'periodic' }
   const days = useCalendarSelector((state) => state.context.days);
   const openingHours = useCalendarSelector(
     (state) => state.context.openingHours,
   );
-
-  const context = useCalendarSelector((state) => state.context);
+  const previousState = useCalendarSelector((state) => state.history?.value);
 
   const {
     handleLoadInitialContext: loadInitialContext,
@@ -112,7 +111,8 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
     },
   });
 
-  const convertStateToFormData = () => {
+  const convertedStateToFormData = useMemo(() => {
+    // one or more days
     const subEvent = days.map((day) => ({
       startDate: new Date(day.startDate).toISOString(),
       endDate: new Date(day.endDate).toISOString(),
@@ -138,12 +138,20 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
         endDate: new Date(endDate).toISOString(),
       }),
     };
-  };
+  }, [
+    days,
+    endDate,
+    isFixedDays,
+    isOneOrMoreDays,
+    isPeriodic,
+    openingHours,
+    startDate,
+  ]);
 
-  const handleSubmitCalendarMutation = async () => {
+  const handleSubmitCalendarMutation = async (isIdle: boolean) => {
     if (isIdle) return;
 
-    const formData = convertStateToFormData();
+    const formData = convertedStateToFormData;
 
     const calendarType =
       typeof calendarStateType === 'string'
@@ -156,6 +164,26 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
       ...formData,
     });
   };
+
+  const handleSubmitCalendarMutationCallback = useCallback(
+    handleSubmitCalendarMutation,
+    [calendarStateType, convertedStateToFormData, eventId],
+  );
+
+  useEffect(() => {
+    if (isIdle) return;
+    if (previousState === 'idle') return;
+
+    handleSubmitCalendarMutationCallback(isIdle);
+  }, [
+    days,
+    openingHours,
+    startDate,
+    endDate,
+    isIdle,
+    previousState,
+    handleSubmitCalendarMutationCallback,
+  ]);
 
   return (
     <Stack spacing={4} {...getStackProps(props)}>
