@@ -167,6 +167,7 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
 
   const handleSubmitCalendarMutationCallback = useCallback(
     handleSubmitCalendarMutation,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [calendarStateType, convertedStateToFormData, eventId],
   );
 
