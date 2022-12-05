@@ -7,7 +7,6 @@ import {
   useGetEventByIdQuery,
 } from '@/hooks/api/events';
 import { Event } from '@/types/Event';
-import { Button } from '@/ui/Button';
 import { Panel } from '@/ui/Panel';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 
@@ -215,7 +214,6 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
           />
         )}
       </Panel>
-      <Button onClick={handleSubmitCalendarMutation}>Submit payload</Button>
     </Stack>
   );
 };
