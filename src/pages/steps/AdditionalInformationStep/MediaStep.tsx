@@ -135,9 +135,21 @@ const MediaStep = ({
 
   const enrichVideos = async (video: Video[]) => {
     const getYoutubeThumbnailUrl = (videoUrl: string) => {
-      return `https://i.ytimg.com/vi_webp/${
-        videoUrl.split('v=')[1]
-      }/maxresdefault.webp`;
+      const youtubeImagePath = 'https://i.ytimg.com/vi_webp/';
+
+      if (videoUrl.includes('v=')) {
+        return `${youtubeImagePath}${
+          videoUrl.split('v=')[1]
+        }/maxresdefault.webp`;
+      }
+
+      if (videoUrl.includes('youtu.be/')) {
+        return `${youtubeImagePath}${
+          videoUrl.split('youtu.be/')[1]
+        }/maxresdefault.webp`;
+      }
+
+      return '';
     };
 
     const getVimeoThumbnailUrl = async (videoUrl: string) => {
@@ -156,9 +168,12 @@ const MediaStep = ({
     };
 
     const convertAllVideoUrlsPromises = video.map(async ({ url, ...video }) => {
-      const thumbnailUrl = url.includes('youtube')
-        ? getYoutubeThumbnailUrl(url)
-        : await getVimeoThumbnailUrl(url);
+      const thumbnailUrl =
+        url.includes('youtube') || url.includes('youtu.be')
+          ? getYoutubeThumbnailUrl(url)
+          : url.includes('vimeo')
+          ? await getVimeoThumbnailUrl(url)
+          : '';
 
       const enrichedVideo: VideoEnriched = {
         ...video,
