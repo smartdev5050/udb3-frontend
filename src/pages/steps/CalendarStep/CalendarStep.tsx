@@ -39,7 +39,7 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
   const isPeriodic = useIsPeriodic();
   const startDate = useCalendarSelector((state) => state.context.startDate);
   const endDate = useCalendarSelector((state) => state.context.endDate);
-  const calendarStateType = useCalendarSelector((state) => state.value); // 'idle' | { 'periodic' }
+  const calendarStateType = useCalendarSelector((state) => state.value);
   const days = useCalendarSelector((state) => state.context.days);
   const openingHours = useCalendarSelector(
     (state) => state.context.openingHours,
