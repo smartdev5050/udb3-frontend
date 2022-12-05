@@ -322,14 +322,24 @@ const locationStepConfiguration: StepsConfiguration<FormDataUnion> = {
     isOnline: false,
     country: Countries.BE,
   },
-  validation: yup
-    .object()
-    .shape({
-      onlineUrl: yup.string().url(),
-      place: yup.object().shape({}).required(),
-      country: yup.string().oneOf(Object.values(Countries)).required(),
-    })
-    .required(),
+  validation: yup.lazy((value) => {
+    if (value.isOnline) {
+      return yup
+        .object()
+        .shape({
+          onlineUrl: yup.string().url(),
+        })
+        .required();
+    }
+
+    return yup
+      .object()
+      .shape({
+        place: yup.object().shape({}).required(),
+        country: yup.string().oneOf(Object.values(Countries)).required(),
+      })
+      .required();
+  }),
 };
 
 LocationStep.defaultProps = {};
