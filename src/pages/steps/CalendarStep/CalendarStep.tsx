@@ -146,7 +146,7 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
     const formData = convertStateToFormData();
 
     const calendarType =
-      calendarStateType === 'string'
+      typeof calendarStateType === 'string'
         ? calendarStateType
         : Object.keys(calendarStateType)[0];
 
