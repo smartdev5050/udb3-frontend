@@ -1,4 +1,5 @@
 import { Controller } from 'react-hook-form';
+import * as yup from 'yup';
 
 import {
   useChangeNameMutation,
@@ -66,6 +67,10 @@ const nameAndAgeRangeStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: NameAndAgeRangeStep,
   name: 'nameAndAgeRange',
   title: ({ t }) => t('create.name_and_age.title'),
+  validation: yup.object().shape({
+    name: yup.object().shape({}).required(),
+    typicalAgeRange: yup.string().required(),
+  }),
   shouldShowStep: ({ watch }) => {
     const location = watch('location');
     return !!location?.place || location?.isOnline;
