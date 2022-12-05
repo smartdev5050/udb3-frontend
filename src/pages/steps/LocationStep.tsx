@@ -27,7 +27,12 @@ import { parseOfferId } from '@/utils/parseOfferId';
 import { CityPicker } from '../CityPicker';
 import { CountryPicker } from './CountryPicker';
 import { PlaceStep } from './PlaceStep';
-import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
+import {
+  FormDataUnion,
+  getStepProps,
+  StepProps,
+  StepsConfiguration,
+} from './Steps';
 
 const getValue = getValueFromTheme('createPage');
 const getGlobalValue = getValueFromTheme('global');
@@ -287,18 +292,7 @@ const LocationStep = <TFormData extends FormDataUnion>({
                       place: val,
                     });
                   }}
-                  {...{
-                    formState,
-                    getValues,
-                    reset,
-                    control,
-                    loading,
-                    terms,
-                    field,
-                    onChange,
-                    watch,
-                  }}
-                  {...props}
+                  {...getStepProps(props)}
                 />
               </Stack>
             </Stack>

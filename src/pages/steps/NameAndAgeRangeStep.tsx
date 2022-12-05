@@ -10,7 +10,12 @@ import { Stack } from '@/ui/Stack';
 
 import { AgeRangeStep } from './AgeRangeStep';
 import { NameStep } from './NameStep';
-import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
+import {
+  FormDataUnion,
+  getStepProps,
+  StepProps,
+  StepsConfiguration,
+} from './Steps';
 
 const useEditNameAndAgeRange = <TFormData extends FormDataUnion>({
   onSuccess,
@@ -43,13 +48,7 @@ const useEditNameAndAgeRange = <TFormData extends FormDataUnion>({
 };
 
 const NameAndAgeRangeStep = <TFormData extends FormDataUnion>({
-  formState,
-  getValues,
-  reset,
   control,
-  loading,
-  onChange,
-  watch,
   name,
   ...props
 }: StepProps<TFormData>) => {
@@ -57,36 +56,14 @@ const NameAndAgeRangeStep = <TFormData extends FormDataUnion>({
     <Controller
       control={control}
       name={name}
-      render={({ field }) => {
+      render={() => {
         return (
           <Stack spacing={4} maxWidth={parseSpacing(11)}>
-            <NameStep
-              {...{
-                formState,
-                getValues,
-                reset,
-                control,
-                loading,
-                field,
-                onChange,
-                watch,
-                name,
-              }}
-              {...props}
-            />
+            <NameStep {...getStepProps(props)} name={name} control={control} />
             <AgeRangeStep
-              {...{
-                formState,
-                getValues,
-                reset,
-                control,
-                loading,
-                field,
-                onChange,
-                watch,
-                name,
-              }}
-              {...props}
+              {...getStepProps(props)}
+              name={name}
+              control={control}
             />
           </Stack>
         );

@@ -1,4 +1,5 @@
 import { TFunction } from 'i18next';
+import pick from 'lodash/pick';
 import { useMemo } from 'react';
 import type {
   ControllerRenderProps,
@@ -118,6 +119,33 @@ type StepsProps<TFormData extends FormDataUnion> = {
   configurations: Array<StepsConfiguration<TFormData>>;
 };
 
+type UnknownProps = {
+  [key: string]: any;
+};
+
+const stepPropKeys = [
+  'clearErrors',
+  'control',
+  'formState',
+  'getFieldState',
+  'getValues',
+  'handleSubmit',
+  'loading',
+  'name',
+  'onChange',
+  'register',
+  'reset',
+  'resetField',
+  'setError',
+  'setFocus',
+  'setValue',
+  'trigger',
+  'unregister',
+  'watch',
+] as const;
+
+const getStepProps = (props: UnknownProps) => pick(props, stepPropKeys);
+
 const Steps = <TFormData extends FormDataUnion>({
   onChange,
   configurations,
@@ -195,5 +223,5 @@ Steps.defaultProps = {
   fieldLoading: '',
 };
 
-export { Steps };
+export { getStepProps, Steps };
 export type { Field, FormDataUnion, StepProps, StepsConfiguration };
