@@ -228,7 +228,7 @@ const calendarStepConfiguration: StepsConfiguration<FormDataUnion> = {
   name: 'calendar',
   title: ({ t }) => 'Wanneer vindt dit evenement of deze activiteit plaats?',
   shouldShowStep: ({ watch, eventId, formState }) => {
-    return true;
+    return !!watch('typeAndTheme.type.id');
   },
 };
 
