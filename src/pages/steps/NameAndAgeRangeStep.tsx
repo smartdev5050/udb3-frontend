@@ -1,4 +1,4 @@
-import { Controller } from 'react-hook-form';
+import { Controller, Path } from 'react-hook-form';
 import * as yup from 'yup';
 
 import {
@@ -43,9 +43,15 @@ const useEditNameAndAgeRange = <TFormData extends FormDataUnion>({
 };
 
 const NameAndAgeRangeStep = <TFormData extends FormDataUnion>({
+  formState,
+  getValues,
+  reset,
   control,
-  name,
+  loading,
   onChange,
+  watch,
+  name,
+  ...props
 }: StepProps<TFormData>) => {
   return (
     <Controller
@@ -54,8 +60,34 @@ const NameAndAgeRangeStep = <TFormData extends FormDataUnion>({
       render={({ field }) => {
         return (
           <Stack spacing={4} maxWidth={parseSpacing(11)}>
-            <NameStep field={field} onChange={onChange} control={control} />
-            <AgeRangeStep field={field} onChange={onChange} control={control} />
+            <NameStep
+              {...{
+                formState,
+                getValues,
+                reset,
+                control,
+                loading,
+                field,
+                onChange,
+                watch,
+                name,
+              }}
+              {...props}
+            />
+            <AgeRangeStep
+              {...{
+                formState,
+                getValues,
+                reset,
+                control,
+                loading,
+                field,
+                onChange,
+                watch,
+                name,
+              }}
+              {...props}
+            />
           </Stack>
         );
       }}

@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from 'react';
-import { Controller } from 'react-hook-form';
+import { Controller, Path } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { css } from 'styled-components';
 
@@ -8,9 +8,11 @@ import { parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
-import { getStackProps, Stack } from '@/ui/Stack';
+import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
+
+import { Field, FormDataUnion, StepProps } from './Steps';
 
 const getValue = getValueFromTheme('ageRange');
 
@@ -26,16 +28,15 @@ const AgeRanges = {
   CUSTOM: {},
 } as const;
 
-const AgeRangeStep = ({
-  field,
+type AgeRangeStepProps<TFormData extends FormDataUnion> = StackProps &
+  StepProps<TFormData>;
+
+const AgeRangeStep = <TFormData extends FormDataUnion>({
+  formState: { errors },
   control,
   onChange,
   ...props
-}: {
-  field: any;
-  control: any;
-  onChange: any;
-}) => {
+}: AgeRangeStepProps<TFormData>) => {
   const { t } = useTranslation();
 
   const [isCustomAgeRange, setIsCustomAgeRange] = useState(false);
@@ -57,21 +58,25 @@ const AgeRangeStep = ({
     setCustomAgeRangeError('');
   };
 
-  useEffect(() => {
-    if (!field.value?.typicalAgeRange) return;
-    const typicalAgeRange = field.value.typicalAgeRange;
+  const useInitializeAgeRangeFields = <TFormData extends FormDataUnion>(
+    field: Field<TFormData>,
+  ) => {
+    useEffect(() => {
+      if (!field.value?.typicalAgeRange) return;
+      const typicalAgeRange = field.value.typicalAgeRange;
 
-    if (isCustomAgeRangeSelected(typicalAgeRange)) {
-      const [min, max] = field.value.typicalAgeRange.split('-');
+      if (isCustomAgeRangeSelected(typicalAgeRange)) {
+        const [min, max] = field.value.typicalAgeRange.split('-');
 
-      setCustomMinAgeRange(min ?? '');
-      setCustomMaxAgeRange(max ?? '');
-      setIsCustomAgeRange(true);
-      return;
-    }
+        setCustomMinAgeRange(min ?? '');
+        setCustomMaxAgeRange(max ?? '');
+        setIsCustomAgeRange(true);
+        return;
+      }
 
-    resetCustomAgeRange();
-  }, [field.value?.typicalAgeRange]);
+      resetCustomAgeRange();
+    }, [field.value?.typicalAgeRange]);
+  };
 
   const getSelectedAgeRange = (typicalAgeRange: string): string => {
     const foundAgeRange = Object.keys(AgeRanges).find((key: string) => {
@@ -89,7 +94,9 @@ const AgeRangeStep = ({
     return foundAgeRange;
   };
 
-  const handleSubmitCustomAgeRange = (): void => {
+  const handleSubmitCustomAgeRange = <TFormData extends FormDataUnion>(
+    field: Field<TFormData>,
+  ) => {
     if (parseInt(customMinAgeRange) > parseInt(customMaxAgeRange)) {
       setCustomAgeRangeError(
         t('create.name_and_age.age.error_max_lower_than_min'),
@@ -110,12 +117,18 @@ const AgeRangeStep = ({
     });
   };
 
-  const handleMinAgeRangeChange = (value: string): void => {
+  const handleMinAgeRangeChange = <TFormData extends FormDataUnion>(
+    field: Field<TFormData>,
+    value: string,
+  ) => {
     setCustomMinAgeRange(value);
-    handleSubmitCustomAgeRange();
+    handleSubmitCustomAgeRange(field);
   };
 
-  const handleMaxAgeRangeChange = (value: string): void => {
+  const handleMaxAgeRangeChange = <TFormData extends FormDataUnion>(
+    field: Field<TFormData>,
+    value: string,
+  ) => {
     setCustomMaxAgeRange(value);
 
     if (!customMinAgeRange) {
@@ -123,18 +136,22 @@ const AgeRangeStep = ({
       return;
     }
 
-    handleSubmitCustomAgeRange();
+    handleSubmitCustomAgeRange(field);
   };
 
   return (
     <Stack {...getStackProps(props)}>
       <Controller
-        name="nameAndAgeRange"
+        name={'nameAndAgeRange' as Path<TFormData>}
         control={control}
         render={({ field }) => {
+          // eslint-disable-next-line react-hooks/rules-of-hooks
+          useInitializeAgeRangeFields(field);
+
           const selectedAgeRange = getSelectedAgeRange(
             field.value?.typicalAgeRange,
           );
+
           return (
             <Stack spacing={2}>
               <Text fontWeight="bold">
@@ -213,7 +230,7 @@ const AgeRangeStep = ({
                           onBlur={(event: FormEvent<HTMLInputElement>) => {
                             const value = (event.target as HTMLInputElement)
                               .value;
-                            handleMinAgeRangeChange(value);
+                            handleMinAgeRangeChange(field, value);
                           }}
                         />
                       </Stack>
@@ -233,7 +250,7 @@ const AgeRangeStep = ({
                           onBlur={(event: FormEvent<HTMLInputElement>) => {
                             const value = (event.target as HTMLInputElement)
                               .value;
-                            handleMaxAgeRangeChange(value);
+                            handleMaxAgeRangeChange(field, value);
                           }}
                         />
                       </Stack>
@@ -246,6 +263,9 @@ const AgeRangeStep = ({
                   </Stack>
                 )}
               </Inline>
+              {errors.nameAndAgeRange && (
+                <Text color="red">Age range fout!</Text>
+              )}
             </Stack>
           );
         }}

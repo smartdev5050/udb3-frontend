@@ -1,7 +1,11 @@
 import { TFunction } from 'i18next';
 import { useMemo } from 'react';
-import type { FieldError, Path, UseFormReturn } from 'react-hook-form';
-import { useTranslation, UseTranslationResponse } from 'react-i18next';
+import type {
+  ControllerRenderProps,
+  Path,
+  UseFormReturn,
+} from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 import type { BoxProps } from '@/ui/Box';
 import { Box } from '@/ui/Box';
@@ -15,6 +19,11 @@ import type { FormData as EventFormData } from '../create/EventForm';
 import type { FormData as MovieFormData } from '../manage/movies/MovieForm';
 
 type FormDataUnion = MovieFormData & EventFormData;
+
+type Field<TFormData extends FormDataUnion> = ControllerRenderProps<
+  TFormData,
+  Path<TFormData>
+>;
 
 type StepsConfiguration<TFormData extends FormDataUnion> = {
   Component: any;
@@ -187,4 +196,4 @@ Steps.defaultProps = {
 };
 
 export { Steps };
-export type { FormDataUnion, StepProps, StepsConfiguration };
+export type { Field, FormDataUnion, StepProps, StepsConfiguration };
