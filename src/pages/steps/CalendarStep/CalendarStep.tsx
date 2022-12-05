@@ -11,11 +11,14 @@ import { Panel } from '@/ui/Panel';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 
 import {
+  CalendarContext,
   CalendarMachineProvider,
+  CalendarState,
   createDayId,
   createOpeninghoursId,
   initialCalendarContext,
   useCalendarSelector,
+  useCalendarService,
   useIsFixedDays,
   useIsIdle,
   useIsOneOrMoreDays,
@@ -40,6 +43,7 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
   const endDate = useCalendarSelector((state) => state.context.endDate);
   const calendarStateType = useCalendarSelector((state) => state.value);
   const days = useCalendarSelector((state) => state.context.days);
+  const state = useCalendarSelector((state) => state);
   const openingHours = useCalendarSelector(
     (state) => state.context.openingHours,
   );
@@ -110,8 +114,16 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
     },
   });
 
-  const convertedStateToFormData = useMemo(() => {
-    // one or more days
+  const convertStateToFormData = (state: CalendarState) => {
+    const { context } = state;
+    const { days, openingHours, startDate, endDate } = context;
+    const isOneOrMoreDays =
+      state.matches('single') || state.matches('multiple');
+    const isFixedDays = state.matches('periodic') || state.matches('permanent');
+    const isPeriodic = state.matches('periodic');
+
+    console.log({ isOneOrMoreDays });
+
     const subEvent = days.map((day) => ({
       startDate: new Date(day.startDate).toISOString(),
       endDate: new Date(day.endDate).toISOString(),
@@ -137,15 +149,13 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
         endDate: new Date(endDate).toISOString(),
       }),
     };
-  }, [
-    days,
-    endDate,
-    isFixedDays,
-    isOneOrMoreDays,
-    isPeriodic,
-    openingHours,
-    startDate,
-  ]);
+  };
+
+  const convertedStateToFormData = useMemo(() => {
+    if (!state) return;
+
+    return convertStateToFormData(state);
+  }, [state]);
 
   const handleSubmitCalendarMutation = async (isIdle: boolean) => {
     if (isIdle) return;
