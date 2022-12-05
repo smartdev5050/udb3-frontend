@@ -32,7 +32,7 @@ const schema = yup
 const VideoLinkAddModal = ({ visible, onConfirm, onClose }: Props) => {
   const { t } = useTranslation();
 
-  const { register, handleSubmit, formState } = useForm<FormData>({
+  const { register, handleSubmit, reset, formState } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
 
@@ -42,6 +42,7 @@ const VideoLinkAddModal = ({ visible, onConfirm, onClose }: Props) => {
     await handleSubmit((data) => {
       onConfirm(data.link);
     })();
+    reset({ link: '' });
   };
 
   const registerLinkProps = register('link');
