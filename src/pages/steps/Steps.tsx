@@ -123,7 +123,7 @@ type UnknownProps = {
   [key: string]: any;
 };
 
-const stepPropKeys = [
+const stepPropKeys: (keyof StepProps<FormDataUnion>)[] = [
   'clearErrors',
   'control',
   'formState',
@@ -142,7 +142,7 @@ const stepPropKeys = [
   'trigger',
   'unregister',
   'watch',
-] as const;
+];
 
 const getStepProps = (props: UnknownProps) => pick(props, stepPropKeys);
 
