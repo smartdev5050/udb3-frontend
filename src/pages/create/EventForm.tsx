@@ -7,6 +7,8 @@ import { Country } from '@/types/Country';
 import { AttendanceMode, Event, isEvent } from '@/types/Event';
 import { Place } from '@/types/Place';
 import { Values } from '@/types/Values';
+import { WorkflowStatusMap } from '@/types/WorkflowStatus';
+import { parseOfferId } from '@/utils/parseOfferId';
 
 import { City } from '../CityPicker';
 import { additionalInformationStepConfiguration } from '../steps/AdditionalInformationStep';
@@ -39,6 +41,8 @@ type FormData = {
   };
 };
 
+const ONLINE_LOCATION_ID = '00000000-0000-0000-0000-000000000000';
+
 const EventForm = () => {
   const { t, i18n } = useTranslation();
   const { query } = useRouter();
@@ -70,10 +74,38 @@ const EventForm = () => {
 
   const convertFormDataToEvent = ({
     nameAndAgeRange: { name, typicalAgeRange },
+    typeAndTheme: { type, theme },
+    location: { place, isOnline, onlineUrl },
   }: FormData) => {
     return {
-      name,
       typicalAgeRange,
+      mainLanguage: i18n.language,
+      name,
+      calendar: undefined, // TODO
+      type: {
+        id: type?.id,
+        label: type?.label,
+        domain: 'eventtype',
+      },
+      ...(theme && {
+        theme: {
+          id: theme?.id,
+          label: theme?.label,
+          domain: 'theme',
+        },
+      }),
+      // TODO: Add mixed support
+      attendanceMode: isOnline ? AttendanceMode.ONLINE : AttendanceMode.OFFLINE,
+      location: isOnline
+        ? {
+            id: ONLINE_LOCATION_ID,
+            onlineUrl,
+          }
+        : {
+            id: parseOfferId(place['@id']),
+          },
+      workflowStatus: WorkflowStatusMap.DRAFT,
+      audienceType: 'everyone',
     };
   };
 
