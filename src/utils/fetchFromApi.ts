@@ -59,8 +59,7 @@ const fetchFromApi = async ({
     response = await fetch(url.toString(), options);
   } catch (e) {
     if (!silentError) {
-      const status = e?.message === 'Failed to fetch' ? 401 : response?.status;
-      throw new FetchError(status, e?.message ?? 'Unknown error');
+      throw new FetchError(response?.status, e?.message ?? 'Unknown error');
     }
 
     return {

@@ -13,10 +13,6 @@ type CardSystem = {
   distributionKeys?: any[];
 };
 
-type CardSystems = {
-  [key: string]: CardSystem;
-};
-
 const getCardSystemForEvent = async ({ headers, eventId }) => {
   const res = await fetchFromApi({
     path: `/uitpas/events/${eventId.toString()}/cardSystems/`,
@@ -42,6 +38,7 @@ const useGetCardSystemForEventQuery = (
     queryFn: getCardSystemForEvent,
     queryArguments: { eventId },
     enabled: !!eventId,
+    retry: 2,
     ...configuration,
   });
 
@@ -70,6 +67,7 @@ const useGetCardSystemsForOrganizerQuery = (
     queryFn: getCardSystemsForOrganizer,
     queryArguments: { organizerId },
     enabled: !!organizerId,
+    retry: 2,
     ...configuration,
   });
 
