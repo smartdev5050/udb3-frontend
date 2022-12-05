@@ -172,11 +172,13 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
   );
 
   useEffect(() => {
+    if (!eventId) return;
     if (isIdle) return;
     if (previousState === 'idle') return;
 
     handleSubmitCalendarMutationCallback(isIdle);
   }, [
+    eventId,
     days,
     openingHours,
     startDate,
