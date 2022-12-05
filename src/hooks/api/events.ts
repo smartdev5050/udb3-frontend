@@ -1,7 +1,7 @@
 import type { UseQueryOptions } from 'react-query';
 
 import type { CalendarType } from '@/constants/CalendarType';
-import type { Event } from '@/types/Event';
+import type { AttendanceMode, Event } from '@/types/Event';
 import type { BookingAvailability, Status, Term } from '@/types/Offer';
 import type { User } from '@/types/User';
 import type { Values } from '@/types/Values';
@@ -45,6 +45,7 @@ type EventArguments = {
   location: {
     id: string;
   };
+  attendanceMode: Values<typeof AttendanceMode>;
   mainLanguage: string;
 };
 type AddEventArguments = EventArguments & { headers: Headers };
@@ -58,6 +59,7 @@ const addEvent = async ({
   theme,
   location,
   audienceType,
+  attendanceMode,
 }: AddEventArguments) =>
   fetchFromApi({
     path: '/events/',
@@ -72,6 +74,7 @@ const addEvent = async ({
         theme,
         location,
         audienceType,
+        attendanceMode,
       }),
     },
   });
