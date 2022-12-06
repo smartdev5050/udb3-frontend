@@ -105,7 +105,7 @@ const ContactInfoStep = ({
     });
 
     setContactInfoState(contactInfoArray);
-  }, [contactInfo, setContactInfoState, onChangeCompleted]);
+  }, [contactInfo, handleChangeCompleted]);
 
   const addContactPointMutation = useAddContactPointMutation({
     onSuccess: onSuccessfulChange,
