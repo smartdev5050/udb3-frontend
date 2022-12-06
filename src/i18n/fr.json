@@ -109,6 +109,47 @@
     "scope": {
       "title": "Que voulez-vous ajouter"
     },
+    "calendar": {
+      "title": "Quand cet événement ou cette activité a-t-il lieu ?",
+      "one_or_more_days": {
+        "button_add": "Ajouter un jour"
+      },
+      "fixed_days": {
+        "with_start_and_end_date": "Avec date de début et de fin",
+        "permanent": "En permanence",
+        "opening_hours": "Heures d 'ouverture",
+        "button_change_opening_hours": "Modifier les heures d'ouverture",
+        "button_add_opening_hours": "Ajouter des heures d'ouverture"
+      },
+      "days": {
+        "short": {
+          "monday": "Lu",
+          "tuesday": "Di",
+          "wednesday": "Me",
+          "thursday": "Je",
+          "friday": "Ve",
+          "saturday": "Sa",
+          "sunday": "Di"
+        },
+        "full": {
+          "monday": "Lundi",
+          "tuesday": "Mardi",
+          "wednesday": "Mercredi",
+          "thursday": "Jeudi",
+          "friday": "Vendredi",
+          "saturday": "Samedi",
+          "sunday": "Dimanche"
+        }
+      },
+      "opening_hours_modal": {
+        "button_add": "Ajouter plus d'heures d'ouverture",
+        "button_cancel": "Annuler",
+        "button_confirm": "Sauvegarder",
+        "end_time": "Jusqu'à",
+        "start_time": "De",
+        "title": "Heures d 'ouverture"
+      }
+    },
     "location": {
       "title": "Où cet événement ou cette activité aura-t-il lieu?",
       "is_online": {
