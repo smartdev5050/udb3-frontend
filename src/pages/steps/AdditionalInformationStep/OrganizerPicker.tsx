@@ -202,6 +202,11 @@ const OrganizerPicker = ({
     // @ts-expect-error
   }, [getOrganizersByQueryQuery.data?.member]);
 
+  const handleSelectRecentOrganizer = (organizerId: string) => {
+    onChange(organizerId);
+    setAddButtonHasBeenPressed(false);
+  };
+
   return (
     <Stack {...getStackProps(props)}>
       <FormElement
@@ -272,7 +277,7 @@ const OrganizerPicker = ({
               />
               <RecentUsedOrganizers
                 organizers={recentUsedOrganizers}
-                onChange={onChange}
+                onChange={handleSelectRecentOrganizer}
               />
             </Stack>
           )
