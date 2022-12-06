@@ -19,7 +19,7 @@ type ListProps = StackProps & {
 
 const List = ({ children, className, variant, ...props }: ListProps) => (
   <Stack
-    as={variant === ListVariants.ORDERED ? 'ol' : 'ul'}
+    forwardedAs={variant === ListVariants.ORDERED ? 'ol' : 'ul'}
     className={className}
     variant={variant}
     css={`

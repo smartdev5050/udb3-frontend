@@ -7,6 +7,10 @@ import * as yup from 'yup';
 import { useGetOrganizersByWebsiteQuery } from '@/hooks/api/organizers';
 import { useAutoFocus } from '@/hooks/useAutoFocus';
 import { OrganizerData } from '@/pages/OrganizerAddModal';
+import {
+  ContactInfo,
+  ContactInfoStep,
+} from '@/pages/steps/AdditionalInformationStep/ContactInfoStep';
 import { Countries, Country } from '@/types/Country';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { FormElement } from '@/ui/FormElement';
@@ -20,7 +24,6 @@ import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
 import { City, CityPicker } from './CityPicker';
-import { ContactInfo, ContactInfoStep } from './steps/ContactInfoStep';
 
 export const getValue = getValueFromTheme('organizerAddModal');
 

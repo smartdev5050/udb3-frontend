@@ -45,7 +45,11 @@ const above = 1;
 
 const zIndexPaginationPageLink = above + base;
 
-const zIndexSidebar = above + zIndexPaginationPageLink;
+const zIndexDatePickerInput = above + zIndexPaginationPageLink;
+const zIndexDatePickerButton = above + zIndexDatePickerInput;
+const zIndexDatePickerPopup = above + zIndexDatePickerButton;
+
+const zIndexSidebar = above + zIndexDatePickerPopup;
 const zIndexPageFooter = zIndexSidebar;
 
 const zIndexJobLogger = above + zIndexSidebar;
@@ -54,6 +58,8 @@ const zIndexToast = zIndexJobLogger;
 const zIndexModalBackdrop = above + zIndexToast;
 
 const zIndexModal = above + zIndexModalBackdrop;
+
+const zIndexTimePickerPopup = above + zIndexModal;
 //
 
 type BreakpointValues = Values<typeof Breakpoints>;
@@ -98,6 +104,14 @@ const theme = {
     modal: {
       zIndex: zIndexModal,
       zIndexBackdrop: zIndexModalBackdrop,
+    },
+    datePicker: {
+      zIndexInput: zIndexDatePickerInput,
+      zIndexButton: zIndexDatePickerButton,
+      zIndexPopup: zIndexDatePickerPopup,
+    },
+    timePicker: {
+      zIndexPopup: zIndexTimePickerPopup,
     },
     link: {
       color: colors.udbBlue,

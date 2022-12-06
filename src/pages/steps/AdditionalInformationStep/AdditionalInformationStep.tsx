@@ -12,7 +12,8 @@ import { Tabs } from '@/ui/Tabs';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
-import { Audience } from './Audience';
+import { Audience } from '../AudienceStep';
+import { FormDataUnion, StepsConfiguration } from '../Steps';
 import { BookingInfoStep } from './BookingInfoStep';
 import { ContactInfoStep } from './ContactInfoStep';
 import { DescriptionStep } from './DescriptionStep';
@@ -20,7 +21,6 @@ import { EventScore } from './EventScore';
 import { MediaStep } from './MediaStep';
 import { OrganizerStep } from './OrganizerStep';
 import { PriceInformation } from './PriceInformation';
-import { FormDataUnion, StepsConfiguration } from './Steps';
 
 const getGlobalValue = getValueFromTheme('global');
 
@@ -147,7 +147,8 @@ const AdditionalInformationStep = ({
       }
       onChangeSuccess(field);
     },
-    [eventId, onChangeSuccess, queryClient],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [eventId, queryClient],
   );
 
   const [tab, setTab] = useState('description');

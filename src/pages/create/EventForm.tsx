@@ -1,21 +1,29 @@
 import { useRouter } from 'next/router';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { OfferType } from '@/constants/OfferType';
 import { SupportedLanguages } from '@/i18n/index';
+import { additionalInformationStepConfiguration } from '@/pages/steps/AdditionalInformationStep';
+import { calendarStepConfiguration } from '@/pages/steps/CalendarStep';
+import { convertStateToFormData } from '@/pages/steps/CalendarStep/CalendarStep';
+import { typeAndThemeStepConfiguration } from '@/pages/steps/EventTypeAndThemeStep';
+import { locationStepConfiguration } from '@/pages/steps/LocationStep';
+import {
+  CalendarMachineProvider,
+  useCalendarSelector,
+} from '@/pages/steps/machines/calendarMachine';
+import { nameAndAgeRangeStepConfiguration } from '@/pages/steps/NameAndAgeRangeStep';
+import { scopeStepConfiguration } from '@/pages/steps/ScopeStep';
+import { StepsForm } from '@/pages/steps/StepsForm';
 import { Country } from '@/types/Country';
 import { AttendanceMode, Event, isEvent } from '@/types/Event';
 import { Place } from '@/types/Place';
 import { Values } from '@/types/Values';
+import { WorkflowStatusMap } from '@/types/WorkflowStatus';
+import { parseOfferId } from '@/utils/parseOfferId';
 
 import { City } from '../CityPicker';
-import { additionalInformationStepConfiguration } from '../steps/AdditionalInformationStep';
-import { calendarStepConfiguration } from '../steps/CalendarStep';
-import { typeAndThemeStepConfiguration } from '../steps/EventTypeAndThemeStep';
-import { locationStepConfiguration } from '../steps/LocationStep';
-import { nameAndAgeRangeStepConfiguration } from '../steps/NameAndAgeRangeStep';
-import { scopeStepConfiguration } from '../steps/ScopeStep';
-import { StepsForm } from '../steps/StepsForm';
 
 type Scope = 'events' | 'places';
 
@@ -38,6 +46,8 @@ type FormData = {
     typicalAgeRange: string;
   };
 };
+
+const ONLINE_LOCATION_ID = '00000000-0000-0000-0000-000000000000';
 
 const EventForm = () => {
   const { t, i18n } = useTranslation();
@@ -70,17 +80,61 @@ const EventForm = () => {
 
   const convertFormDataToEvent = ({
     nameAndAgeRange: { name, typicalAgeRange },
+    typeAndTheme: { type, theme },
+    location: { place, isOnline, onlineUrl },
+    calendar,
   }: FormData) => {
     return {
-      name,
       typicalAgeRange,
+      mainLanguage: i18n.language,
+      name,
+      type: {
+        id: type?.id,
+        label: type?.label,
+        domain: 'eventtype',
+      },
+      ...(theme && {
+        theme: {
+          id: theme?.id,
+          label: theme?.label,
+          domain: 'theme',
+        },
+      }),
+      // TODO: Add mixed support
+      attendanceMode: isOnline ? AttendanceMode.ONLINE : AttendanceMode.OFFLINE,
+      location: isOnline
+        ? {
+            id: ONLINE_LOCATION_ID,
+            onlineUrl,
+          }
+        : {
+            id: parseOfferId(place['@id']),
+          },
+      workflowStatus: WorkflowStatusMap.DRAFT,
+      audienceType: 'everyone',
+    };
+  };
+
+  const calendarState = useCalendarSelector((state) => state);
+
+  const calendarFormData = useMemo(() => {
+    if (!calendarState) return undefined;
+    return convertStateToFormData(calendarState);
+  }, [calendarState]);
+
+  const convertFormDataWithCalendarToEvent = (formData) => {
+    const newFormData = convertFormDataToEvent(formData);
+
+    return {
+      ...newFormData,
+      ...(calendarFormData && { calendar: calendarFormData }),
     };
   };
 
   return (
     <StepsForm
       title={t(`create.title`)}
-      convertFormDataToEvent={convertFormDataToEvent}
+      convertFormDataToEvent={convertFormDataWithCalendarToEvent}
       convertEventToFormData={convertEventToFormData}
       toastConfiguration={{
         messages: {
@@ -97,22 +151,33 @@ const EventForm = () => {
       }}
       configurations={[
         scopeStepConfiguration,
-        calendarStepConfiguration,
         typeAndThemeStepConfiguration,
+        {
+          ...calendarStepConfiguration,
+          stepProps: {
+            eventId: query.id || query.eventId,
+          },
+        },
         locationStepConfiguration,
         nameAndAgeRangeStepConfiguration,
         {
           ...additionalInformationStepConfiguration,
           stepProps: {
-            eventId: query.id,
+            eventId: query.id || query.eventId,
           },
           shouldShowStep: ({ watch }) =>
-            !!query.id && !!watch('nameAndAgeRange.name'),
+            !!(query.id || query.eventId) && !!watch('nameAndAgeRange.name'),
         },
       ]}
     />
   );
 };
 
+const EventFormWithCalendarMachine = () => (
+  <CalendarMachineProvider>
+    <EventForm />
+  </CalendarMachineProvider>
+);
+
 export type { FormData, Scope };
-export { EventForm };
+export { EventFormWithCalendarMachine as EventForm };
