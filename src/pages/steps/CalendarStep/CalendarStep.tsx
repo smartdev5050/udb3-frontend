@@ -12,7 +12,6 @@ import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 
 import {
   CalendarContext,
-  CalendarMachineProvider,
   CalendarState,
   createDayId,
   createOpeninghoursId,
@@ -230,11 +229,7 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
 
 const calendarStepConfiguration: StepsConfiguration<FormDataUnion> = {
   // eslint-disable-next-line react/display-name
-  Component: (props: any) => (
-    <CalendarMachineProvider>
-      <CalendarStep {...props} />
-    </CalendarMachineProvider>
-  ),
+  Component: (props) => <CalendarStep {...props} />,
   name: 'calendar',
   title: ({ t }) => 'Wanneer vindt dit evenement of deze activiteit plaats?',
   shouldShowStep: ({ watch, eventId, formState }) => {

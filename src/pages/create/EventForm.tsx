@@ -15,6 +15,10 @@ import { additionalInformationStepConfiguration } from '../steps/AdditionalInfor
 import { calendarStepConfiguration } from '../steps/CalendarStep';
 import { typeAndThemeStepConfiguration } from '../steps/EventTypeAndThemeStep';
 import { locationStepConfiguration } from '../steps/LocationStep';
+import {
+  CalendarMachineProvider,
+  useCalendarSelector,
+} from '../steps/machines/calendarMachine';
 import { nameAndAgeRangeStepConfiguration } from '../steps/NameAndAgeRangeStep';
 import { scopeStepConfiguration } from '../steps/ScopeStep';
 import { StepsForm } from '../steps/StepsForm';
@@ -76,12 +80,12 @@ const EventForm = () => {
     nameAndAgeRange: { name, typicalAgeRange },
     typeAndTheme: { type, theme },
     location: { place, isOnline, onlineUrl },
+    calendar,
   }: FormData) => {
     return {
       typicalAgeRange,
       mainLanguage: i18n.language,
       name,
-      calendar: undefined, // TODO
       type: {
         id: type?.id,
         label: type?.label,
@@ -109,6 +113,7 @@ const EventForm = () => {
     };
   };
 
+  // const calendarFormData = undefined;
   return (
     <StepsForm
       title={t(`create.title`)}
@@ -151,5 +156,11 @@ const EventForm = () => {
   );
 };
 
+const EventFormWithCalendarMachine = () => (
+  <CalendarMachineProvider>
+    <EventForm />
+  </CalendarMachineProvider>
+);
+
 export type { FormData, Scope };
-export { EventForm };
+export { EventFormWithCalendarMachine as EventForm };
