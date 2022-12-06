@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { BookingAvailabilityType } from '@/constants/BookingAvailabilityType';
 import { OfferStatus } from '@/constants/OfferStatus';
+import { OfferType } from '@/constants/OfferType';
 import {
   useChangeCalendarMutation,
   useGetEventByIdQuery,
@@ -207,20 +208,26 @@ const CalendarStep = <TFormData extends FormDataUnion>({
     handleSubmitCalendarMutationCallback,
   ]);
 
+  const handleChooseFixedDaysCallback = useCallback(
+    () => handleChooseFixedDays(),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
+
   useEffect(() => {
     if (isIdle) return;
-    if (watchedValues.scope === 'events') return;
+    if (watchedValues.scope === OfferType.EVENTS) return;
 
-    if (watchedValues.scope === 'places') {
-      handleChooseFixedDays();
+    if (watchedValues.scope === OfferType.PLACES) {
+      handleChooseFixedDaysCallback();
     }
 
     return;
-  }, [watchedValues.scope, isIdle, handleChooseFixedDays]);
+  }, [watchedValues.scope, isIdle, handleChooseFixedDaysCallback]);
 
   return (
     <Stack spacing={4} {...getStackProps(props)}>
-      {watchedValues.scope === 'event' && (
+      {watchedValues.scope === OfferType.EVENTS && (
         <CalendarOptionToggle
           onChooseOneOrMoreDays={handleChooseOneOrMoreDays}
           onChooseFixedDays={handleChooseFixedDays}
