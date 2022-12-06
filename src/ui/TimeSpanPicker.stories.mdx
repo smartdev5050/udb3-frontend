@@ -1,0 +1,23 @@
+import { useState } from 'react';
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import { TimeSpanPicker } from './TimeSpanPicker';
+
+<Meta title="Components/TimeSpanPicker" component={TimeSpanPicker} />
+
+<Canvas>
+  <Story name="Default" args={{ id: 'test' }}>
+    {(args) => {
+      const [startTime, setStartTime] = useState('00:00');
+      const [endTime, setEndTime] = useState('23:59');
+      return (
+        <TimeSpanPicker
+          {...args}
+          startTime={startTime}
+          endTime={endTime}
+          onChangeStartTime={setStartTime}
+          onChangeEndTime={setEndTime}
+        />
+      );
+    }}
+  </Story>
+</Canvas>

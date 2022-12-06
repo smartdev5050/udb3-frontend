@@ -109,6 +109,47 @@
     "scope": {
       "title": "Wat wil je toevoegen?"
     },
+    "calendar": {
+      "title": "Wanneer vindt dit evenement of deze activiteit plaats?",
+      "one_or_more_days": {
+        "button_add": "Dag toevoegen"
+      },
+      "fixed_days": {
+        "with_start_and_end_date": "Met start-en einddatum",
+        "permanent": "Permanent",
+        "opening_hours": "Openingsuren",
+        "button_change_opening_hours": "Openingsuren wijzigen",
+        "button_add_opening_hours": "Openingsuren toevoegen"
+      },
+      "days": {
+        "short": {
+          "monday": "Ma",
+          "tuesday": "Di",
+          "wednesday": "Wo",
+          "thursday": "Do",
+          "friday": "Vr",
+          "saturday": "Za",
+          "sunday": "Zo"
+        },
+        "full": {
+          "monday": "Maandag",
+          "tuesday": "Dinsdag",
+          "wednesday": "Woensdag",
+          "thursday": "Donderdag",
+          "friday": "Vrijdag",
+          "saturday": "Zaterdag",
+          "sunday": "Zondag"
+        }
+      },
+      "opening_hours_modal": {
+        "button_add": "Meer openingstijden toevoegen",
+        "button_cancel": "Annuleren",
+        "button_confirm": "Opslaan",
+        "end_time": "Tot",
+        "start_time": "Van",
+        "title": "Openingsuren"
+      }
+    },
     "location": {
       "title": "Waar vindt dit evenement of deze activiteit plaats?",
       "is_online": {
@@ -136,6 +177,14 @@
     },
     "name_and_age": {
       "title": " Basisgegevens",
+      "validation_messages": {
+        "name": {
+          "required": "Naam is verplicht."
+        },
+        "age_range": {
+          "required": "Leeftijdsgroep is verplicht."
+        }
+      },
       "name": {
         "title_events": "Naam van het evenement",
         "title_places": "Naam van de locatie",
@@ -304,6 +353,7 @@
     "toast": {
       "success": {
         "basic_info": "Basisgegevens zijn succesvol gewijzigd",
+        "calendar": "Kalender is succesvol gewijzigd",
         "description": "Beschrijving is succesvol gewijzigd",
         "organizer": "Organisatie is succesvol gewijzigd",
         "price_info": "Prijsinformatie is succesvol gewijzigd",
@@ -764,6 +814,14 @@
   "time_table": {
     "end": "Einde",
     "start": "Start"
+  },
+  "date_period_picker": {
+    "end": "Einde",
+    "start": "Start"
+  },
+  "time_span_picker": {
+    "end": "Einduur",
+    "start": "Beginuur"
   },
   "typeahead": {
     "no_results": "Geen resultaten gevonden",

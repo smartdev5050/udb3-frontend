@@ -20,7 +20,10 @@ import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
 import { City, CityPicker } from './CityPicker';
-import { ContactInfo, ContactInfoStep } from './steps/ContactInfoStep';
+import {
+  ContactInfo,
+  ContactInfoStep,
+} from './steps/AdditionalInformationStep/ContactInfoStep';
 
 export const getValue = getValueFromTheme('organizerAddModal');
 

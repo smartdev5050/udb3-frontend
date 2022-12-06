@@ -27,7 +27,12 @@ import { parseOfferId } from '@/utils/parseOfferId';
 import { CityPicker } from '../CityPicker';
 import { CountryPicker } from './CountryPicker';
 import { PlaceStep } from './PlaceStep';
-import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
+import {
+  FormDataUnion,
+  getStepProps,
+  StepProps,
+  StepsConfiguration,
+} from './Steps';
 
 const getValue = getValueFromTheme('createPage');
 const getGlobalValue = getValueFromTheme('global');
@@ -287,18 +292,17 @@ const LocationStep = <TFormData extends FormDataUnion>({
                       place: val,
                     });
                   }}
+                  {...getStepProps(props)}
                   {...{
                     formState,
                     getValues,
                     reset,
                     control,
+                    name,
                     loading,
-                    terms,
-                    field,
                     onChange,
                     watch,
                   }}
-                  {...props}
                 />
               </Stack>
             </Stack>
@@ -322,14 +326,24 @@ const locationStepConfiguration: StepsConfiguration<FormDataUnion> = {
     isOnline: false,
     country: Countries.BE,
   },
-  validation: yup
-    .object()
-    .shape({
-      onlineUrl: yup.string().url(),
-      place: yup.object().shape({}).required(),
-      country: yup.string().oneOf(Object.values(Countries)).required(),
-    })
-    .required(),
+  validation: yup.lazy((value) => {
+    if (value.isOnline) {
+      return yup
+        .object()
+        .shape({
+          onlineUrl: yup.string().url(),
+        })
+        .required();
+    }
+
+    return yup
+      .object()
+      .shape({
+        place: yup.object().shape({}).required(),
+        country: yup.string().oneOf(Object.values(Countries)).required(),
+      })
+      .required();
+  }),
 };
 
 LocationStep.defaultProps = {};
