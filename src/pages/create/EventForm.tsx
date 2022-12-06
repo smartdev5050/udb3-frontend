@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { OfferType } from '@/constants/OfferType';
@@ -13,8 +14,13 @@ import { parseOfferId } from '@/utils/parseOfferId';
 import { City } from '../CityPicker';
 import { additionalInformationStepConfiguration } from '../steps/AdditionalInformationStep';
 import { calendarStepConfiguration } from '../steps/CalendarStep';
+import { convertStateToFormData } from '../steps/CalendarStep/CalendarStep';
 import { typeAndThemeStepConfiguration } from '../steps/EventTypeAndThemeStep';
 import { locationStepConfiguration } from '../steps/LocationStep';
+import {
+  CalendarMachineProvider,
+  useCalendarSelector,
+} from '../steps/machines/calendarMachine';
 import { nameAndAgeRangeStepConfiguration } from '../steps/NameAndAgeRangeStep';
 import { scopeStepConfiguration } from '../steps/ScopeStep';
 import { StepsForm } from '../steps/StepsForm';
@@ -76,12 +82,12 @@ const EventForm = () => {
     nameAndAgeRange: { name, typicalAgeRange },
     typeAndTheme: { type, theme },
     location: { place, isOnline, onlineUrl },
+    calendar,
   }: FormData) => {
     return {
       typicalAgeRange,
       mainLanguage: i18n.language,
       name,
-      calendar: undefined, // TODO
       type: {
         id: type?.id,
         label: type?.label,
@@ -109,10 +115,26 @@ const EventForm = () => {
     };
   };
 
+  const calendarState = useCalendarSelector((state) => state);
+
+  const calendarFormData = useMemo(() => {
+    if (!calendarState) return undefined;
+    return convertStateToFormData(calendarState);
+  }, [calendarState]);
+
+  const convertFormDataWithCalendarToEvent = (formData) => {
+    const newFormData = convertFormDataToEvent(formData);
+
+    return {
+      ...newFormData,
+      ...(calendarFormData && { calendar: calendarFormData }),
+    };
+  };
+
   return (
     <StepsForm
       title={t(`create.title`)}
-      convertFormDataToEvent={convertFormDataToEvent}
+      convertFormDataToEvent={convertFormDataWithCalendarToEvent}
       convertEventToFormData={convertEventToFormData}
       toastConfiguration={{
         messages: {
@@ -151,5 +173,11 @@ const EventForm = () => {
   );
 };
 
+const EventFormWithCalendarMachine = () => (
+  <CalendarMachineProvider>
+    <EventForm />
+  </CalendarMachineProvider>
+);
+
 export type { FormData, Scope };
-export { EventForm };
+export { EventFormWithCalendarMachine as EventForm };

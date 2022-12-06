@@ -12,7 +12,6 @@ import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 
 import {
   CalendarContext,
-  CalendarMachineProvider,
   CalendarState,
   createDayId,
   createOpeninghoursId,
@@ -32,13 +31,48 @@ import { OneOrMoreDays } from './OneOrMoreDays';
 
 type CalendarStepProps = StackProps & { eventId?: string };
 
+const convertStateToFormData = (state: CalendarState) => {
+  if (!state) return undefined;
+
+  const { context } = state;
+  const { days, openingHours, startDate, endDate } = context;
+  const isOneOrMoreDays = state.matches('single') || state.matches('multiple');
+  const isFixedDays = state.matches('periodic') || state.matches('permanent');
+  const isPeriodic = state.matches('periodic');
+
+  const subEvent = days.map((day) => ({
+    startDate: new Date(day.startDate).toISOString(),
+    endDate: new Date(day.endDate).toISOString(),
+    bookingAvailability: {
+      type: BookingAvailabilityType.AVAILABLE,
+    }, // Always available or depends on current state?
+    status: {
+      type: OfferStatus.AVAILABLE,
+    },
+  }));
+
+  const newOpeningHours = openingHours.map((openingHour) => ({
+    opens: openingHour.opens,
+    closes: openingHour.closes,
+    dayOfWeek: openingHour.dayOfWeek,
+  }));
+
+  return {
+    ...(isOneOrMoreDays && { subEvent }),
+    ...(isFixedDays && { openingHours: newOpeningHours }),
+    ...(isPeriodic && {
+      startDate: new Date(startDate).toISOString(),
+      endDate: new Date(endDate).toISOString(),
+    }),
+  };
+};
+
 const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
   const isOneOrMoreDays = useIsOneOrMoreDays();
   const isFixedDays = useIsFixedDays();
   const isIdle = useIsIdle();
 
   // @SIMON selectors here or rather in the submit handler
-  const isPeriodic = useIsPeriodic();
   const startDate = useCalendarSelector((state) => state.context.startDate);
   const endDate = useCalendarSelector((state) => state.context.endDate);
   const calendarStateType = useCalendarSelector((state) => state.value);
@@ -113,43 +147,6 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
       console.log('calendar mutation success');
     },
   });
-
-  const convertStateToFormData = (state: CalendarState) => {
-    const { context } = state;
-    const { days, openingHours, startDate, endDate } = context;
-    const isOneOrMoreDays =
-      state.matches('single') || state.matches('multiple');
-    const isFixedDays = state.matches('periodic') || state.matches('permanent');
-    const isPeriodic = state.matches('periodic');
-
-    console.log({ isOneOrMoreDays });
-
-    const subEvent = days.map((day) => ({
-      startDate: new Date(day.startDate).toISOString(),
-      endDate: new Date(day.endDate).toISOString(),
-      bookingAvailability: {
-        type: BookingAvailabilityType.AVAILABLE,
-      }, // Always available or depends on current state?
-      status: {
-        type: OfferStatus.AVAILABLE,
-      },
-    }));
-
-    const newOpeningHours = openingHours.map((openingHour) => ({
-      opens: openingHour.opens,
-      closes: openingHour.closes,
-      dayOfWeek: openingHour.dayOfWeek,
-    }));
-
-    return {
-      ...(isOneOrMoreDays && { subEvent }),
-      ...(isFixedDays && { openingHours: newOpeningHours }),
-      ...(isPeriodic && {
-        startDate: new Date(startDate).toISOString(),
-        endDate: new Date(endDate).toISOString(),
-      }),
-    };
-  };
 
   const convertedStateToFormData = useMemo(() => {
     if (!state) return;
@@ -230,11 +227,7 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
 
 const calendarStepConfiguration: StepsConfiguration<FormDataUnion> = {
   // eslint-disable-next-line react/display-name
-  Component: (props: any) => (
-    <CalendarMachineProvider>
-      <CalendarStep {...props} />
-    </CalendarMachineProvider>
-  ),
+  Component: (props) => <CalendarStep {...props} />,
   name: 'calendar',
   title: ({ t }) => 'Wanneer vindt dit evenement of deze activiteit plaats?',
   shouldShowStep: ({ watch, eventId, formState }) => {
@@ -242,4 +235,4 @@ const calendarStepConfiguration: StepsConfiguration<FormDataUnion> = {
   },
 };
 
-export { CalendarStep, calendarStepConfiguration };
+export { CalendarStep, calendarStepConfiguration, convertStateToFormData };
