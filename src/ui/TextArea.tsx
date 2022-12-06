@@ -4,6 +4,7 @@ import { Form } from 'react-bootstrap';
 
 import type { BoxProps } from './Box';
 import { Box, getBoxProps } from './Box';
+import { getGlobalBorderRadius } from './theme';
 
 type TextAreaProps = {
   name?: string;
@@ -49,7 +50,7 @@ const TextArea = forwardRef<HTMLInputElement, Props>(
         onBlur={onBlur}
         value={value}
         disabled={disabled}
-        css="border-radius: ${getGlobalBorderRadius};"
+        borderRadius={getGlobalBorderRadius}
         rows={rows}
         ref={ref}
         name={name}

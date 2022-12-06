@@ -6,8 +6,10 @@ import type {
   ClipboardEvent,
   ComponentType,
   DragEvent,
+  FocusEvent,
   FormEvent,
   HTMLProps,
+  KeyboardEvent,
   MouseEvent,
   ReactNode,
 } from 'react';
@@ -93,6 +95,9 @@ type DatePickerProps = {
   minDate: Date;
   maxDate: Date;
   customInput: ReactNode;
+  open: boolean;
+  onCalendarClose: () => void;
+  onCalendarOpen: () => void;
 };
 
 type ProgressBarProps = {
@@ -112,6 +117,7 @@ type TypeaheadProps = {
   isInvalid: boolean;
   promptText: string;
   searchText: string;
+  positionFixed: boolean;
   allowNew:
     | boolean
     | ((
@@ -120,6 +126,7 @@ type TypeaheadProps = {
       ) => boolean);
   newSelectionPrefix: string;
   inputProps: HTMLProps<HTMLInputElement>;
+  defaultInputValue: string;
 };
 
 type SpecificComponentProps = InlineProps &
@@ -134,7 +141,7 @@ type SpecificComponentProps = InlineProps &
   TypeaheadProps;
 
 type EventHandlerProps = {
-  onBlur: (event: FormEvent<HTMLInputElement>) => void;
+  onBlur: (event: ChangeEvent<HTMLInputElement>) => void;
   onChange:
     | ((event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void)
     | ((value: Date) => void)
@@ -148,6 +155,8 @@ type EventHandlerProps = {
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
   onDragOver: (event: DragEvent<HTMLElement>) => void;
   onDrop: (event: DragEvent<HTMLElement>) => void;
+  onFocus: (event: FocusEvent<HTMLElement>) => void;
+  onKeyDown: (event: KeyboardEvent<HTMLElement>) => void;
 };
 
 type Display =

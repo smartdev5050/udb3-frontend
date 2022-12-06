@@ -1,4 +1,5 @@
-import { Controller } from 'react-hook-form';
+import { Controller, Path } from 'react-hook-form';
+import * as yup from 'yup';
 
 import {
   useChangeNameMutation,
@@ -9,7 +10,12 @@ import { Stack } from '@/ui/Stack';
 
 import { AgeRangeStep } from './AgeRangeStep';
 import { NameStep } from './NameStep';
-import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
+import {
+  FormDataUnion,
+  getStepProps,
+  StepProps,
+  StepsConfiguration,
+} from './Steps';
 
 const useEditNameAndAgeRange = <TFormData extends FormDataUnion>({
   onSuccess,
@@ -44,17 +50,21 @@ const useEditNameAndAgeRange = <TFormData extends FormDataUnion>({
 const NameAndAgeRangeStep = <TFormData extends FormDataUnion>({
   control,
   name,
-  onChange,
+  ...props
 }: StepProps<TFormData>) => {
   return (
     <Controller
       control={control}
       name={name}
-      render={({ field }) => {
+      render={() => {
         return (
           <Stack spacing={4} maxWidth={parseSpacing(11)}>
-            <NameStep field={field} onChange={onChange} control={control} />
-            <AgeRangeStep field={field} onChange={onChange} control={control} />
+            <NameStep {...getStepProps(props)} name={name} control={control} />
+            <AgeRangeStep
+              {...getStepProps(props)}
+              name={name}
+              control={control}
+            />
           </Stack>
         );
       }}
@@ -66,6 +76,10 @@ const nameAndAgeRangeStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: NameAndAgeRangeStep,
   name: 'nameAndAgeRange',
   title: ({ t }) => t('create.name_and_age.title'),
+  validation: yup.object().shape({
+    name: yup.object().shape({}).required(),
+    typicalAgeRange: yup.string().required(),
+  }),
   shouldShowStep: ({ watch }) => {
     const location = watch('location');
     return !!location?.place || location?.isOnline;
