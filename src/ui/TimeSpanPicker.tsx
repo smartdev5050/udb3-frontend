@@ -120,7 +120,7 @@ const TimeSpanPicker = ({
             if (!newValue) return;
             onChangeStartTime(newValue);
           }}
-          positionFixed={true}
+          positionFixed
           maxHeight="140px"
           css={dropDownCss}
         />
@@ -144,6 +144,7 @@ const TimeSpanPicker = ({
             onChangeEndTime(newValue);
           }}
           css={dropDownCss}
+          positionFixed
         />
       </Stack>
     </Inline>
