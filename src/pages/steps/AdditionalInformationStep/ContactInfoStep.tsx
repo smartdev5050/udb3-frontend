@@ -1,4 +1,10 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import {
+  ChangeEvent,
+  FormEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -76,6 +82,8 @@ const ContactInfoStep = ({
   );
   const [isFieldFocused, setIsFieldFocused] = useState(false);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleChangeCompleted = useCallback(onChangeCompleted, []);
   const contactInfo =
     // @ts-expect-error
     getEventByIdQuery.data?.contactPoint ?? organizerContactInfo;
@@ -83,7 +91,8 @@ const ContactInfoStep = ({
   useEffect(() => {
     if (!contactInfo) return;
 
-    onChangeCompleted(true);
+    // onChangeCompleted can be undefined when used in OrganizerStep
+    handleChangeCompleted?.(true);
 
     const contactInfoArray = [];
     Object.keys(contactInfo).forEach((key) => {
