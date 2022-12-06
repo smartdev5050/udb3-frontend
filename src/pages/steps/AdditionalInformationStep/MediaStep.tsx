@@ -42,6 +42,9 @@ const MediaStep = ({
 
   const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleChangeCompleted = useCallback(onChangeCompleted, []);
+
   // @ts-expect-error
   const videosFromQuery = useMemo(() => getEventByIdQuery.data?.videos ?? [], [
     // @ts-expect-error
@@ -196,9 +199,7 @@ const MediaStep = ({
     }
 
     enrichVideos(videosFromQuery as Video[]);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [videosFromQuery, setVideos]);
+  }, [videosFromQuery]);
 
   useEffect(() => {
     if (!mediaObjects || mediaObjects.length === 0) {
@@ -215,14 +216,13 @@ const MediaStep = ({
       ...parsedMediaObjects.filter((mediaObject) => mediaObject.isMain),
       ...parsedMediaObjects.filter((mediaObject) => !mediaObject.isMain),
     ] as ImageType[]);
-  }, [eventImage, mediaObjects, setImages, onChangeCompleted]);
+  }, [eventImage, mediaObjects]);
 
   useEffect(() => {
     const hasImages = images.length > 0;
     const hasVideos = videos.length > 0;
-    onChangeCompleted(hasImages || hasVideos);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [images, videos]);
+    handleChangeCompleted(hasImages || hasVideos);
+  }, [handleChangeCompleted, images, videos]);
 
   const imageToEdit = useMemo(() => {
     const image = images.find((image) => image.parsedId === imageToEditId);

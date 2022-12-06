@@ -137,36 +137,6 @@ const LocationStep = <TFormData extends FormDataUnion>({
             />
           );
 
-          if (!country) {
-            return (
-              <Stack spacing={4}>
-                <Inline alignItems="center" spacing={3}>
-                  <Icon
-                    name={Icons.CHECK_CIRCLE}
-                    color={getGlobalValue('successIcon')}
-                  />
-                  <Text>{t('create.location.country.location_school')}</Text>
-                  <Button
-                    variant={ButtonVariants.LINK}
-                    onClick={() => {
-                      const updatedValue = {
-                        ...field.value,
-                        country: Countries.BE,
-                      };
-                      field.onChange(updatedValue);
-                      onChange(updatedValue);
-                    }}
-                  >
-                    {t('create.location.country.change_location')}
-                  </Button>
-                </Inline>
-                <Alert maxWidth="53rem">
-                  {t('create.location.country.location_school_info')}
-                </Alert>
-              </Stack>
-            );
-          }
-
           if (isOnline) {
             return (
               <Stack spacing={4}>
@@ -206,6 +176,36 @@ const LocationStep = <TFormData extends FormDataUnion>({
                     </Text>
                   }
                 />
+              </Stack>
+            );
+          }
+
+          if (!country) {
+            return (
+              <Stack spacing={4}>
+                <Inline alignItems="center" spacing={3}>
+                  <Icon
+                    name={Icons.CHECK_CIRCLE}
+                    color={getGlobalValue('successIcon')}
+                  />
+                  <Text>{t('create.location.country.location_school')}</Text>
+                  <Button
+                    variant={ButtonVariants.LINK}
+                    onClick={() => {
+                      const updatedValue = {
+                        ...field.value,
+                        country: Countries.BE,
+                      };
+                      field.onChange(updatedValue);
+                      onChange(updatedValue);
+                    }}
+                  >
+                    {t('create.location.country.change_location')}
+                  </Button>
+                </Inline>
+                <Alert maxWidth="53rem">
+                  {t('create.location.country.location_school_info')}
+                </Alert>
               </Stack>
             );
           }
