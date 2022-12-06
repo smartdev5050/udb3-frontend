@@ -162,6 +162,14 @@
     },
     "name_and_age": {
       "title": " Basisgegevens",
+      "validation_messages": {
+        "name": {
+          "required": "Naam is verplicht."
+        },
+        "age_range": {
+          "required": "Leeftijdsgroep is verplicht."
+        }
+      },
       "name": {
         "title_events": "Naam van het evenement",
         "title_places": "Naam van de locatie",

@@ -133,6 +133,14 @@
     },
     "name_and_age": {
       "title": " Basisangaben",
+      "validation_messages": {
+        "name": {
+          "required": "Name ist erforderlich."
+        },
+        "age_range": {
+          "required": "Altersklasse erforderlich."
+        }
+      },
       "name": {
         "title_events": "Name der Veranstaltung",
         "title_places": "Bezeichnung des Ortes",

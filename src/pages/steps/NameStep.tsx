@@ -70,7 +70,10 @@ const NameStep = <TFormData extends FormDataUnion>({
                   />
                 }
                 // @ts-expect-error
-                error={errors.nameAndAgeRange?.name && 'Naam fout!'}
+                error={
+                  errors.nameAndAgeRange?.name &&
+                  t('create.name_and_age.validation_messages.name.required')
+                }
               />
               <Text
                 variant={TextVariants.MUTED}

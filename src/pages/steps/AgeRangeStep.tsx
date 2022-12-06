@@ -268,7 +268,11 @@ const AgeRangeStep = <TFormData extends FormDataUnion>({
               </Inline>
               {/* @ts-expect-error */}
               {errors.nameAndAgeRange?.typicalAgeRange && (
-                <Text color="red">Age range fout!</Text>
+                <Text color="red">
+                  {t(
+                    'create.name_and_age.validation_messages.age_range.required',
+                  )}
+                </Text>
               )}
             </Stack>
           );
