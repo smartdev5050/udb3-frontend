@@ -306,7 +306,7 @@ const Sidebar = () => {
     () =>
       setAnnouncementModalContext((prevModalContext) => ({
         ...prevModalContext,
-        visible: false,
+        visible: !prevModalContext.visible,
       })),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [],

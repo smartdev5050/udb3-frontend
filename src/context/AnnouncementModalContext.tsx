@@ -1,18 +1,22 @@
-import React, { useState } from 'react';
-
-export const AnnouncementModalContext = React.createContext([
-  undefined,
-  undefined,
-]);
+import React, { Dispatch, SetStateAction, useState } from 'react';
 
 type AnnouncementModalContext = {
   visible: boolean;
   visibleAnnouncementUid?: string;
 };
 
+export const AnnouncementModalContext = React.createContext([
+  undefined,
+  undefined,
+] as [
+  AnnouncementModalContext,
+  Dispatch<SetStateAction<AnnouncementModalContext>>,
+]);
+
 export const AnnouncementModalProvider = ({ children }) => {
   const state = useState<AnnouncementModalContext>({
     visible: false,
+    visibleAnnouncementUid: undefined,
   });
   return (
     <AnnouncementModalContext.Provider value={state}>
