@@ -207,6 +207,17 @@ const CalendarStep = <TFormData extends FormDataUnion>({
     handleSubmitCalendarMutationCallback,
   ]);
 
+  useEffect(() => {
+    if (isIdle) return;
+    if (watchedValues.scope === 'events') return;
+
+    if (watchedValues.scope === 'places') {
+      handleChooseFixedDays();
+    }
+
+    return;
+  }, [watchedValues.scope, isIdle, handleChooseFixedDays]);
+
   return (
     <Stack spacing={4} {...getStackProps(props)}>
       {watchedValues.scope === 'event' && (
