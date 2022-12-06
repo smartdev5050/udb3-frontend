@@ -209,10 +209,12 @@ const CalendarStep = <TFormData extends FormDataUnion>({
 
   return (
     <Stack spacing={4} {...getStackProps(props)}>
-      <CalendarOptionToggle
-        onChooseOneOrMoreDays={handleChooseOneOrMoreDays}
-        onChooseFixedDays={handleChooseFixedDays}
-      />
+      {watchedValues.scope === 'event' && (
+        <CalendarOptionToggle
+          onChooseOneOrMoreDays={handleChooseOneOrMoreDays}
+          onChooseFixedDays={handleChooseFixedDays}
+        />
+      )}
       <Panel backgroundColor="white" padding={5}>
         {isFixedDays && (
           <FixedDays
