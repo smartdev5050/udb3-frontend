@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useMemo } from 'react';
+import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { BookingAvailabilityType } from '@/constants/BookingAvailabilityType';
 import { OfferStatus } from '@/constants/OfferStatus';
+import { OfferType } from '@/constants/OfferType';
 import {
   useChangeCalendarMutation,
   useGetEventByIdQuery,
@@ -24,12 +26,14 @@ import {
   useIsOneOrMoreDays,
 } from '../machines/calendarMachine';
 import { useCalendarHandlers } from '../machines/useCalendarHandlers';
-import { FormDataUnion, StepsConfiguration } from '../Steps';
+import { FormDataUnion, StepProps, StepsConfiguration } from '../Steps';
 import { CalendarOptionToggle } from './CalendarOptionToggle';
 import { FixedDays } from './FixedDays';
 import { OneOrMoreDays } from './OneOrMoreDays';
 
-type CalendarStepProps = StackProps & { eventId?: string };
+type CalendarStepProps<
+  TFormData extends FormDataUnion
+> = StepProps<TFormData> & { eventId?: string };
 
 const convertStateToFormData = (state: CalendarState) => {
   if (!state) return undefined;
@@ -67,8 +71,14 @@ const convertStateToFormData = (state: CalendarState) => {
   };
 };
 
-const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
+const CalendarStep = <TFormData extends FormDataUnion>({
+  eventId,
+  control,
+  ...props
+}: CalendarStepProps<TFormData>) => {
   const { t } = useTranslation();
+
+  const watchedValues = useWatch({ control });
 
   const isOneOrMoreDays = useIsOneOrMoreDays();
   const isFixedDays = useIsFixedDays();
@@ -198,12 +208,24 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
     handleSubmitCalendarMutationCallback,
   ]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleChooseFixedDaysCallback = useCallback(handleChooseFixedDays, []);
+
+  useEffect(() => {
+    if (isIdle) return;
+    if (watchedValues.scope !== OfferType.PLACES) return;
+
+    handleChooseFixedDaysCallback();
+  }, [watchedValues.scope, isIdle, handleChooseFixedDaysCallback]);
+
   return (
     <Stack spacing={4} {...getStackProps(props)}>
-      <CalendarOptionToggle
-        onChooseOneOrMoreDays={handleChooseOneOrMoreDays}
-        onChooseFixedDays={handleChooseFixedDays}
-      />
+      {watchedValues.scope === OfferType.EVENTS && (
+        <CalendarOptionToggle
+          onChooseOneOrMoreDays={handleChooseOneOrMoreDays}
+          onChooseFixedDays={handleChooseFixedDays}
+        />
+      )}
       <Panel backgroundColor="white" padding={5}>
         {isFixedDays && (
           <FixedDays
