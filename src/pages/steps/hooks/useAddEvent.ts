@@ -24,7 +24,7 @@ const useAddEvent = <TFormData extends FormDataUnion>({
   return async (formData: TFormData) => {
     const { production } = formData;
 
-    if (!production) return;
+    if (!production && !formData.nameAndAgeRange.name) return;
 
     const payload = convertFormDataToEvent(formData);
 
@@ -45,6 +45,11 @@ const useAddEvent = <TFormData extends FormDataUnion>({
         eventId,
         label,
       });
+    }
+
+    if (!production) {
+      onSuccess(eventId);
+      return;
     }
 
     if (production.customOption) {

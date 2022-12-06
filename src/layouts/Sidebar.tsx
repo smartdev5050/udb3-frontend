@@ -5,10 +5,7 @@ import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
-import {
-  AnnouncementModalContext,
-  useAnnouncementModalContext,
-} from '@/context/AnnouncementModalContext';
+import { useAnnouncementModalContext } from '@/context/AnnouncementModalContext';
 import { useGetAnnouncementsQuery } from '@/hooks/api/announcements';
 import { useGetEventsToModerateQuery } from '@/hooks/api/events';
 import {
@@ -309,8 +306,9 @@ const Sidebar = () => {
     () =>
       setAnnouncementModalContext((prevModalContext) => ({
         ...prevModalContext,
-        visible: false,
+        visible: !prevModalContext.visible,
       })),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 

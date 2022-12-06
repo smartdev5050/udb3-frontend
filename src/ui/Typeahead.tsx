@@ -30,8 +30,10 @@ type TypeaheadProps<T> = {
   emptyLabel?: string;
   minLength?: number;
   inputType?: InputType;
-  customFilter?: () => boolean;
+  inputRequired?: boolean;
+  customFilter?: (option: T) => boolean;
   onChange?: (value: (T | NewEntry)[]) => void;
+  defaultInputValue?: string;
   allowNew?:
     | boolean
     | ((
@@ -39,7 +41,8 @@ type TypeaheadProps<T> = {
         props: Record<string, unknown>,
       ) => boolean);
   newSelectionPrefix?: string;
-  selected: T[];
+  selected?: T[];
+  positionFixed?: boolean;
 };
 
 type Props<T> = Omit<BoxProps, 'onChange' | 'id' | 'labelKey' | 'options'> &
@@ -58,6 +61,7 @@ const Typeahead: TypeaheadFunc = forwardRef(
       id,
       name,
       inputType,
+      inputRequired,
       options,
       labelKey,
       disabled,
@@ -66,6 +70,8 @@ const Typeahead: TypeaheadFunc = forwardRef(
       minLength,
       className,
       onInputChange,
+      defaultInputValue,
+      onBlur,
       onSearch,
       onChange,
       isInvalid,
@@ -73,6 +79,7 @@ const Typeahead: TypeaheadFunc = forwardRef(
       allowNew,
       customFilter,
       newSelectionPrefix,
+      positionFixed,
       ...props
     }: Props<T>,
     ref: ForwardedRef<HTMLInputElement>,
@@ -94,6 +101,10 @@ const Typeahead: TypeaheadFunc = forwardRef(
         flex={1}
         ref={ref}
         css={`
+          input[type='time']::-webkit-calendar-picker-indicator {
+            display: none;
+          }
+
           .form-control {
             border-radius: ${getGlobalBorderRadius};
           }
@@ -131,9 +142,13 @@ const Typeahead: TypeaheadFunc = forwardRef(
         highlightOnlyResult={!allowNew}
         isInvalid={isInvalid}
         selected={selected}
+        defaultInputValue={defaultInputValue}
+        onBlur={onBlur}
+        positionFixed={positionFixed}
         inputProps={{
           id,
           type: inputType,
+          required: inputRequired,
         }}
         {...(customFilter && { filterBy: customFilter })}
         {...getBoxProps(props)}

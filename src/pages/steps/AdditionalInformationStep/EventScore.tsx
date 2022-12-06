@@ -146,10 +146,7 @@ const EventScore = ({ completedFields, eventId, ...props }: Props) => {
   // @ts-expect-error
   const event: Event | undefined = getEventByIdQuery.data;
 
-  const [
-    announcementModalContext,
-    setAnnouncementModalContext,
-  ] = useAnnouncementModalContext();
+  const [_, setAnnouncementModalContext] = useAnnouncementModalContext();
 
   const hasTheme: boolean = event?.terms.some(
     (term) => term.domain === 'theme',

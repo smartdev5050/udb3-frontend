@@ -1,7 +1,12 @@
 import { TFunction } from 'i18next';
+import pick from 'lodash/pick';
 import { useMemo } from 'react';
-import type { FieldError, Path, UseFormReturn } from 'react-hook-form';
-import { useTranslation, UseTranslationResponse } from 'react-i18next';
+import type {
+  ControllerRenderProps,
+  Path,
+  UseFormReturn,
+} from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 import type { BoxProps } from '@/ui/Box';
 import { Box } from '@/ui/Box';
@@ -15,6 +20,11 @@ import type { FormData as EventFormData } from '../create/EventForm';
 import type { FormData as MovieFormData } from '../manage/movies/MovieForm';
 
 type FormDataUnion = MovieFormData & EventFormData;
+
+type Field<TFormData extends FormDataUnion> = ControllerRenderProps<
+  TFormData,
+  Path<TFormData>
+>;
 
 type StepsConfiguration<TFormData extends FormDataUnion> = {
   Component: any;
@@ -109,6 +119,33 @@ type StepsProps<TFormData extends FormDataUnion> = {
   configurations: Array<StepsConfiguration<TFormData>>;
 };
 
+type UnknownProps = {
+  [key: string]: any;
+};
+
+const stepPropKeys: (keyof StepProps<FormDataUnion>)[] = [
+  'clearErrors',
+  'control',
+  'formState',
+  'getFieldState',
+  'getValues',
+  'handleSubmit',
+  'loading',
+  'name',
+  'onChange',
+  'register',
+  'reset',
+  'resetField',
+  'setError',
+  'setFocus',
+  'setValue',
+  'trigger',
+  'unregister',
+  'watch',
+];
+
+const getStepProps = (props: UnknownProps) => pick(props, stepPropKeys);
+
 const Steps = <TFormData extends FormDataUnion>({
   onChange,
   configurations,
@@ -186,5 +223,5 @@ Steps.defaultProps = {
   fieldLoading: '',
 };
 
-export { Steps };
-export type { FormDataUnion, StepProps, StepsConfiguration };
+export { getStepProps, Steps };
+export type { Field, FormDataUnion, StepProps, StepsConfiguration };

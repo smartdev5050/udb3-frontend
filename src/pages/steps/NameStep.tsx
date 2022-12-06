@@ -1,23 +1,24 @@
 import { FormEvent } from 'react';
-import { Controller, useWatch } from 'react-hook-form';
+import { Controller, Path, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { parseSpacing } from '@/ui/Box';
 import { FormElement } from '@/ui/FormElement';
 import { Input } from '@/ui/Input';
-import { getStackProps, Stack } from '@/ui/Stack';
+import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 
-const NameStep = ({
-  field,
+import { FormDataUnion, StepProps } from './Steps';
+
+type NameStepProps<TFormData extends FormDataUnion> = StackProps &
+  StepProps<TFormData>;
+
+const NameStep = <TFormData extends FormDataUnion>({
+  formState: { errors },
   control,
   onChange,
   ...props
-}: {
-  field: any;
-  control: any;
-  onChange: any;
-}) => {
+}: NameStepProps<TFormData>) => {
   const { t, i18n } = useTranslation();
 
   const watchedValues = useWatch({ control });
@@ -27,7 +28,7 @@ const NameStep = ({
   return (
     <Stack {...getStackProps(props)}>
       <Controller
-        name="nameAndAgeRange"
+        name={'nameAndAgeRange' as Path<TFormData>}
         control={control}
         render={({ field }) => {
           return (
@@ -67,6 +68,11 @@ const NameStep = ({
                       });
                     }}
                   />
+                }
+                error={
+                  // @ts-expect-error
+                  errors.nameAndAgeRange?.name &&
+                  t('create.name_and_age.validation_messages.name.required')
                 }
               />
               <Text
