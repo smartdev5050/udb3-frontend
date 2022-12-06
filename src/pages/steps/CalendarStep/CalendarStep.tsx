@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo } from 'react';
+import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { BookingAvailabilityType } from '@/constants/BookingAvailabilityType';
@@ -24,12 +25,14 @@ import {
   useIsOneOrMoreDays,
 } from '../machines/calendarMachine';
 import { useCalendarHandlers } from '../machines/useCalendarHandlers';
-import { FormDataUnion, StepsConfiguration } from '../Steps';
+import { FormDataUnion, StepProps, StepsConfiguration } from '../Steps';
 import { CalendarOptionToggle } from './CalendarOptionToggle';
 import { FixedDays } from './FixedDays';
 import { OneOrMoreDays } from './OneOrMoreDays';
 
-type CalendarStepProps = StackProps & { eventId?: string };
+type CalendarStepProps<
+  TFormData extends FormDataUnion
+> = StepProps<TFormData> & { eventId?: string };
 
 const convertStateToFormData = (state: CalendarState) => {
   if (!state) return undefined;
@@ -67,8 +70,14 @@ const convertStateToFormData = (state: CalendarState) => {
   };
 };
 
-const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
+const CalendarStep = <TFormData extends FormDataUnion>({
+  eventId,
+  control,
+  ...props
+}: CalendarStepProps<TFormData>) => {
   const { t } = useTranslation();
+
+  const watchedValues = useWatch({ control });
 
   const isOneOrMoreDays = useIsOneOrMoreDays();
   const isFixedDays = useIsFixedDays();
