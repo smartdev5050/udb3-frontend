@@ -144,7 +144,7 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
   }, [event, handleLoadInitialContext]);
 
   const toast = useToast({
-    messages: { calendar: t('movies.create.toast.success.calendar') },
+    messages: { calendar: t('create.toast.success.calendar') },
     title: '',
   });
 
