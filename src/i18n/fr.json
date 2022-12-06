@@ -308,6 +308,7 @@
     "toast": {
       "success": {
         "basic_info": "Les données de base ont été modifiées avec succès",
+        "calendar": "Le calendrier a été modifiées avec succès",
         "description": "La description a été modifiée avec succès",
         "organizer": "L'organisation a modifiée avec succès",
         "price_info": "Les prix ont été modifiées avec succès",

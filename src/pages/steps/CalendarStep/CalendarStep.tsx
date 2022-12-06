@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { BookingAvailabilityType } from '@/constants/BookingAvailabilityType';
 import { OfferStatus } from '@/constants/OfferStatus';
@@ -6,9 +7,11 @@ import {
   useChangeCalendarMutation,
   useGetEventByIdQuery,
 } from '@/hooks/api/events';
+import { useToast } from '@/pages/manage/movies/useToast';
 import { Event } from '@/types/Event';
 import { Panel } from '@/ui/Panel';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
+import { Toast } from '@/ui/Toast';
 
 import {
   CalendarContext,
@@ -68,6 +71,8 @@ const convertStateToFormData = (state: CalendarState) => {
 };
 
 const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
+  const { t } = useTranslation();
+
   const isOneOrMoreDays = useIsOneOrMoreDays();
   const isFixedDays = useIsFixedDays();
   const isIdle = useIsIdle();
@@ -142,10 +147,13 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
     handleLoadInitialContext(newContext, event.calendarType);
   }, [event, handleLoadInitialContext]);
 
+  const toast = useToast({
+    messages: { calendar: t('movies.create.toast.success.calendar') },
+    title: '',
+  });
+
   const changeCalendarMutation = useChangeCalendarMutation({
-    onSuccess: () => {
-      console.log('calendar mutation success');
-    },
+    onSuccess: () => toast.trigger('calendar'),
   });
 
   const convertedStateToFormData = useMemo(() => {
@@ -221,6 +229,13 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
           />
         )}
       </Panel>
+      <Toast
+        variant="success"
+        header={toast.header}
+        body={toast.message}
+        visible={!!toast.message}
+        onClose={() => toast.clear()}
+      />
     </Stack>
   );
 };
