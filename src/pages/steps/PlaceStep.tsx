@@ -5,7 +5,7 @@ import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
-import type { EventTypes } from '@/constants/EventTypes';
+import { EventTypes } from '@/constants/EventTypes';
 import { useChangeLocationMutation } from '@/hooks/api/events';
 import { useGetPlacesByQuery } from '@/hooks/api/places';
 import type {
@@ -31,7 +31,6 @@ import { valueToArray } from '@/utils/valueToArray';
 import { City } from '../CityPicker';
 import { PlaceAddModal } from '../PlaceAddModal';
 
-const getValue = getValueFromTheme('createPage');
 const getGlobalValue = getValueFromTheme('global');
 
 const useEditLocation = <TFormData extends FormDataUnion>({
@@ -85,6 +84,8 @@ const PlaceStep = <TFormData extends FormDataUnion>({
   const [searchInput, setSearchInput] = useState('');
   const [prefillPlaceName, setPrefillPlaceName] = useState('');
   const [isPlaceAddModalVisible, setIsPlaceAddModalVisible] = useState(false);
+
+  const isMovie = terms.includes(EventTypes.Bioscoop);
 
   const useGetPlacesQuery = useGetPlacesByQuery(
     {
@@ -197,7 +198,9 @@ const PlaceStep = <TFormData extends FormDataUnion>({
                   field.onChange(undefined);
                 }}
               >
-                {t('movies.create.actions.change_cinema')}
+                {isMovie
+                  ? t('movies.create.actions.change_cinema')
+                  : t('create.location.country.change_location')}
               </Button>
             </Inline>
           );
