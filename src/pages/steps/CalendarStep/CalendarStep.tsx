@@ -72,7 +72,6 @@ const CalendarStep = ({ eventId, ...props }: CalendarStepProps) => {
   const isFixedDays = useIsFixedDays();
   const isIdle = useIsIdle();
 
-  // @SIMON selectors here or rather in the submit handler
   const startDate = useCalendarSelector((state) => state.context.startDate);
   const endDate = useCalendarSelector((state) => state.context.endDate);
   const calendarStateType = useCalendarSelector((state) => state.value);
