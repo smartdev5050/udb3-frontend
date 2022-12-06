@@ -240,7 +240,7 @@ const calendarStepConfiguration: StepsConfiguration<FormDataUnion> = {
   // eslint-disable-next-line react/display-name
   Component: (props) => <CalendarStep {...props} />,
   name: 'calendar',
-  title: ({ t }) => 'Wanneer vindt dit evenement of deze activiteit plaats?',
+  title: ({ t }) => t('create.calendar.title'),
   shouldShowStep: ({ watch }) => {
     return !!watch('typeAndTheme.type.id');
   },

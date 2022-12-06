@@ -110,6 +110,17 @@
       "title": "Wat wil je toevoegen?"
     },
     "calendar": {
+      "title": "Wanneer vindt dit evenement of deze activiteit plaats?",
+      "one_or_more_days": {
+        "button_add": "Dag toevoegen"
+      },
+      "fixed_days": {
+        "with_start_and_end_date": "Met start-en einddatum",
+        "permanent": "Permanent",
+        "opening_hours": "Openingsuren",
+        "button_change_opening_hours": "Openingsuren wijzigen",
+        "button_add_opening_hours": "Openingsuren toevoegen"
+      },
       "days": {
         "short": {
           "monday": "Ma",
@@ -130,9 +141,13 @@
           "sunday": "Zondag"
         }
       },
-      "opening_hours": {
+      "opening_hours_modal": {
+        "button_add": "Meer openingstijden toevoegen",
+        "button_cancel": "Annuleren",
+        "button_confirm": "Opslaan",
+        "end_time": "Tot",
         "start_time": "Van",
-        "end_time": "Tot"
+        "title": "Openingsuren"
       }
     },
     "location": {

@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Stack } from '@/ui/Stack';
 
@@ -15,11 +17,12 @@ export const OneOrMoreDays = ({
   onAddDay,
   ...handlers
 }: OneOrMoreDaysProps) => {
+  const { t } = useTranslation();
   return (
     <Stack spacing={5} alignItems="flex-start">
       <Days {...handlers} />
       <Button variant={ButtonVariants.SECONDARY} onClick={onAddDay}>
-        Dag toevoegen
+        {t('create.calendar.one_or_more_days.button_add')}
       </Button>
     </Stack>
   );

@@ -22,17 +22,6 @@ const FixedDayOptions = {
   PERIODIC: 'periodic',
 } as const;
 
-const options = [
-  {
-    label: 'Met start-en einddatum',
-    value: FixedDayOptions.PERIODIC,
-  },
-  {
-    label: 'Permanent',
-    value: FixedDayOptions.PERMANENT,
-  },
-];
-
 type FixedDaysProps = {
   onChooseWithStartAndEndDate: () => void;
   onChoosePermanent: () => void;
@@ -49,6 +38,17 @@ export const FixedDays = ({
   onChangeOpeningHours,
 }: FixedDaysProps) => {
   const { t } = useTranslation();
+
+  const options = [
+    {
+      label: t('create.calendar.fixed_days.with_start_and_end_date'),
+      value: FixedDayOptions.PERIODIC,
+    },
+    {
+      label: t('create.calendar.fixed_days.permanent'),
+      value: FixedDayOptions.PERMANENT,
+    },
+  ];
 
   const [
     isCalendarOpeninghoursModalVisible,
@@ -117,13 +117,15 @@ export const FixedDays = ({
             justifyContent="space-between"
             spacing={5}
           >
-            <Text fontWeight="bold">Openingsuren</Text>
+            <Text fontWeight="bold">
+              {t('create.calendar.fixed_days.opening_hours')}
+            </Text>
             <Button
               key="date-change-openinghours-button"
               variant={ButtonVariants.SECONDARY}
               onClick={() => setIsCalendarOpeninghoursModalVisible(true)}
             >
-              Openingsuren wijzigen
+              {t('create.calendar.fixed_days.button_change_opening_hours')}
             </Button>
           </List.Item>
           {openingHours.map((openingHour, index) => (
@@ -156,7 +158,7 @@ export const FixedDays = ({
           variant={ButtonVariants.SECONDARY}
           onClick={() => setIsCalendarOpeninghoursModalVisible(true)}
         >
-          Openingsuren toevoegen
+          {t('create.calendar.fixed_days.button_add_opening_hours')}
         </Button>
       )}
       <CalendarOpeninghoursModal

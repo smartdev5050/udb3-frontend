@@ -135,12 +135,12 @@ const CalendarOpeninghoursModal = ({
 
   return (
     <Modal
-      title="Openingsuren"
+      title={t('create.calendar.opening_hours_modal.title')}
       visible={visible}
       variant={ModalVariants.QUESTION}
       onClose={onClose}
-      confirmTitle="Opslaan"
-      cancelTitle="Annuleren"
+      confirmTitle={t('create.calendar.opening_hours_modal.button_confirm')}
+      cancelTitle={t('create.calendar.opening_hours_modal.button_cancel')}
       size={ModalSizes.LG}
       onConfirm={() => {
         handleChangeOpeningHours(openingHours);
@@ -172,8 +172,10 @@ const CalendarOpeninghoursModal = ({
               id={`openinghours-row-timespan-${openingHour.id}`}
               startTime={openingHour.opens}
               endTime={openingHour.closes}
-              startTimeLabel={t('create.calendar.opening_hours.start_time')}
-              endTimeLabel={t('create.calendar.opening_hours.end_time')}
+              startTimeLabel={t(
+                'create.calendar.opening_hours_modal.start_time',
+              )}
+              endTimeLabel={t('create.calendar.opening_hours_modal.end_time')}
               onChangeStartTime={(newStartTime) => {
                 handleChangeOpens(openingHour.id, newStartTime);
               }}
@@ -193,7 +195,7 @@ const CalendarOpeninghoursModal = ({
           variant={ButtonVariants.LINK}
           onClick={handleAddOpeningHours}
         >
-          Meer openingstijden toevoegen
+          {t('create.calendar.opening_hours_modal.button_add')}
         </Button>
       </Stack>
     </Modal>
