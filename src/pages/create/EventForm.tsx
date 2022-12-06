@@ -4,6 +4,18 @@ import { useTranslation } from 'react-i18next';
 
 import { OfferType } from '@/constants/OfferType';
 import { SupportedLanguages } from '@/i18n/index';
+import { additionalInformationStepConfiguration } from '@/pages/steps/AdditionalInformationStep';
+import { calendarStepConfiguration } from '@/pages/steps/CalendarStep';
+import { convertStateToFormData } from '@/pages/steps/CalendarStep/CalendarStep';
+import { typeAndThemeStepConfiguration } from '@/pages/steps/EventTypeAndThemeStep';
+import { locationStepConfiguration } from '@/pages/steps/LocationStep';
+import {
+  CalendarMachineProvider,
+  useCalendarSelector,
+} from '@/pages/steps/machines/calendarMachine';
+import { nameAndAgeRangeStepConfiguration } from '@/pages/steps/NameAndAgeRangeStep';
+import { scopeStepConfiguration } from '@/pages/steps/ScopeStep';
+import { StepsForm } from '@/pages/steps/StepsForm';
 import { Country } from '@/types/Country';
 import { AttendanceMode, Event, isEvent } from '@/types/Event';
 import { Place } from '@/types/Place';
@@ -12,18 +24,6 @@ import { WorkflowStatusMap } from '@/types/WorkflowStatus';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 import { City } from '../CityPicker';
-import { additionalInformationStepConfiguration } from '../steps/AdditionalInformationStep';
-import { calendarStepConfiguration } from '../steps/CalendarStep';
-import { convertStateToFormData } from '../steps/CalendarStep/CalendarStep';
-import { typeAndThemeStepConfiguration } from '../steps/EventTypeAndThemeStep';
-import { locationStepConfiguration } from '../steps/LocationStep';
-import {
-  CalendarMachineProvider,
-  useCalendarSelector,
-} from '../steps/machines/calendarMachine';
-import { nameAndAgeRangeStepConfiguration } from '../steps/NameAndAgeRangeStep';
-import { scopeStepConfiguration } from '../steps/ScopeStep';
-import { StepsForm } from '../steps/StepsForm';
 
 type Scope = 'events' | 'places';
 
