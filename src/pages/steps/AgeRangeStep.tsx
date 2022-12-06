@@ -106,14 +106,19 @@ const AgeRangeStep = <TFormData extends FormDataUnion>({
 
     setCustomAgeRangeError('');
 
+    const customAgeRange =
+      !customMinAgeRange && !customMaxAgeRange
+        ? ''
+        : `${customMinAgeRange}-${customMaxAgeRange}`;
+
     field.onChange({
       ...field.value,
-      typicalAgeRange: `${customMinAgeRange}-${customMaxAgeRange ?? ''}`,
+      typicalAgeRange: customAgeRange,
     });
 
     onChange({
       ...field.value,
-      typicalAgeRange: `${customMinAgeRange}-${customMaxAgeRange ?? ''}`,
+      typicalAgeRange: customAgeRange,
     });
   };
 
@@ -175,15 +180,13 @@ const AgeRangeStep = <TFormData extends FormDataUnion>({
                       display="inline-flex"
                       variant={ButtonVariants.SECONDARY}
                       onClick={() => {
-                        if (key === 'CUSTOM') {
-                          setIsCustomAgeRange(true);
-                          return;
-                        }
-                        setIsCustomAgeRange(false);
+                        setIsCustomAgeRange(key === 'CUSTOM');
+
                         field.onChange({
                           ...field.value,
                           typicalAgeRange: apiLabel,
                         });
+
                         onChange({
                           ...field.value,
                           typicalAgeRange: apiLabel,
@@ -263,7 +266,8 @@ const AgeRangeStep = <TFormData extends FormDataUnion>({
                   </Stack>
                 )}
               </Inline>
-              {errors.nameAndAgeRange && (
+              {/* @ts-expect-error */}
+              {errors.nameAndAgeRange?.typicalAgeRange && (
                 <Text color="red">Age range fout!</Text>
               )}
             </Stack>
