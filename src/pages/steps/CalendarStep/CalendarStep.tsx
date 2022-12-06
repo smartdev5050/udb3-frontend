@@ -208,21 +208,14 @@ const CalendarStep = <TFormData extends FormDataUnion>({
     handleSubmitCalendarMutationCallback,
   ]);
 
-  const handleChooseFixedDaysCallback = useCallback(
-    () => handleChooseFixedDays(),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleChooseFixedDaysCallback = useCallback(handleChooseFixedDays, []);
 
   useEffect(() => {
     if (isIdle) return;
-    if (watchedValues.scope === OfferType.EVENTS) return;
+    if (watchedValues.scope !== OfferType.PLACES) return;
 
-    if (watchedValues.scope === OfferType.PLACES) {
-      handleChooseFixedDaysCallback();
-    }
-
-    return;
+    handleChooseFixedDaysCallback();
   }, [watchedValues.scope, isIdle, handleChooseFixedDaysCallback]);
 
   return (
