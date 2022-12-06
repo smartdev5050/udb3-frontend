@@ -14,17 +14,14 @@ import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Toast } from '@/ui/Toast';
 
 import {
-  CalendarContext,
   CalendarState,
   createDayId,
   createOpeninghoursId,
   initialCalendarContext,
   useCalendarSelector,
-  useCalendarService,
   useIsFixedDays,
   useIsIdle,
   useIsOneOrMoreDays,
-  useIsPeriodic,
 } from '../machines/calendarMachine';
 import { useCalendarHandlers } from '../machines/useCalendarHandlers';
 import { FormDataUnion, StepsConfiguration } from '../Steps';

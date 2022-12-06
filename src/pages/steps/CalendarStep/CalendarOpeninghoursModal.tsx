@@ -1,4 +1,3 @@
-import uniqueId from 'lodash/uniqueId';
 import { ChangeEvent, useState } from 'react';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
