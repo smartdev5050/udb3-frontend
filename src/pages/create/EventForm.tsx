@@ -38,6 +38,7 @@ type FormData = {
     isOnline: boolean;
     onlineUrl: string;
     municipality: City;
+    streetAndNumber: string;
     place: Place;
     country: Country;
   };
