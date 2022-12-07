@@ -38,8 +38,6 @@ type Calendar = {
 type EventArguments = {
   name: string;
   calendar: Calendar;
-  type: Term;
-  theme: Term;
   terms: Term[];
   workflowStatus: WorkflowStatus;
   audienceType: string;
