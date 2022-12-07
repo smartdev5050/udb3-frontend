@@ -256,7 +256,6 @@ const useGetCalendarSummaryQuery = (
 
 const changeTheme = async ({ headers, id, themeId }) => {
   if (!themeId) {
-    // This will be implemented on the backend https://jira.uitdatabank.be/browse/III-4378
     return fetchFromApi({
       path: `/events/${id.toString()}/theme`,
       options: {

@@ -28,12 +28,6 @@ import {
 } from './authenticated-query';
 import type { Headers } from './types/Headers';
 
-const useAddEventMutation = (configuration = {}) =>
-  useAuthenticatedMutation({
-    mutationFn: addEvent,
-    ...configuration,
-  });
-
 const getPlaceById = async ({ headers, id }) => {
   const res = await fetchFromApi({
     path: `/place/${id.toString()}`,
@@ -176,6 +170,41 @@ const useGetPlacesByQuery = (
     ...configuration,
   });
 
+  const changeTheme = async ({ headers, id, themeId }) => {
+    if (!themeId) {
+      return fetchFromApi({
+        path: `/places/${id.toString()}/theme`,
+        options: {
+          method: 'DELETE',
+          headers,
+        },
+      });
+    }
+  
+    return fetchFromApi({
+      path: `/places/${id.toString()}/theme/${themeId}`,
+      options: {
+        method: 'PUT',
+        headers,
+      },
+    });
+  };
+  
+  const useChangeThemeMutation = (configuration = {}) =>
+    useAuthenticatedMutation({ mutationFn: changeTheme, ...configuration });
+  
+  const changeType = async ({ headers, id, typeId }) =>
+    fetchFromApi({
+      path: `/places/${id.toString()}/type/${typeId}`,
+      options: {
+        method: 'PUT',
+        headers,
+      },
+    });
+  
+  const useChangeTypeMutation = (configuration = {}) =>
+    useAuthenticatedMutation({ mutationFn: changeType, ...configuration });
+
 const deletePlaceById = async ({ headers, id }) =>
   fetchFromApi({
     path: `/places/${id}`,
@@ -259,8 +288,9 @@ export {
   getPlaceById,
   useAddPlaceMutation,
   useChangeStatusMutation,
+  useChangeThemeMutation,
+  useChangeTypeMutation,
   useDeletePlaceByIdMutation,
   useGetPlaceByIdQuery,
   useGetPlacesByCreatorQuery,
-  useGetPlacesByQuery,
-};
+  useGetPlacesByQuery};
