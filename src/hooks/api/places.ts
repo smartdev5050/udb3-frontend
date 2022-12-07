@@ -5,7 +5,6 @@ import type { OfferStatus } from '@/constants/OfferStatus';
 import type { SupportedLanguages } from '@/i18n/index';
 import type { Address } from '@/types/Address';
 import type { Calendar } from '@/types/Calendar';
-import { AttendanceMode } from '@/types/Event';
 import { Term } from '@/types/Offer';
 import type { Place } from '@/types/Place';
 import type { User } from '@/types/User';
