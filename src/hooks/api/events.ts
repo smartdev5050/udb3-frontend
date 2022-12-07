@@ -1,6 +1,7 @@
 import type { UseQueryOptions } from 'react-query';
 
 import type { CalendarType } from '@/constants/CalendarType';
+import { Calendar } from '@/types/Calendar';
 import type { AttendanceMode, Event } from '@/types/Event';
 import type { BookingAvailability, Status, Term } from '@/types/Offer';
 import type { User } from '@/types/User';
@@ -24,16 +25,6 @@ import {
   useAuthenticatedQuery,
 } from './authenticated-query';
 import type { Headers } from './types/Headers';
-
-type TimeSpan = {
-  start: string;
-  end: string;
-};
-
-type Calendar = {
-  calendarType: Values<typeof CalendarType>;
-  timeSpans: TimeSpan[];
-};
 
 type EventArguments = {
   name: string;
