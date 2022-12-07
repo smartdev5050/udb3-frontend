@@ -14,11 +14,18 @@ import { FlagIcon } from '../FlagIcon';
 type Props = BoxProps & {
   value: Country;
   onChange: (value: Country) => void;
+  includeLocationSchool?: boolean;
 };
 
 const countries = [Countries.BE, Countries.NL, Countries.DE];
 
-const CountryPicker = ({ value, onChange, className, ...props }: Props) => {
+const CountryPicker = ({
+  value,
+  onChange,
+  className,
+  includeLocationSchool,
+  ...props
+}: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -50,14 +57,20 @@ const CountryPicker = ({ value, onChange, className, ...props }: Props) => {
 
       <Dropdown.Divider />
 
-      <Dropdown.Item onClick={() => onChange(undefined)}>
-        <Inline spacing={3}>
-          <CultuurKuurIcon />
-          <Text>{t('country_picker.location_school')}</Text>
-        </Inline>
-      </Dropdown.Item>
+      {includeLocationSchool && (
+        <Dropdown.Item onClick={() => onChange(undefined)}>
+          <Inline spacing={3}>
+            <CultuurKuurIcon />
+            <Text>{t('country_picker.location_school')}</Text>
+          </Inline>
+        </Dropdown.Item>
+      )}
     </Dropdown>
   );
+};
+
+CountryPicker.defaultProps = {
+  includeLocationSchool: false,
 };
 
 export { CountryPicker };
