@@ -140,7 +140,6 @@ const EventForm = () => {
     nameAndAgeRange: { name, typicalAgeRange },
     typeAndTheme,
     location,
-    calendar,
   }: FormData) => {
     return {
       typicalAgeRange,
