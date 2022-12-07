@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { OfferType } from '@/constants/OfferType';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
+import { Place } from '@/types/Place';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Link, LinkVariants } from '@/ui/Link';
@@ -61,8 +62,6 @@ const StepsForm = <TFormData extends FormDataUnion>({
     [pathname],
   );
 
-  console.log({ scope });
-
   const toast = useToast(toastConfiguration);
 
   const publishEvent = usePublishEvent({
@@ -72,7 +71,7 @@ const StepsForm = <TFormData extends FormDataUnion>({
     },
   });
 
-  const addEvent = useAddOffer({
+  const addOffer = useAddOffer({
     onSuccess: setOfferId,
     convertFormDataToOffer,
     label,
@@ -96,14 +95,12 @@ const StepsForm = <TFormData extends FormDataUnion>({
 
   const offer = useGetOffer({
     id: offerId,
-    onSuccess: (event: Event) => {
-      reset(convertOfferToFormData(event), {
+    onSuccess: (offer: Event | Place) => {
+      reset(convertOfferToFormData(offer), {
         keepDirty: true,
       });
     },
   });
-
-  console.log({ offer });
 
   const footerStatus = useFooterStatus({ offer, form });
 
@@ -158,7 +155,7 @@ const StepsForm = <TFormData extends FormDataUnion>({
                 </Text>,
               ]
             ) : footerStatus === FooterStatus.MANUAL_SAVE ? (
-              <Button onClick={handleSubmit(addEvent)}>
+              <Button onClick={handleSubmit(addOffer)}>
                 {t('create.actions.save')}
               </Button>
             ) : (

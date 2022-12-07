@@ -124,7 +124,8 @@ const OfferForm = () => {
         [language]: {
           streetAddress: streetAndNumber,
           addressCountry: country,
-          municipality,
+          addressLocality: municipality.name,
+          postalCode: municipality.zip,
         },
       },
     };

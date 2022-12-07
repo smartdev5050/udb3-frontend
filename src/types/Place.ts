@@ -20,4 +20,4 @@ const arePlaces = (value: any): value is Place => {
 };
 
 export type { Place };
-export { arePlaces };
+export { arePlaces, isPlace };

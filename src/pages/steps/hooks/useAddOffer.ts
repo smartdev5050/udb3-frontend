@@ -10,13 +10,13 @@ import {
   useCreateWithEventsMutation as useCreateProductionWithEventsMutation,
 } from '@/hooks/api/productions';
 import { FormDataUnion } from '@/pages/steps/Steps';
+import { isEvent } from '@/types/Event';
 
 const useAddOffer = <TFormData extends FormDataUnion>({
   onSuccess,
   convertFormDataToOffer,
   label,
 }) => {
-  console.log({ label });
   const addEventMutation = useAddEventMutation();
   const addPlaceMutation = useAddPlaceMutation();
   const changeTypicalAgeRangeMutation = useChangeTypicalAgeRangeMutation();
@@ -37,10 +37,10 @@ const useAddOffer = <TFormData extends FormDataUnion>({
 
     const { eventId, placeId } = await addOfferMutation.mutateAsync(payload);
 
-    if (!eventId || !placeId) return;
+    if (!eventId && !placeId) return;
 
     // @ts-expect-error
-    if (!production?.typicalAgeRange) {
+    if (eventId && !production?.typicalAgeRange) {
       await changeTypicalAgeRangeMutation.mutateAsync({
         eventId,
         typicalAgeRange: '-',
@@ -55,7 +55,7 @@ const useAddOffer = <TFormData extends FormDataUnion>({
     }
 
     if (!production) {
-      onSuccess(eventId);
+      onSuccess(eventId || placeId);
       return;
     }
 
