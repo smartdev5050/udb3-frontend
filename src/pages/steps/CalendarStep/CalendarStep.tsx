@@ -219,11 +219,16 @@ const CalendarStep = <TFormData extends FormDataUnion>({
   }, [watchedValues.scope, isIdle, handleChooseFixedDaysCallback]);
 
   return (
-    <Stack spacing={4} {...getStackProps(props)}>
+    <Stack
+      spacing={4}
+      {...getStackProps(props)}
+      maxWidth={{ l: '90%', default: '50%' }}
+    >
       {watchedValues.scope === OfferType.EVENTS && (
         <CalendarOptionToggle
           onChooseOneOrMoreDays={handleChooseOneOrMoreDays}
           onChooseFixedDays={handleChooseFixedDays}
+          width="100%"
         />
       )}
       <Panel backgroundColor="white" padding={5}>
