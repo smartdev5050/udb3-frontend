@@ -50,7 +50,7 @@ type FormData = {
 
 const ONLINE_LOCATION_ID = '00000000-0000-0000-0000-000000000000';
 
-const EventForm = () => {
+const OfferForm = () => {
   const { t, i18n } = useTranslation();
   const { query } = useRouter();
 
@@ -214,11 +214,11 @@ const EventForm = () => {
   );
 };
 
-const EventFormWithCalendarMachine = () => (
+const OfferFormWithCalendarMachine = () => (
   <CalendarMachineProvider>
-    <EventForm />
+    <OfferForm />
   </CalendarMachineProvider>
 );
 
 export type { FormData, Scope };
-export { EventFormWithCalendarMachine as EventForm };
+export { OfferFormWithCalendarMachine as OfferForm };

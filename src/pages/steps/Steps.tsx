@@ -16,10 +16,10 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
-import type { FormData as EventFormData } from '../create/EventForm';
+import type { FormData as OfferFormData } from '../create/OfferForm';
 import type { FormData as MovieFormData } from '../manage/movies/MovieForm';
 
-type FormDataUnion = MovieFormData & EventFormData;
+type FormDataUnion = MovieFormData & OfferFormData;
 
 type Field<TFormData extends FormDataUnion> = ControllerRenderProps<
   TFormData,

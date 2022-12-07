@@ -6,7 +6,7 @@ import * as yup from 'yup';
 import { EventTypes } from '@/constants/EventTypes';
 import { OfferType } from '@/constants/OfferType';
 import { useChangeLocationMutation } from '@/hooks/api/events';
-import { FormData as EventFormData } from '@/pages/create/EventForm';
+import { FormData as OfferFormData } from '@/pages/create/OfferForm';
 import { Countries } from '@/types/Country';
 import { Place } from '@/types/Place';
 import { Values } from '@/types/Values';
@@ -92,7 +92,7 @@ const LocationStep = <TFormData extends FormDataUnion>({
             onlineUrl,
             municipality,
             country,
-          } = field?.value as EventFormData['location'];
+          } = field?.value as OfferFormData['location'];
 
           const OnlineToggle = (
             <FormElement

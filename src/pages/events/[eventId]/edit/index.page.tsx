@@ -1,7 +1,7 @@
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
-import { EventForm } from '../../../create/EventForm';
+import { OfferForm } from '../../../create/OfferForm';
 
 export const getServerSideProps = getApplicationServerSideProps();
 
-export default EventForm;
+export default OfferForm;
