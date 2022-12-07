@@ -82,7 +82,9 @@ const nameAndAgeRangeStepConfiguration: StepsConfiguration<FormDataUnion> = {
   }),
   shouldShowStep: ({ watch }) => {
     const location = watch('location');
-    return !!location?.place || location?.isOnline;
+    return (
+      !!location?.place || location?.isOnline || !!location?.streetAndNumber
+    );
   },
 };
 
