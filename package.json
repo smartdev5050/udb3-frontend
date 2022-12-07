@@ -16,7 +16,8 @@
     "types:check": "tsc",
     "storybook": "start-storybook -p 6006",
     "storybook:build": "build-storybook",
-    "test": "jest"
+    "test": "jest",
+    "ci": "yarn types:check & yarn lint:check & yarn format:check"
   },
   "husky": {
     "hooks": {
