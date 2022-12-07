@@ -24,8 +24,8 @@ const getValue = getValueFromTheme('createPage');
 
 type StepsFormProps<TFormData extends FormDataUnion> = {
   configurations: Array<StepsConfiguration<TFormData>>;
-  convertFormDataToEvent: (data: any) => any;
-  convertEventToFormData: (event: any) => any;
+  convertFormDataToOffer: (data: any) => any;
+  convertOfferToFormData: (event: any) => any;
   toastConfiguration: any;
   title: string;
   label?: string;
@@ -33,8 +33,8 @@ type StepsFormProps<TFormData extends FormDataUnion> = {
 
 const StepsForm = <TFormData extends FormDataUnion>({
   configurations,
-  convertFormDataToEvent,
-  convertEventToFormData,
+  convertFormDataToOffer,
+  convertOfferToFormData,
   toastConfiguration,
   title,
   label,
@@ -63,7 +63,7 @@ const StepsForm = <TFormData extends FormDataUnion>({
 
   const addEvent = useAddEvent({
     onSuccess: setEventId,
-    convertFormDataToEvent,
+    convertFormDataToOffer,
     label,
   });
 
@@ -83,7 +83,7 @@ const StepsForm = <TFormData extends FormDataUnion>({
   const event = useGetEvent({
     id: eventId,
     onSuccess: (event: Event) => {
-      reset(convertEventToFormData(event), {
+      reset(convertOfferToFormData(event), {
         keepDirty: true,
       });
     },

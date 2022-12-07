@@ -54,7 +54,7 @@ const EventForm = () => {
   const { t, i18n } = useTranslation();
   const { query } = useRouter();
 
-  const convertEventToFormData = (event: Event) => {
+  const convertOfferToFormData = (event: Event) => {
     const eventAddress =
       event.location.address[i18n.language] ?? event.location.address;
     return {
@@ -136,7 +136,7 @@ const EventForm = () => {
     return { terms };
   };
 
-  const convertFormDataToEvent = ({
+  const convertFormDataToOffer = ({
     nameAndAgeRange: { name, typicalAgeRange },
     typeAndTheme,
     location,
@@ -163,8 +163,8 @@ const EventForm = () => {
     return convertStateToFormData(calendarState);
   }, [calendarState]);
 
-  const convertFormDataWithCalendarToEvent = (formData) => {
-    const newFormData = convertFormDataToEvent(formData);
+  const convertFormDataWithCalendarToOffer = (formData) => {
+    const newFormData = convertFormDataToOffer(formData);
 
     return {
       ...newFormData,
@@ -175,8 +175,8 @@ const EventForm = () => {
   return (
     <StepsForm
       title={t(`create.title`)}
-      convertFormDataToEvent={convertFormDataWithCalendarToEvent}
-      convertEventToFormData={convertEventToFormData}
+      convertFormDataToOffer={convertFormDataWithCalendarToOffer}
+      convertOfferToFormData={convertOfferToFormData}
       toastConfiguration={{
         messages: {
           basic_info: t('create.toast.success.basic_info'),

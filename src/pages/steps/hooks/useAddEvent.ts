@@ -11,7 +11,7 @@ import { FormDataUnion } from '@/pages/steps/Steps';
 
 const useAddEvent = <TFormData extends FormDataUnion>({
   onSuccess,
-  convertFormDataToEvent,
+  convertFormDataToOffer,
   label,
 }) => {
   const addEventMutation = useAddEventMutation();
@@ -26,7 +26,7 @@ const useAddEvent = <TFormData extends FormDataUnion>({
 
     if (!production && !formData.nameAndAgeRange.name) return;
 
-    const payload = convertFormDataToEvent(formData);
+    const payload = convertFormDataToOffer(formData);
 
     const { eventId } = await addEventMutation.mutateAsync(payload);
 

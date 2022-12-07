@@ -66,7 +66,7 @@ const MovieForm = (props) => {
   const parts = router.pathname.split('/');
   const { t } = useTranslation();
 
-  const convertEventToFormData = (event: Event) => {
+  const convertOfferToFormData = (event: Event) => {
     return {
       scope: OfferType.EVENTS,
       typeAndTheme: {
@@ -83,7 +83,7 @@ const MovieForm = (props) => {
     };
   };
 
-  const convertFormDataToEvent = ({
+  const convertFormDataToOffer = ({
     production,
     typeAndTheme: { type, theme },
     place,
@@ -121,8 +121,8 @@ const MovieForm = (props) => {
       {...props}
       key={parts[parts.length - 1]} // needed to re-render the form between create and edit.
       label="udb-filminvoer"
-      convertFormDataToEvent={convertFormDataToEvent}
-      convertEventToFormData={convertEventToFormData}
+      convertFormDataToOffer={convertFormDataToOffer}
+      convertOfferToFormData={convertOfferToFormData}
       title={t(`movies.create.title`)}
       toastConfiguration={{
         messages: {
