@@ -79,10 +79,50 @@ const EventForm = () => {
     };
   };
 
+  const getLocationAttributes = (
+    location: FormData['location'],
+    language: string,
+  ) => {
+    const {
+      country,
+      municipality,
+      place,
+      isOnline,
+      streetAndNumber,
+      onlineUrl,
+    } = location;
+    if (place) {
+      return {
+        location: {
+          id: parseOfferId(place['@id']),
+        },
+      };
+    }
+
+    if (isOnline) {
+      return {
+        location: {
+          id: ONLINE_LOCATION_ID,
+          onlineUrl,
+        },
+      };
+    }
+
+    return {
+      address: {
+        [language]: {
+          streetAddress: streetAndNumber,
+          addressCountry: country,
+          municipality,
+        },
+      },
+    };
+  };
+
   const convertFormDataToEvent = ({
     nameAndAgeRange: { name, typicalAgeRange },
-    typeAndTheme: { type, theme },
-    location: { place, isOnline, onlineUrl },
+    typeAndTheme,
+    location,
     calendar,
   }: FormData) => {
     return {
@@ -102,17 +142,12 @@ const EventForm = () => {
         },
       }),
       // TODO: Add mixed support
-      attendanceMode: isOnline ? AttendanceMode.ONLINE : AttendanceMode.OFFLINE,
-      location: isOnline
-        ? {
-            id: ONLINE_LOCATION_ID,
-            onlineUrl,
-          }
-        : {
-            id: parseOfferId(place['@id']),
-          },
+      attendanceMode: location.isOnline
+        ? AttendanceMode.ONLINE
+        : AttendanceMode.OFFLINE,
       workflowStatus: WorkflowStatusMap.DRAFT,
       audienceType: 'everyone',
+      ...getLocationAttributes(location, i18n.language),
     };
   };
 
