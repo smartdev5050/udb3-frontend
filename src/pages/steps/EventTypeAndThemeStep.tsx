@@ -3,8 +3,14 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { OfferType } from '@/constants/OfferType';
-import { useChangeThemeMutation as useChangeThemeOnEventMutation,useChangeTypeMutation as useChangeTypeOnEventMutation } from '@/hooks/api/events';
-import { useChangeThemeMutation as useChangeThemeOnPlaceMutation,useChangeTypeMutation as useChangeTypeOnPlaceMutation } from '@/hooks/api/places';
+import {
+  useChangeThemeMutation as useChangeThemeOnEventMutation,
+  useChangeTypeMutation as useChangeTypeOnEventMutation,
+} from '@/hooks/api/events';
+import {
+  useChangeThemeMutation as useChangeThemeOnPlaceMutation,
+  useChangeTypeMutation as useChangeTypeOnPlaceMutation,
+} from '@/hooks/api/places';
 import { useGetTypesByScopeQuery } from '@/hooks/api/types';
 import { parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
@@ -24,12 +30,18 @@ const useEditTypeAndTheme = <TFormData extends FormDataUnion>({
   offerId,
   onSuccess,
 }) => {
-  const useChangeTypeMutation = scope === OfferType.EVENTS ? useChangeTypeOnEventMutation : useChangeTypeOnPlaceMutation
+  const useChangeTypeMutation =
+    scope === OfferType.EVENTS
+      ? useChangeTypeOnEventMutation
+      : useChangeTypeOnPlaceMutation;
   const changeTypeMutation = useChangeTypeMutation({
     onSuccess: () => onSuccess('typeAndTheme'),
   });
 
-  const useChangeThemeMutation = scope === OfferType.EVENTS ? useChangeThemeOnEventMutation : useChangeThemeOnPlaceMutation
+  const useChangeThemeMutation =
+    scope === OfferType.EVENTS
+      ? useChangeThemeOnEventMutation
+      : useChangeThemeOnPlaceMutation;
   const changeThemeMutation = useChangeThemeMutation({
     onSuccess: () => onSuccess('typeAndTheme'),
   });

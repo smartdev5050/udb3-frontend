@@ -169,40 +169,40 @@ const useGetPlacesByQuery = (
     ...configuration,
   });
 
-  const changeTheme = async ({ headers, id, themeId }) => {
-    if (!themeId) {
-      return fetchFromApi({
-        path: `/places/${id.toString()}/theme`,
-        options: {
-          method: 'DELETE',
-          headers,
-        },
-      });
-    }
-  
+const changeTheme = async ({ headers, id, themeId }) => {
+  if (!themeId) {
     return fetchFromApi({
-      path: `/places/${id.toString()}/theme/${themeId}`,
+      path: `/places/${id.toString()}/theme`,
       options: {
-        method: 'PUT',
+        method: 'DELETE',
         headers,
       },
     });
-  };
-  
-  const useChangeThemeMutation = (configuration = {}) =>
-    useAuthenticatedMutation({ mutationFn: changeTheme, ...configuration });
-  
-  const changeType = async ({ headers, id, typeId }) =>
-    fetchFromApi({
-      path: `/places/${id.toString()}/type/${typeId}`,
-      options: {
-        method: 'PUT',
-        headers,
-      },
-    });
-  
-  const useChangeTypeMutation = (configuration = {}) =>
-    useAuthenticatedMutation({ mutationFn: changeType, ...configuration });
+  }
+
+  return fetchFromApi({
+    path: `/places/${id.toString()}/theme/${themeId}`,
+    options: {
+      method: 'PUT',
+      headers,
+    },
+  });
+};
+
+const useChangeThemeMutation = (configuration = {}) =>
+  useAuthenticatedMutation({ mutationFn: changeTheme, ...configuration });
+
+const changeType = async ({ headers, id, typeId }) =>
+  fetchFromApi({
+    path: `/places/${id.toString()}/type/${typeId}`,
+    options: {
+      method: 'PUT',
+      headers,
+    },
+  });
+
+const useChangeTypeMutation = (configuration = {}) =>
+  useAuthenticatedMutation({ mutationFn: changeType, ...configuration });
 
 const deletePlaceById = async ({ headers, id }) =>
   fetchFromApi({
@@ -292,4 +292,5 @@ export {
   useDeletePlaceByIdMutation,
   useGetPlaceByIdQuery,
   useGetPlacesByCreatorQuery,
-  useGetPlacesByQuery};
+  useGetPlacesByQuery,
+};
