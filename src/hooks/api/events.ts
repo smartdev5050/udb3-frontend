@@ -40,6 +40,7 @@ type EventArguments = {
   calendar: Calendar;
   type: Term;
   theme: Term;
+  terms: Term[];
   workflowStatus: WorkflowStatus;
   audienceType: string;
   location: {
@@ -55,8 +56,7 @@ const addEvent = async ({
   mainLanguage,
   name,
   calendar,
-  type,
-  theme,
+  terms,
   location,
   audienceType,
   attendanceMode,
@@ -70,8 +70,7 @@ const addEvent = async ({
         mainLanguage,
         name,
         calendar,
-        type,
-        theme,
+        terms,
         location,
         audienceType,
         attendanceMode,
