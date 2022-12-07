@@ -119,6 +119,23 @@ const EventForm = () => {
     };
   };
 
+  const getTerms = (typeAndTheme: FormData['typeAndTheme']) => {
+    const { type, theme } = typeAndTheme;
+    const terms = [
+      type && {
+        id: type.id,
+        label: type.label,
+        domain: 'eventtype',
+      },
+      theme && {
+        id: theme.id,
+        label: theme.label,
+        domain: 'theme',
+      },
+    ].filter(Boolean);
+    return { terms };
+  };
+
   const convertFormDataToEvent = ({
     nameAndAgeRange: { name, typicalAgeRange },
     typeAndTheme,
@@ -129,18 +146,6 @@ const EventForm = () => {
       typicalAgeRange,
       mainLanguage: i18n.language,
       name,
-      type: {
-        id: type?.id,
-        label: type?.label,
-        domain: 'eventtype',
-      },
-      ...(theme && {
-        theme: {
-          id: theme?.id,
-          label: theme?.label,
-          domain: 'theme',
-        },
-      }),
       // TODO: Add mixed support
       attendanceMode: location.isOnline
         ? AttendanceMode.ONLINE
@@ -148,6 +153,7 @@ const EventForm = () => {
       workflowStatus: WorkflowStatusMap.DRAFT,
       audienceType: 'everyone',
       ...getLocationAttributes(location, i18n.language),
+      ...getTerms(typeAndTheme),
     };
   };
 
