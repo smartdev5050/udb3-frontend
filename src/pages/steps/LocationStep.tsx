@@ -1,9 +1,10 @@
 import { TFunction } from 'i18next';
-import { Controller, Path } from 'react-hook-form';
+import { Controller, Path, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { EventTypes } from '@/constants/EventTypes';
+import { OfferType } from '@/constants/OfferType';
 import { useChangeLocationMutation } from '@/hooks/api/events';
 import { FormData as EventFormData } from '@/pages/create/EventForm';
 import { Countries } from '@/types/Country';
@@ -76,6 +77,9 @@ const LocationStep = <TFormData extends FormDataUnion>({
   ...props
 }: PlaceStepProps<TFormData>) => {
   const { t } = useTranslation();
+
+  const watchedValues = useWatch({ control });
+  const scope = watchedValues.scope;
 
   return (
     <Stack {...getStackProps(props)}>
@@ -213,7 +217,7 @@ const LocationStep = <TFormData extends FormDataUnion>({
           if (!municipality) {
             return (
               <Stack spacing={4}>
-                {OnlineToggle}
+                {scope === OfferType.EVENTS && OnlineToggle}
                 <Inline spacing={1} alignItems="center">
                   <CityPicker
                     name="city-picker-location-step"
@@ -232,6 +236,7 @@ const LocationStep = <TFormData extends FormDataUnion>({
                   />
                   <CountryPicker
                     value={country}
+                    includeLocationSchool={scope === OfferType.EVENTS}
                     onChange={(newCountry) => {
                       const updatedValue = {
                         ...field.value,
@@ -276,34 +281,65 @@ const LocationStep = <TFormData extends FormDataUnion>({
                     )}
                   </Button>
                 </Inline>
-                <PlaceStep
-                  maxWidth="28rem"
-                  name={'location.place' as Path<TFormData>}
-                  municipality={municipality}
-                  chooseLabel={chooseLabel}
-                  placeholderLabel={placeholderLabel}
-                  parentFieldValue={field.value}
-                  parentFieldOnChange={(val: Place | undefined) => {
-                    field.onChange({ ...field.value, place: val });
-                  }}
-                  parentOnChange={(val: Place | undefined) => {
-                    onChange({
-                      ...field.value,
-                      place: val,
-                    });
-                  }}
-                  {...getStepProps(props)}
-                  {...{
-                    formState,
-                    getValues,
-                    reset,
-                    control,
-                    name,
-                    loading,
-                    onChange,
-                    watch,
-                  }}
-                />
+                {scope === OfferType.EVENTS && (
+                  <Stack>
+                    <PlaceStep
+                      maxWidth="28rem"
+                      name={'location.place' as Path<TFormData>}
+                      municipality={municipality}
+                      chooseLabel={chooseLabel}
+                      placeholderLabel={placeholderLabel}
+                      parentFieldValue={field.value}
+                      parentFieldOnChange={(val: Place | undefined) => {
+                        field.onChange({ ...field.value, place: val });
+                      }}
+                      parentOnChange={(val: Place | undefined) => {
+                        onChange({
+                          ...field.value,
+                          place: val,
+                        });
+                      }}
+                      {...getStepProps(props)}
+                      {...{
+                        formState,
+                        getValues,
+                        reset,
+                        control,
+                        name,
+                        loading,
+                        onChange,
+                        watch,
+                      }}
+                    />
+                    <Text color="red">
+                      {JSON.stringify(formState.errors.location, undefined, 2)}
+                    </Text>
+                  </Stack>
+                )}
+                {scope === OfferType.PLACES && (
+                  <FormElement
+                    Component={
+                      <Input
+                        value={field.value?.streetAndNumber}
+                        onChange={(e) => {
+                          const updatedValue = {
+                            ...field.value,
+                            streetAndNumber: e.target.value,
+                          };
+                          field.onChange(updatedValue);
+                          onChange(updatedValue);
+                        }}
+                      />
+                    }
+                    id="location-street"
+                    label={t('location.add_modal.labels.streetAndNumber')}
+                    error={
+                      // @ts-expect-error
+                      formState.errors.location?.streetAndNumber &&
+                      t('location.add_modal.errors.streetAndNumber')
+                    }
+                  />
+                )}
               </Stack>
             </Stack>
           );
@@ -327,6 +363,18 @@ const locationStepConfiguration: StepsConfiguration<FormDataUnion> = {
     country: Countries.BE,
   },
   validation: yup.lazy((value) => {
+    // a location for a place
+    if (value.streetAndNumber) {
+      return yup
+        .object()
+        .shape({
+          streetAndNumber: yup.string().required(),
+          country: yup.string().oneOf(Object.values(Countries)).required(),
+        })
+        .required();
+    }
+
+    // an online location for a event
     if (value.isOnline) {
       return yup
         .object()
@@ -336,11 +384,12 @@ const locationStepConfiguration: StepsConfiguration<FormDataUnion> = {
         .required();
     }
 
+    // a location for an event
     return yup
       .object()
       .shape({
         place: yup.object().shape({}).required(),
-        country: yup.string().oneOf(Object.values(Countries)).required(),
+        country: yup.string().oneOf(Object.values(Countries)),
       })
       .required();
   }),
