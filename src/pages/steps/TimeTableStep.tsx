@@ -58,7 +58,8 @@ const convertTimeTableToSubEvents = (timeTable: TimeTableValue) => {
 };
 
 const useEditCalendar = <TFormData extends FormDataUnion>({
-  eventId,
+  scope,
+  offerId,
   onSuccess,
 }) => {
   const changeCalendarMutation = useChangeCalendarMutation({
@@ -67,7 +68,7 @@ const useEditCalendar = <TFormData extends FormDataUnion>({
 
   return async ({ timeTable }: TFormData) => {
     await changeCalendarMutation.mutateAsync({
-      id: eventId,
+      id: offerId,
       calendarType: CalendarType.MULTIPLE,
       timeSpans: convertTimeTableToSubEvents(timeTable),
     });

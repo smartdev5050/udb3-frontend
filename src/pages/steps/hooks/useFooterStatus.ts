@@ -9,7 +9,7 @@ const FooterStatus = {
   AUTO_SAVE: 'AUTO_SAVE',
 } as const;
 
-const useFooterStatus = ({ event, form }) => {
+const useFooterStatus = ({ offer, form }) => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -18,8 +18,8 @@ const useFooterStatus = ({ event, form }) => {
   } = form;
 
   const isMutating = queryClient.isMutating();
-  const fetchedEventId = event?.['@id'];
-  const availableFrom = event?.availableFrom;
+  const fetchedEventId = offer?.['@id'];
+  const availableFrom = offer?.availableFrom;
   const isPlaceDirty = dirtyFields.place || dirtyFields.location;
 
   const footerStatus = useMemo(() => {

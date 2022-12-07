@@ -4,10 +4,13 @@ import type { EventTypes } from '@/constants/EventTypes';
 import type { OfferStatus } from '@/constants/OfferStatus';
 import type { SupportedLanguages } from '@/i18n/index';
 import type { Address } from '@/types/Address';
+import type { Calendar } from '@/types/Calendar';
+import { AttendanceMode } from '@/types/Event';
 import { Term } from '@/types/Offer';
 import type { Place } from '@/types/Place';
 import type { User } from '@/types/User';
 import type { Values } from '@/types/Values';
+import { WorkflowStatus } from '@/types/WorkflowStatus';
 import { createEmbededCalendarSummaries } from '@/utils/createEmbededCalendarSummaries';
 import { createSortingArgument } from '@/utils/createSortingArgument';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
@@ -23,8 +26,13 @@ import {
   useAuthenticatedMutation,
   useAuthenticatedQuery,
 } from './authenticated-query';
-import type { Calendar } from './events';
 import type { Headers } from './types/Headers';
+
+const useAddEventMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: addEvent,
+    ...configuration,
+  });
 
 const getPlaceById = async ({ headers, id }) => {
   const res = await fetchFromApi({
@@ -210,7 +218,8 @@ type PlaceArguments = {
   address: Address;
   mainLanguage: string;
   name: string;
-  type: Term;
+  terms: Term[];
+  workflowStatus: WorkflowStatus;
 };
 
 type AddPlaceArguments = PlaceArguments & { headers: Headers };
@@ -221,14 +230,22 @@ const addPlace = async ({
   address,
   mainLanguage,
   name,
-  type,
+  terms,
+  workflowStatus,
 }: AddPlaceArguments) =>
   fetchFromApi({
-    path: `/place`,
+    path: `/places`,
     options: {
       method: 'POST',
       headers,
-      body: JSON.stringify({ calendar, address, mainLanguage, name, type }),
+      body: JSON.stringify({
+        calendar,
+        address,
+        mainLanguage,
+        name,
+        terms,
+        workflowStatus,
+      }),
     },
   });
 

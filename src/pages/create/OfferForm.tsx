@@ -54,27 +54,38 @@ const OfferForm = () => {
   const { t, i18n } = useTranslation();
   const { query } = useRouter();
 
-  const convertOfferToFormData = (event: Event) => {
-    const eventAddress =
-      event.location.address[i18n.language] ?? event.location.address;
+  const parseLocationAttributes = (offer: Event | Place) => {
+    const eventAddress = isEvent(offer)
+      ? offer.location.address[i18n.language] ?? offer.location.address
+      : offer.address[i18n.language];
+
+    const isOnline =
+      isEvent(offer) && offer.attendanceMode === AttendanceMode.ONLINE;
+
     return {
-      scope: isEvent(event) ? OfferType.EVENTS : OfferType.PLACES,
       location: {
-        isOnline: event.attendanceMode === AttendanceMode.ONLINE,
+        isOnline,
         municipality: {
           zip: eventAddress.postalCode,
           label: `${eventAddress.postalCode} ${eventAddress.addressLocality}`,
           name: eventAddress.addressLocality,
         },
-        place: event.location,
+        place: isEvent(offer) ? offer.location : undefined,
       },
+    };
+  };
+
+  const convertOfferToFormData = (offer: Event | Place) => {
+    return {
+      scope: isEvent(offer) ? OfferType.EVENTS : OfferType.PLACES,
+      ...parseLocationAttributes(offer),
       typeAndTheme: {
-        theme: event.terms.find((term) => term.domain === 'theme'),
-        type: event.terms.find((term) => term.domain === 'eventtype'),
+        theme: offer.terms.find((term) => term.domain === 'theme'),
+        type: offer.terms.find((term) => term.domain === 'eventtype'),
       },
       nameAndAgeRange: {
-        name: event.name,
-        typicalAgeRange: event.typicalAgeRange,
+        name: offer.name,
+        typicalAgeRange: offer.typicalAgeRange,
       },
     };
   };
@@ -137,6 +148,7 @@ const OfferForm = () => {
   };
 
   const convertFormDataToOffer = ({
+    scope,
     nameAndAgeRange: { name, typicalAgeRange },
     typeAndTheme,
     location,
@@ -145,12 +157,14 @@ const OfferForm = () => {
       typicalAgeRange,
       mainLanguage: i18n.language,
       name,
-      // TODO: Add mixed support
-      attendanceMode: location.isOnline
-        ? AttendanceMode.ONLINE
-        : AttendanceMode.OFFLINE,
       workflowStatus: WorkflowStatusMap.DRAFT,
-      audienceType: 'everyone',
+      // TODO: Add mixed support
+      ...(scope === OfferType.EVENTS && {
+        attendanceMode: location.isOnline
+          ? AttendanceMode.ONLINE
+          : AttendanceMode.OFFLINE,
+      }),
+      ...(scope === OfferType.EVENTS && { audienceType: 'everyone' }),
       ...getLocationAttributes(location, i18n.language),
       ...getTerms(typeAndTheme),
     };

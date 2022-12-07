@@ -34,7 +34,8 @@ import { PlaceAddModal } from '../PlaceAddModal';
 const getGlobalValue = getValueFromTheme('global');
 
 const useEditLocation = <TFormData extends FormDataUnion>({
-  eventId,
+  scope,
+  offerId,
   onSuccess,
 }) => {
   const changeLocationMutation = useChangeLocationMutation({
@@ -45,7 +46,7 @@ const useEditLocation = <TFormData extends FormDataUnion>({
     if (!place) return;
 
     await changeLocationMutation.mutateAsync({
-      id: eventId,
+      id: offerId,
       locationId: parseOfferId(place['@id']),
     });
   };

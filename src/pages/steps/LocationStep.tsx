@@ -39,7 +39,8 @@ const getValue = getValueFromTheme('createPage');
 const getGlobalValue = getValueFromTheme('global');
 
 const useEditPlace = <TFormData extends FormDataUnion>({
-  eventId,
+  scope,
+  offerId,
   onSuccess,
 }) => {
   const changeLocationMutation = useChangeLocationMutation();
@@ -49,7 +50,7 @@ const useEditPlace = <TFormData extends FormDataUnion>({
     if (!location.place) return;
 
     changeLocationMutation.mutate({
-      id: eventId,
+      id: offerId,
       locationId: parseOfferId(location.place['@id']),
     });
   };

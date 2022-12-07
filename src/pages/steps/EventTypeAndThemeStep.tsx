@@ -22,7 +22,8 @@ const getValue = getValueFromTheme('createPage');
 const getGlobalValue = getValueFromTheme('global');
 
 const useEditTypeAndTheme = <TFormData extends FormDataUnion>({
-  eventId,
+  scope,
+  offerId,
   onSuccess,
 }) => {
   const changeTypeMutation = useChangeTypeMutation({
@@ -37,12 +38,12 @@ const useEditTypeAndTheme = <TFormData extends FormDataUnion>({
     if (!typeAndTheme.type) return;
 
     await changeTypeMutation.mutateAsync({
-      id: eventId,
+      id: offerId,
       typeId: typeAndTheme.type?.id,
     });
 
     await changeThemeMutation.mutateAsync({
-      id: eventId,
+      id: offerId,
       themeId: typeAndTheme.theme?.id,
     });
   };

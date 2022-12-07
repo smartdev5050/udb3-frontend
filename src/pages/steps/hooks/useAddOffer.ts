@@ -1,20 +1,24 @@
+import { OfferType } from '@/constants/OfferType';
 import {
   useAddEventMutation,
   useAddLabelMutation,
   useChangeTypicalAgeRangeMutation,
 } from '@/hooks/api/events';
+import { useAddPlaceMutation } from '@/hooks/api/places';
 import {
   useAddEventByIdMutation as useAddEventToProductionByIdMutation,
   useCreateWithEventsMutation as useCreateProductionWithEventsMutation,
 } from '@/hooks/api/productions';
 import { FormDataUnion } from '@/pages/steps/Steps';
 
-const useAddEvent = <TFormData extends FormDataUnion>({
+const useAddOffer = <TFormData extends FormDataUnion>({
   onSuccess,
   convertFormDataToOffer,
   label,
 }) => {
+  console.log({ label });
   const addEventMutation = useAddEventMutation();
+  const addPlaceMutation = useAddPlaceMutation();
   const changeTypicalAgeRangeMutation = useChangeTypicalAgeRangeMutation();
   const addLabelMutation = useAddLabelMutation();
 
@@ -22,15 +26,18 @@ const useAddEvent = <TFormData extends FormDataUnion>({
   const addEventToProductionByIdMutation = useAddEventToProductionByIdMutation();
 
   return async (formData: TFormData) => {
-    const { production } = formData;
+    const { scope, production } = formData;
 
     if (!production && !formData.nameAndAgeRange.name) return;
 
     const payload = convertFormDataToOffer(formData);
 
-    const { eventId } = await addEventMutation.mutateAsync(payload);
+    const addOfferMutation =
+      scope === OfferType.EVENTS ? addEventMutation : addPlaceMutation;
 
-    if (!eventId) return;
+    const { eventId, placeId } = await addOfferMutation.mutateAsync(payload);
+
+    if (!eventId || !placeId) return;
 
     // @ts-expect-error
     if (!production?.typicalAgeRange) {
@@ -68,4 +75,4 @@ const useAddEvent = <TFormData extends FormDataUnion>({
   };
 };
 
-export { useAddEvent };
+export { useAddOffer };

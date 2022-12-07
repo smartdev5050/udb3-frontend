@@ -15,8 +15,9 @@ type HandleSuccessOptions = {
 };
 
 const useEditField = <TFormData extends FormDataUnion>({
+  scope,
   onSuccess,
-  eventId,
+  offerId,
   handleSubmit,
 }) => {
   const queryClient = useQueryClient();
@@ -29,10 +30,10 @@ const useEditField = <TFormData extends FormDataUnion>({
     onSuccess(editedField);
 
     if (!shouldInvalidateEvent) return;
-    queryClient.invalidateQueries(['events', { id: eventId }]);
+    queryClient.invalidateQueries(['events', { id: offerId }]);
   };
 
-  const editArguments = { eventId, onSuccess: handleSuccess };
+  const editArguments = { scope, offerId, onSuccess: handleSuccess };
 
   const editTypeAndTheme = useEditTypeAndTheme<TFormData>(editArguments);
   const editPlace = useEditPlace<TFormData>(editArguments);
@@ -44,7 +45,7 @@ const useEditField = <TFormData extends FormDataUnion>({
   );
 
   const handleChange = (editedField: string) => {
-    if (!eventId) return;
+    if (!offerId) return;
     setFieldLoading(editedField);
 
     const editMap = {
