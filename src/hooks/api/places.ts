@@ -29,7 +29,7 @@ import type { Headers } from './types/Headers';
 
 const getPlaceById = async ({ headers, id }) => {
   const res = await fetchFromApi({
-    path: `/place/${id.toString()}`,
+    path: `/places/${id.toString()}`,
     options: {
       headers,
     },
