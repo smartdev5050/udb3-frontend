@@ -32,10 +32,6 @@ import { CalendarOptionToggle } from './CalendarOptionToggle';
 import { FixedDays } from './FixedDays';
 import { OneOrMoreDays } from './OneOrMoreDays';
 
-type CalendarStepProps<
-  TFormData extends FormDataUnion
-> = StepProps<TFormData> & { eventId?: string };
-
 const convertStateToFormData = (state: CalendarState) => {
   if (!state) return undefined;
 
@@ -81,8 +77,12 @@ const convertStateToFormData = (state: CalendarState) => {
   };
 };
 
+type CalendarStepProps<
+  TFormData extends FormDataUnion
+> = StepProps<TFormData> & { offerId?: string };
+
 const CalendarStep = <TFormData extends FormDataUnion>({
-  eventId,
+  offerId,
   control,
   ...props
 }: CalendarStepProps<TFormData>) => {
@@ -125,11 +125,11 @@ const CalendarStep = <TFormData extends FormDataUnion>({
   const handleLoadInitialContext = useCallback(loadInitialContext, []);
 
   useEffect(() => {
-    if (eventId) return;
+    if (offerId) return;
     handleLoadInitialContext();
-  }, [eventId, handleLoadInitialContext]);
+  }, [offerId, handleLoadInitialContext]);
 
-  const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
+  const getEventByIdQuery = useGetEventByIdQuery({ id: offerId });
 
   // @ts-expect-error
   const event: Event | undefined = getEventByIdQuery.data;
@@ -169,7 +169,11 @@ const CalendarStep = <TFormData extends FormDataUnion>({
   });
 
   const changeCalendarMutation = useChangeCalendarMutation({
-    onSuccess: () => toast.trigger('calendar'),
+    onSuccess: () => {
+      // only trigger toast in edit mode
+      if (!offerId) return;
+      toast.trigger('calendar');
+    },
   });
 
   const convertedStateToFormData = useMemo(() => {
@@ -188,8 +192,9 @@ const CalendarStep = <TFormData extends FormDataUnion>({
         ? calendarStateType
         : Object.keys(calendarStateType)[0];
 
+    console.log('GOING TO MUTATE');
     await changeCalendarMutation.mutateAsync({
-      id: eventId,
+      id: offerId,
       calendarType,
       ...formData,
     });
@@ -198,25 +203,16 @@ const CalendarStep = <TFormData extends FormDataUnion>({
   const handleSubmitCalendarMutationCallback = useCallback(
     handleSubmitCalendarMutation,
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [calendarStateType, convertedStateToFormData, eventId],
+    [calendarStateType, convertedStateToFormData, offerId],
   );
 
   useEffect(() => {
-    if (!eventId) return;
+    if (!offerId) return;
     if (isIdle) return;
     if (previousState === 'idle') return;
 
     handleSubmitCalendarMutationCallback(isIdle);
-  }, [
-    eventId,
-    days,
-    openingHours,
-    startDate,
-    endDate,
-    isIdle,
-    previousState,
-    handleSubmitCalendarMutationCallback,
-  ]);
+  }, [offerId, handleSubmitCalendarMutationCallback, isIdle, previousState]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleChooseFixedDaysCallback = useCallback(handleChooseFixedDays, []);
