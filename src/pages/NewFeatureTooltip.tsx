@@ -9,6 +9,7 @@ const Features = {
   EVENT_SCORE: '27f6ab5d-5ca3-4933-a8bf-ccce25b40723',
   SUGGESTED_ORGANIZERS: '0842bd10-592a-42ad-8a72-fabc278b7fd4',
   VIDEO: '9cdbba1f-0fd8-4702-a274-c2403316dea9',
+  ONLINE: '5d8547e4-4cef-4288-86c8-23da918b9c43',
 } as const;
 
 type Props = {
