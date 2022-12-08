@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { CalendarType } from '@/constants/CalendarType';
 import { OfferType } from '@/constants/OfferType';
 import { SupportedLanguages } from '@/i18n/index';
 import { additionalInformationStepConfiguration } from '@/pages/steps/AdditionalInformationStep';
@@ -91,6 +92,7 @@ const OfferForm = () => {
   };
 
   const getLocationAttributes = (
+    scope: FormData['scope'],
     location: FormData['location'],
     language: string,
   ) => {
@@ -107,15 +109,17 @@ const OfferForm = () => {
         location: {
           id: parseOfferId(place['@id']),
         },
+        ...(scope === OfferType.EVENTS && {
+          attendanceMode: AttendanceMode.OFFLINE,
+        }),
       };
     }
 
+    // isOnline can only be true on an event
     if (isOnline) {
       return {
-        location: {
-          id: ONLINE_LOCATION_ID,
-          onlineUrl,
-        },
+        attendanceMode: AttendanceMode.ONLINE,
+        onlineUrl,
       };
     }
 
@@ -133,18 +137,16 @@ const OfferForm = () => {
 
   const getTerms = (typeAndTheme: FormData['typeAndTheme']) => {
     const { type, theme } = typeAndTheme;
+
     const terms = [
       type && {
         id: type.id,
-        label: type.label,
-        domain: 'eventtype',
       },
       theme && {
         id: theme.id,
-        label: theme.label,
-        domain: 'theme',
       },
     ].filter(Boolean);
+
     return { terms };
   };
 
@@ -159,14 +161,8 @@ const OfferForm = () => {
       mainLanguage: i18n.language,
       name,
       workflowStatus: WorkflowStatusMap.DRAFT,
-      // TODO: Add mixed support
-      ...(scope === OfferType.EVENTS && {
-        attendanceMode: location.isOnline
-          ? AttendanceMode.ONLINE
-          : AttendanceMode.OFFLINE,
-      }),
       ...(scope === OfferType.EVENTS && { audienceType: 'everyone' }),
-      ...getLocationAttributes(location, i18n.language),
+      ...getLocationAttributes(scope, location, i18n.language),
       ...getTerms(typeAndTheme),
     };
   };
@@ -178,12 +174,12 @@ const OfferForm = () => {
     return convertStateToFormData(calendarState);
   }, [calendarState]);
 
-  const convertFormDataWithCalendarToOffer = (formData) => {
+  const convertFormDataWithCalendarToOffer = (formData: any) => {
     const newFormData = convertFormDataToOffer(formData);
 
     return {
       ...newFormData,
-      ...(calendarFormData && { calendar: calendarFormData }),
+      ...calendarFormData,
     };
   };
 

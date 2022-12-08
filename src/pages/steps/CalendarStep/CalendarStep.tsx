@@ -3,6 +3,7 @@ import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { BookingAvailabilityType } from '@/constants/BookingAvailabilityType';
+import { CalendarType } from '@/constants/CalendarType';
 import { OfferStatus } from '@/constants/OfferStatus';
 import { OfferType } from '@/constants/OfferType';
 import {
@@ -40,9 +41,14 @@ const convertStateToFormData = (state: CalendarState) => {
 
   const { context } = state;
   const { days, openingHours, startDate, endDate } = context;
-  const isOneOrMoreDays = state.matches('single') || state.matches('multiple');
-  const isFixedDays = state.matches('periodic') || state.matches('permanent');
+
+  const isSingle = state.matches('single');
+  const isMultiple = state.matches('multiple');
   const isPeriodic = state.matches('periodic');
+  const isPermanent = state.matches('permanent');
+
+  const isOneOrMoreDays = isSingle || isMultiple;
+  const isFixedDays = isPeriodic || isPermanent;
 
   const subEvent = days.map((day) => ({
     startDate: new Date(day.startDate).toISOString(),
@@ -62,6 +68,10 @@ const convertStateToFormData = (state: CalendarState) => {
   }));
 
   return {
+    ...(isSingle && { calendarType: CalendarType.SINGLE }),
+    ...(isMultiple && { calendarType: CalendarType.MULTIPLE }),
+    ...(isPeriodic && { calendarType: CalendarType.PERIODIC }),
+    ...(isPermanent && { calendarType: CalendarType.PERMANENT }),
     ...(isOneOrMoreDays && { subEvent }),
     ...(isFixedDays && { openingHours: newOpeningHours }),
     ...(isPeriodic && {
