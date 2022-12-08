@@ -3,12 +3,12 @@ import { useQueryClient } from 'react-query';
 
 import { useEditTypeAndTheme } from '@/pages/steps/EventTypeAndThemeStep';
 import { useEditNameAndAgeRange } from '@/pages/steps/NameAndAgeRangeStep';
-import { useEditLocation } from '@/pages/steps/PlaceStep';
+import { useEditPlace } from '@/pages/steps/PlaceStep';
 import { useEditNameAndProduction } from '@/pages/steps/ProductionStep';
 import { FormDataUnion } from '@/pages/steps/Steps';
 import { useEditCalendar } from '@/pages/steps/TimeTableStep';
 
-import { useEditPlace } from '../LocationStep';
+import { useEditLocation } from '../LocationStep';
 
 type HandleSuccessOptions = {
   shouldInvalidateEvent?: boolean;
@@ -39,7 +39,7 @@ const useEditField = <TFormData extends FormDataUnion>({
   const editPlace = useEditPlace<TFormData>(editArguments);
   const editNameAndAgeRange = useEditNameAndAgeRange<TFormData>(editArguments);
   const editCalendar = useEditCalendar<TFormData>(editArguments);
-  const editLocation = useEditLocation<TFormData>(editArguments);
+  const editLocation = useEditPlace<TFormData>(editArguments);
   const editNameAndProduction = useEditNameAndProduction<TFormData>(
     editArguments,
   );

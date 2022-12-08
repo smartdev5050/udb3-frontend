@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { CalendarType } from '@/constants/CalendarType';
 import { EventTypes } from '@/constants/EventTypes';
 import { OfferType } from '@/constants/OfferType';
+import { getTerms } from '@/pages/create/OfferForm';
 import {
   additionalInformationStepConfiguration,
   AdditionalInformationStepVariant,
@@ -85,34 +86,23 @@ const MovieForm = (props) => {
 
   const convertFormDataToOffer = ({
     production,
-    typeAndTheme: { type, theme },
+    typeAndTheme,
     place,
     timeTable,
   }: FormData) => {
+    const subEvent = convertTimeTableToSubEvents(timeTable);
     return {
       mainLanguage: 'nl',
       name: production.name,
-      calendar: {
-        calendarType: CalendarType.MULTIPLE,
-        timeSpans: convertTimeTableToSubEvents(timeTable),
-      },
-      type: {
-        id: type?.id,
-        label: type?.label,
-        domain: 'eventtype',
-      },
-      ...(theme && {
-        theme: {
-          id: theme?.id,
-          label: theme?.label,
-          domain: 'theme',
-        },
-      }),
+      calendarType:
+        subEvent.length > 1 ? CalendarType.MULTIPLE : CalendarType.SINGLE,
+      subEvent,
       location: {
         id: parseOfferId(place['@id']),
       },
       workflowStatus: WorkflowStatusMap.DRAFT,
       audienceType: 'everyone',
+      ...getTerms(typeAndTheme),
     };
   };
 

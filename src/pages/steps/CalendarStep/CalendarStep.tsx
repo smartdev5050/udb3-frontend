@@ -231,8 +231,8 @@ const CalendarStep = <TFormData extends FormDataUnion>({
   return (
     <Stack
       spacing={4}
+      maxWidth={{ l: '100%', default: '50%' }}
       {...getStackProps(props)}
-      maxWidth={{ l: '90%', default: '50%' }}
     >
       {watchedValues.scope === OfferType.EVENTS && (
         <CalendarOptionToggle

@@ -204,6 +204,36 @@ const changeType = async ({ headers, id, typeId }) =>
 const useChangeTypeMutation = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: changeType, ...configuration });
 
+const addLabel = async ({ headers, id, label }) =>
+  fetchFromApi({
+    path: `/places/${id}/labels/${label}`,
+    options: {
+      method: 'PUT',
+      headers,
+    },
+  });
+
+const useAddLabelMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: addLabel,
+    ...configuration,
+  });
+
+const changeAddress = async ({ headers, id, address }) =>
+  fetchFromApi({
+    path: `/places/${id.toString()}`,
+    options: {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({
+        address,
+      }),
+    },
+  });
+
+const useChangeAddressMutation = (configuration = {}) =>
+  useAuthenticatedMutation({ mutationFn: changeAddress, ...configuration });
+
 const deletePlaceById = async ({ headers, id }) =>
   fetchFromApi({
     path: `/places/${id}`,
@@ -283,9 +313,30 @@ const useAddPlaceMutation = (configuration = {}) =>
     ...configuration,
   });
 
+const publish = async ({ headers, placeId, publicationDate }) =>
+  fetchFromApi({
+    path: `/places/${placeId}`,
+    options: {
+      method: 'PATCH',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/ld+json;domain-model=Publish',
+      },
+      body: JSON.stringify({ publicationDate }),
+    },
+  });
+
+const usePublishPlaceMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: publish,
+    ...configuration,
+  });
+
 export {
   getPlaceById,
+  useAddLabelMutation,
   useAddPlaceMutation,
+  useChangeAddressMutation,
   useChangeStatusMutation,
   useChangeThemeMutation,
   useChangeTypeMutation,
@@ -293,4 +344,5 @@ export {
   useGetPlaceByIdQuery,
   useGetPlacesByCreatorQuery,
   useGetPlacesByQuery,
+  usePublishPlaceMutation,
 };

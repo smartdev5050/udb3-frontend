@@ -17,8 +17,8 @@ import { FormDataUnion, StepsConfiguration } from '../Steps';
 import { BookingInfoStep } from './BookingInfoStep';
 import { ContactInfoStep } from './ContactInfoStep';
 import { DescriptionStep } from './DescriptionStep';
-import { EventScore } from './EventScore';
 import { MediaStep } from './MediaStep';
+import { OfferScore } from './OfferScore';
 import { OrganizerStep } from './OrganizerStep';
 import { PriceInformation } from './PriceInformation';
 
@@ -125,30 +125,32 @@ const TabTitle = ({ field, isCompleted, ...props }: TabTitleProps) => {
 };
 
 type Props = StackProps & {
-  eventId: string;
+  offerId: string;
   onChangeSuccess: (field: Field) => void;
   variant?: Values<typeof AdditionalInformationStepVariant>;
 };
 
 const AdditionalInformationStep = ({
-  eventId,
+  offerId,
   onChangeSuccess,
   variant,
   ...props
 }: Props) => {
   const { asPath, ...router } = useRouter();
 
+  console.log({ props });
+
   const queryClient = useQueryClient();
 
   const invalidateEventQuery = useCallback(
     async (field: Field, shouldInvalidate: boolean) => {
       if (shouldInvalidate) {
-        await queryClient.invalidateQueries(['events', { id: eventId }]);
+        await queryClient.invalidateQueries(['events', { id: offerId }]);
       }
       onChangeSuccess(field);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [eventId, queryClient],
+    [offerId, queryClient],
   );
 
   const [tab, setTab] = useState('description');
@@ -215,7 +217,7 @@ const AdditionalInformationStep = ({
               >
                 <TabContent
                   minHeight="350px"
-                  eventId={eventId}
+                  eventId={offerId}
                   onChangeCompleted={(isCompleted) => {
                     if (completedFields[field] === isCompleted) return;
 
@@ -234,7 +236,7 @@ const AdditionalInformationStep = ({
           },
         )}
       </Tabs>
-      <EventScore eventId={eventId} completedFields={completedFields} />
+      <OfferScore offerId={offerId} completedFields={completedFields} />
     </Stack>
   );
 };
@@ -246,7 +248,10 @@ AdditionalInformationStep.defaultProps = {
 const additionalInformationStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: AdditionalInformationStep,
   title: ({ t }) => t(`movies.create.step5.title`),
-  shouldShowStep: ({ eventId }) => !!eventId,
+  shouldShowStep: ({ offerId }) => {
+    console.log('in shouldShowStep', !!offerId);
+    return !!offerId;
+  },
 };
 
 export type { Field, MergedInfo, TabContentProps };

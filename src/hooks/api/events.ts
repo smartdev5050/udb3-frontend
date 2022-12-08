@@ -3,7 +3,12 @@ import type { UseQueryOptions } from 'react-query';
 import type { CalendarType } from '@/constants/CalendarType';
 import { Calendar } from '@/types/Calendar';
 import type { AttendanceMode, Event } from '@/types/Event';
-import type { BookingAvailability, Status, Term } from '@/types/Offer';
+import type {
+  BookingAvailability,
+  Status,
+  SubEvent,
+  Term,
+} from '@/types/Offer';
 import type { User } from '@/types/User';
 import type { Values } from '@/types/Values';
 import type { WorkflowStatus } from '@/types/WorkflowStatus';
@@ -28,7 +33,8 @@ import type { Headers } from './types/Headers';
 
 type EventArguments = {
   name: string;
-  calendar: Calendar;
+  calendarType: Values<typeof CalendarType>;
+  subEvent: SubEvent[];
   terms: Term[];
   workflowStatus: WorkflowStatus;
   audienceType: string;
@@ -37,6 +43,7 @@ type EventArguments = {
   };
   attendanceMode: Values<typeof AttendanceMode>;
   mainLanguage: string;
+  typicalAgeRange: string;
 };
 type AddEventArguments = EventArguments & { headers: Headers };
 
@@ -44,11 +51,13 @@ const addEvent = async ({
   headers,
   mainLanguage,
   name,
-  calendar,
+  calendarType,
+  subEvent,
   terms,
   location,
   audienceType,
   attendanceMode,
+  typicalAgeRange,
 }: AddEventArguments) =>
   fetchFromApi({
     path: '/events/',
@@ -58,11 +67,13 @@ const addEvent = async ({
       body: JSON.stringify({
         mainLanguage,
         name,
-        calendar,
+        calendarType,
+        subEvent,
         terms,
         location,
         audienceType,
         attendanceMode,
+        typicalAgeRange,
       }),
     },
   });
@@ -633,7 +644,7 @@ const publish = async ({ headers, eventId, publicationDate }) =>
     },
   });
 
-const usePublishMutation = (configuration = {}) =>
+const usePublishEventMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: publish,
     ...configuration,
@@ -720,7 +731,7 @@ export {
   useGetEventsByCreatorQuery,
   useGetEventsByIdsQuery,
   useGetEventsToModerateQuery,
-  usePublishMutation,
+  usePublishEventMutation,
   useUpdateImageFromEventMutation,
 };
 

@@ -6,7 +6,9 @@ import * as yup from 'yup';
 import { EventTypes } from '@/constants/EventTypes';
 import { OfferType } from '@/constants/OfferType';
 import { useChangeLocationMutation } from '@/hooks/api/events';
+import { useChangeAddressMutation } from '@/hooks/api/places';
 import { FormData as OfferFormData } from '@/pages/create/OfferForm';
+import { Address } from '@/types/Address';
 import { Countries } from '@/types/Country';
 import { Place } from '@/types/Place';
 import { Values } from '@/types/Values';
@@ -27,7 +29,7 @@ import { parseOfferId } from '@/utils/parseOfferId';
 
 import { CityPicker } from '../CityPicker';
 import { CountryPicker } from './CountryPicker';
-import { PlaceStep } from './PlaceStep';
+import { PlaceStep, placeStepConfiguration } from './PlaceStep';
 import {
   FormDataUnion,
   getStepProps,
@@ -38,20 +40,45 @@ import {
 const getValue = getValueFromTheme('createPage');
 const getGlobalValue = getValueFromTheme('global');
 
-const useEditPlace = <TFormData extends FormDataUnion>({
+const useEditLocation = <TFormData extends FormDataUnion>({
   scope,
   offerId,
   onSuccess,
 }) => {
+  const { i18n } = useTranslation();
   const changeLocationMutation = useChangeLocationMutation();
+  const changeAddressMutation = useChangeAddressMutation();
 
   return async ({ location }: TFormData) => {
-    if (!location.municipality) return;
-    if (!location.place) return;
+    if (scope === OfferType.EVENTS) {
+      if (!location.municipality) return;
+      if (!location.place) return;
 
-    changeLocationMutation.mutate({
+      // TODO: Add isOnline support
+
+      changeLocationMutation.mutate({
+        id: offerId,
+        locationId: parseOfferId(location.place['@id']),
+      });
+
+      return;
+    }
+
+    if (!location.municipality) return;
+    if (!location.streetAndNumber) return;
+
+    const address: Address = {
+      [i18n.language]: {
+        streetAddress: location.streetAndNumber,
+        addressCountry: location.country,
+        addressLocality: location.municipality.name,
+        postalCode: location.municipality.zip,
+      },
+    };
+
+    changeAddressMutation.mutate({
       id: offerId,
-      locationId: parseOfferId(location.place['@id']),
+      address,
     });
   };
 };
@@ -393,4 +420,4 @@ const locationStepConfiguration: StepsConfiguration<FormDataUnion> = {
 
 LocationStep.defaultProps = {};
 
-export { locationStepConfiguration, useEditPlace };
+export { locationStepConfiguration, useEditLocation };

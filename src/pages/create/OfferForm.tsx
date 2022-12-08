@@ -2,7 +2,6 @@ import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { CalendarType } from '@/constants/CalendarType';
 import { OfferType } from '@/constants/OfferType';
 import { SupportedLanguages } from '@/i18n/index';
 import { additionalInformationStepConfiguration } from '@/pages/steps/AdditionalInformationStep';
@@ -26,6 +25,7 @@ import { WorkflowStatusMap } from '@/types/WorkflowStatus';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 import { City } from '../CityPicker';
+import { FormDataUnion } from '../steps/Steps';
 
 type Scope = 'events' | 'places';
 
@@ -50,13 +50,30 @@ type FormData = {
   };
 };
 
-const ONLINE_LOCATION_ID = '00000000-0000-0000-0000-000000000000';
+const getTerms = <TFormData extends FormDataUnion>(
+  typeAndTheme: TFormData['typeAndTheme'],
+) => {
+  const { type, theme } = typeAndTheme;
+
+  const terms = [
+    type && {
+      id: type.id,
+    },
+    theme && {
+      id: theme.id,
+    },
+  ].filter(Boolean);
+
+  return { terms };
+};
 
 const OfferForm = () => {
   const { t, i18n } = useTranslation();
   const { query } = useRouter();
 
-  const parseLocationAttributes = (offer: Event | Place) => {
+  const offerId = query.offerId || query.eventId || query.placeId;
+
+  const parseLocationAttributes = (offer: Offer) => {
     const eventAddress = isEvent(offer)
       ? offer.location.address[i18n.language] ?? offer.location.address
       : offer.address[i18n.language];
@@ -141,21 +158,6 @@ const OfferForm = () => {
     };
   };
 
-  const getTerms = (typeAndTheme: FormData['typeAndTheme']) => {
-    const { type, theme } = typeAndTheme;
-
-    const terms = [
-      type && {
-        id: type.id,
-      },
-      theme && {
-        id: theme.id,
-      },
-    ].filter(Boolean);
-
-    return { terms };
-  };
-
   const convertFormDataToOffer = ({
     scope,
     nameAndAgeRange: { name, typicalAgeRange },
@@ -213,7 +215,7 @@ const OfferForm = () => {
         {
           ...calendarStepConfiguration,
           stepProps: {
-            eventId: query.id || query.eventId,
+            offerId,
           },
         },
         locationStepConfiguration,
@@ -221,10 +223,10 @@ const OfferForm = () => {
         {
           ...additionalInformationStepConfiguration,
           stepProps: {
-            eventId: query.id || query.eventId,
+            offerId,
           },
           shouldShowStep: ({ watch }) =>
-            !!(query.id || query.eventId) && !!watch('nameAndAgeRange.name'),
+            !!offerId && !!watch('nameAndAgeRange.name'),
         },
       ]}
     />
@@ -238,4 +240,4 @@ const OfferFormWithCalendarMachine = () => (
 );
 
 export type { FormData, Scope };
-export { OfferFormWithCalendarMachine as OfferForm };
+export { getTerms, OfferFormWithCalendarMachine as OfferForm };

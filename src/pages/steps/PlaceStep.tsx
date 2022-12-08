@@ -33,7 +33,7 @@ import { PlaceAddModal } from '../PlaceAddModal';
 
 const getGlobalValue = getValueFromTheme('global');
 
-const useEditLocation = <TFormData extends FormDataUnion>({
+const useEditPlace = <TFormData extends FormDataUnion>({
   scope,
   offerId,
   onSuccess,
@@ -223,4 +223,4 @@ PlaceStep.defaultProps = {
   terms: [],
 };
 
-export { PlaceStep, placeStepConfiguration, useEditLocation };
+export { PlaceStep, placeStepConfiguration, useEditPlace };

@@ -22,7 +22,7 @@ import {
 } from '@/ui/TimeTable';
 import { formatDateToISO } from '@/utils/formatDateToISO';
 
-type EncodedTimeTable = Array<{ start: string; end: string }>;
+type EncodedTimeTable = Array<{ startDate: string; endDate: string }>;
 
 const convertTimeTableToSubEvents = (timeTable: TimeTableValue) => {
   const { data = {} } = timeTable;
@@ -47,8 +47,8 @@ const convertTimeTableToSubEvents = (timeTable: TimeTableValue) => {
         return [
           ...acc,
           {
-            start: isoDate,
-            end: isoDate,
+            startDate: isoDate,
+            endDate: isoDate,
           },
         ];
       }, []),

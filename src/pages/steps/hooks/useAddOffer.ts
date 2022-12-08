@@ -1,16 +1,18 @@
 import { OfferType } from '@/constants/OfferType';
 import {
   useAddEventMutation,
-  useAddLabelMutation,
+  useAddLabelMutation as useAddLabelOnEventMutation,
   useChangeTypicalAgeRangeMutation,
 } from '@/hooks/api/events';
-import { useAddPlaceMutation } from '@/hooks/api/places';
+import {
+  useAddLabelMutation as useAddLabelOnPlaceMutation,
+  useAddPlaceMutation,
+} from '@/hooks/api/places';
 import {
   useAddEventByIdMutation as useAddEventToProductionByIdMutation,
   useCreateWithEventsMutation as useCreateProductionWithEventsMutation,
 } from '@/hooks/api/productions';
 import { FormDataUnion } from '@/pages/steps/Steps';
-import { isEvent } from '@/types/Event';
 
 const useAddOffer = <TFormData extends FormDataUnion>({
   onSuccess,
@@ -19,8 +21,9 @@ const useAddOffer = <TFormData extends FormDataUnion>({
 }) => {
   const addEventMutation = useAddEventMutation();
   const addPlaceMutation = useAddPlaceMutation();
-  const changeTypicalAgeRangeMutation = useChangeTypicalAgeRangeMutation();
-  const addLabelMutation = useAddLabelMutation();
+
+  const addLabelMutationOnEvent = useAddLabelOnEventMutation();
+  const addLabelMutationOnPlace = useAddLabelOnPlaceMutation();
 
   const createProductionWithEventsMutation = useCreateProductionWithEventsMutation();
   const addEventToProductionByIdMutation = useAddEventToProductionByIdMutation();
@@ -35,21 +38,16 @@ const useAddOffer = <TFormData extends FormDataUnion>({
     const addOfferMutation =
       scope === OfferType.EVENTS ? addEventMutation : addPlaceMutation;
 
+    const addLabelMutation =
+      scope === OfferType.EVENTS ? addLabelMutationOnEvent : addPlaceMutation;
+
     const { eventId, placeId } = await addOfferMutation.mutateAsync(payload);
 
     if (!eventId && !placeId) return;
 
-    // @ts-expect-error
-    if (eventId && !production?.typicalAgeRange) {
-      await changeTypicalAgeRangeMutation.mutateAsync({
-        eventId,
-        typicalAgeRange: '-',
-      });
-    }
-
     if (label) {
       await addLabelMutation.mutateAsync({
-        eventId,
+        id: eventId || placeId,
         label,
       });
     }

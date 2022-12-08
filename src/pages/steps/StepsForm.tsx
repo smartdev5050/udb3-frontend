@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { OfferType } from '@/constants/OfferType';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
+import { Offer } from '@/types/Offer';
 import { Place } from '@/types/Place';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
@@ -20,7 +21,7 @@ import { FooterStatus, useFooterStatus } from './hooks/useFooterStatus';
 import { useGetEvent } from './hooks/useGetEvent';
 import { useGetPlace } from './hooks/useGetPlace';
 import { useParseStepConfiguration } from './hooks/useParseStepConfiguration';
-import { usePublishEvent } from './hooks/usePublishEvent';
+import { usePublishOffer } from './hooks/usePublishOffer';
 import { PublishLaterModal } from './modals/PublishLaterModal';
 import { FormDataUnion, Steps, StepsConfiguration } from './Steps';
 
@@ -64,7 +65,8 @@ const StepsForm = <TFormData extends FormDataUnion>({
 
   const toast = useToast(toastConfiguration);
 
-  const publishEvent = usePublishEvent({
+  const publishEvent = usePublishOffer({
+    scope,
     id: query.eventId,
     onSuccess: () => {
       push(`/event/${query.eventId}/preview`);
@@ -123,7 +125,7 @@ const StepsForm = <TFormData extends FormDataUnion>({
           onChange={handleChange}
           fieldLoading={fieldLoading}
           onChangeSuccess={handleChangeSuccess}
-          eventId={offerId}
+          offerId={offerId}
           form={form}
         />
       </Page.Content>

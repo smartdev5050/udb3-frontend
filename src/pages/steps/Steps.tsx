@@ -36,10 +36,10 @@ type StepsConfiguration<TFormData extends FormDataUnion> = {
   validation?: any;
   shouldShowStep?: (
     data: UseFormReturn<TFormData> & {
-      eventId?: string;
+      offerId?: string;
     },
   ) => boolean;
-  stepProps?: Record<string, unknown>;
+  stepProps?: StepProps<TFormData>;
 };
 
 type NumberIndicatorProps = {
@@ -111,7 +111,7 @@ type StepProps<TFormData extends FormDataUnion> = UseFormReturn<TFormData> & {
 };
 
 type StepsProps<TFormData extends FormDataUnion> = {
-  eventId?: string;
+  offerId?: string;
   form: UseFormReturn<TFormData>;
   fieldLoading?: string;
   onChange?: (editedField: string) => void;
@@ -151,7 +151,7 @@ const Steps = <TFormData extends FormDataUnion>({
   configurations,
   fieldLoading,
   form,
-  eventId,
+  offerId,
   ...props
 }: StepsProps<TFormData>) => {
   const { t } = useTranslation();
@@ -168,7 +168,7 @@ const Steps = <TFormData extends FormDataUnion>({
     return (
       configurationsWithComponent[index]?.shouldShowStep?.({
         ...form,
-        eventId,
+        offerId,
       }) ?? false
     );
   };
@@ -204,7 +204,7 @@ const Steps = <TFormData extends FormDataUnion>({
                 onChange={() => onChange(name)}
                 loading={!!(name && fieldLoading === name)}
                 name={name}
-                eventId={eventId}
+                eventId={offerId}
                 variant={variant}
                 {...form}
                 {...props}

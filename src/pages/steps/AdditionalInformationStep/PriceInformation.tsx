@@ -50,12 +50,6 @@ type Rate = {
 
 type FormData = { rates: Rate[] };
 
-type Props = {
-  eventId: string;
-  onChangeCompleted: (isCompleted: boolean) => void;
-  onSuccessfulChange: () => void;
-};
-
 const getValue = getValueFromTheme('priceInformation');
 
 const defaultPriceInfoValues = {
@@ -105,8 +99,14 @@ const schema = yup
   })
   .required();
 
+type Props = {
+  offerId: string;
+  onChangeCompleted: (isCompleted: boolean) => void;
+  onSuccessfulChange: () => void;
+};
+
 const PriceInformation = ({
-  eventId,
+  offerId,
   onChangeCompleted,
   onSuccessfulChange,
   ...props
@@ -120,7 +120,7 @@ const PriceInformation = ({
   const [priceInfo, setPriceInfo] = useState([]);
 
   const getEventByIdQuery = useGetEventByIdQuery(
-    { id: eventId },
+    { id: offerId },
     { refetchOnWindowFocus: false },
   );
 
