@@ -74,7 +74,10 @@ const StepsForm = <TFormData extends FormDataUnion>({
   });
 
   const addOffer = useAddOffer({
-    onSuccess: setOfferId,
+    onSuccess: (scope, offerId) => {
+      push(`/${scope}/${offerId}/edit`, undefined, { shallow: true });
+      setOfferId(offerId);
+    },
     convertFormDataToOffer,
     label,
   });
