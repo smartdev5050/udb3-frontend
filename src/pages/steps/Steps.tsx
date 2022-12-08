@@ -39,7 +39,7 @@ type StepsConfiguration<TFormData extends FormDataUnion> = {
       offerId?: string;
     },
   ) => boolean;
-  stepProps?: StepProps<TFormData>;
+  stepProps?: Record<string, unknown>;
 };
 
 type NumberIndicatorProps = {
