@@ -138,8 +138,6 @@ const AdditionalInformationStep = ({
 }: Props) => {
   const { asPath, ...router } = useRouter();
 
-  console.log({ props });
-
   const queryClient = useQueryClient();
 
   const invalidateEventQuery = useCallback(
@@ -248,10 +246,7 @@ AdditionalInformationStep.defaultProps = {
 const additionalInformationStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: AdditionalInformationStep,
   title: ({ t }) => t(`movies.create.step5.title`),
-  shouldShowStep: ({ offerId }) => {
-    console.log('in shouldShowStep', !!offerId);
-    return !!offerId;
-  },
+  shouldShowStep: ({ offerId }) => !!offerId,
 };
 
 export type { Field, MergedInfo, TabContentProps };
