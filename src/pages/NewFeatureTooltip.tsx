@@ -8,6 +8,7 @@ const getValue = getValueFromTheme('newFeatureTooltip');
 const Features = {
   EVENT_SCORE: '27f6ab5d-5ca3-4933-a8bf-ccce25b40723',
   SUGGESTED_ORGANIZERS: '0842bd10-592a-42ad-8a72-fabc278b7fd4',
+  VIDEO: '9cdbba1f-0fd8-4702-a274-c2403316dea9',
 } as const;
 
 type Props = {
