@@ -305,11 +305,13 @@
         }
       },
       "organizer": {
-        "add_new_button": "Organisator toevoegen",
-        "add_new_label": "Voeg nieuwe organisator toe: ",
+        "add_new_button": "Organisatie toevoegen",
+        "add_new_label": "Voeg nieuwe organisatie toe: ",
         "change": "Wijzig organisatie",
         "title": "Organisatie",
-        "or_select_recent_used_organizer": "Of selecteer een van je laatst gebruikte organisaties",
+        "select_recent_used_organizer": "Kies een organisatie die je recent gebruikte",
+        "select_recent_used_organizer_info": "We hebben de organisaties waarvoor je recent een evenement invoerde hier voor je klaargezet. Met één klik voeg je ze toe aan je evenement.",
+        "or_choose_other_organizer": "Of kies een andere organisatie",
         "uitpas_cardsystems": "UiTPAS Kaartsystemen",
         "uitpas_info": "Je activiteit is nu geregistreerd als UiTPAS activiteit.",
         "uitpas_info_no_price_alert": "Dit is een UiTPAS organisator. Voeg een <link1>prijs</link1> toe om je evenement te publiceren als UiTPAS activiteit"

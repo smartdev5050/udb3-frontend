@@ -301,11 +301,13 @@
         }
       },
       "organizer": {
-        "add_new_button": "Ajouter organisateur",
-        "add_new_label": "Ajouter un nouveau organisateur: ",
+        "add_new_button": "Ajouter une organisation",
+        "add_new_label": "Ajouter une nouvelle organisation: ",
         "change": "Modifier l'organisateur",
         "title": "Organisateur",
-        "or_select_recent_used_organizer": "Ou sélectionnez l'une de vos organisations les plus récemment utilisées",
+        "select_recent_used_organizer": "Choisissez une organisation à laquelle vous avez eu recours récemment",
+        "select_recent_used_organizer_info": "Nous avons préparé pour vous les organisations pour lesquelles vous avez récemment inscrit un événement ici. Ajoutez-les à votre événement d'un simple clic.",
+        "or_choose_other_organizer": "Ou choisissez une autre organisation",
         "uitpas_cardsystems": "UiTPAS systèmes de cartes",
         "uitpas_info": "Votre activité est désormais enregistrée en tant qu'activité UitPAS",
         "uitpas_info_no_price_alert": "Ceci est un organisateur UiTPAS. Ajoutez <link1>un prix</link1> pour publier votre événement en tant qu'activité UiTPAS."
