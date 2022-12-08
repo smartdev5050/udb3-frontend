@@ -189,7 +189,7 @@ const PriceInformation = ({
     });
 
     await addPriceInfoMutation.mutateAsync({
-      eventId,
+      offerId,
       priceInfo: convertedPriceInfo,
     });
   };
