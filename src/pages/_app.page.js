@@ -2,6 +2,7 @@ import '@fortawesome/fontawesome-svg-core/styles.css';
 
 import { config } from '@fortawesome/fontawesome-svg-core';
 import NextHead from 'next/head';
+import Script from 'next/script';
 import PropTypes from 'prop-types';
 import { cloneElement } from 'react';
 import { Cookies, CookiesProvider } from 'react-cookie';
@@ -69,6 +70,19 @@ ContextProvider.propTypes = {
 
 config.autoAddCss = false;
 
+const Hotjar = () => {
+  return (
+    <Script id="hotjar">{`(function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:181435,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');`}</Script>
+  );
+};
+
 const Head = () => {
   const { t } = useTranslation();
 
@@ -93,6 +107,7 @@ const App = ({ Component, pageProps, children }) => {
   return (
     <>
       <Head />
+      <Hotjar />
       <ContextProvider
         providers={[
           [I18nextProvider, { i18n }],
