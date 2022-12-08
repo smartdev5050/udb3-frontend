@@ -13,12 +13,19 @@ import {
   useCreateWithEventsMutation as useCreateProductionWithEventsMutation,
 } from '@/hooks/api/productions';
 import { FormDataUnion } from '@/pages/steps/Steps';
+import { Values } from '@/types/Values';
+
+type UseAddOfferArgument = {
+  onSuccess: (scope: FormDataUnion['scope'], offerId: string) => void;
+  convertFormDataToOffer: any;
+  label?: string;
+};
 
 const useAddOffer = <TFormData extends FormDataUnion>({
   onSuccess,
   convertFormDataToOffer,
   label,
-}) => {
+}: UseAddOfferArgument) => {
   const addEventMutation = useAddEventMutation();
   const addPlaceMutation = useAddPlaceMutation();
 
@@ -39,37 +46,41 @@ const useAddOffer = <TFormData extends FormDataUnion>({
       scope === OfferType.EVENTS ? addEventMutation : addPlaceMutation;
 
     const addLabelMutation =
-      scope === OfferType.EVENTS ? addLabelMutationOnEvent : addPlaceMutation;
+      scope === OfferType.EVENTS
+        ? addLabelMutationOnEvent
+        : addLabelMutationOnPlace;
 
     const { eventId, placeId } = await addOfferMutation.mutateAsync(payload);
 
-    if (!eventId && !placeId) return;
+    const offerId: string = eventId || placeId;
+
+    if (!offerId) return;
 
     if (label) {
       await addLabelMutation.mutateAsync({
-        id: eventId || placeId,
+        id: offerId,
         label,
       });
     }
 
     if (!production) {
-      onSuccess(eventId || placeId);
+      onSuccess(scope, offerId);
       return;
     }
 
     if (production.customOption) {
       await createProductionWithEventsMutation.mutateAsync({
         productionName: production.name,
-        eventIds: [eventId],
+        eventIds: [offerId],
       });
     } else {
       await addEventToProductionByIdMutation.mutateAsync({
         productionId: production.production_id,
-        eventId,
+        offerId,
       });
     }
 
-    onSuccess(eventId);
+    onSuccess(scope, offerId);
   };
 };
 

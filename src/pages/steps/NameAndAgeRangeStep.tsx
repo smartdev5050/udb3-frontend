@@ -35,7 +35,7 @@ const useEditNameAndAgeRange = <TFormData extends FormDataUnion>({
 
     if (typicalAgeRange) {
       await changeTypicalAgeRangeMutation.mutateAsync({
-        offerId,
+        eventId: offerId,
         typicalAgeRange,
       });
     }
