@@ -40,7 +40,7 @@ const TextArea = forwardRef<HTMLInputElement, Props>(
   ) => {
     return (
       <Form.Control
-        forwardedAs={BaseInput}
+        as={BaseInput}
         id={id}
         className={className}
         width="100%"
