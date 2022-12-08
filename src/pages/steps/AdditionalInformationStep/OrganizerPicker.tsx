@@ -62,7 +62,7 @@ const RecentUsedOrganizers = ({
             'create.additionalInformation.organizer.select_recent_used_organizer',
           )}
         </Text>
-        <NewFeatureTooltip featureUUID={Features.ORGANIZER_PICKER} />
+        <NewFeatureTooltip featureUUID={Features.SUGGESTED_ORGANIZERS} />
       </Inline>
       <Alert variant={AlertVariants.PRIMARY} width="41rem">
         {t(
