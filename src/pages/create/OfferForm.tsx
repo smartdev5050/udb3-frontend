@@ -227,8 +227,6 @@ const OfferForm = () => {
           stepProps: {
             offerId,
           },
-          shouldShowStep: ({ watch }) =>
-            !!offerId && !!watch('nameAndAgeRange.name'),
         },
       ]}
     />
