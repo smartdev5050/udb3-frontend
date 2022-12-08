@@ -9,6 +9,7 @@ import { useGetUserQuery } from '@/hooks/api/user';
 import { SupportedLanguages } from '@/i18n/index';
 import { Organizer } from '@/types/Organizer';
 import { Values } from '@/types/Values';
+import { Alert, AlertVariants } from '@/ui/Alert';
 import { Badge, BadgeVariants } from '@/ui/Badge';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
@@ -53,13 +54,18 @@ const RecentUsedOrganizers = ({
   }
 
   return (
-    <Stack spacing={4} {...getStackProps(props)}>
+    <Stack spacing={4} {...getStackProps(props)} maxWidth="50rem">
       <Text fontWeight="bold">
         {t(
-          'create.additionalInformation.organizer.or_select_recent_used_organizer',
+          'create.additionalInformation.organizer.select_recent_used_organizer',
         )}
       </Text>
-      <Inline spacing={4} flexWrap="wrap" maxWidth="60rem">
+      <Alert variant={AlertVariants.PRIMARY} width="41rem">
+        {t(
+          'create.additionalInformation.organizer.select_recent_used_organizer_info',
+        )}
+      </Alert>
+      <Inline spacing={4} justifyContent="flex-start" flexWrap="wrap">
         {organizers.map((organizer, index) => {
           const name =
             typeof organizer.name === 'string'
@@ -211,7 +217,6 @@ const OrganizerPicker = ({
     <Stack {...getStackProps(props)}>
       <FormElement
         id="create-organizer"
-        label={t('create.additionalInformation.organizer.title')}
         Component={
           organizer ? (
             <Stack>
@@ -237,48 +242,50 @@ const OrganizerPicker = ({
                 </Button>
               </Inline>
             </Stack>
-          ) : !addButtonHasBeenPressed ? (
-            <Stack alignItems="flex-start" spacing={4}>
-              <Button
-                variant={ButtonVariants.SECONDARY}
-                onClick={() => setAddButtonHasBeenPressed(true)}
-              >
-                {t('create.additionalInformation.organizer.add_new_button')}
-              </Button>
-              <RecentUsedOrganizers
-                organizers={recentUsedOrganizers}
-                onChange={onChange}
-              />
-            </Stack>
           ) : (
-            <Stack spacing={4}>
-              <Typeahead<Organizer>
-                options={organizers}
-                labelKey={(org) => getOrganizerName(org, i18n.language)}
-                selected={valueToArray(organizer)}
-                onInputChange={debounce(setOrganizerSearchInput, 275)}
-                onChange={(organizers) => {
-                  const organizer = organizers[0];
-
-                  if (isNewEntry(organizer)) {
-                    onAddNewOrganizer(organizer);
-                    queryClient.invalidateQueries('organizers');
-                    return;
-                  }
-
-                  onChange(parseOfferId(organizer['@id']));
-                }}
-                maxWidth="30rem"
-                minLength={3}
-                newSelectionPrefix={t(
-                  'create.additionalInformation.organizer.add_new_label',
-                )}
-                allowNew
-              />
+            <Stack spacing={4} alignItems="flex-start">
               <RecentUsedOrganizers
                 organizers={recentUsedOrganizers}
                 onChange={handleSelectRecentOrganizer}
               />
+              <Text fontWeight="bold">
+                {t(
+                  'create.additionalInformation.organizer.or_choose_other_organizer',
+                )}
+              </Text>
+              {!addButtonHasBeenPressed && (
+                <Button
+                  variant={ButtonVariants.SECONDARY}
+                  onClick={() => setAddButtonHasBeenPressed(true)}
+                >
+                  {t('create.additionalInformation.organizer.add_new_button')}
+                </Button>
+              )}
+              {addButtonHasBeenPressed && (
+                <Typeahead<Organizer>
+                  options={organizers}
+                  labelKey={(org) => getOrganizerName(org, i18n.language)}
+                  selected={valueToArray(organizer)}
+                  onInputChange={debounce(setOrganizerSearchInput, 275)}
+                  onChange={(organizers) => {
+                    const organizer = organizers[0];
+
+                    if (isNewEntry(organizer)) {
+                      onAddNewOrganizer(organizer);
+                      queryClient.invalidateQueries('organizers');
+                      return;
+                    }
+
+                    onChange(parseOfferId(organizer['@id']));
+                  }}
+                  minLength={3}
+                  width="20rem"
+                  newSelectionPrefix={t(
+                    'create.additionalInformation.organizer.add_new_label',
+                  )}
+                  allowNew
+                />
+              )}
             </Stack>
           )
         }

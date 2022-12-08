@@ -491,12 +491,12 @@ const Sidebar = () => {
       spacing={3}
       ref={sidebarComponent}
       onMouseOver={() => {
-        setTimeout(() => {
-          if (!sidebarComponent?.current) return;
-          if (document.activeElement.tagName !== 'iframe') return;
-          // @ts-expect-error
-          document.activeElement.blur();
-        }, 100);
+        if (!sidebarComponent?.current) return;
+        if (document.activeElement?.tagName?.toLowerCase() !== 'iframe') {
+          return;
+        }
+        // @ts-expect-error
+        document.activeElement.blur();
       }}
     >
       <Link
