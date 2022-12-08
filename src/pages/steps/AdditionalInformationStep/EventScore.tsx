@@ -1,21 +1,14 @@
-import { useAnnouncementModalContext } from 'context/AnnouncementModalContext';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useGetEventByIdQuery } from '@/hooks/api/events';
+import { Features, NewFeatureTooltip } from '@/pages/NewFeatureTooltip';
 import { Event } from '@/types/Event';
-import { Button, ButtonVariants } from '@/ui/Button';
-import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { Notification } from '@/ui/Notification';
 import { Text } from '@/ui/Text';
-import { getValueFromTheme } from '@/ui/theme';
 
 import { Field } from './AdditionalInformationStep';
-
-const ANNOUNCEMENT_UID = '27f6ab5d-5ca3-4933-a8bf-ccce25b40723';
-
-const getValue = getValueFromTheme('eventScore');
 
 const BarometerIcon = ({ rotationValue }: { rotationValue: number }) => {
   return (
@@ -146,8 +139,6 @@ const EventScore = ({ completedFields, eventId, ...props }: Props) => {
   // @ts-expect-error
   const event: Event | undefined = getEventByIdQuery.data;
 
-  const [_, setAnnouncementModalContext] = useAnnouncementModalContext();
-
   const hasTheme: boolean = event?.terms.some(
     (term) => term.domain === 'theme',
   );
@@ -231,21 +222,7 @@ const EventScore = ({ completedFields, eventId, ...props }: Props) => {
               /100
             </Text>
           </Text>
-          <Button
-            onClick={() =>
-              setAnnouncementModalContext((prevModalContext) => ({
-                ...prevModalContext,
-                visible: true,
-                visibleAnnouncementUid: ANNOUNCEMENT_UID,
-              }))
-            }
-            variant={ButtonVariants.UNSTYLED}
-          >
-            <Icon
-              color={getValue('infoIconColor')}
-              name={Icons.QUESTION_CIRCLE}
-            />
-          </Button>
+          <NewFeatureTooltip featureUUID={Features.EVENT_SCORE} />
         </Inline>
       }
       body={<Text>{tip}</Text>}
