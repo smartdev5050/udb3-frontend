@@ -64,6 +64,10 @@ const OfferForm = () => {
     const isOnline =
       isEvent(offer) && offer.attendanceMode === AttendanceMode.ONLINE;
 
+    const country = isEvent(offer)
+      ? offer.location.address[i18n.language].addressCountry
+      : offer.address[i18n.language].addressCountry;
+
     return {
       location: {
         isOnline,
@@ -73,6 +77,7 @@ const OfferForm = () => {
           name: eventAddress.addressLocality,
         },
         place: isEvent(offer) ? offer.location : undefined,
+        country,
       },
     };
   };
