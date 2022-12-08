@@ -69,7 +69,8 @@ const getTerms = <TFormData extends FormDataUnion>(
 
 const OfferForm = () => {
   const { t, i18n } = useTranslation();
-  const { query } = useRouter();
+  const { query, pathname } = useRouter();
+  const parts = pathname.split('/');
 
   const offerId = query.offerId || query.eventId || query.placeId;
 
@@ -193,6 +194,7 @@ const OfferForm = () => {
 
   return (
     <StepsForm
+      key={parts[parts.length - 1]} // needed to re-render the form between create and edit.
       title={t(`create.title`)}
       convertFormDataToOffer={convertFormDataWithCalendarToOffer}
       convertOfferToFormData={convertOfferToFormData}
