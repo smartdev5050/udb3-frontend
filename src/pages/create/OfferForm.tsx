@@ -19,6 +19,7 @@ import { scopeStepConfiguration } from '@/pages/steps/ScopeStep';
 import { StepsForm } from '@/pages/steps/StepsForm';
 import { Country } from '@/types/Country';
 import { AttendanceMode, Event, isEvent } from '@/types/Event';
+import { Offer } from '@/types/Offer';
 import { Place } from '@/types/Place';
 import { Values } from '@/types/Values';
 import { WorkflowStatusMap } from '@/types/WorkflowStatus';
@@ -76,7 +77,7 @@ const OfferForm = () => {
     };
   };
 
-  const convertOfferToFormData = (offer: Event | Place) => {
+  const convertOfferToFormData = (offer: Offer) => {
     return {
       scope: isEvent(offer) ? OfferType.EVENTS : OfferType.PLACES,
       ...parseLocationAttributes(offer),

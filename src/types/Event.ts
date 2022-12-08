@@ -1,4 +1,4 @@
-import type { Offer } from './Offer';
+import type { InternalOffer } from './Offer';
 import type { Place } from './Place';
 import { Values } from './Values';
 
@@ -16,7 +16,7 @@ const AttendanceMode = {
   MIXED: 'mixed',
 } as const;
 
-type Event = Offer & {
+type Event = InternalOffer & {
   '@context': '/contexts/event';
   location: Place;
   production?: ProductionOnEvent;

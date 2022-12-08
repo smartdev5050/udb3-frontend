@@ -1,7 +1,7 @@
 import type { Address } from './Address';
-import type { Offer } from './Offer';
+import type { InternalOffer } from './Offer';
 
-type Place = Offer & {
+type Place = InternalOffer & {
   '@context': '/contexts/place';
   address: Address;
   geo: {
