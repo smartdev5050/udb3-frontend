@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { CalendarType } from '@/constants/CalendarType';
 import { EventTypes } from '@/constants/EventTypes';
 import { OfferType } from '@/constants/OfferType';
+import { getTerms } from '@/pages/create/OfferForm';
 import {
   additionalInformationStepConfiguration,
   AdditionalInformationStepVariant,
@@ -66,7 +67,7 @@ const MovieForm = (props) => {
   const parts = router.pathname.split('/');
   const { t } = useTranslation();
 
-  const convertEventToFormData = (event: Event) => {
+  const convertOfferToFormData = (event: Event) => {
     return {
       scope: OfferType.EVENTS,
       typeAndTheme: {
@@ -83,36 +84,25 @@ const MovieForm = (props) => {
     };
   };
 
-  const convertFormDataToEvent = ({
+  const convertFormDataToOffer = ({
     production,
-    typeAndTheme: { type, theme },
+    typeAndTheme,
     place,
     timeTable,
   }: FormData) => {
+    const subEvent = convertTimeTableToSubEvents(timeTable);
     return {
       mainLanguage: 'nl',
       name: production.name,
-      calendar: {
-        calendarType: CalendarType.MULTIPLE,
-        timeSpans: convertTimeTableToSubEvents(timeTable),
-      },
-      type: {
-        id: type?.id,
-        label: type?.label,
-        domain: 'eventtype',
-      },
-      ...(theme && {
-        theme: {
-          id: theme?.id,
-          label: theme?.label,
-          domain: 'theme',
-        },
-      }),
+      calendarType:
+        subEvent.length > 1 ? CalendarType.MULTIPLE : CalendarType.SINGLE,
+      subEvent,
       location: {
         id: parseOfferId(place['@id']),
       },
       workflowStatus: WorkflowStatusMap.DRAFT,
       audienceType: 'everyone',
+      ...getTerms(typeAndTheme),
     };
   };
 
@@ -121,8 +111,8 @@ const MovieForm = (props) => {
       {...props}
       key={parts[parts.length - 1]} // needed to re-render the form between create and edit.
       label="udb-filminvoer"
-      convertFormDataToEvent={convertFormDataToEvent}
-      convertEventToFormData={convertEventToFormData}
+      convertFormDataToOffer={convertFormDataToOffer}
+      convertOfferToFormData={convertOfferToFormData}
       title={t(`movies.create.title`)}
       toastConfiguration={{
         messages: {
@@ -158,7 +148,7 @@ const MovieForm = (props) => {
         productionStepConfiguration,
         {
           ...additionalInformationStepConfiguration,
-          variant: AdditionalInformationStepVariant.MINIMAL,
+          variant: AdditionalInformationStepVariant.MOVIE,
           title: () => t(`movies.create.step5.title`),
         },
       ]}

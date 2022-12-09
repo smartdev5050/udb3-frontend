@@ -151,6 +151,11 @@
     },
     "location": {
       "title": "Wo findet diese Veranstaltung oder Aktivität statt?",
+      "validation_messages": {
+        "street_and_number": {
+          "required": "Ihre Straße und Hausnummer entsprechen nicht den Anforderungen."
+        }
+      },
       "is_online": {
         "label": "Online"
       },

@@ -1,7 +1,7 @@
 import type { Address } from './Address';
-import type { Offer } from './Offer';
+import type { BaseOffer } from './Offer';
 
-type Place = Offer & {
+type Place = BaseOffer & {
   '@context': '/contexts/place';
   address: Address;
   geo: {
@@ -10,14 +10,15 @@ type Place = Offer & {
   };
 };
 
-const isPlace = (value: unknown): value is Event => {
+const isPlace = (value: unknown): value is Place => {
   if (typeof value?.['@context'] !== 'string') return false;
   return value['@context'].endsWith('/place');
 };
 
-const arePlaces = (value: any): value is Place => {
+const arePlaces = (value: unknown): value is Place[] => {
+  if (!Array.isArray(value)) return false;
   return value.every(isPlace);
 };
 
 export type { Place };
-export { arePlaces };
+export { arePlaces, isPlace };

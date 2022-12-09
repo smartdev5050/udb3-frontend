@@ -1,13 +1,16 @@
 import type { UseMutationOptions, UseQueryOptions } from 'react-query';
 
+import { CalendarType } from '@/constants/CalendarType';
 import type { EventTypes } from '@/constants/EventTypes';
 import type { OfferStatus } from '@/constants/OfferStatus';
 import type { SupportedLanguages } from '@/i18n/index';
 import type { Address } from '@/types/Address';
-import { Term } from '@/types/Offer';
+import type { Calendar } from '@/types/Calendar';
+import { OpeningHours, Term } from '@/types/Offer';
 import type { Place } from '@/types/Place';
 import type { User } from '@/types/User';
 import type { Values } from '@/types/Values';
+import { WorkflowStatus } from '@/types/WorkflowStatus';
 import { createEmbededCalendarSummaries } from '@/utils/createEmbededCalendarSummaries';
 import { createSortingArgument } from '@/utils/createSortingArgument';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
@@ -23,12 +26,11 @@ import {
   useAuthenticatedMutation,
   useAuthenticatedQuery,
 } from './authenticated-query';
-import type { Calendar } from './events';
 import type { Headers } from './types/Headers';
 
 const getPlaceById = async ({ headers, id }) => {
   const res = await fetchFromApi({
-    path: `/place/${id.toString()}`,
+    path: `/places/${id.toString()}`,
     options: {
       headers,
     },
@@ -168,6 +170,71 @@ const useGetPlacesByQuery = (
     ...configuration,
   });
 
+const changeTheme = async ({ headers, id, themeId }) => {
+  if (!themeId) {
+    return fetchFromApi({
+      path: `/places/${id.toString()}/theme`,
+      options: {
+        method: 'DELETE',
+        headers,
+      },
+    });
+  }
+
+  return fetchFromApi({
+    path: `/places/${id.toString()}/theme/${themeId}`,
+    options: {
+      method: 'PUT',
+      headers,
+    },
+  });
+};
+
+const useChangeThemeMutation = (configuration = {}) =>
+  useAuthenticatedMutation({ mutationFn: changeTheme, ...configuration });
+
+const changeType = async ({ headers, id, typeId }) =>
+  fetchFromApi({
+    path: `/places/${id.toString()}/type/${typeId}`,
+    options: {
+      method: 'PUT',
+      headers,
+    },
+  });
+
+const useChangeTypeMutation = (configuration = {}) =>
+  useAuthenticatedMutation({ mutationFn: changeType, ...configuration });
+
+const addLabel = async ({ headers, id, label }) =>
+  fetchFromApi({
+    path: `/places/${id}/labels/${label}`,
+    options: {
+      method: 'PUT',
+      headers,
+    },
+  });
+
+const useAddLabelMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: addLabel,
+    ...configuration,
+  });
+
+const changeAddress = async ({ headers, id, address }) =>
+  fetchFromApi({
+    path: `/places/${id.toString()}`,
+    options: {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({
+        address,
+      }),
+    },
+  });
+
+const useChangeAddressMutation = (configuration = {}) =>
+  useAuthenticatedMutation({ mutationFn: changeAddress, ...configuration });
+
 const deletePlaceById = async ({ headers, id }) =>
   fetchFromApi({
     path: `/places/${id}`,
@@ -206,29 +273,41 @@ const useChangeStatusMutation = (configuration: UseMutationOptions = {}) =>
   useAuthenticatedMutation({ mutationFn: changeStatus, ...configuration });
 
 type PlaceArguments = {
-  calendar: Calendar;
   address: Address;
   mainLanguage: string;
   name: string;
-  type: Term;
+  terms: Term[];
+  workflowStatus: WorkflowStatus;
+  calendarType: Values<typeof CalendarType>;
+  openingHours: OpeningHours[];
 };
 
 type AddPlaceArguments = PlaceArguments & { headers: Headers };
 
 const addPlace = async ({
   headers,
-  calendar,
+  calendarType,
+  openingHours,
   address,
   mainLanguage,
   name,
-  type,
+  terms,
+  workflowStatus,
 }: AddPlaceArguments) =>
   fetchFromApi({
-    path: `/place`,
+    path: `/places`,
     options: {
       method: 'POST',
       headers,
-      body: JSON.stringify({ calendar, address, mainLanguage, name, type }),
+      body: JSON.stringify({
+        calendarType,
+        openingHours,
+        address,
+        mainLanguage,
+        name,
+        terms,
+        workflowStatus,
+      }),
     },
   });
 
@@ -238,12 +317,36 @@ const useAddPlaceMutation = (configuration = {}) =>
     ...configuration,
   });
 
+const publish = async ({ headers, placeId, publicationDate }) =>
+  fetchFromApi({
+    path: `/places/${placeId}`,
+    options: {
+      method: 'PATCH',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/ld+json;domain-model=Publish',
+      },
+      body: JSON.stringify({ publicationDate }),
+    },
+  });
+
+const usePublishPlaceMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: publish,
+    ...configuration,
+  });
+
 export {
   getPlaceById,
+  useAddLabelMutation,
   useAddPlaceMutation,
+  useChangeAddressMutation,
   useChangeStatusMutation,
+  useChangeThemeMutation,
+  useChangeTypeMutation,
   useDeletePlaceByIdMutation,
   useGetPlaceByIdQuery,
   useGetPlacesByCreatorQuery,
   useGetPlacesByQuery,
+  usePublishPlaceMutation,
 };

@@ -246,12 +246,15 @@ const ReservationPeriod = ({
 type Props = StackProps & TabContentProps;
 
 const BookingInfoStep = ({
-  eventId,
+  offerId,
   onSuccessfulChange,
   onChangeCompleted,
   ...props
 }: Props) => {
   const { t } = useTranslation();
+
+  // TODO: refactor
+  const eventId = offerId;
 
   const formComponent = useRef<HTMLFormElement>();
 
@@ -314,7 +317,7 @@ const BookingInfoStep = ({
     },
   ];
 
-  const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
+  const getEventByIdQuery = useGetEventByIdQuery({ id: offerId });
 
   // @ts-expect-error
   const bookingInfo = getEventByIdQuery.data?.bookingInfo;

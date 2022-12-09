@@ -147,7 +147,7 @@ const CalendarOpeninghoursModal = ({
         onClose();
       }}
     >
-      <Stack spacing={4} padding={4}>
+      <Stack spacing={4} padding={4} alignItems="flex-start">
         {openingHours.map((openingHour) => (
           <Inline alignItems="center" key={openingHour.id} spacing={5}>
             <Inline spacing={4}>

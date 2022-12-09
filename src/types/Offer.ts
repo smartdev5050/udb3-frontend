@@ -4,7 +4,9 @@ import type { OfferStatus } from '@/constants/OfferStatus';
 
 import type { SupportedLanguages } from '../i18n';
 import type { ContactPoint } from './ContactPoint';
+import { Event } from './Event';
 import type { Organizer } from './Organizer';
+import { Place } from './Place';
 import type { Values } from './Values';
 import type { WorkflowStatus } from './WorkflowStatus';
 
@@ -92,7 +94,7 @@ type CalendarSummary = Record<
   }
 >;
 
-type Offer = {
+type BaseOffer = {
   '@id': string;
   name: Partial<Record<Values<typeof SupportedLanguages>, string>>;
   description: Partial<Record<Values<typeof SupportedLanguages>, string>>;
@@ -131,7 +133,10 @@ type Offer = {
   regions: string[];
 };
 
+type Offer = Place | Event;
+
 export type {
+  BaseOffer,
   BookingAvailability,
   DayOfWeek,
   MediaObject,

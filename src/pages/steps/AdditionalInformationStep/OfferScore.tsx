@@ -115,7 +115,7 @@ const scoreWeightMapping = {
 };
 
 type Props = {
-  eventId: string;
+  offerId: string;
   completedFields: Record<Field, boolean>;
 };
 
@@ -131,10 +131,10 @@ const getMinimumScore = (): number => {
 
 const minimumScore = getMinimumScore();
 
-const EventScore = ({ completedFields, eventId, ...props }: Props) => {
+const OfferScore = ({ completedFields, offerId, ...props }: Props) => {
   const { t } = useTranslation();
 
-  const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
+  const getEventByIdQuery = useGetEventByIdQuery({ id: offerId });
 
   // @ts-expect-error
   const event: Event | undefined = getEventByIdQuery.data;
@@ -231,4 +231,4 @@ const EventScore = ({ completedFields, eventId, ...props }: Props) => {
   );
 };
 
-export { EventScore };
+export { OfferScore };

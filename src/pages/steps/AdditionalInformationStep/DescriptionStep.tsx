@@ -74,16 +74,19 @@ const DescriptionInfo = ({
 type DescriptionStepProps = StackProps & TabContentProps;
 
 const DescriptionStep = ({
-  eventId,
+  offerId,
   onSuccessfulChange,
   onChangeCompleted,
   ...props
 }: DescriptionStepProps) => {
   const { t, i18n } = useTranslation();
 
+  // TODO: refactor
+  const eventId = offerId;
+
   const [description, setDescription] = useState('');
 
-  const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
+  const getEventByIdQuery = useGetEventByIdQuery({ id: offerId });
 
   // @ts-expect-error
   const event: Event | undefined = getEventByIdQuery.data;

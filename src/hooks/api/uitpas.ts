@@ -20,6 +20,9 @@ const getCardSystemForEvent = async ({ headers, eventId }) => {
       headers,
     },
   });
+  if (res.status === 404) {
+    return [];
+  }
   if (isErrorObject(res)) {
     // eslint-disable-next-line no-console
     return console.error(res);
@@ -38,7 +41,7 @@ const useGetCardSystemForEventQuery = (
     queryFn: getCardSystemForEvent,
     queryArguments: { eventId },
     enabled: !!eventId,
-    retry: 2,
+    retry: false,
     ...configuration,
   });
 
