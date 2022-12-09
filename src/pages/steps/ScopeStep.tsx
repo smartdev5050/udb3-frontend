@@ -105,9 +105,14 @@ const IconLocation = ({ width }: { width: string }) => {
 const ScopeStep = <TFormData extends FormDataUnion>({
   control,
   name,
+  resetField,
   ...props
 }: Props<TFormData>) => {
   const { t } = useTranslation();
+
+  const resetFieldsAfterScopeChange = () => {
+    resetField('typeAndTheme');
+  };
 
   return (
     <Controller
@@ -122,7 +127,10 @@ const ScopeStep = <TFormData extends FormDataUnion>({
             {...getInlineProps(props)}
           >
             <ToggleBox
-              onClick={() => field.onChange(OfferType.EVENTS)}
+              onClick={() => {
+                resetFieldsAfterScopeChange();
+                field.onChange(OfferType.EVENTS);
+              }}
               active={field.value === OfferType.EVENTS}
               icon={<IconEvent width="50" />}
               text={t('steps.offerTypeStep.types.event')}
@@ -130,7 +138,10 @@ const ScopeStep = <TFormData extends FormDataUnion>({
               minHeight={parseSpacing(7)}
             />
             <ToggleBox
-              onClick={() => field.onChange(OfferType.PLACES)}
+              onClick={() => {
+                resetFieldsAfterScopeChange();
+                field.onChange(OfferType.PLACES);
+              }}
               active={field.value === OfferType.PLACES}
               icon={<IconLocation width="50" />}
               text={t('steps.offerTypeStep.types.place')}
