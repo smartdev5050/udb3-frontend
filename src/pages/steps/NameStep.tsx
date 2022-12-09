@@ -33,10 +33,8 @@ const NameStep = <TFormData extends FormDataUnion>({
         render={({ field }) => {
           return (
             <Stack spacing={2}>
-              <Text fontWeight="bold">
-                {t(`create.name_and_age.name.title_${scope}`)}
-              </Text>
               <FormElement
+                label={t(`create.name_and_age.name.title_${scope}`)}
                 flex={2}
                 id="event-name"
                 Component={

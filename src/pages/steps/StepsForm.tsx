@@ -1,7 +1,10 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { OfferType } from '@/constants/OfferType';
+import { Offer } from '@/types/Offer';
+import { Values } from '@/types/Values';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Link, LinkVariants } from '@/ui/Link';
@@ -11,12 +14,13 @@ import { getValueFromTheme } from '@/ui/theme';
 import { Toast } from '@/ui/Toast';
 
 import { useToast } from '../manage/movies/useToast';
-import { useAddEvent } from './hooks/useAddEvent';
+import { useAddOffer } from './hooks/useAddOffer';
 import { useEditField } from './hooks/useEditField';
 import { FooterStatus, useFooterStatus } from './hooks/useFooterStatus';
 import { useGetEvent } from './hooks/useGetEvent';
+import { useGetPlace } from './hooks/useGetPlace';
 import { useParseStepConfiguration } from './hooks/useParseStepConfiguration';
-import { usePublishEvent } from './hooks/usePublishEvent';
+import { usePublishOffer } from './hooks/usePublishOffer';
 import { PublishLaterModal } from './modals/PublishLaterModal';
 import { FormDataUnion, Steps, StepsConfiguration } from './Steps';
 
@@ -24,8 +28,8 @@ const getValue = getValueFromTheme('createPage');
 
 type StepsFormProps<TFormData extends FormDataUnion> = {
   configurations: Array<StepsConfiguration<TFormData>>;
-  convertFormDataToEvent: (data: any) => any;
-  convertEventToFormData: (event: any) => any;
+  convertFormDataToOffer: (data: any) => any;
+  convertOfferToFormData: (event: any) => any;
   toastConfiguration: any;
   title: string;
   label?: string;
@@ -33,8 +37,8 @@ type StepsFormProps<TFormData extends FormDataUnion> = {
 
 const StepsForm = <TFormData extends FormDataUnion>({
   configurations,
-  convertFormDataToEvent,
-  convertEventToFormData,
+  convertFormDataToOffer,
+  convertOfferToFormData,
   toastConfiguration,
   title,
   label,
@@ -44,26 +48,42 @@ const StepsForm = <TFormData extends FormDataUnion>({
 
   const { handleSubmit, reset } = form;
 
-  const router = useRouter();
+  const { query, push, pathname } = useRouter();
 
   // eventId is set after adding (saving) the event
   // or when entering the page from the edit route
-  const [eventId, setEventId] = useState(
-    (router.query.eventId as string) ?? '',
+  const [offerId, setOfferId] = useState(
+    ((query.eventId as string) || (query.placeId as string)) ?? '',
   );
+
+  const scope = useMemo(() => {
+    if (pathname.startsWith('/events')) {
+      return OfferType.EVENTS;
+    }
+
+    if (pathname.startsWith('/places')) {
+      return OfferType.PLACES;
+    }
+
+    return undefined;
+  }, [pathname]);
 
   const toast = useToast(toastConfiguration);
 
-  const publishEvent = usePublishEvent({
-    id: eventId,
+  const publishEvent = usePublishOffer({
+    scope,
+    id: query.eventId,
     onSuccess: () => {
-      router.push(`/event/${eventId}/preview`);
+      push(`/event/${query.eventId}/preview`);
     },
   });
 
-  const addEvent = useAddEvent({
-    onSuccess: setEventId,
-    convertFormDataToEvent,
+  const addOffer = useAddOffer({
+    onSuccess: (scope, offerId) => {
+      push(`/${scope}/${offerId}/edit`, undefined, { shallow: true });
+      setOfferId(offerId);
+    },
+    convertFormDataToOffer,
     label,
   });
 
@@ -71,7 +91,8 @@ const StepsForm = <TFormData extends FormDataUnion>({
     toast.trigger(editedField);
 
   const { handleChange, fieldLoading } = useEditField<TFormData>({
-    eventId,
+    scope,
+    offerId,
     handleSubmit,
     onSuccess: handleChangeSuccess,
   });
@@ -80,16 +101,19 @@ const StepsForm = <TFormData extends FormDataUnion>({
     false,
   );
 
-  const event = useGetEvent({
-    id: eventId,
-    onSuccess: (event: Event) => {
-      reset(convertEventToFormData(event), {
+  const useGetOffer = scope === OfferType.EVENTS ? useGetEvent : useGetPlace;
+
+  const offer = useGetOffer({
+    id: offerId,
+    onSuccess: (offer: Offer) => {
+      reset(convertOfferToFormData(offer), {
         keepDirty: true,
       });
     },
+    enabled: !!scope,
   });
 
-  const footerStatus = useFooterStatus({ event, form });
+  const footerStatus = useFooterStatus({ offer, form });
 
   return (
     <Page>
@@ -110,7 +134,7 @@ const StepsForm = <TFormData extends FormDataUnion>({
           onChange={handleChange}
           fieldLoading={fieldLoading}
           onChangeSuccess={handleChangeSuccess}
-          eventId={eventId}
+          offerId={offerId}
           form={form}
         />
       </Page.Content>
@@ -142,13 +166,13 @@ const StepsForm = <TFormData extends FormDataUnion>({
                 </Text>,
               ]
             ) : footerStatus === FooterStatus.MANUAL_SAVE ? (
-              <Button onClick={handleSubmit(addEvent)}>
+              <Button onClick={handleSubmit(addOffer)}>
                 {t('create.actions.save')}
               </Button>
             ) : (
               <Inline spacing={3} alignItems="center">
                 <Link
-                  href={`/event/${eventId}/preview`}
+                  href={`/event/${offerId}/preview`}
                   variant={LinkVariants.BUTTON_SUCCESS}
                 >
                   <Text>{t('create.footer.done_editing')}</Text>

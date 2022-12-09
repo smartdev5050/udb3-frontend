@@ -2,6 +2,9 @@ import { useRouter } from 'next/router';
 import { useEffect, useMemo } from 'react';
 import { useQueryClient } from 'react-query';
 
+import { isEvent } from '@/types/Event';
+import { isPlace } from '@/types/Place';
+
 const FooterStatus = {
   HIDDEN: 'HIDDEN',
   PUBLISH: 'PUBLISH',
@@ -9,7 +12,7 @@ const FooterStatus = {
   AUTO_SAVE: 'AUTO_SAVE',
 } as const;
 
-const useFooterStatus = ({ event, form }) => {
+const useFooterStatus = ({ offer, form }) => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -18,19 +21,29 @@ const useFooterStatus = ({ event, form }) => {
   } = form;
 
   const isMutating = queryClient.isMutating();
-  const fetchedEventId = event?.['@id'];
-  const availableFrom = event?.availableFrom;
+  const fetchedOfferId = offer?.['@id'];
+  const availableFrom = offer?.availableFrom;
   const isPlaceDirty = dirtyFields.place || dirtyFields.location;
 
   const footerStatus = useMemo(() => {
-    if (fetchedEventId && !availableFrom) {
+    if (fetchedOfferId && isEvent(offer) && !availableFrom) {
+      return FooterStatus.PUBLISH;
+    }
+    if (fetchedOfferId && isPlace(offer)) {
       return FooterStatus.PUBLISH;
     }
     if (router.route.includes('edit')) return FooterStatus.AUTO_SAVE;
     if (isMutating) return FooterStatus.HIDDEN;
     if (isPlaceDirty) return FooterStatus.MANUAL_SAVE;
     return FooterStatus.HIDDEN;
-  }, [fetchedEventId, availableFrom, isPlaceDirty, isMutating, router.route]);
+  }, [
+    fetchedOfferId,
+    offer,
+    availableFrom,
+    router.route,
+    isMutating,
+    isPlaceDirty,
+  ]);
 
   // scroll effect
   useEffect(() => {

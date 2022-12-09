@@ -1,8 +1,15 @@
 import type { UseQueryOptions } from 'react-query';
 
 import type { CalendarType } from '@/constants/CalendarType';
+import { Calendar } from '@/types/Calendar';
 import type { AttendanceMode, Event } from '@/types/Event';
-import type { BookingAvailability, Status, Term } from '@/types/Offer';
+import type {
+  BookingAvailability,
+  OpeningHours,
+  Status,
+  SubEvent,
+  Term,
+} from '@/types/Offer';
 import type { User } from '@/types/User';
 import type { Values } from '@/types/Values';
 import type { WorkflowStatus } from '@/types/WorkflowStatus';
@@ -25,21 +32,12 @@ import {
 } from './authenticated-query';
 import type { Headers } from './types/Headers';
 
-type TimeSpan = {
-  start: string;
-  end: string;
-};
-
-type Calendar = {
-  calendarType: Values<typeof CalendarType>;
-  timeSpans: TimeSpan[];
-};
-
 type EventArguments = {
   name: string;
-  calendar: Calendar;
-  type: Term;
-  theme: Term;
+  calendarType: Values<typeof CalendarType>;
+  subEvent: SubEvent[];
+  openingHours: OpeningHours[];
+  terms: Term[];
   workflowStatus: WorkflowStatus;
   audienceType: string;
   location: {
@@ -47,6 +45,7 @@ type EventArguments = {
   };
   attendanceMode: Values<typeof AttendanceMode>;
   mainLanguage: string;
+  typicalAgeRange: string;
 };
 type AddEventArguments = EventArguments & { headers: Headers };
 
@@ -54,12 +53,14 @@ const addEvent = async ({
   headers,
   mainLanguage,
   name,
-  calendar,
-  type,
-  theme,
+  calendarType,
+  subEvent,
+  openingHours,
+  terms,
   location,
   audienceType,
   attendanceMode,
+  typicalAgeRange,
 }: AddEventArguments) =>
   fetchFromApi({
     path: '/events/',
@@ -69,12 +70,14 @@ const addEvent = async ({
       body: JSON.stringify({
         mainLanguage,
         name,
-        calendar,
-        type,
-        theme,
+        calendarType,
+        subEvent,
+        openingHours,
+        terms,
         location,
         audienceType,
         attendanceMode,
+        typicalAgeRange,
       }),
     },
   });
@@ -268,7 +271,6 @@ const useGetCalendarSummaryQuery = (
 
 const changeTheme = async ({ headers, id, themeId }) => {
   if (!themeId) {
-    // This will be implemented on the backend https://jira.uitdatabank.be/browse/III-4378
     return fetchFromApi({
       path: `/events/${id.toString()}/theme`,
       options: {
@@ -646,7 +648,7 @@ const publish = async ({ headers, eventId, publicationDate }) =>
     },
   });
 
-const usePublishMutation = (configuration = {}) =>
+const usePublishEventMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: publish,
     ...configuration,
@@ -733,7 +735,7 @@ export {
   useGetEventsByCreatorQuery,
   useGetEventsByIdsQuery,
   useGetEventsToModerateQuery,
-  usePublishMutation,
+  usePublishEventMutation,
   useUpdateImageFromEventMutation,
 };
 

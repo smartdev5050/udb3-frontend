@@ -17,16 +17,17 @@ import { FormDataUnion, StepsConfiguration } from '../Steps';
 import { BookingInfoStep } from './BookingInfoStep';
 import { ContactInfoStep } from './ContactInfoStep';
 import { DescriptionStep } from './DescriptionStep';
-import { EventScore } from './EventScore';
 import { MediaStep } from './MediaStep';
+import { OfferScore } from './OfferScore';
 import { OrganizerStep } from './OrganizerStep';
 import { PriceInformation } from './PriceInformation';
 
 const getGlobalValue = getValueFromTheme('global');
 
 const AdditionalInformationStepVariant = {
-  MINIMAL: 'minimal',
-  EXTENDED: 'extended',
+  MOVIE: 'movie',
+  EVENT: 'event',
+  PLACE: 'place',
 } as const;
 
 type MergedInfo = {
@@ -48,7 +49,7 @@ const Fields = {
 type Field = Values<typeof Fields>;
 
 type TabContentProps = {
-  eventId?: string;
+  offerId?: string;
   onSuccessfulChange: (() => Promise<void>) | ((data: any) => void);
   onChangeCompleted?: (value: boolean) => void;
 };
@@ -56,7 +57,7 @@ type TabContentProps = {
 type TabConfig = {
   field: Field;
   TabContent: FC<TabContentProps & { [prop: string]: unknown }>;
-  shouldShowOnMinimal: boolean;
+  shouldShowOn?: Values<typeof AdditionalInformationStepVariant>[];
   shouldInvalidate: boolean;
   stepProps?: Record<string, unknown>;
 };
@@ -65,44 +66,41 @@ const tabConfigurations: TabConfig[] = [
   {
     field: Fields.DESCRIPTION,
     TabContent: DescriptionStep,
-    shouldShowOnMinimal: true,
     shouldInvalidate: true,
   },
   {
     field: Fields.MEDIA,
     TabContent: MediaStep,
-    shouldShowOnMinimal: true,
     shouldInvalidate: true,
   },
   {
     field: Fields.PRICE_INFO,
     TabContent: PriceInformation,
-    shouldShowOnMinimal: true,
     shouldInvalidate: true,
   },
   {
     field: Fields.CONTACT_INFO,
     TabContent: ContactInfoStep,
-    shouldShowOnMinimal: true,
     shouldInvalidate: false,
   },
   {
     field: Fields.BOOKING_INFO,
     TabContent: BookingInfoStep,
-    shouldShowOnMinimal: true,
     shouldInvalidate: true,
   },
   {
     field: Fields.ORGANIZER,
     TabContent: OrganizerStep,
-    shouldShowOnMinimal: true,
     shouldInvalidate: true,
   },
   {
     field: Fields.AUDIENCE,
     TabContent: Audience,
-    shouldShowOnMinimal: true,
     shouldInvalidate: true,
+    shouldShowOn: [
+      AdditionalInformationStepVariant.EVENT,
+      AdditionalInformationStepVariant.MOVIE,
+    ],
   },
 ];
 
@@ -125,13 +123,13 @@ const TabTitle = ({ field, isCompleted, ...props }: TabTitleProps) => {
 };
 
 type Props = StackProps & {
-  eventId: string;
+  offerId: string;
   onChangeSuccess: (field: Field) => void;
   variant?: Values<typeof AdditionalInformationStepVariant>;
 };
 
 const AdditionalInformationStep = ({
-  eventId,
+  offerId,
   onChangeSuccess,
   variant,
   ...props
@@ -143,12 +141,12 @@ const AdditionalInformationStep = ({
   const invalidateEventQuery = useCallback(
     async (field: Field, shouldInvalidate: boolean) => {
       if (shouldInvalidate) {
-        await queryClient.invalidateQueries(['events', { id: eventId }]);
+        await queryClient.invalidateQueries(['events', { id: offerId }]);
       }
       onChangeSuccess(field);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [eventId, queryClient],
+    [offerId, queryClient],
   );
 
   const [tab, setTab] = useState('description');
@@ -190,15 +188,15 @@ const AdditionalInformationStep = ({
       >
         {tabConfigurations.map(
           ({
-            shouldShowOnMinimal,
+            shouldShowOn,
             field,
             shouldInvalidate,
             TabContent,
             stepProps,
           }) => {
-            const shouldShowTab =
-              variant !== AdditionalInformationStepVariant.MINIMAL ||
-              shouldShowOnMinimal;
+            const shouldShowTab = shouldShowOn
+              ? shouldShowOn.includes(variant)
+              : true;
 
             if (!shouldShowTab) return null;
 
@@ -215,7 +213,7 @@ const AdditionalInformationStep = ({
               >
                 <TabContent
                   minHeight="350px"
-                  eventId={eventId}
+                  offerId={offerId}
                   onChangeCompleted={(isCompleted) => {
                     if (completedFields[field] === isCompleted) return;
 
@@ -234,19 +232,16 @@ const AdditionalInformationStep = ({
           },
         )}
       </Tabs>
-      <EventScore eventId={eventId} completedFields={completedFields} />
+      <OfferScore offerId={offerId} completedFields={completedFields} />
     </Stack>
   );
-};
-
-AdditionalInformationStep.defaultProps = {
-  variant: AdditionalInformationStepVariant.EXTENDED,
 };
 
 const additionalInformationStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: AdditionalInformationStep,
   title: ({ t }) => t(`movies.create.step5.title`),
-  shouldShowStep: ({ eventId }) => !!eventId,
+  shouldShowStep: ({ offerId }) => !!offerId,
+  variant: AdditionalInformationStepVariant.EVENT,
 };
 
 export type { Field, MergedInfo, TabContentProps };

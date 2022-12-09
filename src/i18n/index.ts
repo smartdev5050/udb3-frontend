@@ -2,6 +2,8 @@ import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 
+import { Values } from '@/types/Values';
+
 import de from './de.json';
 import fr from './fr.json';
 import nl from './nl.json';
@@ -11,6 +13,8 @@ const SupportedLanguages = {
   FR: 'fr',
   DE: 'de',
 } as const;
+
+type SupportedLanguage = Values<typeof SupportedLanguages>;
 
 i18n.use(LanguageDetector);
 i18n.use(initReactI18next);
@@ -39,3 +43,4 @@ i18n
   });
 
 export { i18n as default, SupportedLanguages };
+export type { SupportedLanguage };

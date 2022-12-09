@@ -2,10 +2,15 @@ import { Controller, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
+import { OfferType } from '@/constants/OfferType';
 import {
-  useChangeThemeMutation,
-  useChangeTypeMutation,
+  useChangeThemeMutation as useChangeThemeOnEventMutation,
+  useChangeTypeMutation as useChangeTypeOnEventMutation,
 } from '@/hooks/api/events';
+import {
+  useChangeThemeMutation as useChangeThemeOnPlaceMutation,
+  useChangeTypeMutation as useChangeTypeOnPlaceMutation,
+} from '@/hooks/api/places';
 import { useGetTypesByScopeQuery } from '@/hooks/api/types';
 import { parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
@@ -18,17 +23,25 @@ import { getValueFromTheme } from '@/ui/theme';
 
 import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
 
-const getValue = getValueFromTheme('createPage');
 const getGlobalValue = getValueFromTheme('global');
 
 const useEditTypeAndTheme = <TFormData extends FormDataUnion>({
-  eventId,
+  scope,
+  offerId,
   onSuccess,
 }) => {
+  const useChangeTypeMutation =
+    scope === OfferType.EVENTS
+      ? useChangeTypeOnEventMutation
+      : useChangeTypeOnPlaceMutation;
   const changeTypeMutation = useChangeTypeMutation({
     onSuccess: () => onSuccess('typeAndTheme'),
   });
 
+  const useChangeThemeMutation =
+    scope === OfferType.EVENTS
+      ? useChangeThemeOnEventMutation
+      : useChangeThemeOnPlaceMutation;
   const changeThemeMutation = useChangeThemeMutation({
     onSuccess: () => onSuccess('typeAndTheme'),
   });
@@ -37,12 +50,12 @@ const useEditTypeAndTheme = <TFormData extends FormDataUnion>({
     if (!typeAndTheme.type) return;
 
     await changeTypeMutation.mutateAsync({
-      id: eventId,
+      id: offerId,
       typeId: typeAndTheme.type?.id,
     });
 
     await changeThemeMutation.mutateAsync({
-      id: eventId,
+      id: offerId,
       themeId: typeAndTheme.theme?.id,
     });
   };
@@ -55,7 +68,6 @@ type Props<TFormData extends FormDataUnion> = StepProps<TFormData> & {
 const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
   control,
   name,
-  getValues,
   onChange,
   shouldHideType,
 }: Props<TFormData>) => {

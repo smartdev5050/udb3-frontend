@@ -16,10 +16,10 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
-import type { FormData as EventFormData } from '../create/EventForm';
+import type { FormData as OfferFormData } from '../create/OfferForm';
 import type { FormData as MovieFormData } from '../manage/movies/MovieForm';
 
-type FormDataUnion = MovieFormData & EventFormData;
+type FormDataUnion = MovieFormData & OfferFormData;
 
 type Field<TFormData extends FormDataUnion> = ControllerRenderProps<
   TFormData,
@@ -36,7 +36,7 @@ type StepsConfiguration<TFormData extends FormDataUnion> = {
   validation?: any;
   shouldShowStep?: (
     data: UseFormReturn<TFormData> & {
-      eventId?: string;
+      offerId?: string;
     },
   ) => boolean;
   stepProps?: Record<string, unknown>;
@@ -111,7 +111,7 @@ type StepProps<TFormData extends FormDataUnion> = UseFormReturn<TFormData> & {
 };
 
 type StepsProps<TFormData extends FormDataUnion> = {
-  eventId?: string;
+  offerId?: string;
   form: UseFormReturn<TFormData>;
   fieldLoading?: string;
   onChange?: (editedField: string) => void;
@@ -151,7 +151,7 @@ const Steps = <TFormData extends FormDataUnion>({
   configurations,
   fieldLoading,
   form,
-  eventId,
+  offerId,
   ...props
 }: StepsProps<TFormData>) => {
   const { t } = useTranslation();
@@ -168,7 +168,7 @@ const Steps = <TFormData extends FormDataUnion>({
     return (
       configurationsWithComponent[index]?.shouldShowStep?.({
         ...form,
-        eventId,
+        offerId,
       }) ?? false
     );
   };
@@ -204,7 +204,7 @@ const Steps = <TFormData extends FormDataUnion>({
                 onChange={() => onChange(name)}
                 loading={!!(name && fieldLoading === name)}
                 name={name}
-                eventId={eventId}
+                eventId={offerId}
                 variant={variant}
                 {...form}
                 {...props}
