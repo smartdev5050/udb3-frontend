@@ -10,6 +10,7 @@ import { Text } from '@/ui/Text';
 
 import { CultuurKuurIcon } from '../CultuurKuurIcon';
 import { FlagIcon } from '../FlagIcon';
+import { Features, NewFeatureTooltip } from '../NewFeatureTooltip';
 
 type Props = BoxProps & {
   value: Country;
