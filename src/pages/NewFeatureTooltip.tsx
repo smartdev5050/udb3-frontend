@@ -1,6 +1,7 @@
 import { useAnnouncementModalContext } from '@/context/AnnouncementModalContext';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
+import { getInlineProps, InlineProps } from '@/ui/Inline';
 import { getValueFromTheme } from '@/ui/theme';
 
 const getValue = getValueFromTheme('newFeatureTooltip');
@@ -14,9 +15,9 @@ const Features = {
 
 type Props = {
   featureUUID: string;
-};
+} & InlineProps;
 
-const NewFeatureTooltip = ({ featureUUID }: Props) => {
+const NewFeatureTooltip = ({ featureUUID, ...props }: Props) => {
   const [_, setAnnouncementModalContext] = useAnnouncementModalContext();
 
   return (
@@ -29,6 +30,7 @@ const NewFeatureTooltip = ({ featureUUID }: Props) => {
         }))
       }
       variant={ButtonVariants.UNSTYLED}
+      {...getInlineProps(props)}
     >
       <Icon color={getValue('iconColor')} name={Icons.QUESTION_CIRCLE} />
     </Button>
