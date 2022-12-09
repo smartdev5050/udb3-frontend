@@ -253,6 +253,9 @@ const BookingInfoStep = ({
 }: Props) => {
   const { t } = useTranslation();
 
+  // TODO: refactor
+  const eventId = offerId;
+
   const formComponent = useRef<HTMLFormElement>();
 
   const UrlLabelType = {

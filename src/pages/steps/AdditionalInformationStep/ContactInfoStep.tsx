@@ -75,6 +75,9 @@ const ContactInfoStep = ({
 }: Props) => {
   const { t } = useTranslation();
 
+  // TODO: refactor
+  const eventId = offerId;
+
   const getEventByIdQuery = useGetEventByIdQuery({ id: offerId });
 
   const [contactInfoState, setContactInfoState] = useState<NewContactInfo[]>(

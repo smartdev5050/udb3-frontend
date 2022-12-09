@@ -81,6 +81,9 @@ const DescriptionStep = ({
 }: DescriptionStepProps) => {
   const { t, i18n } = useTranslation();
 
+  // TODO: refactor
+  const eventId = offerId;
+
   const [description, setDescription] = useState('');
 
   const getEventByIdQuery = useGetEventByIdQuery({ id: offerId });

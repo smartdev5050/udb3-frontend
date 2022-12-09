@@ -40,6 +40,9 @@ const MediaStep = ({
 }: Props) => {
   const { i18n } = useTranslation();
 
+  // TODO: refactor
+  const eventId = offerId;
+
   const getEventByIdQuery = useGetEventByIdQuery({ id: offerId });
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
