@@ -57,11 +57,10 @@ const Footer = ({
   const { t, i18n } = useTranslation();
   const { setCookie } = useCookiesWithOptions(['udb-language']);
 
-  const defaultHandleChangeLanguage = (
-    language: Values<typeof SupportedLanguages>,
-  ) => () => {
-    setCookie('udb-language', language);
-  };
+  const defaultHandleChangeLanguage =
+    (language: Values<typeof SupportedLanguages>) => () => {
+      setCookie('udb-language', language);
+    };
 
   const handleChangeLanguage = onChangeLanguage ?? defaultHandleChangeLanguage;
 

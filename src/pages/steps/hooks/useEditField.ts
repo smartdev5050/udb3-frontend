@@ -40,9 +40,8 @@ const useEditField = <TFormData extends FormDataUnion>({
   const editNameAndAgeRange = useEditNameAndAgeRange<TFormData>(editArguments);
   const editCalendar = useEditCalendar<TFormData>(editArguments);
   const editLocation = useEditPlace<TFormData>(editArguments);
-  const editNameAndProduction = useEditNameAndProduction<TFormData>(
-    editArguments,
-  );
+  const editNameAndProduction =
+    useEditNameAndProduction<TFormData>(editArguments);
 
   const handleChange = (editedField: string) => {
     if (!offerId) return;

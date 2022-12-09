@@ -21,16 +21,18 @@ type InlineProps = {
 
 type Props = BoxProps & InlineProps;
 
-const parseStackOnProperty = () => ({ stackOn }: Props) => {
-  if (!stackOn) {
-    return;
-  }
-  return css`
-    @media (max-width: ${(props) => props.theme.breakpoints[stackOn]}px) {
-      flex-direction: column;
+const parseStackOnProperty =
+  () =>
+  ({ stackOn }: Props) => {
+    if (!stackOn) {
+      return;
     }
-  `;
-};
+    return css`
+      @media (max-width: ${(props) => props.theme.breakpoints[stackOn]}px) {
+        flex-direction: column;
+      }
+    `;
+  };
 
 const inlineProps = css`
   display: flex;

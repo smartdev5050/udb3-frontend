@@ -16,9 +16,8 @@ const BookingAvailabilityModal = ({
 }) => {
   const { t } = useTranslation();
 
-  const [bookingAvailabilityType, setBookingAvailabilityType] = useState(
-    'Available',
-  );
+  const [bookingAvailabilityType, setBookingAvailabilityType] =
+    useState('Available');
 
   return (
     <Modal

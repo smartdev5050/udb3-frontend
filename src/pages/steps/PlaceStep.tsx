@@ -97,11 +97,14 @@ const PlaceStep = <TFormData extends FormDataUnion>({
     { enabled: !!searchInput },
   );
 
-  // @ts-expect-error
-  const places = useMemo<Place[]>(() => useGetPlacesQuery.data?.member ?? [], [
+  const places = useMemo<Place[]>(
     // @ts-expect-error
-    useGetPlacesQuery.data?.member,
-  ]);
+    () => useGetPlacesQuery.data?.member ?? [],
+    [
+      // @ts-expect-error
+      useGetPlacesQuery.data?.member,
+    ],
+  );
 
   // @ts-ignore
   const place = watch('place');

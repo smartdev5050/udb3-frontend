@@ -190,9 +190,9 @@ const Button = ({
   active,
   ...props
 }: ButtonProps) => {
-  const isBootstrapVariant = (Object.values(
-    BootStrapVariants,
-  ) as string[]).includes(variant);
+  const isBootstrapVariant = (
+    Object.values(BootStrapVariants) as string[]
+  ).includes(variant);
   const isLinkVariant = variant === ButtonVariants.LINK;
 
   // @ts-expect-error

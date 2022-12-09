@@ -97,9 +97,8 @@ const StepsForm = <TFormData extends FormDataUnion>({
     onSuccess: handleChangeSuccess,
   });
 
-  const [isPublishLaterModalVisible, setIsPublishLaterModalVisible] = useState(
-    false,
-  );
+  const [isPublishLaterModalVisible, setIsPublishLaterModalVisible] =
+    useState(false);
 
   const useGetOffer = scope === OfferType.EVENTS ? useGetEvent : useGetPlace;
 

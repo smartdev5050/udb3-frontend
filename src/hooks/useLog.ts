@@ -3,10 +3,11 @@ import pick from 'lodash/pick';
 import { useEffect, useRef } from 'react';
 
 const diff = (oldValue, newValue) => {
-  const { added = {}, deleted = {}, updated = {} } = detailedDiff(
-    oldValue,
-    newValue,
-  ) as {
+  const {
+    added = {},
+    deleted = {},
+    updated = {},
+  } = detailedDiff(oldValue, newValue) as {
     added: Record<string, unknown>;
     deleted: Record<string, unknown>;
     updated: Record<string, unknown>;

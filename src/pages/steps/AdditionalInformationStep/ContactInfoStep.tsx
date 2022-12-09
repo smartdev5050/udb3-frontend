@@ -39,7 +39,8 @@ type NewContactInfo = {
 };
 
 const EMAIL_REGEX: RegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-const URL_REGEX: RegExp = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
+const URL_REGEX: RegExp =
+  /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
 const PHONE_REGEX: RegExp = /^[0-9\/_.+ ]*$/;
 
 const isValidEmail = (email: string) => {
@@ -115,12 +116,11 @@ const ContactInfoStep = ({
   });
 
   const parseNewContactInfo = (newContactInfo: NewContactInfo[]) => {
-    const [email, phone, url] = Object.values(
-      ContactInfoTypes,
-    ).map((infoType) =>
-      newContactInfo
-        .filter((info) => info.type === infoType)
-        .map((info) => info.value),
+    const [email, phone, url] = Object.values(ContactInfoTypes).map(
+      (infoType) =>
+        newContactInfo
+          .filter((info) => info.type === infoType)
+          .map((info) => info.value),
     );
 
     return { email, phone, url };

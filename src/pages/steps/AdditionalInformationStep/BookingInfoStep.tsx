@@ -322,18 +322,12 @@ const BookingInfoStep = ({
   // @ts-expect-error
   const bookingInfo = getEventByIdQuery.data?.bookingInfo;
 
-  const {
-    register,
-    handleSubmit,
-    formState,
-    watch,
-    setValue,
-    getValues,
-  } = useForm<FormData>({
-    mode: 'onBlur',
-    resolver: yupResolver(schema),
-    reValidateMode: 'onBlur',
-  });
+  const { register, handleSubmit, formState, watch, setValue, getValues } =
+    useForm<FormData>({
+      mode: 'onBlur',
+      resolver: yupResolver(schema),
+      reValidateMode: 'onBlur',
+    });
 
   useEffect(() => {
     if (!bookingInfo) return;
