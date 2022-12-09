@@ -192,7 +192,6 @@ const CalendarStep = <TFormData extends FormDataUnion>({
         ? calendarStateType
         : Object.keys(calendarStateType)[0];
 
-    console.log('GOING TO MUTATE');
     await changeCalendarMutation.mutateAsync({
       id: offerId,
       calendarType,
