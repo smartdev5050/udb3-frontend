@@ -149,11 +149,7 @@ const scopeStepConfiguration: StepsConfiguration<FormDataUnion> = {
   name: 'scope',
   title: ({ t }) => t(`create.scope.title`),
   shouldShowStep: ({ watch, offerId, formState }) => {
-    return (
-      !offerId &&
-      !watch('typeAndTheme')?.type?.id &&
-      !formState.dirtyFields.typeAndTheme
-    );
+    return !offerId;
   },
 };
 
