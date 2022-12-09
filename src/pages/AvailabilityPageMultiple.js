@@ -49,9 +49,10 @@ const AvailabilityPageMultiple = ({ event, refetchEvent }) => {
 
   const [selectedRows, setSelectedRows] = useState([]);
 
-  const selectedSubEventIds = useMemo(() => selectedRows.map((row) => row.id), [
-    selectedRows,
-  ]);
+  const selectedSubEventIds = useMemo(
+    () => selectedRows.map((row) => row.id),
+    [selectedRows],
+  );
 
   const handleSuccess = async () => {
     await refetchEvent();

@@ -81,36 +81,40 @@ const JobLogger = ({ visible, onClose, onStatusChange }: JobLoggerProps) => {
     [activeJobs],
   );
 
-  const updateJobState = (newJobState: Values<typeof JobStates>) => ({
-    job_id: jobId,
-    location,
-  }: {
-    // eslint-disable-next-line camelcase
-    job_id: string;
-    location: string;
-  }) =>
-    setJobs((previousJobs) =>
-      previousJobs.map((job) => {
-        const { id, finishedAt, exportUrl, state } = job;
-        if (id !== jobId) return job;
+  const updateJobState =
+    (newJobState: Values<typeof JobStates>) =>
+    ({
+      job_id: jobId,
+      location,
+    }: {
+      // eslint-disable-next-line camelcase
+      job_id: string;
+      location: string;
+    }) =>
+      setJobs((previousJobs) =>
+        previousJobs.map((job) => {
+          const { id, finishedAt, exportUrl, state } = job;
+          if (id !== jobId) return job;
 
-        if (state === JobStates.FAILED) {
-          // Jobs can't transition from a failed status to another status.
-          return job;
-        }
+          if (state === JobStates.FAILED) {
+            // Jobs can't transition from a failed status to another status.
+            return job;
+          }
 
-        return {
-          ...job,
-          state: newJobState,
-          finishedAt: ([JobStates.FINISHED, JobStates.FAILED] as Array<
-            Values<typeof JobStates>
-          >).includes(newJobState)
-            ? new Date()
-            : finishedAt,
-          exportUrl: location || exportUrl,
-        };
-      }),
-    );
+          return {
+            ...job,
+            state: newJobState,
+            finishedAt: (
+              [JobStates.FINISHED, JobStates.FAILED] as Array<
+                Values<typeof JobStates>
+              >
+            ).includes(newJobState)
+              ? new Date()
+              : finishedAt,
+            exportUrl: location || exportUrl,
+          };
+        }),
+      );
 
   const addJob = ({ job }: { job: JobType }) =>
     setJobs((previousJobs) => [

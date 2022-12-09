@@ -143,7 +143,7 @@ const getPlacesByQuery = async ({
       embed: 'true',
     },
     options: {
-      headers: (headers as unknown) as Record<string, string>,
+      headers: headers as unknown as Record<string, string>,
     },
   });
 

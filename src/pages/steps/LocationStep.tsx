@@ -116,12 +116,8 @@ const LocationStep = <TFormData extends FormDataUnion>({
         control={control}
         name={name}
         render={({ field }) => {
-          const {
-            isOnline,
-            onlineUrl,
-            municipality,
-            country,
-          } = field?.value as OfferFormData['location'];
+          const { isOnline, onlineUrl, municipality, country } =
+            field?.value as OfferFormData['location'];
 
           const OnlineToggle = (
             <Inline>

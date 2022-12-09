@@ -31,8 +31,10 @@ const useAddOffer = <TFormData extends FormDataUnion>({
   const addLabelMutationOnEvent = useAddLabelOnEventMutation();
   const addLabelMutationOnPlace = useAddLabelOnPlaceMutation();
 
-  const createProductionWithEventsMutation = useCreateProductionWithEventsMutation();
-  const addEventToProductionByIdMutation = useAddEventToProductionByIdMutation();
+  const createProductionWithEventsMutation =
+    useCreateProductionWithEventsMutation();
+  const addEventToProductionByIdMutation =
+    useAddEventToProductionByIdMutation();
 
   return async (formData: TFormData) => {
     const { scope, production } = formData;

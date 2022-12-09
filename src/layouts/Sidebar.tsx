@@ -277,10 +277,8 @@ const Sidebar = () => {
   const [jobLoggerState, setJobLoggerState] = useState(JobLoggerStates.IDLE);
   const sidebarComponent = useRef();
 
-  const [
-    announcementModalContext,
-    setAnnouncementModalContext,
-  ] = useAnnouncementModalContext();
+  const [announcementModalContext, setAnnouncementModalContext] =
+    useAnnouncementModalContext();
 
   const [activeAnnouncementId, setActiveAnnouncementId] = useState();
 

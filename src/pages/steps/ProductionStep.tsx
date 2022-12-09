@@ -44,9 +44,12 @@ const useEditNameAndProduction = <TFormData extends FormDataUnion>({
 }) => {
   const getEventByIdQuery = useGetEventByIdQuery({ id: offerId });
 
-  const createProductionWithEventsMutation = useCreateProductionWithEventsMutation();
-  const addEventToProductionByIdMutation = useAddEventToProductionByIdMutation();
-  const deleteEventFromProductionByIdMutation = useDeleteEventFromProductionByIdMutation();
+  const createProductionWithEventsMutation =
+    useCreateProductionWithEventsMutation();
+  const addEventToProductionByIdMutation =
+    useAddEventToProductionByIdMutation();
+  const deleteEventFromProductionByIdMutation =
+    useDeleteEventFromProductionByIdMutation();
 
   const changeNameMutation = useChangeNameMutation({
     onSuccess: () => onSuccess('name'),
@@ -109,10 +112,13 @@ const ProductionStep = <TFormData extends FormDataUnion>({
   );
 
   // @ts-expect-error
-  const productions = useMemo(() => getProductionsQuery.data?.member ?? [], [
-    // @ts-expect-error
-    getProductionsQuery.data?.member,
-  ]);
+  const productions = useMemo(
+    () => getProductionsQuery.data?.member ?? [],
+    [
+      // @ts-expect-error
+      getProductionsQuery.data?.member,
+    ],
+  );
 
   return (
     <Controller

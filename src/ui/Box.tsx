@@ -261,24 +261,25 @@ const remInPixels = 15;
 
 const FALSY_VALUES = [null, undefined, false, '', NaN, 0] as const;
 
-const wrapStatementWithBreakpoint = (
-  breakpoint: string,
-  statementToWrap: string | (() => FlattenInterpolation<{ theme: Theme }>),
-) => () => css`
-  @media (max-width: ${breakpoint}px) {
-    ${statementToWrap}
-  }
-`;
+const wrapStatementWithBreakpoint =
+  (
+    breakpoint: string,
+    statementToWrap: string | (() => FlattenInterpolation<{ theme: Theme }>),
+  ) =>
+  () =>
+    css`
+      @media (max-width: ${breakpoint}px) {
+        ${statementToWrap}
+      }
+    `;
 
-const createCSSStatement = (
-  key: string,
-  value: UIPropValue<ValidUIPropTypes>,
-  parser?: Parser,
-) => () => {
-  return css`
-    ${kebabCase(key)}: ${parser ? parser(value) : value};
-  `;
-};
+const createCSSStatement =
+  (key: string, value: UIPropValue<ValidUIPropTypes>, parser?: Parser) =>
+  () => {
+    return css`
+      ${kebabCase(key)}: ${parser ? parser(value) : value};
+    `;
+  };
 
 const isString = (value: unknown): value is string => {
   if (typeof value === 'string' || value instanceof String) return true;
@@ -317,86 +318,84 @@ const isDefined = <T,>(value: T | undefined | null): value is T => {
   return value !== undefined && value !== null;
 };
 
-const parseProperty = (key: string, parser?: Parser, customValue?: unknown) => (
-  props: UnknownProps,
-) => {
-  const value = customValue ?? props[key];
+const parseProperty =
+  (key: string, parser?: Parser, customValue?: unknown) =>
+  (props: UnknownProps) => {
+    const value = customValue ?? props[key];
 
-  if (!isUIProp(value)) return css``;
+    if (!isUIProp(value)) return css``;
 
-  const parsedValue = isUIPropObject(value) ? value : createUIPropObject(value);
+    const parsedValue = isUIPropObject(value)
+      ? value
+      : createUIPropObject(value);
 
-  const { default: defaultValue, hover, ...rest } = parsedValue;
+    const { default: defaultValue, hover, ...rest } = parsedValue;
 
-  const style = css`
-    ${isDefined<UIPropValue<ValidUIPropTypes>>(defaultValue) &&
-    createCSSStatement(key, defaultValue, parser)}
-    ${isDefined<UIPropValue<ValidUIPropTypes>>(hover) &&
-    css`
-      :hover {
-        ${createCSSStatement(key, hover, parser)}
-      }
-    `}
-  `;
-
-  if (Object.keys(rest).length === 0) {
-    return style;
-  }
-
-  const parsedBreakpoints = Object.entries(rest)
-    .map(([breakpoint]) => [
-      props?.theme?.breakpoints?.[breakpoint],
-      parsedValue?.[breakpoint],
-    ])
-    .sort(([valueA], [valueB]) => valueA - valueB);
-
-  return parsedBreakpoints.reduce((acc, [breakpoint, val], index) => {
-    if (!breakpoint || val === undefined) return acc;
-    return css`
-      ${wrapStatementWithBreakpoint(
-        breakpoint,
-        createCSSStatement(key, val, parser),
-      )};
-      ${acc};
+    const style = css`
+      ${isDefined<UIPropValue<ValidUIPropTypes>>(defaultValue) &&
+      createCSSStatement(key, defaultValue, parser)}
+      ${isDefined<UIPropValue<ValidUIPropTypes>>(hover) &&
+      css`
+        :hover {
+          ${createCSSStatement(key, hover, parser)}
+        }
+      `}
     `;
-  }, style);
-};
 
-const parseSpacing = (value: UIPropValue<number>) => (
-  props?: ThemeProps<Theme>,
-) => {
-  const parsedValue = typeof value === 'function' ? value(props) : value;
+    if (Object.keys(rest).length === 0) {
+      return style;
+    }
 
-  if (value === 0) return '0rem';
+    const parsedBreakpoints = Object.entries(rest)
+      .map(([breakpoint]) => [
+        props?.theme?.breakpoints?.[breakpoint],
+        parsedValue?.[breakpoint],
+      ])
+      .sort(([valueA], [valueB]) => valueA - valueB);
 
-  return `
+    return parsedBreakpoints.reduce((acc, [breakpoint, val], index) => {
+      if (!breakpoint || val === undefined) return acc;
+      return css`
+        ${wrapStatementWithBreakpoint(
+          breakpoint,
+          createCSSStatement(key, val, parser),
+        )};
+        ${acc};
+      `;
+    }, style);
+  };
+
+const parseSpacing =
+  (value: UIPropValue<number>) => (props?: ThemeProps<Theme>) => {
+    const parsedValue = typeof value === 'function' ? value(props) : value;
+
+    if (value === 0) return '0rem';
+
+    return `
   ${(1 / remInPixels) * 2 ** parsedValue}rem
 `;
-};
+  };
 
-const parseDimension = (value: UIPropValue<string | number>) => (
-  props: ThemeProps<Theme>,
-) => {
-  const parsedValue = typeof value === 'function' ? value(props) : value;
+const parseDimension =
+  (value: UIPropValue<string | number>) => (props: ThemeProps<Theme>) => {
+    const parsedValue = typeof value === 'function' ? value(props) : value;
 
-  if (!isString(parsedValue)) {
-    return `${Number(parsedValue)}px`;
-  }
-  return parsedValue;
-};
+    if (!isString(parsedValue)) {
+      return `${Number(parsedValue)}px`;
+    }
+    return parsedValue;
+  };
 
-const parseShorthandProperty = (
-  shorthand: string,
-  propsToChange: string[],
-  parser: Parser,
-) => (props: UnknownProps) =>
-  propsToChange.reduce(
-    (acc, val) => css`
-      ${parseProperty(val, parser, props[shorthand])};
-      ${acc};
-    `,
-    css``,
-  );
+const parseShorthandProperty =
+  (shorthand: string, propsToChange: string[], parser: Parser) =>
+  (props: UnknownProps) =>
+    propsToChange.reduce(
+      (acc, val) => css`
+        ${parseProperty(val, parser, props[shorthand])};
+        ${acc};
+      `,
+      css``,
+    );
 
 const boxProps = css`
   ${parseProperty('position')};

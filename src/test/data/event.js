@@ -134,10 +134,8 @@ const eventWithSubEvents = {
       url: ['http://www.ugc.be'],
     },
     description: {
-      nl:
-        'De voormalige Eldorado, met een filmzaal met mythische dimensies en een prachtig bewaard art deco kader. Een gevarieerd en internationaal aanbod.',
-      fr:
-        'C\u2019est l\u2019ancien Eldorado, salle de l\u00e9gende, avec sa grande salle Art d\u00e9co conserv\u00e9e. Au niveau de la programmation, les grandes productions internationales c\u00f4toient les derni\u00e8res Palmes d\u2019Or.',
+      nl: 'De voormalige Eldorado, met een filmzaal met mythische dimensies en een prachtig bewaard art deco kader. Een gevarieerd en internationaal aanbod.',
+      fr: 'C\u2019est l\u2019ancien Eldorado, salle de l\u00e9gende, avec sa grande salle Art d\u00e9co conserv\u00e9e. Au niveau de la programmation, les grandes productions internationales c\u00f4toient les derni\u00e8res Palmes d\u2019Or.',
     },
     status: { type: 'Available' },
   },

@@ -38,15 +38,13 @@ const Index = () => {
   const [activeProductionId, setActiveProductionId] = useState('');
   const [selectedEventIds, setSelectedEventIds] = useState('');
   const [toBeAddedEventId, setToBeAddedEventId] = useState('');
-  const [toBeChangedProductionName, setToBeChangedProductionName] = useState(
-    '',
-  );
+  const [toBeChangedProductionName, setToBeChangedProductionName] =
+    useState('');
 
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [isAddActionVisible, setIsAddActionVisible] = useState(false);
-  const [isChangeNameActionVisible, setIsChangeNameActionVisible] = useState(
-    false,
-  );
+  const [isChangeNameActionVisible, setIsChangeNameActionVisible] =
+    useState(false);
   const [currentPageProductions, setCurrentPageProductions] = useState(1);
   const [errorMessageEvents, setErrorMessageEvents] = useState('');
 

@@ -85,9 +85,9 @@ const Job = ({
 }: JobProps) => {
   const { t, i18n } = useTranslation();
 
-  const isDone = ([JobStates.FINISHED, JobStates.FAILED] as Array<
-    Values<typeof JobStates>
-  >).includes(state);
+  const isDone = (
+    [JobStates.FINISHED, JobStates.FAILED] as Array<Values<typeof JobStates>>
+  ).includes(state);
 
   const timeAgo = useMemo(
     () =>

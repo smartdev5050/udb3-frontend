@@ -16,7 +16,8 @@ type Props = {
   onClose: () => void;
 };
 
-const ALLOWED_VIDEO_SOURCES_REGEX: RegExp = /^http(s?):\/\/(www\.)?((youtube\.com\/watch\?v=([^/#&?]*))|(vimeo\.com\/([^/#&?]*))|(youtu\.be\/([^/#&?]*)))/;
+const ALLOWED_VIDEO_SOURCES_REGEX: RegExp =
+  /^http(s?):\/\/(www\.)?((youtube\.com\/watch\?v=([^/#&?]*))|(vimeo\.com\/([^/#&?]*))|(youtu\.be\/([^/#&?]*)))/;
 
 type FormData = {
   link: string;

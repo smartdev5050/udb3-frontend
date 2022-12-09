@@ -76,79 +76,77 @@ const redirectToLogin = (cookies, req, resolvedUrl) => {
   };
 };
 
-const getApplicationServerSideProps = (callbackFn) => async ({
-  req,
-  query,
-  resolvedUrl,
-}) => {
-  const { publicRuntimeConfig } = getConfig();
-  if (publicRuntimeConfig.environment === 'development') {
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
-  }
-
-  const rawCookies = req?.headers?.cookie ?? '';
-
-  const cookies = new Cookies(rawCookies, defaultCookieOptions);
-
-  if (!isTokenValid(query?.jwt ?? cookies.get('token'))) {
-    return redirectToLogin(cookies, req, resolvedUrl);
-  }
-
-  // set token in req.headers.cookie so that the token is known when prefetching a request
-  if (query.jwt && cookies.get('token') !== query.jwt) {
-    cookies.set('token', query.jwt);
-  }
-
-  req.headers.cookie = cookies.toString();
-
-  const isDynamicUrl = !!query.params;
-  const path = isDynamicUrl ? `/${query.params.join('/')}` : resolvedUrl;
-
-  const redirect = getRedirect(
-    path,
-    publicRuntimeConfig.environment,
-    cookies.getAll(),
-  );
-
-  if (redirect) {
-    // Don't include the `params` in the redirect URL's query.
-    delete query.params;
-    const queryParameters = new URLSearchParams(query);
-
-    // Return the redirect as-is if there are no additional query parameters
-    // to append.
-    if (!queryParameters.has('jwt')) {
-      return { redirect };
+const getApplicationServerSideProps =
+  (callbackFn) =>
+  async ({ req, query, resolvedUrl }) => {
+    const { publicRuntimeConfig } = getConfig();
+    if (publicRuntimeConfig.environment === 'development') {
+      process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
     }
 
-    // Append query parameters to the redirect destination.
-    const glue = redirect.destination.includes('?') ? '&' : '?';
-    const redirectUrl = `${
-      redirect.destination
-    }${glue}jwt=${queryParameters.get('jwt')}`;
-    return { redirect: { ...redirect, destination: redirectUrl } };
-  }
+    const rawCookies = req?.headers?.cookie ?? '';
 
-  const queryClient = new QueryClient();
+    const cookies = new Cookies(rawCookies, defaultCookieOptions);
 
-  try {
-    await useGetUserQuery({ req, queryClient });
-  } catch (error) {
-    if (error instanceof FetchError) {
+    if (!isTokenValid(query?.jwt ?? cookies.get('token'))) {
       return redirectToLogin(cookies, req, resolvedUrl);
     }
-  }
 
-  req.headers.cookie = cookies.toString();
+    // set token in req.headers.cookie so that the token is known when prefetching a request
+    if (query.jwt && cookies.get('token') !== query.jwt) {
+      cookies.set('token', query.jwt);
+    }
 
-  if (!callbackFn) return { props: { cookies: cookies.toString() } };
+    req.headers.cookie = cookies.toString();
 
-  return await callbackFn({
-    req,
-    query,
-    queryClient,
-    cookies: cookies.toString(),
-  });
-};
+    const isDynamicUrl = !!query.params;
+    const path = isDynamicUrl ? `/${query.params.join('/')}` : resolvedUrl;
+
+    const redirect = getRedirect(
+      path,
+      publicRuntimeConfig.environment,
+      cookies.getAll(),
+    );
+
+    if (redirect) {
+      // Don't include the `params` in the redirect URL's query.
+      delete query.params;
+      const queryParameters = new URLSearchParams(query);
+
+      // Return the redirect as-is if there are no additional query parameters
+      // to append.
+      if (!queryParameters.has('jwt')) {
+        return { redirect };
+      }
+
+      // Append query parameters to the redirect destination.
+      const glue = redirect.destination.includes('?') ? '&' : '?';
+      const redirectUrl = `${
+        redirect.destination
+      }${glue}jwt=${queryParameters.get('jwt')}`;
+      return { redirect: { ...redirect, destination: redirectUrl } };
+    }
+
+    const queryClient = new QueryClient();
+
+    try {
+      await useGetUserQuery({ req, queryClient });
+    } catch (error) {
+      if (error instanceof FetchError) {
+        return redirectToLogin(cookies, req, resolvedUrl);
+      }
+    }
+
+    req.headers.cookie = cookies.toString();
+
+    if (!callbackFn) return { props: { cookies: cookies.toString() } };
+
+    return await callbackFn({
+      req,
+      query,
+      queryClient,
+      cookies: cookies.toString(),
+    });
+  };
 
 export { getApplicationServerSideProps };

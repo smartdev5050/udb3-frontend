@@ -77,9 +77,8 @@ const convertStateToFormData = (state: CalendarState) => {
   };
 };
 
-type CalendarStepProps<
-  TFormData extends FormDataUnion
-> = StepProps<TFormData> & { offerId?: string };
+type CalendarStepProps<TFormData extends FormDataUnion> =
+  StepProps<TFormData> & { offerId?: string };
 
 const CalendarStep = <TFormData extends FormDataUnion>({
   offerId,

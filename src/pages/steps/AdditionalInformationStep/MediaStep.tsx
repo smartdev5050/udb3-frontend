@@ -49,10 +49,13 @@ const MediaStep = ({
   const handleChangeCompleted = useCallback(onChangeCompleted, []);
 
   // @ts-expect-error
-  const videosFromQuery = useMemo(() => getEventByIdQuery.data?.videos ?? [], [
-    // @ts-expect-error
-    getEventByIdQuery.data?.videos,
-  ]);
+  const videosFromQuery = useMemo(
+    () => getEventByIdQuery.data?.videos ?? [],
+    [
+      // @ts-expect-error
+      getEventByIdQuery.data?.videos,
+    ],
+  );
 
   const mediaObjects = useMemo(
     // @ts-expect-error
@@ -68,21 +71,14 @@ const MediaStep = ({
     [getEventByIdQuery.data?.image],
   );
 
-  const [
-    isPictureUploadModalVisible,
-    setIsPictureUploadModalVisible,
-  ] = useState(false);
-  const [
-    isPictureDeleteModalVisible,
-    setIsPictureDeleteModalVisible,
-  ] = useState(false);
-  const [isVideoLinkAddModalVisible, setIsVideoLinkAddModalVisible] = useState(
-    false,
-  );
-  const [
-    isVideoLinkDeleteModalVisible,
-    setIsVideoLinkDeleteModalVisible,
-  ] = useState(false);
+  const [isPictureUploadModalVisible, setIsPictureUploadModalVisible] =
+    useState(false);
+  const [isPictureDeleteModalVisible, setIsPictureDeleteModalVisible] =
+    useState(false);
+  const [isVideoLinkAddModalVisible, setIsVideoLinkAddModalVisible] =
+    useState(false);
+  const [isVideoLinkDeleteModalVisible, setIsVideoLinkDeleteModalVisible] =
+    useState(false);
 
   const [imageToEditId, setImageToEditId] = useState('');
   const [draggedImageFile, setDraggedImageFile] = useState<FileList>();

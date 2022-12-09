@@ -18,11 +18,8 @@ const useCookiesWithOptions = (
   dependencies: string[] = [],
   options: CookieSetOptions = defaultCookieOptions,
 ) => {
-  const [cookies, setCookie, removeCookie]: [
-    Cookies,
-    SetCookie,
-    RemoveCookie,
-  ] = useReactCookies(dependencies);
+  const [cookies, setCookie, removeCookie]: [Cookies, SetCookie, RemoveCookie] =
+    useReactCookies(dependencies);
 
   const setCookieWithOptions = (name: string, value: any) =>
     setCookie(name, value, options);
