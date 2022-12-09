@@ -34,7 +34,7 @@ const schema = yup.object({
 });
 
 const Audience = ({
-  eventId,
+  offerId,
   onSuccessfulChange,
   onChangeCompleted,
   ...props
@@ -45,7 +45,7 @@ const Audience = ({
     resolver: yupResolver(schema),
   });
 
-  const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
+  const getEventByIdQuery = useGetEventByIdQuery({ id: offerId });
 
   // @ts-expect-error
   const event: Event | undefined = getEventByIdQuery.data;
@@ -70,7 +70,7 @@ const Audience = ({
     setValue('audienceType', audienceType);
 
     await addAudienceMutation.mutateAsync({
-      eventId,
+      offerId,
       audienceType,
     });
   };

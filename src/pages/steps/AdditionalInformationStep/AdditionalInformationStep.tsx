@@ -48,7 +48,7 @@ const Fields = {
 type Field = Values<typeof Fields>;
 
 type TabContentProps = {
-  eventId?: string;
+  offerId?: string;
   onSuccessfulChange: (() => Promise<void>) | ((data: any) => void);
   onChangeCompleted?: (value: boolean) => void;
 };
@@ -215,7 +215,7 @@ const AdditionalInformationStep = ({
               >
                 <TabContent
                   minHeight="350px"
-                  eventId={offerId}
+                  offerId={offerId}
                   onChangeCompleted={(isCompleted) => {
                     if (completedFields[field] === isCompleted) return;
 

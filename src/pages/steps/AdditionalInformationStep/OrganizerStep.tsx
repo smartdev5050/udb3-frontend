@@ -33,7 +33,7 @@ import { OrganizerPicker } from './OrganizerPicker';
 type Props = StackProps & TabContentProps;
 
 const OrganizerStep = ({
-  eventId,
+  offerId,
   onChangeCompleted,
   onSuccessfulChange,
   ...props
@@ -41,11 +41,11 @@ const OrganizerStep = ({
   const { t, i18n } = useTranslation();
   const queryClient = useQueryClient();
 
-  const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
+  const getEventByIdQuery = useGetEventByIdQuery({ id: offerId });
 
   // @ts-expect-error
   const getCardSystemForEventQuery = useGetCardSystemForEventQuery({
-    eventId,
+    eventId: offerId,
   });
 
   // @ts-expect-error
@@ -110,11 +110,11 @@ const OrganizerStep = ({
   );
 
   const handleAddCardSystemToEvent = (cardSystemId: number) => {
-    addCardSystemToEventMutation.mutate({ cardSystemId, eventId });
+    addCardSystemToEventMutation.mutate({ cardSystemId, offerId });
   };
 
   const handleDeleteCardSystemFromEvent = (cardSystemId: number) => {
-    deleteCardSystemFromEventMutation.mutate({ cardSystemId, eventId });
+    deleteCardSystemFromEventMutation.mutate({ cardSystemId, offerId });
   };
 
   const handleToggleCardSystem = (
@@ -144,14 +144,14 @@ const OrganizerStep = ({
     cardSystemId: number;
   }) => {
     changeDistributionKey.mutate({
-      eventId,
+      offerId,
       cardSystemId,
       distributionKeyId,
     });
   };
 
   const handleChangeOrganizer = (organizerId: string) => {
-    addOrganizerToEventMutation.mutate({ eventId, organizerId });
+    addOrganizerToEventMutation.mutate({ offerId, organizerId });
   };
 
   const handleAddOrganizer = async ({
@@ -179,7 +179,7 @@ const OrganizerStep = ({
 
     const { organizerId } = await createOrganizerMutation.mutateAsync(payload);
 
-    await addOrganizerToEventMutation.mutateAsync({ eventId, organizerId });
+    await addOrganizerToEventMutation.mutateAsync({ offerId, organizerId });
 
     setIsOrganizerAddModalVisible(false);
   };
@@ -204,7 +204,7 @@ const OrganizerStep = ({
           }}
           onDeleteOrganizer={(organizerId) =>
             deleteOrganizerFromEventMutation.mutate({
-              eventId,
+              offerId,
               organizerId,
             })
           }

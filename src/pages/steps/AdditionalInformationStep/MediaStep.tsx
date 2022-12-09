@@ -27,20 +27,20 @@ import { PictureDeleteModal } from '../modals/PictureDeleteModal';
 import { PictureUploadModal } from '../modals/PictureUploadModal';
 
 type Props = {
-  eventId?: string;
+  offerId?: string;
   onSuccessfulChange: () => void;
   onChangeCompleted: (completed: boolean) => void;
 };
 
 const MediaStep = ({
-  eventId,
+  offerId,
   onSuccessfulChange,
   onChangeCompleted,
   ...props
 }: Props) => {
   const { i18n } = useTranslation();
 
-  const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
+  const getEventByIdQuery = useGetEventByIdQuery({ id: offerId });
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleChangeCompleted = useCallback(onChangeCompleted, []);
@@ -257,7 +257,7 @@ const MediaStep = ({
 
   const handleClickSetMainImage = useCallback(
     (imageId: string) => addEventMainImageMutation.mutate({ eventId, imageId }),
-    [addEventMainImageMutation, eventId],
+    [addEventMainImageMutation, offerId],
   );
 
   const handleConfirmDeleteImage = (imageId: string) => {
