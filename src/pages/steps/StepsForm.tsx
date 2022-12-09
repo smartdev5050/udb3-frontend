@@ -3,9 +3,8 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { OfferType } from '@/constants/OfferType';
-import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import { Offer } from '@/types/Offer';
-import { Place } from '@/types/Place';
+import { Values } from '@/types/Values';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Link, LinkVariants } from '@/ui/Link';
@@ -57,11 +56,17 @@ const StepsForm = <TFormData extends FormDataUnion>({
     ((query.eventId as string) || (query.placeId as string)) ?? '',
   );
 
-  const scope = useMemo(
-    () =>
-      pathname.startsWith('/events') ? OfferType.EVENTS : OfferType.PLACES,
-    [pathname],
-  );
+  const scope = useMemo(() => {
+    if (pathname.startsWith('/events')) {
+      return OfferType.EVENTS;
+    }
+
+    if (pathname.startsWith('/places')) {
+      return OfferType.PLACES;
+    }
+
+    return undefined;
+  }, [pathname]);
 
   const toast = useToast(toastConfiguration);
 
@@ -105,6 +110,7 @@ const StepsForm = <TFormData extends FormDataUnion>({
         keepDirty: true,
       });
     },
+    enabled: !!scope,
   });
 
   const footerStatus = useFooterStatus({ offer, form });
