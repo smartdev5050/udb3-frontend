@@ -138,162 +138,161 @@ export type CalendarStateNodeConfig = StateNodeConfig<
 
 export type CalendarActions = Actions<CalendarContext, CalendarEvents>;
 
-const calendarMachineOptions: MachineOptions<
-  CalendarContext,
-  CalendarEvents
-> = {
-  guards: {
-    has1Day: (context) => context.days.length === 1,
-    has2Days: (context) => context.days.length === 2,
-    hasMoreThan2Days: (context) => context.days.length > 2,
-    isSingle: (_context, event) => {
-      if (event.type !== 'LOAD_INITIAL_CONTEXT') return false;
-      return event.calendarType === CalendarType.SINGLE;
+const calendarMachineOptions: MachineOptions<CalendarContext, CalendarEvents> =
+  {
+    guards: {
+      has1Day: (context) => context.days.length === 1,
+      has2Days: (context) => context.days.length === 2,
+      hasMoreThan2Days: (context) => context.days.length > 2,
+      isSingle: (_context, event) => {
+        if (event.type !== 'LOAD_INITIAL_CONTEXT') return false;
+        return event.calendarType === CalendarType.SINGLE;
+      },
+      isMultiple: (_context, event) => {
+        if (event.type !== 'LOAD_INITIAL_CONTEXT') return false;
+        return event.calendarType === CalendarType.MULTIPLE;
+      },
+      isPeriodic: (_context, event) => {
+        if (event.type !== 'LOAD_INITIAL_CONTEXT') return false;
+        return event.calendarType === CalendarType.PERIODIC;
+      },
+      isPermanent: (_context, event) => {
+        if (event.type !== 'LOAD_INITIAL_CONTEXT') return false;
+        return event.calendarType === CalendarType.PERMANENT;
+      },
+      hasHours: (context) => false,
+      hasNoHours: (context) => false,
     },
-    isMultiple: (_context, event) => {
-      if (event.type !== 'LOAD_INITIAL_CONTEXT') return false;
-      return event.calendarType === CalendarType.MULTIPLE;
+    actions: {
+      loadInitialContext: assign((context, event) => {
+        if (event.type !== 'LOAD_INITIAL_CONTEXT') return;
+        if (!event.newContext) return context;
+
+        return {
+          ...event.newContext,
+        };
+      }),
+      addNewDay: assign({
+        days: (context) => {
+          const lastDay = context.days.at(-1);
+          if (!lastDay) return context.days;
+
+          return [...context.days, { ...lastDay, id: createDayId() }];
+        },
+      }),
+      removeDay: assign({
+        days: (context, event) => {
+          if (event.type !== 'REMOVE_DAY') return context.days;
+
+          return context.days.filter((day) => day.id !== event.id);
+        },
+      }),
+      changeStartDate: assign({
+        startDate: (context, event) => {
+          if (event.type !== 'CHANGE_START_DATE') return context.startDate;
+
+          return event.newDate.toString();
+        },
+      }),
+      changeEndDate: assign({
+        endDate: (context, event) => {
+          if (event.type !== 'CHANGE_END_DATE') return context.endDate;
+
+          return event.newDate.toString();
+        },
+      }),
+      changeOpeningHours: assign({
+        openingHours: (context, event) => {
+          if (event.type !== 'CHANGE_OPENING_HOURS')
+            return context.openingHours;
+          return [...event.newOpeningHours];
+        },
+      }),
+      changeStartDateOfDay: assign({
+        days: (context, event) => {
+          if (event.type !== 'CHANGE_START_DATE_OF_DAY') return context.days;
+
+          return context.days.map((day) => {
+            if (day.id !== event.id) return day;
+
+            // Keep time, only set day/month/year
+            let startDate: Date = new Date(day.startDate);
+
+            startDate = setYear(startDate, getYear(event.newDate));
+            startDate = setMonth(startDate, getMonth(event.newDate));
+            startDate = setDate(startDate, getDate(event.newDate));
+
+            return {
+              ...day,
+              startDate: startDate.toString(),
+            };
+          });
+        },
+      }),
+      changeEndDateOfDay: assign({
+        days: (context, event) => {
+          if (event.type !== 'CHANGE_END_DATE_OF_DAY') return context.days;
+
+          return context.days.map((day) => {
+            if (day.id !== event.id) return day;
+
+            // Keep time, only set day/month/year
+            let endDate: Date = new Date(day.endDate);
+
+            endDate = setYear(endDate, getYear(event.newDate));
+            endDate = setMonth(endDate, getMonth(event.newDate));
+            endDate = setDate(endDate, getDate(event.newDate));
+
+            return {
+              ...day,
+              endDate: endDate.toString(),
+            };
+          });
+        },
+      }),
+      changeStartHour: assign({
+        days: (context, event) => {
+          if (event.type !== 'CHANGE_START_HOUR') return context.days;
+
+          return context.days.map((day) => {
+            if (day.id !== event.id) return day;
+
+            const startDate = new Date(day.startDate);
+
+            startDate.setHours(event.newHours);
+            startDate.setMinutes(event.newMinutes);
+
+            return {
+              ...day,
+              startDate: startDate.toString(),
+            };
+          });
+        },
+      }),
+      changeEndHour: assign({
+        days: (context, event) => {
+          if (event.type !== 'CHANGE_END_HOUR') return context.days;
+
+          return context.days.map((day) => {
+            if (day.id !== event.id) return day;
+
+            const endDate = new Date(day.endDate);
+
+            endDate.setHours(event.newHours);
+            endDate.setMinutes(event.newMinutes);
+
+            return {
+              ...day,
+              endDate: endDate.toString(),
+            };
+          });
+        },
+      }),
     },
-    isPeriodic: (_context, event) => {
-      if (event.type !== 'LOAD_INITIAL_CONTEXT') return false;
-      return event.calendarType === CalendarType.PERIODIC;
-    },
-    isPermanent: (_context, event) => {
-      if (event.type !== 'LOAD_INITIAL_CONTEXT') return false;
-      return event.calendarType === CalendarType.PERMANENT;
-    },
-    hasHours: (context) => false,
-    hasNoHours: (context) => false,
-  },
-  actions: {
-    loadInitialContext: assign((context, event) => {
-      if (event.type !== 'LOAD_INITIAL_CONTEXT') return;
-      if (!event.newContext) return context;
-
-      return {
-        ...event.newContext,
-      };
-    }),
-    addNewDay: assign({
-      days: (context) => {
-        const lastDay = context.days.at(-1);
-        if (!lastDay) return context.days;
-
-        return [...context.days, { ...lastDay, id: createDayId() }];
-      },
-    }),
-    removeDay: assign({
-      days: (context, event) => {
-        if (event.type !== 'REMOVE_DAY') return context.days;
-
-        return context.days.filter((day) => day.id !== event.id);
-      },
-    }),
-    changeStartDate: assign({
-      startDate: (context, event) => {
-        if (event.type !== 'CHANGE_START_DATE') return context.startDate;
-
-        return event.newDate.toString();
-      },
-    }),
-    changeEndDate: assign({
-      endDate: (context, event) => {
-        if (event.type !== 'CHANGE_END_DATE') return context.endDate;
-
-        return event.newDate.toString();
-      },
-    }),
-    changeOpeningHours: assign({
-      openingHours: (context, event) => {
-        if (event.type !== 'CHANGE_OPENING_HOURS') return context.openingHours;
-        return [...event.newOpeningHours];
-      },
-    }),
-    changeStartDateOfDay: assign({
-      days: (context, event) => {
-        if (event.type !== 'CHANGE_START_DATE_OF_DAY') return context.days;
-
-        return context.days.map((day) => {
-          if (day.id !== event.id) return day;
-
-          // Keep time, only set day/month/year
-          let startDate: Date = new Date(day.startDate);
-
-          startDate = setYear(startDate, getYear(event.newDate));
-          startDate = setMonth(startDate, getMonth(event.newDate));
-          startDate = setDate(startDate, getDate(event.newDate));
-
-          return {
-            ...day,
-            startDate: startDate.toString(),
-          };
-        });
-      },
-    }),
-    changeEndDateOfDay: assign({
-      days: (context, event) => {
-        if (event.type !== 'CHANGE_END_DATE_OF_DAY') return context.days;
-
-        return context.days.map((day) => {
-          if (day.id !== event.id) return day;
-
-          // Keep time, only set day/month/year
-          let endDate: Date = new Date(day.endDate);
-
-          endDate = setYear(endDate, getYear(event.newDate));
-          endDate = setMonth(endDate, getMonth(event.newDate));
-          endDate = setDate(endDate, getDate(event.newDate));
-
-          return {
-            ...day,
-            endDate: endDate.toString(),
-          };
-        });
-      },
-    }),
-    changeStartHour: assign({
-      days: (context, event) => {
-        if (event.type !== 'CHANGE_START_HOUR') return context.days;
-
-        return context.days.map((day) => {
-          if (day.id !== event.id) return day;
-
-          const startDate = new Date(day.startDate);
-
-          startDate.setHours(event.newHours);
-          startDate.setMinutes(event.newMinutes);
-
-          return {
-            ...day,
-            startDate: startDate.toString(),
-          };
-        });
-      },
-    }),
-    changeEndHour: assign({
-      days: (context, event) => {
-        if (event.type !== 'CHANGE_END_HOUR') return context.days;
-
-        return context.days.map((day) => {
-          if (day.id !== event.id) return day;
-
-          const endDate = new Date(day.endDate);
-
-          endDate.setHours(event.newHours);
-          endDate.setMinutes(event.newMinutes);
-
-          return {
-            ...day,
-            endDate: endDate.toString(),
-          };
-        });
-      },
-    }),
-  },
-  activities: undefined,
-  services: undefined,
-  delays: undefined,
-};
+    activities: undefined,
+    services: undefined,
+    delays: undefined,
+  };
 
 const calendarMachineConfig: MachineConfig<
   CalendarContext,

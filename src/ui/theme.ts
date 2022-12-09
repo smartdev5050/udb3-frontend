@@ -402,9 +402,9 @@ const theme = {
 
 type Theme = typeof theme;
 
-const getValueFromTheme = (component: string) => (path: string) => (props: {
-  theme: Theme;
-}) => get(props.theme, `components.${component}.${path}`);
+const getValueFromTheme =
+  (component: string) => (path: string) => (props: { theme: Theme }) =>
+    get(props.theme, `components.${component}.${path}`);
 
 export { Breakpoints, colors, getGlobalBorderRadius, getValueFromTheme, theme };
 export type { BreakpointValues, Theme };

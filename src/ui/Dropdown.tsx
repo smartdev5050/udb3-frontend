@@ -38,9 +38,8 @@ const Dropdown = ({
 
   const isPrimaryActionChild = (child) =>
     child.type === Button || child.type === Link;
-  const primaryActionChild = Children.toArray(children).find(
-    isPrimaryActionChild,
-  );
+  const primaryActionChild =
+    Children.toArray(children).find(isPrimaryActionChild);
 
   const buttonVariant =
     variant === DropDownVariants.SECONDARY ? ButtonVariants.SECONDARY : variant;

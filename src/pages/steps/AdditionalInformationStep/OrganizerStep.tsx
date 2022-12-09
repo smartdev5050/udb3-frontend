@@ -69,9 +69,8 @@ const OrganizerStep = ({
   // @ts-expect-error
   const cardSystems = getCardSystemsForOrganizerQuery.data ?? {};
 
-  const [isOrganizerAddModalVisible, setIsOrganizerAddModalVisible] = useState(
-    false,
-  );
+  const [isOrganizerAddModalVisible, setIsOrganizerAddModalVisible] =
+    useState(false);
   const [newOrganizerName, setNewOrganizerName] = useState('');
 
   useEffect(() => {
@@ -100,14 +99,13 @@ const OrganizerStep = ({
     },
   });
 
-  const deleteCardSystemFromEventMutation = useDeleteCardSystemFromEventMutation(
-    {
+  const deleteCardSystemFromEventMutation =
+    useDeleteCardSystemFromEventMutation({
       onSuccess: (data) => {
         onSuccessfulChange(data);
         queryClient.invalidateQueries('uitpas_events');
       },
-    },
-  );
+    });
 
   const handleAddCardSystemToEvent = (cardSystemId: number) => {
     addCardSystemToEventMutation.mutate({ cardSystemId, offerId });

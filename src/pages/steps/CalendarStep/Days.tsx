@@ -12,13 +12,11 @@ import {
 
 type ChangeTimeHandler = (id: string, hours: number, minutes: number) => void;
 
-const createChangeTimeHandler = (
-  id: string,
-  changeTimeHandler: ChangeTimeHandler,
-) => (newValue: string) => {
-  const [hours, minutes] = newValue.split(':');
-  changeTimeHandler(id, parseInt(hours), parseInt(minutes));
-};
+const createChangeTimeHandler =
+  (id: string, changeTimeHandler: ChangeTimeHandler) => (newValue: string) => {
+    const [hours, minutes] = newValue.split(':');
+    changeTimeHandler(id, parseInt(hours), parseInt(minutes));
+  };
 
 const getEndTime = (day: any) => {
   const end = new Date(day.endDate);
