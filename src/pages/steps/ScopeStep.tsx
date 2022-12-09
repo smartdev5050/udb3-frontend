@@ -1,16 +1,14 @@
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { Controller, Path, PathValue } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { OfferType } from '@/constants/OfferType';
 import { parseSpacing } from '@/ui/Box';
-import { Icons } from '@/ui/Icon';
 import { getInlineProps, Inline, InlineProps } from '@/ui/Inline';
-import { Stack } from '@/ui/Stack';
 import { ToggleBox } from '@/ui/ToggleBox';
 
 import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
 
 type Props<TFormData extends FormDataUnion> = InlineProps &
   StepProps<TFormData>;
