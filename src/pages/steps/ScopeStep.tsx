@@ -1,4 +1,4 @@
-import { Controller } from 'react-hook-form';
+import { Controller, Path, PathValue } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { OfferType } from '@/constants/OfferType';
@@ -9,6 +9,8 @@ import { Stack } from '@/ui/Stack';
 import { ToggleBox } from '@/ui/ToggleBox';
 
 import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 type Props<TFormData extends FormDataUnion> = InlineProps &
   StepProps<TFormData>;
@@ -107,9 +109,31 @@ const IconLocation = ({ width }: { width: string }) => {
 const ScopeStep = <TFormData extends FormDataUnion>({
   control,
   name,
+  setValue,
   ...props
 }: Props<TFormData>) => {
   const { t } = useTranslation();
+  const { query, replace } = useRouter();
+
+  useEffect(() => {
+    if (!query.scope) return;
+
+    if (query.scope === OfferType.EVENTS) {
+      setValue(
+        'scope' as Path<TFormData>,
+        OfferType.EVENTS as PathValue<TFormData, Path<TFormData>>,
+      );
+    }
+
+    if (query.scope === OfferType.PLACES) {
+      setValue(
+        'scope' as Path<TFormData>,
+        OfferType.PLACES as PathValue<TFormData, Path<TFormData>>,
+      );
+    }
+
+    replace('', undefined, { shallow: true });
+  }, [query]);
 
   return (
     <Controller
