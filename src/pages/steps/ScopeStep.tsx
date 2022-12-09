@@ -158,8 +158,7 @@ const ScopeStep = <TFormData extends FormDataUnion>({
 };
 
 const scopeStepConfiguration: StepsConfiguration<FormDataUnion> = {
-  // eslint-disable-next-line react/display-name
-  Component: (props) => <ScopeStep {...props} />,
+  Component: ScopeStep,
   name: 'scope',
   title: ({ t }) => t(`create.scope.title`),
   shouldShowStep: ({ watch, offerId, formState }) => {
