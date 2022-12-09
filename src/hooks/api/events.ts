@@ -5,6 +5,7 @@ import { Calendar } from '@/types/Calendar';
 import type { AttendanceMode, Event } from '@/types/Event';
 import type {
   BookingAvailability,
+  OpeningHours,
   Status,
   SubEvent,
   Term,
@@ -35,6 +36,7 @@ type EventArguments = {
   name: string;
   calendarType: Values<typeof CalendarType>;
   subEvent: SubEvent[];
+  openingHours: OpeningHours[];
   terms: Term[];
   workflowStatus: WorkflowStatus;
   audienceType: string;
@@ -53,6 +55,7 @@ const addEvent = async ({
   name,
   calendarType,
   subEvent,
+  openingHours,
   terms,
   location,
   audienceType,
@@ -69,6 +72,7 @@ const addEvent = async ({
         name,
         calendarType,
         subEvent,
+        openingHours,
         terms,
         location,
         audienceType,

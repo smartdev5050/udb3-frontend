@@ -1,11 +1,12 @@
 import type { UseMutationOptions, UseQueryOptions } from 'react-query';
 
+import { CalendarType } from '@/constants/CalendarType';
 import type { EventTypes } from '@/constants/EventTypes';
 import type { OfferStatus } from '@/constants/OfferStatus';
 import type { SupportedLanguages } from '@/i18n/index';
 import type { Address } from '@/types/Address';
 import type { Calendar } from '@/types/Calendar';
-import { Term } from '@/types/Offer';
+import { OpeningHours, Term } from '@/types/Offer';
 import type { Place } from '@/types/Place';
 import type { User } from '@/types/User';
 import type { Values } from '@/types/Values';
@@ -272,19 +273,21 @@ const useChangeStatusMutation = (configuration: UseMutationOptions = {}) =>
   useAuthenticatedMutation({ mutationFn: changeStatus, ...configuration });
 
 type PlaceArguments = {
-  calendar: Calendar;
   address: Address;
   mainLanguage: string;
   name: string;
   terms: Term[];
   workflowStatus: WorkflowStatus;
+  calendarType: Values<typeof CalendarType>;
+  openingHours: OpeningHours[];
 };
 
 type AddPlaceArguments = PlaceArguments & { headers: Headers };
 
 const addPlace = async ({
   headers,
-  calendar,
+  calendarType,
+  openingHours,
   address,
   mainLanguage,
   name,
@@ -297,7 +300,8 @@ const addPlace = async ({
       method: 'POST',
       headers,
       body: JSON.stringify({
-        calendar,
+        calendarType,
+        openingHours,
         address,
         mainLanguage,
         name,
