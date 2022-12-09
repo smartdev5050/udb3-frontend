@@ -103,6 +103,7 @@ const IconLocation = ({ width }: { width: string }) => {
 };
 
 const ScopeStep = <TFormData extends FormDataUnion>({
+  offerId,
   control,
   name,
   resetField,
@@ -111,6 +112,7 @@ const ScopeStep = <TFormData extends FormDataUnion>({
   const { t } = useTranslation();
 
   const resetFieldsAfterScopeChange = () => {
+    if (offerId) return;
     resetField('typeAndTheme' as Path<TFormData>);
   };
 
