@@ -111,8 +111,8 @@ const ProductionStep = <TFormData extends FormDataUnion>({
     { enabled: !!searchInput },
   );
 
-  // @ts-expect-error
   const productions = useMemo(
+    // @ts-expect-error
     () => getProductionsQuery.data?.member ?? [],
     [
       // @ts-expect-error

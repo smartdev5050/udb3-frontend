@@ -48,8 +48,8 @@ const MediaStep = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleChangeCompleted = useCallback(onChangeCompleted, []);
 
-  // @ts-expect-error
   const videosFromQuery = useMemo(
+    // @ts-expect-error
     () => getEventByIdQuery.data?.videos ?? [],
     [
       // @ts-expect-error
