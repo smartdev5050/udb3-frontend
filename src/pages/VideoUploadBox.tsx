@@ -10,6 +10,8 @@ import { Text, TextVariants } from '@/ui/Text';
 import { getGlobalBorderRadius, getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
+import { Features, NewFeatureTooltip } from './NewFeatureTooltip';
+
 const THUMBNAIL_SIZE = 80;
 
 const getValue = getValueFromTheme('videoUploadBox');
@@ -73,7 +75,10 @@ const VideoUploadBox = ({
 
   return (
     <Stack spacing={2} {...getStackProps(props)}>
-      <Title size={3}>{t('videos.title')}</Title>
+      <Inline>
+        <Title size={3}>{t('videos.title')}</Title>
+        <NewFeatureTooltip featureUUID={Features.VIDEO} />
+      </Inline>
       <Stack
         flex={1}
         spacing={4}
