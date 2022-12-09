@@ -250,6 +250,9 @@ const LocationStep = <TFormData extends FormDataUnion>({
                       }
                     `}
                   />
+                  <NewFeatureTooltip
+                    featureUUID={Features.GERMAN_POSTALCODES}
+                  />
                 </Inline>
               </Stack>
             );

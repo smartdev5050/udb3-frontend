@@ -11,6 +11,7 @@ const Features = {
   SUGGESTED_ORGANIZERS: '0842bd10-592a-42ad-8a72-fabc278b7fd4',
   VIDEO: '9cdbba1f-0fd8-4702-a274-c2403316dea9',
   ONLINE: '5d8547e4-4cef-4288-86c8-23da918b9c43',
+  GERMAN_POSTALCODES: '1541df31-4616-4ee3-95f2-8e8b87b6d49d',
 } as const;
 
 type Props = {
