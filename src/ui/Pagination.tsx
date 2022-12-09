@@ -125,7 +125,7 @@ const Pagination = ({
           (index === currentRange.length - 1 &&
             currentRange[index] !== pages[pages.length - 1])
         ) {
-          return <BootstrapPagination.Ellipsis />;
+          return <BootstrapPagination.Ellipsis key="ellipsis" />;
         }
 
         return (

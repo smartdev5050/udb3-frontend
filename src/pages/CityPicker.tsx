@@ -57,6 +57,8 @@ const CityPicker = forwardRef<HTMLInputElement, Props>(
   },
 );
 
+CityPicker.displayName = 'CityPicker';
+
 CityPicker.defaultProps = {
   country: Countries.BE,
 };

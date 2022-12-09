@@ -262,6 +262,8 @@ const NotificationMenu = memo(
   },
 );
 
+NotificationMenu.displayName = 'NotificationMenu';
+
 const Sidebar = () => {
   const { t, i18n } = useTranslation();
 
