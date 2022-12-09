@@ -514,7 +514,10 @@ const Dashboard = (): any => {
         )}
 
         <Inline>
-          <Link href={CreateMap[tab]} variant={LinkVariants.BUTTON_PRIMARY}>
+          <Link
+            href={`${CreateMap[tab]}?scope=${tab}`}
+            variant={LinkVariants.BUTTON_PRIMARY}
+          >
             {t(`dashboard.create.${tab}`)}
           </Link>
         </Inline>
