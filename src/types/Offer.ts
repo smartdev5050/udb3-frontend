@@ -94,7 +94,7 @@ type CalendarSummary = Record<
   }
 >;
 
-type InternalOffer = {
+type BaseOffer = {
   '@id': string;
   name: Partial<Record<Values<typeof SupportedLanguages>, string>>;
   description: Partial<Record<Values<typeof SupportedLanguages>, string>>;
@@ -136,9 +136,9 @@ type InternalOffer = {
 type Offer = Place | Event;
 
 export type {
+  BaseOffer,
   BookingAvailability,
   DayOfWeek,
-  InternalOffer,
   MediaObject,
   Offer,
   OpeningHours,
