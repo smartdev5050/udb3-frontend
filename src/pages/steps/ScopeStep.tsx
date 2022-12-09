@@ -131,7 +131,7 @@ const ScopeStep = <TFormData extends FormDataUnion>({
     }
 
     replace('', undefined, { shallow: true });
-  }, [query]);
+  }, [query, replace]);
 
   return (
     <Controller
