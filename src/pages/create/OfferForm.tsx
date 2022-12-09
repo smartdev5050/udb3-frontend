@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { OfferType } from '@/constants/OfferType';
-import { SupportedLanguages } from '@/i18n/index';
+import { SupportedLanguage, SupportedLanguages } from '@/i18n/index';
 import { additionalInformationStepConfiguration } from '@/pages/steps/AdditionalInformationStep';
 import { calendarStepConfiguration } from '@/pages/steps/CalendarStep';
 import { convertStateToFormData } from '@/pages/steps/CalendarStep/CalendarStep';
@@ -76,14 +76,16 @@ const OfferForm = () => {
 
   const parseLocationAttributes = (offer: Offer) => {
     const eventAddress = isEvent(offer)
-      ? offer.location.address[i18n.language] ?? offer.location.address
+      ? offer.location.address[i18n.language as SupportedLanguage] ??
+        offer.location.address
       : offer.address[i18n.language];
 
     const isOnline =
       isEvent(offer) && offer.attendanceMode === AttendanceMode.ONLINE;
 
     const country = isEvent(offer)
-      ? offer.location.address[i18n.language].addressCountry
+      ? offer.location.address[i18n.language as SupportedLanguage]
+          .addressCountry
       : offer.address[i18n.language].addressCountry;
 
     return {
