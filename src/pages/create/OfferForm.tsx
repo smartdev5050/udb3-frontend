@@ -229,7 +229,12 @@ const OfferForm = () => {
         title: '',
       }}
       configurations={[
-        scopeStepConfiguration,
+        {
+          ...scopeStepConfiguration,
+          stepProps: {
+            offerId,
+          },
+        },
         typeAndThemeStepConfiguration,
         {
           ...calendarStepConfiguration,

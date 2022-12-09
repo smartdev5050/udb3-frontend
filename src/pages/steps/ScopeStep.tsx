@@ -9,7 +9,7 @@ import { ToggleBox } from '@/ui/ToggleBox';
 import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
 
 type Props<TFormData extends FormDataUnion> = InlineProps &
-  StepProps<TFormData>;
+  StepProps<TFormData> & { offerId?: string };
 
 const IconEvent = ({ width }: { width: string }) => {
   return (
@@ -145,7 +145,8 @@ const ScopeStep = <TFormData extends FormDataUnion>({
 };
 
 const scopeStepConfiguration: StepsConfiguration<FormDataUnion> = {
-  Component: ScopeStep,
+  // eslint-disable-next-line react/display-name
+  Component: (props) => <ScopeStep {...props} />,
   name: 'scope',
   title: ({ t }) => t(`create.scope.title`),
   shouldShowStep: ({ watch, offerId, formState }) => {
