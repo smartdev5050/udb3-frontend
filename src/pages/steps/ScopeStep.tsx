@@ -1,4 +1,4 @@
-import { Controller } from 'react-hook-form';
+import { Controller, Path } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { OfferType } from '@/constants/OfferType';
@@ -111,7 +111,7 @@ const ScopeStep = <TFormData extends FormDataUnion>({
   const { t } = useTranslation();
 
   const resetFieldsAfterScopeChange = () => {
-    resetField('typeAndTheme');
+    resetField('typeAndTheme' as Path<TFormData>);
   };
 
   return (
