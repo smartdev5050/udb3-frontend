@@ -10,12 +10,13 @@ type Place = InternalOffer & {
   };
 };
 
-const isPlace = (value: unknown): value is Event => {
+const isPlace = (value: unknown): value is Place => {
   if (typeof value?.['@context'] !== 'string') return false;
   return value['@context'].endsWith('/place');
 };
 
-const arePlaces = (value: any): value is Place => {
+const arePlaces = (value: unknown): value is Place[] => {
+  if (!Array.isArray(value)) return false;
   return value.every(isPlace);
 };
 

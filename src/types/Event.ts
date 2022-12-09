@@ -28,7 +28,8 @@ const isEvent = (value: unknown): value is Event => {
   return value['@context'].endsWith('/event');
 };
 
-const areEvents = (value: unknown[]): value is Event[] => {
+const areEvents = (value: unknown): value is Event[] => {
+  if (!Array.isArray(value)) return false;
   return value.every(isEvent);
 };
 
