@@ -38,10 +38,11 @@ const getValue = getValueFromTheme('createPage');
 const getGlobalValue = getValueFromTheme('global');
 
 const useEditNameAndProduction = <TFormData extends FormDataUnion>({
+  scope,
   onSuccess,
-  eventId,
+  offerId,
 }) => {
-  const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
+  const getEventByIdQuery = useGetEventByIdQuery({ id: offerId });
 
   const createProductionWithEventsMutation = useCreateProductionWithEventsMutation();
   const addEventToProductionByIdMutation = useAddEventToProductionByIdMutation();
@@ -60,7 +61,7 @@ const useEditNameAndProduction = <TFormData extends FormDataUnion>({
       await deleteEventFromProductionByIdMutation.mutateAsync({
         // @ts-expect-error
         productionId: getEventByIdQuery.data.production.id,
-        eventId,
+        offerId,
       });
     }
 
@@ -68,19 +69,19 @@ const useEditNameAndProduction = <TFormData extends FormDataUnion>({
       // make new production with name and event id
       await createProductionWithEventsMutation.mutateAsync({
         productionName: production.name,
-        eventIds: [eventId],
+        eventIds: [offerId],
       });
     } else {
       // link event to production
       await addEventToProductionByIdMutation.mutateAsync({
         productionId: production.production_id,
-        eventId,
+        eventId: offerId,
       });
     }
 
     // change name of event
     await changeNameMutation.mutateAsync({
-      id: eventId,
+      id: offerId,
       lang: 'nl',
       name: production.name,
     });

@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import { useGetTermsQuery } from '@/hooks/api/terms';
-import { Scope } from '@/pages/create/EventForm';
+import { Scope } from '@/pages/create/OfferForm';
 
 type GetThemesByEventTypeIdArguments = {
   scope: Scope;

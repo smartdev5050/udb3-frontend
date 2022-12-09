@@ -66,7 +66,7 @@ type Props = StackProps &
   };
 
 const ContactInfoStep = ({
-  eventId,
+  offerId,
   onSuccessfulChange,
   onChangeCompleted,
   organizerContactInfo,
@@ -75,7 +75,10 @@ const ContactInfoStep = ({
 }: Props) => {
   const { t } = useTranslation();
 
-  const getEventByIdQuery = useGetEventByIdQuery({ id: eventId });
+  // TODO: refactor
+  const eventId = offerId;
+
+  const getEventByIdQuery = useGetEventByIdQuery({ id: offerId });
 
   const [contactInfoState, setContactInfoState] = useState<NewContactInfo[]>(
     [],

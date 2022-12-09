@@ -152,6 +152,11 @@
     },
     "location": {
       "title": "Waar vindt dit evenement of deze activiteit plaats?",
+      "validation_messages": {
+        "street_and_number": {
+          "required": "Je straat en nummer voldoen niet aan de vereisten."
+        }
+      },
       "is_online": {
         "label": "Online"
       },

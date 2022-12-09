@@ -152,6 +152,11 @@
     },
     "location": {
       "title": "Où cet événement ou cette activité aura-t-il lieu?",
+      "validation_messages": {
+        "street_and_number": {
+          "required": "Votre rue et votre numéro ne répondent pas aux exigences."
+        }
+      },
       "is_online": {
         "label": "En ligne"
       },

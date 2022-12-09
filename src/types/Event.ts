@@ -1,4 +1,4 @@
-import type { Offer } from './Offer';
+import type { BaseOffer } from './Offer';
 import type { Place } from './Place';
 import { Values } from './Values';
 
@@ -16,7 +16,7 @@ const AttendanceMode = {
   MIXED: 'mixed',
 } as const;
 
-type Event = Offer & {
+type Event = BaseOffer & {
   '@context': '/contexts/event';
   location: Place;
   production?: ProductionOnEvent;
@@ -28,7 +28,8 @@ const isEvent = (value: unknown): value is Event => {
   return value['@context'].endsWith('/event');
 };
 
-const areEvents = (value: unknown[]): value is Event[] => {
+const areEvents = (value: unknown): value is Event[] => {
+  if (!Array.isArray(value)) return false;
   return value.every(isEvent);
 };
 

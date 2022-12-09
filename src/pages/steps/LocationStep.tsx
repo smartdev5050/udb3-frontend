@@ -1,11 +1,14 @@
 import { TFunction } from 'i18next';
-import { Controller, Path } from 'react-hook-form';
+import { Controller, Path, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { EventTypes } from '@/constants/EventTypes';
+import { OfferType } from '@/constants/OfferType';
 import { useChangeLocationMutation } from '@/hooks/api/events';
-import { FormData as EventFormData } from '@/pages/create/EventForm';
+import { useChangeAddressMutation } from '@/hooks/api/places';
+import { FormData as OfferFormData } from '@/pages/create/OfferForm';
+import { Address } from '@/types/Address';
 import { Countries } from '@/types/Country';
 import { Place } from '@/types/Place';
 import { Values } from '@/types/Values';
@@ -26,7 +29,7 @@ import { parseOfferId } from '@/utils/parseOfferId';
 
 import { CityPicker } from '../CityPicker';
 import { CountryPicker } from './CountryPicker';
-import { PlaceStep } from './PlaceStep';
+import { PlaceStep, placeStepConfiguration } from './PlaceStep';
 import {
   FormDataUnion,
   getStepProps,
@@ -37,19 +40,45 @@ import {
 const getValue = getValueFromTheme('createPage');
 const getGlobalValue = getValueFromTheme('global');
 
-const useEditPlace = <TFormData extends FormDataUnion>({
-  eventId,
+const useEditLocation = <TFormData extends FormDataUnion>({
+  scope,
+  offerId,
   onSuccess,
 }) => {
+  const { i18n } = useTranslation();
   const changeLocationMutation = useChangeLocationMutation();
+  const changeAddressMutation = useChangeAddressMutation();
 
   return async ({ location }: TFormData) => {
-    if (!location.municipality) return;
-    if (!location.place) return;
+    if (scope === OfferType.EVENTS) {
+      if (!location.municipality) return;
+      if (!location.place) return;
 
-    changeLocationMutation.mutate({
-      id: eventId,
-      locationId: parseOfferId(location.place['@id']),
+      // TODO: Add isOnline support
+
+      changeLocationMutation.mutate({
+        id: offerId,
+        locationId: parseOfferId(location.place['@id']),
+      });
+
+      return;
+    }
+
+    if (!location.municipality) return;
+    if (!location.streetAndNumber) return;
+
+    const address: Address = {
+      [i18n.language]: {
+        streetAddress: location.streetAndNumber,
+        addressCountry: location.country,
+        addressLocality: location.municipality.name,
+        postalCode: location.municipality.zip,
+      },
+    };
+
+    changeAddressMutation.mutate({
+      id: offerId,
+      address,
     });
   };
 };
@@ -77,6 +106,9 @@ const LocationStep = <TFormData extends FormDataUnion>({
 }: PlaceStepProps<TFormData>) => {
   const { t } = useTranslation();
 
+  const watchedValues = useWatch({ control });
+  const scope = watchedValues.scope;
+
   return (
     <Stack {...getStackProps(props)}>
       <Controller
@@ -88,7 +120,7 @@ const LocationStep = <TFormData extends FormDataUnion>({
             onlineUrl,
             municipality,
             country,
-          } = field?.value as EventFormData['location'];
+          } = field?.value as OfferFormData['location'];
 
           const OnlineToggle = (
             <FormElement
@@ -213,7 +245,7 @@ const LocationStep = <TFormData extends FormDataUnion>({
           if (!municipality) {
             return (
               <Stack spacing={4}>
-                {OnlineToggle}
+                {scope === OfferType.EVENTS && OnlineToggle}
                 <Inline spacing={1} alignItems="center">
                   <CityPicker
                     name="city-picker-location-step"
@@ -232,6 +264,7 @@ const LocationStep = <TFormData extends FormDataUnion>({
                   />
                   <CountryPicker
                     value={country}
+                    includeLocationSchool={scope === OfferType.EVENTS}
                     onChange={(newCountry) => {
                       const updatedValue = {
                         ...field.value,
@@ -276,34 +309,60 @@ const LocationStep = <TFormData extends FormDataUnion>({
                     )}
                   </Button>
                 </Inline>
-                <PlaceStep
-                  maxWidth="28rem"
-                  name={'location.place' as Path<TFormData>}
-                  municipality={municipality}
-                  chooseLabel={chooseLabel}
-                  placeholderLabel={placeholderLabel}
-                  parentFieldValue={field.value}
-                  parentFieldOnChange={(val: Place | undefined) => {
-                    field.onChange({ ...field.value, place: val });
-                  }}
-                  parentOnChange={(val: Place | undefined) => {
-                    onChange({
-                      ...field.value,
-                      place: val,
-                    });
-                  }}
-                  {...getStepProps(props)}
-                  {...{
-                    formState,
-                    getValues,
-                    reset,
-                    control,
-                    name,
-                    loading,
-                    onChange,
-                    watch,
-                  }}
-                />
+                {scope === OfferType.EVENTS && (
+                  <PlaceStep
+                    maxWidth="28rem"
+                    name={'location.place' as Path<TFormData>}
+                    municipality={municipality}
+                    chooseLabel={chooseLabel}
+                    placeholderLabel={placeholderLabel}
+                    parentFieldValue={field.value}
+                    parentFieldOnChange={(val: Place | undefined) => {
+                      field.onChange({ ...field.value, place: val });
+                    }}
+                    parentOnChange={(val: Place | undefined) => {
+                      onChange({
+                        ...field.value,
+                        place: val,
+                      });
+                    }}
+                    {...getStepProps(props)}
+                    {...{
+                      formState,
+                      getValues,
+                      reset,
+                      control,
+                      name,
+                      loading,
+                      onChange,
+                      watch,
+                    }}
+                  />
+                )}
+                {scope === OfferType.PLACES && (
+                  <FormElement
+                    Component={
+                      <Input
+                        value={field.value?.streetAndNumber}
+                        onChange={(e) => {
+                          const updatedValue = {
+                            ...field.value,
+                            streetAndNumber: e.target.value,
+                          };
+                          field.onChange(updatedValue);
+                          onChange(updatedValue);
+                        }}
+                      />
+                    }
+                    id="location-streetAndNumber"
+                    label={t('location.add_modal.labels.streetAndNumber')}
+                    error={
+                      // @ts-expect-error
+                      formState.errors.location?.streetAndNumber &&
+                      t('location.add_modal.errors.streetAndNumber')
+                    }
+                  />
+                )}
               </Stack>
             </Stack>
           );
@@ -327,6 +386,18 @@ const locationStepConfiguration: StepsConfiguration<FormDataUnion> = {
     country: Countries.BE,
   },
   validation: yup.lazy((value) => {
+    if (value.place) {
+      // a location for an event
+      return yup
+        .object()
+        .shape({
+          place: yup.object().shape({}).required(),
+          country: yup.string().oneOf(Object.values(Countries)),
+        })
+        .required();
+    }
+
+    // an online location for a event
     if (value.isOnline) {
       return yup
         .object()
@@ -336,10 +407,11 @@ const locationStepConfiguration: StepsConfiguration<FormDataUnion> = {
         .required();
     }
 
+    // a location for a place
     return yup
       .object()
       .shape({
-        place: yup.object().shape({}).required(),
+        streetAndNumber: yup.string().required(),
         country: yup.string().oneOf(Object.values(Countries)).required(),
       })
       .required();
@@ -348,4 +420,4 @@ const locationStepConfiguration: StepsConfiguration<FormDataUnion> = {
 
 LocationStep.defaultProps = {};
 
-export { locationStepConfiguration, useEditPlace };
+export { locationStepConfiguration, useEditLocation };

@@ -18,8 +18,9 @@ import {
 } from './Steps';
 
 const useEditNameAndAgeRange = <TFormData extends FormDataUnion>({
+  scope,
   onSuccess,
-  eventId,
+  offerId,
 }) => {
   const changeNameMutation = useChangeNameMutation({
     onSuccess: () => onSuccess('basic_info'),
@@ -34,13 +35,13 @@ const useEditNameAndAgeRange = <TFormData extends FormDataUnion>({
 
     if (typicalAgeRange) {
       await changeTypicalAgeRangeMutation.mutateAsync({
-        eventId,
+        eventId: offerId,
         typicalAgeRange,
       });
     }
 
     await changeNameMutation.mutateAsync({
-      id: eventId,
+      id: offerId,
       lang: 'nl',
       name: name.nl,
     });
@@ -82,7 +83,9 @@ const nameAndAgeRangeStepConfiguration: StepsConfiguration<FormDataUnion> = {
   }),
   shouldShowStep: ({ watch }) => {
     const location = watch('location');
-    return !!location?.place || location?.isOnline;
+    return (
+      !!location?.place || location?.isOnline || !!location?.streetAndNumber
+    );
   },
 };
 
