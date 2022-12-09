@@ -4,7 +4,10 @@ import { useTranslation } from 'react-i18next';
 
 import { OfferType } from '@/constants/OfferType';
 import { SupportedLanguage, SupportedLanguages } from '@/i18n/index';
-import { additionalInformationStepConfiguration } from '@/pages/steps/AdditionalInformationStep';
+import {
+  additionalInformationStepConfiguration,
+  AdditionalInformationStepVariant,
+} from '@/pages/steps/AdditionalInformationStep';
 import { calendarStepConfiguration } from '@/pages/steps/CalendarStep';
 import { convertStateToFormData } from '@/pages/steps/CalendarStep/CalendarStep';
 import { typeAndThemeStepConfiguration } from '@/pages/steps/EventTypeAndThemeStep';
@@ -73,6 +76,18 @@ const OfferForm = () => {
   const parts = pathname.split('/');
 
   const offerId = query.offerId || query.eventId || query.placeId;
+
+  const scope = useMemo(() => {
+    if (pathname.startsWith('/events')) {
+      return OfferType.EVENTS;
+    }
+
+    if (pathname.startsWith('/places')) {
+      return OfferType.PLACES;
+    }
+
+    return undefined;
+  }, [pathname]);
 
   const parseLocationAttributes = (offer: Offer) => {
     const eventAddress = isEvent(offer)
@@ -226,6 +241,10 @@ const OfferForm = () => {
         nameAndAgeRangeStepConfiguration,
         {
           ...additionalInformationStepConfiguration,
+          variant:
+            scope === OfferType.EVENTS
+              ? AdditionalInformationStepVariant.EVENT
+              : AdditionalInformationStepVariant.PLACE,
           stepProps: {
             offerId,
           },

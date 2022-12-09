@@ -25,8 +25,9 @@ import { PriceInformation } from './PriceInformation';
 const getGlobalValue = getValueFromTheme('global');
 
 const AdditionalInformationStepVariant = {
-  MINIMAL: 'minimal',
-  EXTENDED: 'extended',
+  MOVIE: 'movie',
+  EVENT: 'event',
+  PLACE: 'place',
 } as const;
 
 type MergedInfo = {
@@ -56,7 +57,7 @@ type TabContentProps = {
 type TabConfig = {
   field: Field;
   TabContent: FC<TabContentProps & { [prop: string]: unknown }>;
-  shouldShowOnMinimal: boolean;
+  shouldShowOn?: Values<typeof AdditionalInformationStepVariant>[];
   shouldInvalidate: boolean;
   stepProps?: Record<string, unknown>;
 };
@@ -65,44 +66,41 @@ const tabConfigurations: TabConfig[] = [
   {
     field: Fields.DESCRIPTION,
     TabContent: DescriptionStep,
-    shouldShowOnMinimal: true,
     shouldInvalidate: true,
   },
   {
     field: Fields.MEDIA,
     TabContent: MediaStep,
-    shouldShowOnMinimal: true,
     shouldInvalidate: true,
   },
   {
     field: Fields.PRICE_INFO,
     TabContent: PriceInformation,
-    shouldShowOnMinimal: true,
     shouldInvalidate: true,
   },
   {
     field: Fields.CONTACT_INFO,
     TabContent: ContactInfoStep,
-    shouldShowOnMinimal: true,
     shouldInvalidate: false,
   },
   {
     field: Fields.BOOKING_INFO,
     TabContent: BookingInfoStep,
-    shouldShowOnMinimal: true,
     shouldInvalidate: true,
   },
   {
     field: Fields.ORGANIZER,
     TabContent: OrganizerStep,
-    shouldShowOnMinimal: true,
     shouldInvalidate: true,
   },
   {
     field: Fields.AUDIENCE,
     TabContent: Audience,
-    shouldShowOnMinimal: true,
     shouldInvalidate: true,
+    shouldShowOn: [
+      AdditionalInformationStepVariant.EVENT,
+      AdditionalInformationStepVariant.MOVIE,
+    ],
   },
 ];
 
@@ -190,15 +188,15 @@ const AdditionalInformationStep = ({
       >
         {tabConfigurations.map(
           ({
-            shouldShowOnMinimal,
+            shouldShowOn,
             field,
             shouldInvalidate,
             TabContent,
             stepProps,
           }) => {
-            const shouldShowTab =
-              variant !== AdditionalInformationStepVariant.MINIMAL ||
-              shouldShowOnMinimal;
+            const shouldShowTab = shouldShowOn
+              ? shouldShowOn.includes(variant)
+              : true;
 
             if (!shouldShowTab) return null;
 
@@ -239,14 +237,11 @@ const AdditionalInformationStep = ({
   );
 };
 
-AdditionalInformationStep.defaultProps = {
-  variant: AdditionalInformationStepVariant.EXTENDED,
-};
-
 const additionalInformationStepConfiguration: StepsConfiguration<FormDataUnion> = {
   Component: AdditionalInformationStep,
   title: ({ t }) => t(`movies.create.step5.title`),
   shouldShowStep: ({ offerId }) => !!offerId,
+  variant: AdditionalInformationStepVariant.EVENT,
 };
 
 export type { Field, MergedInfo, TabContentProps };

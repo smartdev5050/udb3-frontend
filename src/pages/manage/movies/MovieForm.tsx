@@ -148,7 +148,7 @@ const MovieForm = (props) => {
         productionStepConfiguration,
         {
           ...additionalInformationStepConfiguration,
-          variant: AdditionalInformationStepVariant.MINIMAL,
+          variant: AdditionalInformationStepVariant.MOVIE,
           title: () => t(`movies.create.step5.title`),
         },
       ]}
