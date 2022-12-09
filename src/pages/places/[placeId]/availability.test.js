@@ -19,7 +19,7 @@ const setup = async () => {
       },
     },
     responses: {
-      '/place/:id': { body: place },
+      '/places/:id': { body: place },
       '/places/:id/status': {},
     },
   });
