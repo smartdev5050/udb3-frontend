@@ -5,7 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { CalendarType } from '@/constants/CalendarType';
 import { EventTypes } from '@/constants/EventTypes';
 import { OfferType } from '@/constants/OfferType';
-import { getTerms } from '@/pages/create/OfferForm';
+import { SupportedLanguage } from '@/i18n/index';
+import { getTerms, parseLocationAttributes } from '@/pages/create/OfferForm';
 import {
   additionalInformationStepConfiguration,
   AdditionalInformationStepVariant,
@@ -65,7 +66,7 @@ const convertSubEventsToTimeTable = (subEvents: SubEvent[] = []) => {
 const MovieForm = (props) => {
   const router = useRouter();
   const parts = router.pathname.split('/');
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const convertOfferToFormData = (event: Event) => {
     return {
@@ -74,13 +75,13 @@ const MovieForm = (props) => {
         theme: event.terms.find((term) => term.domain === 'theme'),
         type: event.terms.find((term) => term.domain === 'eventtype'),
       },
-      place: event.location,
       timeTable: convertSubEventsToTimeTable(event.subEvent),
       production: {
         production_id: event.production?.id,
         name: event.production?.title,
         events: event.production?.otherEvents,
       },
+      ...parseLocationAttributes(event, i18n.language as SupportedLanguage),
     };
   };
 
