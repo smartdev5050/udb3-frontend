@@ -111,7 +111,52 @@ const useChangeOfferTypicalAgeRangeMutation = (configuration = {}) =>
     ...configuration,
   });
 
+const changeOfferCalendar = async ({
+  headers,
+  id,
+  calendarType,
+  timeSpans,
+  subEvent,
+  start,
+  end,
+  startDate,
+  endDate,
+  openingHours,
+  dayOfWeek,
+  opens,
+  closes,
+  scope,
+}) => {
+  return fetchFromApi({
+    path: `/${scope}/${id.toString()}/calendar`,
+    options: {
+      method: 'PUT',
+      body: JSON.stringify({
+        calendarType,
+        timeSpans,
+        subEvent,
+        start,
+        end,
+        startDate,
+        endDate,
+        openingHours,
+        dayOfWeek,
+        opens,
+        closes,
+      }),
+      headers,
+    },
+  });
+};
+
+const useChangeOfferCalendarMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: changeOfferCalendar,
+    ...configuration,
+  });
+
 export {
+  useChangeOfferCalendarMutation,
   useChangeOfferNameMutation,
   useChangeOfferTypicalAgeRangeMutation,
   useGetOffersByCreatorQuery,
