@@ -145,7 +145,7 @@ type UseGetEventByIdArguments = ServerSideQueryOptions & {
 
 const useGetEventByIdQuery = (
   { req, queryClient, id }: UseGetEventByIdArguments,
-  configuration = {},
+  configuration: UseQueryOptions = {},
 ) =>
   useAuthenticatedQuery({
     req,
@@ -153,9 +153,9 @@ const useGetEventByIdQuery = (
     queryKey: ['events'],
     queryFn: getEventById,
     queryArguments: { id },
-    enabled: !!id,
     refetchOnWindowFocus: false,
     ...configuration,
+    enabled: !!id && !!configuration.enabled,
   });
 
 const useGetEventsByIdsQuery = ({ req, queryClient, ids = [] }) => {
