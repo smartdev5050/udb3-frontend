@@ -1,9 +1,15 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { Controller, Path, PathValue } from 'react-hook-form';
+import {
+  Controller,
+  ControllerRenderProps,
+  Path,
+  PathValue,
+} from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { OfferType } from '@/constants/OfferType';
+import { Values } from '@/types/Values';
 import { parseSpacing } from '@/ui/Box';
 import { getInlineProps, Inline, InlineProps } from '@/ui/Inline';
 import { ToggleBox } from '@/ui/ToggleBox';
@@ -129,9 +135,15 @@ const ScopeStep = <TFormData extends FormDataUnion>({
         OfferType.PLACES as PathValue<TFormData, Path<TFormData>>,
       );
     }
+  }, [query, setValue]);
 
-    replace('', undefined, { shallow: true });
-  }, [query, replace]);
+  const handleChangeScope = (
+    field: ControllerRenderProps<TFormData, string & Path<TFormData>>,
+    scope: Values<typeof OfferType>,
+  ) => {
+    field.onChange(scope);
+    replace(`/create?scope=${scope}`, undefined, { shallow: true });
+  };
 
   return (
     <Controller
@@ -146,7 +158,7 @@ const ScopeStep = <TFormData extends FormDataUnion>({
             {...getInlineProps(props)}
           >
             <ToggleBox
-              onClick={() => field.onChange(OfferType.EVENTS)}
+              onClick={() => handleChangeScope(field, OfferType.EVENTS)}
               active={field.value === OfferType.EVENTS}
               icon={<IconEvent width="50" />}
               text={t('steps.offerTypeStep.types.event')}
@@ -154,7 +166,7 @@ const ScopeStep = <TFormData extends FormDataUnion>({
               minHeight={parseSpacing(7)}
             />
             <ToggleBox
-              onClick={() => field.onChange(OfferType.PLACES)}
+              onClick={() => handleChangeScope(field, OfferType.PLACES)}
               active={field.value === OfferType.PLACES}
               icon={<IconLocation width="50" />}
               text={t('steps.offerTypeStep.types.place')}
