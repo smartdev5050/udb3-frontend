@@ -220,14 +220,14 @@ const useAddLabelMutation = (configuration = {}) =>
     ...configuration,
   });
 
-const changeAddress = async ({ headers, id, address }) =>
+const changeAddress = async ({ headers, id, address, language }) =>
   fetchFromApi({
-    path: `/places/${id.toString()}`,
+    path: `/places/${id.toString()}/address/${language}`,
     options: {
       method: 'PUT',
       headers,
       body: JSON.stringify({
-        address,
+        ...address,
       }),
     },
   });
