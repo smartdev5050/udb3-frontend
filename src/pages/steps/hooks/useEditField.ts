@@ -8,7 +8,6 @@ import { useEditNameAndProduction } from '@/pages/steps/ProductionStep';
 import { FormDataUnion } from '@/pages/steps/Steps';
 
 import { useEditCalendar } from '../CalendarStep/CalendarStep';
-import { useEditLocation } from '../LocationStep';
 
 type HandleSuccessOptions = {
   shouldInvalidateEvent?: boolean;
