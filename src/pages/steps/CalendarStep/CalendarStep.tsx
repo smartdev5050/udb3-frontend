@@ -30,6 +30,7 @@ import {
 } from '../machines/calendarMachine';
 import { useCalendarHandlers } from '../machines/useCalendarHandlers';
 import { FormDataUnion, StepProps, StepsConfiguration } from '../Steps';
+import { convertTimeTableToSubEvents } from '../TimeTableStep';
 import { CalendarOptionToggle } from './CalendarOptionToggle';
 import { FixedDays } from './FixedDays';
 import { OneOrMoreDays } from './OneOrMoreDays';
@@ -42,10 +43,17 @@ const useEditCalendar = <TFormData extends FormDataUnion>({
     onSuccess: () => onSuccess('calendar', { shouldInvalidateEvent: false }),
   });
 
-  return async ({ scope, calendar }: TFormData) => {
+  return async ({ scope, calendar, timeTable }: TFormData) => {
+    const subEvent = convertTimeTableToSubEvents(timeTable);
+
     await changeCalendarMutation.mutateAsync({
       id: offerId,
       ...calendar,
+      ...(timeTable && {
+        subEvent,
+        calendarType:
+          subEvent.length > 1 ? CalendarType.MULTIPLE : CalendarType.SINGLE,
+      }),
       scope,
     });
   };

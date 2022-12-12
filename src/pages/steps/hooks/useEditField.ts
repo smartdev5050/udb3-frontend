@@ -52,6 +52,7 @@ const useEditField = <TFormData extends FormDataUnion>({
       location: editPlace,
       nameAndAgeRange: editNameAndAgeRange,
       timeTable: editCalendar,
+      calendar: editCalendar,
       place: editLocation,
       production: editNameAndProduction,
     };

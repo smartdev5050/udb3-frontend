@@ -3,8 +3,6 @@ import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
-import { CalendarType } from '@/constants/CalendarType';
-import { useChangeCalendarMutation } from '@/hooks/api/events';
 import type {
   FormDataUnion,
   StepProps,
@@ -55,24 +53,6 @@ const convertTimeTableToSubEvents = (timeTable: TimeTableValue) => {
     ],
     [],
   );
-};
-
-const useEditCalendar = <TFormData extends FormDataUnion>({
-  scope,
-  offerId,
-  onSuccess,
-}) => {
-  const changeCalendarMutation = useChangeCalendarMutation({
-    onSuccess: () => onSuccess('calendar', { shouldInvalidateEvent: false }),
-  });
-
-  return async ({ timeTable }: TFormData) => {
-    await changeCalendarMutation.mutateAsync({
-      id: offerId,
-      calendarType: CalendarType.MULTIPLE,
-      timeSpans: convertTimeTableToSubEvents(timeTable),
-    });
-  };
 };
 
 type TimeTableStepProps<TFormData extends FormDataUnion> = StackProps &
@@ -149,8 +129,4 @@ const timeTableStepConfiguration: StepsConfiguration<FormDataUnion> = {
   title: ({ t }) => t(`movies.create.step2.title`),
 };
 
-export {
-  convertTimeTableToSubEvents,
-  timeTableStepConfiguration,
-  useEditCalendar,
-};
+export { convertTimeTableToSubEvents, timeTableStepConfiguration };
