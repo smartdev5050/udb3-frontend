@@ -4,6 +4,7 @@ import {
   useAddLabelMutation as useAddLabelOnEventMutation,
   useChangeTypicalAgeRangeMutation,
 } from '@/hooks/api/events';
+import { useAddOfferLabelMutation } from '@/hooks/api/offers';
 import {
   useAddLabelMutation as useAddLabelOnPlaceMutation,
   useAddPlaceMutation,
@@ -28,8 +29,7 @@ const useAddOffer = <TFormData extends FormDataUnion>({
   const addEventMutation = useAddEventMutation();
   const addPlaceMutation = useAddPlaceMutation();
 
-  const addLabelMutationOnEvent = useAddLabelOnEventMutation();
-  const addLabelMutationOnPlace = useAddLabelOnPlaceMutation();
+  const addLabelMutation = useAddOfferLabelMutation();
 
   const createProductionWithEventsMutation =
     useCreateProductionWithEventsMutation();
@@ -46,11 +46,6 @@ const useAddOffer = <TFormData extends FormDataUnion>({
     const addOfferMutation =
       scope === OfferType.EVENTS ? addEventMutation : addPlaceMutation;
 
-    const addLabelMutation =
-      scope === OfferType.EVENTS
-        ? addLabelMutationOnEvent
-        : addLabelMutationOnPlace;
-
     const { eventId, placeId } = await addOfferMutation.mutateAsync(payload);
 
     const offerId: string = eventId || placeId;
@@ -61,6 +56,7 @@ const useAddOffer = <TFormData extends FormDataUnion>({
       await addLabelMutation.mutateAsync({
         id: offerId,
         label,
+        scope,
       });
     }
 
@@ -77,7 +73,7 @@ const useAddOffer = <TFormData extends FormDataUnion>({
     } else {
       await addEventToProductionByIdMutation.mutateAsync({
         productionId: production.production_id,
-        offerId,
+        eventId: offerId,
       });
     }
 
