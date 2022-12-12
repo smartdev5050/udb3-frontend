@@ -30,7 +30,7 @@ import { parseOfferId } from '@/utils/parseOfferId';
 import { CityPicker } from '../CityPicker';
 import { Features, NewFeatureTooltip } from '../NewFeatureTooltip';
 import { CountryPicker } from './CountryPicker';
-import { PlaceStep, placeStepConfiguration } from './PlaceStep';
+import { PlaceStep } from './PlaceStep';
 import {
   FormDataUnion,
   getStepProps,
