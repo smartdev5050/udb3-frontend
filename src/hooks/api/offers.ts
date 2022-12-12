@@ -6,11 +6,12 @@ import { createEmbededCalendarSummaries } from '@/utils/createEmbededCalendarSum
 import { createSortingArgument } from '@/utils/createSortingArgument';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 
-import type {
+import {
   AuthenticatedQueryOptions,
   CalendarSummaryFormats,
   PaginationOptions,
   SortOptions,
+  useAuthenticatedMutation,
 } from './authenticated-query';
 import { useAuthenticatedQuery } from './authenticated-query';
 
@@ -75,4 +76,18 @@ const useGetOffersByCreatorQuery = (
   });
 };
 
-export { useGetOffersByCreatorQuery };
+const changeOfferName = async ({ headers, id, lang, name, scope }) => {
+  return fetchFromApi({
+    path: `/${scope}/${id.toString()}/name/${lang}`,
+    options: {
+      method: 'PUT',
+      body: JSON.stringify({ name }),
+      headers,
+    },
+  });
+};
+
+const useChangeOfferNameMutation = (configuration = {}) =>
+  useAuthenticatedMutation({ mutationFn: changeOfferName, ...configuration });
+
+export { useChangeOfferNameMutation, useGetOffersByCreatorQuery };
