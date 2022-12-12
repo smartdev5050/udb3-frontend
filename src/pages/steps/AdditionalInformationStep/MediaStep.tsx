@@ -256,7 +256,7 @@ const MediaStep = ({
 
   const handleClickSetMainImage = useCallback(
     (imageId: string) => addEventMainImageMutation.mutate({ eventId, imageId }),
-    [addEventMainImageMutation, offerId],
+    [addEventMainImageMutation, eventId],
   );
 
   const handleConfirmDeleteImage = (imageId: string) => {

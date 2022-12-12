@@ -108,7 +108,6 @@ const StepsForm = <TFormData extends FormDataUnion>({
   const offer = useGetOffer({
     id: offerId,
     onSuccess: (offer: Offer) => {
-      console.log('in on success');
       reset(convertOfferToFormData(offer), {
         keepDirty: true,
       });

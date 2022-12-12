@@ -81,7 +81,11 @@ const MovieForm = (props) => {
         name: event.production?.title,
         events: event.production?.otherEvents,
       },
-      ...parseLocationAttributes(event, i18n.language as SupportedLanguage),
+      ...parseLocationAttributes(
+        event,
+        i18n.language as SupportedLanguage,
+        event.mainLanguage,
+      ),
     };
   };
 
