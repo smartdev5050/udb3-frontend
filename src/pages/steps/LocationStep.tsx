@@ -79,7 +79,6 @@ const useEditLocation = <TFormData extends FormDataUnion>({
 
     changeAddressMutation.mutate({
       id: offerId,
-      address,
       address: address[i18n.language],
       language: i18n.language,
     });
