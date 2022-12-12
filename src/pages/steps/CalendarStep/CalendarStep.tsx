@@ -10,6 +10,8 @@ import {
   useChangeCalendarMutation,
   useGetEventByIdQuery,
 } from '@/hooks/api/events';
+import { useChangeOfferCalendarMutation } from '@/hooks/api/offers';
+import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import { useToast } from '@/pages/manage/movies/useToast';
 import { Event } from '@/types/Event';
 import { Panel } from '@/ui/Panel';
@@ -31,6 +33,23 @@ import { FormDataUnion, StepProps, StepsConfiguration } from '../Steps';
 import { CalendarOptionToggle } from './CalendarOptionToggle';
 import { FixedDays } from './FixedDays';
 import { OneOrMoreDays } from './OneOrMoreDays';
+
+const useEditCalendar = <TFormData extends FormDataUnion>({
+  offerId,
+  onSuccess,
+}) => {
+  const changeCalendarMutation = useChangeOfferCalendarMutation({
+    onSuccess: () => onSuccess('calendar', { shouldInvalidateEvent: false }),
+  });
+
+  return async ({ scope, calendar }: TFormData) => {
+    await changeCalendarMutation.mutateAsync({
+      id: offerId,
+      ...calendar,
+      scope,
+    });
+  };
+};
 
 const convertStateToFormData = (state: CalendarState) => {
   if (!state) return undefined;
@@ -128,7 +147,12 @@ const CalendarStep = <TFormData extends FormDataUnion>({
     handleLoadInitialContext();
   }, [offerId, handleLoadInitialContext]);
 
-  const getEventByIdQuery = useGetEventByIdQuery({ id: offerId });
+  const useGetOfferByIdQuery =
+    watchedValues?.scope === OfferType.EVENTS
+      ? useGetEventByIdQuery
+      : useGetPlaceByIdQuery;
+
+  const getEventByIdQuery = useGetOfferByIdQuery({ id: offerId });
 
   // @ts-expect-error
   const event: Event | undefined = getEventByIdQuery.data;
@@ -277,4 +301,9 @@ const calendarStepConfiguration: StepsConfiguration<FormDataUnion> = {
   },
 };
 
-export { CalendarStep, calendarStepConfiguration, convertStateToFormData };
+export {
+  CalendarStep,
+  calendarStepConfiguration,
+  convertStateToFormData,
+  useEditCalendar,
+};
