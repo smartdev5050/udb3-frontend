@@ -1,8 +1,10 @@
 import { Controller, Path } from 'react-hook-form';
 import * as yup from 'yup';
 
-import { useChangeTypicalAgeRangeMutation } from '@/hooks/api/events';
-import { useChangeOfferNameMutation } from '@/hooks/api/offers';
+import {
+  useChangeOfferNameMutation,
+  useChangeOfferTypicalAgeRangeMutation,
+} from '@/hooks/api/offers';
 import { parseSpacing } from '@/ui/Box';
 import { Stack } from '@/ui/Stack';
 
@@ -24,7 +26,7 @@ const useEditNameAndAgeRange = <TFormData extends FormDataUnion>({
     onSuccess: () => onSuccess('basic_info'),
   });
 
-  const changeTypicalAgeRangeMutation = useChangeTypicalAgeRangeMutation({
+  const changeTypicalAgeRangeMutation = useChangeOfferTypicalAgeRangeMutation({
     onSuccess: () => onSuccess('basic_info'),
   });
 
@@ -35,6 +37,7 @@ const useEditNameAndAgeRange = <TFormData extends FormDataUnion>({
       await changeTypicalAgeRangeMutation.mutateAsync({
         eventId: offerId,
         typicalAgeRange,
+        scope,
       });
     }
 
