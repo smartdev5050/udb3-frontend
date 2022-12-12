@@ -1,17 +1,15 @@
-import { Controller } from 'react-hook-form';
+import { Controller, Path } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { OfferType } from '@/constants/OfferType';
 import { parseSpacing } from '@/ui/Box';
-import { Icons } from '@/ui/Icon';
 import { getInlineProps, Inline, InlineProps } from '@/ui/Inline';
-import { Stack } from '@/ui/Stack';
 import { ToggleBox } from '@/ui/ToggleBox';
 
 import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
 
 type Props<TFormData extends FormDataUnion> = InlineProps &
-  StepProps<TFormData>;
+  StepProps<TFormData> & { offerId?: string };
 
 const IconEvent = ({ width }: { width: string }) => {
   return (
@@ -105,11 +103,18 @@ const IconLocation = ({ width }: { width: string }) => {
 };
 
 const ScopeStep = <TFormData extends FormDataUnion>({
+  offerId,
   control,
   name,
+  resetField,
   ...props
 }: Props<TFormData>) => {
   const { t } = useTranslation();
+
+  const resetFieldsAfterScopeChange = () => {
+    if (offerId) return;
+    resetField('typeAndTheme' as Path<TFormData>);
+  };
 
   return (
     <Controller
@@ -124,7 +129,10 @@ const ScopeStep = <TFormData extends FormDataUnion>({
             {...getInlineProps(props)}
           >
             <ToggleBox
-              onClick={() => field.onChange(OfferType.EVENTS)}
+              onClick={() => {
+                resetFieldsAfterScopeChange();
+                field.onChange(OfferType.EVENTS);
+              }}
               active={field.value === OfferType.EVENTS}
               icon={<IconEvent width="50" />}
               text={t('steps.offerTypeStep.types.event')}
@@ -132,7 +140,10 @@ const ScopeStep = <TFormData extends FormDataUnion>({
               minHeight={parseSpacing(7)}
             />
             <ToggleBox
-              onClick={() => field.onChange(OfferType.PLACES)}
+              onClick={() => {
+                resetFieldsAfterScopeChange();
+                field.onChange(OfferType.PLACES);
+              }}
               active={field.value === OfferType.PLACES}
               icon={<IconLocation width="50" />}
               text={t('steps.offerTypeStep.types.place')}
@@ -151,11 +162,7 @@ const scopeStepConfiguration: StepsConfiguration<FormDataUnion> = {
   name: 'scope',
   title: ({ t }) => t(`create.scope.title`),
   shouldShowStep: ({ watch, offerId, formState }) => {
-    return (
-      !offerId &&
-      !watch('typeAndTheme')?.type?.id &&
-      !formState.dirtyFields.typeAndTheme
-    );
+    return !offerId;
   },
 };
 
