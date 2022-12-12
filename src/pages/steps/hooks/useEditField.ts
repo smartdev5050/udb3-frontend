@@ -6,8 +6,8 @@ import { useEditNameAndAgeRange } from '@/pages/steps/NameAndAgeRangeStep';
 import { useEditPlace } from '@/pages/steps/PlaceStep';
 import { useEditNameAndProduction } from '@/pages/steps/ProductionStep';
 import { FormDataUnion } from '@/pages/steps/Steps';
-import { useEditCalendar } from '@/pages/steps/TimeTableStep';
 
+import { useEditCalendar } from '../CalendarStep/CalendarStep';
 import { useEditLocation } from '../LocationStep';
 
 type HandleSuccessOptions = {
