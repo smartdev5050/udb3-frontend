@@ -19,12 +19,14 @@ import {
 import { nameAndAgeRangeStepConfiguration } from '@/pages/steps/NameAndAgeRangeStep';
 import { scopeStepConfiguration } from '@/pages/steps/ScopeStep';
 import { StepsForm } from '@/pages/steps/StepsForm';
+import { Address, AddressInternal } from '@/types/Address';
 import { Country } from '@/types/Country';
 import { AttendanceMode, Event, isEvent } from '@/types/Event';
 import { Offer } from '@/types/Offer';
 import { isPlace, Place } from '@/types/Place';
 import { Values } from '@/types/Values';
 import { WorkflowStatusMap } from '@/types/WorkflowStatus';
+import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 import { City } from '../CityPicker';
@@ -70,6 +72,48 @@ const getTerms = <TFormData extends FormDataUnion>(
   return { terms };
 };
 
+const getAddress = (
+  address: Address,
+  language: SupportedLanguage,
+  mainLanguage: SupportedLanguage,
+) => {
+  return getLanguageObjectOrFallback<AddressInternal>(
+    address,
+    language,
+    mainLanguage,
+  );
+};
+
+const parseLocationAttributes = (
+  offer: Offer,
+  language: SupportedLanguage,
+  mainLanguage: SupportedLanguage,
+) => {
+  const { addressCountry, addressLocality, postalCode, streetAddress } =
+    getAddress(
+      isEvent(offer) ? offer.location.address : offer.address,
+      language,
+      mainLanguage,
+    );
+
+  const isOnline =
+    isEvent(offer) && offer.attendanceMode === AttendanceMode.ONLINE;
+
+  return {
+    location: {
+      isOnline,
+      municipality: {
+        zip: postalCode,
+        label: `${postalCode} ${addressLocality}`,
+        name: addressLocality,
+      },
+      place: isEvent(offer) ? offer.location : undefined,
+      country: addressCountry,
+      ...(isPlace(offer) && { streetAndNumber: streetAddress }),
+    },
+  };
+};
+
 const OfferForm = () => {
   const { t, i18n } = useTranslation();
   const { query, pathname } = useRouter();
@@ -89,39 +133,14 @@ const OfferForm = () => {
     return undefined;
   }, [pathname]);
 
-  const parseLocationAttributes = (offer: Offer) => {
-    const eventAddress = isEvent(offer)
-      ? offer.location.address[i18n.language as SupportedLanguage] ??
-        offer.location.address
-      : offer.address[i18n.language];
-
-    const isOnline =
-      isEvent(offer) && offer.attendanceMode === AttendanceMode.ONLINE;
-
-    const country = isEvent(offer)
-      ? offer.location.address[i18n.language as SupportedLanguage]
-          .addressCountry
-      : offer.address[i18n.language].addressCountry;
-
-    return {
-      location: {
-        isOnline,
-        municipality: {
-          zip: eventAddress.postalCode,
-          label: `${eventAddress.postalCode} ${eventAddress.addressLocality}`,
-          name: eventAddress.addressLocality,
-        },
-        place: isEvent(offer) ? offer.location : undefined,
-        country,
-        ...(isPlace(offer) && { streetAndNumber: eventAddress.streetAddress }),
-      },
-    };
-  };
-
   const convertOfferToFormData = (offer: Offer) => {
     return {
       scope: isEvent(offer) ? OfferType.EVENTS : OfferType.PLACES,
-      ...parseLocationAttributes(offer),
+      ...parseLocationAttributes(
+        offer,
+        i18n.language as SupportedLanguage,
+        offer.mainLanguage,
+      ),
       typeAndTheme: {
         theme: offer.terms.find((term) => term.domain === 'theme'),
         type: offer.terms.find((term) => term.domain === 'eventtype'),
@@ -267,4 +286,8 @@ const OfferFormWithCalendarMachine = () => (
 );
 
 export type { FormData, Scope };
-export { getTerms, OfferFormWithCalendarMachine as OfferForm };
+export {
+  getTerms,
+  OfferFormWithCalendarMachine as OfferForm,
+  parseLocationAttributes,
+};
