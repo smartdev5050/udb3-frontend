@@ -90,4 +90,29 @@ const changeOfferName = async ({ headers, id, lang, name, scope }) => {
 const useChangeOfferNameMutation = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: changeOfferName, ...configuration });
 
-export { useChangeOfferNameMutation, useGetOffersByCreatorQuery };
+const changeOfferTypicalAgeRange = async ({
+  headers,
+  eventId,
+  typicalAgeRange,
+  scope,
+}) =>
+  fetchFromApi({
+    path: `/${scope}/${eventId}/typicalAgeRange`,
+    options: {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({ typicalAgeRange }),
+    },
+  });
+
+const useChangeOfferTypicalAgeRangeMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: changeOfferTypicalAgeRange,
+    ...configuration,
+  });
+
+export {
+  useChangeOfferNameMutation,
+  useChangeOfferTypicalAgeRangeMutation,
+  useGetOffersByCreatorQuery,
+};
