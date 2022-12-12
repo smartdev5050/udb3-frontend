@@ -170,10 +170,47 @@ const useAddOfferLabelMutation = (configuration = {}) =>
     ...configuration,
   });
 
+const changeOfferTheme = async ({ headers, id, themeId, scope }) => {
+  if (!themeId) {
+    return fetchFromApi({
+      path: `/${scope}/${id.toString()}/theme`,
+      options: {
+        method: 'DELETE',
+        headers,
+      },
+    });
+  }
+
+  return fetchFromApi({
+    path: `/${scope}/${id.toString()}/theme/${themeId}`,
+    options: {
+      method: 'PUT',
+      headers,
+    },
+  });
+};
+
+const useChangeOfferThemeMutation = (configuration = {}) =>
+  useAuthenticatedMutation({ mutationFn: changeOfferTheme, ...configuration });
+
+const changeOfferType = async ({ headers, id, typeId, scope }) =>
+  fetchFromApi({
+    path: `/${scope}/${id.toString()}/type/${typeId}`,
+    options: {
+      method: 'PUT',
+      headers,
+    },
+  });
+
+const useChangeOfferTypeMutation = (configuration = {}) =>
+  useAuthenticatedMutation({ mutationFn: changeOfferType, ...configuration });
+
 export {
   useAddOfferLabelMutation,
   useChangeOfferCalendarMutation,
   useChangeOfferNameMutation,
+  useChangeOfferThemeMutation,
+  useChangeOfferTypeMutation,
   useChangeOfferTypicalAgeRangeMutation,
   useGetOffersByCreatorQuery,
 };

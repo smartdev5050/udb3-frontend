@@ -8,6 +8,10 @@ import {
   useChangeTypeMutation as useChangeTypeOnEventMutation,
 } from '@/hooks/api/events';
 import {
+  useChangeOfferThemeMutation,
+  useChangeOfferTypeMutation,
+} from '@/hooks/api/offers';
+import {
   useChangeThemeMutation as useChangeThemeOnPlaceMutation,
   useChangeTypeMutation as useChangeTypeOnPlaceMutation,
 } from '@/hooks/api/places';
@@ -30,19 +34,11 @@ const useEditTypeAndTheme = <TFormData extends FormDataUnion>({
   offerId,
   onSuccess,
 }) => {
-  const useChangeTypeMutation =
-    scope === OfferType.EVENTS
-      ? useChangeTypeOnEventMutation
-      : useChangeTypeOnPlaceMutation;
-  const changeTypeMutation = useChangeTypeMutation({
+  const changeTypeMutation = useChangeOfferTypeMutation({
     onSuccess: () => onSuccess('typeAndTheme'),
   });
 
-  const useChangeThemeMutation =
-    scope === OfferType.EVENTS
-      ? useChangeThemeOnEventMutation
-      : useChangeThemeOnPlaceMutation;
-  const changeThemeMutation = useChangeThemeMutation({
+  const changeThemeMutation = useChangeOfferThemeMutation({
     onSuccess: () => onSuccess('typeAndTheme'),
   });
 
@@ -52,11 +48,13 @@ const useEditTypeAndTheme = <TFormData extends FormDataUnion>({
     await changeTypeMutation.mutateAsync({
       id: offerId,
       typeId: typeAndTheme.type?.id,
+      scope,
     });
 
     await changeThemeMutation.mutateAsync({
       id: offerId,
       themeId: typeAndTheme.theme?.id,
+      scope,
     });
   };
 };
