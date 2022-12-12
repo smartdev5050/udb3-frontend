@@ -1,10 +1,8 @@
 import { Controller, Path } from 'react-hook-form';
 import * as yup from 'yup';
 
-import {
-  useChangeNameMutation,
-  useChangeTypicalAgeRangeMutation,
-} from '@/hooks/api/events';
+import { useChangeTypicalAgeRangeMutation } from '@/hooks/api/events';
+import { useChangeOfferNameMutation } from '@/hooks/api/offers';
 import { parseSpacing } from '@/ui/Box';
 import { Stack } from '@/ui/Stack';
 
@@ -22,7 +20,7 @@ const useEditNameAndAgeRange = <TFormData extends FormDataUnion>({
   onSuccess,
   offerId,
 }) => {
-  const changeNameMutation = useChangeNameMutation({
+  const changeNameMutation = useChangeOfferNameMutation({
     onSuccess: () => onSuccess('basic_info'),
   });
 
@@ -44,6 +42,7 @@ const useEditNameAndAgeRange = <TFormData extends FormDataUnion>({
       id: offerId,
       lang: 'nl',
       name: name.nl,
+      scope,
     });
   };
 };
