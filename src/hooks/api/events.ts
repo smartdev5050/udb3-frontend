@@ -124,7 +124,7 @@ const useGetEventsToModerateQuery = (searchQuery, configuration = {}) =>
 
 const getEventById = async ({ headers, id }) => {
   const res = await fetchFromApi({
-    path: `/event/${id.toString()}`,
+    path: `/events/${id.toString()}`,
     searchParams: {
       embedUitpasPrices: 'true',
     },
@@ -637,7 +637,7 @@ const useDeleteOrganizerFromEventMutation = (configuration = {}) =>
 
 const publish = async ({ headers, eventId, publicationDate }) =>
   fetchFromApi({
-    path: `/event/${eventId}`,
+    path: `/events/${eventId}`,
     options: {
       method: 'PATCH',
       headers: {
