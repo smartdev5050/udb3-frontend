@@ -57,7 +57,10 @@ const StepsForm = <TFormData extends FormDataUnion>({
   );
 
   const scope = useMemo(() => {
-    if (pathname.startsWith('/events')) {
+    if (
+      pathname.startsWith('/events') ||
+      pathname.startsWith('/manage/movies')
+    ) {
       return OfferType.EVENTS;
     }
 
@@ -105,6 +108,7 @@ const StepsForm = <TFormData extends FormDataUnion>({
   const offer = useGetOffer({
     id: offerId,
     onSuccess: (offer: Offer) => {
+      console.log('in on success');
       reset(convertOfferToFormData(offer), {
         keepDirty: true,
       });

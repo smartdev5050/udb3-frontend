@@ -155,7 +155,23 @@ const useChangeOfferCalendarMutation = (configuration = {}) =>
     ...configuration,
   });
 
+const addOfferLabel = async ({ headers, id, label, scope }) =>
+  fetchFromApi({
+    path: `/${scope}/${id}/labels/${label}`,
+    options: {
+      method: 'PUT',
+      headers,
+    },
+  });
+
+const useAddOfferLabelMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: addOfferLabel,
+    ...configuration,
+  });
+
 export {
+  useAddOfferLabelMutation,
   useChangeOfferCalendarMutation,
   useChangeOfferNameMutation,
   useChangeOfferTypicalAgeRangeMutation,
