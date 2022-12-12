@@ -22,7 +22,7 @@ import { StepsForm } from '@/pages/steps/StepsForm';
 import { Country } from '@/types/Country';
 import { AttendanceMode, Event, isEvent } from '@/types/Event';
 import { Offer } from '@/types/Offer';
-import { Place } from '@/types/Place';
+import { isPlace, Place } from '@/types/Place';
 import { Values } from '@/types/Values';
 import { WorkflowStatusMap } from '@/types/WorkflowStatus';
 import { parseOfferId } from '@/utils/parseOfferId';
@@ -113,6 +113,7 @@ const OfferForm = () => {
         },
         place: isEvent(offer) ? offer.location : undefined,
         country,
+        ...(isPlace(offer) && { streetAndNumber: eventAddress.streetAddress }),
       },
     };
   };
