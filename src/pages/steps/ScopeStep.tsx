@@ -17,7 +17,7 @@ import { ToggleBox } from '@/ui/ToggleBox';
 import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
 
 type Props<TFormData extends FormDataUnion> = InlineProps &
-  StepProps<TFormData>;
+  StepProps<TFormData> & { offerId?: string };
 
 const IconEvent = ({ width }: { width: string }) => {
   return (
@@ -111,9 +111,11 @@ const IconLocation = ({ width }: { width: string }) => {
 };
 
 const ScopeStep = <TFormData extends FormDataUnion>({
+  offerId,
   control,
   name,
   setValue,
+  resetField,
   ...props
 }: Props<TFormData>) => {
   const { t } = useTranslation();
@@ -143,6 +145,12 @@ const ScopeStep = <TFormData extends FormDataUnion>({
   ) => {
     field.onChange(scope);
     replace(`/create?scope=${scope}`, undefined, { shallow: true });
+    resetFieldsAfterScopeChange();
+  };
+
+  const resetFieldsAfterScopeChange = () => {
+    if (offerId) return;
+    resetField('typeAndTheme' as Path<TFormData>);
   };
 
   return (
@@ -185,11 +193,7 @@ const scopeStepConfiguration: StepsConfiguration<FormDataUnion> = {
   name: 'scope',
   title: ({ t }) => t(`create.scope.title`),
   shouldShowStep: ({ watch, offerId, formState }) => {
-    return (
-      !offerId &&
-      !watch('typeAndTheme')?.type?.id &&
-      !formState.dirtyFields.typeAndTheme
-    );
+    return !offerId;
   },
 };
 
