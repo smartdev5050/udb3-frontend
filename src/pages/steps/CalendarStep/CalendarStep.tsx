@@ -79,9 +79,7 @@ const convertStateToFormData = (state: CalendarState) => {
     bookingAvailability: {
       type: BookingAvailabilityType.AVAILABLE,
     }, // Always available or depends on current state?
-    status: {
-      type: day.status,
-    },
+    status: day.status,
   }));
 
   const newOpeningHours = openingHours.map((openingHour) => ({
