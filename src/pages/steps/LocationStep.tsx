@@ -5,11 +5,15 @@ import * as yup from 'yup';
 
 import { EventTypes } from '@/constants/EventTypes';
 import { OfferType } from '@/constants/OfferType';
-import { useChangeLocationMutation } from '@/hooks/api/events';
+import {
+  useChangeAttendanceModeMutation,
+  useChangeLocationMutation,
+} from '@/hooks/api/events';
 import { useChangeAddressMutation } from '@/hooks/api/places';
 import { FormData as OfferFormData } from '@/pages/create/OfferForm';
 import { Address } from '@/types/Address';
 import { Countries } from '@/types/Country';
+import { AttendanceMode } from '@/types/Event';
 import { Place } from '@/types/Place';
 import { Values } from '@/types/Values';
 import { Alert } from '@/ui/Alert';
@@ -45,13 +49,20 @@ const useEditLocation = ({ scope, offerId, onSuccess }) => {
   const { i18n } = useTranslation();
   const changeLocationMutation = useChangeLocationMutation();
   const changeAddressMutation = useChangeAddressMutation();
+  const changeAttendanceMode = useChangeAttendanceModeMutation();
 
   return async ({ location }: FormDataUnion) => {
     if (scope === OfferType.EVENTS) {
+      if (location.isOnline) {
+        changeAttendanceMode.mutate({
+          eventId: offerId,
+          attendanceMode: AttendanceMode.ONLINE,
+        });
+        return;
+      }
+
       if (!location.municipality) return;
       if (!location.place) return;
-
-      // TODO: Add isOnline support
 
       changeLocationMutation.mutate({
         id: offerId,
