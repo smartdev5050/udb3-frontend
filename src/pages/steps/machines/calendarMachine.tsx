@@ -21,6 +21,7 @@ import {
 } from 'xstate';
 
 import { CalendarType } from '@/constants/CalendarType';
+import { OfferStatus } from '@/constants/OfferStatus';
 import { OpeningHours } from '@/types/Offer';
 import { Values } from '@/types/Values';
 
@@ -58,6 +59,7 @@ export const initialCalendarContext = {
       id: createDayId(),
       startDate: getStartDate(),
       endDate: getEndDate(),
+      status: OfferStatus.AVAILABLE,
     },
   ],
   startDate: getStartDate(),
@@ -177,7 +179,10 @@ const calendarMachineOptions: MachineOptions<CalendarContext, CalendarEvents> =
           const lastDay = context.days.at(-1);
           if (!lastDay) return context.days;
 
-          return [...context.days, { ...lastDay, id: createDayId() }];
+          return [
+            ...context.days,
+            { ...lastDay, id: createDayId(), status: OfferStatus.AVAILABLE },
+          ];
         },
       }),
       removeDay: assign({
