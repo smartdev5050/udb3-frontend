@@ -1,5 +1,5 @@
 import { TFunction } from 'i18next';
-import { Controller, Path, useWatch } from 'react-hook-form';
+import { Controller, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
