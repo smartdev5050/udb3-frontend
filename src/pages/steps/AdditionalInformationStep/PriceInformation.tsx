@@ -217,13 +217,11 @@ const PriceInformation = ({
     const selectedRate = watchedRates[id];
 
     // if rate exists on priceInfo, also delete it from API
-    // @ts-expect-error
+
     const existsInCurrentData = priceInfo.some(
       (priceInfoItem) =>
-        // @ts-expect-error
         selectedRate.name[i18n.language] ===
           priceInfoItem.name[i18n.language] &&
-        // @ts-expect-error
         selectedRate.price === priceInfoItem.price,
     );
 
