@@ -80,7 +80,7 @@ const convertStateToFormData = (state: CalendarState) => {
       type: BookingAvailabilityType.AVAILABLE,
     }, // Always available or depends on current state?
     status: {
-      type: OfferStatus.AVAILABLE,
+      type: day.status,
     },
   }));
 
@@ -169,8 +169,6 @@ const CalendarStep = <TFormData extends FormDataUnion>({
     const initialContext = initialCalendarContext;
 
     if (!event) return;
-
-    console.log({ event });
 
     const days = (event.subEvent ?? []).map((subEvent) => ({
       id: createDayId(),
