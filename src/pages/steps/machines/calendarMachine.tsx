@@ -20,6 +20,7 @@ import {
   StateNodeConfig,
 } from 'xstate';
 
+import { BookingAvailabilityType } from '@/constants/BookingAvailabilityType';
 import { CalendarType } from '@/constants/CalendarType';
 import { OfferStatus } from '@/constants/OfferStatus';
 import { OpeningHours, StatusReason } from '@/types/Offer';
@@ -58,6 +59,10 @@ type Status = {
   reason?: StatusReason;
 };
 
+type BookingAvailability = {
+  type: Values<typeof BookingAvailabilityType>;
+};
+
 export const initialCalendarContext = {
   days: [
     {
@@ -67,6 +72,9 @@ export const initialCalendarContext = {
       status: {
         type: OfferStatus.AVAILABLE,
       } as Status,
+      bookingAvailability: {
+        type: BookingAvailabilityType.AVAILABLE,
+      } as BookingAvailability,
     },
   ],
   startDate: getStartDate(),
