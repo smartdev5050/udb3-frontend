@@ -1,12 +1,9 @@
 import { OfferType } from '@/constants/OfferType';
 import {
   useAddEventMutation,
-  useAddLabelMutation as useAddLabelOnEventMutation,
-  useChangeTypicalAgeRangeMutation,
 } from '@/hooks/api/events';
 import { useAddOfferLabelMutation } from '@/hooks/api/offers';
 import {
-  useAddLabelMutation as useAddLabelOnPlaceMutation,
   useAddPlaceMutation,
 } from '@/hooks/api/places';
 import {

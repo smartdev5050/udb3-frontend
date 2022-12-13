@@ -1,4 +1,4 @@
-import { Controller, Path } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import * as yup from 'yup';
 
 import {

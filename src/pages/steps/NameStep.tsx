@@ -1,5 +1,5 @@
 import { FormEvent } from 'react';
-import { Controller, Path, useWatch } from 'react-hook-form';
+import { Controller, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { parseSpacing } from '@/ui/Box';
@@ -8,7 +8,7 @@ import { Input } from '@/ui/Input';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 
-import { FormDataUnion, StepProps } from './Steps';
+import { StepProps } from './Steps';
 
 type NameStepProps = StackProps & StepProps;
 
