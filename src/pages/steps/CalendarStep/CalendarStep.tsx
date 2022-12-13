@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { BookingAvailabilityType } from '@/constants/BookingAvailabilityType';
 import { CalendarType } from '@/constants/CalendarType';
 import { OfferStatus } from '@/constants/OfferStatus';
 import { OfferType } from '@/constants/OfferType';
@@ -15,7 +14,7 @@ import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import { useToast } from '@/pages/manage/movies/useToast';
 import { Event } from '@/types/Event';
 import { Panel } from '@/ui/Panel';
-import { getStackProps, Stack, StackProps } from '@/ui/Stack';
+import { getStackProps, Stack } from '@/ui/Stack';
 import { Toast } from '@/ui/Toast';
 
 import {
@@ -108,14 +107,10 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
   const isFixedDays = useIsFixedDays();
   const isIdle = useIsIdle();
 
-  const startDate = useCalendarSelector((state) => state.context.startDate);
-  const endDate = useCalendarSelector((state) => state.context.endDate);
   const calendarStateType = useCalendarSelector((state) => state.value);
   const days = useCalendarSelector((state) => state.context.days);
   const state = useCalendarSelector((state) => state);
-  const openingHours = useCalendarSelector(
-    (state) => state.context.openingHours,
-  );
+
   const previousState = useCalendarSelector((state) => state.history?.value);
 
   const hasUnavailableSubEvent = useMemo(
