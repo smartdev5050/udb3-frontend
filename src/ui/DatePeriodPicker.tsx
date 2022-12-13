@@ -13,7 +13,7 @@ type Props = InlineProps & {
   minDate?: Date;
   onDateStartChange: (date: Date) => void;
   onDateEndChange: (date: Date) => void;
-  disabled: boolean;
+  disabled?: boolean;
 };
 
 const DatePeriodPicker = ({
