@@ -106,10 +106,9 @@ const PlaceStep = <TFormData extends FormDataUnion>({
     ],
   );
 
-  // @ts-ignore
-  const place = watch('place');
+  // @ts-expect-error
+  const place = watch('location.place');
 
-  // @ts-ignore
   const selectedPlace = parentFieldValue
     ? parentFieldValue.place ?? undefined
     : place;
