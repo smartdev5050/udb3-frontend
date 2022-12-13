@@ -196,7 +196,12 @@ const calendarMachineOptions: MachineOptions<CalendarContext, CalendarEvents> =
 
           return [
             ...context.days,
-            { ...lastDay, id: createDayId(), status: OfferStatus.AVAILABLE },
+            {
+              ...lastDay,
+              id: createDayId(),
+              status: { type: OfferStatus.AVAILABLE },
+              bookingAvailability: { type: BookingAvailabilityType.AVAILABLE },
+            },
           ];
         },
       }),

@@ -28,7 +28,6 @@ type Props = Omit<BoxProps, 'onChange'> & {
   minDate?: Date;
   maxDate?: Date;
   onChange?: (value: Date) => void;
-  disabled: boolean;
 };
 
 const DatePicker = ({
