@@ -130,6 +130,11 @@ const CalendarStep = <TFormData extends FormDataUnion>({
   );
   const previousState = useCalendarSelector((state) => state.history?.value);
 
+  const hasUnavailableSubEvent = useMemo(
+    () => days.some((day) => day.status.type !== OfferStatus.AVAILABLE),
+    [days],
+  );
+
   const {
     handleLoadInitialContext: loadInitialContext,
     handleAddDay,
@@ -266,6 +271,7 @@ const CalendarStep = <TFormData extends FormDataUnion>({
           onChooseOneOrMoreDays={handleChooseOneOrMoreDays}
           onChooseFixedDays={handleChooseFixedDays}
           width="100%"
+          disableChooseFixedDays={hasUnavailableSubEvent}
         />
       )}
       <Panel backgroundColor="white" padding={5}>
