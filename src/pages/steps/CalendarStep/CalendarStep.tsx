@@ -73,12 +73,8 @@ const convertStateToFormData = (state: CalendarState) => {
   const subEvent = days.map((day) => ({
     startDate: new Date(day.startDate).toISOString(),
     endDate: new Date(day.endDate).toISOString(),
-    bookingAvailability: {
-      type: BookingAvailabilityType.AVAILABLE,
-    }, // Always available or depends on current state?
-    status: {
-      type: OfferStatus.AVAILABLE,
-    },
+    bookingAvailability: day.bookingAvailability,
+    status: day.status,
   }));
 
   const newOpeningHours = openingHours.map((openingHour) => ({
@@ -122,6 +118,11 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
   );
   const previousState = useCalendarSelector((state) => state.history?.value);
 
+  const hasUnavailableSubEvent = useMemo(
+    () => days.some((day) => day.status.type !== OfferStatus.AVAILABLE),
+    [days],
+  );
+
   const {
     handleLoadInitialContext: loadInitialContext,
     handleAddDay,
@@ -164,6 +165,8 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
       id: createDayId(),
       startDate: subEvent.startDate,
       endDate: subEvent.endDate,
+      status: subEvent.status,
+      bookingAvailability: subEvent.bookingAvailability,
     }));
 
     const openingHours = (event.openingHours ?? []).map((openingHour) => ({
@@ -255,6 +258,7 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
           onChooseOneOrMoreDays={handleChooseOneOrMoreDays}
           onChooseFixedDays={handleChooseFixedDays}
           width="100%"
+          disableChooseFixedDays={hasUnavailableSubEvent}
         />
       )}
       <Panel backgroundColor="white" padding={5}>

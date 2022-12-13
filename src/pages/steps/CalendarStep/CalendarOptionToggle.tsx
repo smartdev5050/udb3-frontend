@@ -11,10 +11,12 @@ import {
 type CalendarOptionToggleProps = InlineProps & {
   onChooseOneOrMoreDays: () => void;
   onChooseFixedDays: () => void;
+  disableChooseFixedDays?: boolean;
 };
 export const CalendarOptionToggle = ({
   onChooseOneOrMoreDays,
   onChooseFixedDays,
+  disableChooseFixedDays,
   ...props
 }: CalendarOptionToggleProps) => {
   const isOneOrMoreDays = useIsOneOrMoreDays();
@@ -37,6 +39,7 @@ export const CalendarOptionToggle = ({
         text="Vaste dagen per week"
         minHeight={parseSpacing(7)}
         flex={1}
+        disabled={disableChooseFixedDays}
       />
     </Inline>
   );

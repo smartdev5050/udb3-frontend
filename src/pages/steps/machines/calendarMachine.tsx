@@ -20,8 +20,10 @@ import {
   StateNodeConfig,
 } from 'xstate';
 
+import { BookingAvailabilityType } from '@/constants/BookingAvailabilityType';
 import { CalendarType } from '@/constants/CalendarType';
-import { OpeningHours } from '@/types/Offer';
+import { OfferStatus } from '@/constants/OfferStatus';
+import { OpeningHours, StatusReason } from '@/types/Offer';
 import { Values } from '@/types/Values';
 
 const getTodayWithoutTime = () => {
@@ -52,12 +54,27 @@ export type OpeningHoursWithId = OpeningHours & { id: string };
 export const createDayId = () => uniqueId('day-');
 export const createOpeninghoursId = () => uniqueId('openinghours-');
 
+type Status = {
+  type: Values<typeof OfferStatus>;
+  reason?: StatusReason;
+};
+
+type BookingAvailability = {
+  type: Values<typeof BookingAvailabilityType>;
+};
+
 export const initialCalendarContext = {
   days: [
     {
       id: createDayId(),
       startDate: getStartDate(),
       endDate: getEndDate(),
+      status: {
+        type: OfferStatus.AVAILABLE,
+      } as Status,
+      bookingAvailability: {
+        type: BookingAvailabilityType.AVAILABLE,
+      } as BookingAvailability,
     },
   ],
   startDate: getStartDate(),
@@ -177,7 +194,10 @@ const calendarMachineOptions: MachineOptions<CalendarContext, CalendarEvents> =
           const lastDay = context.days.at(-1);
           if (!lastDay) return context.days;
 
-          return [...context.days, { ...lastDay, id: createDayId() }];
+          return [
+            ...context.days,
+            { ...lastDay, id: createDayId(), status: OfferStatus.AVAILABLE },
+          ];
         },
       }),
       removeDay: assign({
