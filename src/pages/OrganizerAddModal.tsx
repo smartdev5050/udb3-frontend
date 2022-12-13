@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useMemo, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
@@ -92,7 +92,6 @@ const OrganizerAddModal = ({
     formState,
     control,
     reset,
-    watch,
     setValue,
     setError,
   } = useForm<FormData>({
@@ -102,8 +101,8 @@ const OrganizerAddModal = ({
 
   const urlRegisterProps = register('url');
 
-  const watchedUrl = watch('url');
-  const watchedCountry = watch('address.country');
+  const watchedUrl = useWatch({ control, name: 'url' });
+  const watchedCountry = useWatch({ control, name: 'address.country' });
 
   const getOrganizersByWebsiteQuery = useGetOrganizersByWebsiteQuery(
     {

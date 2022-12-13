@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
@@ -152,7 +152,7 @@ const PriceInformation = ({
 
   const {
     register,
-    watch,
+    control,
     setValue,
     trigger,
     formState: { errors, dirtyFields },
@@ -170,7 +170,7 @@ const PriceInformation = ({
     setValue('rates', [...priceInfo]);
   }, [priceInfo, setValue]);
 
-  const watchedRates = watch('rates');
+  const rates = useWatch({ control, name: 'rates' });
 
   const addPriceInfoMutation = useAddPriceInfoMutation({
     onSuccess: () => {
@@ -196,7 +196,7 @@ const PriceInformation = ({
 
   const handleClickAddRate = () => {
     setValue('rates', [
-      ...watchedRates,
+      ...rates,
       {
         name: {
           [i18n.language]: '',
@@ -210,11 +210,11 @@ const PriceInformation = ({
 
   const handleClickDeleteRate = async (id: number): Promise<void> => {
     const ratesWithDeletedItem = [
-      ...watchedRates.filter((_rate, index) => id !== index),
+      ...rates.filter((_rate, index) => id !== index),
     ];
     setValue('rates', ratesWithDeletedItem);
 
-    const selectedRate = watchedRates[id];
+    const selectedRate = rates[id];
 
     // if rate exists on priceInfo, also delete it from API
 
@@ -234,7 +234,7 @@ const PriceInformation = ({
     const seenRates = [];
 
     const duplicateName =
-      watchedRates.find((rate) => {
+      rates.find((rate) => {
         const name = rate.name[i18n.language];
 
         if (seenRates.includes(name)) {
@@ -268,7 +268,7 @@ const PriceInformation = ({
     }
 
     // If no errors submit to API
-    await handlePriceInfoSubmitValid(watchedRates);
+    await handlePriceInfoSubmitValid(rates);
   };
 
   const isPriceFree = (price: string): boolean => {
@@ -276,10 +276,8 @@ const PriceInformation = ({
   };
 
   const hasUitpasPrices = useMemo(() => {
-    return watchedRates.some(
-      (rate) => rate.category === PriceCategories.UITPAS,
-    );
-  }, [watchedRates]);
+    return rates.some((rate) => rate.category === PriceCategories.UITPAS);
+  }, [rates]);
 
   useEffect(() => {
     if (Object.keys(dirtyFields).length === 0) return;
@@ -320,7 +318,7 @@ const PriceInformation = ({
           {t('create.additionalInformation.price_info.uitpas_info')}
         </Alert>
       )}
-      {watchedRates.map((rate, index) => (
+      {rates.map((rate, index) => (
         <Inline
           key={`rate_${index}`}
           paddingTop={3}

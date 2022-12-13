@@ -41,16 +41,12 @@ import {
 const getValue = getValueFromTheme('createPage');
 const getGlobalValue = getValueFromTheme('global');
 
-const useEditLocation = <TFormData extends FormDataUnion>({
-  scope,
-  offerId,
-  onSuccess,
-}) => {
+const useEditLocation = ({ scope, offerId, onSuccess }) => {
   const { i18n } = useTranslation();
   const changeLocationMutation = useChangeLocationMutation();
   const changeAddressMutation = useChangeAddressMutation();
 
-  return async ({ location }: TFormData) => {
+  return async ({ location }: FormDataUnion) => {
     if (scope === OfferType.EVENTS) {
       if (!location.municipality) return;
       if (!location.place) return;
@@ -85,14 +81,14 @@ const useEditLocation = <TFormData extends FormDataUnion>({
   };
 };
 
-type PlaceStepProps<TFormData extends FormDataUnion> = StackProps &
-  StepProps<TFormData> & {
+type PlaceStepProps = StackProps &
+  StepProps & {
     terms: Array<Values<typeof EventTypes>>;
     chooseLabel: (t: TFunction) => string;
     placeholderLabel: (t: TFunction) => string;
   };
 
-const LocationStep = <TFormData extends FormDataUnion>({
+const LocationStep = ({
   formState,
   getValues,
   reset,
@@ -105,11 +101,10 @@ const LocationStep = <TFormData extends FormDataUnion>({
   placeholderLabel,
   watch,
   ...props
-}: PlaceStepProps<TFormData>) => {
+}: PlaceStepProps) => {
   const { t } = useTranslation();
 
-  const watchedValues = useWatch({ control });
-  const scope = watchedValues.scope;
+  const scope = useWatch({ control, name: 'scope' });
 
   return (
     <Stack {...getStackProps(props)}>
@@ -196,7 +191,6 @@ const LocationStep = <TFormData extends FormDataUnion>({
                   id="online-url"
                   label={t('create.location.online_url.label')}
                   error={
-                    // @ts-expect-error
                     formState.errors.location?.onlineUrl &&
                     t('create.validation_messages.location.online_url')
                   }
@@ -316,7 +310,7 @@ const LocationStep = <TFormData extends FormDataUnion>({
                 {scope === OfferType.EVENTS && (
                   <PlaceStep
                     maxWidth="28rem"
-                    name={'location.place' as Path<TFormData>}
+                    name={'location.place'}
                     municipality={municipality}
                     chooseLabel={chooseLabel}
                     placeholderLabel={placeholderLabel}
@@ -361,7 +355,6 @@ const LocationStep = <TFormData extends FormDataUnion>({
                     id="location-streetAndNumber"
                     label={t('location.add_modal.labels.streetAndNumber')}
                     error={
-                      // @ts-expect-error
                       formState.errors.location?.streetAndNumber &&
                       t('location.add_modal.errors.streetAndNumber')
                     }
@@ -376,7 +369,7 @@ const LocationStep = <TFormData extends FormDataUnion>({
   );
 };
 
-const locationStepConfiguration: StepsConfiguration<FormDataUnion> = {
+const locationStepConfiguration: StepsConfiguration = {
   Component: LocationStep,
   name: 'location',
   shouldShowStep: ({ watch }) => !!watch('typeAndTheme')?.type?.id,

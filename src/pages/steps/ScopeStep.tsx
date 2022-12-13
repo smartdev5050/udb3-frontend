@@ -1,11 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import {
-  Controller,
-  ControllerRenderProps,
-  Path,
-  PathValue,
-} from 'react-hook-form';
+import { Controller, ControllerRenderProps, Path } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { OfferType } from '@/constants/OfferType';
@@ -15,9 +10,6 @@ import { getInlineProps, Inline, InlineProps } from '@/ui/Inline';
 import { ToggleBox } from '@/ui/ToggleBox';
 
 import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
-
-type Props<TFormData extends FormDataUnion> = InlineProps &
-  StepProps<TFormData> & { offerId?: string };
 
 const IconEvent = ({ width }: { width: string }) => {
   return (
@@ -110,14 +102,16 @@ const IconLocation = ({ width }: { width: string }) => {
   );
 };
 
-const ScopeStep = <TFormData extends FormDataUnion>({
+type Props = InlineProps & StepProps & { offerId?: string };
+
+const ScopeStep = ({
   offerId,
   control,
   name,
   setValue,
   resetField,
   ...props
-}: Props<TFormData>) => {
+}: Props) => {
   const { t } = useTranslation();
   const { query, replace } = useRouter();
 
@@ -125,22 +119,16 @@ const ScopeStep = <TFormData extends FormDataUnion>({
     if (!query.scope) return;
 
     if (query.scope === OfferType.EVENTS) {
-      setValue(
-        'scope' as Path<TFormData>,
-        OfferType.EVENTS as PathValue<TFormData, Path<TFormData>>,
-      );
+      setValue('scope', OfferType.EVENTS);
     }
 
     if (query.scope === OfferType.PLACES) {
-      setValue(
-        'scope' as Path<TFormData>,
-        OfferType.PLACES as PathValue<TFormData, Path<TFormData>>,
-      );
+      setValue('scope', OfferType.PLACES);
     }
   }, [query, setValue]);
 
   const handleChangeScope = (
-    field: ControllerRenderProps<TFormData, string & Path<TFormData>>,
+    field: ControllerRenderProps<FormDataUnion, string & Path<FormDataUnion>>,
     scope: Values<typeof OfferType>,
   ) => {
     field.onChange(scope);
@@ -150,7 +138,7 @@ const ScopeStep = <TFormData extends FormDataUnion>({
 
   const resetFieldsAfterScopeChange = () => {
     if (offerId) return;
-    resetField('typeAndTheme' as Path<TFormData>);
+    resetField('typeAndTheme');
   };
 
   return (
@@ -188,7 +176,7 @@ const ScopeStep = <TFormData extends FormDataUnion>({
   );
 };
 
-const scopeStepConfiguration: StepsConfiguration<FormDataUnion> = {
+const scopeStepConfiguration: StepsConfiguration = {
   Component: ScopeStep,
   name: 'scope',
   title: ({ t }) => t(`create.scope.title`),

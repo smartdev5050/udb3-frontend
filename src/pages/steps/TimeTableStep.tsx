@@ -55,17 +55,16 @@ const convertTimeTableToSubEvents = (timeTable: TimeTableValue) => {
   );
 };
 
-type TimeTableStepProps<TFormData extends FormDataUnion> = StackProps &
-  StepProps<TFormData>;
+type TimeTableStepProps = StackProps & StepProps;
 
-const TimeTableStep = <TFormData extends FormDataUnion>({
+const TimeTableStep = ({
   formState: { errors },
   control,
   className,
   name,
   onChange,
   ...props
-}: TimeTableStepProps<TFormData>) => {
+}: TimeTableStepProps) => {
   const { t } = useTranslation();
 
   return (
@@ -106,7 +105,7 @@ const TimeTableStep = <TFormData extends FormDataUnion>({
 const formatDate = (date: Date) => format(date, 'dd/MM/yyyy');
 const nextWeekWednesday = nextWednesday(new Date());
 
-const timeTableStepConfiguration: StepsConfiguration<FormDataUnion> = {
+const timeTableStepConfiguration: StepsConfiguration = {
   Component: TimeTableStep,
   defaultValue: {
     data: {},

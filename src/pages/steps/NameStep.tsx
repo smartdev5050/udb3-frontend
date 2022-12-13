@@ -10,25 +10,22 @@ import { Text, TextVariants } from '@/ui/Text';
 
 import { FormDataUnion, StepProps } from './Steps';
 
-type NameStepProps<TFormData extends FormDataUnion> = StackProps &
-  StepProps<TFormData>;
+type NameStepProps = StackProps & StepProps;
 
-const NameStep = <TFormData extends FormDataUnion>({
+const NameStep = ({
   formState: { errors },
   control,
   onChange,
   ...props
-}: NameStepProps<TFormData>) => {
+}: NameStepProps) => {
   const { t, i18n } = useTranslation();
 
-  const watchedValues = useWatch({ control });
-
-  const scope = watchedValues.scope;
+  const scope = useWatch({ control, name: 'scope' });
 
   return (
     <Stack {...getStackProps(props)}>
       <Controller
-        name={'nameAndAgeRange' as Path<TFormData>}
+        name={'nameAndAgeRange'}
         control={control}
         render={({ field }) => {
           return (
@@ -68,7 +65,6 @@ const NameStep = <TFormData extends FormDataUnion>({
                   />
                 }
                 error={
-                  // @ts-expect-error
                   errors.nameAndAgeRange?.name &&
                   t('create.name_and_age.validation_messages.name.required')
                 }

@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
@@ -41,7 +41,7 @@ const Audience = ({
 }: Props) => {
   const { t } = useTranslation();
 
-  const { register, watch, setValue } = useForm<FormData>({
+  const { register, control, setValue } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
 
@@ -75,7 +75,7 @@ const Audience = ({
     });
   };
 
-  const wactchedAudienceType = watch('audienceType');
+  const wactchedAudienceType = useWatch({ control, name: 'audienceType' });
 
   return (
     <Stack {...getStackProps(props)}>

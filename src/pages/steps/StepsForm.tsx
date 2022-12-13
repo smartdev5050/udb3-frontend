@@ -26,8 +26,8 @@ import { FormDataUnion, Steps, StepsConfiguration } from './Steps';
 
 const getValue = getValueFromTheme('createPage');
 
-type StepsFormProps<TFormData extends FormDataUnion> = {
-  configurations: Array<StepsConfiguration<TFormData>>;
+type StepsFormProps = {
+  configurations: Array<StepsConfiguration>;
   convertFormDataToOffer: (data: any) => any;
   convertOfferToFormData: (event: any) => any;
   toastConfiguration: any;
@@ -35,16 +35,16 @@ type StepsFormProps<TFormData extends FormDataUnion> = {
   label?: string;
 };
 
-const StepsForm = <TFormData extends FormDataUnion>({
+const StepsForm = ({
   configurations,
   convertFormDataToOffer,
   convertOfferToFormData,
   toastConfiguration,
   title,
   label,
-}: StepsFormProps<TFormData>) => {
+}: StepsFormProps) => {
   const { t } = useTranslation();
-  const { form } = useParseStepConfiguration<TFormData>(configurations);
+  const { form } = useParseStepConfiguration(configurations);
 
   const { handleSubmit, reset } = form;
 
@@ -93,7 +93,7 @@ const StepsForm = <TFormData extends FormDataUnion>({
   const handleChangeSuccess = (editedField: string) =>
     toast.trigger(editedField);
 
-  const { handleChange, fieldLoading } = useEditField<TFormData>({
+  const { handleChange, fieldLoading } = useEditField({
     scope,
     offerId,
     handleSubmit,

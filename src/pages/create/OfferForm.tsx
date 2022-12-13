@@ -55,9 +55,7 @@ type FormData = {
   };
 };
 
-const getTerms = <TFormData extends FormDataUnion>(
-  typeAndTheme: TFormData['typeAndTheme'],
-) => {
+const getTerms = (typeAndTheme: FormDataUnion['typeAndTheme']) => {
   const { type, theme } = typeAndTheme;
 
   const terms = [

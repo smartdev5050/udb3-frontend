@@ -35,15 +35,12 @@ import { CalendarOptionToggle } from './CalendarOptionToggle';
 import { FixedDays } from './FixedDays';
 import { OneOrMoreDays } from './OneOrMoreDays';
 
-const useEditCalendar = <TFormData extends FormDataUnion>({
-  offerId,
-  onSuccess,
-}) => {
+const useEditCalendar = ({ offerId, onSuccess }) => {
   const changeCalendarMutation = useChangeOfferCalendarMutation({
     onSuccess: () => onSuccess('calendar', { shouldInvalidateEvent: false }),
   });
 
-  return async ({ scope, calendar, timeTable }: TFormData) => {
+  return async ({ scope, calendar, timeTable }: FormDataUnion) => {
     const subEvent = convertTimeTableToSubEvents(timeTable);
 
     await changeCalendarMutation.mutateAsync({
@@ -104,17 +101,12 @@ const convertStateToFormData = (state: CalendarState) => {
   };
 };
 
-type CalendarStepProps<TFormData extends FormDataUnion> =
-  StepProps<TFormData> & { offerId?: string };
+type CalendarStepProps = StepProps & { offerId?: string };
 
-const CalendarStep = <TFormData extends FormDataUnion>({
-  offerId,
-  control,
-  ...props
-}: CalendarStepProps<TFormData>) => {
+const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
   const { t } = useTranslation();
 
-  const watchedValues = useWatch({ control });
+  const scope = useWatch({ control, name: 'scope' });
 
   const isOneOrMoreDays = useIsOneOrMoreDays();
   const isFixedDays = useIsFixedDays();
@@ -156,9 +148,7 @@ const CalendarStep = <TFormData extends FormDataUnion>({
   }, [offerId, handleLoadInitialContext]);
 
   const useGetOfferByIdQuery =
-    watchedValues?.scope === OfferType.EVENTS
-      ? useGetEventByIdQuery
-      : useGetPlaceByIdQuery;
+    scope === OfferType.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
 
   const getEventByIdQuery = useGetOfferByIdQuery({ id: offerId });
 
@@ -249,10 +239,10 @@ const CalendarStep = <TFormData extends FormDataUnion>({
 
   useEffect(() => {
     if (isIdle) return;
-    if (watchedValues.scope !== OfferType.PLACES) return;
+    if (scope !== OfferType.PLACES) return;
 
     handleChooseFixedDaysCallback();
-  }, [watchedValues.scope, isIdle, handleChooseFixedDaysCallback]);
+  }, [scope, isIdle, handleChooseFixedDaysCallback]);
 
   return (
     <Stack
@@ -260,7 +250,7 @@ const CalendarStep = <TFormData extends FormDataUnion>({
       maxWidth={{ l: '100%', default: '50%' }}
       {...getStackProps(props)}
     >
-      {watchedValues.scope === OfferType.EVENTS && (
+      {scope === OfferType.EVENTS && (
         <CalendarOptionToggle
           onChooseOneOrMoreDays={handleChooseOneOrMoreDays}
           onChooseFixedDays={handleChooseFixedDays}
@@ -299,7 +289,7 @@ const CalendarStep = <TFormData extends FormDataUnion>({
   );
 };
 
-const calendarStepConfiguration: StepsConfiguration<FormDataUnion> = {
+const calendarStepConfiguration: StepsConfiguration = {
   // eslint-disable-next-line react/display-name
   Component: (props) => <CalendarStep {...props} />,
   name: 'calendar',

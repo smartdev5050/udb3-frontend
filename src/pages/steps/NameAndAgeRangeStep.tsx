@@ -17,11 +17,7 @@ import {
   StepsConfiguration,
 } from './Steps';
 
-const useEditNameAndAgeRange = <TFormData extends FormDataUnion>({
-  scope,
-  onSuccess,
-  offerId,
-}) => {
+const useEditNameAndAgeRange = ({ scope, onSuccess, offerId }) => {
   const changeNameMutation = useChangeOfferNameMutation({
     onSuccess: () => onSuccess('basic_info'),
   });
@@ -30,7 +26,7 @@ const useEditNameAndAgeRange = <TFormData extends FormDataUnion>({
     onSuccess: () => onSuccess('basic_info'),
   });
 
-  return async ({ nameAndAgeRange }: TFormData) => {
+  return async ({ nameAndAgeRange }: FormDataUnion) => {
     const { name, typicalAgeRange } = nameAndAgeRange;
 
     if (typicalAgeRange) {
@@ -50,11 +46,7 @@ const useEditNameAndAgeRange = <TFormData extends FormDataUnion>({
   };
 };
 
-const NameAndAgeRangeStep = <TFormData extends FormDataUnion>({
-  control,
-  name,
-  ...props
-}: StepProps<TFormData>) => {
+const NameAndAgeRangeStep = ({ control, name, ...props }: StepProps) => {
   return (
     <Controller
       control={control}
@@ -75,7 +67,7 @@ const NameAndAgeRangeStep = <TFormData extends FormDataUnion>({
   );
 };
 
-const nameAndAgeRangeStepConfiguration: StepsConfiguration<FormDataUnion> = {
+const nameAndAgeRangeStepConfiguration: StepsConfiguration = {
   Component: NameAndAgeRangeStep,
   name: 'nameAndAgeRange',
   title: ({ t }) => t('create.name_and_age.title'),

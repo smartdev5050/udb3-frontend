@@ -1,4 +1,4 @@
-import { Controller, useWatch } from 'react-hook-form';
+import { Controller, Path, PathValue, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
@@ -29,11 +29,7 @@ import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
 
 const getGlobalValue = getValueFromTheme('global');
 
-const useEditTypeAndTheme = <TFormData extends FormDataUnion>({
-  scope,
-  offerId,
-  onSuccess,
-}) => {
+const useEditTypeAndTheme = ({ scope, offerId, onSuccess }) => {
   const changeTypeMutation = useChangeOfferTypeMutation({
     onSuccess: () => onSuccess('typeAndTheme'),
   });
@@ -42,7 +38,7 @@ const useEditTypeAndTheme = <TFormData extends FormDataUnion>({
     onSuccess: () => onSuccess('typeAndTheme'),
   });
 
-  return async ({ typeAndTheme }: TFormData) => {
+  return async ({ typeAndTheme }: FormDataUnion) => {
     if (!typeAndTheme.type) return;
 
     await changeTypeMutation.mutateAsync({
@@ -59,28 +55,31 @@ const useEditTypeAndTheme = <TFormData extends FormDataUnion>({
   };
 };
 
-type Props<TFormData extends FormDataUnion> = StepProps<TFormData> & {
+type Props = StepProps & {
   shouldHideType: boolean;
 };
 
-const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
+const EventTypeAndThemeStep = ({
   control,
   name,
   onChange,
   shouldHideType,
-}: Props<TFormData>) => {
+}: Props) => {
   const { t, i18n } = useTranslation();
 
-  const watchedValues = useWatch({ control });
+  const [scope, typeAndTheme] = useWatch({
+    control,
+    name: ['scope', 'typeAndTheme'],
+  });
 
   const getTypesByScopeQuery = useGetTypesByScopeQuery({
-    scope: watchedValues.scope,
+    scope,
   });
 
   const types = getTypesByScopeQuery.data ?? [];
 
   const themes =
-    types?.find((type) => type.id === watchedValues?.typeAndTheme?.type?.id)
+    types?.find((type) => type.id === typeAndTheme?.type?.id)
       ?.otherSuggestedTerms ?? [];
 
   return (
@@ -234,7 +233,7 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
   );
 };
 
-const typeAndThemeStepConfiguration: StepsConfiguration<FormDataUnion> = {
+const typeAndThemeStepConfiguration: StepsConfiguration = {
   Component: EventTypeAndThemeStep,
   name: 'typeAndTheme',
   validation: yup.object().shape({}).required(),

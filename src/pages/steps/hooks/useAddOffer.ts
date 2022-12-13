@@ -21,7 +21,7 @@ type UseAddOfferArgument = {
   label?: string;
 };
 
-const useAddOffer = <TFormData extends FormDataUnion>({
+const useAddOffer = ({
   onSuccess,
   convertFormDataToOffer,
   label,
@@ -36,7 +36,7 @@ const useAddOffer = <TFormData extends FormDataUnion>({
   const addEventToProductionByIdMutation =
     useAddEventToProductionByIdMutation();
 
-  return async (formData: TFormData) => {
+  return async (formData: FormDataUnion) => {
     const { scope, production } = formData;
 
     if (!production && !formData.nameAndAgeRange.name) return;

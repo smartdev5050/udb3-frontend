@@ -1,7 +1,7 @@
 import { TFunction } from 'i18next';
 import debounce from 'lodash/debounce';
 import { useMemo, useState } from 'react';
-import { Controller } from 'react-hook-form';
+import { Controller, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
@@ -33,16 +33,12 @@ import { PlaceAddModal } from '../PlaceAddModal';
 
 const getGlobalValue = getValueFromTheme('global');
 
-const useEditPlace = <TFormData extends FormDataUnion>({
-  scope,
-  offerId,
-  onSuccess,
-}) => {
+const useEditPlace = ({ scope, offerId, onSuccess }) => {
   const changeLocationMutation = useChangeLocationMutation({
     onSuccess: () => onSuccess('location'),
   });
 
-  return async ({ place }: TFormData) => {
+  return async ({ place }: FormDataUnion) => {
     if (!place) return;
 
     await changeLocationMutation.mutateAsync({
@@ -52,8 +48,8 @@ const useEditPlace = <TFormData extends FormDataUnion>({
   };
 };
 
-type PlaceStepProps<TFormData extends FormDataUnion> = StackProps &
-  StepProps<TFormData> & {
+type PlaceStepProps = StackProps &
+  StepProps & {
     terms: Array<Values<typeof EventTypes>>;
     municipality?: City;
     chooseLabel: (t: TFunction) => string;
@@ -63,7 +59,7 @@ type PlaceStepProps<TFormData extends FormDataUnion> = StackProps &
     parentFieldValue: any;
   };
 
-const PlaceStep = <TFormData extends FormDataUnion>({
+const PlaceStep = ({
   formState: { errors },
   getValues,
   reset,
@@ -80,7 +76,7 @@ const PlaceStep = <TFormData extends FormDataUnion>({
   parentFieldValue,
   watch,
   ...props
-}: PlaceStepProps<TFormData>) => {
+}: PlaceStepProps) => {
   const { t, i18n } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
   const [prefillPlaceName, setPrefillPlaceName] = useState('');
@@ -106,8 +102,7 @@ const PlaceStep = <TFormData extends FormDataUnion>({
     ],
   );
 
-  // @ts-expect-error
-  const place = watch('location.place');
+  const place = useWatch({ control, name: 'location.place' });
 
   const selectedPlace = parentFieldValue
     ? parentFieldValue.place ?? undefined
@@ -213,7 +208,7 @@ const PlaceStep = <TFormData extends FormDataUnion>({
   );
 };
 
-const placeStepConfiguration: StepsConfiguration<FormDataUnion> = {
+const placeStepConfiguration: StepsConfiguration = {
   Component: PlaceStep,
   validation: yup.object().shape({}).required(),
   name: 'place',

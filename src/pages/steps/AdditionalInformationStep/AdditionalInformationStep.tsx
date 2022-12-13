@@ -237,13 +237,12 @@ const AdditionalInformationStep = ({
   );
 };
 
-const additionalInformationStepConfiguration: StepsConfiguration<FormDataUnion> =
-  {
-    Component: AdditionalInformationStep,
-    title: ({ t }) => t(`movies.create.step5.title`),
-    shouldShowStep: ({ offerId }) => !!offerId,
-    variant: AdditionalInformationStepVariant.EVENT,
-  };
+const additionalInformationStepConfiguration: StepsConfiguration = {
+  Component: AdditionalInformationStep,
+  title: ({ t }) => t(`movies.create.step5.title`),
+  shouldShowStep: ({ offerId }) => !!offerId,
+  variant: AdditionalInformationStepVariant.EVENT,
+};
 
 export type { Field, MergedInfo, TabContentProps };
 

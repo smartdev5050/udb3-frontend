@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
@@ -322,7 +322,7 @@ const BookingInfoStep = ({
   // @ts-expect-error
   const bookingInfo = getEventByIdQuery.data?.bookingInfo;
 
-  const { register, handleSubmit, formState, watch, setValue, getValues } =
+  const { register, handleSubmit, formState, control, setValue, getValues } =
     useForm<FormData>({
       mode: 'onBlur',
       resolver: yupResolver(schema),
@@ -353,10 +353,10 @@ const BookingInfoStep = ({
     }
   }, [bookingInfo, setValue, onChangeCompleted]);
 
-  const url = watch('url');
-  const urlLabel = watch('urlLabel');
-  const availabilityEnds = watch('availabilityEnds');
-  const availabilityStarts = watch('availabilityStarts');
+  const [url, urlLabel, availabilityStarts, availabilityEnds] = useWatch({
+    control,
+    name: ['url', 'urlLabel', 'availabilityStarts', 'availabilityEnds'],
+  });
 
   const addBookingInfoMutation = useAddBookingInfoMutation({
     onSuccess: onSuccessfulChange,
