@@ -1,3 +1,4 @@
+import { OfferStatus } from '@/constants/OfferStatus';
 import { Button, ButtonSizes, ButtonVariants } from '@/ui/Button';
 import { DatePeriodPicker } from '@/ui/DatePeriodPicker';
 import { Icons } from '@/ui/Icon';
@@ -80,6 +81,7 @@ export const Days = ({
                 onChangeStartDate(day.id, newDate)
               }
               onDateEndChange={(newDate) => onChangeEndDate(day.id, newDate)}
+              disabled={day.status !== OfferStatus.AVAILABLE}
             />
             {isOneOrMoreDays && (
               <TimeSpanPicker
