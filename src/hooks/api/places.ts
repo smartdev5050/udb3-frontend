@@ -56,8 +56,8 @@ const useGetPlaceByIdQuery = (
     queryKey: ['places'],
     queryFn: getPlaceById,
     queryArguments: { id },
+    enabled: !!id,
     ...configuration,
-    enabled: !!id && !!configuration.enabled,
   });
 
 const getPlacesByCreator = async ({ headers, ...queryData }) => {
