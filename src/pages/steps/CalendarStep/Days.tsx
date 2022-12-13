@@ -70,6 +70,8 @@ export const Days = ({
           onChangeEndTime,
         );
 
+        const isDisabled = day.status !== OfferStatus.AVAILABLE;
+
         return (
           <List.Item alignItems="center" key={day.id} spacing={5}>
             <DatePeriodPicker
@@ -81,7 +83,7 @@ export const Days = ({
                 onChangeStartDate(day.id, newDate)
               }
               onDateEndChange={(newDate) => onChangeEndDate(day.id, newDate)}
-              disabled={day.status !== OfferStatus.AVAILABLE}
+              disabled={isDisabled}
             />
             {isOneOrMoreDays && (
               <TimeSpanPicker
@@ -91,6 +93,7 @@ export const Days = ({
                 endTime={endTime}
                 onChangeStartTime={handleChangeStartTime}
                 onChangeEndTime={handleChangeEndTime}
+                disabled={isDisabled}
               />
             )}
 
@@ -101,6 +104,7 @@ export const Days = ({
                 variant={ButtonVariants.DANGER}
                 onClick={() => onDeleteDay(day.id)}
                 iconName={Icons.TRASH}
+                disabled={isDisabled}
               />
             )}
           </List.Item>
