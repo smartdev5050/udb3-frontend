@@ -76,9 +76,7 @@ const convertStateToFormData = (state: CalendarState) => {
   const subEvent = days.map((day) => ({
     startDate: new Date(day.startDate).toISOString(),
     endDate: new Date(day.endDate).toISOString(),
-    bookingAvailability: {
-      type: BookingAvailabilityType.AVAILABLE,
-    }, // Always available or depends on current state?
+    bookingAvailability: day.bookingAvailability,
     status: day.status,
   }));
 
