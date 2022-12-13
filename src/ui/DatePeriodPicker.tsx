@@ -13,6 +13,7 @@ type Props = InlineProps & {
   minDate?: Date;
   onDateStartChange: (date: Date) => void;
   onDateEndChange: (date: Date) => void;
+  disabled: boolean;
 };
 
 const DatePeriodPicker = ({
@@ -22,6 +23,7 @@ const DatePeriodPicker = ({
   minDate,
   onDateStartChange,
   onDateEndChange,
+  disabled,
   ...props
 }: Props) => {
   const { t } = useTranslation();
@@ -44,6 +46,7 @@ const DatePeriodPicker = ({
               onDateEndChange(newDateStart);
             }
           }}
+          disabled={disabled}
         />
       </Stack>
       <Stack spacing={2} as="div">
@@ -60,6 +63,7 @@ const DatePeriodPicker = ({
             }
           }}
           minDate={dateStart}
+          disabled={disabled}
         />
       </Stack>
     </Inline>

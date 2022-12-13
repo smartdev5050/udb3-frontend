@@ -28,6 +28,7 @@ type Props = Omit<BoxProps, 'onChange'> & {
   minDate?: Date;
   maxDate?: Date;
   onChange?: (value: Date) => void;
+  disabled: boolean;
 };
 
 const DatePicker = ({
@@ -37,6 +38,7 @@ const DatePicker = ({
   className,
   minDate,
   maxDate,
+  disabled,
   ...props
 }: Props) => {
   const datePickerRef = useRef(null);
@@ -66,6 +68,7 @@ const DatePicker = ({
         minDate={minDate}
         maxDate={maxDate}
         customInput={<Input id={id} />}
+        disabled={disabled}
         css={`
           &.form-control {
             border-top-right-radius: 0;
@@ -77,6 +80,7 @@ const DatePicker = ({
         variant={ButtonVariants.SECONDARY}
         iconName={Icons.CALENDAR_ALT}
         onClick={() => datePickerRef.current?.setOpen(true)}
+        disabled={disabled}
         css={`
           &.btn {
             box-shadow: none;
