@@ -136,6 +136,8 @@ const LocationStep = ({
                     onChange={(e) => {
                       const updatedValue = {
                         ...field.value,
+                        place: undefined,
+                        municipality: undefined,
                         isOnline: e.target.checked,
                       };
                       field.onChange(updatedValue);
