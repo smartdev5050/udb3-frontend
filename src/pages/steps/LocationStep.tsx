@@ -63,9 +63,10 @@ const useEditLocation = ({ scope, offerId, onSuccess }) => {
       if (!location.municipality) return;
       if (!location.place) return;
 
-      changeLocationMutation.mutate({
-        id: offerId,
-        locationId: parseOfferId(location.place['@id']),
+      changeAttendanceMode.mutate({
+        eventId: offerId,
+        attendanceMode: AttendanceMode.OFFLINE,
+        location: location.place['@id'],
       });
 
       return;
