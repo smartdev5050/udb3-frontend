@@ -136,7 +136,6 @@ const ContactInfoStep = ({
   };
 
   const handleAddOrganizerContactInfo = (newContactInfo: NewContactInfo[]) => {
-    // @ts-ignore
     const contactInfo = parseNewContactInfo(newContactInfo);
     onSuccessfulChange(contactInfo);
   };
