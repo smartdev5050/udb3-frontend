@@ -42,7 +42,6 @@ import {
   StepsConfiguration,
 } from './Steps';
 
-const getValue = getValueFromTheme('createPage');
 const getGlobalValue = getValueFromTheme('global');
 
 const useEditLocation = ({ scope, offerId, onSuccess }) => {
