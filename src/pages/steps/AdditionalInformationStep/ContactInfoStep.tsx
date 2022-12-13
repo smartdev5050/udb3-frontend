@@ -136,7 +136,7 @@ const ContactInfoStep = ({
   };
 
   const handleAddOrganizerContactInfo = (newContactInfo: NewContactInfo[]) => {
-    // @ts-ignore
+    // @ts-expect-error
     const contactInfo = parseNewContactInfo(newContactInfo);
     onSuccessfulChange(contactInfo);
   };
