@@ -1,6 +1,7 @@
 import { camelCase } from 'lodash';
 import { useTranslation } from 'react-i18next';
 
+import { BookingAvailabilityType } from '@/constants/BookingAvailabilityType';
 import { OfferStatus } from '@/constants/OfferStatus';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Button, ButtonSizes, ButtonVariants } from '@/ui/Button';
@@ -78,6 +79,9 @@ export const Days = ({
 
         const isDisabled = day.status.type !== OfferStatus.AVAILABLE;
 
+        const isBookingUnavailable =
+          day.bookingAvailability.type === BookingAvailabilityType.UNAVAILABLE;
+
         return (
           <Stack spacing={4} key={`list-item-${day.id}`}>
             <List.Item alignItems="center" spacing={5}>
@@ -116,7 +120,6 @@ export const Days = ({
             </List.Item>
             {isDisabled && (
               <Alert
-                key="alert-day"
                 variant={AlertVariants.PRIMARY}
                 fullWidth
                 css={`
@@ -124,6 +127,18 @@ export const Days = ({
                 `}
               >
                 {t(`offerStatus.status.events.${camelCase(day.status.type)}`)}
+                {day.status.reason.nl ? `: ${day.status.reason.nl}` : ''}
+              </Alert>
+            )}
+            {isBookingUnavailable && (
+              <Alert
+                variant={AlertVariants.PRIMARY}
+                fullWidth
+                css={`
+                  width: 100%;
+                `}
+              >
+                {t(`bookingAvailability.unavailable`)}
               </Alert>
             )}
           </Stack>
