@@ -22,7 +22,7 @@ import {
 
 import { CalendarType } from '@/constants/CalendarType';
 import { OfferStatus } from '@/constants/OfferStatus';
-import { OpeningHours } from '@/types/Offer';
+import { OpeningHours, StatusReason } from '@/types/Offer';
 import { Values } from '@/types/Values';
 
 const getTodayWithoutTime = () => {
@@ -53,13 +53,20 @@ export type OpeningHoursWithId = OpeningHours & { id: string };
 export const createDayId = () => uniqueId('day-');
 export const createOpeninghoursId = () => uniqueId('openinghours-');
 
+type Status = {
+  type: Values<typeof OfferStatus>;
+  reason?: StatusReason;
+};
+
 export const initialCalendarContext = {
   days: [
     {
       id: createDayId(),
       startDate: getStartDate(),
       endDate: getEndDate(),
-      status: OfferStatus.AVAILABLE as Values<typeof OfferStatus>,
+      status: {
+        type: OfferStatus.AVAILABLE,
+      } as Status,
     },
   ],
   startDate: getStartDate(),
