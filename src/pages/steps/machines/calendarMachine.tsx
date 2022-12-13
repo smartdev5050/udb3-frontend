@@ -59,7 +59,7 @@ export const initialCalendarContext = {
       id: createDayId(),
       startDate: getStartDate(),
       endDate: getEndDate(),
-      status: OfferStatus.AVAILABLE,
+      status: OfferStatus.AVAILABLE as Values<typeof OfferStatus>,
     },
   ],
   startDate: getStartDate(),
