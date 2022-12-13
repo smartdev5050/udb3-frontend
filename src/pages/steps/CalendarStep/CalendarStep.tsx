@@ -170,10 +170,13 @@ const CalendarStep = <TFormData extends FormDataUnion>({
 
     if (!event) return;
 
+    console.log({ event });
+
     const days = (event.subEvent ?? []).map((subEvent) => ({
       id: createDayId(),
       startDate: subEvent.startDate,
       endDate: subEvent.endDate,
+      status: subEvent.status.type,
     }));
 
     const openingHours = (event.openingHours ?? []).map((openingHour) => ({
