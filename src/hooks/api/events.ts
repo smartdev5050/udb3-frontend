@@ -706,13 +706,18 @@ const useAddAudienceMutation = (configuration = {}) =>
     ...configuration,
   });
 
-const changeAttendanceMode = async ({ headers, eventId, attendanceMode }) =>
+const changeAttendanceMode = async ({
+  headers,
+  eventId,
+  attendanceMode,
+  location,
+}) =>
   fetchFromApi({
     path: `/events/${eventId}/attendance-mode`,
     options: {
       method: 'PUT',
       headers,
-      body: JSON.stringify({ attendanceMode }),
+      body: JSON.stringify({ attendanceMode, location }),
     },
   });
 

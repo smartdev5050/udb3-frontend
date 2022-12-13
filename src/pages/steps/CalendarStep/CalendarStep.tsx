@@ -107,14 +107,10 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
   const isFixedDays = useIsFixedDays();
   const isIdle = useIsIdle();
 
-  const startDate = useCalendarSelector((state) => state.context.startDate);
-  const endDate = useCalendarSelector((state) => state.context.endDate);
   const calendarStateType = useCalendarSelector((state) => state.value);
   const days = useCalendarSelector((state) => state.context.days);
   const state = useCalendarSelector((state) => state);
-  const openingHours = useCalendarSelector(
-    (state) => state.context.openingHours,
-  );
+
   const previousState = useCalendarSelector((state) => state.history?.value);
 
   const hasUnavailableSubEvent = useMemo(
