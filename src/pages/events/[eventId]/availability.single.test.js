@@ -20,7 +20,7 @@ const setup = async () => {
       },
     },
     responses: {
-      '/event/:id': { body: event },
+      '/events/:id': { body: event },
       '/events/:id/subEvents': {},
     },
   });

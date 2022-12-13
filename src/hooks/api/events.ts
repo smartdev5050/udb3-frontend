@@ -154,8 +154,8 @@ const useGetEventByIdQuery = (
     queryFn: getEventById,
     queryArguments: { id },
     refetchOnWindowFocus: false,
+    enabled: !!id,
     ...configuration,
-    enabled: !!id && !!configuration.enabled,
   });
 
 const useGetEventsByIdsQuery = ({ req, queryClient, ids = [] }) => {
