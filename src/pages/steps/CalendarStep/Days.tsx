@@ -1,9 +1,13 @@
+import { camelCase } from 'lodash';
+import { useTranslation } from 'react-i18next';
+
 import { OfferStatus } from '@/constants/OfferStatus';
+import { Alert, AlertVariants } from '@/ui/Alert';
 import { Button, ButtonSizes, ButtonVariants } from '@/ui/Button';
 import { DatePeriodPicker } from '@/ui/DatePeriodPicker';
 import { Icons } from '@/ui/Icon';
 import { List } from '@/ui/List';
-import { getStackProps, StackProps } from '@/ui/Stack';
+import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { TimeSpanPicker } from '@/ui/TimeSpanPicker';
 
 import {
@@ -51,6 +55,8 @@ export const Days = ({
   onChangeEndTime,
   ...props
 }: DaysProps) => {
+  const { t } = useTranslation();
+
   const days = useCalendarSelector((state) => state.context.days);
 
   const isOneOrMoreDays = useIsOneOrMoreDays();
@@ -70,44 +76,57 @@ export const Days = ({
           onChangeEndTime,
         );
 
-        const isDisabled = day.status !== OfferStatus.AVAILABLE;
+        const isDisabled = day.status.type !== OfferStatus.AVAILABLE;
 
         return (
-          <List.Item alignItems="center" key={day.id} spacing={5}>
-            <DatePeriodPicker
-              spacing={3}
-              id={`calendar-step-day-${day.id}`}
-              dateStart={new Date(day.startDate)}
-              dateEnd={new Date(day.endDate)}
-              onDateStartChange={(newDate) =>
-                onChangeStartDate(day.id, newDate)
-              }
-              onDateEndChange={(newDate) => onChangeEndDate(day.id, newDate)}
-              disabled={isDisabled}
-            />
-            {isOneOrMoreDays && (
-              <TimeSpanPicker
+          <Stack spacing={4} key={`list-item-${day.id}`}>
+            <List.Item alignItems="center" spacing={5}>
+              <DatePeriodPicker
                 spacing={3}
                 id={`calendar-step-day-${day.id}`}
-                startTime={startTime}
-                endTime={endTime}
-                onChangeStartTime={handleChangeStartTime}
-                onChangeEndTime={handleChangeEndTime}
+                dateStart={new Date(day.startDate)}
+                dateEnd={new Date(day.endDate)}
+                onDateStartChange={(newDate) =>
+                  onChangeStartDate(day.id, newDate)
+                }
+                onDateEndChange={(newDate) => onChangeEndDate(day.id, newDate)}
                 disabled={isDisabled}
               />
+              {isOneOrMoreDays && (
+                <TimeSpanPicker
+                  spacing={3}
+                  id={`calendar-step-day-${day.id}`}
+                  startTime={startTime}
+                  endTime={endTime}
+                  onChangeStartTime={handleChangeStartTime}
+                  onChangeEndTime={handleChangeEndTime}
+                  disabled={isDisabled}
+                />
+              )}
+              {days.length > 1 && (
+                <Button
+                  alignSelf="flex-end"
+                  size={ButtonSizes.SMALL}
+                  variant={ButtonVariants.DANGER}
+                  onClick={() => onDeleteDay(day.id)}
+                  iconName={Icons.TRASH}
+                  disabled={isDisabled}
+                />
+              )}
+            </List.Item>
+            {isDisabled && (
+              <Alert
+                key="alert-day"
+                variant={AlertVariants.PRIMARY}
+                fullWidth
+                css={`
+                  width: 100%;
+                `}
+              >
+                {t(`offerStatus.status.events.${camelCase(day.status.type)}`)}
+              </Alert>
             )}
-
-            {days.length > 1 && (
-              <Button
-                alignSelf="flex-end"
-                size={ButtonSizes.SMALL}
-                variant={ButtonVariants.DANGER}
-                onClick={() => onDeleteDay(day.id)}
-                iconName={Icons.TRASH}
-                disabled={isDisabled}
-              />
-            )}
-          </List.Item>
+          </Stack>
         );
       })}
     </List>
