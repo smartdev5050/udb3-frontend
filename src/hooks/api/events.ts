@@ -706,6 +706,22 @@ const useAddAudienceMutation = (configuration = {}) =>
     ...configuration,
   });
 
+const changeAttendanceMode = async ({ headers, eventId, attendanceMode }) =>
+  fetchFromApi({
+    path: `/events/${eventId}/attendance-mode`,
+    options: {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({ attendanceMode }),
+    },
+  });
+
+const useChangeAttendanceModeMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: changeAttendanceMode,
+    ...configuration,
+  });
+
 export {
   useAddAudienceMutation,
   useAddBookingInfoMutation,
@@ -717,6 +733,7 @@ export {
   useAddOrganizerToEventMutation,
   useAddPriceInfoMutation,
   useAddVideoToEventMutation,
+  useChangeAttendanceModeMutation,
   useChangeCalendarMutation,
   useChangeDescriptionMutation,
   useChangeLocationMutation,
