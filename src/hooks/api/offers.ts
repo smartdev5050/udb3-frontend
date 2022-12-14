@@ -205,8 +205,25 @@ const changeOfferType = async ({ headers, id, typeId, scope }) =>
 const useChangeOfferTypeMutation = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: changeOfferType, ...configuration });
 
+const addOfferPriceInfo = async ({ headers, id, priceInfo, scope }) =>
+  fetchFromApi({
+    path: `/${scope}/${id}/priceInfo`,
+    options: {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify(priceInfo),
+    },
+  });
+
+const useAddOfferPriceInfoMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: addOfferPriceInfo,
+    ...configuration,
+  });
+
 export {
   useAddOfferLabelMutation,
+  useAddOfferPriceInfoMutation,
   useChangeOfferCalendarMutation,
   useChangeOfferNameMutation,
   useChangeOfferThemeMutation,
