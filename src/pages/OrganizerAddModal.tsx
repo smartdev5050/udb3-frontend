@@ -25,7 +25,7 @@ import { Title } from '@/ui/Title';
 
 import { City, CityPicker } from './CityPicker';
 
-export const getValue = getValueFromTheme('organizerAddModal');
+const getValue = getValueFromTheme('organizerAddModal');
 
 const schema = yup
   .object({
