@@ -25,7 +25,7 @@ import { scopeStepConfiguration } from '@/pages/steps/ScopeStep';
 import { StepsForm } from '@/pages/steps/StepsForm';
 import { Address, AddressInternal } from '@/types/Address';
 import { Country } from '@/types/Country';
-import { AttendanceMode, Event, isEvent } from '@/types/Event';
+import { AttendanceMode, isEvent } from '@/types/Event';
 import { Offer } from '@/types/Offer';
 import { isPlace, Place } from '@/types/Place';
 import { Values } from '@/types/Values';

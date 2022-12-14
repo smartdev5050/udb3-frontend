@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from 'react';
-import { Controller, Path } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { css } from 'styled-components';
 
@@ -12,7 +12,7 @@ import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
-import { Field, FormDataUnion, StepProps } from './Steps';
+import { Field, StepProps } from './Steps';
 
 const getValue = getValueFromTheme('ageRange');
 

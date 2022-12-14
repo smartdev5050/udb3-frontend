@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 
 import { OfferType } from '@/constants/OfferType';
 import { Offer } from '@/types/Offer';
-import { Values } from '@/types/Values';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Link, LinkVariants } from '@/ui/Link';
@@ -22,7 +21,7 @@ import { useGetPlace } from './hooks/useGetPlace';
 import { useParseStepConfiguration } from './hooks/useParseStepConfiguration';
 import { usePublishOffer } from './hooks/usePublishOffer';
 import { PublishLaterModal } from './modals/PublishLaterModal';
-import { FormDataUnion, Steps, StepsConfiguration } from './Steps';
+import { Steps, StepsConfiguration } from './Steps';
 
 const getValue = getValueFromTheme('createPage');
 

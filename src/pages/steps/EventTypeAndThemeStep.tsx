@@ -1,20 +1,11 @@
-import { Controller, Path, PathValue, useWatch } from 'react-hook-form';
+import { Controller, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
-import { OfferType } from '@/constants/OfferType';
-import {
-  useChangeThemeMutation as useChangeThemeOnEventMutation,
-  useChangeTypeMutation as useChangeTypeOnEventMutation,
-} from '@/hooks/api/events';
 import {
   useChangeOfferThemeMutation,
   useChangeOfferTypeMutation,
 } from '@/hooks/api/offers';
-import {
-  useChangeThemeMutation as useChangeThemeOnPlaceMutation,
-  useChangeTypeMutation as useChangeTypeOnPlaceMutation,
-} from '@/hooks/api/places';
 import { useGetTypesByScopeQuery } from '@/hooks/api/types';
 import { parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';

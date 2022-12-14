@@ -4,7 +4,6 @@ import {
   ButtonGroup as BootstrapButtonGroup,
   Dropdown as BootstrapDropdown,
 } from 'react-bootstrap';
-import { css } from 'styled-components';
 
 import type { Values } from '@/types/Values';
 import type { BoxProps } from '@/ui/Box';

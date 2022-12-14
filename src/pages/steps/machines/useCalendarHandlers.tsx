@@ -1,5 +1,4 @@
 import { CalendarType } from '@/constants/CalendarType';
-import { OpeningHours } from '@/types/Offer';
 import { Values } from '@/types/Values';
 
 import {

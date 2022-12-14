@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import type {
-  FormDataUnion,
   StepProps,
   StepsConfiguration,
 } from '@/pages/steps/Steps';
@@ -12,7 +11,7 @@ import { Alert, AlertVariants } from '@/ui/Alert';
 import { Box } from '@/ui/Box';
 import type { StackProps } from '@/ui/Stack';
 import { getStackProps, Stack } from '@/ui/Stack';
-import { isOneTimeSlotValid, TimeTableValue } from '@/ui/TimeTable';
+import { TimeTableValue } from '@/ui/TimeTable';
 import {
   areAllTimeSlotsValid,
   isTimeTableEmpty,

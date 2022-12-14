@@ -7,7 +7,6 @@ import { CalendarType } from '@/constants/CalendarType';
 import { useGetCalendarSummaryQuery } from '@/hooks/api/events';
 import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
 import { Alert, AlertVariants } from '@/ui/Alert';
-import { parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { CheckboxWithLabel } from '@/ui/CheckboxWithLabel';
 import { DetailTable } from '@/ui/DetailTable';
