@@ -1,5 +1,4 @@
-import { isEqual } from 'lodash';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
@@ -29,9 +28,6 @@ import {
   useIsFixedDays,
   useIsIdle,
   useIsOneOrMoreDays,
-  useIsPeriodic,
-  useIsPermanent,
-  useIsSingle,
 } from '../machines/calendarMachine';
 import { useCalendarHandlers } from '../machines/useCalendarHandlers';
 import { FormDataUnion, StepProps, StepsConfiguration } from '../Steps';
