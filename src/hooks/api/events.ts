@@ -541,4 +541,4 @@ export {
   usePublishEventMutation,
 };
 
-export type { Calendar, EventArguments };
+export type { Calendar };
