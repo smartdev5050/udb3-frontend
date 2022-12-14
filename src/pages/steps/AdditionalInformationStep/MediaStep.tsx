@@ -2,17 +2,15 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { OfferType } from '@/constants/OfferType';
-import {
-  useDeleteImageFromEventMutation,
-  useGetEventByIdQuery,
-  useUpdateImageFromEventMutation,
-} from '@/hooks/api/events';
+import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { useAddImageMutation } from '@/hooks/api/images';
 import {
   useAddOfferImageMutation,
   useAddOfferMainImageMutation,
   useAddOfferVideoMutation,
+  useDeleteOfferImageMutation,
   useDeleteOfferVideoMutation,
+  useUpdateOfferImageMutation,
 } from '@/hooks/api/offers';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import type { FormData } from '@/pages/steps/modals/PictureUploadModal';
@@ -117,14 +115,14 @@ const MediaStep = ({
     onSuccess: onSuccessfulChange,
   });
 
-  const updateImageFromEventMutation = useUpdateImageFromEventMutation({
+  const updateOfferImageMutation = useUpdateOfferImageMutation({
     onSuccess: async () => {
       setIsPictureUploadModalVisible(false);
       onSuccessfulChange();
     },
   });
 
-  const deleteImageFromEventMutation = useDeleteImageFromEventMutation({
+  const deleteOfferImageMutation = useDeleteOfferImageMutation({
     onSuccess: async () => {
       setIsPictureUploadModalVisible(false);
       onSuccessfulChange();
@@ -271,7 +269,7 @@ const MediaStep = ({
   );
 
   const handleConfirmDeleteImage = (imageId: string) => {
-    deleteImageFromEventMutation.mutate({ eventId, imageId });
+    deleteOfferImageMutation.mutate({ eventId, imageId, scope });
     setIsPictureDeleteModalVisible(false);
   };
 
@@ -301,11 +299,12 @@ const MediaStep = ({
     copyrightHolder,
   }: FormData) => {
     if (imageToEdit) {
-      await updateImageFromEventMutation.mutateAsync({
+      await updateOfferImageMutation.mutateAsync({
         eventId,
         imageId: imageToEdit.parsedId,
         description,
         copyrightHolder,
+        scope,
       });
 
       return;
