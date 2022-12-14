@@ -283,8 +283,7 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
 };
 
 const calendarStepConfiguration: StepsConfiguration = {
-  // eslint-disable-next-line react/display-name
-  Component: (props) => <CalendarStep {...props} />,
+  Component: CalendarStep,
   name: 'calendar',
   title: ({ t }) => t('create.calendar.title'),
   shouldShowStep: ({ watch }) => {
