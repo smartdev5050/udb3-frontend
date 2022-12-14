@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { isEqual } from 'lodash';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
@@ -11,22 +12,22 @@ import {
 } from '@/hooks/api/events';
 import { useChangeOfferCalendarMutation } from '@/hooks/api/offers';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
+import { useLog } from '@/hooks/useLog';
 import { useToast } from '@/pages/manage/movies/useToast';
 import { Event } from '@/types/Event';
+import { Values } from '@/types/Values';
 import { Panel } from '@/ui/Panel';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Toast } from '@/ui/Toast';
 
 import {
   CalendarContext,
-  CalendarState,
   createDayId,
   createOpeninghoursId,
   initialCalendarContext,
   useCalendarSelector,
   useIsFixedDays,
   useIsIdle,
-  useIsMultiple,
   useIsOneOrMoreDays,
   useIsPeriodic,
   useIsPermanent,
@@ -38,6 +39,7 @@ import { convertTimeTableToSubEvents } from '../TimeTableStep';
 import { CalendarOptionToggle } from './CalendarOptionToggle';
 import { FixedDays } from './FixedDays';
 import { OneOrMoreDays } from './OneOrMoreDays';
+import { useCalendarType } from './useCalendarType';
 
 const useEditCalendar = ({ offerId, onSuccess }) => {
   const changeCalendarMutation = useChangeOfferCalendarMutation({
@@ -62,17 +64,19 @@ const useEditCalendar = ({ offerId, onSuccess }) => {
 
 const convertStateToFormData = (
   context: CalendarContext,
-  isSingle: any,
-  isMultiple: any,
-  isPeriodic: any,
-  isPermanent: any,
+  calendarType: Values<typeof CalendarType>,
 ) => {
   if (!context) return undefined;
 
   const { days, openingHours, startDate, endDate } = context;
 
-  const isOneOrMoreDays = isSingle || isMultiple;
-  const isFixedDays = isPeriodic || isPermanent;
+  const isOneOrMoreDays = (
+    [CalendarType.SINGLE, CalendarType.MULTIPLE] as string[]
+  ).includes(calendarType);
+
+  const isFixedDays = (
+    [CalendarType.PERIODIC, CalendarType.PERMANENT] as string[]
+  ).includes(calendarType);
 
   const subEvent = days.map((day) => ({
     startDate: new Date(day.startDate).toISOString(),
@@ -88,13 +92,10 @@ const convertStateToFormData = (
   }));
 
   return {
-    ...(isSingle && { calendarType: CalendarType.SINGLE }),
-    ...(isMultiple && { calendarType: CalendarType.MULTIPLE }),
-    ...(isPeriodic && { calendarType: CalendarType.PERIODIC }),
-    ...(isPermanent && { calendarType: CalendarType.PERMANENT }),
+    calendarType,
     ...(isOneOrMoreDays && { subEvent }),
     ...(isFixedDays && { openingHours: newOpeningHours }),
-    ...(isPeriodic && {
+    ...(calendarType === CalendarType.PERIODIC && {
       startDate: new Date(startDate).toISOString(),
       endDate: new Date(endDate).toISOString(),
     }),
@@ -110,17 +111,12 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
 
   const isOneOrMoreDays = useIsOneOrMoreDays();
   const isFixedDays = useIsFixedDays();
-  const isMultiple = useIsMultiple();
-  const isSingle = useIsSingle();
-  const isPeriodic = useIsPeriodic();
-  const isPermanent = useIsPermanent();
+  const wasIdle = useCalendarSelector(
+    (state) => state.history?.matches('idle') ?? false,
+  );
   const isIdle = useIsIdle();
-
-  const calendarStateType = useCalendarSelector((state) => state.value);
   const days = useCalendarSelector((state) => state.context.days);
   const context = useCalendarSelector((state) => state.context);
-
-  const previousState = useCalendarSelector((state) => state.history?.value);
 
   const hasUnavailableSubEvent = useMemo(
     () => days.some((day) => day.status.type !== OfferStatus.AVAILABLE),
@@ -138,7 +134,7 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
     handleChangeStartTime,
     handleChangeEndTime,
     handleChooseOneOrMoreDays,
-    handleChooseFixedDays,
+    handleChooseFixedDays: chooseFixedDays,
     handleChooseWithStartAndEndDate,
     handleChoosePermanent,
     handleChangeOpeningHours,
@@ -146,11 +142,13 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleLoadInitialContext = useCallback(loadInitialContext, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleChooseFixedDays = useCallback(chooseFixedDays, []);
 
   useEffect(() => {
     if (offerId) return;
     handleLoadInitialContext();
-  }, [offerId, handleLoadInitialContext]);
+  }, [handleLoadInitialContext, offerId]);
 
   const useGetOfferByIdQuery =
     scope === OfferType.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
@@ -204,61 +202,43 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
     },
   });
 
+  const calendarType = useCalendarType();
+
   const convertedStateToFormData = useMemo(() => {
-    if (!context) return;
+    if (!context || !calendarType) return;
 
-    return convertStateToFormData(
-      context,
-      isSingle,
-      isMultiple,
-      isPeriodic,
-      isPermanent,
-    );
-  }, [context, isPermanent, isSingle, isPeriodic, isMultiple]);
+    // TODO: Find a way to make this work without bypassing the rules of hooks
+    // wasIdle must be included in the dependency array
+    if (wasIdle) return;
 
-  const handleSubmitCalendarMutation = async (isIdle: boolean) => {
-    if (isIdle) return;
+    return convertStateToFormData(context, calendarType);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [context, calendarType]);
 
-    const formData = convertedStateToFormData;
+  useLog({ converted: convertedStateToFormData ?? null });
 
-    const calendarType =
-      typeof calendarStateType === 'string'
-        ? calendarStateType
-        : Object.keys(calendarStateType)[0];
-
+  const submitCalendarMutation = async (formData: any) => {
     await changeCalendarMutation.mutateAsync({
       id: offerId,
-      calendarType,
       ...formData,
     });
   };
 
-  const handleSubmitCalendarMutationCallback = useCallback(
-    handleSubmitCalendarMutation,
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [calendarStateType, convertedStateToFormData, offerId],
-  );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleSubmitCalendarMutation = useCallback(submitCalendarMutation, []);
 
   useEffect(() => {
-    console.log('previousState', previousState);
-    if (!offerId) return;
-    if (isIdle) return;
-    if (previousState === 'idle') return;
+    if (!convertedStateToFormData) return;
 
-    console.log('in use effect trigger mutation');
-
-    handleSubmitCalendarMutationCallback(isIdle);
-  }, [offerId, handleSubmitCalendarMutationCallback, isIdle, previousState]);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleChooseFixedDaysCallback = useCallback(handleChooseFixedDays, []);
+    handleSubmitCalendarMutation(convertedStateToFormData);
+  }, [convertedStateToFormData, handleSubmitCalendarMutation]);
 
   useEffect(() => {
     if (isIdle) return;
     if (scope !== OfferType.PLACES) return;
 
-    handleChooseFixedDaysCallback();
-  }, [scope, isIdle, handleChooseFixedDaysCallback]);
+    handleChooseFixedDays();
+  }, [scope, isIdle, handleChooseFixedDays]);
 
   return (
     <Stack

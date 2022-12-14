@@ -34,6 +34,7 @@ import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback
 import { parseOfferId } from '@/utils/parseOfferId';
 
 import { City } from '../CityPicker';
+import { useCalendarType } from '../steps/CalendarStep/useCalendarType';
 import { FormDataUnion } from '../steps/Steps';
 
 type Scope = 'events' | 'places';
@@ -217,21 +218,12 @@ const OfferForm = () => {
 
   const context = useCalendarSelector((state) => state.context);
 
-  const isMultiple = useIsMultiple();
-  const isSingle = useIsSingle();
-  const isPeriodic = useIsPeriodic();
-  const isPermanent = useIsPermanent();
+  const calendarType = useCalendarType();
 
   const calendarFormData = useMemo(() => {
-    if (!context) return undefined;
-    convertStateToFormData(
-      context,
-      isSingle,
-      isMultiple,
-      isPeriodic,
-      isPermanent,
-    );
-  }, [context, isSingle, isMultiple, isPeriodic, isPermanent]);
+    if (!context || !calendarType) return undefined;
+    return convertStateToFormData(context, calendarType);
+  }, [context, calendarType]);
 
   const convertFormDataWithCalendarToOffer = (formData: any) => {
     const newFormData = convertFormDataToOffer(formData);
