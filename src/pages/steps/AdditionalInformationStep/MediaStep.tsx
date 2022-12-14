@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 
 import { OfferType } from '@/constants/OfferType';
 import {
-  useAddEventMainImageMutation,
   useAddVideoToEventMutation,
   useDeleteImageFromEventMutation,
   useDeleteVideoFromEventMutation,
@@ -11,7 +10,10 @@ import {
   useUpdateImageFromEventMutation,
 } from '@/hooks/api/events';
 import { useAddImageMutation } from '@/hooks/api/images';
-import { useAddOfferImageMutation } from '@/hooks/api/offers';
+import {
+  useAddOfferImageMutation,
+  useAddOfferMainImageMutation,
+} from '@/hooks/api/offers';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import type { FormData } from '@/pages/steps/modals/PictureUploadModal';
 import { Values } from '@/types/Values';
@@ -111,7 +113,7 @@ const MediaStep = ({
     onSuccess: handleSuccessAddImage,
   });
 
-  const addEventMainImageMutation = useAddEventMainImageMutation({
+  const addOfferMainImageMutation = useAddOfferMainImageMutation({
     onSuccess: onSuccessfulChange,
   });
 
@@ -263,8 +265,9 @@ const MediaStep = ({
   };
 
   const handleClickSetMainImage = useCallback(
-    (imageId: string) => addEventMainImageMutation.mutate({ eventId, imageId }),
-    [addEventMainImageMutation, eventId],
+    (imageId: string) =>
+      addOfferMainImageMutation.mutate({ eventId, imageId, scope }),
+    [addOfferMainImageMutation, eventId, scope],
   );
 
   const handleConfirmDeleteImage = (imageId: string) => {

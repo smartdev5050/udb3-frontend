@@ -256,9 +256,26 @@ const addOfferImage = async ({ headers, eventId, imageId, scope }) =>
 const useAddOfferImageMutation = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: addOfferImage, ...configuration });
 
+const addOfferMainImage = async ({ headers, eventId, imageId, scope }) =>
+  fetchFromApi({
+    path: `/${scope}/${eventId.toString()}/images/main`,
+    options: {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ mediaObjectId: imageId }),
+    },
+  });
+
+const useAddOfferMainImageMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: addOfferMainImage,
+    ...configuration,
+  });
+
 export {
   useAddOfferImageMutation,
   useAddOfferLabelMutation,
+  useAddOfferMainImageMutation,
   useAddOfferPriceInfoMutation,
   useChangeOfferCalendarMutation,
   useChangeOfferDescriptionMutation,
