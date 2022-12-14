@@ -3,9 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { OfferType } from '@/constants/OfferType';
 import {
-  useAddVideoToEventMutation,
   useDeleteImageFromEventMutation,
-  useDeleteVideoFromEventMutation,
   useGetEventByIdQuery,
   useUpdateImageFromEventMutation,
 } from '@/hooks/api/events';
@@ -13,6 +11,8 @@ import { useAddImageMutation } from '@/hooks/api/images';
 import {
   useAddOfferImageMutation,
   useAddOfferMainImageMutation,
+  useAddOfferVideoMutation,
+  useDeleteOfferVideoMutation,
 } from '@/hooks/api/offers';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import type { FormData } from '@/pages/steps/modals/PictureUploadModal';
@@ -131,14 +131,14 @@ const MediaStep = ({
     },
   });
 
-  const addVideoToEventMutation = useAddVideoToEventMutation({
+  const addOfferVideoMutation = useAddOfferVideoMutation({
     onSuccess: async () => {
       setIsVideoLinkDeleteModalVisible(false);
       onSuccessfulChange();
     },
   });
 
-  const deleteVideoFromEventMutation = useDeleteVideoFromEventMutation({
+  const deleteOfferVideoMutation = useDeleteOfferVideoMutation({
     onSuccess: async () => {
       setIsVideoLinkDeleteModalVisible(false);
       onSuccessfulChange();
@@ -276,10 +276,11 @@ const MediaStep = ({
   };
 
   const handleAddVideoLink = (url: string) => {
-    addVideoToEventMutation.mutate({
+    addOfferVideoMutation.mutate({
       eventId,
       url,
       language: i18n.language,
+      scope,
     });
     setIsVideoLinkAddModalVisible(false);
   };
@@ -290,7 +291,7 @@ const MediaStep = ({
   };
 
   const handleConfirmDeleteVideo = (videoId: string) => {
-    deleteVideoFromEventMutation.mutate({ eventId, videoId });
+    deleteOfferVideoMutation.mutate({ eventId, videoId, scope });
     setIsVideoLinkDeleteModalVisible(false);
   };
 

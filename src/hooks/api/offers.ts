@@ -272,16 +272,52 @@ const useAddOfferMainImageMutation = (configuration = {}) =>
     ...configuration,
   });
 
+const addOfferVideo = async ({ headers, eventId, url, language, scope }) =>
+  fetchFromApi({
+    path: `/${scope}/${eventId}/videos`,
+    options: {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        url,
+        language,
+      }),
+    },
+  });
+
+const useAddOfferVideoMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: addOfferVideo,
+    ...configuration,
+  });
+
+const deleteOfferVideo = async ({ headers, eventId, videoId, scope }) =>
+  fetchFromApi({
+    path: `/${scope}/${eventId}/videos/${videoId}`,
+    options: {
+      method: 'DELETE',
+      headers,
+    },
+  });
+
+const useDeleteOfferVideoMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: deleteOfferVideo,
+    ...configuration,
+  });
+
 export {
   useAddOfferImageMutation,
   useAddOfferLabelMutation,
   useAddOfferMainImageMutation,
   useAddOfferPriceInfoMutation,
+  useAddOfferVideoMutation,
   useChangeOfferCalendarMutation,
   useChangeOfferDescriptionMutation,
   useChangeOfferNameMutation,
   useChangeOfferThemeMutation,
   useChangeOfferTypeMutation,
   useChangeOfferTypicalAgeRangeMutation,
+  useDeleteOfferVideoMutation,
   useGetOffersByCreatorQuery,
 };
