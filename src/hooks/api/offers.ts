@@ -221,10 +221,33 @@ const useAddOfferPriceInfoMutation = (configuration = {}) =>
     ...configuration,
   });
 
+const changeOfferDescription = async ({
+  headers,
+  eventId,
+  language,
+  description,
+  scope,
+}) =>
+  fetchFromApi({
+    path: `/${scope}/${eventId}/description/${language}`,
+    options: {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({ description }),
+    },
+  });
+
+const useChangeOfferDescriptionMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: changeOfferDescription,
+    ...configuration,
+  });
+
 export {
   useAddOfferLabelMutation,
   useAddOfferPriceInfoMutation,
   useChangeOfferCalendarMutation,
+  useChangeOfferDescriptionMutation,
   useChangeOfferNameMutation,
   useChangeOfferThemeMutation,
   useChangeOfferTypeMutation,

@@ -1,10 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import {
-  useChangeDescriptionMutation,
-  useGetEventByIdQuery,
-} from '@/hooks/api/events';
+import { useGetEventByIdQuery } from '@/hooks/api/events';
+import { useChangeOfferDescriptionMutation } from '@/hooks/api/offers';
 import { Event } from '@/types/Event';
 import { Alert } from '@/ui/Alert';
 import { Box, parseSpacing } from '@/ui/Box';
@@ -74,6 +72,7 @@ const DescriptionInfo = ({
 type DescriptionStepProps = StackProps & TabContentProps;
 
 const DescriptionStep = ({
+  scope,
   offerId,
   onSuccessfulChange,
   onChangeCompleted,
@@ -109,7 +108,7 @@ const DescriptionStep = ({
     return event?.terms.find((term) => term.domain === 'eventtype')?.id!;
   }, [event?.terms]);
 
-  const changeDescriptionMutation = useChangeDescriptionMutation({
+  const changeDescriptionMutation = useChangeOfferDescriptionMutation({
     onSuccess: onSuccessfulChange,
   });
 
@@ -124,6 +123,7 @@ const DescriptionStep = ({
       description,
       language: i18n.language,
       eventId,
+      scope,
     });
   };
 
@@ -134,6 +134,7 @@ const DescriptionStep = ({
       description: '',
       language: i18n.language,
       eventId,
+      scope,
     });
   };
 
