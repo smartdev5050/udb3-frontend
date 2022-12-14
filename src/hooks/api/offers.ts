@@ -365,7 +365,30 @@ const useAddOfferContactPointMutation = (configuration = {}) =>
     ...configuration,
   });
 
+const addOfferBookingInfo = async ({
+  headers,
+  eventId,
+  bookingInfo,
+  scope,
+}) => {
+  fetchFromApi({
+    path: `/${scope})/${eventId}/bookingInfo`,
+    options: {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({ bookingInfo }),
+    },
+  });
+};
+
+const useAddOfferBookingInfoMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: addOfferBookingInfo,
+    ...configuration,
+  });
+
 export {
+  useAddOfferBookingInfoMutation,
   useAddOfferContactPointMutation,
   useAddOfferImageMutation,
   useAddOfferLabelMutation,

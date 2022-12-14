@@ -4,10 +4,13 @@ import { useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
+import { OfferType } from '@/constants/OfferType';
 import {
   useAddBookingInfoMutation,
   useGetEventByIdQuery,
 } from '@/hooks/api/events';
+import { useAddOfferBookingInfoMutation } from '@/hooks/api/offers';
+import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { DatePeriodPicker } from '@/ui/DatePeriodPicker';
@@ -246,6 +249,7 @@ const ReservationPeriod = ({
 type Props = StackProps & TabContentProps;
 
 const BookingInfoStep = ({
+  scope,
   offerId,
   onSuccessfulChange,
   onChangeCompleted,
@@ -317,10 +321,13 @@ const BookingInfoStep = ({
     },
   ];
 
-  const getEventByIdQuery = useGetEventByIdQuery({ id: offerId });
+  const useGetOfferByIdQuery =
+    scope === OfferType.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
+
+  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
 
   // @ts-expect-error
-  const bookingInfo = getEventByIdQuery.data?.bookingInfo;
+  const bookingInfo = getOfferByIdQuery.data?.bookingInfo;
 
   const { register, handleSubmit, formState, control, setValue, getValues } =
     useForm<FormData>({
@@ -358,7 +365,7 @@ const BookingInfoStep = ({
     name: ['url', 'urlLabel', 'availabilityStarts', 'availabilityEnds'],
   });
 
-  const addBookingInfoMutation = useAddBookingInfoMutation({
+  const addBookingInfoMutation = useAddOfferBookingInfoMutation({
     onSuccess: onSuccessfulChange,
   });
 
@@ -366,6 +373,7 @@ const BookingInfoStep = ({
     await addBookingInfoMutation.mutateAsync({
       eventId,
       bookingInfo: newBookingInfo,
+      scope,
     });
   };
 
