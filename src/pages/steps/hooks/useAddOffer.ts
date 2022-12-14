@@ -1,11 +1,7 @@
 import { OfferType } from '@/constants/OfferType';
-import {
-  useAddEventMutation,
-} from '@/hooks/api/events';
+import { useAddEventMutation } from '@/hooks/api/events';
 import { useAddOfferLabelMutation } from '@/hooks/api/offers';
-import {
-  useAddPlaceMutation,
-} from '@/hooks/api/places';
+import { useAddPlaceMutation } from '@/hooks/api/places';
 import {
   useAddEventByIdMutation as useAddEventToProductionByIdMutation,
   useCreateWithEventsMutation as useCreateProductionWithEventsMutation,

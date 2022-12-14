@@ -3,10 +3,7 @@ import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
-import type {
-  StepProps,
-  StepsConfiguration,
-} from '@/pages/steps/Steps';
+import type { StepProps, StepsConfiguration } from '@/pages/steps/Steps';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Box } from '@/ui/Box';
 import type { StackProps } from '@/ui/Stack';
