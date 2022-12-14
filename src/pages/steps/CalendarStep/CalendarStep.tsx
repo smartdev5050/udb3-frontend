@@ -18,6 +18,7 @@ import { getStackProps, Stack } from '@/ui/Stack';
 import { Toast } from '@/ui/Toast';
 
 import {
+  CalendarContext,
   CalendarState,
   createDayId,
   createOpeninghoursId,
@@ -25,7 +26,11 @@ import {
   useCalendarSelector,
   useIsFixedDays,
   useIsIdle,
+  useIsMultiple,
   useIsOneOrMoreDays,
+  useIsPeriodic,
+  useIsPermanent,
+  useIsSingle,
 } from '../machines/calendarMachine';
 import { useCalendarHandlers } from '../machines/useCalendarHandlers';
 import { FormDataUnion, StepProps, StepsConfiguration } from '../Steps';
@@ -55,16 +60,16 @@ const useEditCalendar = ({ offerId, onSuccess }) => {
   };
 };
 
-const convertStateToFormData = (state: CalendarState) => {
-  if (!state) return undefined;
+const convertStateToFormData = (
+  context: CalendarContext,
+  isSingle: any,
+  isMultiple: any,
+  isPeriodic: any,
+  isPermanent: any,
+) => {
+  if (!context) return undefined;
 
-  const { context } = state;
   const { days, openingHours, startDate, endDate } = context;
-
-  const isSingle = state.matches('single');
-  const isMultiple = state.matches('multiple');
-  const isPeriodic = state.matches('periodic');
-  const isPermanent = state.matches('permanent');
 
   const isOneOrMoreDays = isSingle || isMultiple;
   const isFixedDays = isPeriodic || isPermanent;
@@ -105,11 +110,15 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
 
   const isOneOrMoreDays = useIsOneOrMoreDays();
   const isFixedDays = useIsFixedDays();
+  const isMultiple = useIsMultiple();
+  const isSingle = useIsSingle();
+  const isPeriodic = useIsPeriodic();
+  const isPermanent = useIsPermanent();
   const isIdle = useIsIdle();
 
   const calendarStateType = useCalendarSelector((state) => state.value);
   const days = useCalendarSelector((state) => state.context.days);
-  const state = useCalendarSelector((state) => state);
+  const context = useCalendarSelector((state) => state.context);
 
   const previousState = useCalendarSelector((state) => state.history?.value);
 
@@ -196,10 +205,16 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
   });
 
   const convertedStateToFormData = useMemo(() => {
-    if (!state) return;
+    if (!context) return;
 
-    return convertStateToFormData(state);
-  }, [state]);
+    return convertStateToFormData(
+      context,
+      isSingle,
+      isMultiple,
+      isPeriodic,
+      isPermanent,
+    );
+  }, [context, isPermanent, isSingle, isPeriodic, isMultiple]);
 
   const handleSubmitCalendarMutation = async (isIdle: boolean) => {
     if (isIdle) return;
@@ -225,9 +240,12 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
   );
 
   useEffect(() => {
+    console.log('previousState', previousState);
     if (!offerId) return;
     if (isIdle) return;
     if (previousState === 'idle') return;
+
+    console.log('in use effect trigger mutation');
 
     handleSubmitCalendarMutationCallback(isIdle);
   }, [offerId, handleSubmitCalendarMutationCallback, isIdle, previousState]);

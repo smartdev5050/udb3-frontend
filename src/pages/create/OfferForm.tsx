@@ -15,6 +15,10 @@ import { locationStepConfiguration } from '@/pages/steps/LocationStep';
 import {
   CalendarMachineProvider,
   useCalendarSelector,
+  useIsMultiple,
+  useIsPeriodic,
+  useIsPermanent,
+  useIsSingle,
 } from '@/pages/steps/machines/calendarMachine';
 import { nameAndAgeRangeStepConfiguration } from '@/pages/steps/NameAndAgeRangeStep';
 import { scopeStepConfiguration } from '@/pages/steps/ScopeStep';
@@ -211,12 +215,23 @@ const OfferForm = () => {
     };
   };
 
-  const calendarState = useCalendarSelector((state) => state);
+  const context = useCalendarSelector((state) => state.context);
+
+  const isMultiple = useIsMultiple();
+  const isSingle = useIsSingle();
+  const isPeriodic = useIsPeriodic();
+  const isPermanent = useIsPermanent();
 
   const calendarFormData = useMemo(() => {
-    if (!calendarState) return undefined;
-    return convertStateToFormData(calendarState);
-  }, [calendarState]);
+    if (!context) return undefined;
+    convertStateToFormData(
+      context,
+      isSingle,
+      isMultiple,
+      isPeriodic,
+      isPermanent,
+    );
+  }, [context, isSingle, isMultiple, isPeriodic, isPermanent]);
 
   const convertFormDataWithCalendarToOffer = (formData: any) => {
     const newFormData = convertFormDataToOffer(formData);
