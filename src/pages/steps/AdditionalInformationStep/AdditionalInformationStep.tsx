@@ -3,6 +3,7 @@ import { FC, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
+import { OfferType } from '@/constants/OfferType';
 import type { Values } from '@/types/Values';
 import { parseSpacing } from '@/ui/Box';
 import { Icon, Icons } from '@/ui/Icon';
@@ -50,6 +51,7 @@ type Field = Values<typeof Fields>;
 
 type TabContentProps = {
   offerId?: string;
+  scope?: Values<typeof OfferType>;
   onSuccessfulChange: (() => Promise<void>) | ((data: any) => void);
   onChangeCompleted?: (value: boolean) => void;
 };
@@ -124,12 +126,14 @@ const TabTitle = ({ field, isCompleted, ...props }: TabTitleProps) => {
 
 type Props = StackProps & {
   offerId: string;
+  scope: Values<typeof OfferType>;
   onChangeSuccess: (field: Field) => void;
   variant?: Values<typeof AdditionalInformationStepVariant>;
 };
 
 const AdditionalInformationStep = ({
   offerId,
+  scope,
   onChangeSuccess,
   variant,
   ...props
@@ -214,6 +218,7 @@ const AdditionalInformationStep = ({
                 <TabContent
                   minHeight="350px"
                   offerId={offerId}
+                  scope={scope}
                   onChangeCompleted={(isCompleted) => {
                     if (completedFields[field] === isCompleted) return;
 

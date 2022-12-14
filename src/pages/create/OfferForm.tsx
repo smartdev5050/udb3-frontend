@@ -277,6 +277,7 @@ const OfferForm = () => {
               : AdditionalInformationStepVariant.PLACE,
           stepProps: {
             offerId,
+            scope,
           },
         },
       ]}
