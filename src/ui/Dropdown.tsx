@@ -12,8 +12,6 @@ import { Button, buttonCSS, ButtonVariants } from '@/ui/Button';
 import { Link, LinkVariants } from '@/ui/Link';
 import { getGlobalBorderRadius, getValueFromTheme } from '@/ui/theme';
 
-const getValue = getValueFromTheme(`dropdown`);
-
 const DropDownVariants = {
   ...ButtonVariants,
   SECONDARY: 'outline-secondary',

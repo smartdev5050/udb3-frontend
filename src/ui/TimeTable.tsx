@@ -205,7 +205,7 @@ type HeaderProps = InlineProps & {
   index: number;
 };
 
-const Header = ({ header, index, ...props }: HeaderProps) => {
+const Header = ({ header, ...props }: HeaderProps) => {
   return (
     <Inline
       as="div"
