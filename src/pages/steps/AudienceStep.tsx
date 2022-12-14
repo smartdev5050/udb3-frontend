@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import {
-  useAddAudienceMutation,
+  useChangeAudienceMutation,
   useGetEventByIdQuery,
 } from '@/hooks/api/events';
 import { Event } from '@/types/Event';
@@ -62,7 +62,7 @@ const Audience = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [event?.audience?.audienceType, setValue]);
 
-  const addAudienceMutation = useAddAudienceMutation({
+  const addAudienceMutation = useChangeAudienceMutation({
     onSuccess: onSuccessfulChange,
   });
 
@@ -70,7 +70,7 @@ const Audience = ({
     setValue('audienceType', audienceType);
 
     await addAudienceMutation.mutateAsync({
-      offerId,
+      eventId: offerId,
       audienceType,
     });
   };

@@ -688,7 +688,7 @@ const useDeleteVideoFromEventMutation = (configuration = {}) =>
     ...configuration,
   });
 
-const addAudience = async ({ headers, eventId, audienceType }) =>
+const changeAudience = async ({ headers, eventId, audienceType }) =>
   fetchFromApi({
     path: `/events/${eventId}/audience`,
     options: {
@@ -700,9 +700,9 @@ const addAudience = async ({ headers, eventId, audienceType }) =>
     },
   });
 
-const useAddAudienceMutation = (configuration = {}) =>
+const useChangeAudienceMutation = (configuration = {}) =>
   useAuthenticatedMutation({
-    mutationFn: addAudience,
+    mutationFn: changeAudience,
     ...configuration,
   });
 
@@ -728,7 +728,6 @@ const useChangeAttendanceModeMutation = (configuration = {}) =>
   });
 
 export {
-  useAddAudienceMutation,
   useAddBookingInfoMutation,
   useAddContactPointMutation,
   useAddEventMainImageMutation,
@@ -739,6 +738,7 @@ export {
   useAddPriceInfoMutation,
   useAddVideoToEventMutation,
   useChangeAttendanceModeMutation,
+  useChangeAudienceMutation,
   useChangeCalendarMutation,
   useChangeDescriptionMutation,
   useChangeLocationMutation,
