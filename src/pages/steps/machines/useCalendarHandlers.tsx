@@ -14,7 +14,7 @@ export const useCalendarHandlers = () => {
   const handleLoadInitialContext = (
     newContext?: CalendarContext,
     calendarType?: Values<typeof CalendarType>,
-  ) => {
+  ): void => {
     send('LOAD_INITIAL_CONTEXT', { newContext, calendarType });
   };
 
