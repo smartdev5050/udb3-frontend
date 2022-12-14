@@ -5,10 +5,7 @@ import * as yup from 'yup';
 
 import { EventTypes } from '@/constants/EventTypes';
 import { OfferType } from '@/constants/OfferType';
-import {
-  useChangeAttendanceModeMutation,
-  useChangeLocationMutation,
-} from '@/hooks/api/events';
+import { useChangeAttendanceModeMutation } from '@/hooks/api/events';
 import { useChangeAddressMutation } from '@/hooks/api/places';
 import { FormData as OfferFormData } from '@/pages/create/OfferForm';
 import { Address } from '@/types/Address';
@@ -29,7 +26,6 @@ import { RadioButtonWithLabel } from '@/ui/RadioButtonWithLabel';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
-import { parseOfferId } from '@/utils/parseOfferId';
 
 import { CityPicker } from '../CityPicker';
 import { Features, NewFeatureTooltip } from '../NewFeatureTooltip';
@@ -44,9 +40,8 @@ import {
 
 const getGlobalValue = getValueFromTheme('global');
 
-const useEditLocation = ({ scope, offerId, onSuccess }) => {
+const useEditLocation = ({ scope, offerId }) => {
   const { i18n } = useTranslation();
-  const changeLocationMutation = useChangeLocationMutation();
   const changeAddressMutation = useChangeAddressMutation();
   const changeAttendanceMode = useChangeAttendanceModeMutation();
 
@@ -107,7 +102,6 @@ const LocationStep = ({
   name,
   loading,
   onChange,
-  terms,
   chooseLabel,
   placeholderLabel,
   watch,
