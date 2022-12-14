@@ -24,7 +24,7 @@ const useEditField = ({ scope, onSuccess, offerId, handleSubmit }) => {
     onSuccess(editedField);
 
     if (!shouldInvalidateEvent) return;
-    queryClient.invalidateQueries(['events', { id: offerId }]);
+    queryClient.invalidateQueries([scope, { id: offerId }]);
   };
 
   const editArguments = { scope, offerId, onSuccess: handleSuccess };
