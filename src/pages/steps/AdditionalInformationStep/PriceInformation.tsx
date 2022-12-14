@@ -7,6 +7,7 @@ import * as yup from 'yup';
 import { OfferType } from '@/constants/OfferType';
 import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { useAddOfferPriceInfoMutation } from '@/hooks/api/offers';
+import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import i18n from '@/i18n/index';
 import { Event } from '@/types/Event';
 import type { Values } from '@/types/Values';
@@ -120,21 +121,24 @@ const PriceInformation = ({
   const [duplicateNameError, setDuplicateNameError] = useState('');
   const [priceInfo, setPriceInfo] = useState([]);
 
-  const getEventByIdQuery = useGetEventByIdQuery(
+  const useGetOfferByIdQuery =
+    scope === OfferType.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
+
+  const getOfferByIdQuery = useGetOfferByIdQuery(
     { id: offerId },
     { refetchOnWindowFocus: false },
   );
 
   // @ts-expect-error
-  const event: Event | undefined = getEventByIdQuery.data;
+  const offer: Event | Place | undefined = getOfferByIdQuery.data;
 
   useEffect(() => {
-    let newPriceInfo = event?.priceInfo ?? [];
+    let newPriceInfo = offer?.priceInfo ?? [];
 
     if (newPriceInfo.length > 0) {
       onChangeCompleted(true);
     }
-    const mainLanguage = event?.mainLanguage;
+    const mainLanguage = offer?.mainLanguage;
 
     newPriceInfo = newPriceInfo.map((rate: any) => {
       return {
@@ -149,7 +153,7 @@ const PriceInformation = ({
 
     setPriceInfo(newPriceInfo);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [event?.priceInfo, event?.mainLanguage, i18n.language]);
+  }, [offer?.priceInfo, offer?.mainLanguage, i18n.language]);
 
   const {
     register,
