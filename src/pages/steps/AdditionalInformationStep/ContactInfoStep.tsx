@@ -7,10 +7,10 @@ import {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import {
-  useAddContactPointMutation,
-  useGetEventByIdQuery,
-} from '@/hooks/api/events';
+import { OfferType } from '@/constants/OfferType';
+import { useGetEventByIdQuery } from '@/hooks/api/events';
+import { useAddOfferContactPointMutation } from '@/hooks/api/offers';
+import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Icons } from '@/ui/Icon';
@@ -67,6 +67,7 @@ type Props = StackProps &
   };
 
 const ContactInfoStep = ({
+  scope,
   offerId,
   onSuccessfulChange,
   onChangeCompleted,
@@ -79,7 +80,10 @@ const ContactInfoStep = ({
   // TODO: refactor
   const eventId = offerId;
 
-  const getEventByIdQuery = useGetEventByIdQuery({ id: offerId });
+  const useGetOfferByIdQuery =
+    scope === OfferType.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
+
+  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
 
   const [contactInfoState, setContactInfoState] = useState<NewContactInfo[]>(
     [],
@@ -90,7 +94,7 @@ const ContactInfoStep = ({
   const handleChangeCompleted = useCallback(onChangeCompleted, []);
   const contactInfo =
     // @ts-expect-error
-    getEventByIdQuery.data?.contactPoint ?? organizerContactInfo;
+    getOfferByIdQuery.data?.contactPoint ?? organizerContactInfo;
 
   useEffect(() => {
     if (!contactInfo) return;
@@ -111,7 +115,7 @@ const ContactInfoStep = ({
     setContactInfoState(contactInfoArray);
   }, [contactInfo, handleChangeCompleted]);
 
-  const addContactPointMutation = useAddContactPointMutation({
+  const addContactPointMutation = useAddOfferContactPointMutation({
     onSuccess: onSuccessfulChange,
   });
 
@@ -132,6 +136,7 @@ const ContactInfoStep = ({
     await addContactPointMutation.mutateAsync({
       eventId,
       contactPoint: parseNewContactInfo(newContactInfo),
+      scope,
     });
   };
 

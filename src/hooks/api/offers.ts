@@ -344,7 +344,29 @@ const useDeleteOfferImageMutation = (configuration = {}) =>
     ...configuration,
   });
 
+const addOfferContactPoint = async ({
+  headers,
+  eventId,
+  contactPoint,
+  scope,
+}) =>
+  fetchFromApi({
+    path: `/${scope}/${eventId}/contactPoint`,
+    options: {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({ contactPoint }),
+    },
+  });
+
+const useAddOfferContactPointMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: addOfferContactPoint,
+    ...configuration,
+  });
+
 export {
+  useAddOfferContactPointMutation,
   useAddOfferImageMutation,
   useAddOfferLabelMutation,
   useAddOfferMainImageMutation,
