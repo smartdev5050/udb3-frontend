@@ -387,12 +387,43 @@ const useAddOfferBookingInfoMutation = (configuration = {}) =>
     ...configuration,
   });
 
+const addOfferOrganizer = async ({ headers, id, organizerId, scope }) =>
+  fetchFromApi({
+    path: `/${scope}/${id}/organizer/${organizerId}`,
+    options: {
+      method: 'PUT',
+      headers,
+    },
+  });
+
+const useAddOfferOrganizerMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: addOfferOrganizer,
+    ...configuration,
+  });
+
+const deleteOfferOrganizer = async ({ headers, id, organizerId, scope }) =>
+  fetchFromApi({
+    path: `/${scope}/${id}/organizer/${organizerId}`,
+    options: {
+      method: 'DELETE',
+      headers,
+    },
+  });
+
+const useDeleteOfferOrganizerMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: deleteOfferOrganizer,
+    ...configuration,
+  });
+
 export {
   useAddOfferBookingInfoMutation,
   useAddOfferContactPointMutation,
   useAddOfferImageMutation,
   useAddOfferLabelMutation,
   useAddOfferMainImageMutation,
+  useAddOfferOrganizerMutation,
   useAddOfferPriceInfoMutation,
   useAddOfferVideoMutation,
   useChangeOfferCalendarMutation,
@@ -402,6 +433,7 @@ export {
   useChangeOfferTypeMutation,
   useChangeOfferTypicalAgeRangeMutation,
   useDeleteOfferImageMutation,
+  useDeleteOfferOrganizerMutation,
   useDeleteOfferVideoMutation,
   useGetOffersByCreatorQuery,
   useUpdateOfferImageMutation,
