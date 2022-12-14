@@ -4,10 +4,9 @@ import { useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
-import {
-  useAddPriceInfoMutation,
-  useGetEventByIdQuery,
-} from '@/hooks/api/events';
+import { OfferType } from '@/constants/OfferType';
+import { useGetEventByIdQuery } from '@/hooks/api/events';
+import { useAddOfferPriceInfoMutation } from '@/hooks/api/offers';
 import i18n from '@/i18n/index';
 import { Event } from '@/types/Event';
 import type { Values } from '@/types/Values';
@@ -101,11 +100,13 @@ const schema = yup
 
 type Props = {
   offerId: string;
+  scope: Values<typeof OfferType>;
   onChangeCompleted: (isCompleted: boolean) => void;
   onSuccessfulChange: () => void;
 };
 
 const PriceInformation = ({
+  scope,
   offerId,
   onChangeCompleted,
   onSuccessfulChange,
@@ -172,7 +173,7 @@ const PriceInformation = ({
 
   const rates = useWatch({ control, name: 'rates' });
 
-  const addPriceInfoMutation = useAddPriceInfoMutation({
+  const addPriceInfoMutation = useAddOfferPriceInfoMutation({
     onSuccess: () => {
       setTimeout(() => {
         onSuccessfulChange();
@@ -189,8 +190,9 @@ const PriceInformation = ({
     });
 
     await addPriceInfoMutation.mutateAsync({
-      offerId,
+      id: offerId,
       priceInfo: convertedPriceInfo,
+      scope,
     });
   };
 
