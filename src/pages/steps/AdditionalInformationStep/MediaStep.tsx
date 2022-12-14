@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { OfferType } from '@/constants/OfferType';
 import {
   useAddEventMainImageMutation,
-  useAddImageToEventMutation,
   useAddVideoToEventMutation,
   useDeleteImageFromEventMutation,
   useDeleteVideoFromEventMutation,
@@ -11,7 +11,10 @@ import {
   useUpdateImageFromEventMutation,
 } from '@/hooks/api/events';
 import { useAddImageMutation } from '@/hooks/api/images';
+import { useAddOfferImageMutation } from '@/hooks/api/offers';
+import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import type { FormData } from '@/pages/steps/modals/PictureUploadModal';
+import { Values } from '@/types/Values';
 import { Inline } from '@/ui/Inline';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Breakpoints } from '@/ui/theme';
@@ -27,12 +30,14 @@ import { PictureDeleteModal } from '../modals/PictureDeleteModal';
 import { PictureUploadModal } from '../modals/PictureUploadModal';
 
 type Props = {
+  scope: Values<typeof OfferType>;
   offerId?: string;
   onSuccessfulChange: () => void;
   onChangeCompleted: (completed: boolean) => void;
 };
 
 const MediaStep = ({
+  scope,
   offerId,
   onSuccessfulChange,
   onChangeCompleted,
@@ -43,32 +48,35 @@ const MediaStep = ({
   // TODO: refactor
   const eventId = offerId;
 
-  const getEventByIdQuery = useGetEventByIdQuery({ id: offerId });
+  const useGetOfferByIdQuery =
+    scope === OfferType.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
+
+  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleChangeCompleted = useCallback(onChangeCompleted, []);
 
   const videosFromQuery = useMemo(
     // @ts-expect-error
-    () => getEventByIdQuery.data?.videos ?? [],
+    () => getOfferByIdQuery.data?.videos ?? [],
     [
       // @ts-expect-error
-      getEventByIdQuery.data?.videos,
+      getOfferByIdQuery.data?.videos,
     ],
   );
 
   const mediaObjects = useMemo(
     // @ts-expect-error
-    () => getEventByIdQuery.data?.mediaObject ?? [],
+    () => getOfferByIdQuery.data?.mediaObject ?? [],
     // @ts-expect-error
-    [getEventByIdQuery.data?.mediaObject],
+    [getOfferByIdQuery.data?.mediaObject],
   );
 
   const eventImage = useMemo(
     // @ts-expect-error
-    () => getEventByIdQuery.data?.image ?? [],
+    () => getOfferByIdQuery.data?.image ?? [],
     // @ts-expect-error
-    [getEventByIdQuery.data?.image],
+    [getOfferByIdQuery.data?.image],
   );
 
   const [isPictureUploadModalVisible, setIsPictureUploadModalVisible] =
@@ -88,7 +96,7 @@ const MediaStep = ({
   const [videos, setVideos] = useState([]);
   const [images, setImages] = useState<ImageType[]>([]);
 
-  const addImageToEventMutation = useAddImageToEventMutation({
+  const addImageToEventMutation = useAddOfferImageMutation({
     onSuccess: async () => {
       setIsPictureUploadModalVisible(false);
       onSuccessfulChange();
@@ -96,7 +104,7 @@ const MediaStep = ({
   });
 
   const handleSuccessAddImage = ({ imageId }) => {
-    return addImageToEventMutation.mutate({ eventId, imageId });
+    return addImageToEventMutation.mutate({ eventId, imageId, scope });
   };
 
   const addImageMutation = useAddImageMutation({
