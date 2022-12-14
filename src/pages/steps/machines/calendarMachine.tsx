@@ -555,6 +555,12 @@ export const useIsFixedDays = () =>
     (state) => state.matches('periodic') || state.matches('permanent'),
   );
 
+export const useIsSingle = () =>
+  useCalendarSelector((state) => state.matches('single'));
+
+export const useIsMultiple = () =>
+  useCalendarSelector((state) => state.matches('multiple'));
+
 export const useIsPeriodic = () =>
   useCalendarSelector((state) => state.matches('periodic'));
 
