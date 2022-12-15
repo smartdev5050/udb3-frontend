@@ -30,10 +30,10 @@ type AudienceType = Values<typeof AudienceType>;
 type FormData = { audienceType: string };
 
 const schema = yup.object({
-  audienceType: yup.string().required(),
+  audienceType: yup.string().oneOf(Object.values(AudienceType)).required(),
 });
 
-const Audience = ({
+const AudienceStep = ({
   offerId,
   onSuccessfulChange,
   onChangeCompleted,
@@ -45,18 +45,17 @@ const Audience = ({
     resolver: yupResolver(schema),
   });
 
+  const watchedAudienceType = useWatch({ control, name: 'audienceType' });
+
   const getEventByIdQuery = useGetEventByIdQuery({ id: offerId });
 
   // @ts-expect-error
   const event: Event | undefined = getEventByIdQuery.data;
 
   useEffect(() => {
-    if (!event?.audience?.audienceType) {
-      setValue('audienceType', AudienceType.EVERYONE);
-    } else {
-      const newAudienceType = event.audience.audienceType;
-      setValue('audienceType', newAudienceType);
-    }
+    const newAudienceType =
+      event?.audience?.audienceType ?? AudienceType.EVERYONE;
+    setValue('audienceType', newAudienceType);
 
     onChangeCompleted(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -75,27 +74,22 @@ const Audience = ({
     });
   };
 
-  const wactchedAudienceType = useWatch({ control, name: 'audienceType' });
-
   return (
     <Stack {...getStackProps(props)}>
       <Stack spacing={3} marginBottom={3}>
         <Text fontWeight="bold">
           {t('create.additionalInformation.audience.title')}
         </Text>
-        {Object.keys(AudienceType).map((key, index) => (
+        {Object.values(AudienceType).map((type, index) => (
           <FormElement
             key={index}
-            id={`audience-${AudienceType[key]}`}
+            id={`audience-${type}`}
             Component={
               <RadioButtonWithLabel
-                {...register(AudienceType[key])}
-                label={t(
-                  `create.additionalInformation.audience.${AudienceType[key]}`,
-                )}
-                value={AudienceType[key]}
-                checked={wactchedAudienceType === AudienceType[key]}
-                onChange={() => handleOnChangeAudience(AudienceType[key])}
+                {...register(`audienceType`)}
+                label={t(`create.additionalInformation.audience.${type}`)}
+                checked={watchedAudienceType === type}
+                onChange={() => handleOnChangeAudience(type)}
               />
             }
           />
@@ -104,4 +98,4 @@ const Audience = ({
     </Stack>
   );
 };
-export { Audience };
+export { AudienceStep };

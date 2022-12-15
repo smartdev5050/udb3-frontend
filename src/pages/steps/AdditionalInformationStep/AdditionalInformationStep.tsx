@@ -13,7 +13,7 @@ import { Tabs } from '@/ui/Tabs';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
-import { Audience } from '../AudienceStep';
+import { AudienceStep } from '../AudienceStep';
 import { StepsConfiguration } from '../Steps';
 import { BookingInfoStep } from './BookingInfoStep';
 import { ContactInfoStep } from './ContactInfoStep';
@@ -53,7 +53,7 @@ type TabContentProps = {
   offerId?: string;
   scope?: Values<typeof OfferType>;
   onSuccessfulChange: (() => Promise<void>) | ((data: any) => void);
-  onChangeCompleted?: (value: boolean) => void;
+  onChangeCompleted?: (isCompleted: boolean) => void;
 };
 
 type TabConfig = {
@@ -97,7 +97,7 @@ const tabConfigurations: TabConfig[] = [
   },
   {
     field: Fields.AUDIENCE,
-    TabContent: Audience,
+    TabContent: AudienceStep,
     shouldInvalidate: true,
     shouldShowOn: [
       AdditionalInformationStepVariant.EVENT,

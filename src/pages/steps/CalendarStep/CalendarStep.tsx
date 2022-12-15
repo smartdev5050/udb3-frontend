@@ -224,6 +224,7 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
   const handleSubmitCalendarMutation = useCallback(submitCalendarMutation, []);
 
   useEffect(() => {
+    if (!offerId) return;
     if (!convertedStateToFormData) return;
 
     handleSubmitCalendarMutation(convertedStateToFormData);
