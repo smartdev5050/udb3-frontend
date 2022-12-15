@@ -485,9 +485,8 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
 
 export {
   areAllTimeSlotsValid,
-  formatTimeValue,
   isOneTimeSlotValid,
   isTimeTableEmpty,
   TimeTable,
 };
-export type { TimeTableData, TimeTableValue };
+export type { TimeTableValue };

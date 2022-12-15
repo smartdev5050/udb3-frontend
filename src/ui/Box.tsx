@@ -571,7 +571,6 @@ export {
   boxPropTypes,
   FALSY_VALUES,
   getBoxProps,
-  notAllowedPropsSet,
   parseDimension,
   parseProperty,
   parseSpacing,

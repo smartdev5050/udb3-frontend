@@ -17,7 +17,6 @@ import {
   MachineConfig,
   MachineOptions,
   State,
-  StateNodeConfig,
 } from 'xstate';
 
 import { BookingAvailabilityType } from '@/constants/BookingAvailabilityType';
@@ -145,12 +144,6 @@ export type CalendarState = State<
   CalendarContext,
   CalendarEvents,
   CalendarSchema
->;
-
-export type CalendarStateNodeConfig = StateNodeConfig<
-  CalendarContext,
-  CalendarSchema,
-  CalendarEvents
 >;
 
 export type CalendarActions = Actions<CalendarContext, CalendarEvents>;
@@ -534,9 +527,6 @@ export const CalendarMachineProvider = ({
 };
 
 export const useCalendarContext = () => useContext(CalendarMachineContext);
-
-export const useSetCalendarContext = (context: any) =>
-  calendarMachine.withContext(context);
 
 export const useCalendarSelector = <T,>(
   selector: (state: CalendarState) => T,

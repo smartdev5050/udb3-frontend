@@ -5,10 +5,7 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { OfferType } from '@/constants/OfferType';
-import {
-  useAddBookingInfoMutation,
-  useGetEventByIdQuery,
-} from '@/hooks/api/events';
+import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { useAddOfferBookingInfoMutation } from '@/hooks/api/offers';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import { Alert, AlertVariants } from '@/ui/Alert';

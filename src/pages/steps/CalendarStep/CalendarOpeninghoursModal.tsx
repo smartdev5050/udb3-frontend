@@ -2,6 +2,8 @@ import { ChangeEvent, useState } from 'react';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { DaysOfWeek } from '@/constants/DaysOfWeek';
+import { DayOfWeek } from '@/types/Offer';
 import { Values } from '@/types/Values';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { CheckboxWithLabel } from '@/ui/CheckboxWithLabel';
@@ -17,16 +19,6 @@ import {
   useCalendarSelector,
 } from '../machines/calendarMachine';
 import { useCalendarHandlers } from '../machines/useCalendarHandlers';
-
-const DaysOfWeek = {
-  MONDAY: 'monday',
-  TUESDAY: 'tuesday',
-  WEDNESDAY: 'wednesday',
-  THURSDAY: 'thursday',
-  FRIDAY: 'friday',
-  SATURDAY: 'saturday',
-  SUNDAY: 'sunday',
-} as const;
 
 type CalendarOpeninghoursModalProps = {
   visible: boolean;
@@ -110,7 +102,7 @@ const CalendarOpeninghoursModal = ({
 
   const handleToggleDaysOfWeek = (
     event: ChangeEvent<HTMLFormElement>,
-    dayOfWeek: Values<typeof DaysOfWeek>,
+    dayOfWeek: DayOfWeek,
     idToChange: string,
   ) => {
     const checked = event.target.checked;

@@ -332,5 +332,5 @@ const PictureUploadModal = ({
   );
 };
 
-export { MAX_FILE_SIZE, PictureUploadModal };
+export { PictureUploadModal };
 export type { FormData };
