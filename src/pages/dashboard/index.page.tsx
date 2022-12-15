@@ -659,4 +659,4 @@ const DashboardWrapper = (props) => {
 };
 
 export default DashboardWrapper;
-export { getServerSideProps, itemsPerPage };
+export { getServerSideProps };

@@ -33,21 +33,6 @@ import { PlaceAddModal } from '../PlaceAddModal';
 
 const getGlobalValue = getValueFromTheme('global');
 
-const useEditPlace = ({ scope, offerId, onSuccess }) => {
-  const changeLocationMutation = useChangeLocationMutation({
-    onSuccess: () => onSuccess('location'),
-  });
-
-  return async ({ place }: FormDataUnion) => {
-    if (!place) return;
-
-    await changeLocationMutation.mutateAsync({
-      id: offerId,
-      locationId: parseOfferId(place['@id']),
-    });
-  };
-};
-
 type PlaceStepProps = StackProps &
   StepProps & {
     terms: Array<Values<typeof EventTypes>>;
@@ -220,4 +205,4 @@ PlaceStep.defaultProps = {
   terms: [],
 };
 
-export { PlaceStep, placeStepConfiguration, useEditPlace };
+export { PlaceStep, placeStepConfiguration };

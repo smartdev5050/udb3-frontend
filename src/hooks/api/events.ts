@@ -269,41 +269,6 @@ const useGetCalendarSummaryQuery = (
     ...configuration,
   });
 
-const changeTheme = async ({ headers, id, themeId }) => {
-  if (!themeId) {
-    return fetchFromApi({
-      path: `/events/${id.toString()}/theme`,
-      options: {
-        method: 'DELETE',
-        headers,
-      },
-    });
-  }
-
-  return fetchFromApi({
-    path: `/events/${id.toString()}/theme/${themeId}`,
-    options: {
-      method: 'PUT',
-      headers,
-    },
-  });
-};
-
-const useChangeThemeMutation = (configuration = {}) =>
-  useAuthenticatedMutation({ mutationFn: changeTheme, ...configuration });
-
-const changeType = async ({ headers, id, typeId }) =>
-  fetchFromApi({
-    path: `/events/${id.toString()}/type/${typeId}`,
-    options: {
-      method: 'PUT',
-      headers,
-    },
-  });
-
-const useChangeTypeMutation = (configuration = {}) =>
-  useAuthenticatedMutation({ mutationFn: changeType, ...configuration });
-
 const changeLocation = async ({ headers, id, locationId }) => {
   return fetchFromApi({
     path: `/events/${id.toString()}/location/${locationId}`,
@@ -446,22 +411,6 @@ const useChangeStatusSubEventsMutation = (configuration = {}) =>
     ...configuration,
   });
 
-const changeTypicalAgeRange = async ({ headers, eventId, typicalAgeRange }) =>
-  fetchFromApi({
-    path: `/events/${eventId}/typicalAgeRange`,
-    options: {
-      method: 'PUT',
-      headers,
-      body: JSON.stringify({ typicalAgeRange }),
-    },
-  });
-
-const useChangeTypicalAgeRangeMutation = (configuration = {}) =>
-  useAuthenticatedMutation({
-    mutationFn: changeTypicalAgeRange,
-    ...configuration,
-  });
-
 const publish = async ({ headers, eventId, publicationDate }) =>
   fetchFromApi({
     path: `/events/${eventId}`,
@@ -529,9 +478,6 @@ export {
   useChangeNameMutation,
   useChangeStatusMutation,
   useChangeStatusSubEventsMutation,
-  useChangeThemeMutation,
-  useChangeTypeMutation,
-  useChangeTypicalAgeRangeMutation,
   useDeleteEventByIdMutation,
   useGetCalendarSummaryQuery,
   useGetEventByIdQuery,
@@ -540,5 +486,3 @@ export {
   useGetEventsToModerateQuery,
   usePublishEventMutation,
 };
-
-export type { Calendar };

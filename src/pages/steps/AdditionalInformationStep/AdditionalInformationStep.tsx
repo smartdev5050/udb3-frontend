@@ -249,7 +249,7 @@ const additionalInformationStepConfiguration: StepsConfiguration = {
   variant: AdditionalInformationStepVariant.EVENT,
 };
 
-export type { Field, MergedInfo, TabContentProps };
+export type { Field, TabContentProps };
 
 export {
   additionalInformationStepConfiguration,

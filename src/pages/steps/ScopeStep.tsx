@@ -185,4 +185,4 @@ const scopeStepConfiguration: StepsConfiguration = {
   },
 };
 
-export { ScopeStep, scopeStepConfiguration };
+export { scopeStepConfiguration };
