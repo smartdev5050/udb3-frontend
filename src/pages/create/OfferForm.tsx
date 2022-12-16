@@ -125,16 +125,20 @@ const OfferForm = () => {
   const offerId = query.offerId || query.eventId || query.placeId;
 
   const scope = useMemo(() => {
-    if (pathname.startsWith('/events')) {
+    if (
+      pathname.startsWith('/events') ||
+      pathname.startsWith('/manage/movies') ||
+      query.scope === OfferType.EVENTS
+    ) {
       return OfferType.EVENTS;
     }
 
-    if (pathname.startsWith('/places')) {
+    if (pathname.startsWith('/places') || query.scope === OfferType.PLACES) {
       return OfferType.PLACES;
     }
 
     return undefined;
-  }, [pathname]);
+  }, [pathname, query.scope]);
 
   const convertOfferToFormData = (offer: Offer) => {
     return {
