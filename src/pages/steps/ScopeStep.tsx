@@ -113,19 +113,7 @@ const ScopeStep = ({
   ...props
 }: Props) => {
   const { t } = useTranslation();
-  const { query, replace } = useRouter();
-
-  useEffect(() => {
-    if (!query.scope) return;
-
-    if (query.scope === OfferType.EVENTS) {
-      setValue('scope', OfferType.EVENTS);
-    }
-
-    if (query.scope === OfferType.PLACES) {
-      setValue('scope', OfferType.PLACES);
-    }
-  }, [query.scope, setValue]);
+  const { replace } = useRouter();
 
   const handleChangeScope = (
     field: ControllerRenderProps<FormDataUnion, string & Path<FormDataUnion>>,
