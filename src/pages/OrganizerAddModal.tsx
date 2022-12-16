@@ -105,8 +105,10 @@ const OrganizerAddModal = ({
 
   const urlRegisterProps = register('url');
 
-  const watchedUrl = useWatch({ control, name: 'url' });
-  const watchedCountry = useWatch({ control, name: 'address.country' });
+  const [watchedUrl, watchedCountry] = useWatch({
+    control,
+    name: ['url', 'address.country'],
+  });
 
   const getOrganizersByWebsiteQuery = useGetOrganizersByWebsiteQuery(
     {
