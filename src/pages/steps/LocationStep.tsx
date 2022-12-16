@@ -9,7 +9,7 @@ import { useChangeAttendanceModeMutation } from '@/hooks/api/events';
 import { useChangeAddressMutation } from '@/hooks/api/places';
 import { FormData as OfferFormData } from '@/pages/create/OfferForm';
 import { Address } from '@/types/Address';
-import { Countries } from '@/types/Country';
+import { Countries, Country } from '@/types/Country';
 import { AttendanceMode } from '@/types/Event';
 import { Place } from '@/types/Place';
 import { Values } from '@/types/Values';
@@ -396,7 +396,7 @@ const locationStepConfiguration: StepsConfiguration = {
         .object()
         .shape({
           place: yup.object().shape({}).required(),
-          country: yup.string().oneOf(Object.values(Countries)),
+          country: yup.mixed<Country>().oneOf(Object.values(Countries)),
         })
         .required();
     }

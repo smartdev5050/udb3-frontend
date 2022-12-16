@@ -30,7 +30,10 @@ type AudienceType = Values<typeof AudienceType>;
 type FormData = { audienceType: string };
 
 const schema = yup.object({
-  audienceType: yup.string().oneOf(Object.values(AudienceType)).required(),
+  audienceType: yup
+    .mixed<AudienceType>()
+    .oneOf(Object.values(AudienceType))
+    .required(),
 });
 
 const AudienceStep = ({
