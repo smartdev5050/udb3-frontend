@@ -238,6 +238,7 @@ const OfferForm = () => {
     <StepsForm
       key={parts[parts.length - 1]} // needed to re-render the form between create and edit.
       title={t(`create.title`)}
+      scope={scope}
       convertFormDataToOffer={convertFormDataWithCalendarToOffer}
       convertOfferToFormData={convertOfferToFormData}
       toastConfiguration={{
@@ -259,8 +260,14 @@ const OfferForm = () => {
           stepProps: {
             offerId,
           },
+          defaultValue: scope,
         },
-        typeAndThemeStepConfiguration,
+        {
+          ...typeAndThemeStepConfiguration,
+          stepProps: {
+            scope,
+          },
+        },
         {
           ...calendarStepConfiguration,
           stepProps: {
