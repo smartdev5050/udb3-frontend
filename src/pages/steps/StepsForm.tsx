@@ -56,6 +56,8 @@ const StepsForm = <TFormData extends FormDataUnion>({
     ((query.eventId as string) || (query.placeId as string)) ?? '',
   );
 
+  const isMovieForm = pathname.startsWith('/manage/movies');
+
   const scope = useMemo(() => {
     if (pathname.startsWith('/events')) {
       return OfferType.EVENTS;
@@ -80,7 +82,10 @@ const StepsForm = <TFormData extends FormDataUnion>({
 
   const addOffer = useAddOffer({
     onSuccess: (scope, offerId) => {
-      push(`/${scope}/${offerId}/edit`, undefined, { shallow: true });
+      const url = isMovieForm
+        ? `/manage/movies/${offerId}/edit`
+        : `/${scope}/${offerId}/edit`;
+      push(url, undefined, { shallow: true });
       setOfferId(offerId);
     },
     convertFormDataToOffer,
