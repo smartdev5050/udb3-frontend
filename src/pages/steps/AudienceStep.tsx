@@ -42,6 +42,9 @@ const AudienceStep = ({
   onChangeCompleted,
   ...props
 }: Props) => {
+  // TODO: refactor
+  const eventId = offerId;
+
   const { t } = useTranslation();
 
   const { register, control, setValue } = useForm<FormData>({

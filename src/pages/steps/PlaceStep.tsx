@@ -153,7 +153,7 @@ const PlaceStep = ({
                       minLength={3}
                       placeholder={placeholderLabel(t)}
                       newSelectionPrefix="Locatie niet gevonden? "
-                      allowNew
+                      allowNew={!isMovie}
                     />
                   }
                 />

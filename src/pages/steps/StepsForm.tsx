@@ -58,6 +58,25 @@ const StepsForm = ({
     ((query.eventId as string) || (query.placeId as string)) ?? '',
   );
 
+  const isMovieForm = pathname.startsWith('/manage/movies');
+
+  // TODO: make sure this code isn't duplicate after merge https://github.com/cultuurnet/udb3-frontend/pull/496
+  const scope = useMemo(() => {
+    if (
+      pathname.startsWith('/events') ||
+      pathname.startsWith('/manage/movies') ||
+      query.scope === OfferType.EVENTS
+    ) {
+      return OfferType.EVENTS;
+    }
+
+    if (pathname.startsWith('/places') || query.scope === OfferType.PLACES) {
+      return OfferType.PLACES;
+    }
+
+    return undefined;
+  }, [pathname, query.scope]);
+
   const toast = useToast(toastConfiguration);
 
   const publishEvent = usePublishOffer({
@@ -70,7 +89,10 @@ const StepsForm = ({
 
   const addOffer = useAddOffer({
     onSuccess: (scope, offerId) => {
-      push(`/${scope}/${offerId}/edit`, undefined, { shallow: true });
+      const url = isMovieForm
+        ? `/manage/movies/${offerId}/edit`
+        : `/${scope}/${offerId}/edit`;
+      push(url, undefined, { shallow: true });
       setOfferId(offerId);
     },
     convertFormDataToOffer,
