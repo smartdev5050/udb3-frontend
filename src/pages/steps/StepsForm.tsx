@@ -55,21 +55,6 @@ const StepsForm = ({
     ((query.eventId as string) || (query.placeId as string)) ?? '',
   );
 
-  const scope = useMemo(() => {
-    if (
-      pathname.startsWith('/events') ||
-      pathname.startsWith('/manage/movies')
-    ) {
-      return OfferType.EVENTS;
-    }
-
-    if (pathname.startsWith('/places')) {
-      return OfferType.PLACES;
-    }
-
-    return undefined;
-  }, [pathname]);
-
   const toast = useToast(toastConfiguration);
 
   const publishEvent = usePublishOffer({
