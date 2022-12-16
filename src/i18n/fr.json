@@ -338,7 +338,10 @@
         "uitpas_error": "Le prix UiTPAS est calculé pour vous par UiTdatabank. Vous ne pouvez pas les ajouter vous-même.",
         "uitpas_info": "Le taux d'opportunité UiTPAS est automatiquement calculé en fonction du prix de base et des systèmes de cartes actifs."
       },
-      "title": "Augmentez la visibilité de votre évènement"
+      "title": {
+        "events": "Augmentez la visibilité de votre évènement",
+        "places": "Augmentez la visibilité de votre lieu"
+      }
     },
     "footer": {
       "auto_save": "Je wijzigingen worden vanaf nu automatisch opgeslagen",
