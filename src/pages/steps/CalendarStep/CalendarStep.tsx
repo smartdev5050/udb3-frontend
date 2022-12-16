@@ -243,7 +243,7 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
     if (!convertedStateToFormData) return;
 
     handleSubmitCalendarMutation(convertedStateToFormData);
-  }, [convertedStateToFormData, handleSubmitCalendarMutation]);
+  }, [convertedStateToFormData, handleSubmitCalendarMutation, offerId]);
 
   useEffect(() => {
     if (isIdle) return;

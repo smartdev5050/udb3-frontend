@@ -50,13 +50,15 @@ const StepsForm = ({
 
   const { handleSubmit, reset } = form;
 
-  const { query, push } = useRouter();
+  const { query, push, pathname } = useRouter();
 
   // eventId is set after adding (saving) the event
   // or when entering the page from the edit route
   const [offerId, setOfferId] = useState(
     ((query.eventId as string) || (query.placeId as string)) ?? '',
   );
+
+  const isMovieForm = pathname.startsWith('/manage/movies');
 
   const toast = useToast(toastConfiguration);
 
@@ -70,7 +72,10 @@ const StepsForm = ({
 
   const addOffer = useAddOffer({
     onSuccess: (scope, offerId) => {
-      push(`/${scope}/${offerId}/edit`, undefined, { shallow: true });
+      const url = isMovieForm
+        ? `/manage/movies/${offerId}/edit`
+        : `/${scope}/${offerId}/edit`;
+      push(url, undefined, { shallow: true });
       setOfferId(offerId);
     },
     convertFormDataToOffer,

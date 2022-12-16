@@ -64,9 +64,11 @@ const convertSubEventsToTimeTable = (subEvents: SubEvent[] = []) => {
 };
 
 const MovieForm = (props) => {
-  const router = useRouter();
-  const parts = router.pathname.split('/');
+  const { query, pathname } = useRouter();
+  const parts = pathname.split('/');
   const { t, i18n } = useTranslation();
+
+  const offerId = query.offerId || query.eventId || query.placeId;
 
   const convertOfferToFormData = (event: Event) => {
     return {
@@ -155,6 +157,9 @@ const MovieForm = (props) => {
           ...additionalInformationStepConfiguration,
           variant: AdditionalInformationStepVariant.MOVIE,
           title: () => t(`movies.create.step5.title`),
+          stepProps: {
+            offerId,
+          },
         },
       ]}
     />
