@@ -74,9 +74,6 @@ const CalendarOpeninghoursModal = ({
   const openingHoursField = useFieldArray({ control, name: 'openingHours' });
   const openingHours = useWatch({ control, name: 'openingHours' });
 
-  useLog({ errors });
-  useLog({ openingHours });
-
   useEffect(() => {
     if (openinghoursFromStateMachine.length === 0) {
       openingHoursField.append({

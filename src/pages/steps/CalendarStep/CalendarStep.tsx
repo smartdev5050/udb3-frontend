@@ -229,8 +229,6 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [context, calendarType]);
 
-  useLog({ converted: convertedStateToFormData ?? null });
-
   const submitCalendarMutation = async (formData: any) => {
     await changeCalendarMutation.mutateAsync({
       id: offerId,
