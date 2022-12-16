@@ -3,7 +3,7 @@ import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 const useGetPlace = ({ id, onSuccess, enabled }) => {
   const getPlaceByIdQuery = useGetPlaceByIdQuery(
     { id },
-    { onSuccess, enabled },
+    { onSuccess, enabled: !!id && !!enabled },
   );
 
   // @ts-expect-error

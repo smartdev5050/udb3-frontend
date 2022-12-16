@@ -3,7 +3,7 @@ import { useGetEventByIdQuery } from '@/hooks/api/events';
 const useGetEvent = ({ id, onSuccess, enabled }) => {
   const getEventByIdQuery = useGetEventByIdQuery(
     { id },
-    { onSuccess, enabled },
+    { onSuccess, enabled: !!id && !!enabled },
   );
 
   // @ts-expect-error
