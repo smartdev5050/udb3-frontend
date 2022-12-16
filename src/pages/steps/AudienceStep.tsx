@@ -39,6 +39,9 @@ const Audience = ({
   onChangeCompleted,
   ...props
 }: Props) => {
+  // TODO: refactor
+  const eventId = offerId;
+
   const { t } = useTranslation();
 
   const { register, watch, setValue } = useForm<FormData>({
