@@ -342,7 +342,10 @@
         "uitpas_error": "De UiTPAS prijs wordt voor jou berekend door UiTdatabank. Je kan deze niet zelf toevoegen.",
         "uitpas_info": "Het UiTPAS kansentarief wordt automatish berekend op basis van de basisprijs en de actieve kaartsystemen."
       },
-      "title": "Laat je evenement extra opvallen"
+      "title": {
+        "events": "Laat je evenement extra opvallen",
+        "places": "Laat je locatie extra opvallen"
+      }
     },
     "footer": {
       "auto_save": "Je wijzigingen worden vanaf nu automatisch opgeslagen",
