@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -24,6 +25,7 @@ import {
   createDayId,
   createOpeninghoursId,
   initialCalendarContext,
+  useCalendarContext,
   useCalendarSelector,
   useIsFixedDays,
   useIsIdle,
@@ -102,8 +104,12 @@ type CalendarStepProps = StepProps & { offerId?: string };
 
 const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
   const { t } = useTranslation();
+  const { pathname } = useRouter();
+  const postfix = pathname.split('/').at(-1);
 
   const scope = useWatch({ control, name: 'scope' });
+
+  const calendarService = useCalendarContext();
 
   const isOneOrMoreDays = useIsOneOrMoreDays();
   const isFixedDays = useIsFixedDays();
@@ -142,7 +148,15 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
   const handleChooseFixedDays = useCallback(chooseFixedDays, []);
 
   useEffect(() => {
+    if (postfix !== 'create') return;
+
+    calendarService.stop();
+    calendarService.start();
+  }, [calendarService, postfix]);
+
+  useEffect(() => {
     if (offerId) return;
+
     handleLoadInitialContext();
   }, [handleLoadInitialContext, offerId]);
 

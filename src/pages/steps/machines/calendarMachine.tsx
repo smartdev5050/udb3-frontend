@@ -172,7 +172,9 @@ const calendarMachineOptions: MachineOptions<CalendarContext, CalendarEvents> =
     actions: {
       loadInitialContext: assign((context, event) => {
         if (event.type !== 'LOAD_INITIAL_CONTEXT') return;
-        if (!event.newContext) return context;
+        if (!event.newContext) {
+          return initialCalendarContext;
+        }
 
         return {
           ...event.newContext,
