@@ -117,6 +117,7 @@ const MovieForm = (props) => {
     <StepsForm
       {...props}
       key={parts[parts.length - 1]} // needed to re-render the form between create and edit.
+      scope={OfferTypes.EVENTS}
       label="udb-filminvoer"
       convertFormDataToOffer={convertFormDataToOffer}
       convertOfferToFormData={convertOfferToFormData}

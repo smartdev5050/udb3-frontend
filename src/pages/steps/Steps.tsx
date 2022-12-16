@@ -212,7 +212,8 @@ const Steps = ({
                 onChange={() => onChange(name)}
                 loading={!!(name && fieldLoading === name)}
                 name={name}
-                eventId={offerId}
+                offerId={offerId}
+                scope={scope}
                 variant={variant}
                 {...form}
                 {...props}

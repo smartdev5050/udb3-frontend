@@ -261,22 +261,13 @@ const OfferForm = () => {
       configurations={[
         {
           ...scopeStepConfiguration,
-          stepProps: {
-            offerId,
-          },
           defaultValue: scope,
         },
         {
           ...typeAndThemeStepConfiguration,
-          stepProps: {
-            scope,
-          },
         },
         {
           ...calendarStepConfiguration,
-          stepProps: {
-            offerId,
-          },
         },
         locationStepConfiguration,
         nameAndAgeRangeStepConfiguration,
@@ -287,10 +278,6 @@ const OfferForm = () => {
             scope === OfferTypes.EVENTS
               ? AdditionalInformationStepVariant.EVENT
               : AdditionalInformationStepVariant.PLACE,
-          stepProps: {
-            offerId,
-            scope,
-          },
         },
       ]}
     />
