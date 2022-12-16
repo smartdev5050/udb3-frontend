@@ -31,10 +31,12 @@ type StepsFormProps = {
   convertOfferToFormData: (event: any) => any;
   toastConfiguration: any;
   title: string;
+  scope: Values<typeof OfferType>;
   label?: string;
 };
 
 const StepsForm = ({
+  scope,
   configurations,
   convertFormDataToOffer,
   convertOfferToFormData,
@@ -121,6 +123,7 @@ const StepsForm = ({
           fieldLoading={fieldLoading}
           onChangeSuccess={handleChangeSuccess}
           offerId={offerId}
+          scope={scope}
           form={form}
         />
       </Page.Content>
