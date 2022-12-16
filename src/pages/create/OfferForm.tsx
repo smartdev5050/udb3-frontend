@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { OfferType } from '@/constants/OfferType';
+import { OfferTypes } from '@/constants/OfferType';
 import { SupportedLanguage, SupportedLanguages } from '@/i18n/index';
 import {
   additionalInformationStepConfiguration,
@@ -15,19 +15,26 @@ import { locationStepConfiguration } from '@/pages/steps/LocationStep';
 import {
   CalendarMachineProvider,
   useCalendarSelector,
+  useIsMultiple,
+  useIsPeriodic,
+  useIsPermanent,
+  useIsSingle,
 } from '@/pages/steps/machines/calendarMachine';
 import { nameAndAgeRangeStepConfiguration } from '@/pages/steps/NameAndAgeRangeStep';
 import { scopeStepConfiguration } from '@/pages/steps/ScopeStep';
 import { StepsForm } from '@/pages/steps/StepsForm';
+import { Address, AddressInternal } from '@/types/Address';
 import { Country } from '@/types/Country';
-import { AttendanceMode, Event, isEvent } from '@/types/Event';
+import { AttendanceMode, isEvent } from '@/types/Event';
 import { Offer } from '@/types/Offer';
-import { Place } from '@/types/Place';
+import { isPlace, Place } from '@/types/Place';
 import { Values } from '@/types/Values';
 import { WorkflowStatusMap } from '@/types/WorkflowStatus';
+import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 import { City } from '../CityPicker';
+import { useCalendarType } from '../steps/CalendarStep/useCalendarType';
 import { FormDataUnion } from '../steps/Steps';
 
 type Scope = 'events' | 'places';
@@ -53,9 +60,7 @@ type FormData = {
   };
 };
 
-const getTerms = <TFormData extends FormDataUnion>(
-  typeAndTheme: TFormData['typeAndTheme'],
-) => {
+const getTerms = (typeAndTheme: FormDataUnion['typeAndTheme']) => {
   const { type, theme } = typeAndTheme;
 
   const terms = [
@@ -70,6 +75,48 @@ const getTerms = <TFormData extends FormDataUnion>(
   return { terms };
 };
 
+const getAddress = (
+  address: Address,
+  language: SupportedLanguage,
+  mainLanguage: SupportedLanguage,
+) => {
+  return getLanguageObjectOrFallback<AddressInternal>(
+    address,
+    language,
+    mainLanguage,
+  );
+};
+
+const parseLocationAttributes = (
+  offer: Offer,
+  language: SupportedLanguage,
+  mainLanguage: SupportedLanguage,
+) => {
+  const { addressCountry, addressLocality, postalCode, streetAddress } =
+    getAddress(
+      isEvent(offer) ? offer.location.address : offer.address,
+      language,
+      mainLanguage,
+    );
+
+  const isOnline =
+    isEvent(offer) && offer.attendanceMode === AttendanceMode.ONLINE;
+
+  return {
+    location: {
+      isOnline,
+      municipality: {
+        zip: postalCode,
+        label: `${postalCode} ${addressLocality}`,
+        name: addressLocality,
+      },
+      place: isEvent(offer) ? offer.location : undefined,
+      country: addressCountry,
+      ...(isPlace(offer) && { streetAndNumber: streetAddress }),
+    },
+  };
+};
+
 const OfferForm = () => {
   const { t, i18n } = useTranslation();
   const { query, pathname } = useRouter();
@@ -78,49 +125,29 @@ const OfferForm = () => {
   const offerId = query.offerId || query.eventId || query.placeId;
 
   const scope = useMemo(() => {
-    if (pathname.startsWith('/events')) {
-      return OfferType.EVENTS;
+    if (
+      pathname.startsWith('/events') ||
+      pathname.startsWith('/manage/movies') ||
+      query.scope === OfferTypes.EVENTS
+    ) {
+      return OfferTypes.EVENTS;
     }
 
-    if (pathname.startsWith('/places')) {
-      return OfferType.PLACES;
+    if (pathname.startsWith('/places') || query.scope === OfferTypes.PLACES) {
+      return OfferTypes.PLACES;
     }
 
     return undefined;
-  }, [pathname]);
-
-  const parseLocationAttributes = (offer: Offer) => {
-    const eventAddress = isEvent(offer)
-      ? offer.location.address[i18n.language as SupportedLanguage] ??
-        offer.location.address
-      : offer.address[i18n.language];
-
-    const isOnline =
-      isEvent(offer) && offer.attendanceMode === AttendanceMode.ONLINE;
-
-    const country = isEvent(offer)
-      ? offer.location.address[i18n.language as SupportedLanguage]
-          .addressCountry
-      : offer.address[i18n.language].addressCountry;
-
-    return {
-      location: {
-        isOnline,
-        municipality: {
-          zip: eventAddress.postalCode,
-          label: `${eventAddress.postalCode} ${eventAddress.addressLocality}`,
-          name: eventAddress.addressLocality,
-        },
-        place: isEvent(offer) ? offer.location : undefined,
-        country,
-      },
-    };
-  };
+  }, [pathname, query.scope]);
 
   const convertOfferToFormData = (offer: Offer) => {
     return {
-      scope: isEvent(offer) ? OfferType.EVENTS : OfferType.PLACES,
-      ...parseLocationAttributes(offer),
+      scope: isEvent(offer) ? OfferTypes.EVENTS : OfferTypes.PLACES,
+      ...parseLocationAttributes(
+        offer,
+        i18n.language as SupportedLanguage,
+        offer.mainLanguage,
+      ),
       typeAndTheme: {
         theme: offer.terms.find((term) => term.domain === 'theme'),
         type: offer.terms.find((term) => term.domain === 'eventtype'),
@@ -150,7 +177,7 @@ const OfferForm = () => {
         location: {
           id: parseOfferId(place['@id']),
         },
-        ...(scope === OfferType.EVENTS && {
+        ...(scope === OfferTypes.EVENTS && {
           attendanceMode: AttendanceMode.OFFLINE,
         }),
       };
@@ -187,18 +214,20 @@ const OfferForm = () => {
       mainLanguage: i18n.language,
       name,
       workflowStatus: WorkflowStatusMap.DRAFT,
-      ...(scope === OfferType.EVENTS && { audienceType: 'everyone' }),
+      ...(scope === OfferTypes.EVENTS && { audienceType: 'everyone' }),
       ...getLocationAttributes(scope, location, i18n.language),
       ...getTerms(typeAndTheme),
     };
   };
 
-  const calendarState = useCalendarSelector((state) => state);
+  const context = useCalendarSelector((state) => state.context);
+
+  const calendarType = useCalendarType();
 
   const calendarFormData = useMemo(() => {
-    if (!calendarState) return undefined;
-    return convertStateToFormData(calendarState);
-  }, [calendarState]);
+    if (!context || !calendarType) return undefined;
+    return convertStateToFormData(context, calendarType);
+  }, [context, calendarType]);
 
   const convertFormDataWithCalendarToOffer = (formData: any) => {
     const newFormData = convertFormDataToOffer(formData);
@@ -213,6 +242,7 @@ const OfferForm = () => {
     <StepsForm
       key={parts[parts.length - 1]} // needed to re-render the form between create and edit.
       title={t(`create.title`)}
+      scope={scope}
       convertFormDataToOffer={convertFormDataWithCalendarToOffer}
       convertOfferToFormData={convertOfferToFormData}
       toastConfiguration={{
@@ -231,28 +261,23 @@ const OfferForm = () => {
       configurations={[
         {
           ...scopeStepConfiguration,
-          stepProps: {
-            offerId,
-          },
+          defaultValue: scope,
         },
-        typeAndThemeStepConfiguration,
+        {
+          ...typeAndThemeStepConfiguration,
+        },
         {
           ...calendarStepConfiguration,
-          stepProps: {
-            offerId,
-          },
         },
         locationStepConfiguration,
         nameAndAgeRangeStepConfiguration,
         {
           ...additionalInformationStepConfiguration,
+          title: () => t(`create.additionalInformation.title.${scope}`),
           variant:
-            scope === OfferType.EVENTS
+            scope === OfferTypes.EVENTS
               ? AdditionalInformationStepVariant.EVENT
               : AdditionalInformationStepVariant.PLACE,
-          stepProps: {
-            offerId,
-          },
         },
       ]}
     />
@@ -266,4 +291,8 @@ const OfferFormWithCalendarMachine = () => (
 );
 
 export type { FormData, Scope };
-export { getTerms, OfferFormWithCalendarMachine as OfferForm };
+export {
+  getTerms,
+  OfferFormWithCalendarMachine as OfferForm,
+  parseLocationAttributes,
+};

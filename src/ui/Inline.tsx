@@ -102,5 +102,5 @@ Inline.defaultProps = {
   as: 'section',
 };
 
-export { getInlineProps, Inline, inlineProps, inlinePropTypes };
+export { getInlineProps, Inline };
 export type { Props as InlineProps };

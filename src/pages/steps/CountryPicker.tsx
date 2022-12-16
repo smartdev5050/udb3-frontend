@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Countries, Country } from '@/types/Country';
@@ -10,7 +9,6 @@ import { Text } from '@/ui/Text';
 
 import { CultuurKuurIcon } from '../CultuurKuurIcon';
 import { FlagIcon } from '../FlagIcon';
-import { Features, NewFeatureTooltip } from '../NewFeatureTooltip';
 
 type Props = BoxProps & {
   value: Country;

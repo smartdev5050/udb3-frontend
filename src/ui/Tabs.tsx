@@ -5,7 +5,7 @@ import { Tab as BootstrapTab, Tabs as BootstrapTabs } from 'react-bootstrap';
 import type { BoxProps } from '@/ui/Box';
 import { Box, getBoxProps, parseSpacing } from '@/ui/Box';
 
-import { getGlobalBorderRadius, getValueFromTheme } from './theme';
+import { getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme(`tabs`);
 

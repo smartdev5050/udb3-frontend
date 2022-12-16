@@ -1,13 +1,13 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
-import {
-  useAddBookingInfoMutation,
-  useGetEventByIdQuery,
-} from '@/hooks/api/events';
+import { OfferTypes } from '@/constants/OfferType';
+import { useGetEventByIdQuery } from '@/hooks/api/events';
+import { useAddOfferBookingInfoMutation } from '@/hooks/api/offers';
+import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { DatePeriodPicker } from '@/ui/DatePeriodPicker';
@@ -246,6 +246,7 @@ const ReservationPeriod = ({
 type Props = StackProps & TabContentProps;
 
 const BookingInfoStep = ({
+  scope,
   offerId,
   onSuccessfulChange,
   onChangeCompleted,
@@ -317,12 +318,15 @@ const BookingInfoStep = ({
     },
   ];
 
-  const getEventByIdQuery = useGetEventByIdQuery({ id: offerId });
+  const useGetOfferByIdQuery =
+    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
+
+  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
 
   // @ts-expect-error
-  const bookingInfo = getEventByIdQuery.data?.bookingInfo;
+  const bookingInfo = getOfferByIdQuery.data?.bookingInfo;
 
-  const { register, handleSubmit, formState, watch, setValue, getValues } =
+  const { register, handleSubmit, formState, control, setValue, getValues } =
     useForm<FormData>({
       mode: 'onBlur',
       resolver: yupResolver(schema),
@@ -353,12 +357,12 @@ const BookingInfoStep = ({
     }
   }, [bookingInfo, setValue, onChangeCompleted]);
 
-  const url = watch('url');
-  const urlLabel = watch('urlLabel');
-  const availabilityEnds = watch('availabilityEnds');
-  const availabilityStarts = watch('availabilityStarts');
+  const [url, urlLabel, availabilityStarts, availabilityEnds] = useWatch({
+    control,
+    name: ['url', 'urlLabel', 'availabilityStarts', 'availabilityEnds'],
+  });
 
-  const addBookingInfoMutation = useAddBookingInfoMutation({
+  const addBookingInfoMutation = useAddOfferBookingInfoMutation({
     onSuccess: onSuccessfulChange,
   });
 
@@ -366,6 +370,7 @@ const BookingInfoStep = ({
     await addBookingInfoMutation.mutateAsync({
       eventId,
       bookingInfo: newBookingInfo,
+      scope,
     });
   };
 

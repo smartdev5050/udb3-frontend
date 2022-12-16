@@ -1,5 +1,4 @@
 import { parseSpacing } from '@/ui/Box';
-import { Icon, Icons } from '@/ui/Icon';
 import { getInlineProps, Inline, InlineProps } from '@/ui/Inline';
 import { ToggleBox } from '@/ui/ToggleBox';
 
@@ -7,14 +6,19 @@ import {
   useIsFixedDays,
   useIsOneOrMoreDays,
 } from '../machines/calendarMachine';
+import { IconFixedDays } from './IconFixedDays';
+import { IconOneOrMoreDays } from './IconOneOrMoreDays';
 
 type CalendarOptionToggleProps = InlineProps & {
   onChooseOneOrMoreDays: () => void;
   onChooseFixedDays: () => void;
+  disableChooseFixedDays?: boolean;
 };
+
 export const CalendarOptionToggle = ({
   onChooseOneOrMoreDays,
   onChooseFixedDays,
+  disableChooseFixedDays,
   ...props
 }: CalendarOptionToggleProps) => {
   const isOneOrMoreDays = useIsOneOrMoreDays();
@@ -25,7 +29,7 @@ export const CalendarOptionToggle = ({
       <ToggleBox
         onClick={onChooseOneOrMoreDays}
         active={isOneOrMoreDays}
-        icon={<Icon name={Icons.CALENDAR_ALT} />}
+        icon={<IconOneOrMoreDays />}
         text="Een of meerdere dagen"
         minHeight={parseSpacing(7)}
         flex={1}
@@ -33,10 +37,11 @@ export const CalendarOptionToggle = ({
       <ToggleBox
         onClick={onChooseFixedDays}
         active={isFixedDays}
-        icon={<Icon name={Icons.CALENDAR_ALT} />}
+        icon={<IconFixedDays />}
         text="Vaste dagen per week"
         minHeight={parseSpacing(7)}
         flex={1}
+        disabled={disableChooseFixedDays}
       />
     </Inline>
   );

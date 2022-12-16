@@ -146,7 +146,12 @@
         "button_confirm": "Speichern",
         "end_time": "Bis um",
         "start_time": "Aus",
-        "title": "Öffnungszeiten"
+        "title": "Öffnungszeiten",
+        "validation_messages": {
+          "day_of_week": {
+            "min": "Sie müssen mindestens 1 Wochentag angeben."
+          }
+        }
       }
     },
     "location": {
@@ -297,7 +302,7 @@
           "theme": "Tipp: Fügen Sie ein Thema hinzu",
           "mediaObject": "Tipp: Fügen Sie ein Bild hinzu",
           "video": "Tipp: Fügen Sie ein Video hinzu",
-          "description": "Tipp: Fügen Sie eine Beschreibung hinzu",
+          "description": "Tipp: Fügen Sie eine Beschreibung (+200 Zeichen) hinzu",
           "price_info": "Tipp: Preisinformationen hinzufügen",
           "contact_info": "Tipp: Fügen Sie Kontaktinformationen hinzu",
           "organizer": "Tipp: Fügen Sie einen Organisator hinzu",
@@ -337,7 +342,10 @@
         "uitpas_error": "Der UiTPAS-Preis wird von UiTdatabank für Sie berechnet. Sie können diese nicht selbst hinzufügen.",
         "uitpas_info": "Der UiTPAS Opportunity-Tarif wird automatisch auf Basis des Basispreises und der aktiven Kartensysteme berechnet."
       },
-      "title": "Heben Sie Ihre Veranstaltung besonders hervor"
+      "title": {
+        "events": "Heben Sie Ihre Veranstaltung besonders hervor",
+        "places": "Heben Sie Ihren Standort besonders hervor"
+      }
     },
     "publish_modal": {
       "actions": {

@@ -17,13 +17,7 @@ type Props = BoxProps & {
   variant: Values<typeof ProgressBarVariants>;
 };
 
-const ProgressBar = ({
-  children,
-  className,
-  progress,
-  variant,
-  ...props
-}: Props) => {
+const ProgressBar = ({ progress, variant, ...props }: Props) => {
   return (
     <Box
       as={BootstrapProgressBar}

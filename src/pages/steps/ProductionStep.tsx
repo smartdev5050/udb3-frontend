@@ -31,17 +31,12 @@ import { getValueFromTheme } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
 import { valueToArray } from '@/utils/valueToArray';
 
-type ProductionStepProps<TFormData extends FormDataUnion> = StackProps &
-  StepProps<TFormData>;
+type ProductionStepProps = StackProps & StepProps;
 
 const getValue = getValueFromTheme('createPage');
 const getGlobalValue = getValueFromTheme('global');
 
-const useEditNameAndProduction = <TFormData extends FormDataUnion>({
-  scope,
-  onSuccess,
-  offerId,
-}) => {
+const useEditNameAndProduction = ({ scope, onSuccess, offerId }) => {
   const getEventByIdQuery = useGetEventByIdQuery({ id: offerId });
 
   const createProductionWithEventsMutation =
@@ -55,7 +50,7 @@ const useEditNameAndProduction = <TFormData extends FormDataUnion>({
     onSuccess: () => onSuccess('name'),
   });
 
-  return async ({ production }: TFormData) => {
+  return async ({ production }: FormDataUnion) => {
     if (!production) return;
 
     // unlink event from current production
@@ -91,7 +86,7 @@ const useEditNameAndProduction = <TFormData extends FormDataUnion>({
   };
 };
 
-const ProductionStep = <TFormData extends FormDataUnion>({
+const ProductionStep = ({
   formState: { errors },
   control,
   getValues,
@@ -99,7 +94,7 @@ const ProductionStep = <TFormData extends FormDataUnion>({
   name,
   onChange,
   ...props
-}: ProductionStepProps<TFormData>) => {
+}: ProductionStepProps) => {
   const { t } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
 
@@ -186,7 +181,7 @@ const ProductionStep = <TFormData extends FormDataUnion>({
   );
 };
 
-const productionStepConfiguration: StepsConfiguration<FormDataUnion> = {
+const productionStepConfiguration: StepsConfiguration = {
   Component: ProductionStep,
   validation: yup.object().shape({}).required(),
   name: 'production',

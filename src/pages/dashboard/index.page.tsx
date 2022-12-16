@@ -3,7 +3,6 @@ import getConfig from 'next/config';
 import { useRouter } from 'next/router';
 import type { ReactNode } from 'react';
 import { useMemo, useState } from 'react';
-import { Cookies } from 'react-cookie';
 import { Trans, useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
@@ -31,7 +30,7 @@ import type { Place } from '@/types/Place';
 import type { User } from '@/types/User';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Badge, BadgeVariants } from '@/ui/Badge';
-import { Box, parseSpacing } from '@/ui/Box';
+import { Box } from '@/ui/Box';
 import { Dropdown, DropDownVariants } from '@/ui/Dropdown';
 import type { InlineProps } from '@/ui/Inline';
 import { getInlineProps, Inline } from '@/ui/Inline';
@@ -660,4 +659,4 @@ const DashboardWrapper = (props) => {
 };
 
 export default DashboardWrapper;
-export { getServerSideProps, itemsPerPage };
+export { getServerSideProps };

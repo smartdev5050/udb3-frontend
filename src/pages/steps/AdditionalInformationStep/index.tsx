@@ -1,8 +1,4 @@
-export type {
-  Field,
-  MergedInfo,
-  TabContentProps,
-} from './AdditionalInformationStep';
+export type { Field, TabContentProps } from './AdditionalInformationStep';
 export {
   additionalInformationStepConfiguration,
   AdditionalInformationStepVariant,

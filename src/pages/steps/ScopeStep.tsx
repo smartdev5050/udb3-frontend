@@ -1,23 +1,14 @@
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import {
-  Controller,
-  ControllerRenderProps,
-  Path,
-  PathValue,
-} from 'react-hook-form';
+import { Controller, ControllerRenderProps, Path } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { OfferType } from '@/constants/OfferType';
+import { OfferType, OfferTypes } from '@/constants/OfferType';
 import { Values } from '@/types/Values';
 import { parseSpacing } from '@/ui/Box';
 import { getInlineProps, Inline, InlineProps } from '@/ui/Inline';
 import { ToggleBox } from '@/ui/ToggleBox';
 
 import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
-
-type Props<TFormData extends FormDataUnion> = InlineProps &
-  StepProps<TFormData> & { offerId?: string };
 
 const IconEvent = ({ width }: { width: string }) => {
   return (
@@ -110,38 +101,22 @@ const IconLocation = ({ width }: { width: string }) => {
   );
 };
 
-const ScopeStep = <TFormData extends FormDataUnion>({
+type Props = InlineProps & StepProps & { offerId?: string };
+
+const ScopeStep = ({
   offerId,
   control,
   name,
   setValue,
   resetField,
   ...props
-}: Props<TFormData>) => {
+}: Props) => {
   const { t } = useTranslation();
-  const { query, replace } = useRouter();
-
-  useEffect(() => {
-    if (!query.scope) return;
-
-    if (query.scope === OfferType.EVENTS) {
-      setValue(
-        'scope' as Path<TFormData>,
-        OfferType.EVENTS as PathValue<TFormData, Path<TFormData>>,
-      );
-    }
-
-    if (query.scope === OfferType.PLACES) {
-      setValue(
-        'scope' as Path<TFormData>,
-        OfferType.PLACES as PathValue<TFormData, Path<TFormData>>,
-      );
-    }
-  }, [query, setValue]);
+  const { replace } = useRouter();
 
   const handleChangeScope = (
-    field: ControllerRenderProps<TFormData, string & Path<TFormData>>,
-    scope: Values<typeof OfferType>,
+    field: ControllerRenderProps<FormDataUnion, string & Path<FormDataUnion>>,
+    scope: OfferType,
   ) => {
     field.onChange(scope);
     replace(`/create?scope=${scope}`, undefined, { shallow: true });
@@ -150,7 +125,7 @@ const ScopeStep = <TFormData extends FormDataUnion>({
 
   const resetFieldsAfterScopeChange = () => {
     if (offerId) return;
-    resetField('typeAndTheme' as Path<TFormData>);
+    resetField('typeAndTheme');
   };
 
   return (
@@ -166,16 +141,16 @@ const ScopeStep = <TFormData extends FormDataUnion>({
             {...getInlineProps(props)}
           >
             <ToggleBox
-              onClick={() => handleChangeScope(field, OfferType.EVENTS)}
-              active={field.value === OfferType.EVENTS}
+              onClick={() => handleChangeScope(field, OfferTypes.EVENTS)}
+              active={field.value === OfferTypes.EVENTS}
               icon={<IconEvent width="50" />}
               text={t('steps.offerTypeStep.types.event')}
               width="30%"
               minHeight={parseSpacing(7)}
             />
             <ToggleBox
-              onClick={() => handleChangeScope(field, OfferType.PLACES)}
-              active={field.value === OfferType.PLACES}
+              onClick={() => handleChangeScope(field, OfferTypes.PLACES)}
+              active={field.value === OfferTypes.PLACES}
               icon={<IconLocation width="50" />}
               text={t('steps.offerTypeStep.types.place')}
               width="30%"
@@ -188,7 +163,7 @@ const ScopeStep = <TFormData extends FormDataUnion>({
   );
 };
 
-const scopeStepConfiguration: StepsConfiguration<FormDataUnion> = {
+const scopeStepConfiguration: StepsConfiguration = {
   Component: ScopeStep,
   name: 'scope',
   title: ({ t }) => t(`create.scope.title`),
@@ -197,4 +172,4 @@ const scopeStepConfiguration: StepsConfiguration<FormDataUnion> = {
   },
 };
 
-export { ScopeStep, scopeStepConfiguration };
+export { scopeStepConfiguration };

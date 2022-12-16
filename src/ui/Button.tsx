@@ -181,7 +181,6 @@ const Button = ({
   shouldHideText,
   onClick,
   className,
-  textAlign,
   title,
   size,
   forwardedAs,

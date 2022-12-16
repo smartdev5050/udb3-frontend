@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { OfferStatus } from '@/constants/OfferStatus';
-import { OfferType } from '@/constants/OfferType';
+import { OfferTypes } from '@/constants/OfferType';
 import { StatusForm } from '@/pages/StatusForm';
 import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
 import { Spinner } from '@/ui/Spinner';
@@ -46,7 +46,7 @@ const StatusModal = ({ visible, loading, className, onClose, onConfirm }) => {
       ) : (
         <Stack padding={4}>
           <StatusForm
-            offerType={OfferType.EVENTS}
+            offerType={OfferTypes.EVENTS}
             statusType={type}
             statusReason={reason}
             onChangeStatusType={(e) => setType(e.target.value)}

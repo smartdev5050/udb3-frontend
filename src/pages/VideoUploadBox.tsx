@@ -38,15 +38,6 @@ const VideoIcon = ({ width }: { width: string }) => {
   );
 };
 
-type ImageType = {
-  parsedId: string;
-  description: string;
-  copyrightHolder: string;
-  thumbnailUrl: string;
-  isMain: boolean;
-  file: File;
-};
-
 type Video = {
   id: string;
   url: string;
@@ -167,4 +158,4 @@ const VideoUploadBox = ({
 
 export { VideoUploadBox };
 
-export type { ImageType, Video, VideoEnriched };
+export type { Video, VideoEnriched };

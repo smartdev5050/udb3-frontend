@@ -1,8 +1,9 @@
-import Router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { FC, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
+import { OfferType } from '@/constants/OfferType';
 import type { Values } from '@/types/Values';
 import { parseSpacing } from '@/ui/Box';
 import { Icon, Icons } from '@/ui/Icon';
@@ -12,8 +13,8 @@ import { Tabs } from '@/ui/Tabs';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
-import { Audience } from '../AudienceStep';
-import { FormDataUnion, StepsConfiguration } from '../Steps';
+import { AudienceStep } from '../AudienceStep';
+import { StepsConfiguration } from '../Steps';
 import { BookingInfoStep } from './BookingInfoStep';
 import { ContactInfoStep } from './ContactInfoStep';
 import { DescriptionStep } from './DescriptionStep';
@@ -50,8 +51,9 @@ type Field = Values<typeof Fields>;
 
 type TabContentProps = {
   offerId?: string;
+  scope?: OfferType;
   onSuccessfulChange: (() => Promise<void>) | ((data: any) => void);
-  onChangeCompleted?: (value: boolean) => void;
+  onChangeCompleted?: (isCompleted: boolean) => void;
 };
 
 type TabConfig = {
@@ -100,7 +102,7 @@ const tabConfigurations: TabConfig[] = [
   },
   {
     field: Fields.AUDIENCE,
-    TabContent: Audience,
+    TabContent: AudienceStep,
     shouldInvalidate: true,
     shouldShowOn: [
       AdditionalInformationStepVariant.EVENT,
@@ -129,12 +131,14 @@ const TabTitle = ({ field, isCompleted, ...props }: TabTitleProps) => {
 
 type Props = StackProps & {
   offerId: string;
+  scope: OfferType;
   onChangeSuccess: (field: Field) => void;
   variant?: Values<typeof AdditionalInformationStepVariant>;
 };
 
 const AdditionalInformationStep = ({
   offerId,
+  scope,
   onChangeSuccess,
   variant,
   ...props
@@ -219,6 +223,7 @@ const AdditionalInformationStep = ({
                 <TabContent
                   minHeight="350px"
                   offerId={offerId}
+                  scope={scope}
                   onChangeCompleted={(isCompleted) => {
                     if (completedFields[field] === isCompleted) return;
 
@@ -242,15 +247,14 @@ const AdditionalInformationStep = ({
   );
 };
 
-const additionalInformationStepConfiguration: StepsConfiguration<FormDataUnion> =
-  {
-    Component: AdditionalInformationStep,
-    title: ({ t }) => t(`movies.create.step5.title`),
-    shouldShowStep: ({ offerId }) => !!offerId,
-    variant: AdditionalInformationStepVariant.EVENT,
-  };
+const additionalInformationStepConfiguration: StepsConfiguration = {
+  Component: AdditionalInformationStep,
+  title: ({ t }) => t(`create.additionalInformation.title.events`),
+  shouldShowStep: ({ offerId }) => !!offerId,
+  variant: AdditionalInformationStepVariant.EVENT,
+};
 
-export type { Field, MergedInfo, TabContentProps };
+export type { Field, TabContentProps };
 
 export {
   additionalInformationStepConfiguration,
