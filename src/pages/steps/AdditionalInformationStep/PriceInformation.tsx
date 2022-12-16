@@ -111,6 +111,9 @@ const PriceInformation = ({
   onSuccessfulChange,
   ...props
 }: Props) => {
+  // TODO: refactor
+  const eventId = offerId;
+
   const { t, i18n } = useTranslation();
   const formComponent = useRef<HTMLFormElement>();
   const [hasGlobalError, setHasGlobalError] = useState(false);
@@ -189,7 +192,7 @@ const PriceInformation = ({
     });
 
     await addPriceInfoMutation.mutateAsync({
-      offerId,
+      eventId,
       priceInfo: convertedPriceInfo,
     });
   };

@@ -73,7 +73,7 @@ const Audience = ({
     setValue('audienceType', audienceType);
 
     await addAudienceMutation.mutateAsync({
-      offerId,
+      eventId,
       audienceType,
     });
   };
