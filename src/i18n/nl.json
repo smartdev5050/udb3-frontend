@@ -147,7 +147,12 @@
         "button_confirm": "Opslaan",
         "end_time": "Tot",
         "start_time": "Van",
-        "title": "Openingsuren"
+        "title": "Openingsuren",
+        "validation_messages": {
+          "day_of_week": {
+            "min": "Je moet minstens 1 dag van de week aanduiden."
+          }
+        }
       }
     },
     "location": {
