@@ -271,6 +271,7 @@ const OfferForm = () => {
         nameAndAgeRangeStepConfiguration,
         {
           ...additionalInformationStepConfiguration,
+          title: () => t(`create.additionalInformation.title.${scope}`),
           variant:
             scope === OfferType.EVENTS
               ? AdditionalInformationStepVariant.EVENT
