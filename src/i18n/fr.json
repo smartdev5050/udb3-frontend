@@ -344,7 +344,7 @@
       }
     },
     "footer": {
-      "auto_save": "Je wijzigingen worden vanaf nu automatisch opgeslagen",
+      "auto_save": "Vos modifications seront automatiquement enregistrées à partir de maintenant",
       "done_editing": "Klaar met bewerken"
     },
     "publish_modal": {
