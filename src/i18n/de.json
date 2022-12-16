@@ -146,7 +146,12 @@
         "button_confirm": "Speichern",
         "end_time": "Bis um",
         "start_time": "Aus",
-        "title": "Öffnungszeiten"
+        "title": "Öffnungszeiten",
+        "validation_messages": {
+          "day_of_week": {
+            "min": "Sie müssen mindestens 1 Wochentag angeben."
+          }
+        }
       }
     },
     "location": {
