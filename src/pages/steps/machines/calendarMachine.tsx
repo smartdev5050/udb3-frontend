@@ -166,6 +166,10 @@ const calendarMachineOptions: MachineOptions<CalendarContext, CalendarEvents> =
         if (event.type !== 'LOAD_INITIAL_CONTEXT') return false;
         return event.calendarType === CalendarType.PERMANENT;
       },
+      hasStartAndEndDate: (context, event) => {
+        if (event.type !== 'CHOOSE_FIXED_DAYS') return false;
+        return !!(context.startDate && context.endDate);
+      },
       hasHours: (context) => false,
       hasNoHours: (context) => false,
     },
@@ -353,9 +357,15 @@ const calendarMachineConfig: MachineConfig<
     },
     single: {
       on: {
-        CHOOSE_FIXED_DAYS: {
-          target: 'periodic',
-        },
+        CHOOSE_FIXED_DAYS: [
+          {
+            target: 'periodic',
+            cond: 'hasStartAndEndDate',
+          },
+          {
+            target: 'permanent',
+          },
+        ],
         ADD_DAY: {
           target: 'multiple',
           actions: ['addNewDay'] as CalendarActions,
@@ -382,9 +392,15 @@ const calendarMachineConfig: MachineConfig<
     },
     multiple: {
       on: {
-        CHOOSE_FIXED_DAYS: {
-          target: 'periodic',
-        },
+        CHOOSE_FIXED_DAYS: [
+          {
+            target: 'periodic',
+            cond: 'hasStartAndEndDate',
+          },
+          {
+            target: 'permanent',
+          },
+        ],
         ADD_DAY: {
           actions: ['addNewDay'] as CalendarActions,
         },
