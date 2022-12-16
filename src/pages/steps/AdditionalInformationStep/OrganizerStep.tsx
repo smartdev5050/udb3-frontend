@@ -149,7 +149,7 @@ const OrganizerStep = ({
   };
 
   const handleChangeOrganizer = (organizerId: string) => {
-    addOrganizerToEventMutation.mutate({ offerId, organizerId });
+    addOrganizerToEventMutation.mutate({ eventId: offerId, organizerId });
   };
 
   const handleAddOrganizer = async ({
