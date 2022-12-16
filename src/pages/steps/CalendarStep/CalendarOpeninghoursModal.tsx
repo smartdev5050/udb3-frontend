@@ -1,12 +1,11 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent } from 'react';
 import { useEffect } from 'react';
 import { useFieldArray, useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { DaysOfWeek } from '@/constants/DaysOfWeek';
-import { useLog } from '@/hooks/useLog';
 import { DayOfWeek } from '@/types/Offer';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { CheckboxWithLabel } from '@/ui/CheckboxWithLabel';
