@@ -254,7 +254,8 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
   return (
     <Stack
       spacing={4}
-      maxWidth={{ l: '100%', default: '50%' }}
+      minWidth={{ l: 'auto', default: '54rem' }}
+      width={{ l: '100%', default: 'min-content' }}
       {...getStackProps(props)}
     >
       {scope === OfferType.EVENTS && (
