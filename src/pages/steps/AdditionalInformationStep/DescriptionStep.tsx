@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { OfferType } from '@/constants/OfferType';
+import { OfferTypes } from '@/constants/OfferType';
 import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { useChangeOfferDescriptionMutation } from '@/hooks/api/offers';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
@@ -88,7 +88,7 @@ const DescriptionStep = ({
   const [description, setDescription] = useState('');
 
   const useGetOfferByIdQuery =
-    scope === OfferType.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
+    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
 
   const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
 

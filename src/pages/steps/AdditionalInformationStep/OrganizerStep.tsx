@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
-import { OfferType } from '@/constants/OfferType';
+import { OfferTypes } from '@/constants/OfferType';
 import { useGetEventByIdQuery } from '@/hooks/api/events';
 import {
   useAddOfferOrganizerMutation,
@@ -45,7 +45,7 @@ const OrganizerStep = ({
   const queryClient = useQueryClient();
 
   const useGetOfferByIdQuery =
-    scope === OfferType.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
+    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
 
   const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
 

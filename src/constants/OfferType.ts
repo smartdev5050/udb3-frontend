@@ -1,6 +1,11 @@
-const OfferType = {
+import { Values } from '@/types/Values';
+
+const OfferTypes = {
   EVENTS: 'events',
   PLACES: 'places',
 } as const;
 
-export { OfferType };
+type OfferType = Values<typeof OfferTypes>;
+
+export type { OfferType };
+export { OfferTypes };

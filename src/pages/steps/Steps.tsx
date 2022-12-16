@@ -8,7 +8,7 @@ import type {
 } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { OfferType } from '@/constants/OfferType';
+import { OfferType, OfferTypes } from '@/constants/OfferType';
 import { Values } from '@/types/Values';
 import type { BoxProps } from '@/ui/Box';
 import { Box } from '@/ui/Box';
@@ -31,7 +31,7 @@ type StepsConfiguration = {
   name?: Path<FormDataUnion>;
   step?: number;
   title: (
-    data: { t: TFunction; scope: Values<typeof OfferType> } & UseFormReturn<
+    data: { t: TFunction; scope: OfferType } & UseFormReturn<
       FormDataUnion,
       any
     >,
@@ -41,7 +41,7 @@ type StepsConfiguration = {
   shouldShowStep?: (
     data: UseFormReturn<FormDataUnion> & {
       offerId?: string;
-      scope?: Values<typeof OfferType>;
+      scope?: OfferType;
     },
   ) => boolean;
   stepProps?: Record<string, unknown>;
@@ -116,7 +116,7 @@ type StepProps = UseFormReturn<FormDataUnion> & {
 };
 
 type StepsProps = {
-  scope?: Values<typeof OfferType>;
+  scope?: OfferType;
   offerId?: string;
   form: UseFormReturn<FormDataUnion>;
   fieldLoading?: string;

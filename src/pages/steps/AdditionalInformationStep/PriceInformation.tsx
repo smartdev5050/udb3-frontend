@@ -4,7 +4,7 @@ import { useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
-import { OfferType } from '@/constants/OfferType';
+import { OfferType, OfferTypes } from '@/constants/OfferType';
 import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { useAddOfferPriceInfoMutation } from '@/hooks/api/offers';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
@@ -101,7 +101,7 @@ const schema = yup
 
 type Props = {
   offerId: string;
-  scope: Values<typeof OfferType>;
+  scope: OfferType;
   onChangeCompleted: (isCompleted: boolean) => void;
   onSuccessfulChange: () => void;
 };
@@ -125,7 +125,7 @@ const PriceInformation = ({
   const [priceInfo, setPriceInfo] = useState([]);
 
   const useGetOfferByIdQuery =
-    scope === OfferType.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
+    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
 
   const getOfferByIdQuery = useGetOfferByIdQuery(
     { id: offerId },

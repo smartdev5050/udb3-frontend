@@ -51,7 +51,7 @@ type Field = Values<typeof Fields>;
 
 type TabContentProps = {
   offerId?: string;
-  scope?: Values<typeof OfferType>;
+  scope?: OfferType;
   onSuccessfulChange: (() => Promise<void>) | ((data: any) => void);
   onChangeCompleted?: (isCompleted: boolean) => void;
 };
@@ -131,7 +131,7 @@ const TabTitle = ({ field, isCompleted, ...props }: TabTitleProps) => {
 
 type Props = StackProps & {
   offerId: string;
-  scope: Values<typeof OfferType>;
+  scope: OfferType;
   onChangeSuccess: (field: Field) => void;
   variant?: Values<typeof AdditionalInformationStepVariant>;
 };

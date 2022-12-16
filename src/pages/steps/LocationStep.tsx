@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { EventTypes } from '@/constants/EventTypes';
-import { OfferType } from '@/constants/OfferType';
+import { OfferTypes } from '@/constants/OfferType';
 import { useChangeAttendanceModeMutation } from '@/hooks/api/events';
 import { useChangeAddressMutation } from '@/hooks/api/places';
 import { FormData as OfferFormData } from '@/pages/create/OfferForm';
@@ -46,7 +46,7 @@ const useEditLocation = ({ scope, offerId }) => {
   const changeAttendanceMode = useChangeAttendanceModeMutation();
 
   return async ({ location }: FormDataUnion) => {
-    if (scope === OfferType.EVENTS) {
+    if (scope === OfferTypes.EVENTS) {
       if (location.isOnline) {
         changeAttendanceMode.mutate({
           eventId: offerId,
@@ -247,7 +247,7 @@ const LocationStep = ({
           if (!municipality) {
             return (
               <Stack spacing={4}>
-                {scope === OfferType.EVENTS && OnlineToggle}
+                {scope === OfferTypes.EVENTS && OnlineToggle}
                 <Inline spacing={1} alignItems="center">
                   <CityPicker
                     name="city-picker-location-step"
@@ -266,7 +266,7 @@ const LocationStep = ({
                   />
                   <CountryPicker
                     value={country}
-                    includeLocationSchool={scope === OfferType.EVENTS}
+                    includeLocationSchool={scope === OfferTypes.EVENTS}
                     onChange={(newCountry) => {
                       const updatedValue = {
                         ...field.value,
@@ -314,7 +314,7 @@ const LocationStep = ({
                     )}
                   </Button>
                 </Inline>
-                {scope === OfferType.EVENTS && (
+                {scope === OfferTypes.EVENTS && (
                   <PlaceStep
                     maxWidth="28rem"
                     name={'location.place'}
@@ -344,7 +344,7 @@ const LocationStep = ({
                     }}
                   />
                 )}
-                {scope === OfferType.PLACES && (
+                {scope === OfferTypes.PLACES && (
                   <FormElement
                     Component={
                       <Input

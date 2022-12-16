@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import { CalendarType } from '@/constants/CalendarType';
 import { OfferStatus } from '@/constants/OfferStatus';
-import { OfferType } from '@/constants/OfferType';
+import { OfferTypes } from '@/constants/OfferType';
 import {
   useChangeCalendarMutation,
   useGetEventByIdQuery,
@@ -164,7 +164,7 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
   }, [handleLoadInitialContext, offerId]);
 
   const useGetOfferByIdQuery =
-    scope === OfferType.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
+    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
 
   const getEventByIdQuery = useGetOfferByIdQuery({ id: offerId });
 
@@ -247,7 +247,7 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
 
   useEffect(() => {
     if (isIdle) return;
-    if (scope !== OfferType.PLACES) return;
+    if (scope !== OfferTypes.PLACES) return;
 
     handleChooseFixedDays();
   }, [scope, isIdle, handleChooseFixedDays]);
@@ -259,7 +259,7 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
       width={{ l: '100%', default: 'min-content' }}
       {...getStackProps(props)}
     >
-      {scope === OfferType.EVENTS && (
+      {scope === OfferTypes.EVENTS && (
         <CalendarOptionToggle
           onChooseOneOrMoreDays={handleChooseOneOrMoreDays}
           onChooseFixedDays={handleChooseFixedDays}

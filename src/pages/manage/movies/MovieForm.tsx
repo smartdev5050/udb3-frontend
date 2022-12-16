@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { CalendarType } from '@/constants/CalendarType';
 import { EventTypes } from '@/constants/EventTypes';
-import { OfferType } from '@/constants/OfferType';
+import { OfferTypes } from '@/constants/OfferType';
 import { SupportedLanguage } from '@/i18n/index';
 import { getTerms, parseLocationAttributes } from '@/pages/create/OfferForm';
 import {
@@ -72,7 +72,7 @@ const MovieForm = (props) => {
 
   const convertOfferToFormData = (event: Event) => {
     return {
-      scope: OfferType.EVENTS,
+      scope: OfferTypes.EVENTS,
       typeAndTheme: {
         theme: event.terms.find((term) => term.domain === 'theme'),
         type: event.terms.find((term) => term.domain === 'eventtype'),
@@ -134,7 +134,7 @@ const MovieForm = (props) => {
         title: t('movies.create.toast.success.title'),
       }}
       configurations={[
-        { name: 'scope', defaultValue: OfferType.EVENTS },
+        { name: 'scope', defaultValue: OfferTypes.EVENTS },
         {
           ...typeAndThemeStepConfiguration,
           title: () => t('movies.create.step1.title'),

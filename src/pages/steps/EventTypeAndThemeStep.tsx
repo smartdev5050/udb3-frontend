@@ -2,7 +2,7 @@ import { Controller, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
-import { OfferType } from '@/constants/OfferType';
+import { OfferType, OfferTypes } from '@/constants/OfferType';
 import {
   useChangeOfferThemeMutation,
   useChangeOfferTypeMutation,
@@ -50,7 +50,7 @@ const useEditTypeAndTheme = ({ scope, offerId, onSuccess }) => {
 
 type Props = StepProps & {
   shouldHideType: boolean;
-  scope: Values<typeof OfferType>;
+  scope: OfferType;
 };
 
 const EventTypeAndThemeStep = ({

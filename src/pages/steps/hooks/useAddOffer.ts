@@ -1,4 +1,4 @@
-import { OfferType } from '@/constants/OfferType';
+import { OfferTypes } from '@/constants/OfferType';
 import { useAddEventMutation } from '@/hooks/api/events';
 import { useAddOfferLabelMutation } from '@/hooks/api/offers';
 import { useAddPlaceMutation } from '@/hooks/api/places';
@@ -37,7 +37,7 @@ const useAddOffer = ({
     const payload = convertFormDataToOffer(formData);
 
     const addOfferMutation =
-      scope === OfferType.EVENTS ? addEventMutation : addPlaceMutation;
+      scope === OfferTypes.EVENTS ? addEventMutation : addPlaceMutation;
 
     const { eventId, placeId } = await addOfferMutation.mutateAsync(payload);
 

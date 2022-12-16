@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useQueryClient } from 'react-query';
 
-import { OfferType } from '@/constants/OfferType';
+import { OfferTypes } from '@/constants/OfferType';
 import { usePublishEventMutation } from '@/hooks/api/events';
 import { usePublishPlaceMutation } from '@/hooks/api/places';
 import { formatDateToISO } from '@/utils/formatDateToISO';
@@ -11,7 +11,7 @@ const usePublishOffer = ({ scope, id, onSuccess }) => {
 
   const usePublishMutation = useMemo(
     () =>
-      scope === OfferType.EVENTS
+      scope === OfferTypes.EVENTS
         ? usePublishEventMutation
         : usePublishPlaceMutation,
     [scope],
@@ -20,7 +20,7 @@ const usePublishOffer = ({ scope, id, onSuccess }) => {
   const publishMutation = usePublishMutation({
     onSuccess: () => {
       queryClient.invalidateQueries([
-        scope === OfferType.EVENTS ? 'events' : 'places',
+        scope === OfferTypes.EVENTS ? 'events' : 'places',
         { id },
       ]);
       onSuccess();

@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { OfferType } from '@/constants/OfferType';
+import { OfferTypes } from '@/constants/OfferType';
 import { SupportedLanguage, SupportedLanguages } from '@/i18n/index';
 import {
   additionalInformationStepConfiguration,
@@ -128,13 +128,13 @@ const OfferForm = () => {
     if (
       pathname.startsWith('/events') ||
       pathname.startsWith('/manage/movies') ||
-      query.scope === OfferType.EVENTS
+      query.scope === OfferTypes.EVENTS
     ) {
-      return OfferType.EVENTS;
+      return OfferTypes.EVENTS;
     }
 
-    if (pathname.startsWith('/places') || query.scope === OfferType.PLACES) {
-      return OfferType.PLACES;
+    if (pathname.startsWith('/places') || query.scope === OfferTypes.PLACES) {
+      return OfferTypes.PLACES;
     }
 
     return undefined;
@@ -142,7 +142,7 @@ const OfferForm = () => {
 
   const convertOfferToFormData = (offer: Offer) => {
     return {
-      scope: isEvent(offer) ? OfferType.EVENTS : OfferType.PLACES,
+      scope: isEvent(offer) ? OfferTypes.EVENTS : OfferTypes.PLACES,
       ...parseLocationAttributes(
         offer,
         i18n.language as SupportedLanguage,
@@ -177,7 +177,7 @@ const OfferForm = () => {
         location: {
           id: parseOfferId(place['@id']),
         },
-        ...(scope === OfferType.EVENTS && {
+        ...(scope === OfferTypes.EVENTS && {
           attendanceMode: AttendanceMode.OFFLINE,
         }),
       };
@@ -214,7 +214,7 @@ const OfferForm = () => {
       mainLanguage: i18n.language,
       name,
       workflowStatus: WorkflowStatusMap.DRAFT,
-      ...(scope === OfferType.EVENTS && { audienceType: 'everyone' }),
+      ...(scope === OfferTypes.EVENTS && { audienceType: 'everyone' }),
       ...getLocationAttributes(scope, location, i18n.language),
       ...getTerms(typeAndTheme),
     };
@@ -284,7 +284,7 @@ const OfferForm = () => {
           ...additionalInformationStepConfiguration,
           title: () => t(`create.additionalInformation.title.${scope}`),
           variant:
-            scope === OfferType.EVENTS
+            scope === OfferTypes.EVENTS
               ? AdditionalInformationStepVariant.EVENT
               : AdditionalInformationStepVariant.PLACE,
           stepProps: {

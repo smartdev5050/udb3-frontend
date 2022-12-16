@@ -7,7 +7,7 @@ import {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { OfferType } from '@/constants/OfferType';
+import { OfferTypes } from '@/constants/OfferType';
 import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { useAddOfferContactPointMutation } from '@/hooks/api/offers';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
@@ -81,7 +81,7 @@ const ContactInfoStep = ({
   const eventId = offerId;
 
   const useGetOfferByIdQuery =
-    scope === OfferType.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
+    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
 
   const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
 

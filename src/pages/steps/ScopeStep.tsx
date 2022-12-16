@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { Controller, ControllerRenderProps, Path } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { OfferType } from '@/constants/OfferType';
+import { OfferType, OfferTypes } from '@/constants/OfferType';
 import { Values } from '@/types/Values';
 import { parseSpacing } from '@/ui/Box';
 import { getInlineProps, Inline, InlineProps } from '@/ui/Inline';
@@ -116,7 +116,7 @@ const ScopeStep = ({
 
   const handleChangeScope = (
     field: ControllerRenderProps<FormDataUnion, string & Path<FormDataUnion>>,
-    scope: Values<typeof OfferType>,
+    scope: OfferType,
   ) => {
     field.onChange(scope);
     replace(`/create?scope=${scope}`, undefined, { shallow: true });
@@ -141,16 +141,16 @@ const ScopeStep = ({
             {...getInlineProps(props)}
           >
             <ToggleBox
-              onClick={() => handleChangeScope(field, OfferType.EVENTS)}
-              active={field.value === OfferType.EVENTS}
+              onClick={() => handleChangeScope(field, OfferTypes.EVENTS)}
+              active={field.value === OfferTypes.EVENTS}
               icon={<IconEvent width="50" />}
               text={t('steps.offerTypeStep.types.event')}
               width="30%"
               minHeight={parseSpacing(7)}
             />
             <ToggleBox
-              onClick={() => handleChangeScope(field, OfferType.PLACES)}
-              active={field.value === OfferType.PLACES}
+              onClick={() => handleChangeScope(field, OfferTypes.PLACES)}
+              active={field.value === OfferTypes.PLACES}
               icon={<IconLocation width="50" />}
               text={t('steps.offerTypeStep.types.place')}
               width="30%"

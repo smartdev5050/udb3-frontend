@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { OfferType } from '@/constants/OfferType';
+import { OfferType, OfferTypes } from '@/constants/OfferType';
 import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { useAddImageMutation } from '@/hooks/api/images';
 import {
@@ -14,7 +14,6 @@ import {
 } from '@/hooks/api/offers';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import type { FormData } from '@/pages/steps/modals/PictureUploadModal';
-import { Values } from '@/types/Values';
 import { Inline } from '@/ui/Inline';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Breakpoints } from '@/ui/theme';
@@ -30,7 +29,7 @@ import { PictureDeleteModal } from '../modals/PictureDeleteModal';
 import { PictureUploadModal } from '../modals/PictureUploadModal';
 
 type Props = {
-  scope: Values<typeof OfferType>;
+  scope: OfferType;
   offerId?: string;
   onSuccessfulChange: () => void;
   onChangeCompleted: (completed: boolean) => void;
@@ -49,7 +48,7 @@ const MediaStep = ({
   const eventId = offerId;
 
   const useGetOfferByIdQuery =
-    scope === OfferType.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
+    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
 
   const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
 

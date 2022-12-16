@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { OfferType } from '@/constants/OfferType';
+import { OfferType, OfferTypes } from '@/constants/OfferType';
 import { Offer } from '@/types/Offer';
 import { Values } from '@/types/Values';
 import { Button, ButtonVariants } from '@/ui/Button';
@@ -32,7 +32,7 @@ type StepsFormProps = {
   convertOfferToFormData: (event: any) => any;
   toastConfiguration: any;
   title: string;
-  scope: Values<typeof OfferType>;
+  scope: OfferType;
   label?: string;
 };
 
@@ -95,7 +95,7 @@ const StepsForm = ({
   const [isPublishLaterModalVisible, setIsPublishLaterModalVisible] =
     useState(false);
 
-  const useGetOffer = scope === OfferType.EVENTS ? useGetEvent : useGetPlace;
+  const useGetOffer = scope === OfferTypes.EVENTS ? useGetEvent : useGetPlace;
 
   const offer = useGetOffer({
     id: offerId,
