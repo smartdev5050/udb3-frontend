@@ -47,7 +47,7 @@ const StepsForm = ({
 
   const { handleSubmit, reset } = form;
 
-  const { query, push, pathname } = useRouter();
+  const { query, push } = useRouter();
 
   // eventId is set after adding (saving) the event
   // or when entering the page from the edit route
