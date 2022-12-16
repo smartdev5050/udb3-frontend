@@ -8,6 +8,8 @@ import type {
 } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
+import { OfferType } from '@/constants/OfferType';
+import { Values } from '@/types/Values';
 import type { BoxProps } from '@/ui/Box';
 import { Box } from '@/ui/Box';
 import type { StackProps } from '@/ui/Stack';
@@ -28,12 +30,18 @@ type StepsConfiguration = {
   defaultValue?: any;
   name?: Path<FormDataUnion>;
   step?: number;
-  title: (data: { t: TFunction } & UseFormReturn<FormDataUnion, any>) => string;
+  title: (
+    data: { t: TFunction; scope: Values<typeof OfferType> } & UseFormReturn<
+      FormDataUnion,
+      any
+    >,
+  ) => string;
   variant?: string;
   validation?: any;
   shouldShowStep?: (
     data: UseFormReturn<FormDataUnion> & {
       offerId?: string;
+      scope?: Values<typeof OfferType>;
     },
   ) => boolean;
   stepProps?: Record<string, unknown>;
@@ -108,6 +116,7 @@ type StepProps = UseFormReturn<FormDataUnion> & {
 };
 
 type StepsProps = {
+  scope?: Values<typeof OfferType>;
   offerId?: string;
   form: UseFormReturn<FormDataUnion>;
   fieldLoading?: string;
@@ -149,6 +158,7 @@ const Steps = ({
   fieldLoading,
   form,
   offerId,
+  scope,
   ...props
 }: StepsProps) => {
   const { t } = useTranslation();
@@ -166,6 +176,7 @@ const Steps = ({
       configurationsWithComponent[index]?.shouldShowStep?.({
         ...form,
         offerId,
+        scope,
       }) ?? false
     );
   };
@@ -194,7 +205,7 @@ const Steps = ({
             <StepWrapper
               stepNumber={stepNumber}
               key={`step${stepNumber}`}
-              title={getTitle({ ...form, t })}
+              title={getTitle({ ...form, t, scope })}
             >
               <Step
                 key={index}
