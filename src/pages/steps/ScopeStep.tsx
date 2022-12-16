@@ -125,7 +125,7 @@ const ScopeStep = ({
     if (query.scope === OfferType.PLACES) {
       setValue('scope', OfferType.PLACES);
     }
-  }, [query, setValue]);
+  }, [query.scope, setValue]);
 
   const handleChangeScope = (
     field: ControllerRenderProps<FormDataUnion, string & Path<FormDataUnion>>,

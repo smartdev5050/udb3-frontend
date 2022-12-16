@@ -12,6 +12,7 @@ import {
   ContactInfoStep,
 } from '@/pages/steps/AdditionalInformationStep/ContactInfoStep';
 import { Countries, Country } from '@/types/Country';
+import { Values } from '@/types/Values';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { FormElement } from '@/ui/FormElement';
 import { Inline } from '@/ui/Inline';
@@ -34,7 +35,10 @@ const schema = yup
     address: yup
       .object({
         streetAndNumber: yup.string().required(),
-        country: yup.string().oneOf(Object.values(Countries)).required(),
+        country: yup
+          .mixed<Country>()
+          .oneOf(Object.values(Countries))
+          .required(),
         city: yup
           .object({
             label: yup.string().required(),
