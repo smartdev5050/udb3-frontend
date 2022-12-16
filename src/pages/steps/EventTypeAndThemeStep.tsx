@@ -2,11 +2,13 @@ import { Controller, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
+import { OfferType } from '@/constants/OfferType';
 import {
   useChangeOfferThemeMutation,
   useChangeOfferTypeMutation,
 } from '@/hooks/api/offers';
 import { useGetTypesByScopeQuery } from '@/hooks/api/types';
+import { Values } from '@/types/Values';
 import { parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
@@ -48,19 +50,21 @@ const useEditTypeAndTheme = ({ scope, offerId, onSuccess }) => {
 
 type Props = StepProps & {
   shouldHideType: boolean;
+  scope: Values<typeof OfferType>;
 };
 
 const EventTypeAndThemeStep = ({
   control,
+  scope,
   name,
   onChange,
   shouldHideType,
 }: Props) => {
   const { t, i18n } = useTranslation();
 
-  const [scope, typeAndTheme] = useWatch({
+  const typeAndTheme = useWatch({
     control,
-    name: ['scope', 'typeAndTheme'],
+    name: 'typeAndTheme',
   });
 
   const getTypesByScopeQuery = useGetTypesByScopeQuery({
@@ -228,8 +232,8 @@ const typeAndThemeStepConfiguration: StepsConfiguration = {
   Component: EventTypeAndThemeStep,
   name: 'typeAndTheme',
   validation: yup.object().shape({}).required(),
-  title: ({ t, watch }) => t(`create.type_and_theme.title_${watch('scope')}`),
-  shouldShowStep: ({ watch }) => !!watch('scope'),
+  title: ({ t, scope }) => t(`create.type_and_theme.title_${scope}`),
+  shouldShowStep: ({ scope }) => !!scope,
 };
 
 export { typeAndThemeStepConfiguration, useEditTypeAndTheme };
