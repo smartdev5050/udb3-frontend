@@ -541,9 +541,9 @@ const useChangeTypicalAgeRangeMutation = (configuration = {}) =>
     ...configuration,
   });
 
-const addLabel = async ({ headers, eventId, label }) =>
+const addLabel = async ({ headers, id, label }) =>
   fetchFromApi({
-    path: `/events/${eventId}/labels/${label}`,
+    path: `/events/${id}/labels/${label}`,
     options: {
       method: 'PUT',
       headers,

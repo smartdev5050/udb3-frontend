@@ -77,7 +77,7 @@ const useAddOffer = <TFormData extends FormDataUnion>({
     } else {
       await addEventToProductionByIdMutation.mutateAsync({
         productionId: production.production_id,
-        offerId,
+        eventId: offerId,
       });
     }
 
