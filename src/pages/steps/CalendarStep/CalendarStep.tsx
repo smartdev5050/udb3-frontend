@@ -12,7 +12,6 @@ import {
 } from '@/hooks/api/events';
 import { useChangeOfferCalendarMutation } from '@/hooks/api/offers';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
-import { useLog } from '@/hooks/useLog';
 import { useToast } from '@/pages/manage/movies/useToast';
 import { Event } from '@/types/Event';
 import { Values } from '@/types/Values';
