@@ -94,8 +94,12 @@ const convertStateToFormData = (
     ...(isOneOrMoreDays && { subEvent }),
     ...(isFixedDays && { openingHours: newOpeningHours }),
     ...(calendarType === CalendarType.PERIODIC && {
-      startDate: new Date(startDate).toISOString(),
-      endDate: new Date(endDate).toISOString(),
+      startDate: startDate
+        ? new Date(startDate).toISOString()
+        : new Date().toISOString(),
+      endDate: endDate
+        ? new Date(endDate).toISOString()
+        : new Date().toISOString(),
     }),
   };
 };
