@@ -174,7 +174,7 @@ const PlaceStep = <TFormData extends FormDataUnion>({
                       minLength={3}
                       placeholder={placeholderLabel(t)}
                       newSelectionPrefix="Locatie niet gevonden? "
-                      allowNew
+                      allowNew={!isMovie}
                     />
                   }
                 />
