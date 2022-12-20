@@ -3,7 +3,6 @@ import getConfig from 'next/config';
 import { useRouter } from 'next/router';
 import type { ReactNode } from 'react';
 import { useMemo, useState } from 'react';
-import { Cookies } from 'react-cookie';
 import { Trans, useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
@@ -24,6 +23,7 @@ import {
   useGetPlacesByCreatorQuery,
 } from '@/hooks/api/places';
 import { useGetUserQuery } from '@/hooks/api/user';
+import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
 import { Footer } from '@/pages/Footer';
 import type { Event } from '@/types/Event';
 import type { Organizer } from '@/types/Organizer';
@@ -88,8 +88,14 @@ const UseDeleteItemByIdMap = {
 } as const;
 
 const CreateMap = {
-  events: '/create',
-  places: '/create',
+  events: '/create?scope=events',
+  places: '/create?scope=places',
+  organizers: '/organizer',
+};
+
+const CreateMapLegacy = {
+  events: '/event',
+  places: '/event',
   organizers: '/organizer',
 };
 
@@ -405,6 +411,8 @@ const Dashboard = (): any => {
   const { t, i18n } = useTranslation();
   const { pathname, query, asPath, ...router } = useRouter();
 
+  const [isNewCreateEnabled] = useFeatureFlag(FeatureFlags.REACT_CREATE);
+
   const queryClient = useQueryClient();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -501,6 +509,10 @@ const Dashboard = (): any => {
     'availableTo_asc',
   ];
 
+  const createOfferUrl = isNewCreateEnabled
+    ? CreateMap[tab]
+    : CreateMapLegacy[tab];
+
   return [
     <Page key="page">
       <Page.Title>{`${t('dashboard.welcome')}, ${user?.username}`}</Page.Title>
@@ -514,10 +526,7 @@ const Dashboard = (): any => {
         )}
 
         <Inline>
-          <Link
-            href={`${CreateMap[tab]}?scope=${tab}`}
-            variant={LinkVariants.BUTTON_PRIMARY}
-          >
+          <Link href={createOfferUrl} variant={LinkVariants.BUTTON_PRIMARY}>
             {t(`dashboard.create.${tab}`)}
           </Link>
         </Inline>
