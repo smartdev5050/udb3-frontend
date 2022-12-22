@@ -118,8 +118,6 @@ const OfferForm = () => {
   const { query, pathname } = useRouter();
   const parts = pathname.split('/');
 
-  const offerId = query.offerId || query.eventId || query.placeId;
-
   const scope = useMemo(() => {
     if (
       pathname.startsWith('/events') ||
