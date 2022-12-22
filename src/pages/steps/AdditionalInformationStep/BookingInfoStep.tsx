@@ -460,7 +460,7 @@ const BookingInfoStep = ({
               </Text>
               <RadioButtonGroup
                 name="urlLabel"
-                selected={getUrlLabelType(urlLabel.en)}
+                selected={getUrlLabelType(urlLabel?.en ?? '')}
                 items={URL_LABELS}
                 onChange={handleOnUrlLabelChange}
               />
