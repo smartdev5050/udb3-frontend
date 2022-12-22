@@ -147,6 +147,7 @@ const ScopeStep = ({
               text={t('steps.offerTypeStep.types.event')}
               width="30%"
               minHeight={parseSpacing(7)}
+              disabled={!!offerId}
             />
             <ToggleBox
               onClick={() => handleChangeScope(field, OfferTypes.PLACES)}
@@ -155,6 +156,7 @@ const ScopeStep = ({
               text={t('steps.offerTypeStep.types.place')}
               width="30%"
               minHeight={parseSpacing(7)}
+              disabled={!!offerId}
             />
           </Inline>
         );
