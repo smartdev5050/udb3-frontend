@@ -367,9 +367,24 @@ const BookingInfoStep = ({
   });
 
   const handleAddBookingInfoMutation = async (newBookingInfo: BookingInfo) => {
+    const bookingInfo = newBookingInfo;
+
+    if (newBookingInfo.url === '') {
+      delete bookingInfo.urlLabel;
+      delete bookingInfo.url;
+    }
+
+    if (newBookingInfo.phone === '') {
+      delete bookingInfo.phone;
+    }
+
+    if (newBookingInfo.email === '') {
+      delete bookingInfo.email;
+    }
+
     await addBookingInfoMutation.mutateAsync({
       eventId,
-      bookingInfo: newBookingInfo,
+      bookingInfo,
       scope,
     });
   };
