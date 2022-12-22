@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -37,12 +37,6 @@ const schema = yup
     url: yup
       .string()
       .test(`website-is-not-valid`, 'url is not valid', isValidUrl),
-    urlLabel: yup.object({
-      de: yup.string(),
-      en: yup.string(),
-      fr: yup.string(),
-      nl: yup.string(),
-    }),
   })
   .required();
 
@@ -253,6 +247,7 @@ const BookingInfoStep = ({
   ...props
 }: Props) => {
   const { t } = useTranslation();
+  const [selectedUrlLabel, setSelectedUrlLabel] = useState('');
 
   // TODO: refactor
   const eventId = offerId;
@@ -351,15 +346,20 @@ const BookingInfoStep = ({
     if (bookingInfo.availabilityEnds) {
       setValue('availabilityEnds', bookingInfo.availabilityEnds);
     }
+  }, [offerId, setValue, bookingInfo, onChangeCompleted]);
 
-    if (bookingInfo.urlLabel) {
-      setValue('urlLabel', bookingInfo.urlLabel);
+  useEffect(() => {
+    if (!bookingInfo?.urlLabel?.en) return;
+
+    if (bookingInfo.urlLabel.en) {
+      const urlLabel = getUrlLabelType(bookingInfo.urlLabel.en);
+      setSelectedUrlLabel(urlLabel);
     }
-  }, [bookingInfo, setValue, onChangeCompleted]);
+  }, [bookingInfo?.urlLabel?.en]);
 
-  const [url, urlLabel, availabilityStarts, availabilityEnds] = useWatch({
+  const [url, availabilityStarts, availabilityEnds] = useWatch({
     control,
-    name: ['url', 'urlLabel', 'availabilityStarts', 'availabilityEnds'],
+    name: ['url', 'availabilityStarts', 'availabilityEnds'],
   });
 
   const addBookingInfoMutation = useAddOfferBookingInfoMutation({
@@ -368,6 +368,7 @@ const BookingInfoStep = ({
 
   const handleAddBookingInfoMutation = async (newBookingInfo: BookingInfo) => {
     const bookingInfo = newBookingInfo;
+    const newUrlLabels = URL_LABEL_TRANSLATIONS[selectedUrlLabel];
 
     if (newBookingInfo.url === '') {
       delete bookingInfo.urlLabel;
@@ -382,9 +383,15 @@ const BookingInfoStep = ({
       delete bookingInfo.email;
     }
 
+    console.log(Object.hasOwn(bookingInfo, 'urlLabel'));
     await addBookingInfoMutation.mutateAsync({
       eventId,
-      bookingInfo,
+      bookingInfo: {
+        ...bookingInfo,
+        ...(!Object.hasOwn(bookingInfo, 'urlLabel') && {
+          urlLabel: newUrlLabels,
+        }),
+      },
       scope,
     });
   };
@@ -421,7 +428,6 @@ const BookingInfoStep = ({
   const handleOnUrlLabelChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const urlLabelType = e.target.value;
     const newUrlLabels = URL_LABEL_TRANSLATIONS[urlLabelType];
-    setValue('urlLabel', newUrlLabels);
 
     const formValues = getValues();
 
@@ -434,38 +440,39 @@ const BookingInfoStep = ({
   return (
     <Stack maxWidth="50rem" {...getStackProps(props)}>
       <Inline justifyContent="space-between">
-        <Stack
-          as="form"
-          width="50%"
-          spacing={4}
-          onBlur={handleSubmit(async (data) => {
-            await handleAddBookingInfoMutation(data);
-          })}
-          ref={formComponent}
-        >
-          {Object.keys(ContactInfoType).map((key, index) => {
-            const type = ContactInfoType[key];
-            return (
-              <FormElement
-                key={index}
-                flex={2}
-                id={type}
-                label={t(`create.additionalInformation.booking_info.${type}`)}
-                Component={
-                  <Input
-                    placeholder={t(
-                      `create.additionalInformation.booking_info.${type}`,
-                    )}
-                    {...register(type)}
-                  />
-                }
-                error={
-                  formState.errors?.[type] &&
-                  t(`create.additionalInformation.booking_info.${type}_error`)
-                }
-              />
-            );
-          })}
+        <Stack width="50%" spacing={4}>
+          <Stack
+            as="form"
+            onBlur={handleSubmit(async (data) => {
+              await handleAddBookingInfoMutation(data);
+            })}
+            ref={formComponent}
+          >
+            {Object.keys(ContactInfoType).map((key, index) => {
+              const type = ContactInfoType[key];
+              return (
+                <FormElement
+                  key={index}
+                  flex={2}
+                  id={type}
+                  label={t(`create.additionalInformation.booking_info.${type}`)}
+                  Component={
+                    <Input
+                      placeholder={t(
+                        `create.additionalInformation.booking_info.${type}`,
+                      )}
+                      {...register(type)}
+                    />
+                  }
+                  error={
+                    formState.errors?.[type] &&
+                    t(`create.additionalInformation.booking_info.${type}_error`)
+                  }
+                />
+              );
+            })}
+          </Stack>
+
           {url && (
             <Stack>
               <Text fontWeight="bold">
@@ -475,9 +482,12 @@ const BookingInfoStep = ({
               </Text>
               <RadioButtonGroup
                 name="urlLabel"
-                selected={getUrlLabelType(urlLabel?.en ?? '')}
+                selected={selectedUrlLabel}
                 items={URL_LABELS}
-                onChange={handleOnUrlLabelChange}
+                onChange={(e) => {
+                  setSelectedUrlLabel(e.target.value);
+                  handleOnUrlLabelChange(e);
+                }}
               />
             </Stack>
           )}
