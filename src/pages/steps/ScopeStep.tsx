@@ -167,9 +167,7 @@ const scopeStepConfiguration: StepsConfiguration = {
   Component: ScopeStep,
   name: 'scope',
   title: ({ t }) => t(`create.scope.title`),
-  shouldShowStep: ({ watch, offerId, formState }) => {
-    return !offerId;
-  },
+  shouldShowStep: () => true,
 };
 
 export { scopeStepConfiguration };
