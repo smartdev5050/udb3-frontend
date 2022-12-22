@@ -372,7 +372,7 @@ const addOfferBookingInfo = async ({
   scope,
 }) => {
   fetchFromApi({
-    path: `/${scope})/${eventId}/bookingInfo`,
+    path: `/${scope}/${eventId}/bookingInfo`,
     options: {
       method: 'PUT',
       headers,
