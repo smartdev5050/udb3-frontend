@@ -15,10 +15,6 @@ import { locationStepConfiguration } from '@/pages/steps/LocationStep';
 import {
   CalendarMachineProvider,
   useCalendarSelector,
-  useIsMultiple,
-  useIsPeriodic,
-  useIsPermanent,
-  useIsSingle,
 } from '@/pages/steps/machines/calendarMachine';
 import { nameAndAgeRangeStepConfiguration } from '@/pages/steps/NameAndAgeRangeStep';
 import { scopeStepConfiguration } from '@/pages/steps/ScopeStep';
