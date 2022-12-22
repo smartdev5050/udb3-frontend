@@ -44,13 +44,13 @@ const URL_REGEX: RegExp =
 const PHONE_REGEX: RegExp = /^[0-9\/_.+ ]*$/;
 
 const isValidEmail = (email: string) => {
-  return EMAIL_REGEX.test(email);
+  return EMAIL_REGEX.test(email) || email === '';
 };
 const isValidUrl = (url: string) => {
-  return URL_REGEX.test(url);
+  return URL_REGEX.test(url) || url === '';
 };
 const isValidPhone = (phone: string) => {
-  return PHONE_REGEX.test(phone);
+  return PHONE_REGEX.test(phone) || phone === '';
 };
 
 const isValidInfo = (type: string, value: string): boolean => {
