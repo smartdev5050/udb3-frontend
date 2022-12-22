@@ -1,4 +1,5 @@
 import { TFunction } from 'i18next';
+import { useEffect, useState } from 'react';
 import { Controller, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -109,7 +110,18 @@ const LocationStep = ({
 }: PlaceStepProps) => {
   const { t } = useTranslation();
 
-  const scope = useWatch({ control, name: 'scope' });
+  const [streetAndNumber, setStreetAndNumber] = useState('');
+
+  const [scope, locationStreetAndNumber] = useWatch({
+    control,
+    name: ['scope', 'location.streetAndNumber'],
+  });
+
+  useEffect(() => {
+    if (!locationStreetAndNumber) return;
+
+    setStreetAndNumber(locationStreetAndNumber);
+  }, [locationStreetAndNumber]);
 
   return (
     <Stack {...getStackProps(props)}>
@@ -348,14 +360,17 @@ const LocationStep = ({
                   <FormElement
                     Component={
                       <Input
-                        value={field.value?.streetAndNumber}
-                        onChange={(e) => {
+                        value={streetAndNumber}
+                        onBlur={(e) => {
                           const updatedValue = {
                             ...field.value,
-                            streetAndNumber: e.target.value,
+                            streetAndNumber: streetAndNumber,
                           };
                           field.onChange(updatedValue);
                           onChange(updatedValue);
+                        }}
+                        onChange={(e) => {
+                          setStreetAndNumber(e.target.value);
                         }}
                       />
                     }
