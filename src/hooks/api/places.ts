@@ -229,6 +229,8 @@ type PlaceArguments = {
   workflowStatus: WorkflowStatus;
   calendarType: Values<typeof CalendarType>;
   openingHours: OpeningHours[];
+  startDate: string;
+  endDate: string;
 };
 
 type AddPlaceArguments = PlaceArguments & { headers: Headers };
@@ -237,6 +239,8 @@ const addPlace = async ({
   headers,
   calendarType,
   openingHours,
+  startDate,
+  endDate,
   address,
   mainLanguage,
   name,
@@ -256,6 +260,8 @@ const addPlace = async ({
         name,
         terms,
         workflowStatus,
+        startDate,
+        endDate,
       }),
     },
   });
