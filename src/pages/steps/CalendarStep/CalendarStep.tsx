@@ -18,6 +18,7 @@ import { Values } from '@/types/Values';
 import { Panel } from '@/ui/Panel';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Toast } from '@/ui/Toast';
+import { formatDateToISO } from '@/utils/formatDateToISO';
 
 import {
   CalendarContext,
@@ -76,8 +77,8 @@ const convertStateToFormData = (
   ).includes(calendarType);
 
   const subEvent = days.map((day) => ({
-    startDate: new Date(day.startDate).toISOString(),
-    endDate: new Date(day.endDate).toISOString(),
+    startDate: formatDateToISO(new Date(day.startDate)),
+    endDate: formatDateToISO(new Date(day.endDate)),
     bookingAvailability: day.bookingAvailability,
     status: day.status,
   }));
@@ -93,12 +94,8 @@ const convertStateToFormData = (
     ...(isOneOrMoreDays && { subEvent }),
     ...(isFixedDays && { openingHours: newOpeningHours }),
     ...(calendarType === CalendarType.PERIODIC && {
-      startDate: startDate
-        ? new Date(startDate).toISOString()
-        : new Date().toISOString(),
-      endDate: endDate
-        ? new Date(endDate).toISOString()
-        : new Date().toISOString(),
+      startDate: formatDateToISO(new Date(startDate || undefined)),
+      endDate: formatDateToISO(new Date(endDate || undefined)),
     }),
   };
 };

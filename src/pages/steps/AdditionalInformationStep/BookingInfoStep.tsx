@@ -20,6 +20,7 @@ import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
+import { formatDateToISO } from '@/utils/formatDateToISO';
 
 import { TabContentProps } from './AdditionalInformationStep';
 import { isValidEmail, isValidPhone, isValidUrl } from './ContactInfoStep';
@@ -400,8 +401,8 @@ const BookingInfoStep = ({
     availabilityEnds: Date,
     availabilityStarts: Date,
   ) => {
-    const isoEndDate = availabilityEnds.toISOString();
-    const isoStartDate = availabilityStarts.toISOString();
+    const isoEndDate = formatDateToISO(availabilityEnds);
+    const isoStartDate = formatDateToISO(availabilityStarts);
 
     setValue('availabilityEnds', isoEndDate);
     setValue('availabilityStarts', isoStartDate);
