@@ -86,8 +86,6 @@ const ContactInfoStep = ({
   );
   const [isFieldFocused, setIsFieldFocused] = useState(false);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleChangeCompleted = useCallback(onChangeCompleted, []);
   const contactInfo =
     // @ts-expect-error
     getEventByIdQuery.data?.contactPoint ?? organizerContactInfo;
@@ -95,8 +93,12 @@ const ContactInfoStep = ({
   useEffect(() => {
     if (!contactInfo) return;
 
+    const hasContactInfo = Object.values(contactInfo).some(
+      (contactInfoPerType: string[]) => contactInfoPerType.length > 0,
+    );
+
     // onChangeCompleted can be undefined when used in OrganizerStep
-    handleChangeCompleted?.(true);
+    onChangeCompleted?.(hasContactInfo);
 
     const contactInfoArray = [];
     Object.keys(contactInfo).forEach((key) => {
@@ -109,7 +111,7 @@ const ContactInfoStep = ({
     });
 
     setContactInfoState(contactInfoArray);
-  }, [contactInfo, handleChangeCompleted]);
+  }, [contactInfo, onChangeCompleted]);
 
   const addContactPointMutation = useAddContactPointMutation({
     onSuccess: onSuccessfulChange,
