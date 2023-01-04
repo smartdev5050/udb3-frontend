@@ -2,7 +2,7 @@ import type { UseMutationOptions, UseQueryOptions } from 'react-query';
 
 import { CalendarType } from '@/constants/CalendarType';
 import type { EventTypes } from '@/constants/EventTypes';
-import type { OfferStatus } from '@/constants/OfferStatus';
+import { OfferStatus } from '@/constants/OfferStatus';
 import type { SupportedLanguages } from '@/i18n/index';
 import type { Address } from '@/types/Address';
 import { Country } from '@/types/Country';
@@ -149,6 +149,7 @@ const getPlacesByQuery = async ({
       workflowStatus: 'DRAFT,READY_FOR_VALIDATION,APPROVED',
       ['sort[created]']: 'desc',
       limit: '1000',
+      status: OfferStatus.AVAILABLE,
     },
     options: {
       headers: headers as unknown as Record<string, string>,
