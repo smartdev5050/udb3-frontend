@@ -235,7 +235,7 @@ const OrganizerStep = ({
         )}
       </Stack>
 
-      {isUitpasOrganizer && (
+      {isUitpasOrganizer && hasPriceInfo && (
         <Stack spacing={3}>
           <Text fontWeight="bold">
             {t('create.additionalInformation.organizer.uitpas_cardsystems')}
