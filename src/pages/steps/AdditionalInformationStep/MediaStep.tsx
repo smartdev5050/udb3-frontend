@@ -1,16 +1,18 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import {
-  useAddEventMainImageMutation,
-  useAddImageToEventMutation,
-  useAddVideoToEventMutation,
-  useDeleteImageFromEventMutation,
-  useDeleteVideoFromEventMutation,
-  useGetEventByIdQuery,
-  useUpdateImageFromEventMutation,
-} from '@/hooks/api/events';
+import { OfferType, OfferTypes } from '@/constants/OfferType';
+import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { useAddImageMutation } from '@/hooks/api/images';
+import {
+  useAddOfferImageMutation,
+  useAddOfferMainImageMutation,
+  useAddOfferVideoMutation,
+  useDeleteOfferImageMutation,
+  useDeleteOfferVideoMutation,
+  useUpdateOfferImageMutation,
+} from '@/hooks/api/offers';
+import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import type { FormData } from '@/pages/steps/modals/PictureUploadModal';
 import { Inline } from '@/ui/Inline';
 import { getStackProps, Stack } from '@/ui/Stack';
@@ -27,12 +29,14 @@ import { PictureDeleteModal } from '../modals/PictureDeleteModal';
 import { PictureUploadModal } from '../modals/PictureUploadModal';
 
 type Props = {
+  scope: OfferType;
   offerId?: string;
   onSuccessfulChange: () => void;
   onChangeCompleted: (completed: boolean) => void;
 };
 
 const MediaStep = ({
+  scope,
   offerId,
   onSuccessfulChange,
   onChangeCompleted,
@@ -43,32 +47,35 @@ const MediaStep = ({
   // TODO: refactor
   const eventId = offerId;
 
-  const getEventByIdQuery = useGetEventByIdQuery({ id: offerId });
+  const useGetOfferByIdQuery =
+    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
+
+  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleChangeCompleted = useCallback(onChangeCompleted, []);
 
   const videosFromQuery = useMemo(
     // @ts-expect-error
-    () => getEventByIdQuery.data?.videos ?? [],
+    () => getOfferByIdQuery.data?.videos ?? [],
     [
       // @ts-expect-error
-      getEventByIdQuery.data?.videos,
+      getOfferByIdQuery.data?.videos,
     ],
   );
 
   const mediaObjects = useMemo(
     // @ts-expect-error
-    () => getEventByIdQuery.data?.mediaObject ?? [],
+    () => getOfferByIdQuery.data?.mediaObject ?? [],
     // @ts-expect-error
-    [getEventByIdQuery.data?.mediaObject],
+    [getOfferByIdQuery.data?.mediaObject],
   );
 
   const eventImage = useMemo(
     // @ts-expect-error
-    () => getEventByIdQuery.data?.image ?? [],
+    () => getOfferByIdQuery.data?.image ?? [],
     // @ts-expect-error
-    [getEventByIdQuery.data?.image],
+    [getOfferByIdQuery.data?.image],
   );
 
   const [isPictureUploadModalVisible, setIsPictureUploadModalVisible] =
@@ -88,7 +95,7 @@ const MediaStep = ({
   const [videos, setVideos] = useState([]);
   const [images, setImages] = useState<ImageType[]>([]);
 
-  const addImageToEventMutation = useAddImageToEventMutation({
+  const addImageToEventMutation = useAddOfferImageMutation({
     onSuccess: async () => {
       setIsPictureUploadModalVisible(false);
       onSuccessfulChange();
@@ -96,39 +103,39 @@ const MediaStep = ({
   });
 
   const handleSuccessAddImage = ({ imageId }) => {
-    return addImageToEventMutation.mutate({ eventId, imageId });
+    return addImageToEventMutation.mutate({ eventId, imageId, scope });
   };
 
   const addImageMutation = useAddImageMutation({
     onSuccess: handleSuccessAddImage,
   });
 
-  const addEventMainImageMutation = useAddEventMainImageMutation({
+  const addOfferMainImageMutation = useAddOfferMainImageMutation({
     onSuccess: onSuccessfulChange,
   });
 
-  const updateImageFromEventMutation = useUpdateImageFromEventMutation({
+  const updateOfferImageMutation = useUpdateOfferImageMutation({
     onSuccess: async () => {
       setIsPictureUploadModalVisible(false);
       onSuccessfulChange();
     },
   });
 
-  const deleteImageFromEventMutation = useDeleteImageFromEventMutation({
+  const deleteOfferImageMutation = useDeleteOfferImageMutation({
     onSuccess: async () => {
       setIsPictureUploadModalVisible(false);
       onSuccessfulChange();
     },
   });
 
-  const addVideoToEventMutation = useAddVideoToEventMutation({
+  const addOfferVideoMutation = useAddOfferVideoMutation({
     onSuccess: async () => {
       setIsVideoLinkDeleteModalVisible(false);
       onSuccessfulChange();
     },
   });
 
-  const deleteVideoFromEventMutation = useDeleteVideoFromEventMutation({
+  const deleteOfferVideoMutation = useDeleteOfferVideoMutation({
     onSuccess: async () => {
       setIsVideoLinkDeleteModalVisible(false);
       onSuccessfulChange();
@@ -255,20 +262,22 @@ const MediaStep = ({
   };
 
   const handleClickSetMainImage = useCallback(
-    (imageId: string) => addEventMainImageMutation.mutate({ eventId, imageId }),
-    [addEventMainImageMutation, offerId],
+    (imageId: string) =>
+      addOfferMainImageMutation.mutate({ eventId, imageId, scope }),
+    [addOfferMainImageMutation, eventId, scope],
   );
 
   const handleConfirmDeleteImage = (imageId: string) => {
-    deleteImageFromEventMutation.mutate({ eventId, imageId });
+    deleteOfferImageMutation.mutate({ eventId, imageId, scope });
     setIsPictureDeleteModalVisible(false);
   };
 
   const handleAddVideoLink = (url: string) => {
-    addVideoToEventMutation.mutate({
+    addOfferVideoMutation.mutate({
       eventId,
       url,
       language: i18n.language,
+      scope,
     });
     setIsVideoLinkAddModalVisible(false);
   };
@@ -279,7 +288,7 @@ const MediaStep = ({
   };
 
   const handleConfirmDeleteVideo = (videoId: string) => {
-    deleteVideoFromEventMutation.mutate({ eventId, videoId });
+    deleteOfferVideoMutation.mutate({ eventId, videoId, scope });
     setIsVideoLinkDeleteModalVisible(false);
   };
 
@@ -289,11 +298,12 @@ const MediaStep = ({
     copyrightHolder,
   }: FormData) => {
     if (imageToEdit) {
-      await updateImageFromEventMutation.mutateAsync({
+      await updateOfferImageMutation.mutateAsync({
         eventId,
         imageId: imageToEdit.parsedId,
         description,
         copyrightHolder,
+        scope,
       });
 
       return;

@@ -68,5 +68,5 @@ Stack.defaultProps = {
   as: 'section',
 };
 
-export { getStackProps, Stack, stackProps, stackPropTypes };
+export { getStackProps, Stack };
 export type { Props as StackProps };

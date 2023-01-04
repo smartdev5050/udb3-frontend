@@ -31,6 +31,7 @@ type Props = InlineProps & {
   visible?: boolean;
   dismissible?: boolean;
   onDismiss?: () => void;
+  fullWidth?: boolean;
 };
 
 const Alert = ({
@@ -40,10 +41,14 @@ const Alert = ({
   onDismiss,
   children,
   className,
+  fullWidth,
   ...props
 }: Props) => {
   return (
-    <Inline {...getInlineProps(props)} alignSelf="flex-start">
+    <Inline
+      {...getInlineProps(props)}
+      alignSelf={fullWidth ? 'normal' : 'flex-start'}
+    >
       <BootstrapAlert
         variant={variant}
         hidden={!visible}

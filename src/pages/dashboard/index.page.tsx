@@ -31,7 +31,7 @@ import type { Place } from '@/types/Place';
 import type { User } from '@/types/User';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Badge, BadgeVariants } from '@/ui/Badge';
-import { Box, parseSpacing } from '@/ui/Box';
+import { Box } from '@/ui/Box';
 import { Dropdown, DropDownVariants } from '@/ui/Dropdown';
 import type { InlineProps } from '@/ui/Inline';
 import { getInlineProps, Inline } from '@/ui/Inline';
@@ -669,4 +669,4 @@ const DashboardWrapper = (props) => {
 };
 
 export default DashboardWrapper;
-export { getServerSideProps, itemsPerPage };
+export { getServerSideProps };

@@ -38,6 +38,7 @@ type Props = {
   endTime?: string;
   onChangeStartTime: (newStartTime: string) => void;
   onChangeEndTime: (newEndTime: string) => void;
+  disabled?: boolean;
 } & InlineProps;
 
 const isQuarterHour = (time: string) =>
@@ -95,6 +96,7 @@ const TimeSpanPicker = ({
   endTimeLabel,
   onChangeStartTime,
   onChangeEndTime,
+  disabled,
   ...props
 }: Props) => {
   const { t } = useTranslation();
@@ -121,6 +123,7 @@ const TimeSpanPicker = ({
             onChangeStartTime(newValue);
           }}
           positionFixed
+          disabled={disabled}
           maxHeight="140px"
           css={dropDownCss}
         />
@@ -145,6 +148,7 @@ const TimeSpanPicker = ({
           }}
           css={dropDownCss}
           positionFixed
+          disabled={disabled}
         />
       </Stack>
     </Inline>

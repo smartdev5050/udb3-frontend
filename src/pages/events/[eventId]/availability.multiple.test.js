@@ -20,8 +20,8 @@ const setup = async () => {
       },
     },
     responses: {
-      '/event/:id': { body: eventWithSubEvents },
-      'events/:id/subEvents': {},
+      '/events/:id': { body: eventWithSubEvents },
+      '/events/:id/subEvents': {},
     },
   });
 

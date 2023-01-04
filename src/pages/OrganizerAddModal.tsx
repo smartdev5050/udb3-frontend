@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useMemo, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
@@ -12,6 +12,7 @@ import {
   ContactInfoStep,
 } from '@/pages/steps/AdditionalInformationStep/ContactInfoStep';
 import { Countries, Country } from '@/types/Country';
+import { Values } from '@/types/Values';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { FormElement } from '@/ui/FormElement';
 import { Inline } from '@/ui/Inline';
@@ -25,7 +26,7 @@ import { Title } from '@/ui/Title';
 
 import { City, CityPicker } from './CityPicker';
 
-export const getValue = getValueFromTheme('organizerAddModal');
+const getValue = getValueFromTheme('organizerAddModal');
 
 const schema = yup
   .object({
@@ -34,7 +35,10 @@ const schema = yup
     address: yup
       .object({
         streetAndNumber: yup.string().required(),
-        country: yup.string().oneOf(Object.values(Countries)).required(),
+        country: yup
+          .mixed<Country>()
+          .oneOf(Object.values(Countries))
+          .required(),
         city: yup
           .object({
             label: yup.string().required(),
@@ -92,7 +96,6 @@ const OrganizerAddModal = ({
     formState,
     control,
     reset,
-    watch,
     setValue,
     setError,
   } = useForm<FormData>({
@@ -102,8 +105,10 @@ const OrganizerAddModal = ({
 
   const urlRegisterProps = register('url');
 
-  const watchedUrl = watch('url');
-  const watchedCountry = watch('address.country');
+  const [watchedUrl, watchedCountry] = useWatch({
+    control,
+    name: ['url', 'address.country'],
+  });
 
   const getOrganizersByWebsiteQuery = useGetOrganizersByWebsiteQuery(
     {

@@ -4,8 +4,9 @@ import { useTranslation } from 'react-i18next';
 
 import { CalendarType } from '@/constants/CalendarType';
 import { EventTypes } from '@/constants/EventTypes';
-import { OfferType } from '@/constants/OfferType';
-import { getTerms } from '@/pages/create/OfferForm';
+import { OfferTypes } from '@/constants/OfferType';
+import { SupportedLanguage } from '@/i18n/index';
+import { getTerms, parseLocationAttributes } from '@/pages/create/OfferForm';
 import {
   additionalInformationStepConfiguration,
   AdditionalInformationStepVariant,
@@ -65,24 +66,28 @@ const convertSubEventsToTimeTable = (subEvents: SubEvent[] = []) => {
 const MovieForm = (props) => {
   const { query, pathname } = useRouter();
   const parts = pathname.split('/');
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const offerId = query.offerId || query.eventId || query.placeId;
 
   const convertOfferToFormData = (event: Event) => {
     return {
-      scope: OfferType.EVENTS,
+      scope: OfferTypes.EVENTS,
       typeAndTheme: {
         theme: event.terms.find((term) => term.domain === 'theme'),
         type: event.terms.find((term) => term.domain === 'eventtype'),
       },
-      place: event.location,
       timeTable: convertSubEventsToTimeTable(event.subEvent),
       production: {
         production_id: event.production?.id,
         name: event.production?.title,
         events: event.production?.otherEvents,
       },
+      ...parseLocationAttributes(
+        event,
+        i18n.language as SupportedLanguage,
+        event.mainLanguage,
+      ),
     };
   };
 
@@ -112,6 +117,7 @@ const MovieForm = (props) => {
     <StepsForm
       {...props}
       key={parts[parts.length - 1]} // needed to re-render the form between create and edit.
+      scope={OfferTypes.EVENTS}
       label="udb-filminvoer"
       convertFormDataToOffer={convertFormDataToOffer}
       convertOfferToFormData={convertOfferToFormData}
@@ -129,7 +135,7 @@ const MovieForm = (props) => {
         title: t('movies.create.toast.success.title'),
       }}
       configurations={[
-        { name: 'scope', defaultValue: OfferType.EVENTS },
+        { name: 'scope', defaultValue: OfferTypes.EVENTS },
         {
           ...typeAndThemeStepConfiguration,
           title: () => t('movies.create.step1.title'),
