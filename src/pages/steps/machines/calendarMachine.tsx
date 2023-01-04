@@ -62,7 +62,7 @@ type BookingAvailability = {
   type: Values<typeof BookingAvailabilityType>;
 };
 
-export const initialCalendarContext = {
+const createInitialContext = () => ({
   days: [
     {
       id: createDayId(),
@@ -79,7 +79,9 @@ export const initialCalendarContext = {
   startDate: getStartDate(),
   endDate: getEndDate(),
   openingHours: [] as OpeningHoursWithId[],
-};
+});
+
+export const initialCalendarContext = createInitialContext();
 
 export type CalendarContext = typeof initialCalendarContext;
 
@@ -177,7 +179,7 @@ const calendarMachineOptions: MachineOptions<CalendarContext, CalendarEvents> =
       loadInitialContext: assign((context, event) => {
         if (event.type !== 'LOAD_INITIAL_CONTEXT') return;
         if (!event.newContext) {
-          return initialCalendarContext;
+          return createInitialContext();
         }
 
         return {
