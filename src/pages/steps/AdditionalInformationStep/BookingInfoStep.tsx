@@ -169,7 +169,7 @@ const ReservationPeriod = ({
       <Inline>
         {!isDatePickerVisible && (
           <Stack>
-            <Text fontWeight="bold" marginBottom={3}>
+            <Text fontWeight="bold" marginBottom={2}>
               {t(
                 'create.additionalInformation.booking_info.reservation_period.title',
               )}
