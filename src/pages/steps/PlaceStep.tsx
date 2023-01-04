@@ -1,6 +1,7 @@
 import { TFunction } from 'i18next';
 import debounce from 'lodash/debounce';
 import { useMemo, useState } from 'react';
+import { Highlighter } from 'react-bootstrap-typeahead';
 import { Controller, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -131,6 +132,20 @@ const PlaceStep = ({
                         place.name[i18n.language] ??
                         place.name[place.mainLanguage]
                       }
+                      renderMenuItemChildren={(place: Place, { text }) => (
+                        <Stack>
+                          <Text>
+                            <Highlighter search={text}>
+                              {place.name[i18n.language] ??
+                                place.name[place.mainLanguage]}
+                            </Highlighter>
+                          </Text>
+                          <Text>
+                            {place.address[i18n.language]?.streetAddress ??
+                              place.address[place.mainLanguage]?.streetAddress}
+                          </Text>
+                        </Stack>
+                      )}
                       selected={valueToArray(selectedPlace as Place)}
                       maxWidth="43rem"
                       onChange={(places) => {
