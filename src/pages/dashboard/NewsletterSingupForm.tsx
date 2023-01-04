@@ -5,7 +5,6 @@ import * as yup from 'yup';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
 import { useAddNewsletterSubscriberMutation } from '@/hooks/api/newsletter';
 import { Alert, AlertVariants } from '@/ui/Alert';
-import { parseSpacing } from '@/ui/Box';
 import { Button } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Image } from '@/ui/Image';

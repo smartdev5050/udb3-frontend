@@ -1,15 +1,17 @@
 import { TFunction } from 'i18next';
-import { Controller, Path, useWatch } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import { Controller, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { EventTypes } from '@/constants/EventTypes';
-import { OfferType } from '@/constants/OfferType';
-import { useChangeLocationMutation } from '@/hooks/api/events';
+import { OfferTypes } from '@/constants/OfferType';
+import { useChangeAttendanceModeMutation } from '@/hooks/api/events';
 import { useChangeAddressMutation } from '@/hooks/api/places';
 import { FormData as OfferFormData } from '@/pages/create/OfferForm';
 import { Address } from '@/types/Address';
-import { Countries } from '@/types/Country';
+import { Countries, Country } from '@/types/Country';
+import { AttendanceMode } from '@/types/Event';
 import { Place } from '@/types/Place';
 import { Values } from '@/types/Values';
 import { Alert } from '@/ui/Alert';
@@ -25,12 +27,11 @@ import { RadioButtonWithLabel } from '@/ui/RadioButtonWithLabel';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
-import { parseOfferId } from '@/utils/parseOfferId';
 
 import { CityPicker } from '../CityPicker';
 import { Features, NewFeatureTooltip } from '../NewFeatureTooltip';
 import { CountryPicker } from './CountryPicker';
-import { PlaceStep, placeStepConfiguration } from './PlaceStep';
+import { PlaceStep } from './PlaceStep';
 import {
   FormDataUnion,
   getStepProps,
@@ -38,28 +39,30 @@ import {
   StepsConfiguration,
 } from './Steps';
 
-const getValue = getValueFromTheme('createPage');
 const getGlobalValue = getValueFromTheme('global');
 
-const useEditLocation = <TFormData extends FormDataUnion>({
-  scope,
-  offerId,
-  onSuccess,
-}) => {
+const useEditLocation = ({ scope, offerId }) => {
   const { i18n } = useTranslation();
-  const changeLocationMutation = useChangeLocationMutation();
   const changeAddressMutation = useChangeAddressMutation();
+  const changeAttendanceMode = useChangeAttendanceModeMutation();
 
-  return async ({ location }: TFormData) => {
-    if (scope === OfferType.EVENTS) {
+  return async ({ location }: FormDataUnion) => {
+    if (scope === OfferTypes.EVENTS) {
+      if (location.isOnline) {
+        changeAttendanceMode.mutate({
+          eventId: offerId,
+          attendanceMode: AttendanceMode.ONLINE,
+        });
+        return;
+      }
+
       if (!location.municipality) return;
       if (!location.place) return;
 
-      // TODO: Add isOnline support
-
-      changeLocationMutation.mutate({
-        id: offerId,
-        locationId: parseOfferId(location.place['@id']),
+      changeAttendanceMode.mutate({
+        eventId: offerId,
+        attendanceMode: AttendanceMode.OFFLINE,
+        location: location.place['@id'],
       });
 
       return;
@@ -79,19 +82,20 @@ const useEditLocation = <TFormData extends FormDataUnion>({
 
     changeAddressMutation.mutate({
       id: offerId,
-      address,
+      address: address[i18n.language],
+      language: i18n.language,
     });
   };
 };
 
-type PlaceStepProps<TFormData extends FormDataUnion> = StackProps &
-  StepProps<TFormData> & {
+type PlaceStepProps = StackProps &
+  StepProps & {
     terms: Array<Values<typeof EventTypes>>;
     chooseLabel: (t: TFunction) => string;
     placeholderLabel: (t: TFunction) => string;
   };
 
-const LocationStep = <TFormData extends FormDataUnion>({
+const LocationStep = ({
   formState,
   getValues,
   reset,
@@ -99,16 +103,25 @@ const LocationStep = <TFormData extends FormDataUnion>({
   name,
   loading,
   onChange,
-  terms,
   chooseLabel,
   placeholderLabel,
   watch,
   ...props
-}: PlaceStepProps<TFormData>) => {
+}: PlaceStepProps) => {
   const { t } = useTranslation();
 
-  const watchedValues = useWatch({ control });
-  const scope = watchedValues.scope;
+  const [streetAndNumber, setStreetAndNumber] = useState('');
+
+  const [scope, locationStreetAndNumber] = useWatch({
+    control,
+    name: ['scope', 'location.streetAndNumber'],
+  });
+
+  useEffect(() => {
+    if (!locationStreetAndNumber) return;
+
+    setStreetAndNumber(locationStreetAndNumber);
+  }, [locationStreetAndNumber]);
 
   return (
     <Stack {...getStackProps(props)}>
@@ -130,6 +143,8 @@ const LocationStep = <TFormData extends FormDataUnion>({
                     onChange={(e) => {
                       const updatedValue = {
                         ...field.value,
+                        place: undefined,
+                        municipality: undefined,
                         isOnline: e.target.checked,
                       };
                       field.onChange(updatedValue);
@@ -195,7 +210,6 @@ const LocationStep = <TFormData extends FormDataUnion>({
                   id="online-url"
                   label={t('create.location.online_url.label')}
                   error={
-                    // @ts-expect-error
                     formState.errors.location?.onlineUrl &&
                     t('create.validation_messages.location.online_url')
                   }
@@ -245,7 +259,7 @@ const LocationStep = <TFormData extends FormDataUnion>({
           if (!municipality) {
             return (
               <Stack spacing={4}>
-                {scope === OfferType.EVENTS && OnlineToggle}
+                {scope === OfferTypes.EVENTS && OnlineToggle}
                 <Inline spacing={1} alignItems="center">
                   <CityPicker
                     name="city-picker-location-step"
@@ -264,7 +278,7 @@ const LocationStep = <TFormData extends FormDataUnion>({
                   />
                   <CountryPicker
                     value={country}
-                    includeLocationSchool={scope === OfferType.EVENTS}
+                    includeLocationSchool={scope === OfferTypes.EVENTS}
                     onChange={(newCountry) => {
                       const updatedValue = {
                         ...field.value,
@@ -312,10 +326,10 @@ const LocationStep = <TFormData extends FormDataUnion>({
                     )}
                   </Button>
                 </Inline>
-                {scope === OfferType.EVENTS && (
+                {scope === OfferTypes.EVENTS && (
                   <PlaceStep
                     maxWidth="28rem"
-                    name={'location.place' as Path<TFormData>}
+                    name={'location.place'}
                     municipality={municipality}
                     chooseLabel={chooseLabel}
                     placeholderLabel={placeholderLabel}
@@ -342,25 +356,27 @@ const LocationStep = <TFormData extends FormDataUnion>({
                     }}
                   />
                 )}
-                {scope === OfferType.PLACES && (
+                {scope === OfferTypes.PLACES && (
                   <FormElement
                     Component={
                       <Input
-                        value={field.value?.streetAndNumber}
-                        onChange={(e) => {
+                        value={streetAndNumber}
+                        onBlur={(e) => {
                           const updatedValue = {
                             ...field.value,
-                            streetAndNumber: e.target.value,
+                            streetAndNumber: streetAndNumber,
                           };
                           field.onChange(updatedValue);
                           onChange(updatedValue);
+                        }}
+                        onChange={(e) => {
+                          setStreetAndNumber(e.target.value);
                         }}
                       />
                     }
                     id="location-streetAndNumber"
                     label={t('location.add_modal.labels.streetAndNumber')}
                     error={
-                      // @ts-expect-error
                       formState.errors.location?.streetAndNumber &&
                       t('location.add_modal.errors.streetAndNumber')
                     }
@@ -375,7 +391,7 @@ const LocationStep = <TFormData extends FormDataUnion>({
   );
 };
 
-const locationStepConfiguration: StepsConfiguration<FormDataUnion> = {
+const locationStepConfiguration: StepsConfiguration = {
   Component: LocationStep,
   name: 'location',
   shouldShowStep: ({ watch }) => !!watch('typeAndTheme')?.type?.id,
@@ -395,7 +411,7 @@ const locationStepConfiguration: StepsConfiguration<FormDataUnion> = {
         .object()
         .shape({
           place: yup.object().shape({}).required(),
-          country: yup.string().oneOf(Object.values(Countries)),
+          country: yup.mixed<Country>().oneOf(Object.values(Countries)),
         })
         .required();
     }

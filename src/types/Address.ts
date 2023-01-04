@@ -14,4 +14,4 @@ type Address =
   | AddressInternal
   | Partial<Record<Values<typeof SupportedLanguages>, AddressInternal>>;
 
-export type { Address, AddressInternal, AddressLocality };
+export type { Address, AddressInternal };

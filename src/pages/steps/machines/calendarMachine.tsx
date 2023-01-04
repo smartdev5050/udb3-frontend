@@ -17,11 +17,12 @@ import {
   MachineConfig,
   MachineOptions,
   State,
-  StateNodeConfig,
 } from 'xstate';
 
+import { BookingAvailabilityType } from '@/constants/BookingAvailabilityType';
 import { CalendarType } from '@/constants/CalendarType';
-import { OpeningHours } from '@/types/Offer';
+import { OfferStatus } from '@/constants/OfferStatus';
+import { OpeningHours, StatusReason } from '@/types/Offer';
 import { Values } from '@/types/Values';
 
 const getTodayWithoutTime = () => {
@@ -52,18 +53,35 @@ export type OpeningHoursWithId = OpeningHours & { id: string };
 export const createDayId = () => uniqueId('day-');
 export const createOpeninghoursId = () => uniqueId('openinghours-');
 
-export const initialCalendarContext = {
+type Status = {
+  type: Values<typeof OfferStatus>;
+  reason?: StatusReason;
+};
+
+type BookingAvailability = {
+  type: Values<typeof BookingAvailabilityType>;
+};
+
+const createInitialContext = () => ({
   days: [
     {
       id: createDayId(),
       startDate: getStartDate(),
       endDate: getEndDate(),
+      status: {
+        type: OfferStatus.AVAILABLE,
+      } as Status,
+      bookingAvailability: {
+        type: BookingAvailabilityType.AVAILABLE,
+      } as BookingAvailability,
     },
   ],
   startDate: getStartDate(),
   endDate: getEndDate(),
   openingHours: [] as OpeningHoursWithId[],
-};
+});
+
+export const initialCalendarContext = createInitialContext();
 
 export type CalendarContext = typeof initialCalendarContext;
 
@@ -124,19 +142,9 @@ const calendarSchema = {
 
 type CalendarSchema = typeof calendarSchema;
 
-export type CalendarState = State<
-  CalendarContext,
-  CalendarEvents,
-  CalendarSchema
->;
+type CalendarState = State<CalendarContext, CalendarEvents, CalendarSchema>;
 
-export type CalendarStateNodeConfig = StateNodeConfig<
-  CalendarContext,
-  CalendarSchema,
-  CalendarEvents
->;
-
-export type CalendarActions = Actions<CalendarContext, CalendarEvents>;
+type CalendarActions = Actions<CalendarContext, CalendarEvents>;
 
 const calendarMachineOptions: MachineOptions<CalendarContext, CalendarEvents> =
   {
@@ -160,13 +168,19 @@ const calendarMachineOptions: MachineOptions<CalendarContext, CalendarEvents> =
         if (event.type !== 'LOAD_INITIAL_CONTEXT') return false;
         return event.calendarType === CalendarType.PERMANENT;
       },
+      hasStartAndEndDate: (context, event) => {
+        if (event.type !== 'CHOOSE_FIXED_DAYS') return false;
+        return !!(context.startDate && context.endDate);
+      },
       hasHours: (context) => false,
       hasNoHours: (context) => false,
     },
     actions: {
       loadInitialContext: assign((context, event) => {
         if (event.type !== 'LOAD_INITIAL_CONTEXT') return;
-        if (!event.newContext) return context;
+        if (!event.newContext) {
+          return createInitialContext();
+        }
 
         return {
           ...event.newContext,
@@ -177,7 +191,15 @@ const calendarMachineOptions: MachineOptions<CalendarContext, CalendarEvents> =
           const lastDay = context.days.at(-1);
           if (!lastDay) return context.days;
 
-          return [...context.days, { ...lastDay, id: createDayId() }];
+          return [
+            ...context.days,
+            {
+              ...lastDay,
+              id: createDayId(),
+              status: { type: OfferStatus.AVAILABLE },
+              bookingAvailability: { type: BookingAvailabilityType.AVAILABLE },
+            },
+          ];
         },
       }),
       removeDay: assign({
@@ -337,9 +359,15 @@ const calendarMachineConfig: MachineConfig<
     },
     single: {
       on: {
-        CHOOSE_FIXED_DAYS: {
-          target: 'periodic',
-        },
+        CHOOSE_FIXED_DAYS: [
+          {
+            target: 'periodic',
+            cond: 'hasStartAndEndDate',
+          },
+          {
+            target: 'permanent',
+          },
+        ],
         ADD_DAY: {
           target: 'multiple',
           actions: ['addNewDay'] as CalendarActions,
@@ -366,9 +394,15 @@ const calendarMachineConfig: MachineConfig<
     },
     multiple: {
       on: {
-        CHOOSE_FIXED_DAYS: {
-          target: 'periodic',
-        },
+        CHOOSE_FIXED_DAYS: [
+          {
+            target: 'periodic',
+            cond: 'hasStartAndEndDate',
+          },
+          {
+            target: 'permanent',
+          },
+        ],
         ADD_DAY: {
           actions: ['addNewDay'] as CalendarActions,
         },
@@ -488,7 +522,7 @@ const calendarMachine =
   /** @xstate-layout N4IgpgJg5mDOIC5QGMCGAbMA7CqBOAtLAC5gAOAdLAJZZSYDEAwgBIDybAygKID6AYgEkAGtwAivMQEEAmpwDaABgC6iUGQD2NYtQ1Y1IAB6IAnACYANCACeiAIwBWRQHYKDswDYAHAGYzDj2dFDwAWAF8wqzRMHHwiUkoaOkYpMQlpGSVVJBBNbV19HOMETxCKEy8HEJ87Z2c7RR8PEx8rWwQvDzsKHyDnEMqQkMc7EwiojGxcQhJyKlp6MGYWKQA5AHE+TgAVKQAlbckpbe4sgzzqHT0DYo9PChCWkOczF0VHRS820zsyrxNHE4QmYvP5vOMQNEpnFZokFoxWGtNrxuKt0sdTipzlpLgUbogPD4fA8PB4XM4as8HJ1vh1HBQPA5RnYWcDFNSIVDYjMEvNkktERstrsDrx2ABVPZnHIXK6FUC3MzEnxeZwtCmE4Z1Wn1DwPOxK0leUZOLqcybc+JzJKLZZIvioiQSqVYmU4uX4hCExQ9MmE5wOXUvZy0rquWpmZy+HwmYHOO7mmLTK2UAC2AFd0DoyAj2Fw+EJROi5NL1O68UVEMCvBRPD5FJH3HZjf9aWY7M0Hv4mnX1QFE9CeXMM1nqDmlqli6XcuXrpWEGyGc8KkrTZVGW3gg4GcHCWTfJUB5bYRQR9nGHtuABZNgANT4GWnsorCsQpXKgxqdQaTRaOruFB2DUzb9IS9YtEeyYnmeY4Xted4PrI8h2NkZb5HOr4IPWNYtg4ATGiCAYmA4tKjKSDxEga1RmO2nSQTCvIweOdpCrwOz7Ic0gnE+s7ykYiC9GUNGqkq8Z3OyIY2PYnThk8lSNA4FTOPRQ5ppm54CisrGOkc3GumhuIYfxWHGrW7w+AEsYGiYaokVJCC1IE5QODGSrEUyQw+CpKanupsGafabEioczo8ehfHFL03QGn4QzmIoQyOKRRoUPU1R3Kq1QNt50F+cxgrIjpoX6TO4Wer0NaKMR5iRl4WVeKqpGWQ8-QvBZDU-jlvJkGAeC6BA1DIBQWAaCwGjpngsAMJOYpsJKCglc+RnFLZqVucCfiOFGdntDR9Ide2AQSR2XVzD1fUaANQ0AO6XAAFmNE1TQVfDOgtqGlYZEX2AarjEQl9TtQGLlth23TxcEFJeA2ninZQ539YNFC3cQD3jZNLHIm9yEfUt30IKtbWxkqh3baDhLlJR8Z4TUVXKZEkIWlB3W9YjyDLBwPC8Gwqx8Gwey8Del5HCWi28Z6dxtiCJj6mYwyKZ4-gOHDFAI5dg0c-mvAAArcHsV5rKi2xhV9noNJY9lAZ0FDsmY5jPHczSqir52pqgWDYMQw2jejU0zdjYtlfOoxmIB1G1JUdufL4tL1t07bNtRTj-EyLu9W7HtYF7KNo09mOvXNezvdiQeYUdtbAs2oTkiY5hts8tbJ50PiPDRRJp3gGee8j92PRjL2zfNOMl6bwfmGHm3bVHDWtPZcsy72fiBJUtSfB3XdZ5rXM83zAtC4hou4+L87mDW9SdDZJhkkM3ikXVNsKc2dXydD9MTEmDFnen7ue1vfAAOqCG2CwIKHFeBrAkDpLimIj6l2MubUiLgZYNCZFVRwMZwQQhGhAOABguTM2tPCMAI8PTB3ZAybwK4hgNWhl0RBoxALARZE4EwVVYwqyYpgEhL54EVFSnUIkqoAREmCOTGWAI5YNn+CEakFkO5s29n3eAbo4G3ADG4V+csQjeFJDZKWnwbauUysCAYb9GYf1UqrVm6sbq919tw5a9hXjhgDEEGMjgGrUils2CgnRjTBGor4Mw8ibEOPxncVw1IXBaJ0c0SSu1onOUZAMFytRRjrx-lnRR9iVGj0wi8NsLRfQVCGLZWMmD36Dh8q7TJ2c7FPTCRLaktZ3KKVCP4Kqs92j1jKKMDqTQ1T-FGOEBm+DP7w2-pnYgjT5xyyajWQiAynAuA7F5UZTNxkzMwgQOZ9lOx+BVAMRkNFOkRAiEAA */
   createMachine(calendarMachineConfig, calendarMachineOptions);
 
-export const useCalendarService = () => useInterpret(calendarMachine);
+const useCalendarService = () => useInterpret(calendarMachine);
 
 const CalendarMachineContext = createContext(
   {} as Interpreter<CalendarContext, CalendarSchema, CalendarEvents>,
@@ -510,9 +544,6 @@ export const CalendarMachineProvider = ({
 
 export const useCalendarContext = () => useContext(CalendarMachineContext);
 
-export const useSetCalendarContext = (context: any) =>
-  calendarMachine.withContext(context);
-
 export const useCalendarSelector = <T,>(
   selector: (state: CalendarState) => T,
 ) => {
@@ -529,6 +560,12 @@ export const useIsFixedDays = () =>
   useCalendarSelector(
     (state) => state.matches('periodic') || state.matches('permanent'),
   );
+
+export const useIsSingle = () =>
+  useCalendarSelector((state) => state.matches('single'));
+
+export const useIsMultiple = () =>
+  useCalendarSelector((state) => state.matches('multiple'));
 
 export const useIsPeriodic = () =>
   useCalendarSelector((state) => state.matches('periodic'));

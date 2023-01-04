@@ -2,24 +2,18 @@ import { useState } from 'react';
 import { useQueryClient } from 'react-query';
 
 import { useEditTypeAndTheme } from '@/pages/steps/EventTypeAndThemeStep';
+import { useEditLocation } from '@/pages/steps/LocationStep';
 import { useEditNameAndAgeRange } from '@/pages/steps/NameAndAgeRangeStep';
-import { useEditPlace } from '@/pages/steps/PlaceStep';
 import { useEditNameAndProduction } from '@/pages/steps/ProductionStep';
 import { FormDataUnion } from '@/pages/steps/Steps';
-import { useEditCalendar } from '@/pages/steps/TimeTableStep';
 
-import { useEditLocation } from '../LocationStep';
+import { useEditCalendar } from '../CalendarStep/CalendarStep';
 
 type HandleSuccessOptions = {
   shouldInvalidateEvent?: boolean;
 };
 
-const useEditField = <TFormData extends FormDataUnion>({
-  scope,
-  onSuccess,
-  offerId,
-  handleSubmit,
-}) => {
+const useEditField = ({ scope, onSuccess, offerId, handleSubmit }) => {
   const queryClient = useQueryClient();
   const [fieldLoading, setFieldLoading] = useState<string>();
 
@@ -30,18 +24,16 @@ const useEditField = <TFormData extends FormDataUnion>({
     onSuccess(editedField);
 
     if (!shouldInvalidateEvent) return;
-    queryClient.invalidateQueries(['events', { id: offerId }]);
+    queryClient.invalidateQueries([scope, { id: offerId }]);
   };
 
   const editArguments = { scope, offerId, onSuccess: handleSuccess };
 
-  const editTypeAndTheme = useEditTypeAndTheme<TFormData>(editArguments);
-  const editPlace = useEditPlace<TFormData>(editArguments);
-  const editNameAndAgeRange = useEditNameAndAgeRange<TFormData>(editArguments);
-  const editCalendar = useEditCalendar<TFormData>(editArguments);
-  const editLocation = useEditPlace<TFormData>(editArguments);
-  const editNameAndProduction =
-    useEditNameAndProduction<TFormData>(editArguments);
+  const editTypeAndTheme = useEditTypeAndTheme(editArguments);
+  const editNameAndAgeRange = useEditNameAndAgeRange(editArguments);
+  const editCalendar = useEditCalendar(editArguments);
+  const editLocation = useEditLocation(editArguments);
+  const editNameAndProduction = useEditNameAndProduction(editArguments);
 
   const handleChange = (editedField: string) => {
     if (!offerId) return;
@@ -49,16 +41,17 @@ const useEditField = <TFormData extends FormDataUnion>({
 
     const editMap = {
       typeAndTheme: editTypeAndTheme,
-      location: editPlace,
+      location: editLocation,
       nameAndAgeRange: editNameAndAgeRange,
       timeTable: editCalendar,
+      calendar: editCalendar,
       place: editLocation,
       production: editNameAndProduction,
     };
 
     const editEvent = editMap[editedField];
 
-    handleSubmit(async (formData: TFormData) =>
+    handleSubmit(async (formData: FormDataUnion) =>
       editEvent(formData, editedField),
     )();
   };

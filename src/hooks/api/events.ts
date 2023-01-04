@@ -124,7 +124,7 @@ const useGetEventsToModerateQuery = (searchQuery, configuration = {}) =>
 
 const getEventById = async ({ headers, id }) => {
   const res = await fetchFromApi({
-    path: `/event/${id.toString()}`,
+    path: `/events/${id.toString()}`,
     searchParams: {
       embedUitpasPrices: 'true',
     },
@@ -145,7 +145,7 @@ type UseGetEventByIdArguments = ServerSideQueryOptions & {
 
 const useGetEventByIdQuery = (
   { req, queryClient, id }: UseGetEventByIdArguments,
-  configuration = {},
+  configuration: UseQueryOptions = {},
 ) =>
   useAuthenticatedQuery({
     req,
@@ -153,8 +153,8 @@ const useGetEventByIdQuery = (
     queryKey: ['events'],
     queryFn: getEventById,
     queryArguments: { id },
-    enabled: !!id,
     refetchOnWindowFocus: false,
+    enabled: !!id,
     ...configuration,
   });
 
@@ -268,41 +268,6 @@ const useGetCalendarSummaryQuery = (
     enabled: !!id && !!locale,
     ...configuration,
   });
-
-const changeTheme = async ({ headers, id, themeId }) => {
-  if (!themeId) {
-    return fetchFromApi({
-      path: `/events/${id.toString()}/theme`,
-      options: {
-        method: 'DELETE',
-        headers,
-      },
-    });
-  }
-
-  return fetchFromApi({
-    path: `/events/${id.toString()}/theme/${themeId}`,
-    options: {
-      method: 'PUT',
-      headers,
-    },
-  });
-};
-
-const useChangeThemeMutation = (configuration = {}) =>
-  useAuthenticatedMutation({ mutationFn: changeTheme, ...configuration });
-
-const changeType = async ({ headers, id, typeId }) =>
-  fetchFromApi({
-    path: `/events/${id.toString()}/type/${typeId}`,
-    options: {
-      method: 'PUT',
-      headers,
-    },
-  });
-
-const useChangeTypeMutation = (configuration = {}) =>
-  useAuthenticatedMutation({ mutationFn: changeType, ...configuration });
 
 const changeLocation = async ({ headers, id, locationId }) => {
   return fetchFromApi({
@@ -446,198 +411,9 @@ const useChangeStatusSubEventsMutation = (configuration = {}) =>
     ...configuration,
   });
 
-const addImageToEvent = async ({ headers, eventId, imageId }) =>
-  fetchFromApi({
-    path: `/events/${eventId.toString()}/images`,
-    options: {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({ mediaObjectId: imageId }),
-    },
-  });
-
-const useAddImageToEventMutation = (configuration = {}) =>
-  useAuthenticatedMutation({ mutationFn: addImageToEvent, ...configuration });
-
-const updateImageFromEvent = async ({
-  headers,
-  eventId,
-  imageId,
-  description,
-  copyrightHolder,
-}) =>
-  fetchFromApi({
-    path: `/events/${eventId.toString()}/images/${imageId.toString()}`,
-    options: {
-      method: 'PUT',
-      headers,
-      body: JSON.stringify({ description, copyrightHolder }),
-    },
-  });
-
-const addEventMainImage = async ({ headers, eventId, imageId }) =>
-  fetchFromApi({
-    path: `/events/${eventId.toString()}/images/main`,
-    options: {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({ mediaObjectId: imageId }),
-    },
-  });
-
-const useAddEventMainImageMutation = (configuration = {}) =>
-  useAuthenticatedMutation({
-    mutationFn: addEventMainImage,
-    ...configuration,
-  });
-
-const useUpdateImageFromEventMutation = (configuration = {}) =>
-  useAuthenticatedMutation({
-    mutationFn: updateImageFromEvent,
-    ...configuration,
-  });
-
-const deleteImageFromEvent = async ({ headers, eventId, imageId }) =>
-  fetchFromApi({
-    path: `/events/${eventId.toString()}/images/${imageId.toString()}`,
-    options: {
-      method: 'DELETE',
-      headers,
-    },
-  });
-
-const useDeleteImageFromEventMutation = (configuration = {}) =>
-  useAuthenticatedMutation({
-    mutationFn: deleteImageFromEvent,
-    ...configuration,
-  });
-
-const changeDescription = async ({ headers, eventId, language, description }) =>
-  fetchFromApi({
-    path: `/events/${eventId}/description/${language}`,
-    options: {
-      method: 'PUT',
-      headers,
-      body: JSON.stringify({ description }),
-    },
-  });
-
-const useChangeDescriptionMutation = (configuration = {}) =>
-  useAuthenticatedMutation({ mutationFn: changeDescription, ...configuration });
-
-const changeTypicalAgeRange = async ({ headers, eventId, typicalAgeRange }) =>
-  fetchFromApi({
-    path: `/events/${eventId}/typicalAgeRange`,
-    options: {
-      method: 'PUT',
-      headers,
-      body: JSON.stringify({ typicalAgeRange }),
-    },
-  });
-
-const useChangeTypicalAgeRangeMutation = (configuration = {}) =>
-  useAuthenticatedMutation({
-    mutationFn: changeTypicalAgeRange,
-    ...configuration,
-  });
-
-const addLabel = async ({ headers, id, label }) =>
-  fetchFromApi({
-    path: `/events/${id}/labels/${label}`,
-    options: {
-      method: 'PUT',
-      headers,
-    },
-  });
-
-const useAddLabelMutation = (configuration = {}) =>
-  useAuthenticatedMutation({
-    mutationFn: addLabel,
-    ...configuration,
-  });
-
-const addPriceInfo = async ({ headers, eventId, priceInfo }) =>
-  fetchFromApi({
-    path: `/events/${eventId}/priceInfo`,
-    options: {
-      method: 'PUT',
-      headers,
-      body: JSON.stringify(priceInfo),
-    },
-  });
-
-const useAddPriceInfoMutation = (configuration = {}) =>
-  useAuthenticatedMutation({
-    mutationFn: addPriceInfo,
-    ...configuration,
-  });
-
-const addContactPoint = async ({ headers, eventId, contactPoint }) =>
-  fetchFromApi({
-    path: `/events/${eventId}/contactPoint`,
-    options: {
-      method: 'PUT',
-      headers,
-      body: JSON.stringify({ contactPoint }),
-    },
-  });
-
-const useAddContactPointMutation = (configuration = {}) =>
-  useAuthenticatedMutation({
-    mutationFn: addContactPoint,
-    ...configuration,
-  });
-
-const addBookingInfo = async ({ headers, eventId, bookingInfo }) => {
-  fetchFromApi({
-    path: `/events/${eventId}/bookingInfo`,
-    options: {
-      method: 'PUT',
-      headers,
-      body: JSON.stringify({ bookingInfo }),
-    },
-  });
-};
-
-const useAddBookingInfoMutation = (configuration = {}) =>
-  useAuthenticatedMutation({
-    mutationFn: addBookingInfo,
-    ...configuration,
-  });
-
-const addOrganizerToEvent = async ({ headers, eventId, organizerId }) =>
-  fetchFromApi({
-    path: `/events/${eventId}/organizer/${organizerId}`,
-    options: {
-      method: 'PUT',
-      headers,
-    },
-  });
-
-const useAddOrganizerToEventMutation = (configuration = {}) =>
-  useAuthenticatedMutation({
-    mutationFn: addOrganizerToEvent,
-    ...configuration,
-  });
-
-const deleteOrganizerFromEvent = async ({ headers, eventId, organizerId }) =>
-  fetchFromApi({
-    path: `/events/${eventId}/organizer/${organizerId}`,
-    options: {
-      method: 'DELETE',
-      headers,
-    },
-  });
-
-const useDeleteOrganizerFromEventMutation = (configuration = {}) =>
-  useAuthenticatedMutation({
-    mutationFn: deleteOrganizerFromEvent,
-    ...configuration,
-  });
-
 const publish = async ({ headers, eventId, publicationDate }) =>
   fetchFromApi({
-    path: `/event/${eventId}`,
+    path: `/events/${eventId}`,
     options: {
       method: 'PATCH',
       headers: {
@@ -654,41 +430,7 @@ const usePublishEventMutation = (configuration = {}) =>
     ...configuration,
   });
 
-const addVideoToEvent = async ({ headers, eventId, url, language }) =>
-  fetchFromApi({
-    path: `/events/${eventId}/videos`,
-    options: {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({
-        url,
-        language,
-      }),
-    },
-  });
-
-const useAddVideoToEventMutation = (configuration = {}) =>
-  useAuthenticatedMutation({
-    mutationFn: addVideoToEvent,
-    ...configuration,
-  });
-
-const deleteVideoFromEvent = async ({ headers, eventId, videoId }) =>
-  fetchFromApi({
-    path: `/events/${eventId}/videos/${videoId}`,
-    options: {
-      method: 'DELETE',
-      headers,
-    },
-  });
-
-const useDeleteVideoFromEventMutation = (configuration = {}) =>
-  useAuthenticatedMutation({
-    mutationFn: deleteVideoFromEvent,
-    ...configuration,
-  });
-
-const addAudience = async ({ headers, eventId, audienceType }) =>
+const changeAudience = async ({ headers, eventId, audienceType }) =>
   fetchFromApi({
     path: `/events/${eventId}/audience`,
     options: {
@@ -700,43 +442,47 @@ const addAudience = async ({ headers, eventId, audienceType }) =>
     },
   });
 
-const useAddAudienceMutation = (configuration = {}) =>
+const useChangeAudienceMutation = (configuration = {}) =>
   useAuthenticatedMutation({
-    mutationFn: addAudience,
+    mutationFn: changeAudience,
+    ...configuration,
+  });
+
+const changeAttendanceMode = async ({
+  headers,
+  eventId,
+  attendanceMode,
+  location,
+}) =>
+  fetchFromApi({
+    path: `/events/${eventId}/attendance-mode`,
+    options: {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({ attendanceMode, location }),
+    },
+  });
+
+const useChangeAttendanceModeMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: changeAttendanceMode,
     ...configuration,
   });
 
 export {
-  useAddAudienceMutation,
-  useAddBookingInfoMutation,
-  useAddContactPointMutation,
-  useAddEventMainImageMutation,
   useAddEventMutation,
-  useAddImageToEventMutation,
-  useAddLabelMutation,
-  useAddOrganizerToEventMutation,
-  useAddPriceInfoMutation,
-  useAddVideoToEventMutation,
+  useChangeAttendanceModeMutation,
+  useChangeAudienceMutation,
   useChangeCalendarMutation,
-  useChangeDescriptionMutation,
   useChangeLocationMutation,
   useChangeNameMutation,
   useChangeStatusMutation,
   useChangeStatusSubEventsMutation,
-  useChangeThemeMutation,
-  useChangeTypeMutation,
-  useChangeTypicalAgeRangeMutation,
   useDeleteEventByIdMutation,
-  useDeleteImageFromEventMutation,
-  useDeleteOrganizerFromEventMutation,
-  useDeleteVideoFromEventMutation,
   useGetCalendarSummaryQuery,
   useGetEventByIdQuery,
   useGetEventsByCreatorQuery,
   useGetEventsByIdsQuery,
   useGetEventsToModerateQuery,
   usePublishEventMutation,
-  useUpdateImageFromEventMutation,
 };
-
-export type { Calendar, EventArguments };

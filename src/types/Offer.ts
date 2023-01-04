@@ -77,7 +77,8 @@ type SubEvent = {
   '@type': string;
   startDate: string;
   endDate: string;
-  status?: Values<typeof OfferStatus>;
+  status?: Status;
+  bookingAvailability?: BookingAvailability;
 };
 
 type OpeningHours = {

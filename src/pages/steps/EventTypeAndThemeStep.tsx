@@ -2,16 +2,13 @@ import { Controller, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
-import { OfferType } from '@/constants/OfferType';
+import { OfferType, OfferTypes } from '@/constants/OfferType';
 import {
-  useChangeThemeMutation as useChangeThemeOnEventMutation,
-  useChangeTypeMutation as useChangeTypeOnEventMutation,
-} from '@/hooks/api/events';
-import {
-  useChangeThemeMutation as useChangeThemeOnPlaceMutation,
-  useChangeTypeMutation as useChangeTypeOnPlaceMutation,
-} from '@/hooks/api/places';
+  useChangeOfferThemeMutation,
+  useChangeOfferTypeMutation,
+} from '@/hooks/api/offers';
 import { useGetTypesByScopeQuery } from '@/hooks/api/types';
+import { Values } from '@/types/Values';
 import { parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
@@ -25,64 +22,59 @@ import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
 
 const getGlobalValue = getValueFromTheme('global');
 
-const useEditTypeAndTheme = <TFormData extends FormDataUnion>({
-  scope,
-  offerId,
-  onSuccess,
-}) => {
-  const useChangeTypeMutation =
-    scope === OfferType.EVENTS
-      ? useChangeTypeOnEventMutation
-      : useChangeTypeOnPlaceMutation;
-  const changeTypeMutation = useChangeTypeMutation({
+const useEditTypeAndTheme = ({ scope, offerId, onSuccess }) => {
+  const changeTypeMutation = useChangeOfferTypeMutation({
     onSuccess: () => onSuccess('typeAndTheme'),
   });
 
-  const useChangeThemeMutation =
-    scope === OfferType.EVENTS
-      ? useChangeThemeOnEventMutation
-      : useChangeThemeOnPlaceMutation;
-  const changeThemeMutation = useChangeThemeMutation({
+  const changeThemeMutation = useChangeOfferThemeMutation({
     onSuccess: () => onSuccess('typeAndTheme'),
   });
 
-  return async ({ typeAndTheme }: TFormData) => {
+  return async ({ typeAndTheme }: FormDataUnion) => {
     if (!typeAndTheme.type) return;
 
     await changeTypeMutation.mutateAsync({
       id: offerId,
       typeId: typeAndTheme.type?.id,
+      scope,
     });
 
     await changeThemeMutation.mutateAsync({
       id: offerId,
       themeId: typeAndTheme.theme?.id,
+      scope,
     });
   };
 };
 
-type Props<TFormData extends FormDataUnion> = StepProps<TFormData> & {
+type Props = StepProps & {
   shouldHideType: boolean;
+  scope: OfferType;
 };
 
-const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
+const EventTypeAndThemeStep = ({
   control,
+  scope,
   name,
   onChange,
   shouldHideType,
-}: Props<TFormData>) => {
+}: Props) => {
   const { t, i18n } = useTranslation();
 
-  const watchedValues = useWatch({ control });
+  const typeAndTheme = useWatch({
+    control,
+    name: 'typeAndTheme',
+  });
 
   const getTypesByScopeQuery = useGetTypesByScopeQuery({
-    scope: watchedValues.scope,
+    scope,
   });
 
   const types = getTypesByScopeQuery.data ?? [];
 
   const themes =
-    types?.find((type) => type.id === watchedValues?.typeAndTheme?.type?.id)
+    types?.find((type) => type.id === typeAndTheme?.type?.id)
       ?.otherSuggestedTerms ?? [];
 
   return (
@@ -236,12 +228,12 @@ const EventTypeAndThemeStep = <TFormData extends FormDataUnion>({
   );
 };
 
-const typeAndThemeStepConfiguration: StepsConfiguration<FormDataUnion> = {
+const typeAndThemeStepConfiguration: StepsConfiguration = {
   Component: EventTypeAndThemeStep,
   name: 'typeAndTheme',
   validation: yup.object().shape({}).required(),
-  title: ({ t, watch }) => t(`create.type_and_theme.title_${watch('scope')}`),
-  shouldShowStep: ({ watch }) => !!watch('scope'),
+  title: ({ t, scope }) => t(`create.type_and_theme.title_${scope}`),
+  shouldShowStep: ({ scope }) => !!scope,
 };
 
 export { typeAndThemeStepConfiguration, useEditTypeAndTheme };

@@ -3,18 +3,12 @@ import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
-import { CalendarType } from '@/constants/CalendarType';
-import { useChangeCalendarMutation } from '@/hooks/api/events';
-import type {
-  FormDataUnion,
-  StepProps,
-  StepsConfiguration,
-} from '@/pages/steps/Steps';
+import type { StepProps, StepsConfiguration } from '@/pages/steps/Steps';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Box } from '@/ui/Box';
 import type { StackProps } from '@/ui/Stack';
 import { getStackProps, Stack } from '@/ui/Stack';
-import { isOneTimeSlotValid, TimeTableValue } from '@/ui/TimeTable';
+import { TimeTableValue } from '@/ui/TimeTable';
 import {
   areAllTimeSlotsValid,
   isTimeTableEmpty,
@@ -57,35 +51,16 @@ const convertTimeTableToSubEvents = (timeTable: TimeTableValue) => {
   );
 };
 
-const useEditCalendar = <TFormData extends FormDataUnion>({
-  scope,
-  offerId,
-  onSuccess,
-}) => {
-  const changeCalendarMutation = useChangeCalendarMutation({
-    onSuccess: () => onSuccess('calendar', { shouldInvalidateEvent: false }),
-  });
+type TimeTableStepProps = StackProps & StepProps;
 
-  return async ({ timeTable }: TFormData) => {
-    await changeCalendarMutation.mutateAsync({
-      id: offerId,
-      calendarType: CalendarType.MULTIPLE,
-      timeSpans: convertTimeTableToSubEvents(timeTable),
-    });
-  };
-};
-
-type TimeTableStepProps<TFormData extends FormDataUnion> = StackProps &
-  StepProps<TFormData>;
-
-const TimeTableStep = <TFormData extends FormDataUnion>({
+const TimeTableStep = ({
   formState: { errors },
   control,
   className,
   name,
   onChange,
   ...props
-}: TimeTableStepProps<TFormData>) => {
+}: TimeTableStepProps) => {
   const { t } = useTranslation();
 
   return (
@@ -126,7 +101,7 @@ const TimeTableStep = <TFormData extends FormDataUnion>({
 const formatDate = (date: Date) => format(date, 'dd/MM/yyyy');
 const nextWeekWednesday = nextWednesday(new Date());
 
-const timeTableStepConfiguration: StepsConfiguration<FormDataUnion> = {
+const timeTableStepConfiguration: StepsConfiguration = {
   Component: TimeTableStep,
   defaultValue: {
     data: {},
@@ -149,8 +124,4 @@ const timeTableStepConfiguration: StepsConfiguration<FormDataUnion> = {
   title: ({ t }) => t(`movies.create.step2.title`),
 };
 
-export {
-  convertTimeTableToSubEvents,
-  timeTableStepConfiguration,
-  useEditCalendar,
-};
+export { convertTimeTableToSubEvents, timeTableStepConfiguration };

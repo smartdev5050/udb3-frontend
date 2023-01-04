@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import type { DragEvent, FormEvent } from 'react';
 import { forwardRef, useEffect, useRef } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { Trans, useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
@@ -202,7 +202,7 @@ const PictureUploadModal = ({
     .required();
 
   const {
-    watch,
+    control,
     reset,
     register,
     formState: { errors },
@@ -214,7 +214,7 @@ const PictureUploadModal = ({
 
   const [descriptionInputComponent] = useAutoFocus({ retriggerOn: visible });
 
-  const watchedFile = watch('file');
+  const watchedFile = useWatch({ control, name: 'file' });
   const image = watchedFile?.[0];
 
   useEffect(() => {
@@ -332,5 +332,5 @@ const PictureUploadModal = ({
   );
 };
 
-export { MAX_FILE_SIZE, PictureUploadModal };
+export { PictureUploadModal };
 export type { FormData };

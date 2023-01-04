@@ -21,7 +21,6 @@ type Props = {
 
 const RadioButtonGroup = ({
   name,
-  groupLabel,
   items,
   selected,
   className,

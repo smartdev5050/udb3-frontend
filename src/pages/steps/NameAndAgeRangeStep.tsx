@@ -1,10 +1,10 @@
-import { Controller, Path } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import * as yup from 'yup';
 
 import {
-  useChangeNameMutation,
-  useChangeTypicalAgeRangeMutation,
-} from '@/hooks/api/events';
+  useChangeOfferNameMutation,
+  useChangeOfferTypicalAgeRangeMutation,
+} from '@/hooks/api/offers';
 import { parseSpacing } from '@/ui/Box';
 import { Stack } from '@/ui/Stack';
 
@@ -17,26 +17,23 @@ import {
   StepsConfiguration,
 } from './Steps';
 
-const useEditNameAndAgeRange = <TFormData extends FormDataUnion>({
-  scope,
-  onSuccess,
-  offerId,
-}) => {
-  const changeNameMutation = useChangeNameMutation({
+const useEditNameAndAgeRange = ({ scope, onSuccess, offerId }) => {
+  const changeNameMutation = useChangeOfferNameMutation({
     onSuccess: () => onSuccess('basic_info'),
   });
 
-  const changeTypicalAgeRangeMutation = useChangeTypicalAgeRangeMutation({
+  const changeTypicalAgeRangeMutation = useChangeOfferTypicalAgeRangeMutation({
     onSuccess: () => onSuccess('basic_info'),
   });
 
-  return async ({ nameAndAgeRange }: TFormData) => {
+  return async ({ nameAndAgeRange }: FormDataUnion) => {
     const { name, typicalAgeRange } = nameAndAgeRange;
 
     if (typicalAgeRange) {
       await changeTypicalAgeRangeMutation.mutateAsync({
         eventId: offerId,
         typicalAgeRange,
+        scope,
       });
     }
 
@@ -44,15 +41,12 @@ const useEditNameAndAgeRange = <TFormData extends FormDataUnion>({
       id: offerId,
       lang: 'nl',
       name: name.nl,
+      scope,
     });
   };
 };
 
-const NameAndAgeRangeStep = <TFormData extends FormDataUnion>({
-  control,
-  name,
-  ...props
-}: StepProps<TFormData>) => {
+const NameAndAgeRangeStep = ({ control, name, ...props }: StepProps) => {
   return (
     <Controller
       control={control}
@@ -73,7 +67,7 @@ const NameAndAgeRangeStep = <TFormData extends FormDataUnion>({
   );
 };
 
-const nameAndAgeRangeStepConfiguration: StepsConfiguration<FormDataUnion> = {
+const nameAndAgeRangeStepConfiguration: StepsConfiguration = {
   Component: NameAndAgeRangeStep,
   name: 'nameAndAgeRange',
   title: ({ t }) => t('create.name_and_age.title'),
