@@ -1,13 +1,13 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
-import {
-  useAddPriceInfoMutation,
-  useGetEventByIdQuery,
-} from '@/hooks/api/events';
+import { OfferType, OfferTypes } from '@/constants/OfferType';
+import { useGetEventByIdQuery } from '@/hooks/api/events';
+import { useAddOfferPriceInfoMutation } from '@/hooks/api/offers';
+import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import i18n from '@/i18n/index';
 import { Event } from '@/types/Event';
 import type { Values } from '@/types/Values';
@@ -101,11 +101,13 @@ const schema = yup
 
 type Props = {
   offerId: string;
+  scope: OfferType;
   onChangeCompleted: (isCompleted: boolean) => void;
   onSuccessfulChange: () => void;
 };
 
 const PriceInformation = ({
+  scope,
   offerId,
   onChangeCompleted,
   onSuccessfulChange,
@@ -122,21 +124,24 @@ const PriceInformation = ({
   const [duplicateNameError, setDuplicateNameError] = useState('');
   const [priceInfo, setPriceInfo] = useState([]);
 
-  const getEventByIdQuery = useGetEventByIdQuery(
+  const useGetOfferByIdQuery =
+    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
+
+  const getOfferByIdQuery = useGetOfferByIdQuery(
     { id: offerId },
     { refetchOnWindowFocus: false },
   );
 
   // @ts-expect-error
-  const event: Event | undefined = getEventByIdQuery.data;
+  const offer: Event | Place | undefined = getOfferByIdQuery.data;
 
   useEffect(() => {
-    let newPriceInfo = event?.priceInfo ?? [];
+    let newPriceInfo = offer?.priceInfo ?? [];
 
     if (newPriceInfo.length > 0) {
       onChangeCompleted(true);
     }
-    const mainLanguage = event?.mainLanguage;
+    const mainLanguage = offer?.mainLanguage;
 
     newPriceInfo = newPriceInfo.map((rate: any) => {
       return {
@@ -151,11 +156,11 @@ const PriceInformation = ({
 
     setPriceInfo(newPriceInfo);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [event?.priceInfo, event?.mainLanguage, i18n.language]);
+  }, [offer?.priceInfo, offer?.mainLanguage, i18n.language]);
 
   const {
     register,
-    watch,
+    control,
     setValue,
     trigger,
     formState: { errors, dirtyFields },
@@ -173,9 +178,9 @@ const PriceInformation = ({
     setValue('rates', [...priceInfo]);
   }, [priceInfo, setValue]);
 
-  const watchedRates = watch('rates');
+  const rates = useWatch({ control, name: 'rates' });
 
-  const addPriceInfoMutation = useAddPriceInfoMutation({
+  const addPriceInfoMutation = useAddOfferPriceInfoMutation({
     onSuccess: () => {
       setTimeout(() => {
         onSuccessfulChange();
@@ -192,14 +197,15 @@ const PriceInformation = ({
     });
 
     await addPriceInfoMutation.mutateAsync({
-      eventId,
+      id: offerId,
       priceInfo: convertedPriceInfo,
+      scope,
     });
   };
 
   const handleClickAddRate = () => {
     setValue('rates', [
-      ...watchedRates,
+      ...rates,
       {
         name: {
           [i18n.language]: '',
@@ -213,20 +219,18 @@ const PriceInformation = ({
 
   const handleClickDeleteRate = async (id: number): Promise<void> => {
     const ratesWithDeletedItem = [
-      ...watchedRates.filter((_rate, index) => id !== index),
+      ...rates.filter((_rate, index) => id !== index),
     ];
     setValue('rates', ratesWithDeletedItem);
 
-    const selectedRate = watchedRates[id];
+    const selectedRate = rates[id];
 
     // if rate exists on priceInfo, also delete it from API
-    // @ts-ignore
+
     const existsInCurrentData = priceInfo.some(
       (priceInfoItem) =>
-        // @ts-ignore
         selectedRate.name[i18n.language] ===
           priceInfoItem.name[i18n.language] &&
-        // @ts-ignore
         selectedRate.price === priceInfoItem.price,
     );
 
@@ -239,7 +243,7 @@ const PriceInformation = ({
     const seenRates = [];
 
     const duplicateName =
-      watchedRates.find((rate) => {
+      rates.find((rate) => {
         const name = rate.name[i18n.language];
 
         if (seenRates.includes(name)) {
@@ -273,7 +277,7 @@ const PriceInformation = ({
     }
 
     // If no errors submit to API
-    await handlePriceInfoSubmitValid(watchedRates);
+    await handlePriceInfoSubmitValid(rates);
   };
 
   const isPriceFree = (price: string): boolean => {
@@ -281,10 +285,8 @@ const PriceInformation = ({
   };
 
   const hasUitpasPrices = useMemo(() => {
-    return watchedRates.some(
-      (rate) => rate.category === PriceCategories.UITPAS,
-    );
-  }, [watchedRates]);
+    return rates.some((rate) => rate.category === PriceCategories.UITPAS);
+  }, [rates]);
 
   useEffect(() => {
     if (Object.keys(dirtyFields).length === 0) return;
@@ -325,7 +327,7 @@ const PriceInformation = ({
           {t('create.additionalInformation.price_info.uitpas_info')}
         </Alert>
       )}
-      {watchedRates.map((rate, index) => (
+      {rates.map((rate, index) => (
         <Inline
           key={`rate_${index}`}
           paddingTop={3}

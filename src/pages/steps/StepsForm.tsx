@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { OfferType } from '@/constants/OfferType';
+import { OfferType, OfferTypes } from '@/constants/OfferType';
 import { Offer } from '@/types/Offer';
 import { Values } from '@/types/Values';
 import { Button, ButtonVariants } from '@/ui/Button';
@@ -22,29 +22,31 @@ import { useGetPlace } from './hooks/useGetPlace';
 import { useParseStepConfiguration } from './hooks/useParseStepConfiguration';
 import { usePublishOffer } from './hooks/usePublishOffer';
 import { PublishLaterModal } from './modals/PublishLaterModal';
-import { FormDataUnion, Steps, StepsConfiguration } from './Steps';
+import { Steps, StepsConfiguration } from './Steps';
 
 const getValue = getValueFromTheme('createPage');
 
-type StepsFormProps<TFormData extends FormDataUnion> = {
-  configurations: Array<StepsConfiguration<TFormData>>;
+type StepsFormProps = {
+  configurations: Array<StepsConfiguration>;
   convertFormDataToOffer: (data: any) => any;
   convertOfferToFormData: (event: any) => any;
   toastConfiguration: any;
   title: string;
+  scope: OfferType;
   label?: string;
 };
 
-const StepsForm = <TFormData extends FormDataUnion>({
+const StepsForm = ({
+  scope,
   configurations,
   convertFormDataToOffer,
   convertOfferToFormData,
   toastConfiguration,
   title,
   label,
-}: StepsFormProps<TFormData>) => {
+}: StepsFormProps) => {
   const { t } = useTranslation();
-  const { form } = useParseStepConfiguration<TFormData>(configurations);
+  const { form } = useParseStepConfiguration(configurations);
 
   const { handleSubmit, reset } = form;
 
@@ -57,23 +59,6 @@ const StepsForm = <TFormData extends FormDataUnion>({
   );
 
   const isMovieForm = pathname.startsWith('/manage/movies');
-
-  // TODO: make sure this code isn't duplicate after merge https://github.com/cultuurnet/udb3-frontend/pull/496
-  const scope = useMemo(() => {
-    if (
-      pathname.startsWith('/events') ||
-      pathname.startsWith('/manage/movies') ||
-      query.scope === OfferType.EVENTS
-    ) {
-      return OfferType.EVENTS;
-    }
-
-    if (pathname.startsWith('/places') || query.scope === OfferType.PLACES) {
-      return OfferType.PLACES;
-    }
-
-    return undefined;
-  }, [pathname, query.scope]);
 
   const toast = useToast(toastConfiguration);
 
@@ -100,7 +85,7 @@ const StepsForm = <TFormData extends FormDataUnion>({
   const handleChangeSuccess = (editedField: string) =>
     toast.trigger(editedField);
 
-  const { handleChange, fieldLoading } = useEditField<TFormData>({
+  const { handleChange, fieldLoading } = useEditField({
     scope,
     offerId,
     handleSubmit,
@@ -110,7 +95,7 @@ const StepsForm = <TFormData extends FormDataUnion>({
   const [isPublishLaterModalVisible, setIsPublishLaterModalVisible] =
     useState(false);
 
-  const useGetOffer = scope === OfferType.EVENTS ? useGetEvent : useGetPlace;
+  const useGetOffer = scope === OfferTypes.EVENTS ? useGetEvent : useGetPlace;
 
   const offer = useGetOffer({
     id: offerId,
@@ -144,6 +129,7 @@ const StepsForm = <TFormData extends FormDataUnion>({
           fieldLoading={fieldLoading}
           onChangeSuccess={handleChangeSuccess}
           offerId={offerId}
+          scope={scope}
           form={form}
         />
       </Page.Content>

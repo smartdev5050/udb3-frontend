@@ -7,10 +7,10 @@ import {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import {
-  useAddContactPointMutation,
-  useGetEventByIdQuery,
-} from '@/hooks/api/events';
+import { OfferTypes } from '@/constants/OfferType';
+import { useGetEventByIdQuery } from '@/hooks/api/events';
+import { useAddOfferContactPointMutation } from '@/hooks/api/offers';
+import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Icons } from '@/ui/Icon';
@@ -44,13 +44,13 @@ const URL_REGEX: RegExp =
 const PHONE_REGEX: RegExp = /^[0-9\/_.+ ]*$/;
 
 const isValidEmail = (email: string) => {
-  return EMAIL_REGEX.test(email);
+  return EMAIL_REGEX.test(email) || email === '';
 };
 const isValidUrl = (url: string) => {
-  return URL_REGEX.test(url);
+  return URL_REGEX.test(url) || url === '';
 };
 const isValidPhone = (phone: string) => {
-  return PHONE_REGEX.test(phone);
+  return PHONE_REGEX.test(phone) || phone === '';
 };
 
 const isValidInfo = (type: string, value: string): boolean => {
@@ -67,6 +67,7 @@ type Props = StackProps &
   };
 
 const ContactInfoStep = ({
+  scope,
   offerId,
   onSuccessfulChange,
   onChangeCompleted,
@@ -79,7 +80,10 @@ const ContactInfoStep = ({
   // TODO: refactor
   const eventId = offerId;
 
-  const getEventByIdQuery = useGetEventByIdQuery({ id: offerId });
+  const useGetOfferByIdQuery =
+    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
+
+  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
 
   const [contactInfoState, setContactInfoState] = useState<NewContactInfo[]>(
     [],
@@ -88,7 +92,7 @@ const ContactInfoStep = ({
 
   const contactInfo =
     // @ts-expect-error
-    getEventByIdQuery.data?.contactPoint ?? organizerContactInfo;
+    getOfferByIdQuery.data?.contactPoint ?? organizerContactInfo;
 
   useEffect(() => {
     if (!contactInfo) return;
@@ -113,7 +117,7 @@ const ContactInfoStep = ({
     setContactInfoState(contactInfoArray);
   }, [contactInfo, onChangeCompleted]);
 
-  const addContactPointMutation = useAddContactPointMutation({
+  const addContactPointMutation = useAddOfferContactPointMutation({
     onSuccess: onSuccessfulChange,
   });
 
@@ -134,11 +138,11 @@ const ContactInfoStep = ({
     await addContactPointMutation.mutateAsync({
       eventId,
       contactPoint: parseNewContactInfo(newContactInfo),
+      scope,
     });
   };
 
   const handleAddOrganizerContactInfo = (newContactInfo: NewContactInfo[]) => {
-    // @ts-ignore
     const contactInfo = parseNewContactInfo(newContactInfo);
     onSuccessfulChange(contactInfo);
   };

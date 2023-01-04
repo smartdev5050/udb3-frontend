@@ -2,12 +2,14 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
+import { OfferTypes } from '@/constants/OfferType';
+import { useGetEventByIdQuery } from '@/hooks/api/events';
 import {
-  useAddOrganizerToEventMutation,
-  useDeleteOrganizerFromEventMutation,
-  useGetEventByIdQuery,
-} from '@/hooks/api/events';
+  useAddOfferOrganizerMutation,
+  useDeleteOfferOrganizerMutation,
+} from '@/hooks/api/offers';
 import { useCreateOrganizerMutation } from '@/hooks/api/organizers';
+import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import {
   CardSystem,
   useAddCardSystemToEventMutation,
@@ -33,6 +35,7 @@ import { OrganizerPicker } from './OrganizerPicker';
 type Props = StackProps & TabContentProps;
 
 const OrganizerStep = ({
+  scope,
   offerId,
   onChangeCompleted,
   onSuccessfulChange,
@@ -41,7 +44,10 @@ const OrganizerStep = ({
   const { t, i18n } = useTranslation();
   const queryClient = useQueryClient();
 
-  const getEventByIdQuery = useGetEventByIdQuery({ id: offerId });
+  const useGetOfferByIdQuery =
+    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
+
+  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
 
   // @ts-expect-error
   const getCardSystemForEventQuery = useGetCardSystemForEventQuery({
@@ -49,10 +55,10 @@ const OrganizerStep = ({
   });
 
   // @ts-expect-error
-  const event: Event | undefined = getEventByIdQuery.data;
+  const offer: Event | Place | undefined = getOfferByIdQuery.data;
 
-  const organizer = event?.organizer;
-  const hasPriceInfo = (event?.priceInfo ?? []).length > 0;
+  const organizer = offer?.organizer;
+  const hasPriceInfo = (offer?.priceInfo ?? []).length > 0;
 
   // @ts-expect-error
   const getCardSystemsForOrganizerQuery = useGetCardSystemsForOrganizerQuery({
@@ -84,11 +90,11 @@ const OrganizerStep = ({
 
   const createOrganizerMutation = useCreateOrganizerMutation();
 
-  const addOrganizerToEventMutation = useAddOrganizerToEventMutation({
+  const addOfferOrganizerMutation = useAddOfferOrganizerMutation({
     onSuccess: onSuccessfulChange,
   });
 
-  const deleteOrganizerFromEventMutation = useDeleteOrganizerFromEventMutation({
+  const deleteOfferOrganizerMutation = useDeleteOfferOrganizerMutation({
     onSuccess: onSuccessfulChange,
   });
 
@@ -116,10 +122,10 @@ const OrganizerStep = ({
   };
 
   const handleToggleCardSystem = (
-    event: ChangeEvent<HTMLInputElement>,
+    offer: ChangeEvent<HTMLInputElement>,
     cardSystemId: number,
   ) => {
-    if (event.target.checked) {
+    if (offer.target.checked) {
       handleAddCardSystemToEvent(cardSystemId);
       return;
     }
@@ -149,7 +155,7 @@ const OrganizerStep = ({
   };
 
   const handleChangeOrganizer = (organizerId: string) => {
-    addOrganizerToEventMutation.mutate({ eventId: offerId, organizerId });
+    addOfferOrganizerMutation.mutate({ id: offerId, organizerId, scope });
   };
 
   const handleAddOrganizer = async ({
@@ -177,7 +183,11 @@ const OrganizerStep = ({
 
     const { organizerId } = await createOrganizerMutation.mutateAsync(payload);
 
-    await addOrganizerToEventMutation.mutateAsync({ offerId, organizerId });
+    await addOfferOrganizerMutation.mutateAsync({
+      id: offerId,
+      organizerId,
+      scope,
+    });
 
     setIsOrganizerAddModalVisible(false);
   };
@@ -201,9 +211,10 @@ const OrganizerStep = ({
             setIsOrganizerAddModalVisible(true);
           }}
           onDeleteOrganizer={(organizerId) =>
-            deleteOrganizerFromEventMutation.mutate({
-              offerId,
+            deleteOfferOrganizerMutation.mutate({
+              id: offerId,
               organizerId,
+              scope,
             })
           }
           organizer={organizer}

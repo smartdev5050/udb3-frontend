@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import {
-  useChangeDescriptionMutation,
-  useGetEventByIdQuery,
-} from '@/hooks/api/events';
+import { OfferTypes } from '@/constants/OfferType';
+import { useGetEventByIdQuery } from '@/hooks/api/events';
+import { useChangeOfferDescriptionMutation } from '@/hooks/api/offers';
+import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import { Event } from '@/types/Event';
 import { Alert } from '@/ui/Alert';
 import { Box, parseSpacing } from '@/ui/Box';
@@ -74,6 +74,7 @@ const DescriptionInfo = ({
 type DescriptionStepProps = StackProps & TabContentProps;
 
 const DescriptionStep = ({
+  scope,
   offerId,
   onSuccessfulChange,
   onChangeCompleted,
@@ -86,16 +87,19 @@ const DescriptionStep = ({
 
   const [description, setDescription] = useState('');
 
-  const getEventByIdQuery = useGetEventByIdQuery({ id: offerId });
+  const useGetOfferByIdQuery =
+    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
+
+  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
 
   // @ts-expect-error
-  const event: Event | undefined = getEventByIdQuery.data;
+  const offer: Event | Place | undefined = getOfferByIdQuery.data;
 
   useEffect(() => {
-    if (!event?.description) return;
+    if (!offer?.description) return;
 
     const newDescription =
-      event.description[i18n.language] ?? event.description[event.mainLanguage];
+      offer.description[i18n.language] ?? offer.description[offer.mainLanguage];
 
     setDescription(newDescription);
 
@@ -103,13 +107,13 @@ const DescriptionStep = ({
 
     onChangeCompleted(isCompleted);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [event?.description, event?.mainLanguage, i18n.language]);
+  }, [offer?.description, offer?.mainLanguage, i18n.language]);
 
   const eventTypeId = useMemo(() => {
-    return event?.terms.find((term) => term.domain === 'eventtype')?.id!;
-  }, [event?.terms]);
+    return offer?.terms.find((term) => term.domain === 'eventtype')?.id!;
+  }, [offer?.terms]);
 
-  const changeDescriptionMutation = useChangeDescriptionMutation({
+  const changeDescriptionMutation = useChangeOfferDescriptionMutation({
     onSuccess: onSuccessfulChange,
   });
 
@@ -124,6 +128,7 @@ const DescriptionStep = ({
       description,
       language: i18n.language,
       eventId,
+      scope,
     });
   };
 
@@ -134,6 +139,7 @@ const DescriptionStep = ({
       description: '',
       language: i18n.language,
       eventId,
+      scope,
     });
   };
 

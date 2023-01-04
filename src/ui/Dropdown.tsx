@@ -4,7 +4,6 @@ import {
   ButtonGroup as BootstrapButtonGroup,
   Dropdown as BootstrapDropdown,
 } from 'react-bootstrap';
-import { css } from 'styled-components';
 
 import type { Values } from '@/types/Values';
 import type { BoxProps } from '@/ui/Box';
@@ -12,8 +11,6 @@ import { Box, getBoxProps } from '@/ui/Box';
 import { Button, buttonCSS, ButtonVariants } from '@/ui/Button';
 import { Link, LinkVariants } from '@/ui/Link';
 import { getGlobalBorderRadius, getValueFromTheme } from '@/ui/theme';
-
-const getValue = getValueFromTheme(`dropdown`);
 
 const DropDownVariants = {
   ...ButtonVariants,

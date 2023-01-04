@@ -8,6 +8,8 @@ import type {
 } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
+import { OfferType, OfferTypes } from '@/constants/OfferType';
+import { Values } from '@/types/Values';
 import type { BoxProps } from '@/ui/Box';
 import { Box } from '@/ui/Box';
 import type { StackProps } from '@/ui/Stack';
@@ -21,22 +23,25 @@ import type { FormData as MovieFormData } from '../manage/movies/MovieForm';
 
 type FormDataUnion = MovieFormData & OfferFormData;
 
-type Field<TFormData extends FormDataUnion> = ControllerRenderProps<
-  TFormData,
-  Path<TFormData>
->;
+type Field = ControllerRenderProps<FormDataUnion, Path<FormDataUnion>>;
 
-type StepsConfiguration<TFormData extends FormDataUnion> = {
+type StepsConfiguration = {
   Component: any;
   defaultValue?: any;
-  name?: Path<TFormData>;
+  name?: Path<FormDataUnion>;
   step?: number;
-  title: (data: { t: TFunction } & UseFormReturn<TFormData, any>) => string;
+  title: (
+    data: { t: TFunction; scope: OfferType } & UseFormReturn<
+      FormDataUnion,
+      any
+    >,
+  ) => string;
   variant?: string;
   validation?: any;
   shouldShowStep?: (
-    data: UseFormReturn<TFormData> & {
+    data: UseFormReturn<FormDataUnion> & {
       offerId?: string;
+      scope?: OfferType;
     },
   ) => boolean;
   stepProps?: Record<string, unknown>;
@@ -104,26 +109,27 @@ StepWrapper.defaultProps = {
 
 const getValue = getValueFromTheme('createPage');
 
-type StepProps<TFormData extends FormDataUnion> = UseFormReturn<TFormData> & {
+type StepProps = UseFormReturn<FormDataUnion> & {
   loading: boolean;
-  name: Path<TFormData>;
+  name: Path<FormDataUnion>;
   onChange: (value: any) => void;
 };
 
-type StepsProps<TFormData extends FormDataUnion> = {
+type StepsProps = {
+  scope?: OfferType;
   offerId?: string;
-  form: UseFormReturn<TFormData>;
+  form: UseFormReturn<FormDataUnion>;
   fieldLoading?: string;
   onChange?: (editedField: string) => void;
   onChangeSuccess?: (editedField: string) => void;
-  configurations: Array<StepsConfiguration<TFormData>>;
+  configurations: Array<StepsConfiguration>;
 };
 
 type UnknownProps = {
   [key: string]: any;
 };
 
-const stepPropKeys: (keyof StepProps<FormDataUnion>)[] = [
+const stepPropKeys: (keyof StepProps)[] = [
   'clearErrors',
   'control',
   'formState',
@@ -146,14 +152,15 @@ const stepPropKeys: (keyof StepProps<FormDataUnion>)[] = [
 
 const getStepProps = (props: UnknownProps) => pick(props, stepPropKeys);
 
-const Steps = <TFormData extends FormDataUnion>({
+const Steps = ({
   onChange,
   configurations,
   fieldLoading,
   form,
   offerId,
+  scope,
   ...props
-}: StepsProps<TFormData>) => {
+}: StepsProps) => {
   const { t } = useTranslation();
 
   const configurationsWithComponent = useMemo(
@@ -169,6 +176,7 @@ const Steps = <TFormData extends FormDataUnion>({
       configurationsWithComponent[index]?.shouldShowStep?.({
         ...form,
         offerId,
+        scope,
       }) ?? false
     );
   };
@@ -197,14 +205,15 @@ const Steps = <TFormData extends FormDataUnion>({
             <StepWrapper
               stepNumber={stepNumber}
               key={`step${stepNumber}`}
-              title={getTitle({ ...form, t })}
+              title={getTitle({ ...form, t, scope })}
             >
               <Step
                 key={index}
                 onChange={() => onChange(name)}
                 loading={!!(name && fieldLoading === name)}
                 name={name}
-                eventId={offerId}
+                offerId={offerId}
+                scope={scope}
                 variant={variant}
                 {...form}
                 {...props}

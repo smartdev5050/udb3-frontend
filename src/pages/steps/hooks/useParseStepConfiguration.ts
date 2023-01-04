@@ -1,22 +1,28 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
+import { DeepPartial, Path, useForm, UseFormProps } from 'react-hook-form';
 import * as yup from 'yup';
 
-import { FormDataUnion } from '../Steps';
+import { isEmptyObject } from '@/types/EmptyObject';
 
-const useParseStepConfiguration = <TFormData extends FormDataUnion>(
-  configurations,
-  { formConfiguration = {} } = {},
+import { FormDataUnion, StepsConfiguration } from '../Steps';
+
+type Config = {
+  formConfiguration?: UseFormProps<FormDataUnion>;
+};
+
+const useParseStepConfiguration = (
+  configurations: Array<StepsConfiguration>,
+  { formConfiguration = {} }: Config = {},
 ) => {
   const schema = yup
     .object(
-      configurations.reduce(
-        (acc: Object, val: { name: string; validation: () => void }) => {
-          if (!val.name || !val.validation) return acc;
+      configurations.reduce<Record<Path<FormDataUnion>, any> | {}>(
+        (acc, config) => {
+          if (!config.name || !config.validation) return acc;
 
           return {
             ...acc,
-            [val.name]: val.validation,
+            [config.name]: config.validation,
           };
         },
         {},
@@ -26,20 +32,20 @@ const useParseStepConfiguration = <TFormData extends FormDataUnion>(
 
   const resolver = yupResolver(schema);
 
-  const defaultValues = configurations.reduce(
-    (acc: Object, val: { name: string; defaultValue: unknown }) => {
-      if (!val.name || !val.defaultValue) return acc;
+  const defaultValues = configurations.reduce<DeepPartial<FormDataUnion> | {}>(
+    (acc, config) => {
+      if (!config.name || !config.defaultValue) return acc;
       return {
         ...acc,
-        [val.name]: val.defaultValue,
+        [config.name]: config.defaultValue,
       };
     },
     {},
   );
 
-  const form = useForm<TFormData>({
+  const form = useForm<FormDataUnion>({
     resolver,
-    defaultValues,
+    defaultValues: isEmptyObject(defaultValues) ? undefined : defaultValues,
     ...formConfiguration,
   });
 

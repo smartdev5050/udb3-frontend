@@ -6,7 +6,7 @@ import {
   useAuthenticatedQuery,
 } from './authenticated-query';
 
-export const getProductions = async ({ headers, ...queryData }) => {
+const getProductions = async ({ headers, ...queryData }) => {
   const res = await fetchFromApi({
     path: '/productions/',
     searchParams: {

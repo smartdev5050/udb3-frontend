@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
@@ -97,7 +97,7 @@ const PlaceAddModal = ({
     register,
     handleSubmit,
     formState,
-    watch,
+    control,
     setValue,
     trigger,
     clearErrors,
@@ -116,7 +116,7 @@ const PlaceAddModal = ({
     setValue('name', prefillPlaceName);
   }, [prefillPlaceName, setValue]);
 
-  const selectedType = watch('type');
+  const selectedType = useWatch({ control, name: 'type' });
 
   return (
     <Modal
