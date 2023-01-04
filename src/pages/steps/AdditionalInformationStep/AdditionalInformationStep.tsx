@@ -88,7 +88,6 @@ const tabConfigurations: TabConfig[] = [
   {
     field: Fields.BOOKING_INFO,
     TabContent: BookingInfoStep,
-    shouldInvalidate: false,
     // TODO: Show on MOVIES after fix https://jira.uitdatabank.be/browse/III-5074
     shouldShowOn: [
       AdditionalInformationStepVariant.EVENT,
