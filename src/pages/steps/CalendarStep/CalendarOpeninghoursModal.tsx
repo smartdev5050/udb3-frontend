@@ -175,27 +175,37 @@ const CalendarOpeninghoursModal = ({
         onClose();
       })}
     >
-      <Stack spacing={4} padding={4} alignItems="flex-start">
+      <Stack
+        spacing={4}
+        padding={4}
+        alignItems="flex-start"
+        justifyContent="center"
+      >
         {openingHours.map((openingHour, index) => (
           <Stack key={openingHour.id} flex={1}>
-            <Inline alignItems="center" spacing={5}>
-              <Inline spacing={4}>
-                {Object.values(DaysOfWeek).map((dayOfWeek) => (
-                  <CheckboxWithLabel
-                    key={`${openingHour.id}-${dayOfWeek}`}
-                    className="day-of-week-radio"
-                    id={`day-of-week-radio-${openingHour.id}-${dayOfWeek}`}
-                    name={dayOfWeek}
-                    checked={openingHour.dayOfWeek.includes(dayOfWeek)}
-                    disabled={false}
-                    onToggle={(e) =>
-                      handleToggleDaysOfWeek(e, dayOfWeek, openingHour.id)
-                    }
-                  >
-                    {t(`create.calendar.days.short.${dayOfWeek}`)}
-                  </CheckboxWithLabel>
-                ))}
-              </Inline>
+            <Inline alignItems="flex-end" spacing={5}>
+              <Stack spacing={3}>
+                <Text fontWeight="bold">
+                  {t('create.calendar.opening_hours_modal.days')}
+                </Text>
+                <Inline spacing={4}>
+                  {Object.values(DaysOfWeek).map((dayOfWeek) => (
+                    <CheckboxWithLabel
+                      key={`${openingHour.id}-${dayOfWeek}`}
+                      className="day-of-week-radio"
+                      id={`day-of-week-radio-${openingHour.id}-${dayOfWeek}`}
+                      name={dayOfWeek}
+                      checked={openingHour.dayOfWeek.includes(dayOfWeek)}
+                      disabled={false}
+                      onToggle={(e) =>
+                        handleToggleDaysOfWeek(e, dayOfWeek, openingHour.id)
+                      }
+                    >
+                      {t(`create.calendar.days.short.${dayOfWeek}`)}
+                    </CheckboxWithLabel>
+                  ))}
+                </Inline>
+              </Stack>
               <TimeSpanPicker
                 spacing={3}
                 id={`openinghours-row-timespan-${openingHour.id}`}
