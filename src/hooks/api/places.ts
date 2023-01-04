@@ -145,6 +145,7 @@ const getPlacesByQuery = async ({
       addressCountry,
       embed: 'true',
       disableDefaultFilters: 'true',
+      isDuplicate: 'false',
     },
     options: {
       headers: headers as unknown as Record<string, string>,
