@@ -148,6 +148,7 @@ const getPlacesByQuery = async ({
       isDuplicate: 'false',
       workflowStatus: 'DRAFT,READY_FOR_VALIDATION,APPROVED',
       ['sort[created]']: 'desc',
+      limit: '1000',
     },
     options: {
       headers: headers as unknown as Record<string, string>,
