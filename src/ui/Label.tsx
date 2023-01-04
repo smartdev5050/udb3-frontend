@@ -25,14 +25,7 @@ type Props = BoxProps & {
   required?: boolean;
 };
 
-const Label = ({
-  htmlFor,
-  children,
-  className,
-  variant,
-  required,
-  ...props
-}: Props) => (
+const Label = ({ htmlFor, children, className, variant, ...props }: Props) => (
   <Inline
     forwardedAs="label"
     htmlFor={htmlFor}

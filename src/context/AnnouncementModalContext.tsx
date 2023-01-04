@@ -5,10 +5,7 @@ type AnnouncementModalContext = {
   visibleAnnouncementUid?: string;
 };
 
-export const AnnouncementModalContext = React.createContext([
-  undefined,
-  undefined,
-] as [
+const AnnouncementModalContext = React.createContext([undefined, undefined] as [
   AnnouncementModalContext,
   Dispatch<SetStateAction<AnnouncementModalContext>>,
 ]);

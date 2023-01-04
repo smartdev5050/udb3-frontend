@@ -1,4 +1,3 @@
-import { User } from '@/types/User';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 
 import {

@@ -1,13 +1,7 @@
-import { OfferType } from '@/constants/OfferType';
-import {
-  useAddEventMutation,
-  useAddLabelMutation as useAddLabelOnEventMutation,
-  useChangeTypicalAgeRangeMutation,
-} from '@/hooks/api/events';
-import {
-  useAddLabelMutation as useAddLabelOnPlaceMutation,
-  useAddPlaceMutation,
-} from '@/hooks/api/places';
+import { OfferTypes } from '@/constants/OfferType';
+import { useAddEventMutation } from '@/hooks/api/events';
+import { useAddOfferLabelMutation } from '@/hooks/api/offers';
+import { useAddPlaceMutation } from '@/hooks/api/places';
 import {
   useAddEventByIdMutation as useAddEventToProductionByIdMutation,
   useCreateWithEventsMutation as useCreateProductionWithEventsMutation,
@@ -20,7 +14,7 @@ type UseAddOfferArgument = {
   label?: string;
 };
 
-const useAddOffer = <TFormData extends FormDataUnion>({
+const useAddOffer = ({
   onSuccess,
   convertFormDataToOffer,
   label,
@@ -28,15 +22,14 @@ const useAddOffer = <TFormData extends FormDataUnion>({
   const addEventMutation = useAddEventMutation();
   const addPlaceMutation = useAddPlaceMutation();
 
-  const addLabelMutationOnEvent = useAddLabelOnEventMutation();
-  const addLabelMutationOnPlace = useAddLabelOnPlaceMutation();
+  const addLabelMutation = useAddOfferLabelMutation();
 
   const createProductionWithEventsMutation =
     useCreateProductionWithEventsMutation();
   const addEventToProductionByIdMutation =
     useAddEventToProductionByIdMutation();
 
-  return async (formData: TFormData) => {
+  return async (formData: FormDataUnion) => {
     const { scope, production } = formData;
 
     if (!production && !formData.nameAndAgeRange.name) return;
@@ -44,12 +37,7 @@ const useAddOffer = <TFormData extends FormDataUnion>({
     const payload = convertFormDataToOffer(formData);
 
     const addOfferMutation =
-      scope === OfferType.EVENTS ? addEventMutation : addPlaceMutation;
-
-    const addLabelMutation =
-      scope === OfferType.EVENTS
-        ? addLabelMutationOnEvent
-        : addLabelMutationOnPlace;
+      scope === OfferTypes.EVENTS ? addEventMutation : addPlaceMutation;
 
     const { eventId, placeId } = await addOfferMutation.mutateAsync(payload);
 
@@ -61,6 +49,7 @@ const useAddOffer = <TFormData extends FormDataUnion>({
       await addLabelMutation.mutateAsync({
         id: offerId,
         label,
+        scope,
       });
     }
 

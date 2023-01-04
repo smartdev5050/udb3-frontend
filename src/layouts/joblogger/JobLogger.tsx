@@ -219,4 +219,4 @@ const JobLogger = ({ visible, onClose, onStatusChange }: JobLoggerProps) => {
   );
 };
 
-export { JobLogger, JobLoggerStates, JobStates };
+export { JobLogger, JobLoggerStates };

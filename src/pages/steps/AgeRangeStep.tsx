@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from 'react';
-import { Controller, Path } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { css } from 'styled-components';
 
@@ -12,7 +12,7 @@ import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
-import { Field, FormDataUnion, StepProps } from './Steps';
+import { Field, StepProps } from './Steps';
 
 const getValue = getValueFromTheme('ageRange');
 
@@ -28,15 +28,14 @@ const AgeRanges = {
   CUSTOM: {},
 } as const;
 
-type AgeRangeStepProps<TFormData extends FormDataUnion> = StackProps &
-  StepProps<TFormData>;
+type AgeRangeStepProps = StackProps & StepProps;
 
-const AgeRangeStep = <TFormData extends FormDataUnion>({
+const AgeRangeStep = ({
   formState: { errors },
   control,
   onChange,
   ...props
-}: AgeRangeStepProps<TFormData>) => {
+}: AgeRangeStepProps) => {
   const { t } = useTranslation();
 
   const [isCustomAgeRange, setIsCustomAgeRange] = useState(false);
@@ -58,9 +57,7 @@ const AgeRangeStep = <TFormData extends FormDataUnion>({
     setCustomAgeRangeError('');
   };
 
-  const useInitializeAgeRangeFields = <TFormData extends FormDataUnion>(
-    field: Field<TFormData>,
-  ) => {
+  const useInitializeAgeRangeFields = (field: Field) => {
     useEffect(() => {
       if (!field.value?.typicalAgeRange) return;
       const typicalAgeRange = field.value.typicalAgeRange;
@@ -94,9 +91,7 @@ const AgeRangeStep = <TFormData extends FormDataUnion>({
     return foundAgeRange;
   };
 
-  const handleSubmitCustomAgeRange = <TFormData extends FormDataUnion>(
-    field: Field<TFormData>,
-  ) => {
+  const handleSubmitCustomAgeRange = (field: Field) => {
     if (parseInt(customMinAgeRange) > parseInt(customMaxAgeRange)) {
       setCustomAgeRangeError(
         t('create.name_and_age.age.error_max_lower_than_min'),
@@ -122,18 +117,12 @@ const AgeRangeStep = <TFormData extends FormDataUnion>({
     });
   };
 
-  const handleMinAgeRangeChange = <TFormData extends FormDataUnion>(
-    field: Field<TFormData>,
-    value: string,
-  ) => {
+  const handleMinAgeRangeChange = (field: Field, value: string) => {
     setCustomMinAgeRange(value);
     handleSubmitCustomAgeRange(field);
   };
 
-  const handleMaxAgeRangeChange = <TFormData extends FormDataUnion>(
-    field: Field<TFormData>,
-    value: string,
-  ) => {
+  const handleMaxAgeRangeChange = (field: Field, value: string) => {
     setCustomMaxAgeRange(value);
 
     if (!customMinAgeRange) {
@@ -147,7 +136,7 @@ const AgeRangeStep = <TFormData extends FormDataUnion>({
   return (
     <Stack {...getStackProps(props)}>
       <Controller
-        name={'nameAndAgeRange' as Path<TFormData>}
+        name={'nameAndAgeRange'}
         control={control}
         render={({ field }) => {
           // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -266,7 +255,6 @@ const AgeRangeStep = <TFormData extends FormDataUnion>({
                   </Stack>
                 )}
               </Inline>
-              {/* @ts-expect-error */}
               {errors.nameAndAgeRange?.typicalAgeRange && (
                 <Text color="red">
                   {t(

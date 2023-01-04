@@ -11,6 +11,7 @@ type Props = StackProps & {
   active: boolean;
   icon?: JSX.Element;
   text: string;
+  disabled?: boolean;
 };
 
 const ToggleBox = ({
@@ -19,6 +20,7 @@ const ToggleBox = ({
   active,
   icon,
   text,
+  disabled,
   ...props
 }: Props) => {
   return (
@@ -34,9 +36,11 @@ const ToggleBox = ({
       )}
       minWidth={parseSpacing(8)}
       borderRadius={getGlobalBorderRadius}
+      disabled={disabled}
       css={`
         border: none;
         box-shadow: ${getValue('boxShadow.large')};
+        cursor: ${disabled ? 'not-allowed' : 'pointer'};
       `}
       {...getStackProps(props)}
     >
@@ -60,8 +64,9 @@ const ToggleBox = ({
           css={`
             text-decoration: ${active ? 'underline' : 'none'};
             &:hover {
-              text-decoration: underline;
+              text-decoration: ${disabled} ? 'none' : 'underline';
             }
+            color: ${disabled ? 'grey' : 'initial'}
           `}
         >
           {text}
