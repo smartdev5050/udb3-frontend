@@ -52,6 +52,8 @@ const StepsForm = ({
 
   const { query, push, pathname } = useRouter();
 
+  const postfix = pathname.split('/')[0];
+
   // eventId is set after adding (saving) the event
   // or when entering the page from the edit route
   const [offerId, setOfferId] = useState(
@@ -110,7 +112,7 @@ const StepsForm = ({
   const footerStatus = useFooterStatus({ offer, form });
 
   return (
-    <Page>
+    <Page key={postfix}>
       <Page.Title spacing={3} alignItems="center">
         {title ?? ''}
       </Page.Title>
