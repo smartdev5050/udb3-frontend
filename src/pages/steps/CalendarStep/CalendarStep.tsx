@@ -148,11 +148,12 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
   const handleChooseFixedDays = useCallback(chooseFixedDays, []);
 
   useEffect(() => {
-    if (postfix !== 'create') return;
-
-    calendarService.stop();
     calendarService.start();
-  }, [calendarService, postfix]);
+
+    return () => {
+      calendarService.stop();
+    };
+  }, [calendarService]);
 
   useEffect(() => {
     if (offerId) return;
