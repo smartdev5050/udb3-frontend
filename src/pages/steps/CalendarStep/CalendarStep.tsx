@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -6,10 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { CalendarType } from '@/constants/CalendarType';
 import { OfferStatus } from '@/constants/OfferStatus';
 import { OfferTypes } from '@/constants/OfferType';
-import {
-  useChangeCalendarMutation,
-  useGetEventByIdQuery,
-} from '@/hooks/api/events';
+import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { useChangeOfferCalendarMutation } from '@/hooks/api/offers';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import { useToast } from '@/pages/manage/movies/useToast';
@@ -104,8 +100,6 @@ type CalendarStepProps = StepProps & { offerId?: string };
 
 const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
   const { t } = useTranslation();
-  const { pathname } = useRouter();
-  const postfix = pathname.split('/').at(-1);
 
   const scope = useWatch({ control, name: 'scope' });
 
@@ -148,11 +142,12 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
   const handleChooseFixedDays = useCallback(chooseFixedDays, []);
 
   useEffect(() => {
-    if (postfix !== 'create') return;
-
-    calendarService.stop();
     calendarService.start();
-  }, [calendarService, postfix]);
+
+    return () => {
+      calendarService.stop();
+    };
+  }, [calendarService]);
 
   useEffect(() => {
     if (offerId) return;
@@ -204,7 +199,7 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
     title: '',
   });
 
-  const changeCalendarMutation = useChangeCalendarMutation({
+  const changeCalendarMutation = useChangeOfferCalendarMutation({
     onSuccess: () => {
       // only trigger toast in edit mode
       if (!offerId) return;
@@ -225,9 +220,10 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [context, calendarType]);
 
-  const submitCalendarMutation = async (formData: any) => {
+  const submitCalendarMutation = async (formData: any, offerId: string) => {
     await changeCalendarMutation.mutateAsync({
       id: offerId,
+      scope,
       ...formData,
     });
   };
@@ -239,7 +235,7 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
     if (!offerId) return;
     if (!convertedStateToFormData) return;
 
-    handleSubmitCalendarMutation(convertedStateToFormData);
+    handleSubmitCalendarMutation(convertedStateToFormData, offerId);
   }, [convertedStateToFormData, handleSubmitCalendarMutation, offerId]);
 
   useEffect(() => {
