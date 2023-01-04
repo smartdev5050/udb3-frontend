@@ -146,6 +146,7 @@ const getPlacesByQuery = async ({
       embed: 'true',
       disableDefaultFilters: 'true',
       isDuplicate: 'false',
+      workflowStatus: 'DRAFT,READY_FOR_VALIDATION,APPROVED',
     },
     options: {
       headers: headers as unknown as Record<string, string>,
