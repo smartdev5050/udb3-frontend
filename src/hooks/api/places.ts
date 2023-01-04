@@ -144,6 +144,7 @@ const getPlacesByQuery = async ({
       text: `*${name}*`,
       addressCountry,
       embed: 'true',
+      disableDefaultFilters: 'true',
     },
     options: {
       headers: headers as unknown as Record<string, string>,
