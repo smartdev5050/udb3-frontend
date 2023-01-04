@@ -114,11 +114,14 @@ const OrganizerStep = ({
     });
 
   const handleAddCardSystemToEvent = (cardSystemId: number) => {
-    addCardSystemToEventMutation.mutate({ cardSystemId, offerId });
+    addCardSystemToEventMutation.mutate({ cardSystemId, eventId: offerId });
   };
 
   const handleDeleteCardSystemFromEvent = (cardSystemId: number) => {
-    deleteCardSystemFromEventMutation.mutate({ cardSystemId, offerId });
+    deleteCardSystemFromEventMutation.mutate({
+      cardSystemId,
+      eventId: offerId,
+    });
   };
 
   const handleToggleCardSystem = (
@@ -243,7 +246,7 @@ const OrganizerStep = ({
         )}
       </Stack>
 
-      {isUitpasOrganizer && (
+      {isUitpasOrganizer && hasPriceInfo && (
         <Stack spacing={3}>
           <Text fontWeight="bold">
             {t('create.additionalInformation.organizer.uitpas_cardsystems')}
