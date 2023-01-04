@@ -439,41 +439,40 @@ const BookingInfoStep = ({
   };
 
   return (
-    <Stack maxWidth="50rem" {...getStackProps(props)}>
+    <Stack maxWidth="55rem" {...getStackProps(props)}>
       <Inline justifyContent="space-between">
-        <Stack width="50%" spacing={4}>
-          <Stack
-            as="form"
-            onBlur={handleSubmit(async (data) => {
-              await handleAddBookingInfoMutation(data);
-            })}
-            ref={formComponent}
-          >
-            {Object.keys(ContactInfoType).map((key, index) => {
-              const type = ContactInfoType[key];
-              return (
-                <FormElement
-                  key={index}
-                  flex={2}
-                  id={type}
-                  label={t(`create.additionalInformation.booking_info.${type}`)}
-                  Component={
-                    <Input
-                      placeholder={t(
-                        `create.additionalInformation.booking_info.${type}`,
-                      )}
-                      {...register(type)}
-                    />
-                  }
-                  error={
-                    formState.errors?.[type] &&
-                    t(`create.additionalInformation.booking_info.${type}_error`)
-                  }
-                />
-              );
-            })}
-          </Stack>
-
+        <Stack
+          as="form"
+          width="45%"
+          spacing={4}
+          onBlur={handleSubmit(async (data) => {
+            await handleAddBookingInfoMutation(data);
+          })}
+          ref={formComponent}
+        >
+          {Object.keys(ContactInfoType).map((key, index) => {
+            const type = ContactInfoType[key];
+            return (
+              <FormElement
+                key={index}
+                flex={2}
+                id={type}
+                label={t(`create.additionalInformation.booking_info.${type}`)}
+                Component={
+                  <Input
+                    placeholder={t(
+                      `create.additionalInformation.booking_info.${type}`,
+                    )}
+                    {...register(type)}
+                  />
+                }
+                error={
+                  formState.errors?.[type] &&
+                  t(`create.additionalInformation.booking_info.${type}_error`)
+                }
+              />
+            );
+          })}
           {url && (
             <Stack>
               <Text fontWeight="bold">
@@ -493,7 +492,7 @@ const BookingInfoStep = ({
             </Stack>
           )}
         </Stack>
-        <Stack width="40%">
+        <Stack width="50%">
           <ReservationPeriod
             handlePeriodChange={handleChangeBookingPeriod}
             handleDelete={handleDeleteBookingPeriod}
