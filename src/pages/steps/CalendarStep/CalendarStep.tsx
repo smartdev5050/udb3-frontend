@@ -5,10 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { CalendarType } from '@/constants/CalendarType';
 import { OfferStatus } from '@/constants/OfferStatus';
 import { OfferTypes } from '@/constants/OfferType';
-import {
-  useChangeCalendarMutation,
-  useGetEventByIdQuery,
-} from '@/hooks/api/events';
+import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { useChangeOfferCalendarMutation } from '@/hooks/api/offers';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import { useToast } from '@/pages/manage/movies/useToast';
@@ -202,7 +199,7 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
     title: '',
   });
 
-  const changeCalendarMutation = useChangeCalendarMutation({
+  const changeCalendarMutation = useChangeOfferCalendarMutation({
     onSuccess: () => {
       // only trigger toast in edit mode
       if (!offerId) return;
@@ -223,9 +220,10 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [context, calendarType]);
 
-  const submitCalendarMutation = async (formData: any) => {
+  const submitCalendarMutation = async (formData: any, offerId: string) => {
     await changeCalendarMutation.mutateAsync({
       id: offerId,
+      scope,
       ...formData,
     });
   };
@@ -237,7 +235,7 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
     if (!offerId) return;
     if (!convertedStateToFormData) return;
 
-    handleSubmitCalendarMutation(convertedStateToFormData);
+    handleSubmitCalendarMutation(convertedStateToFormData, offerId);
   }, [convertedStateToFormData, handleSubmitCalendarMutation, offerId]);
 
   useEffect(() => {
