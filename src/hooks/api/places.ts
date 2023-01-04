@@ -127,13 +127,12 @@ const getPlacesByQuery = async ({
   zip,
   addressCountry,
 }: Headers & GetPlacesByQueryArguments) => {
-  const nameString = name ? `name.\\*:*${name}*` : '';
   const termsString = terms.reduce(
     (acc, currentTerm) => `${acc}terms.id:${currentTerm}`,
     '',
   );
   const postalCodeString = zip ? `address.\\*postalCode:${zip}` : '';
-  const queryArguments = [nameString, termsString, postalCodeString].filter(
+  const queryArguments = [termsString, postalCodeString].filter(
     (argument) => !!argument,
   );
 
@@ -142,6 +141,7 @@ const getPlacesByQuery = async ({
     searchParams: {
       // eslint-disable-next-line no-useless-escape
       q: queryArguments.join(' AND '),
+      text: `*${name}*`,
       addressCountry,
       embed: 'true',
     },
