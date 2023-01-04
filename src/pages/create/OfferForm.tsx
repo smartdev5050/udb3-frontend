@@ -116,6 +116,7 @@ const parseLocationAttributes = (
 const OfferForm = () => {
   const { t, i18n } = useTranslation();
   const { query, pathname } = useRouter();
+  const parts = pathname.split('/');
 
   const scope = useMemo(() => {
     if (
@@ -233,6 +234,7 @@ const OfferForm = () => {
 
   return (
     <StepsForm
+      key={parts[parts.length - 1]} // needed to re-render the form between create and edit.
       title={t(`create.title`)}
       scope={scope}
       convertFormDataToOffer={convertFormDataWithCalendarToOffer}

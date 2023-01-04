@@ -64,7 +64,8 @@ const convertSubEventsToTimeTable = (subEvents: SubEvent[] = []) => {
 };
 
 const MovieForm = (props) => {
-  const { query } = useRouter();
+  const { query, pathname } = useRouter();
+  const parts = pathname.split('/');
   const { t, i18n } = useTranslation();
 
   const offerId = query.offerId || query.eventId || query.placeId;
@@ -115,6 +116,7 @@ const MovieForm = (props) => {
   return (
     <StepsForm
       {...props}
+      key={parts[parts.length - 1]} // needed to re-render the form between create and edit.
       scope={OfferTypes.EVENTS}
       label="udb-filminvoer"
       convertFormDataToOffer={convertFormDataToOffer}
