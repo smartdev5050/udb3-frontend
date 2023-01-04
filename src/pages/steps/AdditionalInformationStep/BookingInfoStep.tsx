@@ -412,11 +412,11 @@ const BookingInfoStep = ({
   };
 
   return (
-    <Stack maxWidth="50rem" {...getStackProps(props)}>
+    <Stack maxWidth="55rem" {...getStackProps(props)}>
       <Inline justifyContent="space-between">
         <Stack
           as="form"
-          width="50%"
+          width="45%"
           spacing={4}
           onBlur={handleSubmit(async (data) => {
             await handleAddBookingInfoMutation(data);
@@ -462,7 +462,7 @@ const BookingInfoStep = ({
             </Stack>
           )}
         </Stack>
-        <Stack width="40%">
+        <Stack width="50%">
           <ReservationPeriod
             handlePeriodChange={handleChangeBookingPeriod}
             handleDelete={handleDeleteBookingPeriod}
