@@ -32,7 +32,7 @@ type TypeaheadProps<T> = {
   minLength?: number;
   inputType?: InputType;
   inputRequired?: boolean;
-  customFilter?: (option: unknown) => boolean;
+  customFilter?: (option: T) => boolean;
   onChange?: (value: (T | NewEntry)[]) => void;
   defaultInputValue?: string;
   allowNew?:
