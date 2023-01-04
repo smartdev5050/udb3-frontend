@@ -77,6 +77,7 @@ const PlaceStep = ({
       name: searchInput,
       terms,
       zip: municipality?.zip,
+      addressCountry: country,
     },
     { enabled: !!searchInput },
   );

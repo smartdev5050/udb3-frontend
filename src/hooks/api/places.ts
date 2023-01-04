@@ -5,6 +5,7 @@ import type { EventTypes } from '@/constants/EventTypes';
 import type { OfferStatus } from '@/constants/OfferStatus';
 import type { SupportedLanguages } from '@/i18n/index';
 import type { Address } from '@/types/Address';
+import { Country } from '@/types/Country';
 import { OpeningHours, Term } from '@/types/Offer';
 import type { Place } from '@/types/Place';
 import type { User } from '@/types/User';
@@ -116,6 +117,7 @@ type GetPlacesByQueryArguments = {
   name: string;
   terms: Array<Values<typeof EventTypes>>;
   zip?: string;
+  addressCountry?: Country;
 };
 
 const getPlacesByQuery = async ({
@@ -123,6 +125,7 @@ const getPlacesByQuery = async ({
   name,
   terms,
   zip,
+  addressCountry,
 }: Headers & GetPlacesByQueryArguments) => {
   const nameString = name ? `name.\\*:*${name}*` : '';
   const termsString = terms.reduce(
@@ -139,6 +142,7 @@ const getPlacesByQuery = async ({
     searchParams: {
       // eslint-disable-next-line no-useless-escape
       q: queryArguments.join(' AND '),
+      addressCountry,
       embed: 'true',
     },
     options: {
@@ -154,7 +158,7 @@ const getPlacesByQuery = async ({
 };
 
 const useGetPlacesByQuery = (
-  { name, terms, zip }: GetPlacesByQueryArguments,
+  { name, terms, zip, addressCountry }: GetPlacesByQueryArguments,
   configuration = {},
 ) =>
   useAuthenticatedQuery<Place[]>({
@@ -164,6 +168,7 @@ const useGetPlacesByQuery = (
       name,
       terms,
       zip,
+      addressCountry,
     },
     enabled: !!name || terms.length,
     ...configuration,
