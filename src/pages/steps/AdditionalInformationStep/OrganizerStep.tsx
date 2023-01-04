@@ -108,11 +108,14 @@ const OrganizerStep = ({
     });
 
   const handleAddCardSystemToEvent = (cardSystemId: number) => {
-    addCardSystemToEventMutation.mutate({ cardSystemId, offerId });
+    addCardSystemToEventMutation.mutate({ cardSystemId, eventId: offerId });
   };
 
   const handleDeleteCardSystemFromEvent = (cardSystemId: number) => {
-    deleteCardSystemFromEventMutation.mutate({ cardSystemId, offerId });
+    deleteCardSystemFromEventMutation.mutate({
+      cardSystemId,
+      eventId: offerId,
+    });
   };
 
   const handleToggleCardSystem = (
