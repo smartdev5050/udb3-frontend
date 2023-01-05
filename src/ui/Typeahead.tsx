@@ -25,6 +25,7 @@ type TypeaheadProps<T> = {
   name?: string;
   options: T[];
   labelKey: ((option: T) => string) | string;
+  renderMenuItemChildren?: (option: T, { text }) => JSX.Element;
   disabled?: boolean;
   placeholder?: string;
   emptyLabel?: string;
@@ -64,6 +65,7 @@ const Typeahead: TypeaheadFunc = forwardRef(
       inputRequired,
       options,
       labelKey,
+      renderMenuItemChildren,
       disabled,
       placeholder,
       emptyLabel,
@@ -95,6 +97,7 @@ const Typeahead: TypeaheadFunc = forwardRef(
         newSelectionPrefix={newSelectionPrefix}
         options={options}
         labelKey={labelKey}
+        renderMenuItemChildren={renderMenuItemChildren}
         isLoading={false}
         disabled={disabled}
         className={className}
