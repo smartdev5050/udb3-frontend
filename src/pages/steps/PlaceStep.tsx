@@ -9,11 +9,13 @@ import * as yup from 'yup';
 import { EventTypes } from '@/constants/EventTypes';
 import { useChangeLocationMutation } from '@/hooks/api/events';
 import { useGetPlacesByQuery } from '@/hooks/api/places';
+import { SupportedLanguage } from '@/i18n/index';
 import type {
   FormDataUnion,
   StepProps,
   StepsConfiguration,
 } from '@/pages/steps/Steps';
+import { Address, AddressInternal } from '@/types/Address';
 import type { Place } from '@/types/Place';
 import type { Values } from '@/types/Values';
 import { Button, ButtonVariants } from '@/ui/Button';
@@ -26,6 +28,7 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { isOneTimeSlotValid } from '@/ui/TimeTable';
 import { isNewEntry, NewEntry, Typeahead } from '@/ui/Typeahead';
+import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { valueToArray } from '@/utils/valueToArray';
 
@@ -94,6 +97,28 @@ const PlaceStep = ({
     ? parentFieldValue.place ?? undefined
     : place;
 
+  const getPlaceName = (
+    name: Place['name'],
+    mainLanguage: SupportedLanguage,
+  ): AddressInternal['streetAddress'] => {
+    return getLanguageObjectOrFallback(
+      name,
+      i18n.language as SupportedLanguage,
+      mainLanguage,
+    );
+  };
+
+  const getAddress = (
+    address: Address,
+    mainLanguage: SupportedLanguage,
+  ): AddressInternal => {
+    return getLanguageObjectOrFallback(
+      address,
+      i18n.language as SupportedLanguage,
+      mainLanguage,
+    );
+  };
+
   return (
     <Stack {...getStackProps(props)}>
       <Controller
@@ -132,20 +157,24 @@ const PlaceStep = ({
                         place.name[i18n.language] ??
                         place.name[place.mainLanguage]
                       }
-                      renderMenuItemChildren={(place: Place, { text }) => (
-                        <Stack>
-                          <Text>
-                            <Highlighter search={text}>
-                              {place.name[i18n.language] ??
-                                place.name[place.mainLanguage]}
-                            </Highlighter>
-                          </Text>
-                          <Text>
-                            {place.address[i18n.language]?.streetAddress ??
-                              place.address[place.mainLanguage]?.streetAddress}
-                          </Text>
-                        </Stack>
-                      )}
+                      renderMenuItemChildren={(place: Place, { text }) => {
+                        const { mainLanguage, name, address } = place;
+                        const placeName = getPlaceName(name, mainLanguage);
+                        const { streetAddress } = getAddress(
+                          address,
+                          mainLanguage,
+                        );
+                        return (
+                          <Stack>
+                            <Text>
+                              <Highlighter search={text}>
+                                {placeName}
+                              </Highlighter>
+                            </Text>
+                            <Text>{streetAddress}</Text>
+                          </Stack>
+                        );
+                      }}
                       selected={valueToArray(selectedPlace as Place)}
                       maxWidth="43rem"
                       onChange={(places) => {
