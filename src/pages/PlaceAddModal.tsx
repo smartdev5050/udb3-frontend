@@ -49,6 +49,7 @@ const PlaceAddModal = ({
   visible,
   onClose,
   municipality,
+  country,
   prefillPlaceName,
   onConfirmSuccess,
 }: Props) => {
