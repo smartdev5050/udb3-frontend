@@ -8,7 +8,7 @@ import { CalendarType } from '@/constants/CalendarType';
 import { getPlaceById, useAddPlaceMutation } from '@/hooks/api/places';
 import { useGetTypesByScopeQuery } from '@/hooks/api/types';
 import { useHeaders } from '@/hooks/api/useHeaders';
-import { Country } from '@/types/Country';
+import { Countries, Country } from '@/types/Country';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Inline } from '@/ui/Inline';
@@ -150,7 +150,9 @@ const PlaceAddModal = ({
         />
         <Inline spacing={5}>
           <FormElement
-            Component={<Input {...register('zip')} disabled />}
+            Component={
+              <Input {...register('zip')} disabled={country === Countries.BE} />
+            }
             id="location-zip"
             label={t('location.add_modal.labels.zip')}
           />
