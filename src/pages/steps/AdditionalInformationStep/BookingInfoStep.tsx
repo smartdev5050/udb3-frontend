@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -169,7 +169,7 @@ const ReservationPeriod = ({
       <Inline>
         {!isDatePickerVisible && (
           <Stack>
-            <Text fontWeight="bold" marginBottom={3}>
+            <Text fontWeight="bold" marginBottom={2}>
               {t(
                 'create.additionalInformation.booking_info.reservation_period.title',
               )}
@@ -384,7 +384,6 @@ const BookingInfoStep = ({
       delete bookingInfo.email;
     }
 
-    console.log(Object.hasOwn(bookingInfo, 'urlLabel'));
     await addBookingInfoMutation.mutateAsync({
       eventId,
       bookingInfo: {
