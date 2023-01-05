@@ -125,6 +125,7 @@ type TypeaheadProps = {
         props: Record<string, unknown>,
       ) => boolean);
   newSelectionPrefix: string;
+  renderMenuItemChildren?: (option: unknown, { text }) => JSX.Element;
   inputProps: HTMLProps<HTMLInputElement>;
   defaultInputValue: string;
 };

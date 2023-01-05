@@ -1,18 +1,16 @@
 import { TFunction } from 'i18next';
 import debounce from 'lodash/debounce';
 import { useMemo, useState } from 'react';
+import { Highlighter } from 'react-bootstrap-typeahead';
 import { Controller, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { EventTypes } from '@/constants/EventTypes';
-import { useChangeLocationMutation } from '@/hooks/api/events';
 import { useGetPlacesByQuery } from '@/hooks/api/places';
-import type {
-  FormDataUnion,
-  StepProps,
-  StepsConfiguration,
-} from '@/pages/steps/Steps';
+import { SupportedLanguage } from '@/i18n/index';
+import type { StepProps, StepsConfiguration } from '@/pages/steps/Steps';
+import { Address, AddressInternal } from '@/types/Address';
 import { Country } from '@/types/Country';
 import type { Place } from '@/types/Place';
 import type { Values } from '@/types/Values';
@@ -26,7 +24,7 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { isOneTimeSlotValid } from '@/ui/TimeTable';
 import { isNewEntry, NewEntry, Typeahead } from '@/ui/Typeahead';
-import { parseOfferId } from '@/utils/parseOfferId';
+import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 import { valueToArray } from '@/utils/valueToArray';
 
 import { City } from '../CityPicker';
@@ -97,6 +95,28 @@ const PlaceStep = ({
     ? parentFieldValue.place ?? undefined
     : place;
 
+  const getPlaceName = (
+    name: Place['name'],
+    mainLanguage: SupportedLanguage,
+  ): AddressInternal['streetAddress'] => {
+    return getLanguageObjectOrFallback(
+      name,
+      i18n.language as SupportedLanguage,
+      mainLanguage,
+    );
+  };
+
+  const getAddress = (
+    address: Address,
+    mainLanguage: SupportedLanguage,
+  ): AddressInternal => {
+    return getLanguageObjectOrFallback(
+      address,
+      i18n.language as SupportedLanguage,
+      mainLanguage,
+    );
+  };
+
   return (
     <Stack {...getStackProps(props)}>
       <Controller
@@ -135,6 +155,24 @@ const PlaceStep = ({
                         place.name[i18n.language] ??
                         place.name[place.mainLanguage]
                       }
+                      renderMenuItemChildren={(place: Place, { text }) => {
+                        const { mainLanguage, name, address } = place;
+                        const placeName = getPlaceName(name, mainLanguage);
+                        const { streetAddress } = getAddress(
+                          address,
+                          mainLanguage,
+                        );
+                        return (
+                          <Stack>
+                            <Text>
+                              <Highlighter search={text}>
+                                {placeName}
+                              </Highlighter>
+                            </Text>
+                            <Text>{streetAddress}</Text>
+                          </Stack>
+                        );
+                      }}
                       selected={valueToArray(selectedPlace as Place)}
                       maxWidth="43rem"
                       onChange={(places) => {
