@@ -694,6 +694,7 @@
         "typeInfo": "Kies een categorie die deze locatie het best omschrijft."
       },
       "errors": {
+        "zip": "Postcode is een verplicht veld.",
         "name": "De naam van de locatie is een verplicht veld.",
         "streetAndNumber": "Straat is een verplicht veld.",
         "type": "Categorie is een verplicht veld."

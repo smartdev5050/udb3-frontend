@@ -689,6 +689,7 @@
         "typeInfo": "Wählen Sie eine Kategorie, die diesen Ort am besten umschreibt."
       },
       "errors": {
+        "zip": "Postleitzahl ist ein Pflichtfeld.",
         "name": "Die Bezeichnung des Ortes ist ein Pflichtfeld.",
         "streetAndNumber": "Straße ist ein Pflichtfeld.",
         "type": "Kategorie ist ein Pflichtfeld."

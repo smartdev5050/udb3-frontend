@@ -155,6 +155,7 @@ const PlaceAddModal = ({
             }
             id="location-zip"
             label={t('location.add_modal.labels.zip')}
+            error={formState.errors.zip && t('location.add_modal.errors.zip')}
           />
           <FormElement
             Component={<Input {...register('municipalityName')} disabled />}
