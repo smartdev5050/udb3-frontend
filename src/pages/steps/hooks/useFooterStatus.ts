@@ -21,15 +21,17 @@ const useFooterStatus = ({ offer, form }) => {
   } = form;
 
   const isMutating = queryClient.isMutating();
-  const fetchedOfferId = offer?.['@id'];
+  const offerId = offer?.['@id'];
   const availableFrom = offer?.availableFrom;
   const isPlaceDirty = dirtyFields.place || dirtyFields.location;
+  const isEventType = isEvent(offer);
+  const isPlaceType = isPlace(offer);
 
   const footerStatus = useMemo(() => {
-    if (fetchedOfferId && isEvent(offer) && !availableFrom) {
+    if (offerId && isEventType && !availableFrom) {
       return FooterStatus.PUBLISH;
     }
-    if (fetchedOfferId && isPlace(offer)) {
+    if (offerId && isPlaceType) {
       return FooterStatus.PUBLISH;
     }
     if (router.route.includes('edit')) return FooterStatus.AUTO_SAVE;
@@ -37,9 +39,10 @@ const useFooterStatus = ({ offer, form }) => {
     if (isPlaceDirty) return FooterStatus.MANUAL_SAVE;
     return FooterStatus.HIDDEN;
   }, [
-    fetchedOfferId,
-    offer,
+    offerId,
+    isEventType,
     availableFrom,
+    isPlaceType,
     router.route,
     isMutating,
     isPlaceDirty,
