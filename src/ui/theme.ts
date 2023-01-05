@@ -344,10 +344,8 @@ const theme = {
       borderColor: colors.grey2,
       errorBorderColor: colors.red1,
       imageIconColor: colors.grey5,
-      imageBorderColor: colors.grey2,
+      imageBackgroundColor: colors.grey1,
       mainImageBackgroundColor: colors.blue1,
-      mainImageBorderColor: colors.blue2,
-      thumbnailBorderColor: colors.grey6,
     },
     ageRange: {
       rangeTextColor: colors.grey5,
@@ -367,10 +365,8 @@ const theme = {
       borderColor: colors.grey2,
       errorBorderColor: colors.red1,
       imageIconColor: colors.grey5,
-      imageBorderColor: colors.grey2,
+      imageBackgroundColor: colors.grey1,
       mainImageBackgroundColor: colors.blue1,
-      mainImageBorderColor: colors.blue2,
-      thumbnailBorderColor: colors.grey6,
     },
     toggleBox: {
       backgroundColor: colors.white,

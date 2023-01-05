@@ -1,5 +1,6 @@
 import { DragEvent } from 'react';
 import { useTranslation } from 'react-i18next';
+import { css } from 'styled-components';
 
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icons } from '@/ui/Icon';
@@ -89,7 +90,6 @@ const PictureUploadBox = ({
       <Stack
         flex={1}
         spacing={4}
-        padding={4}
         borderRadius={getGlobalBorderRadius}
         backgroundColor={getValue('backgroundColor')}
         justifyContent="center"
@@ -98,40 +98,32 @@ const PictureUploadBox = ({
         `}
       >
         <Stack
-          spacing={2}
+          spacing={4}
           maxHeight={380}
+          padding={4}
           css={`
             overflow: auto;
           `}
         >
-          {images.map((image, index, imagesArr) => {
-            const isLastItem = index === imagesArr.length - 1;
+          {images.map((image) => {
             return (
               <Stack
                 key={image.parsedId}
                 spacing={4}
                 padding={4}
+                borderRadius={getGlobalBorderRadius}
                 backgroundColor={
-                  image.isMain ? getValue('mainImageBackgroundColor') : 'none'
+                  image.isMain
+                    ? getValue('mainImageBackgroundColor')
+                    : getValue('imageBackgroundColor')
                 }
-                css={`
-                  border-bottom: 1px solid
-                    ${image.isMain
-                      ? getValue('mainImageBorderColor')
-                      : `${
-                          isLastItem ? 'none' : getValue('imageBorderColor')
-                        }`};
-                `}
               >
-                <Inline spacing={4} alignItems="center">
+                <Inline spacing={4} alignItems="center" paddingX={4}>
                   <Image
                     src={`${image.thumbnailUrl}?width=${THUMBNAIL_SIZE}&height=${THUMBNAIL_SIZE}`}
                     alt={image.description}
                     width={THUMBNAIL_SIZE}
                     height={THUMBNAIL_SIZE}
-                    css={`
-                      border: 1px solid ${getValue('thumbnailBorderColor')};
-                    `}
                   />
                   <Stack spacing={2}>
                     <Text>{image.description}</Text>
