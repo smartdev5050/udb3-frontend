@@ -4,7 +4,17 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "baseUrl": "./src",
     "paths": {
-      "@/*": ["*"]
+      "@/ui/*": ["ui/*"],
+      "@/hooks/*": ["hooks/*"],
+      "@/pages/*": ["pages/*"],
+      "@/utils/*": ["utils/*"],
+      "@/context/*": ["context/*"],
+      "@/constants/*": ["constants/*"],
+      "@/test/*": ["test/*"],
+      "@/i18n/*": ["i18n/*"],
+      "@/layouts/*": ["layouts/*"],
+      "@/styles/*": ["styles/*"],
+      "@/types/*": ["types/*"]
     },
     "allowJs": true,
     "skipLibCheck": true,
