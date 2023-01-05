@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { css } from 'styled-components';
 
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icons } from '@/ui/Icon';
@@ -73,32 +74,26 @@ const VideoUploadBox = ({
       <Stack
         flex={1}
         spacing={4}
-        padding={4}
         borderRadius={getGlobalBorderRadius}
         backgroundColor={getValue('backgroundColor')}
         justifyContent="center"
-        css={`
-          border: 1px solid ${getValue('borderColor')};
-        `}
       >
         <Stack
-          spacing={2}
+          spacing={4}
           maxHeight={380}
+          padding={4}
           css={`
             overflow: auto;
           `}
         >
-          {videos.map(({ id, url, thumbnailUrl }, index, imagesArr) => {
-            const isLastItem = index === imagesArr.length - 1;
+          {videos.map(({ id, url, thumbnailUrl }) => {
             return (
               <Stack
                 key={id}
                 spacing={4}
                 padding={4}
-                css={`
-                  border-bottom: 1px solid
-                    ${isLastItem ? 'none' : getValue('imageBorderColor')};
-                `}
+                borderRadius={getGlobalBorderRadius}
+                backgroundColor={getValue('imageBackgroundColor')}
               >
                 <Inline spacing={4} alignItems="center">
                   <Image
@@ -107,9 +102,6 @@ const VideoUploadBox = ({
                     width={THUMBNAIL_SIZE}
                     height={THUMBNAIL_SIZE}
                     objectFit="contain"
-                    css={`
-                      border: 1px solid ${getValue('thumbnailBorderColor')};
-                    `}
                   />
                   <Text>{url}</Text>
                 </Inline>
