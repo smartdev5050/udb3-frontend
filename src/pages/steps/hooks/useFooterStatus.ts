@@ -34,7 +34,9 @@ const useFooterStatus = ({ offer, form }) => {
     if (offerId && isPlaceType) {
       return FooterStatus.PUBLISH;
     }
-    if (router.route.includes('edit')) return FooterStatus.AUTO_SAVE;
+    if (offerId && router.route.includes('edit')) {
+      return FooterStatus.AUTO_SAVE;
+    }
     if (isMutating) return FooterStatus.HIDDEN;
     if (isPlaceDirty) return FooterStatus.MANUAL_SAVE;
     return FooterStatus.HIDDEN;
@@ -50,10 +52,10 @@ const useFooterStatus = ({ offer, form }) => {
 
   // scroll effect
   useEffect(() => {
-    if (footerStatus !== FooterStatus.HIDDEN) {
-      const main = document.querySelector('main');
-      main.scroll({ left: 0, top: main.scrollHeight, behavior: 'smooth' });
-    }
+    if (footerStatus === FooterStatus.HIDDEN) return;
+
+    const main = document.querySelector('main');
+    main.scroll({ left: 0, top: main.scrollHeight, behavior: 'smooth' });
   }, [footerStatus]);
 
   return footerStatus;
