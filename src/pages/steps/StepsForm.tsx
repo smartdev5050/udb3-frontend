@@ -75,7 +75,6 @@ const StepsForm = ({
       const url = isMovieForm
         ? `/manage/movies/${offerId}/edit`
         : `/${scope}/${offerId}/edit`;
-      // TODO: fix rerendering triggers useFooterStatus and causes 2 scrolls publish
       await push(url, undefined, { shallow: true });
       setOfferId(offerId);
     },
