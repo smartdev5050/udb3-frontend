@@ -148,6 +148,7 @@
         "end_time": "Tot",
         "start_time": "Van",
         "title": "Openingsuren",
+        "days": "Dagen",
         "validation_messages": {
           "day_of_week": {
             "min": "Je moet minstens 1 dag van de week aanduiden."
@@ -693,6 +694,7 @@
         "typeInfo": "Kies een categorie die deze locatie het best omschrijft."
       },
       "errors": {
+        "zip": "Postcode is een verplicht veld.",
         "name": "De naam van de locatie is een verplicht veld.",
         "streetAndNumber": "Straat is een verplicht veld.",
         "type": "Categorie is een verplicht veld."

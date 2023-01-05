@@ -2,9 +2,10 @@ import type { UseMutationOptions, UseQueryOptions } from 'react-query';
 
 import { CalendarType } from '@/constants/CalendarType';
 import type { EventTypes } from '@/constants/EventTypes';
-import type { OfferStatus } from '@/constants/OfferStatus';
+import { OfferStatus } from '@/constants/OfferStatus';
 import type { SupportedLanguages } from '@/i18n/index';
 import type { Address } from '@/types/Address';
+import { Country } from '@/types/Country';
 import { OpeningHours, Term } from '@/types/Offer';
 import type { Place } from '@/types/Place';
 import type { User } from '@/types/User';
@@ -116,6 +117,7 @@ type GetPlacesByQueryArguments = {
   name: string;
   terms: Array<Values<typeof EventTypes>>;
   zip?: string;
+  addressCountry?: Country;
 };
 
 const getPlacesByQuery = async ({
@@ -123,14 +125,14 @@ const getPlacesByQuery = async ({
   name,
   terms,
   zip,
+  addressCountry,
 }: Headers & GetPlacesByQueryArguments) => {
-  const nameString = name ? `name.\\*:*${name}*` : '';
   const termsString = terms.reduce(
     (acc, currentTerm) => `${acc}terms.id:${currentTerm}`,
     '',
   );
   const postalCodeString = zip ? `address.\\*postalCode:${zip}` : '';
-  const queryArguments = [nameString, termsString, postalCodeString].filter(
+  const queryArguments = [termsString, postalCodeString].filter(
     (argument) => !!argument,
   );
 
@@ -139,7 +141,15 @@ const getPlacesByQuery = async ({
     searchParams: {
       // eslint-disable-next-line no-useless-escape
       q: queryArguments.join(' AND '),
+      text: `*${name}*`,
+      addressCountry,
       embed: 'true',
+      disableDefaultFilters: 'true',
+      isDuplicate: 'false',
+      workflowStatus: 'DRAFT,READY_FOR_VALIDATION,APPROVED',
+      ['sort[created]']: 'desc',
+      limit: '1000',
+      status: OfferStatus.AVAILABLE,
     },
     options: {
       headers: headers as unknown as Record<string, string>,
@@ -154,7 +164,7 @@ const getPlacesByQuery = async ({
 };
 
 const useGetPlacesByQuery = (
-  { name, terms, zip }: GetPlacesByQueryArguments,
+  { name, terms, zip, addressCountry }: GetPlacesByQueryArguments,
   configuration = {},
 ) =>
   useAuthenticatedQuery<Place[]>({
@@ -164,6 +174,7 @@ const useGetPlacesByQuery = (
       name,
       terms,
       zip,
+      addressCountry,
     },
     enabled: !!name || terms.length,
     ...configuration,
