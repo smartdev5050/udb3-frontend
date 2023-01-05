@@ -331,6 +331,7 @@ const LocationStep = ({
                     maxWidth="28rem"
                     name={'location.place'}
                     municipality={municipality}
+                    country={country}
                     chooseLabel={chooseLabel}
                     placeholderLabel={placeholderLabel}
                     parentFieldValue={field.value}
