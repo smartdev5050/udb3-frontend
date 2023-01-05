@@ -131,6 +131,7 @@ const PlaceStep = ({
                   onClose={() => setIsPlaceAddModalVisible(false)}
                   prefillPlaceName={prefillPlaceName}
                   municipality={municipality}
+                  country={country}
                   onConfirmSuccess={(place) => {
                     parentFieldOnChange(place);
                     parentOnChange(place);
