@@ -6,7 +6,11 @@ import { useTranslation } from 'react-i18next';
 import type { BoxProps } from './Box';
 import { Box, getBoxProps } from './Box';
 import { InputType } from './Input';
-import { getGlobalBorderRadius, getValueFromTheme } from './theme';
+import {
+  getGlobalBorderRadius,
+  getGlobalFormInputHeight,
+  getValueFromTheme,
+} from './theme';
 
 const getValue = getValueFromTheme('typeahead');
 
@@ -110,6 +114,8 @@ const Typeahead: TypeaheadFunc = forwardRef(
 
           .form-control {
             border-radius: ${getGlobalBorderRadius};
+            height: ${getGlobalFormInputHeight};
+            padding: 0.375rem 0.9rem;
           }
 
           .dropdown-item.active,

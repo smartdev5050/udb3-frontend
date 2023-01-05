@@ -1,10 +1,11 @@
 import type { ChangeEvent } from 'react';
 import { forwardRef } from 'react';
 import { Form } from 'react-bootstrap';
+import { css } from 'styled-components';
 
 import type { BoxProps } from './Box';
 import { Box, getBoxProps } from './Box';
-import { getGlobalBorderRadius } from './theme';
+import { getGlobalBorderRadius, getGlobalFormInputHeight } from './theme';
 
 const BaseInput = forwardRef<HTMLInputElement, any>((props, ref) => (
   <Box as="input" {...props} ref={ref} />
@@ -79,6 +80,7 @@ const Input = forwardRef(
       placeholder={placeholder}
       className={className}
       maxWidth="43rem"
+      height={getGlobalFormInputHeight}
       borderRadius={getGlobalBorderRadius}
       onInput={onChange}
       onBlur={onBlur}

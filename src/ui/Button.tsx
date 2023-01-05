@@ -12,7 +12,7 @@ import { getInlineProps, Inline } from './Inline';
 import { Link } from './Link';
 import { Spinner, SpinnerSizes, SpinnerVariants } from './Spinner';
 import { Text } from './Text';
-import { getValueFromTheme } from './theme';
+import { getGlobalFormInputHeight, getValueFromTheme } from './theme';
 
 const BootStrapVariants = {
   PRIMARY: 'primary',
@@ -44,6 +44,7 @@ const customCSS = css`
     padding: ${getValue('paddingY')} ${getValue('paddingX')};
     flex-shrink: 0;
     align-items: center;
+    min-height: ${getGlobalFormInputHeight};
 
     border: none;
     box-shadow: ${getValue('boxShadow.small')};
@@ -139,9 +140,11 @@ const customCSS = css`
   &.btn-danger {
     color: ${getValue('danger.color')};
     background-color: ${getValue('danger.backgroundColor')};
+    border: 1px solid ${getValue('danger.backgroundColor')};
 
     &.dropdown-toggle.dropdown-toggle-split {
       box-shadow: 2px 2px 3px 0px rgb(210 210 210 / 70%);
+      border: none;
       border-left: 1px solid ${getValue('danger.color')};
     }
 
