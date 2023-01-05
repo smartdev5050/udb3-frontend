@@ -7,14 +7,9 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { EventTypes } from '@/constants/EventTypes';
-import { useChangeLocationMutation } from '@/hooks/api/events';
 import { useGetPlacesByQuery } from '@/hooks/api/places';
 import { SupportedLanguage } from '@/i18n/index';
-import type {
-  FormDataUnion,
-  StepProps,
-  StepsConfiguration,
-} from '@/pages/steps/Steps';
+import type { StepProps, StepsConfiguration } from '@/pages/steps/Steps';
 import { Address, AddressInternal } from '@/types/Address';
 import type { Place } from '@/types/Place';
 import type { Values } from '@/types/Values';
@@ -29,7 +24,6 @@ import { getValueFromTheme } from '@/ui/theme';
 import { isOneTimeSlotValid } from '@/ui/TimeTable';
 import { isNewEntry, NewEntry, Typeahead } from '@/ui/Typeahead';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
-import { parseOfferId } from '@/utils/parseOfferId';
 import { valueToArray } from '@/utils/valueToArray';
 
 import { City } from '../CityPicker';
