@@ -1,20 +1,10 @@
 {
   "compilerOptions": {
     "target": "ES6",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "baseUrl": "./src",
     "paths": {
-      "@/ui/*": ["ui/*"],
-      "@/hooks/*": ["hooks/*"],
-      "@/pages/*": ["pages/*"],
-      "@/utils/*": ["utils/*"],
-      "@/context/*": ["context/*"],
-      "@/constants/*": ["constants/*"],
-      "@/test/*": ["test/*"],
-      "@/i18n/*": ["i18n/*"],
-      "@/layouts/*": ["layouts/*"],
-      "@/styles/*": ["styles/*"],
-      "@/types/*": ["types/*"]
+      "@/*": ["*"]
     },
     "allowJs": true,
     "skipLibCheck": true,
@@ -22,12 +12,11 @@
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "module": "esnext",
+    "module": "ESNext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "downlevelIteration": true,
     "incremental": true
   },
   "include": ["next-env.d.ts", "global.d.ts", "src/**/*"],
