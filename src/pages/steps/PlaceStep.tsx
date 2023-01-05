@@ -11,6 +11,7 @@ import { useGetPlacesByQuery } from '@/hooks/api/places';
 import { SupportedLanguage } from '@/i18n/index';
 import type { StepProps, StepsConfiguration } from '@/pages/steps/Steps';
 import { Address, AddressInternal } from '@/types/Address';
+import { Country } from '@/types/Country';
 import type { Place } from '@/types/Place';
 import type { Values } from '@/types/Values';
 import { Button, ButtonVariants } from '@/ui/Button';
@@ -35,6 +36,7 @@ type PlaceStepProps = StackProps &
   StepProps & {
     terms: Array<Values<typeof EventTypes>>;
     municipality?: City;
+    country?: Country;
     chooseLabel: (t: TFunction) => string;
     placeholderLabel: (t: TFunction) => string;
     parentOnChange?: (val: Place | NewEntry | undefined) => void;
@@ -52,6 +54,7 @@ const PlaceStep = ({
   onChange,
   terms,
   municipality,
+  country,
   chooseLabel,
   placeholderLabel,
   parentOnChange,
@@ -72,6 +75,7 @@ const PlaceStep = ({
       name: searchInput,
       terms,
       zip: municipality?.zip,
+      addressCountry: country,
     },
     { enabled: !!searchInput },
   );

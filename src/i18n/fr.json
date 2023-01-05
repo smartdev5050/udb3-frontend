@@ -148,6 +148,7 @@
         "end_time": "Jusqu'à",
         "start_time": "De",
         "title": "Heures d 'ouverture",
+        "days": "Jours",
         "validation_messages": {
           "day_of_week": {
             "min": "Vous devez indiquer au moins 1 jour de la semaine."
