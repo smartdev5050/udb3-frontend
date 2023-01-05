@@ -387,7 +387,6 @@ const BookingInfoStep = ({
       delete bookingInfo.email;
     }
 
-    console.log(Object.hasOwn(bookingInfo, 'urlLabel'));
     await addBookingInfoMutation.mutateAsync({
       eventId,
       bookingInfo: {
