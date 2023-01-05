@@ -8,6 +8,7 @@ import { CalendarType } from '@/constants/CalendarType';
 import { getPlaceById, useAddPlaceMutation } from '@/hooks/api/places';
 import { useGetTypesByScopeQuery } from '@/hooks/api/types';
 import { useHeaders } from '@/hooks/api/useHeaders';
+import { Countries, Country } from '@/types/Country';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Inline } from '@/ui/Inline';
@@ -25,7 +26,7 @@ const schema = yup
     streetAndNumber: yup.string().required(),
     zip: yup.string().required(),
     municipalityName: yup.string().required(),
-    type: yup.object({
+    term: yup.object({
       label: yup.string().required(),
       domain: yup.string().required(),
       id: yup.string().required(),
@@ -38,6 +39,7 @@ type FormData = yup.InferType<typeof schema>;
 type Props = {
   visible: boolean;
   municipality: City;
+  country: Country;
   prefillPlaceName: string;
   onClose: () => void;
   onConfirmSuccess: (place: any) => void;
@@ -47,6 +49,7 @@ const PlaceAddModal = ({
   visible,
   onClose,
   municipality,
+  country,
   prefillPlaceName,
   onConfirmSuccess,
 }: Props) => {
@@ -58,7 +61,7 @@ const PlaceAddModal = ({
 
   const headers = useHeaders();
 
-  const types = getTypesByScopeQuery.data ?? [];
+  const terms = getTypesByScopeQuery.data ?? [];
 
   const addPlaceMutation = useAddPlaceMutation();
 
@@ -66,7 +69,7 @@ const PlaceAddModal = ({
     await handleSubmit(async (data) => {
       const formData = {
         address: {
-          addressCountry: 'BE', // TODO get country from event form
+          addressCountry: country,
           addressLocality: data.municipalityName,
           postalCode: data.zip,
           streetAddress: data.streetAndNumber,
@@ -76,7 +79,7 @@ const PlaceAddModal = ({
         },
         mainLanguage: i18n.language,
         name: data.name,
-        type: data.type,
+        terms: [data.term],
       };
 
       const resp = await addPlaceMutation.mutateAsync(formData);
@@ -116,7 +119,7 @@ const PlaceAddModal = ({
     setValue('name', prefillPlaceName);
   }, [prefillPlaceName, setValue]);
 
-  const selectedType = useWatch({ control, name: 'type' });
+  const selectedTerm = useWatch({ control, name: 'term' });
 
   return (
     <Modal
@@ -147,9 +150,12 @@ const PlaceAddModal = ({
         />
         <Inline spacing={5}>
           <FormElement
-            Component={<Input {...register('zip')} disabled />}
+            Component={
+              <Input {...register('zip')} disabled={country === Countries.BE} />
+            }
             id="location-zip"
             label={t('location.add_modal.labels.zip')}
+            error={formState.errors.zip && t('location.add_modal.errors.zip')}
           />
           <FormElement
             Component={<Input {...register('municipalityName')} disabled />}
@@ -162,25 +168,25 @@ const PlaceAddModal = ({
           <Paragraph marginBottom={3} variant={TextVariants.MUTED}>
             {t('location.add_modal.labels.typeInfo')}
           </Paragraph>
-          {formState.errors.type?.id && (
+          {formState.errors.term?.id && (
             <Text color="red">{t('location.add_modal.errors.type')}</Text>
           )}
           <Inline spacing={3} flexWrap="wrap" maxWidth="70rem">
-            {types.map(({ id, name, domain }) => (
+            {terms.map(({ id, name, domain }) => (
               <Button
                 width="auto"
                 marginBottom={3}
                 display="inline-flex"
                 key={id}
-                active={id === selectedType?.id}
+                active={id === selectedTerm?.id}
                 variant={ButtonVariants.SECONDARY}
                 onClick={() => {
-                  setValue('type', {
+                  setValue('term', {
                     id,
                     label: name[i18n.language],
                     domain,
                   });
-                  trigger('type');
+                  trigger('term');
                 }}
                 css={`
                   &.btn {
