@@ -26,7 +26,7 @@ const schema = yup
     streetAndNumber: yup.string().required(),
     zip: yup.string().required(),
     municipalityName: yup.string().required(),
-    type: yup.object({
+    term: yup.object({
       label: yup.string().required(),
       domain: yup.string().required(),
       id: yup.string().required(),
@@ -61,7 +61,7 @@ const PlaceAddModal = ({
 
   const headers = useHeaders();
 
-  const types = getTypesByScopeQuery.data ?? [];
+  const terms = getTypesByScopeQuery.data ?? [];
 
   const addPlaceMutation = useAddPlaceMutation();
 
@@ -79,7 +79,7 @@ const PlaceAddModal = ({
         },
         mainLanguage: i18n.language,
         name: data.name,
-        type: data.type,
+        terms: [data.term],
       };
 
       const resp = await addPlaceMutation.mutateAsync(formData);
@@ -119,7 +119,7 @@ const PlaceAddModal = ({
     setValue('name', prefillPlaceName);
   }, [prefillPlaceName, setValue]);
 
-  const selectedType = useWatch({ control, name: 'type' });
+  const selectedTerm = useWatch({ control, name: 'term' });
 
   return (
     <Modal
@@ -165,25 +165,25 @@ const PlaceAddModal = ({
           <Paragraph marginBottom={3} variant={TextVariants.MUTED}>
             {t('location.add_modal.labels.typeInfo')}
           </Paragraph>
-          {formState.errors.type?.id && (
+          {formState.errors.term?.id && (
             <Text color="red">{t('location.add_modal.errors.type')}</Text>
           )}
           <Inline spacing={3} flexWrap="wrap" maxWidth="70rem">
-            {types.map(({ id, name, domain }) => (
+            {terms.map(({ id, name, domain }) => (
               <Button
                 width="auto"
                 marginBottom={3}
                 display="inline-flex"
                 key={id}
-                active={id === selectedType?.id}
+                active={id === selectedTerm?.id}
                 variant={ButtonVariants.SECONDARY}
                 onClick={() => {
-                  setValue('type', {
+                  setValue('term', {
                     id,
                     label: name[i18n.language],
                     domain,
                   });
-                  trigger('type');
+                  trigger('term');
                 }}
                 css={`
                   &.btn {
