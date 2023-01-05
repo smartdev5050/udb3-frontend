@@ -71,12 +71,12 @@ const StepsForm = ({
   });
 
   const addOffer = useAddOffer({
-    onSuccess: (scope, offerId) => {
+    onSuccess: async (scope, offerId) => {
       const url = isMovieForm
         ? `/manage/movies/${offerId}/edit`
         : `/${scope}/${offerId}/edit`;
       // TODO: fix rerendering triggers useFooterStatus and causes 2 scrolls publish
-      push(url, undefined, { shallow: true });
+      await push(url, undefined, { shallow: true });
       setOfferId(offerId);
     },
     convertFormDataToOffer,
