@@ -83,7 +83,7 @@ const tabConfigurations: TabConfig[] = [
   {
     field: Fields.CONTACT_INFO,
     TabContent: ContactInfoStep,
-    shouldInvalidate: false,
+    shouldInvalidate: true,
   },
   {
     field: Fields.BOOKING_INFO,
