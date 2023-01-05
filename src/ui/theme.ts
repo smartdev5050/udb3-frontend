@@ -67,6 +67,9 @@ type BreakpointValues = Values<typeof Breakpoints>;
 const getGlobalBorderRadius = (props: { theme: Theme }) =>
   props.theme.borderRadius;
 
+const getGlobalFormInputHeight = (props: { theme: Theme }) =>
+  props.theme.formInputHeight;
+
 const theme = {
   colors,
   breakpoints: {
@@ -76,6 +79,7 @@ const theme = {
     [Breakpoints.L]: 1200,
   },
   borderRadius: '8px',
+  formInputHeight: 'calc(1.5rem + 0.9rem + 2px)',
   components: {
     alert: {
       borderRadius: '8px',
@@ -406,5 +410,12 @@ const getValueFromTheme =
   (component: string) => (path: string) => (props: { theme: Theme }) =>
     get(props.theme, `components.${component}.${path}`);
 
-export { Breakpoints, colors, getGlobalBorderRadius, getValueFromTheme, theme };
+export {
+  Breakpoints,
+  colors,
+  getGlobalBorderRadius,
+  getGlobalFormInputHeight,
+  getValueFromTheme,
+  theme,
+};
 export type { BreakpointValues, Theme };
