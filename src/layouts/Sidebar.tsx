@@ -402,7 +402,7 @@ const Sidebar = () => {
       children: t('menu.home'),
     },
     {
-      href: isReactCreateFeatureFlagEnabled ? '/create' : '/event',
+      href: '/event',
       iconName: Icons.PLUS_CIRCLE,
       children: t('menu.add'),
     },
