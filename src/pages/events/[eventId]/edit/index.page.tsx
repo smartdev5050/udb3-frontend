@@ -7,7 +7,7 @@ import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideP
 import { OfferForm } from '../../../create/OfferForm';
 
 export const getServerSideProps = getApplicationServerSideProps(
-  async ({ req, query, queryClient }) => {
+  async ({ req, query, queryClient, cookies }) => {
     const { eventId } = query;
 
     const event = (await useGetEventByIdQuery({
@@ -29,6 +29,7 @@ export const getServerSideProps = getApplicationServerSideProps(
     return {
       props: {
         dehydratedState: dehydrate(queryClient),
+        cookies,
       },
     };
   },
