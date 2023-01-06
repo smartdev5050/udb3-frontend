@@ -14,7 +14,6 @@ import {
   useGetUserQuery,
 } from '@/hooks/api/user';
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
-import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
 import type { Values } from '@/types/Values';
@@ -266,10 +265,6 @@ NotificationMenu.displayName = 'NotificationMenu';
 
 const Sidebar = () => {
   const { t, i18n } = useTranslation();
-
-  const [isReactCreateFeatureFlagEnabled] = useFeatureFlag(
-    FeatureFlags.REACT_CREATE,
-  );
 
   const storage = useLocalStorage();
 
