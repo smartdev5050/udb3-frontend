@@ -147,7 +147,6 @@ const PlaceStep = ({
                         )
                       : undefined
                   }
-                  loading={loading}
                   Component={
                     <Typeahead
                       options={places}
