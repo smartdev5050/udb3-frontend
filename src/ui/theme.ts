@@ -283,7 +283,7 @@ const theme = {
       borderColor: colors.grey3,
     },
     newFeatureTooltip: {
-      iconColor: colors.grey6,
+      backgroundColor: colors.grey6,
     },
     detailTable: {
       backgroundColor: colors.grey1,
