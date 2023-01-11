@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
@@ -42,6 +43,7 @@ const OrganizerStep = ({
   ...props
 }: Props) => {
   const { t, i18n } = useTranslation();
+  const { ...router } = useRouter();
   const queryClient = useQueryClient();
 
   const useGetOfferByIdQuery =
@@ -237,6 +239,12 @@ const OrganizerStep = ({
                         text-decoration: underline;
                       `}
                       href="#price_info"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        router.push({ hash: 'price_info' }, undefined, {
+                          shallow: true,
+                        });
+                      }}
                     ></Link>
                   ),
                 }}
