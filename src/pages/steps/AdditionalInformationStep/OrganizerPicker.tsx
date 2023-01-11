@@ -1,5 +1,6 @@
 import debounce from 'lodash/debounce';
 import { useMemo, useState } from 'react';
+import { Highlighter } from 'react-bootstrap-typeahead';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
@@ -120,11 +121,7 @@ const RecentUsedOrganizers = ({
                 >
                   {name}
                 </Text>
-                {isUitpasOrganizer(organizer) && (
-                  <Badge variant={BadgeVariants.SECONDARY}>
-                    {t('brand_uitpas')}
-                  </Badge>
-                )}
+                {isUitpasOrganizer(organizer) && <UitpasBadge />}
               </Paragraph>
               {address && (
                 <Text
@@ -157,6 +154,11 @@ type Props = Omit<StackProps, 'onChange'> & {
 const getOrganizerName = (org: Organizer, language: string) =>
   (typeof org.name === 'string' ? org.name : org.name[language]) ??
   org.name[org.mainLanguage];
+
+const UitpasBadge = () => {
+  const { t } = useTranslation();
+  return <Badge variant={BadgeVariants.SECONDARY}>{t('brand_uitpas')}</Badge>;
+};
 
 const OrganizerPicker = ({
   organizer,
@@ -269,6 +271,17 @@ const OrganizerPicker = ({
                 <Typeahead<Organizer>
                   options={organizers}
                   labelKey={(org) => getOrganizerName(org, i18n.language)}
+                  renderMenuItemChildren={(org: Organizer, { text }) => {
+                    const name = getOrganizerName(org, i18n.language);
+                    return (
+                      <Inline spacing={3}>
+                        <Text>
+                          <Highlighter search={text}>{name}</Highlighter>
+                        </Text>
+                        {isUitpasOrganizer(org) && <UitpasBadge />}
+                      </Inline>
+                    );
+                  }}
                   selected={valueToArray(organizer)}
                   onInputChange={debounce(setOrganizerSearchInput, 275)}
                   onChange={(organizers) => {
