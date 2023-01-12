@@ -244,11 +244,12 @@ const OfferForm = () => {
         return;
       }
 
-      if (newPathname === asPath) {
-        return;
-      }
-
-      if (!newPathname.startsWith('/create')) {
+      // Only rerender StepsForm if you go from edit to create page
+      if (
+        !['/create', '/manage/movies/create'].some((prefix) =>
+          newPathname.startsWith(prefix),
+        )
+      ) {
         return;
       }
 
