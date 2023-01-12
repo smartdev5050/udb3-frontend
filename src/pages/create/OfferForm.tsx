@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { OfferTypes } from '@/constants/OfferType';
@@ -115,8 +115,7 @@ const parseLocationAttributes = (
 
 const OfferForm = () => {
   const { t, i18n } = useTranslation();
-  const { query, pathname } = useRouter();
-  const parts = pathname.split('/');
+  const { query, pathname, ...router } = useRouter();
 
   const scope = useMemo(() => {
     if (
@@ -232,9 +231,38 @@ const OfferForm = () => {
     };
   };
 
+  const [rerenderTrigger, setRerenderTrigger] = useState(
+    Math.random().toString(),
+  );
+
+  useEffect(() => {
+    const handleRouteChange = (
+      newPathname: string,
+      options: Record<string, unknown>,
+    ) => {
+      if (options.shallow === true) {
+        return;
+      }
+
+      if (newPathname === pathname) {
+        return;
+      }
+
+      if (!newPathname.startsWith('/create')) {
+        return;
+      }
+
+      setRerenderTrigger(Math.random().toString());
+    };
+
+    router.events.on('routeChangeStart', handleRouteChange);
+
+    return () => router.events.off('routeChangeStart', handleRouteChange);
+  }, [pathname, router.events]);
+
   return (
     <StepsForm
-      key={parts[parts.length - 1]} // needed to re-render the form between create and edit.
+      key={rerenderTrigger} // needed to re-render the form between create and edit.
       title={t(`create.title`)}
       scope={scope}
       convertFormDataToOffer={convertFormDataWithCalendarToOffer}
