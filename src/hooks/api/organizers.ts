@@ -27,7 +27,7 @@ type GetOrganizersArgumentsByQuery = {
 };
 
 const useGetOrganizersByQueryQuery = (
-  { req, queryClient, q }: AuthenticatedQueryOptions<{ q?: string }> = {},
+  { req, queryClient, name }: AuthenticatedQueryOptions<{ name?: string }> = {},
   configuration: UseQueryOptions = {},
 ) =>
   useAuthenticatedQuery<{ member: Organizer[] }>({
@@ -37,9 +37,11 @@ const useGetOrganizersByQueryQuery = (
     queryFn: getOrganizers,
     queryArguments: {
       embed: true,
-      q,
+      name,
+      start: '0',
+      limit: '10',
     },
-    enabled: !!q,
+    enabled: !!name,
     ...configuration,
   });
 
@@ -47,21 +49,27 @@ type GetOrganizersArguments = {
   headers: Headers;
   embed?: string;
   website?: string;
-  q?: string;
+  name?: string;
+  limit?: string;
+  start?: string;
 };
 
 const getOrganizers = async ({
   headers,
   website,
-  q,
+  name,
   embed,
+  limit,
+  start,
 }: GetOrganizersArguments) => {
   const res = await fetchFromApi({
     path: '/organizers',
     searchParams: {
       embed: `${embed}`,
       ...(website && { website }),
-      ...(q && { q }),
+      ...(name && { name }),
+      ...(limit && { limit }),
+      ...(start && { start }),
     },
     options: {
       headers,

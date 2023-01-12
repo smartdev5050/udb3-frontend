@@ -178,7 +178,7 @@ const OrganizerPicker = ({
   const [organizerSearchInput, setOrganizerSearchInput] = useState('');
 
   const getOrganizersByQueryQuery = useGetOrganizersByQueryQuery(
-    { q: organizerSearchInput },
+    { name: organizerSearchInput },
     { enabled: !!organizerSearchInput },
   );
 
