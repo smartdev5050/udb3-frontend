@@ -14,7 +14,7 @@ import {
 import { typeAndThemeStepConfiguration } from '@/pages/steps/EventTypeAndThemeStep';
 import { placeStepConfiguration } from '@/pages/steps/PlaceStep';
 import { productionStepConfiguration } from '@/pages/steps/ProductionStep';
-import { StepsForm } from '@/pages/steps/StepsForm';
+import { StepsForm, useRerenderStepsForm } from '@/pages/steps/StepsForm';
 import {
   convertTimeTableToSubEvents,
   timeTableStepConfiguration,
@@ -114,10 +114,12 @@ const MovieForm = (props) => {
     };
   };
 
+  const rerenderTrigger = useRerenderStepsForm();
+
   return (
     <StepsForm
       {...props}
-      key={parts[parts.length - 1]} // needed to re-render the form between create and edit.
+      key={rerenderTrigger}
       scope={OfferTypes.EVENTS}
       label="udb-filminvoer"
       convertFormDataToOffer={convertFormDataToOffer}
