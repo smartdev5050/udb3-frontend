@@ -19,6 +19,7 @@ import {
   convertTimeTableToSubEvents,
   timeTableStepConfiguration,
 } from '@/pages/steps/TimeTableStep';
+import { Countries } from '@/types/Country';
 import type { Event } from '@/types/Event';
 import type { SubEvent } from '@/types/Offer';
 import type { Place } from '@/types/Place';
@@ -148,6 +149,7 @@ const MovieForm = (props) => {
         {
           ...placeStepConfiguration,
           stepProps: {
+            country: Countries.BE,
             terms: [EventTypes.Bioscoop],
             chooseLabel: () => t('movies.create.actions.choose_cinema'),
             placeholderLabel: (t) => t('movies.create.cinema.placeholder'),
