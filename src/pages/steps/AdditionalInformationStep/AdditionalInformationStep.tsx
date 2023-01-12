@@ -221,7 +221,7 @@ const AdditionalInformationStep = ({
                 }
               >
                 <TabContent
-                  minHeight="350px"
+                  minHeight="450px"
                   offerId={offerId}
                   scope={scope}
                   onChangeCompleted={(isCompleted) => {

@@ -101,7 +101,6 @@ const LocationStep = ({
   reset,
   control,
   name,
-  loading,
   onChange,
   chooseLabel,
   placeholderLabel,
@@ -351,7 +350,6 @@ const LocationStep = ({
                       reset,
                       control,
                       name,
-                      loading,
                       onChange,
                       watch,
                     }}
