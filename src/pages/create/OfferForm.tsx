@@ -18,7 +18,10 @@ import {
 } from '@/pages/steps/machines/calendarMachine';
 import { nameAndAgeRangeStepConfiguration } from '@/pages/steps/NameAndAgeRangeStep';
 import { scopeStepConfiguration } from '@/pages/steps/ScopeStep';
-import { StepsForm, useRerenderStepsForm } from '@/pages/steps/StepsForm';
+import {
+  StepsForm,
+  useRerenderTriggerStepsForm,
+} from '@/pages/steps/StepsForm';
 import { Address, AddressInternal } from '@/types/Address';
 import { Country } from '@/types/Country';
 import { AttendanceMode, isEvent } from '@/types/Event';
@@ -231,7 +234,7 @@ const OfferForm = () => {
     };
   };
 
-  const rerenderTrigger = useRerenderStepsForm();
+  const rerenderTrigger = useRerenderTriggerStepsForm();
 
   return (
     <StepsForm

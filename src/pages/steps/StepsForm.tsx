@@ -26,7 +26,7 @@ import { Steps, StepsConfiguration } from './Steps';
 
 const getValue = getValueFromTheme('createPage');
 
-const useRerenderStepsForm = () => {
+const useRerenderTriggerStepsForm = () => {
   const router = useRouter();
 
   const [rerenderTrigger, setRerenderTrigger] = useState(
@@ -233,4 +233,4 @@ const StepsForm = ({
   );
 };
 
-export { StepsForm, useRerenderStepsForm };
+export { StepsForm, useRerenderTriggerStepsForm };

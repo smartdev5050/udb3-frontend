@@ -14,7 +14,10 @@ import {
 import { typeAndThemeStepConfiguration } from '@/pages/steps/EventTypeAndThemeStep';
 import { placeStepConfiguration } from '@/pages/steps/PlaceStep';
 import { productionStepConfiguration } from '@/pages/steps/ProductionStep';
-import { StepsForm, useRerenderStepsForm } from '@/pages/steps/StepsForm';
+import {
+  StepsForm,
+  useRerenderTriggerStepsForm,
+} from '@/pages/steps/StepsForm';
 import {
   convertTimeTableToSubEvents,
   timeTableStepConfiguration,
@@ -114,7 +117,7 @@ const MovieForm = (props) => {
     };
   };
 
-  const rerenderTrigger = useRerenderStepsForm();
+  const rerenderTrigger = useRerenderTriggerStepsForm();
 
   return (
     <StepsForm
