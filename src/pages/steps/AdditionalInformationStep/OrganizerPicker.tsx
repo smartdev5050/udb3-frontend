@@ -220,7 +220,7 @@ const OrganizerPicker = ({
   };
 
   return (
-    <Stack {...getStackProps(props)}>
+    <Stack width="100%" {...getStackProps(props)}>
       <FormElement
         id="create-organizer"
         Component={
@@ -249,12 +249,12 @@ const OrganizerPicker = ({
               </Inline>
             </Stack>
           ) : (
-            <Inline>
+            <Inline flex="1">
               <RecentUsedOrganizers
                 organizers={recentUsedOrganizers}
                 onChange={handleSelectRecentOrganizer}
               />
-              <Stack>
+              <Stack flex="1">
                 <Text fontWeight="bold" marginBottom={4}>
                   {t(
                     'create.additionalInformation.organizer.or_choose_other_organizer',
@@ -272,6 +272,7 @@ const OrganizerPicker = ({
                 {addButtonHasBeenPressed && (
                   <Typeahead<Organizer>
                     options={organizers}
+                    flex-grow="1"
                     labelKey={(org) => getOrganizerName(org, i18n.language)}
                     renderMenuItemChildren={(org: Organizer, { text }) => {
                       const name = getOrganizerName(org, i18n.language);
@@ -298,7 +299,7 @@ const OrganizerPicker = ({
                       onChange(parseOfferId(organizer['@id']));
                     }}
                     minLength={3}
-                    width="20rem"
+                    maxWidth="30rem"
                     newSelectionPrefix={t(
                       'create.additionalInformation.organizer.add_new_label',
                     )}
