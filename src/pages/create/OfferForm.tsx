@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { OfferTypes } from '@/constants/OfferType';
@@ -18,7 +18,7 @@ import {
 } from '@/pages/steps/machines/calendarMachine';
 import { nameAndAgeRangeStepConfiguration } from '@/pages/steps/NameAndAgeRangeStep';
 import { scopeStepConfiguration } from '@/pages/steps/ScopeStep';
-import { StepsForm } from '@/pages/steps/StepsForm';
+import { StepsForm, useRerenderStepsForm } from '@/pages/steps/StepsForm';
 import { Address, AddressInternal } from '@/types/Address';
 import { Country } from '@/types/Country';
 import { AttendanceMode, isEvent } from '@/types/Event';
@@ -111,42 +111,6 @@ const parseLocationAttributes = (
       ...(isPlace(offer) && { streetAndNumber: streetAddress }),
     },
   };
-};
-
-const useRerenderStepsForm = () => {
-  const router = useRouter();
-
-  const [rerenderTrigger, setRerenderTrigger] = useState(
-    Math.random().toString(),
-  );
-
-  useEffect(() => {
-    const handleRouteChange = (
-      newPathname: string,
-      options: Record<string, unknown>,
-    ) => {
-      if (options.shallow === true) {
-        return;
-      }
-
-      // Only rerender StepsForm if you go from edit to create page
-      if (
-        !['/create', '/manage/movies/create'].some((prefix) =>
-          newPathname.startsWith(prefix),
-        )
-      ) {
-        return;
-      }
-
-      setRerenderTrigger(Math.random().toString());
-    };
-
-    router.events.on('beforeHistoryChange', handleRouteChange);
-
-    return () => router.events.off('beforeHistoryChange', handleRouteChange);
-  }, [router.asPath, router.events]);
-
-  return rerenderTrigger;
 };
 
 const OfferForm = () => {

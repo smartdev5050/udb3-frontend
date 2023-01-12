@@ -26,6 +26,42 @@ import { Steps, StepsConfiguration } from './Steps';
 
 const getValue = getValueFromTheme('createPage');
 
+const useRerenderStepsForm = () => {
+  const router = useRouter();
+
+  const [rerenderTrigger, setRerenderTrigger] = useState(
+    Math.random().toString(),
+  );
+
+  useEffect(() => {
+    const handleRouteChange = (
+      newPathname: string,
+      options: Record<string, unknown>,
+    ) => {
+      if (options.shallow === true) {
+        return;
+      }
+
+      // Only rerender StepsForm if you go from edit to create page
+      if (
+        !['/create', '/manage/movies/create'].some((prefix) =>
+          newPathname.startsWith(prefix),
+        )
+      ) {
+        return;
+      }
+
+      setRerenderTrigger(Math.random().toString());
+    };
+
+    router.events.on('beforeHistoryChange', handleRouteChange);
+
+    return () => router.events.off('beforeHistoryChange', handleRouteChange);
+  }, [router.asPath, router.events]);
+
+  return rerenderTrigger;
+};
+
 type StepsFormProps = {
   configurations: Array<StepsConfiguration>;
   convertFormDataToOffer: (data: any) => any;
@@ -197,4 +233,4 @@ const StepsForm = ({
   );
 };
 
-export { StepsForm };
+export { StepsForm, useRerenderStepsForm };
