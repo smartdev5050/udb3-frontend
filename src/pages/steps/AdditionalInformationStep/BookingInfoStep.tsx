@@ -388,7 +388,7 @@ const BookingInfoStep = ({
     onError: (_err, _newBookingInfo, context) => {
       queryClient.setQueryData(
         ['events', { id: eventId }],
-        context.previousTodos,
+        context.previousEventInfo,
       );
     },
   });
