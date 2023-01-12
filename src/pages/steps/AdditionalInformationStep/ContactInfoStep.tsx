@@ -1,10 +1,4 @@
-import {
-  ChangeEvent,
-  FormEvent,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { OfferTypes } from '@/constants/OfferType';
@@ -94,9 +88,6 @@ const ContactInfoStep = ({
     // @ts-expect-error
     getOfferByIdQuery.data?.contactPoint ?? organizerContactInfo;
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleChangeCompleted = useCallback(onChangeCompleted, []);
-
   useEffect(() => {
     if (!contactInfo) return;
 
@@ -105,7 +96,7 @@ const ContactInfoStep = ({
     );
 
     // onChangeCompleted can be undefined when used in OrganizerStep
-    handleChangeCompleted?.(hasContactInfo);
+    onChangeCompleted?.(hasContactInfo);
 
     const contactInfoArray = [];
     Object.keys(contactInfo).forEach((key) => {
@@ -118,7 +109,7 @@ const ContactInfoStep = ({
     });
 
     setContactInfoState(contactInfoArray);
-  }, [contactInfo, handleChangeCompleted]);
+  }, [contactInfo, onChangeCompleted]);
 
   const addContactPointMutation = useAddOfferContactPointMutation({
     onSuccess: onSuccessfulChange,
