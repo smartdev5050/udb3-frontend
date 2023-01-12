@@ -109,6 +109,14 @@ const StepsForm = ({
 
   const footerStatus = useFooterStatus({ offer, form });
 
+  // scroll effect
+  useEffect(() => {
+    if (([FooterStatus.HIDDEN] as typeof footerStatus[]).includes(footerStatus))
+      return;
+    const main = document.querySelector('main');
+    main.scroll({ left: 0, top: main.scrollHeight, behavior: 'smooth' });
+  }, [footerStatus]);
+
   return (
     <Page>
       <Page.Title spacing={3} alignItems="center">

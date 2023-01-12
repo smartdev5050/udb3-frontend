@@ -50,14 +50,6 @@ const useFooterStatus = ({ offer, form }) => {
     isPlaceDirty,
   ]);
 
-  // scroll effect
-  useEffect(() => {
-    if (footerStatus === FooterStatus.HIDDEN) return;
-
-    const main = document.querySelector('main');
-    main.scroll({ left: 0, top: main.scrollHeight, behavior: 'smooth' });
-  }, [footerStatus]);
-
   return footerStatus;
 };
 
