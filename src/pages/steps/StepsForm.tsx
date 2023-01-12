@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { OfferType, OfferTypes } from '@/constants/OfferType';
@@ -54,8 +54,9 @@ const StepsForm = ({
 
   // eventId is set after adding (saving) the event
   // or when entering the page from the edit route
-  const [offerId, setOfferId] = useState(
-    ((query.eventId as string) || (query.placeId as string)) ?? '',
+  const offerId = useMemo(
+    () => ((query.eventId as string) || (query.placeId as string)) ?? '',
+    [query.eventId, query.placeId],
   );
 
   const isMovieForm = pathname.startsWith('/manage/movies');
@@ -75,8 +76,7 @@ const StepsForm = ({
       const url = isMovieForm
         ? `/manage/movies/${offerId}/edit`
         : `/${scope}/${offerId}/edit`;
-      await push(url, undefined, { shallow: true });
-      setOfferId(offerId);
+      await push(url, undefined, { scroll: false });
     },
     convertFormDataToOffer,
     label,
