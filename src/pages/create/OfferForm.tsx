@@ -281,18 +281,9 @@ const OfferForm = () => {
         title: '',
       }}
       configurations={[
-        {
-          ...scopeStepConfiguration,
-          stepProps: {
-            scope,
-          },
-        },
-        {
-          ...typeAndThemeStepConfiguration,
-        },
-        {
-          ...calendarStepConfiguration,
-        },
+        scopeStepConfiguration,
+        typeAndThemeStepConfiguration,
+        calendarStepConfiguration,
         locationStepConfiguration,
         nameAndAgeRangeStepConfiguration,
         {
