@@ -145,8 +145,12 @@ const ContactInfoStep = ({
     event: FormEvent<HTMLInputElement>,
     index: number,
   ) => {
-    const newValue = (event.target as HTMLInputElement).value;
+    let newValue = (event.target as HTMLInputElement).value;
     const infoType = contactInfoState[index].type;
+
+    if (infoType === ContactInfoTypes.URL && !newValue.startsWith('http')) {
+      newValue = `http://${newValue}`;
+    }
 
     if (!isValidInfo(infoType, newValue)) return;
 
