@@ -7,6 +7,7 @@ import { useQueryClient } from 'react-query';
 import { useGetOffersByCreatorQuery } from '@/hooks/api/offers';
 import { useGetOrganizersByQueryQuery } from '@/hooks/api/organizers';
 import { useGetUserQuery } from '@/hooks/api/user';
+import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
 import { SupportedLanguages } from '@/i18n/index';
 import { Features, NewFeatureTooltip } from '@/pages/NewFeatureTooltip';
 import { Organizer } from '@/types/Organizer';
@@ -20,7 +21,11 @@ import { Inline } from '@/ui/Inline';
 import { Paragraph } from '@/ui/Paragraph';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
-import { getGlobalBorderRadius, getValueFromTheme } from '@/ui/theme';
+import {
+  Breakpoints,
+  getGlobalBorderRadius,
+  getValueFromTheme,
+} from '@/ui/theme';
 import { isNewEntry, NewEntry, Typeahead } from '@/ui/Typeahead';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { valueToArray } from '@/utils/valueToArray';
@@ -48,7 +53,7 @@ const RecentUsedOrganizers = ({
 }: {
   organizers: Organizer[];
   onChange: (organizerId: string) => void;
-}) => {
+} & StackProps) => {
   const { t } = useTranslation();
 
   if (organizers.length === 0) {
@@ -56,7 +61,7 @@ const RecentUsedOrganizers = ({
   }
 
   return (
-    <Stack spacing={4} {...getStackProps(props)} maxWidth="45rem">
+    <Stack spacing={4} {...getStackProps(props)}>
       <Inline>
         <Text fontWeight="bold">
           {t(
@@ -219,6 +224,8 @@ const OrganizerPicker = ({
     setAddButtonHasBeenPressed(false);
   };
 
+  const isSmallView = useMatchBreakpoint(Breakpoints.S);
+
   return (
     <Stack width="100%" {...getStackProps(props)}>
       <FormElement
@@ -249,12 +256,14 @@ const OrganizerPicker = ({
               </Inline>
             </Stack>
           ) : (
-            <Inline flex="1">
+            <Inline width="100%" flexWrap="wrap">
               <RecentUsedOrganizers
                 organizers={recentUsedOrganizers}
                 onChange={handleSelectRecentOrganizer}
+                width={isSmallView ? '100%' : '60%'}
+                maxWidth="50rem"
               />
-              <Stack flex="1">
+              <Stack width={isSmallView ? '100%' : '40%'}>
                 <Text fontWeight="bold" marginBottom={4}>
                   {t(
                     'create.additionalInformation.organizer.or_choose_other_organizer',
