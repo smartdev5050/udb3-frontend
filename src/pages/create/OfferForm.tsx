@@ -115,23 +115,23 @@ const parseLocationAttributes = (
 
 const OfferForm = () => {
   const { t, i18n } = useTranslation();
-  const { query, pathname, ...router } = useRouter();
+  const { query, asPath, ...router } = useRouter();
 
   const scope = useMemo(() => {
     if (
-      pathname.startsWith('/events') ||
-      pathname.startsWith('/manage/movies') ||
+      asPath.startsWith('/events') ||
+      asPath.startsWith('/manage/movies') ||
       query.scope === OfferTypes.EVENTS
     ) {
       return OfferTypes.EVENTS;
     }
 
-    if (pathname.startsWith('/places') || query.scope === OfferTypes.PLACES) {
+    if (asPath.startsWith('/places') || query.scope === OfferTypes.PLACES) {
       return OfferTypes.PLACES;
     }
 
     return undefined;
-  }, [pathname, query.scope]);
+  }, [asPath, query.scope]);
 
   const convertOfferToFormData = (offer: Offer) => {
     return {
@@ -244,7 +244,7 @@ const OfferForm = () => {
         return;
       }
 
-      if (newPathname === pathname) {
+      if (newPathname === asPath) {
         return;
       }
 
@@ -255,10 +255,10 @@ const OfferForm = () => {
       setRerenderTrigger(Math.random().toString());
     };
 
-    router.events.on('routeChangeStart', handleRouteChange);
+    router.events.on('beforeHistoryChange', handleRouteChange);
 
-    return () => router.events.off('routeChangeStart', handleRouteChange);
-  }, [pathname, router.events]);
+    return () => router.events.off('beforeHistoryChange', handleRouteChange);
+  }, [asPath, router.events]);
 
   return (
     <StepsForm
@@ -283,7 +283,10 @@ const OfferForm = () => {
       configurations={[
         {
           ...scopeStepConfiguration,
-          defaultValue: scope,
+          stepProps: {
+            scope,
+          },
+          // defaultValue: scope,
         },
         {
           ...typeAndThemeStepConfiguration,
