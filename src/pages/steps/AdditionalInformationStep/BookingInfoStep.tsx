@@ -397,7 +397,7 @@ const BookingInfoStep = ({
     const bookingInfo = newBookingInfo;
     const newUrlLabels =
       URL_LABEL_TRANSLATIONS[selectedUrlLabel] ??
-      URL_LABEL_TRANSLATIONS['reserve'];
+      URL_LABEL_TRANSLATIONS.reserve;
 
     if (bookingInfo.url === '') {
       delete bookingInfo.urlLabel;
