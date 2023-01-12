@@ -2,6 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { useQueryClient } from 'react-query';
 import * as yup from 'yup';
 
 import { OfferTypes } from '@/constants/OfferType';
@@ -249,6 +250,7 @@ const BookingInfoStep = ({
 }: Props) => {
   const { t } = useTranslation();
   const [selectedUrlLabel, setSelectedUrlLabel] = useState('');
+  const queryClient = useQueryClient();
 
   // TODO: refactor
   const eventId = offerId;
@@ -332,7 +334,9 @@ const BookingInfoStep = ({
   useEffect(() => {
     if (!bookingInfo) return;
 
-    onChangeCompleted(true);
+    const hasBookingInfo = Object.keys(bookingInfo).length > 0;
+
+    onChangeCompleted(hasBookingInfo);
 
     Object.values(ContactInfoType).map((type) => {
       if (bookingInfo?.[type]) {
@@ -365,30 +369,65 @@ const BookingInfoStep = ({
 
   const addBookingInfoMutation = useAddOfferBookingInfoMutation({
     onSuccess: onSuccessfulChange,
+    onMutate: async (newPayload) => {
+      await queryClient.cancelQueries({
+        queryKey: ['events', { id: eventId }],
+      });
+
+      const previousEventInfo: any = queryClient.getQueryData([
+        'events',
+        { id: eventId },
+      ]);
+
+      queryClient.setQueryData(['events', { id: eventId }], () => {
+        return { ...previousEventInfo, bookingInfo: newPayload.bookingInfo };
+      });
+
+      return { previousEventInfo };
+    },
+    onError: (_err, _newBookingInfo, context) => {
+      queryClient.setQueryData(
+        ['events', { id: eventId }],
+        context.previousTodos,
+      );
+    },
   });
 
   const handleAddBookingInfoMutation = async (newBookingInfo: BookingInfo) => {
     const bookingInfo = newBookingInfo;
-    const newUrlLabels = URL_LABEL_TRANSLATIONS[selectedUrlLabel];
+    const newUrlLabels =
+      URL_LABEL_TRANSLATIONS[selectedUrlLabel] ??
+      URL_LABEL_TRANSLATIONS['reserve'];
 
-    if (newBookingInfo.url === '') {
+    if (bookingInfo.url === '') {
       delete bookingInfo.urlLabel;
       delete bookingInfo.url;
     }
 
-    if (newBookingInfo.phone === '') {
+    if (bookingInfo.phone === '') {
       delete bookingInfo.phone;
     }
 
-    if (newBookingInfo.email === '') {
+    if (bookingInfo.email === '') {
       delete bookingInfo.email;
+    }
+
+    if (
+      !Object.keys(bookingInfo).some((key) =>
+        ['phone', 'url', 'email'].includes(key),
+      ) &&
+      bookingInfo.availabilityEnds &&
+      bookingInfo.availabilityStarts
+    ) {
+      delete bookingInfo.availabilityEnds;
+      delete bookingInfo.availabilityStarts;
     }
 
     await addBookingInfoMutation.mutateAsync({
       eventId,
       bookingInfo: {
         ...bookingInfo,
-        ...(!Object.hasOwn(bookingInfo, 'urlLabel') && {
+        ...(Object.hasOwn(bookingInfo, 'url') && {
           urlLabel: newUrlLabels,
         }),
       },
