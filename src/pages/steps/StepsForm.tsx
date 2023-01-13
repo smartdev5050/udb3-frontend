@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { OfferType, OfferTypes } from '@/constants/OfferType';
@@ -25,6 +25,42 @@ import { PublishLaterModal } from './modals/PublishLaterModal';
 import { Steps, StepsConfiguration } from './Steps';
 
 const getValue = getValueFromTheme('createPage');
+
+const useRerenderTriggerStepsForm = () => {
+  const router = useRouter();
+
+  const [rerenderTrigger, setRerenderTrigger] = useState(
+    Math.random().toString(),
+  );
+
+  useEffect(() => {
+    const handleRouteChange = (
+      newPathname: string,
+      options: Record<string, unknown>,
+    ) => {
+      if (options.shallow === true) {
+        return;
+      }
+
+      // Only rerender StepsForm if you go from edit to create page
+      if (
+        !['/create', '/manage/movies/create'].some((prefix) =>
+          newPathname.startsWith(prefix),
+        )
+      ) {
+        return;
+      }
+
+      setRerenderTrigger(Math.random().toString());
+    };
+
+    router.events.on('beforeHistoryChange', handleRouteChange);
+
+    return () => router.events.off('beforeHistoryChange', handleRouteChange);
+  }, [router.asPath, router.events]);
+
+  return rerenderTrigger;
+};
 
 type StepsFormProps = {
   configurations: Array<StepsConfiguration>;
@@ -54,8 +90,9 @@ const StepsForm = ({
 
   // eventId is set after adding (saving) the event
   // or when entering the page from the edit route
-  const [offerId, setOfferId] = useState(
-    ((query.eventId as string) || (query.placeId as string)) ?? '',
+  const offerId = useMemo(
+    () => ((query.eventId as string) || (query.placeId as string)) ?? '',
+    [query.eventId, query.placeId],
   );
 
   const isMovieForm = pathname.startsWith('/manage/movies');
@@ -75,8 +112,7 @@ const StepsForm = ({
       const url = isMovieForm
         ? `/manage/movies/${offerId}/edit`
         : `/${scope}/${offerId}/edit`;
-      await push(url, undefined, { shallow: true });
-      setOfferId(offerId);
+      await push(url, undefined, { scroll: false });
     },
     convertFormDataToOffer,
     label,
@@ -108,6 +144,14 @@ const StepsForm = ({
   });
 
   const footerStatus = useFooterStatus({ offer, form });
+
+  // scroll effect
+  useEffect(() => {
+    if (([FooterStatus.HIDDEN] as typeof footerStatus[]).includes(footerStatus))
+      return;
+    const main = document.querySelector('main');
+    main.scroll({ left: 0, top: main.scrollHeight, behavior: 'smooth' });
+  }, [footerStatus]);
 
   return (
     <Page>
@@ -189,4 +233,4 @@ const StepsForm = ({
   );
 };
 
-export { StepsForm };
+export { StepsForm, useRerenderTriggerStepsForm };
