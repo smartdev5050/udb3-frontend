@@ -48,7 +48,7 @@ const RecentUsedOrganizers = ({
 }: {
   organizers: Organizer[];
   onChange: (organizerId: string) => void;
-}) => {
+} & StackProps) => {
   const { t } = useTranslation();
 
   if (organizers.length === 0) {
@@ -56,7 +56,7 @@ const RecentUsedOrganizers = ({
   }
 
   return (
-    <Stack spacing={4} {...getStackProps(props)} maxWidth="45rem">
+    <Stack spacing={4} {...getStackProps(props)}>
       <Inline>
         <Text fontWeight="bold">
           {t(
@@ -220,7 +220,7 @@ const OrganizerPicker = ({
   };
 
   return (
-    <Stack {...getStackProps(props)}>
+    <Stack width="100%" {...getStackProps(props)}>
       <FormElement
         id="create-organizer"
         Component={
@@ -249,12 +249,14 @@ const OrganizerPicker = ({
               </Inline>
             </Stack>
           ) : (
-            <Inline>
+            <Inline width="100%" flexWrap="wrap">
               <RecentUsedOrganizers
                 organizers={recentUsedOrganizers}
                 onChange={handleSelectRecentOrganizer}
+                width={{ s: '100%', default: '60%' }}
+                maxWidth="50rem"
               />
-              <Stack>
+              <Stack width={{ s: '100%', default: '40%' }}>
                 <Text fontWeight="bold" marginBottom={4}>
                   {t(
                     'create.additionalInformation.organizer.or_choose_other_organizer',
@@ -298,7 +300,7 @@ const OrganizerPicker = ({
                       onChange(parseOfferId(organizer['@id']));
                     }}
                     minLength={3}
-                    width="20rem"
+                    maxWidth="30rem"
                     newSelectionPrefix={t(
                       'create.additionalInformation.organizer.add_new_label',
                     )}
