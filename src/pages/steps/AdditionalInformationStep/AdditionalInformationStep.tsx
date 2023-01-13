@@ -88,7 +88,7 @@ const tabConfigurations: TabConfig[] = [
   {
     field: Fields.BOOKING_INFO,
     TabContent: BookingInfoStep,
-    shouldInvalidate: true,
+    shouldInvalidate: false,
     shouldShowOn: [
       AdditionalInformationStepVariant.EVENT,
       AdditionalInformationStepVariant.PLACE,
