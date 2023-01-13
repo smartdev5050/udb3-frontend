@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { Controller, ControllerRenderProps, Path } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
@@ -8,6 +9,7 @@ import { parseSpacing } from '@/ui/Box';
 import { getInlineProps, Inline, InlineProps } from '@/ui/Inline';
 import { ToggleBox } from '@/ui/ToggleBox';
 
+import { Scope } from '../create/OfferForm';
 import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
 
 const IconEvent = ({ width }: { width: string }) => {
@@ -101,7 +103,7 @@ const IconLocation = ({ width }: { width: string }) => {
   );
 };
 
-type Props = InlineProps & StepProps & { offerId?: string };
+type Props = InlineProps & StepProps & { offerId?: string; scope?: Scope };
 
 const ScopeStep = ({
   offerId,
@@ -109,10 +111,15 @@ const ScopeStep = ({
   name,
   setValue,
   resetField,
+  scope,
   ...props
 }: Props) => {
   const { t } = useTranslation();
   const { replace } = useRouter();
+
+  useEffect(() => {
+    setValue('scope', scope);
+  }, [scope, setValue]);
 
   const handleChangeScope = (
     field: ControllerRenderProps<FormDataUnion, string & Path<FormDataUnion>>,

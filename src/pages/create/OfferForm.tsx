@@ -18,7 +18,10 @@ import {
 } from '@/pages/steps/machines/calendarMachine';
 import { nameAndAgeRangeStepConfiguration } from '@/pages/steps/NameAndAgeRangeStep';
 import { scopeStepConfiguration } from '@/pages/steps/ScopeStep';
-import { StepsForm } from '@/pages/steps/StepsForm';
+import {
+  StepsForm,
+  useRerenderTriggerStepsForm,
+} from '@/pages/steps/StepsForm';
 import { Address, AddressInternal } from '@/types/Address';
 import { Country } from '@/types/Country';
 import { AttendanceMode, isEvent } from '@/types/Event';
@@ -115,24 +118,23 @@ const parseLocationAttributes = (
 
 const OfferForm = () => {
   const { t, i18n } = useTranslation();
-  const { query, pathname } = useRouter();
-  const parts = pathname.split('/');
+  const { query, asPath, ...router } = useRouter();
 
   const scope = useMemo(() => {
     if (
-      pathname.startsWith('/events') ||
-      pathname.startsWith('/manage/movies') ||
+      asPath.startsWith('/events') ||
+      asPath.startsWith('/manage/movies') ||
       query.scope === OfferTypes.EVENTS
     ) {
       return OfferTypes.EVENTS;
     }
 
-    if (pathname.startsWith('/places') || query.scope === OfferTypes.PLACES) {
+    if (asPath.startsWith('/places') || query.scope === OfferTypes.PLACES) {
       return OfferTypes.PLACES;
     }
 
     return undefined;
-  }, [pathname, query.scope]);
+  }, [asPath, query.scope]);
 
   const convertOfferToFormData = (offer: Offer) => {
     return {
@@ -232,9 +234,11 @@ const OfferForm = () => {
     };
   };
 
+  const rerenderTrigger = useRerenderTriggerStepsForm();
+
   return (
     <StepsForm
-      key={parts[parts.length - 1]} // needed to re-render the form between create and edit.
+      key={rerenderTrigger}
       title={t(`create.title`)}
       scope={scope}
       convertFormDataToOffer={convertFormDataWithCalendarToOffer}
@@ -253,16 +257,9 @@ const OfferForm = () => {
         title: '',
       }}
       configurations={[
-        {
-          ...scopeStepConfiguration,
-          defaultValue: scope,
-        },
-        {
-          ...typeAndThemeStepConfiguration,
-        },
-        {
-          ...calendarStepConfiguration,
-        },
+        scopeStepConfiguration,
+        typeAndThemeStepConfiguration,
+        calendarStepConfiguration,
         locationStepConfiguration,
         nameAndAgeRangeStepConfiguration,
         {

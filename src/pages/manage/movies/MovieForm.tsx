@@ -14,11 +14,15 @@ import {
 import { typeAndThemeStepConfiguration } from '@/pages/steps/EventTypeAndThemeStep';
 import { placeStepConfiguration } from '@/pages/steps/PlaceStep';
 import { productionStepConfiguration } from '@/pages/steps/ProductionStep';
-import { StepsForm } from '@/pages/steps/StepsForm';
+import {
+  StepsForm,
+  useRerenderTriggerStepsForm,
+} from '@/pages/steps/StepsForm';
 import {
   convertTimeTableToSubEvents,
   timeTableStepConfiguration,
 } from '@/pages/steps/TimeTableStep';
+import { Countries } from '@/types/Country';
 import type { Event } from '@/types/Event';
 import type { SubEvent } from '@/types/Offer';
 import type { Place } from '@/types/Place';
@@ -113,10 +117,12 @@ const MovieForm = (props) => {
     };
   };
 
+  const rerenderTrigger = useRerenderTriggerStepsForm();
+
   return (
     <StepsForm
       {...props}
-      key={parts[parts.length - 1]} // needed to re-render the form between create and edit.
+      key={rerenderTrigger}
       scope={OfferTypes.EVENTS}
       label="udb-filminvoer"
       convertFormDataToOffer={convertFormDataToOffer}
@@ -148,6 +154,7 @@ const MovieForm = (props) => {
         {
           ...placeStepConfiguration,
           stepProps: {
+            country: Countries.BE,
             terms: [EventTypes.Bioscoop],
             chooseLabel: () => t('movies.create.actions.choose_cinema'),
             placeholderLabel: (t) => t('movies.create.cinema.placeholder'),

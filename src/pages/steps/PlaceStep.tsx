@@ -89,11 +89,12 @@ const PlaceStep = ({
     ],
   );
 
-  const place = useWatch({ control, name: 'location.place' });
+  const locationPlace = useWatch({ control, name: 'location.place' });
+  const place = useWatch({ control, name: 'place' });
 
   const selectedPlace = parentFieldValue
     ? parentFieldValue.place ?? undefined
-    : place;
+    : locationPlace ?? place;
 
   const getPlaceName = (
     name: Place['name'],
@@ -189,6 +190,7 @@ const PlaceStep = ({
                           parentOnChange(place);
                           return;
                         }
+
                         field.onChange(place);
                         onChange(place);
                       }}
