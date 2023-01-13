@@ -21,11 +21,7 @@ import { Inline } from '@/ui/Inline';
 import { Paragraph } from '@/ui/Paragraph';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
-import {
-  Breakpoints,
-  getGlobalBorderRadius,
-  getValueFromTheme,
-} from '@/ui/theme';
+import { getGlobalBorderRadius, getValueFromTheme } from '@/ui/theme';
 import { isNewEntry, NewEntry, Typeahead } from '@/ui/Typeahead';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { valueToArray } from '@/utils/valueToArray';
@@ -224,8 +220,6 @@ const OrganizerPicker = ({
     setAddButtonHasBeenPressed(false);
   };
 
-  const isSmallView = useMatchBreakpoint(Breakpoints.S);
-
   return (
     <Stack width="100%" {...getStackProps(props)}>
       <FormElement
@@ -260,10 +254,10 @@ const OrganizerPicker = ({
               <RecentUsedOrganizers
                 organizers={recentUsedOrganizers}
                 onChange={handleSelectRecentOrganizer}
-                width={isSmallView ? '100%' : '60%'}
+                width={{ s: '100%', default: '60%' }}
                 maxWidth="50rem"
               />
-              <Stack width={isSmallView ? '100%' : '40%'}>
+              <Stack width={{ s: '100%', default: '40%' }}>
                 <Text fontWeight="bold" marginBottom={4}>
                   {t(
                     'create.additionalInformation.organizer.or_choose_other_organizer',
@@ -281,7 +275,6 @@ const OrganizerPicker = ({
                 {addButtonHasBeenPressed && (
                   <Typeahead<Organizer>
                     options={organizers}
-                    flex-grow="1"
                     labelKey={(org) => getOrganizerName(org, i18n.language)}
                     renderMenuItemChildren={(org: Organizer, { text }) => {
                       const name = getOrganizerName(org, i18n.language);
