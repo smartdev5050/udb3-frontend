@@ -7,7 +7,6 @@ import { useQueryClient } from 'react-query';
 import { useGetOffersByCreatorQuery } from '@/hooks/api/offers';
 import { useGetOrganizersByQueryQuery } from '@/hooks/api/organizers';
 import { useGetUserQuery } from '@/hooks/api/user';
-import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
 import { SupportedLanguages } from '@/i18n/index';
 import { Features, NewFeatureTooltip } from '@/pages/NewFeatureTooltip';
 import { Organizer } from '@/types/Organizer';
