@@ -36,9 +36,7 @@ const schema = yup
     phone: yup
       .string()
       .test(`phone-is-not-valid`, 'phone is not valid', isValidPhone),
-    url: yup
-      .string()
-      .test(`website-is-not-valid`, 'url is not valid', isValidUrl),
+    url: yup.string(),
   })
   .required();
 
@@ -250,6 +248,7 @@ const BookingInfoStep = ({
 }: Props) => {
   const { t } = useTranslation();
   const [selectedUrlLabel, setSelectedUrlLabel] = useState('');
+  const [hasInvalidUrl, setHasInvalidUrl] = useState(false);
   const queryClient = useQueryClient();
 
   // TODO: refactor
@@ -399,6 +398,17 @@ const BookingInfoStep = ({
       URL_LABEL_TRANSLATIONS[selectedUrlLabel] ??
       URL_LABEL_TRANSLATIONS.reserve;
 
+    if (bookingInfo.url && !bookingInfo.url.startsWith('http')) {
+      bookingInfo.url = `http://${bookingInfo.url}`;
+    }
+
+    if (bookingInfo.url && !isValidUrl(bookingInfo.url)) {
+      setHasInvalidUrl(true);
+      return;
+    } else {
+      setHasInvalidUrl(false);
+    }
+
     if (bookingInfo.url === '') {
       delete bookingInfo.urlLabel;
       delete bookingInfo.url;
@@ -505,8 +515,13 @@ const BookingInfoStep = ({
                   />
                 }
                 error={
-                  formState.errors?.[type] &&
-                  t(`create.additionalInformation.booking_info.${type}_error`)
+                  (formState.errors?.[type] &&
+                    t(
+                      `create.additionalInformation.booking_info.${type}_error`,
+                    )) ||
+                  (type === ContactInfoType.URL &&
+                    hasInvalidUrl &&
+                    t(`create.additionalInformation.booking_info.url_error`))
                 }
               />
             );
