@@ -86,7 +86,16 @@ const PictureUploadBox = ({
       onDragOver={(e) => e.preventDefault()}
       {...getStackProps(props)}
     >
-      <Title size={3}>{t('pictures.title')}</Title>
+      <Inline>
+        <Title
+          size={3}
+          css={`
+            min-height: 26px;
+          `}
+        >
+          {t('pictures.title')}
+        </Title>
+      </Inline>
       <Stack
         flex={1}
         spacing={4}
