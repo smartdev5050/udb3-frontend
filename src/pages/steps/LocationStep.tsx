@@ -56,7 +56,6 @@ const useEditLocation = ({ scope, offerId }) => {
         return;
       }
 
-      // if (!location.municipality) return;
       if (!location.place) return;
 
       changeAttendanceMode.mutate({
