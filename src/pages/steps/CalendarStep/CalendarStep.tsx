@@ -152,8 +152,12 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
   useEffect(() => {
     if (offerId) return;
 
-    handleLoadInitialContext();
-  }, [handleLoadInitialContext, offerId]);
+    handleLoadInitialContext({
+      ...(scope === OfferTypes.PLACES && {
+        calendarType: CalendarType.PERMANENT,
+      }),
+    });
+  }, [handleLoadInitialContext, scope, offerId]);
 
   const useGetOfferByIdQuery =
     scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
@@ -191,7 +195,7 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
       ...(event && { endDate: event.endDate ?? '' }),
     };
 
-    handleLoadInitialContext(newContext, event.calendarType);
+    handleLoadInitialContext({ newContext, calendarType: event.calendarType });
   }, [event, handleLoadInitialContext]);
 
   const toast = useToast({
