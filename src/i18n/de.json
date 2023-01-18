@@ -666,6 +666,9 @@
       "validation_messages": {
         "address": {
           "addressLocality": "Ihre Gemeinde erfüllt die Anforderungen nicht.",
+          "city": {
+            "zip": "Ihre Postleitzahl entspricht nicht den Anforderungen."
+          },
           "streetAndNumber": "Ihre Straße und Hausnummer entsprechen nicht den Anforderungen."
         },
         "name": "Ihr Name entspricht nicht den Anforderungen.",
