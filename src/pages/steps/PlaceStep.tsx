@@ -92,10 +92,6 @@ const PlaceStep = ({
   const locationPlace = useWatch({ control, name: 'location.place' });
   const place = useWatch({ control, name: 'place' });
 
-  const selectedPlace = parentFieldValue
-    ? parentFieldValue.place ?? undefined
-    : locationPlace ?? place;
-
   const getPlaceName = (
     name: Place['name'],
     mainLanguage: SupportedLanguage,
@@ -124,6 +120,8 @@ const PlaceStep = ({
         control={control}
         name={name}
         render={({ field }) => {
+          const selectedPlace = parentFieldValue ?? field.value;
+
           if (!selectedPlace) {
             return (
               <Stack>
