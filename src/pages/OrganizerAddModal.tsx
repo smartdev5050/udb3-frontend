@@ -43,7 +43,21 @@ const schema = yup
           .object({
             label: yup.string().required(),
             name: yup.string().required(),
-            zip: yup.string().required(),
+            zip: yup
+              .string()
+              .test(
+                'zip required',
+                '${path} is not filled in',
+                (value, context) => {
+                  // @ts-expect-error
+                  const [_parent, parentAddress] = context.from;
+                  const { country } = parentAddress.value;
+                  return (
+                    country === Countries.DE ||
+                    (country !== Countries.DE && value !== '')
+                  );
+                },
+              ),
           })
           .required(),
       })
