@@ -77,6 +77,9 @@ const VideoUploadBox = ({
         borderRadius={getGlobalBorderRadius}
         backgroundColor={getValue('backgroundColor')}
         justifyContent="center"
+        css={`
+          border: 1px solid ${getValue('borderColor')};
+        `}
       >
         <Stack
           spacing={4}
