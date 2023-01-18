@@ -56,7 +56,7 @@ const useEditLocation = ({ scope, offerId }) => {
         return;
       }
 
-      if (!location.municipality) return;
+      // if (!location.municipality) return;
       if (!location.place) return;
 
       changeAttendanceMode.mutate({
@@ -328,31 +328,19 @@ const LocationStep = ({
                 {scope === OfferTypes.EVENTS && (
                   <PlaceStep
                     maxWidth="28rem"
-                    name={'location.place'}
                     municipality={municipality}
                     country={country}
                     chooseLabel={chooseLabel}
                     placeholderLabel={placeholderLabel}
-                    parentFieldValue={field.value}
-                    parentFieldOnChange={(val: Place | undefined) => {
-                      field.onChange({ ...field.value, place: val });
-                    }}
-                    parentOnChange={(val: Place | undefined) => {
-                      onChange({
-                        ...field.value,
-                        place: val,
-                      });
-                    }}
-                    {...getStepProps(props)}
                     {...{
                       formState,
                       getValues,
                       reset,
                       control,
                       name,
-                      onChange,
-                      watch,
                     }}
+                    {...getStepProps(props)}
+                    onChange={onChange}
                   />
                 )}
                 {scope === OfferTypes.PLACES && (

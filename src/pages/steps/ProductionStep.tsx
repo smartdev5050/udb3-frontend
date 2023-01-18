@@ -185,7 +185,7 @@ const productionStepConfiguration: StepsConfiguration = {
   Component: ProductionStep,
   validation: yup.object().shape({}).required(),
   name: 'production',
-  shouldShowStep: ({ watch }) => !!watch('place'),
+  shouldShowStep: ({ watch }) => !!watch('location.place'),
   title: ({ t }) => t(`movies.create.step4.title`),
 };
 

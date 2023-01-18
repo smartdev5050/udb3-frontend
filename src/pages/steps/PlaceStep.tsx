@@ -39,9 +39,6 @@ type PlaceStepProps = StackProps &
     country?: Country;
     chooseLabel: (t: TFunction) => string;
     placeholderLabel: (t: TFunction) => string;
-    parentOnChange?: (val: Place | NewEntry | undefined) => void;
-    parentFieldOnChange?: (val: Place | NewEntry | undefined) => void;
-    parentFieldValue: any;
   };
 
 const PlaceStep = ({
@@ -57,10 +54,6 @@ const PlaceStep = ({
   country,
   chooseLabel,
   placeholderLabel,
-  parentOnChange,
-  parentFieldOnChange,
-  parentFieldValue,
-  watch,
   ...props
 }: PlaceStepProps) => {
   const { t, i18n } = useTranslation();
@@ -89,8 +82,7 @@ const PlaceStep = ({
     ],
   );
 
-  const locationPlace = useWatch({ control, name: 'location.place' });
-  const place = useWatch({ control, name: 'place' });
+  const place = useWatch({ control, name: 'location.place' });
 
   const getPlaceName = (
     name: Place['name'],
@@ -120,7 +112,7 @@ const PlaceStep = ({
         control={control}
         name={name}
         render={({ field }) => {
-          const selectedPlace = parentFieldValue ?? field.value;
+          const selectedPlace = place;
 
           if (!selectedPlace) {
             return (
@@ -132,17 +124,18 @@ const PlaceStep = ({
                   municipality={municipality}
                   country={country}
                   onConfirmSuccess={(place) => {
-                    parentFieldOnChange(place);
-                    parentOnChange(place);
+                    const updatedValue = { ...field.value, place };
+                    field.onChange(updatedValue);
+                    onChange(updatedValue);
                   }}
                 />
                 <FormElement
                   id="place-step"
                   label={chooseLabel(t)}
                   error={
-                    errors?.place
+                    errors?.location?.place
                       ? t(
-                          `movies.create.validation_messages.cinema.${errors?.place.type}`,
+                          `movies.create.validation_messages.cinema.${errors.location.place.type}`,
                         )
                       : undefined
                   }
@@ -183,14 +176,10 @@ const PlaceStep = ({
                           return;
                         }
 
-                        if (parentFieldOnChange && parentOnChange) {
-                          parentFieldOnChange(place);
-                          parentOnChange(place);
-                          return;
-                        }
+                        const updatedValue = { ...field.value, place };
 
-                        field.onChange(place);
-                        onChange(place);
+                        field.onChange(updatedValue);
+                        onChange(updatedValue);
                       }}
                       minLength={3}
                       placeholder={placeholderLabel(t)}
@@ -216,11 +205,7 @@ const PlaceStep = ({
               <Button
                 variant={ButtonVariants.LINK}
                 onClick={() => {
-                  if (parentFieldOnChange) {
-                    parentFieldOnChange(undefined);
-                    return;
-                  }
-                  field.onChange(undefined);
+                  field.onChange({ ...field.value, place: undefined });
                 }}
               >
                 {isMovie
@@ -238,7 +223,7 @@ const PlaceStep = ({
 const placeStepConfiguration: StepsConfiguration = {
   Component: PlaceStep,
   validation: yup.object().shape({}).required(),
-  name: 'place',
+  name: 'location',
   shouldShowStep: ({ watch }) => isOneTimeSlotValid(watch('timeTable')),
   title: ({ t }) => t(`movies.create.step3.title`),
 };

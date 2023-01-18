@@ -36,7 +36,9 @@ type FormData = {
     theme: { id: string; label: string };
   };
   timeTable: any;
-  place: Place;
+  location: {
+    place: Place;
+  };
   production: Production & { customOption?: boolean };
 };
 
@@ -68,8 +70,7 @@ const convertSubEventsToTimeTable = (subEvents: SubEvent[] = []) => {
 };
 
 const MovieForm = (props) => {
-  const { query, pathname } = useRouter();
-  const parts = pathname.split('/');
+  const { query } = useRouter();
   const { t, i18n } = useTranslation();
 
   const offerId = query.offerId || query.eventId || query.placeId;
@@ -98,7 +99,7 @@ const MovieForm = (props) => {
   const convertFormDataToOffer = ({
     production,
     typeAndTheme,
-    place,
+    location,
     timeTable,
   }: FormData) => {
     const subEvent = convertTimeTableToSubEvents(timeTable);
@@ -109,7 +110,7 @@ const MovieForm = (props) => {
         subEvent.length > 1 ? CalendarType.MULTIPLE : CalendarType.SINGLE,
       subEvent,
       location: {
-        id: parseOfferId(place['@id']),
+        id: parseOfferId(location.place['@id']),
       },
       workflowStatus: WorkflowStatusMap.DRAFT,
       audienceType: 'everyone',
