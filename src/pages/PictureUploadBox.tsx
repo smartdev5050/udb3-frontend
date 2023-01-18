@@ -87,12 +87,7 @@ const PictureUploadBox = ({
       {...getStackProps(props)}
     >
       <Inline>
-        <Title
-          size={3}
-          css={`
-            min-height: 26px;
-          `}
-        >
+        <Title size={3} minHeight="26px">
           {t('pictures.title')}
         </Title>
       </Inline>
