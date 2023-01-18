@@ -96,6 +96,7 @@ const OrganizerAddModal = ({
     formState,
     control,
     reset,
+    clearErrors,
     setValue,
     setError,
   } = useForm<FormData>({
@@ -250,7 +251,15 @@ const OrganizerAddModal = ({
                         selected={
                           field.value as OrganizerData['address']['country']
                         }
-                        onChange={field.onChange}
+                        onChange={(e) => {
+                          setValue('address.city', {
+                            name: '',
+                            zip: '',
+                            label: '',
+                          });
+                          clearErrors('address');
+                          field.onChange(e.target.value);
+                        }}
                       />
                     }
                     id="organizer-address-country"
