@@ -11,10 +11,13 @@ export const useCalendarHandlers = () => {
   const calendarService = useCalendarContext();
   const send = calendarService.send;
 
-  const handleLoadInitialContext = (
-    newContext?: CalendarContext,
-    calendarType?: Values<typeof CalendarType>,
-  ): void => {
+  const handleLoadInitialContext = ({
+    newContext,
+    calendarType,
+  }: {
+    newContext?: CalendarContext;
+    calendarType?: Values<typeof CalendarType>;
+  }): void => {
     send('LOAD_INITIAL_CONTEXT', { newContext, calendarType });
   };
 
