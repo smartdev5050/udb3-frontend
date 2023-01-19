@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -12,7 +12,6 @@ import {
   ContactInfoStep,
 } from '@/pages/steps/AdditionalInformationStep/ContactInfoStep';
 import { Countries, Country } from '@/types/Country';
-import { Values } from '@/types/Values';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { FormElement } from '@/ui/FormElement';
 import { Inline } from '@/ui/Inline';
@@ -90,16 +89,21 @@ const OrganizerAddModal = ({
     url: [],
   });
 
+  const formComponent = useRef<HTMLFormElement>();
+
   const {
     register,
     handleSubmit,
     formState,
     control,
     reset,
+    clearErrors,
     setValue,
     setError,
   } = useForm<FormData>({
+    mode: 'onBlur',
     resolver: yupResolver(schema),
+    reValidateMode: 'onBlur',
     defaultValues,
   });
 
@@ -114,7 +118,7 @@ const OrganizerAddModal = ({
     {
       website: watchedUrl,
     },
-    { enabled: visible && !formState.errors.url },
+    { enabled: visible },
   );
 
   const isUrlUnique =
@@ -130,6 +134,10 @@ const OrganizerAddModal = ({
       {
         label: t('countries.NL'),
         value: Countries.NL,
+      },
+      {
+        label: t('countries.DE'),
+        value: Countries.DE,
       },
       // TODO: Add "Locatie in overleg met school"
     ],
@@ -185,7 +193,7 @@ const OrganizerAddModal = ({
       onClose={handleClose}
       size={ModalSizes.LG}
     >
-      <Stack padding={4} spacing={4}>
+      <Stack as="form" ref={formComponent} padding={4} spacing={4}>
         <FormElement
           Component={
             <Input
@@ -246,7 +254,15 @@ const OrganizerAddModal = ({
                         selected={
                           field.value as OrganizerData['address']['country']
                         }
-                        onChange={field.onChange}
+                        onChange={(e) => {
+                          setValue('address.city', {
+                            name: '',
+                            zip: '',
+                            label: '',
+                          });
+                          clearErrors('address');
+                          field.onChange(e.target.value);
+                        }}
                       />
                     }
                     id="organizer-address-country"
@@ -278,7 +294,7 @@ const OrganizerAddModal = ({
                         {...field}
                         value={field.value as City}
                         error={
-                          formState.errors.address?.city &&
+                          formState.errors.address?.city?.label &&
                           t(
                             'organizer.add_modal.validation_messages.address.addressLocality',
                           )
@@ -288,7 +304,7 @@ const OrganizerAddModal = ({
                   }}
                 />
               </Stack>
-              {watchedCountry === 'NL' && (
+              {(watchedCountry === 'NL' || watchedCountry === 'DE') && (
                 <FormElement
                   Component={<Input {...register('address.city.zip')} />}
                   id="organizer-address-city-zip"

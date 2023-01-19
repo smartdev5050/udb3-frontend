@@ -148,9 +148,9 @@ const MediaStep = ({
       const youtubeImagePath = 'https://i.ytimg.com/vi_webp/';
 
       if (videoUrl.includes('v=')) {
-        return `${youtubeImagePath}${
-          videoUrl.split('v=')[1]
-        }/maxresdefault.webp`;
+        const urlParams = new URL(videoUrl).searchParams;
+        const videoId = urlParams.get('v');
+        return `${youtubeImagePath}${videoId}/maxresdefault.webp`;
       }
 
       if (videoUrl.includes('youtu.be/')) {
