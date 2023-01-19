@@ -193,9 +193,13 @@ const MediaStep = ({
       return enrichedVideo;
     });
 
-    const data = await Promise.all(convertAllVideoUrlsPromises);
+    const data = await Promise.allSettled(convertAllVideoUrlsPromises);
 
-    setVideos(data);
+    const successVideos = data
+      .filter((res) => res.status === 'fulfilled')
+      .map((res: PromiseFulfilledResult<VideoEnriched>) => res.value);
+
+    setVideos(successVideos);
   };
 
   useEffect(() => {
