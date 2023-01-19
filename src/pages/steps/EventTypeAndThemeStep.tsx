@@ -1,5 +1,6 @@
 import { Controller, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { useQueryClient } from 'react-query';
 import * as yup from 'yup';
 
 import { OfferType, OfferTypes } from '@/constants/OfferType';
@@ -8,7 +9,7 @@ import {
   useChangeOfferTypeMutation,
 } from '@/hooks/api/offers';
 import { useGetTypesByScopeQuery } from '@/hooks/api/types';
-import { Values } from '@/types/Values';
+import { Term } from '@/types/Offer';
 import { parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icon, Icons } from '@/ui/Icon';
@@ -22,13 +23,85 @@ import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
 
 const getGlobalValue = getValueFromTheme('global');
 
-const useEditTypeAndTheme = ({ scope, offerId, onSuccess }) => {
+const useEditTypeAndTheme = ({ scope, offerId }) => {
+  const queryClient = useQueryClient();
+
   const changeTypeMutation = useChangeOfferTypeMutation({
-    onSuccess: () => onSuccess('typeAndTheme'),
+    onMutate: async (newPayload) => {
+      await queryClient.cancelQueries({
+        queryKey: [scope, { id: offerId }],
+      });
+
+      const previousEventInfo: any = queryClient.getQueryData([
+        scope,
+        { id: offerId },
+      ]);
+
+      const terms: Term[] = [
+        ...previousEventInfo.terms.filter((term: Term) => {
+          return term.domain !== 'eventtype';
+        }),
+      ];
+
+      if (newPayload.typeId) {
+        terms.push({
+          id: newPayload.typeId,
+          domain: 'eventtype',
+          label: newPayload.typeLabel,
+        });
+      }
+
+      queryClient.setQueryData([scope, { id: offerId }], () => {
+        return { ...previousEventInfo, terms };
+      });
+
+      return { previousEventInfo };
+    },
+    onError: (_err, _newBookingInfo, context) => {
+      queryClient.setQueryData(
+        [scope, { id: offerId }],
+        context.previousEventInfo,
+      );
+    },
   });
 
   const changeThemeMutation = useChangeOfferThemeMutation({
-    onSuccess: () => onSuccess('typeAndTheme'),
+    onMutate: async (newPayload) => {
+      await queryClient.cancelQueries({
+        queryKey: [scope, { id: offerId }],
+      });
+
+      const previousEventInfo: any = queryClient.getQueryData([
+        scope,
+        { id: offerId },
+      ]);
+
+      const terms: Term[] = [
+        ...previousEventInfo.terms.filter((term: Term) => {
+          return term.domain !== 'theme';
+        }),
+      ];
+
+      if (newPayload.themeId) {
+        terms.push({
+          id: newPayload.themeId,
+          domain: 'theme',
+          label: newPayload.themeLabel,
+        });
+      }
+
+      queryClient.setQueryData([scope, { id: offerId }], () => {
+        return { ...previousEventInfo, terms };
+      });
+
+      return { previousEventInfo };
+    },
+    onError: (_err, _newBookingInfo, context) => {
+      queryClient.setQueryData(
+        [scope, { id: offerId }],
+        context.previousEventInfo,
+      );
+    },
   });
 
   return async ({ typeAndTheme }: FormDataUnion) => {
@@ -37,12 +110,16 @@ const useEditTypeAndTheme = ({ scope, offerId, onSuccess }) => {
     await changeTypeMutation.mutateAsync({
       id: offerId,
       typeId: typeAndTheme.type?.id,
+      typeLabel: typeAndTheme.type?.label,
       scope,
     });
+
+    if (scope === OfferTypes.PLACES) return;
 
     await changeThemeMutation.mutateAsync({
       id: offerId,
       themeId: typeAndTheme.theme?.id,
+      themeLabel: typeAndTheme.theme?.label,
       scope,
     });
   };
