@@ -168,7 +168,7 @@ const MediaStep = ({
         : urlParts[urlParts.length - 1];
 
       const response = await fetch(
-        `http://vimeo.com/api/v2/video/${videoId}.json`,
+        `https://vimeo.com/api/v2/video/${videoId}.json`,
       );
 
       const data = await response.json();
