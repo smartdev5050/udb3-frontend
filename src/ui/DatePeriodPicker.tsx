@@ -62,7 +62,9 @@ const DatePeriodPicker = ({
               onDateStartChange(newDateEnd);
             }
           }}
-          minDate={dateStart}
+          minDate={
+            dateStart.getTime() > new Date().getTime() ? dateStart : new Date()
+          }
           disabled={disabled}
         />
       </Stack>
