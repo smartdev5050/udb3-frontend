@@ -109,7 +109,10 @@
       "title": "Was willst du hinzufügen"
     },
     "calendar": {
-      "title": "Wann findet diese Veranstaltung oder Aktivität statt?",
+      "title": {
+        "events": "Wann findet diese Veranstaltung oder Aktivität statt?",
+        "places": "Wann ist dieser Ort oder Standort geöffnet?"
+      },
       "one_or_more_days": {
         "button_add": "Tag hinzufügen"
       },
@@ -156,7 +159,10 @@
       }
     },
     "location": {
-      "title": "Wo findet diese Veranstaltung oder Aktivität statt?",
+      "title": {
+        "events": "Wo findet diese Veranstaltung oder Aktivität statt?",
+        "places": "Wo ist dieser Ort oder Ort?"
+      },
       "validation_messages": {
         "street_and_number": {
           "required": "Ihre Straße und Hausnummer entsprechen nicht den Anforderungen."

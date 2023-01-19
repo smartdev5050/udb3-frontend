@@ -381,7 +381,7 @@ const locationStepConfiguration: StepsConfiguration = {
   Component: LocationStep,
   name: 'location',
   shouldShowStep: ({ watch }) => !!watch('typeAndTheme')?.type?.id,
-  title: ({ t }) => t('create.location.title'),
+  title: ({ t }) => t('create.location.title.events'),
   stepProps: {
     chooseLabel: (t) => t('create.location.place.choose_label'),
     placeholderLabel: (t) => t('create.location.place.placeholder'),

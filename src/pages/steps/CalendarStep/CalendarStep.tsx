@@ -299,7 +299,7 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
 const calendarStepConfiguration: StepsConfiguration = {
   Component: CalendarStep,
   name: 'calendar',
-  title: ({ t }) => t('create.calendar.title'),
+  title: ({ t }) => t('create.calendar.title.events'),
   shouldShowStep: ({ watch }) => {
     return !!watch('typeAndTheme.type.id');
   },

@@ -259,8 +259,14 @@ const OfferForm = () => {
       configurations={[
         scopeStepConfiguration,
         typeAndThemeStepConfiguration,
-        calendarStepConfiguration,
-        locationStepConfiguration,
+        {
+          ...calendarStepConfiguration,
+          title: () => t(`create.calendar.title.${scope}`),
+        },
+        {
+          ...locationStepConfiguration,
+          title: () => t(`create.location.title.${scope}`),
+        },
         nameAndAgeRangeStepConfiguration,
         {
           ...additionalInformationStepConfiguration,
