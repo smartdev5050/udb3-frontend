@@ -671,6 +671,9 @@
       "validation_messages": {
         "address": {
           "addressLocality": "Je gemeente voldoet niet aan de vereisten.",
+          "city": {
+            "zip": "Je postcode voldoet niet aan de vereisten."
+          },
           "streetAndNumber": "Je straat en nummer voldoen niet aan de vereisten."
         },
         "name": "Je naam voldoet niet aan de vereisten.",
