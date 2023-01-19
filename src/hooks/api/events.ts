@@ -35,6 +35,8 @@ import type { Headers } from './types/Headers';
 type EventArguments = {
   name: string;
   calendarType: Values<typeof CalendarType>;
+  startDate: string;
+  endDate: string;
   subEvent: SubEvent[];
   openingHours: OpeningHours[];
   terms: Term[];
@@ -54,6 +56,8 @@ const addEvent = async ({
   mainLanguage,
   name,
   calendarType,
+  startDate,
+  endDate,
   subEvent,
   openingHours,
   terms,
@@ -71,6 +75,8 @@ const addEvent = async ({
         mainLanguage,
         name,
         calendarType,
+        startDate,
+        endDate,
         subEvent,
         openingHours,
         terms,
