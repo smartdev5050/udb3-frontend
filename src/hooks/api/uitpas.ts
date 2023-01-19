@@ -1,6 +1,5 @@
 import { UseQueryOptions } from 'react-query';
 
-import { EventTypes } from '@/constants/EventTypes';
 import { OfferTypes } from '@/constants/OfferType';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 
