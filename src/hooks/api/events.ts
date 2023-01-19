@@ -1,7 +1,6 @@
 import type { UseQueryOptions } from 'react-query';
 
 import type { CalendarType } from '@/constants/CalendarType';
-import { Calendar } from '@/types/Calendar';
 import type { AttendanceMode, Event } from '@/types/Event';
 import type {
   BookingAvailability,
