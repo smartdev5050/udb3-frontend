@@ -18,6 +18,7 @@ import { Inline } from '@/ui/Inline';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Breakpoints } from '@/ui/theme';
 import { parseOfferId } from '@/utils/parseOfferId';
+import { isFulfilledResult } from '@/utils/promise';
 
 import type { ImageType } from '../../PictureUploadBox';
 import { PictureUploadBox } from '../../PictureUploadBox';
@@ -196,8 +197,8 @@ const MediaStep = ({
     const data = await Promise.allSettled(convertAllVideoUrlsPromises);
 
     const successVideos = data
-      .filter((res) => res.status === 'fulfilled')
-      .map((res: PromiseFulfilledResult<VideoEnriched>) => res.value);
+      .filter(isFulfilledResult)
+      .map((res) => res.value);
 
     setVideos(successVideos);
   };
