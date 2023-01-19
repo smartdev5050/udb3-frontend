@@ -37,11 +37,9 @@ const useEditTypeAndTheme = ({ scope, offerId }) => {
         { id: offerId },
       ]);
 
-      const terms: Term[] = [
-        ...previousEventInfo.terms.filter((term: Term) => {
-          return term.domain !== 'eventtype';
-        }),
-      ];
+      const terms: Term[] = previousEventInfo.terms.filter((term: Term) => {
+        return term.domain !== 'eventtype';
+      });
 
       if (newPayload.typeId) {
         terms.push({
@@ -76,11 +74,9 @@ const useEditTypeAndTheme = ({ scope, offerId }) => {
         { id: offerId },
       ]);
 
-      const terms: Term[] = [
-        ...previousEventInfo.terms.filter((term: Term) => {
-          return term.domain !== 'theme';
-        }),
-      ];
+      const terms: Term[] = previousEventInfo.terms.filter((term: Term) => {
+        return term.domain !== 'theme';
+      });
 
       if (newPayload.themeId) {
         terms.push({
