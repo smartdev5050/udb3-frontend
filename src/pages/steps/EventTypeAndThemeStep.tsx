@@ -23,14 +23,14 @@ import { getValueFromTheme } from '@/ui/theme';
 
 import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
 
-const DANS_THEME_IDS = [
+const DANCE_THEME_IDS = [
   '1.9.1.0.0', // Ballet en klassieke dans
   '1.9.2.0.0', // Moderne dans
   '1.9.5.0.0', // Stijl en salondansen
   '1.9.3.0.0', // Volksdans en werelddans
 ];
 
-const KUNST_EN_ERFGOED_THEME_IDS = [
+const ART_AND_HERITAGE_THEME_IDS = [
   '1.1.0.0.0', // Audiovisuele kunst
   '1.0.2.0.0', // Beeldhouwkunst
   '0.52.0.0.0', // Circus
@@ -48,7 +48,7 @@ const KUNST_EN_ERFGOED_THEME_IDS = [
   '1.3.1.0.0', // Tekst en muziektheater
 ];
 
-const MUZIEK_THEME_IDS = [
+const MUSIC_THEME_IDS = [
   '1.8.3.5.0', // Amusementsmuziek
   '1.8.3.3.0', // Dance muziek
   '1.8.4.0.0', // Folk en wereldmuziek
@@ -69,7 +69,7 @@ const SPORT_THEME_IDS = [
   '1.51.3.0.0', // Zwemmen en watersport
 ];
 
-const VARIA_THEME_IDS = [
+const VARIOUS_THEME_IDS = [
   '1.37.1.0.0', // Gezondheid en zorg
   '1.43.0.0.0', // Interculturele vorming
   '1.64.0.0.0', // Milieu en natuur
@@ -82,11 +82,11 @@ const VARIA_THEME_IDS = [
 ];
 
 const groupNameToThemeIds = {
-  dance: DANS_THEME_IDS,
-  art_and_heritage: KUNST_EN_ERFGOED_THEME_IDS,
-  music: MUZIEK_THEME_IDS,
+  dance: DANCE_THEME_IDS,
+  art_and_heritage: ART_AND_HERITAGE_THEME_IDS,
+  music: MUSIC_THEME_IDS,
   sport: SPORT_THEME_IDS,
-  various: VARIA_THEME_IDS,
+  various: VARIOUS_THEME_IDS,
 } as const;
 
 const getGlobalValue = getValueFromTheme('global');
