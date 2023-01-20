@@ -752,7 +752,7 @@
         },
         "file": {
           "required": "Gelieve een bestand te selecteren",
-          "size": "Het bestand dat je selecteerde is groter dan 5MB.",
+          "size": "Het bestand dat je selecteerde is groter dan {{maxFileSize}} MB.",
           "type": "Het bestand dat je selecteerde is geen geldig bestandstype"
         }
       }

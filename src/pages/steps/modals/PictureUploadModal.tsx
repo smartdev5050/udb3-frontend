@@ -243,6 +243,15 @@ const PictureUploadModal = ({
 
   const registerDescriptionProps = register('description');
 
+  const fileError =
+    errors.file?.type === 'size'
+      ? t(`pictures.upload_modal.validation_messages.file.size`, {
+          maxFileSize: MAX_FILE_SIZE / 1_000_000,
+        })
+      : errors.file?.type
+      ? t(`pictures.upload_modal.validation_messages.file.${errors.file?.type}`)
+      : undefined;
+
   return (
     <Modal
       title={t('pictures.upload_modal.title')}
@@ -276,12 +285,7 @@ const PictureUploadModal = ({
         {!imageToEdit && (
           <PictureUploadBox
             image={image}
-            error={
-              errors?.file &&
-              t(
-                `pictures.upload_modal.validation_messages.file.${errors.file.type}`,
-              )
-            }
+            error={errors?.file && fileError}
             onDrop={handleInternalOnDrop}
             onDragOver={(e) => e.preventDefault()}
             {...register('file')}
