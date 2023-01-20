@@ -234,7 +234,7 @@ const EventTypeAndThemeStep = ({
     if (!shouldGroupThemes) return {};
     return groupBy(themes, (theme) => {
       const foundGroupPair = Object.entries(groupNameToThemeIds).find(
-        ([, themeIds]) => themeIds.includes(theme.id),
+        ([_, themeIds]) => themeIds.includes(theme.id),
       );
       if (!foundGroupPair) return 'rest';
       const [groupName] = foundGroupPair;
