@@ -754,7 +754,7 @@
         },
         "file": {
           "required": "Bitte wählen Sie eine Datei aus",
-          "size": "Die ausgewählte Datei ist größer als 5 MB.",
+          "size": "Die ausgewählte Datei ist größer als {{maxFileSize}} MB.",
           "type": "Die ausgewählte Datei hat keinen gültigen Dateityp"
         }
       }

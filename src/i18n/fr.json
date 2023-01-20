@@ -754,7 +754,7 @@
         },
         "file": {
           "required": "Veuillez sélectionner un fichier",
-          "size": "Le fichier que vous avez sélectionné fait plus de 5 Mo.",
+          "size": "Le fichier que vous avez sélectionné fait plus de {{maxFileSize}} Mo.",
           "type": "Le fichier que vous avez sélectionné n'est pas un type de fichier valide"
         }
       }
