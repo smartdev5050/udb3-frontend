@@ -20,7 +20,6 @@ import { Label, LabelVariants } from '@/ui/Label';
 import { Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
-import { Title } from '@/ui/Title';
 
 import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
 
