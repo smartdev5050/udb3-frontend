@@ -241,7 +241,7 @@
         "phone_error": "Pas un numéro de téléphone valide",
         "title": "Contact",
         "url": "Site web",
-        "url_error": "Une URL valide commence par http:// ou https://"
+        "url_error": "Pas de URL valide"
       },
       "booking_info": {
         "title": "Réservation",
@@ -250,7 +250,7 @@
         "phone": "Numéro de téléphone",
         "phone_error": "Pas un numéro de téléphone valide",
         "url": "Site web",
-        "url_error": "Une URL valide commence par http:// ou https://",
+        "url_error": "Pas de URL valide",
         "select_url_label": "Comment ce lien de réservation peut-il apparaître ?",
         "url_type_labels": {
           "subscribe": "Inscrivez-vous",
@@ -666,6 +666,9 @@
       "validation_messages": {
         "address": {
           "addressLocality": "Votre commune ne répond pas aux exigences.",
+          "city": {
+            "zip": "Votre code postal ne répond pas aux exigences."
+          },
           "streetAndNumber": "Votre rue et votre numéro ne répondent pas aux exigences."
         },
         "name": "Votre nom ne répond pas aux exigences.",

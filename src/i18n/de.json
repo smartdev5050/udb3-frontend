@@ -240,7 +240,7 @@
         "phone_error": "Keine gültige Telefonnummer",
         "title": "Kontakt",
         "url": "Website",
-        "url_error": "Eine gültige URL beginnt mit http:// oder https://"
+        "url_error": "Keine gültige URL"
       },
       "booking_info": {
         "title": "Reservierung",
@@ -249,7 +249,7 @@
         "phone": "Telefoonnummer",
         "phone_error": "Keine gültige Telefonnummer",
         "url": "Website",
-        "url_error": "Eine gültige URL beginnt mit http:// oder https://",
+        "url_error": "Keine gültige URL",
         "url_type_labels": {
           "subscribe": "Melden Sie sich an",
           "availability": "Verfügbarkeit kontrollieren",
@@ -666,6 +666,9 @@
       "validation_messages": {
         "address": {
           "addressLocality": "Ihre Gemeinde erfüllt die Anforderungen nicht.",
+          "city": {
+            "zip": "Ihre Postleitzahl entspricht nicht den Anforderungen."
+          },
           "streetAndNumber": "Ihre Straße und Hausnummer entsprechen nicht den Anforderungen."
         },
         "name": "Ihr Name entspricht nicht den Anforderungen.",

@@ -1,9 +1,13 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { OfferTypes } from '@/constants/OfferType';
 import { useGetEventByIdQuery } from '@/hooks/api/events';
+import { useGetPlaceByIdQuery } from '@/hooks/api/places';
+import { Scope } from '@/pages/create/OfferForm';
 import { Features, NewFeatureTooltip } from '@/pages/NewFeatureTooltip';
 import { Event } from '@/types/Event';
+import { Offer } from '@/types/Offer';
 import { Inline } from '@/ui/Inline';
 import { Notification } from '@/ui/Notification';
 import { Text } from '@/ui/Text';
@@ -116,6 +120,7 @@ const scoreWeightMapping = {
 
 type Props = {
   offerId: string;
+  scope: Scope;
   completedFields: Record<Field, boolean>;
 };
 
@@ -131,21 +136,24 @@ const getMinimumScore = (): number => {
 
 const minimumScore = getMinimumScore();
 
-const OfferScore = ({ completedFields, offerId, ...props }: Props) => {
+const OfferScore = ({ completedFields, offerId, scope, ...props }: Props) => {
   const { t } = useTranslation();
 
-  const getEventByIdQuery = useGetEventByIdQuery({ id: offerId });
+  const useGetOfferByIdQuery =
+    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
+
+  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
 
   // @ts-expect-error
-  const event: Event | undefined = getEventByIdQuery.data;
+  const offer: Offer | undefined = getOfferByIdQuery.data;
 
-  const hasTheme: boolean = event?.terms.some(
+  const hasTheme: boolean = offer?.terms.some(
     (term) => term.domain === 'theme',
   );
 
-  const hasMediaObject: boolean = (event?.mediaObject ?? []).length > 0;
+  const hasMediaObject: boolean = (offer?.mediaObject ?? []).length > 0;
 
-  const hasVideo: boolean = (event?.videos ?? []).length > 0;
+  const hasVideo: boolean = (offer?.videos ?? []).length > 0;
 
   const fullCompletedFields = useMemo(() => {
     return {

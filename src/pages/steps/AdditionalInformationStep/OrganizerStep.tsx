@@ -53,6 +53,7 @@ const OrganizerStep = ({
 
   // @ts-expect-error
   const getCardSystemForEventQuery = useGetCardSystemForEventQuery({
+    scope,
     eventId: offerId,
   });
 
@@ -64,6 +65,7 @@ const OrganizerStep = ({
 
   // @ts-expect-error
   const getCardSystemsForOrganizerQuery = useGetCardSystemsForOrganizerQuery({
+    scope,
     organizerId: organizer?.['@id']
       ? parseOfferId(organizer['@id'])
       : undefined,

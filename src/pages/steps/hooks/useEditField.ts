@@ -45,7 +45,6 @@ const useEditField = ({ scope, onSuccess, offerId, handleSubmit }) => {
       nameAndAgeRange: editNameAndAgeRange,
       timeTable: editCalendar,
       calendar: editCalendar,
-      place: editLocation,
       production: editNameAndProduction,
     };
 
