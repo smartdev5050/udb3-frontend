@@ -83,11 +83,11 @@ const VARIA_THEME_IDS = [
 ];
 
 const groupNameToThemeIds = {
-  Dans: DANS_THEME_IDS,
-  'Kunst en Erfgoed': KUNST_EN_ERFGOED_THEME_IDS,
-  Muziek: MUZIEK_THEME_IDS,
-  Sport: SPORT_THEME_IDS,
-  Varia: VARIA_THEME_IDS,
+  dance: DANS_THEME_IDS,
+  art_and_heritage: KUNST_EN_ERFGOED_THEME_IDS,
+  music: MUZIEK_THEME_IDS,
+  sport: SPORT_THEME_IDS,
+  various: VARIA_THEME_IDS,
 } as const;
 
 const getGlobalValue = getValueFromTheme('global');
@@ -361,7 +361,9 @@ const EventTypeAndThemeStep = ({
                 {shouldGroupThemes &&
                   Object.entries(themeGroups).map(([groupName, themes]) => (
                     <Stack key={groupName} spacing={3}>
-                      <Text variant={TextVariants.MUTED}>{groupName}</Text>
+                      <Text variant={TextVariants.MUTED}>
+                        {t(`create.type_and_theme.theme_groups.${groupName}`)}
+                      </Text>
                       <Inline
                         spacing={3}
                         flexWrap="wrap"
