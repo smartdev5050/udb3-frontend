@@ -259,18 +259,11 @@ const OfferForm = () => {
       configurations={[
         scopeStepConfiguration,
         typeAndThemeStepConfiguration,
-        {
-          ...calendarStepConfiguration,
-          title: () => t(`create.calendar.title.${scope}`),
-        },
-        {
-          ...locationStepConfiguration,
-          title: () => t(`create.location.title.${scope}`),
-        },
+        calendarStepConfiguration,
+        locationStepConfiguration,
         nameAndAgeRangeStepConfiguration,
         {
           ...additionalInformationStepConfiguration,
-          title: () => t(`create.additionalInformation.title.${scope}`),
           variant:
             scope === OfferTypes.EVENTS
               ? AdditionalInformationStepVariant.EVENT
