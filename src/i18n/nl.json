@@ -199,7 +199,7 @@
       "name": {
         "title_events": "Naam van het evenement",
         "title_places": "Naam van de locatie",
-        "tip_events": "Gebruik een <strong>sprekende titel</strong>, bv. \"Fietsen langs kapelletjes\", \"De Sage van de Eenhoorn\". Een <strong>uitgebreide beschrijving</strong> kan je in stap 5 toevoegen.",
+        "tip_events": "Gebruik een <strong>sprekende titel</strong>, bv. \"Fietsen langs kapelletjes\", \"De Sage van de Eenhoorn\". Een <strong>uitgebreide beschrijving</strong> kan je in stap 6 toevoegen.",
         "tip_places": "Gebruik de <strong>officiële benaming</strong>, bv. \"Gravensteen\", \"Abdijsite Herkenrode\", \"Cultuurcentrum De Werf\"."
       },
       "age": {
@@ -224,6 +224,13 @@
       "title_events": "Wat voor soort evenement wil je toevoegen?",
       "title_places": "Wat voor soort locatie wil je toevoegen?",
       "change_theme": "Wijzig thema",
+      "theme_groups": {
+        "dance": "Dans",
+        "art_and_heritage": "Kunst en erfgoed",
+        "music": "Muziek",
+        "sport": "Sport",
+        "various": "Varia"
+      },
       "change_type": "Wijzig type",
       "refine": "Verfijn"
     },
