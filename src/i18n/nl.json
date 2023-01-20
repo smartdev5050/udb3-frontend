@@ -205,7 +205,7 @@
       "name": {
         "title_events": "Naam van het evenement",
         "title_places": "Naam van de locatie",
-        "tip_events": "Gebruik een <strong>sprekende titel</strong>, bv. \"Fietsen langs kapelletjes\", \"De Sage van de Eenhoorn\". Een <strong>uitgebreide beschrijving</strong> kan je in stap 5 toevoegen.",
+        "tip_events": "Gebruik een <strong>sprekende titel</strong>, bv. \"Fietsen langs kapelletjes\", \"De Sage van de Eenhoorn\". Een <strong>uitgebreide beschrijving</strong> kan je in stap 6 toevoegen.",
         "tip_places": "Gebruik de <strong>officiële benaming</strong>, bv. \"Gravensteen\", \"Abdijsite Herkenrode\", \"Cultuurcentrum De Werf\"."
       },
       "age": {
@@ -677,6 +677,9 @@
       "validation_messages": {
         "address": {
           "addressLocality": "Je gemeente voldoet niet aan de vereisten.",
+          "city": {
+            "zip": "Je postcode voldoet niet aan de vereisten."
+          },
           "streetAndNumber": "Je straat en nummer voldoen niet aan de vereisten."
         },
         "name": "Je naam voldoet niet aan de vereisten.",

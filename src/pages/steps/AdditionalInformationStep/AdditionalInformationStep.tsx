@@ -242,7 +242,11 @@ const AdditionalInformationStep = ({
           },
         )}
       </Tabs>
-      <OfferScore offerId={offerId} completedFields={completedFields} />
+      <OfferScore
+        offerId={offerId}
+        scope={scope}
+        completedFields={completedFields}
+      />
     </Stack>
   );
 };

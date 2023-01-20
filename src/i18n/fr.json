@@ -672,6 +672,9 @@
       "validation_messages": {
         "address": {
           "addressLocality": "Votre commune ne répond pas aux exigences.",
+          "city": {
+            "zip": "Votre code postal ne répond pas aux exigences."
+          },
           "streetAndNumber": "Votre rue et votre numéro ne répondent pas aux exigences."
         },
         "name": "Votre nom ne répond pas aux exigences.",
