@@ -29,6 +29,7 @@ type PictureUploadModalProps = {
   draggedImageFile?: FileList;
   imageToEdit?: { description: string; copyrightHolder: string };
   onSubmitValid: (data: FormData) => Promise<void>;
+  loading: boolean;
 };
 
 const MAX_FILE_SIZE = 20_000_000;
@@ -177,6 +178,7 @@ const PictureUploadModal = ({
   draggedImageFile,
   imageToEdit,
   onSubmitValid,
+  loading,
 }: PictureUploadModalProps) => {
   const { t } = useTranslation();
   const formComponent = useRef<HTMLFormElement>();
@@ -254,6 +256,7 @@ const PictureUploadModal = ({
           ? t('pictures.upload_modal.actions.adjust')
           : t('pictures.upload_modal.actions.upload')
       }
+      confirmLoading={loading}
       cancelTitle={t('pictures.upload_modal.actions.cancel')}
       size={ModalSizes.MD}
       onConfirm={() => {
