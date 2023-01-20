@@ -18,7 +18,7 @@ import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { Label, LabelVariants } from '@/ui/Label';
 import { Stack } from '@/ui/Stack';
-import { Text } from '@/ui/Text';
+import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
@@ -50,13 +50,44 @@ const KUNST_EN_ERFGOED_THEME_IDS = [
 ];
 
 const MUZIEK_THEME_IDS = [
-  '1.1.0.0.0', // Audiovisuele kunst
+  '1.8.3.5.0', // Amusementsmuziek
+  '1.8.3.3.0', // Dance muziek
+  '1.8.4.0.0', // Folk en wereldmuziek
+  '1.8.3.2.0', // Hip hop, rnb en rap
+  '1.8.2.0.0', // Jazz en blues
+  '1.8.1.0.0', // Klassieke muziek
+  '1.8.3.1.0', // Pop en rock
+];
+
+const SPORT_THEME_IDS = [
+  '1.51.14.0.0', // Atletiek, wandelen en fietsen
+  '1.51.13.0.0', // Bal en racketsport
+  '1.51.6.0.0', // Fitness, gymnastiek, dans en vechtsport
+  '1.58.8.0.0', // Lucht en motorsport
+  '1.51.12.0.0', // Omnisport en andere
+  '1.51.11.0.0', // Outdoor en Adventure sport
+  '1.51.10.0.0', // Volkssporten
+  '1.51.3.0.0', // Zwemmen en watersport
+];
+
+const VARIA_THEME_IDS = [
+  '1.37.1.0.0', // Gezondheid en zorg
+  '1.43.0.0.0', // Interculturele vorming
+  '1.64.0.0.0', // Milieu en natuur
+  '1.37.0.0.0', // Opvoeding
+  '1.61.0.0.0', // Persoon en relaties
+  '1.37.2.0.0', // Samenleving
+  '1.65.0.0.0', // Voeding
+  '1.25.0.0.0', // Wetenschap
+  '1.44.0.0.0', // Zingeving, filosofie en religie
 ];
 
 const groupNameToThemeIds = {
   Dans: DANS_THEME_IDS,
   'Kunst en Erfgoed': KUNST_EN_ERFGOED_THEME_IDS,
   Muziek: MUZIEK_THEME_IDS,
+  Sport: SPORT_THEME_IDS,
+  Varia: VARIA_THEME_IDS,
 } as const;
 
 const getGlobalValue = getValueFromTheme('global');
@@ -184,18 +215,29 @@ const EventTypeAndThemeStep = ({
 
   const types = getTypesByScopeQuery.data ?? [];
 
-  const themes =
-    types?.find((type) => type.id === typeAndTheme?.type?.id)
-      ?.otherSuggestedTerms ?? [];
+  const themes = useMemo(
+    () =>
+      types?.find((type) => type.id === typeAndTheme?.type?.id)
+        ?.otherSuggestedTerms ?? [],
+    [typeAndTheme?.type?.id, types],
+  );
 
-  const themeGroups = groupBy(themes, (theme) => {
-    const foundGroupPair = Object.entries(groupNameToThemeIds).find(
-      ([, themeIds]) => themeIds.includes(theme.id),
-    );
-    if (!foundGroupPair) return 'rest';
-    const [groupName] = foundGroupPair;
-    return groupName;
-  });
+  const shouldGroupThemes = [
+    '0.3.1.0.1', // Cursus met open sessies
+    '0.3.1.0.0', // Lessenreeks
+  ].includes(typeAndTheme?.type?.id);
+
+  const themeGroups = useMemo(() => {
+    if (!shouldGroupThemes) return {};
+    return groupBy(themes, (theme) => {
+      const foundGroupPair = Object.entries(groupNameToThemeIds).find(
+        ([, themeIds]) => themeIds.includes(theme.id),
+      );
+      if (!foundGroupPair) return 'rest';
+      const [groupName] = foundGroupPair;
+      return groupName;
+    });
+  }, [shouldGroupThemes, themes]);
 
   return (
     <Controller
@@ -278,17 +320,15 @@ const EventTypeAndThemeStep = ({
               </Label>
             )}
             {!field.value?.theme?.id ? (
-              <Stack spacing={3} maxWidth="70rem">
-                {Object.entries(themeGroups).map(([groupName, themes]) => (
+              <Stack spacing={4} maxWidth="70rem">
+                {!shouldGroupThemes && (
                   <Inline
                     spacing={3}
                     flexWrap="wrap"
                     css={`
                       row-gap: ${parseSpacing(3.5)()};
                     `}
-                    key={groupName}
                   >
-                    <Title>{groupName}</Title>
                     {themes.map(({ id, name }) => (
                       <Button
                         width="auto"
@@ -314,7 +354,45 @@ const EventTypeAndThemeStep = ({
                       </Button>
                     ))}
                   </Inline>
-                ))}
+                )}
+                {shouldGroupThemes &&
+                  Object.entries(themeGroups).map(([groupName, themes]) => (
+                    <Stack key={groupName} spacing={3}>
+                      <Text variant={TextVariants.MUTED}>{groupName}</Text>
+                      <Inline
+                        spacing={3}
+                        flexWrap="wrap"
+                        css={`
+                          row-gap: ${parseSpacing(3.5)()};
+                        `}
+                      >
+                        {themes.map(({ id, name }) => (
+                          <Button
+                            width="auto"
+                            display="inline-flex"
+                            key={id}
+                            variant={ButtonVariants.SECONDARY}
+                            onClick={() => {
+                              field.onChange({
+                                ...field.value,
+                                theme: { id, label: name[i18n.language] },
+                              });
+                              onChange(id);
+                            }}
+                            css={`
+                              &.btn {
+                                padding: 0.3rem 0.7rem;
+                                box-shadow: ${({ theme }) =>
+                                  theme.components.button.boxShadow.small};
+                              }
+                            `}
+                          >
+                            {name[i18n.language]}
+                          </Button>
+                        ))}
+                      </Inline>
+                    </Stack>
+                  ))}
               </Stack>
             ) : (
               <Inline
