@@ -213,7 +213,10 @@ const EventTypeAndThemeStep = ({
     scope,
   });
 
-  const types = getTypesByScopeQuery.data ?? [];
+  const types = useMemo(
+    () => getTypesByScopeQuery.data ?? [],
+    [getTypesByScopeQuery.data],
+  );
 
   const themes = useMemo(
     () =>
