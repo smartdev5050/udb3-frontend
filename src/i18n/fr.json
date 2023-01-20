@@ -222,6 +222,13 @@
       "title_events": "Quel type d'événement souhaitez-vous ajouter?",
       "title_places": "Quel type de lieu souhaitez-vous ajouter?",
       "change_theme": "Changer thème",
+      "theme_groups": {
+        "dance": "Danse",
+        "art_and_heritage": "Art et Patrimoine",
+        "music": "Musique",
+        "sport": "Sport",
+        "various": "Divers"
+      },
       "change_type": "Changer type",
       "refine": "Affiner"
     },
