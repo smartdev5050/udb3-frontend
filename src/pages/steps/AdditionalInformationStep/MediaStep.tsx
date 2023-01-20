@@ -18,6 +18,7 @@ import { Inline } from '@/ui/Inline';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Breakpoints } from '@/ui/theme';
 import { parseOfferId } from '@/utils/parseOfferId';
+import { isFulfilledResult } from '@/utils/promise';
 
 import type { ImageType } from '../../PictureUploadBox';
 import { PictureUploadBox } from '../../PictureUploadBox';
@@ -168,7 +169,7 @@ const MediaStep = ({
         : urlParts[urlParts.length - 1];
 
       const response = await fetch(
-        `http://vimeo.com/api/v2/video/${videoId}.json`,
+        `https://vimeo.com/api/v2/video/${videoId}.json`,
       );
 
       const data = await response.json();
@@ -193,9 +194,13 @@ const MediaStep = ({
       return enrichedVideo;
     });
 
-    const data = await Promise.all(convertAllVideoUrlsPromises);
+    const data = await Promise.allSettled(convertAllVideoUrlsPromises);
 
-    setVideos(data);
+    const successVideos = data
+      .filter(isFulfilledResult)
+      .map((res) => res.value);
+
+    setVideos(successVideos);
   };
 
   useEffect(() => {
