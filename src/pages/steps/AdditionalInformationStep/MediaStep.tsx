@@ -18,6 +18,7 @@ import { Inline } from '@/ui/Inline';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Breakpoints } from '@/ui/theme';
 import { parseOfferId } from '@/utils/parseOfferId';
+import { isFulfilledResult } from '@/utils/promise';
 
 import type { ImageType } from '../../PictureUploadBox';
 import { PictureUploadBox } from '../../PictureUploadBox';
@@ -94,6 +95,7 @@ const MediaStep = ({
 
   const [videos, setVideos] = useState([]);
   const [images, setImages] = useState<ImageType[]>([]);
+  const [isImageUploading, setIsImageUploading] = useState(false);
 
   const addImageToEventMutation = useAddOfferImageMutation({
     onSuccess: async () => {
@@ -147,9 +149,9 @@ const MediaStep = ({
       const youtubeImagePath = 'https://i.ytimg.com/vi_webp/';
 
       if (videoUrl.includes('v=')) {
-        return `${youtubeImagePath}${
-          videoUrl.split('v=')[1]
-        }/maxresdefault.webp`;
+        const urlParams = new URL(videoUrl).searchParams;
+        const videoId = urlParams.get('v');
+        return `${youtubeImagePath}${videoId}/maxresdefault.webp`;
       }
 
       if (videoUrl.includes('youtu.be/')) {
@@ -168,7 +170,7 @@ const MediaStep = ({
         : urlParts[urlParts.length - 1];
 
       const response = await fetch(
-        `http://vimeo.com/api/v2/video/${videoId}.json`,
+        `https://vimeo.com/api/v2/video/${videoId}.json`,
       );
 
       const data = await response.json();
@@ -193,9 +195,13 @@ const MediaStep = ({
       return enrichedVideo;
     });
 
-    const data = await Promise.all(convertAllVideoUrlsPromises);
+    const data = await Promise.allSettled(convertAllVideoUrlsPromises);
 
-    setVideos(data);
+    const successVideos = data
+      .filter(isFulfilledResult)
+      .map((res) => res.value);
+
+    setVideos(successVideos);
   };
 
   useEffect(() => {
@@ -297,24 +303,29 @@ const MediaStep = ({
     description,
     copyrightHolder,
   }: FormData) => {
-    if (imageToEdit) {
-      await updateOfferImageMutation.mutateAsync({
-        eventId,
-        imageId: imageToEdit.parsedId,
+    try {
+      setIsImageUploading(true);
+      if (imageToEdit) {
+        await updateOfferImageMutation.mutateAsync({
+          eventId,
+          imageId: imageToEdit.parsedId,
+          description,
+          copyrightHolder,
+          scope,
+        });
+
+        return;
+      }
+
+      await addImageMutation.mutateAsync({
         description,
         copyrightHolder,
-        scope,
+        file: file?.[0],
+        language: i18n.language,
       });
-
-      return;
+    } finally {
+      setIsImageUploading(false);
     }
-
-    await addImageMutation.mutateAsync({
-      description,
-      copyrightHolder,
-      file: file?.[0],
-      language: i18n.language,
-    });
   };
 
   return (
@@ -325,6 +336,7 @@ const MediaStep = ({
         draggedImageFile={draggedImageFile}
         imageToEdit={imageToEdit}
         onSubmitValid={handleSubmitValid}
+        loading={isImageUploading}
       />
       <PictureDeleteModal
         visible={isPictureDeleteModalVisible}

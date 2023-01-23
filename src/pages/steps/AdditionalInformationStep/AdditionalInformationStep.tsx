@@ -242,14 +242,18 @@ const AdditionalInformationStep = ({
           },
         )}
       </Tabs>
-      <OfferScore offerId={offerId} completedFields={completedFields} />
+      <OfferScore
+        offerId={offerId}
+        scope={scope}
+        completedFields={completedFields}
+      />
     </Stack>
   );
 };
 
 const additionalInformationStepConfiguration: StepsConfiguration = {
   Component: AdditionalInformationStep,
-  title: ({ t }) => t(`create.additionalInformation.title.events`),
+  title: ({ t, scope }) => t(`create.additionalInformation.title.${scope}`),
   shouldShowStep: ({ offerId }) => !!offerId,
   variant: AdditionalInformationStepVariant.EVENT,
 };
