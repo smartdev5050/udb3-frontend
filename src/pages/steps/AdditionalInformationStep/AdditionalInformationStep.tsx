@@ -253,7 +253,7 @@ const AdditionalInformationStep = ({
 
 const additionalInformationStepConfiguration: StepsConfiguration = {
   Component: AdditionalInformationStep,
-  title: ({ t }) => t(`create.additionalInformation.title.events`),
+  title: ({ t, scope }) => t(`create.additionalInformation.title.${scope}`),
   shouldShowStep: ({ offerId }) => !!offerId,
   variant: AdditionalInformationStepVariant.EVENT,
 };

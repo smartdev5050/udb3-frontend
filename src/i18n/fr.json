@@ -110,7 +110,10 @@
       "title": "Que voulez-vous ajouter"
     },
     "calendar": {
-      "title": "Quand cet événement ou cette activité a-t-il lieu ?",
+      "title": {
+        "events": "Quand cet événement ou cette activité a-t-il lieu ?",
+        "places": "Quand cet endroit ou cet emplacement est-il ouvert ?"
+      },
       "one_or_more_days": {
         "button_add": "Ajouter un jour"
       },
@@ -157,7 +160,10 @@
       }
     },
     "location": {
-      "title": "Où cet événement ou cette activité aura-t-il lieu?",
+      "title": {
+        "events": "Où cet événement ou cette activité aura-t-il lieu?",
+        "places": "Où est cet endroit ou cet emplacement?"
+      },
       "validation_messages": {
         "street_and_number": {
           "required": "Votre rue et votre numéro ne répondent pas aux exigences."

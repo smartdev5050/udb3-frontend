@@ -110,7 +110,10 @@
       "title": "Wat wil je toevoegen?"
     },
     "calendar": {
-      "title": "Wanneer vindt dit evenement of deze activiteit plaats?",
+      "title": {
+        "events": "Wanneer vindt dit evenement of deze activiteit plaats?",
+        "places": "Wanneer is deze plaats of locatie open?"
+      },
       "one_or_more_days": {
         "button_add": "Dag toevoegen"
       },
@@ -157,7 +160,10 @@
       }
     },
     "location": {
-      "title": "Waar vindt dit evenement of deze activiteit plaats?",
+      "title": {
+        "events": "Waar vindt dit evenement of deze activiteit plaats?",
+        "places": "Waar is deze plaats of locatie?"
+      },
       "validation_messages": {
         "street_and_number": {
           "required": "Je straat en nummer voldoen niet aan de vereisten."
