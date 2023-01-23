@@ -228,6 +228,13 @@
       "title_events": "Quel type d'événement souhaitez-vous ajouter?",
       "title_places": "Quel type de lieu souhaitez-vous ajouter?",
       "change_theme": "Changer thème",
+      "theme_groups": {
+        "dance": "Danse",
+        "art_and_heritage": "Art et Patrimoine",
+        "music": "Musique",
+        "sport": "Sport",
+        "various": "Divers"
+      },
       "change_type": "Changer type",
       "refine": "Affiner"
     },
@@ -753,7 +760,7 @@
         },
         "file": {
           "required": "Veuillez sélectionner un fichier",
-          "size": "Le fichier que vous avez sélectionné fait plus de 5 Mo.",
+          "size": "Le fichier que vous avez sélectionné fait plus de {{maxFileSize}} Mo.",
           "type": "Le fichier que vous avez sélectionné n'est pas un type de fichier valide"
         }
       }
