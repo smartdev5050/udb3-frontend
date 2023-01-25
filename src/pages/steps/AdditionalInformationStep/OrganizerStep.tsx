@@ -38,7 +38,7 @@ type Props = StackProps & TabContentProps;
 const OrganizerStep = ({
   scope,
   offerId,
-  onChangeCompleted,
+  onValidationChange,
   onSuccessfulChange,
   ...props
 }: Props) => {
@@ -88,10 +88,10 @@ const OrganizerStep = ({
 
   useEffect(() => {
     if (!organizer) {
-      onChangeCompleted(false);
+      onValidationChange(false);
       return;
     }
-    onChangeCompleted(true);
+    onValidationChange(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [organizer]);
 

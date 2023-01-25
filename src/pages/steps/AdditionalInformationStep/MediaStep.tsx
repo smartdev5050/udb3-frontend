@@ -34,7 +34,7 @@ const MediaStep = ({
   scope,
   offerId,
   onSuccessfulChange,
-  onChangeCompleted,
+  onValidationChange,
   ...props
 }: TabContentProps) => {
   const { i18n } = useTranslation();
@@ -48,7 +48,7 @@ const MediaStep = ({
   const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleChangeCompleted = useCallback(onChangeCompleted, []);
+  const handleChangeCompleted = useCallback(onValidationChange, []);
 
   const videosFromQuery = useMemo(
     // @ts-expect-error

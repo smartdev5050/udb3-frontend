@@ -103,7 +103,7 @@ const schema = yup
 const PriceInformation = ({
   scope,
   offerId,
-  onChangeCompleted,
+  onValidationChange,
   onSuccessfulChange,
   ...props
 }: TabContentProps) => {
@@ -133,7 +133,7 @@ const PriceInformation = ({
     let newPriceInfo = offer?.priceInfo ?? [];
 
     if (newPriceInfo.length > 0) {
-      onChangeCompleted(true);
+      onValidationChange(true);
     }
     const mainLanguage = offer?.mainLanguage;
 
