@@ -484,12 +484,26 @@ const changeOnlineUrl = async ({ headers, eventId, onlineUrl }) =>
     },
   });
 
-const useChangeOnlineUrl = (configuration = {}) =>
+const useChangeOnlineUrlMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: changeOnlineUrl,
     ...configuration,
   });
 
+const deleteOnlineUrl = async ({ headers, eventId }) =>
+  fetchFromApi({
+    path: `/events/${eventId}/online-url`,
+    options: {
+      method: 'DELETE',
+      headers,
+    },
+  });
+
+const useDeleteOnlineUrlMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: deleteOnlineUrl,
+    ...configuration,
+  });
 export {
   useAddEventMutation,
   useChangeAttendanceModeMutation,
@@ -497,10 +511,11 @@ export {
   useChangeCalendarMutation,
   useChangeLocationMutation,
   useChangeNameMutation,
-  useChangeOnlineUrl,
+  useChangeOnlineUrlMutation,
   useChangeStatusMutation,
   useChangeStatusSubEventsMutation,
   useDeleteEventByIdMutation,
+  useDeleteOnlineUrlMutation,
   useGetCalendarSummaryQuery,
   useGetEventByIdQuery,
   useGetEventsByCreatorQuery,
