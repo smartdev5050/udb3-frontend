@@ -31,7 +31,7 @@ import { parseOfferId } from '@/utils/parseOfferId';
 
 import { OrganizerAddModal, OrganizerData } from '../../OrganizerAddModal';
 import { TabContentProps } from './AdditionalInformationStep';
-import { OrganizerPicker } from './OrganizerPicker';
+import { isUitpasOrganizer, OrganizerPicker } from './OrganizerPicker';
 
 type Props = StackProps & TabContentProps;
 
@@ -52,16 +52,18 @@ const OrganizerStep = ({
   const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
 
   // @ts-expect-error
-  const getCardSystemForEventQuery = useGetCardSystemForEventQuery({
-    scope,
-    eventId: offerId,
-  });
-
-  // @ts-expect-error
   const offer: Event | Place | undefined = getOfferByIdQuery.data;
 
   const organizer = offer?.organizer;
   const hasPriceInfo = (offer?.priceInfo ?? []).length > 0;
+  const hasUitpasLabel = organizer ? isUitpasOrganizer(organizer) : false;
+
+  // @ts-expect-error
+  const getCardSystemForEventQuery = useGetCardSystemForEventQuery({
+    scope,
+    eventId: offerId,
+    isUitpasOrganizer: hasUitpasLabel && hasPriceInfo,
+  });
 
   // @ts-expect-error
   const getCardSystemsForOrganizerQuery = useGetCardSystemsForOrganizerQuery({
@@ -69,6 +71,7 @@ const OrganizerStep = ({
     organizerId: organizer?.['@id']
       ? parseOfferId(organizer['@id'])
       : undefined,
+    isUitpasOrganizer: hasUitpasLabel && hasPriceInfo,
   });
 
   // @ts-expect-error
@@ -199,7 +202,10 @@ const OrganizerStep = ({
     setIsOrganizerAddModalVisible(false);
   };
 
-  const isUitpasOrganizer = Object.values(cardSystems).length > 0;
+  const hasUitpasCardSystems = Object.values(cardSystems).length > 0;
+
+  const showCardSystems =
+    hasUitpasLabel && hasUitpasCardSystems && hasPriceInfo;
 
   return (
     <Stack {...getStackProps(props)} spacing={5}>
@@ -226,7 +232,7 @@ const OrganizerStep = ({
           }
           organizer={organizer}
         />
-        {isUitpasOrganizer && (
+        {hasUitpasLabel && (
           <Alert variant={AlertVariants.PRIMARY}>
             {hasPriceInfo ? (
               t('create.additionalInformation.organizer.uitpas_info')
@@ -256,7 +262,7 @@ const OrganizerStep = ({
         )}
       </Stack>
 
-      {isUitpasOrganizer && hasPriceInfo && (
+      {showCardSystems && (
         <Stack spacing={3}>
           <Text fontWeight="bold">
             {t('create.additionalInformation.organizer.uitpas_cardsystems')}
