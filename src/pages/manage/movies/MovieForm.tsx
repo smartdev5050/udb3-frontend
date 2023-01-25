@@ -29,6 +29,7 @@ import type { Place } from '@/types/Place';
 import type { Production } from '@/types/Production';
 import { WorkflowStatusMap } from '@/types/WorkflowStatus';
 import { parseOfferId } from '@/utils/parseOfferId';
+import { StepsConfiguration } from '@/pages/steps/Steps';
 
 type FormData = {
   typeAndTheme: {
@@ -142,15 +143,20 @@ const MovieForm = (props) => {
         title: t('movies.create.toast.success.title'),
       }}
       configurations={[
-        { name: 'scope', defaultValue: OfferTypes.EVENTS },
+        {
+          name: 'scope',
+          defaultValue: OfferTypes.EVENTS,
+        } as StepsConfiguration<'scope'>,
         {
           ...typeAndThemeStepConfiguration,
           title: () => t('movies.create.step1.title'),
-          defaultValue: { type: { id: EventTypes.Film, label: 'Film' } },
+          defaultValue: {
+            type: { id: EventTypes.Film, label: 'Film' },
+          },
           stepProps: {
             shouldHideType: true,
           },
-        },
+        } as StepsConfiguration<'typeAndTheme'>,
         timeTableStepConfiguration,
         {
           ...placeStepConfiguration,
@@ -160,7 +166,7 @@ const MovieForm = (props) => {
             chooseLabel: () => t('movies.create.actions.choose_cinema'),
             placeholderLabel: (t) => t('movies.create.cinema.placeholder'),
           },
-        },
+        } as StepsConfiguration<'location'>,
         productionStepConfiguration,
         {
           ...additionalInformationStepConfiguration,

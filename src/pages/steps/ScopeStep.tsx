@@ -172,7 +172,7 @@ const ScopeStep = ({
   );
 };
 
-const scopeStepConfiguration: StepsConfiguration = {
+const scopeStepConfiguration: StepsConfiguration<'scope'> = {
   Component: ScopeStep,
   name: 'scope',
   title: ({ t }) => t(`create.scope.title`),

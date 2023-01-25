@@ -220,7 +220,7 @@ const PlaceStep = ({
   );
 };
 
-const placeStepConfiguration: StepsConfiguration = {
+const placeStepConfiguration: StepsConfiguration<'location'> = {
   Component: PlaceStep,
   validation: yup.object().shape({}).required(),
   name: 'location',

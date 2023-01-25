@@ -306,7 +306,7 @@ const CalendarStep = ({
   );
 };
 
-const calendarStepConfiguration: StepsConfiguration = {
+const calendarStepConfiguration: StepsConfiguration<'calendar'> = {
   Component: CalendarStep,
   name: 'calendar',
   title: ({ t, scope }) => t(`create.calendar.title.${scope}`),

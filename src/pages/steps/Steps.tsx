@@ -5,6 +5,7 @@ import type {
   ControllerRenderProps,
   Path,
   UseFormReturn,
+  DefaultValues,
 } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
@@ -25,10 +26,12 @@ type FormDataUnion = MovieFormData & OfferFormData;
 
 type Field = ControllerRenderProps<FormDataUnion, Path<FormDataUnion>>;
 
-type StepsConfiguration = {
+type StepsConfiguration<
+  TName extends keyof FormDataUnion = keyof FormDataUnion,
+> = {
   Component: any;
-  defaultValue?: any;
-  name?: Path<FormDataUnion>;
+  name?: TName;
+  defaultValue?: DefaultValues<FormDataUnion>[TName];
   step?: number;
   title: (
     data: { t: TFunction; scope: OfferType } & UseFormReturn<

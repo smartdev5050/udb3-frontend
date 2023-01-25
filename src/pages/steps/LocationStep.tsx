@@ -12,7 +12,6 @@ import { FormData as OfferFormData } from '@/pages/create/OfferForm';
 import { Address } from '@/types/Address';
 import { Countries, Country } from '@/types/Country';
 import { AttendanceMode } from '@/types/Event';
-import { Place } from '@/types/Place';
 import { Values } from '@/types/Values';
 import { Alert } from '@/ui/Alert';
 import { parseSpacing } from '@/ui/Box';
@@ -378,7 +377,7 @@ const LocationStep = ({
   );
 };
 
-const locationStepConfiguration: StepsConfiguration = {
+const locationStepConfiguration: StepsConfiguration<'location'> = {
   Component: LocationStep,
   name: 'location',
   shouldShowStep: ({ watch }) => !!watch('typeAndTheme')?.type?.id,
@@ -390,6 +389,10 @@ const locationStepConfiguration: StepsConfiguration = {
   defaultValue: {
     isOnline: false,
     country: Countries.BE,
+    place: undefined,
+    streetAndNumber: undefined,
+    municipality: undefined,
+    onlineUrl: undefined,
   },
   validation: yup.lazy((value) => {
     if (value.place) {

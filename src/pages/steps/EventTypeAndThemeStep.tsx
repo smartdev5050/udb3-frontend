@@ -435,7 +435,7 @@ const EventTypeAndThemeStep = ({
   );
 };
 
-const typeAndThemeStepConfiguration: StepsConfiguration = {
+const typeAndThemeStepConfiguration: StepsConfiguration<'typeAndTheme'> = {
   Component: EventTypeAndThemeStep,
   name: 'typeAndTheme',
   validation: yup.object().shape({}).required(),
