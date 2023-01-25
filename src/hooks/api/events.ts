@@ -474,6 +474,22 @@ const useChangeAttendanceModeMutation = (configuration = {}) =>
     ...configuration,
   });
 
+const changeOnlineUrl = async ({ headers, eventId, onlineUrl }) =>
+  fetchFromApi({
+    path: `/events/${eventId}/online-url`,
+    options: {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({ onlineUrl }),
+    },
+  });
+
+const useChangeOnlineUrl = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: changeOnlineUrl,
+    ...configuration,
+  });
+
 export {
   useAddEventMutation,
   useChangeAttendanceModeMutation,
@@ -481,6 +497,7 @@ export {
   useChangeCalendarMutation,
   useChangeLocationMutation,
   useChangeNameMutation,
+  useChangeOnlineUrl,
   useChangeStatusMutation,
   useChangeStatusSubEventsMutation,
   useDeleteEventByIdMutation,
