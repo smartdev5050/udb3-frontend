@@ -13,6 +13,7 @@ import {
   TabContentProps,
   ValidationStatus,
 } from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
+import { isUitpasOrganizer } from '@/pages/steps/AdditionalInformationStep/OrganizerPicker';
 import { Event } from '@/types/Event';
 import type { Values } from '@/types/Values';
 import { Alert, AlertVariants } from '@/ui/Alert';
@@ -25,7 +26,6 @@ import { Input } from '@/ui/Input';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
-import { isUitpasOrganizer } from '@/pages/steps/AdditionalInformationStep/OrganizerPicker';
 
 const PRICE_CURRENCY: string = 'EUR';
 

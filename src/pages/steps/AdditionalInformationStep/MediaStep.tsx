@@ -13,6 +13,7 @@ import {
   useUpdateOfferImageMutation,
 } from '@/hooks/api/offers';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
+import { TabContentProps } from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
 import type { FormData } from '@/pages/steps/modals/PictureUploadModal';
 import { Inline } from '@/ui/Inline';
 import { getStackProps, Stack } from '@/ui/Stack';
@@ -28,7 +29,6 @@ import type { Video, VideoEnriched } from '../../VideoUploadBox';
 import { VideoUploadBox } from '../../VideoUploadBox';
 import { PictureDeleteModal } from '../modals/PictureDeleteModal';
 import { PictureUploadModal } from '../modals/PictureUploadModal';
-import { TabContentProps } from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
 
 const MediaStep = ({
   scope,

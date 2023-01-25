@@ -1,3 +1,4 @@
+import { map, mapValues } from 'lodash';
 import { useRouter } from 'next/router';
 import { FC, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -22,7 +23,6 @@ import { MediaStep } from './MediaStep';
 import { OfferScore } from './OfferScore';
 import { OrganizerStep } from './OrganizerStep';
 import { PriceInformation } from './PriceInformation';
-import { map, mapValues } from 'lodash';
 
 const getGlobalValue = getValueFromTheme('global');
 
