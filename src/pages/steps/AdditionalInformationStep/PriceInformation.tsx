@@ -4,12 +4,15 @@ import { useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
-import { OfferType, OfferTypes } from '@/constants/OfferType';
+import { OfferTypes } from '@/constants/OfferType';
 import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { useAddOfferPriceInfoMutation } from '@/hooks/api/offers';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import i18n from '@/i18n/index';
-import { TabContentProps } from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
+import {
+  TabContentProps,
+  ValidationStatus,
+} from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
 import { Event } from '@/types/Event';
 import type { Values } from '@/types/Values';
 import { Alert, AlertVariants } from '@/ui/Alert';
@@ -22,6 +25,7 @@ import { Input } from '@/ui/Input';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
+import { isUitpasOrganizer } from '@/pages/steps/AdditionalInformationStep/OrganizerPicker';
 
 const PRICE_CURRENCY: string = 'EUR';
 
@@ -131,10 +135,18 @@ const PriceInformation = ({
 
   useEffect(() => {
     let newPriceInfo = offer?.priceInfo ?? [];
+    const hasUitpasLabel = offer?.organizer
+      ? isUitpasOrganizer(offer?.organizer)
+      : false;
 
     if (newPriceInfo.length > 0) {
       onValidationChange(true);
+    } else {
+      onValidationChange(
+        hasUitpasLabel ? ValidationStatus.WARNING : ValidationStatus.NONE,
+      );
     }
+
     const mainLanguage = offer?.mainLanguage;
 
     newPriceInfo = newPriceInfo.map((rate: any) => {
