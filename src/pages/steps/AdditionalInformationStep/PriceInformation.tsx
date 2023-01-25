@@ -21,6 +21,7 @@ import { Input } from '@/ui/Input';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
+import { TabContentProps } from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
 
 const PRICE_CURRENCY: string = 'EUR';
 
@@ -99,20 +100,13 @@ const schema = yup
   })
   .required();
 
-type Props = {
-  offerId: string;
-  scope: OfferType;
-  onChangeCompleted: (isCompleted: boolean) => void;
-  onSuccessfulChange: () => void;
-};
-
 const PriceInformation = ({
   scope,
   offerId,
   onChangeCompleted,
   onSuccessfulChange,
   ...props
-}: Props) => {
+}: TabContentProps) => {
   // TODO: refactor
   const eventId = offerId;
 

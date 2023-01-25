@@ -28,13 +28,7 @@ import type { Video, VideoEnriched } from '../../VideoUploadBox';
 import { VideoUploadBox } from '../../VideoUploadBox';
 import { PictureDeleteModal } from '../modals/PictureDeleteModal';
 import { PictureUploadModal } from '../modals/PictureUploadModal';
-
-type Props = {
-  scope: OfferType;
-  offerId?: string;
-  onSuccessfulChange: () => void;
-  onChangeCompleted: (completed: boolean) => void;
-};
+import { TabContentProps } from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
 
 const MediaStep = ({
   scope,
@@ -42,7 +36,7 @@ const MediaStep = ({
   onSuccessfulChange,
   onChangeCompleted,
   ...props
-}: Props) => {
+}: TabContentProps) => {
   const { i18n } = useTranslation();
 
   // TODO: refactor
