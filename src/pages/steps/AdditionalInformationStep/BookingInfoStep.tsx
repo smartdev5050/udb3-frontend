@@ -22,6 +22,7 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 import { formatDateToISO } from '@/utils/formatDateToISO';
+import { prefixUrlWithHttp } from '@/utils/url';
 
 import { TabContentProps } from './AdditionalInformationStep';
 import { isValidEmail, isValidPhone, isValidUrl } from './ContactInfoStep';
@@ -398,8 +399,8 @@ const BookingInfoStep = ({
       URL_LABEL_TRANSLATIONS[selectedUrlLabel] ??
       URL_LABEL_TRANSLATIONS.reserve;
 
-    if (bookingInfo.url && !bookingInfo.url.startsWith('http')) {
-      bookingInfo.url = `http://${bookingInfo.url}`;
+    if (bookingInfo.url) {
+      bookingInfo.url = prefixUrlWithHttp(bookingInfo.url);
     }
 
     if (bookingInfo.url && !isValidUrl(bookingInfo.url)) {
