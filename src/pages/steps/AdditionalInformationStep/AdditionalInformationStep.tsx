@@ -32,12 +32,6 @@ const AdditionalInformationStepVariant = {
   PLACE: 'place',
 } as const;
 
-type MergedInfo = {
-  email: string[];
-  url: string[];
-  phone: string[];
-};
-
 const Fields = {
   DESCRIPTION: 'description',
   ORGANIZER: 'organizer',
