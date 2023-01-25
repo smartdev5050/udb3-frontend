@@ -53,7 +53,7 @@ type TabContentProps = {
   offerId?: string;
   scope?: OfferType;
   onSuccessfulChange: (() => Promise<void>) | ((data: any) => void);
-  onChangeCompleted?: (isCompleted: boolean) => void;
+  onValidationChange?: (status: boolean | ValidationStatus) => void;
 };
 
 type TabConfig = {
@@ -136,6 +136,12 @@ type Props = StackProps & {
   variant?: Values<typeof AdditionalInformationStepVariant>;
 };
 
+export enum ValidationStatus {
+  NONE = 'none',
+  WARNING = 'warning',
+  SUCCESS = 'success',
+}
+
 const AdditionalInformationStep = ({
   offerId,
   scope,
@@ -171,17 +177,17 @@ const AdditionalInformationStep = ({
     router.push({ hash: tab }, undefined, { shallow: true });
   };
 
-  const [completedFields, setCompletedFields] = useState<
-    Record<Field, boolean>
+  const [validatedFields, setValidatedFields] = useState<
+    Record<Field, ValidationStatus>
   >({
-    description: false,
-    audience: false,
-    contact_info: false,
-    media: false,
-    organizer: false,
-    price_info: false,
-    booking_info: false,
-    contact_point: false,
+    description: ValidationStatus.NONE,
+    audience: ValidationStatus.NONE,
+    contact_info: ValidationStatus.NONE,
+    media: ValidationStatus.NONE,
+    organizer: ValidationStatus.NONE,
+    price_info: ValidationStatus.NONE,
+    booking_info: ValidationStatus.NONE,
+    contact_point: ValidationStatus.NONE,
   });
 
   return (
@@ -216,7 +222,7 @@ const AdditionalInformationStep = ({
                 title={
                   <TabTitle
                     field={field}
-                    isCompleted={completedFields[field]}
+                    isCompleted={validatedFields[field] === 'success'}
                   />
                 }
               >
@@ -224,12 +230,18 @@ const AdditionalInformationStep = ({
                   minHeight="450px"
                   offerId={offerId}
                   scope={scope}
-                  onChangeCompleted={(isCompleted) => {
-                    if (completedFields[field] === isCompleted) return;
+                  onValidationChange={(status) => {
+                    if (typeof status === 'boolean') {
+                      status = status
+                        ? ValidationStatus.SUCCESS
+                        : ValidationStatus.NONE;
+                    }
 
-                    setCompletedFields((prevFields) => ({
+                    if (validatedFields[field] === status) return;
+
+                    setValidatedFields((prevFields) => ({
                       ...prevFields,
-                      [field]: isCompleted,
+                      [field]: status as ValidationStatus,
                     }));
                   }}
                   onSuccessfulChange={() =>
@@ -245,7 +257,7 @@ const AdditionalInformationStep = ({
       <OfferScore
         offerId={offerId}
         scope={scope}
-        completedFields={completedFields}
+        completedFields={validatedFields}
       />
     </Stack>
   );
