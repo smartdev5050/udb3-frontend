@@ -412,6 +412,11 @@ const locationStepConfiguration: StepsConfiguration = {
         .required();
     }
 
+    // a cultuurkuur event
+    if (!value.country) {
+      return yup.object().shape({}).required();
+    }
+
     // a location for a place
     return yup
       .object()
