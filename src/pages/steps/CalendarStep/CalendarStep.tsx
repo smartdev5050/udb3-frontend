@@ -18,6 +18,7 @@ import { formatDateToISO } from '@/utils/formatDateToISO';
 
 import {
   CalendarContext,
+  CalendarState,
   createDayId,
   createOpeninghoursId,
   initialCalendarContext,
@@ -98,7 +99,12 @@ const convertStateToFormData = (
 
 type CalendarStepProps = StepProps & { offerId?: string };
 
-const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
+const CalendarStep = ({
+  offerId,
+  control,
+  setValue,
+  ...props
+}: CalendarStepProps) => {
   const { t } = useTranslation();
 
   const scope = useWatch({ control, name: 'scope' });
@@ -119,6 +125,10 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
     [days],
   );
 
+  const handleChangeCalendarState = (newState: CalendarState) => {
+    setValue('calendar', undefined, { shouldTouch: true });
+  };
+
   const {
     handleLoadInitialContext: loadInitialContext,
     handleAddDay,
@@ -134,7 +144,7 @@ const CalendarStep = ({ offerId, control, ...props }: CalendarStepProps) => {
     handleChooseWithStartAndEndDate,
     handleChoosePermanent,
     handleChangeOpeningHours,
-  } = useCalendarHandlers();
+  } = useCalendarHandlers(handleChangeCalendarState);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleLoadInitialContext = useCallback(loadInitialContext, []);

@@ -3,11 +3,14 @@ import { Values } from '@/types/Values';
 
 import {
   CalendarContext,
+  CalendarState,
   OpeningHoursWithId,
   useCalendarContext,
 } from './calendarMachine';
 
-export const useCalendarHandlers = () => {
+export const useCalendarHandlers = (
+  onChangeState: (newState: CalendarState) => void,
+) => {
   const calendarService = useCalendarContext();
   const send = calendarService.send;
 
@@ -22,27 +25,33 @@ export const useCalendarHandlers = () => {
   };
 
   const handleAddDay = () => {
-    send('ADD_DAY');
+    const newState = send('ADD_DAY');
+    onChangeState(newState);
   };
 
   const handleDeleteDay = (id: string) => {
-    send('REMOVE_DAY', { id });
+    const newState = send('REMOVE_DAY', { id });
+    onChangeState(newState);
   };
 
   const handleChangeStartDate = (newDate: Date) => {
-    send('CHANGE_START_DATE', { newDate });
+    const newState = send('CHANGE_START_DATE', { newDate });
+    onChangeState(newState);
   };
 
   const handleChangeEndDate = (newDate: Date) => {
-    send('CHANGE_END_DATE', { newDate });
+    const newState = send('CHANGE_END_DATE', { newDate });
+    onChangeState(newState);
   };
 
   const handleChangeStartDateOfDay = (id: string, newDate: Date | null) => {
-    send('CHANGE_START_DATE_OF_DAY', { id, newDate });
+    const newState = send('CHANGE_START_DATE_OF_DAY', { id, newDate });
+    onChangeState(newState);
   };
 
   const handleChangeEndDateOfDay = (id: string, newDate: Date | null) => {
-    send('CHANGE_END_DATE_OF_DAY', { id, newDate });
+    const newState = send('CHANGE_END_DATE_OF_DAY', { id, newDate });
+    onChangeState(newState);
   };
 
   const handleChangeStartTime = (
@@ -50,39 +59,46 @@ export const useCalendarHandlers = () => {
     hours: number,
     minutes: number,
   ) => {
-    send('CHANGE_START_HOUR', {
+    const newState = send('CHANGE_START_HOUR', {
       id,
       newHours: hours,
       newMinutes: minutes,
     });
+    onChangeState(newState);
   };
 
   const handleChangeEndTime = (id: string, hours: number, minutes: number) => {
-    send('CHANGE_END_HOUR', {
+    const newState = send('CHANGE_END_HOUR', {
       id,
       newHours: hours,
       newMinutes: minutes,
     });
+    onChangeState(newState);
   };
 
   const handleChooseOneOrMoreDays = () => {
-    send('CHOOSE_ONE_OR_MORE_DAYS');
+    const newState = send('CHOOSE_ONE_OR_MORE_DAYS');
+    onChangeState(newState);
   };
 
   const handleChooseFixedDays = () => {
-    send('CHOOSE_FIXED_DAYS');
+    const newState = send('CHOOSE_FIXED_DAYS');
+    onChangeState(newState);
   };
 
   const handleChooseWithStartAndEndDate = () => {
-    send('CHOOSE_WITH_START_AND_END_DATE');
+    const newState = send('CHOOSE_WITH_START_AND_END_DATE');
+    onChangeState(newState);
   };
 
   const handleChoosePermanent = () => {
-    send('CHOOSE_PERMANENT');
+    const newState = send('CHOOSE_PERMANENT');
+    onChangeState(newState);
   };
 
   const handleChangeOpeningHours = (newOpeningHours: OpeningHoursWithId[]) => {
-    send('CHANGE_OPENING_HOURS', { newOpeningHours });
+    const newState = send('CHANGE_OPENING_HOURS', { newOpeningHours });
+    onChangeState(newState);
   };
 
   return {

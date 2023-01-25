@@ -172,13 +172,15 @@ const Steps = ({
     // don't hide steps that were visible before
     if (form.getFieldState(name).isTouched) return true;
 
-    return (
-      configurationsWithComponent[index]?.shouldShowStep?.({
+    const shouldShowStep = configurationsWithComponent[index]?.shouldShowStep?.(
+      {
         ...form,
         offerId,
         scope,
-      }) ?? false
+      },
     );
+
+    return shouldShowStep ?? false;
   };
 
   return (
