@@ -32,7 +32,7 @@ const getCardSystemForEvent = async ({ headers, eventId }) => {
 };
 
 const useGetCardSystemForEventQuery = (
-  { req, queryClient, scope, eventId },
+  { req, queryClient, scope, eventId, isUitpasOrganizer },
   configuration: UseQueryOptions = {},
 ) =>
   useAuthenticatedQuery({
@@ -41,7 +41,7 @@ const useGetCardSystemForEventQuery = (
     queryKey: ['uitpas_events'],
     queryFn: getCardSystemForEvent,
     queryArguments: { eventId },
-    enabled: scope === OfferTypes.EVENTS && !!eventId,
+    enabled: scope === OfferTypes.EVENTS && !!eventId && isUitpasOrganizer,
     retry: false,
     ...configuration,
   });
@@ -61,7 +61,7 @@ const getCardSystemsForOrganizer = async ({ headers, organizerId }) => {
 };
 
 const useGetCardSystemsForOrganizerQuery = (
-  { req, queryClient, scope, organizerId },
+  { req, queryClient, scope, organizerId, isUitpasOrganizer },
   configuration: UseQueryOptions = {},
 ) =>
   useAuthenticatedQuery({
@@ -70,7 +70,7 @@ const useGetCardSystemsForOrganizerQuery = (
     queryKey: ['uitpas_organizers'],
     queryFn: getCardSystemsForOrganizer,
     queryArguments: { organizerId },
-    enabled: scope === OfferTypes.EVENTS && !!organizerId,
+    enabled: scope === OfferTypes.EVENTS && !!organizerId && isUitpasOrganizer,
     retry: 2,
     ...configuration,
   });
