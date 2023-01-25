@@ -1,5 +1,5 @@
-import { groupBy, pick } from 'lodash';
-import { useMemo } from 'react';
+import { groupBy, sortBy } from 'lodash';
+import { useCallback, useMemo } from 'react';
 import { Controller, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
@@ -10,6 +10,7 @@ import {
   useChangeOfferThemeMutation,
   useChangeOfferTypeMutation,
 } from '@/hooks/api/offers';
+import { EventType } from '@/hooks/api/terms';
 import { useGetTypesByScopeQuery } from '@/hooks/api/types';
 import { Term } from '@/types/Offer';
 import { parseSpacing } from '@/ui/Box';
@@ -212,16 +213,24 @@ const EventTypeAndThemeStep = ({
     scope,
   });
 
+  const sortByLocalizedName = useCallback(
+    (events: EventType[]) =>
+      sortBy(events, (event) => event.name[i18n.language]),
+    [i18n.language],
+  );
+
   const types = useMemo(
-    () => getTypesByScopeQuery.data ?? [],
-    [getTypesByScopeQuery.data],
+    () => sortByLocalizedName(getTypesByScopeQuery.data ?? []),
+    [getTypesByScopeQuery.data, sortByLocalizedName],
   );
 
   const themes = useMemo(
     () =>
-      types?.find((type) => type.id === typeAndTheme?.type?.id)
-        ?.otherSuggestedTerms ?? [],
-    [typeAndTheme?.type?.id, types],
+      sortByLocalizedName(
+        types?.find((type) => type.id === typeAndTheme?.type?.id)
+          ?.otherSuggestedTerms ?? [],
+      ),
+    [typeAndTheme?.type?.id, types, sortByLocalizedName],
   );
 
   const shouldGroupThemes = [
