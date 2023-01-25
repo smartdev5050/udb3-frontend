@@ -22,6 +22,7 @@ import { MediaStep } from './MediaStep';
 import { OfferScore } from './OfferScore';
 import { OrganizerStep } from './OrganizerStep';
 import { PriceInformation } from './PriceInformation';
+import { map, mapValues } from 'lodash';
 
 const getGlobalValue = getValueFromTheme('global');
 
@@ -263,7 +264,10 @@ const AdditionalInformationStep = ({
       <OfferScore
         offerId={offerId}
         scope={scope}
-        completedFields={validatedFields}
+        completedFields={mapValues(
+          validatedFields,
+          (value) => value === ValidationStatus.SUCCESS,
+        )}
       />
     </Stack>
   );
