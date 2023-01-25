@@ -126,7 +126,7 @@ const CalendarStep = ({
   );
 
   const handleChangeCalendarState = (newState: CalendarState) => {
-    setValue('calendar', undefined, { shouldTouch: true });
+    setValue('calendar', undefined, { shouldTouch: true, shouldDirty: true });
   };
 
   const {
