@@ -127,17 +127,26 @@ const LocationStep = ({
   const { t } = useTranslation();
 
   const [streetAndNumber, setStreetAndNumber] = useState('');
+  const [onlineUrl, setOnlineUrl] = useState('');
 
-  const [scope, locationStreetAndNumber] = useWatch({
+  const [scope, locationStreetAndNumber, locationOnlineUrl] = useWatch({
     control,
-    name: ['scope', 'location.streetAndNumber'],
+    name: ['scope', 'location.streetAndNumber', 'location.onlineUrl'],
   });
 
   useEffect(() => {
-    if (!locationStreetAndNumber) return;
+    if (!locationStreetAndNumber && !locationOnlineUrl) return;
 
-    setStreetAndNumber(locationStreetAndNumber);
-  }, [locationStreetAndNumber]);
+    if (locationStreetAndNumber) {
+      setStreetAndNumber(locationStreetAndNumber);
+    }
+
+    if (locationOnlineUrl) {
+      setOnlineUrl(locationOnlineUrl);
+    }
+  }, [locationStreetAndNumber, locationOnlineUrl]);
+
+  console.log('errors', formState.errors);
 
   return (
     <Stack {...getStackProps(props)}>
@@ -145,7 +154,7 @@ const LocationStep = ({
         control={control}
         name={name}
         render={({ field }) => {
-          const { isOnline, onlineUrl, municipality, country } =
+          const { isOnline, municipality, country } =
             field?.value as OfferFormData['location'];
 
           const OnlineToggle = (
@@ -209,17 +218,18 @@ const LocationStep = ({
                     <Input
                       maxWidth="28rem"
                       value={onlineUrl}
-                      onChange={(e) => {
-                        {
-                          const updatedValue = {
-                            ...field?.value,
-                            onlineUrl: e.target.value,
-                          };
-                          field.onChange(updatedValue);
-                          onChange(updatedValue);
-                        }
+                      onBlur={(e) => {
+                        const updatedValue = {
+                          ...field?.value,
+                          onlineUrl: e.target.value,
+                        };
+                        field.onChange(updatedValue);
+                        onChange(updatedValue);
+                        trigger('location');
                       }}
-                      onBlur={field.onBlur}
+                      onChange={(e) => {
+                        setOnlineUrl(e.target.value);
+                      }}
                       placeholder={t('create.location.online_url.placeholder')}
                     />
                   }
