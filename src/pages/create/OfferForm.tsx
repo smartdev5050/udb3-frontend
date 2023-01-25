@@ -98,6 +98,8 @@ const parseLocationAttributes = (
       mainLanguage,
     );
 
+  const { onlineUrl } = offer;
+
   const isOnline =
     isEvent(offer) && offer.attendanceMode === AttendanceMode.ONLINE;
 
@@ -112,6 +114,7 @@ const parseLocationAttributes = (
       place: isEvent(offer) ? offer.location : undefined,
       country: addressCountry,
       ...(isPlace(offer) && { streetAndNumber: streetAddress }),
+      ...(!!onlineUrl && { onlineUrl }),
     },
   };
 };
