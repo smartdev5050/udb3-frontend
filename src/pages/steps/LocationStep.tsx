@@ -6,7 +6,10 @@ import * as yup from 'yup';
 
 import { EventTypes } from '@/constants/EventTypes';
 import { OfferTypes } from '@/constants/OfferType';
-import { useChangeAttendanceModeMutation } from '@/hooks/api/events';
+import {
+  useChangeAttendanceModeMutation,
+  useChangeOnlineUrlMutation,
+} from '@/hooks/api/events';
 import { useChangeAddressMutation } from '@/hooks/api/places';
 import { FormData as OfferFormData } from '@/pages/create/OfferForm';
 import { Address } from '@/types/Address';
@@ -44,6 +47,7 @@ const getGlobalValue = getValueFromTheme('global');
 const useEditLocation = ({ scope, offerId }) => {
   const { i18n } = useTranslation();
   const changeAddressMutation = useChangeAddressMutation();
+  const changeOnlineUrl = useChangeOnlineUrlMutation();
   const changeAttendanceMode = useChangeAttendanceModeMutation();
 
   return async ({ location }: FormDataUnion) => {
@@ -53,6 +57,14 @@ const useEditLocation = ({ scope, offerId }) => {
           eventId: offerId,
           attendanceMode: AttendanceMode.ONLINE,
         });
+
+        if (location.onlineUrl) {
+          changeOnlineUrl.mutate({
+            eventId: offerId,
+            onlineUrl: location.onlineUrl,
+          });
+        }
+
         return;
       }
 
