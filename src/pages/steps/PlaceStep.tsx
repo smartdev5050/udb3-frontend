@@ -127,6 +127,7 @@ const PlaceStep = ({
                     const updatedValue = { ...field.value, place };
                     field.onChange(updatedValue);
                     onChange(updatedValue);
+                    field.onBlur();
                   }}
                 />
                 <FormElement

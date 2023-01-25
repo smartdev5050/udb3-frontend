@@ -242,6 +242,7 @@ const LocationStep = ({
                       };
                       field.onChange(updatedValue);
                       onChange(updatedValue);
+                      field.onBlur();
                     }}
                   >
                     {t('create.location.country.change_location')}
@@ -271,6 +272,7 @@ const LocationStep = ({
                       };
                       field.onChange(updatedValue);
                       onChange(updatedValue);
+                      field.onBlur();
                     }}
                     width="22rem"
                   />
@@ -284,6 +286,7 @@ const LocationStep = ({
                       };
                       field.onChange(updatedValue);
                       onChange(updatedValue);
+                      field.onBlur();
                     }}
                     css={`
                       & button {
@@ -317,6 +320,7 @@ const LocationStep = ({
                       };
                       field.onChange(updatedValue);
                       onChange(updatedValue);
+                      field.onBlur();
                     }}
                   >
                     {t(
