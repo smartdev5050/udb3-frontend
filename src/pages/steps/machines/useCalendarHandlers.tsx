@@ -21,7 +21,8 @@ export const useCalendarHandlers = (
     newContext?: CalendarContext;
     calendarType?: Values<typeof CalendarType>;
   }): void => {
-    send('LOAD_INITIAL_CONTEXT', { newContext, calendarType });
+    const newState = send('LOAD_INITIAL_CONTEXT', { newContext, calendarType });
+    onChangeState(newState);
   };
 
   const handleAddDay = () => {
