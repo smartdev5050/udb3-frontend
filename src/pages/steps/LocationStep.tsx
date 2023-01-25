@@ -9,6 +9,7 @@ import { OfferTypes } from '@/constants/OfferType';
 import {
   useChangeAttendanceModeMutation,
   useChangeOnlineUrlMutation,
+  useDeleteOnlineUrlMutation,
 } from '@/hooks/api/events';
 import { useChangeAddressMutation } from '@/hooks/api/places';
 import { FormData as OfferFormData } from '@/pages/create/OfferForm';
@@ -48,6 +49,7 @@ const useEditLocation = ({ scope, offerId }) => {
   const { i18n } = useTranslation();
   const changeAddressMutation = useChangeAddressMutation();
   const changeOnlineUrl = useChangeOnlineUrlMutation();
+  const deleteOnlineUrl = useDeleteOnlineUrlMutation();
   const changeAttendanceMode = useChangeAttendanceModeMutation();
 
   return async ({ location }: FormDataUnion) => {
@@ -74,6 +76,10 @@ const useEditLocation = ({ scope, offerId }) => {
         eventId: offerId,
         attendanceMode: AttendanceMode.OFFLINE,
         location: location.place['@id'],
+      });
+
+      deleteOnlineUrl.mutate({
+        eventId: offerId,
       });
 
       return;
