@@ -146,6 +146,7 @@ const LocationStep = ({
                         isOnline: e.target.checked,
                       };
                       field.onChange(updatedValue);
+                      field.onBlur();
                       onChange(updatedValue);
                     }}
                     css={`
