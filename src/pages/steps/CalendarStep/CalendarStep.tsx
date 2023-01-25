@@ -282,6 +282,7 @@ const CalendarStep = ({
             onChangeStartDate={handleChangeStartDate}
             onChangeEndDate={handleChangeEndDate}
             onChangeOpeningHours={handleChangeOpeningHours}
+            onChangeCalendarState={handleChangeCalendarState}
           />
         )}
         {isOneOrMoreDays && (

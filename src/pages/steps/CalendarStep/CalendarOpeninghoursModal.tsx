@@ -17,6 +17,7 @@ import { Text } from '@/ui/Text';
 import { TimeSpanPicker } from '@/ui/TimeSpanPicker';
 
 import {
+  CalendarState,
   createOpeninghoursId,
   useCalendarSelector,
 } from '../machines/calendarMachine';
@@ -45,15 +46,19 @@ type FormData = yup.InferType<typeof schema>;
 type CalendarOpeninghoursModalProps = {
   visible: boolean;
   onClose: () => void;
+  onChangeCalendarState: (newSate: CalendarState) => void;
 };
 
 const CalendarOpeninghoursModal = ({
   visible,
   onClose,
+  onChangeCalendarState,
 }: CalendarOpeninghoursModalProps) => {
   const { t } = useTranslation();
 
-  const { handleChangeOpeningHours } = useCalendarHandlers();
+  const { handleChangeOpeningHours } = useCalendarHandlers(
+    onChangeCalendarState,
+  );
 
   const openinghoursFromStateMachine = useCalendarSelector(
     (state) => state.context.openingHours,
