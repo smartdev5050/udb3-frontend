@@ -316,4 +316,4 @@ const OrganizerPicker = ({
   );
 };
 
-export { OrganizerPicker };
+export { isUitpasOrganizer, OrganizerPicker };
