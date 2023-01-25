@@ -239,6 +239,7 @@ const OrganizerStep = ({
                       as="a"
                       css={`
                         text-decoration: underline;
+                        font-weight: bold;
                       `}
                       href="#price_info"
                       onClick={(e) => {
@@ -247,7 +248,7 @@ const OrganizerStep = ({
                           shallow: true,
                         });
                       }}
-                    ></Link>
+                    />
                   ),
                 }}
               />
