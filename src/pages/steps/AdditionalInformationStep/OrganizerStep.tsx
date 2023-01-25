@@ -227,7 +227,7 @@ const OrganizerStep = ({
           organizer={organizer}
         />
         {isUitpasOrganizer && (
-          <Alert variant={AlertVariants.PRIMARY}>
+          <Alert variant={AlertVariants.WARNING}>
             {hasPriceInfo ? (
               t('create.additionalInformation.organizer.uitpas_info')
             ) : (
