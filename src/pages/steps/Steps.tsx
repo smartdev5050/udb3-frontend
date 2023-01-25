@@ -3,9 +3,9 @@ import pick from 'lodash/pick';
 import { useMemo } from 'react';
 import type {
   ControllerRenderProps,
+  DefaultValues,
   Path,
   UseFormReturn,
-  DefaultValues,
 } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 

@@ -14,6 +14,7 @@ import {
 import { typeAndThemeStepConfiguration } from '@/pages/steps/EventTypeAndThemeStep';
 import { placeStepConfiguration } from '@/pages/steps/PlaceStep';
 import { productionStepConfiguration } from '@/pages/steps/ProductionStep';
+import { StepsConfiguration } from '@/pages/steps/Steps';
 import {
   StepsForm,
   useRerenderTriggerStepsForm,
@@ -29,7 +30,6 @@ import type { Place } from '@/types/Place';
 import type { Production } from '@/types/Production';
 import { WorkflowStatusMap } from '@/types/WorkflowStatus';
 import { parseOfferId } from '@/utils/parseOfferId';
-import { StepsConfiguration } from '@/pages/steps/Steps';
 
 type FormData = {
   typeAndTheme: {
