@@ -9,6 +9,7 @@ import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { useAddOfferPriceInfoMutation } from '@/hooks/api/offers';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import i18n from '@/i18n/index';
+import { TabContentProps } from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
 import { Event } from '@/types/Event';
 import type { Values } from '@/types/Values';
 import { Alert, AlertVariants } from '@/ui/Alert';
@@ -21,7 +22,6 @@ import { Input } from '@/ui/Input';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
-import { TabContentProps } from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
 
 const PRICE_CURRENCY: string = 'EUR';
 

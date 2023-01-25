@@ -113,16 +113,22 @@ const tabConfigurations: TabConfig[] = [
 
 type TabTitleProps = InlineProps & {
   field: Field;
-  isCompleted: boolean;
+  validationStatus: ValidationStatus;
 };
 
-const TabTitle = ({ field, isCompleted, ...props }: TabTitleProps) => {
+const TabTitle = ({ field, validationStatus, ...props }: TabTitleProps) => {
   const { t } = useTranslation();
 
   return (
     <Inline spacing={3} {...getInlineProps(props)}>
-      {isCompleted && (
+      {validationStatus === ValidationStatus.SUCCESS && (
         <Icon name={Icons.CHECK_CIRCLE} color={getGlobalValue('successIcon')} />
+      )}
+      {validationStatus === ValidationStatus.WARNING && (
+        <Icon
+          name={Icons.EXCLAMATION_CIRCLE}
+          color={getGlobalValue('warningIcon')}
+        />
       )}
       <Text>{t(`create.additionalInformation.${field}.title`)}</Text>
     </Inline>
@@ -222,7 +228,7 @@ const AdditionalInformationStep = ({
                 title={
                   <TabTitle
                     field={field}
-                    isCompleted={validatedFields[field] === 'success'}
+                    validationStatus={validatedFields[field]}
                   />
                 }
               >
