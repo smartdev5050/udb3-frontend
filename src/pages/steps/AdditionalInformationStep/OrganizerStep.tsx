@@ -204,7 +204,7 @@ const OrganizerStep = ({
 
   const hasUitpasCardSystems = Object.values(cardSystems).length > 0;
 
-  const showCardSystems =
+  const shouldShowCardSystems =
     hasUitpasLabel && hasUitpasCardSystems && hasPriceInfo;
 
   return (
@@ -262,7 +262,7 @@ const OrganizerStep = ({
         )}
       </Stack>
 
-      {showCardSystems && (
+      {shouldShowCardSystems && (
         <Stack spacing={3}>
           <Text fontWeight="bold">
             {t('create.additionalInformation.organizer.uitpas_cardsystems')}
