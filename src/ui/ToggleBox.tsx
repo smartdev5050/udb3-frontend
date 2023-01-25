@@ -62,11 +62,7 @@ const ToggleBox = ({
           fontWeight={700}
           fontSize="16px"
           css={`
-            text-decoration: ${active ? 'underline' : 'none'};
-            &:hover {
-              text-decoration: ${disabled} ? 'none' : 'underline';
-            }
-            color: ${disabled ? 'grey' : 'initial'}
+            color: ${disabled ? 'grey' : 'initial'};
           `}
         >
           {text}
