@@ -34,6 +34,7 @@ import { getValueFromTheme } from '@/ui/theme';
 
 import { CityPicker } from '../CityPicker';
 import { Features, NewFeatureTooltip } from '../NewFeatureTooltip';
+import { isValidUrl } from './AdditionalInformationStep/ContactInfoStep';
 import { CountryPicker } from './CountryPicker';
 import { PlaceStep } from './PlaceStep';
 import {
@@ -128,6 +129,7 @@ const LocationStep = ({
 
   const [streetAndNumber, setStreetAndNumber] = useState('');
   const [onlineUrl, setOnlineUrl] = useState('');
+  const [hasOnlineUrlError, setHasOnlineUrlError] = useState(false);
 
   const [scope, locationStreetAndNumber, locationOnlineUrl] = useWatch({
     control,
@@ -224,8 +226,12 @@ const LocationStep = ({
                           onlineUrl: e.target.value,
                         };
                         field.onChange(updatedValue);
-                        onChange(updatedValue);
-                        trigger('location');
+                        if (isValidUrl(e.target.value)) {
+                          onChange(updatedValue);
+                          setHasOnlineUrlError(false);
+                        } else {
+                          setHasOnlineUrlError(true);
+                        }
                       }}
                       onChange={(e) => {
                         setOnlineUrl(e.target.value);
@@ -236,7 +242,7 @@ const LocationStep = ({
                   id="online-url"
                   label={t('create.location.online_url.label')}
                   error={
-                    formState.errors.location?.onlineUrl &&
+                    hasOnlineUrlError &&
                     t('create.validation_messages.location.online_url')
                   }
                   info={
