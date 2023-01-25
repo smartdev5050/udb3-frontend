@@ -81,6 +81,11 @@ const tabConfigurations: TabConfig[] = [
     shouldInvalidate: true,
   },
   {
+    field: Fields.ORGANIZER,
+    TabContent: OrganizerStep,
+    shouldInvalidate: true,
+  },
+  {
     field: Fields.CONTACT_INFO,
     TabContent: ContactInfoStep,
     shouldInvalidate: true,
@@ -94,11 +99,6 @@ const tabConfigurations: TabConfig[] = [
       AdditionalInformationStepVariant.PLACE,
       AdditionalInformationStepVariant.MOVIE,
     ],
-  },
-  {
-    field: Fields.ORGANIZER,
-    TabContent: OrganizerStep,
-    shouldInvalidate: true,
   },
   {
     field: Fields.AUDIENCE,
