@@ -47,7 +47,9 @@ type Field = Values<typeof Fields>;
 type TabContentProps = {
   offerId?: string;
   scope?: OfferType;
-  onSuccessfulChange: (() => Promise<void>) | ((data: any) => void);
+  onSuccessfulChange: (
+    data?: any,
+  ) => typeof data extends any ? void : Promise<void>;
   onValidationChange?: (status: boolean | ValidationStatus) => void;
 };
 
