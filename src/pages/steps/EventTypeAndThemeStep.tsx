@@ -70,6 +70,7 @@ const SPORT_THEME_IDS = [
 ];
 
 const VARIOUS_THEME_IDS = [
+  '1.21.0.0.0', // Computer and techniek
   '1.37.1.0.0', // Gezondheid en zorg
   '1.43.0.0.0', // Interculturele vorming
   '1.64.0.0.0', // Milieu en natuur
