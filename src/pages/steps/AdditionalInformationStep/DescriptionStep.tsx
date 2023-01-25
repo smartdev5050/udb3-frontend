@@ -17,7 +17,7 @@ import { Text, TextVariants } from '@/ui/Text';
 import { TextArea } from '@/ui/TextArea';
 import { Breakpoints } from '@/ui/theme';
 
-import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
+import { TabContentProps } from './AdditionalInformationStep';
 
 const IDEAL_DESCRIPTION_LENGTH = 200;
 

@@ -23,7 +23,7 @@ import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 import { formatDateToISO } from '@/utils/formatDateToISO';
 
-import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
+import { TabContentProps } from './AdditionalInformationStep';
 import { isValidEmail, isValidPhone, isValidUrl } from './ContactInfoStep';
 
 const schema = yup

@@ -8,7 +8,6 @@ import {
   useChangeAudienceMutation,
   useGetEventByIdQuery,
 } from '@/hooks/api/events';
-import { ValidationStatus } from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
 import { Event } from '@/types/Event';
 import { Values } from '@/types/Values';
 import { FormElement } from '@/ui/FormElement';

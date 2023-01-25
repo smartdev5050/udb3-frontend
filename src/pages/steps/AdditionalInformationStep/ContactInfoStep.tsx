@@ -13,7 +13,7 @@ import { Input } from '@/ui/Input';
 import { Select } from '@/ui/Select';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 
-import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
+import { TabContentProps } from './AdditionalInformationStep';
 
 const ContactInfoTypes = {
   EMAIL: 'email',
