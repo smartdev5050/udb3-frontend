@@ -78,7 +78,10 @@ const nameAndAgeRangeStepConfiguration: StepsConfiguration = {
   shouldShowStep: ({ watch }) => {
     const location = watch('location');
     return (
-      !!location?.place || location?.isOnline || !!location?.streetAndNumber
+      !!location?.place ||
+      location?.isOnline ||
+      !!location?.streetAndNumber ||
+      !location.country // undefined when cultuurkuur is selected as country
     );
   },
 };
