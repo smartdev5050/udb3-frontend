@@ -274,9 +274,9 @@ const useGetCalendarSummaryQuery = (
     ...configuration,
   });
 
-const changeLocation = async ({ headers, id, locationId }) => {
+const changeLocation = async ({ headers, eventId, locationId }) => {
   return fetchFromApi({
-    path: `/events/${id.toString()}/location/${locationId}`,
+    path: `/events/${eventId.toString()}/location/${locationId}`,
     options: {
       method: 'PUT',
       headers,
