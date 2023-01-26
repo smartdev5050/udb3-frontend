@@ -1,4 +1,4 @@
-import { map, mapValues } from 'lodash';
+import { mapValues } from 'lodash';
 import { useRouter } from 'next/router';
 import { FC, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -139,16 +139,6 @@ type Props = StackProps & {
   variant?: Values<typeof AdditionalInformationStepVariant>;
 };
 
-import { Values } from '@/types/Values';
-
-export const ValidationStatus = {
-  NONE: 'none',
-  WARNING: 'warning',
-  SUCCESS: 'success',
-} as const;
-
-export type ValidationStatus = Values<typeof ValidationStatus>;
-
 const AdditionalInformationStep = ({
   offerId,
   scope,
@@ -279,6 +269,14 @@ const additionalInformationStepConfiguration: StepsConfiguration = {
   shouldShowStep: ({ offerId }) => !!offerId,
   variant: AdditionalInformationStepVariant.EVENT,
 };
+
+export const ValidationStatus = {
+  NONE: 'none',
+  WARNING: 'warning',
+  SUCCESS: 'success',
+} as const;
+
+export type ValidationStatus = Values<typeof ValidationStatus>;
 
 export type { Field, TabContentProps };
 
