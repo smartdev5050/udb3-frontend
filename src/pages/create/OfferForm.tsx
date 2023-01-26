@@ -1,3 +1,4 @@
+import getConfig from 'next/config';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -119,6 +120,7 @@ const parseLocationAttributes = (
 const OfferForm = () => {
   const { t, i18n } = useTranslation();
   const { query, asPath, ...router } = useRouter();
+  const { publicRuntimeConfig } = getConfig();
 
   const scope = useMemo(() => {
     if (
@@ -184,6 +186,16 @@ const OfferForm = () => {
       return {
         attendanceMode: AttendanceMode.ONLINE,
         onlineUrl,
+      };
+    }
+
+    // country is undefined cultuurkuur event
+    // Add dummy location
+    if (!country) {
+      return {
+        location: {
+          id: publicRuntimeConfig.cultuurKuurLocationId,
+        },
       };
     }
 
