@@ -138,6 +138,8 @@ const OfferForm = () => {
     return undefined;
   }, [asPath, query.scope]);
 
+  const offerId = scope === OfferTypes.EVENTS ? query.eventId : query.placeId;
+
   const convertOfferToFormData = (offer: Offer) => {
     return {
       scope: isEvent(offer) ? OfferTypes.EVENTS : OfferTypes.PLACES,
@@ -272,7 +274,12 @@ const OfferForm = () => {
         scopeStepConfiguration,
         typeAndThemeStepConfiguration,
         calendarStepConfiguration,
-        locationStepConfiguration,
+        {
+          ...locationStepConfiguration,
+          stepProps: {
+            offerId,
+          },
+        },
         nameAndAgeRangeStepConfiguration,
         {
           ...additionalInformationStepConfiguration,
