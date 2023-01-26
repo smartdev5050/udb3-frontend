@@ -131,7 +131,7 @@ const LocationStep = ({
     if (!locationStreetAndNumber) return;
 
     setStreetAndNumber(locationStreetAndNumber);
-  }, [locationStreetAndNumber, audienceType, setValue]);
+  }, [locationStreetAndNumber]);
 
   return (
     <Stack {...getStackProps(props)}>
