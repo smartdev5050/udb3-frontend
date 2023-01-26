@@ -85,7 +85,9 @@ const NewsletterSignupForm = (props: Props) => {
                 }
               />
 
-              <Button>{t('dashboard.newsletter.subscribe')}</Button>
+              <Button type="submit">
+                {t('dashboard.newsletter.subscribe')}
+              </Button>
             </Inline>
             {!isValid && (
               <Alert variant={AlertVariants.DANGER}>

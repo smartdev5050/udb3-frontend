@@ -109,7 +109,10 @@
       "title": "Was willst du hinzufügen"
     },
     "calendar": {
-      "title": "Wann findet diese Veranstaltung oder Aktivität statt?",
+      "title": {
+        "events": "Wann findet diese Veranstaltung oder Aktivität statt?",
+        "places": "Wann ist dieser Ort oder Standort geöffnet?"
+      },
       "one_or_more_days": {
         "button_add": "Tag hinzufügen"
       },
@@ -156,7 +159,10 @@
       }
     },
     "location": {
-      "title": "Wo findet diese Veranstaltung oder Aktivität statt?",
+      "title": {
+        "events": "Wo findet diese Veranstaltung oder Aktivität statt?",
+        "places": "Wo ist dieser Ort oder Ort?"
+      },
       "validation_messages": {
         "street_and_number": {
           "required": "Ihre Straße und Hausnummer entsprechen nicht den Anforderungen."
@@ -221,6 +227,13 @@
       "title_events": "Welche Art von Veranstaltung möchten Sie hinzufügen?",
       "title_places": "Welche Art von Standort möchten Sie hinzufügen?",
       "change_theme": "Ändert den thema",
+      "theme_groups": {
+        "dance": "Tanz",
+        "art_and_heritage": "Kunst und Kulturerbe",
+        "music": "Musik",
+        "sport": "Sport",
+        "various": "Diverses"
+      },
       "change_type": "Ändert den typ",
       "refine": "Verfeinere"
     },
@@ -747,7 +760,7 @@
         },
         "file": {
           "required": "Bitte wählen Sie eine Datei aus",
-          "size": "Die ausgewählte Datei ist größer als 5 MB.",
+          "size": "Die ausgewählte Datei ist größer als {{maxFileSize}} MB.",
           "type": "Die ausgewählte Datei hat keinen gültigen Dateityp"
         }
       }

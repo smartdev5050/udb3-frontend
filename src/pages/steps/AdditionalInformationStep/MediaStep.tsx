@@ -95,6 +95,7 @@ const MediaStep = ({
 
   const [videos, setVideos] = useState([]);
   const [images, setImages] = useState<ImageType[]>([]);
+  const [isImageUploading, setIsImageUploading] = useState(false);
 
   const addImageToEventMutation = useAddOfferImageMutation({
     onSuccess: async () => {
@@ -302,24 +303,29 @@ const MediaStep = ({
     description,
     copyrightHolder,
   }: FormData) => {
-    if (imageToEdit) {
-      await updateOfferImageMutation.mutateAsync({
-        eventId,
-        imageId: imageToEdit.parsedId,
+    try {
+      setIsImageUploading(true);
+      if (imageToEdit) {
+        await updateOfferImageMutation.mutateAsync({
+          eventId,
+          imageId: imageToEdit.parsedId,
+          description,
+          copyrightHolder,
+          scope,
+        });
+
+        return;
+      }
+
+      await addImageMutation.mutateAsync({
         description,
         copyrightHolder,
-        scope,
+        file: file?.[0],
+        language: i18n.language,
       });
-
-      return;
+    } finally {
+      setIsImageUploading(false);
     }
-
-    await addImageMutation.mutateAsync({
-      description,
-      copyrightHolder,
-      file: file?.[0],
-      language: i18n.language,
-    });
   };
 
   return (
@@ -330,6 +336,7 @@ const MediaStep = ({
         draggedImageFile={draggedImageFile}
         imageToEdit={imageToEdit}
         onSubmitValid={handleSubmitValid}
+        loading={isImageUploading}
       />
       <PictureDeleteModal
         visible={isPictureDeleteModalVisible}

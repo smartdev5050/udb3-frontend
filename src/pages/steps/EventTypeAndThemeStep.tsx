@@ -1,3 +1,5 @@
+import { groupBy, sortBy } from 'lodash';
+import { useCallback, useMemo } from 'react';
 import { Controller, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
@@ -8,6 +10,7 @@ import {
   useChangeOfferThemeMutation,
   useChangeOfferTypeMutation,
 } from '@/hooks/api/offers';
+import { EventType } from '@/hooks/api/terms';
 import { useGetTypesByScopeQuery } from '@/hooks/api/types';
 import { Term } from '@/types/Offer';
 import { parseSpacing } from '@/ui/Box';
@@ -16,10 +19,77 @@ import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { Label, LabelVariants } from '@/ui/Label';
 import { Stack } from '@/ui/Stack';
-import { Text } from '@/ui/Text';
+import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
 import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
+
+const DANCE_THEME_IDS = [
+  '1.9.1.0.0', // Ballet en klassieke dans
+  '1.9.2.0.0', // Moderne dans
+  '1.9.5.0.0', // Stijl en salondansen
+  '1.9.3.0.0', // Volksdans en werelddans
+];
+
+const ART_AND_HERITAGE_THEME_IDS = [
+  '1.1.0.0.0', // Audiovisuele kunst
+  '1.0.2.0.0', // Beeldhouwkunst
+  '0.52.0.0.0', // Circus
+  '1.42.0.0.0', // Creativiteit
+  '1.0.5.0.0', // Decoratieve kunst
+  '1.2.2.0.0', // Design
+  '1.40.0.0.0', // Erfgoed
+  '1.0.6.0.0', // Fotografie
+  '1.0.4.0.0', // Grafiek
+  '1.10.0.0.0', // Literatuur
+  '1.0.9.0.0', // Meerdere kunstvormen
+  '1.49.0.0.0', // Mode
+  '1.10.5.0.0', // Poezie
+  '1.0.1.0.0', // Schilderkunst
+  '1.3.1.0.0', // Tekst en muziektheater
+];
+
+const MUSIC_THEME_IDS = [
+  '1.8.3.5.0', // Amusementsmuziek
+  '1.8.3.3.0', // Dance muziek
+  '1.8.4.0.0', // Folk en wereldmuziek
+  '1.8.3.2.0', // Hip hop, rnb en rap
+  '1.8.2.0.0', // Jazz en blues
+  '1.8.1.0.0', // Klassieke muziek
+  '1.8.3.1.0', // Pop en rock
+];
+
+const SPORT_THEME_IDS = [
+  '1.51.14.0.0', // Atletiek, wandelen en fietsen
+  '1.51.13.0.0', // Bal en racketsport
+  '1.51.6.0.0', // Fitness, gymnastiek, dans en vechtsport
+  '1.58.8.0.0', // Lucht en motorsport
+  '1.51.12.0.0', // Omnisport en andere
+  '1.51.11.0.0', // Outdoor en Adventure sport
+  '1.51.10.0.0', // Volkssporten
+  '1.51.3.0.0', // Zwemmen en watersport
+];
+
+const VARIOUS_THEME_IDS = [
+  '1.21.0.0.0', // Computer and techniek
+  '1.37.1.0.0', // Gezondheid en zorg
+  '1.43.0.0.0', // Interculturele vorming
+  '1.64.0.0.0', // Milieu en natuur
+  '1.37.0.0.0', // Opvoeding
+  '1.61.0.0.0', // Persoon en relaties
+  '1.37.2.0.0', // Samenleving
+  '1.65.0.0.0', // Voeding
+  '1.25.0.0.0', // Wetenschap
+  '1.44.0.0.0', // Zingeving, filosofie en religie
+];
+
+const groupNameToThemeIds = {
+  dance: DANCE_THEME_IDS,
+  art_and_heritage: ART_AND_HERITAGE_THEME_IDS,
+  music: MUSIC_THEME_IDS,
+  sport: SPORT_THEME_IDS,
+  various: VARIOUS_THEME_IDS,
+} as const;
 
 const getGlobalValue = getValueFromTheme('global');
 
@@ -144,11 +214,42 @@ const EventTypeAndThemeStep = ({
     scope,
   });
 
-  const types = getTypesByScopeQuery.data ?? [];
+  const sortByLocalizedName = useCallback(
+    (events: EventType[]) =>
+      sortBy(events, (event) => event.name[i18n.language]),
+    [i18n.language],
+  );
 
-  const themes =
-    types?.find((type) => type.id === typeAndTheme?.type?.id)
-      ?.otherSuggestedTerms ?? [];
+  const types = useMemo(
+    () => sortByLocalizedName(getTypesByScopeQuery.data ?? []),
+    [getTypesByScopeQuery.data, sortByLocalizedName],
+  );
+
+  const themes = useMemo(
+    () =>
+      sortByLocalizedName(
+        types?.find((type) => type.id === typeAndTheme?.type?.id)
+          ?.otherSuggestedTerms ?? [],
+      ),
+    [typeAndTheme?.type?.id, types, sortByLocalizedName],
+  );
+
+  const shouldGroupThemes = [
+    '0.3.1.0.1', // Cursus met open sessies
+    '0.3.1.0.0', // Lessenreeks
+  ].includes(typeAndTheme?.type?.id);
+
+  const themeGroups = useMemo(() => {
+    if (!shouldGroupThemes) return {};
+    return groupBy(themes, (theme) => {
+      const foundGroupPair = Object.entries(groupNameToThemeIds).find(
+        ([_, themeIds]) => themeIds.includes(theme.id),
+      );
+      if (!foundGroupPair) return 'rest';
+      const [groupName] = foundGroupPair;
+      return groupName;
+    });
+  }, [shouldGroupThemes, themes]);
 
   return (
     <Controller
@@ -231,39 +332,82 @@ const EventTypeAndThemeStep = ({
               </Label>
             )}
             {!field.value?.theme?.id ? (
-              <Inline
-                spacing={3}
-                flexWrap="wrap"
-                maxWidth="70rem"
-                css={`
-                  row-gap: ${parseSpacing(3.5)()};
-                `}
-              >
-                {themes.map(({ id, name }) => (
-                  <Button
-                    width="auto"
-                    display="inline-flex"
-                    key={id}
-                    variant={ButtonVariants.SECONDARY}
-                    onClick={() => {
-                      field.onChange({
-                        ...field.value,
-                        theme: { id, label: name[i18n.language] },
-                      });
-                      onChange(id);
-                    }}
+              <Stack spacing={4} maxWidth="70rem">
+                {!shouldGroupThemes && (
+                  <Inline
+                    spacing={3}
+                    flexWrap="wrap"
                     css={`
-                      &.btn {
-                        padding: 0.3rem 0.7rem;
-                        box-shadow: ${({ theme }) =>
-                          theme.components.button.boxShadow.small};
-                      }
+                      row-gap: ${parseSpacing(3.5)()};
                     `}
                   >
-                    {name[i18n.language]}
-                  </Button>
-                ))}
-              </Inline>
+                    {themes.map(({ id, name }) => (
+                      <Button
+                        width="auto"
+                        display="inline-flex"
+                        key={id}
+                        variant={ButtonVariants.SECONDARY}
+                        onClick={() => {
+                          field.onChange({
+                            ...field.value,
+                            theme: { id, label: name[i18n.language] },
+                          });
+                          onChange(id);
+                        }}
+                        css={`
+                          &.btn {
+                            padding: 0.3rem 0.7rem;
+                            box-shadow: ${({ theme }) =>
+                              theme.components.button.boxShadow.small};
+                          }
+                        `}
+                      >
+                        {name[i18n.language]}
+                      </Button>
+                    ))}
+                  </Inline>
+                )}
+                {shouldGroupThemes &&
+                  Object.entries(themeGroups).map(([groupName, themes]) => (
+                    <Stack key={groupName} spacing={3}>
+                      <Text variant={TextVariants.MUTED}>
+                        {t(`create.type_and_theme.theme_groups.${groupName}`)}
+                      </Text>
+                      <Inline
+                        spacing={3}
+                        flexWrap="wrap"
+                        css={`
+                          row-gap: ${parseSpacing(3.5)()};
+                        `}
+                      >
+                        {themes.map(({ id, name }) => (
+                          <Button
+                            width="auto"
+                            display="inline-flex"
+                            key={id}
+                            variant={ButtonVariants.SECONDARY}
+                            onClick={() => {
+                              field.onChange({
+                                ...field.value,
+                                theme: { id, label: name[i18n.language] },
+                              });
+                              onChange(id);
+                            }}
+                            css={`
+                              &.btn {
+                                padding: 0.3rem 0.7rem;
+                                box-shadow: ${({ theme }) =>
+                                  theme.components.button.boxShadow.small};
+                              }
+                            `}
+                          >
+                            {name[i18n.language]}
+                          </Button>
+                        ))}
+                      </Inline>
+                    </Stack>
+                  ))}
+              </Stack>
             ) : (
               <Inline
                 alignItems="center"

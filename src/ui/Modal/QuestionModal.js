@@ -19,6 +19,7 @@ const QuestionModal = ({
   scrollable,
   size,
   confirmButtonDisabled,
+  confirmLoading,
 }) => (
   <BootstrapModal
     className={className}
@@ -61,9 +62,10 @@ const QuestionModal = ({
         {cancelTitle}
       </Button>
       <Button
+        loading={confirmLoading}
         variant={ButtonVariants.PRIMARY}
         onClick={onConfirm}
-        disabled={confirmButtonDisabled}
+        disabled={confirmButtonDisabled || confirmLoading}
       >
         {confirmTitle}
       </Button>
