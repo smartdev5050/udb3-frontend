@@ -234,7 +234,7 @@ const OrganizerStep = ({
           organizer={organizer}
         />
         {hasUitpasLabel && (
-          <Alert variant={AlertVariants.PRIMARY}>
+          <Alert variant={AlertVariants.WARNING}>
             {hasPriceInfo ? (
               t('create.additionalInformation.organizer.uitpas_info')
             ) : (
@@ -246,6 +246,7 @@ const OrganizerStep = ({
                       as="a"
                       css={`
                         text-decoration: underline;
+                        font-weight: bold;
                       `}
                       href="#price_info"
                       onClick={(e) => {
@@ -254,7 +255,7 @@ const OrganizerStep = ({
                           shallow: true,
                         });
                       }}
-                    ></Link>
+                    />
                   ),
                 }}
               />
