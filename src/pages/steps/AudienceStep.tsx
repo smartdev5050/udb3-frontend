@@ -16,6 +16,7 @@ import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 
 import { TabContentProps } from './AdditionalInformationStep';
+import { ValidationStatus } from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
 
 type Props = StackProps & TabContentProps;
 
@@ -63,7 +64,7 @@ const AudienceStep = ({
       event?.audience?.audienceType ?? AudienceType.EVERYONE;
     setValue('audienceType', newAudienceType);
 
-    onValidationChange(true);
+    onValidationChange(ValidationStatus.SUCCESS);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [event?.audience?.audienceType, setValue]);
 

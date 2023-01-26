@@ -228,12 +228,6 @@ const AdditionalInformationStep = ({
                   offerId={offerId}
                   scope={scope}
                   onValidationChange={(status) => {
-                    if (typeof status === 'boolean') {
-                      status = status
-                        ? ValidationStatus.SUCCESS
-                        : ValidationStatus.NONE;
-                    }
-
                     if (validatedFields[field] === status) return;
 
                     setValidatedFields((prevFields) => ({

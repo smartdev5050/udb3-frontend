@@ -17,7 +17,7 @@ import { Text, TextVariants } from '@/ui/Text';
 import { TextArea } from '@/ui/TextArea';
 import { Breakpoints } from '@/ui/theme';
 
-import { TabContentProps } from './AdditionalInformationStep';
+import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
 
 const IDEAL_DESCRIPTION_LENGTH = 200;
 
@@ -105,7 +105,9 @@ const DescriptionStep = ({
 
     const isCompleted = newDescription.length >= IDEAL_DESCRIPTION_LENGTH;
 
-    onValidationChange(isCompleted);
+    onValidationChange(
+      isCompleted ? ValidationStatus.SUCCESS : ValidationStatus.NONE,
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [offer?.description, offer?.mainLanguage, i18n.language]);
 
@@ -122,7 +124,9 @@ const DescriptionStep = ({
 
     const isCompleted = description.length >= IDEAL_DESCRIPTION_LENGTH;
 
-    onValidationChange(isCompleted);
+    onValidationChange(
+      isCompleted ? ValidationStatus.SUCCESS : ValidationStatus.NONE,
+    );
 
     changeDescriptionMutation.mutate({
       description,

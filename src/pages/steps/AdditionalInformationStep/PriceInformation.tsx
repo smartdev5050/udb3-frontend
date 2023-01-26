@@ -140,7 +140,7 @@ const PriceInformation = ({
       : false;
 
     if (newPriceInfo.length > 0) {
-      onValidationChange(true);
+      onValidationChange(ValidationStatus.SUCCESS);
     } else {
       onValidationChange(
         hasUitpasLabel ? ValidationStatus.WARNING : ValidationStatus.NONE,
@@ -431,6 +431,7 @@ const PriceInformation = ({
             css={`
               ul {
                 list-style-type: disc;
+
                 li {
                   margin-left: ${parseSpacing(5)};
                 }

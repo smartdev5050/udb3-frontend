@@ -23,7 +23,7 @@ import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 import { formatDateToISO } from '@/utils/formatDateToISO';
 
-import { TabContentProps } from './AdditionalInformationStep';
+import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
 import { isValidEmail, isValidPhone, isValidUrl } from './ContactInfoStep';
 
 const schema = yup
@@ -335,7 +335,9 @@ const BookingInfoStep = ({
 
     const hasBookingInfo = Object.keys(bookingInfo).length > 0;
 
-    onValidationChange(hasBookingInfo);
+    onValidationChange(
+      hasBookingInfo ? ValidationStatus.SUCCESS : ValidationStatus.NONE,
+    );
 
     Object.values(ContactInfoType).map((type) => {
       if (bookingInfo?.[type]) {
