@@ -45,6 +45,7 @@ type StepsConfiguration = {
     },
   ) => boolean;
   stepProps?: Record<string, unknown>;
+  offerId?: string;
 };
 
 type NumberIndicatorProps = {
