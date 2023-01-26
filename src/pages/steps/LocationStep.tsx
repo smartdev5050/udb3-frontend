@@ -7,6 +7,8 @@ import * as yup from 'yup';
 import { EventTypes } from '@/constants/EventTypes';
 import { OfferTypes } from '@/constants/OfferType';
 import { useChangeAttendanceModeMutation } from '@/hooks/api/events';
+import { useGetEventByIdQuery } from '@/hooks/api/events';
+import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import { useChangeAddressMutation } from '@/hooks/api/places';
 import { FormData as OfferFormData } from '@/pages/create/OfferForm';
 import { Address } from '@/types/Address';
@@ -89,6 +91,7 @@ const useEditLocation = ({ scope, offerId }) => {
 
 type PlaceStepProps = StackProps &
   StepProps & {
+    offerId?: string;
     terms: Array<Values<typeof EventTypes>>;
     chooseLabel: (t: TFunction) => string;
     placeholderLabel: (t: TFunction) => string;
@@ -100,6 +103,7 @@ const LocationStep = ({
   reset,
   control,
   name,
+  offerId,
   onChange,
   chooseLabel,
   placeholderLabel,
@@ -115,11 +119,19 @@ const LocationStep = ({
     name: ['scope', 'location.streetAndNumber'],
   });
 
+  const useGetOfferByIdQuery =
+    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
+
+  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
+
+  // @ts-expect-error
+  const audienceType = getOfferByIdQuery.data?.audience?.audienceType;
+
   useEffect(() => {
     if (!locationStreetAndNumber) return;
 
     setStreetAndNumber(locationStreetAndNumber);
-  }, [locationStreetAndNumber]);
+  }, [locationStreetAndNumber, audienceType, setValue]);
 
   return (
     <Stack {...getStackProps(props)}>
@@ -224,7 +236,7 @@ const LocationStep = ({
             );
           }
 
-          if (!country) {
+          if (!country || audienceType === 'education') {
             return (
               <Stack spacing={4}>
                 <Inline alignItems="center" spacing={3}>
