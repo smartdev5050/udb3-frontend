@@ -60,10 +60,6 @@ const JobLogger = ({ visible, onClose, onStatusChange }: JobLoggerProps) => {
   const [jobs, setJobs] = useState<JobType[]>([]);
   const [hiddenJobIds, setHiddenJobIds] = useState([]);
 
-  useEffect(() => {
-    console.log({ jobs });
-  }, [jobs]);
-
   const activeJobs = useMemo(
     () => jobs.filter((job) => !hiddenJobIds.includes(job.id)),
     [jobs, hiddenJobIds],
