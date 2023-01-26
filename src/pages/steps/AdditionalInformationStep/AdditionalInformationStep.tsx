@@ -139,11 +139,15 @@ type Props = StackProps & {
   variant?: Values<typeof AdditionalInformationStepVariant>;
 };
 
-export enum ValidationStatus {
-  NONE = 'none',
-  WARNING = 'warning',
-  SUCCESS = 'success',
-}
+import { Values } from '@/types/Values';
+
+export const ValidationStatus = {
+  NONE: 'none',
+  WARNING: 'warning',
+  SUCCESS: 'success',
+} as const;
+
+export type ValidationStatus = Values<typeof ValidationStatus>;
 
 const AdditionalInformationStep = ({
   offerId,
