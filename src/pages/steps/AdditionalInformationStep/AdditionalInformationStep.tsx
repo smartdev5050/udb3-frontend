@@ -50,7 +50,7 @@ type TabContentProps = {
   onSuccessfulChange: (
     data?: any,
   ) => typeof data extends any ? void : Promise<void>;
-  onValidationChange?: (status: boolean | ValidationStatus) => void;
+  onValidationChange?: (status: ValidationStatus) => void;
 };
 
 type TabConfig = {

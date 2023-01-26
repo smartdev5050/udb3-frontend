@@ -13,7 +13,10 @@ import {
   useUpdateOfferImageMutation,
 } from '@/hooks/api/offers';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
-import { TabContentProps } from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
+import {
+  TabContentProps,
+  ValidationStatus,
+} from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
 import type { FormData } from '@/pages/steps/modals/PictureUploadModal';
 import { Inline } from '@/ui/Inline';
 import { getStackProps, Stack } from '@/ui/Stack';
@@ -227,7 +230,9 @@ const MediaStep = ({
   useEffect(() => {
     const hasImages = images.length > 0;
     const hasVideos = videos.length > 0;
-    handleChangeCompleted(hasImages || hasVideos);
+    handleChangeCompleted(
+      hasImages || hasVideos ? ValidationStatus.SUCCESS : ValidationStatus.NONE,
+    );
   }, [handleChangeCompleted, images, videos]);
 
   const imageToEdit = useMemo(() => {

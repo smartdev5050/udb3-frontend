@@ -13,7 +13,7 @@ import { Input } from '@/ui/Input';
 import { Select } from '@/ui/Select';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 
-import { TabContentProps } from './AdditionalInformationStep';
+import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
 
 const ContactInfoTypes = {
   EMAIL: 'email',
@@ -96,7 +96,9 @@ const ContactInfoStep = ({
     );
 
     // onValidationChange can be undefined when used in OrganizerStep
-    onValidationChange?.(hasContactInfo);
+    onValidationChange?.(
+      hasContactInfo ? ValidationStatus.SUCCESS : ValidationStatus.NONE,
+    );
 
     const contactInfoArray = [];
     Object.keys(contactInfo).forEach((key) => {
