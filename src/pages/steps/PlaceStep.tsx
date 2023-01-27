@@ -21,7 +21,7 @@ import { Inline } from '@/ui/Inline';
 import type { StackProps } from '@/ui/Stack';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
-import { getValueFromTheme } from '@/ui/theme';
+import { colors, getValueFromTheme } from '@/ui/theme';
 import { isOneTimeSlotValid } from '@/ui/TimeTable';
 import { isNewEntry, NewEntry, Typeahead } from '@/ui/Typeahead';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
@@ -161,7 +161,13 @@ const PlaceStep = ({
                                 {placeName}
                               </Highlighter>
                             </Text>
-                            <Text>{streetAddress}</Text>
+                            <Text
+                              css={`
+                                color: ${colors.grey6};
+                              `}
+                            >
+                              {streetAddress}
+                            </Text>
                           </Stack>
                         );
                       }}
