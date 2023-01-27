@@ -24,7 +24,7 @@ import { Title } from '@/ui/Title';
 import { formatDateToISO } from '@/utils/formatDateToISO';
 import { prefixUrlWithHttp } from '@/utils/url';
 
-import { TabContentProps } from './AdditionalInformationStep';
+import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
 import { isValidEmail, isValidPhone, isValidUrl } from './ContactInfoStep';
 
 const schema = yup
@@ -244,7 +244,7 @@ const BookingInfoStep = ({
   scope,
   offerId,
   onSuccessfulChange,
-  onChangeCompleted,
+  onValidationChange,
   ...props
 }: Props) => {
   const { t } = useTranslation();
@@ -336,7 +336,9 @@ const BookingInfoStep = ({
 
     const hasBookingInfo = Object.keys(bookingInfo).length > 0;
 
-    onChangeCompleted(hasBookingInfo);
+    onValidationChange(
+      hasBookingInfo ? ValidationStatus.SUCCESS : ValidationStatus.NONE,
+    );
 
     Object.values(ContactInfoType).map((type) => {
       if (bookingInfo?.[type]) {
@@ -351,7 +353,7 @@ const BookingInfoStep = ({
     if (bookingInfo.availabilityEnds) {
       setValue('availabilityEnds', bookingInfo.availabilityEnds);
     }
-  }, [offerId, setValue, bookingInfo, onChangeCompleted]);
+  }, [offerId, setValue, bookingInfo, onValidationChange]);
 
   useEffect(() => {
     if (!bookingInfo?.urlLabel?.en) return;
