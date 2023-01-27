@@ -67,20 +67,21 @@ const NameAndAgeRangeStep = ({ control, name, ...props }: StepProps) => {
   );
 };
 
-const nameAndAgeRangeStepConfiguration: StepsConfiguration = {
-  Component: NameAndAgeRangeStep,
-  name: 'nameAndAgeRange',
-  title: ({ t }) => t('create.name_and_age.title'),
-  validation: yup.object().shape({
-    name: yup.object().shape({}).required(),
-    typicalAgeRange: yup.string().required(),
-  }),
-  shouldShowStep: ({ watch }) => {
-    const location = watch('location');
-    return (
-      !!location?.place || location?.isOnline || !!location?.streetAndNumber
-    );
-  },
-};
+const nameAndAgeRangeStepConfiguration: StepsConfiguration<'nameAndAgeRange'> =
+  {
+    Component: NameAndAgeRangeStep,
+    name: 'nameAndAgeRange',
+    title: ({ t }) => t('create.name_and_age.title'),
+    validation: yup.object().shape({
+      name: yup.object().shape({}).required(),
+      typicalAgeRange: yup.string().required(),
+    }),
+    shouldShowStep: ({ watch }) => {
+      const location = watch('location');
+      return (
+        !!location?.place || location?.isOnline || !!location?.streetAndNumber
+      );
+    },
+  };
 
 export { nameAndAgeRangeStepConfiguration, useEditNameAndAgeRange };

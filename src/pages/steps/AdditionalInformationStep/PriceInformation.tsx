@@ -4,11 +4,16 @@ import { useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
-import { OfferType, OfferTypes } from '@/constants/OfferType';
+import { OfferTypes } from '@/constants/OfferType';
 import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { useAddOfferPriceInfoMutation } from '@/hooks/api/offers';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import i18n from '@/i18n/index';
+import {
+  TabContentProps,
+  ValidationStatus,
+} from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
+import { isUitpasOrganizer } from '@/pages/steps/AdditionalInformationStep/OrganizerPicker';
 import { Event } from '@/types/Event';
 import type { Values } from '@/types/Values';
 import { Alert, AlertVariants } from '@/ui/Alert';
@@ -99,20 +104,13 @@ const schema = yup
   })
   .required();
 
-type Props = {
-  offerId: string;
-  scope: OfferType;
-  onChangeCompleted: (isCompleted: boolean) => void;
-  onSuccessfulChange: () => void;
-};
-
 const PriceInformation = ({
   scope,
   offerId,
-  onChangeCompleted,
+  onValidationChange,
   onSuccessfulChange,
   ...props
-}: Props) => {
+}: TabContentProps) => {
   // TODO: refactor
   const eventId = offerId;
 
@@ -137,10 +135,18 @@ const PriceInformation = ({
 
   useEffect(() => {
     let newPriceInfo = offer?.priceInfo ?? [];
+    const hasUitpasLabel = offer?.organizer
+      ? isUitpasOrganizer(offer?.organizer)
+      : false;
 
     if (newPriceInfo.length > 0) {
-      onChangeCompleted(true);
+      onValidationChange(ValidationStatus.SUCCESS);
+    } else {
+      onValidationChange(
+        hasUitpasLabel ? ValidationStatus.WARNING : ValidationStatus.NONE,
+      );
     }
+
     const mainLanguage = offer?.mainLanguage;
 
     newPriceInfo = newPriceInfo.map((rate: any) => {
@@ -425,6 +431,7 @@ const PriceInformation = ({
             css={`
               ul {
                 list-style-type: disc;
+
                 li {
                   margin-left: ${parseSpacing(5)};
                 }

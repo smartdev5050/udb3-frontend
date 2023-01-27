@@ -142,7 +142,11 @@ const calendarSchema = {
 
 type CalendarSchema = typeof calendarSchema;
 
-type CalendarState = State<CalendarContext, CalendarEvents, CalendarSchema>;
+export type CalendarState = State<
+  CalendarContext,
+  CalendarEvents,
+  CalendarSchema
+>;
 
 type CalendarActions = Actions<CalendarContext, CalendarEvents>;
 

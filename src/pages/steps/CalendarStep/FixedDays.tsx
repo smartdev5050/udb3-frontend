@@ -11,6 +11,7 @@ import { Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 
 import {
+  CalendarState,
   useCalendarSelector,
   useIsPeriodic,
   useIsPermanent,
@@ -28,6 +29,7 @@ type FixedDaysProps = {
   onChangeStartDate: (date: Date | null) => void;
   onChangeEndDate: (date: Date | null) => void;
   onChangeOpeningHours: (newOpeningHours: OpeningHours[]) => void;
+  onChangeCalendarState: (newState: CalendarState) => void;
 };
 
 export const FixedDays = ({
@@ -36,6 +38,7 @@ export const FixedDays = ({
   onChangeStartDate,
   onChangeEndDate,
   onChangeOpeningHours,
+  onChangeCalendarState,
 }: FixedDaysProps) => {
   const { t } = useTranslation();
 
@@ -165,6 +168,7 @@ export const FixedDays = ({
       <CalendarOpeninghoursModal
         visible={isCalendarOpeninghoursModalVisible}
         onClose={() => setIsCalendarOpeninghoursModalVisible(false)}
+        onChangeCalendarState={onChangeCalendarState}
       />
     </Stack>
   );
