@@ -16,6 +16,12 @@ const AttendanceMode = {
   MIXED: 'mixed',
 } as const;
 
+const AudienceType = {
+  EVERYONE: 'everyone',
+  EDUCATION: 'education',
+  MEMBERS: 'members',
+} as const;
+
 type Event = BaseOffer & {
   '@context': '/contexts/event';
   location: Place;
@@ -33,5 +39,5 @@ const areEvents = (value: unknown): value is Event[] => {
   return value.every(isEvent);
 };
 
-export { areEvents, AttendanceMode, isEvent };
+export { areEvents, AttendanceMode, AudienceType, isEvent };
 export type { Event, EventId };
