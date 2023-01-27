@@ -24,7 +24,7 @@ import {
   timeTableStepConfiguration,
 } from '@/pages/steps/TimeTableStep';
 import { Countries } from '@/types/Country';
-import type { Event } from '@/types/Event';
+import { AudienceType, Event } from '@/types/Event';
 import type { SubEvent } from '@/types/Offer';
 import type { Place } from '@/types/Place';
 import type { Production } from '@/types/Production';
@@ -114,7 +114,7 @@ const MovieForm = (props) => {
         id: parseOfferId(location.place['@id']),
       },
       workflowStatus: WorkflowStatusMap.DRAFT,
-      audienceType: 'everyone',
+      audienceType: AudienceType.EVERYONE,
       ...getTerms(typeAndTheme),
     };
   };
