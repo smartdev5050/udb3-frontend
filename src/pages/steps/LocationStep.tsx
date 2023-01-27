@@ -6,7 +6,11 @@ import * as yup from 'yup';
 
 import { EventTypes } from '@/constants/EventTypes';
 import { OfferTypes } from '@/constants/OfferType';
-import { useChangeAttendanceModeMutation } from '@/hooks/api/events';
+import {
+  useChangeAttendanceModeMutation,
+  useChangeOnlineUrlMutation,
+  useDeleteOnlineUrlMutation,
+} from '@/hooks/api/events';
 import { useChangeAddressMutation } from '@/hooks/api/places';
 import { FormData as OfferFormData } from '@/pages/create/OfferForm';
 import { Address } from '@/types/Address';
@@ -29,6 +33,7 @@ import { getValueFromTheme } from '@/ui/theme';
 
 import { CityPicker } from '../CityPicker';
 import { Features, NewFeatureTooltip } from '../NewFeatureTooltip';
+import { isValidUrl } from './AdditionalInformationStep/ContactInfoStep';
 import { CountryPicker } from './CountryPicker';
 import { PlaceStep } from './PlaceStep';
 import {
@@ -43,6 +48,8 @@ const getGlobalValue = getValueFromTheme('global');
 const useEditLocation = ({ scope, offerId }) => {
   const { i18n } = useTranslation();
   const changeAddressMutation = useChangeAddressMutation();
+  const changeOnlineUrl = useChangeOnlineUrlMutation();
+  const deleteOnlineUrl = useDeleteOnlineUrlMutation();
   const changeAttendanceMode = useChangeAttendanceModeMutation();
 
   return async ({ location }: FormDataUnion) => {
@@ -52,6 +59,14 @@ const useEditLocation = ({ scope, offerId }) => {
           eventId: offerId,
           attendanceMode: AttendanceMode.ONLINE,
         });
+
+        if (location.onlineUrl) {
+          changeOnlineUrl.mutate({
+            eventId: offerId,
+            onlineUrl: location.onlineUrl,
+          });
+        }
+
         return;
       }
 
@@ -61,6 +76,10 @@ const useEditLocation = ({ scope, offerId }) => {
         eventId: offerId,
         attendanceMode: AttendanceMode.OFFLINE,
         location: location.place['@id'],
+      });
+
+      deleteOnlineUrl.mutate({
+        eventId: offerId,
       });
 
       return;
@@ -108,17 +127,27 @@ const LocationStep = ({
   const { t } = useTranslation();
 
   const [streetAndNumber, setStreetAndNumber] = useState('');
+  const [onlineUrl, setOnlineUrl] = useState('');
+  const [hasOnlineUrlError, setHasOnlineUrlError] = useState(false);
 
-  const [scope, locationStreetAndNumber] = useWatch({
+  const [scope, locationStreetAndNumber, locationOnlineUrl] = useWatch({
     control,
-    name: ['scope', 'location.streetAndNumber'],
+    name: ['scope', 'location.streetAndNumber', 'location.onlineUrl'],
   });
 
   useEffect(() => {
-    if (!locationStreetAndNumber) return;
+    if (!locationStreetAndNumber && !locationOnlineUrl) return;
 
-    setStreetAndNumber(locationStreetAndNumber);
-  }, [locationStreetAndNumber]);
+    if (locationStreetAndNumber) {
+      setStreetAndNumber(locationStreetAndNumber);
+    }
+
+    if (locationOnlineUrl) {
+      setOnlineUrl(locationOnlineUrl);
+    }
+  }, [locationStreetAndNumber, locationOnlineUrl]);
+
+  console.log('errors', formState.errors);
 
   return (
     <Stack {...getStackProps(props)}>
@@ -126,7 +155,7 @@ const LocationStep = ({
         control={control}
         name={name}
         render={({ field }) => {
-          const { isOnline, onlineUrl, municipality, country } =
+          const { isOnline, municipality, country } =
             field?.value as OfferFormData['location'];
 
           const OnlineToggle = (
@@ -191,24 +220,29 @@ const LocationStep = ({
                     <Input
                       maxWidth="28rem"
                       value={onlineUrl}
-                      onChange={(e) => {
-                        {
-                          const updatedValue = {
-                            ...field?.value,
-                            onlineUrl: e.target.value,
-                          };
-                          field.onChange(updatedValue);
+                      onBlur={(e) => {
+                        const updatedValue = {
+                          ...field?.value,
+                          onlineUrl: e.target.value,
+                        };
+                        field.onChange(updatedValue);
+                        if (isValidUrl(e.target.value)) {
                           onChange(updatedValue);
+                          setHasOnlineUrlError(false);
+                        } else {
+                          setHasOnlineUrlError(true);
                         }
                       }}
-                      onBlur={field.onBlur}
+                      onChange={(e) => {
+                        setOnlineUrl(e.target.value);
+                      }}
                       placeholder={t('create.location.online_url.placeholder')}
                     />
                   }
                   id="online-url"
                   label={t('create.location.online_url.label')}
                   error={
-                    formState.errors.location?.onlineUrl &&
+                    hasOnlineUrlError &&
                     t('create.validation_messages.location.online_url')
                   }
                   info={

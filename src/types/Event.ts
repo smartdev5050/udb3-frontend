@@ -19,6 +19,7 @@ const AttendanceMode = {
 type Event = BaseOffer & {
   '@context': '/contexts/event';
   location: Place;
+  onlineUrl?: string;
   production?: ProductionOnEvent;
   attendanceMode: Values<typeof AttendanceMode>;
 };
