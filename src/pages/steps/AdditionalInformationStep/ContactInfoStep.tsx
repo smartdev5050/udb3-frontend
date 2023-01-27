@@ -12,6 +12,7 @@ import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
 import { Select } from '@/ui/Select';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
+import { prefixUrlWithHttp } from '@/utils/url';
 
 import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
 
@@ -150,8 +151,8 @@ const ContactInfoStep = ({
     let newValue = (event.target as HTMLInputElement).value;
     const infoType = contactInfoState[index].type;
 
-    if (infoType === ContactInfoTypes.URL && !newValue.startsWith('http')) {
-      newValue = `http://${newValue}`;
+    if (infoType === ContactInfoTypes.URL) {
+      newValue = prefixUrlWithHttp(newValue);
     }
 
     if (!isValidInfo(infoType, newValue)) return;

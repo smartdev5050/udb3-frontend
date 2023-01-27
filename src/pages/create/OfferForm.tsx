@@ -113,6 +113,8 @@ const parseLocationAttributes = (
       place: isEvent(offer) ? offer.location : undefined,
       country: addressCountry,
       ...(isPlace(offer) && { streetAndNumber: streetAddress }),
+      ...(isEvent(offer) &&
+        !!offer.onlineUrl && { onlineUrl: offer.onlineUrl }),
     },
   };
 };
