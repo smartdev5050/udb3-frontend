@@ -7,6 +7,7 @@ import type { BoxProps } from './Box';
 import { Box, getBoxProps } from './Box';
 import { InputType } from './Input';
 import {
+  colors,
   getGlobalBorderRadius,
   getGlobalFormInputHeight,
   getValueFromTheme,
@@ -116,6 +117,10 @@ const Typeahead: TypeaheadFunc = forwardRef(
             border-radius: ${getGlobalBorderRadius};
             height: ${getGlobalFormInputHeight};
             padding: 0.375rem 0.9rem;
+          }
+
+          .dropdown-item {
+            border-bottom: 1px solid ${colors.grey1};
           }
 
           .dropdown-item.active,
