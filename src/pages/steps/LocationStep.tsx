@@ -187,8 +187,6 @@ const LocationStep = ({
     }
   }, [locationStreetAndNumber, locationOnlineUrl, audience]);
 
-  console.log('errors', formState.errors);
-
   return (
     <Stack {...getStackProps(props)}>
       <Controller
