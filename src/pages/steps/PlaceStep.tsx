@@ -127,6 +127,7 @@ const PlaceStep = ({
                     const updatedValue = { ...field.value, place };
                     field.onChange(updatedValue);
                     onChange(updatedValue);
+                    field.onBlur();
                   }}
                 />
                 <FormElement
@@ -220,7 +221,7 @@ const PlaceStep = ({
   );
 };
 
-const placeStepConfiguration: StepsConfiguration = {
+const placeStepConfiguration: StepsConfiguration<'location'> = {
   Component: PlaceStep,
   validation: yup.object().shape({}).required(),
   name: 'location',
