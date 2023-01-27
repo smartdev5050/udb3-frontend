@@ -281,10 +281,7 @@ const OfferForm = () => {
         scopeStepConfiguration,
         typeAndThemeStepConfiguration,
         calendarStepConfiguration,
-        {
-          ...locationStepConfiguration,
-          offerId,
-        },
+        locationStepConfiguration,
         nameAndAgeRangeStepConfiguration,
         {
           ...additionalInformationStepConfiguration,
