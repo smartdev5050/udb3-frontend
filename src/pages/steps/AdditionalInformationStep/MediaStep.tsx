@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { OfferType, OfferTypes } from '@/constants/OfferType';
+import { OfferTypes } from '@/constants/OfferType';
 import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { useAddImageMutation } from '@/hooks/api/images';
 import {
@@ -13,6 +13,10 @@ import {
   useUpdateOfferImageMutation,
 } from '@/hooks/api/offers';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
+import {
+  TabContentProps,
+  ValidationStatus,
+} from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
 import type { FormData } from '@/pages/steps/modals/PictureUploadModal';
 import { Inline } from '@/ui/Inline';
 import { getStackProps, Stack } from '@/ui/Stack';
@@ -29,20 +33,13 @@ import { VideoUploadBox } from '../../VideoUploadBox';
 import { PictureDeleteModal } from '../modals/PictureDeleteModal';
 import { PictureUploadModal } from '../modals/PictureUploadModal';
 
-type Props = {
-  scope: OfferType;
-  offerId?: string;
-  onSuccessfulChange: () => void;
-  onChangeCompleted: (completed: boolean) => void;
-};
-
 const MediaStep = ({
   scope,
   offerId,
   onSuccessfulChange,
-  onChangeCompleted,
+  onValidationChange,
   ...props
-}: Props) => {
+}: TabContentProps) => {
   const { i18n } = useTranslation();
 
   // TODO: refactor
@@ -54,7 +51,7 @@ const MediaStep = ({
   const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleChangeCompleted = useCallback(onChangeCompleted, []);
+  const handleChangeCompleted = useCallback(onValidationChange, []);
 
   const videosFromQuery = useMemo(
     // @ts-expect-error
@@ -233,7 +230,9 @@ const MediaStep = ({
   useEffect(() => {
     const hasImages = images.length > 0;
     const hasVideos = videos.length > 0;
-    handleChangeCompleted(hasImages || hasVideos);
+    handleChangeCompleted(
+      hasImages || hasVideos ? ValidationStatus.SUCCESS : ValidationStatus.NONE,
+    );
   }, [handleChangeCompleted, images, videos]);
 
   const imageToEdit = useMemo(() => {

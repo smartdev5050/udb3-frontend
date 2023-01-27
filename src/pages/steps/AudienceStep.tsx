@@ -8,6 +8,7 @@ import {
   useChangeAudienceMutation,
   useGetEventByIdQuery,
 } from '@/hooks/api/events';
+import { ValidationStatus } from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
 import { Event } from '@/types/Event';
 import { Values } from '@/types/Values';
 import { FormElement } from '@/ui/FormElement';
@@ -39,7 +40,7 @@ const schema = yup.object({
 const AudienceStep = ({
   offerId,
   onSuccessfulChange,
-  onChangeCompleted,
+  onValidationChange,
   ...props
 }: Props) => {
   // TODO: refactor
@@ -63,7 +64,7 @@ const AudienceStep = ({
       event?.audience?.audienceType ?? AudienceType.EVERYONE;
     setValue('audienceType', newAudienceType);
 
-    onChangeCompleted(true);
+    onValidationChange(ValidationStatus.SUCCESS);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [event?.audience?.audienceType, setValue]);
 

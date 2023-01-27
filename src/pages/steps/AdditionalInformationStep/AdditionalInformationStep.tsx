@@ -1,3 +1,4 @@
+import { mapValues } from 'lodash';
 import { useRouter } from 'next/router';
 import { FC, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -31,12 +32,6 @@ const AdditionalInformationStepVariant = {
   PLACE: 'place',
 } as const;
 
-type MergedInfo = {
-  email: string[];
-  url: string[];
-  phone: string[];
-};
-
 const Fields = {
   DESCRIPTION: 'description',
   ORGANIZER: 'organizer',
@@ -52,8 +47,10 @@ type Field = Values<typeof Fields>;
 type TabContentProps = {
   offerId?: string;
   scope?: OfferType;
-  onSuccessfulChange: (() => Promise<void>) | ((data: any) => void);
-  onChangeCompleted?: (isCompleted: boolean) => void;
+  onSuccessfulChange: (
+    data?: any,
+  ) => typeof data extends any ? void : Promise<void>;
+  onValidationChange?: (status: ValidationStatus) => void;
 };
 
 type TabConfig = {
@@ -81,6 +78,11 @@ const tabConfigurations: TabConfig[] = [
     shouldInvalidate: true,
   },
   {
+    field: Fields.ORGANIZER,
+    TabContent: OrganizerStep,
+    shouldInvalidate: true,
+  },
+  {
     field: Fields.CONTACT_INFO,
     TabContent: ContactInfoStep,
     shouldInvalidate: true,
@@ -96,11 +98,6 @@ const tabConfigurations: TabConfig[] = [
     ],
   },
   {
-    field: Fields.ORGANIZER,
-    TabContent: OrganizerStep,
-    shouldInvalidate: true,
-  },
-  {
     field: Fields.AUDIENCE,
     TabContent: AudienceStep,
     shouldInvalidate: true,
@@ -113,16 +110,22 @@ const tabConfigurations: TabConfig[] = [
 
 type TabTitleProps = InlineProps & {
   field: Field;
-  isCompleted: boolean;
+  validationStatus: ValidationStatus;
 };
 
-const TabTitle = ({ field, isCompleted, ...props }: TabTitleProps) => {
+const TabTitle = ({ field, validationStatus, ...props }: TabTitleProps) => {
   const { t } = useTranslation();
 
   return (
     <Inline spacing={3} {...getInlineProps(props)}>
-      {isCompleted && (
+      {validationStatus === ValidationStatus.SUCCESS && (
         <Icon name={Icons.CHECK_CIRCLE} color={getGlobalValue('successIcon')} />
+      )}
+      {validationStatus === ValidationStatus.WARNING && (
+        <Icon
+          name={Icons.EXCLAMATION_CIRCLE}
+          color={getGlobalValue('warningIcon')}
+        />
       )}
       <Text>{t(`create.additionalInformation.${field}.title`)}</Text>
     </Inline>
@@ -171,17 +174,17 @@ const AdditionalInformationStep = ({
     router.push({ hash: tab }, undefined, { shallow: true });
   };
 
-  const [completedFields, setCompletedFields] = useState<
-    Record<Field, boolean>
+  const [validatedFields, setValidatedFields] = useState<
+    Record<Field, ValidationStatus>
   >({
-    description: false,
-    audience: false,
-    contact_info: false,
-    media: false,
-    organizer: false,
-    price_info: false,
-    booking_info: false,
-    contact_point: false,
+    description: ValidationStatus.NONE,
+    audience: ValidationStatus.NONE,
+    contact_info: ValidationStatus.NONE,
+    media: ValidationStatus.NONE,
+    organizer: ValidationStatus.NONE,
+    price_info: ValidationStatus.NONE,
+    booking_info: ValidationStatus.NONE,
+    contact_point: ValidationStatus.NONE,
   });
 
   return (
@@ -216,7 +219,7 @@ const AdditionalInformationStep = ({
                 title={
                   <TabTitle
                     field={field}
-                    isCompleted={completedFields[field]}
+                    validationStatus={validatedFields[field]}
                   />
                 }
               >
@@ -224,12 +227,12 @@ const AdditionalInformationStep = ({
                   minHeight="450px"
                   offerId={offerId}
                   scope={scope}
-                  onChangeCompleted={(isCompleted) => {
-                    if (completedFields[field] === isCompleted) return;
+                  onValidationChange={(status) => {
+                    if (validatedFields[field] === status) return;
 
-                    setCompletedFields((prevFields) => ({
+                    setValidatedFields((prevFields) => ({
                       ...prevFields,
-                      [field]: isCompleted,
+                      [field]: status as ValidationStatus,
                     }));
                   }}
                   onSuccessfulChange={() =>
@@ -245,7 +248,10 @@ const AdditionalInformationStep = ({
       <OfferScore
         offerId={offerId}
         scope={scope}
-        completedFields={completedFields}
+        completedFields={mapValues(
+          validatedFields,
+          (value) => value === ValidationStatus.SUCCESS,
+        )}
       />
     </Stack>
   );
@@ -257,6 +263,14 @@ const additionalInformationStepConfiguration: StepsConfiguration = {
   shouldShowStep: ({ offerId }) => !!offerId,
   variant: AdditionalInformationStepVariant.EVENT,
 };
+
+export const ValidationStatus = {
+  NONE: 'none',
+  WARNING: 'warning',
+  SUCCESS: 'success',
+} as const;
+
+export type ValidationStatus = Values<typeof ValidationStatus>;
 
 export type { Field, TabContentProps };
 

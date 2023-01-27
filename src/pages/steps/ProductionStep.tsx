@@ -181,7 +181,7 @@ const ProductionStep = ({
   );
 };
 
-const productionStepConfiguration: StepsConfiguration = {
+const productionStepConfiguration: StepsConfiguration<'production'> = {
   Component: ProductionStep,
   validation: yup.object().shape({}).required(),
   name: 'production',

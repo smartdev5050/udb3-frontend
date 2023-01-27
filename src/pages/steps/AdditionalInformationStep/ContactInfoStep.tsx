@@ -13,7 +13,7 @@ import { Input } from '@/ui/Input';
 import { Select } from '@/ui/Select';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 
-import { TabContentProps } from './AdditionalInformationStep';
+import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
 
 const ContactInfoTypes = {
   EMAIL: 'email',
@@ -64,7 +64,7 @@ const ContactInfoStep = ({
   scope,
   offerId,
   onSuccessfulChange,
-  onChangeCompleted,
+  onValidationChange,
   organizerContactInfo,
   isOrganizer,
   ...props
@@ -95,8 +95,10 @@ const ContactInfoStep = ({
       (contactInfoPerType: string[]) => contactInfoPerType.length > 0,
     );
 
-    // onChangeCompleted can be undefined when used in OrganizerStep
-    onChangeCompleted?.(hasContactInfo);
+    // onValidationChange can be undefined when used in OrganizerStep
+    onValidationChange?.(
+      hasContactInfo ? ValidationStatus.SUCCESS : ValidationStatus.NONE,
+    );
 
     const contactInfoArray = [];
     Object.keys(contactInfo).forEach((key) => {
@@ -109,7 +111,7 @@ const ContactInfoStep = ({
     });
 
     setContactInfoState(contactInfoArray);
-  }, [contactInfo, onChangeCompleted]);
+  }, [contactInfo, onValidationChange]);
 
   const addContactPointMutation = useAddOfferContactPointMutation({
     onSuccess: onSuccessfulChange,
