@@ -54,6 +54,7 @@ const useEditLocation = ({ scope, offerId }) => {
   const changeAddressMutation = useChangeAddressMutation();
   const changeAttendanceMode = useChangeAttendanceModeMutation();
   const changeAudienceMutation = useChangeAudienceMutation();
+  const changeLocationMutation = useChangeLocationMutation();
 
   return async ({ location }: FormDataUnion) => {
     if (scope === OfferTypes.EVENTS) {
@@ -63,6 +64,15 @@ const useEditLocation = ({ scope, offerId }) => {
           attendanceMode: AttendanceMode.ONLINE,
         });
         return;
+      }
+
+      const { publicRuntimeConfig } = getConfig();
+
+      if (!location.country) {
+        await changeLocationMutation.mutateAsync({
+          locationId: publicRuntimeConfig.cultuurKuurLocationId,
+          eventId: offerId,
+        });
       }
 
       if (!location.place) return;
