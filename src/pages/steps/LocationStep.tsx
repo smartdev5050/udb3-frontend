@@ -1,4 +1,5 @@
 import { TFunction } from 'i18next';
+import getConfig from 'next/config';
 import { useEffect, useState } from 'react';
 import { Controller, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -6,7 +7,11 @@ import * as yup from 'yup';
 
 import { EventTypes } from '@/constants/EventTypes';
 import { OfferTypes } from '@/constants/OfferType';
-import { useChangeAttendanceModeMutation } from '@/hooks/api/events';
+import {
+  useChangeAttendanceModeMutation,
+  useChangeAudienceMutation,
+  useChangeLocationMutation,
+} from '@/hooks/api/events';
 import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import { useChangeAddressMutation } from '@/hooks/api/places';
@@ -29,6 +34,7 @@ import { RadioButtonWithLabel } from '@/ui/RadioButtonWithLabel';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
+import { parseOfferId } from '@/utils/parseOfferId';
 
 import { CityPicker } from '../CityPicker';
 import { Features, NewFeatureTooltip } from '../NewFeatureTooltip';
@@ -47,6 +53,7 @@ const useEditLocation = ({ scope, offerId }) => {
   const { i18n } = useTranslation();
   const changeAddressMutation = useChangeAddressMutation();
   const changeAttendanceMode = useChangeAttendanceModeMutation();
+  const changeAudienceMutation = useChangeAudienceMutation();
 
   return async ({ location }: FormDataUnion) => {
     if (scope === OfferTypes.EVENTS) {
@@ -60,11 +67,21 @@ const useEditLocation = ({ scope, offerId }) => {
 
       if (!location.place) return;
 
-      changeAttendanceMode.mutate({
+      await changeAttendanceMode.mutateAsync({
         eventId: offerId,
         attendanceMode: AttendanceMode.OFFLINE,
         location: location.place['@id'],
       });
+
+      if (
+        parseOfferId(location.place['@id']) !==
+        publicRuntimeConfig.cultuurKuurLocationId
+      ) {
+        changeAudienceMutation.mutate({
+          eventId: offerId,
+          audienceType: 'everyone',
+        });
+      }
 
       return;
     }
@@ -91,11 +108,10 @@ const useEditLocation = ({ scope, offerId }) => {
 
 type PlaceStepProps = StackProps &
   StepProps & {
-    offerId?: string;
     terms: Array<Values<typeof EventTypes>>;
     chooseLabel: (t: TFunction) => string;
     placeholderLabel: (t: TFunction) => string;
-  };
+  } & { offerId?: string };
 
 const LocationStep = ({
   formState,
@@ -113,6 +129,7 @@ const LocationStep = ({
   const { t } = useTranslation();
 
   const [streetAndNumber, setStreetAndNumber] = useState('');
+  const [audienceType, setAudienceType] = useState();
 
   const [scope, locationStreetAndNumber] = useWatch({
     control,
@@ -125,13 +142,17 @@ const LocationStep = ({
   const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
 
   // @ts-expect-error
-  const audienceType = getOfferByIdQuery.data?.audience?.audienceType;
+  const audience = getOfferByIdQuery.data?.audience;
 
   useEffect(() => {
+    if (audience?.audienceType) {
+      setAudienceType(audience.audienceType);
+    }
+
     if (!locationStreetAndNumber) return;
 
     setStreetAndNumber(locationStreetAndNumber);
-  }, [locationStreetAndNumber]);
+  }, [locationStreetAndNumber, audience]);
 
   return (
     <Stack {...getStackProps(props)}>
@@ -251,9 +272,11 @@ const LocationStep = ({
                       const updatedValue = {
                         ...field.value,
                         country: Countries.BE,
+                        municipality: undefined,
                       };
                       field.onChange(updatedValue);
                       onChange(updatedValue);
+                      setAudienceType('everyone');
                     }}
                   >
                     {t('create.location.country.change_location')}
