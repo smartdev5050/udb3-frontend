@@ -30,6 +30,7 @@ import { Offer } from '@/types/Offer';
 import { isPlace, Place } from '@/types/Place';
 import { Values } from '@/types/Values';
 import { WorkflowStatusMap } from '@/types/WorkflowStatus';
+import { arrayToValue } from '@/utils/arrayToValue';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 import { parseOfferId } from '@/utils/parseOfferId';
 
@@ -141,11 +142,8 @@ const OfferForm = () => {
   }, [asPath, query.scope]);
 
   const offerId =
-    scope === OfferTypes.EVENTS && typeof query.eventId === 'string'
-      ? query.eventId
-      : scope === OfferTypes.PLACES && typeof query.placeId === 'string'
-      ? query.placeId
-      : undefined;
+    arrayToValue(scope === OfferTypes.EVENTS ? query.eventId : query.placeId) ||
+    undefined;
 
   const convertOfferToFormData = (offer: Offer) => {
     return {
