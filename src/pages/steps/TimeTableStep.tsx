@@ -101,7 +101,7 @@ const TimeTableStep = ({
 const formatDate = (date: Date) => format(date, 'dd/MM/yyyy');
 const nextWeekWednesday = nextWednesday(new Date());
 
-const timeTableStepConfiguration: StepsConfiguration = {
+const timeTableStepConfiguration: StepsConfiguration<'timeTable'> = {
   Component: TimeTableStep,
   defaultValue: {
     data: {},

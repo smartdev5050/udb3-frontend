@@ -19,7 +19,6 @@ import { FormData as OfferFormData } from '@/pages/create/OfferForm';
 import { Address } from '@/types/Address';
 import { Countries, Country } from '@/types/Country';
 import { AttendanceMode } from '@/types/Event';
-import { Place } from '@/types/Place';
 import { Values } from '@/types/Values';
 import { Alert } from '@/ui/Alert';
 import { parseSpacing } from '@/ui/Box';
@@ -139,7 +138,7 @@ const LocationStep = ({
   const { t } = useTranslation();
 
   const [streetAndNumber, setStreetAndNumber] = useState('');
-  const [audienceType, setAudienceType] = useState();
+  const [audienceType, setAudienceType] = useState('');
 
   const [scope, locationStreetAndNumber] = useWatch({
     control,
@@ -189,6 +188,7 @@ const LocationStep = ({
                         isOnline: e.target.checked,
                       };
                       field.onChange(updatedValue);
+                      field.onBlur();
                       onChange(updatedValue);
                     }}
                     css={`
@@ -287,6 +287,7 @@ const LocationStep = ({
                       field.onChange(updatedValue);
                       onChange(updatedValue);
                       setAudienceType('everyone');
+                      field.onBlur();
                     }}
                   >
                     {t('create.location.country.change_location')}
@@ -316,6 +317,7 @@ const LocationStep = ({
                       };
                       field.onChange(updatedValue);
                       onChange(updatedValue);
+                      field.onBlur();
                     }}
                     width="22rem"
                   />
@@ -329,6 +331,7 @@ const LocationStep = ({
                       };
                       field.onChange(updatedValue);
                       onChange(updatedValue);
+                      field.onBlur();
                     }}
                     css={`
                       & button {
@@ -362,6 +365,7 @@ const LocationStep = ({
                       };
                       field.onChange(updatedValue);
                       onChange(updatedValue);
+                      field.onBlur();
                     }}
                   >
                     {t(
@@ -422,7 +426,7 @@ const LocationStep = ({
   );
 };
 
-const locationStepConfiguration: StepsConfiguration = {
+const locationStepConfiguration: StepsConfiguration<'location'> = {
   Component: LocationStep,
   name: 'location',
   shouldShowStep: ({ watch }) => !!watch('typeAndTheme')?.type?.id,
@@ -434,6 +438,10 @@ const locationStepConfiguration: StepsConfiguration = {
   defaultValue: {
     isOnline: false,
     country: Countries.BE,
+    place: undefined,
+    streetAndNumber: undefined,
+    municipality: undefined,
+    onlineUrl: undefined,
   },
   validation: yup.lazy((value) => {
     if (value.place) {

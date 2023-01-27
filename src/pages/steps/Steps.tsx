@@ -3,6 +3,7 @@ import pick from 'lodash/pick';
 import { useMemo } from 'react';
 import type {
   ControllerRenderProps,
+  DefaultValues,
   Path,
   UseFormReturn,
 } from 'react-hook-form';
@@ -25,10 +26,12 @@ type FormDataUnion = MovieFormData & OfferFormData;
 
 type Field = ControllerRenderProps<FormDataUnion, Path<FormDataUnion>>;
 
-type StepsConfiguration = {
+type StepsConfiguration<
+  TName extends keyof FormDataUnion = keyof FormDataUnion,
+> = {
   Component: any;
-  defaultValue?: any;
-  name?: Path<FormDataUnion>;
+  name?: TName;
+  defaultValue?: DefaultValues<FormDataUnion>[TName];
   step?: number;
   title: (
     data: { t: TFunction; scope: OfferType } & UseFormReturn<
@@ -173,13 +176,15 @@ const Steps = ({
     // don't hide steps that were visible before
     if (form.getFieldState(name).isTouched) return true;
 
-    return (
-      configurationsWithComponent[index]?.shouldShowStep?.({
+    const shouldShowStep = configurationsWithComponent[index]?.shouldShowStep?.(
+      {
         ...form,
         offerId,
         scope,
-      }) ?? false
+      },
     );
+
+    return shouldShowStep ?? false;
   };
 
   return (

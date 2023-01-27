@@ -29,6 +29,7 @@ const colors = {
   blue1: '#f0f8ff',
   blue2: '#a3d4ff',
   blue3: '#3e88ab',
+  orange1: '#F19E49',
   textColor: '#222',
 } as const;
 
@@ -166,6 +167,7 @@ const theme = {
     },
     global: {
       successIcon: colors.green3,
+      warningIcon: colors.orange1,
     },
     pagination: {
       color: colors.textColor,

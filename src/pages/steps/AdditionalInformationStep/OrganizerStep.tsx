@@ -30,7 +30,7 @@ import { Text } from '@/ui/Text';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 import { OrganizerAddModal, OrganizerData } from '../../OrganizerAddModal';
-import { TabContentProps } from './AdditionalInformationStep';
+import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
 import { isUitpasOrganizer, OrganizerPicker } from './OrganizerPicker';
 
 type Props = StackProps & TabContentProps;
@@ -38,7 +38,7 @@ type Props = StackProps & TabContentProps;
 const OrganizerStep = ({
   scope,
   offerId,
-  onChangeCompleted,
+  onValidationChange,
   onSuccessfulChange,
   ...props
 }: Props) => {
@@ -88,10 +88,11 @@ const OrganizerStep = ({
 
   useEffect(() => {
     if (!organizer) {
-      onChangeCompleted(false);
+      onValidationChange(ValidationStatus.NONE);
       return;
     }
-    onChangeCompleted(true);
+
+    onValidationChange(ValidationStatus.SUCCESS);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [organizer]);
 
@@ -233,7 +234,7 @@ const OrganizerStep = ({
           organizer={organizer}
         />
         {hasUitpasLabel && (
-          <Alert variant={AlertVariants.PRIMARY}>
+          <Alert variant={AlertVariants.WARNING}>
             {hasPriceInfo ? (
               t('create.additionalInformation.organizer.uitpas_info')
             ) : (
@@ -245,6 +246,7 @@ const OrganizerStep = ({
                       as="a"
                       css={`
                         text-decoration: underline;
+                        font-weight: bold;
                       `}
                       href="#price_info"
                       onClick={(e) => {
@@ -253,7 +255,7 @@ const OrganizerStep = ({
                           shallow: true,
                         });
                       }}
-                    ></Link>
+                    />
                   ),
                 }}
               />
