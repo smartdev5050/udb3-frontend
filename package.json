@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "dev:vagrant": "../../puppet/files/certs/ca.cert.pem next dev",
+    "dev:vagrant": "NODE_EXTRA_CA_CERTS=../../puppet/files/certs/ca.cert.pem next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint --fix",
