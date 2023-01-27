@@ -18,7 +18,7 @@ import { useChangeAddressMutation } from '@/hooks/api/places';
 import { FormData as OfferFormData } from '@/pages/create/OfferForm';
 import { Address } from '@/types/Address';
 import { Countries, Country } from '@/types/Country';
-import { AttendanceMode } from '@/types/Event';
+import { AttendanceMode, AudienceType } from '@/types/Event';
 import { Values } from '@/types/Values';
 import { Alert } from '@/ui/Alert';
 import { parseSpacing } from '@/ui/Box';
@@ -88,7 +88,7 @@ const useEditLocation = ({ scope, offerId }) => {
       ) {
         changeAudienceMutation.mutate({
           eventId: offerId,
-          audienceType: 'everyone',
+          audienceType: AudienceType.EVERYONE,
         });
       }
 
@@ -267,7 +267,7 @@ const LocationStep = ({
             );
           }
 
-          if (!country || audienceType === 'education') {
+          if (!country || audienceType === AudienceType.EDUCATION) {
             return (
               <Stack spacing={4}>
                 <Inline alignItems="center" spacing={3}>
@@ -286,7 +286,7 @@ const LocationStep = ({
                       };
                       field.onChange(updatedValue);
                       onChange(updatedValue);
-                      setAudienceType('everyone');
+                      setAudienceType(AudienceType.EVERYONE);
                       field.onBlur();
                     }}
                   >

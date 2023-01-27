@@ -25,7 +25,7 @@ import {
 } from '@/pages/steps/StepsForm';
 import { Address, AddressInternal } from '@/types/Address';
 import { Country } from '@/types/Country';
-import { AttendanceMode, isEvent } from '@/types/Event';
+import { AttendanceMode, AudienceType, isEvent } from '@/types/Event';
 import { Offer } from '@/types/Offer';
 import { isPlace, Place } from '@/types/Place';
 import { Values } from '@/types/Values';
@@ -229,7 +229,9 @@ const OfferForm = () => {
       mainLanguage: i18n.language,
       name,
       workflowStatus: WorkflowStatusMap.DRAFT,
-      ...(scope === OfferTypes.EVENTS && { audienceType: 'everyone' }),
+      ...(scope === OfferTypes.EVENTS && {
+        audienceType: AudienceType.EVERYONE,
+      }),
       ...getLocationAttributes(scope, location, i18n.language),
       ...getTerms(typeAndTheme),
     };
