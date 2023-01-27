@@ -128,6 +128,7 @@ const PlaceStep = ({
                     field.onChange(updatedValue);
                     onChange(updatedValue);
                     field.onBlur();
+                    setIsPlaceAddModalVisible(false);
                   }}
                 />
                 <FormElement
