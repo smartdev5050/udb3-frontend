@@ -170,6 +170,7 @@ const PriceInformation = ({
     setValue,
     trigger,
     formState: { errors, dirtyFields },
+    getValues,
     handleSubmit,
   } = useForm<FormData>({
     mode: 'onBlur',
@@ -248,7 +249,7 @@ const PriceInformation = ({
   const getDuplicateName = () => {
     const seenRates = [];
 
-    const duplicateName =
+    return (
       rates.find((rate) => {
         const name = rate.name[i18n.language];
 
@@ -257,9 +258,8 @@ const PriceInformation = ({
         }
 
         seenRates.push(name);
-      })?.name[i18n.language] ?? '';
-
-    return duplicateName;
+      })?.name[i18n.language] ?? ''
+    );
   };
 
   const handleDuplicateNameError = (priceName: string): void => {
@@ -283,7 +283,7 @@ const PriceInformation = ({
     }
 
     // If no errors submit to API
-    await handlePriceInfoSubmitValid(rates);
+    await handlePriceInfoSubmitValid(getValues('rates'));
   };
 
   const isPriceFree = (price: string): boolean => {

@@ -1,4 +1,5 @@
 import { TFunction } from 'i18next';
+import getConfig from 'next/config';
 import { useEffect, useState } from 'react';
 import { Controller, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -8,14 +9,18 @@ import { EventTypes } from '@/constants/EventTypes';
 import { OfferTypes } from '@/constants/OfferType';
 import {
   useChangeAttendanceModeMutation,
+  useChangeAudienceMutation,
+  useChangeLocationMutation,
   useChangeOnlineUrlMutation,
   useDeleteOnlineUrlMutation,
 } from '@/hooks/api/events';
+import { useGetEventByIdQuery } from '@/hooks/api/events';
+import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import { useChangeAddressMutation } from '@/hooks/api/places';
 import { FormData as OfferFormData } from '@/pages/create/OfferForm';
 import { Address } from '@/types/Address';
 import { Countries, Country } from '@/types/Country';
-import { AttendanceMode } from '@/types/Event';
+import { AttendanceMode, AudienceType } from '@/types/Event';
 import { Values } from '@/types/Values';
 import { Alert } from '@/ui/Alert';
 import { parseSpacing } from '@/ui/Box';
@@ -30,6 +35,7 @@ import { RadioButtonWithLabel } from '@/ui/RadioButtonWithLabel';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
+import { parseOfferId } from '@/utils/parseOfferId';
 
 import { CityPicker } from '../CityPicker';
 import { Features, NewFeatureTooltip } from '../NewFeatureTooltip';
@@ -51,6 +57,8 @@ const useEditLocation = ({ scope, offerId }) => {
   const changeOnlineUrl = useChangeOnlineUrlMutation();
   const deleteOnlineUrl = useDeleteOnlineUrlMutation();
   const changeAttendanceMode = useChangeAttendanceModeMutation();
+  const changeAudienceMutation = useChangeAudienceMutation();
+  const changeLocationMutation = useChangeLocationMutation();
 
   return async ({ location }: FormDataUnion) => {
     if (scope === OfferTypes.EVENTS) {
@@ -70,14 +78,32 @@ const useEditLocation = ({ scope, offerId }) => {
         return;
       }
 
+      const { publicRuntimeConfig } = getConfig();
+
+      if (!location.country) {
+        await changeLocationMutation.mutateAsync({
+          locationId: publicRuntimeConfig.cultuurKuurLocationId,
+          eventId: offerId,
+        });
+      }
+
       if (!location.place) return;
 
-      changeAttendanceMode.mutate({
+      await changeAttendanceMode.mutateAsync({
         eventId: offerId,
         attendanceMode: AttendanceMode.OFFLINE,
         location: location.place['@id'],
       });
 
+      if (
+        parseOfferId(location.place['@id']) !==
+        publicRuntimeConfig.cultuurKuurLocationId
+      ) {
+        changeAudienceMutation.mutate({
+          eventId: offerId,
+          audienceType: AudienceType.EVERYONE,
+        });
+      }
       deleteOnlineUrl.mutate({
         eventId: offerId,
       });
@@ -110,7 +136,7 @@ type PlaceStepProps = StackProps &
     terms: Array<Values<typeof EventTypes>>;
     chooseLabel: (t: TFunction) => string;
     placeholderLabel: (t: TFunction) => string;
-  };
+  } & { offerId?: string };
 
 const LocationStep = ({
   formState,
@@ -118,6 +144,7 @@ const LocationStep = ({
   reset,
   control,
   name,
+  offerId,
   onChange,
   chooseLabel,
   placeholderLabel,
@@ -127,6 +154,7 @@ const LocationStep = ({
   const { t } = useTranslation();
 
   const [streetAndNumber, setStreetAndNumber] = useState('');
+  const [audienceType, setAudienceType] = useState('');
   const [onlineUrl, setOnlineUrl] = useState('');
   const [hasOnlineUrlError, setHasOnlineUrlError] = useState(false);
 
@@ -135,7 +163,19 @@ const LocationStep = ({
     name: ['scope', 'location.streetAndNumber', 'location.onlineUrl'],
   });
 
+  const useGetOfferByIdQuery =
+    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
+
+  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
+
+  // @ts-expect-error
+  const audience = getOfferByIdQuery.data?.audience;
+
   useEffect(() => {
+    if (audience?.audienceType) {
+      setAudienceType(audience.audienceType);
+    }
+
     if (!locationStreetAndNumber && !locationOnlineUrl) return;
 
     if (locationStreetAndNumber) {
@@ -145,9 +185,7 @@ const LocationStep = ({
     if (locationOnlineUrl) {
       setOnlineUrl(locationOnlineUrl);
     }
-  }, [locationStreetAndNumber, locationOnlineUrl]);
-
-  console.log('errors', formState.errors);
+  }, [locationStreetAndNumber, locationOnlineUrl, audience]);
 
   return (
     <Stack {...getStackProps(props)}>
@@ -258,7 +296,7 @@ const LocationStep = ({
             );
           }
 
-          if (!country) {
+          if (!country || audienceType === AudienceType.EDUCATION) {
             return (
               <Stack spacing={4}>
                 <Inline alignItems="center" spacing={3}>
@@ -273,9 +311,11 @@ const LocationStep = ({
                       const updatedValue = {
                         ...field.value,
                         country: Countries.BE,
+                        municipality: undefined,
                       };
                       field.onChange(updatedValue);
                       onChange(updatedValue);
+                      setAudienceType(AudienceType.EVERYONE);
                       field.onBlur();
                     }}
                   >
@@ -452,6 +492,11 @@ const locationStepConfiguration: StepsConfiguration<'location'> = {
           onlineUrl: yup.string().url(),
         })
         .required();
+    }
+
+    // a cultuurkuur event
+    if (!value.country) {
+      return yup.object().shape({}).required();
     }
 
     // a location for a place
