@@ -308,7 +308,8 @@
           "0.59.0.0.0": "Donnez une description enthousiaste de l'activité sportive. <ul><li>Quel(s) <strong>sport(s)</strong> pouvez-vous pratiquer?</li><li>Quel <strong>matériel</strong> est (non) fourni?</li></ul>",
           "0.6.0.0.0": "Donnez une description enthousiaste de la foire. Que pouvez-vous <strong>voir</strong>, <strong>vivre</strong> ou <strong>acheter</strong>?",
           "0.7.0.0.0": "Donnez une description enthousiaste de la visite guidée. <ul><li>Qu'y a-t-il à <strong>voir</strong> ou à <strong>vivre</strong> le long du parcours?</li><li>Y a-t-il un <strong>nombre</strong> maximum de <strong>participants</strong>?</li><li>La visite guidée est-elle organisée en continu ou à des moments précis?</li><li>Y a-t-il des <strong>points d'attention</strong> particuliers (par exemple, des bottes indiquées)?</li></ul>",
-          "1.50.0.0.0": "Donnez une description enthousiaste du festin de nourriture ou de boisson. <ul> <li>Qu'y a-t-il au <strong>menu</strong>?</li> <li>Les <strong>recettes</strong> seront-elles versées à une <strong>organisation caritative</strong>?</li> <li>Y a-t-il une <strong>animation (périphérique)</strong>?</li> </ul>"
+          "1.50.0.0.0": "Donnez une description enthousiaste du festin de nourriture ou de boisson. <ul> <li>Qu'y a-t-il au <strong>menu</strong>?</li> <li>Les <strong>recettes</strong> seront-elles versées à une <strong>organisation caritative</strong>?</li> <li>Y a-t-il une <strong>animation (périphérique)</strong>?</li> </ul>",
+          "0.15.0.0.0": "Donnez une description enthousiaste de la réserve naturelle ou du parc.<ul><li><strong>Qu'y a-t-il à découvrir</strong>dans la réserve ou le parc naturel?</li><li>Quelles sont les<strong>activités de loisirs</strong>proposées?</li></ul>"
         },
         "title": "Description"
       },

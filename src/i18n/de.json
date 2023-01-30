@@ -307,7 +307,8 @@
           "0.59.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung der Sportaktivität. <ul> <li>Welche <strong>Sportart</strong>(en) können ausgeübt werden? </li><li>Welche <strong>Geräte</strong> werden (nicht) gestellt?</li></ul>",
           "0.6.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung der Messe. Was kann man <strong>ansehen</strong>, <strong>erleben</strong> oder <strong>kaufen</strong>?",
           "0.7.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Rundgangs. <ul> <li>Was kann man entlang der Strecke <strong>sehen oder erleben</strong>? </li><li>Gibt es eine maximale <strong>Anzahl Teilnehmer</strong>? </li><li>Wird der Rundgang durchgehen oder zu <strong>bestimmten Zeiten</strong> organisiert? </li><li>Gibt es <strong>Dinge zu beachten</strong> (zB. Stiefel notwendig)?</li></ul>",
-          "1.50.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Spendenmahls. <ul><li>Was steht auf der <strong>Speisekarte?</strong> </li><li>Geht der Erlös an einen<strong> guten Zweck</strong>? </li><li>Gibt es <strong>(Neben)Aktivitäten</strong>?</li></ul>"
+          "1.50.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung des Spendenmahls. <ul><li>Was steht auf der <strong>Speisekarte?</strong> </li><li>Geht der Erlös an einen<strong> guten Zweck</strong>? </li><li>Gibt es <strong>(Neben)Aktivitäten</strong>?</li></ul>",
+          "0.15.0.0.0": "Geef een enthousiaste omschrijving van het natuurgebied of park.<ul><li><strong>Wat</strong>valt er in het natuurgebied of park<strong>te</strong><strong>beleven</strong>?</li><li><strong>Welke recreatiemogelijkheden</strong>zijn er aanwezig?</li></ul>"
         },
         "title": "Beschreibung"
       },
