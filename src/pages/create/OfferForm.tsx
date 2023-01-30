@@ -1,3 +1,4 @@
+import getConfig from 'next/config';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -24,11 +25,12 @@ import {
 } from '@/pages/steps/StepsForm';
 import { Address, AddressInternal } from '@/types/Address';
 import { Country } from '@/types/Country';
-import { AttendanceMode, isEvent } from '@/types/Event';
+import { AttendanceMode, AudienceType, isEvent } from '@/types/Event';
 import { Offer } from '@/types/Offer';
 import { isPlace, Place } from '@/types/Place';
 import { Values } from '@/types/Values';
 import { WorkflowStatusMap } from '@/types/WorkflowStatus';
+import { arrayToValue } from '@/utils/arrayToValue';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 import { parseOfferId } from '@/utils/parseOfferId';
 
@@ -121,6 +123,7 @@ const parseLocationAttributes = (
 const OfferForm = () => {
   const { t, i18n } = useTranslation();
   const { query, asPath, ...router } = useRouter();
+  const { publicRuntimeConfig } = getConfig();
 
   const scope = useMemo(() => {
     if (
@@ -137,6 +140,10 @@ const OfferForm = () => {
 
     return undefined;
   }, [asPath, query.scope]);
+
+  const offerId =
+    arrayToValue(scope === OfferTypes.EVENTS ? query.eventId : query.placeId) ||
+    undefined;
 
   const convertOfferToFormData = (offer: Offer) => {
     return {
@@ -189,6 +196,16 @@ const OfferForm = () => {
       };
     }
 
+    // country is undefined cultuurkuur event
+    // Add dummy location
+    if (!country) {
+      return {
+        location: {
+          id: publicRuntimeConfig.cultuurKuurLocationId,
+        },
+      };
+    }
+
     return {
       address: {
         [language]: {
@@ -212,7 +229,9 @@ const OfferForm = () => {
       mainLanguage: i18n.language,
       name,
       workflowStatus: WorkflowStatusMap.DRAFT,
-      ...(scope === OfferTypes.EVENTS && { audienceType: 'everyone' }),
+      ...(scope === OfferTypes.EVENTS && {
+        audienceType: AudienceType.EVERYONE,
+      }),
       ...getLocationAttributes(scope, location, i18n.language),
       ...getTerms(typeAndTheme),
     };
