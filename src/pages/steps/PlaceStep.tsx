@@ -156,15 +156,23 @@ const PlaceStep = ({
                           mainLanguage,
                         );
                         return (
-                          <Stack>
+                          <Stack
+                            css={`
+                              .address {
+                                color: ${({ theme }) => theme.colors.grey6};
+                              }
+
+                              &:hover .address {
+                                color: white;
+                              }
+                            `}
+                          >
                             <Text>
                               <Highlighter search={text}>
                                 {placeName}
                               </Highlighter>
                             </Text>
-                            <Text color={({ theme }) => theme.colors.grey6}>
-                              {streetAddress}
-                            </Text>
+                            <Text className={'address'}>{streetAddress}</Text>
                           </Stack>
                         );
                       }}
