@@ -23,7 +23,7 @@ import { getStackProps, Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { isOneTimeSlotValid } from '@/ui/TimeTable';
-import { isNewEntry, NewEntry, Typeahead } from '@/ui/Typeahead';
+import { isNewEntry, Typeahead } from '@/ui/Typeahead';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 import { valueToArray } from '@/utils/valueToArray';
 
@@ -162,9 +162,7 @@ const PlaceStep = ({
                                 {placeName}
                               </Highlighter>
                             </Text>
-                            <Text
-                              color={({theme}) => theme.colors.grey6}
-                            >
+                            <Text color={({ theme }) => theme.colors.grey6}>
                               {streetAddress}
                             </Text>
                           </Stack>
