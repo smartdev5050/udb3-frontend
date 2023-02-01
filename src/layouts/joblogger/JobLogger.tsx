@@ -138,9 +138,6 @@ const JobLogger = ({ visible, onClose, onStatusChange }: JobLoggerProps) => {
     [SocketMessageTypes.JOB_INFO]: updateJobState(JobStates.STARTED),
     [SocketMessageTypes.JOB_FINISHED]: updateJobState(JobStates.FINISHED),
     [SocketMessageTypes.JOB_FAILED]: updateJobState(JobStates.FAILED),
-    [SocketMessageTypes.EVENT_WAS_LABELED]: (...args) => {
-      console.log('EVENT_WAS_LABELED', args);
-    },
   });
 
   useHandleWindowMessage({
