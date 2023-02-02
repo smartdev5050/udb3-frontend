@@ -147,6 +147,12 @@ const PriceInformation = ({
     shouldFocusError: false,
     defaultValues: { rates: [] },
   });
+  const ratesField = useFieldArray({ name: 'rates', control });
+  const rates = watch('rates');
+  const controlledRates = ratesField.fields.map((field, index) => ({
+    ...field,
+    ...rates[index],
+  }));
   useEffect(() => {
     let newPriceInfo = offer?.priceInfo ?? [];
     const hasUitpasLabel = offer?.organizer
@@ -183,8 +189,6 @@ const PriceInformation = ({
     if (!priceInfo?.length) return;
     setValue('rates', [...priceInfo]);
   }, [priceInfo, setValue]);
-
-  const rates = useWatch({ control, name: 'rates' });
 
   const addPriceInfoMutation = useAddOfferPriceInfoMutation({
     onSuccess: () => {
@@ -263,7 +267,7 @@ const PriceInformation = ({
     );
   };
 
-  const handleDuplicateNameError = (priceName: string): void => {
+  const handleDuplicateNameError = (priceName: string) =>
     setDuplicateNameError(
       t('create.additionalInformation.price_info.duplicate_name_error', {
         priceName,
@@ -334,9 +338,9 @@ const PriceInformation = ({
           {t('create.additionalInformation.price_info.uitpas_info')}
         </Alert>
       )}
-      {rates.map((rate, index) => (
+      {controlledRates.map((rate, index) => (
         <Inline
-          key={`rate_${index}`}
+          key={`rate_${rate.id}`}
           paddingTop={3}
           paddingBottom={3}
           css={`
