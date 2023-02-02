@@ -23,7 +23,7 @@ import { getStackProps, Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { isOneTimeSlotValid } from '@/ui/TimeTable';
-import { isNewEntry, NewEntry, Typeahead } from '@/ui/Typeahead';
+import { isNewEntry, Typeahead } from '@/ui/Typeahead';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 import { valueToArray } from '@/utils/valueToArray';
 
@@ -157,13 +157,23 @@ const PlaceStep = ({
                           mainLanguage,
                         );
                         return (
-                          <Stack>
+                          <Stack
+                            css={`
+                              .address {
+                                color: ${({ theme }) => theme.colors.grey6};
+                              }
+
+                              &:hover .address {
+                                color: white;
+                              }
+                            `}
+                          >
                             <Text>
                               <Highlighter search={text}>
                                 {placeName}
                               </Highlighter>
                             </Text>
-                            <Text>{streetAddress}</Text>
+                            <Text className={'address'}>{streetAddress}</Text>
                           </Stack>
                         );
                       }}
