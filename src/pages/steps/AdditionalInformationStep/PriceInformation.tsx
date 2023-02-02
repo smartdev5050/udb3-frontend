@@ -1,4 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import { throttle } from 'lodash';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -27,7 +28,6 @@ import { Input } from '@/ui/Input';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
-import { throttle } from 'lodash';
 
 const PRICE_CURRENCY: string = 'EUR';
 
@@ -206,13 +206,10 @@ const PriceInformation = ({
     1000,
   );
 
-  const onSubmit = useCallback(async () => {
-    if (hasGlobalError) {
-      return;
-    }
-
-    await updatePriceInfo();
-  }, [updatePriceInfo, hasGlobalError]);
+  const onSubmit = useCallback(
+    () => (hasGlobalError ? null : updatePriceInfo()),
+    [updatePriceInfo, hasGlobalError],
+  );
 
   const isPriceFree = (price: string) => ['0', '0,0', '0,00'].includes(price);
   const hasUitpasPrices = useMemo(
