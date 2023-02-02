@@ -213,43 +213,6 @@ const PriceInformation = ({
     });
   };
 
-  const handleClickAddRate = () => {
-    setValue('rates', [
-      ...rates,
-      {
-        name: {
-          [i18n.language]: '',
-        },
-        price: '',
-        category: PriceCategories.TARIFF,
-        priceCurrency: PRICE_CURRENCY,
-      },
-    ]);
-  };
-
-  const handleClickDeleteRate = async (id: number): Promise<void> => {
-    const ratesWithDeletedItem = [
-      ...rates.filter((_rate, index) => id !== index),
-    ];
-
-    setValue('rates', ratesWithDeletedItem);
-    await trigger();
-
-    const selectedRate = rates[id];
-
-    // if rate exists on priceInfo, also delete it from API
-
-    const existsInCurrentData = priceInfo.some(
-      (priceInfoItem) =>
-        selectedRate.name[i18n.language] ===
-          priceInfoItem.name[i18n.language] &&
-        selectedRate.price === priceInfoItem.price,
-    );
-
-    if (existsInCurrentData) {
-      await handlePriceInfoSubmitValid(ratesWithDeletedItem);
-    }
-  };
 
   const getDuplicateName = () => {
     const seenRates = [];
@@ -417,7 +380,10 @@ const PriceInformation = ({
                   iconName={Icons.TRASH}
                   spacing={3}
                   variant={ButtonVariants.DANGER}
-                  onClick={() => handleClickDeleteRate(index)}
+                  onClick={async () => {
+                    ratesField.remove(index);
+                    await onSubmit();
+                  }}
                 >
                   {t('create.additionalInformation.price_info.delete')}
                 </Button>
@@ -456,7 +422,17 @@ const PriceInformation = ({
         </Alert>
       )}
       <Inline marginTop={3}>
-        <Button onClick={handleClickAddRate} variant={ButtonVariants.SECONDARY}>
+        <Button
+          onClick={() =>
+            ratesField.append({
+              name: { [i18n.language]: '' },
+              price: '',
+              category: PriceCategories.TARIFF,
+              priceCurrency: PRICE_CURRENCY,
+            })
+          }
+          variant={ButtonVariants.SECONDARY}
+        >
           {t('create.additionalInformation.price_info.add')}
         </Button>
       </Inline>
