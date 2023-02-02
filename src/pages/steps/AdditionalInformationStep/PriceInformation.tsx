@@ -27,6 +27,7 @@ import { Input } from '@/ui/Input';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
+import { throttle } from 'lodash';
 
 const PRICE_CURRENCY: string = 'EUR';
 
@@ -135,16 +136,8 @@ const PriceInformation = ({
   onSuccessfulChange,
   ...props
 }: TabContentProps) => {
-  // TODO: refactor
-  const eventId = offerId;
-
   const { t, i18n } = useTranslation();
   const formComponent = useRef<HTMLFormElement>();
-  const [hasGlobalError, setHasGlobalError] = useState(false);
-  const [hasUitpasError, setHasUitpasError] = useState(false);
-
-  const [duplicateNameError, setDuplicateNameError] = useState('');
-  const [priceInfo, setPriceInfo] = useState([]);
 
   const useGetOfferByIdQuery =
     scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
@@ -159,6 +152,7 @@ const PriceInformation = ({
 
   const {
     register,
+    trigger,
     control,
     setValue,
     handleSubmit,
@@ -171,12 +165,30 @@ const PriceInformation = ({
     shouldFocusError: false,
     defaultValues: { rates: [] },
   });
+
+  const errorRates = useMemo(
+    () => (errors?.rates ?? []).filter((error: any) => error !== undefined),
+    [errors.rates],
+  );
+  console.log(errorRates);
+
+  const hasGlobalError = useMemo(() => errorRates.length > 0, [errorRates]);
+  const duplicateNameError = useMemo(
+    () => errorRates.find((error) => error.type === 'unique')?.message,
+    [errorRates],
+  );
+  const hasUitpasError = useMemo(
+    () => errorRates.some((error) => error.name?.type === 'name-is-not-uitpas'),
+    [errorRates],
+  );
+
   const ratesField = useFieldArray({ name: 'rates', control });
   const rates = watch('rates');
   const controlledRates = ratesField.fields.map((field, index) => ({
     ...field,
     ...rates[index],
   }));
+
   useEffect(() => {
     let newPriceInfo = offer?.priceInfo ?? [];
     const hasUitpasLabel = offer?.organizer
@@ -191,8 +203,11 @@ const PriceInformation = ({
       );
     }
 
-    const mainLanguage = offer?.mainLanguage;
+    if (!newPriceInfo.length) {
+      return ratesField.replace(defaultPriceInfoValues.rates);
+    }
 
+    const mainLanguage = offer?.mainLanguage;
     newPriceInfo = newPriceInfo.map((rate: any) => {
       return {
         ...rate,
@@ -204,120 +219,50 @@ const PriceInformation = ({
       };
     });
 
-    setPriceInfo(newPriceInfo);
+    if (!rates.length) {
+      ratesField.replace(newPriceInfo);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [offer?.priceInfo, offer?.mainLanguage, i18n.language]);
 
-
-  useEffect(() => {
-    if (!priceInfo?.length) return;
-    setValue('rates', [...priceInfo]);
-  }, [priceInfo, setValue]);
-
   const addPriceInfoMutation = useAddOfferPriceInfoMutation({
-    onSuccess: () => {
-      setTimeout(() => {
-        onSuccessfulChange();
-      }, 1000);
-    },
+    onSuccess: () => setTimeout(() => onSuccessfulChange(), 1000),
   });
 
-  const handlePriceInfoSubmitValid = async (rates: Rate[]) => {
-    const convertedPriceInfo = rates.map((rate: Rate) => {
-      return {
-        ...rate,
-        price: parseFloat(rate.price.replace(',', '.')),
-      };
-    });
-
-    await addPriceInfoMutation.mutateAsync({
-      id: offerId,
-      priceInfo: convertedPriceInfo,
-      scope,
-    });
-  };
-
-
-  const getDuplicateName = () => {
-    const seenRates = [];
-
-    return (
-      rates.find((rate) => {
-        const name = rate.name[i18n.language];
-
-        if (seenRates.includes(name)) {
-          return true;
-        }
-
-        seenRates.push(name);
-      })?.name[i18n.language] ?? ''
-    );
-  };
-
-  const handleDuplicateNameError = (priceName: string) =>
-    setDuplicateNameError(
-      t('create.additionalInformation.price_info.duplicate_name_error', {
-        priceName,
+  const updatePriceInfo = throttle(
+    () =>
+      addPriceInfoMutation.mutateAsync({
+        id: offerId,
+        scope,
+        priceInfo: rates.map((rate: Rate) => ({
+          ...rate,
+          price: parseFloat(rate.price.replace(',', '.')),
+        })),
       }),
-    );
-  };
+    1000,
+  );
 
-  const setFreePriceToRate = async (): Promise<void> => {
-    const isValid = await trigger();
-
-    if (!isValid) return;
-
-    const duplicateName = getDuplicateName();
-
-    if (duplicateName) {
-      handleDuplicateNameError(duplicateName);
+  const onSubmit = useCallback(async () => {
+    if (hasGlobalError) {
       return;
     }
 
-    // If no errors submit to API
-    await handlePriceInfoSubmitValid(getValues('rates'));
-  };
+    await updatePriceInfo();
+  }, [updatePriceInfo, hasGlobalError]);
 
-  const isPriceFree = (price: string): boolean => {
-    return ['0', '0,0', '0,00'].includes(price);
-  };
+  const isPriceFree = (price: string) => ['0', '0,0', '0,00'].includes(price);
 
-  const hasUitpasPrices = useMemo(() => {
-    return rates.some((rate) => rate.category === PriceCategories.UITPAS);
-  }, [rates]);
-
-  useEffect(() => {
-    if (Object.keys(dirtyFields).length === 0) return;
-
-    const errorRates = (errors.rates || []).filter(
-      (error: any) => error !== undefined,
-    );
-
-    const hasGlobalError = errorRates.length > 0;
-    const hasUitpasError = errorRates.some(
-      (error) => error.name?.type === 'name-is-not-uitpas',
-    );
-
-    setHasGlobalError(hasGlobalError);
-    setHasUitpasError(hasUitpasError);
-  }, [errors, i18n.language, dirtyFields]);
+  const hasUitpasPrices = useMemo(
+    () => rates.some((rate) => rate.category === PriceCategories.UITPAS),
+    [rates],
+  );
 
   return (
     <Stack
       {...getStackProps(props)}
       as="form"
       padding={4}
-      onBlur={handleSubmit(async (data) => {
-        const duplicateName = getDuplicateName();
-
-        if (duplicateName) {
-          handleDuplicateNameError(duplicateName);
-          return;
-        }
-
-        setDuplicateNameError('');
-        await handlePriceInfoSubmitValid(data.rates);
-      })}
+      onBlur={handleSubmit(onSubmit)}
       ref={formComponent}
     >
       {hasUitpasPrices && (
@@ -389,9 +334,10 @@ const PriceInformation = ({
                 rate.category !== PriceCategories.UITPAS && (
                   <Button
                     variant={ButtonVariants.LINK}
-                    onClick={() => {
+                    onClick={async () => {
                       setValue(`rates.${index}.price`, '0,00');
-                      setFreePriceToRate();
+                      await trigger();
+                      await onSubmit();
                     }}
                   >
                     {t('create.additionalInformation.price_info.free')}
@@ -416,7 +362,7 @@ const PriceInformation = ({
           </Inline>
         </Inline>
       ))}
-      {hasGlobalError && (
+      {hasGlobalError && !duplicateNameError && (
         <Alert marginTop={3} variant={AlertVariants.PRIMARY}>
           <Box
             forwardedAs="div"
