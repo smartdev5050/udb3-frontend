@@ -324,8 +324,8 @@
           "description": "Tip: voeg een beschrijving (+200 tekens) toe",
           "price_info": "Tip: voeg prijsinformatie toe",
           "contact_info": "Tip: voeg contactinformatie toe",
-          "organizer": "Tip: voeg een organisator toe",
-          "completed": "You're the best"
+          "organizer": "Tip: voeg een organisatie toe",
+          "completed": "Alle punten! Met dit evenement ga je scoren!"
         }
       },
       "organizer": {

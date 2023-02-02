@@ -46,6 +46,7 @@ const PublishLaterModal = ({ visible, onConfirm, onClose }: Props) => {
           selected={publishLaterDate}
           onChange={handleChangeDate}
           maxWidth="16rem"
+          minDate={new Date()}
         />
       </Stack>
     </Modal>

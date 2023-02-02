@@ -228,7 +228,9 @@ const PriceInformation = ({
     const ratesWithDeletedItem = [
       ...rates.filter((_rate, index) => id !== index),
     ];
+
     setValue('rates', ratesWithDeletedItem);
+    await trigger();
 
     const selectedRate = rates[id];
 
