@@ -1,8 +1,9 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { useForm, useWatch } from 'react-hook-form';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useFieldArray, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
+import { ValidationError } from 'yup';
 
 import { OfferTypes } from '@/constants/OfferType';
 import { useGetEventByIdQuery } from '@/hooks/api/events';
@@ -81,26 +82,49 @@ const shouldHaveAName = (value: any): boolean => {
   return !!value[i18n.language];
 };
 
+yup.addMethod(yup.array, 'uniqueName', function () {
+  return this.test('uniqueName', function (prices) {
+    const priceNames = prices.map((item) => item.name[i18n.language]);
+    const errors = priceNames.map((priceName, index) => {
+      const indexOf = priceNames.indexOf(priceName);
+      if (indexOf !== -1 && indexOf !== index) {
+        return this.createError({
+          path: `${this.path}.${index}`,
+          message: i18n.t(
+            'create.additionalInformation.price_info.duplicate_name_error',
+            { priceName },
+          ),
+        });
+      }
+    });
+
+    return new ValidationError(errors.filter(Boolean));
+  });
+});
+
 const schema = yup
   .object()
   .shape({
-    rates: yup.array().of(
-      yup.object({
-        name: yup
-          .object({
-            nl: yup.string(),
-            fr: yup.string(),
-            en: yup.string(),
-            de: yup.string(),
-          })
-          .test(`name-is-required`, 'name is required', shouldHaveAName)
-          .test(`name-is-not-uitpas`, 'should not be uitpas', isNotUitpas)
-          .required(),
-        category: yup.string(),
-        price: yup.string().matches(PRICE_REGEX).required(),
-        priceCurrency: yup.string(),
-      }),
-    ),
+    rates: yup
+      .array()
+      .of(
+        yup.object({
+          name: yup
+            .object({
+              nl: yup.string(),
+              fr: yup.string(),
+              en: yup.string(),
+              de: yup.string(),
+            })
+            .test(`name-is-required`, 'name is required', shouldHaveAName)
+            .test(`name-is-not-uitpas`, 'should not be uitpas', isNotUitpas)
+            .required(),
+          category: yup.string(),
+          price: yup.string().matches(PRICE_REGEX).required(),
+          priceCurrency: yup.string(),
+        }),
+      )
+      .uniqueName(),
   })
   .required();
 
