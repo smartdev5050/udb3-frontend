@@ -189,6 +189,37 @@ const PriceInformation = ({
     ...rates[index],
   }));
 
+  const addPriceInfoMutation = useAddOfferPriceInfoMutation({
+    onSuccess: () => setTimeout(() => onSuccessfulChange(), 1000),
+  });
+
+  const updatePriceInfo = throttle(
+    () =>
+      addPriceInfoMutation.mutateAsync({
+        id: offerId,
+        scope,
+        priceInfo: getValues('rates').map((rate: Rate) => ({
+          ...rate,
+          price: parseFloat(rate.price.replace(',', '.')),
+        })),
+      }),
+    1000,
+  );
+
+  const onSubmit = useCallback(async () => {
+    if (hasGlobalError) {
+      return;
+    }
+
+    await updatePriceInfo();
+  }, [updatePriceInfo, hasGlobalError]);
+
+  const isPriceFree = (price: string) => ['0', '0,0', '0,00'].includes(price);
+  const hasUitpasPrices = useMemo(
+    () => rates.some((rate) => rate.category === PriceCategories.UITPAS),
+    [rates],
+  );
+
   useEffect(() => {
     let newPriceInfo = offer?.priceInfo ?? [];
     const hasUitpasLabel = offer?.organizer
@@ -224,37 +255,6 @@ const PriceInformation = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [offer?.priceInfo, offer?.mainLanguage, i18n.language]);
-
-  const addPriceInfoMutation = useAddOfferPriceInfoMutation({
-    onSuccess: () => setTimeout(() => onSuccessfulChange(), 1000),
-  });
-
-  const updatePriceInfo = throttle(
-    () =>
-      addPriceInfoMutation.mutateAsync({
-        id: offerId,
-        scope,
-        priceInfo: getValues('rates').map((rate: Rate) => ({
-          ...rate,
-          price: parseFloat(rate.price.replace(',', '.')),
-        })),
-      }),
-    1000,
-  );
-
-  const onSubmit = useCallback(async () => {
-    if (hasGlobalError) {
-      return;
-    }
-
-    await updatePriceInfo();
-  }, [updatePriceInfo, hasGlobalError]);
-
-  const isPriceFree = (price: string) => ['0', '0,0', '0,00'].includes(price);
-  const hasUitpasPrices = useMemo(
-    () => rates.some((rate) => rate.category === PriceCategories.UITPAS),
-    [rates],
-  );
 
   return (
     <Stack
