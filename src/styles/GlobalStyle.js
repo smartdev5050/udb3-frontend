@@ -151,6 +151,10 @@ const GlobalStyle = createGlobalStyle`
   .badge-secondary{
     background-color: ${globalColors.grey5};
   }
+  
+  .dropdown-menu {
+    padding: 0;
+  }
 `;
 
 export { GlobalStyle };
