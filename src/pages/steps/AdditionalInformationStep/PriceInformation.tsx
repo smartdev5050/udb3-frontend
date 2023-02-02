@@ -155,6 +155,7 @@ const PriceInformation = ({
     trigger,
     control,
     setValue,
+    getValues,
     handleSubmit,
     formState: { errors },
     watch,
@@ -170,11 +171,10 @@ const PriceInformation = ({
     () => (errors?.rates ?? []).filter((error: any) => error !== undefined),
     [errors.rates],
   );
-  console.log(errorRates);
 
   const hasGlobalError = useMemo(() => errorRates.length > 0, [errorRates]);
   const duplicateNameError = useMemo(
-    () => errorRates.find((error) => error.type === 'unique')?.message,
+    () => errorRates.find((error) => error.type === 'uniqueName')?.message,
     [errorRates],
   );
   const hasUitpasError = useMemo(
@@ -234,7 +234,7 @@ const PriceInformation = ({
       addPriceInfoMutation.mutateAsync({
         id: offerId,
         scope,
-        priceInfo: rates.map((rate: Rate) => ({
+        priceInfo: getValues('rates').map((rate: Rate) => ({
           ...rate,
           price: parseFloat(rate.price.replace(',', '.')),
         })),
@@ -251,7 +251,6 @@ const PriceInformation = ({
   }, [updatePriceInfo, hasGlobalError]);
 
   const isPriceFree = (price: string) => ['0', '0,0', '0,00'].includes(price);
-
   const hasUitpasPrices = useMemo(
     () => rates.some((rate) => rate.category === PriceCategories.UITPAS),
     [rates],
@@ -352,6 +351,7 @@ const PriceInformation = ({
                   variant={ButtonVariants.DANGER}
                   onClick={async () => {
                     ratesField.remove(index);
+                    await trigger();
                     await onSubmit();
                   }}
                 >
