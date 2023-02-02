@@ -133,6 +133,20 @@ const PriceInformation = ({
   // @ts-expect-error
   const offer: Event | Place | undefined = getOfferByIdQuery.data;
 
+  const {
+    register,
+    control,
+    setValue,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm<FormData>({
+    mode: 'onBlur',
+    reValidateMode: 'onBlur',
+    resolver: yupResolver(schema),
+    shouldFocusError: false,
+    defaultValues: { rates: [] },
+  });
   useEffect(() => {
     let newPriceInfo = offer?.priceInfo ?? [];
     const hasUitpasLabel = offer?.organizer
@@ -164,21 +178,6 @@ const PriceInformation = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [offer?.priceInfo, offer?.mainLanguage, i18n.language]);
 
-  const {
-    register,
-    control,
-    setValue,
-    trigger,
-    formState: { errors, dirtyFields },
-    getValues,
-    handleSubmit,
-  } = useForm<FormData>({
-    mode: 'onBlur',
-    resolver: yupResolver(schema),
-    reValidateMode: 'onBlur',
-    shouldFocusError: false,
-    defaultValues: defaultPriceInfoValues,
-  });
 
   useEffect(() => {
     if (!priceInfo?.length) return;
