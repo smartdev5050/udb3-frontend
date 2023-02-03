@@ -8,12 +8,6 @@ declare module 'react' {
   }
 }
 
-declare module 'yup' {
-  interface ArraySchema<T> {
-    uniqueName(): this;
-  }
-}
-
 declare global {
   interface Window {
     clipboardData: DataTransfer;

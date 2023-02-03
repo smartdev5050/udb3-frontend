@@ -83,26 +83,6 @@ const shouldHaveAName = (value: any): boolean => {
   return !!value[i18n.language];
 };
 
-yup.addMethod(yup.array, 'uniqueName', function () {
-  return this.test('uniqueName', function (prices) {
-    const priceNames = prices.map((item) => item.name[i18n.language]);
-    const errors = priceNames.map((priceName, index) => {
-      const indexOf = priceNames.indexOf(priceName);
-      if (indexOf !== -1 && indexOf !== index) {
-        return this.createError({
-          path: `${this.path}.${index}`,
-          message: i18n.t(
-            'create.additionalInformation.price_info.duplicate_name_error',
-            { priceName },
-          ),
-        });
-      }
-    });
-
-    return new ValidationError(errors.filter(Boolean));
-  });
-});
-
 const schema = yup
   .object()
   .shape({
@@ -125,7 +105,23 @@ const schema = yup
           priceCurrency: yup.string(),
         }),
       )
-      .uniqueName(),
+      .test('uniqueName', function (prices) {
+        const priceNames = prices.map((item) => item.name[i18n.language]);
+        const errors = priceNames.map((priceName, index) => {
+          const indexOf = priceNames.indexOf(priceName);
+          if (indexOf !== -1 && indexOf !== index) {
+            return this.createError({
+              path: `${this.path}.${index}`,
+              message: i18n.t(
+                'create.additionalInformation.price_info.duplicate_name_error',
+                { priceName },
+              ),
+            });
+          }
+        });
+
+        return new ValidationError(errors.filter(Boolean));
+      }),
   })
   .required();
 
