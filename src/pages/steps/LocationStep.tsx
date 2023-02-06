@@ -82,10 +82,23 @@ const useEditLocation = ({ scope, offerId }) => {
       const { publicRuntimeConfig } = getConfig();
 
       if (!location.country) {
+        await changeAttendanceMode.mutateAsync({
+          eventId: offerId,
+          attendanceMode: AttendanceMode.OFFLINE,
+          location: `${publicRuntimeConfig.apiUrl}/place/${publicRuntimeConfig.cultuurKuurLocationId}`,
+        });
+
         await changeLocationMutation.mutateAsync({
           locationId: publicRuntimeConfig.cultuurKuurLocationId,
           eventId: offerId,
         });
+
+        changeAudienceMutation.mutate({
+          eventId: offerId,
+          audienceType: AudienceType.EDUCATION,
+        });
+
+        return;
       }
 
       if (!location.place) return;
@@ -298,7 +311,7 @@ const LocationStep = ({
             );
           }
 
-          if (!country || audienceType === AudienceType.EDUCATION) {
+          if (!country || municipality?.zip === '0000') {
             return (
               <Stack spacing={4}>
                 <Inline alignItems="center" spacing={3}>
