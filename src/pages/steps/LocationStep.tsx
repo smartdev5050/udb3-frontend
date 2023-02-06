@@ -18,7 +18,6 @@ import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import { useChangeAddressMutation } from '@/hooks/api/places';
 import { FormData as OfferFormData } from '@/pages/create/OfferForm';
-import { place } from '@/test/data/place';
 import { Address } from '@/types/Address';
 import { Countries, Country } from '@/types/Country';
 import { AttendanceMode, AudienceType } from '@/types/Event';
@@ -310,7 +309,6 @@ const LocationStep = ({
             );
           }
 
-          if (!country || audienceType === AudienceType.EDUCATION) {
           if (!country || municipality?.zip === '0000') {
             return (
               <Stack spacing={4}>
