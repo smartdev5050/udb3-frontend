@@ -337,8 +337,12 @@
         "select_recent_used_organizer_info": "We hebben de organisaties waarvoor je recent een evenement invoerde hier voor je klaargezet. Met één klik voeg je ze toe aan je evenement.",
         "or_choose_other_organizer": "Of kies een andere organisatie",
         "uitpas_cardsystems": "UiTPAS Kaartsystemen",
-        "uitpas_info": "Je activiteit is nu geregistreerd als UiTPAS activiteit.",
-        "uitpas_info_no_price_alert": "Dit is een UiTPAS organisator. Voeg een <link1>prijs</link1> toe om je evenement te publiceren als UiTPAS activiteit"
+        "uitpas_alert": {
+          "success": "Je activiteit is nu geregistreerd als UiTPAS activiteit.",
+          "no_price": "Dit is een UiTPAS organisator. Voeg een <link1>prijs</link1> toe om je evenement te publiceren als UiTPAS activiteit.",
+          "already_has_ticketsales": "Voor dit evenement zijn al UiTPAS-tickets verkocht. Je kan de organisatie niet meer wijzigen.",
+          "not_found": "Deze activiteit is nog niet gekend bij UiTPAS."
+        }
       },
       "media": {
         "title": "Media"
