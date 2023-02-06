@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
@@ -33,6 +33,13 @@ import { OrganizerAddModal, OrganizerData } from '../../OrganizerAddModal';
 import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
 import { isUitpasOrganizer, OrganizerPicker } from './OrganizerPicker';
 
+const UitpasTranslationKeys = {
+  PRICE_ALERT: 'no_price',
+  400: 'already_has_ticketsales',
+  404: 'not_found',
+  SUCCESS: 'success',
+} as const;
+
 type Props = StackProps & TabContentProps;
 
 const OrganizerStep = ({
@@ -64,6 +71,35 @@ const OrganizerStep = ({
     eventId: offerId,
     isUitpasOrganizer: hasUitpasLabel && hasPriceInfo,
   });
+
+  const uitpasAlertData = useMemo(() => {
+    if (!hasUitpasLabel) {
+      return;
+    }
+
+    if (!hasPriceInfo) {
+      return {
+        variant: AlertVariants.WARNING,
+        key: UitpasTranslationKeys.PRICE_ALERT,
+      };
+    }
+
+    // @ts-expect-error
+    const status: number = getCardSystemForEventQuery.error?.status;
+
+    if (status === 400 || status === 404) {
+      return {
+        variant: AlertVariants.WARNING,
+        key: UitpasTranslationKeys[status],
+      };
+    }
+
+    return {
+      variant: AlertVariants.SUCCESS,
+      key: UitpasTranslationKeys.SUCCESS,
+    };
+    // @ts-expect-error
+  }, [getCardSystemForEventQuery.error?.status, hasPriceInfo, hasUitpasLabel]);
 
   // @ts-expect-error
   const getCardSystemsForOrganizerQuery = useGetCardSystemsForOrganizerQuery({
@@ -233,13 +269,11 @@ const OrganizerStep = ({
           }
           organizer={organizer}
         />
-        {hasUitpasLabel && (
-          <Alert variant={AlertVariants.WARNING}>
-            {hasPriceInfo ? (
-              t('create.additionalInformation.organizer.uitpas_info')
-            ) : (
+        {uitpasAlertData && (
+          <Alert variant={uitpasAlertData.variant}>
+            {uitpasAlertData.key === 'no_price' ? (
               <Trans
-                i18nKey="create.additionalInformation.organizer.uitpas_info_no_price_alert"
+                i18nKey={`create.additionalInformation.organizer.uitpas_alert.${uitpasAlertData.key}`}
                 components={{
                   link1: (
                     <Link
@@ -259,6 +293,10 @@ const OrganizerStep = ({
                   ),
                 }}
               />
+            ) : (
+              t(
+                `create.additionalInformation.organizer.uitpas_alert.${uitpasAlertData.key}`,
+              )
             )}
           </Alert>
         )}
