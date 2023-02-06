@@ -44,23 +44,18 @@ type Props = {
 const isQuarterHour = (time: string) =>
   quarterHours.some((quarterHour) => time.endsWith(quarterHour));
 
-const timesToNumeric = (startTime: string, endTime: string) => {
-  const startTimeValue = parseInt(startTime.replace(':', ''));
-  const endTimeValue = parseInt(endTime.replace(':', ''));
+const timeToNumeric = (time: string) => parseInt(time.replace(':', ''));
 
-  return [startTimeValue, endTimeValue];
-};
+const filterStartTimes = (time: string, startTime: string, endTime: string) => {
+  const timeValue = timeToNumeric(time);
+  const isAfterStartTime = timeValue >= timeToNumeric(startTime);
+  const isBeforeEndTime = timeValue < timeToNumeric(endTime);
 
-const filterStartTimes = (time: string, endTime: string) => {
-  const [startTimeValue, endTimeValue] = timesToNumeric(time, endTime);
-  const isBeforeEndTime = startTimeValue < endTimeValue;
-
-  return isQuarterHour(time) && isBeforeEndTime;
+  return isQuarterHour(time) && isBeforeEndTime && isAfterStartTime;
 };
 
 const filterEndTimes = (time: string, startTime: string) => {
-  const [startTimeValue, endTimeValue] = timesToNumeric(startTime, time);
-  const isAfterStartTime = startTimeValue < endTimeValue;
+  const isAfterStartTime = timeToNumeric(time) > timeToNumeric(startTime);
 
   return time === '23:59' || (isQuarterHour(time) && isAfterStartTime);
 };
@@ -113,7 +108,7 @@ const TimeSpanPicker = ({
           inputRequired={true}
           name="startTime"
           id={`${idPrefix}-start`}
-          customFilter={(time) => filterStartTimes(time, endTime)}
+          customFilter={(time) => filterStartTimes(time, startTime, endTime)}
           defaultInputValue={startTime}
           options={hourOptions}
           labelKey={(option) => option}

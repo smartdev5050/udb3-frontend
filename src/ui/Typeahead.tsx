@@ -118,6 +118,10 @@ const Typeahead: TypeaheadFunc = forwardRef(
             padding: 0.375rem 0.9rem;
           }
 
+          .dropdown-item {
+            border-bottom: 1px solid ${({ theme }) => theme.colors.grey1};
+          }
+
           .dropdown-item.active,
           .dropdown-item:active {
             color: ${getValue('active.color')};
