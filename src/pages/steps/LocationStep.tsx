@@ -85,6 +85,13 @@ const useEditLocation = ({ scope, offerId }) => {
           locationId: publicRuntimeConfig.cultuurKuurLocationId,
           eventId: offerId,
         });
+
+        changeAudienceMutation.mutate({
+          eventId: offerId,
+          audienceType: AudienceType.EDUCATION,
+        });
+
+        return;
       }
 
       if (!location.place) return;
