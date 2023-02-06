@@ -350,8 +350,12 @@
         "select_recent_used_organizer_info": "Hier haben wir für Sie die Organisationen vorbereitet, für die Sie kürzlich eine Veranstaltung eingetragen haben. Fügen Sie sie mit einem einzigen Klick zu Ihrer Veranstaltung hinzu.",
         "or_choose_other_organizer": "Oder Sie wählen eine andere Organisation",
         "uitpas_cardsystems": "UiTPAS Kartensysteme",
-        "uitpas_info": "Ihre Aktivität ist jetzt als UitPAS-Aktivität registriert",
-        "uitpas_info_no_price_alert": "Dies ist ein UiTPAS-Organisator. Fügen Sie einen <link1>Preis</link1> hinzu, um Ihre Veranstaltung als UiTPAS-Aktivität zu veröffentlichen"
+        "uitpas_alert": {
+          "success": "Ihre Aktivität ist jetzt als UitPAS-Aktivität registriert.",
+          "no_price": "Dies ist ein UiTPAS-Organisator. Fügen Sie einen <link1>Preis</link1> hinzu, um Ihre Veranstaltung als UiTPAS-Aktivität zu veröffentlichen.",
+          "already_has_ticketsales": "Für diese Veranstaltung sind bereits UiTPAS-Tickets verkauft worden. Sie können die Organisation nicht mehr ändern.",
+          "not_found": "Diese Veranstaltung ist dem UiTPAS noch nicht bekannt."
+        }
       },
       "media": {
         "title": "Medien"

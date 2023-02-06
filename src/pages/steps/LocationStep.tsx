@@ -36,6 +36,7 @@ import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { parseOfferId } from '@/utils/parseOfferId';
+import { prefixUrlWithHttp } from '@/utils/url';
 
 import { CityPicker } from '../CityPicker';
 import { Features, NewFeatureTooltip } from '../NewFeatureTooltip';
@@ -81,10 +82,23 @@ const useEditLocation = ({ scope, offerId }) => {
       const { publicRuntimeConfig } = getConfig();
 
       if (!location.country) {
+        await changeAttendanceMode.mutateAsync({
+          eventId: offerId,
+          attendanceMode: AttendanceMode.OFFLINE,
+          location: `${publicRuntimeConfig.apiUrl}/place/${publicRuntimeConfig.cultuurKuurLocationId}`,
+        });
+
         await changeLocationMutation.mutateAsync({
           locationId: publicRuntimeConfig.cultuurKuurLocationId,
           eventId: offerId,
         });
+
+        changeAudienceMutation.mutate({
+          eventId: offerId,
+          audienceType: AudienceType.EDUCATION,
+        });
+
+        return;
       }
 
       if (!location.place) return;
@@ -259,12 +273,13 @@ const LocationStep = ({
                       maxWidth="28rem"
                       value={onlineUrl}
                       onBlur={(e) => {
+                        const prefixedUrl = prefixUrlWithHttp(e.target.value);
                         const updatedValue = {
                           ...field?.value,
-                          onlineUrl: e.target.value,
+                          onlineUrl: prefixedUrl,
                         };
                         field.onChange(updatedValue);
-                        if (isValidUrl(e.target.value)) {
+                        if (isValidUrl(prefixedUrl)) {
                           onChange(updatedValue);
                           setHasOnlineUrlError(false);
                         } else {
@@ -296,7 +311,7 @@ const LocationStep = ({
             );
           }
 
-          if (!country || audienceType === AudienceType.EDUCATION) {
+          if (!country || municipality?.zip === '0000') {
             return (
               <Stack spacing={4}>
                 <Inline alignItems="center" spacing={3}>
