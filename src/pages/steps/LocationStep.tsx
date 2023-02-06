@@ -18,6 +18,7 @@ import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import { useChangeAddressMutation } from '@/hooks/api/places';
 import { FormData as OfferFormData } from '@/pages/create/OfferForm';
+import { place } from '@/test/data/place';
 import { Address } from '@/types/Address';
 import { Countries, Country } from '@/types/Country';
 import { AttendanceMode, AudienceType } from '@/types/Event';
@@ -81,6 +82,12 @@ const useEditLocation = ({ scope, offerId }) => {
       const { publicRuntimeConfig } = getConfig();
 
       if (!location.country) {
+        await changeAttendanceMode.mutateAsync({
+          eventId: offerId,
+          attendanceMode: AttendanceMode.OFFLINE,
+          location: `${publicRuntimeConfig.apiUrl}/place/${publicRuntimeConfig.cultuurKuurLocationId}`,
+        });
+
         await changeLocationMutation.mutateAsync({
           locationId: publicRuntimeConfig.cultuurKuurLocationId,
           eventId: offerId,
@@ -304,6 +311,7 @@ const LocationStep = ({
           }
 
           if (!country || audienceType === AudienceType.EDUCATION) {
+          if (!country || municipality?.zip === '0000') {
             return (
               <Stack spacing={4}>
                 <Inline alignItems="center" spacing={3}>
