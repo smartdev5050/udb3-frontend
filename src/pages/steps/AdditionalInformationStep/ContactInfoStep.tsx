@@ -1,5 +1,12 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import {
+  ChangeEvent,
+  FormEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { useTranslation } from 'react-i18next';
+import { useQueryClient } from 'react-query';
 
 import { OfferTypes } from '@/constants/OfferType';
 import { useGetEventByIdQuery } from '@/hooks/api/events';
@@ -89,6 +96,10 @@ const ContactInfoStep = ({
     // @ts-expect-error
     getOfferByIdQuery.data?.contactPoint ?? organizerContactInfo;
 
+  const onValidationChangeCallback = useCallback(onValidationChange, [
+    onValidationChange,
+  ]);
+
   useEffect(() => {
     if (!contactInfo) return;
 
@@ -97,7 +108,7 @@ const ContactInfoStep = ({
     );
 
     // onValidationChange can be undefined when used in OrganizerStep
-    onValidationChange?.(
+    onValidationChangeCallback?.(
       hasContactInfo ? ValidationStatus.SUCCESS : ValidationStatus.NONE,
     );
 
@@ -112,10 +123,29 @@ const ContactInfoStep = ({
     });
 
     setContactInfoState(contactInfoArray);
-  }, [contactInfo, onValidationChange]);
+  }, [contactInfo, onValidationChangeCallback]);
+
+  const queryClient = useQueryClient();
 
   const addContactPointMutation = useAddOfferContactPointMutation({
-    onSuccess: onSuccessfulChange,
+    onMutate: async (newPayload) => {
+      await queryClient.cancelQueries({
+        queryKey: [scope, { id: offerId }],
+      });
+
+      const previousEventInfo: any = queryClient.getQueryData([
+        scope,
+        { id: offerId },
+      ]);
+
+      return { previousEventInfo };
+    },
+    onError: (_err, _newBookingInfo, context) => {
+      queryClient.setQueryData(
+        [scope, { id: offerId }],
+        context.previousEventInfo,
+      );
+    },
   });
 
   const parseNewContactInfo = (newContactInfo: NewContactInfo[]) => {
@@ -204,6 +234,8 @@ const ContactInfoStep = ({
       await handleAddContactInfoMutation(newContactInfo);
     }
   };
+
+  console.log({ contactInfoState });
 
   return (
     <Stack maxWidth="40rem" {...getStackProps(props)} spacing={3}>
