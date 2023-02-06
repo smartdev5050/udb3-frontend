@@ -34,7 +34,7 @@ import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
 import { isUitpasOrganizer, OrganizerPicker } from './OrganizerPicker';
 
 const UitpasTranslationKeys = {
-  PRICE_ALERT: 'no_price',
+  NO_PRICE: 'no_price',
   400: 'already_has_ticketsales',
   404: 'not_found',
   SUCCESS: 'success',
@@ -80,7 +80,7 @@ const OrganizerStep = ({
     if (!hasPriceInfo) {
       return {
         variant: AlertVariants.WARNING,
-        key: UitpasTranslationKeys.PRICE_ALERT,
+        key: UitpasTranslationKeys.NO_PRICE,
       };
     }
 
@@ -271,7 +271,7 @@ const OrganizerStep = ({
         />
         {uitpasAlertData && (
           <Alert variant={uitpasAlertData.variant}>
-            {uitpasAlertData.key === 'no_price' ? (
+            {uitpasAlertData.key === UitpasTranslationKeys.NO_PRICE ? (
               <Trans
                 i18nKey={`create.additionalInformation.organizer.uitpas_alert.${uitpasAlertData.key}`}
                 components={{
