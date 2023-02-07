@@ -39,6 +39,7 @@ type Props = {
   onChangeStartTime: (newStartTime: string) => void;
   onChangeEndTime: (newEndTime: string) => void;
   disabled?: boolean;
+  minWidth?: string;
 } & InlineProps;
 
 const isQuarterHour = (time: string) =>
@@ -62,6 +63,7 @@ const filterEndTimes = (time: string, startTime: string) => {
 
 const dropDownCss = css`
   .rbt-menu.dropdown-menu.show {
+    min-width: 0;
     max-height: 140px !important;
 
     z-index: ${getValueForTimePicker('zIndexPopup')};
@@ -85,6 +87,7 @@ const TimeSpanPicker = ({
   onChangeStartTime,
   onChangeEndTime,
   disabled,
+  minWidth,
   ...props
 }: Props) => {
   const { t } = useTranslation();
@@ -92,7 +95,7 @@ const TimeSpanPicker = ({
 
   return (
     <Inline as="div" spacing={5} {...getInlineProps(props)}>
-      <Stack spacing={2} as="div">
+      <Stack spacing={2} as="div" minWidth={minWidth}>
         <Label variant={LabelVariants.BOLD} htmlFor={`${idPrefix}-start`}>
           {startTimeLabel ?? t('time_span_picker.start')}
         </Label>
@@ -112,11 +115,10 @@ const TimeSpanPicker = ({
           }}
           positionFixed
           disabled={disabled}
-          maxHeight="140px"
           css={dropDownCss}
         />
       </Stack>
-      <Stack spacing={2} as="div">
+      <Stack spacing={2} as="div" minWidth={minWidth}>
         <Label variant={LabelVariants.BOLD} htmlFor={`${idPrefix}-end`}>
           {endTimeLabel ?? t('time_span_picker.end')}
         </Label>
