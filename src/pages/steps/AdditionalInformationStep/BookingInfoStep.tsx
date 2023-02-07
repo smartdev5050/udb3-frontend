@@ -368,7 +368,7 @@ const BookingInfoStep = ({
 
   const addBookingInfoMutation = useAddOfferBookingInfoMutation({
     onMutate: async (newPayload) => {
-      queryClient.cancelQueries({
+      await queryClient.cancelQueries({
         queryKey: ['events', { id: eventId }],
       });
 
