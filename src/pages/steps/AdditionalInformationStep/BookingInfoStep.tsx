@@ -94,11 +94,11 @@ const getUrlLabelType = (englishUrlLabel: string): string => {
 type ReservationPeriodProps = {
   availabilityStarts: string;
   availabilityEnds: string;
-  handleDelete: () => Promise<void>;
+  handleDelete: () => void;
   handlePeriodChange: (
     availabilityEnds: Date,
     availabilityStarts: Date,
-  ) => Promise<void>;
+  ) => void;
 };
 
 const ReservationPeriod = ({
@@ -132,14 +132,11 @@ const ReservationPeriod = ({
     );
   };
 
-  const handleNewBookingPeriod = async (
-    startDate: Date,
-    endDate: Date,
-  ): Promise<void> => {
-    await handlePeriodChange(endDate, startDate);
+  const handleNewBookingPeriod = (startDate: Date, endDate: Date): void => {
+    handlePeriodChange(endDate, startDate);
   };
 
-  const handleChangeStartDate = async (newStartDate: Date): Promise<void> => {
+  const handleChangeStartDate = (newStartDate: Date): Promise<void> => {
     setStartDate(newStartDate);
     if (endDate <= newStartDate) {
       handleEndDateBeforeStartDateError();
@@ -148,10 +145,10 @@ const ReservationPeriod = ({
 
     setErrorMessage('');
 
-    await handleNewBookingPeriod(newStartDate, endDate);
+    handleNewBookingPeriod(newStartDate, endDate);
   };
 
-  const handleChangeEndDate = async (newEndDate: Date): Promise<void> => {
+  const handleChangeEndDate = (newEndDate: Date): Promise<void> => {
     setEndDate(newEndDate);
 
     if (newEndDate <= startDate) {
@@ -161,7 +158,7 @@ const ReservationPeriod = ({
 
     setErrorMessage('');
 
-    await handleNewBookingPeriod(startDate, newEndDate);
+    handleNewBookingPeriod(startDate, newEndDate);
   };
 
   return (
@@ -370,9 +367,8 @@ const BookingInfoStep = ({
   });
 
   const addBookingInfoMutation = useAddOfferBookingInfoMutation({
-    onSuccess: onSuccessfulChange,
     onMutate: async (newPayload) => {
-      await queryClient.cancelQueries({
+      queryClient.cancelQueries({
         queryKey: ['events', { id: eventId }],
       });
 
@@ -393,9 +389,10 @@ const BookingInfoStep = ({
         context.previousEventInfo,
       );
     },
+    onSuccess: onSuccessfulChange,
   });
 
-  const handleAddBookingInfoMutation = async (newBookingInfo: BookingInfo) => {
+  const handleAddBookingInfoMutation = (newBookingInfo: BookingInfo) => {
     const bookingInfo = newBookingInfo;
     const newUrlLabels =
       URL_LABEL_TRANSLATIONS[selectedUrlLabel] ??
@@ -436,7 +433,7 @@ const BookingInfoStep = ({
       delete bookingInfo.availabilityStarts;
     }
 
-    await addBookingInfoMutation.mutateAsync({
+    addBookingInfoMutation.mutateAsync({
       eventId,
       bookingInfo: {
         ...bookingInfo,
@@ -448,7 +445,7 @@ const BookingInfoStep = ({
     });
   };
 
-  const handleChangeBookingPeriod = async (
+  const handleChangeBookingPeriod = (
     availabilityEnds: Date,
     availabilityStarts: Date,
   ) => {
@@ -460,30 +457,30 @@ const BookingInfoStep = ({
 
     const formValues = getValues();
 
-    await handleAddBookingInfoMutation({
+    handleAddBookingInfoMutation({
       ...formValues,
       availabilityEnds: isoEndDate,
       availabilityStarts: isoStartDate,
     });
   };
 
-  const handleDeleteBookingPeriod = async () => {
+  const handleDeleteBookingPeriod = () => {
     const formValues = getValues();
 
-    await handleAddBookingInfoMutation({
+    handleAddBookingInfoMutation({
       ...formValues,
       availabilityEnds: undefined,
       availabilityStarts: undefined,
     });
   };
 
-  const handleOnUrlLabelChange = async (e: ChangeEvent<HTMLInputElement>) => {
+  const handleOnUrlLabelChange = (e: ChangeEvent<HTMLInputElement>) => {
     const urlLabelType = e.target.value;
     const newUrlLabels = URL_LABEL_TRANSLATIONS[urlLabelType];
 
     const formValues = getValues();
 
-    await handleAddBookingInfoMutation({
+    handleAddBookingInfoMutation({
       ...formValues,
       urlLabel: newUrlLabels,
     });
@@ -496,8 +493,8 @@ const BookingInfoStep = ({
           as="form"
           width="45%"
           spacing={4}
-          onBlur={handleSubmit(async (data) => {
-            await handleAddBookingInfoMutation(data);
+          onBlur={handleSubmit((data) => {
+            handleAddBookingInfoMutation(data);
           })}
           ref={formComponent}
         >
