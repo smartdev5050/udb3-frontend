@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import * as yup from 'yup';
 
 import { CalendarType } from '@/constants/CalendarType';
 import { OfferStatus } from '@/constants/OfferStatus';
@@ -10,6 +11,7 @@ import { useChangeOfferCalendarMutation } from '@/hooks/api/offers';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import { useToast } from '@/pages/manage/movies/useToast';
 import { Event } from '@/types/Event';
+import { SubEvent } from '@/types/Offer';
 import { Values } from '@/types/Values';
 import { Panel } from '@/ui/Panel';
 import { getStackProps, Stack } from '@/ui/Stack';
@@ -109,6 +111,8 @@ const convertStateToFormData = (
     }),
   };
 };
+
+type CalendarInForm = ReturnType<typeof convertStateToFormData>;
 
 type CalendarStepProps = StepProps & { offerId?: string };
 
@@ -330,6 +334,7 @@ const calendarStepConfiguration: StepsConfiguration<'calendar'> = {
   }),
 };
 
+export type { CalendarInForm };
 export {
   CalendarStep,
   calendarStepConfiguration,

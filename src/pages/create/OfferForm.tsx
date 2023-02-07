@@ -10,7 +10,10 @@ import {
   AdditionalInformationStepVariant,
 } from '@/pages/steps/AdditionalInformationStep';
 import { calendarStepConfiguration } from '@/pages/steps/CalendarStep';
-import { convertStateToFormData } from '@/pages/steps/CalendarStep/CalendarStep';
+import {
+  CalendarInForm,
+  convertStateToFormData,
+} from '@/pages/steps/CalendarStep/CalendarStep';
 import { typeAndThemeStepConfiguration } from '@/pages/steps/EventTypeAndThemeStep';
 import { locationStepConfiguration } from '@/pages/steps/LocationStep';
 import {
@@ -42,9 +45,7 @@ type Scope = 'events' | 'places';
 
 type FormData = {
   scope: Scope;
-  calendar: {
-    subEvent: Day[];
-  };
+  calendar: CalendarInForm;
   typeAndTheme: {
     type: { id: string; label: string };
     theme: { id: string; label: string };
