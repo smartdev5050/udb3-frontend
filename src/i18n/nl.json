@@ -142,6 +142,9 @@
           "friday": "Vrijdag",
           "saturday": "Zaterdag",
           "sunday": "Zondag"
+        },
+        "validation_messages": {
+          "invalid_hours": "Het einduur kan niet voor het beginuur vallen."
         }
       },
       "opening_hours_modal": {
