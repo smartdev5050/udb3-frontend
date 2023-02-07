@@ -141,6 +141,9 @@
           "friday": "Freitag",
           "saturday": "Samstag",
           "sunday": "Sonntag"
+        },
+        "validation_messages": {
+          "invalid_hours": "Die Endzeit darf nicht vor der Beginzeit liegen."
         }
       },
       "opening_hours_modal": {
