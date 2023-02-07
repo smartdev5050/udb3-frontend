@@ -75,13 +75,11 @@ const defaultPriceInfoValues = {
   ],
 };
 
-const isNotUitpas = (value: any): boolean => {
-  return !value[i18n.language].toLowerCase().startsWith('uitpas');
-};
+const isNotUitpas = (value: any) =>
+  value[i18n.language] &&
+  !value[i18n.language].toLowerCase().startsWith('uitpas');
 
-const shouldHaveAName = (value: any): boolean => {
-  return !!value[i18n.language];
-};
+const shouldHaveAName = (value: any) => !!value[i18n.language];
 
 const schema = yup
   .object()
