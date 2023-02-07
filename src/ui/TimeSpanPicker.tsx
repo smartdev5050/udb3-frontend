@@ -62,16 +62,9 @@ const filterEndTimes = (time: string, startTime: string) => {
 
 const dropDownCss = css`
   .rbt-menu.dropdown-menu.show {
-    min-width: 0;
     max-height: 140px !important;
 
     z-index: ${getValueForTimePicker('zIndexPopup')};
-
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    &::-webkit-scrollbar {
-      display: none;
-    }
 
     .dropdown-item {
       padding: 0.25rem 0;
