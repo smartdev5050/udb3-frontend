@@ -247,7 +247,7 @@ const PriceInformation = ({
       ratesField.replace(newPriceInfo);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [offer?.priceInfo, offer?.mainLanguage, i18n.language]);
+  }, [offer?.organizer, offer?.priceInfo, offer?.mainLanguage, i18n.language]);
 
   return (
     <Stack
