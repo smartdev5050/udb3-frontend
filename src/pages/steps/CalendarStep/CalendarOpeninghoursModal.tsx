@@ -226,6 +226,7 @@ const CalendarOpeninghoursModal = ({
                 onChangeEndTime={(newEndTime) => {
                   handleChangeCloses(openingHour.id, newEndTime);
                 }}
+                minWidth="120px"
               />
               <Button
                 iconName={Icons.TRASH}
