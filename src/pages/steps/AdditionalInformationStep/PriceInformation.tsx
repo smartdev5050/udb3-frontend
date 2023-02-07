@@ -75,13 +75,11 @@ const defaultPriceInfoValues = {
   ],
 };
 
-const isNotUitpas = (value: any): boolean => {
-  return !value[i18n.language].toLowerCase().startsWith('uitpas');
-};
+const isNotUitpas = (value: any) =>
+  value[i18n.language] &&
+  !value[i18n.language].toLowerCase().startsWith('uitpas');
 
-const shouldHaveAName = (value: any): boolean => {
-  return !!value[i18n.language];
-};
+const shouldHaveAName = (value: any) => !!value[i18n.language];
 
 const schema = yup
   .object()
@@ -107,20 +105,22 @@ const schema = yup
       )
       .test('uniqueName', function (prices) {
         const priceNames = prices.map((item) => item.name[i18n.language]);
-        const errors = priceNames.map((priceName, index) => {
-          const indexOf = priceNames.indexOf(priceName);
-          if (indexOf !== -1 && indexOf !== index) {
-            return this.createError({
-              path: `${this.path}.${index}`,
-              message: i18n.t(
-                'create.additionalInformation.price_info.duplicate_name_error',
-                { priceName },
-              ),
-            });
-          }
-        });
+        const errors = priceNames
+          .map((priceName, index) => {
+            const indexOf = priceNames.indexOf(priceName);
+            if (indexOf !== -1 && indexOf !== index) {
+              return this.createError({
+                path: `${this.path}.${index}`,
+                message: i18n.t(
+                  'create.additionalInformation.price_info.duplicate_name_error',
+                  { priceName },
+                ),
+              });
+            }
+          })
+          .filter(Boolean);
 
-        return new ValidationError(errors.filter(Boolean));
+        return errors.length ? new ValidationError(errors) : true;
       }),
   })
   .required();
