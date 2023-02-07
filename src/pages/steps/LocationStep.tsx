@@ -42,6 +42,7 @@ import { CityPicker } from '../CityPicker';
 import { Features, NewFeatureTooltip } from '../NewFeatureTooltip';
 import { isValidUrl } from './AdditionalInformationStep/ContactInfoStep';
 import { CountryPicker } from './CountryPicker';
+import { UseEditArguments } from './hooks/useEditField';
 import { PlaceStep } from './PlaceStep';
 import {
   FormDataUnion,
@@ -52,7 +53,7 @@ import {
 
 const getGlobalValue = getValueFromTheme('global');
 
-const useEditLocation = ({ scope, offerId }) => {
+const useEditLocation = ({ scope, offerId }: UseEditArguments) => {
   const { i18n } = useTranslation();
   const changeAddressMutation = useChangeAddressMutation();
   const changeOnlineUrl = useChangeOnlineUrlMutation();

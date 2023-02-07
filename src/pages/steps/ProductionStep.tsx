@@ -31,12 +31,18 @@ import { getValueFromTheme } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
 import { valueToArray } from '@/utils/valueToArray';
 
+import { UseEditArguments } from './hooks/useEditField';
+
 type ProductionStepProps = StackProps & StepProps;
 
 const getValue = getValueFromTheme('createPage');
 const getGlobalValue = getValueFromTheme('global');
 
-const useEditNameAndProduction = ({ scope, onSuccess, offerId }) => {
+const useEditNameAndProduction = ({
+  scope,
+  onSuccess,
+  offerId,
+}: UseEditArguments) => {
   const getEventByIdQuery = useGetEventByIdQuery({ id: offerId });
 
   const createProductionWithEventsMutation =

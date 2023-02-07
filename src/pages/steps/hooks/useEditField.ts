@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useQueryClient } from 'react-query';
 
+import { OfferType } from '@/constants/OfferType';
 import { useEditTypeAndTheme } from '@/pages/steps/EventTypeAndThemeStep';
 import { useEditLocation } from '@/pages/steps/LocationStep';
 import { useEditNameAndAgeRange } from '@/pages/steps/NameAndAgeRangeStep';
@@ -11,6 +12,12 @@ import { useEditCalendar } from '../CalendarStep/CalendarStep';
 
 type HandleSuccessOptions = {
   shouldInvalidateEvent?: boolean;
+};
+
+type UseEditArguments = {
+  scope: OfferType;
+  offerId: string;
+  onSuccess: (editedField: string, options?: HandleSuccessOptions) => void;
 };
 
 const useEditField = ({ scope, onSuccess, offerId, handleSubmit }) => {
@@ -58,4 +65,5 @@ const useEditField = ({ scope, onSuccess, offerId, handleSubmit }) => {
   return { handleChange, fieldLoading };
 };
 
+export type { UseEditArguments };
 export { useEditField };
