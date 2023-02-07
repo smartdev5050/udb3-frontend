@@ -26,7 +26,7 @@ import {
 import { Address, AddressInternal } from '@/types/Address';
 import { Country } from '@/types/Country';
 import { AttendanceMode, AudienceType, isEvent } from '@/types/Event';
-import { Offer } from '@/types/Offer';
+import { Offer, SubEvent } from '@/types/Offer';
 import { isPlace, Place } from '@/types/Place';
 import { Values } from '@/types/Values';
 import { WorkflowStatusMap } from '@/types/WorkflowStatus';
@@ -42,7 +42,9 @@ type Scope = 'events' | 'places';
 
 type FormData = {
   scope: Scope;
-  calendar: any;
+  calendar: {
+    subEvent: Day[];
+  };
   typeAndTheme: {
     type: { id: string; label: string };
     theme: { id: string; label: string };
