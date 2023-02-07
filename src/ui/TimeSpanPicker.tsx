@@ -39,7 +39,6 @@ type Props = {
   onChangeStartTime: (newStartTime: string) => void;
   onChangeEndTime: (newEndTime: string) => void;
   disabled?: boolean;
-  minWidth?: string;
 } & InlineProps;
 
 const isQuarterHour = (time: string) =>
