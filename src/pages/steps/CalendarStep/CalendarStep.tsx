@@ -16,6 +16,7 @@ import { getStackProps, Stack } from '@/ui/Stack';
 import { Toast } from '@/ui/Toast';
 import { formatDateToISO } from '@/utils/formatDateToISO';
 
+import { UseEditArguments } from '../hooks/useEditField';
 import {
   CalendarContext,
   CalendarState,
@@ -34,11 +35,13 @@ import { convertTimeTableToSubEvents } from '../TimeTableStep';
 import { CalendarOptionToggle } from './CalendarOptionToggle';
 import { FixedDays } from './FixedDays';
 import { OneOrMoreDays } from './OneOrMoreDays';
-import { useCalendarType } from './useCalendarType';
 
-const useEditCalendar = ({ offerId, onSuccess }) => {
+const useEditCalendar = ({ offerId, onSuccess }: UseEditArguments) => {
   const changeCalendarMutation = useChangeOfferCalendarMutation({
-    onSuccess: () => onSuccess('calendar', { shouldInvalidateEvent: false }),
+    onSuccess: () =>
+      onSuccess('calendar', {
+        shouldInvalidateEvent: false,
+      }),
   });
 
   return async ({ scope, calendar, timeTable }: FormDataUnion) => {
@@ -140,6 +143,13 @@ const CalendarStep = ({
     const formData = convertStateToFormData(newState.context, calendarType);
 
     setValue('calendar', formData, { shouldTouch: true, shouldDirty: true });
+
+    const wasIdle = newState.history?.matches('idle') ?? true;
+
+    if (wasIdle) {
+      return;
+    }
+
     onChange(formData);
   };
 
@@ -226,16 +236,6 @@ const CalendarStep = ({
     messages: { calendar: t('create.toast.success.calendar') },
     title: '',
   });
-
-  const changeCalendarMutation = useChangeOfferCalendarMutation({
-    onSuccess: () => {
-      // only trigger toast in edit mode
-      if (!offerId) return;
-      toast.trigger('calendar');
-    },
-  });
-
-  const calendarType = useCalendarType();
 
   useEffect(() => {
     if (isIdle) return;

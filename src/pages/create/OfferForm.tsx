@@ -267,6 +267,7 @@ const OfferForm = () => {
       toastConfiguration={{
         messages: {
           basic_info: t('create.toast.success.basic_info'),
+          calendar: t('create.toast.success.calendar'),
           media: t('create.toast.success.media'),
           booking_info: t('create.toast.success.booking_info'),
           contact_info: t('create.toast.success.contact_info'),
