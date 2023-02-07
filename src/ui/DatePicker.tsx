@@ -68,6 +68,7 @@ const DatePicker = ({
         maxDate={maxDate}
         customInput={<Input id={id} />}
         disabled={disabled}
+        showYearDropdown
         css={`
           &.form-control {
             border-top-right-radius: 0;
