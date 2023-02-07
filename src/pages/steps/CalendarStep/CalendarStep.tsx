@@ -299,6 +299,33 @@ const calendarStepConfiguration: StepsConfiguration<'calendar'> = {
   shouldShowStep: ({ watch }) => {
     return !!watch('typeAndTheme.type.id');
   },
+  validation: yup.object().shape({
+    subEvent: yup
+      .array()
+      .test(
+        'invalid-hours',
+        "Hours weren't valid",
+        (subEvent: SubEvent[], context) => {
+          const errors = subEvent
+            .map((sub, index) => {
+              const startDate = new Date(sub.startDate);
+              const endDate = new Date(sub.endDate);
+              const startTime = startDate.getTime();
+              const endTime = endDate.getTime();
+
+              if (startTime > endTime) {
+                return context.createError({
+                  path: `${context.path}.${index}`,
+                  message: 'Invalid times',
+                });
+              }
+            })
+            .filter(Boolean);
+
+          return new yup.ValidationError(errors);
+        },
+      ),
+  }),
 };
 
 export {
