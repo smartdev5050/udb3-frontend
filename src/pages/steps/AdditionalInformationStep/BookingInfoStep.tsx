@@ -433,7 +433,7 @@ const BookingInfoStep = ({
       delete bookingInfo.availabilityStarts;
     }
 
-    addBookingInfoMutation.mutateAsync({
+    addBookingInfoMutation.mutate({
       eventId,
       bookingInfo: {
         ...bookingInfo,
