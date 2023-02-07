@@ -42,17 +42,27 @@ const useEditCalendar = ({ offerId, onSuccess }) => {
   });
 
   return async ({ scope, calendar, timeTable }: FormDataUnion) => {
-    const subEvent = convertTimeTableToSubEvents(timeTable);
-
-    await changeCalendarMutation.mutateAsync({
+    const common = {
       id: offerId,
-      ...calendar,
-      ...(timeTable && {
+      scope,
+    };
+
+    if (timeTable) {
+      const subEvent = convertTimeTableToSubEvents(timeTable);
+
+      await changeCalendarMutation.mutateAsync({
+        ...common,
         subEvent,
         calendarType:
           subEvent.length > 1 ? CalendarType.MULTIPLE : CalendarType.SINGLE,
-      }),
-      scope,
+      });
+
+      return;
+    }
+
+    await changeCalendarMutation.mutateAsync({
+      ...common,
+      ...calendar,
     });
   };
 };
@@ -103,6 +113,7 @@ const CalendarStep = ({
   offerId,
   control,
   setValue,
+  onChange,
   ...props
 }: CalendarStepProps) => {
   const { t } = useTranslation();
@@ -113,12 +124,8 @@ const CalendarStep = ({
 
   const isOneOrMoreDays = useIsOneOrMoreDays();
   const isFixedDays = useIsFixedDays();
-  const wasIdle = useCalendarSelector(
-    (state) => state.history?.matches('idle') ?? false,
-  );
   const isIdle = useIsIdle();
   const days = useCalendarSelector((state) => state.context.days);
-  const context = useCalendarSelector((state) => state.context);
 
   const hasUnavailableSubEvent = useMemo(
     () => days.some((day) => day.status.type !== OfferStatus.AVAILABLE),
@@ -126,7 +133,14 @@ const CalendarStep = ({
   );
 
   const handleChangeCalendarState = (newState: CalendarState) => {
-    setValue('calendar', undefined, { shouldTouch: true, shouldDirty: true });
+    const calendarType = Object.values(CalendarType).find((type) =>
+      newState.matches(type),
+    );
+
+    const formData = convertStateToFormData(newState.context, calendarType);
+
+    setValue('calendar', formData, { shouldTouch: true, shouldDirty: true });
+    onChange(formData);
   };
 
   const {
@@ -222,35 +236,6 @@ const CalendarStep = ({
   });
 
   const calendarType = useCalendarType();
-
-  const convertedStateToFormData = useMemo(() => {
-    if (!context || !calendarType) return;
-
-    // TODO: Find a way to make this work without bypassing the rules of hooks
-    // wasIdle must be included in the dependency array
-    if (wasIdle) return;
-
-    return convertStateToFormData(context, calendarType);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [context, calendarType]);
-
-  const submitCalendarMutation = async (formData: any, offerId: string) => {
-    await changeCalendarMutation.mutateAsync({
-      id: offerId,
-      scope,
-      ...formData,
-    });
-  };
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleSubmitCalendarMutation = useCallback(submitCalendarMutation, []);
-
-  useEffect(() => {
-    if (!offerId) return;
-    if (!convertedStateToFormData) return;
-
-    handleSubmitCalendarMutation(convertedStateToFormData, offerId);
-  }, [convertedStateToFormData, handleSubmitCalendarMutation, offerId]);
 
   useEffect(() => {
     if (isIdle) return;
