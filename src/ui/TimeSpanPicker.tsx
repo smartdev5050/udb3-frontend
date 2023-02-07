@@ -62,6 +62,9 @@ const filterEndTimes = (time: string, startTime: string) => {
 };
 
 const dropDownCss = css`
+  input {
+    text-align: center;
+  }
   .rbt-menu.dropdown-menu.show {
     min-width: 0;
     max-height: 300px !important;
