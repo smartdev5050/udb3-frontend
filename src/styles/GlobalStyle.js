@@ -160,6 +160,10 @@ const GlobalStyle = createGlobalStyle`
     background-color: ${globalColors.grey1};
     color: #000;
     font-weight: bold;
+
+    &:hover {
+      color: ${globalColors.white}
+    }
   }
 `;
 
