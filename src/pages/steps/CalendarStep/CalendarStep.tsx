@@ -116,6 +116,7 @@ const CalendarStep = ({
   offerId,
   control,
   setValue,
+  formState: { errors },
   onChange,
   ...props
 }: CalendarStepProps) => {
@@ -278,6 +279,7 @@ const CalendarStep = ({
             onChangeStartTime={handleChangeStartTime}
             onChangeEndTime={handleChangeEndTime}
             onAddDay={handleAddDay}
+            errors={errors}
           />
         )}
       </Panel>
