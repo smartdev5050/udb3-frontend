@@ -347,7 +347,7 @@
       },
       "organizer": {
         "add_new_button": "Ajouter une organisation",
-        "add_new_label": "Ajouter une nouvelle organisation: ",
+        "add_new_label": "Aucune organisation trouvée ? Ajouter une nouvelle organisation: ",
         "change": "Modifier l'organisateur",
         "title": "Organisateur",
         "select_recent_used_organizer": "Choisissez une organisation à laquelle vous avez eu recours récemment",
