@@ -347,7 +347,7 @@
       },
       "organizer": {
         "add_new_button": "Ajouter une organisation",
-        "add_new_label": "Ajouter une nouvelle organisation: ",
+        "add_new_label": "Aucune organisation trouvée ? Ajouter une nouvelle organisation: ",
         "change": "Modifier l'organisateur",
         "title": "Organisateur",
         "select_recent_used_organizer": "Choisissez une organisation à laquelle vous avez eu recours récemment",
@@ -360,6 +360,12 @@
           "already_has_ticketsales": "Pour cet événement des tickets UiTPAS ont déjà été vendus. Vous ne pouvez plus modifier l'organisation.",
           "not_found": "Cette activité n'est pas encore connue par UiTPAS."
         }
+      },
+      "place": {
+        "add_new_label": "Lieu introuvable ? Ajouter un nouveau lieu : "
+      },
+      "production": {
+        "add_new_label": "Production introuvable ? Ajouter une nouvelle production : "
       },
       "media": {
         "title": "Médias"
