@@ -102,7 +102,6 @@ const ProductionStep = ({
   const { t } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
 
-  console.log('in production step itself');
   const getProductionsQuery = useGetProductionsQuery(
     // @ts-expect-error
     {
