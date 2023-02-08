@@ -133,7 +133,6 @@ const PriceInformation = ({
   ...props
 }: TabContentProps) => {
   const { t, i18n } = useTranslation();
-  const formComponent = useRef<HTMLFormElement>();
 
   const useGetOfferByIdQuery =
     scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
@@ -255,7 +254,6 @@ const PriceInformation = ({
       as="form"
       padding={4}
       onBlur={handleSubmit(onSubmit)}
-      ref={formComponent}
     >
       {hasUitpasPrices && (
         <Alert variant={AlertVariants.PRIMARY} marginBottom={3}>
