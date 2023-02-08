@@ -95,9 +95,18 @@ const schema = yup
               en: yup.string(),
               de: yup.string(),
             })
-            .test(`name-is-required`, 'name is required', shouldHaveAName)
-            .test(`name-is-not-uitpas`, 'should not be uitpas', isNotUitpas)
-            .required(),
+            .when('category', {
+              is: (category) => category !== PriceCategories.UITPAS,
+              then: (schema) =>
+                schema
+                  .test(`name-is-required`, 'name is required', shouldHaveAName)
+                  .test(
+                    `name-is-not-uitpas`,
+                    'should not be uitpas',
+                    isNotUitpas,
+                  )
+                  .required(),
+            }),
           category: yup.string(),
           price: yup.string().matches(PRICE_REGEX).required(),
           priceCurrency: yup.string(),
