@@ -100,7 +100,7 @@ const TimeSpanPicker = ({
           inputRequired={true}
           name="startTime"
           id={`${idPrefix}-start`}
-          customFilter={filterTimes}
+          customFilter={isQuarterHour}
           defaultInputValue={startTime}
           options={hourOptions}
           labelKey={(option) => option}
