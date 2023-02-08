@@ -336,7 +336,7 @@ const calendarStepConfiguration: StepsConfiguration<'calendar'> = {
             })
             .filter(Boolean);
 
-          return new yup.ValidationError(errors);
+          return errors.length > 0 ? new yup.ValidationError(errors) : true;
         },
       ),
   }),
