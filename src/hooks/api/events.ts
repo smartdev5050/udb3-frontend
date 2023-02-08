@@ -1,6 +1,7 @@
 import type { UseQueryOptions } from 'react-query';
 
 import type { CalendarType } from '@/constants/CalendarType';
+import { OfferTypes } from '@/constants/OfferType';
 import type { AttendanceMode, Event } from '@/types/Event';
 import type {
   BookingAvailability,
@@ -149,10 +150,11 @@ const getEventById = async ({ headers, id }) => {
 
 type UseGetEventByIdArguments = ServerSideQueryOptions & {
   id: string;
+  scope?: Values<typeof OfferTypes>;
 };
 
 const useGetEventByIdQuery = (
-  { req, queryClient, id }: UseGetEventByIdArguments,
+  { req, queryClient, id, scope = OfferTypes.EVENTS }: UseGetEventByIdArguments,
   configuration: UseQueryOptions = {},
 ) =>
   useAuthenticatedQuery({
@@ -162,7 +164,7 @@ const useGetEventByIdQuery = (
     queryFn: getEventById,
     queryArguments: { id },
     refetchOnWindowFocus: false,
-    enabled: !!id,
+    enabled: !!id && scope === OfferTypes.EVENTS,
     ...configuration,
   });
 
@@ -419,9 +421,9 @@ const useChangeStatusSubEventsMutation = (configuration = {}) =>
     ...configuration,
   });
 
-const publish = async ({ headers, eventId, publicationDate }) =>
+const publish = async ({ headers, id, publicationDate }) =>
   fetchFromApi({
-    path: `/events/${eventId}`,
+    path: `/events/${id}`,
     options: {
       method: 'PATCH',
       headers: {

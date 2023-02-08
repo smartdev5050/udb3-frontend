@@ -141,6 +141,9 @@
           "friday": "Freitag",
           "saturday": "Samstag",
           "sunday": "Sonntag"
+        },
+        "validation_messages": {
+          "invalid_hours": "Die Endzeit darf nicht vor der Beginzeit liegen."
         }
       },
       "opening_hours_modal": {
@@ -343,7 +346,7 @@
       },
       "organizer": {
         "add_new_button": "Organisation hinzufügen",
-        "add_new_label": "Neuen Organisation hinzufügen: ",
+        "add_new_label": "Organisation nicht gefunden? Neue Organisation hinzufügen: ",
         "change": "Ändern Organisator",
         "title": "Organisator",
         "select_recent_used_organizer": "Wählen Sie eine Organisation, mit der Sie kürzlich gearbeitet haben",
@@ -356,6 +359,12 @@
           "already_has_ticketsales": "Für diese Veranstaltung sind bereits UiTPAS-Tickets verkauft worden. Sie können die Organisation nicht mehr ändern.",
           "not_found": "Diese Veranstaltung ist dem UiTPAS noch nicht bekannt."
         }
+      },
+      "place": {
+        "add_new_label": "Ort nicht gefunden? Neuen Standort hinzufügen: "
+      },
+      "production": {
+        "add_new_label": "Produktion nicht gefunden? Neue Produktion hinzufügen: "
       },
       "media": {
         "title": "Medien"

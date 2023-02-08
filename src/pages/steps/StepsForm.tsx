@@ -98,11 +98,12 @@ const StepsForm = ({
 
   const toast = useToast(toastConfiguration);
 
-  const publishEvent = usePublishOffer({
+  const publishOffer = usePublishOffer({
     scope,
-    id: query.eventId,
+    id: offerId,
     onSuccess: () => {
-      push(`/event/${query.eventId}/preview`);
+      const scopePath = scope === OfferTypes.EVENTS ? 'event' : 'place';
+      push(`/${scopePath}/${offerId}/preview`);
     },
   });
 
@@ -183,7 +184,7 @@ const StepsForm = ({
               [
                 <Button
                   variant={ButtonVariants.SUCCESS}
-                  onClick={async () => publishEvent()}
+                  onClick={async () => publishOffer()}
                   key="publish"
                 >
                   {t('create.actions.publish')}
@@ -223,7 +224,7 @@ const StepsForm = ({
           </Inline>
           <PublishLaterModal
             visible={isPublishLaterModalVisible}
-            onConfirm={publishEvent}
+            onConfirm={async () => publishOffer()}
             onClose={() => setIsPublishLaterModalVisible(false)}
           />
         </Page.Footer>
