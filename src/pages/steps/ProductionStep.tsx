@@ -143,7 +143,9 @@ const ProductionStep = ({
               }
               Component={
                 <Typeahead<Production>
-                  newSelectionPrefix="Voeg nieuwe productie toe: "
+                  newSelectionPrefix={t(
+                    'create.additionalInformation.production.add_new_label',
+                  )}
                   allowNew
                   options={productions}
                   onInputChange={debounce(setSearchInput, 275)}
