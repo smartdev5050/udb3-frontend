@@ -100,7 +100,7 @@ const StepsForm = ({
 
   const publishEvent = usePublishOffer({
     scope,
-    id: query.eventId,
+    id: offerId,
     onSuccess: () => {
       push(`/event/${query.eventId}/preview`);
     },
