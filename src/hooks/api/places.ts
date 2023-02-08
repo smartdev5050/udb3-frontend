@@ -283,9 +283,9 @@ const useAddPlaceMutation = (configuration = {}) =>
     ...configuration,
   });
 
-const publish = async ({ headers, placeId, publicationDate }) =>
+const publish = async ({ headers, id, publicationDate }) =>
   fetchFromApi({
-    path: `/places/${placeId}`,
+    path: `/places/${id}`,
     options: {
       method: 'PATCH',
       headers: {

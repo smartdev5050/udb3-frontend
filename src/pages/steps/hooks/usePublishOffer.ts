@@ -31,7 +31,7 @@ const usePublishOffer = ({ scope, id, onSuccess }) => {
     if (!id) return;
 
     await publishMutation.mutateAsync({
-      eventId: id,
+      id,
       publicationDate: formatDateToISO(date),
     });
   };

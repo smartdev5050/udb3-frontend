@@ -418,9 +418,9 @@ const useChangeStatusSubEventsMutation = (configuration = {}) =>
     ...configuration,
   });
 
-const publish = async ({ headers, eventId, publicationDate }) =>
+const publish = async ({ headers, id, publicationDate }) =>
   fetchFromApi({
-    path: `/events/${eventId}`,
+    path: `/events/${id}`,
     options: {
       method: 'PATCH',
       headers: {
