@@ -102,7 +102,8 @@ const StepsForm = ({
     scope,
     id: offerId,
     onSuccess: () => {
-      push(`/event/${query.eventId}/preview`);
+      const scopePath = scope === OfferTypes.EVENTS ? 'event' : 'place';
+      push(`/${scopePath}/${offerId}/preview`);
     },
   });
 
