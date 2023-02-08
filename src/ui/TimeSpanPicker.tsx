@@ -84,7 +84,8 @@ const TimeSpanPicker = ({
 
   const filterTimes = useCallback(
     (time: string) =>
-      isQuarterHour(time) && timeToNumeric(time) >= timeToNumeric(startTime),
+      time === '23:59' ||
+      (isQuarterHour(time) && timeToNumeric(time) >= timeToNumeric(startTime)),
     [startTime],
   );
 
