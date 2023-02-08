@@ -4,6 +4,7 @@ import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
+import { OfferTypes } from '@/constants/OfferType';
 import {
   useChangeNameMutation,
   useGetEventByIdQuery,
@@ -37,7 +38,10 @@ const getValue = getValueFromTheme('createPage');
 const getGlobalValue = getValueFromTheme('global');
 
 const useEditNameAndProduction = ({ scope, onSuccess, offerId }) => {
-  const getEventByIdQuery = useGetEventByIdQuery({ id: offerId });
+  const getEventByIdQuery = useGetEventByIdQuery({
+    id: offerId,
+    scope,
+  });
 
   const createProductionWithEventsMutation =
     useCreateProductionWithEventsMutation();
@@ -98,6 +102,7 @@ const ProductionStep = ({
   const { t } = useTranslation();
   const [searchInput, setSearchInput] = useState('');
 
+  console.log('in production step itself');
   const getProductionsQuery = useGetProductionsQuery(
     // @ts-expect-error
     {
