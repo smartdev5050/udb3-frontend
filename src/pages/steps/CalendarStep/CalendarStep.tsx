@@ -311,7 +311,11 @@ const calendarStepConfiguration: StepsConfiguration<'calendar'> = {
       .test(
         'invalid-hours',
         "Hours weren't valid",
-        (subEvent: SubEvent[], context) => {
+        (subEvent: SubEvent[] | undefined, context) => {
+          if (!subEvent) {
+            return true;
+          }
+
           const errors = subEvent
             .map((sub, index) => {
               const startDate = new Date(sub.startDate);
