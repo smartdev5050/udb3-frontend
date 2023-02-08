@@ -256,7 +256,7 @@ const CalendarStep = ({
   return (
     <Stack
       spacing={4}
-      minWidth={{ l: 'auto', default: '54rem' }}
+      minWidth={{ l: 'auto', default: '60rem' }}
       width={{ l: '100%', default: 'min-content' }}
       {...getStackProps(props)}
     >
