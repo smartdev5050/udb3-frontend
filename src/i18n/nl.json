@@ -366,10 +366,10 @@
         }
       },
       "place": {
-        "add_new_label": "Locatie niet gevonden? Nieuwe locatie toevoegen:"
+        "add_new_label": "Locatie niet gevonden? Nieuwe locatie toevoegen: "
       },
       "production": {
-        "add_new_label": "Productie niet gevonden? Nieuwe productie toevoegen:"
+        "add_new_label": "Productie niet gevonden? Nieuwe productie toevoegen: "
       },
       "media": {
         "title": "Media"

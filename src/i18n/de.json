@@ -361,10 +361,10 @@
         }
       },
       "place": {
-        "add_new_label": "Ort nicht gefunden? Neuen Standort hinzufügen:"
+        "add_new_label": "Ort nicht gefunden? Neuen Standort hinzufügen: "
       },
       "production": {
-        "add_new_label": "Produktion nicht gefunden? Neue Produktion hinzufügen:"
+        "add_new_label": "Produktion nicht gefunden? Neue Produktion hinzufügen: "
       },
       "media": {
         "title": "Medien"

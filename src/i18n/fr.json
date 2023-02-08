@@ -362,10 +362,10 @@
         }
       },
       "place": {
-        "add_new_label": "Lieu introuvable ? Ajouter un nouveau lieu :"
+        "add_new_label": "Lieu introuvable ? Ajouter un nouveau lieu : "
       },
       "production": {
-        "add_new_label": "Production introuvable ? Ajouter une nouvelle production :"
+        "add_new_label": "Production introuvable ? Ajouter une nouvelle production : "
       },
       "media": {
         "title": "Médias"
