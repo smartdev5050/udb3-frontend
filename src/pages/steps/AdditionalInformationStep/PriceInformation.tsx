@@ -75,13 +75,11 @@ const defaultPriceInfoValues = {
   ],
 };
 
-const isNotUitpas = (value: any): boolean => {
-  return !value[i18n.language].toLowerCase().startsWith('uitpas');
-};
+const isNotUitpas = (value: any) =>
+  value[i18n.language] &&
+  !value[i18n.language].toLowerCase().startsWith('uitpas');
 
-const shouldHaveAName = (value: any): boolean => {
-  return !!value[i18n.language];
-};
+const shouldHaveAName = (value: any) => !!value[i18n.language];
 
 const schema = yup
   .object()
@@ -120,7 +118,7 @@ const schema = yup
           }
         });
 
-        return new ValidationError(errors.filter(Boolean));
+        return errors.length ? new ValidationError(errors) : true;
       }),
   })
   .required();
@@ -247,7 +245,7 @@ const PriceInformation = ({
       ratesField.replace(newPriceInfo);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [offer?.priceInfo, offer?.mainLanguage, i18n.language]);
+  }, [offer?.organizer, offer?.priceInfo, offer?.mainLanguage, i18n.language]);
 
   return (
     <Stack
