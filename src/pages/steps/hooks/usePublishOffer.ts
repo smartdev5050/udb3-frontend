@@ -9,15 +9,7 @@ import { formatDateToISO } from '@/utils/formatDateToISO';
 const usePublishOffer = ({ scope, id, onSuccess }) => {
   const queryClient = useQueryClient();
 
-  const usePublishMutation = useMemo(
-    () =>
-      scope === OfferTypes.EVENTS
-        ? usePublishEventMutation
-        : usePublishPlaceMutation,
-    [scope],
-  );
-
-  const publishMutation = usePublishMutation({
+  const mutationOptions = {
     onSuccess: () => {
       queryClient.invalidateQueries([
         scope === OfferTypes.EVENTS ? 'events' : 'places',
@@ -25,13 +17,19 @@ const usePublishOffer = ({ scope, id, onSuccess }) => {
       ]);
       onSuccess();
     },
-  });
+  };
+
+  const eventMutation = usePublishEventMutation(mutationOptions);
+  const placeMutation = usePublishPlaceMutation(mutationOptions);
+
+  const publishMutation =
+    scope === OfferTypes.EVENTS ? eventMutation : placeMutation;
 
   return async (date: Date = new Date()) => {
     if (!id) return;
 
     await publishMutation.mutateAsync({
-      eventId: id,
+      id,
       publicationDate: formatDateToISO(date),
     });
   };
