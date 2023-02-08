@@ -10,7 +10,7 @@ import { OfferTypes } from '@/constants/OfferType';
 import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { useAddOfferPriceInfoMutation } from '@/hooks/api/offers';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
-import i18n from '@/i18n/index';
+import i18n, { SupportedLanguage } from '@/i18n/index';
 import {
   TabContentProps,
   ValidationStatus,
@@ -41,22 +41,6 @@ const PriceCategories = {
 
 type PriceCategory = Values<typeof PriceCategories>;
 
-type NameInLanguages = Partial<{
-  nl: string;
-  fr: string;
-  de: string;
-  en: string;
-}>;
-
-type Rate = {
-  name: NameInLanguages;
-  category: PriceCategory;
-  price: string;
-  priceCurrency: string;
-};
-
-type FormData = { rates: Rate[] };
-
 const getValue = getValueFromTheme('priceInformation');
 
 const defaultPriceInfoValues = {
@@ -82,8 +66,7 @@ const isNotUitpas = (value: any) =>
 const shouldHaveAName = (value: any) => !!value[i18n.language];
 
 const schema = yup
-  .object()
-  .shape({
+  .object({
     rates: yup
       .array()
       .of(
@@ -98,7 +81,9 @@ const schema = yup
             .test(`name-is-required`, 'name is required', shouldHaveAName)
             .test(`name-is-not-uitpas`, 'should not be uitpas', isNotUitpas)
             .required(),
-          category: yup.string(),
+          category: yup
+            .mixed<PriceCategory>()
+            .oneOf(Object.values(PriceCategories)),
           price: yup.string().matches(PRICE_REGEX).required(),
           priceCurrency: yup.string(),
         }),
@@ -124,6 +109,8 @@ const schema = yup
       }),
   })
   .required();
+
+type FormData = yup.InferType<typeof schema>;
 
 const PriceInformation = ({
   scope,
@@ -193,7 +180,7 @@ const PriceInformation = ({
       addPriceInfoMutation.mutateAsync({
         id: offerId,
         scope,
-        priceInfo: getValues('rates').map((rate: Rate) => ({
+        priceInfo: getValues('rates').map((rate) => ({
           ...rate,
           price: parseFloat(rate.price.replace(',', '.')),
         })),
@@ -281,7 +268,7 @@ const PriceInformation = ({
                     <Input
                       {...register(
                         `rates.${index}.name.${
-                          i18n.language as keyof NameInLanguages
+                          i18n.language as SupportedLanguage
                         }`,
                       )}
                       placeholder={t(
