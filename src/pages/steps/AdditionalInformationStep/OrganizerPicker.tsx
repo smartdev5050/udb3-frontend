@@ -300,7 +300,6 @@ const OrganizerPicker = ({
                       onChange(parseOfferId(organizer['@id']));
                     }}
                     minLength={3}
-                    maxWidth="30rem"
                     newSelectionPrefix={t(
                       'create.additionalInformation.organizer.add_new_label',
                     )}
