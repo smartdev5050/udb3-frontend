@@ -142,6 +142,9 @@
           "friday": "Vendredi",
           "saturday": "Samedi",
           "sunday": "Dimanche"
+        },
+        "validation_messages": {
+          "invalid_hours": "L'heure de fin ne peut pas tomber avant l'heure de début."
         }
       },
       "opening_hours_modal": {

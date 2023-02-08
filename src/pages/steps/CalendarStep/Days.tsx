@@ -1,4 +1,5 @@
 import { camelCase } from 'lodash';
+import { Control, FieldErrors, useFieldArray, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { BookingAvailabilityType } from '@/constants/BookingAvailabilityType';
@@ -9,12 +10,14 @@ import { DatePeriodPicker } from '@/ui/DatePeriodPicker';
 import { Icons } from '@/ui/Icon';
 import { List } from '@/ui/List';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
+import { Text } from '@/ui/Text';
 import { TimeSpanPicker } from '@/ui/TimeSpanPicker';
 
 import {
   useCalendarSelector,
   useIsOneOrMoreDays,
 } from '../machines/calendarMachine';
+import { FormDataUnion } from '../Steps';
 
 type ChangeTimeHandler = (id: string, hours: number, minutes: number) => void;
 
@@ -46,6 +49,7 @@ type DaysProps = {
   onChangeEndDate: (id: string, date: Date | null) => void;
   onChangeStartTime?: (id: string, hours: number, minutes: number) => void;
   onChangeEndTime?: (id: string, hours: number, minutes: number) => void;
+  errors: FieldErrors<FormDataUnion>;
 } & StackProps;
 
 export const Days = ({
@@ -54,6 +58,7 @@ export const Days = ({
   onChangeEndDate,
   onChangeStartTime,
   onChangeEndTime,
+  errors,
   ...props
 }: DaysProps) => {
   const { t } = useTranslation();
@@ -62,9 +67,18 @@ export const Days = ({
 
   const isOneOrMoreDays = useIsOneOrMoreDays();
 
+  const subEventErrors = errors.calendar?.subEvent ?? [];
+  const timesErrors = subEventErrors.map((error) => {
+    if (error.type === 'invalid-hours') {
+      return error;
+    }
+
+    return undefined;
+  });
+
   return (
     <List spacing={4} {...getStackProps(props)}>
-      {days.map((day) => {
+      {days.map((day, index) => {
         const startTime = getStartTime(day);
         const endTime = getEndTime(day);
 
@@ -120,6 +134,11 @@ export const Days = ({
                 />
               )}
             </List.Item>
+            {timesErrors.at(index) && (
+              <Text color="red">
+                {t('create.calendar.days.validation_messages.invalid_hours')}
+              </Text>
+            )}
             {isDisabled && (
               <Alert
                 variant={AlertVariants.PRIMARY}
