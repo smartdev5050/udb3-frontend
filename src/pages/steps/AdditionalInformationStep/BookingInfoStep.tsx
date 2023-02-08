@@ -136,10 +136,7 @@ const ReservationPeriod = ({
     handlePeriodChange(endDate, startDate);
   };
 
-  const handleChangeStartDate = (
-    newStartDate: Date,
-    wasForced: boolean,
-  ): Promise<void> => {
+  const handleChangeStartDate = (newStartDate: Date, wasForced: boolean) => {
     setStartDate(newStartDate);
 
     if (endDate <= newStartDate) {
@@ -156,10 +153,7 @@ const ReservationPeriod = ({
     handleNewBookingPeriod(newStartDate, endDate);
   };
 
-  const handleChangeEndDate = (
-    newEndDate: Date,
-    wasForced: boolean,
-  ): Promise<void> => {
+  const handleChangeEndDate = (newEndDate: Date, wasForced: boolean) => {
     setEndDate(newEndDate);
 
     if (newEndDate <= startDate) {
