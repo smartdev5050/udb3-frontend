@@ -42,7 +42,7 @@ const getGlobalValue = getValueFromTheme('global');
 const useEditNameAndProduction = ({
   scope,
   onSuccess,
-  id: offerId,
+  offerId,
 }: UseEditArguments) => {
   const getEventByIdQuery = useGetEventByIdQuery({ id: offerId });
 
