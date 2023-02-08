@@ -153,7 +153,7 @@ const CalendarStep = ({
       shouldValidate: true,
     });
 
-    const wasIdle = newState.history?.matches('idle') ?? true;
+    const wasIdle = newState.history ? newState.history.matches('idle') : true;
 
     if (wasIdle) {
       return;
