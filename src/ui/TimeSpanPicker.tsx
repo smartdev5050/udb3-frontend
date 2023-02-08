@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { css } from 'styled-components';
 
@@ -46,20 +47,6 @@ const isQuarterHour = (time: string) =>
 
 const timeToNumeric = (time: string) => parseInt(time.replace(':', ''));
 
-const filterStartTimes = (time: string, startTime: string, endTime: string) => {
-  const timeValue = timeToNumeric(time);
-  const isAfterStartTime = timeValue >= timeToNumeric(startTime);
-  const isBeforeEndTime = timeValue < timeToNumeric(endTime);
-
-  return isQuarterHour(time) && isBeforeEndTime && isAfterStartTime;
-};
-
-const filterEndTimes = (time: string, startTime: string) => {
-  const isAfterStartTime = timeToNumeric(time) > timeToNumeric(startTime);
-
-  return time === '23:59' || (isQuarterHour(time) && isAfterStartTime);
-};
-
 const dropDownCss = css`
   input {
     text-align: center;
@@ -95,6 +82,12 @@ const TimeSpanPicker = ({
   const { t } = useTranslation();
   const idPrefix = `${id}-time-span-picker`;
 
+  const filterTimes = useCallback(
+    (time: string) =>
+      isQuarterHour(time) && timeToNumeric(time) >= timeToNumeric(startTime),
+    [startTime],
+  );
+
   return (
     <Inline as="div" spacing={5} {...getInlineProps(props)}>
       <Stack spacing={2} as="div" minWidth={minWidth}>
@@ -106,7 +99,7 @@ const TimeSpanPicker = ({
           inputRequired={true}
           name="startTime"
           id={`${idPrefix}-start`}
-          customFilter={(time) => filterStartTimes(time, startTime, endTime)}
+          customFilter={filterTimes}
           defaultInputValue={startTime}
           options={hourOptions}
           labelKey={(option) => option}
@@ -129,7 +122,7 @@ const TimeSpanPicker = ({
           inputRequired={true}
           name="endTime"
           id={`${idPrefix}-end`}
-          customFilter={(time) => filterEndTimes(time, startTime)}
+          customFilter={filterTimes}
           defaultInputValue={endTime}
           options={hourOptions}
           labelKey={(option) => option}
