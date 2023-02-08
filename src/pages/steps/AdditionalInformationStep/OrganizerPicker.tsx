@@ -65,7 +65,7 @@ const RecentUsedOrganizers = ({
         </Text>
         <NewFeatureTooltip featureUUID={Features.SUGGESTED_ORGANIZERS} />
       </Inline>
-      <Alert variant={AlertVariants.PRIMARY} width="41rem">
+      <Alert variant={AlertVariants.PRIMARY} width="41rem" maxWidth="95%">
         {t(
           'create.additionalInformation.organizer.select_recent_used_organizer_info',
         )}
