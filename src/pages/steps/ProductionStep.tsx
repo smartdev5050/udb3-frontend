@@ -4,6 +4,7 @@ import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
+import { OfferTypes } from '@/constants/OfferType';
 import {
   useChangeNameMutation,
   useGetEventByIdQuery,
