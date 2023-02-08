@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import * as yup from 'yup';
 
 import { CalendarType } from '@/constants/CalendarType';
 import { OfferStatus } from '@/constants/OfferStatus';
@@ -10,12 +11,14 @@ import { useChangeOfferCalendarMutation } from '@/hooks/api/offers';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import { useToast } from '@/pages/manage/movies/useToast';
 import { Event } from '@/types/Event';
+import { SubEvent } from '@/types/Offer';
 import { Values } from '@/types/Values';
 import { Panel } from '@/ui/Panel';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Toast } from '@/ui/Toast';
 import { formatDateToISO } from '@/utils/formatDateToISO';
 
+import { UseEditArguments } from '../hooks/useEditField';
 import {
   CalendarContext,
   CalendarState,
@@ -34,25 +37,37 @@ import { convertTimeTableToSubEvents } from '../TimeTableStep';
 import { CalendarOptionToggle } from './CalendarOptionToggle';
 import { FixedDays } from './FixedDays';
 import { OneOrMoreDays } from './OneOrMoreDays';
-import { useCalendarType } from './useCalendarType';
 
-const useEditCalendar = ({ offerId, onSuccess }) => {
+const useEditCalendar = ({ offerId, onSuccess }: UseEditArguments) => {
   const changeCalendarMutation = useChangeOfferCalendarMutation({
-    onSuccess: () => onSuccess('calendar', { shouldInvalidateEvent: false }),
+    onSuccess: () =>
+      onSuccess('calendar', {
+        shouldInvalidateEvent: false,
+      }),
   });
 
   return async ({ scope, calendar, timeTable }: FormDataUnion) => {
-    const subEvent = convertTimeTableToSubEvents(timeTable);
-
-    await changeCalendarMutation.mutateAsync({
+    const common = {
       id: offerId,
-      ...calendar,
-      ...(timeTable && {
+      scope,
+    };
+
+    if (timeTable) {
+      const subEvent = convertTimeTableToSubEvents(timeTable);
+
+      await changeCalendarMutation.mutateAsync({
+        ...common,
         subEvent,
         calendarType:
           subEvent.length > 1 ? CalendarType.MULTIPLE : CalendarType.SINGLE,
-      }),
-      scope,
+      });
+
+      return;
+    }
+
+    await changeCalendarMutation.mutateAsync({
+      ...common,
+      ...calendar,
     });
   };
 };
@@ -97,12 +112,16 @@ const convertStateToFormData = (
   };
 };
 
+type CalendarInForm = ReturnType<typeof convertStateToFormData>;
+
 type CalendarStepProps = StepProps & { offerId?: string };
 
 const CalendarStep = ({
   offerId,
   control,
   setValue,
+  formState: { errors },
+  onChange,
   ...props
 }: CalendarStepProps) => {
   const { t } = useTranslation();
@@ -113,12 +132,8 @@ const CalendarStep = ({
 
   const isOneOrMoreDays = useIsOneOrMoreDays();
   const isFixedDays = useIsFixedDays();
-  const wasIdle = useCalendarSelector(
-    (state) => state.history?.matches('idle') ?? false,
-  );
   const isIdle = useIsIdle();
   const days = useCalendarSelector((state) => state.context.days);
-  const context = useCalendarSelector((state) => state.context);
 
   const hasUnavailableSubEvent = useMemo(
     () => days.some((day) => day.status.type !== OfferStatus.AVAILABLE),
@@ -126,7 +141,25 @@ const CalendarStep = ({
   );
 
   const handleChangeCalendarState = (newState: CalendarState) => {
-    setValue('calendar', undefined, { shouldTouch: true, shouldDirty: true });
+    const calendarType = Object.values(CalendarType).find((type) =>
+      newState.matches(type),
+    );
+
+    const formData = convertStateToFormData(newState.context, calendarType);
+
+    setValue('calendar', formData, {
+      shouldTouch: true,
+      shouldDirty: true,
+      shouldValidate: true,
+    });
+
+    const wasIdle = newState.history ? newState.history.matches('idle') : true;
+
+    if (wasIdle) {
+      return;
+    }
+
+    onChange(formData);
   };
 
   const {
@@ -213,45 +246,6 @@ const CalendarStep = ({
     title: '',
   });
 
-  const changeCalendarMutation = useChangeOfferCalendarMutation({
-    onSuccess: () => {
-      // only trigger toast in edit mode
-      if (!offerId) return;
-      toast.trigger('calendar');
-    },
-  });
-
-  const calendarType = useCalendarType();
-
-  const convertedStateToFormData = useMemo(() => {
-    if (!context || !calendarType) return;
-
-    // TODO: Find a way to make this work without bypassing the rules of hooks
-    // wasIdle must be included in the dependency array
-    if (wasIdle) return;
-
-    return convertStateToFormData(context, calendarType);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [context, calendarType]);
-
-  const submitCalendarMutation = async (formData: any, offerId: string) => {
-    await changeCalendarMutation.mutateAsync({
-      id: offerId,
-      scope,
-      ...formData,
-    });
-  };
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleSubmitCalendarMutation = useCallback(submitCalendarMutation, []);
-
-  useEffect(() => {
-    if (!offerId) return;
-    if (!convertedStateToFormData) return;
-
-    handleSubmitCalendarMutation(convertedStateToFormData, offerId);
-  }, [convertedStateToFormData, handleSubmitCalendarMutation, offerId]);
-
   useEffect(() => {
     if (isIdle) return;
     if (scope !== OfferTypes.PLACES) return;
@@ -293,6 +287,7 @@ const CalendarStep = ({
             onChangeStartTime={handleChangeStartTime}
             onChangeEndTime={handleChangeEndTime}
             onAddDay={handleAddDay}
+            errors={errors}
           />
         )}
       </Panel>
@@ -314,8 +309,40 @@ const calendarStepConfiguration: StepsConfiguration<'calendar'> = {
   shouldShowStep: ({ watch }) => {
     return !!watch('typeAndTheme.type.id');
   },
+  validation: yup.object().shape({
+    subEvent: yup
+      .array()
+      .test(
+        'invalid-hours',
+        "Hours weren't valid",
+        (subEvent: SubEvent[] | undefined, context) => {
+          if (!subEvent) {
+            return true;
+          }
+
+          const errors = subEvent
+            .map((sub, index) => {
+              const startDate = new Date(sub.startDate);
+              const endDate = new Date(sub.endDate);
+              const startTime = startDate.getTime();
+              const endTime = endDate.getTime();
+
+              if (startTime > endTime) {
+                return context.createError({
+                  path: `${context.path}.${index}`,
+                  message: 'Invalid times',
+                });
+              }
+            })
+            .filter(Boolean);
+
+          return errors.length > 0 ? new yup.ValidationError(errors) : true;
+        },
+      ),
+  }),
 };
 
+export type { CalendarInForm };
 export {
   CalendarStep,
   calendarStepConfiguration,

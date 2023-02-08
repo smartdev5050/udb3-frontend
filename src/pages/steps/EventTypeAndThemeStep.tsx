@@ -22,6 +22,7 @@ import { Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
+import { UseEditArguments } from './hooks/useEditField';
 import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
 
 const DANCE_THEME_IDS = [
@@ -93,7 +94,7 @@ const groupNameToThemeIds = {
 
 const getGlobalValue = getValueFromTheme('global');
 
-const useEditTypeAndTheme = ({ scope, offerId }) => {
+const useEditTypeAndTheme = ({ scope, offerId }: UseEditArguments) => {
   const queryClient = useQueryClient();
 
   const changeTypeMutation = useChangeOfferTypeMutation({

@@ -9,6 +9,7 @@ import { parseSpacing } from '@/ui/Box';
 import { Stack } from '@/ui/Stack';
 
 import { AgeRangeStep } from './AgeRangeStep';
+import { UseEditArguments } from './hooks/useEditField';
 import { NameStep } from './NameStep';
 import {
   FormDataUnion,
@@ -17,7 +18,11 @@ import {
   StepsConfiguration,
 } from './Steps';
 
-const useEditNameAndAgeRange = ({ scope, onSuccess, offerId }) => {
+const useEditNameAndAgeRange = ({
+  scope,
+  onSuccess,
+  offerId,
+}: UseEditArguments) => {
   const changeNameMutation = useChangeOfferNameMutation({
     onSuccess: () => onSuccess('basic_info'),
   });
