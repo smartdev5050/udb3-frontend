@@ -106,6 +106,7 @@ export const Days = ({
                   onChangeStartTime={handleChangeStartTime}
                   onChangeEndTime={handleChangeEndTime}
                   disabled={isDisabled}
+                  minWidth="120px"
                 />
               )}
               {days.length > 1 && (

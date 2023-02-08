@@ -242,6 +242,7 @@ type PlaceArguments = {
   openingHours: OpeningHours[];
   startDate: string;
   endDate: string;
+  typicalAgeRange: string;
 };
 
 type AddPlaceArguments = PlaceArguments & { headers: Headers };
@@ -257,6 +258,7 @@ const addPlace = async ({
   name,
   terms,
   workflowStatus,
+  typicalAgeRange,
 }: AddPlaceArguments) =>
   fetchFromApi({
     path: `/places`,
@@ -273,6 +275,7 @@ const addPlace = async ({
         workflowStatus,
         startDate,
         endDate,
+        typicalAgeRange,
       }),
     },
   });

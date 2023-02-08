@@ -95,6 +95,7 @@ type DatePickerProps = {
   minDate: Date;
   maxDate: Date;
   customInput: ReactNode;
+  showYearDropdown?: boolean;
   open: boolean;
   onCalendarClose: () => void;
   onCalendarOpen: () => void;

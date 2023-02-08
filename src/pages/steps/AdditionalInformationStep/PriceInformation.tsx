@@ -1,8 +1,10 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { useForm, useWatch } from 'react-hook-form';
+import { throttle } from 'lodash';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useFieldArray, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
+import { ValidationError } from 'yup';
 
 import { OfferTypes } from '@/constants/OfferType';
 import { useGetEventByIdQuery } from '@/hooks/api/events';
@@ -73,34 +75,62 @@ const defaultPriceInfoValues = {
   ],
 };
 
-const isNotUitpas = (value: any): boolean => {
-  return !value[i18n.language].toLowerCase().startsWith('uitpas');
-};
+const isNotUitpas = (value: any) =>
+  value[i18n.language] &&
+  !value[i18n.language].toLowerCase().startsWith('uitpas');
 
-const shouldHaveAName = (value: any): boolean => {
-  return !!value[i18n.language];
-};
+const shouldHaveAName = (value: any) => !!value[i18n.language];
 
 const schema = yup
   .object()
   .shape({
-    rates: yup.array().of(
-      yup.object({
-        name: yup
-          .object({
-            nl: yup.string(),
-            fr: yup.string(),
-            en: yup.string(),
-            de: yup.string(),
+    rates: yup
+      .array()
+      .of(
+        yup.object({
+          name: yup
+            .object({
+              nl: yup.string(),
+              fr: yup.string(),
+              en: yup.string(),
+              de: yup.string(),
+            })
+            .when('category', {
+              is: (category) => category !== PriceCategories.UITPAS,
+              then: (schema) =>
+                schema
+                  .test(`name-is-required`, 'name is required', shouldHaveAName)
+                  .test(
+                    `name-is-not-uitpas`,
+                    'should not be uitpas',
+                    isNotUitpas,
+                  )
+                  .required(),
+            }),
+          category: yup.string(),
+          price: yup.string().matches(PRICE_REGEX).required(),
+          priceCurrency: yup.string(),
+        }),
+      )
+      .test('uniqueName', function (prices) {
+        const priceNames = prices.map((item) => item.name[i18n.language]);
+        const errors = priceNames
+          .map((priceName, index) => {
+            const indexOf = priceNames.indexOf(priceName);
+            if (indexOf !== -1 && indexOf !== index) {
+              return this.createError({
+                path: `${this.path}.${index}`,
+                message: i18n.t(
+                  'create.additionalInformation.price_info.duplicate_name_error',
+                  { priceName },
+                ),
+              });
+            }
           })
-          .test(`name-is-required`, 'name is required', shouldHaveAName)
-          .test(`name-is-not-uitpas`, 'should not be uitpas', isNotUitpas)
-          .required(),
-        category: yup.string(),
-        price: yup.string().matches(PRICE_REGEX).required(),
-        priceCurrency: yup.string(),
+          .filter(Boolean);
+
+        return errors.length ? new ValidationError(errors) : true;
       }),
-    ),
   })
   .required();
 
@@ -111,16 +141,8 @@ const PriceInformation = ({
   onSuccessfulChange,
   ...props
 }: TabContentProps) => {
-  // TODO: refactor
-  const eventId = offerId;
-
   const { t, i18n } = useTranslation();
   const formComponent = useRef<HTMLFormElement>();
-  const [hasGlobalError, setHasGlobalError] = useState(false);
-  const [hasUitpasError, setHasUitpasError] = useState(false);
-
-  const [duplicateNameError, setDuplicateNameError] = useState('');
-  const [priceInfo, setPriceInfo] = useState([]);
 
   const useGetOfferByIdQuery =
     scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
@@ -132,6 +154,73 @@ const PriceInformation = ({
 
   // @ts-expect-error
   const offer: Event | Place | undefined = getOfferByIdQuery.data;
+
+  const {
+    register,
+    trigger,
+    control,
+    setValue,
+    getValues,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm<FormData>({
+    mode: 'onBlur',
+    reValidateMode: 'onBlur',
+    resolver: yupResolver(schema),
+    shouldFocusError: false,
+    defaultValues: { rates: [] },
+  });
+
+  const errorRates = useMemo(
+    () => (errors?.rates ?? []).filter((error: any) => error !== undefined),
+    [errors.rates],
+  );
+
+  const hasGlobalError = useMemo(() => errorRates.length > 0, [errorRates]);
+  const duplicateNameError = useMemo(
+    () => errorRates.find((error) => error.type === 'uniqueName')?.message,
+    [errorRates],
+  );
+  const hasUitpasError = useMemo(
+    () => errorRates.some((error) => error.name?.type === 'name-is-not-uitpas'),
+    [errorRates],
+  );
+
+  const ratesField = useFieldArray({ name: 'rates', control });
+  const rates = watch('rates');
+  const controlledRates = ratesField.fields.map((field, index) => ({
+    ...field,
+    ...rates[index],
+  }));
+
+  const addPriceInfoMutation = useAddOfferPriceInfoMutation({
+    onSuccess: () => setTimeout(() => onSuccessfulChange(), 1000),
+  });
+
+  const updatePriceInfo = throttle(
+    () =>
+      addPriceInfoMutation.mutateAsync({
+        id: offerId,
+        scope,
+        priceInfo: getValues('rates').map((rate: Rate) => ({
+          ...rate,
+          price: parseFloat(rate.price.replace(',', '.')),
+        })),
+      }),
+    1000,
+  );
+
+  const onSubmit = useCallback(
+    () => (hasGlobalError ? null : updatePriceInfo()),
+    [updatePriceInfo, hasGlobalError],
+  );
+
+  const isPriceFree = (price: string) => ['0', '0,0', '0,00'].includes(price);
+  const hasUitpasPrices = useMemo(
+    () => rates.some((rate) => rate.category === PriceCategories.UITPAS),
+    [rates],
+  );
 
   useEffect(() => {
     let newPriceInfo = offer?.priceInfo ?? [];
@@ -147,8 +236,11 @@ const PriceInformation = ({
       );
     }
 
-    const mainLanguage = offer?.mainLanguage;
+    if (!newPriceInfo.length) {
+      return ratesField.replace(defaultPriceInfoValues.rates);
+    }
 
+    const mainLanguage = offer?.mainLanguage;
     newPriceInfo = newPriceInfo.map((rate: any) => {
       return {
         ...rate,
@@ -160,174 +252,18 @@ const PriceInformation = ({
       };
     });
 
-    setPriceInfo(newPriceInfo);
+    if (!rates.length) {
+      ratesField.replace(newPriceInfo);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [offer?.priceInfo, offer?.mainLanguage, i18n.language]);
-
-  const {
-    register,
-    control,
-    setValue,
-    trigger,
-    formState: { errors, dirtyFields },
-    getValues,
-    handleSubmit,
-  } = useForm<FormData>({
-    mode: 'onBlur',
-    resolver: yupResolver(schema),
-    reValidateMode: 'onBlur',
-    shouldFocusError: false,
-    defaultValues: defaultPriceInfoValues,
-  });
-
-  useEffect(() => {
-    if (!priceInfo?.length) return;
-    setValue('rates', [...priceInfo]);
-  }, [priceInfo, setValue]);
-
-  const rates = useWatch({ control, name: 'rates' });
-
-  const addPriceInfoMutation = useAddOfferPriceInfoMutation({
-    onSuccess: () => {
-      setTimeout(() => {
-        onSuccessfulChange();
-      }, 1000);
-    },
-  });
-
-  const handlePriceInfoSubmitValid = async (rates: Rate[]) => {
-    const convertedPriceInfo = rates.map((rate: Rate) => {
-      return {
-        ...rate,
-        price: parseFloat(rate.price.replace(',', '.')),
-      };
-    });
-
-    await addPriceInfoMutation.mutateAsync({
-      id: offerId,
-      priceInfo: convertedPriceInfo,
-      scope,
-    });
-  };
-
-  const handleClickAddRate = () => {
-    setValue('rates', [
-      ...rates,
-      {
-        name: {
-          [i18n.language]: '',
-        },
-        price: '',
-        category: PriceCategories.TARIFF,
-        priceCurrency: PRICE_CURRENCY,
-      },
-    ]);
-  };
-
-  const handleClickDeleteRate = async (id: number): Promise<void> => {
-    const ratesWithDeletedItem = [
-      ...rates.filter((_rate, index) => id !== index),
-    ];
-
-    setValue('rates', ratesWithDeletedItem);
-    await trigger();
-
-    const selectedRate = rates[id];
-
-    // if rate exists on priceInfo, also delete it from API
-
-    const existsInCurrentData = priceInfo.some(
-      (priceInfoItem) =>
-        selectedRate.name[i18n.language] ===
-          priceInfoItem.name[i18n.language] &&
-        selectedRate.price === priceInfoItem.price,
-    );
-
-    if (existsInCurrentData) {
-      await handlePriceInfoSubmitValid(ratesWithDeletedItem);
-    }
-  };
-
-  const getDuplicateName = () => {
-    const seenRates = [];
-
-    return (
-      rates.find((rate) => {
-        const name = rate.name[i18n.language];
-
-        if (seenRates.includes(name)) {
-          return true;
-        }
-
-        seenRates.push(name);
-      })?.name[i18n.language] ?? ''
-    );
-  };
-
-  const handleDuplicateNameError = (priceName: string): void => {
-    setDuplicateNameError(
-      t('create.additionalInformation.price_info.duplicate_name_error', {
-        priceName,
-      }),
-    );
-  };
-
-  const setFreePriceToRate = async (): Promise<void> => {
-    const isValid = await trigger();
-
-    if (!isValid) return;
-
-    const duplicateName = getDuplicateName();
-
-    if (duplicateName) {
-      handleDuplicateNameError(duplicateName);
-      return;
-    }
-
-    // If no errors submit to API
-    await handlePriceInfoSubmitValid(getValues('rates'));
-  };
-
-  const isPriceFree = (price: string): boolean => {
-    return ['0', '0,0', '0,00'].includes(price);
-  };
-
-  const hasUitpasPrices = useMemo(() => {
-    return rates.some((rate) => rate.category === PriceCategories.UITPAS);
-  }, [rates]);
-
-  useEffect(() => {
-    if (Object.keys(dirtyFields).length === 0) return;
-
-    const errorRates = (errors.rates || []).filter(
-      (error: any) => error !== undefined,
-    );
-
-    const hasGlobalError = errorRates.length > 0;
-    const hasUitpasError = errorRates.some(
-      (error) => error.name?.type === 'name-is-not-uitpas',
-    );
-
-    setHasGlobalError(hasGlobalError);
-    setHasUitpasError(hasUitpasError);
-  }, [errors, i18n.language, dirtyFields]);
+  }, [offer?.organizer, offer?.priceInfo, offer?.mainLanguage, i18n.language]);
 
   return (
     <Stack
       {...getStackProps(props)}
       as="form"
       padding={4}
-      onBlur={handleSubmit(async (data) => {
-        const duplicateName = getDuplicateName();
-
-        if (duplicateName) {
-          handleDuplicateNameError(duplicateName);
-          return;
-        }
-
-        setDuplicateNameError('');
-        await handlePriceInfoSubmitValid(data.rates);
-      })}
+      onBlur={handleSubmit(onSubmit)}
       ref={formComponent}
     >
       {hasUitpasPrices && (
@@ -335,9 +271,9 @@ const PriceInformation = ({
           {t('create.additionalInformation.price_info.uitpas_info')}
         </Alert>
       )}
-      {rates.map((rate, index) => (
+      {controlledRates.map((rate, index) => (
         <Inline
-          key={`rate_${index}`}
+          key={`rate_${rate.id}`}
           paddingTop={3}
           paddingBottom={3}
           css={`
@@ -399,9 +335,10 @@ const PriceInformation = ({
                 rate.category !== PriceCategories.UITPAS && (
                   <Button
                     variant={ButtonVariants.LINK}
-                    onClick={() => {
+                    onClick={async () => {
                       setValue(`rates.${index}.price`, '0,00');
-                      setFreePriceToRate();
+                      await trigger();
+                      await onSubmit();
                     }}
                   >
                     {t('create.additionalInformation.price_info.free')}
@@ -414,7 +351,11 @@ const PriceInformation = ({
                   iconName={Icons.TRASH}
                   spacing={3}
                   variant={ButtonVariants.DANGER}
-                  onClick={() => handleClickDeleteRate(index)}
+                  onClick={async () => {
+                    ratesField.remove(index);
+                    await trigger();
+                    await onSubmit();
+                  }}
                 >
                   {t('create.additionalInformation.price_info.delete')}
                 </Button>
@@ -423,7 +364,7 @@ const PriceInformation = ({
           </Inline>
         </Inline>
       ))}
-      {hasGlobalError && (
+      {hasGlobalError && !duplicateNameError && (
         <Alert marginTop={3} variant={AlertVariants.PRIMARY}>
           <Box
             forwardedAs="div"
@@ -453,7 +394,17 @@ const PriceInformation = ({
         </Alert>
       )}
       <Inline marginTop={3}>
-        <Button onClick={handleClickAddRate} variant={ButtonVariants.SECONDARY}>
+        <Button
+          onClick={() =>
+            ratesField.append({
+              name: { [i18n.language]: '' },
+              price: '',
+              category: PriceCategories.TARIFF,
+              priceCurrency: PRICE_CURRENCY,
+            })
+          }
+          variant={ButtonVariants.SECONDARY}
+        >
           {t('create.additionalInformation.price_info.add')}
         </Button>
       </Inline>

@@ -48,6 +48,7 @@ type EventArguments = {
   attendanceMode: Values<typeof AttendanceMode>;
   mainLanguage: string;
   typicalAgeRange: string;
+  onlineUrl: string;
 };
 type AddEventArguments = EventArguments & { headers: Headers };
 
@@ -65,6 +66,7 @@ const addEvent = async ({
   audienceType,
   attendanceMode,
   typicalAgeRange,
+  onlineUrl,
 }: AddEventArguments) =>
   fetchFromApi({
     path: '/events/',
@@ -84,6 +86,7 @@ const addEvent = async ({
         audienceType,
         attendanceMode,
         typicalAgeRange,
+        onlineUrl,
       }),
     },
   });
