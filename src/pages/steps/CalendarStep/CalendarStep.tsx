@@ -147,7 +147,11 @@ const CalendarStep = ({
 
     const formData = convertStateToFormData(newState.context, calendarType);
 
-    setValue('calendar', formData, { shouldTouch: true, shouldDirty: true });
+    setValue('calendar', formData, {
+      shouldTouch: true,
+      shouldDirty: true,
+      shouldValidate: true,
+    });
 
     const wasIdle = newState.history?.matches('idle') ?? true;
 
