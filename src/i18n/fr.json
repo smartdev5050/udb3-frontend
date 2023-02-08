@@ -361,6 +361,9 @@
           "not_found": "Cette activité n'est pas encore connue par UiTPAS."
         }
       },
+      "place": {
+        "add_new_label": "Lieu introuvable ? Ajouter un nouveau lieu :"
+      },
       "media": {
         "title": "Médias"
       },

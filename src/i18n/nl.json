@@ -365,6 +365,9 @@
           "not_found": "Deze activiteit is nog niet gekend bij UiTPAS."
         }
       },
+      "place": {
+        "add_new_label": "Locatie niet gevonden? Nieuwe locatie toevoegen:"
+      },
       "media": {
         "title": "Media"
       },
