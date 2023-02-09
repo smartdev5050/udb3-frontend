@@ -90,7 +90,10 @@ const ContactInfoStep = ({
   const [contactInfoState, setContactInfoState] = useState<NewContactInfo[]>(
     [],
   );
+
   const [isFieldFocused, setIsFieldFocused] = useState(false);
+  const [isContactInfoStateInitialized, setIsContactInfoInitialized] =
+    useState(false);
 
   const contactInfo =
     // @ts-expect-error
@@ -102,6 +105,8 @@ const ContactInfoStep = ({
 
   useEffect(() => {
     if (!contactInfo) return;
+
+    if (isContactInfoStateInitialized) return;
 
     const hasContactInfo = Object.values(contactInfo).some(
       (contactInfoPerType: string[]) => contactInfoPerType.length > 0,
@@ -123,6 +128,7 @@ const ContactInfoStep = ({
     });
 
     setContactInfoState(contactInfoArray);
+    setIsContactInfoInitialized(true);
   }, [contactInfo, onValidationChangeCallback]);
 
   const queryClient = useQueryClient();
