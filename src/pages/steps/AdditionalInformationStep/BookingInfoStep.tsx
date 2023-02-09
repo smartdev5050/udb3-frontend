@@ -99,6 +99,8 @@ type ReservationPeriodProps = {
     availabilityEnds: Date,
     availabilityStarts: Date,
   ) => void;
+  isDatePickerVisible: boolean;
+  setIsDatePickerVisible: (isVisible: boolean) => void;
 };
 
 const ReservationPeriod = ({
@@ -106,10 +108,11 @@ const ReservationPeriod = ({
   availabilityStarts,
   handleDelete,
   handlePeriodChange,
+  isDatePickerVisible,
+  setIsDatePickerVisible,
 }: ReservationPeriodProps) => {
   const { t } = useTranslation();
 
-  const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [isPeriodInitialized, setIsPeriodInitialized] = useState(false);
@@ -125,13 +128,20 @@ const ReservationPeriod = ({
     setStartDate(new Date(availabilityStarts));
     setEndDate(new Date(availabilityEnds));
     setIsPeriodInitialized(true);
-  }, [availabilityEnds, availabilityStarts, isPeriodInitialized]);
+  }, [
+    availabilityEnds,
+    availabilityStarts,
+    isPeriodInitialized,
+    setIsDatePickerVisible,
+  ]);
 
   const handleNewBookingPeriod = (startDate: Date, endDate: Date): void => {
     handlePeriodChange(endDate, startDate);
   };
 
   useEffect(() => {
+    if (!isDatePickerVisible) return;
+
     if (!endDate || !startDate) return;
 
     if (endDate < startDate) {
@@ -225,6 +235,7 @@ const BookingInfoStep = ({
   const { t } = useTranslation();
   const [selectedUrlLabel, setSelectedUrlLabel] = useState('');
   const [hasInvalidUrl, setHasInvalidUrl] = useState(false);
+  const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
   const queryClient = useQueryClient();
 
   // TODO: refactor
@@ -304,6 +315,7 @@ const BookingInfoStep = ({
       mode: 'onBlur',
       resolver: yupResolver(schema),
       reValidateMode: 'onBlur',
+      shouldFocusError: false,
     });
 
   useEffect(() => {
@@ -407,6 +419,11 @@ const BookingInfoStep = ({
       bookingInfo.availabilityEnds &&
       bookingInfo.availabilityStarts
     ) {
+      delete bookingInfo.availabilityEnds;
+      delete bookingInfo.availabilityStarts;
+    }
+
+    if (!isDatePickerVisible) {
       delete bookingInfo.availabilityEnds;
       delete bookingInfo.availabilityStarts;
     }
@@ -529,6 +546,8 @@ const BookingInfoStep = ({
             handleDelete={handleDeleteBookingPeriod}
             availabilityEnds={availabilityEnds}
             availabilityStarts={availabilityStarts}
+            isDatePickerVisible={isDatePickerVisible}
+            setIsDatePickerVisible={setIsDatePickerVisible}
           />
         </Stack>
       </Inline>
