@@ -112,63 +112,35 @@ const ReservationPeriod = ({
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [errorMessage, setErrorMessage] = useState('');
+  const [isPeriodInitialized, setIsPeriodInitialized] = useState(false);
 
   useEffect(() => {
     if (!availabilityEnds || !availabilityStarts) {
       return;
     }
 
+    if (isPeriodInitialized) return;
+
     setIsDatePickerVisible(true);
     setStartDate(new Date(availabilityStarts));
     setEndDate(new Date(availabilityEnds));
-  }, [availabilityEnds, availabilityStarts]);
-
-  const handleEndDateBeforeStartDateError = (): void => {
-    setErrorMessage(
-      t(
-        'create.additionalInformation.booking_info.reservation_period.error.enddate_before_startdate',
-      ),
-    );
-  };
+    setIsPeriodInitialized(true);
+  }, [availabilityEnds, availabilityStarts, isPeriodInitialized]);
 
   const handleNewBookingPeriod = (startDate: Date, endDate: Date): void => {
     handlePeriodChange(endDate, startDate);
   };
 
-  const handleChangeStartDate = (newStartDate: Date, wasForced: boolean) => {
-    setStartDate(newStartDate);
+  useEffect(() => {
+    if (!endDate || !startDate) return;
 
-    if (endDate <= newStartDate) {
-      handleEndDateBeforeStartDateError();
+    if (endDate < startDate) {
       return;
     }
 
-    setErrorMessage('');
-
-    if (wasForced) {
-      return;
-    }
-
-    handleNewBookingPeriod(newStartDate, endDate);
-  };
-
-  const handleChangeEndDate = (newEndDate: Date, wasForced: boolean) => {
-    setEndDate(newEndDate);
-
-    if (newEndDate <= startDate) {
-      handleEndDateBeforeStartDateError();
-      return;
-    }
-
-    setErrorMessage('');
-
-    if (wasForced) {
-      return;
-    }
-
-    handleNewBookingPeriod(startDate, newEndDate);
-  };
+    handleNewBookingPeriod(startDate, endDate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [startDate, endDate]);
 
   return (
     <Stack>
@@ -231,12 +203,9 @@ const ReservationPeriod = ({
               dateStart={startDate}
               dateEnd={endDate}
               minDate={new Date()}
-              onDateStartChange={handleChangeStartDate}
-              onDateEndChange={handleChangeEndDate}
+              onDateStartChange={setStartDate}
+              onDateEndChange={setEndDate}
             />
-            {errorMessage && (
-              <Alert variant={AlertVariants.DANGER}>{errorMessage}</Alert>
-            )}
           </Stack>
         </Stack>
       )}

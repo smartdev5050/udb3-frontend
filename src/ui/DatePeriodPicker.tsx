@@ -11,8 +11,8 @@ type Props = InlineProps & {
   dateStart: Date;
   dateEnd: Date;
   minDate?: Date;
-  onDateStartChange: (date: Date, wasForced: boolean) => void;
-  onDateEndChange: (date: Date, wasForced: boolean) => void;
+  onDateStartChange: (date: Date) => void;
+  onDateEndChange: (date: Date) => void;
   disabled?: boolean;
 };
 
@@ -42,9 +42,9 @@ const DatePeriodPicker = ({
           minDate={minDate}
           onChange={(newDateStart) => {
             if (dateEnd.getTime() < newDateStart.getTime()) {
-              onDateEndChange(newDateStart, true);
+              onDateEndChange(newDateStart);
             }
-            onDateStartChange(newDateStart, false);
+            onDateStartChange(newDateStart);
           }}
           disabled={disabled}
         />
@@ -58,9 +58,9 @@ const DatePeriodPicker = ({
           selected={dateEnd}
           onChange={(newDateEnd) => {
             if (dateStart.getTime() > newDateEnd.getTime()) {
-              onDateStartChange(newDateEnd, true);
+              onDateStartChange(newDateEnd);
             }
-            onDateEndChange(newDateEnd, false);
+            onDateEndChange(newDateEnd);
           }}
           minDate={
             dateStart.getTime() > new Date().getTime() ? dateStart : new Date()
