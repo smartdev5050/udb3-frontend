@@ -33,13 +33,13 @@ const PRICE_CURRENCY: string = 'EUR';
 
 const PRICE_REGEX: RegExp = /^([1-9][0-9]*|[0-9]|[0])(,[0-9]{1,2})?$/;
 
-const PriceCategories = {
+const PriceCategory = {
   BASE: 'base',
   TARIFF: 'tariff',
   UITPAS: 'uitpas',
 } as const;
 
-type PriceCategory = Values<typeof PriceCategories>;
+type PriceCategory = Values<typeof PriceCategory>;
 
 const getValue = getValueFromTheme('priceInformation');
 
@@ -83,7 +83,7 @@ const schema = yup
               de: yup.string(),
             })
             .when('category', {
-              is: (category) => category !== PriceCategories.UITPAS,
+              is: (category) => category !== PriceCategory.UITPAS,
               then: (schema) =>
                 schema
                   .test(`name-is-required`, 'name is required', shouldHaveAName)
@@ -96,7 +96,7 @@ const schema = yup
             }),
           category: yup
             .mixed<PriceCategory>()
-            .oneOf(Object.values(PriceCategories)),
+            .oneOf(Object.values(PriceCategory)),
           price: yup.string().matches(PRICE_REGEX).required(),
           priceCurrency: yup.string(),
         }),
@@ -206,7 +206,7 @@ const PriceInformation = ({
 
   const isPriceFree = (price: string) => ['0', '0,0', '0,00'].includes(price);
   const hasUitpasPrices = useMemo(
-    () => rates.some((rate) => rate.category === PriceCategories.UITPAS),
+    () => rates.some((rate) => rate.category === PriceCategory.UITPAS),
     [rates],
   );
 
@@ -399,4 +399,5 @@ const PriceInformation = ({
   );
 };
 
+export type { PriceCategory };
 export { PriceInformation };
