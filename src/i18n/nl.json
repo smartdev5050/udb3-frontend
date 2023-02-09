@@ -142,6 +142,9 @@
           "friday": "Vrijdag",
           "saturday": "Zaterdag",
           "sunday": "Zondag"
+        },
+        "validation_messages": {
+          "invalid_hours": "Het einduur kan niet voor het beginuur vallen."
         }
       },
       "opening_hours_modal": {
@@ -189,7 +192,7 @@
       "country": {
         "change_location": "Wijzig locatie",
         "location_school": "Locatie in overleg met de school",
-        "location_school_info": "Evenement waarvan de locatie in overleg wordt bepaald, worden niet gepubliceerd op UiTinVlaanderen of andere publiekskanalen. Je evenement verschijnt wel op cultuurkuur.be"
+        "location_school_info": "Evenementen waarvan de locatie in overleg wordt bepaald, worden niet gepubliceerd op UiTinVlaanderen of andere publiekskanalen. Je evenement verschijnt wel op cultuurkuur.be"
       }
     },
     "name_and_age": {
@@ -293,7 +296,6 @@
         "tips": {
           "0.0.0.0.0": "Geef een enthousiaste omschrijving van de tentoonstelling. <ul> <li>Welke <strong>kunstenaars</strong> stellen tentoon?</li> <li>Welke<strong> collecties</strong> kan je bekijken? </li> <li>Is er een <strong>(audio)gids</strong> of <strong>brochure</strong> beschikbaar?</li></ul>",
           "0.12.0.0.0": "Geef een enthousiaste omschrijving van de opendeurdag. Wat kan je <strong>bekijken </strong>of <strong>beleven?</strong>",
-          "0.14.0.0.0": "Geef een enthousiaste omschrijving van het monument. Geef ook aan indien het monument slechts beperkt opengesteld is (vb. enkel salons).",
           "0.17.0.0.0": "Geef een enthousiaste omschrijving van de route. <ul> <li>Leg je de route af <strong>te voet, per fiets, per boot </strong>…? </li> <li>Welke mogelijke <strong>tussenstops</strong> zijn er? </li> <li>Wat is de <strong>afstand</strong> of <strong>duur</strong> van de route?</li> <li>Is de route <strong>begeleid</strong>, met een gids, brochure of wegwijzers?</li> </ul>",
           "0.19.0.0.0": "Geef een enthousiaste omschrijving van de sportwedstrijd. <ul> <li>Welke <strong>ploegen of deelnemers</strong> spelen er mee? </li> <li>In welke<strong> competitie</strong> kadert de wedstrijd?</li></ul>",
           "0.28.0.0.0": "Geef een enthousiaste omschrijving van de kermis. <ul> <li>Welke <strong>attracties</strong> zijn er? </li> <li>Zijn er<strong> (rand)activiteiten</strong> (quiz, concerten, foodtrucks, marktje ...)?</li> </ul>",
@@ -312,7 +314,26 @@
           "0.59.0.0.0": "Geef een enthousiaste omschrijving van de sportactiviteit. <ul> <li>Welke <strong>sport</strong>(en) kan je beoefenen? </li> <li>Welk <strong>materiaal</strong> wordt (niet) voorzien?</li> </ul>",
           "0.6.0.0.0": "Geef een enthousiaste omschrijving van de beurs. Wat kan je kan <strong>bekijken</strong>, <strong>beleven</strong> of <strong>kopen</strong>?",
           "0.7.0.0.0": "Geef een enthousiaste omschrijving van de rondleiding. <ul> <li>Wat valt er langs de route te <strong>bekijken of beleven</strong>? </li> <li>Is er een maximaal <strong>aantal deelnemers</strong>? </li> <li>Wordt de rondleiding doorlopend of op <strong>bepaalde tijdstippen</strong> georganiseerd? </li> <li>Zijn er <strong>speciale aandachtspunten</strong> (bv. laarzen aangewezen)?</li> </ul>",
-          "1.50.0.0.0": "Geef een enthousiaste omschrijving van het eet -of drankfestijn. <ul> <li>Wat staat er op het <strong>menu?</strong> </li> <li>Gaat de opbrengst naar een<strong> goed doel</strong>? </li> <li>Is er <strong>(rand)animatie</strong>?</li> </ul>"
+          "1.50.0.0.0": "Geef een enthousiaste omschrijving van het eet -of drankfestijn. <ul> <li>Wat staat er op het <strong>menu?</strong> </li> <li>Gaat de opbrengst naar een<strong> goed doel</strong>? </li> <li>Is er <strong>(rand)animatie</strong>?</li> </ul>",
+          "0.15.0.0.0": "Geef een enthousiaste omschrijving van het natuurgebied of park. <ul> <li> <strong>Wat</strong> valt er in het natuurgebied of park <strong>te</strong> <strong>beleven</strong>? </li> <li> <strong>Welke recreatiemogelijkheden</strong> zijn er aanwezig? </li> </ul>",
+          "0.14.0.0.0": "Geef een enthousiaste omschrijving van het monument. <ul> <li> <strong>Welke gebeurtenis of persoon</strong> wordt met het monument <strong>herinnerd</strong>? </li> <li> Schets kort de <strong>geschiedkundige context</strong>. </li> </ul>",
+          "0.53.0.0.0": "Geef een enthousiaste omschrijving van het recreatiedomein of centrum. <ul> <li> <strong>Wat</strong> valt er in het recreatiedomein of centrum <strong>te</strong> <strong>beleven</strong>? </li> <li> <strong>Welke recreatiemogelijkheden</strong> zijn er aanwezig? </li> <li> Welke <strong>andere voorzieningen</strong> (toilet, eetgelegenheden, luierhoek, etc.) vind je op het domein? </li> </ul>",
+          "0.41.0.0.0": "Geef een enthousiaste omschrijving van het thema of pretpark. <ul> <li> <strong>Wat</strong> valt er in het park <strong>te</strong> <strong>beleven</strong>? </li> <li> Welke <strong>andere voorzieningen</strong> (toilet, eetgelegenheden, luierhoek, etc.) vind je in het park? </li> </ul>",
+          "3CuHvenJ+EGkcvhXLg9Ykg": "Geef een enthousiaste omschrijving van de archeologische site. <ul> <li> <strong>Welke archeologische vondsten</strong> worden hier gedaan? </li> <li> Kan je de archeologen hier <strong>live aan het werk</strong> zien? </li> </ul>",
+          "rJRFUqmd6EiqTD4c7HS90w": "Geef een enthousiaste omschrijving van de school. <ul> <li> Specifieer het <strong>doelpubliek</strong> van de school. </li> <li> Welke <strong>vaardigheden</strong> kan je hier ontwikkelen? </li> <li> Welk <strong>diploma</strong> kan je behalen? </li> </ul>",
+          "eBwaUAAhw0ur0Z02i5ttnw": "Geef een enthousiaste omschrijving van het sportcentrum. <ul> <li> Welke <strong>sportvoorzieningen</strong> biedt het sportcentrum aan? </li> <li> Welke <strong>sporten</strong> kan je er beoefenen? </li> </ul>",
+          "VRC6HX0Wa063sq98G5ciqw": "Geef een enthousiaste omschrijving van de winkel. <ul> <li> <strong>Wat kan je kopen</strong> in deze winkel? </li> <li> Specifieer of het om een <strong>pop-up, uitverkoop</strong> of <strong>vaste winkel</strong> gaat. </li> </ul>",
+          "GnPFp9uvOUyqhOckIFMKmg": "Geef een enthousiaste omschrijving van het museum of de galerij. <ul> <li> Uit wat bestaat de <strong>vaste collectie</strong>? </li> <li> Op welke <strong>thema's</strong>, <strong>kunst, geschiedkundige periode</strong> of <strong>wetenschap</strong> focust het museum zich? </li> </ul>",
+          "JCjA0i5COUmdjMwcyjNAFA": "Geef een enthousiaste omschrijving van het jeugdhuis of jeugdcentrum. <ul> <li> Specifieer het <strong>doelpubliek</strong> van het jeugdhuis of jeugdcentrum. </li> <li> Geef aan indien de locatie verbonden is aan een <strong>jeugdvereniging.</strong> </li> </ul>",
+          "Yf4aZBfsUEu2NsQqsprngw": "Geef een enthousiaste omschrijving van het cultuur- of ontmoetingscentrum. <ul> <li> Tot <strong>welke doelgroep</strong> richt het centrum zich? </li> <li> <b>Welke activiteiten of voorstellingen</b> (bv. concerten) worden in het centrum georganiseerd? </li> </ul>",
+          "YVBc8KVdrU6XfTNvhMYUpg": "Geef een enthousiaste omschrijving van de discotheek. <ul> <li> Voor wat voor <strong>feestjes</strong> kan je in de discotheek terecht? </li> <li> Is de club gericht op <strong>live muziek, DJ sets</strong>,...? </li> </ul>",
+          "kI7uAyn2uUu9VV6Z3uWZTA": "Geef een enthousiaste omschrijving van de bibliotheek of het documentatiecentrum. <ul> <li> Uit wat voor boeken, wetenschappelijke documenten of stukken bestaat de <strong>collectie</strong>? </li> </ul>",
+          "BtVNd33sR0WntjALVbyp3w": "Geef een enthousiaste omschrijving van de bioscoop. <ul> <li> Op <strong>wat voor films</strong> is de programmatie van de bioscoop gericht? </li> </ul>",
+          "ekdc4ATGoUitCa0e6me6xA": "Geef een enthousiaste omschrijving van het hotel, restaurant of café. <ul> <li> Specifieer om welk <strong>soort horeca</strong> het gaat. </li> <li> Voor <b>welk soort overnachting, maaltijd of drankjes</b> kan je hier terecht? </li> </ul>",
+          "wwjRVmExI0w6xfQwT1KWpx": "Geef een enthousiaste omschrijving van de speeltuin. <ul> <li> <strong>Welke speeltoestellen</strong> vind je op de speeltuin? </li> <li> Is de speeltuin <strong>binnen, overdekt of buiten</strong>? </li> <li> Is er <strong>horeca</strong> aanwezig in de buurt van de speeltuin? </li> <li> Welke <strong>andere voorzieningen</strong> (toilet, luierhoek, etc.) vind je op de speeltuin? </li> </ul> ",
+          "OyaPaf64AEmEAYXHeLMAtA": "Geef een enthousiaste omschrijving van de zaal of expohal. <ul> <li> <strong>Welke activiteiten</strong> of <strong>voorstellingen</strong> worden in de zaal of hal georganiseerd? </li> <li> Is er een <strong>eigen programmatie</strong> of kan de zaal ook geboekt worden? </li> </ul>",
+          "0.8.0.0.0": "Geef een enthousiaste omschrijving van de openbare ruimte. <ul> <li> <strong>Omschrijf</strong> de openbare ruimte <strong>nauwkeurig</strong>. </li> <li> <strong>Wat</strong> kan je hier <strong>doen</strong>? </li> </ul>",
+          "8.70.0.0.0": "Geef een enthousiaste omschrijving van het theater. <ul> <li> <strong>Welke activiteiten</strong> of <strong>voorstellingen</strong> worden in dit theater georganiseerd? </li> <li> Is er een <strong>eigen programmatie</strong> of kan de zaal ook geboekt worden? </li> <li> Specifieer het <strong>doelpubliek</strong>. </li> </ul>"
         },
         "title": "Beschrijving"
       },
@@ -330,7 +351,7 @@
       },
       "organizer": {
         "add_new_button": "Organisatie toevoegen",
-        "add_new_label": "Voeg nieuwe organisatie toe: ",
+        "add_new_label": "Organisatie niet gevonden? Voeg nieuwe organisatie toe: ",
         "change": "Wijzig organisatie",
         "title": "Organisatie",
         "select_recent_used_organizer": "Kies een organisatie die je recent gebruikte",
@@ -343,6 +364,12 @@
           "already_has_ticketsales": "Voor dit evenement zijn al UiTPAS-tickets verkocht. Je kan de organisatie niet meer wijzigen.",
           "not_found": "Deze activiteit is nog niet gekend bij UiTPAS."
         }
+      },
+      "place": {
+        "add_new_label": "Locatie niet gevonden? Nieuwe locatie toevoegen: "
+      },
+      "production": {
+        "add_new_label": "Productie niet gevonden? Nieuwe productie toevoegen: "
       },
       "media": {
         "title": "Media"

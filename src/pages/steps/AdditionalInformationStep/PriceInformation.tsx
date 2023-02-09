@@ -75,13 +75,11 @@ const defaultPriceInfoValues = {
   ],
 };
 
-const isNotUitpas = (value: any): boolean => {
-  return !value[i18n.language].toLowerCase().startsWith('uitpas');
-};
+const isNotUitpas = (value: any) =>
+  value[i18n.language] &&
+  !value[i18n.language].toLowerCase().startsWith('uitpas');
 
-const shouldHaveAName = (value: any): boolean => {
-  return !!value[i18n.language];
-};
+const shouldHaveAName = (value: any) => !!value[i18n.language];
 
 const schema = yup
   .object()
@@ -97,21 +95,30 @@ const schema = yup
               en: yup.string(),
               de: yup.string(),
             })
-            .test(`name-is-required`, 'name is required', shouldHaveAName)
-            .test(`name-is-not-uitpas`, 'should not be uitpas', isNotUitpas)
-            .required(),
+            .when('category', {
+              is: (category) => category !== PriceCategories.UITPAS,
+              then: (schema) =>
+                schema
+                  .test(`name-is-required`, 'name is required', shouldHaveAName)
+                  .test(
+                    `name-is-not-uitpas`,
+                    'should not be uitpas',
+                    isNotUitpas,
+                  )
+                  .required(),
+            }),
           category: yup.string(),
           price: yup.string().matches(PRICE_REGEX).required(),
           priceCurrency: yup.string(),
         }),
       )
-      .test('uniqueName', function (prices) {
+      .test('uniqueName', 'No unique name', (prices, context) => {
         const priceNames = prices.map((item) => item.name[i18n.language]);
         const errors = priceNames.map((priceName, index) => {
           const indexOf = priceNames.indexOf(priceName);
           if (indexOf !== -1 && indexOf !== index) {
-            return this.createError({
-              path: `${this.path}.${index}`,
+            return context.createError({
+              path: `${context.path}.${index}`,
               message: i18n.t(
                 'create.additionalInformation.price_info.duplicate_name_error',
                 { priceName },
@@ -120,7 +127,7 @@ const schema = yup
           }
         });
 
-        return new ValidationError(errors.filter(Boolean));
+        return errors.length ? new ValidationError(errors) : true;
       }),
   })
   .required();
@@ -247,7 +254,7 @@ const PriceInformation = ({
       ratesField.replace(newPriceInfo);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [offer?.priceInfo, offer?.mainLanguage, i18n.language]);
+  }, [offer?.organizer, offer?.priceInfo, offer?.mainLanguage, i18n.language]);
 
   return (
     <Stack

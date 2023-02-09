@@ -159,6 +159,11 @@ const GlobalStyle = createGlobalStyle`
   .react-datepicker__day--keyboard-selected {
     background-color: ${globalColors.grey1};
     color: #000;
+    font-weight: bold;
+
+    &:hover {
+      color: ${globalColors.white}
+    }
   }
 `;
 
