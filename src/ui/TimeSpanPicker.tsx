@@ -82,12 +82,7 @@ const TimeSpanPicker = ({
   const { t } = useTranslation();
   const idPrefix = `${id}-time-span-picker`;
 
-  const filterTimes = useCallback(
-    (time: string) =>
-      time === '23:59' ||
-      (isQuarterHour(time) && timeToNumeric(time) >= timeToNumeric(startTime)),
-    [startTime],
-  );
+  const timeSlots = (time: string) => time === '23:59' || isQuarterHour(time);
 
   return (
     <Inline as="div" spacing={5} {...getInlineProps(props)}>
@@ -100,7 +95,7 @@ const TimeSpanPicker = ({
           inputRequired={true}
           name="startTime"
           id={`${idPrefix}-start`}
-          customFilter={isQuarterHour}
+          customFilter={timeSlots}
           defaultInputValue={startTime}
           options={hourOptions}
           labelKey={(option) => option}
@@ -123,7 +118,7 @@ const TimeSpanPicker = ({
           inputRequired={true}
           name="endTime"
           id={`${idPrefix}-end`}
-          customFilter={filterTimes}
+          customFilter={timeSlots}
           defaultInputValue={endTime}
           options={hourOptions}
           labelKey={(option) => option}
