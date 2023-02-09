@@ -44,7 +44,7 @@ const useEditNameAndProduction = ({
   onSuccess,
   offerId,
 }: UseEditArguments) => {
-  const getEventByIdQuery = useGetEventByIdQuery({ id: offerId });
+  const getEventByIdQuery = useGetEventByIdQuery({ id: offerId, scope });
 
   const createProductionWithEventsMutation =
     useCreateProductionWithEventsMutation();
