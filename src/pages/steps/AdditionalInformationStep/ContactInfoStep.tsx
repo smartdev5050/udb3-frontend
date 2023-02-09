@@ -158,7 +158,7 @@ const ContactInfoStep = ({
     const [email, phone, url] = Object.values(ContactInfoTypes).map(
       (infoType) =>
         newContactInfo
-          .filter((info) => info.type === infoType)
+          .filter((info) => info.type === infoType && info.value !== '')
           .map((info) => info.value),
     );
 
