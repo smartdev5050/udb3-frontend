@@ -3,6 +3,7 @@ import {
   Rate,
 } from '@/pages/steps/AdditionalInformationStep/PriceInformation';
 import { Offer } from '@/types/Offer';
+import { isUitpasOrganizer } from '@/pages/steps/AdditionalInformationStep/OrganizerPicker';
 
 const parseNumber = (number: string | number): number => {
   return Number(String(number).replace(',', '.'));
@@ -20,7 +21,7 @@ export function reconcileRates(
     useGrouping: false,
   });
 
-  const alreadyEmbeddedUitpasPrices = currentRates.find(
+  const alreadyEmbeddedUitpasPrices = currentRates.some(
     (rate) => rate.category === PriceCategories.UITPAS,
   );
 
@@ -31,17 +32,22 @@ export function reconcileRates(
     currentRates = newRates;
   }
 
-  if (alreadyEmbeddedUitpasPrices) {
+  const hasUitpasOrganizer =
+    offer?.organizer && isUitpasOrganizer(offer?.organizer);
+
+  if (alreadyEmbeddedUitpasPrices && (newRates.length || hasUitpasOrganizer)) {
     currentRates = currentRates.filter(
       (rate) => rate.category !== PriceCategories.UITPAS,
     );
   }
 
-  newRates.forEach((rate) => {
-    if (rate.category === PriceCategories.UITPAS) {
-      currentRates.push(rate);
-    }
-  });
+  if (hasUitpasOrganizer) {
+    newRates.forEach((rate) => {
+      if (rate.category === PriceCategories.UITPAS) {
+        currentRates.push(rate);
+      }
+    });
+  }
 
   currentRates = currentRates.map((rate) => {
     if (mainLanguage) {

@@ -5,6 +5,11 @@ import {
 import { Offer } from '@/types/Offer';
 import { reconcileRates } from '@/utils/reconcileRates';
 
+const uitpasOffer: Offer = {
+  mainLanguage: 'nl',
+  organizer: { labels: ['uitpas'] },
+};
+
 describe('reconcileRates', () => {
   it('can overwrite default values', () => {
     const currentRates: Rate[] = [
@@ -93,7 +98,9 @@ describe('reconcileRates', () => {
       },
     ];
 
-    expect(reconcileRates(currentRates, newRates)).toMatchSnapshot();
+    expect(
+      reconcileRates(currentRates, newRates, uitpasOffer),
+    ).toMatchSnapshot();
   });
 
   it('can updated embedded UiTPAS prices', () => {
@@ -127,7 +134,9 @@ describe('reconcileRates', () => {
       },
     ];
 
-    expect(reconcileRates(currentRates, newRates)).toMatchSnapshot();
+    expect(
+      reconcileRates(currentRates, newRates, uitpasOffer),
+    ).toMatchSnapshot();
   });
 
   it('does not add back deleted prices', () => {
@@ -167,7 +176,9 @@ describe('reconcileRates', () => {
       },
     ];
 
-    expect(reconcileRates(currentRates, newRates)).toMatchSnapshot();
+    expect(
+      reconcileRates(currentRates, newRates, uitpasOffer),
+    ).toMatchSnapshot();
   });
 
   it('can backfill price languages', () => {
@@ -196,7 +207,10 @@ describe('reconcileRates', () => {
     ];
 
     expect(
-      reconcileRates(currentRates, newRates, { mainLanguage: 'fr' } as Offer),
+      reconcileRates(currentRates, newRates, {
+        ...uitpasOffer,
+        mainLanguage: 'fr',
+      }),
     ).toEqual([
       {
         name: { fr: 'foo', de: 'foo' },
@@ -217,5 +231,30 @@ describe('reconcileRates', () => {
         priceCurrency: 'EUR',
       },
     ]);
+  });
+
+  it('can remove UiTPas prices from non UiTPas offer', () => {
+    const currentRates = [
+      {
+        name: { nl: 'foo' },
+        category: PriceCategories.BASE,
+        price: '20,00',
+        priceCurrency: 'EUR',
+      },
+      {
+        name: { nl: 'bar' },
+        category: PriceCategories.BASE,
+        price: '20,00',
+        priceCurrency: 'EUR',
+      },
+      {
+        name: { nl: 'uitpas' },
+        category: PriceCategories.UITPAS,
+        price: '20,00',
+        priceCurrency: 'EUR',
+      },
+    ];
+
+    expect(reconcileRates(currentRates, [], uitpasOffer)).toHaveLength(2);
   });
 });
