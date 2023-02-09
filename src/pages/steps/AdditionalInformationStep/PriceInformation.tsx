@@ -33,7 +33,7 @@ const PRICE_CURRENCY: string = 'EUR';
 
 const PRICE_REGEX: RegExp = /^([1-9][0-9]*|[0-9]|[0])(,[0-9]{1,2})?$/;
 
-const PriceCategories = {
+export const PriceCategories = {
   BASE: 'base',
   TARIFF: 'tariff',
   UITPAS: 'uitpas',
@@ -48,7 +48,7 @@ type NameInLanguages = Partial<{
   en: string;
 }>;
 
-type Rate = {
+export type Rate = {
   name: NameInLanguages;
   category: PriceCategory;
   price: string;
@@ -221,12 +221,13 @@ const PriceInformation = ({
   );
 
   useEffect(() => {
-    let newPriceInfo = offer?.priceInfo ?? [];
+    let newPriceInfo: Rate[] = offer?.priceInfo ?? [];
     const hasUitpasLabel = offer?.organizer
       ? isUitpasOrganizer(offer?.organizer)
       : false;
 
-    if (newPriceInfo.length > 0) {
+    const reconciledRates = reconcileRates(rates, newPriceInfo, offer);
+    if (reconciledRates.length > 0) {
       onValidationChange(ValidationStatus.SUCCESS);
     } else {
       onValidationChange(
@@ -234,27 +235,9 @@ const PriceInformation = ({
       );
     }
 
-    if (!newPriceInfo.length) {
-      return ratesField.replace(defaultPriceInfoValues.rates);
-    }
-
-    const mainLanguage = offer?.mainLanguage;
-    newPriceInfo = newPriceInfo.map((rate: any) => {
-      return {
-        ...rate,
-        name: {
-          ...rate.name,
-          [i18n.language]: rate.name[i18n.language] ?? rate.name[mainLanguage],
-        },
-        price: rate.price.toFixed(2).replace('.', ','),
-      };
-    });
-
-    if (!rates.length) {
-      ratesField.replace(newPriceInfo);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [offer?.organizer, offer?.priceInfo, offer?.mainLanguage, i18n.language]);
+    ratesField.replace(reconciledRates);
+    // eslint-disable-next-line
+  }, [offer]);
 
   return (
     <Stack

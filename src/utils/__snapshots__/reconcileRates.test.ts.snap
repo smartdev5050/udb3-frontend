@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reconcileRates can append embedded UiTPAS prices 1`] = `
+Array [
+  Object {
+    "category": "base",
+    "name": Object {
+      "nl": "foobar",
+    },
+    "price": "20,00",
+    "priceCurrency": "EUR",
+  },
+  Object {
+    "category": "uitpas",
+    "name": Object {
+      "nl": "foobar",
+    },
+    "price": "25,00",
+    "priceCurrency": "EUR",
+  },
+]
+`;
+
+exports[`reconcileRates can overwrite default values 1`] = `
+Array [
+  Object {
+    "category": "base",
+    "name": Object {
+      "nl": "foobar",
+    },
+    "price": "15,00",
+    "priceCurrency": "EUR",
+  },
+]
+`;
+
+exports[`reconcileRates does not add back deleted prices 1`] = `
+Array [
+  Object {
+    "category": "base",
+    "name": Object {
+      "nl": "foo",
+    },
+    "price": "20,00",
+    "priceCurrency": "EUR",
+  },
+  Object {
+    "category": "uitpas",
+    "name": Object {
+      "nl": "uitpas",
+    },
+    "price": "25,00",
+    "priceCurrency": "EUR",
+  },
+]
+`;
+
+exports[`reconcileRates does not embed UiTPAS prices multiple times 1`] = `
+Array [
+  Object {
+    "category": "base",
+    "name": Object {
+      "nl": "foobar",
+    },
+    "price": "20,00",
+    "priceCurrency": "EUR",
+  },
+  Object {
+    "category": "uitpas",
+    "name": Object {
+      "nl": "foobar",
+    },
+    "price": "25,00",
+    "priceCurrency": "EUR",
+  },
+]
+`;
