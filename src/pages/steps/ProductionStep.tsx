@@ -4,7 +4,6 @@ import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
-import { OfferTypes } from '@/constants/OfferType';
 import {
   useChangeNameMutation,
   useGetEventByIdQuery,
@@ -36,7 +35,6 @@ import { UseEditArguments } from './hooks/useEditField';
 
 type ProductionStepProps = StackProps & StepProps;
 
-const getValue = getValueFromTheme('createPage');
 const getGlobalValue = getValueFromTheme('global');
 
 const useEditNameAndProduction = ({
