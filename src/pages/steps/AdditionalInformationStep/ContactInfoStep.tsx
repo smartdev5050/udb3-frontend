@@ -154,6 +154,7 @@ const ContactInfoStep = ({
         context.previousEventInfo,
       );
     },
+    onSuccess: onSuccessfulChange,
   });
 
   const parseNewContactInfo = (newContactInfo: NewContactInfo[]) => {
