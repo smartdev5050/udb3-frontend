@@ -171,7 +171,7 @@ const PriceInformation = ({
 
   const errorRates = useMemo(
     () => (errors?.rates ?? []).filter((error: any) => error !== undefined),
-    [errors.rates],
+    [errors],
   );
 
   const hasGlobalError = useMemo(() => errorRates.length > 0, [errorRates]);
