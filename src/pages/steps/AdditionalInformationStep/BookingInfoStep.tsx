@@ -359,15 +359,15 @@ const BookingInfoStep = ({
   const addBookingInfoMutation = useAddOfferBookingInfoMutation({
     onMutate: async (newPayload) => {
       await queryClient.cancelQueries({
-        queryKey: ['events', { id: eventId }],
+        queryKey: [scope, { id: eventId }],
       });
 
       const previousEventInfo: any = queryClient.getQueryData([
-        'events',
+        scope,
         { id: eventId },
       ]);
 
-      queryClient.setQueryData(['events', { id: eventId }], () => {
+      queryClient.setQueryData([scope, { id: eventId }], () => {
         return { ...previousEventInfo, bookingInfo: newPayload.bookingInfo };
       });
 
