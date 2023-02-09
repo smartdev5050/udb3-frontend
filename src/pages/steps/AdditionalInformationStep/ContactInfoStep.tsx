@@ -241,8 +241,6 @@ const ContactInfoStep = ({
     }
   };
 
-  console.log({ contactInfoState });
-
   return (
     <Stack maxWidth="40rem" {...getStackProps(props)} spacing={3}>
       {(contactInfoState ?? []).map((info, index) => {
