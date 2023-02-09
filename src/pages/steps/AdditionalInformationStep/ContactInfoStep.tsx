@@ -39,13 +39,17 @@ const URL_REGEX: RegExp =
 const PHONE_REGEX: RegExp = /^[0-9\/_.+ ]*$/;
 
 const isValidEmail = (email: string) => {
-  return EMAIL_REGEX.test(email) || email === '';
+  return (
+    typeof email === 'undefined' || email === '' || EMAIL_REGEX.test(email)
+  );
 };
 const isValidUrl = (url: string) => {
-  return URL_REGEX.test(url) || url === '';
+  return typeof url === 'undefined' || url === '' || URL_REGEX.test(url);
 };
 const isValidPhone = (phone: string) => {
-  return PHONE_REGEX.test(phone) || phone === '';
+  return (
+    typeof phone === 'undefined' || phone === '' || PHONE_REGEX.test(phone)
+  );
 };
 
 const isValidInfo = (type: string, value: string): boolean => {
