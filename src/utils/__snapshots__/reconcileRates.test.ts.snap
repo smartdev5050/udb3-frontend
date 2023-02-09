@@ -49,28 +49,28 @@ Array [
     "name": Object {
       "nl": "uitpas",
     },
-    "price": "25,00",
+    "price": "20,00",
     "priceCurrency": "EUR",
   },
 ]
 `;
 
-exports[`reconcileRates does not embed UiTPAS prices multiple times 1`] = `
+exports[`reconcileRates can updated embedded UiTPAS prices 1`] = `
 Array [
   Object {
     "category": "base",
     "name": Object {
-      "nl": "foobar",
+      "nl": "foo",
     },
-    "price": "20,00",
+    "price": "15,00",
     "priceCurrency": "EUR",
   },
   Object {
     "category": "uitpas",
     "name": Object {
-      "nl": "foobar",
+      "nl": "bar",
     },
-    "price": "25,00",
+    "price": "20,00",
     "priceCurrency": "EUR",
   },
 ]

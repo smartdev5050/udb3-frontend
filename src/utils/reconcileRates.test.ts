@@ -96,16 +96,16 @@ describe('reconcileRates', () => {
     expect(reconcileRates(currentRates, newRates)).toMatchSnapshot();
   });
 
-  it('does not embed UiTPAS prices multiple times', () => {
+  it('can updated embedded UiTPAS prices', () => {
     const currentRates: Rate[] = [
       {
-        name: { nl: 'foobar' },
+        name: { nl: 'foo' },
         category: PriceCategories.BASE,
-        price: '20',
+        price: '15',
         priceCurrency: 'EUR',
       },
       {
-        name: { nl: 'foobar' },
+        name: { nl: 'bar' },
         category: PriceCategories.UITPAS,
         price: '25',
         priceCurrency: 'EUR',
@@ -114,13 +114,13 @@ describe('reconcileRates', () => {
 
     const newRates = [
       {
-        name: { nl: 'foobar' },
+        name: { nl: 'foo' },
         category: PriceCategories.BASE,
         price: '15',
         priceCurrency: 'EUR',
       },
       {
-        name: { nl: 'foobar' },
+        name: { nl: 'bar' },
         category: PriceCategories.UITPAS,
         price: '20',
         priceCurrency: 'EUR',

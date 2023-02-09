@@ -30,13 +30,17 @@ export function reconcileRates(
     currentRates = newRates;
   }
 
-  if (!alreadyEmbeddedUitpasPrices) {
-    newRates.forEach((rate) => {
-      if (rate.category === PriceCategories.UITPAS) {
-        currentRates.push(rate);
-      }
-    });
+  if (alreadyEmbeddedUitpasPrices) {
+    currentRates = currentRates.filter(
+      (rate) => rate.category !== PriceCategories.UITPAS,
+    );
   }
+
+  newRates.forEach((rate) => {
+    if (rate.category === PriceCategories.UITPAS) {
+      currentRates.push(rate);
+    }
+  });
 
   currentRates = currentRates.map((rate) => {
     if (mainLanguage) {
