@@ -28,6 +28,7 @@ import { Input } from '@/ui/Input';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
+import { reconcileRates } from '@/utils/reconcileRates';
 
 const PRICE_CURRENCY: string = 'EUR';
 
@@ -59,21 +60,19 @@ type FormData = { rates: Rate[] };
 
 const getValue = getValueFromTheme('priceInformation');
 
-const defaultPriceInfoValues = {
-  rates: [
-    {
-      name: {
-        nl: 'Basistarief',
-        fr: 'Tarif de base',
-        en: 'Base tariff',
-        de: 'Basisrate',
-      },
-      price: '',
-      category: PriceCategories.BASE,
-      priceCurrency: PRICE_CURRENCY,
+const defaultRates = [
+  {
+    name: {
+      nl: 'Basistarief',
+      fr: 'Tarif de base',
+      en: 'Base tariff',
+      de: 'Basisrate',
     },
-  ],
-};
+    price: '',
+    category: PriceCategories.BASE,
+    priceCurrency: PRICE_CURRENCY,
+  },
+];
 
 const isNotUitpas = (value: any) =>
   value[i18n.language] &&
@@ -167,7 +166,7 @@ const PriceInformation = ({
     reValidateMode: 'onBlur',
     resolver: yupResolver(schema),
     shouldFocusError: false,
-    defaultValues: { rates: [] },
+    defaultValues: { rates: defaultRates },
   });
 
   const errorRates = useMemo(
