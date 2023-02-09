@@ -10,7 +10,10 @@ import {
   AdditionalInformationStepVariant,
 } from '@/pages/steps/AdditionalInformationStep';
 import { calendarStepConfiguration } from '@/pages/steps/CalendarStep';
-import { convertStateToFormData } from '@/pages/steps/CalendarStep/CalendarStep';
+import {
+  CalendarInForm,
+  convertStateToFormData,
+} from '@/pages/steps/CalendarStep/CalendarStep';
 import { typeAndThemeStepConfiguration } from '@/pages/steps/EventTypeAndThemeStep';
 import { locationStepConfiguration } from '@/pages/steps/LocationStep';
 import {
@@ -26,7 +29,7 @@ import {
 import { Address, AddressInternal } from '@/types/Address';
 import { Country } from '@/types/Country';
 import { AttendanceMode, AudienceType, isEvent } from '@/types/Event';
-import { Offer } from '@/types/Offer';
+import { Offer, SubEvent } from '@/types/Offer';
 import { isPlace, Place } from '@/types/Place';
 import { Values } from '@/types/Values';
 import { WorkflowStatusMap } from '@/types/WorkflowStatus';
@@ -42,7 +45,7 @@ type Scope = 'events' | 'places';
 
 type FormData = {
   scope: Scope;
-  calendar: any;
+  calendar: CalendarInForm;
   typeAndTheme: {
     type: { id: string; label: string };
     theme: { id: string; label: string };
@@ -267,6 +270,7 @@ const OfferForm = () => {
       toastConfiguration={{
         messages: {
           basic_info: t('create.toast.success.basic_info'),
+          calendar: t('create.toast.success.calendar'),
           media: t('create.toast.success.media'),
           booking_info: t('create.toast.success.booking_info'),
           contact_info: t('create.toast.success.contact_info'),

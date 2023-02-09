@@ -195,7 +195,9 @@ const PlaceStep = ({
                       }}
                       minLength={3}
                       placeholder={placeholderLabel(t)}
-                      newSelectionPrefix="Locatie niet gevonden? "
+                      newSelectionPrefix={t(
+                        'create.additionalInformation.place.add_new_label',
+                      )}
                       allowNew={!isMovie}
                     />
                   }
