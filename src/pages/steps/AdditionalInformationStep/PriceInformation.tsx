@@ -1,6 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { throttle } from 'lodash';
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -43,22 +42,6 @@ type PriceCategory = Values<typeof PriceCategory>;
 
 const getValue = getValueFromTheme('priceInformation');
 
-const defaultPriceInfoValues = {
-  rates: [
-    {
-      name: {
-        nl: 'Basistarief',
-        fr: 'Tarif de base',
-        en: 'Base tariff',
-        de: 'Basisrate',
-      },
-      price: '',
-      category: PriceCategories.BASE,
-      priceCurrency: PRICE_CURRENCY,
-    },
-  ],
-};
-
 const isNotUitpas = (value: any) =>
   value[i18n.language] &&
   !value[i18n.language].toLowerCase().startsWith('uitpas');
@@ -86,9 +69,9 @@ const schema = yup
               is: (category) => category !== PriceCategory.UITPAS,
               then: (schema) =>
                 schema
-                  .test(`name-is-required`, 'name is required', shouldHaveAName)
+                  .test(`name_is_required`, 'name is required', shouldHaveAName)
                   .test(
-                    `name-is-not-uitpas`,
+                    `name_is_not_uitpas`,
                     'should not be uitpas',
                     isNotUitpas,
                   )
@@ -101,20 +84,22 @@ const schema = yup
           priceCurrency: yup.string(),
         }),
       )
-      .test('uniqueName', 'No unique name', (prices, context) => {
+      .test('unique_name', 'No unique name', (prices, context) => {
         const priceNames = prices.map((item) => item.name[i18n.language]);
-        const errors = priceNames.map((priceName, index) => {
-          const indexOf = priceNames.indexOf(priceName);
-          if (indexOf !== -1 && indexOf !== index) {
-            return context.createError({
-              path: `${context.path}.${index}`,
-              message: i18n.t(
-                'create.additionalInformation.price_info.duplicate_name_error',
-                { priceName },
-              ),
-            });
-          }
-        });
+        const errors = priceNames
+          .map((priceName, index) => {
+            const indexOf = priceNames.indexOf(priceName);
+            if (indexOf !== -1 && indexOf !== index) {
+              return context.createError({
+                path: `${context.path}.${index}`,
+                message: i18n.t(
+                  'create.additionalInformation.price_info.duplicate_name_error',
+                  { priceName },
+                ),
+              });
+            }
+          })
+          .filter(Boolean);
 
         return errors.length ? new ValidationError(errors) : true;
       }),
@@ -122,6 +107,22 @@ const schema = yup
   .required();
 
 type FormData = yup.InferType<typeof schema>;
+
+const defaultPriceInfoValues: FormData = {
+  rates: [
+    {
+      name: {
+        nl: 'Basistarief',
+        fr: 'Tarif de base',
+        en: 'Base tariff',
+        de: 'Basisrate',
+      },
+      price: '',
+      category: PriceCategory.BASE,
+      priceCurrency: PRICE_CURRENCY,
+    },
+  ],
+};
 
 const PriceInformation = ({
   scope,
@@ -148,31 +149,17 @@ const PriceInformation = ({
     trigger,
     control,
     setValue,
-    getValues,
     handleSubmit,
     formState: { errors },
     watch,
   } = useForm<FormData>({
-    mode: 'onBlur',
-    reValidateMode: 'onBlur',
     resolver: yupResolver(schema),
-    shouldFocusError: false,
-    defaultValues: { rates: [] },
+    defaultValues: defaultPriceInfoValues,
   });
 
   const errorRates = useMemo(
     () => (errors?.rates ?? []).filter((error: any) => error !== undefined),
     [errors.rates],
-  );
-
-  const hasGlobalError = useMemo(() => errorRates.length > 0, [errorRates]);
-  const duplicateNameError = useMemo(
-    () => errorRates.find((error) => error.type === 'uniqueName')?.message,
-    [errorRates],
-  );
-  const hasUitpasError = useMemo(
-    () => errorRates.some((error) => error.name?.type === 'name-is-not-uitpas'),
-    [errorRates],
   );
 
   const ratesField = useFieldArray({ name: 'rates', control });
@@ -186,22 +173,19 @@ const PriceInformation = ({
     onSuccess: () => setTimeout(() => onSuccessfulChange(), 1000),
   });
 
-  const updatePriceInfo = throttle(
-    () =>
-      addPriceInfoMutation.mutateAsync({
-        id: offerId,
-        scope,
-        priceInfo: getValues('rates').map((rate) => ({
-          ...rate,
-          price: parseFloat(rate.price.replace(',', '.')),
-        })),
-      }),
-    1000,
-  );
-
   const onSubmit = useCallback(
-    () => (hasGlobalError ? null : updatePriceInfo()),
-    [updatePriceInfo, hasGlobalError],
+    () =>
+      handleSubmit((data) => {
+        addPriceInfoMutation.mutate({
+          id: offerId,
+          scope,
+          priceInfo: data.rates.map((rate) => ({
+            ...rate,
+            price: parseFloat(rate.price.replace(',', '.')),
+          })),
+        });
+      })(),
+    [addPriceInfoMutation, handleSubmit, offerId, scope],
   );
 
   const isPriceFree = (price: string) => ['0', '0,0', '0,00'].includes(price);
@@ -247,154 +231,184 @@ const PriceInformation = ({
   }, [offer?.organizer, offer?.priceInfo, offer?.mainLanguage, i18n.language]);
 
   return (
-    <Stack
-      {...getStackProps(props)}
-      as="form"
-      padding={4}
-      onBlur={handleSubmit(onSubmit)}
-    >
-      {hasUitpasPrices && (
-        <Alert variant={AlertVariants.PRIMARY} marginBottom={3}>
-          {t('create.additionalInformation.price_info.uitpas_info')}
-        </Alert>
-      )}
-      {controlledRates.map((rate, index) => (
-        <Inline
-          key={`rate_${rate.id}`}
-          paddingTop={3}
-          paddingBottom={3}
-          css={`
-            border-bottom: 1px solid ${getValue('borderColor')};
-          `}
-        >
-          <Inline width="100%" alignItems="center">
-            <Inline width="30%">
-              {rate.category === PriceCategories.BASE && (
-                <Text>{rate.name[i18n.language]}</Text>
-              )}
-              {rate.category === PriceCategories.TARIFF && (
-                <FormElement
-                  id={`rate_name_${index}`}
-                  Component={
-                    <Input
-                      {...register(
-                        `rates.${index}.name.${
-                          i18n.language as SupportedLanguage
-                        }`,
-                      )}
-                      placeholder={t(
-                        'create.additionalInformation.price_info.target',
-                      )}
-                    />
-                  }
-                />
-              )}
-              {rate.category === PriceCategories.UITPAS && (
-                <Text>{rate.name[i18n.language]}</Text>
-              )}
-            </Inline>
-            <Inline width="40%" alignItems="center">
-              {rate.category && (
-                <FormElement
-                  id={`rate_price_${index}`}
-                  Component={
-                    <Input
-                      marginRight={3}
-                      {...register(`rates.${index}.price`)}
-                      placeholder={t(
-                        'create.additionalInformation.price_info.price',
-                      )}
-                      disabled={rate.category === PriceCategories.UITPAS}
-                    />
-                  }
-                />
-              )}
+    <Stack {...getStackProps(props)} padding={4} spacing={5}>
+      <Stack>
+        {hasUitpasPrices && (
+          <Alert variant={AlertVariants.PRIMARY} marginBottom={3}>
+            {t('create.additionalInformation.price_info.uitpas_info')}
+          </Alert>
+        )}
+        {controlledRates.map((rate, index) => {
+          const registerNameProps = register(
+            `rates.${index}.name.${i18n.language as SupportedLanguage}`,
+          );
 
-              <Text
-                variant={TextVariants.MUTED}
+          const registerPriceProps = register(`rates.${index}.price`);
+
+          const validationErrorType =
+            errors.rates?.at(index)?.name?.type ||
+            errors.rates?.at(index)?.price?.type ||
+            errors.rates?.at(index)?.type;
+
+          return (
+            <Stack key={`rate_${rate.id}`}>
+              <Inline
                 css={`
-                  margin-right: ${parseSpacing(3)};
+                  border-bottom: 1px solid ${getValue('borderColor')};
                 `}
               >
-                {t('create.additionalInformation.price_info.euro')}
-              </Text>
-              {!isPriceFree(rate.price) &&
-                rate.category !== PriceCategories.UITPAS && (
-                  <Button
-                    variant={ButtonVariants.LINK}
-                    onClick={async () => {
-                      setValue(`rates.${index}.price`, '0,00');
-                      await trigger();
-                      await onSubmit();
-                    }}
-                  >
-                    {t('create.additionalInformation.price_info.free')}
-                  </Button>
-                )}
-            </Inline>
-            <Inline width="30%" justifyContent="flex-end">
-              {index !== 0 && rate.category !== PriceCategories.UITPAS && (
-                <Button
-                  iconName={Icons.TRASH}
-                  spacing={3}
-                  variant={ButtonVariants.DANGER}
-                  onClick={async () => {
-                    ratesField.remove(index);
-                    await trigger();
-                    await onSubmit();
-                  }}
-                >
-                  {t('create.additionalInformation.price_info.delete')}
-                </Button>
-              )}
-            </Inline>
-          </Inline>
-        </Inline>
-      ))}
-      {hasGlobalError && !duplicateNameError && (
-        <Alert marginTop={3} variant={AlertVariants.PRIMARY}>
-          <Box
-            forwardedAs="div"
-            dangerouslySetInnerHTML={{
-              __html: t('create.additionalInformation.price_info.global_error'),
-            }}
-            css={`
-              ul {
-                list-style-type: disc;
+                <Inline width="100%" alignItems="baseline" paddingY={3}>
+                  <Inline width="30%">
+                    {rate.category === PriceCategory.BASE && (
+                      <Text>{rate.name[i18n.language]}</Text>
+                    )}
+                    {rate.category === PriceCategory.TARIFF && (
+                      <FormElement
+                        id={`rate_name_${index}`}
+                        Component={
+                          <Input
+                            {...registerNameProps}
+                            onBlur={async (e) => {
+                              await registerNameProps.onBlur(e);
 
-                li {
-                  margin-left: ${parseSpacing(5)};
-                }
+                              const isValid = await trigger();
+
+                              if (!isValid) {
+                                return;
+                              }
+
+                              onSubmit();
+                            }}
+                            placeholder={t(
+                              'create.additionalInformation.price_info.target',
+                            )}
+                          />
+                        }
+                      />
+                    )}
+                    {rate.category === PriceCategory.UITPAS && (
+                      <Text>{rate.name[i18n.language]}</Text>
+                    )}
+                  </Inline>
+                  <Inline width="40%" alignItems="center">
+                    {rate.category && (
+                      <FormElement
+                        id={`rate_price_${index}`}
+                        Component={
+                          <Input
+                            marginRight={3}
+                            {...registerPriceProps}
+                            onBlur={async (e) => {
+                              await registerPriceProps.onBlur(e);
+                              const isValid = await trigger();
+
+                              if (!isValid) {
+                                return;
+                              }
+
+                              onSubmit();
+                            }}
+                            placeholder={t(
+                              'create.additionalInformation.price_info.price',
+                            )}
+                            disabled={rate.category === PriceCategory.UITPAS}
+                          />
+                        }
+                      />
+                    )}
+
+                    <Text
+                      variant={TextVariants.MUTED}
+                      css={`
+                        margin-right: ${parseSpacing(3)};
+                      `}
+                    >
+                      {t('create.additionalInformation.price_info.euro')}
+                    </Text>
+                    {!isPriceFree(rate.price) &&
+                      rate.category !== PriceCategory.UITPAS && (
+                        <Button
+                          variant={ButtonVariants.LINK}
+                          onClick={async () => {
+                            setValue(`rates.${index}.price`, '0,00');
+                            onSubmit();
+                          }}
+                        >
+                          {t('create.additionalInformation.price_info.free')}
+                        </Button>
+                      )}
+                  </Inline>
+                  <Inline width="30%" justifyContent="flex-end">
+                    {index !== 0 && rate.category !== PriceCategory.UITPAS && (
+                      <Button
+                        iconName={Icons.TRASH}
+                        spacing={3}
+                        variant={ButtonVariants.DANGER}
+                        onClick={async () => {
+                          ratesField.remove(index);
+
+                          onSubmit();
+                        }}
+                      >
+                        {t('create.additionalInformation.price_info.delete')}
+                      </Button>
+                    )}
+                  </Inline>
+                </Inline>
+              </Inline>
+              {validationErrorType && (
+                <Text color="red">
+                  {t(
+                    `create.additionalInformation.price_info.validation_messages.${validationErrorType}`,
+                  )}
+                </Text>
+              )}
+            </Stack>
+          );
+        })}
+        <Inline marginTop={3}>
+          <Button
+            onClick={async () => {
+              ratesField.append(
+                {
+                  name: { [i18n.language as SupportedLanguage]: '' },
+                  price: '',
+                  category: PriceCategory.TARIFF,
+                  priceCurrency: PRICE_CURRENCY,
+                },
+                {
+                  focusName: `rates.${ratesField.fields.length}.name`,
+                  shouldFocus: true,
+                },
+              );
+            }}
+            variant={ButtonVariants.SECONDARY}
+          >
+            {t('create.additionalInformation.price_info.add')}
+          </Button>
+        </Inline>
+      </Stack>
+      <Alert>
+        <Box
+          forwardedAs="div"
+          dangerouslySetInnerHTML={{
+            __html: t('create.additionalInformation.price_info.global_info'),
+          }}
+          css={`
+            strong {
+              font-weight: bold;
+            }
+
+            ul {
+              list-style-type: disc;
+
+              li {
+                margin-left: ${parseSpacing(5)};
               }
-            `}
-          />
-        </Alert>
-      )}
-      {hasUitpasError && (
-        <Alert marginTop={3} variant={AlertVariants.WARNING}>
-          {t('create.additionalInformation.price_info.uitpas_error')}
-        </Alert>
-      )}
-      {!!duplicateNameError && (
-        <Alert marginTop={3} variant={AlertVariants.DANGER}>
-          {duplicateNameError}
-        </Alert>
-      )}
-      <Inline marginTop={3}>
-        <Button
-          onClick={() =>
-            ratesField.append({
-              name: { [i18n.language as SupportedLanguage]: '' },
-              price: '',
-              category: PriceCategories.TARIFF,
-              priceCurrency: PRICE_CURRENCY,
-            })
-          }
-          variant={ButtonVariants.SECONDARY}
-        >
-          {t('create.additionalInformation.price_info.add')}
-        </Button>
-      </Inline>
+            }
+          `}
+        />
+      </Alert>
     </Stack>
   );
 };
