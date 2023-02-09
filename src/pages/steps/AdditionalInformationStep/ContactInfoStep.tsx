@@ -233,12 +233,11 @@ const ContactInfoStep = ({
     const newType = event.target.value;
     const newContactInfo = [...contactInfoState];
     newContactInfo[index].type = newType;
+    newContactInfo[index].value = '';
 
     setContactInfoState(newContactInfo);
 
-    if (newContactInfo[index].value !== '') {
-      await handleAddContactInfoMutation(newContactInfo);
-    }
+    await handleAddContactInfoMutation(newContactInfo);
   };
 
   return (
