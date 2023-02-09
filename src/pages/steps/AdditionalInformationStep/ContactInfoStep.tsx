@@ -99,23 +99,10 @@ const ContactInfoStep = ({
     // @ts-expect-error
     getOfferByIdQuery.data?.contactPoint ?? organizerContactInfo;
 
-  const onValidationChangeCallback = useCallback(onValidationChange, [
-    onValidationChange,
-  ]);
-
   useEffect(() => {
     if (!contactInfo) return;
 
     if (isContactInfoStateInitialized) return;
-
-    const hasContactInfo = Object.values(contactInfo).some(
-      (contactInfoPerType: string[]) => contactInfoPerType.length > 0,
-    );
-
-    // onValidationChange can be undefined when used in OrganizerStep
-    onValidationChangeCallback?.(
-      hasContactInfo ? ValidationStatus.SUCCESS : ValidationStatus.NONE,
-    );
 
     const contactInfoArray = [];
     Object.keys(contactInfo).forEach((key) => {
@@ -129,7 +116,22 @@ const ContactInfoStep = ({
 
     setContactInfoState(contactInfoArray);
     setIsContactInfoInitialized(true);
-  }, [contactInfo, onValidationChangeCallback]);
+  }, [contactInfo]);
+
+  useEffect(() => {
+    if (!isContactInfoStateInitialized) return;
+
+    const filteredContactInfoState = contactInfoState.filter(
+      (contactInfo) => contactInfo.value !== '',
+    );
+
+    if (filteredContactInfoState.length === 0) {
+      onValidationChange(ValidationStatus.NONE);
+      return;
+    }
+
+    onValidationChange(ValidationStatus.SUCCESS);
+  }, [contactInfoState]);
 
   const queryClient = useQueryClient();
 
