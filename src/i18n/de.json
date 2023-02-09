@@ -378,7 +378,7 @@
         "duplicate_name_error": "Tarif mit dem Namen \"Hallo\" existiert bereits, bitte verwenden Sie einen anderen Namen.",
         "euro": "euro",
         "free": "Kostenlos",
-        "global_error": "Vergewissern Sie sich, dass Ihre Preisinformationen immer gültig sind:<ul><li>Schreiben Sie Dezimalzahlen mit einem Komma.</li><li>Lassen Sie keine Zeile leer, geben Sie immer eine Zielgruppe und einen Betrag an.</li><li>Geben Sie maximal zwei Dezimalstellen an.</li></ul>",
+        "global_info": "Vergewissern Sie sich, dass Ihre Preisinformationen immer gültig sind:<ul><li>Schreiben Sie Dezimalzahlen mit einem Komma.</li><li>Lassen Sie keine Zeile leer, geben Sie immer eine Zielgruppe und einen Betrag an.</li><li>Geben Sie maximal zwei Dezimalstellen an.</li></ul>",
         "price": "Preis",
         "prices": "Preise",
         "save": "Speichern",
