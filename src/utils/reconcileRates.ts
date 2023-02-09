@@ -17,6 +17,7 @@ export function reconcileRates(
   const formatter = Intl.NumberFormat('nl-NL', {
     style: 'decimal',
     minimumFractionDigits: 2,
+    useGrouping: false,
   });
 
   const alreadyEmbeddedUitpasPrices = currentRates.find(

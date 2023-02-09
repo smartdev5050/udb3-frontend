@@ -47,7 +47,7 @@ describe('reconcileRates', () => {
       {
         name: { nl: 'bar' },
         category: PriceCategories.BASE,
-        price: 25,
+        price: 2500000,
         priceCurrency: 'EUR',
       },
     ];
@@ -62,7 +62,7 @@ describe('reconcileRates', () => {
       {
         name: { nl: 'bar' },
         category: PriceCategories.BASE,
-        price: '25,00',
+        price: '2500000,00',
         priceCurrency: 'EUR',
       },
     ]);
