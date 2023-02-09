@@ -77,6 +77,12 @@ const useEditLocation = ({ scope, offerId }: UseEditArguments) => {
           });
         }
 
+        if (!location.onlineUrl) {
+          deleteOnlineUrl.mutate({
+            eventId: offerId,
+          });
+        }
+
         return;
       }
 
@@ -274,7 +280,10 @@ const LocationStep = ({
                       maxWidth="28rem"
                       value={onlineUrl}
                       onBlur={(e) => {
-                        const prefixedUrl = prefixUrlWithHttp(e.target.value);
+                        const prefixedUrl =
+                          e.target.value === ''
+                            ? e.target.value
+                            : prefixUrlWithHttp(e.target.value);
                         const updatedValue = {
                           ...field?.value,
                           onlineUrl: prefixedUrl,
