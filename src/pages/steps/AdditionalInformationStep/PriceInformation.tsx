@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -133,6 +133,8 @@ const PriceInformation = ({
 }: TabContentProps) => {
   const { t, i18n } = useTranslation();
 
+  const handleValidationChange = useRef(onValidationChange).current;
+
   const useGetOfferByIdQuery =
     scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
 
@@ -157,14 +159,9 @@ const PriceInformation = ({
     defaultValues: defaultPriceInfoValues,
   });
 
-  const errorRates = useMemo(
-    () => (errors?.rates ?? []).filter((error: any) => error !== undefined),
-    [errors.rates],
-  );
-
-  const ratesField = useFieldArray({ name: 'rates', control });
+  const { fields, replace, append } = useFieldArray({ name: 'rates', control });
   const rates = watch('rates');
-  const controlledRates = ratesField.fields.map((field, index) => ({
+  const controlledRates = fields.map((field, index) => ({
     ...field,
     ...rates[index],
   }));
@@ -195,25 +192,27 @@ const PriceInformation = ({
   );
 
   useEffect(() => {
-    let newPriceInfo = offer?.priceInfo ?? [];
+    const priceInfo = offer?.priceInfo ?? [];
+
     const hasUitpasLabel = offer?.organizer
       ? isUitpasOrganizer(offer?.organizer)
       : false;
 
-    if (newPriceInfo.length > 0) {
-      onValidationChange(ValidationStatus.SUCCESS);
-    } else {
-      onValidationChange(
+    if (priceInfo.length === 0) {
+      replace(defaultPriceInfoValues.rates);
+
+      handleValidationChange(
         hasUitpasLabel ? ValidationStatus.WARNING : ValidationStatus.NONE,
       );
+
+      return;
     }
 
-    if (!newPriceInfo.length) {
-      return ratesField.replace(defaultPriceInfoValues.rates);
-    }
+    handleValidationChange(ValidationStatus.SUCCESS);
 
     const mainLanguage = offer?.mainLanguage;
-    newPriceInfo = newPriceInfo.map((rate: any) => {
+
+    const newPriceInfo = priceInfo.map((rate) => {
       return {
         ...rate,
         name: {
@@ -224,11 +223,15 @@ const PriceInformation = ({
       };
     });
 
-    if (!rates.length) {
-      ratesField.replace(newPriceInfo);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [offer?.organizer, offer?.priceInfo, offer?.mainLanguage, i18n.language]);
+    replace(newPriceInfo);
+  }, [
+    handleValidationChange,
+    i18n.language,
+    offer?.mainLanguage,
+    offer?.organizer,
+    offer?.priceInfo,
+    replace,
+  ]);
 
   return (
     <Stack {...getStackProps(props)} padding={4} spacing={5}>
@@ -369,7 +372,7 @@ const PriceInformation = ({
         <Inline marginTop={3}>
           <Button
             onClick={async () => {
-              ratesField.append(
+              append(
                 {
                   name: { [i18n.language as SupportedLanguage]: '' },
                   price: '',
@@ -377,7 +380,7 @@ const PriceInformation = ({
                   priceCurrency: PRICE_CURRENCY,
                 },
                 {
-                  focusName: `rates.${ratesField.fields.length}.name`,
+                  focusName: `rates.${fields.length}.name`,
                   shouldFocus: true,
                 },
               );
