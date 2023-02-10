@@ -420,7 +420,6 @@ const LocationStep = ({
                 </Inline>
                 {scope === OfferTypes.EVENTS && (
                   <PlaceStep
-                    maxWidth="28rem"
                     municipality={municipality}
                     country={country}
                     chooseLabel={chooseLabel}
