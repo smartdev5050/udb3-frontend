@@ -94,11 +94,11 @@ const getUrlLabelType = (englishUrlLabel: string): string => {
 type ReservationPeriodProps = {
   availabilityStarts: string;
   availabilityEnds: string;
-  handleDelete: () => Promise<void>;
+  handleDelete: () => void;
   handlePeriodChange: (
     availabilityEnds: Date,
     availabilityStarts: Date,
-  ) => Promise<void>;
+  ) => void;
 };
 
 const ReservationPeriod = ({
@@ -112,57 +112,35 @@ const ReservationPeriod = ({
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [errorMessage, setErrorMessage] = useState('');
+  const [isPeriodInitialized, setIsPeriodInitialized] = useState(false);
 
   useEffect(() => {
     if (!availabilityEnds || !availabilityStarts) {
       return;
     }
 
+    if (isPeriodInitialized) return;
+
     setIsDatePickerVisible(true);
     setStartDate(new Date(availabilityStarts));
     setEndDate(new Date(availabilityEnds));
-  }, [availabilityEnds, availabilityStarts]);
+    setIsPeriodInitialized(true);
+  }, [availabilityEnds, availabilityStarts, isPeriodInitialized]);
 
-  const handleEndDateBeforeStartDateError = (): void => {
-    setErrorMessage(
-      t(
-        'create.additionalInformation.booking_info.reservation_period.error.enddate_before_startdate',
-      ),
-    );
+  const handleNewBookingPeriod = (startDate: Date, endDate: Date): void => {
+    handlePeriodChange(endDate, startDate);
   };
 
-  const handleNewBookingPeriod = async (
-    startDate: Date,
-    endDate: Date,
-  ): Promise<void> => {
-    await handlePeriodChange(endDate, startDate);
-  };
+  useEffect(() => {
+    if (!endDate || !startDate) return;
 
-  const handleChangeStartDate = async (newStartDate: Date): Promise<void> => {
-    setStartDate(newStartDate);
-    if (endDate <= newStartDate) {
-      handleEndDateBeforeStartDateError();
+    if (endDate < startDate) {
       return;
     }
 
-    setErrorMessage('');
-
-    await handleNewBookingPeriod(newStartDate, endDate);
-  };
-
-  const handleChangeEndDate = async (newEndDate: Date): Promise<void> => {
-    setEndDate(newEndDate);
-
-    if (newEndDate <= startDate) {
-      handleEndDateBeforeStartDateError();
-      return;
-    }
-
-    setErrorMessage('');
-
-    await handleNewBookingPeriod(startDate, newEndDate);
-  };
+    handleNewBookingPeriod(startDate, endDate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [startDate, endDate]);
 
   return (
     <Stack>
@@ -225,12 +203,9 @@ const ReservationPeriod = ({
               dateStart={startDate}
               dateEnd={endDate}
               minDate={new Date()}
-              onDateStartChange={handleChangeStartDate}
-              onDateEndChange={handleChangeEndDate}
+              onDateStartChange={setStartDate}
+              onDateEndChange={setEndDate}
             />
-            {errorMessage && (
-              <Alert variant={AlertVariants.DANGER}>{errorMessage}</Alert>
-            )}
           </Stack>
         </Stack>
       )}
@@ -370,7 +345,6 @@ const BookingInfoStep = ({
   });
 
   const addBookingInfoMutation = useAddOfferBookingInfoMutation({
-    onSuccess: onSuccessfulChange,
     onMutate: async (newPayload) => {
       await queryClient.cancelQueries({
         queryKey: ['events', { id: eventId }],
@@ -393,9 +367,10 @@ const BookingInfoStep = ({
         context.previousEventInfo,
       );
     },
+    onSuccess: onSuccessfulChange,
   });
 
-  const handleAddBookingInfoMutation = async (newBookingInfo: BookingInfo) => {
+  const handleAddBookingInfoMutation = (newBookingInfo: BookingInfo) => {
     const bookingInfo = newBookingInfo;
     const newUrlLabels =
       URL_LABEL_TRANSLATIONS[selectedUrlLabel] ??
@@ -436,7 +411,7 @@ const BookingInfoStep = ({
       delete bookingInfo.availabilityStarts;
     }
 
-    await addBookingInfoMutation.mutateAsync({
+    addBookingInfoMutation.mutate({
       eventId,
       bookingInfo: {
         ...bookingInfo,
@@ -448,7 +423,7 @@ const BookingInfoStep = ({
     });
   };
 
-  const handleChangeBookingPeriod = async (
+  const handleChangeBookingPeriod = (
     availabilityEnds: Date,
     availabilityStarts: Date,
   ) => {
@@ -460,30 +435,30 @@ const BookingInfoStep = ({
 
     const formValues = getValues();
 
-    await handleAddBookingInfoMutation({
+    handleAddBookingInfoMutation({
       ...formValues,
       availabilityEnds: isoEndDate,
       availabilityStarts: isoStartDate,
     });
   };
 
-  const handleDeleteBookingPeriod = async () => {
+  const handleDeleteBookingPeriod = () => {
     const formValues = getValues();
 
-    await handleAddBookingInfoMutation({
+    handleAddBookingInfoMutation({
       ...formValues,
       availabilityEnds: undefined,
       availabilityStarts: undefined,
     });
   };
 
-  const handleOnUrlLabelChange = async (e: ChangeEvent<HTMLInputElement>) => {
+  const handleOnUrlLabelChange = (e: ChangeEvent<HTMLInputElement>) => {
     const urlLabelType = e.target.value;
     const newUrlLabels = URL_LABEL_TRANSLATIONS[urlLabelType];
 
     const formValues = getValues();
 
-    await handleAddBookingInfoMutation({
+    handleAddBookingInfoMutation({
       ...formValues,
       urlLabel: newUrlLabels,
     });
@@ -496,8 +471,8 @@ const BookingInfoStep = ({
           as="form"
           width="45%"
           spacing={4}
-          onBlur={handleSubmit(async (data) => {
-            await handleAddBookingInfoMutation(data);
+          onBlur={handleSubmit((data) => {
+            handleAddBookingInfoMutation(data);
           })}
           ref={formComponent}
         >
