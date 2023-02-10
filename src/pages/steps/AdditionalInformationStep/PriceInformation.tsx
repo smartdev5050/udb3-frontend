@@ -15,7 +15,7 @@ import {
   ValidationStatus,
 } from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
 import { isUitpasOrganizer } from '@/pages/steps/AdditionalInformationStep/OrganizerPicker';
-import { Event } from '@/types/Event';
+import { Offer } from '@/types/Offer';
 import type { Values } from '@/types/Values';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Box, parseSpacing } from '@/ui/Box';
@@ -144,7 +144,7 @@ const PriceInformation = ({
   );
 
   // @ts-expect-error
-  const offer: Event | Place | undefined = getOfferByIdQuery.data;
+  const offer: Offer | undefined = getOfferByIdQuery.data;
 
   const {
     register,
