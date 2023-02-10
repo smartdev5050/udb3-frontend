@@ -335,6 +335,7 @@ const PriceInformation = ({
                           onClick={async () => {
                             setValue(`rates.${index}.price`, '0,00', {
                               shouldTouch: false,
+                              shouldValidate: false,
                             });
                             onSubmit();
                           }}
