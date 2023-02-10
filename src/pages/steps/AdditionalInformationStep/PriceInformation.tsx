@@ -156,6 +156,7 @@ const PriceInformation = ({
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     defaultValues: defaultPriceInfoValues,
+    shouldFocusError: false,
   });
 
   const { fields, replace, append, remove } = useFieldArray({
