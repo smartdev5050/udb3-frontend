@@ -194,12 +194,22 @@ const PriceInformation = ({
     [rates],
   );
 
+  const hasRates = useMemo(
+    () => controlledRates.filter((rate) => rate.price !== '').length > 0,
+    [controlledRates],
+  );
+
   useEffect(() => {
     const priceInfo = offer?.priceInfo ?? [];
 
     const hasUitpasLabel = offer?.organizer
       ? isUitpasOrganizer(offer?.organizer)
       : false;
+
+    if (hasRates) {
+      onValidationChange(ValidationStatus.SUCCESS);
+      return;
+    }
 
     if (priceInfo.length === 0) {
       replace(defaultPriceInfoValues.rates);
@@ -236,6 +246,7 @@ const PriceInformation = ({
     offer?.organizer,
     offer?.priceInfo,
     replace,
+    hasRates,
   ]);
 
   return (
