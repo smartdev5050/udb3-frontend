@@ -337,7 +337,9 @@ const PriceInformation = ({
                         <Button
                           variant={ButtonVariants.LINK}
                           onClick={async () => {
-                            setValue(`rates.${index}.price`, '0,00');
+                            setValue(`rates.${index}.price`, '0,00', {
+                              shouldTouch: false,
+                            });
                             onSubmit();
                           }}
                         >
