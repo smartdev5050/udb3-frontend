@@ -253,7 +253,7 @@ const PriceInformation = ({
             errors.rates?.at(index)?.type;
 
           return (
-            <Stack key={`rate_${rate.name}_${rate.price}_${rate.category}`}>
+            <Stack key={`rate_${rate.id}`}>
               <Inline
                 css={`
                   border-bottom: 1px solid ${getValue('borderColor')};
