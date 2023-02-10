@@ -1,4 +1,4 @@
-import pick from 'lodash/pick';
+import { pickBy } from 'lodash';
 import { Children, cloneElement, forwardRef } from 'react';
 import styled, { css } from 'styled-components';
 
@@ -96,7 +96,16 @@ const inlinePropTypes = [
 ];
 
 const getInlineProps = (props: UnknownProps) =>
-  pick(props, [...boxPropTypes, ...inlinePropTypes]);
+  pickBy(props, (_value, key) => {
+    // pass aria attributes to the DOM element
+    if (key.startsWith('aria-')) {
+      return true;
+    }
+
+    return (
+      [...boxPropTypes, ...inlinePropTypes] as readonly string[]
+    ).includes(key);
+  });
 
 Inline.defaultProps = {
   as: 'section',
