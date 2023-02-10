@@ -218,6 +218,7 @@ const PriceInformation = ({
           [i18n.language]: rate.name[i18n.language] ?? rate.name[mainLanguage],
         },
         price: rate.price.toFixed(2).replace('.', ','),
+        priceCurrency: PRICE_CURRENCY,
       };
     });
 
