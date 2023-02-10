@@ -228,8 +228,9 @@ const PriceInformation = ({
     });
 
     replace(newPriceInfo);
+    // onValidationChange is hard to wrap in useCallback in parent
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    onValidationChange,
     i18n.language,
     offer?.mainLanguage,
     offer?.organizer,
