@@ -159,7 +159,10 @@ const PriceInformation = ({
     defaultValues: defaultPriceInfoValues,
   });
 
-  const { fields, replace, append } = useFieldArray({ name: 'rates', control });
+  const { fields, replace, append, remove } = useFieldArray({
+    name: 'rates',
+    control,
+  });
   const rates = watch('rates');
   const controlledRates = fields.map((field, index) => ({
     ...field,
@@ -236,11 +239,6 @@ const PriceInformation = ({
   return (
     <Stack {...getStackProps(props)} padding={4} spacing={5}>
       <Stack>
-        {hasUitpasPrices && (
-          <Alert variant={AlertVariants.PRIMARY} marginBottom={3}>
-            {t('create.additionalInformation.price_info.uitpas_info')}
-          </Alert>
-        )}
         {controlledRates.map((rate, index) => {
           const registerNameProps = register(
             `rates.${index}.name.${i18n.language as SupportedLanguage}`,
@@ -348,7 +346,7 @@ const PriceInformation = ({
                         spacing={3}
                         variant={ButtonVariants.DANGER}
                         onClick={async () => {
-                          ratesField.remove(index);
+                          remove(index);
 
                           onSubmit();
                         }}
@@ -391,27 +389,34 @@ const PriceInformation = ({
           </Button>
         </Inline>
       </Stack>
-      <Alert>
-        <Box
-          forwardedAs="div"
-          dangerouslySetInnerHTML={{
-            __html: t('create.additionalInformation.price_info.global_info'),
-          }}
-          css={`
-            strong {
-              font-weight: bold;
-            }
-
-            ul {
-              list-style-type: disc;
-
-              li {
-                margin-left: ${parseSpacing(5)};
+      <Stack spacing={4}>
+        <Alert>
+          <Box
+            forwardedAs="div"
+            dangerouslySetInnerHTML={{
+              __html: t('create.additionalInformation.price_info.global_info'),
+            }}
+            css={`
+              strong {
+                font-weight: bold;
               }
-            }
-          `}
-        />
-      </Alert>
+
+              ul {
+                list-style-type: disc;
+
+                li {
+                  margin-left: ${parseSpacing(5)};
+                }
+              }
+            `}
+          />
+        </Alert>
+        {hasUitpasPrices && (
+          <Alert variant={AlertVariants.PRIMARY} marginBottom={3}>
+            {t('create.additionalInformation.price_info.uitpas_info')}
+          </Alert>
+        )}
+      </Stack>
     </Stack>
   );
 };
