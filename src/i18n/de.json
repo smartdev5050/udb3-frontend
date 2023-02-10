@@ -385,7 +385,12 @@
         "target": "Zielgruppe",
         "title": "Preise",
         "uitpas_error": "Der UiTPAS-Preis wird von UiTdatabank für Sie berechnet. Sie können diese nicht selbst hinzufügen.",
-        "uitpas_info": "Der UiTPAS Opportunity-Tarif wird automatisch auf Basis des Basispreises und der aktiven Kartensysteme berechnet."
+        "uitpas_info": "Der UiTPAS Opportunity-Tarif wird automatisch auf Basis des Basispreises und der aktiven Kartensysteme berechnet.",
+        "validation_messages": {
+          "matches": "Der angegebene Preis ist ungültig.",
+          "unique_name": "Der angegebene Name wird bereits verwendet.",
+          "name_is_required": "Name ist erforderlich."
+        }
       },
       "title": {
         "events": "Heben Sie Ihre Veranstaltung besonders hervor",

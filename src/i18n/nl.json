@@ -392,9 +392,9 @@
         "uitpas_error": "De UiTPAS prijs wordt voor jou berekend door UiTdatabank. Je kan deze niet zelf toevoegen.",
         "uitpas_info": "Het UiTPAS kansentarief wordt automatish berekend op basis van de basisprijs en de actieve kaartsystemen.",
         "validation_messages": {
-          "matches": "TODO",
-          "unique_name": "TODO",
-          "name_is_required": "TODO"
+          "matches": "De opgegeven prijs is ongeldig.",
+          "unique_name": "De ingegeven naam in reeds gebruikt.",
+          "name_is_required": "Naam is verplicht."
         }
       },
       "title": {

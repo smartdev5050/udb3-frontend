@@ -386,7 +386,12 @@
         "target": "Public cible",
         "title": "Prix",
         "uitpas_error": "Le prix UiTPAS est calculé pour vous par UiTdatabank. Vous ne pouvez pas les ajouter vous-même.",
-        "uitpas_info": "Le taux d'opportunité UiTPAS est automatiquement calculé en fonction du prix de base et des systèmes de cartes actifs."
+        "uitpas_info": "Le taux d'opportunité UiTPAS est automatiquement calculé en fonction du prix de base et des systèmes de cartes actifs.",
+        "validation_messages": {
+          "matches": "Le prix indiqué n'est pas valide.",
+          "unique_name": "Le nom spécifié est déjà utilisé.",
+          "name_is_required": "Le nom est requis."
+        }
       },
       "title": {
         "events": "Augmentez la visibilité de votre évènement",
