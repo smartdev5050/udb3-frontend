@@ -77,6 +77,12 @@ const useEditLocation = ({ scope, offerId }: UseEditArguments) => {
           });
         }
 
+        if (!location.onlineUrl) {
+          deleteOnlineUrl.mutate({
+            eventId: offerId,
+          });
+        }
+
         return;
       }
 
@@ -173,10 +179,23 @@ const LocationStep = ({
   const [onlineUrl, setOnlineUrl] = useState('');
   const [hasOnlineUrlError, setHasOnlineUrlError] = useState(false);
 
-  const [scope, locationStreetAndNumber, locationOnlineUrl] = useWatch({
-    control,
-    name: ['scope', 'location.streetAndNumber', 'location.onlineUrl'],
-  });
+  const [scope, locationStreetAndNumber, locationOnlineUrl, location] =
+    useWatch({
+      control,
+      name: [
+        'scope',
+        'location.streetAndNumber',
+        'location.onlineUrl',
+        'location',
+      ],
+    });
+
+  const isNameAndAgeRangeVisible =
+    !!offerId ||
+    !!location?.place ||
+    location?.isOnline ||
+    !!location?.streetAndNumber ||
+    !location.country;
 
   const useGetOfferByIdQuery =
     scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
@@ -203,7 +222,10 @@ const LocationStep = ({
   }, [locationStreetAndNumber, locationOnlineUrl, audience]);
 
   return (
-    <Stack {...getStackProps(props)}>
+    <Stack
+      {...getStackProps(props)}
+      minHeight={isNameAndAgeRangeVisible ? 'inherit' : '350px'}
+    >
       <Controller
         control={control}
         name={name}
@@ -274,7 +296,10 @@ const LocationStep = ({
                       maxWidth="28rem"
                       value={onlineUrl}
                       onBlur={(e) => {
-                        const prefixedUrl = prefixUrlWithHttp(e.target.value);
+                        const prefixedUrl =
+                          e.target.value === ''
+                            ? e.target.value
+                            : prefixUrlWithHttp(e.target.value);
                         const updatedValue = {
                           ...field?.value,
                           onlineUrl: prefixedUrl,

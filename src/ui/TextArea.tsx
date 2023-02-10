@@ -22,7 +22,7 @@ const BaseInput = forwardRef<HTMLTextAreaElement, Props>((props, ref) => (
 
 BaseInput.displayName = 'BaseInput';
 
-const TextArea = forwardRef<HTMLInputElement, Props>(
+const TextArea = forwardRef<HTMLTextAreaElement, Props>(
   (
     {
       id,
