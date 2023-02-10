@@ -133,8 +133,6 @@ const PriceInformation = ({
 }: TabContentProps) => {
   const { t, i18n } = useTranslation();
 
-  const handleValidationChange = useRef(onValidationChange).current;
-
   const useGetOfferByIdQuery =
     scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
 
@@ -201,14 +199,14 @@ const PriceInformation = ({
     if (priceInfo.length === 0) {
       replace(defaultPriceInfoValues.rates);
 
-      handleValidationChange(
+      onValidationChange(
         hasUitpasLabel ? ValidationStatus.WARNING : ValidationStatus.NONE,
       );
 
       return;
     }
 
-    handleValidationChange(ValidationStatus.SUCCESS);
+    onValidationChange(ValidationStatus.SUCCESS);
 
     const mainLanguage = offer?.mainLanguage;
 
@@ -225,7 +223,7 @@ const PriceInformation = ({
 
     replace(newPriceInfo);
   }, [
-    handleValidationChange,
+    onValidationChange,
     i18n.language,
     offer?.mainLanguage,
     offer?.organizer,
