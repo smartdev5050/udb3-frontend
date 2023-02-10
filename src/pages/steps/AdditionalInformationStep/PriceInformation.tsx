@@ -331,9 +331,8 @@ const PriceInformation = ({
                       rate.category !== PriceCategory.UITPAS && (
                         <Button
                           variant={ButtonVariants.LINK}
-                          onClick={async () => {
+                          onClick={() => {
                             setValue(`rates.${index}.price`, '0,00', {
-                              shouldTouch: false,
                               shouldValidate: false,
                             });
                             onSubmit();
@@ -351,7 +350,7 @@ const PriceInformation = ({
                       ariaLabel={t(
                         'create.additionalInformation.price_info.delete',
                       )}
-                      onClick={async () => {
+                      onClick={() => {
                         remove(index);
 
                         onSubmit();
@@ -372,7 +371,7 @@ const PriceInformation = ({
         })}
         <Inline marginTop={3}>
           <Button
-            onClick={async () => {
+            onClick={() => {
               append(
                 {
                   name: { [i18n.language as SupportedLanguage]: '' },
