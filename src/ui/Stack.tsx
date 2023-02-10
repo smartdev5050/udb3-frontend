@@ -1,4 +1,4 @@
-import pick from 'lodash/pick';
+import { pickBy } from 'lodash';
 import { Children, cloneElement, forwardRef } from 'react';
 import styled, { css } from 'styled-components';
 
@@ -62,7 +62,16 @@ Stack.displayName = 'Stack';
 const stackPropTypes = ['spacing', 'alignItems', 'justifyContent'];
 
 const getStackProps = (props: UnknownProps) =>
-  pick(props, [...boxPropTypes, ...stackPropTypes]);
+  pickBy(props, (_value, key) => {
+    // pass aria attributes to the DOM element
+    if (key.startsWith('aria-')) {
+      return true;
+    }
+
+    const propTypes: string[] = [...boxPropTypes, ...stackPropTypes];
+
+    return propTypes.includes(key);
+  });
 
 Stack.defaultProps = {
   as: 'section',

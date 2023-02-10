@@ -5,6 +5,7 @@ import type { Theme } from '@/ui/theme';
 declare module 'react' {
   interface Attributes {
     css?: CSSProp<Theme>;
+    forwardedAs?: string | ComponentType<any>;
   }
 }
 

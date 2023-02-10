@@ -383,14 +383,19 @@
         "duplicate_name_error": "Tarief met de naam \"{{priceName}}\" bestaat al, gelieve een andere naam te gebruiken.",
         "euro": "euro",
         "free": "Gratis",
-        "global_error": "Zorg ervoor dat je prijsinformatie steeds geldig is: <ul><li>Noteer decimalen met een komma.</li><li>Laat geen enkele rij leeg, vul steeds een doelgroep en een bedrag in.</li> <li>Geef maximum twee cijfers na de komma.</li></ul>",
+        "global_info": "Zorg ervoor dat je prijsinformatie steeds geldig is: <ul><li>Noteer decimalen met een komma.</li><li>Laat geen enkele rij leeg, vul steeds een doelgroep en een bedrag in.</li> <li>Geef maximum twee cijfers na de komma.</li></ul>",
         "price": "Prijs",
         "prices": "Prijzen",
         "save": "Bewaren",
         "target": "Doelgroep",
         "title": "Prijzen",
         "uitpas_error": "De UiTPAS prijs wordt voor jou berekend door UiTdatabank. Je kan deze niet zelf toevoegen.",
-        "uitpas_info": "Het UiTPAS kansentarief wordt automatish berekend op basis van de basisprijs en de actieve kaartsystemen."
+        "uitpas_info": "Het UiTPAS kansentarief wordt automatish berekend op basis van de basisprijs en de actieve kaartsystemen.",
+        "validation_messages": {
+          "matches": "De opgegeven prijs is ongeldig.",
+          "unique_name": "De opgegeven naam in reeds gebruikt.",
+          "name_is_required": "Naam is verplicht."
+        }
       },
       "title": {
         "events": "Laat je evenement extra opvallen",
