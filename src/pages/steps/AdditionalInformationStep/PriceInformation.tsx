@@ -347,7 +347,7 @@ const PriceInformation = ({
                       iconName={Icons.TRASH}
                       variant={ButtonVariants.DANGER}
                       size={ButtonSizes.SMALL}
-                      ariaLabel={t(
+                      aria-label={t(
                         'create.additionalInformation.price_info.delete',
                       )}
                       onClick={() => {
