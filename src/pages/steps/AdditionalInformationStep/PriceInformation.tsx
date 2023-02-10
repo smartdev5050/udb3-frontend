@@ -150,6 +150,7 @@ const PriceInformation = ({
     control,
     setValue,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(schema),
@@ -162,7 +163,11 @@ const PriceInformation = ({
     control,
   });
 
-  const rates = fields;
+  const rates = watch('rates');
+  const controlledRates = ratesField.fields.map((field, index) => ({
+    ...field,
+    ...rates[index],
+  }));
 
   const addPriceInfoMutation = useAddOfferPriceInfoMutation({
     onSuccess: () => setTimeout(() => onSuccessfulChange(), 1000),
@@ -235,7 +240,7 @@ const PriceInformation = ({
   return (
     <Stack {...getStackProps(props)} padding={4} spacing={5}>
       <Stack>
-        {rates.map((rate, index) => {
+        {controlledRates.map((rate, index) => {
           const registerNameProps = register(
             `rates.${index}.name.${i18n.language as SupportedLanguage}`,
           );
