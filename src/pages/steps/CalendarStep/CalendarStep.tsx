@@ -126,7 +126,10 @@ const CalendarStep = ({
 }: CalendarStepProps) => {
   const { t } = useTranslation();
 
-  const scope = useWatch({ control, name: 'scope' });
+  const [scope, type] = useWatch({
+    control,
+    name: ['scope', 'typeAndTheme.type'],
+  });
 
   const calendarService = useCalendarContext();
 
@@ -253,8 +256,27 @@ const CalendarStep = ({
     handleChooseFixedDays();
   }, [scope, isIdle, handleChooseFixedDays]);
 
+  // scroll to calendar step after theme has been selected
+  useEffect(() => {
+    if (!scope || !type.id) return;
+    if (offerId) return;
+
+    const yOffset = -60;
+    const main = document.getElementsByTagName('main')[0];
+    const calendarContainer = document.getElementById(
+      'calendar-step-container',
+    );
+    const scrollToPosition =
+      calendarContainer.getBoundingClientRect().top +
+      window.pageYOffset +
+      yOffset;
+
+    main.scrollTo({ top: scrollToPosition, behavior: 'smooth' });
+  }, [scope, offerId, type]);
+
   return (
     <Stack
+      id="calendar-step-container"
       spacing={4}
       minWidth={{ l: 'auto', default: '60rem' }}
       width={{ l: '100%', default: 'min-content' }}
