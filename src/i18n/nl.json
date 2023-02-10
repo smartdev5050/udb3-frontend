@@ -393,7 +393,7 @@
         "uitpas_info": "Het UiTPAS kansentarief wordt automatish berekend op basis van de basisprijs en de actieve kaartsystemen.",
         "validation_messages": {
           "matches": "De opgegeven prijs is ongeldig.",
-          "unique_name": "De ingegeven naam in reeds gebruikt.",
+          "unique_name": "De opgegeven naam in reeds gebruikt.",
           "name_is_required": "Naam is verplicht."
         }
       },
