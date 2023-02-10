@@ -1,5 +1,12 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import {
+  ChangeEvent,
+  FormEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { useTranslation } from 'react-i18next';
+import { useQueryClient } from 'react-query';
 
 import { OfferTypes } from '@/constants/OfferType';
 import { useGetEventByIdQuery } from '@/hooks/api/events';
@@ -39,13 +46,17 @@ const URL_REGEX: RegExp =
 const PHONE_REGEX: RegExp = /^[0-9\/_.+ ]*$/;
 
 const isValidEmail = (email: string) => {
-  return EMAIL_REGEX.test(email) || email === '';
+  return (
+    typeof email === 'undefined' || email === '' || EMAIL_REGEX.test(email)
+  );
 };
 const isValidUrl = (url: string) => {
-  return URL_REGEX.test(url) || url === '';
+  return typeof url === 'undefined' || url === '' || URL_REGEX.test(url);
 };
 const isValidPhone = (phone: string) => {
-  return PHONE_REGEX.test(phone) || phone === '';
+  return (
+    typeof phone === 'undefined' || phone === '' || PHONE_REGEX.test(phone)
+  );
 };
 
 const isValidInfo = (type: string, value: string): boolean => {
@@ -83,7 +94,10 @@ const ContactInfoStep = ({
   const [contactInfoState, setContactInfoState] = useState<NewContactInfo[]>(
     [],
   );
+
   const [isFieldFocused, setIsFieldFocused] = useState(false);
+  const [isContactInfoStateInitialized, setIsContactInfoInitialized] =
+    useState(false);
 
   const contactInfo =
     // @ts-expect-error
@@ -92,14 +106,7 @@ const ContactInfoStep = ({
   useEffect(() => {
     if (!contactInfo) return;
 
-    const hasContactInfo = Object.values(contactInfo).some(
-      (contactInfoPerType: string[]) => contactInfoPerType.length > 0,
-    );
-
-    // onValidationChange can be undefined when used in OrganizerStep
-    onValidationChange?.(
-      hasContactInfo ? ValidationStatus.SUCCESS : ValidationStatus.NONE,
-    );
+    if (isContactInfoStateInitialized) return;
 
     const contactInfoArray = [];
     Object.keys(contactInfo).forEach((key) => {
@@ -112,9 +119,45 @@ const ContactInfoStep = ({
     });
 
     setContactInfoState(contactInfoArray);
-  }, [contactInfo, onValidationChange]);
+    setIsContactInfoInitialized(true);
+  }, [contactInfo]);
+
+  useEffect(() => {
+    if (!isContactInfoStateInitialized) return;
+
+    const filteredContactInfoState = contactInfoState.filter(
+      (contactInfo) => contactInfo.value !== '',
+    );
+
+    if (filteredContactInfoState.length === 0) {
+      onValidationChange(ValidationStatus.NONE);
+      return;
+    }
+
+    onValidationChange(ValidationStatus.SUCCESS);
+  }, [contactInfoState]);
+
+  const queryClient = useQueryClient();
 
   const addContactPointMutation = useAddOfferContactPointMutation({
+    onMutate: async (newPayload) => {
+      await queryClient.cancelQueries({
+        queryKey: [scope, { id: offerId }],
+      });
+
+      const previousEventInfo: any = queryClient.getQueryData([
+        scope,
+        { id: offerId },
+      ]);
+
+      return { previousEventInfo };
+    },
+    onError: (_err, _newBookingInfo, context) => {
+      queryClient.setQueryData(
+        [scope, { id: offerId }],
+        context.previousEventInfo,
+      );
+    },
     onSuccess: onSuccessfulChange,
   });
 
@@ -122,7 +165,7 @@ const ContactInfoStep = ({
     const [email, phone, url] = Object.values(ContactInfoTypes).map(
       (infoType) =>
         newContactInfo
-          .filter((info) => info.type === infoType)
+          .filter((info) => info.type === infoType && info.value !== '')
           .map((info) => info.value),
     );
 
@@ -197,12 +240,11 @@ const ContactInfoStep = ({
     const newType = event.target.value;
     const newContactInfo = [...contactInfoState];
     newContactInfo[index].type = newType;
+    newContactInfo[index].value = '';
 
     setContactInfoState(newContactInfo);
 
-    if (newContactInfo[index].value !== '') {
-      await handleAddContactInfoMutation(newContactInfo);
-    }
+    await handleAddContactInfoMutation(newContactInfo);
   };
 
   return (
