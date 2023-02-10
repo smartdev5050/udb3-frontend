@@ -1,7 +1,4 @@
-import {
-  PriceCategories,
-  Rate,
-} from '@/pages/steps/AdditionalInformationStep/PriceInformation';
+import { PriceCategories } from '@/pages/steps/AdditionalInformationStep/PriceInformation';
 import { Offer } from '@/types/Offer';
 import { reconcileRates } from '@/utils/reconcileRates';
 
@@ -12,7 +9,7 @@ const uitpasOffer: Offer = {
 
 describe('reconcileRates', () => {
   it('can overwrite default values', () => {
-    const currentRates: Rate[] = [
+    const currentRates = [
       {
         name: { nl: 'Base Tarif' },
         category: PriceCategories.BASE,
@@ -42,7 +39,7 @@ describe('reconcileRates', () => {
   });
 
   it('can format prices', () => {
-    const currentRates: Rate[] = [
+    const currentRates = [
       {
         name: { nl: 'foo' },
         category: PriceCategories.BASE,
@@ -74,7 +71,7 @@ describe('reconcileRates', () => {
   });
 
   it('can append embedded UiTPAS prices', () => {
-    const currentRates: Rate[] = [
+    const currentRates = [
       {
         name: { nl: 'foobar' },
         category: PriceCategories.BASE,
@@ -104,7 +101,7 @@ describe('reconcileRates', () => {
   });
 
   it('can updated embedded UiTPAS prices', () => {
-    const currentRates: Rate[] = [
+    const currentRates = [
       {
         name: { nl: 'foo' },
         category: PriceCategories.BASE,
@@ -140,7 +137,7 @@ describe('reconcileRates', () => {
   });
 
   it('does not add back deleted prices', () => {
-    const currentRates: Rate[] = [
+    const currentRates = [
       {
         name: { nl: 'foo' },
         category: PriceCategories.BASE,
@@ -182,7 +179,7 @@ describe('reconcileRates', () => {
   });
 
   it('can backfill price languages', () => {
-    const currentRates: Rate[] = [
+    const currentRates = [
       {
         name: { de: 'foo' },
         category: PriceCategories.BASE,

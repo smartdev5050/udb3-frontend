@@ -1,9 +1,11 @@
 import { isUitpasOrganizer } from '@/pages/steps/AdditionalInformationStep/OrganizerPicker';
 import {
+  FormData,
   PriceCategories,
-  Rate,
 } from '@/pages/steps/AdditionalInformationStep/PriceInformation';
 import { Offer } from '@/types/Offer';
+
+type Rate = FormData['rates'][number];
 
 const parseNumber = (number: string | number): number =>
   Number(String(number).replace(',', '.'));
