@@ -19,7 +19,7 @@ import { Event } from '@/types/Event';
 import type { Values } from '@/types/Values';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Box, parseSpacing } from '@/ui/Box';
-import { Button, ButtonVariants } from '@/ui/Button';
+import { Button, ButtonSizes, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
@@ -258,8 +258,14 @@ const PriceInformation = ({
                   border-bottom: 1px solid ${getValue('borderColor')};
                 `}
               >
-                <Inline width="100%" alignItems="baseline" paddingY={3}>
-                  <Inline width="30%">
+                <Inline
+                  width="100%"
+                  alignItems="baseline"
+                  paddingY={3}
+                  justifyContent="flex-start"
+                  spacing={3}
+                >
+                  <Inline minWidth="20%">
                     {rate.category === PriceCategory.BASE && (
                       <Text>{rate.name[i18n.language]}</Text>
                     )}
@@ -291,7 +297,7 @@ const PriceInformation = ({
                       <Text>{rate.name[i18n.language]}</Text>
                     )}
                   </Inline>
-                  <Inline width="40%" alignItems="center">
+                  <Inline minWidth="20%" alignItems="center">
                     {rate.category && (
                       <FormElement
                         id={`rate_price_${index}`}
@@ -339,22 +345,21 @@ const PriceInformation = ({
                         </Button>
                       )}
                   </Inline>
-                  <Inline width="30%" justifyContent="flex-end">
-                    {index !== 0 && rate.category !== PriceCategory.UITPAS && (
-                      <Button
-                        iconName={Icons.TRASH}
-                        spacing={3}
-                        variant={ButtonVariants.DANGER}
-                        onClick={async () => {
-                          remove(index);
+                  {index !== 0 && rate.category !== PriceCategory.UITPAS && (
+                    <Button
+                      iconName={Icons.TRASH}
+                      variant={ButtonVariants.DANGER}
+                      size={ButtonSizes.SMALL}
+                      ariaLabel={t(
+                        'create.additionalInformation.price_info.delete',
+                      )}
+                      onClick={async () => {
+                        remove(index);
 
-                          onSubmit();
-                        }}
-                      >
-                        {t('create.additionalInformation.price_info.delete')}
-                      </Button>
-                    )}
-                  </Inline>
+                        onSubmit();
+                      }}
+                    />
+                  )}
                 </Inline>
               </Inline>
               {validationErrorType && (
