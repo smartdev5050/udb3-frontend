@@ -33,7 +33,7 @@ type RadioButtonProps = {
 
 type Props = Omit<BoxProps, 'onChange'> & RadioButtonProps;
 
-const RadioButton = forwardRef(
+const RadioButton = forwardRef<HTMLInputElement, Props>(
   (
     {
       type,
@@ -47,7 +47,7 @@ const RadioButton = forwardRef(
       isValid,
       checked,
       ...props
-    }: Props,
+    },
     ref,
   ) => (
     <Form.Check

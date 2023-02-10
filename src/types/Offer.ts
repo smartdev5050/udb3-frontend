@@ -1,6 +1,7 @@
 import type { BookingAvailabilityType } from '@/constants/BookingAvailabilityType';
 import type { CalendarType } from '@/constants/CalendarType';
 import type { OfferStatus } from '@/constants/OfferStatus';
+import { PriceCategory } from '@/pages/steps/AdditionalInformationStep/PriceInformation';
 
 import type { SupportedLanguages } from '../i18n';
 import type { ContactPoint } from './ContactPoint';
@@ -68,7 +69,7 @@ type BookingInfo = {
 };
 
 type PriceInfo = {
-  category: 'base' | 'tariff';
+  category: PriceCategory;
   name: { nl: string };
   price: number;
 };
