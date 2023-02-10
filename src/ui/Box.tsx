@@ -1,6 +1,4 @@
-import difference from 'lodash/difference';
-import kebabCase from 'lodash/kebabCase';
-import pick from 'lodash/pick';
+import { difference, kebabCase, pickBy } from 'lodash';
 import type {
   ChangeEvent,
   ClipboardEvent,
@@ -54,6 +52,7 @@ type GeneralProps = {
   dangerouslySetInnerHTML: {
     __html: string;
   };
+  [ariaKey: `aria-${string}`]: string;
 };
 
 type InlineProps = {
@@ -553,7 +552,15 @@ const StyledBox = styled.div.withConfig({
   ${boxProps}
 `;
 
-const getBoxProps = (props: UnknownProps) => pick(props, boxPropTypes);
+const getBoxProps = (props: UnknownProps) =>
+  pickBy(props, (_value, key) => {
+    // pass aria attributes to the DOM element
+    if (key.startsWith('aria-')) {
+      return true;
+    }
+
+    return (boxPropTypes as readonly string[]).includes(key);
+  });
 
 const Box = forwardRef<HTMLElement, BoxProps>(({ children, ...props }, ref) => (
   <StyledBox ref={ref} {...props}>
