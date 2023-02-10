@@ -68,9 +68,9 @@ const getStackProps = (props: UnknownProps) =>
       return true;
     }
 
-    return ([...boxPropTypes, ...stackPropTypes] as readonly string[]).includes(
-      key,
-    );
+    const propTypes: string[] = [...boxPropTypes, ...stackPropTypes];
+
+    return propTypes.includes(key);
   });
 
 Stack.defaultProps = {

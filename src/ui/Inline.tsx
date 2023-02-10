@@ -102,9 +102,9 @@ const getInlineProps = (props: UnknownProps) =>
       return true;
     }
 
-    return (
-      [...boxPropTypes, ...inlinePropTypes] as readonly string[]
-    ).includes(key);
+    const propTypes: string[] = [...boxPropTypes, ...inlinePropTypes];
+
+    return propTypes.includes(key);
   });
 
 Inline.defaultProps = {
