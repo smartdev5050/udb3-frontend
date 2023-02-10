@@ -481,6 +481,7 @@ const LocationStep = ({
                     }
                     id="location-streetAndNumber"
                     label={t('location.add_modal.labels.streetAndNumber')}
+                    maxWidth="28rem"
                     error={
                       formState.errors.location?.streetAndNumber &&
                       t('location.add_modal.errors.streetAndNumber')
