@@ -71,7 +71,8 @@ type BookingInfo = {
 type PriceInfo = {
   category: PriceCategory;
   name: { nl: string };
-  price: number;
+  price: any;
+  priceCurrency: string;
 };
 
 type SubEvent = {

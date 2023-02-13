@@ -1,11 +1,12 @@
 import { PriceCategories } from '@/pages/steps/AdditionalInformationStep/PriceInformation';
 import { Offer } from '@/types/Offer';
+import { Organizer } from '@/types/Organizer';
 import { reconcileRates } from '@/utils/reconcileRates';
 
-const uitpasOffer: Offer = {
+const uitpasOffer = {
   mainLanguage: 'nl',
   organizer: { labels: ['uitpas'] },
-};
+} as Offer;
 
 describe('reconcileRates', () => {
   it('can overwrite default values', () => {
@@ -54,6 +55,7 @@ describe('reconcileRates', () => {
       },
     ];
 
+    // @ts-ignore
     expect(reconcileRates(currentRates, [])).toEqual([
       {
         name: { nl: 'foo' },
