@@ -178,7 +178,7 @@ const PlaceStep = ({
                         );
                       }}
                       selected={valueToArray(selectedPlace as Place)}
-                      maxWidth="43rem"
+                      maxWidth="28rem"
                       onChange={(places) => {
                         const place = places[0];
 
