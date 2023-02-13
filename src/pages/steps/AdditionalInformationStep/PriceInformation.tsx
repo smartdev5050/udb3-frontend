@@ -31,7 +31,7 @@ import { reconcileRates } from '@/utils/reconcileRates';
 
 const PRICE_CURRENCY: string = 'EUR';
 
-const PRICE_REGEX: RegExp = /^([1-9][0-9]*|[0-9]|[0])(,[0-9]{1,2})?$/;
+const PRICE_REGEX: RegExp = /^([1-9][0-9]*|[0-9]|0)(,[0-9]{1,2})?$/;
 
 const PriceCategory = {
   BASE: 'base',
@@ -264,15 +264,13 @@ const PriceInformation = ({
                     )}
                     {rate.category === PriceCategory.TARIFF && (
                       <FormElement
-                        id={`rate_name_${index}`}
+                        id={`rate_name_${rate.id}`}
                         Component={
                           <Input
                             {...registerNameProps}
                             onBlur={async (e) => {
                               await registerNameProps.onBlur(e);
-
                               const isValid = await trigger();
-
                               if (!isValid) {
                                 return;
                               }
@@ -293,7 +291,7 @@ const PriceInformation = ({
                   <Inline minWidth="20%" alignItems="center">
                     {rate.category && (
                       <FormElement
-                        id={`rate_price_${index}`}
+                        id={`rate_price_${rate.id}`}
                         Component={
                           <Input
                             marginRight={3}
@@ -301,7 +299,6 @@ const PriceInformation = ({
                             onBlur={async (e) => {
                               await registerPriceProps.onBlur(e);
                               const isValid = await trigger();
-
                               if (!isValid) {
                                 return;
                               }
