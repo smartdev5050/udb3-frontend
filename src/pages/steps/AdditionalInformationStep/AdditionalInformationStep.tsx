@@ -75,7 +75,7 @@ const tabConfigurations: TabConfig[] = [
   {
     field: Fields.PRICE_INFO,
     TabContent: PriceInformation,
-    shouldInvalidate: false,
+    shouldInvalidate: true,
   },
   {
     field: Fields.ORGANIZER,

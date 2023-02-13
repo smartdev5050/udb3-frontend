@@ -207,38 +207,17 @@ const PriceInformation = ({
       ? isUitpasOrganizer(offer?.organizer)
       : false;
 
-    if (hasRates) {
-      onValidationChange(ValidationStatus.SUCCESS);
-      return;
-    }
+    if (!hasRates) {
+      replace(priceInfo.length ? priceInfo : defaultPriceInfoValues.rates);
 
-    if (priceInfo.length === 0) {
-      replace(defaultPriceInfoValues.rates);
-
-      onValidationChange(
+      return onValidationChange(
         hasUitpasLabel ? ValidationStatus.WARNING : ValidationStatus.NONE,
       );
-
-      return;
     }
 
     onValidationChange(ValidationStatus.SUCCESS);
 
-    const mainLanguage = offer?.mainLanguage;
-
-    const newPriceInfo = priceInfo.map((rate) => {
-      return {
-        ...rate,
-        name: {
-          ...rate.name,
-          [i18n.language]: rate.name[i18n.language] ?? rate.name[mainLanguage],
-        },
-        price: rate.price.toFixed(2).replace('.', ','),
-        priceCurrency: PRICE_CURRENCY,
-      };
-    });
-
-    replace(newPriceInfo);
+    replace(reconcileRates(rates, priceInfo, offer));
     // onValidationChange is hard to wrap in useCallback in parent
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
@@ -441,5 +420,5 @@ const PriceInformation = ({
   );
 };
 
-export type { PriceCategory, FormData };
+export type { FormData, PriceCategory };
 export { PriceCategory as PriceCategories, PriceInformation };
