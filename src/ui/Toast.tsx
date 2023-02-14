@@ -8,6 +8,8 @@ import { parseSpacing } from './Box';
 import { Inline } from './Inline';
 import { Paragraph } from './Paragraph';
 import { getGlobalBorderRadius, getValueFromTheme } from './theme';
+import { Icon, Icons } from '@/ui/Icon';
+import { useMemo } from 'react';
 
 const ToastVariants = {
   PRIMARY: 'primary',
@@ -33,23 +35,6 @@ const commonCss = css`
     z-index: ${getValue('zIndex')};
 
     min-width: ${parseSpacing(8)()};
-  }
-
-  .toast-header {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-
-    border-bottom: none;
-
-    background-color: transparent;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    button.close {
-      color: #fff;
-    }
   }
 `;
 
@@ -93,9 +78,18 @@ type Props = {
 };
 
 const Toast = ({ variant, visible, body, onClose }: Props) => {
+  const icons = {
+    [ToastVariants.PRIMARY]: Icons.PLUS_CIRCLE,
+    [ToastVariants.WARNING]: Icons.EXCLAMATION_CIRCLE,
+    [ToastVariants.DANGER]: Icons.EXCLAMATION_CIRCLE,
+    [ToastVariants.SUCCESS]: Icons.CHECK_CIRCLE,
+  };
+
+  const icon = useMemo(() => icons[variant], [variant]);
+
   return (
     <BootstrapToast
-      className={`d-inline-block m-1 bg-${variant}`}
+      className={`d-inline-block m-1`}
       css={VariantToStylesMap[variant]}
       autohide
       delay={5000}
@@ -104,9 +98,11 @@ const Toast = ({ variant, visible, body, onClose }: Props) => {
     >
       <Paragraph
         as={BootstrapToast.Body}
-        backgroundColor="rgba(255,255,255,.85)"
+        backgroundColor="transparent"
         color={getValue('textColor.dark')}
+        className={'d-flex'}
       >
+        {icon && <Icon name={icon} className={`text-${variant} mr-2`} />}
         {body}
       </Paragraph>
     </BootstrapToast>
