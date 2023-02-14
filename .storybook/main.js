@@ -1,4 +1,4 @@
-const nextConfig = require('../next.config.js');
+const { withoutSentry: nextConfig } = require('../next.config.js');
 const tsConfig = require('../tsconfig.json');
 const path = require('path');
 
