@@ -1,15 +1,13 @@
-import type { ReactNode } from 'react';
+import { useMemo } from 'react';
 import { Toast as BootstrapToast } from 'react-bootstrap';
 import { css } from 'styled-components';
 
 import type { Values } from '@/types/Values';
+import { Icon, Icons } from '@/ui/Icon';
 
 import { parseSpacing } from './Box';
-import { Inline } from './Inline';
 import { Paragraph } from './Paragraph';
 import { getGlobalBorderRadius, getValueFromTheme } from './theme';
-import { Icon, Icons } from '@/ui/Icon';
-import { useMemo } from 'react';
 
 const ToastVariants = {
   PRIMARY: 'primary',
@@ -41,14 +39,12 @@ const commonCss = css`
 const VariantToStylesMap = {
   [ToastVariants.PRIMARY]: css`
     ${commonCss}
-
     &.bg-primary {
       background-color: ${getValue('primary.backgroundColor')} !important;
     }
   `,
   [ToastVariants.SECONDARY]: css`
     ${commonCss}
-
     &.bg-secondary {
       color: ${getValue('secondary.color')} !important;
       background-color: ${getValue('secondary.backgroundColor')} !important;
@@ -56,14 +52,12 @@ const VariantToStylesMap = {
   `,
   [ToastVariants.SUCCESS]: css`
     ${commonCss}
-
     &.bg-success {
       background-color: ${getValue('success.backgroundColor')} !important;
     }
   `,
   [ToastVariants.DANGER]: css`
     ${commonCss}
-
     &.bg-danger {
       background-color: ${getValue('danger.backgroundColor')} !important;
     }
@@ -78,14 +72,16 @@ type Props = {
 };
 
 const Toast = ({ variant, visible, body, onClose }: Props) => {
-  const icons = {
-    [ToastVariants.PRIMARY]: Icons.PLUS_CIRCLE,
-    [ToastVariants.WARNING]: Icons.EXCLAMATION_CIRCLE,
-    [ToastVariants.DANGER]: Icons.EXCLAMATION_CIRCLE,
-    [ToastVariants.SUCCESS]: Icons.CHECK_CIRCLE,
-  };
+  const icon = useMemo(() => {
+    const icons = {
+      [ToastVariants.PRIMARY]: Icons.PLUS_CIRCLE,
+      [ToastVariants.WARNING]: Icons.EXCLAMATION_CIRCLE,
+      [ToastVariants.DANGER]: Icons.EXCLAMATION_CIRCLE,
+      [ToastVariants.SUCCESS]: Icons.CHECK_CIRCLE,
+    };
 
-  const icon = useMemo(() => icons[variant], [variant]);
+    return icons[variant];
+  }, [variant]);
 
   return (
     <BootstrapToast
