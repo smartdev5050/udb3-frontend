@@ -1,9 +1,10 @@
-import { cloneElement, MouseEvent, ReactNode } from 'react';
+import { cloneElement, MouseEvent, MouseEventHandler, ReactNode } from 'react';
 import { Children } from 'react';
 import {
   ButtonGroup as BootstrapButtonGroup,
   Dropdown as BootstrapDropdown,
 } from 'react-bootstrap';
+import { DropdownItemProps } from 'react-bootstrap/DropdownItem';
 
 import type { Values } from '@/types/Values';
 import type { BoxProps } from '@/ui/Box';
@@ -108,13 +109,7 @@ Dropdown.defaultProps = {
   isSplit: false,
 };
 
-type ItemProps = {
-  href?: string;
-  onClick?: (event: MouseEvent<HTMLElement>) => void;
-  children: ReactNode;
-};
-
-const Item = ({ href, onClick, children }: ItemProps) => {
+const Item = ({ href, onClick, children }: Partial<DropdownItemProps>) => {
   if (onClick) {
     return (
       <BootstrapDropdown.Item
