@@ -1,5 +1,4 @@
-import { cloneElement, MouseEvent, MouseEventHandler, ReactNode } from 'react';
-import { Children } from 'react';
+import { Children, cloneElement } from 'react';
 import {
   ButtonGroup as BootstrapButtonGroup,
   Dropdown as BootstrapDropdown,
@@ -11,7 +10,7 @@ import type { BoxProps } from '@/ui/Box';
 import { Box, getBoxProps } from '@/ui/Box';
 import { Button, buttonCSS, ButtonVariants } from '@/ui/Button';
 import { Link, LinkVariants } from '@/ui/Link';
-import { getGlobalBorderRadius, getValueFromTheme } from '@/ui/theme';
+import { getGlobalBorderRadius } from '@/ui/theme';
 
 const DropDownVariants = {
   ...ButtonVariants,
@@ -89,7 +88,6 @@ const Dropdown = ({
                 variant={variant}
                 css={`
                   ${buttonCSS}
-
                   &.btn {
                     border-top-left-radius: 0;
                     border-bottom-left-radius: 0;
