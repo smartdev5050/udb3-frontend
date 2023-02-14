@@ -1,5 +1,5 @@
 import { isUitpasOrganizer } from '@/pages/steps/AdditionalInformationStep/OrganizerPicker';
-import { PriceCategories } from '@/pages/steps/AdditionalInformationStep/PriceInformation';
+import { PriceCategory } from '@/pages/steps/AdditionalInformationStep/PriceInformation';
 import { Offer, PriceInfo } from '@/types/Offer';
 
 const parseNumber = (number: string | number): number =>
@@ -18,7 +18,7 @@ export function reconcileRates(
   });
 
   const alreadyEmbeddedUitpasPrices = currentRates.some(
-    (rate) => rate.category === PriceCategories.UITPAS,
+    (rate) => rate.category === PriceCategory.UITPAS,
   );
 
   const isDefaultValue =
@@ -35,14 +35,14 @@ export function reconcileRates(
   // If we're going to update or embed UiTPAS prices, purge current ones
   if (alreadyEmbeddedUitpasPrices && (newRates.length || hasUitpasOrganizer)) {
     currentRates = currentRates.filter(
-      (rate) => rate.category !== PriceCategories.UITPAS,
+      (rate) => rate.category !== PriceCategory.UITPAS,
     );
   }
 
   // Embed UiTPAS prices
   if (hasUitpasOrganizer) {
     newRates.forEach((rate) => {
-      if (rate.category === PriceCategories.UITPAS) {
+      if (rate.category === PriceCategory.UITPAS) {
         currentRates.push(rate);
       }
     });

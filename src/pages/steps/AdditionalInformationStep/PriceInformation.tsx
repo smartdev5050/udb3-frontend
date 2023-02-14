@@ -417,5 +417,4 @@ const PriceInformation = ({
   );
 };
 
-export type { FormData, PriceCategory };
-export { PriceCategory as PriceCategories, PriceInformation };
+export { PriceCategory, PriceInformation };

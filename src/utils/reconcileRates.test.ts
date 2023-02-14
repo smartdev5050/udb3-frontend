@@ -1,6 +1,5 @@
-import { PriceCategories } from '@/pages/steps/AdditionalInformationStep/PriceInformation';
+import { PriceCategory } from '@/pages/steps/AdditionalInformationStep/PriceInformation';
 import { Offer } from '@/types/Offer';
-import { Organizer } from '@/types/Organizer';
 import { reconcileRates } from '@/utils/reconcileRates';
 
 const uitpasOffer = {
@@ -13,7 +12,7 @@ describe('reconcileRates', () => {
     const currentRates = [
       {
         name: { nl: 'Base Tarif' },
-        category: PriceCategories.BASE,
+        category: PriceCategory.BASE,
         price: '',
         priceCurrency: 'EUR',
       },
@@ -22,7 +21,7 @@ describe('reconcileRates', () => {
     const newRates = [
       {
         name: { nl: 'foobar' },
-        category: PriceCategories.BASE,
+        category: PriceCategory.BASE,
         price: '15',
         priceCurrency: 'EUR',
       },
@@ -32,7 +31,7 @@ describe('reconcileRates', () => {
     expect(reconcileRates(currentRates, [])).toEqual([
       {
         name: { nl: 'Base Tarif' },
-        category: PriceCategories.BASE,
+        category: PriceCategory.BASE,
         price: '0,00',
         priceCurrency: 'EUR',
       },
@@ -43,13 +42,13 @@ describe('reconcileRates', () => {
     const currentRates = [
       {
         name: { nl: 'foo' },
-        category: PriceCategories.BASE,
+        category: PriceCategory.BASE,
         price: '5',
         priceCurrency: 'EUR',
       },
       {
         name: { nl: 'bar' },
-        category: PriceCategories.BASE,
+        category: PriceCategory.BASE,
         price: 2500000,
         priceCurrency: 'EUR',
       },
@@ -58,13 +57,13 @@ describe('reconcileRates', () => {
     expect(reconcileRates(currentRates, [])).toEqual([
       {
         name: { nl: 'foo' },
-        category: PriceCategories.BASE,
+        category: PriceCategory.BASE,
         price: '5,00',
         priceCurrency: 'EUR',
       },
       {
         name: { nl: 'bar' },
-        category: PriceCategories.BASE,
+        category: PriceCategory.BASE,
         price: '2500000,00',
         priceCurrency: 'EUR',
       },
@@ -75,7 +74,7 @@ describe('reconcileRates', () => {
     const currentRates = [
       {
         name: { nl: 'foobar' },
-        category: PriceCategories.BASE,
+        category: PriceCategory.BASE,
         price: '20',
         priceCurrency: 'EUR',
       },
@@ -84,13 +83,13 @@ describe('reconcileRates', () => {
     const newRates = [
       {
         name: { nl: 'foobar' },
-        category: PriceCategories.BASE,
+        category: PriceCategory.BASE,
         price: '15',
         priceCurrency: 'EUR',
       },
       {
         name: { nl: 'foobar' },
-        category: PriceCategories.UITPAS,
+        category: PriceCategory.UITPAS,
         price: '25',
         priceCurrency: 'EUR',
       },
@@ -105,13 +104,13 @@ describe('reconcileRates', () => {
     const currentRates = [
       {
         name: { nl: 'foo' },
-        category: PriceCategories.BASE,
+        category: PriceCategory.BASE,
         price: '15',
         priceCurrency: 'EUR',
       },
       {
         name: { nl: 'bar' },
-        category: PriceCategories.UITPAS,
+        category: PriceCategory.UITPAS,
         price: '25',
         priceCurrency: 'EUR',
       },
@@ -120,13 +119,13 @@ describe('reconcileRates', () => {
     const newRates = [
       {
         name: { nl: 'foo' },
-        category: PriceCategories.BASE,
+        category: PriceCategory.BASE,
         price: '15',
         priceCurrency: 'EUR',
       },
       {
         name: { nl: 'bar' },
-        category: PriceCategories.UITPAS,
+        category: PriceCategory.UITPAS,
         price: '20',
         priceCurrency: 'EUR',
       },
@@ -141,13 +140,13 @@ describe('reconcileRates', () => {
     const currentRates = [
       {
         name: { nl: 'foo' },
-        category: PriceCategories.BASE,
+        category: PriceCategory.BASE,
         price: '20',
         priceCurrency: 'EUR',
       },
       {
         name: { nl: 'uitpas' },
-        category: PriceCategories.UITPAS,
+        category: PriceCategory.UITPAS,
         price: '25',
         priceCurrency: 'EUR',
       },
@@ -156,19 +155,19 @@ describe('reconcileRates', () => {
     const newRates = [
       {
         name: { nl: 'foo' },
-        category: PriceCategories.BASE,
+        category: PriceCategory.BASE,
         price: '20',
         priceCurrency: 'EUR',
       },
       {
         name: { nl: 'bar' },
-        category: PriceCategories.BASE,
+        category: PriceCategory.BASE,
         price: '20',
         priceCurrency: 'EUR',
       },
       {
         name: { nl: 'uitpas' },
-        category: PriceCategories.UITPAS,
+        category: PriceCategory.UITPAS,
         price: '20',
         priceCurrency: 'EUR',
       },
@@ -183,13 +182,13 @@ describe('reconcileRates', () => {
     const currentRates = [
       {
         name: { de: 'foo' },
-        category: PriceCategories.BASE,
+        category: PriceCategory.BASE,
         price: '20',
         priceCurrency: 'EUR',
       },
       {
         name: { de: 'foo', fr: 'Le Foo' },
-        category: PriceCategories.BASE,
+        category: PriceCategory.BASE,
         price: '20',
         priceCurrency: 'EUR',
       },
@@ -198,7 +197,7 @@ describe('reconcileRates', () => {
     const newRates = [
       {
         name: { nl: 'uitpas' },
-        category: PriceCategories.UITPAS,
+        category: PriceCategory.UITPAS,
         price: '20',
         priceCurrency: 'EUR',
       },
@@ -212,19 +211,19 @@ describe('reconcileRates', () => {
     ).toEqual([
       {
         name: { fr: 'foo', de: 'foo' },
-        category: PriceCategories.BASE,
+        category: PriceCategory.BASE,
         price: '20,00',
         priceCurrency: 'EUR',
       },
       {
         name: { fr: 'Le Foo', de: 'foo' },
-        category: PriceCategories.BASE,
+        category: PriceCategory.BASE,
         price: '20,00',
         priceCurrency: 'EUR',
       },
       {
         name: { fr: 'uitpas', nl: 'uitpas' },
-        category: PriceCategories.UITPAS,
+        category: PriceCategory.UITPAS,
         price: '20,00',
         priceCurrency: 'EUR',
       },
@@ -235,19 +234,19 @@ describe('reconcileRates', () => {
     const currentRates = [
       {
         name: { nl: 'foo' },
-        category: PriceCategories.BASE,
+        category: PriceCategory.BASE,
         price: '20,00',
         priceCurrency: 'EUR',
       },
       {
         name: { nl: 'bar' },
-        category: PriceCategories.BASE,
+        category: PriceCategory.BASE,
         price: '20,00',
         priceCurrency: 'EUR',
       },
       {
         name: { nl: 'uitpas' },
-        category: PriceCategories.UITPAS,
+        category: PriceCategory.UITPAS,
         price: '20,00',
         priceCurrency: 'EUR',
       },

@@ -70,7 +70,7 @@ type BookingInfo = {
 
 export type PriceInfo = {
   category: PriceCategory;
-  name: { nl: string };
+  name: { nl?: string; en?: string; de?: string };
   price: any;
   priceCurrency: string;
 };
