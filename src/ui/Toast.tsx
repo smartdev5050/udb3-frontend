@@ -102,7 +102,7 @@ const Toast = ({ variant, visible, body, onClose }: Props) => {
         color={getValue('textColor.dark')}
         className={'d-flex justify-content-between flex-row'}
       >
-        <span className={'d-flex'}>
+        <span className={'d-flex mr-2'}>
           {icon && <Icon name={icon} className={`text-${variant} mr-2`} />}
           {body}
         </span>
