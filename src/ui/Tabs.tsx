@@ -1,6 +1,10 @@
 import type { ReactNode, SyntheticEvent } from 'react';
 import { Children } from 'react';
-import { Tab as BootstrapTab, Tabs as BootstrapTabs } from 'react-bootstrap';
+import {
+  Tab as BootstrapTab,
+  Tabs as BootstrapTabs,
+  TabsProps,
+} from 'react-bootstrap';
 
 import type { BoxProps } from '@/ui/Box';
 import { Box, getBoxProps, parseSpacing } from '@/ui/Box';
@@ -9,11 +13,7 @@ import { getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme(`tabs`);
 
-type Props<T> = BoxProps & {
-  activeKey: T;
-  onSelect: (eventKey: string | null, e: SyntheticEvent<unknown>) => void;
-  activeBackgroundColor?: string;
-};
+type Props<T> = BoxProps & TabsProps & { activeBackgroundColor?: string };
 
 const Tabs = <T,>({
   activeKey,

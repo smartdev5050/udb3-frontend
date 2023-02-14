@@ -1,3 +1,4 @@
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faSlideshare } from '@fortawesome/free-brands-svg-icons';
 import {
   faBell,
@@ -135,7 +136,7 @@ const Icon = ({ name, width, height, className, ...props }: Props) => {
       `}
       {...getBoxProps(props)}
     >
-      <FontAwesomeIcon icon={IconsMap[name]} />
+      <FontAwesomeIcon icon={IconsMap[name] as IconProp} />
     </Box>
   );
 };
