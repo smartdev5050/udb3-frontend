@@ -1,16 +1,16 @@
-import { cloneElement, MouseEvent, ReactNode } from 'react';
-import { Children } from 'react';
+import { Children, cloneElement } from 'react';
 import {
   ButtonGroup as BootstrapButtonGroup,
   Dropdown as BootstrapDropdown,
 } from 'react-bootstrap';
+import { DropdownItemProps } from 'react-bootstrap/DropdownItem';
 
 import type { Values } from '@/types/Values';
 import type { BoxProps } from '@/ui/Box';
 import { Box, getBoxProps } from '@/ui/Box';
 import { Button, buttonCSS, ButtonVariants } from '@/ui/Button';
 import { Link, LinkVariants } from '@/ui/Link';
-import { getGlobalBorderRadius, getValueFromTheme } from '@/ui/theme';
+import { getGlobalBorderRadius } from '@/ui/theme';
 
 const DropDownVariants = {
   ...ButtonVariants,
@@ -88,7 +88,6 @@ const Dropdown = ({
                 variant={variant}
                 css={`
                   ${buttonCSS}
-
                   &.btn {
                     border-top-left-radius: 0;
                     border-bottom-left-radius: 0;
@@ -108,13 +107,7 @@ Dropdown.defaultProps = {
   isSplit: false,
 };
 
-type ItemProps = {
-  href?: string;
-  onClick?: (event: MouseEvent<HTMLElement>) => void;
-  children: ReactNode;
-};
-
-const Item = ({ href, onClick, children }: ItemProps) => {
+const Item = ({ href, onClick, children }: Partial<DropdownItemProps>) => {
   if (onClick) {
     return (
       <BootstrapDropdown.Item

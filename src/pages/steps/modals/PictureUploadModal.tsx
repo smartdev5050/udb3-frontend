@@ -52,6 +52,7 @@ type Props = {
   error: any;
   image: any;
   marginBottom?: number;
+  children?: React.ReactNode;
 } & RegisterProps &
   DragAndDropProps;
 
