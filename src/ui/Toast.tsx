@@ -100,10 +100,13 @@ const Toast = ({ variant, visible, body, onClose }: Props) => {
         as={BootstrapToast.Body}
         backgroundColor="transparent"
         color={getValue('textColor.dark')}
-        className={'d-flex'}
+        className={'d-flex justify-content-between flex-row'}
       >
-        {icon && <Icon name={icon} className={`text-${variant} mr-2`} />}
-        {body}
+        <span className={'d-flex'}>
+          {icon && <Icon name={icon} className={`text-${variant} mr-2`} />}
+          {body}
+        </span>
+        {onClose && <Icon name={Icons.TIMES} onClick={onClose} />}
       </Paragraph>
     </BootstrapToast>
   );
