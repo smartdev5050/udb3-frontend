@@ -87,13 +87,12 @@ const VariantToStylesMap = {
 
 type Props = {
   variant: Values<typeof ToastVariants>;
-  header: ReactNode;
   body: string;
   visible?: boolean;
   onClose?: () => void;
 };
 
-const Toast = ({ variant, visible, header, body, onClose }: Props) => {
+const Toast = ({ variant, visible, body, onClose }: Props) => {
   return (
     <BootstrapToast
       className={`d-inline-block m-1 bg-${variant}`}
@@ -103,13 +102,6 @@ const Toast = ({ variant, visible, header, body, onClose }: Props) => {
       show={visible}
       onClose={onClose}
     >
-      <Inline
-        as={BootstrapToast.Header}
-        spacing={3}
-        color={getValue('textColor.light')}
-      >
-        {header}
-      </Inline>
       <Paragraph
         as={BootstrapToast.Body}
         backgroundColor="rgba(255,255,255,.85)"
