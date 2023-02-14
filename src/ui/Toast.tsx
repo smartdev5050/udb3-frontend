@@ -124,7 +124,6 @@ const Toast = ({ variant, visible, header, body, onClose }: Props) => {
 Toast.defaultProps = {
   variant: ToastVariants.PRIMARY,
   visible: true,
-  title: '',
   body: '',
 };
 
