@@ -89,7 +89,7 @@ const Toast = ({ variant, visible, body, onClose }: Props) => {
 
   return (
     <BootstrapToast
-      className={`d-inline-block m-1`}
+      className={`d-inline-block m-1 p-2`}
       css={VariantToStylesMap[variant]}
       autohide
       delay={5000}
