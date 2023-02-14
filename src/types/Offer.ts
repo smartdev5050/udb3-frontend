@@ -68,7 +68,7 @@ type BookingInfo = {
   urlLabel?: { nl: string };
 };
 
-type PriceInfo = {
+export type PriceInfo = {
   category: PriceCategory;
   name: { nl: string };
   price: any;

@@ -55,7 +55,6 @@ describe('reconcileRates', () => {
       },
     ];
 
-    // @ts-ignore
     expect(reconcileRates(currentRates, [])).toEqual([
       {
         name: { nl: 'foo' },

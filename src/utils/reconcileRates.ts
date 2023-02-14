@@ -1,20 +1,15 @@
 import { isUitpasOrganizer } from '@/pages/steps/AdditionalInformationStep/OrganizerPicker';
-import {
-  FormData,
-  PriceCategories,
-} from '@/pages/steps/AdditionalInformationStep/PriceInformation';
-import { Offer } from '@/types/Offer';
-
-type Rate = FormData['rates'][number];
+import { PriceCategories } from '@/pages/steps/AdditionalInformationStep/PriceInformation';
+import { Offer, PriceInfo } from '@/types/Offer';
 
 const parseNumber = (number: string | number): number =>
   Number(String(number).replace(',', '.'));
 
 export function reconcileRates(
-  currentRates: Rate[],
-  newRates: Rate[],
+  currentRates: PriceInfo[],
+  newRates: PriceInfo[],
   offer?: Offer,
-): Rate[] {
+): PriceInfo[] {
   const mainLanguage = offer?.mainLanguage;
   const formatter = Intl.NumberFormat('nl-NL', {
     style: 'decimal',
