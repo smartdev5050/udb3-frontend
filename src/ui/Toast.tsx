@@ -74,7 +74,7 @@ type Props = {
 const Toast = ({ variant, visible, body, onClose }: Props) => {
   const icon = useMemo(() => {
     const icons = {
-      [ToastVariants.PRIMARY]: Icons.PLUS_CIRCLE,
+      [ToastVariants.PRIMARY]: Icons.QUESTION_CIRCLE,
       [ToastVariants.WARNING]: Icons.EXCLAMATION_CIRCLE,
       [ToastVariants.DANGER]: Icons.EXCLAMATION_CIRCLE,
       [ToastVariants.SUCCESS]: Icons.CHECK_CIRCLE,
