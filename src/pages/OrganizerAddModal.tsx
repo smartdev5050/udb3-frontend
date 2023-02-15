@@ -325,7 +325,6 @@ const OrganizerAddModal = ({
           <Title size={2}>Contact</Title>
           <ContactInfoStep
             isOrganizer={true}
-            onValidationChange={() => ({})}
             onSuccessfulChange={handleSetContactInfo}
             organizerContactInfo={contactInfo}
           />
