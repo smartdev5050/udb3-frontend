@@ -215,7 +215,13 @@ const Steps = ({
             >
               <Step
                 key={index}
-                onChange={() => onChange(name)}
+                onChange={() => {
+                  if (!form.formState.dirtyFields[name]) {
+                    return;
+                  }
+
+                  onChange(name);
+                }}
                 loading={!!(name && fieldLoading === name)}
                 name={name}
                 offerId={offerId}
