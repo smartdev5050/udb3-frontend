@@ -59,6 +59,8 @@ const DatePicker = ({
         .react-datepicker {
           font-family: 'Open Sans', Helvetica, Arial, sans-serif;
           font-size: 1rem;
+          border: none;
+          box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
         }
 
         .react-datepicker__header {
@@ -66,11 +68,20 @@ const DatePicker = ({
           color: #333;
           font-weight: bold;
           border: none;
-          box-shadow: 0 2px 2px rgba(0, 0, 0, 0.15);
+
+          .react-datepicker__day-names {
+            margin-top: 7px;
+            background-color: rgba(0, 0, 0, 0.05);
+          }
 
           .react-datepicker__day-name {
             color: #333;
           }
+        }
+
+        .react-datepicker-popper[data-placement^='bottom']
+          .react-datepicker__triangle::before {
+          border: none;
         }
 
         .react-datepicker-popper[data-placement^='bottom']
@@ -84,13 +95,14 @@ const DatePicker = ({
         .react-datepicker__navigation-icon::before {
           color: #333;
         }
+
         .react-datepicker__navigation-icon:hover::before {
           border-color: #ddd;
         }
 
         .react-datepicker__month-read-view--down-arrow,
         .react-datepicker__year-read-view--down-arrow {
-          top: 5px;
+          top: 6px;
         }
 
         .react-datepicker-wrapper {
@@ -121,7 +133,7 @@ const DatePicker = ({
 
         .react-datepicker__month-dropdown-container:hover,
         .react-datepicker__year-dropdown-container:hover {
-          color: #ddd;
+          color: #999;
         }
 
         .react-datepicker__month-option,
@@ -129,7 +141,7 @@ const DatePicker = ({
           padding: 0.25rem 0.5rem;
 
           &:hover {
-            background: ${({ theme }) => theme.colors.grey1};
+            background: ${({ theme }) => theme.colors.udbRed};
             color: white;
           }
         }
@@ -144,7 +156,7 @@ const DatePicker = ({
         }
 
         .react-datepicker__navigation {
-          top: 13px;
+          top: 12px;
         }
       `}
     >
