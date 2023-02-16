@@ -279,7 +279,6 @@ const OfferForm = () => {
           price_info: t('create.toast.success.price_info'),
           organizer: t('create.toast.success.organizer'),
         },
-        title: '',
       }}
       configurations={[
         scopeStepConfiguration,
