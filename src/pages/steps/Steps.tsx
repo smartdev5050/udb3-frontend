@@ -10,6 +10,7 @@ import type {
 import { useTranslation } from 'react-i18next';
 
 import { OfferType, OfferTypes } from '@/constants/OfferType';
+import { SupportedLanguage } from '@/i18n/index';
 import { Values } from '@/types/Values';
 import type { BoxProps } from '@/ui/Box';
 import { Box } from '@/ui/Box';
@@ -21,7 +22,6 @@ import { Title } from '@/ui/Title';
 
 import type { FormData as OfferFormData } from '../create/OfferForm';
 import type { FormData as MovieFormData } from '../manage/movies/MovieForm';
-import { SupportedLanguage } from '@/i18n/index';
 
 type FormDataUnion = MovieFormData & OfferFormData;
 

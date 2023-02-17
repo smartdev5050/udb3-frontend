@@ -2,14 +2,15 @@ import { useState } from 'react';
 import { useQueryClient } from 'react-query';
 
 import { OfferType } from '@/constants/OfferType';
+import { SupportedLanguage } from '@/i18n/index';
 import { useEditTypeAndTheme } from '@/pages/steps/EventTypeAndThemeStep';
 import { useEditLocation } from '@/pages/steps/LocationStep';
 import { useEditNameAndAgeRange } from '@/pages/steps/NameAndAgeRangeStep';
 import { useEditNameAndProduction } from '@/pages/steps/ProductionStep';
 import { FormDataUnion } from '@/pages/steps/Steps';
+import { Offer } from '@/types/Offer';
 
 import { useEditCalendar } from '../CalendarStep/CalendarStep';
-import { Offer } from '@/types/Offer';
 
 type HandleSuccessOptions = {
   shouldInvalidateEvent?: boolean;
@@ -19,6 +20,7 @@ type UseEditArguments = {
   scope: OfferType;
   offerId: string;
   onSuccess: (editedField: string, options?: HandleSuccessOptions) => void;
+  mainLanguage: SupportedLanguage;
 };
 
 const useEditField = ({ scope, onSuccess, offerId, handleSubmit }) => {
