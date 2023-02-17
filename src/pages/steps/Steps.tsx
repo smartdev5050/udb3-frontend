@@ -21,6 +21,7 @@ import { Title } from '@/ui/Title';
 
 import type { FormData as OfferFormData } from '../create/OfferForm';
 import type { FormData as MovieFormData } from '../manage/movies/MovieForm';
+import { SupportedLanguage } from '@/i18n/index';
 
 type FormDataUnion = MovieFormData & OfferFormData;
 
@@ -117,11 +118,13 @@ type StepProps = UseFormReturn<FormDataUnion> & {
   loading: boolean;
   name: Path<FormDataUnion>;
   onChange: (value: any) => void;
+  mainLanguage: SupportedLanguage;
 };
 
 type StepsProps = {
   scope?: OfferType;
   offerId?: string;
+  mainLanguage: SupportedLanguage;
   form: UseFormReturn<FormDataUnion>;
   fieldLoading?: string;
   onChange?: (editedField: string) => void;
@@ -145,6 +148,7 @@ const stepPropKeys: (keyof StepProps)[] = [
   'onChange',
   'register',
   'reset',
+  'mainLanguage',
   'resetField',
   'setError',
   'setFocus',
@@ -162,6 +166,7 @@ const Steps = ({
   fieldLoading,
   form,
   offerId,
+  mainLanguage,
   scope,
   ...props
 }: StepsProps) => {
@@ -225,6 +230,7 @@ const Steps = ({
                 loading={!!(name && fieldLoading === name)}
                 name={name}
                 offerId={offerId}
+                mainLanguage={mainLanguage}
                 scope={scope}
                 variant={variant}
                 {...form}

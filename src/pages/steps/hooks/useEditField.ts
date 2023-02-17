@@ -9,6 +9,7 @@ import { useEditNameAndProduction } from '@/pages/steps/ProductionStep';
 import { FormDataUnion } from '@/pages/steps/Steps';
 
 import { useEditCalendar } from '../CalendarStep/CalendarStep';
+import { Offer } from '@/types/Offer';
 
 type HandleSuccessOptions = {
   shouldInvalidateEvent?: boolean;
@@ -23,6 +24,7 @@ type UseEditArguments = {
 const useEditField = ({ scope, onSuccess, offerId, handleSubmit }) => {
   const queryClient = useQueryClient();
   const [fieldLoading, setFieldLoading] = useState<string>();
+  const offer = queryClient.getQueryData<Offer>([scope, { id: offerId }]);
 
   const handleSuccess = (
     editedField: string,
@@ -34,7 +36,12 @@ const useEditField = ({ scope, onSuccess, offerId, handleSubmit }) => {
     queryClient.invalidateQueries([scope, { id: offerId }]);
   };
 
-  const editArguments = { scope, offerId, onSuccess: handleSuccess };
+  const editArguments = {
+    scope,
+    offerId,
+    onSuccess: handleSuccess,
+    mainLanguage: offer?.mainLanguage,
+  };
 
   const editTypeAndTheme = useEditTypeAndTheme(editArguments);
   const editNameAndAgeRange = useEditNameAndAgeRange(editArguments);
