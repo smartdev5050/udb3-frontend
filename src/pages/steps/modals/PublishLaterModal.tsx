@@ -17,10 +17,6 @@ const PublishLaterModal = ({ visible, onConfirm, onClose }: Props) => {
   const { t } = useTranslation();
   const [publishLaterDate, setPublishLaterDate] = useState(new Date());
 
-  const handleChangeDate = (date: Date) => {
-    setPublishLaterDate(date);
-  };
-
   const handleConfirm = () => onConfirm(publishLaterDate);
 
   return (
@@ -44,7 +40,7 @@ const PublishLaterModal = ({ visible, onConfirm, onClose }: Props) => {
         <DatePicker
           id="publish-later-date"
           selected={publishLaterDate}
-          onChange={handleChangeDate}
+          onChange={setPublishLaterDate}
           maxWidth="16rem"
           minDate={new Date()}
         />
