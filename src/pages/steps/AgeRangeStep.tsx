@@ -82,6 +82,10 @@ const AgeRangeStep = ({
       );
     });
 
+    if (isCustomAgeRange && typicalAgeRange === '0-') {
+      return 'ALL';
+    }
+
     if (isCustomAgeRange) {
       return 'CUSTOM';
     }
