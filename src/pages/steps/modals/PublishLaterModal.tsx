@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
-import { Alert, AlertVariants } from '@/ui/Alert';
 import { DatePicker } from '@/ui/DatePicker';
 import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
 import { Stack } from '@/ui/Stack';
@@ -72,9 +70,6 @@ const PublishLaterModal = ({
     >
       <Stack padding={4} spacing={4} alignItems="flex-start">
         <Text>{t('create.publish_modal.description')}</Text>
-        <Alert variant={AlertVariants.WARNING}>
-          {t('create.publish_modal.warning')}
-        </Alert>
         <DatePicker
           id="publish-later-date"
           selected={publishLaterDate}
