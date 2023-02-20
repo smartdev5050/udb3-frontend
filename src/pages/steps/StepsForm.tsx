@@ -147,10 +147,10 @@ const StepsForm = ({
 
   // scroll effect
   useEffect(() => {
-    if (
-      ([FooterStatus.HIDDEN] as (typeof footerStatus)[]).includes(footerStatus)
-    )
+    if (footerStatus === FooterStatus.HIDDEN) {
       return;
+    }
+
     const main = document.querySelector('main');
     main.scroll({ left: 0, top: main.scrollHeight, behavior: 'smooth' });
   }, [footerStatus]);
