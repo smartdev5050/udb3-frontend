@@ -274,8 +274,9 @@ const OrganizerPicker = ({
                 )}
                 {addButtonHasBeenPressed && (
                   <Typeahead<Organizer>
+                    id={'organizer-picker'}
                     options={organizers}
-                    labelKey={(org) => getOrganizerName(org, i18n.language)}
+                    labelKey={'name'}
                     renderMenuItemChildren={(org: Organizer, { text }) => {
                       const name = getOrganizerName(org, i18n.language);
                       return (

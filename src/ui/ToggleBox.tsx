@@ -41,6 +41,10 @@ const ToggleBox = ({
         border: none;
         box-shadow: ${getValue('boxShadow.large')};
         cursor: ${disabled ? 'not-allowed' : 'pointer'};
+
+        &:hover {
+          background-color: ${disabled ? 'none' : getValue('hoverColor')};
+        }
       `}
       {...getStackProps(props)}
     >

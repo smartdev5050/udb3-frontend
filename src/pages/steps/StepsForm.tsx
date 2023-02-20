@@ -147,7 +147,9 @@ const StepsForm = ({
 
   // scroll effect
   useEffect(() => {
-    if (([FooterStatus.HIDDEN] as typeof footerStatus[]).includes(footerStatus))
+    if (
+      ([FooterStatus.HIDDEN] as (typeof footerStatus)[]).includes(footerStatus)
+    )
       return;
     const main = document.querySelector('main');
     main.scroll({ left: 0, top: main.scrollHeight, behavior: 'smooth' });
@@ -162,7 +164,6 @@ const StepsForm = ({
       <Page.Content spacing={5} alignItems="flex-start">
         <Toast
           variant="success"
-          header={toast.header}
           body={toast.message}
           visible={!!toast.message}
           onClose={() => toast.clear()}

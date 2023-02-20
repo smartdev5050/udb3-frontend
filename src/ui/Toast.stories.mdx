@@ -1,5 +1,6 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
 import { Toast, ToastVariants } from './Toast';
+const defaultArgs = { body: 'My Super Mega Long Toast Message' };
 
 <Meta title="Components/Toast" component={Toast} />
 
@@ -8,7 +9,10 @@ import { Toast, ToastVariants } from './Toast';
 ## Primary
 
 <Canvas>
-  <Story name="Primary" args={{ variant: ToastVariants.PRIMARY }}>
+  <Story
+    name="Primary"
+    args={{ variant: ToastVariants.PRIMARY, ...defaultArgs }}
+  >
     {(args) => <Toast {...args} />}
   </Story>
 </Canvas>
@@ -18,7 +22,10 @@ import { Toast, ToastVariants } from './Toast';
 ## Success
 
 <Canvas>
-  <Story name="Success" args={{ variant: ToastVariants.SUCCESS }}>
+  <Story
+    name="Success"
+    args={{ variant: ToastVariants.SUCCESS, ...defaultArgs }}
+  >
     {(args) => <Toast {...args} />}
   </Story>
 </Canvas>
@@ -28,7 +35,7 @@ import { Toast, ToastVariants } from './Toast';
 ## Danger
 
 <Canvas>
-  <Story name="Danger" args={{ variant: ToastVariants.DANGER }}>
+  <Story name="Danger" args={{ variant: ToastVariants.DANGER, ...defaultArgs }}>
     {(args) => <Toast {...args} />}
   </Story>
 </Canvas>

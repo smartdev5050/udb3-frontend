@@ -6,9 +6,9 @@ import { Trans, useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { useAutoFocus } from '@/hooks/useAutoFocus';
+import { ImageIcon } from '@/pages/PictureUploadBox';
 import { Button } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
-import { Icon, Icons } from '@/ui/Icon';
 import { Image } from '@/ui/Image';
 import { Input } from '@/ui/Input';
 import { Link } from '@/ui/Link';
@@ -52,6 +52,7 @@ type Props = {
   error: any;
   image: any;
   marginBottom?: number;
+  children?: React.ReactNode;
 } & RegisterProps &
   DragAndDropProps;
 
@@ -106,12 +107,7 @@ const PictureUploadBox = forwardRef<HTMLInputElement, Props>(
             <Text>{image.name}</Text>
           </Stack>
         ) : (
-          <Icon
-            name={Icons.IMAGE}
-            width="auto"
-            height="8rem"
-            color={getValue('imageIconColor')}
-          />
+          <ImageIcon width="80" />
         )}
         <Stack spacing={3} alignItems="center">
           <Text>Sleep een bestand hierheen of</Text>
