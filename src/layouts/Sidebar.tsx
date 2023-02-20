@@ -1,6 +1,6 @@
 import getConfig from 'next/config';
 import { useRouter } from 'next/router';
-import type { ReactNode } from 'react';
+import type { ChangeEvent, ReactNode } from 'react';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
@@ -14,6 +14,7 @@ import {
   useGetUserQuery,
 } from '@/hooks/api/user';
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
+import { useFeatureFlag } from '@/hooks/useFeatureFlag';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
 import type { Values } from '@/types/Values';
@@ -21,11 +22,13 @@ import { Badge } from '@/ui/Badge';
 import { Button } from '@/ui/Button';
 import { Icons } from '@/ui/Icon';
 import { Image } from '@/ui/Image';
-import { Inline } from '@/ui/Inline';
+import { getInlineProps, Inline, InlineProps } from '@/ui/Inline';
 import { Link } from '@/ui/Link';
 import type { ListProps } from '@/ui/List';
 import { List } from '@/ui/List';
 import { Logo, LogoVariants } from '@/ui/Logo';
+import { RadioButtonTypes } from '@/ui/RadioButton';
+import { RadioButtonWithLabel } from '@/ui/RadioButtonWithLabel';
 import { Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import {
@@ -263,13 +266,65 @@ const NotificationMenu = memo(
 
 NotificationMenu.displayName = 'NotificationMenu';
 
+type BetaFeatureMenuProps = Omit<InlineProps, 'onChange'> & {
+  checked: boolean;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+};
+
+const BetaFeatureMenu = ({
+  checked,
+  onChange,
+  ...props
+}: BetaFeatureMenuProps) => {
+  return (
+    <RadioButtonWithLabel
+      id="beta-feature-toggle"
+      type={RadioButtonTypes.SWITCH}
+      checked={checked}
+      onChange={onChange}
+      label={'Beta versie'}
+      css={`
+        .custom-switch .custom-control-label {
+          padding-left: 2rem;
+          padding-bottom: 1.5rem;
+        }
+
+        .custom-switch .custom-control-label::before {
+          height: 1.5rem;
+          width: calc(2rem + 0.75rem);
+          border-radius: 3rem;
+        }
+
+        .custom-switch .custom-control-label::after {
+          width: calc(1.5rem - 4px);
+          height: calc(1.5rem - 4px);
+          border-radius: calc(2rem - (1.5rem / 2));
+        }
+
+        .custom-switch
+          .custom-control-input:checked
+          ~ .custom-control-label::after {
+          transform: translateX(calc(1.5rem - 0.25rem));
+        }
+      `}
+      {...getInlineProps(props)}
+    />
+  );
+};
+
 const Sidebar = () => {
   const { t, i18n } = useTranslation();
+
+  const router = useRouter();
 
   const storage = useLocalStorage();
 
   const [isJobLoggerVisible, setIsJobLoggerVisible] = useState(true);
   const [jobLoggerState, setJobLoggerState] = useState(JobLoggerStates.IDLE);
+
+  const [isNewCreateEnabled, setIsNewCreateEnabled] =
+    useFeatureFlag('react_create');
+
   const sidebarComponent = useRef();
 
   const [announcementModalContext, setAnnouncementModalContext] =
@@ -525,6 +580,14 @@ const Sidebar = () => {
             <Menu items={filteredManageMenu} title={t('menu.management')} />
           )}
           <Stack>
+            <BetaFeatureMenu
+              checked={isNewCreateEnabled}
+              onChange={() => {
+                setIsNewCreateEnabled(!isNewCreateEnabled);
+
+                router.reload();
+              }}
+            />
             <NotificationMenu
               countUnseenAnnouncements={countUnseenAnnouncements}
               jobLoggerState={jobLoggerState}
