@@ -110,6 +110,7 @@ const RecentUsedOrganizers = ({
                 justifyContent="space-between"
                 width="18rem"
                 textAlign="left"
+                minHeight="1.9rem"
               >
                 <Text
                   width="80%"
