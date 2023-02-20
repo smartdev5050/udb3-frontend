@@ -102,7 +102,7 @@ const PictureUploadBox = forwardRef<HTMLInputElement, Props>(
               alt="preview"
               width="auto"
               maxHeight="8rem"
-              maxWidth={'100%'}
+              maxWidth="100%"
               objectFit="cover"
             />
             <Text>{image.name}</Text>
