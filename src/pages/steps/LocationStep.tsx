@@ -51,6 +51,11 @@ import {
   StepsConfiguration,
 } from './Steps';
 
+const { publicRuntimeConfig } = getConfig();
+
+const CULTUURKUUR_LOCATION_ID = publicRuntimeConfig.cultuurKuurLocationId;
+const API_URL = publicRuntimeConfig.apiUrl;
+
 const getGlobalValue = getValueFromTheme('global');
 
 const useEditLocation = ({ scope, offerId }: UseEditArguments) => {
@@ -63,91 +68,92 @@ const useEditLocation = ({ scope, offerId }: UseEditArguments) => {
   const changeLocationMutation = useChangeLocationMutation();
 
   return async ({ location }: FormDataUnion) => {
-    if (scope === OfferTypes.EVENTS) {
-      if (location.isOnline) {
-        changeAttendanceMode.mutate({
-          eventId: offerId,
-          attendanceMode: AttendanceMode.ONLINE,
-        });
+    // For places
 
-        if (location.onlineUrl) {
-          changeOnlineUrl.mutate({
-            eventId: offerId,
-            onlineUrl: location.onlineUrl,
-          });
-        }
+    if (scope === OfferTypes.PLACES) {
+      if (!location.municipality || !location.streetAndNumber) return;
 
-        if (!location.onlineUrl) {
-          deleteOnlineUrl.mutate({
-            eventId: offerId,
-          });
-        }
+      const address: Address = {
+        [i18n.language]: {
+          streetAddress: location.streetAndNumber,
+          addressCountry: location.country,
+          addressLocality: location.municipality.name,
+          postalCode: location.municipality.zip,
+        },
+      };
 
-        return;
-      }
-
-      const { publicRuntimeConfig } = getConfig();
-
-      if (!location.country) {
-        await changeAttendanceMode.mutateAsync({
-          eventId: offerId,
-          attendanceMode: AttendanceMode.OFFLINE,
-          location: `${publicRuntimeConfig.apiUrl}/place/${publicRuntimeConfig.cultuurKuurLocationId}`,
-        });
-
-        await changeLocationMutation.mutateAsync({
-          locationId: publicRuntimeConfig.cultuurKuurLocationId,
-          eventId: offerId,
-        });
-
-        changeAudienceMutation.mutate({
-          eventId: offerId,
-          audienceType: AudienceType.EDUCATION,
-        });
-
-        return;
-      }
-
-      if (!location.place) return;
-
-      await changeAttendanceMode.mutateAsync({
-        eventId: offerId,
-        attendanceMode: AttendanceMode.OFFLINE,
-        location: location.place['@id'],
-      });
-
-      if (
-        parseOfferId(location.place['@id']) !==
-        publicRuntimeConfig.cultuurKuurLocationId
-      ) {
-        changeAudienceMutation.mutate({
-          eventId: offerId,
-          audienceType: AudienceType.EVERYONE,
-        });
-      }
-      deleteOnlineUrl.mutate({
-        eventId: offerId,
+      changeAddressMutation.mutate({
+        id: offerId,
+        address: address[i18n.language],
+        language: i18n.language,
       });
 
       return;
     }
 
-    if (!location.municipality) return;
-    if (!location.streetAndNumber) return;
+    // For events
 
-    const address: Address = {
-      [i18n.language]: {
-        streetAddress: location.streetAndNumber,
-        addressCountry: location.country,
-        addressLocality: location.municipality.name,
-        postalCode: location.municipality.zip,
-      },
-    };
+    if (location.isOnline) {
+      await changeAttendanceMode.mutateAsync({
+        eventId: offerId,
+        attendanceMode: AttendanceMode.ONLINE,
+      });
 
-    changeAddressMutation.mutate({
-      id: offerId,
-      address: address[i18n.language],
-      language: i18n.language,
+      if (location.onlineUrl) {
+        changeOnlineUrl.mutate({
+          eventId: offerId,
+          onlineUrl: location.onlineUrl,
+        });
+      } else {
+        deleteOnlineUrl.mutate({
+          eventId: offerId,
+        });
+      }
+
+      return;
+    }
+
+    const isCultuurkuur = !location.country;
+
+    if (isCultuurkuur) {
+      await changeAttendanceMode.mutateAsync({
+        eventId: offerId,
+        attendanceMode: AttendanceMode.OFFLINE,
+        location: `${API_URL}/place/${CULTUURKUUR_LOCATION_ID}`,
+      });
+
+      const changeLocationPromise = changeLocationMutation.mutateAsync({
+        locationId: CULTUURKUUR_LOCATION_ID,
+        eventId: offerId,
+      });
+
+      const changeAudiencePromise = changeAudienceMutation.mutateAsync({
+        eventId: offerId,
+        audienceType: AudienceType.EDUCATION,
+      });
+
+      await Promise.all([changeLocationPromise, changeAudiencePromise]);
+
+      return;
+    }
+
+    if (!location.place) return;
+
+    await changeAttendanceMode.mutateAsync({
+      eventId: offerId,
+      attendanceMode: AttendanceMode.OFFLINE,
+      location: location.place['@id'],
+    });
+
+    if (parseOfferId(location.place['@id']) !== CULTUURKUUR_LOCATION_ID) {
+      changeAudienceMutation.mutate({
+        eventId: offerId,
+        audienceType: AudienceType.EVERYONE,
+      });
+    }
+
+    deleteOnlineUrl.mutate({
+      eventId: offerId,
     });
   };
 };
