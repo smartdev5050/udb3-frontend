@@ -140,7 +140,6 @@ const MovieForm = (props) => {
           location: t('movies.create.toast.success.location'),
           name: t('movies.create.toast.success.name'),
         },
-        title: t('movies.create.toast.success.title'),
       }}
       configurations={[
         {
