@@ -12,6 +12,7 @@ import type {
   ReactNode,
 } from 'react';
 import { forwardRef } from 'react';
+import { ReactDatePickerProps } from 'react-datepicker';
 import type {
   FlattenInterpolation,
   FlattenSimpleInterpolation,
@@ -89,17 +90,6 @@ type SvgProps = {
   viewBox: string;
 };
 
-type DatePickerProps = {
-  dateFormat: string;
-  minDate: Date;
-  maxDate: Date;
-  customInput: ReactNode;
-  showYearDropdown?: boolean;
-  open: boolean;
-  onCalendarClose: () => void;
-  onCalendarOpen: () => void;
-};
-
 type ProgressBarProps = {
   now: number;
 };
@@ -131,13 +121,13 @@ type TypeaheadProps = {
 };
 
 type SpecificComponentProps = InlineProps &
+  Omit<ReactDatePickerProps, 'onChange' | 'onSelect' | 'value' | 'selected'> &
   TitleProps &
   ListProps &
   LinkProps &
   LabelProps &
   ImageProps &
   SvgProps &
-  DatePickerProps &
   ProgressBarProps &
   TypeaheadProps;
 
@@ -283,8 +273,7 @@ const createCSSStatement =
   };
 
 const isString = (value: unknown): value is string => {
-  if (typeof value === 'string' || value instanceof String) return true;
-  return false;
+  return typeof value === 'string' || value instanceof String;
 };
 
 const isNumber = (value: unknown): value is number => {
@@ -301,10 +290,7 @@ const isUIProp = (value: unknown): value is UIProp<ValidUIPropTypes> => {
 const isUIPropObject = (
   value: unknown,
 ): value is UIPropObject<ValidUIPropTypes> => {
-  if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-    return true;
-  }
-  return false;
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
 };
 
 const createUIPropObject = (

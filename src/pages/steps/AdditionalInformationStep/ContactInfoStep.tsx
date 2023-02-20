@@ -129,6 +129,10 @@ const ContactInfoStep = ({
       (contactInfo) => contactInfo.value !== '',
     );
 
+    if (!onValidationChange) {
+      return;
+    }
+
     if (filteredContactInfoState.length === 0) {
       onValidationChange(ValidationStatus.NONE);
       return;
@@ -140,7 +144,7 @@ const ContactInfoStep = ({
   const queryClient = useQueryClient();
 
   const addContactPointMutation = useAddOfferContactPointMutation({
-    onMutate: async (newPayload) => {
+    onMutate: async () => {
       await queryClient.cancelQueries({
         queryKey: [scope, { id: offerId }],
       });

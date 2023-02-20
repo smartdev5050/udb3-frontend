@@ -1,3 +1,4 @@
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faSlideshare } from '@fortawesome/free-brands-svg-icons';
 import {
   faBell,
@@ -24,6 +25,7 @@ import {
   faPlus,
   faPlusCircle,
   faQuestion,
+  faQuestionCircle,
   faSearch,
   faSignOutAlt,
   faTag,
@@ -76,6 +78,7 @@ const Icons = {
   TICKET: 'ticket',
   INFO: 'info',
   QUESTION: 'question',
+  QUESTION_CIRCLE: 'questionCircle',
 } as const;
 
 const IconsMap = {
@@ -111,6 +114,7 @@ const IconsMap = {
   [Icons.BUILDING]: faBuilding,
   [Icons.TICKET]: faTicketAlt,
   [Icons.QUESTION]: faQuestion,
+  [Icons.QUESTION_CIRCLE]: faQuestionCircle,
   [Icons.INFO]: faInfoCircle,
   [Icons.EXCLAMATION_CIRCLE]: faExclamationCircle,
 };
@@ -135,7 +139,7 @@ const Icon = ({ name, width, height, className, ...props }: Props) => {
       `}
       {...getBoxProps(props)}
     >
-      <FontAwesomeIcon icon={IconsMap[name]} />
+      <FontAwesomeIcon icon={IconsMap[name] as IconProp} />
     </Box>
   );
 };

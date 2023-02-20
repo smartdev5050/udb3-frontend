@@ -148,22 +148,12 @@ const GlobalStyle = createGlobalStyle`
     z-index: ${getValueForModal('zIndexBackdrop')};
   }
 
-  .badge-secondary{
+  .badge-secondary {
     background-color: ${globalColors.grey5};
   }
-  
+
   .dropdown-menu {
     padding: 0;
-  }
-
-  .react-datepicker__day--keyboard-selected {
-    background-color: ${globalColors.grey1};
-    color: #000;
-    font-weight: bold;
-
-    &:hover {
-      color: ${globalColors.white}
-    }
   }
 `;
 

@@ -16,6 +16,7 @@ const NameStep = ({
   formState: { errors },
   control,
   onChange,
+  mainLanguage,
   ...props
 }: NameStepProps) => {
   const { t, i18n } = useTranslation();
@@ -36,12 +37,12 @@ const NameStep = ({
                 id="event-name"
                 Component={
                   <Input
-                    value={field.value?.name?.nl}
+                    value={field.value?.name?.[mainLanguage]}
                     onChange={(event) => {
                       field.onChange({
                         ...field.value,
                         name: {
-                          [i18n.language]: (event.target as HTMLInputElement)
+                          [mainLanguage]: (event.target as HTMLInputElement)
                             .value,
                         },
                       });
@@ -50,14 +51,14 @@ const NameStep = ({
                       field.onChange({
                         ...field.value,
                         name: {
-                          [i18n.language]: (event.target as HTMLInputElement)
+                          [mainLanguage]: (event.target as HTMLInputElement)
                             .value,
                         },
                       });
                       onChange({
                         ...field.value,
                         name: {
-                          [i18n.language]: (event.target as HTMLInputElement)
+                          [mainLanguage]: (event.target as HTMLInputElement)
                             .value,
                         },
                       });
@@ -80,7 +81,7 @@ const NameStep = ({
                     font-weight: bold;
                   }
                 `}
-              ></Text>
+              />
             </Stack>
           );
         }}
