@@ -1,11 +1,11 @@
-import type { ReactNode } from 'react';
+import { useMemo } from 'react';
 import { Toast as BootstrapToast } from 'react-bootstrap';
 import { css } from 'styled-components';
 
 import type { Values } from '@/types/Values';
+import { Icon, Icons } from '@/ui/Icon';
 
 import { parseSpacing } from './Box';
-import { Inline } from './Inline';
 import { Paragraph } from './Paragraph';
 import { getGlobalBorderRadius, getValueFromTheme } from './theme';
 
@@ -34,36 +34,17 @@ const commonCss = css`
 
     min-width: ${parseSpacing(8)()};
   }
-
-  .toast-header {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-
-    border-bottom: none;
-
-    background-color: transparent;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    button.close {
-      color: #fff;
-    }
-  }
 `;
 
 const VariantToStylesMap = {
   [ToastVariants.PRIMARY]: css`
     ${commonCss}
-
     &.bg-primary {
       background-color: ${getValue('primary.backgroundColor')} !important;
     }
   `,
   [ToastVariants.SECONDARY]: css`
     ${commonCss}
-
     &.bg-secondary {
       color: ${getValue('secondary.color')} !important;
       background-color: ${getValue('secondary.backgroundColor')} !important;
@@ -71,14 +52,12 @@ const VariantToStylesMap = {
   `,
   [ToastVariants.SUCCESS]: css`
     ${commonCss}
-
     &.bg-success {
       background-color: ${getValue('success.backgroundColor')} !important;
     }
   `,
   [ToastVariants.DANGER]: css`
     ${commonCss}
-
     &.bg-danger {
       background-color: ${getValue('danger.backgroundColor')} !important;
     }
@@ -87,35 +66,43 @@ const VariantToStylesMap = {
 
 type Props = {
   variant: Values<typeof ToastVariants>;
-  header: ReactNode;
   body: string;
   visible?: boolean;
   onClose?: () => void;
 };
 
-const Toast = ({ variant, visible, header, body, onClose }: Props) => {
+const Toast = ({ variant, visible, body, onClose }: Props) => {
+  const icon = useMemo(() => {
+    const icons = {
+      [ToastVariants.PRIMARY]: Icons.QUESTION_CIRCLE,
+      [ToastVariants.WARNING]: Icons.EXCLAMATION_CIRCLE,
+      [ToastVariants.DANGER]: Icons.EXCLAMATION_CIRCLE,
+      [ToastVariants.SUCCESS]: Icons.CHECK_CIRCLE,
+    };
+
+    return icons[variant];
+  }, [variant]);
+
   return (
     <BootstrapToast
-      className={`d-inline-block m-1 bg-${variant}`}
+      className={`d-inline-block m-1 p-2`}
       css={VariantToStylesMap[variant]}
       autohide
       delay={5000}
       show={visible}
       onClose={onClose}
     >
-      <Inline
-        as={BootstrapToast.Header}
-        spacing={3}
-        color={getValue('textColor.light')}
-      >
-        {header}
-      </Inline>
       <Paragraph
         as={BootstrapToast.Body}
-        backgroundColor="rgba(255,255,255,.85)"
+        backgroundColor="transparent"
         color={getValue('textColor.dark')}
+        className={'d-flex justify-content-between align-items-center flex-row'}
       >
-        {body}
+        <span className={'d-flex mr-2'}>
+          {icon && <Icon name={icon} className={`text-${variant} mr-2`} />}
+          {body}
+        </span>
+        {onClose && <Icon name={Icons.TIMES} onClick={onClose} width={10} />}
       </Paragraph>
     </BootstrapToast>
   );
@@ -124,7 +111,6 @@ const Toast = ({ variant, visible, header, body, onClose }: Props) => {
 Toast.defaultProps = {
   variant: ToastVariants.PRIMARY,
   visible: true,
-  title: '',
   body: '',
 };
 

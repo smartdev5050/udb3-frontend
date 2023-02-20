@@ -178,7 +178,7 @@ const PlaceStep = ({
                         );
                       }}
                       selected={valueToArray(selectedPlace as Place)}
-                      maxWidth="43rem"
+                      maxWidth="28rem"
                       onChange={(places) => {
                         const place = places[0];
 
@@ -199,7 +199,7 @@ const PlaceStep = ({
                         'create.additionalInformation.place.add_new_label',
                       )}
                       hideNewInputText
-                      allowNew={!isMovie}
+                      allowNew={() => !isMovie}
                     />
                   }
                 />

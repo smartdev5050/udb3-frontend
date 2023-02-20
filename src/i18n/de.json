@@ -378,18 +378,24 @@
         "duplicate_name_error": "Tarif mit dem Namen \"Hallo\" existiert bereits, bitte verwenden Sie einen anderen Namen.",
         "euro": "euro",
         "free": "Kostenlos",
-        "global_error": "Vergewissern Sie sich, dass Ihre Preisinformationen immer gültig sind:<ul><li>Schreiben Sie Dezimalzahlen mit einem Komma.</li><li>Lassen Sie keine Zeile leer, geben Sie immer eine Zielgruppe und einen Betrag an.</li><li>Geben Sie maximal zwei Dezimalstellen an.</li></ul>",
+        "global_info": "Vergewissern Sie sich, dass Ihre Preisinformationen immer gültig sind:<ul><li>Schreiben Sie Dezimalzahlen mit einem Komma.</li><li>Lassen Sie keine Zeile leer, geben Sie immer eine Zielgruppe und einen Betrag an.</li><li>Geben Sie maximal zwei Dezimalstellen an.</li></ul>",
         "price": "Preis",
         "prices": "Preise",
         "save": "Speichern",
         "target": "Zielgruppe",
         "title": "Preise",
         "uitpas_error": "Der UiTPAS-Preis wird von UiTdatabank für Sie berechnet. Sie können diese nicht selbst hinzufügen.",
-        "uitpas_info": "Der UiTPAS Opportunity-Tarif wird automatisch auf Basis des Basispreises und der aktiven Kartensysteme berechnet."
+        "uitpas_info": "Der UiTPAS Opportunity-Tarif wird automatisch auf Basis des Basispreises und der aktiven Kartensysteme berechnet.",
+        "validation_messages": {
+          "matches": "Der angegebene Preis ist ungültig.",
+          "unique_name": "Der angegebene Name wird bereits verwendet.",
+          "name_is_required": "Name ist erforderlich.",
+          "name_is_not_uitpas": "Der Name Ihres Tarifs sollte nicht \"UiTPAS\" oder \"Paspartoe\" enthalten. Diese Tarife werden von der UiTdatabank automatisch berechnet."
+        }
       },
       "title": {
-        "events": "Heben Sie Ihre Veranstaltung besonders hervor",
-        "places": "Heben Sie Ihren Standort besonders hervor"
+        "events": "Stellen Sie sicher, dass Ihr Publikum keine Informationen verpasst",
+        "places": "Stellen Sie sicher, dass Ihr Publikum keine Informationen verpasst"
       }
     },
     "publish_modal": {
@@ -690,7 +696,7 @@
         "cancel": "Absagen"
       },
       "info": {
-        "zip": "Beispiel 1104CA"
+        "zip": "Beispiel 10115"
       },
       "labels": {
         "address": {
@@ -889,7 +895,7 @@
       "description": "Möchten Sie diesen Videolink wirklich entfernen?",
       "title": "Videolink entfernen"
     },
-    "intro": "Fügen Sie einen Videolink hinzu, damit Besucher Ihre Aktivität erkennen können",
+    "intro": "Fügen Sie einen Videolink hinzu, um Ihre Aktivität besonders attraktiv zu machen",
     "title": "Videos",
     "upload_modal": {
       "actions": {

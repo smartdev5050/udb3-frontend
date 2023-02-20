@@ -40,4 +40,6 @@ const SentryWebpackPluginOptions = {
   dryRun: true,
 };
 
+module.exports.withoutSentry = moduleExports;
+
 module.exports = withSentryConfig(moduleExports, SentryWebpackPluginOptions);

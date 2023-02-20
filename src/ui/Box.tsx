@@ -1,6 +1,4 @@
-import difference from 'lodash/difference';
-import kebabCase from 'lodash/kebabCase';
-import pick from 'lodash/pick';
+import { difference, kebabCase, pickBy } from 'lodash';
 import type {
   ChangeEvent,
   ClipboardEvent,
@@ -14,6 +12,7 @@ import type {
   ReactNode,
 } from 'react';
 import { forwardRef } from 'react';
+import { ReactDatePickerProps } from 'react-datepicker';
 import type {
   FlattenInterpolation,
   FlattenSimpleInterpolation,
@@ -54,6 +53,7 @@ type GeneralProps = {
   dangerouslySetInnerHTML: {
     __html: string;
   };
+  [ariaKey: `aria-${string}`]: string;
 };
 
 type InlineProps = {
@@ -90,17 +90,6 @@ type SvgProps = {
   viewBox: string;
 };
 
-type DatePickerProps = {
-  dateFormat: string;
-  minDate: Date;
-  maxDate: Date;
-  customInput: ReactNode;
-  showYearDropdown?: boolean;
-  open: boolean;
-  onCalendarClose: () => void;
-  onCalendarOpen: () => void;
-};
-
 type ProgressBarProps = {
   now: number;
 };
@@ -132,13 +121,13 @@ type TypeaheadProps = {
 };
 
 type SpecificComponentProps = InlineProps &
+  Omit<ReactDatePickerProps, 'onChange' | 'onSelect' | 'value' | 'selected'> &
   TitleProps &
   ListProps &
   LinkProps &
   LabelProps &
   ImageProps &
   SvgProps &
-  DatePickerProps &
   ProgressBarProps &
   TypeaheadProps;
 
@@ -284,8 +273,7 @@ const createCSSStatement =
   };
 
 const isString = (value: unknown): value is string => {
-  if (typeof value === 'string' || value instanceof String) return true;
-  return false;
+  return typeof value === 'string' || value instanceof String;
 };
 
 const isNumber = (value: unknown): value is number => {
@@ -302,10 +290,7 @@ const isUIProp = (value: unknown): value is UIProp<ValidUIPropTypes> => {
 const isUIPropObject = (
   value: unknown,
 ): value is UIPropObject<ValidUIPropTypes> => {
-  if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-    return true;
-  }
-  return false;
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
 };
 
 const createUIPropObject = (
@@ -553,7 +538,15 @@ const StyledBox = styled.div.withConfig({
   ${boxProps}
 `;
 
-const getBoxProps = (props: UnknownProps) => pick(props, boxPropTypes);
+const getBoxProps = (props: UnknownProps) =>
+  pickBy(props, (_value, key) => {
+    // pass aria attributes to the DOM element
+    if (key.startsWith('aria-')) {
+      return true;
+    }
+
+    return (boxPropTypes as readonly string[]).includes(key);
+  });
 
 const Box = forwardRef<HTMLElement, BoxProps>(({ children, ...props }, ref) => (
   <StyledBox ref={ref} {...props}>

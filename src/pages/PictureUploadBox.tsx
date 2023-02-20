@@ -195,6 +195,6 @@ const PictureUploadBox = ({
   );
 };
 
-export { PictureUploadBox };
+export { ImageIcon, PictureUploadBox };
 
 export type { ImageType };

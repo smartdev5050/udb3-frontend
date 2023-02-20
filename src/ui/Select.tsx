@@ -22,18 +22,9 @@ type SelectProps = {
 
 type Props = Omit<BoxProps, 'onChange'> & SelectProps;
 
-const Select = forwardRef(
+const Select = forwardRef<HTMLInputElement, Props>(
   (
-    {
-      id,
-      onChange,
-      className,
-      value,
-      size,
-      children,
-      ariaLabel,
-      ...props
-    }: Props,
+    { id, onChange, className, value, size, children, ariaLabel, ...props },
     ref,
   ) => (
     <Form.Control
@@ -42,13 +33,13 @@ const Select = forwardRef(
       ref={ref}
       id={id}
       className={className}
-      maxWidth="43rem"
       onChange={onChange}
       value={value}
       aria-label={ariaLabel}
       css={`
         padding: 0.275rem 0.65rem;
         border-radius: ${getGlobalBorderRadius};
+        max-width="43rem"
       `}
       {...getBoxProps(props)}
     >

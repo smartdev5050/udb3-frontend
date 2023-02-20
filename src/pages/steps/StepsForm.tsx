@@ -162,7 +162,6 @@ const StepsForm = ({
       <Page.Content spacing={5} alignItems="flex-start">
         <Toast
           variant="success"
-          header={toast.header}
           body={toast.message}
           visible={!!toast.message}
           onClose={() => toast.clear()}
@@ -173,6 +172,7 @@ const StepsForm = ({
           fieldLoading={fieldLoading}
           onChangeSuccess={handleChangeSuccess}
           offerId={offerId}
+          mainLanguage={offer?.mainLanguage}
           scope={scope}
           form={form}
         />
