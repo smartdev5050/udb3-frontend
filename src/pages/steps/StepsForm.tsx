@@ -230,10 +230,10 @@ const StepsForm = ({
             )}
           </Inline>
           <PublishLaterModal
+            scope={scope}
+            offerId={offerId}
+            offer={offer}
             visible={isPublishLaterModalVisible}
-            onConfirm={async (publishLaterDate) =>
-              publishOffer(publishLaterDate)
-            }
             onClose={() => setIsPublishLaterModalVisible(false)}
           />
         </Page.Footer>

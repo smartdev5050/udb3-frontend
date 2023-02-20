@@ -6,18 +6,42 @@ import { DatePicker } from '@/ui/DatePicker';
 import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
 import { Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
+import { usePublishOffer } from '@/pages/steps/hooks/usePublishOffer';
+import { OfferType, OfferTypes } from '@/constants/OfferType';
+import { useRouter } from 'next/router';
+import { Offer } from '@/types/Offer';
 
 type Props = {
+  scope: OfferType;
   visible: boolean;
-  onConfirm: (publishLaterDate: Date) => void;
+  offer: Offer;
+  offerId: string;
   onClose: () => void;
 };
 
-const PublishLaterModal = ({ visible, onConfirm, onClose }: Props) => {
+const PublishLaterModal = ({
+  scope,
+  visible,
+  offer,
+  offerId,
+  onClose,
+}: Props) => {
   const { t } = useTranslation();
-  const [publishLaterDate, setPublishLaterDate] = useState(new Date());
+  const { push } = useRouter();
+  const publishOffer = usePublishOffer({
+    scope,
+    id: offerId,
+    onSuccess: () => {
+      const scopePath = scope === OfferTypes.EVENTS ? 'event' : 'place';
+      push(`/${scopePath}/${offerId}/preview`);
+    },
+  });
 
-  const handleConfirm = () => onConfirm(publishLaterDate);
+  const [publishLaterDate, setPublishLaterDate] = useState(
+    offer?.availableFrom ? new Date(offer?.availableFrom) : new Date(),
+  );
+
+  const handleConfirm = () => publishOffer(publishLaterDate);
 
   return (
     <Modal
