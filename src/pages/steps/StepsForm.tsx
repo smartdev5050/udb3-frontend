@@ -155,6 +155,16 @@ const StepsForm = ({
     main.scroll({ left: 0, top: main.scrollHeight, behavior: 'smooth' });
   }, [footerStatus]);
 
+  const publishLaterButton = (
+    <Button
+      variant={ButtonVariants.SECONDARY}
+      onClick={() => setIsPublishLaterModalVisible(true)}
+      key="publishLater"
+    >
+      {t('create.actions.publish_later')}
+    </Button>
+  );
+
   return (
     <Page>
       <Page.Title spacing={3} alignItems="center">
@@ -191,13 +201,7 @@ const StepsForm = ({
                 >
                   {t('create.actions.publish')}
                 </Button>,
-                <Button
-                  variant={ButtonVariants.SECONDARY}
-                  onClick={() => setIsPublishLaterModalVisible(true)}
-                  key="publishLater"
-                >
-                  {t('create.actions.publish_later')}
-                </Button>,
+                publishLaterButton,
                 <Text
                   key="info"
                   color={getValue('footer.color')}
@@ -218,6 +222,7 @@ const StepsForm = ({
                 >
                   <Text>{t('create.footer.done_editing')}</Text>
                 </Link>
+                {publishLaterButton}
                 <Text color={getValue('footer.color')} fontSize="0.9rem">
                   {t('create.footer.auto_save')}
                 </Text>
