@@ -198,7 +198,7 @@ const PlaceStep = ({
                       newSelectionPrefix={t(
                         'create.additionalInformation.place.add_new_label',
                       )}
-                      allowNew={!isMovie}
+                      allowNew={() => !isMovie}
                     />
                   }
                 />
