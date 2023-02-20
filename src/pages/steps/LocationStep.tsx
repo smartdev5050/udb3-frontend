@@ -224,7 +224,7 @@ const LocationStep = ({
   return (
     <Stack
       {...getStackProps(props)}
-      minHeight={isNameAndAgeRangeVisible ? 'inherit' : '350px'}
+      minHeight={isNameAndAgeRangeVisible ? 'inherit' : '400px'}
     >
       <Controller
         control={control}
