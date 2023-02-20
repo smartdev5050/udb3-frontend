@@ -174,6 +174,7 @@ const StepsForm = ({
           fieldLoading={fieldLoading}
           onChangeSuccess={handleChangeSuccess}
           offerId={offerId}
+          mainLanguage={offer?.mainLanguage}
           scope={scope}
           form={form}
         />
