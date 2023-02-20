@@ -1,14 +1,15 @@
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { OfferType, OfferTypes } from '@/constants/OfferType';
+import { useChangeAvailableFromMutation } from '@/hooks/api/events';
+import { usePublishOffer } from '@/pages/steps/hooks/usePublishOffer';
+import { Offer } from '@/types/Offer';
 import { DatePicker } from '@/ui/DatePicker';
 import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
 import { Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
-import { usePublishOffer } from '@/pages/steps/hooks/usePublishOffer';
-import { OfferType, OfferTypes } from '@/constants/OfferType';
-import { useRouter } from 'next/router';
-import { Offer } from '@/types/Offer';
-import { useChangeAvailableFromMutation } from '@/hooks/api/events';
 
 type Props = {
   scope: OfferType;
