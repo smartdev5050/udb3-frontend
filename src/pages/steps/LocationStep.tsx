@@ -51,6 +51,11 @@ import {
   StepsConfiguration,
 } from './Steps';
 
+const { publicRuntimeConfig } = getConfig();
+
+const CULTUURKUUR_LOCATION_ID = publicRuntimeConfig.cultuurKuurLocationId;
+const API_URL = publicRuntimeConfig.apiUrl;
+
 const getGlobalValue = getValueFromTheme('global');
 
 const useEditLocation = ({ scope, offerId }: UseEditArguments) => {
@@ -86,17 +91,15 @@ const useEditLocation = ({ scope, offerId }: UseEditArguments) => {
         return;
       }
 
-      const { publicRuntimeConfig } = getConfig();
-
       if (!location.country) {
         await changeAttendanceMode.mutateAsync({
           eventId: offerId,
           attendanceMode: AttendanceMode.OFFLINE,
-          location: `${publicRuntimeConfig.apiUrl}/place/${publicRuntimeConfig.cultuurKuurLocationId}`,
+          location: `${API_URL}/place/${CULTUURKUUR_LOCATION_ID}`,
         });
 
         await changeLocationMutation.mutateAsync({
-          locationId: publicRuntimeConfig.cultuurKuurLocationId,
+          locationId: CULTUURKUUR_LOCATION_ID,
           eventId: offerId,
         });
 
@@ -116,15 +119,13 @@ const useEditLocation = ({ scope, offerId }: UseEditArguments) => {
         location: location.place['@id'],
       });
 
-      if (
-        parseOfferId(location.place['@id']) !==
-        publicRuntimeConfig.cultuurKuurLocationId
-      ) {
+      if (parseOfferId(location.place['@id']) !== CULTUURKUUR_LOCATION_ID) {
         changeAudienceMutation.mutate({
           eventId: offerId,
           audienceType: AudienceType.EVERYONE,
         });
       }
+
       deleteOnlineUrl.mutate({
         eventId: offerId,
       });
