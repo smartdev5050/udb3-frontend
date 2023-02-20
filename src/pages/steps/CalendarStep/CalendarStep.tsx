@@ -243,7 +243,6 @@ const CalendarStep = ({
 
   const toast = useToast({
     messages: { calendar: t('create.toast.success.calendar') },
-    title: '',
   });
 
   useEffect(() => {
@@ -293,7 +292,6 @@ const CalendarStep = ({
       </Panel>
       <Toast
         variant="success"
-        header={toast.header}
         body={toast.message}
         visible={!!toast.message}
         onClose={() => toast.clear()}

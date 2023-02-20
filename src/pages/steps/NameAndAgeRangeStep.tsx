@@ -22,6 +22,7 @@ const useEditNameAndAgeRange = ({
   scope,
   onSuccess,
   offerId,
+  mainLanguage,
 }: UseEditArguments) => {
   const changeNameMutation = useChangeOfferNameMutation({
     onSuccess: () => onSuccess('basic_info'),
@@ -44,8 +45,8 @@ const useEditNameAndAgeRange = ({
 
     await changeNameMutation.mutateAsync({
       id: offerId,
-      lang: 'nl',
-      name: name.nl,
+      lang: mainLanguage,
+      name: name[mainLanguage],
       scope,
     });
   };
