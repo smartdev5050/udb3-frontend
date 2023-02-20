@@ -533,6 +533,7 @@ export {
   useChangeCalendarMutation,
   useChangeLocationMutation,
   useChangeNameMutation,
+  useChangeAvailableFromMutation,
   useChangeOnlineUrlMutation,
   useChangeStatusMutation,
   useChangeStatusSubEventsMutation,

@@ -10,6 +10,7 @@ import { usePublishOffer } from '@/pages/steps/hooks/usePublishOffer';
 import { OfferType, OfferTypes } from '@/constants/OfferType';
 import { useRouter } from 'next/router';
 import { Offer } from '@/types/Offer';
+import { useChangeAvailableFromMutation } from '@/hooks/api/events';
 
 type Props = {
   scope: OfferType;
@@ -28,20 +29,33 @@ const PublishLaterModal = ({
 }: Props) => {
   const { t } = useTranslation();
   const { push } = useRouter();
+
+  const changeAvailableFrom = useChangeAvailableFromMutation();
+  const onSuccess = () => {
+    const scopePath = scope === OfferTypes.EVENTS ? 'event' : 'place';
+    push(`/${scopePath}/${offerId}/preview`);
+  };
+
   const publishOffer = usePublishOffer({
     scope,
     id: offerId,
-    onSuccess: () => {
-      const scopePath = scope === OfferTypes.EVENTS ? 'event' : 'place';
-      push(`/${scopePath}/${offerId}/preview`);
-    },
+    onSuccess,
   });
 
   const [publishLaterDate, setPublishLaterDate] = useState(
     offer?.availableFrom ? new Date(offer?.availableFrom) : new Date(),
   );
 
-  const handleConfirm = () => publishOffer(publishLaterDate);
+  const handleConfirm = () =>
+    offer?.availableFrom
+      ? changeAvailableFrom.mutate(
+          {
+            id: offerId,
+            availableFrom: publishLaterDate,
+          },
+          { onSuccess },
+        )
+      : publishOffer(publishLaterDate);
 
   return (
     <Modal
