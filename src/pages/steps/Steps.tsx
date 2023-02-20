@@ -10,6 +10,7 @@ import type {
 import { useTranslation } from 'react-i18next';
 
 import { OfferType, OfferTypes } from '@/constants/OfferType';
+import { SupportedLanguage } from '@/i18n/index';
 import { Values } from '@/types/Values';
 import type { BoxProps } from '@/ui/Box';
 import { Box } from '@/ui/Box';
@@ -117,11 +118,13 @@ type StepProps = UseFormReturn<FormDataUnion> & {
   loading: boolean;
   name: Path<FormDataUnion>;
   onChange: (value: any) => void;
+  mainLanguage: SupportedLanguage;
 };
 
 type StepsProps = {
   scope?: OfferType;
   offerId?: string;
+  mainLanguage: SupportedLanguage;
   form: UseFormReturn<FormDataUnion>;
   fieldLoading?: string;
   onChange?: (editedField: string) => void;
@@ -145,6 +148,7 @@ const stepPropKeys: (keyof StepProps)[] = [
   'onChange',
   'register',
   'reset',
+  'mainLanguage',
   'resetField',
   'setError',
   'setFocus',
@@ -162,6 +166,7 @@ const Steps = ({
   fieldLoading,
   form,
   offerId,
+  mainLanguage,
   scope,
   ...props
 }: StepsProps) => {
@@ -215,10 +220,17 @@ const Steps = ({
             >
               <Step
                 key={index}
-                onChange={() => onChange(name)}
+                onChange={() => {
+                  if (!form.formState.dirtyFields[name]) {
+                    return;
+                  }
+
+                  onChange(name);
+                }}
                 loading={!!(name && fieldLoading === name)}
                 name={name}
                 offerId={offerId}
+                mainLanguage={mainLanguage}
                 scope={scope}
                 variant={variant}
                 {...form}
