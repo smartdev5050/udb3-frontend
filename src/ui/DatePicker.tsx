@@ -141,7 +141,7 @@ const DatePicker = ({
           padding: 0.25rem 0.5rem;
 
           &:hover {
-            background: ${({ theme }) => theme.colors.udbRed};
+            background: ${({ theme }) => theme.colors.udbBlue};
             color: white;
           }
         }
@@ -151,7 +151,7 @@ const DatePicker = ({
         }
 
         .react-datepicker__day--selected {
-          background-color: ${({ theme }) => theme.colors.udbRed};
+          background-color: ${({ theme }) => theme.colors.udbBlue};
           border-radius: 10px;
         }
 
