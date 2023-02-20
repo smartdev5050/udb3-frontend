@@ -29,6 +29,8 @@ const NameStep = ({
         name={'nameAndAgeRange'}
         control={control}
         render={({ field }) => {
+          const language = mainLanguage ?? i18n.language;
+
           return (
             <Stack spacing={2}>
               <FormElement
@@ -37,13 +39,12 @@ const NameStep = ({
                 id="event-name"
                 Component={
                   <Input
-                    value={field.value?.name?.[mainLanguage]}
+                    value={field.value?.name?.[language]}
                     onChange={(event) => {
                       field.onChange({
                         ...field.value,
                         name: {
-                          [mainLanguage]: (event.target as HTMLInputElement)
-                            .value,
+                          [language]: (event.target as HTMLInputElement).value,
                         },
                       });
                     }}
@@ -51,15 +52,13 @@ const NameStep = ({
                       field.onChange({
                         ...field.value,
                         name: {
-                          [mainLanguage]: (event.target as HTMLInputElement)
-                            .value,
+                          [language]: (event.target as HTMLInputElement).value,
                         },
                       });
                       onChange({
                         ...field.value,
                         name: {
-                          [mainLanguage]: (event.target as HTMLInputElement)
-                            .value,
+                          [language]: (event.target as HTMLInputElement).value,
                         },
                       });
                     }}
