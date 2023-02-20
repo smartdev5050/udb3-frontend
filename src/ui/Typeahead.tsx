@@ -45,6 +45,7 @@ type TypeaheadProps<T> = {
         results: Array<Record<string, unknown> | string>,
         props: Record<string, unknown>,
       ) => boolean);
+  hideNewInputText?: boolean;
   newSelectionPrefix?: string;
   selected?: T[];
   positionFixed?: boolean;
@@ -84,6 +85,7 @@ const Typeahead: TypeaheadFunc = forwardRef(
       selected,
       allowNew,
       customFilter,
+      hideNewInputText,
       newSelectionPrefix,
       positionFixed,
       ...props
@@ -120,6 +122,10 @@ const Typeahead: TypeaheadFunc = forwardRef(
 
           .dropdown-item {
             border-bottom: 1px solid ${({ theme }) => theme.colors.grey1};
+          }
+
+          .rbt-highlight-text {
+            display: ${hideNewInputText ? 'none' : 'initial'};
           }
 
           .dropdown-item.active,
