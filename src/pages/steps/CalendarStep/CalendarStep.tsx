@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -126,6 +126,8 @@ const CalendarStep = ({
 }: CalendarStepProps) => {
   const { t } = useTranslation();
 
+  const calendarStepContainer = useRef(null);
+
   const [scope, type] = useWatch({
     control,
     name: ['scope', 'typeAndTheme.type'],
@@ -248,6 +250,13 @@ const CalendarStep = ({
     messages: { calendar: t('create.toast.success.calendar') },
   });
 
+  const scrollToCalendarContainer = () => {
+    calendarStepContainer.current.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+    });
+  };
+
   useEffect(() => {
     if (isIdle) return;
     if (scope !== OfferTypes.PLACES) return;
@@ -260,21 +269,12 @@ const CalendarStep = ({
     if (!scope || !type.id) return;
     if (offerId) return;
 
-    const yOffset = -60;
-    const main = document.getElementsByTagName('main')[0];
-    const calendarContainer = document.getElementById(
-      'calendar-step-container',
-    );
-    const scrollToPosition =
-      calendarContainer.getBoundingClientRect().top +
-      window.pageYOffset +
-      yOffset;
-
-    main.scrollTo({ top: scrollToPosition, behavior: 'smooth' });
+    scrollToCalendarContainer();
   }, [scope, offerId, type]);
 
   return (
     <Stack
+      ref={calendarStepContainer}
       id="calendar-step-container"
       spacing={4}
       minWidth={{ l: 'auto', default: '60rem' }}
