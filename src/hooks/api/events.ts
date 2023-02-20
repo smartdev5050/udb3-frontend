@@ -292,6 +292,23 @@ const changeLocation = async ({ headers, eventId, locationId }) => {
 const useChangeLocationMutation = (configuration = {}) =>
   useAuthenticatedMutation({ mutationFn: changeLocation, ...configuration });
 
+const changeAvailableFrom = async ({ headers, id, availableFrom }) => {
+  return fetchFromApi({
+    path: `/events/${id.toString()}/available-from`,
+    options: {
+      method: 'PUT',
+      body: JSON.stringify({ availableFrom }),
+      headers,
+    },
+  });
+};
+
+const useChangeAvailableFromMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: changeAvailableFrom,
+    ...configuration,
+  });
+
 const changeName = async ({ headers, id, lang, name }) => {
   return fetchFromApi({
     path: `/events/${id.toString()}/name/${lang}`,
