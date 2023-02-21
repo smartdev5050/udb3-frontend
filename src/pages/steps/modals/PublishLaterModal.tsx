@@ -47,17 +47,17 @@ const PublishLaterModal = ({
 
   const handleConfirm = () => {
     if (!offer?.availableFrom) {
-      publishOffer(publishLaterDate);
-      return;
+      return publishOffer(publishLaterDate);
     }
-    
+
     changeAvailableFrom.mutate(
-          {
-            id: offerId,
-            availableFrom: publishLaterDate,
-          },
-          { onSuccess },
-    )
+      {
+        id: offerId,
+        availableFrom: publishLaterDate,
+      },
+      { onSuccess },
+    );
+  };
 
   return (
     <Modal
