@@ -335,13 +335,34 @@
       },
       "event_score": {
         "tip": {
-          "theme": "Astuce: ajouter un thème",
-          "mediaObject": "Astuce: ajoutez une image",
-          "video": "Astuce: ajoutez une vidéo",
-          "description": "Astuce: ajoutez une description (+200 caractères)",
-          "price_info": "Astuce: ajoutez des informations sur les prix",
-          "contact_info": "Astuce: ajoutez des informations de contact",
-          "organizer": "Astuce: ajouter un organisateur",
+          "theme": {
+            "text": "Astuce: ajouter un <1>{{link}}</1>",
+            "link": "thème"
+          },
+          "media": {
+            "text": "Astuce: ajoutez une <1>{{link}}</1>",
+            "link": "image"
+          },
+          "video": {
+            "text": "Astuce: ajoutez une <1>{{link}}</1>",
+            "link": "vidéo"
+          },
+          "description": {
+            "text": "Astuce: ajoutez une <1>{{link}}</1> (+200 caractères)",
+            "link": "description"
+          },
+          "price_info": {
+            "text": "Astuce: ajoutez des <1>{{link}}</1>",
+            "link": "informations sur les prix"
+          },
+          "contact_info": {
+            "text": "Astuce: ajoutez des <1>{{link}}</1>",
+            "link": "informations de contact"
+          },
+          "organizer": {
+            "text": "Astuce: ajouter un <1>{{link}}</1>",
+            "link": "organisateur"
+          },
           "completed": "Tous les points ! Vous allez marquer des points avec cet événement !"
         }
       },
