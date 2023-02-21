@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -126,7 +126,12 @@ const CalendarStep = ({
 }: CalendarStepProps) => {
   const { t } = useTranslation();
 
-  const scope = useWatch({ control, name: 'scope' });
+  const calendarStepContainer = useRef(null);
+
+  const [scope, type] = useWatch({
+    control,
+    name: ['scope', 'typeAndTheme.type'],
+  });
 
   const calendarService = useCalendarContext();
 
@@ -245,6 +250,17 @@ const CalendarStep = ({
     messages: { calendar: t('create.toast.success.calendar') },
   });
 
+  const scrollToCalendarContainer = () => {
+    if (!calendarStepContainer.current) {
+      return;
+    }
+
+    calendarStepContainer.current.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+    });
+  };
+
   useEffect(() => {
     if (isIdle) return;
     if (scope !== OfferTypes.PLACES) return;
@@ -252,8 +268,17 @@ const CalendarStep = ({
     handleChooseFixedDays();
   }, [scope, isIdle, handleChooseFixedDays]);
 
+  // scroll to calendar step after theme has been selected
+  useEffect(() => {
+    if (!scope || !type.id) return;
+    if (offerId) return;
+
+    scrollToCalendarContainer();
+  }, [scope, offerId, type]);
+
   return (
     <Stack
+      ref={calendarStepContainer}
       spacing={4}
       minWidth={{ l: 'auto', default: '60rem' }}
       width={{ l: '100%', default: 'min-content' }}
