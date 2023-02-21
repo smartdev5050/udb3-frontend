@@ -251,6 +251,10 @@ const CalendarStep = ({
   });
 
   const scrollToCalendarContainer = () => {
+    if (!calendarStepContainer.current) {
+      return;
+    }
+
     calendarStepContainer.current.scrollIntoView({
       behavior: 'smooth',
       block: 'center',
