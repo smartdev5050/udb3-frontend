@@ -296,11 +296,6 @@ const BetaVersionToggle = ({
           {...getInlineProps(props)}
         />
       }
-      css={css`
-        & * {
-          cursor: pointer;
-        }
-      `}
     />
   );
 };
