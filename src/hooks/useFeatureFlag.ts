@@ -1,4 +1,10 @@
-import { useEffect, useMemo, useState } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useMemo,
+  useState,
+} from 'react';
 
 import type { Values } from '@/types/Values';
 
@@ -14,7 +20,9 @@ type FeatureFlagName = Values<typeof FeatureFlags>;
 
 const useFeatureFlag = (featureFlagName: FeatureFlagName) => {
   if (!featureFlagName) {
-    throw new Error('You should provide a feature flag name');
+    throw new Error(
+      'The featureFlagName argument is mandatory for useFeatureFlag',
+    );
   }
 
   const cookieName = useMemo(
@@ -26,20 +34,38 @@ const useFeatureFlag = (featureFlagName: FeatureFlagName) => {
 
   const { cookies, setCookie } = useCookiesWithOptions(dependencies);
 
-  const [isFeatureEnabled, setIsFeatureEnabled] = useState(
-    isFeatureFlagEnabledInCookies(featureFlagName, cookies),
-  );
-
-  const isCookieEnabled = useMemo(
+  const cookieValue = useMemo(
     () => isFeatureFlagEnabledInCookies(featureFlagName, cookies),
     [cookies, featureFlagName],
   );
 
-  useEffect(() => {
-    setCookie(cookieName, isFeatureEnabled);
-  }, [cookieName, featureFlagName, isFeatureEnabled, setCookie]);
+  const [isFeatureEnabled, setIsFeatureEnabled] = useState(cookieValue);
 
-  return [isCookieEnabled, setIsFeatureEnabled] as const;
+  const set = useCallback<Dispatch<SetStateAction<boolean>>>(
+    (val) => {
+      const setValue = (newValue: boolean) => {
+        setCookie(cookieName, newValue);
+        setIsFeatureEnabled(newValue);
+      };
+
+      if (typeof val === 'function') {
+        const updatedValue = val(cookieValue);
+
+        setValue(updatedValue);
+        return;
+      }
+
+      setValue(val);
+    },
+    [cookieName, cookieValue, setCookie],
+  );
+
+  const returned = useMemo(
+    () => [isFeatureEnabled, set] as const,
+    [isFeatureEnabled, set],
+  );
+
+  return returned;
 };
 
 const isFeatureFlagEnabledInCookies = (
