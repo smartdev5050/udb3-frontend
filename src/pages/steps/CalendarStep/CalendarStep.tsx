@@ -279,7 +279,6 @@ const CalendarStep = ({
   return (
     <Stack
       ref={calendarStepContainer}
-      id="calendar-step-container"
       spacing={4}
       minWidth={{ l: 'auto', default: '60rem' }}
       width={{ l: '100%', default: 'min-content' }}
