@@ -103,7 +103,7 @@ const MenuItem = memo(
             default: 'none',
             hover: getValueForMenuItem('hover.backgroundColor'),
           }}
-          spacing={{ default: 3, s: 0 }}
+          spacing={{ default: 3, s: 1 }}
           stackOn={Breakpoints.S}
           title={label}
         >
@@ -288,6 +288,18 @@ const BetaVersionToggle = ({
       label={t('menu.beta_version')}
       labelVariant={LabelVariants.NORMAL}
       labelPosition={LabelPositions.LEFT}
+      css={`
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        label {
+          height: initial;
+        }
+      `}
+      fontSize={{ s: '9px' }}
+      spacing={{ default: 3, s: 1 }}
+      stackOn={Breakpoints.S}
       Component={
         <RadioButton
           type={RadioButtonTypes.SWITCH}
@@ -526,7 +538,7 @@ const Sidebar = () => {
       backgroundColor={getValueForSidebar('backgroundColor')}
       color={getValueForSidebar('color')}
       zIndex={getValueForSidebar('zIndex')}
-      padding={{ default: 2, s: 0 }}
+      padding={{ default: 2, s: 1 }}
       spacing={3}
       ref={sidebarComponent}
       onMouseOver={() => {
@@ -566,11 +578,17 @@ const Sidebar = () => {
           <Stack>
             <Inline
               flex={1}
-              alignItems="center"
               paddingLeft={2}
-              justifyContent="space-between"
+              alignItems="center"
+              justifyContent={{ default: 'space-between', s: 'center' }}
+              stackOn={Breakpoints.S}
             >
-              <Inline spacing={3}>
+              <Inline
+                stackOn={Breakpoints.S}
+                spacing={{ default: 3, s: 1 }}
+                alignItems="center"
+                justifyContent={{ default: 'center', s: 'center' }}
+              >
                 <Icon name={Icons.EYE} />
                 <BetaVersionToggle
                   checked={isNewCreateEnabled}
@@ -581,7 +599,9 @@ const Sidebar = () => {
                   }}
                 />
               </Inline>
-              <NewFeatureTooltip featureUUID={Features.ONLINE} />
+              {!isSmallView && (
+                <NewFeatureTooltip featureUUID={Features.ONLINE} />
+              )}
             </Inline>
             <NotificationMenu
               countUnseenAnnouncements={countUnseenAnnouncements}
