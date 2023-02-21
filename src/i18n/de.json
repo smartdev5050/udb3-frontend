@@ -334,13 +334,34 @@
       },
       "event_score": {
         "tip": {
-          "theme": "Tipp: Fügen Sie ein Thema hinzu",
-          "mediaObject": "Tipp: Fügen Sie ein Bild hinzu",
-          "video": "Tipp: Fügen Sie ein Video hinzu",
-          "description": "Tipp: Fügen Sie eine Beschreibung (+200 Zeichen) hinzu",
-          "price_info": "Tipp: Preisinformationen hinzufügen",
-          "contact_info": "Tipp: Fügen Sie Kontaktinformationen hinzu",
-          "organizer": "Tipp: Fügen Sie einen Organisator hinzu",
+          "theme": {
+            "text": "Tipp: Fügen Sie ein <1>{{link}}</1> hinzu",
+            "link": "Thema"
+          },
+          "media": {
+            "text": "Tipp: Fügen Sie ein <1>{{link}}</1> hinzu",
+            "link": "Bild"
+          },
+          "video": {
+            "text": "Tipp: Fügen Sie ein <1>{{link}}</1> hinzu",
+            "link": "Video"
+          },
+          "description": {
+            "text": "Tipp: Fügen Sie eine <1>{{link}}</1> (+200 Zeichen) hinzu",
+            "link": "Beschreibung"
+          },
+          "price_info": {
+            "text": "Tipp: <1>{{link}}</1> hinzufügen",
+            "link": "Preisinformationen"
+          },
+          "contact_info": {
+            "text": "Tipp: Fügen Sie <1>{{link}}</1> hinzu",
+            "link": "Kontaktinformationen"
+          },
+          "organizer": {
+            "text": "Tipp: Fügen Sie einen <1>{{link}}</1> hinzu",
+            "link": "Organisator"
+          },
           "completed": "Alle Punkte! Mit dieser Veranstaltung werden Sie punkten!"
         }
       },

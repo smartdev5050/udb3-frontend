@@ -163,7 +163,7 @@ const AdditionalInformationStep = ({
 
   const [tab, setTab] = useState('description');
 
-  const [_path, hash] = asPath.split('#');
+  const [, hash] = asPath.split('#');
 
   useEffect(() => {
     if (!hash || !Object.values(Fields).some((field) => hash === field)) return;
