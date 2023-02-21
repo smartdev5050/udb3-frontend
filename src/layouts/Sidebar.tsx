@@ -4,7 +4,6 @@ import type { ChangeEvent, ReactNode } from 'react';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
-import { css } from 'styled-components';
 
 import { useAnnouncementModalContext } from '@/context/AnnouncementModalContext';
 import { useGetAnnouncementsQuery } from '@/hooks/api/announcements';
@@ -314,8 +313,6 @@ const BetaVersionToggle = ({
 
 const Sidebar = () => {
   const { t, i18n } = useTranslation();
-
-  const router = useRouter();
 
   const storage = useLocalStorage();
 
