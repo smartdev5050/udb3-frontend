@@ -195,7 +195,7 @@ const OfferForm = () => {
     if (isOnline) {
       return {
         attendanceMode: AttendanceMode.ONLINE,
-        onlineUrl,
+        ...(onlineUrl && { onlineUrl }),
       };
     }
 
