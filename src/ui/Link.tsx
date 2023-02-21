@@ -126,9 +126,8 @@ const Link = ({
         // @ts-expect-error
         ...suffix.props,
         key: 'suffix',
-        css: `align-self: flex-end`,
       })
-    : undefined;
+    : null;
 
   const inner = [
     iconName && <Icon name={iconName} key="icon" />,
