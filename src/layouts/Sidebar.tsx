@@ -1,9 +1,10 @@
 import getConfig from 'next/config';
 import { useRouter } from 'next/router';
-import type { ReactNode } from 'react';
+import type { ChangeEvent, ReactNode } from 'react';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
+import { css } from 'styled-components';
 
 import { useAnnouncementModalContext } from '@/context/AnnouncementModalContext';
 import { useGetAnnouncementsQuery } from '@/hooks/api/announcements';
@@ -17,12 +18,15 @@ import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
+import { Features, NewFeatureTooltip } from '@/pages/NewFeatureTooltip';
 import type { Values } from '@/types/Values';
 import { Badge } from '@/ui/Badge';
 import { Button } from '@/ui/Button';
+import { FormElement } from '@/ui/FormElement';
 import { Icons } from '@/ui/Icon';
 import { Image } from '@/ui/Image';
 import { getInlineProps, Inline, InlineProps } from '@/ui/Inline';
+import { LabelPositions, LabelVariants } from '@/ui/Label';
 import { Link } from '@/ui/Link';
 import type { ListProps } from '@/ui/List';
 import { List } from '@/ui/List';
@@ -101,21 +105,22 @@ const MenuItem = memo(
           }}
           spacing={{ default: 3, s: 0 }}
           stackOn={Breakpoints.S}
-          customChildren
           title={label}
         >
-          <Text
-            flex={1}
-            css={`
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-            `}
-            fontSize={{ s: '9px' }}
-            textAlign={{ default: 'left', s: 'center' }}
-          >
-            {label}
-          </Text>
+          {label && (
+            <Text
+              flex={1}
+              css={`
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              `}
+              fontSize={{ s: '9px' }}
+              textAlign={{ default: 'left', s: 'center' }}
+            >
+              {label}
+            </Text>
+          )}
         </Component>
       </List.Item>
     );
@@ -248,9 +253,15 @@ const NotificationMenu = memo(
     const notificationMenu = [
       {
         iconName: Icons.EYE,
-        children: t('menu.beta_version'),
-        suffix: <BetaVersionToggle checked={isBetaVersionEnabled} />,
-        onClick: onChangeBetaVersion,
+        suffix: (
+          <Inline flex={1} alignItems="center" justifyContent="space-between">
+            <BetaVersionToggle
+              checked={isBetaVersionEnabled}
+              onChange={onChangeBetaVersion}
+            />
+            <NewFeatureTooltip featureUUID={Features.ONLINE} />
+          </Inline>
+        ),
       },
       {
         iconName: Icons.GIFT,
@@ -275,16 +286,37 @@ const NotificationMenu = memo(
 
 NotificationMenu.displayName = 'NotificationMenu';
 
-type BetaVersionToggleProps = InlineProps & {
+type BetaVersionToggleProps = Omit<InlineProps, 'onChange'> & {
   checked: boolean;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
-const BetaVersionToggle = ({ checked, ...props }: BetaVersionToggleProps) => {
+const BetaVersionToggle = ({
+  checked,
+  onChange,
+  ...props
+}: BetaVersionToggleProps) => {
+  const { t } = useTranslation();
+
   return (
-    <RadioButton
-      type={RadioButtonTypes.SWITCH}
-      checked={checked}
-      {...getInlineProps(props)}
+    <FormElement
+      id="beta-version-switch"
+      label={t('menu.beta_version')}
+      labelVariant={LabelVariants.NORMAL}
+      labelPosition={LabelPositions.LEFT}
+      Component={
+        <RadioButton
+          type={RadioButtonTypes.SWITCH}
+          checked={checked}
+          onChange={onChange}
+          {...getInlineProps(props)}
+        />
+      }
+      css={css`
+        & * {
+          cursor: pointer;
+        }
+      `}
     />
   );
 };
