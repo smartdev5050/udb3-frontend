@@ -54,12 +54,12 @@ const useFeatureFlag = (featureFlagName: FeatureFlagName) => {
     [cookieName, cookieValue, setCookie],
   );
 
-  const returned = useMemo(
+  const statePair = useMemo(
     () => [isFeatureEnabled, set] as const,
     [isFeatureEnabled, set],
   );
 
-  return returned;
+  return statePair;
 };
 
 const isFeatureFlagEnabledInCookies = (
