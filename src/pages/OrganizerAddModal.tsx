@@ -27,6 +27,8 @@ import { City, CityPicker } from './CityPicker';
 
 const getValue = getValueFromTheme('organizerAddModal');
 
+const GERMAN_ZIP_REGEX: RegExp = /\b\d{5}\b/;
+
 const schema = yup
   .object({
     url: yup.string().url().required(),
@@ -39,10 +41,35 @@ const schema = yup
           .oneOf(Object.values(Countries))
           .required(),
         city: yup
-          .object({
-            label: yup.string().required(),
-            name: yup.string().required(),
-            zip: yup.string().required(),
+          .object()
+          .when('country', {
+            is: (country) => country === Countries.DE,
+            then: yup.object({
+              label: yup.string().required(),
+              name: yup.string().required(),
+              zip: yup.string().matches(GERMAN_ZIP_REGEX).required(),
+            }),
+          })
+          .when('country', {
+            is: (country) => country === Countries.NL,
+            then: yup.object({
+              label: yup.string().required(),
+              name: yup.string().required(),
+              zip: yup
+                .string()
+                .test('valid_dutch_zip', (zip: string) => {
+                  return zip?.length === 5;
+                })
+                .required(),
+            }),
+          })
+          .when('country', {
+            is: (country) => country === Countries.BE,
+            then: yup.object({
+              label: yup.string().required(),
+              name: yup.string().required(),
+              zip: yup.string().required(),
+            }),
           })
           .required(),
       })
