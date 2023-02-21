@@ -1,3 +1,5 @@
+import { useEffect, useMemo, useState } from 'react';
+
 import type { Values } from '@/types/Values';
 
 import { useCookiesWithOptions } from './useCookiesWithOptions';
@@ -10,20 +12,34 @@ const createCookieName = (identifier: string) => `ff_${identifier}`;
 
 type FeatureFlagName = Values<typeof FeatureFlags>;
 
-const useFeatureFlag = (
-  featureFlagName: FeatureFlagName,
-): [isEnabled: boolean, setIsEnabled: (value: boolean | string) => void] => {
-  if (!featureFlagName) return [false, () => {}];
+const useFeatureFlag = (featureFlagName: FeatureFlagName) => {
+  if (!featureFlagName) {
+    throw new Error('You should provide a feature flag name');
+  }
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { cookies, setCookie } = useCookiesWithOptions();
+  const cookieName = useMemo(
+    () => createCookieName(featureFlagName),
+    [featureFlagName],
+  );
 
-  const cookieName = createCookieName(featureFlagName);
+  const dependencies = useMemo(() => [cookieName], [cookieName]);
 
-  const set = (value: boolean | string) => setCookie(cookieName, value);
-  const isEnabled = isFeatureFlagEnabledInCookies(featureFlagName, cookies);
+  const { cookies, setCookie } = useCookiesWithOptions(dependencies);
 
-  return [isEnabled, set];
+  const [isFeatureEnabled, setIsFeatureEnabled] = useState(
+    isFeatureFlagEnabledInCookies(featureFlagName, cookies),
+  );
+
+  const isCookieEnabled = useMemo(
+    () => isFeatureFlagEnabledInCookies(featureFlagName, cookies),
+    [cookies, featureFlagName],
+  );
+
+  useEffect(() => {
+    setCookie(cookieName, isFeatureEnabled);
+  }, [cookieName, featureFlagName, isFeatureEnabled, setCookie]);
+
+  return [isCookieEnabled, setIsFeatureEnabled] as const;
 };
 
 const isFeatureFlagEnabledInCookies = (

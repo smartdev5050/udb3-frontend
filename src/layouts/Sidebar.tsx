@@ -14,7 +14,7 @@ import {
   useGetUserQuery,
 } from '@/hooks/api/user';
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
-import { useFeatureFlag } from '@/hooks/useFeatureFlag';
+import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
 import type { Values } from '@/types/Values';
@@ -322,8 +322,10 @@ const Sidebar = () => {
   const [isJobLoggerVisible, setIsJobLoggerVisible] = useState(true);
   const [jobLoggerState, setJobLoggerState] = useState(JobLoggerStates.IDLE);
 
-  const [isNewCreateEnabled, setIsNewCreateEnabled] =
-    useFeatureFlag('react_create');
+  const [isNewCreateEnabled, setIsNewCreateEnabled] = useFeatureFlag(
+    FeatureFlags.REACT_CREATE,
+  );
+
 
   const sidebarComponent = useRef();
 
@@ -583,9 +585,11 @@ const Sidebar = () => {
             <BetaFeatureMenu
               checked={isNewCreateEnabled}
               onChange={() => {
-                setIsNewCreateEnabled(!isNewCreateEnabled);
+                setIsNewCreateEnabled((prev) => !prev);
 
-                router.reload();
+                // setTimeout(() => {
+                //   router.reload();
+                // }, 1000);
               }}
             />
             <NotificationMenu
