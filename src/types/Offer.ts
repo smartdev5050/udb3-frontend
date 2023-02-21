@@ -68,10 +68,11 @@ type BookingInfo = {
   urlLabel?: { nl: string };
 };
 
-type PriceInfo = {
+export type PriceInfo = {
   category: PriceCategory;
-  name: { nl: string };
-  price: number;
+  name: { nl?: string; en?: string; de?: string };
+  price: any;
+  priceCurrency: string;
 };
 
 type SubEvent = {

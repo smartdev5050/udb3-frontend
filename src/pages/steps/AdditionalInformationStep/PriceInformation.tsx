@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -27,10 +27,11 @@ import { Input } from '@/ui/Input';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
+import { reconcileRates } from '@/utils/reconcileRates';
 
 const PRICE_CURRENCY: string = 'EUR';
 
-const PRICE_REGEX: RegExp = /^([1-9][0-9]*|[0-9]|[0])(,[0-9]{1,2})?$/;
+const PRICE_REGEX: RegExp = /^([1-9][0-9]*|[0-9]|0)(,[0-9]{1,2})?$/;
 
 const PriceCategory = {
   BASE: 'base',
@@ -206,38 +207,17 @@ const PriceInformation = ({
       ? isUitpasOrganizer(offer?.organizer)
       : false;
 
-    if (hasRates) {
-      onValidationChange(ValidationStatus.SUCCESS);
-      return;
-    }
+    if (!hasRates) {
+      replace(priceInfo.length ? priceInfo : defaultPriceInfoValues.rates);
 
-    if (priceInfo.length === 0) {
-      replace(defaultPriceInfoValues.rates);
-
-      onValidationChange(
+      return onValidationChange(
         hasUitpasLabel ? ValidationStatus.WARNING : ValidationStatus.NONE,
       );
-
-      return;
     }
 
     onValidationChange(ValidationStatus.SUCCESS);
 
-    const mainLanguage = offer?.mainLanguage;
-
-    const newPriceInfo = priceInfo.map((rate) => {
-      return {
-        ...rate,
-        name: {
-          ...rate.name,
-          [i18n.language]: rate.name[i18n.language] ?? rate.name[mainLanguage],
-        },
-        price: rate.price.toFixed(2).replace('.', ','),
-        priceCurrency: PRICE_CURRENCY,
-      };
-    });
-
-    replace(newPriceInfo);
+    replace(reconcileRates(rates, priceInfo, offer));
     // onValidationChange is hard to wrap in useCallback in parent
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
@@ -284,15 +264,13 @@ const PriceInformation = ({
                     )}
                     {rate.category === PriceCategory.TARIFF && (
                       <FormElement
-                        id={`rate_name_${index}`}
+                        id={`rate_name_${rate.id}`}
                         Component={
                           <Input
                             {...registerNameProps}
                             onBlur={async (e) => {
                               await registerNameProps.onBlur(e);
-
                               const isValid = await trigger();
-
                               if (!isValid) {
                                 return;
                               }
@@ -313,7 +291,7 @@ const PriceInformation = ({
                   <Inline minWidth="20%" alignItems="center">
                     {rate.category && (
                       <FormElement
-                        id={`rate_price_${index}`}
+                        id={`rate_price_${rate.id}`}
                         Component={
                           <Input
                             marginRight={3}
@@ -321,7 +299,6 @@ const PriceInformation = ({
                             onBlur={async (e) => {
                               await registerPriceProps.onBlur(e);
                               const isValid = await trigger();
-
                               if (!isValid) {
                                 return;
                               }
@@ -370,7 +347,6 @@ const PriceInformation = ({
                       )}
                       onClick={() => {
                         remove(index);
-
                         onSubmit();
                       }}
                     />
@@ -441,5 +417,4 @@ const PriceInformation = ({
   );
 };
 
-export type { PriceCategory };
-export { PriceInformation };
+export { PriceCategory, PriceInformation };
