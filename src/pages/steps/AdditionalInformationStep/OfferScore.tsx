@@ -1,5 +1,6 @@
+import { useRouter } from 'next/router';
 import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 
 import { OfferTypes } from '@/constants/OfferType';
 import { useGetEventByIdQuery } from '@/hooks/api/events';
@@ -9,10 +10,14 @@ import { Features, NewFeatureTooltip } from '@/pages/NewFeatureTooltip';
 import { Event } from '@/types/Event';
 import { Offer } from '@/types/Offer';
 import { Inline } from '@/ui/Inline';
+import { Link } from '@/ui/Link';
 import { Notification } from '@/ui/Notification';
 import { Text } from '@/ui/Text';
+import { getValueFromTheme } from '@/ui/theme';
 
 import { Field } from './AdditionalInformationStep';
+
+const getValue = getValueFromTheme('colors');
 
 const BarometerIcon = ({ rotationValue }: { rotationValue: number }) => {
   return (
@@ -92,7 +97,7 @@ const scoreWeightMapping = {
     weight: 12,
     mandatory: true,
   },
-  mediaObject: {
+  media: {
     weight: 8,
     mandatory: false,
   },
@@ -139,6 +144,8 @@ const minimumScore = getMinimumScore();
 const OfferScore = ({ completedFields, offerId, scope, ...props }: Props) => {
   const { t } = useTranslation();
 
+  const router = useRouter();
+
   const useGetOfferByIdQuery =
     scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
 
@@ -158,7 +165,7 @@ const OfferScore = ({ completedFields, offerId, scope, ...props }: Props) => {
   const fullCompletedFields = useMemo(() => {
     return {
       ...completedFields,
-      mediaObject: hasMediaObject,
+      media: hasMediaObject,
       video: hasVideo,
       theme: hasTheme,
     };
@@ -184,7 +191,7 @@ const OfferScore = ({ completedFields, offerId, scope, ...props }: Props) => {
     return maxRotation * scorePercentage + minRotation;
   }, [score]);
 
-  const tip = useMemo(() => {
+  const tipField = useMemo(() => {
     if (score === 100)
       return t(`create.additionalInformation.event_score.tip.completed`);
     // find uncompleted fields with the highest weight to give a tip to the user
@@ -211,8 +218,25 @@ const OfferScore = ({ completedFields, offerId, scope, ...props }: Props) => {
 
     const { fieldName } = highestUncompletedValue;
 
-    return t(`create.additionalInformation.event_score.tip.${fieldName}`);
+    return fieldName;
   }, [fullCompletedFields, score, t]);
+
+  const TipLink = ({ field }: { field: string }) => {
+    return (
+      <Link
+        color={getValue('link')}
+        href={`#${field}`}
+        onClick={(e) => {
+          e.preventDefault();
+          router.push({ hash: field }, undefined, {
+            shallow: true,
+          });
+        }}
+      >
+        {t(`create.additionalInformation.event_score.tip.${tipField}.link`)}
+      </Link>
+    );
+  };
 
   return (
     <Notification
@@ -233,7 +257,15 @@ const OfferScore = ({ completedFields, offerId, scope, ...props }: Props) => {
           <NewFeatureTooltip featureUUID={Features.EVENT_SCORE} />
         </Inline>
       }
-      body={<Text>{tip}</Text>}
+      body={
+        <Text>
+          <Trans
+            i18nKey={`create.additionalInformation.event_score.tip.${tipField}.text`}
+          >
+            Tip: <TipLink field={tipField} />
+          </Trans>
+        </Text>
+      }
       icon={<BarometerIcon rotationValue={rotationValue} />}
     />
   );
