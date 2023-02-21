@@ -594,8 +594,6 @@ const Sidebar = () => {
                   checked={isNewCreateEnabled}
                   onChange={() => {
                     setIsNewCreateEnabled((prev) => !prev);
-
-                    router.reload();
                   }}
                 />
               </Inline>
