@@ -221,6 +221,7 @@ const Button = ({
       cloneElement(suffix, {
         // @ts-expect-error
         ...suffix.props,
+        css: `align-self: flex-end`,
         key: 'suffix',
       })
     : null;
