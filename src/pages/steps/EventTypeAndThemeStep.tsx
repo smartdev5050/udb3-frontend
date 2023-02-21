@@ -1,5 +1,6 @@
 import { groupBy, sortBy } from 'lodash';
-import { useCallback, useMemo } from 'react';
+import { useRouter } from 'next/router';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { Controller, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
@@ -205,6 +206,9 @@ const EventTypeAndThemeStep = ({
   shouldHideType,
 }: Props) => {
   const { t, i18n } = useTranslation();
+  const { asPath } = useRouter();
+  const [_path, hash] = asPath.split('#');
+  const eventTypeAndThemeContainer = useRef(null);
 
   const typeAndTheme = useWatch({
     control,
@@ -252,13 +256,28 @@ const EventTypeAndThemeStep = ({
     });
   }, [shouldGroupThemes, themes]);
 
+  const handleScroll = () => {
+    if (!eventTypeAndThemeContainer.current) return;
+
+    eventTypeAndThemeContainer.current.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+    });
+  };
+
+  useEffect(() => {
+    if (hash === 'theme') {
+      handleScroll();
+    }
+  }, [hash]);
+
   return (
     <Controller
       name={name}
       control={control}
       render={({ field }) => {
         return (
-          <Stack spacing={4}>
+          <Stack ref={eventTypeAndThemeContainer} spacing={4}>
             {!shouldHideType && (
               <Stack>
                 {!field.value?.type?.id ? (
