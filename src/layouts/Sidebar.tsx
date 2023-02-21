@@ -1,6 +1,6 @@
 import getConfig from 'next/config';
 import { useRouter } from 'next/router';
-import type { ChangeEvent, ReactNode } from 'react';
+import type { ChangeEvent, MouseEvent, ReactNode } from 'react';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
@@ -27,8 +27,7 @@ import { Link } from '@/ui/Link';
 import type { ListProps } from '@/ui/List';
 import { List } from '@/ui/List';
 import { Logo, LogoVariants } from '@/ui/Logo';
-import { RadioButtonTypes } from '@/ui/RadioButton';
-import { RadioButtonWithLabel } from '@/ui/RadioButtonWithLabel';
+import { RadioButton, RadioButtonTypes } from '@/ui/RadioButton';
 import { Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import {
@@ -231,6 +230,8 @@ type NotificationMenuProps = {
   onClickAnnouncementsButton: () => void;
   onClickJobLoggerButton: () => void;
   jobLoggerState: Values<typeof JobLoggerStates>;
+  areBetaFeaturesEnabled: boolean;
+  onChangeBetaFeatures: () => void;
 };
 
 const NotificationMenu = memo(
@@ -239,10 +240,18 @@ const NotificationMenu = memo(
     onClickAnnouncementsButton,
     onClickJobLoggerButton,
     jobLoggerState,
+    areBetaFeaturesEnabled,
+    onChangeBetaFeatures,
   }: NotificationMenuProps) => {
     const { t, i18n } = useTranslation();
 
     const notificationMenu = [
+      {
+        iconName: Icons.EYE,
+        children: 'Beta features',
+        suffix: <BetaFeaturesToggle checked={areBetaFeaturesEnabled} />,
+        onClick: onChangeBetaFeatures,
+      },
       {
         iconName: Icons.GIFT,
         children: t('menu.announcements'),
@@ -268,45 +277,14 @@ NotificationMenu.displayName = 'NotificationMenu';
 
 type BetaFeatureMenuProps = Omit<InlineProps, 'onChange'> & {
   checked: boolean;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
-const BetaFeatureMenu = ({
-  checked,
-  onChange,
-  ...props
-}: BetaFeatureMenuProps) => {
+const BetaFeaturesToggle = ({ checked, ...props }: BetaFeatureMenuProps) => {
   return (
-    <RadioButtonWithLabel
+    <RadioButton
       id="beta-feature-toggle"
       type={RadioButtonTypes.SWITCH}
       checked={checked}
-      onChange={onChange}
-      label={'Beta versie'}
-      css={`
-        .custom-switch .custom-control-label {
-          padding-left: 2rem;
-          padding-bottom: 1.5rem;
-        }
-
-        .custom-switch .custom-control-label::before {
-          height: 1.5rem;
-          width: calc(2rem + 0.75rem);
-          border-radius: 3rem;
-        }
-
-        .custom-switch .custom-control-label::after {
-          width: calc(1.5rem - 4px);
-          height: calc(1.5rem - 4px);
-          border-radius: calc(2rem - (1.5rem / 2));
-        }
-
-        .custom-switch
-          .custom-control-input:checked
-          ~ .custom-control-label::after {
-          transform: translateX(calc(1.5rem - 0.25rem));
-        }
-      `}
       {...getInlineProps(props)}
     />
   );
@@ -581,21 +559,19 @@ const Sidebar = () => {
             <Menu items={filteredManageMenu} title={t('menu.management')} />
           )}
           <Stack>
-            <BetaFeatureMenu
-              checked={isNewCreateEnabled}
-              onChange={() => {
+            <NotificationMenu
+              countUnseenAnnouncements={countUnseenAnnouncements}
+              jobLoggerState={jobLoggerState}
+              onClickAnnouncementsButton={toggleIsAnnouncementsModalVisible}
+              onClickJobLoggerButton={toggleIsJobLoggerVisible}
+              areBetaFeaturesEnabled={isNewCreateEnabled}
+              onChangeBetaFeatures={() => {
                 setIsNewCreateEnabled((prev) => !prev);
 
                 setTimeout(() => {
                   router.reload();
                 }, 0);
               }}
-            />
-            <NotificationMenu
-              countUnseenAnnouncements={countUnseenAnnouncements}
-              jobLoggerState={jobLoggerState}
-              onClickAnnouncementsButton={toggleIsAnnouncementsModalVisible}
-              onClickJobLoggerButton={toggleIsJobLoggerVisible}
             />
             <ProfileMenu />
           </Stack>
