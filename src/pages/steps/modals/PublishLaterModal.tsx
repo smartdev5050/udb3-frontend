@@ -1,27 +1,63 @@
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Alert, AlertVariants } from '@/ui/Alert';
+import { OfferType, OfferTypes } from '@/constants/OfferType';
+import { useChangeAvailableFromMutation } from '@/hooks/api/events';
+import { usePublishOffer } from '@/pages/steps/hooks/usePublishOffer';
+import { Offer } from '@/types/Offer';
 import { DatePicker } from '@/ui/DatePicker';
 import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
 import { Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 
 type Props = {
+  scope: OfferType;
   visible: boolean;
-  onConfirm: (publishLaterDate: Date) => void;
+  offer: Offer;
+  offerId: string;
   onClose: () => void;
 };
 
-const PublishLaterModal = ({ visible, onConfirm, onClose }: Props) => {
+const PublishLaterModal = ({
+  scope,
+  visible,
+  offer,
+  offerId,
+  onClose,
+}: Props) => {
   const { t } = useTranslation();
-  const [publishLaterDate, setPublishLaterDate] = useState(new Date());
+  const { push } = useRouter();
 
-  const handleChangeDate = (date: Date) => {
-    setPublishLaterDate(date);
+  const changeAvailableFrom = useChangeAvailableFromMutation();
+  const onSuccess = () => {
+    const scopePath = scope === OfferTypes.EVENTS ? 'event' : 'place';
+    push(`/${scopePath}/${offerId}/preview`);
   };
 
-  const handleConfirm = () => onConfirm(publishLaterDate);
+  const publishOffer = usePublishOffer({
+    scope,
+    id: offerId,
+    onSuccess,
+  });
+
+  const [publishLaterDate, setPublishLaterDate] = useState(
+    offer?.availableFrom ? new Date(offer?.availableFrom) : new Date(),
+  );
+
+  const handleConfirm = () => {
+    if (!offer?.availableFrom) {
+      return publishOffer(publishLaterDate);
+    }
+
+    changeAvailableFrom.mutate(
+      {
+        id: offerId,
+        availableFrom: publishLaterDate,
+      },
+      { onSuccess },
+    );
+  };
 
   return (
     <Modal
@@ -38,13 +74,10 @@ const PublishLaterModal = ({ visible, onConfirm, onClose }: Props) => {
     >
       <Stack padding={4} spacing={4} alignItems="flex-start">
         <Text>{t('create.publish_modal.description')}</Text>
-        <Alert variant={AlertVariants.WARNING}>
-          {t('create.publish_modal.warning')}
-        </Alert>
         <DatePicker
           id="publish-later-date"
           selected={publishLaterDate}
-          onChange={handleChangeDate}
+          onChange={setPublishLaterDate}
           maxWidth="16rem"
           minDate={new Date()}
         />
