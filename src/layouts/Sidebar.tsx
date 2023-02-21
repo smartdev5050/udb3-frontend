@@ -326,7 +326,6 @@ const Sidebar = () => {
     FeatureFlags.REACT_CREATE,
   );
 
-
   const sidebarComponent = useRef();
 
   const [announcementModalContext, setAnnouncementModalContext] =
@@ -587,9 +586,9 @@ const Sidebar = () => {
               onChange={() => {
                 setIsNewCreateEnabled((prev) => !prev);
 
-                // setTimeout(() => {
-                //   router.reload();
-                // }, 1000);
+                setTimeout(() => {
+                  router.reload();
+                }, 0);
               }}
             />
             <NotificationMenu
