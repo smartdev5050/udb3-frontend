@@ -282,7 +282,6 @@ type BetaFeatureMenuProps = Omit<InlineProps, 'onChange'> & {
 const BetaFeaturesToggle = ({ checked, ...props }: BetaFeatureMenuProps) => {
   return (
     <RadioButton
-      id="beta-feature-toggle"
       type={RadioButtonTypes.SWITCH}
       checked={checked}
       {...getInlineProps(props)}

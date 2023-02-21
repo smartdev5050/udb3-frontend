@@ -63,6 +63,59 @@ const RadioButton = forwardRef<HTMLInputElement, Props>(
       isValid={isValid}
       disabled={disabled}
       checked={checked}
+      css={`
+        &.custom-switch {
+          font-size: 1rem;
+          width: 2.5em;
+          height: 1.3em;
+          min-height: initial;
+          padding: 0;
+          margin: 0;
+
+          .custom-control-input {
+            padding: 0;
+            margin: 0;
+          }
+
+          .custom-control-label {
+            font-size: 1em;
+            width: 100%;
+            height: 100%;
+
+            padding: 0;
+            margin: 0;
+          }
+
+          .custom-control-label::before {
+            font-size: 1em;
+            padding: 0;
+            margin: 0;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 3rem;
+          }
+
+          .custom-control-label::after {
+            font-size: 1em;
+            padding: 0;
+            margin: 0;
+            top: 0.2em;
+            left: 0.2em;
+            height: calc(1em - 0.1em);
+            width: calc(1em - 0.1em);
+            border-radius: calc(2rem - (1.5rem / 2));
+          }
+
+          .custom-control-input:checked ~ .custom-control-label::after {
+            font-size: 1em;
+            transform: initial;
+            left: initial;
+            right: 0.2em;
+          }
+        }
+      `}
       {...getBoxProps(props)}
     />
   ),
