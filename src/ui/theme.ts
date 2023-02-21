@@ -400,6 +400,9 @@ const theme = {
         borderColor: colors.grey3,
       },
     },
+    offerScore: {
+      link: colors.textColor,
+    },
   },
 } as const;
 
