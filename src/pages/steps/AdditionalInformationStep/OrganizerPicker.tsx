@@ -88,7 +88,6 @@ const RecentUsedOrganizers = ({
               padding={4}
               borderRadius={getGlobalBorderRadius}
               variant={ButtonVariants.UNSTYLED}
-              customChildren
               marginBottom={4}
               width="20rem"
               title={name}

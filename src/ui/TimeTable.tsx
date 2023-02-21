@@ -192,7 +192,6 @@ const Row = ({
       key="copyButton"
       variant={ButtonVariants.UNSTYLED}
       onClick={() => onCopy(date)}
-      customChildren
       {...getInlineProps(props)}
     >
       <Icon name={Icons.COPY} />
