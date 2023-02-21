@@ -275,7 +275,7 @@ const NotificationMenu = memo(
 
 NotificationMenu.displayName = 'NotificationMenu';
 
-type BetaFeatureMenuProps = Omit<InlineProps, 'onChange'> & {
+type BetaFeatureMenuProps = InlineProps & {
   checked: boolean;
 };
 
