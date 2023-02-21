@@ -9,6 +9,8 @@ import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Typeahead } from '@/ui/Typeahead';
 import { valueToArray } from '@/utils/valueToArray';
 
+import { SupportedLanguages } from '../i18n';
+
 type Props = Omit<StackProps, 'onChange'> & {
   country?: Country;
   name: string;
@@ -19,7 +21,7 @@ type Props = Omit<StackProps, 'onChange'> & {
 
 const CityPicker = forwardRef<HTMLInputElement, Props>(
   ({ country, name, value, onChange, onBlur, error, ...props }, ref) => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     const [citySearchInput, setCitySearchInput] = useState('');
 
@@ -29,6 +31,11 @@ const CityPicker = forwardRef<HTMLInputElement, Props>(
     });
 
     const cities = getCitiesQuery.data ?? [];
+
+    const emptyLabel =
+      country === Countries.NL && i18n.language === SupportedLanguages.NL
+        ? t('city_picker.no_cities_netherlands')
+        : t('city_picker.no_cities');
 
     return (
       <Stack {...getStackProps(props)}>
@@ -48,7 +55,7 @@ const CityPicker = forwardRef<HTMLInputElement, Props>(
               onChange={([value]: [City]) => onChange(value)}
               onBlur={onBlur}
               minLength={3}
-              emptyLabel={t('city_picker.no_cities')}
+              emptyLabel={emptyLabel}
             />
           }
         />

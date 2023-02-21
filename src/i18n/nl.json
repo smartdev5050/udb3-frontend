@@ -34,7 +34,8 @@
     "info_be": "Bv. Gent of 9000",
     "info_nl": "Bv. Groningen of Amsterdam",
     "info_de": "Bv. Aken of Berlijn",
-    "no_cities": "Geen gemeentes gevonden"
+    "no_cities": "Geen gemeentes gevonden",
+    "no_cities_netherlands": "Geen woonplaatsen gevonden"
   },
   "country_picker": {
     "location_school": "Locatie in overleg met de school"
