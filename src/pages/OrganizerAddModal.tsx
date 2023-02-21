@@ -139,7 +139,6 @@ const OrganizerAddModal = ({
         label: t('countries.DE'),
         value: Countries.DE,
       },
-      // TODO: Add "Locatie in overleg met school"
     ],
     [t],
   );
