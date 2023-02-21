@@ -527,12 +527,7 @@ const Sidebar = () => {
         document.activeElement.blur();
       }}
     >
-      <Link
-        justifyContent="center"
-        href="/dashboard"
-        title={t('menu.home')}
-        customChildren
-      >
+      <Link justifyContent="center" href="/dashboard" title={t('menu.home')}>
         <Logo
           variant={isSmallView ? LogoVariants.MOBILE : LogoVariants.DEFAULT}
         />
