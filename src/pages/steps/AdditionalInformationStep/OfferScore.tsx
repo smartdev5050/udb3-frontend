@@ -234,7 +234,7 @@ const OfferScore = ({ completedFields, offerId, scope, ...props }: Props) => {
           });
         }}
       >
-        {t(`create.additionalInformation.event_score.tip.${tipField}.link`)}
+        {t(`create.additionalInformation.event_score.tip.${field}.link`)}
       </Link>
     );
   };
