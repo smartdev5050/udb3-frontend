@@ -585,6 +585,7 @@
   "menu": {
     "add": "Remplir",
     "announcements": "Nouveautés",
+    "beta_version": "Version bêta",
     "home": "Home",
     "labels": "Étiquettes",
     "logout": "Déconnecter",
