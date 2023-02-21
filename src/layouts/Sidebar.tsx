@@ -23,7 +23,7 @@ import type { Values } from '@/types/Values';
 import { Badge } from '@/ui/Badge';
 import { Button } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
-import { Icons } from '@/ui/Icon';
+import { Icon, Icons } from '@/ui/Icon';
 import { Image } from '@/ui/Image';
 import { getInlineProps, Inline, InlineProps } from '@/ui/Inline';
 import { LabelPositions, LabelVariants } from '@/ui/Label';
@@ -235,8 +235,6 @@ type NotificationMenuProps = {
   onClickAnnouncementsButton: () => void;
   onClickJobLoggerButton: () => void;
   jobLoggerState: Values<typeof JobLoggerStates>;
-  isBetaVersionEnabled: boolean;
-  onChangeBetaVersion: () => void;
 };
 
 const NotificationMenu = memo(
@@ -245,24 +243,10 @@ const NotificationMenu = memo(
     onClickAnnouncementsButton,
     onClickJobLoggerButton,
     jobLoggerState,
-    isBetaVersionEnabled,
-    onChangeBetaVersion,
   }: NotificationMenuProps) => {
     const { t, i18n } = useTranslation();
 
     const notificationMenu = [
-      {
-        iconName: Icons.EYE,
-        suffix: (
-          <Inline flex={1} alignItems="center" justifyContent="space-between">
-            <BetaVersionToggle
-              checked={isBetaVersionEnabled}
-              onChange={onChangeBetaVersion}
-            />
-            <NewFeatureTooltip featureUUID={Features.ONLINE} />
-          </Inline>
-        ),
-      },
       {
         iconName: Icons.GIFT,
         children: t('menu.announcements'),
@@ -585,17 +569,30 @@ const Sidebar = () => {
             <Menu items={filteredManageMenu} title={t('menu.management')} />
           )}
           <Stack>
+            <Inline
+              flex={1}
+              alignItems="center"
+              paddingLeft={2}
+              justifyContent="space-between"
+            >
+              <Inline spacing={3}>
+                <Icon name={Icons.EYE} />
+                <BetaVersionToggle
+                  checked={isNewCreateEnabled}
+                  onChange={() => {
+                    setIsNewCreateEnabled((prev) => !prev);
+
+                    router.reload();
+                  }}
+                />
+              </Inline>
+              <NewFeatureTooltip featureUUID={Features.ONLINE} />
+            </Inline>
             <NotificationMenu
               countUnseenAnnouncements={countUnseenAnnouncements}
               jobLoggerState={jobLoggerState}
               onClickAnnouncementsButton={toggleIsAnnouncementsModalVisible}
               onClickJobLoggerButton={toggleIsJobLoggerVisible}
-              isBetaVersionEnabled={isNewCreateEnabled}
-              onChangeBetaVersion={() => {
-                setIsNewCreateEnabled((prev) => !prev);
-
-                router.reload();
-              }}
             />
             <ProfileMenu />
           </Stack>
