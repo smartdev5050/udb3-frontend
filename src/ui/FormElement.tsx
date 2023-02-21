@@ -32,6 +32,7 @@ const FormElement = ({
   info,
   loading,
   Component,
+  className,
   ...props
 }: Props) => {
   const Wrapper = labelPosition === LabelPositions.LEFT ? Inline : Stack;
@@ -54,6 +55,7 @@ const FormElement = ({
       alignItems={
         labelPosition === LabelPositions.LEFT ? 'center' : 'flex-start'
       }
+      className={className}
       {...wrapperProps}
     >
       {label && (
