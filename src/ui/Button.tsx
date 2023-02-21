@@ -260,11 +260,8 @@ const Button = ({
       <BaseButton
         {...propsToApply}
         color="inherit"
+        cursor="pointer"
         css={`
-          &[type='button']:not(:disabled) {
-            cursor: ${onClick ? 'pointer' : 'unset'};
-          }
-
           background: none;
           border: none;
 
@@ -290,11 +287,8 @@ const Button = ({
     <BaseButton
       {...propsToApply}
       color="inherit"
+      cursor="pointer"
       css={`
-        &[type='button']:not(:disabled) {
-          cursor: ${onClick ? 'pointer' : 'unset'};
-        }
-
         background: none;
         border: none;
 
