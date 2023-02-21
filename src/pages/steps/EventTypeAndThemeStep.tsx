@@ -207,7 +207,7 @@ const EventTypeAndThemeStep = ({
 }: Props) => {
   const { t, i18n } = useTranslation();
   const { asPath } = useRouter();
-  const [_path, hash] = asPath.split('#');
+  const [, hash] = asPath.split('#');
   const eventTypeAndThemeContainer = useRef(null);
 
   const typeAndTheme = useWatch({
