@@ -222,13 +222,14 @@ const OfferScore = ({ completedFields, offerId, scope, ...props }: Props) => {
   }, [fullCompletedFields, score, t]);
 
   const TipLink = ({ field }: { field: string }) => {
+    const hash = field === 'video' ? 'media' : field;
     return (
       <Link
         color={getValue('link')}
-        href={`#${field}`}
+        href={`#${hash}`}
         onClick={(e) => {
           e.preventDefault();
-          router.push({ hash: field }, undefined, {
+          router.push({ hash }, undefined, {
             shallow: true,
           });
         }}
@@ -259,11 +260,15 @@ const OfferScore = ({ completedFields, offerId, scope, ...props }: Props) => {
       }
       body={
         <Text>
-          <Trans
-            i18nKey={`create.additionalInformation.event_score.tip.${tipField}.text`}
-          >
-            Tip: <TipLink field={tipField} />
-          </Trans>
+          {score === 100 &&
+            t('create.additionalInformation.event_score.tip.completed')}
+          {score !== 100 && (
+            <Trans
+              i18nKey={`create.additionalInformation.event_score.tip.${tipField}.text`}
+            >
+              Tip: <TipLink field={tipField} />
+            </Trans>
+          )}
         </Text>
       }
       icon={<BarometerIcon rotationValue={rotationValue} />}
