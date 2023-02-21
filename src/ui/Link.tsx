@@ -131,16 +131,14 @@ const Link = ({
 
   const inner = [
     iconName && <Icon name={iconName} key="icon" />,
-    <Inline justifyContent="space-between" key="content">
-      {typeof children === 'string' ? (
-        <Text flex={1} textAlign="left">
-          {children}
-        </Text>
-      ) : (
-        children ?? null
-      )}
-      {clonedSuffix}
-    </Inline>,
+    typeof children === 'string' ? (
+      <Text flex={1} textAlign="left">
+        {children}
+      </Text>
+    ) : (
+      children ?? null
+    ),
+    clonedSuffix,
   ];
 
   if (href === '') {

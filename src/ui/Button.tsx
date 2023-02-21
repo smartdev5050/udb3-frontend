@@ -234,16 +234,14 @@ const Button = ({
   ) : (
     [
       iconName && <Icon name={iconName} key="icon" />,
-      <Inline flex={1} justifyContent="space-between" key="content">
-        {typeof children === 'string' ? (
-          <Text flex={1} textAlign="left">
-            {children}
-          </Text>
-        ) : (
-          children ?? null
-        )}
-        {clonedSuffix}
-      </Inline>,
+      typeof children === 'string' ? (
+        <Text flex={1} textAlign="left">
+          {children}
+        </Text>
+      ) : (
+        children ?? null
+      ),
+      clonedSuffix,
     ]
   );
 
