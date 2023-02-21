@@ -19,12 +19,6 @@ const createCookieName = (identifier: string) => `ff_${identifier}`;
 type FeatureFlagName = Values<typeof FeatureFlags>;
 
 const useFeatureFlag = (featureFlagName: FeatureFlagName) => {
-  if (!featureFlagName) {
-    throw new Error(
-      'The featureFlagName argument is mandatory for useFeatureFlag',
-    );
-  }
-
   const cookieName = useMemo(
     () => createCookieName(featureFlagName),
     [featureFlagName],
