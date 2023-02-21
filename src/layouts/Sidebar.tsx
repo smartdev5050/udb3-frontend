@@ -230,8 +230,8 @@ type NotificationMenuProps = {
   onClickAnnouncementsButton: () => void;
   onClickJobLoggerButton: () => void;
   jobLoggerState: Values<typeof JobLoggerStates>;
-  areBetaFeaturesEnabled: boolean;
-  onChangeBetaFeatures: () => void;
+  isBetaVersionEnabled: boolean;
+  onChangeBetaVersion: () => void;
 };
 
 const NotificationMenu = memo(
@@ -240,17 +240,17 @@ const NotificationMenu = memo(
     onClickAnnouncementsButton,
     onClickJobLoggerButton,
     jobLoggerState,
-    areBetaFeaturesEnabled,
-    onChangeBetaFeatures,
+    isBetaVersionEnabled,
+    onChangeBetaVersion,
   }: NotificationMenuProps) => {
     const { t, i18n } = useTranslation();
 
     const notificationMenu = [
       {
         iconName: Icons.EYE,
-        children: 'Beta features',
-        suffix: <BetaFeaturesToggle checked={areBetaFeaturesEnabled} />,
-        onClick: onChangeBetaFeatures,
+        children: t('menu.beta_version'),
+        suffix: <BetaVersionToggle checked={isBetaVersionEnabled} />,
+        onClick: onChangeBetaVersion,
       },
       {
         iconName: Icons.GIFT,
@@ -275,11 +275,11 @@ const NotificationMenu = memo(
 
 NotificationMenu.displayName = 'NotificationMenu';
 
-type BetaFeatureMenuProps = InlineProps & {
+type BetaVersionToggleProps = InlineProps & {
   checked: boolean;
 };
 
-const BetaFeaturesToggle = ({ checked, ...props }: BetaFeatureMenuProps) => {
+const BetaVersionToggle = ({ checked, ...props }: BetaVersionToggleProps) => {
   return (
     <RadioButton
       type={RadioButtonTypes.SWITCH}
@@ -563,13 +563,11 @@ const Sidebar = () => {
               jobLoggerState={jobLoggerState}
               onClickAnnouncementsButton={toggleIsAnnouncementsModalVisible}
               onClickJobLoggerButton={toggleIsJobLoggerVisible}
-              areBetaFeaturesEnabled={isNewCreateEnabled}
-              onChangeBetaFeatures={() => {
+              isBetaVersionEnabled={isNewCreateEnabled}
+              onChangeBetaVersion={() => {
                 setIsNewCreateEnabled((prev) => !prev);
 
-                setTimeout(() => {
-                  router.reload();
-                }, 0);
+                router.reload();
               }}
             />
             <ProfileMenu />
