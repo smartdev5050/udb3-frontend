@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 
-import { EventTypes } from '@/constants/EventTypes';
+import { eventTypesWithNoThemes } from '@/constants/EventTypes';
 import { OfferTypes } from '@/constants/OfferType';
 import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
@@ -153,15 +153,6 @@ const OfferScore = ({ completedFields, offerId, scope, ...props }: Props) => {
 
   // @ts-expect-error
   const offer: Offer | undefined = getOfferByIdQuery.data;
-
-  // For these types there are currently no themes available
-  const eventTypesWithNoThemes: string[] = [
-    EventTypes['Eet- of drankfestijn'],
-    EventTypes['Festiviteit'],
-    EventTypes['Fiets- of wandelroute'],
-    EventTypes['Party of fuif'],
-    EventTypes['Spel of quiz'],
-  ];
 
   const hasNoPossibleTheme = offer?.terms.some(
     (term) =>
