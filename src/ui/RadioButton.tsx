@@ -70,7 +70,7 @@ const RadioButton = forwardRef<HTMLInputElement, Props>(
           height: 1.3em;
           min-height: initial;
           padding: 0;
-          margin: 0.2rem;
+          margin: 0.2em;
 
           .custom-control-input {
             padding: 0;
@@ -95,6 +95,10 @@ const RadioButton = forwardRef<HTMLInputElement, Props>(
             width: 100%;
             height: 100%;
             border-radius: 3rem;
+          }
+
+          .custom-control-input:focus ~ .custom-control-label::before {
+            box-shadow: 0 0 0 0.2em rgb(0 123 255 / 25%);
           }
 
           .custom-control-label::after {
