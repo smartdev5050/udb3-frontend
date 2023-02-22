@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { OfferTypes } from '@/constants/OfferType';
+import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import { SupportedLanguage, SupportedLanguages } from '@/i18n/index';
 import {
   additionalInformationStepConfiguration,
@@ -33,6 +34,14 @@ import { Offer, SubEvent } from '@/types/Offer';
 import { isPlace, Place } from '@/types/Place';
 import { Values } from '@/types/Values';
 import { WorkflowStatusMap } from '@/types/WorkflowStatus';
+import { parseSpacing } from '@/ui/Box';
+import { Icon, Icons } from '@/ui/Icon';
+import { Inline } from '@/ui/Inline';
+import { Page } from '@/ui/Page';
+import { Paragraph } from '@/ui/Paragraph';
+import { Stack } from '@/ui/Stack';
+import { Text } from '@/ui/Text';
+import { ToggleBox } from '@/ui/ToggleBox';
 import { arrayToValue } from '@/utils/arrayToValue';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 import { parseOfferId } from '@/utils/parseOfferId';
@@ -298,11 +307,61 @@ const OfferForm = () => {
   );
 };
 
-const OfferFormWithCalendarMachine = () => (
-  <CalendarMachineProvider>
-    <OfferForm />
-  </CalendarMachineProvider>
-);
+const OfferFormWithCalendarMachine = () => {
+  const { cookies } = useCookiesWithOptions(['has_seen_conversion_page']);
+
+  const has_seen_conversion_page = cookies?.['has_seen_conversion_page'];
+
+  if (!has_seen_conversion_page) {
+    return (
+      <Page>
+        <Page.Title>
+          Wil jij de beta-versie van UiTdatabank proberen?
+        </Page.Title>
+        <Page.Content spacing={5}>
+          <Stack>
+            <Paragraph>
+              Wij zijn altijd druk bezig met de ontwikkeling van UiTdatabank.
+              Met de beta-versie van UiTdatabank kan jij genieten van de
+              nieuwste features en verbeterde gebruikersinterface.
+            </Paragraph>
+            <Paragraph>
+              Ben je geïnteresseerd om een van de eersten te zijn die onze
+              nieuwe features gebruikt? Klik dan op {'"Probeer nu"'}. Je kan
+              steeds terug naar de normale UI via de toggle in de menubar.
+            </Paragraph>
+          </Stack>
+          <Inline spacing={5} alignItems="center" maxWidth={parseSpacing(9)}>
+            <ToggleBox
+              // onClick={onChooseOneOrMoreDays}
+              // active={isOneOrMoreDays}
+              // icon={<IconOneOrMoreDays />}
+              icon={<Icon name={Icons.SIGN_OUT} />}
+              text="Liever niet"
+              minHeight={parseSpacing(7)}
+              flex={1}
+            />
+            <ToggleBox
+              // onClick={onChooseFixedDays}
+              // active={isFixedDays}
+              icon={<Icon name={Icons.CHECK} />}
+              text="Probeer nu"
+              minHeight={parseSpacing(7)}
+              flex={1}
+              // disabled={disableChooseFixedDays}
+            />
+          </Inline>
+        </Page.Content>
+      </Page>
+    );
+  }
+
+  return (
+    <CalendarMachineProvider>
+      <OfferForm />
+    </CalendarMachineProvider>
+  );
+};
 
 export type { FormData, Scope };
 export {
