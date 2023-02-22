@@ -1,6 +1,6 @@
 import getConfig from 'next/config';
 import { useRouter } from 'next/router';
-import type { ReactNode } from 'react';
+import type { ChangeEvent, ReactNode } from 'react';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
@@ -14,18 +14,23 @@ import {
   useGetUserQuery,
 } from '@/hooks/api/user';
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
+import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
+import { Features, NewFeatureTooltip } from '@/pages/NewFeatureTooltip';
 import type { Values } from '@/types/Values';
 import { Badge } from '@/ui/Badge';
 import { Button } from '@/ui/Button';
-import { Icons } from '@/ui/Icon';
+import { FormElement } from '@/ui/FormElement';
+import { Icon, Icons } from '@/ui/Icon';
 import { Image } from '@/ui/Image';
-import { Inline } from '@/ui/Inline';
+import { getInlineProps, Inline, InlineProps } from '@/ui/Inline';
+import { LabelPositions, LabelVariants } from '@/ui/Label';
 import { Link } from '@/ui/Link';
 import type { ListProps } from '@/ui/List';
 import { List } from '@/ui/List';
 import { Logo, LogoVariants } from '@/ui/Logo';
+import { RadioButton, RadioButtonTypes } from '@/ui/RadioButton';
 import { Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import {
@@ -97,23 +102,25 @@ const MenuItem = memo(
             default: 'none',
             hover: getValueForMenuItem('hover.backgroundColor'),
           }}
-          spacing={{ default: 3, s: 0 }}
+          spacing={{ default: 3, s: 1 }}
           stackOn={Breakpoints.S}
           customChildren
           title={label}
         >
-          <Text
-            flex={1}
-            css={`
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-            `}
-            fontSize={{ s: '9px' }}
-            textAlign={{ default: 'left', s: 'center' }}
-          >
-            {label}
-          </Text>
+          {label && (
+            <Text
+              flex={1}
+              css={`
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              `}
+              fontSize={{ s: '9px' }}
+              textAlign={{ default: 'left', s: 'center' }}
+            >
+              {label}
+            </Text>
+          )}
         </Component>
       </List.Item>
     );
@@ -263,6 +270,48 @@ const NotificationMenu = memo(
 
 NotificationMenu.displayName = 'NotificationMenu';
 
+type BetaVersionToggleProps = Omit<InlineProps, 'onChange'> & {
+  checked: boolean;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+};
+
+const BetaVersionToggle = ({
+  checked,
+  onChange,
+  ...props
+}: BetaVersionToggleProps) => {
+  const { t } = useTranslation();
+
+  return (
+    <FormElement
+      id="beta-version-switch"
+      label={t('menu.beta_version')}
+      labelVariant={LabelVariants.NORMAL}
+      labelPosition={LabelPositions.LEFT}
+      css={`
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        label {
+          height: initial;
+        }
+      `}
+      fontSize={{ s: '9px' }}
+      spacing={{ default: 3, s: 1 }}
+      stackOn={Breakpoints.S}
+      Component={
+        <RadioButton
+          type={RadioButtonTypes.SWITCH}
+          checked={checked}
+          onChange={onChange}
+          {...getInlineProps(props)}
+        />
+      }
+    />
+  );
+};
+
 const Sidebar = () => {
   const { t, i18n } = useTranslation();
 
@@ -270,6 +319,11 @@ const Sidebar = () => {
 
   const [isJobLoggerVisible, setIsJobLoggerVisible] = useState(true);
   const [jobLoggerState, setJobLoggerState] = useState(JobLoggerStates.IDLE);
+
+  const [isNewCreateEnabled, setIsNewCreateEnabled] = useFeatureFlag(
+    FeatureFlags.REACT_CREATE,
+  );
+
   const sidebarComponent = useRef();
 
   const [announcementModalContext, setAnnouncementModalContext] =
@@ -482,7 +536,7 @@ const Sidebar = () => {
       backgroundColor={getValueForSidebar('backgroundColor')}
       color={getValueForSidebar('color')}
       zIndex={getValueForSidebar('zIndex')}
-      padding={{ default: 2, s: 0 }}
+      padding={{ default: 2, s: 1 }}
       spacing={3}
       ref={sidebarComponent}
       onMouseOver={() => {
@@ -525,6 +579,31 @@ const Sidebar = () => {
             <Menu items={filteredManageMenu} title={t('menu.management')} />
           )}
           <Stack>
+            <Inline
+              flex={1}
+              paddingLeft={2}
+              alignItems="center"
+              justifyContent={{ default: 'space-between', s: 'center' }}
+              stackOn={Breakpoints.S}
+            >
+              <Inline
+                stackOn={Breakpoints.S}
+                spacing={{ default: 3, s: 1 }}
+                alignItems="center"
+                justifyContent={{ default: 'center', s: 'center' }}
+              >
+                <Icon name={Icons.EYE} />
+                <BetaVersionToggle
+                  checked={isNewCreateEnabled}
+                  onChange={() => {
+                    setIsNewCreateEnabled((prev) => !prev);
+                  }}
+                />
+              </Inline>
+              {!isSmallView && (
+                <NewFeatureTooltip featureUUID={Features.ONLINE} />
+              )}
+            </Inline>
             <NotificationMenu
               countUnseenAnnouncements={countUnseenAnnouncements}
               jobLoggerState={jobLoggerState}
