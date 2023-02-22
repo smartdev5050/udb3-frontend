@@ -37,6 +37,7 @@ import { convertTimeTableToSubEvents } from '../TimeTableStep';
 import { CalendarOptionToggle } from './CalendarOptionToggle';
 import { FixedDays } from './FixedDays';
 import { OneOrMoreDays } from './OneOrMoreDays';
+import { eventTypesWithNoThemes } from '@/constants/EventTypes';
 
 const useEditCalendar = ({ offerId, onSuccess }: UseEditArguments) => {
   const changeCalendarMutation = useChangeOfferCalendarMutation({
@@ -268,13 +269,19 @@ const CalendarStep = ({
     handleChooseFixedDays();
   }, [scope, isIdle, handleChooseFixedDays]);
 
+  const hasNoPossibleThemes =
+    type?.id && eventTypesWithNoThemes.includes(type.id);
+
   // scroll to calendar step after theme has been selected
   useEffect(() => {
     if (!scope || !type?.id) return;
+    if (!theme?.id && !hasNoPossibleThemes && scope === OfferTypes.EVENTS) {
+      return;
+    }
     if (offerId) return;
 
     scrollToCalendarContainer();
-  }, [scope, offerId, type, theme]);
+  }, [scope, offerId, type, theme, hasNoPossibleThemes]);
 
   return (
     <Stack
