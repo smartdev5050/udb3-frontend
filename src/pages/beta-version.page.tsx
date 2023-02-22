@@ -14,10 +14,12 @@ import { ToggleBox } from '@/ui/ToggleBox';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
 const BetaVersionPage = () => {
-  const { setCookie } = useCookiesWithOptions(['has_seen_conversion_page']);
+  const { setCookie } = useCookiesWithOptions([
+    'has_seen_beta_conversion_page',
+  ]);
 
   useEffect(() => {
-    setCookie('has_seen_conversion_page', 'true');
+    setCookie('has_seen_beta_conversion_page', 'true');
   }, [setCookie]);
 
   const { push } = useRouter();

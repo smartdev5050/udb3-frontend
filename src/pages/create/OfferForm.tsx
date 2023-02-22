@@ -308,11 +308,12 @@ const OfferForm = () => {
 };
 
 const OfferFormWithCalendarMachine = () => {
-  const { cookies } = useCookiesWithOptions(['has_seen_conversion_page']);
+  const { cookies } = useCookiesWithOptions(['has_seen_beta_conversion_page']);
 
-  const has_seen_conversion_page = cookies?.['has_seen_conversion_page'];
+  const has_seen_beta_conversion_page =
+    cookies?.['has_seen_beta_conversion_page'];
 
-  if (!has_seen_conversion_page) {
+  if (!has_seen_beta_conversion_page) {
     return (
       <Page>
         <Page.Title>
