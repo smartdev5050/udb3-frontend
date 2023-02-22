@@ -270,7 +270,7 @@ const CalendarStep = ({
 
   // scroll to calendar step after theme has been selected
   useEffect(() => {
-    if (!scope || !type.id) return;
+    if (!scope || !type?.id) return;
     if (offerId) return;
 
     scrollToCalendarContainer();
