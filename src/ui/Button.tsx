@@ -165,6 +165,8 @@ type ButtonProps = Omit<InlineProps, 'size'> & {
   suffix?: ReactNode;
   loading?: boolean;
   disabled?: boolean;
+  customChildren?: boolean;
+  shouldHideText?: boolean;
   size?: Values<typeof ButtonSizes>;
   variant?: Values<typeof ButtonVariants>;
   type?: string;
@@ -178,6 +180,8 @@ const Button = ({
   disabled,
   loading,
   children,
+  customChildren,
+  shouldHideText,
   onClick,
   className,
   title,
@@ -224,7 +228,7 @@ const Button = ({
         css: `align-self: flex-end`,
         key: 'suffix',
       })
-    : null;
+    : undefined;
 
   const inner = loading ? (
     <Spinner
@@ -235,13 +239,13 @@ const Button = ({
   ) : (
     [
       iconName && <Icon name={iconName} key="icon" />,
-      typeof children === 'string' ? (
-        <Text flex={1} textAlign="left">
-          {children}
-        </Text>
-      ) : (
-        children ?? null
-      ),
+      customChildren
+        ? children
+        : !shouldHideText && (
+            <Text flex={1} textAlign="left" key="text">
+              {children}
+            </Text>
+          ),
       clonedSuffix,
     ]
   );
@@ -311,6 +315,8 @@ Button.defaultProps = {
   variant: ButtonVariants.PRIMARY,
   disabled: false,
   loading: false,
+  customChildren: false,
+  shouldHideText: false,
   textAlign: 'center',
   type: 'button',
 };

@@ -102,6 +102,8 @@ type LinkProps = BaseLinkProps & {
   href: string;
   iconName?: Values<typeof Icons>;
   suffix?: ReactNode;
+  customChildren?: boolean;
+  shouldHideText?: boolean;
 };
 
 const Link = ({
@@ -109,6 +111,8 @@ const Link = ({
   iconName,
   suffix,
   children,
+  customChildren,
+  shouldHideText,
   className,
   variant,
   title,
@@ -125,20 +129,20 @@ const Link = ({
       cloneElement(suffix, {
         // @ts-expect-error
         ...suffix.props,
-        css: `align-self: flex-end`,
         key: 'suffix',
+        css: `align-self: flex-end`,
       })
-    : null;
+    : undefined;
 
   const inner = [
     iconName && <Icon name={iconName} key="icon" />,
-    typeof children === 'string' ? (
-      <Text flex={1} textAlign="left">
-        {children}
-      </Text>
-    ) : (
-      children ?? null
-    ),
+    customChildren
+      ? children
+      : !shouldHideText && (
+          <Text flex={1} textAlign="left" key="text">
+            {children}
+          </Text>
+        ),
     clonedSuffix,
   ];
 
@@ -190,6 +194,11 @@ const Link = ({
       {inner}
     </BaseLink>
   );
+};
+
+Link.defaultProps = {
+  customChildren: false,
+  shouldHideText: false,
 };
 
 export { Link, LinkVariants };
