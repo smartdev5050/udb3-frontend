@@ -2,12 +2,12 @@ import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 
+import { eventTypesWithNoThemes } from '@/constants/EventTypes';
 import { OfferTypes } from '@/constants/OfferType';
 import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import { Scope } from '@/pages/create/OfferForm';
 import { Features, NewFeatureTooltip } from '@/pages/NewFeatureTooltip';
-import { Event } from '@/types/Event';
 import { Offer } from '@/types/Offer';
 import { Inline } from '@/ui/Inline';
 import { Link } from '@/ui/Link';
@@ -154,9 +154,15 @@ const OfferScore = ({ completedFields, offerId, scope, ...props }: Props) => {
   // @ts-expect-error
   const offer: Offer | undefined = getOfferByIdQuery.data;
 
-  const hasTheme: boolean = offer?.terms.some(
-    (term) => term.domain === 'theme',
+  const hasNoPossibleTheme = offer?.terms.some(
+    (term) =>
+      term.domain === 'eventtype' && eventTypesWithNoThemes.includes(term.id),
   );
+
+  const hasTheme: boolean =
+    offer?.terms.some((term) => term.domain === 'theme') ||
+    hasNoPossibleTheme ||
+    scope === OfferTypes.PLACES;
 
   const hasMediaObject: boolean = (offer?.mediaObject ?? []).length > 0;
 

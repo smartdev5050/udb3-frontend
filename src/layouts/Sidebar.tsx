@@ -580,6 +580,7 @@ const Sidebar = () => {
           )}
           <Stack>
             <Inline
+              display="none"
               flex={1}
               paddingLeft={2}
               alignItems="center"
