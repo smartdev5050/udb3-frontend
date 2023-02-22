@@ -104,6 +104,7 @@ const MenuItem = memo(
           }}
           spacing={{ default: 3, s: 1 }}
           stackOn={Breakpoints.S}
+          customChildren
           title={label}
         >
           {label && (
@@ -547,7 +548,12 @@ const Sidebar = () => {
         document.activeElement.blur();
       }}
     >
-      <Link justifyContent="center" href="/dashboard" title={t('menu.home')}>
+      <Link
+        justifyContent="center"
+        href="/dashboard"
+        title={t('menu.home')}
+        customChildren
+      >
         <Logo
           variant={isSmallView ? LogoVariants.MOBILE : LogoVariants.DEFAULT}
         />
