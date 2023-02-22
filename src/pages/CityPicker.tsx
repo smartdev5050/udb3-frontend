@@ -12,6 +12,7 @@ import { valueToArray } from '@/utils/valueToArray';
 import { SupportedLanguages } from '../i18n';
 
 type Props = Omit<StackProps, 'onChange'> & {
+  offerId?: string;
   country?: Country;
   name: string;
   value: City;
