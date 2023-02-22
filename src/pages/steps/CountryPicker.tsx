@@ -38,7 +38,7 @@ const CountryPicker = ({
       `}
       {...getBoxProps(props)}
     >
-      <Button>
+      <Button customChildren>
         <FlagIcon country={value} paddingRight={1} />
       </Button>
 
