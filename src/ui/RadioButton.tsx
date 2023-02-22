@@ -70,7 +70,7 @@ const RadioButton = forwardRef<HTMLInputElement, Props>(
           height: 1.3em;
           min-height: initial;
           padding: 0;
-          margin: 0;
+          margin: 0.2rem;
 
           .custom-control-input {
             padding: 0;
