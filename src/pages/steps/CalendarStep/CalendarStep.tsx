@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { CalendarType } from '@/constants/CalendarType';
+import { eventTypesWithNoThemes } from '@/constants/EventTypes';
 import { OfferStatus } from '@/constants/OfferStatus';
 import { OfferTypes } from '@/constants/OfferType';
 import { useGetEventByIdQuery } from '@/hooks/api/events';
@@ -37,7 +38,6 @@ import { convertTimeTableToSubEvents } from '../TimeTableStep';
 import { CalendarOptionToggle } from './CalendarOptionToggle';
 import { FixedDays } from './FixedDays';
 import { OneOrMoreDays } from './OneOrMoreDays';
-import { eventTypesWithNoThemes } from '@/constants/EventTypes';
 
 const useEditCalendar = ({ offerId, onSuccess }: UseEditArguments) => {
   const changeCalendarMutation = useChangeOfferCalendarMutation({
