@@ -156,7 +156,7 @@ const OfferScore = ({ completedFields, offerId, scope, ...props }: Props) => {
   const offer: Offer | undefined = getOfferByIdQuery.data;
 
   // For these types there are currently no themes available
-  const eventTypesWithNoThemes = [
+  const eventTypesWithNoThemes: string[] = [
     EventTypes['Eet- of drankfestijn'],
     EventTypes['Festiviteit'],
     EventTypes['Fiets- of wandelroute'],
@@ -170,7 +170,9 @@ const OfferScore = ({ completedFields, offerId, scope, ...props }: Props) => {
   );
 
   const hasTheme: boolean =
-    offer?.terms.some((term) => term.domain === 'theme') || hasNoPossibleTheme;
+    offer?.terms.some((term) => term.domain === 'theme') ||
+    hasNoPossibleTheme ||
+    scope === OfferTypes.PLACES;
 
   const hasMediaObject: boolean = (offer?.mediaObject ?? []).length > 0;
 
