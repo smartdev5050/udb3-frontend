@@ -32,13 +32,14 @@ const FormElement = ({
   info,
   loading,
   Component,
+  className,
   ...props
 }: Props) => {
   const Wrapper = labelPosition === LabelPositions.LEFT ? Inline : Stack;
   const wrapperProps =
     labelPosition === LabelPositions.LEFT
-      ? { ...getInlineProps(props), spacing: 3 }
-      : { ...getStackProps(props), spacing: 2 };
+      ? { spacing: 3, ...getInlineProps(props) }
+      : { spacing: 2, ...getStackProps(props) };
 
   // @ts-expect-error
   const clonedComponent = cloneElement(Component, {
@@ -54,6 +55,7 @@ const FormElement = ({
       alignItems={
         labelPosition === LabelPositions.LEFT ? 'center' : 'flex-start'
       }
+      className={className}
       {...wrapperProps}
     >
       {label && (

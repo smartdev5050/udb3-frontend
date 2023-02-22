@@ -612,6 +612,7 @@
   "menu": {
     "add": "Eingeben",
     "announcements": "Ankündigungen",
+    "beta_version": "Betaversion",
     "home": "Startseite",
     "labels": "Labels",
     "logout": "Abmelden",

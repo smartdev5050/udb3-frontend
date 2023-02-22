@@ -611,6 +611,7 @@
   "menu": {
     "add": "Invoeren",
     "announcements": "Nieuwigheden",
+    "beta_version": "Beta versie",
     "home": "Home",
     "labels": "Labels",
     "logout": "Afmelden",
