@@ -115,6 +115,10 @@
         "events": "Wanneer vindt dit evenement of deze activiteit plaats?",
         "places": "Wanneer is deze plaats of locatie open?"
       },
+      "types": {
+        "one_or_more_days": "Een of meerdere dagen",
+        "fixed_days": "Vaste dagen per week"
+      },
       "one_or_more_days": {
         "button_add": "Dag toevoegen"
       },

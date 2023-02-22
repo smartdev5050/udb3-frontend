@@ -115,6 +115,10 @@
         "events": "Wann findet diese Veranstaltung oder Aktivität statt?",
         "places": "Wann ist dieser Ort oder Standort geöffnet?"
       },
+      "types": {
+        "one_or_more_days": "Ein oder mehrere Tage",
+        "fixed_days": "Feste Tage pro Woche"
+      },
       "one_or_more_days": {
         "button_add": "Tag hinzufügen"
       },
