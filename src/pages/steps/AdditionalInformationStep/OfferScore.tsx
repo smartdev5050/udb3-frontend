@@ -8,7 +8,6 @@ import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import { Scope } from '@/pages/create/OfferForm';
 import { Features, NewFeatureTooltip } from '@/pages/NewFeatureTooltip';
-import { Event } from '@/types/Event';
 import { Offer } from '@/types/Offer';
 import { Inline } from '@/ui/Inline';
 import { Link } from '@/ui/Link';
