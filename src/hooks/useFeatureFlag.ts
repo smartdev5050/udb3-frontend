@@ -1,3 +1,11 @@
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useMemo,
+  useState,
+} from 'react';
+
 import type { Values } from '@/types/Values';
 
 import { useCookiesWithOptions } from './useCookiesWithOptions';
@@ -10,20 +18,48 @@ const createCookieName = (identifier: string) => `ff_${identifier}`;
 
 type FeatureFlagName = Values<typeof FeatureFlags>;
 
-const useFeatureFlag = (
-  featureFlagName: FeatureFlagName,
-): [isEnabled: boolean, setIsEnabled: (value: boolean | string) => void] => {
-  if (!featureFlagName) return [false, () => {}];
+const useFeatureFlag = (featureFlagName: FeatureFlagName) => {
+  const cookieName = useMemo(
+    () => createCookieName(featureFlagName),
+    [featureFlagName],
+  );
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { cookies, setCookie } = useCookiesWithOptions();
+  const dependencies = useMemo(() => [cookieName], [cookieName]);
 
-  const cookieName = createCookieName(featureFlagName);
+  const { cookies, setCookie } = useCookiesWithOptions(dependencies);
 
-  const set = (value: boolean | string) => setCookie(cookieName, value);
-  const isEnabled = isFeatureFlagEnabledInCookies(featureFlagName, cookies);
+  const cookieValue = useMemo(
+    () => isFeatureFlagEnabledInCookies(featureFlagName, cookies),
+    [cookies, featureFlagName],
+  );
 
-  return [isEnabled, set];
+  const [isFeatureEnabled, setIsFeatureEnabled] = useState(cookieValue);
+
+  const set = useCallback<Dispatch<SetStateAction<boolean>>>(
+    (val) => {
+      const setValue = (newValue: boolean) => {
+        setCookie(cookieName, newValue);
+        setIsFeatureEnabled(newValue);
+      };
+
+      if (typeof val === 'function') {
+        const updatedValue = val(cookieValue);
+
+        setValue(updatedValue);
+        return;
+      }
+
+      setValue(val);
+    },
+    [cookieName, cookieValue, setCookie],
+  );
+
+  const statePair = useMemo(
+    () => [isFeatureEnabled, set] as const,
+    [isFeatureEnabled, set],
+  );
+
+  return statePair;
 };
 
 const isFeatureFlagEnabledInCookies = (
@@ -31,7 +67,7 @@ const isFeatureFlagEnabledInCookies = (
   cookies: any,
 ) => {
   const cookieName = createCookieName(featureFlagName);
-  return cookies?.[cookieName] === 'true' ?? false;
+  return cookies?.[cookieName] === 'true';
 };
 
 export {
