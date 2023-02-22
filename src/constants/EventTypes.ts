@@ -42,4 +42,12 @@ const EventTypes = {
   Discotheek: 'YVBc8KVdrU6XfTNvhMYUpg',
 } as const;
 
-export { EventTypes };
+const eventTypesWithNoThemes: string[] = [
+  EventTypes['Eet- of drankfestijn'],
+  EventTypes['Festiviteit'],
+  EventTypes['Fiets- of wandelroute'],
+  EventTypes['Party of fuif'],
+  EventTypes['Spel of quiz'],
+];
+
+export { EventTypes, eventTypesWithNoThemes };
