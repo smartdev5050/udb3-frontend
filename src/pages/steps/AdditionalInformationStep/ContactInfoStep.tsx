@@ -162,7 +162,10 @@ const ContactInfoStep = ({
         context.previousEventInfo,
       );
     },
-    onSuccess: onSuccessfulChange,
+    onSuccess: (data) => {
+      onValidationChange(ValidationStatus.SUCCESS);
+      onSuccessfulChange(data);
+    },
   });
 
   const parseNewContactInfo = (newContactInfo: NewContactInfo[]) => {

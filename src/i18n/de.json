@@ -34,7 +34,8 @@
     "info_be": "z.B. Gent oder 9000",
     "info_nl": "z.B. Groningen oder Amsterdam",
     "info_de": "z.B. Aachen oder Berlin",
-    "no_cities": "Keine Gemeinden gefunden"
+    "no_cities": "Keine Gemeinden gefunden",
+    "no_cities_netherlands": "Keine Wohnungen gefunden"
   },
   "country_picker": {
     "location_school": "Ort in Absprache mit der Schule"
@@ -42,50 +43,50 @@
   "copyright": {
     "questions": {
       "1": {
-        "answer": "",
-        "question": ""
+        "answer": "Wenn das Foto urheberrechtlich geschützt ist, muss der Name des Urhebers im Copyright-Feld angegeben werden. Die Fotos müssen lizenzfrei sein. Die eingereichten Fotos können von publiq vzw zur Veröffentlichung auf der Website oder in Werbe- und Presseaktionen verwendet werden. publiq vzw behält sich das Recht vor, Bildbearbeitungen an den gesammelten Bildern vorzunehmen. Die Fotos sind auch im Fotoarchiv von publiq vzw enthalten und können in den Kommunikationskanälen von publiq vzw wie Website, Newsletter, Pressekommunikation,…",
+        "question": "Was macht publiq vzw mit Fotos, die ich hochlade?"
       },
       "2": {
         "answer": {
-          "paragraph1": "",
-          "paragraph2": "",
-          "paragraph3": "",
-          "step1": "",
-          "step2": "",
-          "step3": "",
-          "step4": "",
-          "step5": "",
-          "step6": ""
+          "paragraph1": "Wenn eine Person ein Originalwerk erstellt, das auf einem physischen Medium (z. B. einem Foto) festgehalten wird, besitzt sie automatisch das Urheberrecht an dem Werk.",
+          "paragraph2": "Urheberrechte geben dem Eigentümer das ausschließliche Recht, das Werk auf bestimmte, spezifische Weise zu nutzen. Viele Arten von Werken sind urheberrechtlich geschützt, darunter:",
+          "paragraph3": "Ideen, Tatsachen und Verfahren unterliegen nicht dem Urheberrecht. Um sich für den Urheberrechtsschutz zu qualifizieren, muss ein Werk sowohl kreativ als auch in einem materiellen Medium enthalten sein. Namen und Titel sind für sich genommen nicht urheberrechtlich geschützt.",
+          "step1": "Audiovisuelle Werke wie Fotos, Fernsehsendungen, Filme und Online-Videos",
+          "step2": "Tonaufnahmen und musikalische Kompositionen",
+          "step3": "Schriftliche Arbeiten, wie Vorträge, Artikel, Bücher und musikalische Kompositionen",
+          "step4": "Visuelle Arbeiten, wie Gemälde, Plakate und Anzeigen",
+          "step5": "Videospiele und Computersoftware",
+          "step6": "Dramatische Werke, wie Theaterstücke und Musicals"
         },
-        "question": ""
+        "question": "Welche Werke unterliegen dem Urheberrecht?"
       },
       "3": {
-        "answer": "",
-        "question": ""
+        "answer": "Unter bestimmten Umständen ist es möglich, ein urheberrechtlich geschütztes Werk zu verwenden, ohne das Urheberrecht des Eigentümers zu verletzen. Es ist jedoch am besten anzunehmen, dass diese Option nicht vorhanden ist, es sei denn, Sie haben die ausdrückliche Erlaubnis des Eigentümers. Unter keinen Umständen kann der Manager für Sie feststellen, ob Urheberrechtsschutz gilt oder nicht.",
+        "question": "Ist es möglich, ein urheberrechtlich geschütztes Werk zu nutzen, ohne gegen die einschlägigen Vorschriften zu verstoßen?"
       },
       "4": {
         "answer": {
-          "paragraph1": "",
-          "step1": "",
-          "step2": "",
-          "step3": "",
-          "step4": "",
-          "step5": "",
-          "step6": ""
+          "paragraph1": "Auch wenn Du:",
+          "step1": "der Urheberrechtsinhaber",
+          "step2": "verfolgt mit der Verwendung des Materials keine Gewinnerzielungsabsichten",
+          "step3": "sah das gleiche oder ähnliche Material woanders verwendet",
+          "step4": "kaufte das audiovisuelle Material (online, in einem Buch, auf CD, DVD,...)",
+          "step5": "das Material aus einem Buch, einer Zeitschrift, einer Zeitung, dem Fernsehen, einem Kino oder dem Radio selbst aufgenommen oder kopiert haben",
+          "step6": "erklärte, dass \"keine Urheberrechtsverletzung beabsichtigt ist\""
         },
-        "question": ""
+        "question": "Es ist wichtig zu beachten, dass Ihr Upload von audiovisuellem Material Gegenstand einer Klage wegen Urheberrechtsverletzung sein kann."
       },
       "5": {
-        "answer": "",
-        "question": ""
+        "answer": "Nein, der Manager ist nicht in der Lage, bei Urheberrechtsstreitigkeiten zu schlichten. Wenn der Manager eine Aufforderung erhält, urheberrechtlich geschütztes Material zu entfernen, wird er immer sofort nachkommen und auch den rechtswidrigen Importeur/Uploader unverzüglich auf die Verletzung hinweisen. Es ist dann Sache der beteiligten Parteien (Rechteinhaber auf der einen und Importeur/Uploader auf der anderen Seite), den Streit entweder durch eine gütliche Einigung oder durch ein Gerichtsverfahren beizulegen.",
+        "question": "Kann der Manager bei Urheberrechtsstreitigkeiten vermitteln?"
       },
       "6": {
-        "answer": "",
-        "question": ""
+        "answer": "Nicht weil Sie selbst in einer Foto-, Video- oder Audioaufnahme erscheinen, besitzen Sie das Urheberrecht. Wenn zum Beispiel ein Freund ein Gespräch zwischen Ihnen beiden filmt, würde der Freund das Urheberrecht besitzen, nicht Sie. Die in diesem Gespräch verwendeten Wörter unterliegen keinem anderen Urheberrecht als dem des Videos selbst, es sei denn, sie wurden vorab geschrieben. Wenn Ihr Freund oder jemand anderes ohne Ihre Erlaubnis ein Video oder Bild hochgeladen hat, das ein Bild oder eine Aufnahme von Ihnen enthält, und Sie der Meinung sind, dass dies eine Verletzung Ihrer Privatsphäre oder Sicherheit darstellt, können Sie daher eine Datenschutzbeschwerde einreichen.",
+        "question": "Was ist der Unterschied zwischen Urheberrecht und Datenschutz?"
       },
       "7": {
-        "answer": "",
-        "question": ""
+        "answer": "Zunächst einmal: Vermeiden Sie Google Bilder. Am Ende haben Sie eine endlose Reihe von Bildern, bei denen Sie nicht sicher sind, ob sie wen oder was Sie suchen, und für die Sie selten die Rechte finden. Sie können über die „erweiterte Suche“ nach wiederverwendbaren Bildern suchen, aber das bietet keine Gewissheit. Zuverlässiger in diesem Bereich ist Flickr.com: Die Creative-Commons-Suchoption filtert wiederverwendbare Bilder aus dem breiten Angebot. Geben Sie einen Suchbegriff ein, klicken Sie dann auf „Erweiterte Suche“, gehen Sie zum Ende dieser Seite zu „Creative Commons“ und aktivieren Sie das Kontrollkästchen „Nur in Creative Commons-lizenzierten Inhalten suchen“. Die Ergebnisse, die Ihnen dann übrig bleiben, bilden den Teich, aus dem Sie wählen können. Sie müssen die Regeln respektieren: Wenn Sie die Bilder verwenden möchten, müssen Sie die Quelle verlinken und das Urheberrecht angeben.",
+        "question": "Wo und wie findet man im Internet mehr Gewissheit über lizenzfreies Bildmaterial?"
       }
     }
   },
@@ -95,6 +96,7 @@
     "DE": "Deutschland"
   },
   "create": {
+    "title": "Angebot hinzufügen",
     "actions": {
       "publish": "Veröffentlichen",
       "publish_later": "Später veröffentlichen",
@@ -180,7 +182,9 @@
         "info": "Fügen Sie einen Link hinzu, damit die Leute wissen, wie sie an Ihrer Veranstaltung teilnehmen können. Sie möchten den Link zur Teilnahme nicht öffentlich freigeben? Dann können Sie diesen Schritt überspringen und die Teilnahmeanweisungen in Schritt 5 Ihrer Beschreibung hinzufügen."
       },
       "municipality": {
-        "change": "Ändern"
+        "change_be": "Gemeinde wechseln",
+        "change_de": "Wohnort wechseln",
+        "change_nl": "Wohnort wechseln"
       },
       "place": {
         "choose_label": "Wählen Sie einen Standort aus",
@@ -219,7 +223,7 @@
         "adults": "Erwachsene",
         "seniors": "Senioren",
         "custom": "Andere",
-        "fro": "Von",
+        "from": "Von",
         "till": "Bis",
         "age": "Jahre",
         "error_max_lower_than_min": "Das Höchstalter kann nicht unter dem Mindestalter liegen.",
@@ -334,13 +338,34 @@
       },
       "event_score": {
         "tip": {
-          "theme": "Tipp: Fügen Sie ein Thema hinzu",
-          "mediaObject": "Tipp: Fügen Sie ein Bild hinzu",
-          "video": "Tipp: Fügen Sie ein Video hinzu",
-          "description": "Tipp: Fügen Sie eine Beschreibung (+200 Zeichen) hinzu",
-          "price_info": "Tipp: Preisinformationen hinzufügen",
-          "contact_info": "Tipp: Fügen Sie Kontaktinformationen hinzu",
-          "organizer": "Tipp: Fügen Sie einen Organisator hinzu",
+          "theme": {
+            "text": "Tipp: Fügen Sie ein <1>{{link}}</1> hinzu",
+            "link": "Thema"
+          },
+          "media": {
+            "text": "Tipp: Fügen Sie ein <1>{{link}}</1> hinzu",
+            "link": "Bild"
+          },
+          "video": {
+            "text": "Tipp: Fügen Sie ein <1>{{link}}</1> hinzu",
+            "link": "Video"
+          },
+          "description": {
+            "text": "Tipp: Fügen Sie eine <1>{{link}}</1> (+200 Zeichen) hinzu",
+            "link": "Beschreibung"
+          },
+          "price_info": {
+            "text": "Tipp: <1>{{link}}</1> hinzufügen",
+            "link": "Preisinformationen"
+          },
+          "contact_info": {
+            "text": "Tipp: Fügen Sie <1>{{link}}</1> hinzu",
+            "link": "Kontaktinformationen"
+          },
+          "organizer": {
+            "text": "Tipp: Fügen Sie einen <1>{{link}}</1> hinzu",
+            "link": "Organisator"
+          },
           "completed": "Alle Punkte! Mit dieser Veranstaltung werden Sie punkten!"
         }
       },
@@ -361,7 +386,7 @@
         }
       },
       "place": {
-        "add_new_label": "Ort nicht gefunden? Neuen Standort hinzufügen: "
+        "add_new_label": "Ort nicht gefunden? Neuen Standort hinzufügen"
       },
       "production": {
         "add_new_label": "Produktion nicht gefunden? Neue Produktion hinzufügen: "
@@ -396,7 +421,13 @@
       "title": {
         "events": "Stellen Sie sicher, dass Ihr Publikum keine Informationen verpasst",
         "places": "Stellen Sie sicher, dass Ihr Publikum keine Informationen verpasst"
-      }
+      },
+      "title_events": "Machen Sie dieses Ereignis zu etwas Besonderem",
+      "title_places": "Heben Sie diesen Standort hervor"
+    },
+    "footer": {
+      "auto_save": "Ihre Änderungen werden von nun an automatisch gespeichert",
+      "done_editing": "Bearbeitung fertig"
     },
     "publish_modal": {
       "actions": {
@@ -598,60 +629,57 @@
   "movies": {
     "create": {
       "actions": {
-        "change_cinema": "",
-        "change_name": "",
-        "change_theme": "",
-        "choose_cinema": "",
-        "choose_name": "",
-        "clear": "",
-        "copy_table": "",
-        "description": ""
+        "change_cinema": "Kino wechseln",
+        "change_name": "Namen ändern",
+        "change_theme": "Thema wechseln",
+        "change_type": "Typ ändern",
+        "choose_cinema": "Wähle ein Kino",
+        "choose_name": "Wähle einen Namen",
+        "clear": "Leeren",
+        "copy_table": "Tabelle kopieren",
+        "description": "Beschreibung"
       },
       "cinema": {
-        "placeholder": ""
-      },
-      "footer": {
-        "auto_save": "",
-        "done_editing": ""
+        "placeholder": "Kinoname"
       },
       "step1": {
-        "title": ""
+        "title": "Was für einen Film möchtest du einreichen?"
       },
       "step2": {
-        "title": ""
+        "title": "Wann spielt der Film?"
       },
       "step3": {
-        "title": ""
+        "title": "Wo spielt der Film?"
       },
       "step4": {
-        "title": ""
+        "title": "Wie lautet der Titel des Films?"
       },
       "step5": {
-        "title": ""
+        "title": "Heben Sie Ihren Film hervor."
       },
-      "title": "",
+      "title": "Filme hinzufügen",
       "toast": {
         "success": {
-          "calendar": "",
-          "description": "",
-          "image": "",
-          "location": "",
-          "name": "",
-          "theme": "",
-          "title": "",
-          "video": ""
+          "calendar": "Zeitfenster wurden erfolgreich geändert",
+          "description": "Die Beschreibung wurde erfolgreich geändert",
+          "image": "Bild erfolgreich geändert",
+          "location": "Kino erfolgreich verändert",
+          "name": "Name wurde erfolgreich geändert",
+          "theme": "Thema erfolgreich geändert",
+          "title": "Erfolgreich geändert",
+          "video": "Video erfolgreich geändert"
         }
       },
       "validation_messages": {
         "cinema": {
-          "required": ""
+          "required": "Kino ist Pflicht."
         },
         "production": {
-          "required": ""
+          "required": "Name ist erforderlich."
         },
         "timeTable": {
-          "all-timeslots-valid": "",
-          "has-timeslot": ""
+          "all-timeslots-valid": "Name ist Alle Zeitfenster müssen in einem gültigen Format eingegeben werden.",
+          "has-timeslot": "Mindestens 1 Zeitfenster ist erforderlich."
         }
       }
     }
@@ -831,6 +859,7 @@
         "productions": "Produktionen"
       },
       "cancel": "Abbrechen",
+      "change_name": "Namen ändern",
       "confirm": "Bestätigen",
       "create": "Hinzufügen",
       "delete": "Löschen",
@@ -876,7 +905,15 @@
     "1.7.7.0.0": "Science-Fiction",
     "1.7.8.0.0": "Historischer Film"
   },
+  "time_span_picker": {
+    "end": "Endzeit",
+    "start": "Startzeit"
+  },
   "time_table": {
+    "end": "Ende",
+    "start": "Start"
+  },
+  "date_period_picker": {
     "end": "Ende",
     "start": "Start"
   },

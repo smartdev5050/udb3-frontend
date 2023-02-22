@@ -124,11 +124,15 @@ const Typeahead: TypeaheadFunc = forwardRef(
             border-bottom: 1px solid ${({ theme }) => theme.colors.grey1};
           }
 
+          .dropdown-item > .rbt-highlight-text {
+            display: initial;
+          }
+
           .rbt-menu-custom-option {
             padding: 1rem 1.5rem;
           }
 
-          .rbt-highlight-text {
+          .dropdown-item.rbt-menu-custom-option > .rbt-highlight-text {
             display: ${hideNewInputText ? 'none' : 'initial'};
           }
 

@@ -147,13 +147,23 @@ const StepsForm = ({
 
   // scroll effect
   useEffect(() => {
-    if (
-      ([FooterStatus.HIDDEN] as (typeof footerStatus)[]).includes(footerStatus)
-    )
+    if (footerStatus === FooterStatus.HIDDEN) {
       return;
+    }
+
     const main = document.querySelector('main');
     main.scroll({ left: 0, top: main.scrollHeight, behavior: 'smooth' });
   }, [footerStatus]);
+
+  const publishLaterButton = (
+    <Button
+      variant={ButtonVariants.SECONDARY}
+      onClick={() => setIsPublishLaterModalVisible(true)}
+      key="publishLater"
+    >
+      {t('create.actions.publish_later')}
+    </Button>
+  );
 
   return (
     <Page>
@@ -191,13 +201,7 @@ const StepsForm = ({
                 >
                   {t('create.actions.publish')}
                 </Button>,
-                <Button
-                  variant={ButtonVariants.SECONDARY}
-                  onClick={() => setIsPublishLaterModalVisible(true)}
-                  key="publishLater"
-                >
-                  {t('create.actions.publish_later')}
-                </Button>,
+                publishLaterButton,
                 <Text
                   key="info"
                   color={getValue('footer.color')}
@@ -218,6 +222,7 @@ const StepsForm = ({
                 >
                   <Text>{t('create.footer.done_editing')}</Text>
                 </Link>
+                {publishLaterButton}
                 <Text color={getValue('footer.color')} fontSize="0.9rem">
                   {t('create.footer.auto_save')}
                 </Text>
@@ -225,8 +230,10 @@ const StepsForm = ({
             )}
           </Inline>
           <PublishLaterModal
+            scope={scope}
+            offerId={offerId}
+            offer={offer}
             visible={isPublishLaterModalVisible}
-            onConfirm={async () => publishOffer()}
             onClose={() => setIsPublishLaterModalVisible(false)}
           />
         </Page.Footer>
