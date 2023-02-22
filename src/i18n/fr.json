@@ -34,7 +34,8 @@
     "info_be": "Par exemple. Gand ou 9000",
     "info_nl": "Par exemple. Groningue ou Amsterdam",
     "info_de": "Par exemple. Aix-la-Chapelle ou Berlin",
-    "no_cities": "Aucune municipalité trouvée"
+    "no_cities": "Aucune municipalité trouvée",
+    "no_cities_netherlands": "Aucune résidence trouvée"
   },
   "country_picker": {
     "location_school": "Emplacement en concertation avec l'école"
@@ -42,50 +43,50 @@
   "copyright": {
     "questions": {
       "1": {
-        "answer": "",
-        "question": ""
+        "answer": "Si la photo est protégée par le droit d'auteur, le nom du créateur doit être indiqué dans le champ du droit d'auteur. Les photos doivent être libres de droits. Les photos saisies peuvent être utilisées par l'asbl publiq pour publication sur le site Internet ou dans des campagnes promotionnelles et de presse. publiq vzw se réserve le droit d'effectuer des retouches photo sur les images collectées. Les photos sont également incluses dans les archives photographiques de l'asbl publiq et peuvent être utilisées dans les canaux de communication de l'asbl publiq tels que le site Web, les newsletters, la communication de presse,…",
+        "question": "Que fait publiq vzw avec les photos que je télécharge ?"
       },
       "2": {
         "answer": {
-          "paragraph1": "",
-          "paragraph2": "",
-          "paragraph3": "",
-          "step1": "",
-          "step2": "",
-          "step3": "",
-          "step4": "",
-          "step5": "",
-          "step6": ""
+          "paragraph1": "Lorsqu'une personne crée une œuvre originale qui est capturée sur un support physique (par exemple une photographie), elle détient automatiquement le droit d'auteur sur l'œuvre.",
+          "paragraph2": "Les droits d'auteur donnent au propriétaire le droit exclusif d'utiliser l'œuvre de certaines manières spécifiques. De nombreux types d'œuvres sont éligibles à la protection du droit d'auteur, notamment :",
+          "paragraph3": "Les idées, les faits et les processus ne sont pas soumis au droit d'auteur. Pour bénéficier de la protection du droit d'auteur, une œuvre doit être à la fois créative et contenue sur un support tangible. Les noms et les titres ne sont, par eux-mêmes, pas protégés par le droit d'auteur.",
+          "step1": "Œuvres audiovisuelles, telles que photos, émissions de télévision, films et vidéos en ligne",
+          "step2": "Enregistrements sonores et compositions musicales",
+          "step3": "Travaux écrits, tels que conférences, articles, livres et compositions musicales",
+          "step4": "Œuvres visuelles, telles que peintures, affiches et publicités",
+          "step5": "Jeux vidéo et logiciels informatiques",
+          "step6": "Œuvres dramatiques, telles que pièces de théâtre et comédies musicales"
         },
-        "question": ""
+        "question": "Quels types d'œuvres sont soumises au droit d'auteur ?"
       },
       "3": {
-        "answer": "",
-        "question": ""
+        "answer": "Dans certaines circonstances, il est possible d'utiliser une œuvre protégée par le droit d'auteur sans enfreindre le droit d'auteur du propriétaire. Cependant, il est préférable de supposer que cette option n'existe pas, sauf si vous avez l'autorisation explicite du propriétaire. En aucun cas, le gestionnaire ne peut déterminer pour vous si la protection des droits d'auteur s'applique ou non.",
+        "question": "Est-il possible d'utiliser une œuvre protégée par le droit d'auteur sans enfreindre les réglementations en vigueur ?"
       },
       "4": {
         "answer": {
-          "paragraph1": "",
-          "step1": "",
-          "step2": "",
-          "step3": "",
-          "step4": "",
-          "step5": "",
-          "step6": ""
+          "paragraph1": "Même si vous:",
+          "step1": "le titulaire du droit d'auteur",
+          "step2": "ne poursuit pas un but lucratif en utilisant le matériel",
+          "step3": "vu le même matériau ou un matériau similaire utilisé ailleurs",
+          "step4": "acheté le matériel audiovisuel (en ligne, dans un livre, sur CD, DVD,...)",
+          "step5": "enregistré ou copié vous-même le matériel à partir d'un livre, d'un magazine, d'un journal, d'une télévision, d'un cinéma, de la radio",
+          "step6": "a déclaré qu'\"aucune violation du droit d'auteur n'est prévue\""
         },
-        "question": ""
+        "question": "Il est important de noter que votre téléchargement de matériel audiovisuel peut faire l'objet d'une réclamation pour violation du droit d'auteur."
       },
       "5": {
-        "answer": "",
-        "question": ""
+        "answer": "Non, le gestionnaire n'est pas en mesure de servir de médiateur dans les litiges relatifs aux droits d'auteur. Lorsque le gestionnaire reçoit une demande de suppression de matériel protégé par le droit d'auteur, il s'y conformera toujours immédiatement et signalera immédiatement l'infraction à l'importateur/téléchargeur illégal. Il appartient alors aux parties concernées (titulaire des droits d'une part et importateur/téléchargeur d'autre part) de régler le litige entre elles, soit à l'amiable, soit par voie judiciaire.",
+        "question": "Le gestionnaire peut-il servir de médiateur dans les litiges relatifs aux droits d'auteur ?"
       },
       "6": {
-        "answer": "",
-        "question": ""
+        "answer": "Ce n'est pas parce que vous apparaissez vous-même sur une photo, une vidéo ou un enregistrement audio que vous détenez le droit d'auteur. Par exemple, si un ami filme une conversation entre vous deux, ce serait l'ami qui détient les droits d'auteur, pas vous. Les mots utilisés dans cette conversation ne sont pas soumis à un droit d'auteur distinct de celui de la vidéo elle-même, à moins qu'ils n'aient été pré-écrits. Si votre ami, ou quelqu'un d'autre, a téléchargé une vidéo ou une image contenant une image ou un enregistrement de vous-même sans votre permission, et vous pensez que cela constitue une atteinte à votre vie privée ou à votre sécurité, vous pouvez donc déposer une plainte relative à la confidentialité.",
+        "question": "Quelle est la différence entre le droit d'auteur et la vie privée ?"
       },
       "7": {
-        "answer": "",
-        "question": ""
+        "answer": "Tout d'abord : évitez Google Images. Vous vous retrouvez avec une série interminable d'images dont vous n'êtes pas sûr qu'elles représentent qui ou ce que vous recherchiez, et pour lesquelles vous pouvez rarement trouver les droits. Vous pouvez rechercher des images réutilisables via la \"recherche avancée\", mais cela n'offre aucune certitude. Flickr.com est plus fiable dans ce domaine : l'option de recherche Creative Commons filtre les images réutilisables parmi une large gamme. Entrez un terme de recherche, puis cliquez sur \"recherche avancée\", allez au bas de cette page sur \"creative commons\" et cochez la case \"rechercher uniquement dans le contenu sous licence Creative Commons\". Les résultats qui vous restent ensuite forment l'étang dans lequel vous pouvez choisir. Vous devez respecter les règles : si vous souhaitez utiliser les images, vous devez mettre un lien vers la source et mentionner le copyright.",
+        "question": "Où et comment pouvez-vous trouver plus de certitude sur le matériel photo libre de droits sur Internet ?"
       }
     }
   },
@@ -127,7 +128,7 @@
       "days": {
         "short": {
           "monday": "Lu",
-          "tuesday": "Di",
+          "tuesday": "Ma",
           "wednesday": "Me",
           "thursday": "Je",
           "friday": "Ve",
@@ -175,13 +176,15 @@
       "is_online": {
         "label": "En ligne"
       },
+      "municipality": {
+        "change_be": "Changer de commune",
+        "change_de": "Changer de résidence",
+        "change_nl": "Changer de résidence"
+      },
       "online_url": {
         "label": "Lien de participation",
         "placeholder": "https://",
         "info": "Ajoutez un lien pour informer votre public de comment participer à votre événement. Vous ne souhaitez pas partager publiquement ce lien? Vous pouvez sauter cette étape et ajouter les informations relatives à la participation à votre description à l'étape 5."
-      },
-      "municipality": {
-        "change": "Modifier"
       },
       "place": {
         "choose_label": "Choisissez un emplacement",
@@ -242,6 +245,8 @@
       "refine": "Affiner"
     },
     "additionalInformation": {
+      "title_events": "Faites ressortir cet événement",
+      "title_places": "Faites en sorte que cet emplacement se démarque",
       "audience": {
         "education": "Spécifiquement pour des écoles",
         "everyone": "Pour tout le monde",
@@ -422,7 +427,7 @@
     },
     "footer": {
       "auto_save": "Vos modifications seront automatiquement enregistrées à partir de maintenant",
-      "done_editing": "Klaar met bewerken"
+      "done_editing": "Finis d'éditer"
     },
     "publish_modal": {
       "actions": {
@@ -442,7 +447,7 @@
         "price_info": "Les prix ont été modifiées avec succès",
         "contact_info": "Les coordonnées ont été modifiées avec succès",
         "booking_info": "Les informations de réservation ont été modifiées avec succès",
-        "media": "Media is succesvol gewijzigd",
+        "media": "Image/vidéo modifiée avec succès",
         "audience": "Accès modifié avec succès"
       }
     }
@@ -471,17 +476,17 @@
     },
     "newsletter": {
       "contact": "Contactez-nous",
-      "content": "",
-      "invalid": "",
-      "logo": "",
-      "logo_alt": "",
+      "content": "Abonnez-vous à notre newsletter et recevez des conseils pratiques pour saisir vos activités dans la base de données UiT !",
+      "invalid": "Entrez une adresse e-mail valide.",
+      "logo": "newsletter-logo.svg",
+      "logo_alt": "logo de la newsletter",
       "questions_or_feedback": "Questions ou remarques?",
-      "subscribe": "",
+      "subscribe": "s'inscrire",
       "success": {
-        "content": "",
-        "title": ""
+        "content": "Vous êtes abonné à notre newsletter et recevez des conseils pratiques pour entrer vos activités dans la base de données UiT !",
+        "title": "Merci"
       },
-      "title": ""
+      "title": "Conseils de saisie pratiques dans votre boîte aux lettres"
     },
     "no_items": {
       "events": "Aucun événement trouvé.",
@@ -593,8 +598,8 @@
     "activities_info": "Vous proposez un concert, une représentation, une exposition ou un film? Ou plutôt un événement sportif, une randonnée, une soirée cartes, une kermesse? Ou encore des cours, des ateliers ou des événements? Tout cela trouvera sa place dans l’UiTdatabank.",
     "channels": "chaînes de publication",
     "channels_info": "UiTdatabank alimente en outre plus de 1.000 agendas de loisirs imprimés et numériques qui proposent des informations à jour. Ce sont les agendas de chaînes audio-visuelles et de médias locaux ou nationaux, de villes et communes, de services touristiques ou de grandes organisations de coordination.",
-    "channels_info_link_text": "",
-    "channels_info_link_url": "",
+    "channels_info_link_text": "1 000 calendriers",
+    "channels_info_link_url": "https://www.publiq.be/nl/publicatiekanalen",
     "flanders_image": "flanders-logo.svg",
     "lead": "Organisez-vous une activité?",
     "lead_sub": "Ajoutez vos activités gratuitement et élargissez votre public",
@@ -622,56 +627,57 @@
   "movies": {
     "create": {
       "actions": {
-        "change_cinema": "",
-        "change_name": "",
-        "change_theme": "",
-        "choose_cinema": "",
-        "choose_name": "",
-        "clear": "",
-        "copy_table": "",
-        "description": ""
+        "change_cinema": "Changer de cinéma",
+        "change_name": "Changer de nom",
+        "change_theme": "Changer le thème",
+        "change_type": "Changer le type",
+        "choose_cinema": "Choisissez un cinéma",
+        "choose_name": "Choisissez un nom",
+        "clear": "À vider",
+        "copy_table": "Copier le tableau",
+        "description": "Description"
       },
       "cinema": {
-        "placeholder": ""
+        "placeholder": "Nom du cinéma"
       },
       "step1": {
-        "title": ""
+        "title": "Dans quel genre de film voulez-vous entrer?"
       },
       "step2": {
-        "title": ""
+        "title": "Quand se passe le film ?"
       },
       "step3": {
-        "title": ""
+        "title": "Où se passe le film ?"
       },
       "step4": {
-        "title": ""
+        "title": "Quel est le titre du film?"
       },
       "step5": {
-        "title": ""
+        "title": "Faites ressortir votre film."
       },
-      "title": "",
+      "title": "Ajouter des films",
       "toast": {
         "success": {
-          "calendar": "",
-          "description": "",
-          "image": "",
-          "location": "",
-          "name": "",
-          "theme": "",
-          "title": "",
-          "video": ""
+          "calendar": "Les créneaux horaires ont été modifiés avec succès",
+          "description": "La description a été modifiée avec succès",
+          "image": "Image modifiée avec succès",
+          "location": "Le cinéma a été changé avec succès",
+          "name": "Le nom a été changé avec succès",
+          "theme": "Thème changé avec succès",
+          "title": "Changé avec succès",
+          "video": "La vidéo a été modifiée avec succès"
         }
       },
       "validation_messages": {
         "cinema": {
-          "required": ""
+          "required": "Le cinéma est obligatoire."
         },
         "production": {
-          "required": ""
+          "required": "Le nom est requis."
         },
         "timeTable": {
-          "all-timeslots-valid": "",
-          "has-timeslot": ""
+          "all-timeslots-valid": "Tous les créneaux horaires doivent être saisis dans un format valide.",
+          "has-timeslot": "Au moins 1 créneau horaire est requis."
         }
       }
     }
@@ -885,6 +891,29 @@
   "time_table": {
     "end": "Fin",
     "start": "Début"
+  },
+  "date_period_picker": {
+    "end": "Fin",
+    "start": "Début"
+  },
+  "themes": {
+    "1.7.1.0.0": "Documentaires et reportages",
+    "1.7.10.0.0": "Film musical",
+    "1.7.11.0.0": "Cinéphile",
+    "1.7.12.0.0": "Animations et films pour enfants",
+    "1.7.13.0.0": "Court métrage",
+    "1.7.14.0.0": "Plusieurs genres de films",
+    "1.7.15.0.0": "Thriller",
+    "1.7.2.0.0": "Film d'action et d'aventure",
+    "1.7.3.0.0": "Comédie",
+    "1.7.4.0.0": "Drame",
+    "1.7.6.0.0": "Film d'horreur ou d'horreur",
+    "1.7.7.0.0": "La science-fiction",
+    "1.7.8.0.0": "Film historique"
+  },
+  "time_span_picker": {
+    "end": "Heure de fin",
+    "start": "Heure de début"
   },
   "typeahead": {
     "no_results": "Aucun résultat trouvé",
