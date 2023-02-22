@@ -128,9 +128,9 @@ const CalendarStep = ({
 
   const calendarStepContainer = useRef(null);
 
-  const [scope, type] = useWatch({
+  const [scope, type, theme] = useWatch({
     control,
-    name: ['scope', 'typeAndTheme.type'],
+    name: ['scope', 'typeAndTheme.type', 'typeAndTheme.theme'],
   });
 
   const calendarService = useCalendarContext();
@@ -270,11 +270,11 @@ const CalendarStep = ({
 
   // scroll to calendar step after theme has been selected
   useEffect(() => {
-    if (!scope || !type.id) return;
+    if (!scope || !type?.id || !theme?.id) return;
     if (offerId) return;
 
     scrollToCalendarContainer();
-  }, [scope, offerId, type]);
+  }, [scope, offerId, type, theme]);
 
   return (
     <Stack
