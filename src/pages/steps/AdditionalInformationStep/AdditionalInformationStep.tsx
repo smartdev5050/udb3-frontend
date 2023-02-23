@@ -154,15 +154,15 @@ const AdditionalInformationStep = ({
 
   const queryClient = useQueryClient();
 
-  const invalidateEventQuery = useCallback(
+  const invalidateOfferQuery = useCallback(
     async (field: Field, shouldInvalidate: boolean) => {
       if (shouldInvalidate) {
-        await queryClient.invalidateQueries(['events', { id: offerId }]);
+        await queryClient.invalidateQueries([scope, { id: offerId }]);
       }
       onChangeSuccess(field);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [offerId, queryClient],
+    [scope, offerId, queryClient],
   );
 
   const [tab, setTab] = useState('description');
@@ -255,7 +255,7 @@ const AdditionalInformationStep = ({
                     }));
                   }}
                   onSuccessfulChange={() =>
-                    invalidateEventQuery(field, shouldInvalidate)
+                    invalidateOfferQuery(field, shouldInvalidate)
                   }
                   {...stepProps}
                 />
