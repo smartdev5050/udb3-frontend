@@ -82,14 +82,24 @@ const nameAndAgeRangeStepConfiguration: StepsConfiguration<'nameAndAgeRange'> =
       name: yup.object().shape({}).required(),
       typicalAgeRange: yup.string().required(),
     }),
-    shouldShowStep: ({ watch }) => {
+    shouldShowStep: ({ watch, formState, getFieldState }) => {
       const location = watch('location');
-      return (
-        !!location?.place ||
-        location?.isOnline ||
-        !!location?.streetAndNumber ||
-        !location.country // undefined when cultuurkuur is selected as country
-      );
+
+      if (location?.isOnline) {
+        return true;
+      }
+
+      if (!location.place) {
+        return formState.touchedFields.location?.streetAndNumber;
+      }
+
+      if (!!location?.place) {
+        return true;
+      }
+
+      const isCultuurKuur = !location?.country;
+
+      return isCultuurKuur;
     },
   };
 
