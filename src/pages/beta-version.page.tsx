@@ -62,55 +62,64 @@ const BetaVersionPage = () => {
             >
               Wil jij de beta-versie van UiTdatabank proberen?
             </Title>
-            <Stack spacing={4} fontSize="1.1rem">
-              <Paragraph>
-                Wij zijn altijd druk bezig met de ontwikkeling van UiTdatabank.
-                Met de beta-versie van UiTdatabank kan jij genieten van de
-                nieuwste features en een verbeterde gebruikersinterface.
-              </Paragraph>
-              <Paragraph>
-                Ben je geïnteresseerd om een van de eersten te zijn die onze
-                nieuwe features gebruikt? Klik dan op {'"Probeer nu"'}. Je kan
-                steeds terug naar de normale UI via de toggle in de menubar.
-              </Paragraph>
+            <Stack spacing={5}>
+              <Stack spacing={4} fontSize="1.1rem">
+                <Paragraph>
+                  Wij zijn altijd druk bezig met de ontwikkeling van
+                  UiTdatabank. Met de beta-versie van UiTdatabank kan jij
+                  genieten van de nieuwste features en een verbeterde
+                  gebruikersinterface.
+                </Paragraph>
+                <Paragraph>
+                  Ben je geïnteresseerd om een van de eersten te zijn die onze
+                  nieuwe features gebruikt? Klik dan op {'"Probeer nu"'}. Je kan
+                  steeds terug naar de normale UI via de toggle in de menubar.
+                </Paragraph>
+              </Stack>
+              <Inline spacing={5} alignItems="center" maxWidth="50rem">
+                <ToggleBox
+                  onClick={handleConfirmation}
+                  // active={isFixedDays}
+                  icon={
+                    <Icon
+                      name={Icons.CHECK}
+                      color="green"
+                      width={36}
+                      height={36}
+                    />
+                  }
+                  minHeight={parseSpacing(7)}
+                  flex={1}
+                  // disabled={disableChooseFixedDays}
+                >
+                  <Text fontWeight="bold">Probeer nu</Text>
+                  <Text variant={TextVariants.MUTED}>
+                    Ga verder {<Text fontWeight="bold">met</Text>} de nieuwe UI
+                  </Text>
+                </ToggleBox>
+                <ToggleBox
+                  onClick={goToCreatePage}
+                  // active={isOneOrMoreDays}
+                  // icon={<IconOneOrMoreDays />}
+                  icon={
+                    <Icon
+                      name={Icons.QUESTION}
+                      color="grey"
+                      width={36}
+                      height={36}
+                    />
+                  }
+                  minHeight={parseSpacing(7)}
+                  flex={1}
+                >
+                  <Text fontWeight="bold">Misschien later</Text>
+                  <Text variant={TextVariants.MUTED}>
+                    Ga verder {<Text fontWeight="bold">zonder</Text>} de nieuwe
+                    UI
+                  </Text>
+                </ToggleBox>
+              </Inline>
             </Stack>
-            <Inline spacing={5} alignItems="center" maxWidth="50rem">
-              <ToggleBox
-                onClick={handleConfirmation}
-                // active={isFixedDays}
-                icon={
-                  <Icon
-                    name={Icons.CHECK}
-                    color="green"
-                    width={36}
-                    height={36}
-                  />
-                }
-                minHeight={parseSpacing(7)}
-                flex={1}
-                // disabled={disableChooseFixedDays}
-              >
-                <Text fontWeight="bold">Probeer nu</Text>
-                <Text variant={TextVariants.MUTED}>
-                  Ga verder {<Text fontWeight="bold">met</Text>} de nieuwe UI
-                </Text>
-              </ToggleBox>
-              <ToggleBox
-                onClick={goToCreatePage}
-                // active={isOneOrMoreDays}
-                // icon={<IconOneOrMoreDays />}
-                icon={
-                  <Icon name={Icons.TIMES} color="red" width={36} height={36} />
-                }
-                minHeight={parseSpacing(7)}
-                flex={1}
-              >
-                <Text fontWeight="bold">Liever niet</Text>
-                <Text variant={TextVariants.MUTED}>
-                  Ga verder {<Text fontWeight="bold">zonder</Text>} de nieuwe UI
-                </Text>
-              </ToggleBox>
-            </Inline>
           </Stack>
         </Card>
       </Page.Content>
