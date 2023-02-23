@@ -1,6 +1,6 @@
 import { TFunction } from 'i18next';
 import getConfig from 'next/config';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { Controller, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -197,12 +197,30 @@ const LocationStep = ({
       ],
     });
 
-  const isNameAndAgeRangeVisible =
-    !!offerId ||
-    !!location?.place ||
-    location?.isOnline ||
-    !!location?.streetAndNumber ||
-    !location.country;
+  const shouldAddSpaceBelowTypeahead = useMemo(() => {
+    if (offerId || location?.isOnline) return false;
+
+    if (!formState.touchedFields.location?.streetAndNumber) {
+      return true;
+    }
+
+    if (scope === OfferTypes.PLACES && !location?.municipality?.name) {
+      return true;
+    }
+
+    if (scope === OfferTypes.EVENTS && !location?.place) {
+      return true;
+    }
+
+    return false;
+  }, [
+    formState.touchedFields.location?.streetAndNumber,
+    location?.isOnline,
+    location?.municipality?.name,
+    location?.place,
+    offerId,
+    scope,
+  ]);
 
   const useGetOfferByIdQuery =
     scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
@@ -231,7 +249,7 @@ const LocationStep = ({
   return (
     <Stack
       {...getStackProps(props)}
-      minHeight={isNameAndAgeRangeVisible ? 'inherit' : '26.5rem'}
+      minHeight={shouldAddSpaceBelowTypeahead ? '26.5rem' : 'inherit'}
     >
       <Controller
         control={control}
