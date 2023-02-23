@@ -258,7 +258,7 @@ const PriceInformation = ({
                   justifyContent="flex-start"
                   spacing={3}
                 >
-                  <Inline minWidth="20%">
+                  <Inline minWidth="30%">
                     {rate.category === PriceCategory.BASE && (
                       <Text>{rate.name[i18n.language]}</Text>
                     )}
