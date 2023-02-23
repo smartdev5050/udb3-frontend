@@ -226,7 +226,6 @@ const PriceInformation = ({
     offer?.organizer,
     offer?.priceInfo,
     replace,
-    hasRates,
   ]);
 
   return (
