@@ -90,7 +90,10 @@ const nameAndAgeRangeStepConfiguration: StepsConfiguration<'nameAndAgeRange'> =
       }
 
       if (!location.place) {
-        return formState.touchedFields.location?.streetAndNumber;
+        return (
+          location.municipality?.name &&
+          formState.touchedFields.location?.streetAndNumber
+        );
       }
 
       if (!!location?.place) {
