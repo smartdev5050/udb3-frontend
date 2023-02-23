@@ -175,6 +175,7 @@ const LocationStep = ({
   onChange,
   chooseLabel,
   placeholderLabel,
+  setValue,
   watch,
   ...props
 }: PlaceStepProps) => {
@@ -404,6 +405,23 @@ const LocationStep = ({
             );
           }
 
+          const handleChangeStreetAndNumber = (
+            e: ChangeEvent<HTMLInputElement>,
+          ) => {
+            const shouldShowNextStepInCreate =
+              !offerId &&
+              !formState.touchedFields.location?.streetAndNumber &&
+              e.target.value.trim().length >= 2;
+
+            if (shouldShowNextStepInCreate) {
+              setValue('location.streetAndNumber', undefined, {
+                shouldTouch: true,
+              });
+            }
+
+            setStreetAndNumber(e.target.value);
+          };
+
           return (
             <Stack>
               <Stack spacing={4}>
@@ -460,9 +478,7 @@ const LocationStep = ({
                           field.onChange(updatedValue);
                           onChange(updatedValue);
                         }}
-                        onChange={(e) => {
-                          setStreetAndNumber(e.target.value);
-                        }}
+                        onChange={handleChangeStreetAndNumber}
                       />
                     }
                     id="location-streetAndNumber"
