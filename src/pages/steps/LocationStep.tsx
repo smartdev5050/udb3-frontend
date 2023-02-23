@@ -208,7 +208,10 @@ const LocationStep = ({
       return true;
     }
 
-    if (scope === OfferTypes.EVENTS && !location?.place) {
+    if (
+      scope === OfferTypes.EVENTS &&
+      (!location?.municipality?.name || !location?.place)
+    ) {
       return true;
     }
 
