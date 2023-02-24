@@ -487,29 +487,56 @@ const LocationStep = ({
                   />
                 )}
                 {scope === OfferTypes.PLACES && (
-                  <FormElement
-                    Component={
-                      <Input
-                        value={streetAndNumber}
-                        onBlur={(e) => {
-                          const updatedValue = {
-                            ...field.value,
-                            streetAndNumber: streetAndNumber,
-                          };
-                          field.onChange(updatedValue);
-                          onChange(updatedValue);
-                        }}
-                        onChange={handleChangeStreetAndNumber}
+                  <Stack>
+                    {field.value.streetAndNumber ? (
+                      <Inline alignItems="center" spacing={3}>
+                        <Icon
+                          name={Icons.CHECK_CIRCLE}
+                          color={getGlobalValue('successIcon')}
+                        />
+                        <Text>{field.value.streetAndNumber}</Text>
+                        <Button
+                          variant={ButtonVariants.LINK}
+                          onClick={() => {
+                            const updatedValue = {
+                              ...field.value,
+                              streetAndNumber: undefined,
+                            };
+                            field.onChange(updatedValue);
+                            onChange(updatedValue);
+                            field.onBlur();
+                            setStreetAndNumber('');
+                          }}
+                        >
+                          {t(`create.location.street_and_number.change`)}
+                        </Button>
+                      </Inline>
+                    ) : (
+                      <FormElement
+                        Component={
+                          <Input
+                            value={streetAndNumber}
+                            onBlur={(e) => {
+                              const updatedValue = {
+                                ...field.value,
+                                streetAndNumber: streetAndNumber,
+                              };
+                              field.onChange(updatedValue);
+                              onChange(updatedValue);
+                            }}
+                            onChange={handleChangeStreetAndNumber}
+                          />
+                        }
+                        id="location-streetAndNumber"
+                        label={t('location.add_modal.labels.streetAndNumber')}
+                        maxWidth="28rem"
+                        error={
+                          formState.errors.location?.streetAndNumber &&
+                          t('location.add_modal.errors.streetAndNumber')
+                        }
                       />
-                    }
-                    id="location-streetAndNumber"
-                    label={t('location.add_modal.labels.streetAndNumber')}
-                    maxWidth="28rem"
-                    error={
-                      formState.errors.location?.streetAndNumber &&
-                      t('location.add_modal.errors.streetAndNumber')
-                    }
-                  />
+                    )}
+                  </Stack>
                 )}
               </Stack>
             </Stack>
