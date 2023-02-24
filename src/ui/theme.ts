@@ -165,6 +165,12 @@ const theme = {
         backgroundColor: colors.red1,
       },
     },
+    card: {
+      boxShadow: {
+        small: '0px 2px 3px 0px rgba(210, 210, 210, 0.5)',
+        large: '0px 4px 6px 0px rgba(210, 210, 210, 0.7)',
+      },
+    },
     global: {
       successIcon: colors.green3,
       warningIcon: colors.orange1,

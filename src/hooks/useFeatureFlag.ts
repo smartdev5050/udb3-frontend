@@ -2,6 +2,7 @@ import {
   Dispatch,
   SetStateAction,
   useCallback,
+  useEffect,
   useMemo,
   useState,
 } from 'react';
@@ -35,11 +36,14 @@ const useFeatureFlag = (featureFlagName: FeatureFlagName) => {
 
   const [isFeatureEnabled, setIsFeatureEnabled] = useState(cookieValue);
 
+  useEffect(() => {
+    setIsFeatureEnabled(cookieValue);
+  }, [cookieValue]);
+
   const set = useCallback<Dispatch<SetStateAction<boolean>>>(
     (val) => {
       const setValue = (newValue: boolean) => {
         setCookie(cookieName, newValue);
-        setIsFeatureEnabled(newValue);
       };
 
       if (typeof val === 'function') {
