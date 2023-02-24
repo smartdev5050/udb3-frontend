@@ -65,4 +65,4 @@ const NewFeatureTooltip = ({ featureUUID, ...props }: Props) => {
   );
 };
 
-export { Features, NewFeatureTooltip };
+export { Features, NewFeatureTooltip, QuestionCircleIcon };
