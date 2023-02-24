@@ -198,6 +198,9 @@
         "change_location": "Changer de lieu",
         "location_school": "Emplacement en concertation avec l'école",
         "location_school_info": "Lieu en concertation avec l'écoleL'événement dont le lieu est déterminé en concertation ne sera pas publié sur UiTinVlaanderen ou d'autres chaînes publiques. Votre événement apparaîtra sur cultuurkuur.be"
+      },
+      "street_and_number": {
+        "change": "Changer de rue et de numéro"
       }
     },
     "name_and_age": {

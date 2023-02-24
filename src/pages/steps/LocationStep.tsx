@@ -1,6 +1,6 @@
 import { TFunction } from 'i18next';
 import getConfig from 'next/config';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { Controller, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -175,6 +175,7 @@ const LocationStep = ({
   onChange,
   chooseLabel,
   placeholderLabel,
+  setValue,
   watch,
   ...props
 }: PlaceStepProps) => {
@@ -196,12 +197,33 @@ const LocationStep = ({
       ],
     });
 
-  const isNameAndAgeRangeVisible =
-    !!offerId ||
-    !!location?.place ||
-    location?.isOnline ||
-    !!location?.streetAndNumber ||
-    !location.country;
+  const shouldAddSpaceBelowTypeahead = useMemo(() => {
+    if (offerId || location?.isOnline) return false;
+
+    if (
+      scope === OfferTypes.PLACES &&
+      (!location?.municipality?.name ||
+        !formState.touchedFields.location?.streetAndNumber)
+    ) {
+      return true;
+    }
+
+    if (
+      scope === OfferTypes.EVENTS &&
+      (!location?.municipality?.name || !location?.place)
+    ) {
+      return true;
+    }
+
+    return false;
+  }, [
+    formState.touchedFields.location?.streetAndNumber,
+    location?.isOnline,
+    location?.municipality?.name,
+    location?.place,
+    offerId,
+    scope,
+  ]);
 
   const useGetOfferByIdQuery =
     scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
@@ -227,10 +249,25 @@ const LocationStep = ({
     }
   }, [locationStreetAndNumber, locationOnlineUrl, audience]);
 
+  const handleChangeStreetAndNumber = (e: ChangeEvent<HTMLInputElement>) => {
+    const shouldShowNextStepInCreate =
+      !offerId &&
+      !formState.touchedFields.location?.streetAndNumber &&
+      e.target.value.trim().length >= 2;
+
+    if (shouldShowNextStepInCreate) {
+      setValue('location.streetAndNumber', undefined, {
+        shouldTouch: true,
+      });
+    }
+
+    setStreetAndNumber(e.target.value);
+  };
+
   return (
     <Stack
       {...getStackProps(props)}
-      minHeight={isNameAndAgeRangeVisible ? 'inherit' : '26.5rem'}
+      minHeight={shouldAddSpaceBelowTypeahead ? '26.5rem' : 'inherit'}
     >
       <Controller
         control={control}
@@ -420,10 +457,12 @@ const LocationStep = ({
                       const updatedValue = {
                         ...field.value,
                         municipality: undefined,
+                        streetAndNumber: undefined,
                       };
                       field.onChange(updatedValue);
                       onChange(updatedValue);
                       field.onBlur();
+                      setStreetAndNumber('');
                     }}
                   >
                     {t(
@@ -449,31 +488,56 @@ const LocationStep = ({
                   />
                 )}
                 {scope === OfferTypes.PLACES && (
-                  <FormElement
-                    Component={
-                      <Input
-                        value={streetAndNumber}
-                        onBlur={(e) => {
-                          const updatedValue = {
-                            ...field.value,
-                            streetAndNumber: streetAndNumber,
-                          };
-                          field.onChange(updatedValue);
-                          onChange(updatedValue);
-                        }}
-                        onChange={(e) => {
-                          setStreetAndNumber(e.target.value);
-                        }}
+                  <Stack>
+                    {field.value.streetAndNumber ? (
+                      <Inline alignItems="center" spacing={3}>
+                        <Icon
+                          name={Icons.CHECK_CIRCLE}
+                          color={getGlobalValue('successIcon')}
+                        />
+                        <Text>{field.value.streetAndNumber}</Text>
+                        <Button
+                          variant={ButtonVariants.LINK}
+                          onClick={() => {
+                            const updatedValue = {
+                              ...field.value,
+                              streetAndNumber: undefined,
+                            };
+                            field.onChange(updatedValue);
+                            onChange(updatedValue);
+                            field.onBlur();
+                            setStreetAndNumber('');
+                          }}
+                        >
+                          {t(`create.location.street_and_number.change`)}
+                        </Button>
+                      </Inline>
+                    ) : (
+                      <FormElement
+                        Component={
+                          <Input
+                            value={streetAndNumber}
+                            onBlur={(e) => {
+                              const updatedValue = {
+                                ...field.value,
+                                streetAndNumber: streetAndNumber,
+                              };
+                              field.onChange(updatedValue);
+                              onChange(updatedValue);
+                            }}
+                            onChange={handleChangeStreetAndNumber}
+                          />
+                        }
+                        id="location-streetAndNumber"
+                        label={t('location.add_modal.labels.streetAndNumber')}
+                        maxWidth="28rem"
+                        error={
+                          formState.errors.location?.streetAndNumber &&
+                          t('location.add_modal.errors.streetAndNumber')
+                        }
                       />
-                    }
-                    id="location-streetAndNumber"
-                    label={t('location.add_modal.labels.streetAndNumber')}
-                    maxWidth="28rem"
-                    error={
-                      formState.errors.location?.streetAndNumber &&
-                      t('location.add_modal.errors.streetAndNumber')
-                    }
-                  />
+                    )}
+                  </Stack>
                 )}
               </Stack>
             </Stack>
