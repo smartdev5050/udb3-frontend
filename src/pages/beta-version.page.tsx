@@ -39,9 +39,7 @@ const BetaVersionPage = () => {
   const handleConfirmation = () => {
     setIsNewCreateEnabled(true);
 
-    setTimeout(() => {
-      goToCreatePage();
-    }, 0);
+    goToCreatePage();
   };
 
   return (
