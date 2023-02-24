@@ -249,6 +249,21 @@ const LocationStep = ({
     }
   }, [locationStreetAndNumber, locationOnlineUrl, audience]);
 
+  const handleChangeStreetAndNumber = (e: ChangeEvent<HTMLInputElement>) => {
+    const shouldShowNextStepInCreate =
+      !offerId &&
+      !formState.touchedFields.location?.streetAndNumber &&
+      e.target.value.trim().length >= 2;
+
+    if (shouldShowNextStepInCreate) {
+      setValue('location.streetAndNumber', undefined, {
+        shouldTouch: true,
+      });
+    }
+
+    setStreetAndNumber(e.target.value);
+  };
+
   return (
     <Stack
       {...getStackProps(props)}
@@ -425,23 +440,6 @@ const LocationStep = ({
               </Stack>
             );
           }
-
-          const handleChangeStreetAndNumber = (
-            e: ChangeEvent<HTMLInputElement>,
-          ) => {
-            const shouldShowNextStepInCreate =
-              !offerId &&
-              !formState.touchedFields.location?.streetAndNumber &&
-              e.target.value.trim().length >= 2;
-
-            if (shouldShowNextStepInCreate) {
-              setValue('location.streetAndNumber', undefined, {
-                shouldTouch: true,
-              });
-            }
-
-            setStreetAndNumber(e.target.value);
-          };
 
           return (
             <Stack>
