@@ -17,10 +17,14 @@ import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
-import { Features, NewFeatureTooltip } from '@/pages/NewFeatureTooltip';
+import {
+  Features,
+  NewFeatureTooltip,
+  QuestionCircleIcon,
+} from '@/pages/NewFeatureTooltip';
 import type { Values } from '@/types/Values';
 import { Badge } from '@/ui/Badge';
-import { Button } from '@/ui/Button';
+import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
 import { Image } from '@/ui/Image';
@@ -606,7 +610,13 @@ const Sidebar = () => {
                 />
               </Inline>
               {!isSmallView && (
-                <NewFeatureTooltip featureUUID={Features.ONLINE} />
+                <Link
+                  href="/beta-version"
+                  variant={ButtonVariants.UNSTYLED}
+                  customChildren
+                >
+                  <QuestionCircleIcon />
+                </Link>
               )}
             </Inline>
             <NotificationMenu
