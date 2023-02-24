@@ -194,6 +194,9 @@
         "change_location": "Den Ort wechseln",
         "location_school": "Ort in Absprache mit der Schule",
         "location_school_info": "Veranstaltungen, deren Ort in Absprache festgelegt wird, werden nicht auf UiTinVlaanderen oder anderen öffentlichen Kanälen veröffentlicht. Ihre Veranstaltung erscheint auf cultuurkuur.be"
+      },
+      "street_and_number": {
+        "change": "Straße und Hausnummer wechseln"
       }
     },
     "name_and_age": {
