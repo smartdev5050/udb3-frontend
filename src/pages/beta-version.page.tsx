@@ -46,11 +46,10 @@ const BetaVersionPage = () => {
 
   return (
     <Page>
-      <Page.Content alignItems="center" justifyContent="center" flex={1}>
+      <Page.Content flex={1} alignItems="center" paddingTop={4}>
         <Card
-          paddingTop={5}
-          paddingBottom={6}
-          minWidth="60rem"
+          minWidth="40rem"
+          maxWidth="90%"
           css={`
             box-shadow: ${({ theme }) =>
               theme.components.button.boxShadow.large};
@@ -58,7 +57,7 @@ const BetaVersionPage = () => {
           borderRadius={getGlobalBorderRadius}
           alignItems="center"
         >
-          <Stack spacing={5} padding={6}>
+          <Stack spacing={4} paddingY={5} paddingX={6}>
             <Title
               size={1}
               css={`
@@ -93,55 +92,57 @@ const BetaVersionPage = () => {
                 ))}
               </List>
               <Paragraph>{t('beta_version.outro1')}</Paragraph>
-              <Paragraph>{t('beta_version.outro2')}</Paragraph>
-              <Inline
-                spacing={5}
-                alignItems="flex-start"
-                maxWidth="50rem"
-                alignSelf="center"
-              >
-                <ToggleBox
-                  onClick={handleConfirmation}
-                  minHeight={parseSpacing(7)}
-                  flex={1}
-                  height="100%"
-                  icon={
-                    <Image
-                      src="/assets/rocket.gif"
-                      width={100}
-                      alt="a rocket"
-                    />
-                  }
+              <Stack spacing={5}>
+                <Paragraph>{t('beta_version.outro2')}</Paragraph>
+                <Inline
+                  spacing={5}
+                  alignItems="flex-start"
+                  maxWidth="50rem"
+                  alignSelf="center"
                 >
-                  <Text fontWeight="bold">
-                    {t('beta_version.confirm.title')}
-                  </Text>
+                  <ToggleBox
+                    onClick={handleConfirmation}
+                    minHeight={parseSpacing(7)}
+                    flex={1}
+                    height="100%"
+                    icon={
+                      <Image
+                        src="/assets/rocket.gif"
+                        width={70}
+                        alt="a rocket"
+                      />
+                    }
+                  >
+                    <Text fontWeight="bold">
+                      {t('beta_version.confirm.title')}
+                    </Text>
 
-                  <Text variant={TextVariants.MUTED}>
-                    <Trans
-                      i18nKey={'beta_version.confirm.info'}
-                      components={{
-                        boldText: <Text fontWeight="bold" />,
-                      }}
-                    />
-                  </Text>
-                </ToggleBox>
-                <ToggleBox
-                  onClick={goToCreatePage}
-                  minHeight={parseSpacing(7)}
-                  flex={1}
-                  icon={
-                    <Image src="/assets/alarm.gif" width={100} alt="a clock" />
-                  }
-                >
-                  <Text fontWeight="bold">
-                    {t('beta_version.cancel.title')}
-                  </Text>
-                  <Text variant={TextVariants.MUTED}>
-                    {t('beta_version.cancel.info')}
-                  </Text>
-                </ToggleBox>
-              </Inline>
+                    <Text variant={TextVariants.MUTED}>
+                      <Trans
+                        i18nKey={'beta_version.confirm.info'}
+                        components={{
+                          boldText: <Text fontWeight="bold" />,
+                        }}
+                      />
+                    </Text>
+                  </ToggleBox>
+                  <ToggleBox
+                    onClick={goToCreatePage}
+                    minHeight={parseSpacing(7)}
+                    flex={1}
+                    icon={
+                      <Image src="/assets/alarm.gif" width={70} alt="a clock" />
+                    }
+                  >
+                    <Text fontWeight="bold">
+                      {t('beta_version.cancel.title')}
+                    </Text>
+                    <Text variant={TextVariants.MUTED}>
+                      {t('beta_version.cancel.info')}
+                    </Text>
+                  </ToggleBox>
+                </Inline>
+              </Stack>
             </Stack>
           </Stack>
         </Card>
