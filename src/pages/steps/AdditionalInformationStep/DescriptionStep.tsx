@@ -36,25 +36,25 @@ const DescriptionInfo = ({
   const { t } = useTranslation();
 
   const descriptionProgress = Math.min(
-    Math.round((description.length / IDEAL_DESCRIPTION_LENGTH) * 100),
+    Math.round((description?.length / IDEAL_DESCRIPTION_LENGTH) * 100),
     100,
   );
 
   return (
     <Stack spacing={3} alignItems="flex-start" {...getStackProps(props)}>
-      {description.length < IDEAL_DESCRIPTION_LENGTH && (
+      {description?.length < IDEAL_DESCRIPTION_LENGTH && (
         <ProgressBar
           variant={ProgressBarVariants.SUCCESS}
           progress={descriptionProgress}
         />
       )}
       <Text variant={TextVariants.MUTED}>
-        {description.length < IDEAL_DESCRIPTION_LENGTH
+        {description?.length < IDEAL_DESCRIPTION_LENGTH
           ? t(
               'create.additionalInformation.description.progress_info.not_complete',
               {
                 idealLength: IDEAL_DESCRIPTION_LENGTH,
-                count: IDEAL_DESCRIPTION_LENGTH - description.length,
+                count: IDEAL_DESCRIPTION_LENGTH - description?.length,
               },
             )
           : t(
@@ -103,7 +103,7 @@ const DescriptionStep = ({
 
     setDescription(newDescription);
 
-    const isCompleted = newDescription.length >= IDEAL_DESCRIPTION_LENGTH;
+    const isCompleted = newDescription?.length >= IDEAL_DESCRIPTION_LENGTH;
 
     onValidationChange(
       isCompleted ? ValidationStatus.SUCCESS : ValidationStatus.NONE,

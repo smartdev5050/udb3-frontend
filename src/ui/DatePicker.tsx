@@ -1,5 +1,6 @@
 import 'react-datepicker/dist/react-datepicker.css';
 
+import de from 'date-fns/locale/de';
 import fr from 'date-fns/locale/fr';
 import nl from 'date-fns/locale/nl';
 import { useRef } from 'react';
@@ -7,6 +8,7 @@ import ReactDatePicker, {
   registerLocale,
   setDefaultLocale,
 } from 'react-datepicker';
+import { useTranslation } from 'react-i18next';
 
 import type { BoxProps } from './Box';
 import { Box } from './Box';
@@ -19,6 +21,7 @@ import { getValueFromTheme } from './theme';
 setDefaultLocale('nl');
 registerLocale('nl', nl);
 registerLocale('fr', fr);
+registerLocale('de', de);
 
 const getValue = getValueFromTheme('datePicker');
 
@@ -40,6 +43,7 @@ const DatePicker = ({
   disabled,
   ...props
 }: Props) => {
+  const { i18n } = useTranslation();
   const datePickerRef = useRef(null);
 
   return (
@@ -174,6 +178,7 @@ const DatePicker = ({
         maxDate={maxDate}
         customInput={<Input id={id} />}
         disabled={disabled}
+        locale={i18n.language}
         css={`
           &.form-control {
             border-top-right-radius: 0;
