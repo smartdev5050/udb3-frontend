@@ -7,6 +7,7 @@ import { parseSpacing } from '@/ui/Box';
 import { Card } from '@/ui/Card';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
+import { List } from '@/ui/List';
 import { Page } from '@/ui/Page';
 import { Paragraph } from '@/ui/Paragraph';
 import { Stack } from '@/ui/Stack';
@@ -60,22 +61,45 @@ const BetaVersionPage = () => {
                 }
               `}
             >
-              Wil jij de beta-versie van UiTdatabank proberen?
+              Wil jij de vernieuwde versie van UiTdatabank proberen?
             </Title>
-            <Stack spacing={5}>
-              <Stack spacing={4} fontSize="1.1rem">
-                <Paragraph>
-                  Wij zijn altijd druk bezig met de ontwikkeling van
-                  UiTdatabank. Met de beta-versie van UiTdatabank kan jij
-                  genieten van de nieuwste features en een verbeterde
-                  gebruikersinterface.
-                </Paragraph>
-                <Paragraph>
-                  Ben je geïnteresseerd om een van de eersten te zijn die onze
-                  nieuwe features gebruikt? Klik dan op {'"Probeer nu"'}. Je kan
-                  steeds terug naar de normale UI via de toggle in de menubar.
-                </Paragraph>
-              </Stack>
+            <Stack spacing={5} fontSize="1.1rem">
+              <Paragraph>
+                Met de beta-versie van UiTdatabank kan je meteen genieten van
+                een verbeterde interface.
+              </Paragraph>
+              <Text fontWeight="bold">
+                Wat kan je verwachten in deze versie?
+              </Text>
+              <List>
+                <List.Item>
+                  <Text fontWeight="bold">Nieuwe mogelijkheden:</Text>
+                  <Text>
+                    toevoegen van online evenementen, video bij je evenement,
+                    etc.
+                  </Text>
+                </List.Item>
+                <List.Item>
+                  <Text fontWeight="bold">Verbeterde gebruikservaring:</Text>
+                  <Text>
+                    we zetten informatie die je eerder al invoerde klaar voor
+                    jou zodat je met minder klikken door het invoerformulier kan
+                  </Text>
+                </List.Item>
+                <List.Item>
+                  <Text fontWeight="bold">Onmiddellijke feedback</Text>
+                  <Text>
+                    over de volledigheid van je ingevoerd evenement of locatie
+                  </Text>
+                </List.Item>
+              </List>
+              <Paragraph>
+                Dat is nog maar het begin. De komende maanden zal deze interface
+                nog verder uitgebreid en verbeterd worden.
+              </Paragraph>
+              <Paragraph>
+                Wil je als een van de eersten de nieuwe interface gebruiken?
+              </Paragraph>
               <Inline spacing={5} alignItems="center" maxWidth="50rem">
                 <ToggleBox
                   onClick={handleConfirmation}
@@ -90,9 +114,10 @@ const BetaVersionPage = () => {
                   minHeight={parseSpacing(7)}
                   flex={1}
                 >
-                  <Text fontWeight="bold">Probeer nu</Text>
+                  <Text fontWeight="bold">Ik probeer het UiT</Text>
                   <Text variant={TextVariants.MUTED}>
-                    Ga verder {<Text fontWeight="bold">met</Text>} de nieuwe UI
+                    Ga verder {<Text fontWeight="bold">met</Text>} de nieuwe
+                    interface
                   </Text>
                 </ToggleBox>
                 <ToggleBox
@@ -108,10 +133,9 @@ const BetaVersionPage = () => {
                   minHeight={parseSpacing(7)}
                   flex={1}
                 >
-                  <Text fontWeight="bold">Misschien later</Text>
+                  <Text fontWeight="bold">Ik wacht nog even</Text>
                   <Text variant={TextVariants.MUTED}>
-                    Ga verder {<Text fontWeight="bold">zonder</Text>} de nieuwe
-                    UI
+                    Je kan op een later moment de overstap maken
                   </Text>
                 </ToggleBox>
               </Inline>
