@@ -49,8 +49,7 @@ const BetaVersionPage = () => {
           minWidth="40rem"
           maxWidth="90%"
           css={`
-            box-shadow: ${({ theme }) =>
-              theme.components.button.boxShadow.large};
+            box-shadow: ${({ theme }) => theme.components.card.boxShadow.large};
           `}
           borderRadius={getGlobalBorderRadius}
           alignItems="center"
