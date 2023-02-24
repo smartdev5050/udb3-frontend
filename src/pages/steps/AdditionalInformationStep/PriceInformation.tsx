@@ -232,7 +232,7 @@ const PriceInformation = ({
   useEffect(() => {
     if (isPricesLoaded) return;
 
-    if (!offer.priceInfo) return;
+    if (!offer?.priceInfo) return;
 
     if (offer.priceInfo.length > 0) {
       onValidationChange(ValidationStatus.SUCCESS);
