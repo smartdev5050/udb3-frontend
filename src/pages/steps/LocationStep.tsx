@@ -200,11 +200,11 @@ const LocationStep = ({
   const shouldAddSpaceBelowTypeahead = useMemo(() => {
     if (offerId || location?.isOnline) return false;
 
-    if (!formState.touchedFields.location?.streetAndNumber) {
-      return true;
-    }
-
-    if (scope === OfferTypes.PLACES && !location?.municipality?.name) {
+    if (
+      scope === OfferTypes.PLACES &&
+      (!location?.municipality?.name ||
+        !formState.touchedFields.location?.streetAndNumber)
+    ) {
       return true;
     }
 

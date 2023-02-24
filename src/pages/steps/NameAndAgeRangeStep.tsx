@@ -82,7 +82,7 @@ const nameAndAgeRangeStepConfiguration: StepsConfiguration<'nameAndAgeRange'> =
       name: yup.object().shape({}).required(),
       typicalAgeRange: yup.string().required(),
     }),
-    shouldShowStep: ({ watch, formState, getFieldState }) => {
+    shouldShowStep: ({ watch, formState }) => {
       const location = watch('location');
 
       if (location?.isOnline) {

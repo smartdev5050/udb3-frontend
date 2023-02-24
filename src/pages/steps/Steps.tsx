@@ -178,6 +178,8 @@ const Steps = ({
   );
 
   const showStep = ({ name, index }) => {
+    if (offerId) return true;
+
     // don't hide steps that were visible before
     if (form.getFieldState(name).isTouched) return true;
 
