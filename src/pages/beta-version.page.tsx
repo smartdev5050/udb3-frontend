@@ -1,5 +1,6 @@
-import { Router, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { css } from 'styled-components';
 
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
@@ -19,6 +20,8 @@ import { ToggleBox } from '@/ui/ToggleBox';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
 const BetaVersionPage = () => {
+  const { t } = useTranslation();
+
   const { setCookie } = useCookiesWithOptions([
     'has_seen_beta_conversion_page',
   ]);
@@ -64,59 +67,33 @@ const BetaVersionPage = () => {
                 }
               `}
             >
-              Wil jij de vernieuwde versie van UiTdatabank proberen?
+              {t('beta_version.title')}
             </Title>
             <Stack spacing={5} fontSize="1.1rem">
-              <Paragraph>
-                Met de beta-versie van UiTdatabank kan je meteen genieten van
-                een verbeterde interface.
-              </Paragraph>
-              <Text fontWeight="bold">
-                Wat kan je verwachten in deze versie?
-              </Text>
+              <Paragraph>{t('beta_version.intro1')}</Paragraph>
+              <Text fontWeight="bold">{t('beta_version.intro2')}</Text>
               <List
                 css={css`
                   list-style: disc;
                 `}
+                paddingLeft={5}
               >
-                <List.Item marginLeft={5}>
-                  <Text>
-                    <Text fontWeight="bold">Nieuwe mogelijkheden:</Text>
-                    <Text> </Text>
+                {Array.from({ length: 3 }).map((_, index) => (
+                  <List.Item key={t(`beta_version.improvements.${index}.text`)}>
                     <Text>
-                      toevoegen van online evenementen, video bij je evenement,
-                      etc.
+                      <Text fontWeight="bold">
+                        {t(`beta_version.improvements.${index}.prefix`)}
+                      </Text>
+                      <Text> </Text>
+                      <Text>
+                        {t(`beta_version.improvements.${index}.text`)}
+                      </Text>
                     </Text>
-                  </Text>
-                </List.Item>
-                <List.Item marginLeft={5}>
-                  <Text>
-                    <Text fontWeight="bold">Verbeterde gebruikservaring:</Text>
-                    <Text> </Text>
-                    <Text>
-                      we zetten informatie die je eerder al invoerde klaar voor
-                      jou zodat je met minder klikken door het invoerformulier
-                      kan
-                    </Text>
-                  </Text>
-                </List.Item>
-                <List.Item marginLeft={5}>
-                  <Text>
-                    <Text fontWeight="bold">Onmiddellijke feedback</Text>
-                    <Text> </Text>
-                    <Text>
-                      over de volledigheid van je ingevoerd evenement of locatie
-                    </Text>
-                  </Text>
-                </List.Item>
+                  </List.Item>
+                ))}
               </List>
-              <Paragraph>
-                Dat is nog maar het begin. De komende maanden zal deze interface
-                nog verder uitgebreid en verbeterd worden.
-              </Paragraph>
-              <Paragraph>
-                Wil je als een van de eersten de nieuwe interface gebruiken?
-              </Paragraph>
+              <Paragraph>{t('beta_version.outro1')}</Paragraph>
+              <Paragraph>{t('beta_version.outro2')}</Paragraph>
               <Inline
                 spacing={5}
                 alignItems="flex-start"
@@ -136,10 +113,17 @@ const BetaVersionPage = () => {
                     />
                   }
                 >
-                  <Text fontWeight="bold">Ik probeer het UiT</Text>
+                  <Text fontWeight="bold">
+                    {t('beta_version.confirm.title')}
+                  </Text>
+
                   <Text variant={TextVariants.MUTED}>
-                    Ga verder {<Text fontWeight="bold">met</Text>} de nieuwe
-                    interface
+                    <Trans
+                      i18nKey={'beta_version.confirm.info'}
+                      components={{
+                        boldText: <Text fontWeight="bold" />,
+                      }}
+                    />
                   </Text>
                 </ToggleBox>
                 <ToggleBox
@@ -150,9 +134,11 @@ const BetaVersionPage = () => {
                     <Image src="/assets/alarm.gif" width={100} alt="a clock" />
                   }
                 >
-                  <Text fontWeight="bold">Ik wacht nog even</Text>
+                  <Text fontWeight="bold">
+                    {t('beta_version.cancel.title')}
+                  </Text>
                   <Text variant={TextVariants.MUTED}>
-                    Je kan op een later moment de overstap maken
+                    {t('beta_version.cancel.info')}
                   </Text>
                 </ToggleBox>
               </Inline>
