@@ -45,21 +45,20 @@ const Page = ({ children: rawChildren, className, ...props }: Props) => {
       position="relative"
       {...getStackProps(props)}
     >
-      {title ||
-        (actions && (
-          <Inline
-            forwardedAs="div"
-            alignItems="baseline"
-            css={`
-              border-bottom: 1px solid ${getValueForTitle('borderColor')};
-            `}
-            spacing={3}
-            paddingX={4}
-          >
-            {title}
-            {actions}
-          </Inline>
-        ))}
+      {(title || actions) && (
+        <Inline
+          forwardedAs="div"
+          alignItems="baseline"
+          css={`
+            border-bottom: 1px solid ${getValueForTitle('borderColor')};
+          `}
+          spacing={3}
+          paddingX={4}
+        >
+          {title}
+          {actions}
+        </Inline>
+      )}
       <Stack paddingX={4} flex={1}>
         {content}
       </Stack>
