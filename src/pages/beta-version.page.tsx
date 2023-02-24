@@ -1,11 +1,12 @@
 import { Router, useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { css } from 'styled-components';
 
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
 import { parseSpacing } from '@/ui/Box';
 import { Card } from '@/ui/Card';
-import { Icon, Icons } from '@/ui/Icon';
+import { Image } from '@/ui/Image';
 import { Inline } from '@/ui/Inline';
 import { List } from '@/ui/List';
 import { Page } from '@/ui/Page';
@@ -35,7 +36,9 @@ const BetaVersionPage = () => {
   const handleConfirmation = () => {
     setIsNewCreateEnabled(true);
 
-    goToCreatePage();
+    setTimeout(() => {
+      goToCreatePage();
+    }, 0);
   };
 
   return (
@@ -52,7 +55,7 @@ const BetaVersionPage = () => {
           borderRadius={getGlobalBorderRadius}
           alignItems="center"
         >
-          <Stack spacing={5}>
+          <Stack spacing={5} padding={6}>
             <Title
               size={1}
               css={`
@@ -71,25 +74,39 @@ const BetaVersionPage = () => {
               <Text fontWeight="bold">
                 Wat kan je verwachten in deze versie?
               </Text>
-              <List>
-                <List.Item>
-                  <Text fontWeight="bold">Nieuwe mogelijkheden:</Text>
+              <List
+                css={css`
+                  list-style: disc;
+                `}
+              >
+                <List.Item marginLeft={5}>
                   <Text>
-                    toevoegen van online evenementen, video bij je evenement,
-                    etc.
+                    <Text fontWeight="bold">Nieuwe mogelijkheden:</Text>
+                    <Text> </Text>
+                    <Text>
+                      toevoegen van online evenementen, video bij je evenement,
+                      etc.
+                    </Text>
                   </Text>
                 </List.Item>
-                <List.Item>
-                  <Text fontWeight="bold">Verbeterde gebruikservaring:</Text>
+                <List.Item marginLeft={5}>
                   <Text>
-                    we zetten informatie die je eerder al invoerde klaar voor
-                    jou zodat je met minder klikken door het invoerformulier kan
+                    <Text fontWeight="bold">Verbeterde gebruikservaring:</Text>
+                    <Text> </Text>
+                    <Text>
+                      we zetten informatie die je eerder al invoerde klaar voor
+                      jou zodat je met minder klikken door het invoerformulier
+                      kan
+                    </Text>
                   </Text>
                 </List.Item>
-                <List.Item>
-                  <Text fontWeight="bold">Onmiddellijke feedback</Text>
+                <List.Item marginLeft={5}>
                   <Text>
-                    over de volledigheid van je ingevoerd evenement of locatie
+                    <Text fontWeight="bold">Onmiddellijke feedback</Text>
+                    <Text> </Text>
+                    <Text>
+                      over de volledigheid van je ingevoerd evenement of locatie
+                    </Text>
                   </Text>
                 </List.Item>
               </List>
@@ -100,19 +117,24 @@ const BetaVersionPage = () => {
               <Paragraph>
                 Wil je als een van de eersten de nieuwe interface gebruiken?
               </Paragraph>
-              <Inline spacing={5} alignItems="center" maxWidth="50rem">
+              <Inline
+                spacing={5}
+                alignItems="flex-start"
+                maxWidth="50rem"
+                alignSelf="center"
+              >
                 <ToggleBox
                   onClick={handleConfirmation}
-                  icon={
-                    <Icon
-                      name={Icons.CHECK}
-                      color="green"
-                      width={36}
-                      height={36}
-                    />
-                  }
                   minHeight={parseSpacing(7)}
                   flex={1}
+                  height="100%"
+                  icon={
+                    <Image
+                      src="/assets/rocket.gif"
+                      width={100}
+                      alt="a rocket"
+                    />
+                  }
                 >
                   <Text fontWeight="bold">Ik probeer het UiT</Text>
                   <Text variant={TextVariants.MUTED}>
@@ -122,16 +144,11 @@ const BetaVersionPage = () => {
                 </ToggleBox>
                 <ToggleBox
                   onClick={goToCreatePage}
-                  icon={
-                    <Icon
-                      name={Icons.QUESTION}
-                      color="grey"
-                      width={36}
-                      height={36}
-                    />
-                  }
                   minHeight={parseSpacing(7)}
                   flex={1}
+                  icon={
+                    <Image src="/assets/alarm.gif" width={100} alt="a clock" />
+                  }
                 >
                   <Text fontWeight="bold">Ik wacht nog even</Text>
                   <Text variant={TextVariants.MUTED}>
