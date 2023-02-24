@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -133,6 +133,7 @@ const PriceInformation = ({
   ...props
 }: TabContentProps) => {
   const { t, i18n } = useTranslation();
+  const [isPricesLoaded, setIsPricesLoaded] = useState(false);
 
   const useGetOfferByIdQuery =
     scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
@@ -226,8 +227,20 @@ const PriceInformation = ({
     offer?.organizer,
     offer?.priceInfo,
     replace,
-    hasRates,
   ]);
+
+  useEffect(() => {
+    if (isPricesLoaded) return;
+
+    if (!offer.priceInfo) return;
+
+    if (offer.priceInfo.length > 0) {
+      onValidationChange(ValidationStatus.SUCCESS);
+    }
+
+    setIsPricesLoaded(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [offer?.priceInfo, isPricesLoaded]);
 
   return (
     <Stack {...getStackProps(props)} padding={4} spacing={5}>
@@ -258,7 +271,7 @@ const PriceInformation = ({
                   justifyContent="flex-start"
                   spacing={3}
                 >
-                  <Inline minWidth="20%">
+                  <Inline minWidth="30%">
                     {rate.category === PriceCategory.BASE && (
                       <Text>{rate.name[i18n.language]}</Text>
                     )}

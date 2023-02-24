@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import { parseSpacing } from '@/ui/Box';
 import { getInlineProps, Inline, InlineProps } from '@/ui/Inline';
 import { ToggleBox } from '@/ui/ToggleBox';
@@ -21,6 +23,7 @@ export const CalendarOptionToggle = ({
   disableChooseFixedDays,
   ...props
 }: CalendarOptionToggleProps) => {
+  const { t } = useTranslation();
   const isOneOrMoreDays = useIsOneOrMoreDays();
   const isFixedDays = useIsFixedDays();
 
@@ -30,7 +33,7 @@ export const CalendarOptionToggle = ({
         onClick={onChooseOneOrMoreDays}
         active={isOneOrMoreDays}
         icon={<IconOneOrMoreDays />}
-        text="Een of meerdere dagen"
+        text={t('create.calendar.types.one_or_more_days')}
         minHeight={parseSpacing(7)}
         flex={1}
       />
@@ -38,7 +41,7 @@ export const CalendarOptionToggle = ({
         onClick={onChooseFixedDays}
         active={isFixedDays}
         icon={<IconFixedDays />}
-        text="Vaste dagen per week"
+        text={t('create.calendar.types.one_or_more_days')}
         minHeight={parseSpacing(7)}
         flex={1}
         disabled={disableChooseFixedDays}

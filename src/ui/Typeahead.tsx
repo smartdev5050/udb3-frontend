@@ -79,6 +79,7 @@ const Typeahead: TypeaheadFunc = forwardRef(
       onInputChange,
       defaultInputValue,
       onBlur,
+      onFocus,
       onSearch,
       onChange,
       isInvalid,
@@ -171,6 +172,7 @@ const Typeahead: TypeaheadFunc = forwardRef(
         selected={selected}
         defaultInputValue={defaultInputValue}
         onBlur={onBlur}
+        onFocus={onFocus}
         positionFixed={positionFixed}
         inputProps={{
           id,

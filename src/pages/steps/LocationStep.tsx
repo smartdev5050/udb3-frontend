@@ -402,6 +402,7 @@ const LocationStep = ({
                   <CityPicker
                     name="city-picker-location-step"
                     country={country}
+                    offerId={offerId}
                     value={field.value?.municipality}
                     onChange={(value) => {
                       const updatedValue = {

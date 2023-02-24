@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { CalendarType } from '@/constants/CalendarType';
+import { eventTypesWithNoThemes } from '@/constants/EventTypes';
 import { OfferStatus } from '@/constants/OfferStatus';
 import { OfferTypes } from '@/constants/OfferType';
 import { useGetEventByIdQuery } from '@/hooks/api/events';
@@ -128,9 +129,9 @@ const CalendarStep = ({
 
   const calendarStepContainer = useRef(null);
 
-  const [scope, type] = useWatch({
+  const [scope, type, theme] = useWatch({
     control,
-    name: ['scope', 'typeAndTheme.type'],
+    name: ['scope', 'typeAndTheme.type', 'typeAndTheme.theme'],
   });
 
   const calendarService = useCalendarContext();
@@ -268,13 +269,19 @@ const CalendarStep = ({
     handleChooseFixedDays();
   }, [scope, isIdle, handleChooseFixedDays]);
 
+  const hasNoPossibleThemes =
+    type?.id && eventTypesWithNoThemes.includes(type.id);
+
   // scroll to calendar step after theme has been selected
   useEffect(() => {
     if (!scope || !type?.id) return;
+    if (!theme?.id && !hasNoPossibleThemes && scope === OfferTypes.EVENTS) {
+      return;
+    }
     if (offerId) return;
 
     scrollToCalendarContainer();
-  }, [scope, offerId, type]);
+  }, [scope, offerId, type, theme, hasNoPossibleThemes]);
 
   return (
     <Stack
