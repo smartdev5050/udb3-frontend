@@ -79,7 +79,6 @@ const BetaVersionPage = () => {
               <Inline spacing={5} alignItems="center" maxWidth="50rem">
                 <ToggleBox
                   onClick={handleConfirmation}
-                  // active={isFixedDays}
                   icon={
                     <Icon
                       name={Icons.CHECK}
@@ -90,7 +89,6 @@ const BetaVersionPage = () => {
                   }
                   minHeight={parseSpacing(7)}
                   flex={1}
-                  // disabled={disableChooseFixedDays}
                 >
                   <Text fontWeight="bold">Probeer nu</Text>
                   <Text variant={TextVariants.MUTED}>
@@ -99,8 +97,6 @@ const BetaVersionPage = () => {
                 </ToggleBox>
                 <ToggleBox
                   onClick={goToCreatePage}
-                  // active={isOneOrMoreDays}
-                  // icon={<IconOneOrMoreDays />}
                   icon={
                     <Icon
                       name={Icons.QUESTION}
