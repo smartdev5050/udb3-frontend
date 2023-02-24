@@ -44,6 +44,11 @@ import { Announcements, AnnouncementStatus } from './Announcements';
 import { JobLogger, JobLoggerStates } from './joblogger/JobLogger';
 import { JobLoggerStateIndicator } from './joblogger/JobLoggerStateIndicator';
 
+const { publicRuntimeConfig } = getConfig();
+
+const shouldShowBetaVersion =
+  publicRuntimeConfig.shouldShowBetaVersion === 'true';
+
 const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSidebar = getValueFromTheme('sidebar');
 const getValueForMenu = getValueFromTheme('menu');
@@ -172,7 +177,6 @@ type ProfileMenuProps = {
 const ProfileMenu = ({ profileImage }: ProfileMenuProps) => {
   const { t } = useTranslation();
   const { removeAuthenticationCookies } = useCookiesWithOptions();
-  const { publicRuntimeConfig } = getConfig();
 
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -580,7 +584,7 @@ const Sidebar = () => {
           )}
           <Stack>
             <Inline
-              display="none"
+              display={shouldShowBetaVersion ? 'inherit' : 'none'}
               flex={1}
               paddingLeft={2}
               alignItems="center"
