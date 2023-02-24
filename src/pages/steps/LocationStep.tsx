@@ -458,10 +458,12 @@ const LocationStep = ({
                       const updatedValue = {
                         ...field.value,
                         municipality: undefined,
+                        streetAndNumber: undefined,
                       };
                       field.onChange(updatedValue);
                       onChange(updatedValue);
                       field.onBlur();
+                      setStreetAndNumber('');
                     }}
                   >
                     {t(
