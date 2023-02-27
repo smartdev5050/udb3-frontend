@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { OfferType, OfferTypes } from '@/constants/OfferType';
@@ -22,6 +22,8 @@ import { useParseStepConfiguration } from './hooks/useParseStepConfiguration';
 import { usePublishOffer } from './hooks/usePublishOffer';
 import { PublishLaterModal } from './modals/PublishLaterModal';
 import { Steps, StepsConfiguration } from './Steps';
+import { Alert, AlertVariants } from '@/ui/Alert';
+import { locationStepConfiguration } from '@/pages/steps/LocationStep';
 
 const getValue = getValueFromTheme('createPage');
 
@@ -165,6 +167,8 @@ const StepsForm = ({
     </Button>
   );
 
+  const needsLocationMigration = !offer?.location?.['@id'];
+
   return (
     <Page>
       <Page.Title spacing={3} alignItems="center">
@@ -178,16 +182,40 @@ const StepsForm = ({
           visible={!!toast.message}
           onClose={() => toast.clear()}
         />
-        <Steps
-          configurations={configurations}
-          onChange={handleChange}
-          fieldLoading={fieldLoading}
-          onChangeSuccess={handleChangeSuccess}
-          offerId={offerId}
-          mainLanguage={offer?.mainLanguage}
-          scope={scope}
-          form={form}
-        />
+        {needsLocationMigration ? (
+          <>
+            <Alert variant={AlertVariants.DANGER}>
+              <strong>
+                Deze activiteit werd ingevoerd in de vorige versie van
+                UiTdatabank.
+              </strong>
+              <br />
+              Om deze te kunnen bewerken, is het nodig om de eerder gekozen
+              locatie en adres éénmalig opnieuw te selecteren of in te voeren.
+            </Alert>
+            <Steps
+              configurations={[locationStepConfiguration]}
+              onChange={handleChange}
+              fieldLoading={fieldLoading}
+              onChangeSuccess={handleChangeSuccess}
+              offerId={offerId}
+              mainLanguage={offer?.mainLanguage}
+              scope={scope}
+              form={form}
+            />
+          </>
+        ) : (
+          <Steps
+            configurations={configurations}
+            onChange={handleChange}
+            fieldLoading={fieldLoading}
+            onChangeSuccess={handleChangeSuccess}
+            offerId={offerId}
+            mainLanguage={offer?.mainLanguage}
+            scope={scope}
+            form={form}
+          />
+        )}
       </Page.Content>
       {footerStatus !== FooterStatus.HIDDEN && (
         <Page.Footer>
