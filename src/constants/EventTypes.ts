@@ -80,4 +80,4 @@ const eventTypesWithNoThemes: string[] = [
   EventTypes['Spel of quiz'],
 ];
 
-export { EventTypes, eventTypeGroups, eventTypesWithNoThemes };
+export { eventTypeGroups, EventTypes, eventTypesWithNoThemes };

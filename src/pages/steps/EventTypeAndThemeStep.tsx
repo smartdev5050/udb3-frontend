@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import * as yup from 'yup';
 
+import { eventTypeGroups } from '@/constants/EventTypes';
 import { OfferType, OfferTypes } from '@/constants/OfferType';
 import {
   useChangeOfferThemeMutation,
@@ -22,11 +23,10 @@ import { Label, LabelVariants } from '@/ui/Label';
 import { Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
+import { Title } from '@/ui/Title';
 
 import { UseEditArguments } from './hooks/useEditField';
 import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
-import { eventTypeGroups } from '@/constants/EventTypes';
-import { Title } from '@/ui/Title';
 
 const DANCE_THEME_IDS = [
   '1.9.1.0.0', // Ballet en klassieke dans
