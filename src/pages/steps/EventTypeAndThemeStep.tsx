@@ -291,45 +291,59 @@ const EventTypeAndThemeStep = ({
             {!shouldHideType && (
               <Stack>
                 {!field.value?.type?.id ? (
-                  <Inline
-                    spacing={3}
-                    flexWrap="wrap"
-                    maxWidth="70rem"
-                    css={`
-                      row-gap: ${parseSpacing(3.5)()};
-                    `}
-                  >
+                  <Inline>
                     {Object.keys(eventTypeObjectsGroups).map((group) => {
                       return (
                         <Stack key={group}>
-                          <Title textAlign={'center'}>{group}</Title>
-                          {eventTypeObjectsGroups[group].map(({ id, name }) => (
-                            <Button
-                              width="auto"
-                              display="inline-flex"
-                              key={id}
-                              variant={ButtonVariants.SECONDARY}
-                              onClick={() => {
-                                field.onChange({
-                                  ...field.value,
-                                  type: { id, label: name[i18n.language] },
-                                });
-                                onChange({
-                                  ...field.value,
-                                  type: { id, label: name[i18n.language] },
-                                });
-                              }}
-                              css={`
-                                &.btn {
-                                  padding: 0.3rem 0.7rem;
-                                  box-shadow: ${({ theme }) =>
-                                    theme.components.button.boxShadow.small};
-                                }
-                              `}
-                            >
-                              {name[i18n.language]}
-                            </Button>
-                          ))}
+                          <Title
+                            css={`
+                              display: flex;
+                              flex-direction: column;
+                            `}
+                            alignItems={'center'}
+                            marginBottom={4}
+                          >
+                            {group}
+                          </Title>
+                          <Inline
+                            spacing={3}
+                            flexWrap="wrap"
+                            maxWidth="70rem"
+                            css={`
+                              row-gap: ${parseSpacing(3.5)()};
+                            `}
+                          >
+                            {eventTypeObjectsGroups[group].map(
+                              ({ id, name }) => (
+                                <Button
+                                  width="auto"
+                                  display="inline-flex"
+                                  key={id}
+                                  variant={ButtonVariants.SECONDARY}
+                                  onClick={() => {
+                                    field.onChange({
+                                      ...field.value,
+                                      type: { id, label: name[i18n.language] },
+                                    });
+                                    onChange({
+                                      ...field.value,
+                                      type: { id, label: name[i18n.language] },
+                                    });
+                                  }}
+                                  css={`
+                                    &.btn {
+                                      padding: 0.3rem 0.7rem;
+                                      box-shadow: ${({ theme }) =>
+                                        theme.components.button.boxShadow
+                                          .small};
+                                    }
+                                  `}
+                                >
+                                  {name[i18n.language]}
+                                </Button>
+                              ),
+                            )}
+                          </Inline>
                         </Stack>
                       );
                     })}
