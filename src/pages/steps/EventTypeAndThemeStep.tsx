@@ -1,4 +1,4 @@
-import { groupBy, sortBy } from 'lodash';
+import { groupBy, mapValues, sortBy } from 'lodash';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { Controller, useWatch } from 'react-hook-form';
@@ -25,6 +25,8 @@ import { getValueFromTheme } from '@/ui/theme';
 
 import { UseEditArguments } from './hooks/useEditField';
 import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
+import { eventTypeGroups } from '@/constants/EventTypes';
+import { Title } from '@/ui/Title';
 
 const DANCE_THEME_IDS = [
   '1.9.1.0.0', // Ballet en klassieke dans
@@ -256,6 +258,14 @@ const EventTypeAndThemeStep = ({
     });
   }, [shouldGroupThemes, themes]);
 
+  const eventTypeObjectsGroups = useMemo(
+    () =>
+      mapValues(eventTypeGroups, (values) =>
+        types.filter((type) => values.includes(type.id)),
+      ),
+    [types],
+  );
+
   const handleScroll = () => {
     if (!eventTypeAndThemeContainer.current) return;
 
@@ -289,33 +299,40 @@ const EventTypeAndThemeStep = ({
                       row-gap: ${parseSpacing(3.5)()};
                     `}
                   >
-                    {types.map(({ id, name }) => (
-                      <Button
-                        width="auto"
-                        display="inline-flex"
-                        key={id}
-                        variant={ButtonVariants.SECONDARY}
-                        onClick={() => {
-                          field.onChange({
-                            ...field.value,
-                            type: { id, label: name[i18n.language] },
-                          });
-                          onChange({
-                            ...field.value,
-                            type: { id, label: name[i18n.language] },
-                          });
-                        }}
-                        css={`
-                          &.btn {
-                            padding: 0.3rem 0.7rem;
-                            box-shadow: ${({ theme }) =>
-                              theme.components.button.boxShadow.small};
-                          }
-                        `}
-                      >
-                        {name[i18n.language]}
-                      </Button>
-                    ))}
+                    {Object.keys(eventTypeObjectsGroups).map((group) => {
+                      return (
+                        <Stack key={group}>
+                          <Title textAlign={'center'}>{group}</Title>
+                          {eventTypeObjectsGroups[group].map(({ id, name }) => (
+                            <Button
+                              width="auto"
+                              display="inline-flex"
+                              key={id}
+                              variant={ButtonVariants.SECONDARY}
+                              onClick={() => {
+                                field.onChange({
+                                  ...field.value,
+                                  type: { id, label: name[i18n.language] },
+                                });
+                                onChange({
+                                  ...field.value,
+                                  type: { id, label: name[i18n.language] },
+                                });
+                              }}
+                              css={`
+                                &.btn {
+                                  padding: 0.3rem 0.7rem;
+                                  box-shadow: ${({ theme }) =>
+                                    theme.components.button.boxShadow.small};
+                                }
+                              `}
+                            >
+                              {name[i18n.language]}
+                            </Button>
+                          ))}
+                        </Stack>
+                      );
+                    })}
                   </Inline>
                 ) : (
                   <Inline
