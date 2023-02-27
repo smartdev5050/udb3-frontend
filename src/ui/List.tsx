@@ -57,7 +57,6 @@ const ListItem = ({
   return (
     <Inline
       as="li"
-      display="list-item"
       className={className}
       onClick={onClick}
       {...getInlineProps(props)}
