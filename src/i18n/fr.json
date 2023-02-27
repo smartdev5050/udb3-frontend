@@ -9,34 +9,29 @@
     "no_features": "Il n'y a actuellement aucune nouveauté."
   },
   "beta_version": {
-    "title": "Wil jij de vernieuwde versie van UiTdatabank proberen?",
-    "intro1": "Met de beta-versie van UiTdatabank kan je meteen genieten van een verbeterde interface.",
-    "intro2": "Wat kan je verwachten in deze versie?",
+    "title": "Vous voulez essayer la dernière version de l'UiTdatabank ? ",
+    "intro1": "Nous travaillons d'arrache-pied sur un nouveau formulaire d'entrée dans la banque de données UiTd afin que vous puissiez saisir vos activités encore plus facilement. Vous l'avez déjà essayé ? Passez à la dernière version de l'UiTdatabank et testez dès maintenant toutes les nouvelles fonctionnalités.",
+    "intro2": "Quelles sont les nouveautés?",
     "improvements": [
       {
-        "prefix": "Nieuwe mogelijkheden:",
-        "text": "toevoegen van online evenementen, video bij je evenement, etc."
+        "prefix": "Plus de possibilités:",
+        "text": "vous pouvez ajouter des événements en ligne, télécharger une vidéo et bien plus encore."
       },
       {
-        "prefix": "Verbeterde gebruikservaring:",
-        "text": "we zetten informatie die je eerder al invoerde klaar voor jou zodat je met minder klikken door het invoerformulier kan"
+        "prefix": "Moins de travail:",
+        "text": "nous préparons déjà le nom de votre organisation pour vous, de sorte que vous ne devez pas remplir ce champ à chaque fois. Plus tard, nous ferons de même avec les autres informations que vous avez saisies précédemment."
       },
       {
-        "prefix": "Onmiddellijke feedback",
-        "text": "over de volledigheid van je ingevoerd evenement of locatie"
+        "prefix": "Une aide supplémentaire:",
+        "text": " le score de complétude vous donne un retour immédiat et des conseils sur la manière de saisir votre événement ou votre lieu de réunion de la manière la plus complète possible."
       }
     ],
-    "outro1": "Dat is nog maar het begin. De komende maanden zal deze interface nog verder uitgebreid en verbeterd worden.",
-    "outro2": "Wil je als een van de eersten de nieuwe interface gebruiken?",
+    "outro1": "Dans les mois à venir, nous continuerons à améliorer le formulaire de saisie et à l'enrichir de nouvelles fonctionnalités. ",
+    "outro2": "Souhaitez-vous être parmi les premiers à tester le nouveau formulaire d'inscription?",
     "confirm": {
-      "title": "Ik probeer het UiT",
-      "info": "Ga verder <boldText>met</boldText> de nieuwe interface"
+      "title": "J'aime l'essayer",
+      "info": "Commencez tout de suite <boldText>avec</boldText> la nouvelle version de l'UiTdatabank."
     },
-    "cancel": {
-      "title": "Ik wacht nog even",
-      "info": "Je kan op een later moment de overstap maken"
-    }
-  },
   "bookingAvailability": {
     "actions": {
       "cancel": "Annuler",
