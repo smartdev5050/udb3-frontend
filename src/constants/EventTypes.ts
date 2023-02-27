@@ -43,7 +43,7 @@ const EventTypes = {
 } as const;
 
 const eventTypeGroups = {
-  'Kijken en luisteren': [
+  '0.100.0.0.0': [
     EventTypes.Concert,
     EventTypes.Dansvoorstelling,
     EventTypes.Festival,
@@ -52,7 +52,7 @@ const eventTypeGroups = {
     EventTypes['Sportwedstrijd bekijken'],
     EventTypes.Theatervoorstelling,
   ],
-  Doen: [
+  '0.100.1.0.0': [
     EventTypes['Begeleide uitstap of rondleiding'],
     EventTypes.Beurs,
     EventTypes['Cursus met open sessies'],
@@ -65,7 +65,7 @@ const eventTypeGroups = {
     EventTypes['Spel of quiz'],
     EventTypes.Sportactiviteit,
   ],
-  Bezoeken: [
+  '0.100.2.0.0': [
     EventTypes['Eet- of drankfestijn'],
     EventTypes.Opendeurdag,
     EventTypes.Tentoonstelling,

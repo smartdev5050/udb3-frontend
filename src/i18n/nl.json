@@ -563,6 +563,9 @@
     "title": "Er is iets misgelopen"
   },
   "eventTypes": {
+    "0.100.0.0.0": "Kijken en luisteren",
+    "0.100.1.0.0": "Doen",
+    "0.100.2.0.0": "Bezoeken",
     "0.0.0.0.0": "Tentoonstelling",
     "0.12.0.0.0": "Opendeurdag",
     "0.14.0.0.0": "Monument",

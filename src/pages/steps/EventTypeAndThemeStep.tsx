@@ -303,7 +303,7 @@ const EventTypeAndThemeStep = ({
                             alignItems={'center'}
                             marginBottom={4}
                           >
-                            {group}
+                            {t(`eventTypes*${group}`, { keySeparator: '*' })}
                           </Title>
                           <Inline
                             spacing={3}
