@@ -261,7 +261,7 @@ const EventTypeAndThemeStep = ({
   const eventTypeObjectsGroups = useMemo(
     () =>
       mapValues(eventTypeGroups, (values) =>
-        types.filter((type) => values.includes(type.id)),
+        types.filter((type) => (values as string[]).includes(type.id)),
       ),
     [types],
   );
