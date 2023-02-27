@@ -32,6 +32,11 @@
       "title": "J'aime l'essayer",
       "info": "Commencez tout de suite <boldText>avec</boldText> la nouvelle version de l'UiTdatabank."
     },
+        "cancel": {
+      "title": "Je vais attendre un peu plus longtemps",
+      "info": "Vous avez encore beaucoup de temps pour passer à la nouvelle version."
+    }
+  },
   "bookingAvailability": {
     "actions": {
       "cancel": "Annuler",
