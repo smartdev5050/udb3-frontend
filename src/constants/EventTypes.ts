@@ -42,6 +42,36 @@ const EventTypes = {
   Discotheek: 'YVBc8KVdrU6XfTNvhMYUpg',
 } as const;
 
+const eventTypeGroups = {
+  '0.100.0.0.0': [
+    EventTypes.Concert,
+    EventTypes.Dansvoorstelling,
+    EventTypes.Festival,
+    EventTypes.Film,
+    EventTypes['Lezing of congres'],
+    EventTypes['Sportwedstrijd bekijken'],
+    EventTypes.Theatervoorstelling,
+  ],
+  '0.100.1.0.0': [
+    EventTypes['Begeleide uitstap of rondleiding'],
+    EventTypes.Beurs,
+    EventTypes['Cursus met open sessies'],
+    EventTypes.Festiviteit,
+    EventTypes['Fiets- of wandelroute'],
+    EventTypes['Kamp of vakantie'],
+    EventTypes.Lessenreeks,
+    EventTypes['Markt, braderie of kermis'],
+    EventTypes['Party of fuif'],
+    EventTypes['Spel of quiz'],
+    EventTypes.Sportactiviteit,
+  ],
+  '0.100.2.0.0': [
+    EventTypes['Eet- of drankfestijn'],
+    EventTypes.Opendeurdag,
+    EventTypes.Tentoonstelling,
+  ],
+};
+
 const eventTypesWithNoThemes: string[] = [
   EventTypes['Eet- of drankfestijn'],
   EventTypes['Festiviteit'],
@@ -50,4 +80,4 @@ const eventTypesWithNoThemes: string[] = [
   EventTypes['Spel of quiz'],
 ];
 
-export { EventTypes, eventTypesWithNoThemes };
+export { eventTypeGroups, EventTypes, eventTypesWithNoThemes };
