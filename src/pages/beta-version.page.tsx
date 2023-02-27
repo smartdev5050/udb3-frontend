@@ -75,7 +75,12 @@ const BetaVersionPage = () => {
                 paddingLeft={5}
               >
                 {Array.from({ length: 3 }).map((_, index) => (
-                  <List.Item key={t(`beta_version.improvements.${index}.text`)}>
+                  <List.Item
+                    css={css`
+                      display: list-item;
+                    `}
+                    key={t(`beta_version.improvements.${index}.text`)}
+                  >
                     <Text>
                       <Text fontWeight="bold">
                         {t(`beta_version.improvements.${index}.prefix`)}
