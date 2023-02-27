@@ -1,4 +1,4 @@
-import { groupBy, mapValues, sortBy } from 'lodash';
+import { groupBy, sortBy } from 'lodash';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { Controller, useWatch } from 'react-hook-form';
@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import * as yup from 'yup';
 
-import { eventTypeGroups } from '@/constants/EventTypes';
 import { OfferType, OfferTypes } from '@/constants/OfferType';
 import {
   useChangeOfferThemeMutation,
@@ -23,7 +22,6 @@ import { Label, LabelVariants } from '@/ui/Label';
 import { Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
-import { Title } from '@/ui/Title';
 
 import { UseEditArguments } from './hooks/useEditField';
 import { FormDataUnion, StepProps, StepsConfiguration } from './Steps';
@@ -258,14 +256,6 @@ const EventTypeAndThemeStep = ({
     });
   }, [shouldGroupThemes, themes]);
 
-  const eventTypeObjectsGroups = useMemo(
-    () =>
-      mapValues(eventTypeGroups, (values) =>
-        types.filter((type) => (values as string[]).includes(type.id)),
-      ),
-    [types],
-  );
-
   const handleScroll = () => {
     if (!eventTypeAndThemeContainer.current) return;
 
@@ -291,62 +281,41 @@ const EventTypeAndThemeStep = ({
             {!shouldHideType && (
               <Stack>
                 {!field.value?.type?.id ? (
-                  <Inline>
-                    {Object.keys(eventTypeObjectsGroups).map((group) => {
-                      return (
-                        <Stack key={group}>
-                          <Title
-                            css={`
-                              display: flex;
-                              flex-direction: column;
-                            `}
-                            alignItems={'center'}
-                            marginBottom={4}
-                          >
-                            {t(`eventTypes*${group}`, { keySeparator: '*' })}
-                          </Title>
-                          <Inline
-                            spacing={3}
-                            flexWrap="wrap"
-                            maxWidth="70rem"
-                            css={`
-                              row-gap: ${parseSpacing(3.5)()};
-                            `}
-                          >
-                            {eventTypeObjectsGroups[group].map(
-                              ({ id, name }) => (
-                                <Button
-                                  width="auto"
-                                  display="inline-flex"
-                                  key={id}
-                                  variant={ButtonVariants.SECONDARY}
-                                  onClick={() => {
-                                    field.onChange({
-                                      ...field.value,
-                                      type: { id, label: name[i18n.language] },
-                                    });
-                                    onChange({
-                                      ...field.value,
-                                      type: { id, label: name[i18n.language] },
-                                    });
-                                  }}
-                                  css={`
-                                    &.btn {
-                                      padding: 0.3rem 0.7rem;
-                                      box-shadow: ${({ theme }) =>
-                                        theme.components.button.boxShadow
-                                          .small};
-                                    }
-                                  `}
-                                >
-                                  {name[i18n.language]}
-                                </Button>
-                              ),
-                            )}
-                          </Inline>
-                        </Stack>
-                      );
-                    })}
+                  <Inline
+                    spacing={3}
+                    flexWrap="wrap"
+                    maxWidth="70rem"
+                    css={`
+                      row-gap: ${parseSpacing(3.5)()};
+                    `}
+                  >
+                    {types.map(({ id, name }) => (
+                      <Button
+                        width="auto"
+                        display="inline-flex"
+                        key={id}
+                        variant={ButtonVariants.SECONDARY}
+                        onClick={() => {
+                          field.onChange({
+                            ...field.value,
+                            type: { id, label: name[i18n.language] },
+                          });
+                          onChange({
+                            ...field.value,
+                            type: { id, label: name[i18n.language] },
+                          });
+                        }}
+                        css={`
+                          &.btn {
+                            padding: 0.3rem 0.7rem;
+                            box-shadow: ${({ theme }) =>
+                              theme.components.button.boxShadow.small};
+                          }
+                        `}
+                      >
+                        {name[i18n.language]}
+                      </Button>
+                    ))}
                   </Inline>
                 ) : (
                   <Inline
