@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { OfferType, OfferTypes } from '@/constants/OfferType';
-import { Offer } from '@/types/Offer';
+import { Offer, usesLegacyLocation } from '@/types/Offer';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Link, LinkVariants } from '@/ui/Link';
@@ -167,7 +167,7 @@ const StepsForm = ({
     </Button>
   );
 
-  const needsLocationMigration = !offer?.location?.['@id'];
+  const needsLocationMigration = usesLegacyLocation(offer);
 
   return (
     <Page>
@@ -220,8 +220,7 @@ const StepsForm = ({
       {footerStatus !== FooterStatus.HIDDEN && (
         <Page.Footer>
           <Inline spacing={3} alignItems="center">
-            {footerStatus === FooterStatus.PUBLISH ? (
-              [
+            {footerStatus === FooterStatus.PUBLISH && [
                 <Button
                   variant={ButtonVariants.SUCCESS}
                   onClick={async () => publishOffer()}
@@ -237,12 +236,16 @@ const StepsForm = ({
                 >
                   {t('create.footer.auto_save')}
                 </Text>,
-              ]
-            ) : footerStatus === FooterStatus.MANUAL_SAVE ? (
+            ]}
+            {footerStatus === FooterStatus.MANUAL_SAVE && (
               <Button onClick={handleSubmit(addOffer)}>
                 {t('create.actions.save')}
               </Button>
-            ) : (
+            )}
+            {footerStatus === FooterStatus.CONTINUE && (
+              <Button onClick={handleSubmit(addOffer)}>Doorgaan</Button>
+            )}
+            {footerStatus === FooterStatus.AUTO_SAVE && (
               <Inline spacing={3} alignItems="center">
                 <Link
                   href={`/event/${offerId}/preview`}

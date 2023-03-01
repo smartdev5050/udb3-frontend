@@ -138,6 +138,8 @@ type BaseOffer = {
 
 type Offer = Place | Event;
 
+export const usesLegacyLocation = (offer) => !offer?.location?.['@id'] || true;
+
 export type {
   BaseOffer,
   BookingAvailability,
