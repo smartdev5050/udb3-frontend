@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 
 import { OfferType, OfferTypes } from '@/constants/OfferType';
 import { Offer, usesLegacyLocation } from '@/types/Offer';
@@ -184,14 +184,13 @@ const StepsForm = ({
         />
         {needsLocationMigration ? (
           <>
-            <Alert variant={AlertVariants.DANGER}>
-              <Text fontWeight={'bold'}>
-                Deze activiteit werd ingevoerd in de vorige versie van
-                UiTdatabank.
-              </Text>
-              <br />
-              Om deze te kunnen bewerken, is het nodig om de eerder gekozen
-              locatie en adres éénmalig opnieuw te selecteren of in te voeren.
+            <Alert variant={AlertVariants.DANGER} marginY={5}>
+              <Trans
+                i18nKey={'create.migration.alert'}
+                components={{
+                  boldText: <Text fontWeight="bold" />,
+                }}
+              />
             </Alert>
             <Steps
               configurations={[locationStepConfiguration]}

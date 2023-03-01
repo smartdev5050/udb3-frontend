@@ -474,6 +474,9 @@
       "title": "Een latere publicatiedatum kiezen",
       "warning": "Opgelet, deze datum kan je maar één keer instellen."
     },
+    "migration": {
+      "alert": "<boldText>Deze activiteit werd ingevoerd in de vorige versie van UiTdatabank.</boldText><br/>Om deze te kunnen bewerken, is het nodig om de eerder gekozen locatie en adres éénmalig opnieuw te selecteren of in te voeren."
+    },
     "toast": {
       "success": {
         "basic_info": "Basisgegevens zijn succesvol gewijzigd",
