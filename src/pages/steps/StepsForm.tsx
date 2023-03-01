@@ -87,7 +87,7 @@ const StepsForm = ({
 
   const { handleSubmit, reset } = form;
 
-  const { query, push, pathname } = useRouter();
+  const { query, push, pathname, reload } = useRouter();
 
   // eventId is set after adding (saving) the event
   // or when entering the page from the edit route
@@ -106,6 +106,14 @@ const StepsForm = ({
     onSuccess: () => {
       const scopePath = scope === OfferTypes.EVENTS ? 'event' : 'place';
       push(`/${scopePath}/${offerId}/preview`);
+    },
+  });
+
+  const migrateOffer = usePublishOffer({
+    scope,
+    id: offerId,
+    onSuccess: () => {
+      reload();
     },
   });
 
@@ -172,9 +180,9 @@ const StepsForm = ({
   return (
     <Page>
       {!needsLocationMigration && (
-      <Page.Title spacing={3} alignItems="center">
-        {title ?? ''}
-      </Page.Title>
+        <Page.Title spacing={3} alignItems="center">
+          {title ?? ''}
+        </Page.Title>
       )}
 
       <Page.Content spacing={5} alignItems="flex-start">
@@ -242,7 +250,9 @@ const StepsForm = ({
               </Button>
             )}
             {footerStatus === FooterStatus.CONTINUE && (
-              <Button onClick={handleSubmit(addOffer)}>Doorgaan</Button>
+              <Button onClick={handleSubmit(migrateOffer)}>
+                {t('create.migration.continue')}
+              </Button>
             )}
             {footerStatus === FooterStatus.AUTO_SAVE && (
               <Inline spacing={3} alignItems="center">
