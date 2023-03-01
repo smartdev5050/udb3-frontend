@@ -171,9 +171,11 @@ const StepsForm = ({
 
   return (
     <Page>
+      {!needsLocationMigration && (
       <Page.Title spacing={3} alignItems="center">
         {title ?? ''}
       </Page.Title>
+      )}
 
       <Page.Content spacing={5} alignItems="flex-start">
         <Toast
@@ -194,9 +196,7 @@ const StepsForm = ({
             </Alert>
             <Steps
               configurations={[locationStepConfiguration]}
-              onChange={handleChange}
               fieldLoading={fieldLoading}
-              onChangeSuccess={handleChangeSuccess}
               offerId={offerId}
               mainLanguage={offer?.mainLanguage}
               scope={scope}
