@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useQueryClient } from 'react-query';
 
 import { isEvent } from '@/types/Event';
-import { isPlace } from '@/types/Place';
 import { usesLegacyLocation } from '@/types/Offer';
+import { isPlace } from '@/types/Place';
 
 const FooterStatus = {
   CONTINUE: 'CONTINUE',

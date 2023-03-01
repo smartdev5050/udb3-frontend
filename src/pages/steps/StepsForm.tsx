@@ -3,7 +3,12 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 
 import { OfferType, OfferTypes } from '@/constants/OfferType';
+import {
+  locationStepConfiguration,
+  useEditLocation,
+} from '@/pages/steps/LocationStep';
 import { Offer, usesLegacyLocation } from '@/types/Offer';
+import { Alert, AlertVariants } from '@/ui/Alert';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Link, LinkVariants } from '@/ui/Link';
@@ -22,13 +27,6 @@ import { useParseStepConfiguration } from './hooks/useParseStepConfiguration';
 import { usePublishOffer } from './hooks/usePublishOffer';
 import { PublishLaterModal } from './modals/PublishLaterModal';
 import { Steps, StepsConfiguration } from './Steps';
-import { Alert, AlertVariants } from '@/ui/Alert';
-import {
-  locationStepConfiguration,
-  useEditLocation,
-} from '@/pages/steps/LocationStep';
-import { useChangeLocationMutation } from '@/hooks/api/events';
-import { parseOfferId } from '@/utils/parseOfferId';
 
 const getValue = getValueFromTheme('createPage');
 
