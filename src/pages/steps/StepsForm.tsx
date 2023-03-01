@@ -23,7 +23,12 @@ import { usePublishOffer } from './hooks/usePublishOffer';
 import { PublishLaterModal } from './modals/PublishLaterModal';
 import { Steps, StepsConfiguration } from './Steps';
 import { Alert, AlertVariants } from '@/ui/Alert';
-import { locationStepConfiguration } from '@/pages/steps/LocationStep';
+import {
+  locationStepConfiguration,
+  useEditLocation,
+} from '@/pages/steps/LocationStep';
+import { useChangeLocationMutation } from '@/hooks/api/events';
+import { parseOfferId } from '@/utils/parseOfferId';
 
 const getValue = getValueFromTheme('createPage');
 
@@ -100,6 +105,18 @@ const StepsForm = ({
 
   const toast = useToast(toastConfiguration);
 
+  const useGetOffer = scope === OfferTypes.EVENTS ? useGetEvent : useGetPlace;
+
+  const offer = useGetOffer({
+    id: offerId,
+    onSuccess: (offer: Offer) => {
+      reset(convertOfferToFormData(offer), {
+        keepDirty: true,
+      });
+    },
+    enabled: !!scope,
+  });
+
   const publishOffer = usePublishOffer({
     scope,
     id: offerId,
@@ -109,13 +126,17 @@ const StepsForm = ({
     },
   });
 
-  const migrateOffer = usePublishOffer({
+  const editLocation = useEditLocation({
     scope,
-    id: offerId,
-    onSuccess: () => {
-      reload();
-    },
+    offerId,
+    onSuccess: () => reload(),
+    mainLanguage: offer?.mainLanguage,
   });
+
+  const migrateOffer = async (data) => {
+    await editLocation(data);
+    reload();
+  };
 
   const addOffer = useAddOffer({
     onSuccess: async (scope, offerId) => {
@@ -140,18 +161,6 @@ const StepsForm = ({
 
   const [isPublishLaterModalVisible, setIsPublishLaterModalVisible] =
     useState(false);
-
-  const useGetOffer = scope === OfferTypes.EVENTS ? useGetEvent : useGetPlace;
-
-  const offer = useGetOffer({
-    id: offerId,
-    onSuccess: (offer: Offer) => {
-      reset(convertOfferToFormData(offer), {
-        keepDirty: true,
-      });
-    },
-    enabled: !!scope,
-  });
 
   const footerStatus = useFooterStatus({ offer, form });
 
@@ -206,6 +215,7 @@ const StepsForm = ({
               configurations={[locationStepConfiguration]}
               fieldLoading={fieldLoading}
               offerId={offerId}
+              onChange={handleChange}
               mainLanguage={offer?.mainLanguage}
               scope={scope}
               form={form}
