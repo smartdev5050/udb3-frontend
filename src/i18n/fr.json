@@ -217,7 +217,7 @@
       "online_url": {
         "label": "Lien de participation",
         "placeholder": "https://",
-        "info": "Ajoutez un lien pour informer votre public de comment participer à votre événement. Vous ne souhaitez pas partager publiquement ce lien? Vous pouvez sauter cette étape et ajouter les informations relatives à la participation à votre description à l'étape 5."
+        "info": "Ajoutez un lien pour informer votre public de comment participer à votre événement. Vous ne souhaitez pas partager publiquement ce lien? Vous pouvez sauter cette étape et ajouter les informations relatives à la participation à votre description à l'étape 6."
       },
       "place": {
         "choose_label": "Choisissez un emplacement",
