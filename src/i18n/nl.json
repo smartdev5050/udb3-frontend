@@ -212,7 +212,7 @@
       "online_url": {
         "label": "Deelnamelink",
         "placeholder": "https://",
-        "info": "Voeg een link toe zodat mensen weten hoe ze aan je evenement kunnen deelnemen. Wil je de deelnamelink niet publiek delen? Dan kan je deze stap overslaan en deelname-instructies toevoegen aan je beschrijving in stap 5."
+        "info": "Voeg een link toe zodat mensen weten hoe ze aan je evenement kunnen deelnemen. Wil je de deelnamelink niet publiek delen? Dan kan je deze stap overslaan en deelname-instructies toevoegen aan je beschrijving in stap 6."
       },
       "municipality": {
         "change_be": "Wijzig gemeente",

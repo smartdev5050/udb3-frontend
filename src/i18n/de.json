@@ -212,7 +212,7 @@
       "online_url": {
         "label": "Teilnahmelink",
         "placeholder": "https://",
-        "info": "Fügen Sie einen Link hinzu, damit die Leute wissen, wie sie an Ihrer Veranstaltung teilnehmen können. Sie möchten den Link zur Teilnahme nicht öffentlich freigeben? Dann können Sie diesen Schritt überspringen und die Teilnahmeanweisungen in Schritt 5 Ihrer Beschreibung hinzufügen."
+        "info": "Fügen Sie einen Link hinzu, damit die Leute wissen, wie sie an Ihrer Veranstaltung teilnehmen können. Sie möchten den Link zur Teilnahme nicht öffentlich freigeben? Dann können Sie diesen Schritt überspringen und die Teilnahmeanweisungen in Schritt 6 Ihrer Beschreibung hinzufügen."
       },
       "municipality": {
         "change_be": "Gemeinde wechseln",
