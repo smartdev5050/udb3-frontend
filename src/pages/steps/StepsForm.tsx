@@ -185,10 +185,10 @@ const StepsForm = ({
         {needsLocationMigration ? (
           <>
             <Alert variant={AlertVariants.DANGER}>
-              <strong>
+              <Text fontWeight={'bold'}>
                 Deze activiteit werd ingevoerd in de vorige versie van
                 UiTdatabank.
-              </strong>
+              </Text>
               <br />
               Om deze te kunnen bewerken, is het nodig om de eerder gekozen
               locatie en adres éénmalig opnieuw te selecteren of in te voeren.
@@ -221,21 +221,21 @@ const StepsForm = ({
         <Page.Footer>
           <Inline spacing={3} alignItems="center">
             {footerStatus === FooterStatus.PUBLISH && [
-                <Button
-                  variant={ButtonVariants.SUCCESS}
-                  onClick={async () => publishOffer()}
-                  key="publish"
-                >
-                  {t('create.actions.publish')}
-                </Button>,
-                publishLaterButton,
-                <Text
-                  key="info"
-                  color={getValue('footer.color')}
-                  fontSize="0.9rem"
-                >
-                  {t('create.footer.auto_save')}
-                </Text>,
+              <Button
+                variant={ButtonVariants.SUCCESS}
+                onClick={async () => publishOffer()}
+                key="publish"
+              >
+                {t('create.actions.publish')}
+              </Button>,
+              publishLaterButton,
+              <Text
+                key="info"
+                color={getValue('footer.color')}
+                fontSize="0.9rem"
+              >
+                {t('create.footer.auto_save')}
+              </Text>,
             ]}
             {footerStatus === FooterStatus.MANUAL_SAVE && (
               <Button onClick={handleSubmit(addOffer)}>
