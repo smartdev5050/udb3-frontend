@@ -72,7 +72,9 @@ const BetaVersionPage = () => {
               {t('beta_version.title')}
             </Title>
             <Stack spacing={5} fontSize="1.1rem">
-              <Paragraph>{t('beta_version.intro1')}</Paragraph>
+              <Paragraph maxWidth="initial">
+                {t('beta_version.intro1')}
+              </Paragraph>
               <Text fontWeight="bold">{t('beta_version.intro2')}</Text>
               <List
                 css={css`
@@ -99,9 +101,13 @@ const BetaVersionPage = () => {
                   </List.Item>
                 ))}
               </List>
-              <Paragraph>{t('beta_version.outro1')}</Paragraph>
+              <Paragraph maxWidth="initial">
+                {t('beta_version.outro1')}
+              </Paragraph>
               <Stack spacing={5}>
-                <Paragraph>{t('beta_version.outro2')}</Paragraph>
+                <Paragraph maxWidth="initial">
+                  {t('beta_version.outro2')}
+                </Paragraph>
                 <Inline
                   spacing={5}
                   alignItems="flex-start"
