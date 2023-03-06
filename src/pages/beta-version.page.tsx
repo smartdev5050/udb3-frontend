@@ -42,6 +42,12 @@ const BetaVersionPage = () => {
     goToCreatePage();
   };
 
+  const handleCancelation = () => {
+    setIsNewCreateEnabled(false);
+
+    goToCreatePage();
+  };
+
   return (
     <Page>
       <Page.Content flex={1} alignItems="center" paddingTop={4}>
@@ -129,7 +135,7 @@ const BetaVersionPage = () => {
                     </Text>
                   </ToggleBox>
                   <ToggleBox
-                    onClick={goToCreatePage}
+                    onClick={handleCancelation}
                     minHeight={parseSpacing(7)}
                     flex={1}
                     icon={
