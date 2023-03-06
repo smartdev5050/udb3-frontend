@@ -204,17 +204,16 @@ const PriceInformation = ({
   useEffect(() => {
     const priceInfo = offer?.priceInfo ?? [];
 
-    const hasUitpasLabel = offer?.organizer
-      ? isUitpasOrganizer(offer?.organizer)
-      : false;
+    const hasUitpasLabel =
+      offer?.organizer && scope === OfferTypes.EVENTS
+        ? isUitpasOrganizer(offer?.organizer)
+        : false;
 
     if (!hasRates) {
       replace(priceInfo.length ? priceInfo : defaultPriceInfoValues.rates);
 
       return onValidationChange(
-        hasUitpasLabel && scope === OfferTypes.EVENTS
-          ? ValidationStatus.WARNING
-          : ValidationStatus.NONE,
+        hasUitpasLabel ? ValidationStatus.WARNING : ValidationStatus.NONE,
       );
     }
 
