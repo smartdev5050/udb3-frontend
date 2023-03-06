@@ -53,7 +53,7 @@ const BetaVersionPage = () => {
       <Page.Content flex={1} alignItems="center" paddingTop={4}>
         <Card
           minWidth="40rem"
-          maxWidth="90%"
+          maxWidth="75%"
           css={`
             box-shadow: ${({ theme }) => theme.components.card.boxShadow.large};
           `}
