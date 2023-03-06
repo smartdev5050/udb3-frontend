@@ -118,6 +118,7 @@ const ScopeStep = ({
   const { replace } = useRouter();
 
   useEffect(() => {
+    if (!scope) return;
     setValue('scope', scope);
   }, [scope, setValue]);
 
