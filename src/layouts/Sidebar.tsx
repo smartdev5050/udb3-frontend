@@ -594,6 +594,7 @@ const Sidebar = () => {
               alignItems="center"
               justifyContent={{ default: 'space-between', s: 'center' }}
               stackOn={Breakpoints.S}
+              padding={2}
             >
               <Inline
                 stackOn={Breakpoints.S}
