@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { css } from 'styled-components';
@@ -30,9 +29,10 @@ const BetaVersionPage = () => {
     setCookie('has_seen_beta_conversion_page', 'true');
   }, [setCookie]);
 
-  const { push } = useRouter();
-
-  const goToCreatePage = () => push('/event');
+  const goToCreatePage = () => {
+    // I can't seem to use router.push successfully here
+    document.location.href = '/event';
+  };
 
   const [_, setIsNewCreateEnabled] = useFeatureFlag(FeatureFlags.REACT_CREATE);
 
