@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { css } from 'styled-components';
@@ -30,9 +29,10 @@ const BetaVersionPage = () => {
     setCookie('has_seen_beta_conversion_page', 'true');
   }, [setCookie]);
 
-  const { push } = useRouter();
-
-  const goToCreatePage = () => push('/event');
+  const goToCreatePage = () => {
+    // I can't seem to use router.push successfully here
+    document.location.href = '/event';
+  };
 
   const [_, setIsNewCreateEnabled] = useFeatureFlag(FeatureFlags.REACT_CREATE);
 
@@ -42,12 +42,18 @@ const BetaVersionPage = () => {
     goToCreatePage();
   };
 
+  const handleCancelation = () => {
+    setIsNewCreateEnabled(false);
+
+    goToCreatePage();
+  };
+
   return (
     <Page>
       <Page.Content flex={1} alignItems="center" paddingTop={4}>
         <Card
           minWidth="40rem"
-          maxWidth="90%"
+          maxWidth="75%"
           css={`
             box-shadow: ${({ theme }) => theme.components.card.boxShadow.large};
           `}
@@ -66,7 +72,9 @@ const BetaVersionPage = () => {
               {t('beta_version.title')}
             </Title>
             <Stack spacing={5} fontSize="1.1rem">
-              <Paragraph>{t('beta_version.intro1')}</Paragraph>
+              <Paragraph maxWidth="initial">
+                {t('beta_version.intro1')}
+              </Paragraph>
               <Text fontWeight="bold">{t('beta_version.intro2')}</Text>
               <List
                 css={css`
@@ -93,9 +101,13 @@ const BetaVersionPage = () => {
                   </List.Item>
                 ))}
               </List>
-              <Paragraph>{t('beta_version.outro1')}</Paragraph>
+              <Paragraph maxWidth="initial">
+                {t('beta_version.outro1')}
+              </Paragraph>
               <Stack spacing={5}>
-                <Paragraph>{t('beta_version.outro2')}</Paragraph>
+                <Paragraph maxWidth="initial">
+                  {t('beta_version.outro2')}
+                </Paragraph>
                 <Inline
                   spacing={5}
                   alignItems="flex-start"
@@ -129,7 +141,7 @@ const BetaVersionPage = () => {
                     </Text>
                   </ToggleBox>
                   <ToggleBox
-                    onClick={goToCreatePage}
+                    onClick={handleCancelation}
                     minHeight={parseSpacing(7)}
                     flex={1}
                     icon={
