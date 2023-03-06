@@ -63,3 +63,6 @@ tsconfig.tsbuildinfo
 /vendor
 /pkg
 .bundle
+/test-results/
+/playwright-report/
+/playwright/.cache/
