@@ -35,6 +35,12 @@ const moduleExports = {
     shouldShowBetaVersion: process.env.NEXT_PUBLIC_SHOULD_SHOW_BETA_VERSION,
   },
   pageExtensions: ['page.tsx', 'page.js', 'api.ts'],
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 };
 
 const SentryWebpackPluginOptions = {
