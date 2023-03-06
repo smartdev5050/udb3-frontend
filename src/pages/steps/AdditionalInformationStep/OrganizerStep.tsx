@@ -183,6 +183,7 @@ const OrganizerStep = ({
   const changeDistributionKey = useChangeDistributionKeyMutation({
     onSuccess: (data) => {
       onSuccessfulChange(data);
+      queryClient.invalidateQueries([scope, { id: offerId }]);
       queryClient.invalidateQueries('uitpas_events');
     },
   });
@@ -269,7 +270,7 @@ const OrganizerStep = ({
           }
           organizer={organizer}
         />
-        {uitpasAlertData && (
+        {uitpasAlertData && scope === OfferTypes.EVENTS && (
           <Alert variant={uitpasAlertData.variant}>
             {uitpasAlertData.key === UitpasTranslationKeys.NO_PRICE ? (
               <Trans

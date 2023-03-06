@@ -204,9 +204,10 @@ const PriceInformation = ({
   useEffect(() => {
     const priceInfo = offer?.priceInfo ?? [];
 
-    const hasUitpasLabel = offer?.organizer
-      ? isUitpasOrganizer(offer?.organizer)
-      : false;
+    const hasUitpasLabel =
+      offer?.organizer && scope === OfferTypes.EVENTS
+        ? isUitpasOrganizer(offer?.organizer)
+        : false;
 
     if (!hasRates) {
       replace(priceInfo.length ? priceInfo : defaultPriceInfoValues.rates);
@@ -222,6 +223,7 @@ const PriceInformation = ({
     // onValidationChange is hard to wrap in useCallback in parent
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
+    scope,
     i18n.language,
     offer?.mainLanguage,
     offer?.organizer,
