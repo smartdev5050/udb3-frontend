@@ -212,7 +212,9 @@ const PriceInformation = ({
       replace(priceInfo.length ? priceInfo : defaultPriceInfoValues.rates);
 
       return onValidationChange(
-        hasUitpasLabel ? ValidationStatus.WARNING : ValidationStatus.NONE,
+        hasUitpasLabel && scope === OfferTypes.EVENTS
+          ? ValidationStatus.WARNING
+          : ValidationStatus.NONE,
       );
     }
 
@@ -222,6 +224,7 @@ const PriceInformation = ({
     // onValidationChange is hard to wrap in useCallback in parent
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
+    scope,
     i18n.language,
     offer?.mainLanguage,
     offer?.organizer,
