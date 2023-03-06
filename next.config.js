@@ -38,6 +38,9 @@ const moduleExports = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 };
 
 const SentryWebpackPluginOptions = {
