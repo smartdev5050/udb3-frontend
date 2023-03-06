@@ -183,6 +183,7 @@ const OrganizerStep = ({
   const changeDistributionKey = useChangeDistributionKeyMutation({
     onSuccess: (data) => {
       onSuccessfulChange(data);
+      queryClient.invalidateQueries([scope, { id: offerId }]);
       queryClient.invalidateQueries('uitpas_events');
     },
   });
