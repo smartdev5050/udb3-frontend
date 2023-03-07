@@ -7,10 +7,6 @@ setup('authenticate', async ({ page, baseURL }) => {
   await page.goto(
     `${baseURL}/login/nl?referer=http%3A%2F%2Flocalhost%3A3000%2Fdashboard`,
   );
-  console.log({
-    email: process.env.E2E_TEST_EMAIL,
-    password: process.env.E2E_TEST_PASSWORD,
-  });
   await page.getByRole('button', { name: 'Start hier' }).click();
   await page.getByLabel('Je e-mailadres').click();
   await page.getByLabel('Je e-mailadres').fill(process.env.E2E_TEST_EMAIL);
