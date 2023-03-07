@@ -18,7 +18,7 @@ setup('authenticate', async ({ baseURL, page }) => {
   // Now we're back to our own app
   // Wait that the main page has loaded
   await page.waitForURL(new RegExp(`${baseURL}/dashboard*`), {
-    timeout: 10000,
+    timeout: 60_000,
   });
 
   // Wait for network to be idle, if we save storage too early, needed storage values might not yet be available
