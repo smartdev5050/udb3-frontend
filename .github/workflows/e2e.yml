@@ -17,7 +17,7 @@ jobs:
           node-version: 14.19
 
       - name: Install dependencies
-        run: yarn
+        run: yarn install --frozen-lockfile
       - name: Install Playwright Browsers
         run: yarn playwright install chromium --with-deps
       - name: Run Playwright tests

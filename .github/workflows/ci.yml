@@ -13,7 +13,7 @@ jobs:
           node-version: 14.19
 
       - name: Install dependencies
-        run: yarn
+        run: yarn install --frozen-lockfile
       - name: Run Prettier
         run: yarn format:check
 
@@ -27,7 +27,7 @@ jobs:
           node-version: 14.19
 
       - name: Install dependencies
-        run: yarn
+        run: yarn install --frozen-lockfile
       - name: Run ESLint
         run: yarn lint:check
 
@@ -41,7 +41,7 @@ jobs:
           node-version: 14.19
 
       - name: Install dependencies
-        run: yarn
+        run: yarn install --frozen-lockfile
       - name: Run Typescript
         run: yarn types:check
 
@@ -55,6 +55,6 @@ jobs:
           node-version: 14.19
 
       - name: Install dependencies
-        run: yarn
+        run: yarn install --frozen-lockfile
       - name: Run Jest
         run: yarn test:unit
