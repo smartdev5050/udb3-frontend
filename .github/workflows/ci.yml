@@ -16,7 +16,7 @@ jobs:
       - name: Install dependencies
         run: yarn
       - name: Install Playwright Browsers
-        run: yarn playwright install-deps chromium
+        run: yarn playwright install-deps
       - name: Run Playwright tests
         env:
           E2E_TEST_EMAIL: ${{ secrets.E2E_TEST_EMAIL }}
