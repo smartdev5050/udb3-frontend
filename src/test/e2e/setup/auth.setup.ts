@@ -11,10 +11,9 @@ setup('authenticate', async ({ page, baseURL }) => {
       timeout: 60000, // 60 seconds
     },
   );
+
   await page.getByRole('button', { name: 'Start hier' }).click();
-  await page.getByLabel('Je e-mailadres').click();
   await page.getByLabel('Je e-mailadres').fill(process.env.E2E_TEST_EMAIL);
-  await page.getByLabel('Je wachtwoord').click();
   await page.getByLabel('Je wachtwoord').fill(process.env.E2E_TEST_PASSWORD);
   await page.getByRole('button', { name: 'Meld je aan', exact: true }).click();
   await page.getByText('Welkom, e2e.udb3.frontend').waitFor();
