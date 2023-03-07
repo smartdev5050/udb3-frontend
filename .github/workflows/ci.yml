@@ -3,7 +3,63 @@ name: CI
 on: push
 
 jobs:
-  e2e:
+  format:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14.19
+
+      - name: Install dependencies
+        run: yarn
+      - name: Run Prettier
+        run: yarn format:check
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14.19
+
+      - name: Install dependencies
+        run: yarn
+      - name: Run ESLint
+        run: yarn lint:check
+
+  types:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14.19
+
+      - name: Install dependencies
+        run: yarn
+      - name: Run Typescript
+        run: yarn types:check
+
+  test:unit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14.19
+
+      - name: Install dependencies
+        run: yarn
+      - name: Run Jest
+        run: yarn test
+
+  test:e2e:
     timeout-minutes: 60
 
     runs-on: ubuntu-latest
@@ -13,6 +69,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 14.19
+
       - name: Install dependencies
         run: yarn
       - name: Install Playwright Browsers
@@ -35,68 +92,3 @@ jobs:
           E2E_TEST_PASSWORD: ${{ secrets.E2E_TEST_PASSWORD }}
 
         run: yarn playwright test
-  # format:
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-
-  #     - name: Run Prettier
-  #       run: yarn && yarn format:check
-
-  # lint:
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-
-  #     - name: Run ESLint
-  #       run: yarn && yarn lint:check
-
-  # types:
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-
-  #     - name: Run Typescript
-  #       run: yarn && yarn types:check
-
-  # test:
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-
-  #     - name: Run Jest
-  #       run: yarn && yarn test
-
-  # e2e:
-  #   timeout-minutes: 60
-
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - uses: actions/setup-node@v3
-  #       with:
-  #         node-version: 14.19
-  #     - name: Install dependencies
-  #       run: yarn
-  #     - name: Install Playwright Browsers
-  #       run: yarn playwright install-deps chromium
-  #     - name: Run Playwright tests
-  #       env:
-  #         E2E_TEST_EMAIL: ${{ secrets.E2E_TEST_EMAIL }}
-  #         E2E_TEST_PASSWORD: ${{ secrets.E2E_TEST_PASSWORD }}
-  #       run: yarn playwright test
-  # - uses: actions/upload-artifact@v3
-  #   if: always()
-  #   with:
-  #     name: playwright-report
-  #     path: playwright-report/
-  #     retention-days: 30
