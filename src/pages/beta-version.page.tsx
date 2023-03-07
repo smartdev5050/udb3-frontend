@@ -105,9 +105,6 @@ const BetaVersionPage = () => {
                 {t('beta_version.outro1')}
               </Paragraph>
               <Stack spacing={5}>
-                <Paragraph maxWidth="initial">
-                  {t('beta_version.outro2')}
-                </Paragraph>
                 <Inline
                   spacing={5}
                   alignItems="flex-start"
