@@ -15,7 +15,7 @@ setup('authenticate', async ({ baseURL, page }) => {
 
   await page.getByRole('button', { name: 'Meld je aan', exact: true }).click();
 
-  await page.waitForURL((url) => url.toString().startsWith(baseURL));
+  await page.waitForURL(new RegExp(`${baseURL}*`));
 
   await page.getByText('Welkom, e2e.udb3.frontend').waitFor();
 
