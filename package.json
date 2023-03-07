@@ -17,8 +17,8 @@
     "types:check": "tsc",
     "storybook": "start-storybook -p 6006",
     "storybook:build": "build-storybook",
-    "test": "jest",
-    "e2e": "playwright test",
+    "test:unit": "jest",
+    "test:e2e": "playwright test",
     "ci": "yarn types:check & yarn lint:check & yarn format:check"
   },
   "husky": {
