@@ -4,7 +4,7 @@ import { test as setup } from '@playwright/test';
 const authFile = 'playwright/.auth/user.json';
 
 setup('authenticate', async ({ baseURL, page }) => {
-  await page.goto(`/login/nl?referer=${baseURL}/dashboard`);
+  await page.goto(`/login/nl`);
 
   await page.getByRole('button', { name: 'Start hier' }).click();
 
@@ -15,7 +15,7 @@ setup('authenticate', async ({ baseURL, page }) => {
 
   await page.getByRole('button', { name: 'Meld je aan', exact: true }).click();
 
-  await page.waitForURL(new RegExp(`${baseURL}*`));
+  await page.waitForURL(new RegExp(`${baseURL}/dashboard*`));
 
   await page.getByText('Welkom, e2e.udb3.frontend').waitFor();
 
