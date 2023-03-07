@@ -9,6 +9,7 @@ setup('authenticate', async ({ page, baseURL }) => {
     `${baseURL}/login/nl?referer=http%3A%2F%2Flocalhost%3A3000%2Fdashboard`,
     {
       timeout: 60000, // 60 seconds
+      waitUntil: 'domcontentloaded',
     },
   );
 
