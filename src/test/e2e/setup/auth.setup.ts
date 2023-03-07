@@ -4,6 +4,7 @@ import { test as setup } from '@playwright/test';
 const authFile = 'playwright/.auth/user.json';
 
 setup('authenticate', async ({ page, baseURL }) => {
+  console.log('baseURL', baseURL);
   await page.goto(
     `${baseURL}/login/nl?referer=http%3A%2F%2Flocalhost%3A3000%2Fdashboard`,
   );
