@@ -57,7 +57,7 @@ jobs:
       - name: Install dependencies
         run: yarn
       - name: Run Jest
-        run: yarn test
+        run: yarn test:unit
 
   test:e2e:
     timeout-minutes: 60
@@ -91,4 +91,4 @@ jobs:
           E2E_TEST_EMAIL: ${{ secrets.E2E_TEST_EMAIL }}
           E2E_TEST_PASSWORD: ${{ secrets.E2E_TEST_PASSWORD }}
 
-        run: yarn playwright test
+        run: yarn test:e2e
