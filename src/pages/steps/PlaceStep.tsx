@@ -111,8 +111,8 @@ const PlaceStep = ({
     const address = getAddress(place.address, place.mainLanguage);
 
     return (
-      address.streetAddress.toLowerCase().indexOf(props.text.toLowerCase()) !==
-        -1 || name.toLowerCase().indexOf(props.text.toLowerCase()) !== -1
+      address.streetAddress.toLowerCase().includes(props.text.toLowerCase()) ||
+      name.toLowerCase().includes(props.text.toLowerCase())
     );
   };
 
