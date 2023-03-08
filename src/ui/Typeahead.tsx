@@ -36,7 +36,7 @@ type TypeaheadProps<T> = {
   minLength?: number;
   inputType?: InputType;
   inputRequired?: boolean;
-  customFilter?: (option: T, props?: any) => boolean;
+  customFilter?: (option: T, props?: Record<string, any>) => boolean;
   onChange?: (value: (T | NewEntry)[]) => void;
   defaultInputValue?: string;
   allowNew?:
