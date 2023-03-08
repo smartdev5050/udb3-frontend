@@ -183,7 +183,11 @@ const PlaceStep = ({
                                 {placeName}
                               </Highlighter>
                             </Text>
-                            <Text className={'address'}>{streetAddress}</Text>
+                            <Text className={'address'}>
+                              <Highlighter search={text}>
+                                {streetAddress}
+                              </Highlighter>
+                            </Text>
                           </Stack>
                         );
                       }}
