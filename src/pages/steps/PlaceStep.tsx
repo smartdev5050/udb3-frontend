@@ -106,6 +106,8 @@ const PlaceStep = ({
     );
   };
 
+  };
+
   return (
     <Stack {...getStackProps(props)}>
       <Controller
@@ -145,9 +147,9 @@ const PlaceStep = ({
                     <Typeahead
                       options={places}
                       onInputChange={debounce(setSearchInput, 275)}
+                      customFilter={filterByCallback}
                       labelKey={(place) =>
-                        place.name[i18n.language] ??
-                        place.name[place.mainLanguage]
+                        getPlaceName(place.name, place.mainLanguage)
                       }
                       renderMenuItemChildren={(place: Place, { text }) => {
                         const { mainLanguage, name, address } = place;
