@@ -106,6 +106,14 @@ const PlaceStep = ({
     );
   };
 
+  const filterByCallback = (place: Place, props) => {
+    const name = getPlaceName(place.name, place.mainLanguage);
+    const address = getAddress(place.address, place.mainLanguage);
+
+    return (
+      address.streetAddress.toLowerCase().indexOf(props.text.toLowerCase()) !==
+        -1 || name.toLowerCase().indexOf(props.text.toLowerCase()) !== -1
+    );
   };
 
   return (
