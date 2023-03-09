@@ -18,7 +18,17 @@ import { Breakpoints } from '@/ui/theme';
 import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
 import RichTextEditor from '@/pages/RichTextEditor';
 import draftToHtml from 'draftjs-to-html';
-import { ContentState } from 'draft-js';
+import {
+  ContentState,
+  convertFromRaw,
+  convertToRaw,
+  EditorState,
+  RawDraftContentState,
+} from 'draft-js';
+import { raw } from '@storybook/react';
+import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
+import { SupportedLanguage } from '@/i18n/index';
+import htmlToDraft from 'html-to-draftjs';
 
 const IDEAL_DESCRIPTION_LENGTH = 200;
 
@@ -86,8 +96,11 @@ const DescriptionStep = ({
   // TODO: refactor
   const eventId = offerId;
 
-  const [description, setDescription] = useState('');
-  const [plainTextDescription, setPlainTextDescription] = useState('');
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const plainTextDescription = useMemo(
+    () => editorState.getCurrentContent().getPlainText(),
+    [editorState],
+  );
 
   const useGetOfferByIdQuery =
     scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
@@ -100,12 +113,23 @@ const DescriptionStep = ({
   useEffect(() => {
     if (!offer?.description) return;
 
-    const newDescription =
-      offer.description[i18n.language] ?? offer.description[offer.mainLanguage];
+    const newDescription = getLanguageObjectOrFallback(
+      offer.description,
+      i18n.language as SupportedLanguage,
+      offer.mainLanguage,
+    );
 
-    setDescription(newDescription);
+    const blocksFromHtml = htmlToDraft(newDescription);
+    const { contentBlocks, entityMap } = blocksFromHtml;
+    const contentState = ContentState.createFromBlockArray(
+      contentBlocks,
+      entityMap,
+    );
 
-    const isCompleted = newDescription?.length >= IDEAL_DESCRIPTION_LENGTH;
+    setEditorState(EditorState.createWithContent(contentState));
+
+    const isCompleted =
+      contentState.getPlainText()?.length >= IDEAL_DESCRIPTION_LENGTH;
 
     onValidationChange(
       isCompleted ? ValidationStatus.SUCCESS : ValidationStatus.NONE,
@@ -122,16 +146,16 @@ const DescriptionStep = ({
   });
 
   const handleBlur = () => {
-    if (!description) return;
+    if (!plainTextDescription) return;
 
-    const isCompleted = description.length >= IDEAL_DESCRIPTION_LENGTH;
+    const isCompleted = plainTextDescription.length >= IDEAL_DESCRIPTION_LENGTH;
 
     onValidationChange(
       isCompleted ? ValidationStatus.SUCCESS : ValidationStatus.NONE,
     );
 
     changeDescriptionMutation.mutate({
-      description,
+      description: draftToHtml(convertToRaw(editorState.getCurrentContent())),
       language: i18n.language,
       eventId,
       scope,
@@ -139,7 +163,7 @@ const DescriptionStep = ({
   };
 
   const handleClear = () => {
-    setDescription('');
+    setEditorState(EditorState.createEmpty());
 
     changeDescriptionMutation.mutate({
       description: '',
@@ -149,10 +173,7 @@ const DescriptionStep = ({
     });
   };
 
-  const handleInput = (contentState: ContentState) => {
-    setDescription(draftToHtml(contentState));
-    setPlainTextDescription(contentState.getPlainText(''));
-  };
+  const handleInput = (editorState) => setEditorState(editorState);
 
   return (
     <Inline stackOn={Breakpoints.M}>
@@ -163,7 +184,7 @@ const DescriptionStep = ({
         label={t('create.additionalInformation.description.title')}
         Component={
           <RichTextEditor
-            value={description}
+            editorState={editorState}
             onInput={handleInput}
             onBlur={handleBlur}
           />
