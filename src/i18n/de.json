@@ -474,6 +474,10 @@
 
       "warning": "Achtung, dieses Datum kann nur einmalig eingestellt werden."
     },
+    "duplicate": {
+      "title": "Kopieren und ändern",
+      "alert": "Sie sind dabei, eine Veranstaltung zu kopieren. Wählen Sie einen Zeitpunkt für diese Veranstaltung."
+    },
     "toast": {
       "success": {
         "basic_info": "Grunddaten wurden erfolgreich geändert",

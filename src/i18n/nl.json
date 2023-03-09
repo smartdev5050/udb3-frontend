@@ -473,6 +473,10 @@
       "title": "Een latere publicatiedatum kiezen",
       "warning": "Opgelet, deze datum kan je maar één keer instellen."
     },
+    "duplicate": {
+      "title": "Kopiëren en aanpassen",
+      "alert": "Je staat op het punt een evenement te kopiëren. Kies een tijdstip voor dit evenement."
+    },
     "toast": {
       "success": {
         "basic_info": "Basisgegevens zijn succesvol gewijzigd",
