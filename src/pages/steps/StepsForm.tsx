@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { OfferType, OfferTypes } from '@/constants/OfferType';
 import { Offer } from '@/types/Offer';
+import { Alert, AlertVariants } from '@/ui/Alert';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Link, LinkVariants } from '@/ui/Link';
@@ -13,6 +14,7 @@ import { getValueFromTheme } from '@/ui/theme';
 import { Toast } from '@/ui/Toast';
 
 import { useToast } from '../manage/movies/useToast';
+import { calendarStepConfiguration } from './CalendarStep';
 import { useAddOffer } from './hooks/useAddOffer';
 import { useEditField } from './hooks/useEditField';
 import { FooterStatus, useFooterStatus } from './hooks/useFooterStatus';
@@ -165,13 +167,26 @@ const StepsForm = ({
     </Button>
   );
 
+  const isOnDuplicatePage = footerStatus === FooterStatus.DUPLICATE;
+
+  const stepsConfigurations = isOnDuplicatePage
+    ? [calendarStepConfiguration]
+    : configurations;
+
+  const pageTitle = isOnDuplicatePage ? t('create.duplicate.title') : title;
+
   return (
     <Page>
       <Page.Title spacing={3} alignItems="center">
-        {title ?? ''}
+        {pageTitle}
       </Page.Title>
 
       <Page.Content spacing={5} alignItems="flex-start">
+        {isOnDuplicatePage && (
+          <Alert variant={AlertVariants.PRIMARY}>
+            {t('create.duplicate.alert')}
+          </Alert>
+        )}
         <Toast
           variant="success"
           body={toast.message}
@@ -179,7 +194,7 @@ const StepsForm = ({
           onClose={() => toast.clear()}
         />
         <Steps
-          configurations={configurations}
+          configurations={stepsConfigurations}
           onChange={handleChange}
           fieldLoading={fieldLoading}
           onChangeSuccess={handleChangeSuccess}
@@ -192,6 +207,14 @@ const StepsForm = ({
       {footerStatus !== FooterStatus.HIDDEN && (
         <Page.Footer>
           <Inline spacing={3} alignItems="center">
+            {footerStatus === FooterStatus.DUPLICATE && (
+              <Button
+                variant={ButtonVariants.SUCCESS}
+                onClick={handleSubmit(addOffer)}
+              >
+                {t('create.duplicate.title')}
+              </Button>
+            )}
             {footerStatus === FooterStatus.PUBLISH ? (
               [
                 <Button
