@@ -7,12 +7,13 @@ import {
   locationStepConfiguration,
   useEditLocation,
 } from '@/pages/steps/LocationStep';
-import { Offer, hasLegacyLocation } from '@/types/Offer';
+import { hasLegacyLocation, Offer } from '@/types/Offer';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Link, LinkVariants } from '@/ui/Link';
 import { Page } from '@/ui/Page';
+import { Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Toast } from '@/ui/Toast';
@@ -200,7 +201,7 @@ const StepsForm = ({
           onClose={() => toast.clear()}
         />
         {needsLocationMigration ? (
-          <>
+          <Stack>
             <Alert variant={AlertVariants.DANGER} marginY={5}>
               <Trans
                 i18nKey="create.migration.alert"
@@ -218,7 +219,7 @@ const StepsForm = ({
               scope={scope}
               form={form}
             />
-          </>
+          </Stack>
         ) : (
           <Steps
             configurations={configurations}
