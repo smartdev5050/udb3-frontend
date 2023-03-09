@@ -17,10 +17,14 @@ import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
-import { Features, NewFeatureTooltip } from '@/pages/NewFeatureTooltip';
+import {
+  Features,
+  NewFeatureTooltip,
+  QuestionCircleIcon,
+} from '@/pages/NewFeatureTooltip';
 import type { Values } from '@/types/Values';
 import { Badge } from '@/ui/Badge';
-import { Button } from '@/ui/Button';
+import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
 import { Image } from '@/ui/Image';
@@ -43,6 +47,11 @@ import { Title } from '@/ui/Title';
 import { Announcements, AnnouncementStatus } from './Announcements';
 import { JobLogger, JobLoggerStates } from './joblogger/JobLogger';
 import { JobLoggerStateIndicator } from './joblogger/JobLoggerStateIndicator';
+
+const { publicRuntimeConfig } = getConfig();
+
+const shouldShowBetaVersion =
+  publicRuntimeConfig.shouldShowBetaVersion === 'true';
 
 const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSidebar = getValueFromTheme('sidebar');
@@ -172,7 +181,6 @@ type ProfileMenuProps = {
 const ProfileMenu = ({ profileImage }: ProfileMenuProps) => {
   const { t } = useTranslation();
   const { removeAuthenticationCookies } = useCookiesWithOptions();
-  const { publicRuntimeConfig } = getConfig();
 
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -580,12 +588,13 @@ const Sidebar = () => {
           )}
           <Stack>
             <Inline
-              display="none"
+              display={shouldShowBetaVersion ? 'inherit' : 'none'}
               flex={1}
               paddingLeft={2}
               alignItems="center"
               justifyContent={{ default: 'space-between', s: 'center' }}
               stackOn={Breakpoints.S}
+              padding={2}
             >
               <Inline
                 stackOn={Breakpoints.S}
@@ -602,7 +611,13 @@ const Sidebar = () => {
                 />
               </Inline>
               {!isSmallView && (
-                <NewFeatureTooltip featureUUID={Features.ONLINE} />
+                <Link
+                  href="/beta-version"
+                  variant={ButtonVariants.UNSTYLED}
+                  customChildren
+                >
+                  <QuestionCircleIcon />
+                </Link>
               )}
             </Inline>
             <NotificationMenu

@@ -8,6 +8,34 @@
     "new_features": "Nieuw in UiTdatabank",
     "no_features": "Er zijn momenteel geen nieuwigheden."
   },
+  "beta_version": {
+    "title": "Wil je de nieuwste versie van de UiTdatabank proberen?",
+    "intro1": "We werken hard aan een nieuw invoerformulier in de UiTdatabank, zodat je nog vlotter je activiteiten kan invoeren. Al eens proberen? Schakel over naar de  nieuwste versie van de UiTdatabank en test meteen alle nieuwigheden.",
+    "intro2": "Wat is er nieuw?",
+    "improvements": [
+      {
+        "prefix": "Nieuwe mogelijkheden:",
+        "text": "je kan online evenementen toevoegen, een video uploaden en heel wat meer. "
+      },
+      {
+        "prefix": "Minder werk:",
+        "text": "we zetten de naam van je organisatie al voor je klaar, zodat je dat veld niet telkens opnieuw moet invullen. Later doen we hetzelfde met andere informatie die je al eerder invoerde."
+      },
+      {
+        "prefix": "Extra hulp",
+        "text": "via de volledigheidsscore krijg je meteen feedback en tips om je evenement of locatie zo volledig mogelijk in te voeren. "
+      }
+    ],
+    "outro1": "Wil je als een van de eersten het nieuwe invoerformulier testen? ",
+    "confirm": {
+      "title": "Ik probeer het UiT",
+      "info": "Ga meteen aan de slag <boldText>met<boldText> de nieuwe versie van de UiTdatabank."
+    },
+    "cancel": {
+      "title": "Ik wacht nog even",
+      "info": "Je hebt nog ruim de tijd om over te schakelen naar de nieuwe versie."
+    }
+  },
   "bookingAvailability": {
     "actions": {
       "cancel": "Annuleren",
@@ -183,7 +211,7 @@
       "online_url": {
         "label": "Deelnamelink",
         "placeholder": "https://",
-        "info": "Voeg een link toe zodat mensen weten hoe ze aan je evenement kunnen deelnemen. Wil je de deelnamelink niet publiek delen? Dan kan je deze stap overslaan en deelname-instructies toevoegen aan je beschrijving in stap 5."
+        "info": "Voeg een link toe zodat mensen weten hoe ze aan je evenement kunnen deelnemen. Wil je de deelnamelink niet publiek delen? Dan kan je deze stap overslaan en deelname-instructies toevoegen aan je beschrijving in stap 6."
       },
       "municipality": {
         "change_be": "Wijzig gemeente",
@@ -198,6 +226,9 @@
         "change_location": "Wijzig locatie",
         "location_school": "Locatie in overleg met de school",
         "location_school_info": "Evenementen waarvan de locatie in overleg wordt bepaald, worden niet gepubliceerd op UiTinVlaanderen of andere publiekskanalen. Je evenement verschijnt wel op cultuurkuur.be"
+      },
+      "street_and_number": {
+        "change": "Wijzig straat en nummer"
       }
     },
     "name_and_age": {
@@ -381,7 +412,7 @@
         "change": "Wijzig organisatie",
         "title": "Organisatie",
         "select_recent_used_organizer": "Kies een organisatie die je recent gebruikte",
-        "select_recent_used_organizer_info": "We hebben de organisaties waarvoor je recent een evenement invoerde hier voor je klaargezet. Met één klik voeg je ze toe aan je evenement.",
+        "select_recent_used_organizer_info": "We hebben de organisaties waarvoor je recent invoerde hier voor je klaargezet. Met één klik voeg je ze toe.",
         "or_choose_other_organizer": "Of kies een andere organisatie",
         "uitpas_cardsystems": "UiTPAS Kaartsystemen",
         "uitpas_alert": {

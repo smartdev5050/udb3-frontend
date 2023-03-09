@@ -106,6 +106,16 @@ const PlaceStep = ({
     );
   };
 
+  const filterByCallback = (place: Place, props) => {
+    const name = getPlaceName(place.name, place.mainLanguage);
+    const address = getAddress(place.address, place.mainLanguage);
+
+    return (
+      address.streetAddress.toLowerCase().includes(props.text.toLowerCase()) ||
+      name.toLowerCase().includes(props.text.toLowerCase())
+    );
+  };
+
   return (
     <Stack {...getStackProps(props)}>
       <Controller
@@ -145,9 +155,9 @@ const PlaceStep = ({
                     <Typeahead
                       options={places}
                       onInputChange={debounce(setSearchInput, 275)}
+                      customFilter={filterByCallback}
                       labelKey={(place) =>
-                        place.name[i18n.language] ??
-                        place.name[place.mainLanguage]
+                        getPlaceName(place.name, place.mainLanguage)
                       }
                       renderMenuItemChildren={(place: Place, { text }) => {
                         const { mainLanguage, name, address } = place;
@@ -173,7 +183,11 @@ const PlaceStep = ({
                                 {placeName}
                               </Highlighter>
                             </Text>
-                            <Text className={'address'}>{streetAddress}</Text>
+                            <Text className={'address'}>
+                              <Highlighter search={text}>
+                                {streetAddress}
+                              </Highlighter>
+                            </Text>
                           </Stack>
                         );
                       }}

@@ -17,7 +17,8 @@
     "types:check": "tsc",
     "storybook": "start-storybook -p 6006",
     "storybook:build": "build-storybook",
-    "test": "jest",
+    "test:unit": "jest",
+    "test:e2e": "playwright test",
     "ci": "yarn types:check & yarn lint:check & yarn format:check"
   },
   "husky": {
@@ -70,6 +71,7 @@
     "yup": "^0.32.9"
   },
   "devDependencies": {
+    "@playwright/test": "^1.31.2",
     "@storybook/addon-a11y": "^6.5.16",
     "@storybook/addon-actions": "^6.5.16",
     "@storybook/addon-essentials": "^6.5.16",

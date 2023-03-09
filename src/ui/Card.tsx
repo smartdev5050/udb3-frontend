@@ -1,9 +1,10 @@
-import PropTypes from 'prop-types';
 import { Card as BootstrapCard } from 'react-bootstrap';
 
-import { getStackProps, Stack } from './Stack';
+import { getStackProps, Stack, StackProps } from './Stack';
 
-const Card = ({ children, className, ...props }) => {
+type CardProps = StackProps;
+
+const Card = ({ children, className, ...props }: CardProps) => {
   return (
     <BootstrapCard
       forwardedAs={Stack}
@@ -18,11 +19,6 @@ const Card = ({ children, className, ...props }) => {
       {children}
     </BootstrapCard>
   );
-};
-
-Card.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
 };
 
 export { Card };

@@ -19,7 +19,7 @@ import { Input } from '@/ui/Input';
 import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
-import { getValueFromTheme } from '@/ui/theme';
+import { getGlobalBorderRadius, getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 import { formatDateToISO } from '@/utils/formatDateToISO';
 import { prefixUrlWithHttp } from '@/utils/url';
@@ -175,6 +175,7 @@ const ReservationPeriod = ({
       </Inline>
       {isDatePickerVisible && (
         <Stack
+          borderRadius={getGlobalBorderRadius}
           padding={4}
           backgroundColor="white"
           css={`

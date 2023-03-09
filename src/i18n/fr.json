@@ -8,6 +8,34 @@
     "new_features": "Nouveau dans UiTdatabank",
     "no_features": "Il n'y a actuellement aucune nouveauté."
   },
+  "beta_version": {
+    "title": "Vous voulez essayer la dernière version de l'UiTdatabank ? ",
+    "intro1": "Nous travaillons d'arrache-pied sur un nouveau formulaire d'entrée dans la banque de données UiTd afin que vous puissiez saisir vos activités encore plus facilement. Vous l'avez déjà essayé ? Passez à la dernière version de l'UiTdatabank et testez dès maintenant toutes les nouvelles fonctionnalités.",
+    "intro2": "Quelles sont les nouveautés?",
+    "improvements": [
+      {
+        "prefix": "Plus de possibilités:",
+        "text": "vous pouvez ajouter des événements en ligne, télécharger une vidéo et bien plus encore."
+      },
+      {
+        "prefix": "Moins de travail:",
+        "text": "nous préparons déjà le nom de votre organisation pour vous, de sorte que vous ne devez pas remplir ce champ à chaque fois. Plus tard, nous ferons de même avec les autres informations que vous avez saisies précédemment."
+      },
+      {
+        "prefix": "Une aide supplémentaire:",
+        "text": " le score de complétude vous donne un retour immédiat et des conseils sur la manière de saisir votre événement ou votre lieu de réunion de la manière la plus complète possible."
+      }
+    ],
+    "outro1": "Souhaitez-vous être parmi les premiers à tester le nouveau formulaire d'inscription?",
+    "confirm": {
+      "title": "J'aime l'essayer",
+      "info": "Commencez tout de suite <boldText>avec</boldText> la nouvelle version de l'UiTdatabank."
+    },
+    "cancel": {
+      "title": "Je vais attendre un peu plus longtemps",
+      "info": "Vous avez encore beaucoup de temps pour passer à la nouvelle version."
+    }
+  },
   "bookingAvailability": {
     "actions": {
       "cancel": "Annuler",
@@ -188,7 +216,7 @@
       "online_url": {
         "label": "Lien de participation",
         "placeholder": "https://",
-        "info": "Ajoutez un lien pour informer votre public de comment participer à votre événement. Vous ne souhaitez pas partager publiquement ce lien? Vous pouvez sauter cette étape et ajouter les informations relatives à la participation à votre description à l'étape 5."
+        "info": "Ajoutez un lien pour informer votre public de comment participer à votre événement. Vous ne souhaitez pas partager publiquement ce lien? Vous pouvez sauter cette étape et ajouter les informations relatives à la participation à votre description à l'étape 6."
       },
       "place": {
         "choose_label": "Choisissez un emplacement",
@@ -198,6 +226,9 @@
         "change_location": "Changer de lieu",
         "location_school": "Emplacement en concertation avec l'école",
         "location_school_info": "Lieu en concertation avec l'écoleL'événement dont le lieu est déterminé en concertation ne sera pas publié sur UiTinVlaanderen ou d'autres chaînes publiques. Votre événement apparaîtra sur cultuurkuur.be"
+      },
+      "street_and_number": {
+        "change": "Changer de rue et de numéro"
       }
     },
     "name_and_age": {
@@ -381,7 +412,7 @@
         "change": "Modifier l'organisateur",
         "title": "Organisateur",
         "select_recent_used_organizer": "Choisissez une organisation à laquelle vous avez eu recours récemment",
-        "select_recent_used_organizer_info": "Nous avons préparé pour vous les organisations pour lesquelles vous avez récemment inscrit un événement ici. Ajoutez-les à votre événement d'un simple clic.",
+        "select_recent_used_organizer_info": "Nous avons préparé pour vous les organisations pour lesquelles vous vous êtes récemment inscrit. Ajoutez-les d'un simple clic.",
         "or_choose_other_organizer": "Ou choisissez une autre organisation",
         "uitpas_cardsystems": "UiTPAS systèmes de cartes",
         "uitpas_alert": {

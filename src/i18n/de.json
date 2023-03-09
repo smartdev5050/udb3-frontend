@@ -8,6 +8,34 @@
     "new_features": "Neu bei UiTdatabank",
     "no_features": "Momentan gibt es keine Neuigkeiten."
   },
+  "beta_version": {
+    "title": "Möchten Sie die neueste Version der UiTdatabank ausprobieren?",
+    "intro1": "Wir arbeiten mit Hochdruck an einem neuen Eingabeformular in der UiTdatabank, damit Sie Ihre Aktivitäten noch reibungsloser eingeben können. Probieren Sie es schon aus? Wechseln Sie auf die neueste Version der UiTdatabank und testen Sie gleich alle neuen Funktionen.",
+    "intro2": "Was gibt es Neues?",
+    "improvements": [
+      {
+        "prefix": "Mehr Möglichkeiten:",
+        "text": "Sie können Online-Veranstaltungen hinzufügen, ein Video hochladen und vieles mehr. "
+      },
+      {
+        "prefix": "Weniger Arbeit:",
+        "text": "Wir bereiten den Namen Ihrer Organisation bereits für Sie vor, so dass Sie dieses Feld nicht jedes Mal ausfüllen müssen. Später machen wir das Gleiche mit anderen Informationen, die Sie zuvor eingegeben haben. "
+      },
+      {
+        "prefix": "Zusätzliche Hilfe:",
+        "text": "Über die Vollständigkeitsbewertung erhalten Sie sofortiges Feedback und Tipps, wie Sie Ihre Veranstaltung oder Ihren Veranstaltungsort so vollständig wie möglich eingeben können."
+      }
+    ],
+    "outro1": "Möchten Sie zu den ersten gehören, die das neue Anmeldeformular testen?",
+    "confirm": {
+      "title": "Ich probiere es aus",
+      "info": "Legen Sie gleich los <boldText>mit<boldText> der neuen Version der UiTdatabase."
+    },
+    "cancel": {
+      "title": "Ich werde eine Weile warten",
+      "info": "Sie können den Wechsel zu einem späteren Zeitpunkt vornehmen"
+    }
+  },
   "bookingAvailability": {
     "actions": {
       "cancel": "Abbrechen",
@@ -183,7 +211,7 @@
       "online_url": {
         "label": "Teilnahmelink",
         "placeholder": "https://",
-        "info": "Fügen Sie einen Link hinzu, damit die Leute wissen, wie sie an Ihrer Veranstaltung teilnehmen können. Sie möchten den Link zur Teilnahme nicht öffentlich freigeben? Dann können Sie diesen Schritt überspringen und die Teilnahmeanweisungen in Schritt 5 Ihrer Beschreibung hinzufügen."
+        "info": "Fügen Sie einen Link hinzu, damit die Leute wissen, wie sie an Ihrer Veranstaltung teilnehmen können. Sie möchten den Link zur Teilnahme nicht öffentlich freigeben? Dann können Sie diesen Schritt überspringen und die Teilnahmeanweisungen in Schritt 6 Ihrer Beschreibung hinzufügen."
       },
       "municipality": {
         "change_be": "Gemeinde wechseln",
@@ -198,6 +226,9 @@
         "change_location": "Den Ort wechseln",
         "location_school": "Ort in Absprache mit der Schule",
         "location_school_info": "Veranstaltungen, deren Ort in Absprache festgelegt wird, werden nicht auf UiTinVlaanderen oder anderen öffentlichen Kanälen veröffentlicht. Ihre Veranstaltung erscheint auf cultuurkuur.be"
+      },
+      "street_and_number": {
+        "change": "Straße und Hausnummer wechseln"
       }
     },
     "name_and_age": {
@@ -379,7 +410,7 @@
         "change": "Ändern Organisator",
         "title": "Organisator",
         "select_recent_used_organizer": "Wählen Sie eine Organisation, mit der Sie kürzlich gearbeitet haben",
-        "select_recent_used_organizer_info": "Hier haben wir für Sie die Organisationen vorbereitet, für die Sie kürzlich eine Veranstaltung eingetragen haben. Fügen Sie sie mit einem einzigen Klick zu Ihrer Veranstaltung hinzu.",
+        "select_recent_used_organizer_info": "Wir haben für Sie die Organisationen vorbereitet, für die Sie sich kürzlich angemeldet haben. Fügen Sie sie mit einem einfachen Klick hinzu.",
         "or_choose_other_organizer": "Oder Sie wählen eine andere Organisation",
         "uitpas_cardsystems": "UiTPAS Kartensysteme",
         "uitpas_alert": {
