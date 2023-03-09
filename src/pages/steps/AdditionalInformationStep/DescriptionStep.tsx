@@ -14,10 +14,9 @@ import { Inline } from '@/ui/Inline';
 import { ProgressBar, ProgressBarVariants } from '@/ui/ProgressBar';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
-import { TextArea } from '@/ui/TextArea';
 import { Breakpoints } from '@/ui/theme';
-
 import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
+import RichTextEditor from '@/pages/RichTextEditor';
 
 const IDEAL_DESCRIPTION_LENGTH = 200;
 
@@ -147,8 +146,8 @@ const DescriptionStep = ({
     });
   };
 
-  const handleInput = (e) => {
-    setDescription(e.target.value);
+  const handleInput = (value) => {
+    setDescription(value);
   };
 
   return (
@@ -159,8 +158,7 @@ const DescriptionStep = ({
         id="create-description"
         label={t('create.additionalInformation.description.title')}
         Component={
-          <TextArea
-            rows={10}
+          <RichTextEditor
             value={description}
             onInput={handleInput}
             onBlur={handleBlur}
