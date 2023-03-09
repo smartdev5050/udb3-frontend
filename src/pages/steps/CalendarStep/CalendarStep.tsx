@@ -90,8 +90,10 @@ const convertStateToFormData = (
   ).includes(calendarType);
 
   const subEvent = days.map((day) => ({
-    startDate: formatDateToISO(new Date(day.startDate)),
-    endDate: formatDateToISO(new Date(day.endDate)),
+    startDate: formatDateToISO(
+      day.startDate ? new Date(day.startDate) : new Date(),
+    ),
+    endDate: formatDateToISO(day.endDate ? new Date(day.endDate) : new Date()),
     bookingAvailability: day.bookingAvailability,
     status: day.status,
   }));
@@ -107,8 +109,8 @@ const convertStateToFormData = (
     ...(isOneOrMoreDays && { subEvent }),
     ...(isFixedDays && { openingHours: newOpeningHours }),
     ...(calendarType === CalendarType.PERIODIC && {
-      startDate: formatDateToISO(new Date(startDate || undefined)),
-      endDate: formatDateToISO(new Date(endDate || undefined)),
+      startDate: formatDateToISO(startDate ? new Date(startDate) : new Date()),
+      endDate: formatDateToISO(endDate ? new Date(endDate) : new Date()),
     }),
   };
 };
