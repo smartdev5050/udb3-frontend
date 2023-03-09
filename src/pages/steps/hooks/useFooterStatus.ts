@@ -6,6 +6,7 @@ import { isEvent } from '@/types/Event';
 import { isPlace } from '@/types/Place';
 
 const FooterStatus = {
+  DUPLICATE: 'DUPLICATE',
   HIDDEN: 'HIDDEN',
   PUBLISH: 'PUBLISH',
   MANUAL_SAVE: 'MANUAL_SAVE',
@@ -15,6 +16,7 @@ const FooterStatus = {
 const useFooterStatus = ({ offer, form }) => {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const isOnDuplicatePage = router.pathname.endsWith('/duplicate');
 
   const {
     formState: { dirtyFields },
@@ -28,6 +30,10 @@ const useFooterStatus = ({ offer, form }) => {
   const isPlaceType = isPlace(offer);
 
   const footerStatus = useMemo(() => {
+    if (offerId && isOnDuplicatePage) {
+      return FooterStatus.DUPLICATE;
+    }
+
     if (offerId && isEventType && !availableFrom) {
       return FooterStatus.PUBLISH;
     }
