@@ -17,6 +17,8 @@ import { Text, TextVariants } from '@/ui/Text';
 import { Breakpoints } from '@/ui/theme';
 import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
 import RichTextEditor from '@/pages/RichTextEditor';
+import draftToHtml from 'draftjs-to-html';
+import { ContentState } from 'draft-js';
 
 const IDEAL_DESCRIPTION_LENGTH = 200;
 
@@ -85,6 +87,7 @@ const DescriptionStep = ({
   const eventId = offerId;
 
   const [description, setDescription] = useState('');
+  const [plainTextDescription, setPlainTextDescription] = useState('');
 
   const useGetOfferByIdQuery =
     scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
@@ -146,8 +149,9 @@ const DescriptionStep = ({
     });
   };
 
-  const handleInput = (value) => {
-    setDescription(value);
+  const handleInput = (contentState: ContentState) => {
+    setDescription(draftToHtml(contentState));
+    setPlainTextDescription(contentState.getPlainText(''));
   };
 
   return (
@@ -166,7 +170,7 @@ const DescriptionStep = ({
         }
         info={
           <DescriptionInfo
-            description={description}
+            description={plainTextDescription}
             onClear={handleClear}
             eventTypeId={eventTypeId}
           />

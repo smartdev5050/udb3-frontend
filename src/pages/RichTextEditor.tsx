@@ -1,7 +1,6 @@
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
-import { ContentState, EditorState } from 'draft-js';
-import draftToHtml from 'draftjs-to-html';
+import { ContentState, convertFromRaw, EditorState } from 'draft-js';
 import htmlToDraft from 'html-to-draftjs';
 import { useMemo } from 'react';
 import { Editor } from 'react-draft-wysiwyg';
@@ -26,7 +25,7 @@ function RichTextEditor({ value, onInput, onBlur }) {
     <div style={{ background: 'white', borderRadius: 10, padding: 10 }}>
       <Editor
         defaultEditorState={editorState}
-        onChange={(contentState) => onInput(draftToHtml(contentState))}
+        onChange={(rawContentState) => onInput(convertFromRaw(rawContentState))}
         onBlur={onBlur}
       />
     </div>
