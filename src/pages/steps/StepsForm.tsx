@@ -226,29 +226,29 @@ const StepsForm = ({
                 {t('create.duplicate.title')}
               </Button>
             )}
-            {footerStatus === FooterStatus.PUBLISH ? (
-              [
-                <Button
-                  variant={ButtonVariants.SUCCESS}
-                  onClick={async () => publishOffer()}
-                  key="publish"
-                >
-                  {t('create.actions.publish')}
-                </Button>,
-                publishLaterButton,
-                <Text
-                  key="info"
-                  color={getValue('footer.color')}
-                  fontSize="0.9rem"
-                >
-                  {t('create.footer.auto_save')}
-                </Text>,
-              ]
-            ) : footerStatus === FooterStatus.MANUAL_SAVE ? (
+            {footerStatus === FooterStatus.PUBLISH && [
+              <Button
+                variant={ButtonVariants.SUCCESS}
+                onClick={async () => publishOffer()}
+                key="publish"
+              >
+                {t('create.actions.publish')}
+              </Button>,
+              publishLaterButton,
+              <Text
+                key="info"
+                color={getValue('footer.color')}
+                fontSize="0.9rem"
+              >
+                {t('create.footer.auto_save')}
+              </Text>,
+            ]}
+            {footerStatus === FooterStatus.MANUAL_SAVE && (
               <Button onClick={handleSubmit(addOffer)}>
                 {t('create.actions.save')}
               </Button>
-            ) : (
+            )}
+            {footerStatus === FooterStatus.AUTO_SAVE && (
               <Inline spacing={3} alignItems="center">
                 <Link
                   href={`/event/${offerId}/preview`}
