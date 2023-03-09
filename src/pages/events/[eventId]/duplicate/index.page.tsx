@@ -1,4 +1,5 @@
 import { dehydrate } from 'react-query/hydration';
+
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 
 import { OfferForm } from '../../../create/OfferForm';
