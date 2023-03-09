@@ -84,6 +84,8 @@ const StepsForm = ({
 }: StepsFormProps) => {
   const { t } = useTranslation();
   const { form } = useParseStepConfiguration(configurations);
+  const [isDuplicateButtonDisabled, setIsDuplicateButtonDisabled] =
+    useState(true);
 
   const { handleSubmit, reset } = form;
 
@@ -175,6 +177,14 @@ const StepsForm = ({
 
   const pageTitle = isOnDuplicatePage ? t('create.duplicate.title') : title;
 
+  const onDuplicateEditFieldChange = () => {
+    setIsDuplicateButtonDisabled(false);
+  };
+
+  const onChange = isOnDuplicatePage
+    ? onDuplicateEditFieldChange
+    : handleChange;
+
   return (
     <Page>
       <Page.Title spacing={3} alignItems="center">
@@ -195,7 +205,7 @@ const StepsForm = ({
         />
         <Steps
           configurations={stepsConfigurations}
-          onChange={handleChange}
+          onChange={onChange}
           fieldLoading={fieldLoading}
           onChangeSuccess={handleChangeSuccess}
           offerId={offerId}
@@ -209,6 +219,7 @@ const StepsForm = ({
           <Inline spacing={3} alignItems="center">
             {footerStatus === FooterStatus.DUPLICATE && (
               <Button
+                disabled={isDuplicateButtonDisabled}
                 variant={ButtonVariants.SUCCESS}
                 onClick={handleSubmit(addOffer)}
               >
