@@ -1,11 +1,11 @@
 name: E2E
 
-on:
-  pull_request:
-    types: [ready_for_review]
+on: push
 
 jobs:
   test-e2e:
+    if: github.event.pull_request.ready_for_review == true
+
     timeout-minutes: 10
 
     runs-on: ubuntu-latest
