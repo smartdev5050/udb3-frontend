@@ -7,7 +7,7 @@ import {
   locationStepConfiguration,
   useEditLocation,
 } from '@/pages/steps/LocationStep';
-import { Offer, usesLegacyLocation } from '@/types/Offer';
+import { Offer, hasLegacyLocation } from '@/types/Offer';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
@@ -182,7 +182,7 @@ const StepsForm = ({
     </Button>
   );
 
-  const needsLocationMigration = usesLegacyLocation(offer);
+  const needsLocationMigration = hasLegacyLocation(offer);
 
   return (
     <Page>

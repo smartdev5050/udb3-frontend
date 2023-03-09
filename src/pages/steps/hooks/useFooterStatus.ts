@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { useQueryClient } from 'react-query';
 
 import { isEvent } from '@/types/Event';
-import { usesLegacyLocation } from '@/types/Offer';
+import { hasLegacyLocation } from '@/types/Offer';
 import { isPlace } from '@/types/Place';
 
 const FooterStatus = {
@@ -28,7 +28,7 @@ const useFooterStatus = ({ offer, form }) => {
   const isPlaceDirty = dirtyFields.place || dirtyFields.location;
   const isEventType = isEvent(offer);
   const isPlaceType = isPlace(offer);
-  const needsLocationMigration = usesLegacyLocation(offer);
+  const needsLocationMigration = hasLegacyLocation(offer);
 
   return useMemo(() => {
     if (needsLocationMigration) {
