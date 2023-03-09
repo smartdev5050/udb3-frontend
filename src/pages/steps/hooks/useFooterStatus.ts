@@ -54,6 +54,7 @@ const useFooterStatus = ({ offer, form }) => {
     router.route,
     isMutating,
     isPlaceDirty,
+    isOnDuplicatePage,
   ]);
 
   return footerStatus;
