@@ -9,32 +9,31 @@
     "no_features": "Er zijn momenteel geen nieuwigheden."
   },
   "beta_version": {
-    "title": "Wil jij de vernieuwde versie van UiTdatabank proberen?",
-    "intro1": "Met de beta-versie van UiTdatabank kan je meteen genieten van een verbeterde interface.",
-    "intro2": "Wat kan je verwachten in deze versie?",
+    "title": "Wil je de nieuwste versie van de UiTdatabank proberen?",
+    "intro1": "We werken hard aan een nieuw invoerformulier in de UiTdatabank, zodat je nog vlotter je activiteiten kan invoeren. Al eens proberen? Schakel over naar de  nieuwste versie van de UiTdatabank en test meteen alle nieuwigheden.",
+    "intro2": "Wat is er nieuw?",
     "improvements": [
       {
         "prefix": "Nieuwe mogelijkheden:",
-        "text": "toevoegen van online evenementen, video bij je evenement, etc."
+        "text": "je kan online evenementen toevoegen, een video uploaden en heel wat meer. "
       },
       {
-        "prefix": "Verbeterde gebruikservaring:",
-        "text": "we zetten informatie die je eerder al invoerde klaar voor jou zodat je met minder klikken door het invoerformulier kan"
+        "prefix": "Minder werk:",
+        "text": "we zetten de naam van je organisatie al voor je klaar, zodat je dat veld niet telkens opnieuw moet invullen. Later doen we hetzelfde met andere informatie die je al eerder invoerde."
       },
       {
-        "prefix": "Onmiddellijke feedback",
-        "text": "over de volledigheid van je ingevoerd evenement of locatie"
+        "prefix": "Extra hulp",
+        "text": "via de volledigheidsscore krijg je meteen feedback en tips om je evenement of locatie zo volledig mogelijk in te voeren. "
       }
     ],
-    "outro1": "Dat is nog maar het begin. De komende maanden zal deze interface nog verder uitgebreid en verbeterd worden.",
-    "outro2": "Wil je als een van de eersten de nieuwe interface gebruiken?",
+    "outro1": "Wil je als een van de eersten het nieuwe invoerformulier testen? ",
     "confirm": {
       "title": "Ik probeer het UiT",
-      "info": "Ga verder <boldText>met</boldText> de nieuwe interface"
+      "info": "Ga meteen aan de slag <boldText>met<boldText> de nieuwe versie van de UiTdatabank."
     },
     "cancel": {
       "title": "Ik wacht nog even",
-      "info": "Je kan op een later moment de overstap maken"
+      "info": "Je hebt nog ruim de tijd om over te schakelen naar de nieuwe versie."
     }
   },
   "bookingAvailability": {
@@ -212,7 +211,7 @@
       "online_url": {
         "label": "Deelnamelink",
         "placeholder": "https://",
-        "info": "Voeg een link toe zodat mensen weten hoe ze aan je evenement kunnen deelnemen. Wil je de deelnamelink niet publiek delen? Dan kan je deze stap overslaan en deelname-instructies toevoegen aan je beschrijving in stap 5."
+        "info": "Voeg een link toe zodat mensen weten hoe ze aan je evenement kunnen deelnemen. Wil je de deelnamelink niet publiek delen? Dan kan je deze stap overslaan en deelname-instructies toevoegen aan je beschrijving in stap 6."
       },
       "municipality": {
         "change_be": "Wijzig gemeente",
@@ -413,7 +412,7 @@
         "change": "Wijzig organisatie",
         "title": "Organisatie",
         "select_recent_used_organizer": "Kies een organisatie die je recent gebruikte",
-        "select_recent_used_organizer_info": "We hebben de organisaties waarvoor je recent een evenement invoerde hier voor je klaargezet. Met één klik voeg je ze toe aan je evenement.",
+        "select_recent_used_organizer_info": "We hebben de organisaties waarvoor je recent invoerde hier voor je klaargezet. Met één klik voeg je ze toe.",
         "or_choose_other_organizer": "Of kies een andere organisatie",
         "uitpas_cardsystems": "UiTPAS Kaartsystemen",
         "uitpas_alert": {
@@ -567,9 +566,6 @@
     "title": "Er is iets misgelopen"
   },
   "eventTypes": {
-    "0.100.0.0.0": "Kijken en luisteren",
-    "0.100.1.0.0": "Doen",
-    "0.100.2.0.0": "Bezoeken",
     "0.0.0.0.0": "Tentoonstelling",
     "0.12.0.0.0": "Opendeurdag",
     "0.14.0.0.0": "Monument",

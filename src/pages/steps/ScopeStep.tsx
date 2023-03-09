@@ -118,6 +118,7 @@ const ScopeStep = ({
   const { replace } = useRouter();
 
   useEffect(() => {
+    if (!scope) return;
     setValue('scope', scope);
   }, [scope, setValue]);
 
@@ -133,6 +134,8 @@ const ScopeStep = ({
   const resetFieldsAfterScopeChange = () => {
     if (offerId) return;
     resetField('typeAndTheme');
+    resetField('calendar');
+    resetField('location');
   };
 
   return (
