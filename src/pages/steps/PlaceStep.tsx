@@ -122,7 +122,7 @@ const PlaceStep = ({
         control={control}
         name={name}
         render={({ field }) => {
-          const selectedPlace = place;
+          const selectedPlace = place['@id'] ? place : null;
 
           if (!selectedPlace) {
             return (
