@@ -203,7 +203,7 @@ const StepsForm = ({
           <>
             <Alert variant={AlertVariants.DANGER} marginY={5}>
               <Trans
-                i18nKey={'create.migration.alert'}
+                i18nKey="create.migration.alert"
                 components={{
                   boldText: <Text fontWeight="bold" />,
                 }}
