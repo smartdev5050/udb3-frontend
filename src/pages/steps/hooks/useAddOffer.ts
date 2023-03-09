@@ -45,6 +45,14 @@ const useAddOffer = ({
 
     if (!offerId) return;
 
+    // Add label when created via new entry form
+    // This can be removed once the new entry form is the default form
+    await addLabelMutation.mutateAsync({
+      id: offerId,
+      label: 'new-entry-form',
+      scope,
+    });
+
     if (label) {
       await addLabelMutation.mutateAsync({
         id: offerId,

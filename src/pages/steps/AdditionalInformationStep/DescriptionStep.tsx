@@ -154,7 +154,7 @@ const DescriptionStep = ({
   return (
     <Inline stackOn={Breakpoints.M}>
       <FormElement
-        min-width="50%"
+        minWidth="50%"
         marginRight={5}
         id="create-description"
         label={t('create.additionalInformation.description.title')}
