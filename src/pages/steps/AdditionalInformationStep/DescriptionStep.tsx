@@ -18,17 +18,12 @@ import { Breakpoints } from '@/ui/theme';
 import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
 import RichTextEditor from '@/pages/RichTextEditor';
 import draftToHtml from 'draftjs-to-html';
-import {
-  ContentState,
-  convertFromRaw,
-  convertToRaw,
-  EditorState,
-  RawDraftContentState,
-} from 'draft-js';
-import { raw } from '@storybook/react';
+import { ContentState, convertToRaw, EditorState } from 'draft-js';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 import { SupportedLanguage } from '@/i18n/index';
-import htmlToDraft from 'html-to-draftjs';
+
+const htmlToDraft =
+  typeof window === 'object' && require('html-to-draftjs').default;
 
 const IDEAL_DESCRIPTION_LENGTH = 200;
 
