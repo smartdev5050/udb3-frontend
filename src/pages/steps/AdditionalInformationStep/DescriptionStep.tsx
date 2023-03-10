@@ -118,8 +118,8 @@ const DescriptionStep = ({
 
     setEditorState(EditorState.createWithContent(contentState));
 
-    const isCompleted =
-      contentState.getPlainText()?.length >= IDEAL_DESCRIPTION_LENGTH;
+    const plainText = contentState.getPlainText() ?? '';
+    const isCompleted = plainText.length >= IDEAL_DESCRIPTION_LENGTH;
 
     onValidationChange(
       isCompleted ? ValidationStatus.SUCCESS : ValidationStatus.NONE,
