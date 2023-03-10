@@ -200,38 +200,30 @@ const StepsForm = ({
           visible={!!toast.message}
           onClose={() => toast.clear()}
         />
-        {needsLocationMigration ? (
-          <Stack>
-            <Alert variant={AlertVariants.DANGER} marginY={5}>
-              <Trans
-                i18nKey="create.migration.alert"
-                components={{
-                  boldText: <Text fontWeight="bold" />,
-                }}
-              />
-            </Alert>
-            <Steps
-              configurations={[locationStepConfiguration]}
-              fieldLoading={fieldLoading}
-              offerId={offerId}
-              onChange={handleChange}
-              mainLanguage={offer?.mainLanguage}
-              scope={scope}
-              form={form}
+        {needsLocationMigration && (
+          <Alert variant={AlertVariants.DANGER} marginY={5}>
+            <Trans
+              i18nKey="create.migration.alert"
+              components={{
+                boldText: <Text fontWeight="bold" />,
+              }}
             />
-          </Stack>
-        ) : (
-          <Steps
-            configurations={configurations}
-            onChange={handleChange}
-            fieldLoading={fieldLoading}
-            onChangeSuccess={handleChangeSuccess}
-            offerId={offerId}
-            mainLanguage={offer?.mainLanguage}
-            scope={scope}
-            form={form}
-          />
+          </Alert>
         )}
+        <Steps
+          configurations={
+            needsLocationMigration
+              ? [locationStepConfiguration]
+              : configurations
+          }
+          onChange={handleChange}
+          fieldLoading={fieldLoading}
+          onChangeSuccess={handleChangeSuccess}
+          offerId={offerId}
+          mainLanguage={offer?.mainLanguage}
+          scope={scope}
+          form={form}
+        />
       </Page.Content>
       {footerStatus !== FooterStatus.HIDDEN && (
         <Page.Footer>
