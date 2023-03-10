@@ -1,3 +1,5 @@
+import { ContentState, convertToRaw, EditorState } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -5,6 +7,8 @@ import { OfferTypes } from '@/constants/OfferType';
 import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { useChangeOfferDescriptionMutation } from '@/hooks/api/offers';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
+import { SupportedLanguage } from '@/i18n/index';
+import RichTextEditor from '@/pages/RichTextEditor';
 import { Event } from '@/types/Event';
 import { Alert } from '@/ui/Alert';
 import { Box, parseSpacing } from '@/ui/Box';
@@ -15,12 +19,9 @@ import { ProgressBar, ProgressBarVariants } from '@/ui/ProgressBar';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { Breakpoints } from '@/ui/theme';
-import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
-import RichTextEditor from '@/pages/RichTextEditor';
-import draftToHtml from 'draftjs-to-html';
-import { ContentState, convertToRaw, EditorState } from 'draft-js';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
-import { SupportedLanguage } from '@/i18n/index';
+
+import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
 
 const htmlToDraft =
   typeof window === 'object' && require('html-to-draftjs').default;
@@ -114,11 +115,10 @@ const DescriptionStep = ({
       offer.mainLanguage,
     );
 
-    const blocksFromHtml = htmlToDraft(newDescription);
-    const { contentBlocks, entityMap } = blocksFromHtml;
+    const draftState = htmlToDraft(newDescription);
     const contentState = ContentState.createFromBlockArray(
-      contentBlocks,
-      entityMap,
+      draftState.contentBlocks,
+      draftState.entityMap,
     );
 
     setEditorState(EditorState.createWithContent(contentState));
@@ -168,8 +168,6 @@ const DescriptionStep = ({
     });
   };
 
-  const handleInput = (editorState) => setEditorState(editorState);
-
   return (
     <Inline stackOn={Breakpoints.M}>
       <FormElement
@@ -180,7 +178,7 @@ const DescriptionStep = ({
         Component={
           <RichTextEditor
             editorState={editorState}
-            onEditorStateChange={handleInput}
+            onEditorStateChange={setEditorState}
             onBlur={handleBlur}
           />
         }
