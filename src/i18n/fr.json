@@ -473,6 +473,10 @@
       "title": "Choisissez une date de publication",
       "warning": "Attention, vous ne pouvez définir cette date qu'une seule fois."
     },
+    "migration": {
+      "alert": "<boldText>Cette activité a été saisie dans la version précédente d'UiTdatabank.</boldText><br/>Pour la modifier, il est nécessaire de sélectionner à nouveau ou de saisir une fois l'emplacement et l'adresse précédemment sélectionnés.",
+      "continue": "Continuer"
+    },
     "toast": {
       "success": {
         "basic_info": "Les données de base ont été modifiées avec succès",
