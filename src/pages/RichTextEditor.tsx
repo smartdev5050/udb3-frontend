@@ -10,8 +10,24 @@ const Editor = dynamic(
 
 function RichTextEditor(props: ComponentProps<typeof Editor>) {
   return (
-    <div style={{ background: 'white', borderRadius: 10, padding: 10 }}>
-      <Editor {...props} />
+    <div
+      style={{
+        background: 'white',
+        borderRadius: 10,
+        padding: 10,
+        width: '100%',
+      }}
+    >
+      <Editor
+        {...props}
+        toolbar={{
+          options: ['inline', 'list', 'history'],
+          inline: {
+            inDropdown: false,
+            options: ['bold', 'italic', 'underline'],
+          },
+        }}
+      />
     </div>
   );
 }
