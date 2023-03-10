@@ -1,20 +1,17 @@
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import dynamic from 'next/dynamic';
+import { ComponentProps } from 'react';
 
 const Editor = dynamic(
   () => import('react-draft-wysiwyg').then(({ Editor }) => Editor),
   { ssr: false },
 );
 
-function RichTextEditor({ editorState, onInput, onBlur }) {
+function RichTextEditor(props: ComponentProps<typeof Editor>) {
   return (
     <div style={{ background: 'white', borderRadius: 10, padding: 10 }}>
-      <Editor
-        editorState={editorState}
-        onEditorStateChange={(editorState) => onInput(editorState)}
-        onBlur={onBlur}
-      />
+      <Editor {...props} />
     </div>
   );
 }

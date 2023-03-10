@@ -180,7 +180,7 @@ const DescriptionStep = ({
         Component={
           <RichTextEditor
             editorState={editorState}
-            onInput={handleInput}
+            onEditorStateChange={handleInput}
             onBlur={handleBlur}
           />
         }
