@@ -19,7 +19,6 @@ function RichTextEditor(props: ComponentProps<typeof Editor>) {
       }}
     >
       <Editor
-        {...props}
         toolbar={{
           options: ['inline', 'list', 'history'],
           inline: {
@@ -27,6 +26,7 @@ function RichTextEditor(props: ComponentProps<typeof Editor>) {
             options: ['bold', 'italic', 'underline'],
           },
         }}
+        {...props}
       />
     </div>
   );
