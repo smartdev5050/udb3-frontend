@@ -107,13 +107,8 @@ const DescriptionStep = ({
   const offer: Event | Place | undefined = getOfferByIdQuery.data;
 
   useEffect(() => {
-    if (!offer?.description) return;
-
-    const newDescription = getLanguageObjectOrFallback(
-      offer.description,
-      i18n.language as SupportedLanguage,
-      offer.mainLanguage,
-    );
+    const newDescription = offer?.description?.[i18n.language];
+    if (!newDescription) return;
 
     const draftState = htmlToDraft(newDescription);
     const contentState = ContentState.createFromBlockArray(
