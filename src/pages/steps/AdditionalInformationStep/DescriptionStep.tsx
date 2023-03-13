@@ -7,7 +7,6 @@ import { OfferTypes } from '@/constants/OfferType';
 import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { useChangeOfferDescriptionMutation } from '@/hooks/api/offers';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
-import { SupportedLanguage } from '@/i18n/index';
 import RichTextEditor from '@/pages/RichTextEditor';
 import { Event } from '@/types/Event';
 import { Alert } from '@/ui/Alert';
@@ -19,7 +18,6 @@ import { ProgressBar, ProgressBarVariants } from '@/ui/ProgressBar';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { Breakpoints } from '@/ui/theme';
-import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 
 import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
 
@@ -136,8 +134,6 @@ const DescriptionStep = ({
   });
 
   const handleBlur = () => {
-    if (!plainTextDescription) return;
-
     const isCompleted = plainTextDescription.length >= IDEAL_DESCRIPTION_LENGTH;
 
     onValidationChange(
