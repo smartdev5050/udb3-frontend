@@ -90,9 +90,12 @@ const RecentLocations = ({ onFieldChange, ...props }) => {
 
   return (
     <Stack {...props}>
-      <Text fontWeight={'bold'}>
-        {t('create.location.recent_locations.title')}
-      </Text>
+      <Inline>
+        <Text fontWeight={'bold'}>
+          {t('create.location.recent_locations.title')}
+        </Text>
+        <NewFeatureTooltip featureUUID={Features.SUGGESTED_ORGANIZERS} />
+      </Inline>
       <Alert variant={AlertVariants.PRIMARY} marginY={4}>
         {t('create.location.recent_locations.info')}
       </Alert>
