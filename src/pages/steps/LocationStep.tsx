@@ -34,7 +34,7 @@ import { RadioButtonTypes } from '@/ui/RadioButton';
 import { RadioButtonWithLabel } from '@/ui/RadioButtonWithLabel';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
-import { getValueFromTheme } from '@/ui/theme';
+import { Breakpoints, getValueFromTheme } from '@/ui/theme';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { prefixUrlWithHttp } from '@/utils/url';
 
@@ -63,7 +63,7 @@ const API_URL = publicRuntimeConfig.apiUrl;
 
 const getGlobalValue = getValueFromTheme('global');
 
-const RecentLocations = () => {
+const RecentLocations = (props) => {
   const getUserQuery = useGetUserQuery();
   const getOffersQuery = useGetOffersByCreatorQuery({
     advancedQuery: '_exists_:location.id',
@@ -87,7 +87,7 @@ const RecentLocations = () => {
   console.log(locations);
 
   return (
-    <div>
+    <Stack {...props}>
       <Text fontWeight={'bold'}>Kies een locatie die je recent gebruikte </Text>
       <Alert variant={AlertVariants.INFO} marginBottom={4}>
         We hebben de locaties waarvoor je recent invoerde hier voor je
@@ -115,7 +115,7 @@ const RecentLocations = () => {
           );
         })}
       </Inline>
-    </div>
+    </Stack>
   );
 };
 
@@ -325,6 +325,20 @@ const LocationStep = ({
     setStreetAndNumber(e.target.value);
   };
 
+  const renderFieldWithRecentLocations = (children) => (
+    <Inline
+      spacing={4}
+      stackOn={Breakpoints.S}
+      alignItems={'flex-start'}
+      width={'100%'}
+    >
+      <RecentLocations />
+      <Stack spacing={4} flex={1}>
+        {children}
+      </Stack>
+    </Inline>
+  );
+
   return (
     <Stack
       {...getStackProps(props)}
@@ -375,56 +389,60 @@ const LocationStep = ({
             return (
               <Stack spacing={4}>
                 {OnlineToggle}
-                <FormElement
-                  Component={
-                    <Input
-                      maxWidth="28rem"
-                      value={onlineUrl}
-                      onBlur={(e) => {
-                        const prefixedUrl =
-                          e.target.value === ''
-                            ? e.target.value
-                            : prefixUrlWithHttp(e.target.value);
-                        const updatedValue = {
-                          ...field?.value,
-                          onlineUrl: prefixedUrl,
-                        };
-                        field.onChange(updatedValue);
-                        if (isValidUrl(prefixedUrl)) {
-                          onChange(updatedValue);
-                          setHasOnlineUrlError(false);
-                        } else {
-                          setHasOnlineUrlError(true);
-                        }
-                      }}
-                      onChange={(e) => {
-                        setOnlineUrl(e.target.value);
-                      }}
-                      placeholder={t('create.location.online_url.placeholder')}
-                    />
-                  }
-                  id="online-url"
-                  label={t('create.location.online_url.label')}
-                  error={
-                    hasOnlineUrlError &&
-                    t('create.validation_messages.location.online_url')
-                  }
-                  info={
-                    <Text
-                      variant={TextVariants.MUTED}
-                      maxWidth={parseSpacing(9)}
-                    >
-                      {t('create.location.online_url.info')}
-                    </Text>
-                  }
-                />
+                {renderFieldWithRecentLocations(
+                  <FormElement
+                    Component={
+                      <Input
+                        maxWidth="28rem"
+                        value={onlineUrl}
+                        onBlur={(e) => {
+                          const prefixedUrl =
+                            e.target.value === ''
+                              ? e.target.value
+                              : prefixUrlWithHttp(e.target.value);
+                          const updatedValue = {
+                            ...field?.value,
+                            onlineUrl: prefixedUrl,
+                          };
+                          field.onChange(updatedValue);
+                          if (isValidUrl(prefixedUrl)) {
+                            onChange(updatedValue);
+                            setHasOnlineUrlError(false);
+                          } else {
+                            setHasOnlineUrlError(true);
+                          }
+                        }}
+                        onChange={(e) => {
+                          setOnlineUrl(e.target.value);
+                        }}
+                        placeholder={t(
+                          'create.location.online_url.placeholder',
+                        )}
+                      />
+                    }
+                    id="online-url"
+                    label={t('create.location.online_url.label')}
+                    error={
+                      hasOnlineUrlError &&
+                      t('create.validation_messages.location.online_url')
+                    }
+                    info={
+                      <Text
+                        variant={TextVariants.MUTED}
+                        maxWidth={parseSpacing(9)}
+                      >
+                        {t('create.location.online_url.info')}
+                      </Text>
+                    }
+                  />,
+                )}
               </Stack>
             );
           }
 
           if (!country || municipality?.zip === '0000') {
-            return (
-              <Stack spacing={4}>
+            return renderFieldWithRecentLocations(
+              <>
                 <Inline alignItems="center" spacing={3}>
                   <Icon
                     name={Icons.CHECK_CIRCLE}
@@ -451,161 +469,160 @@ const LocationStep = ({
                 <Alert maxWidth="53rem">
                   {t('create.location.country.location_school_info')}
                 </Alert>
-              </Stack>
+              </>,
             );
           }
 
           if (!municipality) {
             return (
-              <Stack spacing={4}>
+              <>
                 {scope === OfferTypes.EVENTS && OnlineToggle}
-                <Inline spacing={1} alignItems="center">
-                  <CityPicker
-                    name="city-picker-location-step"
-                    country={country}
-                    offerId={offerId}
-                    value={field.value?.municipality}
-                    onChange={(value) => {
-                      const updatedValue = {
-                        ...field.value,
-                        municipality: value,
-                        place: undefined,
-                      };
-                      field.onChange(updatedValue);
-                      onChange(updatedValue);
-                      field.onBlur();
-                    }}
-                    width="22rem"
-                  />
-                  <CountryPicker
-                    value={country}
-                    includeLocationSchool={scope === OfferTypes.EVENTS}
-                    onChange={(newCountry) => {
-                      const updatedValue = {
-                        ...field.value,
-                        country: newCountry,
-                      };
-                      field.onChange(updatedValue);
-                      onChange(updatedValue);
-                      field.onBlur();
-                    }}
-                    css={`
-                      & button {
-                        margin-bottom: 0.3rem;
-                      }
-                    `}
-                  />
-                  <NewFeatureTooltip
-                    featureUUID={Features.GERMAN_POSTALCODES}
-                  />
-                </Inline>
-              </Stack>
+                {renderFieldWithRecentLocations(
+                  <Inline spacing={1} alignItems="center">
+                    <CityPicker
+                      name="city-picker-location-step"
+                      country={country}
+                      offerId={offerId}
+                      value={field.value?.municipality}
+                      onChange={(value) => {
+                        const updatedValue = {
+                          ...field.value,
+                          municipality: value,
+                          place: undefined,
+                        };
+                        field.onChange(updatedValue);
+                        onChange(updatedValue);
+                        field.onBlur();
+                      }}
+                      width="22rem"
+                    />
+                    <CountryPicker
+                      value={country}
+                      includeLocationSchool={scope === OfferTypes.EVENTS}
+                      onChange={(newCountry) => {
+                        const updatedValue = {
+                          ...field.value,
+                          country: newCountry,
+                        };
+                        field.onChange(updatedValue);
+                        onChange(updatedValue);
+                        field.onBlur();
+                      }}
+                      css={`
+                        & button {
+                          margin-bottom: 0.3rem;
+                        }
+                      `}
+                    />
+                    <NewFeatureTooltip
+                      featureUUID={Features.GERMAN_POSTALCODES}
+                    />
+                  </Inline>,
+                )}
+              </>
             );
           }
 
-          return (
-            <Stack>
-              <Stack spacing={4}>
-                <Inline alignItems="center" spacing={3}>
-                  <Icon
-                    name={Icons.CHECK_CIRCLE}
-                    color={getGlobalValue('successIcon')}
-                  />
-                  <Text>{municipality.name}</Text>
-                  <Button
-                    variant={ButtonVariants.LINK}
-                    onClick={() => {
-                      const updatedValue = {
-                        ...field.value,
-                        municipality: undefined,
-                        streetAndNumber: undefined,
-                      };
-                      field.onChange(updatedValue);
-                      onChange(updatedValue);
-                      field.onBlur();
-                      setStreetAndNumber('');
-                    }}
-                  >
-                    {t(
-                      `create.location.municipality.change_${country?.toLowerCase()}`,
-                    )}
-                  </Button>
-                </Inline>
-                {scope === OfferTypes.EVENTS && (
-                  <PlaceStep
-                    municipality={municipality}
-                    country={country}
-                    chooseLabel={chooseLabel}
-                    placeholderLabel={placeholderLabel}
-                    {...{
-                      formState,
-                      getValues,
-                      reset,
-                      control,
-                      name,
-                    }}
-                    {...getStepProps(props)}
-                    onChange={onChange}
-                  />
-                )}
-                {scope === OfferTypes.PLACES && (
-                  <Stack>
-                    {field.value.streetAndNumber ? (
-                      <Inline alignItems="center" spacing={3}>
-                        <Icon
-                          name={Icons.CHECK_CIRCLE}
-                          color={getGlobalValue('successIcon')}
-                        />
-                        <Text>{field.value.streetAndNumber}</Text>
-                        <Button
-                          variant={ButtonVariants.LINK}
-                          onClick={() => {
+          return renderFieldWithRecentLocations(
+            <>
+              <Inline alignItems="center" spacing={3}>
+                <Icon
+                  name={Icons.CHECK_CIRCLE}
+                  color={getGlobalValue('successIcon')}
+                />
+                <Text>{municipality.name}</Text>
+                <Button
+                  variant={ButtonVariants.LINK}
+                  onClick={() => {
+                    const updatedValue = {
+                      ...field.value,
+                      municipality: undefined,
+                      streetAndNumber: undefined,
+                    };
+                    field.onChange(updatedValue);
+                    onChange(updatedValue);
+                    field.onBlur();
+                    setStreetAndNumber('');
+                  }}
+                >
+                  {t(
+                    `create.location.municipality.change_${country?.toLowerCase()}`,
+                  )}
+                </Button>
+              </Inline>
+              {scope === OfferTypes.EVENTS && (
+                <PlaceStep
+                  municipality={municipality}
+                  country={country}
+                  chooseLabel={chooseLabel}
+                  placeholderLabel={placeholderLabel}
+                  {...{
+                    formState,
+                    getValues,
+                    reset,
+                    control,
+                    name,
+                  }}
+                  {...getStepProps(props)}
+                  onChange={onChange}
+                />
+              )}
+              {scope === OfferTypes.PLACES && (
+                <Stack>
+                  {field.value.streetAndNumber ? (
+                    <Inline alignItems="center" spacing={3}>
+                      <Icon
+                        name={Icons.CHECK_CIRCLE}
+                        color={getGlobalValue('successIcon')}
+                      />
+                      <Text>{field.value.streetAndNumber}</Text>
+                      <Button
+                        variant={ButtonVariants.LINK}
+                        onClick={() => {
+                          const updatedValue = {
+                            ...field.value,
+                            streetAndNumber: undefined,
+                          };
+                          field.onChange(updatedValue);
+                          onChange(updatedValue);
+                          field.onBlur();
+                          setStreetAndNumber('');
+                        }}
+                      >
+                        {t(`create.location.street_and_number.change`)}
+                      </Button>
+                    </Inline>
+                  ) : (
+                    <FormElement
+                      Component={
+                        <Input
+                          value={streetAndNumber}
+                          onBlur={(e) => {
                             const updatedValue = {
                               ...field.value,
-                              streetAndNumber: undefined,
+                              streetAndNumber: streetAndNumber,
                             };
                             field.onChange(updatedValue);
                             onChange(updatedValue);
-                            field.onBlur();
-                            setStreetAndNumber('');
                           }}
-                        >
-                          {t(`create.location.street_and_number.change`)}
-                        </Button>
-                      </Inline>
-                    ) : (
-                      <FormElement
-                        Component={
-                          <Input
-                            value={streetAndNumber}
-                            onBlur={(e) => {
-                              const updatedValue = {
-                                ...field.value,
-                                streetAndNumber: streetAndNumber,
-                              };
-                              field.onChange(updatedValue);
-                              onChange(updatedValue);
-                            }}
-                            onChange={handleChangeStreetAndNumber}
-                          />
-                        }
-                        id="location-streetAndNumber"
-                        label={t('location.add_modal.labels.streetAndNumber')}
-                        maxWidth="28rem"
-                        error={
-                          formState.errors.location?.streetAndNumber &&
-                          t('location.add_modal.errors.streetAndNumber')
-                        }
-                      />
-                    )}
-                  </Stack>
-                )}
-              </Stack>
-            </Stack>
+                          onChange={handleChangeStreetAndNumber}
+                        />
+                      }
+                      id="location-streetAndNumber"
+                      label={t('location.add_modal.labels.streetAndNumber')}
+                      maxWidth="28rem"
+                      error={
+                        formState.errors.location?.streetAndNumber &&
+                        t('location.add_modal.errors.streetAndNumber')
+                      }
+                    />
+                  )}
+                </Stack>
+              )}
+            </>,
           );
         }}
       />
-      <RecentLocations />
     </Stack>
   );
 };
