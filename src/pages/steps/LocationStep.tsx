@@ -101,7 +101,16 @@ const RecentLocations = ({ onFieldChange, ...props }) => {
 
           return (
             <ButtonCard
-              onClick={() => onFieldChange({ place: location })}
+              onClick={() =>
+                onFieldChange({
+                  municipality: {
+                    zip: address.postalCode,
+                    label: `${address.postalCode} ${address.addressLocality}`,
+                    name: address.addressLocality,
+                  },
+                  place: location,
+                })
+              }
               key={location['@id']}
               title={location.name['nl']}
               description={
