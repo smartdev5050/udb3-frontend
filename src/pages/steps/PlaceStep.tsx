@@ -39,6 +39,7 @@ type PlaceStepProps = StackProps &
     country?: Country;
     chooseLabel: (t: TFunction) => string;
     placeholderLabel: (t: TFunction) => string;
+    onFieldChange: StepProps['onChange'];
   };
 
 const PlaceStep = ({
@@ -48,7 +49,7 @@ const PlaceStep = ({
   control,
   name,
   loading,
-  onChange,
+  onFieldChange,
   terms,
   municipality,
   country,
@@ -134,10 +135,7 @@ const PlaceStep = ({
                   municipality={municipality}
                   country={country}
                   onConfirmSuccess={(place) => {
-                    const updatedValue = { ...field.value, place };
-                    field.onChange(updatedValue);
-                    onChange(updatedValue);
-                    field.onBlur();
+                    onFieldChange({ place });
                     setIsPlaceAddModalVisible(false);
                   }}
                 />
@@ -202,10 +200,7 @@ const PlaceStep = ({
                           return;
                         }
 
-                        const updatedValue = { ...field.value, place };
-
-                        field.onChange(updatedValue);
-                        onChange(updatedValue);
+                        onFieldChange({ place });
                       }}
                       minLength={3}
                       placeholder={placeholderLabel(t)}

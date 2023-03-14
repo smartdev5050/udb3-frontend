@@ -1,4 +1,5 @@
 import { TFunction } from 'i18next';
+import { uniqBy } from 'lodash';
 import getConfig from 'next/config';
 import React, { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { Controller, useWatch } from 'react-hook-form';
@@ -13,18 +14,24 @@ import {
   useChangeLocationMutation,
   useChangeOnlineUrlMutation,
   useDeleteOnlineUrlMutation,
+  useGetEventByIdQuery,
 } from '@/hooks/api/events';
-import { useGetEventByIdQuery } from '@/hooks/api/events';
-import { useGetPlaceByIdQuery } from '@/hooks/api/places';
-import { useChangeAddressMutation } from '@/hooks/api/places';
+import { useGetOffersByCreatorQuery } from '@/hooks/api/offers';
+import {
+  useChangeAddressMutation,
+  useGetPlaceByIdQuery,
+} from '@/hooks/api/places';
+import { useGetUserQuery } from '@/hooks/api/user';
 import { FormData as OfferFormData } from '@/pages/create/OfferForm';
 import { Address } from '@/types/Address';
 import { Countries, Country } from '@/types/Country';
 import { AttendanceMode, AudienceType } from '@/types/Event';
+import { Offer } from '@/types/Offer';
 import { Values } from '@/types/Values';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
+import { ButtonCard } from '@/ui/ButtonCard';
 import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
@@ -50,11 +57,6 @@ import {
   StepProps,
   StepsConfiguration,
 } from './Steps';
-import { useGetOffersByCreatorQuery } from '@/hooks/api/offers';
-import { useGetUserQuery } from '@/hooks/api/user';
-import { Offer } from '@/types/Offer';
-import { uniqBy } from 'lodash';
-import { ButtonCard } from '@/ui/ButtonCard';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -63,7 +65,7 @@ const API_URL = publicRuntimeConfig.apiUrl;
 
 const getGlobalValue = getValueFromTheme('global');
 
-const RecentLocations = (props) => {
+const RecentLocations = ({ onFieldChange, ...props }) => {
   const getUserQuery = useGetUserQuery();
   const getOffersQuery = useGetOffersByCreatorQuery({
     advancedQuery: '_exists_:location.id',
@@ -84,7 +86,6 @@ const RecentLocations = (props) => {
     offers?.map((offer) => offer.location),
     '@id',
   ).filter((location) => location.name.nl !== 'Online');
-  console.log(locations);
 
   return (
     <Stack {...props}>
@@ -100,6 +101,7 @@ const RecentLocations = (props) => {
 
           return (
             <ButtonCard
+              onClick={() => onFieldChange({ place: location })}
               key={location['@id']}
               title={location.name['nl']}
               description={
@@ -325,20 +327,6 @@ const LocationStep = ({
     setStreetAndNumber(e.target.value);
   };
 
-  const renderFieldWithRecentLocations = (children) => (
-    <Inline
-      spacing={4}
-      stackOn={Breakpoints.S}
-      alignItems={'flex-start'}
-      width={'100%'}
-    >
-      <RecentLocations />
-      <Stack spacing={4} flex={1}>
-        {children}
-      </Stack>
-    </Inline>
-  );
-
   return (
     <Stack
       {...getStackProps(props)}
@@ -351,11 +339,28 @@ const LocationStep = ({
           const { isOnline, municipality, country } =
             field?.value as OfferFormData['location'];
 
-          const changeField = (updatedValue) => {
+          const onFieldChange = (updatedValue) => {
+            updatedValue = { ...field.value, ...updatedValue };
+            console.log(updatedValue);
+
             field.onChange(updatedValue);
             onChange(updatedValue);
             field.onBlur();
           };
+
+          const renderFieldWithRecentLocations = (children) => (
+            <Inline
+              spacing={4}
+              stackOn={Breakpoints.S}
+              alignItems={'flex-start'}
+              width={'100%'}
+            >
+              <RecentLocations onFieldChange={onFieldChange} />
+              <Stack spacing={4} flex={1}>
+                {children}
+              </Stack>
+            </Inline>
+          );
 
           const OnlineToggle = (
             <Inline>
@@ -366,8 +371,7 @@ const LocationStep = ({
                     type={RadioButtonTypes.SWITCH}
                     checked={isOnline}
                     onChange={(e) => {
-                      changeField({
-                        ...field.value,
+                      onFieldChange({
                         place: undefined,
                         municipality: undefined,
                         isOnline: e.target.checked,
@@ -455,8 +459,7 @@ const LocationStep = ({
                   <Button
                     variant={ButtonVariants.LINK}
                     onClick={() => {
-                      changeField({
-                        ...field.value,
+                      onFieldChange({
                         country: Countries.BE,
                         municipality: undefined,
                       });
@@ -485,8 +488,7 @@ const LocationStep = ({
                       offerId={offerId}
                       value={field.value?.municipality}
                       onChange={(value) => {
-                        changeField({
-                          ...field.value,
+                        onFieldChange({
                           municipality: value,
                           place: undefined,
                         });
@@ -497,10 +499,7 @@ const LocationStep = ({
                       value={country}
                       includeLocationSchool={scope === OfferTypes.EVENTS}
                       onChange={(newCountry) => {
-                        changeField({
-                          ...field.value,
-                          country: newCountry,
-                        });
+                        onFieldChange({ country: newCountry });
                       }}
                       css={`
                         & button {
@@ -528,8 +527,7 @@ const LocationStep = ({
                 <Button
                   variant={ButtonVariants.LINK}
                   onClick={() => {
-                    changeField({
-                      ...field.value,
+                    onFieldChange({
                       municipality: undefined,
                       streetAndNumber: undefined,
                     });
@@ -555,7 +553,7 @@ const LocationStep = ({
                     name,
                   }}
                   {...getStepProps(props)}
-                  onChange={onChange}
+                  onFieldChange={onFieldChange}
                 />
               )}
               {scope === OfferTypes.PLACES && (
@@ -570,8 +568,7 @@ const LocationStep = ({
                       <Button
                         variant={ButtonVariants.LINK}
                         onClick={() => {
-                          changeField({
-                            ...field.value,
+                          onFieldChange({
                             streetAndNumber: undefined,
                           });
                           setStreetAndNumber('');
@@ -586,8 +583,7 @@ const LocationStep = ({
                         <Input
                           value={streetAndNumber}
                           onBlur={(e) => {
-                            changeField({
-                              ...field.value,
+                            onFieldChange({
                               streetAndNumber: streetAndNumber,
                             });
                           }}

@@ -1,10 +1,10 @@
+import { User } from '@/types/User';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 
 import {
   ServerSideQueryOptions,
   useAuthenticatedQuery,
 } from './authenticated-query';
-import { User } from '@/types/User';
 
 const getUser = async ({ headers }) => {
   const res = await fetchFromApi({
