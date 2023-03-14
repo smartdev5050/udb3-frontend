@@ -1,6 +1,6 @@
 import { TFunction } from 'i18next';
 import getConfig from 'next/config';
-import { ChangeEvent, useEffect, useMemo, useState } from 'react';
+import React, { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { Controller, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -54,6 +54,7 @@ import { useGetOffersByCreatorQuery } from '@/hooks/api/offers';
 import { useGetUserQuery } from '@/hooks/api/user';
 import { Offer } from '@/types/Offer';
 import { uniqBy } from 'lodash';
+import { ButtonCard } from '@/ui/ButtonCard';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -88,15 +89,25 @@ const RecentLocations = () => {
   return (
     <div>
       <Text fontWeight={'bold'}>Kies een locatie die je recent gebruikte </Text>
-      <Alert variant={AlertVariants.INFO}>
+      <Alert variant={AlertVariants.INFO} marginBottom={4}>
         We hebben de locaties waarvoor je recent invoerde hier voor je
         klaargezet. Met één klik voeg je ze toe.{' '}
       </Alert>
-      {offers.map((offer) => (
-        <Button variant={ButtonVariants.CARD} key={offer['@id']}>
-          {offer.name['nl']}
-        </Button>
-      ))}
+      <Inline spacing={4} justifyContent="flex-start" flexWrap="wrap">
+        {locations.map((location) => {
+          const address = location.address[location.mainLanguage];
+
+          return (
+            <ButtonCard
+              key={location['@id']}
+              title={location.name['nl']}
+              description={
+                address && `${address.postalCode} ${address.addressLocality}`
+              }
+            />
+          );
+        })}
+      </Inline>
     </div>
   );
 };
