@@ -22,7 +22,7 @@ import { Address } from '@/types/Address';
 import { Countries, Country } from '@/types/Country';
 import { AttendanceMode, AudienceType } from '@/types/Event';
 import { Values } from '@/types/Values';
-import { Alert } from '@/ui/Alert';
+import { Alert, AlertVariants } from '@/ui/Alert';
 import { parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
@@ -50,6 +50,10 @@ import {
   StepProps,
   StepsConfiguration,
 } from './Steps';
+import { useGetOffersByCreatorQuery } from '@/hooks/api/offers';
+import { useGetUserQuery } from '@/hooks/api/user';
+import { Offer } from '@/types/Offer';
+import { uniqBy } from 'lodash';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -57,6 +61,45 @@ const CULTUURKUUR_LOCATION_ID = publicRuntimeConfig.cultuurKuurLocationId;
 const API_URL = publicRuntimeConfig.apiUrl;
 
 const getGlobalValue = getValueFromTheme('global');
+
+const RecentLocations = () => {
+  const getUserQuery = useGetUserQuery();
+  const getOffersQuery = useGetOffersByCreatorQuery({
+    advancedQuery: '_exists_:location.id',
+    creator: getUserQuery?.data,
+
+    sortOptions: {
+      field: 'modified',
+      order: 'desc',
+    },
+    queryArguments: {
+      workflowStatus: 'DRAFT,READY_FOR_VALIDATION,APPROVED',
+    },
+    paginationOptions: { start: 0, limit: 20 },
+  });
+
+  const offers: Offer[] = getOffersQuery?.data?.member ?? [];
+  const locations = uniqBy(
+    offers?.map((offer) => offer.location),
+    '@id',
+  );
+  console.log(locations);
+
+  return (
+    <div>
+      <Text fontWeight={'bold'}>Kies een locatie die je recent gebruikte </Text>
+      <Alert variant={AlertVariants.INFO}>
+        We hebben de locaties waarvoor je recent invoerde hier voor je
+        klaargezet. Met één klik voeg je ze toe.{' '}
+      </Alert>
+      {offers.map((offer) => (
+        <Button variant={ButtonVariants.CARD} key={offer['@id']}>
+          {offer.name['nl']}
+        </Button>
+      ))}
+    </div>
+  );
+};
 
 const useEditLocation = ({ scope, offerId }: UseEditArguments) => {
   const { i18n } = useTranslation();
@@ -544,6 +587,7 @@ const LocationStep = ({
           );
         }}
       />
+      <RecentLocations />
     </Stack>
   );
 };

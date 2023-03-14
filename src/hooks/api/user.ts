@@ -4,6 +4,7 @@ import {
   ServerSideQueryOptions,
   useAuthenticatedQuery,
 } from './authenticated-query';
+import { User } from '@/types/User';
 
 const getUser = async ({ headers }) => {
   const res = await fetchFromApi({
@@ -23,7 +24,7 @@ const useGetUserQuery = (
   { req, queryClient }: ServerSideQueryOptions = {},
   configuration = {},
 ) => {
-  return useAuthenticatedQuery({
+  return useAuthenticatedQuery<User>({
     req,
     queryClient,
     queryKey: ['user'],
