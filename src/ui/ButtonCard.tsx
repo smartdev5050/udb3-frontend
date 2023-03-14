@@ -1,9 +1,20 @@
+import React, { ComponentProps } from 'react';
+
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Paragraph } from '@/ui/Paragraph';
 import { Text } from '@/ui/Text';
 import { getGlobalBorderRadius } from '@/ui/theme';
 
-function ButtonCard({ title, description, badge, ...props }) {
+function ButtonCard({
+  title,
+  description,
+  badge,
+  ...props
+}: ComponentProps<typeof Button> & {
+  title: string;
+  description?: React.ReactNode;
+  badge?: React.ReactNode;
+}) {
   return (
     <Button
       padding={4}

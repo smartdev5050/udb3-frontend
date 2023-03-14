@@ -83,7 +83,7 @@ const RecentLocations = () => {
   const locations = uniqBy(
     offers?.map((offer) => offer.location),
     '@id',
-  );
+  ).filter((location) => location.name.nl !== 'Online');
   console.log(locations);
 
   return (
@@ -95,14 +95,21 @@ const RecentLocations = () => {
       </Alert>
       <Inline spacing={4} justifyContent="flex-start" flexWrap="wrap">
         {locations.map((location) => {
-          const address = location.address[location.mainLanguage];
+          const address =
+            location.address[location.mainLanguage] ?? location.address;
 
           return (
             <ButtonCard
               key={location['@id']}
               title={location.name['nl']}
               description={
-                address && `${address.postalCode} ${address.addressLocality}`
+                address && (
+                  <>
+                    {address.streetAddress}
+                    <br />
+                    {address.postalCode} {address.addressLocality}
+                  </>
+                )
               }
             />
           );
