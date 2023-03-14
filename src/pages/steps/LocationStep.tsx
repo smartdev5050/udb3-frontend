@@ -66,6 +66,7 @@ const API_URL = publicRuntimeConfig.apiUrl;
 const getGlobalValue = getValueFromTheme('global');
 
 const RecentLocations = ({ onFieldChange, ...props }) => {
+  const { t, i18n } = useTranslation();
   const getUserQuery = useGetUserQuery();
   const getOffersQuery = useGetOffersByCreatorQuery({
     advancedQuery: '_exists_:location.id',
@@ -89,10 +90,11 @@ const RecentLocations = ({ onFieldChange, ...props }) => {
 
   return (
     <Stack {...props}>
-      <Text fontWeight={'bold'}>Kies een locatie die je recent gebruikte </Text>
-      <Alert variant={AlertVariants.INFO} marginBottom={4}>
-        We hebben de locaties waarvoor je recent invoerde hier voor je
-        klaargezet. Met één klik voeg je ze toe.{' '}
+      <Text fontWeight={'bold'}>
+        {t('create.location.recent_locations.title')}
+      </Text>
+      <Alert variant={AlertVariants.PRIMARY} marginY={4}>
+        {t('create.location.recent_locations.info')}
       </Alert>
       <Inline spacing={4} justifyContent="flex-start" flexWrap="wrap">
         {locations.map((location) => {
@@ -366,6 +368,9 @@ const LocationStep = ({
             >
               <RecentLocations onFieldChange={onFieldChange} />
               <Stack spacing={4} flex={1}>
+                <Text fontWeight={'bold'}>
+                  {t('create.location.recent_locations.other')}
+                </Text>
                 {children}
               </Stack>
             </Inline>
