@@ -351,6 +351,12 @@ const LocationStep = ({
           const { isOnline, municipality, country } =
             field?.value as OfferFormData['location'];
 
+          const changeField = (updatedValue) => {
+            field.onChange(updatedValue);
+            onChange(updatedValue);
+            field.onBlur();
+          };
+
           const OnlineToggle = (
             <Inline>
               <NewFeatureTooltip featureUUID={Features.ONLINE} />
@@ -360,15 +366,12 @@ const LocationStep = ({
                     type={RadioButtonTypes.SWITCH}
                     checked={isOnline}
                     onChange={(e) => {
-                      const updatedValue = {
+                      changeField({
                         ...field.value,
                         place: undefined,
                         municipality: undefined,
                         isOnline: e.target.checked,
-                      };
-                      field.onChange(updatedValue);
-                      field.onBlur();
-                      onChange(updatedValue);
+                      });
                     }}
                     css={`
                       .custom-switch {
@@ -452,15 +455,12 @@ const LocationStep = ({
                   <Button
                     variant={ButtonVariants.LINK}
                     onClick={() => {
-                      const updatedValue = {
+                      changeField({
                         ...field.value,
                         country: Countries.BE,
                         municipality: undefined,
-                      };
-                      field.onChange(updatedValue);
-                      onChange(updatedValue);
+                      });
                       setAudienceType(AudienceType.EVERYONE);
-                      field.onBlur();
                     }}
                   >
                     {t('create.location.country.change_location')}
@@ -485,14 +485,11 @@ const LocationStep = ({
                       offerId={offerId}
                       value={field.value?.municipality}
                       onChange={(value) => {
-                        const updatedValue = {
+                        changeField({
                           ...field.value,
                           municipality: value,
                           place: undefined,
-                        };
-                        field.onChange(updatedValue);
-                        onChange(updatedValue);
-                        field.onBlur();
+                        });
                       }}
                       width="22rem"
                     />
@@ -500,13 +497,10 @@ const LocationStep = ({
                       value={country}
                       includeLocationSchool={scope === OfferTypes.EVENTS}
                       onChange={(newCountry) => {
-                        const updatedValue = {
+                        changeField({
                           ...field.value,
                           country: newCountry,
-                        };
-                        field.onChange(updatedValue);
-                        onChange(updatedValue);
-                        field.onBlur();
+                        });
                       }}
                       css={`
                         & button {
@@ -534,14 +528,11 @@ const LocationStep = ({
                 <Button
                   variant={ButtonVariants.LINK}
                   onClick={() => {
-                    const updatedValue = {
+                    changeField({
                       ...field.value,
                       municipality: undefined,
                       streetAndNumber: undefined,
-                    };
-                    field.onChange(updatedValue);
-                    onChange(updatedValue);
-                    field.onBlur();
+                    });
                     setStreetAndNumber('');
                   }}
                 >
@@ -579,13 +570,10 @@ const LocationStep = ({
                       <Button
                         variant={ButtonVariants.LINK}
                         onClick={() => {
-                          const updatedValue = {
+                          changeField({
                             ...field.value,
                             streetAndNumber: undefined,
-                          };
-                          field.onChange(updatedValue);
-                          onChange(updatedValue);
-                          field.onBlur();
+                          });
                           setStreetAndNumber('');
                         }}
                       >
@@ -598,12 +586,10 @@ const LocationStep = ({
                         <Input
                           value={streetAndNumber}
                           onBlur={(e) => {
-                            const updatedValue = {
+                            changeField({
                               ...field.value,
                               streetAndNumber: streetAndNumber,
-                            };
-                            field.onChange(updatedValue);
-                            onChange(updatedValue);
+                            });
                           }}
                           onChange={handleChangeStreetAndNumber}
                         />
