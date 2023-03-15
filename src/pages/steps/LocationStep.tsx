@@ -118,6 +118,7 @@ const RecentLocations = ({ onFieldChange, ...props }) => {
           return (
             <ButtonCard
               key={location['@id']}
+              width={'auto'}
               marginBottom={0}
               onClick={() =>
                 onFieldChange({
