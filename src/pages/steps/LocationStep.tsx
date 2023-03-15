@@ -22,11 +22,13 @@ import {
   useGetPlaceByIdQuery,
 } from '@/hooks/api/places';
 import { useGetUserQuery } from '@/hooks/api/user';
+import { SupportedLanguage } from '@/i18n/index';
 import { FormData as OfferFormData } from '@/pages/create/OfferForm';
 import { Address } from '@/types/Address';
 import { Countries, Country } from '@/types/Country';
 import { AttendanceMode, AudienceType } from '@/types/Event';
 import { Offer } from '@/types/Offer';
+import { User } from '@/types/User';
 import { Values } from '@/types/Values';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { parseSpacing } from '@/ui/Box';
@@ -58,8 +60,6 @@ import {
   StepProps,
   StepsConfiguration,
 } from './Steps';
-import { User } from '@/types/User';
-import { SupportedLanguage } from '@/i18n/index';
 
 const { publicRuntimeConfig } = getConfig();
 
