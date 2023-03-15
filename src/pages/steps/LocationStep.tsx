@@ -379,7 +379,7 @@ const LocationStep = ({
           const renderFieldWithRecentLocations = (children) => (
             <Inline
               spacing={4}
-              stackOn={Breakpoints.S}
+              stackOn={Breakpoints.M}
               alignItems={'flex-start'}
               width={'100%'}
             >
