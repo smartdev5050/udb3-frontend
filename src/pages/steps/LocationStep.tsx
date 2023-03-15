@@ -42,6 +42,7 @@ import { RadioButtonWithLabel } from '@/ui/RadioButtonWithLabel';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { Breakpoints, getValueFromTheme } from '@/ui/theme';
+import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { prefixUrlWithHttp } from '@/utils/url';
 
@@ -57,7 +58,6 @@ import {
   StepProps,
   StepsConfiguration,
 } from './Steps';
-import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 
 const { publicRuntimeConfig } = getConfig();
 
