@@ -41,7 +41,6 @@ const useGetOffersByCreatorQuery = (
     paginationOptions = { start: 0, limit: 50 },
     sortOptions = { field: 'modified', order: 'desc' },
     calendarSummaryFormats = ['lg-text', 'sm-text'],
-    queryArguments = {},
   }: AuthenticatedQueryOptions<
     PaginationOptions &
       SortOptions &
@@ -50,7 +49,10 @@ const useGetOffersByCreatorQuery = (
         advancedQuery?: string;
       }
   >,
-  configuration: UseQueryOptions = {},
+  {
+    queryArguments,
+    ...configuration
+  }: UseQueryOptions & { queryArguments?: any } = {},
 ) => {
   const defaultQuery = `creator:(${creator?.id} OR ${creator?.email})`;
   const query = advancedQuery
@@ -71,7 +73,7 @@ const useGetOffersByCreatorQuery = (
       ...createSortingArgument(sortOptions),
       ...(calendarSummaryFormats &&
         createEmbededCalendarSummaries(calendarSummaryFormats)),
-      ...queryArguments,
+      ...(queryArguments ?? {}),
     },
     enabled: !!(creator?.id && creator?.email),
     ...configuration,

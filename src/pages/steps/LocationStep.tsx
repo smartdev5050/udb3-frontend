@@ -66,21 +66,25 @@ const API_URL = publicRuntimeConfig.apiUrl;
 const getGlobalValue = getValueFromTheme('global');
 
 const RecentLocations = ({ onFieldChange, ...props }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const getUserQuery = useGetUserQuery();
-  const getOffersQuery = useGetOffersByCreatorQuery({
+  const getOffersQuery = useGetOffersByCreatorQuery(
+    {
     advancedQuery: '_exists_:location.id',
     creator: getUserQuery?.data,
-
     sortOptions: {
       field: 'modified',
       order: 'desc',
     },
+      paginationOptions: { start: 0, limit: 20 },
+    },
+    {
     queryArguments: {
       workflowStatus: 'DRAFT,READY_FOR_VALIDATION,APPROVED',
+        addressCountry: '*',
     },
-    paginationOptions: { start: 0, limit: 20 },
-  });
+    },
+  );
 
   const offers: Offer[] = getOffersQuery?.data?.member ?? [];
   const locations = uniqBy(
