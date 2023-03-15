@@ -223,8 +223,11 @@ const PlaceStep = ({
                 color={getGlobalValue('successIcon')}
               />
               <Text>
-                {selectedPlace.name[i18n.language] ??
-                  selectedPlace.name[selectedPlace.mainLanguage]}
+                {getLanguageObjectOrFallback(
+                  selectedPlace.name,
+                  i18n.language as SupportedLanguage,
+                  selectedPlace.mainLanguage ?? 'nl',
+                )}
               </Text>
               <Button
                 variant={ButtonVariants.LINK}

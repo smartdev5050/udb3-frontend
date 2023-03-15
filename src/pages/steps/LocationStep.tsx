@@ -57,6 +57,7 @@ import {
   StepProps,
   StepsConfiguration,
 } from './Steps';
+import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -66,7 +67,7 @@ const API_URL = publicRuntimeConfig.apiUrl;
 const getGlobalValue = getValueFromTheme('global');
 
 const RecentLocations = ({ onFieldChange, ...props }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const getUserQuery = useGetUserQuery();
   const getOffersQuery = useGetOffersByCreatorQuery(
     {
@@ -121,7 +122,11 @@ const RecentLocations = ({ onFieldChange, ...props }) => {
                 })
               }
               key={location['@id']}
-              title={location.name['nl']}
+              title={getLanguageObjectOrFallback(
+                location.name,
+                i18n.language,
+                location?.mainLanguage ?? 'nl',
+              )}
               description={
                 address && (
                   <>
@@ -521,9 +526,9 @@ const LocationStep = ({
                     <CountryPicker
                       value={country}
                       includeLocationSchool={scope === OfferTypes.EVENTS}
-                      onChange={(newCountry) => {
-                        onFieldChange({ country: newCountry });
-                      }}
+                      onChange={(newCountry) =>
+                        onFieldChange({ country: newCountry })
+                      }
                       css={`
                         & button {
                           margin-bottom: 0.3rem;
@@ -605,11 +610,7 @@ const LocationStep = ({
                       Component={
                         <Input
                           value={streetAndNumber}
-                          onBlur={(e) => {
-                            onFieldChange({
-                              streetAndNumber: streetAndNumber,
-                            });
-                          }}
+                          onBlur={() => onFieldChange({ streetAndNumber })}
                           onChange={handleChangeStreetAndNumber}
                         />
                       }
