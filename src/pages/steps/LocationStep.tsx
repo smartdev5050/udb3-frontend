@@ -58,6 +58,8 @@ import {
   StepProps,
   StepsConfiguration,
 } from './Steps';
+import { User } from '@/types/User';
+import { SupportedLanguage } from '@/i18n/index';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -68,7 +70,7 @@ const getGlobalValue = getValueFromTheme('global');
 
 const RecentLocations = ({ onFieldChange, ...props }) => {
   const { t, i18n } = useTranslation();
-  const getUserQuery = useGetUserQuery();
+  const getUserQuery = useGetUserQuery() as { data: User };
   const getOffersQuery = useGetOffersByCreatorQuery(
     {
       advancedQuery: '_exists_:location.id',
@@ -85,9 +87,9 @@ const RecentLocations = ({ onFieldChange, ...props }) => {
         addressCountry: '*',
       },
     },
-  );
+  ) as { data: { member: (Offer & { location: any })[] } };
 
-  const offers: Offer[] = getOffersQuery?.data?.member ?? [];
+  const offers = getOffersQuery?.data?.member ?? [];
   const locations = uniqBy(
     offers?.map((offer) => offer.location),
     '@id',
@@ -132,7 +134,7 @@ const RecentLocations = ({ onFieldChange, ...props }) => {
               }
               title={getLanguageObjectOrFallback(
                 location.name,
-                i18n.language,
+                i18n.language as SupportedLanguage,
                 location?.mainLanguage ?? 'nl',
               )}
               description={

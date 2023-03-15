@@ -24,7 +24,7 @@ const useGetUserQuery = (
   { req, queryClient }: ServerSideQueryOptions = {},
   configuration = {},
 ) => {
-  return useAuthenticatedQuery<User>({
+  return useAuthenticatedQuery({
     req,
     queryClient,
     queryKey: ['user'],
