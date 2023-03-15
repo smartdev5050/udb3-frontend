@@ -23,7 +23,8 @@ const useFooterStatus = ({ offer, form }) => {
   const isMutating = queryClient.isMutating();
   const offerId = offer?.['@id'];
   const availableFrom = offer?.availableFrom;
-  const isPlaceDirty = dirtyFields.place || dirtyFields.location;
+  const hasPlace = !!form.getValues()?.location?.place;
+  const isPlaceDirty = (dirtyFields.place || dirtyFields.location) && hasPlace;
   const isEventType = isEvent(offer);
   const isPlaceType = isPlace(offer);
 
