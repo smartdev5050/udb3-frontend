@@ -70,19 +70,19 @@ const RecentLocations = ({ onFieldChange, ...props }) => {
   const getUserQuery = useGetUserQuery();
   const getOffersQuery = useGetOffersByCreatorQuery(
     {
-    advancedQuery: '_exists_:location.id',
-    creator: getUserQuery?.data,
-    sortOptions: {
-      field: 'modified',
-      order: 'desc',
-    },
+      advancedQuery: '_exists_:location.id',
+      creator: getUserQuery?.data,
+      sortOptions: {
+        field: 'modified',
+        order: 'desc',
+      },
       paginationOptions: { start: 0, limit: 20 },
     },
     {
-    queryArguments: {
-      workflowStatus: 'DRAFT,READY_FOR_VALIDATION,APPROVED',
+      queryArguments: {
+        workflowStatus: 'DRAFT,READY_FOR_VALIDATION,APPROVED',
         addressCountry: '*',
-    },
+      },
     },
   );
 
@@ -359,8 +359,6 @@ const LocationStep = ({
 
           const onFieldChange = (updatedValue) => {
             updatedValue = { ...field.value, ...updatedValue };
-            console.log(updatedValue);
-
             field.onChange(updatedValue);
             onChange(updatedValue);
             field.onBlur();
@@ -373,11 +371,15 @@ const LocationStep = ({
               alignItems={'flex-start'}
               width={'100%'}
             >
-              <RecentLocations onFieldChange={onFieldChange} />
+              {!isOnline && (
+                <RecentLocations flex={1} onFieldChange={onFieldChange} />
+              )}
               <Stack spacing={4} flex={1}>
-                <Text fontWeight={'bold'}>
-                  {t('create.location.recent_locations.other')}
-                </Text>
+                {!isOnline && (
+                  <Text fontWeight={'bold'}>
+                    {t('create.location.recent_locations.other')}
+                  </Text>
+                )}
                 {children}
               </Stack>
             </Inline>
