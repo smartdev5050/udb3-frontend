@@ -104,13 +104,21 @@ const RecentLocations = ({ onFieldChange, ...props }) => {
       <Alert variant={AlertVariants.PRIMARY} marginY={4}>
         {t('create.location.recent_locations.info')}
       </Alert>
-      <Inline spacing={4} justifyContent="flex-start" flexWrap="wrap">
+      <Inline
+        display={'grid'}
+        css={`
+          grid-template-columns: repeat(2, 1fr);
+          gap: 10px;
+        `}
+      >
         {locations.map((location) => {
           const address =
             location.address[location.mainLanguage] ?? location.address;
 
           return (
             <ButtonCard
+              key={location['@id']}
+              marginBottom={0}
               onClick={() =>
                 onFieldChange({
                   municipality: {
@@ -121,7 +129,6 @@ const RecentLocations = ({ onFieldChange, ...props }) => {
                   place: location,
                 })
               }
-              key={location['@id']}
               title={getLanguageObjectOrFallback(
                 location.name,
                 i18n.language,
