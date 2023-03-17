@@ -26,7 +26,7 @@ const useFooterStatus = ({ offer, form }) => {
   const availableFrom = offer?.availableFrom;
   const hasPlace =
     (formValues.location?.municipality &&
-      formValues.location.streetAndNumber) ||
+      formValues.location?.streetAndNumber) ||
     formValues.location.isOnline;
   const isPlaceDirty = (dirtyFields.place || dirtyFields.location) && hasPlace;
   const isEventType = isEvent(offer);
