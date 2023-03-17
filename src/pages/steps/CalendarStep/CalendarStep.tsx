@@ -107,8 +107,8 @@ const convertStateToFormData = (
     ...(isOneOrMoreDays && { subEvent }),
     ...(isFixedDays && { openingHours: newOpeningHours }),
     ...(calendarType === CalendarType.PERIODIC && {
-      startDate: formatDateToISO(new Date(startDate || undefined)),
-      endDate: formatDateToISO(new Date(endDate || undefined)),
+      startDate: formatDateToISO(new Date(startDate)),
+      endDate: formatDateToISO(new Date(endDate)),
     }),
   };
 };
@@ -191,14 +191,6 @@ const CalendarStep = ({
   const handleChooseFixedDays = useCallback(chooseFixedDays, []);
 
   useEffect(() => {
-    calendarService.start();
-
-    return () => {
-      calendarService.stop();
-    };
-  }, [calendarService]);
-
-  useEffect(() => {
     if (offerId) return;
 
     handleLoadInitialContext({
@@ -240,8 +232,10 @@ const CalendarStep = ({
       ...initialContext,
       ...(days.length > 0 && { days }),
       ...(openingHours.length > 0 && { openingHours }),
-      ...(event && { startDate: event.startDate ?? '' }),
-      ...(event && { endDate: event.endDate ?? '' }),
+      ...(event && {
+        startDate: event.startDate ?? formatDateToISO(new Date()),
+      }),
+      ...(event && { endDate: event.endDate ?? formatDateToISO(new Date()) }),
     };
 
     handleLoadInitialContext({ newContext, calendarType: event.calendarType });

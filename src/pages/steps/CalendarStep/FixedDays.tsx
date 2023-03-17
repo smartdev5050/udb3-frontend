@@ -1,4 +1,4 @@
-import { ChangeEvent, useMemo, useState } from 'react';
+import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { OpeningHours } from '@/types/Offer';
@@ -106,8 +106,8 @@ export const FixedDays = ({
           spacing={3}
           id={`calendar-step-fixed`}
           minDate={new Date()}
-          dateStart={startDate ? new Date(startDate) : undefined}
-          dateEnd={endDate ? new Date(endDate) : undefined}
+          dateStart={new Date(startDate)}
+          dateEnd={new Date(endDate)}
           onDateStartChange={onChangeStartDate}
           onDateEndChange={onChangeEndDate}
         />
