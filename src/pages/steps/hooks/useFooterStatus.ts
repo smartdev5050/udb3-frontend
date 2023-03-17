@@ -24,11 +24,12 @@ const useFooterStatus = ({ offer, form }) => {
   const isMutating = queryClient.isMutating();
   const offerId = offer?.['@id'];
   const availableFrom = offer?.availableFrom;
-  const hasPlace =
+  const hasLocation =
     (formValues.location?.municipality &&
       formValues.location?.streetAndNumber) ||
     formValues.location?.isOnline;
-  const isPlaceDirty = (dirtyFields.place || dirtyFields.location) && hasPlace;
+  const isPlaceDirty =
+    (dirtyFields.place || dirtyFields.location) && hasLocation;
   const isEventType = isEvent(offer);
   const isPlaceType = isPlace(offer);
 
