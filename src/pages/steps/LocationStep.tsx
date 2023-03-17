@@ -28,7 +28,6 @@ import { Address } from '@/types/Address';
 import { Countries, Country } from '@/types/Country';
 import { AttendanceMode, AudienceType } from '@/types/Event';
 import { Offer } from '@/types/Offer';
-import { User } from '@/types/User';
 import { Values } from '@/types/Values';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { parseSpacing } from '@/ui/Box';
@@ -70,10 +69,11 @@ const getGlobalValue = getValueFromTheme('global');
 
 const RecentLocations = ({ onFieldChange, ...props }) => {
   const { t, i18n } = useTranslation();
-  const getUserQuery = useGetUserQuery() as { data: User };
+  const getUserQuery = useGetUserQuery();
   const getOffersQuery = useGetOffersByCreatorQuery(
     {
       advancedQuery: '_exists_:location.id',
+      // @ts-expect-error
       creator: getUserQuery?.data,
       sortOptions: {
         field: 'modified',
@@ -87,9 +87,11 @@ const RecentLocations = ({ onFieldChange, ...props }) => {
         addressCountry: '*',
       },
     },
-  ) as { data: { member: (Offer & { location: any })[] } };
+  );
 
-  const offers = getOffersQuery?.data?.member ?? [];
+  const offers: (Offer & { location: any })[] =
+    // @ts-expect-error
+    getOffersQuery?.data?.member ?? [];
   const locations = uniqBy(
     offers?.map((offer) => offer.location),
     '@id',
