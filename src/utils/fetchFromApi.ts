@@ -44,7 +44,12 @@ const fetchFromApi = async ({
 
   try {
     url = new URL(`${publicRuntimeConfig.apiUrl}${path}`);
-    url.search = new URLSearchParams(omit(searchParams, 'queryKey')).toString();
+    searchParams = omit(searchParams, 'queryKey');
+    if (typeof searchParams?.q !== 'undefined' && !searchParams?.q) {
+      searchParams = omit(searchParams, 'q');
+    }
+
+    url.search = new URLSearchParams(searchParams).toString();
   } catch (e) {
     if (!silentError) {
       throw new FetchError(400, e?.message ?? 'Unknown error');
