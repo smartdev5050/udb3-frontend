@@ -24,7 +24,7 @@ const toUitdatabankFormat = (feature) => {
   const label = region ? `${locality} (${region})` : `${locality}`;
 
   return {
-    label,
+    label: zip ? `${zip} ${label}` : label,
     name: label,
     zip,
   };
@@ -51,17 +51,17 @@ const removeRegionIfLocalityOnlyUsedOnce = (city) => {
     return city;
   }
 
-  const [locality, lastPart] = city.name.split(' (');
-  const region = lastPart.substring(0, lastPart.length - 1);
+  const [label] = city.label.split(' (');
+  const [name] = city.name.split(' (');
 
-  if (localityToTimesUsed.get(locality) > 1) {
+  if (localityToTimesUsed.get(name) > 1) {
     return city;
   }
 
   return {
     ...city,
-    label: locality,
-    name: locality,
+    label,
+    name,
   };
 };
 
