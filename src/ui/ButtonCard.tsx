@@ -28,7 +28,7 @@ function ButtonCard({
       css={`
         flex-direction: column;
         align-items: flex-start;
-        background-color: rgba(255, 255, 255, 1);
+        background-color: ${({ theme }) => theme.colors.white};
         box-shadow: ${({ theme }) => theme.components.button.boxShadow.small};
 
         &:hover {
