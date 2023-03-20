@@ -68,6 +68,7 @@ const PlaceStep = ({
       name: searchInput,
       terms,
       zip: municipality?.zip,
+      addressLocality: municipality?.name,
       addressCountry: country,
     },
     { enabled: !!searchInput },
