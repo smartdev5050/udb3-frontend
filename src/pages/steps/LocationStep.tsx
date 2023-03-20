@@ -35,7 +35,7 @@ import { Button, ButtonVariants } from '@/ui/Button';
 import { ButtonCard } from '@/ui/ButtonCard';
 import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
-import { Inline } from '@/ui/Inline';
+import { getInlineProps, Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
 import { LabelPositions, LabelVariants } from '@/ui/Label';
 import { RadioButtonTypes } from '@/ui/RadioButton';
@@ -59,6 +59,7 @@ import {
   StepProps,
   StepsConfiguration,
 } from './Steps';
+import { ToggleBox } from '@/ui/ToggleBox';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -403,33 +404,44 @@ const LocationStep = ({
           );
 
           const OnlineToggle = (
-            <Inline>
+            <Stack>
               <NewFeatureTooltip featureUUID={Features.ONLINE} />
               <FormElement
                 Component={
-                  <RadioButtonWithLabel
-                    type={RadioButtonTypes.SWITCH}
-                    checked={isOnline}
-                    onChange={(e) => {
-                      onFieldChange({
-                        place: undefined,
-                        municipality: undefined,
-                        isOnline: e.target.checked,
-                      });
-                    }}
-                    css={`
-                      .custom-switch {
-                        font-size: 1.2rem;
+                  <Inline
+                    spacing={5}
+                    alignItems="center"
+                    maxWidth={parseSpacing(9)}
+                    {...getInlineProps(props)}
+                  >
+                    <ToggleBox
+                      onClick={() =>
+                        field.onChange({ ...field.value, isOnline: false })
                       }
-                    `}
-                  />
+                      active={!isOnline}
+                      icon={<Icon name={Icons.PENCIL} width="50" />}
+                      text={'Op een fysieke locatie'}
+                      width="30%"
+                      minHeight={parseSpacing(7)}
+                    />
+                    <ToggleBox
+                      onClick={() =>
+                        field.onChange({ ...field.value, isOnline: true })
+                      }
+                      active={isOnline}
+                      icon={<Icon name={Icons.PENCIL} width="50" />}
+                      text={t('create.location.is_online.label')}
+                      width="30%"
+                      minHeight={parseSpacing(7)}
+                    />
+                  </Inline>
                 }
                 id="online-toggle"
                 label={t('create.location.is_online.label')}
                 labelPosition={LabelPositions.LEFT}
                 labelVariant={LabelVariants.NORMAL}
               />
-            </Inline>
+            </Stack>
           );
 
           if (isOnline) {
