@@ -8,7 +8,11 @@ const localityToTimesUsed = new Map();
  * Convert the Mapanet format to the Uitdatabank format
  */
 const toUitdatabankFormat = (feature) => {
-  const { Region2: region, Locality: locality } = feature.properties;
+  const {
+    Region2: region,
+    Locality: locality,
+    PostalCode: zip,
+  } = feature.properties;
 
   if (localityToTimesUsed.has(locality)) {
     const currentValue = localityToTimesUsed.get(locality);
@@ -22,7 +26,7 @@ const toUitdatabankFormat = (feature) => {
   return {
     label,
     name: label,
-    zip: '',
+    zip,
   };
 };
 
