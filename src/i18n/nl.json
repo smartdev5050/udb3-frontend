@@ -200,6 +200,11 @@
         "events": "Waar vindt dit evenement of deze activiteit plaats?",
         "places": "Waar is deze plaats of locatie?"
       },
+      "recent_locations": {
+        "title": "Kies een locatie die je recent gebruikte",
+        "info": "We hebben de locaties waarvoor je recent invoerde hier voor je klaargezet. Met één klik voeg je ze toe.",
+        "other": "Of kies een andere locatie"
+      },
       "validation_messages": {
         "street_and_number": {
           "required": "Je straat en nummer voldoen niet aan de vereisten."
