@@ -404,9 +404,9 @@ const LocationStep = ({
           );
 
           const OnlineToggle = (
-            <Stack>
-              <NewFeatureTooltip featureUUID={Features.ONLINE} />
+            <Stack marginBottom={4}>
               <FormElement
+                id="online-toggle"
                 Component={
                   <Inline
                     spacing={5}
@@ -419,7 +419,7 @@ const LocationStep = ({
                         field.onChange({ ...field.value, isOnline: false })
                       }
                       active={!isOnline}
-                      icon={<Icon name={Icons.PENCIL} width="50" />}
+                      icon={<Icon name={Icons.PENCIL} />}
                       text={'Op een fysieke locatie'}
                       width="30%"
                       minHeight={parseSpacing(7)}
@@ -429,17 +429,13 @@ const LocationStep = ({
                         field.onChange({ ...field.value, isOnline: true })
                       }
                       active={isOnline}
-                      icon={<Icon name={Icons.PENCIL} width="50" />}
+                      icon={<Icon name={Icons.PENCIL} />}
                       text={t('create.location.is_online.label')}
                       width="30%"
                       minHeight={parseSpacing(7)}
                     />
                   </Inline>
                 }
-                id="online-toggle"
-                label={t('create.location.is_online.label')}
-                labelPosition={LabelPositions.LEFT}
-                labelVariant={LabelVariants.NORMAL}
               />
             </Stack>
           );
