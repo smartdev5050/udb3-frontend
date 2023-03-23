@@ -16,6 +16,7 @@ const useFooterStatus = ({ offer, form }) => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
+  const formValues = form.getValues();
   const {
     formState: { dirtyFields },
   } = form;
@@ -23,7 +24,12 @@ const useFooterStatus = ({ offer, form }) => {
   const isMutating = queryClient.isMutating();
   const offerId = offer?.['@id'];
   const availableFrom = offer?.availableFrom;
-  const isPlaceDirty = dirtyFields.place || dirtyFields.location;
+  const hasLocation =
+    (formValues.location?.municipality &&
+      formValues.location?.streetAndNumber) ||
+    formValues.location?.isOnline;
+  const isPlaceDirty =
+    (dirtyFields.place || dirtyFields.location) && hasLocation;
   const isEventType = isEvent(offer);
   const isPlaceType = isPlace(offer);
 
