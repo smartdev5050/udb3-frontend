@@ -117,6 +117,7 @@ type GetPlacesByQueryArguments = {
   name: string;
   terms: Array<Values<typeof EventTypes>>;
   zip?: string;
+  addressLocality?: string;
   addressCountry?: Country;
 };
 
@@ -125,16 +126,18 @@ const getPlacesByQuery = async ({
   name,
   terms,
   zip,
+  addressLocality,
   addressCountry,
 }: Headers & GetPlacesByQueryArguments) => {
   const termsString = terms.reduce(
     (acc, currentTerm) => `${acc}terms.id:${currentTerm}`,
     '',
   );
-  const postalCodeString = zip ? `address.\\*postalCode:${zip}` : '';
-  const queryArguments = [termsString, postalCodeString].filter(
-    (argument) => !!argument,
-  );
+  const queryArguments = [
+    termsString,
+    zip ? `address.\\*postalCode:${zip}` : '',
+    addressLocality ? `address.\\*.addressLocality:${addressLocality}` : '',
+  ].filter((argument) => !!argument);
 
   const res = await fetchFromApi({
     path: '/places/',
@@ -164,7 +167,13 @@ const getPlacesByQuery = async ({
 };
 
 const useGetPlacesByQuery = (
-  { name, terms, zip, addressCountry }: GetPlacesByQueryArguments,
+  {
+    name,
+    terms,
+    zip,
+    addressLocality,
+    addressCountry,
+  }: GetPlacesByQueryArguments,
   configuration = {},
 ) =>
   useAuthenticatedQuery<Place[]>({
@@ -175,6 +184,7 @@ const useGetPlacesByQuery = (
       terms,
       zip,
       addressCountry,
+      addressLocality,
     },
     enabled: !!name || terms.length,
     ...configuration,
