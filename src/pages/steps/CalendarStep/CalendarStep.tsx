@@ -169,7 +169,7 @@ const CalendarStep = ({
   };
 
   const {
-    handleLoadInitialContext: loadInitialContext,
+    handleLoadInitialContext,
     handleAddDay,
     handleDeleteDay,
     handleChangeStartDate,
@@ -179,16 +179,12 @@ const CalendarStep = ({
     handleChangeStartTime,
     handleChangeEndTime,
     handleChooseOneOrMoreDays,
-    handleChooseFixedDays: chooseFixedDays,
+    handleChooseFixedDays,
     handleChooseWithStartAndEndDate,
     handleChoosePermanent,
     handleChangeOpeningHours,
   } = useCalendarHandlers(handleChangeCalendarState);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleLoadInitialContext = useCallback(loadInitialContext, []);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleChooseFixedDays = useCallback(chooseFixedDays, []);
 
   useEffect(() => {
     if (offerId) return;
