@@ -185,6 +185,13 @@ const CalendarStep = ({
     handleChangeOpeningHours,
   } = useCalendarHandlers(handleChangeCalendarState);
 
+  useEffect(() => {
+    calendarService.start();
+
+    return () => {
+      calendarService.stop();
+    };
+  }, [calendarService]);
 
   useEffect(() => {
     if (offerId) return;
