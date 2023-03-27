@@ -1,9 +1,13 @@
 import { useRouter } from 'next/router';
-import { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 
 import { OfferType, OfferTypes } from '@/constants/OfferType';
-import { Offer } from '@/types/Offer';
+import {
+  locationStepConfiguration,
+  useEditLocation,
+} from '@/pages/steps/LocationStep';
+import { hasLegacyLocation, Offer } from '@/types/Offer';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
@@ -89,7 +93,7 @@ const StepsForm = ({
 
   const { handleSubmit, reset } = form;
 
-  const { query, push, pathname } = useRouter();
+  const { query, push, pathname, reload } = useRouter();
 
   // eventId is set after adding (saving) the event
   // or when entering the page from the edit route
@@ -102,6 +106,18 @@ const StepsForm = ({
 
   const toast = useToast(toastConfiguration);
 
+  const useGetOffer = scope === OfferTypes.EVENTS ? useGetEvent : useGetPlace;
+
+  const offer = useGetOffer({
+    id: offerId,
+    onSuccess: (offer: Offer) => {
+      reset(convertOfferToFormData(offer), {
+        keepDirty: true,
+      });
+    },
+    enabled: !!scope,
+  });
+
   const publishOffer = usePublishOffer({
     scope,
     id: offerId,
@@ -110,6 +126,18 @@ const StepsForm = ({
       push(`/${scopePath}/${offerId}/preview`);
     },
   });
+
+  const editLocation = useEditLocation({
+    scope,
+    offerId,
+    onSuccess: () => reload(),
+    mainLanguage: offer?.mainLanguage,
+  });
+
+  const migrateOffer = async (data) => {
+    await editLocation(data);
+    reload();
+  };
 
   const addOffer = useAddOffer({
     onSuccess: async (scope, offerId) => {
@@ -134,18 +162,6 @@ const StepsForm = ({
 
   const [isPublishLaterModalVisible, setIsPublishLaterModalVisible] =
     useState(false);
-
-  const useGetOffer = scope === OfferTypes.EVENTS ? useGetEvent : useGetPlace;
-
-  const offer = useGetOffer({
-    id: offerId,
-    onSuccess: (offer: Offer) => {
-      reset(convertOfferToFormData(offer), {
-        keepDirty: true,
-      });
-    },
-    enabled: !!scope,
-  });
 
   const footerStatus = useFooterStatus({ offer, form });
 
@@ -185,11 +201,23 @@ const StepsForm = ({
     ? onDuplicateEditFieldChange
     : handleChange;
 
+  const needsLocationMigration = hasLegacyLocation(offer);
+
+  const stepConfigurations = useMemo(() => {
+    if (needsLocationMigration) return [locationStepConfiguration];
+
+    if (isOnDuplicatePage) return [calendarStepConfiguration];
+
+    return configurations;
+  }, [needsLocationMigration, isOnDuplicatePage, configurations]);
+
   return (
     <Page>
-      <Page.Title spacing={3} alignItems="center">
-        {pageTitle}
-      </Page.Title>
+      {!needsLocationMigration && (
+        <Page.Title spacing={3} alignItems="center">
+          {pageTitle}
+        </Page.Title>
+      )}
 
       <Page.Content spacing={5} alignItems="flex-start">
         {isOnDuplicatePage && (
@@ -203,8 +231,18 @@ const StepsForm = ({
           visible={!!toast.message}
           onClose={() => toast.clear()}
         />
+        {needsLocationMigration && (
+          <Alert variant={AlertVariants.DANGER} marginY={5}>
+            <Trans
+              i18nKey="create.migration.alert"
+              components={{
+                boldText: <Text fontWeight="bold" />,
+              }}
+            />
+          </Alert>
+        )}
         <Steps
-          configurations={stepsConfigurations}
+          configurations={stepConfigurations}
           onChange={onChange}
           fieldLoading={fieldLoading}
           onChangeSuccess={handleChangeSuccess}
@@ -246,6 +284,11 @@ const StepsForm = ({
             {footerStatus === FooterStatus.MANUAL_SAVE && (
               <Button onClick={handleSubmit(addOffer)}>
                 {t('create.actions.save')}
+              </Button>
+            )}
+            {footerStatus === FooterStatus.CONTINUE && (
+              <Button onClick={handleSubmit(migrateOffer)}>
+                {t('create.migration.continue')}
               </Button>
             )}
             {footerStatus === FooterStatus.AUTO_SAVE && (

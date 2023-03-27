@@ -14,6 +14,7 @@ import { Values } from '@/types/Values';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Badge, BadgeVariants } from '@/ui/Badge';
 import { Button, ButtonVariants } from '@/ui/Button';
+import { ButtonCard } from '@/ui/ButtonCard';
 import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
@@ -81,63 +82,17 @@ const RecentUsedOrganizers = ({
               ? organizer.address[organizer.mainLanguage]
               : organizer.address
             : '';
+
           return (
-            <Button
+            <ButtonCard
               key={index}
               onClick={() => onChange(parseOfferId(organizer['@id']))}
-              padding={4}
-              borderRadius={getGlobalBorderRadius}
-              variant={ButtonVariants.UNSTYLED}
-              customChildren
-              marginBottom={4}
-              width="20rem"
               title={name}
-              css={`
-                flex-direction: column;
-                align-items: flex-start;
-                background-color: rgba(255, 255, 255, 1);
-                box-shadow: ${({ theme }) =>
-                  theme.components.button.boxShadow.small};
-
-                &:hover {
-                  background-color: #e6e6e6;
-                }
-              `}
-            >
-              <Paragraph
-                fontWeight="bold"
-                display="flex"
-                justifyContent="space-between"
-                width="18rem"
-                textAlign="left"
-                minHeight="1.9rem"
-              >
-                <Text
-                  width="80%"
-                  css={`
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                  `}
-                >
-                  {name}
-                </Text>
-                {isUitpasOrganizer(organizer) && <UitpasBadge />}
-              </Paragraph>
-              {address && (
-                <Text
-                  textAlign="left"
-                  width="80%"
-                  css={`
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                  `}
-                >
-                  {address.postalCode} {address.addressLocality}
-                </Text>
-              )}
-            </Button>
+              badge={isUitpasOrganizer(organizer) && <UitpasBadge />}
+              description={
+                address && `${address.postalCode} ${address.addressLocality}`
+              }
+            />
           );
         })}
       </Inline>

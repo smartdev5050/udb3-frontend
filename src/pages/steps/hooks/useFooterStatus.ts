@@ -1,12 +1,14 @@
 import { useRouter } from 'next/router';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useQueryClient } from 'react-query';
 
 import { isEvent } from '@/types/Event';
+import { hasLegacyLocation } from '@/types/Offer';
 import { isPlace } from '@/types/Place';
 
 const FooterStatus = {
   DUPLICATE: 'DUPLICATE',
+  CONTINUE: 'CONTINUE',
   HIDDEN: 'HIDDEN',
   PUBLISH: 'PUBLISH',
   MANUAL_SAVE: 'MANUAL_SAVE',
@@ -18,6 +20,7 @@ const useFooterStatus = ({ offer, form }) => {
   const queryClient = useQueryClient();
   const isOnDuplicatePage = router.pathname.endsWith('/duplicate');
 
+  const formValues = form.getValues();
   const {
     formState: { dirtyFields },
   } = form;
@@ -25,11 +28,21 @@ const useFooterStatus = ({ offer, form }) => {
   const isMutating = queryClient.isMutating();
   const offerId = offer?.['@id'];
   const availableFrom = offer?.availableFrom;
-  const isPlaceDirty = dirtyFields.place || dirtyFields.location;
+  const hasLocation =
+    (formValues.location?.municipality &&
+      formValues.location?.streetAndNumber) ||
+    formValues.location?.isOnline;
+  const isPlaceDirty =
+    (dirtyFields.place || dirtyFields.location) && hasLocation;
   const isEventType = isEvent(offer);
   const isPlaceType = isPlace(offer);
+  const needsLocationMigration = hasLegacyLocation(offer);
 
-  const footerStatus = useMemo(() => {
+  return useMemo(() => {
+    if (needsLocationMigration) {
+      return FooterStatus.CONTINUE;
+    }
+
     if (offerId && isOnDuplicatePage) {
       return FooterStatus.DUPLICATE;
     }
@@ -37,16 +50,20 @@ const useFooterStatus = ({ offer, form }) => {
     if (offerId && isEventType && !availableFrom) {
       return FooterStatus.PUBLISH;
     }
+
     if (offerId && isPlaceType) {
       return FooterStatus.PUBLISH;
     }
+
     if (offerId && router.route.includes('edit')) {
       return FooterStatus.AUTO_SAVE;
     }
+
     if (isMutating) return FooterStatus.HIDDEN;
     if (isPlaceDirty) return FooterStatus.MANUAL_SAVE;
     return FooterStatus.HIDDEN;
   }, [
+    needsLocationMigration,
     offerId,
     isEventType,
     availableFrom,
@@ -56,8 +73,6 @@ const useFooterStatus = ({ offer, form }) => {
     isPlaceDirty,
     isOnDuplicatePage,
   ]);
-
-  return footerStatus;
 };
 
 export { FooterStatus, useFooterStatus };

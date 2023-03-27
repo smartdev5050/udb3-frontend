@@ -39,6 +39,7 @@ type PlaceStepProps = StackProps &
     country?: Country;
     chooseLabel: (t: TFunction) => string;
     placeholderLabel: (t: TFunction) => string;
+    onFieldChange: StepProps['onChange'];
   };
 
 const PlaceStep = ({
@@ -48,7 +49,7 @@ const PlaceStep = ({
   control,
   name,
   loading,
-  onChange,
+  onFieldChange,
   terms,
   municipality,
   country,
@@ -68,6 +69,7 @@ const PlaceStep = ({
       name: searchInput,
       terms,
       zip: municipality?.zip,
+      addressLocality: municipality?.name,
       addressCountry: country,
     },
     { enabled: !!searchInput },
@@ -122,7 +124,7 @@ const PlaceStep = ({
         control={control}
         name={name}
         render={({ field }) => {
-          const selectedPlace = place;
+          const selectedPlace = place?.['@id'] ? place : null;
 
           if (!selectedPlace) {
             return (
@@ -134,10 +136,7 @@ const PlaceStep = ({
                   municipality={municipality}
                   country={country}
                   onConfirmSuccess={(place) => {
-                    const updatedValue = { ...field.value, place };
-                    field.onChange(updatedValue);
-                    onChange(updatedValue);
-                    field.onBlur();
+                    onFieldChange({ place });
                     setIsPlaceAddModalVisible(false);
                   }}
                 />
@@ -202,10 +201,7 @@ const PlaceStep = ({
                           return;
                         }
 
-                        const updatedValue = { ...field.value, place };
-
-                        field.onChange(updatedValue);
-                        onChange(updatedValue);
+                        onFieldChange({ place });
                       }}
                       minLength={3}
                       placeholder={placeholderLabel(t)}
@@ -228,8 +224,11 @@ const PlaceStep = ({
                 color={getGlobalValue('successIcon')}
               />
               <Text>
-                {selectedPlace.name[i18n.language] ??
-                  selectedPlace.name[selectedPlace.mainLanguage]}
+                {getLanguageObjectOrFallback(
+                  selectedPlace.name,
+                  i18n.language as SupportedLanguage,
+                  selectedPlace.mainLanguage ?? 'nl',
+                )}
               </Text>
               <Button
                 variant={ButtonVariants.LINK}
