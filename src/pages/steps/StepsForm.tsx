@@ -18,6 +18,7 @@ import { getValueFromTheme } from '@/ui/theme';
 import { Toast } from '@/ui/Toast';
 
 import { useToast } from '../manage/movies/useToast';
+import { calendarStepConfiguration } from './CalendarStep';
 import { useAddOffer } from './hooks/useAddOffer';
 import { useEditField } from './hooks/useEditField';
 import { FooterStatus, useFooterStatus } from './hooks/useFooterStatus';
@@ -87,6 +88,8 @@ const StepsForm = ({
 }: StepsFormProps) => {
   const { t } = useTranslation();
   const { form } = useParseStepConfiguration(configurations);
+  const [isDuplicateButtonDisabled, setIsDuplicateButtonDisabled] =
+    useState(true);
 
   const { handleSubmit, reset } = form;
 
@@ -182,17 +185,46 @@ const StepsForm = ({
     </Button>
   );
 
+  const isOnDuplicatePage = footerStatus === FooterStatus.DUPLICATE;
+
+  const stepsConfigurations = isOnDuplicatePage
+    ? [calendarStepConfiguration]
+    : configurations;
+
+  const pageTitle = isOnDuplicatePage ? t('create.duplicate.title') : title;
+
+  const onDuplicateEditFieldChange = () => {
+    setIsDuplicateButtonDisabled(false);
+  };
+
+  const onChange = isOnDuplicatePage
+    ? onDuplicateEditFieldChange
+    : handleChange;
+
   const needsLocationMigration = hasLegacyLocation(offer);
+
+  const stepConfigurations = useMemo(() => {
+    if (needsLocationMigration) return [locationStepConfiguration];
+
+    if (isOnDuplicatePage) return [calendarStepConfiguration];
+
+    return configurations;
+  }, [needsLocationMigration, isOnDuplicatePage, configurations]);
 
   return (
     <Page>
       {!needsLocationMigration && (
         <Page.Title spacing={3} alignItems="center">
-          {title ?? ''}
+          {pageTitle}
         </Page.Title>
       )}
 
       <Page.Content spacing={5} alignItems="flex-start">
+        {isOnDuplicatePage && (
+          <Alert variant={AlertVariants.PRIMARY}>
+            {t('create.duplicate.alert')}
+          </Alert>
+        )}
         <Toast
           variant="success"
           body={toast.message}
@@ -210,12 +242,8 @@ const StepsForm = ({
           </Alert>
         )}
         <Steps
-          configurations={
-            needsLocationMigration
-              ? [locationStepConfiguration]
-              : configurations
-          }
-          onChange={handleChange}
+          configurations={stepConfigurations}
+          onChange={onChange}
           fieldLoading={fieldLoading}
           onChangeSuccess={handleChangeSuccess}
           offerId={offerId}
@@ -227,6 +255,15 @@ const StepsForm = ({
       {footerStatus !== FooterStatus.HIDDEN && (
         <Page.Footer>
           <Inline spacing={3} alignItems="center">
+            {footerStatus === FooterStatus.DUPLICATE && (
+              <Button
+                disabled={isDuplicateButtonDisabled}
+                variant={ButtonVariants.SUCCESS}
+                onClick={handleSubmit(addOffer)}
+              >
+                {t('create.duplicate.title')}
+              </Button>
+            )}
             {footerStatus === FooterStatus.PUBLISH && [
               <Button
                 variant={ButtonVariants.SUCCESS}

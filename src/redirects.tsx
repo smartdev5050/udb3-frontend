@@ -79,6 +79,12 @@ const getRedirects = (
     featureFlag: FeatureFlags.REACT_CREATE,
   },
   {
+    source: '/event/:eventId/duplicate',
+    destination: '/events/:eventId/duplicate',
+    permanent: false,
+    featureFlag: FeatureFlags.REACT_CREATE,
+  },
+  {
     source: '/place/:placeId/edit',
     destination: '/places/:placeId/edit',
     permanent: false,

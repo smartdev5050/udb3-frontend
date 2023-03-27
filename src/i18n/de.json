@@ -479,6 +479,10 @@
 
       "warning": "Achtung, dieses Datum kann nur einmalig eingestellt werden."
     },
+    "duplicate": {
+      "title": "Kopieren und ändern",
+      "alert": "Sie sind dabei, eine Veranstaltung zu kopieren. Wählen Sie einen Zeitpunkt für diese Veranstaltung."
+    },
     "migration": {
       "alert": "<boldText>Diese Aktivität wurde in der vorherigen Version von UiTdatabank eingegeben.</boldText><br/>Um sie zu bearbeiten, müssen Sie den zuvor ausgewählten Ort und die Adresse erneut auswählen oder einmal eingeben.",
       "continue": "Weiter"
