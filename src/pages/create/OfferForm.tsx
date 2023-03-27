@@ -29,7 +29,7 @@ import {
 import { Address, AddressInternal } from '@/types/Address';
 import { Country } from '@/types/Country';
 import { AttendanceMode, AudienceType, isEvent } from '@/types/Event';
-import { Offer, SubEvent } from '@/types/Offer';
+import { Offer } from '@/types/Offer';
 import { isPlace, Place } from '@/types/Place';
 import { Values } from '@/types/Values';
 import { WorkflowStatusMap } from '@/types/WorkflowStatus';
