@@ -1,6 +1,9 @@
 import type { ForwardedRef, ReactElement } from 'react';
-import { forwardRef } from 'react';
-import { AsyncTypeahead as BootstrapTypeahead } from 'react-bootstrap-typeahead';
+import { forwardRef, useEffect, useState } from 'react';
+import {
+  AsyncTypeahead as BootstrapTypeahead,
+  Loader,
+} from 'react-bootstrap-typeahead';
 import { useTranslation } from 'react-i18next';
 
 import type { BoxProps } from './Box';
@@ -89,99 +92,118 @@ const Typeahead: TypeaheadFunc = forwardRef(
       hideNewInputText,
       newSelectionPrefix,
       positionFixed,
+      isLoading,
       ...props
     }: Props<T>,
     ref: ForwardedRef<HTMLInputElement>,
   ) => {
     const { t } = useTranslation();
+    const [isSearching, setIsSearching] = useState(false);
+
+    useEffect(() => {
+      console.log({ isSearching, isLoading });
+      if (isSearching && !isLoading) {
+        setIsSearching(false);
+      }
+    }, [isSearching, isLoading]);
 
     return (
-      <Box
-        forwardedAs={BootstrapTypeahead}
-        id={id}
-        name={name}
-        allowNew={allowNew}
-        newSelectionPrefix={newSelectionPrefix}
-        options={options}
-        labelKey={labelKey}
-        renderMenuItemChildren={renderMenuItemChildren}
-        isLoading={false}
-        disabled={disabled}
-        className={className}
-        flex={1}
-        ref={ref}
-        css={`
-          input[type='time']::-webkit-calendar-picker-indicator {
-            display: none;
+      <>
+        <span>{isSearching ? 'SEARCHING' : 'no'}</span>
+        <Box
+          forwardedAs={BootstrapTypeahead}
+          id={id}
+          name={name}
+          allowNew={allowNew}
+          newSelectionPrefix={isLoading ? null : newSelectionPrefix}
+          options={options}
+          labelKey={labelKey}
+          renderMenuItemChildren={
+            isLoading ? () => <Loader /> : renderMenuItemChildren
           }
+          isLoading={isLoading}
+          disabled={disabled}
+          className={className}
+          flex={1}
+          ref={ref}
+          css={`
+            input[type='time']::-webkit-calendar-picker-indicator {
+              display: none;
+            }
 
-          .form-control {
-            border-radius: ${getGlobalBorderRadius};
-            height: ${getGlobalFormInputHeight};
-            padding: 0.375rem 0.9rem;
-          }
+            .form-control {
+              border-radius: ${getGlobalBorderRadius};
+              height: ${getGlobalFormInputHeight};
+              padding: 0.375rem 0.9rem;
+            }
 
-          .dropdown-item {
-            border-bottom: 1px solid ${({ theme }) => theme.colors.grey1};
-          }
+            .dropdown-item {
+              border-bottom: 1px solid ${({ theme }) => theme.colors.grey1};
+            }
 
-          .dropdown-item > .rbt-highlight-text {
-            display: initial;
-          }
+            .dropdown-item > .rbt-highlight-text {
+              display: initial;
+            }
 
-          .rbt-menu-custom-option {
-            padding: 1rem 1.5rem;
-          }
+            .rbt-menu-custom-option {
+              padding: 1rem 1.5rem;
+            }
 
-          .dropdown-item.rbt-menu-custom-option > .rbt-highlight-text {
-            display: ${hideNewInputText ? 'none' : 'initial'};
-          }
+            .dropdown-item.rbt-menu-custom-option > .rbt-highlight-text {
+              display: ${hideNewInputText ? 'none' : 'initial'};
+            }
 
-          .dropdown-item.active,
-          .dropdown-item:active {
-            color: ${getValue('active.color')};
-            background-color: ${getValue('active.backgroundColor')};
-            .rbt-highlight-text {
+            .dropdown-item.active,
+            .dropdown-item:active {
               color: ${getValue('active.color')};
+              background-color: ${getValue('active.backgroundColor')};
+              .rbt-highlight-text {
+                color: ${getValue('active.color')};
+              }
             }
-          }
-          .dropdown-item.hover,
-          .dropdown-item:hover {
-            color: ${getValue('hover.color')};
-            background-color: ${getValue('hover.backgroundColor')};
-            .rbt-highlight-text {
+            .dropdown-item.hover,
+            .dropdown-item:hover {
               color: ${getValue('hover.color')};
+              background-color: ${getValue('hover.backgroundColor')};
+              .rbt-highlight-text {
+                color: ${getValue('hover.color')};
+              }
             }
+            .rbt-highlight-text {
+              font-weight: ${getValue('highlight.fontWeight')};
+              background-color: ${getValue('highlight.backgroundColor')};
+            }
+          `}
+          onSearch={(...args) => onSearch(...args)}
+          onInputChange={(...args) => {
+            setIsSearching(true);
+            onInputChange(...args);
+          }}
+          onChange={onChange}
+          placeholder={placeholder}
+          emptyLabel={
+            isLoading ? null : emptyLabel ?? t('typeahead.no_results')
           }
-          .rbt-highlight-text {
-            font-weight: ${getValue('highlight.fontWeight')};
-            background-color: ${getValue('highlight.backgroundColor')};
-          }
-        `}
-        onSearch={onSearch}
-        onInputChange={onInputChange}
-        onChange={onChange}
-        placeholder={placeholder}
-        emptyLabel={emptyLabel ?? t('typeahead.no_results')}
-        promptText={t('typeahead.prompt_text')}
-        searchText={t('typeahead.search_text')}
-        minLength={minLength}
-        delay={275}
-        highlightOnlyResult={!allowNew}
-        isInvalid={isInvalid}
-        selected={selected}
-        defaultInputValue={defaultInputValue}
-        onBlur={onBlur}
-        onFocus={onFocus}
-        positionFixed={positionFixed}
-        inputProps={{
-          id,
-          type: inputType,
-          required: inputRequired,
-        }}
-        {...(customFilter && { filterBy: customFilter })}
-        {...getBoxProps(props)}
-      />
+          promptText={t('typeahead.prompt_text')}
+          searchText={t('typeahead.search_text')}
+          minLength={minLength}
+          delay={275}
+          highlightOnlyResult={!allowNew}
+          isInvalid={isInvalid}
+          selected={selected}
+          defaultInputValue={defaultInputValue}
+          onBlur={onBlur}
+          onFocus={onFocus}
+          positionFixed={positionFixed}
+          inputProps={{
+            id,
+            type: inputType,
+            required: inputRequired,
+          }}
+          {...(customFilter && { filterBy: customFilter })}
+          {...getBoxProps(props)}
+        />
+      </>
     );
   },
 );
