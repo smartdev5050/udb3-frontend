@@ -32,11 +32,6 @@ const useRerenderTriggerStepsForm = () => {
     Math.random().toString(),
   );
 
-  // retrigger when the scope changes
-  useEffect(() => {
-    setRerenderTrigger(Math.random().toString());
-  }, [router.query.scope]);
-
   // retrigger when ther users goes from edit to create page
   useEffect(() => {
     const handleRouteChange = (
