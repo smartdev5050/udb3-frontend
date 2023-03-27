@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -11,7 +11,6 @@ import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { useChangeOfferCalendarMutation } from '@/hooks/api/offers';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import { useToast } from '@/pages/manage/movies/useToast';
-import { Event } from '@/types/Event';
 import { Offer, SubEvent } from '@/types/Offer';
 import { Values } from '@/types/Values';
 import { Panel } from '@/ui/Panel';
