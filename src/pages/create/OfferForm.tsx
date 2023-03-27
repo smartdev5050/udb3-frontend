@@ -144,10 +144,6 @@ const OfferForm = () => {
     return undefined;
   }, [asPath, query.scope]);
 
-  const offerId =
-    arrayToValue(scope === OfferTypes.EVENTS ? query.eventId : query.placeId) ||
-    undefined;
-
   const convertOfferToFormData = (offer: Offer) => {
     return {
       scope: isEvent(offer) ? OfferTypes.EVENTS : OfferTypes.PLACES,
