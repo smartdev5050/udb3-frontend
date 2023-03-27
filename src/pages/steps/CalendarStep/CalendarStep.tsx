@@ -232,10 +232,12 @@ const CalendarStep = ({
       ...initialContext,
       ...(days.length > 0 && { days }),
       ...(openingHours.length > 0 && { openingHours }),
-      ...(event && {
-        startDate: event.startDate ?? formatDateToISO(new Date()),
+      ...(event?.startDate && {
+        startDate: event.startDate,
       }),
-      ...(event && { endDate: event.endDate ?? formatDateToISO(new Date()) }),
+      ...(event?.endDate && {
+        endDate: event.endDate,
+      }),
     };
 
     handleLoadInitialContext({ newContext, calendarType: event.calendarType });
