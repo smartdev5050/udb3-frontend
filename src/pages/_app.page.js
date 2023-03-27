@@ -11,6 +11,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { Hydrate } from 'react-query/hydration';
 
+import { Auth0Context } from '@/context/Auth0Context';
 import { defaultCookieOptions } from '@/hooks/useCookiesWithOptions';
 import { createCookieName, FeatureFlags } from '@/hooks/useFeatureFlag';
 import i18n from '@/i18n/index';
@@ -110,6 +111,7 @@ const App = ({ Component, pageProps, children }) => {
       <Hotjar />
       <ContextProvider
         providers={[
+          Auth0Context,
           [I18nextProvider, { i18n }],
           ThemeProvider,
           [
