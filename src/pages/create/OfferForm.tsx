@@ -33,12 +33,10 @@ import { Offer } from '@/types/Offer';
 import { isPlace, Place } from '@/types/Place';
 import { Values } from '@/types/Values';
 import { WorkflowStatusMap } from '@/types/WorkflowStatus';
-import { arrayToValue } from '@/utils/arrayToValue';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 import { City } from '../CityPicker';
-import { useCalendarType } from '../steps/CalendarStep/useCalendarType';
 import { FormDataUnion } from '../steps/Steps';
 
 type Scope = 'events' | 'places';
@@ -125,7 +123,7 @@ const parseLocationAttributes = (
 
 const OfferForm = () => {
   const { t, i18n } = useTranslation();
-  const { query, asPath, ...router } = useRouter();
+  const { query, asPath } = useRouter();
   const { publicRuntimeConfig } = getConfig();
 
   const scope = useMemo(() => {
@@ -222,6 +220,7 @@ const OfferForm = () => {
     nameAndAgeRange: { name, typicalAgeRange },
     typeAndTheme,
     location,
+    calendar,
   }: FormData) => {
     return {
       typicalAgeRange,
@@ -233,24 +232,7 @@ const OfferForm = () => {
       }),
       ...getLocationAttributes(scope, location, i18n.language),
       ...getTerms(typeAndTheme),
-    };
-  };
-
-  const context = useCalendarSelector((state) => state.context);
-
-  const calendarType = useCalendarType();
-
-  const calendarFormData = useMemo(() => {
-    if (!context || !calendarType) return undefined;
-    return convertStateToFormData(context, calendarType);
-  }, [context, calendarType]);
-
-  const convertFormDataWithCalendarToOffer = (formData: any) => {
-    const newFormData = convertFormDataToOffer(formData);
-
-    return {
-      ...newFormData,
-      ...calendarFormData,
+      ...calendar,
     };
   };
 
@@ -261,7 +243,7 @@ const OfferForm = () => {
       key={rerenderTrigger}
       title={t(`create.title`)}
       scope={scope}
-      convertFormDataToOffer={convertFormDataWithCalendarToOffer}
+      convertFormDataToOffer={convertFormDataToOffer}
       convertOfferToFormData={convertOfferToFormData}
       toastConfiguration={{
         messages: {
