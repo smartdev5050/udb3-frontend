@@ -7,6 +7,7 @@ import { hasLegacyLocation } from '@/types/Offer';
 import { isPlace } from '@/types/Place';
 
 const FooterStatus = {
+  DUPLICATE: 'DUPLICATE',
   CONTINUE: 'CONTINUE',
   HIDDEN: 'HIDDEN',
   PUBLISH: 'PUBLISH',
@@ -17,6 +18,7 @@ const FooterStatus = {
 const useFooterStatus = ({ offer, form }) => {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const isOnDuplicatePage = router.pathname.endsWith('/duplicate');
 
   const formValues = form.getValues();
   const {
@@ -39,6 +41,10 @@ const useFooterStatus = ({ offer, form }) => {
   return useMemo(() => {
     if (needsLocationMigration) {
       return FooterStatus.CONTINUE;
+    }
+
+    if (offerId && isOnDuplicatePage) {
+      return FooterStatus.DUPLICATE;
     }
 
     if (offerId && isEventType && !availableFrom) {
@@ -65,6 +71,7 @@ const useFooterStatus = ({ offer, form }) => {
     router.route,
     isMutating,
     isPlaceDirty,
+    isOnDuplicatePage,
   ]);
 };
 
