@@ -12,7 +12,7 @@ import { useChangeOfferCalendarMutation } from '@/hooks/api/offers';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import { useToast } from '@/pages/manage/movies/useToast';
 import { Event } from '@/types/Event';
-import { SubEvent } from '@/types/Offer';
+import { Offer, SubEvent } from '@/types/Offer';
 import { Values } from '@/types/Values';
 import { Panel } from '@/ui/Panel';
 import { getStackProps, Stack } from '@/ui/Stack';
@@ -203,17 +203,18 @@ const CalendarStep = ({
   const useGetOfferByIdQuery =
     scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
 
-  const getEventByIdQuery = useGetOfferByIdQuery({ id: offerId });
+  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
 
   // @ts-expect-error
-  const event: Event | undefined = getEventByIdQuery.data;
+  const offer: Offer | undefined = getOfferByIdQuery.data;
 
   useEffect(() => {
+    console.log('in useEffect offer data changed');
     const initialContext = initialCalendarContext;
 
-    if (!event) return;
+    if (!offer) return;
 
-    const days = (event.subEvent ?? []).map((subEvent) => ({
+    const days = (offer.subEvent ?? []).map((subEvent) => ({
       id: createDayId(),
       startDate: subEvent.startDate,
       endDate: subEvent.endDate,
@@ -221,7 +222,7 @@ const CalendarStep = ({
       bookingAvailability: subEvent.bookingAvailability,
     }));
 
-    const openingHours = (event.openingHours ?? []).map((openingHour) => ({
+    const openingHours = (offer.openingHours ?? []).map((openingHour) => ({
       id: createOpeninghoursId(),
       opens: openingHour.opens,
       closes: openingHour.closes,
@@ -232,16 +233,20 @@ const CalendarStep = ({
       ...initialContext,
       ...(days.length > 0 && { days }),
       ...(openingHours.length > 0 && { openingHours }),
-      ...(event?.startDate && {
-        startDate: event.startDate,
+      ...(offer?.startDate && {
+        startDate: offer.startDate,
       }),
-      ...(event?.endDate && {
-        endDate: event.endDate,
+      ...(offer?.endDate && {
+        endDate: offer.endDate,
       }),
     };
 
-    handleLoadInitialContext({ newContext, calendarType: event.calendarType });
-  }, [event, handleLoadInitialContext]);
+    console.log('handleLoadInitialContext', {
+      newContext,
+      calendarType: offer.calendarType,
+    });
+    handleLoadInitialContext({ newContext, calendarType: offer.calendarType });
+  }, [offer, handleLoadInitialContext]);
 
   const toast = useToast({
     messages: { calendar: t('create.toast.success.calendar') },
