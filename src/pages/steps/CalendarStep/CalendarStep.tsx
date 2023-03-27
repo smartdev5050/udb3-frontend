@@ -212,7 +212,6 @@ const CalendarStep = ({
   const offer: Offer | undefined = getOfferByIdQuery.data;
 
   useEffect(() => {
-    console.log('in useEffect offer data changed');
     const initialContext = initialCalendarContext;
 
     if (!offer) return;
@@ -244,10 +243,6 @@ const CalendarStep = ({
       }),
     };
 
-    console.log('handleLoadInitialContext', {
-      newContext,
-      calendarType: offer.calendarType,
-    });
     handleLoadInitialContext({ newContext, calendarType: offer.calendarType });
   }, [offer, handleLoadInitialContext]);
 
