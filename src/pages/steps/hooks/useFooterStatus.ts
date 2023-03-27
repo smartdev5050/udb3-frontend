@@ -25,6 +25,7 @@ const useFooterStatus = ({ offer, form }) => {
   const offerId = offer?.['@id'];
   const availableFrom = offer?.availableFrom;
   const hasLocation =
+    formValues.location?.place ||
     (formValues.location?.municipality &&
       formValues.location?.streetAndNumber) ||
     formValues.location?.isOnline;
