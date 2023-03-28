@@ -4,13 +4,14 @@ import type { StackProps } from './Stack';
 import { getStackProps, Stack } from './Stack';
 import { Text } from './Text';
 import { getGlobalBorderRadius, getValueFromTheme } from './theme';
+import { ReactNode } from 'react';
 
 const getValue = getValueFromTheme(`toggleBox`);
 
 type Props = StackProps & {
   active: boolean;
   icon?: JSX.Element;
-  text: string;
+  text: ReactNode;
   disabled?: boolean;
 };
 

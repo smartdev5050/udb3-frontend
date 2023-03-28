@@ -43,6 +43,7 @@ import { RadioButtonWithLabel } from '@/ui/RadioButtonWithLabel';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { Breakpoints, getValueFromTheme } from '@/ui/theme';
+import { ToggleBox } from '@/ui/ToggleBox';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { prefixUrlWithHttp } from '@/utils/url';
@@ -59,7 +60,6 @@ import {
   StepProps,
   StepsConfiguration,
 } from './Steps';
-import { ToggleBox } from '@/ui/ToggleBox';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -881,7 +881,15 @@ const LocationStep = ({
                       }
                       active={isOnline}
                       icon={<OnlineLocationIcon width={'50px'} />}
-                      text={t('create.location.is_online.label')}
+                      text={
+                        <>
+                          {t('create.location.is_online.label')}
+                          <NewFeatureTooltip
+                            featureUUID={Features.ONLINE}
+                            display={'inline-block'}
+                          />
+                        </>
+                      }
                       width="30%"
                       minHeight={parseSpacing(7)}
                     />
