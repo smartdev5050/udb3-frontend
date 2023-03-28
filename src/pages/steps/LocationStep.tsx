@@ -871,7 +871,7 @@ const LocationStep = ({
                       }
                       active={!isOnline}
                       icon={<PhysicalLocationIcon width={'50px'} />}
-                      text={'Op een fysieke locatie'}
+                      text={t('create.location.is_physical.label')}
                       width="30%"
                       minHeight={parseSpacing(7)}
                     />
