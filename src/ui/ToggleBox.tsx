@@ -1,10 +1,11 @@
+import { ReactNode } from 'react';
+
 import { parseSpacing } from './Box';
 import { Icon, Icons } from './Icon';
 import type { StackProps } from './Stack';
 import { getStackProps, Stack } from './Stack';
 import { Text } from './Text';
 import { getGlobalBorderRadius, getValueFromTheme } from './theme';
-import { ReactNode } from 'react';
 
 const getValue = getValueFromTheme(`toggleBox`);
 
