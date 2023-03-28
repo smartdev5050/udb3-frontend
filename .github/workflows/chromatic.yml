@@ -1,14 +1,17 @@
 name: 'Chromatic'
-on: push
+on:
+  pull_request:
+    types:
+      - closed
 
 jobs:
   publish:
     runs-on: ubuntu-latest
-    if: github.actor != 'dependabot-preview[bot]'
+    if: github.actor != 'dependabot-preview[bot]' && github.event.pull_request.merged == true
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
       - name: Install dependencies
-        run: yarn
+        run: yarn install --frozen-lockfile
       - name: Publish to Chromatic
         uses: chromaui/action@v1
         with:

@@ -110,7 +110,11 @@ const scoreWeightMapping = {
     mandatory: false,
   },
   contact_info: {
-    weight: 6,
+    weight: 3,
+    mandatory: false,
+  },
+  booking_info: {
+    weight: 3,
     mandatory: false,
   },
   organizer: {

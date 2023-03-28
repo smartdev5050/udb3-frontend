@@ -1,3 +1,5 @@
+import { ContentState, convertToRaw, EditorState } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -5,6 +7,7 @@ import { OfferTypes } from '@/constants/OfferType';
 import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { useChangeOfferDescriptionMutation } from '@/hooks/api/offers';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
+import RichTextEditor from '@/pages/RichTextEditor';
 import { Event } from '@/types/Event';
 import { Alert } from '@/ui/Alert';
 import { Box, parseSpacing } from '@/ui/Box';
@@ -14,10 +17,12 @@ import { Inline } from '@/ui/Inline';
 import { ProgressBar, ProgressBarVariants } from '@/ui/ProgressBar';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
-import { TextArea } from '@/ui/TextArea';
 import { Breakpoints } from '@/ui/theme';
 
 import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
+
+const htmlToDraft =
+  typeof window === 'object' && require('html-to-draftjs').default;
 
 const IDEAL_DESCRIPTION_LENGTH = 200;
 
@@ -85,7 +90,11 @@ const DescriptionStep = ({
   // TODO: refactor
   const eventId = offerId;
 
-  const [description, setDescription] = useState('');
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const plainTextDescription = useMemo(
+    () => editorState.getCurrentContent().getPlainText(),
+    [editorState],
+  );
 
   const useGetOfferByIdQuery =
     scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
@@ -96,14 +105,19 @@ const DescriptionStep = ({
   const offer: Event | Place | undefined = getOfferByIdQuery.data;
 
   useEffect(() => {
-    if (!offer?.description) return;
+    const newDescription = offer?.description?.[i18n.language];
+    if (!newDescription) return;
 
-    const newDescription =
-      offer.description[i18n.language] ?? offer.description[offer.mainLanguage];
+    const draftState = htmlToDraft(newDescription);
+    const contentState = ContentState.createFromBlockArray(
+      draftState.contentBlocks,
+      draftState.entityMap,
+    );
 
-    setDescription(newDescription);
+    setEditorState(EditorState.createWithContent(contentState));
 
-    const isCompleted = newDescription?.length >= IDEAL_DESCRIPTION_LENGTH;
+    const plainText = contentState.getPlainText() ?? '';
+    const isCompleted = plainText.length >= IDEAL_DESCRIPTION_LENGTH;
 
     onValidationChange(
       isCompleted ? ValidationStatus.SUCCESS : ValidationStatus.NONE,
@@ -120,16 +134,14 @@ const DescriptionStep = ({
   });
 
   const handleBlur = () => {
-    if (!description) return;
-
-    const isCompleted = description.length >= IDEAL_DESCRIPTION_LENGTH;
+    const isCompleted = plainTextDescription.length >= IDEAL_DESCRIPTION_LENGTH;
 
     onValidationChange(
       isCompleted ? ValidationStatus.SUCCESS : ValidationStatus.NONE,
     );
 
     changeDescriptionMutation.mutate({
-      description,
+      description: draftToHtml(convertToRaw(editorState.getCurrentContent())),
       language: i18n.language,
       eventId,
       scope,
@@ -137,7 +149,7 @@ const DescriptionStep = ({
   };
 
   const handleClear = () => {
-    setDescription('');
+    setEditorState(EditorState.createEmpty());
 
     changeDescriptionMutation.mutate({
       description: '',
@@ -145,10 +157,6 @@ const DescriptionStep = ({
       eventId,
       scope,
     });
-  };
-
-  const handleInput = (e) => {
-    setDescription(e.target.value);
   };
 
   return (
@@ -159,16 +167,15 @@ const DescriptionStep = ({
         id="create-description"
         label={t('create.additionalInformation.description.title')}
         Component={
-          <TextArea
-            rows={10}
-            value={description}
-            onInput={handleInput}
+          <RichTextEditor
+            editorState={editorState}
+            onEditorStateChange={setEditorState}
             onBlur={handleBlur}
           />
         }
         info={
           <DescriptionInfo
-            description={description}
+            description={plainTextDescription}
             onClear={handleClear}
             eventTypeId={eventTypeId}
           />

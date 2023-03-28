@@ -200,6 +200,11 @@
         "events": "Où cet événement ou cette activité aura-t-il lieu?",
         "places": "Où est cet endroit ou cet emplacement?"
       },
+      "recent_locations": {
+        "title": "Choisissez un lieu que vous avez utilisé récemment",
+        "info": "Nous avons mis les lieux pour lesquels vous avez récemment entré ici pour vous. Vous pouvez les ajouter en un clic.",
+        "other": "Ou choisissez un autre lieu"
+      },
       "validation_messages": {
         "street_and_number": {
           "required": "Votre rue et votre numéro ne répondent pas aux exigences."
@@ -429,7 +434,7 @@
         "add_new_label": "Production introuvable ? Ajouter une nouvelle production : "
       },
       "media": {
-        "title": "Médias"
+        "title": "Image & vidéo"
       },
       "price_info": {
         "add": "Ajouter tarif",
@@ -472,6 +477,14 @@
       "description": "A partir de quand l'activité peut-elle apparaître en ligne?",
       "title": "Choisissez une date de publication",
       "warning": "Attention, vous ne pouvez définir cette date qu'une seule fois."
+    },
+    "duplicate": {
+      "title": "Copier et modifier",
+      "alert": "Vous êtes sur le point de copier un événement. Choisissez une date pour cet événement."
+    },
+    "migration": {
+      "alert": "<boldText>Cette activité a été saisie dans la version précédente d'UiTdatabank.</boldText><br/>Pour la modifier, il est nécessaire de sélectionner à nouveau ou de saisir une fois l'emplacement et l'adresse précédemment sélectionnés.",
+      "continue": "Continuer"
     },
     "toast": {
       "success": {

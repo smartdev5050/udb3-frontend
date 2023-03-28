@@ -1,6 +1,7 @@
 import { TFunction } from 'i18next';
+import { uniqBy } from 'lodash';
 import getConfig from 'next/config';
-import { ChangeEvent, useEffect, useMemo, useState } from 'react';
+import React, { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { Controller, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -13,18 +14,25 @@ import {
   useChangeLocationMutation,
   useChangeOnlineUrlMutation,
   useDeleteOnlineUrlMutation,
+  useGetEventByIdQuery,
 } from '@/hooks/api/events';
-import { useGetEventByIdQuery } from '@/hooks/api/events';
-import { useGetPlaceByIdQuery } from '@/hooks/api/places';
-import { useChangeAddressMutation } from '@/hooks/api/places';
+import { useGetOffersByCreatorQuery } from '@/hooks/api/offers';
+import {
+  useChangeAddressMutation,
+  useGetPlaceByIdQuery,
+} from '@/hooks/api/places';
+import { useGetUserQuery } from '@/hooks/api/user';
+import { SupportedLanguage } from '@/i18n/index';
 import { FormData as OfferFormData } from '@/pages/create/OfferForm';
 import { Address } from '@/types/Address';
 import { Countries, Country } from '@/types/Country';
 import { AttendanceMode, AudienceType } from '@/types/Event';
+import { Offer } from '@/types/Offer';
 import { Values } from '@/types/Values';
-import { Alert } from '@/ui/Alert';
+import { Alert, AlertVariants } from '@/ui/Alert';
 import { parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
+import { ButtonCard } from '@/ui/ButtonCard';
 import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
@@ -34,7 +42,8 @@ import { RadioButtonTypes } from '@/ui/RadioButton';
 import { RadioButtonWithLabel } from '@/ui/RadioButtonWithLabel';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
-import { getValueFromTheme } from '@/ui/theme';
+import { Breakpoints, getValueFromTheme } from '@/ui/theme';
+import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { prefixUrlWithHttp } from '@/utils/url';
 
@@ -57,6 +66,95 @@ const CULTUURKUUR_LOCATION_ID = publicRuntimeConfig.cultuurKuurLocationId;
 const API_URL = publicRuntimeConfig.apiUrl;
 
 const getGlobalValue = getValueFromTheme('global');
+
+const RecentLocations = ({ onFieldChange, ...props }) => {
+  const { t, i18n } = useTranslation();
+  const getUserQuery = useGetUserQuery();
+  const getOffersQuery = useGetOffersByCreatorQuery(
+    {
+      advancedQuery: '_exists_:location.id',
+      // @ts-expect-error
+      creator: getUserQuery?.data,
+      sortOptions: {
+        field: 'modified',
+        order: 'desc',
+      },
+      paginationOptions: { start: 0, limit: 20 },
+    },
+    {
+      queryArguments: {
+        workflowStatus: 'DRAFT,READY_FOR_VALIDATION,APPROVED',
+        addressCountry: '*',
+      },
+    },
+  );
+
+  const offers: (Offer & { location: any })[] =
+    // @ts-expect-error
+    getOffersQuery?.data?.member ?? [];
+  const locations = uniqBy(
+    offers?.map((offer) => offer.location),
+    '@id',
+  ).filter((location) => location && location.name.nl !== 'Online');
+
+  return (
+    <Stack {...props}>
+      <Inline>
+        <Text fontWeight={'bold'}>
+          {t('create.location.recent_locations.title')}
+        </Text>
+        <NewFeatureTooltip featureUUID={Features.SUGGESTED_ORGANIZERS} />
+      </Inline>
+      <Alert variant={AlertVariants.PRIMARY} marginY={4}>
+        {t('create.location.recent_locations.info')}
+      </Alert>
+      <Inline
+        display={'grid'}
+        css={`
+          grid-template-columns: repeat(2, 1fr);
+          gap: 10px;
+        `}
+      >
+        {locations.map((location) => {
+          const address =
+            location.address[location.mainLanguage] ?? location.address;
+
+          return (
+            <ButtonCard
+              key={location['@id']}
+              width={'auto'}
+              marginBottom={0}
+              onClick={() =>
+                onFieldChange({
+                  municipality: {
+                    zip: address.postalCode,
+                    label: `${address.postalCode} ${address.addressLocality}`,
+                    name: address.addressLocality,
+                  },
+                  place: location,
+                })
+              }
+              title={getLanguageObjectOrFallback(
+                location.name,
+                i18n.language as SupportedLanguage,
+                location?.mainLanguage ?? 'nl',
+              )}
+              description={
+                address && (
+                  <>
+                    {address.streetAddress}
+                    <br />
+                    {address.postalCode} {address.addressLocality}
+                  </>
+                )
+              }
+            />
+          );
+        })}
+      </Inline>
+    </Stack>
+  );
+};
 
 const useEditLocation = ({ scope, offerId }: UseEditArguments) => {
   const { i18n } = useTranslation();
@@ -276,6 +374,34 @@ const LocationStep = ({
           const { isOnline, municipality, country } =
             field?.value as OfferFormData['location'];
 
+          const onFieldChange = (updatedValue) => {
+            updatedValue = { ...field.value, ...updatedValue };
+            field.onChange(updatedValue);
+            onChange(updatedValue);
+            field.onBlur();
+          };
+
+          const renderFieldWithRecentLocations = (children) => (
+            <Inline
+              spacing={4}
+              stackOn={Breakpoints.M}
+              alignItems={'flex-start'}
+              width={'100%'}
+            >
+              {!isOnline && (
+                <RecentLocations flex={1} onFieldChange={onFieldChange} />
+              )}
+              <Stack spacing={4} flex={1}>
+                {!isOnline && (
+                  <Text fontWeight={'bold'}>
+                    {t('create.location.recent_locations.other')}
+                  </Text>
+                )}
+                {children}
+              </Stack>
+            </Inline>
+          );
+
           const OnlineToggle = (
             <Inline>
               <NewFeatureTooltip featureUUID={Features.ONLINE} />
@@ -285,15 +411,11 @@ const LocationStep = ({
                     type={RadioButtonTypes.SWITCH}
                     checked={isOnline}
                     onChange={(e) => {
-                      const updatedValue = {
-                        ...field.value,
+                      onFieldChange({
                         place: undefined,
                         municipality: undefined,
                         isOnline: e.target.checked,
-                      };
-                      field.onChange(updatedValue);
-                      field.onBlur();
-                      onChange(updatedValue);
+                      });
                     }}
                     css={`
                       .custom-switch {
@@ -314,56 +436,60 @@ const LocationStep = ({
             return (
               <Stack spacing={4}>
                 {OnlineToggle}
-                <FormElement
-                  Component={
-                    <Input
-                      maxWidth="28rem"
-                      value={onlineUrl}
-                      onBlur={(e) => {
-                        const prefixedUrl =
-                          e.target.value === ''
-                            ? e.target.value
-                            : prefixUrlWithHttp(e.target.value);
-                        const updatedValue = {
-                          ...field?.value,
-                          onlineUrl: prefixedUrl,
-                        };
-                        field.onChange(updatedValue);
-                        if (isValidUrl(prefixedUrl)) {
-                          onChange(updatedValue);
-                          setHasOnlineUrlError(false);
-                        } else {
-                          setHasOnlineUrlError(true);
-                        }
-                      }}
-                      onChange={(e) => {
-                        setOnlineUrl(e.target.value);
-                      }}
-                      placeholder={t('create.location.online_url.placeholder')}
-                    />
-                  }
-                  id="online-url"
-                  label={t('create.location.online_url.label')}
-                  error={
-                    hasOnlineUrlError &&
-                    t('create.validation_messages.location.online_url')
-                  }
-                  info={
-                    <Text
-                      variant={TextVariants.MUTED}
-                      maxWidth={parseSpacing(9)}
-                    >
-                      {t('create.location.online_url.info')}
-                    </Text>
-                  }
-                />
+                {renderFieldWithRecentLocations(
+                  <FormElement
+                    Component={
+                      <Input
+                        maxWidth="28rem"
+                        value={onlineUrl}
+                        onBlur={(e) => {
+                          const prefixedUrl =
+                            e.target.value === ''
+                              ? e.target.value
+                              : prefixUrlWithHttp(e.target.value);
+                          const updatedValue = {
+                            ...field?.value,
+                            onlineUrl: prefixedUrl,
+                          };
+                          field.onChange(updatedValue);
+                          if (isValidUrl(prefixedUrl)) {
+                            onChange(updatedValue);
+                            setHasOnlineUrlError(false);
+                          } else {
+                            setHasOnlineUrlError(true);
+                          }
+                        }}
+                        onChange={(e) => {
+                          setOnlineUrl(e.target.value);
+                        }}
+                        placeholder={t(
+                          'create.location.online_url.placeholder',
+                        )}
+                      />
+                    }
+                    id="online-url"
+                    label={t('create.location.online_url.label')}
+                    error={
+                      hasOnlineUrlError &&
+                      t('create.validation_messages.location.online_url')
+                    }
+                    info={
+                      <Text
+                        variant={TextVariants.MUTED}
+                        maxWidth={parseSpacing(9)}
+                      >
+                        {t('create.location.online_url.info')}
+                      </Text>
+                    }
+                  />,
+                )}
               </Stack>
             );
           }
 
           if (!country || municipality?.zip === '0000') {
-            return (
-              <Stack spacing={4}>
+            return renderFieldWithRecentLocations(
+              <>
                 <Inline alignItems="center" spacing={3}>
                   <Icon
                     name={Icons.CHECK_CIRCLE}
@@ -373,15 +499,11 @@ const LocationStep = ({
                   <Button
                     variant={ButtonVariants.LINK}
                     onClick={() => {
-                      const updatedValue = {
-                        ...field.value,
+                      onFieldChange({
                         country: Countries.BE,
                         municipality: undefined,
-                      };
-                      field.onChange(updatedValue);
-                      onChange(updatedValue);
+                      });
                       setAudienceType(AudienceType.EVERYONE);
-                      field.onBlur();
                     }}
                   >
                     {t('create.location.country.change_location')}
@@ -390,157 +512,132 @@ const LocationStep = ({
                 <Alert maxWidth="53rem">
                   {t('create.location.country.location_school_info')}
                 </Alert>
-              </Stack>
+              </>,
             );
           }
 
           if (!municipality) {
             return (
-              <Stack spacing={4}>
+              <>
                 {scope === OfferTypes.EVENTS && OnlineToggle}
-                <Inline spacing={1} alignItems="center">
-                  <CityPicker
-                    name="city-picker-location-step"
-                    country={country}
-                    offerId={offerId}
-                    value={field.value?.municipality}
-                    onChange={(value) => {
-                      const updatedValue = {
-                        ...field.value,
-                        municipality: value,
-                        place: undefined,
-                      };
-                      field.onChange(updatedValue);
-                      onChange(updatedValue);
-                      field.onBlur();
-                    }}
-                    width="22rem"
-                  />
-                  <CountryPicker
-                    value={country}
-                    includeLocationSchool={scope === OfferTypes.EVENTS}
-                    onChange={(newCountry) => {
-                      const updatedValue = {
-                        ...field.value,
-                        country: newCountry,
-                      };
-                      field.onChange(updatedValue);
-                      onChange(updatedValue);
-                      field.onBlur();
-                    }}
-                    css={`
-                      & button {
-                        margin-bottom: 0.3rem;
+                {renderFieldWithRecentLocations(
+                  <Inline spacing={1} alignItems="center">
+                    <CityPicker
+                      name="city-picker-location-step"
+                      country={country}
+                      offerId={offerId}
+                      value={field.value?.municipality}
+                      onChange={(value) => {
+                        onFieldChange({
+                          municipality: value,
+                          place: undefined,
+                        });
+                      }}
+                      width="22rem"
+                    />
+                    <CountryPicker
+                      value={country}
+                      includeLocationSchool={scope === OfferTypes.EVENTS}
+                      onChange={(newCountry) =>
+                        onFieldChange({ country: newCountry })
                       }
-                    `}
-                  />
-                  <NewFeatureTooltip
-                    featureUUID={Features.GERMAN_POSTALCODES}
-                  />
-                </Inline>
-              </Stack>
+                      css={`
+                        & button {
+                          margin-bottom: 0.3rem;
+                        }
+                      `}
+                    />
+                    <NewFeatureTooltip
+                      featureUUID={Features.GERMAN_POSTALCODES}
+                    />
+                  </Inline>,
+                )}
+              </>
             );
           }
 
-          return (
-            <Stack>
-              <Stack spacing={4}>
-                <Inline alignItems="center" spacing={3}>
-                  <Icon
-                    name={Icons.CHECK_CIRCLE}
-                    color={getGlobalValue('successIcon')}
-                  />
-                  <Text>{municipality.name}</Text>
-                  <Button
-                    variant={ButtonVariants.LINK}
-                    onClick={() => {
-                      const updatedValue = {
-                        ...field.value,
-                        municipality: undefined,
-                        streetAndNumber: undefined,
-                      };
-                      field.onChange(updatedValue);
-                      onChange(updatedValue);
-                      field.onBlur();
-                      setStreetAndNumber('');
-                    }}
-                  >
-                    {t(
-                      `create.location.municipality.change_${country?.toLowerCase()}`,
-                    )}
-                  </Button>
-                </Inline>
-                {scope === OfferTypes.EVENTS && (
-                  <PlaceStep
-                    municipality={municipality}
-                    country={country}
-                    chooseLabel={chooseLabel}
-                    placeholderLabel={placeholderLabel}
-                    {...{
-                      formState,
-                      getValues,
-                      reset,
-                      control,
-                      name,
-                    }}
-                    {...getStepProps(props)}
-                    onChange={onChange}
-                  />
-                )}
-                {scope === OfferTypes.PLACES && (
-                  <Stack>
-                    {field.value.streetAndNumber ? (
-                      <Inline alignItems="center" spacing={3}>
-                        <Icon
-                          name={Icons.CHECK_CIRCLE}
-                          color={getGlobalValue('successIcon')}
-                        />
-                        <Text>{field.value.streetAndNumber}</Text>
-                        <Button
-                          variant={ButtonVariants.LINK}
-                          onClick={() => {
-                            const updatedValue = {
-                              ...field.value,
-                              streetAndNumber: undefined,
-                            };
-                            field.onChange(updatedValue);
-                            onChange(updatedValue);
-                            field.onBlur();
-                            setStreetAndNumber('');
-                          }}
-                        >
-                          {t(`create.location.street_and_number.change`)}
-                        </Button>
-                      </Inline>
-                    ) : (
-                      <FormElement
-                        Component={
-                          <Input
-                            value={streetAndNumber}
-                            onBlur={(e) => {
-                              const updatedValue = {
-                                ...field.value,
-                                streetAndNumber: streetAndNumber,
-                              };
-                              field.onChange(updatedValue);
-                              onChange(updatedValue);
-                            }}
-                            onChange={handleChangeStreetAndNumber}
-                          />
-                        }
-                        id="location-streetAndNumber"
-                        label={t('location.add_modal.labels.streetAndNumber')}
-                        maxWidth="28rem"
-                        error={
-                          formState.errors.location?.streetAndNumber &&
-                          t('location.add_modal.errors.streetAndNumber')
-                        }
+          return renderFieldWithRecentLocations(
+            <>
+              <Inline alignItems="center" spacing={3}>
+                <Icon
+                  name={Icons.CHECK_CIRCLE}
+                  color={getGlobalValue('successIcon')}
+                />
+                <Text>{municipality.name}</Text>
+                <Button
+                  variant={ButtonVariants.LINK}
+                  onClick={() => {
+                    onFieldChange({
+                      municipality: undefined,
+                      streetAndNumber: undefined,
+                    });
+                    setStreetAndNumber('');
+                  }}
+                >
+                  {t(
+                    `create.location.municipality.change_${country?.toLowerCase()}`,
+                  )}
+                </Button>
+              </Inline>
+              {scope === OfferTypes.EVENTS && (
+                <PlaceStep
+                  municipality={municipality}
+                  country={country}
+                  chooseLabel={chooseLabel}
+                  placeholderLabel={placeholderLabel}
+                  {...{
+                    formState,
+                    getValues,
+                    reset,
+                    control,
+                    name,
+                  }}
+                  {...getStepProps(props)}
+                  onFieldChange={onFieldChange}
+                />
+              )}
+              {scope === OfferTypes.PLACES && (
+                <Stack>
+                  {field.value.streetAndNumber ? (
+                    <Inline alignItems="center" spacing={3}>
+                      <Icon
+                        name={Icons.CHECK_CIRCLE}
+                        color={getGlobalValue('successIcon')}
                       />
-                    )}
-                  </Stack>
-                )}
-              </Stack>
-            </Stack>
+                      <Text>{field.value.streetAndNumber}</Text>
+                      <Button
+                        variant={ButtonVariants.LINK}
+                        onClick={() => {
+                          onFieldChange({
+                            streetAndNumber: undefined,
+                          });
+                          setStreetAndNumber('');
+                        }}
+                      >
+                        {t(`create.location.street_and_number.change`)}
+                      </Button>
+                    </Inline>
+                  ) : (
+                    <FormElement
+                      Component={
+                        <Input
+                          value={streetAndNumber}
+                          onBlur={() => onFieldChange({ streetAndNumber })}
+                          onChange={handleChangeStreetAndNumber}
+                        />
+                      }
+                      id="location-streetAndNumber"
+                      label={t('location.add_modal.labels.streetAndNumber')}
+                      maxWidth="28rem"
+                      error={
+                        formState.errors.location?.streetAndNumber &&
+                        t('location.add_modal.errors.streetAndNumber')
+                      }
+                    />
+                  )}
+                </Stack>
+              )}
+            </>,
           );
         }}
       />

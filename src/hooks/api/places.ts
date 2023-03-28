@@ -135,7 +135,7 @@ const getPlacesByQuery = async ({
   );
   const queryArguments = [
     termsString,
-    zip ? `address.\\*postalCode:${zip}` : '',
+    zip ? `address.\\*.postalCode:${zip}` : '',
     addressLocality ? `address.\\*.addressLocality:${addressLocality}` : '',
   ].filter((argument) => !!argument);
 
