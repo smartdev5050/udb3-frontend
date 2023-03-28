@@ -32,6 +32,7 @@ const useRerenderTriggerStepsForm = () => {
     Math.random().toString(),
   );
 
+  // retrigger when ther users goes from edit to create page
   useEffect(() => {
     const handleRouteChange = (
       newPathname: string,
@@ -41,7 +42,6 @@ const useRerenderTriggerStepsForm = () => {
         return;
       }
 
-      // Only rerender StepsForm if you go from edit to create page
       if (
         !['/create', '/manage/movies/create'].some((prefix) =>
           newPathname.startsWith(prefix),
