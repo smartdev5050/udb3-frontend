@@ -276,7 +276,7 @@ const PriceInformation = ({
                   >
                     <Inline minWidth="30%">
                       {rate.category === PriceCategory.BASE && (
-                        <Text>{rate.name[i18n.language]}</Text>
+                        <Text width="100%">{rate.name[i18n.language]}</Text>
                       )}
                       {rate.category === PriceCategory.TARIFF && (
                         <FormElement
