@@ -104,7 +104,7 @@ type RowProps = {
   description: string;
   actions: ReactNode[];
   url: string;
-  status?: string;
+  finishedAt?: string;
   badge?: string;
 };
 
@@ -113,7 +113,7 @@ const Row = ({
   description,
   actions,
   url,
-  status,
+  finishedAt,
   badge,
   ...props
 }: RowProps) => {
@@ -128,8 +128,8 @@ const Row = ({
         </Inline>
         <Text>{description}</Text>
       </Stack>
-      {status ? (
-        <Text color={getValue('listItem.passedEvent.color')}>{status}</Text>
+      {finishedAt ? (
+        <Text color={getValue('listItem.passedEvent.color')}>{finishedAt}</Text>
       ) : (
         actions.length > 0 && (
           <Dropdown variant={DropDownVariants.SECONDARY} isSplit>
@@ -170,6 +170,12 @@ const EventRow = ({ item: event, onDelete, ...props }: EventRowProps) => {
       event.calendarType === CalendarType.SINGLE ? 'lg' : 'sm'
     ];
 
+  const badge = isPlanned
+    ? t('dashboard.online_from', {
+        date: format(new Date(event.availableFrom), 'dd/MM/yyyy'),
+      })
+    : !isPublished && t('dashboard.not_published');
+
   return (
     <Row
       title={event.name[i18n.language] ?? event.name[event.mainLanguage]}
@@ -187,16 +193,10 @@ const EventRow = ({ item: event, onDelete, ...props }: EventRowProps) => {
           {t('dashboard.actions.delete')}
         </Dropdown.Item>,
       ]}
-      status={
+      finishedAt={
         isFinished && t('dashboard.passed', { type: t('dashboard.event') })
       }
-      badge={
-        isPlanned
-          ? t('dashboard.online_from', {
-              date: format(new Date(event.availableFrom), 'dd/MM/yyyy'),
-            })
-          : !isPublished && t('dashboard.not_published')
-      }
+      badge={badge}
       {...getInlineProps(props)}
     />
   );
@@ -244,7 +244,7 @@ const PlaceRow = ({ item: place, onDelete, ...props }: PlaceRowProps) => {
           {t('dashboard.actions.delete')}
         </Dropdown.Item>,
       ]}
-      status={
+      finishedAt={
         isFinished && t('dashboard.passed', { type: t('dashboard.place') })
       }
       badge={
