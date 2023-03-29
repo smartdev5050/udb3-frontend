@@ -161,7 +161,6 @@ const MediaStep = ({
     };
 
     /**
-     * @description
      * Possible url structures
      * - https://vimeo.com/318783762
      * - https://vimeo.com/318783762/
