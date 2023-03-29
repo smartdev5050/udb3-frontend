@@ -42,8 +42,8 @@ const VideoLinkAddModal = ({ visible, onConfirm, onClose }: Props) => {
   const handleConfirm = async () => {
     await handleSubmit((data) => {
       onConfirm(data.link);
+      reset({ link: '' });
     })();
-    reset({ link: '' });
   };
 
   const registerLinkProps = register('link');
