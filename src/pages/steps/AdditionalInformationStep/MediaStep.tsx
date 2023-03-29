@@ -198,12 +198,18 @@ const MediaStep = ({
     };
 
     const convertAllVideoUrlsPromises = video.map(async ({ url, ...video }) => {
-      const thumbnailUrl =
-        url.includes('youtube') || url.includes('youtu.be')
-          ? getYoutubeThumbnailUrl(url)
-          : url.includes('vimeo')
-          ? await getVimeoThumbnailUrl(url)
-          : '';
+      const isYoutubeUrl = url.includes('youtube') || url.includes('youtu.be');
+      const isVimeoUrl = url.includes('vimeo');
+
+      let thumbnailUrl = '';
+
+      if (isYoutubeUrl) {
+        thumbnailUrl = getYoutubeThumbnailUrl(url);
+      }
+
+      if (isVimeoUrl) {
+        thumbnailUrl = await getVimeoThumbnailUrl(url);
+      }
 
       const enrichedVideo: VideoEnriched = {
         ...video,
