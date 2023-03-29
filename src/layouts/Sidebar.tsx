@@ -204,7 +204,7 @@ const ProfileMenu = ({ profileImage }: ProfileMenuProps) => {
           destination: getBaseUrl(),
         }).toString();
 
-        router.push(`${publicRuntimeConfig.authUrl}/logout?${queryString}`);
+        router.push(`api/auth/logout`);
       },
     },
   ];
