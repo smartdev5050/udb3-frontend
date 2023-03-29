@@ -174,8 +174,14 @@ const MediaStep = ({
 
         const pathParts = pathName.split('/');
 
-        // take first non empty part after /
-        const videoId = pathParts.find((part) => part !== '');
+        // take the numeric part after /
+        const videoId = pathParts.find((part) => {
+          if (part === '') {
+            return false;
+          }
+
+          return Number.isInteger(Number(part));
+        });
 
         if (!videoId) {
           return '';
