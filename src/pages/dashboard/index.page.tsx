@@ -29,6 +29,7 @@ import type { Event } from '@/types/Event';
 import type { Organizer } from '@/types/Organizer';
 import type { Place } from '@/types/Place';
 import type { User } from '@/types/User';
+import { WorkflowStatus, WorkflowStatus } from '@/types/WorkflowStatus';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Badge, BadgeVariants } from '@/ui/Badge';
 import { Box } from '@/ui/Box';

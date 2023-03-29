@@ -32,7 +32,7 @@ import { AttendanceMode, AudienceType, isEvent } from '@/types/Event';
 import { Offer } from '@/types/Offer';
 import { isPlace, Place } from '@/types/Place';
 import { Values } from '@/types/Values';
-import { WorkflowStatusMap } from '@/types/WorkflowStatus';
+import { WorkflowStatus } from '@/types/WorkflowStatus';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 import { parseOfferId } from '@/utils/parseOfferId';
 
@@ -226,7 +226,7 @@ const OfferForm = () => {
       typicalAgeRange,
       mainLanguage: i18n.language,
       name,
-      workflowStatus: WorkflowStatusMap.DRAFT,
+      workflowStatus: WorkflowStatus.DRAFT,
       ...(scope === OfferTypes.EVENTS && {
         audienceType: AudienceType.EVERYONE,
       }),
