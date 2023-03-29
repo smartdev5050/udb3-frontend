@@ -1,3 +1,5 @@
+import { useCallback, useRef } from 'react';
+
 import { CalendarType } from '@/constants/CalendarType';
 import { Values } from '@/types/Values';
 
@@ -14,93 +16,121 @@ export const useCalendarHandlers = (
   const calendarService = useCalendarContext();
   const send = calendarService.send;
 
-  const handleLoadInitialContext = ({
-    newContext,
-    calendarType,
-  }: {
-    newContext?: CalendarContext;
-    calendarType?: Values<typeof CalendarType>;
-  }): void => {
-    const newState = send('LOAD_INITIAL_CONTEXT', { newContext, calendarType });
-    onChangeState(newState);
-  };
+  const handleOnChangeState = useRef(onChangeState).current;
 
-  const handleAddDay = () => {
+  const handleLoadInitialContext = useCallback(
+    ({
+      newContext,
+      calendarType,
+    }: {
+      newContext?: CalendarContext;
+      calendarType?: Values<typeof CalendarType>;
+    }): void => {
+      const newState = send('LOAD_INITIAL_CONTEXT', {
+        newContext,
+        calendarType,
+      });
+      handleOnChangeState(newState);
+    },
+    [handleOnChangeState, send],
+  );
+
+  const handleAddDay = useCallback(() => {
     const newState = send('ADD_DAY');
-    onChangeState(newState);
-  };
+    handleOnChangeState(newState);
+  }, [handleOnChangeState, send]);
 
-  const handleDeleteDay = (id: string) => {
-    const newState = send('REMOVE_DAY', { id });
-    onChangeState(newState);
-  };
+  const handleDeleteDay = useCallback(
+    (id: string) => {
+      const newState = send('REMOVE_DAY', { id });
+      handleOnChangeState(newState);
+    },
+    [handleOnChangeState, send],
+  );
 
-  const handleChangeStartDate = (newDate: Date) => {
-    const newState = send('CHANGE_START_DATE', { newDate });
-    onChangeState(newState);
-  };
+  const handleChangeStartDate = useCallback(
+    (newDate: Date) => {
+      const newState = send('CHANGE_START_DATE', { newDate });
+      handleOnChangeState(newState);
+    },
+    [handleOnChangeState, send],
+  );
 
-  const handleChangeEndDate = (newDate: Date) => {
-    const newState = send('CHANGE_END_DATE', { newDate });
-    onChangeState(newState);
-  };
+  const handleChangeEndDate = useCallback(
+    (newDate: Date) => {
+      const newState = send('CHANGE_END_DATE', { newDate });
+      handleOnChangeState(newState);
+    },
+    [handleOnChangeState, send],
+  );
 
-  const handleChangeStartDateOfDay = (id: string, newDate: Date | null) => {
-    const newState = send('CHANGE_START_DATE_OF_DAY', { id, newDate });
-    onChangeState(newState);
-  };
+  const handleChangeStartDateOfDay = useCallback(
+    (id: string, newDate: Date | null) => {
+      const newState = send('CHANGE_START_DATE_OF_DAY', { id, newDate });
+      handleOnChangeState(newState);
+    },
+    [handleOnChangeState, send],
+  );
 
-  const handleChangeEndDateOfDay = (id: string, newDate: Date | null) => {
-    const newState = send('CHANGE_END_DATE_OF_DAY', { id, newDate });
-    onChangeState(newState);
-  };
+  const handleChangeEndDateOfDay = useCallback(
+    (id: string, newDate: Date | null) => {
+      const newState = send('CHANGE_END_DATE_OF_DAY', { id, newDate });
+      handleOnChangeState(newState);
+    },
+    [handleOnChangeState, send],
+  );
 
-  const handleChangeStartTime = (
-    id: string,
-    hours: number,
-    minutes: number,
-  ) => {
-    const newState = send('CHANGE_START_HOUR', {
-      id,
-      newHours: hours,
-      newMinutes: minutes,
-    });
-    onChangeState(newState);
-  };
+  const handleChangeStartTime = useCallback(
+    (id: string, hours: number, minutes: number) => {
+      const newState = send('CHANGE_START_HOUR', {
+        id,
+        newHours: hours,
+        newMinutes: minutes,
+      });
+      handleOnChangeState(newState);
+    },
+    [handleOnChangeState, send],
+  );
 
-  const handleChangeEndTime = (id: string, hours: number, minutes: number) => {
-    const newState = send('CHANGE_END_HOUR', {
-      id,
-      newHours: hours,
-      newMinutes: minutes,
-    });
-    onChangeState(newState);
-  };
+  const handleChangeEndTime = useCallback(
+    (id: string, hours: number, minutes: number) => {
+      const newState = send('CHANGE_END_HOUR', {
+        id,
+        newHours: hours,
+        newMinutes: minutes,
+      });
+      handleOnChangeState(newState);
+    },
+    [handleOnChangeState, send],
+  );
 
-  const handleChooseOneOrMoreDays = () => {
+  const handleChooseOneOrMoreDays = useCallback(() => {
     const newState = send('CHOOSE_ONE_OR_MORE_DAYS');
-    onChangeState(newState);
-  };
+    handleOnChangeState(newState);
+  }, [handleOnChangeState, send]);
 
-  const handleChooseFixedDays = () => {
+  const handleChooseFixedDays = useCallback(() => {
     const newState = send('CHOOSE_FIXED_DAYS');
-    onChangeState(newState);
-  };
+    handleOnChangeState(newState);
+  }, [handleOnChangeState, send]);
 
-  const handleChooseWithStartAndEndDate = () => {
+  const handleChooseWithStartAndEndDate = useCallback(() => {
     const newState = send('CHOOSE_WITH_START_AND_END_DATE');
-    onChangeState(newState);
-  };
+    handleOnChangeState(newState);
+  }, [handleOnChangeState, send]);
 
-  const handleChoosePermanent = () => {
+  const handleChoosePermanent = useCallback(() => {
     const newState = send('CHOOSE_PERMANENT');
-    onChangeState(newState);
-  };
+    handleOnChangeState(newState);
+  }, [handleOnChangeState, send]);
 
-  const handleChangeOpeningHours = (newOpeningHours: OpeningHoursWithId[]) => {
-    const newState = send('CHANGE_OPENING_HOURS', { newOpeningHours });
-    onChangeState(newState);
-  };
+  const handleChangeOpeningHours = useCallback(
+    (newOpeningHours: OpeningHoursWithId[]) => {
+      const newState = send('CHANGE_OPENING_HOURS', { newOpeningHours });
+      handleOnChangeState(newState);
+    },
+    [handleOnChangeState, send],
+  );
 
   return {
     handleLoadInitialContext,

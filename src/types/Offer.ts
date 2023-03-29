@@ -115,8 +115,8 @@ type BaseOffer = {
   modified: string;
   publisher: string;
   calendarType: Values<typeof CalendarType>;
-  startDate: string;
-  endDate: string;
+  startDate?: string;
+  endDate?: string;
   openingHours: OpeningHours[];
   subEvent: SubEvent[];
   performer: [{ performer: string }];
