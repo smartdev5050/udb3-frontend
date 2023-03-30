@@ -478,6 +478,10 @@
       "title": "Een latere publicatiedatum kiezen",
       "warning": "Opgelet, deze datum kan je maar één keer instellen."
     },
+    "duplicate": {
+      "title": "Kopiëren en aanpassen",
+      "alert": "Je staat op het punt een evenement te kopiëren. Kies een tijdstip voor dit evenement."
+    },
     "migration": {
       "alert": "<boldText>Deze activiteit werd ingevoerd in de vorige versie van UiTdatabank.</boldText><br/>Om deze te kunnen bewerken, is het nodig om de eerder gekozen locatie en adres éénmalig opnieuw te selecteren of in te voeren.",
       "continue": "Doorgaan"
