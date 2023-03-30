@@ -1,10 +1,8 @@
-import type { ForwardedRef, ReactElement } from 'react';
-import { forwardRef, useEffect, useState } from 'react';
-import {
-  AsyncTypeahead as BootstrapTypeahead,
-  Loader,
-} from 'react-bootstrap-typeahead';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
+
+import type { ForwardedRef, ReactElement } from 'react';
+import { forwardRef } from 'react';
+import { AsyncTypeahead as BootstrapTypeahead } from 'react-bootstrap-typeahead';
 import { useTranslation } from 'react-i18next';
 
 import type { BoxProps } from './Box';
@@ -146,18 +144,22 @@ const Typeahead: TypeaheadFunc = forwardRef(
           .dropdown-item:active {
             color: ${getValue('active.color')};
             background-color: ${getValue('active.backgroundColor')};
+
             .rbt-highlight-text {
               color: ${getValue('active.color')};
             }
           }
+
           .dropdown-item.hover,
           .dropdown-item:hover {
             color: ${getValue('hover.color')};
             background-color: ${getValue('hover.backgroundColor')};
+
             .rbt-highlight-text {
               color: ${getValue('hover.color')};
             }
           }
+
           .rbt-highlight-text {
             font-weight: ${getValue('highlight.fontWeight')};
             background-color: ${getValue('highlight.backgroundColor')};

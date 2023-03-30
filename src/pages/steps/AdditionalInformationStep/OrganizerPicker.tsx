@@ -231,6 +231,7 @@ const OrganizerPicker = ({
                   <Typeahead<Organizer>
                     id={'organizer-picker'}
                     options={organizers}
+                    isLoading={getOrganizersByQueryQuery.isLoading}
                     labelKey={(org) => getOrganizerName(org, i18n.language)}
                     renderMenuItemChildren={(org: Organizer, { text }) => {
                       const name = getOrganizerName(org, i18n.language);
