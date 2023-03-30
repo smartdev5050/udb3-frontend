@@ -29,10 +29,10 @@ import type { Event } from '@/types/Event';
 import type { Organizer } from '@/types/Organizer';
 import type { Place } from '@/types/Place';
 import type { User } from '@/types/User';
-import { WorkflowStatus, WorkflowStatus } from '@/types/WorkflowStatus';
+import { WorkflowStatus } from '@/types/WorkflowStatus';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Badge, BadgeVariants } from '@/ui/Badge';
-import { Box } from '@/ui/Box';
+import { Box, parseSpacing } from '@/ui/Box';
 import { Dropdown, DropDownVariants } from '@/ui/Dropdown';
 import type { InlineProps } from '@/ui/Inline';
 import { getInlineProps, Inline } from '@/ui/Inline';
@@ -47,7 +47,7 @@ import { SelectWithLabel } from '@/ui/SelectWithLabel';
 import { Spinner } from '@/ui/Spinner';
 import { Stack } from '@/ui/Stack';
 import { Tabs } from '@/ui/Tabs';
-import { Text } from '@/ui/Text';
+import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { formatAddressInternal } from '@/utils/formatAddress';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
@@ -100,13 +100,48 @@ const CreateMapLegacy = {
   organizers: '/organizer',
 };
 
+type PossibleWorkFlowStatus = Exclude<
+  WorkflowStatus,
+  'DELETED' | 'READY_FOR_VALIDATION'
+>;
+type RowStatus = PossibleWorkFlowStatus | 'PUBLISHED' | 'PLANNED';
+
+const RowStatusToColor: Record<RowStatus, string> = {
+  DRAFT: 'orange',
+  REJECTED: 'red',
+  APPROVED: 'green',
+  PUBLISHED: 'green',
+  PLANNED: 'blue',
+};
+
+type Status = {
+  color: string;
+  label: string;
+};
+
+type StatusProps = InlineProps & Status;
+
+const Status = ({ color, label, ...props }: StatusProps) => {
+  return (
+    <Inline spacing={3} alignItems="center" {...getInlineProps(props)}>
+      <Box
+        width="0.60rem"
+        height="0.60rem"
+        backgroundColor={color}
+        borderRadius="50%"
+      />
+      <Text variant={TextVariants.MUTED}>{label}</Text>
+    </Inline>
+  );
+};
+
 type RowProps = {
   title: string;
   description: string;
   actions: ReactNode[];
   url: string;
   finishedAt?: string;
-  badge?: string;
+  status?: Status;
 };
 
 const Row = ({
@@ -115,29 +150,41 @@ const Row = ({
   actions,
   url,
   finishedAt,
-  badge,
+  status,
   ...props
 }: RowProps) => {
   return (
-    <Inline flex={1} justifyContent="space-between" {...getInlineProps(props)}>
+    <Inline
+      flex={1}
+      css={css`
+        display: grid;
+        gap: ${parseSpacing(4)};
+        grid-template-columns: 5fr 1fr 1fr;
+      `}
+      {...getInlineProps(props)}
+    >
       <Stack spacing={2}>
         <Inline spacing={3}>
           <Link href={url} color={getValue('listItem.color')} fontWeight="bold">
             {title}
           </Link>
-          {badge && <Badge variant={BadgeVariants.SECONDARY}>{badge}</Badge>}
         </Inline>
         <Text>{description}</Text>
       </Stack>
-      {finishedAt ? (
-        <Text color={getValue('listItem.passedEvent.color')}>{finishedAt}</Text>
-      ) : (
-        actions.length > 0 && (
-          <Dropdown variant={DropDownVariants.SECONDARY} isSplit>
-            {actions}
-          </Dropdown>
-        )
-      )}
+      {status && <Status {...status} />}
+      <Inline justifyContent="flex-end">
+        {finishedAt ? (
+          <Text color={getValue('listItem.passedEvent.color')}>
+            {finishedAt}
+          </Text>
+        ) : (
+          actions.length > 0 && (
+            <Dropdown variant={DropDownVariants.SECONDARY} isSplit>
+              {actions}
+            </Dropdown>
+          )
+        )}
+      </Inline>
     </Inline>
   );
 };
@@ -171,11 +218,45 @@ const EventRow = ({ item: event, onDelete, ...props }: EventRowProps) => {
       event.calendarType === CalendarType.SINGLE ? 'lg' : 'sm'
     ];
 
-  const badge = isPlanned
-    ? t('dashboard.online_from', {
-        date: format(new Date(event.availableFrom), 'dd/MM/yyyy'),
-      })
-    : !isPublished && t('dashboard.not_published');
+  const rowStatus = useMemo<RowStatus>(() => {
+    if (isPlanned) {
+      return 'PLANNED';
+    }
+
+    if (isPublished) {
+      return 'PUBLISHED';
+    }
+
+    if (event.workflowStatus === WorkflowStatus.READY_FOR_VALIDATION) {
+      return WorkflowStatus.DRAFT;
+    }
+
+    if (event.workflowStatus === WorkflowStatus.DELETED) {
+      return WorkflowStatus.DRAFT;
+    }
+
+    return event.workflowStatus;
+  }, [event.workflowStatus, isPlanned, isPublished]);
+
+  const statusColor = useMemo(() => {
+    return RowStatusToColor[rowStatus];
+  }, [rowStatus]);
+
+  const statusLabel = useMemo(() => {
+    if (rowStatus === 'REJECTED') {
+      return 'Publicatie afgewezen';
+    }
+
+    if (rowStatus === 'PUBLISHED') {
+      return 'Gepubliceerd';
+    }
+
+    if (rowStatus === 'PLANNED') {
+      return 'Publicatie vanaf';
+    }
+
+    return 'Kladversie';
+  }, [rowStatus]);
 
   return (
     <Row
@@ -197,7 +278,10 @@ const EventRow = ({ item: event, onDelete, ...props }: EventRowProps) => {
       finishedAt={
         isFinished && t('dashboard.passed', { type: t('dashboard.event') })
       }
-      badge={badge}
+      status={{
+        color: statusColor,
+        label: statusLabel,
+      }}
       {...getInlineProps(props)}
     />
   );
@@ -248,7 +332,7 @@ const PlaceRow = ({ item: place, onDelete, ...props }: PlaceRowProps) => {
       finishedAt={
         isFinished && t('dashboard.passed', { type: t('dashboard.place') })
       }
-      badge={
+      status={
         isPlanned
           ? t('dashboard.online_from', {
               date: format(new Date(place.availableFrom), 'dd/MM/yyyy'),
@@ -513,6 +597,8 @@ const Dashboard = (): any => {
   const createOfferUrl = isNewCreateEnabled
     ? CreateMap[tab]
     : CreateMapLegacy[tab];
+
+  throw new Error('HELLO');
 
   return [
     <Page key="page">
