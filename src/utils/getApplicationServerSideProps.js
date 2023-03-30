@@ -1,3 +1,4 @@
+import { useUser } from '@auth0/nextjs-auth0/client';
 import * as Sentry from '@sentry/nextjs';
 import getConfig from 'next/config';
 import absoluteUrl from 'next-absolute-url';
@@ -87,15 +88,6 @@ const getApplicationServerSideProps =
     const rawCookies = req?.headers?.cookie ?? '';
 
     const cookies = new Cookies(rawCookies, defaultCookieOptions);
-
-    if (!isTokenValid(query?.jwt ?? cookies.get('token'))) {
-      return redirectToLogin(cookies, req, resolvedUrl);
-    }
-
-    // set token in req.headers.cookie so that the token is known when prefetching a request
-    if (query.jwt && cookies.get('token') !== query.jwt) {
-      cookies.set('token', query.jwt);
-    }
 
     req.headers.cookie = cookies.toString();
 
