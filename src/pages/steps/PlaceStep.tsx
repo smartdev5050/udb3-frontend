@@ -152,7 +152,8 @@ const PlaceStep = ({
                   }
                   Component={
                     <Typeahead
-                      isLoading={useGetPlacesQuery?.isLoading}
+                      // @ts-expect-error
+                      isLoading={useGetPlacesQuery.isLoading}
                       options={places}
                       onInputChange={debounce(setSearchInput, 275)}
                       customFilter={filterByCallback}
