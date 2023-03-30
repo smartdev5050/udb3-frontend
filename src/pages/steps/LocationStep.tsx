@@ -834,7 +834,8 @@ const LocationStep = ({
           };
 
           const renderFieldWithRecentLocations = (children) => (
-            <Stack spacing={4}>
+            <Stack spacing={4} maxWidth={'50%'}>
+              {OnlineToggle}
               {!isOnline && (
                 <RecentLocations flex={1} onFieldChange={onFieldChange} />
               )}
@@ -889,7 +890,6 @@ const LocationStep = ({
           if (isOnline) {
             return (
               <Stack spacing={4}>
-                {OnlineToggle}
                 {renderFieldWithRecentLocations(
                   <FormElement
                     Component={
@@ -981,7 +981,6 @@ const LocationStep = ({
           if (!municipality) {
             return (
               <>
-                {scope === OfferTypes.EVENTS && OnlineToggle}
                 {renderFieldWithRecentLocations(
                   <Inline spacing={1} alignItems="center">
                     <CityPicker
