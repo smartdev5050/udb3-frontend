@@ -876,15 +876,7 @@ const LocationStep = ({
                       }
                       active={isOnline}
                       icon={<OnlineLocationIcon width={'50px'} />}
-                      text={
-                        <>
-                          {t('create.location.is_online.label')}
-                          <NewFeatureTooltip
-                            featureUUID={Features.ONLINE}
-                            display={'inline-block'}
-                          />
-                        </>
-                      }
+                      text={t('create.location.is_online.label')}
                       width="30%"
                       minHeight={parseSpacing(7)}
                     />
@@ -930,7 +922,15 @@ const LocationStep = ({
                       />
                     }
                     id="online-url"
-                    label={t('create.location.online_url.label')}
+                    label={
+                      <>
+                        {t('create.location.online_url.label')}
+                        <NewFeatureTooltip
+                          featureUUID={Features.ONLINE}
+                          display={'inline-block'}
+                        />
+                      </>
+                    }
                     error={
                       hasOnlineUrlError &&
                       t('create.validation_messages.location.online_url')
