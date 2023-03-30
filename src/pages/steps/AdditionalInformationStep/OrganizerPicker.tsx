@@ -262,6 +262,7 @@ const OrganizerPicker = ({
                       'create.additionalInformation.organizer.add_new_label',
                     )}
                     allowNew
+                    flex={'initial'}
                   />
                 )}
               </Stack>
