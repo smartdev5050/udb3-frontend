@@ -365,31 +365,19 @@ const MainChannelLink = () => {
 };
 
 const Index = () => {
-  const router = useRouter();
+  const { query, ...router } = useRouter();
   const { t, i18n } = useTranslation();
-  const { removeAuthenticationCookies } = useCookiesWithOptions();
-  const { publicRuntimeConfig } = getConfig();
+  const { setCookie } = useCookiesWithOptions();
 
   const handleChangeLanguage = (language: string) => async () =>
     router.push(`/login/${language}`, undefined, { shallow: true });
 
   const handleClickLogin = () => {
-    removeAuthenticationCookies();
+    const { referer } = query;
 
-    const destination = new URL(
-      (router.query?.referer as string) ||
-        `${window.location.protocol}//${window.location.host}`,
-    );
-    destination.searchParams.delete('jwt');
+    setCookie('auth0.redirect_uri', referer);
 
-    const queryString = new URLSearchParams({
-      destination: destination.toString(),
-      lang: i18n.language,
-    });
-
-    router.push(
-      `${publicRuntimeConfig.authUrl}/connect?${queryString.toString()}`,
-    );
+    router.push('/api/auth/login');
   };
 
   useRedirectToLanguage();
