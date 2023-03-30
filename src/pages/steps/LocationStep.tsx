@@ -834,12 +834,7 @@ const LocationStep = ({
           };
 
           const renderFieldWithRecentLocations = (children) => (
-            <Inline
-              spacing={4}
-              stackOn={Breakpoints.M}
-              alignItems={'flex-start'}
-              width={'100%'}
-            >
+            <Stack spacing={4}>
               {!isOnline && (
                 <RecentLocations flex={1} onFieldChange={onFieldChange} />
               )}
@@ -851,7 +846,7 @@ const LocationStep = ({
                 )}
                 {children}
               </Stack>
-            </Inline>
+            </Stack>
           );
 
           const OnlineToggle = (
@@ -957,7 +952,7 @@ const LocationStep = ({
           if (!country || municipality?.zip === '0000') {
             return renderFieldWithRecentLocations(
               <>
-                <Inline alignItems="center" spacing={3}>
+                <Inline alignItems="center" spacing={3} marginBottom={3}>
                   <Icon
                     name={Icons.CHECK_CIRCLE}
                     color={getGlobalValue('successIcon')}
