@@ -85,21 +85,17 @@ const nameAndAgeRangeStepConfiguration: StepsConfiguration<'nameAndAgeRange'> =
     shouldShowStep: ({ watch, formState }) => {
       const location = watch('location');
 
-      if (location?.isOnline) {
+      if (location.isOnline || location.place) {
         return true;
       }
 
-      if (!location.place) {
-        const isCultuurKuur = !location?.country;
+      const isCultuurKuur = !location?.country;
 
-        return (
-          isCultuurKuur ||
-          (location.municipality?.name &&
-            formState.touchedFields.location?.streetAndNumber)
-        );
-      }
-
-      return true;
+      return (
+        isCultuurKuur ||
+        (location.municipality?.name &&
+          formState.touchedFields.location?.streetAndNumber)
+      );
     },
   };
 
