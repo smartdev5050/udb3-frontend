@@ -193,9 +193,13 @@ Row.defaultProps = {
   actions: [],
 };
 
+type ExistingEvent = Omit<Event, 'workflowStatus'> & {
+  workflowStatus: Exclude<WorkflowStatus, 'DELETED'>;
+};
+
 type EventRowProps = InlineProps & {
-  item: Event;
-  onDelete: (item: Event) => void;
+  item: ExistingEvent;
+  onDelete: (item: ExistingEvent) => void;
 };
 
 const EventRow = ({ item: event, onDelete, ...props }: EventRowProps) => {
@@ -228,10 +232,6 @@ const EventRow = ({ item: event, onDelete, ...props }: EventRowProps) => {
     }
 
     if (event.workflowStatus === WorkflowStatus.READY_FOR_VALIDATION) {
-      return WorkflowStatus.DRAFT;
-    }
-
-    if (event.workflowStatus === WorkflowStatus.DELETED) {
       return WorkflowStatus.DRAFT;
     }
 
