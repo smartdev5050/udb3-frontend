@@ -11,9 +11,10 @@ const toUitdatabankFormat = (feature) => {
   const {
     Region2: region,
     Locality: locality,
-    PostalCode: zip,
+    PostalCode: postalCode,
   } = feature.properties;
 
+  const [zip] = postalCode.split(' ');
   if (localityToTimesUsed.has(locality)) {
     const currentValue = localityToTimesUsed.get(locality);
     localityToTimesUsed.set(locality, currentValue + 1);
