@@ -244,19 +244,21 @@ const EventRow = ({ item: event, onDelete, ...props }: EventRowProps) => {
 
   const statusLabel = useMemo(() => {
     if (rowStatus === 'REJECTED') {
-      return 'Publicatie afgewezen';
+      return t('dashboard.row_status.rejected');
     }
 
     if (rowStatus === 'PUBLISHED') {
-      return 'Gepubliceerd';
+      return t('dashboard.row_status.published');
     }
 
     if (rowStatus === 'PLANNED') {
-      return 'Publicatie vanaf';
+      return t('dashboard.row_status.published_from', {
+        date: event.availableFrom,
+      });
     }
 
-    return 'Kladversie';
-  }, [rowStatus]);
+    return t('dashboard.row_status.draft');
+  }, [event.availableFrom, rowStatus, t]);
 
   return (
     <Row
