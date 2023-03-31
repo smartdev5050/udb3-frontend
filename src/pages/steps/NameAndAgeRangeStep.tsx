@@ -90,19 +90,16 @@ const nameAndAgeRangeStepConfiguration: StepsConfiguration<'nameAndAgeRange'> =
       }
 
       if (!location.place) {
+        const isCultuurKuur = !location?.country;
+
         return (
-          location.municipality?.name &&
-          formState.touchedFields.location?.streetAndNumber
+          isCultuurKuur ||
+          (location.municipality?.name &&
+            formState.touchedFields.location?.streetAndNumber)
         );
       }
 
-      if (!!location?.place) {
-        return true;
-      }
-
-      const isCultuurKuur = !location?.country;
-
-      return isCultuurKuur;
+      return true;
     },
   };
 
