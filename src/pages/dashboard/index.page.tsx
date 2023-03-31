@@ -32,7 +32,6 @@ import type { User } from '@/types/User';
 import { Values } from '@/types/Values';
 import { WorkflowStatus } from '@/types/WorkflowStatus';
 import { Alert, AlertVariants } from '@/ui/Alert';
-import { Badge, BadgeVariants } from '@/ui/Badge';
 import { Box, parseSpacing } from '@/ui/Box';
 import { Dropdown, DropDownVariants } from '@/ui/Dropdown';
 import type { InlineProps } from '@/ui/Inline';
