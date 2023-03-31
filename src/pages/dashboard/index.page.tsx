@@ -159,7 +159,7 @@ const Row = ({
       css={css`
         display: grid;
         gap: ${parseSpacing(4)};
-        grid-template-columns: 6fr 1fr 1fr;
+        grid-template-columns: 4fr 1fr 1fr;
       `}
       {...getInlineProps(props)}
     >
