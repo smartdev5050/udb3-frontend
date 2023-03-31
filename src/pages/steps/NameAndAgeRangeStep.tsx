@@ -5,6 +5,7 @@ import {
   useChangeOfferNameMutation,
   useChangeOfferTypicalAgeRangeMutation,
 } from '@/hooks/api/offers';
+import { isLocationSet } from '@/pages/steps/LocationStep';
 import { parseSpacing } from '@/ui/Box';
 import { Stack } from '@/ui/Stack';
 
@@ -17,7 +18,6 @@ import {
   StepProps,
   StepsConfiguration,
 } from './Steps';
-import { isLocationSet } from '@/pages/steps/LocationStep';
 
 const useEditNameAndAgeRange = ({
   scope,
