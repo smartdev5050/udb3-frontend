@@ -33,13 +33,13 @@ const toUitdatabankFormat = (feature) => {
 const seenCityNames = new Set();
 
 const filterOutDuplicates = (city) => {
-  if (seenCityNames.has(city.name)) {
+  if (seenCityNames.has(city.label)) {
     const [locality] = city.name.split(' (');
     const currentValue = localityToTimesUsed.get(locality);
     localityToTimesUsed.set(locality, Math.max(currentValue - 1, 1));
     return false;
   }
-  seenCityNames.add(city.name);
+  seenCityNames.add(city.label);
   return true;
 };
 
