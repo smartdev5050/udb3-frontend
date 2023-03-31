@@ -17,6 +17,7 @@ import {
   StepProps,
   StepsConfiguration,
 } from './Steps';
+import { isLocationSet } from '@/pages/steps/LocationStep';
 
 const useEditNameAndAgeRange = ({
   scope,
@@ -84,18 +85,9 @@ const nameAndAgeRangeStepConfiguration: StepsConfiguration<'nameAndAgeRange'> =
     }),
     shouldShowStep: ({ watch, formState }) => {
       const location = watch('location');
+      const scope = watch('scope');
 
-      if (location.isOnline || location.place) {
-        return true;
-      }
-
-      const isCultuurKuur = !location?.country;
-
-      return (
-        isCultuurKuur ||
-        (location.municipality?.name &&
-          formState.touchedFields.location?.streetAndNumber)
-      );
+      return isLocationSet(scope, location, formState);
     },
   };
 
