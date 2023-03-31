@@ -375,6 +375,7 @@ const LocationStep = ({
                     onClick={() => {
                       const updatedValue = {
                         ...field.value,
+                        place: undefined,
                         country: Countries.BE,
                         municipality: undefined,
                       };
@@ -456,6 +457,7 @@ const LocationStep = ({
                     onClick={() => {
                       const updatedValue = {
                         ...field.value,
+                        place: undefined,
                         municipality: undefined,
                         streetAndNumber: undefined,
                       };
