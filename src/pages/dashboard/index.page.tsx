@@ -26,6 +26,7 @@ import { useGetUserQuery } from '@/hooks/api/user';
 import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
 import { Footer } from '@/pages/Footer';
 import type { Event } from '@/types/Event';
+import { Offer } from '@/types/Offer';
 import type { Organizer } from '@/types/Organizer';
 import type { Place } from '@/types/Place';
 import type { User } from '@/types/User';
@@ -52,6 +53,7 @@ import { getValueFromTheme } from '@/ui/theme';
 import { formatAddressInternal } from '@/utils/formatAddress';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 import { parseOfferId } from '@/utils/parseOfferId';
+import { parseOfferType } from '@/utils/parseOfferType';
 
 import { NewsletterSignupForm } from './NewsletterSingupForm';
 
@@ -133,6 +135,7 @@ const Status = ({ color, label, ...props }: StatusProps) => {
         height="0.60rem"
         backgroundColor={color}
         borderRadius="50%"
+        flexShrink={0}
       />
       <Text variant={TextVariants.MUTED}>{label}</Text>
     </Inline>
