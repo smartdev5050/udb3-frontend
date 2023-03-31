@@ -159,7 +159,7 @@ const Row = ({
       css={css`
         display: grid;
         gap: ${parseSpacing(4)};
-        grid-template-columns: 5fr 1fr 1fr;
+        grid-template-columns: 6fr 1fr 1fr;
       `}
       {...getInlineProps(props)}
     >
@@ -172,7 +172,7 @@ const Row = ({
         <Text>{description}</Text>
       </Stack>
       {status && <Status {...status} />}
-      <Inline justifyContent="flex-end">
+      <Inline justifyContent="flex-end" minWidth="11rem">
         {finishedAt ? (
           <Text color={getValue('listItem.passedEvent.color')}>
             {finishedAt}
