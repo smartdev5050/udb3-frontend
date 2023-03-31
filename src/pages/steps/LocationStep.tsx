@@ -13,10 +13,12 @@ import {
   useChangeLocationMutation,
   useChangeOnlineUrlMutation,
   useDeleteOnlineUrlMutation,
+  useGetEventByIdQuery,
 } from '@/hooks/api/events';
-import { useGetEventByIdQuery } from '@/hooks/api/events';
-import { useGetPlaceByIdQuery } from '@/hooks/api/places';
-import { useChangeAddressMutation } from '@/hooks/api/places';
+import {
+  useChangeAddressMutation,
+  useGetPlaceByIdQuery,
+} from '@/hooks/api/places';
 import { FormData as OfferFormData } from '@/pages/create/OfferForm';
 import { Address } from '@/types/Address';
 import { Countries, Country } from '@/types/Country';
