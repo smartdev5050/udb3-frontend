@@ -125,9 +125,9 @@ type Status = {
   label: string;
 };
 
-type StatusProps = InlineProps & Status;
+type StatusIndicatorProps = InlineProps & Status;
 
-const Status = ({ color, label, ...props }: StatusProps) => {
+const StatusIndicator = ({ color, label, ...props }: StatusIndicatorProps) => {
   return (
     <Inline spacing={3} alignItems="center" {...getInlineProps(props)}>
       <Box
@@ -186,7 +186,7 @@ const Row = ({
         </Inline>
         <Text>{description}</Text>
       </Stack>
-      {status && <Status {...status} />}
+      {status && <StatusIndicator {...status} />}
       <Inline justifyContent="flex-end" minWidth="11rem">
         {finishedAt ? (
           <Text color={getValue('listItem.passedEvent.color')}>
