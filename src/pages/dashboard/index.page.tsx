@@ -163,19 +163,11 @@ const Row = ({
   return (
     <Inline
       flex={1}
-      css={
-        status
-          ? css`
-              display: grid;
-              gap: ${parseSpacing(4)};
-              grid-template-columns: 6fr 2fr 2fr;
-            `
-          : css`
-              display: grid;
-              gap: ${parseSpacing(4)};
-              grid-template-columns: 8fr 2fr;
-            `
-      }
+      css={css`
+        display: grid;
+        gap: ${parseSpacing(4)};
+        grid-template-columns: ${status ? '6fr 2fr 2fr' : '8fr 2fr'};
+      `}
       {...getInlineProps(props)}
     >
       <Stack spacing={2}>
