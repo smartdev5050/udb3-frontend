@@ -29,6 +29,7 @@ import type { Event } from '@/types/Event';
 import type { Organizer } from '@/types/Organizer';
 import type { Place } from '@/types/Place';
 import type { User } from '@/types/User';
+import { Values } from '@/types/Values';
 import { WorkflowStatus } from '@/types/WorkflowStatus';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Badge, BadgeVariants } from '@/ui/Badge';
@@ -100,11 +101,15 @@ const CreateMapLegacy = {
   organizers: '/organizer',
 };
 
-type PossibleWorkFlowStatus = Exclude<
-  WorkflowStatus,
-  'DELETED' | 'READY_FOR_VALIDATION'
->;
-type RowStatus = PossibleWorkFlowStatus | 'PUBLISHED' | 'PLANNED';
+const RowStatus = {
+  APPROVED: 'APPROVED',
+  DRAFT: 'DRAFT',
+  REJECTED: 'REJECTED',
+  PUBLISHED: 'PUBLISHED',
+  PLANNED: 'PLANNED',
+} as const;
+
+type RowStatus = Values<typeof RowStatus>;
 
 const RowStatusToColor: Record<RowStatus, string> = {
   DRAFT: 'orange',
