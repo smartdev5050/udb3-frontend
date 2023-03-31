@@ -823,9 +823,10 @@ const LocationStep = ({
         control={control}
         name={name}
         render={({ field }) => {
-          const { isOnline, municipality, country } =
+          const { isOnline, municipality, country, place } =
             field?.value as OfferFormData['location'];
 
+          const hasLocation = place?.['@id'];
           const onFieldChange = (updatedValue) => {
             updatedValue = { ...field.value, ...updatedValue };
             field.onChange(updatedValue);
@@ -836,7 +837,7 @@ const LocationStep = ({
           const renderFieldWithRecentLocations = (children) => (
             <Stack spacing={4} maxWidth={'50%'}>
               {OnlineToggle}
-              {!isOnline && (
+              {!isOnline && !hasLocation && (
                 <RecentLocations flex={1} onFieldChange={onFieldChange} />
               )}
               <Stack spacing={4} flex={1}>
