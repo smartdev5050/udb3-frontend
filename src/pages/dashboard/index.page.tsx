@@ -598,8 +598,6 @@ const Dashboard = (): any => {
     ? CreateMap[tab]
     : CreateMapLegacy[tab];
 
-  throw new Error('HELLO');
-
   return [
     <Page key="page">
       <Page.Title>{`${t('dashboard.welcome')}, ${user?.username}`}</Page.Title>
