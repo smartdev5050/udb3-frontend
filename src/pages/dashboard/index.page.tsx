@@ -160,11 +160,19 @@ const Row = ({
   return (
     <Inline
       flex={1}
-      css={css`
-        display: grid;
-        gap: ${parseSpacing(4)};
-        grid-template-columns: 4fr 1fr 1fr;
-      `}
+      css={
+        status
+          ? css`
+              display: grid;
+              gap: ${parseSpacing(4)};
+              grid-template-columns: 6fr 2fr 2fr;
+            `
+          : css`
+              display: grid;
+              gap: ${parseSpacing(4)};
+              grid-template-columns: 8fr 2fr;
+            `
+      }
       {...getInlineProps(props)}
     >
       <Stack spacing={2}>
@@ -197,33 +205,35 @@ Row.defaultProps = {
   actions: [],
 };
 
-type ExistingEvent = Omit<Event, 'workflowStatus'> & {
+type ExistingOffer = Omit<Offer, 'workflowStatus'> & {
   workflowStatus: Exclude<WorkflowStatus, 'DELETED'>;
 };
 
-type EventRowProps = InlineProps & {
-  item: ExistingEvent;
-  onDelete: (item: ExistingEvent) => void;
+type OfferRowProps = InlineProps & {
+  item: ExistingOffer;
+  onDelete: (item: ExistingOffer) => void;
 };
 
-const EventRow = ({ item: event, onDelete, ...props }: EventRowProps) => {
+const OfferRow = ({ item: offer, onDelete, ...props }: OfferRowProps) => {
   const { t, i18n } = useTranslation();
 
-  const isFinished = isAfter(new Date(), new Date(event.availableTo));
-  const isPublished = ['APPROVED', 'READY_FOR_VALIDATION'].includes(
-    event.workflowStatus,
-  );
-  const isPlanned = isPublished && isFuture(new Date(event.availableFrom));
+  const offerType = parseOfferType(offer['@context']);
 
-  const editUrl = `/event/${parseOfferId(event['@id'])}/edit`;
-  const previewUrl = `/event/${parseOfferId(event['@id'])}/preview`;
-  const typeId = event.terms.find((term) => term.domain === 'eventtype')?.id;
+  const isFinished = isAfter(new Date(), new Date(offer.availableTo));
+  const isPublished = ['APPROVED', 'READY_FOR_VALIDATION'].includes(
+    offer.workflowStatus,
+  );
+  const isPlanned = isPublished && isFuture(new Date(offer.availableFrom));
+
+  const editUrl = `/${offerType}/${parseOfferId(offer['@id'])}/edit`;
+  const previewUrl = `/${offerType}/${parseOfferId(offer['@id'])}/preview`;
+  const typeId = offer.terms.find((term) => term.domain === 'eventtype')?.id;
   // The custom keySeparator was necessary because the ids contain '.' which i18n uses as default keySeparator
   const eventType = t(`eventTypes*${typeId}`, { keySeparator: '*' });
 
   const period =
-    event.calendarSummary[i18n.language]?.text?.[
-      event.calendarType === CalendarType.SINGLE ? 'lg' : 'sm'
+    offer.calendarSummary[i18n.language]?.text?.[
+      offer.calendarType === CalendarType.SINGLE ? 'lg' : 'sm'
     ];
 
   const rowStatus = useMemo<RowStatus>(() => {
@@ -235,12 +245,12 @@ const EventRow = ({ item: event, onDelete, ...props }: EventRowProps) => {
       return 'PUBLISHED';
     }
 
-    if (event.workflowStatus === WorkflowStatus.READY_FOR_VALIDATION) {
+    if (offer.workflowStatus === WorkflowStatus.READY_FOR_VALIDATION) {
       return WorkflowStatus.DRAFT;
     }
 
-    return event.workflowStatus;
-  }, [event.workflowStatus, isPlanned, isPublished]);
+    return offer.workflowStatus;
+  }, [offer.workflowStatus, isPlanned, isPublished]);
 
   const statusColor = useMemo(() => {
     return RowStatusToColor[rowStatus];
@@ -257,16 +267,16 @@ const EventRow = ({ item: event, onDelete, ...props }: EventRowProps) => {
 
     if (rowStatus === 'PLANNED') {
       return t('dashboard.row_status.published_from', {
-        date: event.availableFrom,
+        date: format(new Date(offer.availableFrom), 'dd/MM/yyyy'),
       });
     }
 
     return t('dashboard.row_status.draft');
-  }, [event.availableFrom, rowStatus, t]);
+  }, [offer.availableFrom, rowStatus, t]);
 
   return (
     <Row
-      title={event.name[i18n.language] ?? event.name[event.mainLanguage]}
+      title={offer.name[i18n.language] ?? offer.name[offer.mainLanguage]}
       description={`${eventType}${period && ` - ${period}`}`}
       url={previewUrl}
       actions={[
@@ -277,74 +287,18 @@ const EventRow = ({ item: event, onDelete, ...props }: EventRowProps) => {
           {t('dashboard.actions.preview')}
         </Dropdown.Item>,
         <Dropdown.Divider key="divider" />,
-        <Dropdown.Item onClick={() => onDelete(event)} key="delete">
+        <Dropdown.Item onClick={() => onDelete(offer)} key="delete">
           {t('dashboard.actions.delete')}
         </Dropdown.Item>,
       ]}
       finishedAt={
-        isFinished && t('dashboard.passed', { type: t('dashboard.event') })
+        isFinished &&
+        t('dashboard.passed', { type: t(`dashboard.${offerType}`) })
       }
       status={{
         color: statusColor,
         label: statusLabel,
       }}
-      {...getInlineProps(props)}
-    />
-  );
-};
-
-type PlaceRowProps = InlineProps & {
-  item: Place;
-  onDelete: (item: Place) => void;
-};
-
-const PlaceRow = ({ item: place, onDelete, ...props }: PlaceRowProps) => {
-  const { t, i18n } = useTranslation();
-
-  const isFinished = isAfter(new Date(), new Date(place.availableTo));
-  const isPublished = ['APPROVED', 'READY_FOR_VALIDATION'].includes(
-    place.workflowStatus,
-  );
-  const isPlanned = isPublished && isFuture(new Date(place.availableFrom));
-
-  const editUrl = `/place/${parseOfferId(place['@id'])}/edit`;
-  const previewUrl = `/place/${parseOfferId(place['@id'])}/preview`;
-  const typeId = place.terms.find((term) => term.domain === 'eventtype')?.id;
-  // The custom keySeparator was necessary because the ids contain '.' which i18n uses as default keySeparator
-  const placeType = t(`eventTypes*${typeId}`, { keySeparator: '*' });
-
-  const period =
-    place.calendarSummary[i18n.language]?.text?.[
-      place.calendarType === CalendarType.SINGLE ? 'lg' : 'sm'
-    ];
-
-  return (
-    <Row
-      title={place.name[i18n.language] ?? place.name[place.mainLanguage]}
-      description={`${placeType}${period && ` - ${period}`}`}
-      url={previewUrl}
-      actions={[
-        <Link href={editUrl} variant={LinkVariants.BUTTON_SECONDARY} key="edit">
-          {t('dashboard.actions.edit')}
-        </Link>,
-        <Dropdown.Item href={previewUrl} key="preview">
-          {t('dashboard.actions.preview')}
-        </Dropdown.Item>,
-        <Dropdown.Divider key="divider" />,
-        <Dropdown.Item onClick={() => onDelete(place)} key="delete">
-          {t('dashboard.actions.delete')}
-        </Dropdown.Item>,
-      ]}
-      finishedAt={
-        isFinished && t('dashboard.passed', { type: t('dashboard.place') })
-      }
-      status={
-        isPlanned
-          ? t('dashboard.online_from', {
-              date: format(new Date(place.availableFrom), 'dd/MM/yyyy'),
-            })
-          : !isPublished && t('dashboard.not_published')
-      }
       {...getInlineProps(props)}
     />
   );
@@ -664,12 +618,12 @@ const Dashboard = (): any => {
           >
             <Tabs.Tab eventKey="events" title={t('dashboard.tabs.events')}>
               {tab === 'events' && (
-                <TabContent {...sharedTableContentProps} Row={EventRow} />
+                <TabContent {...sharedTableContentProps} Row={OfferRow} />
               )}
             </Tabs.Tab>
             <Tabs.Tab eventKey="places" title={t('dashboard.tabs.places')}>
               {tab === 'places' && (
-                <TabContent {...sharedTableContentProps} Row={PlaceRow} />
+                <TabContent {...sharedTableContentProps} Row={OfferRow} />
               )}
             </Tabs.Tab>
             <Tabs.Tab
