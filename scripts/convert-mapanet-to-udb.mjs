@@ -25,7 +25,7 @@ const toUitdatabankFormat = (feature) => {
   const label = region ? `${locality} (${region})` : `${locality}`;
 
   return {
-    label: zip ? `${zip} ${label}` : label,
+    label,
     name: label,
     zip,
   };
