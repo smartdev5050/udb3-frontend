@@ -205,7 +205,7 @@ const OrganizerPicker = ({
               </Inline>
             </Stack>
           ) : (
-            <Inline width="100%" flexWrap="wrap">
+            <Stack width="100%">
               <RecentUsedOrganizers
                 organizers={recentUsedOrganizers}
                 onChange={handleSelectRecentOrganizer}
@@ -264,7 +264,7 @@ const OrganizerPicker = ({
                   />
                 )}
               </Stack>
-            </Inline>
+            </Stack>
           )
         }
       />
