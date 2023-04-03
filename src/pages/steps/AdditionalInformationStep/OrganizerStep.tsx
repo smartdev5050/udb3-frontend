@@ -196,7 +196,7 @@ const OrganizerStep = ({
     cardSystemId: number;
   }) => {
     changeDistributionKey.mutate({
-      offerId,
+      eventId: offerId,
       cardSystemId,
       distributionKeyId,
     });
