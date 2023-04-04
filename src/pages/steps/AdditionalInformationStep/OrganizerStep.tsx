@@ -203,7 +203,7 @@ const OrganizerStep = ({
   };
 
   const handleChangeOrganizer = (organizerId: string) =>
-    addOfferOrganizerMutation.mutate({
+    addOfferOrganizerMutation.mutateAsync({
       id: offerId,
       organizerId,
       scope,
@@ -256,7 +256,7 @@ const OrganizerStep = ({
           visible={isOrganizerAddModalVisible}
           onConfirm={handleAddOrganizer}
           onSetOrganizer={async (organizer) => {
-            handleChangeOrganizer(parseOfferId(organizer['@id']));
+            await handleChangeOrganizer(parseOfferId(organizer['@id']));
             setIsOrganizerAddModalVisible(false);
           }}
           onClose={() => setIsOrganizerAddModalVisible(false)}
