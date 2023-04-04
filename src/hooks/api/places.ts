@@ -125,6 +125,7 @@ const getPlacesByQuery = async ({
   headers,
   name,
   terms,
+  zip,
   addressLocality,
   addressCountry,
 }: Headers & GetPlacesByQueryArguments) => {
@@ -134,6 +135,7 @@ const getPlacesByQuery = async ({
   );
   const queryArguments = [
     termsString,
+    zip && addressCountry === 'BE' ? `address.\\*.postalCode:"${zip}"` : '',
     addressLocality ? `address.\\*.addressLocality:${addressLocality}` : '',
   ].filter((argument) => !!argument);
 
