@@ -212,38 +212,40 @@ const OrganizerAddModal = ({
           id="organizer-url"
           label={t('organizer.add_modal.labels.url')}
           info={
-            <Alert variant={AlertVariants.PRIMARY}>
-              {t('organizer.add_modal.url_requirements')}
-            </Alert>
+            formState.errors.url?.type === 'not_unique' ? (
+              <Alert variant={AlertVariants.WARNING}>
+                <Trans
+                  i18nKey={`organizer.add_modal.validation_messages.url_not_unique`}
+                  values={{
+                    organizerName: existingOrganization?.name[i18n.language],
+                  }}
+                  components={{
+                    setOrganizerLink: (
+                      <Button
+                        variant={ButtonVariants.UNSTYLED}
+                        onClick={() => onSetOrganizer(existingOrganization)}
+                        css={`
+                          display: inline-block;
+                          font-weight: bold;
+                          text-decoration: underline;
+                          padding: 0;
+                        `}
+                      />
+                    ),
+                  }}
+                />
+              </Alert>
+            ) : (
+              <Alert variant={AlertVariants.PRIMARY}>
+                {t('organizer.add_modal.url_requirements')}
+              </Alert>
+            )
           }
           error={
             formState.errors.url &&
             t(`organizer.add_modal.validation_messages.url`)
           }
         />
-        {formState.errors.url?.type === 'not_unique' && (
-          <Alert variant={AlertVariants.DANGER}>
-            <Trans
-              i18nKey={`organizer.add_modal.validation_messages.url_not_unique`}
-              values={{
-                organizerName: existingOrganization?.name[i18n.language],
-              }}
-              components={{
-                setOrganizerLink: (
-                  <Button
-                    variant={ButtonVariants.UNSTYLED}
-                    onClick={() => onSetOrganizer(existingOrganization)}
-                    css={`
-                      display: inline-block;
-                      font-weight: bold;
-                      text-decoration: underline;
-                    `}
-                  />
-                ),
-              }}
-            />
-          </Alert>
-        )}
         <FormElement
           Component={<Input {...register('name')} />}
           id="organizer-name"
