@@ -176,7 +176,7 @@ const isLocationSet = (
     return true;
   }
 
-  const isCultuurKuur = !location?.country && scope == OfferTypes.EVENTS;
+  const isCultuurKuur = !location?.country && scope === OfferTypes.EVENTS;
 
   return (
     isCultuurKuur ||
