@@ -31,7 +31,7 @@ import { reconcileRates } from '@/utils/reconcileRates';
 
 const PRICE_CURRENCY: string = 'EUR';
 
-const PRICE_REGEX: RegExp = /^([1-9][0-9]*|[0-9]|0)(,[0-9]{1,2})?$/;
+const PRICE_REGEX: RegExp = /^([1-9][0-9]*|[0-9]|0)([.,][0-9]{1,2})?$/;
 
 const PriceCategory = {
   BASE: 'base',
