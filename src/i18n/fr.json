@@ -213,6 +213,9 @@
       "is_online": {
         "label": "En ligne"
       },
+      "is_physical": {
+        "label": "Dans un lieu physique"
+      },
       "municipality": {
         "change_be": "Changer de commune",
         "change_de": "Changer de résidence",

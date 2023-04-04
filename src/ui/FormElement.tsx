@@ -13,7 +13,7 @@ import { Text, TextVariants } from './Text';
 type Props = {
   id: string;
   ref?: Ref<HTMLElement>;
-  label?: string;
+  label?: ReactNode;
   labelPosition?: Values<typeof LabelPositions>;
   labelVariant?: Values<typeof LabelVariants>;
   error?: string;
