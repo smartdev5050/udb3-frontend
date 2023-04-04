@@ -50,9 +50,6 @@ const MediaStep = ({
 
   const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleChangeCompleted = useCallback(onValidationChange, []);
-
   const videosFromQuery = useMemo(
     // @ts-expect-error
     () => getOfferByIdQuery.data?.videos ?? [],
@@ -263,10 +260,12 @@ const MediaStep = ({
   useEffect(() => {
     const hasImages = images.length > 0;
     const hasVideos = videos.length > 0;
-    handleChangeCompleted(
+
+    onValidationChange(
       hasImages || hasVideos ? ValidationStatus.SUCCESS : ValidationStatus.NONE,
     );
-  }, [handleChangeCompleted, images, videos]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [images, videos]);
 
   const imageToEdit = useMemo(() => {
     const image = images.find((image) => image.parsedId === imageToEditId);
