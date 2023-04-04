@@ -96,7 +96,7 @@ const useGetOrganizersByWebsiteQuery = (
     queryKey: ['organizers'],
     queryFn: getOrganizers,
     queryArguments: {
-      embed: false,
+      embed: true,
       website,
     },
     ...configuration,
