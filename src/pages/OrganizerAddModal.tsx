@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { useGetOrganizersByWebsiteQuery } from '@/hooks/api/organizers';
@@ -24,6 +24,8 @@ import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
 import { City, CityPicker } from './CityPicker';
+import { Organizer } from '@/types/Organizer';
+import { Button, ButtonVariants } from '@/ui/Button';
 
 const getValue = getValueFromTheme('organizerAddModal');
 
@@ -69,6 +71,7 @@ type Props = {
   visible: boolean;
   onConfirm: (data: FormData) => Promise<void>;
   onClose: () => void;
+  onSetOrganizer: (organizer: Organizer) => void;
 };
 
 const OrganizerAddModal = ({
@@ -76,8 +79,9 @@ const OrganizerAddModal = ({
   prefillName,
   onConfirm,
   onClose,
+  onSetOrganizer,
 }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const [urlInputComponent] = useAutoFocus<HTMLInputElement>({
     retriggerOn: visible,
@@ -121,9 +125,10 @@ const OrganizerAddModal = ({
     { enabled: visible },
   );
 
-  const isUrlUnique =
+  const existingOrganization: Organizer | undefined =
     // @ts-expect-error
-    getOrganizersByWebsiteQuery.data?.totalItems === 0;
+    getOrganizersByWebsiteQuery.data?.member?.[0];
+  const isUrlUnique = !existingOrganization;
 
   const countries = useMemo(
     () => [
@@ -213,9 +218,32 @@ const OrganizerAddModal = ({
           }
           error={
             formState.errors.url &&
-            t('organizer.add_modal.validation_messages.url')
+            t(`organizer.add_modal.validation_messages.url`)
           }
         />
+        {formState.errors.url?.type === 'not_unique' && (
+          <Alert variant={AlertVariants.DANGER}>
+            <Trans
+              i18nKey={`organizer.add_modal.validation_messages.url_not_unique`}
+              values={{
+                organizerName: existingOrganization?.name[i18n.language],
+              }}
+              components={{
+                setOrganizerLink: (
+                  <Button
+                    variant={ButtonVariants.UNSTYLED}
+                    onClick={() => onSetOrganizer(existingOrganization)}
+                    css={`
+                      display: inline-block;
+                      font-weight: bold;
+                      text-decoration: underline;
+                    `}
+                  />
+                ),
+              }}
+            />
+          </Alert>
+        )}
         <FormElement
           Component={<Input {...register('name')} />}
           id="organizer-name"

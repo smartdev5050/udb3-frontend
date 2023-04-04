@@ -252,6 +252,7 @@ const OrganizerStep = ({
           prefillName={newOrganizerName}
           visible={isOrganizerAddModalVisible}
           onConfirm={handleAddOrganizer}
+          onSetOrganizer={alert}
           onClose={() => setIsOrganizerAddModalVisible(false)}
         />
         <OrganizerPicker
