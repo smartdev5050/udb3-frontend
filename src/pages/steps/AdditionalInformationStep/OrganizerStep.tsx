@@ -232,6 +232,10 @@ const OrganizerStep = ({
       contact,
     };
 
+    if (!address.streetAndNumber && !address.city?.name) {
+      delete payload.address;
+    }
+
     const { organizerId } = await createOrganizerMutation.mutateAsync(payload);
 
     await addOfferOrganizerMutation.mutateAsync({
