@@ -3,7 +3,7 @@ import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { Typeahead } from '@/ui/Typeahead';
 import { useGetLabelsByQuery } from '@/hooks/api/labels';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Label, Offer } from '@/types/Offer';
 import { Badge, BadgeVariants } from '@/ui/Badge';
 import { Inline } from '@/ui/Inline';
@@ -11,8 +11,9 @@ import { Icon, Icons } from '@/ui/Icon';
 import { uniqBy } from 'lodash';
 import { useGetOfferByIdQuery } from '@/hooks/api/offers';
 import { getGlobalBorderRadius } from '@/ui/theme';
+import { ValidationStatus } from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
 
-function LabelsStep({ offerId, scope, ...props }) {
+function LabelsStep({ offerId, scope, onValidationChange, ...props }) {
   const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId, scope });
   const offer: Offer | undefined = getOfferByIdQuery.data;
 
@@ -20,6 +21,12 @@ function LabelsStep({ offerId, scope, ...props }) {
   const labelsQuery = useGetLabelsByQuery({ query: '' });
   const options: Label[] = labelsQuery.data?.member ?? [];
   const [labels, setLabels] = useState<string[]>(offer.labels);
+
+  useEffect(() => {
+    onValidationChange(
+      labels.length ? ValidationStatus.SUCCESS : ValidationStatus.NONE,
+    );
+  }, [labels, onValidationChange]);
 
   return (
     <Stack {...getStackProps(props)}>
