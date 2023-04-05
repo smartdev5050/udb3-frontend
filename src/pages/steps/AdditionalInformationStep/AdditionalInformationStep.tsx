@@ -24,6 +24,7 @@ import { MediaStep } from './MediaStep';
 import { OfferScore } from './OfferScore';
 import { OrganizerStep } from './OrganizerStep';
 import { PriceInformation } from './PriceInformation';
+import { LabelsStep } from '@/pages/steps/AdditionalInformationStep/LabelsStep';
 
 const getGlobalValue = getValueFromTheme('global');
 
@@ -41,6 +42,7 @@ const Fields = {
   PRICE_INFO: 'price_info',
   MEDIA: 'media',
   AUDIENCE: 'audience',
+  LABELS: 'labels',
 };
 
 type Field = Values<typeof Fields>;
@@ -97,6 +99,12 @@ const tabConfigurations: TabConfig[] = [
       AdditionalInformationStepVariant.PLACE,
       AdditionalInformationStepVariant.MOVIE,
     ],
+  },
+  {
+    field: Fields.LABELS,
+    TabContent: LabelsStep,
+    shouldInvalidate: false,
+    shouldShowOn: [AdditionalInformationStepVariant.EVENT],
   },
   {
     field: Fields.AUDIENCE,

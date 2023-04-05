@@ -331,6 +331,9 @@
           }
         }
       },
+      "labels": {
+        "title": "Labels"
+      },
       "description": {
         "clear": "Vider",
         "progress_info": {
