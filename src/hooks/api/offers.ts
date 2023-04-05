@@ -12,8 +12,11 @@ import {
   PaginationOptions,
   SortOptions,
   useAuthenticatedMutation,
+  useAuthenticatedQuery,
 } from './authenticated-query';
-import { useAuthenticatedQuery } from './authenticated-query';
+import { OfferTypes } from '@/constants/OfferType';
+import { useGetEventByIdQuery } from '@/hooks/api/events';
+import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 
 const getOffersByCreator = async ({ headers, ...queryData }) => {
   const res = await fetchFromApi({
@@ -78,6 +81,13 @@ const useGetOffersByCreatorQuery = (
     enabled: !!(creator?.id && creator?.email),
     ...configuration,
   });
+};
+
+const useGetOfferByIdQuery = ({ scope, id }, configuration = {}) => {
+  const query =
+    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
+
+  return query({ id }, configuration);
 };
 
 const changeOfferName = async ({ headers, id, lang, name, scope }) => {
@@ -440,5 +450,6 @@ export {
   useDeleteOfferOrganizerMutation,
   useDeleteOfferVideoMutation,
   useGetOffersByCreatorQuery,
+  useGetOfferByIdQuery,
   useUpdateOfferImageMutation,
 };
