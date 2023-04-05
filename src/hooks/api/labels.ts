@@ -1,6 +1,6 @@
-import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 import { useAuthenticatedQuery } from '@/hooks/api/authenticated-query';
-import { Place } from '@/types/Place';
+import { Label } from '@/types/Offer';
+import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 
 const getLabelsByQuery = async ({ headers, query }) => {
   const res = await fetchFromApi({
@@ -25,7 +25,7 @@ const getLabelsByQuery = async ({ headers, query }) => {
 };
 
 const useGetLabelsByQuery = ({ query }: { query: string }) =>
-  useAuthenticatedQuery<string[]>({
+  useAuthenticatedQuery<Label[]>({
     queryKey: ['labels'],
     queryFn: getLabelsByQuery,
     queryArguments: {
