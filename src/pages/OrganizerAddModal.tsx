@@ -12,7 +12,9 @@ import {
   ContactInfoStep,
 } from '@/pages/steps/AdditionalInformationStep/ContactInfoStep';
 import { Countries, Country } from '@/types/Country';
+import { Organizer } from '@/types/Organizer';
 import { Alert, AlertVariants } from '@/ui/Alert';
+import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
@@ -24,8 +26,6 @@ import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
 import { City, CityPicker } from './CityPicker';
-import { Organizer } from '@/types/Organizer';
-import { Button, ButtonVariants } from '@/ui/Button';
 
 const getValue = getValueFromTheme('organizerAddModal');
 
