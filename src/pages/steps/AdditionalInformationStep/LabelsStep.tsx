@@ -1,4 +1,4 @@
-import { uniqBy } from 'lodash';
+import { uniq } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 
 import { useGetLabelsByQuery } from '@/hooks/api/labels';
@@ -44,9 +44,7 @@ function LabelsStep({ offerId, scope, onValidationChange, ...props }) {
             onSearch={(query) => labelsQuery.refetch({ query })}
             onChange={(newLabels: Label[]) => {
               setLabels(
-                uniqBy([...labels, ...newLabels], 'uuid').map(
-                  (label) => label.name,
-                ),
+                uniq([...labels, ...newLabels.map((label) => label.name)]),
               );
 
               ref.current.clear();
