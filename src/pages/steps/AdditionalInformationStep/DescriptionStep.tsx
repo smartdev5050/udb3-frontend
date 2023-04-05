@@ -2,6 +2,7 @@ import { ContentState, convertToRaw, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import {
   useChangeOfferDescriptionMutation,
   useGetOfferByIdQuery,

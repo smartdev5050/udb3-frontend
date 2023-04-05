@@ -6,6 +6,7 @@ import { useQueryClient } from 'react-query';
 
 import { OfferType } from '@/constants/OfferType';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+import { LabelsStep } from '@/pages/steps/AdditionalInformationStep/LabelsStep';
 import type { Values } from '@/types/Values';
 import { parseSpacing } from '@/ui/Box';
 import { Icon, Icons } from '@/ui/Icon';
@@ -24,7 +25,6 @@ import { MediaStep } from './MediaStep';
 import { OfferScore } from './OfferScore';
 import { OrganizerStep } from './OrganizerStep';
 import { PriceInformation } from './PriceInformation';
-import { LabelsStep } from '@/pages/steps/AdditionalInformationStep/LabelsStep';
 
 const getGlobalValue = getValueFromTheme('global');
 

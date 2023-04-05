@@ -1,5 +1,8 @@
 import type { UseQueryOptions } from 'react-query';
 
+import { OfferTypes } from '@/constants/OfferType';
+import { useGetEventByIdQuery } from '@/hooks/api/events';
+import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import { Offer } from '@/types/Offer';
 import type { User } from '@/types/User';
 import { createEmbededCalendarSummaries } from '@/utils/createEmbededCalendarSummaries';
@@ -14,9 +17,6 @@ import {
   useAuthenticatedMutation,
   useAuthenticatedQuery,
 } from './authenticated-query';
-import { OfferTypes } from '@/constants/OfferType';
-import { useGetEventByIdQuery } from '@/hooks/api/events';
-import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 
 const getOffersByCreator = async ({ headers, ...queryData }) => {
   const res = await fetchFromApi({
@@ -449,7 +449,7 @@ export {
   useDeleteOfferImageMutation,
   useDeleteOfferOrganizerMutation,
   useDeleteOfferVideoMutation,
-  useGetOffersByCreatorQuery,
   useGetOfferByIdQuery,
+  useGetOffersByCreatorQuery,
   useUpdateOfferImageMutation,
 };

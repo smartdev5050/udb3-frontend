@@ -1,17 +1,18 @@
-import { FormElement } from '@/ui/FormElement';
-import { getStackProps, Stack } from '@/ui/Stack';
-import { Text, TextVariants } from '@/ui/Text';
-import { Typeahead } from '@/ui/Typeahead';
-import { useGetLabelsByQuery } from '@/hooks/api/labels';
+import { uniqBy } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
+
+import { useGetLabelsByQuery } from '@/hooks/api/labels';
+import { useGetOfferByIdQuery } from '@/hooks/api/offers';
+import { ValidationStatus } from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
 import { Label, Offer } from '@/types/Offer';
 import { Badge, BadgeVariants } from '@/ui/Badge';
-import { Inline } from '@/ui/Inline';
+import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
-import { uniqBy } from 'lodash';
-import { useGetOfferByIdQuery } from '@/hooks/api/offers';
+import { Inline } from '@/ui/Inline';
+import { getStackProps, Stack } from '@/ui/Stack';
+import { Text, TextVariants } from '@/ui/Text';
 import { getGlobalBorderRadius } from '@/ui/theme';
-import { ValidationStatus } from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
+import { Typeahead } from '@/ui/Typeahead';
 
 function LabelsStep({ offerId, scope, onValidationChange, ...props }) {
   const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId, scope });
