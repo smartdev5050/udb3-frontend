@@ -33,22 +33,15 @@ const schema = yup
   .object({
     url: yup.string().url().required(),
     name: yup.string().required(),
-    address: yup
-      .object({
-        streetAndNumber: yup.string().required(),
-        country: yup
-          .mixed<Country>()
-          .oneOf(Object.values(Countries))
-          .required(),
-        city: yup
-          .object({
-            label: yup.string().required(),
-            name: yup.string().required(),
-            zip: yup.string().required(),
-          })
-          .required(),
-      })
-      .required(),
+    address: yup.object({
+      streetAndNumber: yup.string(),
+      country: yup.mixed<Country>().oneOf(Object.values(Countries)),
+      city: yup.object({
+        label: yup.string(),
+        name: yup.string(),
+        zip: yup.string(),
+      }),
+    }),
     contact: yup.array(yup.object({ type: yup.string(), value: yup.string() })),
   })
   .required();
@@ -60,7 +53,7 @@ const defaultValues: FormData = {
   name: '',
   address: {
     country: Countries.BE,
-    streetAndNumber: '',
+    streetAndNumber: undefined,
     city: undefined,
   },
   contact: [],
