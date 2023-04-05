@@ -2,7 +2,11 @@ import { uniq } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 
 import { useGetLabelsByQuery } from '@/hooks/api/labels';
-import { useGetOfferByIdQuery } from '@/hooks/api/offers';
+import {
+  useAddOfferLabelMutation,
+  useGetOfferByIdQuery,
+  useRemoveOfferLabelMutation,
+} from '@/hooks/api/offers';
 import { ValidationStatus } from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
 import { Label, Offer } from '@/types/Offer';
 import { Badge, BadgeVariants } from '@/ui/Badge';
@@ -22,6 +26,8 @@ function LabelsStep({ offerId, scope, onValidationChange, ...props }) {
   const labelsQuery = useGetLabelsByQuery({ query: '' });
   const options: Label[] = labelsQuery.data?.member ?? [];
   const [labels, setLabels] = useState<string[]>(offer.labels);
+  const addLabelMutation = useAddOfferLabelMutation();
+  const removeLabelMutation = useRemoveOfferLabelMutation();
 
   useEffect(() => {
     onValidationChange(
@@ -42,7 +48,13 @@ function LabelsStep({ offerId, scope, onValidationChange, ...props }) {
             options={options}
             labelKey={'name'}
             onSearch={(query) => labelsQuery.refetch({ query })}
-            onChange={(newLabels: Label[]) => {
+            onChange={async (newLabels: Label[]) => {
+              await addLabelMutation.mutate({
+                id: offerId,
+                scope,
+                label: newLabels[0].name,
+              });
+
               setLabels(
                 uniq([...labels, ...newLabels.map((label) => label.name)]),
               );
@@ -74,11 +86,17 @@ function LabelsStep({ offerId, scope, onValidationChange, ...props }) {
               width={'12px'}
               height={'12px'}
               marginLeft={1}
-              onClick={() =>
+              onClick={async () => {
+                await removeLabelMutation.mutate({
+                  id: offerId,
+                  scope,
+                  label,
+                });
+
                 setLabels(
                   labels.filter((existingLabel) => label !== existingLabel),
-                )
-              }
+                );
+              }}
             />
           </Badge>
         ))}

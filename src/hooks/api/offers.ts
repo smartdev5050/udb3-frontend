@@ -178,9 +178,24 @@ const addOfferLabel = async ({ headers, id, label, scope }) =>
     },
   });
 
+const removeOfferLabel = async ({ headers, id, label, scope }) =>
+  fetchFromApi({
+    path: `/${scope}/${id}/labels/${label}`,
+    options: {
+      method: 'DELETE',
+      headers,
+    },
+  });
+
 const useAddOfferLabelMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: addOfferLabel,
+    ...configuration,
+  });
+
+const useRemoveOfferLabelMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: removeOfferLabel,
     ...configuration,
   });
 
@@ -452,4 +467,5 @@ export {
   useGetOfferByIdQuery,
   useGetOffersByCreatorQuery,
   useUpdateOfferImageMutation,
+  useRemoveOfferLabelMutation,
 };
