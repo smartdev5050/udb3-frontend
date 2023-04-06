@@ -46,7 +46,7 @@ function LabelsStep({
 
   // @ts-expect-error
   const options = labelsQuery.data?.member ?? [];
-  const [labels, setLabels] = useState<string[]>(offer.labels);
+  const [labels, setLabels] = useState<string[]>(offer.labels ?? []);
   const addLabelMutation = useAddOfferLabelMutation();
   const removeLabelMutation = useRemoveOfferLabelMutation();
 
