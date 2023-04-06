@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { useGetOrganizersByWebsiteQuery } from '@/hooks/api/organizers';
@@ -12,7 +12,9 @@ import {
   ContactInfoStep,
 } from '@/pages/steps/AdditionalInformationStep/ContactInfoStep';
 import { Countries, Country } from '@/types/Country';
+import { Organizer } from '@/types/Organizer';
 import { Alert, AlertVariants } from '@/ui/Alert';
+import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
@@ -31,22 +33,15 @@ const schema = yup
   .object({
     url: yup.string().url().required(),
     name: yup.string().required(),
-    address: yup
-      .object({
-        streetAndNumber: yup.string().required(),
-        country: yup
-          .mixed<Country>()
-          .oneOf(Object.values(Countries))
-          .required(),
-        city: yup
-          .object({
-            label: yup.string().required(),
-            name: yup.string().required(),
-            zip: yup.string().required(),
-          })
-          .required(),
-      })
-      .required(),
+    address: yup.object({
+      streetAndNumber: yup.string(),
+      country: yup.mixed<Country>().oneOf(Object.values(Countries)),
+      city: yup.object({
+        label: yup.string(),
+        name: yup.string(),
+        zip: yup.string(),
+      }),
+    }),
     contact: yup.array(yup.object({ type: yup.string(), value: yup.string() })),
   })
   .required();
@@ -58,7 +53,7 @@ const defaultValues: FormData = {
   name: '',
   address: {
     country: Countries.BE,
-    streetAndNumber: '',
+    streetAndNumber: undefined,
     city: undefined,
   },
   contact: [],
@@ -69,6 +64,7 @@ type Props = {
   visible: boolean;
   onConfirm: (data: FormData) => Promise<void>;
   onClose: () => void;
+  onSetOrganizer: (organizer: Organizer) => void;
 };
 
 const OrganizerAddModal = ({
@@ -76,8 +72,9 @@ const OrganizerAddModal = ({
   prefillName,
   onConfirm,
   onClose,
+  onSetOrganizer,
 }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const [urlInputComponent] = useAutoFocus<HTMLInputElement>({
     retriggerOn: visible,
@@ -121,9 +118,10 @@ const OrganizerAddModal = ({
     { enabled: visible },
   );
 
-  const isUrlUnique =
+  const existingOrganization: Organizer | undefined =
     // @ts-expect-error
-    getOrganizersByWebsiteQuery.data?.totalItems === 0;
+    getOrganizersByWebsiteQuery.data?.member?.[0];
+  const isUrlUnique = !existingOrganization;
 
   const countries = useMemo(
     () => [
@@ -207,13 +205,36 @@ const OrganizerAddModal = ({
           id="organizer-url"
           label={t('organizer.add_modal.labels.url')}
           info={
-            <Alert variant={AlertVariants.PRIMARY}>
-              {t('organizer.add_modal.url_requirements')}
-            </Alert>
+            formState.errors.url?.type === 'not_unique' ? (
+              <Alert variant={AlertVariants.WARNING}>
+                <Trans
+                  i18nKey={`organizer.add_modal.validation_messages.url_not_unique`}
+                  values={{
+                    organizerName: existingOrganization?.name[i18n.language],
+                  }}
+                  components={{
+                    setOrganizerLink: (
+                      <Button
+                        variant={ButtonVariants.UNSTYLED}
+                        onClick={() => onSetOrganizer(existingOrganization)}
+                        display={'inline-block'}
+                        fontWeight={'bold'}
+                        textDecoration={'underline'}
+                        padding={0}
+                      />
+                    ),
+                  }}
+                />
+              </Alert>
+            ) : (
+              <Alert variant={AlertVariants.PRIMARY}>
+                {t('organizer.add_modal.url_requirements')}
+              </Alert>
+            )
           }
           error={
             formState.errors.url &&
-            t('organizer.add_modal.validation_messages.url')
+            t(`organizer.add_modal.validation_messages.url`)
           }
         />
         <FormElement

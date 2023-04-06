@@ -202,9 +202,12 @@ const OrganizerStep = ({
     });
   };
 
-  const handleChangeOrganizer = (organizerId: string) => {
-    addOfferOrganizerMutation.mutate({ id: offerId, organizerId, scope });
-  };
+  const handleChangeOrganizer = (organizerId: string) =>
+    addOfferOrganizerMutation.mutateAsync({
+      id: offerId,
+      organizerId,
+      scope,
+    });
 
   const handleAddOrganizer = async ({
     url,
@@ -229,6 +232,10 @@ const OrganizerStep = ({
       contact,
     };
 
+    if (!address.streetAndNumber && !address.city?.name) {
+      delete payload.address;
+    }
+
     const { organizerId } = await createOrganizerMutation.mutateAsync(payload);
 
     await addOfferOrganizerMutation.mutateAsync({
@@ -252,6 +259,10 @@ const OrganizerStep = ({
           prefillName={newOrganizerName}
           visible={isOrganizerAddModalVisible}
           onConfirm={handleAddOrganizer}
+          onSetOrganizer={async (organizer) => {
+            await handleChangeOrganizer(parseOfferId(organizer['@id']));
+            setIsOrganizerAddModalVisible(false);
+          }}
           onClose={() => setIsOrganizerAddModalVisible(false)}
         />
         <OrganizerPicker

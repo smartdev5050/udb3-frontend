@@ -786,7 +786,8 @@
           "streetAndNumber": "Je straat en nummer voldoen niet aan de vereisten."
         },
         "name": "Je naam voldoet niet aan de vereisten.",
-        "url": "Je website voldoet niet aan de vereisten."
+        "url": "Je website voldoet niet aan de vereisten.",
+        "url_not_unique": "Dit adres wordt al gebruikt door de organisatie '{{organizerName}}'. Geef een unieke website op of <setOrganizerLink>gebruik {{organizerName}} als organisatie</setOrganizerLink>."
       }
     }
   },

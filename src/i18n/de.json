@@ -787,7 +787,8 @@
           "streetAndNumber": "Ihre Straße und Hausnummer entsprechen nicht den Anforderungen."
         },
         "name": "Ihr Name entspricht nicht den Anforderungen.",
-        "url": "Ihre Website entspricht nicht den Anforderungen."
+        "url": "Ihre Website entspricht nicht den Anforderungen.",
+        "url_not_unique": "Diese Adresse wird bereits von der Organisation „{{organizerName}}“ verwendet. Geben Sie eine eindeutige Website an oder <setOrganizerLink>verwenden Sie {{organizerName}} als Organisation</setOrganizerLink>."
       }
     }
   },
