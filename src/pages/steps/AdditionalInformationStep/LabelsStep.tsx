@@ -55,7 +55,7 @@ function LabelsStep({ offerId, scope, onValidationChange, ...props }) {
             labelKey={'name'}
             onSearch={setQuery}
             onChange={async (newLabels: Label[]) => {
-              await addLabelMutation.mutate({
+              await addLabelMutation.mutateAsync({
                 id: offerId,
                 scope,
                 label: newLabels[0].name,
@@ -77,7 +77,7 @@ function LabelsStep({ offerId, scope, onValidationChange, ...props }) {
           </Text>
         }
       />
-      <Inline spacing={2}>
+      <Inline spacing={2} marginTop={4}>
         {labels.map((label) => (
           <Badge
             key={label}
@@ -93,7 +93,7 @@ function LabelsStep({ offerId, scope, onValidationChange, ...props }) {
               height={'12px'}
               marginLeft={1}
               onClick={async () => {
-                await removeLabelMutation.mutate({
+                await removeLabelMutation.mutateAsync({
                   id: offerId,
                   scope,
                   label,
