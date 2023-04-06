@@ -239,6 +239,7 @@ type UIProps = {
   right: UIProp<string | number>;
   stroke: UIProp<string>;
   textAlign: UIProp<string>;
+  textDecoration: UIProp<string>;
   top: UIProp<string | number>;
   width: UIProp<string | number>;
   zIndex: UIProp<number>;
@@ -456,6 +457,7 @@ const boxProps = css`
   ${parseProperty('fontStyle')};
   ${parseProperty('borderRadius')};
   ${parseProperty('textAlign')};
+  ${parseProperty('textDecoration')};
   ${parseProperty('justifyContent')};
   ${parseProperty('alignItems')};
   ${parseProperty('alignSelf')};
@@ -522,6 +524,7 @@ const boxPropTypes = [
   'right',
   'stroke',
   'textAlign',
+  'textDecoration',
   'top',
   'width',
   'zIndex',
