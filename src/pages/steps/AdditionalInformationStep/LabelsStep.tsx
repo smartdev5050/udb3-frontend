@@ -28,7 +28,7 @@ function LabelsStep({ offerId, scope, onValidationChange, ...props }) {
 
   const ref = useRef(null);
 
-  const [query, setQuery] = useState();
+  const [query, setQuery] = useState('');
   const labelsQuery = useGetLabelsByQuery({
     query,
   });
