@@ -466,6 +466,6 @@ export {
   useDeleteOfferVideoMutation,
   useGetOfferByIdQuery,
   useGetOffersByCreatorQuery,
-  useUpdateOfferImageMutation,
   useRemoveOfferLabelMutation,
+  useUpdateOfferImageMutation,
 };

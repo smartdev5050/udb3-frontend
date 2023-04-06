@@ -1,5 +1,6 @@
 import { uniq } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
+import { useQuery, UseQueryResult } from 'react-query';
 
 import { useGetLabelsByQuery } from '@/hooks/api/labels';
 import {
@@ -17,7 +18,6 @@ import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getGlobalBorderRadius } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
-import { useQuery, UseQueryResult } from 'react-query';
 
 function LabelsStep({ offerId, scope, onValidationChange, ...props }) {
   const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId, scope });
