@@ -44,7 +44,7 @@ function LabelsStep({ offerId, scope, onValidationChange, ...props }) {
           <Typeahead
             ref={ref}
             name={'labels'}
-            loading={labelsQuery.isLoading}
+            isLoading={labelsQuery.isLoading}
             options={options}
             labelKey={'name'}
             onSearch={(query) => labelsQuery.refetch({ query })}
