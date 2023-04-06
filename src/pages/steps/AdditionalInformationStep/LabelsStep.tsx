@@ -17,13 +17,19 @@ import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getGlobalBorderRadius } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
+import { useQuery, UseQueryResult } from 'react-query';
 
 function LabelsStep({ offerId, scope, onValidationChange, ...props }) {
   const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId, scope });
   const offer: Offer | undefined = getOfferByIdQuery.data;
 
   const ref = useRef(null);
-  const labelsQuery = useGetLabelsByQuery({ query: '' });
+
+  const [query, setQuery] = useState();
+  const labelsQuery = useGetLabelsByQuery({
+    query,
+  });
+
   const options: Label[] = labelsQuery.data?.member ?? [];
   const [labels, setLabels] = useState<string[]>(offer.labels);
   const addLabelMutation = useAddOfferLabelMutation();
@@ -47,7 +53,7 @@ function LabelsStep({ offerId, scope, onValidationChange, ...props }) {
             isLoading={labelsQuery.isLoading}
             options={options}
             labelKey={'name'}
-            onSearch={(query) => labelsQuery.refetch({ query })}
+            onSearch={setQuery}
             onChange={async (newLabels: Label[]) => {
               await addLabelMutation.mutate({
                 id: offerId,
