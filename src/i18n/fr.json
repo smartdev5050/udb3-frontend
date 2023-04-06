@@ -332,7 +332,9 @@
         }
       },
       "labels": {
-        "title": "Labels"
+        "title": "Libellés",
+        "label": "Affiner avec des libellés",
+        "info": "Avec les libellés, ajoutez des mots-clés courts et spécifiques"
       },
       "description": {
         "clear": "Vider",

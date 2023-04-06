@@ -331,6 +331,11 @@
           }
         }
       },
+      "labels": {
+        "title": "Labels",
+        "label": "Verfijn met labels",
+        "info": "Met labels voeg je korte, specifieke trefwoorden toe"
+      },
       "description": {
         "clear": "Leegmaken",
         "progress_info": {

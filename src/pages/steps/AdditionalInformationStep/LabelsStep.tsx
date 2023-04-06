@@ -18,8 +18,11 @@ import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getGlobalBorderRadius } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
+import { useTranslation } from 'react-i18next';
 
 function LabelsStep({ offerId, scope, onValidationChange, ...props }) {
+  const { t } = useTranslation();
+
   const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId, scope });
   const offer: Offer | undefined = getOfferByIdQuery.data;
 
@@ -47,7 +50,7 @@ function LabelsStep({ offerId, scope, onValidationChange, ...props }) {
     <Stack {...getStackProps(props)} opacity={isWriting ? 0.5 : 1}>
       <FormElement
         id={'labels'}
-        label={'Verfijn met labels'}
+        label={t('create.additionalInformation.labels.label')}
         loading={isWriting}
         Component={
           <Typeahead
@@ -76,7 +79,7 @@ function LabelsStep({ offerId, scope, onValidationChange, ...props }) {
         maxWidth={'50%'}
         info={
           <Text variant={TextVariants.MUTED}>
-            Met labels voeg je korte, specifieke trefwoorden toe
+            {t('create.additionalInformation.labels.info')}
           </Text>
         }
       />
