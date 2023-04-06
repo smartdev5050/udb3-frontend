@@ -41,11 +41,14 @@ function LabelsStep({ offerId, scope, onValidationChange, ...props }) {
     );
   }, [labels, onValidationChange]);
 
+  const isWriting = addLabelMutation.isLoading || removeLabelMutation.isLoading;
+
   return (
-    <Stack {...getStackProps(props)}>
+    <Stack {...getStackProps(props)} opacity={isWriting ? 0.5 : 1}>
       <FormElement
         id={'labels'}
         label={'Verfijn met labels'}
+        loading={isWriting}
         Component={
           <Typeahead
             ref={ref}
