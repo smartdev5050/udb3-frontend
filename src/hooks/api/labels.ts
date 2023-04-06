@@ -6,7 +6,7 @@ const getLabelsByQuery = async ({ headers, query }) => {
   const res = await fetchFromApi({
     path: '/labels/',
     searchParams: {
-      q: query,
+      query,
       limit: '6',
       start: '0',
       suggestion: 'true',
@@ -28,9 +28,7 @@ const useGetLabelsByQuery = ({ query }: { query: string }) =>
   useAuthenticatedQuery<Label[]>({
     queryKey: ['labels'],
     queryFn: getLabelsByQuery,
-    queryArguments: {
-      query,
-    },
+    queryArguments: { query },
     enabled: !!query,
   });
 
