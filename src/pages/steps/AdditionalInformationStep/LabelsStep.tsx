@@ -71,6 +71,7 @@ function LabelsStep({
             isLoading={labelsQuery.isLoading}
             options={options}
             labelKey={'name'}
+            allowNew
             onSearch={setQuery}
             onChange={async (newLabels: Label[]) => {
               await addLabelMutation.mutateAsync({
