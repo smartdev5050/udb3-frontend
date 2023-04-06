@@ -138,7 +138,7 @@ const PriceInformation = ({
 
   const getOfferByIdQuery = useGetOfferByIdQuery(
     { id: offerId, scope },
-    { refetchOnWindowFocus: true },
+    { refetchOnWindowFocus: false },
   );
 
   // @ts-expect-error
