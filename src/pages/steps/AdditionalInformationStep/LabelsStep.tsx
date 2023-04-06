@@ -1,6 +1,7 @@
 import { uniq } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
-import { useQuery, UseQueryResult } from 'react-query';
+import { useTranslation } from 'react-i18next';
+import { UseQueryResult } from 'react-query';
 
 import { useGetLabelsByQuery } from '@/hooks/api/labels';
 import {
@@ -8,32 +9,43 @@ import {
   useGetOfferByIdQuery,
   useRemoveOfferLabelMutation,
 } from '@/hooks/api/offers';
-import { ValidationStatus } from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
+import {
+  TabContentProps,
+  ValidationStatus,
+} from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
 import { Label, Offer } from '@/types/Offer';
 import { Badge, BadgeVariants } from '@/ui/Badge';
 import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
-import { getStackProps, Stack } from '@/ui/Stack';
+import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getGlobalBorderRadius } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
-import { useTranslation } from 'react-i18next';
 
-function LabelsStep({ offerId, scope, onValidationChange, ...props }) {
+type LabelsStepProps = StackProps & TabContentProps;
+
+function LabelsStep({
+  offerId,
+  scope,
+  onValidationChange,
+  ...props
+}: LabelsStepProps) {
   const { t } = useTranslation();
 
   const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId, scope });
+  // @ts-expect-error
   const offer: Offer | undefined = getOfferByIdQuery.data;
 
   const ref = useRef(null);
 
   const [query, setQuery] = useState('');
-  const labelsQuery = useGetLabelsByQuery({
-    query,
-  });
+  // @ts-expect-error
+  const labelsQuery: UseQueryResult<Promise<{ data: { member: Label[] } }>> =
+    useGetLabelsByQuery({ query });
 
-  const options: Label[] = labelsQuery.data?.member ?? [];
+  // @ts-expect-error
+  const options = labelsQuery.data?.member ?? [];
   const [labels, setLabels] = useState<string[]>(offer.labels);
   const addLabelMutation = useAddOfferLabelMutation();
   const removeLabelMutation = useRemoveOfferLabelMutation();
