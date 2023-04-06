@@ -41,10 +41,10 @@ function LabelsStep({
 
   const [query, setQuery] = useState('');
   // @ts-expect-error
-  const labelsQuery: UseQueryResult<Promise<{ data: { member: Label[] } }>> =
-    useGetLabelsByQuery({ query });
+  const labelsQuery: UseQueryResult<{ member: Label[] }> = useGetLabelsByQuery({
+    query,
+  });
 
-  // @ts-expect-error
   const options = labelsQuery.data?.member ?? [];
   const [labels, setLabels] = useState<string[]>(offer.labels ?? []);
   const addLabelMutation = useAddOfferLabelMutation();
