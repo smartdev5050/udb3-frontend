@@ -72,6 +72,9 @@ function LabelsStep({
             options={options}
             labelKey={'name'}
             allowNew
+            newSelectionPrefix={t(
+              'create.additionalInformation.labels.add_new_label',
+            )}
             onSearch={setQuery}
             onChange={async (newLabels: Label[]) => {
               await addLabelMutation.mutateAsync({
