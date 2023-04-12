@@ -59,7 +59,7 @@ function LabelsStep({
   const isWriting = addLabelMutation.isLoading || removeLabelMutation.isLoading;
 
   return (
-    <Stack {...getStackProps(props)} opacity={isWriting ? 0.5 : 1}>
+    <Stack {...getStackProps(props)} opacity={isWriting ? 0.5 : 1} spacing={2}>
       <FormElement
         id={'labels'}
         label={t('create.additionalInformation.labels.label')}
@@ -96,7 +96,7 @@ function LabelsStep({
           </Text>
         }
       />
-      <Inline spacing={2} marginTop={4}>
+      <Inline spacing={2}>
         {labels.map((label) => (
           <Badge
             key={label}
