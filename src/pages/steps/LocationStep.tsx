@@ -172,6 +172,10 @@ const isLocationSet = (
   location: FormDataUnion['location'],
   formState,
 ) => {
+  if (!location) {
+    return false;
+  }
+
   if (location.isOnline || location.place) {
     return true;
   }
