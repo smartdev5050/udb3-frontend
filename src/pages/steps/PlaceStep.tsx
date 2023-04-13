@@ -11,7 +11,7 @@ import { useGetPlacesByQuery } from '@/hooks/api/places';
 import { SupportedLanguage } from '@/i18n/index';
 import type { StepProps, StepsConfiguration } from '@/pages/steps/Steps';
 import { Address, AddressInternal } from '@/types/Address';
-import { Country } from '@/types/Country';
+import { Countries, Country } from '@/types/Country';
 import type { Place } from '@/types/Place';
 import type { Values } from '@/types/Values';
 import { Button, ButtonVariants } from '@/ui/Button';
@@ -256,6 +256,14 @@ const placeStepConfiguration: StepsConfiguration<'location'> = {
   name: 'location',
   shouldShowStep: ({ watch }) => isOneTimeSlotValid(watch('timeTable')),
   title: ({ t }) => t(`movies.create.step3.title`),
+  defaultValue: {
+    isOnline: false,
+    country: Countries.BE,
+    place: undefined,
+    streetAndNumber: undefined,
+    municipality: undefined,
+    onlineUrl: undefined,
+  },
 };
 
 PlaceStep.defaultProps = {
