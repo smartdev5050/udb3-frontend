@@ -179,10 +179,15 @@ const OrganizerPicker = ({
   const [organizerSearchInput, setOrganizerSearchInput] = useState('');
 
   // This is a random organizer with an ID to use as bridge when deleting dummy organizers
-  const getRandomOrganizerQuery = useGetOrganizersByQueryQuery({
-    name: 'a',
-    paginationOptions: { start: 0, limit: 1 },
-  });
+  const getRandomOrganizerQuery = useGetOrganizersByQueryQuery(
+    {
+      name: 'a',
+      paginationOptions: { start: 0, limit: 1 },
+    },
+    {
+      enabled: organizer && !organizer['@id'],
+    },
+  );
 
   const getOrganizersByQueryQuery = useGetOrganizersByQueryQuery(
     { name: organizerSearchInput },
