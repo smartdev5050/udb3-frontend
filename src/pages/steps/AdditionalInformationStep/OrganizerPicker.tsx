@@ -249,6 +249,7 @@ const OrganizerPicker = ({
 
                     // If we have a dummy organizer, first set a real one
                     if (!organizer['@id']) {
+                      // @ts-expect-error
                       removed = getRandomOrganizerQuery.data?.member[0];
                       await onChange(parseOfferId(removed?.['@id']));
                     }
