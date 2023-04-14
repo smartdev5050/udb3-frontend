@@ -209,11 +209,8 @@ const OrganizerPicker = ({
     // @ts-expect-error
   }, [getOffersByCreatorQuery.data?.member]);
 
-  const organizers = useMemo(() => {
-    // @ts-expect-error
-    return getOrganizersByQueryQuery.data?.member ?? [];
-    // @ts-expect-error
-  }, [getOrganizersByQueryQuery.data?.member]);
+  // @ts-expect-error
+  const organizers = getOrganizersByQueryQuery.data?.member ?? [];
 
   const handleSelectRecentOrganizer = (organizerId: string) => {
     onChange(organizerId);
