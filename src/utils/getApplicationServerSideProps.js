@@ -1,4 +1,3 @@
-import { useUser } from '@auth0/nextjs-auth0/client';
 import * as Sentry from '@sentry/nextjs';
 import getConfig from 'next/config';
 import absoluteUrl from 'next-absolute-url';
