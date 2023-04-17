@@ -18,6 +18,7 @@ const moduleExports = {
     ];
   },
   publicRuntimeConfig: {
+    baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
     environment: process.env.NEXT_PUBLIC_ENVIRONMENT,
     apiKey: process.env.NEXT_PUBLIC_API_KEY,
     apiUrl: process.env.NEXT_PUBLIC_API_URL,
