@@ -178,6 +178,17 @@ const OrganizerPicker = ({
   const [addButtonHasBeenPressed, setAddButtonHasBeenPressed] = useState(false);
   const [organizerSearchInput, setOrganizerSearchInput] = useState('');
 
+  // This is a random organizer with an ID to use as bridge when deleting dummy organizers
+  const getRandomOrganizerQuery = useGetOrganizersByQueryQuery(
+    {
+      name: 'a',
+      paginationOptions: { start: 0, limit: 1 },
+    },
+    {
+      enabled: organizer && !organizer['@id'],
+    },
+  );
+
   const getOrganizersByQueryQuery = useGetOrganizersByQueryQuery(
     { name: organizerSearchInput },
     { enabled: !!organizerSearchInput },
@@ -209,11 +220,8 @@ const OrganizerPicker = ({
     // @ts-expect-error
   }, [getOffersByCreatorQuery.data?.member]);
 
-  const organizers = useMemo(() => {
-    // @ts-expect-error
-    return getOrganizersByQueryQuery.data?.member ?? [];
-    // @ts-expect-error
-  }, [getOrganizersByQueryQuery.data?.member]);
+  // @ts-expect-error
+  const organizers = getOrganizersByQueryQuery.data?.member ?? [];
 
   const handleSelectRecentOrganizer = (organizerId: string) => {
     onChange(organizerId);
@@ -241,9 +249,18 @@ const OrganizerPicker = ({
                 <Button
                   spacing={3}
                   variant={ButtonVariants.LINK}
-                  onClick={() =>
-                    onDeleteOrganizer(parseOfferId(organizer['@id']))
-                  }
+                  onClick={async () => {
+                    let removed = organizer;
+
+                    // If we have a dummy organizer, first set a real one
+                    if (!organizer['@id']) {
+                      // @ts-expect-error
+                      removed = getRandomOrganizerQuery.data?.member[0];
+                      await onChange(parseOfferId(removed?.['@id']));
+                    }
+
+                    onDeleteOrganizer(parseOfferId(removed['@id']));
+                  }}
                 >
                   {t('create.additionalInformation.organizer.change')}
                 </Button>
