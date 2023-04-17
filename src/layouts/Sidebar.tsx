@@ -197,14 +197,7 @@ const ProfileMenu = ({ profileImage }: ProfileMenuProps) => {
         removeAuthenticationCookies();
         await queryClient.invalidateQueries('user');
 
-        const getBaseUrl = () =>
-          `${window.location.protocol}//${window.location.host}`;
-
-        const queryString = new URLSearchParams({
-          destination: getBaseUrl(),
-        }).toString();
-
-        router.push(`api/auth/logout`);
+        router.push('/api/auth/logout');
       },
     },
   ];
