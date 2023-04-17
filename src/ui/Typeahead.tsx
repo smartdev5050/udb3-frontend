@@ -1,3 +1,5 @@
+import 'react-bootstrap-typeahead/css/Typeahead.css';
+
 import type { ForwardedRef, ReactElement } from 'react';
 import { forwardRef } from 'react';
 import { AsyncTypeahead as BootstrapTypeahead } from 'react-bootstrap-typeahead';
@@ -89,6 +91,7 @@ const Typeahead: TypeaheadFunc = forwardRef(
       hideNewInputText,
       newSelectionPrefix,
       positionFixed,
+      isLoading,
       ...props
     }: Props<T>,
     ref: ForwardedRef<HTMLInputElement>,
@@ -100,12 +103,12 @@ const Typeahead: TypeaheadFunc = forwardRef(
         forwardedAs={BootstrapTypeahead}
         id={id}
         name={name}
-        allowNew={allowNew}
+        allowNew={allowNew && !isLoading}
         newSelectionPrefix={newSelectionPrefix}
         options={options}
         labelKey={labelKey}
         renderMenuItemChildren={renderMenuItemChildren}
-        isLoading={false}
+        isLoading={isLoading}
         disabled={disabled}
         className={className}
         flex={1}
@@ -141,18 +144,22 @@ const Typeahead: TypeaheadFunc = forwardRef(
           .dropdown-item:active {
             color: ${getValue('active.color')};
             background-color: ${getValue('active.backgroundColor')};
+
             .rbt-highlight-text {
               color: ${getValue('active.color')};
             }
           }
+
           .dropdown-item.hover,
           .dropdown-item:hover {
             color: ${getValue('hover.color')};
             background-color: ${getValue('hover.backgroundColor')};
+
             .rbt-highlight-text {
               color: ${getValue('hover.color')};
             }
           }
+
           .rbt-highlight-text {
             font-weight: ${getValue('highlight.fontWeight')};
             background-color: ${getValue('highlight.backgroundColor')};
@@ -163,7 +170,6 @@ const Typeahead: TypeaheadFunc = forwardRef(
         onChange={onChange}
         placeholder={placeholder}
         emptyLabel={emptyLabel ?? t('typeahead.no_results')}
-        promptText={t('typeahead.prompt_text')}
         searchText={t('typeahead.search_text')}
         minLength={minLength}
         delay={275}

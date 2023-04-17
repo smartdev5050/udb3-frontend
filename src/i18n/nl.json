@@ -213,6 +213,9 @@
       "is_online": {
         "label": "Online"
       },
+      "is_physical": {
+        "label": "Op een fysieke locatie"
+      },
       "online_url": {
         "label": "Deelnamelink",
         "placeholder": "https://",

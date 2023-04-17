@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -11,8 +11,7 @@ import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { useChangeOfferCalendarMutation } from '@/hooks/api/offers';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import { useToast } from '@/pages/manage/movies/useToast';
-import { Event } from '@/types/Event';
-import { SubEvent } from '@/types/Offer';
+import { Offer, SubEvent } from '@/types/Offer';
 import { Values } from '@/types/Values';
 import { Panel } from '@/ui/Panel';
 import { getStackProps, Stack } from '@/ui/Stack';
@@ -109,8 +108,8 @@ const convertStateToFormData = (
     ...(isOneOrMoreDays && { subEvent }),
     ...(isFixedDays && { openingHours: newOpeningHours }),
     ...(calendarType === CalendarType.PERIODIC && {
-      startDate: formatDateToISO(startDate ? new Date(startDate) : new Date()),
-      endDate: formatDateToISO(endDate ? new Date(endDate) : new Date()),
+      startDate: formatDateToISO(new Date(startDate)),
+      endDate: formatDateToISO(new Date(endDate)),
     }),
   };
 };
@@ -171,7 +170,7 @@ const CalendarStep = ({
   };
 
   const {
-    handleLoadInitialContext: loadInitialContext,
+    handleLoadInitialContext,
     handleAddDay,
     handleDeleteDay,
     handleChangeStartDate,
@@ -181,16 +180,11 @@ const CalendarStep = ({
     handleChangeStartTime,
     handleChangeEndTime,
     handleChooseOneOrMoreDays,
-    handleChooseFixedDays: chooseFixedDays,
+    handleChooseFixedDays,
     handleChooseWithStartAndEndDate,
     handleChoosePermanent,
     handleChangeOpeningHours,
   } = useCalendarHandlers(handleChangeCalendarState);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleLoadInitialContext = useCallback(loadInitialContext, []);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleChooseFixedDays = useCallback(chooseFixedDays, []);
 
   useEffect(() => {
     calendarService.start();
@@ -213,17 +207,17 @@ const CalendarStep = ({
   const useGetOfferByIdQuery =
     scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
 
-  const getEventByIdQuery = useGetOfferByIdQuery({ id: offerId });
+  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
 
   // @ts-expect-error
-  const event: Event | undefined = getEventByIdQuery.data;
+  const offer: Offer | undefined = getOfferByIdQuery.data;
 
   useEffect(() => {
     const initialContext = initialCalendarContext;
 
-    if (!event) return;
+    if (!offer) return;
 
-    const days = (event.subEvent ?? []).map((subEvent) => ({
+    const days = (offer.subEvent ?? []).map((subEvent) => ({
       id: createDayId(),
       startDate: subEvent.startDate,
       endDate: subEvent.endDate,
@@ -231,7 +225,7 @@ const CalendarStep = ({
       bookingAvailability: subEvent.bookingAvailability,
     }));
 
-    const openingHours = (event.openingHours ?? []).map((openingHour) => ({
+    const openingHours = (offer.openingHours ?? []).map((openingHour) => ({
       id: createOpeninghoursId(),
       opens: openingHour.opens,
       closes: openingHour.closes,
@@ -242,12 +236,16 @@ const CalendarStep = ({
       ...initialContext,
       ...(days.length > 0 && { days }),
       ...(openingHours.length > 0 && { openingHours }),
-      ...(event && { startDate: event.startDate ?? '' }),
-      ...(event && { endDate: event.endDate ?? '' }),
+      ...(offer?.startDate && {
+        startDate: offer.startDate,
+      }),
+      ...(offer?.endDate && {
+        endDate: offer.endDate,
+      }),
     };
 
-    handleLoadInitialContext({ newContext, calendarType: event.calendarType });
-  }, [event, handleLoadInitialContext]);
+    handleLoadInitialContext({ newContext, calendarType: offer.calendarType });
+  }, [offer, handleLoadInitialContext]);
 
   const toast = useToast({
     messages: { calendar: t('create.toast.success.calendar') },

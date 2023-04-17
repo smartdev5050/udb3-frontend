@@ -205,7 +205,7 @@ const OrganizerPicker = ({
               </Inline>
             </Stack>
           ) : (
-            <Inline width="100%" flexWrap="wrap">
+            <Stack width="100%">
               <RecentUsedOrganizers
                 organizers={recentUsedOrganizers}
                 onChange={handleSelectRecentOrganizer}
@@ -231,6 +231,8 @@ const OrganizerPicker = ({
                   <Typeahead<Organizer>
                     id={'organizer-picker'}
                     options={organizers}
+                    // @ts-expect-error
+                    isLoading={getOrganizersByQueryQuery.isLoading}
                     labelKey={(org) => getOrganizerName(org, i18n.language)}
                     renderMenuItemChildren={(org: Organizer, { text }) => {
                       const name = getOrganizerName(org, i18n.language);
@@ -261,10 +263,11 @@ const OrganizerPicker = ({
                       'create.additionalInformation.organizer.add_new_label',
                     )}
                     allowNew
+                    flex={'initial'}
                   />
                 )}
               </Stack>
-            </Inline>
+            </Stack>
           )
         }
       />

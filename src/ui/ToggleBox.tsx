@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 import { parseSpacing } from './Box';
 import { Icon, Icons } from './Icon';
 import type { StackProps } from './Stack';
@@ -10,7 +12,7 @@ const getValue = getValueFromTheme(`toggleBox`);
 type Props = StackProps & {
   active: boolean;
   icon?: JSX.Element;
-  text: string;
+  text: ReactNode;
   disabled?: boolean;
 };
 
