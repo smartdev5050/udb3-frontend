@@ -541,6 +541,12 @@
       "organizers": "Aucune organisation trouvée.",
       "places": "Aucun lieu trouvé."
     },
+    "row_status": {
+      "draft": "Version préliminaire",
+      "rejected": "Publication rejetée",
+      "published": "Publié",
+      "published_from": "Publication à partir de {{date}}"
+    },
     "not_published": "Pas publié",
     "online_from": "Publié le {{date}}",
     "organizer": "Organisateur",
