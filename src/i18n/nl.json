@@ -550,6 +550,7 @@
       "published": "Gepubliceerd",
       "published_from": "Publicatie vanaf {{date}}"
     },
+    "external_creator": "Aangemaakt via een externe applicatie",
     "not_published": "Niet gepubliceerd",
     "online_from": "Online vanaf {{date}}",
     "organizer": "organisatie",
