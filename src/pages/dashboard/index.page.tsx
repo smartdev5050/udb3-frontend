@@ -123,22 +123,41 @@ const RowStatusToColor: Record<RowStatus, string> = {
 type Status = {
   color: string;
   label: string;
+  isExternalCreator?: boolean;
 };
 
 type StatusIndicatorProps = InlineProps & Status;
 
-const StatusIndicator = ({ color, label, ...props }: StatusIndicatorProps) => {
+const StatusIndicator = ({
+  color,
+  label,
+  isExternalCreator,
+  ...props
+}: StatusIndicatorProps) => {
+  const { t } = useTranslation();
   return (
-    <Inline spacing={3} alignItems="center" {...getInlineProps(props)}>
-      <Box
-        width="0.60rem"
-        height="0.60rem"
-        backgroundColor={color}
-        borderRadius="50%"
-        flexShrink={0}
-      />
-      <Text variant={TextVariants.MUTED}>{label}</Text>
-    </Inline>
+    <Stack>
+      <Inline
+        marginBottom={1}
+        spacing={3}
+        alignItems="center"
+        {...getInlineProps(props)}
+      >
+        <Box
+          width="0.60rem"
+          height="0.60rem"
+          backgroundColor={color}
+          borderRadius="50%"
+          flexShrink={0}
+        />
+        <Text variant={TextVariants.MUTED}>{label}</Text>
+      </Inline>
+      {isExternalCreator && (
+        <Text variant={TextVariants.MUTED}>
+          {t('dashboard.external_creator')}
+        </Text>
+      )}
+    </Stack>
   );
 };
 
@@ -211,6 +230,11 @@ type OfferRowProps = InlineProps & {
 
 const OfferRow = ({ item: offer, onDelete, ...props }: OfferRowProps) => {
   const { t, i18n } = useTranslation();
+
+  const getUserQuery = useGetUserQuery();
+  // @ts-expect-error
+  const userId = getUserQuery.data?.uuid;
+  const isExternalCreator = userId !== offer.creator;
 
   const offerType = parseOfferType(offer['@context']);
 
@@ -293,6 +317,7 @@ const OfferRow = ({ item: offer, onDelete, ...props }: OfferRowProps) => {
       status={{
         color: statusColor,
         label: statusLabel,
+        isExternalCreator,
       }}
       {...getInlineProps(props)}
     />
