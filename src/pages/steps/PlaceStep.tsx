@@ -113,8 +113,8 @@ const PlaceStep = ({
     const address = getAddress(place.address, place.mainLanguage);
 
     return (
-      address.streetAddress.toLowerCase().includes(props.text.toLowerCase()) ||
-      name.toLowerCase().includes(props.text.toLowerCase())
+      address.streetAddress?.toLowerCase().includes(props.text.toLowerCase()) ||
+      name?.toLowerCase().includes(props.text.toLowerCase())
     );
   };
 
