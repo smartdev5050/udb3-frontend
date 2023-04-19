@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import { useQueryClient } from 'react-query';
 
+import { isLocationSet } from '@/pages/steps/LocationStep';
 import { isEvent } from '@/types/Event';
 import { hasLegacyLocation } from '@/types/Offer';
 import { isPlace } from '@/types/Place';
@@ -28,11 +29,12 @@ const useFooterStatus = ({ offer, form }) => {
   const isMutating = queryClient.isMutating();
   const offerId = offer?.['@id'];
   const availableFrom = offer?.availableFrom;
-  const hasLocation =
-    formValues.location?.place ||
-    (formValues.location?.municipality &&
-      formValues.location?.streetAndNumber) ||
-    formValues.location?.isOnline;
+  const hasLocation = isLocationSet(
+    formValues.scope,
+    formValues.location,
+    form.formState,
+  );
+
   const isPlaceDirty =
     (dirtyFields.place || dirtyFields.location) && hasLocation;
   const isEventType = isEvent(offer);

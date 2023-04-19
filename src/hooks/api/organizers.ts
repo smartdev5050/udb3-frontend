@@ -27,7 +27,12 @@ type GetOrganizersArgumentsByQuery = {
 };
 
 const useGetOrganizersByQueryQuery = (
-  { req, queryClient, name }: AuthenticatedQueryOptions<{ name?: string }> = {},
+  {
+    req,
+    queryClient,
+    name,
+    paginationOptions = { start: 0, limit: 10 },
+  }: AuthenticatedQueryOptions<{ name?: string } & PaginationOptions> = {},
   configuration: UseQueryOptions = {},
 ) =>
   useAuthenticatedQuery<{ member: Organizer[] }>({
@@ -38,8 +43,8 @@ const useGetOrganizersByQueryQuery = (
     queryArguments: {
       embed: true,
       name,
-      start: '0',
-      limit: '10',
+      start: paginationOptions.start,
+      limit: paginationOptions.limit,
     },
     enabled: !!name,
     ...configuration,
@@ -96,7 +101,7 @@ const useGetOrganizersByWebsiteQuery = (
     queryKey: ['organizers'],
     queryFn: getOrganizers,
     queryArguments: {
-      embed: false,
+      embed: true,
       website,
     },
     ...configuration,
