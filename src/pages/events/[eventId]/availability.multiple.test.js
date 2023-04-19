@@ -72,7 +72,6 @@ test('I can save a status', async () => {
 
   await waitForFetch(`/events/${page.router.query.eventId}/subEvents`);
 
-  // 3rd API call, [url, payload] tuple
   expect(fetch.mock.calls[4][1].body).toEqual(
     JSON.stringify([
       {
@@ -121,7 +120,6 @@ test('I can save a status with a reason', async () => {
 
   await waitForFetch(`/events/${page.router.query.eventId}/subEvents`);
 
-  // 4th API call, [url, payload] tuple
   expect(fetch.mock.calls[4][1].body).toEqual(
     JSON.stringify([
       {
@@ -164,7 +162,6 @@ test('I can save a booking availability', async () => {
 
   await waitForFetch(`/events/${page.router.query.eventId}/subEvents`);
 
-  // 4th API call, [url, payload] tuple
   expect(fetch.mock.calls[4][1].body).toEqual(
     JSON.stringify([
       {
