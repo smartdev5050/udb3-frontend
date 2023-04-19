@@ -26,7 +26,7 @@ import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
-import { getValueFromTheme } from '@/ui/theme';
+import { Breakpoints, getValueFromTheme } from '@/ui/theme';
 import { reconcileRates } from '@/utils/reconcileRates';
 
 const PRICE_CURRENCY: string = 'EUR';
@@ -246,188 +246,200 @@ const PriceInformation = ({
 
   return (
     <Stack {...getStackProps(props)} padding={4} spacing={5}>
-      <Stack>
-        {controlledRates.map((rate, index) => {
-          const registerNameProps = register(
-            `rates.${index}.name.${i18n.language as SupportedLanguage}`,
-          );
+      <Inline spacing={4} stackOn={Breakpoints.M}>
+        <Stack minWidth="50%">
+          {controlledRates.map((rate, index) => {
+            const registerNameProps = register(
+              `rates.${index}.name.${i18n.language as SupportedLanguage}`,
+            );
 
-          const registerPriceProps = register(`rates.${index}.price`);
+            const registerPriceProps = register(`rates.${index}.price`);
 
-          const validationErrorType =
-            errors.rates?.at(index)?.name?.type ||
-            errors.rates?.at(index)?.price?.type ||
-            errors.rates?.at(index)?.type;
+            const validationErrorType =
+              errors.rates?.at(index)?.name?.type ||
+              errors.rates?.at(index)?.price?.type ||
+              errors.rates?.at(index)?.type;
 
-          return (
-            <Stack key={`rate_${rate.id}`}>
-              <Inline
-                css={`
-                  border-bottom: 1px solid ${getValue('borderColor')};
-                `}
-              >
+            return (
+              <Stack key={`rate_${rate.id}`}>
                 <Inline
-                  width="100%"
-                  alignItems="baseline"
-                  paddingY={3}
-                  justifyContent="flex-start"
-                  spacing={3}
+                  css={`
+                    border-bottom: 1px solid ${getValue('borderColor')};
+                  `}
                 >
-                  <Inline minWidth="30%">
-                    {rate.category === PriceCategory.BASE && (
-                      <Text>{rate.name[i18n.language]}</Text>
-                    )}
-                    {rate.category === PriceCategory.TARIFF && (
-                      <FormElement
-                        id={`rate_name_${rate.id}`}
-                        Component={
-                          <Input
-                            {...registerNameProps}
-                            onBlur={async (e) => {
-                              await registerNameProps.onBlur(e);
-                              const isValid = await trigger();
-                              if (!isValid) {
-                                return;
-                              }
+                  <Inline
+                    width="100%"
+                    alignItems="baseline"
+                    paddingY={3}
+                    justifyContent="flex-start"
+                    spacing={3}
+                  >
+                    <Inline minWidth="30%">
+                      {rate.category === PriceCategory.BASE && (
+                        <Text width="100%">{rate.name[i18n.language]}</Text>
+                      )}
+                      {rate.category === PriceCategory.TARIFF && (
+                        <FormElement
+                          id={`rate_name_${rate.id}`}
+                          Component={
+                            <Input
+                              {...registerNameProps}
+                              onBlur={async (e) => {
+                                await registerNameProps.onBlur(e);
+                                const isValid = await trigger();
+                                if (!isValid) {
+                                  return;
+                                }
 
+                                onSubmit();
+                              }}
+                              placeholder={t(
+                                'create.additionalInformation.price_info.target',
+                              )}
+                            />
+                          }
+                        />
+                      )}
+                      {rate.category === PriceCategory.UITPAS && (
+                        <Text>{rate.name[i18n.language]}</Text>
+                      )}
+                    </Inline>
+                    <Inline minWidth="20%" alignItems="center">
+                      {rate.category && (
+                        <FormElement
+                          id={`rate_price_${rate.id}`}
+                          Component={
+                            <Input
+                              marginRight={3}
+                              {...registerPriceProps}
+                              onBlur={async (e) => {
+                                await registerPriceProps.onBlur(e);
+                                const isValid = await trigger();
+                                if (!isValid) {
+                                  return;
+                                }
+
+                                onSubmit();
+                              }}
+                              placeholder={t(
+                                'create.additionalInformation.price_info.price',
+                              )}
+                              disabled={rate.category === PriceCategory.UITPAS}
+                            />
+                          }
+                        />
+                      )}
+
+                      <Text
+                        variant={TextVariants.MUTED}
+                        css={`
+                          margin-right: ${parseSpacing(3)};
+                        `}
+                      >
+                        {t('create.additionalInformation.price_info.euro')}
+                      </Text>
+                      {!isPriceFree(rate.price) &&
+                        rate.category !== PriceCategory.UITPAS && (
+                          <Button
+                            variant={ButtonVariants.LINK}
+                            onClick={() => {
+                              setValue(`rates.${index}.price`, '0,00', {
+                                shouldValidate: false,
+                              });
                               onSubmit();
                             }}
-                            placeholder={t(
-                              'create.additionalInformation.price_info.target',
-                            )}
-                          />
-                        }
+                          >
+                            {t('create.additionalInformation.price_info.free')}
+                          </Button>
+                        )}
+                    </Inline>
+                    {index !== 0 && rate.category !== PriceCategory.UITPAS && (
+                      <Button
+                        iconName={Icons.TRASH}
+                        variant={ButtonVariants.DANGER}
+                        size={ButtonSizes.SMALL}
+                        aria-label={t(
+                          'create.additionalInformation.price_info.delete',
+                        )}
+                        onClick={() => {
+                          remove(index);
+                          onSubmit();
+                        }}
                       />
                     )}
-                    {rate.category === PriceCategory.UITPAS && (
-                      <Text>{rate.name[i18n.language]}</Text>
-                    )}
                   </Inline>
-                  <Inline minWidth="20%" alignItems="center">
-                    {rate.category && (
-                      <FormElement
-                        id={`rate_price_${rate.id}`}
-                        Component={
-                          <Input
-                            marginRight={3}
-                            {...registerPriceProps}
-                            onBlur={async (e) => {
-                              await registerPriceProps.onBlur(e);
-                              const isValid = await trigger();
-                              if (!isValid) {
-                                return;
-                              }
-
-                              onSubmit();
-                            }}
-                            placeholder={t(
-                              'create.additionalInformation.price_info.price',
-                            )}
-                            disabled={rate.category === PriceCategory.UITPAS}
-                          />
-                        }
-                      />
-                    )}
-
-                    <Text
-                      variant={TextVariants.MUTED}
-                      css={`
-                        margin-right: ${parseSpacing(3)};
-                      `}
-                    >
-                      {t('create.additionalInformation.price_info.euro')}
-                    </Text>
-                    {!isPriceFree(rate.price) &&
-                      rate.category !== PriceCategory.UITPAS && (
-                        <Button
-                          variant={ButtonVariants.LINK}
-                          onClick={() => {
-                            setValue(`rates.${index}.price`, '0,00', {
-                              shouldValidate: false,
-                            });
-                            onSubmit();
-                          }}
-                        >
-                          {t('create.additionalInformation.price_info.free')}
-                        </Button>
-                      )}
-                  </Inline>
-                  {index !== 0 && rate.category !== PriceCategory.UITPAS && (
-                    <Button
-                      iconName={Icons.TRASH}
-                      variant={ButtonVariants.DANGER}
-                      size={ButtonSizes.SMALL}
-                      aria-label={t(
-                        'create.additionalInformation.price_info.delete',
-                      )}
-                      onClick={() => {
-                        remove(index);
-                        onSubmit();
-                      }}
-                    />
-                  )}
                 </Inline>
-              </Inline>
-              {validationErrorType && (
-                <Text color="red">
-                  {t(
-                    `create.additionalInformation.price_info.validation_messages.${validationErrorType}`,
-                  )}
-                </Text>
-              )}
-            </Stack>
-          );
-        })}
-        <Inline marginTop={3}>
-          <Button
-            onClick={() => {
-              append(
-                {
-                  name: { [i18n.language as SupportedLanguage]: '' },
-                  price: '',
-                  category: PriceCategory.TARIFF,
-                  priceCurrency: PRICE_CURRENCY,
-                },
-                {
-                  focusName: `rates.${fields.length}.name`,
-                  shouldFocus: true,
-                },
-              );
-            }}
-            variant={ButtonVariants.SECONDARY}
-          >
-            {t('create.additionalInformation.price_info.add')}
-          </Button>
-        </Inline>
-      </Stack>
-      <Stack spacing={4}>
-        <Alert>
-          <Box
-            forwardedAs="div"
-            dangerouslySetInnerHTML={{
-              __html: t('create.additionalInformation.price_info.global_info'),
-            }}
+                {validationErrorType && (
+                  <Text color="red">
+                    {t(
+                      `create.additionalInformation.price_info.validation_messages.${validationErrorType}`,
+                    )}
+                  </Text>
+                )}
+              </Stack>
+            );
+          })}
+          <Inline marginTop={3}>
+            <Button
+              onClick={() => {
+                append(
+                  {
+                    name: { [i18n.language as SupportedLanguage]: '' },
+                    price: '',
+                    category: PriceCategory.TARIFF,
+                    priceCurrency: PRICE_CURRENCY,
+                  },
+                  {
+                    focusName: `rates.${fields.length}.name`,
+                    shouldFocus: true,
+                  },
+                );
+              }}
+              variant={ButtonVariants.SECONDARY}
+            >
+              {t('create.additionalInformation.price_info.add')}
+            </Button>
+          </Inline>
+        </Stack>
+        <Stack spacing={4}>
+          <Alert
+            fullWidth
             css={`
-              strong {
-                font-weight: bold;
-              }
-
-              ul {
-                list-style-type: disc;
-
-                li {
-                  margin-left: ${parseSpacing(5)};
-                }
+              &.alert {
+                display: flex;
+                flex: 1;
               }
             `}
-          />
-        </Alert>
-        {hasUitpasPrices && (
-          <Alert variant={AlertVariants.PRIMARY} marginBottom={3}>
-            {t('create.additionalInformation.price_info.uitpas_info')}
+          >
+            <Box
+              forwardedAs="div"
+              dangerouslySetInnerHTML={{
+                __html: t(
+                  'create.additionalInformation.price_info.global_info',
+                ),
+              }}
+              css={`
+                strong {
+                  font-weight: bold;
+                }
+
+                ul {
+                  list-style-type: disc;
+
+                  li {
+                    margin-left: ${parseSpacing(5)};
+                  }
+                }
+              `}
+            />
           </Alert>
-        )}
-      </Stack>
+          {hasUitpasPrices && (
+            <Alert variant={AlertVariants.PRIMARY} marginBottom={3}>
+              {t('create.additionalInformation.price_info.uitpas_info')}
+            </Alert>
+          )}
+        </Stack>
+      </Inline>
     </Stack>
   );
 };

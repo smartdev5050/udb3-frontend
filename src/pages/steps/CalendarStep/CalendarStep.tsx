@@ -89,8 +89,10 @@ const convertStateToFormData = (
   ).includes(calendarType);
 
   const subEvent = days.map((day) => ({
-    startDate: formatDateToISO(new Date(day.startDate)),
-    endDate: formatDateToISO(new Date(day.endDate)),
+    startDate: formatDateToISO(
+      day.startDate ? new Date(day.startDate) : new Date(),
+    ),
+    endDate: formatDateToISO(day.endDate ? new Date(day.endDate) : new Date()),
     bookingAvailability: day.bookingAvailability,
     status: day.status,
   }));

@@ -200,6 +200,11 @@
         "events": "Wo findet diese Veranstaltung oder Aktivität statt?",
         "places": "Wo ist dieser Ort oder Ort?"
       },
+      "recent_locations": {
+        "title": "Wählen Sie einen Standort aus, den Sie kürzlich verwendet haben",
+        "info": "Wir haben die Standorte, für die Sie kürzlich eingegeben haben, hier für Sie gespeichert. Sie können sie mit einem Klick hinzufügen.",
+        "other": "Oder wählen Sie einen anderen Standort"
+      },
       "validation_messages": {
         "street_and_number": {
           "required": "Ihre Straße und Hausnummer entsprechen nicht den Anforderungen."
@@ -207,6 +212,9 @@
       },
       "is_online": {
         "label": "Online"
+      },
+      "is_physical": {
+        "label": "An einem physischen Ort"
       },
       "online_url": {
         "label": "Teilnahmelink",
@@ -427,7 +435,7 @@
         "add_new_label": "Produktion nicht gefunden? Neue Produktion hinzufügen: "
       },
       "media": {
-        "title": "Medien"
+        "title": "Bild & Video"
       },
       "price_info": {
         "add": "Tarif hinzufügen",
@@ -473,6 +481,14 @@
       "title": "Wählen Sie ein Veröffentlichungsdatum",
 
       "warning": "Achtung, dieses Datum kann nur einmalig eingestellt werden."
+    },
+    "duplicate": {
+      "title": "Kopieren und ändern",
+      "alert": "Sie sind dabei, eine Veranstaltung zu kopieren. Wählen Sie einen Zeitpunkt für diese Veranstaltung."
+    },
+    "migration": {
+      "alert": "<boldText>Diese Aktivität wurde in der vorherigen Version von UiTdatabank eingegeben.</boldText><br/>Um sie zu bearbeiten, müssen Sie den zuvor ausgewählten Ort und die Adresse erneut auswählen oder einmal eingeben.",
+      "continue": "Weiter"
     },
     "toast": {
       "success": {
@@ -528,6 +544,12 @@
       "events": "Keine Veranstaltungen gefunden",
       "organizers": "Keine Organisationen gefunden",
       "places": "Keine Orte gefunden"
+    },
+    "row_status": {
+      "draft": "Entwurfsversion",
+      "rejected": "Veröffentlichung abgelehnt",
+      "published": "Veröffentlicht",
+      "published_from": "Veröffentlichung aus {{date}}"
     },
     "not_published": "Nicht veröffentlicht",
     "online_from": "Online ab {{date}}",

@@ -200,6 +200,11 @@
         "events": "Waar vindt dit evenement of deze activiteit plaats?",
         "places": "Waar is deze plaats of locatie?"
       },
+      "recent_locations": {
+        "title": "Kies een locatie die je recent gebruikte",
+        "info": "We hebben de locaties waarvoor je recent invoerde hier voor je klaargezet. Met één klik voeg je ze toe.",
+        "other": "Of kies een andere locatie"
+      },
       "validation_messages": {
         "street_and_number": {
           "required": "Je straat en nummer voldoen niet aan de vereisten."
@@ -207,6 +212,9 @@
       },
       "is_online": {
         "label": "Online"
+      },
+      "is_physical": {
+        "label": "Op een fysieke locatie"
       },
       "online_url": {
         "label": "Deelnamelink",
@@ -429,7 +437,7 @@
         "add_new_label": "Productie niet gevonden? Nieuwe productie toevoegen: "
       },
       "media": {
-        "title": "Media"
+        "title": "Afbeelding & video"
       },
       "price_info": {
         "add": "Tarief toevoegen",
@@ -472,6 +480,14 @@
       "description": "Vanaf wanneer mag dit online verschijnen?",
       "title": "Een latere publicatiedatum kiezen",
       "warning": "Opgelet, deze datum kan je maar één keer instellen."
+    },
+    "duplicate": {
+      "title": "Kopiëren en aanpassen",
+      "alert": "Je staat op het punt een evenement te kopiëren. Kies een tijdstip voor dit evenement."
+    },
+    "migration": {
+      "alert": "<boldText>Deze activiteit werd ingevoerd in de vorige versie van UiTdatabank.</boldText><br/>Om deze te kunnen bewerken, is het nodig om de eerder gekozen locatie en adres éénmalig opnieuw te selecteren of in te voeren.",
+      "continue": "Doorgaan"
     },
     "toast": {
       "success": {
@@ -527,6 +543,12 @@
       "events": "Geen evenementen gevonden",
       "organizers": "Geen organisaties gevonden",
       "places": "Geen locaties gevonden"
+    },
+    "row_status": {
+      "draft": "Kladversie",
+      "rejected": "Publicatie afgewezen",
+      "published": "Gepubliceerd",
+      "published_from": "Publicatie vanaf {{date}}"
     },
     "not_published": "Niet gepubliceerd",
     "online_from": "Online vanaf {{date}}",

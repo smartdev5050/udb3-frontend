@@ -49,7 +49,10 @@ const useGetOffersByCreatorQuery = (
         advancedQuery?: string;
       }
   >,
-  configuration: UseQueryOptions = {},
+  {
+    queryArguments,
+    ...configuration
+  }: UseQueryOptions & { queryArguments?: any } = {},
 ) => {
   const defaultQuery = `creator:(${creator?.id} OR ${creator?.email})`;
   const query = advancedQuery
@@ -70,6 +73,7 @@ const useGetOffersByCreatorQuery = (
       ...createSortingArgument(sortOptions),
       ...(calendarSummaryFormats &&
         createEmbededCalendarSummaries(calendarSummaryFormats)),
+      ...(queryArguments ?? {}),
     },
     enabled: !!(creator?.id && creator?.email),
     ...configuration,

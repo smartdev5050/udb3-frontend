@@ -66,6 +66,7 @@ const CityPicker = forwardRef<HTMLInputElement, Props>(
             <Typeahead<City>
               name={name}
               ref={ref}
+              isLoading={getCitiesQuery.isLoading}
               options={cities}
               labelKey={(city) => city.label}
               selected={valueToArray(value)}

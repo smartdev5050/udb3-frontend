@@ -28,7 +28,7 @@ import { AudienceType, Event } from '@/types/Event';
 import type { SubEvent } from '@/types/Offer';
 import type { Place } from '@/types/Place';
 import type { Production } from '@/types/Production';
-import { WorkflowStatusMap } from '@/types/WorkflowStatus';
+import { WorkflowStatus } from '@/types/WorkflowStatus';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 type FormData = {
@@ -113,7 +113,7 @@ const MovieForm = (props) => {
       location: {
         id: parseOfferId(location.place['@id']),
       },
-      workflowStatus: WorkflowStatusMap.DRAFT,
+      workflowStatus: WorkflowStatus.DRAFT,
       audienceType: AudienceType.EVERYONE,
       ...getTerms(typeAndTheme),
     };

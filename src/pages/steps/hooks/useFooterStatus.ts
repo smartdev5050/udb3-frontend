@@ -4,9 +4,12 @@ import { useQueryClient } from 'react-query';
 
 import { isLocationSet } from '@/pages/steps/LocationStep';
 import { isEvent } from '@/types/Event';
+import { hasLegacyLocation } from '@/types/Offer';
 import { isPlace } from '@/types/Place';
 
 const FooterStatus = {
+  DUPLICATE: 'DUPLICATE',
+  CONTINUE: 'CONTINUE',
   HIDDEN: 'HIDDEN',
   PUBLISH: 'PUBLISH',
   MANUAL_SAVE: 'MANUAL_SAVE',
@@ -16,6 +19,7 @@ const FooterStatus = {
 const useFooterStatus = ({ offer, form }) => {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const isOnDuplicatePage = router.pathname.endsWith('/duplicate');
 
   const formValues = form.getValues();
   const {
@@ -35,21 +39,34 @@ const useFooterStatus = ({ offer, form }) => {
     (dirtyFields.place || dirtyFields.location) && hasLocation;
   const isEventType = isEvent(offer);
   const isPlaceType = isPlace(offer);
+  const needsLocationMigration = hasLegacyLocation(offer);
 
-  const footerStatus = useMemo(() => {
+  return useMemo(() => {
+    if (needsLocationMigration) {
+      return FooterStatus.CONTINUE;
+    }
+
+    if (offerId && isOnDuplicatePage) {
+      return FooterStatus.DUPLICATE;
+    }
+
     if (offerId && isEventType && !availableFrom) {
       return FooterStatus.PUBLISH;
     }
+
     if (offerId && isPlaceType) {
       return FooterStatus.PUBLISH;
     }
+
     if (offerId && router.route.includes('edit')) {
       return FooterStatus.AUTO_SAVE;
     }
+
     if (isMutating) return FooterStatus.HIDDEN;
     if (isPlaceDirty) return FooterStatus.MANUAL_SAVE;
     return FooterStatus.HIDDEN;
   }, [
+    needsLocationMigration,
     offerId,
     isEventType,
     availableFrom,
@@ -57,9 +74,8 @@ const useFooterStatus = ({ offer, form }) => {
     router.route,
     isMutating,
     isPlaceDirty,
+    isOnDuplicatePage,
   ]);
-
-  return footerStatus;
 };
 
 export { FooterStatus, useFooterStatus };
