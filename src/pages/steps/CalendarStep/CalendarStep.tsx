@@ -245,7 +245,15 @@ const CalendarStep = ({
     };
 
     handleLoadInitialContext({ newContext, calendarType: offer.calendarType });
-  }, [offer, handleLoadInitialContext]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    handleLoadInitialContext,
+    offer?.subEvent,
+    offer?.openingHours,
+    offer?.startDate,
+    offer?.endDate,
+    offer?.calendarType,
+  ]);
 
   const toast = useToast({
     messages: { calendar: t('create.toast.success.calendar') },

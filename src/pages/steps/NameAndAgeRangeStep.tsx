@@ -5,6 +5,7 @@ import {
   useChangeOfferNameMutation,
   useChangeOfferTypicalAgeRangeMutation,
 } from '@/hooks/api/offers';
+import { isLocationSet } from '@/pages/steps/LocationStep';
 import { parseSpacing } from '@/ui/Box';
 import { Stack } from '@/ui/Stack';
 
@@ -84,25 +85,9 @@ const nameAndAgeRangeStepConfiguration: StepsConfiguration<'nameAndAgeRange'> =
     }),
     shouldShowStep: ({ watch, formState }) => {
       const location = watch('location');
+      const scope = watch('scope');
 
-      if (location?.isOnline) {
-        return true;
-      }
-
-      if (!location.place) {
-        return (
-          location.municipality?.name &&
-          formState.touchedFields.location?.streetAndNumber
-        );
-      }
-
-      if (!!location?.place) {
-        return true;
-      }
-
-      const isCultuurKuur = !location?.country;
-
-      return isCultuurKuur;
+      return isLocationSet(scope, location, formState);
     },
   };
 
