@@ -551,6 +551,7 @@
       "published": "Veröffentlicht",
       "published_from": "Veröffentlichung aus {{date}}"
     },
+    "external_creator": "Erstellt durch eine externe Anwendung",
     "not_published": "Nicht veröffentlicht",
     "online_from": "Online ab {{date}}",
     "organizer": "Organisation",

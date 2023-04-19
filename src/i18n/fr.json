@@ -550,6 +550,7 @@
       "published": "Publié",
       "published_from": "Publication à partir de {{date}}"
     },
+    "external_creator": "Créé par une application externe",
     "not_published": "Pas publié",
     "online_from": "Publié le {{date}}",
     "organizer": "Organisateur",
