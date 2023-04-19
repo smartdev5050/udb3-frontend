@@ -367,6 +367,7 @@ const MainChannelLink = () => {
 const Index = () => {
   const { query, ...router } = useRouter();
   const { t, i18n } = useTranslation();
+  const { publicRuntimeConfig } = getConfig();
   const { setCookie } = useCookiesWithOptions();
 
   const handleChangeLanguage = (language: string) => async () =>
@@ -375,7 +376,12 @@ const Index = () => {
   const handleClickLogin = () => {
     const { referer } = query;
 
-    setCookie('auth0.redirect_uri', referer);
+    const fallbackUri = new URL(`${publicRuntimeConfig.baseUrl}/dashboard`);
+    fallbackUri.searchParams.append('tab', 'events');
+
+    const redirectUri = referer ?? fallbackUri.toString();
+
+    setCookie('auth0.redirect_uri', redirectUri);
 
     router.push('/api/auth/login');
   };
