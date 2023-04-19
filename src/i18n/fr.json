@@ -11,22 +11,22 @@
   "beta_version": {
     "title": "Vous voulez essayer la dernière version de l'UiTdatabank ? ",
     "intro1": "Nous travaillons d'arrache-pied sur un nouveau formulaire d'entrée dans la banque de données UiTd afin que vous puissiez saisir vos activités encore plus facilement. Vous l'avez déjà essayé ? Passez à la dernière version de l'UiTdatabank et testez dès maintenant toutes les nouvelles fonctionnalités.",
-    "intro2": "Quelles sont les nouveautés?",
+    "intro2": "Quelles sont les nouveautés ?",
     "improvements": [
       {
-        "prefix": "Plus de possibilités:",
+        "prefix": "Plus de possibilités :",
         "text": "vous pouvez ajouter des événements en ligne, télécharger une vidéo et bien plus encore."
       },
       {
-        "prefix": "Moins de travail:",
+        "prefix": "Moins de travail :",
         "text": "nous préparons déjà le nom de votre organisation pour vous, de sorte que vous ne devez pas remplir ce champ à chaque fois. Plus tard, nous ferons de même avec les autres informations que vous avez saisies précédemment."
       },
       {
-        "prefix": "Une aide supplémentaire:",
+        "prefix": "Une aide supplémentaire :",
         "text": " le score de complétude vous donne un retour immédiat et des conseils sur la manière de saisir votre événement ou votre lieu de réunion de la manière la plus complète possible."
       }
     ],
-    "outro1": "Souhaitez-vous être parmi les premiers à tester le nouveau formulaire d'inscription?",
+    "outro1": "Souhaitez-vous être parmi les premiers à tester le nouveau formulaire d'inscription ?",
     "confirm": {
       "title": "J'aime l'essayer",
       "info": "Commencez tout de suite <boldText>avec</boldText> la nouvelle version de l'UiTdatabank."
@@ -94,7 +94,7 @@
       },
       "4": {
         "answer": {
-          "paragraph1": "Même si vous:",
+          "paragraph1": "Même si vous :",
           "step1": "le titulaire du droit d'auteur",
           "step2": "ne poursuit pas un but lucratif en utilisant le matériel",
           "step3": "vu le même matériau ou un matériau similaire utilisé ailleurs",
@@ -140,8 +140,8 @@
     },
     "calendar": {
       "title": {
-        "events": "Quand cet événement ou cette activité a-t-il lieu ?",
-        "places": "Quand cet endroit ou cet emplacement est-il ouvert ?"
+        "events": "Quand cet événement ou cette activité a-t-il lieu ?",
+        "places": "Quand cet endroit ou cet emplacement est-il ouvert ?"
       },
       "types": {
         "one_or_more_days": "Jours récurrents ou variables",
@@ -197,8 +197,8 @@
     },
     "location": {
       "title": {
-        "events": "Où cet événement ou cette activité aura-t-il lieu?",
-        "places": "Où est cet endroit ou cet emplacement?"
+        "events": "Où cet événement ou cette activité aura-t-il lieu ?",
+        "places": "Où est cet endroit ou cet emplacement ?"
       },
       "validation_messages": {
         "street_and_number": {
@@ -216,7 +216,7 @@
       "online_url": {
         "label": "Lien de participation",
         "placeholder": "https://",
-        "info": "Ajoutez un lien pour informer votre public de comment participer à votre événement. Vous ne souhaitez pas partager publiquement ce lien? Vous pouvez sauter cette étape et ajouter les informations relatives à la participation à votre description à l'étape 6."
+        "info": "Ajoutez un lien pour informer votre public de comment participer à votre événement. Vous ne souhaitez pas partager publiquement ce lien ? Vous pouvez sauter cette étape et ajouter les informations relatives à la participation à votre description à l'étape 6."
       },
       "place": {
         "choose_label": "Choisissez un emplacement",
@@ -266,8 +266,8 @@
       }
     },
     "type_and_theme": {
-      "title_events": "Quel type d'événement souhaitez-vous ajouter?",
-      "title_places": "Quel type de lieu souhaitez-vous ajouter?",
+      "title_events": "Quel type d'événement souhaitez-vous ajouter ?",
+      "title_places": "Quel type de lieu souhaitez-vous ajouter ?",
       "change_theme": "Changer thème",
       "theme_groups": {
         "dance": "Danse",
@@ -330,77 +330,77 @@
           "not_complete": "Pour attirer un nouveau public, les {{idealLength}} premier caractères sont les plus importants. Encore {{count}} caractères."
         },
         "tips": {
-          "0.0.0.0.0": "Donnez une description enthousiaste de l'exposition. <ul><li>Quels sont les <strong>artistes</strong> qui exposent?</li><li>Quelles <strong>collections</strong> peuvent être vues?</li><li>Existe-t-il un <strong>guide (audio)</strong> ou une <strong>brochure</strong>?</li></ul>",
-          "0.12.0.0.0": "Donnez une description enthousiaste de la journée portes ouvertes. Que pouvez-vous <strong>voir</strong> ou <strong>vivre</strong>?",
-          "0.17.0.0.0": "Donnez une description enthousiaste de l'itinéraire. <ul><li>Faites-vous le <strong>trajet à pied, en vélo, en bateau</strong>,..?</li><li>Quels sont les <strong>arrêts possibles</strong>?</li><li>Quelle est la <strong>distance</strong> ou la <strong>durée</strong> de l'itinéraire?</li><li>L'itinéraire est-il <strong>accompagné</strong>, avec un guide, une brochure ou des panneaux indicateurs?</li></ul>",
-          "0.19.0.0.0": "Donnez une description enthousiaste de la compétition sportive. <ul><li>Quelles <strong>équipes</strong> ou <strong>quels participants </strong>jouent?</li><li>Dans quelle <strong>compétition</strong> se déroule la compétition?</li></ul>",
-          "0.28.0.0.0": "Donnez une description enthousiaste de la festivité <ul><li>Quelles sont les <strong>attractions</strong>?</li><li>Y a-t-il des <strong>activités (périphériques)</strong>: quiz, concerts, food trucks, marché,...?</li></ul>",
-          "0.3.1.0.0": "Donnez une description enthousiaste de la série de cours. <ul> <li>Qu'y apprenez-vous exactement?</li> <li>Des <strong>connaissances préalables</strong> sont-elles nécessaires pour participer?</li> <li>Quel est le <strong>niveau</strong> des cours?</li> <li>Recevez-vous un <strong>diplôme</strong> ou un certificat à la fin?</li> </ul>",
-          "0.3.1.0.1": "Donnez une description enthousiaste du cours avec sessions ouvertes ou workshop. <ul><li>Qu'y apprenez-vous exactement?</li><li>Des <strong>connaissances préalables</strong> sont-elles nécessaires pour participer?</li><li>Quel est le <strong>niveau</strong> des cours?</li><li>Recevez-vous un <strong>diplôme</strong> ou un certificat à la fin?</li> </ul>",
-          "0.3.2.0.0": "Donnez une description enthousiaste de la conférence où congrès <ul><li>Quels <strong>thèmes</strong> sont couverts?</li><li>Quels <strong>orateurs</strong> prennent la parole?</li></ul>",
-          "0.37.0.0.0": "Donnez une description enthousiaste du marché, foire ou fête foraine <ul><li>Dans <strong>quelles rues </strong>a-t-il lieu?</li><li>Quels seront les <strong>stands</strong> ou les <strong>stands de vente</strong>?</li><li>Y a-t-il une <strong>animation</strong> (de bord)?</li></ul>",
-          "0.49.0.0.0": "Donnez une description enthousiaste de la soirée. Quels <strong>deejays</strong> ou <strong>groupes</strong> se produisent?",
-          "0.5.0.0.0": "Donnez une description enthousiaste du festival. <ul><li>Qui ou quoi est au <strong>programme</strong>?</li><li>Quelle est l'<strong>animation</strong> (périphérique)?</li></ul>",
-          "0.50.21.0.0": "Donnez une description enthousiaste du quiz ou du jeu. <ul><li>Sur quels <strong>sujets</strong> porte le quiz?</li><li>Le jeu a-t-il un <strong>thème</strong>?</li><li>Y a-t-il quelque chose à <strong>gagner</strong>?</li><li>Y a-t-il un <strong>nombre maximum de participants</strong>?</li></ul>",
-          "0.50.4.0.0": "Donnez une description enthousiaste du concert. <ul><li>Quel(s) <strong>artiste(s)</strong> se produisent?</li><li>De quel <strong>genre</strong> s'agit-il?</li><li>Quel <strong>album ou œuvre</strong> sera présenté?</li></ul>",
-          "0.50.6.0.0": "Donnez une description enthousiaste du cinéma. <ul><li>Faites une brève description de <strong>l'histoire</strong>.</li><li>Qui est le <strong>réalisateur</strong>?</li><li>Qui sont les <strong>protagonistes</strong>?</li><li>Le film a-t-il remporté des <strong>prix</strong>?</li></ul>",
-          "0.54.0.0.0": "Donnez une description enthousiaste du spectacle de danse. <ul> <li>Qui est le <strong>chorégraphe</strong>?</li> <li>Qui sont les <strong>danseurs</strong>?</li> <li>Dans quel <strong>style</strong> dansent-ils?</li> <li>Quel est le <strong>thème ou le sujet</strong> de la représentation?</li> </ul>",
-          "0.55.0.0.0": "Donnez une description enthousiaste du théâtre. <ul><li>Esquissez brièvement <strong>l'histoire</strong> ou le <strong>thème</strong>.</li><li>Quelle<strong> compagnie de théâtre</strong> jouera la pièce?</li><li>Quels sont les <strong>acteurs</strong> qui jouent?</li></ul>",
-          "0.57.0.0.0": "Donnez une description enthousiaste du camp de vacances <ul><li>Quelles <strong>activités</strong> pouvez-vous y faire?</li><li>Y a-t-il un <strong>thème</strong>?</li><li>Est-il <strong>avec ou sans nuitées</strong>?</li><li>Quelle est <strong>l'heure de début</strong> <strong>et de fin</strong> des camps de jour et les soins sont-ils <strong>fournis</strong> avant et après?</li></ul>",
-          "0.59.0.0.0": "Donnez une description enthousiaste de l'activité sportive. <ul><li>Quel(s) <strong>sport(s)</strong> pouvez-vous pratiquer?</li><li>Quel <strong>matériel</strong> est (non) fourni?</li></ul>",
-          "0.6.0.0.0": "Donnez une description enthousiaste de la foire. Que pouvez-vous <strong>voir</strong>, <strong>vivre</strong> ou <strong>acheter</strong>?",
-          "0.7.0.0.0": "Donnez une description enthousiaste de la visite guidée. <ul><li>Qu'y a-t-il à <strong>voir</strong> ou à <strong>vivre</strong> le long du parcours?</li><li>Y a-t-il un <strong>nombre</strong> maximum de <strong>participants</strong>?</li><li>La visite guidée est-elle organisée en continu ou à des moments précis?</li><li>Y a-t-il des <strong>points d'attention</strong> particuliers (par exemple, des bottes indiquées)?</li></ul>",
-          "1.50.0.0.0": "Donnez une description enthousiaste du festin de nourriture ou de boisson. <ul> <li>Qu'y a-t-il au <strong>menu</strong>?</li> <li>Les <strong>recettes</strong> seront-elles versées à une <strong>organisation caritative</strong>?</li> <li>Y a-t-il une <strong>animation (périphérique)</strong>?</li> </ul>",
-          "0.15.0.0.0": "Donnez une description enthousiaste de la réserve naturelle ou du parc. <ul> <li> <strong>Qu'y a-t-il à découvrir</strong> dans la réserve ou le parc naturel? </li> <li> Quelles sont les <strong>activités de loisirs</strong> proposées? </li> </ul>",
-          "0.14.0.0.0": "Donnez une description enthousiaste du monument. <ul> <li> <strong>Quel événement ou quelle personne</strong> <strong>est commémoré</strong> par le monument? </li> <li> Décrivez brièvement le <strong>contexte historique</strong>. </li> </ul>",
-          "0.53.0.0.0": "Donnez une description enthousiaste du domaine ou du centre de loisirs. <ul> <li> <strong>Qu'y a-t-il à vivre</strong> dans le domaine ou le centre de loisirs? </li> <li> Quelles sont les <strong>activités de loisirs</strong>? </li> <li> Quelles sont les <strong>autres installations</strong> (toilettes, restaurants, coin des couches, etc.) que vous trouvez au domaine? </li> </ul>",
-          "0.41.0.0.0": "Donnez une description enthousiaste du thème ou du parc à thème. <ul> <li> <strong>Qu'y a-t-il à découvrir</strong> dans le parc? </li> <li> Quelles <strong>autres installations</strong> (toilettes, restaurants, coin à couches, etc.) trouvez-vous dans le parc? </li> </ul>",
-          "3CuHvenJ+EGkcvhXLg9Ykg": "Donnez une description enthousiaste du site archéologique. <ul> <li> <strong>Quelles</strong> sont les <strong>découvertes archéologiques</strong> faites ici? </li> <li> Pouvez-vous voir <strong>en direct</strong> les <strong>archéologues</strong> <strong>au travail</strong> ici? </li> </ul>",
-          "rJRFUqmd6EiqTD4c7HS90w": "Donnez une description enthousiaste de l'école. <ul> <li> Précisez <strong>le public cible</strong> de l'école. </li> <li> Quelles <strong>compétences</strong> pouvez-vous développer ici? </li> <li> Quel <strong>diplôme</strong> pouvez-vous obtenir? </li> </ul>",
-          "eBwaUAAhw0ur0Z02i5ttnw": "Donnez une description enthousiaste du centre sportif. <ul> <li> Quelles sont les <strong>installations sportives</strong> proposées par le centre sportif? </li> <li> Quels <strong>sports</strong> peut-on y pratiquer? </li> </ul>",
+          "0.0.0.0.0": "Donnez une description enthousiaste de l'exposition. <ul><li>Quels sont les <strong>artistes</strong> qui exposent ?</li><li>Quelles <strong>collections</strong> peuvent être vues ?</li><li>Existe-t-il un <strong>guide (audio)</strong> ou une <strong>brochure</strong> ?</li></ul>",
+          "0.12.0.0.0": "Donnez une description enthousiaste de la journée portes ouvertes. Que pouvez-vous <strong>voir</strong> ou <strong>vivre</strong> ?",
+          "0.17.0.0.0": "Donnez une description enthousiaste de l'itinéraire. <ul><li>Faites-vous le <strong>trajet à pied, en vélo, en bateau</strong>,.. ?</li><li>Quels sont les <strong>arrêts possibles</strong> ?</li><li>Quelle est la <strong>distance</strong> ou la <strong>durée</strong> de l'itinéraire ?</li><li>L'itinéraire est-il <strong>accompagné</strong>, avec un guide, une brochure ou des panneaux indicateurs ?</li></ul>",
+          "0.19.0.0.0": "Donnez une description enthousiaste de la compétition sportive. <ul><li>Quelles <strong>équipes</strong> ou <strong>quels participants </strong>jouent ?</li><li>Dans quelle <strong>compétition</strong> se déroule la compétition ?</li></ul>",
+          "0.28.0.0.0": "Donnez une description enthousiaste de la festivité <ul><li>Quelles sont les <strong>attractions</strong> ?</li><li>Y a-t-il des <strong>activités (périphériques)</strong>: quiz, concerts, food trucks, marché,... ?</li></ul>",
+          "0.3.1.0.0": "Donnez une description enthousiaste de la série de cours. <ul> <li>Qu'y apprenez-vous exactement ?</li> <li>Des <strong>connaissances préalables</strong> sont-elles nécessaires pour participer ?</li> <li>Quel est le <strong>niveau</strong> des cours ?</li> <li>Recevez-vous un <strong>diplôme</strong> ou un certificat à la fin ?</li> </ul>",
+          "0.3.1.0.1": "Donnez une description enthousiaste du cours avec sessions ouvertes ou workshop. <ul><li>Qu'y apprenez-vous exactement ?</li><li>Des <strong>connaissances préalables</strong> sont-elles nécessaires pour participer ?</li><li>Quel est le <strong>niveau</strong> des cours ?</li><li>Recevez-vous un <strong>diplôme</strong> ou un certificat à la fin ?</li> </ul>",
+          "0.3.2.0.0": "Donnez une description enthousiaste de la conférence où congrès <ul><li>Quels <strong>thèmes</strong> sont couverts ?</li><li>Quels <strong>orateurs</strong> prennent la parole ?</li></ul>",
+          "0.37.0.0.0": "Donnez une description enthousiaste du marché, foire ou fête foraine <ul><li>Dans <strong>quelles rues </strong>a-t-il lieu ?</li><li>Quels seront les <strong>stands</strong> ou les <strong>stands de vente</strong> ?</li><li>Y a-t-il une <strong>animation</strong> (de bord) ?</li></ul>",
+          "0.49.0.0.0": "Donnez une description enthousiaste de la soirée. Quels <strong>deejays</strong> ou <strong>groupes</strong> se produisent ?",
+          "0.5.0.0.0": "Donnez une description enthousiaste du festival. <ul><li>Qui ou quoi est au <strong>programme</strong> ?</li><li>Quelle est l'<strong>animation</strong> (périphérique) ?</li></ul>",
+          "0.50.21.0.0": "Donnez une description enthousiaste du quiz ou du jeu. <ul><li>Sur quels <strong>sujets</strong> porte le quiz ?</li><li>Le jeu a-t-il un <strong>thème</strong> ?</li><li>Y a-t-il quelque chose à <strong>gagner</strong> ?</li><li>Y a-t-il un <strong>nombre maximum de participants</strong> ?</li></ul>",
+          "0.50.4.0.0": "Donnez une description enthousiaste du concert. <ul><li>Quel(s) <strong>artiste(s)</strong> se produisent ?</li><li>De quel <strong>genre</strong> s'agit-il ?</li><li>Quel <strong>album ou œuvre</strong> sera présenté ?</li></ul>",
+          "0.50.6.0.0": "Donnez une description enthousiaste du cinéma. <ul><li>Faites une brève description de <strong>l'histoire</strong>.</li><li>Qui est le <strong>réalisateur</strong> ?</li><li>Qui sont les <strong>protagonistes</strong> ?</li><li>Le film a-t-il remporté des <strong>prix</strong> ?</li></ul>",
+          "0.54.0.0.0": "Donnez une description enthousiaste du spectacle de danse. <ul> <li>Qui est le <strong>chorégraphe</strong> ?</li> <li>Qui sont les <strong>danseurs</strong> ?</li> <li>Dans quel <strong>style</strong> dansent-ils ?</li> <li>Quel est le <strong>thème ou le sujet</strong> de la représentation ?</li> </ul>",
+          "0.55.0.0.0": "Donnez une description enthousiaste du théâtre. <ul><li>Esquissez brièvement <strong>l'histoire</strong> ou le <strong>thème</strong>.</li><li>Quelle<strong> compagnie de théâtre</strong> jouera la pièce ?</li><li>Quels sont les <strong>acteurs</strong> qui jouent ?</li></ul>",
+          "0.57.0.0.0": "Donnez une description enthousiaste du camp de vacances <ul><li>Quelles <strong>activités</strong> pouvez-vous y faire ?</li><li>Y a-t-il un <strong>thème</strong> ?</li><li>Est-il <strong>avec ou sans nuitées</strong> ?</li><li>Quelle est <strong>l'heure de début</strong> <strong>et de fin</strong> des camps de jour et les soins sont-ils <strong>fournis</strong> avant et après ?</li></ul>",
+          "0.59.0.0.0": "Donnez une description enthousiaste de l'activité sportive. <ul><li>Quel(s) <strong>sport(s)</strong> pouvez-vous pratiquer ?</li><li>Quel <strong>matériel</strong> est (non) fourni ?</li></ul>",
+          "0.6.0.0.0": "Donnez une description enthousiaste de la foire. Que pouvez-vous <strong>voir</strong>, <strong>vivre</strong> ou <strong>acheter</strong> ?",
+          "0.7.0.0.0": "Donnez une description enthousiaste de la visite guidée. <ul><li>Qu'y a-t-il à <strong>voir</strong> ou à <strong>vivre</strong> le long du parcours ?</li><li>Y a-t-il un <strong>nombre</strong> maximum de <strong>participants</strong> ?</li><li>La visite guidée est-elle organisée en continu ou à des moments précis ?</li><li>Y a-t-il des <strong>points d'attention</strong> particuliers (par exemple, des bottes indiquées) ?</li></ul>",
+          "1.50.0.0.0": "Donnez une description enthousiaste du festin de nourriture ou de boisson. <ul> <li>Qu'y a-t-il au <strong>menu</strong> ?</li> <li>Les <strong>recettes</strong> seront-elles versées à une <strong>organisation caritative</strong> ?</li> <li>Y a-t-il une <strong>animation (périphérique)</strong> ?</li> </ul>",
+          "0.15.0.0.0": "Donnez une description enthousiaste de la réserve naturelle ou du parc. <ul> <li> <strong>Qu'y a-t-il à découvrir</strong> dans la réserve ou le parc naturel ? </li> <li> Quelles sont les <strong>activités de loisirs</strong> proposées ? </li> </ul>",
+          "0.14.0.0.0": "Donnez une description enthousiaste du monument. <ul> <li> <strong>Quel événement ou quelle personne</strong> <strong>est commémoré</strong> par le monument ? </li> <li> Décrivez brièvement le <strong>contexte historique</strong>. </li> </ul>",
+          "0.53.0.0.0": "Donnez une description enthousiaste du domaine ou du centre de loisirs. <ul> <li> <strong>Qu'y a-t-il à vivre</strong> dans le domaine ou le centre de loisirs ? </li> <li> Quelles sont les <strong>activités de loisirs</strong> ? </li> <li> Quelles sont les <strong>autres installations</strong> (toilettes, restaurants, coin des couches, etc.) que vous trouvez au domaine ? </li> </ul>",
+          "0.41.0.0.0": "Donnez une description enthousiaste du thème ou du parc à thème. <ul> <li> <strong>Qu'y a-t-il à découvrir</strong> dans le parc ? </li> <li> Quelles <strong>autres installations</strong> (toilettes, restaurants, coin à couches, etc.) trouvez-vous dans le parc ? </li> </ul>",
+          "3CuHvenJ+EGkcvhXLg9Ykg": "Donnez une description enthousiaste du site archéologique. <ul> <li> <strong>Quelles</strong> sont les <strong>découvertes archéologiques</strong> faites ici ? </li> <li> Pouvez-vous voir <strong>en direct</strong> les <strong>archéologues</strong> <strong>au travail</strong> ici ? </li> </ul>",
+          "rJRFUqmd6EiqTD4c7HS90w": "Donnez une description enthousiaste de l'école. <ul> <li> Précisez <strong>le public cible</strong> de l'école. </li> <li> Quelles <strong>compétences</strong> pouvez-vous développer ici ? </li> <li> Quel <strong>diplôme</strong> pouvez-vous obtenir ? </li> </ul>",
+          "eBwaUAAhw0ur0Z02i5ttnw": "Donnez une description enthousiaste du centre sportif. <ul> <li> Quelles sont les <strong>installations sportives</strong> proposées par le centre sportif ? </li> <li> Quels <strong>sports</strong> peut-on y pratiquer ? </li> </ul>",
           "VRC6HX0Wa063sq98G5ciqw": "Donnez une description enthousiaste du magasin. <ul> <li> <strong>Que</strong> <strong>pouvez-vous acheter</strong> dans ce magasin ? </li> <li> Précisez s'il s'agit d'un magasin <strong>pop-up</strong>, de <strong>liquidation</strong> ou <strong>permanent</strong>. </li> </ul>",
-          "GnPFp9uvOUyqhOckIFMKmg": "Donnez une description enthousiaste du musée ou de la galerie. <ul> <li> De quoi se compose la <strong>collection permanente</strong>? </li> <li> Sur quels <strong>thèmes, art, période historique</strong> ou <strong>science</strong> le musée se concentre-t-il? </li> </ul>",
+          "GnPFp9uvOUyqhOckIFMKmg": "Donnez une description enthousiaste du musée ou de la galerie. <ul> <li> De quoi se compose la <strong>collection permanente</strong> ? </li> <li> Sur quels <strong>thèmes, art, période historique</strong> ou <strong>science</strong> le musée se concentre-t-il ? </li> </ul>",
           "JCjA0i5COUmdjMwcyjNAFA": "Donnez une description enthousiaste de la maison ou du centre de jeunes. <ul> <li> Précisez le <strong>public cible</strong> de la maison ou du centre de jeunes. </li> <li> Indiquez si le lieu est affilié à un <strong>club de jeunes</strong>. </li> </ul>",
-          "Yf4aZBfsUEu2NsQqsprngw": "Donnez une description enthousiaste du centre culturel ou de rencontre. <ul> <li> À quel <strong>groupe cible</strong> le centre s'adresse-t-il? </li> <li> <b>Quelles activités ou représentations (</b>par exemple, des concerts) sont organisées au centre? </li> </ul>",
-          "YVBc8KVdrU6XfTNvhMYUpg": "Donnez une description enthousiaste de la discothèque. <ul> <li> Pour quel genre de <strong>fête</strong> peut-on aller en discothèque? </li> <li> Le club se concentre-t-il sur la <strong>musique live</strong>, les <strong>DJ sets</strong>,...? </li> </ul>",
-          "kI7uAyn2uUu9VV6Z3uWZTA": "Donnez une description enthousiaste de la bibliothèque ou du centre de documentation. <ul> <li> De quel type de livres, d'articles scientifiques ou de documents la <strong>collection</strong> est-elle constituée? </li> </ul>",
-          "BtVNd33sR0WntjALVbyp3w": "Donnez une description enthousiaste du cinéma. <ul> <li> Sur <strong>quel type de films</strong> la programmation du cinéma se concentre-t-elle? </li> </ul>",
-          "ekdc4ATGoUitCa0e6me6xA": "Donnez une description enthousiaste de l'hôtel, du restaurant ou du café. <ul> <li> Précisez de quel <strong>type d'industrie hôtelière</strong> il s'agit. </li> <li> Quel <strong>type d'hébergement</strong>, de <strong>repas</strong> ou de <strong>boissons</strong> peut-on y trouver? </li> </ul>",
-          "wwjRVmExI0w6xfQwT1KWpx": "Donnez une description enthousiaste de la cour de récréation. <ul> <li> Quels sont les <strong>équipements</strong> que tu trouves sur le terrain de jeu? </li> <li> L'aire de jeux est-elle <strong>couverte, intérieure</strong> ou <strong>extérieure</strong>? </li> <li> Y a-t-il un service de <strong>restauration</strong> à proximité de l'aire de jeux? </li> <li> Quelles <strong>autres installations</strong> (toilettes, coin à couches, etc.) trouvez-vous sur l'aire de jeux ? </li> </ul>",
-          "OyaPaf64AEmEAYXHeLMAtA": "Donnez une description enthousiaste du hall ou de la salle d'exposition. <ul> <li> <b>Quelles activités ou représentations</b> sont organisées dans le hall ou le hall d'exposition? </li> <li> Y a-t-il <strong>une programmation</strong> propre ou la salle peut-elle également être réservée? </li> </ul>",
-          "0.8.0.0.0": "Donnez une description enthousiaste de l'espace public. <ul> <li> <strong>Décrivez</strong> <strong>avec précision</strong> l'espace public. </li> <li> <strong>Que</strong> pouvez-vous <strong>faire ici</strong>? </li> </ul>",
-          "8.70.0.0.0": "Donnez une description enthousiaste du théâtre. <ul> <li> <strong>Quelles activités</strong> ou <strong>représentations</strong> sont organisées dans ce théâtre? </li> <li> Y a-t-il une <strong>programmation</strong> propre ou le lieu peut-il également être réservé? </li> <li> Précisez le <strong>public cible</strong>. </li> </ul>"
+          "Yf4aZBfsUEu2NsQqsprngw": "Donnez une description enthousiaste du centre culturel ou de rencontre. <ul> <li> À quel <strong>groupe cible</strong> le centre s'adresse-t-il ? </li> <li> <b>Quelles activités ou représentations (</b>par exemple, des concerts) sont organisées au centre ? </li> </ul>",
+          "YVBc8KVdrU6XfTNvhMYUpg": "Donnez une description enthousiaste de la discothèque. <ul> <li> Pour quel genre de <strong>fête</strong> peut-on aller en discothèque ? </li> <li> Le club se concentre-t-il sur la <strong>musique live</strong>, les <strong>DJ sets</strong>,... ? </li> </ul>",
+          "kI7uAyn2uUu9VV6Z3uWZTA": "Donnez une description enthousiaste de la bibliothèque ou du centre de documentation. <ul> <li> De quel type de livres, d'articles scientifiques ou de documents la <strong>collection</strong> est-elle constituée ? </li> </ul>",
+          "BtVNd33sR0WntjALVbyp3w": "Donnez une description enthousiaste du cinéma. <ul> <li> Sur <strong>quel type de films</strong> la programmation du cinéma se concentre-t-elle ? </li> </ul>",
+          "ekdc4ATGoUitCa0e6me6xA": "Donnez une description enthousiaste de l'hôtel, du restaurant ou du café. <ul> <li> Précisez de quel <strong>type d'industrie hôtelière</strong> il s'agit. </li> <li> Quel <strong>type d'hébergement</strong>, de <strong>repas</strong> ou de <strong>boissons</strong> peut-on y trouver ? </li> </ul>",
+          "wwjRVmExI0w6xfQwT1KWpx": "Donnez une description enthousiaste de la cour de récréation. <ul> <li> Quels sont les <strong>équipements</strong> que tu trouves sur le terrain de jeu ? </li> <li> L'aire de jeux est-elle <strong>couverte, intérieure</strong> ou <strong>extérieure</strong> ? </li> <li> Y a-t-il un service de <strong>restauration</strong> à proximité de l'aire de jeux ? </li> <li> Quelles <strong>autres installations</strong> (toilettes, coin à couches, etc.) trouvez-vous sur l'aire de jeux ? </li> </ul>",
+          "OyaPaf64AEmEAYXHeLMAtA": "Donnez une description enthousiaste du hall ou de la salle d'exposition. <ul> <li> <b>Quelles activités ou représentations</b> sont organisées dans le hall ou le hall d'exposition ? </li> <li> Y a-t-il <strong>une programmation</strong> propre ou la salle peut-elle également être réservée ? </li> </ul>",
+          "0.8.0.0.0": "Donnez une description enthousiaste de l'espace public. <ul> <li> <strong>Décrivez</strong> <strong>avec précision</strong> l'espace public. </li> <li> <strong>Que</strong> pouvez-vous <strong>faire ici</strong> ? </li> </ul>",
+          "8.70.0.0.0": "Donnez une description enthousiaste du théâtre. <ul> <li> <strong>Quelles activités</strong> ou <strong>représentations</strong> sont organisées dans ce théâtre ? </li> <li> Y a-t-il une <strong>programmation</strong> propre ou le lieu peut-il également être réservé ? </li> <li> Précisez le <strong>public cible</strong>. </li> </ul>"
         },
         "title": "Description"
       },
       "event_score": {
         "tip": {
           "theme": {
-            "text": "Astuce: ajouter un <1>{{link}}</1>",
+            "text": "Astuce : ajouter un <1>{{link}}</1>",
             "link": "thème"
           },
           "media": {
-            "text": "Astuce: ajoutez une <1>{{link}}</1>",
+            "text": "Astuce : ajoutez une <1>{{link}}</1>",
             "link": "image"
           },
           "video": {
-            "text": "Astuce: ajoutez une <1>{{link}}</1>",
+            "text": "Astuce : ajoutez une <1>{{link}}</1>",
             "link": "vidéo"
           },
           "description": {
-            "text": "Astuce: ajoutez une <1>{{link}}</1> (+200 caractères)",
+            "text": "Astuce : ajoutez une <1>{{link}}</1> (+200 caractères)",
             "link": "description"
           },
           "price_info": {
-            "text": "Astuce: ajoutez des <1>{{link}}</1>",
+            "text": "Astuce : ajoutez des <1>{{link}}</1>",
             "link": "informations sur les prix"
           },
           "contact_info": {
-            "text": "Astuce: ajoutez des <1>{{link}}</1>",
+            "text": "Astuce : ajoutez des <1>{{link}}</1>",
             "link": "informations de contact"
           },
           "organizer": {
-            "text": "Astuce: ajouter un <1>{{link}}</1>",
+            "text": "Astuce : ajouter un <1>{{link}}</1>",
             "link": "organisateur"
           },
           "completed": "Tous les points ! Vous allez marquer des points avec cet événement !"
@@ -408,7 +408,7 @@
       },
       "organizer": {
         "add_new_button": "Ajouter une organisation",
-        "add_new_label": "Aucune organisation trouvée ? Ajouter une nouvelle organisation: ",
+        "add_new_label": "Aucune organisation trouvée ? Ajouter une nouvelle organisation : ",
         "change": "Modifier l'organisateur",
         "title": "Organisateur",
         "select_recent_used_organizer": "Choisissez une organisation à laquelle vous avez eu recours récemment",
@@ -469,7 +469,7 @@
         "cancel": "Annuler",
         "confirm": "Confirmer"
       },
-      "description": "A partir de quand l'activité peut-elle apparaître en ligne?",
+      "description": "A partir de quand l'activité peut-elle apparaître en ligne ?",
       "title": "Choisissez une date de publication",
       "warning": "Attention, vous ne pouvez définir cette date qu'une seule fois."
     },
@@ -501,7 +501,7 @@
     },
     "event": "Événement",
     "modal": {
-      "question": "Voulez-vous vraiment supprimer '{{name}}'?",
+      "question": "Voulez-vous vraiment supprimer '{{name}}' ?",
       "title": "Supprimer des {{type}}",
       "types": {
         "events": "événements",
@@ -515,7 +515,7 @@
       "invalid": "Entrez une adresse e-mail valide.",
       "logo": "newsletter-logo.svg",
       "logo_alt": "logo de la newsletter",
-      "questions_or_feedback": "Questions ou remarques?",
+      "questions_or_feedback": "Questions ou remarques ?",
       "subscribe": "s'inscrire",
       "success": {
         "content": "Vous êtes abonné à notre newsletter et recevez des conseils pratiques pour entrer vos activités dans la base de données UiT !",
@@ -619,7 +619,7 @@
     "nl": "Nederlands",
     "privacy": "Confidentialité",
     "profile": "Modifier mon profil",
-    "questions": "Questions ou remarques?",
+    "questions": "Questions ou remarques ?",
     "withSupport": "avec le soutien de la"
   },
   "jobs": {
@@ -631,13 +631,13 @@
   },
   "main": {
     "activities": "activités par an",
-    "activities_info": "Vous proposez un concert, une représentation, une exposition ou un film? Ou plutôt un événement sportif, une randonnée, une soirée cartes, une kermesse? Ou encore des cours, des ateliers ou des événements? Tout cela trouvera sa place dans l’UiTdatabank.",
+    "activities_info": "Vous proposez un concert, une représentation, une exposition ou un film ? Ou plutôt un événement sportif, une randonnée, une soirée cartes, une kermesse ? Ou encore des cours, des ateliers ou des événements ? Tout cela trouvera sa place dans l’UiTdatabank.",
     "channels": "chaînes de publication",
     "channels_info": "UiTdatabank alimente en outre plus de 1.000 agendas de loisirs imprimés et numériques qui proposent des informations à jour. Ce sont les agendas de chaînes audio-visuelles et de médias locaux ou nationaux, de villes et communes, de services touristiques ou de grandes organisations de coordination.",
     "channels_info_link_text": "1 000 calendriers",
     "channels_info_link_url": "https://www.publiq.be/nl/publicatiekanalen",
     "flanders_image": "flanders-logo.svg",
-    "lead": "Organisez-vous une activité?",
+    "lead": "Organisez-vous une activité ?",
     "lead_sub": "Ajoutez vos activités gratuitement et élargissez votre public",
     "mission": "Plus d'audience pour votre activité.",
     "organizers": "organisateurs",
@@ -678,7 +678,7 @@
         "placeholder": "Nom du cinéma"
       },
       "step1": {
-        "title": "Dans quel genre de film voulez-vous entrer?"
+        "title": "Dans quel genre de film voulez-vous entrer ?"
       },
       "step2": {
         "title": "Quand se passe le film ?"
@@ -687,7 +687,7 @@
         "title": "Où se passe le film ?"
       },
       "step4": {
-        "title": "Quel est le titre du film?"
+        "title": "Quel est le titre du film ?"
       },
       "step5": {
         "title": "Faites ressortir votre film."
@@ -827,7 +827,7 @@
         "cancel": "Annuler",
         "confirm": "Supprimer"
       },
-      "description": "Êtes-vous sûr de vouloir supprimer cette image?",
+      "description": "Êtes-vous sûr de vouloir supprimer cette image ?",
       "title": "Supprimer image"
     },
     "intro": "Ajoutez une image pour aider les visiteurs à reconnaître votre activité",
@@ -871,7 +871,7 @@
   "productions": {
     "create": {
       "link": "Lier",
-      "new_production": "Nouvelle production: ",
+      "new_production": "Nouvelle production : ",
       "no_productions": "Aucune production trouvée.",
       "no_suggested_events_found": "Aucun événement trouvé pour être lié à une production. Réessayez plus tard.",
       "production_name": "Nom de production",
@@ -899,8 +899,8 @@
       "confirm": "Confirmer",
       "create": "Ajouter",
       "delete": "Supprimer",
-      "delete_question_event": "Voulez-vous vraiment supprimer l'événement sélectionné de la production '{{productionName}}'?",
-      "delete_question_events": "Voulez-vous vraiment supprimer les {{eventCount}} événements sélectionnés de la production '{{productionName}}'?",
+      "delete_question_event": "Voulez-vous vraiment supprimer l'événement sélectionné de la production '{{productionName}}' ?",
+      "delete_question_events": "Voulez-vous vraiment supprimer les {{eventCount}} événements sélectionnés de la production '{{productionName}}' ?",
       "details": "Details",
       "events_in_production": "Événements dans {{productionName}}",
       "loading": "Changer",
@@ -908,7 +908,7 @@
       "no_productions": "Aucune production trouvée.",
       "production": "Production",
       "search": {
-        "label": "Recherche par nom de production:",
+        "label": "Recherche par nom de production :",
         "placeholder": "Écrivez une recherche d'au moins 3 caractères."
       },
       "title": "Productions"
@@ -966,7 +966,7 @@
         "cancel": "Annuler",
         "confirm": "Supprimer"
       },
-      "description": "Voulez-vous vraiment supprimer ce lien vidéo?",
+      "description": "Voulez-vous vraiment supprimer ce lien vidéo ?",
       "title": "Supprimer le lien vidéo"
     },
     "intro": "Ajoutez un lien vidéo pour rendre votre activité encore plus attrayante",
