@@ -545,6 +545,12 @@
       "organizers": "Keine Organisationen gefunden",
       "places": "Keine Orte gefunden"
     },
+    "row_status": {
+      "draft": "Entwurfsversion",
+      "rejected": "Veröffentlichung abgelehnt",
+      "published": "Veröffentlicht",
+      "published_from": "Veröffentlichung aus {{date}}"
+    },
     "not_published": "Nicht veröffentlicht",
     "online_from": "Online ab {{date}}",
     "organizer": "Organisation",
@@ -601,6 +607,7 @@
     "0.53.0.0.0": "Freizeitbereich oder -zentrum",
     "0.54.0.0.0": "Tanzvorführung",
     "0.55.0.0.0": "Theatervorstellung",
+    "8.70.0.0.0": "Theater",
     "0.57.0.0.0": "Camp oder Ferienlager",
     "0.59.0.0.0": "Sportaktivität",
     "0.6.0.0.0": "Messe",
@@ -802,7 +809,8 @@
           "streetAndNumber": "Ihre Straße und Hausnummer entsprechen nicht den Anforderungen."
         },
         "name": "Ihr Name entspricht nicht den Anforderungen.",
-        "url": "Ihre Website entspricht nicht den Anforderungen."
+        "url": "Ihre Website entspricht nicht den Anforderungen.",
+        "url_not_unique": "Diese Adresse wird bereits von der Organisation „{{organizerName}}“ verwendet. Geben Sie eine eindeutige Website an oder <setOrganizerLink>verwenden Sie {{organizerName}} als Organisation</setOrganizerLink>."
       }
     }
   },

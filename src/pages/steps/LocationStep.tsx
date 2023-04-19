@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { EventTypes } from '@/constants/EventTypes';
-import { OfferTypes } from '@/constants/OfferType';
+import { OfferType, OfferTypes } from '@/constants/OfferType';
 import {
   useChangeAttendanceModeMutation,
   useChangeAudienceMutation,
@@ -37,9 +37,6 @@ import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
 import { getInlineProps, Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
-import { LabelPositions, LabelVariants } from '@/ui/Label';
-import { RadioButtonTypes } from '@/ui/RadioButton';
-import { RadioButtonWithLabel } from '@/ui/RadioButtonWithLabel';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { Breakpoints, getValueFromTheme } from '@/ui/theme';
@@ -715,6 +712,24 @@ type PlaceStepProps = StackProps &
     placeholderLabel: (t: TFunction) => string;
   } & { offerId?: string };
 
+const isLocationSet = (
+  scope: OfferType,
+  location: FormDataUnion['location'],
+  formState,
+) => {
+  if (location.isOnline || location.place) {
+    return true;
+  }
+
+  const isCultuurKuur = !location?.country && scope === OfferTypes.EVENTS;
+
+  return (
+    isCultuurKuur ||
+    (location.municipality?.name &&
+      formState.touchedFields.location?.streetAndNumber)
+  );
+};
+
 const LocationStep = ({
   formState,
   getValues,
@@ -748,29 +763,13 @@ const LocationStep = ({
     });
 
   const shouldAddSpaceBelowTypeahead = useMemo(() => {
-    if (offerId || location?.isOnline) return false;
+    if (offerId) return false;
 
-    if (
-      scope === OfferTypes.PLACES &&
-      (!location?.municipality?.name ||
-        !formState.touchedFields.location?.streetAndNumber)
-    ) {
-      return true;
-    }
-
-    if (
-      scope === OfferTypes.EVENTS &&
-      (!location?.municipality?.name || !location?.place)
-    ) {
-      return true;
-    }
-
-    return false;
+    return !isLocationSet(scope, location, formState);
   }, [
+    isLocationSet,
     formState.touchedFields.location?.streetAndNumber,
-    location?.isOnline,
-    location?.municipality?.name,
-    location?.place,
+    location,
     offerId,
     scope,
   ]);
@@ -1164,4 +1163,4 @@ const locationStepConfiguration: StepsConfiguration<'location'> = {
 
 LocationStep.defaultProps = {};
 
-export { locationStepConfiguration, useEditLocation };
+export { isLocationSet, locationStepConfiguration, useEditLocation };

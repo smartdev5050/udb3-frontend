@@ -50,9 +50,6 @@ const MediaStep = ({
 
   const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleChangeCompleted = useCallback(onValidationChange, []);
-
   const videosFromQuery = useMemo(
     // @ts-expect-error
     () => getOfferByIdQuery.data?.videos ?? [],
@@ -160,28 +157,61 @@ const MediaStep = ({
       return '';
     };
 
+    /**
+     * Possible url structures
+     * - https://vimeo.com/318783762
+     * - https://vimeo.com/318783762/
+     * - https://vimeo.com/318783762#embed
+     * - https://vimeo.com/812334876/126ed60cae
+     */
     const getVimeoThumbnailUrl = async (videoUrl: string) => {
-      const urlParts = videoUrl.split('/');
-      const videoId = videoUrl.endsWith('/')
-        ? urlParts[urlParts.length - 2]
-        : urlParts[urlParts.length - 1];
+      try {
+        const url = new URL(videoUrl);
+        const pathName = url.pathname;
 
-      const response = await fetch(
-        `https://vimeo.com/api/v2/video/${videoId}.json`,
-      );
+        const pathParts = pathName.split('/');
 
-      const data = await response.json();
+        // take the numeric part after /
+        const videoId = pathParts.find((part) => {
+          if (part === '') {
+            return false;
+          }
 
-      return data?.[0]?.thumbnail_small;
+          return Number.isInteger(Number(part));
+        });
+
+        if (!videoId) {
+          return '';
+        }
+
+        const response = await fetch(
+          `https://vimeo.com/api/v2/video/${videoId}.json`,
+        );
+
+        const data = await response.json();
+
+        return data?.[0]?.thumbnail_small;
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
+
+        return '';
+      }
     };
 
     const convertAllVideoUrlsPromises = video.map(async ({ url, ...video }) => {
-      const thumbnailUrl =
-        url.includes('youtube') || url.includes('youtu.be')
-          ? getYoutubeThumbnailUrl(url)
-          : url.includes('vimeo')
-          ? await getVimeoThumbnailUrl(url)
-          : '';
+      const isYoutubeUrl = url.includes('youtube') || url.includes('youtu.be');
+      const isVimeoUrl = url.includes('vimeo');
+
+      let thumbnailUrl = '';
+
+      if (isYoutubeUrl) {
+        thumbnailUrl = getYoutubeThumbnailUrl(url);
+      }
+
+      if (isVimeoUrl) {
+        thumbnailUrl = await getVimeoThumbnailUrl(url);
+      }
 
       const enrichedVideo: VideoEnriched = {
         ...video,
@@ -230,10 +260,12 @@ const MediaStep = ({
   useEffect(() => {
     const hasImages = images.length > 0;
     const hasVideos = videos.length > 0;
-    handleChangeCompleted(
+
+    onValidationChange(
       hasImages || hasVideos ? ValidationStatus.SUCCESS : ValidationStatus.NONE,
     );
-  }, [handleChangeCompleted, images, videos]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [images, videos]);
 
   const imageToEdit = useMemo(() => {
     const image = images.find((image) => image.parsedId === imageToEditId);

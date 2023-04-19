@@ -1,6 +1,6 @@
 import type { Values } from './Values';
 
-const WorkflowStatusMap = {
+const WorkflowStatus = {
   DRAFT: 'DRAFT',
   APPROVED: 'APPROVED',
   READY_FOR_VALIDATION: 'READY_FOR_VALIDATION',
@@ -8,8 +8,6 @@ const WorkflowStatusMap = {
   DELETED: 'DELETED',
 } as const;
 
-type WorkflowStatus = Values<typeof WorkflowStatusMap>;
+type WorkflowStatus = Values<typeof WorkflowStatus>;
 
-export { WorkflowStatusMap };
-
-export type { WorkflowStatus };
+export { WorkflowStatus };

@@ -26,12 +26,14 @@ import { useGetUserQuery } from '@/hooks/api/user';
 import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
 import { Footer } from '@/pages/Footer';
 import type { Event } from '@/types/Event';
+import { Offer } from '@/types/Offer';
 import type { Organizer } from '@/types/Organizer';
 import type { Place } from '@/types/Place';
 import type { User } from '@/types/User';
+import { Values } from '@/types/Values';
+import { WorkflowStatus } from '@/types/WorkflowStatus';
 import { Alert, AlertVariants } from '@/ui/Alert';
-import { Badge, BadgeVariants } from '@/ui/Badge';
-import { Box } from '@/ui/Box';
+import { Box, parseSpacing } from '@/ui/Box';
 import { Dropdown, DropDownVariants } from '@/ui/Dropdown';
 import type { InlineProps } from '@/ui/Inline';
 import { getInlineProps, Inline } from '@/ui/Inline';
@@ -46,11 +48,12 @@ import { SelectWithLabel } from '@/ui/SelectWithLabel';
 import { Spinner } from '@/ui/Spinner';
 import { Stack } from '@/ui/Stack';
 import { Tabs } from '@/ui/Tabs';
-import { Text } from '@/ui/Text';
+import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { formatAddressInternal } from '@/utils/formatAddress';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 import { parseOfferId } from '@/utils/parseOfferId';
+import { parseOfferType } from '@/utils/parseOfferType';
 
 import { NewsletterSignupForm } from './NewsletterSingupForm';
 
@@ -99,13 +102,53 @@ const CreateMapLegacy = {
   organizers: '/organizer',
 };
 
+const RowStatus = {
+  APPROVED: 'APPROVED',
+  DRAFT: 'DRAFT',
+  REJECTED: 'REJECTED',
+  PUBLISHED: 'PUBLISHED',
+  PLANNED: 'PLANNED',
+} as const;
+
+type RowStatus = Values<typeof RowStatus>;
+
+const RowStatusToColor: Record<RowStatus, string> = {
+  DRAFT: 'orange',
+  REJECTED: 'red',
+  APPROVED: 'green',
+  PUBLISHED: 'green',
+  PLANNED: 'blue',
+};
+
+type Status = {
+  color: string;
+  label: string;
+};
+
+type StatusIndicatorProps = InlineProps & Status;
+
+const StatusIndicator = ({ color, label, ...props }: StatusIndicatorProps) => {
+  return (
+    <Inline spacing={3} alignItems="center" {...getInlineProps(props)}>
+      <Box
+        width="0.60rem"
+        height="0.60rem"
+        backgroundColor={color}
+        borderRadius="50%"
+        flexShrink={0}
+      />
+      <Text variant={TextVariants.MUTED}>{label}</Text>
+    </Inline>
+  );
+};
+
 type RowProps = {
   title: string;
   description: string;
   actions: ReactNode[];
   url: string;
-  status?: string;
-  badge?: string;
+  finishedAt?: string;
+  status?: Status;
 };
 
 const Row = ({
@@ -113,30 +156,42 @@ const Row = ({
   description,
   actions,
   url,
+  finishedAt,
   status,
-  badge,
   ...props
 }: RowProps) => {
   return (
-    <Inline flex={1} justifyContent="space-between" {...getInlineProps(props)}>
+    <Inline
+      flex={1}
+      css={css`
+        display: grid;
+        gap: ${parseSpacing(4)};
+        grid-template-columns: ${status ? '6fr 2fr 2fr' : '8fr 2fr'};
+      `}
+      {...getInlineProps(props)}
+    >
       <Stack spacing={2}>
         <Inline spacing={3}>
           <Link href={url} color={getValue('listItem.color')} fontWeight="bold">
             {title}
           </Link>
-          {badge && <Badge variant={BadgeVariants.SECONDARY}>{badge}</Badge>}
         </Inline>
         <Text>{description}</Text>
       </Stack>
-      {status ? (
-        <Text color={getValue('listItem.passedEvent.color')}>{status}</Text>
-      ) : (
-        actions.length > 0 && (
-          <Dropdown variant={DropDownVariants.SECONDARY} isSplit>
-            {actions}
-          </Dropdown>
-        )
-      )}
+      {status && <StatusIndicator {...status} />}
+      <Inline justifyContent="flex-end" minWidth="11rem">
+        {finishedAt ? (
+          <Text color={getValue('listItem.passedEvent.color')}>
+            {finishedAt}
+          </Text>
+        ) : (
+          actions.length > 0 && (
+            <Dropdown variant={DropDownVariants.SECONDARY} isSplit>
+              {actions}
+            </Dropdown>
+          )
+        )}
+      </Inline>
     </Inline>
   );
 };
@@ -145,34 +200,78 @@ Row.defaultProps = {
   actions: [],
 };
 
-type EventRowProps = InlineProps & {
-  item: Event;
-  onDelete: (item: Event) => void;
+type ExistingOffer = Omit<Offer, 'workflowStatus'> & {
+  workflowStatus: Exclude<WorkflowStatus, 'DELETED'>;
 };
 
-const EventRow = ({ item: event, onDelete, ...props }: EventRowProps) => {
+type OfferRowProps = InlineProps & {
+  item: ExistingOffer;
+  onDelete: (item: ExistingOffer) => void;
+};
+
+const OfferRow = ({ item: offer, onDelete, ...props }: OfferRowProps) => {
   const { t, i18n } = useTranslation();
 
-  const isFinished = isAfter(new Date(), new Date(event.availableTo));
-  const isPublished = ['APPROVED', 'READY_FOR_VALIDATION'].includes(
-    event.workflowStatus,
-  );
-  const isPlanned = isPublished && isFuture(new Date(event.availableFrom));
+  const offerType = parseOfferType(offer['@context']);
 
-  const editUrl = `/event/${parseOfferId(event['@id'])}/edit`;
-  const previewUrl = `/event/${parseOfferId(event['@id'])}/preview`;
-  const typeId = event.terms.find((term) => term.domain === 'eventtype')?.id;
+  const isFinished = isAfter(new Date(), new Date(offer.availableTo));
+  const isPublished = ['APPROVED', 'READY_FOR_VALIDATION'].includes(
+    offer.workflowStatus,
+  );
+  const isPlanned = isPublished && isFuture(new Date(offer.availableFrom));
+
+  const editUrl = `/${offerType}/${parseOfferId(offer['@id'])}/edit`;
+  const previewUrl = `/${offerType}/${parseOfferId(offer['@id'])}/preview`;
+  const typeId = offer.terms.find((term) => term.domain === 'eventtype')?.id;
   // The custom keySeparator was necessary because the ids contain '.' which i18n uses as default keySeparator
   const eventType = t(`eventTypes*${typeId}`, { keySeparator: '*' });
 
   const period =
-    event.calendarSummary[i18n.language]?.text?.[
-      event.calendarType === CalendarType.SINGLE ? 'lg' : 'sm'
+    offer.calendarSummary[i18n.language]?.text?.[
+      offer.calendarType === CalendarType.SINGLE ? 'lg' : 'sm'
     ];
+
+  const rowStatus = useMemo<RowStatus>(() => {
+    if (isPlanned) {
+      return 'PLANNED';
+    }
+
+    if (isPublished) {
+      return 'PUBLISHED';
+    }
+
+    if (offer.workflowStatus === WorkflowStatus.READY_FOR_VALIDATION) {
+      return WorkflowStatus.DRAFT;
+    }
+
+    return offer.workflowStatus;
+  }, [offer.workflowStatus, isPlanned, isPublished]);
+
+  const statusColor = useMemo(() => {
+    return RowStatusToColor[rowStatus];
+  }, [rowStatus]);
+
+  const statusLabel = useMemo(() => {
+    if (rowStatus === 'REJECTED') {
+      return t('dashboard.row_status.rejected');
+    }
+
+    if (rowStatus === 'PUBLISHED') {
+      return t('dashboard.row_status.published');
+    }
+
+    if (rowStatus === 'PLANNED') {
+      return t('dashboard.row_status.published_from', {
+        date: format(new Date(offer.availableFrom), 'dd/MM/yyyy'),
+      });
+    }
+
+    return t('dashboard.row_status.draft');
+  }, [offer.availableFrom, rowStatus, t]);
 
   return (
     <Row
-      title={event.name[i18n.language] ?? event.name[event.mainLanguage]}
+      title={offer.name[i18n.language] ?? offer.name[offer.mainLanguage]}
       description={`${eventType}${period && ` - ${period}`}`}
       url={previewUrl}
       actions={[
@@ -183,77 +282,18 @@ const EventRow = ({ item: event, onDelete, ...props }: EventRowProps) => {
           {t('dashboard.actions.preview')}
         </Dropdown.Item>,
         <Dropdown.Divider key="divider" />,
-        <Dropdown.Item onClick={() => onDelete(event)} key="delete">
+        <Dropdown.Item onClick={() => onDelete(offer)} key="delete">
           {t('dashboard.actions.delete')}
         </Dropdown.Item>,
       ]}
-      status={
-        isFinished && t('dashboard.passed', { type: t('dashboard.event') })
+      finishedAt={
+        isFinished &&
+        t('dashboard.passed', { type: t(`dashboard.${offerType}`) })
       }
-      badge={
-        isPlanned
-          ? t('dashboard.online_from', {
-              date: format(new Date(event.availableFrom), 'dd/MM/yyyy'),
-            })
-          : !isPublished && t('dashboard.not_published')
-      }
-      {...getInlineProps(props)}
-    />
-  );
-};
-
-type PlaceRowProps = InlineProps & {
-  item: Place;
-  onDelete: (item: Place) => void;
-};
-
-const PlaceRow = ({ item: place, onDelete, ...props }: PlaceRowProps) => {
-  const { t, i18n } = useTranslation();
-
-  const isFinished = isAfter(new Date(), new Date(place.availableTo));
-  const isPublished = ['APPROVED', 'READY_FOR_VALIDATION'].includes(
-    place.workflowStatus,
-  );
-  const isPlanned = isPublished && isFuture(new Date(place.availableFrom));
-
-  const editUrl = `/place/${parseOfferId(place['@id'])}/edit`;
-  const previewUrl = `/place/${parseOfferId(place['@id'])}/preview`;
-  const typeId = place.terms.find((term) => term.domain === 'eventtype')?.id;
-  // The custom keySeparator was necessary because the ids contain '.' which i18n uses as default keySeparator
-  const placeType = t(`eventTypes*${typeId}`, { keySeparator: '*' });
-
-  const period =
-    place.calendarSummary[i18n.language]?.text?.[
-      place.calendarType === CalendarType.SINGLE ? 'lg' : 'sm'
-    ];
-
-  return (
-    <Row
-      title={place.name[i18n.language] ?? place.name[place.mainLanguage]}
-      description={`${placeType}${period && ` - ${period}`}`}
-      url={previewUrl}
-      actions={[
-        <Link href={editUrl} variant={LinkVariants.BUTTON_SECONDARY} key="edit">
-          {t('dashboard.actions.edit')}
-        </Link>,
-        <Dropdown.Item href={previewUrl} key="preview">
-          {t('dashboard.actions.preview')}
-        </Dropdown.Item>,
-        <Dropdown.Divider key="divider" />,
-        <Dropdown.Item onClick={() => onDelete(place)} key="delete">
-          {t('dashboard.actions.delete')}
-        </Dropdown.Item>,
-      ]}
-      status={
-        isFinished && t('dashboard.passed', { type: t('dashboard.place') })
-      }
-      badge={
-        isPlanned
-          ? t('dashboard.online_from', {
-              date: format(new Date(place.availableFrom), 'dd/MM/yyyy'),
-            })
-          : !isPublished && t('dashboard.not_published')
-      }
+      status={{
+        color: statusColor,
+        label: statusLabel,
+      }}
       {...getInlineProps(props)}
     />
   );
@@ -573,12 +613,12 @@ const Dashboard = (): any => {
           >
             <Tabs.Tab eventKey="events" title={t('dashboard.tabs.events')}>
               {tab === 'events' && (
-                <TabContent {...sharedTableContentProps} Row={EventRow} />
+                <TabContent {...sharedTableContentProps} Row={OfferRow} />
               )}
             </Tabs.Tab>
             <Tabs.Tab eventKey="places" title={t('dashboard.tabs.places')}>
               {tab === 'places' && (
-                <TabContent {...sharedTableContentProps} Row={PlaceRow} />
+                <TabContent {...sharedTableContentProps} Row={OfferRow} />
               )}
             </Tabs.Tab>
             <Tabs.Tab

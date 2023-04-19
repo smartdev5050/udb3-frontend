@@ -1,4 +1,4 @@
-import { SupportedLanguage } from '../i18n';
+import { SupportedLanguage, SupportedLanguages } from '../i18n';
 
 const getLanguageObjectOrFallback = <TReturned>(
   obj: any,
@@ -11,6 +11,11 @@ const getLanguageObjectOrFallback = <TReturned>(
 
   if (mainLanguage && obj[mainLanguage]) {
     return obj[mainLanguage] as TReturned;
+  }
+
+  // use nl as fallback language
+  if (typeof obj !== 'string') {
+    return obj[SupportedLanguages.NL] as TReturned;
   }
 
   return obj as TReturned;
