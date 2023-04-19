@@ -138,6 +138,14 @@ type BaseOffer = {
 
 type Offer = Place | Event;
 
+type Label = {
+  uuid: string;
+  name: string;
+  visibility: string;
+  privacy: string;
+  excluded: boolean;
+};
+
 export const hasLegacyLocation = (offer) =>
   offer?.location && !offer?.location?.['@id'];
 
@@ -145,6 +153,7 @@ export type {
   BaseOffer,
   BookingAvailability,
   DayOfWeek,
+  Label,
   MediaObject,
   Offer,
   OpeningHours,

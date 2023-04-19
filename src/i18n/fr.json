@@ -331,6 +331,12 @@
           }
         }
       },
+      "labels": {
+        "title": "Libellés",
+        "label": "Affiner avec des libellés",
+        "info": "Avec les libellés, ajoutez des mots-clés courts et spécifiques",
+        "add_new_label": "Aucun libéllé trouvée ? Ajouter un nouveau libéllé : "
+      },
       "description": {
         "clear": "Vider",
         "progress_info": {

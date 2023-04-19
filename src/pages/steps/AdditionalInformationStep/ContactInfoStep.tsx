@@ -1,17 +1,11 @@
-import {
-  ChangeEvent,
-  FormEvent,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
-import { OfferTypes } from '@/constants/OfferType';
-import { useGetEventByIdQuery } from '@/hooks/api/events';
-import { useAddOfferContactPointMutation } from '@/hooks/api/offers';
-import { useGetPlaceByIdQuery } from '@/hooks/api/places';
+import {
+  useAddOfferContactPointMutation,
+  useGetOfferByIdQuery,
+} from '@/hooks/api/offers';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Icons } from '@/ui/Icon';
@@ -86,10 +80,7 @@ const ContactInfoStep = ({
   // TODO: refactor
   const eventId = offerId;
 
-  const useGetOfferByIdQuery =
-    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
-
-  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
+  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId, scope });
 
   const [contactInfoState, setContactInfoState] = useState<NewContactInfo[]>(
     [],

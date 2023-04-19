@@ -7,9 +7,10 @@ import { CalendarType } from '@/constants/CalendarType';
 import { eventTypesWithNoThemes } from '@/constants/EventTypes';
 import { OfferStatus } from '@/constants/OfferStatus';
 import { OfferTypes } from '@/constants/OfferType';
-import { useGetEventByIdQuery } from '@/hooks/api/events';
-import { useChangeOfferCalendarMutation } from '@/hooks/api/offers';
-import { useGetPlaceByIdQuery } from '@/hooks/api/places';
+import {
+  useChangeOfferCalendarMutation,
+  useGetOfferByIdQuery,
+} from '@/hooks/api/offers';
 import { useToast } from '@/pages/manage/movies/useToast';
 import { Offer, SubEvent } from '@/types/Offer';
 import { Values } from '@/types/Values';
@@ -204,10 +205,7 @@ const CalendarStep = ({
     });
   }, [handleLoadInitialContext, scope, offerId]);
 
-  const useGetOfferByIdQuery =
-    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
-
-  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
+  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId, scope });
 
   // @ts-expect-error
   const offer: Offer | undefined = getOfferByIdQuery.data;

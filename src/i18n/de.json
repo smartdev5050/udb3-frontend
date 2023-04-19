@@ -329,6 +329,12 @@
           }
         }
       },
+      "labels": {
+        "title": "Etiketten",
+        "label": "Mit Etiketten verfeinern",
+        "info": "Fügen Sie bei Etiketten kurze, spezifische Schlüsselwörter hinzu",
+        "add_new label": "Kein Etikett gefunden? Neues Etikett hinzufügen: "
+      },
       "description": {
         "clear": "Leeren",
         "progress_info": {

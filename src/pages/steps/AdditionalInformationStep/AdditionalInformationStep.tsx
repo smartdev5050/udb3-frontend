@@ -6,6 +6,7 @@ import { useQueryClient } from 'react-query';
 
 import { OfferType } from '@/constants/OfferType';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+import { LabelsStep } from '@/pages/steps/AdditionalInformationStep/LabelsStep';
 import type { Values } from '@/types/Values';
 import { parseSpacing } from '@/ui/Box';
 import { Icon, Icons } from '@/ui/Icon';
@@ -41,6 +42,7 @@ const Fields = {
   PRICE_INFO: 'price_info',
   MEDIA: 'media',
   AUDIENCE: 'audience',
+  LABELS: 'labels',
 };
 
 type Field = Values<typeof Fields>;
@@ -97,6 +99,12 @@ const tabConfigurations: TabConfig[] = [
       AdditionalInformationStepVariant.PLACE,
       AdditionalInformationStepVariant.MOVIE,
     ],
+  },
+  {
+    field: Fields.LABELS,
+    TabContent: LabelsStep,
+    shouldInvalidate: false,
+    shouldShowOn: [AdditionalInformationStepVariant.EVENT],
   },
   {
     field: Fields.AUDIENCE,

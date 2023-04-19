@@ -6,9 +6,10 @@ import * as yup from 'yup';
 import { ValidationError } from 'yup';
 
 import { OfferTypes } from '@/constants/OfferType';
-import { useGetEventByIdQuery } from '@/hooks/api/events';
-import { useAddOfferPriceInfoMutation } from '@/hooks/api/offers';
-import { useGetPlaceByIdQuery } from '@/hooks/api/places';
+import {
+  useAddOfferPriceInfoMutation,
+  useGetOfferByIdQuery,
+} from '@/hooks/api/offers';
 import i18n, { SupportedLanguage } from '@/i18n/index';
 import {
   TabContentProps,
@@ -135,11 +136,8 @@ const PriceInformation = ({
   const { t, i18n } = useTranslation();
   const [isPricesLoaded, setIsPricesLoaded] = useState(false);
 
-  const useGetOfferByIdQuery =
-    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
-
   const getOfferByIdQuery = useGetOfferByIdQuery(
-    { id: offerId },
+    { id: offerId, scope },
     { refetchOnWindowFocus: false },
   );
 
