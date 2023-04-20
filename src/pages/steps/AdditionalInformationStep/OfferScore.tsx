@@ -4,8 +4,7 @@ import { Trans, useTranslation } from 'react-i18next';
 
 import { eventTypesWithNoThemes } from '@/constants/EventTypes';
 import { OfferTypes } from '@/constants/OfferType';
-import { useGetEventByIdQuery } from '@/hooks/api/events';
-import { useGetPlaceByIdQuery } from '@/hooks/api/places';
+import { useGetOfferByIdQuery } from '@/hooks/api/offers';
 import { Scope } from '@/pages/create/OfferForm';
 import { Features, NewFeatureTooltip } from '@/pages/NewFeatureTooltip';
 import { Offer } from '@/types/Offer';
@@ -150,10 +149,7 @@ const OfferScore = ({ completedFields, offerId, scope, ...props }: Props) => {
 
   const router = useRouter();
 
-  const useGetOfferByIdQuery =
-    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
-
-  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
+  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId, scope });
 
   // @ts-expect-error
   const offer: Offer | undefined = getOfferByIdQuery.data;

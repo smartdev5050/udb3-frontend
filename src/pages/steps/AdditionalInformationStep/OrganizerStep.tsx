@@ -4,13 +4,12 @@ import { Trans, useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
 import { OfferTypes } from '@/constants/OfferType';
-import { useGetEventByIdQuery } from '@/hooks/api/events';
 import {
   useAddOfferOrganizerMutation,
   useDeleteOfferOrganizerMutation,
+  useGetOfferByIdQuery,
 } from '@/hooks/api/offers';
 import { useCreateOrganizerMutation } from '@/hooks/api/organizers';
-import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import {
   CardSystem,
   useAddCardSystemToEventMutation,
@@ -53,10 +52,7 @@ const OrganizerStep = ({
   const { ...router } = useRouter();
   const queryClient = useQueryClient();
 
-  const useGetOfferByIdQuery =
-    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
-
-  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
+  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId, scope });
 
   // @ts-expect-error
   const offer: Event | Place | undefined = getOfferByIdQuery.data;

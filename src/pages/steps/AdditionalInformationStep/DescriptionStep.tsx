@@ -3,10 +3,10 @@ import draftToHtml from 'draftjs-to-html';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { OfferTypes } from '@/constants/OfferType';
-import { useGetEventByIdQuery } from '@/hooks/api/events';
-import { useChangeOfferDescriptionMutation } from '@/hooks/api/offers';
-import { useGetPlaceByIdQuery } from '@/hooks/api/places';
+import {
+  useChangeOfferDescriptionMutation,
+  useGetOfferByIdQuery,
+} from '@/hooks/api/offers';
 import RichTextEditor from '@/pages/RichTextEditor';
 import { Event } from '@/types/Event';
 import { Alert } from '@/ui/Alert';
@@ -96,10 +96,7 @@ const DescriptionStep = ({
     [editorState],
   );
 
-  const useGetOfferByIdQuery =
-    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
-
-  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
+  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId, scope });
 
   // @ts-expect-error
   const offer: Event | Place | undefined = getOfferByIdQuery.data;

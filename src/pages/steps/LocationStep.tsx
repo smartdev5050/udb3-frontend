@@ -14,13 +14,12 @@ import {
   useChangeLocationMutation,
   useChangeOnlineUrlMutation,
   useDeleteOnlineUrlMutation,
-  useGetEventByIdQuery,
 } from '@/hooks/api/events';
-import { useGetOffersByCreatorQuery } from '@/hooks/api/offers';
 import {
-  useChangeAddressMutation,
-  useGetPlaceByIdQuery,
-} from '@/hooks/api/places';
+  useGetOfferByIdQuery,
+  useGetOffersByCreatorQuery,
+} from '@/hooks/api/offers';
+import { useChangeAddressMutation } from '@/hooks/api/places';
 import { useGetUserQuery } from '@/hooks/api/user';
 import { SupportedLanguage } from '@/i18n/index';
 import { FormData as OfferFormData } from '@/pages/create/OfferForm';
@@ -39,7 +38,7 @@ import { getInlineProps, Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
-import { Breakpoints, getValueFromTheme } from '@/ui/theme';
+import { getValueFromTheme } from '@/ui/theme';
 import { ToggleBox } from '@/ui/ToggleBox';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 import { parseOfferId } from '@/utils/parseOfferId';
@@ -774,10 +773,7 @@ const LocationStep = ({
     scope,
   ]);
 
-  const useGetOfferByIdQuery =
-    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
-
-  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
+  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId, scope });
 
   // @ts-expect-error
   const audience = getOfferByIdQuery.data?.audience;

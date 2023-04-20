@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { OfferTypes } from '@/constants/OfferType';
-import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { useAddImageMutation } from '@/hooks/api/images';
 import {
   useAddOfferImageMutation,
@@ -10,9 +8,9 @@ import {
   useAddOfferVideoMutation,
   useDeleteOfferImageMutation,
   useDeleteOfferVideoMutation,
+  useGetOfferByIdQuery,
   useUpdateOfferImageMutation,
 } from '@/hooks/api/offers';
-import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import {
   TabContentProps,
   ValidationStatus,
@@ -45,10 +43,7 @@ const MediaStep = ({
   // TODO: refactor
   const eventId = offerId;
 
-  const useGetOfferByIdQuery =
-    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
-
-  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
+  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId, scope });
 
   const videosFromQuery = useMemo(
     // @ts-expect-error

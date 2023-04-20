@@ -331,6 +331,12 @@
           }
         }
       },
+      "labels": {
+        "title": "Labels",
+        "label": "Verfijn met labels",
+        "info": "Met labels voeg je korte, specifieke trefwoorden toe",
+        "add_new label": "Geen label gevonden? Nieuw label toevoegen: "
+      },
       "description": {
         "clear": "Leegmaken",
         "progress_info": {
@@ -550,6 +556,7 @@
       "published": "Gepubliceerd",
       "published_from": "Publicatie vanaf {{date}}"
     },
+    "external_creator": "Aangemaakt via een externe applicatie",
     "not_published": "Niet gepubliceerd",
     "online_from": "Online vanaf {{date}}",
     "organizer": "organisatie",

@@ -329,6 +329,12 @@
           }
         }
       },
+      "labels": {
+        "title": "Etiketten",
+        "label": "Mit Etiketten verfeinern",
+        "info": "Fügen Sie bei Etiketten kurze, spezifische Schlüsselwörter hinzu",
+        "add_new label": "Kein Etikett gefunden? Neues Etikett hinzufügen: "
+      },
       "description": {
         "clear": "Leeren",
         "progress_info": {
@@ -551,6 +557,7 @@
       "published": "Veröffentlicht",
       "published_from": "Veröffentlichung aus {{date}}"
     },
+    "external_creator": "Erstellt durch eine externe Anwendung",
     "not_published": "Nicht veröffentlicht",
     "online_from": "Online ab {{date}}",
     "organizer": "Organisation",

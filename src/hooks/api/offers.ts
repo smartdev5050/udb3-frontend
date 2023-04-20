@@ -1,5 +1,8 @@
 import type { UseQueryOptions } from 'react-query';
 
+import { OfferTypes } from '@/constants/OfferType';
+import { useGetEventByIdQuery } from '@/hooks/api/events';
+import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import { Offer } from '@/types/Offer';
 import type { User } from '@/types/User';
 import { createEmbededCalendarSummaries } from '@/utils/createEmbededCalendarSummaries';
@@ -12,8 +15,8 @@ import {
   PaginationOptions,
   SortOptions,
   useAuthenticatedMutation,
+  useAuthenticatedQuery,
 } from './authenticated-query';
-import { useAuthenticatedQuery } from './authenticated-query';
 
 const getOffersByCreator = async ({ headers, ...queryData }) => {
   const res = await fetchFromApi({
@@ -78,6 +81,13 @@ const useGetOffersByCreatorQuery = (
     enabled: !!(creator?.id && creator?.email),
     ...configuration,
   });
+};
+
+const useGetOfferByIdQuery = ({ scope, id }, configuration = {}) => {
+  const query =
+    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
+
+  return query({ id }, configuration);
 };
 
 const changeOfferName = async ({ headers, id, lang, name, scope }) => {
@@ -168,9 +178,24 @@ const addOfferLabel = async ({ headers, id, label, scope }) =>
     },
   });
 
+const removeOfferLabel = async ({ headers, id, label, scope }) =>
+  fetchFromApi({
+    path: `/${scope}/${id}/labels/${label}`,
+    options: {
+      method: 'DELETE',
+      headers,
+    },
+  });
+
 const useAddOfferLabelMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: addOfferLabel,
+    ...configuration,
+  });
+
+const useRemoveOfferLabelMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: removeOfferLabel,
     ...configuration,
   });
 
@@ -439,6 +464,8 @@ export {
   useDeleteOfferImageMutation,
   useDeleteOfferOrganizerMutation,
   useDeleteOfferVideoMutation,
+  useGetOfferByIdQuery,
   useGetOffersByCreatorQuery,
+  useRemoveOfferLabelMutation,
   useUpdateOfferImageMutation,
 };

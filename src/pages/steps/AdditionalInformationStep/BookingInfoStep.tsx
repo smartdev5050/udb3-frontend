@@ -5,11 +5,10 @@ import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import * as yup from 'yup';
 
-import { OfferTypes } from '@/constants/OfferType';
-import { useGetEventByIdQuery } from '@/hooks/api/events';
-import { useAddOfferBookingInfoMutation } from '@/hooks/api/offers';
-import { useGetPlaceByIdQuery } from '@/hooks/api/places';
-import { Alert, AlertVariants } from '@/ui/Alert';
+import {
+  useAddOfferBookingInfoMutation,
+  useGetOfferByIdQuery,
+} from '@/hooks/api/offers';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { DatePeriodPicker } from '@/ui/DatePeriodPicker';
 import { FormElement } from '@/ui/FormElement';
@@ -303,10 +302,7 @@ const BookingInfoStep = ({
     },
   ];
 
-  const useGetOfferByIdQuery =
-    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
-
-  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
+  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId, scope });
 
   // @ts-expect-error
   const bookingInfo = getOfferByIdQuery.data?.bookingInfo;
