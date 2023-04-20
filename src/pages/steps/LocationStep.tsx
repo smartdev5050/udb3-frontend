@@ -833,13 +833,13 @@ const LocationStep = ({
             (!municipality && country) || (!isOnline && !hasLocation);
 
           const renderFieldWithRecentLocations = (children) => (
-            <Stack spacing={4} maxWidth={'50%'}>
+            <Stack spacing={5} maxWidth={'50%'}>
               {OnlineToggle}
               {showRecentLocations && (
                 <RecentLocations flex={1} onFieldChange={onFieldChange} />
               )}
               <Stack spacing={4} flex={1}>
-                {!isOnline && (
+                {showRecentLocations && (
                   <Text fontWeight={'bold'}>
                     {t('create.location.recent_locations.other')}
                   </Text>
@@ -850,12 +850,13 @@ const LocationStep = ({
           );
 
           const OnlineToggle = (
-            <Stack marginBottom={4}>
+            <Stack>
               <FormElement
                 id="online-toggle"
                 Component={
                   <Inline
                     spacing={5}
+                    marginBottom={4}
                     alignItems="center"
                     maxWidth={parseSpacing(9)}
                     {...getInlineProps(props)}
