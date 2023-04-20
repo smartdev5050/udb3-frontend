@@ -829,10 +829,13 @@ const LocationStep = ({
             field.onBlur();
           };
 
+          const showRecentLocations =
+            (!municipality && country) || (!isOnline && !hasLocation);
+
           const renderFieldWithRecentLocations = (children) => (
             <Stack spacing={4} maxWidth={'50%'}>
               {OnlineToggle}
-              {!isOnline && !hasLocation && (
+              {showRecentLocations && (
                 <RecentLocations flex={1} onFieldChange={onFieldChange} />
               )}
               <Stack spacing={4} flex={1}>
