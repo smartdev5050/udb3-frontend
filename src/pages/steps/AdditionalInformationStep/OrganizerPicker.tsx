@@ -88,7 +88,7 @@ const RecentUsedOrganizers = ({
               key={index}
               onClick={() => onChange(parseOfferId(organizer['@id']))}
               title={name}
-              hasEllipisOnTitle={true}
+              hasEllipsisOnTitle={true}
               badge={isUitpasOrganizer(organizer) && <UitpasBadge />}
               description={
                 address && `${address.postalCode} ${address.addressLocality}`
