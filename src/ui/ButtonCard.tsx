@@ -9,11 +9,13 @@ function ButtonCard({
   title,
   description,
   badge,
+  hasEllipsisOnTitle,
   ...props
 }: ComponentProps<typeof Button> & {
   title: string;
   description?: React.ReactNode;
   badge?: React.ReactNode;
+  hasEllipsisOnTitle?: boolean;
 }) {
   return (
     <Button
@@ -45,12 +47,15 @@ function ButtonCard({
         minHeight="1.9rem"
       >
         <Text
-          width="80%"
-          css={`
+          width={hasEllipsisOnTitle && `80%`}
+          css={
+            hasEllipsisOnTitle &&
+            `
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-          `}
+          `
+          }
         >
           {title}
         </Text>
