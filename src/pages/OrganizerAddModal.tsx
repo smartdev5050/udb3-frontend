@@ -6,6 +6,7 @@ import * as yup from 'yup';
 
 import { useGetOrganizersByWebsiteQuery } from '@/hooks/api/organizers';
 import { useAutoFocus } from '@/hooks/useAutoFocus';
+import { SupportedLanguage } from '@/i18n/index';
 import { OrganizerData } from '@/pages/OrganizerAddModal';
 import {
   ContactInfo,
@@ -24,10 +25,9 @@ import { Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
+import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 
 import { City, CityPicker } from './CityPicker';
-import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
-import { SupportedLanguage } from '@/i18n/index';
 
 const getValue = getValueFromTheme('organizerAddModal');
 
