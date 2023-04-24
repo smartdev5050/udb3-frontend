@@ -124,6 +124,7 @@ const OrganizerAddModal = ({
     // @ts-expect-error
     getOrganizersByWebsiteQuery.data?.member?.[0];
   const isUrlUnique = !existingOrganization;
+  const isUrlAlreadyTaken = formState.errors.url?.type === 'not_unique';
 
   const countries = useMemo(
     () => [
@@ -207,7 +208,7 @@ const OrganizerAddModal = ({
           id="organizer-url"
           label={t('organizer.add_modal.labels.url')}
           info={
-            formState.errors.url?.type === 'not_unique' ? (
+            isUrlAlreadyTaken ? (
               <Alert variant={AlertVariants.WARNING}>
                 <Trans
                   i18nKey={`organizer.add_modal.validation_messages.url_not_unique`}
@@ -239,6 +240,7 @@ const OrganizerAddModal = ({
             )
           }
           error={
+            !isUrlAlreadyTaken &&
             formState.errors.url &&
             t(`organizer.add_modal.validation_messages.url`)
           }
