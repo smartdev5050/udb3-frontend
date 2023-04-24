@@ -164,7 +164,7 @@ const DescriptionStep = ({
       `}
     >
       <FormElement
-        flex={'1 0 50%'}
+        flex="1 0 50%"
         id="create-description"
         label={t('create.additionalInformation.description.title')}
         Component={
