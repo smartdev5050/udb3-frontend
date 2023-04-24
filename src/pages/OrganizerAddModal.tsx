@@ -26,6 +26,8 @@ import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
 import { City, CityPicker } from './CityPicker';
+import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
+import { SupportedLanguage } from '@/i18n/index';
 
 const getValue = getValueFromTheme('organizerAddModal');
 
@@ -210,7 +212,11 @@ const OrganizerAddModal = ({
                 <Trans
                   i18nKey={`organizer.add_modal.validation_messages.url_not_unique`}
                   values={{
-                    organizerName: existingOrganization?.name[i18n.language],
+                    organizerName: getLanguageObjectOrFallback(
+                      existingOrganization?.name,
+                      i18n.language as SupportedLanguage,
+                      existingOrganization.mainLanguage as SupportedLanguage,
+                    ),
                   }}
                   components={{
                     setOrganizerLink: (
