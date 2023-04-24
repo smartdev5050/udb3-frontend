@@ -121,8 +121,8 @@ const RowStatusToColor: Record<RowStatus, string> = {
 };
 
 type Status = {
-  color: string;
-  label: string;
+  color?: string;
+  label?: string;
   isExternalCreator?: boolean;
 };
 
@@ -143,14 +143,20 @@ const StatusIndicator = ({
         alignItems="center"
         {...getInlineProps(props)}
       >
-        <Box
-          width="0.60rem"
-          height="0.60rem"
-          backgroundColor={color}
-          borderRadius="50%"
-          flexShrink={0}
-        />
-        <Text variant={TextVariants.MUTED}>{label}</Text>
+        {color &&
+          label && [
+            <Box
+              key="status-indicator-box"
+              width="0.60rem"
+              height="0.60rem"
+              backgroundColor={color}
+              borderRadius="50%"
+              flexShrink={0}
+            />,
+            <Text key="status-indicator-label" variant={TextVariants.MUTED}>
+              {label}
+            </Text>,
+          ]}
       </Inline>
       {isExternalCreator && (
         <Text variant={TextVariants.MUTED}>
@@ -185,7 +191,7 @@ const Row = ({
       css={css`
         display: grid;
         gap: ${parseSpacing(4)};
-        grid-template-columns: ${status ? '6fr 2fr 2fr' : '8fr 2fr'};
+        grid-template-columns: ${status ? '5fr 3fr 1fr' : '8fr 2fr'};
       `}
       {...getInlineProps(props)}
     >
@@ -336,6 +342,11 @@ const OrganizerRow = ({
 }: OrganizerRowProps) => {
   const { t, i18n } = useTranslation();
 
+  const getUserQuery = useGetUserQuery();
+  // @ts-expect-error
+  const userId = getUserQuery.data?.uuid;
+  const isExternalCreator = userId !== organizer.creator;
+
   const address =
     organizer?.address?.[i18n.language] ??
     organizer?.address?.[organizer.mainLanguage];
@@ -355,6 +366,9 @@ const OrganizerRow = ({
           {t('dashboard.actions.edit')}
         </Link>,
       ]}
+      status={{
+        isExternalCreator,
+      }}
       {...getInlineProps(props)}
     />
   );
