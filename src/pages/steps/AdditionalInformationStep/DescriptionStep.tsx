@@ -185,7 +185,7 @@ const DescriptionStep = ({
       />
       {eventTypeId && (
         <Alert
-          flex={'1 0 auto'}
+          flex="1 0 auto"
           css={`
             margin-top: 1.86rem;
           `}
