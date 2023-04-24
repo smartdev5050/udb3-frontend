@@ -160,10 +160,14 @@ const DescriptionStep = ({
   };
 
   return (
-    <Inline stackOn={Breakpoints.M}>
+    <Inline
+      stackOn={Breakpoints.L}
+      css={`
+        gap: 2rem;
+      `}
+    >
       <FormElement
-        minWidth="50%"
-        marginRight={5}
+        flex="1 0 50%"
         id="create-description"
         label={t('create.additionalInformation.description.title')}
         Component={
@@ -184,6 +188,7 @@ const DescriptionStep = ({
       />
       {eventTypeId && (
         <Alert
+          flex="1 0 auto"
           css={`
             margin-top: 1.86rem;
           `}
