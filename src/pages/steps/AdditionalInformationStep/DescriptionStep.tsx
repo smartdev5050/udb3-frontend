@@ -138,9 +138,10 @@ const DescriptionStep = ({
     );
 
     changeDescriptionMutation.mutate({
-      description: plainTextDescription.length > 0
-        ? draftToHtml(convertToRaw(editorState.getCurrentContent()))
-        : '',
+      description:
+        plainTextDescription.length > 0
+          ? draftToHtml(convertToRaw(editorState.getCurrentContent()))
+          : '',
       language: i18n.language,
       eventId,
       scope,
