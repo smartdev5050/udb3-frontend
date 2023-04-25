@@ -1,7 +1,14 @@
-import { ContentState, convertToRaw, EditorState } from 'draft-js';
+import {
+  ContentState,
+  convertToRaw,
+  EditorState,
+  Modifier,
+  RichUtils,
+} from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import isSoftNewlineEvent from 'draft-js/lib/isSoftNewlineEvent';
 
 import {
   useChangeOfferDescriptionMutation,
@@ -159,6 +166,33 @@ const DescriptionStep = ({
     });
   };
 
+  const handleNewlinesAsSoftline = (event, editorState) => {
+    const selection = editorState.getSelection();
+
+    if (selection.isCollapsed()) {
+      setEditorState(RichUtils.insertSoftNewline(editorState));
+    } else {
+      const content = editorState.getCurrentContent();
+      let newContent = Modifier.removeRange(content, selection, 'forward');
+      const newSelection = newContent.getSelectionAfter();
+      const block = newContent.getBlockForKey(newSelection.getStartKey());
+
+      newContent = Modifier.insertText(
+        newContent,
+        newSelection,
+        '\n',
+        block.getInlineStyleAt(newSelection.getStartOffset()),
+        null,
+      );
+
+      setEditorState(
+        EditorState.push(editorState, newContent, 'insert-fragment'),
+      );
+    }
+
+    return true;
+  };
+
   return (
     <Inline
       stackOn={Breakpoints.L}
@@ -175,6 +209,7 @@ const DescriptionStep = ({
             editorState={editorState}
             onEditorStateChange={setEditorState}
             onBlur={handleBlur}
+            handleReturn={handleNewlinesAsSoftline}
           />
         }
         info={
