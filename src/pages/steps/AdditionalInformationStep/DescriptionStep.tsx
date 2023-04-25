@@ -8,7 +8,6 @@ import {
 import draftToHtml from 'draftjs-to-html';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import isSoftNewlineEvent from 'draft-js/lib/isSoftNewlineEvent';
 
 import {
   useChangeOfferDescriptionMutation,
