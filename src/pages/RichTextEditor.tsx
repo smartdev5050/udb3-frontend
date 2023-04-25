@@ -26,7 +26,7 @@ function RichTextEditor(props: ComponentProps<typeof Editor>) {
             options: ['bold', 'italic', 'underline'],
           },
         }}
-        editorStyle={{ height: 250 }}
+        editorStyle={{ height: 250, resize: 'vertical' }}
         {...props}
       />
     </div>
