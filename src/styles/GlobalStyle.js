@@ -155,6 +155,10 @@ const GlobalStyle = createGlobalStyle`
   .dropdown-menu {
     padding: 0;
   }
+  
+  .public-DraftEditor-content {
+    overflow-wrap: anywhere !important;
+  }
 `;
 
 export { GlobalStyle };

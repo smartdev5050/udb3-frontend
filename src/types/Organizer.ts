@@ -7,6 +7,7 @@ type Organizer = {
   '@context': string;
   mainLanguage: string;
   name: string | { nl: string };
+  creator: string;
   address: Address;
   labels: string[];
   hiddenLabels: string[];

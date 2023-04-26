@@ -6,6 +6,7 @@ import * as yup from 'yup';
 
 import { useGetOrganizersByWebsiteQuery } from '@/hooks/api/organizers';
 import { useAutoFocus } from '@/hooks/useAutoFocus';
+import { SupportedLanguage } from '@/i18n/index';
 import { OrganizerData } from '@/pages/OrganizerAddModal';
 import {
   ContactInfo,
@@ -24,6 +25,7 @@ import { Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
+import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 
 import { City, CityPicker } from './CityPicker';
 
@@ -122,6 +124,7 @@ const OrganizerAddModal = ({
     // @ts-expect-error
     getOrganizersByWebsiteQuery.data?.member?.[0];
   const isUrlUnique = !existingOrganization;
+  const isUrlAlreadyTaken = formState.errors.url?.type === 'not_unique';
 
   const countries = useMemo(
     () => [
@@ -205,12 +208,16 @@ const OrganizerAddModal = ({
           id="organizer-url"
           label={t('organizer.add_modal.labels.url')}
           info={
-            formState.errors.url?.type === 'not_unique' ? (
+            isUrlAlreadyTaken ? (
               <Alert variant={AlertVariants.WARNING}>
                 <Trans
                   i18nKey={`organizer.add_modal.validation_messages.url_not_unique`}
                   values={{
-                    organizerName: existingOrganization?.name[i18n.language],
+                    organizerName: getLanguageObjectOrFallback(
+                      existingOrganization?.name,
+                      i18n.language as SupportedLanguage,
+                      existingOrganization.mainLanguage as SupportedLanguage,
+                    ),
                   }}
                   components={{
                     setOrganizerLink: (
@@ -233,6 +240,7 @@ const OrganizerAddModal = ({
             )
           }
           error={
+            !isUrlAlreadyTaken &&
             formState.errors.url &&
             t(`organizer.add_modal.validation_messages.url`)
           }
