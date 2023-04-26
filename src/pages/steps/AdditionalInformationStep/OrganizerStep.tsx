@@ -61,8 +61,8 @@ const OrganizerStep = ({
   const hasPriceInfo = (offer?.priceInfo ?? []).length > 0;
   const hasUitpasLabel = organizer ? isUitpasOrganizer(organizer) : false;
 
-  // @ts-expect-error
   const getCardSystemForEventQuery = useGetCardSystemForEventQuery(
+    // @ts-expect-error
     {
       scope,
       eventId: offerId,
@@ -70,6 +70,7 @@ const OrganizerStep = ({
     },
     {
       onSuccess: (data) => {
+        // @ts-expect-error
         if (!getCardSystemForEventQuery.dataUpdatedAt)
           setSelectedCardSystems(Object.values(data));
       },
