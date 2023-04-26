@@ -69,7 +69,10 @@ const OrganizerStep = ({
       isUitpasOrganizer: hasUitpasLabel && hasPriceInfo,
     },
     {
-      //onSuccess: (data) => setSelectedCardSystems(Object.values(data)),
+      onSuccess: (data) => {
+        if (!getCardSystemForEventQuery.dataUpdatedAt)
+          setSelectedCardSystems(Object.values(data));
+      },
     },
   );
 
@@ -115,7 +118,7 @@ const OrganizerStep = ({
   const cardSystemForEvent = getCardSystemForEventQuery.data ?? {};
 
   const [selectedCardSystems, setSelectedCardSystems] = useState<CardSystem[]>(
-    Object.values(cardSystemForEvent),
+    [],
   );
 
   // @ts-expect-error
