@@ -93,8 +93,8 @@ function LabelsStep({
               )}
               onSearch={setQuery}
               onChange={async (newLabels: Label[]) => {
-                const label = newLabels[0].name;
-                if (!label.match(LABEL_PATTERN)) {
+                const label = newLabels[0]?.name;
+                if (!label || !label.match(LABEL_PATTERN)) {
                   return setIsInvalid(true);
                 }
 
