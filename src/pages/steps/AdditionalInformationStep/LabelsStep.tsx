@@ -98,6 +98,7 @@ function LabelsStep({
                   return setIsInvalid(true);
                 }
 
+                setIsInvalid(false);
                 await addLabelMutation.mutateAsync({
                   id: offerId,
                   scope,
