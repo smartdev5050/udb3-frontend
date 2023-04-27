@@ -29,6 +29,7 @@ import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { Breakpoints, getValueFromTheme } from '@/ui/theme';
 import { reconcileRates } from '@/utils/reconcileRates';
+import { RichAlert } from '@/pages/steps/RichAlert';
 
 const PRICE_CURRENCY: string = 'EUR';
 
@@ -400,37 +401,9 @@ const PriceInformation = ({
           </Inline>
         </Stack>
         <Stack spacing={4}>
-          <Alert
-            fullWidth
-            css={`
-              &.alert {
-                display: flex;
-                flex: 1;
-              }
-            `}
-          >
-            <Box
-              forwardedAs="div"
-              dangerouslySetInnerHTML={{
-                __html: t(
-                  'create.additionalInformation.price_info.global_info',
-                ),
-              }}
-              css={`
-                strong {
-                  font-weight: bold;
-                }
-
-                ul {
-                  list-style-type: disc;
-
-                  li {
-                    margin-left: ${parseSpacing(5)};
-                  }
-                }
-              `}
-            />
-          </Alert>
+          <RichAlert fullWidth>
+            {t('create.additionalInformation.price_info.global_info')}
+          </RichAlert>
           {hasUitpasPrices && (
             <Alert variant={AlertVariants.PRIMARY} marginBottom={3}>
               {t('create.additionalInformation.price_info.uitpas_info')}

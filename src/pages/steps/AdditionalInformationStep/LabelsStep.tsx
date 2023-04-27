@@ -23,6 +23,8 @@ import { Text, TextVariants } from '@/ui/Text';
 import { getGlobalBorderRadius } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
 import { Alert, AlertVariants } from '@/ui/Alert';
+import { Box } from '@/ui/Box';
+import { RichAlert } from '@/pages/steps/RichAlert';
 
 type LabelsStepProps = StackProps & TabContentProps;
 const LABEL_PATTERN = /^[0-9a-zA-Z][0-9a-zA-Z-_]{0,48}[0-9a-zA-Z]$/;
@@ -146,7 +148,9 @@ function LabelsStep({
           ))}
         </Inline>
       </Stack>
-      {isInvalid && <Alert flex={1}>OH HELL NAW</Alert>}
+      {isInvalid && (
+        <RichAlert>{t('create.additionalInformation.labels.tips')}</RichAlert>
+      )}
     </Inline>
   );
 }

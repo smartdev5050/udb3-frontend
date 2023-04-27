@@ -20,6 +20,7 @@ import { Text, TextVariants } from '@/ui/Text';
 import { Breakpoints } from '@/ui/theme';
 
 import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
+import { RichAlert } from '@/pages/steps/RichAlert';
 
 const htmlToDraft =
   typeof window === 'object' && require('html-to-draftjs').default;
@@ -187,38 +188,15 @@ const DescriptionStep = ({
         {...getStackProps(props)}
       />
       {eventTypeId && (
-        <Alert
-          flex="1 0 auto"
+        <RichAlert
           css={`
             margin-top: 1.86rem;
           `}
         >
-          <Box
-            forwardedAs="div"
-            dangerouslySetInnerHTML={{
-              __html: t(
-                `create*additionalInformation*description*tips*${eventTypeId}`,
-                {
-                  keySeparator: '*',
-                },
-              ),
-            }}
-            css={`
-              strong {
-                font-weight: bold;
-              }
-
-              ul {
-                list-style-type: disc;
-                margin-bottom: ${parseSpacing(4)};
-
-                li {
-                  margin-left: ${parseSpacing(5)};
-                }
-              }
-            `}
-          />
-        </Alert>
+          {t(`create*additionalInformation*description*tips*${eventTypeId}`, {
+            keySeparator: '*',
+          })}
+        </RichAlert>
       )}
     </Inline>
   );
