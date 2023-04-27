@@ -336,7 +336,8 @@
         "label": "Verfijn met labels",
         "info": "Met labels voeg je korte, specifieke trefwoorden toe",
         "add_new_label": "Geen label gevonden? Nieuw label toevoegen: ",
-        "error": "Geen geldig label"
+        "error": "Geen geldig label",
+        "tips": "Een label moet voldoen aan volgende regels:<ul> <li>bestaat enkel uit <strong>letters</strong> of <strong>cijfers</strong></li> <li>bevat enkel <strong>'-'</strong> en <strong>'_'</strong> maar mag niet met deze tekens beginnen</li> <li>telt <strong>2 tot 50 karakters</strong></li> </ul>"
       },
       "description": {
         "clear": "Leegmaken",
