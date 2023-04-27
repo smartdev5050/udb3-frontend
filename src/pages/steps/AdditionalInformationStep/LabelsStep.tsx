@@ -24,6 +24,7 @@ import { getGlobalBorderRadius } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
 
 type LabelsStepProps = StackProps & TabContentProps;
+const LABEL_PATTERN = /^[0-9a-zA-Z][0-9a-zA-Z-_]{0,48}[0-9a-zA-Z]$/;
 
 function LabelsStep({
   offerId,
@@ -57,7 +58,7 @@ function LabelsStep({
   }, [labels, onValidationChange]);
 
   const isWriting = addLabelMutation.isLoading || removeLabelMutation.isLoading;
-
+  const [isInvalid, setIsInvalid] = useState(false);
   return (
     <Stack {...getStackProps(props)} opacity={isWriting ? 0.5 : 1} spacing={2}>
       <FormElement
@@ -68,6 +69,7 @@ function LabelsStep({
           <Typeahead
             ref={ref}
             name={'labels'}
+            isInvalid={isInvalid}
             isLoading={labelsQuery.isLoading}
             options={options}
             labelKey={'name'}
@@ -77,16 +79,18 @@ function LabelsStep({
             )}
             onSearch={setQuery}
             onChange={async (newLabels: Label[]) => {
+              const label = newLabels[0].name;
+              if (!label.match(LABEL_PATTERN)) {
+                return setIsInvalid(true);
+              }
+
               await addLabelMutation.mutateAsync({
                 id: offerId,
                 scope,
-                label: newLabels[0].name,
+                label,
               });
 
-              setLabels(
-                uniq([...labels, ...newLabels.map((label) => label.name)]),
-              );
-
+              setLabels(uniq([...labels, label]));
               ref.current.clear();
             }}
             customFilter={() => true}
