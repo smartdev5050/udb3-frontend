@@ -8,6 +8,7 @@ import {
   useGetOfferByIdQuery,
 } from '@/hooks/api/offers';
 import RichTextEditor from '@/pages/RichTextEditor';
+import { RichAlert } from '@/pages/steps/RichAlert';
 import { Event } from '@/types/Event';
 import { Alert } from '@/ui/Alert';
 import { Box, parseSpacing } from '@/ui/Box';
@@ -20,7 +21,6 @@ import { Text, TextVariants } from '@/ui/Text';
 import { Breakpoints } from '@/ui/theme';
 
 import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
-import { RichAlert } from '@/pages/steps/RichAlert';
 
 const htmlToDraft =
   typeof window === 'object' && require('html-to-draftjs').default;

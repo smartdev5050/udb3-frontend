@@ -16,6 +16,7 @@ import {
   ValidationStatus,
 } from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
 import { isUitpasOrganizer } from '@/pages/steps/AdditionalInformationStep/OrganizerPicker';
+import { RichAlert } from '@/pages/steps/RichAlert';
 import { Offer } from '@/types/Offer';
 import type { Values } from '@/types/Values';
 import { Alert, AlertVariants } from '@/ui/Alert';
@@ -29,7 +30,6 @@ import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { Breakpoints, getValueFromTheme } from '@/ui/theme';
 import { reconcileRates } from '@/utils/reconcileRates';
-import { RichAlert } from '@/pages/steps/RichAlert';
 
 const PRICE_CURRENCY: string = 'EUR';
 
