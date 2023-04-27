@@ -333,7 +333,7 @@
         "title": "Etiketten",
         "label": "Mit Etiketten verfeinern",
         "info": "Fügen Sie bei Etiketten kurze, spezifische Schlüsselwörter hinzu",
-        "add_new label": "Kein Etikett gefunden? Neues Etikett hinzufügen: "
+        "add_new_label": "Kein Etikett gefunden? Neues Etikett hinzufügen: "
       },
       "description": {
         "clear": "Leeren",

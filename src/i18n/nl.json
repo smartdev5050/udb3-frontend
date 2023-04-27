@@ -335,7 +335,7 @@
         "title": "Labels",
         "label": "Verfijn met labels",
         "info": "Met labels voeg je korte, specifieke trefwoorden toe",
-        "add_new label": "Geen label gevonden? Nieuw label toevoegen: "
+        "add_new_label": "Geen label gevonden? Nieuw label toevoegen: "
       },
       "description": {
         "clear": "Leegmaken",
