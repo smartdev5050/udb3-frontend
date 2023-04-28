@@ -1019,7 +1019,7 @@ const LocationStep = ({
 
           return renderFieldWithRecentLocations(
             <>
-              <Inline alignItems="center" spacing={3}>
+              <Inline alignItems="center" spacing={3} marginBottom={4}>
                 <Icon
                   name={Icons.CHECK_CIRCLE}
                   color={getGlobalValue('successIcon')}
