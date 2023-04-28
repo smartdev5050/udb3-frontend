@@ -830,7 +830,7 @@ const LocationStep = ({
           };
 
           const showRecentLocations =
-            (!municipality && country) || (!isOnline && !hasLocation);
+            !isOnline && ((!municipality && country) || !hasLocation);
 
           const renderFieldWithRecentLocations = (children) => (
             <Stack spacing={5} maxWidth={'50%'}>
