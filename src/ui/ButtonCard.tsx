@@ -42,7 +42,7 @@ function ButtonCard({
         fontWeight="bold"
         display="flex"
         justifyContent="space-between"
-        width="18rem"
+        width="100%"
         textAlign="left"
         minHeight="1.9rem"
       >
