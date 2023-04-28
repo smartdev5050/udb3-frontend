@@ -543,7 +543,9 @@ const RecentLocations = ({ onFieldChange, ...props }) => {
   const locations = uniqBy(
     offers?.map((offer) => offer.location),
     '@id',
-  ).filter((location) => location && location.name.nl !== 'Online');
+  )
+    .filter((location) => location && location.name.nl !== 'Online')
+    .slice(0, 4);
 
   return (
     <Stack {...props}>
