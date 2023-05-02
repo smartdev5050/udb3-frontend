@@ -543,7 +543,9 @@ const RecentLocations = ({ onFieldChange, ...props }) => {
   const locations = uniqBy(
     offers?.map((offer) => offer.location),
     '@id',
-  ).filter((location) => location && location.name.nl !== 'Online');
+  )
+    .filter((location) => location && location.name.nl !== 'Online')
+    .slice(0, 4);
 
   return (
     <Stack {...props}>
@@ -830,7 +832,7 @@ const LocationStep = ({
           };
 
           const showRecentLocations =
-            (!municipality && country) || (!isOnline && !hasLocation);
+            !isOnline && ((!municipality && country) || !hasLocation);
 
           const renderFieldWithRecentLocations = (children) => (
             <Stack spacing={5} maxWidth={'50%'}>
@@ -1019,7 +1021,7 @@ const LocationStep = ({
 
           return renderFieldWithRecentLocations(
             <>
-              <Inline alignItems="center" spacing={3}>
+              <Inline alignItems="center" spacing={3} marginBottom={4}>
                 <Icon
                   name={Icons.CHECK_CIRCLE}
                   color={getGlobalValue('successIcon')}
