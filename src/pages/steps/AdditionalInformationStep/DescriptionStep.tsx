@@ -26,6 +26,7 @@ import { Text, TextVariants } from '@/ui/Text';
 import { Breakpoints } from '@/ui/theme';
 
 import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
+import { SyntheticKeyboardEvent } from 'react-draft-wysiwyg';
 
 const htmlToDraft =
   typeof window === 'object' && require('html-to-draftjs').default;
@@ -165,7 +166,10 @@ const DescriptionStep = ({
     });
   };
 
-  const handleNewlinesAsSoftline = (event, editorState) => {
+  const handleNewlinesAsSoftline = (
+    e: SyntheticKeyboardEvent,
+    editorState: EditorState,
+  ) => {
     const selection = editorState.getSelection();
 
     if (selection.isCollapsed()) {
