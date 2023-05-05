@@ -7,6 +7,7 @@ import {
 } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import { useEffect, useMemo, useState } from 'react';
+import { SyntheticKeyboardEvent } from 'react-draft-wysiwyg';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -26,7 +27,6 @@ import { Text, TextVariants } from '@/ui/Text';
 import { Breakpoints } from '@/ui/theme';
 
 import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
-import { SyntheticKeyboardEvent } from 'react-draft-wysiwyg';
 
 const htmlToDraft =
   typeof window === 'object' && require('html-to-draftjs').default;
@@ -172,26 +172,28 @@ const DescriptionStep = ({
   ) => {
     const selection = editorState.getSelection();
 
+    // If we have nothing selected, just insert the newline
     if (selection.isCollapsed()) {
       setEditorState(RichUtils.insertSoftNewline(editorState));
-    } else {
-      const content = editorState.getCurrentContent();
-      let newContent = Modifier.removeRange(content, selection, 'forward');
-      const newSelection = newContent.getSelectionAfter();
-      const block = newContent.getBlockForKey(newSelection.getStartKey());
-
-      newContent = Modifier.insertText(
-        newContent,
-        newSelection,
-        '\n',
-        block.getInlineStyleAt(newSelection.getStartOffset()),
-        null,
-      );
-
-      setEditorState(
-        EditorState.push(editorState, newContent, 'insert-fragment'),
-      );
+      return true;
     }
+
+    const content = editorState.getCurrentContent();
+    let newContent = Modifier.removeRange(content, selection, 'forward');
+    const newSelection = newContent.getSelectionAfter();
+    const block = newContent.getBlockForKey(newSelection.getStartKey());
+
+    newContent = Modifier.insertText(
+      newContent,
+      newSelection,
+      '\n',
+      block.getInlineStyleAt(newSelection.getStartOffset()),
+      null,
+    );
+
+    setEditorState(
+      EditorState.push(editorState, newContent, 'insert-fragment'),
+    );
 
     return true;
   };
