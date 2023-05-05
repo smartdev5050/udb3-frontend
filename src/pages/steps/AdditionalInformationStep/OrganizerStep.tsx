@@ -61,12 +61,21 @@ const OrganizerStep = ({
   const hasPriceInfo = (offer?.priceInfo ?? []).length > 0;
   const hasUitpasLabel = organizer ? isUitpasOrganizer(organizer) : false;
 
-  // @ts-expect-error
-  const getCardSystemForEventQuery = useGetCardSystemForEventQuery({
-    scope,
-    eventId: offerId,
-    isUitpasOrganizer: hasUitpasLabel && hasPriceInfo,
-  });
+  const getCardSystemForEventQuery = useGetCardSystemForEventQuery(
+    // @ts-expect-error
+    {
+      scope,
+      eventId: offerId,
+      isUitpasOrganizer: hasUitpasLabel && hasPriceInfo,
+    },
+    {
+      onSuccess: (data) => {
+        // @ts-expect-error
+        if (!getCardSystemForEventQuery.dataUpdatedAt)
+          setSelectedCardSystems(Object.values(data));
+      },
+    },
+  );
 
   const uitpasAlertData = useMemo(() => {
     if (!hasUitpasLabel) {
@@ -109,7 +118,9 @@ const OrganizerStep = ({
   // @ts-expect-error
   const cardSystemForEvent = getCardSystemForEventQuery.data ?? {};
 
-  const selectedCardSystems: CardSystem[] = Object.values(cardSystemForEvent);
+  const [selectedCardSystems, setSelectedCardSystems] = useState<CardSystem[]>(
+    [],
+  );
 
   // @ts-expect-error
   const cardSystems = getCardSystemsForOrganizerQuery.data ?? {};
@@ -154,10 +165,16 @@ const OrganizerStep = ({
     });
 
   const handleAddCardSystemToEvent = (cardSystemId: number) => {
+    setSelectedCardSystems([...selectedCardSystems, cardSystems[cardSystemId]]);
     addCardSystemToEventMutation.mutate({ cardSystemId, eventId: offerId });
   };
 
   const handleDeleteCardSystemFromEvent = (cardSystemId: number) => {
+    setSelectedCardSystems(
+      selectedCardSystems.filter(
+        (cardSystem) => cardSystem.id !== cardSystemId,
+      ),
+    );
     deleteCardSystemFromEventMutation.mutate({
       cardSystemId,
       eventId: offerId,
