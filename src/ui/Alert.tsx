@@ -26,7 +26,7 @@ const AlertVariantIconsMap = {
 
 const getValue = getValueFromTheme(`alert`);
 
-type Props = InlineProps & {
+type AlertProps = InlineProps & {
   variant?: Values<typeof AlertVariants>;
   visible?: boolean;
   dismissible?: boolean;
@@ -43,7 +43,7 @@ const Alert = ({
   className,
   fullWidth,
   ...props
-}: Props) => {
+}: AlertProps) => {
   return (
     <Inline
       {...getInlineProps(props)}
@@ -82,4 +82,4 @@ Alert.defaultProps = {
   dismissible: false,
 };
 
-export { Alert, AlertVariants };
+export { Alert, AlertProps, AlertVariants };
