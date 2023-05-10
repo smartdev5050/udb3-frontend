@@ -23,9 +23,10 @@ function RichTextEditor(props: ComponentProps<typeof Editor>) {
           options: ['inline', 'list', 'history'],
           inline: {
             inDropdown: false,
-            options: ['bold', 'italic', 'underline'],
+            options: ['bold', 'italic'],
           },
         }}
+        editorStyle={{ height: 250, resize: 'vertical' }}
         {...props}
       />
     </div>
