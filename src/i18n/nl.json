@@ -233,7 +233,7 @@
       "country": {
         "change_location": "Wijzig locatie",
         "location_school": "Locatie in overleg met de school",
-        "location_school_info": "Evenementen waarvan de locatie in overleg wordt bepaald, worden niet gepubliceerd op UiTinVlaanderen of andere publiekskanalen. Je evenement verschijnt wel op cultuurkuur.be"
+        "location_school_info": "Evenementen waarvan de locatie in overleg wordt bepaald, verschijnen op cultuurkuur.be, het platform voor onderwijs & cultuurkuur. Let op: ze verschijnen niet op UiTinVlaanderen of andere publiekskanalen."
       },
       "street_and_number": {
         "change": "Wijzig straat en nummer"
