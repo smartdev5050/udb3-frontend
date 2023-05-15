@@ -172,6 +172,7 @@ const deleteOrganizerById = async ({ headers, id }) =>
 const useDeleteOrganizerByIdMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: deleteOrganizerById,
+    mutationKey: 'organizers-delete-by-id',
     ...configuration,
   });
 
@@ -232,6 +233,7 @@ const createOrganizer = ({
 const useCreateOrganizerMutation = (configuration: UseMutationOptions = {}) =>
   useAuthenticatedMutation({
     mutationFn: createOrganizer,
+    mutationKey: 'organizers-create',
     ...configuration,
   });
 
