@@ -49,8 +49,7 @@ test('I can save a status', async () => {
 
   await waitForFetch(`/places/${page.router.query.placeId}/status`);
 
-  // 3rd API call, [url, payload] tuple
-  expect(fetch.mock.calls[3][1].body).toEqual(
+  expect(fetch.mock.calls[4][1].body).toEqual(
     JSON.stringify({
       type: OfferStatus.AVAILABLE,
     }),
@@ -90,8 +89,7 @@ test('I can save a status with a reason', async () => {
 
   await waitForFetch(`/places/${page.router.query.placeId}/status`);
 
-  // 3rd API call, [url, payload] tuple
-  expect(fetch.mock.calls[3][1].body).toEqual(
+  expect(fetch.mock.calls[4][1].body).toEqual(
     JSON.stringify({
       type: OfferStatus.TEMPORARILY_UNAVAILABLE,
       reason: { nl: reason },
