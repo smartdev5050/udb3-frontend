@@ -87,6 +87,7 @@ const addCardSystemToEvent = async ({ headers, eventId, cardSystemId }) =>
 const useAddCardSystemToEventMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: addCardSystemToEvent,
+    mutationKey: 'uitpas-add-cardsystem-to-event',
     ...configuration,
   });
 
@@ -102,6 +103,7 @@ const deleteCardSystemFromEvent = async ({ headers, eventId, cardSystemId }) =>
 const useDeleteCardSystemFromEventMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: deleteCardSystemFromEvent,
+    mutationKey: 'uitpas-delete-cardsystem-from-event',
     ...configuration,
   });
 
@@ -122,6 +124,7 @@ const changeDistributionKey = async ({
 const useChangeDistributionKeyMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: changeDistributionKey,
+    mutationKey: 'uitpas-change-distribution-key',
     ...configuration,
   });
 
