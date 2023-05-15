@@ -159,11 +159,15 @@ const useAuthenticatedMutation = ({ mutationFn, ...configuration }) => {
   const innerMutationFn = useCallback(async (variables) => {
     const mutationCache = queryClient.getMutationCache().getAll();
 
-    // get previous item from cache?
-    const latestMutation = mutationCache.at(-2);
+    const cacheForMutationKey = mutationCache.filter((mutation) => {
+      return mutation.options.mutationKey === configuration.mutationKey;
+    });
 
-    // @ts-expect-error
+    // get previous item from cache?
+    const latestMutation = cacheForMutationKey.at(-2);
+
     if (
+      // @ts-expect-error
       latestMutation?.options?.variables &&
       isEqual(latestMutation.options.variables, variables)
     ) {
@@ -199,8 +203,6 @@ const useAuthenticatedMutations = ({
 }) => {
   const router = useRouter();
   const headers = useHeaders();
-
-  console.log('in authenticatedMutations');
 
   const { removeAuthenticationCookies } = useCookiesWithOptions();
 
