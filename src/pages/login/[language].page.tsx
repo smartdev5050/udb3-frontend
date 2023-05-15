@@ -377,7 +377,7 @@ const Index = () => {
     const { referer } = query;
 
     const fallbackUri = new URL(`${publicRuntimeConfig.baseUrl}/dashboard`);
-    fallbackUri.searchParams.append('tab', 'events');
+    fallbackUri.searchParams.set('tab', 'events');
 
     const redirectUri = referer ?? fallbackUri.toString();
 

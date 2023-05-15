@@ -1,4 +1,5 @@
 import { handleAuth, handleLogin, handleLogout } from '@auth0/nextjs-auth0';
+import { serialize } from 'cookie';
 import { NextApiRequest } from 'next';
 import getConfig from 'next/config';
 

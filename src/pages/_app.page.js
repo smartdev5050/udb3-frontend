@@ -1,5 +1,6 @@
 import '@fortawesome/fontawesome-svg-core/styles.css';
 
+import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import NextHead from 'next/head';
 import Script from 'next/script';
@@ -11,7 +12,6 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { Hydrate } from 'react-query/hydration';
 
-import { UserContext } from '@/context/UserContext';
 import { defaultCookieOptions } from '@/hooks/useCookiesWithOptions';
 import { createCookieName, FeatureFlags } from '@/hooks/useFeatureFlag';
 import i18n from '@/i18n/index';
@@ -109,9 +109,9 @@ const App = ({ Component, pageProps, children }) => {
     <>
       <Head />
       <Hotjar />
+      <UserProvider />
       <ContextProvider
         providers={[
-          UserContext,
           [I18nextProvider, { i18n }],
           ThemeProvider,
           [
