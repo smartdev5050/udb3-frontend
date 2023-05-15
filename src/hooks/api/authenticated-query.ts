@@ -157,21 +157,29 @@ const useAuthenticatedMutation = ({ mutationFn, ...configuration }) => {
   const { removeAuthenticationCookies } = useCookiesWithOptions();
 
   const innerMutationFn = useCallback(async (variables) => {
-    const mutationCache = queryClient.getMutationCache().getAll();
+    try {
+      const mutationCache = queryClient.getMutationCache().getAll();
 
-    const cacheForMutationKey = mutationCache.filter((mutation) => {
-      return mutation.options.mutationKey === configuration.mutationKey;
-    });
+      const cacheForMutationKey = mutationCache.filter((mutation) => {
+        return (
+          typeof configuration.mutationKey !== 'undefined' &&
+          mutation.options.mutationKey === configuration.mutationKey
+        );
+      });
 
-    // get previous item from cache?
-    const latestMutation = cacheForMutationKey.at(-2);
+      // get previous item from cache?
+      const latestMutation = cacheForMutationKey.slice(-2)[0];
 
-    if (
-      // @ts-expect-error
-      latestMutation?.options?.variables &&
-      isEqual(latestMutation.options.variables, variables)
-    ) {
-      return false;
+      if (
+        // @ts-expect-error
+        cacheForMutationKey.length > 1 &&
+        latestMutation?.options?.variables &&
+        isEqual(latestMutation.options.variables, variables)
+      ) {
+        return false;
+      }
+    } catch (err) {
+      console.log({ err });
     }
 
     const response = await mutationFn({ ...variables, headers });
