@@ -1,9 +1,10 @@
+import { isEqual } from 'lodash';
 import flatten from 'lodash/flatten';
 import type { NextApiRequest } from 'next';
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import { Cookies } from 'react-cookie';
-import type { QueryClient, UseQueryResult } from 'react-query';
+import { QueryClient, useQueryClient, UseQueryResult } from 'react-query';
 import { useMutation, useQueries, useQuery } from 'react-query';
 
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
@@ -151,10 +152,24 @@ const prefetchAuthenticatedQuery = async <TData>({
 const useAuthenticatedMutation = ({ mutationFn, ...configuration }) => {
   const router = useRouter();
   const headers = useHeaders();
+  const queryClient = useQueryClient();
 
   const { removeAuthenticationCookies } = useCookiesWithOptions();
 
   const innerMutationFn = useCallback(async (variables) => {
+    const mutationCache = queryClient.getMutationCache().getAll();
+
+    // get previous item from cache?
+    const latestMutation = mutationCache.at(-2);
+
+    // @ts-expect-error
+    if (
+      latestMutation?.options?.variables &&
+      isEqual(latestMutation.options.variables, variables)
+    ) {
+      return false;
+    }
+
     const response = await mutationFn({ ...variables, headers });
 
     if (!response) return '';
@@ -184,6 +199,8 @@ const useAuthenticatedMutations = ({
 }) => {
   const router = useRouter();
   const headers = useHeaders();
+
+  console.log('in authenticatedMutations');
 
   const { removeAuthenticationCookies } = useCookiesWithOptions();
 
