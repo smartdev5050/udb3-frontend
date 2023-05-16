@@ -187,10 +187,6 @@ const StepsForm = ({
 
   const isOnDuplicatePage = footerStatus === FooterStatus.DUPLICATE;
 
-  const stepsConfigurations = isOnDuplicatePage
-    ? [calendarStepConfiguration]
-    : configurations;
-
   const pageTitle = isOnDuplicatePage ? t('create.duplicate.title') : title;
 
   const onDuplicateEditFieldChange = () => {
