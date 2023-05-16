@@ -1,13 +1,13 @@
 import { Alert as BootstrapAlert } from 'react-bootstrap';
 
 import type { Values } from '@/types/Values';
+import { parseSpacing } from '@/ui/Box';
 
 import { Icon, Icons } from './Icon';
 import type { InlineProps } from './Inline';
 import { getInlineProps, Inline } from './Inline';
 import { Text } from './Text';
 import { getValueFromTheme } from './theme';
-import { parseSpacing } from '@/ui/Box';
 
 const AlertVariants = {
   PRIMARY: 'primary',
@@ -103,4 +103,4 @@ Alert.defaultProps = {
   dismissible: false,
 };
 
-export { Alert, AlertProps, AlertVariants };
+export { Alert, AlertVariants };

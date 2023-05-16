@@ -14,6 +14,7 @@ import {
   ValidationStatus,
 } from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
 import { Label, Offer } from '@/types/Offer';
+import { Alert } from '@/ui/Alert';
 import { Badge, BadgeVariants } from '@/ui/Badge';
 import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
@@ -22,7 +23,6 @@ import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getGlobalBorderRadius } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
-import { Alert } from '@/ui/Alert';
 
 type LabelsStepProps = StackProps & TabContentProps;
 const LABEL_PATTERN = /^[0-9a-zA-Z][0-9a-zA-Z-_]{0,48}[0-9a-zA-Z]$/;

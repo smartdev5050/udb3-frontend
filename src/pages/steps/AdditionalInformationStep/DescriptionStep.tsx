@@ -24,6 +24,7 @@ import { ProgressBar, ProgressBarVariants } from '@/ui/ProgressBar';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { Breakpoints } from '@/ui/theme';
+
 import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
 
 const htmlToDraft =
