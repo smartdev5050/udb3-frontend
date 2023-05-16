@@ -7,6 +7,7 @@ import type { InlineProps } from './Inline';
 import { getInlineProps, Inline } from './Inline';
 import { Text } from './Text';
 import { getValueFromTheme } from './theme';
+import { parseSpacing } from '@/ui/Box';
 
 const AlertVariants = {
   PRIMARY: 'primary',
@@ -69,7 +70,27 @@ const Alert = ({
               height: 24px;
             `}
           />
-          <Text> {children}</Text>
+          {typeof children !== 'string' ? (
+            <Text>{children}</Text>
+          ) : (
+            <Text
+              dangerouslySetInnerHTML={{ __html: children as string }}
+              css={`
+                strong {
+                  font-weight: bold;
+                }
+
+                ul {
+                  list-style-type: disc;
+                  margin-bottom: ${parseSpacing(4)};
+
+                  li {
+                    margin-left: ${parseSpacing(5)};
+                  }
+                }
+              `}
+            />
+          )}
         </Inline>
       </BootstrapAlert>
     </Inline>

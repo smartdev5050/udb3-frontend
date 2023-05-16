@@ -16,11 +16,10 @@ import {
   ValidationStatus,
 } from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
 import { isUitpasOrganizer } from '@/pages/steps/AdditionalInformationStep/OrganizerPicker';
-import { RichAlert } from '@/pages/steps/RichAlert';
 import { Offer } from '@/types/Offer';
 import type { Values } from '@/types/Values';
 import { Alert, AlertVariants } from '@/ui/Alert';
-import { Box, parseSpacing } from '@/ui/Box';
+import { parseSpacing } from '@/ui/Box';
 import { Button, ButtonSizes, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Icons } from '@/ui/Icon';
@@ -401,9 +400,9 @@ const PriceInformation = ({
           </Inline>
         </Stack>
         <Stack spacing={4}>
-          <RichAlert fullWidth>
+          <Alert fullWidth>
             {t('create.additionalInformation.price_info.global_info')}
-          </RichAlert>
+          </Alert>
           {hasUitpasPrices && (
             <Alert variant={AlertVariants.PRIMARY} marginBottom={3}>
               {t('create.additionalInformation.price_info.uitpas_info')}

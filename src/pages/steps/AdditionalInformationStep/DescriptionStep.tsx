@@ -15,10 +15,8 @@ import {
   useGetOfferByIdQuery,
 } from '@/hooks/api/offers';
 import RichTextEditor from '@/pages/RichTextEditor';
-import { RichAlert } from '@/pages/steps/RichAlert';
 import { Event } from '@/types/Event';
 import { Alert } from '@/ui/Alert';
-import { Box, parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Inline } from '@/ui/Inline';
@@ -26,7 +24,6 @@ import { ProgressBar, ProgressBarVariants } from '@/ui/ProgressBar';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { Breakpoints } from '@/ui/theme';
-
 import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
 
 const htmlToDraft =
@@ -234,7 +231,7 @@ const DescriptionStep = ({
         {...getStackProps(props)}
       />
       {eventTypeId && (
-        <RichAlert
+        <Alert
           css={`
             margin-top: 1.86rem;
           `}
@@ -242,7 +239,7 @@ const DescriptionStep = ({
           {t(`create*additionalInformation*description*tips*${eventTypeId}`, {
             keySeparator: '*',
           })}
-        </RichAlert>
+        </Alert>
       )}
     </Inline>
   );
