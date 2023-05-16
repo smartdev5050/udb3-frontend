@@ -14,6 +14,7 @@ import {
   ValidationStatus,
 } from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
 import { Label, Offer } from '@/types/Offer';
+import { Alert } from '@/ui/Alert';
 import { Badge, BadgeVariants } from '@/ui/Badge';
 import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
@@ -24,6 +25,7 @@ import { getGlobalBorderRadius } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
 
 type LabelsStepProps = StackProps & TabContentProps;
+const LABEL_PATTERN = /^[0-9a-zA-Z][0-9a-zA-Z-_]{0,48}[0-9a-zA-Z]$/;
 
 function LabelsStep({
   offerId,
@@ -57,79 +59,98 @@ function LabelsStep({
   }, [labels, onValidationChange]);
 
   const isWriting = addLabelMutation.isLoading || removeLabelMutation.isLoading;
-
+  const [isInvalid, setIsInvalid] = useState(false);
   return (
-    <Stack {...getStackProps(props)} opacity={isWriting ? 0.5 : 1} spacing={2}>
-      <FormElement
-        id={'labels'}
-        label={t('create.additionalInformation.labels.label')}
-        loading={isWriting}
-        Component={
-          <Typeahead
-            ref={ref}
-            name={'labels'}
-            isLoading={labelsQuery.isLoading}
-            options={options}
-            labelKey={'name'}
-            allowNew
-            newSelectionPrefix={t(
-              'create.additionalInformation.labels.add_new_label',
-            )}
-            onSearch={setQuery}
-            onChange={async (newLabels: Label[]) => {
-              await addLabelMutation.mutateAsync({
-                id: offerId,
-                scope,
-                label: newLabels[0].name,
-              });
+    <Inline width={isInvalid ? '100%' : '50%'} spacing={5}>
+      <Stack
+        flex={1}
+        {...getStackProps(props)}
+        opacity={isWriting ? 0.5 : 1}
+        spacing={2}
+      >
+        <FormElement
+          id={'labels'}
+          label={t('create.additionalInformation.labels.label')}
+          loading={isWriting}
+          error={
+            isInvalid
+              ? t('create.additionalInformation.labels.error')
+              : undefined
+          }
+          Component={
+            <Typeahead
+              ref={ref}
+              name={'labels'}
+              isInvalid={isInvalid}
+              isLoading={labelsQuery.isLoading}
+              options={options}
+              labelKey={'name'}
+              allowNew
+              newSelectionPrefix={t(
+                'create.additionalInformation.labels.add_new_label',
+              )}
+              onSearch={setQuery}
+              onChange={async (newLabels: Label[]) => {
+                const label = newLabels[0]?.name;
+                if (!label || !label.match(LABEL_PATTERN)) {
+                  return setIsInvalid(true);
+                }
 
-              setLabels(
-                uniq([...labels, ...newLabels.map((label) => label.name)]),
-              );
-
-              ref.current.clear();
-            }}
-            customFilter={() => true}
-          />
-        }
-        maxWidth={'50%'}
-        info={
-          <Text variant={TextVariants.MUTED}>
-            {t('create.additionalInformation.labels.info')}
-          </Text>
-        }
-      />
-      <Inline spacing={2}>
-        {labels.map((label) => (
-          <Badge
-            key={label}
-            variant={BadgeVariants.SECONDARY}
-            borderRadius={getGlobalBorderRadius}
-            cursor={'pointer'}
-            display={'flex'}
-          >
-            {label}
-            <Icon
-              name={Icons.TIMES}
-              width={'12px'}
-              height={'12px'}
-              marginLeft={1}
-              onClick={async () => {
-                await removeLabelMutation.mutateAsync({
+                setIsInvalid(false);
+                await addLabelMutation.mutateAsync({
                   id: offerId,
                   scope,
                   label,
                 });
 
-                setLabels(
-                  labels.filter((existingLabel) => label !== existingLabel),
-                );
+                setLabels(uniq([...labels, label]));
+                ref.current.clear();
               }}
+              customFilter={() => true}
             />
-          </Badge>
-        ))}
-      </Inline>
-    </Stack>
+          }
+          maxWidth={'100%'}
+          info={
+            <Text variant={TextVariants.MUTED}>
+              {t('create.additionalInformation.labels.info')}
+            </Text>
+          }
+        />
+        <Inline spacing={2}>
+          {labels.map((label) => (
+            <Badge
+              key={label}
+              variant={BadgeVariants.SECONDARY}
+              borderRadius={getGlobalBorderRadius}
+              cursor={'pointer'}
+              display={'flex'}
+            >
+              {label}
+              <Icon
+                name={Icons.TIMES}
+                width={'12px'}
+                height={'12px'}
+                marginLeft={1}
+                onClick={async () => {
+                  await removeLabelMutation.mutateAsync({
+                    id: offerId,
+                    scope,
+                    label,
+                  });
+
+                  setLabels(
+                    labels.filter((existingLabel) => label !== existingLabel),
+                  );
+                }}
+              />
+            </Badge>
+          ))}
+        </Inline>
+      </Stack>
+      {isInvalid && (
+        <Alert>{t('create.additionalInformation.labels.tips')}</Alert>
+      )}
+    </Inline>
   );
 }
 

@@ -335,7 +335,9 @@
         "title": "Libellés",
         "label": "Affiner avec des libellés",
         "info": "Avec les libellés, ajoutez des mots-clés courts et spécifiques",
-        "add_new_label": "Aucun libéllé trouvée ? Ajouter un nouveau libéllé : "
+        "add_new_label": "Aucun libellé trouvée ? Ajouter un nouveau libellé : ",
+        "error": "Pas une libellé valide",
+        "tips": "Ce label ne semble pas valable. Un label<ul><li>Ne comporte que des <strong>lettres</strong> ou des <strong>chiffres</strong></li><li>Ne comporte que <strong>'-'</strong> ou <strong>'_'</strong> mais ne peut commencer avec ces caractêres</li><li>Comporte de <strong>2 à 50 caractères</strong></li></ul>"
       },
       "description": {
         "clear": "Vider",

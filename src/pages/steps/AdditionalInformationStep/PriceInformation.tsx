@@ -19,7 +19,7 @@ import { isUitpasOrganizer } from '@/pages/steps/AdditionalInformationStep/Organ
 import { Offer } from '@/types/Offer';
 import type { Values } from '@/types/Values';
 import { Alert, AlertVariants } from '@/ui/Alert';
-import { Box, parseSpacing } from '@/ui/Box';
+import { parseSpacing } from '@/ui/Box';
 import { Button, ButtonSizes, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Icons } from '@/ui/Icon';
@@ -400,36 +400,8 @@ const PriceInformation = ({
           </Inline>
         </Stack>
         <Stack spacing={4}>
-          <Alert
-            fullWidth
-            css={`
-              &.alert {
-                display: flex;
-                flex: 1;
-              }
-            `}
-          >
-            <Box
-              forwardedAs="div"
-              dangerouslySetInnerHTML={{
-                __html: t(
-                  'create.additionalInformation.price_info.global_info',
-                ),
-              }}
-              css={`
-                strong {
-                  font-weight: bold;
-                }
-
-                ul {
-                  list-style-type: disc;
-
-                  li {
-                    margin-left: ${parseSpacing(5)};
-                  }
-                }
-              `}
-            />
+          <Alert fullWidth>
+            {t('create.additionalInformation.price_info.global_info')}
           </Alert>
           {hasUitpasPrices && (
             <Alert variant={AlertVariants.PRIMARY} marginBottom={3}>

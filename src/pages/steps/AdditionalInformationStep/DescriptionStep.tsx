@@ -17,7 +17,6 @@ import {
 import RichTextEditor from '@/pages/RichTextEditor';
 import { Event } from '@/types/Event';
 import { Alert } from '@/ui/Alert';
-import { Box, parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Inline } from '@/ui/Inline';
@@ -238,36 +237,13 @@ const DescriptionStep = ({
       />
       {eventTypeId && (
         <Alert
-          flex="1 0 auto"
           css={`
             margin-top: 1.86rem;
           `}
         >
-          <Box
-            forwardedAs="div"
-            dangerouslySetInnerHTML={{
-              __html: t(
-                `create*additionalInformation*description*tips*${eventTypeId}`,
-                {
-                  keySeparator: '*',
-                },
-              ),
-            }}
-            css={`
-              strong {
-                font-weight: bold;
-              }
-
-              ul {
-                list-style-type: disc;
-                margin-bottom: ${parseSpacing(4)};
-
-                li {
-                  margin-left: ${parseSpacing(5)};
-                }
-              }
-            `}
-          />
+          {t(`create*additionalInformation*description*tips*${eventTypeId}`, {
+            keySeparator: '*',
+          })}
         </Alert>
       )}
     </Inline>
