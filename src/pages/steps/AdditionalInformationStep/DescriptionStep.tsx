@@ -144,6 +144,10 @@ const DescriptionStep = ({
       isCompleted ? ValidationStatus.SUCCESS : ValidationStatus.NONE,
     );
 
+    if (!editorState.getLastChangeType()) {
+      return;
+    }
+
     changeDescriptionMutation.mutate({
       description:
         plainTextDescription.length > 0
