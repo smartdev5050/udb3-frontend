@@ -204,7 +204,7 @@ const PictureUploadModal = ({
     control,
     reset,
     register,
-    formState: { errors },
+    formState: { errors, dirtyFields },
     handleSubmit,
     setValue,
   } = useForm<FormData>({
@@ -257,6 +257,10 @@ const PictureUploadModal = ({
       cancelTitle={t('pictures.upload_modal.actions.cancel')}
       size={ModalSizes.MD}
       onConfirm={() => {
+        if (!dirtyFields.description) {
+          onClose();
+        }
+
         formComponent.current.dispatchEvent(
           new Event('submit', { cancelable: true, bubbles: true }),
         );
