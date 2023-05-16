@@ -10,16 +10,10 @@ import {
   AdditionalInformationStepVariant,
 } from '@/pages/steps/AdditionalInformationStep';
 import { calendarStepConfiguration } from '@/pages/steps/CalendarStep';
-import {
-  CalendarInForm,
-  convertStateToFormData,
-} from '@/pages/steps/CalendarStep/CalendarStep';
+import { CalendarInForm } from '@/pages/steps/CalendarStep/CalendarStep';
 import { typeAndThemeStepConfiguration } from '@/pages/steps/EventTypeAndThemeStep';
 import { locationStepConfiguration } from '@/pages/steps/LocationStep';
-import {
-  CalendarMachineProvider,
-  useCalendarSelector,
-} from '@/pages/steps/machines/calendarMachine';
+import { CalendarMachineProvider } from '@/pages/steps/machines/calendarMachine';
 import { nameAndAgeRangeStepConfiguration } from '@/pages/steps/NameAndAgeRangeStep';
 import { scopeStepConfiguration } from '@/pages/steps/ScopeStep';
 import {
