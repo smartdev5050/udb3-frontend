@@ -183,7 +183,7 @@ describe('useAuthenticatedMutation', () => {
     page = setupPage();
   });
 
-  it("doesn't excecute the mutation when the mutationKey and variables are the same as previous", async () => {
+  it("doesn't execute the mutation when the mutationKey and variables are the same as previous", async () => {
     mockResponses({
       '/mutate': { status: 204 },
     });
@@ -214,7 +214,7 @@ describe('useAuthenticatedMutation', () => {
     expect(calledMutationsCount).toEqual(1);
   });
 
-  it('does excecute the mutation when the mutationKey is different than previous mutations', async () => {
+  it('does execute the mutation when the mutationKey is different than previous mutations', async () => {
     mockResponses({
       '/mutate': { status: 204 },
     });
@@ -252,7 +252,7 @@ describe('useAuthenticatedMutation', () => {
     expect(calledMutationsCount).toEqual(2);
   });
 
-  it('does excecute the mutation when the mutationKey is the same but variables are different than previous mutations', async () => {
+  it('does execute the mutation when the mutationKey is the same but variables are different than previous mutations', async () => {
     mockResponses({
       '/mutate': { status: 204 },
     });
