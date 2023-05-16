@@ -62,6 +62,8 @@ type FormData = {
   };
 };
 
+const ONLINE_LOCATION_ID = '00000000-0000-0000-0000-000000000000';
+
 const getTerms = (typeAndTheme: FormDataUnion['typeAndTheme']) => {
   const { type, theme } = typeAndTheme;
 
@@ -174,13 +176,19 @@ const OfferForm = () => {
       streetAndNumber,
       onlineUrl,
     } = location;
+
+    const locationId = parseOfferId(place['@id']);
+
     if (place) {
       return {
         location: {
-          id: parseOfferId(place['@id']),
+          id: locationId,
         },
         ...(scope === OfferTypes.EVENTS && {
-          attendanceMode: AttendanceMode.OFFLINE,
+          attendanceMode:
+            locationId === ONLINE_LOCATION_ID
+              ? AttendanceMode.ONLINE
+              : AttendanceMode.OFFLINE,
         }),
       };
     }
