@@ -280,4 +280,37 @@ describe('useAuthenticatedMutation', () => {
 
     expect(calledMutationsCount).toEqual(2);
   });
+
+  it('compares the payload with the latest mutation', async () => {
+    mockResponses({
+      '/mutate': { status: 204 },
+    });
+
+    const { result, waitForNextUpdate } = renderHookWithWrapper(() =>
+      useAuthenticatedMutation({
+        mutationKey: 'mutate-something',
+        mutationFn: mutationFn,
+      }),
+    );
+
+    await waitForNextUpdate();
+
+    const mutation = result.current;
+
+    await mutation.mutateAsync({
+      test: 'test',
+    });
+
+    await mutation.mutateAsync({
+      different: 'different',
+    });
+
+    await mutation.mutateAsync({
+      test: 'test',
+    });
+
+    const calledMutationsCount = getCalledMutations().length;
+
+    expect(calledMutationsCount).toEqual(3);
+  });
 });
