@@ -171,6 +171,13 @@ const DescriptionStep = ({
     editorState: EditorState,
   ) => {
     const selection = editorState.getSelection();
+    const content = editorState.getCurrentContent();
+    const currentBlock = content.getBlockForKey(selection.getStartKey());
+
+    // If we're in a list, preserve native list behavior
+    if (currentBlock.getType().includes('list-item')) {
+      return false;
+    }
 
     // If we have nothing selected, just insert the newline
     if (selection.isCollapsed()) {
@@ -178,7 +185,6 @@ const DescriptionStep = ({
       return true;
     }
 
-    const content = editorState.getCurrentContent();
     let newContent = Modifier.removeRange(content, selection, 'forward');
     const newSelection = newContent.getSelectionAfter();
     const block = newContent.getBlockForKey(newSelection.getStartKey());
