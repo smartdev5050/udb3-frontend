@@ -88,15 +88,6 @@ const getApplicationServerSideProps =
 
     const cookies = new Cookies(rawCookies, defaultCookieOptions);
 
-    if (!isTokenValid(query?.jwt ?? cookies.get('token'))) {
-      return redirectToLogin(cookies, req, resolvedUrl);
-    }
-
-    // set token in req.headers.cookie so that the token is known when prefetching a request
-    if (query.jwt && cookies.get('token') !== query.jwt) {
-      cookies.set('token', query.jwt);
-    }
-
     req.headers.cookie = cookies.toString();
 
     const isDynamicUrl = !!query.params;

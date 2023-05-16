@@ -1,19 +1,36 @@
+import { getSession } from '@auth0/nextjs-auth0/edge';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-export const middleware = (request: NextRequest) => {
-  const shouldHideBetaVersion =
-    process.env.NEXT_PUBLIC_SHOULD_SHOW_BETA_VERSION !== 'true';
+import { defaultCookieOptions } from './hooks/useCookiesWithOptions';
 
-  const hasSeenConversionPage =
-    request.cookies.get('has_seen_beta_conversion_page') === 'true';
+export const middleware = async (request: NextRequest) => {
+  if (request.nextUrl.pathname.startsWith('/login')) {
+    try {
+      const referer = request.cookies.get('auth0.redirect_uri');
+      const response = NextResponse.redirect(referer);
+      const { accessToken } = await getSession(request, response);
+      response.cookies.set('token', accessToken, defaultCookieOptions);
+      return response;
+    } catch (err) {
+      return NextResponse.next();
+    }
+  }
 
-  if (shouldHideBetaVersion || hasSeenConversionPage) return;
+  if (request.nextUrl.pathname.startsWith('/event')) {
+    const shouldHideBetaVersion =
+      process.env.NEXT_PUBLIC_SHOULD_SHOW_BETA_VERSION !== 'true';
 
-  const url = new URL('/beta-version', request.url);
-  return NextResponse.redirect(url);
+    const hasSeenConversionPage =
+      request.cookies.get('has_seen_beta_conversion_page') === 'true';
+
+    if (shouldHideBetaVersion || hasSeenConversionPage) return;
+
+    const url = new URL('/beta-version', request.url);
+    return NextResponse.redirect(url);
+  }
 };
 
 export const config = {
-  matcher: '/event',
+  matcher: ['/event', '/login'],
 };

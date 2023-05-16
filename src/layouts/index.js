@@ -29,28 +29,7 @@ const useChangeLanguage = () => {
 
 const useHandleAuthentication = () => {
   const { pathname, query, asPath, ...router } = useRouter();
-  const { setCookie, cookies } = useCookiesWithOptions(['token']);
   const getUserQuery = useGetUserQuery();
-
-  useEffect(() => {
-    if (!query?.jwt) return;
-
-    if (cookies.token !== query?.jwt) {
-      setCookie('token', query.jwt);
-    }
-
-    const { jwt, ...restQuery } = query;
-
-    router.push(
-      {
-        pathname,
-        query: restQuery,
-      },
-      undefined,
-      { shallow: true },
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query]);
 
   useEffect(() => {
     if (!getUserQuery.data) return;

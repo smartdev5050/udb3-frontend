@@ -1,6 +1,13 @@
-import { ContentState, convertToRaw, EditorState } from 'draft-js';
+import {
+  ContentState,
+  convertToRaw,
+  EditorState,
+  Modifier,
+  RichUtils,
+} from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import { useEffect, useMemo, useState } from 'react';
+import { SyntheticKeyboardEvent } from 'react-draft-wysiwyg';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -160,6 +167,44 @@ const DescriptionStep = ({
     });
   };
 
+  const handleNewlinesAsSoftline = (
+    e: SyntheticKeyboardEvent,
+    editorState: EditorState,
+  ) => {
+    const selection = editorState.getSelection();
+    const content = editorState.getCurrentContent();
+    const currentBlock = content.getBlockForKey(selection.getStartKey());
+
+    // If we're in a list, preserve native list behavior
+    if (currentBlock.getType().includes('list-item')) {
+      return false;
+    }
+
+    // If we have nothing selected, just insert the newline
+    if (selection.isCollapsed()) {
+      setEditorState(RichUtils.insertSoftNewline(editorState));
+      return true;
+    }
+
+    let newContent = Modifier.removeRange(content, selection, 'forward');
+    const newSelection = newContent.getSelectionAfter();
+    const block = newContent.getBlockForKey(newSelection.getStartKey());
+
+    newContent = Modifier.insertText(
+      newContent,
+      newSelection,
+      '\n',
+      block.getInlineStyleAt(newSelection.getStartOffset()),
+      null,
+    );
+
+    setEditorState(
+      EditorState.push(editorState, newContent, 'insert-fragment'),
+    );
+
+    return true;
+  };
+
   return (
     <Inline
       stackOn={Breakpoints.L}
@@ -176,6 +221,7 @@ const DescriptionStep = ({
             editorState={editorState}
             onEditorStateChange={setEditorState}
             onBlur={handleBlur}
+            handleReturn={handleNewlinesAsSoftline}
           />
         }
         info={

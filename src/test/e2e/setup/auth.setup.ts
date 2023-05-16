@@ -7,7 +7,7 @@ setup('authenticate', async ({ baseURL, page }) => {
 
   await page.getByRole('button', { name: 'Start hier' }).click();
 
-  await page.waitForURL(/publiq-acc.eu.auth0.com\/*/);
+  await page.waitForURL(/account-acc.uitid.be\/*/);
 
   await page.getByLabel('Je e-mailadres').fill(process.env.E2E_TEST_EMAIL);
   await page.getByLabel('Je wachtwoord').fill(process.env.E2E_TEST_PASSWORD);
