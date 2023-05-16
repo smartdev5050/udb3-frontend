@@ -31,6 +31,10 @@ const addImage = async ({
 };
 
 const useAddImageMutation = (configuration = {}) =>
-  useAuthenticatedMutation({ mutationFn: addImage, ...configuration });
+  useAuthenticatedMutation({
+    mutationFn: addImage,
+    mutationKey: 'images-add',
+    ...configuration,
+  });
 
 export { useAddImageMutation };

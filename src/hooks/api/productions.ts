@@ -56,7 +56,11 @@ const deleteEventById = async ({
   });
 
 const useDeleteEventByIdMutation = (configuration = {}) =>
-  useAuthenticatedMutation({ mutationFn: deleteEventById, ...configuration });
+  useAuthenticatedMutation({
+    mutationFn: deleteEventById,
+    mutationKey: 'productions-delete-event-by-id',
+    ...configuration,
+  });
 
 const deleteEventsByIds = async ({
   productionId = '',
@@ -91,7 +95,11 @@ const addEventById = async ({
   });
 
 const useAddEventByIdMutation = (configuration = {}) =>
-  useAuthenticatedMutation({ mutationFn: addEventById, ...configuration });
+  useAuthenticatedMutation({
+    mutationFn: addEventById,
+    mutationKey: 'productions-add-event-by-id',
+    ...configuration,
+  });
 
 const addEventsByIds = async ({ productionId = '', eventIds = [], headers }) =>
   Promise.all(
@@ -140,6 +148,7 @@ const skipSuggestedEvents = async ({ headers, eventIds = [] }) =>
 const useSkipSuggestedEventsMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: skipSuggestedEvents,
+    mutationKey: 'productions-skip-suggested-events',
     ...configuration,
   });
 
@@ -157,7 +166,11 @@ const createWithEvents = async ({ headers, productionName, eventIds = [] }) =>
   });
 
 const useCreateWithEventsMutation = (configuration = {}) =>
-  useAuthenticatedMutation({ mutationFn: createWithEvents, ...configuration });
+  useAuthenticatedMutation({
+    mutationFn: createWithEvents,
+    mutationKey: 'productions-create-with-events',
+    ...configuration,
+  });
 
 const mergeProductions = async ({
   headers,
@@ -170,7 +183,11 @@ const mergeProductions = async ({
   });
 
 const useMergeProductionsMutation = (configuration = {}) =>
-  useAuthenticatedMutation({ mutationFn: mergeProductions, ...configuration });
+  useAuthenticatedMutation({
+    mutationFn: mergeProductions,
+    mutationKey: 'productions-merge',
+    ...configuration,
+  });
 
 const changeProductionName = async ({
   productionId = '',
@@ -193,6 +210,7 @@ const changeProductionName = async ({
 const useChangeProductionNameMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: changeProductionName,
+    mutationKey: 'productions-change-name',
     ...configuration,
   });
 

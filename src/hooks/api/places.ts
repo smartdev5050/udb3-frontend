@@ -203,7 +203,11 @@ const changeAddress = async ({ headers, id, address, language }) =>
   });
 
 const useChangeAddressMutation = (configuration = {}) =>
-  useAuthenticatedMutation({ mutationFn: changeAddress, ...configuration });
+  useAuthenticatedMutation({
+    mutationFn: changeAddress,
+    mutationKey: 'places-change-address',
+    ...configuration,
+  });
 
 const deletePlaceById = async ({ headers, id }) =>
   fetchFromApi({
@@ -214,6 +218,7 @@ const deletePlaceById = async ({ headers, id }) =>
 const useDeletePlaceByIdMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: deletePlaceById,
+    mutationKey: 'places-delete-by-id',
     ...configuration,
   });
 
@@ -240,7 +245,11 @@ const changeStatus = async ({
   });
 
 const useChangeStatusMutation = (configuration: UseMutationOptions = {}) =>
-  useAuthenticatedMutation({ mutationFn: changeStatus, ...configuration });
+  useAuthenticatedMutation({
+    mutationFn: changeStatus,
+    mutationKey: 'places-change-status',
+    ...configuration,
+  });
 
 type PlaceArguments = {
   address: Address;
@@ -293,6 +302,7 @@ const addPlace = async ({
 const useAddPlaceMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: addPlace,
+    mutationKey: 'places-add',
     ...configuration,
   });
 
@@ -312,6 +322,7 @@ const publish = async ({ headers, id, publicationDate }) =>
 const usePublishPlaceMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: publish,
+    mutationKey: 'places-publish',
     ...configuration,
   });
 
