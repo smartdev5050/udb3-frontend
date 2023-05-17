@@ -10,16 +10,10 @@ import {
   AdditionalInformationStepVariant,
 } from '@/pages/steps/AdditionalInformationStep';
 import { calendarStepConfiguration } from '@/pages/steps/CalendarStep';
-import {
-  CalendarInForm,
-  convertStateToFormData,
-} from '@/pages/steps/CalendarStep/CalendarStep';
+import { CalendarInForm } from '@/pages/steps/CalendarStep/CalendarStep';
 import { typeAndThemeStepConfiguration } from '@/pages/steps/EventTypeAndThemeStep';
 import { locationStepConfiguration } from '@/pages/steps/LocationStep';
-import {
-  CalendarMachineProvider,
-  useCalendarSelector,
-} from '@/pages/steps/machines/calendarMachine';
+import { CalendarMachineProvider } from '@/pages/steps/machines/calendarMachine';
 import { nameAndAgeRangeStepConfiguration } from '@/pages/steps/NameAndAgeRangeStep';
 import { scopeStepConfiguration } from '@/pages/steps/ScopeStep';
 import {
@@ -61,6 +55,8 @@ type FormData = {
     typicalAgeRange: string;
   };
 };
+
+const ONLINE_LOCATION_ID = '00000000-0000-0000-0000-000000000000';
 
 const getTerms = (typeAndTheme: FormDataUnion['typeAndTheme']) => {
   const { type, theme } = typeAndTheme;
@@ -174,13 +170,19 @@ const OfferForm = () => {
       streetAndNumber,
       onlineUrl,
     } = location;
+
+    const locationId = parseOfferId(place['@id']);
+
     if (place) {
       return {
         location: {
-          id: parseOfferId(place['@id']),
+          id: locationId,
         },
         ...(scope === OfferTypes.EVENTS && {
-          attendanceMode: AttendanceMode.OFFLINE,
+          attendanceMode:
+            locationId === ONLINE_LOCATION_ID
+              ? AttendanceMode.ONLINE
+              : AttendanceMode.OFFLINE,
         }),
       };
     }
