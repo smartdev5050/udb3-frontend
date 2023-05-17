@@ -544,7 +544,12 @@ const RecentLocations = ({ onFieldChange, ...props }) => {
     offers?.map((offer) => offer.location),
     '@id',
   )
-    .filter((location) => location && location.name.nl !== 'Online')
+    .filter(
+      (location) =>
+        location &&
+        location.name.nl !== 'Online' &&
+        !('duplicateOf' in location),
+    )
     .slice(0, 4);
 
   return (
