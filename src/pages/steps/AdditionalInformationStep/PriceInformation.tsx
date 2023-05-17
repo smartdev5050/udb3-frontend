@@ -274,9 +274,7 @@ const PriceInformation = ({
                   >
                     <Inline minWidth="60%">
                       {rate.category === PriceCategory.BASE && (
-                        <Text width="100%">
-                          Kansentarief met UiTPAS Van Polder tot Kempen
-                        </Text>
+                        <Text width="100%">{rate.name[i18n.language]}</Text>
                       )}
                       {rate.category === PriceCategory.TARIFF && (
                         <FormElement
