@@ -9,6 +9,7 @@ import { useAnnouncementModalContext } from '@/context/AnnouncementModalContext'
 import { useGetAnnouncementsQuery } from '@/hooks/api/announcements';
 import { useGetEventsToModerateQuery } from '@/hooks/api/events';
 import {
+  Auth0User,
   useGetPermissionsQuery,
   useGetRolesQuery,
   useGetUserQuery,
@@ -175,10 +176,10 @@ const Menu = memo(({ items = [], title, ...props }: MenuProps) => {
 });
 
 type ProfileMenuProps = {
-  profileImage?: string;
+  defaultProfileImageUrl?: string;
 };
 
-const ProfileMenu = ({ profileImage }: ProfileMenuProps) => {
+const ProfileMenu = ({ defaultProfileImageUrl }: ProfileMenuProps) => {
   const { t } = useTranslation();
   const { removeAuthenticationCookies } = useCookiesWithOptions();
 
@@ -187,7 +188,7 @@ const ProfileMenu = ({ profileImage }: ProfileMenuProps) => {
 
   const getUserQuery = useGetUserQuery();
   // @ts-expect-error
-  const user = getUserQuery.data;
+  const user = getUserQuery.data as Auth0User;
 
   const loginMenu = [
     {
@@ -213,14 +214,16 @@ const ProfileMenu = ({ profileImage }: ProfileMenuProps) => {
       `}
     >
       <Image
-        src={profileImage}
+        src={user.picture || defaultProfileImageUrl}
         width={40}
         height={40}
         borderRadius={getGlobalBorderRadius}
         alt="Profile picture"
       />
       <Stack as="div" padding={2} spacing={2} flex={1} display={{ s: 'none' }}>
-        {user?.username && <Text>{user.userName}</Text>}
+        {user && (
+          <Text>{user['https://publiq.be/first_name'] ?? user.name}</Text>
+        )}
         <Menu items={loginMenu} />
       </Stack>
     </Inline>
@@ -228,7 +231,7 @@ const ProfileMenu = ({ profileImage }: ProfileMenuProps) => {
 };
 
 ProfileMenu.defaultProps = {
-  profileImage: '/assets/avatar.svg',
+  defaultProfileImageUrl: '/assets/avatar.svg',
 };
 
 type NotificationMenuProps = {
