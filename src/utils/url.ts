@@ -1,4 +1,4 @@
-const prefixUrlWithHttp = (url: string) => {
+const prefixUrlWithHttps = (url: string) => {
   if (url.startsWith('https://')) return url;
 
   if (url.startsWith('http://')) {
@@ -9,4 +9,4 @@ const prefixUrlWithHttp = (url: string) => {
   return `https://${url}`;
 };
 
-export { prefixUrlWithHttp };
+export { prefixUrlWithHttps };
