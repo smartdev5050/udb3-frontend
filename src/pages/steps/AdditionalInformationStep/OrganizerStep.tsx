@@ -294,9 +294,10 @@ const OrganizerStep = ({
           }
           organizer={organizer}
         />
-        {uitpasAlertData && scope === OfferTypes.EVENTS && (
-          <Alert variant={uitpasAlertData.variant}>
-            {uitpasAlertData.key === UitpasTranslationKeys.NO_PRICE ? (
+        {uitpasAlertData &&
+          scope === OfferTypes.EVENTS &&
+          uitpasAlertData.key === UitpasTranslationKeys.NO_PRICE && (
+            <Alert variant={uitpasAlertData.variant}>
               <Trans
                 i18nKey={`create.additionalInformation.organizer.uitpas_alert.${uitpasAlertData.key}`}
                 components={{
@@ -318,13 +319,18 @@ const OrganizerStep = ({
                   ),
                 }}
               />
-            ) : (
-              t(
+            </Alert>
+          )}
+        {uitpasAlertData &&
+          scope === OfferTypes.EVENTS &&
+          uitpasAlertData.key !== UitpasTranslationKeys.NO_PRICE &&
+          selectedCardSystems.length > 0 && (
+            <Alert variant={uitpasAlertData.variant}>
+              {t(
                 `create.additionalInformation.organizer.uitpas_alert.${uitpasAlertData.key}`,
-              )
-            )}
-          </Alert>
-        )}
+              )}
+            </Alert>
+          )}
       </Stack>
 
       {shouldShowCardSystems && (
