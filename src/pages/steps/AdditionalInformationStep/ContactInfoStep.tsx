@@ -13,7 +13,7 @@ import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
 import { Select } from '@/ui/Select';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
-import { prefixUrlWithHttp } from '@/utils/url';
+import { prefixUrlWithHttps } from '@/utils/url';
 
 import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
 
@@ -193,7 +193,7 @@ const ContactInfoStep = ({
     const infoType = contactInfoState[index].type;
 
     if (infoType === ContactInfoTypes.URL) {
-      newValue = prefixUrlWithHttp(newValue);
+      newValue = prefixUrlWithHttps(newValue);
     }
 
     if (!isValidInfo(infoType, newValue)) return;
