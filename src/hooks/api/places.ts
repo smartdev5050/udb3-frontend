@@ -3,6 +3,7 @@ import type { UseMutationOptions, UseQueryOptions } from 'react-query';
 import { CalendarType } from '@/constants/CalendarType';
 import type { EventTypes } from '@/constants/EventTypes';
 import { OfferStatus } from '@/constants/OfferStatus';
+import { OfferTypes } from '@/constants/OfferType';
 import type { SupportedLanguages } from '@/i18n/index';
 import type { Address } from '@/types/Address';
 import { Country } from '@/types/Country';
@@ -44,10 +45,11 @@ const getPlaceById = async ({ headers, id }) => {
 
 type UseGetPlaceByIdArguments = ServerSideQueryOptions & {
   id: string;
+  scope?: Values<typeof OfferTypes>;
 };
 
 const useGetPlaceByIdQuery = (
-  { req, queryClient, id }: UseGetPlaceByIdArguments,
+  { req, queryClient, id, scope }: UseGetPlaceByIdArguments,
   configuration: UseQueryOptions = {},
 ) =>
   useAuthenticatedQuery({
@@ -56,7 +58,7 @@ const useGetPlaceByIdQuery = (
     queryKey: ['places'],
     queryFn: getPlaceById,
     queryArguments: { id },
-    enabled: !!id,
+    enabled: !!id && scope === OfferTypes.PLACES,
     ...configuration,
   });
 
