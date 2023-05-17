@@ -87,7 +87,7 @@ const useGetOfferByIdQuery = ({ scope, id }, configuration = {}) => {
   const query =
     scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
 
-  return query({ id }, configuration);
+  return query({ id, scope }, configuration);
 };
 
 const changeOfferName = async ({ headers, id, lang, name, scope }) => {
