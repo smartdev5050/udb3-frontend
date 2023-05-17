@@ -171,9 +171,9 @@ const OfferForm = () => {
       onlineUrl,
     } = location;
 
-    const locationId = parseOfferId(place['@id']);
-
     if (place) {
+      const locationId = parseOfferId(place['@id']);
+
       return {
         location: {
           id: locationId,
