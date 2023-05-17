@@ -154,6 +154,10 @@ const ContactInfoStep = ({
       );
     },
     onSuccess: (data) => {
+      if (typeof data === 'undefined') {
+        return;
+      }
+
       onValidationChange(ValidationStatus.SUCCESS);
       onSuccessfulChange(data);
     },
