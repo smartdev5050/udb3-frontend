@@ -1,7 +1,12 @@
 const prefixUrlWithHttp = (url: string) => {
-  if (url.startsWith('http')) return url;
+  if (url.startsWith('https://')) return url;
 
-  return `http://${url}`;
+  if (url.startsWith('http://')) {
+    const httpsUrl = url.replace('http://', 'https://');
+    return httpsUrl;
+  }
+
+  return `https://${url}`;
 };
 
 export { prefixUrlWithHttp };
