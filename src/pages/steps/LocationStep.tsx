@@ -42,7 +42,7 @@ import { getValueFromTheme } from '@/ui/theme';
 import { ToggleBox } from '@/ui/ToggleBox';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 import { parseOfferId } from '@/utils/parseOfferId';
-import { prefixUrlWithHttp } from '@/utils/url';
+import { prefixUrlWithHttps } from '@/utils/url';
 
 import { CityPicker } from '../CityPicker';
 import { Features, NewFeatureTooltip } from '../NewFeatureTooltip';
@@ -906,7 +906,7 @@ const LocationStep = ({
                           const prefixedUrl =
                             e.target.value === ''
                               ? e.target.value
-                              : prefixUrlWithHttp(e.target.value);
+                              : prefixUrlWithHttps(e.target.value);
                           const updatedValue = {
                             ...field?.value,
                             onlineUrl: prefixedUrl,
