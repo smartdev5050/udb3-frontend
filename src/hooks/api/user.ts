@@ -1,3 +1,5 @@
+import getConfig from 'next/config';
+
 import { User } from '@/types/User';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 
@@ -6,18 +8,34 @@ import {
   useAuthenticatedQuery,
 } from './authenticated-query';
 
+type Auth0User = {
+  sub: string;
+  given_name: string;
+  family_name: string;
+  nickname: string;
+  name: string;
+  picture: string;
+  locale: string;
+  updated_at: string;
+  email: string;
+  email_verified: boolean;
+  'https://publiq.be/uitidv1id': string;
+  'https://publiq.be/hasMuseumpasSubscription': boolean;
+  'https://publiq.be/first_name': string;
+};
+
 const getUser = async ({ headers }) => {
-  const res = await fetchFromApi({
-    path: '/user',
-    options: {
-      headers,
-    },
+  const url = new URL(
+    'https://' + getConfig().publicRuntimeConfig.auth0Domain + '/userinfo',
+  );
+  const res = await fetch(url, {
+    headers,
   });
-  if (isErrorObject(res)) {
+  if (!res.ok) {
     // eslint-disable-next-line no-console
     return console.error(res);
   }
-  return await res.json();
+  return (await res.json()) as Auth0User;
 };
 
 const useGetUserQuery = (
@@ -76,3 +94,4 @@ const useGetRolesQuery = (configuration = {}) =>
   });
 
 export { useGetPermissionsQuery, useGetRolesQuery, useGetUserQuery };
+export type { Auth0User };
