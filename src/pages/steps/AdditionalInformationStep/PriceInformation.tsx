@@ -267,12 +267,12 @@ const PriceInformation = ({
                 >
                   <Inline
                     width="100%"
-                    alignItems="baseline"
                     paddingY={3}
+                    alignItems="baseline"
                     justifyContent="flex-start"
                     spacing={3}
                   >
-                    <Inline minWidth="30%">
+                    <Inline minWidth="60%">
                       {rate.category === PriceCategory.BASE && (
                         <Text width="100%">{rate.name[i18n.language]}</Text>
                       )}
@@ -302,7 +302,7 @@ const PriceInformation = ({
                         <Text>{rate.name[i18n.language]}</Text>
                       )}
                     </Inline>
-                    <Inline minWidth="20%" alignItems="center">
+                    <Inline width="18%" alignItems="center">
                       {rate.category && (
                         <FormElement
                           id={`rate_price_${rate.id}`}
@@ -327,7 +327,8 @@ const PriceInformation = ({
                           }
                         />
                       )}
-
+                    </Inline>
+                    <Inline>
                       <Text
                         variant={TextVariants.MUTED}
                         css={`
