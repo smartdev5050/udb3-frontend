@@ -7,6 +7,8 @@ import {
   useAuthenticatedQuery,
 } from './authenticated-query';
 
+const { publicRuntimeConfig } = getConfig();
+
 type User = {
   sub: string;
   given_name: string;
@@ -34,7 +36,7 @@ const getUser = async ({ headers }) => {
   );
 
   const res = await fetchFromApi({
-    apiUrl: `https://${getConfig().publicRuntimeConfig.auth0Domain}`,
+    apiUrl: `https://${publicRuntimeConfig.auth0Domain}`,
     path: '/userinfo',
     options: {
       headers: filteredHeaders,
