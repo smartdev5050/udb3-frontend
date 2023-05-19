@@ -9,10 +9,10 @@ import { useAnnouncementModalContext } from '@/context/AnnouncementModalContext'
 import { useGetAnnouncementsQuery } from '@/hooks/api/announcements';
 import { useGetEventsToModerateQuery } from '@/hooks/api/events';
 import {
-  Auth0User,
   useGetPermissionsQuery,
   useGetRolesQuery,
   useGetUserQuery,
+  User,
 } from '@/hooks/api/user';
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
@@ -188,7 +188,7 @@ const ProfileMenu = ({ defaultProfileImageUrl }: ProfileMenuProps) => {
 
   const getUserQuery = useGetUserQuery();
   // @ts-expect-error
-  const user = getUserQuery.data as Auth0User;
+  const user = getUserQuery.data as User;
 
   const loginMenu = [
     {

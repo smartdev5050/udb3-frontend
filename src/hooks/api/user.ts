@@ -1,6 +1,5 @@
 import getConfig from 'next/config';
 
-import { User } from '@/types/User';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 
 import {
@@ -8,7 +7,7 @@ import {
   useAuthenticatedQuery,
 } from './authenticated-query';
 
-type Auth0User = {
+type User = {
   sub: string;
   given_name: string;
   family_name: string;
@@ -26,7 +25,7 @@ type Auth0User = {
 
 const getUser = async ({ headers }) => {
   const res = await fetchFromApi({
-    apiUrl: `https://${getConfig().publicRuntimeConfig.auth0Domain}`,
+    apiUrl: 'https://publiq-test.eu.auth0.com', //`https://${getConfig().publicRuntimeConfig.auth0Domain}`,
     path: '/userinfo',
     options: {
       headers,
@@ -96,4 +95,4 @@ const useGetRolesQuery = (configuration = {}) =>
   });
 
 export { useGetPermissionsQuery, useGetRolesQuery, useGetUserQuery };
-export type { Auth0User };
+export type { User };

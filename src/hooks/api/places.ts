@@ -9,7 +9,6 @@ import type { Address } from '@/types/Address';
 import { Country } from '@/types/Country';
 import { OpeningHours, Term } from '@/types/Offer';
 import type { Place } from '@/types/Place';
-import type { User } from '@/types/User';
 import type { Values } from '@/types/Values';
 import { WorkflowStatus } from '@/types/WorkflowStatus';
 import { createEmbededCalendarSummaries } from '@/utils/createEmbededCalendarSummaries';
@@ -28,6 +27,7 @@ import {
   useAuthenticatedQuery,
 } from './authenticated-query';
 import type { Headers } from './types/Headers';
+import { User } from './user';
 
 const getPlaceById = async ({ headers, id }) => {
   const res = await fetchFromApi({
@@ -102,7 +102,7 @@ const useGetPlacesByCreatorQuery = (
     queryKey: ['places'],
     queryFn: getPlacesByCreator,
     queryArguments: {
-      q: `creator:(${creator?.id} OR ${creator?.email}) OR contributors:${creator?.email}`,
+      q: `creator:(${creator?.sub} OR ${creator?.email}) OR contributors:${creator?.email}`,
       disableDefaultFilters: true,
       embed: true,
       limit: paginationOptions.limit,
@@ -111,7 +111,7 @@ const useGetPlacesByCreatorQuery = (
       ...createSortingArgument(sortOptions),
       ...createEmbededCalendarSummaries(calendarSummaryFormats),
     },
-    enabled: !!(creator?.id && creator?.email),
+    enabled: !!(creator?.sub && creator?.email),
     ...configuration,
   });
 
