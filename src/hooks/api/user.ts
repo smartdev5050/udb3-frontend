@@ -25,17 +25,19 @@ type Auth0User = {
 };
 
 const getUser = async ({ headers }) => {
-  const url = new URL(
-    'https://' + getConfig().publicRuntimeConfig.auth0Domain + '/userinfo',
-  );
-  const res = await fetch(url, {
-    headers,
+  const res = await fetchFromApi({
+    apiUrl: `https://${getConfig().publicRuntimeConfig.auth0Domain}`,
+    path: '/userinfo',
+    options: {
+      headers,
+    },
   });
-  if (!res.ok) {
+
+  if (isErrorObject(res)) {
     // eslint-disable-next-line no-console
     return console.error(res);
   }
-  return (await res.json()) as Auth0User;
+  return await res.json();
 };
 
 const useGetUserQuery = (

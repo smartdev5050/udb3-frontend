@@ -29,21 +29,23 @@ type FetchFromApiArguments = {
   searchParams?: { [key: string]: string };
   options?: RequestInit;
   silentError?: boolean;
+  apiUrl?: string;
 };
+
+const { publicRuntimeConfig } = getConfig();
 
 const fetchFromApi = async ({
   path,
   searchParams = {},
   options = {},
   silentError = false,
+  apiUrl = publicRuntimeConfig.apiUrl,
 }: FetchFromApiArguments): Promise<ErrorObject | Response> => {
-  const { publicRuntimeConfig } = getConfig();
-
   let response: Response;
   let url: URL;
 
   try {
-    url = new URL(`${publicRuntimeConfig.apiUrl}${path}`);
+    url = new URL(`${apiUrl}${path}`);
     searchParams = omit(searchParams, 'queryKey');
     if (typeof searchParams?.q !== 'undefined' && !searchParams?.q) {
       searchParams = omit(searchParams, 'q');
@@ -74,7 +76,15 @@ const fetchFromApi = async ({
   }
 
   if (!response.ok) {
-    const result = await response.json();
+    let result: { title: string };
+
+    const data = await response.text();
+
+    try {
+      result = JSON.parse(data);
+    } catch (error) {
+      result = { title: data };
+    }
 
     if (!silentError) {
       throw new FetchError(response?.status, result?.title ?? 'Unknown error');
