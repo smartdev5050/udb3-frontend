@@ -87,13 +87,13 @@ const fetchFromApi = async ({
     }
 
     if (!silentError) {
-      throw new FetchError(response?.status, result?.title ?? 'Unknown error');
+      throw new FetchError(response?.status, result.title || 'Unknown error');
     }
 
     return {
       type: 'ERROR',
       status: response?.status,
-      message: result?.title ?? 'Unknown error',
+      message: result.title || 'Unknown error',
     };
   }
 
