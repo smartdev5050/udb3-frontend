@@ -1,5 +1,5 @@
 import { FormEvent } from 'react';
-import { Controller, useWatch } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { parseSpacing } from '@/ui/Box';
@@ -15,13 +15,14 @@ type NameStepProps = StackProps & StepProps;
 const NameStep = ({
   formState: { errors },
   control,
+  watch,
   onChange,
   mainLanguage,
   ...props
 }: NameStepProps) => {
   const { t, i18n } = useTranslation();
 
-  const scope = useWatch({ control, name: 'scope' });
+  const scope = watch('scope');
 
   return (
     <Stack {...getStackProps(props)}>
