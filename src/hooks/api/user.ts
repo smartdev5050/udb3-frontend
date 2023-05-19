@@ -24,11 +24,20 @@ type User = {
 };
 
 const getUser = async ({ headers }) => {
+  // We can't send all of the headers to auth0.
+  // Sending the X-Api-Key header will cause CORS issues
+  // Leaking the X-Api-Key to other services than udb3 backend is also not needed
+  const filteredHeaders = Object.fromEntries<string>(
+    Object.entries<string>(headers).filter(
+      ([key]) => key.toLowerCase() !== 'x-api-key',
+    ),
+  );
+
   const res = await fetchFromApi({
-    apiUrl: 'https://publiq-test.eu.auth0.com', //`https://${getConfig().publicRuntimeConfig.auth0Domain}`,
+    apiUrl: `https://${getConfig().publicRuntimeConfig.auth0Domain}`,
     path: '/userinfo',
     options: {
-      headers,
+      headers: filteredHeaders,
     },
   });
 
