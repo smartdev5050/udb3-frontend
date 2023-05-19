@@ -221,9 +221,7 @@ const ProfileMenu = ({ defaultProfileImageUrl }: ProfileMenuProps) => {
         alt="Profile picture"
       />
       <Stack as="div" padding={2} spacing={2} flex={1} display={{ s: 'none' }}>
-        {user && (
-          <Text>{user['https://publiq.be/first_name'] ?? user.name}</Text>
-        )}
+        {user && <Text>{user['https://publiq.be/first_name']}</Text>}
         <Menu items={loginMenu} />
       </Stack>
     </Inline>
