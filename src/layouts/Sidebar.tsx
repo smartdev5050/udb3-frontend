@@ -214,7 +214,7 @@ const ProfileMenu = ({ defaultProfileImageUrl }: ProfileMenuProps) => {
       `}
     >
       <Image
-        src={user.picture || defaultProfileImageUrl}
+        src={user?.picture || defaultProfileImageUrl}
         width={40}
         height={40}
         borderRadius={getGlobalBorderRadius}
