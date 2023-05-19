@@ -27,7 +27,7 @@ import {
   useAuthenticatedQuery,
 } from './authenticated-query';
 import type { Headers } from './types/Headers';
-import { User } from './user';
+import type { User } from './user';
 
 const getPlaceById = async ({ headers, id }) => {
   const res = await fetchFromApi({

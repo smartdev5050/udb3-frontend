@@ -14,7 +14,7 @@ import { createSortingArgument } from '@/utils/createSortingArgument';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 
 import type { Headers } from './types/Headers';
-import { User } from './user';
+import type { User } from './user';
 
 type HeadersAndQueryData = {
   headers: Headers;
