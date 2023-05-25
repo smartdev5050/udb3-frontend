@@ -101,6 +101,9 @@ const AudienceStep = ({
             }
           />
         ))}
+        <Text variant="muted" maxWidth="30%">
+          {t('create.additionalInformation.audience.tips')}
+        </Text>
       </Stack>
     </Stack>
   );
