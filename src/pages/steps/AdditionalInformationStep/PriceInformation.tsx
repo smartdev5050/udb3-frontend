@@ -170,7 +170,11 @@ const PriceInformation = ({
   }));
 
   const addPriceInfoMutation = useAddOfferPriceInfoMutation({
-    onSuccess: () => setTimeout(() => onSuccessfulChange(), 1000),
+    onSuccess: (data) => {
+      if (typeof data === 'undefined') return;
+
+      return setTimeout(() => onSuccessfulChange(), 1000);
+    },
   });
 
   const onSubmit = useCallback(
