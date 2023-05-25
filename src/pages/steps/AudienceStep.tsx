@@ -102,7 +102,7 @@ const AudienceStep = ({
           />
         ))}
         <Text variant="muted" maxWidth="30%">
-          {t('create.additionalInformation.audience.tips')}
+          {t('create.additionalInformation.audience.help')}
         </Text>
       </Stack>
     </Stack>
