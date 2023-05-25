@@ -294,7 +294,8 @@
         "education": "Spécifiquement pour des écoles",
         "everyone": "Pour tout le monde",
         "members": "Seulement pour des membres",
-        "title": "Accès"
+        "title": "Accès",
+        "help": "Votre article ne sera publié que sur des chaînes d'éducation culturelle telles que cultuurkuur.be. Après la publication, vous pouvez ajouter des informations spécifiques pour les écoles."
       },
       "contact_info": {
         "add_more_singular": "Ajouter des coordonnées",

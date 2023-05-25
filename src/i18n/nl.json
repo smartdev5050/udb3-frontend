@@ -294,7 +294,8 @@
         "title": "Toegang",
         "education": "Specifiek voor scholen",
         "everyone": "Voor iedereen",
-        "members": "Enkel voor leden"
+        "members": "Enkel voor leden",
+        "help": "Je item wordt enkel gepubliceerd op cultuureducatieve kanalen zoals cultuurkuur.be. Na het publiceren kan je nog specifieke informatie voor scholen toevoegen."
       },
       "contact_info": {
         "add_more_singular": "Contactgegevens toevoegen",

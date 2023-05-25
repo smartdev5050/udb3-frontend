@@ -292,7 +292,8 @@
         "education": "Nur für Schulen",
         "everyone": "Für alle",
         "members": "Nur für Mitglieder",
-        "title": "Zugang"
+        "title": "Zugang",
+        "help": "Ihr Artikel wird nur auf kulturellen Bildungskanälen wie cultuurkuur.be veröffentlicht. Nach der Veröffentlichung können Sie spezifische Informationen für Schulen hinzufügen."
       },
       "contact_info": {
         "add_more_singular": "Kontaktdaten hinzufügen",
