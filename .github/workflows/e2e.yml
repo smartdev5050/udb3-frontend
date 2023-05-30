@@ -20,6 +20,13 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
+
+      - uses: actions/cache@v3
+        with:
+          path:
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
+      
       - name: Install Playwright Browsers
         run: yarn playwright install chromium --with-deps
       - name: Run Playwright tests
