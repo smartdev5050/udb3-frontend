@@ -22,14 +22,13 @@ import {
   useDeletePlaceByIdMutation,
   useGetPlacesByCreatorQuery,
 } from '@/hooks/api/places';
-import { useGetUserQuery } from '@/hooks/api/user';
+import { useGetUserQuery, User } from '@/hooks/api/user';
 import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
 import { Footer } from '@/pages/Footer';
 import type { Event } from '@/types/Event';
 import { Offer } from '@/types/Offer';
 import type { Organizer } from '@/types/Organizer';
 import type { Place } from '@/types/Place';
-import type { User } from '@/types/User';
 import { Values } from '@/types/Values';
 import { WorkflowStatus } from '@/types/WorkflowStatus';
 import { Alert, AlertVariants } from '@/ui/Alert';
@@ -531,7 +530,7 @@ const Dashboard = (): any => {
 
   const getUserQuery = useGetUserQuery();
   // @ts-expect-error
-  const user = getUserQuery.data;
+  const user = getUserQuery.data as User;
 
   const handleSelectSorting = (event) => {
     const sortValue = event.target.value;
@@ -594,7 +593,11 @@ const Dashboard = (): any => {
 
   return [
     <Page key="page">
-      <Page.Title>{`${t('dashboard.welcome')}, ${user?.username}`}</Page.Title>
+      <Page.Title>
+        {user?.['https://publiq.be/first_name']
+          ? `${t('dashboard.welcome')}, ${user['https://publiq.be/first_name']}`
+          : `${t('dashboard.welcome')},`}
+      </Page.Title>
       <Page.Content spacing={5}>
         {globalAlertMessages && (
           <Inline>

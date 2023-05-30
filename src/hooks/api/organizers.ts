@@ -10,11 +10,11 @@ import {
   useAuthenticatedQuery,
 } from '@/hooks/api/authenticated-query';
 import type { Organizer } from '@/types/Organizer';
-import type { User } from '@/types/User';
 import { createSortingArgument } from '@/utils/createSortingArgument';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 
 import type { Headers } from './types/Headers';
+import type { User } from './user';
 
 type HeadersAndQueryData = {
   headers: Headers;
@@ -197,13 +197,13 @@ const useGetOrganizersByCreatorQuery = (
     queryKey: ['organizers'],
     queryFn: getOrganizersByCreator,
     queryArguments: {
-      q: `creator:(${creator?.id} OR ${creator?.email}) OR contributors:${creator?.email}`,
+      q: `creator:(${creator?.sub} OR ${creator?.email}) OR contributors:${creator?.email}`,
       limit: paginationOptions.limit,
       start: paginationOptions.start,
       embed: true,
       ...createSortingArgument(sortOptions),
     },
-    enabled: !!(creator?.id && creator?.email),
+    enabled: !!(creator?.sub && creator?.email),
     ...configuration,
   });
 

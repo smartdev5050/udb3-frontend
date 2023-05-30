@@ -4,7 +4,6 @@ import { OfferTypes } from '@/constants/OfferType';
 import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import { Offer } from '@/types/Offer';
-import type { User } from '@/types/User';
 import { createEmbededCalendarSummaries } from '@/utils/createEmbededCalendarSummaries';
 import { createSortingArgument } from '@/utils/createSortingArgument';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
@@ -17,6 +16,7 @@ import {
   useAuthenticatedMutation,
   useAuthenticatedQuery,
 } from './authenticated-query';
+import type { User } from './user';
 
 const getOffersByCreator = async ({ headers, ...queryData }) => {
   const res = await fetchFromApi({
@@ -57,7 +57,7 @@ const useGetOffersByCreatorQuery = (
     ...configuration
   }: UseQueryOptions & { queryArguments?: any } = {},
 ) => {
-  const defaultQuery = `creator:(${creator?.id} OR ${creator?.email})`;
+  const defaultQuery = `creator:(${creator?.sub} OR ${creator?.email})`;
   const query = advancedQuery
     ? defaultQuery.concat(' AND ', advancedQuery)
     : defaultQuery;
@@ -78,7 +78,7 @@ const useGetOffersByCreatorQuery = (
         createEmbededCalendarSummaries(calendarSummaryFormats)),
       ...(queryArguments ?? {}),
     },
-    enabled: !!(creator?.id && creator?.email),
+    enabled: !!(creator?.sub && creator?.email),
     ...configuration,
   });
 };

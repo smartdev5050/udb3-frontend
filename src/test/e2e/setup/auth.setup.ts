@@ -23,7 +23,7 @@ setup('authenticate', async ({ baseURL, page }) => {
   // Wait for network to be idle, if we save storage too early, needed storage values might not yet be available
   await page.waitForLoadState('networkidle');
 
-  await page.getByText('Welkom, e2e.udb3.frontend').waitFor();
+  await page.getByText('Welkom, end to end').waitFor();
 
   await page.context().storageState({ path: authFile });
 });
