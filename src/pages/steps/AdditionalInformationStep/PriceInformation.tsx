@@ -87,7 +87,9 @@ const schema = yup
         }),
       )
       .test('unique_name', 'No unique name', (prices, context) => {
-        const priceNames = prices.map((item) => item.name[i18n.language]);
+        const priceNames = (prices ?? []).map(
+          (item) => item.name[i18n.language],
+        );
         const errors = priceNames
           .map((priceName, index) => {
             const indexOf = priceNames.indexOf(priceName);
@@ -183,7 +185,7 @@ const PriceInformation = ({
         addPriceInfoMutation.mutate({
           id: offerId,
           scope,
-          priceInfo: data.rates.map((rate) => ({
+          priceInfo: (data.rates ?? []).map((rate) => ({
             ...rate,
             price: parseFloat(rate.price.replace(',', '.')),
           })),
@@ -194,7 +196,7 @@ const PriceInformation = ({
 
   const isPriceFree = (price: string) => ['0', '0,0', '0,00'].includes(price);
   const hasUitpasPrices = useMemo(
-    () => rates.some((rate) => rate.category === PriceCategory.UITPAS),
+    () => (rates ?? []).some((rate) => rate.category === PriceCategory.UITPAS),
     [rates],
   );
 
@@ -258,9 +260,9 @@ const PriceInformation = ({
             const registerPriceProps = register(`rates.${index}.price`);
 
             const validationErrorType =
-              errors.rates?.at(index)?.name?.type ||
-              errors.rates?.at(index)?.price?.type ||
-              errors.rates?.at(index)?.type;
+              errors.rates?.[index]?.name?.type ||
+              errors.rates?.[index]?.price?.type ||
+              errors.rates?.[index]?.type;
 
             return (
               <Stack key={`rate_${rate.id}`}>
