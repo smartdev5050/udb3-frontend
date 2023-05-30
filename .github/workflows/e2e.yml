@@ -23,12 +23,12 @@ jobs:
 
       - uses: actions/cache@v3
         with:
-          path:
-            ~/.cache/ms-playwright
+          path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
-      
+
       - name: Install Playwright Browsers
         run: yarn playwright install chromium --with-deps
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
       - name: Run Playwright tests
         env:
           AUTH0_BASE_URL: ${{ secrets.AUTH0_BASE_URL }}
