@@ -14,7 +14,7 @@ const getLanguageObjectOrFallback = <TReturned>(
   }
 
   // use nl as fallback language
-  if (typeof obj !== 'string') {
+  if (typeof obj !== 'string' && obj[SupportedLanguages.NL]) {
     return obj[SupportedLanguages.NL] as TReturned;
   }
 
