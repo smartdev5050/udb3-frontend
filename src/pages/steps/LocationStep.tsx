@@ -1005,9 +1005,12 @@ const LocationStep = ({
                     <CountryPicker
                       value={country}
                       includeLocationSchool={scope === OfferTypes.EVENTS}
-                      onChange={(newCountry) =>
-                        onFieldChange({ country: newCountry })
-                      }
+                      onChange={(newCountry) => {
+                        onFieldChange({
+                          country: newCountry,
+                          place: newCountry ? place : undefined,
+                        });
+                      }}
                       css={`
                         & button {
                           margin-bottom: 0.3rem;
