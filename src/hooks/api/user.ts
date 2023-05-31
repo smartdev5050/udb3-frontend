@@ -59,8 +59,8 @@ const useGetUserQuery = (
     queryClient,
     queryKey: ['user'],
     queryFn: getUser,
+    staleTime: Infinity,
     ...configuration,
-    enabled: false,
   });
 };
 
