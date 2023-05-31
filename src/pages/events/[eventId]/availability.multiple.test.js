@@ -162,7 +162,7 @@ test('I can save a booking availability', async () => {
 
   await waitForFetch(`/events/${page.router.query.eventId}/subEvents`);
 
-  expect(fetch.mock.calls[3][1].body).toEqual(
+  expect(fetch.mock.calls[4][1].body).toEqual(
     JSON.stringify([
       {
         id: 1,

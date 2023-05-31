@@ -297,7 +297,6 @@ const useAuthenticatedQuery = <TData>(
   if (isUnAuthorized(result?.error?.status)) {
     if (!asPath.startsWith('/login') && asPath !== '/[...params]') {
       removeAuthenticationCookies();
-      options.queryClient.invalidateQueries('user');
       router.push('/login');
     }
   }
