@@ -14,7 +14,7 @@ function RichTextEditor(props: ComponentProps<typeof Editor>) {
       style={{
         background: 'white',
         borderRadius: 10,
-        padding: 10,
+        overflow: 'hidden',
         width: '100%',
       }}
     >
