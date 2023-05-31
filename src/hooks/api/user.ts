@@ -60,6 +60,7 @@ const useGetUserQuery = (
     queryKey: ['user'],
     queryFn: getUser,
     ...configuration,
+    enabled: false,
   });
 };
 
