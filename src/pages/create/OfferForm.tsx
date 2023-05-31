@@ -224,12 +224,17 @@ const OfferForm = () => {
     location,
     calendar,
   }: FormData) => {
+    const audienceType =
+      location.country && scope === OfferTypes.EVENTS
+        ? AudienceType.EVERYONE
+        : undefined;
+
     return {
       typicalAgeRange,
       mainLanguage: i18n.language,
       name,
       workflowStatus: WorkflowStatus.DRAFT,
-      ...(scope === OfferTypes.EVENTS && {
+      ...(audienceType && {
         audienceType: AudienceType.EVERYONE,
       }),
       ...getLocationAttributes(scope, location, i18n.language),
