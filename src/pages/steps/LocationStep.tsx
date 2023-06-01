@@ -868,9 +868,7 @@ const LocationStep = ({
                     {...getInlineProps(props)}
                   >
                     <ToggleBox
-                      onClick={() =>
-                        field.onChange({ ...field.value, isOnline: false })
-                      }
+                      onClick={() => onFieldChange({ isOnline: false })}
                       active={!isOnline}
                       icon={<PhysicalLocationIcon width={'50px'} />}
                       text={t('create.location.is_physical.label')}
@@ -879,7 +877,9 @@ const LocationStep = ({
                     />
                     <ToggleBox
                       onClick={() =>
-                        field.onChange({ ...field.value, isOnline: true })
+                        onFieldChange({
+                          isOnline: true,
+                        })
                       }
                       active={isOnline}
                       icon={<OnlineLocationIcon width={'50px'} />}
@@ -1005,9 +1005,12 @@ const LocationStep = ({
                     <CountryPicker
                       value={country}
                       includeLocationSchool={scope === OfferTypes.EVENTS}
-                      onChange={(newCountry) =>
-                        onFieldChange({ country: newCountry })
-                      }
+                      onChange={(newCountry) => {
+                        onFieldChange({
+                          country: newCountry,
+                          place: newCountry ? place : undefined,
+                        });
+                      }}
                       css={`
                         & button {
                           margin-bottom: 0.3rem;
