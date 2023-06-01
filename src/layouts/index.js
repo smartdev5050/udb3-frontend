@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { Cookies } from 'react-cookie';
 import { useTranslation } from 'react-i18next';
+import { useQueryClient } from 'react-query';
 
 import { useGetTermsQuery } from '@/hooks/api/terms';
 import { useGetUserQuery } from '@/hooks/api/user';
@@ -58,6 +59,7 @@ const useHandleAuthentication = () => {
 
 const Layout = ({ children }) => {
   const { asPath, ...router } = useRouter();
+  const queryClient = useQueryClient();
   const { cookies, removeAuthenticationCookies } = useCookiesWithOptions([
     'token',
   ]);
@@ -85,6 +87,7 @@ const Layout = ({ children }) => {
     [WindowMessageTypes.HTTP_ERROR_CODE]: ({ code }) => {
       if ([401, 403].includes(code)) {
         removeAuthenticationCookies();
+        queryClient.invalidateQueries('user');
         router.push('/login');
       }
     },
