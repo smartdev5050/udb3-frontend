@@ -1,7 +1,9 @@
 import type { UseQueryOptions } from 'react-query';
 
+import { OfferTypes } from '@/constants/OfferType';
+import { useGetEventByIdQuery } from '@/hooks/api/events';
+import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import { Offer } from '@/types/Offer';
-import type { User } from '@/types/User';
 import { createEmbededCalendarSummaries } from '@/utils/createEmbededCalendarSummaries';
 import { createSortingArgument } from '@/utils/createSortingArgument';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
@@ -12,8 +14,9 @@ import {
   PaginationOptions,
   SortOptions,
   useAuthenticatedMutation,
+  useAuthenticatedQuery,
 } from './authenticated-query';
-import { useAuthenticatedQuery } from './authenticated-query';
+import type { User } from './user';
 
 const getOffersByCreator = async ({ headers, ...queryData }) => {
   const res = await fetchFromApi({
@@ -49,9 +52,12 @@ const useGetOffersByCreatorQuery = (
         advancedQuery?: string;
       }
   >,
-  configuration: UseQueryOptions = {},
+  {
+    queryArguments,
+    ...configuration
+  }: UseQueryOptions & { queryArguments?: any } = {},
 ) => {
-  const defaultQuery = `creator:(${creator?.id} OR ${creator?.email})`;
+  const defaultQuery = `creator:(${creator?.sub} OR ${creator?.email})`;
   const query = advancedQuery
     ? defaultQuery.concat(' AND ', advancedQuery)
     : defaultQuery;
@@ -70,10 +76,18 @@ const useGetOffersByCreatorQuery = (
       ...createSortingArgument(sortOptions),
       ...(calendarSummaryFormats &&
         createEmbededCalendarSummaries(calendarSummaryFormats)),
+      ...(queryArguments ?? {}),
     },
-    enabled: !!(creator?.id && creator?.email),
+    enabled: !!(creator?.sub && creator?.email),
     ...configuration,
   });
+};
+
+const useGetOfferByIdQuery = ({ scope, id }, configuration = {}) => {
+  const query =
+    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
+
+  return query({ id, scope }, configuration);
 };
 
 const changeOfferName = async ({ headers, id, lang, name, scope }) => {
@@ -88,7 +102,11 @@ const changeOfferName = async ({ headers, id, lang, name, scope }) => {
 };
 
 const useChangeOfferNameMutation = (configuration = {}) =>
-  useAuthenticatedMutation({ mutationFn: changeOfferName, ...configuration });
+  useAuthenticatedMutation({
+    mutationFn: changeOfferName,
+    mutationKey: 'offers-change-name',
+    ...configuration,
+  });
 
 const changeOfferTypicalAgeRange = async ({
   headers,
@@ -108,6 +126,7 @@ const changeOfferTypicalAgeRange = async ({
 const useChangeOfferTypicalAgeRangeMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: changeOfferTypicalAgeRange,
+    mutationKey: 'offers-change-typical-age-range',
     ...configuration,
   });
 
@@ -152,6 +171,7 @@ const changeOfferCalendar = async ({
 const useChangeOfferCalendarMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: changeOfferCalendar,
+    mutationKey: 'offers-change-calendar',
     ...configuration,
   });
 
@@ -164,9 +184,26 @@ const addOfferLabel = async ({ headers, id, label, scope }) =>
     },
   });
 
+const removeOfferLabel = async ({ headers, id, label, scope }) =>
+  fetchFromApi({
+    path: `/${scope}/${id}/labels/${label}`,
+    options: {
+      method: 'DELETE',
+      headers,
+    },
+  });
+
 const useAddOfferLabelMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: addOfferLabel,
+    mutationKey: 'offers-add-label',
+    ...configuration,
+  });
+
+const useRemoveOfferLabelMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: removeOfferLabel,
+    mutationKey: 'offers-remove-label',
     ...configuration,
   });
 
@@ -191,7 +228,11 @@ const changeOfferTheme = async ({ headers, id, themeId, scope }) => {
 };
 
 const useChangeOfferThemeMutation = (configuration = {}) =>
-  useAuthenticatedMutation({ mutationFn: changeOfferTheme, ...configuration });
+  useAuthenticatedMutation({
+    mutationFn: changeOfferTheme,
+    mutationKey: 'offers-change-theme',
+    ...configuration,
+  });
 
 const changeOfferType = async ({ headers, id, typeId, scope }) =>
   fetchFromApi({
@@ -203,7 +244,11 @@ const changeOfferType = async ({ headers, id, typeId, scope }) =>
   });
 
 const useChangeOfferTypeMutation = (configuration = {}) =>
-  useAuthenticatedMutation({ mutationFn: changeOfferType, ...configuration });
+  useAuthenticatedMutation({
+    mutationFn: changeOfferType,
+    mutationKey: 'offers-change-type',
+    ...configuration,
+  });
 
 const addOfferPriceInfo = async ({ headers, id, priceInfo, scope }) =>
   fetchFromApi({
@@ -218,6 +263,7 @@ const addOfferPriceInfo = async ({ headers, id, priceInfo, scope }) =>
 const useAddOfferPriceInfoMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: addOfferPriceInfo,
+    mutationKey: 'offers-add-price-info',
     ...configuration,
   });
 
@@ -240,6 +286,7 @@ const changeOfferDescription = async ({
 const useChangeOfferDescriptionMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: changeOfferDescription,
+    mutationKey: 'offers-change-description',
     ...configuration,
   });
 
@@ -254,7 +301,11 @@ const addOfferImage = async ({ headers, eventId, imageId, scope }) =>
   });
 
 const useAddOfferImageMutation = (configuration = {}) =>
-  useAuthenticatedMutation({ mutationFn: addOfferImage, ...configuration });
+  useAuthenticatedMutation({
+    mutationFn: addOfferImage,
+    mutationKey: 'offers-add-image',
+    ...configuration,
+  });
 
 const addOfferMainImage = async ({ headers, eventId, imageId, scope }) =>
   fetchFromApi({
@@ -269,6 +320,7 @@ const addOfferMainImage = async ({ headers, eventId, imageId, scope }) =>
 const useAddOfferMainImageMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: addOfferMainImage,
+    mutationKey: 'offers-add-main-image',
     ...configuration,
   });
 
@@ -288,6 +340,7 @@ const addOfferVideo = async ({ headers, eventId, url, language, scope }) =>
 const useAddOfferVideoMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: addOfferVideo,
+    mutationKey: 'offers-add-video',
     ...configuration,
   });
 
@@ -303,6 +356,7 @@ const deleteOfferVideo = async ({ headers, eventId, videoId, scope }) =>
 const useDeleteOfferVideoMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: deleteOfferVideo,
+    mutationKey: 'offers-delete-video',
     ...configuration,
   });
 
@@ -326,6 +380,7 @@ const updateOfferImage = async ({
 const useUpdateOfferImageMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: updateOfferImage,
+    mutationKey: 'offers-update-image',
     ...configuration,
   });
 
@@ -341,6 +396,7 @@ const deleteOfferImage = async ({ headers, eventId, imageId, scope }) =>
 const useDeleteOfferImageMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: deleteOfferImage,
+    mutationKey: 'offers-delete-image',
     ...configuration,
   });
 
@@ -362,6 +418,7 @@ const addOfferContactPoint = async ({
 const useAddOfferContactPointMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: addOfferContactPoint,
+    mutationKey: 'offers-add-contact-point',
     ...configuration,
   });
 
@@ -384,6 +441,7 @@ const addOfferBookingInfo = async ({
 const useAddOfferBookingInfoMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: addOfferBookingInfo,
+    mutationKey: 'offers-add-booking-info',
     ...configuration,
   });
 
@@ -399,6 +457,7 @@ const addOfferOrganizer = async ({ headers, id, organizerId, scope }) =>
 const useAddOfferOrganizerMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: addOfferOrganizer,
+    mutationKey: 'offers-add-organizer',
     ...configuration,
   });
 
@@ -414,6 +473,7 @@ const deleteOfferOrganizer = async ({ headers, id, organizerId, scope }) =>
 const useDeleteOfferOrganizerMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: deleteOfferOrganizer,
+    mutationKey: 'offers-delete-organizer',
     ...configuration,
   });
 
@@ -435,6 +495,8 @@ export {
   useDeleteOfferImageMutation,
   useDeleteOfferOrganizerMutation,
   useDeleteOfferVideoMutation,
+  useGetOfferByIdQuery,
   useGetOffersByCreatorQuery,
+  useRemoveOfferLabelMutation,
   useUpdateOfferImageMutation,
 };

@@ -4,13 +4,12 @@ import { Trans, useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
 import { OfferTypes } from '@/constants/OfferType';
-import { useGetEventByIdQuery } from '@/hooks/api/events';
 import {
   useAddOfferOrganizerMutation,
   useDeleteOfferOrganizerMutation,
+  useGetOfferByIdQuery,
 } from '@/hooks/api/offers';
 import { useCreateOrganizerMutation } from '@/hooks/api/organizers';
-import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import {
   CardSystem,
   useAddCardSystemToEventMutation,
@@ -53,10 +52,7 @@ const OrganizerStep = ({
   const { ...router } = useRouter();
   const queryClient = useQueryClient();
 
-  const useGetOfferByIdQuery =
-    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
-
-  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
+  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId, scope });
 
   // @ts-expect-error
   const offer: Event | Place | undefined = getOfferByIdQuery.data;
@@ -65,12 +61,21 @@ const OrganizerStep = ({
   const hasPriceInfo = (offer?.priceInfo ?? []).length > 0;
   const hasUitpasLabel = organizer ? isUitpasOrganizer(organizer) : false;
 
-  // @ts-expect-error
-  const getCardSystemForEventQuery = useGetCardSystemForEventQuery({
-    scope,
-    eventId: offerId,
-    isUitpasOrganizer: hasUitpasLabel && hasPriceInfo,
-  });
+  const getCardSystemForEventQuery = useGetCardSystemForEventQuery(
+    // @ts-expect-error
+    {
+      scope,
+      eventId: offerId,
+      isUitpasOrganizer: hasUitpasLabel && hasPriceInfo,
+    },
+    {
+      onSuccess: (data) => {
+        // @ts-expect-error
+        if (!getCardSystemForEventQuery.dataUpdatedAt)
+          setSelectedCardSystems(Object.values(data));
+      },
+    },
+  );
 
   const uitpasAlertData = useMemo(() => {
     if (!hasUitpasLabel) {
@@ -113,7 +118,9 @@ const OrganizerStep = ({
   // @ts-expect-error
   const cardSystemForEvent = getCardSystemForEventQuery.data ?? {};
 
-  const selectedCardSystems: CardSystem[] = Object.values(cardSystemForEvent);
+  const [selectedCardSystems, setSelectedCardSystems] = useState<CardSystem[]>(
+    [],
+  );
 
   // @ts-expect-error
   const cardSystems = getCardSystemsForOrganizerQuery.data ?? {};
@@ -158,10 +165,16 @@ const OrganizerStep = ({
     });
 
   const handleAddCardSystemToEvent = (cardSystemId: number) => {
+    setSelectedCardSystems([...selectedCardSystems, cardSystems[cardSystemId]]);
     addCardSystemToEventMutation.mutate({ cardSystemId, eventId: offerId });
   };
 
   const handleDeleteCardSystemFromEvent = (cardSystemId: number) => {
+    setSelectedCardSystems(
+      selectedCardSystems.filter(
+        (cardSystem) => cardSystem.id !== cardSystemId,
+      ),
+    );
     deleteCardSystemFromEventMutation.mutate({
       cardSystemId,
       eventId: offerId,
@@ -183,6 +196,7 @@ const OrganizerStep = ({
   const changeDistributionKey = useChangeDistributionKeyMutation({
     onSuccess: (data) => {
       onSuccessfulChange(data);
+      queryClient.invalidateQueries([scope, { id: offerId }]);
       queryClient.invalidateQueries('uitpas_events');
     },
   });
@@ -195,15 +209,18 @@ const OrganizerStep = ({
     cardSystemId: number;
   }) => {
     changeDistributionKey.mutate({
-      offerId,
+      eventId: offerId,
       cardSystemId,
       distributionKeyId,
     });
   };
 
-  const handleChangeOrganizer = (organizerId: string) => {
-    addOfferOrganizerMutation.mutate({ id: offerId, organizerId, scope });
-  };
+  const handleChangeOrganizer = (organizerId: string) =>
+    addOfferOrganizerMutation.mutateAsync({
+      id: offerId,
+      organizerId,
+      scope,
+    });
 
   const handleAddOrganizer = async ({
     url,
@@ -228,6 +245,10 @@ const OrganizerStep = ({
       contact,
     };
 
+    if (!address.streetAndNumber && !address.city?.name) {
+      delete payload.address;
+    }
+
     const { organizerId } = await createOrganizerMutation.mutateAsync(payload);
 
     await addOfferOrganizerMutation.mutateAsync({
@@ -251,6 +272,10 @@ const OrganizerStep = ({
           prefillName={newOrganizerName}
           visible={isOrganizerAddModalVisible}
           onConfirm={handleAddOrganizer}
+          onSetOrganizer={async (organizer) => {
+            await handleChangeOrganizer(parseOfferId(organizer['@id']));
+            setIsOrganizerAddModalVisible(false);
+          }}
           onClose={() => setIsOrganizerAddModalVisible(false)}
         />
         <OrganizerPicker
@@ -269,9 +294,10 @@ const OrganizerStep = ({
           }
           organizer={organizer}
         />
-        {uitpasAlertData && (
-          <Alert variant={uitpasAlertData.variant}>
-            {uitpasAlertData.key === UitpasTranslationKeys.NO_PRICE ? (
+        {uitpasAlertData &&
+          scope === OfferTypes.EVENTS &&
+          uitpasAlertData.key === UitpasTranslationKeys.NO_PRICE && (
+            <Alert variant={uitpasAlertData.variant}>
               <Trans
                 i18nKey={`create.additionalInformation.organizer.uitpas_alert.${uitpasAlertData.key}`}
                 components={{
@@ -293,13 +319,18 @@ const OrganizerStep = ({
                   ),
                 }}
               />
-            ) : (
-              t(
+            </Alert>
+          )}
+        {uitpasAlertData &&
+          scope === OfferTypes.EVENTS &&
+          uitpasAlertData.key !== UitpasTranslationKeys.NO_PRICE &&
+          selectedCardSystems.length > 0 && (
+            <Alert variant={uitpasAlertData.variant}>
+              {t(
                 `create.additionalInformation.organizer.uitpas_alert.${uitpasAlertData.key}`,
-              )
-            )}
-          </Alert>
-        )}
+              )}
+            </Alert>
+          )}
       </Stack>
 
       {shouldShowCardSystems && (

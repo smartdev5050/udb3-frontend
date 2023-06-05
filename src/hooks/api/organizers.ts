@@ -10,11 +10,11 @@ import {
   useAuthenticatedQuery,
 } from '@/hooks/api/authenticated-query';
 import type { Organizer } from '@/types/Organizer';
-import type { User } from '@/types/User';
 import { createSortingArgument } from '@/utils/createSortingArgument';
 import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 
 import type { Headers } from './types/Headers';
+import type { User } from './user';
 
 type HeadersAndQueryData = {
   headers: Headers;
@@ -27,7 +27,12 @@ type GetOrganizersArgumentsByQuery = {
 };
 
 const useGetOrganizersByQueryQuery = (
-  { req, queryClient, name }: AuthenticatedQueryOptions<{ name?: string }> = {},
+  {
+    req,
+    queryClient,
+    name,
+    paginationOptions = { start: 0, limit: 10 },
+  }: AuthenticatedQueryOptions<{ name?: string } & PaginationOptions> = {},
   configuration: UseQueryOptions = {},
 ) =>
   useAuthenticatedQuery<{ member: Organizer[] }>({
@@ -38,8 +43,8 @@ const useGetOrganizersByQueryQuery = (
     queryArguments: {
       embed: true,
       name,
-      start: '0',
-      limit: '10',
+      start: paginationOptions.start,
+      limit: paginationOptions.limit,
     },
     enabled: !!name,
     ...configuration,
@@ -96,7 +101,7 @@ const useGetOrganizersByWebsiteQuery = (
     queryKey: ['organizers'],
     queryFn: getOrganizers,
     queryArguments: {
-      embed: false,
+      embed: true,
       website,
     },
     ...configuration,
@@ -167,6 +172,7 @@ const deleteOrganizerById = async ({ headers, id }) =>
 const useDeleteOrganizerByIdMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: deleteOrganizerById,
+    mutationKey: 'organizers-delete-by-id',
     ...configuration,
   });
 
@@ -191,13 +197,13 @@ const useGetOrganizersByCreatorQuery = (
     queryKey: ['organizers'],
     queryFn: getOrganizersByCreator,
     queryArguments: {
-      q: `creator:(${creator?.id} OR ${creator?.email})`,
+      q: `creator:(${creator?.sub} OR ${creator?.email}) OR contributors:${creator?.email}`,
       limit: paginationOptions.limit,
       start: paginationOptions.start,
       embed: true,
       ...createSortingArgument(sortOptions),
     },
-    enabled: !!(creator?.id && creator?.email),
+    enabled: !!(creator?.sub && creator?.email),
     ...configuration,
   });
 
@@ -227,6 +233,7 @@ const createOrganizer = ({
 const useCreateOrganizerMutation = (configuration: UseMutationOptions = {}) =>
   useAuthenticatedMutation({
     mutationFn: createOrganizer,
+    mutationKey: 'organizers-create',
     ...configuration,
   });
 

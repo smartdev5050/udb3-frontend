@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { dehydrate } from 'react-query/hydration';
 
+import { OfferTypes } from '@/constants/OfferType';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
 import {
   useChangeStatusMutation,
@@ -14,7 +15,10 @@ const Availability = () => {
   const router = useRouter();
   const { placeId } = router.query;
 
-  const getPlaceByIdQuery = useGetPlaceByIdQuery({ id: placeId });
+  const getPlaceByIdQuery = useGetPlaceByIdQuery({
+    id: placeId,
+    scope: OfferTypes.PLACES,
+  });
 
   if (getPlaceByIdQuery.status === QueryStatus.LOADING) {
     return <Spinner marginTop={4} />;

@@ -1,9 +1,15 @@
+import { isEqual } from 'lodash';
 import flatten from 'lodash/flatten';
 import type { NextApiRequest } from 'next';
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import { Cookies } from 'react-cookie';
-import type { QueryClient, UseQueryResult } from 'react-query';
+import {
+  MutationFunction,
+  QueryClient,
+  useQueryClient,
+  UseQueryResult,
+} from 'react-query';
 import { useMutation, useQueries, useQuery } from 'react-query';
 
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
@@ -148,19 +154,54 @@ const prefetchAuthenticatedQuery = async <TData>({
 
 /// /////////////////////////////////////////////////////////////////////////////////////////////
 
+const isDuplicateMutation = (
+  queryClient: QueryClient,
+  mutationFn: MutationFunction,
+  variables: any,
+  mutationKey?: string,
+): boolean => {
+  if (!mutationKey) {
+    // eslint-disable-next-line no-console
+    console.warn(`${mutationFn.name} has no mutationKey configured`);
+
+    return false;
+  }
+
+  const mutations = queryClient.getMutationCache().findAll({
+    mutationKey,
+  });
+
+  const latestMutation = mutations.slice(-2)[0];
+
+  return (
+    mutations.length > 1 && isEqual(latestMutation.options.variables, variables)
+  );
+};
+
 const useAuthenticatedMutation = ({ mutationFn, ...configuration }) => {
   const router = useRouter();
   const headers = useHeaders();
+  const queryClient = useQueryClient();
 
   const { removeAuthenticationCookies } = useCookiesWithOptions();
 
   const innerMutationFn = useCallback(async (variables) => {
+    const isDuplicate = isDuplicateMutation(
+      queryClient,
+      mutationFn,
+      variables,
+      configuration.mutationKey,
+    );
+
+    if (isDuplicate) return;
+
     const response = await mutationFn({ ...variables, headers });
 
     if (!response) return '';
 
     if (isUnAuthorized(response?.status)) {
       removeAuthenticationCookies();
+      queryClient.invalidateQueries('user');
       router.push('/login');
     }
 
@@ -184,6 +225,7 @@ const useAuthenticatedMutations = ({
 }) => {
   const router = useRouter();
   const headers = useHeaders();
+  const queryClient = useQueryClient();
 
   const { removeAuthenticationCookies } = useCookiesWithOptions();
 
@@ -192,6 +234,7 @@ const useAuthenticatedMutations = ({
 
     if (responses.some((response) => isUnAuthorized(response.status))) {
       removeAuthenticationCookies();
+      queryClient.invalidateQueries('user');
       router.push('/login');
       return;
     }
@@ -254,7 +297,6 @@ const useAuthenticatedQuery = <TData>(
   if (isUnAuthorized(result?.error?.status)) {
     if (!asPath.startsWith('/login') && asPath !== '/[...params]') {
       removeAuthenticationCookies();
-
       router.push('/login');
     }
   }
@@ -300,6 +342,7 @@ const useAuthenticatedQueries = ({
   if (results.some((result) => isUnAuthorized(result?.error?.status))) {
     if (!asPath.startsWith('/login') && asPath !== '/[...params]') {
       removeAuthenticationCookies();
+      queryClient.invalidateQueries('user');
       router.push('/login');
     }
   }

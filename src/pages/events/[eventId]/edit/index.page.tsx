@@ -16,16 +16,6 @@ export const getServerSideProps = getApplicationServerSideProps(
       queryClient,
     })) as Event;
 
-    if (!event?.location?.['@id']) {
-      return {
-        redirect: {
-          destination: `/event/${eventId}/migrate?location=true`,
-
-          permanent: false,
-        },
-      };
-    }
-
     return {
       props: {
         dehydratedState: dehydrate(queryClient),

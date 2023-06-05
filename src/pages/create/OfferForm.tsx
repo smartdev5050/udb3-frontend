@@ -10,16 +10,10 @@ import {
   AdditionalInformationStepVariant,
 } from '@/pages/steps/AdditionalInformationStep';
 import { calendarStepConfiguration } from '@/pages/steps/CalendarStep';
-import {
-  CalendarInForm,
-  convertStateToFormData,
-} from '@/pages/steps/CalendarStep/CalendarStep';
+import { CalendarInForm } from '@/pages/steps/CalendarStep/CalendarStep';
 import { typeAndThemeStepConfiguration } from '@/pages/steps/EventTypeAndThemeStep';
 import { locationStepConfiguration } from '@/pages/steps/LocationStep';
-import {
-  CalendarMachineProvider,
-  useCalendarSelector,
-} from '@/pages/steps/machines/calendarMachine';
+import { CalendarMachineProvider } from '@/pages/steps/machines/calendarMachine';
 import { nameAndAgeRangeStepConfiguration } from '@/pages/steps/NameAndAgeRangeStep';
 import { scopeStepConfiguration } from '@/pages/steps/ScopeStep';
 import {
@@ -29,16 +23,14 @@ import {
 import { Address, AddressInternal } from '@/types/Address';
 import { Country } from '@/types/Country';
 import { AttendanceMode, AudienceType, isEvent } from '@/types/Event';
-import { Offer, SubEvent } from '@/types/Offer';
+import { Offer } from '@/types/Offer';
 import { isPlace, Place } from '@/types/Place';
 import { Values } from '@/types/Values';
-import { WorkflowStatusMap } from '@/types/WorkflowStatus';
-import { arrayToValue } from '@/utils/arrayToValue';
+import { WorkflowStatus } from '@/types/WorkflowStatus';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 import { City } from '../CityPicker';
-import { useCalendarType } from '../steps/CalendarStep/useCalendarType';
 import { FormDataUnion } from '../steps/Steps';
 
 type Scope = 'events' | 'places';
@@ -63,6 +55,8 @@ type FormData = {
     typicalAgeRange: string;
   };
 };
+
+const ONLINE_LOCATION_ID = '00000000-0000-0000-0000-000000000000';
 
 const getTerms = (typeAndTheme: FormDataUnion['typeAndTheme']) => {
   const { type, theme } = typeAndTheme;
@@ -125,7 +119,7 @@ const parseLocationAttributes = (
 
 const OfferForm = () => {
   const { t, i18n } = useTranslation();
-  const { query, asPath, ...router } = useRouter();
+  const { query, asPath } = useRouter();
   const { publicRuntimeConfig } = getConfig();
 
   const scope = useMemo(() => {
@@ -143,10 +137,6 @@ const OfferForm = () => {
 
     return undefined;
   }, [asPath, query.scope]);
-
-  const offerId =
-    arrayToValue(scope === OfferTypes.EVENTS ? query.eventId : query.placeId) ||
-    undefined;
 
   const convertOfferToFormData = (offer: Offer) => {
     return {
@@ -180,13 +170,19 @@ const OfferForm = () => {
       streetAndNumber,
       onlineUrl,
     } = location;
+
     if (place) {
+      const locationId = parseOfferId(place['@id']);
+
       return {
         location: {
-          id: parseOfferId(place['@id']),
+          id: locationId,
         },
         ...(scope === OfferTypes.EVENTS && {
-          attendanceMode: AttendanceMode.OFFLINE,
+          attendanceMode:
+            locationId === ONLINE_LOCATION_ID
+              ? AttendanceMode.ONLINE
+              : AttendanceMode.OFFLINE,
         }),
       };
     }
@@ -226,35 +222,24 @@ const OfferForm = () => {
     nameAndAgeRange: { name, typicalAgeRange },
     typeAndTheme,
     location,
+    calendar,
   }: FormData) => {
+    const audienceType =
+      location.country && scope === OfferTypes.EVENTS
+        ? AudienceType.EVERYONE
+        : undefined;
+
     return {
       typicalAgeRange,
       mainLanguage: i18n.language,
       name,
-      workflowStatus: WorkflowStatusMap.DRAFT,
-      ...(scope === OfferTypes.EVENTS && {
+      workflowStatus: WorkflowStatus.DRAFT,
+      ...(audienceType && {
         audienceType: AudienceType.EVERYONE,
       }),
       ...getLocationAttributes(scope, location, i18n.language),
       ...getTerms(typeAndTheme),
-    };
-  };
-
-  const context = useCalendarSelector((state) => state.context);
-
-  const calendarType = useCalendarType();
-
-  const calendarFormData = useMemo(() => {
-    if (!context || !calendarType) return undefined;
-    return convertStateToFormData(context, calendarType);
-  }, [context, calendarType]);
-
-  const convertFormDataWithCalendarToOffer = (formData: any) => {
-    const newFormData = convertFormDataToOffer(formData);
-
-    return {
-      ...newFormData,
-      ...calendarFormData,
+      ...calendar,
     };
   };
 
@@ -265,7 +250,7 @@ const OfferForm = () => {
       key={rerenderTrigger}
       title={t(`create.title`)}
       scope={scope}
-      convertFormDataToOffer={convertFormDataWithCalendarToOffer}
+      convertFormDataToOffer={convertFormDataToOffer}
       convertOfferToFormData={convertOfferToFormData}
       toastConfiguration={{
         messages: {

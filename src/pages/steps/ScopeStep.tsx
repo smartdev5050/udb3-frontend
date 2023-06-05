@@ -133,6 +133,8 @@ const ScopeStep = ({
   const resetFieldsAfterScopeChange = () => {
     if (offerId) return;
     resetField('typeAndTheme');
+    resetField('calendar');
+    resetField('location');
   };
 
   return (

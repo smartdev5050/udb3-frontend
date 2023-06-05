@@ -192,7 +192,7 @@ const calendarMachineOptions: MachineOptions<CalendarContext, CalendarEvents> =
       }),
       addNewDay: assign({
         days: (context) => {
-          const lastDay = context.days.at(-1);
+          const lastDay = context.days.slice(-1)[0];
           if (!lastDay) return context.days;
 
           return [

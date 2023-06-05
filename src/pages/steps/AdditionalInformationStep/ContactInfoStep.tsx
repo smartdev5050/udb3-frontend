@@ -1,17 +1,11 @@
-import {
-  ChangeEvent,
-  FormEvent,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
-import { OfferTypes } from '@/constants/OfferType';
-import { useGetEventByIdQuery } from '@/hooks/api/events';
-import { useAddOfferContactPointMutation } from '@/hooks/api/offers';
-import { useGetPlaceByIdQuery } from '@/hooks/api/places';
+import {
+  useAddOfferContactPointMutation,
+  useGetOfferByIdQuery,
+} from '@/hooks/api/offers';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Icons } from '@/ui/Icon';
@@ -19,7 +13,7 @@ import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
 import { Select } from '@/ui/Select';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
-import { prefixUrlWithHttp } from '@/utils/url';
+import { prefixUrlWithHttps } from '@/utils/url';
 
 import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
 
@@ -40,10 +34,10 @@ type NewContactInfo = {
   value: string;
 };
 
-const EMAIL_REGEX: RegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+const EMAIL_REGEX: RegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/;
 const URL_REGEX: RegExp =
   /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
-const PHONE_REGEX: RegExp = /^[0-9\/_.+ ]*$/;
+const PHONE_REGEX: RegExp = /^[0-9\/\-_.+ ]{0,15}$/;
 
 const isValidEmail = (email: string) => {
   return (
@@ -86,10 +80,7 @@ const ContactInfoStep = ({
   // TODO: refactor
   const eventId = offerId;
 
-  const useGetOfferByIdQuery =
-    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
-
-  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
+  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId, scope });
 
   const [contactInfoState, setContactInfoState] = useState<NewContactInfo[]>(
     [],
@@ -162,7 +153,14 @@ const ContactInfoStep = ({
         context.previousEventInfo,
       );
     },
-    onSuccess: onSuccessfulChange,
+    onSuccess: (data) => {
+      if (typeof data === 'undefined') {
+        return;
+      }
+
+      onValidationChange(ValidationStatus.SUCCESS);
+      onSuccessfulChange(data);
+    },
   });
 
   const parseNewContactInfo = (newContactInfo: NewContactInfo[]) => {
@@ -199,7 +197,7 @@ const ContactInfoStep = ({
     const infoType = contactInfoState[index].type;
 
     if (infoType === ContactInfoTypes.URL) {
-      newValue = prefixUrlWithHttp(newValue);
+      newValue = prefixUrlWithHttps(newValue);
     }
 
     if (!isValidInfo(infoType, newValue)) return;

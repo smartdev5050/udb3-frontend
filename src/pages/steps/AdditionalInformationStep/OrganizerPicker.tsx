@@ -14,6 +14,7 @@ import { Values } from '@/types/Values';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Badge, BadgeVariants } from '@/ui/Badge';
 import { Button, ButtonVariants } from '@/ui/Button';
+import { ButtonCard } from '@/ui/ButtonCard';
 import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
@@ -81,63 +82,18 @@ const RecentUsedOrganizers = ({
               ? organizer.address[organizer.mainLanguage]
               : organizer.address
             : '';
+
           return (
-            <Button
+            <ButtonCard
               key={index}
               onClick={() => onChange(parseOfferId(organizer['@id']))}
-              padding={4}
-              borderRadius={getGlobalBorderRadius}
-              variant={ButtonVariants.UNSTYLED}
-              customChildren
-              marginBottom={4}
-              width="20rem"
               title={name}
-              css={`
-                flex-direction: column;
-                align-items: flex-start;
-                background-color: rgba(255, 255, 255, 1);
-                box-shadow: ${({ theme }) =>
-                  theme.components.button.boxShadow.small};
-
-                &:hover {
-                  background-color: #e6e6e6;
-                }
-              `}
-            >
-              <Paragraph
-                fontWeight="bold"
-                display="flex"
-                justifyContent="space-between"
-                width="18rem"
-                textAlign="left"
-                minHeight="1.9rem"
-              >
-                <Text
-                  width="80%"
-                  css={`
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                  `}
-                >
-                  {name}
-                </Text>
-                {isUitpasOrganizer(organizer) && <UitpasBadge />}
-              </Paragraph>
-              {address && (
-                <Text
-                  textAlign="left"
-                  width="80%"
-                  css={`
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                  `}
-                >
-                  {address.postalCode} {address.addressLocality}
-                </Text>
-              )}
-            </Button>
+              hasEllipsisOnTitle={true}
+              badge={isUitpasOrganizer(organizer) && <UitpasBadge />}
+              description={
+                address && `${address.postalCode} ${address.addressLocality}`
+              }
+            />
           );
         })}
       </Inline>
@@ -178,6 +134,17 @@ const OrganizerPicker = ({
   const [addButtonHasBeenPressed, setAddButtonHasBeenPressed] = useState(false);
   const [organizerSearchInput, setOrganizerSearchInput] = useState('');
 
+  // This is a random organizer with an ID to use as bridge when deleting dummy organizers
+  const getRandomOrganizerQuery = useGetOrganizersByQueryQuery(
+    {
+      name: 'a',
+      paginationOptions: { start: 0, limit: 1 },
+    },
+    {
+      enabled: organizer && !organizer['@id'],
+    },
+  );
+
   const getOrganizersByQueryQuery = useGetOrganizersByQueryQuery(
     { name: organizerSearchInput },
     { enabled: !!organizerSearchInput },
@@ -209,11 +176,8 @@ const OrganizerPicker = ({
     // @ts-expect-error
   }, [getOffersByCreatorQuery.data?.member]);
 
-  const organizers = useMemo(() => {
-    // @ts-expect-error
-    return getOrganizersByQueryQuery.data?.member ?? [];
-    // @ts-expect-error
-  }, [getOrganizersByQueryQuery.data?.member]);
+  // @ts-expect-error
+  const organizers = getOrganizersByQueryQuery.data?.member ?? [];
 
   const handleSelectRecentOrganizer = (organizerId: string) => {
     onChange(organizerId);
@@ -241,16 +205,25 @@ const OrganizerPicker = ({
                 <Button
                   spacing={3}
                   variant={ButtonVariants.LINK}
-                  onClick={() =>
-                    onDeleteOrganizer(parseOfferId(organizer['@id']))
-                  }
+                  onClick={async () => {
+                    let removed = organizer;
+
+                    // If we have a dummy organizer, first set a real one
+                    if (!organizer['@id']) {
+                      // @ts-expect-error
+                      removed = getRandomOrganizerQuery.data?.member[0];
+                      await onChange(parseOfferId(removed?.['@id']));
+                    }
+
+                    onDeleteOrganizer(parseOfferId(removed['@id']));
+                  }}
                 >
                   {t('create.additionalInformation.organizer.change')}
                 </Button>
               </Inline>
             </Stack>
           ) : (
-            <Inline width="100%" flexWrap="wrap">
+            <Stack width="100%">
               <RecentUsedOrganizers
                 organizers={recentUsedOrganizers}
                 onChange={handleSelectRecentOrganizer}
@@ -276,7 +249,9 @@ const OrganizerPicker = ({
                   <Typeahead<Organizer>
                     id={'organizer-picker'}
                     options={organizers}
-                    labelKey={'name'}
+                    // @ts-expect-error
+                    isLoading={getOrganizersByQueryQuery.isLoading}
+                    labelKey={(org) => getOrganizerName(org, i18n.language)}
                     renderMenuItemChildren={(org: Organizer, { text }) => {
                       const name = getOrganizerName(org, i18n.language);
                       return (
@@ -306,10 +281,11 @@ const OrganizerPicker = ({
                       'create.additionalInformation.organizer.add_new_label',
                     )}
                     allowNew
+                    flex={'initial'}
                   />
                 )}
               </Stack>
-            </Inline>
+            </Stack>
           )
         }
       />

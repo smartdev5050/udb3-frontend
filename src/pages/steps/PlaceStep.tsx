@@ -11,7 +11,7 @@ import { useGetPlacesByQuery } from '@/hooks/api/places';
 import { SupportedLanguage } from '@/i18n/index';
 import type { StepProps, StepsConfiguration } from '@/pages/steps/Steps';
 import { Address, AddressInternal } from '@/types/Address';
-import { Country } from '@/types/Country';
+import { Countries, Country } from '@/types/Country';
 import type { Place } from '@/types/Place';
 import type { Values } from '@/types/Values';
 import { Button, ButtonVariants } from '@/ui/Button';
@@ -39,6 +39,7 @@ type PlaceStepProps = StackProps &
     country?: Country;
     chooseLabel: (t: TFunction) => string;
     placeholderLabel: (t: TFunction) => string;
+    onFieldChange: StepProps['onChange'];
   };
 
 const PlaceStep = ({
@@ -48,7 +49,7 @@ const PlaceStep = ({
   control,
   name,
   loading,
-  onChange,
+  onFieldChange,
   terms,
   municipality,
   country,
@@ -68,6 +69,7 @@ const PlaceStep = ({
       name: searchInput,
       terms,
       zip: municipality?.zip,
+      addressLocality: municipality?.name,
       addressCountry: country,
     },
     { enabled: !!searchInput },
@@ -106,13 +108,25 @@ const PlaceStep = ({
     );
   };
 
+  const filterByCallback = (place: Place, props) => {
+    const name = getPlaceName(place.name, place.mainLanguage);
+    const address = getAddress(place.address, place.mainLanguage);
+
+    return (
+      address?.streetAddress
+        ?.toLowerCase()
+        .includes(props.text.toLowerCase()) ||
+      name?.toLowerCase().includes(props.text.toLowerCase())
+    );
+  };
+
   return (
     <Stack {...getStackProps(props)}>
       <Controller
         control={control}
         name={name}
         render={({ field }) => {
-          const selectedPlace = place;
+          const selectedPlace = place?.['@id'] ? place : null;
 
           if (!selectedPlace) {
             return (
@@ -124,10 +138,7 @@ const PlaceStep = ({
                   municipality={municipality}
                   country={country}
                   onConfirmSuccess={(place) => {
-                    const updatedValue = { ...field.value, place };
-                    field.onChange(updatedValue);
-                    onChange(updatedValue);
-                    field.onBlur();
+                    onFieldChange({ place });
                     setIsPlaceAddModalVisible(false);
                   }}
                 />
@@ -143,11 +154,13 @@ const PlaceStep = ({
                   }
                   Component={
                     <Typeahead
+                      // @ts-expect-error
+                      isLoading={useGetPlacesQuery.isLoading}
                       options={places}
                       onInputChange={debounce(setSearchInput, 275)}
+                      customFilter={filterByCallback}
                       labelKey={(place) =>
-                        place.name[i18n.language] ??
-                        place.name[place.mainLanguage]
+                        getPlaceName(place.name, place.mainLanguage)
                       }
                       renderMenuItemChildren={(place: Place, { text }) => {
                         const { mainLanguage, name, address } = place;
@@ -173,7 +186,11 @@ const PlaceStep = ({
                                 {placeName}
                               </Highlighter>
                             </Text>
-                            <Text className={'address'}>{streetAddress}</Text>
+                            <Text className={'address'}>
+                              <Highlighter search={text}>
+                                {streetAddress}
+                              </Highlighter>
+                            </Text>
                           </Stack>
                         );
                       }}
@@ -188,10 +205,7 @@ const PlaceStep = ({
                           return;
                         }
 
-                        const updatedValue = { ...field.value, place };
-
-                        field.onChange(updatedValue);
-                        onChange(updatedValue);
+                        onFieldChange({ place });
                       }}
                       minLength={3}
                       placeholder={placeholderLabel(t)}
@@ -214,8 +228,11 @@ const PlaceStep = ({
                 color={getGlobalValue('successIcon')}
               />
               <Text>
-                {selectedPlace.name[i18n.language] ??
-                  selectedPlace.name[selectedPlace.mainLanguage]}
+                {getLanguageObjectOrFallback(
+                  selectedPlace.name,
+                  i18n.language as SupportedLanguage,
+                  selectedPlace.mainLanguage ?? 'nl',
+                )}
               </Text>
               <Button
                 variant={ButtonVariants.LINK}
@@ -241,6 +258,14 @@ const placeStepConfiguration: StepsConfiguration<'location'> = {
   name: 'location',
   shouldShowStep: ({ watch }) => isOneTimeSlotValid(watch('timeTable')),
   title: ({ t }) => t(`movies.create.step3.title`),
+  defaultValue: {
+    isOnline: false,
+    country: Countries.BE,
+    place: undefined,
+    streetAndNumber: undefined,
+    municipality: undefined,
+    onlineUrl: undefined,
+  },
 };
 
 PlaceStep.defaultProps = {

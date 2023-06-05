@@ -1,9 +1,14 @@
 import { useRouter } from 'next/router';
-import { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 
 import { OfferType, OfferTypes } from '@/constants/OfferType';
-import { Offer } from '@/types/Offer';
+import {
+  locationStepConfiguration,
+  useEditLocation,
+} from '@/pages/steps/LocationStep';
+import { hasLegacyLocation, Offer } from '@/types/Offer';
+import { Alert, AlertVariants } from '@/ui/Alert';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Link, LinkVariants } from '@/ui/Link';
@@ -13,6 +18,7 @@ import { getValueFromTheme } from '@/ui/theme';
 import { Toast } from '@/ui/Toast';
 
 import { useToast } from '../manage/movies/useToast';
+import { calendarStepConfiguration } from './CalendarStep';
 import { useAddOffer } from './hooks/useAddOffer';
 import { useEditField } from './hooks/useEditField';
 import { FooterStatus, useFooterStatus } from './hooks/useFooterStatus';
@@ -32,6 +38,7 @@ const useRerenderTriggerStepsForm = () => {
     Math.random().toString(),
   );
 
+  // retrigger when ther users goes from edit to create page
   useEffect(() => {
     const handleRouteChange = (
       newPathname: string,
@@ -41,7 +48,6 @@ const useRerenderTriggerStepsForm = () => {
         return;
       }
 
-      // Only rerender StepsForm if you go from edit to create page
       if (
         !['/create', '/manage/movies/create'].some((prefix) =>
           newPathname.startsWith(prefix),
@@ -82,10 +88,12 @@ const StepsForm = ({
 }: StepsFormProps) => {
   const { t } = useTranslation();
   const { form } = useParseStepConfiguration(configurations);
+  const [isDuplicateButtonDisabled, setIsDuplicateButtonDisabled] =
+    useState(true);
 
   const { handleSubmit, reset } = form;
 
-  const { query, push, pathname } = useRouter();
+  const { query, push, pathname, reload } = useRouter();
 
   // eventId is set after adding (saving) the event
   // or when entering the page from the edit route
@@ -98,6 +106,18 @@ const StepsForm = ({
 
   const toast = useToast(toastConfiguration);
 
+  const useGetOffer = scope === OfferTypes.EVENTS ? useGetEvent : useGetPlace;
+
+  const offer = useGetOffer({
+    id: offerId,
+    onSuccess: (offer: Offer) => {
+      reset(convertOfferToFormData(offer), {
+        keepDirty: true,
+      });
+    },
+    enabled: !!scope,
+  });
+
   const publishOffer = usePublishOffer({
     scope,
     id: offerId,
@@ -106,6 +126,18 @@ const StepsForm = ({
       push(`/${scopePath}/${offerId}/preview`);
     },
   });
+
+  const editLocation = useEditLocation({
+    scope,
+    offerId,
+    onSuccess: () => reload(),
+    mainLanguage: offer?.mainLanguage,
+  });
+
+  const migrateOffer = async (data) => {
+    await editLocation(data);
+    reload();
+  };
 
   const addOffer = useAddOffer({
     onSuccess: async (scope, offerId) => {
@@ -131,18 +163,6 @@ const StepsForm = ({
   const [isPublishLaterModalVisible, setIsPublishLaterModalVisible] =
     useState(false);
 
-  const useGetOffer = scope === OfferTypes.EVENTS ? useGetEvent : useGetPlace;
-
-  const offer = useGetOffer({
-    id: offerId,
-    onSuccess: (offer: Offer) => {
-      reset(convertOfferToFormData(offer), {
-        keepDirty: true,
-      });
-    },
-    enabled: !!scope,
-  });
-
   const footerStatus = useFooterStatus({ offer, form });
 
   // scroll effect
@@ -165,22 +185,61 @@ const StepsForm = ({
     </Button>
   );
 
+  const isOnDuplicatePage = footerStatus === FooterStatus.DUPLICATE;
+
+  const pageTitle = isOnDuplicatePage ? t('create.duplicate.title') : title;
+
+  const onDuplicateEditFieldChange = () => {
+    setIsDuplicateButtonDisabled(false);
+  };
+
+  const onChange = isOnDuplicatePage
+    ? onDuplicateEditFieldChange
+    : handleChange;
+
+  const needsLocationMigration = hasLegacyLocation(offer);
+
+  const stepConfigurations = useMemo(() => {
+    if (needsLocationMigration) return [locationStepConfiguration];
+
+    if (isOnDuplicatePage) return [calendarStepConfiguration];
+
+    return configurations;
+  }, [needsLocationMigration, isOnDuplicatePage, configurations]);
+
   return (
     <Page>
-      <Page.Title spacing={3} alignItems="center">
-        {title ?? ''}
-      </Page.Title>
+      {!needsLocationMigration && (
+        <Page.Title spacing={3} alignItems="center">
+          {pageTitle}
+        </Page.Title>
+      )}
 
       <Page.Content spacing={5} alignItems="flex-start">
+        {isOnDuplicatePage && (
+          <Alert variant={AlertVariants.PRIMARY}>
+            {t('create.duplicate.alert')}
+          </Alert>
+        )}
         <Toast
           variant="success"
           body={toast.message}
           visible={!!toast.message}
           onClose={() => toast.clear()}
         />
+        {needsLocationMigration && (
+          <Alert variant={AlertVariants.DANGER} marginY={5}>
+            <Trans
+              i18nKey="create.migration.alert"
+              components={{
+                boldText: <Text fontWeight="bold" />,
+              }}
+            />
+          </Alert>
+        )}
         <Steps
-          configurations={configurations}
-          onChange={handleChange}
+          configurations={stepConfigurations}
+          onChange={onChange}
           fieldLoading={fieldLoading}
           onChangeSuccess={handleChangeSuccess}
           offerId={offerId}
@@ -192,29 +251,43 @@ const StepsForm = ({
       {footerStatus !== FooterStatus.HIDDEN && (
         <Page.Footer>
           <Inline spacing={3} alignItems="center">
-            {footerStatus === FooterStatus.PUBLISH ? (
-              [
-                <Button
-                  variant={ButtonVariants.SUCCESS}
-                  onClick={async () => publishOffer()}
-                  key="publish"
-                >
-                  {t('create.actions.publish')}
-                </Button>,
-                publishLaterButton,
-                <Text
-                  key="info"
-                  color={getValue('footer.color')}
-                  fontSize="0.9rem"
-                >
-                  {t('create.footer.auto_save')}
-                </Text>,
-              ]
-            ) : footerStatus === FooterStatus.MANUAL_SAVE ? (
+            {footerStatus === FooterStatus.DUPLICATE && (
+              <Button
+                disabled={isDuplicateButtonDisabled}
+                variant={ButtonVariants.SUCCESS}
+                onClick={handleSubmit(addOffer)}
+              >
+                {t('create.duplicate.title')}
+              </Button>
+            )}
+            {footerStatus === FooterStatus.PUBLISH && [
+              <Button
+                variant={ButtonVariants.SUCCESS}
+                onClick={async () => publishOffer()}
+                key="publish"
+              >
+                {t('create.actions.publish')}
+              </Button>,
+              publishLaterButton,
+              <Text
+                key="info"
+                color={getValue('footer.color')}
+                fontSize="0.9rem"
+              >
+                {t('create.footer.auto_save')}
+              </Text>,
+            ]}
+            {footerStatus === FooterStatus.MANUAL_SAVE && (
               <Button onClick={handleSubmit(addOffer)}>
                 {t('create.actions.save')}
               </Button>
-            ) : (
+            )}
+            {footerStatus === FooterStatus.CONTINUE && (
+              <Button onClick={handleSubmit(migrateOffer)}>
+                {t('create.migration.continue')}
+              </Button>
+            )}
+            {footerStatus === FooterStatus.AUTO_SAVE && (
               <Inline spacing={3} alignItems="center">
                 <Link
                   href={`/event/${offerId}/preview`}

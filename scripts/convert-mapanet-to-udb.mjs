@@ -8,8 +8,13 @@ const localityToTimesUsed = new Map();
  * Convert the Mapanet format to the Uitdatabank format
  */
 const toUitdatabankFormat = (feature) => {
-  const { Region2: region, Locality: locality } = feature.properties;
+  const {
+    Region2: region,
+    Locality: locality,
+    PostalCode: postalCode,
+  } = feature.properties;
 
+  const [zip] = postalCode.split(' ');
   if (localityToTimesUsed.has(locality)) {
     const currentValue = localityToTimesUsed.get(locality);
     localityToTimesUsed.set(locality, currentValue + 1);
@@ -22,7 +27,7 @@ const toUitdatabankFormat = (feature) => {
   return {
     label,
     name: label,
-    zip: '',
+    zip,
   };
 };
 
@@ -47,17 +52,17 @@ const removeRegionIfLocalityOnlyUsedOnce = (city) => {
     return city;
   }
 
-  const [locality, lastPart] = city.name.split(' (');
-  const region = lastPart.substring(0, lastPart.length - 1);
+  const [label] = city.label.split(' (');
+  const [name] = city.name.split(' (');
 
-  if (localityToTimesUsed.get(locality) > 1) {
+  if (localityToTimesUsed.get(name) > 1) {
     return city;
   }
 
   return {
     ...city,
-    label: locality,
-    name: locality,
+    label,
+    name,
   };
 };
 

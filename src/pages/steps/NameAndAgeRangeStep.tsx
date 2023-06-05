@@ -5,6 +5,7 @@ import {
   useChangeOfferNameMutation,
   useChangeOfferTypicalAgeRangeMutation,
 } from '@/hooks/api/offers';
+import { isLocationSet } from '@/pages/steps/LocationStep';
 import { parseSpacing } from '@/ui/Box';
 import { Stack } from '@/ui/Stack';
 
@@ -82,14 +83,11 @@ const nameAndAgeRangeStepConfiguration: StepsConfiguration<'nameAndAgeRange'> =
       name: yup.object().shape({}).required(),
       typicalAgeRange: yup.string().required(),
     }),
-    shouldShowStep: ({ watch }) => {
+    shouldShowStep: ({ watch, formState }) => {
       const location = watch('location');
-      return (
-        !!location?.place ||
-        location?.isOnline ||
-        !!location?.streetAndNumber ||
-        !location.country // undefined when cultuurkuur is selected as country
-      );
+      const scope = watch('scope');
+
+      return isLocationSet(scope, location, formState);
     },
   };
 

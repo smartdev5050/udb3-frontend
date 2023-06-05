@@ -8,6 +8,34 @@
     "new_features": "Neu bei UiTdatabank",
     "no_features": "Momentan gibt es keine Neuigkeiten."
   },
+  "beta_version": {
+    "title": "Möchten Sie die neueste Version der UiTdatabank ausprobieren?",
+    "intro1": "Wir arbeiten mit Hochdruck an einem neuen Eingabeformular in der UiTdatabank, damit Sie Ihre Aktivitäten noch reibungsloser eingeben können. Probieren Sie es schon aus? Wechseln Sie auf die neueste Version der UiTdatabank und testen Sie gleich alle neuen Funktionen.",
+    "intro2": "Was gibt es Neues?",
+    "improvements": [
+      {
+        "prefix": "Mehr Möglichkeiten:",
+        "text": "Sie können Online-Veranstaltungen hinzufügen, ein Video hochladen und vieles mehr. "
+      },
+      {
+        "prefix": "Weniger Arbeit:",
+        "text": "Wir bereiten den Namen Ihrer Organisation bereits für Sie vor, so dass Sie dieses Feld nicht jedes Mal ausfüllen müssen. Später machen wir das Gleiche mit anderen Informationen, die Sie zuvor eingegeben haben. "
+      },
+      {
+        "prefix": "Zusätzliche Hilfe:",
+        "text": "Über die Vollständigkeitsbewertung erhalten Sie sofortiges Feedback und Tipps, wie Sie Ihre Veranstaltung oder Ihren Veranstaltungsort so vollständig wie möglich eingeben können."
+      }
+    ],
+    "outro1": "Möchten Sie zu den ersten gehören, die das neue Anmeldeformular testen?",
+    "confirm": {
+      "title": "Ich probiere es aus",
+      "info": "Legen Sie gleich los <boldText>mit<boldText> der neuen Version der UiTdatabase."
+    },
+    "cancel": {
+      "title": "Ich werde eine Weile warten",
+      "info": "Sie können den Wechsel zu einem späteren Zeitpunkt vornehmen"
+    }
+  },
   "bookingAvailability": {
     "actions": {
       "cancel": "Abbrechen",
@@ -34,7 +62,8 @@
     "info_be": "z.B. Gent oder 9000",
     "info_nl": "z.B. Groningen oder Amsterdam",
     "info_de": "z.B. Aachen oder Berlin",
-    "no_cities": "Keine Gemeinden gefunden"
+    "no_cities": "Keine Gemeinden gefunden",
+    "no_cities_netherlands": "Keine Wohnungen gefunden"
   },
   "country_picker": {
     "location_school": "Ort in Absprache mit der Schule"
@@ -42,50 +71,50 @@
   "copyright": {
     "questions": {
       "1": {
-        "answer": "",
-        "question": ""
+        "answer": "Wenn das Foto urheberrechtlich geschützt ist, muss der Name des Urhebers im Copyright-Feld angegeben werden. Die Fotos müssen lizenzfrei sein. Die eingereichten Fotos können von publiq vzw zur Veröffentlichung auf der Website oder in Werbe- und Presseaktionen verwendet werden. publiq vzw behält sich das Recht vor, Bildbearbeitungen an den gesammelten Bildern vorzunehmen. Die Fotos sind auch im Fotoarchiv von publiq vzw enthalten und können in den Kommunikationskanälen von publiq vzw wie Website, Newsletter, Pressekommunikation,…",
+        "question": "Was macht publiq vzw mit Fotos, die ich hochlade?"
       },
       "2": {
         "answer": {
-          "paragraph1": "",
-          "paragraph2": "",
-          "paragraph3": "",
-          "step1": "",
-          "step2": "",
-          "step3": "",
-          "step4": "",
-          "step5": "",
-          "step6": ""
+          "paragraph1": "Wenn eine Person ein Originalwerk erstellt, das auf einem physischen Medium (z. B. einem Foto) festgehalten wird, besitzt sie automatisch das Urheberrecht an dem Werk.",
+          "paragraph2": "Urheberrechte geben dem Eigentümer das ausschließliche Recht, das Werk auf bestimmte, spezifische Weise zu nutzen. Viele Arten von Werken sind urheberrechtlich geschützt, darunter:",
+          "paragraph3": "Ideen, Tatsachen und Verfahren unterliegen nicht dem Urheberrecht. Um sich für den Urheberrechtsschutz zu qualifizieren, muss ein Werk sowohl kreativ als auch in einem materiellen Medium enthalten sein. Namen und Titel sind für sich genommen nicht urheberrechtlich geschützt.",
+          "step1": "Audiovisuelle Werke wie Fotos, Fernsehsendungen, Filme und Online-Videos",
+          "step2": "Tonaufnahmen und musikalische Kompositionen",
+          "step3": "Schriftliche Arbeiten, wie Vorträge, Artikel, Bücher und musikalische Kompositionen",
+          "step4": "Visuelle Arbeiten, wie Gemälde, Plakate und Anzeigen",
+          "step5": "Videospiele und Computersoftware",
+          "step6": "Dramatische Werke, wie Theaterstücke und Musicals"
         },
-        "question": ""
+        "question": "Welche Werke unterliegen dem Urheberrecht?"
       },
       "3": {
-        "answer": "",
-        "question": ""
+        "answer": "Unter bestimmten Umständen ist es möglich, ein urheberrechtlich geschütztes Werk zu verwenden, ohne das Urheberrecht des Eigentümers zu verletzen. Es ist jedoch am besten anzunehmen, dass diese Option nicht vorhanden ist, es sei denn, Sie haben die ausdrückliche Erlaubnis des Eigentümers. Unter keinen Umständen kann der Manager für Sie feststellen, ob Urheberrechtsschutz gilt oder nicht.",
+        "question": "Ist es möglich, ein urheberrechtlich geschütztes Werk zu nutzen, ohne gegen die einschlägigen Vorschriften zu verstoßen?"
       },
       "4": {
         "answer": {
-          "paragraph1": "",
-          "step1": "",
-          "step2": "",
-          "step3": "",
-          "step4": "",
-          "step5": "",
-          "step6": ""
+          "paragraph1": "Auch wenn Du:",
+          "step1": "der Urheberrechtsinhaber",
+          "step2": "verfolgt mit der Verwendung des Materials keine Gewinnerzielungsabsichten",
+          "step3": "sah das gleiche oder ähnliche Material woanders verwendet",
+          "step4": "kaufte das audiovisuelle Material (online, in einem Buch, auf CD, DVD,...)",
+          "step5": "das Material aus einem Buch, einer Zeitschrift, einer Zeitung, dem Fernsehen, einem Kino oder dem Radio selbst aufgenommen oder kopiert haben",
+          "step6": "erklärte, dass \"keine Urheberrechtsverletzung beabsichtigt ist\""
         },
-        "question": ""
+        "question": "Es ist wichtig zu beachten, dass Ihr Upload von audiovisuellem Material Gegenstand einer Klage wegen Urheberrechtsverletzung sein kann."
       },
       "5": {
-        "answer": "",
-        "question": ""
+        "answer": "Nein, der Manager ist nicht in der Lage, bei Urheberrechtsstreitigkeiten zu schlichten. Wenn der Manager eine Aufforderung erhält, urheberrechtlich geschütztes Material zu entfernen, wird er immer sofort nachkommen und auch den rechtswidrigen Importeur/Uploader unverzüglich auf die Verletzung hinweisen. Es ist dann Sache der beteiligten Parteien (Rechteinhaber auf der einen und Importeur/Uploader auf der anderen Seite), den Streit entweder durch eine gütliche Einigung oder durch ein Gerichtsverfahren beizulegen.",
+        "question": "Kann der Manager bei Urheberrechtsstreitigkeiten vermitteln?"
       },
       "6": {
-        "answer": "",
-        "question": ""
+        "answer": "Nicht weil Sie selbst in einer Foto-, Video- oder Audioaufnahme erscheinen, besitzen Sie das Urheberrecht. Wenn zum Beispiel ein Freund ein Gespräch zwischen Ihnen beiden filmt, würde der Freund das Urheberrecht besitzen, nicht Sie. Die in diesem Gespräch verwendeten Wörter unterliegen keinem anderen Urheberrecht als dem des Videos selbst, es sei denn, sie wurden vorab geschrieben. Wenn Ihr Freund oder jemand anderes ohne Ihre Erlaubnis ein Video oder Bild hochgeladen hat, das ein Bild oder eine Aufnahme von Ihnen enthält, und Sie der Meinung sind, dass dies eine Verletzung Ihrer Privatsphäre oder Sicherheit darstellt, können Sie daher eine Datenschutzbeschwerde einreichen.",
+        "question": "Was ist der Unterschied zwischen Urheberrecht und Datenschutz?"
       },
       "7": {
-        "answer": "",
-        "question": ""
+        "answer": "Zunächst einmal: Vermeiden Sie Google Bilder. Am Ende haben Sie eine endlose Reihe von Bildern, bei denen Sie nicht sicher sind, ob sie wen oder was Sie suchen, und für die Sie selten die Rechte finden. Sie können über die „erweiterte Suche“ nach wiederverwendbaren Bildern suchen, aber das bietet keine Gewissheit. Zuverlässiger in diesem Bereich ist Flickr.com: Die Creative-Commons-Suchoption filtert wiederverwendbare Bilder aus dem breiten Angebot. Geben Sie einen Suchbegriff ein, klicken Sie dann auf „Erweiterte Suche“, gehen Sie zum Ende dieser Seite zu „Creative Commons“ und aktivieren Sie das Kontrollkästchen „Nur in Creative Commons-lizenzierten Inhalten suchen“. Die Ergebnisse, die Ihnen dann übrig bleiben, bilden den Teich, aus dem Sie wählen können. Sie müssen die Regeln respektieren: Wenn Sie die Bilder verwenden möchten, müssen Sie die Quelle verlinken und das Urheberrecht angeben.",
+        "question": "Wo und wie findet man im Internet mehr Gewissheit über lizenzfreies Bildmaterial?"
       }
     }
   },
@@ -95,6 +124,7 @@
     "DE": "Deutschland"
   },
   "create": {
+    "title": "Angebot hinzufügen",
     "actions": {
       "publish": "Veröffentlichen",
       "publish_later": "Später veröffentlichen",
@@ -112,6 +142,10 @@
       "title": {
         "events": "Wann findet diese Veranstaltung oder Aktivität statt?",
         "places": "Wann ist dieser Ort oder Standort geöffnet?"
+      },
+      "types": {
+        "one_or_more_days": "Ein oder mehrere Tage",
+        "fixed_days": "Feste Tage pro Woche"
       },
       "one_or_more_days": {
         "button_add": "Tag hinzufügen"
@@ -166,6 +200,11 @@
         "events": "Wo findet diese Veranstaltung oder Aktivität statt?",
         "places": "Wo ist dieser Ort oder Ort?"
       },
+      "recent_locations": {
+        "title": "Wählen Sie einen Standort aus, den Sie kürzlich verwendet haben",
+        "info": "Wir haben die Standorte, für die Sie kürzlich eingegeben haben, hier für Sie gespeichert. Sie können sie mit einem Klick hinzufügen.",
+        "other": "Oder wählen Sie einen anderen Standort"
+      },
       "validation_messages": {
         "street_and_number": {
           "required": "Ihre Straße und Hausnummer entsprechen nicht den Anforderungen."
@@ -174,13 +213,18 @@
       "is_online": {
         "label": "Online"
       },
+      "is_physical": {
+        "label": "An einem physischen Ort"
+      },
       "online_url": {
         "label": "Teilnahmelink",
         "placeholder": "https://",
-        "info": "Fügen Sie einen Link hinzu, damit die Leute wissen, wie sie an Ihrer Veranstaltung teilnehmen können. Sie möchten den Link zur Teilnahme nicht öffentlich freigeben? Dann können Sie diesen Schritt überspringen und die Teilnahmeanweisungen in Schritt 5 Ihrer Beschreibung hinzufügen."
+        "info": "Fügen Sie einen Link hinzu, damit die Leute wissen, wie sie an Ihrer Veranstaltung teilnehmen können. Sie möchten den Link zur Teilnahme nicht öffentlich freigeben? Dann können Sie diesen Schritt überspringen und die Teilnahmeanweisungen in Schritt 6 Ihrer Beschreibung hinzufügen."
       },
       "municipality": {
-        "change": "Ändern"
+        "change_be": "Gemeinde wechseln",
+        "change_de": "Wohnort wechseln",
+        "change_nl": "Wohnort wechseln"
       },
       "place": {
         "choose_label": "Wählen Sie einen Standort aus",
@@ -190,6 +234,9 @@
         "change_location": "Den Ort wechseln",
         "location_school": "Ort in Absprache mit der Schule",
         "location_school_info": "Veranstaltungen, deren Ort in Absprache festgelegt wird, werden nicht auf UiTinVlaanderen oder anderen öffentlichen Kanälen veröffentlicht. Ihre Veranstaltung erscheint auf cultuurkuur.be"
+      },
+      "street_and_number": {
+        "change": "Straße und Hausnummer wechseln"
       }
     },
     "name_and_age": {
@@ -219,7 +266,7 @@
         "adults": "Erwachsene",
         "seniors": "Senioren",
         "custom": "Andere",
-        "fro": "Von",
+        "from": "Von",
         "till": "Bis",
         "age": "Jahre",
         "error_max_lower_than_min": "Das Höchstalter kann nicht unter dem Mindestalter liegen.",
@@ -245,7 +292,8 @@
         "education": "Nur für Schulen",
         "everyone": "Für alle",
         "members": "Nur für Mitglieder",
-        "title": "Zugang"
+        "title": "Zugang",
+        "help": "Ihr Artikel wird nur auf kulturellen Bildungskanälen wie cultuurkuur.be veröffentlicht. Nach der Veröffentlichung können Sie spezifische Informationen für Schulen hinzufügen."
       },
       "contact_info": {
         "add_more_singular": "Kontaktdaten hinzufügen",
@@ -281,6 +329,14 @@
             "enddate_before_startdate": "Das gewählte Enddatum muss nach dem Startdatum liegen."
           }
         }
+      },
+      "labels": {
+        "title": "Etiketten",
+        "label": "Mit Etiketten verfeinern",
+        "info": "Fügen Sie bei Etiketten kurze, spezifische Schlüsselwörter hinzu",
+        "add_new_label": "Kein Etikett gefunden? Neues Etikett hinzufügen: ",
+        "error": "kein gültiges Etikett",
+        "tips": "Ein Etikett muss die folgenden Regeln erfüllen:<ul> <li>besteht nur aus <strong>Buchstaben</strong> oder <strong>Zahlen</strong></li> <li>enthält nur <strong>'-'</strong> und <strong>'_'</strong>, darf aber nicht mit diesen Zeichen beginnen</li> <li>zählt <strong>von</strong> <strong>2 bis 50 Zeichen</strong></li> </ul>"
       },
       "description": {
         "clear": "Leeren",
@@ -371,7 +427,7 @@
         "change": "Ändern Organisator",
         "title": "Organisator",
         "select_recent_used_organizer": "Wählen Sie eine Organisation, mit der Sie kürzlich gearbeitet haben",
-        "select_recent_used_organizer_info": "Hier haben wir für Sie die Organisationen vorbereitet, für die Sie kürzlich eine Veranstaltung eingetragen haben. Fügen Sie sie mit einem einzigen Klick zu Ihrer Veranstaltung hinzu.",
+        "select_recent_used_organizer_info": "Wir haben für Sie die Organisationen vorbereitet, für die Sie sich kürzlich angemeldet haben. Fügen Sie sie mit einem einfachen Klick hinzu.",
         "or_choose_other_organizer": "Oder Sie wählen eine andere Organisation",
         "uitpas_cardsystems": "UiTPAS Kartensysteme",
         "uitpas_alert": {
@@ -388,7 +444,7 @@
         "add_new_label": "Produktion nicht gefunden? Neue Produktion hinzufügen: "
       },
       "media": {
-        "title": "Medien"
+        "title": "Bild & Video"
       },
       "price_info": {
         "add": "Tarif hinzufügen",
@@ -417,7 +473,13 @@
       "title": {
         "events": "Stellen Sie sicher, dass Ihr Publikum keine Informationen verpasst",
         "places": "Stellen Sie sicher, dass Ihr Publikum keine Informationen verpasst"
-      }
+      },
+      "title_events": "Machen Sie dieses Ereignis zu etwas Besonderem",
+      "title_places": "Heben Sie diesen Standort hervor"
+    },
+    "footer": {
+      "auto_save": "Ihre Änderungen werden von nun an automatisch gespeichert",
+      "done_editing": "Bearbeitung fertig"
     },
     "publish_modal": {
       "actions": {
@@ -428,6 +490,14 @@
       "title": "Wählen Sie ein Veröffentlichungsdatum",
 
       "warning": "Achtung, dieses Datum kann nur einmalig eingestellt werden."
+    },
+    "duplicate": {
+      "title": "Kopieren und ändern",
+      "alert": "Sie sind dabei, eine Veranstaltung zu kopieren. Wählen Sie einen Zeitpunkt für diese Veranstaltung."
+    },
+    "migration": {
+      "alert": "<boldText>Diese Aktivität wurde in der vorherigen Version von UiTdatabank eingegeben.</boldText><br/>Um sie zu bearbeiten, müssen Sie den zuvor ausgewählten Ort und die Adresse erneut auswählen oder einmal eingeben.",
+      "continue": "Weiter"
     },
     "toast": {
       "success": {
@@ -484,6 +554,13 @@
       "organizers": "Keine Organisationen gefunden",
       "places": "Keine Orte gefunden"
     },
+    "row_status": {
+      "draft": "Entwurfsversion",
+      "rejected": "Veröffentlichung abgelehnt",
+      "published": "Veröffentlicht",
+      "published_from": "Veröffentlichung aus {{date}}"
+    },
+    "external_creator": "Erstellt durch eine externe Anwendung",
     "not_published": "Nicht veröffentlicht",
     "online_from": "Online ab {{date}}",
     "organizer": "Organisation",
@@ -540,6 +617,7 @@
     "0.53.0.0.0": "Freizeitbereich oder -zentrum",
     "0.54.0.0.0": "Tanzvorführung",
     "0.55.0.0.0": "Theatervorstellung",
+    "8.70.0.0.0": "Theater",
     "0.57.0.0.0": "Camp oder Ferienlager",
     "0.59.0.0.0": "Sportaktivität",
     "0.6.0.0.0": "Messe",
@@ -602,6 +680,7 @@
   "menu": {
     "add": "Eingeben",
     "announcements": "Ankündigungen",
+    "beta_version": "Betaversion",
     "home": "Startseite",
     "labels": "Labels",
     "logout": "Abmelden",
@@ -618,60 +697,57 @@
   "movies": {
     "create": {
       "actions": {
-        "change_cinema": "",
-        "change_name": "",
-        "change_theme": "",
-        "choose_cinema": "",
-        "choose_name": "",
-        "clear": "",
-        "copy_table": "",
-        "description": ""
+        "change_cinema": "Kino wechseln",
+        "change_name": "Namen ändern",
+        "change_theme": "Thema wechseln",
+        "change_type": "Typ ändern",
+        "choose_cinema": "Wähle ein Kino",
+        "choose_name": "Wähle einen Namen",
+        "clear": "Leeren",
+        "copy_table": "Tabelle kopieren",
+        "description": "Beschreibung"
       },
       "cinema": {
-        "placeholder": ""
-      },
-      "footer": {
-        "auto_save": "",
-        "done_editing": ""
+        "placeholder": "Kinoname"
       },
       "step1": {
-        "title": ""
+        "title": "Was für einen Film möchtest du einreichen?"
       },
       "step2": {
-        "title": ""
+        "title": "Wann spielt der Film?"
       },
       "step3": {
-        "title": ""
+        "title": "Wo spielt der Film?"
       },
       "step4": {
-        "title": ""
+        "title": "Wie lautet der Titel des Films?"
       },
       "step5": {
-        "title": ""
+        "title": "Heben Sie Ihren Film hervor."
       },
-      "title": "",
+      "title": "Filme hinzufügen",
       "toast": {
         "success": {
-          "calendar": "",
-          "description": "",
-          "image": "",
-          "location": "",
-          "name": "",
-          "theme": "",
-          "title": "",
-          "video": ""
+          "calendar": "Zeitfenster wurden erfolgreich geändert",
+          "description": "Die Beschreibung wurde erfolgreich geändert",
+          "image": "Bild erfolgreich geändert",
+          "location": "Kino erfolgreich verändert",
+          "name": "Name wurde erfolgreich geändert",
+          "theme": "Thema erfolgreich geändert",
+          "title": "Erfolgreich geändert",
+          "video": "Video erfolgreich geändert"
         }
       },
       "validation_messages": {
         "cinema": {
-          "required": ""
+          "required": "Kino ist Pflicht."
         },
         "production": {
-          "required": ""
+          "required": "Name ist erforderlich."
         },
         "timeTable": {
-          "all-timeslots-valid": "",
-          "has-timeslot": ""
+          "all-timeslots-valid": "Name ist Alle Zeitfenster müssen in einem gültigen Format eingegeben werden.",
+          "has-timeslot": "Mindestens 1 Zeitfenster ist erforderlich."
         }
       }
     }
@@ -743,7 +819,8 @@
           "streetAndNumber": "Ihre Straße und Hausnummer entsprechen nicht den Anforderungen."
         },
         "name": "Ihr Name entspricht nicht den Anforderungen.",
-        "url": "Ihre Website entspricht nicht den Anforderungen."
+        "url": "Ihre Website entspricht nicht den Anforderungen.",
+        "url_not_unique": "Diese Adresse wird bereits von der Organisation „{{organizerName}}“ verwendet. Geben Sie eine eindeutige Website an oder <setOrganizerLink>verwenden Sie {{organizerName}} als Organisation</setOrganizerLink>."
       }
     }
   },
@@ -851,6 +928,7 @@
         "productions": "Produktionen"
       },
       "cancel": "Abbrechen",
+      "change_name": "Namen ändern",
       "confirm": "Bestätigen",
       "create": "Hinzufügen",
       "delete": "Löschen",
@@ -896,7 +974,15 @@
     "1.7.7.0.0": "Science-Fiction",
     "1.7.8.0.0": "Historischer Film"
   },
+  "time_span_picker": {
+    "end": "Endzeit",
+    "start": "Startzeit"
+  },
   "time_table": {
+    "end": "Ende",
+    "start": "Start"
+  },
+  "date_period_picker": {
     "end": "Ende",
     "start": "Start"
   },

@@ -1,5 +1,6 @@
 import '@fortawesome/fontawesome-svg-core/styles.css';
 
+import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import NextHead from 'next/head';
 import Script from 'next/script';
@@ -108,6 +109,7 @@ const App = ({ Component, pageProps, children }) => {
     <>
       <Head />
       <Hotjar />
+      <UserProvider />
       <ContextProvider
         providers={[
           [I18nextProvider, { i18n }],

@@ -1,6 +1,7 @@
 import { Alert as BootstrapAlert } from 'react-bootstrap';
 
 import type { Values } from '@/types/Values';
+import { parseSpacing } from '@/ui/Box';
 
 import { Icon, Icons } from './Icon';
 import type { InlineProps } from './Inline';
@@ -26,7 +27,7 @@ const AlertVariantIconsMap = {
 
 const getValue = getValueFromTheme(`alert`);
 
-type Props = InlineProps & {
+type AlertProps = InlineProps & {
   variant?: Values<typeof AlertVariants>;
   visible?: boolean;
   dismissible?: boolean;
@@ -43,7 +44,7 @@ const Alert = ({
   className,
   fullWidth,
   ...props
-}: Props) => {
+}: AlertProps) => {
   return (
     <Inline
       {...getInlineProps(props)}
@@ -69,7 +70,27 @@ const Alert = ({
               height: 24px;
             `}
           />
-          <Text> {children}</Text>
+          {typeof children !== 'string' ? (
+            <Text>{children}</Text>
+          ) : (
+            <Text
+              dangerouslySetInnerHTML={{ __html: children as string }}
+              css={`
+                strong {
+                  font-weight: bold;
+                }
+
+                ul {
+                  list-style-type: disc;
+                  margin-bottom: ${parseSpacing(4)};
+
+                  li {
+                    margin-left: ${parseSpacing(5)};
+                  }
+                }
+              `}
+            />
+          )}
         </Inline>
       </BootstrapAlert>
     </Inline>

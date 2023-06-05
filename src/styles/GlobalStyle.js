@@ -155,6 +155,24 @@ const GlobalStyle = createGlobalStyle`
   .dropdown-menu {
     padding: 0;
   }
+
+  .public-DraftEditor-content {
+    overflow-wrap: anywhere !important;
+  }
+
+  .rdw-editor-toolbar {
+    border-width: 0 0 1px;
+    background-color: hsl(0, 0%, 98%);
+  }
+  
+  .rdw-editor-main {
+    padding: 10px;
+  }
+
+  .rdw-option-wrapper {
+    border-radius: 8px;
+    padding: 1rem 0.8rem;
+  }
 `;
 
 export { GlobalStyle };

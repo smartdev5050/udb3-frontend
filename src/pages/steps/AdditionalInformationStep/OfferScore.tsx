@@ -2,12 +2,11 @@ import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 
+import { eventTypesWithNoThemes } from '@/constants/EventTypes';
 import { OfferTypes } from '@/constants/OfferType';
-import { useGetEventByIdQuery } from '@/hooks/api/events';
-import { useGetPlaceByIdQuery } from '@/hooks/api/places';
+import { useGetOfferByIdQuery } from '@/hooks/api/offers';
 import { Scope } from '@/pages/create/OfferForm';
 import { Features, NewFeatureTooltip } from '@/pages/NewFeatureTooltip';
-import { Event } from '@/types/Event';
 import { Offer } from '@/types/Offer';
 import { Inline } from '@/ui/Inline';
 import { Link } from '@/ui/Link';
@@ -110,7 +109,11 @@ const scoreWeightMapping = {
     mandatory: false,
   },
   contact_info: {
-    weight: 6,
+    weight: 3,
+    mandatory: false,
+  },
+  booking_info: {
+    weight: 3,
     mandatory: false,
   },
   organizer: {
@@ -146,17 +149,20 @@ const OfferScore = ({ completedFields, offerId, scope, ...props }: Props) => {
 
   const router = useRouter();
 
-  const useGetOfferByIdQuery =
-    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
-
-  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
+  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId, scope });
 
   // @ts-expect-error
   const offer: Offer | undefined = getOfferByIdQuery.data;
 
-  const hasTheme: boolean = offer?.terms.some(
-    (term) => term.domain === 'theme',
+  const hasNoPossibleTheme = offer?.terms.some(
+    (term) =>
+      term.domain === 'eventtype' && eventTypesWithNoThemes.includes(term.id),
   );
+
+  const hasTheme: boolean =
+    offer?.terms.some((term) => term.domain === 'theme') ||
+    hasNoPossibleTheme ||
+    scope === OfferTypes.PLACES;
 
   const hasMediaObject: boolean = (offer?.mediaObject ?? []).length > 0;
 

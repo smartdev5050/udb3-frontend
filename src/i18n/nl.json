@@ -8,6 +8,34 @@
     "new_features": "Nieuw in UiTdatabank",
     "no_features": "Er zijn momenteel geen nieuwigheden."
   },
+  "beta_version": {
+    "title": "Wil je de nieuwste versie van de UiTdatabank proberen?",
+    "intro1": "We werken hard aan een nieuw invoerformulier in de UiTdatabank, zodat je nog vlotter je activiteiten kan invoeren. Al eens proberen? Schakel over naar de  nieuwste versie van de UiTdatabank en test meteen alle nieuwigheden.",
+    "intro2": "Wat is er nieuw?",
+    "improvements": [
+      {
+        "prefix": "Nieuwe mogelijkheden:",
+        "text": "je kan online evenementen toevoegen, een video uploaden en heel wat meer. "
+      },
+      {
+        "prefix": "Minder werk:",
+        "text": "we zetten de naam van je organisatie al voor je klaar, zodat je dat veld niet telkens opnieuw moet invullen. Later doen we hetzelfde met andere informatie die je al eerder invoerde."
+      },
+      {
+        "prefix": "Extra hulp",
+        "text": "via de volledigheidsscore krijg je meteen feedback en tips om je evenement of locatie zo volledig mogelijk in te voeren. "
+      }
+    ],
+    "outro1": "Wil je als een van de eersten het nieuwe invoerformulier testen? ",
+    "confirm": {
+      "title": "Ik probeer het UiT",
+      "info": "Ga meteen aan de slag <boldText>met<boldText> de nieuwe versie van de UiTdatabank."
+    },
+    "cancel": {
+      "title": "Ik wacht nog even",
+      "info": "Je hebt nog ruim de tijd om over te schakelen naar de nieuwe versie."
+    }
+  },
   "bookingAvailability": {
     "actions": {
       "cancel": "Annuleren",
@@ -115,6 +143,10 @@
         "events": "Wanneer vindt dit evenement of deze activiteit plaats?",
         "places": "Wanneer is deze plaats of locatie open?"
       },
+      "types": {
+        "one_or_more_days": "Een of meerdere dagen",
+        "fixed_days": "Vaste dagen per week"
+      },
       "one_or_more_days": {
         "button_add": "Dag toevoegen"
       },
@@ -168,6 +200,11 @@
         "events": "Waar vindt dit evenement of deze activiteit plaats?",
         "places": "Waar is deze plaats of locatie?"
       },
+      "recent_locations": {
+        "title": "Kies een locatie die je recent gebruikte",
+        "info": "We hebben de locaties waarvoor je recent invoerde hier voor je klaargezet. Met één klik voeg je ze toe.",
+        "other": "Of kies een andere locatie"
+      },
       "validation_messages": {
         "street_and_number": {
           "required": "Je straat en nummer voldoen niet aan de vereisten."
@@ -176,10 +213,13 @@
       "is_online": {
         "label": "Online"
       },
+      "is_physical": {
+        "label": "Op een fysieke locatie"
+      },
       "online_url": {
         "label": "Deelnamelink",
         "placeholder": "https://",
-        "info": "Voeg een link toe zodat mensen weten hoe ze aan je evenement kunnen deelnemen. Wil je de deelnamelink niet publiek delen? Dan kan je deze stap overslaan en deelname-instructies toevoegen aan je beschrijving in stap 5."
+        "info": "Voeg een link toe zodat mensen weten hoe ze aan je evenement kunnen deelnemen. Wil je de deelnamelink niet publiek delen? Dan kan je deze stap overslaan en deelname-instructies toevoegen aan je beschrijving in stap 6."
       },
       "municipality": {
         "change_be": "Wijzig gemeente",
@@ -193,7 +233,10 @@
       "country": {
         "change_location": "Wijzig locatie",
         "location_school": "Locatie in overleg met de school",
-        "location_school_info": "Evenementen waarvan de locatie in overleg wordt bepaald, worden niet gepubliceerd op UiTinVlaanderen of andere publiekskanalen. Je evenement verschijnt wel op cultuurkuur.be"
+        "location_school_info": "Evenementen waarvan de locatie in overleg wordt bepaald, verschijnen op cultuurkuur.be, het platform voor onderwijs & cultuur. Let op: ze verschijnen niet op UiTinVlaanderen of andere publiekskanalen."
+      },
+      "street_and_number": {
+        "change": "Wijzig straat en nummer"
       }
     },
     "name_and_age": {
@@ -251,7 +294,8 @@
         "title": "Toegang",
         "education": "Specifiek voor scholen",
         "everyone": "Voor iedereen",
-        "members": "Enkel voor leden"
+        "members": "Enkel voor leden",
+        "help": "Je item wordt enkel gepubliceerd op cultuureducatieve kanalen zoals cultuurkuur.be. Na het publiceren kan je nog specifieke informatie voor scholen toevoegen."
       },
       "contact_info": {
         "add_more_singular": "Contactgegevens toevoegen",
@@ -287,6 +331,14 @@
             "enddate_before_startdate": "De gekozen einddatum moet na de startdatum vallen."
           }
         }
+      },
+      "labels": {
+        "title": "Labels",
+        "label": "Verfijn met labels",
+        "info": "Met labels voeg je korte, specifieke trefwoorden toe",
+        "add_new_label": "Geen label gevonden? Nieuw label toevoegen: ",
+        "error": "Geen geldig label",
+        "tips": "Een label moet voldoen aan volgende regels:<ul> <li>bestaat enkel uit <strong>letters</strong> of <strong>cijfers</strong></li> <li>bevat enkel <strong>'-'</strong> en <strong>'_'</strong> maar mag niet met deze tekens beginnen</li> <li>telt <strong>2 tot 50 karakters</strong></li> </ul>"
       },
       "description": {
         "clear": "Leegmaken",
@@ -377,7 +429,7 @@
         "change": "Wijzig organisatie",
         "title": "Organisatie",
         "select_recent_used_organizer": "Kies een organisatie die je recent gebruikte",
-        "select_recent_used_organizer_info": "We hebben de organisaties waarvoor je recent een evenement invoerde hier voor je klaargezet. Met één klik voeg je ze toe aan je evenement.",
+        "select_recent_used_organizer_info": "We hebben de organisaties waarvoor je recent invoerde hier voor je klaargezet. Met één klik voeg je ze toe.",
         "or_choose_other_organizer": "Of kies een andere organisatie",
         "uitpas_cardsystems": "UiTPAS Kaartsystemen",
         "uitpas_alert": {
@@ -394,7 +446,7 @@
         "add_new_label": "Productie niet gevonden? Nieuwe productie toevoegen: "
       },
       "media": {
-        "title": "Media"
+        "title": "Afbeelding & video"
       },
       "price_info": {
         "add": "Tarief toevoegen",
@@ -412,7 +464,7 @@
         "target": "Doelgroep",
         "title": "Prijzen",
         "uitpas_error": "De UiTPAS prijs wordt voor jou berekend door UiTdatabank. Je kan deze niet zelf toevoegen.",
-        "uitpas_info": "Het UiTPAS kansentarief wordt automatish berekend op basis van de basisprijs en de actieve kaartsystemen.",
+        "uitpas_info": "Het UiTPAS kansentarief wordt automatisch berekend op basis van de basisprijs en de actieve kaartsystemen.",
         "validation_messages": {
           "matches": "De opgegeven prijs is ongeldig.",
           "unique_name": "De opgegeven naam in reeds gebruikt.",
@@ -437,6 +489,14 @@
       "description": "Vanaf wanneer mag dit online verschijnen?",
       "title": "Een latere publicatiedatum kiezen",
       "warning": "Opgelet, deze datum kan je maar één keer instellen."
+    },
+    "duplicate": {
+      "title": "Kopiëren en aanpassen",
+      "alert": "Je staat op het punt een evenement te kopiëren. Kies een tijdstip voor dit evenement."
+    },
+    "migration": {
+      "alert": "<boldText>Deze activiteit werd ingevoerd in de vorige versie van UiTdatabank.</boldText><br/>Om deze te kunnen bewerken, is het nodig om de eerder gekozen locatie en adres éénmalig opnieuw te selecteren of in te voeren.",
+      "continue": "Doorgaan"
     },
     "toast": {
       "success": {
@@ -493,6 +553,13 @@
       "organizers": "Geen organisaties gevonden",
       "places": "Geen locaties gevonden"
     },
+    "row_status": {
+      "draft": "Kladversie",
+      "rejected": "Publicatie afgewezen",
+      "published": "Gepubliceerd",
+      "published_from": "Publicatie vanaf {{date}}"
+    },
+    "external_creator": "Aangemaakt via een externe applicatie",
     "not_published": "Niet gepubliceerd",
     "online_from": "Online vanaf {{date}}",
     "organizer": "organisatie",
@@ -549,6 +616,7 @@
     "0.53.0.0.0": "Recreatiedomein of centrum",
     "0.54.0.0.0": "Dansvoorstelling",
     "0.55.0.0.0": "Theatervoorstelling",
+    "8.70.0.0.0": "Theater",
     "0.57.0.0.0": "Kamp of vakantie",
     "0.59.0.0.0": "Sportactiviteit",
     "0.6.0.0.0": "Beurs",
@@ -611,6 +679,7 @@
   "menu": {
     "add": "Invoeren",
     "announcements": "Nieuwigheden",
+    "beta_version": "Beta versie",
     "home": "Home",
     "labels": "Labels",
     "logout": "Afmelden",
@@ -749,7 +818,8 @@
           "streetAndNumber": "Je straat en nummer voldoen niet aan de vereisten."
         },
         "name": "Je naam voldoet niet aan de vereisten.",
-        "url": "Je website voldoet niet aan de vereisten."
+        "url": "Je website voldoet niet aan de vereisten.",
+        "url_not_unique": "Dit adres wordt al gebruikt door de organisatie '{{organizerName}}'. Geef een unieke website op of <setOrganizerLink>gebruik {{organizerName}} als organisatie</setOrganizerLink>."
       }
     }
   },

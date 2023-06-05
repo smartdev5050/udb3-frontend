@@ -134,7 +134,7 @@ export const Days = ({
                 />
               )}
             </List.Item>
-            {timesErrors.at(index) && (
+            {timesErrors[index] && (
               <Text color="red">
                 {t('create.calendar.days.validation_messages.invalid_hours')}
               </Text>

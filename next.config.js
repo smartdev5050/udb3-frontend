@@ -18,9 +18,11 @@ const moduleExports = {
     ];
   },
   publicRuntimeConfig: {
+    baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
     environment: process.env.NEXT_PUBLIC_ENVIRONMENT,
     apiKey: process.env.NEXT_PUBLIC_API_KEY,
     apiUrl: process.env.NEXT_PUBLIC_API_URL,
+    auth0Domain: process.env.NEXT_PUBLIC_AUTH0_DOMAIN,
     legacyAppUrl: process.env.NEXT_PUBLIC_LEGACY_APP_URL,
     authUrl: process.env.NEXT_PUBLIC_AUTH_URL,
     socketUrl: process.env.NEXT_PUBLIC_SOCKET_URL,
@@ -32,8 +34,15 @@ const moduleExports = {
     newsletterEmailListId: process.env.NEXT_PUBLIC_NEWSLETTER_EMAIL_LIST_ID,
     globalAlertMessage: process.env.NEXT_PUBLIC_GLOBAL_ALERT_MESSAGE,
     globalAlertVariant: process.env.NEXT_PUBLIC_GLOBAL_ALERT_VARIANT,
+    shouldShowBetaVersion: process.env.NEXT_PUBLIC_SHOULD_SHOW_BETA_VERSION,
   },
   pageExtensions: ['page.tsx', 'page.js', 'api.ts'],
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 };
 
 const SentryWebpackPluginOptions = {

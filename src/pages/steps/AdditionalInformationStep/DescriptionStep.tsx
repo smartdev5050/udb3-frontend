@@ -1,23 +1,34 @@
+import {
+  ContentState,
+  convertToRaw,
+  EditorState,
+  Modifier,
+  RichUtils,
+} from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
 import { useEffect, useMemo, useState } from 'react';
+import { SyntheticKeyboardEvent } from 'react-draft-wysiwyg';
 import { useTranslation } from 'react-i18next';
 
-import { OfferTypes } from '@/constants/OfferType';
-import { useGetEventByIdQuery } from '@/hooks/api/events';
-import { useChangeOfferDescriptionMutation } from '@/hooks/api/offers';
-import { useGetPlaceByIdQuery } from '@/hooks/api/places';
+import {
+  useChangeOfferDescriptionMutation,
+  useGetOfferByIdQuery,
+} from '@/hooks/api/offers';
+import RichTextEditor from '@/pages/RichTextEditor';
 import { Event } from '@/types/Event';
 import { Alert } from '@/ui/Alert';
-import { Box, parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Inline } from '@/ui/Inline';
 import { ProgressBar, ProgressBarVariants } from '@/ui/ProgressBar';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
-import { TextArea } from '@/ui/TextArea';
 import { Breakpoints } from '@/ui/theme';
 
 import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
+
+const htmlToDraft =
+  typeof window === 'object' && require('html-to-draftjs').default;
 
 const IDEAL_DESCRIPTION_LENGTH = 200;
 
@@ -36,25 +47,25 @@ const DescriptionInfo = ({
   const { t } = useTranslation();
 
   const descriptionProgress = Math.min(
-    Math.round((description.length / IDEAL_DESCRIPTION_LENGTH) * 100),
+    Math.round((description?.length / IDEAL_DESCRIPTION_LENGTH) * 100),
     100,
   );
 
   return (
     <Stack spacing={3} alignItems="flex-start" {...getStackProps(props)}>
-      {description.length < IDEAL_DESCRIPTION_LENGTH && (
+      {description?.length < IDEAL_DESCRIPTION_LENGTH && (
         <ProgressBar
           variant={ProgressBarVariants.SUCCESS}
           progress={descriptionProgress}
         />
       )}
       <Text variant={TextVariants.MUTED}>
-        {description.length < IDEAL_DESCRIPTION_LENGTH
+        {description?.length < IDEAL_DESCRIPTION_LENGTH
           ? t(
               'create.additionalInformation.description.progress_info.not_complete',
               {
                 idealLength: IDEAL_DESCRIPTION_LENGTH,
-                count: IDEAL_DESCRIPTION_LENGTH - description.length,
+                count: IDEAL_DESCRIPTION_LENGTH - description?.length,
               },
             )
           : t(
@@ -85,25 +96,31 @@ const DescriptionStep = ({
   // TODO: refactor
   const eventId = offerId;
 
-  const [description, setDescription] = useState('');
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const plainTextDescription = useMemo(
+    () => editorState.getCurrentContent().getPlainText(),
+    [editorState],
+  );
 
-  const useGetOfferByIdQuery =
-    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
-
-  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
+  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId, scope });
 
   // @ts-expect-error
   const offer: Event | Place | undefined = getOfferByIdQuery.data;
 
   useEffect(() => {
-    if (!offer?.description) return;
+    const newDescription = offer?.description?.[i18n.language];
+    if (!newDescription) return;
 
-    const newDescription =
-      offer.description[i18n.language] ?? offer.description[offer.mainLanguage];
+    const draftState = htmlToDraft(newDescription);
+    const contentState = ContentState.createFromBlockArray(
+      draftState.contentBlocks,
+      draftState.entityMap,
+    );
 
-    setDescription(newDescription);
+    setEditorState(EditorState.createWithContent(contentState));
 
-    const isCompleted = newDescription.length >= IDEAL_DESCRIPTION_LENGTH;
+    const plainText = contentState.getPlainText() ?? '';
+    const isCompleted = plainText.length >= IDEAL_DESCRIPTION_LENGTH;
 
     onValidationChange(
       isCompleted ? ValidationStatus.SUCCESS : ValidationStatus.NONE,
@@ -120,16 +137,21 @@ const DescriptionStep = ({
   });
 
   const handleBlur = () => {
-    if (!description) return;
-
-    const isCompleted = description.length >= IDEAL_DESCRIPTION_LENGTH;
+    const isCompleted = plainTextDescription.length >= IDEAL_DESCRIPTION_LENGTH;
 
     onValidationChange(
       isCompleted ? ValidationStatus.SUCCESS : ValidationStatus.NONE,
     );
 
+    if (!editorState.getLastChangeType()) {
+      return;
+    }
+
     changeDescriptionMutation.mutate({
-      description,
+      description:
+        plainTextDescription.length > 0
+          ? draftToHtml(convertToRaw(editorState.getCurrentContent()))
+          : '',
       language: i18n.language,
       eventId,
       scope,
@@ -137,7 +159,7 @@ const DescriptionStep = ({
   };
 
   const handleClear = () => {
-    setDescription('');
+    setEditorState(EditorState.createEmpty());
 
     changeDescriptionMutation.mutate({
       description: '',
@@ -147,28 +169,27 @@ const DescriptionStep = ({
     });
   };
 
-  const handleInput = (e) => {
-    setDescription(e.target.value);
-  };
-
   return (
-    <Inline stackOn={Breakpoints.M}>
+    <Inline
+      stackOn={Breakpoints.L}
+      css={`
+        gap: 2rem;
+      `}
+    >
       <FormElement
-        min-width="50%"
-        marginRight={5}
+        flex="1 0 50%"
         id="create-description"
         label={t('create.additionalInformation.description.title')}
         Component={
-          <TextArea
-            rows={10}
-            value={description}
-            onInput={handleInput}
+          <RichTextEditor
+            editorState={editorState}
+            onEditorStateChange={setEditorState}
             onBlur={handleBlur}
           />
         }
         info={
           <DescriptionInfo
-            description={description}
+            description={plainTextDescription}
             onClear={handleClear}
             eventTypeId={eventTypeId}
           />
@@ -181,31 +202,9 @@ const DescriptionStep = ({
             margin-top: 1.86rem;
           `}
         >
-          <Box
-            forwardedAs="div"
-            dangerouslySetInnerHTML={{
-              __html: t(
-                `create*additionalInformation*description*tips*${eventTypeId}`,
-                {
-                  keySeparator: '*',
-                },
-              ),
-            }}
-            css={`
-              strong {
-                font-weight: bold;
-              }
-
-              ul {
-                list-style-type: disc;
-                margin-bottom: ${parseSpacing(4)};
-
-                li {
-                  margin-left: ${parseSpacing(5)};
-                }
-              }
-            `}
-          />
+          {t(`create*additionalInformation*description*tips*${eventTypeId}`, {
+            keySeparator: '*',
+          })}
         </Alert>
       )}
     </Inline>

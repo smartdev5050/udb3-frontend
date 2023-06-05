@@ -9,8 +9,10 @@ module.exports = {
     '^.+\\.(js|ts|tsx)$': 'babel-jest',
   },
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-  collectCoverage: true,
-  collectCoverageFrom: ['<rootDir>/src/**/*.(js|ts|tsx)'],
+  modulePathIgnorePatterns: [
+    '<rootDir>/node_modules/',
+    '<rootDir>/src/test/e2e',
+  ],
   moduleNameMapper: {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
     ...jsconfigpaths,

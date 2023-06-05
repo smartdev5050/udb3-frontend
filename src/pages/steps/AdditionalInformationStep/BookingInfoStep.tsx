@@ -5,11 +5,10 @@ import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import * as yup from 'yup';
 
-import { OfferTypes } from '@/constants/OfferType';
-import { useGetEventByIdQuery } from '@/hooks/api/events';
-import { useAddOfferBookingInfoMutation } from '@/hooks/api/offers';
-import { useGetPlaceByIdQuery } from '@/hooks/api/places';
-import { Alert, AlertVariants } from '@/ui/Alert';
+import {
+  useAddOfferBookingInfoMutation,
+  useGetOfferByIdQuery,
+} from '@/hooks/api/offers';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { DatePeriodPicker } from '@/ui/DatePeriodPicker';
 import { FormElement } from '@/ui/FormElement';
@@ -19,10 +18,10 @@ import { Input } from '@/ui/Input';
 import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
-import { getValueFromTheme } from '@/ui/theme';
+import { getGlobalBorderRadius, getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 import { formatDateToISO } from '@/utils/formatDateToISO';
-import { prefixUrlWithHttp } from '@/utils/url';
+import { prefixUrlWithHttps } from '@/utils/url';
 
 import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
 import { isValidEmail, isValidPhone, isValidUrl } from './ContactInfoStep';
@@ -175,6 +174,7 @@ const ReservationPeriod = ({
       </Inline>
       {isDatePickerVisible && (
         <Stack
+          borderRadius={getGlobalBorderRadius}
           padding={4}
           backgroundColor="white"
           css={`
@@ -302,10 +302,7 @@ const BookingInfoStep = ({
     },
   ];
 
-  const useGetOfferByIdQuery =
-    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
-
-  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId });
+  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId, scope });
 
   // @ts-expect-error
   const bookingInfo = getOfferByIdQuery.data?.bookingInfo;
@@ -389,7 +386,7 @@ const BookingInfoStep = ({
       URL_LABEL_TRANSLATIONS.reserve;
 
     if (bookingInfo.url) {
-      bookingInfo.url = prefixUrlWithHttp(bookingInfo.url);
+      bookingInfo.url = prefixUrlWithHttps(bookingInfo.url);
     }
 
     if (bookingInfo.url && !isValidUrl(bookingInfo.url)) {

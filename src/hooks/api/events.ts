@@ -10,7 +10,6 @@ import type {
   SubEvent,
   Term,
 } from '@/types/Offer';
-import type { User } from '@/types/User';
 import type { Values } from '@/types/Values';
 import type { WorkflowStatus } from '@/types/WorkflowStatus';
 import { createEmbededCalendarSummaries } from '@/utils/createEmbededCalendarSummaries';
@@ -31,6 +30,7 @@ import {
   useAuthenticatedQuery,
 } from './authenticated-query';
 import type { Headers } from './types/Headers';
+import type { User } from './user';
 
 type EventArguments = {
   name: string;
@@ -94,6 +94,7 @@ const addEvent = async ({
 const useAddEventMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: addEvent,
+    mutationKey: 'events-add',
     ...configuration,
   });
 
@@ -188,6 +189,7 @@ const deleteEventById = async ({ headers, id }) =>
 const useDeleteEventByIdMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: deleteEventById,
+    mutationKey: 'events-delete-by-id',
     ...configuration,
   });
 
@@ -231,7 +233,7 @@ const useGetEventsByCreatorQuery = (
     queryKey: ['events'],
     queryFn: getEventsByCreator,
     queryArguments: {
-      q: `creator:(${creator?.id} OR ${creator?.email})`,
+      q: `creator:(${creator?.sub} OR ${creator?.email}) OR contributors:${creator?.email}`,
       disableDefaultFilters: true,
       embed: true,
       limit: paginationOptions.limit,
@@ -240,7 +242,7 @@ const useGetEventsByCreatorQuery = (
       ...createSortingArgument(sortOptions),
       ...createEmbededCalendarSummaries(calendarSummaryFormats),
     },
-    enabled: !!(creator?.id && creator?.email),
+    enabled: !!(creator?.sub && creator?.email),
     ...configuration,
   });
 
@@ -290,7 +292,11 @@ const changeLocation = async ({ headers, eventId, locationId }) => {
 };
 
 const useChangeLocationMutation = (configuration = {}) =>
-  useAuthenticatedMutation({ mutationFn: changeLocation, ...configuration });
+  useAuthenticatedMutation({
+    mutationFn: changeLocation,
+    mutationKey: 'events-change-location',
+    ...configuration,
+  });
 
 const changeAvailableFrom = async ({ headers, id, availableFrom }) => {
   return fetchFromApi({
@@ -306,6 +312,7 @@ const changeAvailableFrom = async ({ headers, id, availableFrom }) => {
 const useChangeAvailableFromMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: changeAvailableFrom,
+    mutationKey: 'events-change-available-from',
     ...configuration,
   });
 
@@ -321,7 +328,11 @@ const changeName = async ({ headers, id, lang, name }) => {
 };
 
 const useChangeNameMutation = (configuration = {}) =>
-  useAuthenticatedMutation({ mutationFn: changeName, ...configuration });
+  useAuthenticatedMutation({
+    mutationFn: changeName,
+    mutationKey: 'events-change-name',
+    ...configuration,
+  });
 
 const changeCalendar = async ({
   headers,
@@ -361,7 +372,11 @@ const changeCalendar = async ({
 };
 
 const useChangeCalendarMutation = (configuration = {}) =>
-  useAuthenticatedMutation({ mutationFn: changeCalendar, ...configuration });
+  useAuthenticatedMutation({
+    mutationFn: changeCalendar,
+    mutationKey: 'events-change-calendar',
+    ...configuration,
+  });
 
 const changeStatus = async ({ headers, id, type, reason }) =>
   fetchFromApi({
@@ -374,7 +389,11 @@ const changeStatus = async ({ headers, id, type, reason }) =>
   });
 
 const useChangeStatusMutation = (configuration = {}) =>
-  useAuthenticatedMutation({ mutationFn: changeStatus, ...configuration });
+  useAuthenticatedMutation({
+    mutationFn: changeStatus,
+    mutationKey: 'events-change-status',
+    ...configuration,
+  });
 
 const changeStatusSubEvents = async ({
   headers,
@@ -435,6 +454,7 @@ const createSubEventPatch = (
 const useChangeStatusSubEventsMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: changeStatusSubEvents,
+    mutationKey: 'events-change-status-sub-events',
     ...configuration,
   });
 
@@ -454,6 +474,7 @@ const publish = async ({ headers, id, publicationDate }) =>
 const usePublishEventMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: publish,
+    mutationKey: 'events-publish',
     ...configuration,
   });
 
@@ -472,6 +493,7 @@ const changeAudience = async ({ headers, eventId, audienceType }) =>
 const useChangeAudienceMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: changeAudience,
+    mutationKey: 'events-change-audience',
     ...configuration,
   });
 
@@ -493,6 +515,7 @@ const changeAttendanceMode = async ({
 const useChangeAttendanceModeMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: changeAttendanceMode,
+    mutationKey: 'events-change-attendance-mode',
     ...configuration,
   });
 
@@ -509,6 +532,7 @@ const changeOnlineUrl = async ({ headers, eventId, onlineUrl }) =>
 const useChangeOnlineUrlMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: changeOnlineUrl,
+    mutationKey: 'events-change-online-url',
     ...configuration,
   });
 
@@ -524,6 +548,7 @@ const deleteOnlineUrl = async ({ headers, eventId }) =>
 const useDeleteOnlineUrlMutation = (configuration = {}) =>
   useAuthenticatedMutation({
     mutationFn: deleteOnlineUrl,
+    mutationKey: 'events-delete-online-url',
     ...configuration,
   });
 export {

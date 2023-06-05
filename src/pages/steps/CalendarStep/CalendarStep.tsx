@@ -1,17 +1,18 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { CalendarType } from '@/constants/CalendarType';
+import { eventTypesWithNoThemes } from '@/constants/EventTypes';
 import { OfferStatus } from '@/constants/OfferStatus';
 import { OfferTypes } from '@/constants/OfferType';
-import { useGetEventByIdQuery } from '@/hooks/api/events';
-import { useChangeOfferCalendarMutation } from '@/hooks/api/offers';
-import { useGetPlaceByIdQuery } from '@/hooks/api/places';
+import {
+  useChangeOfferCalendarMutation,
+  useGetOfferByIdQuery,
+} from '@/hooks/api/offers';
 import { useToast } from '@/pages/manage/movies/useToast';
-import { Event } from '@/types/Event';
-import { SubEvent } from '@/types/Offer';
+import { Offer, SubEvent } from '@/types/Offer';
 import { Values } from '@/types/Values';
 import { Panel } from '@/ui/Panel';
 import { getStackProps, Stack } from '@/ui/Stack';
@@ -89,8 +90,10 @@ const convertStateToFormData = (
   ).includes(calendarType);
 
   const subEvent = days.map((day) => ({
-    startDate: formatDateToISO(new Date(day.startDate)),
-    endDate: formatDateToISO(new Date(day.endDate)),
+    startDate: formatDateToISO(
+      day.startDate ? new Date(day.startDate) : new Date(),
+    ),
+    endDate: formatDateToISO(day.endDate ? new Date(day.endDate) : new Date()),
     bookingAvailability: day.bookingAvailability,
     status: day.status,
   }));
@@ -106,8 +109,8 @@ const convertStateToFormData = (
     ...(isOneOrMoreDays && { subEvent }),
     ...(isFixedDays && { openingHours: newOpeningHours }),
     ...(calendarType === CalendarType.PERIODIC && {
-      startDate: formatDateToISO(new Date(startDate || undefined)),
-      endDate: formatDateToISO(new Date(endDate || undefined)),
+      startDate: formatDateToISO(new Date(startDate)),
+      endDate: formatDateToISO(new Date(endDate)),
     }),
   };
 };
@@ -128,9 +131,9 @@ const CalendarStep = ({
 
   const calendarStepContainer = useRef(null);
 
-  const [scope, type] = useWatch({
+  const [scope, type, theme] = useWatch({
     control,
-    name: ['scope', 'typeAndTheme.type'],
+    name: ['scope', 'typeAndTheme.type', 'typeAndTheme.theme'],
   });
 
   const calendarService = useCalendarContext();
@@ -168,7 +171,7 @@ const CalendarStep = ({
   };
 
   const {
-    handleLoadInitialContext: loadInitialContext,
+    handleLoadInitialContext,
     handleAddDay,
     handleDeleteDay,
     handleChangeStartDate,
@@ -178,16 +181,11 @@ const CalendarStep = ({
     handleChangeStartTime,
     handleChangeEndTime,
     handleChooseOneOrMoreDays,
-    handleChooseFixedDays: chooseFixedDays,
+    handleChooseFixedDays,
     handleChooseWithStartAndEndDate,
     handleChoosePermanent,
     handleChangeOpeningHours,
   } = useCalendarHandlers(handleChangeCalendarState);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleLoadInitialContext = useCallback(loadInitialContext, []);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleChooseFixedDays = useCallback(chooseFixedDays, []);
 
   useEffect(() => {
     calendarService.start();
@@ -207,20 +205,17 @@ const CalendarStep = ({
     });
   }, [handleLoadInitialContext, scope, offerId]);
 
-  const useGetOfferByIdQuery =
-    scope === OfferTypes.EVENTS ? useGetEventByIdQuery : useGetPlaceByIdQuery;
-
-  const getEventByIdQuery = useGetOfferByIdQuery({ id: offerId });
+  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId, scope });
 
   // @ts-expect-error
-  const event: Event | undefined = getEventByIdQuery.data;
+  const offer: Offer | undefined = getOfferByIdQuery.data;
 
   useEffect(() => {
     const initialContext = initialCalendarContext;
 
-    if (!event) return;
+    if (!offer) return;
 
-    const days = (event.subEvent ?? []).map((subEvent) => ({
+    const days = (offer.subEvent ?? []).map((subEvent) => ({
       id: createDayId(),
       startDate: subEvent.startDate,
       endDate: subEvent.endDate,
@@ -228,7 +223,7 @@ const CalendarStep = ({
       bookingAvailability: subEvent.bookingAvailability,
     }));
 
-    const openingHours = (event.openingHours ?? []).map((openingHour) => ({
+    const openingHours = (offer.openingHours ?? []).map((openingHour) => ({
       id: createOpeninghoursId(),
       opens: openingHour.opens,
       closes: openingHour.closes,
@@ -239,12 +234,24 @@ const CalendarStep = ({
       ...initialContext,
       ...(days.length > 0 && { days }),
       ...(openingHours.length > 0 && { openingHours }),
-      ...(event && { startDate: event.startDate ?? '' }),
-      ...(event && { endDate: event.endDate ?? '' }),
+      ...(offer?.startDate && {
+        startDate: offer.startDate,
+      }),
+      ...(offer?.endDate && {
+        endDate: offer.endDate,
+      }),
     };
 
-    handleLoadInitialContext({ newContext, calendarType: event.calendarType });
-  }, [event, handleLoadInitialContext]);
+    handleLoadInitialContext({ newContext, calendarType: offer.calendarType });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    handleLoadInitialContext,
+    offer?.subEvent,
+    offer?.openingHours,
+    offer?.startDate,
+    offer?.endDate,
+    offer?.calendarType,
+  ]);
 
   const toast = useToast({
     messages: { calendar: t('create.toast.success.calendar') },
@@ -268,13 +275,19 @@ const CalendarStep = ({
     handleChooseFixedDays();
   }, [scope, isIdle, handleChooseFixedDays]);
 
+  const hasNoPossibleThemes =
+    type?.id && eventTypesWithNoThemes.includes(type.id);
+
   // scroll to calendar step after theme has been selected
   useEffect(() => {
-    if (!scope || !type.id) return;
+    if (!scope || !type?.id) return;
+    if (!theme?.id && !hasNoPossibleThemes && scope === OfferTypes.EVENTS) {
+      return;
+    }
     if (offerId) return;
 
     scrollToCalendarContainer();
-  }, [scope, offerId, type]);
+  }, [scope, offerId, type, theme, hasNoPossibleThemes]);
 
   return (
     <Stack

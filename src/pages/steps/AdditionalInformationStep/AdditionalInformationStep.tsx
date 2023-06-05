@@ -1,10 +1,12 @@
 import { mapValues } from 'lodash';
 import { useRouter } from 'next/router';
-import { FC, useCallback, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
 import { OfferType } from '@/constants/OfferType';
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+import { LabelsStep } from '@/pages/steps/AdditionalInformationStep/LabelsStep';
 import type { Values } from '@/types/Values';
 import { parseSpacing } from '@/ui/Box';
 import { Icon, Icons } from '@/ui/Icon';
@@ -40,6 +42,7 @@ const Fields = {
   PRICE_INFO: 'price_info',
   MEDIA: 'media',
   AUDIENCE: 'audience',
+  LABELS: 'labels',
 };
 
 type Field = Values<typeof Fields>;
@@ -98,6 +101,12 @@ const tabConfigurations: TabConfig[] = [
     ],
   },
   {
+    field: Fields.LABELS,
+    TabContent: LabelsStep,
+    shouldInvalidate: false,
+    shouldShowOn: [AdditionalInformationStepVariant.EVENT],
+  },
+  {
     field: Fields.AUDIENCE,
     TabContent: AudienceStep,
     shouldInvalidate: true,
@@ -147,27 +156,45 @@ const AdditionalInformationStep = ({
   ...props
 }: Props) => {
   const { asPath, ...router } = useRouter();
+  const containerRef = useRef(null);
+  const entry = useIntersectionObserver(containerRef, {});
+  const isVisible = !!entry?.isIntersecting;
 
   const queryClient = useQueryClient();
 
-  const invalidateEventQuery = useCallback(
+  const invalidateOfferQuery = useCallback(
     async (field: Field, shouldInvalidate: boolean) => {
       if (shouldInvalidate) {
-        await queryClient.invalidateQueries(['events', { id: offerId }]);
+        await queryClient.invalidateQueries([scope, { id: offerId }]);
       }
       onChangeSuccess(field);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [offerId, queryClient],
+    [scope, offerId, queryClient],
   );
 
   const [tab, setTab] = useState('description');
 
   const [, hash] = asPath.split('#');
 
+  const handleScroll = () => {
+    if (!containerRef.current) return;
+
+    // no scroll to when it's already visible on the screen
+    if (isVisible) {
+      return;
+    }
+
+    containerRef.current.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+    });
+  };
+
   useEffect(() => {
     if (!hash || !Object.values(Fields).some((field) => hash === field)) return;
     setTab(hash);
+    handleScroll();
   }, [hash]);
 
   const handleSelectTab = (tab: string) => {
@@ -188,7 +215,7 @@ const AdditionalInformationStep = ({
   });
 
   return (
-    <Stack {...getStackProps(props)}>
+    <Stack ref={containerRef} {...getStackProps(props)}>
       <Tabs
         activeKey={tab}
         onSelect={handleSelectTab}
@@ -236,7 +263,7 @@ const AdditionalInformationStep = ({
                     }));
                   }}
                   onSuccessfulChange={() =>
-                    invalidateEventQuery(field, shouldInvalidate)
+                    invalidateOfferQuery(field, shouldInvalidate)
                   }
                   {...stepProps}
                 />
@@ -260,7 +287,6 @@ const AdditionalInformationStep = ({
 const additionalInformationStepConfiguration: StepsConfiguration = {
   Component: AdditionalInformationStep,
   title: ({ t, scope }) => t(`create.additionalInformation.title.${scope}`),
-  shouldShowStep: ({ offerId }) => !!offerId,
   variant: AdditionalInformationStepVariant.EVENT,
 };
 
