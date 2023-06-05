@@ -836,11 +836,14 @@ const LocationStep = ({
           };
 
           const showRecentLocations =
-            !isOnline && country && (!municipality || !place);
+            scope === OfferTypes.EVENTS &&
+            !isOnline &&
+            country &&
+            (!municipality || !place);
 
           const renderFieldWithRecentLocations = (children) => (
             <Stack spacing={5} maxWidth={'50%'}>
-              {OnlineToggle}
+              {scope === OfferTypes.EVENTS && OnlineToggle}
               {showRecentLocations && (
                 <RecentLocations flex={1} onFieldChange={onFieldChange} />
               )}
