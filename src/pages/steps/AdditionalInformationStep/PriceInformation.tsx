@@ -251,7 +251,7 @@ const PriceInformation = ({
   return (
     <Stack {...getStackProps(props)} padding={4} spacing={5}>
       <Inline spacing={4} stackOn={Breakpoints.M}>
-        <Stack minWidth="50%">
+        <Stack flex="1 0 70%">
           {controlledRates.map((rate, index) => {
             const registerNameProps = register(
               `rates.${index}.name.${i18n.language as SupportedLanguage}`,
@@ -308,12 +308,13 @@ const PriceInformation = ({
                         <Text>{rate.name[i18n.language]}</Text>
                       )}
                     </Inline>
-                    <Inline width="18%" alignItems="center">
+                    <Inline alignItems="center">
                       {rate.category && (
                         <FormElement
                           id={`rate_price_${rate.id}`}
                           Component={
                             <Input
+                              width="6rem"
                               marginRight={3}
                               {...registerPriceProps}
                               onBlur={async (e) => {
@@ -407,11 +408,24 @@ const PriceInformation = ({
           </Inline>
         </Stack>
         <Stack spacing={4}>
-          <Alert fullWidth>
+          <Alert
+            fullWidth
+            css={`
+              width: 100%;
+            `}
+            variant={AlertVariants.PRIMARY}
+          >
             {t('create.additionalInformation.price_info.global_info')}
           </Alert>
           {hasUitpasPrices && (
-            <Alert variant={AlertVariants.PRIMARY} marginBottom={3}>
+            <Alert
+              fullWidth
+              css={`
+                width: 100%;
+              `}
+              variant={AlertVariants.PRIMARY}
+              marginBottom={3}
+            >
               {t('create.additionalInformation.price_info.uitpas_info')}
             </Alert>
           )}
