@@ -6,8 +6,13 @@ import { defaultCookieOptions } from './hooks/useCookiesWithOptions';
 
 export const middleware = async (request: NextRequest) => {
   if (request.nextUrl.pathname.startsWith('/login')) {
+    const referer = request.cookies.get('auth0.redirect_uri');
+
+    if (!referer) {
+      return;
+    }
+
     try {
-      const referer = request.cookies.get('auth0.redirect_uri');
       const response = NextResponse.redirect(referer);
       const { accessToken } = await getSession(request, response);
       response.cookies.set('token', accessToken, defaultCookieOptions);
