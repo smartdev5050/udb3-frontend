@@ -251,7 +251,7 @@ const PriceInformation = ({
   return (
     <Stack {...getStackProps(props)} padding={4} spacing={5}>
       <Inline spacing={4} stackOn={Breakpoints.M}>
-        <Stack flex="1 0 70%">
+        <Stack flex="1 0 60%">
           {controlledRates.map((rate, index) => {
             const registerNameProps = register(
               `rates.${index}.name.${i18n.language as SupportedLanguage}`,
@@ -278,7 +278,7 @@ const PriceInformation = ({
                     justifyContent="flex-start"
                     spacing={3}
                   >
-                    <Inline minWidth="60%">
+                    <Inline minWidth="55%">
                       {rate.category === PriceCategory.BASE && (
                         <Text width="100%">{rate.name[i18n.language]}</Text>
                       )}
