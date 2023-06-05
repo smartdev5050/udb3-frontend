@@ -167,6 +167,12 @@ const isDuplicateMutation = (
     return false;
   }
 
+  // Temporary disable caching on price-info
+  // https://jira.uitdatabank.be/browse/III-5620
+  if (mutationKey === 'offers-add-price-info') {
+    return false;
+  }
+
   const mutations = queryClient.getMutationCache().findAll({
     mutationKey,
   });
