@@ -46,6 +46,8 @@ const PublishLaterModal = ({
   );
 
   const handleConfirm = () => {
+    publishLaterDate.setHours(0, 0, 0);
+
     if (!offer?.availableFrom) {
       return publishOffer(publishLaterDate);
     }
