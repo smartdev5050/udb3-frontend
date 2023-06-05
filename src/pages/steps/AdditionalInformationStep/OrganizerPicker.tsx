@@ -57,7 +57,15 @@ const RecentUsedOrganizers = ({
   }
 
   return (
-    <Stack spacing={4} {...getStackProps(props)}>
+    <Stack
+      spacing={4}
+      {...getStackProps(props)}
+      css={`
+        @media (max-resolution: 200dpi) {
+          width: 100% !important;
+        }
+      `}
+    >
       <Inline>
         <Text fontWeight="bold">
           {t(
