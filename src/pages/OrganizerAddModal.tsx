@@ -31,6 +31,8 @@ import { City, CityPicker } from './CityPicker';
 
 const getValue = getValueFromTheme('organizerAddModal');
 
+const GERMAN_ZIP_REGEX: RegExp = /\b\d{5}\b/;
+
 const schema = yup
   .object({
     url: yup.string().url().required(),
@@ -38,11 +40,38 @@ const schema = yup
     address: yup.object({
       streetAndNumber: yup.string(),
       country: yup.mixed<Country>().oneOf(Object.values(Countries)),
-      city: yup.object({
-        label: yup.string(),
-        name: yup.string(),
-        zip: yup.string(),
-      }),
+      city: yup
+        .object({
+          label: yup.string(),
+          name: yup.string(),
+          zip: yup.string(),
+        })
+        .when('country', {
+          is: (country) => country === Countries.DE,
+          then: yup.object({
+            label: yup.string(),
+            name: yup.string(),
+            zip: yup.string().matches(GERMAN_ZIP_REGEX),
+          }),
+        })
+        .when('country', {
+          is: (country) => country === Countries.NL,
+          then: yup.object({
+            label: yup.string(),
+            name: yup.string(),
+            zip: yup.string().test('valid_dutch_zip', (zip: string) => {
+              return zip?.length === 5;
+            }),
+          }),
+        })
+        .when('country', {
+          is: (country) => country === Countries.BE,
+          then: yup.object({
+            label: yup.string(),
+            name: yup.string(),
+            zip: yup.string(),
+          }),
+        }),
     }),
     contact: yup.array(yup.object({ type: yup.string(), value: yup.string() })),
   })
@@ -140,7 +169,6 @@ const OrganizerAddModal = ({
         label: t('countries.DE'),
         value: Countries.DE,
       },
-      // TODO: Add "Locatie in overleg met school"
     ],
     [t],
   );
