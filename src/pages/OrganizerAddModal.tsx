@@ -41,7 +41,11 @@ const schema = yup
       streetAndNumber: yup.string(),
       country: yup.mixed<Country>().oneOf(Object.values(Countries)),
       city: yup
-        .object()
+        .object({
+          label: yup.string(),
+          name: yup.string(),
+          zip: yup.string(),
+        })
         .when('country', {
           is: (country) => country === Countries.DE,
           then: yup.object({
