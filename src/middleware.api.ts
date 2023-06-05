@@ -6,14 +6,22 @@ import { defaultCookieOptions } from './hooks/useCookiesWithOptions';
 
 export const middleware = async (request: NextRequest) => {
   if (request.nextUrl.pathname.startsWith('/login')) {
+    const referer = request.cookies.get('auth0.redirect_uri');
+
+    if (!referer) {
+      return;
+    }
+
     try {
-      const referer = request.cookies.get('auth0.redirect_uri');
       const response = NextResponse.redirect(referer);
       const { accessToken } = await getSession(request, response);
       response.cookies.set('token', accessToken, defaultCookieOptions);
+      response.cookies.set('auth0.redirect_uri', '', { maxAge: 0 });
       return response;
     } catch (err) {
-      return NextResponse.next();
+      const response = NextResponse.next();
+      response.cookies.set('auth0.redirect_uri', '', { maxAge: 0 });
+      return response;
     }
   }
 
