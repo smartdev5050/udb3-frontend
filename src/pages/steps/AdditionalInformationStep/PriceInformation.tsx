@@ -417,7 +417,7 @@ const PriceInformation = ({
           >
             {t('create.additionalInformation.price_info.global_info')}
           </Alert>
-          {true && (
+          {hasUitpasPrices && (
             <Alert
               fullWidth
               css={`
