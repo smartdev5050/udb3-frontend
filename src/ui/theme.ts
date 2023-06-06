@@ -308,10 +308,11 @@ const theme = {
       backgroundColor: colors.grey1,
     },
     loginLogo: {
-      backgroundColor: colors.red5,
-      colorSoft: lighten('0.23', colors.udbRed),
-      colorMedium: lighten('0.31', colors.udbRed),
-      colorHard: lighten('0.40', colors.udbRed),
+      backgroundColor: colors.udbMainLightBlue,
+      color: colors.udbMainBlue,
+      colorSoft: lighten('0.23', colors.udbMainBlue),
+      colorMedium: lighten('0.31', colors.udbMainBlue),
+      colorHard: lighten('0.40', colors.udbMainBlue),
     },
     pageNotFound: {
       iconColor: colors.grey2,
