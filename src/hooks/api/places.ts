@@ -102,7 +102,11 @@ const useGetPlacesByCreatorQuery = (
     queryKey: ['places'],
     queryFn: getPlacesByCreator,
     queryArguments: {
-      q: `creator:(${creator?.sub} OR ${creator?.email}) OR contributors:${creator?.email}`,
+      q: `creator:(${creator?.sub} OR ${
+        creator?.['https://publiq.be/uitidv1id']
+          ? `${creator?.['https://publiq.be/uitidv1id']} OR`
+          : ''
+      } ${creator?.email}) OR contributors:${creator?.email}`,
       disableDefaultFilters: true,
       embed: true,
       limit: paginationOptions.limit,
