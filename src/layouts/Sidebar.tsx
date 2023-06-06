@@ -121,7 +121,7 @@ const MenuItem = memo(
             default: 'none',
             hover: getValueForMenuItem('hover.backgroundColor'),
           }}
-          spacing={{ default: 3, s: 1 }}
+          spacing={{ default: 4, s: 1 }}
           stackOn={Breakpoints.S}
           customChildren
           title={label}
@@ -138,7 +138,7 @@ const MenuItem = memo(
                 overflow: hidden;
                 text-overflow: ellipsis;
               `}
-              fontSize="16px"
+              fontSize="0.9375rem"
               textAlign={{ default: 'left', s: 'center' }}
             >
               {label}
@@ -175,7 +175,7 @@ const Menu = memo(({ items = [], title, ...props }: MenuProps) => {
       <Title
         opacity={0.5}
         css={`
-          font-size: 13px;
+          font-size: 10px;
           font-weight: 400;
           text-transform: uppercase;
         `}
@@ -205,7 +205,7 @@ const ProfileMenu = ({ defaultProfileImageUrl }: ProfileMenuProps) => {
       alignItems="center"
       justifyContent="center"
       css={`
-        border-top: 1px solid ${getValueForMenu('borderColor')};
+        border-top: 0.5px solid ${getValueForMenu('borderColor')};
       `}
     >
       <Image
@@ -568,13 +568,21 @@ const Sidebar = () => {
         href="/dashboard"
         title={t('menu.home')}
         customChildren
+        paddingBottom={2}
       >
         <Logo
           variant={isSmallView ? LogoVariants.MOBILE : LogoVariants.DEFAULT}
           color={colors.udbMainBlue}
         />
       </Link>
-      <Stack paddingTop={4} spacing={4} flex={1}>
+      <Stack
+        paddingTop={4}
+        spacing={4}
+        flex={1}
+        css={`
+          border-top: 0.5px solid ${getValueForMenu('borderColor')};
+        `}
+      >
         <Menu items={userMenu} />
         <Stack
           justifyContent={
@@ -589,7 +597,7 @@ const Sidebar = () => {
             <Inline
               display={shouldShowBetaVersion ? 'inherit' : 'none'}
               flex={1}
-              paddingLeft={2}
+              paddingLeft={4}
               alignItems="center"
               justifyContent={{ default: 'space-between', s: 'center' }}
               stackOn={Breakpoints.S}
@@ -597,7 +605,7 @@ const Sidebar = () => {
             >
               <Inline
                 stackOn={Breakpoints.S}
-                spacing={{ default: 3, s: 1 }}
+                spacing={{ default: 4, s: 1 }}
                 alignItems="center"
                 justifyContent={{ default: 'center', s: 'center' }}
               >
@@ -609,15 +617,6 @@ const Sidebar = () => {
                   }}
                 />
               </Inline>
-              {!isSmallView && (
-                <Link
-                  href="/beta-version"
-                  variant={ButtonVariants.UNSTYLED}
-                  customChildren
-                >
-                  <QuestionCircleIcon />
-                </Link>
-              )}
             </Inline>
             <NotificationMenu
               countUnseenAnnouncements={countUnseenAnnouncements}
