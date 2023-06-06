@@ -193,33 +193,15 @@ type ProfileMenuProps = {
 };
 
 const ProfileMenu = ({ defaultProfileImageUrl }: ProfileMenuProps) => {
-  const { t } = useTranslation();
-  const { removeAuthenticationCookies } = useCookiesWithOptions();
-
-  const router = useRouter();
-  const queryClient = useQueryClient();
-
   const getUserQuery = useGetUserQuery();
   // @ts-expect-error
   const user = getUserQuery.data as User;
-
-  const loginMenu = [
-    {
-      iconName: Icons.SIGN_OUT,
-      children: t('menu.logout'),
-      onClick: async () => {
-        removeAuthenticationCookies();
-        await queryClient.invalidateQueries('user');
-
-        window.location.assign('/api/auth/logout');
-      },
-    },
-  ];
 
   return (
     <Inline
       padding={3}
       spacing={2}
+      marginTop={3}
       alignItems="center"
       justifyContent="center"
       css={`
@@ -230,12 +212,16 @@ const ProfileMenu = ({ defaultProfileImageUrl }: ProfileMenuProps) => {
         src={user?.picture || defaultProfileImageUrl}
         width={40}
         height={40}
-        borderRadius={getGlobalBorderRadius}
+        borderRadius="50%"
         alt="Profile picture"
       />
       <Stack as="div" padding={2} spacing={2} flex={1} display={{ s: 'none' }}>
-        {user && <Text>{user['https://publiq.be/first_name']}</Text>}
-        <Menu items={loginMenu} />
+        {user && (
+          <Stack>
+            <Text>{user['https://publiq.be/first_name']}</Text>
+            <Text fontSize="0.625rem">{user.email}</Text>
+          </Stack>
+        )}
       </Stack>
     </Inline>
   );
@@ -261,6 +247,9 @@ const NotificationMenu = memo(
   }: NotificationMenuProps) => {
     const { t, i18n } = useTranslation();
 
+    const { removeAuthenticationCookies } = useCookiesWithOptions();
+    const queryClient = useQueryClient();
+
     const notificationMenu = [
       {
         iconName: Icons.GIFT,
@@ -276,6 +265,16 @@ const NotificationMenu = memo(
         children: t('menu.notifications'),
         suffix: <JobLoggerStateIndicator state={jobLoggerState} />,
         onClick: onClickJobLoggerButton,
+      },
+      {
+        iconName: Icons.SIGN_OUT,
+        children: t('menu.logout'),
+        onClick: async () => {
+          removeAuthenticationCookies();
+          await queryClient.invalidateQueries('user');
+
+          window.location.assign('/api/auth/logout');
+        },
       },
     ];
 
@@ -575,16 +574,7 @@ const Sidebar = () => {
           color={colors.udbMainBlue}
         />
       </Link>
-      <Stack
-        paddingTop={4}
-        spacing={4}
-        flex={1}
-        css={`
-          > :not(:first-child) {
-            border-top: 1px solid ${getValueForMenu('borderColor')};
-          }
-        `}
-      >
+      <Stack paddingTop={4} spacing={4} flex={1}>
         <Menu items={userMenu} />
         <Stack
           justifyContent={

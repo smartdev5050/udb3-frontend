@@ -9,6 +9,7 @@ const colors = {
   udbMainMediumBlue: '#DFF8FF',
   udbMainLightBlue: '#F8FDFF',
   udbMainGrey: '#6A777B',
+  udbMainLightGrey: '#BCC3C6',
   udbBlue: '#004f94',
   white: '#ffffff',
   grey1: '#f0f0f0',
@@ -251,7 +252,7 @@ const theme = {
       zIndex: zIndexJobLogger,
     },
     menu: {
-      borderColor: colors.red4,
+      borderColor: colors.udbMainLightGrey,
     },
     menuItem: {
       hover: {
