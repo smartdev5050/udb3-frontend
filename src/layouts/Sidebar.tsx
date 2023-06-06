@@ -545,7 +545,7 @@ const Sidebar = () => {
       height="100%"
       css={`
         overflow: hidden;
-        padding: 20px 30px;
+        padding: 20px;
       `}
       width={{ default: '240px', s: '65px' }}
       backgroundColor={getValueForSidebar('backgroundColor')}
@@ -597,17 +597,19 @@ const Sidebar = () => {
             <Inline
               display={shouldShowBetaVersion ? 'inherit' : 'none'}
               flex={1}
-              paddingLeft={4}
+              paddingLeft={2}
               alignItems="center"
               justifyContent={{ default: 'space-between', s: 'center' }}
               stackOn={Breakpoints.S}
               padding={2}
+              width="100%"
             >
               <Inline
                 stackOn={Breakpoints.S}
                 spacing={{ default: 4, s: 1 }}
                 alignItems="center"
                 justifyContent={{ default: 'center', s: 'center' }}
+                width="100%"
               >
                 <Icon name={Icons.EYE} />
                 <BetaVersionToggle

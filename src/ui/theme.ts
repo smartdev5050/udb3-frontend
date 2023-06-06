@@ -198,11 +198,11 @@ const theme = {
     typeahead: {
       active: {
         color: colors.white,
-        backgroundColor: colors.red2,
+        backgroundColor: colors.udbMainBlue,
       },
       hover: {
         color: colors.white,
-        backgroundColor: colors.red2,
+        backgroundColor: colors.udbMainBlue,
       },
       highlight: {
         fontWeight: 'bold',
