@@ -25,7 +25,7 @@ import {
   QuestionCircleIcon,
 } from '@/pages/NewFeatureTooltip';
 import type { Values } from '@/types/Values';
-import { Badge } from '@/ui/Badge';
+import { Badge, BadgeVariants } from '@/ui/Badge';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
@@ -266,7 +266,7 @@ const NotificationMenu = memo(
         iconName: Icons.GIFT,
         children: t('menu.announcements'),
         suffix: countUnseenAnnouncements > 0 && (
-          <Badge>{countUnseenAnnouncements}</Badge>
+          <Badge variant={BadgeVariants.INFO}>{countUnseenAnnouncements}</Badge>
         ),
         onClick: onClickAnnouncementsButton,
         visible: i18n.language === 'nl',
@@ -490,7 +490,7 @@ const Sidebar = () => {
         iconName: Icons.FLAG,
         children: t('menu.validate'),
         suffix: countEventsToModerate > 0 && (
-          <Badge>{countEventsToModerate}</Badge>
+          <Badge variant={BadgeVariants.INFO}>{countEventsToModerate}</Badge>
         ),
       },
       {

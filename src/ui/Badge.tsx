@@ -5,10 +5,12 @@ import type { Values } from '@/types/Values';
 import type { BoxProps } from './Box';
 import { getBoxProps } from './Box';
 import { Text } from './Text';
+import { colors } from './theme';
 
 const BadgeVariants = {
   DANGER: 'danger',
   SECONDARY: 'secondary',
+  INFO: 'info',
 } as const;
 
 const BaseBadge = (props: BoxProps) => <Text {...props} />;
@@ -26,6 +28,9 @@ const Badge = ({ children, className, variant, ...props }: Props) => {
       lineHeight="inherit"
       height="min-content"
       {...getBoxProps(props)}
+      backgroundColor={
+        variant === BadgeVariants.INFO ? colors.udbMainBlue : undefined
+      }
     >
       {children}
     </BootstrapBadge>
