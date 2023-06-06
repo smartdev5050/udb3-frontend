@@ -64,6 +64,7 @@ const Pagination = ({
           color: ${getValue('color')};
           border-color: ${getValue('borderColor')};
           padding: ${getValue('paddingY')} ${getValue('paddingX')};
+          margin-right: 0.5rem;
 
           border-radius: ${getGlobalBorderRadius};
 
