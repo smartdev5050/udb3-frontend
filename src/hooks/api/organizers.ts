@@ -197,7 +197,11 @@ const useGetOrganizersByCreatorQuery = (
     queryKey: ['organizers'],
     queryFn: getOrganizersByCreator,
     queryArguments: {
-      q: `creator:(${creator?.sub} OR ${creator?.email}) OR contributors:${creator?.email}`,
+      q: `creator:(${creator?.sub} OR ${
+        creator?.['https://publiq.be/uitidv1id']
+          ? `${creator?.['https://publiq.be/uitidv1id']} OR`
+          : ''
+      } ${creator?.email}) OR contributors:${creator?.email}`,
       limit: paginationOptions.limit,
       start: paginationOptions.start,
       embed: true,

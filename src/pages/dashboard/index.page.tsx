@@ -238,8 +238,10 @@ const OfferRow = ({ item: offer, onDelete, ...props }: OfferRowProps) => {
 
   const getUserQuery = useGetUserQuery();
   // @ts-expect-error
-  const userId = getUserQuery.data?.uuid;
-  const isExternalCreator = userId !== offer.creator;
+  const userId = getUserQuery.data?.sub;
+  // @ts-expect-error
+  const userIdv1 = getUserQuery.data?.['https://publiq.be/uitidv1id'];
+  const isExternalCreator = ![userId, userIdv1].includes(offer.creator);
 
   const offerType = parseOfferType(offer['@context']);
 
@@ -343,8 +345,10 @@ const OrganizerRow = ({
 
   const getUserQuery = useGetUserQuery();
   // @ts-expect-error
-  const userId = getUserQuery.data?.uuid;
-  const isExternalCreator = userId !== organizer.creator;
+  const userId = getUserQuery.data?.sub;
+  // @ts-expect-error
+  const userIdv1 = getUserQuery.data?.['https://publiq.be/uitidv1id'];
+  const isExternalCreator = ![userId, userIdv1].includes(organizer.creator);
 
   const address =
     organizer?.address?.[i18n.language] ??
