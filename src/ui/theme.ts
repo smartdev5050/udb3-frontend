@@ -139,7 +139,7 @@ const theme = {
         large: '0px 4px 6px 0px rgba(210, 210, 210, 0.7)',
       },
       primary: {
-        backgroundColor: colors.udbBlue,
+        backgroundColor: colors.udbMainBlue,
         borderColor: '#00417b',
         hoverBackgroundColor: '#003461',
         hoverBorderColor: '#00213d',
