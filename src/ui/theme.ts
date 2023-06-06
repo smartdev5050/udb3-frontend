@@ -5,6 +5,10 @@ import type { Values } from '@/types/Values';
 
 const colors = {
   udbRed: '#c0120c',
+  udbMainBlue: '#00AAE5',
+  udbMainMediumBlue: '#DFF8FF',
+  udbMainLightBlue: '#F8FDFF',
+  udbMainGrey: '#6A777B',
   udbBlue: '#004f94',
   white: '#ffffff',
   grey1: '#f0f0f0',
@@ -239,8 +243,9 @@ const theme = {
     },
     sidebar: {
       zIndex: zIndexSidebar,
-      color: colors.white,
-      backgroundColor: colors.udbRed,
+      color: colors.udbMainGrey,
+      logoColor: colors.udbMainBlue,
+      backgroundColor: colors.udbMainLightBlue,
     },
     jobLogger: {
       zIndex: zIndexJobLogger,
@@ -250,7 +255,8 @@ const theme = {
     },
     menuItem: {
       hover: {
-        backgroundColor: colors.red4,
+        backgroundColor: colors.udbMainMediumBlue,
+        color: colors.udbMainBlue,
       },
     },
     announcement: {

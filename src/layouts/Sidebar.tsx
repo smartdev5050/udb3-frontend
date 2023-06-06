@@ -4,6 +4,7 @@ import type { ChangeEvent, ReactNode } from 'react';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
+import { css } from 'styled-components';
 
 import { useAnnouncementModalContext } from '@/context/AnnouncementModalContext';
 import { useGetAnnouncementsQuery } from '@/hooks/api/announcements';
@@ -40,6 +41,7 @@ import { Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import {
   Breakpoints,
+  colors,
   getGlobalBorderRadius,
   getValueFromTheme,
 } from '@/ui/theme';
@@ -57,6 +59,8 @@ const shouldShowBetaVersion =
 const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSidebar = getValueFromTheme('sidebar');
 const getValueForMenu = getValueFromTheme('menu');
+
+const getValue = getValueFromTheme('sidebar');
 
 const PermissionTypes = {
   AANBOD_BEWERKEN: 'AANBOD_BEWERKEN',
@@ -99,11 +103,16 @@ const MenuItem = memo(
     const Component = href ? Link : Button;
 
     return (
-      <List.Item>
+      <List.Item
+        css={`
+          :hover {
+            color: ${getValueForMenuItem('hover.color')};
+          }
+        `}
+      >
         <Component
           width="100%"
           variant="unstyled"
-          padding={2}
           href={href}
           iconName={iconName}
           suffix={suffix}
@@ -116,6 +125,10 @@ const MenuItem = memo(
           stackOn={Breakpoints.S}
           customChildren
           title={label}
+          paddingLeft={4}
+          paddingBottom={3}
+          paddingTop={3}
+          borderRadius={getGlobalBorderRadius}
         >
           {label && (
             <Text
@@ -125,7 +138,7 @@ const MenuItem = memo(
                 overflow: hidden;
                 text-overflow: ellipsis;
               `}
-              fontSize={{ s: '9px' }}
+              fontSize="16px"
               textAlign={{ default: 'left', s: 'center' }}
             >
               {label}
@@ -533,8 +546,9 @@ const Sidebar = () => {
       height="100%"
       css={`
         overflow: hidden;
+        padding: 20px 30px;
       `}
-      width={{ default: '230px', s: '65px' }}
+      width={{ default: '240px', s: '65px' }}
       backgroundColor={getValueForSidebar('backgroundColor')}
       color={getValueForSidebar('color')}
       zIndex={getValueForSidebar('zIndex')}
@@ -558,6 +572,7 @@ const Sidebar = () => {
       >
         <Logo
           variant={isSmallView ? LogoVariants.MOBILE : LogoVariants.DEFAULT}
+          color={colors.udbMainBlue}
         />
       </Link>
       <Stack
