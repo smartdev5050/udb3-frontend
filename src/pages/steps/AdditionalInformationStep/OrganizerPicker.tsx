@@ -57,7 +57,15 @@ const RecentUsedOrganizers = ({
   }
 
   return (
-    <Stack spacing={4} {...getStackProps(props)}>
+    <Stack
+      spacing={4}
+      {...getStackProps(props)}
+      css={`
+        @media (max-resolution: 200dpi) {
+          width: 100% !important;
+        }
+      `}
+    >
       <Inline>
         <Text fontWeight="bold">
           {t(
@@ -227,10 +235,9 @@ const OrganizerPicker = ({
               <RecentUsedOrganizers
                 organizers={recentUsedOrganizers}
                 onChange={handleSelectRecentOrganizer}
-                width={{ s: '100%', default: '60%' }}
                 maxWidth="50rem"
               />
-              <Stack width={{ s: '100%', default: '40%' }}>
+              <Stack>
                 <Text fontWeight="bold" marginBottom={4}>
                   {t(
                     'create.additionalInformation.organizer.or_choose_other_organizer',
