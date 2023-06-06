@@ -6,6 +6,7 @@ import { Values } from '@/types/Values';
 
 import type { BoxProps } from './Box';
 import { Box, getBoxProps } from './Box';
+import { colors } from './theme';
 
 const BaseRadioButton = forwardRef<HTMLInputElement, any>((props, ref) => (
   <Box as="input" {...props} ref={ref} />
@@ -99,6 +100,11 @@ const RadioButton = forwardRef<HTMLInputElement, Props>(
 
           .custom-control-input:focus ~ .custom-control-label::before {
             box-shadow: 0 0 0 0.2em rgb(0 123 255 / 25%);
+          }
+
+          .custom-control-input:checked ~ .custom-control-label::before {
+            background-color: ${colors.udbMainBlue};
+            border-color: ${colors.udbMainBlue};
           }
 
           .custom-control-label::after {
