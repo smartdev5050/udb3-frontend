@@ -182,10 +182,10 @@ const theme = {
     },
     pagination: {
       color: colors.textColor,
-      activeBackgroundColor: colors.red2,
+      activeBackgroundColor: colors.udbMainBlue,
       activeBorderColor: colors.grey2,
       activeColor: colors.white,
-      hoverBackgroundColor: colors.red2,
+      hoverBackgroundColor: colors.udbMainBlue,
       hoverColor: colors.white,
       borderColor: colors.grey2,
       focusBoxShadow: 'none',
