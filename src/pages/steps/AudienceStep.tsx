@@ -101,9 +101,11 @@ const AudienceStep = ({
             }
           />
         ))}
-        <Text variant="muted" maxWidth="30%">
-          {t('create.additionalInformation.audience.help')}
-        </Text>
+        {watchedAudienceType === AudienceType.EDUCATION && (
+          <Text variant="muted" maxWidth="30%">
+            {t('create.additionalInformation.audience.help')}
+          </Text>
+        )}
       </Stack>
     </Stack>
   );
