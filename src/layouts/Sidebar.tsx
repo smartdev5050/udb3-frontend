@@ -176,7 +176,7 @@ const Menu = memo(({ items = [], title, ...props }: MenuProps) => {
       <Title
         opacity={0.5}
         css={`
-          font-size: 10px;
+          font-size: 0.625rem;
           font-weight: 400;
           text-transform: uppercase;
         `}
