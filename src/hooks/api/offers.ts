@@ -57,7 +57,15 @@ const useGetOffersByCreatorQuery = (
     ...configuration
   }: UseQueryOptions & { queryArguments?: any } = {},
 ) => {
-  const defaultQuery = `creator:(${creator?.sub} OR ${creator?.email})`;
+  const creatorQuery = [
+    `${creator?.sub}`,
+    creator['https://publiq.be/uitidv1id'],
+    creator?.email,
+  ]
+    .filter(Boolean)
+    .join(' OR ');
+  const defaultQuery = `creator:(${creatorQuery})`;
+
   const query = advancedQuery
     ? defaultQuery.concat(' AND ', advancedQuery)
     : defaultQuery;
