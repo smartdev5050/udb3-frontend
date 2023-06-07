@@ -22,7 +22,11 @@ import {
   useDeletePlaceByIdMutation,
   useGetPlacesByCreatorQuery,
 } from '@/hooks/api/places';
-import { useGetUserQuery, User } from '@/hooks/api/user';
+import {
+  useGetUserQuery,
+  useGetUserQueryServerSide,
+  User,
+} from '@/hooks/api/user';
 import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
 import { Footer } from '@/pages/Footer';
 import type { Event } from '@/types/Event';
@@ -713,7 +717,10 @@ const Dashboard = (): any => {
 
 const getServerSideProps = getApplicationServerSideProps(
   async ({ req, query, cookies: rawCookies, queryClient }) => {
-    const user = (await useGetUserQuery({ req, queryClient })) as User;
+    const user = (await useGetUserQueryServerSide({
+      req,
+      queryClient,
+    })) as User;
 
     await Promise.all(
       Object.entries(UseGetItemsByCreatorMap).map(([key, hook]) => {
