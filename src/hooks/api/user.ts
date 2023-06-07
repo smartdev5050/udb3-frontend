@@ -9,8 +9,6 @@ import {
   useAuthenticatedQuery,
 } from './authenticated-query';
 
-const { publicRuntimeConfig } = getConfig();
-
 type User = {
   sub: string;
   given_name: string;
@@ -25,14 +23,34 @@ type User = {
   'https://publiq.be/uitidv1id': string;
   'https://publiq.be/hasMuseumpasSubscription': boolean;
   'https://publiq.be/first_name': string;
+  exp: number;
+};
+
+type decodedAccessToken = {
+  'https://publiq.be/publiq-apis': string;
+  'https://publiq.be/client-name': string;
+  'https://publiq.be/email': string;
+  'https://publiq.be/uitidv1id': string;
+  iss: string;
+  sub: string;
+  aud: string[];
+  iat: number;
+  exp: number;
+  azp: string;
+  scope: string;
 };
 
 const getUser = async (cookies: Cookies) => {
-  if (!cookies.idToken) {
+  if (!cookies.idToken || !cookies.token) {
     throw new FetchError(401, 'Unauthorized');
   }
 
-  const userInfo = jwt_decode(cookies.idToken);
+  const userInfo = jwt_decode(cookies.idToken) as User;
+  const decodedAccessToken = jwt_decode(cookies.token) as decodedAccessToken;
+
+  if (Date.now() >= decodedAccessToken.exp * 1000) {
+    throw new FetchError(401, 'Unauthorized');
+  }
 
   return userInfo;
 };
@@ -51,8 +69,6 @@ const useGetUserQueryServerSide = (
   { req, queryClient }: ServerSideQueryOptions = {},
   configuration = {},
 ) => {
-  console.log('in server side');
-
   const cookies = req.cookies;
 
   return useAuthenticatedQuery({
