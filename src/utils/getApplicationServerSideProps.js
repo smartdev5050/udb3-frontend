@@ -5,7 +5,7 @@ import { QueryClient } from 'react-query';
 import { generatePath, matchPath } from 'react-router';
 import UniversalCookies from 'universal-cookie';
 
-import { useGetUserQuery } from '@/hooks/api/user';
+import { useGetUserQuery, useGetUserQueryServerSide } from '@/hooks/api/user';
 import { defaultCookieOptions } from '@/hooks/useCookiesWithOptions';
 import { isFeatureFlagEnabledInCookies } from '@/hooks/useFeatureFlag';
 
@@ -121,7 +121,7 @@ const getApplicationServerSideProps =
     const queryClient = new QueryClient();
 
     try {
-      await useGetUserQuery({ req, queryClient });
+      await useGetUserQueryServerSide({ req, queryClient });
     } catch (error) {
       if (error instanceof FetchError) {
         return redirectToLogin(cookies, req, resolvedUrl);
