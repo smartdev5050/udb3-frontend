@@ -1,7 +1,9 @@
+import jwt_decode from 'jwt-decode';
 import getConfig from 'next/config';
 
-import { fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
+import { FetchError, fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 
+import { Cookies, useCookiesWithOptions } from '../useCookiesWithOptions';
 import {
   ServerSideQueryOptions,
   useAuthenticatedQuery,
@@ -25,40 +27,39 @@ type User = {
   'https://publiq.be/first_name': string;
 };
 
-const getUser = async ({ headers }) => {
-  // We can't send all of the headers to auth0.
-  // Sending the X-Api-Key header will cause CORS issues
-  // Leaking the X-Api-Key to other services than udb3 backend is also not needed
-  const filteredHeaders = Object.fromEntries<string>(
-    Object.entries<string>(headers).filter(
-      ([key]) => key.toLowerCase() !== 'x-api-key',
-    ),
-  );
-
-  const res = await fetchFromApi({
-    apiUrl: `https://${publicRuntimeConfig.auth0Domain}`,
-    path: '/userinfo',
-    options: {
-      headers: filteredHeaders,
-    },
-  });
-
-  if (isErrorObject(res)) {
-    // eslint-disable-next-line no-console
-    return console.error(res);
+const getUser = async (cookies: Cookies) => {
+  if (!cookies.idToken) {
+    throw new FetchError(401, 'Unauthorized');
   }
-  return await res.json();
+
+  const userInfo = jwt_decode(cookies.idToken);
+
+  return userInfo;
 };
 
-const useGetUserQuery = (
+const useGetUserQuery = () => {
+  const { cookies } = useCookiesWithOptions(['idToken']);
+
+  return useAuthenticatedQuery({
+    queryKey: ['user'],
+    queryFn: () => getUser(cookies),
+    staleTime: Infinity,
+  });
+};
+
+const useGetUserQueryServerSide = (
   { req, queryClient }: ServerSideQueryOptions = {},
   configuration = {},
 ) => {
+  console.log('in server side');
+
+  const cookies = req.cookies;
+
   return useAuthenticatedQuery({
     req,
     queryClient,
     queryKey: ['user'],
-    queryFn: getUser,
+    queryFn: () => getUser(cookies),
     staleTime: Infinity,
     ...configuration,
   });
@@ -106,5 +107,10 @@ const useGetRolesQuery = (configuration = {}) =>
     ...configuration,
   });
 
-export { useGetPermissionsQuery, useGetRolesQuery, useGetUserQuery };
+export {
+  useGetPermissionsQuery,
+  useGetRolesQuery,
+  useGetUserQuery,
+  useGetUserQueryServerSide,
+};
 export type { User };
