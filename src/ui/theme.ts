@@ -292,7 +292,7 @@ const theme = {
       borderColor: colors.grey3,
       activeColor: colors.white,
       backgroundColor: colors.white,
-      activeBackgroundColor: colors.red2,
+      activeBackgroundColor: colors.udbMainBlue,
     },
     eventItem: {
       borderColor: colors.grey3,

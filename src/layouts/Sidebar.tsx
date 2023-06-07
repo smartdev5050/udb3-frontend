@@ -125,9 +125,10 @@ const MenuItem = memo(
           stackOn={Breakpoints.S}
           customChildren
           title={label}
-          paddingLeft={4}
-          paddingBottom={3}
-          paddingTop={3}
+          paddingLeft={{ default: 4, s: 1 }}
+          paddingBottom={{ default: 3, s: 2 }}
+          paddingTop={{ default: 3, s: 2 }}
+          paddingRight={{ default: 3, s: 1 }}
           borderRadius={getGlobalBorderRadius}
         >
           {label && (
@@ -138,7 +139,7 @@ const MenuItem = memo(
                 overflow: hidden;
                 text-overflow: ellipsis;
               `}
-              fontSize="0.9375rem"
+              fontSize={{ default: '0.975rem', s: '0.625rem' }}
               textAlign={{ default: 'left', s: 'center' }}
             >
               {label}
@@ -545,13 +546,12 @@ const Sidebar = () => {
       height="100%"
       css={`
         overflow: hidden;
-        padding: 20px;
       `}
       width={{ default: '240px', s: '65px' }}
       backgroundColor={getValueForSidebar('backgroundColor')}
       color={getValueForSidebar('color')}
       zIndex={getValueForSidebar('zIndex')}
-      padding={{ default: 2, s: 1 }}
+      padding={{ default: 4.5, s: 1 }}
       spacing={3}
       ref={sidebarComponent}
       onMouseOver={() => {
