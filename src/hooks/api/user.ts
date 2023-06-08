@@ -61,7 +61,6 @@ const useGetUserQuery = () => {
   return useAuthenticatedQuery({
     queryKey: ['user'],
     queryFn: () => getUser(cookies),
-    staleTime: Infinity,
   });
 };
 
@@ -76,7 +75,6 @@ const useGetUserQueryServerSide = (
     queryClient,
     queryKey: ['user'],
     queryFn: () => getUser(cookies),
-    staleTime: Infinity,
     ...configuration,
   });
 };
