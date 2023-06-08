@@ -258,13 +258,18 @@ const OfferRow = ({ item: offer, onDelete, ...props }: OfferRowProps) => {
   const editUrl = `/${offerType}/${parseOfferId(offer['@id'])}/edit`;
   const previewUrl = `/${offerType}/${parseOfferId(offer['@id'])}/preview`;
   const typeId = offer.terms.find((term) => term.domain === 'eventtype')?.id;
+
   // The custom keySeparator was necessary because the ids contain '.' which i18n uses as default keySeparator
-  const eventType = t(`eventTypes*${typeId}`, { keySeparator: '*' });
+  const eventType = typeId
+    ? t(`eventTypes*${typeId}`, { keySeparator: '*' })
+    : undefined;
 
   const period =
     offer.calendarSummary[i18n.language]?.text?.[
       offer.calendarType === CalendarType.SINGLE ? 'lg' : 'sm'
     ];
+
+  const rowDescription = [eventType, period].filter(Boolean).join(' - ');
 
   const rowStatus = useMemo<RowStatus>(() => {
     if (isPlanned) {
@@ -307,7 +312,7 @@ const OfferRow = ({ item: offer, onDelete, ...props }: OfferRowProps) => {
   return (
     <Row
       title={offer.name[i18n.language] ?? offer.name[offer.mainLanguage]}
-      description={`${eventType}${period && ` - ${period}`}`}
+      description={rowDescription}
       url={previewUrl}
       actions={[
         <Link href={editUrl} variant={LinkVariants.BUTTON_SECONDARY} key="edit">
