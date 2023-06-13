@@ -426,9 +426,9 @@
         "add_new_label": "Organisation nicht gefunden? Neue Organisation hinzufügen: ",
         "change": "Ändern Organisator",
         "title": "Organisator",
-        "select_recent_used_organizer": "Wählen Sie eine Organisation, mit der Sie kürzlich gearbeitet haben",
+        "select_recent_used_organizer": "Eine Organisation wiederverwenden",
         "select_recent_used_organizer_info": "Wir haben für Sie die Organisationen vorbereitet, für die Sie sich kürzlich angemeldet haben. Fügen Sie sie mit einem einfachen Klick hinzu.",
-        "or_choose_other_organizer": "Oder Sie wählen eine andere Organisation",
+        "or_choose_other_organizer": "Fügen Sie eine Organisation hinzu",
         "uitpas_cardsystems": "UiTPAS Kartensysteme",
         "uitpas_alert": {
           "success": "Ihre Aktivität ist jetzt als UitPAS-Aktivität registriert.",

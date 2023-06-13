@@ -255,6 +255,7 @@ const OrganizerPicker = ({
                 {addButtonHasBeenPressed && (
                   <Typeahead<Organizer>
                     id={'organizer-picker'}
+                    maxWidth="35rem"
                     options={organizers}
                     // @ts-expect-error
                     isLoading={getOrganizersByQueryQuery.isLoading}

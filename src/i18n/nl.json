@@ -428,9 +428,9 @@
         "add_new_label": "Organisatie niet gevonden? Voeg nieuwe organisatie toe: ",
         "change": "Wijzig organisatie",
         "title": "Organisatie",
-        "select_recent_used_organizer": "Kies een organisatie die je recent gebruikte",
+        "select_recent_used_organizer": "Een organisatie hergebruiken",
         "select_recent_used_organizer_info": "We hebben de organisaties waarvoor je recent invoerde hier voor je klaargezet. Met één klik voeg je ze toe.",
-        "or_choose_other_organizer": "Of kies een andere organisatie",
+        "or_choose_other_organizer": "Een organisatie toevoegen",
         "uitpas_cardsystems": "UiTPAS Kaartsystemen",
         "uitpas_alert": {
           "success": "Je activiteit is nu geregistreerd als UiTPAS activiteit.",
