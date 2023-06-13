@@ -547,7 +547,7 @@ const RecentLocations = ({ onFieldChange, ...props }) => {
     .filter(
       (location) =>
         location &&
-        location.name.nl !== 'Online' &&
+        location?.name?.nl !== 'Online' &&
         !('duplicateOf' in location),
     )
     .slice(0, 4);
