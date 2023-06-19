@@ -63,6 +63,8 @@ const useGetPlaceByIdQuery = (
   });
 
 const getPlacesByCreator = async ({ headers, ...queryData }) => {
+  delete headers['Authorization'];
+
   const res = await fetchFromApi({
     path: '/places/',
     searchParams: {
