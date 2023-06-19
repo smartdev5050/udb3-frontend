@@ -22,7 +22,11 @@ import {
   useDeletePlaceByIdMutation,
   useGetPlacesByCreatorQuery,
 } from '@/hooks/api/places';
-import { useGetUserQuery, User } from '@/hooks/api/user';
+import {
+  useGetUserQuery,
+  useGetUserQueryServerSide,
+  User,
+} from '@/hooks/api/user';
 import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
 import { Footer } from '@/pages/Footer';
 import type { Event } from '@/types/Event';
@@ -238,8 +242,10 @@ const OfferRow = ({ item: offer, onDelete, ...props }: OfferRowProps) => {
 
   const getUserQuery = useGetUserQuery();
   // @ts-expect-error
-  const userId = getUserQuery.data?.uuid;
-  const isExternalCreator = userId !== offer.creator;
+  const userId = getUserQuery.data?.sub;
+  // @ts-expect-error
+  const userIdv1 = getUserQuery.data?.['https://publiq.be/uitidv1id'];
+  const isExternalCreator = ![userId, userIdv1].includes(offer.creator);
 
   const offerType = parseOfferType(offer['@context']);
 
@@ -252,13 +258,18 @@ const OfferRow = ({ item: offer, onDelete, ...props }: OfferRowProps) => {
   const editUrl = `/${offerType}/${parseOfferId(offer['@id'])}/edit`;
   const previewUrl = `/${offerType}/${parseOfferId(offer['@id'])}/preview`;
   const typeId = offer.terms.find((term) => term.domain === 'eventtype')?.id;
+
   // The custom keySeparator was necessary because the ids contain '.' which i18n uses as default keySeparator
-  const eventType = t(`eventTypes*${typeId}`, { keySeparator: '*' });
+  const eventType = typeId
+    ? t(`eventTypes*${typeId}`, { keySeparator: '*' })
+    : undefined;
 
   const period =
     offer.calendarSummary[i18n.language]?.text?.[
       offer.calendarType === CalendarType.SINGLE ? 'lg' : 'sm'
     ];
+
+  const rowDescription = [eventType, period].filter(Boolean).join(' - ');
 
   const rowStatus = useMemo<RowStatus>(() => {
     if (isPlanned) {
@@ -301,7 +312,7 @@ const OfferRow = ({ item: offer, onDelete, ...props }: OfferRowProps) => {
   return (
     <Row
       title={offer.name[i18n.language] ?? offer.name[offer.mainLanguage]}
-      description={`${eventType}${period && ` - ${period}`}`}
+      description={rowDescription}
       url={previewUrl}
       actions={[
         <Link href={editUrl} variant={LinkVariants.BUTTON_SECONDARY} key="edit">
@@ -343,8 +354,10 @@ const OrganizerRow = ({
 
   const getUserQuery = useGetUserQuery();
   // @ts-expect-error
-  const userId = getUserQuery.data?.uuid;
-  const isExternalCreator = userId !== organizer.creator;
+  const userId = getUserQuery.data?.sub;
+  // @ts-expect-error
+  const userIdv1 = getUserQuery.data?.['https://publiq.be/uitidv1id'];
+  const isExternalCreator = ![userId, userIdv1].includes(organizer.creator);
 
   const address =
     organizer?.address?.[i18n.language] ??
@@ -709,7 +722,10 @@ const Dashboard = (): any => {
 
 const getServerSideProps = getApplicationServerSideProps(
   async ({ req, query, cookies: rawCookies, queryClient }) => {
-    const user = (await useGetUserQuery({ req, queryClient })) as User;
+    const user = (await useGetUserQueryServerSide({
+      req,
+      queryClient,
+    })) as User;
 
     await Promise.all(
       Object.entries(UseGetItemsByCreatorMap).map(([key, hook]) => {

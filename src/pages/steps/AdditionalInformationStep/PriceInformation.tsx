@@ -153,7 +153,8 @@ const PriceInformation = ({
     setValue,
     handleSubmit,
     watch,
-    formState: { errors },
+    reset,
+    formState: { errors, dirtyFields },
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     defaultValues: defaultPriceInfoValues,
@@ -173,7 +174,8 @@ const PriceInformation = ({
 
   const addPriceInfoMutation = useAddOfferPriceInfoMutation({
     onSuccess: (data) => {
-      if (typeof data === 'undefined') return;
+      const isFormDirty = Object.keys(dirtyFields).length > 0;
+      if (typeof data === 'undefined' || !isFormDirty) return;
 
       return setTimeout(() => onSuccessfulChange(), 1000);
     },
@@ -215,6 +217,7 @@ const PriceInformation = ({
 
     if (!hasRates) {
       replace(priceInfo.length ? priceInfo : defaultPriceInfoValues.rates);
+      reset({}, { keepValues: true });
 
       return onValidationChange(
         hasUitpasLabel ? ValidationStatus.WARNING : ValidationStatus.NONE,
@@ -224,6 +227,7 @@ const PriceInformation = ({
     onValidationChange(ValidationStatus.SUCCESS);
 
     replace(reconcileRates(rates, priceInfo, offer));
+    reset({}, { keepValues: true });
     // onValidationChange is hard to wrap in useCallback in parent
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [

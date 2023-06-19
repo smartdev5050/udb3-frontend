@@ -14,8 +14,9 @@ export const middleware = async (request: NextRequest) => {
 
     try {
       const response = NextResponse.redirect(referer);
-      const { accessToken } = await getSession(request, response);
+      const { accessToken, idToken } = await getSession(request, response);
       response.cookies.set('token', accessToken, defaultCookieOptions);
+      response.cookies.set('idToken', idToken, defaultCookieOptions);
       response.cookies.set('auth0.redirect_uri', '', { maxAge: 0 });
       return response;
     } catch (err) {

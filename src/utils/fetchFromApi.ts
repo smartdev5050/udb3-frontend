@@ -29,7 +29,6 @@ type FetchFromApiArguments = {
   searchParams?: { [key: string]: string };
   options?: RequestInit;
   silentError?: boolean;
-  apiUrl?: string;
 };
 
 const { publicRuntimeConfig } = getConfig();
@@ -39,13 +38,12 @@ const fetchFromApi = async ({
   searchParams = {},
   options = {},
   silentError = false,
-  apiUrl = publicRuntimeConfig.apiUrl,
 }: FetchFromApiArguments): Promise<ErrorObject | Response> => {
   let response: Response;
   let url: URL;
 
   try {
-    url = new URL(`${apiUrl}${path}`);
+    url = new URL(`${publicRuntimeConfig.apiUrl}${path}`);
     searchParams = omit(searchParams, 'queryKey');
     if (typeof searchParams?.q !== 'undefined' && !searchParams?.q) {
       searchParams = omit(searchParams, 'q');

@@ -9,6 +9,7 @@ const defaultCookieOptions = {
 type Cookies = {
   'udb-language'?: string;
   token?: string;
+  idToken?: string;
 };
 
 type SetCookie = (name: string, value: any, options?: CookieSetOptions) => void;
@@ -24,7 +25,7 @@ const useCookiesWithOptions = (
   const setCookieWithOptions = (name: string, value: any) =>
     setCookie(name, value, options);
   const removeAuthenticationCookies = () =>
-    ['token'].forEach((cookie) => removeCookie(cookie));
+    ['token', 'idToken'].forEach((cookie) => removeCookie(cookie));
 
   return {
     cookies,
@@ -35,3 +36,4 @@ const useCookiesWithOptions = (
 };
 
 export { defaultCookieOptions, useCookiesWithOptions };
+export type { Cookies };
