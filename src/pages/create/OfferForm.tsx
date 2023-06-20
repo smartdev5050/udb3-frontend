@@ -21,9 +21,17 @@ import {
   useRerenderTriggerStepsForm,
 } from '@/pages/steps/StepsForm';
 import { Address, AddressInternal } from '@/types/Address';
+import { ContactPoint } from '@/types/ContactPoint';
 import { Country } from '@/types/Country';
 import { AttendanceMode, AudienceType, isEvent } from '@/types/Event';
-import { Offer } from '@/types/Offer';
+import {
+  BookingInfo,
+  Label,
+  MediaObject,
+  Offer,
+  PriceInfo,
+} from '@/types/Offer';
+import { Organizer } from '@/types/Organizer';
 import { isPlace, Place } from '@/types/Place';
 import { Values } from '@/types/Values';
 import { WorkflowStatus } from '@/types/WorkflowStatus';
@@ -32,10 +40,12 @@ import { parseOfferId } from '@/utils/parseOfferId';
 
 import { City } from '../CityPicker';
 import { FormDataUnion } from '../steps/Steps';
+import { Video } from '../VideoUploadBox';
 
 type Scope = 'events' | 'places';
 
 type FormData = {
+  description?: any;
   scope: Scope;
   calendar: CalendarInForm;
   typeAndTheme: {
@@ -54,6 +64,14 @@ type FormData = {
     name: Record<Values<typeof SupportedLanguages>, string>;
     typicalAgeRange: string;
   };
+  mediaObject?: MediaObject[];
+  bookingInfo?: BookingInfo;
+  priceInfo?: PriceInfo;
+  contactPoint?: ContactPoint;
+  organizer?: Organizer;
+  videos?: Video[];
+  labels?: string[];
+  hiddenLabels?: string[];
 };
 
 const ONLINE_LOCATION_ID = '00000000-0000-0000-0000-000000000000';
@@ -218,11 +236,20 @@ const OfferForm = () => {
   };
 
   const convertFormDataToOffer = ({
+    description,
     scope,
     nameAndAgeRange: { name, typicalAgeRange },
     typeAndTheme,
     location,
     calendar,
+    mediaObject,
+    contactPoint,
+    bookingInfo,
+    priceInfo,
+    organizer,
+    videos,
+    labels,
+    hiddenLabels,
   }: FormData) => {
     const audienceType =
       location.country && scope === OfferTypes.EVENTS
@@ -230,9 +257,18 @@ const OfferForm = () => {
         : undefined;
 
     return {
+      description,
+      mediaObject,
+      contactPoint,
+      bookingInfo,
+      priceInfo,
+      organizer,
+      videos,
       typicalAgeRange,
       mainLanguage: i18n.language,
       name,
+      labels,
+      hiddenLabels,
       workflowStatus: WorkflowStatus.DRAFT,
       ...(audienceType && {
         audienceType: AudienceType.EVERYONE,

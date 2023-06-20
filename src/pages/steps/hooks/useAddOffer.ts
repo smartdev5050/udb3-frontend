@@ -12,12 +12,14 @@ type UseAddOfferArgument = {
   onSuccess: (scope: FormDataUnion['scope'], offerId: string) => void;
   convertFormDataToOffer: (data: any) => any;
   label?: string;
+  initialOffer?: any;
 };
 
 const useAddOffer = ({
   onSuccess,
   convertFormDataToOffer,
   label,
+  initialOffer,
 }: UseAddOfferArgument) => {
   const addEventMutation = useAddEventMutation();
   const addPlaceMutation = useAddPlaceMutation();
@@ -34,7 +36,14 @@ const useAddOffer = ({
 
     if (!production && !formData.nameAndAgeRange.name) return;
 
-    const payload = convertFormDataToOffer(formData);
+    const fullOffer = {
+      ...initialOffer,
+      ...formData,
+    };
+
+    console.log({ fullOffer });
+
+    const payload = convertFormDataToOffer(fullOffer);
 
     const addOfferMutation =
       scope === OfferTypes.EVENTS ? addEventMutation : addPlaceMutation;
