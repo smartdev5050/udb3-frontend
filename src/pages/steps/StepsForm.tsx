@@ -118,8 +118,6 @@ const StepsForm = ({
     enabled: !!scope,
   });
 
-  console.log('initial offer', offer);
-
   const publishOffer = usePublishOffer({
     scope,
     id: offerId,
@@ -146,8 +144,6 @@ const StepsForm = ({
   const isOnDuplicatePage = footerStatus === FooterStatus.DUPLICATE;
 
   const initialOffer = isOnDuplicatePage ? offer : undefined;
-
-  console.log({ initialOffer });
 
   const addOffer = useAddOffer({
     onSuccess: async (scope, offerId) => {

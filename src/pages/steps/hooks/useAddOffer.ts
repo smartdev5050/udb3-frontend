@@ -41,8 +41,6 @@ const useAddOffer = ({
       ...formData,
     };
 
-    console.log({ fullOffer });
-
     const payload = convertFormDataToOffer(fullOffer);
 
     const addOfferMutation =
