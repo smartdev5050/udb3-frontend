@@ -39,7 +39,6 @@ type PlaceStepProps = StackProps &
     country?: Country;
     chooseLabel: (t: TFunction) => string;
     placeholderLabel: (t: TFunction) => string;
-    onFieldChange: StepProps['onChange'];
   };
 
 const PlaceStep = ({
