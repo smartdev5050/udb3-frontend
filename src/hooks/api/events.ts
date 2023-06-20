@@ -64,6 +64,9 @@ type EventArguments = {
   organizer: Organizer;
   labels: string[];
   hiddenLabels: string[];
+  audience: {
+    audienceType: string;
+  };
 };
 type AddEventArguments = EventArguments & { headers: Headers };
 
@@ -91,6 +94,7 @@ const addEvent = async ({
   organizer,
   labels,
   hiddenLabels,
+  audience,
 }: AddEventArguments) =>
   fetchFromApi({
     path: '/events/',
@@ -120,6 +124,7 @@ const addEvent = async ({
         organizer,
         labels,
         hiddenLabels,
+        audience,
       }),
     },
   });

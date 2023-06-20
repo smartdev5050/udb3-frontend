@@ -72,6 +72,9 @@ type FormData = {
   videos?: Video[];
   labels?: string[];
   hiddenLabels?: string[];
+  audience?: {
+    audienceType: string;
+  };
 };
 
 const ONLINE_LOCATION_ID = '00000000-0000-0000-0000-000000000000';
@@ -250,6 +253,7 @@ const OfferForm = () => {
     videos,
     labels,
     hiddenLabels,
+    audience,
   }: FormData) => {
     const audienceType =
       location.country && scope === OfferTypes.EVENTS
@@ -273,6 +277,7 @@ const OfferForm = () => {
       ...(audienceType && {
         audienceType: AudienceType.EVERYONE,
       }),
+      audience,
       ...getLocationAttributes(scope, location, i18n.language),
       ...getTerms(typeAndTheme),
       ...calendar,
