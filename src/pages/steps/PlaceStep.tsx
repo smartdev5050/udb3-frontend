@@ -49,7 +49,7 @@ const PlaceStep = ({
   control,
   name,
   loading,
-  onFieldChange,
+  onChange,
   terms,
   municipality,
   country,
@@ -138,7 +138,10 @@ const PlaceStep = ({
                   municipality={municipality}
                   country={country}
                   onConfirmSuccess={(place) => {
-                    onFieldChange({ place });
+                    const updatedValue = { ...field.value, place };
+                    field.onChange(updatedValue);
+                    onChange(updatedValue);
+                    field.onBlur();
                     setIsPlaceAddModalVisible(false);
                   }}
                 />
@@ -205,7 +208,10 @@ const PlaceStep = ({
                           return;
                         }
 
-                        onFieldChange({ place });
+                        const updatedValue = { ...field.value, place };
+
+                        field.onChange(updatedValue);
+                        onChange(updatedValue);
                       }}
                       minLength={3}
                       placeholder={placeholderLabel(t)}
