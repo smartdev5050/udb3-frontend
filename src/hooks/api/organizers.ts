@@ -147,6 +147,8 @@ const getOrganizersByCreator = async ({
   headers,
   ...queryData
 }: GetOrganizersByCreator) => {
+  delete headers['Authorization'];
+
   const res = await fetchFromApi({
     path: '/organizers/',
     searchParams: {
