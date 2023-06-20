@@ -1066,7 +1066,7 @@ const LocationStep = ({
                     name,
                   }}
                   {...getStepProps(props)}
-                  onFieldChange={onFieldChange}
+                  onChange={onChange}
                 />
               )}
               {scope === OfferTypes.PLACES && (
