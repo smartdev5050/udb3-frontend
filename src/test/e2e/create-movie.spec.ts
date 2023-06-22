@@ -7,8 +7,11 @@ const dummyMovie = {
 };
 
 test('create a movie', async ({ baseURL, page }) => {
+  // Navigate to form
   await page.goto(`${baseURL}`);
   await page.getByRole('link', { name: 'Films' }).click();
+
+  // Fill in information
   await page.getByRole('button', { name: 'Cinefiel' }).click();
   await page.getByLabel('Einde').click();
   await page.getByText('juni', { exact: true }).click();
@@ -32,6 +35,8 @@ test('create a movie', async ({ baseURL, page }) => {
   await page.getByLabel('Kies een naam').click();
   await page.getByLabel('Kies een naam').fill(dummyMovie.title);
   await page.getByRole('option', { name: dummyMovie.title }).click();
+
+  // Fill in additional steps
   await page.getByRole('button', { name: 'Opslaan' }).click();
   await page.getByRole('textbox', { name: 'rdw-editor' }).click();
   await page
@@ -40,8 +45,48 @@ test('create a movie', async ({ baseURL, page }) => {
   await page.getByRole('tab', { name: 'Prijzen' }).click();
   await page.getByPlaceholder('Prijs').click();
   await page.getByPlaceholder('Prijs').fill('10');
+  await page.getByRole('tab', { name: 'Contact' }).click();
+
+  await page.getByRole('tab', { name: 'Contact' }).click();
+  await page.getByRole('button', { name: 'Contactgegevens toevoegen' }).click();
+  await page.locator('#contact-info-value').click();
+  await page.locator('#contact-info-value').fill('foo@bar.com');
+  await page
+    .getByRole('button', { name: 'Meer contactgegevens toevoegen' })
+    .click();
+  await page.locator('select').nth(2).selectOption('phone');
+  await page.locator('#contact-info-value').nth(1).click();
+  await page.locator('#contact-info-value').nth(1).fill('+336717171');
+
+  await page
+    .getByRole('button', { name: 'Meer contactgegevens toevoegen' })
+    .click();
+  await page.locator('select').nth(3).selectOption('url');
+  await page.locator('#contact-info-value').nth(2).click();
+  await page.locator('#contact-info-value').nth(2).fill('google.fr');
+  await page
+    .getByRole('button', { name: 'Meer contactgegevens toevoegen' })
+    .click();
+  await page.locator('#contact-info-value').nth(3).click();
+  await page.locator('#contact-info-value').nth(3).fill('nope@bar.com');
+  await page.getByRole('tabpanel').getByRole('button').nth(3).click();
   await page.getByRole('button', { name: 'Publiceren', exact: true }).click();
+
+  // Confirm information in preview
   await page.waitForURL('**/preview');
   await page.getByText(dummyMovie.title).isVisible();
   await page.getByText(dummyMovie.description).isVisible();
+  await page
+    .getByRole('listitem')
+    .filter({ hasText: 'https://google.fr' })
+    .isVisible();
+  await page
+    .getByRole('listitem')
+    .filter({ hasText: '+336717171' })
+    .isVisible();
+  await page
+    .getByRole('listitem')
+    .filter({ hasText: 'foo@bar.com' })
+    .isVisible();
+  await page.getByText('10,00 euro').isVisible();
 });
