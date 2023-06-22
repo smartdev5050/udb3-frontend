@@ -39,7 +39,7 @@ import type { Headers } from './types/Headers';
 import type { User } from './user';
 
 type EventArguments = {
-  description: any;
+  description: string;
   name: string;
   calendarType: Values<typeof CalendarType>;
   startDate: string;

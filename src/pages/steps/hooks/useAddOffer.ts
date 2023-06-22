@@ -7,12 +7,13 @@ import {
   useCreateWithEventsMutation as useCreateProductionWithEventsMutation,
 } from '@/hooks/api/productions';
 import { FormDataUnion } from '@/pages/steps/Steps';
+import { Offer } from '@/types/Offer';
 
 type UseAddOfferArgument = {
   onSuccess: (scope: FormDataUnion['scope'], offerId: string) => void;
   convertFormDataToOffer: (data: any) => any;
   label?: string;
-  initialOffer?: any;
+  initialOffer?: Offer;
 };
 
 const useAddOffer = ({
