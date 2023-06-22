@@ -1,6 +1,10 @@
-import { expect, test } from '@playwright/test';
+import { test } from '@playwright/test';
 
-const dummyMovie = {};
+const dummyMovie = {
+  title: 'My Movie',
+  description: 'My Description',
+  place: 'E2E test location',
+};
 
 test('create a movie', async ({ baseURL, page }) => {
   await page.goto(`${baseURL}`);
@@ -23,21 +27,21 @@ test('create a movie', async ({ baseURL, page }) => {
   await page.getByPlaceholder('Naam van bioscoop').click();
   await page.getByPlaceholder('Naam van bioscoop').fill('str');
   await page
-    .locator('#place-step-item-0', { hasText: 'E2E test location' })
+    .locator('#place-step-item-0', { hasText: dummyMovie.place })
     .click();
   await page.getByLabel('Kies een naam').click();
-  await page.getByLabel('Kies een naam').fill('My Name');
-  await page.getByRole('option', { name: 'My Name' }).click();
+  await page.getByLabel('Kies een naam').fill(dummyMovie.title);
+  await page.getByRole('option', { name: dummyMovie.title }).click();
   await page.getByRole('button', { name: 'Opslaan' }).click();
   await page.getByRole('textbox', { name: 'rdw-editor' }).click();
   await page
     .getByRole('textbox', { name: 'rdw-editor' })
-    .fill('My description');
+    .fill(dummyMovie.description);
   await page.getByRole('tab', { name: 'Prijzen' }).click();
   await page.getByPlaceholder('Prijs').click();
   await page.getByPlaceholder('Prijs').fill('10');
   await page.getByRole('button', { name: 'Publiceren', exact: true }).click();
   await page.waitForURL('**/preview');
-  await page.getByText('My Name').isVisible();
-  await page.getByText('My Description').isVisible();
+  await page.getByText(dummyMovie.title).isVisible();
+  await page.getByText(dummyMovie.description).isVisible();
 });
