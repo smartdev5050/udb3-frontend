@@ -68,22 +68,22 @@ test('create a movie', async ({ baseURL, page }) => {
   await page.locator('#contact-info-value').nth(3).fill('nope@bar.com');
   await page.getByRole('tabpanel').getByRole('button').nth(3).click();
   await page.getByRole('button', { name: 'Publiceren', exact: true }).click();
-
   // Confirm information in preview
-  await page.waitForURL('**/preview');
-  await page.getByText(dummyMovie.title).isVisible();
-  await page.getByText(dummyMovie.description).isVisible();
   await page
-    .getByRole('listitem')
-    .filter({ hasText: 'https://google.fr' })
-    .isVisible();
-  await page
-    .getByRole('listitem')
-    .filter({ hasText: '+336717171' })
-    .isVisible();
-  await page
-    .getByRole('listitem')
-    .filter({ hasText: 'foo@bar.com' })
-    .isVisible();
-  await page.getByText('10,00 euro').isVisible();
+    .frameLocator('iframe')
+    .getByRole('heading')
+    .waitFor({ timeout: 10000 });
+  await expect(
+    page
+      .frameLocator('iframe')
+      .getByRole('heading', { name: dummyMovie.title }),
+  ).toBeVisible();
+  await expect(
+    page.frameLocator('iframe').getByRole('cell', { name: dummyMovie.title }),
+  ).toBeVisible();
+  await expect(
+    page
+      .frameLocator('iframe')
+      .getByRole('cell', { name: 'Film', exact: true }),
+  ).toBeVisible();
 });
