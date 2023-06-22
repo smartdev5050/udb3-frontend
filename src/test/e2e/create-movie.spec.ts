@@ -8,7 +8,7 @@ const dummyMovie = {
 
 test('create a movie', async ({ baseURL, page }) => {
   // Navigate to form
-  await page.goto(`${baseURL}`);
+  await page.goto(baseURL);
   await page.getByRole('link', { name: 'Films' }).click();
 
   // Fill in information
@@ -46,8 +46,6 @@ test('create a movie', async ({ baseURL, page }) => {
   await page.getByPlaceholder('Prijs').click();
   await page.getByPlaceholder('Prijs').fill('10');
   await page.getByRole('tab', { name: 'Contact' }).click();
-
-  await page.getByRole('tab', { name: 'Contact' }).click();
   await page.getByRole('button', { name: 'Contactgegevens toevoegen' }).click();
   await page.locator('#contact-info-value').click();
   await page.locator('#contact-info-value').fill('foo@bar.com');
@@ -57,7 +55,6 @@ test('create a movie', async ({ baseURL, page }) => {
   await page.locator('select').nth(2).selectOption('phone');
   await page.locator('#contact-info-value').nth(1).click();
   await page.locator('#contact-info-value').nth(1).fill('+336717171');
-
   await page
     .getByRole('button', { name: 'Meer contactgegevens toevoegen' })
     .click();
