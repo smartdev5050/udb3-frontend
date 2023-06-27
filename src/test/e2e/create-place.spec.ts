@@ -19,6 +19,10 @@ const dummyPlace = {
   bookingInfo: {
     email: 'e2e.udb3.frontend@gmail.com',
   },
+  image: {
+    description: 'image for e2e place',
+    copyright: 'e2e test location',
+  },
   video: 'https://www.youtube.com/watch?v=lkIFF4maKMU&t=48s',
   organizer: {
     name: 'E2E organizer for location',
@@ -63,13 +67,19 @@ test('create a place', async ({ baseURL, page }) => {
     .locator('section')
     .filter({ hasText: dummyPlace.description })
     .click();
-  // check if checkmark is there
   await expect(
     page.getByRole('tab', { name: 'Beschrijving' }).locator('.fa-check-circle'),
   ).toBeVisible();
 
-  // Add video url
+  // Add image & video url
   await page.getByRole('tab', { name: 'Afbeelding & video' }).click();
+  await page.getByRole('button', { name: 'Afbeelding toevoegen' }).click();
+  await page.setInputFiles('input[type="file"]', 'upload/e2e-image.jpg');
+  await page.getByLabel('Beschrijving').fill(dummyPlace.image.description);
+  await page.getByLabel('Copyright').fill(dummyPlace.image.copyright);
+  await page.getByRole('button', { name: 'Uploaden' }).click();
+  await expect(page.getByText(dummyPlace.image.description)).toBeVisible();
+
   await page.getByRole('button', { name: 'Video-link toevoegen' }).click();
   await page.getByLabel('Link').fill(dummyPlace.video);
   await page.getByRole('button', { name: 'Toevoegen' }).click();
@@ -131,8 +141,8 @@ test('create a place', async ({ baseURL, page }) => {
     page.getByRole('tab', { name: 'Reservatie' }).locator('.fa-check-circle'),
   ).toBeVisible();
 
-  // Check event score
-  await expect(page.locator('#offer-score').getByText('92')).toBeVisible();
+  // Check offer score
+  await expect(page.locator('#offer-score').getByText('100')).toBeVisible();
 
   // 5. Publish
   await page.getByRole('button', { name: 'Publiceren', exact: true }).click();
