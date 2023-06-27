@@ -35,10 +35,21 @@ const dummyPlace = {
 
 test('create a place', async ({ baseURL, page }) => {
   await page.goto(`${baseURL}/create`);
+  // 1. Select location
   await page.getByRole('button', { name: 'Locatie' }).click();
+
+  // 2. Type
   await page.getByRole('button', { name: 'Bioscoop' }).click();
 
-  // 1. Fill in address
+  // 3. Date
+  await page.getByRole('button', { name: 'Openingsuren toevoegen' }).click();
+  // openinghours
+  await page.getByText('Ma', { exact: true }).click();
+  await page.getByText('Wo', { exact: true }).click();
+  await page.getByText('Vr', { exact: true }).click();
+  await page.getByRole('button', { name: 'Opslaan' }).click();
+
+  // 4. Address
   await page.getByLabel('Gemeente').click();
   await page.getByLabel('Gemeente').fill(dummyPlace.address.zip);
   await page
@@ -49,15 +60,14 @@ test('create a place', async ({ baseURL, page }) => {
     .getByLabel('Straat en nummer')
     .fill(dummyPlace.address.streetAndNumber);
 
-  // 2. Name
+  // 5. Name and Age
   await page.getByLabel('Naam van de locatie').click();
   await page.getByLabel('Naam van de locatie').fill(dummyPlace.name);
 
-  // 3. Age Range
   await page.getByRole('button', { name: 'Volwassenen 18+' }).click();
   await page.getByRole('button', { name: 'Opslaan' }).click();
 
-  // 4. Additionnal Information
+  // 6. Additionnal Information
   await page
     .getByRole('textbox', { name: 'rdw-editor' })
     .fill(dummyPlace.description);
