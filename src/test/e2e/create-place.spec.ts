@@ -2,6 +2,8 @@ import { expect, test } from '@playwright/test';
 
 const dummyPlace = {
   name: 'E2E test location',
+  description:
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a porta leo. Etiam sit amet cursus diam. Donec finibus luctus tincidunt. Quisque a lectus nunc. Maecenas rutrum varius orci, eget placerat sapien fermentum non.',
   address: {
     zip: '9000',
     municipality: '9000 Gent',
@@ -42,8 +44,17 @@ test('create a place', async ({ baseURL, page }) => {
   // 4. Additionnal Information
   await page
     .getByRole('textbox', { name: 'rdw-editor' })
-    .fill('Test beschrijving');
+    .fill(dummyPlace.description);
+
+  await page
+    .getByRole('tabpanel')
+    .locator('section')
+    .filter({ hasText: dummyPlace.description })
+    .click();
   // check if checkmark is there
+  await expect(
+    page.getByRole('tab', { name: 'Beschrijving' }).locator('.fa-check-circle'),
+  ).toBeVisible();
 
   await page.getByRole('tab', { name: 'Prijzen' }).click();
   await page.getByPlaceholder('Prijs').click();
