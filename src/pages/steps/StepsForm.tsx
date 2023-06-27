@@ -139,6 +139,12 @@ const StepsForm = ({
     reload();
   };
 
+  const footerStatus = useFooterStatus({ offer, form });
+
+  const isOnDuplicatePage = footerStatus === FooterStatus.DUPLICATE;
+
+  const initialOffer = isOnDuplicatePage ? offer : undefined;
+
   const addOffer = useAddOffer({
     onSuccess: async (scope, offerId) => {
       const url = isMovieForm
@@ -148,6 +154,7 @@ const StepsForm = ({
     },
     convertFormDataToOffer,
     label,
+    initialOffer,
   });
 
   const handleChangeSuccess = (editedField: string) =>
@@ -162,8 +169,6 @@ const StepsForm = ({
 
   const [isPublishLaterModalVisible, setIsPublishLaterModalVisible] =
     useState(false);
-
-  const footerStatus = useFooterStatus({ offer, form });
 
   // scroll effect
   useEffect(() => {
@@ -184,8 +189,6 @@ const StepsForm = ({
       {t('create.actions.publish_later')}
     </Button>
   );
-
-  const isOnDuplicatePage = footerStatus === FooterStatus.DUPLICATE;
 
   const pageTitle = isOnDuplicatePage ? t('create.duplicate.title') : title;
 
