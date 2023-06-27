@@ -7,17 +7,20 @@ import {
   useCreateWithEventsMutation as useCreateProductionWithEventsMutation,
 } from '@/hooks/api/productions';
 import { FormDataUnion } from '@/pages/steps/Steps';
+import { Offer } from '@/types/Offer';
 
 type UseAddOfferArgument = {
   onSuccess: (scope: FormDataUnion['scope'], offerId: string) => void;
   convertFormDataToOffer: (data: any) => any;
   label?: string;
+  initialOffer?: Offer;
 };
 
 const useAddOffer = ({
   onSuccess,
   convertFormDataToOffer,
   label,
+  initialOffer,
 }: UseAddOfferArgument) => {
   const addEventMutation = useAddEventMutation();
   const addPlaceMutation = useAddPlaceMutation();
@@ -34,7 +37,12 @@ const useAddOffer = ({
 
     if (!production && !formData.nameAndAgeRange.name) return;
 
-    const payload = convertFormDataToOffer(formData);
+    const fullOffer = {
+      ...initialOffer,
+      ...formData,
+    };
+
+    const payload = convertFormDataToOffer(fullOffer);
 
     const addOfferMutation =
       scope === OfferTypes.EVENTS ? addEventMutation : addPlaceMutation;

@@ -416,6 +416,10 @@
             "text": "Astuce : ajoutez des <1>{{link}}</1>",
             "link": "informations de contact"
           },
+          "booking_info": {
+            "text": "Astuce: ajouter des <1>{{link}}</1>",
+            "link": "informations de réservation"
+          },
           "organizer": {
             "text": "Astuce : ajouter un <1>{{link}}</1>",
             "link": "organisateur"

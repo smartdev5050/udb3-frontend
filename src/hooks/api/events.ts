@@ -2,14 +2,20 @@ import type { UseQueryOptions } from 'react-query';
 
 import type { CalendarType } from '@/constants/CalendarType';
 import { OfferTypes } from '@/constants/OfferType';
+import { Video } from '@/pages/VideoUploadBox';
+import { ContactPoint } from '@/types/ContactPoint';
 import type { AttendanceMode, Event } from '@/types/Event';
 import type {
   BookingAvailability,
+  BookingInfo,
+  MediaObject,
   OpeningHours,
+  PriceInfo,
   Status,
   SubEvent,
   Term,
 } from '@/types/Offer';
+import { Organizer } from '@/types/Organizer';
 import type { Values } from '@/types/Values';
 import type { WorkflowStatus } from '@/types/WorkflowStatus';
 import { createEmbededCalendarSummaries } from '@/utils/createEmbededCalendarSummaries';
@@ -33,6 +39,7 @@ import type { Headers } from './types/Headers';
 import type { User } from './user';
 
 type EventArguments = {
+  description: string;
   name: string;
   calendarType: Values<typeof CalendarType>;
   startDate: string;
@@ -49,12 +56,24 @@ type EventArguments = {
   mainLanguage: string;
   typicalAgeRange: string;
   onlineUrl: string;
+  mediaObject: MediaObject[];
+  priceInfo: PriceInfo;
+  contactPoint: ContactPoint;
+  bookingInfo: BookingInfo;
+  videos: Video[];
+  organizer: Organizer;
+  labels: string[];
+  hiddenLabels: string[];
+  audience: {
+    audienceType: string;
+  };
 };
 type AddEventArguments = EventArguments & { headers: Headers };
 
 const addEvent = async ({
   headers,
   mainLanguage,
+  description,
   name,
   calendarType,
   startDate,
@@ -67,6 +86,15 @@ const addEvent = async ({
   attendanceMode,
   typicalAgeRange,
   onlineUrl,
+  mediaObject,
+  videos,
+  priceInfo,
+  contactPoint,
+  bookingInfo,
+  organizer,
+  labels,
+  hiddenLabels,
+  audience,
 }: AddEventArguments) =>
   fetchFromApi({
     path: '/events/',
@@ -74,6 +102,7 @@ const addEvent = async ({
       headers,
       method: 'POST',
       body: JSON.stringify({
+        description,
         mainLanguage,
         name,
         calendarType,
@@ -87,6 +116,15 @@ const addEvent = async ({
         attendanceMode,
         typicalAgeRange,
         onlineUrl,
+        mediaObject,
+        priceInfo,
+        videos,
+        contactPoint,
+        bookingInfo,
+        organizer,
+        labels,
+        hiddenLabels,
+        audience,
       }),
     },
   });
