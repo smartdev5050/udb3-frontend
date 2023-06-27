@@ -25,7 +25,8 @@ import { getGlobalBorderRadius } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
 
 type LabelsStepProps = StackProps & TabContentProps;
-const LABEL_PATTERN = /^[0-9a-zA-Z][0-9a-zA-Z-_]{0,48}[0-9a-zA-Z]$/;
+
+const LABEL_PATTERN = /^[0-9a-zA-Z][0-9a-zA-Z-_\s]{1,49}$/;
 
 function LabelsStep({
   offerId,
