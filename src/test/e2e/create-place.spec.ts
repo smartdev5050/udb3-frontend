@@ -15,6 +15,7 @@ const dummyPlace = {
   bookingInfo: {
     email: 'e2e.udb3.frontend@gmail.com',
   },
+  video: 'https://www.youtube.com/watch?v=lkIFF4maKMU&t=48s',
 };
 
 test('create a place', async ({ baseURL, page }) => {
@@ -69,6 +70,19 @@ test('create a place', async ({ baseURL, page }) => {
   await page.getByRole('tab', { name: 'Reservatie' }).click();
   await page.getByPlaceholder('E-mailadres').click();
   await page.getByPlaceholder('E-mailadres').fill(dummyPlace.bookingInfo.email);
+
+  // Add video url
+  await page.getByRole('tab', { name: 'Afbeelding & video' }).click();
+  await page.getByRole('button', { name: 'Video-link toevoegen' }).click();
+  await page.getByLabel('Link').fill(dummyPlace.video);
+  await page.getByRole('button', { name: 'Toevoegen' }).click();
+  await expect(page.getByRole('img', { name: 'video' })).toBeVisible();
+  await expect(page.getByText(dummyPlace.video)).toBeVisible();
+  await expect(
+    page
+      .getByRole('tab', { name: 'Afbeelding & video' })
+      .locator('.fa-check-circle'),
+  ).toBeVisible();
 
   // 5. Publish
   await page.getByRole('button', { name: 'Publiceren', exact: true }).click();
