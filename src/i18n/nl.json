@@ -416,6 +416,10 @@
             "text": "Tip: voeg <1>{{link}}</1> toe",
             "link": "contactinformatie"
           },
+          "booking_info": {
+            "text": "Tip: voeg <1>{{link}}</1> toe",
+            "link": "reserveringsinformatie"
+          },
           "organizer": {
             "text": "Tip: voeg een <1>{{link}}</1> toe",
             "link": "organisatie"
