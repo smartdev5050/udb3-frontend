@@ -414,6 +414,10 @@
             "text": "Tipp: Fügen Sie <1>{{link}}</1> hinzu",
             "link": "Kontaktinformationen"
           },
+          "booking_info": {
+            "text": "Tipp: <1>{{link}}</1> hinzufügen",
+            "link": "Reservierungsinformationen"
+          },
           "organizer": {
             "text": "Tipp: Fügen Sie einen <1>{{link}}</1> hinzu",
             "link": "Organisator"
