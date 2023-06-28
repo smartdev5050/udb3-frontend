@@ -57,10 +57,10 @@ test('create a place', async ({ baseURL, page }) => {
     .getByLabel('Straat en nummer')
     .fill(dummyPlace.address.streetAndNumber);
   // // 5. Name and Age
-  // await page.getByLabel('Naam van de locatie').click();
-  // await page.getByLabel('Naam van de locatie').fill(dummyPlace.name);
-  // await page.getByRole('button', { name: 'Volwassenen 18+' }).click();
-  // await page.getByRole('button', { name: 'Opslaan' }).click();
+  await page.getByLabel('Naam van de locatie').click();
+  await page.getByLabel('Naam van de locatie').fill(dummyPlace.name);
+  await page.getByRole('button', { name: 'Volwassenen 18+' }).click();
+  await page.getByRole('button', { name: 'Opslaan' }).click();
   // // 6. Additionnal Information
   // await page
   //   .getByRole('textbox', { name: 'rdw-editor' })
