@@ -47,15 +47,15 @@ test('create a place', async ({ baseURL, page }) => {
   await page.getByText('Vr', { exact: true }).click();
   await page.getByRole('button', { name: 'Opslaan' }).click();
   // // 4. Address
-  // await page.getByLabel('Gemeente').click();
-  // await page.getByLabel('Gemeente').fill(dummyPlace.address.zip);
-  // await page
-  //   .getByRole('option', { name: dummyPlace.address.municipality })
-  //   .click();
-  // await page.getByLabel('Straat en nummer').click();
-  // await page
-  //   .getByLabel('Straat en nummer')
-  //   .fill(dummyPlace.address.streetAndNumber);
+  await page.getByLabel('Gemeente').click();
+  await page.getByLabel('Gemeente').fill(dummyPlace.address.zip);
+  await page
+    .getByRole('option', { name: dummyPlace.address.municipality })
+    .click();
+  await page.getByLabel('Straat en nummer').click();
+  await page
+    .getByLabel('Straat en nummer')
+    .fill(dummyPlace.address.streetAndNumber);
   // // 5. Name and Age
   // await page.getByLabel('Naam van de locatie').click();
   // await page.getByLabel('Naam van de locatie').fill(dummyPlace.name);
