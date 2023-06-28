@@ -34,9 +34,9 @@ const dummyPlace = {
 };
 
 test('create a place', async ({ baseURL, page }) => {
-  // await page.goto(`${baseURL}/create`);
-  // // 1. Select location
-  // await page.getByRole('button', { name: 'Locatie' }).click();
+  await page.goto(`${baseURL}/create`);
+  // 1. Select location
+  await page.getByRole('button', { name: 'Locatie' }).click();
   // // 2. Type
   // await page.getByRole('button', { name: 'Bioscoop' }).click();
   // // 3. Date
