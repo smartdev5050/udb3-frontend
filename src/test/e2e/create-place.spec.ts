@@ -38,14 +38,14 @@ test('create a place', async ({ baseURL, page }) => {
   // 1. Select location
   await page.getByRole('button', { name: 'Locatie' }).click();
   // // 2. Type
-  // await page.getByRole('button', { name: 'Bioscoop' }).click();
+  await page.getByRole('button', { name: 'Bioscoop' }).click();
   // // 3. Date
-  // await page.getByRole('button', { name: 'Openingsuren toevoegen' }).click();
+  await page.getByRole('button', { name: 'Openingsuren toevoegen' }).click();
   // // openinghours
-  // await page.getByText('Ma', { exact: true }).click();
-  // await page.getByText('Wo', { exact: true }).click();
-  // await page.getByText('Vr', { exact: true }).click();
-  // await page.getByRole('button', { name: 'Opslaan' }).click();
+  await page.getByText('Ma', { exact: true }).click();
+  await page.getByText('Wo', { exact: true }).click();
+  await page.getByText('Vr', { exact: true }).click();
+  await page.getByRole('button', { name: 'Opslaan' }).click();
   // // 4. Address
   // await page.getByLabel('Gemeente').click();
   // await page.getByLabel('Gemeente').fill(dummyPlace.address.zip);
