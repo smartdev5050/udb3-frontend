@@ -140,6 +140,9 @@ test('create a place', async ({ baseURL, page }) => {
   await expect(page.locator('#offer-score').getByText('100')).toBeVisible();
   // 5. Publish
   await page.getByRole('button', { name: 'Publiceren', exact: true }).click();
+
+  await page.waitForLoadState('networkidle');
+
   // // 6. Verify if created location is visible on dashboard
   await page.goto(`${baseURL}/dashboard?tab=places&page=1`);
   // await expect(page.getByText(dummyPlace.name).first()).toBeVisible();
