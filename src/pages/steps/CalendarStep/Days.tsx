@@ -1,5 +1,5 @@
 import { camelCase } from 'lodash';
-import { Control, FieldErrors, useFieldArray, useWatch } from 'react-hook-form';
+import { FieldErrors } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { BookingAvailabilityType } from '@/constants/BookingAvailabilityType';
