@@ -74,72 +74,72 @@ test('create a place', async ({ baseURL, page }) => {
     page.getByRole('tab', { name: 'Beschrijving' }).locator('.fa-check-circle'),
   ).toBeVisible();
   // // Add image & video url
-  // await page.getByRole('tab', { name: 'Afbeelding & video' }).click();
-  // await page.getByRole('button', { name: 'Afbeelding toevoegen' }).click();
-  // await page.setInputFiles('input[type="file"]', 'upload/e2e-image.jpg');
-  // await page.getByLabel('Beschrijving').fill(dummyPlace.image.description);
-  // await page.getByLabel('Copyright').fill(dummyPlace.image.copyright);
-  // await page.getByRole('button', { name: 'Uploaden' }).click();
-  // await expect(page.getByText(dummyPlace.image.description)).toBeVisible();
-  // await page.getByRole('button', { name: 'Video-link toevoegen' }).click();
-  // await page.getByLabel('Link').fill(dummyPlace.video);
-  // await page.getByRole('button', { name: 'Toevoegen' }).click();
-  // await expect(page.getByRole('img', { name: 'video' })).toBeVisible();
-  // await expect(page.getByText(dummyPlace.video)).toBeVisible();
-  // await expect(
-  //   page
-  //     .getByRole('tab', { name: 'Afbeelding & video' })
-  //     .locator('.fa-check-circle'),
-  // ).toBeVisible();
+  await page.getByRole('tab', { name: 'Afbeelding & video' }).click();
+  await page.getByRole('button', { name: 'Afbeelding toevoegen' }).click();
+  await page.setInputFiles('input[type="file"]', 'upload/e2e-image.jpg');
+  await page.getByLabel('Beschrijving').fill(dummyPlace.image.description);
+  await page.getByLabel('Copyright').fill(dummyPlace.image.copyright);
+  await page.getByRole('button', { name: 'Uploaden' }).click();
+  await expect(page.getByText(dummyPlace.image.description)).toBeVisible();
+  await page.getByRole('button', { name: 'Video-link toevoegen' }).click();
+  await page.getByLabel('Link').fill(dummyPlace.video);
+  await page.getByRole('button', { name: 'Toevoegen' }).click();
+  await expect(page.getByRole('img', { name: 'video' })).toBeVisible();
+  await expect(page.getByText(dummyPlace.video)).toBeVisible();
+  await expect(
+    page
+      .getByRole('tab', { name: 'Afbeelding & video' })
+      .locator('.fa-check-circle'),
+  ).toBeVisible();
   // // Prices
-  // await page.getByRole('tab', { name: 'Prijzen' }).click();
-  // await page.getByPlaceholder('Prijs').click();
-  // await page.getByPlaceholder('Prijs').fill('10');
-  // await page.getByText('BasistariefeuroGratisTarief toevoegen').click();
-  // await expect(
-  //   page.getByRole('tab', { name: 'Prijzen' }).locator('.fa-check-circle'),
-  // ).toBeVisible();
-  // // Organizer
-  // await page.getByRole('tab', { name: 'Organisatie' }).click();
-  // await page.getByRole('button', { name: 'Organisatie toevoegen' }).click();
-  // await page.locator('#organizer-picker').fill(dummyPlace.organizer.name);
-  // await page.locator('.rbt-menu-custom-option').click();
-  // await page.locator('#organizer-url').fill(dummyPlace.organizer.url);
-  // await page
-  //   .getByLabel('Straat en nummer')
-  //   .fill(dummyPlace.organizer.streetAndNumber);
-  // await page.getByLabel('Gemeente').fill(dummyPlace.organizer.zip);
-  // await page
-  //   .getByRole('option', { name: dummyPlace.organizer.municipality })
-  //   .click();
-  // await page.getByRole('button', { name: 'Toevoegen', exact: true }).click();
-  // await expect(
-  //   page.getByRole('tab', { name: 'Organisatie' }).locator('.fa-check-circle'),
-  // ).toBeVisible();
-  // // Contact
-  // await page.getByRole('tab', { name: 'Contact' }).click();
-  // await page.getByRole('button', { name: 'Contactgegevens toevoegen' }).click();
-  // await page.locator('#contact-info-value').click();
-  // await page.locator('#contact-info-value').fill(dummyPlace.contactInfo.email);
-  // await page
-  //   .getByRole('button', { name: 'Meer contactgegevens toevoegen' })
-  //   .click();
-  // await expect(
-  //   page.getByRole('tab', { name: 'Contact' }).locator('.fa-check-circle'),
-  // ).toBeVisible();
-  // // BookingInfo
-  // await page.getByRole('tabpanel').click();
-  // await page.getByRole('tab', { name: 'Reservatie' }).click();
-  // await page.getByPlaceholder('E-mailadres').click();
-  // await page.getByPlaceholder('E-mailadres').fill(dummyPlace.bookingInfo.email);
-  // await page.getByPlaceholder('Telefoonnummer').click();
-  // await expect(
-  //   page.getByRole('tab', { name: 'Reservatie' }).locator('.fa-check-circle'),
-  // ).toBeVisible();
-  // // Check offer score
-  // await expect(page.locator('#offer-score').getByText('100')).toBeVisible();
-  // // 5. Publish
-  // await page.getByRole('button', { name: 'Publiceren', exact: true }).click();
+  await page.getByRole('tab', { name: 'Prijzen' }).click();
+  await page.getByPlaceholder('Prijs').click();
+  await page.getByPlaceholder('Prijs').fill('10');
+  await page.getByText('BasistariefeuroGratisTarief toevoegen').click();
+  await expect(
+    page.getByRole('tab', { name: 'Prijzen' }).locator('.fa-check-circle'),
+  ).toBeVisible();
+  // Organizer
+  await page.getByRole('tab', { name: 'Organisatie' }).click();
+  await page.getByRole('button', { name: 'Organisatie toevoegen' }).click();
+  await page.locator('#organizer-picker').fill(dummyPlace.organizer.name);
+  await page.locator('.rbt-menu-custom-option').click();
+  await page.locator('#organizer-url').fill(dummyPlace.organizer.url);
+  await page
+    .getByLabel('Straat en nummer')
+    .fill(dummyPlace.organizer.streetAndNumber);
+  await page.getByLabel('Gemeente').fill(dummyPlace.organizer.zip);
+  await page
+    .getByRole('option', { name: dummyPlace.organizer.municipality })
+    .click();
+  await page.getByRole('button', { name: 'Toevoegen', exact: true }).click();
+  await expect(
+    page.getByRole('tab', { name: 'Organisatie' }).locator('.fa-check-circle'),
+  ).toBeVisible();
+  // Contact
+  await page.getByRole('tab', { name: 'Contact' }).click();
+  await page.getByRole('button', { name: 'Contactgegevens toevoegen' }).click();
+  await page.locator('#contact-info-value').click();
+  await page.locator('#contact-info-value').fill(dummyPlace.contactInfo.email);
+  await page
+    .getByRole('button', { name: 'Meer contactgegevens toevoegen' })
+    .click();
+  await expect(
+    page.getByRole('tab', { name: 'Contact' }).locator('.fa-check-circle'),
+  ).toBeVisible();
+  // BookingInfo
+  await page.getByRole('tabpanel').click();
+  await page.getByRole('tab', { name: 'Reservatie' }).click();
+  await page.getByPlaceholder('E-mailadres').click();
+  await page.getByPlaceholder('E-mailadres').fill(dummyPlace.bookingInfo.email);
+  await page.getByPlaceholder('Telefoonnummer').click();
+  await expect(
+    page.getByRole('tab', { name: 'Reservatie' }).locator('.fa-check-circle'),
+  ).toBeVisible();
+  // Check offer score
+  await expect(page.locator('#offer-score').getByText('100')).toBeVisible();
+  // 5. Publish
+  await page.getByRole('button', { name: 'Publiceren', exact: true }).click();
   // // 6. Verify if created location is visible on dashboard
   // await page.goto(`${baseURL}/dashboard?tab=places&page=1`);
   // await expect(page.getByText(dummyPlace.name).first()).toBeVisible();
