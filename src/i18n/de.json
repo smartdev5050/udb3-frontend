@@ -132,7 +132,7 @@
     },
     "validation_messages": {
       "location": {
-        "online_url": "Ihre Online-URL entspricht nicht den Anforderungen."
+        "online_url": "Keine gültige URL"
       }
     },
     "scope": {
