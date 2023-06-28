@@ -148,7 +148,7 @@ export const Days = ({
                 `}
               >
                 {t(`offerStatus.status.events.${camelCase(day.status.type)}`)}
-                {day.status.reason.nl ? `: ${day.status.reason.nl}` : ''}
+                {day.status.reason?.nl ? `: ${day.status.reason.nl}` : ''}
               </Alert>
             )}
             {isBookingUnavailable && (
