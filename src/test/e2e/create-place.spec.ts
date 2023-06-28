@@ -62,17 +62,17 @@ test('create a place', async ({ baseURL, page }) => {
   await page.getByRole('button', { name: 'Volwassenen 18+' }).click();
   await page.getByRole('button', { name: 'Opslaan' }).click();
   // // 6. Additionnal Information
-  // await page
-  //   .getByRole('textbox', { name: 'rdw-editor' })
-  //   .fill(dummyPlace.description);
-  // await page
-  //   .getByRole('tabpanel')
-  //   .locator('section')
-  //   .filter({ hasText: dummyPlace.description })
-  //   .click();
-  // await expect(
-  //   page.getByRole('tab', { name: 'Beschrijving' }).locator('.fa-check-circle'),
-  // ).toBeVisible();
+  await page
+    .getByRole('textbox', { name: 'rdw-editor' })
+    .fill(dummyPlace.description);
+  await page
+    .getByRole('tabpanel')
+    .locator('section')
+    .filter({ hasText: dummyPlace.description })
+    .click();
+  await expect(
+    page.getByRole('tab', { name: 'Beschrijving' }).locator('.fa-check-circle'),
+  ).toBeVisible();
   // // Add image & video url
   // await page.getByRole('tab', { name: 'Afbeelding & video' }).click();
   // await page.getByRole('button', { name: 'Afbeelding toevoegen' }).click();
