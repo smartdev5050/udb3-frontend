@@ -1,5 +1,5 @@
 import { camelCase } from 'lodash';
-import { Control, FieldErrors, useFieldArray, useWatch } from 'react-hook-form';
+import { FieldErrors } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { BookingAvailabilityType } from '@/constants/BookingAvailabilityType';
@@ -148,7 +148,7 @@ export const Days = ({
                 `}
               >
                 {t(`offerStatus.status.events.${camelCase(day.status.type)}`)}
-                {day.status.reason.nl ? `: ${day.status.reason.nl}` : ''}
+                {day.status.reason?.nl ? `: ${day.status.reason.nl}` : ''}
               </Alert>
             )}
             {isBookingUnavailable && (
