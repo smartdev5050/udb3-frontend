@@ -1,8 +1,5 @@
+import { faker } from '@faker-js/faker';
 import { expect, test } from '@playwright/test';
-
-const randomUniqueUrl = `https://e2e-organizer-${Math.random()
-  .toString(36)
-  .substring(2, 7)}.com`;
 
 const dummyPlace = {
   name: 'E2E test location',
@@ -14,10 +11,10 @@ const dummyPlace = {
     streetAndNumber: 'E2E test street 1',
   },
   contactInfo: {
-    email: 'e2e.udb3.frontend@gmail.com',
+    email: faker.internet.email(),
   },
   bookingInfo: {
-    email: 'e2e.udb3.frontend@gmail.com',
+    email: faker.internet.email(),
   },
   image: {
     description: 'image for e2e place',
@@ -26,7 +23,7 @@ const dummyPlace = {
   video: 'https://www.youtube.com/watch?v=lkIFF4maKMU&t=48s',
   organizer: {
     name: 'E2E organizer for location',
-    url: randomUniqueUrl,
+    url: faker.internet.url(),
     zip: '9000',
     municipality: '9000 Gent',
     streetAndNumber: 'E2E test street 1',
@@ -140,8 +137,7 @@ test('create a place', async ({ baseURL, page }) => {
   await expect(page.locator('#offer-score').getByText('100')).toBeVisible();
   // 5. Publish
   await page.getByRole('button', { name: 'Publiceren', exact: true }).click();
-  // await page.waitForLoadState('networkidle');
   // // 6. Verify if created location is visible on dashboard
-  // await page.goto(`${baseURL}/dashboard?tab=places&page=1`);
+  await page.goto(`${baseURL}/dashboard?tab=places&page=1`);
   // await expect(page.getByText(dummyPlace.name).first()).toBeVisible();
 });
