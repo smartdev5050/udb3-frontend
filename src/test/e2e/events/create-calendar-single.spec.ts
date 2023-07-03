@@ -1,5 +1,4 @@
-import { faker } from '@faker-js/faker';
-import { expect, test } from '@playwright/test';
+import { test } from '@playwright/test';
 
 const dummyEvent = {
   name: 'E2E test event with calendarType single',
