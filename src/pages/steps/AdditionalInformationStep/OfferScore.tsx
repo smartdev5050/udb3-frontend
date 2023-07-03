@@ -248,7 +248,7 @@ const OfferScore = ({ completedFields, offerId, scope, ...props }: Props) => {
   return (
     <Notification
       header={
-        <Inline alignItems="center" spacing={2}>
+        <Inline id="offer-score" alignItems="center" spacing={2}>
           <Text
             display="inline-flex"
             alignItems="flex-end"
