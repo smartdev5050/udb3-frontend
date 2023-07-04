@@ -129,6 +129,7 @@ const parseLocationAttributes = (
         label: `${postalCode} ${addressLocality}`,
         name: addressLocality,
       },
+      postalCode: postalCode,
       place: isEvent(offer) ? offer.location : undefined,
       country: addressCountry,
       ...(isPlace(offer) && { streetAndNumber: streetAddress }),
