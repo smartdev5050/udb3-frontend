@@ -747,6 +747,7 @@ const LocationStep = ({
   chooseLabel,
   placeholderLabel,
   setValue,
+  trigger,
   watch,
   ...props
 }: PlaceStepProps) => {
@@ -1029,6 +1030,13 @@ const LocationStep = ({
             );
           }
 
+          const isPlaceAddressComplete =
+            (country === Countries.BE && field.value.streetAndNumber) ||
+            // @ts-ignore
+            (field.value.streetAndNumber &&
+              location.postalCode &&
+              !formState.errors.location?.postalCode);
+
           return renderFieldWithRecentLocations(
             <>
               <Inline alignItems="center" spacing={3} marginBottom={4}>
@@ -1071,13 +1079,18 @@ const LocationStep = ({
               )}
               {scope === OfferTypes.PLACES && (
                 <Stack>
-                  {field.value.streetAndNumber ? (
+                  {isPlaceAddressComplete ? (
                     <Inline alignItems="center" spacing={3}>
                       <Icon
                         name={Icons.CHECK_CIRCLE}
                         color={getGlobalValue('successIcon')}
                       />
-                      <Text>{field.value.streetAndNumber}</Text>
+                      <Text>
+                        {field.value.streetAndNumber}{' '}
+                        {field.value.postalCode
+                          ? `, ${field.value.postalCode}`
+                          : ''}
+                      </Text>
                       <Button
                         variant={ButtonVariants.LINK}
                         onClick={() => {
@@ -1091,22 +1104,44 @@ const LocationStep = ({
                       </Button>
                     </Inline>
                   ) : (
-                    <FormElement
-                      Component={
-                        <Input
-                          value={streetAndNumber}
-                          onBlur={() => onFieldChange({ streetAndNumber })}
-                          onChange={handleChangeStreetAndNumber}
-                        />
-                      }
-                      id="location-streetAndNumber"
-                      label={t('location.add_modal.labels.streetAndNumber')}
-                      maxWidth="28rem"
-                      error={
-                        formState.errors.location?.streetAndNumber &&
-                        t('location.add_modal.errors.streetAndNumber')
-                      }
-                    />
+                    <Stack>
+                      <FormElement
+                        Component={
+                          <Input
+                            value={streetAndNumber}
+                            onBlur={() => onFieldChange({ streetAndNumber })}
+                            onChange={handleChangeStreetAndNumber}
+                          />
+                        }
+                        id="location-streetAndNumber"
+                        label={t('location.add_modal.labels.streetAndNumber')}
+                        maxWidth="28rem"
+                        error={
+                          formState.errors.location?.streetAndNumber &&
+                          t('location.add_modal.errors.streetAndNumber')
+                        }
+                      />
+                      <FormElement
+                        Component={
+                          <Input
+                            value={field.value.postalCode}
+                            onChange={(e) => {
+                              onFieldChange({
+                                postalCode: e.target.value,
+                              });
+                            }}
+                            onBlur={() => trigger()}
+                          />
+                        }
+                        id="location-postalCode"
+                        label={t('location.add_modal.labels.postalCode')}
+                        maxWidth="28rem"
+                        error={
+                          formState.errors.location?.postalCode &&
+                          t('location.add_modal.errors.postalCode')
+                        }
+                      />
+                    </Stack>
                   )}
                 </Stack>
               )}
@@ -1132,10 +1167,19 @@ const locationStepConfiguration: StepsConfiguration<'location'> = {
     country: Countries.BE,
     place: undefined,
     streetAndNumber: undefined,
+    postalCode: undefined,
     municipality: undefined,
     onlineUrl: undefined,
   },
   validation: yup.lazy((value) => {
+    const url = window.location.href;
+
+    const scope = url.includes('events')
+      ? OfferTypes.EVENTS
+      : OfferTypes.PLACES;
+
+    console.log({ value });
+
     if (value.place) {
       // a location for an event
       return yup
@@ -1162,14 +1206,40 @@ const locationStepConfiguration: StepsConfiguration<'location'> = {
       return yup.object().shape({}).required();
     }
 
-    // a location for a place
-    return yup
-      .object()
-      .shape({
-        streetAndNumber: yup.string().required(),
-        country: yup.string().oneOf(Object.values(Countries)).required(),
-      })
-      .required();
+    if (value.country === Countries.NL && scope === OfferTypes.PLACES) {
+      return yup
+        .object({
+          streetAndNumber: yup.string().required(),
+          country: yup.string().oneOf(Object.values(Countries)).required(),
+          postalCode: yup
+            .string()
+            .test('valid_dutch_zip', (postalCode: string) => {
+              return postalCode?.length === 5;
+            })
+            .required(),
+        })
+        .required();
+    }
+
+    if (value.country === Countries.DE && scope === OfferTypes.PLACES) {
+      return yup
+        .object({
+          streetAndNumber: yup.string().required(),
+          country: yup.string().oneOf(Object.values(Countries)).required(),
+          postalCode: yup
+            .string()
+            .test('valid_dutch_zip', (postalCode: string) => {
+              return postalCode?.length === 5;
+            })
+            .required(),
+        })
+        .required();
+    }
+
+    return yup.object({
+      streetAndNumber: yup.string().required(),
+      country: yup.string().oneOf(Object.values(Countries)).required(),
+    });
   }),
 };
 
