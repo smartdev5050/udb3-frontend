@@ -846,7 +846,8 @@
         "zip": "Postcode is een verplicht veld.",
         "name": "De naam van de locatie is een verplicht veld.",
         "streetAndNumber": "Straat is een verplicht veld.",
-        "type": "Categorie is een verplicht veld."
+        "type": "Categorie is een verplicht veld.",
+        "postalCode": " Je postcode voldoet niet aan de vereisten."
       }
     }
   },
