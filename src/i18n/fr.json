@@ -796,7 +796,10 @@
         "cancel": "Annuler"
       },
       "info": {
-        "zip": "par ex. 1104CA"
+        "zip": {
+          "nl": "par ex. 1104CA",
+          "de": "par ex. 10115"
+        }
       },
       "labels": {
         "address": {

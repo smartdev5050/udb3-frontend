@@ -360,12 +360,15 @@ const OrganizerAddModal = ({
                   }}
                 />
               </Stack>
-              {(watchedCountry === 'NL' || watchedCountry === 'DE') && (
+              {(watchedCountry === Countries.NL ||
+                watchedCountry === Countries.DE) && (
                 <FormElement
                   Component={<Input {...register('address.city.zip')} />}
                   id="organizer-address-city-zip"
                   label={t('organizer.add_modal.labels.address.zip')}
-                  info={t('organizer.add_modal.info.zip')}
+                  info={t(
+                    `organizer.add_modal.info.zip.${watchedCountry.toLowerCase()}`,
+                  )}
                   error={
                     formState.errors.address?.city?.zip &&
                     t(

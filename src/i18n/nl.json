@@ -796,7 +796,10 @@
         "cancel": "Annuleren"
       },
       "info": {
-        "zip": "bv. 1104CA"
+        "zip": {
+          "nl": "bv. 1104CA",
+          "de": "bv. 10115"
+        }
       },
       "labels": {
         "address": {
