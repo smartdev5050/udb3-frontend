@@ -32,6 +32,7 @@ import { City, CityPicker } from './CityPicker';
 const getValue = getValueFromTheme('organizerAddModal');
 
 const GERMAN_ZIP_REGEX: RegExp = /\b\d{5}\b/;
+const DUTCH_ZIP_REGEX: RegExp = /^\d{4}([A-Za-z0-9]{2})?$/;
 
 const schema = yup
   .object({
@@ -59,9 +60,7 @@ const schema = yup
           then: yup.object({
             label: yup.string(),
             name: yup.string(),
-            zip: yup.string().test('valid_dutch_zip', (zip: string) => {
-              return zip?.length === 5;
-            }),
+            zip: yup.string().matches(DUTCH_ZIP_REGEX),
           }),
         })
         .when('country', {
