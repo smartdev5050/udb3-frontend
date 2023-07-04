@@ -257,6 +257,8 @@ const OfferRow = ({ item: offer, onDelete, ...props }: OfferRowProps) => {
 
   const editUrl = `/${offerType}/${parseOfferId(offer['@id'])}/edit`;
   const previewUrl = `/${offerType}/${parseOfferId(offer['@id'])}/preview`;
+  const duplicateUrl = `/${offerType}/${parseOfferId(offer['@id'])}/duplicate`;
+
   const typeId = offer.terms.find((term) => term.domain === 'eventtype')?.id;
 
   // The custom keySeparator was necessary because the ids contain '.' which i18n uses as default keySeparator
@@ -321,6 +323,12 @@ const OfferRow = ({ item: offer, onDelete, ...props }: OfferRowProps) => {
         <Dropdown.Item href={previewUrl} key="preview">
           {t('dashboard.actions.preview')}
         </Dropdown.Item>,
+        offerType === 'event' && <Dropdown.Divider key="divider" />,
+        offerType === 'event' && (
+          <Dropdown.Item href={duplicateUrl} key="duplicate">
+            {t('dashboard.actions.duplicate')}
+          </Dropdown.Item>
+        ),
         <Dropdown.Divider key="divider" />,
         <Dropdown.Item onClick={() => onDelete(offer)} key="delete">
           {t('dashboard.actions.delete')}

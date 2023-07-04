@@ -521,7 +521,8 @@
       "cancel": "Annuleren",
       "delete": "Verwijderen",
       "edit": "Bewerken",
-      "preview": "Voorbeeld"
+      "preview": "Voorbeeld",
+      "duplicate": "Dupliceren"
     },
     "create": {
       "events": "Evenement toevoegen",

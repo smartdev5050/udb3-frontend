@@ -522,7 +522,8 @@
       "cancel": "Abbrechen",
       "delete": "Löschen",
       "edit": "Bearbeiten",
-      "preview": "Beispiel"
+      "preview": "Beispiel",
+      "duplicate": "Duplikat"
     },
     "create": {
       "events": "Veranstaltung hinzufügen",
