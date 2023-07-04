@@ -32,6 +32,7 @@ import { City, CityPicker } from './CityPicker';
 const getValue = getValueFromTheme('organizerAddModal');
 
 const GERMAN_ZIP_REGEX: RegExp = /\b\d{5}\b/;
+const DUTCH_ZIP_REGEX: RegExp = /^\d{4}([A-Za-z0-9]{2})?$/;
 
 const schema = yup
   .object({
@@ -59,9 +60,7 @@ const schema = yup
           then: yup.object({
             label: yup.string(),
             name: yup.string(),
-            zip: yup.string().test('valid_dutch_zip', (zip: string) => {
-              return zip?.length === 5;
-            }),
+            zip: yup.string().matches(DUTCH_ZIP_REGEX),
           }),
         })
         .when('country', {
@@ -361,12 +360,15 @@ const OrganizerAddModal = ({
                   }}
                 />
               </Stack>
-              {(watchedCountry === 'NL' || watchedCountry === 'DE') && (
+              {(watchedCountry === Countries.NL ||
+                watchedCountry === Countries.DE) && (
                 <FormElement
                   Component={<Input {...register('address.city.zip')} />}
                   id="organizer-address-city-zip"
                   label={t('organizer.add_modal.labels.address.zip')}
-                  info={t('organizer.add_modal.info.zip')}
+                  info={t(
+                    `organizer.add_modal.info.zip.${watchedCountry.toLowerCase()}`,
+                  )}
                   error={
                     formState.errors.address?.city?.zip &&
                     t(
