@@ -28,11 +28,9 @@ import { Title } from '@/ui/Title';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 
 import { City, CityPicker } from './CityPicker';
+import { DUTCH_ZIP_REGEX, GERMAN_ZIP_REGEX } from './steps/LocationStep';
 
 const getValue = getValueFromTheme('organizerAddModal');
-
-const GERMAN_ZIP_REGEX: RegExp = /\b\d{5}\b/;
-const DUTCH_ZIP_REGEX: RegExp = /^\d{4}([A-Za-z0-9]{2})?$/;
 
 const schema = yup
   .object({

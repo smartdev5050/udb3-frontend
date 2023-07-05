@@ -57,6 +57,9 @@ import {
   StepsConfiguration,
 } from './Steps';
 
+const GERMAN_ZIP_REGEX: RegExp = /\b\d{5}\b/;
+const DUTCH_ZIP_REGEX: RegExp = /^\d{4}([A-Za-z0-9]{2})?$/;
+
 const { publicRuntimeConfig } = getConfig();
 
 const CULTUURKUUR_LOCATION_ID = publicRuntimeConfig.cultuurKuurLocationId;
@@ -626,12 +629,16 @@ const useEditLocation = ({ scope, offerId }: UseEditArguments) => {
     if (scope === OfferTypes.PLACES) {
       if (!location.municipality || !location.streetAndNumber) return;
 
+      const postalCode = ['NL', 'DE'].includes(location.country)
+        ? location.postalCode
+        : location.municipality.zip;
+
       const address: Address = {
         [i18n.language]: {
           streetAddress: location.streetAndNumber,
           addressCountry: location.country,
           addressLocality: location.municipality.name,
-          postalCode: location.municipality.zip,
+          postalCode,
         },
       };
 
@@ -1086,7 +1093,7 @@ const LocationStep = ({
                         color={getGlobalValue('successIcon')}
                       />
                       <Text>
-                        {field.value.streetAndNumber}{' '}
+                        {field.value.streetAndNumber}
                         {field.value.postalCode
                           ? `, ${field.value.postalCode}`
                           : ''}
@@ -1105,6 +1112,31 @@ const LocationStep = ({
                     </Inline>
                   ) : (
                     <Stack>
+                      {['NL', 'DE'].includes(location.country) && (
+                        <FormElement
+                          marginBottom={3}
+                          Component={
+                            <Input
+                              value={field.value.postalCode}
+                              onChange={(e) => {
+                                onFieldChange({
+                                  postalCode: e.target.value,
+                                });
+                              }}
+                              onBlur={() => trigger()}
+                            />
+                          }
+                          id="location-postalCode"
+                          label={t(
+                            `location.add_modal.labels.postalCode.${location.country.toLowerCase()}`,
+                          )}
+                          maxWidth="28rem"
+                          error={
+                            formState.errors.location?.postalCode &&
+                            t('location.add_modal.errors.postalCode')
+                          }
+                        />
+                      )}
                       <FormElement
                         Component={
                           <Input
@@ -1119,26 +1151,6 @@ const LocationStep = ({
                         error={
                           formState.errors.location?.streetAndNumber &&
                           t('location.add_modal.errors.streetAndNumber')
-                        }
-                      />
-                      <FormElement
-                        Component={
-                          <Input
-                            value={field.value.postalCode}
-                            onChange={(e) => {
-                              onFieldChange({
-                                postalCode: e.target.value,
-                              });
-                            }}
-                            onBlur={() => trigger()}
-                          />
-                        }
-                        id="location-postalCode"
-                        label={t('location.add_modal.labels.postalCode')}
-                        maxWidth="28rem"
-                        error={
-                          formState.errors.location?.postalCode &&
-                          t('location.add_modal.errors.postalCode')
                         }
                       />
                     </Stack>
@@ -1178,8 +1190,6 @@ const locationStepConfiguration: StepsConfiguration<'location'> = {
       ? OfferTypes.EVENTS
       : OfferTypes.PLACES;
 
-    console.log({ value });
-
     if (value.place) {
       // a location for an event
       return yup
@@ -1211,12 +1221,7 @@ const locationStepConfiguration: StepsConfiguration<'location'> = {
         .object({
           streetAndNumber: yup.string().required(),
           country: yup.string().oneOf(Object.values(Countries)).required(),
-          postalCode: yup
-            .string()
-            .test('valid_dutch_zip', (postalCode: string) => {
-              return postalCode?.length === 5;
-            })
-            .required(),
+          postalCode: yup.string().matches(DUTCH_ZIP_REGEX).required(),
         })
         .required();
     }
@@ -1226,12 +1231,7 @@ const locationStepConfiguration: StepsConfiguration<'location'> = {
         .object({
           streetAndNumber: yup.string().required(),
           country: yup.string().oneOf(Object.values(Countries)).required(),
-          postalCode: yup
-            .string()
-            .test('valid_dutch_zip', (postalCode: string) => {
-              return postalCode?.length === 5;
-            })
-            .required(),
+          postalCode: yup.string().matches(GERMAN_ZIP_REGEX).required(),
         })
         .required();
     }
@@ -1245,4 +1245,10 @@ const locationStepConfiguration: StepsConfiguration<'location'> = {
 
 LocationStep.defaultProps = {};
 
-export { isLocationSet, locationStepConfiguration, useEditLocation };
+export {
+  DUTCH_ZIP_REGEX,
+  GERMAN_ZIP_REGEX,
+  isLocationSet,
+  locationStepConfiguration,
+  useEditLocation,
+};
