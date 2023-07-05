@@ -843,7 +843,11 @@
         "zip": "Postcode",
         "municipality": "Gemeente",
         "type": "Categorie",
-        "typeInfo": "Kies een categorie die deze locatie het best omschrijft."
+        "typeInfo": "Kies een categorie die deze locatie het best omschrijft.",
+        "postalCode": {
+          "nl": "Postcode bv. 1104CA",
+          "de": "Postcode bv. 10115"
+        }
       },
       "errors": {
         "zip": "Postcode is een verplicht veld.",
