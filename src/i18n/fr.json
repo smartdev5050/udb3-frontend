@@ -521,7 +521,8 @@
       "cancel": "Annuler",
       "delete": "Supprimer",
       "edit": "Modifier",
-      "preview": "Exemple"
+      "preview": "Exemple",
+      "duplicate": "Dupliquer"
     },
     "create": {
       "events": "Ajouter événement",
