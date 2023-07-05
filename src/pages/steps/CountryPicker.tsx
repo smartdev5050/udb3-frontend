@@ -29,6 +29,7 @@ const CountryPicker = ({
 
   return (
     <Dropdown
+      id="country-picker"
       variant={DropDownVariants.SECONDARY}
       className={className}
       css={`
