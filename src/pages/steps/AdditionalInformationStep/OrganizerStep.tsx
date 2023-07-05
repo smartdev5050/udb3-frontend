@@ -60,6 +60,7 @@ const OrganizerStep = ({
   const organizer = offer?.organizer;
   const hasPriceInfo = (offer?.priceInfo ?? []).length > 0;
   const hasUitpasLabel = organizer ? isUitpasOrganizer(organizer) : false;
+  const [hasUitpasTicketSales, setHasUitpasTicketSales] = useState(false);
 
   const getCardSystemForEventQuery = useGetCardSystemForEventQuery(
     // @ts-expect-error
@@ -90,7 +91,10 @@ const OrganizerStep = ({
     }
 
     // @ts-expect-error
-    const status: number = getCardSystemForEventQuery.error?.status;
+    let status: number = getCardSystemForEventQuery.error?.status;
+    if (hasUitpasTicketSales) {
+      status = 400;
+    }
 
     if (status === 400 || status === 404) {
       return {
@@ -103,8 +107,13 @@ const OrganizerStep = ({
       variant: AlertVariants.SUCCESS,
       key: UitpasTranslationKeys.SUCCESS,
     };
+  }, [
     // @ts-expect-error
-  }, [getCardSystemForEventQuery.error?.status, hasPriceInfo, hasUitpasLabel]);
+    getCardSystemForEventQuery.error?.status,
+    hasPriceInfo,
+    hasUitpasLabel,
+    hasUitpasTicketSales,
+  ]);
 
   // @ts-expect-error
   const getCardSystemsForOrganizerQuery = useGetCardSystemsForOrganizerQuery({
@@ -141,12 +150,23 @@ const OrganizerStep = ({
 
   const createOrganizerMutation = useCreateOrganizerMutation();
 
+  const handleUitpasTicketSalesError = (error) => {
+    if (
+      error.status === 400 &&
+      error.message.includes('Event has UiTPAS ticket sales')
+    ) {
+      setHasUitpasTicketSales(true);
+    }
+  };
+
   const addOfferOrganizerMutation = useAddOfferOrganizerMutation({
     onSuccess: onSuccessfulChange,
+    onError: handleUitpasTicketSalesError,
   });
 
   const deleteOfferOrganizerMutation = useDeleteOfferOrganizerMutation({
     onSuccess: onSuccessfulChange,
+    onError: handleUitpasTicketSalesError,
   });
 
   const addCardSystemToEventMutation = useAddCardSystemToEventMutation({
