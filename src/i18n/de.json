@@ -797,7 +797,10 @@
         "cancel": "Absagen"
       },
       "info": {
-        "zip": "Beispiel 10115"
+        "zip": {
+          "nl": "Beispiel 1104CA",
+          "de": "Beispiel 10115"
+        }
       },
       "labels": {
         "address": {
