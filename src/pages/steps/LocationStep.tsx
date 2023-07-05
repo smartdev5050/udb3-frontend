@@ -23,7 +23,7 @@ import { useChangeAddressMutation } from '@/hooks/api/places';
 import { useGetUserQuery } from '@/hooks/api/user';
 import { SupportedLanguage } from '@/i18n/index';
 import { FormData as OfferFormData } from '@/pages/create/OfferForm';
-import { Address } from '@/types/Address';
+import { Address, AddressInternal } from '@/types/Address';
 import { Countries, Country } from '@/types/Country';
 import { AttendanceMode, AudienceType } from '@/types/Event';
 import { Offer } from '@/types/Offer';
@@ -571,8 +571,10 @@ const RecentLocations = ({ onFieldChange, ...props }) => {
         `}
       >
         {locations.map((location) => {
-          const address =
-            location.address[location.mainLanguage] ?? location.address;
+          const address = getLanguageObjectOrFallback<AddressInternal>(
+            location.address,
+            location.mainLanguage,
+          );
 
           return (
             <ButtonCard
