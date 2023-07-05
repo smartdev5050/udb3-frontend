@@ -174,6 +174,7 @@ const OrganizerStep = ({
       onSuccessfulChange(data);
       queryClient.invalidateQueries('uitpas_events');
     },
+    onError: handleUitpasTicketSalesError,
   });
 
   const deleteCardSystemFromEventMutation =
@@ -182,6 +183,7 @@ const OrganizerStep = ({
         onSuccessfulChange(data);
         queryClient.invalidateQueries('uitpas_events');
       },
+      onError: handleUitpasTicketSalesError,
     });
 
   const handleAddCardSystemToEvent = (cardSystemId: number) => {
