@@ -439,7 +439,7 @@
         "uitpas_alert": {
           "success": "Votre activité est désormais enregistrée en tant qu'activité UitPAS.",
           "no_price": "Ceci est un organisateur UiTPAS. Ajoutez <link1>un prix</link1> pour publier votre événement en tant qu'activité UiTPAS.",
-          "already_has_ticketsales": "Pour cet événement des tickets UiTPAS ont déjà été vendus. Vous ne pouvez plus modifier l'organisation.",
+          "already_has_ticketsales": "Des billets ont déjà été vendus pour cette activité. Vous ne pouvez plus modifier l'organisation et les systèmes de carte.",
           "not_found": "Cette activité n'est pas encore connue par UiTPAS."
         }
       },

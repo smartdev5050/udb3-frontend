@@ -439,7 +439,7 @@
         "uitpas_alert": {
           "success": "Je activiteit is nu geregistreerd als UiTPAS activiteit.",
           "no_price": "Dit is een UiTPAS organisator. Voeg een <link1>prijs</link1> toe om je evenement te publiceren als UiTPAS activiteit.",
-          "already_has_ticketsales": "Voor dit evenement zijn al UiTPAS-tickets verkocht. Je kan de organisatie niet meer wijzigen.",
+          "already_has_ticketsales": "Er zijn al tickets verkocht voor deze activiteit. Je kan de organisatie en de kaartsystemen niet meer wijzigen.",
           "not_found": "Deze activiteit is nog niet gekend bij UiTPAS."
         }
       },
