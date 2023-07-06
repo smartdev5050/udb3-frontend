@@ -57,7 +57,7 @@ type VideoObject = {
   url: string;
 };
 
-type BookingInfo = {
+export type BookingInfo = {
   availabilityStarts?: string;
   availabilityEnds?: string;
   price?: number;

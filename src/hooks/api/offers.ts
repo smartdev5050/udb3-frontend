@@ -59,7 +59,7 @@ const useGetOffersByCreatorQuery = (
 ) => {
   const creatorQuery = [
     `${creator?.sub}`,
-    creator['https://publiq.be/uitidv1id'],
+    creator?.['https://publiq.be/uitidv1id'],
     creator?.email,
   ]
     .filter(Boolean)

@@ -132,7 +132,7 @@
     },
     "validation_messages": {
       "location": {
-        "online_url": "Je online url voldoet niet aan de vereisten."
+        "online_url": "Geen geldige url"
       }
     },
     "scope": {
@@ -416,6 +416,10 @@
             "text": "Tip: voeg <1>{{link}}</1> toe",
             "link": "contactinformatie"
           },
+          "booking_info": {
+            "text": "Tip: voeg <1>{{link}}</1> toe",
+            "link": "reserveringsinformatie"
+          },
           "organizer": {
             "text": "Tip: voeg een <1>{{link}}</1> toe",
             "link": "organisatie"
@@ -435,7 +439,7 @@
         "uitpas_alert": {
           "success": "Je activiteit is nu geregistreerd als UiTPAS activiteit.",
           "no_price": "Dit is een UiTPAS organisator. Voeg een <link1>prijs</link1> toe om je evenement te publiceren als UiTPAS activiteit.",
-          "already_has_ticketsales": "Voor dit evenement zijn al UiTPAS-tickets verkocht. Je kan de organisatie niet meer wijzigen.",
+          "already_has_ticketsales": "Er zijn al tickets verkocht voor deze activiteit. Je kan de organisatie en de kaartsystemen niet meer wijzigen.",
           "not_found": "Deze activiteit is nog niet gekend bij UiTPAS."
         }
       },
@@ -517,7 +521,8 @@
       "cancel": "Annuleren",
       "delete": "Verwijderen",
       "edit": "Bewerken",
-      "preview": "Voorbeeld"
+      "preview": "Voorbeeld",
+      "duplicate": "Dupliceren"
     },
     "create": {
       "events": "Evenement toevoegen",
@@ -792,7 +797,10 @@
         "cancel": "Annuleren"
       },
       "info": {
-        "zip": "bv. 10115"
+        "zip": {
+          "nl": "bv. 1104CA",
+          "de": "bv. 10115"
+        }
       },
       "labels": {
         "address": {

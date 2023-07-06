@@ -132,7 +132,7 @@
     },
     "validation_messages": {
       "location": {
-        "online_url": "Ihre Online-URL entspricht nicht den Anforderungen."
+        "online_url": "Keine gültige URL"
       }
     },
     "scope": {
@@ -414,6 +414,10 @@
             "text": "Tipp: Fügen Sie <1>{{link}}</1> hinzu",
             "link": "Kontaktinformationen"
           },
+          "booking_info": {
+            "text": "Tipp: <1>{{link}}</1> hinzufügen",
+            "link": "Reservierungsinformationen"
+          },
           "organizer": {
             "text": "Tipp: Fügen Sie einen <1>{{link}}</1> hinzu",
             "link": "Organisator"
@@ -433,7 +437,7 @@
         "uitpas_alert": {
           "success": "Ihre Aktivität ist jetzt als UitPAS-Aktivität registriert.",
           "no_price": "Dies ist ein UiTPAS-Organisator. Fügen Sie einen <link1>Preis</link1> hinzu, um Ihre Veranstaltung als UiTPAS-Aktivität zu veröffentlichen.",
-          "already_has_ticketsales": "Für diese Veranstaltung sind bereits UiTPAS-Tickets verkauft worden. Sie können die Organisation nicht mehr ändern.",
+          "already_has_ticketsales": "Für diese Aktivität wurden bereits Tickets verkauft. Sie können die Organisations- und Kartensysteme nicht mehr ändern.",
           "not_found": "Diese Veranstaltung ist dem UiTPAS noch nicht bekannt."
         }
       },
@@ -518,7 +522,8 @@
       "cancel": "Abbrechen",
       "delete": "Löschen",
       "edit": "Bearbeiten",
-      "preview": "Beispiel"
+      "preview": "Beispiel",
+      "duplicate": "Duplikat"
     },
     "create": {
       "events": "Veranstaltung hinzufügen",
@@ -793,7 +798,10 @@
         "cancel": "Absagen"
       },
       "info": {
-        "zip": "Beispiel 10115"
+        "zip": {
+          "nl": "Beispiel 1104CA",
+          "de": "Beispiel 10115"
+        }
       },
       "labels": {
         "address": {
