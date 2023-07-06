@@ -34,8 +34,6 @@ test('create an event with location in consultation with the school', async ({
   await page.getByLabel('Naam van het evenement').fill(dummyEvent.name);
   await page.getByRole('button', { name: 'Jongeren' }).click();
 
-  await page.waitForTimeout(20_000);
-
   await page.getByRole('button', { name: 'Opslaan' }).click();
 
   // Publish
