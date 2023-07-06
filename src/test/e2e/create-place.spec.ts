@@ -134,7 +134,7 @@ test('create a place', async ({ baseURL, page }) => {
     page.getByRole('tab', { name: 'Reservatie' }).locator('.fa-check-circle'),
   ).toBeVisible();
   // Check offer score
-  await expect(page.locator('#offer-score').getByText('100')).toBeVisible();
+  await expect(page.locator('#current-score').getByText('100')).toBeVisible();
   // 5. Publish
   await page.getByRole('button', { name: 'Publiceren', exact: true }).click();
   // // 6. Verify if created location is visible on dashboard
