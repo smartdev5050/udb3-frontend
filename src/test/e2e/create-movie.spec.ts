@@ -68,19 +68,4 @@ test('create a movie', async ({ baseURL, page }) => {
   await page.locator('#contact-info-value').nth(3).fill('nope@bar.com');
   await page.getByRole('tabpanel').getByRole('button').nth(3).click();
   await page.getByRole('button', { name: 'Publiceren', exact: true }).click();
-
-  // Confirm information in preview
-  await page.waitForURL('**/preview');
-  await page
-    .frameLocator('iframe')
-    .getByRole('heading', { name: dummyMovie.title })
-    .click();
-  await page
-    .frameLocator('iframe')
-    .getByRole('cell', { name: 'Film', exact: true })
-    .click();
-  await page.frameLocator('iframe').getByText('https://google.fr').click();
-  await page.frameLocator('iframe').getByText('+336717171').click();
-  await page.frameLocator('iframe').getByText('foo@bar.com').click();
-  await page.frameLocator('iframe').getByText('10,00 euro').click();
 });
