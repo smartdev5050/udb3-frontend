@@ -1,8 +1,9 @@
+import { faker } from '@faker-js/faker';
 import { test } from '@playwright/test';
 
 const dummyMovie = {
-  title: 'My Movie',
-  description: 'My Description',
+  title: faker.lorem.sentence(),
+  description: faker.lorem.paragraphs(3),
   place: 'E2E test location',
 };
 
