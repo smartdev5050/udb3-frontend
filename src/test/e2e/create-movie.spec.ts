@@ -14,13 +14,9 @@ test('create a movie', async ({ baseURL, page }) => {
 
   // Fill in timetable
   await page.getByRole('button', { name: 'Cinefiel' }).click();
-  await page.locator('#timetable input').nth(0).click();
   await page.locator('#timetable input').nth(0).fill('10');
-  await page.locator('#timetable input').nth(1).click();
   await page.locator('#timetable input').nth(1).fill('12');
-  await page.locator('#timetable input').nth(2).click();
   await page.locator('#timetable input').nth(2).fill('14');
-  await page.locator('#timetable input').nth(3).click();
   await page.locator('#timetable input').nth(3).fill('16');
 
   // Fill in location
