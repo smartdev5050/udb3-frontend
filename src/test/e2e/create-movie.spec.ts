@@ -12,8 +12,14 @@ test('create a movie', async ({ baseURL, page }) => {
   await page.goto(baseURL);
   await page.getByRole('link', { name: 'Films' }).click();
 
-  // Fill in timetable
   await page.getByRole('button', { name: 'Cinefiel' }).click();
+
+  // Fill in timetable
+  await page.locator('#timetable-moviesdate-period-picker-end').click();
+  await page
+    .locator('.react-datepicker__day:not(.react-datepicker__day--disabled)')
+    .first()
+    .click();
   await page.locator('#timetable input').nth(0).fill('10');
   await page.locator('#timetable input').nth(1).fill('12');
   await page.locator('#timetable input').nth(2).fill('14');
