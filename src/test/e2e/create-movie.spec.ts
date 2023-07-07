@@ -20,9 +20,9 @@ test('create a movie', async ({ baseURL, page }) => {
   await page.locator('#timetable input').nth(3).fill('16');
 
   // Fill in location
-  await page.getByPlaceholder('Naam van bioscoop').fill('str');
+  await page.getByPlaceholder('Naam van bioscoop').fill(dummyMovie.place);
   await page
-    .locator('#place-step-item-0', { hasText: dummyMovie.place })
+    .locator('#place-step-item-0', { hasText: 'E2E test street 1' })
     .click();
 
   // Fill in name
