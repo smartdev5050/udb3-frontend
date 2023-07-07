@@ -41,21 +41,21 @@ test('create a movie', async ({ baseURL, page }) => {
   await page.getByPlaceholder('Prijs').fill('10');
   await page.getByRole('tab', { name: 'Contact' }).click();
   await page.getByRole('button', { name: 'Contactgegevens toevoegen' }).click();
-  await page.locator('#contact-info-value').fill('foo@bar.com');
-  await page
-    .getByRole('button', { name: 'Meer contactgegevens toevoegen' })
-    .click();
+  const contactButton = await page.getByRole('button', {
+    name: 'Meer contactgegevens toevoegen',
+  });
+  await page.locator('#contact-info-value').fill(faker.internet.email());
+  await contactButton.click();
   await page.locator('select').nth(2).selectOption('phone');
-  await page.locator('#contact-info-value').nth(1).fill('+336717171');
   await page
-    .getByRole('button', { name: 'Meer contactgegevens toevoegen' })
-    .click();
+    .locator('#contact-info-value')
+    .nth(1)
+    .fill(faker.phone.number('+336########'));
+  await contactButton.click();
   await page.locator('select').nth(3).selectOption('url');
-  await page.locator('#contact-info-value').nth(2).fill('google.fr');
-  await page
-    .getByRole('button', { name: 'Meer contactgegevens toevoegen' })
-    .click();
-  await page.locator('#contact-info-value').nth(3).fill('nope@bar.com');
+  await page.locator('#contact-info-value').nth(2).fill(faker.internet.url());
+  await contactButton.click();
+  await page.locator('#contact-info-value').nth(3).fill(faker.internet.email());
   await page.getByRole('tabpanel').getByRole('button').nth(3).click();
 
   // Publish
