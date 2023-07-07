@@ -12,33 +12,34 @@ test('create a movie', async ({ baseURL, page }) => {
   await page.goto(baseURL);
   await page.getByRole('link', { name: 'Films' }).click();
 
-  // Fill in information
+  // Fill in timetable
   await page.getByRole('button', { name: 'Cinefiel' }).click();
-  await page.getByLabel('Einde').click();
-  await page.getByText('juni', { exact: true }).click();
-  await page.getByText('juli').click();
-  await page
-    .getByRole('option', { name: 'Choose zaterdag 1 juli 2023' })
-    .click();
-  await page.locator('[id="\\32 8\\/06\\/2023-0"]').click();
-  await page.locator('[id="\\32 8\\/06\\/2023-0"]').fill('10');
-  await page.locator('[id="\\32 8\\/06\\/2023-1"]').click();
-  await page.locator('[id="\\32 8\\/06\\/2023-1"]').fill('12');
-  await page.locator('[id="\\32 8\\/06\\/2023-2"]').click();
-  await page.locator('[id="\\32 8\\/06\\/2023-2"]').fill('14');
-  await page.locator('[id="\\32 8\\/06\\/2023-3"]').click();
-  await page.locator('[id="\\32 8\\/06\\/2023-3"]').fill('16');
+  await page.locator('#timetable input').nth(0).click();
+  await page.locator('#timetable input').nth(0).fill('10');
+  await page.locator('#timetable input').nth(1).click();
+  await page.locator('#timetable input').nth(1).fill('12');
+  await page.locator('#timetable input').nth(2).click();
+  await page.locator('#timetable input').nth(2).fill('14');
+  await page.locator('#timetable input').nth(3).click();
+  await page.locator('#timetable input').nth(3).fill('16');
+
+  // Fill in location
   await page.getByPlaceholder('Naam van bioscoop').click();
   await page.getByPlaceholder('Naam van bioscoop').fill('str');
   await page
     .locator('#place-step-item-0', { hasText: dummyMovie.place })
     .click();
+
+  // Fill in name
   await page.getByLabel('Kies een naam').click();
   await page.getByLabel('Kies een naam').fill(dummyMovie.title);
   await page.getByRole('option', { name: dummyMovie.title }).click();
 
-  // Fill in additional steps
+  // Publish
   await page.getByRole('button', { name: 'Opslaan' }).click();
+  await page.waitForURL('**/edit');
+
+  // Fill in additional steps
   await page.getByRole('textbox', { name: 'rdw-editor' }).click();
   await page
     .getByRole('textbox', { name: 'rdw-editor' })
