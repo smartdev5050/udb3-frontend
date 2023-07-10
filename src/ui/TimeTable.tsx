@@ -440,7 +440,7 @@ const TimeTable = ({ id, className, onChange, value, ...props }: Props) => {
         onDateEndChange={handleDateEndChange}
       />
       <Stack
-        id={'timetable'}
+        id="timetable"
         forwardedAs="div"
         css={`
           display: grid;
