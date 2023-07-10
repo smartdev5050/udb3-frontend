@@ -57,6 +57,7 @@ type FormData = {
     onlineUrl: string;
     municipality: City;
     streetAndNumber: string;
+    postalCode: string;
     place: Place;
     country: Country;
   };
@@ -129,6 +130,7 @@ const parseLocationAttributes = (
         label: `${postalCode} ${addressLocality}`,
         name: addressLocality,
       },
+      postalCode: postalCode,
       place: isEvent(offer) ? offer.location : undefined,
       country: addressCountry,
       ...(isPlace(offer) && { streetAndNumber: streetAddress }),
@@ -190,6 +192,7 @@ const OfferForm = () => {
       isOnline,
       streetAndNumber,
       onlineUrl,
+      postalCode,
     } = location;
 
     if (place) {
@@ -226,13 +229,18 @@ const OfferForm = () => {
       };
     }
 
+    const zip =
+      scope === OfferTypes.PLACES && ['NL', 'DE'].includes(country)
+        ? postalCode
+        : municipality.zip;
+
     return {
       address: {
         [language]: {
           streetAddress: streetAndNumber,
           addressCountry: country,
           addressLocality: municipality.name,
-          postalCode: municipality.zip,
+          postalCode: zip,
         },
       },
     };

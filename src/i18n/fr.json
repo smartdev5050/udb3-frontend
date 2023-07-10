@@ -844,13 +844,18 @@
         "zip": "Code postal",
         "municipality": "Commune",
         "type": "Catégorie",
-        "typeInfo": "Choisissez la catégorie qui décrit le mieux ce lieu."
+        "typeInfo": "Choisissez la catégorie qui décrit le mieux ce lieu.",
+        "postalCode": {
+          "nl": "Code postal par ex. 1104CA",
+          "de": "Code postal par ex. 10115"
+        }
       },
       "errors": {
         "zip": "Le code postal est un champ obligatoire.",
         "name": "Le nom du lieu est un domaine obligatoire.",
         "streetAndNumber": "Rue est un domaine obligatoire.",
-        "type": "Catégorie est un domaine obligatoire."
+        "type": "Catégorie est un domaine obligatoire.",
+        "postalCode": "Votre code postal ne répond pas aux exigences."
       }
     }
   },

@@ -57,6 +57,9 @@ import {
   StepsConfiguration,
 } from './Steps';
 
+const GERMAN_ZIP_REGEX: RegExp = /\b\d{5}\b/;
+const DUTCH_ZIP_REGEX: RegExp = /^\d{4}([A-Za-z0-9]{2})?$/;
+
 const { publicRuntimeConfig } = getConfig();
 
 const CULTUURKUUR_LOCATION_ID = publicRuntimeConfig.cultuurKuurLocationId;
@@ -628,12 +631,16 @@ const useEditLocation = ({ scope, offerId }: UseEditArguments) => {
     if (scope === OfferTypes.PLACES) {
       if (!location.municipality || !location.streetAndNumber) return;
 
+      const postalCode = ['NL', 'DE'].includes(location.country)
+        ? location.postalCode
+        : location.municipality.zip;
+
       const address: Address = {
         [i18n.language]: {
           streetAddress: location.streetAndNumber,
           addressCountry: location.country,
           addressLocality: location.municipality.name,
-          postalCode: location.municipality.zip,
+          postalCode,
         },
       };
 
@@ -749,6 +756,7 @@ const LocationStep = ({
   chooseLabel,
   placeholderLabel,
   setValue,
+  trigger,
   watch,
   ...props
 }: PlaceStepProps) => {
@@ -1031,6 +1039,13 @@ const LocationStep = ({
             );
           }
 
+          const isPlaceAddressComplete =
+            (country === Countries.BE && field.value.streetAndNumber) ||
+            // @ts-ignore
+            (field.value.streetAndNumber &&
+              location.postalCode &&
+              !formState.errors.location?.postalCode);
+
           return renderFieldWithRecentLocations(
             <>
               <Inline alignItems="center" spacing={3} marginBottom={4}>
@@ -1073,13 +1088,18 @@ const LocationStep = ({
               )}
               {scope === OfferTypes.PLACES && (
                 <Stack>
-                  {field.value.streetAndNumber ? (
+                  {isPlaceAddressComplete ? (
                     <Inline alignItems="center" spacing={3}>
                       <Icon
                         name={Icons.CHECK_CIRCLE}
                         color={getGlobalValue('successIcon')}
                       />
-                      <Text>{field.value.streetAndNumber}</Text>
+                      <Text>
+                        {field.value.streetAndNumber}
+                        {field.value.postalCode
+                          ? `, ${field.value.postalCode}`
+                          : ''}
+                      </Text>
                       <Button
                         variant={ButtonVariants.LINK}
                         onClick={() => {
@@ -1093,22 +1113,49 @@ const LocationStep = ({
                       </Button>
                     </Inline>
                   ) : (
-                    <FormElement
-                      Component={
-                        <Input
-                          value={streetAndNumber}
-                          onBlur={() => onFieldChange({ streetAndNumber })}
-                          onChange={handleChangeStreetAndNumber}
+                    <Stack>
+                      {['NL', 'DE'].includes(location.country) && (
+                        <FormElement
+                          marginBottom={3}
+                          Component={
+                            <Input
+                              value={field.value.postalCode}
+                              onChange={(e) => {
+                                onFieldChange({
+                                  postalCode: e.target.value,
+                                });
+                              }}
+                              onBlur={() => trigger()}
+                            />
+                          }
+                          id="location-postalCode"
+                          label={t(
+                            `location.add_modal.labels.postalCode.${location.country.toLowerCase()}`,
+                          )}
+                          maxWidth="28rem"
+                          error={
+                            formState.errors.location?.postalCode &&
+                            t('location.add_modal.errors.postalCode')
+                          }
                         />
-                      }
-                      id="location-streetAndNumber"
-                      label={t('location.add_modal.labels.streetAndNumber')}
-                      maxWidth="28rem"
-                      error={
-                        formState.errors.location?.streetAndNumber &&
-                        t('location.add_modal.errors.streetAndNumber')
-                      }
-                    />
+                      )}
+                      <FormElement
+                        Component={
+                          <Input
+                            value={streetAndNumber}
+                            onBlur={() => onFieldChange({ streetAndNumber })}
+                            onChange={handleChangeStreetAndNumber}
+                          />
+                        }
+                        id="location-streetAndNumber"
+                        label={t('location.add_modal.labels.streetAndNumber')}
+                        maxWidth="28rem"
+                        error={
+                          formState.errors.location?.streetAndNumber &&
+                          t('location.add_modal.errors.streetAndNumber')
+                        }
+                      />
+                    </Stack>
                   )}
                 </Stack>
               )}
@@ -1134,10 +1181,17 @@ const locationStepConfiguration: StepsConfiguration<'location'> = {
     country: Countries.BE,
     place: undefined,
     streetAndNumber: undefined,
+    postalCode: undefined,
     municipality: undefined,
     onlineUrl: undefined,
   },
   validation: yup.lazy((value) => {
+    const url = window.location.href;
+
+    const scope = url.includes('events')
+      ? OfferTypes.EVENTS
+      : OfferTypes.PLACES;
+
     if (value.place) {
       // a location for an event
       return yup
@@ -1164,17 +1218,39 @@ const locationStepConfiguration: StepsConfiguration<'location'> = {
       return yup.object().shape({}).required();
     }
 
-    // a location for a place
-    return yup
-      .object()
-      .shape({
-        streetAndNumber: yup.string().required(),
-        country: yup.string().oneOf(Object.values(Countries)).required(),
-      })
-      .required();
+    if (value.country === Countries.NL && scope === OfferTypes.PLACES) {
+      return yup
+        .object({
+          streetAndNumber: yup.string().required(),
+          country: yup.string().oneOf(Object.values(Countries)).required(),
+          postalCode: yup.string().matches(DUTCH_ZIP_REGEX).required(),
+        })
+        .required();
+    }
+
+    if (value.country === Countries.DE && scope === OfferTypes.PLACES) {
+      return yup
+        .object({
+          streetAndNumber: yup.string().required(),
+          country: yup.string().oneOf(Object.values(Countries)).required(),
+          postalCode: yup.string().matches(GERMAN_ZIP_REGEX).required(),
+        })
+        .required();
+    }
+
+    return yup.object({
+      streetAndNumber: yup.string().required(),
+      country: yup.string().oneOf(Object.values(Countries)).required(),
+    });
   }),
 };
 
 LocationStep.defaultProps = {};
 
-export { isLocationSet, locationStepConfiguration, useEditLocation };
+export {
+  DUTCH_ZIP_REGEX,
+  GERMAN_ZIP_REGEX,
+  isLocationSet,
+  locationStepConfiguration,
+  useEditLocation,
+};

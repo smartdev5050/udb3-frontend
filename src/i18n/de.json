@@ -845,13 +845,18 @@
         "zip": "Postleitzahl",
         "municipality": "Stadt",
         "type": "Kategorie",
-        "typeInfo": "Wählen Sie eine Kategorie, die diesen Ort am besten umschreibt."
+        "typeInfo": "Wählen Sie eine Kategorie, die diesen Ort am besten umschreibt.",
+        "postalCode": {
+          "nl": "Postleitzahl beispiel 1104CA",
+          "de": "Postleitzahl beispiel 10115"
+        }
       },
       "errors": {
         "zip": "Postleitzahl ist ein Pflichtfeld.",
         "name": "Die Bezeichnung des Ortes ist ein Pflichtfeld.",
         "streetAndNumber": "Straße ist ein Pflichtfeld.",
-        "type": "Kategorie ist ein Pflichtfeld."
+        "type": "Kategorie ist ein Pflichtfeld.",
+        "postalCode": "Ihre Postleitzahl entspricht nicht den Anforderungen."
       }
     }
   },
