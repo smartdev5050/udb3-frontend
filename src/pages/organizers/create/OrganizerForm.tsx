@@ -1,6 +1,8 @@
 import { Controller } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
+import { useCreateOrganizerMutation } from '@/hooks/api/organizers';
 import { SupportedLanguages } from '@/i18n/index';
 import { useParseStepConfiguration } from '@/pages/steps/hooks/useParseStepConfiguration';
 import { getStepProps, Steps, StepsConfiguration } from '@/pages/steps/Steps';
@@ -59,27 +61,22 @@ const typeAndThemeStepConfiguration: StepsConfiguration<'nameAndUrl'> = {
 const configurations = [typeAndThemeStepConfiguration];
 
 const OrganizerForm = () => {
-  // const createOrganizer = useAddOffer({
-  //   onSuccess: async (scope, offerId) => {
-  //     const url = isMovieForm
-  //       ? `/manage/movies/${offerId}/edit`
-  //       : `/${scope}/${offerId}/edit`;
-  //     await push(url, undefined, { scroll: false });
-  //   },
-  //   convertFormDataToOffer,
-  //   label,
-  //   initialOffer,
-  // });
-
-  const addOrganizer = () => {
-    console.log('should add organizer');
-  };
-
   const { form } = useParseStepConfiguration(configurations);
+  const { t, i18n } = useTranslation();
 
-  const { handleSubmit, formState } = form;
+  const { handleSubmit, formState, getValues } = form;
 
-  console.log('formState errors', formState.errors);
+  const createOrganizerMutation = useCreateOrganizerMutation({
+    onSuccess: () => console.log('created'),
+  });
+
+  const createOrganizer = async () => {
+    await createOrganizerMutation.mutateAsync({
+      name: getValues('nameAndUrl.name'),
+      url: getValues('nameAndUrl.url'),
+      mainLanguage: i18n.language,
+    });
+  };
 
   return (
     <Page>
@@ -94,7 +91,7 @@ const OrganizerForm = () => {
         />
         <Button
           variant={ButtonVariants.SUCCESS}
-          onClick={handleSubmit(addOrganizer)}
+          onClick={handleSubmit(createOrganizer)}
         >
           Opslaan
         </Button>
