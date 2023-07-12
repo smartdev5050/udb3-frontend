@@ -10,7 +10,7 @@ import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 type UrlStepProps = StackProps & StepProps;
 
 const UrlStep = ({
-  formState,
+  formState: { errors },
   control,
   watch,
   onChange,
@@ -19,8 +19,6 @@ const UrlStep = ({
   ...props
 }: UrlStepProps) => {
   const { t, i18n } = useTranslation();
-
-  console.log({ formState });
 
   return (
     <Stack {...getStackProps(props)}>
@@ -54,7 +52,7 @@ const UrlStep = ({
                     }}
                   />
                 }
-                error="Hier komen de error messages"
+                error={errors.nameAndUrl?.url && 'Url is een verplicht veld'}
               />
             </Stack>
           );

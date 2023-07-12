@@ -5,6 +5,7 @@ import { SupportedLanguages } from '@/i18n/index';
 import { useParseStepConfiguration } from '@/pages/steps/hooks/useParseStepConfiguration';
 import { getStepProps, Steps, StepsConfiguration } from '@/pages/steps/Steps';
 import { parseSpacing } from '@/ui/Box';
+import { Button, ButtonVariants } from '@/ui/Button';
 import { Page } from '@/ui/Page';
 import { Stack } from '@/ui/Stack';
 
@@ -58,7 +59,27 @@ const typeAndThemeStepConfiguration: StepsConfiguration<'nameAndUrl'> = {
 const configurations = [typeAndThemeStepConfiguration];
 
 const OrganizerForm = () => {
+  // const createOrganizer = useAddOffer({
+  //   onSuccess: async (scope, offerId) => {
+  //     const url = isMovieForm
+  //       ? `/manage/movies/${offerId}/edit`
+  //       : `/${scope}/${offerId}/edit`;
+  //     await push(url, undefined, { scroll: false });
+  //   },
+  //   convertFormDataToOffer,
+  //   label,
+  //   initialOffer,
+  // });
+
+  const addOrganizer = () => {
+    console.log('should add organizer');
+  };
+
   const { form } = useParseStepConfiguration(configurations);
+
+  const { handleSubmit, formState } = form;
+
+  console.log('formState errors', formState.errors);
 
   return (
     <Page>
@@ -71,6 +92,12 @@ const OrganizerForm = () => {
           configurations={configurations}
           form={form}
         />
+        <Button
+          variant={ButtonVariants.SUCCESS}
+          onClick={handleSubmit(addOrganizer)}
+        >
+          Opslaan
+        </Button>
       </Page.Content>
     </Page>
   );

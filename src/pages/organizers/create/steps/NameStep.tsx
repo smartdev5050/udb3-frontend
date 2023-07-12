@@ -21,8 +21,6 @@ const NameStep = ({
 }: NameStepProps) => {
   const { t, i18n } = useTranslation();
 
-  console.log({ name });
-
   return (
     <Stack {...getStackProps(props)}>
       <Controller
@@ -55,7 +53,7 @@ const NameStep = ({
                     }}
                   />
                 }
-                error="Hier komen de error messages"
+                error={errors.nameAndUrl?.name && 'naam is een verplicht veld'}
               />
             </Stack>
           );
