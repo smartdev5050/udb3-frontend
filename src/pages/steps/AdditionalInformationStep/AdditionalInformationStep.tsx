@@ -32,6 +32,7 @@ const AdditionalInformationStepVariant = {
   MOVIE: 'movie',
   EVENT: 'event',
   PLACE: 'place',
+  ORGANIZER: 'organizer',
 } as const;
 
 const Fields = {

@@ -10,6 +10,10 @@ import { Stack } from '@/ui/Stack';
 
 import { NameStep } from './steps/NameStep';
 import { UrlStep } from './steps/UrlStep';
+import {
+  additionalInformationStepConfiguration,
+  AdditionalInformationStepVariant,
+} from '@/pages/steps/AdditionalInformationStep';
 
 const NameAndUrlStep = ({
   control,
@@ -55,7 +59,14 @@ const typeAndThemeStepConfiguration: StepsConfiguration<'nameAndUrl'> = {
   }),
 };
 
-const configurations = [typeAndThemeStepConfiguration];
+const configurations = [
+  typeAndThemeStepConfiguration,
+  {
+    ...additionalInformationStepConfiguration,
+    shouldShowStep: () => true,
+    variant: AdditionalInformationStepVariant.ORGANIZER,
+  },
+];
 
 const OrganizerForm = () => {
   const { form } = useParseStepConfiguration(configurations);
