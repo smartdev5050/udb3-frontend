@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -21,17 +22,13 @@ const NameAndUrlStep = ({
   shouldHideType,
   ...props
 }: any) => {
-  console.log({ props });
-
-  console.log({ control });
-
   return (
     <Controller
       name={name}
       control={control}
       render={() => {
         return (
-          <Stack spacing={4} maxWidth={parseSpacing(11)}>
+          <Stack spacing={4} maxWidth={parseSpacing(9)}>
             <NameStep {...getStepProps(props)} name={name} control={control} />
             <UrlStep {...getStepProps(props)} name={name} control={control} />
           </Stack>
@@ -63,20 +60,23 @@ const configurations = [typeAndThemeStepConfiguration];
 const OrganizerForm = () => {
   const { form } = useParseStepConfiguration(configurations);
   const { t, i18n } = useTranslation();
+  const { push } = useRouter();
 
   const { handleSubmit, formState, getValues } = form;
 
-  const createOrganizerMutation = useCreateOrganizerMutation({
-    onSuccess: () => console.log('created'),
-  });
+  const createOrganizerMutation = useCreateOrganizerMutation();
 
-  const createOrganizer = async () => {
-    await createOrganizerMutation.mutateAsync({
+  const createOrganizer = async ({ onSuccess }) => {
+    const { organizerId } = await createOrganizerMutation.mutateAsync({
       name: getValues('nameAndUrl.name'),
       url: getValues('nameAndUrl.url'),
       mainLanguage: i18n.language,
     });
+
+    onSuccess(organizerId);
   };
+
+  const hasErrors = Object.keys(formState.errors).length > 0;
 
   return (
     <Page>
@@ -92,8 +92,14 @@ const OrganizerForm = () => {
       </Page.Content>
       <Page.Footer>
         <Button
+          disabled={hasErrors || !formState.isDirty}
           variant={ButtonVariants.PRIMARY}
-          onClick={handleSubmit(createOrganizer)}
+          onClick={() =>
+            createOrganizer({
+              onSuccess: async (organizerId) =>
+                await push(`/organizers/${organizerId}/edit`),
+            })
+          }
         >
           Opslaan
         </Button>
