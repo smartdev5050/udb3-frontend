@@ -816,7 +816,7 @@
         "url": "Website"
       },
       "title": "Organisatie toevoegen",
-      "url_requirements": "Om organisaties in de UiTdatabank uniek te houden, vragen we elke organisatie een unieke en geldige hyperlink",
+      "url_requirements": "Om organisaties in de UiTdatabank uniek te houden, vragen we elke organisatie een unieke en geldige hyperlink.",
       "validation_messages": {
         "address": {
           "addressLocality": "Je gemeente voldoet niet aan de vereisten.",
