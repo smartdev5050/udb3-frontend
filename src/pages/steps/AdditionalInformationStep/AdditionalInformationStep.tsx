@@ -80,11 +80,21 @@ const tabConfigurations: TabConfig[] = [
     field: Fields.PRICE_INFO,
     TabContent: PriceInformation,
     shouldInvalidate: true,
+    shouldShowOn: [
+      AdditionalInformationStepVariant.EVENT,
+      AdditionalInformationStepVariant.PLACE,
+      AdditionalInformationStepVariant.MOVIE,
+    ],
   },
   {
     field: Fields.ORGANIZER,
     TabContent: OrganizerStep,
     shouldInvalidate: true,
+    shouldShowOn: [
+      AdditionalInformationStepVariant.EVENT,
+      AdditionalInformationStepVariant.PLACE,
+      AdditionalInformationStepVariant.MOVIE,
+    ],
   },
   {
     field: Fields.CONTACT_INFO,
@@ -105,7 +115,10 @@ const tabConfigurations: TabConfig[] = [
     field: Fields.LABELS,
     TabContent: LabelsStep,
     shouldInvalidate: false,
-    shouldShowOn: [AdditionalInformationStepVariant.EVENT],
+    shouldShowOn: [
+      AdditionalInformationStepVariant.EVENT,
+      AdditionalInformationStepVariant.ORGANIZER,
+    ],
   },
   {
     field: Fields.AUDIENCE,
