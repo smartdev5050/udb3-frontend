@@ -68,6 +68,7 @@ const UrlStep = ({
                 flex={2}
                 Component={
                   <Input
+                    value={field.value?.url}
                     onChange={(event) => {
                       field.onChange({
                         ...field.value,
