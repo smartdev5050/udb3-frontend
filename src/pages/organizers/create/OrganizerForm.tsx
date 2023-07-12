@@ -89,13 +89,15 @@ const OrganizerForm = () => {
           configurations={configurations}
           form={form}
         />
+      </Page.Content>
+      <Page.Footer>
         <Button
-          variant={ButtonVariants.SUCCESS}
+          variant={ButtonVariants.PRIMARY}
           onClick={handleSubmit(createOrganizer)}
         >
           Opslaan
         </Button>
-      </Page.Content>
+      </Page.Footer>
     </Page>
   );
 };
