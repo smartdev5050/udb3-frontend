@@ -959,6 +959,25 @@
       "title": "Producties"
     }
   },
+  "organizers": {
+    "create": {
+      "title": "Organisatie toevoegen",
+      "step1": {
+        "title": "Welke organisatie wil je toevoegen?",
+        "save": "Opslaan",
+        "name": "Naam",
+        "url": "Website",
+        "url_requirements": "Om organisaties in de UiTdatabank uniek te houden, vragen we elke organisatie een unieke en geldige hyperlink.",
+        "url_not_unique": "Dit adres wordt al gebruikt door de organisatie '{{organizerName}}'.",
+        "errors": {
+          "name_required": "Naam ontbreekt",
+          "url_required": "Url ontbreekt",
+          "url_matches": "Ongeldige url",
+          "url_not_unique": "Dit adres wordt al gebruikt door de organisatie '{{organizerName}}'."
+        }
+      }
+    }
+  },
   "selectionTable": {
     "rowsSelectedCount": "{{count}} rij geselecteerd",
     "rowsSelectedCount_plural": "{{count}} rijen geselecteerd"
