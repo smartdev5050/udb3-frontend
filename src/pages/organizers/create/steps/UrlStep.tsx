@@ -1,4 +1,4 @@
-import { FormEvent, useEffect } from 'react';
+import { FormEvent, useEffect, useMemo } from 'react';
 import { Controller, useWatch } from 'react-hook-form';
 import { Trans, useTranslation } from 'react-i18next';
 
@@ -11,11 +11,12 @@ import { FormElement } from '@/ui/FormElement';
 import { Input } from '@/ui/Input';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
+import { prefixUrlWithHttps } from '@/utils/url';
 
 type UrlStepProps = StackProps & StepProps;
 
 const UrlStep = ({
-  formState: { errors },
+  formState: { errors, isDirty },
   control,
   watch,
   onChange,
@@ -40,19 +41,27 @@ const UrlStep = ({
   );
 
   const existingOrganization: Organizer | undefined =
-    // @ts-expect-error
+    //@ts-expect-error
     getOrganizersByWebsiteQuery.data?.member?.[0];
-  const isUrlUnique = !existingOrganization;
 
   const isUrlAlreadyTaken = errors.nameAndUrl?.url?.type === 'not_unique';
 
+  console.log({ existingOrganization });
+
   useEffect(() => {
-    if (!isUrlUnique) {
+    if (existingOrganization) {
+      console.log('should set error');
       setError('nameAndUrl.url', { type: 'not_unique' });
       return;
     }
     clearErrors('nameAndUrl.url');
-  }, [isUrlUnique, setError, clearErrors]);
+  }, [
+    existingOrganization,
+    // @ts-expect-error
+    getOrganizersByWebsiteQuery.data,
+    setError,
+    clearErrors,
+  ]);
 
   return (
     <Stack {...getStackProps(props)}>
@@ -63,7 +72,7 @@ const UrlStep = ({
           return (
             <Stack spacing={2}>
               <FormElement
-                label="Website"
+                label={t('organizers.create.step1.url')}
                 id="organizer-url"
                 flex={2}
                 Component={
@@ -76,18 +85,19 @@ const UrlStep = ({
                       });
                     }}
                     onBlur={(event: FormEvent<HTMLInputElement>) => {
+                      const newValue = (event.target as HTMLInputElement).value;
                       field.onChange({
                         ...field.value,
-                        url: (event.target as HTMLInputElement).value,
+                        url: prefixUrlWithHttps(newValue),
                       });
                     }}
                   />
                 }
                 info={
-                  isUrlAlreadyTaken && existingOrganization ? (
+                  isDirty && isUrlAlreadyTaken && existingOrganization ? (
                     <Alert variant={AlertVariants.WARNING}>
                       <Trans
-                        i18nKey={`organizer.add.validation_messages.url_not_unique`}
+                        i18nKey={`organizers.create.step1.url_not_unique`}
                         values={{
                           organizerName: getLanguageObjectOrFallback(
                             existingOrganization?.name,
@@ -99,12 +109,16 @@ const UrlStep = ({
                     </Alert>
                   ) : (
                     <Alert variant={AlertVariants.PRIMARY}>
-                      {t('organizer.add.url_requirements')}
+                      {t('organizers.create.step1.url_requirements')}
                     </Alert>
                   )
                 }
                 error={
-                  errors.nameAndUrl?.url.type === 'required' && 'Verplicht veld'
+                  errors.nameAndUrl &&
+                  errors.nameAndUrl?.url?.type !== 'not_unique' &&
+                  t(
+                    `organizers.create.step1.errors.url_${errors.nameAndUrl?.url.type}`,
+                  )
                 }
               />
             </Stack>
