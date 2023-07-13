@@ -7,5 +7,7 @@ const OfferTypes = {
 
 type OfferType = Values<typeof OfferTypes>;
 
-export type { OfferType };
+type Scope = OfferType | 'organizers';
+
+export type { OfferType, Scope };
 export { OfferTypes };

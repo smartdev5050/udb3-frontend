@@ -4,7 +4,7 @@ import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
-import { OfferType } from '@/constants/OfferType';
+import { OfferType, Scope } from '@/constants/OfferType';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { LabelsStep } from '@/pages/steps/AdditionalInformationStep/LabelsStep';
 import type { Values } from '@/types/Values';
@@ -50,7 +50,7 @@ type Field = Values<typeof Fields>;
 
 type TabContentProps = {
   offerId?: string;
-  scope?: OfferType;
+  scope?: Scope;
   onSuccessfulChange: (
     data?: any,
   ) => typeof data extends any ? void : Promise<void>;

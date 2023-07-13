@@ -9,7 +9,7 @@ import type {
 } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { OfferType, OfferTypes } from '@/constants/OfferType';
+import { OfferType, OfferTypes, Scope } from '@/constants/OfferType';
 import { SupportedLanguage } from '@/i18n/index';
 import { Values } from '@/types/Values';
 import type { BoxProps } from '@/ui/Box';
@@ -42,17 +42,14 @@ type StepsConfiguration<
   defaultValue?: DefaultValues<FormDataUnion>[TName];
   step?: number;
   title: (
-    data: { t: TFunction; scope: OfferType } & UseFormReturn<
-      FormDataUnion,
-      any
-    >,
+    data: { t: TFunction; scope: Scope } & UseFormReturn<FormDataUnion, any>,
   ) => string;
   variant?: string;
   validation?: any;
   shouldShowStep?: (
     data: UseFormReturn<FormDataUnion> & {
       offerId?: string;
-      scope?: OfferType;
+      scope?: Scope;
     },
   ) => boolean;
   stepProps?: Record<string, unknown>;
@@ -129,7 +126,7 @@ type StepProps = UseFormReturn<FormDataUnion> & {
 };
 
 type StepsProps = {
-  scope?: OfferType;
+  scope?: Scope;
   offerId?: string;
   mainLanguage: SupportedLanguage;
   form: UseFormReturn<FormDataUnion>;

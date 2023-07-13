@@ -1,7 +1,8 @@
 import getConfig from 'next/config';
 import { useQuery } from 'react-query';
 
-type TermScope = 'events' | 'places';
+import { Scope } from '@/constants/OfferType';
+
 type TermDomain = 'eventtype' | 'theme' | 'facility';
 
 type Term = {
@@ -13,7 +14,7 @@ type Term = {
     de: string;
     en: string;
   };
-  scope: TermScope[];
+  scope: Scope[];
 };
 
 type EventType = Term & {

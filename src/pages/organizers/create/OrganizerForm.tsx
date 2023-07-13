@@ -82,7 +82,10 @@ const OrganizerForm = (props) => {
 
   const { handleSubmit, formState, getValues, reset } = form;
 
-  const organizerId = useMemo(() => query.organizerId, [query.organizerId]);
+  const organizerId = useMemo(
+    () => query.organizerId as string,
+    [query.organizerId],
+  );
 
   const convertOrganizerToFormData = (organizer: Organizer) => {
     return {
@@ -100,7 +103,6 @@ const OrganizerForm = (props) => {
 
   // TODO better type query
   const getOrganizerByIdQuery = useGetOrganizerByIdQuery(
-    // @ts-expect-error
     { id: organizerId },
     {
       onSuccess: (organizer: Organizer) => {

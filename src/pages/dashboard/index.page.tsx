@@ -59,10 +59,9 @@ import { parseOfferId } from '@/utils/parseOfferId';
 import { parseOfferType } from '@/utils/parseOfferType';
 
 import { NewsletterSignupForm } from './NewsletterSingupForm';
+import { Scope } from '@/constants/OfferType';
 
 const { publicRuntimeConfig } = getConfig();
-
-type TabOptions = 'events' | 'places' | 'organizers';
 
 type Item = Event | Place | Organizer;
 
@@ -517,7 +516,7 @@ const Dashboard = (): any => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [toBeDeletedItem, setToBeDeletedItem] = useState<Item>();
 
-  const tab = (query?.tab as TabOptions) ?? 'events';
+  const tab = (query?.tab as Scope) ?? 'events';
   const page = parseInt((query?.page as string) ?? '1');
   const sort = (query?.sort as string) ?? 'created_desc';
 
@@ -539,7 +538,7 @@ const Dashboard = (): any => {
     [tab],
   );
 
-  const handleSelectTab = async (tabKey: TabOptions) =>
+  const handleSelectTab = async (tabKey: Scope) =>
     router.push(
       {
         pathname: `/dashboard`,
@@ -669,7 +668,7 @@ const Dashboard = (): any => {
               </SelectWithLabel>
             )}
           </Inline>
-          <Tabs<TabOptions>
+          <Tabs<Scope>
             activeKey={tab}
             onSelect={handleSelectTab}
             activeBackgroundColor="white"

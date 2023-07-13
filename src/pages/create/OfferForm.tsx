@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { OfferTypes } from '@/constants/OfferType';
+import { OfferTypes, Scope } from '@/constants/OfferType';
 import { SupportedLanguage, SupportedLanguages } from '@/i18n/index';
 import {
   additionalInformationStepConfiguration,
@@ -41,8 +41,6 @@ import { parseOfferId } from '@/utils/parseOfferId';
 import { City } from '../CityPicker';
 import { FormDataUnion } from '../steps/Steps';
 import { Video } from '../VideoUploadBox';
-
-type Scope = 'events' | 'places';
 
 type FormData = {
   description?: any;
