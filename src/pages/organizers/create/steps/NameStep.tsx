@@ -3,7 +3,6 @@ import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { StepProps } from '@/pages/steps/Steps';
-import { parseSpacing } from '@/ui/Box';
 import { FormElement } from '@/ui/FormElement';
 import { Input } from '@/ui/Input';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
@@ -54,7 +53,10 @@ const NameStep = ({
                     }}
                   />
                 }
-                error={errors.nameAndUrl?.name && 'naam is een verplicht veld'}
+                error={
+                  errors.nameAndUrl?.name?.type === 'required' &&
+                  t('organizers.create.step1.errors.name_required')
+                }
               />
             </Stack>
           );

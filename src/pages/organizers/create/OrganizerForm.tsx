@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 import React, { useMemo } from 'react';
-import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
+import { URL_REGEX } from '@/constants/Regex';
 import {
   useCreateOrganizerMutation,
   useGetOrganizerByIdQuery,
@@ -14,46 +14,18 @@ import {
   AdditionalInformationStepVariant,
 } from '@/pages/steps/AdditionalInformationStep';
 import { useParseStepConfiguration } from '@/pages/steps/hooks/useParseStepConfiguration';
-import { getStepProps, Steps, StepsConfiguration } from '@/pages/steps/Steps';
+import { Steps, StepsConfiguration } from '@/pages/steps/Steps';
 import { Organizer } from '@/types/Organizer';
-import { parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Page } from '@/ui/Page';
-import { Stack } from '@/ui/Stack';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 
-import { NameStep } from './steps/NameStep';
-import { UrlStep } from './steps/UrlStep';
-
-const NameAndUrlStep = ({
-  control,
-  name,
-  onChange,
-  shouldHideType,
-  ...props
-}: any) => {
-  return (
-    <Controller
-      name={name}
-      control={control}
-      render={() => {
-        return (
-          <Stack spacing={4} maxWidth={parseSpacing(9)}>
-            <NameStep {...getStepProps(props)} name={name} control={control} />
-            <UrlStep {...getStepProps(props)} name={name} control={control} />
-          </Stack>
-        );
-      }}
-    />
-  );
-};
-
-NameAndUrlStep.defaultProps = {};
+import { NameAndUrlStep } from './steps/NameAndUrlStep';
 
 const typeAndThemeStepConfiguration: StepsConfiguration<'nameAndUrl'> = {
   Component: NameAndUrlStep,
   name: 'nameAndUrl',
-  title: () => 'Welke organisatie wil je toevoegen?',
+  title: ({ t }) => t('organizers.create.step1.title'),
   shouldShowStep: () => true,
   defaultValue: {
     name: '',
@@ -61,7 +33,7 @@ const typeAndThemeStepConfiguration: StepsConfiguration<'nameAndUrl'> = {
   },
   validation: yup.object({
     name: yup.string().required(),
-    url: yup.string().required(),
+    url: yup.string().matches(URL_REGEX).required(),
   }),
 };
 
@@ -106,7 +78,6 @@ const OrganizerForm = (props) => {
     { id: organizerId },
     {
       onSuccess: (organizer: Organizer) => {
-        console.log('in on success');
         reset(convertOrganizerToFormData(organizer), {
           keepDirty: true,
         });
@@ -131,10 +102,17 @@ const OrganizerForm = (props) => {
 
   const hasErrors = Object.keys(formState.errors).length > 0;
 
+  const onSuccess = () => {
+    createOrganizer({
+      onSuccess: async (organizerId) =>
+        await push(`/organizers/${organizerId}/edit`),
+    });
+  };
+
   return (
     <Page>
       <Page.Title spacing={3} alignItems="center">
-        Organisatie toevoegen
+        {t('organizers.create.title')}
       </Page.Title>
       <Page.Content spacing={5} alignItems="flex-start">
         <Steps
@@ -150,14 +128,9 @@ const OrganizerForm = (props) => {
         <Button
           disabled={hasErrors || !formState.isDirty}
           variant={ButtonVariants.PRIMARY}
-          onClick={() =>
-            createOrganizer({
-              onSuccess: async (organizerId) =>
-                await push(`/organizers/${organizerId}/edit`),
-            })
-          }
+          onClick={handleSubmit(onSuccess)}
         >
-          {t('create.actions.publish')}
+          {t('organizers.create.step1.save')}
         </Button>
       </Page.Footer>
     </Page>

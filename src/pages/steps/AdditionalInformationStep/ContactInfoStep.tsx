@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
+import { EMAIL_REGEX, PHONE_REGEX, URL_REGEX } from '@/constants/Regex';
 import {
   useAddOfferContactPointMutation,
   useGetOfferByIdQuery,
@@ -35,19 +36,16 @@ type NewContactInfo = {
   value: string;
 };
 
-const EMAIL_REGEX: RegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/;
-const URL_REGEX: RegExp =
-  /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?!&\/=]*)$/;
-const PHONE_REGEX: RegExp = /^[0-9\/\-_.+ ]{0,15}$/;
-
 const isValidEmail = (email: string) => {
   return (
     typeof email === 'undefined' || email === '' || EMAIL_REGEX.test(email)
   );
 };
+
 const isValidUrl = (url: string) => {
   return typeof url === 'undefined' || url === '' || URL_REGEX.test(url);
 };
+
 const isValidPhone = (phone: string) => {
   return (
     typeof phone === 'undefined' || phone === '' || PHONE_REGEX.test(phone)
