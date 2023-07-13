@@ -960,6 +960,24 @@
       "title": "Produktionen"
     }
   },
+  "organizers": {
+    "create": {
+      "title": "Organisation hinzufügen",
+      "step1": {
+        "title": "Welche Organisation möchten Sie hinzufügen?",
+        "save": "Speichern",
+        "name": "Name",
+        "url": "Website",
+        "url_requirements": "Um Organisationen in der UiT-Datenbank einzigartig zu halten, bitten wir jede Organisation um einen eindeutigen und gültigen Hyperlink",
+        "errors": {
+          "name_required": "Name fehlt",
+          "url_required": "URL fehlt",
+          "url_matches": "Ungültige URL",
+          "url_not_unique": "Diese Adresse wird bereits von der Organisation „{{organizerName}}“ verwendet."
+        }
+      }
+    }
+  },
   "selectionTable": {
     "rowsSelectedCount": "{{count}} Reihe ausgewählt",
     "rowsSelectedCount_plural": "{{count}} Reihen ausgewählt"

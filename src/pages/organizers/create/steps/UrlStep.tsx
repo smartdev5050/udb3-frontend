@@ -97,7 +97,7 @@ const UrlStep = ({
                   isDirty && isUrlAlreadyTaken && existingOrganization ? (
                     <Alert variant={AlertVariants.WARNING}>
                       <Trans
-                        i18nKey={`organizers.create.step1.url_not_unique`}
+                        i18nKey={`organizers.create.step1.errors.url_not_unique`}
                         values={{
                           organizerName: getLanguageObjectOrFallback(
                             existingOrganization?.name,

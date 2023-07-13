@@ -968,7 +968,6 @@
         "name": "Naam",
         "url": "Website",
         "url_requirements": "Om organisaties in de UiTdatabank uniek te houden, vragen we elke organisatie een unieke en geldige hyperlink.",
-        "url_not_unique": "Dit adres wordt al gebruikt door de organisatie '{{organizerName}}'.",
         "errors": {
           "name_required": "Naam ontbreekt",
           "url_required": "Url ontbreekt",

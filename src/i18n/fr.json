@@ -959,6 +959,24 @@
       "title": "Productions"
     }
   },
+  "organizers": {
+    "create": {
+      "title": "Ajouter une organisation",
+      "step1": {
+        "title": "Quelle organisation voulez-vous ajouter ? ",
+        "save": "Enregistrer",
+        "name": "Nom",
+        "url": "Site web",
+        "url_requirements": "Pour garder les organisations dans la base de données UiT uniques, nous demandons à chaque organisation un lien hypertexte unique et valide",
+        "errors": {
+          "name_required": "Nom manquant",
+          "url_required": "URL manquant",
+          "url_matches": "URL invalide",
+          "url_not_unique": "Cette adresse est déjà utilisée par l'organisation '{{organizerName}}'."
+        }
+      }
+    }
+  },
   "selectionTable": {
     "rowsSelectedCount": "{{count}} ligne sélectionnée",
     "rowsSelectedCount_plural": "{{count}} lignes sélectionnées"
