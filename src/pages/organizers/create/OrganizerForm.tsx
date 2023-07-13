@@ -70,11 +70,11 @@ const configurations = [
     ...additionalInformationStepConfiguration,
     shouldShowStep: () => true,
     variant: AdditionalInformationStepVariant.ORGANIZER,
-    scope: 'organizers',
   },
 ];
 
 const OrganizerForm = (props) => {
+  const scope = 'organizers';
   const { form } = useParseStepConfiguration(configurations);
   const { t, i18n } = useTranslation();
   const { push, query } = useRouter();
@@ -100,9 +100,7 @@ const OrganizerForm = (props) => {
   // TODO better type query
   const getOrganizerByIdQuery = useGetOrganizerByIdQuery(
     // @ts-expect-error
-    {
-      id: organizerId,
-    },
+    { id: organizerId },
     {
       onSuccess: (organizer: Organizer) => {
         console.log('in on success');
@@ -137,8 +135,11 @@ const OrganizerForm = (props) => {
       </Page.Title>
       <Page.Content spacing={5} alignItems="flex-start">
         <Steps
+          scope={scope}
+          offerId={organizerId}
           mainLanguage={SupportedLanguages.NL}
           configurations={configurations}
+          onChangeSuccess={() => ({})}
           form={form}
         />
       </Page.Content>
