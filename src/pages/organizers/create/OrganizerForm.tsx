@@ -1,22 +1,26 @@
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
-import { useCreateOrganizerMutation } from '@/hooks/api/organizers';
-import { SupportedLanguages } from '@/i18n/index';
+import {
+  useCreateOrganizerMutation,
+  useGetOrganizerByIdQuery,
+} from '@/hooks/api/organizers';
+import { SupportedLanguage, SupportedLanguages } from '@/i18n/index';
 import {
   additionalInformationStepConfiguration,
   AdditionalInformationStepVariant,
 } from '@/pages/steps/AdditionalInformationStep';
 import { useParseStepConfiguration } from '@/pages/steps/hooks/useParseStepConfiguration';
 import { getStepProps, Steps, StepsConfiguration } from '@/pages/steps/Steps';
+import { Organizer } from '@/types/Organizer';
 import { parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Page } from '@/ui/Page';
 import { Stack } from '@/ui/Stack';
-
+import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 import { NameStep } from './steps/NameStep';
 import { UrlStep } from './steps/UrlStep';
 
@@ -27,17 +31,13 @@ const NameAndUrlStep = ({
   shouldHideType,
   ...props
 }: any) => {
-  console.log({ props });
-
-  console.log({ control });
-
   return (
     <Controller
       name={name}
       control={control}
       render={() => {
         return (
-          <Stack spacing={4} maxWidth={parseSpacing(11)}>
+          <Stack spacing={4} maxWidth={parseSpacing(9)}>
             <NameStep {...getStepProps(props)} name={name} control={control} />
             <UrlStep {...getStepProps(props)} name={name} control={control} />
           </Stack>
@@ -75,17 +75,60 @@ const configurations = [
 ];
 
 const OrganizerForm = (props) => {
-  const { t } = useTranslation();
   const { form } = useParseStepConfiguration(configurations);
-  const { query, push, pathname, reload } = useRouter();
-  const organizerId = query?.organizerId;
+  const { t, i18n } = useTranslation();
+  const { push, query } = useRouter();
 
-  const scope = 'organizers';
-  const createOrganizer = useCreateOrganizerMutation({
-    onSuccess: () => push(`/${scope}/${organizerId}/preview`),
-  });
+  const { handleSubmit, formState, getValues, reset } = form;
 
-  console.log(form.getValues());
+  const organizerId = useMemo(() => query.organizerId, [query.organizerId]);
+
+  const convertOrganizerToFormData = (organizer: Organizer) => {
+    return {
+      nameAndUrl: {
+        name: getLanguageObjectOrFallback(
+          organizer.name,
+          i18n.language as SupportedLanguage,
+        ) as string,
+        url: organizer.url,
+      },
+    };
+  };
+
+  // const toast = useToast(toastConfiguration);
+
+  // TODO better type query
+  const getOrganizerByIdQuery = useGetOrganizerByIdQuery(
+    // @ts-expect-error
+    {
+      id: organizerId,
+    },
+    {
+      onSuccess: (organizer: Organizer) => {
+        console.log('in on success');
+        reset(convertOrganizerToFormData(organizer), {
+          keepDirty: true,
+        });
+      },
+    },
+  );
+
+  // @ts-expect-error
+  const organizer = getOrganizerByIdQuery?.data;
+
+  const createOrganizerMutation = useCreateOrganizerMutation();
+
+  const createOrganizer = async ({ onSuccess }) => {
+    const { organizerId } = await createOrganizerMutation.mutateAsync({
+      name: getValues('nameAndUrl.name'),
+      url: getValues('nameAndUrl.url'),
+      mainLanguage: i18n.language,
+    });
+
+    onSuccess(organizerId);
+  };
+
+  const hasErrors = Object.keys(formState.errors).length > 0;
 
   return (
     <Page>
@@ -101,14 +144,14 @@ const OrganizerForm = (props) => {
       </Page.Content>
       <Page.Footer>
         <Button
-          variant={ButtonVariants.SUCCESS}
-          onClick={async () =>
-            await createOrganizer.mutateAsync({
-              name: form.getValues().nameAndUrl.name,
-              url: form.getValues().nameAndUrl.url,
+          disabled={hasErrors || !formState.isDirty}
+          variant={ButtonVariants.PRIMARY}
+          onClick={() =>
+            createOrganizer({
+              onSuccess: async (organizerId) =>
+                await push(`/organizers/${organizerId}/edit`),
             })
           }
-          key="publish"
         >
           {t('create.actions.publish')}
         </Button>
