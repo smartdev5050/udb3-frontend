@@ -9,6 +9,7 @@ import { dehydrate } from 'react-query/hydration';
 import { css } from 'styled-components';
 
 import { CalendarType } from '@/constants/CalendarType';
+import { Scope } from '@/constants/OfferType';
 import { QueryStatus } from '@/hooks/api/authenticated-query';
 import {
   useDeleteEventByIdMutation,
@@ -59,7 +60,6 @@ import { parseOfferId } from '@/utils/parseOfferId';
 import { parseOfferType } from '@/utils/parseOfferType';
 
 import { NewsletterSignupForm } from './NewsletterSingupForm';
-import { Scope } from '@/constants/OfferType';
 
 const { publicRuntimeConfig } = getConfig();
 
