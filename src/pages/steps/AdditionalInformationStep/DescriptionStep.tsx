@@ -61,20 +61,15 @@ const DescriptionInfo = ({
         />
       )}
       <Text variant={TextVariants.MUTED}>
-        {description?.length < IDEAL_DESCRIPTION_LENGTH
-          ? t(
-              'create.additionalInformation.description.progress_info.not_complete',
-              {
-                idealLength: IDEAL_DESCRIPTION_LENGTH,
-                count: IDEAL_DESCRIPTION_LENGTH - description?.length,
-              },
-            )
-          : t(
-              'create.additionalInformation.description.progress_info.complete',
-              {
-                idealLength: IDEAL_DESCRIPTION_LENGTH,
-              },
-            )}
+        {t(
+          description?.length < IDEAL_DESCRIPTION_LENGTH
+            ? 'create.additionalInformation.description.progress_info.not_complete'
+            : 'create.additionalInformation.description.progress_info.complete',
+          {
+            idealLength: IDEAL_DESCRIPTION_LENGTH,
+            count: IDEAL_DESCRIPTION_LENGTH - description?.length,
+          },
+        )}
       </Text>
       <Button variant={ButtonVariants.LINK} onClick={onClear}>
         {t('create.additionalInformation.description.clear')}
@@ -97,19 +92,17 @@ const DescriptionTips = ({
       : `create*additionalInformation*description*tips*${eventTypeId}`;
 
   return (
-    eventTypeId ||
-    scope ===
-      ScopeTypes.ORGANIZERS(
-        <Alert
-          css={`
-            margin-top: 1.86rem;
-          `}
-        >
-          {t(translationKey, {
-            keySeparator: '*',
-          })}
-        </Alert>,
-      )
+    (eventTypeId || scope === ScopeTypes.ORGANIZERS) && (
+      <Alert
+        css={`
+          margin-top: 1.86rem;
+        `}
+      >
+        {t(translationKey, {
+          keySeparator: '*',
+        })}
+      </Alert>
+    )
   );
 };
 
