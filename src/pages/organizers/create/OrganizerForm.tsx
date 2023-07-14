@@ -21,6 +21,7 @@ import { Page } from '@/ui/Page';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 
 import { NameAndUrlStep } from './steps/NameAndUrlStep';
+import { ScopeTypes } from '@/constants/OfferType';
 
 const typeAndThemeStepConfiguration: StepsConfiguration<'nameAndUrl'> = {
   Component: NameAndUrlStep,
@@ -47,7 +48,7 @@ const configurations = [
 ];
 
 const OrganizerForm = (props) => {
-  const scope = 'organizers';
+  const scope = ScopeTypes.ORGANIZERS;
   const { form } = useParseStepConfiguration(configurations);
   const { t, i18n } = useTranslation();
   const { push, query } = useRouter();

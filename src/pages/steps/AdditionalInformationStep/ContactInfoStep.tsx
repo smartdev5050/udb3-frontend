@@ -18,6 +18,7 @@ import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { prefixUrlWithHttps } from '@/utils/url';
 
 import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
+import { ScopeTypes } from '@/constants/OfferType';
 
 const ContactInfoTypes = {
   EMAIL: 'email',
@@ -80,7 +81,9 @@ const ContactInfoStep = ({
   const eventId = offerId;
 
   const queryForScope =
-    scope === 'organizers' ? useGetOrganizerByIdQuery : useGetOfferByIdQuery;
+    scope === ScopeTypes.ORGANIZERS
+      ? useGetOrganizerByIdQuery
+      : useGetOfferByIdQuery;
   const getEntityByIdQuery = queryForScope({ id: offerId, scope });
 
   const [contactInfoState, setContactInfoState] = useState<NewContactInfo[]>(
