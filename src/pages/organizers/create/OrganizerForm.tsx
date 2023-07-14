@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
@@ -9,6 +9,10 @@ import {
   useGetOrganizerByIdQuery,
 } from '@/hooks/api/organizers';
 import { SupportedLanguage, SupportedLanguages } from '@/i18n/index';
+import {
+  additionalInformationStepConfiguration,
+  AdditionalInformationStepVariant,
+} from '@/pages/steps/AdditionalInformationStep';
 import { useParseStepConfiguration } from '@/pages/steps/hooks/useParseStepConfiguration';
 import { Steps, StepsConfiguration } from '@/pages/steps/Steps';
 import { Organizer } from '@/types/Organizer';
@@ -33,16 +37,27 @@ const typeAndThemeStepConfiguration: StepsConfiguration<'nameAndUrl'> = {
   }),
 };
 
-const configurations = [typeAndThemeStepConfiguration];
+const configurations = [
+  typeAndThemeStepConfiguration,
+  {
+    ...additionalInformationStepConfiguration,
+    shouldShowStep: () => true,
+    variant: AdditionalInformationStepVariant.ORGANIZER,
+  },
+];
 
-const OrganizerForm = () => {
+const OrganizerForm = (props) => {
+  const scope = 'organizers';
   const { form } = useParseStepConfiguration(configurations);
   const { t, i18n } = useTranslation();
   const { push, query } = useRouter();
 
   const { handleSubmit, formState, getValues, reset } = form;
 
-  const organizerId = useMemo(() => query.organizerId, [query.organizerId]);
+  const organizerId = useMemo(
+    () => query.organizerId as string,
+    [query.organizerId],
+  );
 
   const convertOrganizerToFormData = (organizer: Organizer) => {
     return {
@@ -60,10 +75,7 @@ const OrganizerForm = () => {
 
   // TODO better type query
   const getOrganizerByIdQuery = useGetOrganizerByIdQuery(
-    // @ts-expect-error
-    {
-      id: organizerId,
-    },
+    { id: organizerId },
     {
       onSuccess: (organizer: Organizer) => {
         reset(convertOrganizerToFormData(organizer), {
@@ -104,8 +116,11 @@ const OrganizerForm = () => {
       </Page.Title>
       <Page.Content spacing={5} alignItems="flex-start">
         <Steps
+          scope={scope}
+          offerId={organizerId}
           mainLanguage={SupportedLanguages.NL}
           configurations={configurations}
+          onChangeSuccess={() => ({})}
           form={form}
         />
       </Page.Content>

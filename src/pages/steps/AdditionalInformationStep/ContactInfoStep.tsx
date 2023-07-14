@@ -7,6 +7,7 @@ import {
   useAddOfferContactPointMutation,
   useGetOfferByIdQuery,
 } from '@/hooks/api/offers';
+import { useGetOrganizerByIdQuery } from '@/hooks/api/organizers';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Icons } from '@/ui/Icon';
@@ -78,7 +79,9 @@ const ContactInfoStep = ({
   // TODO: refactor
   const eventId = offerId;
 
-  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId, scope });
+  const queryForScope =
+    scope === 'organizers' ? useGetOrganizerByIdQuery : useGetOfferByIdQuery;
+  const getEntityByIdQuery = queryForScope({ id: offerId, scope });
 
   const [contactInfoState, setContactInfoState] = useState<NewContactInfo[]>(
     [],
@@ -90,7 +93,7 @@ const ContactInfoStep = ({
 
   const contactInfo =
     // @ts-expect-error
-    getOfferByIdQuery.data?.contactPoint ?? organizerContactInfo;
+    getEntityByIdQuery.data?.contactPoint ?? organizerContactInfo;
 
   useEffect(() => {
     if (!contactInfo) return;

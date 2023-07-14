@@ -128,12 +128,11 @@ const getOrganizerById = async ({ headers, id }: GetOrganizerByIdArguments) => {
 };
 
 const useGetOrganizerByIdQuery = (
-  { req, queryClient, id },
+  { id, ...options },
   configuration: UseQueryOptions = {},
 ) =>
   useAuthenticatedQuery({
-    req,
-    queryClient,
+    ...options,
     queryKey: ['organizers'],
     queryFn: getOrganizerById,
     queryArguments: { id },

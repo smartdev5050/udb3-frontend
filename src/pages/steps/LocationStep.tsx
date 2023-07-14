@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { EventTypes } from '@/constants/EventTypes';
-import { OfferType, OfferTypes } from '@/constants/OfferType';
+import { OfferType, OfferTypes, Scope } from '@/constants/OfferType';
 import {
   useChangeAttendanceModeMutation,
   useChangeAudienceMutation,
@@ -728,7 +728,7 @@ type PlaceStepProps = StackProps &
   } & { offerId?: string };
 
 const isLocationSet = (
-  scope: OfferType,
+  scope: Scope,
   location: FormDataUnion['location'],
   formState,
 ) => {

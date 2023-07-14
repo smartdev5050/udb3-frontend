@@ -4,7 +4,7 @@ import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
-import { OfferType } from '@/constants/OfferType';
+import { OfferType, Scope } from '@/constants/OfferType';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { LabelsStep } from '@/pages/steps/AdditionalInformationStep/LabelsStep';
 import type { Values } from '@/types/Values';
@@ -32,6 +32,7 @@ const AdditionalInformationStepVariant = {
   MOVIE: 'movie',
   EVENT: 'event',
   PLACE: 'place',
+  ORGANIZER: 'organizer',
 } as const;
 
 const Fields = {
@@ -49,7 +50,7 @@ type Field = Values<typeof Fields>;
 
 type TabContentProps = {
   offerId?: string;
-  scope?: OfferType;
+  scope?: Scope;
   onSuccessfulChange: (
     data?: any,
   ) => typeof data extends any ? void : Promise<void>;
@@ -79,11 +80,21 @@ const tabConfigurations: TabConfig[] = [
     field: Fields.PRICE_INFO,
     TabContent: PriceInformation,
     shouldInvalidate: true,
+    shouldShowOn: [
+      AdditionalInformationStepVariant.EVENT,
+      AdditionalInformationStepVariant.PLACE,
+      AdditionalInformationStepVariant.MOVIE,
+    ],
   },
   {
     field: Fields.ORGANIZER,
     TabContent: OrganizerStep,
     shouldInvalidate: true,
+    shouldShowOn: [
+      AdditionalInformationStepVariant.EVENT,
+      AdditionalInformationStepVariant.PLACE,
+      AdditionalInformationStepVariant.MOVIE,
+    ],
   },
   {
     field: Fields.CONTACT_INFO,
@@ -104,7 +115,10 @@ const tabConfigurations: TabConfig[] = [
     field: Fields.LABELS,
     TabContent: LabelsStep,
     shouldInvalidate: false,
-    shouldShowOn: [AdditionalInformationStepVariant.EVENT],
+    shouldShowOn: [
+      AdditionalInformationStepVariant.EVENT,
+      AdditionalInformationStepVariant.ORGANIZER,
+    ],
   },
   {
     field: Fields.AUDIENCE,
