@@ -27,6 +27,8 @@ import { Breakpoints } from '@/ui/theme';
 
 import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
 import { Scope, ScopeTypes } from '@/constants/OfferType';
+import { useGetEntityByIdAndScope } from '@/hooks/api/scope';
+import { Organizer } from '@/types/Organizer';
 
 const htmlToDraft =
   typeof window === 'object' && require('html-to-draftjs').default;
@@ -126,10 +128,10 @@ const DescriptionStep = ({
     [editorState],
   );
 
-  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId, scope });
+  const getOfferByIdQuery = useGetEntityByIdAndScope({ id: offerId, scope });
 
   // @ts-expect-error
-  const offer: Event | Place | undefined = getOfferByIdQuery.data;
+  const offer: Event | Place | Organizer | undefined = getOfferByIdQuery.data;
 
   useEffect(() => {
     const newDescription = offer?.description?.[i18n.language];
@@ -153,7 +155,7 @@ const DescriptionStep = ({
   }, [offer?.description, offer?.mainLanguage, i18n.language]);
 
   const eventTypeId = useMemo(() => {
-    return offer?.terms.find((term) => term.domain === 'eventtype')?.id!;
+    return offer?.terms?.find((term) => term.domain === 'eventtype')?.id!;
   }, [offer?.terms]);
 
   const changeDescriptionMutation = useChangeOfferDescriptionMutation({
