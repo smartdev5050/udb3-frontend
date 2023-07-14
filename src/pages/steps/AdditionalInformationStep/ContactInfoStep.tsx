@@ -19,6 +19,7 @@ import { prefixUrlWithHttps } from '@/utils/url';
 
 import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
 import { ScopeTypes } from '@/constants/OfferType';
+import { useGetEntityByIdAndScope } from '@/hooks/api/scope';
 
 const ContactInfoTypes = {
   EMAIL: 'email',
@@ -79,12 +80,7 @@ const ContactInfoStep = ({
 
   // TODO: refactor
   const eventId = offerId;
-
-  const queryForScope =
-    scope === ScopeTypes.ORGANIZERS
-      ? useGetOrganizerByIdQuery
-      : useGetOfferByIdQuery;
-  const getEntityByIdQuery = queryForScope({ id: offerId, scope });
+  const getEntityByIdQuery = useGetEntityByIdAndScope({ id: offerId, scope });
 
   const [contactInfoState, setContactInfoState] = useState<NewContactInfo[]>(
     [],
