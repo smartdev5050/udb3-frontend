@@ -26,6 +26,7 @@ import { Text, TextVariants } from '@/ui/Text';
 import { Breakpoints } from '@/ui/theme';
 
 import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
+import { Scope, ScopeTypes } from '@/constants/OfferType';
 
 const htmlToDraft =
   typeof window === 'object' && require('html-to-draftjs').default;
@@ -79,6 +80,36 @@ const DescriptionInfo = ({
         {t('create.additionalInformation.description.clear')}
       </Button>
     </Stack>
+  );
+};
+
+const DescriptionTips = ({
+  scope,
+  eventTypeId,
+}: {
+  scope: Scope;
+  eventTypeId: string;
+}) => {
+  const { t, i18n } = useTranslation();
+  const translationKey =
+    scope === ScopeTypes.ORGANIZERS
+      ? 'organizers*create*step2*description_tips'
+      : `create*additionalInformation*description*tips*${eventTypeId}`;
+
+  return (
+    eventTypeId ||
+    scope ===
+      ScopeTypes.ORGANIZERS(
+        <Alert
+          css={`
+            margin-top: 1.86rem;
+          `}
+        >
+          {t(translationKey, {
+            keySeparator: '*',
+          })}
+        </Alert>,
+      )
   );
 };
 
@@ -196,17 +227,7 @@ const DescriptionStep = ({
         }
         {...getStackProps(props)}
       />
-      {eventTypeId && (
-        <Alert
-          css={`
-            margin-top: 1.86rem;
-          `}
-        >
-          {t(`create*additionalInformation*description*tips*${eventTypeId}`, {
-            keySeparator: '*',
-          })}
-        </Alert>
-      )}
+      <DescriptionTips scope={scope} eventTypeId={eventTypeId} />
     </Inline>
   );
 };

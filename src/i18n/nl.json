@@ -974,6 +974,9 @@
           "url_matches": "Ongeldige url",
           "url_not_unique": "Dit adres wordt al gebruikt door de organisatie '{{organizerName}}'."
         }
+      },
+      "step2": {
+        "description_tips": "Geef een enthousiaste omschrijving van je organisatie\nTot welke doelgroep richt de organisatie zich?\nWat voor activiteiten organiseert deze organisatie?"
       }
     }
   },
