@@ -481,16 +481,16 @@ const useDeleteOfferOrganizerMutation = (configuration = {}) =>
   });
 
 export {
-  useAddOfferBookingInfoMutation,
   useAddContactPointMutation,
+  useAddOfferBookingInfoMutation,
   useAddOfferImageMutation,
   useAddOfferLabelMutation,
   useAddOfferMainImageMutation,
   useAddOfferOrganizerMutation,
   useAddOfferPriceInfoMutation,
   useAddOfferVideoMutation,
-  useChangeOfferCalendarMutation,
   useChangeDescriptionMutation,
+  useChangeOfferCalendarMutation,
   useChangeOfferNameMutation,
   useChangeOfferThemeMutation,
   useChangeOfferTypeMutation,

@@ -3,6 +3,7 @@ import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
+import { ScopeTypes } from '@/constants/OfferType';
 import { URL_REGEX } from '@/constants/Regex';
 import {
   useCreateOrganizerMutation,
@@ -21,7 +22,6 @@ import { Page } from '@/ui/Page';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 
 import { NameAndUrlStep } from './steps/NameAndUrlStep';
-import { ScopeTypes } from '@/constants/OfferType';
 
 const typeAndThemeStepConfiguration: StepsConfiguration<'nameAndUrl'> = {
   Component: NameAndUrlStep,

@@ -3,9 +3,12 @@ import draftToHtml from 'draftjs-to-html';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { Scope, ScopeTypes } from '@/constants/OfferType';
 import { useChangeDescriptionMutation } from '@/hooks/api/offers';
+import { useGetEntityByIdAndScope } from '@/hooks/api/scope';
 import RichTextEditor from '@/pages/RichTextEditor';
 import { Event } from '@/types/Event';
+import { Organizer } from '@/types/Organizer';
 import { Alert } from '@/ui/Alert';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
@@ -16,9 +19,6 @@ import { Text, TextVariants } from '@/ui/Text';
 import { Breakpoints } from '@/ui/theme';
 
 import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
-import { Scope, ScopeTypes } from '@/constants/OfferType';
-import { useGetEntityByIdAndScope } from '@/hooks/api/scope';
-import { Organizer } from '@/types/Organizer';
 
 const htmlToDraft =
   typeof window === 'object' && require('html-to-draftjs').default;

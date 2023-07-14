@@ -1,6 +1,6 @@
 import { Scope, ScopeTypes } from '@/constants/OfferType';
-import { useGetOrganizerByIdQuery } from '@/hooks/api/organizers';
 import { useGetOfferByIdQuery } from '@/hooks/api/offers';
+import { useGetOrganizerByIdQuery } from '@/hooks/api/organizers';
 
 const getEntityQueryForScope = (scope: Scope) =>
   scope === ScopeTypes.ORGANIZERS
