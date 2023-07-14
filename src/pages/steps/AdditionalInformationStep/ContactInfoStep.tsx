@@ -3,11 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
 import { EMAIL_REGEX, PHONE_REGEX, URL_REGEX } from '@/constants/Regex';
-import {
-  useAddOfferContactPointMutation,
-  useGetOfferByIdQuery,
-} from '@/hooks/api/offers';
-import { useGetOrganizerByIdQuery } from '@/hooks/api/organizers';
+import { useAddContactPointMutation } from '@/hooks/api/offers';
+import { useGetEntityByIdAndScope } from '@/hooks/api/scope';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Icons } from '@/ui/Icon';
@@ -18,8 +15,6 @@ import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { prefixUrlWithHttps } from '@/utils/url';
 
 import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
-import { ScopeTypes } from '@/constants/OfferType';
-import { useGetEntityByIdAndScope } from '@/hooks/api/scope';
 
 const ContactInfoTypes = {
   EMAIL: 'email',
@@ -78,8 +73,6 @@ const ContactInfoStep = ({
 }: Props) => {
   const { t } = useTranslation();
 
-  // TODO: refactor
-  const eventId = offerId;
   const getEntityByIdQuery = useGetEntityByIdAndScope({ id: offerId, scope });
 
   const [contactInfoState, setContactInfoState] = useState<NewContactInfo[]>(
@@ -134,7 +127,7 @@ const ContactInfoStep = ({
 
   const queryClient = useQueryClient();
 
-  const addContactPointMutation = useAddOfferContactPointMutation({
+  const addContactPointMutation = useAddContactPointMutation({
     onMutate: async () => {
       await queryClient.cancelQueries({
         queryKey: [scope, { id: offerId }],
@@ -178,7 +171,7 @@ const ContactInfoStep = ({
     newContactInfo: NewContactInfo[],
   ) => {
     await addContactPointMutation.mutateAsync({
-      eventId,
+      eventId: offerId,
       contactPoint: parseNewContactInfo(newContactInfo),
       scope,
     });

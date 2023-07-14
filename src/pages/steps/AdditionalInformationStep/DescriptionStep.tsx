@@ -1,19 +1,9 @@
-import {
-  ContentState,
-  convertToRaw,
-  EditorState,
-  Modifier,
-  RichUtils,
-} from 'draft-js';
+import { ContentState, convertToRaw, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import { useEffect, useMemo, useState } from 'react';
-import { SyntheticKeyboardEvent } from 'react-draft-wysiwyg';
 import { useTranslation } from 'react-i18next';
 
-import {
-  useChangeOfferDescriptionMutation,
-  useGetOfferByIdQuery,
-} from '@/hooks/api/offers';
+import { useChangeDescriptionMutation } from '@/hooks/api/offers';
 import RichTextEditor from '@/pages/RichTextEditor';
 import { Event } from '@/types/Event';
 import { Alert } from '@/ui/Alert';
@@ -119,22 +109,19 @@ const DescriptionStep = ({
 }: DescriptionStepProps) => {
   const { t, i18n } = useTranslation();
 
-  // TODO: refactor
-  const eventId = offerId;
-
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const plainTextDescription = useMemo(
     () => editorState.getCurrentContent().getPlainText(),
     [editorState],
   );
 
-  const getOfferByIdQuery = useGetEntityByIdAndScope({ id: offerId, scope });
+  const getEntityByIdQuery = useGetEntityByIdAndScope({ id: offerId, scope });
 
   // @ts-expect-error
-  const offer: Event | Place | Organizer | undefined = getOfferByIdQuery.data;
+  const entity: Event | Place | Organizer | undefined = getEntityByIdQuery.data;
 
   useEffect(() => {
-    const newDescription = offer?.description?.[i18n.language];
+    const newDescription = entity?.description?.[i18n.language];
     if (!newDescription) return;
 
     const draftState = htmlToDraft(newDescription);
@@ -152,13 +139,13 @@ const DescriptionStep = ({
       isCompleted ? ValidationStatus.SUCCESS : ValidationStatus.NONE,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [offer?.description, offer?.mainLanguage, i18n.language]);
+  }, [entity?.description, entity?.mainLanguage, i18n.language]);
 
   const eventTypeId = useMemo(() => {
-    return offer?.terms?.find((term) => term.domain === 'eventtype')?.id!;
-  }, [offer?.terms]);
+    return entity?.terms?.find((term) => term.domain === 'eventtype')?.id!;
+  }, [entity?.terms]);
 
-  const changeDescriptionMutation = useChangeOfferDescriptionMutation({
+  const changeDescriptionMutation = useChangeDescriptionMutation({
     onSuccess: onSuccessfulChange,
   });
 
@@ -179,7 +166,7 @@ const DescriptionStep = ({
           ? draftToHtml(convertToRaw(editorState.getCurrentContent()))
           : '',
       language: i18n.language,
-      eventId,
+      eventId: offerId,
       scope,
     });
   };
@@ -190,7 +177,7 @@ const DescriptionStep = ({
     changeDescriptionMutation.mutate({
       description: '',
       language: i18n.language,
-      eventId,
+      eventId: offerId,
       scope,
     });
   };
