@@ -109,8 +109,8 @@ const OrganizerForm = (props) => {
       address: {
         [i18n.language]: {
           addressCountry: getValues('location.country'),
-          addressLocality: getValues('location.municipality'),
-          postalCode: getValues('location.postalCode'),
+          addressLocality: getValues('location.municipality.name'),
+          postalCode: getValues('location.municipality.zip'),
           streetAddress: getValues('location.streetAndNumber'),
         },
       },
@@ -128,12 +128,6 @@ const OrganizerForm = (props) => {
     });
   };
 
-  const onChange = (changedFields) => {
-    //console.log(getValues(changedFields));
-  };
-
-  useEffect(() => {});
-
   return (
     <Page>
       <Page.Title spacing={3} alignItems="center">
@@ -145,7 +139,6 @@ const OrganizerForm = (props) => {
           offerId={urlOrganizerId}
           mainLanguage={SupportedLanguages.NL}
           configurations={configurations}
-          onChangeSuccess={onChange}
           form={form}
         />
       </Page.Content>
