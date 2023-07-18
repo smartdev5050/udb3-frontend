@@ -48,7 +48,7 @@ const configurations = [
     shouldShowStep: (form) =>
       form.getValues('nameAndUrl.name') && form.getValues('nameAndUrl.url'),
     variant: AdditionalInformationStepVariant.ORGANIZER,
-    name: 'location',
+    name: 'location' as StepsConfiguration['name'],
     defaultValue: locationStepConfiguration.defaultValue,
   },
 ];
@@ -108,17 +108,15 @@ const OrganizerForm = (props) => {
   const updateOrganizerMutation = useUpdateOrganizerMutation();
 
   const upsertOrganizer = async ({ onSuccess }) => {
-    const mutation = urlOrganizerId
-      ? updateOrganizerMutation
-      : createOrganizerMutation;
-
-    let attributes = {
+    let mutation = createOrganizerMutation;
+    let attributes: { [key: string]: any } = {
       name: getValues('nameAndUrl.name'),
       url: getValues('nameAndUrl.url'),
       mainLanguage: i18n.language,
     };
 
     if (urlOrganizerId) {
+      mutation = updateOrganizerMutation;
       attributes = {
         ...attributes,
         organizerId: urlOrganizerId,
