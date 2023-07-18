@@ -25,6 +25,8 @@ import { MediaStep } from './MediaStep';
 import { OfferScore } from './OfferScore';
 import { OrganizerStep } from './OrganizerStep';
 import { PriceInformation } from './PriceInformation';
+import { PhysicalLocationStep } from '@/pages/steps/AdditionalInformationStep/PhysicalLocationStep';
+import { Countries } from '@/types/Country';
 
 const getGlobalValue = getValueFromTheme('global');
 
@@ -44,6 +46,7 @@ const Fields = {
   MEDIA: 'media',
   AUDIENCE: 'audience',
   LABELS: 'labels',
+  LOCATION: 'location',
 };
 
 type Field = Values<typeof Fields>;
@@ -110,6 +113,12 @@ const tabConfigurations: TabConfig[] = [
       AdditionalInformationStepVariant.PLACE,
       AdditionalInformationStepVariant.MOVIE,
     ],
+  },
+  {
+    field: Fields.LOCATION,
+    TabContent: PhysicalLocationStep,
+    shouldInvalidate: false,
+    shouldShowOn: [AdditionalInformationStepVariant.ORGANIZER],
   },
   {
     field: Fields.LABELS,
@@ -279,6 +288,7 @@ const AdditionalInformationStep = ({
                   onSuccessfulChange={() =>
                     invalidateOfferQuery(field, shouldInvalidate)
                   }
+                  {...props}
                   {...stepProps}
                 />
               </Tabs.Tab>

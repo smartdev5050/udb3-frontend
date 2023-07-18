@@ -1251,6 +1251,7 @@ export {
   DUTCH_ZIP_REGEX,
   GERMAN_ZIP_REGEX,
   isLocationSet,
+  LocationStep,
   locationStepConfiguration,
   useEditLocation,
 };
