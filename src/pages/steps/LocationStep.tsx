@@ -732,7 +732,7 @@ const isLocationSet = (
   location: FormDataUnion['location'],
   formState,
 ) => {
-  if (location.isOnline || location.place) {
+  if (location?.isOnline || location?.place) {
     return true;
   }
 
@@ -740,7 +740,7 @@ const isLocationSet = (
 
   return (
     isCultuurKuur ||
-    (location.municipality?.name &&
+    (location?.municipality?.name &&
       formState.touchedFields.location?.streetAndNumber)
   );
 };
