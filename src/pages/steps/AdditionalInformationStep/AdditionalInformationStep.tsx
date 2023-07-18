@@ -190,7 +190,7 @@ const AdditionalInformationStep = ({
       if (shouldInvalidate) {
         await queryClient.invalidateQueries([scope, { id: offerId }]);
       }
-      onChangeSuccess(field);
+      onChangeSuccess?.(field);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [scope, offerId, queryClient],

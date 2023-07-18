@@ -7,7 +7,12 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { EventTypes } from '@/constants/EventTypes';
-import { OfferType, OfferTypes, Scope } from '@/constants/OfferType';
+import {
+  OfferType,
+  OfferTypes,
+  Scope,
+  ScopeTypes,
+} from '@/constants/OfferType';
 import {
   useChangeAttendanceModeMutation,
   useChangeAudienceMutation,
@@ -766,17 +771,11 @@ const LocationStep = ({
   const [audienceType, setAudienceType] = useState('');
   const [onlineUrl, setOnlineUrl] = useState('');
   const [hasOnlineUrlError, setHasOnlineUrlError] = useState(false);
-
-  const [scope, locationStreetAndNumber, locationOnlineUrl, location] =
-    useWatch({
-      control,
-      name: [
-        'scope',
-        'location.streetAndNumber',
-        'location.onlineUrl',
-        'location',
-      ],
-    });
+  const scope = watch('scope') ?? props.scope;
+  const [locationStreetAndNumber, locationOnlineUrl, location] = useWatch({
+    control,
+    name: ['location.streetAndNumber', 'location.onlineUrl', 'location'],
+  });
 
   const shouldAddSpaceBelowTypeahead = useMemo(() => {
     if (offerId) return false;
@@ -1069,7 +1068,7 @@ const LocationStep = ({
                   )}
                 </Button>
               </Inline>
-              {scope === OfferTypes.EVENTS && (
+              {scope === ScopeTypes.EVENTS && (
                 <PlaceStep
                   municipality={municipality}
                   country={country}
@@ -1086,7 +1085,7 @@ const LocationStep = ({
                   onChange={onChange}
                 />
               )}
-              {scope === OfferTypes.PLACES && (
+              {[ScopeTypes.PLACES, ScopeTypes.ORGANIZERS].includes(scope) && (
                 <Stack>
                   {isPlaceAddressComplete ? (
                     <Inline alignItems="center" spacing={3}>
@@ -1114,7 +1113,7 @@ const LocationStep = ({
                     </Inline>
                   ) : (
                     <Stack>
-                      {['NL', 'DE'].includes(location.country) && (
+                      {['NL', 'DE'].includes(location?.country) && (
                         <FormElement
                           marginBottom={3}
                           Component={

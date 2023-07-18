@@ -7,13 +7,7 @@ import { StepProps } from '@/pages/steps/Steps';
 type PhysicalLocationStepProps = StackProps & TabContentProps & StepProps;
 
 function PhysicalLocationStep({ ...props }: PhysicalLocationStepProps) {
-  return (
-    <LocationStep
-      name={'location'}
-      {...props}
-      onChange={props.onSuccessfulChange}
-    />
-  );
+  return <LocationStep {...props} onChange={props.onSuccessfulChange} />;
 }
 
 export { PhysicalLocationStep };
