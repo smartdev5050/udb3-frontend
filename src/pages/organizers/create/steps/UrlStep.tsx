@@ -12,6 +12,8 @@ import { Input } from '@/ui/Input';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 import { prefixUrlWithHttps } from '@/utils/url';
+import { useRouter } from 'next/router';
+import { parseOfferId } from '@/utils/parseOfferId';
 
 type UrlStepProps = StackProps & StepProps;
 
@@ -26,6 +28,7 @@ const UrlStep = ({
   name,
   ...props
 }: UrlStepProps) => {
+  const { query } = useRouter();
   const { t, i18n } = useTranslation();
 
   const [watchedUrl] = useWatch({
@@ -47,7 +50,10 @@ const UrlStep = ({
   const isUrlAlreadyTaken = errors.nameAndUrl?.url?.type === 'not_unique';
 
   useEffect(() => {
-    if (existingOrganizer) {
+    if (
+      existingOrganizer &&
+      parseOfferId(existingOrganizer['@id']) !== query.organizerId
+    ) {
       console.log('should set error');
       setError('nameAndUrl.url', { type: 'not_unique' });
       return;
