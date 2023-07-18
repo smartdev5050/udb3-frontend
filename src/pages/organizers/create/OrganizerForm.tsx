@@ -107,20 +107,28 @@ const OrganizerForm = (props) => {
       ? updateOrganizerMutation
       : createOrganizerMutation;
 
-    const { organizerId } = await mutation.mutateAsync({
-      organizerId: urlOrganizerId,
+    let attributes = {
       name: getValues('nameAndUrl.name'),
       url: getValues('nameAndUrl.url'),
       mainLanguage: i18n.language,
-      address: {
-        [i18n.language]: {
-          addressCountry: getValues('location.country'),
-          addressLocality: getValues('location.municipality.name'),
-          postalCode: getValues('location.municipality.zip'),
-          streetAddress: getValues('location.streetAndNumber'),
+    };
+
+    if (urlOrganizerId) {
+      attributes = {
+        ...attributes,
+        organizerId: urlOrganizerId,
+        address: {
+          [i18n.language]: {
+            addressCountry: getValues('location.country'),
+            addressLocality: getValues('location.municipality.name'),
+            postalCode: getValues('location.municipality.zip'),
+            streetAddress: getValues('location.streetAndNumber'),
+          },
         },
-      },
-    });
+      };
+    }
+
+    const { organizerId } = await mutation.mutateAsync(attributes);
 
     onSuccess(organizerId);
   };
