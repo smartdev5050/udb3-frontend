@@ -753,8 +753,8 @@ const LocationStep = ({
   name,
   offerId,
   onChange,
-  chooseLabel,
-  placeholderLabel,
+  chooseLabel = (t) => t('create.location.place.choose_label'),
+  placeholderLabel = (t) => t('create.location.place.placeholder'),
   setValue,
   trigger,
   watch,
@@ -1172,10 +1172,6 @@ const locationStepConfiguration: StepsConfiguration<'location'> = {
   name: 'location',
   shouldShowStep: ({ watch }) => !!watch('typeAndTheme')?.type?.id,
   title: ({ t, scope }) => t(`create.location.title.${scope}`),
-  stepProps: {
-    chooseLabel: (t) => t('create.location.place.choose_label'),
-    placeholderLabel: (t) => t('create.location.place.placeholder'),
-  },
   defaultValue: {
     isOnline: false,
     country: Countries.BE,
