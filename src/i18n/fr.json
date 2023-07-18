@@ -443,6 +443,9 @@
           "not_found": "Cette activité n'est pas encore connue par UiTPAS."
         }
       },
+      "location": {
+        "title": "Lieu"
+      },
       "place": {
         "add_new_label": "Lieu introuvable ? Ajouter un nouveau lieu"
       },
@@ -975,6 +978,10 @@
           "url_not_unique": "Cette adresse est déjà utilisée par l'organisation '{{organizerName}}'."
         }
       }
+    },
+    "step2": {
+      "description_tips": "Décrivez avec enthousiasme votre organisation\nQuel public l'organisation cible-t-elle ?\nQuel type d'activités cette organisation organise-t-elle ?",
+      "save": "Enregistrer"
     }
   },
   "selectionTable": {

@@ -441,6 +441,9 @@
           "not_found": "Diese Veranstaltung ist dem UiTPAS noch nicht bekannt."
         }
       },
+      "location": {
+        "title": "Standort"
+      },
       "place": {
         "add_new_label": "Ort nicht gefunden? Neuen Standort hinzufügen"
       },
@@ -492,7 +495,6 @@
       },
       "description": "Ab wann soll dies online angezeigt werden?",
       "title": "Wählen Sie ein Veröffentlichungsdatum",
-
       "warning": "Achtung, dieses Datum kann nur einmalig eingestellt werden."
     },
     "duplicate": {
@@ -975,6 +977,10 @@
           "url_matches": "Ungültige URL",
           "url_not_unique": "Diese Adresse wird bereits von der Organisation „{{organizerName}}“ verwendet."
         }
+      },
+      "step2": {
+        "description_tips": "Beschreiben Sie Ihre Organisation mit Begeisterung\nAn welche Zielgruppe richtet sich die Organisation?\nWelche Aktivitäten organisiert diese Organisation?",
+        "save": "Speichern"
       }
     }
   },
