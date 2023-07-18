@@ -22,6 +22,7 @@ import { Page } from '@/ui/Page';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 
 import { NameAndUrlStep } from './steps/NameAndUrlStep';
+import { locationStepConfiguration } from '@/pages/steps/LocationStep';
 
 const typeAndThemeStepConfiguration: StepsConfiguration<'nameAndUrl'> = {
   Component: NameAndUrlStep,
@@ -44,6 +45,8 @@ const configurations = [
     ...additionalInformationStepConfiguration,
     shouldShowStep: () => true,
     variant: AdditionalInformationStepVariant.ORGANIZER,
+    name: 'location',
+    defaultValue: locationStepConfiguration.defaultValue,
   },
 ];
 

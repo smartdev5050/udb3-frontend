@@ -46,8 +46,6 @@ const UrlStep = ({
 
   const isUrlAlreadyTaken = errors.nameAndUrl?.url?.type === 'not_unique';
 
-  console.log({ existingOrganizer });
-
   useEffect(() => {
     if (existingOrganizer) {
       console.log('should set error');
