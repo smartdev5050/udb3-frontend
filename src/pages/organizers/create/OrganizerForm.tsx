@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
@@ -8,6 +8,7 @@ import { URL_REGEX } from '@/constants/Regex';
 import {
   useCreateOrganizerMutation,
   useGetOrganizerByIdQuery,
+  useUpdateOrganizerMutation,
 } from '@/hooks/api/organizers';
 import { SupportedLanguage, SupportedLanguages } from '@/i18n/index';
 import {
@@ -58,7 +59,7 @@ const OrganizerForm = (props) => {
 
   const { handleSubmit, formState, getValues, reset } = form;
 
-  const organizerId = useMemo(
+  const urlOrganizerId = useMemo(
     () => query.organizerId as string,
     [query.organizerId],
   );
@@ -79,12 +80,12 @@ const OrganizerForm = (props) => {
 
   // TODO better type query
   const getOrganizerByIdQuery = useGetOrganizerByIdQuery(
-    { id: organizerId },
+    { id: urlOrganizerId },
     {
       onSuccess: (organizer: Organizer) => {
-        reset(convertOrganizerToFormData(organizer), {
-          keepDirty: true,
-        });
+        //reset(convertOrganizerToFormData(organizer), {
+        //  keepDirty: true,
+        //});
       },
     },
   );
@@ -93,12 +94,26 @@ const OrganizerForm = (props) => {
   const organizer = getOrganizerByIdQuery?.data;
 
   const createOrganizerMutation = useCreateOrganizerMutation();
+  const updateOrganizerMutation = useUpdateOrganizerMutation();
 
-  const createOrganizer = async ({ onSuccess }) => {
-    const { organizerId } = await createOrganizerMutation.mutateAsync({
+  const upsertOrganizer = async ({ onSuccess }) => {
+    const mutation = urlOrganizerId
+      ? updateOrganizerMutation
+      : createOrganizerMutation;
+
+    const { organizerId } = await mutation.mutateAsync({
+      organizerId: urlOrganizerId,
       name: getValues('nameAndUrl.name'),
       url: getValues('nameAndUrl.url'),
       mainLanguage: i18n.language,
+      address: {
+        [i18n.language]: {
+          addressCountry: getValues('location.country'),
+          addressLocality: getValues('location.municipality'),
+          postalCode: getValues('location.postalCode'),
+          streetAddress: getValues('location.streetAndNumber'),
+        },
+      },
     });
 
     onSuccess(organizerId);
@@ -107,11 +122,17 @@ const OrganizerForm = (props) => {
   const hasErrors = Object.keys(formState.errors).length > 0;
 
   const onSuccess = () => {
-    createOrganizer({
+    upsertOrganizer({
       onSuccess: async (organizerId) =>
         await push(`/organizers/${organizerId}/edit`),
     });
   };
+
+  const onChange = (changedFields) => {
+    //console.log(getValues(changedFields));
+  };
+
+  useEffect(() => {});
 
   return (
     <Page>
@@ -121,10 +142,10 @@ const OrganizerForm = (props) => {
       <Page.Content spacing={5} alignItems="flex-start">
         <Steps
           scope={scope}
-          offerId={organizerId}
+          offerId={urlOrganizerId}
           mainLanguage={SupportedLanguages.NL}
           configurations={configurations}
-          onChangeSuccess={() => ({})}
+          onChangeSuccess={onChange}
           form={form}
         />
       </Page.Content>
