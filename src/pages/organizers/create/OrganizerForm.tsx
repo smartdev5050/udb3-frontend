@@ -67,6 +67,14 @@ const OrganizerForm = (props) => {
   );
 
   const convertOrganizerToFormData = (organizer: Organizer) => {
+    const locationAttributes = !organizer?.address
+      ? {}
+      : parseLocationAttributes(
+          organizer,
+          i18n.language as SupportedLanguage,
+          organizer.mainLanguage as SupportedLanguage,
+        );
+
     return {
       nameAndUrl: {
         name: getLanguageObjectOrFallback(
@@ -75,11 +83,7 @@ const OrganizerForm = (props) => {
         ) as string,
         url: organizer.url,
       },
-      ...parseLocationAttributes(
-        organizer,
-        i18n.language as SupportedLanguage,
-        organizer.mainLanguage as SupportedLanguage,
-      ),
+      ...locationAttributes,
     };
   };
 
