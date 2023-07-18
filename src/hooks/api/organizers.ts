@@ -288,10 +288,10 @@ const useUpdateOrganizerMutation = (configuration: UseMutationOptions = {}) =>
 
 export {
   useCreateOrganizerMutation,
-  useUpdateOrganizerMutation,
   useDeleteOrganizerByIdMutation,
   useGetOrganizerByIdQuery,
   useGetOrganizersByCreatorQuery,
   useGetOrganizersByQueryQuery,
   useGetOrganizersByWebsiteQuery,
+  useUpdateOrganizerMutation,
 };

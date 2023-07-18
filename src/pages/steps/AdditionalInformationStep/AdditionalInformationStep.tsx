@@ -7,6 +7,8 @@ import { useQueryClient } from 'react-query';
 import { OfferType, Scope } from '@/constants/OfferType';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { LabelsStep } from '@/pages/steps/AdditionalInformationStep/LabelsStep';
+import { PhysicalLocationStep } from '@/pages/steps/AdditionalInformationStep/PhysicalLocationStep';
+import { Countries } from '@/types/Country';
 import type { Values } from '@/types/Values';
 import { parseSpacing } from '@/ui/Box';
 import { Icon, Icons } from '@/ui/Icon';
@@ -21,12 +23,10 @@ import { StepsConfiguration } from '../Steps';
 import { BookingInfoStep } from './BookingInfoStep';
 import { ContactInfoStep } from './ContactInfoStep';
 import { DescriptionStep } from './DescriptionStep';
-import { MediaStep } from './MediaStep';
 import { FormScore } from './FormScore';
+import { MediaStep } from './MediaStep';
 import { OrganizerStep } from './OrganizerStep';
 import { PriceInformation } from './PriceInformation';
-import { PhysicalLocationStep } from '@/pages/steps/AdditionalInformationStep/PhysicalLocationStep';
-import { Countries } from '@/types/Country';
 
 const getGlobalValue = getValueFromTheme('global');
 

@@ -1,6 +1,7 @@
+import { Country } from '@/types/Country';
+
 import type { SupportedLanguages } from '../i18n';
 import type { Values } from './Values';
-import { Country } from '@/types/Country';
 
 type AddressLocality = string;
 

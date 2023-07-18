@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useMemo } from 'react';
 import { Controller, useWatch } from 'react-hook-form';
 import { Trans, useTranslation } from 'react-i18next';
@@ -11,9 +12,8 @@ import { FormElement } from '@/ui/FormElement';
 import { Input } from '@/ui/Input';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
-import { prefixUrlWithHttps } from '@/utils/url';
-import { useRouter } from 'next/router';
 import { parseOfferId } from '@/utils/parseOfferId';
+import { prefixUrlWithHttps } from '@/utils/url';
 
 type UrlStepProps = StackProps & StepProps;
 
