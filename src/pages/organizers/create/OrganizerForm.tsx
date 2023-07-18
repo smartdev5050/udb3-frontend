@@ -149,13 +149,23 @@ const OrganizerForm = (props) => {
         />
       </Page.Content>
       <Page.Footer>
-        <Button
-          disabled={hasErrors || !formState.isDirty}
-          variant={ButtonVariants.PRIMARY}
-          onClick={handleSubmit(onSuccess)}
-        >
-          {t('organizers.create.step1.save')}
-        </Button>
+        {urlOrganizerId ? (
+          <Button
+            disabled={hasErrors}
+            variant={ButtonVariants.PRIMARY}
+            onClick={handleSubmit(onSuccess)}
+          >
+            {t('organizers.create.step2.save')}
+          </Button>
+        ) : (
+          <Button
+            disabled={hasErrors || !formState.isDirty}
+            variant={ButtonVariants.PRIMARY}
+            onClick={handleSubmit(onSuccess)}
+          >
+            {t('organizers.create.step1.save')}
+          </Button>
+        )}
       </Page.Footer>
     </Page>
   );
