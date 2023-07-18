@@ -30,12 +30,7 @@ type PhysicalLocationStepProps = StackProps & TabContentProps;
 
 const LABEL_PATTERN = /^[0-9a-zA-Z][0-9a-zA-Z-_\s]{1,49}$/;
 
-function PhysicalLocationStep({
-  offerId,
-  scope,
-  onValidationChange,
-  ...props
-}: PhysicalLocationStepProps) {
+function PhysicalLocationStep({ ...props }: PhysicalLocationStepProps) {
   const { t } = useTranslation();
 
   return <LocationStep name={'location'} {...props} />;
