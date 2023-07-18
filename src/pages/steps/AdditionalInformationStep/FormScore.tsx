@@ -144,7 +144,7 @@ const getMinimumScore = (): number => {
 
 const minimumScore = getMinimumScore();
 
-const OfferScore = ({ completedFields, offerId, scope, ...props }: Props) => {
+const FormScore = ({ completedFields, offerId, scope, ...props }: Props) => {
   const { t } = useTranslation();
 
   const router = useRouter();
@@ -282,4 +282,4 @@ const OfferScore = ({ completedFields, offerId, scope, ...props }: Props) => {
   );
 };
 
-export { OfferScore };
+export { FormScore };

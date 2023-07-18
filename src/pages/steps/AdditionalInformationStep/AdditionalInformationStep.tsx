@@ -22,7 +22,7 @@ import { BookingInfoStep } from './BookingInfoStep';
 import { ContactInfoStep } from './ContactInfoStep';
 import { DescriptionStep } from './DescriptionStep';
 import { MediaStep } from './MediaStep';
-import { OfferScore } from './OfferScore';
+import { FormScore } from './FormScore';
 import { OrganizerStep } from './OrganizerStep';
 import { PriceInformation } from './PriceInformation';
 import { PhysicalLocationStep } from '@/pages/steps/AdditionalInformationStep/PhysicalLocationStep';
@@ -296,7 +296,7 @@ const AdditionalInformationStep = ({
           },
         )}
       </Tabs>
-      <OfferScore
+      <FormScore
         offerId={offerId}
         scope={scope}
         completedFields={mapValues(
