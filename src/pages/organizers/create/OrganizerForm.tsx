@@ -45,7 +45,8 @@ const configurations = [
   typeAndThemeStepConfiguration,
   {
     ...additionalInformationStepConfiguration,
-    shouldShowStep: () => true,
+    shouldShowStep: (form) =>
+      form.getValues('nameAndUrl.name') && form.getValues('nameAndUrl.url'),
     variant: AdditionalInformationStepVariant.ORGANIZER,
     name: 'location',
     defaultValue: locationStepConfiguration.defaultValue,
