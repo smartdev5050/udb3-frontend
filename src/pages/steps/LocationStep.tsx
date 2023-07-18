@@ -727,9 +727,9 @@ const useEditLocation = ({ scope, offerId }: UseEditArguments) => {
 
 type PlaceStepProps = StackProps &
   StepProps & {
-    terms: Array<Values<typeof EventTypes>>;
-    chooseLabel: (t: TFunction) => string;
-    placeholderLabel: (t: TFunction) => string;
+    terms?: Array<Values<typeof EventTypes>>;
+    chooseLabel?: (t: TFunction) => string;
+    placeholderLabel?: (t: TFunction) => string;
   } & { offerId?: string };
 
 const isLocationSet = (

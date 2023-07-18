@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
@@ -11,11 +11,13 @@ import {
   useUpdateOrganizerMutation,
 } from '@/hooks/api/organizers';
 import { SupportedLanguage, SupportedLanguages } from '@/i18n/index';
+import { parseLocationAttributes } from '@/pages/create/OfferForm';
 import {
   additionalInformationStepConfiguration,
   AdditionalInformationStepVariant,
 } from '@/pages/steps/AdditionalInformationStep';
 import { useParseStepConfiguration } from '@/pages/steps/hooks/useParseStepConfiguration';
+import { locationStepConfiguration } from '@/pages/steps/LocationStep';
 import { Steps, StepsConfiguration } from '@/pages/steps/Steps';
 import { Organizer } from '@/types/Organizer';
 import { Button, ButtonVariants } from '@/ui/Button';
@@ -23,7 +25,6 @@ import { Page } from '@/ui/Page';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 
 import { NameAndUrlStep } from './steps/NameAndUrlStep';
-import { locationStepConfiguration } from '@/pages/steps/LocationStep';
 
 const typeAndThemeStepConfiguration: StepsConfiguration<'nameAndUrl'> = {
   Component: NameAndUrlStep,
@@ -73,6 +74,11 @@ const OrganizerForm = (props) => {
         ) as string,
         url: organizer.url,
       },
+      ...parseLocationAttributes(
+        organizer,
+        i18n.language as SupportedLanguage,
+        organizer.mainLanguage as SupportedLanguage,
+      ),
     };
   };
 
@@ -83,9 +89,9 @@ const OrganizerForm = (props) => {
     { id: urlOrganizerId },
     {
       onSuccess: (organizer: Organizer) => {
-        //reset(convertOrganizerToFormData(organizer), {
-        //  keepDirty: true,
-        //});
+        reset(convertOrganizerToFormData(organizer), {
+          keepDirty: true,
+        });
       },
     },
   );
