@@ -23,6 +23,8 @@ import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getGlobalBorderRadius } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
+import { useGetEntityByIdAndScope } from '@/hooks/api/scope';
+import { Organizer } from '@/types/Organizer';
 
 type LabelsStepProps = StackProps & TabContentProps;
 
@@ -36,9 +38,9 @@ function LabelsStep({
 }: LabelsStepProps) {
   const { t } = useTranslation();
 
-  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId, scope });
+  const getEntityByIdQuery = useGetEntityByIdAndScope({ id: offerId, scope });
   // @ts-expect-error
-  const offer: Offer | undefined = getOfferByIdQuery.data;
+  const entity: Offer | Organizer | undefined = getEntityByIdQuery.data;
 
   const ref = useRef(null);
 
@@ -49,7 +51,7 @@ function LabelsStep({
   });
 
   const options = labelsQuery.data?.member ?? [];
-  const [labels, setLabels] = useState<string[]>(offer?.labels ?? []);
+  const [labels, setLabels] = useState<string[]>(entity?.labels ?? []);
   const addLabelMutation = useAddOfferLabelMutation();
   const removeLabelMutation = useRemoveOfferLabelMutation();
 
