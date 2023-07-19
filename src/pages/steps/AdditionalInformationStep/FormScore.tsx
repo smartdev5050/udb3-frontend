@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 
 import { eventTypesWithNoThemes } from '@/constants/EventTypes';
-import { OfferTypes } from '@/constants/OfferType';
+import { OfferTypes, ScopeTypes } from '@/constants/OfferType';
 import { useGetOfferByIdQuery } from '@/hooks/api/offers';
 import { Scope } from '@/pages/create/OfferForm';
 import { Features, NewFeatureTooltip } from '@/pages/NewFeatureTooltip';
@@ -71,7 +71,9 @@ const BarometerIcon = ({ rotationValue }: { rotationValue: number }) => {
   );
 };
 
-const scoreWeightMapping = {
+type Weights = { [key: string]: { weight: number; mandatory: boolean } };
+
+const scoreWeightMapping: Weights = {
   type: {
     weight: 12,
     mandatory: true,
@@ -132,24 +134,34 @@ type Props = {
   completedFields: Record<Field, boolean>;
 };
 
-const getMinimumScore = (): number => {
+const getScopeWeights = (scope: Scope): Weights => {
+  let weights = scoreWeightMapping;
+  if (scope === ScopeTypes.ORGANIZERS) {
+    weights.location.weight = 10;
+    weights.description.weight = 15;
+  }
+
+  return weights;
+};
+
+const getMinimumScore = (weights: Weights): number => {
   let minimumScore = 0;
 
-  Object.values(scoreWeightMapping).forEach((scoreWeight) => {
+  Object.values(weights).forEach((scoreWeight) => {
     if (scoreWeight.mandatory) minimumScore += scoreWeight.weight;
   });
 
   return minimumScore;
 };
 
-const minimumScore = getMinimumScore();
-
-const OfferScore = ({ completedFields, offerId, scope, ...props }: Props) => {
+const FormScore = ({ completedFields, offerId, scope, ...props }: Props) => {
   const { t } = useTranslation();
 
   const router = useRouter();
 
   const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId, scope });
+  const weights = getScopeWeights(scope);
+  const minimumScore = useMemo(() => getMinimumScore(weights), [weights]);
 
   // @ts-expect-error
   const offer: Offer | undefined = getOfferByIdQuery.data;
@@ -180,8 +192,8 @@ const OfferScore = ({ completedFields, offerId, scope, ...props }: Props) => {
   const score = useMemo(() => {
     let completeScore = 0;
     Object.keys(fullCompletedFields).forEach((field) => {
-      if (fullCompletedFields[field] && scoreWeightMapping[field]) {
-        completeScore += scoreWeightMapping[field].weight;
+      if (fullCompletedFields[field] && weights[field]) {
+        completeScore += weights[field].weight;
       }
     });
 
@@ -212,11 +224,11 @@ const OfferScore = ({ completedFields, offerId, scope, ...props }: Props) => {
 
     unCompletedFieldKeys.forEach((fieldKey: string) => {
       if (
-        scoreWeightMapping[fieldKey] &&
-        scoreWeightMapping[fieldKey].weight > highestUncompletedValue.weight
+        weights[fieldKey] &&
+        weights[fieldKey].weight > highestUncompletedValue.weight
       ) {
         highestUncompletedValue = {
-          weight: scoreWeightMapping[fieldKey].weight,
+          weight: weights[fieldKey].weight,
           fieldName: fieldKey,
         };
       }
@@ -282,4 +294,4 @@ const OfferScore = ({ completedFields, offerId, scope, ...props }: Props) => {
   );
 };
 
-export { OfferScore };
+export { FormScore };

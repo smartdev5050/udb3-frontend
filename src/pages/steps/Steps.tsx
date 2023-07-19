@@ -119,6 +119,7 @@ StepWrapper.defaultProps = {
 const getValue = getValueFromTheme('createPage');
 
 type StepProps = UseFormReturn<FormDataUnion> & {
+  scope: string;
   loading: boolean;
   name: Path<FormDataUnion>;
   onChange: (value: any) => void;

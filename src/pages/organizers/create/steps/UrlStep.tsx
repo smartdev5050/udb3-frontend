@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useMemo } from 'react';
 import { Controller, useWatch } from 'react-hook-form';
 import { Trans, useTranslation } from 'react-i18next';
@@ -11,6 +12,7 @@ import { FormElement } from '@/ui/FormElement';
 import { Input } from '@/ui/Input';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
+import { parseOfferId } from '@/utils/parseOfferId';
 import { prefixUrlWithHttps } from '@/utils/url';
 
 type UrlStepProps = StackProps & StepProps;
@@ -26,6 +28,7 @@ const UrlStep = ({
   name,
   ...props
 }: UrlStepProps) => {
+  const { query } = useRouter();
   const { t, i18n } = useTranslation();
 
   const [watchedUrl] = useWatch({
@@ -46,10 +49,11 @@ const UrlStep = ({
 
   const isUrlAlreadyTaken = errors.nameAndUrl?.url?.type === 'not_unique';
 
-  console.log({ existingOrganizer });
-
   useEffect(() => {
-    if (existingOrganizer) {
+    if (
+      existingOrganizer &&
+      parseOfferId(existingOrganizer['@id']) !== query.organizerId
+    ) {
       console.log('should set error');
       setError('nameAndUrl.url', { type: 'not_unique' });
       return;

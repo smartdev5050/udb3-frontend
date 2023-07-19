@@ -1,10 +1,12 @@
+import { Country } from '@/types/Country';
+
 import type { SupportedLanguages } from '../i18n';
 import type { Values } from './Values';
 
 type AddressLocality = string;
 
 type AddressInternal = {
-  addressCountry: string;
+  addressCountry: Country;
   addressLocality: AddressLocality;
   postalCode: string;
   streetAddress: string;

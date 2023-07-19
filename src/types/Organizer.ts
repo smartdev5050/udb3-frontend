@@ -20,6 +20,7 @@ type Organizer = {
     latitude: number;
     longitude: number;
   };
+  location?: Address;
   url?: string;
 };
 

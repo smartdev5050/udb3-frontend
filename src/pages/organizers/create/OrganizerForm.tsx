@@ -8,13 +8,16 @@ import { URL_REGEX } from '@/constants/Regex';
 import {
   useCreateOrganizerMutation,
   useGetOrganizerByIdQuery,
+  useUpdateOrganizerMutation,
 } from '@/hooks/api/organizers';
 import { SupportedLanguage, SupportedLanguages } from '@/i18n/index';
+import { parseLocationAttributes } from '@/pages/create/OfferForm';
 import {
   additionalInformationStepConfiguration,
   AdditionalInformationStepVariant,
 } from '@/pages/steps/AdditionalInformationStep';
 import { useParseStepConfiguration } from '@/pages/steps/hooks/useParseStepConfiguration';
+import { locationStepConfiguration } from '@/pages/steps/LocationStep';
 import { Steps, StepsConfiguration } from '@/pages/steps/Steps';
 import { Organizer } from '@/types/Organizer';
 import { Button, ButtonVariants } from '@/ui/Button';
@@ -42,8 +45,11 @@ const configurations = [
   typeAndThemeStepConfiguration,
   {
     ...additionalInformationStepConfiguration,
-    shouldShowStep: () => true,
+    shouldShowStep: (form) =>
+      form.getValues('nameAndUrl.name') && form.getValues('nameAndUrl.url'),
     variant: AdditionalInformationStepVariant.ORGANIZER,
+    name: 'location' as StepsConfiguration['name'],
+    defaultValue: locationStepConfiguration.defaultValue,
   },
 ];
 
@@ -55,12 +61,20 @@ const OrganizerForm = (props) => {
 
   const { handleSubmit, formState, getValues, reset } = form;
 
-  const organizerId = useMemo(
+  const urlOrganizerId = useMemo(
     () => query.organizerId as string,
     [query.organizerId],
   );
 
   const convertOrganizerToFormData = (organizer: Organizer) => {
+    const locationAttributes = !organizer?.address
+      ? {}
+      : parseLocationAttributes(
+          organizer,
+          i18n.language as SupportedLanguage,
+          organizer.mainLanguage as SupportedLanguage,
+        );
+
     return {
       nameAndUrl: {
         name: getLanguageObjectOrFallback(
@@ -69,6 +83,7 @@ const OrganizerForm = (props) => {
         ) as string,
         url: organizer.url,
       },
+      ...locationAttributes,
     };
   };
 
@@ -76,7 +91,7 @@ const OrganizerForm = (props) => {
 
   // TODO better type query
   const getOrganizerByIdQuery = useGetOrganizerByIdQuery(
-    { id: organizerId },
+    { id: urlOrganizerId },
     {
       onSuccess: (organizer: Organizer) => {
         reset(convertOrganizerToFormData(organizer), {
@@ -90,13 +105,33 @@ const OrganizerForm = (props) => {
   const organizer = getOrganizerByIdQuery?.data;
 
   const createOrganizerMutation = useCreateOrganizerMutation();
+  const updateOrganizerMutation = useUpdateOrganizerMutation();
 
-  const createOrganizer = async ({ onSuccess }) => {
-    const { organizerId } = await createOrganizerMutation.mutateAsync({
+  const upsertOrganizer = async ({ onSuccess }) => {
+    let mutation = createOrganizerMutation;
+    let attributes: { [key: string]: any } = {
       name: getValues('nameAndUrl.name'),
       url: getValues('nameAndUrl.url'),
       mainLanguage: i18n.language,
-    });
+    };
+
+    if (urlOrganizerId) {
+      mutation = updateOrganizerMutation;
+      attributes = {
+        ...attributes,
+        organizerId: urlOrganizerId,
+        address: {
+          [i18n.language]: {
+            addressCountry: getValues('location.country'),
+            addressLocality: getValues('location.municipality.name'),
+            postalCode: getValues('location.municipality.zip'),
+            streetAddress: getValues('location.streetAndNumber'),
+          },
+        },
+      };
+    }
+
+    const { organizerId } = await mutation.mutateAsync(attributes);
 
     onSuccess(organizerId);
   };
@@ -104,7 +139,7 @@ const OrganizerForm = (props) => {
   const hasErrors = Object.keys(formState.errors).length > 0;
 
   const onSuccess = () => {
-    createOrganizer({
+    upsertOrganizer({
       onSuccess: async (organizerId) =>
         await push(`/organizers/${organizerId}/edit`),
     });
@@ -118,21 +153,30 @@ const OrganizerForm = (props) => {
       <Page.Content spacing={5} alignItems="flex-start">
         <Steps
           scope={scope}
-          offerId={organizerId}
+          offerId={urlOrganizerId}
           mainLanguage={SupportedLanguages.NL}
           configurations={configurations}
-          onChangeSuccess={() => ({})}
           form={form}
         />
       </Page.Content>
       <Page.Footer>
-        <Button
-          disabled={hasErrors || !formState.isDirty}
-          variant={ButtonVariants.PRIMARY}
-          onClick={handleSubmit(onSuccess)}
-        >
-          {t('organizers.create.step1.save')}
-        </Button>
+        {urlOrganizerId ? (
+          <Button
+            disabled={hasErrors}
+            variant={ButtonVariants.PRIMARY}
+            onClick={handleSubmit(onSuccess)}
+          >
+            {t('organizers.create.step2.save')}
+          </Button>
+        ) : (
+          <Button
+            disabled={hasErrors || !formState.isDirty}
+            variant={ButtonVariants.PRIMARY}
+            onClick={handleSubmit(onSuccess)}
+          >
+            {t('organizers.create.step1.save')}
+          </Button>
+        )}
       </Page.Footer>
     </Page>
   );

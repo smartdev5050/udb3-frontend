@@ -7,7 +7,12 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { EventTypes } from '@/constants/EventTypes';
-import { OfferType, OfferTypes, Scope } from '@/constants/OfferType';
+import {
+  OfferType,
+  OfferTypes,
+  Scope,
+  ScopeTypes,
+} from '@/constants/OfferType';
 import {
   useChangeAttendanceModeMutation,
   useChangeAudienceMutation,
@@ -722,9 +727,9 @@ const useEditLocation = ({ scope, offerId }: UseEditArguments) => {
 
 type PlaceStepProps = StackProps &
   StepProps & {
-    terms: Array<Values<typeof EventTypes>>;
-    chooseLabel: (t: TFunction) => string;
-    placeholderLabel: (t: TFunction) => string;
+    terms?: Array<Values<typeof EventTypes>>;
+    chooseLabel?: (t: TFunction) => string;
+    placeholderLabel?: (t: TFunction) => string;
   } & { offerId?: string };
 
 const isLocationSet = (
@@ -732,7 +737,7 @@ const isLocationSet = (
   location: FormDataUnion['location'],
   formState,
 ) => {
-  if (location.isOnline || location.place) {
+  if (location?.isOnline || location?.place) {
     return true;
   }
 
@@ -740,7 +745,7 @@ const isLocationSet = (
 
   return (
     isCultuurKuur ||
-    (location.municipality?.name &&
+    (location?.municipality?.name &&
       formState.touchedFields.location?.streetAndNumber)
   );
 };
@@ -753,8 +758,8 @@ const LocationStep = ({
   name,
   offerId,
   onChange,
-  chooseLabel,
-  placeholderLabel,
+  chooseLabel = (t) => t('create.location.place.choose_label'),
+  placeholderLabel = (t) => t('create.location.place.placeholder'),
   setValue,
   trigger,
   watch,
@@ -766,17 +771,11 @@ const LocationStep = ({
   const [audienceType, setAudienceType] = useState('');
   const [onlineUrl, setOnlineUrl] = useState('');
   const [hasOnlineUrlError, setHasOnlineUrlError] = useState(false);
-
-  const [scope, locationStreetAndNumber, locationOnlineUrl, location] =
-    useWatch({
-      control,
-      name: [
-        'scope',
-        'location.streetAndNumber',
-        'location.onlineUrl',
-        'location',
-      ],
-    });
+  const scope = watch('scope') ?? props.scope;
+  const [locationStreetAndNumber, locationOnlineUrl, location] = useWatch({
+    control,
+    name: ['location.streetAndNumber', 'location.onlineUrl', 'location'],
+  });
 
   const shouldAddSpaceBelowTypeahead = useMemo(() => {
     if (offerId) return false;
@@ -1069,7 +1068,7 @@ const LocationStep = ({
                   )}
                 </Button>
               </Inline>
-              {scope === OfferTypes.EVENTS && (
+              {scope === ScopeTypes.EVENTS && (
                 <PlaceStep
                   municipality={municipality}
                   country={country}
@@ -1086,7 +1085,7 @@ const LocationStep = ({
                   onChange={onChange}
                 />
               )}
-              {scope === OfferTypes.PLACES && (
+              {[ScopeTypes.PLACES, ScopeTypes.ORGANIZERS].includes(scope) && (
                 <Stack>
                   {isPlaceAddressComplete ? (
                     <Inline alignItems="center" spacing={3}>
@@ -1114,7 +1113,7 @@ const LocationStep = ({
                     </Inline>
                   ) : (
                     <Stack>
-                      {['NL', 'DE'].includes(location.country) && (
+                      {['NL', 'DE'].includes(location?.country) && (
                         <FormElement
                           marginBottom={3}
                           Component={
@@ -1172,10 +1171,6 @@ const locationStepConfiguration: StepsConfiguration<'location'> = {
   name: 'location',
   shouldShowStep: ({ watch }) => !!watch('typeAndTheme')?.type?.id,
   title: ({ t, scope }) => t(`create.location.title.${scope}`),
-  stepProps: {
-    chooseLabel: (t) => t('create.location.place.choose_label'),
-    placeholderLabel: (t) => t('create.location.place.placeholder'),
-  },
   defaultValue: {
     isOnline: false,
     country: Countries.BE,
@@ -1251,6 +1246,7 @@ export {
   DUTCH_ZIP_REGEX,
   GERMAN_ZIP_REGEX,
   isLocationSet,
+  LocationStep,
   locationStepConfiguration,
   useEditLocation,
 };

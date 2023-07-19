@@ -7,6 +7,8 @@ import { useQueryClient } from 'react-query';
 import { OfferType, Scope } from '@/constants/OfferType';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { LabelsStep } from '@/pages/steps/AdditionalInformationStep/LabelsStep';
+import { PhysicalLocationStep } from '@/pages/steps/AdditionalInformationStep/PhysicalLocationStep';
+import { Countries } from '@/types/Country';
 import type { Values } from '@/types/Values';
 import { parseSpacing } from '@/ui/Box';
 import { Icon, Icons } from '@/ui/Icon';
@@ -21,8 +23,8 @@ import { StepsConfiguration } from '../Steps';
 import { BookingInfoStep } from './BookingInfoStep';
 import { ContactInfoStep } from './ContactInfoStep';
 import { DescriptionStep } from './DescriptionStep';
+import { FormScore } from './FormScore';
 import { MediaStep } from './MediaStep';
-import { OfferScore } from './OfferScore';
 import { OrganizerStep } from './OrganizerStep';
 import { PriceInformation } from './PriceInformation';
 
@@ -44,6 +46,7 @@ const Fields = {
   MEDIA: 'media',
   AUDIENCE: 'audience',
   LABELS: 'labels',
+  LOCATION: 'location',
 };
 
 type Field = Values<typeof Fields>;
@@ -110,6 +113,12 @@ const tabConfigurations: TabConfig[] = [
       AdditionalInformationStepVariant.PLACE,
       AdditionalInformationStepVariant.MOVIE,
     ],
+  },
+  {
+    field: Fields.LOCATION,
+    TabContent: PhysicalLocationStep,
+    shouldInvalidate: false,
+    shouldShowOn: [AdditionalInformationStepVariant.ORGANIZER],
   },
   {
     field: Fields.LABELS,
@@ -181,7 +190,7 @@ const AdditionalInformationStep = ({
       if (shouldInvalidate) {
         await queryClient.invalidateQueries([scope, { id: offerId }]);
       }
-      onChangeSuccess(field);
+      onChangeSuccess?.(field);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [scope, offerId, queryClient],
@@ -279,6 +288,7 @@ const AdditionalInformationStep = ({
                   onSuccessfulChange={() =>
                     invalidateOfferQuery(field, shouldInvalidate)
                   }
+                  {...props}
                   {...stepProps}
                 />
               </Tabs.Tab>
@@ -286,7 +296,7 @@ const AdditionalInformationStep = ({
           },
         )}
       </Tabs>
-      <OfferScore
+      <FormScore
         offerId={offerId}
         scope={scope}
         completedFields={mapValues(

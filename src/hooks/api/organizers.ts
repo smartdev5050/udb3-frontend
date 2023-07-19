@@ -251,6 +251,41 @@ const useCreateOrganizerMutation = (configuration: UseMutationOptions = {}) =>
     ...configuration,
   });
 
+type UpdateOrganizerArguments = CreateOrganizerArguments & {
+  organizerId: string;
+};
+
+const updateOrganizer = ({
+  headers,
+  url,
+  organizerId,
+  name,
+  address,
+  mainLanguage,
+  contact,
+}: UpdateOrganizerArguments) =>
+  fetchFromApi({
+    path: `/organizers/${organizerId}`,
+    options: {
+      headers,
+      method: 'PUT',
+      body: JSON.stringify({
+        mainLanguage,
+        name,
+        url,
+        address,
+        contact,
+      }),
+    },
+  });
+
+const useUpdateOrganizerMutation = (configuration: UseMutationOptions = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: updateOrganizer,
+    mutationKey: 'organizers-update',
+    ...configuration,
+  });
+
 export {
   useCreateOrganizerMutation,
   useDeleteOrganizerByIdMutation,
@@ -258,4 +293,5 @@ export {
   useGetOrganizersByCreatorQuery,
   useGetOrganizersByQueryQuery,
   useGetOrganizersByWebsiteQuery,
+  useUpdateOrganizerMutation,
 };

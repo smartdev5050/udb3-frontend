@@ -106,7 +106,7 @@ const getAddress = (
 };
 
 const parseLocationAttributes = (
-  offer: Offer,
+  offer: Offer | Organizer,
   language: SupportedLanguage,
   mainLanguage: SupportedLanguage,
 ) => {
@@ -131,7 +131,7 @@ const parseLocationAttributes = (
       postalCode: postalCode,
       place: isEvent(offer) ? offer.location : undefined,
       country: addressCountry,
-      ...(isPlace(offer) && { streetAndNumber: streetAddress }),
+      ...(!isEvent(offer) && { streetAndNumber: streetAddress }),
       ...(isEvent(offer) &&
         !!offer.onlineUrl && { onlineUrl: offer.onlineUrl }),
     },
