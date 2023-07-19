@@ -6,14 +6,15 @@ import { UseQueryResult } from 'react-query';
 import { useGetLabelsByQuery } from '@/hooks/api/labels';
 import {
   useAddOfferLabelMutation,
-  useGetOfferByIdQuery,
   useRemoveOfferLabelMutation,
 } from '@/hooks/api/offers';
+import { useGetEntityByIdAndScope } from '@/hooks/api/scope';
 import {
   TabContentProps,
   ValidationStatus,
 } from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
 import { Label, Offer } from '@/types/Offer';
+import { Organizer } from '@/types/Organizer';
 import { Alert } from '@/ui/Alert';
 import { Badge, BadgeVariants } from '@/ui/Badge';
 import { FormElement } from '@/ui/FormElement';
@@ -23,8 +24,6 @@ import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getGlobalBorderRadius } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
-import { useGetEntityByIdAndScope } from '@/hooks/api/scope';
-import { Organizer } from '@/types/Organizer';
 
 type LabelsStepProps = StackProps & TabContentProps;
 
