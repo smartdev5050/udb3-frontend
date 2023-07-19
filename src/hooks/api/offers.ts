@@ -275,7 +275,7 @@ const useAddOfferPriceInfoMutation = (configuration = {}) =>
     ...configuration,
   });
 
-const changeOfferDescription = async ({
+const changeDescription = async ({
   headers,
   eventId,
   language,
@@ -291,9 +291,9 @@ const changeOfferDescription = async ({
     },
   });
 
-const useChangeOfferDescriptionMutation = (configuration = {}) =>
+const useChangeDescriptionMutation = (configuration = {}) =>
   useAuthenticatedMutation({
-    mutationFn: changeOfferDescription,
+    mutationFn: changeDescription,
     mutationKey: 'offers-change-description',
     ...configuration,
   });
@@ -408,12 +408,7 @@ const useDeleteOfferImageMutation = (configuration = {}) =>
     ...configuration,
   });
 
-const addOfferContactPoint = async ({
-  headers,
-  eventId,
-  contactPoint,
-  scope,
-}) =>
+const addContactPoint = async ({ headers, eventId, contactPoint, scope }) =>
   fetchFromApi({
     path: `/${scope}/${eventId}/contactPoint`,
     options: {
@@ -423,9 +418,9 @@ const addOfferContactPoint = async ({
     },
   });
 
-const useAddOfferContactPointMutation = (configuration = {}) =>
+const useAddContactPointMutation = (configuration = {}) =>
   useAuthenticatedMutation({
-    mutationFn: addOfferContactPoint,
+    mutationFn: addContactPoint,
     mutationKey: 'offers-add-contact-point',
     ...configuration,
   });
@@ -486,16 +481,16 @@ const useDeleteOfferOrganizerMutation = (configuration = {}) =>
   });
 
 export {
+  useAddContactPointMutation,
   useAddOfferBookingInfoMutation,
-  useAddOfferContactPointMutation,
   useAddOfferImageMutation,
   useAddOfferLabelMutation,
   useAddOfferMainImageMutation,
   useAddOfferOrganizerMutation,
   useAddOfferPriceInfoMutation,
   useAddOfferVideoMutation,
+  useChangeDescriptionMutation,
   useChangeOfferCalendarMutation,
-  useChangeOfferDescriptionMutation,
   useChangeOfferNameMutation,
   useChangeOfferThemeMutation,
   useChangeOfferTypeMutation,

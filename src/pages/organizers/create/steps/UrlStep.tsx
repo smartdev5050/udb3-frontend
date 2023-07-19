@@ -40,23 +40,23 @@ const UrlStep = ({
     { enabled: !!watchedUrl },
   );
 
-  const existingOrganization: Organizer | undefined =
+  const existingOrganizer: Organizer | undefined =
     //@ts-expect-error
     getOrganizersByWebsiteQuery.data?.member?.[0];
 
   const isUrlAlreadyTaken = errors.nameAndUrl?.url?.type === 'not_unique';
 
-  console.log({ existingOrganization });
+  console.log({ existingOrganizer });
 
   useEffect(() => {
-    if (existingOrganization) {
+    if (existingOrganizer) {
       console.log('should set error');
       setError('nameAndUrl.url', { type: 'not_unique' });
       return;
     }
     clearErrors('nameAndUrl.url');
   }, [
-    existingOrganization,
+    existingOrganizer,
     // @ts-expect-error
     getOrganizersByWebsiteQuery.data,
     setError,
@@ -94,15 +94,15 @@ const UrlStep = ({
                   />
                 }
                 info={
-                  isDirty && isUrlAlreadyTaken && existingOrganization ? (
+                  isDirty && isUrlAlreadyTaken && existingOrganizer ? (
                     <Alert variant={AlertVariants.WARNING}>
                       <Trans
                         i18nKey={`organizers.create.step1.errors.url_not_unique`}
                         values={{
                           organizerName: getLanguageObjectOrFallback(
-                            existingOrganization?.name,
+                            existingOrganizer?.name,
                             i18n.language as SupportedLanguage,
-                            existingOrganization.mainLanguage as SupportedLanguage,
+                            existingOrganizer.mainLanguage as SupportedLanguage,
                           ),
                         }}
                       />

@@ -578,15 +578,12 @@ const Dashboard = (): any => {
     },
   });
 
-  // @ts-expect-error
   const items = UseGetItemsByCreatorQuery.data?.member ?? [];
 
   const sharedTableContentProps = {
     tab,
-    // @ts-expect-error
     status: UseGetItemsByCreatorQuery.status,
     items,
-    // @ts-expect-error
     totalItems: UseGetItemsByCreatorQuery.data?.totalItems ?? 0,
     page,
     onChangePage: async (page: number) => {

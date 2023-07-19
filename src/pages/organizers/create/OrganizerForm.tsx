@@ -3,6 +3,7 @@ import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
+import { ScopeTypes } from '@/constants/OfferType';
 import { URL_REGEX } from '@/constants/Regex';
 import {
   useCreateOrganizerMutation,
@@ -47,7 +48,7 @@ const configurations = [
 ];
 
 const OrganizerForm = (props) => {
-  const scope = 'organizers';
+  const scope = ScopeTypes.ORGANIZERS;
   const { form } = useParseStepConfiguration(configurations);
   const { t, i18n } = useTranslation();
   const { push, query } = useRouter();

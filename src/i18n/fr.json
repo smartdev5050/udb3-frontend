@@ -974,6 +974,9 @@
           "url_matches": "URL invalide",
           "url_not_unique": "Cette adresse est déjà utilisée par l'organisation '{{organizerName}}'."
         }
+      },
+      "step2": {
+        "description_tips": "Décrivez avec enthousiasme votre organisation\nQuel public l'organisation cible-t-elle ?\nQuel type d'activités cette organisation organise-t-elle ?"
       }
     }
   },
