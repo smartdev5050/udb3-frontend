@@ -391,12 +391,14 @@ const MediaStep = ({
           onClickAddImage={handleClickAddImage}
           onDragAddImage={handleDragAddImage}
         />
-        <VideoUploadBox
-          width="45%"
-          videos={videos}
-          onClickAddVideo={() => setIsVideoLinkAddModalVisible(true)}
-          onClickDeleteVideo={handleDeleteVideoLink}
-        />
+        {scope !== ScopeTypes.ORGANIZERS && (
+          <VideoUploadBox
+            width="45%"
+            videos={videos}
+            onClickAddVideo={() => setIsVideoLinkAddModalVisible(true)}
+            onClickDeleteVideo={handleDeleteVideoLink}
+          />
+        )}
       </Inline>
     </Stack>
   );
