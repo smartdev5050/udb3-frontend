@@ -138,6 +138,7 @@ const getScopeWeights = (scope: Scope): Weights => {
   let weights = scoreWeightMapping;
   if (scope === ScopeTypes.ORGANIZERS) {
     weights.location.weight = 10;
+    weights.description.weight = 15;
   }
 
   return weights;
