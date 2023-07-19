@@ -30,6 +30,8 @@ import type { Video, VideoEnriched } from '../../VideoUploadBox';
 import { VideoUploadBox } from '../../VideoUploadBox';
 import { PictureDeleteModal } from '../modals/PictureDeleteModal';
 import { PictureUploadModal } from '../modals/PictureUploadModal';
+import { useGetEntityByIdAndScope } from '@/hooks/api/scope';
+import { ScopeTypes } from '@/constants/OfferType';
 
 const MediaStep = ({
   scope,
@@ -43,29 +45,29 @@ const MediaStep = ({
   // TODO: refactor
   const eventId = offerId;
 
-  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId, scope });
+  const getEntityByIdQuery = useGetEntityByIdAndScope({ id: offerId, scope });
 
   const videosFromQuery = useMemo(
     // @ts-expect-error
-    () => getOfferByIdQuery.data?.videos ?? [],
+    () => getEntityByIdQuery.data?.videos ?? [],
     [
       // @ts-expect-error
-      getOfferByIdQuery.data?.videos,
+      getEntityByIdQuery.data?.videos,
     ],
   );
 
   const mediaObjects = useMemo(
     // @ts-expect-error
-    () => getOfferByIdQuery.data?.mediaObject ?? [],
+    () => getEntityByIdQuery.data?.mediaObject ?? [],
     // @ts-expect-error
-    [getOfferByIdQuery.data?.mediaObject],
+    [getEntityByIdQuery.data?.mediaObject],
   );
 
   const eventImage = useMemo(
     // @ts-expect-error
-    () => getOfferByIdQuery.data?.image ?? [],
+    () => getEntityByIdQuery.data?.image ?? [],
     // @ts-expect-error
-    [getOfferByIdQuery.data?.image],
+    [getEntityByIdQuery.data?.image],
   );
 
   const [isPictureUploadModalVisible, setIsPictureUploadModalVisible] =
