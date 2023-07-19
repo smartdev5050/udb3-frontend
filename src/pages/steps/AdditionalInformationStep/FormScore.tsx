@@ -268,7 +268,7 @@ const FormScore = ({ completedFields, offerId, scope, ...props }: Props) => {
             lineHeight="initial"
             fontWeight="bold"
           >
-            {score}
+            <span id="current-score">{score}</span>
             <Text fontSize="1.2rem" fontWeight="bold">
               /100
             </Text>
