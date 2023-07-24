@@ -57,10 +57,14 @@ const MediaStep = ({
   );
 
   const mediaObjects = useMemo(
+    () =>
+      // @ts-expect-error
+      getEntityByIdQuery.data?.mediaObject ??
+      // @ts-expect-error
+      getEntityByIdQuery.data?.images ??
+      [],
     // @ts-expect-error
-    () => getEntityByIdQuery.data?.mediaObject ?? [],
-    // @ts-expect-error
-    [getEntityByIdQuery.data?.mediaObject],
+    [getEntityByIdQuery.data],
   );
 
   const eventImage = useMemo(
