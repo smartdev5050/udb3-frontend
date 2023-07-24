@@ -162,6 +162,14 @@ type Props = {
   completedFields: Record<Field, boolean>;
 };
 
+type EntityWithMedia =
+  | (Offer & { images: undefined })
+  | (Organizer & {
+      terms: undefined;
+      mediaObject: undefined;
+      videos: undefined;
+    });
+
 const getScopeWeights = (scope: Scope): Weights =>
   scope === ScopeTypes.ORGANIZERS
     ? organizerScoreWeightMapping
@@ -187,7 +195,7 @@ const FormScore = ({ completedFields, offerId, scope, ...props }: Props) => {
   const minimumScore = useMemo(() => getMinimumScore(weights), [weights]);
 
   // @ts-expect-error
-  const entity: Offer | Organizer | undefined = getEntityByIdQuery.data;
+  const entity: EntityWithMedia | undefined = getEntityByIdQuery.data;
 
   const hasNoPossibleTheme = entity?.terms?.some(
     (term) =>

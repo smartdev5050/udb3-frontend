@@ -1,6 +1,7 @@
 import type { Address } from './Address';
 import type { ContactPoint } from './ContactPoint';
 import type { WorkflowStatus } from './WorkflowStatus';
+import { MediaObject } from '@/types/Offer';
 
 type Organizer = {
   '@id': string;
@@ -16,6 +17,7 @@ type Organizer = {
   languages: string[];
   completedLanguages: string[];
   modified: string;
+  images: MediaObject[];
   geo: {
     latitude: number;
     longitude: number;
