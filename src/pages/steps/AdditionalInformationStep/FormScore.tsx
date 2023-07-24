@@ -4,10 +4,11 @@ import { Trans, useTranslation } from 'react-i18next';
 
 import { eventTypesWithNoThemes } from '@/constants/EventTypes';
 import { OfferTypes, ScopeTypes } from '@/constants/OfferType';
-import { useGetOfferByIdQuery } from '@/hooks/api/offers';
+import { useGetEntityByIdAndScope } from '@/hooks/api/scope';
 import { Scope } from '@/pages/create/OfferForm';
 import { Features, NewFeatureTooltip } from '@/pages/NewFeatureTooltip';
 import { Offer } from '@/types/Offer';
+import { Organizer } from '@/types/Organizer';
 import { Inline } from '@/ui/Inline';
 import { Link } from '@/ui/Link';
 import { Notification } from '@/ui/Notification';
@@ -15,8 +16,6 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
 import { Field } from './AdditionalInformationStep';
-import { useGetEntityByIdAndScope } from '@/hooks/api/scope';
-import { Organizer } from '@/types/Organizer';
 
 const getValue = getValueFromTheme('colors');
 

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { ScopeTypes } from '@/constants/OfferType';
 import { useAddImageMutation } from '@/hooks/api/images';
 import {
   useAddOfferImageMutation,
@@ -8,9 +9,9 @@ import {
   useAddOfferVideoMutation,
   useDeleteOfferImageMutation,
   useDeleteOfferVideoMutation,
-  useGetOfferByIdQuery,
   useUpdateOfferImageMutation,
 } from '@/hooks/api/offers';
+import { useGetEntityByIdAndScope } from '@/hooks/api/scope';
 import {
   TabContentProps,
   ValidationStatus,
@@ -30,8 +31,6 @@ import type { Video, VideoEnriched } from '../../VideoUploadBox';
 import { VideoUploadBox } from '../../VideoUploadBox';
 import { PictureDeleteModal } from '../modals/PictureDeleteModal';
 import { PictureUploadModal } from '../modals/PictureUploadModal';
-import { useGetEntityByIdAndScope } from '@/hooks/api/scope';
-import { ScopeTypes } from '@/constants/OfferType';
 
 const MediaStep = ({
   scope,
