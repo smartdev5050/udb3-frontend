@@ -159,26 +159,27 @@ const FormScore = ({ completedFields, offerId, scope, ...props }: Props) => {
 
   const router = useRouter();
 
-  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId, scope });
+  const getEntityByIdQuery = useGetEntityByIdAndScope({ id: offerId, scope });
   const weights = getScopeWeights(scope);
   const minimumScore = useMemo(() => getMinimumScore(weights), [weights]);
 
   // @ts-expect-error
-  const offer: Offer | undefined = getOfferByIdQuery.data;
+  const entity: Offer | Organizer | undefined = getEntityByIdQuery.data;
 
-  const hasNoPossibleTheme = offer?.terms.some(
+  const hasNoPossibleTheme = entity?.terms?.some(
     (term) =>
       term.domain === 'eventtype' && eventTypesWithNoThemes.includes(term.id),
   );
 
   const hasTheme: boolean =
-    offer?.terms.some((term) => term.domain === 'theme') ||
+    entity?.terms?.some((term) => term.domain === 'theme') ||
     hasNoPossibleTheme ||
     scope === OfferTypes.PLACES;
 
-  const hasMediaObject: boolean = (offer?.mediaObject ?? []).length > 0;
+  const hasMediaObject: boolean =
+    (entity?.mediaObject ?? entity?.images ?? []).length > 0;
 
-  const hasVideo: boolean = (offer?.videos ?? []).length > 0;
+  const hasVideo: boolean = (entity?.videos ?? []).length > 0;
 
   const fullCompletedFields = useMemo(() => {
     return {
