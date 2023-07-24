@@ -319,7 +319,7 @@ const addOfferMainImage = async ({ headers, eventId, imageId, scope }) =>
   fetchFromApi({
     path: `/${scope}/${eventId.toString()}/images/main`,
     options: {
-      method: 'POST',
+      method: 'PUT',
       headers,
       body: JSON.stringify({ mediaObjectId: imageId }),
     },
