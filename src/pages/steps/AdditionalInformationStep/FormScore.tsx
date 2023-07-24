@@ -15,6 +15,8 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
 import { Field } from './AdditionalInformationStep';
+import { useGetEntityByIdAndScope } from '@/hooks/api/scope';
+import { Organizer } from '@/types/Organizer';
 
 const getValue = getValueFromTheme('colors');
 
@@ -128,21 +130,43 @@ const scoreWeightMapping: Weights = {
   },
 };
 
+const organizerScoreWeightMapping: Weights = {
+  name: {
+    weight: 20,
+    mandatory: true,
+  },
+  url: {
+    weight: 20,
+    mandatory: true,
+  },
+  contact_info: {
+    weight: 20,
+    mandatory: false,
+  },
+  description: {
+    weight: 15,
+    mandatory: false,
+  },
+  media: {
+    weight: 15,
+    mandatory: false,
+  },
+  location: {
+    weight: 10,
+    mandatory: false,
+  },
+};
+
 type Props = {
   offerId: string;
   scope: Scope;
   completedFields: Record<Field, boolean>;
 };
 
-const getScopeWeights = (scope: Scope): Weights => {
-  let weights = scoreWeightMapping;
-  if (scope === ScopeTypes.ORGANIZERS) {
-    weights.location.weight = 10;
-    weights.description.weight = 15;
-  }
-
-  return weights;
-};
+const getScopeWeights = (scope: Scope): Weights =>
+  scope === ScopeTypes.ORGANIZERS
+    ? organizerScoreWeightMapping
+    : scoreWeightMapping;
 
 const getMinimumScore = (weights: Weights): number => {
   let minimumScore = 0;
