@@ -185,7 +185,7 @@ const getMinimumScore = (weights: Weights): number => {
   return minimumScore;
 };
 
-const FormScore = ({ completedFields, offerId, scope, ...props }: Props) => {
+const FormScore = ({ completedFields, offerId, scope }: Props) => {
   const { t } = useTranslation();
 
   const router = useRouter();
@@ -230,7 +230,7 @@ const FormScore = ({ completedFields, offerId, scope, ...props }: Props) => {
     });
 
     return completeScore + minimumScore;
-  }, [fullCompletedFields, weights]);
+  }, [fullCompletedFields, weights, minimumScore]);
 
   const rotationValue = useMemo(() => {
     const maxRotation = 247;

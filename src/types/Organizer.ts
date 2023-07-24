@@ -1,7 +1,8 @@
+import { MediaObject } from '@/types/Offer';
+
 import type { Address } from './Address';
 import type { ContactPoint } from './ContactPoint';
 import type { WorkflowStatus } from './WorkflowStatus';
-import { MediaObject } from '@/types/Offer';
 
 type Organizer = {
   '@id': string;
