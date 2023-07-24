@@ -304,7 +304,7 @@ const addOfferImage = async ({ headers, eventId, imageId, scope }) =>
     options: {
       method: 'POST',
       headers,
-      body: JSON.stringify({ mediaObjectId: imageId }),
+      body: JSON.stringify({ mediaObjectId: imageId, id: imageId }),
     },
   });
 
