@@ -222,7 +222,7 @@ const FormScore = ({ completedFields, offerId, scope, ...props }: Props) => {
     });
 
     return completeScore + minimumScore;
-  }, [fullCompletedFields]);
+  }, [fullCompletedFields, weights]);
 
   const rotationValue = useMemo(() => {
     const maxRotation = 247;
@@ -231,7 +231,7 @@ const FormScore = ({ completedFields, offerId, scope, ...props }: Props) => {
     const scorePercentage = (score - minimumScore) / (100 - minimumScore);
 
     return maxRotation * scorePercentage + minRotation;
-  }, [score]);
+  }, [score, minimumScore]);
 
   const tipField = useMemo(() => {
     if (score === 100)
@@ -261,7 +261,7 @@ const FormScore = ({ completedFields, offerId, scope, ...props }: Props) => {
     const { fieldName } = highestUncompletedValue;
 
     return fieldName;
-  }, [fullCompletedFields, score, t]);
+  }, [fullCompletedFields, score, t, weights]);
 
   const TipLink = ({ field }: { field: string }) => {
     const hash = field === 'video' ? 'media' : field;
