@@ -2,6 +2,7 @@ import { DragEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { css } from 'styled-components';
 
+import { ScopeTypes } from '@/constants/OfferType';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icons } from '@/ui/Icon';
 import { Image } from '@/ui/Image';
@@ -11,7 +12,6 @@ import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getGlobalBorderRadius, getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
-import { ScopeTypes } from '@/constants/OfferType';
 
 const THUMBNAIL_SIZE = 80;
 
