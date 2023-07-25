@@ -424,7 +424,14 @@
             "text": "Tip: voeg een <1>{{link}}</1> toe",
             "link": "organisatie"
           },
-          "completed": "Alle punten! Met dit evenement ga je scoren!"
+          "location": {
+            "text": "Tip: voeg <1>{{link}}</1> toe",
+            "link": "adresgegevens"
+          },
+          "completed": {
+            "offers": "Alle punten! Met dit evenement ga je scoren!",
+            "organizers": "Met deze organisatie ga je scoren!"
+          }
         }
       },
       "organizer": {
