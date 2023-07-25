@@ -11,6 +11,7 @@ import { getStackProps, Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getGlobalBorderRadius, getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
+import { ScopeTypes } from '@/constants/OfferType';
 
 const THUMBNAIL_SIZE = 80;
 
@@ -57,6 +58,7 @@ type Props = StackProps & {
 };
 
 const PictureUploadBox = ({
+  scope,
   images,
   onClickEditImage,
   onClickDeleteImage,
@@ -173,7 +175,9 @@ const PictureUploadBox = ({
                 <ImageIcon width="60" />
               </Stack>
               <Text variant={TextVariants.MUTED} textAlign="center">
-                {t('pictures.intro')}
+                {scope === ScopeTypes.ORGANIZERS
+                  ? t('organizers.create.step2.pictures.intro')
+                  : t('pictures.intro')}
               </Text>
             </Stack>
           )}

@@ -981,7 +981,11 @@
       },
       "step2": {
         "description_tips": "Geef een enthousiaste omschrijving van je organisatie\nTot welke doelgroep richt de organisatie zich?\nWat voor activiteiten organiseert deze organisatie?",
-        "save": "Bewaren"
+        "save": "Bewaren",
+        "pictures": {
+          "title": "Afbeeldingen",
+          "intro": "Voeg een afbeelding toe zodat bezoekers je organisatie beter herkennen"
+        }
       }
     }
   },

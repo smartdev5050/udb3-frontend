@@ -387,6 +387,7 @@ const MediaStep = ({
       <Inline spacing={4} alignItems="flex-start" stackOn={Breakpoints.M}>
         <PictureUploadBox
           width="45%"
+          scope={scope}
           images={images}
           onClickEditImage={handleClickEditImage}
           onClickDeleteImage={handleClickDeleteImage}

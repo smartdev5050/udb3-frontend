@@ -4,7 +4,7 @@ import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
-import { OfferType, Scope } from '@/constants/OfferType';
+import { OfferType, Scope, ScopeTypes } from '@/constants/OfferType';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { LabelsStep } from '@/pages/steps/AdditionalInformationStep/LabelsStep';
 import { PhysicalLocationStep } from '@/pages/steps/AdditionalInformationStep/PhysicalLocationStep';
@@ -141,11 +141,17 @@ const tabConfigurations: TabConfig[] = [
 ];
 
 type TabTitleProps = InlineProps & {
+  scope: Scope;
   field: Field;
   validationStatus: ValidationStatus;
 };
 
-const TabTitle = ({ field, validationStatus, ...props }: TabTitleProps) => {
+const TabTitle = ({
+  scope,
+  field,
+  validationStatus,
+  ...props
+}: TabTitleProps) => {
   const { t } = useTranslation();
 
   return (
@@ -159,7 +165,11 @@ const TabTitle = ({ field, validationStatus, ...props }: TabTitleProps) => {
           color={getGlobalValue('warningIcon')}
         />
       )}
-      <Text>{t(`create.additionalInformation.${field}.title`)}</Text>
+      <Text>
+        {scope === ScopeTypes.ORGANIZERS
+          ? t('organizers.create.step2.pictures.title')
+          : t(`create.additionalInformation.${field}.title`)}
+      </Text>
     </Inline>
   );
 };
@@ -268,6 +278,7 @@ const AdditionalInformationStep = ({
                 eventKey={field}
                 title={
                   <TabTitle
+                    scope={scope}
                     field={field}
                     validationStatus={validatedFields[field]}
                   />
