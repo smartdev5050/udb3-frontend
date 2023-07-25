@@ -980,12 +980,9 @@
         }
       },
       "step2": {
-        "description_tips": "Décrivez avec enthousiasme votre organisation\nQuel public l'organisation cible-t-elle ?\nQuel type d'activités cette organisation organise-t-elle ?"
+        "description_tips": "Décrivez avec enthousiasme votre organisation\nQuel public l'organisation cible-t-elle ?\nQuel type d'activités cette organisation organise-t-elle ?",
+        "save": "Enregistrer"
       }
-    },
-    "step2": {
-      "description_tips": "Décrivez avec enthousiasme votre organisation\nQuel public l'organisation cible-t-elle ?\nQuel type d'activités cette organisation organise-t-elle ?",
-      "save": "Enregistrer"
     }
   },
   "selectionTable": {
