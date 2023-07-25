@@ -166,7 +166,7 @@ const TabTitle = ({
         />
       )}
       <Text>
-        {scope === ScopeTypes.ORGANIZERS
+        {scope === ScopeTypes.ORGANIZERS && field === Fields.MEDIA
           ? t('organizers.create.step2.pictures.title')
           : t(`create.additionalInformation.${field}.title`)}
       </Text>
