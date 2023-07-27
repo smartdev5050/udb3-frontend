@@ -8,7 +8,8 @@ describe('isValidUrl', () => {
     'https://speeltuin.vlaanderen/speeltuinen': true,
   };
 
-  test.each(Object.entries(tests))('can check if url %p is %p', (url) =>
-    expect(isValidUrl(url)).toBe(tests[url]),
+  test.each(Object.entries(tests))(
+    'can check if url %p being valid is %p',
+    (url, expected) => expect(isValidUrl(url)).toBe(expected),
   );
 });
