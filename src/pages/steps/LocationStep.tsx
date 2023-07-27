@@ -46,7 +46,6 @@ import { prefixUrlWithHttps } from '@/utils/url';
 
 import { CityPicker } from '../CityPicker';
 import { Features, NewFeatureTooltip } from '../NewFeatureTooltip';
-import { isValidUrl } from './AdditionalInformationStep/ContactInfoStep';
 import { CountryPicker } from './CountryPicker';
 import { UseEditArguments } from './hooks/useEditField';
 import { PlaceStep } from './PlaceStep';
@@ -56,6 +55,7 @@ import {
   StepProps,
   StepsConfiguration,
 } from './Steps';
+import { isValidUrl } from '@/utils/isValidInfo';
 
 const GERMAN_ZIP_REGEX: RegExp = /\b\d{5}\b/;
 const DUTCH_ZIP_REGEX: RegExp = /^\d{4}([A-Za-z0-9]{2})?$/;

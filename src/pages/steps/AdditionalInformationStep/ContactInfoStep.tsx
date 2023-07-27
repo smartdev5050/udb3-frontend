@@ -16,6 +16,7 @@ import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { prefixUrlWithHttps } from '@/utils/url';
 
 import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
+import { isValidInfo } from '@/utils/isValidInfo';
 
 const ContactInfoTypes = {
   EMAIL: 'email',
@@ -32,39 +33,6 @@ type ContactInfo = {
 type NewContactInfo = {
   type: string;
   value: string;
-};
-
-const EMAIL_REGEX: RegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/;
-const URL_REGEX: RegExp =
-  /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?!&\/=]*)$/;
-const PHONE_REGEX: RegExp = /^[0-9\/\-_.+ ]{0,15}$/;
-
-const isValidEmail = (email: string) => {
-  return (
-    typeof email === 'undefined' || email === '' || EMAIL_REGEX.test(email)
-  );
-};
-
-const isValidUrl = (url: string) => {
-  try {
-    new URL(url);
-    return true;
-  } catch (e) {
-    return false;
-  }
-};
-
-const isValidPhone = (phone: string) => {
-  return (
-    typeof phone === 'undefined' || phone === '' || PHONE_REGEX.test(phone)
-  );
-};
-
-const isValidInfo = (type: string, value: string): boolean => {
-  if (value === '') return true;
-  if (type === 'email') return isValidEmail(value);
-  if (type === 'url') return isValidUrl(value);
-  if (type === 'phone') return isValidPhone(value);
 };
 
 type Props = StackProps &
@@ -328,5 +296,5 @@ ContactInfoStep.defaultProps = {
   isOrganizer: false,
 };
 
-export { ContactInfoStep, isValidEmail, isValidPhone, isValidUrl };
+export { ContactInfoStep };
 export type { ContactInfo };

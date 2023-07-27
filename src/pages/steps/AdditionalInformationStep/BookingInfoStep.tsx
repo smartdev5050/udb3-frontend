@@ -24,7 +24,8 @@ import { formatDateToISO } from '@/utils/formatDateToISO';
 import { prefixUrlWithHttps } from '@/utils/url';
 
 import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
-import { isValidEmail, isValidPhone, isValidUrl } from './ContactInfoStep';
+
+import { isValidEmail, isValidPhone, isValidUrl } from '@/utils/isValidInfo';
 
 const schema = yup
   .object({
