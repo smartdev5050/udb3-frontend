@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { ScopeTypes } from '@/constants/OfferType';
 import { useAddImageMutation } from '@/hooks/api/images';
 import {
   useAddOfferImageMutation,
@@ -8,9 +9,9 @@ import {
   useAddOfferVideoMutation,
   useDeleteOfferImageMutation,
   useDeleteOfferVideoMutation,
-  useGetOfferByIdQuery,
   useUpdateOfferImageMutation,
 } from '@/hooks/api/offers';
+import { useGetEntityByIdAndScope } from '@/hooks/api/scope';
 import {
   TabContentProps,
   ValidationStatus,
@@ -43,29 +44,33 @@ const MediaStep = ({
   // TODO: refactor
   const eventId = offerId;
 
-  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId, scope });
+  const getEntityByIdQuery = useGetEntityByIdAndScope({ id: offerId, scope });
 
   const videosFromQuery = useMemo(
     // @ts-expect-error
-    () => getOfferByIdQuery.data?.videos ?? [],
+    () => getEntityByIdQuery.data?.videos ?? [],
     [
       // @ts-expect-error
-      getOfferByIdQuery.data?.videos,
+      getEntityByIdQuery.data?.videos,
     ],
   );
 
   const mediaObjects = useMemo(
+    () =>
+      // @ts-expect-error
+      getEntityByIdQuery.data?.mediaObject ??
+      // @ts-expect-error
+      getEntityByIdQuery.data?.images ??
+      [],
     // @ts-expect-error
-    () => getOfferByIdQuery.data?.mediaObject ?? [],
-    // @ts-expect-error
-    [getOfferByIdQuery.data?.mediaObject],
+    [getEntityByIdQuery.data],
   );
 
   const eventImage = useMemo(
     // @ts-expect-error
-    () => getOfferByIdQuery.data?.image ?? [],
+    () => getEntityByIdQuery.data?.image ?? [],
     // @ts-expect-error
-    [getOfferByIdQuery.data?.image],
+    [getEntityByIdQuery.data?.image],
   );
 
   const [isPictureUploadModalVisible, setIsPictureUploadModalVisible] =
@@ -382,6 +387,7 @@ const MediaStep = ({
       <Inline spacing={4} alignItems="flex-start" stackOn={Breakpoints.M}>
         <PictureUploadBox
           width="45%"
+          scope={scope}
           images={images}
           onClickEditImage={handleClickEditImage}
           onClickDeleteImage={handleClickDeleteImage}
@@ -389,12 +395,14 @@ const MediaStep = ({
           onClickAddImage={handleClickAddImage}
           onDragAddImage={handleDragAddImage}
         />
-        <VideoUploadBox
-          width="45%"
-          videos={videos}
-          onClickAddVideo={() => setIsVideoLinkAddModalVisible(true)}
-          onClickDeleteVideo={handleDeleteVideoLink}
-        />
+        {scope !== ScopeTypes.ORGANIZERS && (
+          <VideoUploadBox
+            width="45%"
+            videos={videos}
+            onClickAddVideo={() => setIsVideoLinkAddModalVisible(true)}
+            onClickDeleteVideo={handleDeleteVideoLink}
+          />
+        )}
       </Inline>
     </Stack>
   );

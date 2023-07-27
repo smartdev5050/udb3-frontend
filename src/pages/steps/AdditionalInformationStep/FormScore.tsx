@@ -4,10 +4,11 @@ import { Trans, useTranslation } from 'react-i18next';
 
 import { eventTypesWithNoThemes } from '@/constants/EventTypes';
 import { OfferTypes, ScopeTypes } from '@/constants/OfferType';
-import { useGetOfferByIdQuery } from '@/hooks/api/offers';
+import { useGetEntityByIdAndScope } from '@/hooks/api/scope';
 import { Scope } from '@/pages/create/OfferForm';
 import { Features, NewFeatureTooltip } from '@/pages/NewFeatureTooltip';
 import { Offer } from '@/types/Offer';
+import { Organizer } from '@/types/Organizer';
 import { Inline } from '@/ui/Inline';
 import { Link } from '@/ui/Link';
 import { Notification } from '@/ui/Notification';
@@ -128,21 +129,51 @@ const scoreWeightMapping: Weights = {
   },
 };
 
+const organizerScoreWeightMapping: Weights = {
+  name: {
+    weight: 20,
+    mandatory: true,
+  },
+  url: {
+    weight: 20,
+    mandatory: true,
+  },
+  contact_info: {
+    weight: 20,
+    mandatory: false,
+  },
+  description: {
+    weight: 15,
+    mandatory: false,
+  },
+  media: {
+    weight: 15,
+    mandatory: false,
+  },
+  location: {
+    weight: 10,
+    mandatory: false,
+  },
+};
+
 type Props = {
   offerId: string;
   scope: Scope;
   completedFields: Record<Field, boolean>;
 };
 
-const getScopeWeights = (scope: Scope): Weights => {
-  let weights = scoreWeightMapping;
-  if (scope === ScopeTypes.ORGANIZERS) {
-    weights.location.weight = 10;
-    weights.description.weight = 15;
-  }
+type EntityWithMedia =
+  | (Offer & { images: undefined })
+  | (Organizer & {
+      terms: undefined;
+      mediaObject: undefined;
+      videos: undefined;
+    });
 
-  return weights;
-};
+const getScopeWeights = (scope: Scope): Weights =>
+  scope === ScopeTypes.ORGANIZERS
+    ? organizerScoreWeightMapping
+    : scoreWeightMapping;
 
 const getMinimumScore = (weights: Weights): number => {
   let minimumScore = 0;
@@ -154,31 +185,32 @@ const getMinimumScore = (weights: Weights): number => {
   return minimumScore;
 };
 
-const FormScore = ({ completedFields, offerId, scope, ...props }: Props) => {
+const FormScore = ({ completedFields, offerId, scope }: Props) => {
   const { t } = useTranslation();
 
   const router = useRouter();
 
-  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId, scope });
+  const getEntityByIdQuery = useGetEntityByIdAndScope({ id: offerId, scope });
   const weights = getScopeWeights(scope);
   const minimumScore = useMemo(() => getMinimumScore(weights), [weights]);
 
   // @ts-expect-error
-  const offer: Offer | undefined = getOfferByIdQuery.data;
+  const entity: EntityWithMedia | undefined = getEntityByIdQuery.data;
 
-  const hasNoPossibleTheme = offer?.terms.some(
+  const hasNoPossibleTheme = entity?.terms?.some(
     (term) =>
       term.domain === 'eventtype' && eventTypesWithNoThemes.includes(term.id),
   );
 
   const hasTheme: boolean =
-    offer?.terms.some((term) => term.domain === 'theme') ||
+    entity?.terms?.some((term) => term.domain === 'theme') ||
     hasNoPossibleTheme ||
     scope === OfferTypes.PLACES;
 
-  const hasMediaObject: boolean = (offer?.mediaObject ?? []).length > 0;
+  const hasMediaObject: boolean =
+    (entity?.mediaObject ?? entity?.images ?? []).length > 0;
 
-  const hasVideo: boolean = (offer?.videos ?? []).length > 0;
+  const hasVideo: boolean = (entity?.videos ?? []).length > 0;
 
   const fullCompletedFields = useMemo(() => {
     return {
@@ -198,7 +230,7 @@ const FormScore = ({ completedFields, offerId, scope, ...props }: Props) => {
     });
 
     return completeScore + minimumScore;
-  }, [fullCompletedFields]);
+  }, [fullCompletedFields, weights, minimumScore]);
 
   const rotationValue = useMemo(() => {
     const maxRotation = 247;
@@ -207,7 +239,7 @@ const FormScore = ({ completedFields, offerId, scope, ...props }: Props) => {
     const scorePercentage = (score - minimumScore) / (100 - minimumScore);
 
     return maxRotation * scorePercentage + minRotation;
-  }, [score]);
+  }, [score, minimumScore]);
 
   const tipField = useMemo(() => {
     if (score === 100)
@@ -237,7 +269,7 @@ const FormScore = ({ completedFields, offerId, scope, ...props }: Props) => {
     const { fieldName } = highestUncompletedValue;
 
     return fieldName;
-  }, [fullCompletedFields, score, t]);
+  }, [fullCompletedFields, score, t, weights]);
 
   const TipLink = ({ field }: { field: string }) => {
     const hash = field === 'video' ? 'media' : field;

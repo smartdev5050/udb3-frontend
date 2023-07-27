@@ -304,7 +304,7 @@ const addOfferImage = async ({ headers, eventId, imageId, scope }) =>
     options: {
       method: 'POST',
       headers,
-      body: JSON.stringify({ mediaObjectId: imageId }),
+      body: JSON.stringify({ mediaObjectId: imageId, id: imageId }),
     },
   });
 
@@ -319,7 +319,7 @@ const addOfferMainImage = async ({ headers, eventId, imageId, scope }) =>
   fetchFromApi({
     path: `/${scope}/${eventId.toString()}/images/main`,
     options: {
-      method: 'POST',
+      method: 'PUT',
       headers,
       body: JSON.stringify({ mediaObjectId: imageId }),
     },

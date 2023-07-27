@@ -981,7 +981,11 @@
       },
       "step2": {
         "description_tips": "Beschreiben Sie Ihre Organisation mit Begeisterung\nAn welche Zielgruppe richtet sich die Organisation?\nWelche Aktivitäten organisiert diese Organisation?",
-        "save": "Speichern"
+        "save": "Speichern",
+        "pictures": {
+          "title": "Bilder",
+          "intro": "Fügen Sie ein Bild hinzu, damit Besucher Ihre Organisation besser erkennen"
+        }
       }
     }
   },
