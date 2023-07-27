@@ -1,5 +1,5 @@
-const EMAIL_REGEX: RegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/;
-const PHONE_REGEX: RegExp = /^[0-9\/\-_.+ ]{0,15}$/;
+const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/;
+const PHONE_REGEX = /^[0-9\/\-_.+ ]{0,15}$/;
 
 const isValidEmail = (email: string) => {
   return (
