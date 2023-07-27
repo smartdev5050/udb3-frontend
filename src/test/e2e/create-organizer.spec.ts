@@ -18,7 +18,6 @@ const dummyOrganizer = {
 };
 
 test('create an organizer', async ({ baseURL, page }) => {
-  // Navigate to form
   await page.goto(`${baseURL}/organizers/create`);
 
   await page.getByLabel('Naam').click();
