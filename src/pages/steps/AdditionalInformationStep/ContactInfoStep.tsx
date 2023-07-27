@@ -44,9 +44,16 @@ const isValidEmail = (email: string) => {
     typeof email === 'undefined' || email === '' || EMAIL_REGEX.test(email)
   );
 };
+
 const isValidUrl = (url: string) => {
-  return typeof url === 'undefined' || url === '' || URL_REGEX.test(url);
+  try {
+    new URL(url);
+    return true;
+  } catch (e) {
+    return false;
+  }
 };
+
 const isValidPhone = (phone: string) => {
   return (
     typeof phone === 'undefined' || phone === '' || PHONE_REGEX.test(phone)
