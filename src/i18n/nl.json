@@ -295,7 +295,10 @@
         "education": "Specifiek voor scholen",
         "everyone": "Voor iedereen",
         "members": "Enkel voor leden",
-        "help": "Je item wordt enkel gepubliceerd op cultuureducatieve kanalen zoals cultuurkuur.be. Na het publiceren kan je nog specifieke informatie voor scholen toevoegen."
+        "help": {
+          "education": "Je item wordt enkel gepubliceerd op cultuureducatieve kanalen zoals cultuurkuur.be. Na het publiceren kan je nog specifieke informatie voor scholen toevoegen.",
+          "members": "Je item wordt enkel gepubliceerd op kanalen voor verenigingen en hun leden."
+        }
       },
       "contact_info": {
         "add_more_singular": "Contactgegevens toevoegen",
