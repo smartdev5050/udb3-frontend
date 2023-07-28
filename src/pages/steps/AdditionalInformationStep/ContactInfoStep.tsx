@@ -284,7 +284,7 @@ const ContactInfoStep = ({
                   }}
                 />
               }
-              id="contact-info-value"
+              data-testid="contact-info-value"
               error={
                 !isFieldFocused &&
                 !isValidInfo(info.type, info.value) &&
