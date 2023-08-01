@@ -272,7 +272,7 @@ const ContactInfoStep = ({
               width="55%"
               Component={
                 <Input
-                  data-testid={'contact-info-value'}
+                  data-testid="contact-info-value"
                   value={info.value}
                   onChange={(e) => {
                     const newContactInfoState = [...contactInfoState];
