@@ -41,12 +41,12 @@ import { Text, TextVariants } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { ToggleBox } from '@/ui/ToggleBox';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
+import { isValidUrl } from '@/utils/isValidInfo';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { prefixUrlWithHttps } from '@/utils/url';
 
 import { CityPicker } from '../CityPicker';
 import { Features, NewFeatureTooltip } from '../NewFeatureTooltip';
-import { isValidUrl } from './AdditionalInformationStep/ContactInfoStep';
 import { CountryPicker } from './CountryPicker';
 import { UseEditArguments } from './hooks/useEditField';
 import { PlaceStep } from './PlaceStep';
