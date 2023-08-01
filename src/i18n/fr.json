@@ -424,7 +424,14 @@
             "text": "Astuce : ajouter un <1>{{link}}</1>",
             "link": "organisateur"
           },
-          "completed": "Tous les points ! Vous allez marquer des points avec cet événement !"
+          "location": {
+            "text": "Astuce: Astuce : ajoutez les <1>{{link}}</1>",
+            "link": "coordonnées d'adresse"
+          },
+          "completed": {
+            "offers": "Tous les points ! Vous allez marquer des points avec cet événement !",
+            "organizers": "Avec cette organisation, vous allez marquer des points"
+          }
         }
       },
       "organizer": {

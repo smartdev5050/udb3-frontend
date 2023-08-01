@@ -422,7 +422,14 @@
             "text": "Tipp: Fügen Sie einen <1>{{link}}</1> hinzu",
             "link": "Organisator"
           },
-          "completed": "Alle Punkte! Mit dieser Veranstaltung werden Sie punkten!"
+          "location": {
+            "text": "Tipp: Fügen Sie <1>{{link}}</1> hinzu",
+            "link": "Adresseinformationen"
+          },
+          "completed": {
+            "offers": "Alle Punkte! Mit dieser Veranstaltung werden Sie punkten!",
+            "organizers": "Mit dieser Organisation wirst du punkten!"
+          }
         }
       },
       "organizer": {

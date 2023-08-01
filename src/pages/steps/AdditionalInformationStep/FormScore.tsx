@@ -242,8 +242,8 @@ const FormScore = ({ completedFields, offerId, scope }: Props) => {
   }, [score, minimumScore]);
 
   const tipField = useMemo(() => {
-    if (score === 100)
-      return t(`create.additionalInformation.event_score.tip.completed`);
+    if (score === 100) return;
+
     // find uncompleted fields with the highest weight to give a tip to the user
     const unCompletedFieldKeys = Object.keys(fullCompletedFields).filter(
       (key) => !fullCompletedFields[key],
@@ -269,7 +269,7 @@ const FormScore = ({ completedFields, offerId, scope }: Props) => {
     const { fieldName } = highestUncompletedValue;
 
     return fieldName;
-  }, [fullCompletedFields, score, t, weights]);
+  }, [fullCompletedFields, score, weights]);
 
   const TipLink = ({ field }: { field: string }) => {
     const hash = field === 'video' ? 'media' : field;
@@ -311,7 +311,11 @@ const FormScore = ({ completedFields, offerId, scope }: Props) => {
       body={
         <Text>
           {score === 100 &&
-            t('create.additionalInformation.event_score.tip.completed')}
+            t(
+              `create.additionalInformation.event_score.tip.completed.${
+                scope === ScopeTypes.ORGANIZERS ? scope : 'offers'
+              }`,
+            )}
           {score !== 100 && (
             <Trans
               i18nKey={`create.additionalInformation.event_score.tip.${tipField}.text`}
