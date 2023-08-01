@@ -92,6 +92,7 @@ const Input = forwardRef(
       disabled={disabled}
       onFocus={onFocus}
       onKeyDown={onKeyDown}
+      data-testid={props['data-testid']}
       {...getBoxProps(props)}
     />
   ),
