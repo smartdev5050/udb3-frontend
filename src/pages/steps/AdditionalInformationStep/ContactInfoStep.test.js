@@ -6,6 +6,7 @@ describe('isValidUrl', () => {
     'goobar.com': false,
     'http://goobar.com': true,
     'https://speeltuin.vlaanderen/speeltuinen': true,
+    'https://speeltuin.vlaanderen/speeltuinen?foo[]=bar&baz=50': true,
   };
 
   test.each(Object.entries(tests))(
