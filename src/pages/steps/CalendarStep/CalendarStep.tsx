@@ -1,8 +1,10 @@
+import { useRouter } from 'next/router';
 import { useEffect, useMemo, useRef } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
+import { BookingAvailabilityType } from '@/constants/BookingAvailabilityType';
 import { CalendarType } from '@/constants/CalendarType';
 import { eventTypesWithNoThemes } from '@/constants/EventTypes';
 import { OfferStatus } from '@/constants/OfferStatus';
@@ -160,6 +162,7 @@ const CalendarStep = ({
   onChange,
   ...props
 }: CalendarStepProps) => {
+  const router = useRouter();
   const { t } = useTranslation();
 
   const calendarStepContainer = useRef(null);
@@ -244,10 +247,18 @@ const CalendarStep = ({
   const offer: Offer | undefined = getOfferByIdQuery.data;
 
   useEffect(() => {
+    const isOnDuplicatePage = router.pathname.endsWith('/duplicate');
 
     if (!offer) return;
 
     const { newContext, calendarType } = convertOfferToCalendarContext(offer);
+    if (isOnDuplicatePage) {
+      newContext.days = newContext.days.map((day) => ({
+        ...day,
+        bookingAvailability: { type: BookingAvailabilityType.AVAILABLE },
+        status: { type: OfferStatus.AVAILABLE },
+      }));
+    }
 
     handleLoadInitialContext({ newContext, calendarType });
     // eslint-disable-next-line react-hooks/exhaustive-deps
