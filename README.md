@@ -4,6 +4,8 @@
 
 Copy the `.env.example` and rename it to `.env.local`.
 Fill in the correct values for the variables.
+For running it in combination with [udb3-backend](https://github.com/cultuurnet/udb3-backend) on [Docker](https://www.docker.com),
+a sample `.env` is available in [appconfig](https://github.com/cultuurnet/appconfig/blob/main/files/udb3/docker/udb3-frontend/.env).
 
 ## Build Setup
 
