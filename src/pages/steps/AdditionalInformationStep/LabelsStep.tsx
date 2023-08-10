@@ -26,7 +26,7 @@ import { Typeahead } from '@/ui/Typeahead';
 
 type LabelsStepProps = StackProps & TabContentProps;
 
-const LABEL_PATTERN = /^[0-9a-zA-Z][0-9a-zA-Z-_\s]{1,49}$/;
+const LABEL_PATTERN = /^[0-9a-zA-ZÀ-ÿ][0-9a-zA-ZÀ-ÿ\-_\s]{1,49}$/;
 
 function LabelsStep({
   offerId,
