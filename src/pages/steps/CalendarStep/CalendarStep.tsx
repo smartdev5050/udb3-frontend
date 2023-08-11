@@ -1,8 +1,10 @@
+import { useRouter } from 'next/router';
 import { useEffect, useMemo, useRef } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
+import { BookingAvailabilityType } from '@/constants/BookingAvailabilityType';
 import { CalendarType } from '@/constants/CalendarType';
 import { eventTypesWithNoThemes } from '@/constants/EventTypes';
 import { OfferStatus } from '@/constants/OfferStatus';
@@ -73,6 +75,39 @@ const useEditCalendar = ({ offerId, onSuccess }: UseEditArguments) => {
   };
 };
 
+const convertOfferToCalendarContext = (offer: Offer) => {
+  const initialContext = initialCalendarContext;
+
+  const days = (offer.subEvent ?? []).map((subEvent) => ({
+    id: createDayId(),
+    startDate: subEvent.startDate,
+    endDate: subEvent.endDate,
+    status: subEvent.status,
+    bookingAvailability: subEvent.bookingAvailability,
+  }));
+
+  const openingHours = (offer.openingHours ?? []).map((openingHour) => ({
+    id: createOpeninghoursId(),
+    opens: openingHour.opens,
+    closes: openingHour.closes,
+    dayOfWeek: openingHour.dayOfWeek,
+  }));
+
+  const newContext = {
+    ...initialContext,
+    ...(days.length > 0 && { days }),
+    ...(openingHours.length > 0 && { openingHours }),
+    ...(offer?.startDate && {
+      startDate: offer.startDate,
+    }),
+    ...(offer?.endDate && {
+      endDate: offer.endDate,
+    }),
+  };
+
+  return { newContext, calendarType: offer.calendarType };
+};
+
 const convertStateToFormData = (
   context: CalendarContext,
   calendarType: Values<typeof CalendarType>,
@@ -127,6 +162,7 @@ const CalendarStep = ({
   onChange,
   ...props
 }: CalendarStepProps) => {
+  const router = useRouter();
   const { t } = useTranslation();
 
   const calendarStepContainer = useRef(null);
@@ -211,38 +247,20 @@ const CalendarStep = ({
   const offer: Offer | undefined = getOfferByIdQuery.data;
 
   useEffect(() => {
-    const initialContext = initialCalendarContext;
+    const isOnDuplicatePage = router.pathname.endsWith('/duplicate');
 
     if (!offer) return;
 
-    const days = (offer.subEvent ?? []).map((subEvent) => ({
-      id: createDayId(),
-      startDate: subEvent.startDate,
-      endDate: subEvent.endDate,
-      status: subEvent.status,
-      bookingAvailability: subEvent.bookingAvailability,
-    }));
+    const { newContext, calendarType } = convertOfferToCalendarContext(offer);
+    if (isOnDuplicatePage) {
+      newContext.days = newContext.days.map((day) => ({
+        ...day,
+        bookingAvailability: { type: BookingAvailabilityType.AVAILABLE },
+        status: { type: OfferStatus.AVAILABLE },
+      }));
+    }
 
-    const openingHours = (offer.openingHours ?? []).map((openingHour) => ({
-      id: createOpeninghoursId(),
-      opens: openingHour.opens,
-      closes: openingHour.closes,
-      dayOfWeek: openingHour.dayOfWeek,
-    }));
-
-    const newContext = {
-      ...initialContext,
-      ...(days.length > 0 && { days }),
-      ...(openingHours.length > 0 && { openingHours }),
-      ...(offer?.startDate && {
-        startDate: offer.startDate,
-      }),
-      ...(offer?.endDate && {
-        endDate: offer.endDate,
-      }),
-    };
-
-    handleLoadInitialContext({ newContext, calendarType: offer.calendarType });
+    handleLoadInitialContext({ newContext, calendarType });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     handleLoadInitialContext,
