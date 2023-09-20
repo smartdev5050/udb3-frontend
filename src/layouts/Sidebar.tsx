@@ -18,11 +18,7 @@ import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
-import {
-  Features,
-  NewFeatureTooltip,
-  QuestionCircleIcon,
-} from '@/pages/NewFeatureTooltip';
+import { QuestionCircleIcon } from '@/pages/NewFeatureTooltip';
 import type { Values } from '@/types/Values';
 import { Badge } from '@/ui/Badge';
 import { Button, ButtonVariants } from '@/ui/Button';
@@ -641,4 +637,4 @@ const Sidebar = () => {
   ];
 };
 
-export { Sidebar };
+export { PermissionTypes, Sidebar };
