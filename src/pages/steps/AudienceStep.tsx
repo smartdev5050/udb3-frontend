@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect } from 'react';
+import { Fragment, useEffect } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -87,25 +87,31 @@ const AudienceStep = ({
         <Text fontWeight="bold">
           {t('create.additionalInformation.audience.title')}
         </Text>
-        {Object.values(AudienceType).map((type, index) => (
-          <FormElement
-            key={index}
-            id={`audience-${type}`}
-            Component={
-              <RadioButtonWithLabel
-                {...register(`audienceType`)}
-                label={t(`create.additionalInformation.audience.${type}`)}
-                checked={watchedAudienceType === type}
-                onChange={() => handleOnChangeAudience(type)}
+        {Object.values(AudienceType).map((type, index) => {
+          return (
+            <Fragment key={index}>
+              <FormElement
+                id={`audience-${type}`}
+                Component={
+                  <RadioButtonWithLabel
+                    {...register(`audienceType`)}
+                    label={t(`create.additionalInformation.audience.${type}`)}
+                    checked={watchedAudienceType === type}
+                    onChange={() => handleOnChangeAudience(type)}
+                  />
+                }
               />
-            }
-          />
-        ))}
-        {watchedAudienceType === AudienceType.EDUCATION && (
-          <Text variant="muted" maxWidth="30%">
-            {t('create.additionalInformation.audience.help')}
-          </Text>
-        )}
+              {watchedAudienceType === type &&
+                watchedAudienceType !== AudienceType.EVERYONE && (
+                  <Text variant="muted" maxWidth="30%">
+                    {t(
+                      `create.additionalInformation.audience.help.${watchedAudienceType}`,
+                    )}
+                  </Text>
+                )}
+            </Fragment>
+          );
+        })}
       </Stack>
     </Stack>
   );

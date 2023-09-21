@@ -16,13 +16,13 @@ import {
 } from '@/hooks/api/user';
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
+import {
+  useHandleWindowMessage,
+  WindowMessageTypes,
+} from '@/hooks/useHandleWindowMessage';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
-import {
-  Features,
-  NewFeatureTooltip,
-  QuestionCircleIcon,
-} from '@/pages/NewFeatureTooltip';
+import { QuestionCircleIcon } from '@/pages/NewFeatureTooltip';
 import type { Values } from '@/types/Values';
 import { Badge } from '@/ui/Badge';
 import { Button, ButtonVariants } from '@/ui/Button';
@@ -317,6 +317,7 @@ const BetaVersionToggle = ({
 const Sidebar = () => {
   const { t, i18n } = useTranslation();
 
+  const queryClient = useQueryClient();
   const storage = useLocalStorage();
 
   const [isJobLoggerVisible, setIsJobLoggerVisible] = useState(true);
@@ -421,6 +422,11 @@ const Sidebar = () => {
     setSearchQuery(validationQuery);
     // @ts-expect-error
   }, [getRolesQuery.data]);
+
+  useHandleWindowMessage({
+    [WindowMessageTypes.OFFER_MODERATED]: () =>
+      queryClient.invalidateQueries(['events']),
+  });
 
   const announcements = useMemo(
     () =>
@@ -641,4 +647,4 @@ const Sidebar = () => {
   ];
 };
 
-export { Sidebar };
+export { PermissionTypes, Sidebar };

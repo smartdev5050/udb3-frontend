@@ -2,7 +2,6 @@ import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
-import { EMAIL_REGEX, PHONE_REGEX, URL_REGEX } from '@/constants/Regex';
 import { useAddContactPointMutation } from '@/hooks/api/offers';
 import { useGetEntityByIdAndScope } from '@/hooks/api/scope';
 import { Button, ButtonVariants } from '@/ui/Button';
@@ -12,6 +11,7 @@ import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
 import { Select } from '@/ui/Select';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
+import { isValidInfo } from '@/utils/isValidInfo';
 import { prefixUrlWithHttps } from '@/utils/url';
 
 import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
@@ -31,29 +31,6 @@ type ContactInfo = {
 type NewContactInfo = {
   type: string;
   value: string;
-};
-
-const isValidEmail = (email: string) => {
-  return (
-    typeof email === 'undefined' || email === '' || EMAIL_REGEX.test(email)
-  );
-};
-
-const isValidUrl = (url: string) => {
-  return typeof url === 'undefined' || url === '' || URL_REGEX.test(url);
-};
-
-const isValidPhone = (phone: string) => {
-  return (
-    typeof phone === 'undefined' || phone === '' || PHONE_REGEX.test(phone)
-  );
-};
-
-const isValidInfo = (type: string, value: string): boolean => {
-  if (value === '') return true;
-  if (type === 'email') return isValidEmail(value);
-  if (type === 'url') return isValidUrl(value);
-  if (type === 'phone') return isValidPhone(value);
 };
 
 type Props = StackProps &
@@ -260,10 +237,12 @@ const ContactInfoStep = ({
               ))}
             </Select>
             <FormElement
+              id={`contact-info-value-${index}`}
               alignSelf="flex-start"
               width="55%"
               Component={
                 <Input
+                  data-testid="contact-info-value"
                   value={info.value}
                   onChange={(e) => {
                     const newContactInfoState = [...contactInfoState];
@@ -277,7 +256,6 @@ const ContactInfoStep = ({
                   }}
                 />
               }
-              id="contact-info-value"
               error={
                 !isFieldFocused &&
                 !isValidInfo(info.type, info.value) &&
@@ -314,5 +292,5 @@ ContactInfoStep.defaultProps = {
   isOrganizer: false,
 };
 
-export { ContactInfoStep, isValidEmail, isValidPhone, isValidUrl };
+export { ContactInfoStep };
 export type { ContactInfo };

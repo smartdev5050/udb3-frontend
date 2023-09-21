@@ -11,6 +11,7 @@ const WindowMessageTypes = {
   URL_UNKNOWN: 'URL_UNKNOWN',
   JOB_ADDED: 'JOB_ADDED',
   HTTP_ERROR_CODE: 'HTTP_ERROR_CODE',
+  OFFER_MODERATED: 'OFFER_MODERATED',
 };
 
 const useHandleWindowMessage = (eventsMap = {}) => {

@@ -24,11 +24,13 @@ import {
   useGetPlacesByCreatorQuery,
 } from '@/hooks/api/places';
 import {
+  useGetPermissionsQuery,
   useGetUserQuery,
   useGetUserQueryServerSide,
   User,
 } from '@/hooks/api/user';
 import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
+import { PermissionTypes } from '@/layouts/Sidebar';
 import { Footer } from '@/pages/Footer';
 import type { Event } from '@/types/Event';
 import { Offer } from '@/types/Offer';
@@ -360,6 +362,7 @@ const OrganizerRow = ({
   const { t, i18n } = useTranslation();
 
   const getUserQuery = useGetUserQuery();
+  const getPermissionsQuery = useGetPermissionsQuery();
   // @ts-expect-error
   const userId = getUserQuery.data?.sub;
   // @ts-expect-error
@@ -372,6 +375,8 @@ const OrganizerRow = ({
   const formattedAddress = address ? formatAddressInternal(address) : '';
   const editUrl = `/organizer/${parseOfferId(organizer['@id'])}/edit`;
   const previewUrl = `/organizer/${parseOfferId(organizer['@id'])}/preview`;
+  // @ts-expect-error
+  const permissions = getPermissionsQuery?.data ?? [];
 
   return (
     <Row
@@ -384,6 +389,11 @@ const OrganizerRow = ({
         <Link href={editUrl} variant={LinkVariants.BUTTON_SECONDARY} key="edit">
           {t('dashboard.actions.edit')}
         </Link>,
+        permissions?.includes(PermissionTypes.ORGANISATIES_BEHEREN) && (
+          <Dropdown.Item onClick={() => onDelete(organizer)} key="delete">
+            {t('dashboard.actions.delete')}
+          </Dropdown.Item>
+        ),
       ]}
       status={{
         isExternalCreator,

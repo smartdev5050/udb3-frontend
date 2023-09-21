@@ -60,12 +60,25 @@ const Pagination = ({
       forwardedAs="ul"
       justifyContent="center"
       css={`
+        .page-item:first-child .page-link,
+        .page-item:last-child .page-link {
+          border-radius: ${getGlobalBorderRadius};
+        }
+
+        .page-item:nth-child(2) .page-link {
+          border-top-left-radius: ${getGlobalBorderRadius};
+          border-bottom-left-radius: ${getGlobalBorderRadius};
+        }
+
+        .page-item:nth-last-child(2) .page-link {
+          border-top-right-radius: ${getGlobalBorderRadius};
+          border-bottom-right-radius: ${getGlobalBorderRadius};
+        }
+
         .page-link {
           color: ${getValue('color')};
           border-color: ${getValue('borderColor')};
           padding: ${getValue('paddingY')} ${getValue('paddingX')};
-
-          border-radius: ${getGlobalBorderRadius};
 
           &:hover {
             background-color: ${getValue('hoverBackgroundColor')};
@@ -86,20 +99,10 @@ const Pagination = ({
 
         .prev-btn {
           margin-right: 0.8rem;
-
-          .page-link {
-            border-top-left-radius: 8px;
-            border-bottom-left-radius: 8px;
-          }
         }
 
         .next-btn {
           margin-left: 0.8rem;
-
-          .page-link {
-            border-top-right-radius: 8px;
-            border-bottom-right-radius: 8px;
-          }
         }
       `}
       {...getInlineProps(props)}
