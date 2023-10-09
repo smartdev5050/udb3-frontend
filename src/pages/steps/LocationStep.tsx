@@ -1183,6 +1183,10 @@ const locationStepConfiguration: StepsConfiguration<'location'> = {
   validation: yup.lazy((value) => {
     const url = window.location.href;
 
+    if (url.includes('organizers') && url.includes('create')) {
+      return yup.object();
+    }
+
     const scope = url.includes('events')
       ? OfferTypes.EVENTS
       : OfferTypes.PLACES;
