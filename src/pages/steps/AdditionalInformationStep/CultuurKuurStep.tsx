@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Scope, ScopeTypes } from '@/constants/OfferType';
-import { useChangeDescriptionMutation } from '@/hooks/api/offers';
+import { useUpdateOrganizerEducationalDescriptionMutation } from '@/hooks/api/organizers';
 import { useGetEntityByIdAndScope } from '@/hooks/api/scope';
 import RichTextEditor from '@/pages/RichTextEditor';
 import { Event } from '@/types/Event';
@@ -115,7 +115,7 @@ const CultuurKuurStep = ({
   const entity: Event | Place | Organizer | undefined = getEntityByIdQuery.data;
 
   useEffect(() => {
-    const newDescription = entity?.description?.[i18n.language];
+    const newDescription = entity?.educationalDescription?.[i18n.language];
     if (!newDescription) return;
 
     const draftState = htmlToDraft(newDescription);
@@ -133,15 +133,16 @@ const CultuurKuurStep = ({
       isCompleted ? ValidationStatus.SUCCESS : ValidationStatus.NONE,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [entity?.description, entity?.mainLanguage, i18n.language]);
+  }, [entity?.educationalDescription, entity?.mainLanguage, i18n.language]);
 
   const eventTypeId = useMemo(() => {
     return entity?.terms?.find((term) => term.domain === 'eventtype')?.id!;
   }, [entity?.terms]);
 
-  const changeDescriptionMutation = useChangeDescriptionMutation({
-    onSuccess: onSuccessfulChange,
-  });
+  const changeDescriptionMutation =
+    useUpdateOrganizerEducationalDescriptionMutation({
+      onSuccess: onSuccessfulChange,
+    });
 
   const handleBlur = () => {
     const isCompleted = plainTextDescription.length >= IDEAL_DESCRIPTION_LENGTH;
@@ -155,13 +156,12 @@ const CultuurKuurStep = ({
     }
 
     changeDescriptionMutation.mutate({
-      description:
+      educationalDescription:
         plainTextDescription.length > 0
           ? draftToHtml(convertToRaw(editorState.getCurrentContent()))
           : '',
-      language: i18n.language,
-      eventId: offerId,
-      scope,
+      mainLanguage: i18n.language,
+      organizerId: offerId,
     });
   };
 
