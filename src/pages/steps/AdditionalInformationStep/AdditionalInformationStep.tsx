@@ -30,6 +30,8 @@ import { PriceInformation } from './PriceInformation';
 
 const getGlobalValue = getValueFromTheme('global');
 
+const CULTUURKUUR_ORGANIZER_LABEL = 'cultuurkuur_organizer';
+
 const AdditionalInformationStepVariant = {
   MOVIE: 'movie',
   EVENT: 'event',
@@ -186,6 +188,7 @@ type Props = StackProps & {
   scope: OfferType;
   onChangeSuccess: (field: Field) => void;
   variant?: Values<typeof AdditionalInformationStepVariant>;
+  labels?: string[];
 };
 
 const AdditionalInformationStep = ({
@@ -193,6 +196,7 @@ const AdditionalInformationStep = ({
   scope,
   onChangeSuccess,
   variant,
+  labels,
   ...props
 }: Props) => {
   const { asPath, ...router } = useRouter();
@@ -201,6 +205,8 @@ const AdditionalInformationStep = ({
   const isVisible = !!entry?.isIntersecting;
 
   const queryClient = useQueryClient();
+
+  console.log('labels inside', labels);
 
   const invalidateOfferQuery = useCallback(
     async (field: Field, shouldInvalidate: boolean) => {
@@ -273,6 +279,13 @@ const AdditionalInformationStep = ({
             TabContent,
             stepProps,
           }) => {
+            if (
+              field === Fields.CULTUURKUUR &&
+              !(labels ?? []).includes(CULTUURKUUR_ORGANIZER_LABEL)
+            ) {
+              return null;
+            }
+
             const shouldShowTab = shouldShowOn
               ? shouldShowOn.includes(variant)
               : true;
