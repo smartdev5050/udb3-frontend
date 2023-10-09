@@ -27,6 +27,7 @@ import { FormScore } from './FormScore';
 import { MediaStep } from './MediaStep';
 import { OrganizerStep } from './OrganizerStep';
 import { PriceInformation } from './PriceInformation';
+import { CultuurKuurStep } from '@/pages/steps/AdditionalInformationStep/CultuurKuuurStep';
 
 const getGlobalValue = getValueFromTheme('global');
 
@@ -47,6 +48,7 @@ const Fields = {
   AUDIENCE: 'audience',
   LABELS: 'labels',
   LOCATION: 'location',
+  CULTUURKUUR: 'cultuurkuur',
 };
 
 type Field = Values<typeof Fields>;
@@ -137,6 +139,12 @@ const tabConfigurations: TabConfig[] = [
       AdditionalInformationStepVariant.EVENT,
       AdditionalInformationStepVariant.MOVIE,
     ],
+  },
+  {
+    field: Fields.CULTUURKUUR,
+    TabContent: CultuurKuurStep,
+    shouldInvalidate: true,
+    shouldShowOn: [AdditionalInformationStepVariant.ORGANIZER],
   },
 ];
 
