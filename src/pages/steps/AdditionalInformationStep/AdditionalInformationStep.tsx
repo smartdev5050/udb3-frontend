@@ -6,6 +6,7 @@ import { useQueryClient } from 'react-query';
 
 import { OfferType, Scope, ScopeTypes } from '@/constants/OfferType';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+import { CultuurKuurStep } from '@/pages/steps/AdditionalInformationStep/CultuurKuuurStep';
 import { LabelsStep } from '@/pages/steps/AdditionalInformationStep/LabelsStep';
 import { PhysicalLocationStep } from '@/pages/steps/AdditionalInformationStep/PhysicalLocationStep';
 import { Countries } from '@/types/Country';
@@ -27,7 +28,6 @@ import { FormScore } from './FormScore';
 import { MediaStep } from './MediaStep';
 import { OrganizerStep } from './OrganizerStep';
 import { PriceInformation } from './PriceInformation';
-import { CultuurKuurStep } from '@/pages/steps/AdditionalInformationStep/CultuurKuuurStep';
 
 const getGlobalValue = getValueFromTheme('global');
 
