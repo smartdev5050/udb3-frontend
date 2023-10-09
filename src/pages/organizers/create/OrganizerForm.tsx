@@ -52,6 +52,7 @@ const configurations = [
     variant: AdditionalInformationStepVariant.ORGANIZER,
     name: 'location' as StepsConfiguration['name'],
     defaultValue: locationStepConfiguration.defaultValue,
+    validation: locationStepConfiguration.validation,
   },
 ];
 
