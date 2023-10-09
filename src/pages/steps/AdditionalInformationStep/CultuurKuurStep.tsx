@@ -4,7 +4,10 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Scope, ScopeTypes } from '@/constants/OfferType';
-import { useUpdateOrganizerEducationalDescriptionMutation } from '@/hooks/api/organizers';
+import {
+  useDeleteOrganizerEducationalDescriptionMutation,
+  useUpdateOrganizerEducationalDescriptionMutation,
+} from '@/hooks/api/organizers';
 import { useGetEntityByIdAndScope } from '@/hooks/api/scope';
 import RichTextEditor from '@/pages/RichTextEditor';
 import { Event } from '@/types/Event';
@@ -144,6 +147,11 @@ const CultuurKuurStep = ({
       onSuccess: onSuccessfulChange,
     });
 
+  const deleteDescriptionMutation =
+    useDeleteOrganizerEducationalDescriptionMutation({
+      onSuccess: onSuccessfulChange,
+    });
+
   const handleBlur = () => {
     const isCompleted = plainTextDescription.length >= IDEAL_DESCRIPTION_LENGTH;
 
@@ -168,11 +176,9 @@ const CultuurKuurStep = ({
   const handleClear = () => {
     setEditorState(EditorState.createEmpty());
 
-    changeDescriptionMutation.mutate({
-      description: '',
-      language: i18n.language,
-      eventId: offerId,
-      scope,
+    deleteDescriptionMutation.mutate({
+      mainLanguage: i18n.language,
+      organizerId: offerId,
     });
   };
 

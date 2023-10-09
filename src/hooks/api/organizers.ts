@@ -318,9 +318,32 @@ const useUpdateOrganizerEducationalDescriptionMutation = (
     ...configuration,
   });
 
+const deleteOrganizerEducationalDescription = ({
+  headers,
+  organizerId,
+  mainLanguage,
+}: UpdateOrganizerEducationalDescriptionArguments) =>
+  fetchFromApi({
+    path: `/organizers/${organizerId}/educational-description/${mainLanguage}`,
+    options: {
+      headers,
+      method: 'DELETE',
+    },
+  });
+
+const useDeleteOrganizerEducationalDescriptionMutation = (
+  configuration: UseMutationOptions = {},
+) =>
+  useAuthenticatedMutation({
+    mutationFn: deleteOrganizerEducationalDescription,
+    mutationKey: 'organizers-delete-educational-description',
+    ...configuration,
+  });
+
 export {
   useCreateOrganizerMutation,
   useDeleteOrganizerByIdMutation,
+  useDeleteOrganizerEducationalDescriptionMutation,
   useGetOrganizerByIdQuery,
   useGetOrganizersByCreatorQuery,
   useGetOrganizersByQueryQuery,
