@@ -9,7 +9,6 @@ import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { CultuurKuurStep } from '@/pages/steps/AdditionalInformationStep/CultuurKuurStep';
 import { LabelsStep } from '@/pages/steps/AdditionalInformationStep/LabelsStep';
 import { PhysicalLocationStep } from '@/pages/steps/AdditionalInformationStep/PhysicalLocationStep';
-import { Countries } from '@/types/Country';
 import type { Values } from '@/types/Values';
 import { parseSpacing } from '@/ui/Box';
 import { Icon, Icons } from '@/ui/Icon';
