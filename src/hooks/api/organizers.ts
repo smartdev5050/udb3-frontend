@@ -255,6 +255,12 @@ type UpdateOrganizerArguments = CreateOrganizerArguments & {
   organizerId: string;
 };
 
+type UpdateOrganizerEducationalDescriptionArguments =
+  CreateOrganizerArguments & {
+    organizerId: string;
+    educationalDescription: string;
+  };
+
 const updateOrganizer = ({
   headers,
   url,
@@ -286,6 +292,32 @@ const useUpdateOrganizerMutation = (configuration: UseMutationOptions = {}) =>
     ...configuration,
   });
 
+const updateOrganizerEducationalDescription = ({
+  headers,
+  organizerId,
+  mainLanguage,
+  educationalDescription,
+}: UpdateOrganizerEducationalDescriptionArguments) =>
+  fetchFromApi({
+    path: `/organizers/${organizerId}/educational-description/${mainLanguage}`,
+    options: {
+      headers,
+      method: 'PUT',
+      body: JSON.stringify({
+        educationalDescription,
+      }),
+    },
+  });
+
+const useUpdateOrganizerEducationalDescriptionMutation = (
+  configuration: UseMutationOptions = {},
+) =>
+  useAuthenticatedMutation({
+    mutationFn: updateOrganizerEducationalDescription,
+    mutationKey: 'organizers-update-educational-description',
+    ...configuration,
+  });
+
 export {
   useCreateOrganizerMutation,
   useDeleteOrganizerByIdMutation,
@@ -293,5 +325,6 @@ export {
   useGetOrganizersByCreatorQuery,
   useGetOrganizersByQueryQuery,
   useGetOrganizersByWebsiteQuery,
+  useUpdateOrganizerEducationalDescriptionMutation,
   useUpdateOrganizerMutation,
 };
