@@ -6,7 +6,7 @@ import { useQueryClient } from 'react-query';
 
 import { OfferType, Scope, ScopeTypes } from '@/constants/OfferType';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
-import { CultuurKuurStep } from '@/pages/steps/AdditionalInformationStep/CultuurKuuurStep';
+import { CultuurKuurStep } from '@/pages/steps/AdditionalInformationStep/CultuurKuurStep';
 import { LabelsStep } from '@/pages/steps/AdditionalInformationStep/LabelsStep';
 import { PhysicalLocationStep } from '@/pages/steps/AdditionalInformationStep/PhysicalLocationStep';
 import { Countries } from '@/types/Country';
