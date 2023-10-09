@@ -25,6 +25,7 @@ type Organizer = {
   };
   location?: Address;
   url?: string;
+  educationalDescription?: string;
 };
 
 export type { Organizer };
