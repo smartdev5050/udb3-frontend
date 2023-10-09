@@ -78,10 +78,6 @@ const DescriptionTips = ({
   eventTypeId: string;
 }) => {
   const { t, i18n } = useTranslation();
-  const translationKey =
-    scope === ScopeTypes.ORGANIZERS
-      ? 'organizers*create*step2*description_tips'
-      : `create*additionalInformation*description*tips*${eventTypeId}`;
 
   return (
     (eventTypeId || scope === ScopeTypes.ORGANIZERS) && (
@@ -90,9 +86,7 @@ const DescriptionTips = ({
           margin-top: 1.86rem;
         `}
       >
-        {t(translationKey, {
-          keySeparator: '*',
-        })}
+        {t('create.additionalInformation.cultuurkuur.tip')}
       </Alert>
     )
   );

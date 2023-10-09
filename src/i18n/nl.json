@@ -453,6 +453,10 @@
           "not_found": "Deze activiteit is nog niet gekend bij UiTPAS."
         }
       },
+      "cultuurkuur": {
+        "title": "Cultuurkuur",
+        "tip": "Geef een enthousiaste omschrijving van je organisatie, specifiek gericht naar scholen en leerkrachten. Deze beschrijving verschijnt enkel op cultuurkuur.be, het platform voor onderwijs en cultuur."
+      },
       "location": {
         "title": "Locatie"
       },
