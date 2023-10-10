@@ -305,6 +305,7 @@ const useChangeLocationMutation = (configuration = {}) =>
   });
 
 export {
+  useChangeLocationMutation,
   useCreateOrganizerMutation,
   useDeleteOrganizerByIdMutation,
   useGetOrganizerByIdQuery,
@@ -312,5 +313,4 @@ export {
   useGetOrganizersByQueryQuery,
   useGetOrganizersByWebsiteQuery,
   useUpdateOrganizerMutation,
-  useChangeLocationMutation,
 };

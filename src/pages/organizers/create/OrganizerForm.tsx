@@ -21,14 +21,14 @@ import { locationStepConfiguration } from '@/pages/steps/LocationStep';
 import { Steps, StepsConfiguration } from '@/pages/steps/Steps';
 import { Organizer } from '@/types/Organizer';
 import { Button, ButtonVariants } from '@/ui/Button';
+import { Inline } from '@/ui/Inline';
+import { Link, LinkVariants } from '@/ui/Link';
 import { Page } from '@/ui/Page';
+import { Text } from '@/ui/Text';
+import { getValueFromTheme } from '@/ui/theme';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 
 import { NameAndUrlStep } from './steps/NameAndUrlStep';
-import { Inline } from '@/ui/Inline';
-import { Link, LinkVariants } from '@/ui/Link';
-import { Text } from '@/ui/Text';
-import { getValueFromTheme } from '@/ui/theme';
 
 const typeAndThemeStepConfiguration: StepsConfiguration<'nameAndUrl'> = {
   Component: NameAndUrlStep,

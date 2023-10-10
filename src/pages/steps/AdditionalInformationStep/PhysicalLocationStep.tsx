@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
+import { useChangeLocationMutation } from '@/hooks/api/organizers';
 import {
   TabContentProps,
   ValidationStatus,
@@ -7,8 +9,6 @@ import {
 import { isLocationSet, LocationStep } from '@/pages/steps/LocationStep';
 import { StepProps } from '@/pages/steps/Steps';
 import { StackProps } from '@/ui/Stack';
-import { useChangeLocationMutation } from '@/hooks/api/organizers';
-import { useTranslation } from 'react-i18next';
 
 type PhysicalLocationStepProps = StackProps & TabContentProps & StepProps;
 
