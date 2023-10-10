@@ -28,7 +28,7 @@ function PhysicalLocationStep({
     );
   }, [onValidationChange, location]);
 
-  const onChange = (updatedLocation) => {
+  const onChange = (updatedLocation: typeof location) => {
     props.onSuccessfulChange(updatedLocation);
     if (!updatedLocation.streetAndNumber) {
       return;

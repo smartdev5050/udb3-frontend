@@ -25,6 +25,10 @@ import { Page } from '@/ui/Page';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 
 import { NameAndUrlStep } from './steps/NameAndUrlStep';
+import { Inline } from '@/ui/Inline';
+import { Link, LinkVariants } from '@/ui/Link';
+import { Text } from '@/ui/Text';
+import { getValueFromTheme } from '@/ui/theme';
 
 const typeAndThemeStepConfiguration: StepsConfiguration<'nameAndUrl'> = {
   Component: NameAndUrlStep,
@@ -41,6 +45,8 @@ const typeAndThemeStepConfiguration: StepsConfiguration<'nameAndUrl'> = {
   }),
 };
 
+const getValue = getValueFromTheme('createPage');
+
 const configurations = [
   typeAndThemeStepConfiguration,
   {
@@ -56,7 +62,7 @@ const configurations = [
   },
 ];
 
-const OrganizerForm = (props) => {
+const OrganizerForm = () => {
   const scope = ScopeTypes.ORGANIZERS;
   const { form } = useParseStepConfiguration(configurations);
   const { t, i18n } = useTranslation();
@@ -90,8 +96,6 @@ const OrganizerForm = (props) => {
     };
   };
 
-  // const toast = useToast(toastConfiguration);
-
   // TODO better type query
   const getOrganizerByIdQuery = useGetOrganizerByIdQuery(
     { id: urlOrganizerId },
@@ -103,9 +107,6 @@ const OrganizerForm = (props) => {
       },
     },
   );
-
-  // @ts-expect-error
-  const organizer = getOrganizerByIdQuery?.data;
 
   const createOrganizerMutation = useCreateOrganizerMutation();
   const updateOrganizerMutation = useUpdateOrganizerMutation();
@@ -153,13 +154,17 @@ const OrganizerForm = (props) => {
       </Page.Content>
       <Page.Footer>
         {urlOrganizerId ? (
-          <Button
-            disabled={hasErrors}
-            variant={ButtonVariants.PRIMARY}
-            onClick={handleSubmit(onSuccess)}
-          >
-            {t('organizers.create.step2.save')}
-          </Button>
+          <Inline spacing={3} alignItems="center">
+            <Link
+              href={`/organizer/${urlOrganizerId}/preview`}
+              variant={LinkVariants.BUTTON_SUCCESS}
+            >
+              <Text>{t('create.footer.done_editing')}</Text>
+            </Link>
+            <Text color={getValue('footer.color')} fontSize="0.9rem">
+              {t('create.footer.auto_save')}
+            </Text>
+          </Inline>
         ) : (
           <Button
             disabled={hasErrors || !formState.isDirty}
