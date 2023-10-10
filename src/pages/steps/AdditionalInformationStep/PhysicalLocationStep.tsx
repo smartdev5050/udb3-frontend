@@ -15,6 +15,7 @@ function PhysicalLocationStep({
   ...props
 }: PhysicalLocationStepProps) {
   const location = props.watch('location');
+
   useEffect(() => {
     onValidationChange(
       location?.streetAndNumber
