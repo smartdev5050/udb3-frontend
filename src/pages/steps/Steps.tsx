@@ -9,7 +9,7 @@ import type {
 } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { OfferType, OfferTypes } from '@/constants/OfferType';
+import { OfferType, OfferTypes, Scope } from '@/constants/OfferType';
 import { SupportedLanguage } from '@/i18n/index';
 import { Values } from '@/types/Values';
 import type { BoxProps } from '@/ui/Box';
@@ -23,7 +23,14 @@ import { Title } from '@/ui/Title';
 import type { FormData as OfferFormData } from '../create/OfferForm';
 import type { FormData as MovieFormData } from '../manage/movies/MovieForm';
 
-type FormDataUnion = MovieFormData & OfferFormData;
+type OrganizerForm = {
+  nameAndUrl: {
+    name: string;
+    url: string;
+  };
+};
+
+type FormDataUnion = MovieFormData & OfferFormData & OrganizerForm;
 
 type Field = ControllerRenderProps<FormDataUnion, Path<FormDataUnion>>;
 
@@ -35,17 +42,14 @@ type StepsConfiguration<
   defaultValue?: DefaultValues<FormDataUnion>[TName];
   step?: number;
   title: (
-    data: { t: TFunction; scope: OfferType } & UseFormReturn<
-      FormDataUnion,
-      any
-    >,
+    data: { t: TFunction; scope: Scope } & UseFormReturn<FormDataUnion, any>,
   ) => string;
   variant?: string;
   validation?: any;
   shouldShowStep?: (
     data: UseFormReturn<FormDataUnion> & {
       offerId?: string;
-      scope?: OfferType;
+      scope?: Scope;
     },
   ) => boolean;
   stepProps?: Record<string, unknown>;
@@ -115,6 +119,7 @@ StepWrapper.defaultProps = {
 const getValue = getValueFromTheme('createPage');
 
 type StepProps = UseFormReturn<FormDataUnion> & {
+  scope: string;
   loading: boolean;
   name: Path<FormDataUnion>;
   onChange: (value: any) => void;
@@ -122,7 +127,7 @@ type StepProps = UseFormReturn<FormDataUnion> & {
 };
 
 type StepsProps = {
-  scope?: OfferType;
+  scope?: Scope;
   offerId?: string;
   mainLanguage: SupportedLanguage;
   form: UseFormReturn<FormDataUnion>;
@@ -195,7 +200,7 @@ const Steps = ({
   };
 
   return (
-    <Stack spacing={5} width="100%">
+    <Stack spacing={5} width="100%" {...getStackProps(props)}>
       {configurationsWithComponent.map(
         (
           {

@@ -3,11 +3,12 @@ import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 
 import { eventTypesWithNoThemes } from '@/constants/EventTypes';
-import { OfferTypes } from '@/constants/OfferType';
-import { useGetOfferByIdQuery } from '@/hooks/api/offers';
+import { OfferTypes, ScopeTypes } from '@/constants/OfferType';
+import { useGetEntityByIdAndScope } from '@/hooks/api/scope';
 import { Scope } from '@/pages/create/OfferForm';
 import { Features, NewFeatureTooltip } from '@/pages/NewFeatureTooltip';
 import { Offer } from '@/types/Offer';
+import { Organizer } from '@/types/Organizer';
 import { Inline } from '@/ui/Inline';
 import { Link } from '@/ui/Link';
 import { Notification } from '@/ui/Notification';
@@ -71,7 +72,9 @@ const BarometerIcon = ({ rotationValue }: { rotationValue: number }) => {
   );
 };
 
-const scoreWeightMapping = {
+type Weights = { [key: string]: { weight: number; mandatory: boolean } };
+
+const scoreWeightMapping: Weights = {
   type: {
     weight: 12,
     mandatory: true,
@@ -126,47 +129,88 @@ const scoreWeightMapping = {
   },
 };
 
+const organizerScoreWeightMapping: Weights = {
+  name: {
+    weight: 20,
+    mandatory: true,
+  },
+  url: {
+    weight: 20,
+    mandatory: true,
+  },
+  contact_info: {
+    weight: 20,
+    mandatory: false,
+  },
+  description: {
+    weight: 15,
+    mandatory: false,
+  },
+  media: {
+    weight: 15,
+    mandatory: false,
+  },
+  location: {
+    weight: 10,
+    mandatory: false,
+  },
+};
+
 type Props = {
   offerId: string;
   scope: Scope;
   completedFields: Record<Field, boolean>;
 };
 
-const getMinimumScore = (): number => {
+type EntityWithMedia =
+  | (Offer & { images: undefined })
+  | (Organizer & {
+      terms: undefined;
+      mediaObject: undefined;
+      videos: undefined;
+    });
+
+const getScopeWeights = (scope: Scope): Weights =>
+  scope === ScopeTypes.ORGANIZERS
+    ? organizerScoreWeightMapping
+    : scoreWeightMapping;
+
+const getMinimumScore = (weights: Weights): number => {
   let minimumScore = 0;
 
-  Object.values(scoreWeightMapping).forEach((scoreWeight) => {
+  Object.values(weights).forEach((scoreWeight) => {
     if (scoreWeight.mandatory) minimumScore += scoreWeight.weight;
   });
 
   return minimumScore;
 };
 
-const minimumScore = getMinimumScore();
-
-const OfferScore = ({ completedFields, offerId, scope, ...props }: Props) => {
+const FormScore = ({ completedFields, offerId, scope }: Props) => {
   const { t } = useTranslation();
 
   const router = useRouter();
 
-  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId, scope });
+  const getEntityByIdQuery = useGetEntityByIdAndScope({ id: offerId, scope });
+  const weights = getScopeWeights(scope);
+  const minimumScore = useMemo(() => getMinimumScore(weights), [weights]);
 
   // @ts-expect-error
-  const offer: Offer | undefined = getOfferByIdQuery.data;
+  const entity: EntityWithMedia | undefined = getEntityByIdQuery.data;
 
-  const hasNoPossibleTheme = offer?.terms.some(
+  const hasNoPossibleTheme = entity?.terms?.some(
     (term) =>
       term.domain === 'eventtype' && eventTypesWithNoThemes.includes(term.id),
   );
 
   const hasTheme: boolean =
-    offer?.terms.some((term) => term.domain === 'theme') ||
+    entity?.terms?.some((term) => term.domain === 'theme') ||
     hasNoPossibleTheme ||
     scope === OfferTypes.PLACES;
 
-  const hasMediaObject: boolean = (offer?.mediaObject ?? []).length > 0;
+  const hasMediaObject: boolean =
+    (entity?.mediaObject ?? entity?.images ?? []).length > 0;
 
-  const hasVideo: boolean = (offer?.videos ?? []).length > 0;
+  const hasVideo: boolean = (entity?.videos ?? []).length > 0;
 
   const fullCompletedFields = useMemo(() => {
     return {
@@ -180,13 +224,13 @@ const OfferScore = ({ completedFields, offerId, scope, ...props }: Props) => {
   const score = useMemo(() => {
     let completeScore = 0;
     Object.keys(fullCompletedFields).forEach((field) => {
-      if (fullCompletedFields[field] && scoreWeightMapping[field]) {
-        completeScore += scoreWeightMapping[field].weight;
+      if (fullCompletedFields[field] && weights[field]) {
+        completeScore += weights[field].weight;
       }
     });
 
     return completeScore + minimumScore;
-  }, [fullCompletedFields]);
+  }, [fullCompletedFields, weights, minimumScore]);
 
   const rotationValue = useMemo(() => {
     const maxRotation = 247;
@@ -195,11 +239,11 @@ const OfferScore = ({ completedFields, offerId, scope, ...props }: Props) => {
     const scorePercentage = (score - minimumScore) / (100 - minimumScore);
 
     return maxRotation * scorePercentage + minRotation;
-  }, [score]);
+  }, [score, minimumScore]);
 
   const tipField = useMemo(() => {
-    if (score === 100)
-      return t(`create.additionalInformation.event_score.tip.completed`);
+    if (score === 100) return;
+
     // find uncompleted fields with the highest weight to give a tip to the user
     const unCompletedFieldKeys = Object.keys(fullCompletedFields).filter(
       (key) => !fullCompletedFields[key],
@@ -212,11 +256,11 @@ const OfferScore = ({ completedFields, offerId, scope, ...props }: Props) => {
 
     unCompletedFieldKeys.forEach((fieldKey: string) => {
       if (
-        scoreWeightMapping[fieldKey] &&
-        scoreWeightMapping[fieldKey].weight > highestUncompletedValue.weight
+        weights[fieldKey] &&
+        weights[fieldKey].weight > highestUncompletedValue.weight
       ) {
         highestUncompletedValue = {
-          weight: scoreWeightMapping[fieldKey].weight,
+          weight: weights[fieldKey].weight,
           fieldName: fieldKey,
         };
       }
@@ -225,7 +269,7 @@ const OfferScore = ({ completedFields, offerId, scope, ...props }: Props) => {
     const { fieldName } = highestUncompletedValue;
 
     return fieldName;
-  }, [fullCompletedFields, score, t]);
+  }, [fullCompletedFields, score, weights]);
 
   const TipLink = ({ field }: { field: string }) => {
     const hash = field === 'video' ? 'media' : field;
@@ -267,7 +311,11 @@ const OfferScore = ({ completedFields, offerId, scope, ...props }: Props) => {
       body={
         <Text>
           {score === 100 &&
-            t('create.additionalInformation.event_score.tip.completed')}
+            t(
+              `create.additionalInformation.event_score.tip.completed.${
+                scope === ScopeTypes.ORGANIZERS ? scope : 'offers'
+              }`,
+            )}
           {score !== 100 && (
             <Trans
               i18nKey={`create.additionalInformation.event_score.tip.${tipField}.text`}
@@ -282,4 +330,4 @@ const OfferScore = ({ completedFields, offerId, scope, ...props }: Props) => {
   );
 };
 
-export { OfferScore };
+export { FormScore };

@@ -275,7 +275,7 @@ const useAddOfferPriceInfoMutation = (configuration = {}) =>
     ...configuration,
   });
 
-const changeOfferDescription = async ({
+const changeDescription = async ({
   headers,
   eventId,
   language,
@@ -291,9 +291,9 @@ const changeOfferDescription = async ({
     },
   });
 
-const useChangeOfferDescriptionMutation = (configuration = {}) =>
+const useChangeDescriptionMutation = (configuration = {}) =>
   useAuthenticatedMutation({
-    mutationFn: changeOfferDescription,
+    mutationFn: changeDescription,
     mutationKey: 'offers-change-description',
     ...configuration,
   });
@@ -304,7 +304,7 @@ const addOfferImage = async ({ headers, eventId, imageId, scope }) =>
     options: {
       method: 'POST',
       headers,
-      body: JSON.stringify({ mediaObjectId: imageId }),
+      body: JSON.stringify({ mediaObjectId: imageId, id: imageId }),
     },
   });
 
@@ -319,7 +319,7 @@ const addOfferMainImage = async ({ headers, eventId, imageId, scope }) =>
   fetchFromApi({
     path: `/${scope}/${eventId.toString()}/images/main`,
     options: {
-      method: 'POST',
+      method: 'PUT',
       headers,
       body: JSON.stringify({ mediaObjectId: imageId }),
     },
@@ -408,24 +408,19 @@ const useDeleteOfferImageMutation = (configuration = {}) =>
     ...configuration,
   });
 
-const addOfferContactPoint = async ({
-  headers,
-  eventId,
-  contactPoint,
-  scope,
-}) =>
+const addContactPoint = async ({ headers, eventId, contactPoint, scope }) =>
   fetchFromApi({
     path: `/${scope}/${eventId}/contactPoint`,
     options: {
       method: 'PUT',
       headers,
-      body: JSON.stringify({ contactPoint }),
+      body: JSON.stringify({ ...contactPoint }),
     },
   });
 
-const useAddOfferContactPointMutation = (configuration = {}) =>
+const useAddContactPointMutation = (configuration = {}) =>
   useAuthenticatedMutation({
-    mutationFn: addOfferContactPoint,
+    mutationFn: addContactPoint,
     mutationKey: 'offers-add-contact-point',
     ...configuration,
   });
@@ -486,16 +481,16 @@ const useDeleteOfferOrganizerMutation = (configuration = {}) =>
   });
 
 export {
+  useAddContactPointMutation,
   useAddOfferBookingInfoMutation,
-  useAddOfferContactPointMutation,
   useAddOfferImageMutation,
   useAddOfferLabelMutation,
   useAddOfferMainImageMutation,
   useAddOfferOrganizerMutation,
   useAddOfferPriceInfoMutation,
   useAddOfferVideoMutation,
+  useChangeDescriptionMutation,
   useChangeOfferCalendarMutation,
-  useChangeOfferDescriptionMutation,
   useChangeOfferNameMutation,
   useChangeOfferThemeMutation,
   useChangeOfferTypeMutation,

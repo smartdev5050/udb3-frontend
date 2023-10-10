@@ -4,9 +4,11 @@ import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
-import { OfferType } from '@/constants/OfferType';
+import { OfferType, Scope, ScopeTypes } from '@/constants/OfferType';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { LabelsStep } from '@/pages/steps/AdditionalInformationStep/LabelsStep';
+import { PhysicalLocationStep } from '@/pages/steps/AdditionalInformationStep/PhysicalLocationStep';
+import { Countries } from '@/types/Country';
 import type { Values } from '@/types/Values';
 import { parseSpacing } from '@/ui/Box';
 import { Icon, Icons } from '@/ui/Icon';
@@ -21,8 +23,8 @@ import { StepsConfiguration } from '../Steps';
 import { BookingInfoStep } from './BookingInfoStep';
 import { ContactInfoStep } from './ContactInfoStep';
 import { DescriptionStep } from './DescriptionStep';
+import { FormScore } from './FormScore';
 import { MediaStep } from './MediaStep';
-import { OfferScore } from './OfferScore';
 import { OrganizerStep } from './OrganizerStep';
 import { PriceInformation } from './PriceInformation';
 
@@ -32,6 +34,7 @@ const AdditionalInformationStepVariant = {
   MOVIE: 'movie',
   EVENT: 'event',
   PLACE: 'place',
+  ORGANIZER: 'organizer',
 } as const;
 
 const Fields = {
@@ -43,13 +46,14 @@ const Fields = {
   MEDIA: 'media',
   AUDIENCE: 'audience',
   LABELS: 'labels',
+  LOCATION: 'location',
 };
 
 type Field = Values<typeof Fields>;
 
 type TabContentProps = {
   offerId?: string;
-  scope?: OfferType;
+  scope?: Scope;
   onSuccessfulChange: (
     data?: any,
   ) => typeof data extends any ? void : Promise<void>;
@@ -79,11 +83,21 @@ const tabConfigurations: TabConfig[] = [
     field: Fields.PRICE_INFO,
     TabContent: PriceInformation,
     shouldInvalidate: true,
+    shouldShowOn: [
+      AdditionalInformationStepVariant.EVENT,
+      AdditionalInformationStepVariant.PLACE,
+      AdditionalInformationStepVariant.MOVIE,
+    ],
   },
   {
     field: Fields.ORGANIZER,
     TabContent: OrganizerStep,
     shouldInvalidate: true,
+    shouldShowOn: [
+      AdditionalInformationStepVariant.EVENT,
+      AdditionalInformationStepVariant.PLACE,
+      AdditionalInformationStepVariant.MOVIE,
+    ],
   },
   {
     field: Fields.CONTACT_INFO,
@@ -101,10 +115,19 @@ const tabConfigurations: TabConfig[] = [
     ],
   },
   {
+    field: Fields.LOCATION,
+    TabContent: PhysicalLocationStep,
+    shouldInvalidate: false,
+    shouldShowOn: [AdditionalInformationStepVariant.ORGANIZER],
+  },
+  {
     field: Fields.LABELS,
     TabContent: LabelsStep,
     shouldInvalidate: false,
-    shouldShowOn: [AdditionalInformationStepVariant.EVENT],
+    shouldShowOn: [
+      AdditionalInformationStepVariant.EVENT,
+      AdditionalInformationStepVariant.ORGANIZER,
+    ],
   },
   {
     field: Fields.AUDIENCE,
@@ -118,11 +141,17 @@ const tabConfigurations: TabConfig[] = [
 ];
 
 type TabTitleProps = InlineProps & {
+  scope: Scope;
   field: Field;
   validationStatus: ValidationStatus;
 };
 
-const TabTitle = ({ field, validationStatus, ...props }: TabTitleProps) => {
+const TabTitle = ({
+  scope,
+  field,
+  validationStatus,
+  ...props
+}: TabTitleProps) => {
   const { t } = useTranslation();
 
   return (
@@ -136,7 +165,11 @@ const TabTitle = ({ field, validationStatus, ...props }: TabTitleProps) => {
           color={getGlobalValue('warningIcon')}
         />
       )}
-      <Text>{t(`create.additionalInformation.${field}.title`)}</Text>
+      <Text>
+        {scope === ScopeTypes.ORGANIZERS && field === Fields.MEDIA
+          ? t('organizers.create.step2.pictures.title')
+          : t(`create.additionalInformation.${field}.title`)}
+      </Text>
     </Inline>
   );
 };
@@ -167,7 +200,7 @@ const AdditionalInformationStep = ({
       if (shouldInvalidate) {
         await queryClient.invalidateQueries([scope, { id: offerId }]);
       }
-      onChangeSuccess(field);
+      onChangeSuccess?.(field);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [scope, offerId, queryClient],
@@ -245,6 +278,7 @@ const AdditionalInformationStep = ({
                 eventKey={field}
                 title={
                   <TabTitle
+                    scope={scope}
                     field={field}
                     validationStatus={validatedFields[field]}
                   />
@@ -265,6 +299,7 @@ const AdditionalInformationStep = ({
                   onSuccessfulChange={() =>
                     invalidateOfferQuery(field, shouldInvalidate)
                   }
+                  {...props}
                   {...stepProps}
                 />
               </Tabs.Tab>
@@ -272,7 +307,7 @@ const AdditionalInformationStep = ({
           },
         )}
       </Tabs>
-      <OfferScore
+      <FormScore
         offerId={offerId}
         scope={scope}
         completedFields={mapValues(

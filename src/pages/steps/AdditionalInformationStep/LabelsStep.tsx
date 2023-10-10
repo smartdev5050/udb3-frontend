@@ -6,14 +6,15 @@ import { UseQueryResult } from 'react-query';
 import { useGetLabelsByQuery } from '@/hooks/api/labels';
 import {
   useAddOfferLabelMutation,
-  useGetOfferByIdQuery,
   useRemoveOfferLabelMutation,
 } from '@/hooks/api/offers';
+import { useGetEntityByIdAndScope } from '@/hooks/api/scope';
 import {
   TabContentProps,
   ValidationStatus,
 } from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
 import { Label, Offer } from '@/types/Offer';
+import { Organizer } from '@/types/Organizer';
 import { Alert } from '@/ui/Alert';
 import { Badge, BadgeVariants } from '@/ui/Badge';
 import { FormElement } from '@/ui/FormElement';
@@ -36,9 +37,9 @@ function LabelsStep({
 }: LabelsStepProps) {
   const { t } = useTranslation();
 
-  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId, scope });
+  const getEntityByIdQuery = useGetEntityByIdAndScope({ id: offerId, scope });
   // @ts-expect-error
-  const offer: Offer | undefined = getOfferByIdQuery.data;
+  const entity: Offer | Organizer | undefined = getEntityByIdQuery.data;
 
   const ref = useRef(null);
 
@@ -49,7 +50,7 @@ function LabelsStep({
   });
 
   const options = labelsQuery.data?.member ?? [];
-  const [labels, setLabels] = useState<string[]>(offer.labels ?? []);
+  const [labels, setLabels] = useState<string[]>(entity?.labels ?? []);
   const addLabelMutation = useAddOfferLabelMutation();
   const removeLabelMutation = useRemoveOfferLabelMutation();
 

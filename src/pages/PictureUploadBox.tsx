@@ -2,6 +2,7 @@ import { DragEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { css } from 'styled-components';
 
+import { Scope, ScopeTypes } from '@/constants/OfferType';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icons } from '@/ui/Icon';
 import { Image } from '@/ui/Image';
@@ -48,6 +49,7 @@ type ImageType = {
 };
 
 type Props = StackProps & {
+  scope: Scope;
   images: ImageType[];
   onClickEditImage: (id: string) => void;
   onClickDeleteImage: (id: string) => void;
@@ -57,6 +59,7 @@ type Props = StackProps & {
 };
 
 const PictureUploadBox = ({
+  scope,
   images,
   onClickEditImage,
   onClickDeleteImage,
@@ -173,7 +176,9 @@ const PictureUploadBox = ({
                 <ImageIcon width="60" />
               </Stack>
               <Text variant={TextVariants.MUTED} textAlign="center">
-                {t('pictures.intro')}
+                {scope === ScopeTypes.ORGANIZERS
+                  ? t('organizers.create.step2.pictures.intro')
+                  : t('pictures.intro')}
               </Text>
             </Stack>
           )}

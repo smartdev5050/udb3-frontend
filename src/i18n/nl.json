@@ -427,7 +427,14 @@
             "text": "Tip: voeg een <1>{{link}}</1> toe",
             "link": "organisatie"
           },
-          "completed": "Alle punten! Met dit evenement ga je scoren!"
+          "location": {
+            "text": "Tip: voeg <1>{{link}}</1> toe",
+            "link": "adresgegevens"
+          },
+          "completed": {
+            "offers": "Alle punten! Met dit evenement ga je scoren!",
+            "organizers": "Met deze organisatie ga je scoren!"
+          }
         }
       },
       "organizer": {
@@ -445,6 +452,9 @@
           "already_has_ticketsales": "Er zijn al tickets verkocht voor deze activiteit. Je kan de organisatie en de kaartsystemen niet meer wijzigen.",
           "not_found": "Deze activiteit is nog niet gekend bij UiTPAS."
         }
+      },
+      "location": {
+        "title": "Locatie"
       },
       "place": {
         "add_new_label": "Locatie niet gevonden? Nieuwe locatie toevoegen"
@@ -481,7 +491,8 @@
       },
       "title": {
         "events": "Zorg dat je publiek geen informatie mist",
-        "places": "Zorg dat je publiek geen informatie mist"
+        "places": "Zorg dat je publiek geen informatie mist",
+        "organizers": "Zorg dat je publiek geen informatie mist"
       }
     },
     "footer": {
@@ -819,7 +830,7 @@
         "url": "Website"
       },
       "title": "Organisatie toevoegen",
-      "url_requirements": "Om organisaties in de UiTdatabank uniek te houden, vragen we elke organisatie een unieke en geldige hyperlink",
+      "url_requirements": "Om organisaties in de UiTdatabank uniek te houden, vragen we elke organisatie een unieke en geldige hyperlink.",
       "validation_messages": {
         "address": {
           "addressLocality": "Je gemeente voldoet niet aan de vereisten.",
@@ -960,6 +971,32 @@
         "placeholder": "Schrijf een zoekopdracht van minstens 3 karakters."
       },
       "title": "Producties"
+    }
+  },
+  "organizers": {
+    "create": {
+      "title": "Organisatie toevoegen",
+      "step1": {
+        "title": "Welke organisatie wil je toevoegen?",
+        "save": "Opslaan",
+        "name": "Naam",
+        "url": "Website",
+        "url_requirements": "Om organisaties in de UiTdatabank uniek te houden, vragen we elke organisatie een unieke en geldige hyperlink.",
+        "errors": {
+          "name_required": "Naam ontbreekt",
+          "url_required": "Url ontbreekt",
+          "url_matches": "Ongeldige url",
+          "url_not_unique": "Dit adres wordt al gebruikt door de organisatie '{{organizerName}}'."
+        }
+      },
+      "step2": {
+        "description_tips": "Geef een enthousiaste omschrijving van je organisatie\nTot welke doelgroep richt de organisatie zich?\nWat voor activiteiten organiseert deze organisatie?",
+        "save": "Bewaren",
+        "pictures": {
+          "title": "Afbeeldingen",
+          "intro": "Voeg een afbeelding toe zodat bezoekers je organisatie beter herkennen"
+        }
+      }
     }
   },
   "selectionTable": {

@@ -425,7 +425,14 @@
             "text": "Tipp: Fügen Sie einen <1>{{link}}</1> hinzu",
             "link": "Organisator"
           },
-          "completed": "Alle Punkte! Mit dieser Veranstaltung werden Sie punkten!"
+          "location": {
+            "text": "Tipp: Fügen Sie <1>{{link}}</1> hinzu",
+            "link": "Adresseinformationen"
+          },
+          "completed": {
+            "offers": "Alle Punkte! Mit dieser Veranstaltung werden Sie punkten!",
+            "organizers": "Mit dieser Organisation wirst du punkten!"
+          }
         }
       },
       "organizer": {
@@ -443,6 +450,9 @@
           "already_has_ticketsales": "Für diese Aktivität wurden bereits Tickets verkauft. Sie können die Organisations- und Kartensysteme nicht mehr ändern.",
           "not_found": "Diese Veranstaltung ist dem UiTPAS noch nicht bekannt."
         }
+      },
+      "location": {
+        "title": "Standort"
       },
       "place": {
         "add_new_label": "Ort nicht gefunden? Neuen Standort hinzufügen"
@@ -479,7 +489,8 @@
       },
       "title": {
         "events": "Stellen Sie sicher, dass Ihr Publikum keine Informationen verpasst",
-        "places": "Stellen Sie sicher, dass Ihr Publikum keine Informationen verpasst"
+        "places": "Stellen Sie sicher, dass Ihr Publikum keine Informationen verpasst",
+        "organizers": "Stellen Sie sicher, dass Ihr Publikum keine Informationen verpasst"
       },
       "title_events": "Machen Sie dieses Ereignis zu etwas Besonderem",
       "title_places": "Heben Sie diesen Standort hervor"
@@ -495,7 +506,6 @@
       },
       "description": "Ab wann soll dies online angezeigt werden?",
       "title": "Wählen Sie ein Veröffentlichungsdatum",
-
       "warning": "Achtung, dieses Datum kann nur einmalig eingestellt werden."
     },
     "duplicate": {
@@ -961,6 +971,32 @@
         "placeholder": "Erstellen Sie eine Suchanfrage von mindestens 3 Zeichen."
       },
       "title": "Produktionen"
+    }
+  },
+  "organizers": {
+    "create": {
+      "title": "Organisation hinzufügen",
+      "step1": {
+        "title": "Welche Organisation möchten Sie hinzufügen?",
+        "save": "Speichern",
+        "name": "Name",
+        "url": "Website",
+        "url_requirements": "Um Organisationen in der UiT-Datenbank einzigartig zu halten, bitten wir jede Organisation um einen eindeutigen und gültigen Hyperlink",
+        "errors": {
+          "name_required": "Name fehlt",
+          "url_required": "URL fehlt",
+          "url_matches": "Ungültige URL",
+          "url_not_unique": "Diese Adresse wird bereits von der Organisation „{{organizerName}}“ verwendet."
+        }
+      },
+      "step2": {
+        "description_tips": "Beschreiben Sie Ihre Organisation mit Begeisterung\nAn welche Zielgruppe richtet sich die Organisation?\nWelche Aktivitäten organisiert diese Organisation?",
+        "save": "Speichern",
+        "pictures": {
+          "title": "Bilder",
+          "intro": "Fügen Sie ein Bild hinzu, damit Besucher Ihre Organisation besser erkennen"
+        }
+      }
     }
   },
   "selectionTable": {

@@ -427,7 +427,14 @@
             "text": "Astuce : ajouter un <1>{{link}}</1>",
             "link": "organisateur"
           },
-          "completed": "Tous les points ! Vous allez marquer des points avec cet événement !"
+          "location": {
+            "text": "Astuce: Astuce : ajoutez les <1>{{link}}</1>",
+            "link": "coordonnées d'adresse"
+          },
+          "completed": {
+            "offers": "Tous les points ! Vous allez marquer des points avec cet événement !",
+            "organizers": "Avec cette organisation, vous allez marquer des points"
+          }
         }
       },
       "organizer": {
@@ -445,6 +452,9 @@
           "already_has_ticketsales": "Des billets ont déjà été vendus pour cette activité. Vous ne pouvez plus modifier l'organisation et les systèmes de carte.",
           "not_found": "Cette activité n'est pas encore connue par UiTPAS."
         }
+      },
+      "location": {
+        "title": "Lieu"
       },
       "place": {
         "add_new_label": "Lieu introuvable ? Ajouter un nouveau lieu"
@@ -481,7 +491,8 @@
       },
       "title": {
         "events": "Assurez-vous que votre public ne manque aucune information",
-        "places": "Assurez-vous que votre public ne manque aucune information"
+        "places": "Assurez-vous que votre public ne manque aucune information",
+        "organizers": "Assurez-vous que votre public ne manque aucune information"
       }
     },
     "footer": {
@@ -960,6 +971,32 @@
         "placeholder": "Écrivez une recherche d'au moins 3 caractères."
       },
       "title": "Productions"
+    }
+  },
+  "organizers": {
+    "create": {
+      "title": "Ajouter une organisation",
+      "step1": {
+        "title": "Quelle organisation voulez-vous ajouter ? ",
+        "save": "Enregistrer",
+        "name": "Nom",
+        "url": "Site web",
+        "url_requirements": "Pour garder les organisations dans la base de données UiT uniques, nous demandons à chaque organisation un lien hypertexte unique et valide",
+        "errors": {
+          "name_required": "Nom manquant",
+          "url_required": "URL manquant",
+          "url_matches": "URL invalide",
+          "url_not_unique": "Cette adresse est déjà utilisée par l'organisation '{{organizerName}}'."
+        }
+      },
+      "step2": {
+        "description_tips": "Décrivez avec enthousiasme votre organisation\nQuel public l'organisation cible-t-elle ?\nQuel type d'activités cette organisation organise-t-elle ?",
+        "save": "Enregistrer",
+        "pictures": {
+          "title": "Images",
+          "intro": "Ajoutez une image pour que les visiteurs reconnaissent mieux votre organisation"
+        }
+      }
     }
   },
   "selectionTable": {

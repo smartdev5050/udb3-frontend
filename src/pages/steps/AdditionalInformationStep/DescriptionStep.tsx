@@ -1,21 +1,14 @@
-import {
-  ContentState,
-  convertToRaw,
-  EditorState,
-  Modifier,
-  RichUtils,
-} from 'draft-js';
+import { ContentState, convertToRaw, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import { useEffect, useMemo, useState } from 'react';
-import { SyntheticKeyboardEvent } from 'react-draft-wysiwyg';
 import { useTranslation } from 'react-i18next';
 
-import {
-  useChangeOfferDescriptionMutation,
-  useGetOfferByIdQuery,
-} from '@/hooks/api/offers';
+import { Scope, ScopeTypes } from '@/constants/OfferType';
+import { useChangeDescriptionMutation } from '@/hooks/api/offers';
+import { useGetEntityByIdAndScope } from '@/hooks/api/scope';
 import RichTextEditor from '@/pages/RichTextEditor';
 import { Event } from '@/types/Event';
+import { Organizer } from '@/types/Organizer';
 import { Alert } from '@/ui/Alert';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
@@ -60,25 +53,48 @@ const DescriptionInfo = ({
         />
       )}
       <Text variant={TextVariants.MUTED}>
-        {description?.length < IDEAL_DESCRIPTION_LENGTH
-          ? t(
-              'create.additionalInformation.description.progress_info.not_complete',
-              {
-                idealLength: IDEAL_DESCRIPTION_LENGTH,
-                count: IDEAL_DESCRIPTION_LENGTH - description?.length,
-              },
-            )
-          : t(
-              'create.additionalInformation.description.progress_info.complete',
-              {
-                idealLength: IDEAL_DESCRIPTION_LENGTH,
-              },
-            )}
+        {t(
+          description?.length < IDEAL_DESCRIPTION_LENGTH
+            ? 'create.additionalInformation.description.progress_info.not_complete'
+            : 'create.additionalInformation.description.progress_info.complete',
+          {
+            idealLength: IDEAL_DESCRIPTION_LENGTH,
+            count: IDEAL_DESCRIPTION_LENGTH - description?.length,
+          },
+        )}
       </Text>
       <Button variant={ButtonVariants.LINK} onClick={onClear}>
         {t('create.additionalInformation.description.clear')}
       </Button>
     </Stack>
+  );
+};
+
+const DescriptionTips = ({
+  scope,
+  eventTypeId,
+}: {
+  scope: Scope;
+  eventTypeId: string;
+}) => {
+  const { t, i18n } = useTranslation();
+  const translationKey =
+    scope === ScopeTypes.ORGANIZERS
+      ? 'organizers*create*step2*description_tips'
+      : `create*additionalInformation*description*tips*${eventTypeId}`;
+
+  return (
+    (eventTypeId || scope === ScopeTypes.ORGANIZERS) && (
+      <Alert
+        css={`
+          margin-top: 1.86rem;
+        `}
+      >
+        {t(translationKey, {
+          keySeparator: '*',
+        })}
+      </Alert>
+    )
   );
 };
 
@@ -93,22 +109,19 @@ const DescriptionStep = ({
 }: DescriptionStepProps) => {
   const { t, i18n } = useTranslation();
 
-  // TODO: refactor
-  const eventId = offerId;
-
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const plainTextDescription = useMemo(
     () => editorState.getCurrentContent().getPlainText(),
     [editorState],
   );
 
-  const getOfferByIdQuery = useGetOfferByIdQuery({ id: offerId, scope });
+  const getEntityByIdQuery = useGetEntityByIdAndScope({ id: offerId, scope });
 
   // @ts-expect-error
-  const offer: Event | Place | undefined = getOfferByIdQuery.data;
+  const entity: Event | Place | Organizer | undefined = getEntityByIdQuery.data;
 
   useEffect(() => {
-    const newDescription = offer?.description?.[i18n.language];
+    const newDescription = entity?.description?.[i18n.language];
     if (!newDescription) return;
 
     const draftState = htmlToDraft(newDescription);
@@ -126,13 +139,13 @@ const DescriptionStep = ({
       isCompleted ? ValidationStatus.SUCCESS : ValidationStatus.NONE,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [offer?.description, offer?.mainLanguage, i18n.language]);
+  }, [entity?.description, entity?.mainLanguage, i18n.language]);
 
   const eventTypeId = useMemo(() => {
-    return offer?.terms.find((term) => term.domain === 'eventtype')?.id!;
-  }, [offer?.terms]);
+    return entity?.terms?.find((term) => term.domain === 'eventtype')?.id!;
+  }, [entity?.terms]);
 
-  const changeDescriptionMutation = useChangeOfferDescriptionMutation({
+  const changeDescriptionMutation = useChangeDescriptionMutation({
     onSuccess: onSuccessfulChange,
   });
 
@@ -153,7 +166,7 @@ const DescriptionStep = ({
           ? draftToHtml(convertToRaw(editorState.getCurrentContent()))
           : '',
       language: i18n.language,
-      eventId,
+      eventId: offerId,
       scope,
     });
   };
@@ -164,7 +177,7 @@ const DescriptionStep = ({
     changeDescriptionMutation.mutate({
       description: '',
       language: i18n.language,
-      eventId,
+      eventId: offerId,
       scope,
     });
   };
@@ -196,17 +209,7 @@ const DescriptionStep = ({
         }
         {...getStackProps(props)}
       />
-      {eventTypeId && (
-        <Alert
-          css={`
-            margin-top: 1.86rem;
-          `}
-        >
-          {t(`create*additionalInformation*description*tips*${eventTypeId}`, {
-            keySeparator: '*',
-          })}
-        </Alert>
-      )}
+      <DescriptionTips scope={scope} eventTypeId={eventTypeId} />
     </Inline>
   );
 };

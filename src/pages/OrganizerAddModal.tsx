@@ -146,10 +146,10 @@ const OrganizerAddModal = ({
     { enabled: visible },
   );
 
-  const existingOrganization: Organizer | undefined =
+  const existingOrganizer: Organizer | undefined =
     // @ts-expect-error
     getOrganizersByWebsiteQuery.data?.member?.[0];
-  const isUrlUnique = !existingOrganization;
+  const isUrlUnique = !existingOrganizer;
   const isUrlAlreadyTaken = formState.errors.url?.type === 'not_unique';
 
   const countries = useMemo(
@@ -239,16 +239,16 @@ const OrganizerAddModal = ({
                   i18nKey={`organizer.add_modal.validation_messages.url_not_unique`}
                   values={{
                     organizerName: getLanguageObjectOrFallback(
-                      existingOrganization?.name,
+                      existingOrganizer?.name,
                       i18n.language as SupportedLanguage,
-                      existingOrganization.mainLanguage as SupportedLanguage,
+                      existingOrganizer.mainLanguage as SupportedLanguage,
                     ),
                   }}
                   components={{
                     setOrganizerLink: (
                       <Button
                         variant={ButtonVariants.UNSTYLED}
-                        onClick={() => onSetOrganizer(existingOrganization)}
+                        onClick={() => onSetOrganizer(existingOrganizer)}
                         display={'inline-block'}
                         fontWeight={'bold'}
                         textDecoration={'underline'}

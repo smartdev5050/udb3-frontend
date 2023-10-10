@@ -128,12 +128,11 @@ const getOrganizerById = async ({ headers, id }: GetOrganizerByIdArguments) => {
 };
 
 const useGetOrganizerByIdQuery = (
-  { req, queryClient, id },
+  { id, ...options },
   configuration: UseQueryOptions = {},
 ) =>
   useAuthenticatedQuery({
-    req,
-    queryClient,
+    ...options,
     queryKey: ['organizers'],
     queryFn: getOrganizerById,
     queryArguments: { id },
@@ -213,6 +212,15 @@ const useGetOrganizersByCreatorQuery = (
     ...configuration,
   });
 
+type CreateOrganizerArguments = {
+  headers: Headers;
+  url: string;
+  name: string;
+  address: any;
+  mainLanguage: string;
+  contact: any;
+};
+
 const createOrganizer = ({
   headers,
   url,
@@ -220,7 +228,7 @@ const createOrganizer = ({
   address,
   mainLanguage,
   contact,
-}) =>
+}: CreateOrganizerArguments) =>
   fetchFromApi({
     path: '/organizers',
     options: {
@@ -243,11 +251,66 @@ const useCreateOrganizerMutation = (configuration: UseMutationOptions = {}) =>
     ...configuration,
   });
 
+type UpdateOrganizerArguments = CreateOrganizerArguments & {
+  organizerId: string;
+};
+
+const updateOrganizer = ({
+  headers,
+  url,
+  organizerId,
+  name,
+  address,
+  mainLanguage,
+  contact,
+}: UpdateOrganizerArguments) =>
+  fetchFromApi({
+    path: `/organizers/${organizerId}`,
+    options: {
+      headers,
+      method: 'PUT',
+      body: JSON.stringify({
+        mainLanguage,
+        name,
+        url,
+        address,
+        contact,
+      }),
+    },
+  });
+
+const useUpdateOrganizerMutation = (configuration: UseMutationOptions = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: updateOrganizer,
+    mutationKey: 'organizers-update',
+    ...configuration,
+  });
+
+const changeLocation = async ({ headers, organizerId, language, location }) => {
+  return fetchFromApi({
+    path: `/organizers/${organizerId.toString()}/address/${language}`,
+    options: {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify(location),
+    },
+  });
+};
+
+const useChangeLocationMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: changeLocation,
+    mutationKey: 'organizer-change-location',
+    ...configuration,
+  });
+
 export {
+  useChangeLocationMutation,
   useCreateOrganizerMutation,
   useDeleteOrganizerByIdMutation,
   useGetOrganizerByIdQuery,
   useGetOrganizersByCreatorQuery,
   useGetOrganizersByQueryQuery,
   useGetOrganizersByWebsiteQuery,
+  useUpdateOrganizerMutation,
 };

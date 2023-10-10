@@ -91,6 +91,18 @@ const getRedirects = (
     featureFlag: FeatureFlags.REACT_CREATE,
   },
   {
+    source: '/organizer',
+    destination: '/organizers/create',
+    permanent: false,
+    featureFlag: FeatureFlags.ORGANIZER_CREATE,
+  },
+  {
+    source: '/organizer/:organizerId/edit',
+    destination: '/organizers/:organizerId/edit',
+    permanent: false,
+    featureFlag: FeatureFlags.ORGANIZER_CREATE,
+  },
+  {
     source: '/:language/copyright',
     destination: '/copyright',
     permanent: environment !== 'development',

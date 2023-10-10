@@ -5,7 +5,10 @@ const OfferTypes = {
   PLACES: 'places',
 } as const;
 
-type OfferType = Values<typeof OfferTypes>;
+const ScopeTypes = { ...OfferTypes, ORGANIZERS: 'organizers' };
 
-export type { OfferType };
-export { OfferTypes };
+type OfferType = Values<typeof OfferTypes>;
+type Scope = Values<typeof ScopeTypes>;
+
+export type { OfferType, Scope };
+export { OfferTypes, ScopeTypes };
