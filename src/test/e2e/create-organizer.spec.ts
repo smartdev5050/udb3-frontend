@@ -68,5 +68,5 @@ test('create an organizer', async ({ baseURL, page }) => {
 
   await page.getByText('100/100').click();
 
-  await page.getByRole('button', { name: 'Bewaren' }).click();
+  await page.getByRole('button', { name: 'Klaar met bewerken' }).click();
 });
