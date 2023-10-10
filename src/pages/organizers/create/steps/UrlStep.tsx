@@ -93,6 +93,10 @@ const UrlStep = ({
                         ...field.value,
                         url: prefixUrlWithHttps(newValue),
                       });
+                      onChange({
+                        ...field.value,
+                        url: prefixUrlWithHttps(newValue),
+                      });
                     }}
                   />
                 }

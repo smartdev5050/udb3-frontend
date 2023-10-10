@@ -150,6 +150,9 @@ const OrganizerForm = () => {
           mainLanguage={SupportedLanguages.NL}
           configurations={configurations}
           form={form}
+          onChange={() => {
+            if (urlOrganizerId) onSuccess();
+          }}
         />
       </Page.Content>
       <Page.Footer>
