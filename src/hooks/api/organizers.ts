@@ -286,6 +286,24 @@ const useUpdateOrganizerMutation = (configuration: UseMutationOptions = {}) =>
     ...configuration,
   });
 
+const changeLocation = async ({ headers, organizerId, language, location }) => {
+  return fetchFromApi({
+    path: `/organizers/${organizerId.toString()}/address/${language}`,
+    options: {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify(location),
+    },
+  });
+};
+
+const useChangeLocationMutation = (configuration = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: changeLocation,
+    mutationKey: 'organizer-change-location',
+    ...configuration,
+  });
+
 export {
   useCreateOrganizerMutation,
   useDeleteOrganizerByIdMutation,
@@ -294,4 +312,5 @@ export {
   useGetOrganizersByQueryQuery,
   useGetOrganizersByWebsiteQuery,
   useUpdateOrganizerMutation,
+  useChangeLocationMutation,
 };

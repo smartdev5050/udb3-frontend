@@ -120,18 +120,7 @@ const OrganizerForm = (props) => {
 
     if (urlOrganizerId) {
       mutation = updateOrganizerMutation;
-      attributes = {
-        ...attributes,
-        organizerId: urlOrganizerId,
-        address: {
-          [i18n.language]: {
-            addressCountry: getValues('location.country'),
-            addressLocality: getValues('location.municipality.name'),
-            postalCode: getValues('location.municipality.zip'),
-            streetAddress: getValues('location.streetAndNumber'),
-          },
-        },
-      };
+      attributes = { ...attributes, organizerId: urlOrganizerId };
     }
 
     const { organizerId } = await mutation.mutateAsync(attributes);
