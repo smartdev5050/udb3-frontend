@@ -54,7 +54,6 @@ const UrlStep = ({
       existingOrganizer &&
       parseOfferId(existingOrganizer['@id']) !== query.organizerId
     ) {
-      console.log('should set error');
       setError('nameAndUrl.url', { type: 'not_unique' });
       return;
     }
