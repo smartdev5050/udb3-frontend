@@ -54,7 +54,6 @@ const UrlStep = ({
       existingOrganizer &&
       parseOfferId(existingOrganizer['@id']) !== query.organizerId
     ) {
-      console.log('should set error');
       setError('nameAndUrl.url', { type: 'not_unique' });
       return;
     }
@@ -91,6 +90,10 @@ const UrlStep = ({
                     onBlur={(event: FormEvent<HTMLInputElement>) => {
                       const newValue = (event.target as HTMLInputElement).value;
                       field.onChange({
+                        ...field.value,
+                        url: prefixUrlWithHttps(newValue),
+                      });
+                      onChange({
                         ...field.value,
                         url: prefixUrlWithHttps(newValue),
                       });

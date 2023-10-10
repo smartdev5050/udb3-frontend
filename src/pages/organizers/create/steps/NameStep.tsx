@@ -46,10 +46,10 @@ const NameStep = ({
                         ...field.value,
                         name: (event.target as HTMLInputElement).value,
                       });
-                      //   onChange({
-                      //     ...field.value,
-                      //     name: (event.target as HTMLInputElement).value,
-                      //   });
+                      onChange({
+                        ...field.value,
+                        name: (event.target as HTMLInputElement).value,
+                      });
                     }}
                   />
                 }

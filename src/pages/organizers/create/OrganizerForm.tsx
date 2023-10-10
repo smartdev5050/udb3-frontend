@@ -21,7 +21,11 @@ import { locationStepConfiguration } from '@/pages/steps/LocationStep';
 import { Steps, StepsConfiguration } from '@/pages/steps/Steps';
 import { Organizer } from '@/types/Organizer';
 import { Button, ButtonVariants } from '@/ui/Button';
+import { Inline } from '@/ui/Inline';
+import { Link, LinkVariants } from '@/ui/Link';
 import { Page } from '@/ui/Page';
+import { Text } from '@/ui/Text';
+import { getValueFromTheme } from '@/ui/theme';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 
 import { NameAndUrlStep } from './steps/NameAndUrlStep';
@@ -41,6 +45,8 @@ const typeAndThemeStepConfiguration: StepsConfiguration<'nameAndUrl'> = {
   }),
 };
 
+const getValue = getValueFromTheme('createPage');
+
 const configurations = [
   typeAndThemeStepConfiguration,
   {
@@ -52,10 +58,11 @@ const configurations = [
     variant: AdditionalInformationStepVariant.ORGANIZER,
     name: 'location' as StepsConfiguration['name'],
     defaultValue: locationStepConfiguration.defaultValue,
+    validation: locationStepConfiguration.validation,
   },
 ];
 
-const OrganizerForm = (props) => {
+const OrganizerForm = () => {
   const scope = ScopeTypes.ORGANIZERS;
   const { form } = useParseStepConfiguration(configurations);
   const { t, i18n } = useTranslation();
@@ -89,8 +96,6 @@ const OrganizerForm = (props) => {
     };
   };
 
-  // const toast = useToast(toastConfiguration);
-
   // TODO better type query
   const getOrganizerByIdQuery = useGetOrganizerByIdQuery(
     { id: urlOrganizerId },
@@ -121,18 +126,7 @@ const OrganizerForm = (props) => {
 
     if (urlOrganizerId) {
       mutation = updateOrganizerMutation;
-      attributes = {
-        ...attributes,
-        organizerId: urlOrganizerId,
-        address: {
-          [i18n.language]: {
-            addressCountry: getValues('location.country'),
-            addressLocality: getValues('location.municipality.name'),
-            postalCode: getValues('location.municipality.zip'),
-            streetAddress: getValues('location.streetAndNumber'),
-          },
-        },
-      };
+      attributes = { ...attributes, organizerId: urlOrganizerId };
     }
 
     const { organizerId } = await mutation.mutateAsync(attributes);
@@ -162,17 +156,24 @@ const OrganizerForm = (props) => {
           configurations={configurations}
           form={form}
           labels={organizerLabels}
+          onChange={() => {
+            if (urlOrganizerId) onSuccess();
+          }}
         />
       </Page.Content>
       <Page.Footer>
         {urlOrganizerId ? (
-          <Button
-            disabled={hasErrors}
-            variant={ButtonVariants.PRIMARY}
-            onClick={handleSubmit(onSuccess)}
-          >
-            {t('organizers.create.step2.save')}
-          </Button>
+          <Inline spacing={3} alignItems="center">
+            <Link
+              href={`/organizer/${urlOrganizerId}/preview`}
+              variant={LinkVariants.BUTTON_SUCCESS}
+            >
+              <Text>{t('create.footer.done_editing')}</Text>
+            </Link>
+            <Text color={getValue('footer.color')} fontSize="0.9rem">
+              {t('create.footer.auto_save')}
+            </Text>
+          </Inline>
         ) : (
           <Button
             disabled={hasErrors || !formState.isDirty}

@@ -203,7 +203,7 @@ const Steps = ({
   };
 
   return (
-    <Stack {...getStackProps(props)} spacing={5} width="100%">
+    <Stack spacing={5} width="100%" {...getStackProps(props)}>
       {configurationsWithComponent.map(
         (
           {
