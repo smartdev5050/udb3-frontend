@@ -17,7 +17,7 @@ type Props = {
 };
 
 const ALLOWED_VIDEO_SOURCES_REGEX: RegExp =
-  /^http(s?):\/\/(www\.)?((youtube\.com\/watch\?v=([^/#&?]*))|(vimeo\.com\/([^/#&?]*))|(youtu\.be\/([^/#&?]*)))/;
+  /^http(s?):\/\/(www\.)?((youtube\.com\/(watch\?v=|shorts\/)([^/#&?]*))|(vimeo\.com\/([^/#&?]*))|(youtu\.be\/([^/#&?]*)))/;
 
 type FormData = {
   link: string;
@@ -87,4 +87,4 @@ const VideoLinkAddModal = ({ visible, onConfirm, onClose }: Props) => {
   );
 };
 
-export { VideoLinkAddModal };
+export { ALLOWED_VIDEO_SOURCES_REGEX, VideoLinkAddModal };
