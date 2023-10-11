@@ -54,6 +54,7 @@ type StepsConfiguration<
   ) => boolean;
   stepProps?: Record<string, unknown>;
   offerId?: string;
+  labels?: string[];
 };
 
 type NumberIndicatorProps = {
@@ -129,6 +130,7 @@ type StepProps = UseFormReturn<FormDataUnion> & {
 type StepsProps = {
   scope?: Scope;
   offerId?: string;
+  labels?: string[];
   mainLanguage: SupportedLanguage;
   form: UseFormReturn<FormDataUnion>;
   fieldLoading?: string;
@@ -173,6 +175,7 @@ const Steps = ({
   offerId,
   mainLanguage,
   scope,
+  labels,
   ...props
 }: StepsProps) => {
   const { t } = useTranslation();
@@ -239,6 +242,7 @@ const Steps = ({
                 offerId={offerId}
                 mainLanguage={mainLanguage}
                 scope={scope}
+                labels={labels}
                 variant={variant}
                 {...form}
                 {...props}

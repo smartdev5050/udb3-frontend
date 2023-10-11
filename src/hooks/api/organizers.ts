@@ -255,6 +255,12 @@ type UpdateOrganizerArguments = CreateOrganizerArguments & {
   organizerId: string;
 };
 
+type UpdateOrganizerEducationalDescriptionArguments =
+  CreateOrganizerArguments & {
+    organizerId: string;
+    educationalDescription: string;
+  };
+
 const updateOrganizer = ({
   headers,
   url,
@@ -286,6 +292,54 @@ const useUpdateOrganizerMutation = (configuration: UseMutationOptions = {}) =>
     ...configuration,
   });
 
+const updateOrganizerEducationalDescription = ({
+  headers,
+  organizerId,
+  mainLanguage,
+  educationalDescription,
+}: UpdateOrganizerEducationalDescriptionArguments) =>
+  fetchFromApi({
+    path: `/organizers/${organizerId}/educational-description/${mainLanguage}`,
+    options: {
+      headers,
+      method: 'PUT',
+      body: JSON.stringify({
+        educationalDescription,
+      }),
+    },
+  });
+
+const useUpdateOrganizerEducationalDescriptionMutation = (
+  configuration: UseMutationOptions = {},
+) =>
+  useAuthenticatedMutation({
+    mutationFn: updateOrganizerEducationalDescription,
+    mutationKey: 'organizers-update-educational-description',
+    ...configuration,
+  });
+
+const deleteOrganizerEducationalDescription = ({
+  headers,
+  organizerId,
+  mainLanguage,
+}: UpdateOrganizerEducationalDescriptionArguments) =>
+  fetchFromApi({
+    path: `/organizers/${organizerId}/educational-description/${mainLanguage}`,
+    options: {
+      headers,
+      method: 'DELETE',
+    },
+  });
+
+const useDeleteOrganizerEducationalDescriptionMutation = (
+  configuration: UseMutationOptions = {},
+) =>
+  useAuthenticatedMutation({
+    mutationFn: deleteOrganizerEducationalDescription,
+    mutationKey: 'organizers-delete-educational-description',
+    ...configuration,
+  });
+
 const changeLocation = async ({ headers, organizerId, language, location }) => {
   return fetchFromApi({
     path: `/organizers/${organizerId.toString()}/address/${language}`,
@@ -308,9 +362,11 @@ export {
   useChangeLocationMutation,
   useCreateOrganizerMutation,
   useDeleteOrganizerByIdMutation,
+  useDeleteOrganizerEducationalDescriptionMutation,
   useGetOrganizerByIdQuery,
   useGetOrganizersByCreatorQuery,
   useGetOrganizersByQueryQuery,
   useGetOrganizersByWebsiteQuery,
+  useUpdateOrganizerEducationalDescriptionMutation,
   useUpdateOrganizerMutation,
 };

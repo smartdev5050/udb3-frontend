@@ -6,9 +6,9 @@ import { useQueryClient } from 'react-query';
 
 import { OfferType, Scope, ScopeTypes } from '@/constants/OfferType';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+import { CultuurKuurStep } from '@/pages/steps/AdditionalInformationStep/CultuurKuurStep';
 import { LabelsStep } from '@/pages/steps/AdditionalInformationStep/LabelsStep';
 import { PhysicalLocationStep } from '@/pages/steps/AdditionalInformationStep/PhysicalLocationStep';
-import { Countries } from '@/types/Country';
 import type { Values } from '@/types/Values';
 import { parseSpacing } from '@/ui/Box';
 import { Icon, Icons } from '@/ui/Icon';
@@ -30,6 +30,8 @@ import { PriceInformation } from './PriceInformation';
 
 const getGlobalValue = getValueFromTheme('global');
 
+const CULTUURKUUR_ORGANIZER_LABEL = 'cultuurkuur_organizer';
+
 const AdditionalInformationStepVariant = {
   MOVIE: 'movie',
   EVENT: 'event',
@@ -47,6 +49,7 @@ const Fields = {
   AUDIENCE: 'audience',
   LABELS: 'labels',
   LOCATION: 'location',
+  CULTUURKUUR: 'cultuurkuur',
 };
 
 type Field = Values<typeof Fields>;
@@ -138,6 +141,12 @@ const tabConfigurations: TabConfig[] = [
       AdditionalInformationStepVariant.MOVIE,
     ],
   },
+  {
+    field: Fields.CULTUURKUUR,
+    TabContent: CultuurKuurStep,
+    shouldInvalidate: true,
+    shouldShowOn: [AdditionalInformationStepVariant.ORGANIZER],
+  },
 ];
 
 type TabTitleProps = InlineProps & {
@@ -179,6 +188,7 @@ type Props = StackProps & {
   scope: OfferType;
   onChangeSuccess: (field: Field) => void;
   variant?: Values<typeof AdditionalInformationStepVariant>;
+  labels?: string[];
 };
 
 const AdditionalInformationStep = ({
@@ -186,6 +196,7 @@ const AdditionalInformationStep = ({
   scope,
   onChangeSuccess,
   variant,
+  labels,
   ...props
 }: Props) => {
   const { asPath, ...router } = useRouter();
@@ -266,6 +277,13 @@ const AdditionalInformationStep = ({
             TabContent,
             stepProps,
           }) => {
+            if (
+              field === Fields.CULTUURKUUR &&
+              !(labels ?? []).includes(CULTUURKUUR_ORGANIZER_LABEL)
+            ) {
+              return null;
+            }
+
             const shouldShowTab = shouldShowOn
               ? shouldShowOn.includes(variant)
               : true;

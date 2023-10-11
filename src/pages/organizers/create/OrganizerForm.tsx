@@ -108,6 +108,11 @@ const OrganizerForm = () => {
     },
   );
 
+  // @ts-expect-error
+  const organizer = getOrganizerByIdQuery?.data;
+
+  const organizerLabels = organizer?.labels;
+
   const createOrganizerMutation = useCreateOrganizerMutation();
   const updateOrganizerMutation = useUpdateOrganizerMutation();
 
@@ -150,6 +155,7 @@ const OrganizerForm = () => {
           mainLanguage={SupportedLanguages.NL}
           configurations={configurations}
           form={form}
+          labels={organizerLabels}
           onChange={() => {
             if (urlOrganizerId) onSuccess();
           }}

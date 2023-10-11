@@ -451,6 +451,10 @@
           "not_found": "Diese Veranstaltung ist dem UiTPAS noch nicht bekannt."
         }
       },
+      "cultuurkuur": {
+        "title": "Cultuurkuur",
+        "tip": "Geben Sie eine enthusiastische Beschreibung Ihrer Organisation, die sich speziell an Schulen und Lehrer richtet. Diese Beschreibung wird nur auf cultuurkuur.be, der Plattform für Bildung und Kultur, erscheinen."
+      },
       "location": {
         "title": "Standort"
       },
