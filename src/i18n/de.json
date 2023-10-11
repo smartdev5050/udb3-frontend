@@ -246,7 +246,8 @@
           "required": "Name ist erforderlich."
         },
         "age_range": {
-          "required": "Altersklasse erforderlich."
+          "required": "Altersklasse erforderlich.",
+          "matches": "Das angegebene Alter ist ungültig"
         }
       },
       "name": {
@@ -269,7 +270,6 @@
         "from": "Von",
         "till": "Bis",
         "age": "Jahre",
-        "error_not_valid": "Das angegebene Alter ist ungültig",
         "error_max_lower_than_min": "Das Höchstalter kann nicht unter dem Mindestalter liegen.",
         "error_no_min_age": "Bitte geben Sie ein Mindestalter ein"
       }

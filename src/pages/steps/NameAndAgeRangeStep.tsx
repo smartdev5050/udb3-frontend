@@ -19,6 +19,8 @@ import {
   StepsConfiguration,
 } from './Steps';
 
+const numberHyphenNumberRegex = /^\d+-\d+$/;
+
 const useEditNameAndAgeRange = ({
   scope,
   onSuccess,
@@ -81,7 +83,7 @@ const nameAndAgeRangeStepConfiguration: StepsConfiguration<'nameAndAgeRange'> =
     title: ({ t }) => t('create.name_and_age.title'),
     validation: yup.object().shape({
       name: yup.object().shape({}).required(),
-      typicalAgeRange: yup.string().required(),
+      typicalAgeRange: yup.string().matches(numberHyphenNumberRegex).required(),
     }),
     shouldShowStep: ({ watch, formState }) => {
       const location = watch('location');

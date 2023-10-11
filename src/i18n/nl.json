@@ -246,7 +246,8 @@
           "required": "Naam is verplicht."
         },
         "age_range": {
-          "required": "Leeftijdsgroep is verplicht."
+          "required": "Leeftijdsgroep is verplicht.",
+          "matches": "De opgegeven leeftijd is niet geldig"
         }
       },
       "name": {
@@ -269,7 +270,6 @@
         "from": "Van",
         "till": "Tot",
         "age": "jaar",
-        "error_not_valid": "De opgegeven leeftijd is niet geldig",
         "error_max_lower_than_min": "De maximumleeftijd kan niet lager zijn dan de minimumleeftijd.",
         "error_no_min_age": "Gelieve een minimum leeftijd in te vullen"
       }
