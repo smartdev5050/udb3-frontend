@@ -111,7 +111,17 @@ const OrganizerForm = () => {
   // @ts-expect-error
   const organizer = getOrganizerByIdQuery?.data;
 
-  const organizerLabels = organizer?.labels;
+  const organizerLabelsSet = new Set();
+
+  (organizer?.labels ?? []).map((label: string) =>
+    organizerLabelsSet.add(label),
+  );
+
+  (organizer?.hiddenLabels ?? []).map((label: string) =>
+    organizerLabelsSet.add(label),
+  );
+
+  const organizerLabels = [...organizerLabelsSet];
 
   const createOrganizerMutation = useCreateOrganizerMutation();
   const updateOrganizerMutation = useUpdateOrganizerMutation();
