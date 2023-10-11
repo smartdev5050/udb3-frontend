@@ -828,7 +828,10 @@ const LocationStep = ({
   return (
     <Stack
       {...getStackProps(props)}
-      minHeight={shouldAddSpaceBelowTypeahead ? '26.5rem' : 'inherit'}
+      minHeight={
+        props.minHeight ??
+        (shouldAddSpaceBelowTypeahead ? '26.5rem' : 'inherit')
+      }
     >
       <Controller
         control={control}
