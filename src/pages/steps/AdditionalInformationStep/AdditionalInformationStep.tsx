@@ -206,8 +206,6 @@ const AdditionalInformationStep = ({
 
   const queryClient = useQueryClient();
 
-  console.log('labels inside', labels);
-
   const invalidateOfferQuery = useCallback(
     async (field: Field, shouldInvalidate: boolean) => {
       if (shouldInvalidate) {
