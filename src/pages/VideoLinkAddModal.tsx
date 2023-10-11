@@ -19,9 +19,9 @@ type Props = {
 const ALLOWED_VIDEO_SOURCES_REGEX = new RegExp(
   '^(https?://(www\\.)?' + // Protocol
     '(youtube.com/watch\\?v=|' + // YouTube
-    'youtu.be/|' + // Shortened YouTube
-    'vimeo.com/|' + // Vimeo
-    'youtube.com/shorts/)' + // YouTube Shorts
+    'youtu\\.be/|' + // Shortened YouTube
+    'vimeo\\.com/|' + // Vimeo
+    'youtube\\.com/shorts/)' + // YouTube Shorts
     '[^/#&?]+)', // Video ID
 );
 
