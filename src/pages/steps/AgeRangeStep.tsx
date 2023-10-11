@@ -96,6 +96,16 @@ const AgeRangeStep = ({
   };
 
   const handleSubmitCustomAgeRange = (field: Field) => {
+    const numberRegex = new RegExp(/^\d+$/);
+
+    if (
+      !numberRegex.test(customMinAgeRange) ||
+      !numberRegex.test(customMaxAgeRange)
+    ) {
+      setCustomAgeRangeError(t('create.name_and_age.age.error_not_valid'));
+      return;
+    }
+
     if (parseInt(customMinAgeRange) > parseInt(customMaxAgeRange)) {
       setCustomAgeRangeError(
         t('create.name_and_age.age.error_max_lower_than_min'),
@@ -216,6 +226,7 @@ const AgeRangeStep = ({
                         </Text>
                         <Input
                           marginRight={3}
+                          type="numeric"
                           value={customMinAgeRange}
                           placeholder={t('create.name_and_age.age.from')}
                           onChange={(event) => {
@@ -236,6 +247,7 @@ const AgeRangeStep = ({
                         </Text>
                         <Input
                           marginRight={3}
+                          type="numeric"
                           value={customMaxAgeRange}
                           placeholder={t('create.name_and_age.age.till')}
                           onChange={(event) => {
