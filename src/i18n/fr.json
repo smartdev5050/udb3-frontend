@@ -454,7 +454,8 @@
         }
       },
       "location": {
-        "title": "Lieu"
+        "title": "Lieu",
+        "title_organizer": "Adresse"
       },
       "place": {
         "add_new_label": "Lieu introuvable ? Ajouter un nouveau lieu"

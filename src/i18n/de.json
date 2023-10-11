@@ -452,7 +452,8 @@
         }
       },
       "location": {
-        "title": "Standort"
+        "title": "Standort",
+        "title_organizer": "Adresse"
       },
       "place": {
         "add_new_label": "Ort nicht gefunden? Neuen Standort hinzufügen"
