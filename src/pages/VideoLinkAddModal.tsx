@@ -16,8 +16,14 @@ type Props = {
   onClose: () => void;
 };
 
-const ALLOWED_VIDEO_SOURCES_REGEX: RegExp =
-  /^http(s?):\/\/(www\.)?((youtube\.com\/(watch\?v=|shorts\/)([^/#&?]*))|(vimeo\.com\/([^/#&?]*))|(youtu\.be\/([^/#&?]*)))/;
+const ALLOWED_VIDEO_SOURCES_REGEX = new RegExp(
+  '^(https?://(www\\.)?' + // Protocol
+    '(youtube.com/watch\\?v=|' + // YouTube
+    'youtu.be/|' + // Shortened YouTube
+    'vimeo.com/|' + // Vimeo
+    'youtube.com/shorts/)' + // YouTube Shorts
+    '[^/#&?]+)', // Video ID
+);
 
 type FormData = {
   link: string;
