@@ -25,6 +25,7 @@ type InputType =
   | 'image'
   | 'month'
   | 'number'
+  | 'numeric'
   | 'password'
   | 'radio'
   | 'range'
