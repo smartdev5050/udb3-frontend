@@ -6,7 +6,7 @@ import {
   TabContentProps,
   ValidationStatus,
 } from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
-import { isLocationSet, LocationStep } from '@/pages/steps/LocationStep';
+import { LocationStep } from '@/pages/steps/LocationStep';
 import { StepProps } from '@/pages/steps/Steps';
 import { StackProps } from '@/ui/Stack';
 
