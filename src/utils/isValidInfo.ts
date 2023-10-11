@@ -9,7 +9,14 @@ const isValidEmail = (email: string) => {
 
 const isValidUrl = (url: string) => {
   try {
-    new URL(url);
+    const urlObj = new URL(url);
+
+    const urlRegex = new RegExp(/https?:\/\/(?:www\.)?[\w-]+\.[a-zA-Z]{2,}/);
+
+    if (!urlRegex.test(urlObj.toString())) {
+      throw new Error('not a valid url');
+    }
+
     return true;
   } catch (e) {
     return false;
