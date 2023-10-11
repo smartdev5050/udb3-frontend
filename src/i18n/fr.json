@@ -269,6 +269,7 @@
         "from": "De",
         "till": "à",
         "age": "ans",
+        "error_not_valid": "L'âge spécifié n'est pas valide",
         "error_max_lower_than_min": "L'âge maximum ne peut être inférieur à l'âge minimum.",
         "error_no_min_age": "Veuillez entrer un âge minimum"
       }

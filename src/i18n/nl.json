@@ -269,6 +269,7 @@
         "from": "Van",
         "till": "Tot",
         "age": "jaar",
+        "error_not_valid": "De opgegeven leeftijd is niet geldig",
         "error_max_lower_than_min": "De maximumleeftijd kan niet lager zijn dan de minimumleeftijd.",
         "error_no_min_age": "Gelieve een minimum leeftijd in te vullen"
       }
