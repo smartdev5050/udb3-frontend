@@ -996,7 +996,7 @@
         }
       },
       "step2": {
-        "description_tips": "Beschreiben Sie Ihre Organisation mit Begeisterung\nAn welche Zielgruppe richtet sich die Organisation?\nWelche Aktivitäten organisiert diese Organisation?",
+        "description_tips": "Beschreiben Sie Ihre Organisation mit Begeisterung<ul><li>An welche Zielgruppe richtet sich die Organisation?</li>Welche Aktivitäten organisiert diese Organisation?</li></ul>",
         "save": "Speichern",
         "pictures": {
           "title": "Bilder",
