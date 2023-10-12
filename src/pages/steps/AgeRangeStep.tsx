@@ -216,6 +216,7 @@ const AgeRangeStep = ({
                         </Text>
                         <Input
                           marginRight={3}
+                          type="numeric"
                           value={customMinAgeRange}
                           placeholder={t('create.name_and_age.age.from')}
                           onChange={(event) => {
@@ -236,6 +237,7 @@ const AgeRangeStep = ({
                         </Text>
                         <Input
                           marginRight={3}
+                          type="numeric"
                           value={customMaxAgeRange}
                           placeholder={t('create.name_and_age.age.till')}
                           onChange={(event) => {
@@ -262,7 +264,7 @@ const AgeRangeStep = ({
               {errors.nameAndAgeRange?.typicalAgeRange && (
                 <Text color="red">
                   {t(
-                    'create.name_and_age.validation_messages.age_range.required',
+                    `create.name_and_age.validation_messages.age_range.${errors.nameAndAgeRange?.typicalAgeRange.type}`,
                   )}
                 </Text>
               )}

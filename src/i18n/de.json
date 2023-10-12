@@ -246,7 +246,8 @@
           "required": "Name ist erforderlich."
         },
         "age_range": {
-          "required": "Altersklasse erforderlich."
+          "required": "Altersklasse erforderlich.",
+          "matches": "Das angegebene Alter ist ungültig"
         }
       },
       "name": {

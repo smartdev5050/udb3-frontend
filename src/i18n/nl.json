@@ -246,7 +246,8 @@
           "required": "Naam is verplicht."
         },
         "age_range": {
-          "required": "Leeftijdsgroep is verplicht."
+          "required": "Leeftijdsgroep is verplicht.",
+          "matches": "De opgegeven leeftijd is niet geldig"
         }
       },
       "name": {
