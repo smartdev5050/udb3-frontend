@@ -459,7 +459,8 @@
         "tip": "Geef een enthousiaste omschrijving van je organisatie, specifiek gericht naar scholen en leerkrachten. Deze beschrijving verschijnt enkel op cultuurkuur.be, het platform voor onderwijs en cultuur."
       },
       "location": {
-        "title": "Locatie"
+        "title": "Locatie",
+        "title_organizer": "Adres"
       },
       "place": {
         "add_new_label": "Locatie niet gevonden? Nieuwe locatie toevoegen"

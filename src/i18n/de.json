@@ -457,7 +457,8 @@
         "tip": "Geben Sie eine enthusiastische Beschreibung Ihrer Organisation, die sich speziell an Schulen und Lehrer richtet. Diese Beschreibung wird nur auf cultuurkuur.be, der Plattform für Bildung und Kultur, erscheinen."
       },
       "location": {
-        "title": "Standort"
+        "title": "Standort",
+        "title_organizer": "Adresse"
       },
       "place": {
         "add_new_label": "Ort nicht gefunden? Neuen Standort hinzufügen"

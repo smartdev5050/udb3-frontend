@@ -65,6 +65,7 @@ type TabContentProps = {
 
 type TabConfig = {
   field: Field;
+  titleKey?: string;
   TabContent: FC<TabContentProps & { [prop: string]: unknown }>;
   shouldShowOn?: Values<typeof AdditionalInformationStepVariant>[];
   shouldInvalidate: boolean;
@@ -120,6 +121,7 @@ const tabConfigurations: TabConfig[] = [
   {
     field: Fields.LOCATION,
     TabContent: PhysicalLocationStep,
+    titleKey: 'create.additionalInformation.location.title_organizer',
     shouldInvalidate: false,
     shouldShowOn: [AdditionalInformationStepVariant.ORGANIZER],
   },
@@ -152,6 +154,7 @@ const tabConfigurations: TabConfig[] = [
 type TabTitleProps = InlineProps & {
   scope: Scope;
   field: Field;
+  titleKey?: string;
   validationStatus: ValidationStatus;
 };
 
@@ -159,9 +162,14 @@ const TabTitle = ({
   scope,
   field,
   validationStatus,
+  titleKey,
   ...props
 }: TabTitleProps) => {
   const { t } = useTranslation();
+
+  const title = titleKey
+    ? t(titleKey)
+    : t(`create.additionalInformation.${field}.title`);
 
   return (
     <Inline spacing={3} {...getInlineProps(props)}>
@@ -177,7 +185,7 @@ const TabTitle = ({
       <Text>
         {scope === ScopeTypes.ORGANIZERS && field === Fields.MEDIA
           ? t('organizers.create.step2.pictures.title')
-          : t(`create.additionalInformation.${field}.title`)}
+          : title}
       </Text>
     </Inline>
   );
@@ -273,6 +281,7 @@ const AdditionalInformationStep = ({
           ({
             shouldShowOn,
             field,
+            titleKey,
             shouldInvalidate,
             TabContent,
             stepProps,
@@ -298,6 +307,7 @@ const AdditionalInformationStep = ({
                   <TabTitle
                     scope={scope}
                     field={field}
+                    titleKey={titleKey}
                     validationStatus={validatedFields[field]}
                   />
                 }

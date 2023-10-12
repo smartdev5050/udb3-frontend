@@ -459,7 +459,8 @@
         "tip": "Donnez une description enthousiaste de votre organisation, destinée spécifiquement aux écoles et aux enseignants. Cette description n'apparaîtra que sur cultuurkuur.be, la plateforme de l'éducation et de la culture."
       },
       "location": {
-        "title": "Lieu"
+        "title": "Lieu",
+        "title_organizer": "Adresse"
       },
       "place": {
         "add_new_label": "Lieu introuvable ? Ajouter un nouveau lieu"
