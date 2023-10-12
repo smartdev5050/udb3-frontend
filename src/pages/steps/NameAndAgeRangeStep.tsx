@@ -19,7 +19,7 @@ import {
   StepsConfiguration,
 } from './Steps';
 
-const numberHyphenNumberRegex = /^\d+-\d+$/;
+const numberHyphenNumberRegex = /^(\d*-)?\d*$/;
 
 const useEditNameAndAgeRange = ({
   scope,
