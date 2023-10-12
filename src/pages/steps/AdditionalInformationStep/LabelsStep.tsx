@@ -71,7 +71,7 @@ function LabelsStep({
         spacing={2}
       >
         <FormElement
-          id={'labels'}
+          id={'labels-picker'}
           label={t('create.additionalInformation.labels.label')}
           loading={isWriting}
           error={
