@@ -56,7 +56,7 @@ test('create an organizer', async ({ baseURL, page }) => {
   await page.getByRole('button', { name: 'Uploaden' }).click();
   await page.getByText(`© ${dummyOrganizer.image.copyright}`).click();
 
-  await page.getByRole('tab', { name: 'Locatie' }).click();
+  await page.getByRole('tab', { name: 'Adres' }).click();
   await page.getByLabel('Gemeente').click();
   await page.getByLabel('Gemeente').fill(dummyOrganizer.location.municipality);
   await page.getByLabel(dummyOrganizer.location.municipality).click();
