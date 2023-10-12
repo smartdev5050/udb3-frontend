@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { FormEvent, useEffect, useMemo } from 'react';
+import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { Controller, useWatch } from 'react-hook-form';
 import { Trans, useTranslation } from 'react-i18next';
 
@@ -12,6 +12,7 @@ import { FormElement } from '@/ui/FormElement';
 import { Input } from '@/ui/Input';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
+import { isValidUrl } from '@/utils/isValidInfo';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { prefixUrlWithHttps } from '@/utils/url';
 
@@ -30,6 +31,7 @@ const UrlStep = ({
 }: UrlStepProps) => {
   const { query } = useRouter();
   const { t, i18n } = useTranslation();
+  const [isValidOrganizerUrl, setIsValidOrganizerUrl] = useState(false);
 
   const [watchedUrl] = useWatch({
     control,
@@ -40,7 +42,7 @@ const UrlStep = ({
     {
       website: watchedUrl,
     },
-    { enabled: !!watchedUrl },
+    { enabled: !!watchedUrl && isValidOrganizerUrl },
   );
 
   const existingOrganizer: Organizer | undefined =
@@ -50,6 +52,19 @@ const UrlStep = ({
   const isUrlAlreadyTaken = errors.nameAndUrl?.url?.type === 'not_unique';
 
   useEffect(() => {
+    if (!isValidUrl(watchedUrl)) {
+      setIsValidOrganizerUrl(false);
+      setError('nameAndUrl.url', { type: 'matches' });
+      return;
+    }
+
+    clearErrors('nameAndUrl.url');
+    setIsValidOrganizerUrl(true);
+  }, [watchedUrl, clearErrors, setError]);
+
+  useEffect(() => {
+    if (!isValidUrl) return;
+
     if (
       existingOrganizer &&
       parseOfferId(existingOrganizer['@id']) !== query.organizerId
