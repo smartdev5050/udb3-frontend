@@ -14,6 +14,7 @@ describe('getYoutubeThumbnailUrl', () => {
       'https://youtu.be/vGg8F_ACay8?si=ErBmZt5vrcCm4BsB',
       'https://img.youtube.com/vi_webp/vGg8F_ACay8/maxresdefault.webp',
     ],
+    ['foobar', ''],
   ])(`should get thumbnail from %s`, (url, thumbnail) => {
     expect(getYoutubeThumbnailUrl(url)).toEqual(thumbnail);
   });
