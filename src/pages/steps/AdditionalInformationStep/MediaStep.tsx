@@ -218,7 +218,6 @@ const MediaStep = ({
       .filter(isFulfilledResult)
       .map((res) => res.value);
 
-    console.log(successVideos);
     setVideos(successVideos);
   };
 
