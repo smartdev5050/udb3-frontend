@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useChangeLocationMutation } from '@/hooks/api/organizers';
 import type { FormData } from '@/pages/create/OfferForm';
-import { TabContentProps } from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
+import {
+  TabContentProps,
+  ValidationStatus,
+} from '@/pages/steps/AdditionalInformationStep/AdditionalInformationStep';
 import { LocationStep } from '@/pages/steps/LocationStep';
 import { StepProps } from '@/pages/steps/Steps';
 import { StackProps } from '@/ui/Stack';
@@ -14,8 +17,17 @@ function PhysicalLocationStep({
   onValidationChange,
   ...props
 }: PhysicalLocationStepProps) {
+  const location = props.watch('location');
   const changeLocation = useChangeLocationMutation();
   const { i18n } = useTranslation();
+
+  useEffect(() => {
+    onValidationChange(
+      location?.streetAndNumber
+        ? ValidationStatus.SUCCESS
+        : ValidationStatus.NONE,
+    );
+  }, [onValidationChange, location]);
 
   const onChange = (updatedLocation: FormData['location']) => {
     props.onSuccessfulChange(updatedLocation);
