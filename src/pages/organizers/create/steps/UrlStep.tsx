@@ -1,9 +1,10 @@
 import { useRouter } from 'next/router';
-import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { Controller, useWatch } from 'react-hook-form';
 import { Trans, useTranslation } from 'react-i18next';
 
 import { useGetOrganizersByWebsiteQuery } from '@/hooks/api/organizers';
+import { useDebounce } from '@/hooks/useDebounce';
 import { SupportedLanguage } from '@/i18n/index';
 import { StepProps } from '@/pages/steps/Steps';
 import { Organizer } from '@/types/Organizer';
@@ -32,16 +33,20 @@ const UrlStep = ({
   const { query } = useRouter();
   const { t, i18n } = useTranslation();
 
+  const [searchInput, setSearchInput] = useState('');
+
   const [watchedUrl] = useWatch({
     control,
     name: ['nameAndUrl.url'],
   });
 
+  const debouncedInput = useDebounce(searchInput, 275);
+
   const getOrganizersByWebsiteQuery = useGetOrganizersByWebsiteQuery(
     {
-      website: watchedUrl,
+      website: debouncedInput,
     },
-    { enabled: !!watchedUrl && isValidUrl(watchedUrl) },
+    { enabled: !!debouncedInput && isValidUrl(debouncedInput) },
   );
 
   const existingOrganizer: Organizer | undefined =
@@ -51,17 +56,15 @@ const UrlStep = ({
   const isUrlAlreadyTaken = errors.nameAndUrl?.url?.type === 'not_unique';
 
   useEffect(() => {
-    if (!isValidUrl(watchedUrl)) {
+    if (!isValidUrl(searchInput)) {
       setError('nameAndUrl.url', { type: 'matches' });
       return;
     }
 
     clearErrors('nameAndUrl.url');
-  }, [watchedUrl, clearErrors, setError]);
+  }, [searchInput, clearErrors, setError]);
 
   useEffect(() => {
-    if (!isValidUrl) return;
-
     if (
       existingOrganizer &&
       parseOfferId(existingOrganizer['@id']) !== query.organizerId
@@ -94,9 +97,11 @@ const UrlStep = ({
                   <Input
                     value={field.value?.url}
                     onChange={(event) => {
+                      const value = (event.target as HTMLInputElement).value;
+                      setSearchInput(value);
                       field.onChange({
                         ...field.value,
-                        url: (event.target as HTMLInputElement).value,
+                        url: value,
                       });
                     }}
                     onBlur={(event: FormEvent<HTMLInputElement>) => {
