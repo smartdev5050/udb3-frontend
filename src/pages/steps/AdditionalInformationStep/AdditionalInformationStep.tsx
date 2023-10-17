@@ -4,7 +4,12 @@ import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
-import { OfferType, Scope, ScopeTypes } from '@/constants/OfferType';
+import {
+  OfferType,
+  OfferTypes,
+  Scope,
+  ScopeTypes,
+} from '@/constants/OfferType';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { CultuurKuurStep } from '@/pages/steps/AdditionalInformationStep/CultuurKuurStep';
 import { LabelsStep } from '@/pages/steps/AdditionalInformationStep/LabelsStep';
@@ -244,6 +249,10 @@ const AdditionalInformationStep = ({
   };
 
   useEffect(() => {
+    if (scope === ScopeTypes.ORGANIZERS) {
+      handleScroll();
+    }
+
     if (!hash || !Object.values(Fields).some((field) => hash === field)) return;
     setTab(hash);
     handleScroll();
@@ -313,7 +322,9 @@ const AdditionalInformationStep = ({
                 }
               >
                 <TabContent
-                  minHeight="450px"
+                  minHeight={
+                    scope === ScopeTypes.ORGANIZERS ? '600px' : '450px'
+                  }
                   offerId={offerId}
                   scope={scope}
                   onValidationChange={(status) => {
