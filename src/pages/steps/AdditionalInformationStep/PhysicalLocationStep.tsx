@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useChangeLocationMutation } from '@/hooks/api/organizers';
+import type { FormData } from '@/pages/create/OfferForm';
 import {
   TabContentProps,
   ValidationStatus,
@@ -24,11 +25,11 @@ function PhysicalLocationStep({
     onValidationChange(
       location?.streetAndNumber
         ? ValidationStatus.SUCCESS
-        : ValidationStatus.WARNING,
+        : ValidationStatus.NONE,
     );
   }, [onValidationChange, location]);
 
-  const onChange = (updatedLocation: typeof location) => {
+  const onChange = (updatedLocation: FormData['location']) => {
     props.onSuccessfulChange(updatedLocation);
     if (!updatedLocation.streetAndNumber) {
       return;
