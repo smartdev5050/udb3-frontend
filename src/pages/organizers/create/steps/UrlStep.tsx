@@ -31,7 +31,6 @@ const UrlStep = ({
 }: UrlStepProps) => {
   const { query } = useRouter();
   const { t, i18n } = useTranslation();
-  const [isValidOrganizerUrl, setIsValidOrganizerUrl] = useState(false);
 
   const [watchedUrl] = useWatch({
     control,
@@ -42,7 +41,7 @@ const UrlStep = ({
     {
       website: watchedUrl,
     },
-    { enabled: !!watchedUrl && isValidOrganizerUrl },
+    { enabled: !!watchedUrl && isValidUrl(watchedUrl) },
   );
 
   const existingOrganizer: Organizer | undefined =
@@ -53,13 +52,11 @@ const UrlStep = ({
 
   useEffect(() => {
     if (!isValidUrl(watchedUrl)) {
-      setIsValidOrganizerUrl(false);
       setError('nameAndUrl.url', { type: 'matches' });
       return;
     }
 
     clearErrors('nameAndUrl.url');
-    setIsValidOrganizerUrl(true);
   }, [watchedUrl, clearErrors, setError]);
 
   useEffect(() => {
