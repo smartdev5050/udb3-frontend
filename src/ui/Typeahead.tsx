@@ -1,13 +1,15 @@
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 
-import type { ForwardedRef, ReactElement } from 'react';
+import type { ForwardedRef } from 'react';
 import { forwardRef } from 'react';
+import type { TypeaheadModel, TypeaheadProps } from 'react-bootstrap-typeahead';
 import { AsyncTypeahead as BootstrapTypeahead } from 'react-bootstrap-typeahead';
 import { useTranslation } from 'react-i18next';
 
+import { InputType } from '@/ui/Input';
+
 import type { BoxProps } from './Box';
 import { Box, getBoxProps } from './Box';
-import { InputType } from './Input';
 import {
   getGlobalBorderRadius,
   getGlobalFormInputHeight,
@@ -26,68 +28,38 @@ const isNewEntry = (value: any): value is NewEntry => {
   return !!value?.customOption;
 };
 
-type TypeaheadProps<T> = {
-  id?: string;
-  name?: string;
-  options: T[];
-  labelKey: ((option: T) => string) | string;
-  renderMenuItemChildren?: (option: T, { text }) => JSX.Element;
-  disabled?: boolean;
-  placeholder?: string;
-  emptyLabel?: string;
-  minLength?: number;
+type Props<T extends TypeaheadModel> = BoxProps<T> & {
+  isInvalid?: boolean;
   inputType?: InputType;
   inputRequired?: boolean;
-  customFilter?: (option: T, props?: Record<string, any>) => boolean;
-  onChange?: (value: (T | NewEntry)[]) => void;
-  defaultInputValue?: string;
-  allowNew?:
-    | boolean
-    | ((
-        results: Array<Record<string, unknown> | string>,
-        props: Record<string, unknown>,
-      ) => boolean);
   hideNewInputText?: boolean;
-  newSelectionPrefix?: string;
-  selected?: T[];
-  positionFixed?: boolean;
 };
 
-type Props<T> = Omit<BoxProps, 'onChange' | 'id' | 'labelKey' | 'options'> &
-  TypeaheadProps<T> & { isInvalid?: boolean };
-
-type TypeaheadFunc = (<T>(
-  props: Props<T> & { ref?: ForwardedRef<HTMLInputElement> },
-) => ReactElement) & {
-  displayName?: string;
-  defaultProps?: { [key: string]: unknown };
-};
-
-const Typeahead: TypeaheadFunc = forwardRef(
-  <T,>(
+const Typeahead = forwardRef(
+  <T extends TypeaheadModel>(
     {
       id,
       name,
-      inputType,
+      inputType = 'text',
       inputRequired,
       options,
       labelKey,
       renderMenuItemChildren,
-      disabled,
+      disabled = false,
       placeholder,
       emptyLabel,
-      minLength,
+      minLength = 3,
       className,
       onInputChange,
       defaultInputValue,
       onBlur,
       onFocus,
-      onSearch,
+      onSearch = async () => {},
       onChange,
       isInvalid,
       selected,
       allowNew,
-      customFilter,
+      filterBy,
       hideNewInputText,
       newSelectionPrefix,
       positionFixed,
@@ -185,7 +157,7 @@ const Typeahead: TypeaheadFunc = forwardRef(
           type: inputType,
           required: inputRequired,
         }}
-        {...(customFilter && { filterBy: customFilter })}
+        filterBy={filterBy ?? (() => true)}
         {...getBoxProps(props)}
       />
     );
@@ -194,17 +166,5 @@ const Typeahead: TypeaheadFunc = forwardRef(
 
 Typeahead.displayName = 'Typeahead';
 
-const typeaheadDefaultProps = {
-  labelKey: (item) => item,
-  onSearch: async () => {},
-  disabled: false,
-  minLength: 3,
-  inputType: 'text',
-};
-
-Typeahead.defaultProps = {
-  ...typeaheadDefaultProps,
-};
-
 export type { NewEntry, TypeaheadProps };
-export { isNewEntry, Typeahead, typeaheadDefaultProps };
+export { isNewEntry, Typeahead };
