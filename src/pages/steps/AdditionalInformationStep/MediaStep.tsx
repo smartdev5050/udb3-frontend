@@ -399,4 +399,4 @@ const MediaStep = ({
   );
 };
 
-export { MediaStep, getYoutubeThumbnailUrl };
+export { getYoutubeThumbnailUrl, MediaStep };
