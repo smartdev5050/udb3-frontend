@@ -4,7 +4,6 @@ import type { ChangeEvent, ReactNode } from 'react';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
-import { css } from 'styled-components';
 
 import { useAnnouncementModalContext } from '@/context/AnnouncementModalContext';
 import { useGetAnnouncementsQuery } from '@/hooks/api/announcements';
@@ -96,6 +95,14 @@ const MenuItem = memo(
     onClick,
     visible = true,
   }: MenuItemProps) => {
+    const { asPath } = useRouter();
+
+    const baseUrl = publicRuntimeConfig.baseUrl;
+    const currentPath = new URL(asPath, baseUrl).pathname;
+    const path = new URL(href, baseUrl).pathname;
+
+    const isActive = path === currentPath;
+
     if (!visible) {
       return null;
     }
@@ -105,8 +112,29 @@ const MenuItem = memo(
     return (
       <List.Item
         css={`
+          position: relative;
+
+          color: ${isActive ? getValueForMenuItem('active.color') : 'inherit'};
+
+          :before {
+            content: '';
+            width: 4px;
+            background-color: ${isActive
+              ? getValueForMenuItem('active.color')
+              : 'inherit'};
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            border-radius: 4px;
+          }
+
           :hover {
             color: ${getValueForMenuItem('hover.color')};
+
+            :before {
+              background-color: ${getValueForMenuItem('active.color')};
+            }
           }
         `}
       >
@@ -118,7 +146,9 @@ const MenuItem = memo(
           suffix={suffix}
           onClick={onClick}
           backgroundColor={{
-            default: 'none',
+            default: isActive
+              ? getValueForMenuItem('active.backgroundColor')
+              : 'none',
             hover: getValueForMenuItem('hover.backgroundColor'),
           }}
           spacing={{ default: 4, s: 1 }}

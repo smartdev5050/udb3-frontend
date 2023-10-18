@@ -10,6 +10,7 @@ const colors = {
   udbMainMediumBlue: '#DFF8FF',
   udbMainLightBlue: '#F8FDFF',
   udbMainGrey: '#6A777B',
+  udbMainDarkestGrey: '#141515',
   udbMainDarkGrey: '#6A6E70',
   udbMainLightGrey: '#BCC3C6',
   udbMainPositiveGreen: '#6BCD69',
@@ -261,9 +262,13 @@ const theme = {
       borderColor: colors.udbMainLightGrey,
     },
     menuItem: {
+      active: {
+        color: colors.udbMainBlue,
+        backgroundColor: colors.udbMainMediumBlue,
+      },
       hover: {
         backgroundColor: colors.udbMainMediumBlue,
-        color: colors.udbMainBlue,
+        color: colors.udbMainDarkestGrey,
       },
     },
     announcement: {
