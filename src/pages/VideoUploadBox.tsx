@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next';
-import { css } from 'styled-components';
 
 import { Button, ButtonVariants } from '@/ui/Button';
 import { Icons } from '@/ui/Icon';

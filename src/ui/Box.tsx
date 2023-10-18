@@ -103,7 +103,7 @@ type SpecificComponentProps<T extends TypeaheadModel> = InlineProps &
   ImageProps &
   SvgProps &
   ProgressBarProps &
-  Omit<AsyncTypeaheadProps<T>, 'id' | 'size'>;
+  Omit<AsyncTypeaheadProps<T>, 'id' | 'size' | 'onChange' | 'selected'>;
 
 type EventHandlerProps = {
   onBlur: (event: ChangeEvent<HTMLInputElement>) => void;

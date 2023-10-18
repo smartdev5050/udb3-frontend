@@ -7,10 +7,12 @@ import { Cookies } from 'react-cookie';
 import {
   MutationFunction,
   QueryClient,
+  useMutation,
+  useQueries,
+  useQuery,
   useQueryClient,
   UseQueryResult,
 } from 'react-query';
-import { useMutation, useQueries, useQuery } from 'react-query';
 
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import type { CalendarSummaryFormat } from '@/utils/createEmbededCalendarSummaries';

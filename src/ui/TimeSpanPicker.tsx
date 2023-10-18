@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { css } from 'styled-components';
 
@@ -51,6 +50,7 @@ const dropDownCss = css`
   input {
     text-align: center;
   }
+
   .rbt-menu.dropdown-menu.show {
     min-width: 0;
     max-height: 300px !important;
@@ -62,6 +62,7 @@ const dropDownCss = css`
       text-align: center;
     }
   }
+
   .rbt-input-hint {
     display: none;
   }
@@ -95,10 +96,9 @@ const TimeSpanPicker = ({
           inputRequired={true}
           name="startTime"
           id={`${idPrefix}-start`}
-          customFilter={timeSlots}
+          filterBy={timeSlots}
           defaultInputValue={startTime}
           options={hourOptions}
-          labelKey={(option) => option}
           onBlur={(event) => onChangeStartTime(event.target.value)}
           onChange={([newValue]: string[]) => {
             if (!newValue) return;
@@ -118,10 +118,9 @@ const TimeSpanPicker = ({
           inputRequired={true}
           name="endTime"
           id={`${idPrefix}-end`}
-          customFilter={timeSlots}
+          filterBy={timeSlots}
           defaultInputValue={endTime}
           options={hourOptions}
-          labelKey={(option) => option}
           onBlur={(event) => onChangeEndTime(event.target.value)}
           onChange={([newValue]: string[]) => {
             if (!newValue) return;

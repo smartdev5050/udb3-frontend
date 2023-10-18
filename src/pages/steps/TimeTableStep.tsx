@@ -8,11 +8,11 @@ import { Alert, AlertVariants } from '@/ui/Alert';
 import { Box } from '@/ui/Box';
 import type { StackProps } from '@/ui/Stack';
 import { getStackProps, Stack } from '@/ui/Stack';
-import { TimeTableValue } from '@/ui/TimeTable';
 import {
   areAllTimeSlotsValid,
   isTimeTableEmpty,
   TimeTable,
+  TimeTableValue,
 } from '@/ui/TimeTable';
 import { formatDateToISO } from '@/utils/formatDateToISO';
 
