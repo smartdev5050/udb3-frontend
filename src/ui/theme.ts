@@ -5,13 +5,18 @@ import type { Values } from '@/types/Values';
 
 const colors = {
   udbRed: '#c0120c',
-  udbMainBlue: '#00AAE5',
+  udbMainBlue: '#009FDF',
+  udbMainDarkBlue: '#0083B8',
   udbMainMediumBlue: '#DFF8FF',
   udbMainLightBlue: '#F8FDFF',
   udbMainGrey: '#6A777B',
+  udbMainDarkGrey: '#6A6E70',
   udbMainLightGrey: '#BCC3C6',
+  udbMainPositiveGreen: '#6BCD69',
+  udbMainLightGreen: '#F3FCF7',
   udbBlue: '#004f94',
   white: '#ffffff',
+  greylight: '#FCFCFC',
   grey1: '#f0f0f0',
   grey2: '#ccc',
   grey3: '#ddd',
@@ -139,9 +144,9 @@ const theme = {
         large: '0px 4px 6px 0px rgba(210, 210, 210, 0.7)',
       },
       primary: {
-        backgroundColor: colors.udbMainBlue,
+        backgroundColor: colors.udbMainDarkBlue,
         borderColor: '#00417b',
-        hoverBackgroundColor: '#003461',
+        hoverBackgroundColor: '#007097',
         hoverBorderColor: '#00213d',
         activeBackgroundColor: '#003461',
         activeBorderColor: '#00213d',
@@ -173,11 +178,12 @@ const theme = {
     card: {
       boxShadow: {
         small: '0px 2px 3px 0px rgba(210, 210, 210, 0.5)',
+        medium: '0px 4px 16px 0px #00000012',
         large: '0px 4px 6px 0px rgba(210, 210, 210, 0.7)',
       },
     },
     global: {
-      successIcon: colors.green3,
+      successIcon: colors.udbMainPositiveGreen,
       warningIcon: colors.orange1,
     },
     pagination: {
@@ -386,17 +392,18 @@ const theme = {
     },
     toggleBox: {
       backgroundColor: colors.white,
-      activeBackgroundColor: colors.green5,
-      borderColor: colors.grey2,
-      textColor: colors.udbBlue,
+      activeBackgroundColor: colors.udbMainLightGreen,
+      activeBorderColor: colors.udbMainPositiveGreen,
+      borderColor: '#8F9699',
+      textColor: colors.udbMainDarkGrey,
       activeTextColor: colors.textColor,
       iconColor: colors.grey5,
-      iconCheckColor: colors.green3,
+      iconCheckColor: colors.udbMainPositiveGreen,
       boxShadow: {
         small: '0px 2px 3px 0px rgba(210, 210, 210, 0.5)',
         large: '0px 4px 6px 0px rgba(210, 210, 210, 0.7)',
       },
-      hoverColor: '#e6e6e6',
+      hoverBorderColor: colors.udbMainPositiveGreen,
     },
     dropdown: {
       activeToggleBoxShadow: 'inset 0 3px 5px rgba(0, 0, 0, 0.125)',

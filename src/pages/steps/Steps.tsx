@@ -17,7 +17,7 @@ import { Box } from '@/ui/Box';
 import type { StackProps } from '@/ui/Stack';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
-import { getValueFromTheme } from '@/ui/theme';
+import { getGlobalBorderRadius, getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
 import type { FormData as OfferFormData } from '../create/OfferForm';
@@ -95,7 +95,16 @@ const StepWrapper = ({
   ...props
 }: StepWrapperProps) => {
   return (
-    <Stack spacing={4} {...getStackProps(props)}>
+    <Stack
+      padding={5}
+      borderRadius={getGlobalBorderRadius}
+      backgroundColor="white"
+      css={`
+        box-shadow: 0px 4px 16px 0px #00000012;
+      `}
+      spacing={4}
+      {...getStackProps(props)}
+    >
       <Title
         color={getValue('title.color')}
         lineHeight="220%"
