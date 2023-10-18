@@ -12,6 +12,7 @@ import { FormElement } from '@/ui/FormElement';
 import { Input } from '@/ui/Input';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
+import { isValidUrl } from '@/utils/isValidInfo';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { prefixUrlWithHttps } from '@/utils/url';
 
@@ -40,7 +41,7 @@ const UrlStep = ({
     {
       website: watchedUrl,
     },
-    { enabled: !!watchedUrl },
+    { enabled: !!watchedUrl && isValidUrl(watchedUrl) },
   );
 
   const existingOrganizer: Organizer | undefined =
@@ -50,6 +51,17 @@ const UrlStep = ({
   const isUrlAlreadyTaken = errors.nameAndUrl?.url?.type === 'not_unique';
 
   useEffect(() => {
+    if (!isValidUrl(watchedUrl)) {
+      setError('nameAndUrl.url', { type: 'matches' });
+      return;
+    }
+
+    clearErrors('nameAndUrl.url');
+  }, [watchedUrl, clearErrors, setError]);
+
+  useEffect(() => {
+    if (!isValidUrl) return;
+
     if (
       existingOrganizer &&
       parseOfferId(existingOrganizer['@id']) !== query.organizerId
