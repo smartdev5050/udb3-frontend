@@ -40,13 +40,13 @@ const UrlStep = ({
     name: ['nameAndUrl.url'],
   });
 
-  const debouncedInput = useDebounce(searchInput, 275);
+  const debouncedSearchInput = useDebounce(searchInput, 275);
 
   const getOrganizersByWebsiteQuery = useGetOrganizersByWebsiteQuery(
     {
-      website: debouncedInput,
+      website: debouncedSearchInput,
     },
-    { enabled: !!debouncedInput && isValidUrl(debouncedInput) },
+    { enabled: !!debouncedSearchInput && isValidUrl(debouncedSearchInput) },
   );
 
   const existingOrganizer: Organizer | undefined =
