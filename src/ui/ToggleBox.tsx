@@ -15,50 +15,41 @@ type SuccessIconProps = {
 
 const SuccessIcon = ({ active }: SuccessIconProps) => {
   return (
-    <svg
+    <Stack
+      className="success-icon-wrapper"
+      justifyContent="center"
+      alignItems="center"
+      width={30}
+      height={30}
+      position="absolute"
+      top="12px"
+      left="12px"
+      backgroundColor={active ? getValue('activeBorderColor') : 'none'}
       css={`
-        position: absolute;
-        top: 12px;
-        left: 12px;
+        border: 1.8px solid
+          ${active ? getValue('activeBorderColor') : getValue('borderColor')};
+
+        &:hover {
+          border-color: ${getValue('activeBorderColor')};
+        }
       `}
-      width="30"
-      height="30"
-      viewBox="0 0 35 34"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+      borderRadius="5px"
     >
-      <rect
-        x="1.5"
-        y="1"
-        width="32"
-        height="32"
-        rx="5.20812"
-        fill="#6BCD69"
-        css={`
-          fill: ${active ? '#6BCD69' : '#fff'};
-        `}
-      />
-      <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
-        d="M8.21465 18.272C7.47575 17.5346 7.47575 16.3374 8.21465 15.6C8.95145 14.8647 10.1445 14.8647 10.8813 15.6L14.1529 18.8651C14.5613 19.2727 15.2226 19.2727 15.631 18.8651L24.2466 10.2667C24.9835 9.53134 26.1765 9.53134 26.9133 10.2667C27.6522 11.0041 27.6522 12.2012 26.9133 12.9387L15.9968 23.8334C15.3862 24.4427 14.3977 24.4427 13.7872 23.8334L8.21465 18.272Z"
-        fill="white"
-      />
-      <rect
-        x="1.5"
-        y="1"
-        width="32"
-        height="32"
-        rx="5.20812"
-        stroke="#6BCD69"
-        stroke-width="1.82284"
-        css={`
-          &:hover {
-            stroke: #fff;
-          }
-        `}
-      />
-    </svg>
+      <svg
+        width="21"
+        height="16"
+        viewBox="0 0 21 16"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M1.21465 9.272C0.475754 8.53458 0.475752 7.33743 1.21465 6.60001C1.95145 5.86467 3.1445 5.86467 3.88131 6.60001L7.15291 9.86508C7.56133 10.2727 8.22263 10.2727 8.63104 9.86508L17.2466 1.26667C17.9835 0.531335 19.1765 0.531336 19.9133 1.26667C20.6522 2.00409 20.6522 3.20125 19.9133 3.93867L8.99676 14.8334C8.38625 15.4427 7.39771 15.4427 6.78719 14.8334L1.21465 9.272Z"
+          fill="white"
+        />
+      </svg>
+    </Stack>
   );
 };
 
@@ -93,12 +84,14 @@ const ToggleBox = ({
       borderRadius={getGlobalBorderRadius}
       disabled={disabled}
       css={`
-        position: relative;
         border: 1px solid
           ${active ? getValue('activeBorderColor') : getValue('borderColor')};
         cursor: ${disabled ? 'not-allowed' : 'pointer'};
 
         &:hover {
+          .success-icon-wrapper {
+            border-color: ${getValue('hoverBorderColor')};
+          }
           border-color: ${disabled
             ? 'transparent'
             : getValue('hoverBorderColor')};
