@@ -14,7 +14,7 @@ import { Button, ButtonSizes } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Link } from '@/ui/Link';
 import { Stack } from '@/ui/Stack';
-import { Breakpoints, getValueFromTheme } from '@/ui/theme';
+import { Breakpoints, colors, getValueFromTheme } from '@/ui/theme';
 
 const getValueForPage = getValueFromTheme('loginPage');
 const getValueForLogo = getValueFromTheme('loginLogo');
@@ -28,7 +28,7 @@ const Svg = (props) => (
   />
 );
 
-const Group = (props) => <Box as="g" fill="white" {...props} />;
+const Group = (props) => <Box as="g" fill={colors.udbMainBlue} {...props} />;
 const Path = (props) => <Box as="path" {...props} />;
 
 const Animation = (props) => {

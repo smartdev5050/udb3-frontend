@@ -141,7 +141,7 @@ const GlobalStyle = createGlobalStyle`
     color: #222;
     font-size: 15px;
     line-height: 1.6;
-    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
   }
 
   .modal-backdrop {

@@ -5,6 +5,11 @@ import type { Values } from '@/types/Values';
 
 const colors = {
   udbRed: '#c0120c',
+  udbMainBlue: '#00AAE5',
+  udbMainMediumBlue: '#DFF8FF',
+  udbMainLightBlue: '#F8FDFF',
+  udbMainGrey: '#6A777B',
+  udbMainLightGrey: '#BCC3C6',
   udbBlue: '#004f94',
   white: '#ffffff',
   grey1: '#f0f0f0',
@@ -134,7 +139,7 @@ const theme = {
         large: '0px 4px 6px 0px rgba(210, 210, 210, 0.7)',
       },
       primary: {
-        backgroundColor: colors.udbBlue,
+        backgroundColor: colors.udbMainBlue,
         borderColor: '#00417b',
         hoverBackgroundColor: '#003461',
         hoverBorderColor: '#00213d',
@@ -177,10 +182,10 @@ const theme = {
     },
     pagination: {
       color: colors.textColor,
-      activeBackgroundColor: colors.red2,
+      activeBackgroundColor: colors.udbMainBlue,
       activeBorderColor: colors.grey2,
       activeColor: colors.white,
-      hoverBackgroundColor: colors.red2,
+      hoverBackgroundColor: colors.udbMainBlue,
       hoverColor: colors.white,
       borderColor: colors.grey2,
       focusBoxShadow: 'none',
@@ -193,11 +198,11 @@ const theme = {
     typeahead: {
       active: {
         color: colors.white,
-        backgroundColor: colors.red2,
+        backgroundColor: colors.udbMainBlue,
       },
       hover: {
         color: colors.white,
-        backgroundColor: colors.red2,
+        backgroundColor: colors.udbMainBlue,
       },
       highlight: {
         fontWeight: 'bold',
@@ -239,18 +244,20 @@ const theme = {
     },
     sidebar: {
       zIndex: zIndexSidebar,
-      color: colors.white,
-      backgroundColor: colors.udbRed,
+      color: colors.udbMainGrey,
+      logoColor: colors.udbMainBlue,
+      backgroundColor: colors.udbMainLightBlue,
     },
     jobLogger: {
       zIndex: zIndexJobLogger,
     },
     menu: {
-      borderColor: colors.red4,
+      borderColor: colors.udbMainLightGrey,
     },
     menuItem: {
       hover: {
-        backgroundColor: colors.red4,
+        backgroundColor: colors.udbMainMediumBlue,
+        color: colors.udbMainBlue,
       },
     },
     announcement: {
@@ -285,7 +292,7 @@ const theme = {
       borderColor: colors.grey3,
       activeColor: colors.white,
       backgroundColor: colors.white,
-      activeBackgroundColor: colors.red2,
+      activeBackgroundColor: colors.udbMainBlue,
     },
     eventItem: {
       borderColor: colors.grey3,
@@ -301,10 +308,11 @@ const theme = {
       backgroundColor: colors.grey1,
     },
     loginLogo: {
-      backgroundColor: colors.red5,
-      colorSoft: lighten('0.23', colors.udbRed),
-      colorMedium: lighten('0.31', colors.udbRed),
-      colorHard: lighten('0.40', colors.udbRed),
+      backgroundColor: colors.udbMainLightBlue,
+      color: colors.udbMainBlue,
+      colorSoft: lighten('0.23', colors.udbMainBlue),
+      colorMedium: lighten('0.31', colors.udbMainBlue),
+      colorHard: lighten('0.40', colors.udbMainBlue),
     },
     pageNotFound: {
       iconColor: colors.grey2,
