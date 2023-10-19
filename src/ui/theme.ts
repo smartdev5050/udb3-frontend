@@ -161,6 +161,16 @@ const theme = {
         activeBackgroundColor: '#e6e6e6',
         activeBorderColor: '#adadad',
       },
+      secondaryOutline: {
+        color: colors.udbMainBlue,
+        borderColor: colors.udbMainBlue,
+        backgroundColor: colors.white,
+        hoverBackgroundColor: '#E0F8FF',
+        hoverBorderColor: '#007097',
+        activeColor: '#333',
+        activeBackgroundColor: '#e6e6e6',
+        activeBorderColor: '#adadad',
+      },
       success: {
         color: colors.white,
         borderColor: colors.green2,
@@ -217,7 +227,7 @@ const theme = {
       },
     },
     page: {
-      backgroundColor: colors.grey1,
+      backgroundColor: '#F5F5F5',
       borderColor: colors.grey3,
     },
     pageTitle: {
@@ -370,7 +380,7 @@ const theme = {
       backgroundColor: colors.white,
       borderColor: colors.grey2,
       errorBorderColor: colors.red1,
-      imageIconColor: colors.grey5,
+      imageIconColor: 'pink',
       imageBackgroundColor: colors.grey1,
       mainImageBackgroundColor: colors.blue1,
     },

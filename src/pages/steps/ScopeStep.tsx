@@ -4,7 +4,6 @@ import { Controller, ControllerRenderProps, Path } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { OfferType, OfferTypes } from '@/constants/OfferType';
-import { Values } from '@/types/Values';
 import { parseSpacing } from '@/ui/Box';
 import { CustomIcon, CustomIconVariants } from '@/ui/CustomIcon';
 import { getInlineProps, Inline, InlineProps } from '@/ui/Inline';
@@ -55,23 +54,18 @@ const ScopeStep = ({
       control={control}
       name={name}
       render={({ field }) => {
-        const isActive = field.value === OfferTypes.EVENTS;
         return (
           <Inline
             spacing={5}
-            alignItems="center"
+            alignItems="stretch"
             maxWidth={parseSpacing(9)}
             {...getInlineProps(props)}
           >
             <ToggleBox
               onClick={() => handleChangeScope(field, OfferTypes.EVENTS)}
-              active={isActive}
+              active={field.value === OfferTypes.EVENTS}
               icon={
-                <CustomIcon
-                  name={CustomIconVariants.ONLINE}
-                  width="80"
-                  color={isActive ? 'green' : 'grey'}
-                />
+                <CustomIcon name={CustomIconVariants.BUILDING} width="80" />
               }
               text={t('steps.offerTypeStep.types.event')}
               width="30%"
@@ -81,13 +75,7 @@ const ScopeStep = ({
             <ToggleBox
               onClick={() => handleChangeScope(field, OfferTypes.PLACES)}
               active={field.value === OfferTypes.PLACES}
-              icon={
-                <CustomIcon
-                  name={CustomIconVariants.ONLINE}
-                  width="80"
-                  color={isActive ? getGlobalValue('successColor') : 'grey'}
-                />
-              }
+              icon={<CustomIcon name={CustomIconVariants.MAP} width="70" />}
               text={t('steps.offerTypeStep.types.place')}
               width="30%"
               minHeight={parseSpacing(7)}

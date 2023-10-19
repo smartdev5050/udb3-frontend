@@ -17,6 +17,7 @@ import { getGlobalFormInputHeight, getValueFromTheme } from './theme';
 const BootStrapVariants = {
   PRIMARY: 'primary',
   SECONDARY: 'secondary',
+  SECONDARY_OUTLINE: 'secondary-outline',
   SUCCESS: 'success',
   DANGER: 'danger',
 } as const;
@@ -88,7 +89,7 @@ const customCSS = css`
     }
   }
 
-  &.btn-outline-secondary {
+  &.btn-secondary {
     color: ${getValue('secondary.color')};
     background-color: ${getValue('secondary.backgroundColor')};
     box-shadow: ${getValue('boxShadow.large')};
@@ -102,14 +103,14 @@ const customCSS = css`
       background-color: ${getValue('secondary.hoverBackgroundColor')};
     }
 
-    &.btn-outline-secondary:not(:disabled):not(.disabled):focus,
-    .btn-outline-secondary:not(:disabled):not(.disabled).focus {
+    &.btn-secondary:not(:disabled):not(.disabled):focus,
+    .btn-secondary:not(:disabled):not(.disabled).focus {
       box-shadow: ${getValue('boxShadow.large')};
     }
 
     // active
-    &.btn-outline-secondary:not(:disabled):not(.disabled):active,
-    .btn-outline-secondary:not(:disabled):not(.disabled).active {
+    &.btn-secondary:not(:disabled):not(.disabled):active,
+    .btn-secondary:not(:disabled):not(.disabled).active {
       color: ${getValue('secondary.activeColor')};
       background-color: ${getValue('secondary.activeBackgroundColor')};
       box-shadow: ${getValue('boxShadow.large')};
@@ -120,6 +121,35 @@ const customCSS = css`
     &:not(:disabled):not(.disabled):active {
       color: ${getValue('secondary.activeColor')};
       background-color: ${getValue('secondary.activeBackgroundColor')};
+    }
+  }
+
+  &.btn-secondary-outline {
+    color: ${getValue('secondaryOutline.color')};
+    border: 2px solid ${getValue('secondaryOutline.borderColor')};
+    box-shadow: none;
+
+    &.dropdown-toggle.dropdown-toggle-split {
+      border-left: 1px solid #f0f0f0;
+    }
+
+    &:hover {
+      border: 2px solid ${getValue('secondaryOutline.hoverBorderColor')};
+      background-color: ${getValue('secondaryOutline.hoverBackgroundColor')};
+    }
+
+    // active
+    &.btn-outline-secondary:not(:disabled):not(.disabled):active,
+    .btn-outline-secondary:not(:disabled):not(.disabled).active {
+      color: ${getValue('secondaryOutline.activeColor')};
+      background-color: ${getValue('secondaryOutline.activeBackgroundColor')};
+      border: none;
+    }
+
+    &:not(:disabled):not(.disabled).active,
+    &:not(:disabled):not(.disabled):active {
+      color: ${getValue('secondaryOutline.activeColor')};
+      background-color: ${getValue('secondaryOutline.activeBackgroundColor')};
     }
   }
 
@@ -196,8 +226,7 @@ const Button = ({
   ).includes(variant);
   const isLinkVariant = variant === ButtonVariants.LINK;
 
-  // @ts-expect-error
-  if (variant === ButtonVariants.SECONDARY) variant = 'outline-secondary';
+  if (variant === ButtonVariants.SECONDARY) variant = 'secondary';
 
   const BaseButtonWithForwardedAs = (props) => (
     <BaseButton {...props} forwardedAs={forwardedAs} />

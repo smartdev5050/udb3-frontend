@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
 import { parseSpacing } from '@/ui/Box';
+import { CustomIcon, CustomIconVariants } from '@/ui/CustomIcon';
 import { getInlineProps, Inline, InlineProps } from '@/ui/Inline';
 import { ToggleBox } from '@/ui/ToggleBox';
 
@@ -8,8 +9,6 @@ import {
   useIsFixedDays,
   useIsOneOrMoreDays,
 } from '../machines/calendarMachine';
-import { IconFixedDays } from './IconFixedDays';
-import { IconOneOrMoreDays } from './IconOneOrMoreDays';
 
 type CalendarOptionToggleProps = InlineProps & {
   onChooseOneOrMoreDays: () => void;
@@ -32,7 +31,7 @@ export const CalendarOptionToggle = ({
       <ToggleBox
         onClick={onChooseOneOrMoreDays}
         active={isOneOrMoreDays}
-        icon={<IconOneOrMoreDays />}
+        icon={<CustomIcon name={CustomIconVariants.CALENDAR} width="80" />}
         text={t('create.calendar.types.one_or_more_days')}
         minHeight={parseSpacing(7)}
         flex={1}
@@ -40,7 +39,9 @@ export const CalendarOptionToggle = ({
       <ToggleBox
         onClick={onChooseFixedDays}
         active={isFixedDays}
-        icon={<IconFixedDays />}
+        icon={
+          <CustomIcon name={CustomIconVariants.CALENDAR_MULTIPLE} width="80" />
+        }
         text={t('create.calendar.types.fixed_days')}
         minHeight={parseSpacing(7)}
         flex={1}
