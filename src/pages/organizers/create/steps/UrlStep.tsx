@@ -106,13 +106,15 @@ const UrlStep = ({
                     }}
                     onBlur={(event: FormEvent<HTMLInputElement>) => {
                       const newValue = (event.target as HTMLInputElement).value;
+                      const prefixedValue = prefixUrlWithHttps(newValue);
+                      setSearchInput(prefixedValue);
                       field.onChange({
                         ...field.value,
-                        url: prefixUrlWithHttps(newValue),
+                        url: prefixedValue,
                       });
                       onChange({
                         ...field.value,
-                        url: prefixUrlWithHttps(newValue),
+                        url: prefixedValue,
                       });
                     }}
                   />
