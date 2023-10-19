@@ -327,7 +327,7 @@ const EventTypeAndThemeStep = ({
                   >
                     <Icon
                       name={Icons.CHECK_CIRCLE}
-                      color={getGlobalValue('successIcon')}
+                      color={getGlobalValue('successColor')}
                     />
                     <Text>{field.value?.type?.label}</Text>
                     <Button
@@ -438,7 +438,7 @@ const EventTypeAndThemeStep = ({
               >
                 <Icon
                   name={Icons.CHECK_CIRCLE}
-                  color={getGlobalValue('successIcon')}
+                  color={getGlobalValue('successColor')}
                 />
                 <Text>{field.value?.theme?.label}</Text>
                 <Button

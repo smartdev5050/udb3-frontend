@@ -184,7 +184,7 @@ const theme = {
       },
     },
     global: {
-      successIcon: colors.udbMainPositiveGreen,
+      successColor: colors.udbMainPositiveGreen,
       warningIcon: colors.orange1,
     },
     pagination: {

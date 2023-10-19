@@ -202,7 +202,7 @@ const OrganizerPicker = ({
               <Inline alignItems="center" paddingY={3} spacing={3}>
                 <Icon
                   name={Icons.CHECK_CIRCLE}
-                  color={getValueFromGlobalTheme('successIcon')}
+                  color={getValueFromGlobalTheme('successColor')}
                 />
                 <Text>
                   {getOrganizerName(

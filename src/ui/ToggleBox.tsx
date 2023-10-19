@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 
 import { parseSpacing } from './Box';
-import { Icon, Icons } from './Icon';
 import type { StackProps } from './Stack';
 import { getStackProps, Stack } from './Stack';
 import { Text } from './Text';

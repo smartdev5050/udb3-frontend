@@ -230,7 +230,7 @@ const PlaceStep = ({
             <Inline alignItems="center" spacing={3}>
               <Icon
                 name={Icons.CHECK_CIRCLE}
-                color={getGlobalValue('successIcon')}
+                color={getGlobalValue('successColor')}
               />
               <Text>
                 {getLanguageObjectOrFallback(

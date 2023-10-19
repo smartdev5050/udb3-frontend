@@ -976,7 +976,7 @@ const LocationStep = ({
                 <Inline alignItems="center" spacing={3} marginBottom={3}>
                   <Icon
                     name={Icons.CHECK_CIRCLE}
-                    color={getGlobalValue('successIcon')}
+                    color={getGlobalValue('successColor')}
                   />
                   <Text>{t('create.location.country.location_school')}</Text>
                   <Button
@@ -1053,7 +1053,7 @@ const LocationStep = ({
               <Inline alignItems="center" spacing={3} marginBottom={4}>
                 <Icon
                   name={Icons.CHECK_CIRCLE}
-                  color={getGlobalValue('successIcon')}
+                  color={getGlobalValue('successColor')}
                 />
                 <Text>{municipality.name}</Text>
                 <Button
@@ -1094,7 +1094,7 @@ const LocationStep = ({
                     <Inline alignItems="center" spacing={3}>
                       <Icon
                         name={Icons.CHECK_CIRCLE}
-                        color={getGlobalValue('successIcon')}
+                        color={getGlobalValue('successColor')}
                       />
                       <Text>
                         {field.value.streetAndNumber}
