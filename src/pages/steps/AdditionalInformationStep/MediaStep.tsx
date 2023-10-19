@@ -32,6 +32,14 @@ import { VideoUploadBox } from '../../VideoUploadBox';
 import { PictureDeleteModal } from '../modals/PictureDeleteModal';
 import { PictureUploadModal } from '../modals/PictureUploadModal';
 
+const getYoutubeThumbnailUrl = (videoUrl: string) => {
+  const matches = videoUrl.match(/(?:shorts\/|v=|youtu\.be\/)([^&?/]+)/);
+
+  return matches
+    ? `https://img.youtube.com/vi_webp/${matches[1]}/maxresdefault.webp`
+    : '';
+};
+
 const MediaStep = ({
   scope,
   offerId,
@@ -139,24 +147,6 @@ const MediaStep = ({
   });
 
   const enrichVideos = async (video: Video[]) => {
-    const getYoutubeThumbnailUrl = (videoUrl: string) => {
-      const youtubeImagePath = 'https://i.ytimg.com/vi_webp/';
-
-      if (videoUrl.includes('v=')) {
-        const urlParams = new URL(videoUrl).searchParams;
-        const videoId = urlParams.get('v');
-        return `${youtubeImagePath}${videoId}/maxresdefault.webp`;
-      }
-
-      if (videoUrl.includes('youtu.be/')) {
-        return `${youtubeImagePath}${
-          videoUrl.split('youtu.be/')[1]
-        }/maxresdefault.webp`;
-      }
-
-      return '';
-    };
-
     /**
      * Possible url structures
      * - https://vimeo.com/318783762
@@ -408,4 +398,4 @@ const MediaStep = ({
   );
 };
 
-export { MediaStep };
+export { getYoutubeThumbnailUrl, MediaStep };
