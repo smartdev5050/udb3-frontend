@@ -27,9 +27,9 @@ import { Page } from '@/ui/Page';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
+import { getUniqueLabels } from '@/utils/getUniqueLabels';
 
 import { NameAndUrlStep } from './steps/NameAndUrlStep';
-import { getUniqueLabels } from '@/utils/getUniqueLabels';
 
 const typeAndThemeStepConfiguration: StepsConfiguration<'nameAndUrl'> = {
   Component: NameAndUrlStep,
