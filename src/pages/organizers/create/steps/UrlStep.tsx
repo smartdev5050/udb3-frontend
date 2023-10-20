@@ -87,6 +87,9 @@ const UrlStep = ({
         name={name}
         control={control}
         render={({ field }) => {
+          const isUrlInvalid =
+            errors.nameAndUrl && errors.nameAndUrl?.url?.type !== 'not_unique';
+
           return (
             <Stack spacing={2}>
               <FormElement
@@ -118,28 +121,30 @@ const UrlStep = ({
                   />
                 }
                 info={
-                  isDirty && isUrlAlreadyTaken && existingOrganizer ? (
-                    <Alert variant={AlertVariants.WARNING}>
-                      <Trans
-                        i18nKey={`organizers.create.step1.errors.url_not_unique`}
-                        values={{
-                          organizerName: getLanguageObjectOrFallback(
-                            existingOrganizer?.name,
-                            i18n.language as SupportedLanguage,
-                            existingOrganizer.mainLanguage as SupportedLanguage,
-                          ),
-                        }}
-                      />
-                    </Alert>
-                  ) : (
-                    <Alert variant={AlertVariants.PRIMARY}>
-                      {t('organizers.create.step1.url_requirements')}
-                    </Alert>
-                  )
+                  <>
+                    {isDirty && isUrlAlreadyTaken && existingOrganizer && (
+                      <Alert variant={AlertVariants.WARNING}>
+                        <Trans
+                          i18nKey={`organizers.create.step1.errors.url_not_unique`}
+                          values={{
+                            organizerName: getLanguageObjectOrFallback(
+                              existingOrganizer?.name,
+                              i18n.language as SupportedLanguage,
+                              existingOrganizer.mainLanguage as SupportedLanguage,
+                            ),
+                          }}
+                        />
+                      </Alert>
+                    )}
+                    {(!isDirty || isUrlInvalid) && (
+                      <Alert variant={AlertVariants.PRIMARY}>
+                        {t('organizers.create.step1.url_requirements')}
+                      </Alert>
+                    )}
+                  </>
                 }
                 error={
-                  errors.nameAndUrl &&
-                  errors.nameAndUrl?.url?.type !== 'not_unique' &&
+                  isUrlInvalid &&
                   t(
                     `organizers.create.step1.errors.url_${errors.nameAndUrl?.url.type}`,
                   )
