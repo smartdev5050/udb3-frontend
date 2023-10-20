@@ -992,6 +992,7 @@
           "name_required": "Name fehlt",
           "url_required": "URL fehlt",
           "url_matches": "Ungültige URL",
+          "url_valid": "Dies ist eine gültige und eindeutige URL.",
           "url_not_unique": "Diese Adresse wird bereits von der Organisation „{{organizerName}}“ verwendet."
         }
       },

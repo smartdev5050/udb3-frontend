@@ -141,6 +141,11 @@ const UrlStep = ({
                         {t('organizers.create.step1.url_requirements')}
                       </Alert>
                     )}
+                    {isDirty && !isUrlInvalid && !isUrlAlreadyTaken && (
+                      <Alert variant={AlertVariants.SUCCESS}>
+                        {t('organizers.create.step1.errors.url_valid')}
+                      </Alert>
+                    )}
                   </>
                 }
                 error={

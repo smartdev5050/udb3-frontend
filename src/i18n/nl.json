@@ -992,6 +992,7 @@
           "name_required": "Naam ontbreekt",
           "url_required": "Url ontbreekt",
           "url_matches": "Ongeldige url",
+          "url_valid": "Dit is een geldige en unieke url.",
           "url_not_unique": "Dit adres wordt al gebruikt door de organisatie '{{organizerName}}'."
         }
       },
