@@ -29,6 +29,7 @@ import { getValueFromTheme } from '@/ui/theme';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 
 import { NameAndUrlStep } from './steps/NameAndUrlStep';
+import { getUniqueLabels } from '@/utils/getUniqueLabels';
 
 const typeAndThemeStepConfiguration: StepsConfiguration<'nameAndUrl'> = {
   Component: NameAndUrlStep,
@@ -110,13 +111,7 @@ const OrganizerForm = () => {
 
   // @ts-expect-error
   const organizer = getOrganizerByIdQuery?.data;
-
-  const organizerLabelsSet = new Set([
-    ...(organizer?.labels ?? []),
-    ...(organizer?.hiddenLabels ?? []),
-  ]);
-
-  const organizerLabels = [...organizerLabelsSet];
+  const organizerLabels = getUniqueLabels(organizer);
 
   const createOrganizerMutation = useCreateOrganizerMutation();
   const updateOrganizerMutation = useUpdateOrganizerMutation();
