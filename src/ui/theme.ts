@@ -326,7 +326,7 @@ const theme = {
       borderColor: colors.grey3,
     },
     loginPage: {
-      backgroundColor: colors.grey1,
+      backgroundColor: colors.white,
     },
     loginLogo: {
       backgroundColor: colors.udbMainLightBlue,
