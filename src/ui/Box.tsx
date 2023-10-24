@@ -6,12 +6,12 @@ import type {
   DragEvent,
   FocusEvent,
   FormEvent,
-  HTMLProps,
   KeyboardEvent,
   MouseEvent,
   ReactNode,
 } from 'react';
 import { forwardRef } from 'react';
+import { AsyncTypeaheadProps, TypeaheadModel } from 'react-bootstrap-typeahead';
 import { ReactDatePickerProps } from 'react-datepicker';
 import type {
   FlattenInterpolation,
@@ -94,33 +94,7 @@ type ProgressBarProps = {
   now: number;
 };
 
-type TypeaheadProps = {
-  options: unknown[];
-  labelKey: ((option: unknown) => string) | string;
-  isLoading: boolean;
-  disabled: boolean;
-  placeholder: string;
-  emptyLabel: string;
-  minLength: number;
-  delay: number;
-  highlightOnlyResult: boolean;
-  isInvalid: boolean;
-  promptText: string;
-  searchText: string;
-  positionFixed: boolean;
-  allowNew:
-    | boolean
-    | ((
-        results: Array<Record<string, unknown> | string>,
-        props: Record<string, unknown>,
-      ) => boolean);
-  newSelectionPrefix: string;
-  renderMenuItemChildren?: (option: unknown, { text }) => JSX.Element;
-  inputProps: HTMLProps<HTMLInputElement>;
-  defaultInputValue: string;
-};
-
-type SpecificComponentProps = InlineProps &
+type SpecificComponentProps<T extends TypeaheadModel> = InlineProps &
   Omit<ReactDatePickerProps, 'onChange' | 'onSelect' | 'value' | 'selected'> &
   TitleProps &
   ListProps &
@@ -129,7 +103,7 @@ type SpecificComponentProps = InlineProps &
   ImageProps &
   SvgProps &
   ProgressBarProps &
-  TypeaheadProps;
+  Omit<AsyncTypeaheadProps<T>, 'id' | 'size' | 'onChange' | 'selected'>;
 
 type EventHandlerProps = {
   onBlur: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -142,7 +116,6 @@ type EventHandlerProps = {
   onInputChange: (value: string) => void;
   onMouseOver: (event: MouseEvent<HTMLFormElement>) => void;
   onPaste: (event: ClipboardEvent<HTMLFormElement>) => void;
-  onSearch: (search: string) => void;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
   onDragOver: (event: DragEvent<HTMLElement>) => void;
   onDrop: (event: DragEvent<HTMLElement>) => void;
@@ -245,8 +218,8 @@ type UIProps = {
   zIndex: UIProp<number>;
 };
 
-type BoxProps = Partial<
-  UIProps & GeneralProps & SpecificComponentProps & EventHandlerProps
+type BoxProps<T extends TypeaheadModel = any> = Partial<
+  UIProps & GeneralProps & SpecificComponentProps<T> & EventHandlerProps
 >;
 
 const remInPixels = 15;
@@ -341,7 +314,7 @@ const parseProperty =
       ])
       .sort(([valueA], [valueB]) => valueA - valueB);
 
-    return parsedBreakpoints.reduce((acc, [breakpoint, val], index) => {
+    return parsedBreakpoints.reduce((acc, [breakpoint, val]) => {
       if (!breakpoint || val === undefined) return acc;
       return css`
         ${wrapStatementWithBreakpoint(

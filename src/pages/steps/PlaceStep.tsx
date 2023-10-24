@@ -160,7 +160,7 @@ const PlaceStep = ({
                       isLoading={useGetPlacesQuery.isLoading}
                       options={places}
                       onInputChange={debounce(setSearchInput, 275)}
-                      customFilter={filterByCallback}
+                      filterBy={filterByCallback}
                       labelKey={(place) =>
                         getPlaceName(place.name, place.mainLanguage)
                       }

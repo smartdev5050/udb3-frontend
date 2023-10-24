@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 
 import { CalendarType } from '@/constants/CalendarType';
-import { Values } from '@/types/Values';
 
 import {
   useIsIdle,

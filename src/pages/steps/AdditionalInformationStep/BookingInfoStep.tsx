@@ -485,9 +485,7 @@ const BookingInfoStep = ({
           as="form"
           width="45%"
           spacing={4}
-          onBlur={handleSubmit((data) => {
-            handleAddBookingInfoMutation(data);
-          })}
+          onBlur={() => handleAddBookingInfoMutation(getValues())}
           ref={formComponent}
         >
           {Object.keys(ContactInfoType).map((key, index) => {

@@ -4,7 +4,6 @@ import { Controller, ControllerRenderProps, Path } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { OfferType, OfferTypes } from '@/constants/OfferType';
-import { Values } from '@/types/Values';
 import { parseSpacing } from '@/ui/Box';
 import { getInlineProps, Inline, InlineProps } from '@/ui/Inline';
 import { ToggleBox } from '@/ui/ToggleBox';

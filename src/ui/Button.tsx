@@ -271,6 +271,7 @@ const Button = ({
           :focus {
             outline: auto;
           }
+
           :focus:not(:focus-visible) {
             outline: none;
             box-shadow: none;
@@ -298,6 +299,7 @@ const Button = ({
         :focus {
           outline: auto;
         }
+
         :focus:not(:focus-visible) {
           outline: none;
           box-shadow: none;

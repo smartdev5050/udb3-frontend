@@ -9,9 +9,8 @@ import type {
 } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { OfferType, OfferTypes, Scope } from '@/constants/OfferType';
+import { Scope } from '@/constants/OfferType';
 import { SupportedLanguage } from '@/i18n/index';
-import { Values } from '@/types/Values';
 import type { BoxProps } from '@/ui/Box';
 import { Box } from '@/ui/Box';
 import type { StackProps } from '@/ui/Stack';

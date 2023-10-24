@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { useQueryClient } from 'react-query';
 
 import { OfferTypes } from '@/constants/OfferType';

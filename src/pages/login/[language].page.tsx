@@ -33,10 +33,10 @@ const Path = (props) => <Box as="path" {...props} />;
 
 const Animation = (props) => {
   const draw = keyframes`
-    to {
-      stroke-dashoffset: 0;
-    }
-  `;
+      to {
+        stroke-dashoffset: 0;
+      }
+    `;
 
   const drawAnimationLineLeft = css`
     ${draw} 2s 0.2s forwards linear;
@@ -47,32 +47,32 @@ const Animation = (props) => {
   `;
 
   const logoAnimate = keyframes`
-    0% {
-      transform: scale(1);
-      animation-timing-function: cubic-bezier(0.3, 0.1, 0.9, 0.5);
-    }
-    10% {
-      transform: scale(0.8);
-      animation-timing-function: cubic-bezier(0.1, 0.4, 0.2, 1);
-    }
-    100% {
-      transform: scale(1);
-    }
-  `;
+      0% {
+        transform: scale(1);
+        animation-timing-function: cubic-bezier(0.3, 0.1, 0.9, 0.5);
+      }
+      10% {
+        transform: scale(0.8);
+        animation-timing-function: cubic-bezier(0.1, 0.4, 0.2, 1);
+      }
+      100% {
+        transform: scale(1);
+      }
+    `;
 
   const publicAnimate = keyframes`
-    0% {
-      transform: scale(1);
-      animation-timing-function: cubic-bezier(0.3, 0.1, 0.9, 0.5);
-    }
-    10% {
-      transform: scale(0.8);
-      animation-timing-function: cubic-bezier(0.1, 0.4, 0.2, 1);
-    }
-    100% {
-      transform: scale(1);
-    }
-  `;
+      0% {
+        transform: scale(1);
+        animation-timing-function: cubic-bezier(0.3, 0.1, 0.9, 0.5);
+      }
+      10% {
+        transform: scale(0.8);
+        animation-timing-function: cubic-bezier(0.1, 0.4, 0.2, 1);
+      }
+      100% {
+        transform: scale(1);
+      }
+    `;
 
   return (
     <Svg {...props} width="100%">

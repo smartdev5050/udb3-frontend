@@ -24,15 +24,9 @@ import { Address, AddressInternal } from '@/types/Address';
 import { ContactPoint } from '@/types/ContactPoint';
 import { Country } from '@/types/Country';
 import { AttendanceMode, AudienceType, isEvent } from '@/types/Event';
-import {
-  BookingInfo,
-  Label,
-  MediaObject,
-  Offer,
-  PriceInfo,
-} from '@/types/Offer';
+import { BookingInfo, MediaObject, Offer, PriceInfo } from '@/types/Offer';
 import { Organizer } from '@/types/Organizer';
-import { isPlace, Place } from '@/types/Place';
+import { Place } from '@/types/Place';
 import { Values } from '@/types/Values';
 import { WorkflowStatus } from '@/types/WorkflowStatus';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';

@@ -109,7 +109,6 @@ function LabelsStep({
                 setLabels(uniq([...labels, label]));
                 ref.current.clear();
               }}
-              customFilter={() => true}
             />
           }
           maxWidth={'100%'}
