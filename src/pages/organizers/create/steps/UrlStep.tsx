@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
-import { FormEvent, useEffect } from 'react';
-import { Controller, useWatch } from 'react-hook-form';
+import { FormEvent, useEffect, useState } from 'react';
+import { Controller } from 'react-hook-form';
 import { Trans, useTranslation } from 'react-i18next';
 
 import { useGetOrganizersByWebsiteQuery } from '@/hooks/api/organizers';
@@ -33,14 +33,7 @@ const UrlStep = ({
   const { query } = useRouter();
   const { t, i18n } = useTranslation();
 
-  const [searchInput, setSearchInput] = 
-        ('');
-
-  const [watchedUrl] = useWatch({
-    control,
-    name: ['nameAndUrl.url'],
-  });
-
+  const [searchInput, setSearchInput] = useState('');
   const debouncedSearchInput = useDebounce(searchInput, 275);
 
   const getOrganizersByWebsiteQuery = useGetOrganizersByWebsiteQuery(
