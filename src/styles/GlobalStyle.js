@@ -167,6 +167,7 @@ const GlobalStyle = createGlobalStyle`
   
   .rdw-editor-main {
     padding: 10px;
+    padding-top: 0;
   }
 
   .rdw-option-wrapper {

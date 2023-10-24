@@ -4,6 +4,7 @@ import { Controller, useWatch } from 'react-hook-form';
 import { Trans, useTranslation } from 'react-i18next';
 
 import { useGetOrganizersByWebsiteQuery } from '@/hooks/api/organizers';
+import { useDebounce } from '@/hooks/useDebounce';
 import { SupportedLanguage } from '@/i18n/index';
 import { StepProps } from '@/pages/steps/Steps';
 import { Organizer } from '@/types/Organizer';
@@ -32,16 +33,21 @@ const UrlStep = ({
   const { query } = useRouter();
   const { t, i18n } = useTranslation();
 
+  const [searchInput, setSearchInput] = 
+        ('');
+
   const [watchedUrl] = useWatch({
     control,
     name: ['nameAndUrl.url'],
   });
 
+  const debouncedSearchInput = useDebounce(searchInput, 275);
+
   const getOrganizersByWebsiteQuery = useGetOrganizersByWebsiteQuery(
     {
-      website: watchedUrl,
+      website: debouncedSearchInput,
     },
-    { enabled: !!watchedUrl && isValidUrl(watchedUrl) },
+    { enabled: !!debouncedSearchInput && isValidUrl(debouncedSearchInput) },
   );
 
   const existingOrganizer: Organizer | undefined =
@@ -51,17 +57,15 @@ const UrlStep = ({
   const isUrlAlreadyTaken = errors.nameAndUrl?.url?.type === 'not_unique';
 
   useEffect(() => {
-    if (!isValidUrl(watchedUrl)) {
+    if (!isValidUrl(searchInput)) {
       setError('nameAndUrl.url', { type: 'matches' });
       return;
     }
 
     clearErrors('nameAndUrl.url');
-  }, [watchedUrl, clearErrors, setError]);
+  }, [searchInput, clearErrors, setError]);
 
   useEffect(() => {
-    if (!isValidUrl) return;
-
     if (
       existingOrganizer &&
       parseOfferId(existingOrganizer['@id']) !== query.organizerId
@@ -84,6 +88,9 @@ const UrlStep = ({
         name={name}
         control={control}
         render={({ field }) => {
+          const isUrlInvalid =
+            errors.nameAndUrl && errors.nameAndUrl?.url?.type !== 'not_unique';
+
           return (
             <Stack spacing={2}>
               <FormElement
@@ -94,47 +101,58 @@ const UrlStep = ({
                   <Input
                     value={field.value?.url}
                     onChange={(event) => {
+                      const value = (event.target as HTMLInputElement).value;
+                      setSearchInput(value);
                       field.onChange({
                         ...field.value,
-                        url: (event.target as HTMLInputElement).value,
+                        url: value,
                       });
                     }}
                     onBlur={(event: FormEvent<HTMLInputElement>) => {
                       const newValue = (event.target as HTMLInputElement).value;
+                      const prefixedValue = prefixUrlWithHttps(newValue);
+                      setSearchInput(prefixedValue);
                       field.onChange({
                         ...field.value,
-                        url: prefixUrlWithHttps(newValue),
+                        url: prefixedValue,
                       });
                       onChange({
                         ...field.value,
-                        url: prefixUrlWithHttps(newValue),
+                        url: prefixedValue,
                       });
                     }}
                   />
                 }
                 info={
-                  isDirty && isUrlAlreadyTaken && existingOrganizer ? (
-                    <Alert variant={AlertVariants.WARNING}>
-                      <Trans
-                        i18nKey={`organizers.create.step1.errors.url_not_unique`}
-                        values={{
-                          organizerName: getLanguageObjectOrFallback(
-                            existingOrganizer?.name,
-                            i18n.language as SupportedLanguage,
-                            existingOrganizer.mainLanguage as SupportedLanguage,
-                          ),
-                        }}
-                      />
-                    </Alert>
-                  ) : (
-                    <Alert variant={AlertVariants.PRIMARY}>
-                      {t('organizers.create.step1.url_requirements')}
-                    </Alert>
-                  )
+                  <>
+                    {isDirty && isUrlAlreadyTaken && existingOrganizer && (
+                      <Alert variant={AlertVariants.WARNING}>
+                        <Trans
+                          i18nKey={`organizers.create.step1.errors.url_not_unique`}
+                          values={{
+                            organizerName: getLanguageObjectOrFallback(
+                              existingOrganizer?.name,
+                              i18n.language as SupportedLanguage,
+                              existingOrganizer.mainLanguage as SupportedLanguage,
+                            ),
+                          }}
+                        />
+                      </Alert>
+                    )}
+                    {(!isDirty || isUrlInvalid) && (
+                      <Alert variant={AlertVariants.PRIMARY}>
+                        {t('organizers.create.step1.url_requirements')}
+                      </Alert>
+                    )}
+                    {isDirty && !isUrlInvalid && !isUrlAlreadyTaken && (
+                      <Alert variant={AlertVariants.SUCCESS}>
+                        {t('organizers.create.step1.errors.url_valid')}
+                      </Alert>
+                    )}
+                  </>
                 }
                 error={
-                  errors.nameAndUrl &&
-                  errors.nameAndUrl?.url?.type !== 'not_unique' &&
+                  isUrlInvalid &&
                   t(
                     `organizers.create.step1.errors.url_${errors.nameAndUrl?.url.type}`,
                   )
