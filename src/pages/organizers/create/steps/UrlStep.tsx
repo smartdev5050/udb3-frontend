@@ -132,12 +132,12 @@ const UrlStep = ({
                         />
                       </Alert>
                     )}
-                    {(!isDirty || isUrlInvalid) && (
+                    {(!searchInput || isUrlInvalid) && (
                       <Alert variant={AlertVariants.PRIMARY}>
                         {t('organizers.create.step1.url_requirements')}
                       </Alert>
                     )}
-                    {isDirty && !isUrlInvalid && !isUrlAlreadyTaken && (
+                    {searchInput && !isUrlInvalid && !isUrlAlreadyTaken && (
                       <Alert variant={AlertVariants.SUCCESS}>
                         {t('organizers.create.step1.errors.url_valid')}
                       </Alert>
