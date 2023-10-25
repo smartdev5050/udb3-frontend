@@ -118,7 +118,7 @@ const UrlStep = ({
                 }
                 info={
                   <>
-                    {isDirty && isUrlAlreadyTaken && existingOrganizer && (
+                    {searchInput && isUrlAlreadyTaken && existingOrganizer && (
                       <Alert variant={AlertVariants.WARNING}>
                         <Trans
                           i18nKey={`organizers.create.step1.errors.url_not_unique`}
@@ -137,7 +137,7 @@ const UrlStep = ({
                         {t('organizers.create.step1.url_requirements')}
                       </Alert>
                     )}
-                    {searchInput && !isUrlInvalid && !isUrlAlreadyTaken && (
+                    {getOrganizersByWebsiteQuery.data?.member?.length === 0 && (
                       <Alert variant={AlertVariants.SUCCESS}>
                         {t('organizers.create.step1.errors.url_valid')}
                       </Alert>
