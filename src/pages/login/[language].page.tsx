@@ -14,7 +14,7 @@ import { Button, ButtonSizes } from '@/ui/Button';
 import { CustomIcon, CustomIconVariants } from '@/ui/CustomIcon';
 import { Inline } from '@/ui/Inline';
 import { Link } from '@/ui/Link';
-import { getStackProps, Stack } from '@/ui/Stack';
+import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import {
   Breakpoints,
@@ -57,6 +57,7 @@ const ManIllustrationSvg = () => {
       >
         <path
           d="m297.207 51.24-28.911 37.275c-2.852 3.645-7.249 5.87-11.88 5.96l-30.014.773 3.182-28.73 25.358.52 31.275-35.188c3.694-4.09 9.731-4.985 14.392-2.02l8.867 5.552"
+          fill="white"
           stroke="#009FDF"
           stroke-width="1.851"
           stroke-miterlimit="10"
@@ -139,6 +140,7 @@ const ManIllustrationSvg = () => {
         />
         <path
           d="m163.453 112.446-14.625 26.289c-6.295 7.405-18.05 6.016-22.586-2.592L102.73 90.971l-.092-.093-8.331-8.609-6.943-7.22-.278-.278c-1.296-1.295-1.573-3.24-.925-4.906.37-.833.925-1.573 1.666-2.036 1.11-.74 2.5-.926 3.795-.555l3.703 1.11 8.794 2.777.648-8.145 30.176 47.579 7.59-11.016 20.92 12.867ZM134.943 110.78l-4.258 7.405"
+          fill="white"
           stroke="#009FDF"
           stroke-width="1.851"
           stroke-miterlimit="10"
@@ -183,6 +185,7 @@ const ManIllustrationSvg = () => {
         />
         <path
           d="m207.7 44.595-7.683 3.703.741 12.866c.37 6.11-4.721 11.2-10.83 10.923-2.777-.092-5.184-1.296-6.943-3.147-1.759-1.851-2.869-4.35-2.869-7.128V31.451l-9.535-5.554c-1.666-1.018-2.499-2.962-1.944-4.814.556-1.85 2.222-3.147 4.166-3.147.185 0 .463 0 .648.093l12.867 1.944v-6.017l14.903-4.906 10.922 22.308c2.592 4.814.556 10.83-4.443 13.237Z"
+          fill="white"
           stroke="#009FDF"
           stroke-width="1.851"
           stroke-miterlimit="10"
@@ -434,6 +437,7 @@ const WomanIllustrationSvg = () => {
         />
         <path
           d="M234.123 155.199L235.4 184.673V184.764L216.237 185.951H215.69L208.39 283.864H238.32L250.731 183.943L269.62 283.864H300.919L284.859 181.479L263.232 182.939L259.035 154.286"
+          f
           stroke="#009FDF"
           stroke-width="1.82504"
           stroke-miterlimit="10"
@@ -616,6 +620,7 @@ const WomanIllustrationSvg = () => {
         />
         <path
           d="M330.303 193.433C330.303 193.616 330.303 193.707 330.303 193.889C330.303 194.072 330.211 194.346 330.12 194.619L328.478 200.733C327.474 204.475 324.189 207.03 320.356 207.212L311.413 207.577C307.033 207.76 303.201 204.657 302.379 200.368L301.467 195.441L300.828 191.882C299.733 186.498 303.566 181.388 309.041 180.932C309.315 180.932 309.497 180.932 309.771 180.932C314.151 180.932 317.984 184.125 318.714 188.414L319.809 194.437L319.991 195.258L320.63 194.437L323.367 190.969C324.097 190.057 325.284 189.509 326.47 189.509C328.569 189.509 330.303 191.334 330.303 193.433Z"
+          fill="white"
           stroke="#009FDF"
           stroke-width="1.82504"
           stroke-miterlimit="10"
@@ -660,6 +665,7 @@ const WomanIllustrationSvg = () => {
         />
         <path
           d="M260.586 41.3159C260.313 44.0535 257.94 46.061 255.111 46.061H251.644V80.2806C251.644 83.2919 250.457 86.0295 248.45 88.0371C246.442 90.0446 243.705 91.2309 240.693 91.2309C235.127 91.2309 230.473 87.0333 229.834 81.5582L229.743 80.2806V64.0377L226.184 62.3039C220.8 59.7489 218.337 53.3612 220.709 47.7948L229.743 26.3506L248.359 35.6583L255.659 35.7495C257.21 35.7495 258.67 36.4796 259.491 37.6659C260.313 38.8521 260.678 40.0384 260.586 41.3159Z"
+          fill="white"
           stroke="#009FDF"
           stroke-width="1.82504"
           stroke-miterlimit="10"
@@ -832,141 +838,61 @@ const OvalSvg = () => {
     >
       <svg
         width="100%"
+        viewBox="0 0 1440 651"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1836 -41C1836 341.181 1336.57 651 720.5 651C104.426 651 -395 341.181 -395 -41C-395 -423.181 104.426 -733 720.5 -733C1336.57 -733 1836 -423.181 1836 -41Z"
+          fill="url(#paint0_linear_1029_908)"
+        />
+        <defs>
+          <linearGradient
+            id="paint0_linear_1029_908"
+            x1="720"
+            y1="320"
+            x2="720.5"
+            y2="651"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stop-color="#F3FBFF" stop-opacity="0" />
+            <stop offset="1" stop-color="#F3FBFF" />
+            <stop offset="1" stop-color="#F3FBFF" />
+          </linearGradient>
+        </defs>
+      </svg>
+
+      {/* <svg
+        width="100%"
         viewBox="0 0 1440 643"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
           d="M1835 -49C1835 333.181 1335.57 643 719.5 643C103.426 643 -396 333.181 -396 -49C-396 -431.181 103.426 -741 719.5 -741C1335.57 -741 1835 -431.181 1835 -49Z"
-          fill="#EBF7FC"
+          fill="#F3FBFF"
         />
-      </svg>
+      </svg> */}
     </Stack>
   );
 };
 
-const PhysicalSvg = ({ color }) => {
-  return (
-    <svg
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      width="32"
-      viewBox="0 0 96 76"
-    >
-      <path
-        d="M40.231 30.778h-.438c-1.258 0-2.462-.273-3.556-.711-1.149-.492-2.134-1.204-3.01-2.08l-.656.548a10.234 10.234 0 0 1-6.456 2.298c0-3.556 2.9-6.401 6.456-6.401h1.259c1.805 0 3.392.71 4.596 1.86 1.094 1.094 1.805 2.571 1.86 4.213l-.055.273ZM68.956 34.006l.656-5.964c.22-1.86-1.696-3.228-3.392-2.407l-2.189 1.04c-.766-2.134-3.72-2.134-4.486 0l-2.189-1.04c-1.696-.82-3.61.547-3.392 2.407l.657 5.964 1.094-1.75c1.258-2.025 3.447-3.284 5.854-3.284 2.08 0 3.994.93 5.308 2.517l2.079 2.517Z"
-        fill={color}
-        stroke={color}
-        stroke-width="2.736"
-        stroke-miterlimit="10"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-      <path
-        d="M45.757 36.359c0 1.258-1.04 2.353-2.352 2.353h-3.83l-.383 2.298c-.164.985-.547 1.915-1.15 2.68-.218.329-.492.602-.82.93v9.794a4.04 4.04 0 0 1-4.049 4.05 4.04 4.04 0 0 1-4.049-4.05v-9.63c-.383-.327-.71-.656-.984-1.093-.602-.821-1.04-1.806-1.15-2.846l-.273-2.133h-3.72c-1.259 0-2.353-1.04-2.353-2.353 0-.657.273-1.204.656-1.641.438-.438.985-.657 1.642-.657h3.064l.054-3.228c0-3.556 2.9-6.401 6.457-6.401h1.258c1.806 0 3.392.71 4.596 1.86 1.094 1.094 1.805 2.571 1.86 4.213v.328l.055 3.228h3.118c.657 0 1.204.274 1.642.657.438.437.711.984.711 1.641Z"
-        stroke={color}
-        stroke-width="2.736"
-        stroke-miterlimit="10"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-      <path
-        d="M29.124 44.73c.821.656 1.806 1.149 2.845 1.313"
-        stroke={color}
-        stroke-width="2.736"
-        stroke-miterlimit="10"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-      <path
-        d="M28.14 43.69h-6.074l1.532-4.978h3.119l.273 2.133c.11 1.04.548 2.025 1.15 2.845Z"
-        fill={color}
-      />
-      <path
-        d="M28.14 43.69h-6.074l1.532-4.978h3.119l.273 2.133c.11 1.04.548 2.025 1.15 2.845Z"
-        stroke={color}
-        stroke-width="2.736"
-        stroke-miterlimit="10"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-      <path
-        d="M44.006 43.69h-5.964c.602-.765.985-1.696 1.15-2.68l.382-2.298h2.9l1.532 4.978Z"
-        fill={color}
-      />
-      <path
-        d="M44.006 43.69h-5.964c.602-.765.985-1.696 1.15-2.68l.382-2.298h2.9l1.532 4.978ZM74.372 36.359c0 1.258-1.04 2.353-2.353 2.353h-3.83l-.382 2.297c-.165.985-.547 1.916-1.15 2.681-.218.329-.492.602-.82.93v9.794a4.04 4.04 0 0 1-4.049 4.05 4.04 4.04 0 0 1-4.049-4.05v-9.63c-.383-.328-.71-.656-.984-1.093-.602-.821-1.04-1.806-1.15-2.846l-.273-2.133h-3.72c-1.259 0-2.353-1.04-2.353-2.353 0-.657.273-1.204.656-1.642.438-.437.985-.656 1.642-.656h3.064l.054-.657c0-3.556 2.9-6.401 6.457-6.401h1.258c1.805 0 3.392.711 4.596 1.86 1.094 1.095 1.805 2.572 1.86 4.213v.328l.055.657h3.118c.657 0 1.204.273 1.642.657.492.437.711.984.711 1.64Z"
-        stroke={color}
-        stroke-width="2.736"
-        stroke-miterlimit="10"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-      <path
-        d="M57.794 44.73c.82.656 1.806 1.149 2.845 1.313M57.028 51.132l-7.988 2.9c-3.611 1.313-5.964 4.705-5.964 8.535v11.325H16.157l-6.51-25.66 8.37-2.845 1.095 4.87a3.341 3.341 0 0 0 4.048 2.461l6.019-1.532v3.01c0 2.079 1.477 3.884 3.502 4.158 2.462.328 4.596-1.587 4.596-4.049v-3.173h19.751ZM12.382 25.416l2.188-5.034c.383-1.149-.492-2.352-1.696-2.352-.547 0-1.094.273-1.422.711l-1.204 1.587-1.258-3.83c-.657-2.025-2.845-3.174-4.87-2.517-2.188.711-3.283 3.173-2.352 5.252l7.878 28.944 8.371-2.845-5.635-19.916ZM94.233 19.288l-3.119 12.967-8.644-2.68 1.094-4.159-2.189-5.034c-.383-1.149.493-2.352 1.697-2.352.547 0 1.094.273 1.422.711l1.204 1.587 1.258-3.83c.657-2.025 2.845-3.174 4.87-2.517a3.907 3.907 0 0 1 2.407 5.307ZM76.397 63.114c-.383.11-.821.164-1.204.164a3.925 3.925 0 0 1-3.72-2.681l-1.259-3.83-1.204 1.586a1.815 1.815 0 0 1-1.422.712c-1.04 0-1.806-.82-1.806-1.806 0-.164 0-.383.11-.547l1.696-3.994c.164-.438.438-.82.82-1.094.548-.438 1.204-.712 1.915-.712h3.885c.766 0 1.477.274 2.025.767.328.328.601.71.766 1.203l1.75 4.924c.93 2.134-.164 4.596-2.352 5.308Z"
-        stroke={color}
-        stroke-width="2.736"
-        stroke-miterlimit="10"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-      <path
-        d="m91.115 32.255-.055.165-9.192 41.472H42.967V62.567c0-3.83 2.407-7.223 6.018-8.536l7.988-2.9h.766v3.229a4.053 4.053 0 0 0 3.94 4.048h.11a4.04 4.04 0 0 0 4.048-4.048v-3.228l2.517.492c-.329.273-.602.657-.82 1.094l-1.697 3.994c-.055.164-.055.383-.055.547 0 .985.766 1.806 1.806 1.806.547 0 1.094-.274 1.422-.711l1.204-1.587 1.204 3.83a3.925 3.925 0 0 0 3.72 2.68c.383 0 .82-.054 1.204-.163 2.189-.711 3.283-3.174 2.353-5.307l-1.751-4.925a3.477 3.477 0 0 0-.766-1.203c.328-.329.602-.821.766-1.314l1.258-4.869.11-.438 4.103-15.483 8.7 2.68Z"
-        stroke={color}
-        stroke-width="2.736"
-        stroke-miterlimit="10"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-      <path
-        d="m82.47 29.575-4.104 15.483 4.049-15.483h.055Z"
-        stroke={color}
-        stroke-width="2.736"
-        stroke-miterlimit="10"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-      <path
-        d="M34.76 12.613a2.078 2.078 0 1 1-4.158 0 2.078 2.078 0 1 1 4.158 0Z"
-        fill={color}
-      />
-      <path
-        d="M34.76 12.613a2.078 2.078 0 1 1-4.158 0 2.078 2.078 0 1 1 4.158 0ZM34.76 12.613 36.4 5.336l2.134 3.338"
-        stroke={color}
-        stroke-width="2.736"
-        stroke-miterlimit="10"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-      <path
-        d="M51.338 9.385a2.078 2.078 0 1 0 4.158 0 2.078 2.078 0 1 0-4.158 0Z"
-        fill={color}
-      />
-      <path
-        d="M51.338 9.385a2.078 2.078 0 1 0 4.158 0 2.078 2.078 0 1 0-4.158 0ZM51.338 9.385l-1.641-7.277-2.189 3.338"
-        stroke={color}
-        stroke-width="2.736"
-        stroke-miterlimit="10"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-      <path
-        d="M68.627 12.613a2.078 2.078 0 1 1-4.158 0 2.078 2.078 0 1 1 4.158 0Z"
-        fill={color}
-      />
-      <path
-        d="M68.627 12.613a2.078 2.078 0 1 1-4.158 0 2.078 2.078 0 1 1 4.158 0ZM68.627 12.613l1.642-7.277 2.188 3.338"
-        stroke={color}
-        stroke-width="2.736"
-        stroke-miterlimit="10"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-    </svg>
-  );
+type USPCardProps = {
+  icon: JSX.Element;
+  quantity: string;
+  title: string;
+  text: string;
+  rotateDegree?: string;
 };
 
-const USPCard = ({ icon, quantity, title, text, rotateDegree, ...props }) => {
+const USPCard = ({
+  icon,
+  quantity,
+  title,
+  text,
+  rotateDegree,
+  ...props
+}: USPCardProps) => {
   return (
     <Stack
       borderRadius="8px"
@@ -976,7 +902,6 @@ const USPCard = ({ icon, quantity, title, text, rotateDegree, ...props }) => {
       padding={5}
       spacing={3}
       css={css`
-        top: 50px;
         box-shadow: 0px 4px 40px 0px #c6e0eb80;
         transform: rotate(${rotateDegree ?? 0});
       `}
@@ -991,7 +916,7 @@ const USPCard = ({ icon, quantity, title, text, rotateDegree, ...props }) => {
           letter-spacing: 0.05em;
         `}
       >
-        {quantity}
+        {quantity} <Text color={colors.udbMainBlue}>+</Text>
       </Text>
       <Text
         textAlign="center"
@@ -1010,12 +935,17 @@ const USPCard = ({ icon, quantity, title, text, rotateDegree, ...props }) => {
   );
 };
 
-const UDBCard = () => {
+type UDBCardProps = {
+  onLogin: () => void;
+} & StackProps;
+
+const UDBCard = ({ onLogin, ...props }: UDBCardProps) => {
+  const { t } = useTranslation();
+
   return (
     <Stack
       flex={1}
       spacing={4}
-      borderRadius="8px"
       paddingTop={5}
       paddingBottom={5}
       paddingLeft={3}
@@ -1026,17 +956,21 @@ const UDBCard = () => {
         z-index: 1;
         box-shadow: 0px 4px 40px 0px #c6e0eb80;
       `}
+      {...getStackProps(props)}
     >
       <Stack>
         <UDBLogo />
+        <Box as="h1" display="none">
+          {t('brand')}
+        </Box>
       </Stack>
       <Text fontWeight="bold" fontSize="20px" color="#6A6E70">
-        Organiseer je een activiteit?
+        {t('main.lead')}
       </Text>
-      <Text textAlign="center">
-        Voeg gratis je activiteiten toe en bereik een groter publiek
-      </Text>
-      <Button>Start hier</Button>
+      <Text textAlign="center">{t('main.lead_sub')}</Text>
+      <Button onClick={onLogin} size={ButtonSizes.LARGE}>
+        {t('main.start')}
+      </Button>
     </Stack>
   );
 };
@@ -1155,7 +1089,10 @@ const Index = () => {
         >
           <OvalSvg />
           <ManIllustrationSvg />
-          <UDBCard />
+          <UDBCard
+            borderRadius={getGlobalBorderRadius}
+            onLogin={handleClickLogin}
+          />
           <WomanIllustrationSvg />
           <Inline
             width="100%"
@@ -1177,7 +1114,7 @@ const Index = () => {
                 />
               }
               quantity="215.000"
-              title="activiteiten per jaar"
+              title={t('main.activities')}
               text="Een uitstap, sportactiviteit, kaartavong, kermis of cursus? 
               Een concert, tentoonstelling of film? "
               rotateDegree="7.34deg"
@@ -1191,7 +1128,7 @@ const Index = () => {
                 />
               }
               quantity="1.000"
-              title="verschillende kanalen"
+              title={t('main.channels')}
               text="UiTdatabank levert informatie aan meer dan 1.000 agenda’s waaronder UiTinvlaanderen."
               rotateDegree="-5.75deg"
             />
@@ -1204,7 +1141,7 @@ const Index = () => {
                 />
               }
               quantity="28.000"
-              title="organisatoren"
+              title={t('main.organizers')}
               text="Jaarlijks promoten 28.000 organisatoren hun activiteiten via UiTdatabank. In totaal bereiken ze."
               rotateDegree="4.88deg"
             />
@@ -1212,7 +1149,7 @@ const Index = () => {
         </Inline>
       </Stack>
 
-      <Inline width="100%" backgroundColor="#ccc" justifyContent="center">
+      <Inline width="100%" backgroundColor="#EBF7FC" justifyContent="center">
         <Footer
           isProfileLinkVisible={false}
           onChangeLanguage={handleChangeLanguage}
