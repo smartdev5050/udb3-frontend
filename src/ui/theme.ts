@@ -49,6 +49,7 @@ const Breakpoints = {
   S: 's',
   M: 'm',
   L: 'l',
+  XL: 'xl',
 } as const;
 
 // z-index utils

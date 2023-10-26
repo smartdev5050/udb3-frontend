@@ -6,13 +6,8 @@ type Props = {
 
 const WomanIllustrationSvg = ({ width, ...props }: Props) => {
   return (
-    <Stack {...getStackProps(props)}>
-      <svg
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        width={width}
-        viewBox="0 0 461 321"
-      >
+    <Stack width={width} {...getStackProps(props)}>
+      <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 461 321">
         <path
           d="m214.915 91.025-.038.27c-.164 1.176.227 2.336 1.017 3.275l2.739 4.805-4.427 31.722-93.63-13.067 13.055-93.54 93.539 13.055-7.063 50.61c-2.106-.754-4.671.455-5.192 2.87Z"
           fill="#9EC7DB"

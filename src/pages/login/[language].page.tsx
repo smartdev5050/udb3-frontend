@@ -7,6 +7,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { css } from 'styled-components';
 
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
+import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
 import { SupportedLanguages } from '@/i18n/index';
 import { Footer, FooterVariants } from '@/pages/Footer';
 import { Box } from '@/ui/Box';
@@ -27,7 +28,6 @@ import { ManIllustrationSvg } from './illustrations/ManIllustration';
 import { WomanIllustrationSvg } from './illustrations/WomanIllustration';
 
 const getValueForPage = getValueFromTheme('loginPage');
-const getValueForLogo = getValueFromTheme('loginLogo');
 
 const UDBLogo = () => {
   return (
@@ -105,17 +105,17 @@ const USPCard = ({
   rotateDegree,
   ...props
 }: USPCardProps) => {
+  const isSmallView = useMatchBreakpoint(Breakpoints.S);
   return (
     <Stack
       borderRadius="8px"
       backgroundColor={colors.white}
       alignItems="center"
-      width="300px"
       padding={5}
       spacing={3}
       css={css`
         box-shadow: 0px 4px 40px 0px #c6e0eb80;
-        transform: rotate(${rotateDegree ?? 0});
+        transform: ${isSmallView ? 'none' : `rotate(${rotateDegree ?? 0}`} );
       `}
       {...getStackProps(props)}
     >
@@ -150,6 +150,8 @@ type UDBCardProps = {
 const UDBCard = ({ onLogin, ...props }: UDBCardProps) => {
   const { t } = useTranslation();
 
+  const isSmallView = useMatchBreakpoint(Breakpoints.S);
+
   return (
     <Stack
       flex={1}
@@ -161,12 +163,10 @@ const UDBCard = ({ onLogin, ...props }: UDBCardProps) => {
       backgroundColor={colors.white}
       alignItems="center"
       css={css`
-        z-index: 1;
         box-shadow: 0px 4px 40px 0px #c6e0eb80;
-        position: absolute;
         left: 50%;
         top: 180px;
-        transform: translate(-50%, -50%);
+        transform: ${isSmallView ? 'none' : 'translate(-50%, -50%)'};
       `}
       {...getStackProps(props)}
     >
@@ -284,6 +284,15 @@ const Index = () => {
 
   useRedirectToLanguage();
 
+  const isMediumView = useMatchBreakpoint(Breakpoints.M);
+  const isSmallView = useMatchBreakpoint(Breakpoints.S);
+  const isLargeView = useMatchBreakpoint(Breakpoints.L);
+  const isXLargeView = useMatchBreakpoint(Breakpoints.XL);
+
+  console.log({ isMediumView });
+  console.log({ isLargeView });
+  console.log({ isXLargeView });
+
   return (
     <Stack
       width="100%"
@@ -291,32 +300,41 @@ const Index = () => {
       spacing={6}
       backgroundColor={getValueForPage('backgroundColor')}
     >
-      <Stack width="100%" height="800px">
+      <Stack width="100%" height={isSmallView ? 'auto' : 800}>
         <Inline
           width="100%"
-          padding={6.5}
+          padding={isSmallView ? 4 : 6.5}
           justifyContent="space-between"
           alignItems="flex-start"
           position="relative"
+          stackOn={Breakpoints.S}
+          spacing={isSmallView ? 4 : 0}
         >
-          <OvalSvg width="100%" position="absolute" top={-80} left={0} />
-          <ManIllustrationSvg zIndex={3} width="500px" />
+          <OvalSvg width="100%" position="absolute" top="-10%" left={0} />
+          {!isSmallView && <ManIllustrationSvg zIndex={3} width={'35%'} />}
+
           <UDBCard
+            zIndex={1}
+            position={isSmallView ? 'static' : 'absolute'}
             borderRadius={getGlobalBorderRadius}
             onLogin={handleClickLogin}
-            minWidth={450}
+            width={isSmallView ? '100%' : '30%'}
           />
-          <WomanIllustrationSvg zIndex={3} width="500px" />
+          {!isSmallView && <WomanIllustrationSvg zIndex={3} width={'35%'} />}
+
           <Inline
             width="100%"
             justifyContent="center"
-            padding={5}
-            position="absolute"
+            padding={isSmallView ? 0 : 5}
+            position={isSmallView ? 'static' : 'absolute'}
             left={0}
-            bottom="-200px"
+            bottom="-35vh"
             zIndex={1}
+            stackOn={Breakpoints.S}
+            spacing={isSmallView ? 3 : 0}
           >
             <USPCard
+              width={isSmallView ? '100%' : '25%'}
               icon={
                 <CustomIcon
                   name={CustomIconVariants.PHYSICAL}
@@ -330,6 +348,7 @@ const Index = () => {
               rotateDegree="7.34deg"
             />
             <USPCard
+              width={isSmallView ? '100%' : '25%'}
               icon={
                 <CustomIcon
                   name={CustomIconVariants.PHONE}
@@ -349,6 +368,7 @@ const Index = () => {
               rotateDegree="-5.75deg"
             />
             <USPCard
+              width={isSmallView ? '100%' : '25%'}
               icon={
                 <CustomIcon
                   name={CustomIconVariants.BADGE}
