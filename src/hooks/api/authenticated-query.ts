@@ -175,6 +175,10 @@ const isDuplicateMutation = (
     return false;
   }
 
+  if (mutationKey === 'offers-change-calendar') {
+    return false;
+  }
+
   const mutations = queryClient.getMutationCache().findAll({
     mutationKey,
   });
