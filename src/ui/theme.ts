@@ -327,6 +327,10 @@ const theme = {
     },
     loginPage: {
       backgroundColor: colors.white,
+      footer: {
+        backgroundColor: '#FAFAFB',
+        linkColor: colors.udbMainDarkGrey,
+      },
     },
     loginLogo: {
       backgroundColor: colors.udbMainLightBlue,

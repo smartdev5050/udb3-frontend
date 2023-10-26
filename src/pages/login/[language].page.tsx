@@ -4,11 +4,11 @@ import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { css, keyframes } from 'styled-components';
+import { css } from 'styled-components';
 
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import { SupportedLanguages } from '@/i18n/index';
-import { Footer } from '@/pages/Footer';
+import { Footer, FooterVariants } from '@/pages/Footer';
 import { Box } from '@/ui/Box';
 import { Button, ButtonSizes } from '@/ui/Button';
 import { CustomIcon, CustomIconVariants } from '@/ui/CustomIcon';
@@ -93,7 +93,7 @@ type USPCardProps = {
   icon: JSX.Element;
   quantity: string;
   title: string;
-  text: string;
+  text: string | React.ReactElement;
   rotateDegree?: string;
 } & StackProps;
 
@@ -134,11 +134,7 @@ const USPCard = ({
         textAlign="center"
         lineHeight="28px"
         fontWeight="600"
-        fontSize="11px"
-        css={`
-          text-transform: uppercase;
-          letter-spacing: 0.24em;
-        `}
+        fontSize="16px"
       >
         {title}
       </Text>
@@ -330,8 +326,7 @@ const Index = () => {
               }
               quantity="215.000"
               title={t('main.activities')}
-              text="Een uitstap, sportactiviteit, kaartavong, kermis of cursus? 
-              Een concert, tentoonstelling of film?"
+              text={t('main.activities_info')}
               rotateDegree="7.34deg"
             />
             <USPCard
@@ -344,7 +339,13 @@ const Index = () => {
               }
               quantity="1.000"
               title={t('main.channels')}
-              text="UiTdatabank levert informatie aan meer dan 1.000 agenda’s waaronder UiTinvlaanderen."
+              text={
+                <Trans i18nKey="main.channels_info">
+                  De UiTdatabank levert informatie aan meer dan 1.000 online
+                  agenda's, apps en gedrukte bladen.
+                  <MainChannelLink />
+                </Trans>
+              }
               rotateDegree="-5.75deg"
             />
             <USPCard
@@ -357,17 +358,22 @@ const Index = () => {
               }
               quantity="28.000"
               title={t('main.organizers')}
-              text="Jaarlijks promoten 28.000 organisatoren hun activiteiten via UiTdatabank. In totaal bereiken ze."
+              text={t('main.organizers_info')}
               rotateDegree="4.88deg"
             />
           </Inline>
         </Inline>
       </Stack>
 
-      <Inline width="100%" backgroundColor="#EBF7FC" justifyContent="center">
+      <Inline
+        width="100%"
+        backgroundColor={getValueForPage('footer.backgroundColor')}
+        justifyContent="center"
+      >
         <Footer
           isProfileLinkVisible={false}
           onChangeLanguage={handleChangeLanguage}
+          variant={FooterVariants.LOGIN}
           wrapper={(props) => (
             <ResponsiveContainer
               justifyContent={{ default: 'space-between', xs: 'flex-start' }}

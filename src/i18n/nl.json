@@ -687,18 +687,18 @@
     "time_ago": "{{time}} geleden"
   },
   "main": {
-    "activities": "activiteiten per jaar",
-    "activities_info": "Een uitstap, sportactiviteit, kaartavond, kermis of cursus? Een concert, tentoonstelling of film? UiTdatabank staat open voor de meest uiteenlopende vrijetijdsactiviteiten.",
-    "channels": "verschillende kanalen",
-    "channels_info": "UiTdatabank levert informatie aan meer dan <1>{{link}}</1>, waaronder UiTinvlaanderen, websites van steden en gemeenten, thema-agenda's, gedrukte bladen en mobiele apps. Ook jouw activiteit kan verschijnen op vele agenda's.",
-    "channels_info_link_text": "1.000 agenda's",
+    "activities": "Activiteiten per jaar",
+    "activities_info": "De rijkste vrijetijdsdatabank van Vlaanderen staat open voor de meest uiteenlopende activiteiten.",
+    "channels": "Verschillende kanalen",
+    "channels_info": "De UiTdatabank levert informatie aan meer dan 1.000 online <1>{{link}}</1>, apps en gedrukte bladen.",
+    "channels_info_link_text": "agenda's",
     "channels_info_link_url": "https://www.publiq.be/nl/publicatiekanalen",
     "flanders_image": "vlaanderen-logo.svg",
     "lead": "Organiseer je een activiteit?",
     "lead_sub": "Voeg gratis je activiteiten toe en bereik een groter publiek",
     "mission": "Zo geef je meer mensen meer goesting in jouw activiteit.",
-    "organizers": "organisatoren",
-    "organizers_info": "Jaarlijks promoten 28.000 organisatoren hun activiteiten via UiTdatabank. In totaal bereiken ze daarmee jaarlijks meer dan 3 miljoen mensen. Voeg net als andere organisatoren je activiteit snel en eenvoudig toe.",
+    "organizers": "Organisatoren",
+    "organizers_info": "Zo bereiken ze een nieuw en breder publiek, samen jaarlijks meer dan 3 miljoen mensen.",
     "start": "Start hier"
   },
   "menu": {
