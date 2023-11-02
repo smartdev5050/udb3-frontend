@@ -43,9 +43,10 @@ const UrlStep = ({
     { enabled: !!debouncedSearchInput && isValidUrl(debouncedSearchInput) },
   );
 
-  const existingOrganizer: Organizer | undefined =
-    //@ts-expect-error
-    getOrganizersByWebsiteQuery.data?.member?.[0];
+  const existingOrganizers: Organizer[] | undefined =
+    // @ts-expect-error
+    getOrganizersByWebsiteQuery.data?.member;
+  const existingOrganizer = existingOrganizers?.[0];
 
   const isUrlAlreadyTaken = errors.nameAndUrl?.url?.type === 'not_unique';
 
@@ -137,7 +138,7 @@ const UrlStep = ({
                         {t('organizers.create.step1.url_requirements')}
                       </Alert>
                     )}
-                    {getOrganizersByWebsiteQuery.data?.member?.length === 0 && (
+                    {existingOrganizers?.length === 0 && (
                       <Alert variant={AlertVariants.SUCCESS}>
                         {t('organizers.create.step1.errors.url_valid')}
                       </Alert>
