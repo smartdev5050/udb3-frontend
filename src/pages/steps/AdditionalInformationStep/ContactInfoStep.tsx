@@ -147,16 +147,16 @@ const ContactInfoStep = ({
   const handleAddContactInfoMutation = async (
     newContactInfo: NewContactInfo[],
   ) => {
+    const contactPoint = parseNewContactInfo(newContactInfo);
+    if (!offerId) {
+      return onSuccessfulChange(contactPoint);
+    }
+
     await addContactPointMutation.mutateAsync({
       eventId: offerId,
-      contactPoint: parseNewContactInfo(newContactInfo),
+      contactPoint,
       scope,
     });
-  };
-
-  const handleAddOrganizerContactInfo = (newContactInfo: NewContactInfo[]) => {
-    const contactInfo = parseNewContactInfo(newContactInfo);
-    onSuccessfulChange(contactInfo);
   };
 
   const handleChangeValue = async (
@@ -177,11 +177,6 @@ const ContactInfoStep = ({
 
     if (newValue === '') return;
 
-    if (isOrganizer) {
-      handleAddOrganizerContactInfo(newContactInfo);
-      return;
-    }
-
     await handleAddContactInfoMutation(newContactInfo);
   };
 
@@ -196,11 +191,6 @@ const ContactInfoStep = ({
     newContactInfo.splice(index, 1);
 
     setContactInfoState(newContactInfo);
-
-    if (isOrganizer) {
-      handleAddOrganizerContactInfo(newContactInfo);
-      return;
-    }
 
     await handleAddContactInfoMutation(newContactInfo);
   };
@@ -264,13 +254,12 @@ const ContactInfoStep = ({
                 )
               }
             />
-
             <Button
               alignSelf="flex-start"
               onClick={() => handleDeleteContactInfo(index)}
               variant={ButtonVariants.DANGER}
               iconName={Icons.TRASH}
-            ></Button>
+            />
           </Inline>
         );
       })}
