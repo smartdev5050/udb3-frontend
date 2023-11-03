@@ -29,6 +29,7 @@ import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback
 
 import { City, CityPicker } from './CityPicker';
 import { DUTCH_ZIP_REGEX, GERMAN_ZIP_REGEX } from './steps/LocationStep';
+import { ScopeTypes } from '@/constants/OfferType';
 
 const getValue = getValueFromTheme('organizerAddModal');
 
@@ -381,7 +382,7 @@ const OrganizerAddModal = ({
         <Stack spacing={2}>
           <Title size={2}>Contact</Title>
           <ContactInfoStep
-            isOrganizer={true}
+            scope={ScopeTypes.ORGANIZERS}
             onSuccessfulChange={handleSetContactInfo}
             organizerContactInfo={contactInfo}
           />

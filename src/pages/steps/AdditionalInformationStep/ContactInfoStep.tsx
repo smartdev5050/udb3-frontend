@@ -15,6 +15,7 @@ import { isValidInfo } from '@/utils/isValidInfo';
 import { prefixUrlWithHttps } from '@/utils/url';
 
 import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
+import { ScopeTypes } from '@/constants/OfferType';
 
 const ContactInfoTypes = {
   EMAIL: 'email',
@@ -35,7 +36,6 @@ type NewContactInfo = {
 
 type Props = StackProps &
   TabContentProps & {
-    isOrganizer?: boolean;
     organizerContactInfo: ContactInfo;
   };
 
@@ -45,9 +45,9 @@ const ContactInfoStep = ({
   onSuccessfulChange,
   onValidationChange,
   organizerContactInfo,
-  isOrganizer,
   ...props
 }: Props) => {
+  const isOrganizer = scope === ScopeTypes.ORGANIZERS;
   const { t } = useTranslation();
 
   const getEntityByIdQuery = useGetEntityByIdAndScope({ id: offerId, scope });
@@ -286,10 +286,6 @@ const ContactInfoStep = ({
       </Inline>
     </Stack>
   );
-};
-
-ContactInfoStep.defaultProps = {
-  isOrganizer: false,
 };
 
 export { ContactInfoStep };
