@@ -47,7 +47,6 @@ const ContactInfoStep = ({
   organizerContactInfo,
   ...props
 }: Props) => {
-  const isOrganizer = scope === ScopeTypes.ORGANIZERS;
   const { t } = useTranslation();
 
   const getEntityByIdQuery = useGetEntityByIdAndScope({ id: offerId, scope });
@@ -137,7 +136,12 @@ const ContactInfoStep = ({
     const [email, phone, url] = Object.values(ContactInfoTypes).map(
       (infoType) =>
         newContactInfo
-          .filter((info) => info.type === infoType && info.value !== '')
+          .filter(
+            (info) =>
+              info.type === infoType &&
+              info.value !== '' &&
+              isValidInfo(infoType, info.value),
+          )
           .map((info) => info.value),
     );
 
