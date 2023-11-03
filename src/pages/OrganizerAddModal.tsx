@@ -4,6 +4,7 @@ import { Controller, useForm, useWatch } from 'react-hook-form';
 import { Trans, useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
+import { ScopeTypes } from '@/constants/OfferType';
 import { useGetOrganizersByWebsiteQuery } from '@/hooks/api/organizers';
 import { useAutoFocus } from '@/hooks/useAutoFocus';
 import { SupportedLanguage } from '@/i18n/index';
@@ -29,7 +30,6 @@ import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback
 
 import { City, CityPicker } from './CityPicker';
 import { DUTCH_ZIP_REGEX, GERMAN_ZIP_REGEX } from './steps/LocationStep';
-import { ScopeTypes } from '@/constants/OfferType';
 
 const getValue = getValueFromTheme('organizerAddModal');
 

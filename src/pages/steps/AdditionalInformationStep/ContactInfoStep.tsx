@@ -15,7 +15,6 @@ import { isValidInfo } from '@/utils/isValidInfo';
 import { prefixUrlWithHttps } from '@/utils/url';
 
 import { TabContentProps, ValidationStatus } from './AdditionalInformationStep';
-import { ScopeTypes } from '@/constants/OfferType';
 
 const ContactInfoTypes = {
   EMAIL: 'email',
