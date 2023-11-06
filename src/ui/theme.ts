@@ -96,6 +96,18 @@ const theme = {
   components: {
     alert: {
       borderRadius: '8px',
+      backgroundColor: {
+        primary: '#D1DEFA',
+        success: '#F3FCF7',
+        warning: '#FCF0CB',
+        danger: '#FAE5E3',
+      },
+      borderColor: {
+        primary: '#3868EC',
+        success: colors.udbMainPositiveGreen,
+        warning: '#E69336',
+        danger: '#DD5242',
+      },
     },
     toast: {
       zIndex: zIndexToast,
@@ -366,7 +378,7 @@ const theme = {
         borderColor: colors.grey2,
       },
       stepNumber: {
-        backgroundColor: colors.grey5,
+        backgroundColor: colors.udbMainGrey,
       },
       footer: {
         color: colors.textColor,
