@@ -1,6 +1,6 @@
 import type { UseQueryOptions } from 'react-query';
 
-import { OfferTypes } from '@/constants/OfferType';
+import { OfferTypes, ScopeTypes } from '@/constants/OfferType';
 import { useGetEventByIdQuery } from '@/hooks/api/events';
 import { useGetPlaceByIdQuery } from '@/hooks/api/places';
 import { Offer } from '@/types/Offer';
@@ -375,15 +375,31 @@ const updateOfferImage = async ({
   description,
   copyrightHolder,
   scope,
-}) =>
-  fetchFromApi({
+}) => {
+  const isPatch = scope === ScopeTypes.ORGANIZERS;
+  const body = {
+    id: imageId.toString(),
+    description,
+    copyrightHolder,
+  };
+
+  const request = {
     path: `/${scope}/${eventId.toString()}/images/${imageId.toString()}`,
     options: {
       method: 'PUT',
       headers,
-      body: JSON.stringify({ description, copyrightHolder }),
+      body: JSON.stringify(body),
     },
-  });
+  };
+
+  if (isPatch) {
+    request.path = `/${scope}/${eventId.toString()}/images`;
+    request.options.method = 'PATCH';
+    request.options.body = JSON.stringify([body]);
+  }
+
+  return fetchFromApi(request);
+};
 
 const useUpdateOfferImageMutation = (configuration = {}) =>
   useAuthenticatedMutation({
