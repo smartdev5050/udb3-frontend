@@ -8,6 +8,7 @@ import { Text } from './Text';
 import { getGlobalBorderRadius, getValueFromTheme } from './theme';
 
 const getValue = getValueFromTheme('toast');
+const getGlobalValue = getValueFromTheme('global');
 
 const commonCss = css`
   &.toast {
@@ -25,6 +26,8 @@ const commonCss = css`
     z-index: ${getValue('zIndex')};
 
     min-width: ${parseSpacing(8)()};
+
+    box-shadow: ${getGlobalValue('boxShadow.heavy')};
   }
 `;
 

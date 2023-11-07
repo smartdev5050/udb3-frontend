@@ -34,6 +34,7 @@ const ButtonSizes = {
 } as const;
 
 const getValue = getValueFromTheme('button');
+const getGlobalValue = getValueFromTheme('global');
 
 const BaseButton = (props: Omit<InlineProps, 'size'>) => (
   <Inline as="button" {...props} />
@@ -92,7 +93,7 @@ const customCSS = css`
   &.btn-secondary {
     color: ${getValue('secondary.color')};
     background-color: ${getValue('secondary.backgroundColor')};
-    box-shadow: ${getValue('boxShadow.large')};
+    box-shadow: ${getGlobalValue('boxShadow.heavy')};
 
     &.dropdown-toggle.dropdown-toggle-split {
       box-shadow: 4px 4px 6px 0px rgb(210 210 210 / 70%);
@@ -105,7 +106,7 @@ const customCSS = css`
 
     &.btn-secondary:not(:disabled):not(.disabled):focus,
     .btn-secondary:not(:disabled):not(.disabled).focus {
-      box-shadow: ${getValue('boxShadow.large')};
+      box-shadow: ${getGlobalValue('boxShadow.heavy')};
     }
 
     // active
@@ -113,7 +114,7 @@ const customCSS = css`
     .btn-secondary:not(:disabled):not(.disabled).active {
       color: ${getValue('secondary.activeColor')};
       background-color: ${getValue('secondary.activeBackgroundColor')};
-      box-shadow: ${getValue('boxShadow.large')};
+      box-shadow: ${getGlobalValue('boxShadow.heavy')};
       border: none;
     }
 
