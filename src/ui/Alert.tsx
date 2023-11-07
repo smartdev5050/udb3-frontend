@@ -132,6 +132,7 @@ const Alert = ({
   return (
     <Inline
       {...getInlineProps(props)}
+      role="alert"
       alignSelf={fullWidth ? 'normal' : 'flex-start'}
       display={visible ? 'flex' : 'none'}
     >
