@@ -308,8 +308,7 @@ const EventTypeAndThemeStep = ({
                         css={`
                           &.btn {
                             padding: 0.3rem 0.7rem;
-                            box-shadow: ${({ theme }) =>
-                              theme.components.button.boxShadow.small};
+                            box-shadow: ${getGlobalValue('boxShadow.heavy')};
                           }
                         `}
                       >
@@ -377,8 +376,7 @@ const EventTypeAndThemeStep = ({
                         css={`
                           &.btn {
                             padding: 0.3rem 0.7rem;
-                            box-shadow: ${({ theme }) =>
-                              theme.components.button.boxShadow.small};
+                            box-shadow: ${getGlobalValue('boxShadow.heavy')};
                           }
                         `}
                       >
@@ -416,9 +414,9 @@ const EventTypeAndThemeStep = ({
                             css={`
                               &.btn {
                                 padding: 0.3rem 0.7rem;
-                                box-shadow: ${({ theme }) =>
-                                  theme.components.button.boxShadow.small};
-                              }
+                                box-shadow: ${getGlobalValue(
+                                  'boxShadow.heavy',
+                                )};
                             `}
                           >
                             {name[i18n.language]}

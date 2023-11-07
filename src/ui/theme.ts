@@ -160,7 +160,7 @@ const theme = {
       primary: {
         backgroundColor: colors.udbMainDarkBlue,
         borderColor: '#00417b',
-        hoverBackgroundColor: '#007097',
+        hoverBackgroundColor: '#005C7C',
         hoverBorderColor: '#00213d',
         activeBackgroundColor: '#003461',
         activeBorderColor: '#00213d',
@@ -168,7 +168,7 @@ const theme = {
       secondary: {
         color: '#333',
         backgroundColor: colors.white,
-        hoverBackgroundColor: '#005C7C',
+        hoverBackgroundColor: '#e6e6e6',
         hoverBorderColor: '#adadad',
         activeColor: '#333',
         activeBackgroundColor: '#e6e6e6',
@@ -209,6 +209,9 @@ const theme = {
     global: {
       successColor: colors.udbMainPositiveGreen,
       warningIcon: colors.orange1,
+      boxShadow: {
+        heavy: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+      },
     },
     pagination: {
       color: colors.textColor,
