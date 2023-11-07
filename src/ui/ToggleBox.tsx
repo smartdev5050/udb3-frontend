@@ -101,18 +101,24 @@ const ToggleBox = ({
 
         &:hover {
           .success-icon-wrapper {
-            border-color: ${getValue('hoverBorderColor')};
+            border-color: ${disabled && !active
+              ? getValue('borderColor')
+              : getValue('hoverBorderColor')};
           }
-          border-color: ${disabled
-            ? 'transparent'
+          border-color: ${disabled && !active
+            ? getValue('borderColor')
             : getValue('hoverBorderColor')};
 
           svg path.icon-hover-color-stroke {
-            stroke: ${getValue('activeBorderColor')};
+            stroke: ${disabled && !active
+              ? getValue('borderColor')
+              : getValue('activeBorderColor')};
           }
 
           svg path.icon-hover-color-fill {
-            fill: ${getValue('activeBorderColor')};
+            fill: ${disabled && !active
+              ? getValue('borderColor')
+              : getValue('activeBorderColor')};
           }
         }
       `}
