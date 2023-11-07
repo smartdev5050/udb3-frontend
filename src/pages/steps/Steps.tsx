@@ -64,7 +64,7 @@ type NumberIndicatorProps = {
 const NumberIndicator = ({ children, ...props }: NumberIndicatorProps) => {
   return (
     <Box
-      borderRadius="50%"
+      borderRadius={getGlobalBorderRadius}
       width="1.8rem"
       minWidth="1.8rem"
       height="1.8rem"
@@ -96,7 +96,8 @@ const StepWrapper = ({
 }: StepWrapperProps) => {
   return (
     <Stack
-      padding={5}
+      paddingX={5}
+      paddingY={4.5}
       borderRadius={getGlobalBorderRadius}
       backgroundColor="white"
       css={`
@@ -105,17 +106,9 @@ const StepWrapper = ({
       spacing={4}
       {...getStackProps(props)}
     >
-      <Title
-        color={getValue('title.color')}
-        lineHeight="220%"
-        alignItems="center"
-        spacing={3}
-        css={`
-          border-bottom: 1px solid ${getValue('title.borderColor')};
-        `}
-      >
+      <Title color={getValue('title.color')} alignItems="center" spacing={3}>
         <NumberIndicator>{stepNumber}</NumberIndicator>
-        <Text>{title}</Text>
+        <Text lineHeight="1rem">{title}</Text>
       </Title>
       {children}
     </Stack>
