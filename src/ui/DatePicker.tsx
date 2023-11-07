@@ -155,7 +155,7 @@ const DatePicker = ({
         }
 
         .react-datepicker__day--selected {
-          background-color: ${({ theme }) => theme.colors.udbBlue};
+          background-color: ${({ theme }) => theme.colors.udbMainDarkBlue};
           border-radius: 10px;
         }
 
