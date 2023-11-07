@@ -42,6 +42,8 @@ const colors = {
   blue3: '#3e88ab',
   orange1: '#F19E49',
   textColor: '#222',
+  warning: '#E69336',
+  danger: '#DD5242',
 } as const;
 
 const Breakpoints = {
@@ -105,8 +107,8 @@ const theme = {
       borderColor: {
         primary: '#3868EC',
         success: colors.udbMainPositiveGreen,
-        warning: '#E69336',
-        danger: '#DD5242',
+        warning: colors.warning,
+        danger: colors.danger,
       },
     },
     toast: {
