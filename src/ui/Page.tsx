@@ -49,9 +49,6 @@ const Page = ({ children: rawChildren, className, ...props }: Props) => {
         <Inline
           forwardedAs="div"
           alignItems="baseline"
-          css={`
-            border-bottom: 1px solid ${getValueForTitle('borderColor')};
-          `}
           spacing={3}
           paddingX={4}
         >
@@ -75,7 +72,12 @@ const PageTitle = ({ children, className, ...props }: TitleProps) => (
     className={className}
     color={getValueForTitle('color')}
     lineHeight="220%"
+    paddingY={3}
+    width="100%"
     {...getBoxProps(props)}
+    css={`
+      border-bottom: 1px solid ${getValueForTitle('borderColor')};
+    `}
   >
     {children}
   </Title>
