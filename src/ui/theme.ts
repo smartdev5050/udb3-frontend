@@ -456,6 +456,9 @@ const theme = {
     offerScore: {
       link: colors.textColor,
     },
+    richTextEditor: {
+      borderColor: colors.grey1,
+    },
   },
 } as const;
 
