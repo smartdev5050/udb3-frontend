@@ -24,6 +24,7 @@ import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { getGlobalBorderRadius } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
+import { getUniqueLabels } from '@/utils/getUniqueLabels';
 
 type LabelsStepProps = StackProps & TabContentProps;
 
@@ -50,7 +51,7 @@ function LabelsStep({
   });
 
   const options = labelsQuery.data?.member ?? [];
-  const [labels, setLabels] = useState<string[]>(entity?.labels ?? []);
+  const [labels, setLabels] = useState<string[]>(getUniqueLabels(entity) ?? []);
   const addLabelMutation = useAddOfferLabelMutation();
   const removeLabelMutation = useRemoveOfferLabelMutation();
 
@@ -108,7 +109,6 @@ function LabelsStep({
                 setLabels(uniq([...labels, label]));
                 ref.current.clear();
               }}
-              customFilter={() => true}
             />
           }
           maxWidth={'100%'}

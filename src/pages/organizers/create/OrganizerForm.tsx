@@ -27,6 +27,7 @@ import { Page } from '@/ui/Page';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
+import { getUniqueLabels } from '@/utils/getUniqueLabels';
 
 import { NameAndUrlStep } from './steps/NameAndUrlStep';
 
@@ -110,13 +111,7 @@ const OrganizerForm = () => {
 
   // @ts-expect-error
   const organizer = getOrganizerByIdQuery?.data;
-
-  const organizerLabelsSet = new Set([
-    ...(organizer?.labels ?? []),
-    ...(organizer?.hiddenLabels ?? []),
-  ]);
-
-  const organizerLabels = [...organizerLabelsSet];
+  const organizerLabels = getUniqueLabels(organizer);
 
   const createOrganizerMutation = useCreateOrganizerMutation();
   const updateOrganizerMutation = useUpdateOrganizerMutation();

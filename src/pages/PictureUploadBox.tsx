@@ -1,6 +1,5 @@
 import { DragEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { css } from 'styled-components';
 
 import { Scope, ScopeTypes } from '@/constants/OfferType';
 import { Button, ButtonVariants } from '@/ui/Button';

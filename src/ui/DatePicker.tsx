@@ -25,7 +25,7 @@ registerLocale('de', de);
 
 const getValue = getValueFromTheme('datePicker');
 
-type Props = Omit<BoxProps, 'onChange'> & {
+type Props = Omit<BoxProps, 'selected' | 'onChange'> & {
   id: string;
   selected?: Date;
   minDate?: Date;

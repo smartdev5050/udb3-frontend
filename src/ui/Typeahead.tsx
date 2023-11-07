@@ -1,13 +1,15 @@
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 
-import type { ForwardedRef, ReactElement } from 'react';
+import type { ForwardedRef } from 'react';
 import { forwardRef } from 'react';
+import type { TypeaheadModel } from 'react-bootstrap-typeahead';
 import { AsyncTypeahead as BootstrapTypeahead } from 'react-bootstrap-typeahead';
 import { useTranslation } from 'react-i18next';
 
+import { InputType } from '@/ui/Input';
+
 import type { BoxProps } from './Box';
 import { Box, getBoxProps } from './Box';
-import { InputType } from './Input';
 import {
   getGlobalBorderRadius,
   getGlobalFormInputHeight,
@@ -26,185 +28,143 @@ const isNewEntry = (value: any): value is NewEntry => {
   return !!value?.customOption;
 };
 
-type TypeaheadProps<T> = {
-  id?: string;
-  name?: string;
-  options: T[];
-  labelKey: ((option: T) => string) | string;
-  renderMenuItemChildren?: (option: T, { text }) => JSX.Element;
-  disabled?: boolean;
-  placeholder?: string;
-  emptyLabel?: string;
-  minLength?: number;
+type Props<T extends TypeaheadModel> = BoxProps<T> & {
+  isInvalid?: boolean;
   inputType?: InputType;
   inputRequired?: boolean;
-  customFilter?: (option: T, props?: Record<string, any>) => boolean;
-  onChange?: (value: (T | NewEntry)[]) => void;
-  defaultInputValue?: string;
-  allowNew?:
-    | boolean
-    | ((
-        results: Array<Record<string, unknown> | string>,
-        props: Record<string, unknown>,
-      ) => boolean);
   hideNewInputText?: boolean;
-  newSelectionPrefix?: string;
-  selected?: T[];
-  positionFixed?: boolean;
 };
 
-type Props<T> = Omit<BoxProps, 'onChange' | 'id' | 'labelKey' | 'options'> &
-  TypeaheadProps<T> & { isInvalid?: boolean };
+const TypeaheadInner = <T extends TypeaheadModel>(
+  {
+    id,
+    name,
+    inputType = 'text',
+    inputRequired,
+    options,
+    labelKey,
+    renderMenuItemChildren,
+    disabled = false,
+    placeholder,
+    emptyLabel,
+    minLength = 3,
+    className,
+    onInputChange,
+    defaultInputValue,
+    onBlur,
+    onFocus,
+    onSearch = async () => {},
+    onChange,
+    isInvalid,
+    selected,
+    allowNew,
+    filterBy,
+    hideNewInputText,
+    newSelectionPrefix,
+    positionFixed,
+    isLoading,
+    ...props
+  }: Props<T>,
+  ref: ForwardedRef<HTMLInputElement>,
+) => {
+  const { t } = useTranslation();
 
-type TypeaheadFunc = (<T>(
-  props: Props<T> & { ref?: ForwardedRef<HTMLInputElement> },
-) => ReactElement) & {
-  displayName?: string;
-  defaultProps?: { [key: string]: unknown };
-};
+  return (
+    <Box
+      forwardedAs={BootstrapTypeahead}
+      id={id}
+      name={name}
+      allowNew={allowNew && !isLoading}
+      newSelectionPrefix={newSelectionPrefix}
+      options={options}
+      labelKey={labelKey}
+      renderMenuItemChildren={renderMenuItemChildren}
+      isLoading={isLoading}
+      disabled={disabled}
+      className={className}
+      flex={1}
+      ref={ref}
+      css={`
+        input[type='time']::-webkit-calendar-picker-indicator {
+          display: none;
+        }
 
-const Typeahead: TypeaheadFunc = forwardRef(
-  <T,>(
-    {
-      id,
-      name,
-      inputType,
-      inputRequired,
-      options,
-      labelKey,
-      renderMenuItemChildren,
-      disabled,
-      placeholder,
-      emptyLabel,
-      minLength,
-      className,
-      onInputChange,
-      defaultInputValue,
-      onBlur,
-      onFocus,
-      onSearch,
-      onChange,
-      isInvalid,
-      selected,
-      allowNew,
-      customFilter,
-      hideNewInputText,
-      newSelectionPrefix,
-      positionFixed,
-      isLoading,
-      ...props
-    }: Props<T>,
-    ref: ForwardedRef<HTMLInputElement>,
-  ) => {
-    const { t } = useTranslation();
+        .form-control {
+          border-radius: ${getGlobalBorderRadius};
+          height: ${getGlobalFormInputHeight};
+          padding: 0.375rem 0.9rem;
+        }
 
-    return (
-      <Box
-        forwardedAs={BootstrapTypeahead}
-        id={id}
-        name={name}
-        allowNew={allowNew && !isLoading}
-        newSelectionPrefix={newSelectionPrefix}
-        options={options}
-        labelKey={labelKey}
-        renderMenuItemChildren={renderMenuItemChildren}
-        isLoading={isLoading}
-        disabled={disabled}
-        className={className}
-        flex={1}
-        ref={ref}
-        css={`
-          input[type='time']::-webkit-calendar-picker-indicator {
-            display: none;
-          }
+        .dropdown-item {
+          border-bottom: 1px solid ${({ theme }) => theme.colors.grey1};
+        }
 
-          .form-control {
-            border-radius: ${getGlobalBorderRadius};
-            height: ${getGlobalFormInputHeight};
-            padding: 0.375rem 0.9rem;
-          }
+        .dropdown-item > .rbt-highlight-text {
+          display: initial;
+        }
 
-          .dropdown-item {
-            border-bottom: 1px solid ${({ theme }) => theme.colors.grey1};
-          }
+        .rbt-menu-custom-option {
+          padding: 1rem 1.5rem;
+        }
 
-          .dropdown-item > .rbt-highlight-text {
-            display: initial;
-          }
+        .dropdown-item.rbt-menu-custom-option > .rbt-highlight-text {
+          display: ${hideNewInputText ? 'none' : 'initial'};
+        }
 
-          .rbt-menu-custom-option {
-            padding: 1rem 1.5rem;
-          }
-
-          .dropdown-item.rbt-menu-custom-option > .rbt-highlight-text {
-            display: ${hideNewInputText ? 'none' : 'initial'};
-          }
-
-          .dropdown-item.active,
-          .dropdown-item:active {
-            color: ${getValue('active.color')};
-            background-color: ${getValue('active.backgroundColor')};
-
-            .rbt-highlight-text {
-              color: ${getValue('active.color')};
-            }
-          }
-
-          .dropdown-item.hover,
-          .dropdown-item:hover {
-            color: ${getValue('hover.color')};
-            background-color: ${getValue('hover.backgroundColor')};
-
-            .rbt-highlight-text {
-              color: ${getValue('hover.color')};
-            }
-          }
+        .dropdown-item.active,
+        .dropdown-item:active {
+          color: ${getValue('active.color')};
+          background-color: ${getValue('active.backgroundColor')};
 
           .rbt-highlight-text {
-            font-weight: ${getValue('highlight.fontWeight')};
-            background-color: ${getValue('highlight.backgroundColor')};
+            color: ${getValue('active.color')};
           }
-        `}
-        onSearch={onSearch}
-        onInputChange={onInputChange}
-        onChange={onChange}
-        placeholder={placeholder}
-        emptyLabel={emptyLabel ?? t('typeahead.no_results')}
-        searchText={t('typeahead.search_text')}
-        minLength={minLength}
-        delay={275}
-        highlightOnlyResult={!allowNew}
-        isInvalid={isInvalid}
-        selected={selected}
-        defaultInputValue={defaultInputValue}
-        onBlur={onBlur}
-        onFocus={onFocus}
-        positionFixed={positionFixed}
-        inputProps={{
-          id,
-          type: inputType,
-          required: inputRequired,
-        }}
-        {...(customFilter && { filterBy: customFilter })}
-        {...getBoxProps(props)}
-      />
-    );
-  },
-);
+        }
 
-Typeahead.displayName = 'Typeahead';
+        .dropdown-item.hover,
+        .dropdown-item:hover {
+          color: ${getValue('hover.color')};
+          background-color: ${getValue('hover.backgroundColor')};
 
-const typeaheadDefaultProps = {
-  labelKey: (item) => item,
-  onSearch: async () => {},
-  disabled: false,
-  minLength: 3,
-  inputType: 'text',
+          .rbt-highlight-text {
+            color: ${getValue('hover.color')};
+          }
+        }
+
+        .rbt-highlight-text {
+          font-weight: ${getValue('highlight.fontWeight')};
+          background-color: ${getValue('highlight.backgroundColor')};
+        }
+      `}
+      onSearch={onSearch}
+      onInputChange={onInputChange}
+      onChange={onChange}
+      placeholder={placeholder}
+      emptyLabel={emptyLabel ?? t('typeahead.no_results')}
+      searchText={t('typeahead.search_text')}
+      minLength={minLength}
+      delay={275}
+      highlightOnlyResult={!allowNew}
+      isInvalid={isInvalid}
+      selected={selected}
+      defaultInputValue={defaultInputValue}
+      onBlur={onBlur}
+      onFocus={onFocus}
+      positionFixed={positionFixed}
+      inputProps={{
+        id,
+        type: inputType,
+        required: inputRequired,
+      }}
+      filterBy={filterBy ?? (() => true)}
+      {...getBoxProps(props)}
+    />
+  );
 };
 
-Typeahead.defaultProps = {
-  ...typeaheadDefaultProps,
-};
+const Typeahead = forwardRef(TypeaheadInner) as <T extends TypeaheadModel>(
+  props: Props<T> & { ref?: ForwardedRef<HTMLInputElement> },
+) => ReturnType<typeof TypeaheadInner<T>>;
 
-export type { NewEntry, TypeaheadProps };
-export { isNewEntry, Typeahead, typeaheadDefaultProps };
+export type { NewEntry };
+export { isNewEntry, Typeahead };

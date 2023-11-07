@@ -163,15 +163,21 @@ const GlobalStyle = createGlobalStyle`
   .rdw-editor-toolbar {
     border-width: 0 0 1px;
     background-color: hsl(0, 0%, 98%);
+    margin-bottom: 0;
   }
-  
+
   .rdw-editor-main {
     padding: 10px;
+    padding-top: 0;
   }
 
   .rdw-option-wrapper {
     border-radius: 8px;
     padding: 1rem 0.8rem;
+  }
+
+  .public-DraftStyleDefault-block {
+    margin: 0.5em 0;
   }
 `;
 

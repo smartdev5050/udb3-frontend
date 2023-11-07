@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useState } from 'react';
-import { Controller, useWatch } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import { Trans, useTranslation } from 'react-i18next';
 
 import { useGetOrganizersByWebsiteQuery } from '@/hooks/api/organizers';
@@ -34,12 +34,6 @@ const UrlStep = ({
   const { t, i18n } = useTranslation();
 
   const [searchInput, setSearchInput] = useState('');
-
-  const [watchedUrl] = useWatch({
-    control,
-    name: ['nameAndUrl.url'],
-  });
-
   const debouncedSearchInput = useDebounce(searchInput, 275);
 
   const getOrganizersByWebsiteQuery = useGetOrganizersByWebsiteQuery(
@@ -49,9 +43,10 @@ const UrlStep = ({
     { enabled: !!debouncedSearchInput && isValidUrl(debouncedSearchInput) },
   );
 
-  const existingOrganizer: Organizer | undefined =
-    //@ts-expect-error
-    getOrganizersByWebsiteQuery.data?.member?.[0];
+  const existingOrganizers: Organizer[] | undefined =
+    // @ts-expect-error
+    getOrganizersByWebsiteQuery.data?.member;
+  const existingOrganizer = existingOrganizers?.[0];
 
   const isUrlAlreadyTaken = errors.nameAndUrl?.url?.type === 'not_unique';
 
@@ -87,6 +82,9 @@ const UrlStep = ({
         name={name}
         control={control}
         render={({ field }) => {
+          const isUrlInvalid =
+            errors.nameAndUrl && errors.nameAndUrl?.url?.type !== 'not_unique';
+
           return (
             <Stack spacing={2}>
               <FormElement
@@ -106,40 +104,49 @@ const UrlStep = ({
                     }}
                     onBlur={(event: FormEvent<HTMLInputElement>) => {
                       const newValue = (event.target as HTMLInputElement).value;
+                      const prefixedValue = prefixUrlWithHttps(newValue);
+                      setSearchInput(prefixedValue);
                       field.onChange({
                         ...field.value,
-                        url: prefixUrlWithHttps(newValue),
+                        url: prefixedValue,
                       });
                       onChange({
                         ...field.value,
-                        url: prefixUrlWithHttps(newValue),
+                        url: prefixedValue,
                       });
                     }}
                   />
                 }
                 info={
-                  isDirty && isUrlAlreadyTaken && existingOrganizer ? (
-                    <Alert variant={AlertVariants.WARNING}>
-                      <Trans
-                        i18nKey={`organizers.create.step1.errors.url_not_unique`}
-                        values={{
-                          organizerName: getLanguageObjectOrFallback(
-                            existingOrganizer?.name,
-                            i18n.language as SupportedLanguage,
-                            existingOrganizer.mainLanguage as SupportedLanguage,
-                          ),
-                        }}
-                      />
-                    </Alert>
-                  ) : (
-                    <Alert variant={AlertVariants.PRIMARY}>
-                      {t('organizers.create.step1.url_requirements')}
-                    </Alert>
-                  )
+                  <>
+                    {searchInput && isUrlAlreadyTaken && existingOrganizer && (
+                      <Alert variant={AlertVariants.WARNING}>
+                        <Trans
+                          i18nKey={`organizers.create.step1.errors.url_not_unique`}
+                          values={{
+                            organizerName: getLanguageObjectOrFallback(
+                              existingOrganizer?.name,
+                              i18n.language as SupportedLanguage,
+                              existingOrganizer.mainLanguage as SupportedLanguage,
+                            ),
+                          }}
+                        />
+                      </Alert>
+                    )}
+                    {(!searchInput || isUrlInvalid) && (
+                      <Alert variant={AlertVariants.PRIMARY}>
+                        {t('organizers.create.step1.url_requirements')}
+                      </Alert>
+                    )}
+                    {existingOrganizers?.length === 0 && (
+                      <Alert variant={AlertVariants.SUCCESS}>
+                        {t('organizers.create.step1.errors.url_valid')}
+                      </Alert>
+                    )}
+                  </>
                 }
                 error={
-                  errors.nameAndUrl &&
-                  errors.nameAndUrl?.url?.type !== 'not_unique' &&
+                  isUrlInvalid &&
                   t(
                     `organizers.create.step1.errors.url_${errors.nameAndUrl?.url.type}`,
                   )

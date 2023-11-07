@@ -1,5 +1,4 @@
 import jwt_decode from 'jwt-decode';
-import getConfig from 'next/config';
 
 import { FetchError, fetchFromApi, isErrorObject } from '@/utils/fetchFromApi';
 

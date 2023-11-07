@@ -35,7 +35,6 @@ type NewContactInfo = {
 
 type Props = StackProps &
   TabContentProps & {
-    isOrganizer?: boolean;
     organizerContactInfo: ContactInfo;
   };
 
@@ -45,7 +44,6 @@ const ContactInfoStep = ({
   onSuccessfulChange,
   onValidationChange,
   organizerContactInfo,
-  isOrganizer,
   ...props
 }: Props) => {
   const { t } = useTranslation();
@@ -137,7 +135,12 @@ const ContactInfoStep = ({
     const [email, phone, url] = Object.values(ContactInfoTypes).map(
       (infoType) =>
         newContactInfo
-          .filter((info) => info.type === infoType && info.value !== '')
+          .filter(
+            (info) =>
+              info.type === infoType &&
+              info.value !== '' &&
+              isValidInfo(infoType, info.value),
+          )
           .map((info) => info.value),
     );
 
@@ -147,16 +150,16 @@ const ContactInfoStep = ({
   const handleAddContactInfoMutation = async (
     newContactInfo: NewContactInfo[],
   ) => {
+    const contactPoint = parseNewContactInfo(newContactInfo);
+    if (!offerId) {
+      return onSuccessfulChange(contactPoint);
+    }
+
     await addContactPointMutation.mutateAsync({
       eventId: offerId,
-      contactPoint: parseNewContactInfo(newContactInfo),
+      contactPoint,
       scope,
     });
-  };
-
-  const handleAddOrganizerContactInfo = (newContactInfo: NewContactInfo[]) => {
-    const contactInfo = parseNewContactInfo(newContactInfo);
-    onSuccessfulChange(contactInfo);
   };
 
   const handleChangeValue = async (
@@ -177,11 +180,6 @@ const ContactInfoStep = ({
 
     if (newValue === '') return;
 
-    if (isOrganizer) {
-      handleAddOrganizerContactInfo(newContactInfo);
-      return;
-    }
-
     await handleAddContactInfoMutation(newContactInfo);
   };
 
@@ -196,11 +194,6 @@ const ContactInfoStep = ({
     newContactInfo.splice(index, 1);
 
     setContactInfoState(newContactInfo);
-
-    if (isOrganizer) {
-      handleAddOrganizerContactInfo(newContactInfo);
-      return;
-    }
 
     await handleAddContactInfoMutation(newContactInfo);
   };
@@ -264,13 +257,12 @@ const ContactInfoStep = ({
                 )
               }
             />
-
             <Button
               alignSelf="flex-start"
               onClick={() => handleDeleteContactInfo(index)}
               variant={ButtonVariants.DANGER}
               iconName={Icons.TRASH}
-            ></Button>
+            />
           </Inline>
         );
       })}
@@ -286,10 +278,6 @@ const ContactInfoStep = ({
       </Inline>
     </Stack>
   );
-};
-
-ContactInfoStep.defaultProps = {
-  isOrganizer: false,
 };
 
 export { ContactInfoStep };

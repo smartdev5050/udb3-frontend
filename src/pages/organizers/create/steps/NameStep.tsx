@@ -1,4 +1,4 @@
-import { FormEvent } from 'react';
+import { FocusEvent } from 'react';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
@@ -18,7 +18,7 @@ const NameStep = ({
   name,
   ...props
 }: NameStepProps) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <Stack {...getStackProps(props)}>
@@ -41,7 +41,7 @@ const NameStep = ({
                         name: (event.target as HTMLInputElement).value,
                       });
                     }}
-                    onBlur={(event: FormEvent<HTMLInputElement>) => {
+                    onBlur={(event: FocusEvent<HTMLInputElement>) => {
                       field.onChange({
                         ...field.value,
                         name: (event.target as HTMLInputElement).value,

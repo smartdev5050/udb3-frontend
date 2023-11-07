@@ -1,6 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ChangeEvent } from 'react';
-import { useEffect } from 'react';
+import { ChangeEvent, useEffect } from 'react';
 import { useFieldArray, useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';

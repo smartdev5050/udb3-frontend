@@ -70,11 +70,7 @@ const OrganizerStep = ({
       isUitpasOrganizer: hasUitpasLabel && hasPriceInfo,
     },
     {
-      onSuccess: (data) => {
-        // @ts-expect-error
-        if (!getCardSystemForEventQuery.dataUpdatedAt)
-          setSelectedCardSystems(Object.values(data));
-      },
+      onSuccess: (data) => setSelectedCardSystems(Object.values(data)),
     },
   );
 

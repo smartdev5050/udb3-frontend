@@ -1,7 +1,6 @@
-import type { ChangeEvent } from 'react';
+import type { ChangeEvent, HTMLProps } from 'react';
 import { forwardRef } from 'react';
 import { Form } from 'react-bootstrap';
-import { css } from 'styled-components';
 
 import type { BoxProps } from './Box';
 import { Box, getBoxProps } from './Box';
@@ -38,19 +37,12 @@ type InputType =
   | 'url'
   | 'week';
 
-type InputProps = {
-  type?: InputType;
-  id?: string;
-  placeholder?: string;
+type InputProps = HTMLProps<HTMLInputElement> & {
   value?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-  name?: string;
-  isInvalid?: boolean;
-  accept?: string;
-  disabled?: boolean;
 };
 
-type Props = Omit<BoxProps, 'onChange'> & InputProps;
+type Props = Omit<BoxProps, 'onChange' | 'onBlur'> & InputProps;
 
 const Input = forwardRef(
   (

@@ -4,6 +4,7 @@ import { Controller, useForm, useWatch } from 'react-hook-form';
 import { Trans, useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
+import { ScopeTypes } from '@/constants/OfferType';
 import { useGetOrganizersByWebsiteQuery } from '@/hooks/api/organizers';
 import { useAutoFocus } from '@/hooks/useAutoFocus';
 import { SupportedLanguage } from '@/i18n/index';
@@ -381,7 +382,7 @@ const OrganizerAddModal = ({
         <Stack spacing={2}>
           <Title size={2}>Contact</Title>
           <ContactInfoStep
-            isOrganizer={true}
+            scope={ScopeTypes.ORGANIZERS}
             onSuccessfulChange={handleSetContactInfo}
             organizerContactInfo={contactInfo}
           />

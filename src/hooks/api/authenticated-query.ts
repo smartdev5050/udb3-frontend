@@ -7,10 +7,12 @@ import { Cookies } from 'react-cookie';
 import {
   MutationFunction,
   QueryClient,
+  useMutation,
+  useQueries,
+  useQuery,
   useQueryClient,
   UseQueryResult,
 } from 'react-query';
-import { useMutation, useQueries, useQuery } from 'react-query';
 
 import { useCookiesWithOptions } from '@/hooks/useCookiesWithOptions';
 import type { CalendarSummaryFormat } from '@/utils/createEmbededCalendarSummaries';
@@ -170,6 +172,10 @@ const isDuplicateMutation = (
   // Temporary disable caching on price-info
   // https://jira.uitdatabank.be/browse/III-5620
   if (mutationKey === 'offers-add-price-info') {
+    return false;
+  }
+
+  if (mutationKey === 'offers-change-calendar') {
     return false;
   }
 

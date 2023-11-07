@@ -5,13 +5,12 @@ import { QueryClient } from 'react-query';
 import { generatePath, matchPath } from 'react-router';
 import UniversalCookies from 'universal-cookie';
 
-import { useGetUserQuery, useGetUserQueryServerSide } from '@/hooks/api/user';
+import { useGetUserQueryServerSide } from '@/hooks/api/user';
 import { defaultCookieOptions } from '@/hooks/useCookiesWithOptions';
 import { isFeatureFlagEnabledInCookies } from '@/hooks/useFeatureFlag';
 
 import { getRedirects } from '../redirects';
 import { FetchError } from './fetchFromApi';
-import { isTokenValid } from './isTokenValid';
 
 class Cookies extends UniversalCookies {
   toString() {

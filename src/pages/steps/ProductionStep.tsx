@@ -8,11 +8,11 @@ import {
   useChangeNameMutation,
   useGetEventByIdQuery,
 } from '@/hooks/api/events';
-import { useGetProductionsQuery } from '@/hooks/api/productions';
 import {
   useAddEventByIdMutation as useAddEventToProductionByIdMutation,
   useCreateWithEventsMutation as useCreateProductionWithEventsMutation,
   useDeleteEventByIdMutation as useDeleteEventFromProductionByIdMutation,
+  useGetProductionsQuery,
 } from '@/hooks/api/productions';
 import type {
   FormDataUnion,

@@ -7,12 +7,7 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { EventTypes } from '@/constants/EventTypes';
-import {
-  OfferType,
-  OfferTypes,
-  Scope,
-  ScopeTypes,
-} from '@/constants/OfferType';
+import { OfferTypes, Scope, ScopeTypes } from '@/constants/OfferType';
 import {
   useChangeAttendanceModeMutation,
   useChangeAudienceMutation,

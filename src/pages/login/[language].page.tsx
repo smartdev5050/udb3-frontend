@@ -75,18 +75,6 @@ const OvalSvg = ({ ...props }: StackProps) => {
           </linearGradient>
         </defs>
       </svg>
-
-      {/* <svg
-        width="100%"
-        viewBox="0 0 1440 643"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M1835 -49C1835 333.181 1335.57 643 719.5 643C103.426 643 -396 333.181 -396 -49C-396 -431.181 103.426 -741 719.5 -741C1335.57 -741 1835 -431.181 1835 -49Z"
-          fill="#F3FBFF"
-        />
-      </svg> */}
     </Stack>
   );
 };

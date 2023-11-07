@@ -1,4 +1,4 @@
-import type { ReactNode, SyntheticEvent } from 'react';
+import type { ReactNode } from 'react';
 import { Children } from 'react';
 import {
   Tab as BootstrapTab,
