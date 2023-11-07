@@ -22,11 +22,9 @@ test('create an event with location in consultation with the school', async ({
 
   // check for primary alert with info about cultuurkuur
   await expect(
-    page
-      .locator('.alert-primary')
-      .getByText(
-        'Evenementen waarvan de locatie in overleg wordt bepaald, verschijnen op cultuurkuur.be',
-      ),
+    page.getByText(
+      'Evenementen waarvan de locatie in overleg wordt bepaald, verschijnen op cultuurkuur.be',
+    ),
   ).toBeVisible();
 
   // 5. Name and Age

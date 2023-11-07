@@ -78,10 +78,7 @@ test('create event with all possible fields filled in', async ({
     .getByRole('textbox', { name: 'rdw-editor' })
     .fill(dummyEvent.description);
 
-  await page
-    .locator('.alert-primary')
-    .getByText('Geef een enthousiaste')
-    .click();
+  await page.getByText('Geef een enthousiaste').click();
 
   await expect(
     page.getByRole('tab', { name: 'Beschrijving' }).locator('.fa-check-circle'),

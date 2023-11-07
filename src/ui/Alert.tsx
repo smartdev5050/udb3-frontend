@@ -126,7 +126,6 @@ const Alert = ({
   variant,
   visible,
   children,
-  className,
   fullWidth,
   ...props
 }: AlertProps) => {
@@ -140,7 +139,6 @@ const Alert = ({
         padding={4}
         borderRadius={getValue('borderRadius')}
         variant={variant}
-        className={className}
         backgroundColor={getValue(`backgroundColor.${variant}`)}
         css={`
           position: relative;
