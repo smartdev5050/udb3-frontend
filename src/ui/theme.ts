@@ -168,7 +168,7 @@ const theme = {
       secondary: {
         color: '#333',
         backgroundColor: colors.white,
-        hoverBackgroundColor: '#e6e6e6',
+        hoverBackgroundColor: '#005C7C',
         hoverBorderColor: '#adadad',
         activeColor: '#333',
         activeBackgroundColor: '#e6e6e6',
@@ -187,16 +187,16 @@ const theme = {
       success: {
         color: colors.white,
         borderColor: colors.green2,
-        hoverBackgroundColor: colors.green2,
+        hoverBackgroundColor: '#4E8E3E',
         hoverBorderColor: colors.green3,
-        backgroundColor: colors.green1,
+        backgroundColor: colors.udbMainPositiveGreen,
       },
       danger: {
         color: colors.white,
         borderColor: colors.red3,
-        hoverBackgroundColor: colors.red3,
+        hoverBackgroundColor: '#9A2700',
         hoverBorderColor: colors.red4,
-        backgroundColor: colors.red1,
+        backgroundColor: '#DD5242',
       },
     },
     card: {
