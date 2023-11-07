@@ -7,6 +7,7 @@ const colors = {
   udbRed: '#c0120c',
   udbMainBlue: '#009FDF',
   udbMainDarkBlue: '#0083B8',
+  udbMainDarkestBlue: '#005C7C',
   udbMainMediumBlue: '#DFF8FF',
   udbMainLightBlue: '#F8FDFF',
   udbMainGrey: '#6A777B',
@@ -145,7 +146,7 @@ const theme = {
       zIndexPopup: zIndexTimePickerPopup,
     },
     link: {
-      color: '#005C7C',
+      color: colors.udbMainDarkestBlue,
       hoverColor: colors.udbMainBlue,
     },
     badge: {
@@ -163,7 +164,7 @@ const theme = {
       primary: {
         backgroundColor: colors.udbMainDarkBlue,
         borderColor: '#00417b',
-        hoverBackgroundColor: '#005C7C',
+        hoverBackgroundColor: colors.udbMainDarkestBlue,
         hoverBorderColor: '#00213d',
         activeBackgroundColor: '#003461',
         activeBorderColor: '#00213d',
@@ -218,10 +219,11 @@ const theme = {
     },
     pagination: {
       color: colors.textColor,
-      activeBackgroundColor: colors.udbMainBlue,
-      activeBorderColor: colors.grey2,
+      activeBackgroundColor: colors.udbMainDarkBlue,
+      activeBorderColor: colors.udbMainDarkBlue,
       activeColor: colors.white,
-      hoverBackgroundColor: colors.udbMainBlue,
+      hoverBackgroundColor: colors.udbMainDarkestBlue,
+      hoverBorderColor: colors.udbMainDarkestBlue,
       hoverColor: colors.white,
       borderColor: colors.grey2,
       focusBoxShadow: 'none',
