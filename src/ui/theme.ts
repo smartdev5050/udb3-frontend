@@ -236,11 +236,11 @@ const theme = {
     typeahead: {
       active: {
         color: colors.white,
-        backgroundColor: colors.udbMainBlue,
+        backgroundColor: colors.udbMainDarkBlue,
       },
       hover: {
         color: colors.white,
-        backgroundColor: colors.udbMainBlue,
+        backgroundColor: colors.udbMainDarkBlue,
       },
       highlight: {
         fontWeight: 'bold',
