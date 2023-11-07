@@ -110,7 +110,7 @@ const USPCard = ({
   const isSmallView = useMatchBreakpoint(Breakpoints.S);
   return (
     <Stack
-      borderRadius="8px"
+      borderRadius={getGlobalBorderRadius}
       backgroundColor={colors.white}
       alignItems="center"
       padding={5}
