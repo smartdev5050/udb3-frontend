@@ -143,7 +143,8 @@ const theme = {
       zIndexPopup: zIndexTimePickerPopup,
     },
     link: {
-      color: colors.udbBlue,
+      color: '#005C7C',
+      hoverColor: colors.udbMainBlue,
     },
     badge: {
       color: colors.white,
