@@ -318,7 +318,7 @@
         "email": "Adresse mail",
         "phone": "Numéro de téléphone",
         "phone_error": "Pas un numéro de téléphone valide",
-        "url": "Site web",
+        "url": "Site Internet ou page de réservation",
         "url_error": "Pas de URL valide",
         "select_url_label": "Comment ce lien de réservation peut-il apparaître ?",
         "url_type_labels": {
