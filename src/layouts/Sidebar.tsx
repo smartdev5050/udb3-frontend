@@ -59,8 +59,6 @@ const getValueForMenuItem = getValueFromTheme('menuItem');
 const getValueForSidebar = getValueFromTheme('sidebar');
 const getValueForMenu = getValueFromTheme('menu');
 
-const getValue = getValueFromTheme('sidebar');
-
 const PermissionTypes = {
   AANBOD_BEWERKEN: 'AANBOD_BEWERKEN',
   AANBOD_MODEREREN: 'AANBOD_MODEREREN',
