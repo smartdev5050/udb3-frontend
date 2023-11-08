@@ -136,6 +136,7 @@ const useGetOrganizerByIdQuery = (
     queryKey: ['organizers'],
     queryFn: getOrganizerById,
     queryArguments: { id },
+    refetchOnWindowFocus: false,
     enabled: !!id,
     ...configuration,
   });
