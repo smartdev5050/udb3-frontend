@@ -3,6 +3,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { Trans, useTranslation } from 'react-i18next';
 
+import { ScopeTypes } from '@/constants/OfferType';
 import { useGetOrganizersByWebsiteQuery } from '@/hooks/api/organizers';
 import { useDebounce } from '@/hooks/useDebounce';
 import { SupportedLanguage } from '@/i18n/index';
@@ -10,7 +11,9 @@ import { StepProps } from '@/pages/steps/Steps';
 import { Organizer } from '@/types/Organizer';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { FormElement } from '@/ui/FormElement';
+import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
+import { RadioButton, RadioButtonTypes } from '@/ui/RadioButton';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 import { isValidUrl } from '@/utils/isValidInfo';
@@ -20,7 +23,7 @@ import { prefixUrlWithHttps } from '@/utils/url';
 type UrlStepProps = StackProps & StepProps;
 
 const UrlStep = ({
-  formState: { errors, isDirty },
+  formState: { errors },
   control,
   watch,
   onChange,
@@ -142,6 +145,17 @@ const UrlStep = ({
                       <Alert variant={AlertVariants.SUCCESS}>
                         {t('organizers.create.step1.errors.url_valid')}
                       </Alert>
+                    )}
+                    {props.scope === ScopeTypes.ORGANIZERS && (
+                      <Inline marginTop={2}>
+                        <RadioButton
+                          type={RadioButtonTypes.SWITCH}
+                          onChange={() => {
+                            console.log('onChange');
+                            //field.onChange(false);
+                          }}
+                        />
+                      </Inline>
                     )}
                   </>
                 }

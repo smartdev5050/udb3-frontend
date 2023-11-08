@@ -163,6 +163,7 @@ const stepPropKeys: (keyof StepProps)[] = [
   'trigger',
   'unregister',
   'watch',
+  'scope',
 ];
 
 const getStepProps = (props: UnknownProps) => pick(props, stepPropKeys);
