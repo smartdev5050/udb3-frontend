@@ -100,7 +100,7 @@ const StepWrapper = ({
       borderRadius={getGlobalBorderRadius}
       backgroundColor="white"
       css={`
-        box-shadow: 0px 4px 16px 0px #00000012;
+        box-shadow: ${getGlobalValue('boxShadow.medium')};
       `}
       spacing={4}
       {...getStackProps(props)}
@@ -119,6 +119,7 @@ StepWrapper.defaultProps = {
 };
 
 const getValue = getValueFromTheme('createPage');
+const getGlobalValue = getValueFromTheme('global');
 
 type StepProps = UseFormReturn<FormDataUnion> & {
   scope: string;

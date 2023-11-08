@@ -211,6 +211,7 @@ const theme = {
       successColor: colors.udbMainPositiveGreen,
       warningIcon: colors.orange1,
       boxShadow: {
+        medium: '0px 4px 16px 0px #00000012',
         heavy: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
       },
     },
