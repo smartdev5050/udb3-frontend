@@ -26,6 +26,7 @@ type OrganizerForm = {
   nameAndUrl: {
     name: string;
     url: string;
+    is_contact_url: boolean;
   };
 };
 
