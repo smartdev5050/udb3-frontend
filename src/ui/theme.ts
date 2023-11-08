@@ -38,9 +38,6 @@ const colors = {
   red4: '#900d09',
   red5: '#ef1810',
   red: 'red',
-  blue1: '#f0f8ff',
-  blue2: '#a3d4ff',
-  blue3: '#3e88ab',
   orange1: '#F19E49',
   textColor: '#222',
   warning: '#E69336',
@@ -127,7 +124,7 @@ const theme = {
         backgroundColor: colors.white,
       },
       success: {
-        borderColor: colors.green2,
+        borderColor: colors.udbMainPositiveGreen,
       },
       danger: {
         borderColor: colors.red3,
@@ -190,9 +187,9 @@ const theme = {
       },
       success: {
         color: colors.white,
-        borderColor: colors.green2,
+        borderColor: colors.udbMainPositiveGreen,
         hoverBackgroundColor: '#4E8E3E',
-        hoverBorderColor: colors.green3,
+        hoverBorderColor: colors.udbMainPositiveGreen,
         backgroundColor: colors.udbMainPositiveGreen,
       },
       danger: {
@@ -323,7 +320,7 @@ const theme = {
         remarkFillColor: colors.white,
       },
       busy: {
-        spinnerStrokeColor: colors.blue3,
+        spinnerStrokeColor: colors.udbMainDarkBlue,
         backgroundColor: colors.white,
       },
       complete: {
@@ -407,7 +404,7 @@ const theme = {
       errorBorderColor: colors.red1,
       imageIconColor: 'pink',
       imageBackgroundColor: colors.grey1,
-      mainImageBackgroundColor: colors.blue1,
+      mainImageBackgroundColor: colors.udbMainLightBlue,
     },
     ageRange: {
       rangeTextColor: colors.grey5,
@@ -428,7 +425,7 @@ const theme = {
       errorBorderColor: colors.red1,
       imageIconColor: colors.grey5,
       imageBackgroundColor: colors.grey1,
-      mainImageBackgroundColor: colors.blue1,
+      mainImageBackgroundColor: colors.udbMainLightBlue,
     },
     toggleBox: {
       backgroundColor: colors.white,
