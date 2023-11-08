@@ -318,7 +318,7 @@
         "email": "E-mailadres",
         "phone": "Telefoonnummer",
         "phone_error": "Geen geldig telefoonnummer",
-        "url": "Website",
+        "url": "Website of reservatiepagina",
         "url_error": "Geen geldige url",
         "url_type_labels": {
           "buy": "Koop tickets",
