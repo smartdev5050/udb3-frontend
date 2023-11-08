@@ -334,7 +334,7 @@ const theme = {
       borderColor: colors.grey3,
       activeColor: colors.white,
       backgroundColor: colors.white,
-      activeBackgroundColor: colors.udbMainBlue,
+      activeBackgroundColor: colors.udbMainDarkBlue,
     },
     eventItem: {
       borderColor: colors.grey3,

@@ -46,14 +46,18 @@ const Page = ({ children: rawChildren, className, ...props }: Props) => {
       {...getStackProps(props)}
     >
       {(title || actions) && (
-        <Inline
-          forwardedAs="div"
-          alignItems="baseline"
-          spacing={3}
-          paddingX={4}
-        >
-          {title}
-          {actions}
+        <Inline forwardedAs="div" paddingX={4}>
+          <Inline
+            width="100%"
+            spacing={3}
+            alignItems="baseline"
+            css={`
+              border-bottom: 1px solid ${getValueForTitle('borderColor')};
+            `}
+          >
+            {title}
+            {actions}
+          </Inline>
         </Inline>
       )}
       <Stack paddingX={4} flex={1}>
@@ -73,11 +77,7 @@ const PageTitle = ({ children, className, ...props }: TitleProps) => (
     color={getValueForTitle('color')}
     lineHeight="220%"
     paddingY={3}
-    width="100%"
     {...getBoxProps(props)}
-    css={`
-      border-bottom: 1px solid ${getValueForTitle('borderColor')};
-    `}
   >
     {children}
   </Title>
