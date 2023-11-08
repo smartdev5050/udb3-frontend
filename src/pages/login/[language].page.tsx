@@ -274,7 +274,7 @@ const Index = () => {
 
     setCookie('auth0.redirect_uri', redirectUri);
 
-    window.location.assign('/api/auth/login');
+    router.push('/api/auth/login');
   };
 
   useRedirectToLanguage();

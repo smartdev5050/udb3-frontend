@@ -278,6 +278,7 @@ const NotificationMenu = memo(
 
     const { removeAuthenticationCookies } = useCookiesWithOptions();
     const queryClient = useQueryClient();
+    const router = useRouter();
 
     const notificationMenu = [
       {
@@ -302,7 +303,7 @@ const NotificationMenu = memo(
           removeAuthenticationCookies();
           await queryClient.invalidateQueries('user');
 
-          window.location.assign('/api/auth/logout');
+          router.push('/api/auth/logout');
         },
       },
     ];
