@@ -303,15 +303,15 @@ const theme = {
       borderColor: colors.grey2,
       hoverBackgroundColor: colors.grey1,
       selected: {
-        backgroundColor: colors.pink1,
-        hoverBackgroundColor: colors.pink2,
+        backgroundColor: colors.udbMainMediumBlue,
+        hoverBackgroundColor: colors.udbMainMediumBlue,
       },
     },
     announcementList: {
       borderColor: colors.grey2,
     },
     announcementContent: {
-      linkColor: colors.udbBlue,
+      linkColor: colors.udbMainDarkBlue,
     },
     jobStatusIcon: {
       backgroundColor: colors.white,
