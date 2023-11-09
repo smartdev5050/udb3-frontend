@@ -149,7 +149,7 @@ const UrlStep = ({
                     {props.scope === ScopeTypes.ORGANIZERS && (
                       <Controller
                         control={control}
-                        name={'nameAndUrl.is_contact_url'}
+                        name={'nameAndUrl.isContactUrl'}
                         render={({ field }) => (
                           <FormElement
                             id={field.name}

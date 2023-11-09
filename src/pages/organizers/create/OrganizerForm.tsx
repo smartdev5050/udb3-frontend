@@ -39,7 +39,7 @@ const typeAndThemeStepConfiguration: StepsConfiguration<'nameAndUrl'> = {
   defaultValue: {
     name: '',
     url: '',
-    is_contact_url: true,
+    isContactUrl: true,
   },
   validation: yup.object({
     name: yup.string().required(),
