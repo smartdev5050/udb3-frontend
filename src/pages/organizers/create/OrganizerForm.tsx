@@ -119,17 +119,27 @@ const OrganizerForm = () => {
 
   const upsertOrganizer = async ({ onSuccess }) => {
     let mutation = createOrganizerMutation;
+    const isContactUrl = getValues('nameAndUrl.isContactUrl');
+    const url = getValues('nameAndUrl.url');
+    console.log({ url, isContactUrl, urlOrganizerId });
     let attributes: { [key: string]: any } = {
       name: getValues('nameAndUrl.name'),
-      url: getValues('nameAndUrl.url'),
+      url,
       mainLanguage: i18n.language,
     };
 
     if (urlOrganizerId) {
       mutation = updateOrganizerMutation;
       attributes = { ...attributes, organizerId: urlOrganizerId };
+    } else if (isContactUrl) {
+      attributes.contactPoint = {
+        phone: [],
+        email: [],
+        url: [url],
+      };
     }
 
+    console.log(attributes);
     const { organizerId } = await mutation.mutateAsync(attributes);
 
     onSuccess(organizerId);
