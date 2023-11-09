@@ -147,15 +147,24 @@ const UrlStep = ({
                       </Alert>
                     )}
                     {props.scope === ScopeTypes.ORGANIZERS && (
-                      <Inline marginTop={2}>
-                        <RadioButton
-                          type={RadioButtonTypes.SWITCH}
-                          onChange={() => {
-                            console.log('onChange');
-                            //field.onChange(false);
-                          }}
-                        />
-                      </Inline>
+                      <Controller
+                        control={control}
+                        name={'nameAndUrl.is_contact_url'}
+                        render={({ field }) => (
+                          <FormElement
+                            id={field.name}
+                            label={'Deze URL ook gebruiken als contact website'}
+                            labelPosition={'left'}
+                            Component={
+                              <RadioButton
+                                type={RadioButtonTypes.SWITCH}
+                                checked={field.value}
+                                {...field}
+                              />
+                            }
+                          />
+                        )}
+                      />
                     )}
                   </>
                 }
