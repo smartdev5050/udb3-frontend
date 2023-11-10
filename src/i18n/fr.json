@@ -988,6 +988,7 @@
         "name": "Nom",
         "url": "Site web",
         "url_requirements": "Pour garder les organisations dans la base de données UiT uniques, nous demandons à chaque organisation un lien hypertexte unique et valide",
+        "is_contact_url": "Utiliser également cette URL comme site de contact",
         "errors": {
           "name_required": "Nom manquant",
           "url_required": "URL manquant",

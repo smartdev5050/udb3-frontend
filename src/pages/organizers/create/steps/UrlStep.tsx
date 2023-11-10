@@ -19,6 +19,7 @@ import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback
 import { isValidUrl } from '@/utils/isValidInfo';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { prefixUrlWithHttps } from '@/utils/url';
+import { LabelPositions } from '@/ui/Label';
 
 type UrlStepProps = StackProps & StepProps;
 
@@ -154,10 +155,10 @@ const UrlStep = ({
                           render={({ field: { value, ...field } }) => (
                             <FormElement
                               id={field.name}
-                              label={
-                                'Deze URL ook gebruiken als contact website'
-                              }
-                              labelPosition={'left'}
+                              label={t(
+                                'organizers.create.step1.is_contact_url',
+                              )}
+                              labelPosition={LabelPositions.RIGHT}
                               Component={
                                 <RadioButton
                                   type={RadioButtonTypes.SWITCH}
