@@ -151,7 +151,7 @@ const UrlStep = ({
                         <Controller
                           control={control}
                           name={'nameAndUrl.isContactUrl'}
-                          render={({ field }) => (
+                          render={({ field: { value, ...field } }) => (
                             <FormElement
                               id={field.name}
                               label={
@@ -161,7 +161,7 @@ const UrlStep = ({
                               Component={
                                 <RadioButton
                                   type={RadioButtonTypes.SWITCH}
-                                  checked={field.value}
+                                  checked={value}
                                   {...field}
                                 />
                               }
