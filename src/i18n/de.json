@@ -316,7 +316,7 @@
         "email": "E-mailadres",
         "phone": "Telefoonnummer",
         "phone_error": "Keine gültige Telefonnummer",
-        "url": "Website",
+        "url": "Website oder Reservierungsseite",
         "url_error": "Keine gültige URL",
         "url_type_labels": {
           "subscribe": "Melden Sie sich an",
