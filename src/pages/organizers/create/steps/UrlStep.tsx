@@ -146,26 +146,29 @@ const UrlStep = ({
                         {t('organizers.create.step1.errors.url_valid')}
                       </Alert>
                     )}
-                    {props.scope === ScopeTypes.ORGANIZERS && (
-                      <Controller
-                        control={control}
-                        name={'nameAndUrl.isContactUrl'}
-                        render={({ field }) => (
-                          <FormElement
-                            id={field.name}
-                            label={'Deze URL ook gebruiken als contact website'}
-                            labelPosition={'left'}
-                            Component={
-                              <RadioButton
-                                type={RadioButtonTypes.SWITCH}
-                                checked={field.value}
-                                {...field}
-                              />
-                            }
-                          />
-                        )}
-                      />
-                    )}
+                    {props.scope === ScopeTypes.ORGANIZERS &&
+                      !props.offerId && (
+                        <Controller
+                          control={control}
+                          name={'nameAndUrl.isContactUrl'}
+                          render={({ field }) => (
+                            <FormElement
+                              id={field.name}
+                              label={
+                                'Deze URL ook gebruiken als contact website'
+                              }
+                              labelPosition={'left'}
+                              Component={
+                                <RadioButton
+                                  type={RadioButtonTypes.SWITCH}
+                                  checked={field.value}
+                                  {...field}
+                                />
+                              }
+                            />
+                          )}
+                        />
+                      )}
                   </>
                 }
                 error={
