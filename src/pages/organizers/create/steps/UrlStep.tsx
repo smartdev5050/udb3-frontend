@@ -13,13 +13,13 @@ import { Alert, AlertVariants } from '@/ui/Alert';
 import { FormElement } from '@/ui/FormElement';
 import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
+import { LabelPositions } from '@/ui/Label';
 import { RadioButton, RadioButtonTypes } from '@/ui/RadioButton';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 import { isValidUrl } from '@/utils/isValidInfo';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { prefixUrlWithHttps } from '@/utils/url';
-import { LabelPositions } from '@/ui/Label';
 
 type UrlStepProps = StackProps & StepProps;
 

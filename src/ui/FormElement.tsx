@@ -87,6 +87,7 @@ const FormElement = ({
         as="div"
         spacing={3}
         width={labelPosition === LabelPositions.RIGHT ? 'auto' : '100%'}
+        minWidth={50}
       >
         <Stack as="div">
           <Inline as="div" alignItems="center">
