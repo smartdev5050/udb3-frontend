@@ -120,7 +120,8 @@ StepWrapper.defaultProps = {
 const getValue = getValueFromTheme('createPage');
 
 type StepProps = UseFormReturn<FormDataUnion> & {
-  scope: string;
+  scope: Scope;
+  offerId?: string;
   loading: boolean;
   name: Path<FormDataUnion>;
   onChange: (value: any) => void;
@@ -164,6 +165,7 @@ const stepPropKeys: (keyof StepProps)[] = [
   'unregister',
   'watch',
   'scope',
+  'offerId',
 ];
 
 const getStepProps = (props: UnknownProps) => pick(props, stepPropKeys);
