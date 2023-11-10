@@ -12,6 +12,7 @@ const LabelVariants = {
 const LabelPositions = {
   LEFT: 'left',
   TOP: 'top',
+  RIGHT: 'right',
 } as const;
 
 const getFontWeight = (props) => {

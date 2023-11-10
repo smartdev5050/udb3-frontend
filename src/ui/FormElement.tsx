@@ -3,7 +3,7 @@ import { cloneElement } from 'react';
 
 import type { Values } from '@/types/Values';
 
-import { getInlineProps, Inline } from './Inline';
+import { getInlineProps, Inline, InlineProps } from './Inline';
 import { Label, LabelPositions, LabelVariants } from './Label';
 import { Spinner, SpinnerSizes } from './Spinner';
 import type { StackProps } from './Stack';
@@ -35,11 +35,7 @@ const FormElement = ({
   className,
   ...props
 }: Props) => {
-  const Wrapper = labelPosition === LabelPositions.LEFT ? Inline : Stack;
-  const wrapperProps =
-    labelPosition === LabelPositions.LEFT
-      ? { spacing: 3, ...getInlineProps(props) }
-      : { spacing: 2, ...getStackProps(props) };
+  const Wrapper = labelPosition === LabelPositions.TOP ? Stack : Inline;
 
   // @ts-expect-error
   const clonedComponent = cloneElement(Component, {
@@ -49,20 +45,37 @@ const FormElement = ({
     ref,
   });
 
+  const wrapperProps: { [key: string]: InlineProps | StackProps } = {
+    [LabelPositions.TOP]: {
+      alignItems: 'flex-start',
+      spacing: 2,
+      ...getStackProps(props),
+    },
+    [LabelPositions.LEFT]: {
+      alignItems: 'center',
+      spacing: 3,
+      ...getInlineProps(props),
+    },
+    [LabelPositions.RIGHT]: {
+      alignItems: 'center',
+      flexDirection: 'row-reverse',
+      justifyContent: 'flex-end',
+      spacing: 3,
+      ...getInlineProps(props),
+    },
+  };
+
   return (
     <Wrapper
       as="div"
-      alignItems={
-        labelPosition === LabelPositions.LEFT ? 'center' : 'flex-start'
-      }
       className={className}
-      {...wrapperProps}
+      {...(wrapperProps[labelPosition] ?? {})}
     >
       {label && (
         <Label
           variant={labelVariant}
           htmlFor={id}
-          {...(labelPosition === LabelPositions.LEFT
+          {...(labelPosition !== LabelPositions.TOP
             ? { height: '36px', alignItems: 'center' }
             : {})}
           flexShrink={0}
@@ -70,7 +83,11 @@ const FormElement = ({
           {label}
         </Label>
       )}
-      <Stack as="div" spacing={3} width="100%">
+      <Stack
+        as="div"
+        spacing={3}
+        width={labelPosition === LabelPositions.RIGHT ? 'auto' : '100%'}
+      >
         <Stack as="div">
           <Inline as="div" alignItems="center">
             {clonedComponent}

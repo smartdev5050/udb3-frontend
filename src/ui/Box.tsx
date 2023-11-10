@@ -181,6 +181,7 @@ type UIProps = {
   flex: UIProp<string | number>;
   flexShrink: UIProp<string | number>;
   flexWrap: UIProp<FlexWrap>;
+  flexDirection: UIProp<string>;
   fontSize: UIProp<string | number>;
   fontWeight: UIProp<string | number>;
   fontStyle: UIProp<string | number>;
@@ -444,6 +445,7 @@ const boxProps = css`
   ${parseProperty('flex')};
   ${parseProperty('flexShrink')};
   ${parseProperty('flexWrap')};
+  ${parseProperty('flexDirection')};
   ${parseProperty('cursor')};
 
   ${parseProperty('animation')}
