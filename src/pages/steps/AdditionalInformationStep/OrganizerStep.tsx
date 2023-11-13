@@ -20,6 +20,7 @@ import {
 } from '@/hooks/api/uitpas';
 import { Event } from '@/types/Event';
 import { Alert, AlertVariants } from '@/ui/Alert';
+import { Button, ButtonVariants } from '@/ui/Button';
 import { CheckboxWithLabel } from '@/ui/CheckboxWithLabel';
 import { Inline } from '@/ui/Inline';
 import { Link } from '@/ui/Link';
@@ -283,6 +284,21 @@ const OrganizerStep = ({
   const shouldShowCardSystems =
     hasUitpasLabel && hasUitpasCardSystems && hasPriceInfo;
 
+  const handleRegisterUitpas = async () => {
+    const organizerId = parseOfferId(organizer?.['@id']);
+    await deleteOfferOrganizerMutation.mutateAsync({
+      id: offerId,
+      organizerId,
+      scope,
+    });
+
+    await addOfferOrganizerMutation.mutateAsync({
+      id: offerId,
+      organizerId,
+      scope,
+    });
+  };
+
   return (
     <Stack {...getStackProps(props)} spacing={5}>
       <Stack>
@@ -342,11 +358,31 @@ const OrganizerStep = ({
         {uitpasAlertData &&
           scope === OfferTypes.EVENTS &&
           uitpasAlertData.key !== UitpasTranslationKeys.NO_PRICE &&
+          uitpasAlertData.key !== UitpasTranslationKeys[404] &&
           selectedCardSystems.length > 0 && (
             <Alert variant={uitpasAlertData.variant}>
               {t(
                 `create.additionalInformation.organizer.uitpas_alert.${uitpasAlertData.key}`,
               )}
+            </Alert>
+          )}
+
+        {uitpasAlertData &&
+          scope === OfferTypes.EVENTS &&
+          uitpasAlertData.key === UitpasTranslationKeys[404] &&
+          selectedCardSystems.length > 0 && (
+            <Alert variant={AlertVariants.WARNING}>
+              {t(
+                `create.additionalInformation.organizer.uitpas_alert.not_found`,
+              )}
+              <Button
+                onClick={handleRegisterUitpas}
+                variant={ButtonVariants.LINK}
+              >
+                {t(
+                  `create.additionalInformation.organizer.uitpas_alert.not_found_cta`,
+                )}
+              </Button>
             </Alert>
           )}
       </Stack>
