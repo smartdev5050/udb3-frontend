@@ -222,26 +222,13 @@ type CreateOrganizerArguments = {
   contact: any;
 };
 
-const createOrganizer = ({
-  headers,
-  url,
-  name,
-  address,
-  mainLanguage,
-  contact,
-}: CreateOrganizerArguments) =>
+const createOrganizer = ({ headers, ...body }: CreateOrganizerArguments) =>
   fetchFromApi({
     path: '/organizers',
     options: {
       headers,
       method: 'POST',
-      body: JSON.stringify({
-        mainLanguage,
-        name,
-        url,
-        address,
-        contact,
-      }),
+      body: JSON.stringify(body),
     },
   });
 

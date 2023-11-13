@@ -39,6 +39,7 @@ const typeAndThemeStepConfiguration: StepsConfiguration<'nameAndUrl'> = {
   defaultValue: {
     name: '',
     url: '',
+    isContactUrl: true,
   },
   validation: yup.object({
     name: yup.string().required(),
@@ -118,15 +119,18 @@ const OrganizerForm = () => {
 
   const upsertOrganizer = async ({ onSuccess }) => {
     let mutation = createOrganizerMutation;
+    const { name, url, isContactUrl } = getValues('nameAndUrl');
     let attributes: { [key: string]: any } = {
-      name: getValues('nameAndUrl.name'),
-      url: getValues('nameAndUrl.url'),
+      name,
+      url,
       mainLanguage: i18n.language,
     };
 
     if (urlOrganizerId) {
       mutation = updateOrganizerMutation;
       attributes = { ...attributes, organizerId: urlOrganizerId };
+    } else if (isContactUrl) {
+      attributes.contactPoint = { url: [url] };
     }
 
     const { organizerId } = await mutation.mutateAsync(attributes);

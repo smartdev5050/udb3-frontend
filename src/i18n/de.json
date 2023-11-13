@@ -989,6 +989,7 @@
         "name": "Name",
         "url": "Website",
         "url_requirements": "Um Organisationen in der UiT-Datenbank einzigartig zu halten, bitten wir jede Organisation um einen eindeutigen und gültigen Hyperlink",
+        "is_contact_url": "Diese URL auch als Kontaktwebsite verwenden",
         "errors": {
           "name_required": "Name fehlt",
           "url_required": "URL fehlt",
