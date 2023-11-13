@@ -75,10 +75,16 @@ const MediaStep = ({
   );
 
   const eventImage = useMemo(
+    () => {
+      if (scope === ScopeTypes.ORGANIZERS) {
+        // @ts-expect-error
+        return getEntityByIdQuery.data?.mainImage;
+      }
+      // @ts-expect-error
+      return getEntityByIdQuery.data?.image ?? [];
+    },
     // @ts-expect-error
-    () => getEntityByIdQuery.data?.image ?? [],
-    // @ts-expect-error
-    [getEntityByIdQuery.data?.image],
+    [getEntityByIdQuery.data?.image, getEntityByIdQuery.data?.mainImage, scope],
   );
 
   const [isPictureUploadModalVisible, setIsPictureUploadModalVisible] =
