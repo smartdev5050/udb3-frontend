@@ -6,6 +6,7 @@ const { withSentryConfig } = require('@sentry/nextjs');
 const moduleExports = {
   productionBrowserSourceMaps: true,
   swcMinify: true,
+  sentry: { hideSourceMaps: false },
   async redirects() {
     // Redirects to fix non-existing paths should go in `src/redirects.js`!!!
     const env = process.env.NEXT_PUBLIC_ENVIRONMENT;
@@ -45,6 +46,7 @@ const moduleExports = {
   },
 };
 
+/** @type {Partial<import('@sentry/nextjs').SentryWebpackPluginOptions>} */
 const SentryWebpackPluginOptions = {
   dryRun: true,
 };
