@@ -303,7 +303,7 @@ const NotificationMenu = memo(
           removeAuthenticationCookies();
           await queryClient.invalidateQueries('user');
 
-          router.push('/api/auth/logout');
+          window.location.assign('/api/auth/logout');
         },
       },
     ];
