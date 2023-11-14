@@ -98,7 +98,7 @@ const CompleteIcon = ({ className }: { className?: string }) => (
       />
       <circle
         css={`
-          fill: ${getGlobalValue('successIcon')};
+          fill: ${getGlobalValue('successColor')};
         `}
         cx="20"
         cy="40"
@@ -157,7 +157,7 @@ const WarningIcon = ({ className }: { className?: string }) => (
       />
       <circle
         css={`
-          fill: ${getGlobalValue('successIcon')};
+          fill: ${getGlobalValue('successColor')};
         `}
         cx="20"
         cy="40"

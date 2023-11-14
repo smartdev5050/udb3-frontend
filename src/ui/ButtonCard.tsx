@@ -31,7 +31,7 @@ function ButtonCard({
         flex-direction: column;
         align-items: flex-start;
         background-color: ${({ theme }) => theme.colors.white};
-        box-shadow: ${({ theme }) => theme.components.button.boxShadow.small};
+        box-shadow: ${({ theme }) => theme.components.global.boxShadow.heavy};
 
         &:hover {
           background-color: #e6e6e6;

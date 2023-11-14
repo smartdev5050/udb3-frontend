@@ -16,7 +16,7 @@ import { Box } from '@/ui/Box';
 import type { StackProps } from '@/ui/Stack';
 import { getStackProps, Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
-import { getValueFromTheme } from '@/ui/theme';
+import { getGlobalBorderRadius, getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
 
 import type { FormData as OfferFormData } from '../create/OfferForm';
@@ -64,7 +64,7 @@ type NumberIndicatorProps = {
 const NumberIndicator = ({ children, ...props }: NumberIndicatorProps) => {
   return (
     <Box
-      borderRadius="50%"
+      borderRadius={getGlobalBorderRadius}
       width="1.8rem"
       minWidth="1.8rem"
       height="1.8rem"
@@ -95,18 +95,20 @@ const StepWrapper = ({
   ...props
 }: StepWrapperProps) => {
   return (
-    <Stack spacing={4} {...getStackProps(props)}>
-      <Title
-        color={getValue('title.color')}
-        lineHeight="220%"
-        alignItems="center"
-        spacing={3}
-        css={`
-          border-bottom: 1px solid ${getValue('title.borderColor')};
-        `}
-      >
+    <Stack
+      paddingX={5}
+      paddingY={4.5}
+      borderRadius={getGlobalBorderRadius}
+      backgroundColor="white"
+      css={`
+        box-shadow: ${getGlobalValue('boxShadow.medium')};
+      `}
+      spacing={4}
+      {...getStackProps(props)}
+    >
+      <Title color={getValue('title.color')} alignItems="center" spacing={3}>
         <NumberIndicator>{stepNumber}</NumberIndicator>
-        <Text>{title}</Text>
+        <Text lineHeight="1rem">{title}</Text>
       </Title>
       {children}
     </Stack>
@@ -118,6 +120,7 @@ StepWrapper.defaultProps = {
 };
 
 const getValue = getValueFromTheme('createPage');
+const getGlobalValue = getValueFromTheme('global');
 
 type StepProps = UseFormReturn<FormDataUnion> & {
   scope: Scope;

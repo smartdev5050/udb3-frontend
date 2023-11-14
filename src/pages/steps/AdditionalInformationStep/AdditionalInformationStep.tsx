@@ -179,7 +179,10 @@ const TabTitle = ({
   return (
     <Inline spacing={3} {...getInlineProps(props)}>
       {validationStatus === ValidationStatus.SUCCESS && (
-        <Icon name={Icons.CHECK_CIRCLE} color={getGlobalValue('successIcon')} />
+        <Icon
+          name={Icons.CHECK_CIRCLE}
+          color={getGlobalValue('successColor')}
+        />
       )}
       {validationStatus === ValidationStatus.WARNING && (
         <Icon

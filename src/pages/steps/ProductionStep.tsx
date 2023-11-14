@@ -167,7 +167,7 @@ const ProductionStep = ({
           <Inline alignItems="center" spacing={3} {...getInlineProps(props)}>
             <Icon
               name={Icons.CHECK_CIRCLE}
-              color={getGlobalValue('successIcon')}
+              color={getGlobalValue('successColor')}
             />
             <Text>{selectedProduction.name}</Text>
             <Button

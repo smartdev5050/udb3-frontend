@@ -189,7 +189,7 @@ const AgeRangeStep = ({
                         &.btn {
                           padding: 0.3rem 0.7rem;
                           box-shadow: ${({ theme }) =>
-                            theme.components.button.boxShadow.small};
+                            theme.components.global.boxShadow.heavy};
                         }
                       `}
                     >

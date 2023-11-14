@@ -7,7 +7,7 @@ import * as yup from 'yup';
 
 import { useAutoFocus } from '@/hooks/useAutoFocus';
 import { ImageIcon } from '@/pages/PictureUploadBox';
-import { Button } from '@/ui/Button';
+import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Image } from '@/ui/Image';
 import { Input } from '@/ui/Input';

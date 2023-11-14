@@ -83,6 +83,7 @@ const Pagination = ({
           &:hover {
             background-color: ${getValue('hoverBackgroundColor')};
             color: ${getValue('hoverColor')};
+            border-color: ${getValue('hoverBorderColor')};
           }
 
           &:focus {

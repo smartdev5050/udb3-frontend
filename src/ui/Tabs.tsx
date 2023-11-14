@@ -47,32 +47,34 @@ const Tabs = <T,>({
         css={`
           border-bottom: none;
 
+          .nav-item:last-child {
+            border-right: 1px solid ${getValue('borderColor')};
+          }
+
           .nav-item {
             color: ${getValue('color')};
             border-radius: ${getValue('borderRadius')};
             padding: ${parseSpacing(3)} ${parseSpacing(4)};
-            margin-right: ${parseSpacing(1)};
+            border-color: ${getValue('borderColor')};
+            border-right: none;
 
             &.nav-link {
               border-bottom-left-radius: 0;
               border-bottom-right-radius: 0;
             }
 
+            &.active {
+              background-color: transparent;
+              border-bottom-color: ${activeBackgroundColor ??
+              getValue('activeTabBackgroundColor')};
+              cursor: default;
+              border-bottom: transparent;
+            }
+
             &:hover {
               color: ${getValue('hoverColor')};
               border-color: transparent;
               background-color: ${getValue('hoverTabBackgroundColor')};
-            }
-
-            &.active,
-            &.active:hover {
-              color: ${getValue('activeTabColor')};
-              background-color: ${activeBackgroundColor ??
-              getValue('activeTabBackgroundColor')};
-              border-color: ${getValue('borderColor')};
-              border-bottom-color: ${activeBackgroundColor ??
-              getValue('activeTabBackgroundColor')};
-              cursor: default;
             }
           }
         `}

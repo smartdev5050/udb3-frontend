@@ -60,9 +60,7 @@ test('create an event with UiTPAS organizer and UiTPAS prices', async ({
     .click();
 
   // check if alert to add prices is visible
-  await expect(
-    page.locator('.alert-warning').getByText('Dit is een UiTPAS organisator'),
-  ).toBeVisible();
+  await expect(page.getByText('Dit is een UiTPAS organisator')).toBeVisible();
 
   // check if price tab has an warning icon
   await expect(
@@ -84,9 +82,7 @@ test('create an event with UiTPAS organizer and UiTPAS prices', async ({
   // go to organizer tab to verify if event is considered an uitpas organizer
   await page.getByRole('tab', { name: 'Organisatie' }).click();
   await expect(
-    page
-      .locator('.alert-success')
-      .getByText('Je activiteit is nu geregistreerd als UiTPAS activiteit'),
+    page.getByText('Je activiteit is nu geregistreerd als UiTPAS activiteit'),
   ).toBeVisible();
 
   await expect(page.getByText('UiTPAS Kaartsystemen')).toBeVisible();

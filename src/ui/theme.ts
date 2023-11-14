@@ -5,8 +5,20 @@ import type { Values } from '@/types/Values';
 
 const colors = {
   udbRed: '#c0120c',
+  udbMainBlue: '#009FDF',
+  udbMainDarkBlue: '#0083B8',
+  udbMainDarkestBlue: '#005C7C',
+  udbMainMediumBlue: '#DFF8FF',
+  udbMainLightBlue: '#F8FDFF',
+  udbMainGrey: '#6A777B',
+  udbMainDarkestGrey: '#141515',
+  udbMainDarkGrey: '#6A6E70',
+  udbMainLightGrey: '#BCC3C6',
+  udbMainPositiveGreen: '#6BCD69',
+  udbMainLightGreen: '#F3FCF7',
   udbBlue: '#004f94',
   white: '#ffffff',
+  greylight: '#FCFCFC',
   grey1: '#f0f0f0',
   grey2: '#ccc',
   grey3: '#ddd',
@@ -26,11 +38,10 @@ const colors = {
   red4: '#900d09',
   red5: '#ef1810',
   red: 'red',
-  blue1: '#f0f8ff',
-  blue2: '#a3d4ff',
-  blue3: '#3e88ab',
   orange1: '#F19E49',
   textColor: '#222',
+  warning: '#E69336',
+  danger: '#DD5242',
 } as const;
 
 const Breakpoints = {
@@ -38,6 +49,7 @@ const Breakpoints = {
   S: 's',
   M: 'm',
   L: 'l',
+  XL: 'xl',
 } as const;
 
 // z-index utils
@@ -84,6 +96,18 @@ const theme = {
   components: {
     alert: {
       borderRadius: '8px',
+      backgroundColor: {
+        primary: '#D1DEFA',
+        success: '#F3FCF7',
+        warning: '#FCF0CB',
+        danger: '#FAE5E3',
+      },
+      borderColor: {
+        primary: '#3868EC',
+        success: colors.udbMainPositiveGreen,
+        warning: colors.warning,
+        danger: colors.danger,
+      },
     },
     toast: {
       zIndex: zIndexToast,
@@ -100,7 +124,7 @@ const theme = {
         backgroundColor: colors.white,
       },
       success: {
-        borderColor: colors.green2,
+        borderColor: colors.udbMainPositiveGreen,
       },
       danger: {
         borderColor: colors.red3,
@@ -119,7 +143,8 @@ const theme = {
       zIndexPopup: zIndexTimePickerPopup,
     },
     link: {
-      color: colors.udbBlue,
+      color: colors.udbMainDarkestBlue,
+      hoverColor: colors.udbMainBlue,
     },
     badge: {
       color: colors.white,
@@ -134,9 +159,9 @@ const theme = {
         large: '0px 4px 6px 0px rgba(210, 210, 210, 0.7)',
       },
       primary: {
-        backgroundColor: colors.udbBlue,
+        backgroundColor: colors.udbMainDarkBlue,
         borderColor: '#00417b',
-        hoverBackgroundColor: '#003461',
+        hoverBackgroundColor: colors.udbMainDarkestBlue,
         hoverBorderColor: '#00213d',
         activeBackgroundColor: '#003461',
         activeBorderColor: '#00213d',
@@ -150,37 +175,53 @@ const theme = {
         activeBackgroundColor: '#e6e6e6',
         activeBorderColor: '#adadad',
       },
+      secondaryOutline: {
+        color: colors.udbMainBlue,
+        borderColor: colors.udbMainBlue,
+        backgroundColor: colors.white,
+        hoverBackgroundColor: '#E0F8FF',
+        hoverBorderColor: '#007097',
+        activeColor: '#333',
+        activeBackgroundColor: '#e6e6e6',
+        activeBorderColor: '#adadad',
+      },
       success: {
         color: colors.white,
-        borderColor: colors.green2,
-        hoverBackgroundColor: colors.green2,
-        hoverBorderColor: colors.green3,
-        backgroundColor: colors.green1,
+        borderColor: colors.udbMainPositiveGreen,
+        hoverBackgroundColor: '#4E8E3E',
+        hoverBorderColor: colors.udbMainPositiveGreen,
+        backgroundColor: colors.udbMainPositiveGreen,
       },
       danger: {
         color: colors.white,
         borderColor: colors.red3,
-        hoverBackgroundColor: colors.red3,
+        hoverBackgroundColor: '#9A2700',
         hoverBorderColor: colors.red4,
-        backgroundColor: colors.red1,
+        backgroundColor: '#DD5242',
       },
     },
     card: {
       boxShadow: {
         small: '0px 2px 3px 0px rgba(210, 210, 210, 0.5)',
+        medium: '0px 4px 16px 0px #00000012',
         large: '0px 4px 6px 0px rgba(210, 210, 210, 0.7)',
       },
     },
     global: {
-      successIcon: colors.green3,
+      successColor: colors.udbMainPositiveGreen,
       warningIcon: colors.orange1,
+      boxShadow: {
+        medium: '0px 4px 16px 0px #00000012',
+        heavy: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+      },
     },
     pagination: {
       color: colors.textColor,
-      activeBackgroundColor: colors.red2,
-      activeBorderColor: colors.grey2,
+      activeBackgroundColor: colors.udbMainDarkBlue,
+      activeBorderColor: colors.udbMainDarkBlue,
       activeColor: colors.white,
-      hoverBackgroundColor: colors.red2,
+      hoverBackgroundColor: colors.udbMainDarkestBlue,
+      hoverBorderColor: colors.udbMainDarkestBlue,
       hoverColor: colors.white,
       borderColor: colors.grey2,
       focusBoxShadow: 'none',
@@ -193,11 +234,11 @@ const theme = {
     typeahead: {
       active: {
         color: colors.white,
-        backgroundColor: colors.red2,
+        backgroundColor: colors.udbMainDarkBlue,
       },
       hover: {
         color: colors.white,
-        backgroundColor: colors.red2,
+        backgroundColor: colors.udbMainDarkBlue,
       },
       highlight: {
         fontWeight: 'bold',
@@ -205,7 +246,7 @@ const theme = {
       },
     },
     page: {
-      backgroundColor: colors.grey1,
+      backgroundColor: '#F5F5F5',
       borderColor: colors.grey3,
     },
     pageTitle: {
@@ -239,33 +280,39 @@ const theme = {
     },
     sidebar: {
       zIndex: zIndexSidebar,
-      color: colors.white,
-      backgroundColor: colors.udbRed,
+      color: colors.udbMainGrey,
+      logoColor: colors.udbMainBlue,
+      backgroundColor: colors.udbMainLightBlue,
     },
     jobLogger: {
       zIndex: zIndexJobLogger,
     },
     menu: {
-      borderColor: colors.red4,
+      borderColor: colors.udbMainLightGrey,
     },
     menuItem: {
+      active: {
+        color: colors.udbMainBlue,
+        backgroundColor: colors.udbMainMediumBlue,
+      },
       hover: {
-        backgroundColor: colors.red4,
+        backgroundColor: colors.udbMainMediumBlue,
+        color: colors.udbMainDarkestGrey,
       },
     },
     announcement: {
       borderColor: colors.grey2,
       hoverBackgroundColor: colors.grey1,
       selected: {
-        backgroundColor: colors.pink1,
-        hoverBackgroundColor: colors.pink2,
+        backgroundColor: colors.udbMainMediumBlue,
+        hoverBackgroundColor: colors.udbMainMediumBlue,
       },
     },
     announcementList: {
       borderColor: colors.grey2,
     },
     announcementContent: {
-      linkColor: colors.udbBlue,
+      linkColor: colors.udbMainDarkBlue,
     },
     jobStatusIcon: {
       backgroundColor: colors.white,
@@ -274,7 +321,7 @@ const theme = {
         remarkFillColor: colors.white,
       },
       busy: {
-        spinnerStrokeColor: colors.blue3,
+        spinnerStrokeColor: colors.udbMainDarkBlue,
         backgroundColor: colors.white,
       },
       complete: {
@@ -285,7 +332,7 @@ const theme = {
       borderColor: colors.grey3,
       activeColor: colors.white,
       backgroundColor: colors.white,
-      activeBackgroundColor: colors.red2,
+      activeBackgroundColor: colors.udbMainDarkBlue,
     },
     eventItem: {
       borderColor: colors.grey3,
@@ -298,13 +345,18 @@ const theme = {
       borderColor: colors.grey3,
     },
     loginPage: {
-      backgroundColor: colors.grey1,
+      backgroundColor: colors.white,
+      footer: {
+        backgroundColor: '#FAFAFB',
+        linkColor: colors.udbMainDarkGrey,
+      },
     },
     loginLogo: {
-      backgroundColor: colors.red5,
-      colorSoft: lighten('0.23', colors.udbRed),
-      colorMedium: lighten('0.31', colors.udbRed),
-      colorHard: lighten('0.40', colors.udbRed),
+      backgroundColor: colors.udbMainLightBlue,
+      color: colors.udbMainBlue,
+      colorSoft: lighten('0.23', colors.udbMainBlue),
+      colorMedium: lighten('0.31', colors.udbMainBlue),
+      colorHard: lighten('0.40', colors.udbMainBlue),
     },
     pageNotFound: {
       iconColor: colors.grey2,
@@ -332,7 +384,7 @@ const theme = {
         borderColor: colors.grey2,
       },
       stepNumber: {
-        backgroundColor: colors.grey5,
+        backgroundColor: colors.udbMainGrey,
       },
       footer: {
         color: colors.textColor,
@@ -351,9 +403,9 @@ const theme = {
       backgroundColor: colors.white,
       borderColor: colors.grey2,
       errorBorderColor: colors.red1,
-      imageIconColor: colors.grey5,
+      imageIconColor: 'pink',
       imageBackgroundColor: colors.grey1,
-      mainImageBackgroundColor: colors.blue1,
+      mainImageBackgroundColor: colors.udbMainLightBlue,
     },
     ageRange: {
       rangeTextColor: colors.grey5,
@@ -374,21 +426,22 @@ const theme = {
       errorBorderColor: colors.red1,
       imageIconColor: colors.grey5,
       imageBackgroundColor: colors.grey1,
-      mainImageBackgroundColor: colors.blue1,
+      mainImageBackgroundColor: colors.udbMainLightBlue,
     },
     toggleBox: {
       backgroundColor: colors.white,
-      activeBackgroundColor: colors.green5,
-      borderColor: colors.grey2,
-      textColor: colors.udbBlue,
+      activeBackgroundColor: colors.udbMainLightGreen,
+      activeBorderColor: colors.udbMainPositiveGreen,
+      borderColor: '#8F9699',
+      textColor: colors.udbMainDarkGrey,
       activeTextColor: colors.textColor,
       iconColor: colors.grey5,
-      iconCheckColor: colors.green3,
+      iconCheckColor: colors.udbMainPositiveGreen,
       boxShadow: {
         small: '0px 2px 3px 0px rgba(210, 210, 210, 0.5)',
         large: '0px 4px 6px 0px rgba(210, 210, 210, 0.7)',
       },
-      hoverColor: '#e6e6e6',
+      hoverBorderColor: colors.udbMainPositiveGreen,
     },
     dropdown: {
       activeToggleBoxShadow: 'inset 0 3px 5px rgba(0, 0, 0, 0.125)',
@@ -408,6 +461,9 @@ const theme = {
     },
     offerScore: {
       link: colors.textColor,
+    },
+    richTextEditor: {
+      borderColor: colors.grey1,
     },
   },
 } as const;

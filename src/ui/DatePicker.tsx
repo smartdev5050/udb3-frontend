@@ -61,7 +61,10 @@ const DatePicker = ({
         }
 
         .react-datepicker {
-          font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+          font-family: ui-sans-serif, system-ui, -apple-system,
+            BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+            'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+            'Segoe UI Symbol', 'Noto Color Emoji' !important;
           font-size: 1rem;
           border: none;
           box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
@@ -155,7 +158,7 @@ const DatePicker = ({
         }
 
         .react-datepicker__day--selected {
-          background-color: ${({ theme }) => theme.colors.udbBlue};
+          background-color: ${({ theme }) => theme.colors.udbMainDarkBlue};
           border-radius: 10px;
         }
 

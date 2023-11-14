@@ -21,3 +21,14 @@ import { Badge, BadgeVariants } from './Badge';
 </Canvas>
 
 <ArgsTable story="Secundary" />
+
+<Canvas>
+  <Story
+    name="Info"
+    args={{ variant: BadgeVariants.INFO, children: 'Published' }}
+  >
+    {(args) => <Badge {...args} />}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Info" />

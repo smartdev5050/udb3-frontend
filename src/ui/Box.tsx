@@ -217,6 +217,7 @@ type UIProps = {
   top: UIProp<string | number>;
   width: UIProp<string | number>;
   zIndex: UIProp<number>;
+  role: UIProp<string>;
 };
 
 type BoxProps<T extends TypeaheadModel = any> = Partial<

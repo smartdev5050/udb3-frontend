@@ -55,7 +55,7 @@ import { Spinner } from '@/ui/Spinner';
 import { Stack } from '@/ui/Stack';
 import { Tabs } from '@/ui/Tabs';
 import { Text, TextVariants } from '@/ui/Text';
-import { getValueFromTheme } from '@/ui/theme';
+import { colors, getValueFromTheme } from '@/ui/theme';
 import { formatAddressInternal } from '@/utils/formatAddress';
 import { getApplicationServerSideProps } from '@/utils/getApplicationServerSideProps';
 import { parseOfferId } from '@/utils/parseOfferId';
@@ -117,10 +117,10 @@ const RowStatus = {
 type RowStatus = Values<typeof RowStatus>;
 
 const RowStatusToColor: Record<RowStatus, string> = {
-  DRAFT: 'orange',
-  REJECTED: 'red',
-  APPROVED: 'green',
-  PUBLISHED: 'green',
+  DRAFT: colors.warning,
+  REJECTED: colors.danger,
+  APPROVED: colors.udbMainPositiveGreen,
+  PUBLISHED: colors.udbMainPositiveGreen,
   PLANNED: 'blue',
 };
 

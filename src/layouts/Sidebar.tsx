@@ -24,7 +24,7 @@ import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useMatchBreakpoint } from '@/hooks/useMatchBreakpoint';
 import { QuestionCircleIcon } from '@/pages/NewFeatureTooltip';
 import type { Values } from '@/types/Values';
-import { Badge } from '@/ui/Badge';
+import { Badge, BadgeVariants } from '@/ui/Badge';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
@@ -40,6 +40,7 @@ import { Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import {
   Breakpoints,
+  colors,
   getGlobalBorderRadius,
   getValueFromTheme,
 } from '@/ui/theme';
@@ -92,6 +93,14 @@ const MenuItem = memo(
     onClick,
     visible = true,
   }: MenuItemProps) => {
+    const { asPath } = useRouter();
+
+    const baseUrl = publicRuntimeConfig.baseUrl;
+    const currentPath = new URL(asPath, baseUrl).pathname;
+    const path = new URL(href, baseUrl).pathname;
+
+    const isActive = path === currentPath;
+
     if (!visible) {
       return null;
     }
@@ -99,23 +108,56 @@ const MenuItem = memo(
     const Component = href ? Link : Button;
 
     return (
-      <List.Item>
+      <List.Item
+        css={`
+          position: relative;
+
+          color: ${isActive ? getValueForMenuItem('active.color') : 'inherit'};
+
+          :before {
+            content: '';
+            width: 4px;
+            background-color: ${isActive
+              ? getValueForMenuItem('active.color')
+              : 'inherit'};
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            border-radius: 4px;
+          }
+
+          :hover {
+            color: ${getValueForMenuItem('hover.color')};
+
+            :before {
+              background-color: ${getValueForMenuItem('active.color')};
+            }
+          }
+        `}
+      >
         <Component
           width="100%"
           variant="unstyled"
-          padding={2}
           href={href}
           iconName={iconName}
           suffix={suffix}
           onClick={onClick}
           backgroundColor={{
-            default: 'none',
+            default: isActive
+              ? getValueForMenuItem('active.backgroundColor')
+              : 'none',
             hover: getValueForMenuItem('hover.backgroundColor'),
           }}
-          spacing={{ default: 3, s: 1 }}
+          spacing={{ default: 4, s: 1 }}
           stackOn={Breakpoints.S}
           customChildren
           title={label}
+          paddingLeft={{ default: 4, s: 1 }}
+          paddingBottom={{ default: 3, s: 2 }}
+          paddingTop={{ default: 3, s: 2 }}
+          paddingRight={{ default: 3, s: 1 }}
+          borderRadius={getGlobalBorderRadius}
         >
           {label && (
             <Text
@@ -125,7 +167,7 @@ const MenuItem = memo(
                 overflow: hidden;
                 text-overflow: ellipsis;
               `}
-              fontSize={{ s: '9px' }}
+              fontSize={{ default: '0.975rem', s: '0.625rem' }}
               textAlign={{ default: 'left', s: 'center' }}
             >
               {label}
@@ -162,7 +204,7 @@ const Menu = memo(({ items = [], title, ...props }: MenuProps) => {
       <Title
         opacity={0.5}
         css={`
-          font-size: 13px;
+          font-size: 0.625rem;
           font-weight: 400;
           text-transform: uppercase;
         `}
@@ -180,49 +222,35 @@ type ProfileMenuProps = {
 };
 
 const ProfileMenu = ({ defaultProfileImageUrl }: ProfileMenuProps) => {
-  const { t } = useTranslation();
-  const { removeAuthenticationCookies } = useCookiesWithOptions();
-
-  const router = useRouter();
-  const queryClient = useQueryClient();
-
   const getUserQuery = useGetUserQuery();
   // @ts-expect-error
   const user = getUserQuery.data as User;
-
-  const loginMenu = [
-    {
-      iconName: Icons.SIGN_OUT,
-      children: t('menu.logout'),
-      onClick: async () => {
-        removeAuthenticationCookies();
-        await queryClient.invalidateQueries('user');
-
-        window.location.assign('/api/auth/logout');
-      },
-    },
-  ];
 
   return (
     <Inline
       padding={3}
       spacing={2}
+      marginTop={3}
       alignItems="center"
       justifyContent="center"
       css={`
-        border-top: 1px solid ${getValueForMenu('borderColor')};
+        border-top: 0.5px solid ${getValueForMenu('borderColor')};
       `}
     >
       <Image
         src={user?.picture || defaultProfileImageUrl}
         width={40}
         height={40}
-        borderRadius={getGlobalBorderRadius}
+        borderRadius="50%"
         alt="Profile picture"
       />
       <Stack as="div" padding={2} spacing={2} flex={1} display={{ s: 'none' }}>
-        {user && <Text>{user['https://publiq.be/first_name']}</Text>}
-        <Menu items={loginMenu} />
+        {user && (
+          <Stack>
+            <Text>{user['https://publiq.be/first_name']}</Text>
+            <Text fontSize="0.625rem">{user.email}</Text>
+          </Stack>
+        )}
       </Stack>
     </Inline>
   );
@@ -248,12 +276,16 @@ const NotificationMenu = memo(
   }: NotificationMenuProps) => {
     const { t, i18n } = useTranslation();
 
+    const { removeAuthenticationCookies } = useCookiesWithOptions();
+    const queryClient = useQueryClient();
+    const router = useRouter();
+
     const notificationMenu = [
       {
         iconName: Icons.GIFT,
         children: t('menu.announcements'),
         suffix: countUnseenAnnouncements > 0 && (
-          <Badge>{countUnseenAnnouncements}</Badge>
+          <Badge variant={BadgeVariants.INFO}>{countUnseenAnnouncements}</Badge>
         ),
         onClick: onClickAnnouncementsButton,
         visible: i18n.language === 'nl',
@@ -263,6 +295,16 @@ const NotificationMenu = memo(
         children: t('menu.notifications'),
         suffix: <JobLoggerStateIndicator state={jobLoggerState} />,
         onClick: onClickJobLoggerButton,
+      },
+      {
+        iconName: Icons.SIGN_OUT,
+        children: t('menu.logout'),
+        onClick: async () => {
+          removeAuthenticationCookies();
+          await queryClient.invalidateQueries('user');
+
+          router.push('/api/auth/logout');
+        },
       },
     ];
 
@@ -483,7 +525,7 @@ const Sidebar = () => {
         iconName: Icons.FLAG,
         children: t('menu.validate'),
         suffix: countEventsToModerate > 0 && (
-          <Badge>{countEventsToModerate}</Badge>
+          <Badge variant={BadgeVariants.INFO}>{countEventsToModerate}</Badge>
         ),
       },
       {
@@ -540,11 +582,11 @@ const Sidebar = () => {
       css={`
         overflow: hidden;
       `}
-      width={{ default: '230px', s: '65px' }}
+      width={{ default: '240px', s: '65px' }}
       backgroundColor={getValueForSidebar('backgroundColor')}
       color={getValueForSidebar('color')}
       zIndex={getValueForSidebar('zIndex')}
-      padding={{ default: 2, s: 1 }}
+      padding={{ default: 4.5, s: 1 }}
       spacing={3}
       ref={sidebarComponent}
       onMouseOver={() => {
@@ -561,9 +603,11 @@ const Sidebar = () => {
         href="/dashboard"
         title={t('menu.home')}
         customChildren
+        paddingBottom={2}
       >
         <Logo
           variant={isSmallView ? LogoVariants.MOBILE : LogoVariants.DEFAULT}
+          color={colors.udbMainBlue}
         />
       </Link>
       <Stack
@@ -571,9 +615,7 @@ const Sidebar = () => {
         spacing={4}
         flex={1}
         css={`
-          > :not(:first-child) {
-            border-top: 1px solid ${getValueForMenu('borderColor')};
-          }
+          border-top: 0.5px solid ${getValueForMenu('borderColor')};
         `}
       >
         <Menu items={userMenu} />
@@ -595,12 +637,14 @@ const Sidebar = () => {
               justifyContent={{ default: 'space-between', s: 'center' }}
               stackOn={Breakpoints.S}
               padding={2}
+              width="100%"
             >
               <Inline
                 stackOn={Breakpoints.S}
-                spacing={{ default: 3, s: 1 }}
+                spacing={{ default: 4, s: 1 }}
                 alignItems="center"
                 justifyContent={{ default: 'center', s: 'center' }}
+                width="100%"
               >
                 <Icon name={Icons.EYE} />
                 <BetaVersionToggle
@@ -610,15 +654,6 @@ const Sidebar = () => {
                   }}
                 />
               </Inline>
-              {!isSmallView && (
-                <Link
-                  href="/beta-version"
-                  variant={ButtonVariants.UNSTYLED}
-                  customChildren
-                >
-                  <QuestionCircleIcon />
-                </Link>
-              )}
             </Inline>
             <NotificationMenu
               countUnseenAnnouncements={countUnseenAnnouncements}
