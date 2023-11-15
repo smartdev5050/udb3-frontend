@@ -1053,27 +1053,27 @@
     "search_text": "Aan het zoeken..."
   },
   "videos": {
-    "add_button": "Video-link toevoegen",
+    "add_button": "Videolink toevoegen",
     "delete": "Verwijderen",
     "delete_modal": {
       "actions": {
         "cancel": "Annuleren",
         "confirm": "Verwijderen"
       },
-      "description": "Ben je zeker dat je deze video-link wil verwijderen?",
-      "title": "Video-link verwijderen"
+      "description": "Ben je zeker dat je deze videolink wil verwijderen?",
+      "title": "Videolink verwijderen"
     },
-    "intro": "Voeg een video-link toe om je activiteit extra aantrekkelijk te maken",
+    "intro": "Voeg een videolink toe om je activiteit extra aantrekkelijk te maken",
     "title": "Video's",
     "upload_modal": {
       "actions": {
         "add": "Toevoegen",
         "cancel": "Annuleren"
       },
-      "link_requirements": "Je kan enkel video-urls van YouTube of Vimeo toevoegen",
-      "title": "Video-link toevoegen",
+      "link_requirements": "Je kan enkel videolinks van YouTube of Vimeo toevoegen",
+      "title": "Videolink toevoegen",
       "validation_messages": {
-        "link": "Je video-link voldoet niet aan de vereisten."
+        "link": "Je videolink voldoet niet aan de vereisten."
       }
     }
   }
