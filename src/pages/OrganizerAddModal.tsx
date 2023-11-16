@@ -30,6 +30,8 @@ import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback
 
 import { City, CityPicker } from './CityPicker';
 import { DUTCH_ZIP_REGEX, GERMAN_ZIP_REGEX } from './steps/LocationStep';
+import { LabelPositions } from '@/ui/Label';
+import { RadioButton, RadioButtonTypes } from '@/ui/RadioButton';
 
 const getValue = getValueFromTheme('organizerAddModal');
 
@@ -75,11 +77,12 @@ const schema = yup
   })
   .required();
 
-type FormData = yup.InferType<typeof schema>;
+type FormData = yup.InferType<typeof schema> & { isContactUrl: boolean };
 
 const defaultValues: FormData = {
   url: 'https://',
   name: '',
+  isContactUrl: true,
   address: {
     country: Countries.BE,
     streetAndNumber: undefined,
@@ -234,36 +237,56 @@ const OrganizerAddModal = ({
           id="organizer-url"
           label={t('organizer.add_modal.labels.url')}
           info={
-            isUrlAlreadyTaken ? (
-              <Alert variant={AlertVariants.WARNING}>
-                <Trans
-                  i18nKey={`organizer.add_modal.validation_messages.url_not_unique`}
-                  values={{
-                    organizerName: getLanguageObjectOrFallback(
-                      existingOrganizer?.name,
-                      i18n.language as SupportedLanguage,
-                      existingOrganizer.mainLanguage as SupportedLanguage,
-                    ),
-                  }}
-                  components={{
-                    setOrganizerLink: (
-                      <Button
-                        variant={ButtonVariants.UNSTYLED}
-                        onClick={() => onSetOrganizer(existingOrganizer)}
-                        display={'inline-block'}
-                        fontWeight={'bold'}
-                        textDecoration={'underline'}
-                        padding={0}
+            <>
+              {isUrlAlreadyTaken ? (
+                <Alert variant={AlertVariants.WARNING}>
+                  <Trans
+                    i18nKey={`organizer.add_modal.validation_messages.url_not_unique`}
+                    values={{
+                      organizerName: getLanguageObjectOrFallback(
+                        existingOrganizer?.name,
+                        i18n.language as SupportedLanguage,
+                        existingOrganizer.mainLanguage as SupportedLanguage,
+                      ),
+                    }}
+                    components={{
+                      setOrganizerLink: (
+                        <Button
+                          variant={ButtonVariants.UNSTYLED}
+                          onClick={() => onSetOrganizer(existingOrganizer)}
+                          display={'inline-block'}
+                          fontWeight={'bold'}
+                          textDecoration={'underline'}
+                          padding={0}
+                        />
+                      ),
+                    }}
+                  />
+                </Alert>
+              ) : (
+                <Alert variant={AlertVariants.PRIMARY}>
+                  {t('organizer.add_modal.url_requirements')}
+                </Alert>
+              )}
+              <Controller
+                control={control}
+                name={'isContactUrl'}
+                render={({ field: { value, ...field } }) => (
+                  <FormElement
+                    id={field.name}
+                    label={t('organizers.create.step1.is_contact_url')}
+                    labelPosition={LabelPositions.RIGHT}
+                    Component={
+                      <RadioButton
+                        type={RadioButtonTypes.SWITCH}
+                        checked={value}
+                        {...field}
                       />
-                    ),
-                  }}
-                />
-              </Alert>
-            ) : (
-              <Alert variant={AlertVariants.PRIMARY}>
-                {t('organizer.add_modal.url_requirements')}
-              </Alert>
-            )
+                    }
+                  />
+                )}
+              />
+            </>
           }
           error={
             !isUrlAlreadyTaken &&
