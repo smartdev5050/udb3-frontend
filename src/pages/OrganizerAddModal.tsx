@@ -20,7 +20,9 @@ import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
+import { LabelPositions } from '@/ui/Label';
 import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
+import { RadioButton, RadioButtonTypes } from '@/ui/RadioButton';
 import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
 import { Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
@@ -30,8 +32,6 @@ import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback
 
 import { City, CityPicker } from './CityPicker';
 import { DUTCH_ZIP_REGEX, GERMAN_ZIP_REGEX } from './steps/LocationStep';
-import { LabelPositions } from '@/ui/Label';
-import { RadioButton, RadioButtonTypes } from '@/ui/RadioButton';
 
 const getValue = getValueFromTheme('organizerAddModal');
 
