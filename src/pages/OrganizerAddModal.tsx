@@ -77,12 +77,11 @@ const schema = yup
   })
   .required();
 
-type FormData = yup.InferType<typeof schema> & { isContactUrl: boolean };
+type FormData = yup.InferType<typeof schema>;
 
 const defaultValues: FormData = {
   url: 'https://',
   name: '',
-  isContactUrl: true,
   address: {
     country: Countries.BE,
     streetAndNumber: undefined,
@@ -112,6 +111,7 @@ const OrganizerAddModal = ({
     retriggerOn: visible,
   });
 
+  const [isContactUrl, setIsContactUrl] = useState(false);
   const [contactInfo, setContactInfo] = useState({
     email: [],
     phone: [],
@@ -129,6 +129,7 @@ const OrganizerAddModal = ({
     clearErrors,
     setValue,
     setError,
+    getValues,
   } = useForm<FormData>({
     mode: 'onBlur',
     resolver: yupResolver(schema),
@@ -268,23 +269,28 @@ const OrganizerAddModal = ({
                   {t('organizer.add_modal.url_requirements')}
                 </Alert>
               )}
-              <Controller
-                control={control}
-                name={'isContactUrl'}
-                render={({ field: { value, ...field } }) => (
-                  <FormElement
-                    id={field.name}
-                    label={t('organizers.create.step1.is_contact_url')}
-                    labelPosition={LabelPositions.RIGHT}
-                    Component={
-                      <RadioButton
-                        type={RadioButtonTypes.SWITCH}
-                        checked={value}
-                        {...field}
-                      />
-                    }
+              <FormElement
+                id={'isContactUrl'}
+                label={t('organizers.create.step1.is_contact_url')}
+                labelPosition={LabelPositions.RIGHT}
+                Component={
+                  <RadioButton
+                    type={RadioButtonTypes.SWITCH}
+                    checked={isContactUrl}
+                    onChange={() => {
+                      setIsContactUrl(!isContactUrl);
+                      const contactUrl = getValues('url');
+                      if (!contactUrl || isContactUrl) {
+                        return;
+                      }
+
+                      handleSetContactInfo({
+                        ...contactInfo,
+                        url: [...new Set([...contactInfo.url, contactUrl])],
+                      });
+                    }}
                   />
-                )}
+                }
               />
             </>
           }

@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
@@ -63,9 +63,7 @@ const ContactInfoStep = ({
     getEntityByIdQuery.data?.contactPoint ?? organizerContactInfo;
 
   useEffect(() => {
-    if (!contactInfo) return;
-
-    if (isContactInfoStateInitialized) return;
+    if (!contactInfo || isContactInfoStateInitialized) return;
 
     const contactInfoArray = [];
     Object.keys(contactInfo).forEach((key) => {
@@ -80,6 +78,21 @@ const ContactInfoStep = ({
     setContactInfoState(contactInfoArray);
     setIsContactInfoInitialized(true);
   }, [contactInfo]);
+
+  useEffect(() => {
+    const contactInfoArray = [];
+    Object.keys(organizerContactInfo ?? {}).forEach((key) => {
+      organizerContactInfo[key].forEach((item) => {
+        contactInfoArray.push({
+          type: key,
+          value: item,
+        });
+      });
+    });
+
+    setContactInfoState(contactInfoArray);
+    setIsContactInfoInitialized(true);
+  }, [organizerContactInfo]);
 
   useEffect(() => {
     if (!isContactInfoStateInitialized) return;
