@@ -62,11 +62,9 @@ const ContactInfoStep = ({
     // @ts-expect-error
     getEntityByIdQuery.data?.contactPoint ?? organizerContactInfo;
 
-  useEffect(() => {
-    if (!contactInfo || isContactInfoStateInitialized) return;
-
+  const updateContactInfoState = (newContactInfo) => {
     const contactInfoArray = [];
-    Object.keys(contactInfo).forEach((key) => {
+    Object.keys(contactInfo ?? {}).forEach((key) => {
       contactInfo[key].forEach((item) => {
         contactInfoArray.push({
           type: key,
@@ -77,21 +75,15 @@ const ContactInfoStep = ({
 
     setContactInfoState(contactInfoArray);
     setIsContactInfoInitialized(true);
+  };
+
+  useEffect(() => {
+    if (!contactInfo || isContactInfoStateInitialized) return;
+    updateContactInfoState(contactInfo);
   }, [contactInfo]);
 
   useEffect(() => {
-    const contactInfoArray = [];
-    Object.keys(organizerContactInfo ?? {}).forEach((key) => {
-      organizerContactInfo[key].forEach((item) => {
-        contactInfoArray.push({
-          type: key,
-          value: item,
-        });
-      });
-    });
-
-    setContactInfoState(contactInfoArray);
-    setIsContactInfoInitialized(true);
+    updateContactInfoState(organizerContactInfo);
   }, [organizerContactInfo]);
 
   useEffect(() => {

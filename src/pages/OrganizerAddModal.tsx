@@ -198,6 +198,9 @@ const OrganizerAddModal = ({
 
   const handleSetContactInfo = (contactInfo: ContactInfo) => {
     const organizerContactInfo = [];
+    if (!contactInfo.url.includes(getValues('url'))) {
+      setIsContactUrl(false);
+    }
 
     Object.keys(contactInfo).map((key, index) => {
       contactInfo[key].map((value: string) => {
