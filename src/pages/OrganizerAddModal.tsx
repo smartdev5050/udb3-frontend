@@ -280,13 +280,22 @@ const OrganizerAddModal = ({
                     onChange={() => {
                       setIsContactUrl(!isContactUrl);
                       const contactUrl = getValues('url');
-                      if (!contactUrl || isContactUrl) {
+                      if (!contactUrl) {
                         return;
                       }
 
+                      const url = new Set(
+                        isContactUrl
+                          ? contactInfo.url.filter(
+                              (previousContactUrl) =>
+                                previousContactUrl !== contactUrl,
+                            )
+                          : [...contactInfo.url, contactUrl],
+                      );
+
                       handleSetContactInfo({
                         ...contactInfo,
-                        url: [...new Set([...contactInfo.url, contactUrl])],
+                        url: [...url],
                       });
                     }}
                   />
