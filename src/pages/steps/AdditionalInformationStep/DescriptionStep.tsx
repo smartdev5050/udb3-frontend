@@ -85,11 +85,7 @@ const DescriptionTips = ({
 
   return (
     (eventTypeId || scope === ScopeTypes.ORGANIZERS) && (
-      <Alert
-        css={`
-          margin-top: 1.86rem;
-        `}
-      >
+      <Alert marginTop={4.8}>
         {t(translationKey, {
           keySeparator: '*',
         })}
