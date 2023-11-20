@@ -78,7 +78,7 @@ test('create a place', async ({ baseURL, page }) => {
   await page.getByLabel('Copyright').fill(dummyPlace.image.copyright);
   await page.getByRole('button', { name: 'Uploaden' }).click();
   await expect(page.getByText(dummyPlace.image.description)).toBeVisible();
-  await page.getByRole('button', { name: 'Video-link toevoegen' }).click();
+  await page.getByRole('button', { name: 'Videolink toevoegen' }).click();
   await page.getByLabel('Link').fill(dummyPlace.video);
   await page.getByRole('button', { name: 'Toevoegen' }).click();
   await expect(page.getByRole('img', { name: 'video' })).toBeVisible();
