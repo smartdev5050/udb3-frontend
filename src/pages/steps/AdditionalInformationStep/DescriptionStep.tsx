@@ -4,7 +4,10 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Scope, ScopeTypes } from '@/constants/OfferType';
-import { useChangeDescriptionMutation } from '@/hooks/api/offers';
+import {
+  useChangeDescriptionMutation,
+  useDeleteDescriptionMutation,
+} from '@/hooks/api/offers';
 import { useDeleteOrganizerDescriptionMutation } from '@/hooks/api/organizers';
 import { useGetEntityByIdAndScope } from '@/hooks/api/scope';
 import RichTextEditor from '@/pages/RichTextEditor';
@@ -150,21 +153,24 @@ const DescriptionStep = ({
     onSuccess: onSuccessfulChange,
   });
 
-  const deleteOrganizerDescriptionMutation =
-    useDeleteOrganizerDescriptionMutation();
+  const deleteDescriptionMutation = useDeleteDescriptionMutation({
+    onSuccess: onSuccessfulChange,
+  });
 
-  const updateDescription = (description = '') =>
-    scope === ScopeTypes.ORGANIZERS && description.length === 0
-      ? deleteOrganizerDescriptionMutation.mutate({
-          organizerId: offerId,
-          mainLanguage: i18n.language,
-        })
+  const updateDescription = (description = '') => {
+    const args = {
+      id: offerId,
+      language: i18n.language,
+      scope,
+    };
+
+    return description.length === 0
+      ? deleteDescriptionMutation.mutate(args)
       : changeDescriptionMutation.mutate({
+          ...args,
           description,
-          language: i18n.language,
-          eventId: offerId,
-          scope,
         });
+  };
 
   const handleBlur = () => {
     const isCompleted = plainTextDescription.length >= IDEAL_DESCRIPTION_LENGTH;

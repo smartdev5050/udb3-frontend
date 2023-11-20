@@ -17,6 +17,7 @@ import {
   useAuthenticatedQuery,
 } from './authenticated-query';
 import type { User } from './user';
+import { UseMutationOptions } from 'react-query';
 
 const getOffersByCreator = async ({ headers, ...queryData }) => {
   const res = await fetchFromApi({
@@ -277,13 +278,13 @@ const useAddOfferPriceInfoMutation = (configuration = {}) =>
 
 const changeDescription = async ({
   headers,
-  eventId,
+  id,
   language,
   description,
   scope,
 }) =>
   fetchFromApi({
-    path: `/${scope}/${eventId}/description/${language}`,
+    path: `/${scope}/${id}/description/${language}`,
     options: {
       method: 'PUT',
       headers,
@@ -424,6 +425,22 @@ const useDeleteOfferImageMutation = (configuration = {}) =>
     ...configuration,
   });
 
+const deleteDescription = ({ headers, id, scope, language }) =>
+  fetchFromApi({
+    path: `/${scope}/${id}/description/${language}`,
+    options: {
+      headers,
+      method: 'DELETE',
+    },
+  });
+
+const useDeleteDescriptionMutation = (configuration: UseMutationOptions = {}) =>
+  useAuthenticatedMutation({
+    mutationFn: deleteDescription,
+    mutationKey: 'offers-delete-description',
+    ...configuration,
+  });
+
 const addContactPoint = async ({ headers, eventId, contactPoint, scope }) =>
   fetchFromApi({
     path: `/${scope}/${eventId}/contactPoint`,
@@ -511,6 +528,7 @@ export {
   useChangeOfferThemeMutation,
   useChangeOfferTypeMutation,
   useChangeOfferTypicalAgeRangeMutation,
+  useDeleteDescriptionMutation,
   useDeleteOfferImageMutation,
   useDeleteOfferOrganizerMutation,
   useDeleteOfferVideoMutation,
