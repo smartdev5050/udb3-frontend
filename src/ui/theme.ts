@@ -354,7 +354,7 @@ const theme = {
     loginPage: {
       backgroundColor: colors.white,
       footer: {
-        backgroundColor: '#FAFAFB',
+        backgroundColor: colors.white,
         linkColor: colors.udbMainDarkGrey,
       },
     },
