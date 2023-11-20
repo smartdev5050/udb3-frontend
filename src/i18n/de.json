@@ -445,6 +445,7 @@
         "select_recent_used_organizer": "Eine Organisation wiederverwenden",
         "select_recent_used_organizer_info": "Wir haben für Sie die Organisationen vorbereitet, für die Sie sich kürzlich angemeldet haben. Fügen Sie sie mit einem einfachen Klick hinzu.",
         "or_choose_other_organizer": "Fügen Sie eine Organisation hinzu",
+        "choose_other_organizer": "Wählen Sie eine Organisation aus",
         "uitpas_cardsystems": "UiTPAS Kartensysteme",
         "uitpas_alert": {
           "success": "Ihre Aktivität ist jetzt als UitPAS-Aktivität registriert.",
