@@ -202,6 +202,15 @@ type Props = StackProps & {
   labels?: string[];
 };
 
+const organizerTabOrder = [
+  Fields.CONTACT_INFO,
+  Fields.DESCRIPTION,
+  Fields.MEDIA,
+  Fields.LOCATION,
+  Fields.LABELS,
+  Fields.CULTUURKUUR,
+];
+
 const AdditionalInformationStep = ({
   offerId,
   scope,
@@ -273,24 +282,17 @@ const AdditionalInformationStep = ({
     contact_point: ValidationStatus.NONE,
   });
 
-  const orderedTabs = useMemo(() => {
-    const organizerTabOrder = [
-      Fields.CONTACT_INFO,
-      Fields.DESCRIPTION,
-      Fields.MEDIA,
-      Fields.LOCATION,
-      Fields.LABELS,
-      Fields.CULTUURKUUR,
-    ];
-
-    return scope !== ScopeTypes.ORGANIZERS
-      ? tabConfigurations
-      : tabConfigurations.sort(
-          (a, b) =>
-            organizerTabOrder.indexOf(a.field) -
-            organizerTabOrder.indexOf(b.field),
-        );
-  }, [scope]);
+  const orderedTabs = useMemo(
+    () =>
+      scope !== ScopeTypes.ORGANIZERS
+        ? tabConfigurations
+        : tabConfigurations.sort(
+            (a, b) =>
+              organizerTabOrder.indexOf(a.field) -
+              organizerTabOrder.indexOf(b.field),
+          ),
+    [scope],
+  );
 
   return (
     <Stack ref={containerRef} {...getStackProps(props)}>
