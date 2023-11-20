@@ -294,7 +294,7 @@ const EventTypeAndThemeStep = ({
                         width="auto"
                         display="inline-flex"
                         key={id}
-                        variant={ButtonVariants.SECONDARY}
+                        variant={ButtonVariants.SECONDARY_TOGGLE}
                         onClick={() => {
                           field.onChange({
                             ...field.value,
@@ -365,7 +365,7 @@ const EventTypeAndThemeStep = ({
                         width="auto"
                         display="inline-flex"
                         key={id}
-                        variant={ButtonVariants.SECONDARY}
+                        variant={ButtonVariants.SECONDARY_TOGGLE}
                         onClick={() => {
                           field.onChange({
                             ...field.value,
@@ -403,7 +403,7 @@ const EventTypeAndThemeStep = ({
                             width="auto"
                             display="inline-flex"
                             key={id}
-                            variant={ButtonVariants.SECONDARY}
+                            variant={ButtonVariants.SECONDARY_TOGGLE}
                             onClick={() => {
                               field.onChange({
                                 ...field.value,

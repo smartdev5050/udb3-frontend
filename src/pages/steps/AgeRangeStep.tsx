@@ -171,7 +171,7 @@ const AgeRangeStep = ({
                       width="auto"
                       active={selectedAgeRange === key}
                       display="inline-flex"
-                      variant={ButtonVariants.SECONDARY}
+                      variant={ButtonVariants.SECONDARY_TOGGLE}
                       onClick={() => {
                         setIsCustomAgeRange(key === 'CUSTOM');
 

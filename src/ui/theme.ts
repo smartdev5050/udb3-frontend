@@ -175,6 +175,13 @@ const theme = {
         activeBackgroundColor: '#e6e6e6',
         activeBorderColor: '#adadad',
       },
+      secondaryToggle: {
+        color: '#333',
+        borderColor: '#8F9699',
+        activeColor: colors.udbMainPositiveGreen,
+        activeBorderColor: colors.udbMainPositiveGreen,
+        activeBackgroundColor: colors.udbMainLightGreen,
+      },
       secondaryOutline: {
         color: colors.udbMainBlue,
         borderColor: colors.udbMainBlue,

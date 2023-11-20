@@ -17,6 +17,7 @@ import { getGlobalFormInputHeight, getValueFromTheme } from './theme';
 const BootStrapVariants = {
   PRIMARY: 'primary',
   SECONDARY: 'secondary',
+  SECONDARY_TOGGLE: 'secondary-toggle',
   SECONDARY_OUTLINE: 'secondary-outline',
   SUCCESS: 'success',
   DANGER: 'danger',
@@ -122,6 +123,33 @@ const customCSS = css`
     &:not(:disabled):not(.disabled):active {
       color: ${getValue('secondary.activeColor')};
       background-color: ${getValue('secondary.activeBackgroundColor')};
+    }
+  }
+
+  &.btn-secondary-toggle {
+    color: ${getValue('secondaryToggle.color')};
+    box-shadow: none !important;
+    border: 1px solid ${getValue('secondaryToggle.borderColor')};
+
+    &.btn-secondary-toggle:not(:disabled):not(.disabled):active,
+    .btn-secondary-toggle:not(:disabled):not(.disabled).active {
+      color: ${getValue('secondaryToggle.activeColor')};
+      background-color: ${getValue('secondaryToggle.activeBackgroundColor')};
+      border-color: ${getValue('secondaryToggle.activeBorderColor')};
+
+      span {
+        color: ${getValue('secondaryToggle.activeColor')};
+      }
+    }
+
+    &:not(:disabled):not(.disabled).active,
+    &:not(:disabled):not(.disabled):active {
+      background-color: ${getValue('secondaryToggle.activeBackgroundColor')};
+      border-color: ${getValue('secondaryToggle.activeBorderColor')};
+
+      span {
+        color: ${getValue('secondaryToggle.activeColor')};
+      }
     }
   }
 
