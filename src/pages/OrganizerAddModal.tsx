@@ -20,7 +20,9 @@ import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
+import { LabelPositions } from '@/ui/Label';
 import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
+import { RadioButton, RadioButtonTypes } from '@/ui/RadioButton';
 import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
 import { Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
@@ -109,6 +111,7 @@ const OrganizerAddModal = ({
     retriggerOn: visible,
   });
 
+  const [isContactUrl, setIsContactUrl] = useState(false);
   const [contactInfo, setContactInfo] = useState({
     email: [],
     phone: [],
@@ -126,6 +129,7 @@ const OrganizerAddModal = ({
     clearErrors,
     setValue,
     setError,
+    getValues,
   } = useForm<FormData>({
     mode: 'onBlur',
     resolver: yupResolver(schema),
@@ -194,6 +198,9 @@ const OrganizerAddModal = ({
 
   const handleSetContactInfo = (contactInfo: ContactInfo) => {
     const organizerContactInfo = [];
+    if (!contactInfo.url.includes(getValues('url'))) {
+      setIsContactUrl(false);
+    }
 
     Object.keys(contactInfo).map((key, index) => {
       contactInfo[key].map((value: string) => {
@@ -234,36 +241,70 @@ const OrganizerAddModal = ({
           id="organizer-url"
           label={t('organizer.add_modal.labels.url')}
           info={
-            isUrlAlreadyTaken ? (
-              <Alert variant={AlertVariants.WARNING}>
-                <Trans
-                  i18nKey={`organizer.add_modal.validation_messages.url_not_unique`}
-                  values={{
-                    organizerName: getLanguageObjectOrFallback(
-                      existingOrganizer?.name,
-                      i18n.language as SupportedLanguage,
-                      existingOrganizer.mainLanguage as SupportedLanguage,
-                    ),
-                  }}
-                  components={{
-                    setOrganizerLink: (
-                      <Button
-                        variant={ButtonVariants.UNSTYLED}
-                        onClick={() => onSetOrganizer(existingOrganizer)}
-                        display={'inline-block'}
-                        fontWeight={'bold'}
-                        textDecoration={'underline'}
-                        padding={0}
-                      />
-                    ),
-                  }}
-                />
-              </Alert>
-            ) : (
-              <Alert variant={AlertVariants.PRIMARY}>
-                {t('organizer.add_modal.url_requirements')}
-              </Alert>
-            )
+            <>
+              {isUrlAlreadyTaken ? (
+                <Alert variant={AlertVariants.WARNING}>
+                  <Trans
+                    i18nKey={`organizer.add_modal.validation_messages.url_not_unique`}
+                    values={{
+                      organizerName: getLanguageObjectOrFallback(
+                        existingOrganizer?.name,
+                        i18n.language as SupportedLanguage,
+                        existingOrganizer.mainLanguage as SupportedLanguage,
+                      ),
+                    }}
+                    components={{
+                      setOrganizerLink: (
+                        <Button
+                          variant={ButtonVariants.UNSTYLED}
+                          onClick={() => onSetOrganizer(existingOrganizer)}
+                          display={'inline-block'}
+                          fontWeight={'bold'}
+                          textDecoration={'underline'}
+                          padding={0}
+                        />
+                      ),
+                    }}
+                  />
+                </Alert>
+              ) : (
+                <Alert variant={AlertVariants.PRIMARY}>
+                  {t('organizer.add_modal.url_requirements')}
+                </Alert>
+              )}
+              <FormElement
+                id={'isContactUrl'}
+                label={t('organizers.create.step1.is_contact_url')}
+                labelPosition={LabelPositions.RIGHT}
+                Component={
+                  <RadioButton
+                    type={RadioButtonTypes.SWITCH}
+                    checked={isContactUrl}
+                    onChange={() => {
+                      setIsContactUrl(!isContactUrl);
+                      const contactUrl = getValues('url');
+                      if (!contactUrl) {
+                        return;
+                      }
+
+                      const url = new Set(
+                        isContactUrl
+                          ? contactInfo.url.filter(
+                              (previousContactUrl) =>
+                                previousContactUrl !== contactUrl,
+                            )
+                          : [...contactInfo.url, contactUrl],
+                      );
+
+                      handleSetContactInfo({
+                        ...contactInfo,
+                        url: [...url],
+                      });
+                    }}
+                  />
+                }
+              />
+            </>
           }
           error={
             !isUrlAlreadyTaken &&
