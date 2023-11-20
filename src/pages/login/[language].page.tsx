@@ -350,7 +350,7 @@ const Index = () => {
                 <CustomIcon
                   name={CustomIconVariants.PHYSICAL}
                   color={colors.udbMainBlue}
-                  width="32"
+                  width="50"
                 />
               }
               quantity="215.000"
@@ -364,7 +364,7 @@ const Index = () => {
                 <CustomIcon
                   name={CustomIconVariants.PHONE}
                   color={colors.udbMainBlue}
-                  width="32"
+                  width="50"
                 />
               }
               quantity="1.000"
@@ -384,7 +384,7 @@ const Index = () => {
                 <CustomIcon
                   name={CustomIconVariants.BADGE}
                   color={colors.udbMainBlue}
-                  width="32"
+                  width="50"
                 />
               }
               quantity="28.000"
