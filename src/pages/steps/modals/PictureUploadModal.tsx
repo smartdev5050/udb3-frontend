@@ -257,7 +257,7 @@ const PictureUploadModal = ({
       cancelTitle={t('pictures.upload_modal.actions.cancel')}
       size={ModalSizes.MD}
       onConfirm={() => {
-        if (!dirtyFields.description) {
+        if (!Object.keys(dirtyFields).length) {
           onClose();
         }
 
