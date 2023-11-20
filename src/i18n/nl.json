@@ -203,7 +203,8 @@
       "recent_locations": {
         "title": "Kies een locatie die je recent gebruikte",
         "info": "We hebben de locaties waarvoor je recent invoerde hier voor je klaargezet. Met één klik voeg je ze toe.",
-        "other": "Of kies een andere locatie"
+        "other": "Of kies een andere locatie",
+        "pick": "Kies een locatie"
       },
       "validation_messages": {
         "street_and_number": {

@@ -1,5 +1,4 @@
 import { TFunction } from 'i18next';
-import { uniqBy } from 'lodash';
 import getConfig from 'next/config';
 import React, { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { Controller, useWatch } from 'react-hook-form';
@@ -15,18 +14,13 @@ import {
   useChangeOnlineUrlMutation,
   useDeleteOnlineUrlMutation,
 } from '@/hooks/api/events';
-import {
-  useGetOfferByIdQuery,
-  useGetOffersByCreatorQuery,
-} from '@/hooks/api/offers';
+import { useGetOfferByIdQuery } from '@/hooks/api/offers';
 import { useChangeAddressMutation } from '@/hooks/api/places';
-import { useGetUserQuery } from '@/hooks/api/user';
 import { SupportedLanguage } from '@/i18n/index';
 import { FormData as OfferFormData } from '@/pages/create/OfferForm';
 import { Address, AddressInternal } from '@/types/Address';
 import { Countries, Country } from '@/types/Country';
 import { AttendanceMode, AudienceType } from '@/types/Event';
-import { Offer } from '@/types/Offer';
 import { Values } from '@/types/Values';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { parseSpacing } from '@/ui/Box';
@@ -50,6 +44,7 @@ import { CityPicker } from '../CityPicker';
 import { Features, NewFeatureTooltip } from '../NewFeatureTooltip';
 import { CountryPicker } from './CountryPicker';
 import { UseEditArguments } from './hooks/useEditField';
+import { useRecentLocations } from './hooks/useRecentLocations';
 import { PlaceStep } from './PlaceStep';
 import {
   FormDataUnion,
@@ -70,40 +65,7 @@ const getGlobalValue = getValueFromTheme('global');
 
 const RecentLocations = ({ onFieldChange, ...props }) => {
   const { t, i18n } = useTranslation();
-  const getUserQuery = useGetUserQuery();
-  const getOffersQuery = useGetOffersByCreatorQuery(
-    {
-      advancedQuery: '_exists_:location.id AND NOT (audienceType:"education")',
-      // @ts-expect-error
-      creator: getUserQuery?.data,
-      sortOptions: {
-        field: 'modified',
-        order: 'desc',
-      },
-      paginationOptions: { start: 0, limit: 20 },
-    },
-    {
-      queryArguments: {
-        workflowStatus: 'DRAFT,READY_FOR_VALIDATION,APPROVED',
-        addressCountry: '*',
-      },
-    },
-  );
-
-  const offers: (Offer & { location: any })[] =
-    // @ts-expect-error
-    getOffersQuery?.data?.member ?? [];
-  const locations = uniqBy(
-    offers?.map((offer) => offer.location),
-    '@id',
-  )
-    .filter(
-      (location) =>
-        location &&
-        location?.name?.nl !== 'Online' &&
-        !('duplicateOf' in location),
-    )
-    .slice(0, 4);
+  const { recentLocations: locations } = useRecentLocations();
 
   return (
     <Stack {...props}>
@@ -339,6 +301,8 @@ const LocationStep = ({
   // @ts-expect-error
   const audience = getOfferByIdQuery.data?.audience;
 
+  const { hasRecentLocations } = useRecentLocations();
+
   useEffect(() => {
     if (audience?.audienceType) {
       setAudienceType(audience.audienceType);
@@ -399,19 +363,23 @@ const LocationStep = ({
             (!municipality || !place);
 
           const renderFieldWithRecentLocations = (children) => (
-            <Stack spacing={5} maxWidth={'50%'}>
+            <Stack spacing={5}>
               {scope === OfferTypes.EVENTS && OnlineToggle}
-              {showRecentLocations && (
-                <RecentLocations flex={1} onFieldChange={onFieldChange} />
-              )}
-              <Stack spacing={4} flex={1}>
-                {showRecentLocations && (
-                  <Text fontWeight={'bold'}>
-                    {t('create.location.recent_locations.other')}
-                  </Text>
+              <Inline spacing={5}>
+                {showRecentLocations && hasRecentLocations && (
+                  <RecentLocations flex={1} onFieldChange={onFieldChange} />
                 )}
-                {children}
-              </Stack>
+                <Stack spacing={4} flex={1}>
+                  {showRecentLocations && (
+                    <Text fontWeight={'bold'}>
+                      {hasRecentLocations
+                        ? t('create.location.recent_locations.other')
+                        : t('create.location.recent_locations.pick')}
+                    </Text>
+                  )}
+                  {children}
+                </Stack>
+              </Inline>
             </Stack>
           );
 
