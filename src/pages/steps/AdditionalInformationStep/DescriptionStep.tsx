@@ -8,7 +8,6 @@ import {
   useChangeDescriptionMutation,
   useDeleteDescriptionMutation,
 } from '@/hooks/api/offers';
-import { useDeleteOrganizerDescriptionMutation } from '@/hooks/api/organizers';
 import { useGetEntityByIdAndScope } from '@/hooks/api/scope';
 import RichTextEditor from '@/pages/RichTextEditor';
 import { Event } from '@/types/Event';

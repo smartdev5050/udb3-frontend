@@ -1,4 +1,5 @@
 import type { UseQueryOptions } from 'react-query';
+import { UseMutationOptions } from 'react-query';
 
 import { OfferTypes, ScopeTypes } from '@/constants/OfferType';
 import { useGetEventByIdQuery } from '@/hooks/api/events';
@@ -17,7 +18,6 @@ import {
   useAuthenticatedQuery,
 } from './authenticated-query';
 import type { User } from './user';
-import { UseMutationOptions } from 'react-query';
 
 const getOffersByCreator = async ({ headers, ...queryData }) => {
   const res = await fetchFromApi({

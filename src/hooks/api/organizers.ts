@@ -350,7 +350,6 @@ export {
   useChangeLocationMutation,
   useCreateOrganizerMutation,
   useDeleteOrganizerByIdMutation,
-  useDeleteOrganizerDescriptionMutation,
   useDeleteOrganizerEducationalDescriptionMutation,
   useGetOrganizerByIdQuery,
   useGetOrganizersByCreatorQuery,
