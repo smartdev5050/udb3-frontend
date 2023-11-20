@@ -18,7 +18,6 @@ const BootStrapVariants = {
   PRIMARY: 'primary',
   SECONDARY: 'secondary',
   SECONDARY_TOGGLE: 'secondary-toggle',
-  SECONDARY_OUTLINE: 'secondary-outline',
   SUCCESS: 'success',
   DANGER: 'danger',
 } as const;
@@ -150,35 +149,6 @@ const customCSS = css`
       span {
         color: ${getValue('secondaryToggle.activeColor')};
       }
-    }
-  }
-
-  &.btn-secondary-outline {
-    color: ${getValue('secondaryOutline.color')};
-    border: 2px solid ${getValue('secondaryOutline.borderColor')};
-    box-shadow: none;
-
-    &.dropdown-toggle.dropdown-toggle-split {
-      border-left: 1px solid #f0f0f0;
-    }
-
-    &:hover {
-      border: 2px solid ${getValue('secondaryOutline.hoverBorderColor')};
-      background-color: ${getValue('secondaryOutline.hoverBackgroundColor')};
-    }
-
-    // active
-    &.btn-outline-secondary:not(:disabled):not(.disabled):active,
-    .btn-outline-secondary:not(:disabled):not(.disabled).active {
-      color: ${getValue('secondaryOutline.activeColor')};
-      background-color: ${getValue('secondaryOutline.activeBackgroundColor')};
-      border: none;
-    }
-
-    &:not(:disabled):not(.disabled).active,
-    &:not(:disabled):not(.disabled):active {
-      color: ${getValue('secondaryOutline.activeColor')};
-      background-color: ${getValue('secondaryOutline.activeBackgroundColor')};
     }
   }
 
