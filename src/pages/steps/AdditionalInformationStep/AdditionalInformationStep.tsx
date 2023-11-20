@@ -1,15 +1,10 @@
 import { mapValues } from 'lodash';
 import { useRouter } from 'next/router';
-import { FC, useCallback, useEffect, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 
-import {
-  OfferType,
-  OfferTypes,
-  Scope,
-  ScopeTypes,
-} from '@/constants/OfferType';
+import { OfferType, Scope, ScopeTypes } from '@/constants/OfferType';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { CultuurKuurStep } from '@/pages/steps/AdditionalInformationStep/CultuurKuurStep';
 import { LabelsStep } from '@/pages/steps/AdditionalInformationStep/LabelsStep';
@@ -207,6 +202,15 @@ type Props = StackProps & {
   labels?: string[];
 };
 
+const organizerTabOrder = [
+  Fields.CONTACT_INFO,
+  Fields.DESCRIPTION,
+  Fields.MEDIA,
+  Fields.LOCATION,
+  Fields.LABELS,
+  Fields.CULTUURKUUR,
+];
+
 const AdditionalInformationStep = ({
   offerId,
   scope,
@@ -278,6 +282,18 @@ const AdditionalInformationStep = ({
     contact_point: ValidationStatus.NONE,
   });
 
+  const orderedTabs = useMemo(
+    () =>
+      scope !== ScopeTypes.ORGANIZERS
+        ? tabConfigurations
+        : tabConfigurations.sort(
+            (a, b) =>
+              organizerTabOrder.indexOf(a.field) -
+              organizerTabOrder.indexOf(b.field),
+          ),
+    [scope],
+  );
+
   return (
     <Stack ref={containerRef} {...getStackProps(props)}>
       <Tabs
@@ -289,7 +305,7 @@ const AdditionalInformationStep = ({
           }
         `}
       >
-        {tabConfigurations.map(
+        {orderedTabs.map(
           ({
             shouldShowOn,
             field,
