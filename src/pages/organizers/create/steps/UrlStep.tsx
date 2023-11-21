@@ -13,7 +13,7 @@ import { Alert, AlertVariants } from '@/ui/Alert';
 import { FormElement } from '@/ui/FormElement';
 import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
-import { LabelPositions } from '@/ui/Label';
+import { LabelPositions, LabelVariants } from '@/ui/Label';
 import { RadioButton, RadioButtonTypes } from '@/ui/RadioButton';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
@@ -158,6 +158,7 @@ const UrlStep = ({
                               label={t(
                                 'organizers.create.step1.is_contact_url',
                               )}
+                              labelVariant={LabelVariants.NORMAL}
                               labelPosition={LabelPositions.RIGHT}
                               Component={
                                 <RadioButton
