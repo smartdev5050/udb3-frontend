@@ -1,4 +1,4 @@
-import { mapValues } from 'lodash';
+import { mapValues, sortBy } from 'lodash';
 import { useRouter } from 'next/router';
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -286,10 +286,8 @@ const AdditionalInformationStep = ({
     () =>
       scope !== ScopeTypes.ORGANIZERS
         ? tabConfigurations
-        : tabConfigurations.sort(
-            (a, b) =>
-              organizerTabOrder.indexOf(a.field) -
-              organizerTabOrder.indexOf(b.field),
+        : sortBy(tabConfigurations, (tabConfig) =>
+            organizerTabOrder.indexOf(tabConfig.field),
           ),
     [scope],
   );
