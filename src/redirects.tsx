@@ -47,12 +47,6 @@ const getRedirects = (
   // than development, so we don't get permanent redirects on localhost which
   // may conflict with other projects.
   {
-    source: '/event',
-    destination: '/create',
-    permanent: false,
-    featureFlag: FeatureFlags.REACT_CREATE,
-  },
-  {
     source: '/event/:eventId/status',
     destination: '/events/:eventId/availability',
     permanent: environment !== 'development',
