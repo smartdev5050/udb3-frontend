@@ -29,7 +29,6 @@ import {
   useGetUserQueryServerSide,
   User,
 } from '@/hooks/api/user';
-import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
 import { PermissionTypes } from '@/layouts/Sidebar';
 import { Footer } from '@/pages/Footer';
 import type { Event } from '@/types/Event';
@@ -97,12 +96,6 @@ const UseDeleteItemByIdMap = {
 const CreateMap = {
   events: '/create?scope=events',
   places: '/create?scope=places',
-  organizers: '/organizer',
-};
-
-const CreateMapLegacy = {
-  events: '/event',
-  places: '/event',
   organizers: '/organizer',
 };
 
@@ -519,8 +512,6 @@ const Dashboard = (): any => {
   const { t, i18n } = useTranslation();
   const { pathname, query, asPath, ...router } = useRouter();
 
-  const [isNewCreateEnabled] = useFeatureFlag(FeatureFlags.REACT_CREATE);
-
   const queryClient = useQueryClient();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -614,9 +605,7 @@ const Dashboard = (): any => {
     'availableTo_asc',
   ];
 
-  const createOfferUrl = isNewCreateEnabled
-    ? CreateMap[tab]
-    : CreateMapLegacy[tab];
+  const createOfferUrl = CreateMap[tab];
 
   return [
     <Page key="page">
