@@ -31,7 +31,9 @@ export const CalendarOptionToggle = ({
       <ToggleBox
         onClick={onChooseOneOrMoreDays}
         active={isOneOrMoreDays}
-        icon={<CustomIcon name={CustomIconVariants.CALENDAR} width="80" />}
+        icon={
+          <CustomIcon name={CustomIconVariants.CALENDAR_SINGLE} width="80" />
+        }
         text={t('create.calendar.types.one_or_more_days')}
         minHeight={parseSpacing(7)}
         flex={1}

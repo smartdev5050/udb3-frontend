@@ -90,6 +90,7 @@ const theme = {
     [Breakpoints.S]: 768,
     [Breakpoints.M]: 992,
     [Breakpoints.L]: 1200,
+    [Breakpoints.XL]: 1400,
   },
   borderRadius: '8px',
   formInputHeight: 'calc(1.5rem + 0.9rem + 2px)',
@@ -174,6 +175,14 @@ const theme = {
         activeColor: '#333',
         activeBackgroundColor: '#e6e6e6',
         activeBorderColor: '#adadad',
+      },
+      secondaryToggle: {
+        color: '#333',
+        borderColor: '#8F9699',
+        hoverBorderColor: colors.udbMainPositiveGreen,
+        activeColor: colors.udbMainPositiveGreen,
+        activeBorderColor: colors.udbMainPositiveGreen,
+        activeBackgroundColor: colors.udbMainLightGreen,
       },
       secondaryOutline: {
         color: colors.udbMainBlue,
@@ -347,7 +356,7 @@ const theme = {
     loginPage: {
       backgroundColor: colors.white,
       footer: {
-        backgroundColor: '#FAFAFB',
+        backgroundColor: colors.white,
         linkColor: colors.udbMainDarkGrey,
       },
     },
@@ -396,7 +405,7 @@ const theme = {
       borderColor: colors.grey3,
       activeTabColor: colors.grey5,
       activeTabBackgroundColor: colors.grey1,
-      hoverTabBackgroundColor: colors.grey3,
+      hoverTabBackgroundColor: '#e6e6e6',
       borderRadius: '8px',
     },
     pictureUploadBox: {

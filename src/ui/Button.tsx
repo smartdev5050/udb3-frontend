@@ -17,7 +17,7 @@ import { getGlobalFormInputHeight, getValueFromTheme } from './theme';
 const BootStrapVariants = {
   PRIMARY: 'primary',
   SECONDARY: 'secondary',
-  SECONDARY_OUTLINE: 'secondary-outline',
+  SECONDARY_TOGGLE: 'secondary-toggle',
   SUCCESS: 'success',
   DANGER: 'danger',
 } as const;
@@ -125,32 +125,39 @@ const customCSS = css`
     }
   }
 
-  &.btn-secondary-outline {
-    color: ${getValue('secondaryOutline.color')};
-    border: 2px solid ${getValue('secondaryOutline.borderColor')};
-    box-shadow: none;
-
-    &.dropdown-toggle.dropdown-toggle-split {
-      border-left: 1px solid #f0f0f0;
-    }
+  &.btn-secondary-toggle {
+    color: ${getValue('secondaryToggle.color')};
+    box-shadow: none !important;
+    border: 1px solid ${getValue('secondaryToggle.borderColor')};
 
     &:hover {
-      border: 2px solid ${getValue('secondaryOutline.hoverBorderColor')};
-      background-color: ${getValue('secondaryOutline.hoverBackgroundColor')};
+      border-color: ${getValue('secondaryToggle.hoverBorderColor')};
+      color: ${getValue('secondaryToggle.activeColor')};
+
+      span {
+        color: ${getValue('secondaryToggle.activeColor')};
+      }
     }
 
-    // active
-    &.btn-outline-secondary:not(:disabled):not(.disabled):active,
-    .btn-outline-secondary:not(:disabled):not(.disabled).active {
-      color: ${getValue('secondaryOutline.activeColor')};
-      background-color: ${getValue('secondaryOutline.activeBackgroundColor')};
-      border: none;
+    &.btn-secondary-toggle:not(:disabled):not(.disabled):active,
+    .btn-secondary-toggle:not(:disabled):not(.disabled).active {
+      color: ${getValue('secondaryToggle.activeColor')};
+      background-color: ${getValue('secondaryToggle.activeBackgroundColor')};
+      border-color: ${getValue('secondaryToggle.activeBorderColor')};
+
+      span {
+        color: ${getValue('secondaryToggle.activeColor')};
+      }
     }
 
     &:not(:disabled):not(.disabled).active,
     &:not(:disabled):not(.disabled):active {
-      color: ${getValue('secondaryOutline.activeColor')};
-      background-color: ${getValue('secondaryOutline.activeBackgroundColor')};
+      background-color: ${getValue('secondaryToggle.activeBackgroundColor')};
+      border-color: ${getValue('secondaryToggle.activeBorderColor')};
+
+      span {
+        color: ${getValue('secondaryToggle.activeColor')};
+      }
     }
   }
 

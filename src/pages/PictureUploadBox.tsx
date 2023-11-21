@@ -15,17 +15,13 @@ import { Title } from '@/ui/Title';
 
 const THUMBNAIL_SIZE = 80;
 
-const { udbMainBlue } = colors;
+const { grey5 } = colors;
 
 const getValue = getValueFromTheme('pictureUploadBox');
 
 const ImageIcon = ({ width }: { width: string }) => {
   return (
-    <CustomIcon
-      color={udbMainBlue}
-      name={CustomIconVariants.IMAGE}
-      width={width}
-    />
+    <CustomIcon color={grey5} name={CustomIconVariants.IMAGE} width={width} />
   );
 };
 
@@ -172,10 +168,7 @@ const PictureUploadBox = ({
               </Text>
             </Stack>
           )}
-          <Button
-            variant={ButtonVariants.SECONDARY_OUTLINE}
-            onClick={onClickAddImage}
-          >
+          <Button variant={ButtonVariants.SECONDARY} onClick={onClickAddImage}>
             {t('pictures.add_button')}
           </Button>
         </Stack>

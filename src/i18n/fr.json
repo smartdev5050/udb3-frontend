@@ -203,7 +203,8 @@
       "recent_locations": {
         "title": "Choisissez un lieu que vous avez utilisé récemment",
         "info": "Nous avons mis les lieux pour lesquels vous avez récemment entré ici pour vous. Vous pouvez les ajouter en un clic.",
-        "other": "Ou choisissez un autre lieu"
+        "other": "Ou choisissez un autre lieu",
+        "pick": "Choisissez un lieu"
       },
       "validation_messages": {
         "street_and_number": {
@@ -445,7 +446,8 @@
         "title": "Organisateur",
         "select_recent_used_organizer": "Réutiliser une organisation",
         "select_recent_used_organizer_info": "Nous avons préparé pour vous les organisations pour lesquelles vous vous êtes récemment inscrit. Ajoutez-les d'un simple clic.",
-        "or_choose_other_organizer": "Ajouter une organisation",
+        "or_choose_other_organizer": "Ou ajouter une nouvelle organisation",
+        "choose_other_organizer": "Ajouter une nouvelle organisation",
         "uitpas_cardsystems": "UiTPAS systèmes de cartes",
         "uitpas_alert": {
           "success": "Votre activité est désormais enregistrée en tant qu'activité UitPAS.",
