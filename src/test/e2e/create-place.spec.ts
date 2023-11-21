@@ -79,7 +79,7 @@ test('create a place', async ({ baseURL, page }) => {
   await page.getByRole('button', { name: 'Uploaden' }).click();
   await expect(page.getByText(dummyPlace.image.description)).toBeVisible();
   await page.getByRole('button', { name: 'Videolink toevoegen' }).click();
-  await page.getByLabel('Link').fill(dummyPlace.video);
+  await page.locator('input', { hasText: 'Link' }).fill(dummyPlace.video);
   await page.getByRole('button', { name: 'Toevoegen' }).click();
   await expect(page.getByRole('img', { name: 'video' })).toBeVisible();
   await expect(page.getByText(dummyPlace.video)).toBeVisible();
