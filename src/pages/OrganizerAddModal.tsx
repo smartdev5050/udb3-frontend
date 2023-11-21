@@ -20,7 +20,7 @@ import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
-import { LabelPositions } from '@/ui/Label';
+import { LabelPositions, LabelVariants } from '@/ui/Label';
 import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
 import { RadioButton, RadioButtonTypes } from '@/ui/RadioButton';
 import { RadioButtonGroup } from '@/ui/RadioButtonGroup';
@@ -275,6 +275,7 @@ const OrganizerAddModal = ({
               <FormElement
                 id={'isContactUrl'}
                 label={t('organizers.create.step1.is_contact_url')}
+                labelVariant={LabelVariants.NORMAL}
                 labelPosition={LabelPositions.RIGHT}
                 Component={
                   <RadioButton
