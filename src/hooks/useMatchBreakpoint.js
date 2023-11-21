@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { theme } from '@/ui/theme';
+import { Breakpoints, theme } from '@/ui/theme';
 
 import { useIsClient } from './useIsClient';
 
@@ -13,9 +13,10 @@ const useMatchBreakpoint = (breakpoint) => {
   useEffect(() => {
     if (typeof window === 'undefined' || !breakpoint || !isClient) return;
 
-    const mediaQuery = window.matchMedia(
-      `(max-width: ${theme.breakpoints[breakpoint]}px)`,
-    );
+    const mediaQuery =
+      breakpoint === Breakpoints.XL
+        ? window.matchMedia(`(min-width: ${theme.breakpoints[breakpoint]}px)`)
+        : window.matchMedia(`(max-width: ${theme.breakpoints[breakpoint]}px)`);
 
     if (!mediaQuery.addEventListener) {
       mediaQuery.addListener(handleChange);
