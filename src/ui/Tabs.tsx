@@ -52,6 +52,7 @@ const Tabs = <T,>({
           }
 
           .nav-item {
+            background-color: white;
             color: ${getValue('color')};
             border-radius: ${getValue('borderRadius')};
             padding: ${parseSpacing(3)} ${parseSpacing(4)};
@@ -64,9 +65,8 @@ const Tabs = <T,>({
             }
 
             &.active {
-              background-color: transparent;
-              border-bottom-color: ${activeBackgroundColor ??
-              getValue('activeTabBackgroundColor')};
+              background-color: white;
+              border-bottom-color: ${getValue('activeTabBackgroundColor')};
               cursor: default;
               border-bottom: transparent;
             }

@@ -131,10 +131,10 @@ const Alert = ({
 }: AlertProps) => {
   return (
     <Inline
-      {...getInlineProps(props)}
       role="alert"
       alignSelf={fullWidth ? 'normal' : 'flex-start'}
       display={visible ? 'flex' : 'none'}
+      {...getInlineProps(props)}
     >
       <Stack
         padding={4}

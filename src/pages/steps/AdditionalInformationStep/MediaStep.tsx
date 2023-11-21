@@ -380,7 +380,13 @@ const MediaStep = ({
         onConfirm={() => handleConfirmDeleteVideo(videoToDeleteId)}
         onClose={() => setIsVideoLinkDeleteModalVisible(false)}
       />
-      <Inline spacing={4} alignItems="flex-start" stackOn={Breakpoints.M}>
+      <Inline
+        spacing={4}
+        alignItems={
+          images.length > 0 || videos.length ? 'flex-start' : 'stretch'
+        }
+        stackOn={Breakpoints.M}
+      >
         <PictureUploadBox
           width="45%"
           scope={scope}

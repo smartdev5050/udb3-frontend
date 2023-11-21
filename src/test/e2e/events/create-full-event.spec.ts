@@ -93,7 +93,7 @@ test('create event with all possible fields filled in', async ({
   await page.getByRole('button', { name: 'Uploaden' }).click();
   await expect(page.getByText(dummyEvent.image.description)).toBeVisible();
   await page.getByRole('button', { name: 'Videolink toevoegen' }).click();
-  await page.getByLabel('Link').fill(dummyEvent.video);
+  await page.getByLabel('Link').locator('visible=true').fill(dummyEvent.video);
   await page.getByRole('button', { name: 'Toevoegen' }).click();
   await expect(page.getByRole('img', { name: 'video' })).toBeVisible();
   await expect(page.getByText(dummyEvent.video)).toBeVisible();

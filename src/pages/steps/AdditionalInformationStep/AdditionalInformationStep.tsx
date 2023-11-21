@@ -302,7 +302,7 @@ const AdditionalInformationStep = ({
         onSelect={handleSelectTab}
         css={`
           .tab-content {
-            padding-top: ${parseSpacing(3)};
+            padding-top: ${parseSpacing(4)};
           }
         `}
       >

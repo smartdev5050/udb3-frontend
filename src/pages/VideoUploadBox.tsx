@@ -17,15 +17,11 @@ const THUMBNAIL_SIZE = 80;
 
 const getValue = getValueFromTheme('videoUploadBox');
 
-const { udbMainBlue } = colors;
+const { grey5 } = colors;
 
 const VideoIcon = ({ width }: { width: string }) => {
   return (
-    <CustomIcon
-      color={udbMainBlue}
-      name={CustomIconVariants.VIDEO}
-      width={width}
-    />
+    <CustomIcon color={grey5} name={CustomIconVariants.VIDEO} width={width} />
   );
 };
 
@@ -123,10 +119,7 @@ const VideoUploadBox = ({
               </Text>
             </Stack>
           )}
-          <Button
-            variant={ButtonVariants.SECONDARY_OUTLINE}
-            onClick={onClickAddVideo}
-          >
+          <Button variant={ButtonVariants.SECONDARY} onClick={onClickAddVideo}>
             {t('videos.add_button')}
           </Button>
         </Stack>

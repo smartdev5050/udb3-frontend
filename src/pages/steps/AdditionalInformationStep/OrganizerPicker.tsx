@@ -230,17 +230,21 @@ const OrganizerPicker = ({
               </Inline>
             </Stack>
           ) : (
-            <Stack width="100%">
+            <Inline spacing={2}>
               <RecentUsedOrganizers
                 organizers={recentUsedOrganizers}
                 onChange={handleSelectRecentOrganizer}
-                maxWidth="50rem"
+                maxWidth="45rem"
               />
               <Stack>
                 <Text fontWeight="bold" marginBottom={4}>
-                  {t(
-                    'create.additionalInformation.organizer.or_choose_other_organizer',
-                  )}
+                  {recentUsedOrganizers.length > 0
+                    ? t(
+                        'create.additionalInformation.organizer.or_choose_other_organizer',
+                      )
+                    : t(
+                        'create.additionalInformation.organizer.choose_other_organizer',
+                      )}
                 </Text>
                 {!addButtonHasBeenPressed && (
                   <Button
@@ -292,7 +296,7 @@ const OrganizerPicker = ({
                   />
                 )}
               </Stack>
-            </Stack>
+            </Inline>
           )
         }
       />
