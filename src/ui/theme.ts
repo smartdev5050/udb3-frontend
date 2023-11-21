@@ -90,6 +90,7 @@ const theme = {
     [Breakpoints.S]: 768,
     [Breakpoints.M]: 992,
     [Breakpoints.L]: 1200,
+    [Breakpoints.XL]: 1920,
   },
   borderRadius: '8px',
   formInputHeight: 'calc(1.5rem + 0.9rem + 2px)',
