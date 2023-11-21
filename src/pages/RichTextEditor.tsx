@@ -25,7 +25,7 @@ function RichTextEditor(props: ComponentProps<typeof Editor>) {
     >
       <Editor
         toolbar={{
-          options: ['inline', 'list', 'history'],
+          options: ['inline', 'list', 'history', 'link'],
           inline: {
             inDropdown: false,
             options: ['bold', 'italic'],
