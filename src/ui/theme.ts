@@ -405,7 +405,7 @@ const theme = {
       borderColor: colors.grey3,
       activeTabColor: colors.grey5,
       activeTabBackgroundColor: colors.grey1,
-      hoverTabBackgroundColor: colors.grey3,
+      hoverTabBackgroundColor: '#e6e6e6',
       borderRadius: '8px',
     },
     pictureUploadBox: {
