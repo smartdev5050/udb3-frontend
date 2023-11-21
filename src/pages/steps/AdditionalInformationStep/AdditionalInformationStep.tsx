@@ -237,7 +237,10 @@ const AdditionalInformationStep = ({
     [scope, offerId, queryClient],
   );
 
-  const [tab, setTab] = useState('description');
+  const isOrganizer = scope === ScopeTypes.ORGANIZERS;
+  const [tab, setTab] = useState(
+    isOrganizer ? Fields.CONTACT_INFO : Fields.DESCRIPTION,
+  );
 
   const [, hash] = asPath.split('#');
 
@@ -256,7 +259,7 @@ const AdditionalInformationStep = ({
   };
 
   useEffect(() => {
-    if (scope === ScopeTypes.ORGANIZERS) {
+    if (isOrganizer) {
       handleScroll();
     }
 
@@ -339,9 +342,7 @@ const AdditionalInformationStep = ({
                 }
               >
                 <TabContent
-                  minHeight={
-                    scope === ScopeTypes.ORGANIZERS ? '600px' : '450px'
-                  }
+                  minHeight={isOrganizer ? '600px' : '450px'}
                   offerId={offerId}
                   scope={scope}
                   onValidationChange={(status) => {
