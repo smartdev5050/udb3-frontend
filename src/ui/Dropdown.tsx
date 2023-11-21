@@ -69,6 +69,7 @@ const Dropdown = ({
 
         .dropdown-menu {
           border-radius: ${getGlobalBorderRadius};
+          overflow: hidden;
         }
 
         .dropdown-divider {
