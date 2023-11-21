@@ -4,7 +4,10 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Scope, ScopeTypes } from '@/constants/OfferType';
-import { useChangeDescriptionMutation } from '@/hooks/api/offers';
+import {
+  useChangeDescriptionMutation,
+  useDeleteDescriptionMutation,
+} from '@/hooks/api/offers';
 import { useGetEntityByIdAndScope } from '@/hooks/api/scope';
 import RichTextEditor from '@/pages/RichTextEditor';
 import { Event } from '@/types/Event';
@@ -145,6 +148,25 @@ const DescriptionStep = ({
     onSuccess: onSuccessfulChange,
   });
 
+  const deleteDescriptionMutation = useDeleteDescriptionMutation({
+    onSuccess: onSuccessfulChange,
+  });
+
+  const updateDescription = (description = '') => {
+    const args = {
+      id: offerId,
+      language: i18n.language,
+      scope,
+    };
+
+    return description.length === 0
+      ? deleteDescriptionMutation.mutate(args)
+      : changeDescriptionMutation.mutate({
+          ...args,
+          description,
+        });
+  };
+
   const handleBlur = () => {
     const isCompleted = plainTextDescription.length >= IDEAL_DESCRIPTION_LENGTH;
 
@@ -156,26 +178,16 @@ const DescriptionStep = ({
       return;
     }
 
-    changeDescriptionMutation.mutate({
-      description:
-        plainTextDescription.length > 0
-          ? draftToHtml(convertToRaw(editorState.getCurrentContent()))
-          : '',
-      language: i18n.language,
-      eventId: offerId,
-      scope,
-    });
+    updateDescription(
+      plainTextDescription.length > 0
+        ? draftToHtml(convertToRaw(editorState.getCurrentContent()))
+        : '',
+    );
   };
 
   const handleClear = () => {
     setEditorState(EditorState.createEmpty());
-
-    changeDescriptionMutation.mutate({
-      description: '',
-      language: i18n.language,
-      eventId: offerId,
-      scope,
-    });
+    updateDescription();
   };
 
   return (
