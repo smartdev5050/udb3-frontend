@@ -10,7 +10,7 @@ import type { BoxProps } from '@/ui/Box';
 import { Box, getBoxProps } from '@/ui/Box';
 import { Button, buttonCSS, ButtonVariants } from '@/ui/Button';
 import { Link, LinkVariants } from '@/ui/Link';
-import { getGlobalBorderRadius } from '@/ui/theme';
+import { colors, getGlobalBorderRadius, getValueFromTheme } from '@/ui/theme';
 
 const DropDownVariants = {
   ...ButtonVariants,
@@ -21,6 +21,9 @@ type DropdownProps = BoxProps & {
   variant: Values<typeof DropDownVariants>;
   isSplit?: boolean;
 };
+
+const getGlobalValue = getValueFromTheme('global');
+const { grey1 } = colors;
 
 const Dropdown = ({
   variant,
@@ -55,6 +58,10 @@ const Dropdown = ({
   return (
     <Box
       css={`
+        .dropdown.btn-group {
+          box-shadow: ${getGlobalValue('boxShadow.heavy')};
+          border-radius: ${getGlobalBorderRadius};
+        }
         .dropdown .primary-action:not(:only-child) > * {
           border-top-right-radius: 0;
           border-bottom-right-radius: 0;
@@ -66,6 +73,16 @@ const Dropdown = ({
 
         .dropdown-divider {
           margin: 0;
+        }
+
+        .dropdown.btn-group {
+          .btn-secondary {
+            box-shadow: none;
+          }
+          .dropdown-toggle-split {
+            box-shadow: none;
+            border-left: 1px solid ${grey1};
+          }
         }
       `}
       className={className}
