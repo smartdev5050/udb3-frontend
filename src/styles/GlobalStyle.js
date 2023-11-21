@@ -179,6 +179,15 @@ const GlobalStyle = createGlobalStyle`
   .public-DraftStyleDefault-block {
     margin: 0.5em 0;
   }
+
+  .rdw-link-decorator-wrapper {
+    text-decoration: underline;
+    color: var(--primary)
+  }
+  
+  .rdw-link-decorator-icon  {
+    display: none;
+  }
 `;
 
 export { GlobalStyle };
