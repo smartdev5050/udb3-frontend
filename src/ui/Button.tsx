@@ -130,6 +130,15 @@ const customCSS = css`
     box-shadow: none !important;
     border: 1px solid ${getValue('secondaryToggle.borderColor')};
 
+    &:hover {
+      border-color: ${getValue('secondaryToggle.hoverBorderColor')};
+      color: ${getValue('secondaryToggle.activeColor')};
+
+      span {
+        color: ${getValue('secondaryToggle.activeColor')};
+      }
+    }
+
     &.btn-secondary-toggle:not(:disabled):not(.disabled):active,
     .btn-secondary-toggle:not(:disabled):not(.disabled).active {
       color: ${getValue('secondaryToggle.activeColor')};

@@ -179,6 +179,7 @@ const theme = {
       secondaryToggle: {
         color: '#333',
         borderColor: '#8F9699',
+        hoverBorderColor: colors.udbMainPositiveGreen,
         activeColor: colors.udbMainPositiveGreen,
         activeBorderColor: colors.udbMainPositiveGreen,
         activeBackgroundColor: colors.udbMainLightGreen,
