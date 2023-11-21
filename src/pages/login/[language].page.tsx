@@ -141,6 +141,7 @@ const UDBCard = ({ onLogin, ...props }: UDBCardProps) => {
   const { t } = useTranslation();
 
   const isSmallView = useMatchBreakpoint(Breakpoints.S);
+  const isXLargeView = useMatchBreakpoint(Breakpoints.XL);
 
   return (
     <Stack
@@ -155,7 +156,7 @@ const UDBCard = ({ onLogin, ...props }: UDBCardProps) => {
       css={css`
         box-shadow: 0px 4px 40px 0px #c6e0eb80;
         left: 50%;
-        top: 180px;
+        top: ${isXLargeView ? '200px' : '180px'};
         transform: ${isSmallView ? 'none' : 'translate(-50%, -50%)'};
       `}
       {...getStackProps(props)}
@@ -295,9 +296,10 @@ const Index = () => {
   const uspCardBottomPosition = useMemo(() => {
     if (isMediumView) return '-40vh';
     if (isLargeView) return '-35vh';
+    if (isXLargeView) return '-25vh';
 
     return '-28vh';
-  }, [isLargeView, isMediumView]);
+  }, [isLargeView, isXLargeView, isMediumView]);
 
   return (
     <Stack
@@ -306,7 +308,10 @@ const Index = () => {
       spacing={6}
       backgroundColor={getValueForPage('backgroundColor')}
     >
-      <Stack width="100%" height={isSmallView ? 'auto' : 800}>
+      <Stack
+        width="100%"
+        height={isSmallView ? 'auto' : isXLargeView ? 900 : 800}
+      >
         <Inline
           width="100%"
           padding={isSmallView ? 4 : 6.5}
@@ -319,7 +324,7 @@ const Index = () => {
           <OvalSvg
             width="100%"
             position="absolute"
-            top={isMediumView ? '20%' : '-10%'}
+            top={isMediumView ? '20%' : isXLargeView ? '-35%' : '-10%'}
             left={0}
           />
           {!isSmallView && <ManIllustrationSvg zIndex={3} width={'35%'} />}
