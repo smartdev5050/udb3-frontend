@@ -125,6 +125,15 @@ const customCSS = css`
     }
   }
 
+  &.btn-outline-secondary {
+    box-shadow: ${getGlobalValue('boxShadow.heavy')};
+
+    &:hover {
+      background-color: ${getValue('secondary.hoverBackgroundColor')};
+      color: inherit;
+    }
+  }
+
   &.btn-secondary-toggle {
     color: ${getValue('secondaryToggle.color')};
     box-shadow: none !important;
