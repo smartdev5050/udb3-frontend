@@ -190,35 +190,6 @@ const GlobalStyle = createGlobalStyle`
     height: auto;
     border-radius: ${theme.borderRadius};
     box-shadow: ${getButtonValue('boxShadow.small')};
-    
-    .rdw-link-modal-label {
-      font-weight: bold;
-    }
-
-    .rdw-link-modal-input {
-      border-radius: ${theme.borderRadius};
-      height: ${theme.formInputHeight};
-    }
-  }
-
-  .rdw-link-modal-btn {
-    border-radius: ${getButtonValue('borderRadius')};
-    padding: ${getButtonValue('paddingY')} ${getButtonValue('paddingX')};
-    border: none;
-    box-shadow: ${getButtonValue('boxShadow.small')};
-    height: ${theme.formInputHeight};
-
-    &:first-child {
-      color: white;
-      background-color: ${getButtonValue('primary.backgroundColor')};
-    }
-
-    &:last-child {
-      color: ${getButtonValue('secondary.color')};
-      background-color: ${getButtonValue('secondary.backgroundColor')};
-      box-shadow: ${getButtonValue('boxShadow.heavy')};
-
-    }
   }
 
   .rdw-link-decorator-icon {
