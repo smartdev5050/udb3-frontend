@@ -1,6 +1,5 @@
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 
 /**
  * Source: https://github.com/jpuri/react-draft-wysiwyg/blob/master/src/components/Option/index.js#L8
@@ -37,160 +36,139 @@ function Option({
 /**
  * Source: https://github.com/jpuri/react-draft-wysiwyg/blob/master/src/controls/Link/Component/index.js#L203
  */
-class CustomRichTextEditorLink extends Component {
-  static propTypes = {
-    expanded: PropTypes.bool,
-    doExpand: PropTypes.func,
-    doCollapse: PropTypes.func,
-    onExpandEvent: PropTypes.func,
-    config: PropTypes.object,
-    onChange: PropTypes.func,
-    currentState: PropTypes.object,
-    translations: PropTypes.object,
-  };
 
-  state = {
-    showModal: false,
-    linkTarget: '',
-    linkTitle: '',
-    linkTargetOption: this.props.config.defaultTargetOption,
-  };
+function CustomRichTextEditorLink({
+  config,
+  currentState,
+  doCollapse,
+  expanded,
+  onChange,
+  onExpandEvent,
+  translations,
+}: CustomRichTextEditorLinkProps) {
+  const [showModal, setShowModal] = useState(false);
+  const [linkTarget, setLinkTarget] = useState('');
+  const [linkTitle, setLinkTitle] = useState('');
+  const [linkTargetOption, setLinkTargetOption] = useState(
+    config.defaultTargetOption,
+  );
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.expanded && !this.props.expanded) {
-      this.setState({
-        showModal: false,
-        linkTarget: '',
-        linkTitle: '',
-        linkTargetOption: this.props.config.defaultTargetOption,
-      });
+  useEffect(() => {
+    if (expanded && !expanded) {
+      setShowModal(false);
+      setLinkTarget('');
+      setLinkTitle('');
+      setLinkTargetOption(config.defaultTargetOption);
     }
-  }
+  }, [expanded]);
 
-  removeLink = () => {
-    const { onChange } = this.props;
-    onChange('unlink');
+  const updateValue = (event) => {
+    const { name, value } = event.target;
+    if (name === 'linkTarget') {
+      setLinkTarget(value);
+    } else if (name === 'linkTitle') {
+      setLinkTitle(value);
+    }
   };
 
-  addLink = () => {
-    const { onChange } = this.props;
-    const { linkTitle, linkTarget, linkTargetOption } = this.state;
-    onChange('link', linkTitle, linkTarget, linkTargetOption);
-  };
-
-  updateValue = (event) => {
-    this.setState({
-      [`${event.target.name}`]: event.target.value,
-    });
-  };
-
-  signalExpandShowModal = () => {
-    const {
-      onExpandEvent,
-      currentState: { link, selectionText },
-    } = this.props;
-    const { linkTargetOption } = this.state;
+  const signalExpandShowModal = () => {
     onExpandEvent();
-    this.setState({
-      showModal: true,
-      linkTarget: (link && link.target) || '',
-      linkTargetOption: (link && link.targetOption) || linkTargetOption,
-      linkTitle: (link && link.title) || selectionText,
-    });
+    setShowModal(true);
+    setLinkTarget(currentState.link?.target || '');
+    setLinkTargetOption(currentState.link?.targetOption || linkTargetOption);
+    setLinkTitle(currentState.link?.title || currentState.selectionText);
   };
 
-  renderAddLinkModal() {
-    const {
-      config: { popupClassName },
-      doCollapse,
-      translations,
-    } = this.props;
-    const { linkTitle, linkTarget } = this.state;
-    return (
-      <div
-        className={classNames('rdw-link-modal', popupClassName)}
-        onClick={(event) => event.stopPropagation()}
+  return (
+    <div
+      className={classNames('rdw-link-wrapper', config.className)}
+      aria-label="rdw-link-control"
+    >
+      <Option
+        value="unordered-list-item"
+        className={classNames(config.link.className)}
+        onClick={signalExpandShowModal}
+        aria-haspopup="true"
+        aria-expanded={showModal}
+        title={
+          config.link.title || translations['components.controls.link.link']
+        }
       >
-        <label className="rdw-link-modal-label" htmlFor="linkTitle">
-          {translations['components.controls.link.linkTitle']}
-        </label>
-        <input
-          id="linkTitle"
-          className="rdw-link-modal-input"
-          onChange={this.updateValue}
-          onBlur={this.updateValue}
-          name="linkTitle"
-          value={linkTitle}
-        />
-        <label className="rdw-link-modal-label" htmlFor="linkTarget">
-          {translations['components.controls.link.linkTarget']}
-        </label>
-        <input
-          id="linkTarget"
-          className="rdw-link-modal-input"
-          onChange={this.updateValue}
-          onBlur={this.updateValue}
-          name="linkTarget"
-          value={linkTarget}
-        />
-        <span className="rdw-link-modal-buttonsection">
-          <button
-            className="rdw-link-modal-btn"
-            onClick={this.addLink}
-            disabled={!linkTarget || !linkTitle}
-          >
-            {translations['generic.add']}
-          </button>
-          <button className="rdw-link-modal-btn" onClick={doCollapse}>
-            {translations['generic.cancel']}
-          </button>
-        </span>
-      </div>
-    );
-  }
-
-  render() {
-    const {
-      config: { options, link, unlink, className },
-      currentState,
-      expanded,
-      translations,
-    } = this.props;
-    const { showModal } = this.state;
-    return (
-      <div
-        className={classNames('rdw-link-wrapper', className)}
-        aria-label="rdw-link-control"
+        <img src={config.link.icon} alt="" />
+      </Option>
+      <Option
+        disabled={!currentState.link}
+        value="ordered-list-item"
+        className={classNames(config.unlink.className)}
+        onClick={() => onChange('unlink')}
+        title={
+          config.unlink.title || translations['components.controls.link.unlink']
+        }
       >
-        {options.indexOf('link') >= 0 && (
-          <Option
-            value="unordered-list-item"
-            className={classNames(link.className)}
-            onClick={this.signalExpandShowModal}
-            aria-haspopup="true"
-            aria-expanded={showModal}
-            title={link.title || translations['components.controls.link.link']}
-          >
-            <img src={link.icon} alt="" />
-          </Option>
-        )}
-        {options.indexOf('unlink') >= 0 && (
-          <Option
-            disabled={!currentState.link}
-            value="ordered-list-item"
-            className={classNames(unlink.className)}
-            onClick={this.removeLink}
-            title={
-              unlink.title || translations['components.controls.link.unlink']
-            }
-          >
-            <img src={unlink.icon} alt="" />
-          </Option>
-        )}
-        {expanded && showModal ? this.renderAddLinkModal() : undefined}
-      </div>
-    );
-  }
+        <img src={config.unlink.icon} alt="" />
+      </Option>
+      {expanded && showModal && (
+        <div
+          className={classNames('rdw-link-modal', config.popupClassName)}
+          onClick={(event) => event.stopPropagation()}
+        >
+          <label className="rdw-link-modal-label" htmlFor="linkTitle">
+            {translations['components.controls.link.linkTitle']}
+          </label>
+          <input
+            id="linkTitle"
+            className="rdw-link-modal-input"
+            onChange={updateValue}
+            onBlur={updateValue}
+            name="linkTitle"
+            value={linkTitle}
+          />
+          <label className="rdw-link-modal-label" htmlFor="linkTarget">
+            {translations['components.controls.link.linkTarget']}
+          </label>
+          <input
+            id="linkTarget"
+            className="rdw-link-modal-input"
+            onChange={updateValue}
+            onBlur={updateValue}
+            name="linkTarget"
+            value={linkTarget}
+          />
+          <span className="rdw-link-modal-buttonsection">
+            <button
+              className="rdw-link-modal-btn"
+              onClick={() =>
+                onChange('link', linkTitle, linkTarget, linkTargetOption)
+              }
+              disabled={!linkTarget || !linkTitle}
+            >
+              {translations['generic.add']}
+            </button>
+            <button className="rdw-link-modal-btn" onClick={doCollapse}>
+              {translations['generic.cancel']}
+            </button>
+          </span>
+        </div>
+      )}
+    </div>
+  );
 }
+
+type CustomRichTextEditorLinkProps = {
+  expanded?: boolean;
+  doExpand?: () => void;
+  doCollapse?: () => void;
+  onExpandEvent?: () => void;
+  config?: {
+    link: any;
+    unlink: any;
+    popupClassName: string;
+    defaultTargetOption?: string;
+    className?: string;
+  };
+  onChange?: Function;
+  currentState?: { link: any; selectionText: string };
+  translations?: object;
+};
 
 export { CustomRichTextEditorLink };
