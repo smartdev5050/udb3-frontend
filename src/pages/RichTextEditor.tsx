@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 import { ComponentProps } from 'react';
 
 import { getValueFromTheme } from '@/ui/theme';
+import { CustomRichTextEditorLink } from '@/pages/CustomRichTextEditorLink';
 
 const getValue = getValueFromTheme(`richTextEditor`);
 
@@ -29,6 +30,10 @@ function RichTextEditor(props: ComponentProps<typeof Editor>) {
           inline: {
             inDropdown: false,
             options: ['bold', 'italic'],
+          },
+          link: {
+            defaultTargetOption: '_blank',
+            component: CustomRichTextEditorLink,
           },
         }}
         editorStyle={{ minHeight: 250, resize: 'vertical' }}
