@@ -94,16 +94,7 @@ const SelectionTable = ({
 
   return (
     <Stack spacing={3}>
-      <Inline
-        forwardedAs="div"
-        width="100%"
-        alignItems="center"
-        spacing={5}
-        paddingTop={3}
-        css={`
-          border-top: 1px solid ${getValue('borderColor')};
-        `}
-      >
+      <Inline forwardedAs="div" width="100%" alignItems="center" spacing={5}>
         <Text
           minWidth="11rem"
           css={`
