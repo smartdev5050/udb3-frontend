@@ -2,29 +2,30 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
+/**
+ * Source: https://github.com/jpuri/react-draft-wysiwyg/blob/master/src/components/Option/index.js#L8
+ */
 function Option({
   onClick,
   children,
   value,
   className,
-  activeClassName,
-  active,
-  disabled,
+  activeClassName = '',
+  active = false,
+  disabled = false,
   title,
 }) {
-  const handleClick = () => {
-    if (!disabled) {
-      onClick(value);
-    }
-  };
-
   return (
     <div
       className={classNames('rdw-option-wrapper', className, {
         [`rdw-option-active ${activeClassName}`]: active,
         'rdw-option-disabled': disabled,
       })}
-      onClick={handleClick}
+      onClick={() => {
+        if (!disabled) {
+          onClick(value);
+        }
+      }}
       aria-selected={active}
       title={title}
     >
@@ -33,7 +34,21 @@ function Option({
   );
 }
 
+/**
+ * Source: https://github.com/jpuri/react-draft-wysiwyg/blob/master/src/controls/Link/Component/index.js#L203
+ */
 class CustomRichTextEditorLink extends Component {
+  static propTypes = {
+    expanded: PropTypes.bool,
+    doExpand: PropTypes.func,
+    doCollapse: PropTypes.func,
+    onExpandEvent: PropTypes.func,
+    config: PropTypes.object,
+    onChange: PropTypes.func,
+    currentState: PropTypes.object,
+    translations: PropTypes.object,
+  };
+
   state = {
     showModal: false,
     linkTarget: '',
@@ -69,18 +84,6 @@ class CustomRichTextEditorLink extends Component {
     });
   };
 
-  updateTargetOption = (event) => {
-    this.setState({
-      linkTargetOption: event.target.checked ? '_blank' : '_self',
-    });
-  };
-
-  hideModal = () => {
-    this.setState({
-      showModal: false,
-    });
-  };
-
   signalExpandShowModal = () => {
     const {
       onExpandEvent,
@@ -102,7 +105,7 @@ class CustomRichTextEditorLink extends Component {
       doCollapse,
       translations,
     } = this.props;
-    const { linkTitle, linkTarget, linkTargetOption } = this.state;
+    const { linkTitle, linkTarget } = this.state;
     return (
       <div
         className={classNames('rdw-link-modal', popupClassName)}
@@ -130,21 +133,6 @@ class CustomRichTextEditorLink extends Component {
           name="linkTarget"
           value={linkTarget}
         />
-        <label
-          className="rdw-link-modal-target-option"
-          htmlFor="openLinkInNewWindow"
-        >
-          <input
-            id="openLinkInNewWindow"
-            type="checkbox"
-            defaultChecked={linkTargetOption === '_blank'}
-            value="_blank"
-            onChange={this.updateTargetOption}
-          />
-          <span>
-            {translations['components.controls.link.linkTargetOption']}
-          </span>
-        </label>
         <span className="rdw-link-modal-buttonsection">
           <button
             className="rdw-link-modal-btn"
@@ -204,4 +192,5 @@ class CustomRichTextEditorLink extends Component {
     );
   }
 }
+
 export { CustomRichTextEditorLink };
