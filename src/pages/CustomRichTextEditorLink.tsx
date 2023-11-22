@@ -1,11 +1,12 @@
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import { Button, ButtonVariants } from '@/ui/Button';
-import { Inline } from '@/ui/Inline';
 import { FormElement } from '@/ui/FormElement';
+import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
 import { Stack } from '@/ui/Stack';
-import { useTranslation } from 'react-i18next';
 
 /**
  * Source: https://github.com/jpuri/react-draft-wysiwyg/blob/master/src/components/Option/index.js#L8

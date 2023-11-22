@@ -3,8 +3,8 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import dynamic from 'next/dynamic';
 import { ComponentProps } from 'react';
 
-import { getValueFromTheme } from '@/ui/theme';
 import { CustomRichTextEditorLink } from '@/pages/CustomRichTextEditorLink';
+import { getValueFromTheme } from '@/ui/theme';
 
 const getValue = getValueFromTheme(`richTextEditor`);
 
