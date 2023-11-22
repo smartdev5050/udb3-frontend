@@ -1,5 +1,7 @@
 import { Values } from '@/types/Values';
 
+import { getStackProps, Stack, StackProps } from './Stack';
+
 type IconProps = {
   width?: string;
   height?: string;
@@ -850,11 +852,15 @@ const IconsMap = {
 
 type Props = IconProps & {
   name: Values<typeof CustomIconVariants>;
-};
+} & StackProps;
 
 const CustomIcon = ({ name, color, width, height, ...props }: Props) => {
   const Component = IconsMap[name];
-  return <Component color={color} width={width} height={height} />;
+  return (
+    <Stack {...getStackProps(props)}>
+      <Component color={color} width={width} height={height} />
+    </Stack>
+  );
 };
 
 export { CustomIcon, CustomIconVariants };
