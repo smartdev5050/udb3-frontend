@@ -6,6 +6,7 @@ import { Button } from '@/ui/Button';
 import { Dropdown, DropDownVariants } from '@/ui/Dropdown';
 import { Inline } from '@/ui/Inline';
 import { Text } from '@/ui/Text';
+import { getValueFromTheme } from '@/ui/theme';
 
 import { CultuurKuurIcon } from '../CultuurKuurIcon';
 import { FlagIcon } from '../FlagIcon';
@@ -15,6 +16,8 @@ type Props = BoxProps & {
   onChange: (value: Country) => void;
   includeLocationSchool?: boolean;
 };
+
+const getGlobalValue = getValueFromTheme('global');
 
 const countries = [Countries.BE, Countries.NL, Countries.DE];
 
@@ -33,8 +36,16 @@ const CountryPicker = ({
       variant={DropDownVariants.SECONDARY}
       className={className}
       css={`
+        .dropdown.btn-group {
+          box-shadow: none;
+        }
+
         & button {
           height: 2.4rem;
+        }
+
+        .btn-outline-secondary {
+          box-shadow: ${getGlobalValue('boxShadow.heavy')};
         }
       `}
       {...getBoxProps(props)}
