@@ -1,5 +1,10 @@
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
+import { Button, ButtonVariants } from '@/ui/Button';
+import { Inline } from '@/ui/Inline';
+import { FormElement } from '@/ui/FormElement';
+import { Input } from '@/ui/Input';
+import { Stack } from '@/ui/Stack';
 
 /**
  * Source: https://github.com/jpuri/react-draft-wysiwyg/blob/master/src/components/Option/index.js#L8
@@ -108,47 +113,50 @@ function CustomRichTextEditorLink({
         <img src={config.unlink.icon} alt="" />
       </Option>
       {expanded && showModal && (
-        <div
+        <Stack
+          spacing={4}
           className={classNames('rdw-link-modal', config.popupClassName)}
           onClick={(event) => event.stopPropagation()}
         >
-          <label className="rdw-link-modal-label" htmlFor="linkTitle">
-            {translations['components.controls.link.linkTitle']}
-          </label>
-          <input
-            id="linkTitle"
-            className="rdw-link-modal-input"
-            onChange={updateValue}
-            onBlur={updateValue}
-            name="linkTitle"
-            value={linkTitle}
+          <FormElement
+            id={'linkTitle'}
+            label={translations['components.controls.link.linkTitle']}
+            Component={
+              <Input
+                onChange={updateValue}
+                onBlur={updateValue}
+                name="linkTitle"
+                value={linkTitle}
+              />
+            }
           />
-          <label className="rdw-link-modal-label" htmlFor="linkTarget">
-            {translations['components.controls.link.linkTarget']}
-          </label>
-          <input
-            id="linkTarget"
-            className="rdw-link-modal-input"
-            onChange={updateValue}
-            onBlur={updateValue}
-            name="linkTarget"
-            value={linkTarget}
+          <FormElement
+            id={'linkTarget'}
+            label={translations['components.controls.link.linkTarget']}
+            Component={
+              <Input
+                onChange={updateValue}
+                onBlur={updateValue}
+                name="linkTarget"
+                value={linkTarget}
+              />
+            }
           />
-          <span className="rdw-link-modal-buttonsection">
-            <button
-              className="rdw-link-modal-btn"
+          <Inline justifyContent={'center'} spacing={3}>
+            <Button
+              variant={ButtonVariants.PRIMARY}
               onClick={() =>
                 onChange('link', linkTitle, linkTarget, linkTargetOption)
               }
               disabled={!linkTarget || !linkTitle}
             >
               {translations['generic.add']}
-            </button>
-            <button className="rdw-link-modal-btn" onClick={doCollapse}>
+            </Button>
+            <Button variant={ButtonVariants.SECONDARY} onClick={doCollapse}>
               {translations['generic.cancel']}
-            </button>
-          </span>
-        </div>
+            </Button>
+          </Inline>
+        </Stack>
       )}
     </div>
   );
