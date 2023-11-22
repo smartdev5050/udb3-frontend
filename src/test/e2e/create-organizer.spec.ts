@@ -28,6 +28,7 @@ test('create an organizer', async ({ baseURL, page }) => {
     .fill(dummyOrganizer.website);
   await page.getByRole('button', { name: 'Opslaan' }).click();
 
+  await page.getByRole('tab', { name: 'Beschrijving' }).click();
   await page.getByLabel('rdw-editor').click();
   await page.getByLabel('rdw-editor').fill(dummyOrganizer.description);
 
