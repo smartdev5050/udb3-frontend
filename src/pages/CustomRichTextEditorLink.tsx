@@ -5,6 +5,7 @@ import { Inline } from '@/ui/Inline';
 import { FormElement } from '@/ui/FormElement';
 import { Input } from '@/ui/Input';
 import { Stack } from '@/ui/Stack';
+import { useTranslation } from 'react-i18next';
 
 /**
  * Source: https://github.com/jpuri/react-draft-wysiwyg/blob/master/src/components/Option/index.js#L8
@@ -51,6 +52,7 @@ function CustomRichTextEditorLink({
   onExpandEvent,
   translations,
 }: CustomRichTextEditorLinkProps) {
+  const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
   const [linkTarget, setLinkTarget] = useState('');
   const [linkTitle, setLinkTitle] = useState('');
@@ -120,7 +122,9 @@ function CustomRichTextEditorLink({
         >
           <FormElement
             id={'linkTitle'}
-            label={translations['components.controls.link.linkTitle']}
+            label={t(
+              'create.additionalInformation.description.editor.link_title',
+            )}
             Component={
               <Input
                 onChange={updateValue}
@@ -132,7 +136,9 @@ function CustomRichTextEditorLink({
           />
           <FormElement
             id={'linkTarget'}
-            label={translations['components.controls.link.linkTarget']}
+            label={t(
+              'create.additionalInformation.description.editor.link_target',
+            )}
             Component={
               <Input
                 onChange={updateValue}
@@ -150,10 +156,10 @@ function CustomRichTextEditorLink({
               }
               disabled={!linkTarget || !linkTitle}
             >
-              {translations['generic.add']}
+              {t('organizer.add_modal.actions.add')}
             </Button>
             <Button variant={ButtonVariants.SECONDARY} onClick={doCollapse}>
-              {translations['generic.cancel']}
+              {t('organizer.add_modal.actions.cancel')}
             </Button>
           </Inline>
         </Stack>

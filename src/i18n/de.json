@@ -349,6 +349,10 @@
           "complete": "Bringen Sie die wichtigste Botschaft in den ersten {{idealLength}} Zeichen unter. Sie können noch zusätzliche Hintergrundinformationen hinzufügen.",
           "not_complete": "Die ersten {{idealLength}} Zeichen sind am wichtigsten, wenn Sie sich an ein neues Publikum richten. Noch {{count}} Zeichen."
         },
+        "editor": {
+          "link_title": "Linktitel",
+          "link_target": "Linkziel"
+        },
         "tips": {
           "0.0.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung der Ausstellung. <ul> <li>Welche <strong>Künstler</strong> stellen aus?</li> <li>Welche<strong> Kollektionen</strong> können betrachtet werden? </li> <li>Steht ein <strong>(Audio)Guide</strong> oder <strong>eine Broschüre</strong> zur Verfügung?</li></ul>",
           "0.12.0.0.0": "Schreiben Sie eine enthusiastische Umschreibung vom Tag der offenen Tür. Was kann man <strong>sehen </strong>oder <strong>erleben?</strong>",
