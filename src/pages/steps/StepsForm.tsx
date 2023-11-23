@@ -127,6 +127,14 @@ const StepsForm = ({
     },
   });
 
+  const triggerHotjarSurvey = () => {
+    if (typeof window === 'undefined') return;
+    if (offer?.mediaObject) return;
+
+    // @ts-expect-error
+    window.hj('trigger', 'no_image');
+  };
+
   const editLocation = useEditLocation({
     scope,
     offerId,
@@ -266,7 +274,10 @@ const StepsForm = ({
             {footerStatus === FooterStatus.PUBLISH && [
               <Button
                 variant={ButtonVariants.SUCCESS}
-                onClick={async () => publishOffer()}
+                onClick={async () => {
+                  triggerHotjarSurvey();
+                  publishOffer();
+                }}
                 key="publish"
               >
                 {t('create.actions.publish')}
