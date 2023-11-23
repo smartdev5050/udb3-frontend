@@ -396,7 +396,13 @@ const LocationStep = ({
                     {...getInlineProps(props)}
                   >
                     <ToggleBox
-                      onClick={() => onFieldChange({ isOnline: false })}
+                      onClick={() =>
+                        onFieldChange({
+                          isOnline: false,
+                          municipality: undefined,
+                          place: undefined,
+                        })
+                      }
                       active={!isOnline}
                       icon={
                         <CustomIcon
