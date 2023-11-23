@@ -1,3 +1,4 @@
+import { endOfDay } from 'date-fns';
 import { useTranslation } from 'react-i18next';
 
 import { DatePicker } from './DatePicker';
@@ -42,7 +43,8 @@ const DatePeriodPicker = ({
           minDate={minDate}
           onChange={(newDateStart) => {
             if (dateEnd && dateEnd.getTime() < newDateStart.getTime()) {
-              onDateEndChange(newDateStart);
+              const newEndDate = endOfDay(newDateStart);
+              onDateEndChange(newEndDate);
             }
             onDateStartChange(newDateStart);
           }}
