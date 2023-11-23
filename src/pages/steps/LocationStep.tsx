@@ -584,7 +584,10 @@ const LocationStep = ({
                   name={Icons.CHECK_CIRCLE}
                   color={getGlobalValue('successColor')}
                 />
-                <Text>{municipality.name}</Text>
+                <Text>
+                  {municipality.name}
+                  {municipality.zip ? `, ${municipality.zip}` : ''}
+                </Text>
                 <Button
                   variant={ButtonVariants.LINK}
                   onClick={() => {
@@ -625,12 +628,7 @@ const LocationStep = ({
                         name={Icons.CHECK_CIRCLE}
                         color={getGlobalValue('successColor')}
                       />
-                      <Text>
-                        {field.value.streetAndNumber}
-                        {field.value.postalCode
-                          ? `, ${field.value.postalCode}`
-                          : ''}
-                      </Text>
+                      <Text>{field.value.streetAndNumber}</Text>
                       <Button
                         variant={ButtonVariants.LINK}
                         onClick={() => {
