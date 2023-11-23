@@ -369,7 +369,11 @@ const LocationStep = ({
                 {showRecentLocations && hasRecentLocations && (
                   <RecentLocations flex={1} onFieldChange={onFieldChange} />
                 )}
-                <Stack spacing={4} flex={1}>
+                <Stack
+                  minHeight={showRecentLocations ? '450px' : 'none'}
+                  spacing={4}
+                  flex={1}
+                >
                   {showRecentLocations && (
                     <Text fontWeight={'bold'}>
                       {hasRecentLocations

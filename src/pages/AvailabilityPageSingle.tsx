@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { css } from 'styled-components';
 
 import { CalendarType } from '@/constants/CalendarType';
 import { OfferStatus } from '@/constants/OfferStatus';
@@ -13,12 +14,14 @@ import { Button, ButtonVariants } from '@/ui/Button';
 import { Inline } from '@/ui/Inline';
 import { Page } from '@/ui/Page';
 import { Spinner } from '@/ui/Spinner';
-import { getValueFromTheme } from '@/ui/theme';
+import { Stack } from '@/ui/Stack';
+import { getGlobalBorderRadius, getValueFromTheme } from '@/ui/theme';
 import { Title, TitleVariants } from '@/ui/Title';
 import { parseOfferId } from '@/utils/parseOfferId';
 import { parseOfferType } from '@/utils/parseOfferType';
 
 const getValue = getValueFromTheme('statusPage');
+const getGlobalValue = getValueFromTheme('global');
 
 const AvailabilityPageSingle = ({ offer, error, useChangeStatusMutation }) => {
   const { t, i18n } = useTranslation();
@@ -98,7 +101,7 @@ const AvailabilityPageSingle = ({ offer, error, useChangeStatusMutation }) => {
   return (
     <Page>
       <Page.Title>{t('offerStatus.title', { name })}</Page.Title>
-      <Page.Content spacing={5} maxWidth="36rem">
+      <Page.Content maxWidth="50rem">
         {changeStatusMutation.status === QueryStatus.LOADING ? (
           <Spinner marginTop={4} />
         ) : error || changeStatusMutation.error ? (
@@ -106,8 +109,17 @@ const AvailabilityPageSingle = ({ offer, error, useChangeStatusMutation }) => {
             {error.message || changeStatusMutation.error?.message}
           </Alert>
         ) : (
-          [
-            offer.calendarType === CalendarType.SINGLE && [
+          <Stack
+            padding={5}
+            spacing={5}
+            marginBottom={3}
+            backgroundColor="white"
+            borderRadius={getGlobalBorderRadius}
+            css={`
+              box-shadow: ${getGlobalValue('boxShadow.medium')};
+            `}
+          >
+            {offer.calendarType === CalendarType.SINGLE && [
               <Title
                 key="status-form-title"
                 variant={TitleVariants.UNDERLINED}
@@ -124,7 +136,7 @@ const AvailabilityPageSingle = ({ offer, error, useChangeStatusMutation }) => {
                   setBookingAvailabilityType(e.target.value)
                 }
               />,
-            ],
+            ]}
             <Title
               key="status-form-title"
               variant={TitleVariants.UNDERLINED}
@@ -133,7 +145,7 @@ const AvailabilityPageSingle = ({ offer, error, useChangeStatusMutation }) => {
               alignItems="center"
             >
               {t('offerStatus.newStatus')}
-            </Title>,
+            </Title>
             <StatusForm
               key="reason-and-type"
               offerType={`${offerType}s`}
@@ -143,7 +155,7 @@ const AvailabilityPageSingle = ({ offer, error, useChangeStatusMutation }) => {
               onInputStatusReason={(e) =>
                 setReasonInCurrentLanguage(e.target.value)
               }
-            />,
+            />
             <Inline key="actions" spacing={3}>
               <Button
                 variant={ButtonVariants.PRIMARY}
@@ -160,8 +172,8 @@ const AvailabilityPageSingle = ({ offer, error, useChangeStatusMutation }) => {
               >
                 {t('offerStatus.actions.cancel')}
               </Button>
-            </Inline>,
-          ]
+            </Inline>
+          </Stack>
         )}
       </Page.Content>
     </Page>
