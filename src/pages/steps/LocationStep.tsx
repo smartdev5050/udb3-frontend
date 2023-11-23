@@ -580,7 +580,7 @@ const LocationStep = ({
                 />
                 <Text>
                   {municipality.name}
-                  {field.value.postalCode ? `, ${field.value.postalCode}` : ''}
+                  {municipality.zip ? `, ${municipality.zip}` : ''}
                 </Text>
                 <Button
                   variant={ButtonVariants.LINK}
