@@ -501,7 +501,7 @@ const Sidebar = () => {
       children: t('menu.home'),
     },
     {
-      href: '/event',
+      href: '/create',
       iconName: Icons.PLUS_CIRCLE,
       children: t('menu.add'),
     },
