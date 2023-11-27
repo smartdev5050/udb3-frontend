@@ -157,6 +157,7 @@ const TypeaheadInner = <T extends TypeaheadModel>(
         required: inputRequired,
       }}
       filterBy={filterBy ?? (() => true)}
+      useCache={false}
       {...getBoxProps(props)}
     />
   );

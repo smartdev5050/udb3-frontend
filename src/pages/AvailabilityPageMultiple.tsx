@@ -13,11 +13,14 @@ import { Page } from '@/ui/Page';
 import { SelectionTable } from '@/ui/SelectionTable';
 import { Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
+import { getGlobalBorderRadius, getValueFromTheme } from '@/ui/theme';
 import { formatPeriod } from '@/utils/formatPeriod';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 import { BookingAvailabilityModal } from './BookingAvailabilityModal';
 import { StatusModal } from './StatusModal';
+
+const getGlobalValue = getValueFromTheme('global');
 
 const Status = ({ type, reason }) => {
   const { i18n } = useTranslation();
@@ -141,30 +144,41 @@ const AvailabilityPageMultiple = ({ event, refetchEvent }) => {
       <Page.Title>{t('offerStatus.title', { name })}</Page.Title>
       <Page.Content spacing={5}>
         <Alert>{t('offerStatus.info')}</Alert>
-        <SelectionTable
-          columns={columns}
-          data={data}
-          onSelectionChanged={setSelectedRows}
-          actions={[
-            {
-              iconName: Icons.PENCIL,
-              title: t('offerStatus.changeStatus'),
-              onClick: () => setIsModalVisible(true),
-              disabled: selectedRows.length === 0,
-            },
-            {
-              iconName: Icons.PENCIL,
-              title: t('bookingAvailability.change'),
-              onClick: () => setIsBookingModalVisible(true),
-              disabled: selectedRows.length === 0,
-            },
-          ]}
-          translateSelectedRowCount={(count) =>
-            t('selectionTable.rowsSelectedCount', {
-              count,
-            })
-          }
-        />
+        <Stack
+          backgroundColor="white"
+          padding={4}
+          borderRadius={getGlobalBorderRadius}
+          spacing={5}
+          css={`
+            box-shadow: ${getGlobalValue('boxShadow.medium')};
+          `}
+        >
+          <SelectionTable
+            columns={columns}
+            data={data}
+            onSelectionChanged={setSelectedRows}
+            actions={[
+              {
+                iconName: Icons.PENCIL,
+                title: t('offerStatus.changeStatus'),
+                onClick: () => setIsModalVisible(true),
+                disabled: selectedRows.length === 0,
+              },
+              {
+                iconName: Icons.PENCIL,
+                title: t('bookingAvailability.change'),
+                onClick: () => setIsBookingModalVisible(true),
+                disabled: selectedRows.length === 0,
+              },
+            ]}
+            translateSelectedRowCount={(count) =>
+              t('selectionTable.rowsSelectedCount', {
+                count,
+              })
+            }
+          />
+        </Stack>
+
         <Link
           href={`/event/${eventId}/preview`}
           variant={LinkVariants.BUTTON_SUCCESS}

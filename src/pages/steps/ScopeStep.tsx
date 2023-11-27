@@ -65,7 +65,12 @@ const ScopeStep = ({
               onClick={() => handleChangeScope(field, OfferTypes.EVENTS)}
               active={field.value === OfferTypes.EVENTS}
               icon={
-                <CustomIcon name={CustomIconVariants.CALENDAR} width="80" />
+                <CustomIcon
+                  marginTop={3}
+                  marginBottom={3}
+                  name={CustomIconVariants.CALENDAR}
+                  width="80"
+                />
               }
               text={t('steps.offerTypeStep.types.event')}
               width="30%"
