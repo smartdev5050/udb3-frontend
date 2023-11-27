@@ -8,10 +8,21 @@ import { Inline } from '@/ui/Inline';
 import { Input } from '@/ui/Input';
 import { Stack } from '@/ui/Stack';
 
+type OptionProps = {
+  onClick: (value: any) => void;
+  children?: React.ReactNode;
+  value?: string;
+  className?: string;
+  activeClassName?: string;
+  active?: boolean;
+  disabled?: boolean;
+  title?: string;
+};
+
 /**
  * Source: https://github.com/jpuri/react-draft-wysiwyg/blob/master/src/components/Option/index.js#L8
  */
-function Option({
+const Option = ({
   onClick,
   children,
   value,
@@ -20,31 +31,28 @@ function Option({
   active = false,
   disabled = false,
   title,
-}) {
-  return (
-    <div
-      className={classNames('rdw-option-wrapper', className, {
-        [`rdw-option-active ${activeClassName}`]: active,
-        'rdw-option-disabled': disabled,
-      })}
-      onClick={() => {
-        if (!disabled) {
-          onClick(value);
-        }
-      }}
-      aria-selected={active}
-      title={title}
-    >
-      {children}
-    </div>
-  );
-}
+}: OptionProps) => (
+  <div
+    className={classNames('rdw-option-wrapper', className, {
+      [`rdw-option-active ${activeClassName}`]: active,
+      'rdw-option-disabled': disabled,
+    })}
+    onClick={() => {
+      if (!disabled) {
+        onClick(value);
+      }
+    }}
+    aria-selected={active}
+    title={title}
+  >
+    {children}
+  </div>
+);
 
 /**
  * Source: https://github.com/jpuri/react-draft-wysiwyg/blob/master/src/controls/Link/Component/index.js#L203
  */
-
-function CustomRichTextEditorLink({
+const CustomRichTextEditorLink = ({
   config,
   currentState,
   doCollapse,
@@ -52,9 +60,9 @@ function CustomRichTextEditorLink({
   onChange,
   onExpandEvent,
   translations,
-}: CustomRichTextEditorLinkProps) {
+}: CustomRichTextEditorLinkProps) => {
   const { t } = useTranslation();
-  const [showModal, setShowModal] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [linkTarget, setLinkTarget] = useState('');
   const [linkTitle, setLinkTitle] = useState('');
   const [linkTargetOption, setLinkTargetOption] = useState(
@@ -62,15 +70,15 @@ function CustomRichTextEditorLink({
   );
 
   useEffect(() => {
-    if (expanded && !expanded) {
-      setShowModal(false);
+    if (!expanded) {
+      setIsModalVisible(false);
       setLinkTarget('');
       setLinkTitle('');
       setLinkTargetOption(config.defaultTargetOption);
     }
   }, [expanded]);
 
-  const updateValue = (event) => {
+  const updateValue = (event: React.FocusEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     if (name === 'linkTarget') {
       setLinkTarget(value);
@@ -79,9 +87,9 @@ function CustomRichTextEditorLink({
     }
   };
 
-  const signalExpandShowModal = () => {
+  const handleExpandModal = () => {
     onExpandEvent();
-    setShowModal(true);
+    setIsModalVisible(true);
     setLinkTarget(currentState.link?.target || '');
     setLinkTargetOption(currentState.link?.targetOption || linkTargetOption);
     setLinkTitle(currentState.link?.title || currentState.selectionText);
@@ -95,9 +103,9 @@ function CustomRichTextEditorLink({
       <Option
         value="unordered-list-item"
         className={classNames(config.link.className)}
-        onClick={signalExpandShowModal}
+        onClick={handleExpandModal}
         aria-haspopup="true"
-        aria-expanded={showModal}
+        aria-expanded={isModalVisible}
         title={
           config.link.title || translations['components.controls.link.link']
         }
@@ -115,7 +123,7 @@ function CustomRichTextEditorLink({
       >
         <img src={config.unlink.icon} alt="" />
       </Option>
-      {expanded && showModal && (
+      {expanded && isModalVisible && (
         <Stack
           spacing={4}
           className={classNames('rdw-link-modal', config.popupClassName)}
@@ -143,7 +151,7 @@ function CustomRichTextEditorLink({
             Component={
               <Input
                 onChange={updateValue}
-                onBlur={updateValue}
+                onBlur={(event) => {}}
                 name="linkTarget"
                 value={linkTarget}
               />
@@ -167,7 +175,7 @@ function CustomRichTextEditorLink({
       )}
     </div>
   );
-}
+};
 
 type CustomRichTextEditorLinkProps = {
   expanded?: boolean;
