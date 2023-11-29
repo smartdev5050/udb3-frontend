@@ -151,7 +151,7 @@ const CustomRichTextEditorLink = ({
             Component={
               <Input
                 onChange={updateValue}
-                onBlur={(event) => {}}
+                onBlur={updateValue}
                 name="linkTarget"
                 value={linkTarget}
               />
