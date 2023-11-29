@@ -152,6 +152,10 @@ const GlobalStyle = createGlobalStyle`
   .badge-secondary {
     background-color: ${globalColors.grey5};
   }
+  
+  .progress-bar.bg-success {
+    background-color: ${globalColors.udbMainPositiveGreen} !important;
+  }
 
   .dropdown-menu {
     padding: 0;
