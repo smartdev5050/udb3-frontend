@@ -85,13 +85,11 @@ const getRedirects = (
     source: '/organizer',
     destination: '/organizers/create',
     permanent: false,
-    featureFlag: FeatureFlags.ORGANIZER_CREATE,
   },
   {
     source: '/organizer/:organizerId/edit',
     destination: '/organizers/:organizerId/edit',
     permanent: false,
-    featureFlag: FeatureFlags.ORGANIZER_CREATE,
   },
   {
     source: '/:language/copyright',

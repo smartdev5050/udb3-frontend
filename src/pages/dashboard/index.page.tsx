@@ -96,7 +96,7 @@ const UseDeleteItemByIdMap = {
 const CreateMap = {
   events: '/create?scope=events',
   places: '/create?scope=places',
-  organizers: '/organizer',
+  organizers: '/organizers/create',
 };
 
 const RowStatus = {
