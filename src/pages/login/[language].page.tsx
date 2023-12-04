@@ -294,7 +294,7 @@ const Index = () => {
   }, [isLargeView, isMediumView, isSmallView, isXLargeView]);
 
   const uspCardBottomPosition = useMemo(() => {
-    if (isMediumView) return '-40vh';
+    if (isMediumView) return '-50vh';
     if (isLargeView) return '-35vh';
     if (isXLargeView) return '-25vh';
 
