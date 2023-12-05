@@ -294,7 +294,7 @@ const Index = () => {
   }, [isLargeView, isMediumView, isSmallView, isXLargeView]);
 
   const uspCardBottomPosition = useMemo(() => {
-    if (isMediumView) return '-40vh';
+    if (isMediumView) return '-50vh';
     if (isLargeView) return '-35vh';
     if (isXLargeView) return '-25vh';
 
@@ -330,7 +330,7 @@ const Index = () => {
           {!isSmallView && <ManIllustrationSvg zIndex={3} width={'35%'} />}
 
           <UDBCard
-            zIndex={1}
+            zIndex={10}
             position={isSmallView ? 'static' : 'absolute'}
             borderRadius={getGlobalBorderRadius}
             onLogin={handleClickLogin}
