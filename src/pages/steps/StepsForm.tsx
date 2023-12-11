@@ -1,3 +1,5 @@
+import Hotjar from '@hotjar/browser';
+import getConfig from 'next/config';
 import { useRouter } from 'next/router';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
@@ -128,11 +130,18 @@ const StepsForm = ({
   });
 
   const triggerHotjarSurvey = () => {
-    if (typeof window === 'undefined') return;
-    if (offer?.mediaObject) return;
+    const { publicRuntimeConfig } = getConfig();
 
-    // @ts-expect-error
-    window.hj('trigger', 'no_image');
+    if (typeof window === 'undefined') return;
+
+    const eventName = publicRuntimeConfig.hotjarEventName;
+    const missingFieldName = publicRuntimeConfig.hotjarMissingFieldName;
+
+    if (!eventName || !missingFieldName) return;
+
+    if (offer?.[`${missingFieldName}`]) return;
+
+    Hotjar.event(eventName);
   };
 
   const editLocation = useEditLocation({
@@ -274,7 +283,7 @@ const StepsForm = ({
             {footerStatus === FooterStatus.PUBLISH && [
               <Button
                 variant={ButtonVariants.SUCCESS}
-                onClick={async () => {
+                onClick={() => {
                   triggerHotjarSurvey();
                   publishOffer();
                 }}
