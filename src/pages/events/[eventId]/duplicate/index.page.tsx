@@ -7,10 +7,8 @@ import { OfferForm } from '../../../create/OfferForm';
 
 export const getServerSideProps = getApplicationServerSideProps(
   async ({ req, query, queryClient, cookies }) => {
-    const { eventId } = query;
-
     await useGetEventByIdQuery({
-      id: eventId,
+      id: query?.eventId,
       req,
       queryClient,
     });
