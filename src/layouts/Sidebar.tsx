@@ -580,7 +580,7 @@ const Sidebar = () => {
       forwardedAs="nav"
       height="100%"
       css={`
-        overflow: hidden;
+        overflow: scroll;
       `}
       width={{ default: '240px', s: '65px' }}
       backgroundColor={getValueForSidebar('backgroundColor')}
