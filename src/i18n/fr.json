@@ -453,6 +453,7 @@
         "or_choose_other_organizer": "Ou ajouter une nouvelle organisation",
         "choose_other_organizer": "Ajouter une nouvelle organisation",
         "uitpas_cardsystems": "UiTPAS systèmes de cartes",
+        "uitpas_select_distribution_key": "Sélectionnez une clé de distribution",
         "uitpas_alert": {
           "success": "Votre activité est désormais enregistrée en tant qu'activité UitPAS.",
           "no_price": "Ceci est un organisateur UiTPAS. Ajoutez <link1>un prix</link1> pour publier votre événement en tant qu'activité UiTPAS.",
