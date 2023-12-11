@@ -2,10 +2,10 @@ import '@fortawesome/fontawesome-svg-core/styles.css';
 
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { config } from '@fortawesome/fontawesome-svg-core';
+import Hotjar from '@hotjar/browser';
 import NextHead from 'next/head';
-import Script from 'next/script';
 import PropTypes from 'prop-types';
-import { cloneElement } from 'react';
+import { cloneElement, useEffect } from 'react';
 import { Cookies, CookiesProvider } from 'react-cookie';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 import { QueryClient, QueryClientProvider } from 'react-query';
@@ -71,19 +71,6 @@ ContextProvider.propTypes = {
 
 config.autoAddCss = false;
 
-const Hotjar = () => {
-  return (
-    <Script id="hotjar">{`(function(h,o,t,j,a,r){
-        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-        h._hjSettings={hjid:181435,hjsv:6};
-        a=o.getElementsByTagName('head')[0];
-        r=o.createElement('script');r.async=1;
-        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-        a.appendChild(r);
-    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');`}</Script>
-  );
-};
-
 const Head = () => {
   const { t } = useTranslation();
 
@@ -105,10 +92,14 @@ const queryClient = new QueryClient();
 const isServer = () => typeof window === 'undefined';
 
 const App = ({ Component, pageProps, children }) => {
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    Hotjar.init(181435, 6);
+  }, []);
+
   return (
     <>
       <Head />
-      <Hotjar />
       <UserProvider />
       <ContextProvider
         providers={[
