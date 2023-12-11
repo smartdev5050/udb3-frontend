@@ -447,6 +447,7 @@
         "or_choose_other_organizer": "Fügen Sie eine Organisation hinzu",
         "choose_other_organizer": "Wählen Sie eine Organisation aus",
         "uitpas_cardsystems": "UiTPAS Kartensysteme",
+        "uitpas_select_distribution_key": "Wählen Sie einen Verteilungsschlüssel aus",
         "uitpas_alert": {
           "success": "Ihre Aktivität ist jetzt als UitPAS-Aktivität registriert.",
           "no_price": "Dies ist ein UiTPAS-Organisator. Fügen Sie einen <link1>Preis</link1> hinzu, um Ihre Veranstaltung als UiTPAS-Aktivität zu veröffentlichen.",
