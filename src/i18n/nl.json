@@ -449,6 +449,7 @@
         "or_choose_other_organizer": "Of een nieuwe organisatie toevoegen",
         "choose_other_organizer": "Een nieuwe organisatie toevoegen",
         "uitpas_cardsystems": "UiTPAS Kaartsystemen",
+        "uitpas_select_distribution_key": "Selecteer een verdeelsleutel",
         "uitpas_alert": {
           "success": "Je activiteit is nu geregistreerd als UiTPAS activiteit.",
           "no_price": "Dit is een UiTPAS organisator. Voeg een <link1>prijs</link1> toe om je evenement te publiceren als UiTPAS activiteit.",
@@ -693,7 +694,7 @@
     "activities": "Activiteiten per jaar",
     "activities_info": "De rijkste vrijetijdsdatabank van Vlaanderen staat open voor de meest uiteenlopende activiteiten.",
     "channels": "Verschillende kanalen",
-    "channels_info": "De UiTdatabank levert informatie aan meer dan 1.000 online <1>{{link}}</1>, apps en gedrukte bladen.",
+    "channels_info": "De UiTdatabank levert informatie aan UiTinVlaanderen en meer dan 1.000 andere online <1>{{link}}</1>, apps en gedrukte bladen.",
     "channels_info_link_text": "agenda's",
     "channels_info_link_url": "https://www.publiq.be/nl/publicatiekanalen",
     "flanders_image": "vlaanderen-logo.svg",

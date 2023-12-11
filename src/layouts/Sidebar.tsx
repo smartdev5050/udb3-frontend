@@ -501,7 +501,7 @@ const Sidebar = () => {
       children: t('menu.home'),
     },
     {
-      href: '/event',
+      href: '/create',
       iconName: Icons.PLUS_CIRCLE,
       children: t('menu.add'),
     },
@@ -580,7 +580,7 @@ const Sidebar = () => {
       forwardedAs="nav"
       height="100%"
       css={`
-        overflow: hidden;
+        overflow: scroll;
       `}
       width={{ default: '240px', s: '65px' }}
       backgroundColor={getValueForSidebar('backgroundColor')}

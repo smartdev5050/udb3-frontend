@@ -47,12 +47,6 @@ const getRedirects = (
   // than development, so we don't get permanent redirects on localhost which
   // may conflict with other projects.
   {
-    source: '/event',
-    destination: '/create',
-    permanent: false,
-    featureFlag: FeatureFlags.REACT_CREATE,
-  },
-  {
     source: '/event/:eventId/status',
     destination: '/events/:eventId/availability',
     permanent: environment !== 'development',
@@ -76,31 +70,26 @@ const getRedirects = (
     source: '/event/:eventId/edit',
     destination: '/events/:eventId/edit',
     permanent: false,
-    featureFlag: FeatureFlags.REACT_CREATE,
   },
   {
     source: '/event/:eventId/duplicate',
     destination: '/events/:eventId/duplicate',
     permanent: false,
-    featureFlag: FeatureFlags.REACT_CREATE,
   },
   {
     source: '/place/:placeId/edit',
     destination: '/places/:placeId/edit',
     permanent: false,
-    featureFlag: FeatureFlags.REACT_CREATE,
   },
   {
     source: '/organizer',
     destination: '/organizers/create',
     permanent: false,
-    featureFlag: FeatureFlags.ORGANIZER_CREATE,
   },
   {
     source: '/organizer/:organizerId/edit',
     destination: '/organizers/:organizerId/edit',
     permanent: false,
-    featureFlag: FeatureFlags.ORGANIZER_CREATE,
   },
   {
     source: '/:language/copyright',

@@ -388,7 +388,7 @@ const MediaStep = ({
         stackOn={Breakpoints.M}
       >
         <PictureUploadBox
-          width="45%"
+          width="48%"
           scope={scope}
           images={images}
           onClickEditImage={handleClickEditImage}
@@ -399,7 +399,7 @@ const MediaStep = ({
         />
         {scope !== ScopeTypes.ORGANIZERS && (
           <VideoUploadBox
-            width="45%"
+            width="48%"
             videos={videos}
             onClickAddVideo={() => setIsVideoLinkAddModalVisible(true)}
             onClickDeleteVideo={handleDeleteVideoLink}

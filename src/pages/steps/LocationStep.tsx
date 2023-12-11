@@ -369,7 +369,11 @@ const LocationStep = ({
                 {showRecentLocations && hasRecentLocations && (
                   <RecentLocations flex={1} onFieldChange={onFieldChange} />
                 )}
-                <Stack spacing={4} flex={1}>
+                <Stack
+                  minHeight={showRecentLocations ? '450px' : 'none'}
+                  spacing={4}
+                  flex={1}
+                >
                   {showRecentLocations && (
                     <Text fontWeight={'bold'}>
                       {hasRecentLocations
@@ -396,7 +400,13 @@ const LocationStep = ({
                     {...getInlineProps(props)}
                   >
                     <ToggleBox
-                      onClick={() => onFieldChange({ isOnline: false })}
+                      onClick={() =>
+                        onFieldChange({
+                          isOnline: false,
+                          municipality: undefined,
+                          place: undefined,
+                        })
+                      }
                       active={!isOnline}
                       icon={
                         <CustomIcon
@@ -578,7 +588,10 @@ const LocationStep = ({
                   name={Icons.CHECK_CIRCLE}
                   color={getGlobalValue('successColor')}
                 />
-                <Text>{municipality.name}</Text>
+                <Text>
+                  {municipality.name}
+                  {municipality.zip ? `, ${municipality.zip}` : ''}
+                </Text>
                 <Button
                   variant={ButtonVariants.LINK}
                   onClick={() => {
@@ -619,12 +632,7 @@ const LocationStep = ({
                         name={Icons.CHECK_CIRCLE}
                         color={getGlobalValue('successColor')}
                       />
-                      <Text>
-                        {field.value.streetAndNumber}
-                        {field.value.postalCode
-                          ? `, ${field.value.postalCode}`
-                          : ''}
-                      </Text>
+                      <Text>{field.value.streetAndNumber}</Text>
                       <Button
                         variant={ButtonVariants.LINK}
                         onClick={() => {

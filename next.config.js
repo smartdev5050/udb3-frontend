@@ -6,7 +6,6 @@ const { withSentryConfig } = require('@sentry/nextjs');
 const moduleExports = {
   productionBrowserSourceMaps: true,
   swcMinify: true,
-  sentry: { hideSourceMaps: false },
   async redirects() {
     // Redirects to fix non-existing paths should go in `src/redirects.js`!!!
     const env = process.env.NEXT_PUBLIC_ENVIRONMENT;
@@ -50,9 +49,30 @@ const moduleExports = {
 
 /** @type {Partial<import('@sentry/nextjs').SentryWebpackPluginOptions>} */
 const SentryWebpackPluginOptions = {
+  silent: true,
+  org: 'publiq-vzw',
+  project: 'udb3-frontend',
   dryRun: true,
 };
 
 module.exports.withoutSentry = moduleExports;
 
-module.exports = withSentryConfig(moduleExports, SentryWebpackPluginOptions);
+module.exports = withSentryConfig(moduleExports, SentryWebpackPluginOptions, {
+  // For all available options, see:
+  // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
+
+  // Upload a larger set of source maps for prettier stack traces (increases build time)
+  widenClientFileUpload: true,
+
+  // Transpiles SDK to be compatible with IE11 (increases bundle size)
+  transpileClientSDK: true,
+
+  // Routes browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers (increases server load)
+  tunnelRoute: '/monitoring',
+
+  // Hides source maps from generated client bundles
+  hideSourceMaps: false,
+
+  // Automatically tree-shake Sentry logger statements to reduce bundle size
+  disableLogger: true,
+});

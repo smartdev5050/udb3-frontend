@@ -101,9 +101,9 @@ const PictureUploadBox = forwardRef<HTMLInputElement, Props>(
               src={imagePreviewUrl}
               alt="preview"
               width="auto"
-              maxHeight="8rem"
+              maxHeight="10rem"
               maxWidth="100%"
-              objectFit="cover"
+              objectFit="contain"
             />
             <Text>{image.name}</Text>
           </Stack>
