@@ -299,6 +299,10 @@ const OrganizerStep = ({
     });
   };
 
+  const hasSelectedDistributionKey = selectedCardSystems.some(
+    (selectedCardSystem) => selectedCardSystem.distributionKeys.length > 0,
+  );
+
   return (
     <Stack {...getStackProps(props)} spacing={5}>
       <Stack>
@@ -416,6 +420,11 @@ const OrganizerStep = ({
                     })
                   }
                 >
+                  <option selected={!hasSelectedDistributionKey} disabled>
+                    {t(
+                      'create.additionalInformation.organizer.uitpas_select_distribution_key',
+                    )}
+                  </option>
                   {Object.values(cardSystem.distributionKeys).map(
                     (distributionKey) => (
                       <option
