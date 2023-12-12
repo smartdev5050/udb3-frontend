@@ -1,3 +1,5 @@
+import Hotjar from '@hotjar/browser';
+import getConfig from 'next/config';
 import { useRouter } from 'next/router';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
@@ -126,6 +128,21 @@ const StepsForm = ({
       push(`/${scopePath}/${offerId}/preview`);
     },
   });
+
+  const triggerHotjarSurvey = () => {
+    const { publicRuntimeConfig } = getConfig();
+
+    if (typeof window === 'undefined') return;
+
+    const eventName = publicRuntimeConfig.hotjarEventName;
+    const missingFieldName = publicRuntimeConfig.hotjarMissingFieldName;
+
+    if (!eventName || !missingFieldName) return;
+
+    if (offer?.[`${missingFieldName}`]) return;
+
+    Hotjar.event(eventName);
+  };
 
   const editLocation = useEditLocation({
     scope,
@@ -266,7 +283,10 @@ const StepsForm = ({
             {footerStatus === FooterStatus.PUBLISH && [
               <Button
                 variant={ButtonVariants.SUCCESS}
-                onClick={async () => publishOffer()}
+                onClick={() => {
+                  triggerHotjarSurvey();
+                  publishOffer();
+                }}
                 key="publish"
               >
                 {t('create.actions.publish')}
