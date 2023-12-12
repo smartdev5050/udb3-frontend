@@ -141,7 +141,13 @@ const StepsForm = ({
 
     if (offer?.[`${missingFieldName}`]) return;
 
-    Hotjar.event(eventName);
+    console.log({ eventName });
+    console.log('missingFieldName', missingFieldName);
+
+    // @ts-expect-error
+    window.hj('trigger', 'no_image');
+
+    // Hotjar.event(eventName);
   };
 
   const editLocation = useEditLocation({
