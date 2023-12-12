@@ -351,6 +351,10 @@
           "complete": "Intégrez le message le plus important dans les {{idealLength}} premiers caractères. Vous pouvez ensuite ajouter des informations générales.",
           "not_complete": "Pour attirer un nouveau public, les {{idealLength}} premier caractères sont les plus importants. Encore {{count}} caractères."
         },
+        "editor": {
+          "link_title": "Titre du lien",
+          "link_target": "Cible du lien"
+        },
         "tips": {
           "0.0.0.0.0": "Donnez une description enthousiaste de l'exposition. <ul><li>Quels sont les <strong>artistes</strong> qui exposent ?</li><li>Quelles <strong>collections</strong> peuvent être vues ?</li><li>Existe-t-il un <strong>guide (audio)</strong> ou une <strong>brochure</strong> ?</li></ul>",
           "0.12.0.0.0": "Donnez une description enthousiaste de la journée portes ouvertes. Que pouvez-vous <strong>voir</strong> ou <strong>vivre</strong> ?",

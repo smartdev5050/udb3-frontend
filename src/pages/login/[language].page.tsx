@@ -69,9 +69,9 @@ const OvalSvg = ({ ...props }: StackProps) => {
             y2="651"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#F3FBFF" stop-opacity="0" />
-            <stop offset="1" stop-color="#F3FBFF" />
-            <stop offset="1" stop-color="#F3FBFF" />
+            <stop stopColor="#F3FBFF" stopOpacity="0" />
+            <stop offset="1" stopColor="#F3FBFF" />
+            <stop offset="1" stopColor="#F3FBFF" />
           </linearGradient>
         </defs>
       </svg>
