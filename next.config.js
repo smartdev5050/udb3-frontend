@@ -50,7 +50,7 @@ const SentryWebpackPluginOptions = {
   silent: true,
   org: 'publiq-vzw',
   project: 'udb3-frontend',
-  dryRun: true,
+  authToken: process.env.SENTRY_AUTH_TOKEN,
 };
 
 module.exports.withoutSentry = moduleExports;
