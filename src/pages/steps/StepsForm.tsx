@@ -132,10 +132,15 @@ const StepsForm = ({
   const triggerHotjarSurvey = () => {
     const { publicRuntimeConfig } = getConfig();
 
+    console.log('triggerHotjarSurvey');
+
     if (typeof window === 'undefined') return;
 
     const eventName = publicRuntimeConfig.hotjarEventName;
     const missingFieldName = publicRuntimeConfig.hotjarMissingFieldName;
+
+    console.log(eventName);
+    console.log(missingFieldName);
 
     if (!eventName || !missingFieldName) return;
 
