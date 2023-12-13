@@ -1,4 +1,3 @@
-import Hotjar from '@hotjar/browser';
 import getConfig from 'next/config';
 import { useRouter } from 'next/router';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -92,7 +91,9 @@ const StepsForm = ({
   const { form } = useParseStepConfiguration(configurations);
   const [isDuplicateButtonDisabled, setIsDuplicateButtonDisabled] =
     useState(true);
-
+  const { publicRuntimeConfig } = getConfig();
+  const eventName = publicRuntimeConfig.hotjarEventName;
+  const missingFieldName = publicRuntimeConfig.hotjarMissingFieldName;
   const { handleSubmit, reset } = form;
 
   const { query, push, pathname, reload } = useRouter();
@@ -125,35 +126,17 @@ const StepsForm = ({
     id: offerId,
     onSuccess: () => {
       const scopePath = scope === OfferTypes.EVENTS ? 'event' : 'place';
-      push(`/${scopePath}/${offerId}/preview`);
+
+      const params =
+        eventName && missingFieldName
+          ? { hj: !offer?.[`${missingFieldName}`] && eventName }
+          : {};
+
+      const searchParams = new URLSearchParams(params);
+
+      push(`/${scopePath}/${offerId}/preview?${searchParams.toString()}`);
     },
   });
-
-  const triggerHotjarSurvey = () => {
-    const { publicRuntimeConfig } = getConfig();
-
-    console.log('triggerHotjarSurvey');
-
-    if (typeof window === 'undefined') return;
-
-    const eventName = publicRuntimeConfig.hotjarEventName;
-    const missingFieldName = publicRuntimeConfig.hotjarMissingFieldName;
-
-    console.log(eventName);
-    console.log(missingFieldName);
-
-    if (!eventName || !missingFieldName) return;
-
-    if (offer?.[`${missingFieldName}`]) return;
-
-    console.log({ eventName });
-    console.log('missingFieldName', missingFieldName);
-
-    // @ts-expect-error
-    window.hj('trigger', 'no_image');
-
-    // Hotjar.event(eventName);
-  };
 
   const editLocation = useEditLocation({
     scope,
@@ -295,7 +278,6 @@ const StepsForm = ({
               <Button
                 variant={ButtonVariants.SUCCESS}
                 onClick={() => {
-                  triggerHotjarSurvey();
                   publishOffer();
                 }}
                 key="publish"
