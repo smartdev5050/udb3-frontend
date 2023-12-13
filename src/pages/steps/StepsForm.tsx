@@ -128,8 +128,8 @@ const StepsForm = ({
       const scopePath = scope === OfferTypes.EVENTS ? 'event' : 'place';
 
       const params =
-        eventName && missingFieldName
-          ? { hj: !offer?.[`${missingFieldName}`] && eventName }
+        eventName && missingFieldName && !offer?.[`${missingFieldName}`]
+          ? { hj: eventName }
           : {};
 
       const searchParams = new URLSearchParams(params);
