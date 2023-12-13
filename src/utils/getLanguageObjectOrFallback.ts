@@ -5,7 +5,9 @@ const getLanguageObjectOrFallback = <TReturned>(
   language: SupportedLanguage,
   mainLanguage?: SupportedLanguage,
 ) => {
-  if (obj[language]) {
+  if (!obj) return;
+
+  if (obj?.[language]) {
     return obj[language] as TReturned;
   }
 
