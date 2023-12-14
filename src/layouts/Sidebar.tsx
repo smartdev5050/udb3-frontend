@@ -417,6 +417,8 @@ const Sidebar = () => {
   useEffect(() => {
     if (!router.query.hj) return;
 
+    if (typeof window === 'undefined') return;
+
     const hotjarEvent = Array.isArray(router.query.hj)
       ? router.query.hj[0]
       : router.query.hj;
