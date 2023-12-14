@@ -1,3 +1,4 @@
+import Hotjar from '@hotjar/browser';
 import getConfig from 'next/config';
 import { useRouter } from 'next/router';
 import type { ChangeEvent, ReactNode } from 'react';
@@ -362,6 +363,8 @@ const Sidebar = () => {
   const queryClient = useQueryClient();
   const storage = useLocalStorage();
 
+  const router = useRouter();
+
   const [isJobLoggerVisible, setIsJobLoggerVisible] = useState(true);
   const [jobLoggerState, setJobLoggerState] = useState(JobLoggerStates.IDLE);
 
@@ -410,6 +413,27 @@ const Sidebar = () => {
     () => setIsJobLoggerVisible((prevValue) => !prevValue),
     [],
   );
+
+  useEffect(() => {
+    if (!router.query.hj) return;
+
+    const hotjarEvent = Array.isArray(router.query.hj)
+      ? router.query.hj[0]
+      : router.query.hj;
+
+    Hotjar.event(hotjarEvent);
+
+    router.replace(
+      {
+        pathname: router.pathname,
+        query: {
+          params: router.query.params,
+        },
+      },
+      undefined,
+      { shallow: true },
+    );
+  }, [router]);
 
   useEffect(() => {
     if (announcementModalContext.visible) {
