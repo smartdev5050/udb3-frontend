@@ -418,6 +418,8 @@ const Sidebar = () => {
     if (!router.query.hj) return;
 
     if (typeof window === 'undefined') return;
+    // @ts-expect-error
+    if (typeof window.hj !== 'function') return;
 
     const hotjarEvent = Array.isArray(router.query.hj)
       ? router.query.hj[0]
