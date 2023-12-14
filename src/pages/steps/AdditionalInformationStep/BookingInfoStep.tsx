@@ -429,7 +429,7 @@ const BookingInfoStep = ({
       eventId,
       bookingInfo: {
         ...bookingInfo,
-        ...(Object.hasOwn(bookingInfo, 'url') && {
+        ...('url' in bookingInfo && {
           urlLabel: newUrlLabels,
         }),
       },
