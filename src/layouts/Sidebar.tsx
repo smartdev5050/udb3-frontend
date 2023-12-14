@@ -421,7 +421,10 @@ const Sidebar = () => {
       ? router.query.hj[0]
       : router.query.hj;
 
-    Hotjar.event(hotjarEvent);
+    console.log('trigger hotjar survey');
+
+    // @ts-expect-error
+    window.hj('trigger', hotjarEvent);
 
     router.replace(
       {
