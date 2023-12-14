@@ -14,6 +14,7 @@ import { useCookiesWithOptions } from './useCookiesWithOptions';
 const FeatureFlags = {
   REACT_CREATE: 'react_create',
   ORGANIZER_CREATE: 'organizer_create',
+  REACT_DUPLICATE: 'react_duplicate',
 } as const;
 
 const createCookieName = (identifier: string) => `ff_${identifier}`;
