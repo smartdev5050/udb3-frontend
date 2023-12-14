@@ -425,17 +425,6 @@ const Sidebar = () => {
 
     // @ts-expect-error
     window.hj('trigger', hotjarEvent);
-
-    router.replace(
-      {
-        pathname: router.pathname,
-        query: {
-          params: router.query.params,
-        },
-      },
-      undefined,
-      { shallow: true },
-    );
   }, [router]);
 
   useEffect(() => {
