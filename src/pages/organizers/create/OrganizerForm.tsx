@@ -133,9 +133,11 @@ const OrganizerForm = () => {
       attributes.contactPoint = { url: [url] };
     }
 
-    const { organizerId } = await mutation.mutateAsync(attributes);
+    const response = await mutation.mutateAsync(attributes);
 
-    onSuccess(organizerId);
+    if (!urlOrganizerId) {
+      onSuccess(response.organizerId);
+    }
   };
 
   const hasErrors = Object.keys(formState.errors).length > 0;

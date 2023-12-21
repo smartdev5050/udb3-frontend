@@ -249,29 +249,34 @@ type UpdateOrganizerEducationalDescriptionArguments =
     educationalDescription: string;
   };
 
-const updateOrganizer = ({
+const updateOrganizer = async ({
   headers,
-  url,
   organizerId,
   name,
-  address,
   mainLanguage,
-  contact,
-}: UpdateOrganizerArguments) =>
-  fetchFromApi({
-    path: `/organizers/${organizerId}`,
+  url,
+}: UpdateOrganizerArguments) => {
+  await fetchFromApi({
+    path: `/organizers/${organizerId}/name/${mainLanguage}`,
     options: {
       headers,
       method: 'PUT',
       body: JSON.stringify({
-        mainLanguage,
         name,
-        url,
-        address,
-        contact,
       }),
     },
   });
+  return fetchFromApi({
+    path: `/organizers/${organizerId}/url/`,
+    options: {
+      headers,
+      method: 'PUT',
+      body: JSON.stringify({
+        url,
+      }),
+    },
+  });
+};
 
 const useUpdateOrganizerMutation = (configuration: UseMutationOptions = {}) =>
   useAuthenticatedMutation({
