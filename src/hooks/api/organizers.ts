@@ -250,33 +250,33 @@ type UpdateOrganizerEducationalDescriptionArguments =
   };
 
 const updateOrganizer = async ({
-       headers,
-       organizerId,
-       name,
-       mainLanguage,
-       url
-   }: UpdateOrganizerArguments)=> {
-    await fetchFromApi({
-            path: `/organizers/${organizerId}/name/${mainLanguage}`,
-            options: {
-                headers,
-                method: 'PUT',
-                body: JSON.stringify({
-                    name,
-                }),
-            },
-        });
-    return fetchFromApi({
-            path: `/organizers/${organizerId}/url/`,
-            options: {
-                headers,
-                method: 'PUT',
-                body: JSON.stringify({
-                    url,
-                }),
-            },
-        });
-}
+  headers,
+  organizerId,
+  name,
+  mainLanguage,
+  url,
+}: UpdateOrganizerArguments) => {
+  await fetchFromApi({
+    path: `/organizers/${organizerId}/name/${mainLanguage}`,
+    options: {
+      headers,
+      method: 'PUT',
+      body: JSON.stringify({
+        name,
+      }),
+    },
+  });
+  return fetchFromApi({
+    path: `/organizers/${organizerId}/url/`,
+    options: {
+      headers,
+      method: 'PUT',
+      body: JSON.stringify({
+        url,
+      }),
+    },
+  });
+};
 
 const useUpdateOrganizerMutation = (configuration: UseMutationOptions = {}) =>
   useAuthenticatedMutation({
