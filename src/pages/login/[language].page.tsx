@@ -330,7 +330,7 @@ const Index = () => {
           {!isSmallView && <ManIllustrationSvg zIndex={3} width={'35%'} />}
 
           <UDBCard
-            zIndex={10}
+            zIndex={1}
             position={isSmallView ? 'static' : 'absolute'}
             borderRadius={getGlobalBorderRadius}
             onLogin={handleClickLogin}
@@ -345,7 +345,7 @@ const Index = () => {
             position={isSmallView ? 'static' : 'absolute'}
             left={0}
             bottom={uspCardBottomPosition}
-            zIndex={1}
+            zIndex={0}
             stackOn={Breakpoints.S}
             spacing={isSmallView ? 3 : 0}
           >
