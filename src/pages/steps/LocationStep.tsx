@@ -41,7 +41,6 @@ import { parseOfferId } from '@/utils/parseOfferId';
 import { prefixUrlWithHttps } from '@/utils/url';
 
 import { CityPicker } from '../CityPicker';
-import { Features, NewFeatureTooltip } from '../NewFeatureTooltip';
 import { CountryPicker } from './CountryPicker';
 import { UseEditArguments } from './hooks/useEditField';
 import { useRecentLocations } from './hooks/useRecentLocations';
@@ -73,7 +72,6 @@ const RecentLocations = ({ onFieldChange, ...props }) => {
         <Text fontWeight={'bold'}>
           {t('create.location.recent_locations.title')}
         </Text>
-        <NewFeatureTooltip featureUUID={Features.SUGGESTED_ORGANIZERS} />
       </Inline>
       <Alert variant={AlertVariants.PRIMARY} marginY={4}>
         {t('create.location.recent_locations.info')}
@@ -476,15 +474,7 @@ const LocationStep = ({
                       />
                     }
                     id="online-url"
-                    label={
-                      <>
-                        {t('create.location.online_url.label')}
-                        <NewFeatureTooltip
-                          featureUUID={Features.ONLINE}
-                          display={'inline-block'}
-                        />
-                      </>
-                    }
+                    label={t('create.location.online_url.label')}
                     error={
                       hasOnlineUrlError &&
                       t('create.validation_messages.location.online_url')
@@ -564,9 +554,6 @@ const LocationStep = ({
                           margin-bottom: 0.3rem;
                         }
                       `}
-                    />
-                    <NewFeatureTooltip
-                      featureUUID={Features.GERMAN_POSTALCODES}
                     />
                   </Inline>,
                 )}

@@ -6,7 +6,6 @@ import { eventTypesWithNoThemes } from '@/constants/EventTypes';
 import { OfferTypes, ScopeTypes } from '@/constants/OfferType';
 import { useGetEntityByIdAndScope } from '@/hooks/api/scope';
 import { Scope } from '@/pages/create/OfferForm';
-import { Features, NewFeatureTooltip } from '@/pages/NewFeatureTooltip';
 import { Offer } from '@/types/Offer';
 import { Organizer } from '@/types/Organizer';
 import { Inline } from '@/ui/Inline';
@@ -305,7 +304,6 @@ const FormScore = ({ completedFields, offerId, scope }: Props) => {
               /100
             </Text>
           </Text>
-          <NewFeatureTooltip featureUUID={Features.EVENT_SCORE} />
         </Inline>
       }
       body={
