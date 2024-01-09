@@ -36,6 +36,7 @@ function RichTextEditor(props: ComponentProps<typeof Editor>) {
             component: CustomRichTextEditorLink,
           },
         }}
+        handlePastedText={() => false}
         editorStyle={{ minHeight: 250, resize: 'vertical' }}
         {...props}
       />
