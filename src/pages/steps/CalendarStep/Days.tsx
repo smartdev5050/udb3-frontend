@@ -102,7 +102,6 @@ export const Days = ({
               <DatePeriodPicker
                 spacing={3}
                 id={`calendar-step-day-${day.id}`}
-                minDate={new Date()}
                 dateStart={new Date(day.startDate)}
                 dateEnd={new Date(day.endDate)}
                 onDateStartChange={(newDate) =>
