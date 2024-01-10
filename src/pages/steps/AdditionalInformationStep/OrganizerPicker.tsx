@@ -8,7 +8,6 @@ import { useGetOffersByCreatorQuery } from '@/hooks/api/offers';
 import { useGetOrganizersByQueryQuery } from '@/hooks/api/organizers';
 import { useGetUserQuery } from '@/hooks/api/user';
 import { SupportedLanguages } from '@/i18n/index';
-import { Features, NewFeatureTooltip } from '@/pages/NewFeatureTooltip';
 import { Organizer } from '@/types/Organizer';
 import { Values } from '@/types/Values';
 import { Alert, AlertVariants } from '@/ui/Alert';
@@ -71,7 +70,6 @@ const RecentUsedOrganizers = ({
             'create.additionalInformation.organizer.select_recent_used_organizer',
           )}
         </Text>
-        <NewFeatureTooltip featureUUID={Features.SUGGESTED_ORGANIZERS} />
       </Inline>
       <Alert variant={AlertVariants.PRIMARY} width="41rem" maxWidth="95%">
         {t(
