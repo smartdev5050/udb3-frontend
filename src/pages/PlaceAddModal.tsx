@@ -179,7 +179,7 @@ const PlaceAddModal = ({
                 display="inline-flex"
                 key={id}
                 active={id === selectedTerm?.id}
-                variant={ButtonVariants.SECONDARY}
+                variant={ButtonVariants.SECONDARY_TOGGLE}
                 onClick={() => {
                   setValue('term', {
                     id,
