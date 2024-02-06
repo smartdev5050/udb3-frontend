@@ -31,6 +31,8 @@ const dummyPlace = {
 };
 
 test('create a place', async ({ baseURL, page }) => {
+  dummyPlace.name = `E2E test location ${faker.number.int()}`;
+
   await page.goto(`${baseURL}/create`);
   // 1. Select location
   await page.getByRole('button', { name: 'Locatie' }).click();
