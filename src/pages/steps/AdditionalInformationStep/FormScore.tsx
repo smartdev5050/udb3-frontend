@@ -2,6 +2,7 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import styled from 'styled-components';
 
 import { eventTypesWithNoThemes } from '@/constants/EventTypes';
 import { OfferTypes, ScopeTypes } from '@/constants/OfferType';
@@ -136,26 +137,22 @@ const getMinimumScore = (weights: Weights): number => {
   return minimumScore;
 };
 
+const BarometerWrapper = styled.div`
+  position: relative;
+`;
+
+const BarometerPointerBase = styled.div`
+  position: absolute;
+  z-index: -2;
+  left: 32%;
+  top: 38%;
+  background-color: #efedee;
+  border-radius: 100%;
+`;
+
 const DynamicBarometerIcon = ({ minimumScore, score, size = 70 }) => (
-  <div
-    style={{
-      width: size,
-      height: size,
-      position: 'relative',
-    }}
-  >
-    <div
-      style={{
-        position: 'absolute',
-        zIndex: -2,
-        left: '32%',
-        top: '38%',
-        backgroundColor: '#EFEDEE',
-        width: size * 0.35,
-        height: size * 0.35,
-        borderRadius: '100%',
-      }}
-    />
+  <BarometerWrapper style={{ width: size, height: size }}>
+    <BarometerPointerBase style={{ width: size * 0.35, height: size * 0.35 }} />
     <GaugeComponent
       style={{ width: '100%', height: '100%' }}
       marginInPercent={0.032}
@@ -183,7 +180,7 @@ const DynamicBarometerIcon = ({ minimumScore, score, size = 70 }) => (
         length: 0.8,
       }}
     />
-  </div>
+  </BarometerWrapper>
 );
 
 const FormScore = ({ completedFields, offerId, scope }: Props) => {
