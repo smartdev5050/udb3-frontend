@@ -201,8 +201,8 @@ const DynamicBarometerIcon = ({ minimumScore, score, size = 70 }) => (
       style={{
         position: 'absolute',
         zIndex: -2,
-        left: 23,
-        top: 28,
+        left: size * 0.32,
+        top: size * 0.4,
         backgroundColor: '#EFEDEE',
         width: size * 0.35,
         height: size * 0.35,
