@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
@@ -15,8 +16,7 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
 import { Field } from './AdditionalInformationStep';
-import dynamic from 'next/dynamic';
-import { css } from 'styled-components';
+
 const GaugeComponent = dynamic(() => import('react-gauge-component'), {
   ssr: false,
 });
@@ -266,14 +266,15 @@ const FormScore = ({ completedFields, offerId, scope }: Props) => {
 
   const hasVideo: boolean = (entity?.videos ?? []).length > 0;
 
-  const fullCompletedFields = useMemo(() => {
-    return {
+  const fullCompletedFields = useMemo(
+    () => ({
       ...completedFields,
       media: hasMediaObject,
       video: hasVideo,
       theme: hasTheme,
-    };
-  }, [completedFields, hasMediaObject, hasVideo, hasTheme]);
+    }),
+    [completedFields, hasMediaObject, hasVideo, hasTheme],
+  );
 
   const score = useMemo(() => {
     let completeScore = 0;
@@ -285,17 +286,6 @@ const FormScore = ({ completedFields, offerId, scope }: Props) => {
 
     return completeScore + minimumScore;
   }, [fullCompletedFields, weights, minimumScore]);
-
-  const scorePercentage = useMemo(() => {
-    return (score - minimumScore) / (100 - minimumScore);
-  }, [score, minimumScore]);
-
-  const rotationValue = useMemo(() => {
-    const maxRotation = 247;
-    const minRotation = 15;
-
-    return maxRotation * scorePercentage + minRotation;
-  }, [score, scorePercentage, minimumScore]);
 
   const tipField = useMemo(() => {
     if (score === 100) return;
