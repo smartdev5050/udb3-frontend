@@ -148,8 +148,8 @@ const DynamicBarometerIcon = ({ minimumScore, score, size = 70 }) => (
       style={{
         position: 'absolute',
         zIndex: -2,
-        left: size * 0.32,
-        top: size * 0.4,
+        left: '32%',
+        top: '38%',
         backgroundColor: '#EFEDEE',
         width: size * 0.35,
         height: size * 0.35,
@@ -179,7 +179,7 @@ const DynamicBarometerIcon = ({ minimumScore, score, size = 70 }) => (
       }}
       pointer={{
         color: '#B3ADB5',
-        width: 40,
+        width: 50,
         length: 0.8,
       }}
     />
@@ -317,7 +317,13 @@ const FormScore = ({ completedFields, offerId, scope }: Props) => {
           )}
         </Text>
       }
-      icon={<DynamicBarometerIcon minimumScore={minimumScore} score={score} />}
+      icon={
+        <DynamicBarometerIcon
+          minimumScore={minimumScore}
+          score={score}
+          size={70}
+        />
+      }
     />
   );
 };
