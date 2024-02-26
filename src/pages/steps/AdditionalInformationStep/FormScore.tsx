@@ -189,6 +189,56 @@ const getMinimumScore = (weights: Weights): number => {
   return minimumScore;
 };
 
+const DynamicBarometerIcon = ({ minimumScore, score, size = 70 }) => (
+  <div
+    style={{
+      width: size,
+      height: size,
+      position: 'relative',
+    }}
+  >
+    <div
+      style={{
+        position: 'absolute',
+        zIndex: -2,
+        left: 23,
+        top: 28,
+        backgroundColor: '#EFEDEE',
+        width: size * 0.35,
+        height: size * 0.35,
+        borderRadius: '100%',
+      }}
+    />
+    <GaugeComponent
+      style={{ width: '100%', height: '100%' }}
+      marginInPercent={0.032}
+      type="radial"
+      minValue={minimumScore}
+      value={score}
+      arc={{
+        padding: 0,
+        cornerRadius: 0,
+        width: 0.4,
+        subArcs: [
+          { limit: 75, color: '#F19E49' },
+          { limit: 90, color: '#F9DE58' },
+          { limit: 95, color: '#C2DF6B' },
+          { limit: 100, color: '#90CC4F' },
+        ],
+      }}
+      labels={{
+        valueLabel: { hide: true },
+        tickLabels: { hideMinMax: true },
+      }}
+      pointer={{
+        color: '#B3ADB5',
+        width: 40,
+        length: 0.8,
+      }}
+    />
+  </div>
+);
+
 const FormScore = ({ completedFields, offerId, scope }: Props) => {
   const { t } = useTranslation();
 
@@ -296,115 +346,42 @@ const FormScore = ({ completedFields, offerId, scope }: Props) => {
   };
 
   return (
-    <>
-      <Notification
-        header={
-          <Inline id="offer-score" alignItems="center" spacing={2}>
-            <Text
-              display="inline-flex"
-              alignItems="flex-end"
-              fontSize="1.5rem"
-              lineHeight="initial"
-              fontWeight="bold"
-            >
-              <span id="current-score">{score}</span>
-              <Text fontSize="1.2rem" fontWeight="bold">
-                /100
-              </Text>
+    <Notification
+      header={
+        <Inline id="offer-score" alignItems="center" spacing={2}>
+          <Text
+            display="inline-flex"
+            alignItems="flex-end"
+            fontSize="1.5rem"
+            lineHeight="initial"
+            fontWeight="bold"
+          >
+            <span id="current-score">{score}</span>
+            <Text fontSize="1.2rem" fontWeight="bold">
+              /100
             </Text>
-          </Inline>
-        }
-        body={
-          <Text>
-            {score === 100 &&
-              t(
-                `create.additionalInformation.event_score.tip.completed.${
-                  scope === ScopeTypes.ORGANIZERS ? scope : 'offers'
-                }`,
-              )}
-            {score !== 100 && (
-              <Trans
-                i18nKey={`create.additionalInformation.event_score.tip.${tipField}.text`}
-              >
-                Tip: <TipLink field={tipField} />
-              </Trans>
-            )}
           </Text>
-        }
-        icon={
-          <GaugeComponent
-            style={{ width: '70px', height: '60px' }}
-            marginInPercent={0.035}
-            type="radial"
-            minValue={minimumScore}
-            value={score}
-            arc={{
-              padding: 0,
-              cornerRadius: 0,
-              width: 0.3,
-              subArcs: [
-                { limit: 75, color: '#F19E49' },
-                { limit: 90, color: '#F9DE58' },
-                { limit: 95, color: '#C2DF6B' },
-                { limit: 100, color: '#90CC4F' },
-              ],
-            }}
-            labels={{
-              valueLabel: { hide: true },
-              tickLabels: { hideMinMax: true },
-            }}
-            pointer={{
-              color: '#B3ADB5',
-              baseColor: 'red',
-              width: 40,
-              length: 0.8,
-            }}
-          />
-        }
-        css={`
-          bottom: 500px;
-        `}
-      />
-      <Notification
-        css={css`
-          right: 30rem !important;
-        `}
-        header={
-          <Inline id="offer-score" alignItems="center" spacing={2}>
-            <Text
-              display="inline-flex"
-              alignItems="flex-end"
-              fontSize="1.5rem"
-              lineHeight="initial"
-              fontWeight="bold"
+        </Inline>
+      }
+      body={
+        <Text>
+          {score === 100 &&
+            t(
+              `create.additionalInformation.event_score.tip.completed.${
+                scope === ScopeTypes.ORGANIZERS ? scope : 'offers'
+              }`,
+            )}
+          {score !== 100 && (
+            <Trans
+              i18nKey={`create.additionalInformation.event_score.tip.${tipField}.text`}
             >
-              <span id="current-score">{score}</span>
-              <Text fontSize="1.2rem" fontWeight="bold">
-                /100
-              </Text>
-            </Text>
-          </Inline>
-        }
-        body={
-          <Text>
-            {score === 100 &&
-              t(
-                `create.additionalInformation.event_score.tip.completed.${
-                  scope === ScopeTypes.ORGANIZERS ? scope : 'offers'
-                }`,
-              )}
-            {score !== 100 && (
-              <Trans
-                i18nKey={`create.additionalInformation.event_score.tip.${tipField}.text`}
-              >
-                Tip: <TipLink field={tipField} />
-              </Trans>
-            )}
-          </Text>
-        }
-        icon={<BarometerIcon rotationValue={rotationValue} />}
-      />
-    </>
+              Tip: <TipLink field={tipField} />
+            </Trans>
+          )}
+        </Text>
+      }
+      icon={<DynamicBarometerIcon minimumScore={minimumScore} score={score} />}
+    />
   );
 };
 
