@@ -15,6 +15,11 @@ import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 
 import { Field } from './AdditionalInformationStep';
+import dynamic from 'next/dynamic';
+import { css } from 'styled-components';
+const GaugeComponent = dynamic(() => import('react-gauge-component'), {
+  ssr: false,
+});
 
 const getValue = getValueFromTheme('colors');
 
@@ -231,14 +236,16 @@ const FormScore = ({ completedFields, offerId, scope }: Props) => {
     return completeScore + minimumScore;
   }, [fullCompletedFields, weights, minimumScore]);
 
+  const scorePercentage = useMemo(() => {
+    return (score - minimumScore) / (100 - minimumScore);
+  }, [score, minimumScore]);
+
   const rotationValue = useMemo(() => {
     const maxRotation = 247;
     const minRotation = 15;
 
-    const scorePercentage = (score - minimumScore) / (100 - minimumScore);
-
     return maxRotation * scorePercentage + minRotation;
-  }, [score, minimumScore]);
+  }, [score, scorePercentage, minimumScore]);
 
   const tipField = useMemo(() => {
     if (score === 100) return;
@@ -289,42 +296,115 @@ const FormScore = ({ completedFields, offerId, scope }: Props) => {
   };
 
   return (
-    <Notification
-      header={
-        <Inline id="offer-score" alignItems="center" spacing={2}>
-          <Text
-            display="inline-flex"
-            alignItems="flex-end"
-            fontSize="1.5rem"
-            lineHeight="initial"
-            fontWeight="bold"
-          >
-            <span id="current-score">{score}</span>
-            <Text fontSize="1.2rem" fontWeight="bold">
-              /100
-            </Text>
-          </Text>
-        </Inline>
-      }
-      body={
-        <Text>
-          {score === 100 &&
-            t(
-              `create.additionalInformation.event_score.tip.completed.${
-                scope === ScopeTypes.ORGANIZERS ? scope : 'offers'
-              }`,
-            )}
-          {score !== 100 && (
-            <Trans
-              i18nKey={`create.additionalInformation.event_score.tip.${tipField}.text`}
+    <>
+      <Notification
+        header={
+          <Inline id="offer-score" alignItems="center" spacing={2}>
+            <Text
+              display="inline-flex"
+              alignItems="flex-end"
+              fontSize="1.5rem"
+              lineHeight="initial"
+              fontWeight="bold"
             >
-              Tip: <TipLink field={tipField} />
-            </Trans>
-          )}
-        </Text>
-      }
-      icon={<BarometerIcon rotationValue={rotationValue} />}
-    />
+              <span id="current-score">{score}</span>
+              <Text fontSize="1.2rem" fontWeight="bold">
+                /100
+              </Text>
+            </Text>
+          </Inline>
+        }
+        body={
+          <Text>
+            {score === 100 &&
+              t(
+                `create.additionalInformation.event_score.tip.completed.${
+                  scope === ScopeTypes.ORGANIZERS ? scope : 'offers'
+                }`,
+              )}
+            {score !== 100 && (
+              <Trans
+                i18nKey={`create.additionalInformation.event_score.tip.${tipField}.text`}
+              >
+                Tip: <TipLink field={tipField} />
+              </Trans>
+            )}
+          </Text>
+        }
+        icon={
+          <GaugeComponent
+            style={{ width: '70px', height: '60px' }}
+            marginInPercent={0.035}
+            type="radial"
+            minValue={minimumScore}
+            value={score}
+            arc={{
+              padding: 0,
+              cornerRadius: 0,
+              width: 0.3,
+              subArcs: [
+                { limit: 75, color: '#F19E49' },
+                { limit: 90, color: '#F9DE58' },
+                { limit: 95, color: '#C2DF6B' },
+                { limit: 100, color: '#90CC4F' },
+              ],
+            }}
+            labels={{
+              valueLabel: { hide: true },
+              tickLabels: { hideMinMax: true },
+            }}
+            pointer={{
+              color: '#B3ADB5',
+              baseColor: 'red',
+              width: 40,
+              length: 0.8,
+            }}
+          />
+        }
+        css={`
+          bottom: 500px;
+        `}
+      />
+      <Notification
+        css={css`
+          right: 30rem !important;
+        `}
+        header={
+          <Inline id="offer-score" alignItems="center" spacing={2}>
+            <Text
+              display="inline-flex"
+              alignItems="flex-end"
+              fontSize="1.5rem"
+              lineHeight="initial"
+              fontWeight="bold"
+            >
+              <span id="current-score">{score}</span>
+              <Text fontSize="1.2rem" fontWeight="bold">
+                /100
+              </Text>
+            </Text>
+          </Inline>
+        }
+        body={
+          <Text>
+            {score === 100 &&
+              t(
+                `create.additionalInformation.event_score.tip.completed.${
+                  scope === ScopeTypes.ORGANIZERS ? scope : 'offers'
+                }`,
+              )}
+            {score !== 100 && (
+              <Trans
+                i18nKey={`create.additionalInformation.event_score.tip.${tipField}.text`}
+              >
+                Tip: <TipLink field={tipField} />
+              </Trans>
+            )}
+          </Text>
+        }
+        icon={<BarometerIcon rotationValue={rotationValue} />}
+      />
+    </>
   );
 };
 
