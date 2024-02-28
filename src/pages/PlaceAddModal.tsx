@@ -1,14 +1,20 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { CalendarType } from '@/constants/CalendarType';
-import { getPlaceById, useAddPlaceMutation } from '@/hooks/api/places';
+import { OfferTypes } from '@/constants/OfferType';
+import {
+  getPlaceById,
+  useAddPlaceMutation,
+  useGetPlaceByIdQuery,
+} from '@/hooks/api/places';
 import { useGetTypesByScopeQuery } from '@/hooks/api/types';
 import { useHeaders } from '@/hooks/api/useHeaders';
 import { Countries, Country } from '@/types/Country';
+import { Alert, AlertVariants } from '@/ui/Alert';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Inline } from '@/ui/Inline';
@@ -17,6 +23,8 @@ import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
 import { Paragraph } from '@/ui/Paragraph';
 import { Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
+import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
+import { parseOfferId } from '@/utils/parseOfferId';
 
 import { City } from './CityPicker';
 
@@ -45,6 +53,8 @@ type Props = {
   onConfirmSuccess: (place: any) => void;
 };
 
+const DUPLICATE_STATUS_CODE = 409;
+
 const PlaceAddModal = ({
   visible,
   onClose,
@@ -54,16 +64,35 @@ const PlaceAddModal = ({
   onConfirmSuccess,
 }: Props) => {
   const { t, i18n } = useTranslation();
+  const [isDuplicatePlace, setIsDuplicatePlace] = useState(false);
+  const [duplicatePlaceId, setDuplicatePlaceId] = useState<string>(undefined);
 
   const getTypesByScopeQuery = useGetTypesByScopeQuery({
     scope: 'places',
   });
+
+  const getPlaceByIdQuery = useGetPlaceByIdQuery({
+    id: duplicatePlaceId,
+    scope: OfferTypes.PLACES,
+  });
+
+  // @ts-expect-error
+  const duplicatePlace = getPlaceByIdQuery.data;
+
+  const duplicatePlaceName =
+    duplicatePlace?.name?.[i18n.language] ??
+    duplicatePlace?.name?.[duplicatePlace.mainLanguage] ??
+    '';
 
   const headers = useHeaders();
 
   const terms = getTypesByScopeQuery.data ?? [];
 
   const addPlaceMutation = useAddPlaceMutation();
+
+  const handleUseOriginalPlace = () => {
+    onConfirmSuccess(duplicatePlace);
+  };
 
   const handleConfirm = async () => {
     await handleSubmit(async (data) => {
@@ -82,18 +111,30 @@ const PlaceAddModal = ({
         terms: [data.term],
       };
 
-      const resp = await addPlaceMutation.mutateAsync(formData);
+      try {
+        setIsDuplicatePlace(false);
 
-      if (!resp?.placeId) return;
+        const resp = await addPlaceMutation.mutateAsync(formData);
 
-      const newPlace = await getPlaceById({ headers, id: resp.placeId });
-      onConfirmSuccess(newPlace);
+        if (!resp?.placeId) return;
+        const newPlace = await getPlaceById({ headers, id: resp.placeId });
+        onConfirmSuccess(newPlace);
+      } catch (error) {
+        if (error?.status === DUPLICATE_STATUS_CODE) {
+          const body = error?.body;
+          setIsDuplicatePlace(true);
+          const placeId = parseOfferId(body.duplicatePlaceUri);
+          setDuplicatePlaceId(placeId);
+        }
+      }
     })();
   };
 
   const handleClose = () => {
     onClose();
     clearErrors();
+    setIsDuplicatePlace(false);
+    setDuplicatePlaceId(undefined);
   };
 
   const {
@@ -133,6 +174,28 @@ const PlaceAddModal = ({
       size={ModalSizes.LG}
     >
       <Stack padding={4} spacing={4}>
+        {isDuplicatePlace && (
+          <Alert variant={AlertVariants.WARNING}>
+            <Trans
+              i18nKey={`location.add_modal.errors.duplicate_place`}
+              values={{
+                placeName: duplicatePlaceName,
+              }}
+              components={{
+                setPlaceLink: (
+                  <Button
+                    variant={ButtonVariants.UNSTYLED}
+                    onClick={() => handleUseOriginalPlace()}
+                    display={'inline-block'}
+                    fontWeight={'bold'}
+                    textDecoration={'underline'}
+                    padding={0}
+                  />
+                ),
+              }}
+            />
+          </Alert>
+        )}
         <FormElement
           Component={<Input {...register('name')} />}
           id="location-name"
