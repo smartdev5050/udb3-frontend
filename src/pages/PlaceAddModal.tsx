@@ -14,6 +14,7 @@ import {
 import { useGetTypesByScopeQuery } from '@/hooks/api/types';
 import { useHeaders } from '@/hooks/api/useHeaders';
 import { Countries, Country } from '@/types/Country';
+import { Place } from '@/types/Place';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
@@ -26,6 +27,7 @@ import { Text, TextVariants } from '@/ui/Text';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 import { parseOfferId } from '@/utils/parseOfferId';
 
+import { AlertDuplicatePlace } from './AlertDuplicatePlace';
 import { City } from './CityPicker';
 
 const schema = yup
@@ -64,25 +66,11 @@ const PlaceAddModal = ({
   onConfirmSuccess,
 }: Props) => {
   const { t, i18n } = useTranslation();
-  const [isDuplicatePlace, setIsDuplicatePlace] = useState(false);
   const [duplicatePlaceId, setDuplicatePlaceId] = useState<string>(undefined);
 
   const getTypesByScopeQuery = useGetTypesByScopeQuery({
     scope: 'places',
   });
-
-  const getPlaceByIdQuery = useGetPlaceByIdQuery({
-    id: duplicatePlaceId,
-    scope: OfferTypes.PLACES,
-  });
-
-  // @ts-expect-error
-  const duplicatePlace = getPlaceByIdQuery.data;
-
-  const duplicatePlaceName =
-    duplicatePlace?.name?.[i18n.language] ??
-    duplicatePlace?.name?.[duplicatePlace.mainLanguage] ??
-    '';
 
   const headers = useHeaders();
 
@@ -90,7 +78,7 @@ const PlaceAddModal = ({
 
   const addPlaceMutation = useAddPlaceMutation();
 
-  const handleUseOriginalPlace = () => {
+  const handleUseOriginalPlace = (duplicatePlace: Place) => {
     onConfirmSuccess(duplicatePlace);
   };
 
@@ -112,7 +100,7 @@ const PlaceAddModal = ({
       };
 
       try {
-        setIsDuplicatePlace(false);
+        setDuplicatePlaceId(undefined);
 
         const resp = await addPlaceMutation.mutateAsync(formData);
 
@@ -122,7 +110,6 @@ const PlaceAddModal = ({
       } catch (error) {
         if (error?.status === DUPLICATE_STATUS_CODE) {
           const body = error?.body;
-          setIsDuplicatePlace(true);
           const placeId = parseOfferId(body.duplicatePlaceUri);
           setDuplicatePlaceId(placeId);
         }
@@ -133,7 +120,6 @@ const PlaceAddModal = ({
   const handleClose = () => {
     onClose();
     clearErrors();
-    setIsDuplicatePlace(false);
     setDuplicatePlaceId(undefined);
   };
 
@@ -174,28 +160,12 @@ const PlaceAddModal = ({
       size={ModalSizes.LG}
     >
       <Stack padding={4} spacing={4}>
-        {isDuplicatePlace && (
-          <Alert variant={AlertVariants.WARNING}>
-            <Trans
-              i18nKey={`location.add_modal.errors.duplicate_place`}
-              values={{
-                placeName: duplicatePlaceName,
-              }}
-              components={{
-                setPlaceLink: (
-                  <Button
-                    variant={ButtonVariants.UNSTYLED}
-                    onClick={() => handleUseOriginalPlace()}
-                    display={'inline-block'}
-                    fontWeight={'bold'}
-                    textDecoration={'underline'}
-                    padding={0}
-                  />
-                ),
-              }}
-            />
-          </Alert>
-        )}
+        <AlertDuplicatePlace
+          variant={AlertVariants.WARNING}
+          onSelectPlace={handleUseOriginalPlace}
+          placeId={duplicatePlaceId}
+          labelKey={`location.add_modal.errors.duplicate_place`}
+        />
         <FormElement
           Component={<Input {...register('name')} />}
           id="location-name"
