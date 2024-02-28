@@ -24,7 +24,8 @@ type ErrorObject = {
 
 type DuplicatePlaceErrorBody = {
   detail: string;
-  duplicatePlaceUri: string;
+  query?: string;
+  duplicatePlaceUri?: string;
   status: number;
   title: string;
   type: string;
