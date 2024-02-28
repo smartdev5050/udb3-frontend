@@ -883,7 +883,8 @@
         "name": "Die Bezeichnung des Ortes ist ein Pflichtfeld.",
         "streetAndNumber": "Straße ist ein Pflichtfeld.",
         "type": "Kategorie ist ein Pflichtfeld.",
-        "postalCode": "Ihre Postleitzahl entspricht nicht den Anforderungen."
+        "postalCode": "Ihre Postleitzahl entspricht nicht den Anforderungen.",
+        "duplicate_place": "Der Ort, den Sie erstellen möchten, ist bereits in der UiTdatanbank vorhanden. Verwenden Sie <setPlaceLink>{{placeName}}</setPlaceLink> als Or."
       }
     }
   },
