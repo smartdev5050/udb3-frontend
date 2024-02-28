@@ -57,6 +57,11 @@ type Props = {
 
 const DUPLICATE_STATUS_CODE = 409;
 
+type DuplicatePlaceResponse = {
+  query?: string;
+  id?: string;
+};
+
 const PlaceAddModal = ({
   visible,
   onClose,
@@ -66,7 +71,8 @@ const PlaceAddModal = ({
   onConfirmSuccess,
 }: Props) => {
   const { t, i18n } = useTranslation();
-  const [duplicatePlaceId, setDuplicatePlaceId] = useState<string>(undefined);
+  const [duplicatePlaceResponse, setDuplicatePlaceResponse] =
+    useState<DuplicatePlaceResponse>();
 
   const getTypesByScopeQuery = useGetTypesByScopeQuery({
     scope: 'places',
@@ -100,7 +106,7 @@ const PlaceAddModal = ({
       };
 
       try {
-        setDuplicatePlaceId(undefined);
+        setDuplicatePlaceResponse(undefined);
 
         const resp = await addPlaceMutation.mutateAsync(formData);
 
@@ -110,8 +116,9 @@ const PlaceAddModal = ({
       } catch (error) {
         if (error?.status === DUPLICATE_STATUS_CODE) {
           const body = error?.body;
+          const query = body?.query;
           const placeId = parseOfferId(body.duplicatePlaceUri);
-          setDuplicatePlaceId(placeId);
+          setDuplicatePlaceResponse({ query, id: placeId });
         }
       }
     })();
@@ -120,7 +127,7 @@ const PlaceAddModal = ({
   const handleClose = () => {
     onClose();
     clearErrors();
-    setDuplicatePlaceId(undefined);
+    setDuplicatePlaceResponse(undefined);
   };
 
   const {
@@ -163,7 +170,8 @@ const PlaceAddModal = ({
         <AlertDuplicatePlace
           variant={AlertVariants.WARNING}
           onSelectPlace={handleUseOriginalPlace}
-          placeId={duplicatePlaceId}
+          placeId={duplicatePlaceResponse?.id}
+          query={duplicatePlaceResponse?.query}
           labelKey={`location.add_modal.errors.duplicate_place`}
         />
         <FormElement

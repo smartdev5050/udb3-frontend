@@ -10,6 +10,7 @@ import { Button, ButtonVariants } from '@/ui/Button';
 type Props = {
   variant: Values<typeof AlertVariants>;
   placeId?: string;
+  query?: string;
   labelKey: string;
   onSelectPlace: (place: Place) => void;
 };
@@ -17,10 +18,11 @@ type Props = {
 const AlertDuplicatePlace = ({
   variant,
   placeId,
+  query,
   labelKey,
   onSelectPlace,
 }: Props) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const getPlaceByIdQuery = useGetPlaceByIdQuery({
     id: placeId,
@@ -34,6 +36,14 @@ const AlertDuplicatePlace = ({
     duplicatePlace?.name?.[i18n.language] ??
     duplicatePlace?.name?.[duplicatePlace.mainLanguage] ??
     '';
+
+  if (query) {
+    return (
+      <Alert variant={variant}>
+        {t('location.add_modal.errors.duplicate_place_generic')}
+      </Alert>
+    );
+  }
 
   return placeId ? (
     <Alert variant={variant}>
