@@ -884,6 +884,7 @@
         "streetAndNumber": "Straat is een verplicht veld.",
         "type": "Categorie is een verplicht veld.",
         "postalCode": " Je postcode voldoet niet aan de vereisten.",
+        "duplicate_place_generic": "De locatie die je wilt aanmaken bestaat al in de UiTdatabank.",
         "duplicate_place": "De locatie die je wilt aanmaken bestaat al in de UiTdatabank. Gebruik <setPlaceLink>{{placeName}}</setPlaceLink> als locatie."
       }
     }
