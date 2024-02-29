@@ -3,10 +3,12 @@ import getConfig from 'next/config';
 
 class FetchError extends Error {
   status: number;
+  body?: any;
 
-  constructor(status: number, message: string) {
+  constructor(status: number, message: string, body?: any) {
     super(message);
     this.status = status;
+    this.body = body;
   }
 }
 
@@ -14,6 +16,15 @@ type ErrorObject = {
   type: 'ERROR';
   status?: number;
   message: string;
+};
+
+export type DuplicatePlaceErrorBody = {
+  detail: string;
+  query?: string;
+  duplicatePlaceUri?: string;
+  status: number;
+  title: string;
+  type: string;
 };
 
 const isErrorObject = (value: any): value is ErrorObject => {
@@ -85,7 +96,11 @@ const fetchFromApi = async ({
     }
 
     if (!silentError) {
-      throw new FetchError(response?.status, result.title || 'Unknown error');
+      throw new FetchError(
+        response?.status,
+        result.title || 'Unknown error',
+        result,
+      );
     }
 
     return {

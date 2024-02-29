@@ -1,14 +1,21 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { CalendarType } from '@/constants/CalendarType';
-import { getPlaceById, useAddPlaceMutation } from '@/hooks/api/places';
+import { OfferTypes } from '@/constants/OfferType';
+import {
+  getPlaceById,
+  useAddPlaceMutation,
+  useGetPlaceByIdQuery,
+} from '@/hooks/api/places';
 import { useGetTypesByScopeQuery } from '@/hooks/api/types';
 import { useHeaders } from '@/hooks/api/useHeaders';
 import { Countries, Country } from '@/types/Country';
+import { Place } from '@/types/Place';
+import { Alert, AlertVariants } from '@/ui/Alert';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Inline } from '@/ui/Inline';
@@ -17,7 +24,11 @@ import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
 import { Paragraph } from '@/ui/Paragraph';
 import { Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
+import { DuplicatePlaceErrorBody } from '@/utils/fetchFromApi';
+import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
+import { parseOfferId } from '@/utils/parseOfferId';
 
+import { AlertDuplicatePlace } from './AlertDuplicatePlace';
 import { City } from './CityPicker';
 
 const schema = yup
@@ -45,6 +56,13 @@ type Props = {
   onConfirmSuccess: (place: any) => void;
 };
 
+export const DUPLICATE_STATUS_CODE = 409;
+
+type DuplicatePlaceResponse = {
+  query?: string;
+  id?: string;
+};
+
 const PlaceAddModal = ({
   visible,
   onClose,
@@ -54,6 +72,8 @@ const PlaceAddModal = ({
   onConfirmSuccess,
 }: Props) => {
   const { t, i18n } = useTranslation();
+  const [duplicatePlaceInfo, setDuplicatePlaceInfo] =
+    useState<DuplicatePlaceResponse>();
 
   const getTypesByScopeQuery = useGetTypesByScopeQuery({
     scope: 'places',
@@ -64,6 +84,10 @@ const PlaceAddModal = ({
   const terms = getTypesByScopeQuery.data ?? [];
 
   const addPlaceMutation = useAddPlaceMutation();
+
+  const handleUseOriginalPlace = (duplicatePlace: Place) => {
+    onConfirmSuccess(duplicatePlace);
+  };
 
   const handleConfirm = async () => {
     await handleSubmit(async (data) => {
@@ -82,18 +106,29 @@ const PlaceAddModal = ({
         terms: [data.term],
       };
 
-      const resp = await addPlaceMutation.mutateAsync(formData);
+      try {
+        setDuplicatePlaceInfo(undefined);
 
-      if (!resp?.placeId) return;
+        const resp = await addPlaceMutation.mutateAsync(formData);
 
-      const newPlace = await getPlaceById({ headers, id: resp.placeId });
-      onConfirmSuccess(newPlace);
+        if (!resp?.placeId) return;
+        const newPlace = await getPlaceById({ headers, id: resp.placeId });
+        onConfirmSuccess(newPlace);
+      } catch (error) {
+        if (error?.status === DUPLICATE_STATUS_CODE) {
+          const body = error?.body as DuplicatePlaceErrorBody;
+          const query = body?.query;
+          const placeId = parseOfferId(body.duplicatePlaceUri);
+          setDuplicatePlaceInfo({ query, id: placeId });
+        }
+      }
     })();
   };
 
   const handleClose = () => {
     onClose();
     clearErrors();
+    setDuplicatePlaceInfo(undefined);
   };
 
   const {
@@ -133,6 +168,13 @@ const PlaceAddModal = ({
       size={ModalSizes.LG}
     >
       <Stack padding={4} spacing={4}>
+        <AlertDuplicatePlace
+          variant={AlertVariants.WARNING}
+          onSelectPlace={handleUseOriginalPlace}
+          placeId={duplicatePlaceInfo?.id}
+          query={duplicatePlaceInfo?.query}
+          labelKey={`location.add_modal.errors.duplicate_place`}
+        />
         <FormElement
           Component={<Input {...register('name')} />}
           id="location-name"

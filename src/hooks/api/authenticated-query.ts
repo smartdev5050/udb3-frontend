@@ -179,6 +179,10 @@ const isDuplicateMutation = (
     return false;
   }
 
+  if (mutationKey === 'places-add') {
+    return false;
+  }
+
   const mutations = queryClient.getMutationCache().findAll({
     mutationKey,
   });
