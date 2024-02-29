@@ -53,7 +53,7 @@ const AlertDuplicatePlace = ({
           placeName: duplicatePlaceName,
         }}
         components={{
-          setPlaceLink: (
+          placeLink: (
             <Button
               variant={ButtonVariants.UNSTYLED}
               onClick={() => onSelectPlace(duplicatePlace)}

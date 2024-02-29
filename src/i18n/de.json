@@ -885,7 +885,7 @@
         "type": "Kategorie ist ein Pflichtfeld.",
         "postalCode": "Ihre Postleitzahl entspricht nicht den Anforderungen.",
         "duplicate_place_generic": "Der Ort, den Sie erstellen möchten, ist bereits in der UiTdatanbank vorhanden",
-        "duplicate_place": "Der Ort, den Sie erstellen möchten, ist bereits in der UiTdatanbank vorhanden. Verwenden Sie <setPlaceLink>{{placeName}}</setPlaceLink> als Or."
+        "duplicate_place": "Der Ort, den Sie erstellen möchten, ist bereits in der UiTdatanbank vorhanden. Verwenden Sie <placeLink>{{placeName}}</placeLink> als Or."
       }
     }
   },

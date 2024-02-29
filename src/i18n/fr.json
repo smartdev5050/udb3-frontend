@@ -885,7 +885,7 @@
         "type": "Catégorie est un domaine obligatoire.",
         "postalCode": "Votre code postal ne répond pas aux exigences.",
         "duplicate_place_generic": "Le lieu que vous souhaitez créer existe déjà dans l'UiTdatabank.",
-        "duplicate_place": "Le lieu que vous souhaitez créer existe déjà dans l'UiTdatabank. Utilisez <setPlaceLink>{{placeName}}</setPlaceLink> comme emplacement."
+        "duplicate_place": "Le lieu que vous souhaitez créer existe déjà dans l'UiTdatabank. Utilisez <placeLink>{{placeName}}</placeLink> comme emplacement."
       }
     }
   },
