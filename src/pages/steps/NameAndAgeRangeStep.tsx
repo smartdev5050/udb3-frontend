@@ -64,8 +64,13 @@ const useEditNameAndAgeRange = ({
 const NameAndAgeRangeStep = ({ control, name, error, ...props }: StepProps) => {
   const router = useRouter();
 
-  const duplicatePlaceId = (error?.body as DuplicatePlaceErrorBody)
-    ? parseOfferId(error.body.duplicatePlaceUri)
+  const duplicatePlaceId =
+    (error?.body as DuplicatePlaceErrorBody) && error.body.duplicatePlaceUri
+      ? parseOfferId(error.body.duplicatePlaceUri)
+      : undefined;
+
+  const duplicatePlaceQuery = (error?.body as DuplicatePlaceErrorBody)?.query
+    ? error.body.query
     : undefined;
 
   const goToLocationDetailPage = (place: Place) => {
@@ -89,6 +94,7 @@ const NameAndAgeRangeStep = ({ control, name, error, ...props }: StepProps) => {
             <AlertDuplicatePlace
               variant={AlertVariants.DANGER}
               placeId={duplicatePlaceId}
+              query={duplicatePlaceQuery}
               labelKey="create.name_and_age.name.duplicate_place"
               onSelectPlace={goToLocationDetailPage}
             />
