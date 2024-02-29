@@ -35,11 +35,13 @@ const AlertDuplicatePlace = ({
   // @ts-expect-error
   const duplicatePlace = getPlaceByIdQuery.data;
 
-  const duplicatePlaceName = getLanguageObjectOrFallback(
-    duplicatePlace?.name,
-    i18n.language as SupportedLanguage,
-    duplicatePlace.mainLanguage,
-  );
+  const duplicatePlaceName = duplicatePlace
+    ? getLanguageObjectOrFallback(
+        duplicatePlace?.name,
+        i18n.language as SupportedLanguage,
+        duplicatePlace?.mainLanguage,
+      )
+    : undefined;
 
   if (query) {
     return (
