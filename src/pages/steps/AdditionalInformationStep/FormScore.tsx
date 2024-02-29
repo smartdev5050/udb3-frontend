@@ -137,22 +137,26 @@ const getMinimumScore = (weights: Weights): number => {
   return minimumScore;
 };
 
-const BarometerWrapper = styled.div`
-  position: relative;
-`;
-
-const BarometerPointerBase = styled.div`
-  position: absolute;
-  z-index: -2;
-  left: 32%;
-  top: 38%;
-  background-color: #efedee;
-  border-radius: 100%;
-`;
-
 const DynamicBarometerIcon = ({ minimumScore, score, size = 70 }) => (
-  <BarometerWrapper style={{ width: size, height: size }}>
-    <BarometerPointerBase style={{ width: size * 0.35, height: size * 0.35 }} />
+  <div
+    css={`
+      position: relative;
+      width: ${size}px;
+      height: ${size}px;
+    `}
+  >
+    <div
+      css={`
+        position: absolute;
+        z-index: -2;
+        left: 32%;
+        top: 38%;
+        background-color: #efedee;
+        border-radius: 100%;
+        width: ${size * 0.35}px;
+        height: ${size * 0.35}px;
+      `}
+    />
     <GaugeComponent
       style={{ width: '100%', height: '100%' }}
       marginInPercent={0.032}
@@ -180,7 +184,7 @@ const DynamicBarometerIcon = ({ minimumScore, score, size = 70 }) => (
         length: 0.8,
       }}
     />
-  </BarometerWrapper>
+  </div>
 );
 
 const FormScore = ({ completedFields, offerId, scope }: Props) => {
