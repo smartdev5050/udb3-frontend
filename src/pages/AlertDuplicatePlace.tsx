@@ -6,6 +6,9 @@ import { Place } from '@/types/Place';
 import { Values } from '@/types/Values';
 import { Alert, AlertVariants } from '@/ui/Alert';
 import { Button, ButtonVariants } from '@/ui/Button';
+import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
+
+import { SupportedLanguage } from '../i18n';
 
 type Props = {
   variant: Values<typeof AlertVariants>;
@@ -32,10 +35,11 @@ const AlertDuplicatePlace = ({
   // @ts-expect-error
   const duplicatePlace = getPlaceByIdQuery.data;
 
-  const duplicatePlaceName =
-    duplicatePlace?.name?.[i18n.language] ??
-    duplicatePlace?.name?.[duplicatePlace.mainLanguage] ??
-    '';
+  const duplicatePlaceName = getLanguageObjectOrFallback(
+    duplicatePlace?.name,
+    i18n.language as SupportedLanguage,
+    duplicatePlace.mainLanguage,
+  );
 
   if (query) {
     return (
