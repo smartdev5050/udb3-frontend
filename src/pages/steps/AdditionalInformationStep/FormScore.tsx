@@ -2,7 +2,6 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import styled from 'styled-components';
 
 import { eventTypesWithNoThemes } from '@/constants/EventTypes';
 import { OfferTypes, ScopeTypes } from '@/constants/OfferType';
