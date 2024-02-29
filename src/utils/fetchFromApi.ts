@@ -3,13 +3,9 @@ import getConfig from 'next/config';
 
 class FetchError extends Error {
   status: number;
-  body?: DuplicatePlaceErrorBody | any;
+  body?: any;
 
-  constructor(
-    status: number,
-    message: string,
-    body?: DuplicatePlaceErrorBody | any,
-  ) {
+  constructor(status: number, message: string, body?: any) {
     super(message);
     this.status = status;
     this.body = body;
@@ -22,7 +18,7 @@ type ErrorObject = {
   message: string;
 };
 
-type DuplicatePlaceErrorBody = {
+export type DuplicatePlaceErrorBody = {
   detail: string;
   query?: string;
   duplicatePlaceUri?: string;
