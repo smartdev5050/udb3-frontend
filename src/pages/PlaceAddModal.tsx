@@ -24,6 +24,7 @@ import { Modal, ModalSizes, ModalVariants } from '@/ui/Modal';
 import { Paragraph } from '@/ui/Paragraph';
 import { Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
+import { DuplicatePlaceErrorBody } from '@/utils/fetchFromApi';
 import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 import { parseOfferId } from '@/utils/parseOfferId';
 
@@ -55,7 +56,7 @@ type Props = {
   onConfirmSuccess: (place: any) => void;
 };
 
-const DUPLICATE_STATUS_CODE = 409;
+export const DUPLICATE_STATUS_CODE = 409;
 
 type DuplicatePlaceResponse = {
   query?: string;
@@ -115,7 +116,7 @@ const PlaceAddModal = ({
         onConfirmSuccess(newPlace);
       } catch (error) {
         if (error?.status === DUPLICATE_STATUS_CODE) {
-          const body = error?.body;
+          const body = error?.body as DuplicatePlaceErrorBody;
           const query = body?.query;
           const placeId = parseOfferId(body.duplicatePlaceUri);
           setDuplicatePlaceInfo({ query, id: placeId });
