@@ -49,7 +49,11 @@ const AlertDuplicatePlace = ({
     );
   }
 
-  return placeId ? (
+  if (!placeId) {
+    return null;
+  }
+
+  return (
     <Alert variant={variant}>
       <Trans
         i18nKey={labelKey}
@@ -70,7 +74,7 @@ const AlertDuplicatePlace = ({
         }}
       />
     </Alert>
-  ) : null;
+  );
 };
 
 export { AlertDuplicatePlace };
