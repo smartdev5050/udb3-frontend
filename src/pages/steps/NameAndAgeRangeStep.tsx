@@ -75,7 +75,7 @@ const NameAndAgeRangeStep = ({ control, name, error, ...props }: StepProps) => {
 
   const goToLocationDetailPage = (place: Place) => {
     const placeId = parseOfferId(place['@id']);
-    router.push(`/places/${placeId}/preview`);
+    router.push(`/place/${placeId}/preview`);
   };
 
   return (
