@@ -71,7 +71,7 @@ const PlaceAddModal = ({
   onConfirmSuccess,
 }: Props) => {
   const { t, i18n } = useTranslation();
-  const [duplicatePlaceResponse, setDuplicatePlaceResponse] =
+  const [duplicatePlaceInfo, setDuplicatePlaceInfo] =
     useState<DuplicatePlaceResponse>();
 
   const getTypesByScopeQuery = useGetTypesByScopeQuery({
@@ -106,7 +106,7 @@ const PlaceAddModal = ({
       };
 
       try {
-        setDuplicatePlaceResponse(undefined);
+        setDuplicatePlaceInfo(undefined);
 
         const resp = await addPlaceMutation.mutateAsync(formData);
 
@@ -118,7 +118,7 @@ const PlaceAddModal = ({
           const body = error?.body;
           const query = body?.query;
           const placeId = parseOfferId(body.duplicatePlaceUri);
-          setDuplicatePlaceResponse({ query, id: placeId });
+          setDuplicatePlaceInfo({ query, id: placeId });
         }
       }
     })();
@@ -127,7 +127,7 @@ const PlaceAddModal = ({
   const handleClose = () => {
     onClose();
     clearErrors();
-    setDuplicatePlaceResponse(undefined);
+    setDuplicatePlaceInfo(undefined);
   };
 
   const {
@@ -170,8 +170,8 @@ const PlaceAddModal = ({
         <AlertDuplicatePlace
           variant={AlertVariants.WARNING}
           onSelectPlace={handleUseOriginalPlace}
-          placeId={duplicatePlaceResponse?.id}
-          query={duplicatePlaceResponse?.query}
+          placeId={duplicatePlaceInfo?.id}
+          query={duplicatePlaceInfo?.query}
           labelKey={`location.add_modal.errors.duplicate_place`}
         />
         <FormElement
