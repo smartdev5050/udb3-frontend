@@ -17,8 +17,10 @@ import { Page } from '@/ui/Page';
 import { Text } from '@/ui/Text';
 import { getValueFromTheme } from '@/ui/theme';
 import { Toast } from '@/ui/Toast';
+import { FetchError } from '@/utils/fetchFromApi';
 
 import { useToast } from '../manage/movies/useToast';
+import { DUPLICATE_STATUS_CODE } from '../PlaceAddModal';
 import { calendarStepConfiguration } from './CalendarStep';
 import { useAddOffer } from './hooks/useAddOffer';
 import { useEditField } from './hooks/useEditField';
@@ -28,6 +30,7 @@ import { useGetPlace } from './hooks/useGetPlace';
 import { useParseStepConfiguration } from './hooks/useParseStepConfiguration';
 import { usePublishOffer } from './hooks/usePublishOffer';
 import { PublishLaterModal } from './modals/PublishLaterModal';
+import { nameAndAgeRangeStepConfiguration } from './NameAndAgeRangeStep';
 import { Steps, StepsConfiguration } from './Steps';
 
 const getValue = getValueFromTheme('createPage');
@@ -91,6 +94,7 @@ const StepsForm = ({
   const { form } = useParseStepConfiguration(configurations);
   const [isDuplicateButtonDisabled, setIsDuplicateButtonDisabled] =
     useState(true);
+  const [fetchErrors, setFetchErrors] = useState<Record<string, FetchError>>();
   const { publicRuntimeConfig } = getConfig();
   const eventName = publicRuntimeConfig.hotjarEventName;
   const missingFieldName = publicRuntimeConfig.hotjarMissingFieldName;
@@ -158,10 +162,16 @@ const StepsForm = ({
 
   const addOffer = useAddOffer({
     onSuccess: async (scope, offerId) => {
+      setFetchErrors(undefined);
       const url = isMovieForm
         ? `/manage/movies/${offerId}/edit`
         : `/${scope}/${offerId}/edit`;
       await push(url, undefined, { scroll: false });
+    },
+    onError: (error) => {
+      if (error.status === DUPLICATE_STATUS_CODE) {
+        setFetchErrors({ nameAndAgeRange: error });
+      }
     },
     convertFormDataToOffer,
     label,
@@ -260,6 +270,7 @@ const StepsForm = ({
           mainLanguage={offer?.mainLanguage}
           scope={scope}
           form={form}
+          errors={fetchErrors}
         />
       </Page.Content>
       {footerStatus !== FooterStatus.HIDDEN && (
