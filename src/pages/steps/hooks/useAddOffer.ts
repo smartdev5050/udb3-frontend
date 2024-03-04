@@ -8,9 +8,11 @@ import {
 } from '@/hooks/api/productions';
 import { FormDataUnion } from '@/pages/steps/Steps';
 import { Offer } from '@/types/Offer';
+import { FetchError } from '@/utils/fetchFromApi';
 
 type UseAddOfferArgument = {
   onSuccess: (scope: FormDataUnion['scope'], offerId: string) => void;
+  onError?: (error: FetchError) => void;
   convertFormDataToOffer: (data: any) => any;
   label?: string;
   initialOffer?: Offer;
@@ -18,6 +20,7 @@ type UseAddOfferArgument = {
 
 const useAddOffer = ({
   onSuccess,
+  onError,
   convertFormDataToOffer,
   label,
   initialOffer,
@@ -47,38 +50,41 @@ const useAddOffer = ({
     const addOfferMutation =
       scope === OfferTypes.EVENTS ? addEventMutation : addPlaceMutation;
 
-    const { eventId, placeId } = await addOfferMutation.mutateAsync(payload);
+    try {
+      const { eventId, placeId } = await addOfferMutation.mutateAsync(payload);
+      const offerId: string = eventId || placeId;
 
-    const offerId: string = eventId || placeId;
+      if (!offerId) return;
 
-    if (!offerId) return;
+      if (label) {
+        await addLabelMutation.mutateAsync({
+          id: offerId,
+          label,
+          scope,
+        });
+      }
 
-    if (label) {
-      await addLabelMutation.mutateAsync({
-        id: offerId,
-        label,
-        scope,
-      });
-    }
+      if (!production) {
+        onSuccess(scope, offerId);
+        return;
+      }
 
-    if (!production) {
+      if (production.customOption) {
+        await createProductionWithEventsMutation.mutateAsync({
+          productionName: production.name,
+          eventIds: [offerId],
+        });
+      } else {
+        await addEventToProductionByIdMutation.mutateAsync({
+          productionId: production.production_id,
+          eventId: offerId,
+        });
+      }
+
       onSuccess(scope, offerId);
-      return;
+    } catch (error) {
+      onError?.(error);
     }
-
-    if (production.customOption) {
-      await createProductionWithEventsMutation.mutateAsync({
-        productionName: production.name,
-        eventIds: [offerId],
-      });
-    } else {
-      await addEventToProductionByIdMutation.mutateAsync({
-        productionId: production.production_id,
-        eventId: offerId,
-      });
-    }
-
-    onSuccess(scope, offerId);
   };
 };
 

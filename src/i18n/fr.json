@@ -255,7 +255,8 @@
         "title_events": "Nom de l'événement",
         "title_places": "Nom du lieu",
         "tip_events": "Choisissez un <strong>bon titre</strong>, p.ex. \"Rouler à vélo le long des chapelles\", \"La Saga de la Licorne\".",
-        "tip_places": "Utilisez la <strong>dénomination officielle</strong>, p.ex. \"Argos, centre pour l'art et les médias\", \"Site de l'abbaye Herkenrode\", \"Centre culturel De Werf\"."
+        "tip_places": "Utilisez la <strong>dénomination officielle</strong>, p.ex. \"Argos, centre pour l'art et les médias\", \"Site de l'abbaye Herkenrode\", \"Centre culturel De Werf\".",
+        "duplicate_place": "Le lieu que vous souhaitez créer existe déjà dans la base de données UiT. <placeLink>Cliquez ici</placeLink> pour accéder à la page de localisation existante."
       },
       "age": {
         "title": "Adapté à",

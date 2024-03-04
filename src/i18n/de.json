@@ -255,7 +255,8 @@
         "title_events": "Name der Veranstaltung",
         "title_places": "Bezeichnung des Ortes",
         "tip_events": "Verwenden Sie einen <strong>aussagekräftigen Titel</strong>, zB. \"Radtour entlang von Kapellen\", \"Die Sage vom Einhorn\".",
-        "tip_places": "Verwenden Sie die <strong>offizielle Bezeichnung</strong>, zB. \"Gravensteen\", \"Abdijsite Herkenrode\", \"Cultuurcentrum De Werf\"."
+        "tip_places": "Verwenden Sie die <strong>offizielle Bezeichnung</strong>, zB. \"Gravensteen\", \"Abdijsite Herkenrode\", \"Cultuurcentrum De Werf\".",
+        "duplicate_place": "Der Ort, den Sie erstellen möchten, ist bereits in der UiT-Datenbank vorhanden. Klicken <placeLink>Sie hier</placeLink> um zur vorhandenen Standortseite zu gelangen."
       },
       "age": {
         "title": "Geeignet für",

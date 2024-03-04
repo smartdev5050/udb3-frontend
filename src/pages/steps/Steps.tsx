@@ -18,6 +18,7 @@ import { getStackProps, Stack } from '@/ui/Stack';
 import { Text } from '@/ui/Text';
 import { getGlobalBorderRadius, getValueFromTheme } from '@/ui/theme';
 import { Title } from '@/ui/Title';
+import { FetchError } from '@/utils/fetchFromApi';
 
 import type { FormData as OfferFormData } from '../create/OfferForm';
 import type { FormData as MovieFormData } from '../manage/movies/MovieForm';
@@ -55,6 +56,7 @@ type StepsConfiguration<
   stepProps?: Record<string, unknown>;
   offerId?: string;
   labels?: string[];
+  error?: FetchError;
 };
 
 type NumberIndicatorProps = {
@@ -125,6 +127,7 @@ const getGlobalValue = getValueFromTheme('global');
 type StepProps = UseFormReturn<FormDataUnion> & {
   scope: Scope;
   offerId?: string;
+  error?: FetchError;
   loading: boolean;
   name: Path<FormDataUnion>;
   onChange: (value: any) => void;
@@ -141,6 +144,7 @@ type StepsProps = {
   onChange?: (editedField: string) => void;
   onChangeSuccess?: (editedField: string) => void;
   configurations: Array<StepsConfiguration>;
+  errors?: { [key: string]: FetchError };
 };
 
 type UnknownProps = {
@@ -182,6 +186,7 @@ const Steps = ({
   mainLanguage,
   scope,
   labels,
+  errors,
   ...props
 }: StepsProps) => {
   const { t } = useTranslation();
@@ -250,6 +255,7 @@ const Steps = ({
                 scope={scope}
                 labels={labels}
                 variant={variant}
+                {...(errors && name in errors && { error: errors[name] })}
                 {...form}
                 {...props}
                 {...stepProps}

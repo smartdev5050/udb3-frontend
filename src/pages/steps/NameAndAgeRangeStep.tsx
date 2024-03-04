@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { Controller } from 'react-hook-form';
 import * as yup from 'yup';
 
@@ -6,9 +7,14 @@ import {
   useChangeOfferTypicalAgeRangeMutation,
 } from '@/hooks/api/offers';
 import { isLocationSet } from '@/pages/steps/LocationStep';
+import { Place } from '@/types/Place';
+import { AlertVariants } from '@/ui/Alert';
 import { parseSpacing } from '@/ui/Box';
 import { Stack } from '@/ui/Stack';
+import { DuplicatePlaceErrorBody } from '@/utils/fetchFromApi';
+import { parseOfferId } from '@/utils/parseOfferId';
 
+import { AlertDuplicatePlace } from '../AlertDuplicatePlace';
 import { AgeRangeStep } from './AgeRangeStep';
 import { UseEditArguments } from './hooks/useEditField';
 import { NameStep } from './NameStep';
@@ -55,7 +61,23 @@ const useEditNameAndAgeRange = ({
   };
 };
 
-const NameAndAgeRangeStep = ({ control, name, ...props }: StepProps) => {
+const NameAndAgeRangeStep = ({ control, name, error, ...props }: StepProps) => {
+  const router = useRouter();
+
+  const duplicatePlaceId =
+    (error?.body as DuplicatePlaceErrorBody) && error.body.duplicatePlaceUri
+      ? parseOfferId(error.body.duplicatePlaceUri)
+      : undefined;
+
+  const duplicatePlaceQuery = (error?.body as DuplicatePlaceErrorBody)?.query
+    ? error.body.query
+    : undefined;
+
+  const goToLocationDetailPage = (place: Place) => {
+    const placeId = parseOfferId(place['@id']);
+    router.push(`/place/${placeId}/preview`);
+  };
+
   return (
     <Controller
       control={control}
@@ -68,6 +90,13 @@ const NameAndAgeRangeStep = ({ control, name, ...props }: StepProps) => {
               {...getStepProps(props)}
               name={name}
               control={control}
+            />
+            <AlertDuplicatePlace
+              variant={AlertVariants.DANGER}
+              placeId={duplicatePlaceId}
+              query={duplicatePlaceQuery}
+              labelKey="create.name_and_age.name.duplicate_place"
+              onSelectPlace={goToLocationDetailPage}
             />
           </Stack>
         );
