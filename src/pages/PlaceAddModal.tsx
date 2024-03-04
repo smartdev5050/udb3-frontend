@@ -112,7 +112,9 @@ const PlaceAddModal = ({
         if (error?.status === DUPLICATE_STATUS_CODE) {
           const body = error?.body as DuplicatePlaceErrorBody;
           const query = body?.query;
-          const placeId = parseOfferId(body.duplicatePlaceUri);
+          const placeId = body.duplicatePlaceUri
+            ? parseOfferId(body.duplicatePlaceUri)
+            : undefined;
           setDuplicatePlaceInfo({ query, id: placeId });
         }
       }
