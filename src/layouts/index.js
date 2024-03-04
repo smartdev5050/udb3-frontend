@@ -67,6 +67,7 @@ const Layout = ({ children }) => {
   useChangeLanguage();
   useHandleWindowMessage({
     [WindowMessageTypes.URL_CHANGED]: ({ path }) => {
+      const currentPath = window.location.pathname;
       const url = new URL(
         `${window.location.protocol}//${window.location.host}${path}`,
       );
@@ -79,9 +80,9 @@ const Layout = ({ children }) => {
           `${window.location.protocol}//${window.location.host}${path}`,
         );
       } else {
-        if (url.pathname !== '/search') {
-          router.push({ pathname: url.pathname, query });
-        }
+        if (currentPath === '/search' && url.pathname === '/search') return;
+
+        router.push({ pathname: url.pathname, query });
       }
     },
     [WindowMessageTypes.HTTP_ERROR_CODE]: ({ code }) => {
