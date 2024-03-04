@@ -32,17 +32,6 @@ const AlertDuplicatePlace = ({
     scope: OfferTypes.PLACES,
   });
 
-  // @ts-expect-error
-  const duplicatePlace = getPlaceByIdQuery.data;
-
-  const duplicatePlaceName = duplicatePlace
-    ? getLanguageObjectOrFallback(
-        duplicatePlace?.name,
-        i18n.language as SupportedLanguage,
-        duplicatePlace?.mainLanguage,
-      )
-    : undefined;
-
   if (query) {
     return (
       <Alert variant={variant}>
@@ -54,6 +43,17 @@ const AlertDuplicatePlace = ({
   if (!placeId) {
     return null;
   }
+
+  // @ts-expect-error
+  const duplicatePlace = getPlaceByIdQuery.data;
+
+  const duplicatePlaceName = duplicatePlace
+    ? getLanguageObjectOrFallback(
+        duplicatePlace?.name,
+        i18n.language as SupportedLanguage,
+        duplicatePlace?.mainLanguage,
+      )
+    : undefined;
 
   return (
     <Alert variant={variant}>
