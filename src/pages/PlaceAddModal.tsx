@@ -1,21 +1,16 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { CalendarType } from '@/constants/CalendarType';
-import { OfferTypes } from '@/constants/OfferType';
-import {
-  getPlaceById,
-  useAddPlaceMutation,
-  useGetPlaceByIdQuery,
-} from '@/hooks/api/places';
+import { getPlaceById, useAddPlaceMutation } from '@/hooks/api/places';
 import { useGetTypesByScopeQuery } from '@/hooks/api/types';
 import { useHeaders } from '@/hooks/api/useHeaders';
 import { Countries, Country } from '@/types/Country';
 import { Place } from '@/types/Place';
-import { Alert, AlertVariants } from '@/ui/Alert';
+import { AlertVariants } from '@/ui/Alert';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Inline } from '@/ui/Inline';
@@ -25,7 +20,6 @@ import { Paragraph } from '@/ui/Paragraph';
 import { Stack } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
 import { DuplicatePlaceErrorBody } from '@/utils/fetchFromApi';
-import { getLanguageObjectOrFallback } from '@/utils/getLanguageObjectOrFallback';
 import { parseOfferId } from '@/utils/parseOfferId';
 
 import { AlertDuplicatePlace } from './AlertDuplicatePlace';
