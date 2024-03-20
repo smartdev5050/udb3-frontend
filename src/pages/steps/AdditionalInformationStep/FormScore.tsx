@@ -168,8 +168,8 @@ const DynamicBarometerIcon = ({ minimumScore, score, size = 70 }) => (
         width: 0.4,
         subArcs: [
           { limit: 75, color: '#F19E49' },
-          { limit: 90, color: '#F9DE58' },
-          { limit: 95, color: '#C2DF6B' },
+          { limit: 89, color: '#F9DE58' },
+          { limit: 94, color: '#C2DF6B' },
           { limit: 100, color: '#90CC4F' },
         ],
       }}
