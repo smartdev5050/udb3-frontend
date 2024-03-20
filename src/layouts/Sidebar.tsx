@@ -486,6 +486,13 @@ const Sidebar = () => {
   useHandleWindowMessage({
     [WindowMessageTypes.OFFER_MODERATED]: () =>
       queryClient.invalidateQueries(['events']),
+    [WindowMessageTypes.OPEN_ANNOUNCEMENT_MODAL]: ({ id }) => {
+      setAnnouncementModalContext((prevModalContext) => ({
+        ...prevModalContext,
+        visible: true,
+        visibleAnnouncementUid: id,
+      }));
+    },
   });
 
   const announcements = useMemo(
