@@ -12,6 +12,7 @@ const WindowMessageTypes = {
   JOB_ADDED: 'JOB_ADDED',
   HTTP_ERROR_CODE: 'HTTP_ERROR_CODE',
   OFFER_MODERATED: 'OFFER_MODERATED',
+  OPEN_ANNOUNCEMENT_MODAL: 'OPEN_ANNOUNCEMENT_MODAL',
 };
 
 const useHandleWindowMessage = (eventsMap = {}) => {
