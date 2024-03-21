@@ -604,6 +604,8 @@
       "availableTo_desc": "date de l'événement (nouveau - ancien)",
       "created_asc": "date de création (ancien - nouveau)",
       "created_desc": "date de création (nouveau - ancien)",
+      "completeness_asc": "exhaustivité (bas - élevé) ",
+      "completeness_desc": "exhaustivité (élevé - bas) ",
       "label": "Filtrer par",
       "results": {
         "events": "<0>{{count}}</0> événement",

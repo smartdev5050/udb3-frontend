@@ -604,6 +604,8 @@
       "availableTo_desc": "eventdatum (nieuw - oud)",
       "created_asc": "creatiedatum (oud - nieuw)",
       "created_desc": "creatiedatum (nieuw - oud)",
+      "completeness_asc": "volledigheid (laag - hoog)",
+      "completeness_desc": "volledigheid (hoog - laag)",
       "label": "Sorteren op",
       "results": {
         "events": "<0>{{count}}</0> evenement",

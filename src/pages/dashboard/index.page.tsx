@@ -501,6 +501,7 @@ const TabContent = ({
 const SortingField = {
   AVAILABLETO: 'availableTo',
   CREATED: 'created',
+  COMPLETENESS: 'completeness',
 } as const;
 
 const SortingOrder = {
@@ -603,6 +604,8 @@ const Dashboard = (): any => {
     'created_asc',
     'availableTo_desc',
     'availableTo_asc',
+    'completeness_asc',
+    'completeness_desc',
   ];
 
   const createOfferUrl = CreateMap[tab];
