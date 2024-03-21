@@ -80,8 +80,6 @@ const Layout = ({ children }) => {
           `${window.location.protocol}//${window.location.host}${path}`,
         );
       } else {
-        if (currentPath === '/search' && url.pathname === '/search') return;
-
         router.push({ pathname: url.pathname, query });
       }
     },
