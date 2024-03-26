@@ -72,10 +72,17 @@ const NameStep = ({
                   errors.nameAndAgeRange?.name &&
                   t('create.name_and_age.validation_messages.name.required')
                 }
+                info={
+                  <Text
+                    variant={TextVariants.MUTED}
+                    fontSize={'0.9rem'}
+                    className={'text-right'}
+                    css={{ maxWidth: '43rem' }}
+                  >
+                    {currentLength} / {maxLength}
+                  </Text>
+                }
               />
-              <span>
-                Characters: {currentLength} / {maxLength}
-              </span>
               <Text
                 variant={TextVariants.MUTED}
                 maxWidth={parseSpacing(9)}
