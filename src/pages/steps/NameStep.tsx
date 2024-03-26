@@ -31,8 +31,6 @@ const NameStep = ({
         control={control}
         render={({ field }) => {
           const language = mainLanguage ?? i18n.language;
-          const currentLength = field.value?.name[language]?.length ?? 0;
-          const maxLength = 90;
 
           return (
             <Stack spacing={2}>
@@ -40,7 +38,7 @@ const NameStep = ({
                 label={t(`create.name_and_age.name.title_${scope}`)}
                 flex={2}
                 id="event-name"
-                maxLength={maxLength}
+                maxLength={90}
                 Component={
                   <Input
                     value={field.value?.name?.[language]}
