@@ -133,6 +133,7 @@ const PlaceAddModal = ({
     formState,
     control,
     setValue,
+    watch,
     trigger,
     clearErrors,
   } = useForm<FormData>({
@@ -172,7 +173,8 @@ const PlaceAddModal = ({
           labelKey={`location.add_modal.errors.duplicate_place`}
         />
         <FormElement
-          Component={<Input {...register('name')} />}
+          Component={<Input {...register('name')} value={watch('name')} />}
+          maxLength={90}
           id="location-name"
           label={t('location.add_modal.labels.name')}
           error={formState.errors.name && t('location.add_modal.errors.name')}
