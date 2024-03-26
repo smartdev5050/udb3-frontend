@@ -31,6 +31,8 @@ const NameStep = ({
         control={control}
         render={({ field }) => {
           const language = mainLanguage ?? i18n.language;
+          const currentLength = field.value?.name[language]?.length ?? 0;
+          const maxLength = 90;
 
           return (
             <Stack spacing={2}>
@@ -40,6 +42,7 @@ const NameStep = ({
                 id="event-name"
                 Component={
                   <Input
+                    maxLength={maxLength}
                     value={field.value?.name?.[language]}
                     onChange={(event) => {
                       field.onChange({
@@ -70,6 +73,9 @@ const NameStep = ({
                   t('create.name_and_age.validation_messages.name.required')
                 }
               />
+              <span>
+                Characters: {currentLength} / {maxLength}
+              </span>
               <Text
                 variant={TextVariants.MUTED}
                 maxWidth={parseSpacing(9)}
