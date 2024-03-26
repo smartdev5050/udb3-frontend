@@ -40,9 +40,9 @@ const NameStep = ({
                 label={t(`create.name_and_age.name.title_${scope}`)}
                 flex={2}
                 id="event-name"
+                maxLength={maxLength}
                 Component={
                   <Input
-                    maxLength={maxLength}
                     value={field.value?.name?.[language]}
                     onChange={(event) => {
                       field.onChange({
@@ -71,16 +71,6 @@ const NameStep = ({
                 error={
                   errors.nameAndAgeRange?.name &&
                   t('create.name_and_age.validation_messages.name.required')
-                }
-                info={
-                  <Text
-                    variant={TextVariants.MUTED}
-                    fontSize={'0.9rem'}
-                    className={'text-right'}
-                    css={{ maxWidth: '43rem' }}
-                  >
-                    {currentLength} / {maxLength}
-                  </Text>
                 }
               />
               <Text
