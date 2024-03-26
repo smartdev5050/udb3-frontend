@@ -1,11 +1,10 @@
+import { pickBy } from 'lodash';
 import type { ChangeEvent, HTMLProps } from 'react';
 import { forwardRef } from 'react';
 import { Form } from 'react-bootstrap';
 
-import { BoxProps, boxPropTypes } from './Box';
-import { Box, getBoxProps } from './Box';
+import { Box, BoxProps, getBoxProps } from './Box';
 import { getGlobalBorderRadius, getGlobalFormInputHeight } from './theme';
-import { pickBy } from 'lodash';
 
 const BaseInput = forwardRef<HTMLInputElement, any>((props, ref) => (
   <Box as="input" {...props} ref={ref} />
