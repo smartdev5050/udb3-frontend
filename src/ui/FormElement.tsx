@@ -19,24 +19,9 @@ type Props = {
   error?: string;
   info?: ReactNode;
   loading?: boolean;
-  maxLength: number;
+  maxLength?: number;
   Component: ReactNode;
 } & StackProps;
-
-export const FormElementCharacterCounter = ({ value, maxLength }) => {
-  const currentLength = value?.length ?? 0;
-
-  return (
-    <Text
-      variant={TextVariants.MUTED}
-      fontSize={'0.9rem'}
-      className={'text-right'}
-      css={{ maxWidth: '43rem' }}
-    >
-      {currentLength} / {maxLength}
-    </Text>
-  );
-};
 
 const FormElement = ({
   id,
@@ -63,6 +48,7 @@ const FormElement = ({
     maxLength,
   });
 
+  const currentLength = clonedComponent.props?.value?.length ?? 0;
   const wrapperProps: { [key: string]: InlineProps | StackProps } = {
     [LabelPositions.TOP]: {
       alignItems: 'flex-start',
@@ -117,10 +103,14 @@ const FormElement = ({
           {error && <Text variant={TextVariants.ERROR}>{error}</Text>}
         </Stack>
         {maxLength && (
-          <FormElementCharacterCounter
-            value={clonedComponent.props.value}
-            maxLength={maxLength}
-          />
+          <Text
+            variant={TextVariants.MUTED}
+            fontSize={'0.9rem'}
+            className={'text-right'}
+            css={{ maxWidth: '43rem' }}
+          >
+            {currentLength} / {maxLength}
+          </Text>
         )}
         {info &&
           (typeof info === 'string' ? (
