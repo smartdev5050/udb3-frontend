@@ -315,7 +315,7 @@ const OrganizerAddModal = ({
         />
         <FormElement
           maxLength={90}
-          Component={<Input {...register('name')} />}
+          Component={<Input {...register('name')} value={getValues('name')} />}
           id="organizer-name"
           label={t('organizer.add_modal.labels.name.title')}
           error={
