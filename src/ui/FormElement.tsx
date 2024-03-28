@@ -105,8 +105,8 @@ const FormElement = ({
         {maxLength && (
           <Text
             variant={TextVariants.MUTED}
-            fontSize={'0.9rem'}
-            className={'text-right'}
+            fontSize="0.9rem"
+            className="text-right"
             css={{ maxWidth: '43rem' }}
           >
             {currentLength} / {maxLength}
