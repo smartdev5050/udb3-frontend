@@ -126,6 +126,7 @@ const OrganizerAddModal = ({
     formState,
     control,
     reset,
+    watch,
     clearErrors,
     setValue,
     setError,
@@ -314,7 +315,8 @@ const OrganizerAddModal = ({
           }
         />
         <FormElement
-          Component={<Input {...register('name')} />}
+          maxLength={90}
+          Component={<Input {...register('name')} value={watch('name')} />}
           id="organizer-name"
           label={t('organizer.add_modal.labels.name.title')}
           error={

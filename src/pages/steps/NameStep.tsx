@@ -38,6 +38,7 @@ const NameStep = ({
                 label={t(`create.name_and_age.name.title_${scope}`)}
                 flex={2}
                 id="event-name"
+                maxLength={90}
                 Component={
                   <Input
                     value={field.value?.name?.[language]}

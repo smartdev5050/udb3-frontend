@@ -1,9 +1,9 @@
+import { pickBy } from 'lodash';
 import type { ChangeEvent, HTMLProps } from 'react';
 import { forwardRef } from 'react';
 import { Form } from 'react-bootstrap';
 
-import type { BoxProps } from './Box';
-import { Box, getBoxProps } from './Box';
+import { Box, BoxProps, getBoxProps } from './Box';
 import { getGlobalBorderRadius, getGlobalFormInputHeight } from './theme';
 
 const BaseInput = forwardRef<HTMLInputElement, any>((props, ref) => (
@@ -37,6 +37,27 @@ type InputType =
   | 'url'
   | 'week';
 
+const getInputProps = (props) =>
+  pickBy(props, (_value, key) =>
+    [
+      'accept',
+      'className',
+      'data-testid',
+      'disabled',
+      'id',
+      'isInvalid',
+      'maxLength',
+      'name',
+      'onBlur',
+      'onFocus',
+      'onKeyDown',
+      'onPaste',
+      'placeholder',
+      'type',
+      'value',
+    ].includes(key),
+  );
+
 type InputProps = HTMLProps<HTMLInputElement> & {
   value?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -44,52 +65,18 @@ type InputProps = HTMLProps<HTMLInputElement> & {
 
 type Props = Omit<BoxProps, 'onChange' | 'onBlur'> & InputProps;
 
-const Input = forwardRef(
-  (
-    {
-      type,
-      id,
-      placeholder,
-      onChange,
-      onBlur,
-      onPaste,
-      onFocus,
-      onKeyDown,
-      className,
-      value,
-      name,
-      isInvalid,
-      disabled,
-      accept,
-      ...props
-    }: Props,
-    ref,
-  ) => (
-    <Form.Control
-      ref={ref}
-      as={BaseInput}
-      id={id}
-      type={type}
-      placeholder={placeholder}
-      className={className}
-      maxWidth="43rem"
-      height={getGlobalFormInputHeight}
-      borderRadius={getGlobalBorderRadius}
-      onInput={onChange}
-      onBlur={onBlur}
-      onPaste={onPaste}
-      value={value}
-      name={name}
-      isInvalid={isInvalid}
-      accept={accept}
-      disabled={disabled}
-      onFocus={onFocus}
-      onKeyDown={onKeyDown}
-      data-testid={props['data-testid']}
-      {...getBoxProps(props)}
-    />
-  ),
-);
+const Input = forwardRef(({ onChange, className, ...props }: Props, ref) => (
+  <Form.Control
+    ref={ref}
+    as={BaseInput}
+    maxWidth="43rem"
+    height={getGlobalFormInputHeight}
+    borderRadius={getGlobalBorderRadius}
+    onInput={onChange}
+    {...getInputProps(props)}
+    {...getBoxProps(props)}
+  />
+));
 
 Input.displayName = 'Input';
 

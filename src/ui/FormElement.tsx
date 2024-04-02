@@ -19,6 +19,7 @@ type Props = {
   error?: string;
   info?: ReactNode;
   loading?: boolean;
+  maxLength?: number;
   Component: ReactNode;
 } & StackProps;
 
@@ -33,6 +34,7 @@ const FormElement = ({
   loading,
   Component,
   className,
+  maxLength,
   ...props
 }: Props) => {
   const Wrapper = labelPosition === LabelPositions.TOP ? Stack : Inline;
@@ -43,8 +45,10 @@ const FormElement = ({
     ...Component.props,
     id,
     ref,
+    maxLength,
   });
 
+  const currentLength = clonedComponent.props?.value?.length ?? 0;
   const wrapperProps: { [key: string]: InlineProps | StackProps } = {
     [LabelPositions.TOP]: {
       alignItems: 'flex-start',
@@ -98,6 +102,16 @@ const FormElement = ({
           </Inline>
           {error && <Text variant={TextVariants.ERROR}>{error}</Text>}
         </Stack>
+        {maxLength && (
+          <Text
+            variant={TextVariants.MUTED}
+            fontSize="0.9rem"
+            className="text-right"
+            css={{ maxWidth: '43rem' }}
+          >
+            {currentLength} / {maxLength}
+          </Text>
+        )}
         {info &&
           (typeof info === 'string' ? (
             <Text variant={TextVariants.MUTED}>{info}</Text>
