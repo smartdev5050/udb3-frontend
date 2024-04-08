@@ -23,6 +23,25 @@ type Props = {
   Component: ReactNode;
 } & StackProps;
 
+const MaxLengthCounter = ({
+  currentLength,
+  maxLength,
+}: {
+  currentLength: number;
+  maxLength: number;
+}) => {
+  return (
+    <Text
+      variant={TextVariants.MUTED}
+      fontSize="0.9rem"
+      className="text-right"
+      css={{ maxWidth: '43rem' }}
+    >
+      {currentLength} / {maxLength}
+    </Text>
+  );
+};
+
 const FormElement = ({
   id,
   ref,
@@ -102,17 +121,27 @@ const FormElement = ({
           </Inline>
           {error && <Text variant={TextVariants.ERROR}>{error}</Text>}
         </Stack>
-        {maxLength && (
-          <Text
-            variant={TextVariants.MUTED}
-            fontSize="0.9rem"
-            className="text-right"
-            css={{ maxWidth: '43rem' }}
-          >
-            {currentLength} / {maxLength}
-          </Text>
+        {maxLength && info && (
+          <Inline justifyContent="space-between" maxWidth="43rem">
+            {typeof info === 'string' ? (
+              <Text variant={TextVariants.MUTED}>{info}</Text>
+            ) : (
+              info
+            )}
+            <MaxLengthCounter
+              currentLength={currentLength}
+              maxLength={maxLength}
+            />
+          </Inline>
         )}
-        {info &&
+        {maxLength && !info && (
+          <MaxLengthCounter
+            currentLength={currentLength}
+            maxLength={maxLength}
+          />
+        )}
+        {!maxLength &&
+          info &&
           (typeof info === 'string' ? (
             <Text variant={TextVariants.MUTED}>{info}</Text>
           ) : (
