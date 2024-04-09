@@ -17,6 +17,14 @@ const moduleExports = {
       },
     ];
   },
+  async rewrites() {
+    return [
+      {
+        source: '/robots.txt',
+        destination: '/api/robots',
+      },
+    ];
+  },
   publicRuntimeConfig: {
     baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
     environment: process.env.NEXT_PUBLIC_ENVIRONMENT,
