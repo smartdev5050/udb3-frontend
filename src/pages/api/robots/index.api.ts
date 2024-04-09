@@ -1,10 +1,10 @@
 import { NextApiHandler } from 'next';
 
 const removeExtraWhitespace = (str: string) => {
-    return str
-        .split('\n')
-        .map((line) => line.trim())
-        .join('\n');
+  return str
+    .split('\n')
+    .map((line) => line.trim())
+    .join('\n');
 };
 
 const productionSitemap = `
@@ -36,17 +36,17 @@ const developmentSitemap = `
 `;
 
 const robots: NextApiHandler = async (req, res) => {
-    const env = process.env.NEXT_PUBLIC_ENVIRONMENT;
+  const env = process.env.NEXT_PUBLIC_ENVIRONMENT;
 
-    res.setHeader('Content-Type', 'text/plain');
+  res.setHeader('Content-Type', 'text/plain');
 
-    if (env === 'production') {
-        res.write(removeExtraWhitespace(productionSitemap));
-    } else {
-        res.write(removeExtraWhitespace(developmentSitemap));
-    }
+  if (env === 'production') {
+    res.write(removeExtraWhitespace(productionSitemap));
+  } else {
+    res.write(removeExtraWhitespace(developmentSitemap));
+  }
 
-    res.end();
+  res.end();
 };
 
 export default robots;
