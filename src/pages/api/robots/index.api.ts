@@ -1,38 +1,31 @@
 import { NextApiHandler } from 'next';
 
-const removeExtraWhitespace = (str: string) => {
-  return str
-    .split('\n')
-    .map((line) => line.trim())
-    .join('\n');
-};
-
 const productionSitemap = `
-    User-agent: *
-    Disallow: /dashboard
-    Disallow: /create
-    Disallow: /event
-    Disallow: /place
-    Disallow: /organizer
-    Disallow: /manage
-    Allow: /login
+User-agent: *
+Disallow: /dashboard
+Disallow: /create
+Disallow: /event
+Disallow: /place
+Disallow: /organizer
+Disallow: /manage
+Allow: /login
 
-    User-agent: GPTBot
-    Disallow: /
+User-agent: GPTBot
+Disallow: /
 
-    User-agent: ChatGPT-User
-    Disallow: /
+User-agent: ChatGPT-User
+Disallow: /
 
-    User-agent: CCBot
-    Disallow: /
+User-agent: CCBot
+Disallow: /
 
-    User-agent: anthropic-ai
-    Disallow: /
+User-agent: anthropic-ai
+Disallow: /
 `;
 
 const developmentSitemap = `
-    User-agent: *
-    Disallow: /
+User-agent: *
+Disallow: /
 `;
 
 const robots: NextApiHandler = async (req, res) => {
@@ -40,13 +33,7 @@ const robots: NextApiHandler = async (req, res) => {
 
   res.setHeader('Content-Type', 'text/plain');
 
-  if (env === 'production') {
-    res.write(removeExtraWhitespace(productionSitemap));
-  } else {
-    res.write(removeExtraWhitespace(developmentSitemap));
-  }
-
-  res.end();
+  res.send(env === 'production' ? productionSitemap : developmentSitemap);
 };
 
 export default robots;
