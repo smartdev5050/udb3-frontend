@@ -35,7 +35,7 @@ const MaxLengthCounter = ({
       variant={TextVariants.MUTED}
       fontSize="0.9rem"
       className="text-right"
-      css={{ maxWidth: '43rem' }}
+      maxWidth="43rem"
     >
       {currentLength} / {maxLength}
     </Text>
