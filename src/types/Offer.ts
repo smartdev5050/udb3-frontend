@@ -2,13 +2,12 @@ import type { BookingAvailabilityType } from '@/constants/BookingAvailabilityTyp
 import type { CalendarType } from '@/constants/CalendarType';
 import type { OfferStatus } from '@/constants/OfferStatus';
 import { PriceCategory } from '@/pages/steps/AdditionalInformationStep/PriceInformation';
-import { parseOfferType } from '@/utils/parseOfferType';
 
 import type { SupportedLanguages } from '../i18n';
 import type { ContactPoint } from './ContactPoint';
 import { Event } from './Event';
 import type { Organizer } from './Organizer';
-import { Place } from './Place';
+import { isPlace, Place } from './Place';
 import type { Values } from './Values';
 import type { WorkflowStatus } from './WorkflowStatus';
 
@@ -150,11 +149,11 @@ type Label = {
 export const hasLegacyLocation = (offer: Offer) => {
   if (!offer) return false;
 
-  if (parseOfferType(offer['@context']) === 'place') {
+  if (isPlace(offer)) {
     return false;
   }
 
-  return (offer as Event).location && !(offer as Event).location?.['@id'];
+  return offer.location && !offer.location?.['@id'];
 };
 
 export type {
