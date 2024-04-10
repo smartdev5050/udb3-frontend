@@ -7,7 +7,7 @@ import type { SupportedLanguages } from '../i18n';
 import type { ContactPoint } from './ContactPoint';
 import { Event } from './Event';
 import type { Organizer } from './Organizer';
-import { Place } from './Place';
+import { isPlace, Place } from './Place';
 import type { Values } from './Values';
 import type { WorkflowStatus } from './WorkflowStatus';
 
@@ -146,8 +146,15 @@ type Label = {
   excluded: boolean;
 };
 
-export const hasLegacyLocation = (offer) =>
-  offer?.location && !offer?.location?.['@id'];
+export const hasLegacyLocation = (offer: Offer) => {
+  if (!offer) return false;
+
+  if (isPlace(offer)) {
+    return false;
+  }
+
+  return offer.location && !offer.location?.['@id'];
+};
 
 export type {
   BaseOffer,
