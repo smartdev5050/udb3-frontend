@@ -11,6 +11,7 @@ import { useHeaders } from '@/hooks/api/useHeaders';
 import { Countries, Country } from '@/types/Country';
 import { Place } from '@/types/Place';
 import { AlertVariants } from '@/ui/Alert';
+import { parseSpacing } from '@/ui/Box';
 import { Button, ButtonVariants } from '@/ui/Button';
 import { FormElement } from '@/ui/FormElement';
 import { Inline } from '@/ui/Inline';
@@ -178,6 +179,15 @@ const PlaceAddModal = ({
           id="location-name"
           label={t('location.add_modal.labels.name')}
           error={formState.errors.name && t('location.add_modal.errors.name')}
+          info={
+            <Text
+              variant={TextVariants.MUTED}
+              maxWidth={parseSpacing(9)}
+              dangerouslySetInnerHTML={{
+                __html: t(`create.name_and_age.name.tip_places`),
+              }}
+            />
+          }
         />
         <FormElement
           Component={<Input {...register('streetAndNumber')} />}
