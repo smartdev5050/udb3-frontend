@@ -31,4 +31,13 @@ import { Badge, BadgeVariants } from './Badge';
   </Story>
 </Canvas>
 
+<Canvas>
+  <Story
+    name="Info"
+    args={{ variant: BadgeVariants.UNSTYLED, children: 'Published' }}
+  >
+    {(args) => <Badge {...args} />}
+  </Story>
+</Canvas>
+
 <ArgsTable story="Info" />

@@ -11,6 +11,7 @@ const BadgeVariants = {
   DANGER: 'danger',
   SECONDARY: 'secondary',
   INFO: 'info',
+  UNSTYLED: 'unstyled',
 } as const;
 
 const BaseBadge = (props: BoxProps) => <Text {...props} />;
@@ -29,7 +30,11 @@ const Badge = ({ children, className, variant, ...props }: Props) => {
       height="min-content"
       {...getBoxProps(props)}
       backgroundColor={
-        variant === BadgeVariants.INFO ? colors.udbMainBlue : undefined
+        variant === BadgeVariants.INFO
+          ? colors.udbMainBlue
+          : variant === BadgeVariants.UNSTYLED
+          ? 'transparent'
+          : undefined
       }
     >
       {children}
