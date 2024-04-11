@@ -1,8 +1,8 @@
 {
   "404": {
-    "redirect": "Zurück zur Startseite",
-    "sub_title": "Es tut uns leid, die Seite, die Sie gesucht haben, existiert nicht.",
-    "title": "404 Nicht Gefunden"
+    "redirect": "Gehen Sie zurück zur Startseite",
+    "sub_title": "Sie haben auf einen Link zu einer Seite geklickt, die wir leider nicht in der UiTdatabank finden.",
+    "title": "Leider existiert diese Seite nicht mehr"
   },
   "announcements": {
     "new_features": "Neu bei UiTdatabank",

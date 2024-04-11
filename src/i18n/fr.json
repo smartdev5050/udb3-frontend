@@ -1,8 +1,8 @@
 {
   "404": {
-    "redirect": "Retourner à Home",
-    "sub_title": "Désolé, la page que vous recherchez n'existe pas.",
-    "title": "404 Pas trouvée"
+    "redirect": "Retournez à la page d'accueil",
+    "sub_title": "Vous avez cliqué sur un lien vers une page que nous ne trouvons malheureusement pas dans l'UiTdatabank.",
+    "title": "Désolé, cette page n'existe plus"
   },
   "announcements": {
     "new_features": "Nouveau dans UiTdatabank",
