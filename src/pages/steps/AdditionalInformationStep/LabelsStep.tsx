@@ -16,7 +16,6 @@ import {
 import { Label, Offer } from '@/types/Offer';
 import { Organizer } from '@/types/Organizer';
 import { Alert } from '@/ui/Alert';
-import { Badge, BadgeVariants } from '@/ui/Badge';
 import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
@@ -123,9 +122,8 @@ function LabelsStep({
         />
         <Inline spacing={3} flexWrap="wrap">
           {labels.map((label) => (
-            <Badge
+            <Inline
               key={label}
-              variant={BadgeVariants.UNSTYLED}
               borderRadius={getGlobalBorderRadius}
               cursor={'pointer'}
               display={'flex'}
@@ -140,7 +138,7 @@ function LabelsStep({
                   ${getButtonValue('secondaryToggle.borderColor')};
               `}
             >
-              {label}
+              <Text>{label}</Text>
               <Icon
                 name={Icons.TIMES}
                 width={'12px'}
@@ -158,7 +156,7 @@ function LabelsStep({
                   );
                 }}
               />
-            </Badge>
+            </Inline>
           ))}
         </Inline>
       </Stack>
