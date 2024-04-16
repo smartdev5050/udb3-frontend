@@ -16,19 +16,21 @@ import {
 import { Label, Offer } from '@/types/Offer';
 import { Organizer } from '@/types/Organizer';
 import { Alert } from '@/ui/Alert';
-import { Badge, BadgeVariants } from '@/ui/Badge';
 import { FormElement } from '@/ui/FormElement';
 import { Icon, Icons } from '@/ui/Icon';
 import { Inline } from '@/ui/Inline';
 import { getStackProps, Stack, StackProps } from '@/ui/Stack';
 import { Text, TextVariants } from '@/ui/Text';
-import { getGlobalBorderRadius } from '@/ui/theme';
+import { getGlobalBorderRadius, getValueFromTheme } from '@/ui/theme';
 import { Typeahead } from '@/ui/Typeahead';
 import { getUniqueLabels } from '@/utils/getUniqueLabels';
 
 type LabelsStepProps = StackProps & TabContentProps;
 
 const LABEL_PATTERN = /^[0-9a-zA-ZÀ-ÿ][0-9a-zA-ZÀ-ÿ\-_\s]{1,49}$/;
+
+const getGlobalValue = getValueFromTheme('global');
+const getButtonValue = getValueFromTheme('button');
 
 function LabelsStep({
   offerId,
@@ -118,16 +120,25 @@ function LabelsStep({
             </Text>
           }
         />
-        <Inline spacing={2}>
+        <Inline spacing={3} flexWrap="wrap">
           {labels.map((label) => (
-            <Badge
+            <Inline
               key={label}
-              variant={BadgeVariants.SECONDARY}
               borderRadius={getGlobalBorderRadius}
               cursor={'pointer'}
               display={'flex'}
+              marginBottom={3}
+              paddingY={3}
+              paddingX={3}
+              color={getButtonValue('secondaryToggle.color')}
+              fontWeight="400"
+              fontSize="0.85rem"
+              css={`
+                border: 1px solid
+                  ${getButtonValue('secondaryToggle.borderColor')};
+              `}
             >
-              {label}
+              <Text>{label}</Text>
               <Icon
                 name={Icons.TIMES}
                 width={'12px'}
@@ -145,7 +156,7 @@ function LabelsStep({
                   );
                 }}
               />
-            </Badge>
+            </Inline>
           ))}
         </Inline>
       </Stack>
