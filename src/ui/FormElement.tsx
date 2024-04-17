@@ -36,6 +36,7 @@ const MaxLengthCounter = ({
       fontSize="0.9rem"
       className="text-right"
       maxWidth="43rem"
+      color={currentLength >= maxLength ? 'red' : 'inherit'}
     >
       {currentLength} / {maxLength}
     </Text>
