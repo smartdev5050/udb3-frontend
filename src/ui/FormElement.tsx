@@ -112,15 +112,6 @@ const FormElement = ({
         width={labelPosition === LabelPositions.RIGHT ? 'auto' : '100%'}
         minWidth={50}
       >
-        <Stack as="div">
-          <Inline as="div" alignItems="center">
-            {clonedComponent}
-            {loading && (
-              <Spinner size={SpinnerSizes.SMALL} width="auto" padding={3} />
-            )}
-          </Inline>
-          {error && <Text variant={TextVariants.ERROR}>{error}</Text>}
-        </Stack>
         {maxLength && info && (
           <Inline justifyContent="space-between" maxWidth="43rem">
             {typeof info === 'string' ? (
@@ -140,6 +131,15 @@ const FormElement = ({
             maxLength={maxLength}
           />
         )}
+        <Stack as="div">
+          <Inline as="div" alignItems="center">
+            {clonedComponent}
+            {loading && (
+              <Spinner size={SpinnerSizes.SMALL} width="auto" padding={3} />
+            )}
+          </Inline>
+          {error && <Text variant={TextVariants.ERROR}>{error}</Text>}
+        </Stack>
         {!maxLength &&
           info &&
           (typeof info === 'string' ? (
