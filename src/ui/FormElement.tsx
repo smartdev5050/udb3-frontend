@@ -88,6 +88,13 @@ const FormElement = ({
     },
   };
 
+  const infoElement =
+    typeof info === 'string' ? (
+      <Text variant={TextVariants.MUTED}>{info}</Text>
+    ) : (
+      info
+    );
+
   return (
     <Wrapper
       as="div"
@@ -112,24 +119,14 @@ const FormElement = ({
         width={labelPosition === LabelPositions.RIGHT ? 'auto' : '100%'}
         minWidth={50}
       >
-        {maxLength && info && (
+        {maxLength && (
           <Inline justifyContent="space-between" maxWidth="43rem">
-            {typeof info === 'string' ? (
-              <Text variant={TextVariants.MUTED}>{info}</Text>
-            ) : (
-              info
-            )}
+            <span>{info && infoElement}</span>
             <MaxLengthCounter
               currentLength={currentLength}
               maxLength={maxLength}
             />
           </Inline>
-        )}
-        {maxLength && !info && (
-          <MaxLengthCounter
-            currentLength={currentLength}
-            maxLength={maxLength}
-          />
         )}
         <Stack as="div">
           <Inline as="div" alignItems="center">
@@ -140,13 +137,7 @@ const FormElement = ({
           </Inline>
           {error && <Text variant={TextVariants.ERROR}>{error}</Text>}
         </Stack>
-        {!maxLength &&
-          info &&
-          (typeof info === 'string' ? (
-            <Text variant={TextVariants.MUTED}>{info}</Text>
-          ) : (
-            info
-          ))}
+        {!maxLength && info && infoElement}
       </Stack>
     </Wrapper>
   );
