@@ -4,9 +4,10 @@ import { useMutation } from 'react-query';
 const addNewsletterSubscriber = async ({ email }: { email: string }) => {
   const { publicRuntimeConfig } = getConfig();
   const response = await fetch(
-    `${publicRuntimeConfig.newsletterApiUrl}/${email}/${publicRuntimeConfig.newsletterEmailListId}`,
+    `${publicRuntimeConfig.newsletterApiUrl}/mailinglist/${publicRuntimeConfig.newsletterEmailListId}`,
     {
       method: 'PUT',
+      body: JSON.stringify({ email }),
     },
   );
   return await response.text();
