@@ -357,6 +357,7 @@ const PriceInformation = ({
                                 shouldValidate: false,
                               });
                               onSubmit();
+                              getOfferByIdQuery.remove();
                             }}
                           >
                             {t('create.additionalInformation.price_info.free')}
