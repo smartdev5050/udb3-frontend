@@ -357,6 +357,7 @@ const PriceInformation = ({
                                 shouldValidate: false,
                               });
                               onSubmit();
+                              // @ts-expect-error
                               getOfferByIdQuery.remove();
                             }}
                           >
