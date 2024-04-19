@@ -120,6 +120,7 @@ const StepsForm = ({
     onSuccess: (offer: Offer) => {
       reset(convertOfferToFormData(offer), {
         keepDirty: true,
+        keepDirtyValues: true,
       });
     },
     enabled: !!scope,
