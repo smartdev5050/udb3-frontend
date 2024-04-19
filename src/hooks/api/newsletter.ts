@@ -2,7 +2,6 @@ import getConfig from 'next/config';
 
 import { useAuthenticatedMutation } from '@/hooks/api/authenticated-query';
 import type { Headers } from '@/hooks/api/types/Headers';
-import { fetchFromApi } from '@/utils/fetchFromApi';
 
 const addNewsletter = ({
   headers,
@@ -13,14 +12,14 @@ const addNewsletter = ({
 }) => {
   const { publicRuntimeConfig } = getConfig();
 
-  return fetchFromApi({
-    path: `${publicRuntimeConfig.newsletterApiUrl}/mailinglist/${publicRuntimeConfig.newsletterEmailListId}`,
-    options: {
+  return fetch(
+    `${publicRuntimeConfig.newsletterApiUrl}/mailinglist/${publicRuntimeConfig.newsletterEmailListId}`,
+    {
       headers,
       method: 'PUT',
       body: JSON.stringify({ email }),
     },
-  });
+  );
 };
 
 const useAddNewsletterSubscriberMutation = (configuration = {}) =>
