@@ -36,6 +36,7 @@ const MaxLengthCounter = ({
       fontSize="0.9rem"
       className="text-right"
       maxWidth="43rem"
+      color={currentLength >= maxLength ? 'red' : 'inherit'}
     >
       {currentLength} / {maxLength}
     </Text>
@@ -88,6 +89,13 @@ const FormElement = ({
     },
   };
 
+  const infoElement =
+    typeof info === 'string' ? (
+      <Text variant={TextVariants.MUTED}>{info}</Text>
+    ) : (
+      info
+    );
+
   return (
     <Wrapper
       as="div"
@@ -112,6 +120,15 @@ const FormElement = ({
         width={labelPosition === LabelPositions.RIGHT ? 'auto' : '100%'}
         minWidth={50}
       >
+        {typeof maxLength !== 'undefined' && (
+          <Inline justifyContent="space-between" maxWidth="43rem">
+            <span>{info && infoElement}</span>
+            <MaxLengthCounter
+              currentLength={currentLength}
+              maxLength={maxLength}
+            />
+          </Inline>
+        )}
         <Stack as="div">
           <Inline as="div" alignItems="center">
             {clonedComponent}
@@ -121,32 +138,7 @@ const FormElement = ({
           </Inline>
           {error && <Text variant={TextVariants.ERROR}>{error}</Text>}
         </Stack>
-        {maxLength && info && (
-          <Inline justifyContent="space-between" maxWidth="43rem">
-            {typeof info === 'string' ? (
-              <Text variant={TextVariants.MUTED}>{info}</Text>
-            ) : (
-              info
-            )}
-            <MaxLengthCounter
-              currentLength={currentLength}
-              maxLength={maxLength}
-            />
-          </Inline>
-        )}
-        {maxLength && !info && (
-          <MaxLengthCounter
-            currentLength={currentLength}
-            maxLength={maxLength}
-          />
-        )}
-        {!maxLength &&
-          info &&
-          (typeof info === 'string' ? (
-            <Text variant={TextVariants.MUTED}>{info}</Text>
-          ) : (
-            info
-          ))}
+        {typeof maxLength === 'undefined' && info && infoElement}
       </Stack>
     </Wrapper>
   );
