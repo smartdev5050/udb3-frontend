@@ -30,19 +30,17 @@ const MaxLengthCounter = ({
 }: {
   currentLength: number;
   maxLength: number;
-}) => {
-  return (
-    <Text
-      variant={TextVariants.MUTED}
-      fontSize="0.9rem"
-      className="text-right"
-      maxWidth="43rem"
-      color={currentLength >= maxLength ? 'red' : 'inherit'}
-    >
-      {currentLength} / {maxLength}
-    </Text>
-  );
-};
+}) => (
+  <Text
+    variant={TextVariants.MUTED}
+    fontSize="0.9rem"
+    className="text-right"
+    maxWidth="43rem"
+    color={currentLength >= maxLength ? 'red' : 'inherit'}
+  >
+    {currentLength} / {maxLength}
+  </Text>
+);
 
 const FormElement = ({
   id,
@@ -118,28 +116,28 @@ const FormElement = ({
         width={labelPosition === LabelPositions.RIGHT ? 'auto' : '100%'}
         minWidth={50}
       >
-        {typeof maxLength !== 'undefined' && (
-          <Inline justifyContent="space-between" maxWidth="43rem">
-            <span>
-              {label && (
-                <Label
-                  variant={labelVariant}
-                  htmlFor={id}
-                  {...(labelPosition !== LabelPositions.TOP
-                    ? { height: '36px', alignItems: 'center' }
-                    : {})}
-                  flexShrink={0}
-                >
-                  {label}
-                </Label>
-              )}
-            </span>
+        <Inline justifyContent="space-between" maxWidth="43rem">
+          <span>
+            {label && (
+              <Label
+                variant={labelVariant}
+                htmlFor={id}
+                {...(labelPosition !== LabelPositions.TOP
+                  ? { height: '36px', alignItems: 'center' }
+                  : {})}
+                flexShrink={0}
+              >
+                {label}
+              </Label>
+            )}
+          </span>
+          {typeof maxLength !== 'undefined' && (
             <MaxLengthCounter
               currentLength={currentLength}
               maxLength={maxLength}
             />
-          </Inline>
-        )}
+          )}
+        </Inline>
         <Stack as="div">
           <Inline as="div" alignItems="center">
             {clonedComponent}
