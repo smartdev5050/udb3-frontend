@@ -2,6 +2,7 @@ import type { ReactNode, Ref } from 'react';
 import { cloneElement } from 'react';
 
 import type { Values } from '@/types/Values';
+import { parseSpacing } from '@/ui/Box';
 
 import { getInlineProps, Inline, InlineProps } from './Inline';
 import { Label, LabelPositions, LabelVariants } from './Label';
@@ -91,7 +92,16 @@ const FormElement = ({
 
   const infoElement =
     typeof info === 'string' ? (
-      <Text variant={TextVariants.MUTED}>{info}</Text>
+      <Text
+        variant={TextVariants.MUTED}
+        dangerouslySetInnerHTML={{ __html: info }}
+        maxWidth={parseSpacing(9)}
+        css={`
+          strong {
+            font-weight: bold;
+          }
+        `}
+      />
     ) : (
       info
     );
@@ -102,18 +112,6 @@ const FormElement = ({
       className={className}
       {...(wrapperProps[labelPosition] ?? {})}
     >
-      {label && (
-        <Label
-          variant={labelVariant}
-          htmlFor={id}
-          {...(labelPosition !== LabelPositions.TOP
-            ? { height: '36px', alignItems: 'center' }
-            : {})}
-          flexShrink={0}
-        >
-          {label}
-        </Label>
-      )}
       <Stack
         as="div"
         spacing={3}
@@ -122,7 +120,20 @@ const FormElement = ({
       >
         {typeof maxLength !== 'undefined' && (
           <Inline justifyContent="space-between" maxWidth="43rem">
-            <span>{info && infoElement}</span>
+            <span>
+              {label && (
+                <Label
+                  variant={labelVariant}
+                  htmlFor={id}
+                  {...(labelPosition !== LabelPositions.TOP
+                    ? { height: '36px', alignItems: 'center' }
+                    : {})}
+                  flexShrink={0}
+                >
+                  {label}
+                </Label>
+              )}
+            </span>
             <MaxLengthCounter
               currentLength={currentLength}
               maxLength={maxLength}
@@ -138,7 +149,7 @@ const FormElement = ({
           </Inline>
           {error && <Text variant={TextVariants.ERROR}>{error}</Text>}
         </Stack>
-        {typeof maxLength === 'undefined' && info && infoElement}
+        {info && infoElement}
       </Stack>
     </Wrapper>
   );
