@@ -120,7 +120,7 @@ const FormElement = ({
         width={labelPosition === LabelPositions.RIGHT ? 'auto' : '100%'}
         minWidth={50}
       >
-        {maxLength && (
+        {typeof maxLength !== 'undefined' && (
           <Inline justifyContent="space-between" maxWidth="43rem">
             <span>{info && infoElement}</span>
             <MaxLengthCounter
@@ -138,7 +138,7 @@ const FormElement = ({
           </Inline>
           {error && <Text variant={TextVariants.ERROR}>{error}</Text>}
         </Stack>
-        {!maxLength && info && infoElement}
+        {typeof maxLength === 'undefined' && info && infoElement}
       </Stack>
     </Wrapper>
   );
