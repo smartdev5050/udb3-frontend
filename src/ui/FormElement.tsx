@@ -104,40 +104,46 @@ const FormElement = ({
       info
     );
 
+  const labelElement = (
+    <Label
+      variant={labelVariant}
+      htmlFor={id}
+      {...(labelPosition !== LabelPositions.TOP
+        ? { height: '36px', alignItems: 'center' }
+        : {})}
+      flexShrink={0}
+    >
+      {label}
+    </Label>
+  );
+
   return (
     <Wrapper
       as="div"
       className={className}
       {...(wrapperProps[labelPosition] ?? {})}
     >
+      {label && labelPosition !== LabelPositions.TOP && labelElement}
       <Stack
         as="div"
         spacing={3}
         width={labelPosition === LabelPositions.RIGHT ? 'auto' : '100%'}
         minWidth={50}
       >
-        <Inline justifyContent="space-between" maxWidth="43rem">
-          <span>
-            {label && (
-              <Label
-                variant={labelVariant}
-                htmlFor={id}
-                {...(labelPosition !== LabelPositions.TOP
-                  ? { height: '36px', alignItems: 'center' }
-                  : {})}
-                flexShrink={0}
-              >
-                {label}
-              </Label>
+        {(labelPosition === LabelPositions.TOP ||
+          typeof maxLength !== 'undefined') && (
+          <Inline justifyContent="space-between" maxWidth="43rem">
+            <span>
+              {label && labelPosition === LabelPositions.TOP && labelElement}
+            </span>
+            {typeof maxLength !== 'undefined' && (
+              <MaxLengthCounter
+                currentLength={currentLength}
+                maxLength={maxLength}
+              />
             )}
-          </span>
-          {typeof maxLength !== 'undefined' && (
-            <MaxLengthCounter
-              currentLength={currentLength}
-              maxLength={maxLength}
-            />
-          )}
-        </Inline>
+          </Inline>
+        )}
         <Stack as="div">
           <Inline as="div" alignItems="center">
             {clonedComponent}
