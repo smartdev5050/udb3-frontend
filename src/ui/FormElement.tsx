@@ -130,7 +130,7 @@ const FormElement = ({
         width={labelPosition === LabelPositions.RIGHT ? 'auto' : '100%'}
         minWidth={50}
       >
-        {(labelPosition === LabelPositions.TOP ||
+        {((label && labelPosition === LabelPositions.TOP) ||
           typeof maxLength !== 'undefined') && (
           <Inline justifyContent="space-between" maxWidth="43rem">
             <span>
