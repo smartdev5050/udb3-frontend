@@ -2,6 +2,7 @@ import type { ReactNode, Ref } from 'react';
 import { cloneElement } from 'react';
 
 import type { Values } from '@/types/Values';
+import { parseSpacing } from '@/ui/Box';
 
 import { getInlineProps, Inline, InlineProps } from './Inline';
 import { Label, LabelPositions, LabelVariants } from './Label';
@@ -29,19 +30,17 @@ const MaxLengthCounter = ({
 }: {
   currentLength: number;
   maxLength: number;
-}) => {
-  return (
-    <Text
-      variant={TextVariants.MUTED}
-      fontSize="0.9rem"
-      className="text-right"
-      maxWidth="43rem"
-      color={currentLength >= maxLength ? 'red' : 'inherit'}
-    >
-      {currentLength} / {maxLength}
-    </Text>
-  );
-};
+}) => (
+  <Text
+    variant={TextVariants.MUTED}
+    fontSize="0.9rem"
+    className="text-right"
+    maxWidth="43rem"
+    color={currentLength >= maxLength ? 'red' : 'inherit'}
+  >
+    {currentLength} / {maxLength}
+  </Text>
+);
 
 const FormElement = ({
   id,
@@ -91,7 +90,16 @@ const FormElement = ({
 
   const infoElement =
     typeof info === 'string' ? (
-      <Text variant={TextVariants.MUTED}>{info}</Text>
+      <Text
+        variant={TextVariants.MUTED}
+        dangerouslySetInnerHTML={{ __html: info }}
+        maxWidth={parseSpacing(9)}
+        css={`
+          strong {
+            font-weight: bold;
+          }
+        `}
+      />
     ) : (
       info
     );
@@ -102,33 +110,34 @@ const FormElement = ({
       className={className}
       {...(wrapperProps[labelPosition] ?? {})}
     >
-      {label && (
-        <Label
-          variant={labelVariant}
-          htmlFor={id}
-          {...(labelPosition !== LabelPositions.TOP
-            ? { height: '36px', alignItems: 'center' }
-            : {})}
-          flexShrink={0}
-        >
-          {label}
-        </Label>
-      )}
       <Stack
         as="div"
         spacing={3}
         width={labelPosition === LabelPositions.RIGHT ? 'auto' : '100%'}
         minWidth={50}
       >
-        {typeof maxLength !== 'undefined' && (
-          <Inline justifyContent="space-between" maxWidth="43rem">
-            <span>{info && infoElement}</span>
+        <Inline justifyContent="space-between" maxWidth="43rem">
+          <span>
+            {label && (
+              <Label
+                variant={labelVariant}
+                htmlFor={id}
+                {...(labelPosition !== LabelPositions.TOP
+                  ? { height: '36px', alignItems: 'center' }
+                  : {})}
+                flexShrink={0}
+              >
+                {label}
+              </Label>
+            )}
+          </span>
+          {typeof maxLength !== 'undefined' && (
             <MaxLengthCounter
               currentLength={currentLength}
               maxLength={maxLength}
             />
-          </Inline>
-        )}
+          )}
+        </Inline>
         <Stack as="div">
           <Inline as="div" alignItems="center">
             {clonedComponent}
@@ -138,7 +147,7 @@ const FormElement = ({
           </Inline>
           {error && <Text variant={TextVariants.ERROR}>{error}</Text>}
         </Stack>
-        {typeof maxLength === 'undefined' && info && infoElement}
+        {info && infoElement}
       </Stack>
     </Wrapper>
   );
