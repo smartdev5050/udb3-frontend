@@ -85,3 +85,48 @@ import { LabelPositions } from './Label';
 </Canvas>
 
 <ArgsTable story="With Label and Loading" />
+
+<Canvas>
+  <Story
+    name="With Max length"
+    args={{
+      id: 'my-form-element',
+      label: 'test',
+      Component: <Input />,
+      maxLength: 90,
+    }}
+  >
+    {(args) => <FormElement {...args} />}
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story
+    name="With Max length And Info"
+    args={{
+      id: 'my-form-element',
+      label: 'test',
+      Component: <Input />,
+      maxLength: 90,
+      info: 'lorem ipsum dolor sit amest',
+    }}
+  >
+    {(args) => <FormElement {...args} />}
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story
+    name="With Max length And Info And Left Label"
+    args={{
+      id: 'my-form-element',
+      label: 'test',
+      Component: <Input />,
+      maxLength: 90,
+      info: 'lorem ipsum dolor sit amest',
+      labelPosition: LabelPositions.LEFT,
+    }}
+  >
+    {(args) => <FormElement {...args} />}
+  </Story>
+</Canvas>
