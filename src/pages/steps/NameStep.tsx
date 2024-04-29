@@ -66,22 +66,11 @@ const NameStep = ({
                     }}
                   />
                 }
+                info={t(`create.name_and_age.name.tip_${scope}`)}
                 error={
                   errors.nameAndAgeRange?.name &&
                   t('create.name_and_age.validation_messages.name.required')
                 }
-              />
-              <Text
-                variant={TextVariants.MUTED}
-                maxWidth={parseSpacing(9)}
-                dangerouslySetInnerHTML={{
-                  __html: t(`create.name_and_age.name.tip_${scope}`),
-                }}
-                css={`
-                  strong {
-                    font-weight: bold;
-                  }
-                `}
               />
             </Stack>
           );
